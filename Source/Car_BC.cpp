@@ -1231,7 +1231,7 @@ char_type Car_BC::sub_43AAF0(s32 a2)
 }
 
 STUB_FUNC(0x43adc0)
-void Car_BC::sub_43ADC0(s32 a2)
+void Car_BC::ProcessCarToCarImpact_43ADC0(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -2746,7 +2746,7 @@ char_type Car_BC::PoolUpdate()
 
     if (this->field_88 != 5)
     {
-        gPurpleDoom_1_679208->sub_477B60(this->field_50_car_sprite);
+        gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(this->field_50_car_sprite);
     }
 
     if (sub_4424C0())
@@ -2811,7 +2811,7 @@ char_type Car_BC::PoolUpdate()
                 }
             }
         }
-        gPurpleDoom_1_679208->sub_477B20(this->field_50_car_sprite);
+        gPurpleDoom_1_679208->AddToRegionBuckets_477B20(this->field_50_car_sprite);
     }
     return 0;
 }
@@ -3086,21 +3086,21 @@ void Car_BC::HandleShops_443C40(Object_2C* pObj)
 MATCH_FUNC(0x443d00)
 void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    gPurpleDoom_1_679208->sub_477B60(field_50_car_sprite);
+    gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_50_car_sprite);
     Sprite* pCarSprite = field_50_car_sprite;
     if (pCarSprite->field_14_xpos.x != xpos || pCarSprite->field_14_xpos.y != ypos || pCarSprite->field_1C_zpos != zpos)
     {
         pCarSprite->field_14_xpos.x = xpos;
         pCarSprite->field_14_xpos.y = ypos;
         pCarSprite->field_1C_zpos = zpos;
-        pCarSprite->sub_59E7B0();
+        pCarSprite->ResetZCollisionAndDebugBoxes_59E7B0();
     }
     CarPhysics_B0* field_58_uni = field_58_physics;
     if (field_58_uni)
     {
         field_58_uni->SetSprite_563560(field_50_car_sprite);
     }
-    gPurpleDoom_1_679208->sub_477B20(field_50_car_sprite);
+    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_50_car_sprite);
 }
 
 MATCH_FUNC(0x443d70)

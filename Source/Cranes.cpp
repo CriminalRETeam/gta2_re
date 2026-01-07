@@ -81,7 +81,7 @@ void Crane_15C::sub_47ECC0()
     {
         pCar = 0;
     }
-    gPurpleDoom_1_679208->sub_477B20(field_74);
+    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74);
     pCar->sub_4435F0();
     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
@@ -127,7 +127,7 @@ void Crane_15C::sub_47ED60()
 
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
     pCar->field_88 = 1;
-    gPurpleDoom_1_679208->sub_477B20(field_74);
+    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74);
     field_64->DispatchCollisionEvent_5A3100(field_74, dword_679E70, dword_679E70, word_679FC4);
     field_28_strct4.sub_5A6CD0(field_64);
     field_74 = 0;
@@ -366,7 +366,7 @@ void Crane_15C::Service_480310()
 
     if (field_74)
     {
-        gPurpleDoom_3_679210->Add_477AE0(field_74);
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_74);
     }
 }
 

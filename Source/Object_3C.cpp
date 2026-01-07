@@ -192,7 +192,7 @@ void struct_4::sub_5A6BF0(Sprite* pSprite)
 {
     for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        p18Iter->field_0->sub_59E910(pSprite);
+        p18Iter->field_0->ProcessCarToCarImpactIfCar_59E910(pSprite);
     }
 }
 

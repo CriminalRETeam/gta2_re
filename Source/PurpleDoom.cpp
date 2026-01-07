@@ -5,26 +5,33 @@
 #include "Montana.hpp"
 #include "Object_5C.hpp"
 #include "collide.hpp"
+#include "error.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
 
+// Multi/regional bucket stuff, Cars/Peds/Cranes/Objects
 DEFINE_GLOBAL(PurpleDoom*, gPurpleDoom_1_679208, 0x679208);
+
+// Used by buses, car-trailer combo, Char_B4 in certain states and objects with certain collision category
 DEFINE_GLOBAL(PurpleDoom*, gPurpleDoom_2_67920C, 0x67920C);
+
+// Single bucket stuff, mostly particles
 DEFINE_GLOBAL(PurpleDoom*, gPurpleDoom_3_679210, 0x679210);
+
 DEFINE_GLOBAL(s32, gPurple_bottom_6F5F38, 0x6F5F38);
 DEFINE_GLOBAL(s32, gPurple_top_6F6108, 0x6F6108);
 DEFINE_GLOBAL(s32, dword_678FA8, 0x678FA8);
-DEFINE_GLOBAL(s32, dword_678F60, 0x678F60);
+DEFINE_GLOBAL(s32, gPurpleDoom_exclude_type_678F60, 0x678F60);
 DEFINE_GLOBAL(Sprite*, gPurpleDoom_smallestDistSprite_678E40, 0x678E40);
-DEFINE_GLOBAL(u8, byte_679006, 0x679006);
-DEFINE_GLOBAL(s32, dword_678F88, 0x678F88);
+DEFINE_GLOBAL(u8, bDoCollisionCheck_679006, 0x679006);
+DEFINE_GLOBAL(s32, gPurpleDoom_exclude_types_678F88, 0x678F88);
 DEFINE_GLOBAL(s32, gPurpleDoom_start_x_679090, 0x679090);
 DEFINE_GLOBAL(s32, gPurpleDoom_start_y_679098, 0x679098);
-DEFINE_GLOBAL(Object_3C*, dword_679214, 0x679214);
+DEFINE_GLOBAL(struct_4*, gPurpleDoom_list_679214, 0x679214);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204);
 EXTERN_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200);
-DEFINE_GLOBAL(Sprite*, gPurpleDoom_sprite_678F84, 0x678F84);
+DEFINE_GLOBAL(Sprite*, gPurpleDoom_exclusion_sprite_678F84, 0x678F84);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_678F80, Fix16(0x6000, 0), 0x678F80);
 DEFINE_GLOBAL_INIT(Fix16, dword_679084, Fix16(1), 0x679084);
@@ -55,35 +62,38 @@ void PurpleDoom::DrawSpritesClipped_477A40()
 }
 
 MATCH_FUNC(0x477ae0)
-void PurpleDoom::Add_477AE0(Sprite* a1)
+void PurpleDoom::AddToSingleBucket_477AE0(Sprite* a1)
 {
-    DoAdd_478440(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
+    AddToSingleBucket_478440(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b00)
 void PurpleDoom::Remove_477B00(Sprite* a1)
 {
+    // Note: Single bucket remove only - multi bucket remove doesn't exist
+    // reason being the whole structure is cleared and rebuilt every frame.
+    // I guess they just needed the single remove for bullets etc.
     DoRemove_4782C0(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b20)
-void PurpleDoom::sub_477B20(Sprite* pSprite)
+void PurpleDoom::AddToRegionBuckets_477B20(Sprite* pSprite)
 {
     pSprite->UpdateCollisionBoundsIfNeeded_59E9C0();
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
     {
-        sub_4784D0(y_pos, pSprite);
+        AddToRowBuckets_4784D0(y_pos, pSprite);
     }
 }
 
 MATCH_FUNC(0x477b60)
-void PurpleDoom::sub_477B60(Sprite* pSprite)
+void PurpleDoom::AddToSpriteRectBuckets_477B60(Sprite* pSprite)
 {
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
     {
-        sub_478370(y_pos, pSprite);
+        AddToColumnBuckets_478370(y_pos, pSprite);
     }
 }
 
@@ -117,7 +127,7 @@ char_type PurpleDoom::CheckAndHandleCollisionInStrips_477BD0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x477c30)
-bool PurpleDoom::sub_477C30(Sprite* pSprt, s32 a3)
+bool PurpleDoom::CheckAndHandleAllCollisionsForSprite_477C30(Sprite* pSprt, s32 a3)
 {
     dword_678FA8 = a3;
     bool v3 = 0;
@@ -126,28 +136,33 @@ bool PurpleDoom::sub_477C30(Sprite* pSprt, s32 a3)
     pSprt->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 i = gPurple_top_6F6108; i <= gPurple_bottom_6F5F38; ++i)
     {
-        v3 |= PurpleDoom::sub_4787E0(i, pSprt);
+        v3 |= PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0(i, pSprt);
     }
     return v3;
 }
 
 STUB_FUNC(0x477c90)
-Sprite* PurpleDoom::FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1, s32 sprite_type2, Sprite* pExclude, u8 max_x_check, s32 searchMode, char_type bUseSpriteZ)
+Sprite* PurpleDoom::FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1,
+                                                          s32 sprite_type2,
+                                                          Sprite* pExclude,
+                                                          u8 max_x_check,
+                                                          s32 searchMode,
+                                                          char_type bUseSpriteZ)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x477E50)
-void PurpleDoom::sub_477E50(Sprite* pSprite)
+void PurpleDoom::SetSpriteToExclude_477E50(Sprite* pSprite)
 {
-    gPurpleDoom_sprite_678F84 = pSprite;
+    gPurpleDoom_exclusion_sprite_678F84 = pSprite;
 }
 
 MATCH_FUNC(0x477e60)
-Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
+Sprite* PurpleDoom::FindNearestSpriteOfType_477E60(Sprite* pSprite, s32 sprite_type_enum)
 {
-    dword_678F60 = sprite_type_enum;
+    gPurpleDoom_exclude_type_678F60 = sprite_type_enum;
     gPurpleDoom_smallestDistSprite_678E40 = 0;
 
     gCollide_C_6791FC->field_4_count++;
@@ -157,7 +172,7 @@ Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
 
     for (s32 top = gPurple_top_6F6108; top <= gPurple_bottom_6F5F38; top++)
     {
-        Sprite* pObj = sub_478880(top, pSprite);
+        Sprite* pObj = FindNearestSpriteInRow_478880(top, pSprite);
         if (pObj)
         {
             return pObj;
@@ -168,40 +183,40 @@ Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
 }
 
 MATCH_FUNC(0x477f30)
-bool PurpleDoom::sub_477F30(Fix16_Rect* union_type, char_type a3, s32 a4, Sprite* a5, Object_3C* a6)
+bool PurpleDoom::CollectRectCollisions_477F30(Fix16_Rect* union_type, char_type a3, s32 a4, Sprite* a5, struct_4* a6)
 {
-    dword_679214 = a6;
-    bool bRet = PurpleDoom::sub_477F60(union_type, a3, a4, a5);
-    dword_679214 = 0;
+    gPurpleDoom_list_679214 = a6;
+    bool bRet = PurpleDoom::CheckRectForCollisions_477F60(union_type, a3, a4, a5);
+    gPurpleDoom_list_679214 = 0;
     return bRet;
 }
 
 MATCH_FUNC(0x477f60)
-bool PurpleDoom::sub_477F60(Fix16_Rect* pRect, char_type a3, s32 a4, Sprite* pSprite)
+bool PurpleDoom::CheckRectForCollisions_477F60(Fix16_Rect* pRect, char_type a3, s32 a4, Sprite* pSprite)
 {
     bool bRet = false;
     ++gCollide_C_6791FC->field_4_count;
     pRect->DoSetCurrentRect_59DD60();
-    byte_679006 = a3;
-    dword_678F88 = a4;
-    sub_477E50(pSprite);
+    bDoCollisionCheck_679006 = a3;
+    gPurpleDoom_exclude_types_678F88 = a4;
+    SetSpriteToExclude_477E50(pSprite);
 
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
     {
-        if (PurpleDoom::sub_4785D0(y_pos, pRect))
+        if (PurpleDoom::CheckRowForRectCollisions_4785D0(y_pos, pRect))
         {
-            if (dword_679214)
+            if (gPurpleDoom_list_679214)
             {
                 bRet = true;
             }
             else
             {
-                sub_477E50(0);
+                SetSpriteToExclude_477E50(0);
                 return true;
             }
         }
     }
-    sub_477E50(0);
+    SetSpriteToExclude_477E50(0);
     return bRet;
 }
 
@@ -218,7 +233,7 @@ PurpleDoom::~PurpleDoom()
 }
 
 STUB_FUNC(0x478160)
-u32 PurpleDoom::sub_478160(u8 a2)
+u32 PurpleDoom::SearchTileColumnForClosestSprite_478160(u8 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -231,12 +246,12 @@ void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* a1)
 }
 
 MATCH_FUNC(0x4781E0)
-void PurpleDoom::sub_4781E0(u8 width)
+void PurpleDoom::SearchTileStripForClosestSprite_4781E0(u8 width)
 {
     gPurple_left_6F5FD4 = gPurpleDoom_start_x_679090;
     gPurple_right_6F5B80 = gPurpleDoom_start_x_679090 + width - 1;
 
-    for (PurpleDoom_C* pXItemIter = sub_478590(gPurpleDoom_start_y_679098); pXItemIter; pXItemIter = pXItemIter->mpNext)
+    for (PurpleDoom_C* pXItemIter = GetFirstXCellInRow_478590(gPurpleDoom_start_y_679098); pXItemIter; pXItemIter = pXItemIter->mpNext)
     {
         if (pXItemIter->field_0_x_len > gPurple_right_6F5B80)
         {
@@ -329,7 +344,7 @@ void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
 }
 
 MATCH_FUNC(0x478370)
-void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
+void PurpleDoom::AddToColumnBuckets_478370(s32 y_pos, Sprite* pSprite)
 {
     s32 x_pos = gPurple_left_6F5FD4;
     PurpleDoom_C* pLastXIter = 0;
@@ -393,7 +408,7 @@ void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
 }
 
 MATCH_FUNC(0x478440)
-void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
+void PurpleDoom::AddToSingleBucket_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 {
     Collide_8* pNewCollide = gCollide_8_Pool_679200->Allocate();
 
@@ -435,7 +450,7 @@ void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 }
 
 MATCH_FUNC(0x4784d0)
-void PurpleDoom::sub_4784D0(s32 y_pos, Sprite* pSprite)
+void PurpleDoom::AddToRowBuckets_4784D0(s32 y_pos, Sprite* pSprite)
 {
     s32 purple_left = gPurple_left_6F5FD4;
     PurpleDoom_C* pNewNext = this->field_0[y_pos];
@@ -488,7 +503,7 @@ void PurpleDoom::sub_4784D0(s32 y_pos, Sprite* pSprite)
 
 // Get first XItem at y_pos
 MATCH_FUNC(0x478590)
-PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
+PurpleDoom_C* PurpleDoom::GetFirstXCellInRow_478590(s32 start_idx)
 {
     PurpleDoom_C* pIter;
     s32 f0;
@@ -514,7 +529,7 @@ PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
 
 // https://decomp.me/scratch/me1ge
 STUB_FUNC(0x4785d0)
-char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
+char_type PurpleDoom::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect)
 {
     NOT_IMPLEMENTED;
 
@@ -527,7 +542,7 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
     Sprite_4C* sprite_4c_ptr; // eax
     __int16 ang_v; // ax
 
-    v3 = sub_478590(y_pos);
+    v3 = GetFirstXCellInRow_478590(y_pos);
     bRet = 0;
     while (v3)
     {
@@ -541,7 +556,7 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
         {
 
             field_0_sprt = pObj->field_0_sprt;
-            if (pObj->field_0_sprt->field_30_sprite_type_enum != dword_678F88 && field_0_sprt != gPurpleDoom_sprite_678F84 &&
+            if (pObj->field_0_sprt->field_30_sprite_type_enum != gPurpleDoom_exclude_types_678F88 && field_0_sprt != gPurpleDoom_exclusion_sprite_678F84 &&
                 field_0_sprt->field_C_o5c->field_1C.field_10.mValue != gCollide_C_6791FC->field_4_count && field_0_sprt->sub_59E850(0))
             {
                 gCollide_C_6791FC->field_0_count++;
@@ -582,7 +597,7 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
                     goto LABEL_28;
                 }
 
-                if (byte_679006)
+                if (bDoCollisionCheck_679006)
                 {
                     v10 = pObj->field_0_sprt;
                     sprite_4c_ptr = pObj->field_0_sprt->field_C_sprite_4c_ptr;
@@ -600,10 +615,10 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
                     }
                 }
 
-                if (dword_679214)
+                if (gPurpleDoom_list_679214)
                 {
                     bRet = 1;
-                    dword_679214->sub_5A6CD0(pObj->field_0_sprt);
+                    gPurpleDoom_list_679214->sub_5A6CD0(pObj->field_0_sprt);
                     goto LABEL_28;
                 }
                 else
@@ -632,7 +647,7 @@ STUB_FUNC(0x478750)
 char_type PurpleDoom::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite)
 {
     char_type bRet = 0;
-    PurpleDoom_C* pIter = sub_478590(y_pos);
+    PurpleDoom_C* pIter = GetFirstXCellInRow_478590(y_pos);
     while (pIter)
     {
         if (pIter->field_0_x_len > gPurple_right_6F5B80)
@@ -664,14 +679,14 @@ char_type PurpleDoom::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* 
 
 // TODO: It may not be Object_5C. I don't know which struct has field_2C as "s32" type which makes sense here
 STUB_FUNC(0x4787e0)
-bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
+bool PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0(u32 y_pos, Sprite* pSprite)
 {
     bool bRet;
     PurpleDoom_C* pXItemIter;
     Collide_8* p8Iter;
 
     bRet = false;
-    pXItemIter = sub_478590(y_pos);
+    pXItemIter = GetFirstXCellInRow_478590(y_pos);
     while (pXItemIter)
     {
         if (pXItemIter->field_0_x_len > gPurple_right_6F5B80)
@@ -690,7 +705,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
                 if (pSprite->CollisionCheck_59E590(p8Iter->field_0_sprt))
                 {
                     bRet = true;
-                    p8Iter->field_0_sprt->sub_59E910(pSprite);
+                    p8Iter->field_0_sprt->ProcessCarToCarImpactIfCar_59E910(pSprite);
                 }
 
                 p8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count;
@@ -704,16 +719,38 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
 }
 
 STUB_FUNC(0x478880)
-Sprite* PurpleDoom::sub_478880(u32 a2, Sprite* a3)
+Sprite* PurpleDoom::FindNearestSpriteInRow_478880(u32 a2, Sprite* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x478950)
+MATCH_FUNC(0x478950)
 void PurpleDoom::DebugLog_478950(s32 xpos, s32 ypos)
 {
-    NOT_IMPLEMENTED;
+    for (PurpleDoom_C* i = field_0[ypos]; i; i = i->mpNext)
+    {
+        const s32 x_len = i->field_0_x_len;
+        if (x_len > xpos)
+        {
+            break;
+        }
+
+        if (x_len == xpos)
+        {
+            sprintf(gTmpBuffer_67C598, "(%d,%d):", xpos, ypos);
+            gFile_67C530.Write_Log_4D9650(gTmpBuffer_67C598);
+            for (Collide_8* j = i->field_4_p8; j; j = j->mpNext)
+            {
+                if (j->field_0_sprt)
+                {
+                    sprintf(gTmpBuffer_67C598, " %d", (u16)j->field_0_sprt->field_20_id);
+                    gFile_67C530.Write_Log_4D9650(gTmpBuffer_67C598);
+                }
+            }
+            gFile_67C530.Write_Log_4D9650("\n");
+        }
+    }
 }
 
 MATCH_FUNC(0x4789f0)

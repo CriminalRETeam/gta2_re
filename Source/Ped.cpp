@@ -732,7 +732,7 @@ char_type Ped::sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 
     pChar->field_80_sprite_ptr->AllocInternal_59F950(dword_678530, dword_678530, dword_67841C);
 
-    gPurpleDoom_1_679208->sub_477B20(pChar->field_80_sprite_ptr);
+    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pChar->field_80_sprite_ptr);
     field_168_game_object->field_7C_pPed = this;
 
     field_1AC_cam.y = ypos;
@@ -2175,7 +2175,7 @@ Sprite* Ped::sub_467280()
     pB4->field_68 = 0;
 
     this->field_216_health = 50;
-    return gPurpleDoom_1_679208->sub_477E60(this->field_168_game_object->field_80_sprite_ptr, 2);
+    return gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 2);
 }
 
 STUB_FUNC(0x4672e0)
@@ -3639,7 +3639,7 @@ void Ped::add_wanted_points_470160(s16 wanted_amount)
 MATCH_FUNC(0x4701d0)
 bool Ped::sub_4701D0()
 {
-    Sprite* pSprite = gPurpleDoom_1_679208->sub_477E60(this->field_168_game_object->field_80_sprite_ptr, 0);
+    Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 0);
     if (pSprite)
     {
         return (pSprite->field_30_sprite_type_enum != sprite_types_enum::car) ? false : true;

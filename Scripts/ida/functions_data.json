@@ -1565,7 +1565,7 @@
         "v105_address": "0x43aaf0"
     },
     {
-        "name": "Car_BC::sub_43ADC0",
+        "name": "Car_BC::ProcessCarToCarImpact_43ADC0",
         "v96f_address": null,
         "v105_address": "0x43adc0"
     },
@@ -4195,12 +4195,12 @@
         "v105_address": "0x477b00"
     },
     {
-        "name": "PurpleDoom::sub_477B20",
+        "name": "PurpleDoom::AddToRegionBuckets_477B20",
         "v96f_address": null,
         "v105_address": "0x477b20"
     },
     {
-        "name": "PurpleDoom::sub_477B60",
+        "name": "PurpleDoom::AddToSpriteRectBuckets_477B60",
         "v96f_address": null,
         "v105_address": "0x477b60"
     },
@@ -4215,7 +4215,7 @@
         "v105_address": "0x477bd0"
     },
     {
-        "name": "PurpleDoom::sub_477C30",
+        "name": "PurpleDoom::CheckAndHandleAllCollisionsForSprite_477C30",
         "v96f_address": null,
         "v105_address": "0x477c30"
     },
@@ -4225,22 +4225,22 @@
         "v105_address": "0x477c90"
     },
     {
-        "name": "sub_477E50",
+        "name": "SetSpriteToExclude_477E50",
         "v96f_address": null,
         "v105_address": "0x477e50"
     },
     {
-        "name": "PurpleDoom::sub_477E60",
+        "name": "PurpleDoom::FindNearestSpriteOfType_477E60",
         "v96f_address": null,
         "v105_address": "0x477e60"
     },
     {
-        "name": "PurpleDoom::sub_477F30",
+        "name": "PurpleDoom::CollectRectCollisions_477F30",
         "v96f_address": null,
         "v105_address": "0x477f30"
     },
     {
-        "name": "PurpleDoom::sub_477F60",
+        "name": "PurpleDoom::CheckRectForCollisions_477F60",
         "v96f_address": null,
         "v105_address": "0x477f60"
     },
@@ -4260,12 +4260,12 @@
         "v105_address": "0x478060"
     },
     {
-        "name": "PurpleDoom::sub_478160",
+        "name": "PurpleDoom::SearchTileColumnForClosestSprite_478160",
         "v96f_address": null,
         "v105_address": "0x478160"
     },
     {
-        "name": "sub_4781E0",
+        "name": "SearchTileStripForClosestSprite_4781E0",
         "v96f_address": null,
         "v105_address": "0x4781e0"
     },
@@ -4280,7 +4280,7 @@
         "v105_address": "0x4782c0"
     },
     {
-        "name": "PurpleDoom::sub_478370",
+        "name": "PurpleDoom::AddToColumnBuckets_478370",
         "v96f_address": null,
         "v105_address": "0x478370"
     },
@@ -4290,17 +4290,17 @@
         "v105_address": "0x478440"
     },
     {
-        "name": "PurpleDoom::sub_4784D0",
+        "name": "PurpleDoom::AddToRowBuckets_4784D0",
         "v96f_address": null,
         "v105_address": "0x4784d0"
     },
     {
-        "name": "PurpleDoom::sub_478590",
+        "name": "PurpleDoom::GetFirstXCellInRow_478590",
         "v96f_address": null,
         "v105_address": "0x478590"
     },
     {
-        "name": "PurpleDoom::sub_4785D0",
+        "name": "PurpleDoom::CheckRowForRectCollisions_4785D0",
         "v96f_address": null,
         "v105_address": "0x4785d0"
     },
@@ -4310,12 +4310,12 @@
         "v105_address": "0x478750"
     },
     {
-        "name": "PurpleDoom::sub_4787E0",
+        "name": "PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0",
         "v96f_address": null,
         "v105_address": "0x4787e0"
     },
     {
-        "name": "PurpleDoom::sub_478880",
+        "name": "PurpleDoom::FindNearestSpriteInRow_478880",
         "v96f_address": null,
         "v105_address": "0x478880"
     },
@@ -14670,7 +14670,7 @@
         "v105_address": "0x59e680"
     },
     {
-        "name": "Sprite::sub_59E7B0",
+        "name": "Sprite::ResetZCollisionAndDebugBoxes_59E7B0",
         "v96f_address": null,
         "v105_address": "0x59e7b0"
     },
@@ -14695,7 +14695,7 @@
         "v105_address": "0x59e8c0"
     },
     {
-        "name": "sub_59E910",
+        "name": "ProcessCarToCarImpactIfCar_59E910",
         "v96f_address": null,
         "v105_address": "0x59e910"
     },
@@ -14760,7 +14760,7 @@
         "v105_address": "0x59fa40"
     },
     {
-        "name": "Sprite::sub_59FAD0",
+        "name": "Sprite::FreeSprite4CChildren_59FAD0",
         "v96f_address": null,
         "v105_address": "0x59fad0"
     },

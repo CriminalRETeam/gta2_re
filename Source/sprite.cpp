@@ -28,6 +28,14 @@ DEFINE_GLOBAL(Ang16, gAng16_703804, 0x703804);
 DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
 
+// https://decomp.me/scratch/vNJH5
+STUB_FUNC(0x562450)
+Fix16_Point Sprite::sub_562450(s32 idx)
+{
+    Sprite_4C* p4C = field_C_sprite_4c_ptr;
+    return p4C->field_C_b_box[idx];
+}
+
 MATCH_FUNC(0x443580)
 Fix16_Point Sprite::get_x_y_443580()
 {
@@ -43,7 +51,7 @@ void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         field_14_xpos.x = xpos;
         field_14_xpos.y = ypos;
         field_1C_zpos = zpos;
-        sub_59E7B0();
+        ResetZCollisionAndDebugBoxes_59E7B0();
     }
 }
 
@@ -54,7 +62,7 @@ void Sprite::sub_54EC80(Fix16 xpos, Fix16 ypos)
     {
         this->field_14_xpos.x = xpos;
         this->field_14_xpos.y = ypos;
-        sub_59E7B0();
+        ResetZCollisionAndDebugBoxes_59E7B0();
     }
 }
 
@@ -201,7 +209,7 @@ char_type Sprite::sub_59E680(s32 a2, s16* a3)
 }
 
 MATCH_FUNC(0x59e7b0)
-void Sprite::sub_59E7B0()
+void Sprite::ResetZCollisionAndDebugBoxes_59E7B0()
 {
     field_39_z_col = -1;
     if (field_C_sprite_4c_ptr != NULL)
@@ -226,7 +234,7 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
     {
         return gRozza_679188.field_20_pSprite;
     }
-    result = gPurpleDoom_1_679208->sub_477E60(this, a2);
+    result = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this, a2);
     if (result)
     {
         gRozza_679188.field_0_type = 3;
@@ -268,7 +276,7 @@ void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
 }
 
 STUB_FUNC(0x59E910)
-void Sprite::sub_59E910(Sprite* a2)
+void Sprite::ProcessCarToCarImpactIfCar_59E910(Sprite* a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -472,7 +480,7 @@ void Sprite::sub_59FA40()
 }
 
 MATCH_FUNC(0x59fad0)
-void Sprite::sub_59FAD0()
+void Sprite::FreeSprite4CChildren_59FAD0()
 {
     if (field_C_sprite_4c_ptr)
     {
@@ -768,7 +776,7 @@ void Sprite::PoolAllocate()
 MATCH_FUNC(0x5a3030)
 void Sprite::PoolDeallocate()
 {
-    sub_59FAD0();
+    FreeSprite4CChildren_59FAD0();
     this->field_20_id = 0;
     FreeSound_5A2A00();
 }
@@ -821,7 +829,7 @@ void Sprite::set_angle_4833B0(Ang16 ang)
     if (ang != field_0)
     {
         field_0 = ang;
-        sub_59E7B0();
+        ResetZCollisionAndDebugBoxes_59E7B0();
     }
 }
 

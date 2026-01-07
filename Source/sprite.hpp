@@ -16,7 +16,6 @@ class Object_2C;
 class infallible_turing;
 class Ped;
 
-
 class Sprite_4C
 {
   public:
@@ -54,6 +53,9 @@ class Sprite_4C
 class Sprite
 {
   public:
+    // TODO: Ordering
+    EXPORT Fix16_Point sub_562450(s32 idx);
+
     EXPORT Fix16_Point get_x_y_443580();
     EXPORT void sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_54EC80(Fix16 xpos, Fix16 ypos);
@@ -68,12 +70,12 @@ class Sprite
     EXPORT s32 sub_59E4C0(s32 a2, s32 a3);
     EXPORT char_type CollisionCheck_59E590(Sprite* a2);
     EXPORT char_type sub_59E680(s32 a2, s16* a3);
-    EXPORT void sub_59E7B0();
+    EXPORT void ResetZCollisionAndDebugBoxes_59E7B0();
     EXPORT Sprite* sub_59E7D0(s32 a2);
     EXPORT char_type IsThreatToSearchingPed_59E830();
     EXPORT char_type sub_59E850(Sprite* pSprite);
     EXPORT void HandleObjectCollision_59E8C0(Sprite* pSprite);
-    EXPORT void sub_59E910(Sprite* a2);
+    EXPORT void ProcessCarToCarImpactIfCar_59E910(Sprite* a2);
     EXPORT void sub_59E960();
     EXPORT void UpdateCollisionBoundsIfNeeded_59E9C0();
     EXPORT void SetRemap(s16 remap);
@@ -85,7 +87,7 @@ class Sprite
     EXPORT void AllocInternal_59F950(Fix16 width, Fix16 height, Fix16 a4);
     EXPORT void Update_4C_59F990();
     EXPORT void sub_59FA40();
-    EXPORT void sub_59FAD0();
+    EXPORT void FreeSprite4CChildren_59FAD0();
     EXPORT bool sub_59FB10(s32* a2);
     EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
@@ -194,7 +196,7 @@ class Sprite
         if (a1 != field_0)
         {
             field_0 = a1;
-            sub_59E7B0();
+            ResetZCollisionAndDebugBoxes_59E7B0();
         }
     }
 
@@ -206,7 +208,7 @@ class Sprite
             field_14_xpos.x = xpos;
             field_14_xpos.y = ypos;
             field_1C_zpos = zpos;
-            sub_59E7B0();
+            ResetZCollisionAndDebugBoxes_59E7B0();
         }
     }
 
@@ -217,7 +219,7 @@ class Sprite
         {
             field_14_xpos.x = x_target;
             field_14_xpos.y = y_target;
-            sub_59E7B0();
+            ResetZCollisionAndDebugBoxes_59E7B0();
         }
     }
 

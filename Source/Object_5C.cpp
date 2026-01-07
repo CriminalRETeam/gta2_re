@@ -636,14 +636,14 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
         pSprite->field_14_xpos.x = xpos;
         pSprite->field_14_xpos.y = ypos;
         pSprite->field_1C_zpos = zpos;
-        pSprite->sub_59E7B0();
+        pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
     }
 
     Sprite* pSprite_ = field_4;
     if (rotation.rValue != pSprite_->field_0.rValue)
     {
         pSprite_->field_0.rValue = rotation.rValue;
-        pSprite_->sub_59E7B0();
+        pSprite_->ResetZCollisionAndDebugBoxes_59E7B0();
     }
     field_4->field_8_object_2C_ptr = this;
 }
@@ -661,14 +661,14 @@ void Object_2C::sub_527AE0()
     {
         case 0:
         case 1:
-            gPurpleDoom_3_679210->Add_477AE0(field_4);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
             return;
         case 3:
             DAT_006f8f88++;
-            gPurpleDoom_2_67920C->sub_477B20(field_4);
+            gPurpleDoom_2_67920C->AddToRegionBuckets_477B20(field_4);
             return;
         case 4:
-            gPurpleDoom_1_679208->sub_477B20(field_4);
+            gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_4);
             return;
         case 2:
             return;
@@ -686,10 +686,10 @@ void Object_2C::RemoveFromCollisionBuckets_527D00()
             break;
         case 3:
             --DAT_006f8f88;
-            gPurpleDoom_2_67920C->sub_477B60(field_4);
+            gPurpleDoom_2_67920C->AddToSpriteRectBuckets_477B60(field_4);
             break;
         case 4:
-            gPurpleDoom_1_679208->sub_477B60(field_4);
+            gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_4);
             break;
         default:
             return;
@@ -763,7 +763,7 @@ void Object_2C::sub_528900()
             if (pSprite->field_1C_zpos != kFpZero_6F8E10)
             {
                 pSprite->field_1C_zpos = kFpZero_6F8E10;
-                pSprite->sub_59E7B0();
+                pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
             }
             sub_5290A0();
         }
@@ -1254,7 +1254,7 @@ Object_2C* Object_5C::NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fi
         sprite_4c_ptr->field_0_width = w;
         sprite_4c_ptr->field_4_height = h;
         sprite_4c_ptr->field_8 = a9;
-        pSprite->sub_59E7B0();
+        pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
         pNewObj->sub_527AE0();
     }
     return pNewObj;
@@ -1378,7 +1378,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         field_18 = 0;
     }
 
-    if (bUnknown && (pNew2C->field_4->sub_59E7D0(0) || (pPhi->field_40 == 3 && gPurpleDoom_2_67920C->sub_477E60(pNew2C->field_4, 0))))
+    if (bUnknown && (pNew2C->field_4->sub_59E7D0(0) || (pPhi->field_40 == 3 && gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
     {
         if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {
@@ -1619,7 +1619,7 @@ void Object_2C::ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite)
 
     if (field_8->field_34 != 11)
     {
-        gPurpleDoom_3_679210->Add_477AE0(field_4);
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
     }
 
     PoolTake_522360();
