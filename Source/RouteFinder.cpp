@@ -68,7 +68,7 @@ RouteFinder_10::RouteFinder_10()
     field_2 = -1;
     field_4 = 0;
     field_8 = 0;
-    field_C = 0;
+    field_C_pNext = 0;
 }
 
 STUB_FUNC(0x588620)
@@ -412,10 +412,32 @@ RouteFinder_10* RouteFinder::sub_589390(u16 a2)
     return 0;
 }
 
-STUB_FUNC(0x589420)
-void RouteFinder::sub_589420(RouteFinder_10* a2)
+WIP_FUNC(0x589420)
+void RouteFinder::sub_589420(RouteFinder_10* p10)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    this->field_CA40[p10->field_0_idx] = 1;
+    RouteFinder_10* pItem = this->field_A82C;
+    u16 toFind = p10->field_2;
+    if (toFind >= (s32)pItem->field_2)
+    {
+        for (RouteFinder_10* pIter = pItem->field_C_pNext; pIter; pIter = pIter->field_C_pNext)
+        {
+            if ((s32)pIter->field_2 >= toFind)
+            {
+                break;
+            }
+            pItem = pIter;
+        }
+        p10->field_C_pNext = pItem->field_C_pNext;
+        pItem->field_C_pNext = p10;
+    }
+    else
+    {
+        p10->field_C_pNext = pItem;
+        this->field_A82C = p10;
+    }
 }
 
 STUB_FUNC(0x589480)
@@ -486,7 +508,7 @@ RouteFinder_10* RouteFinder::sub_589E00()
 {
     RouteFinder_10* pjVar1;
 
-    for (pjVar1 = field_A82C; pjVar1 != NULL && pjVar1->field_4 != 0; pjVar1 = pjVar1->field_C)
+    for (pjVar1 = field_A82C; pjVar1 != NULL && pjVar1->field_4 != 0; pjVar1 = pjVar1->field_C_pNext)
         ;
     return pjVar1;
 }
