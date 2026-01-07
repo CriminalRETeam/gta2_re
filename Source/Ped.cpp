@@ -2526,10 +2526,49 @@ void Ped::sub_468820()
     }
 }
 
-STUB_FUNC(0x468930)
+MATCH_FUNC(0x468930)
 void Ped::sub_468930()
 {
-    NOT_IMPLEMENTED;
+    if (field_226 == 2 || field_150_target_objective_car == 0)
+    {
+        field_225 = 2;
+    }
+    else
+    {
+        if (field_168_game_object)
+        {
+            field_168_game_object->field_84 = field_150_target_objective_car;
+        }
+
+        if (field_25C_car_state)
+        {
+            if (field_25C_car_state == 37)
+            {
+                if (field_226 == 1)
+                {
+                    field_225 = 1;
+                    Ped::sub_463830(0, 9999);
+                    Ped::sub_45C500(10);
+                    Ped::sub_45C540(10);
+                    return;
+                }
+                if (field_226 == 2)
+                {
+                    field_225 = 2;
+                }
+            }
+        }
+        else
+        {
+            Ped::sub_463830(37, 9999);
+            field_154_target_to_enter = field_150_target_objective_car;
+        }
+        if (field_150_target_objective_car->field_88 == 5 || field_150_target_objective_car->field_74_damage == 32001)
+        {
+            field_225 = 2;
+            Ped::sub_463830(0, 9999);
+        }
+    }
 }
 
 STUB_FUNC(0x468a00)
