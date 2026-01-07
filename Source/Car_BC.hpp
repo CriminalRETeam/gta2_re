@@ -446,7 +446,7 @@ class Car_BC
     EXPORT Ped* GetEffectiveDriver_43E990();
     EXPORT bool OnObjectTouched_43EA60(Object_2C* a2);
     EXPORT char_type HandleCarHitByObject_43F130(Object_2C* a2);
-    EXPORT u32* sub_440510(u32* a2);
+    EXPORT Fix16 sub_440510();
     EXPORT char_type GetPassengersCount_440570();
     EXPORT void InitCarAIControl_440590();
     EXPORT void SpawnDriverPed();

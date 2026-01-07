@@ -86,6 +86,8 @@ DEFINE_GLOBAL(Fix16, dword_705DDC, 0x705DDC);
 DEFINE_GLOBAL(Ang16, word_705F10, 0x705F10);
 
 DEFINE_GLOBAL(Fix16, dword_677218, 0x677218);
+DEFINE_GLOBAL(Fix16, k_dword_676984, 0x676984);
+DEFINE_GLOBAL(Fix16, k_dword_6778B4, 0x6778B4);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -1962,11 +1964,19 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* a2)
     return 0;
 }
 
-STUB_FUNC(0x440510)
-u32* Car_BC::sub_440510(u32* a2)
+WIP_FUNC(0x440510)
+Fix16 Car_BC::sub_440510()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->h > 64u)
+    {
+        return k_dword_676984 * sub_43A240();
+    }
+    else
+    {
+        return k_dword_6778B4 * sub_43A240();
+    }
 }
 
 MATCH_FUNC(0x440570)
@@ -2773,7 +2783,7 @@ void Car_BC::AttachTrailer_4427A0(Car_BC* pToFind)
 
     field_64_pTrailer = gTrailerPool_66AC80->field_0_pool.Allocate();
     field_64_pTrailer->SetTruckCabAndTrailerCar_407BB0(this, pToFind);
-    
+
     Car_BC* pLast = 0;
     Car_BC* pIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
     if (pIter)
