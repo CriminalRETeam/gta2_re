@@ -8,6 +8,7 @@
 #include "Object_5C.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
+#include "TileAnim_2.hpp"
 #include "chunk.hpp"
 #include "crt_stubs.hpp"
 #include "enums.hpp"
@@ -16,7 +17,6 @@
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
 #include "sprite.hpp"
-#include "TileAnim_2.hpp"
 
 DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
 DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
@@ -644,10 +644,10 @@ void Map_0x370::sub_4DFB90()
         Fix16 temp_z;
 
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(pMapObjects->field_5_object_type,
-                                      x_pos,
-                                      y_pos,
-                                      *Map_0x370::FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos),
-                                      rotation);
+                                                x_pos,
+                                                y_pos,
+                                                *Map_0x370::FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos),
+                                                rotation);
     }
 }
 
@@ -2099,10 +2099,15 @@ void Map_0x370::LowerLevel_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max)
     }
 }
 
-STUB_FUNC(0x4E8C00)
+WIP_FUNC(0x4E8C00)
 void Map_0x370::sub_4E8C00(u32 a2, u32 a3, u32 a4)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    this->field_360_column_words = (a2 >> 2) + this->field_0_pDmap->field_40000_column_words;
+    this->field_354_num_blocks = a3 / 0xC + field_0_pDmap->field_40004_num_blocks;
+    this->field_4_obj.field_320_max_idx = a4 >> 3;
+    field_0_pDmap->sub_4E80A0(&field_4_obj);
 }
 
 MATCH_FUNC(0x4E8CF0)
