@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
+#include "Player.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "char.hpp"
@@ -13,7 +14,6 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "root_sound.hpp"
-#include "Player.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -243,11 +243,20 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
     return result;
 }
 
-STUB_FUNC(0x59E830)
+MATCH_FUNC(0x59E830)
 char_type Sprite::IsThreatToSearchingPed_59E830()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (this->field_30_sprite_type_enum)
+    {
+        case 2: // car
+            return this->field_8_car_bc_ptr->IsThreatToSearchingPed_43AAE0();
+
+        case 3: // char_b4
+            return this->field_8_char_b4_ptr->IsThreatToSearchingPed_553330();
+
+        default:
+            return 1;
+    }
 }
 
 STUB_FUNC(0x59E850)
