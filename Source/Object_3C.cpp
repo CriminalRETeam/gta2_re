@@ -43,9 +43,7 @@ Fix16_Point Object_3C::GetRot_52ADF0()
 {
     WIP_IMPLEMENTED;
 
-    Fix16 sin_v = (gSin_table_667A80[field_4.rValue] * field_C);
-    Fix16 cos_v = (gCos_table_669260[field_4.rValue] * field_C);
-    return Fix16_Point(sin_v, cos_v);
+    return Fix16_Point(Ang16::sine_40F500(field_4) * field_C, Ang16::cosine_40F520(field_4) * field_C);
 }
 
 MATCH_FUNC(0x5a6a50)
