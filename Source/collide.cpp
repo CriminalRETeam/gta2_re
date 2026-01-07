@@ -52,7 +52,7 @@ Collide_C::Collide_C()
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1424);
     }
 
-    gPurpleDoom_sprite_678F84 = 0;
+    gPurpleDoom_exclusion_sprite_678F84 = 0;
 }
 
 MATCH_FUNC(0x478bf0)

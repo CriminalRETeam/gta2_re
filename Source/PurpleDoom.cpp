@@ -5,6 +5,7 @@
 #include "Montana.hpp"
 #include "Object_5C.hpp"
 #include "collide.hpp"
+#include "error.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
 
@@ -14,17 +15,17 @@ DEFINE_GLOBAL(PurpleDoom*, gPurpleDoom_3_679210, 0x679210);
 DEFINE_GLOBAL(s32, gPurple_bottom_6F5F38, 0x6F5F38);
 DEFINE_GLOBAL(s32, gPurple_top_6F6108, 0x6F6108);
 DEFINE_GLOBAL(s32, dword_678FA8, 0x678FA8);
-DEFINE_GLOBAL(s32, dword_678F60, 0x678F60);
+DEFINE_GLOBAL(s32, gPurpleDoom_exclude_type_678F60, 0x678F60);
 DEFINE_GLOBAL(Sprite*, gPurpleDoom_smallestDistSprite_678E40, 0x678E40);
-DEFINE_GLOBAL(u8, byte_679006, 0x679006);
-DEFINE_GLOBAL(s32, dword_678F88, 0x678F88);
+DEFINE_GLOBAL(u8, bDoCollisionCheck_679006, 0x679006);
+DEFINE_GLOBAL(s32, gPurpleDoom_exclude_types_678F88, 0x678F88);
 DEFINE_GLOBAL(s32, gPurpleDoom_start_x_679090, 0x679090);
 DEFINE_GLOBAL(s32, gPurpleDoom_start_y_679098, 0x679098);
-DEFINE_GLOBAL(Object_3C*, dword_679214, 0x679214);
+DEFINE_GLOBAL(struct_4*, gPurpleDoom_list_679214, 0x679214);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204);
 EXTERN_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200);
-DEFINE_GLOBAL(Sprite*, gPurpleDoom_sprite_678F84, 0x678F84);
+DEFINE_GLOBAL(Sprite*, gPurpleDoom_exclusion_sprite_678F84, 0x678F84);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_678F80, Fix16(0x6000, 0), 0x678F80);
 DEFINE_GLOBAL_INIT(Fix16, dword_679084, Fix16(1), 0x679084);
@@ -132,22 +133,27 @@ bool PurpleDoom::sub_477C30(Sprite* pSprt, s32 a3)
 }
 
 STUB_FUNC(0x477c90)
-Sprite* PurpleDoom::FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1, s32 sprite_type2, Sprite* pExclude, u8 max_x_check, s32 searchMode, char_type bUseSpriteZ)
+Sprite* PurpleDoom::FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1,
+                                                          s32 sprite_type2,
+                                                          Sprite* pExclude,
+                                                          u8 max_x_check,
+                                                          s32 searchMode,
+                                                          char_type bUseSpriteZ)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x477E50)
-void PurpleDoom::sub_477E50(Sprite* pSprite)
+void PurpleDoom::SetSpriteToExclude_477E50(Sprite* pSprite)
 {
-    gPurpleDoom_sprite_678F84 = pSprite;
+    gPurpleDoom_exclusion_sprite_678F84 = pSprite;
 }
 
 MATCH_FUNC(0x477e60)
 Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
 {
-    dword_678F60 = sprite_type_enum;
+    gPurpleDoom_exclude_type_678F60 = sprite_type_enum;
     gPurpleDoom_smallestDistSprite_678E40 = 0;
 
     gCollide_C_6791FC->field_4_count++;
@@ -168,11 +174,11 @@ Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
 }
 
 MATCH_FUNC(0x477f30)
-bool PurpleDoom::sub_477F30(Fix16_Rect* union_type, char_type a3, s32 a4, Sprite* a5, Object_3C* a6)
+bool PurpleDoom::sub_477F30(Fix16_Rect* union_type, char_type a3, s32 a4, Sprite* a5, struct_4* a6)
 {
-    dword_679214 = a6;
+    gPurpleDoom_list_679214 = a6;
     bool bRet = PurpleDoom::sub_477F60(union_type, a3, a4, a5);
-    dword_679214 = 0;
+    gPurpleDoom_list_679214 = 0;
     return bRet;
 }
 
@@ -182,26 +188,26 @@ bool PurpleDoom::sub_477F60(Fix16_Rect* pRect, char_type a3, s32 a4, Sprite* pSp
     bool bRet = false;
     ++gCollide_C_6791FC->field_4_count;
     pRect->DoSetCurrentRect_59DD60();
-    byte_679006 = a3;
-    dword_678F88 = a4;
-    sub_477E50(pSprite);
+    bDoCollisionCheck_679006 = a3;
+    gPurpleDoom_exclude_types_678F88 = a4;
+    SetSpriteToExclude_477E50(pSprite);
 
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
     {
         if (PurpleDoom::sub_4785D0(y_pos, pRect))
         {
-            if (dword_679214)
+            if (gPurpleDoom_list_679214)
             {
                 bRet = true;
             }
             else
             {
-                sub_477E50(0);
+                SetSpriteToExclude_477E50(0);
                 return true;
             }
         }
     }
-    sub_477E50(0);
+    SetSpriteToExclude_477E50(0);
     return bRet;
 }
 
@@ -541,7 +547,7 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
         {
 
             field_0_sprt = pObj->field_0_sprt;
-            if (pObj->field_0_sprt->field_30_sprite_type_enum != dword_678F88 && field_0_sprt != gPurpleDoom_sprite_678F84 &&
+            if (pObj->field_0_sprt->field_30_sprite_type_enum != gPurpleDoom_exclude_types_678F88 && field_0_sprt != gPurpleDoom_exclusion_sprite_678F84 &&
                 field_0_sprt->field_C_o5c->field_1C.field_10.mValue != gCollide_C_6791FC->field_4_count && field_0_sprt->sub_59E850(0))
             {
                 gCollide_C_6791FC->field_0_count++;
@@ -582,7 +588,7 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
                     goto LABEL_28;
                 }
 
-                if (byte_679006)
+                if (bDoCollisionCheck_679006)
                 {
                     v10 = pObj->field_0_sprt;
                     sprite_4c_ptr = pObj->field_0_sprt->field_C_sprite_4c_ptr;
@@ -600,10 +606,10 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
                     }
                 }
 
-                if (dword_679214)
+                if (gPurpleDoom_list_679214)
                 {
                     bRet = 1;
-                    dword_679214->sub_5A6CD0(pObj->field_0_sprt);
+                    gPurpleDoom_list_679214->sub_5A6CD0(pObj->field_0_sprt);
                     goto LABEL_28;
                 }
                 else
@@ -710,10 +716,32 @@ Sprite* PurpleDoom::sub_478880(u32 a2, Sprite* a3)
     return 0;
 }
 
-STUB_FUNC(0x478950)
+MATCH_FUNC(0x478950)
 void PurpleDoom::DebugLog_478950(s32 xpos, s32 ypos)
 {
-    NOT_IMPLEMENTED;
+    for (PurpleDoom_C* i = field_0[ypos]; i; i = i->mpNext)
+    {
+        const s32 x_len = i->field_0_x_len;
+        if (x_len > xpos)
+        {
+            break;
+        }
+
+        if (x_len == xpos)
+        {
+            sprintf(gTmpBuffer_67C598, "(%d,%d):", xpos, ypos);
+            gFile_67C530.Write_Log_4D9650(gTmpBuffer_67C598);
+            for (Collide_8* j = i->field_4_p8; j; j = j->mpNext)
+            {
+                if (j->field_0_sprt)
+                {
+                    sprintf(gTmpBuffer_67C598, " %d", (u16)j->field_0_sprt->field_20_id);
+                    gFile_67C530.Write_Log_4D9650(gTmpBuffer_67C598);
+                }
+            }
+            gFile_67C530.Write_Log_4D9650("\n");
+        }
+    }
 }
 
 MATCH_FUNC(0x4789f0)
