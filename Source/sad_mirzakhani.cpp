@@ -127,30 +127,28 @@ u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4,
                                       u16 f_28,
                                       gmp_map_zone* pZone)
 {
-    NOT_IMPLEMENTED;
     const s16 idx = next_free_idx_431E90();
     if (idx == 10)
     {
         return idx;
     }
 
-    silly_saha_0x2C* pFree = &field_0[idx];
-    pFree->field_4 = f_4;
-    pFree->field_8 = f_8;
-    pFree->field_C = f_c;
-    pFree->field_10 = f_10;
-    pFree->field_12 = f_12;
-    pFree->field_14 = f_14;
-    pFree->field_18 = f_18;
-    pFree->field_0_pZone = pZone;
-    pFree->field_20_counterVal = rng_dword_67AB34->field_0_rng;
-    pFree->field_1C = f_1c;
-    pFree->field_24 = f_24;
-    pFree->field_25 = f_25;
-    pFree->field_26 = 0; // TODO: The compiler just won't stop moving this somewhere else
-    pFree->field_28 = f_28;
-    pFree->field_2A_bUsed = 1;
-    pFree->field_2B = 1;
+    field_0[idx].field_4 = f_4;
+    field_0[idx].field_8 = f_8;
+    field_0[idx].field_C = f_c;
+    field_0[idx].field_10 = f_10;
+    field_0[idx].field_12 = f_12;
+    field_0[idx].field_14 = f_14;
+    field_0[idx].field_18 = f_18;
+    field_0[idx].field_0_pZone = pZone;
+    field_0[idx].field_20_counterVal = rng_dword_67AB34->field_0_rng;
+    field_0[idx].field_1C = f_1c;
+    field_0[idx].field_24 = f_24;
+    field_0[idx].field_25 = f_25;
+    field_0[idx].field_26 = 0; 
+    field_0[idx].field_28 = f_28;
+    field_0[idx].field_2A_bUsed = 1;
+    field_0[idx].field_2B = 1;
 
     return idx;
 }
