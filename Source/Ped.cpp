@@ -2397,10 +2397,53 @@ void Ped::sub_468310()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4686c0)
+MATCH_FUNC(0x4686c0)
 void Ped::sub_4686C0()
 {
-    NOT_IMPLEMENTED;
+    if (field_168_game_object)
+    {
+        field_168_game_object->field_84 = field_150_target_objective_car;
+    }
+
+    if (field_25C_car_state)
+    {
+        if (field_25C_car_state == 35)
+        {
+            if (field_226 == 1)
+            {
+                if (!field_16C_car)
+                {
+                    Car_BC* pOldCar = field_150_target_objective_car;
+                    Ped::SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                    Ped::sub_463830(0, 9999);
+                    field_150_target_objective_car = pOldCar;
+                }
+                else
+                {
+                    field_225 = 1;
+                    Ped::sub_463830(0, 9999);
+                    Ped::sub_45C500(10);
+                    Ped::sub_45C540(10);
+                }
+                return;
+            }
+            if (field_226 == 2)
+            {
+                field_225 = 2;
+            }
+        }
+    }
+    else
+    {
+        Ped::sub_463830(35, 9999);
+        field_154_target_to_enter = field_150_target_objective_car;
+    }
+    if (field_150_target_objective_car->field_88 == 5 || field_150_target_objective_car->field_74_damage == 32001)
+    {
+        field_225 = 2;
+        Ped::sub_463830(0, 9999);
+        field_21C_bf.b2 = false;
+    }
 }
 
 STUB_FUNC(0x468820)
