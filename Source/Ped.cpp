@@ -2069,11 +2069,20 @@ char_type Ped::sub_465B20()
     return 0;
 }
 
-STUB_FUNC(0x465cd0)
+MATCH_FUNC(0x465cd0)
 bool Ped::sub_465CD0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_21C_bf.b2 == true)
+    {
+        if (field_14C)
+        {
+            if (field_25C_car_state == 20 || field_25C_car_state == 23)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x465d00)
