@@ -686,10 +686,10 @@ void Object_2C::RemoveFromCollisionBuckets_527D00()
             break;
         case 3:
             --DAT_006f8f88;
-            gPurpleDoom_2_67920C->sub_477B60(field_4);
+            gPurpleDoom_2_67920C->AddToSpriteRectBuckets_477B60(field_4);
             break;
         case 4:
-            gPurpleDoom_1_679208->sub_477B60(field_4);
+            gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_4);
             break;
         default:
             return;

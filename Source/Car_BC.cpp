@@ -2746,7 +2746,7 @@ char_type Car_BC::PoolUpdate()
 
     if (this->field_88 != 5)
     {
-        gPurpleDoom_1_679208->sub_477B60(this->field_50_car_sprite);
+        gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(this->field_50_car_sprite);
     }
 
     if (sub_4424C0())
@@ -3086,7 +3086,7 @@ void Car_BC::HandleShops_443C40(Object_2C* pObj)
 MATCH_FUNC(0x443d00)
 void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    gPurpleDoom_1_679208->sub_477B60(field_50_car_sprite);
+    gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_50_car_sprite);
     Sprite* pCarSprite = field_50_car_sprite;
     if (pCarSprite->field_14_xpos.x != xpos || pCarSprite->field_14_xpos.y != ypos || pCarSprite->field_1C_zpos != zpos)
     {

@@ -4200,7 +4200,7 @@
         "v105_address": "0x477b20"
     },
     {
-        "name": "PurpleDoom::sub_477B60",
+        "name": "PurpleDoom::AddToSpriteRectBuckets_477B60",
         "v96f_address": null,
         "v105_address": "0x477b60"
     },
@@ -4280,7 +4280,7 @@
         "v105_address": "0x4782c0"
     },
     {
-        "name": "PurpleDoom::sub_478370",
+        "name": "PurpleDoom::AddToColumnBuckets_478370",
         "v96f_address": null,
         "v105_address": "0x478370"
     },
@@ -4290,7 +4290,7 @@
         "v105_address": "0x478440"
     },
     {
-        "name": "PurpleDoom::AddSpriteToActiveRow_4784D0",
+        "name": "PurpleDoom::AddToRowBuckets_4784D0",
         "v96f_address": null,
         "v105_address": "0x4784d0"
     },

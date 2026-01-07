@@ -64,7 +64,7 @@ void PurpleDoom::DrawSpritesClipped_477A40()
 MATCH_FUNC(0x477ae0)
 void PurpleDoom::AddToSingleBucket_477AE0(Sprite* a1)
 {
-    DoAdd_478440(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
+    AddToSingleBucket_478440(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b00)
@@ -80,17 +80,17 @@ void PurpleDoom::AddToRegionBuckets_477B20(Sprite* pSprite)
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
     {
-        AddSpriteToActiveRow_4784D0(y_pos, pSprite);
+        AddToRowBuckets_4784D0(y_pos, pSprite);
     }
 }
 
 MATCH_FUNC(0x477b60)
-void PurpleDoom::sub_477B60(Sprite* pSprite)
+void PurpleDoom::AddToSpriteRectBuckets_477B60(Sprite* pSprite)
 {
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
     {
-        sub_478370(y_pos, pSprite);
+        AddToColumnBuckets_478370(y_pos, pSprite);
     }
 }
 
@@ -341,7 +341,7 @@ void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
 }
 
 MATCH_FUNC(0x478370)
-void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
+void PurpleDoom::AddToColumnBuckets_478370(s32 y_pos, Sprite* pSprite)
 {
     s32 x_pos = gPurple_left_6F5FD4;
     PurpleDoom_C* pLastXIter = 0;
@@ -405,7 +405,7 @@ void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
 }
 
 MATCH_FUNC(0x478440)
-void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
+void PurpleDoom::AddToSingleBucket_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 {
     Collide_8* pNewCollide = gCollide_8_Pool_679200->Allocate();
 
@@ -447,7 +447,7 @@ void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 }
 
 MATCH_FUNC(0x4784d0)
-void PurpleDoom::AddSpriteToActiveRow_4784D0(s32 y_pos, Sprite* pSprite)
+void PurpleDoom::AddToRowBuckets_4784D0(s32 y_pos, Sprite* pSprite)
 {
     s32 purple_left = gPurple_left_6F5FD4;
     PurpleDoom_C* pNewNext = this->field_0[y_pos];

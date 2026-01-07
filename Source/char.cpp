@@ -253,7 +253,7 @@ void Char_B4::PoolDeallocate()
 {
     if (field_80_sprite_ptr)
     {
-        gPurpleDoom_1_679208->sub_477B60(field_80_sprite_ptr);
+        gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_80_sprite_ptr);
         gSprite_Pool_703818->remove(field_80_sprite_ptr);
         field_80_sprite_ptr = NULL;
     }
@@ -397,7 +397,7 @@ void Char_B4::sub_545720(Fix16 a2)
     byte_6FDB55 = 0;
     byte_6FDB58 = 0;
 
-    gPurpleDoom_1_679208->sub_477B60(field_80_sprite_ptr);
+    gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_80_sprite_ptr);
 
     if (field_58_flags_bf.b5)
     {
