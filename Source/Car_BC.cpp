@@ -328,9 +328,11 @@ void __stdcall sub_447650()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x453bb0)
+WIP_FUNC(0x453bb0)
 void Car_78::sub_453BB0()
 {
+    WIP_IMPLEMENTED;
+    
     sub_447650();
     this->field_10 = this->field_0->field_50_car_sprite->field_0;
     this->field_4C = Ang16::GetAngleFace_4F78F0(field_10);
