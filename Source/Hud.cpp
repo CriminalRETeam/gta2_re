@@ -1836,11 +1836,14 @@ char_type* Garox_1E34_L::sub_5D3350()
     return 0;
 }
 
-STUB_FUNC(0x5d3370)
-s32 Garox_1E34_L::sub_5D3370()
+MATCH_FUNC(0x5d3370)
+void Garox_1E34_L::sub_5D3370()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Garox_18* pPrev = this->field_6F8_prev_brief;
+    this->field_6F8_prev_brief = pPrev->field_C;
+    pPrev->field_C = this->field_700;
+    this->field_700 = pPrev;
+    pPrev->field_8_brief_priority = 0;
 }
 
 MATCH_FUNC(0x5d33a0)
@@ -1875,7 +1878,7 @@ WIP_FUNC(0x5d3680)
 char_type Garox_1E34_L::sub_5D3680(s16 a1)
 {
     WIP_IMPLEMENTED;
-    
+
     char_type result;
     switch (a1)
     {
