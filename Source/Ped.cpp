@@ -2287,10 +2287,25 @@ void Ped::sub_467AD0()
     }
 }
 
-STUB_FUNC(0x467bd0)
+MATCH_FUNC(0x467bd0)
 void Ped::sub_467BD0()
 {
-    NOT_IMPLEMENTED;
+    if (field_16C_car)
+    {
+        if (field_16C_car->GetVelocity_43A4C0() == dword_678660 && field_25C_car_state != 36)
+        {
+            Ped::sub_463830(36, 9999);
+            field_154_target_to_enter = field_16C_car;
+        }
+    }
+    else if (byte_61A8A3)
+    {
+        field_154_target_to_enter = field_150_target_objective_car;
+        Ped::SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
+        field_1B8_target_x = field_154_target_to_enter->field_50_car_sprite->field_14_xpos.x;
+        field_1BC_target_y = field_154_target_to_enter->field_50_car_sprite->field_14_xpos.y;
+        field_1C0_target_z = field_168_game_object->field_80_sprite_ptr->field_1C_zpos;
+    }
 }
 
 STUB_FUNC(0x467ca0)
