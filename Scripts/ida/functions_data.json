@@ -14770,7 +14770,7 @@
         "v105_address": "0x59fb10"
     },
     {
-        "name": "Sprite::sub_5A0150",
+        "name": "Sprite::FindOverlappingBoundingBoxCorners_5A0150",
         "v96f_address": null,
         "v105_address": "0x5a0150"
     },
@@ -14835,7 +14835,7 @@
         "v105_address": "0x5a1ca0"
     },
     {
-        "name": "sub_5A1EB0",
+        "name": "IsTouchingSlopeBlock_5A1EB0",
         "v96f_address": null,
         "v105_address": "0x5a1eb0"
     },

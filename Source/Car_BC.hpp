@@ -378,7 +378,7 @@ class Car_BC
     EXPORT void sub_43A9F0();
     EXPORT Car_BC* Deactivate_43AA60();
     EXPORT char_type IsThreatToSearchingPed_43AAE0();
-    EXPORT char_type sub_43AAF0(s32 a2);
+    EXPORT char_type sub_43AAF0(Sprite* a2);
     EXPORT void ProcessCarToCarImpact_43ADC0(Sprite* a2);
     EXPORT bool CanExitCar_43AF10();
     EXPORT char_type sub_43AF40();

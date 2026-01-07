@@ -1240,7 +1240,7 @@ char_type Car_BC::IsThreatToSearchingPed_43AAE0()
 }
 
 STUB_FUNC(0x43aaf0)
-char_type Car_BC::sub_43AAF0(s32 a2)
+char_type Car_BC::sub_43AAF0(Sprite* a2)
 {
     NOT_IMPLEMENTED;
     return 0;

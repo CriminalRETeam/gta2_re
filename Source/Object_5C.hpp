@@ -47,6 +47,7 @@ class Object_2C
     EXPORT void sub_525190(u8 varrok_idx);
     EXPORT void UpdateAninmation_5257D0();
     EXPORT bool sub_525910();
+    EXPORT char sub_525370(Sprite* pSprite);
     EXPORT void sub_525AE0();
     EXPORT void sub_525B40();
     EXPORT char_type sub_525B60();
