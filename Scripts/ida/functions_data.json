@@ -16875,12 +16875,12 @@
         "v105_address": "0x5dcef0"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DCF40",
+        "name": "keen_bhaskara_0x30::TickReloadSpeed_5DCF40",
         "v96f_address": null,
         "v105_address": "0x5dcf40"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DCF60",
+        "name": "keen_bhaskara_0x30::spawn_bullet_5DCF60",
         "v96f_address": null,
         "v105_address": "0x5dcf60"
     },

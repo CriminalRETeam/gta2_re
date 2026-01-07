@@ -9,6 +9,7 @@ class Ped;
 class Fix16;
 class Sprite;
 class Car_BC;
+class Fix16_Point;
 
 class infallible_turing;
 
@@ -23,11 +24,11 @@ class Weapon_30
     EXPORT char_type add_ammo_capped_5DCE40(u8 a2);
     EXPORT bool is_max_capacity_5DCEA0();
     EXPORT bool sub_5DCEF0();
-    EXPORT void sub_5DCF40();
-    EXPORT Object_2C* sub_5DCF60(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s32* a7);
+    EXPORT void TickReloadSpeed_5DCF40();
+    EXPORT Object_2C* spawn_bullet_5DCF60(s32 bullet_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, const Fix16_Point* pPoint);
     EXPORT void flamethrower_5DD0F0();
     EXPORT u8 shotgun_5DD290();
-    EXPORT char_type pistol_5DD860();
+    EXPORT void pistol_5DD860();
     EXPORT u8 dual_pistol_5DDA70();
     EXPORT u8 smg_5DDD20();
     EXPORT void throwable_5DDFC0(s32 a2, s32 a3, s32 a4);

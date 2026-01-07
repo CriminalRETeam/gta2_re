@@ -9,6 +9,9 @@
 #include "enums.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
+#include "Particle_8.hpp"
+
+DEFINE_GLOBAL(Fix16, dword_706CF4, 0x706CF4);
 
 // TODO: move
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
@@ -147,7 +150,7 @@ bool Weapon_30::sub_5DCEF0()
 }
 
 MATCH_FUNC(0x5dcf40)
-void Weapon_30::sub_5DCF40()
+void Weapon_30::TickReloadSpeed_5DCF40()
 {
     Player* pPlayer = field_24_pPed->field_15C_player;
     if (pPlayer)
@@ -160,7 +163,7 @@ void Weapon_30::sub_5DCF40()
 }
 
 STUB_FUNC(0x5dcf60)
-Object_2C* Weapon_30::sub_5DCF60(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s32* a7)
+Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, const Fix16_Point* pPoint)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -179,11 +182,73 @@ u8 Weapon_30::shotgun_5DD290()
     return 0;
 }
 
-STUB_FUNC(0x5dd860)
-char_type Weapon_30::pistol_5DD860()
+WIP_FUNC(0x5dd860)
+void Weapon_30::pistol_5DD860()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    const u8 speed = this->field_2_reload_speed;
+    if (speed)
+    {
+        this->field_2_reload_speed = speed - 1;
+    }
+    else
+    {
+        const s32 f4 = this->field_4;
+        this->field_2C = 1;
+        if (f4) // first shot ??
+        {
+            Fix16_Point point = field_24_pPed->sub_45B520();
+            Ped* pPed_ = this->field_24_pPed;
+            this->spawn_bullet_5DCF60(154,
+                                      pPed_->field_1AC_cam.x,
+                                      pPed_->field_1AC_cam.y,
+                                      pPed_->field_1AC_cam.z,
+                                      pPed_->field_12E,
+                                      &point);
+            this->field_2_reload_speed = 5;
+        }
+        else
+        {
+            const bool is2 = field_24_pPed->IsField238_45EDE0(2);
+            Ped* pPed__ = this->field_24_pPed;
+            Fix16 x = pPed__->field_1AC_cam.x;
+            Fix16 z = pPed__->field_1AC_cam.z;
+            const s32 bullet_type = is2 ? 265 : 254;
+            Fix16 y = pPed__->field_1AC_cam.y;
+            Ang16 pedRot = pPed__->GetRotation();
+            Fix16_Point v24 = pPed__->sub_45B520();
+            Fix16 sin_mul = (dword_706CF4 * gSin_table_667A80[pedRot.rValue]);
+            Fix16 cos_mul = (dword_706CF4 * gCos_table_669260[pedRot.rValue]); // Fix16::Multiply_408680
+            if (spawn_bullet_5DCF60(bullet_type, sin_mul + x, y + cos_mul, z, pedRot, &v24))
+            {
+                if (field_24_pPed->IsField238_45EDE0(2))
+                {
+                    u16 new_ammo = this->field_0_ammo - 10;
+                    if (this->field_0_ammo != 0xFFFF)
+                    {
+                        if (new_ammo < 0)
+                        {
+                            new_ammo = 0; // NOTE: originally LOWORD(new_ammo) = 0;
+                        }
+                        this->field_0_ammo = new_ammo;
+                    }
+                }
+            }
+
+            Ped* pPed = this->field_24_pPed;
+            this->field_2_reload_speed = 20;
+            gParticle_8_6FD5E8->GunMuzzelFlash_53E970(pPed->field_168_game_object->field_80_sprite_ptr);
+            field_24_pPed->AddThreateningPedToList_46FC70();
+            if (this->field_24_pPed->field_15C_player)
+            {
+                gShooey_CC_67A4B8->ReportCrimeForPed(2u, this->field_24_pPed);
+                TickReloadSpeed_5DCF40();
+                return;
+            }
+        }
+        TickReloadSpeed_5DCF40();
+    }
 }
 
 STUB_FUNC(0x5dda70)
@@ -246,7 +311,7 @@ MATCH_FUNC(0x5e0ab0)
 void Weapon_30::car_bomb_5E0AB0(char_type instant_bomb)
 {
     field_24_pPed = field_14_car->get_driver_4118B0();
-    
+
     set_field_2C_4CCA80(1);
 
     decrement_ammo_4CCA30();
