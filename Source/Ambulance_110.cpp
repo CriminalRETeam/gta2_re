@@ -217,7 +217,7 @@ bool Ambulance_110::sub_4FA330(Ped* pDeadPed)
 MATCH_FUNC(0x4fa470)
 char_type Ambulance_110::TryAddPatient_4FA470(Ped* pPed)
 {
-    if (pPed->sub_45EDE0(2) || field_1_f8_idx >= 25)
+    if (pPed->IsField238_45EDE0(2) || field_1_f8_idx >= 25)
     {
         return 0;
     }

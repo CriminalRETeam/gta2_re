@@ -76,6 +76,7 @@ DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
 DEFINE_GLOBAL(Fix16, dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
 DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
+DEFINE_GLOBAL(Object_2C*, dword_678558, 0x678558);
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -893,7 +894,7 @@ void Ped::sub_45E080()
     {
         if (this->field_170_selected_weapon)
         {
-            if (!sub_45EDE0(2))
+            if (!IsField238_45EDE0(2))
             {
                 switch (this->field_170_selected_weapon->field_1C_idx)
                 {
@@ -1011,7 +1012,7 @@ char_type Ped::sub_45EDC0()
 }
 
 MATCH_FUNC(0x45ede0)
-bool Ped::sub_45EDE0(s32 a2)
+bool Ped::IsField238_45EDE0(s32 a2)
 {
     return field_238 == a2 ? true : false;
 }
@@ -1541,7 +1542,8 @@ void Ped::sub_462B80()
             else
             {
                 field_16C_car->ShowCarName_4406B0(this);
-                if (field_25C_car_state == 37 && field_238 == 3 || (field_16C_car->field_4_passengers_list.AddPed_471140(this), field_238 == 3))
+                if (field_25C_car_state == 37 && field_238 == 3 ||
+                    (field_16C_car->field_4_passengers_list.AddPed_471140(this), field_238 == 3))
                 {
                     if (field_25C_car_state == 37)
                     {
@@ -2140,7 +2142,8 @@ MATCH_FUNC(0x466f60)
 Ped* Ped::sub_466F60(u8 a2)
 {
     dword_6787DC = this;
-    Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(3, 2, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
+    Sprite* pSprite =
+        gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(3, 2, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
     if (pSprite)
     {
         // @OG_BUG: Null de-ref
@@ -2400,10 +2403,95 @@ void Ped::sub_4682A0()
     }
 }
 
-STUB_FUNC(0x468310)
+WIP_FUNC(0x468310)
 void Ped::sub_468310()
 {
     NOT_IMPLEMENTED;
+
+    Ped* pDriver;
+    Car_BC* pCar;
+    Car_BC* pCar_;
+    Car_BC* pCar__;
+
+    if (this->field_225 != 1)
+    {
+        if (this->field_168_game_object)
+        {
+            this->field_225 = 2;
+        }
+        else
+        {
+            if (!this->field_16C_car->field_60)
+            {
+                this->field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
+                this->field_16C_car->field_60->field_4 = this;
+            }
+
+            this->field_16C_car->field_60->field_8 = 1;
+            this->field_16C_car->field_60->field_22 = 1;
+            this->field_16C_car->field_60->field_20 = 0;
+            this->field_16C_car->field_60->field_14_target_x = this->field_1DC_objective_target_x;
+            this->field_16C_car->field_60->field_18_target_y = this->field_1E0_objective_target_y;
+            this->field_16C_car->field_60->field_1C_target_z = this->field_1E4_objective_target_z;
+            this->field_16C_car->field_A6 &= ~0x20u;
+
+            pDriver = this->field_16C_car->field_54_driver;
+            if (pDriver)
+            {
+                if (pDriver->IsField238_45EDE0(4) || this->field_16C_car->field_54_driver->IsField238_45EDE0(6))
+                {
+                    pCar = this->field_16C_car;
+                    if (pCar->field_54_driver->field_26C_graphic_type == 2)
+                    {
+                        pCar->field_60->field_20 = 1;
+                        this->field_16C_car->field_60->field_22 = 1;
+                    }
+                }
+            }
+
+            if ((u8)(this->field_1AC_cam.x.ToInt()) == (u8)(this->field_1DC_objective_target_x.ToInt()) &&
+                (u8)(this->field_1AC_cam.y.ToInt()) == (u8)(this->field_1E0_objective_target_y.ToInt()) &&
+                this->field_1AC_cam.z == this->field_1E4_objective_target_z)
+            {
+                pCar_ = this->field_16C_car;
+                this->field_225 = 1;
+                gHamburger_500_678E30->Cancel_474CC0(pCar_->field_60);
+                this->field_16C_car->field_60 = 0;
+                this->field_16C_car->field_A6 |= 0x20u;
+                this->field_1A0_objective_target_object = dword_678558; // TODO: Never written so part of a bigger global obj?
+            }
+            else
+            {
+                pCar__ = this->field_16C_car;
+                if (pCar__->field_60->field_26)
+                {
+                    this->field_225 = 1;
+                    gHamburger_500_678E30->Cancel_474CC0(pCar__->field_60);
+                    this->field_16C_car->field_60 = 0;
+                    this->field_16C_car->field_A6 |= 0x20u;
+                }
+                else if (pCar__)
+                {
+                    if (pCar__->GetVelocity_43A4C0() == dword_678660)
+                    {
+                        ++this->field_218_objective_timer;
+                    }
+                    else
+                    {
+                        this->field_218_objective_timer = 0;
+                    }
+                    if (this->field_218_objective_timer > 9999u)
+                    {
+                        this->field_218_objective_timer = 9999;
+                    }
+                }
+                else
+                {
+                    this->field_218_objective_timer = 9999;
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x4686c0)
@@ -3301,7 +3389,7 @@ bool Ped::sub_46E020(PedGroup* pGroup)
 {
     NOT_IMPLEMENTED;
     return this->field_164_ped_group != pGroup && !this->field_15C_player &&
-        (sub_45EDE0(3) || (sub_45EDE0(4) || sub_45EDE0(6)) && this->field_240_occupation == 35);
+        (IsField238_45EDE0(3) || (IsField238_45EDE0(4) || IsField238_45EDE0(6)) && this->field_240_occupation == 35);
 }
 
 STUB_FUNC(0x46e080)
@@ -3454,7 +3542,7 @@ MATCH_FUNC(0x46f390)
 void Ped::ManageWeapon_46F390()
 {
     Weapon_30* pWeapon = Ped::GetWeaponFromPed_46F110();
-    if (Ped::sub_45EDE0(2))
+    if (Ped::IsField238_45EDE0(2))
     {
         if (field_168_game_object)
         {
@@ -3473,7 +3561,7 @@ void Ped::ManageWeapon_46F390()
             {
                 if (field_168_game_object)
                 {
-                    if (!Ped::sub_45EDE0(2))
+                    if (!Ped::IsField238_45EDE0(2))
                     {
                         Ped::sub_46F1E0(pWeapon);
                     }
@@ -3589,7 +3677,7 @@ void Ped::NotifyWeaponHit_46FF00(s32 a2, s32 a3, s32 a4)
 MATCH_FUNC(0x46fff0)
 void Ped::sub_46FFF0(s32 model)
 {
-    if (sub_45EDE0(2))
+    if (IsField238_45EDE0(2))
     {
         field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(0, model, 0);
     }

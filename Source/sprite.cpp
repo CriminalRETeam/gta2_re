@@ -257,11 +257,22 @@ char_type Sprite::IsThreatToSearchingPed_59E830()
     }
 }
 
-STUB_FUNC(0x59E850)
+MATCH_FUNC(0x59E850)
 char_type Sprite::sub_59E850(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (this->field_30_sprite_type_enum)
+    {
+        case 1:
+        case 4:
+        case 5:
+            return field_8_object_2C_ptr->sub_525370(pSprite);
+        case 2:
+            return field_8_car_bc_ptr->sub_43AAF0(pSprite);
+        case 3:
+            return field_8_char_b4_ptr->sub_553340(pSprite);
+        default:
+            return 1;
+    }
 }
 
 MATCH_FUNC(0x59E8C0)
@@ -513,7 +524,7 @@ bool Sprite::sub_59FB10(s32* a2)
 }
 
 STUB_FUNC(0x5a0150)
-char_type Sprite::sub_5A0150(s32 a2, u8* a3, u8* a4)
+char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(s32 a2, u8* a3, u8* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -680,7 +691,7 @@ char_type Sprite::sub_5A1CA0(u32* a2)
 }
 
 STUB_FUNC(0x5A1EB0)
-char_type Sprite::sub_5A1EB0()
+char_type Sprite::IsTouchingSlopeBlock_5A1EB0()
 {
     NOT_IMPLEMENTED;
     return 0;

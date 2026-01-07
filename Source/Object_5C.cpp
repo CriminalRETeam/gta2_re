@@ -510,6 +510,13 @@ bool Object_2C::sub_525910()
     return false;
 }
 
+STUB_FUNC(0x525370)
+char Object_2C::sub_525370(Sprite* pSprite)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 MATCH_FUNC(0x525AE0)
 EXPORT void Object_2C::sub_525AE0()
 {

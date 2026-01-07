@@ -89,7 +89,7 @@ class Sprite
     EXPORT void sub_59FA40();
     EXPORT void FreeSprite4CChildren_59FAD0();
     EXPORT bool sub_59FB10(s32* a2);
-    EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
+    EXPORT char_type FindOverlappingBoundingBoxCorners_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
     EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* a2);
     EXPORT char_type sub_5A0970(s32 a2, s32 a3, s32 a4);
@@ -102,7 +102,7 @@ class Sprite
     EXPORT void ResolveZOrder_5A1B30(Sprite* pOther);
     EXPORT char_type ComputeZLayer_5A1BD0();
     EXPORT char_type sub_5A1CA0(u32* a2);
-    EXPORT char_type sub_5A1EB0();
+    EXPORT char_type IsTouchingSlopeBlock_5A1EB0();
     EXPORT char_type sub_5A21F0();
     EXPORT u32* sub_5A22B0(u32* a2, Sprite* a3);
     EXPORT char_type sub_5A2440();

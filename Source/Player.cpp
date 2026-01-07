@@ -1341,7 +1341,7 @@ void Player::Wasted_567130()
         {
             player_killer = NULL;
         }
-        else if (pPed_killer->sub_45EDE0(2) == 0)
+        else if (pPed_killer->IsField238_45EDE0(2) == 0)
         {
             player_killer = NULL;
         }
@@ -2174,9 +2174,9 @@ void Player::sub_569CB0()
     if (bStartNetworkGame_7081F0)
     {
         Player::sub_569A10();
-        gNetPlay_7071E8.GetPlayerName_521100(&field_83C_player_name, field_2E_idx);
-        gText_0x14_704DFC->sub_5B5910(&field_83C_player_name);
-        gLucid_hamilton_67E8E0.sub_4C5C30(field_2E_idx, &field_83C_player_name);
+        gNetPlay_7071E8.GetPlayerName_521100(field_83C_player_name, field_2E_idx);
+        gText_0x14_704DFC->sub_5B5910(field_83C_player_name);
+        gLucid_hamilton_67E8E0.sub_4C5C30(field_2E_idx, field_83C_player_name);
     }
 }
 
@@ -2590,7 +2590,7 @@ Player::Player(u8 player_idx)
     Player::sub_564CC0();
     sub_4A5180();
     set_death_type_434950(0);
-    field_83C_player_name = 0;
+    field_83C_player_name[0] = 0;
     field_78A_show_quit_message = 0;
 }
 

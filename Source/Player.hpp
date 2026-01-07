@@ -319,14 +319,5 @@ class Player
     s16 field_796_chat_text[79];
     s32 field_834;
     s32 field_838_f796_idx;
-    wchar_t field_83C_player_name;
-    char_type field_83E;
-    char_type field_83F;
-    s32 field_840;
-    s32 field_844;
-    s32 field_848;
-    s32 field_84C;
-    s32 field_850;
-    s32 field_854;
-    s32 field_858;
+    wchar_t field_83C_player_name[16];
 };
