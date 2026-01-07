@@ -1146,10 +1146,10 @@ Ped* PedManager::sub_470F90(Ped* pSrc)
     return pDst;
 }
 
-STUB_FUNC(0x471060)
+WIP_FUNC(0x471060)
 void PedManager::DoIanTest_471060(s16 key)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     switch (key)
     {
