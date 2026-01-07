@@ -187,10 +187,17 @@ void Wolfy_30::DeInit_543610()
     }
 }
 
-STUB_FUNC(0x543650)
-void Wolfy_30::sub_543650()
+MATCH_FUNC(0x543650)
+void Wolfy_30::Init_543650()
 {
-    NOT_IMPLEMENTED;
+    this->field_10 = 0;
+    this->field_18 = 0;
+    this->field_24 = 0;
+    this->field_22 = word_6FD5D4;
+    this->field_1A = 200;
+    this->field_14 = 0;
+    this->field_2C_ped_id = 0;
+    this->field_0_bIn20Pool = 0;
 }
 
 MATCH_FUNC(0x543680)

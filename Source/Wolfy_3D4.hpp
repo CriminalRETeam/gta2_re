@@ -26,7 +26,7 @@ class Wolfy_30
     EXPORT char_type sub_5434A0(s32 a2, s32 a3);
     EXPORT char_type sub_5435D0();
     EXPORT void DeInit_543610();
-    EXPORT void sub_543650();
+    EXPORT void Init_543650();
     EXPORT void sub_543680(Object_2C* a2);
 
     s32 field_0_bIn20Pool;
