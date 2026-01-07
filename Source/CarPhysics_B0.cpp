@@ -721,7 +721,7 @@ s32 CarPhysics_B0::sub_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4)
 }
 
 STUB_FUNC(0x55f930)
-s32 CarPhysics_B0::sub_55F930(s32* a2)
+s32 CarPhysics_B0::sub_55F930(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -740,11 +740,24 @@ void CarPhysics_B0::ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce)
     field_48 += pForce.Multiply_438FE0(CarPhysics_B0::CalculateMass_559FF0());
 }
 
-STUB_FUNC(0x55fa10)
-s32 CarPhysics_B0::sub_55FA10(s32* a2)
+WIP_FUNC(0x55fa10)
+void CarPhysics_B0::sub_55FA10(Fix16_Point* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pCar = this->field_5C_pCar;
+    Trailer* pTrailer = pCar->field_64_pTrailer;
+    if (pTrailer && pTrailer->field_C_pCarOnTrailer == pCar)
+    {
+        CarPhysics_B0* pPhysics = pTrailer->field_8_truck_cab->field_58_physics;
+        pPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
+        pPhysics->sub_55F930(a2);
+        SetCurrentCarInfoAndModelPhysics_562EF0();
+    }
+    else
+    {
+        sub_55F930(a2);
+    }
 }
 
 STUB_FUNC(0x55fa60)
