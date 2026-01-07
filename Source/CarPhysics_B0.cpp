@@ -47,6 +47,8 @@ DEFINE_GLOBAL(Fix16, dword_6FE07C, 0x6FE07C);
 
 DEFINE_GLOBAL(Fix16, FastCarMinVelocity_6FE1CC, 0x6FE1CC);
 DEFINE_GLOBAL(Fix16, dword_6FE198, 0x6FE198);
+DEFINE_GLOBAL(Fix16, k_dword_6FE1B8, 0x6FE1B8);
+
 
 STUB_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -881,11 +883,10 @@ s32* CarPhysics_B0::sub_5615D0(s32* a2, s32* a3, s32 a4, u32* a5, s32 a6)
     return 0;
 }
 
-STUB_FUNC(0x561940)
+MATCH_FUNC(0x561940)
 s32 CarPhysics_B0::get_revs_561940()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return dword_6FE258->field_1_turbo && this->field_60_gas_pedal >= k_dword_6FE1B8;
 }
 
 STUB_FUNC(0x561970)
