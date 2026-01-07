@@ -72,9 +72,9 @@ class Ped
     EXPORT void sub_45CAA0();
     EXPORT void TakeDamage(s16 damage);
     EXPORT void sub_45CF20(s32 a2);
-    EXPORT char_type sub_45D000(Object_2C* a2);
+    EXPORT char_type HandlePedHitByObject_45D000(Object_2C* a2);
     EXPORT char_type AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
-    EXPORT char_type sub_45DE80(s32 a2);
+    EXPORT char_type HandlePickupCollision_45DE80(s32 a2);
     EXPORT void sub_45E080();
     EXPORT void sub_45E4A0();
     EXPORT void sub_45EA00();
@@ -216,8 +216,8 @@ class Ped
     EXPORT void Kill_46F9D0();
     EXPORT void AddThreateningPedToList_46FC70();
     EXPORT void sub_46FC90(s32 a2, s32 a3);
-    EXPORT char_type sub_46FE20(Object_2C* a2);
-    EXPORT void sub_46FF00(s32 a2, s32 a3, s32 a4);
+    EXPORT char_type ProcessWeaponHitResponse_46FE20(Object_2C* a2);
+    EXPORT void NotifyWeaponHit_46FF00(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_46FFF0(s32 a2);
     EXPORT s16 sub_470050();
     EXPORT void add_wanted_points_470160(s16 wanted_amount);

@@ -337,7 +337,7 @@ void Player::sub_564CF0()
 }
 
 STUB_FUNC(0x564D60)
-char_type Player::sub_564D60(s32 a2)
+char_type Player::CollectPowerUp_564D60(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 'a';
@@ -2479,19 +2479,19 @@ void Player::ApplyCheats_56A490()
     }
     if (gCheatUnknown_67D4F6)
     {
-        Player::sub_564D60(4);
+        Player::CollectPowerUp_564D60(4);
     }
     if (gCheatInvisibility_67D539)
     {
-        Player::sub_564D60(11);
+        Player::CollectPowerUp_564D60(11);
     }
     if (gCheatUnlimitedDoubleDamage_67D57C)
     {
-        Player::sub_564D60(7);
+        Player::CollectPowerUp_564D60(7);
     }
     if (byte_67D56B)
     {
-        Player::sub_564D60(4);
+        Player::CollectPowerUp_564D60(4);
         Player::sub_564960(1, 50u);
         for (Gang_144* pIter2 = gGangPool_CA8_67E274->sub_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->sub_4BECE0())
         {

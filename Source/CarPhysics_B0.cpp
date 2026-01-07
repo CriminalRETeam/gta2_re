@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 #include "Rozza_C88.hpp"
 #include "debug.hpp"
+#include "PurpleDoom.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -132,7 +133,7 @@ void CarPhysics_B0::sub_559B90(const Fix16& a2)
 }
 
 STUB_FUNC(0x559ba0)
-u32 CarPhysics_B0::sub_559BA0()
+u32 CarPhysics_B0::SpinOutOnOil_559BA0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -562,10 +563,21 @@ char_type CarPhysics_B0::sub_55E470()
 }
 
 STUB_FUNC(0x55eb80)
-char_type CarPhysics_B0::sub_55EB80()
+char_type CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80()
 {
     NOT_IMPLEMENTED;
-    return 0;
+    
+    gCar_6C_677930->field_68 = 0;
+
+    const char_type bCollision = gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_5C_pCar->field_50_car_sprite);
+    Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
+    if (pTrailer)
+    {
+        char_type bTrailerCollision = gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(pTrailer->field_C_pCarOnTrailer->field_50_car_sprite);
+        return bTrailerCollision | bCollision;
+    }
+
+    return bCollision;
 }
 
 STUB_FUNC(0x55ec30)

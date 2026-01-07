@@ -837,7 +837,7 @@ void Ped::sub_45CF20(s32 a2)
 }
 
 STUB_FUNC(0x45d000)
-char_type Ped::sub_45D000(Object_2C* a2)
+char_type Ped::HandlePedHitByObject_45D000(Object_2C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -877,7 +877,7 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 }
 
 STUB_FUNC(0x45de80)
-char_type Ped::sub_45DE80(s32 a2)
+char_type Ped::HandlePickupCollision_45DE80(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2133,7 +2133,7 @@ MATCH_FUNC(0x466f60)
 Ped* Ped::sub_466F60(u8 a2)
 {
     dword_6787DC = this;
-    Sprite* pSprite = gPurpleDoom_1_679208->sub_477C90(3, 2, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
+    Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(3, 2, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
     if (pSprite)
     {
         // @OG_BUG: Null de-ref
@@ -3519,7 +3519,7 @@ void Ped::ForceWeapon_46F600(s32 weapon_kind)
         Weapon_30* pWeapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, this, 99u);
         this->field_170_selected_weapon = pWeapon;
         pWeapon->field_4 = 1;
-        if (field_170_selected_weapon->sub_5E3BD0())
+        if (field_170_selected_weapon->IsExplosiveWeapon_5E3BD0())
         {
             GiveWeapon_46F650(weapon_type::pistol);
         }
@@ -3567,14 +3567,14 @@ void Ped::sub_46FC90(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x46fe20)
-char_type Ped::sub_46FE20(Object_2C* a2)
+char_type Ped::ProcessWeaponHitResponse_46FE20(Object_2C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46ff00)
-void Ped::sub_46FF00(s32 a2, s32 a3, s32 a4)
+void Ped::NotifyWeaponHit_46FF00(s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
 }

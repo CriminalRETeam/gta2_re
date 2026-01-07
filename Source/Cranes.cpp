@@ -128,7 +128,7 @@ void Crane_15C::sub_47ED60()
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
     pCar->field_88 = 1;
     gPurpleDoom_1_679208->sub_477B20(field_74);
-    field_64->sub_5A3100(field_74, dword_679E70, dword_679E70, word_679FC4);
+    field_64->DispatchCollisionEvent_5A3100(field_74, dword_679E70, dword_679E70, word_679FC4);
     field_28_strct4.sub_5A6CD0(field_64);
     field_74 = 0;
     field_150 = 0;
@@ -504,7 +504,7 @@ Car_BC* Crane_15C::GetCarFromCrane_480DA0()
 }
 
 MATCH_FUNC(0x480e00)
-void CranePool_D9C::sub_480E00(Car_BC* a2, u8 a3)
+void CranePool_D9C::PickUpCar_480E00(Car_BC* a2, u8 a3)
 {
     field_0[a3].sub_47F930(a2);
 }

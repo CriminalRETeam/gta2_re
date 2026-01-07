@@ -161,7 +161,7 @@ void force_link()
     lewin.RemovePlayerWeapons_564C50();
     lewin.sub_564CC0();
     lewin.sub_564CF0();
-    lewin.sub_564D60(0);
+    lewin.CollectPowerUp_564D60(0);
     lewin.tick_down_powerups_565070();
     lewin.RestorePowerUpsFromSave_5651F0(0);
     lewin.TeleportToDebugCam_565310();

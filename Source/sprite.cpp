@@ -13,6 +13,7 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "root_sound.hpp"
+#include "Player.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -57,15 +58,34 @@ void Sprite::sub_54EC80(Fix16 xpos, Fix16 ypos)
     }
 }
 
-STUB_FUNC(0x59E170)
-bool Sprite::sub_59E170()
+MATCH_FUNC(0x59E170)
+bool Sprite::IsControlledByActivePlayer_59E170()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pPed = GetPed_59E1B0();
+    if (!pPed)
+    {
+        if (field_30_sprite_type_enum == sprite_types_enum::car && field_8_car_bc_ptr)
+        {
+            pPed = field_8_car_bc_ptr->GetEffectiveDriver_43E990();
+        }
+    }
+
+    if (pPed)
+    {
+        if (pPed->field_15C_player)
+        {
+            if (!pPed->field_15C_player->field_0_bIsUser)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 MATCH_FUNC(0x59E1B0)
-Ped* Sprite::sub_59E1B0()
+Ped* Sprite::GetPed_59E1B0()
 {
     if (this->field_30_sprite_type_enum == sprite_types_enum::ped && (this->field_8_char_b4_ptr) != 0)
     {
@@ -78,7 +98,7 @@ Ped* Sprite::sub_59E1B0()
 }
 
 MATCH_FUNC(0x59E1D0)
-s32 Sprite::IsOnWater_59E1D0() // IsWater?
+s32 Sprite::IsOnWater_59E1D0()
 {
     gmp_block_info* pBlock;
 
@@ -95,7 +115,7 @@ s32 Sprite::IsOnWater_59E1D0() // IsWater?
     if (pBlock)
     {
         const u16 lid_idx = pBlock->field_8_lid & 1023;
-        if (gGtx_0x106C_703DD4->field_6C_spec[lid_idx] == tile_spec::water && gGtx_0x106C_703DD4->sub_5AA850(lid_idx))
+        if (gGtx_0x106C_703DD4->field_6C_spec[lid_idx] == tile_spec::water && gGtx_0x106C_703DD4->IsTileRemapped_5AA850(lid_idx))
         {
             return true;
         }
@@ -199,7 +219,7 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
 {
     Sprite* result;
 
-    sub_59E9C0();
+    UpdateCollisionBoundsIfNeeded_59E9C0();
     field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     gSprite_6F61E8 = this;
     if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos.ToInt()))
@@ -216,7 +236,7 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
 }
 
 STUB_FUNC(0x59E830)
-char_type Sprite::sub_59E830(Sprite* a1, Ped* a2)
+char_type Sprite::IsThreatToSearchingPed_59E830()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -230,18 +250,18 @@ char_type Sprite::sub_59E850(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x59E8C0)
-void Sprite::sub_59E8C0(Sprite* pSprite)
+void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
 {
     s32 sprite_type = this->field_30_sprite_type_enum;
     if (sprite_type == sprite_types_enum::unknown_1 || sprite_type > sprite_types_enum::ped && sprite_type <= sprite_types_enum::map_obj)
     {
-        field_8_object_2C_ptr->sub_528E50(pSprite);
+        field_8_object_2C_ptr->HandleImpact_528E50(pSprite);
         s32 type = pSprite->field_30_sprite_type_enum;
         if (type == sprite_types_enum::code_obj1 || type == sprite_types_enum::map_obj || type == sprite_types_enum::unknown_1)
         {
             if (pSprite->field_8_object_2C_ptr)
             {
-                field_8_object_2C_ptr->sub_529000(pSprite->field_8_object_2C_ptr);
+                field_8_object_2C_ptr->HandleCollisionWithObject_529000(pSprite->field_8_object_2C_ptr);
             }
         }
     }
@@ -285,17 +305,17 @@ void Sprite::sub_59E960()
 }
 
 MATCH_FUNC(0x59e9c0)
-void Sprite::sub_59E9C0()
+void Sprite::UpdateCollisionBoundsIfNeeded_59E9C0()
 {
     if (!field_C_sprite_4c_ptr->field_48_bDrawCollisionBox)
     {
         if (field_C_sprite_4c_ptr->IsZeroWidth_41E390())
         {
-            field_C_sprite_4c_ptr->sub_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, gAng16_703804);
+            field_C_sprite_4c_ptr->UpdateRotatedBoundingBox_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, gAng16_703804);
         }
         else
         {
-            field_C_sprite_4c_ptr->sub_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
+            field_C_sprite_4c_ptr->UpdateRotatedBoundingBox_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
         }
     }
 }
@@ -559,7 +579,7 @@ char_type Sprite::sub_5A19C0()
 
     if (!field_4_0x4C_len->field_48_bDrawCollisionBox)
     {
-        field_4_0x4C_len->sub_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
+        field_4_0x4C_len->UpdateRotatedBoundingBox_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
     }
     field_4_0x4C_len->SetCurrentRect_5A4D90();
     return gMap_0x370_6F6268->sub_4E4770(field_1C_zpos);
@@ -574,7 +594,7 @@ char Sprite::sub_5A1A60()
 
     if (!p4C->field_48_bDrawCollisionBox)
     {
-        p4C->sub_5A3550(this->field_14_xpos.x, this->field_14_xpos.y, this->field_1C_zpos, this->field_0);
+        p4C->UpdateRotatedBoundingBox_5A3550(this->field_14_xpos.x, this->field_14_xpos.y, this->field_1C_zpos, this->field_0);
     }
 
     field_4_0x4C_len->SetCurrentRect_5A4D90();
@@ -754,17 +774,17 @@ void Sprite::PoolDeallocate()
 }
 
 MATCH_FUNC(0x5a3100)
-void Sprite::sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5)
+void Sprite::DispatchCollisionEvent_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5)
 {
     Object_2C* o2c;
 
     switch (field_30_sprite_type_enum)
     {
         case sprite_types_enum::ped:
-            field_8_char_b4_ptr->field_88_obj_2c.sub_5A6D00(a2, a3, a4, a5);
+            field_8_char_b4_ptr->field_88_obj_2c.PushImpactEvent_5A6D00(a2, a3, a4, a5);
             break;
         case sprite_types_enum::car:
-            field_8_car_bc_ptr->field_0_qq.sub_5A6D00(a2, a3, a4, a5);
+            field_8_car_bc_ptr->field_0_qq.PushImpactEvent_5A6D00(a2, a3, a4, a5);
             break;
         case 1: // sprite_type_1_Object_5C
         case 4: // sprite_type_4_Object_5C
@@ -772,9 +792,9 @@ void Sprite::sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5)
             o2c = field_8_object_2C_ptr;
             if (!o2c->field_10_obj_3c)
             {
-                o2c->sub_52A650();
+                o2c->EnsureObject3C_52A650();
             }
-            field_8_object_2C_ptr->field_10_obj_3c->field_0.sub_5A6D00(a2, a3, a4, a5);
+            field_8_object_2C_ptr->field_10_obj_3c->field_0.PushImpactEvent_5A6D00(a2, a3, a4, a5);
             break;
         default:
             break;
@@ -783,12 +803,12 @@ void Sprite::sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5)
     switch (a2->field_30_sprite_type_enum)
     {
         case sprite_types_enum::car:
-            a2->field_8_car_bc_ptr->sub_43AA60();
+            a2->field_8_car_bc_ptr->Deactivate_43AA60();
             break;
         case 1: // sprite_type_1_Object_5C
         case 4: // sprite_type_4_Object_5C
         case 5: // sprite_type_5_Object_5C
-            a2->field_8_object_2C_ptr->sub_52A6D0(this);
+            a2->field_8_object_2C_ptr->ReactivateObjectAfterImpact_52A6D0(this);
             break;
         default:
             return;

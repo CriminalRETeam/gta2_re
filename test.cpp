@@ -53,13 +53,13 @@ void test_gtx_0x106C()
     c.sub_5AA760(0, 0);
     c.space_width_5AA7B0(0);
     c.sub_5AA800(0);
-    c.sub_5AA850(0);
-    c.sub_5AA870(0);
+    c.IsTileRemapped_5AA850(0);
+    c.GetTile_5AA870(0);
     c.sub_5AA890();
     c.get_physical_palettes_len_5AA900();
     c.get_map_object_info_5AA910(0);
-    c.sub_5AA930(0, 0);
-    c.create_tile_num_array_5AA950();
+    c.SetTileRemap_5AA930(0, 0);
+    c.InitTileMapping_5AA950();
     c.sub_5AA9A0(0);
     c.sub_5AAB30(0);
     c.sub_5AABF0();

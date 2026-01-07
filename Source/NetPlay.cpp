@@ -44,11 +44,10 @@ void NetPlay::AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionIn
 
             this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
                 .field_14_pConnection = new u8[pConnectionInfo->field_18_connection_len];
-            memcpy(
-                this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
-                    .field_14_pConnection,
-                pConnectionInfo->field_14_pConnection,
-                pConnectionInfo->field_18_connection_len);
+            memcpy(this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
+                       .field_14_pConnection,
+                   pConnectionInfo->field_14_pConnection,
+                   pConnectionInfo->field_18_connection_len);
 
             this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
                 .field_18_connection_len = pConnectionInfo->field_18_connection_len;
@@ -366,9 +365,9 @@ s32 NetPlay::AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession)
 MATCH_FUNC(0x51ecd0)
 void NetPlay::Set15_51ECD0(s32 pFunc, Network_20324* pParam)
 {
-    this->field_4C_func_ptrs_and_params[15] = pFunc;
-    this->field_4C_func_ptrs_and_params[16] = (u32)pParam;
-    this->field_4C_func_ptrs_and_params[17] = 5;
+    this->field_4C_func_ptrs_and_params[5].field_0_param_fn_callback = (void*)pFunc;
+    this->field_4C_func_ptrs_and_params[5].field_4_param_context = pParam;
+    this->field_4C_func_ptrs_and_params[5].field_8_fn_type = 5;
 }
 
 STUB_FUNC(0x51ed00)
@@ -435,11 +434,69 @@ void NetPlay::sub_5201A0(s32 idx, Network_Unknown* pStru)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x520230)
-s32 NetPlay::sub_520230(s32 a2, u32* a3)
+// TODO: Temp - should be integrated into the type array or something
+typedef void(__stdcall* T1)(void*);
+typedef void(__stdcall* T2)(void*, s32);
+typedef void(__stdcall* T3)(void*, s32, s32);
+
+MATCH_FUNC(0x520230)
+void NetPlay::ProcessIncomingPacket_520230(s32 idx, u32 pUnknown)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // TODO: Figure out what pUnknown is
+    if (idx >= 1 && idx <= 10)
+    {
+        switch (idx)
+        {
+            case 1: // disconnect ?
+                if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
+                {
+                    ((T1)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                        field_4C_func_ptrs_and_params[idx].field_4_param_context);
+                }
+                break;
+            case 2: // adding to listbox, player? session??
+                if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
+                {
+                    ((T3)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                        field_4C_func_ptrs_and_params[idx].field_4_param_context,
+                        *(s32*)(pUnknown + 0x1C),
+                        pUnknown + 0x24);
+                }
+                break;
+            case 3:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+                if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
+                {
+                    ((T2)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                        field_4C_func_ptrs_and_params[idx].field_4_param_context,
+                        pUnknown); // a wchar_t* string?
+                }
+                break;
+            case 4:
+                // Exit game call back?
+                if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
+                {
+                    ((T2)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                        field_4C_func_ptrs_and_params[idx].field_4_param_context,
+                        *(u32*)pUnknown); // s32* usually set to 2 ?
+                }
+                break;
+
+            case 9:
+                // set player name?
+                if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
+                {
+                    ((T1)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                        field_4C_func_ptrs_and_params[idx].field_4_param_context);
+                }
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 STUB_FUNC(0x520530)
@@ -535,17 +592,17 @@ u32 NetPlay::IndexOf_520E30(s32 toFind, Network_Unknown* pObj)
 MATCH_FUNC(0x520e60)
 void NetPlay::Set9_520E60(s32 pFunc, s32 pParam)
 {
-    field_4C_func_ptrs_and_params[9] = pFunc;
-    field_4C_func_ptrs_and_params[10] = pParam;
-    field_4C_func_ptrs_and_params[11] = 3;
+    this->field_4C_func_ptrs_and_params[3].field_0_param_fn_callback = (void*)pFunc;
+    this->field_4C_func_ptrs_and_params[3].field_4_param_context = (void*)pParam;
+    this->field_4C_func_ptrs_and_params[3].field_8_fn_type = 3;
 }
 
 MATCH_FUNC(0x520e80)
 void NetPlay::Set3_Disconnect_520E80(s32 a2, s32 a3)
 {
-    field_4C_func_ptrs_and_params[3] = a2;
-    field_4C_func_ptrs_and_params[4] = a3;
-    field_4C_func_ptrs_and_params[5] = 1;
+    this->field_4C_func_ptrs_and_params[1].field_0_param_fn_callback = (void*)a2;
+    this->field_4C_func_ptrs_and_params[1].field_4_param_context = (void*)a3;
+    this->field_4C_func_ptrs_and_params[1].field_8_fn_type = 1;
 }
 
 STUB_FUNC(0x520ea0)
@@ -564,19 +621,20 @@ s32 NetPlay::sub_520EB0(s32 a2, s32 a3, Network_Unknown* a4)
 MATCH_FUNC(0x520f50)
 void NetPlay::Set18_520F50(s32 a2, s32 a3)
 {
-    field_4C_func_ptrs_and_params[18] = a2;
-    field_4C_func_ptrs_and_params[19] = a3;
-    field_4C_func_ptrs_and_params[20] = 6;
+    this->field_4C_func_ptrs_and_params[6].field_0_param_fn_callback = (void*)a2;
+    this->field_4C_func_ptrs_and_params[6].field_4_param_context = (void*)a3;
+    this->field_4C_func_ptrs_and_params[6].field_8_fn_type = 6;
 }
 
+// https://decomp.me/scratch/oYBrX
 STUB_FUNC(0x520f80)
-s32 NetPlay::sub_520F80(wchar_t* String2)
+s32 NetPlay::RemovePlayerByName_520F80(wchar_t* pToRemove)
 {
     NOT_IMPLEMENTED;
 
     for (u32 i = 0; i < this->field_758_n2.field_4_count; i++)
     {
-        if (wcscmp(field_758_n2.field_10[i].field_1C, String2) == 0)
+        if (wcscmp(field_758_n2.field_10[i].field_1C, pToRemove) == 0)
         {
             field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, field_758_n2.field_10[i].field_10);
             return 1;
@@ -630,9 +688,9 @@ s32 NetPlay::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
 MATCH_FUNC(0x5210d0)
 void NetPlay::Set21_5210D0(s32 a2, s32 a3)
 {
-    this->field_4C_func_ptrs_and_params[21] = a2;
-    this->field_4C_func_ptrs_and_params[22] = a3;
-    this->field_4C_func_ptrs_and_params[23] = 7;
+    this->field_4C_func_ptrs_and_params[7].field_0_param_fn_callback = (void*)a2;
+    this->field_4C_func_ptrs_and_params[7].field_4_param_context = (void*)a3;
+    this->field_4C_func_ptrs_and_params[7].field_8_fn_type = 7;
 }
 
 MATCH_FUNC(0x521100)
@@ -653,9 +711,9 @@ void NetPlay::GetPlayerName_521100(wchar_t* Destination, u32 idx)
 MATCH_FUNC(0x521140)
 void NetPlay::Set24_521140(s32 a2, s32 a3)
 {
-    this->field_4C_func_ptrs_and_params[24] = a2;
-    this->field_4C_func_ptrs_and_params[25] = a3;
-    this->field_4C_func_ptrs_and_params[26] = 8;
+    this->field_4C_func_ptrs_and_params[8].field_0_param_fn_callback = (void*)a2;
+    this->field_4C_func_ptrs_and_params[8].field_4_param_context = (void*)a3;
+    this->field_4C_func_ptrs_and_params[8].field_8_fn_type = 8;
 }
 
 MATCH_FUNC(0x521170)
@@ -679,9 +737,9 @@ s32 NetPlay::sub_521170(Network_8* pObj)
 MATCH_FUNC(0x5211f0)
 void NetPlay::Set27SavePlayerName_5211F0(s32 a2, s32 a3)
 {
-    this->field_4C_func_ptrs_and_params[27] = a2;
-    this->field_4C_func_ptrs_and_params[28] = a3;
-    this->field_4C_func_ptrs_and_params[29] = 9;
+    this->field_4C_func_ptrs_and_params[9].field_0_param_fn_callback = (void*)a2;
+    this->field_4C_func_ptrs_and_params[9].field_4_param_context = (void*)a3;
+    this->field_4C_func_ptrs_and_params[9].field_8_fn_type = 9;
 }
 
 STUB_FUNC(0x521220)
@@ -693,10 +751,9 @@ void NetPlay::sub_521220()
 MATCH_FUNC(0x521330)
 void NetPlay::SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame)
 {
-    // TODO: fix meme types
-    this->field_4C_func_ptrs_and_params[12] = pFunc;
-    this->field_4C_func_ptrs_and_params[13] = (int)pGame;
-    this->field_4C_func_ptrs_and_params[14] = 4;
+    this->field_4C_func_ptrs_and_params[4].field_0_param_fn_callback = (void*)pFunc;
+    this->field_4C_func_ptrs_and_params[4].field_4_param_context = pGame;
+    this->field_4C_func_ptrs_and_params[4].field_8_fn_type = 4;
 }
 
 MATCH_FUNC(0x521350)

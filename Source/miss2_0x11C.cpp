@@ -344,7 +344,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
                                                                pCmd->field_C_pos.field_8_z,
                                                                rotation,
                                                                pCmd->field_1C_car_id);
-            pPointer->field_8_car->field_50_car_sprite->sub_5A3100(v7->field_50_car_sprite, dword_6F77C0, dword_6F77C0, word_6F771E);
+            pPointer->field_8_car->field_50_car_sprite->DispatchCollisionEvent_5A3100(v7->field_50_car_sprite, dword_6F77C0, dword_6F77C0, word_6F771E);
             v7->IncrementCarStats_443D70(8);
         }
         else
@@ -4008,12 +4008,12 @@ void miss2_0x11C::sub_50E900()
         if (pTrailer != NULL && pTrailer->field_8_truck_cab == pDstCar)
         {
             // put car on the trailer attached to the truck cab
-            pDstCar->sub_440840()->sub_5A3100(pCarPointer->field_8_car->field_50_car_sprite, dword_6F77C0, dword_6F77C0, word_6F771E);
+            pDstCar->sub_440840()->DispatchCollisionEvent_5A3100(pCarPointer->field_8_car->field_50_car_sprite, dword_6F77C0, dword_6F77C0, word_6F771E);
         }
         else
         {
             // put car directly on the trailer
-            pDstCar->field_50_car_sprite->sub_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
+            pDstCar->field_50_car_sprite->DispatchCollisionEvent_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
                                                      dword_6F77C0,
                                                      dword_6F77C0,
                                                      word_6F771E);

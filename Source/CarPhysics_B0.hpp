@@ -32,7 +32,7 @@ class CarPhysics_B0
     EXPORT void sub_559B40();
     EXPORT void sub_559B50();
     EXPORT void sub_559B90(const Fix16& a2);
-    EXPORT u32 sub_559BA0();
+    EXPORT u32 SpinOutOnOil_559BA0();
     EXPORT void sub_559C30();
     EXPORT void sub_559DD0();
     EXPORT u32 sub_559E20(s32 a2);
@@ -69,7 +69,7 @@ class CarPhysics_B0
     EXPORT char_type sub_55DC00();
     EXPORT void DoSkidmarks_55E260();
     EXPORT char_type sub_55E470();
-    EXPORT char_type sub_55EB80();
+    EXPORT char_type CheckAndHandleCarAndTrailerCollisions_55EB80();
     EXPORT s32 ApplyForwardEngineForce_55EC30();
     EXPORT s32 ApplyReverseEngineForce_55EF20();
     EXPORT s32 ApplyTurningForce_55F020();

@@ -1555,7 +1555,7 @@
         "v105_address": "0x43a9f0"
     },
     {
-        "name": "Car_BC::sub_43AA60",
+        "name": "Car_BC::Deactivate_43AA60",
         "v96f_address": null,
         "v105_address": "0x43aa60"
     },
@@ -1870,17 +1870,17 @@
         "v105_address": "0x43e8d0"
     },
     {
-        "name": "Car_BC::sub_43E990",
+        "name": "Car_BC::GetEffectiveDriver_43E990",
         "v96f_address": null,
         "v105_address": "0x43e990"
     },
     {
-        "name": "Car_BC::sub_43EA60",
+        "name": "Car_BC::OnObjectTouched_43EA60",
         "v96f_address": null,
         "v105_address": "0x43ea60"
     },
     {
-        "name": "Car_BC::sub_43F130",
+        "name": "Car_BC::HandleCarHitByObject_43F130",
         "v96f_address": null,
         "v105_address": "0x43f130"
     },
@@ -2230,7 +2230,7 @@
         "v105_address": "0x4435a0"
     },
     {
-        "name": "Car_BC::sub_4435B0",
+        "name": "Car_BC::GetCrashSoundCategory_4435B0",
         "v96f_address": null,
         "v105_address": "0x4435b0"
     },
@@ -3090,7 +3090,7 @@
         "v105_address": "0x45cf90"
     },
     {
-        "name": "Ped::sub_45D000",
+        "name": "Ped::HandlePedHitByObject_45D000",
         "v96f_address": null,
         "v105_address": "0x45d000"
     },
@@ -3100,7 +3100,7 @@
         "v105_address": "0x45dd30"
     },
     {
-        "name": "Ped::sub_45DE80",
+        "name": "Ped::HandlePickupCollision_45DE80",
         "v96f_address": null,
         "v105_address": "0x45de80"
     },
@@ -3865,12 +3865,12 @@
         "v105_address": "0x46fc90"
     },
     {
-        "name": "Ped::sub_46FE20",
+        "name": "Ped::ProcessWeaponHitResponse_46FE20",
         "v96f_address": null,
         "v105_address": "0x46fe20"
     },
     {
-        "name": "Ped::sub_46FF00",
+        "name": "Ped::NotifyWeaponHit_46FF00",
         "v96f_address": null,
         "v105_address": "0x46ff00"
     },
@@ -4210,7 +4210,7 @@
         "v105_address": "0x477ba0"
     },
     {
-        "name": "PurpleDoom::sub_477BD0",
+        "name": "PurpleDoom::CheckAndHandleCollisionInStrips_477BD0",
         "v96f_address": null,
         "v105_address": "0x477bd0"
     },
@@ -4220,7 +4220,7 @@
         "v105_address": "0x477c30"
     },
     {
-        "name": "PurpleDoom::sub_477C90",
+        "name": "PurpleDoom::FindNearestSprite_SpiralSearch_477C90",
         "v96f_address": null,
         "v105_address": "0x477c90"
     },
@@ -4255,7 +4255,7 @@
         "v105_address": "0x478050"
     },
     {
-        "name": "sub_478060",
+        "name": "CheckTileSpritesForClosestMatch_478060",
         "v96f_address": null,
         "v105_address": "0x478060"
     },
@@ -4305,7 +4305,7 @@
         "v105_address": "0x4785d0"
     },
     {
-        "name": "PurpleDoom::sub_478750",
+        "name": "PurpleDoom::CheckAndHandleCollisionsInStrip_478750",
         "v96f_address": null,
         "v105_address": "0x478750"
     },
@@ -4515,7 +4515,7 @@
         "v105_address": "0x480da0"
     },
     {
-        "name": "CranePool_D9C::sub_480E00",
+        "name": "CranePool_D9C::PickUpCar_480E00",
         "v96f_address": null,
         "v105_address": "0x480e00"
     },
@@ -6640,7 +6640,7 @@
         "v105_address": "0x4c93a0"
     },
     {
-        "name": "PedGroup::sub_4C94E0",
+        "name": "PedGroup::DisbandGroupDueToAttack_4C94E0",
         "v96f_address": null,
         "v105_address": "0x4c94e0"
     },
@@ -10270,7 +10270,7 @@
         "v105_address": "0x5201a0"
     },
     {
-        "name": "NetPlay::sub_520230",
+        "name": "goofy_thompson::ProcessIncomingPacket_520230",
         "v96f_address": null,
         "v105_address": "0x520230"
     },
@@ -10340,7 +10340,7 @@
         "v105_address": "0x520f50"
     },
     {
-        "name": "NetPlay::sub_520F80",
+        "name": "goofy_thompson::RemovePlayerByName_520F80",
         "v96f_address": null,
         "v105_address": "0x520f80"
     },
@@ -10505,17 +10505,17 @@
         "v105_address": "0x5222d0"
     },
     {
-        "name": "Object_2C::sub_522340",
+        "name": "Object_2C::PoolGive_522340",
         "v96f_address": null,
         "v105_address": "0x522340"
     },
     {
-        "name": "Object_2C::sub_522360",
+        "name": "Object_2C::PoolTake_522360",
         "v96f_address": null,
         "v105_address": "0x522360"
     },
     {
-        "name": "Object_2C::sub_5223C0",
+        "name": "Object_2C::ShouldCollideWith_5223C0",
         "v96f_address": null,
         "v105_address": "0x5223c0"
     },
@@ -10740,7 +10740,7 @@
         "v105_address": "0x527ae0"
     },
     {
-        "name": "Object_2C::sub_527D00",
+        "name": "Object_2C::RemoveFromCollisionBuckets_527D00",
         "v96f_address": null,
         "v105_address": "0x527d00"
     },
@@ -10765,7 +10765,7 @@
         "v105_address": "0x5283c0"
     },
     {
-        "name": "sub_5288B0",
+        "name": "OnObjectTouched_5288B0",
         "v96f_address": null,
         "v105_address": "0x5288b0"
     },
@@ -10775,22 +10775,22 @@
         "v105_address": "0x528900"
     },
     {
-        "name": "sub_528960",
+        "name": "HandleObjectHitIfExplosive_528960",
         "v96f_address": null,
         "v105_address": "0x528960"
     },
     {
-        "name": "Object_2C::sub_528990",
+        "name": "Object_2C::HandleObjectHit_528990",
         "v96f_address": null,
         "v105_address": "0x528990"
     },
     {
-        "name": "sub_528A20",
+        "name": "ProcessObjectExplosionImpact_528A20",
         "v96f_address": null,
         "v105_address": "0x528a20"
     },
     {
-        "name": "Object_2C::sub_528BA0",
+        "name": "Object_2C::HandleImpactNoSprite_528BA0",
         "v96f_address": null,
         "v105_address": "0x528ba0"
     },
@@ -10800,12 +10800,12 @@
         "v105_address": "0x528e00"
     },
     {
-        "name": "Object_2C::sub_528E50",
+        "name": "Object_2C::HandleImpact_528E50",
         "v96f_address": null,
         "v105_address": "0x528e50"
     },
     {
-        "name": "Object_2C::sub_529000",
+        "name": "Object_2C::HandleCollisionWithObject_529000",
         "v96f_address": null,
         "v105_address": "0x529000"
     },
@@ -10825,7 +10825,7 @@
         "v105_address": "0x529070"
     },
     {
-        "name": "sub_529080",
+        "name": "SetDamageOwner_529080",
         "v96f_address": null,
         "v105_address": "0x529080"
     },
@@ -10995,12 +10995,12 @@
         "v105_address": "0x52a610"
     },
     {
-        "name": "sub_52A650",
+        "name": "EnsureObject3C_52A650",
         "v96f_address": null,
         "v105_address": "0x52a650"
     },
     {
-        "name": "Car_BC::sub_52A6D0",
+        "name": "Car_BC::ReactivateObjectAfterImpact_52A6D0",
         "v96f_address": null,
         "v105_address": "0x52a6d0"
     },
@@ -11850,12 +11850,12 @@
         "v105_address": "0x5535b0"
     },
     {
-        "name": "sub_553640",
+        "name": "OnObjectTouched_553640",
         "v96f_address": null,
         "v105_address": "0x553640"
     },
     {
-        "name": "sub_5537F0",
+        "name": "HandlePedObjectHit_5537F0",
         "v96f_address": null,
         "v105_address": "0x5537f0"
     },
@@ -12030,7 +12030,7 @@
         "v105_address": "0x559b90"
     },
     {
-        "name": "CarPhysics_B0::sub_559BA0",
+        "name": "CarPhysics_B0::SpinOutOnOil_559BA0",
         "v96f_address": null,
         "v105_address": "0x559ba0"
     },
@@ -12235,7 +12235,7 @@
         "v105_address": "0x55e470"
     },
     {
-        "name": "CarPhysics_B0::sub_55EB80",
+        "name": "CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80",
         "v96f_address": null,
         "v105_address": "0x55eb80"
     },
@@ -12685,7 +12685,7 @@
         "v105_address": "0x564cf0"
     },
     {
-        "name": "Player::sub_564D60",
+        "name": "Player::CollectPowerUp_564D60",
         "v96f_address": null,
         "v105_address": "0x564d60"
     },
@@ -14565,7 +14565,7 @@
         "v105_address": "0x59b060"
     },
     {
-        "name": "Varrok_7F8::sub_59B0B0",
+        "name": "Varrok_7F8::IncrementRefCount_59B0B0",
         "v96f_address": null,
         "v105_address": "0x59b0b0"
     },
@@ -14615,12 +14615,12 @@
         "v105_address": "0x59dfb0"
     },
     {
-        "name": "sub_59E170",
+        "name": "IsControlledByActivePlayer_59E170",
         "v96f_address": null,
         "v105_address": "0x59e170"
     },
     {
-        "name": "sub_59E1B0",
+        "name": "GetPed_59E1B0",
         "v96f_address": null,
         "v105_address": "0x59e1b0"
     },
@@ -14680,7 +14680,7 @@
         "v105_address": "0x59e7d0"
     },
     {
-        "name": "sub_59E830",
+        "name": "IsThreatToSearchingPed_59E830",
         "v96f_address": null,
         "v105_address": "0x59e830"
     },
@@ -14690,7 +14690,7 @@
         "v105_address": "0x59e850"
     },
     {
-        "name": "sub_59E8C0",
+        "name": "HandleObjectCollision_59E8C0",
         "v96f_address": null,
         "v105_address": "0x59e8c0"
     },
@@ -14710,7 +14710,7 @@
         "v105_address": "0x59e960"
     },
     {
-        "name": "Sprite::sub_59E9C0",
+        "name": "Sprite::UpdateCollisionBoundsIfNeeded_59E9C0",
         "v96f_address": null,
         "v105_address": "0x59e9c0"
     },
@@ -14895,7 +14895,7 @@
         "v105_address": "0x5a3030"
     },
     {
-        "name": "Sprite::sub_5A3100",
+        "name": "Sprite::DispatchCollisionEvent_5A3100",
         "v96f_address": null,
         "v105_address": "0x5a3100"
     },
@@ -14905,7 +14905,7 @@
         "v105_address": "0x5a3540"
     },
     {
-        "name": "sub_5A3550",
+        "name": "UpdateRotatedBoundingBox_5A3550",
         "v96f_address": null,
         "v105_address": "0x5a3550"
     },
@@ -15080,7 +15080,7 @@
         "v105_address": "0x5a6cd0"
     },
     {
-        "name": "sub_5A6D00",
+        "name": "PushImpactEvent_5A6D00",
         "v96f_address": null,
         "v105_address": "0x5a6d00"
     },
@@ -15235,12 +15235,12 @@
         "v105_address": "0x5aa800"
     },
     {
-        "name": "gtx_0x106C::sub_5AA850",
+        "name": "gtx_0x106C::IsTileRemapped_5AA850",
         "v96f_address": null,
         "v105_address": "0x5aa850"
     },
     {
-        "name": "gtx_0x106C::sub_5AA870",
+        "name": "gtx_0x106C::GetTile_5AA870",
         "v96f_address": null,
         "v105_address": "0x5aa870"
     },
@@ -15265,7 +15265,7 @@
         "v105_address": "0x5aa910"
     },
     {
-        "name": "gtx_0x106C::sub_5AA930",
+        "name": "gtx_0x106C::SetTileRemap_5AA930",
         "v96f_address": null,
         "v105_address": "0x5aa930"
     },
@@ -17005,7 +17005,7 @@
         "v105_address": "0x5e3850"
     },
     {
-        "name": "sub_5E3BD0",
+        "name": "IsExplosiveWeapon_5E3BD0",
         "v96f_address": null,
         "v105_address": "0x5e3bd0"
     },
