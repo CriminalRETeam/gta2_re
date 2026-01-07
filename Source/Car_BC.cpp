@@ -1748,10 +1748,16 @@ s32 Car_BC::sub_43D400()
     return 0;
 }
 
-STUB_FUNC(0x43d690)
-void Car_BC::sub_43D690(s32 a2, s32 a4, s32 a5)
+WIP_FUNC(0x43d690)
+void Car_BC::ExplodeCar_43D690(s32 a3, Fix16 x, Fix16 y)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Object_2C* p2C = gObject_5C_6F8F84->CreateExplosion_52A3D0(gFix16_6777CC, gFix16_6777CC, 2, word_67791C, a3, field_70_exploder_ped_id);
+    if (p2C)
+    {
+        field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4, x, y, word_67791C);
+    }
 }
 
 STUB_FUNC(0x43d7b0)

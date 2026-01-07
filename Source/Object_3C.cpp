@@ -272,13 +272,13 @@ void struct_4::sub_5A6CD0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a6d00)
-void struct_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, Ang16 angle)
+void struct_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle)
 {
     Sprite_18* p18 = gSprite_18_Pool_703B80->Allocate();
     p18->field_0 = pSprite1;
     p18->mpNext = field_0_p18;
-    p18->field_8.x = a3;
-    p18->field_8.y = pSprite2;
+    p18->field_8.x = x;
+    p18->field_8.y = y;
     p18->field_10 = angle;
     field_0_p18 = p18;
 }

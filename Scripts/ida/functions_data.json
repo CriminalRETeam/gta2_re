@@ -1810,7 +1810,7 @@
         "v105_address": "0x43d5d0"
     },
     {
-        "name": "Car_BC::sub_43D690",
+        "name": "Car_BC::ExplodeCar_43D690",
         "v96f_address": null,
         "v105_address": "0x43d690"
     },
