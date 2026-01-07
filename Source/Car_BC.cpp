@@ -332,7 +332,7 @@ WIP_FUNC(0x453bb0)
 void Car_78::sub_453BB0()
 {
     WIP_IMPLEMENTED;
-    
+
     sub_447650();
     this->field_10 = this->field_0->field_50_car_sprite->field_0;
     this->field_4C = Ang16::GetAngleFace_4F78F0(field_10);
@@ -1927,10 +1927,15 @@ void Car_BC::sub_43DB80()
     field_4_passengers_list.KillAllPedsAndClearCarRef_4715E0();
 }
 
-STUB_FUNC(0x43dbd0)
+MATCH_FUNC(0x43dbd0)
 void Car_BC::sub_43DBD0()
 {
-    NOT_IMPLEMENTED;
+    CarPhysics_B0* pPhysics = this->field_58_physics;
+    if (pPhysics)
+    {
+        pPhysics->field_40_linvel_1 = stru_6778A8;
+        this->field_58_physics->field_74_ang_vel_rad = gFix16_6777CC;
+    }
 }
 
 STUB_FUNC(0x43dc00)
