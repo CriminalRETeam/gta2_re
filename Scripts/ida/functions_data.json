@@ -12440,7 +12440,7 @@
         "v105_address": "0x562430"
     },
     {
-        "name": "CarPhysics_B0::sub_562450",
+        "name": "CarPhysics_B0::GetBoundingBoxCorner_562450",
         "v96f_address": null,
         "v105_address": "0x562450"
     },
