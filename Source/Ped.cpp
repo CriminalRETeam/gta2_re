@@ -1988,11 +1988,11 @@ Ped* Ped::sub_466B90(s32 max_x_check)
     return Ped::sub_466BF0(max_x_check);
 }
 
-STUB_FUNC(0x466bb0)
-Ped* Ped::sub_466BB0(s32 a2)
+MATCH_FUNC(0x466bb0)
+Ped* Ped::sub_466BB0(s32 max_x_check)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    byte_6787D7 = 4;
+    return Ped::sub_466BF0(max_x_check);
 }
 
 STUB_FUNC(0x466bd0)
