@@ -3901,10 +3901,11 @@ void Ped::sub_4702D0(Ped* pPed)
     this->field_164_ped_group = pPedGroup;
 }
 
-STUB_FUNC(0x470300)
+WIP_FUNC(0x470300)
 void Ped::sub_470300()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
     this->field_15C_player = 0;
     this->field_240_occupation = 3;
     this->field_238 = 3;
