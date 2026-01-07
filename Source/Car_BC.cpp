@@ -264,11 +264,23 @@ s32* Car_78::sub_453590(s32* a2)
     return 0;
 }
 
-STUB_FUNC(0x4537d0)
-char_type Car_78::sub_4537D0()
+WIP_FUNC(0x4537d0)
+void Car_78::sub_4537D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if ((this->field_0->field_A6 & 2) != 2 && (this->field_0->field_A6 & 1) != 1)
+    {
+        s16 k2 = 2;
+        if (stru_6F6784.get_int_4F7AE0(&k2) <= 0)
+        {
+            field_0->field_A6 |= 1;
+        }
+        else
+        {
+            field_0->field_A6 |= 2;
+        }
+    }
 }
 
 STUB_FUNC(0x4538b0)
