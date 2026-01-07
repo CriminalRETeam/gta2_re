@@ -64,6 +64,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678790, dword_6784C4 * 32, 0x678790);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784E8, dword_6784C4 * 8, 0x6784E8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784CC, dword_6784C4 * 2, 0x6784CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
+DEFINE_GLOBAL_INIT(Fix16, dword_678620, dword_6784C4 / dword_678670, 0x678620);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
 DEFINE_GLOBAL_INIT(Fix16, dword_678624, Fix16(0xA3, 0), 0x678624);
 DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
@@ -71,7 +72,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
 DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
 DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct init value
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
-DEFINE_GLOBAL(s32, dword_67853C, 0x67853C);
+DEFINE_GLOBAL(Fix16, dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
 DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
 
@@ -244,7 +245,7 @@ void Ped::TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos)
 }
 
 STUB_FUNC(0x5DF270);
-EXPORT int __stdcall sub_5DF270(Sprite* a1, s32 a2, char_type a3, char_type a4, Ped* a5, s32* a6)
+EXPORT int __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, s32* a6)
 {
     // TODO: Is this actually a class method ?? also location is wrong in respect to address ordering
     NOT_IMPLEMENTED;
@@ -2671,11 +2672,40 @@ void Ped::sub_468BD0()
     }
 }
 
-STUB_FUNC(0x468c70)
-char_type Ped::sub_468C70()
+MATCH_FUNC(0x468c70)
+void Ped::sub_468C70()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (byte_61A8A3)
+    {
+        if (field_25C_car_state == 12)
+        {
+            if (field_21C_bf.b2 == false)
+            {
+                if (field_226)
+                {
+                    field_194 = field_194 + 1;
+                    if (!field_194->field_0)
+                    {
+                        field_194 = field_190->field_0;
+                    }
+                    Ped::sub_463830(12, 9999);
+                    field_1D0 = dword_67853C + Fix16(field_194->field_0);
+                    field_1D4 = dword_67853C + Fix16(field_194->field_1);
+                    field_1D8 = Fix16(field_194->field_2);
+                }
+                field_168_game_object->sub_433970(field_1F4);
+            }
+        }
+        else if (field_21C_bf.b2 == false)
+        {
+            field_194 = field_190->field_0;
+            Ped::sub_463830(12, 9999);
+            field_1D0 = dword_67853C + Fix16(field_194->field_0);
+            field_1D4 = dword_67853C + Fix16(field_194->field_1);
+            field_1D8 = Fix16(field_194->field_2);
+            field_168_game_object->sub_433970(field_1F4);
+        }
+    }
 }
 
 STUB_FUNC(0x468de0)

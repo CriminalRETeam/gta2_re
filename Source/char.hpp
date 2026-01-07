@@ -13,6 +13,8 @@ class Ped;
 class Car_BC;
 class Sprite;
 
+EXTERN_GLOBAL(Fix16, dword_678620);
+
 class Char_B4
 {
   public:
@@ -117,6 +119,21 @@ class Char_B4
     inline Fix16 get_sprite_zpos()
     {
         return field_80_sprite_ptr->field_1C_zpos;
+    }
+
+    inline void sub_433970(Fix16 a1)
+    {
+        if (field_38_velocity < a1)
+        {
+            field_38_velocity += dword_678620;
+        }
+        else
+        {
+            if (field_38_velocity > a1)
+            {
+                field_38_velocity -= dword_678620;
+            }
+        }
     }
 
     Char_B4();

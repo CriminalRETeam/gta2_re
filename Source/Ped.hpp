@@ -141,7 +141,7 @@ class Ped
     EXPORT void sub_468930();
     EXPORT void sub_468A00();
     EXPORT void sub_468BD0();
-    EXPORT char_type sub_468C70();
+    EXPORT void sub_468C70();
     EXPORT char_type sub_468DE0();
     EXPORT char_type sub_468E80();
     EXPORT s32 sub_469010();
@@ -445,7 +445,7 @@ class Ped
     Ped* field_188_last_char_punched;
     Ped* field_18C;
     Marz_96* field_190;
-    s32 field_194;
+    Marz_3* field_194;
     s32 field_198;
     Gang_144* field_19C;
     Object_2C* field_1A0_objective_target_object;
@@ -467,7 +467,7 @@ class Ped
     s32 field_1E8;
     s32 field_1EC;
     Fix16 field_1F0_maybe_max_speed;
-    s32 field_1F4;
+    Fix16 field_1F4;
     Fix16 field_1F8;
     s32 field_1FC;
     u32 field_200_id;
@@ -563,3 +563,5 @@ EXTERN_GLOBAL(u8, byte_6787CC);
 EXTERN_GLOBAL(u8, byte_6787CD);
 
 EXTERN_GLOBAL(u8, byte_6787EF);
+
+EXTERN_GLOBAL(Fix16, dword_678620);

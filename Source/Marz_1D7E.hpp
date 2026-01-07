@@ -12,9 +12,9 @@ class Marz_3
     EXPORT Marz_3();
     EXPORT ~Marz_3();
 
-    char_type field_0;
-    char_type field_1;
-    char_type field_2;
+    u8 field_0;
+    u8 field_1;
+    u8 field_2;
 };
 #pragma pack(pop)
 
