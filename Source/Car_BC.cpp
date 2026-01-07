@@ -1715,11 +1715,9 @@ s32 Car_BC::sub_43C700()
     return 0;
 }
 
-WIP_FUNC(0x43c840)
+MATCH_FUNC(0x43c840)
 void Car_BC::sub_43C840()
 {
-    WIP_IMPLEMENTED;
-
     field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
 
     if (field_84_car_info_idx != car_model_enum::EDSELFBI)
