@@ -881,7 +881,7 @@ EXPORT void __stdcall sub_4DB070(u8 idx)
 {
     Player* pPlayer = gGame_0x40_67E008->field_4_players[idx];
     pPlayer->sub_568730();
-    swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("comms1"), &pPlayer->field_83C_player_name);
+    swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("comms1"), pPlayer->field_83C_player_name);
     gHud_2B00_706620->field_12F0.sub_5D5730(tmpBuff_67BD9C);
 }
 

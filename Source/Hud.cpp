@@ -115,21 +115,21 @@ void Garox_1_v2::AnnounceKill_5D5770(Player* killer, Player* victim)
             return;
         }
 
-        swprintf(tmpBuff_67BD9C, L"%s %s", gText_0x14_704DFC->Find_5B5F90("mpkill2"), &victim->field_83C_player_name);
+        swprintf(tmpBuff_67BD9C, L"%s %s", gText_0x14_704DFC->Find_5B5F90("mpkill2"), victim->field_83C_player_name);
 
         gRoot_sound_66B038.PlayVoice_40F090(32);
     }
     else if (victim->field_0_bIsUser)
     {
-        swprintf(tmpBuff_67BD9C, L"%s %s", &killer->field_83C_player_name, gText_0x14_704DFC->Find_5B5F90("mpkill3"));
+        swprintf(tmpBuff_67BD9C, L"%s %s", killer->field_83C_player_name, gText_0x14_704DFC->Find_5B5F90("mpkill3"));
     }
     else if (victim == killer)
     {
-        swprintf(tmpBuff_67BD9C, L"%s %s", &victim->field_83C_player_name, gText_0x14_704DFC->Find_5B5F90("mpkill5"));
+        swprintf(tmpBuff_67BD9C, L"%s %s", victim->field_83C_player_name, gText_0x14_704DFC->Find_5B5F90("mpkill5"));
     }
     else
     {
-        swprintf(tmpBuff_67BD9C, L"%s %s %s", &killer->field_83C_player_name, gText_0x14_704DFC->Find_5B5F90("mpkill4"), &victim->field_83C_player_name);
+        swprintf(tmpBuff_67BD9C, L"%s %s %s", killer->field_83C_player_name, gText_0x14_704DFC->Find_5B5F90("mpkill4"), &victim->field_83C_player_name);
 
         gRoot_sound_66B038.PlayVoice_40F090(31);
     }
