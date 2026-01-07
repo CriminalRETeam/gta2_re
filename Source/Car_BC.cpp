@@ -284,11 +284,14 @@ void Car_78::sub_4537D0()
     }
 }
 
-STUB_FUNC(0x4538b0)
-Car_BC* Car_78::sub_4538B0()
+MATCH_FUNC(0x4538b0)
+void Car_78::sub_4538B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_24_flags & 0x80)
+    {
+        this->field_0->field_A6 &= ~2u;
+        this->field_0->field_A6 &= ~1u;
+    }
 }
 
 MATCH_FUNC(0x453990)

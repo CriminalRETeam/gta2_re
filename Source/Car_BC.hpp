@@ -56,7 +56,7 @@ class Car_78
     EXPORT s16 sub_453470();
     EXPORT s32* sub_453590(s32* a2);
     EXPORT void sub_4537D0();
-    EXPORT Car_BC* sub_4538B0();
+    EXPORT void sub_4538B0();
     EXPORT void sub_453990(s32 a2);
     EXPORT Car_BC* sub_4539B0();
     EXPORT u8* sub_4539D0();
