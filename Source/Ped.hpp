@@ -114,8 +114,8 @@ class Ped
     EXPORT bool sub_465CD0();
     EXPORT char_type sub_465D00(Ped* a2);
     EXPORT Ped* sub_466B90(s32 max_x_check);
-    EXPORT Ped* sub_466BB0(s32 a2);
-    EXPORT Ped* sub_466BD0(Ped* a2);
+    EXPORT Ped* sub_466BB0(s32 max_x_check);
+    EXPORT Ped* sub_466BD0(s32 max_x_check);
     EXPORT Ped* sub_466BF0(s32 a2);
     EXPORT Ped* sub_466F40(u8 a2);
     EXPORT Ped* sub_466F60(u8 a2);
