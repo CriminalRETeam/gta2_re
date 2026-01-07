@@ -75,7 +75,7 @@ class Sprite
     EXPORT char_type IsThreatToSearchingPed_59E830();
     EXPORT char_type sub_59E850(Sprite* pSprite);
     EXPORT void HandleObjectCollision_59E8C0(Sprite* pSprite);
-    EXPORT void sub_59E910(Sprite* a2);
+    EXPORT void ProcessCarToCarImpactIfCar_59E910(Sprite* a2);
     EXPORT void sub_59E960();
     EXPORT void UpdateCollisionBoundsIfNeeded_59E9C0();
     EXPORT void SetRemap(s16 remap);

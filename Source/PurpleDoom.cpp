@@ -690,7 +690,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
                 if (pSprite->CollisionCheck_59E590(p8Iter->field_0_sprt))
                 {
                     bRet = true;
-                    p8Iter->field_0_sprt->sub_59E910(pSprite);
+                    p8Iter->field_0_sprt->ProcessCarToCarImpactIfCar_59E910(pSprite);
                 }
 
                 p8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count;

@@ -276,7 +276,7 @@ void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
 }
 
 STUB_FUNC(0x59E910)
-void Sprite::sub_59E910(Sprite* a2)
+void Sprite::ProcessCarToCarImpactIfCar_59E910(Sprite* a2)
 {
     NOT_IMPLEMENTED;
 }
