@@ -196,6 +196,25 @@ static Sprite* GetPlayerSprite()
     return GetPedSprite(pPed);
 }
 
+static void GetPlayerPos(Fix16& xpos, Fix16& ypos, Fix16& zpos)
+{
+    Ped* pPlayerPed = GetPlayerPed();
+    Sprite* pPlayerSprite = GetPedSprite(pPlayerPed);
+    
+    if (pPlayerSprite)
+    {
+        xpos = pPlayerSprite->field_14_xpos.x;
+        ypos = pPlayerSprite->field_14_xpos.y;
+        zpos = pPlayerSprite->field_1C_zpos;
+    }
+    else
+    {
+        xpos = pPlayerPed->field_1AC_cam.x;
+        ypos = pPlayerPed->field_1AC_cam.y;
+        zpos = pPlayerPed->field_1AC_cam.z;
+    }
+}
+
 STUB_FUNC(0x5B1170)
 EXPORT void __stdcall NoRefs_sub_5B1170()
 {
@@ -539,7 +558,10 @@ void CC ImGuiDebugDraw()
                 Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
 
                 Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
-                Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
+                //Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
+
+                Fix16 xpos, ypos, zpos;
+                GetPlayerPos(xpos, ypos, zpos);
 
                 Fix16 scale;
                 scale.mValue = 0x4000;
@@ -572,9 +594,9 @@ void CC ImGuiDebugDraw()
                 if (ImGui::Button("Spawn car"))
                 {
 
-                    pNewCar = gCar_6C_677930->SpawnCarAt_446230(pPlayerSprite->field_14_xpos.x + xOff,
-                                                                pPlayerSprite->field_14_xpos.y,
-                                                                pPlayerSprite->field_1C_zpos,
+                    pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff,
+                                                                ypos,
+                                                                zpos,
                                                                 0,
                                                                 currentCarModelIndex,
                                                                 scale);
@@ -583,9 +605,9 @@ void CC ImGuiDebugDraw()
                 }
                 if (ImGui::Button("Spawn car with trailer"))
                 {
-                    pNewCar = gCar_6C_677930->SpawnCarAt_446230(pPlayerSprite->field_14_xpos.x + xOff,
-                                                                pPlayerSprite->field_14_xpos.y,
-                                                                pPlayerSprite->field_1C_zpos,
+                    pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff,
+                                                                ypos,
+                                                                zpos,
                                                                 0,
                                                                 currentCarModelIndex,
                                                                 scale);
@@ -593,8 +615,8 @@ void CC ImGuiDebugDraw()
                     pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
 
                     // Spawns a cab and connected trailer, can spawn trains too apparently
-                    gCar_6C_677930->sub_446530(pPlayerSprite->field_14_xpos.x + xOff,
-                                               pPlayerSprite->field_14_xpos.y,
+                    gCar_6C_677930->sub_446530(xpos + xOff,
+                                               ypos,
                                                0,
                                                car_model_enum::TRUKCAB1,
                                                car_model_enum::TRUKTRNS);
@@ -1346,6 +1368,27 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("Spec", spec);
             }
             ImGui::TreePop();
+        }
+
+        if (gPolice_7B8_6FEE40)
+        {
+            if (ImGui::TreeNode("gPolice_7B8_6FEE40"))
+            {
+                if (ImGui::Button("Spawn Guard"))
+                {
+                    Fix16 xpos, ypos, zpos;
+                    GetPlayerPos(xpos, ypos, zpos);
+                    
+                    Ped* pGuard = gPedManager_6787BC->SpawnPedAt(xpos,
+                                                ypos,
+                                                zpos,
+                                                ped_remap_enum::ped_remap_blue_police,
+                                                Ang16(0));
+
+                    gPolice_7B8_6FEE40->SpawnWalkingGuard_570320(pGuard, xpos, ypos, zpos, Ang16(0));
+                }
+                ImGui::TreePop();
+            }
         }
 
         // Put in-game debug stuff here
