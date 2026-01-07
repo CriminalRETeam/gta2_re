@@ -78,11 +78,10 @@ void Garox_1_v2::sub_5D56B0()
 MATCH_FUNC(0x5d56d0)
 void Garox_1_v2::sub_5D56D0()
 {
-  if ( this->field_0_timer )
-  {
-    DrawText_5D7720(this->field_2_str, (u32)((640 - this->field_CC)/2), (u32) 16, word_7064D8, 8, 5, 0, 0);
-  }
-    
+    if (this->field_0_timer)
+    {
+        DrawText_5D7720(this->field_2_str, (u32)((640 - this->field_CC) / 2), (u32)16, word_7064D8, 8, 5, 0, 0);
+    }
 }
 
 MATCH_FUNC(0x5d5730)
@@ -129,14 +128,17 @@ void Garox_1_v2::AnnounceKill_5D5770(Player* killer, Player* victim)
     }
     else
     {
-        swprintf(tmpBuff_67BD9C, L"%s %s %s", killer->field_83C_player_name, gText_0x14_704DFC->Find_5B5F90("mpkill4"), &victim->field_83C_player_name);
+        swprintf(tmpBuff_67BD9C,
+                 L"%s %s %s",
+                 killer->field_83C_player_name,
+                 gText_0x14_704DFC->Find_5B5F90("mpkill4"),
+                 &victim->field_83C_player_name);
 
         gRoot_sound_66B038.PlayVoice_40F090(31);
     }
 
     this->sub_5D5730(tmpBuff_67BD9C);
 }
-
 
 MATCH_FUNC(0x5d58f0)
 Garox_1_v2::Garox_1_v2()
@@ -518,14 +520,7 @@ void __stdcall sub_5D6060(s16 ammo_idx, u8 ammo_count)
             {
                 swprintf(tmpBuff_67BD9C, L"%d", ammo_count);
             }
-            DrawText_5D7720(tmpBuff_67BD9C,
-                            (u32)(638 - Frontend::sub_5D8990(tmpBuff_67BD9C, word_70646C)),
-                            82,
-                            word_70646C,
-                            8,
-                            6,
-                            0,
-                            0);
+            DrawText_5D7720(tmpBuff_67BD9C, (u32)(638 - Frontend::sub_5D8990(tmpBuff_67BD9C, word_70646C)), 82, word_70646C, 8, 6, 0, 0);
         }
     }
 }
@@ -1550,7 +1545,8 @@ bool Hud_Arrow_7C_Array::IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow_7C* pA
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
     {
         Hud_Arrow_7C* pArrow = &field_0_array[i];
-        if (pArrow != pArgArrow && !pArrow->IsType0_4C6F80() && pArrow->IsVisible_4C7050() && pArrow->field_18.field_10.field_30_gang == pGang)
+        if (pArrow != pArgArrow && !pArrow->IsType0_4C6F80() && pArrow->IsVisible_4C7050() &&
+            pArrow->field_18.field_10.field_30_gang == pGang)
         {
             return true;
         }
@@ -1596,8 +1592,10 @@ char_type Hud_Arrow_7C_Array::IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144
     Hud_Arrow_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
     {
-        if ((pIter->field_18.field_18_primary_target.field_10_target_type || pIter->field_18.field_3C_secondary_target.field_10_target_type) &&
-            (pIter->field_18.field_10.field_30_gang == pArgGang && pIter->field_18.field_60_curr_target->field_10_target_type != ArrowTargetType::InfoPhone_5))
+        if ((pIter->field_18.field_18_primary_target.field_10_target_type ||
+             pIter->field_18.field_3C_secondary_target.field_10_target_type) &&
+            (pIter->field_18.field_10.field_30_gang == pArgGang &&
+             pIter->field_18.field_60_curr_target->field_10_target_type != ArrowTargetType::InfoPhone_5))
         {
             return true;
         }
@@ -1610,11 +1608,13 @@ void Hud_Arrow_7C_Array::sub_5D0F80()
 {
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
     {
-        if (field_0_array[i].field_18.field_18_primary_target.field_10_target_type || field_0_array[i].field_18.field_3C_secondary_target.field_10_target_type)
+        if (field_0_array[i].field_18.field_18_primary_target.field_10_target_type ||
+            field_0_array[i].field_18.field_3C_secondary_target.field_10_target_type)
         {
             if (field_0_array[i].field_18.field_10.field_30_gang)
             {
-                if (field_0_array[i].field_18.field_60_curr_target->field_10_target_type == ArrowTargetType::InfoPhone_5 && !IsThereAnyMissionPhoneArrowForGang_5D0F40(field_0_array[i].field_18.field_10.field_30_gang))
+                if (field_0_array[i].field_18.field_60_curr_target->field_10_target_type == ArrowTargetType::InfoPhone_5 &&
+                    !IsThereAnyMissionPhoneArrowForGang_5D0F40(field_0_array[i].field_18.field_10.field_30_gang))
                 {
                     field_0_array[i].field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::Nothing_0;
                     field_0_array[i].field_18.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Nothing_0;
@@ -1631,7 +1631,8 @@ void Hud_Arrow_7C_Array::UpdateArrows_5D0FD0()
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_array); i++)
     {
-        if (field_0_array[i].field_18.field_18_primary_target.field_10_target_type || field_0_array[i].field_18.field_3C_secondary_target.field_10_target_type)
+        if (field_0_array[i].field_18.field_18_primary_target.field_10_target_type ||
+            field_0_array[i].field_18.field_3C_secondary_target.field_10_target_type)
         {
             field_0_array[i].Service_5D0C60();
         }
@@ -1698,7 +1699,8 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
     Hud_Arrow_7C* pIter = field_0_array;
     while (i < GTA2_COUNTOF_S(field_0_array))
     {
-        if ((pIter->field_18.field_18_primary_target.field_10_target_type || pIter->field_18.field_3C_secondary_target.field_10_target_type) &&
+        if ((pIter->field_18.field_18_primary_target.field_10_target_type ||
+             pIter->field_18.field_3C_secondary_target.field_10_target_type) &&
             (pIter->field_18.field_10.field_30_gang == pZone && pIter->field_18.field_28_arrow_colour == phone_type))
         {
             return pIter;
@@ -1869,11 +1871,46 @@ size_t Garox_1E34_L::sub_5D3470()
     return 0;
 }
 
-STUB_FUNC(0x5d3680)
+WIP_FUNC(0x5d3680)
 char_type Garox_1E34_L::sub_5D3680(s16 a1)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    
+    char_type result;
+    switch (a1)
+    {
+        case 8555:
+            result = 6;
+            break;
+        case 8556:
+            result = 1;
+            break;
+        case 8557:
+            result = 7;
+            break;
+        case 8558:
+            result = 8;
+            break;
+        case 8560:
+            result = 9;
+            break;
+        case 8562:
+            result = 4;
+            break;
+        case 8563:
+            result = 5;
+            break;
+        case 8569:
+            result = 2;
+            break;
+        case 8570:
+            result = 3;
+            break;
+        default:
+            result = 0;
+            break;
+    }
+    return result;
 }
 
 MATCH_FUNC(0x5d39d0)
