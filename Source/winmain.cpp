@@ -53,6 +53,7 @@
 #include "nostalgic_ellis_0x28.hpp"
 #include "sound_obj.hpp"
 #include "sprite.hpp"
+#include "text_0x14.hpp"
 
 DEFINE_GLOBAL(u8, gNetInUsePlayerBits_6F56B8, 0x6F56B8); // TODO: move
 DEFINE_GLOBAL(u32, gNetworkPlayerIdx_6F56C8, 0x6F56C8); // TODO: move
@@ -875,10 +876,13 @@ void __stdcall sub_4DB170()
     gCheatUnlimitedFlameThrower_67D6CC = 0;
 }
 
-STUB_FUNC(0x4DB070)
-EXPORT void __stdcall sub_4DB070(u8 a1)
+MATCH_FUNC(0x4DB070)
+EXPORT void __stdcall sub_4DB070(u8 idx)
 {
-    NOT_IMPLEMENTED;
+    Player* pPlayer = gGame_0x40_67E008->field_4_players[idx];
+    pPlayer->sub_568730();
+    swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("comms1"), &pPlayer->field_83C_player_name);
+    gHud_2B00_706620->field_12F0.sub_5D5730(tmpBuff_67BD9C);
 }
 
 STUB_FUNC(0x4DB0D0)
