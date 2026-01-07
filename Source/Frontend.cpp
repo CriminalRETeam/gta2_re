@@ -378,10 +378,10 @@ void __stdcall Frontend::destroy_4AD070()
     Bink::Close2_513390();
 }
 
-STUB_FUNC(0x4B3170)
+WIP_FUNC(0x4B3170)
 void Frontend::sub_4B3170(u16 menu_page_idx)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     u16 v3; // bp
     u8 v4; // bl
     u8 v5; // al
@@ -997,7 +997,7 @@ s32 Frontend::sub_4AEDB0()
 }
 
 // https://decomp.me/scratch/ci11a
-STUB_FUNC(0x4B5430)
+WIP_FUNC(0x4B5430)
 void Frontend::sub_4B5430(score_table_line* pStrings,
                           u16 text_xpos,
                           u16 text_ypos,
@@ -1006,7 +1006,7 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
                           u16 draw_kind,
                           u8 spacing_type)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     if (num_entries > 0)
     {
         u16 new_xpos;
@@ -1071,7 +1071,7 @@ EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 // sub_457920 in 9.6f
 // https://decomp.me/scratch/jchxT
-STUB_FUNC(0x4AD140)
+WIP_FUNC(0x4AD140)
 void Frontend::sub_4AD140()
 {
     const s32 v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
@@ -1509,7 +1509,7 @@ void Frontend::sub_4AD140()
 }
 
 // https://decomp.me/scratch/qV1ie switch "goto" issue
-STUB_FUNC(0x4B7AE0)
+WIP_FUNC(0x4B7AE0)
 void Frontend::sub_4B7AE0()
 {
     NOT_IMPLEMENTED;
@@ -1833,10 +1833,10 @@ void Frontend::sub_4B6780()
 }
 
 // https://decomp.me/scratch/3NE2J
-STUB_FUNC(0x4B7A10)
+WIP_FUNC(0x4B7A10)
 void Frontend::sub_4B7A10()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     timeGetTime();
     Frontend::read_menu_input_4AFEB0();
     bool bKeyPressed = false;
@@ -1889,10 +1889,10 @@ void Frontend::sub_4B7A10()
     }
 }
 
-STUB_FUNC(0x4AE2D0)
+WIP_FUNC(0x4AE2D0)
 void Frontend::UpdatePageFromUserInput_4AE2D0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     MenuPage_0xBCA* pBorg; // ebx
     player_stats_0xA4* v3; // ebp
     u16 v4; // ax
@@ -2201,7 +2201,7 @@ void Frontend::SetWinMainStateToBootMap_4AE990()
 
 // It matches, but we need to get rid of goto's
 // https://decomp.me/scratch/LYZij
-STUB_FUNC(0x4B2F60)
+WIP_FUNC(0x4B2F60)
 void Frontend::sub_4B2F60()
 {
     //NOT_IMPLEMENTED;
@@ -2908,10 +2908,10 @@ void Frontend::sub_4ADFB0()
 
 // https://decomp.me/scratch/IOmk7
 // TODO: stop the tail merge... somehow
-STUB_FUNC(0x4B6E10)
+WIP_FUNC(0x4B6E10)
 void Frontend::DrawBackground_4B6E10()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     // todo
     BYTE tga_idx; // [esp+50h] [ebp-8h] BYREF
     BYTE not_used; // [esp+54h] [ebp-4h] BYREF
@@ -3082,10 +3082,10 @@ void Frontend::Load_tga_4B6520(u16 idx)
 }
 
 // https://decomp.me/scratch/MuqZh
-STUB_FUNC(0x4AF2A0)
+WIP_FUNC(0x4AF2A0)
 Frontend::Frontend()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     field_10D = 1;
 
     gText_0x14_704DFC = new text_0x14();
@@ -3342,10 +3342,10 @@ void Frontend::sub_4AF0E0()
     }
 }
 
-STUB_FUNC(0x4B0220)
+WIP_FUNC(0x4B0220)
 void Frontend::sub_4B0220()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     s16 v30; // ax
 
     // local_4 = (-(ushort)(cVar1 != 'j') & 0xfffc) + 0x10;
@@ -3920,10 +3920,10 @@ void Frontend::sub_4B0220()
     field_EE0E_unk.sub_483F20();
 }
 
-STUB_FUNC(0x4B4440)
+WIP_FUNC(0x4B4440)
 void Frontend::sub_4B4440()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     u8* pBlock; // esi
     char mainOrBonus[256]; // [esp+14h] [ebp-718h] BYREF
@@ -4530,10 +4530,10 @@ u8 Frontend::sub_4B7060(u8 a2)
     }
 }
 
-STUB_FUNC(0x4B7270)
+WIP_FUNC(0x4B7270)
 u8 Frontend::sub_4B7270(char_type a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     player_stats_0xA4* v2; // esi
     u8 result; // al
 
@@ -4880,10 +4880,10 @@ menu_option_0x82::~menu_option_0x82()
     field_80_menu_page_target = 0;
 }
 
-STUB_FUNC(0x4B6330)
+WIP_FUNC(0x4B6330)
 bool menu_option_0x82::sub_4B6330()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     BYTE tmp = byte_67DA80;
     u16 old_count = field_6E_horizontal_selected_idx;
     u16 new_count = old_count;
@@ -4915,10 +4915,10 @@ bool menu_option_0x82::sub_4B6330()
     return old_count != new_count ? true : false;
 }
 
-STUB_FUNC(0x4B6390)
+WIP_FUNC(0x4B6390)
 bool menu_option_0x82::sub_4B6390()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     u16 oldCount = field_6E_horizontal_selected_idx;
     u16 new_count = oldCount;
     char_type bFound = 0;
