@@ -1477,11 +1477,28 @@ void Ped::ForceDoNothing_462590()
     }
 }
 
-STUB_FUNC(0x462620)
-s32 Ped::sub_462620()
+MATCH_FUNC(0x462620)
+void Ped::sub_462620()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_278 == 9 || field_278 == 8)
+    {
+        byte_61A8A4 = 0;
+        field_21C_bf.b11 = false;
+    }
+    else
+    {
+        if (field_168_game_object->field_10 == 15)
+        {
+            byte_61A8A4 = field_278 == 3;
+        }
+        field_21C_bf.b11 = false;
+        field_168_game_object->field_80_sprite_ptr->field_28_num = 24;
+    }
+    if (field_168_game_object->IsOnScreen_545700() == true)
+    {
+        field_20e = 0;
+        ++gNumPedsOnScreen_6787EC;
+    }
 }
 
 STUB_FUNC(0x4626b0)

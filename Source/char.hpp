@@ -136,7 +136,7 @@ class Char_B4
     EXPORT void sub_5455F0();
     EXPORT void sub_545600();
     EXPORT void sub_5456A0();
-    EXPORT s32 IsOnScreen_545700();
+    EXPORT bool IsOnScreen_545700();
     EXPORT void sub_545720(Fix16 a2);
     EXPORT void sub_5459C0();
     EXPORT void DrownPed_5459E0();
@@ -293,3 +293,5 @@ EXTERN_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50);
 EXPORT void __stdcall sub_544F70();
 
 EXTERN_GLOBAL(u8, unk_6787EF);
+
+EXTERN_GLOBAL(u16, gNumPedsOnScreen_6787EC);

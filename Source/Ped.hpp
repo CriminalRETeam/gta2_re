@@ -97,7 +97,7 @@ class Ped
     EXPORT void RemovePedWeapons_462510();
     EXPORT void sub_462550();
     EXPORT void ForceDoNothing_462590();
-    EXPORT s32 sub_462620();
+    EXPORT void sub_462620();
     EXPORT char_type sub_4626B0();
     EXPORT void sub_462B80();
     EXPORT bool PoolUpdate();

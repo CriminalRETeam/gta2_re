@@ -367,7 +367,7 @@ void Char_B4::sub_5456A0()
 }
 
 MATCH_FUNC(0x545700)
-s32 Char_B4::IsOnScreen_545700()
+bool Char_B4::IsOnScreen_545700()
 {
     return gGame_0x40_67E008->sub_4B97E0(this->field_80_sprite_ptr, dword_6FD9E4) == 1;
 }
