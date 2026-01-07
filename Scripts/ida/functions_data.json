@@ -1955,7 +1955,7 @@
         "v105_address": "0x440b10"
     },
     {
-        "name": "Car_BC::sub_440B60",
+        "name": "Car_BC::PutMachineGunOnRoof_440B60",
         "v96f_address": null,
         "v105_address": "0x440b60"
     },

@@ -458,7 +458,7 @@ class Car_BC
     EXPORT Sprite* sub_440840();
     EXPORT void sub_440AC0();
     EXPORT void sub_440B10();
-    EXPORT s32 sub_440B60();
+    EXPORT void PutMachineGunOnRoof_440B60();
     EXPORT void PutTV_Antenna_440BB0();
     EXPORT char_type RotateRoofObjectTowardTarget_440C10(char_type a2);
     EXPORT char_type HandleRoofTurretRotation_440D90(char_type a2);

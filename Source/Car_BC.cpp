@@ -41,6 +41,7 @@ DEFINE_GLOBAL(s32, dword_6772AC, 0x6772AC);
 DEFINE_GLOBAL(Sprite*, gSprite_Unused_677938, 0x677938);
 DEFINE_GLOBAL(Fix16, gFix16_6777CC, 0x6777CC);
 DEFINE_GLOBAL(Fix16, dword_6778A0, 0x6778A0);
+DEFINE_GLOBAL(Fix16, k_dword_6777FC, 0x6777FC);
 DEFINE_GLOBAL(CarInfo_2C*, gCarInfo_2C_66AB78, 0x66AB78);
 DEFINE_GLOBAL(ModelPhysics_48*, gCarInfo_48_66AB70, 0x66AB70);
 DEFINE_GLOBAL(s16, DAT_677CFC, 0x677CFC);
@@ -2149,11 +2150,11 @@ void Car_BC::sub_440B10()
     field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4, gFix16_6777CC, unk_6772A4, word_67791C);
 }
 
-STUB_FUNC(0x440b60)
-s32 Car_BC::sub_440B60()
+MATCH_FUNC(0x440b60)
+void Car_BC::PutMachineGunOnRoof_440B60()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* pObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(248, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4, gFix16_6777CC, k_dword_6777FC, word_67791C);
 }
 
 MATCH_FUNC(0x440bb0)
