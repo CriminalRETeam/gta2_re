@@ -513,11 +513,31 @@ RouteFinder_10* RouteFinder::sub_589E00()
     return pjVar1;
 }
 
-STUB_FUNC(0x589e20)
+WIP_FUNC(0x589e20)
 char_type RouteFinder::sub_589E20(s32 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    bool bRet = 0;
+    RouteFinder_10* f_A82C = this->field_A82C;
+    if (f_A82C->field_0_idx == this->field_861A)
+    {
+        return 1;
+    }
+
+    if (f_A82C)
+    {
+        while (!bRet)
+        {
+            RouteFinder_10* p10 = sub_589E00();
+            if (!p10)
+            {
+                break;
+            }
+            bRet = sub_5899C0(p10, a2);
+        }
+    }
+    return bRet;
 }
 
 MATCH_FUNC(0x589e70)
