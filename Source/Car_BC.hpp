@@ -830,6 +830,11 @@ class Car_BC
         return field_50_car_sprite->field_1C_zpos;
     }
 
+    inline bool IsEmittingHorn_411970()
+    {
+        return field_A7_horn > 0 && field_A7_horn <= 0xF8u;
+    }
+
     EXPORT char sub_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT char sub_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction);
 

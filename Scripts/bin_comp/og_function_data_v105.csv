@@ -2625,7 +2625,7 @@ CarPhysics_B0::sub_559B40,0x559b40,0x159b40,0x10
 CarPhysics_B0::sub_559B50,0x559b50,0x159b50,0x38
 CarPhysics_B0::set_field_A0_559B90,0x559b90,0x159b90,0xf
 CarPhysics_B0::SpinOutOnOil_559BA0,0x559ba0,0x159ba0,0x8e
-CarPhysics_B0::ApplyCliffLaunchForce_559C30,0x559c30,0x159c30,0x19d
+CarPhysics_B0::ScarePedsOnDrivingFast_559C30,0x559c30,0x159c30,0x19d
 CarPhysics_B0::sub_559DD0,0x559dd0,0x159dd0,0x47
 CarPhysics_B0::sub_559E20,0x559e20,0x159e20,0x63
 CarPhysics_B0::ComputeZPosition_559E90,0x559e90,0x159e90,0x2b

@@ -418,6 +418,21 @@ class Map_0x370
         return 0;
     }
 
+    inline bool sub_466CF0(s32 xpos, s32 ypos, s32 zpos)
+    {
+        gmp_block_info* block_4DFE10 = get_block_4DFE10(
+                                               xpos,
+                                               ypos,
+                                               zpos);
+        if (block_4DFE10 
+        && (block_4DFE10->field_B_slope_type & 0xFC) > 0 && (block_4DFE10->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(block_4DFE10->field_B_slope_type)
+        && (block_4DFE10->field_B_slope_type & 3) != 0) // !is_air_type(block_4DFE10->field_B_slope_type)
+        {
+            return true;
+        }
+        return false;
+    }
+
   public:
     gmp_compressed_map_32* field_0_pDmap;
     Map_sub field_4_obj;

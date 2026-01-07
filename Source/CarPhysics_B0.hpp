@@ -33,7 +33,7 @@ class CarPhysics_B0
     EXPORT void sub_559B50();
     EXPORT void sub_559B90(const Fix16& a2);
     EXPORT u32 SpinOutOnOil_559BA0();
-    EXPORT void sub_559C30();
+    EXPORT void ScarePedsOnDrivingFast_559C30();
     EXPORT void sub_559DD0();
     EXPORT u32 sub_559E20(s32 a2);
     EXPORT s32* sub_559EC0(s32* a2);
