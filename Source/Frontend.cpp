@@ -4915,10 +4915,11 @@ bool menu_option_0x82::sub_4B6330()
     return old_count != new_count ? true : false;
 }
 
-STUB_FUNC(0x4B6390)
+WIP_FUNC(0x4B6390)
 bool menu_option_0x82::sub_4B6390()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
     u16 oldCount = field_6E_horizontal_selected_idx;
     u16 new_count = oldCount;
     char_type bFound = 0;
