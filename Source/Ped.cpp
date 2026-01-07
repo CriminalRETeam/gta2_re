@@ -3861,10 +3861,11 @@ s16 Ped::sub_470050()
     return 0;
 }
 
-STUB_FUNC(0x470160)
+WIP_FUNC(0x470160)
 void Ped::add_wanted_points_470160(s16 wanted_amount)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
     field_20A_wanted_points += wanted_amount;
 
     if (field_20A_wanted_points <= 12000)
