@@ -732,7 +732,7 @@ char_type Ped::sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 
     pChar->field_80_sprite_ptr->AllocInternal_59F950(dword_678530, dword_678530, dword_67841C);
 
-    gPurpleDoom_1_679208->sub_477B20(pChar->field_80_sprite_ptr);
+    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pChar->field_80_sprite_ptr);
     field_168_game_object->field_7C_pPed = this;
 
     field_1AC_cam.y = ypos;

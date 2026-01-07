@@ -661,14 +661,14 @@ void Object_2C::sub_527AE0()
     {
         case 0:
         case 1:
-            gPurpleDoom_3_679210->Add_477AE0(field_4);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
             return;
         case 3:
             DAT_006f8f88++;
-            gPurpleDoom_2_67920C->sub_477B20(field_4);
+            gPurpleDoom_2_67920C->AddToRegionBuckets_477B20(field_4);
             return;
         case 4:
-            gPurpleDoom_1_679208->sub_477B20(field_4);
+            gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_4);
             return;
         case 2:
             return;
@@ -1619,7 +1619,7 @@ void Object_2C::ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite)
 
     if (field_8->field_34 != 11)
     {
-        gPurpleDoom_3_679210->Add_477AE0(field_4);
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
     }
 
     PoolTake_522360();

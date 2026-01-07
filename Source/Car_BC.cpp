@@ -2811,7 +2811,7 @@ char_type Car_BC::PoolUpdate()
                 }
             }
         }
-        gPurpleDoom_1_679208->sub_477B20(this->field_50_car_sprite);
+        gPurpleDoom_1_679208->AddToRegionBuckets_477B20(this->field_50_car_sprite);
     }
     return 0;
 }
@@ -3100,7 +3100,7 @@ void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
         field_58_uni->SetSprite_563560(field_50_car_sprite);
     }
-    gPurpleDoom_1_679208->sub_477B20(field_50_car_sprite);
+    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_50_car_sprite);
 }
 
 MATCH_FUNC(0x443d70)

@@ -9,9 +9,15 @@
 #include "map_0x370.hpp"
 #include "sprite.hpp"
 
+// Multi/regional bucket stuff, Cars/Peds/Cranes/Objects
 DEFINE_GLOBAL(PurpleDoom*, gPurpleDoom_1_679208, 0x679208);
+
+// Used by buses, car-trailer combo, Char_B4 in certain states and objects with certain collision category
 DEFINE_GLOBAL(PurpleDoom*, gPurpleDoom_2_67920C, 0x67920C);
+
+// Single bucket stuff, mostly particles
 DEFINE_GLOBAL(PurpleDoom*, gPurpleDoom_3_679210, 0x679210);
+
 DEFINE_GLOBAL(s32, gPurple_bottom_6F5F38, 0x6F5F38);
 DEFINE_GLOBAL(s32, gPurple_top_6F6108, 0x6F6108);
 DEFINE_GLOBAL(s32, dword_678FA8, 0x678FA8);
@@ -56,7 +62,7 @@ void PurpleDoom::DrawSpritesClipped_477A40()
 }
 
 MATCH_FUNC(0x477ae0)
-void PurpleDoom::Add_477AE0(Sprite* a1)
+void PurpleDoom::AddToSingleBucket_477AE0(Sprite* a1)
 {
     DoAdd_478440(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
 }
@@ -68,13 +74,13 @@ void PurpleDoom::Remove_477B00(Sprite* a1)
 }
 
 MATCH_FUNC(0x477b20)
-void PurpleDoom::sub_477B20(Sprite* pSprite)
+void PurpleDoom::AddToRegionBuckets_477B20(Sprite* pSprite)
 {
     pSprite->UpdateCollisionBoundsIfNeeded_59E9C0();
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
     {
-        sub_4784D0(y_pos, pSprite);
+        AddSpriteToActiveRow_4784D0(y_pos, pSprite);
     }
 }
 
@@ -127,7 +133,7 @@ bool PurpleDoom::sub_477C30(Sprite* pSprt, s32 a3)
     pSprt->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 i = gPurple_top_6F6108; i <= gPurple_bottom_6F5F38; ++i)
     {
-        v3 |= PurpleDoom::sub_4787E0(i, pSprt);
+        v3 |= PurpleDoom::CheckRowCollisionsForSprite_4787E0(i, pSprt);
     }
     return v3;
 }
@@ -242,7 +248,7 @@ void PurpleDoom::sub_4781E0(u8 width)
     gPurple_left_6F5FD4 = gPurpleDoom_start_x_679090;
     gPurple_right_6F5B80 = gPurpleDoom_start_x_679090 + width - 1;
 
-    for (PurpleDoom_C* pXItemIter = sub_478590(gPurpleDoom_start_y_679098); pXItemIter; pXItemIter = pXItemIter->mpNext)
+    for (PurpleDoom_C* pXItemIter = GetFirstXCellInRow_478590(gPurpleDoom_start_y_679098); pXItemIter; pXItemIter = pXItemIter->mpNext)
     {
         if (pXItemIter->field_0_x_len > gPurple_right_6F5B80)
         {
@@ -441,7 +447,7 @@ void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 }
 
 MATCH_FUNC(0x4784d0)
-void PurpleDoom::sub_4784D0(s32 y_pos, Sprite* pSprite)
+void PurpleDoom::AddSpriteToActiveRow_4784D0(s32 y_pos, Sprite* pSprite)
 {
     s32 purple_left = gPurple_left_6F5FD4;
     PurpleDoom_C* pNewNext = this->field_0[y_pos];
@@ -494,7 +500,7 @@ void PurpleDoom::sub_4784D0(s32 y_pos, Sprite* pSprite)
 
 // Get first XItem at y_pos
 MATCH_FUNC(0x478590)
-PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
+PurpleDoom_C* PurpleDoom::GetFirstXCellInRow_478590(s32 start_idx)
 {
     PurpleDoom_C* pIter;
     s32 f0;
@@ -533,7 +539,7 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
     Sprite_4C* sprite_4c_ptr; // eax
     __int16 ang_v; // ax
 
-    v3 = sub_478590(y_pos);
+    v3 = GetFirstXCellInRow_478590(y_pos);
     bRet = 0;
     while (v3)
     {
@@ -638,7 +644,7 @@ STUB_FUNC(0x478750)
 char_type PurpleDoom::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite)
 {
     char_type bRet = 0;
-    PurpleDoom_C* pIter = sub_478590(y_pos);
+    PurpleDoom_C* pIter = GetFirstXCellInRow_478590(y_pos);
     while (pIter)
     {
         if (pIter->field_0_x_len > gPurple_right_6F5B80)
@@ -670,14 +676,14 @@ char_type PurpleDoom::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* 
 
 // TODO: It may not be Object_5C. I don't know which struct has field_2C as "s32" type which makes sense here
 STUB_FUNC(0x4787e0)
-bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
+bool PurpleDoom::CheckRowCollisionsForSprite_4787E0(u32 y_pos, Sprite* pSprite)
 {
     bool bRet;
     PurpleDoom_C* pXItemIter;
     Collide_8* p8Iter;
 
     bRet = false;
-    pXItemIter = sub_478590(y_pos);
+    pXItemIter = GetFirstXCellInRow_478590(y_pos);
     while (pXItemIter)
     {
         if (pXItemIter->field_0_x_len > gPurple_right_6F5B80)

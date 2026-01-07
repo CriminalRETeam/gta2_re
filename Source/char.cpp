@@ -474,7 +474,7 @@ void Char_B4::sub_545720(Fix16 a2)
             field_98.sub_41E210(field_38_velocity, field_40_rotation);
         }
     }
-    gPurpleDoom_1_679208->sub_477B20(field_80_sprite_ptr);
+    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_80_sprite_ptr);
     if (field_88_obj_2c.field_0_p18)
     {
         field_88_obj_2c.PoolUpdate_5A6F70(field_80_sprite_ptr);

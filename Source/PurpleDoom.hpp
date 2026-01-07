@@ -28,9 +28,9 @@ class PurpleDoom
 {
   public:
     EXPORT void DrawSpritesClipped_477A40();
-    EXPORT void Add_477AE0(Sprite* a1);
+    EXPORT void AddToSingleBucket_477AE0(Sprite* a1);
     EXPORT void Remove_477B00(Sprite* a1);
-    EXPORT void sub_477B20(Sprite* a1a);
+    EXPORT void AddToRegionBuckets_477B20(Sprite* a1a);
     EXPORT void sub_477B60(Sprite* a1);
     EXPORT void DebugLogAll_477BA0();
     EXPORT char_type CheckAndHandleCollisionInStrips_477BD0(Sprite* a2);
@@ -49,11 +49,11 @@ class PurpleDoom
     EXPORT void DoRemove_4782C0(s32 a2, s32 idx, Sprite* a4);
     EXPORT void sub_478370(s32 y_pos, Sprite* pSprite);
     EXPORT void DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite);
-    EXPORT void sub_4784D0(s32 idx, Sprite* a3);
-    EXPORT PurpleDoom_C* sub_478590(s32 start_idx);
+    EXPORT void AddSpriteToActiveRow_4784D0(s32 idx, Sprite* a3);
+    EXPORT PurpleDoom_C* GetFirstXCellInRow_478590(s32 start_idx);
     EXPORT char_type sub_4785D0(u32 y_pos, Fix16_Rect* pRect);
     EXPORT char_type CheckAndHandleCollisionsInStrip_478750(u32 a2, Sprite* a3);
-    EXPORT bool sub_4787E0(u32 a2, Sprite* a3);
+    EXPORT bool CheckRowCollisionsForSprite_4787E0(u32 a2, Sprite* a3);
     EXPORT Sprite* sub_478880(u32 a2, Sprite* a3);
     EXPORT void DebugLog_478950(s32 xpos, s32 ypos);
     EXPORT PurpleDoom_C** Clear_4789F0();
