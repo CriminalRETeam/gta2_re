@@ -55,8 +55,8 @@ class Car_78
     EXPORT s16 sub_452DF0();
     EXPORT s16 sub_453470();
     EXPORT s32* sub_453590(s32* a2);
-    EXPORT char_type sub_4537D0();
-    EXPORT Car_BC* sub_4538B0();
+    EXPORT void sub_4537D0();
+    EXPORT void sub_4538B0();
     EXPORT void sub_453990(s32 a2);
     EXPORT Car_BC* sub_4539B0();
     EXPORT u8* sub_4539D0();
@@ -82,7 +82,7 @@ class Car_78
     Ang16 field_10;
     s16 field_12;
     s32 field_14;
-    s32 field_18;
+    Fix16 field_18;
     s32 field_1C;
     s32 field_20;
     s32 field_24_flags;
@@ -385,7 +385,7 @@ class Car_BC
     EXPORT char_type sub_43AAF0(Sprite* a2);
     EXPORT void ProcessCarToCarImpact_43ADC0(Sprite* a2);
     EXPORT bool CanExitCar_43AF10();
-    EXPORT char_type sub_43AF40();
+    EXPORT void sub_43AF40();
     EXPORT void sub_43AF60();
     EXPORT char_type sub_43AFE0(s32 a2);
     EXPORT bool sub_43B140(s32 a2);
@@ -446,7 +446,7 @@ class Car_BC
     EXPORT Ped* GetEffectiveDriver_43E990();
     EXPORT bool OnObjectTouched_43EA60(Object_2C* a2);
     EXPORT char_type HandleCarHitByObject_43F130(Object_2C* a2);
-    EXPORT u32* sub_440510(u32* a2);
+    EXPORT Fix16 sub_440510();
     EXPORT char_type GetPassengersCount_440570();
     EXPORT void InitCarAIControl_440590();
     EXPORT void SpawnDriverPed();
@@ -458,7 +458,7 @@ class Car_BC
     EXPORT Sprite* sub_440840();
     EXPORT void sub_440AC0();
     EXPORT void sub_440B10();
-    EXPORT s32 sub_440B60();
+    EXPORT void PutMachineGunOnRoof_440B60();
     EXPORT void PutTV_Antenna_440BB0();
     EXPORT char_type RotateRoofObjectTowardTarget_440C10(char_type a2);
     EXPORT char_type HandleRoofTurretRotation_440D90(char_type a2);

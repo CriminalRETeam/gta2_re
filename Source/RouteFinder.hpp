@@ -57,7 +57,7 @@ class RouteFinder_10
     s16 field_4;
     s16 field_6;
     RouteFinder_10* field_8;
-    RouteFinder_10* field_C;
+    RouteFinder_10* field_C_pNext;
 };
 
 class RouteFinder_200

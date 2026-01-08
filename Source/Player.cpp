@@ -68,8 +68,8 @@ bool UnknownDebugClass::DoBrianTest_42D870(u16 action)
 STUB_FUNC(0x443CB0)
 EXPORT s32 Player::sub_443CB0(u8 varrok)
 {
-   NOT_IMPLEMENTED;
-   return 0;
+    NOT_IMPLEMENTED;
+    return 0;
 }
 
 MATCH_FUNC(0x4881E0)
@@ -78,10 +78,34 @@ u8 Player::GetIdx_4881E0()
     return field_2E_idx;
 }
 
-STUB_FUNC(0x5645B0)
-void Player::sub_5645B0(Car_BC* a2)
+WIP_FUNC(0x5645B0)
+void Player::sub_5645B0(Car_BC* pNewCar)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Car_BC** ppIter = this->field_54_unk;
+    Car_BC** pIter = this->field_54_unk;
+    if (!bStartNetworkGame_7081F0)
+    {
+        char_type i = PromoteCarInHistory_564610(pNewCar, 0);
+        if (!i)
+        {
+            while (*pIter)
+            {
+                ++pIter;
+                if ((u8)++i >= 3u)
+                {
+                    (*ppIter)->sub_443E80();
+                    Car_BC* pCar_2 = ppIter[2];
+                    *ppIter = ppIter[1];
+                    ppIter[1] = pCar_2;
+                    ppIter[2] = pNewCar;
+                    return;
+                }
+            }
+            *pIter = pNewCar;
+        }
+    }
 }
 
 STUB_FUNC(0x564610)
@@ -1133,7 +1157,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
 {
     Char_B4* pB4 = NULL;
     Ang16 f_A = field_A;
-    
+
     // clear flag
     pPed->field_21C_bf.b23 = 0;
 
@@ -1218,8 +1242,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     }
 
     // --- Jump / handbrake ---
-    if (field_7E_bNowHandBrakeOrJumpPressed == 1 
-        && field_8A_bWasHandBrakeOrJumpPressed)
+    if (field_7E_bNowHandBrakeOrJumpPressed == 1 && field_8A_bWasHandBrakeOrJumpPressed)
     {
         pB4 = pPed->field_168_game_object;
         if (pB4)
@@ -1234,10 +1257,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     // --- Special action ---
     if (pPed->field_168_game_object)
     {
-        if (field_81_bNowSpecial_1_Pressed &&
-            field_84_bWasSpecial_1_Pressed &&
-            !field_7C_bNowAttackPressed &&
-            pPed->field_21C_bf.b24 == 0)
+        if (field_81_bNowSpecial_1_Pressed && field_84_bWasSpecial_1_Pressed && !field_7C_bNowAttackPressed && pPed->field_21C_bf.b24 == 0)
         {
             pPed->field_250 = 20;
         }

@@ -599,11 +599,31 @@ void Object_2C::sub_526790(s32 a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x526830)
+WIP_FUNC(0x526830)
 s32 Object_2C::sub_526830(s32 a1)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    int result;
+    switch (a1)
+    {
+        case 39:
+            result = 18;
+            break;
+        case 40:
+            result = 33;
+            break;
+        case 41:
+            result = 19;
+            break;
+        case 42:
+            result = 20;
+            break;
+        default:
+            result = a1;
+            break;
+    }
+    return result;
 }
 
 STUB_FUNC(0x526b40)
@@ -658,7 +678,7 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
 MATCH_FUNC(0x527990)
 void Object_2C::Light_527990()
 {
-    field_C_pAny.pExplosion->field_0 &= ~0xFF;
+    field_C_pAny.pLight->field_0.flag &= ~0xFF;
 }
 
 MATCH_FUNC(0x527ae0)
@@ -1385,7 +1405,9 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         field_18 = 0;
     }
 
-    if (bUnknown && (pNew2C->field_4->sub_59E7D0(0) || (pPhi->field_40 == 3 && gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
+    if (bUnknown &&
+        (pNew2C->field_4->sub_59E7D0(0) ||
+         (pPhi->field_40 == 3 && gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
     {
         if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {
@@ -1491,9 +1513,9 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     {
         Object_2C* v34 = NewPhysicsObj_5299B0(284, kFpZero_6F8E10, kFpZero_6F8E10, kFpZero_6F8E10, kZeroAng_6F8F68);
         pNew2C->field_4->DispatchCollisionEvent_5A3100(v34->field_4,
-                                    (dword_6F8CE8 * dword_6F8ECC), // x?
-                                    (dword_6F8CEC * dword_6F8ECC), // y?
-                                    kZeroAng_6F8F68); // ang?
+                                                       (dword_6F8CE8 * dword_6F8ECC), // x?
+                                                       (dword_6F8CEC * dword_6F8ECC), // y?
+                                                       kZeroAng_6F8F68); // ang?
         return pNew2C;
     }
     else

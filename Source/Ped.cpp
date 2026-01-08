@@ -832,10 +832,13 @@ void Ped::TakeDamage(s16 damage)
     }
 }
 
-STUB_FUNC(0x45cf20)
-void Ped::sub_45CF20(s32 a2)
+MATCH_FUNC(0x45cf20)
+void Ped::sub_45CF20(Object_2C* a2)
 {
-    NOT_IMPLEMENTED;
+    if (field_278 != 9 && field_278 != 8 && a2->field_18_model == 258 && word_6787D0 < 10)
+    {
+        sub_45E4A0();
+    }
 }
 
 STUB_FUNC(0x45d000)
@@ -3538,10 +3541,10 @@ s32 Ped::sub_46DF70(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x46e020)
+WIP_FUNC(0x46e020)
 bool Ped::sub_46E020(PedGroup* pGroup)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     return this->field_164_ped_group != pGroup && !this->field_15C_player &&
         (IsField238_45EDE0(3) || (IsField238_45EDE0(4) || IsField238_45EDE0(6)) && this->field_240_occupation == 35);
 }
@@ -3861,10 +3864,11 @@ s16 Ped::sub_470050()
     return 0;
 }
 
-STUB_FUNC(0x470160)
+WIP_FUNC(0x470160)
 void Ped::add_wanted_points_470160(s16 wanted_amount)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
     field_20A_wanted_points += wanted_amount;
 
     if (field_20A_wanted_points <= 12000)

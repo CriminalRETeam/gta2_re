@@ -1,5 +1,6 @@
 #include "Weapon_30.hpp"
 #include "Object_3C.hpp"
+#include "Particle_8.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "Shooey_CC.hpp"
@@ -9,7 +10,6 @@
 #include "enums.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
-#include "Particle_8.hpp"
 
 DEFINE_GLOBAL(Fix16, dword_706CF4, 0x706CF4);
 
@@ -116,11 +116,10 @@ char_type Weapon_30::add_ammo_capped_5DCE40(u8 to_add)
     return 1;
 }
 
-STUB_FUNC(0x5dcea0)
+MATCH_FUNC(0x5dcea0)
 bool Weapon_30::is_max_capacity_5DCEA0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return this->field_0_ammo == 10 * max_ammo_capacity_5FF75C[this->field_1C_idx];
 }
 
 MATCH_FUNC(0x5dcef0)
