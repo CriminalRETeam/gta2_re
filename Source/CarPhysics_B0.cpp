@@ -156,7 +156,7 @@ void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
 
     if (!gMap_0x370_6F6268->sub_466CF0(field_38_cp1.x.ToInt(), field_38_cp1.y.ToInt(), cp3.ToInt()))
     {
-        cp3 = field_6C_cp3 - dword_6FE210;
+        cp3 = field_6C_cp3 - k_dword_6FE210;
     }
 
     gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_38_cp1.x.ToInt(), field_38_cp1.y.ToInt(), cp3.ToInt());
