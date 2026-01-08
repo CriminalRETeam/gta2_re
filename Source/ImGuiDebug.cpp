@@ -2,6 +2,8 @@
 #include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
 #include "Ambulance_110.hpp"
 #include "Car_BC.hpp"
+#include "CarPhysics_B0.hpp"
+#include "CarInfo_808.hpp"
 #include "Firefighters.hpp"
 #include "Frontend.hpp"
 #include "Game_0x40.hpp"
@@ -947,7 +949,7 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderU16("Powerup idx", &powerup_idx, 0, 16);
                     ImGui::InputU16("Powerup timer", &pPlayer->field_6F4_power_up_timers[powerup_idx], 1, 1);
 
-                    if (ImGui::Button("Scare people"))
+                    if (ImGui::Button("Scare people (wielding weapon or in car)"))
                     {
                         pPlayer->field_2C4_player_ped->AddThreateningPedToList_46FC70();
                     }
@@ -956,35 +958,95 @@ void CC ImGuiDebugDraw()
                     ImGui::Text("Car 0x%X", pPlayerCar);
                     if (pPlayerCar)
                     {
-                        ImGui::Text("trailer? 0x%X", pPlayerCar->field_64_pTrailer);
-                        if (ImGui::Button("ResprayOrCleanPlates"))
-                        {
-                            pPlayerCar->ResprayOrCleanPlates(2); // 0xFD - clean plates
-                        }
 
-                        if (gGangPool_CA8_67E274)
+                        if (ImGui::TreeNode("Player Car"))
                         {
-                            static char_type gang_idx = 0;
-                            ImGui::SliderS8("Gang idx", &gang_idx, 0, 2);
-
-                            Gang_144* pGang = &gGangPool_CA8_67E274->field_0_gang_list[gang_idx];
-                            if (pGang)
+                            ImGui::Begin("Player Car");
+                            
+                            char buffer[128];
+                            get_car_name(pPlayerCar, buffer);
+                            ImGui::Text("Car name: %s", buffer);
+                            
+                            if (ImGui::TreeNode("Trailer"))
                             {
-                                if (ImGui::Button("Attach gang icon"))
-                                {
-                                    pPlayerCar->AttachGangIcon_440660(pGang->field_138_arrow_colour);
-                                }
+                                ImGui::Text("trailer? 0x%X", pPlayerCar->field_64_pTrailer);
+                                ImGui::TreePop();
                             }
+                            
+                            if (ImGui::Button("ResprayOrCleanPlates"))
+                            {
+                                pPlayerCar->ResprayOrCleanPlates(2); // 0xFD - clean plates
+                            }
+
+                            CarPhysics_B0* pPhysics = pPlayerCar->field_58_physics;
+
+                            if (pPhysics)
+                            {
+                                ImGui::SliderS16("Car Angle", &pPhysics->field_58_theta.rValue, 0, 1439);
+                                if (ImGui::TreeNode("Car Physics"))
+                                {
+
+                                    ImGui::Value("Physics fA0", pPhysics->field_A0);
+                                    ImGui::SliderInt("Physics fA0", &pPhysics->field_A0, 0, 3);
+                                    //ImGui::SliderInt("Physics front skid", &pPhysics->field_84_front_skid.mValue, -3*16384, 3*16384);
+                                    ImGui::TreePop();
+                                }
+
+                                if (ImGui::TreeNode("Model Physics"))
+                                {
+                                    ModelPhysics_48* pModelPhy = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(pPlayerCar->field_84_car_info_idx);
+                                    if (pModelPhy)
+                                    {
+                                        ImGui::SliderInt("Turn In", &pModelPhy->field_14_turn_in.mValue, 0, 4 * 16384);
+                                        ImGui::SliderInt("Turn Ratio", &pModelPhy->field_18_turn_ratio.mValue, 0, 4 * 16384);
+                                        ImGui::SliderInt("Mass", &pModelPhy->field_4_mass.mValue, 0, 30 * 16384);
+                                        ImGui::SliderInt("Anti Strength", &pModelPhy->field_2C_anti_strngth.mValue, 0, 10 * 16384);
+                                        ImGui::SliderInt("Brake Friction", &pModelPhy->field_10_brake_friction.mValue, 0, 10 * 16384);
+                                        ImGui::SliderInt("Rear End Stability", &pModelPhy->field_1C_rear_end_stability.mValue, 0, 10 * 16384);
+                                        ImGui::SliderInt("Thrust", &pModelPhy->field_24_thrust.mValue, 0, 10 * 16384);
+                                        ImGui::SliderInt("Skid Threshold", &pModelPhy->field_30_sked_threshold.mValue, 0, 10 * 16384);
+                                        ImGui::SliderInt("Front Drive Bias", &pModelPhy->field_8_front_drive_bias.mValue, 0, 10 * 16384);
+                                        ImGui::SliderInt("Front Mass Bias", &pModelPhy->field_C_front_mass_bias.mValue, 0, 10 * 16384);
+                                        ImGui::SliderS8("Turbo", (char_type*)&pModelPhy->field_1_turbo, 0, 10);
+                                    }
+                                    ImGui::TreePop();
+                                }
+                                
+                            }
+
+                            if (gGangPool_CA8_67E274)
+                            {
+                                if (ImGui::TreeNode("Gang Icon"))
+                                {
+                                    static char_type gang_idx = 0;
+                                    ImGui::SliderS8("Gang idx", &gang_idx, 0, 2);
+
+                                    Gang_144* pGang = &gGangPool_CA8_67E274->field_0_gang_list[gang_idx];
+                                    if (pGang)
+                                    {
+                                        if (ImGui::Button("Attach gang icon"))
+                                        {
+                                            pPlayerCar->AttachGangIcon_440660(pGang->field_138_arrow_colour);
+                                        }
+                                    }
+                                    ImGui::TreePop();
+                                }
+                                
+                            }
+
+                            //ImGui::SliderS16("Car Angle (read only)", &pPlayerCar->field_50_car_sprite->field_0.rValue, 0, 1439);
+
+                            /* Crash, for some reason
+                            if (ImGui::Button("Add TV Aerial"))
+                            {
+                                pPlayerCar->PutTV_Antenna_440BB0(); 
+                            }
+                            */
+
+                            ImGui::End();
+                            ImGui::TreePop();
                         }
 
-                        ImGui::SliderS16("Car Angle", &pPlayerCar->field_50_car_sprite->field_0.rValue, 0, 1439);
-
-                        /* Crash, for some reason
-                        if (ImGui::Button("Add TV Aerial"))
-                        {
-                            pPlayerCar->PutTV_Antenna_440BB0(); 
-                        }
-                        */
                     }
 
                     static int currentWeaponIndex = 0;

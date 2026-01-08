@@ -1,6 +1,7 @@
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
+#include "map_0x370.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "debug.hpp"
@@ -134,7 +135,7 @@ void CarPhysics_B0::sub_559B50()
 }
 
 MATCH_FUNC(0x559b90)
-void CarPhysics_B0::sub_559B90(const Fix16& a2)
+void CarPhysics_B0::sub_559B90(const s32& a2)
 {
     field_A0 = a2;
 }
@@ -146,10 +147,47 @@ u32 CarPhysics_B0::SpinOutOnOil_559BA0()
     return 0;
 }
 
-STUB_FUNC(0x559c30)
-void CarPhysics_B0::sub_559C30()
+// https://decomp.me/scratch/yM7OA Fix16 annoying inlined stuff
+WIP_FUNC(0x559c30)
+void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    Fix16 cp3 = field_6C_cp3;
+
+    if (!gMap_0x370_6F6268->sub_466CF0(field_38_cp1.x.ToInt(), field_38_cp1.y.ToInt(), cp3.ToInt()))
+    {
+        cp3 = field_6C_cp3 - k_dword_6FE210;
+    }
+
+    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_38_cp1.x.ToInt(), field_38_cp1.y.ToInt(), cp3.ToInt());
+    if (pBlock)
+    {
+        u8 type = pBlock->field_B_slope_type & 3; //get_block_type(pBlock->field_B_slope_type);
+        if (type == PAVEMENT || type == FIELD)
+        {
+            if (field_5C_pCar->field_54_driver)
+            {
+                if (!field_5C_pCar->is_train_model())
+                {
+                    //Fix16 linvel_length = get_car_lin_vel_4754D0();
+
+                    if (field_40_linvel_1.GetLength_2() > FastCarMinVelocity_6FE1CC || field_5C_pCar->IsEmittingHorn_411970())
+                    {
+                        field_5C_pCar->field_54_driver->AddThreateningPedToList_46FC70();
+                    }
+                }
+            }
+        }
+    }
+
+    if (field_A0 > 0 && field_A0 <= 2)
+    {
+        field_A4--;
+        if (field_A4 == 0)
+        {
+            CarPhysics_B0::sub_559B90(0);
+        }
+    }
 }
 
 MATCH_FUNC(0x559dd0)
@@ -157,13 +195,13 @@ void CarPhysics_B0::sub_559DD0()
 {
     if (this->field_5C_pCar->field_54_driver)
     {
-        if (field_A0.mValue == 1)
+        if (field_A0 == 1)
         {
             this->field_95 = 0;
             this->field_93_is_forward_gas_on = 1;
             this->field_AD_turn_direction = -1;
         }
-        else if (field_A0.mValue == 2)
+        else if (field_A0 == 2)
         {
             this->field_95 = 0;
             this->field_93_is_forward_gas_on = 1;
@@ -1183,7 +1221,7 @@ void CarPhysics_B0::Init_5637A0()
     field_A9_car_model = -1;
     field_A8_hand_brake_force = 0;
     field_90_timer_since_last_move = 0;
-    sub_559B90(Fix16(0));
+    sub_559B90(0);
     field_A4 = 0;
     field_98_surface_type = 0;
     field_9C = 0;
