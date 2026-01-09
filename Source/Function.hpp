@@ -173,8 +173,11 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
             typedef int static_assert_##structureName[sizeof(structureName) == expectedSize ? 1 : -1];
     #else
         #define GTA2_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize) \
-            static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize);
+            _Static_Assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize);
     #endif
+#elif __cplusplus < 201103
+    #define GTA2_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize) \
+        typedef int static_assert_##structureName[sizeof(structureName) == expectedSize ? 1 : -1];
 #else
     #define GTA2_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize) \
         static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize);

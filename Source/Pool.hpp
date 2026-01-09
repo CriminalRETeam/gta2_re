@@ -1,6 +1,8 @@
 #pragma once
 #include "types.hpp"
 
+#include <stdlib.h>
+
 // TODO: name these better, this "basic" pool has O(1) allocate
 // and deallocate.
 template<typename PoolType, s32 PoolSize>

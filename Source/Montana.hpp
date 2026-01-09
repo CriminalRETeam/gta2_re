@@ -2,6 +2,8 @@
 
 #include "Function.hpp"
 
+#include <stddef.h>
+
 class Sprite;
 
 // SpriteLayerRecord ?

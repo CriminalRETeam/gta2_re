@@ -283,6 +283,8 @@ add_library (gta2_dll_imports SHARED ${gta2_lib_src} Source/WinMainProxy.cpp)
 target_compile_definitions(gta2_dll_imports PRIVATE IMPORT_VARS EXPORT_FUNCS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS IMGUI_DLL)
 target_link_libraries(gta2_dll_imports PRIVATE gta2_dll_exports mss32 ${dinput_libs} ${dxguid_libs} version winmm ${dplay_libs} dear_imgui)
 
+set_property(TARGET gta2_lib gta2_dll_exports gta2_dll_imports PROPERTY CXX_STANDARD 98)
+
 add_library(HookLoader SHARED 
     Source/HookLoader.cpp
     Source/3rdParty/Detours/src/detours.cpp
