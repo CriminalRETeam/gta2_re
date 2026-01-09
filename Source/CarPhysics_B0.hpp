@@ -74,7 +74,7 @@ class CarPhysics_B0
     EXPORT s32 ApplyReverseEngineForce_55EF20();
     EXPORT s32 ApplyTurningForce_55F020();
     EXPORT char_type ApplyMovementCommand_55F240();
-    EXPORT s32 sub_55F280();
+    EXPORT s32 ProcessCollisionAndClampVelocity_55F280();
     EXPORT void sub_55F330();
     EXPORT char_type sub_55F360();
     EXPORT void sub_55F740(Fix16_Point* a2, Fix16_Point* a3);
@@ -105,19 +105,19 @@ class CarPhysics_B0
     // 0x62450 moved to Sprite
     EXPORT void ApplyThrottleInput_562480();
     EXPORT void ApplyBrakePhysics_5624F0();
-    EXPORT s32 sub_562560();
+    EXPORT s32 UpdateSteeringAngle_562560();
     EXPORT s32 IsGasPedalPressedEnough_5626A0();
     EXPORT Fix16 MinGasPedalPressure_5626C0();
-    EXPORT char_type sub_5626F0();
-    EXPORT void sub_562910();
+    EXPORT char_type ApplyArrowSteerAssist_5626F0();
+    EXPORT void StabilizeVelocityAtSpeed_562910();
     EXPORT void RotateVelocity_562C20(const Ang16& a2);
-    EXPORT void sub_562D00();
+    EXPORT void EnforceGearSensitiveMaxSpeed_562D00();
     EXPORT ModelPhysics_48* sub_562EB0();
     EXPORT CarInfo_2C* sub_562ED0();
     EXPORT void SetCurrentCarInfoAndModelPhysics_562EF0();
     EXPORT void ApplyInputsAndIntegratePhysics_562F30();
     EXPORT char_type UpdateLastMovementTimer_562FA0();
-    EXPORT bool sub_562FE0();
+    EXPORT bool ProcessCarPhysicsStateMachine_562FE0();
     EXPORT void sub_563280();
     EXPORT void UpdateCenterOfMassPoint_563350();
     EXPORT void UpdateReferencePoint_563460();

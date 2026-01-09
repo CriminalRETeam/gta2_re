@@ -1,10 +1,10 @@
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
-#include "map_0x370.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "debug.hpp"
+#include "map_0x370.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -49,6 +49,9 @@ DEFINE_GLOBAL(Fix16, dword_6FE07C, 0x6FE07C);
 DEFINE_GLOBAL(Fix16, FastCarMinVelocity_6FE1CC, 0x6FE1CC);
 DEFINE_GLOBAL(Fix16, dword_6FE198, 0x6FE198);
 DEFINE_GLOBAL(Fix16, k_dword_6FE1B8, 0x6FE1B8);
+
+DEFINE_GLOBAL(Fix16_Point, stru_6FDF50, 0x6FDF50);
+DEFINE_GLOBAL(Fix16, dword_6FE0B0, 0x6FE0B0);
 
 STUB_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -707,7 +710,7 @@ char_type CarPhysics_B0::ApplyMovementCommand_55F240()
 }
 
 STUB_FUNC(0x55f280)
-s32 CarPhysics_B0::sub_55F280()
+s32 CarPhysics_B0::ProcessCollisionAndClampVelocity_55F280()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1007,7 +1010,7 @@ void CarPhysics_B0::ApplyBrakePhysics_5624F0()
 }
 
 STUB_FUNC(0x562560)
-s32 CarPhysics_B0::sub_562560()
+s32 CarPhysics_B0::UpdateSteeringAngle_562560()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1034,14 +1037,14 @@ Fix16 CarPhysics_B0::MinGasPedalPressure_5626C0()
 }
 
 STUB_FUNC(0x5626f0)
-char_type CarPhysics_B0::sub_5626F0()
+char_type CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x562910)
-void CarPhysics_B0::sub_562910()
+void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
 {
     NOT_IMPLEMENTED;
 }
@@ -1060,7 +1063,7 @@ void CarPhysics_B0::RotateVelocity_562C20(const Ang16& angle)
 }
 
 STUB_FUNC(0x562d00)
-void CarPhysics_B0::sub_562D00()
+void CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00()
 {
     NOT_IMPLEMENTED;
 }
@@ -1121,18 +1124,136 @@ char_type CarPhysics_B0::UpdateLastMovementTimer_562FA0()
     return false;
 }
 
-STUB_FUNC(0x562fe0)
-bool CarPhysics_B0::sub_562FE0()
+WIP_FUNC(0x562fe0)
+bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+
+    char carModel; // al
+    s32 state; // eax
+    char bCol2; // bl
+    char bCol3; // bl
+    char bCol4; // bl
+    char bCol5; // bl
+    char bCol6; // bl
+    char bCol1; // bl
+    char bCol7; // bl
+    Ped* pDriver; // eax
+    s32 surface_type; // esi
+    bool result; // eax
+    char v14; // [esp+Bh] [ebp-1h]
+
+    SetCurrentCarInfoAndModelPhysics_562EF0();
+    carModel = field_5C_pCar->sub_43A850();
+    if (carModel != this->field_A9_car_model)
+    {
+        this->field_A9_car_model = carModel;
+        UpdateReferencePoint_563460();
+    }
+
+    this->field_84_front_skid = kFP16Zero_6FE20C;
+    state = this->field_8C_state;
+    this->field_88_rear_skid = kFP16Zero_6FE20C;
+    switch (state)
+    {
+        case 0:
+            bCol1 = CheckAndHandleCarAndTrailerCollisions_55EB80();
+            ScarePedsOnDrivingFast_559C30();
+            goto LABEL_8;
+        case 1:
+            stru_6FDF50.x.mValue = 0;
+            stru_6FDF50.y.mValue = 0;
+            bCol2 = CheckAndHandleCarAndTrailerCollisions_55EB80();
+            sub_559DD0();
+            sub_559B50();
+            UpdateSteeringAngle_562560();
+            ApplyInputsAndIntegratePhysics_562F30();
+            StabilizeVelocityAtSpeed_562910();
+            EnforceGearSensitiveMaxSpeed_562D00();
+            this->field_40_linvel_1.x.mValue += stru_6FDF50.x.mValue;
+            this->field_40_linvel_1.y.mValue += stru_6FDF50.y.mValue;
+            ApplyArrowSteerAssist_5626F0();
+            ScarePedsOnDrivingFast_559C30();
+            bCol3 = ProcessCollisionAndClampVelocity_55F280() | bCol2;
+            bCol4 = sub_55F360() | bCol3;
+            DoSkidmarks_55E260();
+            this->field_40_linvel_1.x.mValue -= stru_6FDF50.x.mValue;
+            this->field_40_linvel_1.y.mValue -= stru_6FDF50.y.mValue;
+            this->field_74_ang_vel_rad -= dword_6FE0B0;
+            break;
+        case 2:
+            stru_6FDF50.x.mValue = 0;
+            stru_6FDF50.y.mValue = 0;
+            bCol5 = CheckAndHandleCarAndTrailerCollisions_55EB80();
+            sub_559B50();
+            UpdateSteeringAngle_562560();
+            ApplyInputsAndIntegratePhysics_562F30();
+            StabilizeVelocityAtSpeed_562910();
+            EnforceGearSensitiveMaxSpeed_562D00();
+            this->field_40_linvel_1.x.mValue += stru_6FDF50.x.mValue;
+            this->field_40_linvel_1.y.mValue += stru_6FDF50.y.mValue;
+            ApplyArrowSteerAssist_5626F0();
+            ScarePedsOnDrivingFast_559C30();
+            bCol6 = ProcessCollisionAndClampVelocity_55F280() | bCol5;
+            bCol4 = sub_55F360() | bCol6;
+            DoSkidmarks_55E260();
+            this->field_40_linvel_1.x.mValue -= stru_6FDF50.x.mValue;
+            this->field_40_linvel_1.y.mValue -= stru_6FDF50.y.mValue;
+            this->field_74_ang_vel_rad -= dword_6FE0B0;
+            break;
+        case 3:
+            bCol1 = CheckAndHandleCarAndTrailerCollisions_55EB80();
+            ApplyInputsAndIntegratePhysics_562F30();
+            ScarePedsOnDrivingFast_559C30();
+            sub_55F360();
+        LABEL_8:
+            bCol7 = ProcessCollisionAndClampVelocity_55F280() | bCol1;
+            bCol4 = sub_55F360() | bCol7;
+            goto LABEL_10;
+        case 4:
+            bCol4 = CheckAndHandleCarAndTrailerCollisions_55EB80();
+            sub_55F330();
+            sub_55BFE0();
+        LABEL_10:
+            DoSkidmarks_55E260();
+            pDriver = this->field_5C_pCar->field_54_driver;
+            if (pDriver && pDriver->field_15C_player) // Car_BC::IsDrivenByPlayer_4118D0
+            {
+                this->field_8C_state = 2; // sub_4212B0
+            }
+            else
+            {
+                this->field_8C_state = 1; // sub_4212A0
+            }
+            break;
+        default:
+            bCol4 = v14;
+            break;
+    }
+
+    result = 0;
+
+    if (UpdateLastMovementTimer_562FA0())
+    {
+        if (!bCol4)
+        {
+            surface_type = this->field_98_surface_type;
+            if (surface_type != 7 && surface_type != 8 && surface_type != 6)
+            {
+                return 1;
+            }
+        }
+    }
+
+    return result;
 }
 
 WIP_FUNC(0x563280)
 void CarPhysics_B0::sub_563280()
 {
     WIP_IMPLEMENTED;
-    
+
     const CarInfo_2C* info = gCarInfo_808_678098->sub_454840(field_5C_pCar->sub_43A850());
 
     Fix16_Point point = info->field_C;
@@ -1145,7 +1266,7 @@ WIP_FUNC(0x563350)
 void CarPhysics_B0::UpdateCenterOfMassPoint_563350()
 {
     WIP_IMPLEMENTED;
-    
+
     const CarInfo_2C* info = gCarInfo_808_678098->sub_454840(field_5C_pCar->sub_43A850());
 
     Fix16_Point point = info->field_C;
