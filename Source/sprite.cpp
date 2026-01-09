@@ -684,11 +684,52 @@ char_type Sprite::ComputeZLayer_5A1BD0()
     return field_39_z_col;
 }
 
-STUB_FUNC(0x5a1ca0)
-char_type Sprite::sub_5A1CA0(u32* a2)
+WIP_FUNC(0x5a1ca0)
+char_type Sprite::sub_5A1CA0(u32* pCount)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    char flags;
+
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+
+    Sprite_4C* p4C = field_C_sprite_4c_ptr;
+    Fix16 v6 = field_1C_zpos - (p4C->field_8 / 2);
+    Fix16 v7 = field_1C_zpos + (p4C->field_8 / 2);
+
+    if (v7 > dword_7033C0)
+    {
+        v7 = dword_7033C0;
+    }
+
+    flags = 0;
+    *pCount = 0;
+
+    if (gMap_0x370_6F6268->sub_4E5300(p4C->field_C_b_box[0].x, p4C->field_C_b_box[0].y, v6, v7))
+    {
+        flags = 1;
+        *pCount = 1;
+    }
+
+    if (gMap_0x370_6F6268->sub_4E5300(p4C->field_C_b_box[1].x, p4C->field_C_b_box[1].y, v6, v7))
+    {
+        ++*pCount;
+        flags |= 2u;
+    }
+
+    if (gMap_0x370_6F6268->sub_4E5300(p4C->field_C_b_box[2].x, p4C->field_C_b_box[2].y, v6, v7))
+    {
+        ++*pCount;
+        flags |= 4u;
+    }
+
+    if (gMap_0x370_6F6268->sub_4E5300(p4C->field_C_b_box[3].x, p4C->field_C_b_box[3].y, v6, v7))
+    {
+        ++*pCount;
+        flags |= 8;
+    }
+
+    return flags;
 }
 
 STUB_FUNC(0x5A1EB0)
