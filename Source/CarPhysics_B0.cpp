@@ -1142,20 +1142,18 @@ void CarPhysics_B0::UpdateCenterOfMassPoint_563350()
     
     const CarInfo_2C* info = gCarInfo_808_678098->sub_454840(field_5C_pCar->sub_43A850());
 
-    const Fix16 s = Ang16::sine_40F500(field_58_theta);
-    const Fix16 c = Ang16::cosine_40F520(field_58_theta);
+    Fix16_Point point = info->field_C;
+    point.RotateByAngle_40F6B0(field_58_theta);
 
-    Fix16_Point rotated(((c * -info->field_C.x)) + ((s * info->field_C.y)), ((c * info->field_C.y)) + ((s * -info->field_C.x)));
-
-    field_30_cm1 = field_38_cp1 + rotated;
+    field_30_cm1 = field_38_cp1 + point;
 }
 
 // 0x49EDC0 9.6f
 // https://decomp.me/scratch/xDPiP
-STUB_FUNC(0x563460)
+WIP_FUNC(0x563460)
 void CarPhysics_B0::UpdateReferencePoint_563460()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     Fix16_Point point = dword_6FE0E4->field_C;
 
