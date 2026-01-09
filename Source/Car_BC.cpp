@@ -2660,7 +2660,7 @@ bool Car_BC::sub_442170()
 MATCH_FUNC(0x442190)
 void Car_BC::sub_442190()
 {
-    if (field_58_physics->sub_562FE0())
+    if (field_58_physics->ProcessCarPhysicsStateMachine_562FE0())
     {
         if (!this->field_54_driver)
         {
@@ -3684,7 +3684,7 @@ char_type Trailer::sub_408140()
 
     SetupCarPhysicsAndSpriteBinding_408190();
 
-    if (!field_8_truck_cab->field_58_physics->sub_562FE0() || field_8_truck_cab->field_54_driver)
+    if (!field_8_truck_cab->field_58_physics->ProcessCarPhysicsStateMachine_562FE0() || field_8_truck_cab->field_54_driver)
     {
         return field_8_truck_cab->ManageDrowning_43E560();
     }

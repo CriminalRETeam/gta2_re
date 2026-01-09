@@ -98,6 +98,7 @@ def main():
     parser.add_argument("--run_patched", help="Run the patched gta2 exe after the build successfully finishes", action="store_true")
     parser.add_argument("--ignore_no_match", help="Ignore any errors related to non matching functions", action="store_true")
     parser.add_argument("--reccmp", help="Run debug build for reccmp analysis", action="store_true")
+    parser.add_argument("--single_cpp", help="Build only n.cpp using cl.exe and produce n.obj using most common project flags", type=str)
 
     args = parser.parse_args()
 
@@ -108,10 +109,16 @@ def main():
     
     print("No duplicated globals found!\n")
 
-    print("Starting build")
+    if args.single_cpp:
+        print(f"Building single cpp file: {args.single_cpp}")
+    else:
+        print("Starting build")
     print(f"Build platform: {platform.system()}")
 
-    returncode = build(args.reccmp)
+    if args.single_cpp:
+        returncode = build_single_cpp(args.single_cpp)
+    else:
+        returncode = build_cmake(args.reccmp)
     if returncode != 0:
         print(f"Build failed with return code {returncode}")
         sys.exit(returncode)
@@ -121,24 +128,25 @@ def main():
         subprocess.run(f"{python} reccmp/generate.py", cwd=CURRENT_DIRECTORY, shell=True)
         sys.exit(0)
 
-    ok = verify()
-    if not ok and not args.ignore_no_match:
-        print(f"Function verification failed!")
-        sys.exit(1)
+    if not args.single_cpp:
+        ok = verify()
+        if not ok and not args.ignore_no_match:
+            print(f"Function verification failed!")
+            sys.exit(1)
 
-    print("Build finished and verified successfully!")
+        print("Build finished and verified successfully!")
 
-    if GTA2_ROOT is None:
-        if os.environ.get("CI") is None:
-            print("Warning: GTA2_ROOT environment variable is not set. Some optional QoF features will not be available.")
-        sys.exit(0)
+        if GTA2_ROOT is None:
+            if os.environ.get("CI") is None:
+                print("Warning: GTA2_ROOT environment variable is not set. Some optional QoF features will not be available.")
+            sys.exit(0)
 
-    copy_files()
+        copy_files()
 
-    if args.run_standalone:
-        run_exe(ExeType.standalone)
-    elif args.run_patched:
-        run_exe(ExeType.patched)
+        if args.run_standalone:
+            run_exe(ExeType.standalone)
+        elif args.run_patched:
+            run_exe(ExeType.patched)
 
 def as_wine_path(unix_path):
     wine_path = unix_path.replace("/", "\\")
@@ -191,7 +199,72 @@ def convert_path(strPath):
 # bin annoying clang-cl spam under some wine versions
 GUID_FILTER = "177f0c4a-1cd3-4de7-a32c-71dbbb9fa36d"
 
-def build(reccmp: bool):
+def build_single_cpp(cpp_file: str):
+    os.makedirs(BUILD_FOLDER_NAME, exist_ok=True)
+
+    vc6_env = get_vc6_env()
+    lib, include, path = vc6_env
+
+
+    linux_or_mac = platform.system() in ("Linux", "Darwin")
+    source_dir = os.path.join(CURRENT_DIRECTORY, "Source")
+    cpp_file = os.path.join(source_dir, cpp_file)
+    compile_tools_dir = os.path.join(CURRENT_DIRECTORY, '3rdParty', 'gta2_re_compile_tools')
+    if linux_or_mac:
+        source_dir = as_wine_path(source_dir)
+        compile_tools_dir = as_wine_path(compile_tools_dir)
+        cpp_file = as_wine_path(cpp_file)
+
+    cl_rsp_args = f"/TP -DIMGUI_DLL -I{source_dir} -I{CURRENT_DIRECTORY} -I{compile_tools_dir} /DWIN32 /D_WINDOWS /W3 /Zm1000 /EHsc /GX /ML /W3 /GX /O2  /D NDEBUG /Fo{cpp_file}.obj /FdCMakeFiles\\gta2_lib.dir\\ -c {cpp_file}"
+    rsp_path = os.path.join(BUILD_DIRECTORY, "single_cpp.rsp")
+    with open(rsp_path, "w") as f:
+        f.write(cl_rsp_args)
+
+    if linux_or_mac:
+        cl_args = f"@{as_wine_path(rsp_path)}"
+        build_dir = as_wine_path(BUILD_DIRECTORY)
+        command = (
+            f"WINEDEBUG=-all "
+            f"export WINEPATH={path} "
+            f"export LIB={lib} "
+            f"export INCLUDE={include} "
+            f"wine cmd /c \"cd {build_dir} && cl.exe {cl_args}\""
+        )
+        print(f"Running command: {command}")
+        p1 = subprocess.Popen(
+            command,
+            cwd=BUILD_DIRECTORY,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            shell=True
+        )
+    else:  # Windows
+        cl_args = f"@{rsp_path}"
+        p1 = subprocess.Popen(
+            "cmd",
+            cwd=BUILD_DIRECTORY,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True
+        )
+        p1.stdin.write(f"set LIB={lib}\n")
+        p1.stdin.write(f"set INCLUDE={include}\n")
+        p1.stdin.write(f"set PATH={path};%PATH%\n")
+        p1.stdin.write(f"cl.exe {cl_args}\n")
+        p1.stdin.write("exit /b %errorlevel%\n")
+        p1.stdin.close()
+
+    exit_code = p1.wait()
+    for line in p1.stdout:
+        if GUID_FILTER in line:
+            continue
+        print(line.rstrip())
+
+    return exit_code
+
+def build_cmake(reccmp: bool):
     os.makedirs(BUILD_FOLDER_NAME, exist_ok=True)
 
     vc6_env = get_vc6_env()
