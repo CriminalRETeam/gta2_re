@@ -2,14 +2,6 @@
 #include "Function.hpp"
 #include <memory>
 
-#if defined(__cplusplus) && __cplusplus >= 201703L
-#define THROW0()
-#define THROW(X)
-#else
-#define THROW0() throw()
-#define THROW(X) throw(X)
-#endif
-
 namespace crt
 {
 STUB_FUNC(0x5EE316);
@@ -72,23 +64,23 @@ void* __cdecl malloc(size_t Size)
 // getting applied mid-way. However since after WinMain is called exit() is also
 // called we never "return" to the hook manager code nor ever remove any hooks therefore
 // this shouldn't be a problem but is something to be aware of.
-void* operator new(size_t n) THROW(std::bad_alloc)
+void* operator new(size_t n) throw(std::bad_alloc)
 {
     //printf("new %d\n", n);
     return crt::malloc(n);
 }
-void operator delete(void* p) THROW0()
+void operator delete(void* p) throw()
 {
     crt::free(p);
 }
 
-void* operator new[](size_t s) THROW(std::bad_alloc)
+void* operator new[](size_t s) throw(std::bad_alloc)
 {
     //printf("new[] %d\n", s);
     return crt::malloc(s);
 }
 
-void operator delete[](void* p) THROW0()
+void operator delete[](void* p) throw()
 {
     crt::free(p);
 }
