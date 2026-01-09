@@ -1068,17 +1068,16 @@ void CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x562eb0)
-ModelPhysics_48* CarPhysics_B0::sub_562EB0()
+MATCH_FUNC(0x562eb0)
+void CarPhysics_B0::sub_562EB0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    dword_6FE258 = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(field_5C_pCar->sub_43A850());
 }
 
 MATCH_FUNC(0x562ed0)
 void CarPhysics_B0::sub_562ED0()
 {
-    CarInfo_2C* pInfo = gCarInfo_808_678098->sub_454840( field_5C_pCar->sub_43A850());
+    CarInfo_2C* pInfo = gCarInfo_808_678098->sub_454840(field_5C_pCar->sub_43A850());
     dword_6FE0E4 = pInfo;
 }
 

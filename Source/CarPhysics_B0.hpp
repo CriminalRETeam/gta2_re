@@ -112,7 +112,7 @@ class CarPhysics_B0
     EXPORT void StabilizeVelocityAtSpeed_562910();
     EXPORT void RotateVelocity_562C20(const Ang16& a2);
     EXPORT void EnforceGearSensitiveMaxSpeed_562D00();
-    EXPORT ModelPhysics_48* sub_562EB0();
+    EXPORT void sub_562EB0();
     EXPORT void sub_562ED0();
     EXPORT void SetCurrentCarInfoAndModelPhysics_562EF0();
     EXPORT void ApplyInputsAndIntegratePhysics_562F30();
