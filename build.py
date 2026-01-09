@@ -118,7 +118,7 @@ def main():
     if args.single_cpp:
         returncode = build_single_cpp(args.single_cpp)
     else:
-        returncode = build_cmake(args.reccmp, args.single_cpp)
+        returncode = build_cmake(args.reccmp)
     if returncode != 0:
         print(f"Build failed with return code {returncode}")
         sys.exit(returncode)

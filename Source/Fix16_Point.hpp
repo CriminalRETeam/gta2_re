@@ -86,7 +86,7 @@ class Fix16_Point : public Fix16_Point_POD
 {
 public:
     // Both inlined and exists as a function... some strange array init behaviour??
-   // ~Fix16_Point() {}
+    ~Fix16_Point() {}
 
     // It needs to be in the header
     // MATCH_FUNC(0x563970)

@@ -1075,11 +1075,11 @@ ModelPhysics_48* CarPhysics_B0::sub_562EB0()
     return 0;
 }
 
-STUB_FUNC(0x562ed0)
-CarInfo_2C* CarPhysics_B0::sub_562ED0()
+MATCH_FUNC(0x562ed0)
+void CarPhysics_B0::sub_562ED0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    CarInfo_2C* pInfo = gCarInfo_808_678098->sub_454840( field_5C_pCar->sub_43A850());
+    dword_6FE0E4 = pInfo;
 }
 
 MATCH_FUNC(0x562ef0)
@@ -1149,7 +1149,6 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
 
     this->field_84_front_skid = kFP16Zero_6FE20C;
     this->field_88_rear_skid = kFP16Zero_6FE20C;
-
 
     switch (field_8C_state)
     {
