@@ -1129,9 +1129,7 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
 {
     WIP_IMPLEMENTED;
 
-
     char carModel; // al
-    s32 state; // eax
     char bCol2; // bl
     char bCol3; // bl
     char bCol4; // bl
@@ -1140,9 +1138,6 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
     char bCol1; // bl
     char bCol7; // bl
     Ped* pDriver; // eax
-    s32 surface_type; // esi
-    bool result; // eax
-    char v14; // [esp+Bh] [ebp-1h]
 
     SetCurrentCarInfoAndModelPhysics_562EF0();
     carModel = field_5C_pCar->sub_43A850();
@@ -1153,14 +1148,27 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
     }
 
     this->field_84_front_skid = kFP16Zero_6FE20C;
-    state = this->field_8C_state;
     this->field_88_rear_skid = kFP16Zero_6FE20C;
-    switch (state)
+
+
+    switch (field_8C_state)
     {
         case 0:
             bCol1 = CheckAndHandleCarAndTrailerCollisions_55EB80();
             ScarePedsOnDrivingFast_559C30();
-            goto LABEL_8;
+            bCol7 = ProcessCollisionAndClampVelocity_55F280() | bCol1;
+            bCol4 = sub_55F360() | bCol7;
+            DoSkidmarks_55E260();
+            pDriver = this->field_5C_pCar->field_54_driver;
+            if (pDriver && pDriver->field_15C_player) // Car_BC::IsDrivenByPlayer_4118D0
+            {
+                this->field_8C_state = 2; // sub_4212B0
+            }
+            else
+            {
+                this->field_8C_state = 1; // sub_4212A0
+            }
+            break;
         case 1:
             stru_6FDF50.x.mValue = 0;
             stru_6FDF50.y.mValue = 0;
@@ -1207,15 +1215,23 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             ApplyInputsAndIntegratePhysics_562F30();
             ScarePedsOnDrivingFast_559C30();
             sub_55F360();
-        LABEL_8:
             bCol7 = ProcessCollisionAndClampVelocity_55F280() | bCol1;
             bCol4 = sub_55F360() | bCol7;
-            goto LABEL_10;
+            DoSkidmarks_55E260();
+            pDriver = this->field_5C_pCar->field_54_driver;
+            if (pDriver && pDriver->field_15C_player) // Car_BC::IsDrivenByPlayer_4118D0
+            {
+                this->field_8C_state = 2; // sub_4212B0
+            }
+            else
+            {
+                this->field_8C_state = 1; // sub_4212A0
+            }
+            break;
         case 4:
             bCol4 = CheckAndHandleCarAndTrailerCollisions_55EB80();
             sub_55F330();
             sub_55BFE0();
-        LABEL_10:
             DoSkidmarks_55E260();
             pDriver = this->field_5C_pCar->field_54_driver;
             if (pDriver && pDriver->field_15C_player) // Car_BC::IsDrivenByPlayer_4118D0
@@ -1228,25 +1244,22 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             }
             break;
         default:
-            bCol4 = v14;
+            //bCol4 = v14;
             break;
     }
-
-    result = 0;
 
     if (UpdateLastMovementTimer_562FA0())
     {
         if (!bCol4)
         {
-            surface_type = this->field_98_surface_type;
-            if (surface_type != 7 && surface_type != 8 && surface_type != 6)
+            if (field_98_surface_type != 7 && field_98_surface_type != 8 && field_98_surface_type != 6)
             {
                 return 1;
             }
         }
     }
 
-    return result;
+    return 0;
 }
 
 WIP_FUNC(0x563280)
