@@ -684,12 +684,10 @@ char_type Sprite::ComputeZLayer_5A1BD0()
     return field_39_z_col;
 }
 
-WIP_FUNC(0x5a1ca0)
+MATCH_FUNC(0x5a1ca0)
 char_type Sprite::sub_5A1CA0(u32* pCount)
 {
-    WIP_IMPLEMENTED;
-
-    char flags;
+    char_type flags;
 
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
@@ -702,13 +700,15 @@ char_type Sprite::sub_5A1CA0(u32* pCount)
         v7 = dword_7033C0;
     }
 
-    flags = 0;
-    *pCount = 0;
-
     if (gMap_0x370_6F6268->sub_4E5300(p4C->field_C_b_box[0].x, p4C->field_C_b_box[0].y, v6, v7))
     {
         flags = 1;
         *pCount = 1;
+    }
+    else
+    {
+        flags = 0;
+        *pCount = 0;
     }
 
     if (gMap_0x370_6F6268->sub_4E5300(p4C->field_C_b_box[1].x, p4C->field_C_b_box[1].y, v6, v7))
