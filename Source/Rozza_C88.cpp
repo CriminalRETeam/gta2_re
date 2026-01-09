@@ -239,7 +239,7 @@ void Rozza_C88::sub_40BBA0(Sprite* pSprite, Fix16 physics_value)
 }
 
 MATCH_FUNC(0x40bc40)
-void Rozza_C88::sub_40BC40(Sprite* pSprite)
+void Rozza_C88::Type4_40BC40(Sprite* pSprite)
 {
     if (!bSkip_audio_67D6BE)
     {

@@ -1,6 +1,7 @@
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
+#include "Particle_8.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "debug.hpp"
@@ -524,10 +525,55 @@ void CarPhysics_B0::sub_55B7B0(Fix16 a2)
     sub_55B4F0(a2);
 }
 
-STUB_FUNC(0x55B7E0)
+WIP_FUNC(0x55B7E0)
 void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Sprite* pCarSprite; // ebp
+    s32 box_idx; // edi
+    u8 box_corner_mask; // bl
+    Fix16 particle_x; // ecx
+    Fix16 particle_y; // eax
+    Fix16 lin_x; // edx
+    Fix16 z; // [esp-14h] [ebp-3Ch]
+    Fix16 lin_y; // [esp-Ch] [ebp-34h]
+    u32 cornerCount; // [esp+8h] [ebp-20h] BYREF
+    Fix16 not_used_x; // [esp+Ch] [ebp-1Ch]
+    Fix16 not_used_y; // [esp+10h] [ebp-18h]
+    Fix16_Point box_xy; // [esp+14h] [ebp-14h] BYREF
+    s32 not_used; // [esp+24h] [ebp-4h]
+
+    pCarSprite = this->field_5C_pCar->field_50_car_sprite;
+    not_used = 0;
+    if (!pCarSprite->IsOnWater_59E1D0() && this->field_5C_pCar->field_74_damage != 32001)
+    {
+        if (apply_to_corners_mask == 0)
+        {
+            apply_to_corners_mask = pCarSprite->CheckCornerZCollisions_5A1CA0(&cornerCount);
+        }
+        box_idx = 0;
+        box_corner_mask = 1;
+        do
+        {
+            if ((apply_to_corners_mask & box_corner_mask) == box_corner_mask)
+            {
+                box_xy = pCarSprite->GetBoundingBoxCorner_562450(box_idx);
+                particle_x = box_xy.x;
+                particle_y = box_xy.y;
+                lin_y = this->field_40_linvel_1.y;
+                lin_x = this->field_40_linvel_1.x;
+                not_used_x = particle_x;
+                z = this->field_6C_cp3;
+                not_used_y = particle_y;
+                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(particle_x, particle_y, z, lin_x, lin_y);
+            }
+            ++box_idx;
+            box_corner_mask *= 2;
+        } while (box_idx < 4);
+    }
+
+    gRozza_C88_66AFE0->Type4_40BC40(pCarSprite);
 }
 
 STUB_FUNC(0x55b970)
