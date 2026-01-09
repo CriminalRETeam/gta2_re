@@ -105,7 +105,7 @@ Ped* Sprite::GetPed_59E1B0()
 }
 
 MATCH_FUNC(0x59E1D0)
-s32 Sprite::IsOnWater_59E1D0()
+bool Sprite::IsOnWater_59E1D0()
 {
     gmp_block_info* pBlock;
 

@@ -61,7 +61,7 @@ class Sprite
     EXPORT void sub_54EC80(Fix16 xpos, Fix16 ypos);
     EXPORT bool IsControlledByActivePlayer_59E170();
     EXPORT Ped* GetPed_59E1B0();
-    EXPORT s32 IsOnWater_59E1D0();
+    EXPORT bool IsOnWater_59E1D0();
     EXPORT char_type sub_59E250();
     EXPORT void sub_59E2E0();
     EXPORT void sub_59E300();

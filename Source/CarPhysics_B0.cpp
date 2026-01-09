@@ -528,47 +528,35 @@ void CarPhysics_B0::sub_55B7B0(Fix16 a2)
 WIP_FUNC(0x55B7E0)
 void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
 {
-    WIP_IMPLEMENTED;
+    // WIP_IMPLEMENTED;
 
-    Sprite* pCarSprite; // ebp
-    s32 box_idx; // edi
-    u8 box_corner_mask; // bl
-    Fix16 particle_x; // ecx
-    Fix16 particle_y; // eax
-    Fix16 lin_x; // edx
-    Fix16 z; // [esp-14h] [ebp-3Ch]
-    Fix16 lin_y; // [esp-Ch] [ebp-34h]
-    u32 cornerCount; // [esp+8h] [ebp-20h] BYREF
-    Fix16 not_used_x; // [esp+Ch] [ebp-1Ch]
-    Fix16 not_used_y; // [esp+10h] [ebp-18h]
-    Fix16_Point box_xy; // [esp+14h] [ebp-14h] BYREF
-    s32 not_used; // [esp+24h] [ebp-4h]
+    //s32 box_idx; // edi
+    //u8 box_corner_mask; // bl
+    //u32 cornerCount; // [esp+8h] [ebp-20h] BYREF
+    //Fix16_Point box_xy; // [esp+14h] [ebp-14h] BYREF
+    Fix16_Point box_xy;
 
-    pCarSprite = this->field_5C_pCar->field_50_car_sprite;
-    not_used = 0;
-    if (!pCarSprite->IsOnWater_59E1D0() && this->field_5C_pCar->field_74_damage != 32001)
+    Car_BC* pCar = field_5C_pCar;
+    Sprite* pCarSprite = pCar->field_50_car_sprite;
+    s32 not_used = 0;
+    u32 cornerCount = 0;
+
+    if (!pCar->field_50_car_sprite->IsOnWater_59E1D0() && !field_5C_pCar->sub_40F890())
     {
         if (apply_to_corners_mask == 0)
         {
             apply_to_corners_mask = pCarSprite->CheckCornerZCollisions_5A1CA0(&cornerCount);
         }
-        box_idx = 0;
-        box_corner_mask = 1;
+        s32 box_idx = 0;
+        u8 box_corner_mask = 1;
         do
         {
             if ((apply_to_corners_mask & box_corner_mask) == box_corner_mask)
             {
                 box_xy = pCarSprite->GetBoundingBoxCorner_562450(box_idx);
-                particle_x = box_xy.x;
-                particle_y = box_xy.y;
-                lin_y = this->field_40_linvel_1.y;
-                lin_x = this->field_40_linvel_1.x;
-                not_used_x = particle_x;
-                z = this->field_6C_cp3;
-                not_used_y = particle_y;
-                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(particle_x, particle_y, z, lin_x, lin_y);
+                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(box_xy.x, box_xy.y, field_6C_cp3, field_40_linvel_1.x, field_40_linvel_1.y);
             }
-            ++box_idx;
+            box_idx++;
             box_corner_mask *= 2;
         } while (box_idx < 4);
     }
