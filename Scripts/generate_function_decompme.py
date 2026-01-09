@@ -18,6 +18,8 @@ parser = argparse.ArgumentParser("generate_function_decompme")
 parser.add_argument("ida_function_name")
 parser.add_argument("-o", "--objdiff", help="generate a scratch for the objdiff tool", action="store_true")
 parser.add_argument("--v96f", help="generate a scratch for GTA 2 version 9.6f", action="store_true")
+parser.add_argument("--asm", help="dump asm only (for making local objects with i686-w64-mingw32-as --32 -mmnemonic=intel -msyntax=intel -mnaked-reg -o test.obj test.asm)", action="store_true")
+
 args = parser.parse_args()
 
 class GameVersion(enum.Enum):
@@ -298,42 +300,43 @@ def main():
     asm = dism_func(target_func, args.objdiff)
     print("\n" + asm)
 
-    if args.objdiff:
+    if args.objdiff or args.asm:
         diff_label = target_func.mangled_name
     else:
         diff_label = args.ida_function_name
 
-    req = urllib.request.Request(
-        "https://decomp.me/api/scratch",
-        headers={
-            "Content-Type": "application/json",
-            "User-Agent": "python-requests/2.28.2",
-        },
-        data=json.dumps(
-            {
-                "compiler": "msvc6.4",
-                "compiler_flags": "/TP /O2 /GX /EHsc",
-                "context": "",
-                "diff_flags": [],
-                "diff_label": diff_label,
-                "libraries": [],
-                "platform": "win32",
-                "preset": 152,
-                "target_asm": asm,
-            }
-        ).encode("utf8"),
-    )
+    if not args.asm:
+        req = urllib.request.Request(
+            "https://decomp.me/api/scratch",
+            headers={
+                "Content-Type": "application/json",
+                "User-Agent": "python-requests/2.28.2",
+            },
+            data=json.dumps(
+                {
+                    "compiler": "msvc6.4",
+                    "compiler_flags": "/TP /O2 /GX /EHsc",
+                    "context": "",
+                    "diff_flags": [],
+                    "diff_label": diff_label,
+                    "libraries": [],
+                    "platform": "win32",
+                    "preset": 152,
+                    "target_asm": asm,
+                }
+            ).encode("utf8"),
+        )
 
-    try:
-        with urllib.request.urlopen(req) as res:
-            out_data = json.load(res)
-    except urllib.error.HTTPError as err:
-        print(json.load(err.fp))
-        raise
+        try:
+            with urllib.request.urlopen(req) as res:
+                out_data = json.load(res)
+        except urllib.error.HTTPError as err:
+            print(json.load(err.fp))
+            raise
 
-    scratch_url = "https://decomp.me/scratch/" + out_data["slug"] + "/claim?token=" + out_data["claim_token"]
-    print(scratch_url)
-    webbrowser.open_new_tab(scratch_url)
+        scratch_url = "https://decomp.me/scratch/" + out_data["slug"] + "/claim?token=" + out_data["claim_token"]
+        print(scratch_url)
+        webbrowser.open_new_tab(scratch_url)
 
 if __name__ == "__main__":
     main()
