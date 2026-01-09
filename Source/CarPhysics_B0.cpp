@@ -50,7 +50,6 @@ DEFINE_GLOBAL(Fix16, FastCarMinVelocity_6FE1CC, 0x6FE1CC);
 DEFINE_GLOBAL(Fix16, dword_6FE198, 0x6FE198);
 DEFINE_GLOBAL(Fix16, k_dword_6FE1B8, 0x6FE1B8);
 
-
 STUB_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -1136,11 +1135,19 @@ s32* CarPhysics_B0::sub_563280()
     return 0;
 }
 
-STUB_FUNC(0x563350)
-s32* CarPhysics_B0::UpdateCenterOfMassPoint_563350()
+WIP_FUNC(0x563350)
+void CarPhysics_B0::UpdateCenterOfMassPoint_563350()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    
+    const CarInfo_2C* info = gCarInfo_808_678098->sub_454840(field_5C_pCar->sub_43A850());
+
+    const Fix16 s = Ang16::sine_40F500(field_58_theta);
+    const Fix16 c = Ang16::cosine_40F520(field_58_theta);
+
+    Fix16_Point rotated(((c * -info->field_C.x)) + ((s * info->field_C.y)), ((c * info->field_C.y)) + ((s * -info->field_C.x)));
+
+    field_30_cm1 = field_38_cp1 + rotated;
 }
 
 // 0x49EDC0 9.6f
