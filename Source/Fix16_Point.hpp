@@ -34,6 +34,7 @@ struct Fix16_Point_POD
         y = Ang16::cosine_40F520(angle) * unk;
     }
 
+    // Matching impl at RotateVelocity_562C20
     inline void RotateByAngle_40F6B0(Ang16& angle)
     {
         Fix16 sin = Ang16::sine_40F500(angle);

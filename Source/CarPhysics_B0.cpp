@@ -512,23 +512,70 @@ void CarPhysics_B0::sub_55B3F0(Fix16 a2)
 }
 
 STUB_FUNC(0x55b4f0)
-s32 CarPhysics_B0::sub_55B4F0(Sprite_4C* a2)
+s32 CarPhysics_B0::sub_55B4F0(Fix16 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+MATCH_FUNC(0x55B7B0)
+void CarPhysics_B0::sub_55B7B0(Fix16 a2)
+{
+    sub_55B4F0(a2);
+}
+
+STUB_FUNC(0x55B7E0)
+void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
+{
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x55b970)
-char_type CarPhysics_B0::sub_55B970(char_type* a2)
+char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55bfe0)
-void CarPhysics_B0::sub_55BFE0()
+WIP_FUNC(0x55bfe0)
+void CarPhysics_B0::ProcessGroundCollisionAndEmitImpactParticles_55BFE0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    char b1;
+    CarPhysics_B0* pPhysics;
+    char b2;
+    char b1_;
+    u8 corner_bits1[4];
+    u8 corner_bits2[4];
+
+    b1 = ProcessGroundCollisionAndSurfaceType_55B970((char*)corner_bits1);
+    b1_ = b1;
+    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
+    if (!pTrailer)
+    {
+        if (!b1)
+        {
+            return;
+        }
+        goto LABEL_11;
+    }
+    pPhysics = pTrailer->field_C_pCarOnTrailer->field_58_physics;
+    pPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
+    b2 = pPhysics->ProcessGroundCollisionAndSurfaceType_55B970((char*)corner_bits2);
+    if (b2)
+    {
+        if (b1_ || field_98_surface_type == 6)
+        {
+            pPhysics->EmitImpactParticles_55B7E0(corner_bits2[0]);
+        }
+    }
+    SetCurrentCarInfoAndModelPhysics_562EF0();
+    if ((b2 || pPhysics->field_98_surface_type == 6) && b1_)
+    {
+    LABEL_11:
+        EmitImpactParticles_55B7E0(corner_bits1[0]);
+    }
 }
 
 MATCH_FUNC(0x55c150)
@@ -1049,7 +1096,7 @@ void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
     NOT_IMPLEMENTED;
 }
 
-// TODO: Actually Fix16_Point method
+// TODO: Actually Fix16_Point method its RotateByAngle_40F6B0
 MATCH_FUNC(0x562c20)
 void CarPhysics_B0::RotateVelocity_562C20(const Ang16& angle)
 {
@@ -1229,7 +1276,7 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
         case 4:
             bCol4 = CheckAndHandleCarAndTrailerCollisions_55EB80();
             sub_55F330();
-            sub_55BFE0();
+            ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
             DoSkidmarks_55E260();
             pDriver = this->field_5C_pCar->field_54_driver;
             if (pDriver && pDriver->field_15C_player) // Car_BC::IsDrivenByPlayer_4118D0
