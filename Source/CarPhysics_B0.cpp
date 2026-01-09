@@ -528,7 +528,7 @@ void CarPhysics_B0::sub_55B7B0(Fix16 a2)
 WIP_FUNC(0x55B7E0)
 void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
 {
-    // WIP_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     //s32 box_idx; // edi
     //u8 box_corner_mask; // bl
