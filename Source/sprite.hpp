@@ -101,7 +101,7 @@ class Sprite
     EXPORT char sub_5A1A60();
     EXPORT void ResolveZOrder_5A1B30(Sprite* pOther);
     EXPORT char_type ComputeZLayer_5A1BD0();
-    EXPORT char_type sub_5A1CA0(u32* a2);
+    EXPORT char_type CheckCornerZCollisions_5A1CA0(u32* a2);
     EXPORT char_type IsTouchingSlopeBlock_5A1EB0();
     EXPORT char_type sub_5A21F0();
     EXPORT u32* sub_5A22B0(u32* a2, Sprite* a3);

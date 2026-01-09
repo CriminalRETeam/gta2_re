@@ -1448,7 +1448,7 @@ char_type Map_0x370::sub_4E52A0(Fix16 x, Fix16 y, Fix16 z)
 }
 
 MATCH_FUNC(0x4E5300)
-bool Map_0x370::sub_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z)
+bool Map_0x370::CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z)
 {
     Fix16 new_z;
     Fix16 floor_z = z.GetRoundValue();
