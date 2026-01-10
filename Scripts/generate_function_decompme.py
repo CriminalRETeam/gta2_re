@@ -15,7 +15,7 @@ RESOURCES_DIR = REPO_DIR / "resources"
 INCLUDE_PATHS = [REPO_DIR / "Source"]
 
 parser = argparse.ArgumentParser("generate_function_decompme")
-parser.add_argument("ida_function_name")
+parser.add_argument("ida_function_name", nargs="+") # --asm allows dumping multiple functions at once
 parser.add_argument("-o", "--objdiff", help="generate a scratch for the objdiff tool", action="store_true")
 parser.add_argument("--v96f", help="generate a scratch for GTA 2 version 9.6f", action="store_true")
 parser.add_argument("--asm", help="dump asm only (for making local objects with i686-w64-mingw32-as --32 -mmnemonic=intel -msyntax=intel -mnaked-reg -o test.obj test.asm)", action="store_true")
@@ -251,7 +251,7 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
         if is_jump(instruction, formatter):
             if instruction.near_branch_target not in labels:
                 # when labels start with .L they aren't emitted by the assembler
-                labels[instruction.near_branch_target] = f".L{len(labels)}"
+                labels[instruction.near_branch_target] = f".L_{hex(target_func.address)}_{len(labels)}"
                 print(f"add label at ip: {instruction.near_branch_target}")
 
     # reset decoder for the second run
@@ -291,52 +291,70 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
     asm_str = "\n".join(asm)
     return asm_str
 
+def upload_scratch(diff_label: str, asm: str):
+    req = urllib.request.Request(
+        "https://decomp.me/api/scratch",
+        headers={
+            "Content-Type": "application/json",
+            "User-Agent": "python-requests/2.28.2",
+        },
+        data=json.dumps({
+            "compiler": "msvc6.4",
+            "compiler_flags": "/TP /O2 /GX /EHsc",
+            "context": "",
+            "diff_flags": [],
+            "diff_label": diff_label,
+            "libraries": [],
+            "platform": "win32",
+            "preset": 152,
+            "target_asm": asm,
+        }).encode("utf8"),
+    )
+
+    try:
+        with urllib.request.urlopen(req) as res:
+            out_data = json.load(res)
+    except urllib.error.HTTPError as err:
+        print(json.load(err.fp))
+        raise
+
+    scratch_url = (
+        "https://decomp.me/scratch/"
+        + out_data["slug"]
+        + "/claim?token="
+        + out_data["claim_token"]
+    )
+
+    print(scratch_url)
+    webbrowser.open_new_tab(scratch_url)
+
+
 def main():
-    target_func = FUNC_COLLECTION.get_data_by_name(args.ida_function_name)
-    if target_func == None:
-        print(f"could not find a function with the name: {args.ida_function_name} for GTA 2 version {FUNC_COLLECTION.game_version}")
+    target_funcs = []
+    # Collect all info about the targets 1st
+    for func_name in args.ida_function_name:
+        target_func = FUNC_COLLECTION.get_data_by_name(func_name)
+        if target_func == None:
+            print(f"could not find a function with the name: {func_name} for GTA 2 version {FUNC_COLLECTION.game_version}")
+            sys.exit(1)
+        target_funcs.append(target_func)
+
+    if (len(target_funcs) > 1) and (not args.asm):
+        print("Only --asm option is allowed when dumping multiple functions at once")
         sys.exit(1)
 
-    asm = dism_func(target_func, args.objdiff)
+    asm = ""
+    for target_func in target_funcs:
+        asm = asm + dism_func(target_func, args.objdiff or args.asm) +"\n\n"
     print("\n" + asm)
 
     if args.objdiff or args.asm:
-        diff_label = target_func.mangled_name
+        diff_label = target_funcs[0].mangled_name
     else:
-        diff_label = args.ida_function_name
+        diff_label = args.ida_function_name[0]
 
     if not args.asm:
-        req = urllib.request.Request(
-            "https://decomp.me/api/scratch",
-            headers={
-                "Content-Type": "application/json",
-                "User-Agent": "python-requests/2.28.2",
-            },
-            data=json.dumps(
-                {
-                    "compiler": "msvc6.4",
-                    "compiler_flags": "/TP /O2 /GX /EHsc",
-                    "context": "",
-                    "diff_flags": [],
-                    "diff_label": diff_label,
-                    "libraries": [],
-                    "platform": "win32",
-                    "preset": 152,
-                    "target_asm": asm,
-                }
-            ).encode("utf8"),
-        )
-
-        try:
-            with urllib.request.urlopen(req) as res:
-                out_data = json.load(res)
-        except urllib.error.HTTPError as err:
-            print(json.load(err.fp))
-            raise
-
-        scratch_url = "https://decomp.me/scratch/" + out_data["slug"] + "/claim?token=" + out_data["claim_token"]
-        print(scratch_url)
-        webbrowser.open_new_tab(scratch_url)
+        upload_scratch(diff_label, asm)
 
 if __name__ == "__main__":
     main()
