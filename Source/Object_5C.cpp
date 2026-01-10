@@ -47,6 +47,8 @@ DEFINE_GLOBAL(u8, byte_6F8F94, 0x6F8F94);
 DEFINE_GLOBAL(s32, dword_6F8F5C, 0x6F8F5C);
 DEFINE_GLOBAL(Fix16, dword_6F8DA8, 0x6F8DA8);
 DEFINE_GLOBAL(Fix16, dword_6F8E14, 0x6F8E14);
+DEFINE_GLOBAL(Fix16, k_dword_6F8C58, 0x6F8C58);
+DEFINE_GLOBAL(u8, byte_623EC4, 0x623EC4);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CE8, Fix16(12), 0x6F8CE8);
@@ -373,10 +375,39 @@ void Object_2C::sub_522E10(s32* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5233a0)
-char_type Object_2C::sub_5233A0(s32 a2)
+MATCH_FUNC(0x5233a0)
+char_type Object_2C::sub_5233A0(Fix16 a2)
 {
-    NOT_IMPLEMENTED;
+    dword_6F8F8C = 0;
+
+    if (sub_522460(this->field_4))
+    {
+
+        byte_623EC4 = 0;
+        if (byte_6F8F94)
+        {
+            return 0;
+        }
+
+        dword_6F8F8C = gRozza_679188.field_20_pSprite;
+        if (a2 > k_dword_6F8C58)
+        {
+            return 0;
+        }
+
+        if (this->field_10_obj_3c->field_34 == 1)
+        {
+            this->field_4->field_28_num = 29;
+        }
+        else
+        {
+            this->field_4->field_28_num = 6;
+        }
+        this->field_10_obj_3c->field_C = k_dword_6F8C58;
+        this->field_10_obj_3c->field_18 = this->field_8->field_14_friction;
+        return 1;
+    }
+    this->field_10_obj_3c->field_34 = 2;
     return 0;
 }
 
