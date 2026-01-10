@@ -430,15 +430,9 @@ char_type Object_2C::sub_5233A0(Fix16 a2)
     return 0;
 }
 
-WIP_FUNC(0x523440)
+MATCH_FUNC(0x523440)
 void Object_2C::sub_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2)
 {
-    WIP_IMPLEMENTED;
-
-    Sprite* pRozSprite; // edx
-    Sprite* pOurSprite; // ecx
-    Fix16 zpos; // eax
-
     if ((u8)field_4->IsOnWater_59E1D0())
     {
         this->field_10_obj_3c->field_C = kFpZero_6F8E10;
@@ -448,43 +442,27 @@ void Object_2C::sub_523440(Fix16_Point point, char_type bUnknown1, char_type bUn
 
     switch (this->field_8->field_4C)
     {
-
-        case 2:
-        case 3:
-            sub_522E10(&point);
-            return;
-
-
-
         case 4:
-            pRozSprite = gRozza_679188.field_20_pSprite;
             if (gRozza_679188.field_20_pSprite)
             {
-                pOurSprite = this->field_4;
-                zpos = gRozza_679188.field_20_pSprite->field_1C_zpos;
-                if (pOurSprite->field_1C_zpos != zpos)
-                {
-                    pOurSprite->field_1C_zpos = zpos;
-                    pOurSprite->ResetZCollisionAndDebugBoxes_59E7B0();
-                    pRozSprite = gRozza_679188.field_20_pSprite;
-                }
+                field_4->set_z_lazy(gRozza_679188.field_20_pSprite->field_1C_zpos);
             }
+
             if (!bUnknown1 || gRozza_679188.field_0_type == 3)
             {
-                if (!bUnknown2 || gRozza_679188.field_0_type == 3)
+                if (bUnknown2 && gRozza_679188.field_0_type != 3)
                 {
-                    goto LABEL_14;
+                    gRozza_679188.field_0_type = 5;
+                    gRozza_679188.field_20_pSprite = 0;
                 }
-                gRozza_679188.field_0_type = 5;
             }
             else
             {
                 gRozza_679188.field_0_type = 4;
+                gRozza_679188.field_20_pSprite = 0;
             }
-            pRozSprite = 0;
-            gRozza_679188.field_20_pSprite = 0;
-        LABEL_14:
-            HandleImpact_528E50(pRozSprite);
+
+            HandleImpact_528E50(gRozza_679188.field_20_pSprite);
             return;
 
         case 0:
@@ -492,21 +470,20 @@ void Object_2C::sub_523440(Fix16_Point point, char_type bUnknown1, char_type bUn
             if (bUnknown1)
             {
                 gRozza_679188.field_0_type = 4;
+                gRozza_679188.field_20_pSprite = 0;
             }
-            else
+            else if (bUnknown2)
             {
-                if (!bUnknown2)
-                {
-                    goto LABEL_20;
-                }
                 gRozza_679188.field_0_type = 5;
+                gRozza_679188.field_20_pSprite = 0;
             }
-            gRozza_679188.field_20_pSprite = 0;
-        LABEL_20:
             HandleImpact_528E50(gRozza_679188.field_20_pSprite);
             return;
 
-
+        case 2:
+        case 3:
+            sub_522E10(&point);
+            return;
         default:
             return;
     }
