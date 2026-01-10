@@ -291,6 +291,44 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
     asm_str = "\n".join(asm)
     return asm_str
 
+def upload_scratch(diff_label: str, asm: str):
+    req = urllib.request.Request(
+        "https://decomp.me/api/scratch",
+        headers={
+            "Content-Type": "application/json",
+            "User-Agent": "python-requests/2.28.2",
+        },
+        data=json.dumps({
+            "compiler": "msvc6.4",
+            "compiler_flags": "/TP /O2 /GX /EHsc",
+            "context": "",
+            "diff_flags": [],
+            "diff_label": diff_label,
+            "libraries": [],
+            "platform": "win32",
+            "preset": 152,
+            "target_asm": asm,
+        }).encode("utf8"),
+    )
+
+    try:
+        with urllib.request.urlopen(req) as res:
+            out_data = json.load(res)
+    except urllib.error.HTTPError as err:
+        print(json.load(err.fp))
+        raise
+
+    scratch_url = (
+        "https://decomp.me/scratch/"
+        + out_data["slug"]
+        + "/claim?token="
+        + out_data["claim_token"]
+    )
+
+    print(scratch_url)
+    webbrowser.open_new_tab(scratch_url)
+
+
 def main():
     target_funcs = []
     # Collect all info about the targets 1st
@@ -316,37 +354,7 @@ def main():
         diff_label = args.ida_function_name[0]
 
     if not args.asm:
-        req = urllib.request.Request(
-            "https://decomp.me/api/scratch",
-            headers={
-                "Content-Type": "application/json",
-                "User-Agent": "python-requests/2.28.2",
-            },
-            data=json.dumps(
-                {
-                    "compiler": "msvc6.4",
-                    "compiler_flags": "/TP /O2 /GX /EHsc",
-                    "context": "",
-                    "diff_flags": [],
-                    "diff_label": diff_label,
-                    "libraries": [],
-                    "platform": "win32",
-                    "preset": 152,
-                    "target_asm": asm,
-                }
-            ).encode("utf8"),
-        )
-
-        try:
-            with urllib.request.urlopen(req) as res:
-                out_data = json.load(res)
-        except urllib.error.HTTPError as err:
-            print(json.load(err.fp))
-            raise
-
-        scratch_url = "https://decomp.me/scratch/" + out_data["slug"] + "/claim?token=" + out_data["claim_token"]
-        print(scratch_url)
-        webbrowser.open_new_tab(scratch_url)
+        upload_scratch(diff_label, asm)
 
 if __name__ == "__main__":
     main()
