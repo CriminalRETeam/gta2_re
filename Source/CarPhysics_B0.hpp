@@ -31,8 +31,8 @@ class CarPhysics_B0
     EXPORT void sub_559A40();
     EXPORT void sub_559B40();
     EXPORT void sub_559B50();
-    EXPORT void sub_559B90(const s32& a2);
-    EXPORT u32 SpinOutOnOil_559BA0();
+    EXPORT void set_field_A0_559B90(const s32& a2);
+    EXPORT void SpinOutOnOil_559BA0();
     EXPORT void ScarePedsOnDrivingFast_559C30();
     EXPORT void sub_559DD0();
     EXPORT u32 sub_559E20(s32 a2);

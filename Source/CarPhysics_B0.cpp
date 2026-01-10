@@ -1,10 +1,12 @@
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
+#include "Particle_8.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "debug.hpp"
 #include "map_0x370.hpp"
+#include "rng.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -137,16 +139,37 @@ void CarPhysics_B0::sub_559B50()
 }
 
 MATCH_FUNC(0x559b90)
-void CarPhysics_B0::sub_559B90(const s32& a2)
+void CarPhysics_B0::set_field_A0_559B90(const s32& a2)
 {
     field_A0 = a2;
 }
 
-STUB_FUNC(0x559ba0)
-u32 CarPhysics_B0::SpinOutOnOil_559BA0()
+MATCH_FUNC(0x559ba0)
+void CarPhysics_B0::SpinOutOnOil_559BA0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_5C_pCar->is_train_model())
+    {
+        if (field_A0 != 1 && field_A0 != 2)
+        {
+            s32 rndMax = 2;
+            if (stru_6F6784.get_int_4F7AE0((s16*)&rndMax))
+            {
+                rndMax = 1;
+                set_field_A0_559B90(rndMax);
+            }
+            else
+            {
+                rndMax = 2;
+                set_field_A0_559B90(rndMax);
+            }
+        }
+        this->field_A4 = 30;
+        const u32 new_val = rng_dword_67AB34->field_0_rng + 30;
+        if (new_val > field_8_total_damage_q)
+        {
+            this->field_8_total_damage_q = new_val;
+        }
+    }
 }
 
 // https://decomp.me/scratch/yM7OA Fix16 annoying inlined stuff
@@ -187,7 +210,7 @@ void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
         field_A4--;
         if (field_A4 == 0)
         {
-            CarPhysics_B0::sub_559B90(0);
+            CarPhysics_B0::set_field_A0_559B90(0);
         }
     }
 }
@@ -524,10 +547,43 @@ void CarPhysics_B0::sub_55B7B0(Fix16 a2)
     sub_55B4F0(a2);
 }
 
-STUB_FUNC(0x55B7E0)
+WIP_FUNC(0x55B7E0)
 void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    //s32 box_idx; // edi
+    //u8 box_corner_mask; // bl
+    //u32 cornerCount; // [esp+8h] [ebp-20h] BYREF
+    //Fix16_Point box_xy; // [esp+14h] [ebp-14h] BYREF
+    Fix16_Point box_xy;
+
+    Car_BC* pCar = field_5C_pCar;
+    Sprite* pCarSprite = pCar->field_50_car_sprite;
+    s32 not_used = 0;
+    u32 cornerCount = 0;
+
+    if (!pCar->field_50_car_sprite->IsOnWater_59E1D0() && !field_5C_pCar->sub_40F890())
+    {
+        if (apply_to_corners_mask == 0)
+        {
+            apply_to_corners_mask = pCarSprite->CheckCornerZCollisions_5A1CA0(&cornerCount);
+        }
+        s32 box_idx = 0;
+        u8 box_corner_mask = 1;
+        do
+        {
+            if ((apply_to_corners_mask & box_corner_mask) == box_corner_mask)
+            {
+                box_xy = pCarSprite->GetBoundingBoxCorner_562450(box_idx);
+                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(box_xy.x, box_xy.y, field_6C_cp3, field_40_linvel_1.x, field_40_linvel_1.y);
+            }
+            box_idx++;
+            box_corner_mask *= 2;
+        } while (box_idx < 4);
+    }
+
+    gRozza_C88_66AFE0->Type4_40BC40(pCarSprite);
 }
 
 STUB_FUNC(0x55b970)
@@ -1411,7 +1467,7 @@ void CarPhysics_B0::Init_5637A0()
     field_A9_car_model = -1;
     field_A8_hand_brake_force = 0;
     field_90_timer_since_last_move = 0;
-    sub_559B90(0);
+    set_field_A0_559B90(0);
     field_A4 = 0;
     field_98_surface_type = 0;
     field_9C = 0;

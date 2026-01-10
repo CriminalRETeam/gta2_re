@@ -300,7 +300,7 @@
         "v105_address": "0x40bba0"
     },
     {
-        "name": "Rozza_C88::sub_40BC40",
+        "name": "Rozza_C88::Type4_40BC40",
         "v96f_address": null,
         "v105_address": "0x40bc40"
     },
@@ -7500,7 +7500,7 @@
         "v105_address": "0x4e52a0"
     },
     {
-        "name": "Map_0x370::sub_4E5300",
+        "name": "Map_0x370::CheckZCollisionAtCoord_4E5300",
         "v96f_address": null,
         "v105_address": "0x4e5300"
     },
@@ -12025,7 +12025,7 @@
         "v105_address": "0x559b50"
     },
     {
-        "name": "CarPhysics_B0::sub_559B90",
+        "name": "CarPhysics_B0::set_field_A0_559B90",
         "v96f_address": null,
         "v105_address": "0x559b90"
     },
@@ -14830,7 +14830,7 @@
         "v105_address": "0x5a1bd0"
     },
     {
-        "name": "Sprite::sub_5A1CA0",
+        "name": "Sprite::CheckCornerZCollisions_5A1CA0",
         "v96f_address": null,
         "v105_address": "0x5a1ca0"
     },
