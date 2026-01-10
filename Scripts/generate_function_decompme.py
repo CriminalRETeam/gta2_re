@@ -15,7 +15,7 @@ RESOURCES_DIR = REPO_DIR / "resources"
 INCLUDE_PATHS = [REPO_DIR / "Source"]
 
 parser = argparse.ArgumentParser("generate_function_decompme")
-parser.add_argument("ida_function_name")
+parser.add_argument("ida_function_name", nargs="+") # --asm allows dumping multiple functions at once
 parser.add_argument("-o", "--objdiff", help="generate a scratch for the objdiff tool", action="store_true")
 parser.add_argument("--v96f", help="generate a scratch for GTA 2 version 9.6f", action="store_true")
 parser.add_argument("--asm", help="dump asm only (for making local objects with i686-w64-mingw32-as --32 -mmnemonic=intel -msyntax=intel -mnaked-reg -o test.obj test.asm)", action="store_true")
@@ -292,18 +292,28 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
     return asm_str
 
 def main():
-    target_func = FUNC_COLLECTION.get_data_by_name(args.ida_function_name)
-    if target_func == None:
-        print(f"could not find a function with the name: {args.ida_function_name} for GTA 2 version {FUNC_COLLECTION.game_version}")
+    target_funcs = []
+    # Collect all info about the targets 1st
+    for func_name in args.ida_function_name:
+        target_func = FUNC_COLLECTION.get_data_by_name(func_name)
+        if target_func == None:
+            print(f"could not find a function with the name: {func_name} for GTA 2 version {FUNC_COLLECTION.game_version}")
+            sys.exit(1)
+        target_funcs.append(target_func)
+
+    if (len(target_funcs) > 1) and (not args.asm):
+        print("Only --asm option is allowed when dumping multiple functions at once")
         sys.exit(1)
 
-    asm = dism_func(target_func, args.objdiff or args.asm)
+    asm = ""
+    for target_func in target_funcs:
+        asm = asm + dism_func(target_func, args.objdiff or args.asm) +"\n\n"
     print("\n" + asm)
 
     if args.objdiff or args.asm:
-        diff_label = target_func.mangled_name
+        diff_label = target_funcs[0].mangled_name
     else:
-        diff_label = args.ida_function_name
+        diff_label = args.ida_function_name[0]
 
     if not args.asm:
         req = urllib.request.Request(
