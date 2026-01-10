@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
+#include "ang16.hpp"
 
 class Object_2C;
 
@@ -23,7 +25,7 @@ class Wolfy_30
     EXPORT char_type sub_542340();
     EXPORT s16 sub_542790();
     EXPORT void sub_542E30(char_type a2);
-    EXPORT char_type sub_5434A0(s32 a2, s32 a3);
+    EXPORT char_type Update_5434A0(Fix16 a2, Ang16 a3);
     EXPORT char_type sub_5435D0();
     EXPORT void DeInit_543610();
     EXPORT void Init_543650();

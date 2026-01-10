@@ -352,8 +352,26 @@ void Object_2C::sub_5229B0(s32 a2, u32* a3, s32 a4)
     NOT_IMPLEMENTED;
 }
 
+// TODO: Probably move
+STUB_FUNC(0x55F3B0)
+EXPORT s32* __stdcall ComputeLineLineIntersection_55F3B0(s32* a1,
+                                                         s32 a2,
+                                                         s32 a3,
+                                                         s32* a4,
+                                                         s32 a5,
+                                                         s32 a6,
+                                                         Fix16_Point* a7,
+                                                         Fix16_Point* a8,
+                                                         s32 a9,
+                                                         s32 a10,
+                                                         s32 a11)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 STUB_FUNC(0x522b20)
-void Object_2C::sub_522B20(s32 a2, s32 a3, s32* a4)
+void Object_2C::sub_522B20(s32* f18, s32* a3, s32* a4)
 {
     NOT_IMPLEMENTED;
 }
@@ -598,10 +616,88 @@ void Object_2C::sub_525D90()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x525f30)
+MATCH_FUNC(0x525f30)
 void Object_2C::Update_525F30()
 {
-    NOT_IMPLEMENTED;
+    Wolfy_30* pWolfy;
+
+    dword_6F8F8C = 0;
+    while (2)
+    {
+        switch (this->field_8->field_34)
+        {
+            case 0:
+                if (!sub_525910())
+                {
+                    sub_525B20();
+                    return;
+                }
+                return;
+            case 1:
+                if (!sub_525910())
+                {
+                    sub_525B20();
+                    sub_525AE0();
+                }
+                return;
+
+            case 5:
+                pWolfy = this->field_C_pAny.pExplosion;
+                if (pWolfy)
+                {
+                    if (pWolfy->Update_5434A0(kFpZero_6F8E10, kZeroAng_6F8F68))
+                    {
+                        this->field_25 = 1;
+                    }
+                }
+                return;
+
+            case 3:
+            case 7:
+                RemoveFromCollisionBuckets_527D00();
+                byte_6F8C4C = 1;
+                sub_525B80();
+                if (!byte_6F8F40)
+                {
+                    sub_527AE0();
+                }
+                return;
+
+            case 2:
+            case 8:
+                if (!sub_525910())
+                {
+                    sub_525B20();
+                    UpdateAninmation_5257D0();
+                }
+                return;
+
+            case 4:
+            case 9:
+                RemoveFromCollisionBuckets_527D00();
+                byte_6F8C4C = 1;
+                sub_525D90();
+                if (!byte_6F8F40)
+                {
+                    sub_527AE0();
+                }
+                return;
+
+            case 6:
+            case 10:
+            case 11:
+                sub_525910();
+                sub_525B20();
+                return;
+
+            case 12:
+                sub_525B20();
+                return;
+
+            default:
+                continue;
+        }
+    }
 }
 
 MATCH_FUNC(0x5263d0)

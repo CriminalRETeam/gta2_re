@@ -36,7 +36,7 @@ class Object_2C
     EXPORT void sub_5226A0(char_type a2);
     EXPORT void sub_522710(Object_2C* a2, u32* a3);
     EXPORT void sub_5229B0(s32 a2, u32* a3, s32 a4);
-    EXPORT void sub_522B20(s32 a2, s32 a3, s32* a4);
+    EXPORT void sub_522B20(s32* a2, s32* a3, s32* a4);
     EXPORT void sub_522BE0(u32* a2);
     EXPORT void sub_522D00(u32* a2);
     EXPORT void sub_522E10(s32* a2);
