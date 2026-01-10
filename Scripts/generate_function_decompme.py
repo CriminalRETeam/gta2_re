@@ -328,12 +328,17 @@ def upload_scratch(diff_label: str, asm: str):
     print(scratch_url)
     webbrowser.open_new_tab(scratch_url)
 
+def get_func_info(func_name: str) -> OgFunctionData | None:
+    ret = FUNC_COLLECTION.get_data_by_name(func_name)
+    if ret is None:
+        ret = FUNC_COLLECTION.get_data_by_address(int(func_name, 16))
+    return ret
 
 def main():
     target_funcs = []
     # Collect all info about the targets 1st
     for func_name in args.ida_function_name:
-        target_func = FUNC_COLLECTION.get_data_by_name(func_name)
+        target_func = get_func_info(func_name)
         if target_func == None:
             print(f"could not find a function with the name: {func_name} for GTA 2 version {FUNC_COLLECTION.game_version}")
             sys.exit(1)
