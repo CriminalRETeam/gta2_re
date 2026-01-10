@@ -160,7 +160,7 @@ void Wolfy_30::sub_542E30(char_type a2)
 }
 
 STUB_FUNC(0x5434a0)
-char_type Wolfy_30::sub_5434A0(s32 a2, s32 a3)
+char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 a3)
 {
     NOT_IMPLEMENTED;
     return 0;

@@ -224,6 +224,16 @@ class Sprite
         }
     }
 
+    // TODO: get 9.6f addr
+    void set_z_lazy(Fix16 zpos)
+    {
+        if (field_1C_zpos != zpos)
+        {
+            field_1C_zpos = zpos;
+            ResetZCollisionAndDebugBoxes_59E7B0();
+        }
+    }
+
     inline Fix16 GetXPos()
     {
         return field_14_xpos.x;

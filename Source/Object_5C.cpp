@@ -47,6 +47,8 @@ DEFINE_GLOBAL(u8, byte_6F8F94, 0x6F8F94);
 DEFINE_GLOBAL(s32, dword_6F8F5C, 0x6F8F5C);
 DEFINE_GLOBAL(Fix16, dword_6F8DA8, 0x6F8DA8);
 DEFINE_GLOBAL(Fix16, dword_6F8E14, 0x6F8E14);
+DEFINE_GLOBAL(Fix16, k_dword_6F8C58, 0x6F8C58);
+DEFINE_GLOBAL(u8, byte_623EC4, 0x623EC4);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CE8, Fix16(12), 0x6F8CE8);
@@ -63,7 +65,7 @@ Object_2C::Object_2C()
     field_C_pAny.o8 = 0;
     field_10_obj_3c = 0;
     field_14_id = 99;
-    field_24 = 0;
+    field_24_bDoneThisFrame = 0;
     field_25 = 0;
     field_26_varrok_idx = 99;
     field_20 = 0;
@@ -321,10 +323,11 @@ void Object_2C::sub_522640(Fix16_Point* a2)
     }
 }
 
-STUB_FUNC(0x5226a0)
+WIP_FUNC(0x5226a0)
 void Object_2C::sub_5226A0(char_type a2)
 {
-    NOT_IMPLEMENTED;
+    // TODO: Missing SEH
+    WIP_IMPLEMENTED;
 
     if (field_10_obj_3c)
     {
@@ -349,8 +352,26 @@ void Object_2C::sub_5229B0(s32 a2, u32* a3, s32 a4)
     NOT_IMPLEMENTED;
 }
 
+// TODO: Probably move
+STUB_FUNC(0x55F3B0)
+EXPORT s32* __stdcall ComputeLineLineIntersection_55F3B0(s32* a1,
+                                                         s32 a2,
+                                                         s32 a3,
+                                                         s32* a4,
+                                                         s32 a5,
+                                                         s32 a6,
+                                                         Fix16_Point* a7,
+                                                         Fix16_Point* a8,
+                                                         s32 a9,
+                                                         s32 a10,
+                                                         s32 a11)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 STUB_FUNC(0x522b20)
-void Object_2C::sub_522B20(s32 a2, s32 a3, s32* a4)
+void Object_2C::sub_522B20(s32* f18, s32* a3, s32* a4)
 {
     NOT_IMPLEMENTED;
 }
@@ -368,22 +389,104 @@ void Object_2C::sub_522D00(u32* a2)
 }
 
 STUB_FUNC(0x522e10)
-void Object_2C::sub_522E10(s32* a2)
+void Object_2C::sub_522E10(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5233a0)
-char_type Object_2C::sub_5233A0(s32 a2)
+MATCH_FUNC(0x5233a0)
+char_type Object_2C::sub_5233A0(Fix16 a2)
 {
-    NOT_IMPLEMENTED;
+    dword_6F8F8C = 0;
+
+    if (sub_522460(this->field_4))
+    {
+
+        byte_623EC4 = 0;
+        if (byte_6F8F94)
+        {
+            return 0;
+        }
+
+        dword_6F8F8C = gRozza_679188.field_20_pSprite;
+        if (a2 > k_dword_6F8C58)
+        {
+            return 0;
+        }
+
+        if (this->field_10_obj_3c->field_34 == 1)
+        {
+            this->field_4->field_28_num = 29;
+        }
+        else
+        {
+            this->field_4->field_28_num = 6;
+        }
+        this->field_10_obj_3c->field_C = k_dword_6F8C58;
+        this->field_10_obj_3c->field_18 = this->field_8->field_14_friction;
+        return 1;
+    }
+    this->field_10_obj_3c->field_34 = 2;
     return 0;
 }
 
-STUB_FUNC(0x523440)
-void Object_2C::sub_523440(s32 a2, s32 a3, char_type a4, char_type a5)
+MATCH_FUNC(0x523440)
+void Object_2C::sub_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2)
 {
-    NOT_IMPLEMENTED;
+    if ((u8)field_4->IsOnWater_59E1D0())
+    {
+        this->field_10_obj_3c->field_C = kFpZero_6F8E10;
+        this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        return;
+    }
+
+    switch (this->field_8->field_4C)
+    {
+        case 4:
+            if (gRozza_679188.field_20_pSprite)
+            {
+                field_4->set_z_lazy(gRozza_679188.field_20_pSprite->field_1C_zpos);
+            }
+
+            if (!bUnknown1 || gRozza_679188.field_0_type == 3)
+            {
+                if (bUnknown2 && gRozza_679188.field_0_type != 3)
+                {
+                    gRozza_679188.field_0_type = 5;
+                    gRozza_679188.field_20_pSprite = 0;
+                }
+            }
+            else
+            {
+                gRozza_679188.field_0_type = 4;
+                gRozza_679188.field_20_pSprite = 0;
+            }
+
+            HandleImpact_528E50(gRozza_679188.field_20_pSprite);
+            return;
+
+        case 0:
+        case 1:
+            if (bUnknown1)
+            {
+                gRozza_679188.field_0_type = 4;
+                gRozza_679188.field_20_pSprite = 0;
+            }
+            else if (bUnknown2)
+            {
+                gRozza_679188.field_0_type = 5;
+                gRozza_679188.field_20_pSprite = 0;
+            }
+            HandleImpact_528E50(gRozza_679188.field_20_pSprite);
+            return;
+
+        case 2:
+        case 3:
+            sub_522E10(&point);
+            return;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x5235b0)
@@ -400,10 +503,10 @@ void Object_2C::sub_524630(s32 a2, s16 a3)
 }
 
 // https://decomp.me/scratch/jLuSq
-STUB_FUNC(0x525190)
+WIP_FUNC(0x525190)
 void Object_2C::sub_525190(u8 varrok_idx)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     if (field_8->field_3C < 39 || field_8->field_3C > 42)
     {
@@ -464,7 +567,7 @@ void Object_2C::UpdateAninmation_5257D0()
 MATCH_FUNC(0x525910)
 bool Object_2C::sub_525910()
 {
-    if (field_24)
+    if (field_24_bDoneThisFrame)
     {
         switch (field_8->field_44)
         {
@@ -474,30 +577,30 @@ bool Object_2C::sub_525910()
             case 6:
             case 8:
             case 11:
-                if (field_24 == 1)
+                if (field_24_bDoneThisFrame == 1)
                 {
                     sub_5283C0(field_8->field_38);
                 }
                 else
                 {
-                    sub_5283C0(field_24);
+                    sub_5283C0(field_24_bDoneThisFrame);
                 }
-                field_24 = 0;
+                field_24_bDoneThisFrame = 0;
                 return true;
             case 4:
-                if (field_24 != 1)
+                if (field_24_bDoneThisFrame != 1)
                 {
-                    sub_5283C0(field_24);
+                    sub_5283C0(field_24_bDoneThisFrame);
                 }
-                field_24 = 0;
+                field_24_bDoneThisFrame = 0;
                 return true;
             case 7:
             case 10:
-                field_24 = 0;
+                field_24_bDoneThisFrame = 0;
                 sub_5290A0();
                 return true;
             default:
-                field_24 = 0;
+                field_24_bDoneThisFrame = 0;
                 return false;
         }
     }
@@ -566,10 +669,88 @@ void Object_2C::sub_525D90()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x525f30)
+MATCH_FUNC(0x525f30)
 void Object_2C::Update_525F30()
 {
-    NOT_IMPLEMENTED;
+    Wolfy_30* pWolfy;
+
+    dword_6F8F8C = 0;
+    while (2)
+    {
+        switch (this->field_8->field_34)
+        {
+            case 0:
+                if (!sub_525910())
+                {
+                    sub_525B20();
+                    return;
+                }
+                return;
+            case 1:
+                if (!sub_525910())
+                {
+                    sub_525B20();
+                    sub_525AE0();
+                }
+                return;
+
+            case 5:
+                pWolfy = this->field_C_pAny.pExplosion;
+                if (pWolfy)
+                {
+                    if (pWolfy->Update_5434A0(kFpZero_6F8E10, kZeroAng_6F8F68))
+                    {
+                        this->field_25 = 1;
+                    }
+                }
+                return;
+
+            case 3:
+            case 7:
+                RemoveFromCollisionBuckets_527D00();
+                byte_6F8C4C = 1;
+                sub_525B80();
+                if (!byte_6F8F40)
+                {
+                    sub_527AE0();
+                }
+                return;
+
+            case 2:
+            case 8:
+                if (!sub_525910())
+                {
+                    sub_525B20();
+                    UpdateAninmation_5257D0();
+                }
+                return;
+
+            case 4:
+            case 9:
+                RemoveFromCollisionBuckets_527D00();
+                byte_6F8C4C = 1;
+                sub_525D90();
+                if (!byte_6F8F40)
+                {
+                    sub_527AE0();
+                }
+                return;
+
+            case 6:
+            case 10:
+            case 11:
+                sub_525910();
+                sub_525B20();
+                return;
+
+            case 12:
+                sub_525B20();
+                return;
+
+            default:
+                continue;
+        }
+    }
 }
 
 MATCH_FUNC(0x5263d0)
@@ -646,7 +827,7 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     Phi_74* phi74 = gPhi_8CA8_6FCF00->sub_534360(object_type);
     field_8 = phi74;
     field_18_model = object_type;
-    field_24 = 0;
+    field_24_bDoneThisFrame = 0;
 
     if (field_4)
     {
@@ -730,7 +911,7 @@ void Object_2C::sub_527F10()
 }
 
 STUB_FUNC(0x528130)
-s16* Object_2C::sub_528130(Fix16_Point* a2)
+Ang16 Object_2C::sub_528130(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -850,10 +1031,134 @@ void Object_2C::HandleImpactNoSprite_528BA0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x528e50)
-void Object_2C::HandleImpact_528E50(Sprite* a3)
+WIP_FUNC(0x528e50)
+void Object_2C::HandleImpact_528E50(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    // Mostly bad switch ordering I think
+
+    if (!this->field_24_bDoneThisFrame && (!pSprite || ShouldCollideWith_5223C0(pSprite)))
+    {
+        this->field_24_bDoneThisFrame = 1;
+        switch (field_8->field_44)
+        {
+            case 1:
+            case 2:
+                PoolGive_522340(); // destroy
+                break;
+
+            case 3:
+                if (pSprite->AsCar_40FEB0())
+                {
+                    this->field_24_bDoneThisFrame = 1;
+                }
+                else
+                {
+                    this->field_24_bDoneThisFrame = 0;
+                }
+
+                if (!field_24_bDoneThisFrame)
+                {
+                    return;
+                }
+                PoolGive_522340();
+                break;
+
+            case 4:
+            case 5:
+                if (pSprite->AsCharB4_40FEA0())
+                {
+                    this->field_24_bDoneThisFrame = 1; // is_charb4
+                }
+                else
+                {
+                    this->field_24_bDoneThisFrame = 0;
+                }
+
+                if (!field_24_bDoneThisFrame)
+                {
+                    return;
+                }
+                PoolGive_522340();
+                break;
+
+            case 6:
+                this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
+                if (field_24_bDoneThisFrame)
+                {
+                    PoolGive_522340(); // destroy
+                }
+                break;
+
+            case 7:
+            case 8:
+                if (pSprite)
+                {
+                    this->field_24_bDoneThisFrame = HandleObjectHit_528990(pSprite);
+                }
+                else
+                {
+                    HandleImpactNoSprite_528BA0();
+                }
+
+                if (!field_24_bDoneThisFrame)
+                {
+                    return;
+                }
+                PoolGive_522340();
+                break;
+
+            case 9:
+                this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
+                break;
+
+            case 10:
+                if (!pSprite)
+                {
+                    break;
+                }
+                if (pSprite->AsCharB4_40FEA0())
+                {
+                    this->field_24_bDoneThisFrame = 1;
+                }
+                else
+                {
+                    this->field_24_bDoneThisFrame = 0;
+                }
+                break;
+
+            case 11:
+                this->field_24_bDoneThisFrame = 0;
+                break;
+
+            default:
+                break;
+        }
+
+        if (this->field_24_bDoneThisFrame)
+        {
+            if (pSprite)
+            {
+                if (!check_is_shop_421060() || !pSprite->IsControlledByActivePlayer_59E170())
+                {
+                    gRozza_C88_66AFE0->Type3_40BDD0(field_4, pSprite);
+                }
+            }
+            else if (gRozza_679188.field_0_type == 4)
+            {
+                gRozza_C88_66AFE0->Type4_40BC40(field_4);
+            }
+            else if (gRozza_679188.field_0_type == 5)
+            {
+                gRozza_C88_66AFE0->Type5_40BD10(field_4);
+            }
+            else
+            {
+                gRozza_C88_66AFE0->OtherType_40BBA0(field_4, kFpZero_6F8E10);
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x529000)
@@ -985,14 +1290,14 @@ MATCH_FUNC(0x5291d0)
 void Object_2C::sub_5291D0()
 {
     PoolGive_522340();
-    field_24 = 1;
+    field_24_bDoneThisFrame = 1;
 }
 
 MATCH_FUNC(0x5291E0)
 void Object_2C::sub_5291E0(u8 a2)
 {
     PoolGive_522340();
-    field_24 = a2;
+    field_24_bDoneThisFrame = a2;
 }
 
 MATCH_FUNC(0x529200)
