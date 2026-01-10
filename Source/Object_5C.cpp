@@ -432,10 +432,10 @@ void Object_2C::sub_524630(s32 a2, s16 a3)
 }
 
 // https://decomp.me/scratch/jLuSq
-STUB_FUNC(0x525190)
+WIP_FUNC(0x525190)
 void Object_2C::sub_525190(u8 varrok_idx)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     if (field_8->field_3C < 39 || field_8->field_3C > 42)
     {
