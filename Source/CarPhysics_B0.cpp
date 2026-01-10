@@ -6,6 +6,7 @@
 #include "Rozza_C88.hpp"
 #include "debug.hpp"
 #include "map_0x370.hpp"
+#include "rng.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -138,16 +139,37 @@ void CarPhysics_B0::sub_559B50()
 }
 
 MATCH_FUNC(0x559b90)
-void CarPhysics_B0::sub_559B90(const s32& a2)
+void CarPhysics_B0::set_field_A0_559B90(const s32& a2)
 {
     field_A0 = a2;
 }
 
-STUB_FUNC(0x559ba0)
-u32 CarPhysics_B0::SpinOutOnOil_559BA0()
+MATCH_FUNC(0x559ba0)
+void CarPhysics_B0::SpinOutOnOil_559BA0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_5C_pCar->is_train_model())
+    {
+        if (field_A0 != 1 && field_A0 != 2)
+        {
+            s32 rndMax = 2;
+            if (stru_6F6784.get_int_4F7AE0((s16*)&rndMax))
+            {
+                rndMax = 1;
+                set_field_A0_559B90(rndMax);
+            }
+            else
+            {
+                rndMax = 2;
+                set_field_A0_559B90(rndMax);
+            }
+        }
+        this->field_A4 = 30;
+        const u32 new_val = rng_dword_67AB34->field_0_rng + 30;
+        if (new_val > field_8_total_damage_q)
+        {
+            this->field_8_total_damage_q = new_val;
+        }
+    }
 }
 
 // https://decomp.me/scratch/yM7OA Fix16 annoying inlined stuff
@@ -188,7 +210,7 @@ void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
         field_A4--;
         if (field_A4 == 0)
         {
-            CarPhysics_B0::sub_559B90(0);
+            CarPhysics_B0::set_field_A0_559B90(0);
         }
     }
 }
@@ -1445,7 +1467,7 @@ void CarPhysics_B0::Init_5637A0()
     field_A9_car_model = -1;
     field_A8_hand_brake_force = 0;
     field_90_timer_since_last_move = 0;
-    sub_559B90(0);
+    set_field_A0_559B90(0);
     field_A4 = 0;
     field_98_surface_type = 0;
     field_9C = 0;
