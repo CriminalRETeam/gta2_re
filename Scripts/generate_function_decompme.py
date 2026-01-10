@@ -251,7 +251,7 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
         if is_jump(instruction, formatter):
             if instruction.near_branch_target not in labels:
                 # when labels start with .L they aren't emitted by the assembler
-                labels[instruction.near_branch_target] = f".L{len(labels)}"
+                labels[instruction.near_branch_target] = f".L_{hex(target_func.address)}_{len(labels)}"
                 print(f"add label at ip: {instruction.near_branch_target}")
 
     # reset decoder for the second run
@@ -297,7 +297,7 @@ def main():
         print(f"could not find a function with the name: {args.ida_function_name} for GTA 2 version {FUNC_COLLECTION.game_version}")
         sys.exit(1)
 
-    asm = dism_func(target_func, args.objdiff)
+    asm = dism_func(target_func, args.objdiff or args.asm)
     print("\n" + asm)
 
     if args.objdiff or args.asm:
