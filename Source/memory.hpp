@@ -2,6 +2,8 @@
 
 #include "Function.hpp"
 
+#include <stdlib.h>
+
 class Memory
 {
   public:

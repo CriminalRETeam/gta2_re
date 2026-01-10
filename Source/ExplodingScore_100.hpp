@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Fix16.hpp"
+#include "fix16.hpp"
 #include "Function.hpp"
 #include "Pool.hpp"
 

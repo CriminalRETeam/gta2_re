@@ -54,7 +54,7 @@ DEFINE_GLOBAL(Fix16_Point, stru_6F62A0, 0x6F62A0);
 DEFINE_GLOBAL(Fix16_Point, stru_6F62A8, 0x6F62A8);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6580, 0x6F6580);
 
-static inline void sub_46BD40(Fix16& x, Fix16& y, Vert* pVert)
+static inline void sub_46BD40(const Fix16& x, const Fix16& y, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(x, y, dword_6F62B0, pVert);
     pVert->x = x.ToFloat() * dword_6F628C.ToFloat() + (u32)gViewCamera_676978->field_70_screen_px_center_x;
@@ -62,7 +62,7 @@ static inline void sub_46BD40(Fix16& x, Fix16& y, Vert* pVert)
     pVert->z = dword_6F656C.ToFloat();
 }
 
-static inline void sub_46BDF0(Fix16& xpos, Fix16& ypos, Vert* pVert)
+static inline void sub_46BDF0(const Fix16& xpos, const Fix16& ypos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, gZCoord_6F63E0, pVert);
     
@@ -71,7 +71,7 @@ static inline void sub_46BDF0(Fix16& xpos, Fix16& ypos, Vert* pVert)
     pVert->z = dword_6F6318.ToFloat();
 }
 
-static inline void sub_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
+static inline void sub_46BC70(const Fix16& xpos, const Fix16& ypos, const Fix16& zpos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
     pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
@@ -417,6 +417,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
         switch (dword_6F646C.field_0_gradient_direction)
         {
             case NORTH_1:
+            {
                 sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
                 if (!dword_6F647C)
                 {
@@ -470,8 +471,9 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 gTileVerts_6F65A8[0].v = 63.999901f;
                 gTileVerts_6F65A8[3].v = 63.999901f;
                 break;
-
+            }
             case SOUTH_2:
+            {
                 sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
                 if (dword_6F647C == 0)
                 {
@@ -523,6 +525,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 gTileVerts_6F65A8[0].v = 63.999901f;
                 gTileVerts_6F65A8[3].v = 63.999901f;
                 break;
+            }
             default:
                 // Flat blocks
                 MapRenderer::sub_4EAEA0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
@@ -569,7 +572,7 @@ void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, F
 
 // This function matches, but the offsets of dword_6F628C and dword_6F656C are wrong
 WIP_FUNC(0x4eae00)
-void MapRenderer::sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
+void MapRenderer::sub_4EAE00(const Fix16& xpos, const Fix16& ypos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, dword_6F62B0, pVert);
     
@@ -580,7 +583,7 @@ void MapRenderer::sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
 
 // This function matches, but the offsets of dword_6F633C and dword_6F6318 are wrong
 WIP_FUNC(0x4eaea0)
-void MapRenderer::sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert)
+void MapRenderer::sub_4EAEA0(const Fix16& xCoord, const Fix16& yCoord, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xCoord, yCoord, gZCoord_6F63E0, pVert);
 
@@ -598,6 +601,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
         switch (dword_6F646C.field_0_gradient_direction)
         {
             case NORTH_1:
+            {
                 sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
 
                 if (dword_6F647C == 0)
@@ -654,8 +658,9 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 gTileVerts_6F65A8[1].v = 63.999901f;
                 gTileVerts_6F65A8[2].v = 63.999901f;
                 break;
-
+            }
             case SOUTH_2:
+            {
                 // 270 on IDA
                 sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
                 if (dword_6F647C == 0)
@@ -710,6 +715,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 gTileVerts_6F65A8[1].v = 63.999901f;
                 gTileVerts_6F65A8[2].v = 63.999901f;
                 break;
+            }
             default:
                 // Flat blocks
                 MapRenderer::sub_4EAEA0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
@@ -744,7 +750,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
 
 // https://decomp.me/scratch/GkGnQ
 WIP_FUNC(0x4EB940)
-void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
+void __stdcall sub_4EB940(const Fix16& xpos, const Fix16& ypos, const Fix16& zpos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_inlined(xpos, ypos, zpos, pVert);
 
@@ -762,6 +768,7 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
         switch (dword_6F646C.field_0_gradient_direction)
         {
             case WEST_3:
+            {
                 sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
                 if (dword_6F647C == 0)
                 {
@@ -813,8 +820,9 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                 gTileVerts_6F65A8[1].v = 63.999901f;
 
                 break;
+            }
             case EAST_4:
-
+            {
                 if (dword_6F647C == 0)
                 {
                     sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[2]);
@@ -868,6 +876,7 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                 gTileVerts_6F65A8[1].v = 63.999901f;
 
                 break;
+            }
             default:
                 // Flat blocks
                 MapRenderer::sub_4EAEA0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
@@ -1028,8 +1037,9 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
         switch (dword_6F646C.field_0_gradient_direction)
         {
             case WEST_3:
+            {
                 sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
-                
+
                 if (dword_6F647C == 0)
                 {
                     sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[0]);
@@ -1038,23 +1048,18 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 else
                 {
                     Fix16 z_unk_1 = Fix16(dword_6F6480 - dword_6F647C) / dword_6F6480;
-                    sub_46BC70(gXCoord_6F63AC,
-                              gYCoord_6F63B8 + stru_6F6484.y,
-                              dword_6F6518 + z_unk_1,
-                              &gTileVerts_6F65A8[0]);
+                    sub_46BC70(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, dword_6F6518 + z_unk_1, &gTileVerts_6F65A8[0]);
                     gTileVerts_6F65A8[0].v = 63.999901f - (z_unk_1 * dword_6F6548).ToFloat();
                 }
 
-                if ( gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y )
+                if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
                 {
                     return;
                 }
 
-                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, 
-                           gYCoord_6F63B8 + stru_6F6484.y,
-                          &gTileVerts_6F65A8[2]);
-                
-                if ( dword_6F647C == dword_6F6480 - 1 )
+                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+
+                if (dword_6F647C == dword_6F6480 - 1)
                 {
                     memcpy(&gTileVerts_6F65A8[1], &gTileVerts_6F65A8[2], sizeof(Vert));
                     gTileVerts_6F65A8[1].v = 63.999901f;
@@ -1062,7 +1067,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 else
                 {
                     Fix16 z_unk_2 = Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480;
-                    sub_46BC70(gXCoord_6F63AC + stru_6F6484.y, 
+                    sub_46BC70(gXCoord_6F63AC + stru_6F6484.y,
                                gYCoord_6F63B8 + stru_6F6484.y,
                                dword_6F6518 + z_unk_2,
                                &gTileVerts_6F65A8[1]);
@@ -1089,27 +1094,23 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 gTileVerts_6F65A8[2].v = 63.999901f;
                 gTileVerts_6F65A8[3].v = 63.999901f;
                 break;
-            
+            }
             case EAST_4:
-                
-                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, 
-                           gYCoord_6F63B8 + stru_6F6484.y,
-                           &gTileVerts_6F65A8[2]);
-                
+            {
+                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+
                 if (dword_6F647C == 0)
                 {
-                    sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, 
-                              gYCoord_6F63B8 + stru_6F6484.y,
-                              &gTileVerts_6F65A8[1]);
+                    sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[1]);
                     gTileVerts_6F65A8[1].v = 0.0f;
                 }
                 else
                 {
                     Fix16 z_unk_3 = Fix16(dword_6F6480 - dword_6F647C) / dword_6F6480;
-                    sub_46BC70(gXCoord_6F63AC + stru_6F6484.y, 
-                              gYCoord_6F63B8 + stru_6F6484.y,
-                              dword_6F6518 + z_unk_3,
-                              &gTileVerts_6F65A8[1]);
+                    sub_46BC70(gXCoord_6F63AC + stru_6F6484.y,
+                               gYCoord_6F63B8 + stru_6F6484.y,
+                               dword_6F6518 + z_unk_3,
+                               &gTileVerts_6F65A8[1]);
                     gTileVerts_6F65A8[1].v = 63.999901f - (z_unk_3 * dword_6F6548).ToFloat();
                 }
 
@@ -1120,7 +1121,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
 
                 sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
 
-                if ( dword_6F647C == dword_6F6480 - 1 )
+                if (dword_6F647C == dword_6F6480 - 1)
                 {
                     memcpy(&gTileVerts_6F65A8[0], &gTileVerts_6F65A8[3], sizeof(Vert));
                     gTileVerts_6F65A8[0].v = 63.999901f;
@@ -1128,10 +1129,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 else
                 {
                     Fix16 z_unk_4 = Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480;
-                    sub_4EB940(gXCoord_6F63AC, 
-                               gYCoord_6F63B8 + stru_6F6484.y,
-                               dword_6F6518 + z_unk_4,
-                               &gTileVerts_6F65A8[0]);
+                    sub_4EB940(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, dword_6F6518 + z_unk_4, &gTileVerts_6F65A8[0]);
                     gTileVerts_6F65A8[0].v = 63.999901f - (z_unk_4 * dword_6F6548).ToFloat();
                 }
                 dword_6F6560 = 16389;
@@ -1154,6 +1152,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 gTileVerts_6F65A8[2].v = 63.999901f;
                 gTileVerts_6F65A8[3].v = 63.999901f;
                 break;
+            }
             default:
                 // Flat blocks
                 MapRenderer::sub_4EAEA0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);

@@ -136,7 +136,7 @@ class HookLoader
 
             HookLoader* hl = reinterpret_cast<HookLoader*>(pContext);
 
-            std::map<const void*, u32>::iterator it = hl->mGlobalEntryToOgAddrMap.find(varAddr);
+            std::map<const void*, u32>::iterator it = hl->mGlobalEntryToOgAddrMap.find((const void *)varAddr);
             if (it != hl->mGlobalEntryToOgAddrMap.end())
             {
                 #ifdef HOOK_VERBOSE
@@ -329,7 +329,7 @@ class HookLoader
                 printf("Look up %s\n", it->first.c_str());
                 #endif
 
-                LPVOID addr = ::GetProcAddress(hImports, it->first.c_str());
+                LPVOID addr = (LPVOID)::GetProcAddress(hImports, it->first.c_str());
                 const FuncMeta& meta = it->second;
                 
                 #ifdef HOOK_VERBOSE
@@ -379,10 +379,10 @@ class HookLoader
         }
 
         printf("Look up GameMain...\n");
-        LPVOID pGameMain = ::GetProcAddress(hImports, "GameMain");
+        LPVOID pGameMain = (LPVOID)::GetProcAddress(hImports, "GameMain");
         typedef void(__cdecl * TGameMain)();
 
-        printf("GameMain = %X\n", pGameMain);
+        printf("GameMain = %kX\n", pGameMain);
 
         TGameMain pTypedGameMain = (TGameMain)pGameMain;
         pTypedGameMain();

@@ -199,6 +199,7 @@ void Montana::ResetAll_4954F0()
 STUB_FUNC(0x5BEE90)
 EXPORT unsigned __int64 get_rdtsc_5BEE90()
 {
+#if defined(_MSC_VER) && defined(_M_IX86)
     // NOTE: Actually is inline assembly, surprisingly
     unsigned __int64 t;
     __asm 
@@ -209,6 +210,11 @@ EXPORT unsigned __int64 get_rdtsc_5BEE90()
         mov DWORD PTR t+4, edx 
         popad
     }
+#elif defined(_MSC_VER)
+    unsigned __int64 t = __rdtsc();
+#else
+    unsigned long int t = __builtin_ia32_rdtsc();
+#endif
     return static_cast<int>(t);
 }
 

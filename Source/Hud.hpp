@@ -91,7 +91,7 @@ class Hud_Message_1C8
     EXPORT void ClearTimeToShow_5D1850();
     EXPORT void sub_5D1860();
     EXPORT void DrawMessage_5D1940();
-    EXPORT void ShowMessage_5D1A00(wchar_t* pStr, s32 a3);
+    EXPORT void ShowMessage_5D1A00(const wchar_t* pStr, s32 a3);
     EXPORT void sub_5D1AB0();
     EXPORT Hud_Message_1C8();
     u8 field_0_time_to_show;
@@ -566,7 +566,7 @@ class Hud_2B00
     EXPORT ~Hud_2B00();
     EXPORT void sub_5D4A10();
     EXPORT void sub_5D5190();
-    EXPORT void sub_5D5240(wchar_t* Source);
+    EXPORT void sub_5D5240(const wchar_t* Source);
     EXPORT void sub_5D5350();
     EXPORT void DrawGui_5D6860();
     EXPORT void sub_5D69C0();
@@ -617,7 +617,7 @@ EXTERN_GLOBAL(s16, word_706600);
 EXTERN_GLOBAL_ARRAY(char, byte_67CE50, 264);
 
 EXPORT s32 __stdcall sub_5D1260(s32 a1);
-EXPORT char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type);
+EXPORT const char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type);
 EXPORT u8 __stdcall sub_5D12E0(s32 phone_type);
 
 EXPORT void __stdcall sub_5D6060(s16 a1, u8 a2);

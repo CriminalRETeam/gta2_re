@@ -194,7 +194,7 @@ class Fix16
         return *this;
     }
 
-    inline static Fix16 __stdcall Abs(Fix16& input)
+    inline static Fix16 __stdcall Abs(COMPAT_CONST Fix16& input)
     {
         if (input.mValue > 0)
         {
@@ -241,7 +241,7 @@ class Fix16
         return (diff_x > diff_y) ? diff_x : diff_y;
     }
 
-    inline static Fix16 __stdcall SquareRoot(Fix16& input)
+    inline static Fix16 __stdcall SquareRoot(COMPAT_CONST Fix16& input)
     {
         return Fix16(sqrt(input.AsDouble()));
     }
@@ -256,7 +256,7 @@ class Fix16
     EXPORT Fix16 operator+(const Fix16& rhs) const;
 
     //MATCH_FUNC(0x436A20)
-    Fix16 operator/(const Fix16& in)
+    Fix16 operator/(const Fix16& in) const
     {
         s32 value = (s32)(((__int64)mValue << 14) / in.mValue);
         return Fix16(value, 0);
@@ -265,7 +265,7 @@ class Fix16
     // Inlined from 9.6f at 0x401bf0
     // I am not fully sure if this is right, i.e. the s32 parameter, instead of Fix16.
     // But I couldn't match Phi_74::sub_533090 without this overload.
-    EXPORT Fix16 operator/(const s32& in)
+    EXPORT Fix16 operator/(const s32& in) const
     {
         s32 value = mValue / in;
         return Fix16(value, 0);
@@ -276,7 +276,7 @@ class Fix16
         return mValue;
     }
 
-    EXPORT static class Ang16 __stdcall atan2_fixed_405320(Fix16& pMaybeX_FP16, Fix16& pMaybeY_FP16);
+    EXPORT static class Ang16 __stdcall atan2_fixed_405320(const Fix16& pMaybeX_FP16, const Fix16& pMaybeY_FP16);
 
   public:
     s32 mValue;

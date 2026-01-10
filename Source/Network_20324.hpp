@@ -4,7 +4,7 @@
 #include <windows.h>
 
 EXPORT char_type* __stdcall GetString_519A00(const char_type* Key);
-EXPORT u16 __stdcall sub_519960(char_type* a1, u16* a2);
+EXPORT u16 __stdcall sub_519960(char_type* a1, const u16* a2);
 
 enum Network_UI_Control_Ids
 {

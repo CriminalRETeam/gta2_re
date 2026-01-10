@@ -2,7 +2,7 @@
 
 #include "BitSet32.hpp"
 #include "Car_10.hpp"
-#include "Fix16.hpp"
+#include "fix16.hpp"
 #include "Function.hpp"
 #include "Object_3C.hpp"
 #include "Ped_List_4.hpp"
@@ -329,8 +329,7 @@ class Trailer
         mpNext = NULL;
         field_8_truck_cab = NULL;
         field_C_pCarOnTrailer = NULL;
-        field_0 = NULL;
-        0;
+        field_0 = 0;
     }
 
     char_type field_0;
@@ -355,7 +354,7 @@ class Car_BC
     EXPORT bool IsPoliceCar_439EC0();
     EXPORT Fix16 GetDamageFactorOnSpeed_439EE0();
     EXPORT Fix16 GetMaxSpeed_439F30();
-    EXPORT wchar_t* GetCarStr_439F80();
+    EXPORT const wchar_t* GetCarStr_439F80();
     EXPORT u32* sub_439FB0(u32* a2);
     EXPORT Fix16_Point get_rear_wheel_offset_43A0E0();
     EXPORT Fix16 get_mass_43A120();

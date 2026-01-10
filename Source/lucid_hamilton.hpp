@@ -69,7 +69,7 @@ struct lucid_hamilton
 
     EXPORT char* SetScriptName_4C58B0(char_type* Source);
 
-    EXPORT char_type* DebugStr_4C58D0(char_type* Source);
+    EXPORT char_type* DebugStr_4C58D0(const char_type* Source);
 
     EXPORT void sub_4C58F0(char_type a2);
 

@@ -136,7 +136,8 @@ wchar_t* text_0x14::TKeyFind_5B5A50(const char_type* pIdStr)
                                           TKeySearch_5B5A10);
     if (!pFound)
     {
-        return L" ";
+        // BUG: casting const away
+        return (wchar_t*)L" ";
     }
     else
     {

@@ -7,7 +7,7 @@
 #define DIRECTINPUT_VERSION 0x0700
 #endif
 
-#include <Dinput.h>
+#include <dinput.h>
 
 
 class Input

@@ -28,7 +28,7 @@ void xenodochial_morse::sub_483F20()
 {
     s16 v2 = 0;
     u16 a4 = 0;
-    wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90("credits");
+    const wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90("credits");
     wchar_t v4 = xenodochial_morse::sub_483EC0(_5B5F90, &a4, 1);
     u16 v12 = 0;
 

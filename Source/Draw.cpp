@@ -69,14 +69,14 @@ inline s32 __stdcall sub_5D7700_inlined(u16 a1)
 }
 
 MATCH_FUNC(0x5D8940)
-s32 __stdcall sub_5D8940(wchar_t* a1, u16 a2)
+s32 __stdcall sub_5D8940(const wchar_t* a1, u16 a2)
 {
     s32 v3 = sub_5D7700_inlined(a2);
 
     s32 result = v3;
-    for (wchar_t* i = a1; *i; ++i)
+    for (const wchar_t* i = a1; *i; ++i)
     {
-        if (*i == 10)
+        if (*i == L'\n')
         {
             result += v3;
         }

@@ -182,7 +182,7 @@ class gtx_0x106C
 
     EXPORT u16 sub_5AA710(u16 a2, s16 a3);
 
-    EXPORT u16 sub_5AA760(u16* a2, wchar_t* a3);
+    EXPORT u16 sub_5AA760(u16* a2, const wchar_t* a3);
 
     EXPORT u16 space_width_5AA7B0(u16* a2);
 

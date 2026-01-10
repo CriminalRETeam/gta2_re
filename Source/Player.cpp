@@ -27,7 +27,7 @@
 #include "winmain.hpp"
 #include "youthful_einstein.hpp"
 #include "zealous_borg.hpp"
-#include <DINPUT.H>
+#include <dinput.h>
 
 EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
 EXTERN_GLOBAL(bool, gCheatInvisibility_67D539);
@@ -2227,7 +2227,7 @@ void Player::sub_569E70()
 }
 
 MATCH_FUNC(0x569F00)
-char* Player::GetDeathText_569F00()
+const char* Player::GetDeathText_569F00()
 {
     switch (field_44_death_type)
     {

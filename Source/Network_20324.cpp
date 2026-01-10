@@ -4,7 +4,8 @@
 #include "NetPlay.hpp"
 #include "registry.hpp"
 #include "text_0x14.hpp"
-#include <COMMCTRL.H>
+#include <commctrl.h>
+#include <cstdio>
 
 DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18, 0x6F8A18);
 DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256, 0x6F88A4);
@@ -12,7 +13,7 @@ DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256, 0x6F88A4);
 Network_UI_Control_Data gUiControlDefinitions_621430[3][30];
 
 STUB_FUNC(0x519960)
-u16 __stdcall sub_519960(char_type* a1, wchar_t* a2)
+u16 __stdcall sub_519960(char_type* a1, const wchar_t* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -28,7 +29,7 @@ char_type Network_20324::sub_5199B0(wchar_t* a1, char_type* a2)
 MATCH_FUNC(0x519a00)
 char_type* __stdcall GetString_519A00(const char_type* pKey)
 {
-    wchar_t* pText = gtext_0x14_6F87F0->Find_5B5F90(pKey);
+    const wchar_t* pText = gtext_0x14_6F87F0->Find_5B5F90(pKey);
 
     if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
     {
