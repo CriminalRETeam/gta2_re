@@ -157,7 +157,7 @@ class Object_2C
     char_type field_1E;
     char_type field_1F;
     s32 field_20;
-    u8 field_24;
+    u8 field_24_bDoneThisFrame;
     u8 field_25;
     u8 field_26_varrok_idx;
     char_type field_27;

@@ -209,7 +209,7 @@ void Rozza_C88::Reset_40BB90()
 }
 
 MATCH_FUNC(0x40bba0)
-void Rozza_C88::sub_40BBA0(Sprite* pSprite, Fix16 physics_value)
+void Rozza_C88::OtherType_40BBA0(Sprite* pSprite, Fix16 physics_value)
 {
     if (!bSkip_audio_67D6BE)
     {
@@ -271,7 +271,7 @@ void Rozza_C88::Type4_40BC40(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x40bd10)
-void Rozza_C88::sub_40BD10(Sprite* pSprite)
+void Rozza_C88::Type5_40BD10(Sprite* pSprite)
 {
     if (!bSkip_audio_67D6BE)
     {
@@ -302,11 +302,11 @@ void Rozza_C88::sub_40BD10(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x40bdd0)
-void Rozza_C88::sub_40BDD0(Sprite* pSprite1, Sprite* pSprite2)
+void Rozza_C88::Type3_40BDD0(Sprite* pSprite1, Sprite* pSprite2)
 {
     gRozza_679188.field_20_pSprite = pSprite2;
     gRozza_679188.field_0_type = 3;
-    sub_40BBA0(pSprite1, dword_66AE98);
+    OtherType_40BBA0(pSprite1, dword_66AE98);
 }
 
 MATCH_FUNC(0x40be00)

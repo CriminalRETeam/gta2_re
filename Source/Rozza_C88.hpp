@@ -54,10 +54,10 @@ class Rozza_C88
 {
   public:
     EXPORT void Reset_40BB90();
-    EXPORT void sub_40BBA0(Sprite* a2, Fix16 a3);
+    EXPORT void OtherType_40BBA0(Sprite* a2, Fix16 a3);
     EXPORT void Type4_40BC40(Sprite* a2);
-    EXPORT void sub_40BD10(Sprite* a2);
-    EXPORT void sub_40BDD0(Sprite* a2, Sprite* a3);
+    EXPORT void Type5_40BD10(Sprite* a2);
+    EXPORT void Type3_40BDD0(Sprite* a2, Sprite* a3);
     EXPORT Rozza_C88();
     EXPORT ~Rozza_C88();
 

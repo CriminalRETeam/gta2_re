@@ -65,7 +65,7 @@ Object_2C::Object_2C()
     field_C_pAny.o8 = 0;
     field_10_obj_3c = 0;
     field_14_id = 99;
-    field_24 = 0;
+    field_24_bDoneThisFrame = 0;
     field_25 = 0;
     field_26_varrok_idx = 99;
     field_20 = 0;
@@ -496,7 +496,7 @@ void Object_2C::UpdateAninmation_5257D0()
 MATCH_FUNC(0x525910)
 bool Object_2C::sub_525910()
 {
-    if (field_24)
+    if (field_24_bDoneThisFrame)
     {
         switch (field_8->field_44)
         {
@@ -506,30 +506,30 @@ bool Object_2C::sub_525910()
             case 6:
             case 8:
             case 11:
-                if (field_24 == 1)
+                if (field_24_bDoneThisFrame == 1)
                 {
                     sub_5283C0(field_8->field_38);
                 }
                 else
                 {
-                    sub_5283C0(field_24);
+                    sub_5283C0(field_24_bDoneThisFrame);
                 }
-                field_24 = 0;
+                field_24_bDoneThisFrame = 0;
                 return true;
             case 4:
-                if (field_24 != 1)
+                if (field_24_bDoneThisFrame != 1)
                 {
-                    sub_5283C0(field_24);
+                    sub_5283C0(field_24_bDoneThisFrame);
                 }
-                field_24 = 0;
+                field_24_bDoneThisFrame = 0;
                 return true;
             case 7:
             case 10:
-                field_24 = 0;
+                field_24_bDoneThisFrame = 0;
                 sub_5290A0();
                 return true;
             default:
-                field_24 = 0;
+                field_24_bDoneThisFrame = 0;
                 return false;
         }
     }
@@ -678,7 +678,7 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     Phi_74* phi74 = gPhi_8CA8_6FCF00->sub_534360(object_type);
     field_8 = phi74;
     field_18_model = object_type;
-    field_24 = 0;
+    field_24_bDoneThisFrame = 0;
 
     if (field_4)
     {
@@ -882,10 +882,110 @@ void Object_2C::HandleImpactNoSprite_528BA0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x528e50)
-void Object_2C::HandleImpact_528E50(Sprite* a3)
+WIP_FUNC(0x528e50)
+void Object_2C::HandleImpact_528E50(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (!this->field_24_bDoneThisFrame && (!pSprite || ShouldCollideWith_5223C0(pSprite)))
+    {
+        this->field_24_bDoneThisFrame = 1;
+        switch (field_8->field_44)
+        {
+            case 1:
+            case 2:
+                goto call_obj2c_fn;
+            case 3:
+                if (!pSprite->AsCar_40FEB0())
+                {
+                    goto is_not_car;
+                }
+                this->field_24_bDoneThisFrame = 1; // is_car
+                goto LABEL_8;
+            case 4:
+            case 5:
+                if (pSprite->AsCharB4_40FEA0())
+                {
+                    this->field_24_bDoneThisFrame = 1; // is_charb4
+                }
+                else
+                {
+                is_not_car:
+                    this->field_24_bDoneThisFrame = 0;
+                }
+                goto LABEL_8;
+            case 6:
+                this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
+                if (field_24_bDoneThisFrame)
+                {
+                    goto call_obj2c_fn;
+                }
+                break;
+            case 7:
+            case 8:
+                if (pSprite)
+                {
+                    this->field_24_bDoneThisFrame = HandleObjectHit_528990(pSprite);
+                }
+                else
+                {
+                    HandleImpactNoSprite_528BA0();
+                }
+            LABEL_8:
+                if (!this->field_24_bDoneThisFrame)
+                {
+                    return;
+                }
+            call_obj2c_fn:
+                PoolGive_522340(); // destroy
+                break;
+            case 9:
+                this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
+                break;
+            case 10:
+                if (!pSprite)
+                {
+                    break;
+                }
+                if (pSprite->AsCharB4_40FEA0())
+                {
+                    this->field_24_bDoneThisFrame = 1;
+                }
+                else
+                {
+                LABEL_24:
+                    this->field_24_bDoneThisFrame = 0;
+                }
+                break;
+            case 11:
+                goto LABEL_24;
+            default:
+                break;
+        }
+
+        if (this->field_24_bDoneThisFrame)
+        {
+            if (pSprite)
+            {
+                if (!check_is_shop_421060()|| !pSprite->IsControlledByActivePlayer_59E170())
+                {
+                    gRozza_C88_66AFE0->Type3_40BDD0(field_4, pSprite);
+                }
+            }
+            else if (gRozza_679188.field_0_type == 4)
+            {
+                gRozza_C88_66AFE0->Type4_40BC40(field_4);
+            }
+            else if (gRozza_679188.field_0_type == 5)
+            {
+                gRozza_C88_66AFE0->Type5_40BD10(field_4);
+            }
+            else
+            {
+                gRozza_C88_66AFE0->OtherType_40BBA0(field_4, kFpZero_6F8E10);
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x529000)
@@ -1017,14 +1117,14 @@ MATCH_FUNC(0x5291d0)
 void Object_2C::sub_5291D0()
 {
     PoolGive_522340();
-    field_24 = 1;
+    field_24_bDoneThisFrame = 1;
 }
 
 MATCH_FUNC(0x5291E0)
 void Object_2C::sub_5291E0(u8 a2)
 {
     PoolGive_522340();
-    field_24 = a2;
+    field_24_bDoneThisFrame = a2;
 }
 
 MATCH_FUNC(0x529200)
