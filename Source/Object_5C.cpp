@@ -887,6 +887,8 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
 {
     WIP_IMPLEMENTED;
 
+    // Mostly bad switch ordering I think
+
     if (!this->field_24_bDoneThisFrame && (!pSprite || ShouldCollideWith_5223C0(pSprite)))
     {
         this->field_24_bDoneThisFrame = 1;
@@ -894,14 +896,25 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
         {
             case 1:
             case 2:
-                goto call_obj2c_fn;
+                PoolGive_522340(); // destroy
+                break;
+
             case 3:
-                if (!pSprite->AsCar_40FEB0())
+                if (pSprite->AsCar_40FEB0())
                 {
-                    goto is_not_car;
+                    this->field_24_bDoneThisFrame = 1;
                 }
-                this->field_24_bDoneThisFrame = 1; // is_car
-                goto LABEL_8;
+                else
+                {
+                    this->field_24_bDoneThisFrame = 0;
+                }
+
+                if (field_24_bDoneThisFrame)
+                {
+                    PoolGive_522340(); // destroy
+                }
+                break;
+
             case 4:
             case 5:
                 if (pSprite->AsCharB4_40FEA0())
@@ -910,17 +923,23 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                 }
                 else
                 {
-                is_not_car:
                     this->field_24_bDoneThisFrame = 0;
                 }
-                goto LABEL_8;
+                
+                if (field_24_bDoneThisFrame)
+                {
+                    PoolGive_522340(); // destroy
+                }
+                break;
+
             case 6:
                 this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
                 if (field_24_bDoneThisFrame)
                 {
-                    goto call_obj2c_fn;
+                    PoolGive_522340(); // destroy
                 }
                 break;
+
             case 7:
             case 8:
                 if (pSprite)
@@ -931,17 +950,17 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                 {
                     HandleImpactNoSprite_528BA0();
                 }
-            LABEL_8:
-                if (!this->field_24_bDoneThisFrame)
+    
+                if (field_24_bDoneThisFrame)
                 {
-                    return;
+                    PoolGive_522340(); // destroy
                 }
-            call_obj2c_fn:
-                PoolGive_522340(); // destroy
                 break;
+
             case 9:
                 this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
                 break;
+
             case 10:
                 if (!pSprite)
                 {
@@ -953,12 +972,14 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                 }
                 else
                 {
-                LABEL_24:
                     this->field_24_bDoneThisFrame = 0;
                 }
                 break;
+
             case 11:
-                goto LABEL_24;
+                this->field_24_bDoneThisFrame = 0;
+                break;
+
             default:
                 break;
         }
