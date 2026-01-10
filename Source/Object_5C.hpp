@@ -64,7 +64,7 @@ class Object_2C
     EXPORT void sub_527AE0();
     EXPORT void RemoveFromCollisionBuckets_527D00();
     EXPORT void sub_527F10();
-    EXPORT s16* sub_528130(Fix16_Point* a2);
+    EXPORT Ang16 sub_528130(Fix16_Point* a2);
     EXPORT char_type sub_528240(s32 a2, s32 a3);
     EXPORT void sub_5283C0(s32 a2);
     EXPORT bool OnObjectTouched_5288B0(Sprite* a2);

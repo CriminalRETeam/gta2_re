@@ -323,10 +323,11 @@ void Object_2C::sub_522640(Fix16_Point* a2)
     }
 }
 
-STUB_FUNC(0x5226a0)
+WIP_FUNC(0x5226a0)
 void Object_2C::sub_5226A0(char_type a2)
 {
-    NOT_IMPLEMENTED;
+    // TODO: Missing SEH
+    WIP_IMPLEMENTED;
 
     if (field_10_obj_3c)
     {
@@ -761,7 +762,7 @@ void Object_2C::sub_527F10()
 }
 
 STUB_FUNC(0x528130)
-s16* Object_2C::sub_528130(Fix16_Point* a2)
+Ang16 Object_2C::sub_528130(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
