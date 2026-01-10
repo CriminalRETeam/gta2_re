@@ -713,7 +713,7 @@ void Object_2C::Update_525F30()
                 sub_525B80();
                 if (!byte_6F8F40)
                 {
-                    sub_527AE0();
+                    AssignToBucket_527AE0();
                 }
                 return;
 
@@ -733,7 +733,7 @@ void Object_2C::Update_525F30()
                 sub_525D90();
                 if (!byte_6F8F40)
                 {
-                    sub_527AE0();
+                    AssignToBucket_527AE0();
                 }
                 return;
 
@@ -864,7 +864,7 @@ void Object_2C::Light_527990()
 }
 
 MATCH_FUNC(0x527ae0)
-void Object_2C::sub_527AE0()
+void Object_2C::AssignToBucket_527AE0()
 {
     switch (field_8->field_40)
     {
@@ -1443,7 +1443,7 @@ void Object_5C::sub_529300()
     for (s32 i = field_14 - 88; i >= 0; i--)
     {
         Sprite* pSprite = field_1C.sub_5A6DC0();
-        Object_2C* o2c = pSprite->get_o2c_or_null_40FEC0();
+        Object_2C* o2c = pSprite->As2C_40FEC0();
         if (o2c->field_18_model == 10)
         {
             if (gGame_0x40_67E008->sub_4B97E0(pSprite, kFpZero_6F8E10))
@@ -1514,7 +1514,7 @@ Object_5C::Object_5C()
     field_58 = gSprite_Pool_703818->get_new_sprite();
     field_58->sub_451950(0, 0, 0);
 
-    field_58->sub_420690(kZeroAng_6F8F68);
+    field_58->set_ang_lazy_420690(kZeroAng_6F8F68);
     field_58->AllocInternal_59F950(0, 0, 0);
 
     field_0 = 0;
@@ -1588,7 +1588,7 @@ Object_2C* Object_5C::NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fi
         sprite_4c_ptr->field_4_height = h;
         sprite_4c_ptr->field_8 = a9;
         pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
-        pNewObj->sub_527AE0();
+        pNewObj->AssignToBucket_527AE0();
     }
     return pNewObj;
 }
@@ -1599,7 +1599,7 @@ Object_2C* Object_5C::NewPhysicsObj_5299B0(s32 object_type, Fix16 xpos, Fix16 yp
     Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, maybe_rotation, 0);
     if (pNewObj)
     {
-        pNewObj->sub_527AE0();
+        pNewObj->AssignToBucket_527AE0();
     }
     return pNewObj;
 }
@@ -1659,7 +1659,7 @@ Object_2C* Object_5C::sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6)
     Object_2C* tmp = sub_529C00(a2, a3, a4, a5, a6, 1);
     if (tmp)
     {
-        tmp->sub_527AE0();
+        tmp->AssignToBucket_527AE0();
     }
     return tmp;
 }

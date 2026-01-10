@@ -192,7 +192,7 @@ class Sprite
     infallible_turing* field_10_sound;
 
     // 9.6f inline 0x420690
-    inline void sub_420690(Ang16 a1)
+    inline void set_ang_lazy_420690(Ang16 a1)
     {
         if (a1 != field_0)
         {
@@ -202,7 +202,7 @@ class Sprite
     }
 
     // 9.6f inline 0x420600
-    inline void sub_420600(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+    inline void set_xyz_lazy_420600(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
         if (field_14_xpos.x != xpos || field_14_xpos.y != ypos || field_1C_zpos != zpos)
         {
@@ -214,7 +214,7 @@ class Sprite
     }
 
     // 9.6f inline 0x447E20
-    void sub_447E20(Fix16 x_target, Fix16 y_target)
+    void set_xy_lazy_447E20(Fix16 x_target, Fix16 y_target)
     {
         if (field_14_xpos.x != x_target || field_14_xpos.y != y_target)
         {
@@ -247,21 +247,6 @@ class Sprite
     inline Fix16 GetZPos()
     {
         return field_1C_zpos;
-    }
-
-    inline bool check_sprite_type_40FE80()
-    {
-        return field_30_sprite_type_enum == 4 || field_30_sprite_type_enum == 5 || field_30_sprite_type_enum == 1;
-    }
-
-    inline Object_2C* get_o2c_or_null_40FEC0()
-    {
-        if (check_sprite_type_40FE80())
-        {
-            return field_8_object_2C_ptr;
-        }
-
-        return NULL;
     }
 
     Fix16_Point_POD field_14_xpos;

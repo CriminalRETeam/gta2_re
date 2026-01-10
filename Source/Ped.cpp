@@ -747,7 +747,7 @@ char_type Ped::sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     }
 
     Sprite* pSprite = pSprite = pChar->field_80_sprite_ptr;
-    pSprite->sub_420600(xpos, ypos, zpos);
+    pSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
 
     pChar->field_80_sprite_ptr->AllocInternal_59F950(dword_678530, dword_678530, dword_67841C);
 
