@@ -909,10 +909,11 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                     this->field_24_bDoneThisFrame = 0;
                 }
 
-                if (field_24_bDoneThisFrame)
+                if (!field_24_bDoneThisFrame)
                 {
-                    PoolGive_522340(); // destroy
+                    return;
                 }
+                PoolGive_522340();
                 break;
 
             case 4:
@@ -925,11 +926,12 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                 {
                     this->field_24_bDoneThisFrame = 0;
                 }
-                
-                if (field_24_bDoneThisFrame)
+
+                if (!field_24_bDoneThisFrame)
                 {
-                    PoolGive_522340(); // destroy
+                    return;
                 }
+                PoolGive_522340();
                 break;
 
             case 6:
@@ -950,11 +952,12 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                 {
                     HandleImpactNoSprite_528BA0();
                 }
-    
-                if (field_24_bDoneThisFrame)
+
+                if (!field_24_bDoneThisFrame)
                 {
-                    PoolGive_522340(); // destroy
+                    return;
                 }
+                PoolGive_522340();
                 break;
 
             case 9:
@@ -988,7 +991,7 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
         {
             if (pSprite)
             {
-                if (!check_is_shop_421060()|| !pSprite->IsControlledByActivePlayer_59E170())
+                if (!check_is_shop_421060() || !pSprite->IsControlledByActivePlayer_59E170())
                 {
                     gRozza_C88_66AFE0->Type3_40BDD0(field_4, pSprite);
                 }
