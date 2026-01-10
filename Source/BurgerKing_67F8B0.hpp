@@ -75,6 +75,15 @@ class BurgerKing_67F8B0
     EXPORT bool RecOrPlayBackState_4CEDF0();
     EXPORT void ShowInput_4CEE10();
 
+    bool inlined_check()
+    {
+        if (field_38_replay_state == Unkn_1 || field_38_replay_state == Replay_3)
+        {
+            return true;
+        }
+        return false;
+    }
+
     char_type field_0_bShutDown;
     char_type field_1;
     char_type field_2;
