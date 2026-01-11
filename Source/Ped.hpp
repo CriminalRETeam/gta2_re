@@ -6,7 +6,8 @@
 #include "ang16.hpp"
 #include "enums.hpp"
 #include "fix16.hpp"
-#include "miss2_0x11C.hpp"
+#include "Fix16_Point.hpp"
+#include "miss2_xyz.hpp"
 #include <cstdio>
 
 class Player;
@@ -14,12 +15,12 @@ class gmp_map_zone;
 class PedGroup;
 class Weapon_30;
 class Gang_144;
-class Weapon_30;
 class Sprite;
 class Char_8;
 class Char_B4;
 class Marz_96;
 class Object_2C;
+class Car_BC;
 
 class Ped
 {

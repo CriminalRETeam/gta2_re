@@ -187,6 +187,9 @@ EXTERN_GLOBAL(Ang16, dword_6F804C);
 
 EXTERN_GLOBAL(Ang16, word_6F771E);
 
+EXTERN_GLOBAL(Fix16, dword_6F77C0);
+EXTERN_GLOBAL(Fix16, dword_6F77C4);
+
 class Car_6C
 {
   public:
