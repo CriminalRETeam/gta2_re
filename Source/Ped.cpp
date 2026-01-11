@@ -1,6 +1,7 @@
 #include "Ped.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
 #include "Globals.hpp"

@@ -1,4 +1,5 @@
 #include "Shooey_CC.hpp"
+#include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"

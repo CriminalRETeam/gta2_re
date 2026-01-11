@@ -3,6 +3,7 @@
 #include "Camera.hpp"
 #include "CarInfo_808.hpp"
 #include "Car_BC.hpp"
+#include "Char_Pool.hpp"
 #include "Cranes.hpp"
 #include "Crushers.hpp"
 #include "Door_4D4.hpp"

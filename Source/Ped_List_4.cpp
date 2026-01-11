@@ -1,5 +1,6 @@
 #include "Ped_List_4.hpp"
 #include "Car_BC.hpp"
+#include "Char_Pool.hpp"
 #include "Ped.hpp"
 
 DEFINE_GLOBAL(Ped_List_4, gThreateningPedsList_678468, 0x678468);

@@ -1,4 +1,5 @@
 #include "Ambulance_110.hpp"
+#include "Char_Pool.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 #include "Kfc_1E0.hpp"

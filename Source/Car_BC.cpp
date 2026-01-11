@@ -1,6 +1,7 @@
 #include "Car_BC.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
+#include "Char_Pool.hpp"
 #include "Crushers.hpp"
 #include "Firefighters.hpp"
 #include "Fix16_Rect.hpp"

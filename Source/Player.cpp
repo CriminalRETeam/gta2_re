@@ -2,6 +2,7 @@
 #include "BurgerKing_67F8B0.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "Char_Pool.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"

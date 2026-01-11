@@ -153,6 +153,8 @@ set(gta2_lib_src
   Source/sprite.cpp
   Source/char.hpp
   Source/char.cpp
+  Source/Char_Pool.hpp
+  Source/Char_Pool.cpp
   Source/collide.hpp
   Source/collide.cpp
   Source/Phi_8CA8.hpp

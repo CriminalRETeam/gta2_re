@@ -1,6 +1,7 @@
 #include "winmain.hpp"
 #include "Bink.hpp"
 #include "BurgerKing_67F8B0.hpp"
+#include "Char_Pool.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"

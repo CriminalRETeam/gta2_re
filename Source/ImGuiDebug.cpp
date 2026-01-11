@@ -4,6 +4,7 @@
 #include "Car_BC.hpp"
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
+#include "Char_Pool.hpp"
 #include "Firefighters.hpp"
 #include "Frontend.hpp"
 #include "Game_0x40.hpp"
