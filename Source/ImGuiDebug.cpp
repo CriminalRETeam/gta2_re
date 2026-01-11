@@ -983,6 +983,7 @@ void CC ImGuiDebugDraw()
                             if (pPhysics)
                             {
                                 ImGui::SliderS16("Car Angle", &pPhysics->field_58_theta.rValue, 0, 1439);
+                                ImGui::SliderInt("Car Angle Velocity", &pPhysics->field_74_ang_vel_rad.mValue, -10 * 16384, 10 * 16384);
                                 if (ImGui::TreeNode("Car Physics"))
                                 {
 
