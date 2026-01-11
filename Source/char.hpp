@@ -3,7 +3,6 @@
 #include "BitSet32.hpp"
 #include "Function.hpp"
 #include "Object_3C.hpp"
-#include "Ped.hpp"
 #include "Pool.hpp"
 #include "ang16.hpp"
 #include "sprite.hpp"

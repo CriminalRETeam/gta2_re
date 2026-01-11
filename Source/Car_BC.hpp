@@ -5,6 +5,7 @@
 #include "Fix16.hpp"
 #include "Function.hpp"
 #include "Object_3C.hpp"
+#include "Ped.hpp"
 #include "Ped_List_4.hpp"
 #include "Pool.hpp"
 #include "ang16.hpp"
@@ -26,6 +27,8 @@ class Hamburger_40;
 class Ped_List_4;
 class car_info;
 class infallible_turing;
+class Gang_144;
+class Player;
 
 EXTERN_GLOBAL(Fix16, dword_6777D0);
 
