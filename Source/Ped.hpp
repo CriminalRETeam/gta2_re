@@ -2,12 +2,14 @@
 
 #include "Function.hpp"
 #include "BitSet32.hpp"
+#include "char.hpp"
 #include "Marz_1D7E.hpp"
 #include "ang16.hpp"
 #include "enums.hpp"
 #include "fix16.hpp"
 #include "Fix16_Point.hpp"
 #include "miss2_xyz.hpp"
+#include "sprite.hpp"
 #include <cstdio>
 
 class Player;
@@ -416,6 +418,26 @@ class Ped
 
     // TODO: to use this inline we need to fix a circular dependency issue
     inline s32 get_car_model();
+
+    inline void SetRemap_433C10(u8 remap)
+    {
+        Char_B4* p_B4 = field_168_game_object; // local necessary to match Ped::sub_46DF70
+        p_B4->field_5_remap = remap;
+        if (remap != 0xFF)
+        {
+            p_B4->field_80_sprite_ptr->SetRemap(remap);
+        }
+    }
+
+    inline void sub_433BB0(s32 value)
+    {
+        field_230 = value;
+    }
+
+    inline void sub_433BC0(s32 value)
+    {
+        field_22C = value;
+    }
 
     Marz_3 field_0[100];
     Ang16 field_12C;
