@@ -2279,7 +2279,7 @@ Ped* Ped::FindNearestPed_466F60(u8 a2)
 {
     dword_6787DC = this;
     Sprite* pSprite =
-        gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(3, 2, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
+        gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped, sprite_types_enum::car, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
     if (pSprite)
     {
         // @OG_BUG: Null de-ref
