@@ -927,10 +927,10 @@ char_type Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
     }
 
     s32 model = pPickUp->field_18_model;
-    if (model == 266)
+    if (model == objects::secret_token_266)
     {
         // inc counter and remove pick up
-        gLucid_hamilton_67E8E0.field_574_collected_model_266_count++;
+        gLucid_hamilton_67E8E0.field_574_secret_tokens_collected++;
         gObject_5C_6F8F84->field_20[pPickUp->field_26_varrok_idx] = 0;
         pPickUp->Dealloc_5291B0();
         return 1;
