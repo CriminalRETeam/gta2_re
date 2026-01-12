@@ -158,6 +158,20 @@ enum
 // static_assert(sizeof(car_model_enum) == 4);
 } // namespace car_model_enum
 
+namespace Car_Door_Lock
+{
+enum
+{
+    no_lock_0 = 0,
+    locked_1 = 1,
+    lockout_thief_2 = 2,
+    unlocked_3 = 3,
+    locked_permanently_4 = 4,
+    lockout_player_5 = 5,
+    none_6 = 6,
+};
+} // namespace Car_Door_Lock
+
 namespace cop_level_enum
 {
 enum cop_level_enum

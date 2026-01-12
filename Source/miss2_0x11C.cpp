@@ -3611,7 +3611,7 @@ void miss2_0x11C::SCRCMD_PARK_FINISHED_50CE10()
 }
 
 STUB_FUNC(0x50ce50)
-void miss2_0x11C::sub_50CE50(s32 a2, u16 a3)
+void miss2_0x11C::sub_50CE50(SCR_CMD_HEADER* pCmd, u16 cmd_idx)
 {
     NOT_IMPLEMENTED;
 }
@@ -3629,10 +3629,9 @@ void miss2_0x11C::SCRCMD_REMOTE_CONTROL_50D200()
 }
 
 STUB_FUNC(0x50d2e0)
-s32 miss2_0x11C::SCRCMD_LAUNCH_MISSION_50D2E0()
+void miss2_0x11C::SCRCMD_LAUNCH_MISSION_50D2E0()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 MATCH_FUNC(0x50d340)
@@ -3649,10 +3648,53 @@ void miss2_0x11C::sub_50D3C0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50d680)
+MATCH_FUNC(0x50d680)
 void miss2_0x11C::SCRCMD_CHANGE_CAR_LOCK_50D680()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHANGE_CAR_LOCK* pCmd = (SCR_CHANGE_CAR_LOCK*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Car_BC* pCar;
+
+    switch (pCmd->field_A_lock_type)
+    {
+        case Car_Door_Lock::locked_1:
+            pCar = pPtr->field_8_car;
+            if (pCar->field_98 != Car_Door_Lock::locked_permanently_4)
+            {
+                pCar->field_98 = Car_Door_Lock::locked_1;
+            }
+
+            break;
+        case Car_Door_Lock::lockout_thief_2:
+            pCar = pPtr->field_8_car;
+            if (pCar->field_98 != Car_Door_Lock::locked_permanently_4)
+            {
+                pCar->field_98 = Car_Door_Lock::lockout_thief_2;
+            }
+
+            break;
+        case Car_Door_Lock::unlocked_3:
+            pCar = pPtr->field_8_car;
+            if (pCar->field_98 != Car_Door_Lock::locked_permanently_4)
+            {
+                pCar->field_98 = Car_Door_Lock::unlocked_3;
+            }
+            break;
+        case Car_Door_Lock::locked_permanently_4:
+            pPtr->field_8_car->field_98 = Car_Door_Lock::locked_permanently_4;
+            break;
+        case Car_Door_Lock::lockout_player_5:
+            pCar = pPtr->field_8_car;
+            if (pCar->field_98 != Car_Door_Lock::locked_permanently_4)
+            {
+                pCar->field_98 = Car_Door_Lock::lockout_player_5;
+            }
+            break;
+        default:
+            break;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50d870)
@@ -4269,7 +4311,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         str_table_entry* mission1_str_table = gfrosty_pasteur_6F8060->FindStringById_503080(v1->field_1C_mission1);
         char_type* mission1_name = (char_type*)&mission1_str_table[1];
-        miss2_0x11C::launch_mission_5119A0((int)gBasePtr_6F8070, mission1_name); //  TODO: fix gBasePtr_6F8070 type
+        miss2_0x11C::launch_mission_5119A0(gBasePtr_6F8070, mission1_name); //  TODO: fix gBasePtr_6F8070 type
         return;
     }
     s8 idx2;
@@ -5735,10 +5777,9 @@ miss2_0x11C* miss2_0x11C::sub_511960(u16 levelStart)
 }
 
 STUB_FUNC(0x5119a0)
-s32 miss2_0x11C::launch_mission_5119A0(s32 a2, char_type* String1)
+void miss2_0x11C::launch_mission_5119A0(SCR_CMD_HEADER* base_pointer, char_type* string)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 MATCH_FUNC(0x511a00)
