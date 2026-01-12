@@ -1020,7 +1020,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
 
                     if (pCar->is_train_model())
                     {
-                        pPed->SetObjective(objectives_enum::objective_37, 9999);
+                        pPed->SetObjective(objectives_enum::enter_train_37, 9999);
                     }
                     else
                     {
@@ -1040,7 +1040,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
                 pPed->sub_463830(0, 9999);
                 if (pPed->field_16C_car->field_84_car_info_idx == car_model_enum::TRAIN)
                 {
-                    pPed->SetObjective(objectives_enum::objective_38, 9999);
+                    pPed->SetObjective(objectives_enum::leave_train_38, 9999);
                 }
                 else
                 {
@@ -1053,7 +1053,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
     else
     {
         s32 objective = pPed->field_258_objective;
-        if (objective == objectives_enum::enter_car_as_driver_35 || objective == objectives_enum::objective_37)
+        if (objective == objectives_enum::enter_car_as_driver_35 || objective == objectives_enum::enter_train_37)
         {
             if (pPed->field_278 != 10)
             {

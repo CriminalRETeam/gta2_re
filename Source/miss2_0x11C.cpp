@@ -2708,9 +2708,9 @@ void miss2_0x11C::sub_50B0E0()
     Ped* pPed = pPointer->field_8_char;
     if (pPed)
     {
-        if (pPed->field_258_objective != objectives_enum::objective_42)
+        if (pPed->field_258_objective != objectives_enum::patrol_on_foot_42)
         {
-            pPed->SetObjective(objectives_enum::objective_42, 9999);
+            pPed->SetObjective(objectives_enum::patrol_on_foot_42, 9999);
         }
         pPointer->field_8_char->PushPatrolPoint_4702A0(pCmd->field_C_pos.field_0_x.ToInt(),
                                                        pCmd->field_C_pos.field_4_y.ToInt(),
