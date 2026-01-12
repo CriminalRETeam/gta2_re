@@ -1473,10 +1473,10 @@ Object_5C::Object_5C()
 {
     for (u8 i = 0; i < 50; i++)
     {
-        field_20[i] = 1;
+        field_20_bUnCollectedTokens[i] = 1;
     }
 
-    field_54_f20_idx = 0;
+    field_54_uncollected_token_index = 0;
     byte_6F8C68 = 0;
     byte_6F8C4C = 0;
     byte_6F8F40 = 0;
@@ -1674,11 +1674,11 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     Object_3C* pNew3C; // eax
     Object_8* pNew8; // eax
 
-    if (object_type == 266)
+    if (object_type == objects::secret_token_266)
     {
-        if (!field_20[field_54_f20_idx]) // 20
+        if (!field_20_bUnCollectedTokens[field_54_uncollected_token_index]) // 20
         {
-            field_54_f20_idx++;
+            field_54_uncollected_token_index++;
             return 0;
         }
     }
@@ -1801,7 +1801,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             break;
 
         case 11:
-            pNew2C->field_C_pAny.o8 = (Object_8*)gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);
+            pNew2C->field_C_pAny.pLight = gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);
             break;
 
         default:
@@ -1826,10 +1826,10 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     }
     else
     {
-        if (pNew2C->field_18_model == 266)
+        if (pNew2C->field_18_model == objects::secret_token_266)
         {
-            pNew2C->set_field_26(field_54_f20_idx);
-            field_54_f20_idx++;
+            pNew2C->set_field_26(field_54_uncollected_token_index);
+            field_54_uncollected_token_index++;
         }
         return pNew2C;
     }
@@ -1904,7 +1904,7 @@ void Object_5C::RestoreObjects_52A590(TurkishDelight_164* pData)
         pVarrok++;
     }
 
-    memset(pData, 0, 0x12Cu); // everything before field_12C_obj_5C_buffer
+    memset(pData, 0, 0x12Cu); // everything before field_12C_obj_5C_bUnCollectedTokens
 }
 
 MATCH_FUNC(0x52A610)

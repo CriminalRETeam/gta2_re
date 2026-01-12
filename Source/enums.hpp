@@ -654,7 +654,8 @@ enum
     dead_rubbish_197 = 197,
     moving_cone_198 = 198,
     object_199 = 199,
-    remote_200 = 200
+    remote_200 = 200,
+    secret_token_266 = 266,
 };
 } // namespace objects
 

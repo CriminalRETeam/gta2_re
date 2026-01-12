@@ -6,6 +6,7 @@
 #include "Gang.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
+#include "Hud.hpp"
 #include "Marz_1D7E.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
@@ -23,9 +24,11 @@
 #include "Wolfy_3D4.hpp"
 #include "char.hpp"
 #include "debug.hpp"
+#include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
+#include "youthful_einstein.hpp"
 
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
@@ -84,6 +87,10 @@ DEFINE_GLOBAL(Fix16, k_dword_678504, 0x678504);
 DEFINE_GLOBAL(Fix16, k_dword_67845C, 0x67845C);
 DEFINE_GLOBAL(Fix16, k_dword_678798, 0x678798);
 DEFINE_GLOBAL(Fix16, k_dword_678658, 0x678658);
+
+// TODO
+EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
+
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -817,14 +824,14 @@ Fix16& Ped::sub_45C9B0(Fix16& a2)
 }
 
 STUB_FUNC(0x45c9d0)
-s16* Ped::sub_45C9D0(s16* a2)
+s16* Ped::ComputeAimAngle_45C9D0(s16* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x45caa0)
-void Ped::sub_45CAA0()
+void Ped::HandleClosePedInteraction_45CAA0()
 {
     NOT_IMPLEMENTED;
 }
@@ -902,15 +909,64 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
     return 1;
 }
 
-STUB_FUNC(0x45de80)
-char_type Ped::HandlePickupCollision_45DE80(s32 a2)
+WIP_FUNC(0x45de80)
+char_type Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    char_type bCollected;
+    if (this->field_238 != 2) // is player ped type?
+    {
+        return 0;
+    }
+
+    if ((u8)bStartNetworkGame_7081F0 && gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3 &&
+        gYouthful_einstein_6F8450.field_0_fugitive && gYouthful_einstein_6F8450.field_0_fugitive->field_2C4_player_ped == this)
+    {
+        return 0; // prevent pick ups if we are "it" in multiplayer?
+    }
+
+    s32 model = pPickUp->field_18_model;
+    if (model == objects::secret_token_266)
+    {
+        // inc counter and remove pick up
+        gLucid_hamilton_67E8E0.field_574_secret_tokens_collected++;
+        gObject_5C_6F8F84->field_20_bUnCollectedTokens[pPickUp->field_26_varrok_idx] = 0;
+        pPickUp->Dealloc_5291B0();
+        return 1;
+    }
+    else
+    {
+        if (model <= 108)
+        {
+            model += 136;
+        }
+
+        if (model <= 227)
+        {
+            bCollected = AddWeaponWithAmmo_45DD30(model - 200, pPickUp->field_26_varrok_idx);
+
+        }
+        else
+        {
+            bCollected = field_15C_player->CollectPowerUp_564D60(model - 228);
+
+        }
+
+        if (bCollected)
+        {
+            if (field_15C_player->field_0_bIsUser)
+            {
+                gHud_2B00_706620->field_1080.sub_5D5600(model + 56);
+            }
+            pPickUp->Dealloc_5291B0();
+        }
+        return bCollected;
+    }
 }
 
 STUB_FUNC(0x45e080)
-void Ped::sub_45E080()
+void Ped::SpawnWeaponOnDeath_45E080()
 {
     NOT_IMPLEMENTED;
     Object_2C* v2; // eax
@@ -1488,8 +1544,8 @@ void Ped::sub_462280()
         }
 
         field_21C_bf.b27 = 0;
-        Ped::sub_463AA0();
-        Ped::sub_463FB0();
+        Ped::ProcessOnFootObjective_463AA0();
+        Ped::ProcessInCarObjective_463FB0();
         if (field_278 > 0 && field_278 <= 7)
         {
             Ped::sub_461A60();
@@ -1860,7 +1916,7 @@ bool Ped::PoolUpdate()
                     if (field_258_objective || field_25C_car_state)
                     {
                         byte_61A8A3 = 0;
-                        Ped::sub_4632E0();
+                        Ped::ProcessObjective_4632E0();
                     }
                     if (field_168_game_object->field_10 == 15)
                     {
@@ -1924,10 +1980,10 @@ bool Ped::PoolUpdate()
 }
 
 MATCH_FUNC(0x4632e0)
-void Ped::sub_4632E0()
+void Ped::ProcessObjective_4632E0()
 {
-    sub_463AA0();
-    sub_463FB0();
+    ProcessOnFootObjective_463AA0();
+    ProcessInCarObjective_463FB0();
 }
 
 MATCH_FUNC(0x463300)
@@ -1989,7 +2045,7 @@ void Ped::sub_463830(s32 a2, s16 a3)
 }
 
 MATCH_FUNC(0x463aa0)
-void Ped::sub_463AA0()
+void Ped::ProcessOnFootObjective_463AA0()
 {
     Ang16 angle = 0;
     if (field_258_objective && !field_225)
@@ -2184,7 +2240,7 @@ void Ped::sub_463AA0()
 }
 
 STUB_FUNC(0x463fb0)
-void Ped::sub_463FB0()
+void Ped::ProcessInCarObjective_463FB0()
 {
     NOT_IMPLEMENTED;
 }
@@ -2293,7 +2349,7 @@ Ped* Ped::FindNearestPed_466F60(u8 a2)
 }
 
 STUB_FUNC(0x466fb0)
-s32 Ped::sub_466FB0()
+s32 Ped::FindNearbyPed_466FB0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -3983,7 +4039,7 @@ void Ped::ManageWeapon_46F390()
         {
             if (field_238 == 2)
             {
-                Ped::sub_45CAA0();
+                Ped::HandleClosePedInteraction_45CAA0();
             }
         }
     }
