@@ -288,7 +288,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             pPed->field_26C_graphic_type = 1;
             pCmd->field_8_ped = pPed;
 
-            Sprite* v6 = pPed->sub_46DF50();
+            Sprite* v6 = pPed->GetSprite_46DF50();
             v6->sub_5A2A30();
         }
     }
@@ -440,7 +440,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
         a2->field_8_char->field_26C_graphic_type = 1;
         a2->field_8_char->SetObjective(objectives_enum::wait_on_foot_26, 9999);
         a2->field_8_char->field_216_health = 100;
-        Sprite* v6 = a2->field_8_char->sub_46DF50();
+        Sprite* v6 = a2->field_8_char->GetSprite_46DF50();
         v6->sub_5A2A30();
     }
 }

@@ -399,7 +399,7 @@ Sprite* struct_4::sub_5A6E40(Fix16 xOff, Fix16 yOff)
 }
 
 STUB_FUNC(0x5a6ea0)
-s32 struct_4::sub_5A6EA0(s32 a2, s32 a3)
+Sprite* struct_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 {
     NOT_IMPLEMENTED;
     return 0;

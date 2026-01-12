@@ -200,10 +200,10 @@ class Ped
     EXPORT void sub_46DB60();
     EXPORT void sub_46DB70();
     EXPORT void sub_46DB80();
-    EXPORT Sprite* sub_46DF50();
-    EXPORT void sub_46DF70(Ped* arg0, s32 WeaponIdx);
+    EXPORT Sprite* GetSprite_46DF50();
+    EXPORT void SetupFollower_46DF70(Ped* arg0, s32 WeaponIdx);
     EXPORT bool sub_46E020(PedGroup* a2);
-    EXPORT s32 sub_46E080(s32 a2, s32 a3);
+    EXPORT void sub_46E080(s32 desiredCount, Fix16 searchRadius);
     EXPORT void SpawnPedGroupFollowers_46E200(u8 total);
     EXPORT u8 get_wanted_star_count_46EF00();
     EXPORT void set_wanted_level_46EF40(u16 wanted);
@@ -421,7 +421,7 @@ class Ped
 
     inline void SetRemap_433C10(u8 remap)
     {
-        Char_B4* p_B4 = field_168_game_object; // local necessary to match Ped::sub_46DF70
+        Char_B4* p_B4 = field_168_game_object; // local necessary to match Ped::SetupFollower_46DF70
         p_B4->field_5_remap = remap;
         if (remap != 0xFF)
         {

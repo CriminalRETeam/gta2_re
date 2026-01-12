@@ -3750,12 +3750,12 @@
         "v105_address": "0x46dd70"
     },
     {
-        "name": "Ped::sub_46DF50",
+        "name": "Ped::GetSprite_46DF50",
         "v96f_address": null,
         "v105_address": "0x46df50"
     },
     {
-        "name": "Ped::sub_46DF70",
+        "name": "Ped::SetupFollower_46DF70",
         "v96f_address": null,
         "v105_address": "0x46df70"
     },
@@ -6650,7 +6650,7 @@
         "v105_address": "0x4c9680"
     },
     {
-        "name": "PedGroup::sub_4C9970",
+        "name": "PedGroup::RemovePed_4C9970",
         "v96f_address": null,
         "v105_address": "0x4c9970"
     },
@@ -15115,7 +15115,7 @@
         "v105_address": "0x5a6e40"
     },
     {
-        "name": "sub_5A6EA0",
+        "name": "TakeClosestSprite_5A6EA0",
         "v96f_address": null,
         "v105_address": "0x5a6ea0"
     },

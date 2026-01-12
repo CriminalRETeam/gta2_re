@@ -113,7 +113,7 @@ bool Police_7B8::sub_56F4D0(Ped* a2)
             {
                 if (a2->field_164_ped_group)
                 {
-                    a2->field_164_ped_group->sub_4C9970(a2);
+                    a2->field_164_ped_group->RemovePed_4C9970(a2);
                 }
                 return false;
             }
