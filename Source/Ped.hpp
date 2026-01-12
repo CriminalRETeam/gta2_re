@@ -77,7 +77,7 @@ class Ped
     EXPORT void sub_45CF20(Object_2C* a2);
     EXPORT char_type HandlePedHitByObject_45D000(Object_2C* a2);
     EXPORT char_type AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
-    EXPORT char_type HandlePickupCollision_45DE80(s32 a2);
+    EXPORT char_type HandlePickupCollision_45DE80(Object_2C *pPickUp);
     EXPORT void sub_45E080();
     EXPORT void sub_45E4A0();
     EXPORT void sub_45EA00();

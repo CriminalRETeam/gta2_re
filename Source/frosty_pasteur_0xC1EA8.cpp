@@ -179,7 +179,7 @@ void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
            gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_buffer,
            sizeof(gObject_5C_6F8F84->field_20));
 
-    gLucid_hamilton_67E8E0.field_574 = gGameSave_6F78C8.field_5E4_object_data.field_160_lhv;
+    gLucid_hamilton_67E8E0.field_574_collected_model_266_count = gGameSave_6F78C8.field_5E4_object_data.field_160_lhv;
     field_C1E2C = true;
 }
 
@@ -209,7 +209,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
 
     memcpy(gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_buffer, &gObject_5C_6F8F84->field_20, 50u);
 
-    gGameSave_6F78C8.field_5E4_object_data.field_160_lhv = gLucid_hamilton_67E8E0.field_574;
+    gGameSave_6F78C8.field_5E4_object_data.field_160_lhv = gLucid_hamilton_67E8E0.field_574_collected_model_266_count;
 
     gMap_0x370_6F6268->sub_4E8CF0(&pColData, &colBytes, &pBlockInfo, &blockInfoBytes, &pMapSub, &mapSubBytes);
 

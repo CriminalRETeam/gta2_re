@@ -53,12 +53,12 @@ struct lucid_hamilton
     s16 field_490_frags_list[6];
     s32 field_49C_points_list[6];
     blissful_ganguly_0x20 field_4B4[6];
-    s32 field_574;
+    s32 field_574_collected_model_266_count;
 
     // inlined at 45b420 in 9.6f
     EXPORT void reset_field_574()
     {
-        field_574 = 0;
+        field_574_collected_model_266_count = 0;
     }
 
     EXPORT void sub_4C53D0();

@@ -477,7 +477,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
         case MENUPAGE_AREA_COMPLETE:
             a2 = gLucid_hamilton_67E8E0.sub_4C5980();
             v51 = gLucid_hamilton_67E8E0.sub_4C59C0();
-            if (gLucid_hamilton_67E8E0.field_574 == 50)
+            if (gLucid_hamilton_67E8E0.field_574_collected_model_266_count == 50)
             {
                 v51 = 3;
             }

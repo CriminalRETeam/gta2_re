@@ -6,6 +6,7 @@
 #include "Gang.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
+#include "Hud.hpp"
 #include "Marz_1D7E.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
@@ -23,9 +24,11 @@
 #include "Wolfy_3D4.hpp"
 #include "char.hpp"
 #include "debug.hpp"
+#include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
+#include "youthful_einstein.hpp"
 
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
@@ -84,6 +87,10 @@ DEFINE_GLOBAL(Fix16, k_dword_678504, 0x678504);
 DEFINE_GLOBAL(Fix16, k_dword_67845C, 0x67845C);
 DEFINE_GLOBAL(Fix16, k_dword_678798, 0x678798);
 DEFINE_GLOBAL(Fix16, k_dword_678658, 0x678658);
+
+// TODO
+EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
+
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -902,11 +909,60 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
     return 1;
 }
 
-STUB_FUNC(0x45de80)
-char_type Ped::HandlePickupCollision_45DE80(s32 a2)
+WIP_FUNC(0x45de80)
+char_type Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    char_type bCollected;
+    if (this->field_238 != 2) // is player ped type?
+    {
+        return 0;
+    }
+
+    if ((u8)bStartNetworkGame_7081F0 && gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3 &&
+        gYouthful_einstein_6F8450.field_0_fugitive && gYouthful_einstein_6F8450.field_0_fugitive->field_2C4_player_ped == this)
+    {
+        return 0; // prevent pick ups if we are "it" in multiplayer?
+    }
+
+    s32 model = pPickUp->field_18_model;
+    if (model == 266)
+    {
+        // inc counter and remove pick up
+        gLucid_hamilton_67E8E0.field_574_collected_model_266_count++;
+        gObject_5C_6F8F84->field_20[pPickUp->field_26_varrok_idx] = 0;
+        pPickUp->Dealloc_5291B0();
+        return 1;
+    }
+    else
+    {
+        if (model <= 108)
+        {
+            model += 136;
+        }
+
+        if (model <= 227)
+        {
+            bCollected = AddWeaponWithAmmo_45DD30(model - 200, pPickUp->field_26_varrok_idx);
+
+        }
+        else
+        {
+            bCollected = field_15C_player->CollectPowerUp_564D60(model - 228);
+
+        }
+
+        if (bCollected)
+        {
+            if (field_15C_player->field_0_bIsUser)
+            {
+                gHud_2B00_706620->field_1080.sub_5D5600(model + 56);
+            }
+            pPickUp->Dealloc_5291B0();
+        }
+        return bCollected;
+    }
 }
 
 STUB_FUNC(0x45e080)
