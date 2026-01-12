@@ -1278,7 +1278,7 @@ void CC ImGuiDebugDraw()
                                                        pPlayerSprite->field_14_xpos.y,
                                                        pPlayerSprite->field_1C_zpos,
                                                        pPlayerChar->field_5_remap,
-                                                       pPlayerPed->field_134);
+                                                       pPlayerPed->field_134_rotation);
                     }
                 }
 

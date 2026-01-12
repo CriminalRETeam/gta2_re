@@ -78,6 +78,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A4, Fix16(0x3999, 0), 0x6784A4);
 DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
 DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct init value
+DEFINE_GLOBAL_INIT(Fix16, dword_6784DC, dword_6784C4 * 6, 0x6784DC);
+DEFINE_GLOBAL_INIT(Fix16, dword_678668, Fix16(2), 0x678668);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
 DEFINE_GLOBAL(Fix16, k_dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
@@ -1235,7 +1237,7 @@ void Ped::sub_461290()
 
     switch (this->field_258_objective)
     {
-        case objectives_enum::objective_31:
+        case objectives_enum::time_waited_in_car_31:
             pCar_ = this->field_16C_car;
             goto LABEL_23;
 
@@ -1269,7 +1271,7 @@ void Ped::sub_461290()
                 if (field_54_driver && field_54_driver->field_15C_player)
                 {
                     gPublicTransport_181C_6FF1D4->IncrementBusPassengerCount_579B10();
-                    SetObjective(objectives_enum::objective_31, 0);
+                    SetObjective(objectives_enum::time_waited_in_car_31, 0);
                 }
                 else
                 {
@@ -1551,7 +1553,7 @@ void Ped::sub_462280()
         }
         if (field_238 != 2)
         {
-            if (field_258_objective != objectives_enum::flee_char_on_foot_always_3 && field_258_objective != objectives_enum::objective_6)
+            if (field_258_objective != objectives_enum::flee_char_on_foot_always_3 && field_258_objective != objectives_enum::flee_char_always_once_car_stopped_6)
             {
                 if (field_25C_car_state != 3 && field_25C_car_state != 7)
                 {
@@ -1579,7 +1581,7 @@ void Ped::sub_462280()
 
     if (field_218_objective_timer != 9999)
     {
-        if (field_258_objective != objectives_enum::objective_31 && field_258_objective != objectives_enum::goto_area_any_means_13 &&
+        if (field_258_objective != objectives_enum::time_waited_in_car_31 && field_258_objective != objectives_enum::goto_area_any_means_13 &&
             field_258_objective != objectives_enum::kill_char_any_means_19 && field_258_objective != objectives_enum::goto_area_in_car_14)
         {
             if (field_218_objective_timer > 0)
@@ -2114,13 +2116,13 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::flee_char_on_foot_always_3:
                 Ped::sub_467A20();
                 break;
-            case objectives_enum::objective_4:
+            case objectives_enum::flee_char_any_means_till_safe_4:
                 nullsub_9();
                 break;
-            case objectives_enum::objective_5:
+            case objectives_enum::flee_char_any_means_always_5:
                 nullsub_10();
                 break;
-            case objectives_enum::objective_6:
+            case objectives_enum::flee_char_always_once_car_stopped_6:
                 Ped::sub_467AD0();
                 break;
 
@@ -2133,10 +2135,10 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::kill_char_any_means_19:
                 Ped::sub_467E20();
                 break;
-            case objectives_enum::objective_21:
+            case objectives_enum::kill_car_21:
                 nullsub_11();
                 break;
-            case objectives_enum::objective_22:
+            case objectives_enum::kill_frenzy_22:
                 Ped::sub_467FB0();
                 break;
             case objectives_enum::punch_char_23:
@@ -2151,7 +2153,7 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::guard_area_25:
                 Ped::sub_469D60();
                 break;
-            case objectives_enum::objective_31:
+            case objectives_enum::time_waited_in_car_31:
                 Ped::sub_4682A0();
                 break;
             case objectives_enum::goto_area_in_car_14:
@@ -2175,7 +2177,7 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::goto_area_any_means_13:
                 Ped::sub_469060();
                 break;
-            case objectives_enum::follow_car_on_foot_with_offset_51:
+            case objectives_enum::objective_51:
                 Ped::sub_469E10();
                 break;
             case objectives_enum::objective_8:
@@ -2190,13 +2192,13 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::objective_33:
                 Ped::sub_468BD0();
                 break;
-            case objectives_enum::follow_car_in_car_50:
+            case objectives_enum::objective_50:
                 nullsub_12();
                 break;
             case objectives_enum::objective_43:
                 Ped::sub_469E30();
                 break;
-            case objectives_enum::fire_at_object_from_vehicle_52:
+            case objectives_enum::objective_52:
                 Ped::sub_469E50();
                 break;
             case objectives_enum::wait_in_car_27:
@@ -2205,31 +2207,31 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::objective_10:
                 Ped::sub_469F30();
                 break;
-            case objectives_enum::destroy_car_54:
+            case objectives_enum::objective_54:
                 Ped::sub_469FE0();
                 break;
             case objectives_enum::objective_32:
                 Ped::sub_46A1F0();
                 break;
-            case 0x37: //objectives_enum::flee_on_foot_till_safe_1:
+            case objectives_enum::follow_car_in_car_55:
                 Ped::sub_46A290();
                 break;
-            case 0x38: //objectives_enum::objective_48:
+            case objectives_enum::follow_car_on_foot_with_offset_56:
                 Ped::sub_46A350();
                 break;
-            case 0x39: //objectives_enum::objective_49:
+            case objectives_enum::fire_at_object_from_vehicle_57:
                 Ped::sub_46A530();
                 break;
-            case 0x3B: //objectives_enum::follow_car_on_foot_with_offset_51:
+            case objectives_enum::destroy_car_59:
                 Ped::sub_46A850();
                 break;
-            case 0x3A: //objectives_enum::follow_car_in_car_50:
+            case objectives_enum::destroy_object_58:
                 Ped::sub_46A7C0();
                 break;
-            case 0x3C: //objectives_enum::fire_at_object_from_vehicle_52:
+            case objectives_enum::turret_put_out_car_fire_60:
                 Ped::sub_46A6D0();
                 break;
-            case 0x3D: //objectives_enum::destroy_object_53:
+            case objectives_enum::objective_61:
                 Ped::sub_46A5E0();
                 break;
             default:
@@ -3154,10 +3156,13 @@ void Ped::sub_469060()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x469bd0)
+MATCH_FUNC(0x469bd0)
 void Ped::sub_469BD0()
 {
-    NOT_IMPLEMENTED;
+    if (field_168_game_object)
+    {
+        field_164_ped_group->sub_4CA820(field_23C);
+    }
 }
 
 STUB_FUNC(0x469bf0)
@@ -3167,11 +3172,33 @@ char_type Ped::sub_469BF0()
     return 0;
 }
 
-STUB_FUNC(0x469d60)
-s32 Ped::sub_469D60()
+MATCH_FUNC(0x469d60)
+void Ped::sub_469D60()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (byte_61A8A3)
+    {
+        if (dword_678750 <= dword_6784DC && field_1AC_cam.z.ToUInt8() == field_1E4_objective_target_z.ToUInt8())
+        {
+            if (field_168_game_object->field_10 != 15)
+            {
+                Ped::sub_45C500(7);
+                Ped::sub_45C540(14);
+                field_130 = field_134_rotation;
+            }
+        }
+        else
+        {
+            field_168_game_object->SetMaxSpeed_433920(field_1F4);
+            Ped::sub_4672E0(dword_678750, 4);
+        }
+    }
+    else
+    {
+        if (field_21C_bf.b2 && dword_678750 > field_1E8)
+        {
+            field_21C_bf.b22 = true;
+        }
+    }
 }
 
 MATCH_FUNC(0x469e10)
@@ -3183,25 +3210,58 @@ void Ped::sub_469E10()
     }
 }
 
-STUB_FUNC(0x469e30)
-s32 Ped::sub_469E30()
+MATCH_FUNC(0x469e30)
+void Ped::sub_469E30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_16C_car)
+    {
+        field_16C_car->field_5C->field_74 = dword_678664;
+    }
 }
 
-STUB_FUNC(0x469e50)
-s32 Ped::sub_469E50()
+MATCH_FUNC(0x469e50)
+void Ped::sub_469E50()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_16C_car)
+    {
+        if (!field_16C_car->field_60)
+        {
+            field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
+            field_16C_car->field_60->field_4 = this;
+        }
+        field_16C_car->field_60->field_8 = 4;
+        field_16C_car->sub_421560(5);
+        field_16C_car->field_60->field_30 = field_148_objective_target_ped;
+        field_16C_car->field_A6 &= ~0x20u;
+        field_16C_car->field_5C->field_74 = dword_67866C;
+        field_16C_car->field_60->field_20 = 1;
+        if (field_16C_car->field_84_car_info_idx == car_model_enum::JEEP)
+        {
+            if (dword_678750 < dword_678668)
+            {
+                field_21C_bf.b11 = true;
+            }
+            else
+            {
+                field_21C_bf.b11 = false;
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x469f30)
-s32 Ped::sub_469F30()
+MATCH_FUNC(0x469f30)
+void Ped::sub_469F30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_16C_car->field_60)
+    {
+        field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
+        field_16C_car->field_60->field_4 = this;
+    }
+    field_16C_car->field_60->field_8 = 2;
+    field_16C_car->sub_421560(5);
+    field_16C_car->field_60->field_30 = field_148_objective_target_ped;
+    field_16C_car->field_A6 &= ~0x20u;
+    field_16C_car->field_5C->field_74 = dword_67866C;
 }
 
 MATCH_FUNC(0x469fc0)
@@ -3224,17 +3284,68 @@ void Ped::sub_469FE0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46a1f0)
+MATCH_FUNC(0x46a1f0)
 void Ped::sub_46A1F0()
 {
-    NOT_IMPLEMENTED;
+    if (field_148_objective_target_ped->field_21C_bf.b0 == false || field_148_objective_target_ped->field_278 == 9)
+    {
+        field_225 = 2;
+    }
+    else
+    {
+        if (field_21C_bf.b2 && field_148_objective_target_ped == field_14C)
+        {
+            field_21C_bf.b2 = false;
+            Ped::sub_463830(0, 9999);
+            byte_61A8A3 = 1;
+        }
+        else if (!byte_61A8A3)
+        {
+            return;
+        }
+
+        if (field_25C_car_state)
+        {
+            if (field_25C_car_state == 32)
+            {
+                if (field_226 == 1)
+                {
+                    field_225 = 1;
+                }
+                else if (field_226 == 2)
+                {
+                    field_225 = 2;
+                }
+            }
+        }
+        else
+        {
+            Ped::sub_463830(32, 9999);
+            field_14C = field_148_objective_target_ped;
+        }
+    }
 }
 
-STUB_FUNC(0x46a290)
-s32 Ped::sub_46A290()
+MATCH_FUNC(0x46a290)
+void Ped::sub_46A290()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_150_target_objective_car->field_54_driver || field_168_game_object)
+    {
+        field_225 = 2;
+    }
+    else
+    {
+        if (!field_16C_car->field_60)
+        {
+            field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
+            field_16C_car->field_60->field_4 = this;
+        }
+        field_16C_car->field_60->field_8 = 2;
+        field_16C_car->sub_421560(5);
+        field_16C_car->field_60->field_30 = field_150_target_objective_car->field_54_driver;
+        field_16C_car->field_A6 &= ~0x20u;
+        field_16C_car->field_5C->field_74 = dword_67866C;
+    }
 }
 
 STUB_FUNC(0x46a350)
@@ -3368,18 +3479,54 @@ void Ped::sub_46A8F0()
     }
 }
 
-STUB_FUNC(0x46a9c0)
-s32 Ped::sub_46A9C0()
+MATCH_FUNC(0x46a9c0)
+void Ped::sub_46A9C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_14C->field_144 = 0;
+    if (field_14C->field_278 == 9 || field_14C->field_21C_bf.b0 == false)
+    {
+        Ped::sub_45C500(0);
+        Ped::sub_45C540(0);
+        field_14C = 0;
+        field_226 = 1;
+    }
+    else if (field_278 != 8)
+    {
+        if (dword_678750 > dword_678520)
+        {
+            if (field_168_game_object->field_44 == 2)
+            {
+                Ped::sub_45C500(0);
+                Ped::sub_45C540(0);
+                field_14C = 0;
+                field_226 = 1;
+            }
+        }
+        else
+        {
+            Ped::sub_45C500(1);
+            Ped::sub_45C540(3);
+            field_168_game_object->SetMaxSpeed_433920(field_168_game_object->field_3C_run_or_jump_speed);
+        }
+    }
 }
 
-STUB_FUNC(0x46aae0)
-char_type Ped::sub_46AAE0()
+MATCH_FUNC(0x46aae0)
+void Ped::sub_46AAE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_14C->field_278 == 9 || field_14C->field_21C_bf.b0 == false)
+    {
+        Ped::sub_45C500(0);
+        Ped::sub_45C540(0);
+        field_14C = 0;
+        field_226 = 1;
+        field_21C_bf.b2 = false;
+    }
+    else
+    {
+        field_14C->field_144 = 0;
+        field_168_game_object->SetMaxSpeed_433920(field_168_game_object->field_3C_run_or_jump_speed);
+    }
 }
 
 STUB_FUNC(0x46ab50)

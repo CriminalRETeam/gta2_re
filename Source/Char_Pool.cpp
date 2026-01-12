@@ -211,7 +211,7 @@ Ped* PedManager::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 
     {
         pB4->field_80_sprite_ptr->SetRemap(remap);
     }
-    pPed->field_134 = rotation;
+    pPed->field_134_rotation = rotation;
     pPed->field_288_threat_search = 2;
     pPed->field_28C_threat_reaction = 3;
     pPed->field_216_health = 100;

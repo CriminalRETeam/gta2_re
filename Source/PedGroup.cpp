@@ -584,7 +584,7 @@ void PedGroup::sub_4CA5E0(u8 idx)
 }
 
 STUB_FUNC(0x4ca820)
-void PedGroup::sub_4CA820(s32 a2)
+void PedGroup::sub_4CA820(u8 a2)
 {
     NOT_IMPLEMENTED;
 }

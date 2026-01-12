@@ -34,7 +34,7 @@ class PedGroup
     EXPORT Ped* sub_4CA3F0(u32* a2);
     EXPORT void sub_4CA4B0();
     EXPORT void sub_4CA5E0(u8 idx);
-    EXPORT void sub_4CA820(s32 a2);
+    EXPORT void sub_4CA820(u8 a2);
     EXPORT bool IsAllMembersInSomeCar_4CAA20();
     EXPORT char_type sub_4CAAE0();
     EXPORT char_type sub_4CAB80();
