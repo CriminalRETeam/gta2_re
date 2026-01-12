@@ -2180,7 +2180,7 @@ void Car_BC::PutTV_Antenna_440BB0()
 }
 
 STUB_FUNC(0x440c10)
-char_type Car_BC::RotateRoofObjectTowardTarget_440C10(char_type a2)
+char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 a2)
 {
     NOT_IMPLEMENTED;
     return 0;

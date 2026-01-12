@@ -88,6 +88,7 @@ DEFINE_GLOBAL(Fix16, k_dword_678504, 0x678504);
 DEFINE_GLOBAL(Fix16, k_dword_67845C, 0x67845C);
 DEFINE_GLOBAL(Fix16, k_dword_678798, 0x678798);
 DEFINE_GLOBAL(Fix16, k_dword_678658, 0x678658);
+DEFINE_GLOBAL(Fix16, k_dword_678680, 0x678680);
 
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
@@ -4339,11 +4340,52 @@ void Ped::sub_46FFF0(s32 model)
     }
 }
 
-STUB_FUNC(0x470050)
-s16 Ped::AimRoofGun_470050()
+WIP_FUNC(0x470050)
+void Ped::AimRoofGun_470050()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Sprite_18* pHit = 0;
+    if (field_16C_car->field_84_car_info_idx == car_model_enum::FIRETRUK)
+    {
+        pHit = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(114);
+    }
+    else if (field_16C_car->field_84_car_info_idx == car_model_enum::TANK)
+    {
+        pHit = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(148);
+    }
+    else if (field_16C_car->field_84_car_info_idx == car_model_enum::GUNJEEP)
+    {
+        pHit = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(248);
+    }
+
+    Sprite* pHitSprite = pHit->field_0;
+
+    Ped* objective_target_ped = this->field_148_objective_target_ped;
+    Ang16 tan_v = Fix16::atan2_fixed_405320(objective_target_ped->field_1AC_cam.x - pHitSprite->field_14_xpos.x,
+                                            objective_target_ped->field_1AC_cam.y - pHitSprite->field_14_xpos.y);
+
+    this->field_21C &= ~0x800;
+    this->field_21C |= 0x80;
+
+    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(tan_v))
+    {
+        if (field_148_objective_target_ped->IsField238_45EDE0(2))
+        {
+            if (!this->field_16C_car->field_76)
+            {
+                this->field_21C |= 0x800;
+            }
+        }
+        else if (dword_678750 < k_dword_678680)
+        {
+            this->field_21C |= 0x800;
+        }
+    }
+    else
+    {
+        this->field_21C &= ~0x800;
+    }
 }
 
 WIP_FUNC(0x470160)
