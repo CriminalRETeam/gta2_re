@@ -35,11 +35,11 @@ Fix16_Point Sprite::GetBoundingBoxCorner_562450(s32 idx)
     return Fix16_Point(field_C_sprite_4c_ptr->field_C_b_box[idx].x, field_C_sprite_4c_ptr->field_C_b_box[idx].y);
 }
 
+// 9.6f 0x4207B0
 MATCH_FUNC(0x443580)
 Fix16_Point Sprite::get_x_y_443580()
 {
-    // TODO: HACK fix me - cast to derived object else no match - but using non POD field_14 breaks Sprite::dtor match
-    return *(Fix16_Point*)&field_14_xpos;
+    return Fix16_Point(field_14_xpos.x, field_14_xpos.y);
 }
 
 MATCH_FUNC(0x451950)
