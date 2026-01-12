@@ -71,6 +71,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
 DEFINE_GLOBAL_INIT(Fix16, dword_678624, Fix16(0xA3, 0), 0x678624);
 DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
 DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
+DEFINE_GLOBAL_INIT(Fix16, dword_6784A4, Fix16(0x3999, 0), 0x6784A4);
 DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
 DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct init value
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
@@ -85,6 +86,21 @@ STUB_FUNC(0x545AF0)
 EXPORT void __stdcall sub_545AF0(s32 a1, Car_BC* a2, s8 a3, Fix16& a4, Fix16& a5, Ang16& a6)
 {
     NOT_IMPLEMENTED;
+}
+
+MATCH_FUNC(0x45AE40)
+EXPORT bool __stdcall abs_sub_less_than_epislon_45AE40(Fix16 a1, Fix16 a2)
+{
+    if (a1 == a2)
+    {
+        return true;
+    }
+
+    if (Fix16::Abs(a1 - a2) < dword_6784A4)
+    {
+        return true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x45ae70)
