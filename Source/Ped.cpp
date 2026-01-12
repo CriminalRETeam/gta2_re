@@ -2465,15 +2465,10 @@ void Ped::sub_467CA0()
 {
     WIP_IMPLEMENTED;
 
-    Ped* pObjTargetPed; // eax
-    Ped* pObjTargetPed_; // ecx
-    s32 car_state; // eax
-
     // TODO: Move this code down somehow
-    pObjTargetPed = this->field_148_objective_target_ped;
-    if (pObjTargetPed->check_bit_0())
+    if (field_148_objective_target_ped->check_bit_0())
     {
-        if (pObjTargetPed->field_278 != 9)
+        if (field_148_objective_target_ped->field_278 != 9)
         {
             this->field_225 = 2;
             return;
@@ -2483,7 +2478,7 @@ void Ped::sub_467CA0()
         // return;
     }
 
-    if (pObjTargetPed->field_278 == 9)
+    if (field_148_objective_target_ped->field_278 == 9)
     {
         this->field_225 = 1;
         return;
@@ -2501,8 +2496,8 @@ void Ped::sub_467CA0()
         }
     }
 
-    pObjTargetPed_ = this->field_148_objective_target_ped;
-    if ((pObjTargetPed_->field_21C & 0x2000000) != 0 && pObjTargetPed_->field_168_game_object)
+    // TODO: An inline?
+    if ((field_148_objective_target_ped->field_21C & 0x2000000) != 0 && field_148_objective_target_ped->field_168_game_object)
     {
         if (this->field_25C_car_state == 17)
         {
@@ -2517,8 +2512,7 @@ void Ped::sub_467CA0()
         return;
     }
 
-    car_state = this->field_25C_car_state;
-    switch (car_state)
+    switch (field_25C_car_state)
     {
         case 0:
             Ped::sub_463830(20, 9999);
@@ -2537,7 +2531,7 @@ void Ped::sub_467CA0()
         case 20:
             if (this->field_226 == 1)
             {
-                if (this->field_14C != pObjTargetPed_)
+                if (this->field_14C != field_148_objective_target_ped)
                 {
                     // LABEL_10
                     Ped::sub_463830(0, 9999);
@@ -2551,7 +2545,7 @@ void Ped::sub_467CA0()
             {
                 Ped::sub_463830(20, 9999);
                 this->field_14C = this->field_148_objective_target_ped;
-                field_21C_bf.b3 = 0;
+                field_21C_bf.b2 = 0;
                 return;
             }
             return;
