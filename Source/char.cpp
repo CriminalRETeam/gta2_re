@@ -383,7 +383,7 @@ void Char_B4::sub_545720(Fix16 a2)
 
     if (field_58_flags_bf.b5)
     {
-        field_80_sprite_ptr->sub_420600(field_A4_xpos, field_A8_ypos, field_AC_zpos);
+        field_80_sprite_ptr->set_xyz_lazy_420600(field_A4_xpos, field_A8_ypos, field_AC_zpos);
         field_58_flags_bf.b5 = 0;
     }
     else
@@ -443,7 +443,7 @@ void Char_B4::sub_545720(Fix16 a2)
         }
         Char_B4::sub_546360();
 
-        field_80_sprite_ptr->sub_420690(field_40_rotation);
+        field_80_sprite_ptr->set_ang_lazy_420690(field_40_rotation);
 
         if (field_58_flags_bf.b3)
         {

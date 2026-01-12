@@ -1425,8 +1425,8 @@ MATCH_FUNC(0x563670)
 void CarPhysics_B0::sub_563670()
 {
     Sprite* car_sprite = field_5C_pCar->field_50_car_sprite;
-    car_sprite->sub_420600(field_38_cp1.x, field_38_cp1.y, field_6C_cp3);
-    car_sprite->sub_420690(field_58_theta);
+    car_sprite->set_xyz_lazy_420600(field_38_cp1.x, field_38_cp1.y, field_6C_cp3);
+    car_sprite->set_ang_lazy_420690(field_58_theta);
 }
 
 MATCH_FUNC(0x5636c0)
