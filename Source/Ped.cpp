@@ -68,20 +68,22 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, dword_678620, dword_6784C4 / dword_678670, 0x678620);
 DEFINE_GLOBAL_INIT(Fix16, dword_678788, dword_6784C4 * 16, 0x678788);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
-DEFINE_GLOBAL_INIT(Fix16, dword_678624, Fix16(0xA3, 0), 0x678624);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_678624, Fix16(0xA3, 0), 0x678624);
 DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
 DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A4, Fix16(0x3999, 0), 0x6784A4);
 DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
 DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct init value
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
-DEFINE_GLOBAL(Fix16, dword_67853C, 0x67853C);
+DEFINE_GLOBAL(Fix16, k_dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
 DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
 DEFINE_GLOBAL(Object_2C*, dword_678558, 0x678558);
 DEFINE_GLOBAL(u8, byte_6787D3, 0x6787D3);
 DEFINE_GLOBAL(Fix16, k_dword_678504, 0x678504);
 DEFINE_GLOBAL(Fix16, k_dword_67845C, 0x67845C);
+DEFINE_GLOBAL(Fix16, k_dword_678798, 0x678798);
+DEFINE_GLOBAL(Fix16, k_dword_678658, 0x678658);
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -309,7 +311,7 @@ void Ped::sub_45BC70()
         {
             if ((field_21C & 0x4000000) != 0)
             {
-                sub_5DF270(field_168_game_object->field_80_sprite_ptr, dword_67853C, 0, 1, this, 0);
+                sub_5DF270(field_168_game_object->field_80_sprite_ptr, k_dword_67853C, 0, 1, this, 0);
             }
         }
     }
@@ -318,7 +320,7 @@ void Ped::sub_45BC70()
 MATCH_FUNC(0x45bd20)
 bool Ped::sub_45BD20(Car_BC* pCar)
 {
-    if (pCar == field_154_target_to_enter || pCar->GetVelocity_43A4C0() < dword_678624)
+    if (pCar == field_154_target_to_enter || pCar->GetVelocity_43A4C0() < k_dword_678624)
     {
         return true;
     }
@@ -2919,8 +2921,8 @@ void Ped::sub_468C70()
                         field_194 = field_190->field_0;
                     }
                     Ped::sub_463830(12, 9999);
-                    field_1D0 = dword_67853C + Fix16(field_194->field_0);
-                    field_1D4 = dword_67853C + Fix16(field_194->field_1);
+                    field_1D0 = k_dword_67853C + Fix16(field_194->field_0);
+                    field_1D4 = k_dword_67853C + Fix16(field_194->field_1);
                     field_1D8 = Fix16(field_194->field_2);
                 }
                 field_168_game_object->sub_433970(field_1F4);
@@ -2930,8 +2932,8 @@ void Ped::sub_468C70()
         {
             field_194 = field_190->field_0;
             Ped::sub_463830(12, 9999);
-            field_1D0 = dword_67853C + Fix16(field_194->field_0);
-            field_1D4 = dword_67853C + Fix16(field_194->field_1);
+            field_1D0 = k_dword_67853C + Fix16(field_194->field_0);
+            field_1D4 = k_dword_67853C + Fix16(field_194->field_1);
             field_1D8 = Fix16(field_194->field_2);
             field_168_game_object->sub_433970(field_1F4);
         }
@@ -3583,7 +3585,7 @@ WIP_FUNC(0x46e080)
 void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
 {
     WIP_IMPLEMENTED;
-    
+
     PedGroup* pGroup_; // ecx
     int z_copy; // ebx
     Fix16 x; // edi
@@ -3898,11 +3900,76 @@ void Ped::ManageWeapon_46F390()
     }
 }
 
-STUB_FUNC(0x46f490)
-s32 Ped::sub_46F490()
+WIP_FUNC(0x46f490)
+Weapon_30* Ped::sub_46F490()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pCar;
+
+    switch (this->field_240_occupation)
+    {
+        case ped_ocupation_enum::police:
+        case ped_ocupation_enum::unknown_14:
+            if (!field_14C->IsField238_45EDE0(2))
+            {
+                this->field_21C_bf.b13 = 1;
+                return this->field_174_pWeapon;
+            }
+
+            pCar = this->field_14C->field_16C_car;
+            if (pCar)
+            {
+                if (pCar->GetVelocity_43A4C0() > k_dword_678624)
+                {
+                    this->field_21C_bf.b13 = 1;
+                    return this->field_174_pWeapon;
+                }
+                this->field_21C_bf.b9 = 1;
+                return 0;                
+            }
+
+            // TODO: Wrong here
+            if (dword_678750 < k_dword_678658 + k_dword_678798)
+            {
+                ++unk_6787EE; // police peds in range screen
+            }
+
+            if (gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen < 2u)
+            {
+                this->field_198 = 0;
+                this->field_21C_bf.b9 = 1;
+                return 0;
+            }
+
+            if (gPolice_7B8_6FEE40->field_7B0 && gPolice_7B8_6FEE40->field_7B0 != this)
+            {
+                this->field_198 = 0;
+                this->field_21C_bf.b9 = 1;
+                return 0;
+            }
+            return this->field_170_selected_weapon;
+
+        case ped_ocupation_enum::fbi:
+            if (this->field_14C->field_16C_car || dword_678750 > k_dword_67853C)
+            {
+                this->field_21C_bf.b13 = 1;
+                return this->field_174_pWeapon;
+            }
+            return this->field_170_selected_weapon;
+
+        case ped_ocupation_enum::unknown_17:
+            if (!field_14C->IsField238_45EDE0(2) || this->field_14C->field_16C_car)
+            {
+                this->field_21C_bf.b13 = 1;
+                return this->field_174_pWeapon;
+            }
+            return this->field_170_selected_weapon;
+
+        default:
+            break;
+    }
+    return this->field_170_selected_weapon;
 }
 
 MATCH_FUNC(0x46f600)
