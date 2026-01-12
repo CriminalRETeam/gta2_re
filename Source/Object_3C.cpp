@@ -47,7 +47,7 @@ Fix16_Point Object_3C::GetRot_52ADF0()
 }
 
 MATCH_FUNC(0x5a6a50)
-Sprite_18* struct_4::sub_5A6A50(s32 obj_type)
+Sprite_18* struct_4::GetSpriteForModel_5A6A50(s32 obj_type)
 {
     Sprite_18* pIter = this->field_0_p18;
     while (pIter)

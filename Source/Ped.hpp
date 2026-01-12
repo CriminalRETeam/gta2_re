@@ -223,7 +223,7 @@ class Ped
     EXPORT char_type ProcessWeaponHitResponse_46FE20(Object_2C* a2);
     EXPORT void NotifyWeaponHit_46FF00(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_46FFF0(s32 a2);
-    EXPORT s16 sub_470050();
+    EXPORT s16 AimRoofGun_470050();
     EXPORT void add_wanted_points_470160(s16 wanted_amount);
     EXPORT bool sub_4701D0();
     EXPORT void sub_470200(Fix16 a2, Fix16 a3, Fix16 a4);

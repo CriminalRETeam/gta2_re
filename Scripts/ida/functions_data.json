@@ -3880,7 +3880,7 @@
         "v105_address": "0x46fff0"
     },
     {
-        "name": "Ped::sub_470050",
+        "name": "Ped::AimRoofGun_470050",
         "v96f_address": null,
         "v105_address": "0x470050"
     },
@@ -15020,7 +15020,7 @@
         "v105_address": "0x5a6a20"
     },
     {
-        "name": "sub_5A6A50",
+        "name": "GetSpriteForModel_5A6A50",
         "v96f_address": null,
         "v105_address": "0x5a6a50"
     },

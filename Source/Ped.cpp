@@ -3874,7 +3874,7 @@ void Ped::ManageWeapon_46F390()
             {
                 if (field_258_objective == objectives_enum::kill_char_any_means_19)
                 {
-                    Ped::sub_470050();
+                    Ped::AimRoofGun_470050();
                 }
                 if (field_21C_bf.b11)
                 {
@@ -4070,7 +4070,7 @@ void Ped::sub_46FFF0(s32 model)
 }
 
 STUB_FUNC(0x470050)
-s16 Ped::sub_470050()
+s16 Ped::AimRoofGun_470050()
 {
     NOT_IMPLEMENTED;
     return 0;
