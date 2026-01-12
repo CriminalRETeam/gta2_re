@@ -3511,11 +3511,22 @@ void Ped::sub_46A9C0()
     }
 }
 
-STUB_FUNC(0x46aae0)
-char_type Ped::sub_46AAE0()
+MATCH_FUNC(0x46aae0)
+void Ped::sub_46AAE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_14C->field_278 == 9 || field_14C->field_21C_bf.b0 == false)
+    {
+        Ped::sub_45C500(0);
+        Ped::sub_45C540(0);
+        field_14C = 0;
+        field_226 = 1;
+        field_21C_bf.b2 = false;
+    }
+    else
+    {
+        field_14C->field_144 = 0;
+        field_168_game_object->SetMaxSpeed_433920(field_168_game_object->field_3C_run_or_jump_speed);
+    }
 }
 
 STUB_FUNC(0x46ab50)
