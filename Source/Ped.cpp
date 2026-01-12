@@ -3284,10 +3284,46 @@ void Ped::sub_469FE0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46a1f0)
+MATCH_FUNC(0x46a1f0)
 void Ped::sub_46A1F0()
 {
-    NOT_IMPLEMENTED;
+    if (field_148_objective_target_ped->field_21C_bf.b0 == false || field_148_objective_target_ped->field_278 == 9)
+    {
+        field_225 = 2;
+    }
+    else
+    {
+        if (field_21C_bf.b2 && field_148_objective_target_ped == field_14C)
+        {
+            field_21C_bf.b2 = false;
+            Ped::sub_463830(0, 9999);
+            byte_61A8A3 = 1;
+        }
+        else if (!byte_61A8A3)
+        {
+            return;
+        }
+
+        if (field_25C_car_state)
+        {
+            if (field_25C_car_state == 32)
+            {
+                if (field_226 == 1)
+                {
+                    field_225 = 1;
+                }
+                else if (field_226 == 2)
+                {
+                    field_225 = 2;
+                }
+            }
+        }
+        else
+        {
+            Ped::sub_463830(32, 9999);
+            field_14C = field_148_objective_target_ped;
+        }
+    }
 }
 
 STUB_FUNC(0x46a290)
