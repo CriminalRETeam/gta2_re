@@ -4205,9 +4205,11 @@ void Ped::UpdateStatsForKiller_46F720()
                 }
                 else if (IsField238_45EDE0(2))
                 {
-                    if (this->field_1A8_ped_killer->field_164_ped_group && (pPlayerIter = gGame_0x40_67E008->sub_4B9CD0()) != 0)
+                    if (this->field_1A8_ped_killer->field_164_ped_group)
                     {
-                        while (1)
+                        bool done = false;
+                        for (pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter != NULL;
+                             pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
                         {
                             pPlayerPed = pPlayerIter->field_2C4_player_ped;
                             if (pPlayerPed)
@@ -4215,23 +4217,21 @@ void Ped::UpdateStatsForKiller_46F720()
                                 if (pPlayerPed->field_164_ped_group == this->field_1A8_ped_killer->field_164_ped_group &&
                                     pPlayerIter != this->field_15C_player)
                                 {
+                                    gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(pPlayerIter->field_2E_idx,
+                                                                              this->field_15C_player->field_2E_idx);
+                                    gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(pPlayerIter, this->field_15C_player);
+                                    done = true;
                                     break;
                                 }
                             }
-                            pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
-                            if (!pPlayerIter)
-                            {
-                                goto LABEL_25;
-                            }
                         }
-                        gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(pPlayerIter->field_2E_idx, this->field_15C_player->field_2E_idx);
-                        gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(pPlayerIter, this->field_15C_player);
+                        goto LABEL_25;
                     }
                     else
                     {
                     LABEL_25:
                         gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->field_2E_idx,
-                                                                   this->field_15C_player->field_2E_idx);
+                                                                  this->field_15C_player->field_2E_idx);
                         if (!field_1A8_ped_killer->sub_45B4E0())
                         {
                             gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(this->field_15C_player, this->field_15C_player);

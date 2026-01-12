@@ -91,7 +91,7 @@ void youthful_einstein::sub_516740(Player* pFormerPlayerFugitive, Player* pPlaye
         }
         else
         {
-            Player_4B9D10 = gGame_0x40_67E008->sub_4B9CD0();
+            Player_4B9D10 = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
             pChosenPlayer = NULL;
             pFugitive = this->field_0_fugitive->field_2C4_player_ped;
 
