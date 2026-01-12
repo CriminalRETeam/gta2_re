@@ -474,7 +474,7 @@ class Ped
     Gang_144* field_19C;
     Object_2C* field_1A0_objective_target_object;
     Object_2C* field_1A4;
-    Ped* field_1A8_elvis_leader;
+    Ped* field_1A8_ped_killer;
     Fix16_Vec field_1AC_cam;
     Fix16 field_1B8_target_x;
     Fix16 field_1BC_target_y;

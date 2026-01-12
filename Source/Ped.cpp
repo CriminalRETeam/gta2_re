@@ -16,6 +16,7 @@
 #include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
+#include "Shooey_CC.hpp"
 #include "Taxi_4.hpp"
 #include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
@@ -90,7 +91,6 @@ DEFINE_GLOBAL(Fix16, k_dword_678658, 0x678658);
 
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -945,12 +945,10 @@ char_type Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
         if (model <= 227)
         {
             bCollected = AddWeaponWithAmmo_45DD30(model - 200, pPickUp->field_26_varrok_idx);
-
         }
         else
         {
             bCollected = field_15C_player->CollectPowerUp_564D60(model - 228);
-
         }
 
         if (bCollected)
@@ -4153,10 +4151,129 @@ void Ped::sub_46F680(Ped* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46f720)
+WIP_FUNC(0x46f720)
 void Ped::UpdateStatsForKiller_46F720()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s32 ped_id; // eax
+    Ped* pKillerPed; // eax
+    Player* pPlayerIter; // edi
+    Ped* pPlayerPed; // eax
+    Ped* pPedKiller; // ecx
+    PedGroup* pGroup; // ecx
+    Player* pPlayer; // edx
+    Ped* pPlayerPed_; // eax
+
+    ped_id = this->field_204_killer_id;
+    this->field_1A8_ped_killer = 0;
+    if (ped_id)
+    {
+        pKillerPed = gPedManager_6787BC->PedById(ped_id);
+        this->field_1A8_ped_killer = pKillerPed;
+        if (pKillerPed)
+        {
+            if (pKillerPed->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 && pKillerPed->IsField238_45EDE0(2))
+            {
+                if (gShooey_CC_67A4B8->sub_485140(this, this->field_1A8_ped_killer->field_15C_player))
+                {
+                    if (this->field_17C_pZone || this->field_19C)
+                    {
+                        field_1A8_ped_killer->add_wanted_points_470160(1); // gang guy killed
+                    }
+                    else if (this->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+                    {
+                        field_1A8_ped_killer->add_wanted_points_470160(500); // police?
+                    }
+                    else
+                    {
+                        field_1A8_ped_killer->add_wanted_points_470160(100); // normal ped?
+                    }
+                }
+            }
+            if (bStartNetworkGame_7081F0)
+            {
+                if (field_1A8_ped_killer->IsField238_45EDE0(2))
+                {
+                    if (IsField238_45EDE0(2))
+                    {
+                        gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_1A8_ped_killer->field_15C_player->field_2E_idx,
+                                                                  this->field_15C_player->field_2E_idx);
+                        gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(this->field_1A8_ped_killer->field_15C_player,
+                                                                         this->field_15C_player);
+                    }
+                }
+                else if (IsField238_45EDE0(2))
+                {
+                    if (this->field_1A8_ped_killer->field_164_ped_group && (pPlayerIter = gGame_0x40_67E008->sub_4B9CD0()) != 0)
+                    {
+                        while (1)
+                        {
+                            pPlayerPed = pPlayerIter->field_2C4_player_ped;
+                            if (pPlayerPed)
+                            {
+                                if (pPlayerPed->field_164_ped_group == this->field_1A8_ped_killer->field_164_ped_group &&
+                                    pPlayerIter != this->field_15C_player)
+                                {
+                                    break;
+                                }
+                            }
+                            pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
+                            if (!pPlayerIter)
+                            {
+                                goto LABEL_25;
+                            }
+                        }
+                        gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(pPlayerIter->field_2E_idx, this->field_15C_player->field_2E_idx);
+                        gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(pPlayerIter, this->field_15C_player);
+                    }
+                    else
+                    {
+                    LABEL_25:
+                        gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->field_2E_idx,
+                                                                   this->field_15C_player->field_2E_idx);
+                        if (!field_1A8_ped_killer->sub_45B4E0())
+                        {
+                            gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(this->field_15C_player, this->field_15C_player);
+                        }
+                    }
+                }
+            }
+            pPedKiller = this->field_1A8_ped_killer;
+            if (this != pPedKiller)
+            {
+                if (pPedKiller->IsField238_45EDE0(2))
+                {
+                    field_1A8_ped_killer->field_15C_player->field_2D4_scores.sub_592660(this, this->field_1A8_ped_killer);
+                    sub_46F680(this->field_1A8_ped_killer);
+                }
+                else
+                {
+                    pGroup = this->field_1A8_ped_killer->field_164_ped_group;
+                    if (pGroup)
+                    {
+                        pPlayer = gGame_0x40_67E008->field_38_orf1;
+                        pPlayerPed_ = pPlayer->field_2C4_player_ped;
+                        if (pPlayerPed_)
+                        {
+                            if (pGroup == pPlayerPed_->field_164_ped_group)
+                            {
+                                sub_46F680(pPlayer->field_2C4_player_ped);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (bStartNetworkGame_7081F0)
+    {
+        if (!this->field_1A8_ped_killer && IsField238_45EDE0(2))
+        {
+            gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->field_2E_idx, this->field_15C_player->field_2E_idx);
+            gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(this->field_15C_player, this->field_15C_player);
+        }
+    }
 }
 
 STUB_FUNC(0x46f9d0)
