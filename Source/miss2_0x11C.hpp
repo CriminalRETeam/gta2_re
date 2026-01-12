@@ -625,6 +625,12 @@ struct SCR_IS_CHAR_IN_GANG_ZONE : SCR_CMD_HEADER
     u16 field_A_gang_idx;
 };
 
+struct SCR_CHANGE_CAR_LOCK : SCR_CMD_HEADER
+{
+    u16 field_8_car_idx;
+    s16 field_A_lock_type;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
@@ -844,10 +850,10 @@ class miss2_0x11C
     EXPORT void sub_50CD30();
     EXPORT void SCRCMD_CAR_DAMAGE_POS_50CDB0();
     EXPORT void SCRCMD_PARK_FINISHED_50CE10();
-    EXPORT void sub_50CE50(s32 a2, u16 a3);
+    EXPORT void sub_50CE50(SCR_CMD_HEADER* pCmd, u16 cmd_idx);
     EXPORT void SCRCMD_PHONE_TEMPLATE_50CE90();
     EXPORT void SCRCMD_REMOTE_CONTROL_50D200();
-    EXPORT s32 SCRCMD_LAUNCH_MISSION_50D2E0();
+    EXPORT void SCRCMD_LAUNCH_MISSION_50D2E0();
     EXPORT void SCRCMD_SAVE_GAME_50D340();
     EXPORT void sub_50D3C0();
     EXPORT void SCRCMD_CHANGE_CAR_LOCK_50D680();
@@ -927,7 +933,7 @@ class miss2_0x11C
     EXPORT char_type PoolUpdate();
     EXPORT void sub_511930(char_type a2, u16 levelStart);
     EXPORT miss2_0x11C* sub_511960(u16 a2);
-    EXPORT s32 launch_mission_5119A0(s32 a2, char_type* String1);
+    EXPORT void launch_mission_5119A0(SCR_CMD_HEADER* base_pointer, char_type* string);
     EXPORT miss2_0x11C();
     EXPORT void sub_511CD0();
     EXPORT ~miss2_0x11C();

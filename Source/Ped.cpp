@@ -1133,7 +1133,7 @@ void Ped::Mugger_AI_45F360()
                     }
                     else
                     {
-                        Ped::SetObjective(objectives_enum::objective_23, 9999);
+                        Ped::SetObjective(objectives_enum::punch_char_23, 9999);
                         field_148_objective_target_ped = pTarget;
                         field_229 = 0;
                         field_21C_bf.b11 = false;
@@ -1148,7 +1148,7 @@ void Ped::Mugger_AI_45F360()
             }
 
             break;
-        case objectives_enum::objective_23:
+        case objectives_enum::punch_char_23:
             if (field_148_objective_target_ped && field_148_objective_target_ped->field_16C_car)
             {
                 Ped::SetObjective(objectives_enum::no_obj_0, 9999);
@@ -1297,7 +1297,7 @@ void Ped::sub_461290()
             }
             return;
 
-        case objectives_enum::objective_38:
+        case objectives_enum::leave_train_38:
             if (this->field_225)
             {
             LABEL_21:
@@ -1580,7 +1580,7 @@ void Ped::sub_462280()
 
     if (field_218_objective_timer != 9999)
     {
-        if (field_258_objective != objectives_enum::objective_31 && field_258_objective != objectives_enum::objective_13 &&
+        if (field_258_objective != objectives_enum::objective_31 && field_258_objective != objectives_enum::goto_area_any_means_13 &&
             field_258_objective != objectives_enum::kill_char_any_means_19 && field_258_objective != objectives_enum::goto_area_in_car_14)
         {
             if (field_218_objective_timer > 0)
@@ -2070,7 +2070,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 field_1C0_target_z = field_1AC_cam.z;
             }
             else if (field_258_objective != objectives_enum::objective_18 &&
-                     (field_258_objective <= objectives_enum::objective_34 || field_258_objective > objectives_enum::objective_38))
+                     (field_258_objective <= objectives_enum::objective_34 || field_258_objective > objectives_enum::leave_train_38))
             {
                 field_1B8_target_x = field_150_target_objective_car->field_50_car_sprite->field_14_xpos.x;
                 field_1BC_target_y = field_150_target_objective_car->field_50_car_sprite->field_14_xpos.y;
@@ -2140,7 +2140,7 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::objective_22:
                 Ped::sub_467FB0();
                 break;
-            case objectives_enum::objective_23:
+            case objectives_enum::punch_char_23:
                 Ped::sub_467FD0();
                 break;
             case objectives_enum::wait_on_foot_26:
@@ -2164,7 +2164,7 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::leave_car_36:
                 Ped::sub_468820();
                 break;
-            case objectives_enum::objective_42:
+            case objectives_enum::patrol_on_foot_42:
                 Ped::sub_468C70();
                 break;
             case objectives_enum::goto_char_on_foot_16:
@@ -2173,7 +2173,7 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::goto_area_on_foot_12:
                 Ped::sub_468DE0();
                 break;
-            case objectives_enum::objective_13:
+            case objectives_enum::goto_area_any_means_13:
                 Ped::sub_469060();
                 break;
             case objectives_enum::follow_car_on_foot_with_offset_51:
@@ -2182,10 +2182,10 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::objective_8:
                 Ped::sub_469BD0();
                 break;
-            case objectives_enum::objective_37:
+            case objectives_enum::enter_train_37:
                 Ped::sub_468930();
                 break;
-            case objectives_enum::objective_38:
+            case objectives_enum::leave_train_38:
                 Ped::sub_468A00();
                 break;
             case objectives_enum::objective_33:
