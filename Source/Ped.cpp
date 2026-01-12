@@ -3326,11 +3326,26 @@ void Ped::sub_46A1F0()
     }
 }
 
-STUB_FUNC(0x46a290)
-s32 Ped::sub_46A290()
+MATCH_FUNC(0x46a290)
+void Ped::sub_46A290()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_150_target_objective_car->field_54_driver || field_168_game_object)
+    {
+        field_225 = 2;
+    }
+    else
+    {
+        if (!field_16C_car->field_60)
+        {
+            field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
+            field_16C_car->field_60->field_4 = this;
+        }
+        field_16C_car->field_60->field_8 = 2;
+        field_16C_car->sub_421560(5);
+        field_16C_car->field_60->field_30 = field_150_target_objective_car->field_54_driver;
+        field_16C_car->field_A6 &= ~0x20u;
+        field_16C_car->field_5C->field_74 = dword_67866C;
+    }
 }
 
 STUB_FUNC(0x46a350)
