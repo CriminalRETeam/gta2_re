@@ -3585,11 +3585,9 @@ s32 Ped::sub_46E080(s32 a2, s32 a3)
     return 0;
 }
 
-WIP_FUNC(0x46e200)
+MATCH_FUNC(0x46e200)
 void Ped::sub_46E200(u8 total)
 {
-    WIP_IMPLEMENTED;
-    
     PedGroup* pGroup; // ebx
     s32 i; // ebp
     Ped* pNewPed; // esi
@@ -3597,18 +3595,17 @@ void Ped::sub_46E200(u8 total)
     Fix16 xy_off; // rax
     Char_B4* pB4; // ecx
     Weapon_30* pWeapon; // eax
-  //  u8 current; // [esp+8h] [ebp-4h]
+    u8 current; // [esp+8h] [ebp-4h]
 
     pGroup = PedGroup::New_4CB0D0();
     pGroup->add_ped_leader_4C9B10(this);
-    
+    current = 0;
     pGroup->field_36_count = total;
     pGroup->field_34_count = total;
-    
-    for (u8 current =0; current < total; current++)
+    if (total > 0)
     {
-        //i = 0;
-       // do
+        i = 0;
+        do
         {
 
             Ped* pNewPed = gPedPool_6787B8->field_0_pool.Allocate();
@@ -3617,7 +3614,7 @@ void Ped::sub_46E200(u8 total)
             pNewPed->field_244_remap = this->field_244_remap;
             pNewPed->field_26C_graphic_type = this->field_26C_graphic_type;
             pNewPed->field_238 = this->field_238;
-            xy_off = k_dword_678504 * Fix16(current);
+            xy_off = k_dword_678504 * Fix16(i);
             pNewPed->AllocCharB4_45C830(xy_off + this->field_1AC_cam.x, xy_off + this->field_1AC_cam.y, this->field_1AC_cam.z);
             pB4 = pNewPed->field_168_game_object;
             const u8 remap = this->field_244_remap;
@@ -3638,10 +3635,10 @@ void Ped::sub_46E200(u8 total)
             {
                 pNewPed->ForceWeapon_46F600(pWeapon->field_1C_idx);
             }
-            //++i;
-           // ++current;
-        }
-       // } while (current < total);
+
+            ++current;
+            ++i;
+        } while (current < total);
     }
 }
 
