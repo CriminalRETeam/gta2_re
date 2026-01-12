@@ -531,9 +531,9 @@ struct TurkishDelight_164
     TurkishDelight_4 field_0_obj_x[3][20];
     u16 field_F0_model[20];
     u8 field_118_varrok_idx[20];
-    char_type field_12C_obj_5C_buffer[50]; // TODO: Maybe multiple fields
+    char_type field_12C_obj_5C_bUnCollectedTokens[50];
     s16 field_15E_pad;
-    s32 field_160_lhv_secret_tokens_collected;
+    s32 field_160_secret_tokens_collected;
 };
 
 // Car data

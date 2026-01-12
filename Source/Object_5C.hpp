@@ -214,9 +214,9 @@ class Object_5C
     u8 field_19;
     u16 field_1A;
     struct_4 field_1C;
-    u8 field_20[50];
-    u16 field_52;
-    s32 field_54_f20_idx;
+    u8 field_20_bUnCollectedTokens[50];
+    u16 field_52; // pad?
+    s32 field_54_uncollected_token_index;
     Sprite* field_58;
 };
 
