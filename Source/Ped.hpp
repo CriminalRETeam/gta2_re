@@ -153,7 +153,7 @@ class Ped
     EXPORT void sub_469060();
     EXPORT void sub_469BD0();
     EXPORT char_type sub_469BF0();
-    EXPORT s32 sub_469D60();
+    EXPORT void sub_469D60();
     EXPORT void sub_469E10();
     EXPORT s32 sub_469E30();
     EXPORT s32 sub_469E50();
@@ -444,7 +444,7 @@ class Ped
     Ang16 field_12E;
     Ang16 field_130;
     Ang16 field_132;
-    Ang16 field_134;
+    Ang16 field_134_rotation;
     s16 field_136;
     s32 field_138;
     s32 field_13C;
@@ -488,7 +488,7 @@ class Ped
     Fix16 field_1DC_objective_target_x;
     Fix16 field_1E0_objective_target_y;
     Fix16 field_1E4_objective_target_z;
-    s32 field_1E8;
+    Fix16 field_1E8;
     s32 field_1EC;
     Fix16 field_1F0_maybe_max_speed;
     Fix16 field_1F4;

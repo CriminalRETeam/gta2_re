@@ -78,6 +78,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A4, Fix16(0x3999, 0), 0x6784A4);
 DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
 DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct init value
+DEFINE_GLOBAL_INIT(Fix16, dword_6784DC, dword_6784C4 * 6, 0x6784DC);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
 DEFINE_GLOBAL(Fix16, k_dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
@@ -3170,11 +3171,33 @@ char_type Ped::sub_469BF0()
     return 0;
 }
 
-STUB_FUNC(0x469d60)
-s32 Ped::sub_469D60()
+MATCH_FUNC(0x469d60)
+void Ped::sub_469D60()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (byte_61A8A3)
+    {
+        if (dword_678750 <= dword_6784DC && field_1AC_cam.z.ToUInt8() == field_1E4_objective_target_z.ToUInt8())
+        {
+            if (field_168_game_object->field_10 != 15)
+            {
+                Ped::sub_45C500(7);
+                Ped::sub_45C540(14);
+                field_130 = field_134_rotation;
+            }
+        }
+        else
+        {
+            field_168_game_object->SetMaxSpeed_433920(field_1F4);
+            Ped::sub_4672E0(dword_678750, 4);
+        }
+    }
+    else
+    {
+        if (field_21C_bf.b2 && dword_678750 > field_1E8)
+        {
+            field_21C_bf.b22 = true;
+        }
+    }
 }
 
 MATCH_FUNC(0x469e10)
