@@ -3580,7 +3580,7 @@ bool Ped::sub_46E020(PedGroup* pGroup)
 }
 
 WIP_FUNC(0x46e080)
-void Ped::sub_46E080(s32 desiredCount, Fix16 searchRadius)
+void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
 {
     WIP_IMPLEMENTED;
     

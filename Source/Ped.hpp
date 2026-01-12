@@ -203,7 +203,7 @@ class Ped
     EXPORT Sprite* GetSprite_46DF50();
     EXPORT void SetupFollower_46DF70(Ped* arg0, s32 WeaponIdx);
     EXPORT bool sub_46E020(PedGroup* a2);
-    EXPORT void sub_46E080(s32 desiredCount, Fix16 searchRadius);
+    EXPORT void RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius);
     EXPORT void SpawnPedGroupFollowers_46E200(u8 total);
     EXPORT u8 get_wanted_star_count_46EF00();
     EXPORT void set_wanted_level_46EF40(u16 wanted);
