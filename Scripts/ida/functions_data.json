@@ -3065,12 +3065,12 @@
         "v105_address": "0x45c9b0"
     },
     {
-        "name": "Ped::sub_45C9D0",
+        "name": "Ped::ComputeAimAngle_45C9D0",
         "v96f_address": null,
         "v105_address": "0x45c9d0"
     },
     {
-        "name": "Ped::sub_45CAA0",
+        "name": "Ped::HandleClosePedInteraction_45CAA0",
         "v96f_address": null,
         "v105_address": "0x45caa0"
     },
@@ -3350,7 +3350,7 @@
         "v105_address": "0x466f60"
     },
     {
-        "name": "Ped::sub_466FB0",
+        "name": "Ped::FindNearbyPed_466FB0",
         "v96f_address": null,
         "v105_address": "0x466fb0"
     },

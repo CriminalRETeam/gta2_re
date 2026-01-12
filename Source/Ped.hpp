@@ -71,8 +71,8 @@ class Ped
     EXPORT Fix16 sub_45C920();
     EXPORT Ang16 GetRotation();
     EXPORT Fix16& sub_45C9B0(Fix16& a2);
-    EXPORT s16* sub_45C9D0(s16* a2);
-    EXPORT void sub_45CAA0();
+    EXPORT s16* ComputeAimAngle_45C9D0(s16* a2);
+    EXPORT void HandleClosePedInteraction_45CAA0();
     EXPORT void TakeDamage(s16 damage);
     EXPORT void sub_45CF20(Object_2C* a2);
     EXPORT char_type HandlePedHitByObject_45D000(Object_2C* a2);
@@ -123,7 +123,7 @@ class Ped
     EXPORT Ped* FindBestTargetPed_466BF0(s32 a2);
     EXPORT Ped* sub_466F40(u8 a2);
     EXPORT Ped* FindNearestPed_466F60(u8 a2);
-    EXPORT s32 sub_466FB0();
+    EXPORT s32 FindNearbyPed_466FB0();
     EXPORT Ped* sub_467070();
     EXPORT char_type sub_467090();
     EXPORT Sprite* sub_467280();

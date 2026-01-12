@@ -817,14 +817,14 @@ Fix16& Ped::sub_45C9B0(Fix16& a2)
 }
 
 STUB_FUNC(0x45c9d0)
-s16* Ped::sub_45C9D0(s16* a2)
+s16* Ped::ComputeAimAngle_45C9D0(s16* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x45caa0)
-void Ped::sub_45CAA0()
+void Ped::HandleClosePedInteraction_45CAA0()
 {
     NOT_IMPLEMENTED;
 }
@@ -2293,7 +2293,7 @@ Ped* Ped::FindNearestPed_466F60(u8 a2)
 }
 
 STUB_FUNC(0x466fb0)
-s32 Ped::sub_466FB0()
+s32 Ped::FindNearbyPed_466FB0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -3983,7 +3983,7 @@ void Ped::ManageWeapon_46F390()
         {
             if (field_238 == 2)
             {
-                Ped::sub_45CAA0();
+                Ped::HandleClosePedInteraction_45CAA0();
             }
         }
     }
