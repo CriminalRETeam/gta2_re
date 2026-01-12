@@ -1,5 +1,6 @@
 #include "Police_38.hpp"
 #include "Car_BC.hpp"
+#include "Char_Pool.hpp"
 #include "Fix16_Rect.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"

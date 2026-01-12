@@ -1,6 +1,7 @@
 #include "Ped.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
 #include "Globals.hpp"
@@ -70,6 +71,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
 DEFINE_GLOBAL_INIT(Fix16, dword_678624, Fix16(0xA3, 0), 0x678624);
 DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
 DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
+DEFINE_GLOBAL_INIT(Fix16, dword_6784A4, Fix16(0x3999, 0), 0x6784A4);
 DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
 DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct init value
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
@@ -84,6 +86,21 @@ STUB_FUNC(0x545AF0)
 EXPORT void __stdcall sub_545AF0(s32 a1, Car_BC* a2, s8 a3, Fix16& a4, Fix16& a5, Ang16& a6)
 {
     NOT_IMPLEMENTED;
+}
+
+MATCH_FUNC(0x45AE40)
+EXPORT bool __stdcall abs_sub_less_than_epislon_45AE40(Fix16 a1, Fix16 a2)
+{
+    if (a1 == a2)
+    {
+        return true;
+    }
+
+    if (Fix16::Abs(a1 - a2) < dword_6784A4)
+    {
+        return true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x45ae70)
@@ -3534,11 +3551,21 @@ Sprite* Ped::sub_46DF50()
     }
 }
 
-STUB_FUNC(0x46df70)
-s32 Ped::sub_46DF70(s32 a2, s32 a3)
+MATCH_FUNC(0x46df70)
+void Ped::sub_46DF70(Ped* arg0, s32 WeaponIdx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    set_remap_433B90(arg0->field_244_remap);
+    SetRemap_433C10(arg0->field_244_remap);
+    field_26C_graphic_type = arg0->field_26C_graphic_type;
+    Ped::RemovePedWeapons_462510();
+    Ped::ForceWeapon_46F600(WeaponIdx);
+    set_occupation_403970(ped_ocupation_enum::special_groups_member);
+    field_288_threat_search = arg0->field_288_threat_search;
+    field_28C_threat_reaction = arg0->field_28C_threat_reaction;
+    field_17C_pZone = arg0->field_17C_pZone;
+    sub_433BB0(1);
+    sub_433BC0(1);
+    SetField238_403920(4);
 }
 
 WIP_FUNC(0x46e020)

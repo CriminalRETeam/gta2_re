@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-#include "char.hpp"
+#include "fix16.hpp"
 
 class Ped;
 class Char_8;

@@ -4,6 +4,7 @@
 #include "Car_BC.hpp"
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
+#include "Char_Pool.hpp"
 #include "Firefighters.hpp"
 #include "Frontend.hpp"
 #include "Game_0x40.hpp"
@@ -983,6 +984,7 @@ void CC ImGuiDebugDraw()
                             if (pPhysics)
                             {
                                 ImGui::SliderS16("Car Angle", &pPhysics->field_58_theta.rValue, 0, 1439);
+                                ImGui::SliderInt("Car Angle Velocity", &pPhysics->field_74_ang_vel_rad.mValue, -10 * 16384, 10 * 16384);
                                 if (ImGui::TreeNode("Car Physics"))
                                 {
 

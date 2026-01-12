@@ -1,5 +1,6 @@
 #include "Police_7B8.hpp"
 #include "Car_BC.hpp"
+#include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Kfc_1E0.hpp"

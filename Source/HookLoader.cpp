@@ -336,9 +336,9 @@ class HookLoader
                 printf("Doing %s\n", it->first.c_str());
                 #endif
 
-                if (meta.mStatus == 0)
+                if (meta.mStatus == 0 || meta.mStatus == 2)
                 {
-                    // stubbed - hook reimpl func to og
+                    // stubbed or wip - hook reimpl func to og
                     //printf("STUB %s\n", it->first.c_str());
 
                     err = DetourAttach(&(PVOID&)addr, reinterpret_cast<void*>(meta.mOgAddr));

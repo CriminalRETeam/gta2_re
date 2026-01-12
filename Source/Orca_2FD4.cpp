@@ -1,4 +1,5 @@
 #include "Orca_2FD4.hpp"
+#include "Char_Pool.hpp"
 #include "Globals.hpp"
 #include "map_0x370.hpp"
 #include <string.h>
