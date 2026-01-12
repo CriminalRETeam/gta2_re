@@ -79,6 +79,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6784A4, Fix16(0x3999, 0), 0x6784A4);
 DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
 DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct init value
 DEFINE_GLOBAL_INIT(Fix16, dword_6784DC, dword_6784C4 * 6, 0x6784DC);
+DEFINE_GLOBAL_INIT(Fix16, dword_678668, Fix16(2), 0x678668);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
 DEFINE_GLOBAL(Fix16, k_dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
@@ -3218,11 +3219,34 @@ void Ped::sub_469E30()
     }
 }
 
-STUB_FUNC(0x469e50)
-s32 Ped::sub_469E50()
+MATCH_FUNC(0x469e50)
+void Ped::sub_469E50()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_16C_car)
+    {
+        if (!field_16C_car->field_60)
+        {
+            field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
+            field_16C_car->field_60->field_4 = this;
+        }
+        field_16C_car->field_60->field_8 = 4;
+        field_16C_car->sub_421560(5);
+        field_16C_car->field_60->field_30 = field_148_objective_target_ped;
+        field_16C_car->field_A6 &= ~0x20u;
+        field_16C_car->field_5C->field_74 = dword_67866C;
+        field_16C_car->field_60->field_20 = 1;
+        if (field_16C_car->field_84_car_info_idx == car_model_enum::JEEP)
+        {
+            if (dword_678750 < dword_678668)
+            {
+                field_21C_bf.b11 = true;
+            }
+            else
+            {
+                field_21C_bf.b11 = false;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x469f30)
