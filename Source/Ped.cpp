@@ -3154,10 +3154,13 @@ void Ped::sub_469060()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x469bd0)
+MATCH_FUNC(0x469bd0)
 void Ped::sub_469BD0()
 {
-    NOT_IMPLEMENTED;
+    if (field_168_game_object)
+    {
+        field_164_ped_group->sub_4CA820(field_23C);
+    }
 }
 
 STUB_FUNC(0x469bf0)

@@ -530,7 +530,7 @@ class Ped
     char_type field_236;
     char_type field_237;
     s32 field_238;
-    char_type field_23C;
+    u8 field_23C;
     char_type field_23D;
     char_type field_23E;
     char_type field_23F;
