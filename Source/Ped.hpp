@@ -201,7 +201,7 @@ class Ped
     EXPORT void sub_46DB70();
     EXPORT void sub_46DB80();
     EXPORT Sprite* sub_46DF50();
-    EXPORT s32 sub_46DF70(s32 a2, s32 a3);
+    EXPORT void sub_46DF70(Ped* arg0, s32 WeaponIdx);
     EXPORT bool sub_46E020(PedGroup* a2);
     EXPORT s32 sub_46E080(s32 a2, s32 a3);
     EXPORT u8 sub_46E200(u8 a2);

@@ -3551,11 +3551,21 @@ Sprite* Ped::sub_46DF50()
     }
 }
 
-STUB_FUNC(0x46df70)
-s32 Ped::sub_46DF70(s32 a2, s32 a3)
+MATCH_FUNC(0x46df70)
+void Ped::sub_46DF70(Ped* arg0, s32 WeaponIdx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    set_remap_433B90(arg0->field_244_remap);
+    SetRemap_433C10(arg0->field_244_remap);
+    field_26C_graphic_type = arg0->field_26C_graphic_type;
+    Ped::RemovePedWeapons_462510();
+    Ped::ForceWeapon_46F600(WeaponIdx);
+    set_occupation_403970(ped_ocupation_enum::special_groups_member);
+    field_288_threat_search = arg0->field_288_threat_search;
+    field_28C_threat_reaction = arg0->field_28C_threat_reaction;
+    field_17C_pZone = arg0->field_17C_pZone;
+    sub_433BB0(1);
+    sub_433BC0(1);
+    SetField238_403920(4);
 }
 
 WIP_FUNC(0x46e020)
