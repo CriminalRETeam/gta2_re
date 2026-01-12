@@ -1488,8 +1488,8 @@ void Ped::sub_462280()
         }
 
         field_21C_bf.b27 = 0;
-        Ped::sub_463AA0();
-        Ped::sub_463FB0();
+        Ped::ProcessOnFootObjective_463AA0();
+        Ped::ProcessInCarObjective_463FB0();
         if (field_278 > 0 && field_278 <= 7)
         {
             Ped::sub_461A60();
@@ -1860,7 +1860,7 @@ bool Ped::PoolUpdate()
                     if (field_258_objective || field_25C_car_state)
                     {
                         byte_61A8A3 = 0;
-                        Ped::sub_4632E0();
+                        Ped::ProcessObjective_4632E0();
                     }
                     if (field_168_game_object->field_10 == 15)
                     {
@@ -1924,10 +1924,10 @@ bool Ped::PoolUpdate()
 }
 
 MATCH_FUNC(0x4632e0)
-void Ped::sub_4632E0()
+void Ped::ProcessObjective_4632E0()
 {
-    sub_463AA0();
-    sub_463FB0();
+    ProcessOnFootObjective_463AA0();
+    ProcessInCarObjective_463FB0();
 }
 
 MATCH_FUNC(0x463300)
@@ -1989,7 +1989,7 @@ void Ped::sub_463830(s32 a2, s16 a3)
 }
 
 MATCH_FUNC(0x463aa0)
-void Ped::sub_463AA0()
+void Ped::ProcessOnFootObjective_463AA0()
 {
     Ang16 angle = 0;
     if (field_258_objective && !field_225)
@@ -2184,7 +2184,7 @@ void Ped::sub_463AA0()
 }
 
 STUB_FUNC(0x463fb0)
-void Ped::sub_463FB0()
+void Ped::ProcessInCarObjective_463FB0()
 {
     NOT_IMPLEMENTED;
 }

@@ -3240,7 +3240,7 @@
         "v105_address": "0x462e70"
     },
     {
-        "name": "Ped::sub_4632E0",
+        "name": "Ped::ProcessObjective_4632E0",
         "v96f_address": "0x4454D0",
         "v105_address": "0x4632e0"
     },
@@ -3265,7 +3265,7 @@
         "v105_address": "0x463830"
     },
     {
-        "name": "Ped::sub_463AA0",
+        "name": "Ped::ProcessOnFootObjective_463AA0",
         "v96f_address": "0x443170",
         "v105_address": "0x463aa0"
     },
@@ -3280,7 +3280,7 @@
         "v105_address": "0x463fa0"
     },
     {
-        "name": "Ped::sub_463FB0",
+        "name": "Ped::ProcessInCarObjective_463FB0",
         "v96f_address": "0x444D00",
         "v105_address": "0x463fb0"
     },
