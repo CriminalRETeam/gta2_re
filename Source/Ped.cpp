@@ -2278,8 +2278,12 @@ MATCH_FUNC(0x466f60)
 Ped* Ped::FindNearestPed_466F60(u8 a2)
 {
     dword_6787DC = this;
-    Sprite* pSprite =
-        gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped, sprite_types_enum::car, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
+    Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped,
+                                                                                  sprite_types_enum::car,
+                                                                                  field_168_game_object->field_80_sprite_ptr,
+                                                                                  a2,
+                                                                                  0,
+                                                                                  0);
     if (pSprite)
     {
         // @OG_BUG: Null de-ref
@@ -2456,10 +2460,111 @@ void Ped::sub_467BD0()
     }
 }
 
-STUB_FUNC(0x467ca0)
+WIP_FUNC(0x467ca0)
 void Ped::sub_467CA0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ped* pObjTargetPed; // eax
+    s32 f278; // edx
+    Car_BC* f140; // eax
+    Ped* pObjTargetPed_; // ecx
+    s32 car_state; // eax
+    s32 car_state_m1; // eax
+    char f226; // al
+   // s32 flags; // eax
+
+    pObjTargetPed = this->field_148_objective_target_ped;
+    f278 = pObjTargetPed->field_278;
+    if ((pObjTargetPed->field_21C_bf.b1) == 0)
+    {
+        if (f278 != 9)
+        {
+            this->field_225 = 2;
+            return;
+        }
+    LABEL_25:
+        this->field_225 = 1;
+        return;
+    }
+
+    if (f278 == 9)
+    {
+        goto LABEL_25;
+    }
+
+    f140 = this->field_140;
+    if (f140)
+    {
+        if (f140->field_88 == 5)
+        {
+            this->field_140 = 0;
+        }
+        else
+        {
+            f140->field_76 = 0;
+        }
+    }
+
+    pObjTargetPed_ = this->field_148_objective_target_ped;
+    if ((pObjTargetPed_->field_21C & 0x2000000) != 0 && pObjTargetPed_->field_168_game_object)
+    {
+        if (this->field_25C_car_state == 17)
+        {
+            return;
+        }
+        goto LABEL_10;
+    }
+
+    if (!byte_61A8A3 || (this->field_21C_bf.b3) != 0)
+    {
+        return;
+    }
+
+    car_state = this->field_25C_car_state;
+    if (!car_state)
+    {
+    LABEL_22:
+        sub_463830(20, 9999);
+        this->field_14C = this->field_148_objective_target_ped;
+        return;
+    }
+
+    car_state_m1 = car_state - 1;
+    if (!car_state_m1)
+    {
+        if (this->field_226 != 1)
+        {
+            return;
+        }
+        goto LABEL_22;
+    }
+    if (car_state_m1 != 19)
+    {
+        return;
+    }
+
+    f226 = this->field_226;
+    if (f226 == 1)
+    {
+        if (this->field_14C != pObjTargetPed_)
+        {
+        LABEL_10:
+            sub_463830(0, 9999);
+            return;
+        }
+        goto LABEL_25;
+    }
+
+    if (f226 == 2)
+    {
+        sub_463830(20, 9999);
+        this->field_14C = this->field_148_objective_target_ped;
+        field_21C_bf.b3 = 0;
+        //        flags = this->field_21C;
+        //      LOBYTE(flags) = flags & ~4;
+        //    this->field_21C = flags;
+    }
 }
 
 STUB_FUNC(0x467e20)
@@ -3927,7 +4032,7 @@ Weapon_30* Ped::sub_46F490()
                     return this->field_174_pWeapon;
                 }
                 this->field_21C_bf.b9 = 1;
-                return 0;                
+                return 0;
             }
 
             if (dword_678750 < k_dword_678658 + k_dword_678798)
@@ -3946,11 +4051,10 @@ Weapon_30* Ped::sub_46F490()
             if (!gPolice_7B8_6FEE40->field_7B0 || gPolice_7B8_6FEE40->field_7B0 == this)
             {
                 return this->field_170_selected_weapon;
-               
             }
             this->field_198 = 0;
-                this->field_21C_bf.b9 = 1;
-                return 0;
+            this->field_21C_bf.b9 = 1;
+            return 0;
 
         case ped_ocupation_enum::fbi:
             if (this->field_14C->field_16C_car || dword_678750 > k_dword_67853C)

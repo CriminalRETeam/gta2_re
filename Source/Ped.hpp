@@ -448,7 +448,7 @@ class Ped
     s16 field_136;
     s32 field_138;
     s32 field_13C;
-    s32 field_140;
+    Car_BC* field_140;
     Ped* field_144;
     Ped* field_148_objective_target_ped;
     Ped* field_14C;
