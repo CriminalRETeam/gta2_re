@@ -796,7 +796,7 @@ Camera_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
 MATCH_FUNC(0x4B9C10)
 s8 Game_0x40::sub_4B9C10(Car_BC* a2)
 {
-    Player* pPlayer = sub_4B9CD0();
+    Player* pPlayer = IterateFirstPlayer_4B9CD0();
     while (pPlayer)
     {
         if (pPlayer->PromoteCarInHistory_564610(a2, 1))
@@ -831,7 +831,7 @@ Camera_0xBC* Game_0x40::sub_4B9C50()
 }
 
 MATCH_FUNC(0x4B9CD0)
-Player* Game_0x40::sub_4B9CD0()
+Player* Game_0x40::IterateFirstPlayer_4B9CD0()
 {
     for (field_20_idx = 0; field_20_idx < field_23_num_players; field_20_idx++)
     {

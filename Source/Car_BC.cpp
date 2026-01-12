@@ -2180,7 +2180,7 @@ void Car_BC::PutTV_Antenna_440BB0()
 }
 
 STUB_FUNC(0x440c10)
-char_type Car_BC::RotateRoofObjectTowardTarget_440C10(char_type a2)
+char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -3825,7 +3825,7 @@ void Car_14::GenerateTraffic_583670()
     if (!bSkip_recycling_67D575)
     {
         field_0_cam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0();
-        field_C_player = gGame_0x40_67E008->sub_4B9CD0();
+        field_C_player = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
         if (field_C_player)
         {
             field_10_zone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(field_C_player->field_2C4_player_ped->get_cam_x().ToInt(),

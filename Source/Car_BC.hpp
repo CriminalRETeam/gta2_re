@@ -466,7 +466,7 @@ class Car_BC
     EXPORT void sub_440B10();
     EXPORT void PutMachineGunOnRoof_440B60();
     EXPORT void PutTV_Antenna_440BB0();
-    EXPORT char_type RotateRoofObjectTowardTarget_440C10(char_type a2);
+    EXPORT char_type RotateRoofObjectTowardTarget_440C10(Ang16 a2);
     EXPORT char_type HandleRoofTurretRotation_440D90(char_type a2);
     EXPORT void sub_440F90(char_type a2);
     EXPORT void GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction);

@@ -459,7 +459,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         }
 
         s32 ypos = 8;
-        for (Player* pMultiPlayer = gGame_0x40_67E008->sub_4B9CD0(); pMultiPlayer != NULL;
+        for (Player* pMultiPlayer = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pMultiPlayer != NULL;
              pMultiPlayer = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
         {
             if (pMultiPlayer->field_0_bIsUser == 0)
@@ -535,7 +535,7 @@ s32 __stdcall sub_5D61A0(s32 a1, s32 a2, u16 a3)
 MATCH_FUNC(0x5d6290)
 void Garox_1118_sub::sub_5D6290()
 {
-    Player* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0();
+    Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     while (pPlayerIter)
     {
         thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_scores.sub_592360();
@@ -1501,7 +1501,7 @@ void Hud_Arrow_7C_Array::sub_5D1350()
         if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() != TAG_GAME_3)
         {
             sub_5D10B0();
-            for (Player* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0(); pPlayerIter;
+            for (Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter;
                  pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
             {
                 if (!pPlayerIter->field_0_bIsUser)

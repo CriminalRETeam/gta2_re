@@ -223,7 +223,7 @@ class Ped
     EXPORT char_type ProcessWeaponHitResponse_46FE20(Object_2C* a2);
     EXPORT void NotifyWeaponHit_46FF00(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_46FFF0(s32 a2);
-    EXPORT s16 AimRoofGun_470050();
+    EXPORT void AimRoofGun_470050();
     EXPORT void add_wanted_points_470160(s16 wanted_amount);
     EXPORT bool sub_4701D0();
     EXPORT void sub_470200(Fix16 a2, Fix16 a3, Fix16 a4);
@@ -474,7 +474,7 @@ class Ped
     Gang_144* field_19C;
     Object_2C* field_1A0_objective_target_object;
     Object_2C* field_1A4;
-    Ped* field_1A8_elvis_leader;
+    Ped* field_1A8_ped_killer;
     Fix16_Vec field_1AC_cam;
     Fix16 field_1B8_target_x;
     Fix16 field_1BC_target_y;

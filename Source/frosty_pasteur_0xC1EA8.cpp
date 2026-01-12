@@ -295,7 +295,7 @@ void frosty_pasteur_0xC1EA8::Update_512160()
         }
         pf_0->ExecOpCode_5061C0();
         pf_0->sub_511930(0, pLevelStart->field_0_cmd_this);
-        gGame_0x40_67E008->sub_4B9CD0();
+        gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     }
 }
 
