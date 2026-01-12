@@ -117,12 +117,12 @@ class Ped
     EXPORT bool sub_465CD0();
     EXPORT char_type sub_465D00(Ped* a2);
     EXPORT char_type IsThreatToSearchingPed_4661F0();
-    EXPORT Ped* sub_466B90(s32 max_x_check);
-    EXPORT Ped* sub_466BB0(s32 max_x_check);
-    EXPORT Ped* sub_466BD0(s32 max_x_check);
-    EXPORT Ped* sub_466BF0(s32 a2);
+    EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
+    EXPORT Ped* FindBestTargetPed_Mode4_466BB0(s32 max_x_check);
+    EXPORT Ped* FindBestTargetPed_Mode5_466BD0(s32 max_x_check);
+    EXPORT Ped* FindBestTargetPed_466BF0(s32 a2);
     EXPORT Ped* sub_466F40(u8 a2);
-    EXPORT Ped* sub_466F60(u8 a2);
+    EXPORT Ped* FindNearestPed_466F60(u8 a2);
     EXPORT s32 sub_466FB0();
     EXPORT Ped* sub_467070();
     EXPORT char_type sub_467090();
@@ -212,7 +212,7 @@ class Ped
     EXPORT Weapon_30* GetWeaponFromPed_46F110();
     EXPORT void sub_46F1E0(Weapon_30* a2);
     EXPORT void ManageWeapon_46F390();
-    EXPORT s32 sub_46F490();
+    EXPORT Weapon_30* sub_46F490();
     EXPORT void ForceWeapon_46F600(s32 a2);
     EXPORT void GiveWeapon_46F650(s32 a2);
     EXPORT void sub_46F680(Ped* a2);
@@ -223,7 +223,7 @@ class Ped
     EXPORT char_type ProcessWeaponHitResponse_46FE20(Object_2C* a2);
     EXPORT void NotifyWeaponHit_46FF00(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_46FFF0(s32 a2);
-    EXPORT s16 sub_470050();
+    EXPORT s16 AimRoofGun_470050();
     EXPORT void add_wanted_points_470160(s16 wanted_amount);
     EXPORT bool sub_4701D0();
     EXPORT void sub_470200(Fix16 a2, Fix16 a3, Fix16 a4);
@@ -448,7 +448,7 @@ class Ped
     s16 field_136;
     s32 field_138;
     s32 field_13C;
-    s32 field_140;
+    Car_BC* field_140;
     Ped* field_144;
     Ped* field_148_objective_target_ped;
     Ped* field_14C;

@@ -2874,7 +2874,7 @@ s32 Car_BC::sub_442810()
 MATCH_FUNC(0x442d10)
 void Car_BC::LightUpdate_442D10()
 {
-    Sprite_18* p18 = field_0_qq.sub_5A6A50(165);
+    Sprite_18* p18 = field_0_qq.GetSpriteForModel_5A6A50(165);
     if (p18)
     {
         Sprite* pSprite = p18->field_0;

@@ -68,20 +68,22 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, dword_678620, dword_6784C4 / dword_678670, 0x678620);
 DEFINE_GLOBAL_INIT(Fix16, dword_678788, dword_6784C4 * 16, 0x678788);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
-DEFINE_GLOBAL_INIT(Fix16, dword_678624, Fix16(0xA3, 0), 0x678624);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_678624, Fix16(0xA3, 0), 0x678624);
 DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
 DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A4, Fix16(0x3999, 0), 0x6784A4);
 DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
 DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct init value
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
-DEFINE_GLOBAL(Fix16, dword_67853C, 0x67853C);
+DEFINE_GLOBAL(Fix16, k_dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
 DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
 DEFINE_GLOBAL(Object_2C*, dword_678558, 0x678558);
 DEFINE_GLOBAL(u8, byte_6787D3, 0x6787D3);
 DEFINE_GLOBAL(Fix16, k_dword_678504, 0x678504);
 DEFINE_GLOBAL(Fix16, k_dword_67845C, 0x67845C);
+DEFINE_GLOBAL(Fix16, k_dword_678798, 0x678798);
+DEFINE_GLOBAL(Fix16, k_dword_678658, 0x678658);
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -309,7 +311,7 @@ void Ped::sub_45BC70()
         {
             if ((field_21C & 0x4000000) != 0)
             {
-                sub_5DF270(field_168_game_object->field_80_sprite_ptr, dword_67853C, 0, 1, this, 0);
+                sub_5DF270(field_168_game_object->field_80_sprite_ptr, k_dword_67853C, 0, 1, this, 0);
             }
         }
     }
@@ -318,7 +320,7 @@ void Ped::sub_45BC70()
 MATCH_FUNC(0x45bd20)
 bool Ped::sub_45BD20(Car_BC* pCar)
 {
-    if (pCar == field_154_target_to_enter || pCar->GetVelocity_43A4C0() < dword_678624)
+    if (pCar == field_154_target_to_enter || pCar->GetVelocity_43A4C0() < k_dword_678624)
     {
         return true;
     }
@@ -2238,28 +2240,28 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
 }
 
 MATCH_FUNC(0x466b90)
-Ped* Ped::sub_466B90(s32 max_x_check)
+Ped* Ped::FindBestTargetPed_Mode1_466B90(s32 max_x_check)
 {
     byte_6787D7 = 1;
-    return Ped::sub_466BF0(max_x_check);
+    return Ped::FindBestTargetPed_466BF0(max_x_check);
 }
 
 MATCH_FUNC(0x466bb0)
-Ped* Ped::sub_466BB0(s32 max_x_check)
+Ped* Ped::FindBestTargetPed_Mode4_466BB0(s32 max_x_check)
 {
     byte_6787D7 = 4;
-    return Ped::sub_466BF0(max_x_check);
+    return Ped::FindBestTargetPed_466BF0(max_x_check);
 }
 
 MATCH_FUNC(0x466bd0)
-Ped* Ped::sub_466BD0(s32 max_x_check)
+Ped* Ped::FindBestTargetPed_Mode5_466BD0(s32 max_x_check)
 {
     byte_6787D7 = 5;
-    return Ped::sub_466BF0(max_x_check);
+    return Ped::FindBestTargetPed_466BF0(max_x_check);
 }
 
 STUB_FUNC(0x466bf0)
-Ped* Ped::sub_466BF0(s32 a2)
+Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2269,15 +2271,19 @@ MATCH_FUNC(0x466f40)
 Ped* Ped::sub_466F40(u8 a2)
 {
     byte_6787D7 = 4;
-    return Ped::sub_466F60(a2);
+    return Ped::FindNearestPed_466F60(a2);
 }
 
 MATCH_FUNC(0x466f60)
-Ped* Ped::sub_466F60(u8 a2)
+Ped* Ped::FindNearestPed_466F60(u8 a2)
 {
     dword_6787DC = this;
-    Sprite* pSprite =
-        gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(3, 2, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
+    Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped,
+                                                                                  sprite_types_enum::car,
+                                                                                  field_168_game_object->field_80_sprite_ptr,
+                                                                                  a2,
+                                                                                  0,
+                                                                                  0);
     if (pSprite)
     {
         // @OG_BUG: Null de-ref
@@ -2454,10 +2460,99 @@ void Ped::sub_467BD0()
     }
 }
 
-STUB_FUNC(0x467ca0)
+WIP_FUNC(0x467ca0)
 void Ped::sub_467CA0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    // TODO: Move this code down somehow
+    if (field_148_objective_target_ped->check_bit_0())
+    {
+        if (field_148_objective_target_ped->field_278 != 9)
+        {
+            this->field_225 = 2;
+            return;
+        }
+        // LABEL_25:
+        // this->field_225 = 1;
+        // return;
+    }
+
+    if (field_148_objective_target_ped->field_278 == 9)
+    {
+        this->field_225 = 1;
+        return;
+    }
+
+    if (field_140)
+    {
+        if (field_140->field_88 == 5)
+        {
+            this->field_140 = 0;
+        }
+        else
+        {
+            field_140->field_76 = 0;
+        }
+    }
+
+    // TODO: An inline?
+    if ((field_148_objective_target_ped->field_21C & 0x2000000) != 0 && field_148_objective_target_ped->field_168_game_object)
+    {
+        if (this->field_25C_car_state == 17)
+        {
+            return;
+        }
+        Ped::sub_463830(0, 9999);
+        return;
+    }
+
+    if (!byte_61A8A3 || (this->field_21C_bf.b2))
+    {
+        return;
+    }
+
+    switch (field_25C_car_state)
+    {
+        case 0:
+            Ped::sub_463830(20, 9999);
+            this->field_14C = this->field_148_objective_target_ped;
+            return;
+
+        case 1:
+            if (this->field_226 != 1)
+            {
+                return;
+            }
+            Ped::sub_463830(20, 9999);
+            this->field_14C = this->field_148_objective_target_ped;
+            return;
+
+        case 20:
+            if (this->field_226 == 1)
+            {
+                if (this->field_14C != field_148_objective_target_ped)
+                {
+                    // LABEL_10
+                    Ped::sub_463830(0, 9999);
+                    return;
+                }
+                this->field_225 = 1;
+                return;
+            }
+
+            if (this->field_226 == 2)
+            {
+                Ped::sub_463830(20, 9999);
+                this->field_14C = this->field_148_objective_target_ped;
+                field_21C_bf.b2 = 0;
+                return;
+            }
+            return;
+
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x467e20)
@@ -2919,8 +3014,8 @@ void Ped::sub_468C70()
                         field_194 = field_190->field_0;
                     }
                     Ped::sub_463830(12, 9999);
-                    field_1D0 = dword_67853C + Fix16(field_194->field_0);
-                    field_1D4 = dword_67853C + Fix16(field_194->field_1);
+                    field_1D0 = k_dword_67853C + Fix16(field_194->field_0);
+                    field_1D4 = k_dword_67853C + Fix16(field_194->field_1);
                     field_1D8 = Fix16(field_194->field_2);
                 }
                 field_168_game_object->sub_433970(field_1F4);
@@ -2930,8 +3025,8 @@ void Ped::sub_468C70()
         {
             field_194 = field_190->field_0;
             Ped::sub_463830(12, 9999);
-            field_1D0 = dword_67853C + Fix16(field_194->field_0);
-            field_1D4 = dword_67853C + Fix16(field_194->field_1);
+            field_1D0 = k_dword_67853C + Fix16(field_194->field_0);
+            field_1D4 = k_dword_67853C + Fix16(field_194->field_1);
             field_1D8 = Fix16(field_194->field_2);
             field_168_game_object->sub_433970(field_1F4);
         }
@@ -3583,7 +3678,7 @@ WIP_FUNC(0x46e080)
 void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
 {
     WIP_IMPLEMENTED;
-    
+
     PedGroup* pGroup_; // ecx
     int z_copy; // ebx
     Fix16 x; // edi
@@ -3872,7 +3967,7 @@ void Ped::ManageWeapon_46F390()
             {
                 if (field_258_objective == objectives_enum::kill_char_any_means_19)
                 {
-                    Ped::sub_470050();
+                    Ped::AimRoofGun_470050();
                 }
                 if (field_21C_bf.b11)
                 {
@@ -3898,11 +3993,77 @@ void Ped::ManageWeapon_46F390()
     }
 }
 
-STUB_FUNC(0x46f490)
-s32 Ped::sub_46F490()
+// 9.6f 0x434E60
+WIP_FUNC(0x46f490)
+Weapon_30* Ped::sub_46F490()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pCar;
+
+    switch (this->field_240_occupation)
+    {
+        case ped_ocupation_enum::police:
+        case ped_ocupation_enum::unknown_14:
+            if (!field_14C->IsField238_45EDE0(2))
+            {
+                this->field_21C_bf.b13 = 1;
+                return this->field_174_pWeapon;
+            }
+
+            pCar = this->field_14C->field_16C_car;
+            if (pCar)
+            {
+                if (pCar->GetVelocity_43A4C0() > k_dword_678624)
+                {
+                    this->field_21C_bf.b13 = 1;
+                    return this->field_174_pWeapon;
+                }
+                this->field_21C_bf.b9 = 1;
+                return 0;
+            }
+
+            if (dword_678750 < k_dword_678658 + k_dword_678798)
+            {
+                ++unk_6787EE; // police peds in range screen
+            }
+
+            // TODO: Wrong here, check needs inverting maybe
+            if (gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen < 2u)
+            {
+                this->field_198 = 0;
+                this->field_21C_bf.b9 = 1;
+                return 0;
+            }
+
+            if (!gPolice_7B8_6FEE40->field_7B0 || gPolice_7B8_6FEE40->field_7B0 == this)
+            {
+                return this->field_170_selected_weapon;
+            }
+            this->field_198 = 0;
+            this->field_21C_bf.b9 = 1;
+            return 0;
+
+        case ped_ocupation_enum::fbi:
+            if (this->field_14C->field_16C_car || dword_678750 > k_dword_67853C)
+            {
+                this->field_21C_bf.b13 = 1;
+                return this->field_174_pWeapon;
+            }
+            return this->field_170_selected_weapon;
+
+        case ped_ocupation_enum::unknown_17:
+            if (!field_14C->IsField238_45EDE0(2) || this->field_14C->field_16C_car)
+            {
+                this->field_21C_bf.b13 = 1;
+                return this->field_174_pWeapon;
+            }
+            return this->field_170_selected_weapon;
+
+        default:
+            break;
+    }
+    return this->field_170_selected_weapon;
 }
 
 MATCH_FUNC(0x46f600)
@@ -4001,7 +4162,7 @@ void Ped::sub_46FFF0(s32 model)
 }
 
 STUB_FUNC(0x470050)
-s16 Ped::sub_470050()
+s16 Ped::AimRoofGun_470050()
 {
     NOT_IMPLEMENTED;
     return 0;

@@ -22,7 +22,7 @@ class struct_4
         field_0_p18 = 0;
     }
 
-    EXPORT Sprite_18* sub_5A6A50(s32 a2);
+    EXPORT Sprite_18* GetSpriteForModel_5A6A50(s32 a2);
     EXPORT Object_2C* sub_5A6A90(s32 obj_type);
     EXPORT Sprite_18* sub_5A6AD0();
 
