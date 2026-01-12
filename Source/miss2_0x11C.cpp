@@ -5777,10 +5777,13 @@ miss2_0x11C* miss2_0x11C::sub_511960(u16 levelStart)
     return v4;
 }
 
-STUB_FUNC(0x5119a0)
-void miss2_0x11C::launch_mission_5119A0(SCR_CMD_HEADER* base_pointer, char_type* string)
+MATCH_FUNC(0x5119a0)
+void miss2_0x11C::launch_mission_5119A0(SCR_CMD_HEADER* BasePointer, char_type* string)
 {
-    NOT_IMPLEMENTED;
+    u16 cmd_next;
+    gfrosty_pasteur_6F8060->sub_512400(string, &cmd_next);
+    strcpy(field_14_str, string);
+    miss2_0x11C::sub_50CE50(BasePointer, cmd_next);
 }
 
 MATCH_FUNC(0x511a00)
