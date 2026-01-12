@@ -25,12 +25,11 @@ RECCMP_GENERATE_JOM_CMD = " ".join([
     '-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="/Z7 /O2 /D \\"NDEBUG\\""',
     '-DCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO="/incremental:no /debug"',
 ])
-RECCMP_BUILD_CMD = "cmake --build . --target all -- -j 1"
 
-def get_build_cmds(reccmp: bool):
-    if reccmp:
-        return [RECCMP_GENERATE_JOM_CMD, RECCMP_BUILD_CMD]
-
+def get_build_cmds(core_count_to_use : int):
+    if core_count_to_use is not None and core_count_to_use > 0:
+        build_cmd = CMAKE_BUILD_CMD + " -- -j " + str(core_count_to_use)
+        return [CMAKE_GENERATE_JOM_CMD, build_cmd]
     return [CMAKE_GENERATE_JOM_CMD, CMAKE_BUILD_CMD]
 
 GTA2_ROOT = os.environ.get("GTA2_ROOT")
@@ -99,6 +98,7 @@ def main():
     parser.add_argument("--ignore_no_match", help="Ignore any errors related to non matching functions", action="store_true")
     parser.add_argument("--reccmp", help="Run debug build for reccmp analysis", action="store_true")
     parser.add_argument("--single_cpp", help="Build only n.cpp using cl.exe and produce n.obj using most common project flags", type=str)
+    parser.add_argument("--cores", help="Limit cpu cores to build with (use all if not passed, else 1 if reccmp build)", type=int)
 
     args = parser.parse_args()
 
@@ -118,7 +118,12 @@ def main():
     if args.single_cpp:
         returncode = build_single_cpp(args.single_cpp)
     else:
-        returncode = build_cmake(args.reccmp)
+        core_count_to_use = 0
+        if args.reccmp:
+            core_count_to_use = 1
+        else:
+            core_count_to_use = args.cores
+        returncode = build_cmake(core_count_to_use)
     if returncode != 0:
         print(f"Build failed with return code {returncode}")
         sys.exit(returncode)
@@ -264,7 +269,7 @@ def build_single_cpp(cpp_file: str):
 
     return exit_code
 
-def build_cmake(reccmp: bool):
+def build_cmake(core_count_to_use : int):
     os.makedirs(BUILD_FOLDER_NAME, exist_ok=True)
 
     vc6_env = get_vc6_env()
@@ -277,7 +282,7 @@ def build_cmake(reccmp: bool):
             f"export WINEPATH={path} "
             f"export LIB={lib} "
             f"export INCLUDE={include} "
-            f"wine cmd /c \"cd {build_dir} && {CMAKE_GENERATE_JOM_CMD} && {CMAKE_BUILD_CMD}\""
+            f"wine cmd /c \"cd {build_dir} && {get_build_cmds(core_count_to_use)[0]} && {get_build_cmds(core_count_to_use)[1]}\""
         )
         p1 = subprocess.Popen(
             command,
@@ -299,7 +304,7 @@ def build_cmake(reccmp: bool):
         p1.stdin.write(f"set LIB={lib}\n")
         p1.stdin.write(f"set INCLUDE={include}\n")
         p1.stdin.write(f"set PATH={path};%PATH%\n")
-        for build_cmd in get_build_cmds(reccmp):
+        for build_cmd in get_build_cmds(core_count_to_use):
             p1.stdin.write(f"{build_cmd}\n")
         p1.stdin.write("exit /b %errorlevel%\n")
         p1.stdin.close()

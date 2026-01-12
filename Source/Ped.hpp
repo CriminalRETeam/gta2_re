@@ -204,7 +204,7 @@ class Ped
     EXPORT void sub_46DF70(Ped* arg0, s32 WeaponIdx);
     EXPORT bool sub_46E020(PedGroup* a2);
     EXPORT s32 sub_46E080(s32 a2, s32 a3);
-    EXPORT void sub_46E200(u8 total);
+    EXPORT void SpawnPedGroupFollowers_46E200(u8 total);
     EXPORT u8 get_wanted_star_count_46EF00();
     EXPORT void set_wanted_level_46EF40(u16 wanted);
     EXPORT void set_wanted_star_count_46F070(u8 star_count);

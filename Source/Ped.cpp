@@ -3586,7 +3586,7 @@ s32 Ped::sub_46E080(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x46e200)
-void Ped::sub_46E200(u8 total)
+void Ped::SpawnPedGroupFollowers_46E200(u8 total)
 {
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     pGroup->add_ped_leader_4C9B10(this);
