@@ -144,7 +144,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
 
     gSharp_pare_0x15D8_705064->sub_5B9350();
 
-    gLucid_hamilton_67E8E0.reset_field_574();
+    gLucid_hamilton_67E8E0.clear_secret_tokens_collected();
 
     char_type* script_name = gLucid_hamilton_67E8E0.GetScriptName_4C5960();
     gfrosty_pasteur_6F8060->Load_512330(script_name);

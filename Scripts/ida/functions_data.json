@@ -3065,12 +3065,12 @@
         "v105_address": "0x45c9b0"
     },
     {
-        "name": "Ped::sub_45C9D0",
+        "name": "Ped::ComputeAimAngle_45C9D0",
         "v96f_address": null,
         "v105_address": "0x45c9d0"
     },
     {
-        "name": "Ped::sub_45CAA0",
+        "name": "Ped::HandleClosePedInteraction_45CAA0",
         "v96f_address": null,
         "v105_address": "0x45caa0"
     },
@@ -3105,7 +3105,7 @@
         "v105_address": "0x45de80"
     },
     {
-        "name": "Ped::sub_45E080",
+        "name": "Ped::SpawnWeaponOnDeath_45E080",
         "v96f_address": null,
         "v105_address": "0x45e080"
     },
@@ -3240,7 +3240,7 @@
         "v105_address": "0x462e70"
     },
     {
-        "name": "Ped::sub_4632E0",
+        "name": "Ped::ProcessObjective_4632E0",
         "v96f_address": "0x4454D0",
         "v105_address": "0x4632e0"
     },
@@ -3265,7 +3265,7 @@
         "v105_address": "0x463830"
     },
     {
-        "name": "Ped::sub_463AA0",
+        "name": "Ped::ProcessOnFootObjective_463AA0",
         "v96f_address": "0x443170",
         "v105_address": "0x463aa0"
     },
@@ -3280,7 +3280,7 @@
         "v105_address": "0x463fa0"
     },
     {
-        "name": "Ped::sub_463FB0",
+        "name": "Ped::ProcessInCarObjective_463FB0",
         "v96f_address": "0x444D00",
         "v105_address": "0x463fb0"
     },
@@ -3350,7 +3350,7 @@
         "v105_address": "0x466f60"
     },
     {
-        "name": "Ped::sub_466FB0",
+        "name": "Ped::FindNearbyPed_466FB0",
         "v96f_address": null,
         "v105_address": "0x466fb0"
     },

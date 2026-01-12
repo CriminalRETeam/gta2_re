@@ -29,6 +29,7 @@
 #include "map_0x370.hpp"
 #include "registry.hpp"
 #include "sprite.hpp"
+#include "text_0x14.hpp"
 #include <stdarg.h>
 
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
@@ -224,6 +225,152 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
     NOT_IMPLEMENTED;
 }
 
+static const char* ObjectIdToString(s32 id)
+{
+    switch (id)
+    {
+        case objects::object_0: return "object_0";
+        case objects::bin_lid_1: return "bin_lid_1";
+        case objects::bollard_2: return "bollard_2";
+        case objects::cone_3: return "cone_3";
+        case objects::boxes_4: return "boxes_4";
+        case objects::blaster_5: return "blaster_5";
+        case objects::rubbish_6: return "rubbish_6";
+        case objects::bin_7: return "bin_7";
+        case objects::animating_oil_8: return "animating_oil_8";
+        case objects::oil_9: return "oil_9";
+        case objects::mine_10: return "mine_10";
+        case objects::bush_11: return "bush_11";
+        case objects::crate_12: return "crate_12";
+        case objects::footy_13: return "footy_13";
+        case objects::hardbox_14: return "hardbox_14";
+        case objects::newsdis_15: return "newsdis_15";
+        case objects::oildrum_16: return "oildrum_16";
+        case objects::tyre_17: return "tyre_17";
+        case objects::hydrant_lid_18: return "hydrant_lid_18";
+        case objects::hydrant_19: return "hydrant_19";
+        case objects::hydrant_unlid_20: return "hydrant_unlid_20";
+        case objects::roadblock_21: return "roadblock_21";
+        case objects::bench_22: return "bench_22";
+        case objects::package_23: return "package_23";
+        case objects::object_24: return "object_24";
+        case objects::tower_25: return "tower_25";
+        case objects::object_26: return "object_26";
+        case objects::object_27: return "object_27";
+        case objects::object_28: return "object_28";
+        case objects::object_29: return "object_29";
+        case objects::object_30: return "object_30";
+        case objects::object_31: return "object_31";
+        case objects::object_32: return "object_32";
+        case objects::object_33: return "object_33";
+        case objects::object_34: return "object_34";
+        case objects::object_35: return "object_35";
+        case objects::object_36: return "object_36";
+        case objects::object_37: return "object_37";
+        case objects::object_38: return "object_38";
+        case objects::object_39: return "object_39";
+        case objects::object_40: return "object_40";
+        case objects::explode_medium_41: return "explode_medium_41";
+        case objects::object_42: return "object_42";
+        case objects::object_43: return "object_43";
+        case objects::object_44: return "object_44";
+        case objects::object_45: return "object_45";
+        case objects::object_46: return "object_46";
+
+        case objects::moving_collect_00_96: return "moving_collect_00_96";
+        case objects::moving_collect_01_97: return "moving_collect_01_97";
+        case objects::moving_collect_02_98: return "moving_collect_02_98";
+        case objects::moving_collect_03_99: return "moving_collect_03_99";
+        case objects::moving_collect_04_100: return "moving_collect_04_100";
+        case objects::moving_collect_05_101: return "moving_collect_05_101";
+        case objects::moving_collect_06_102: return "moving_collect_06_102";
+        case objects::moving_collect_07_103: return "moving_collect_07_103";
+        case objects::moving_collect_08_104: return "moving_collect_08_104";
+        case objects::moving_collect_09_105: return "moving_collect_09_105";
+        case objects::moving_collect_10_106: return "moving_collect_10_106";
+        case objects::moving_collect_11_107: return "moving_collect_11_107";
+        case objects::moving_collect_12_108: return "moving_collect_12_108";
+        case objects::moving_collect_13_109: return "moving_collect_13_109";
+        case objects::moving_collect_14_110: return "moving_collect_14_110";
+        case objects::moving_collect_15_111: return "moving_collect_15_111";
+        case objects::moving_collect_16_112: return "moving_collect_16_112";
+        case objects::moving_collect_17_113: return "moving_collect_17_113";
+        case objects::moving_collect_18_114: return "moving_collect_18_114";
+        case objects::moving_collect_19_115: return "moving_collect_19_115";
+        case objects::moving_collect_20_116: return "moving_collect_20_116";
+        case objects::moving_collect_21_117: return "moving_collect_21_117";
+        case objects::moving_collect_22_118: return "moving_collect_22_118";
+        case objects::moving_collect_23_119: return "moving_collect_23_119";
+        case objects::moving_collect_24_120: return "moving_collect_24_120";
+        case objects::moving_collect_25_121: return "moving_collect_25_121";
+        case objects::moving_collect_26_122: return "moving_collect_26_122";
+        case objects::moving_collect_27_123: return "moving_collect_27_123";
+        case objects::moving_collect_28_124: return "moving_collect_28_124";
+        case objects::moving_collect_29_125: return "moving_collect_29_125";
+        case objects::moving_collect_30_126: return "moving_collect_30_126";
+        case objects::moving_collect_31_127: return "moving_collect_31_127";
+        case objects::moving_collect_32_128: return "moving_collect_32_128";
+        case objects::moving_collect_33_129: return "moving_collect_33_129";
+        case objects::moving_collect_34_130: return "moving_collect_34_130";
+        case objects::moving_collect_35_131: return "moving_collect_35_131";
+        case objects::moving_collect_36_132: return "moving_collect_36_132";
+        case objects::moving_collect_37_133: return "moving_collect_37_133";
+        case objects::moving_collect_38_134: return "moving_collect_38_134";
+        case objects::moving_collect_39_135: return "moving_collect_39_135";
+        case objects::moving_collect_40_136: return "moving_collect_40_136";
+        case objects::moving_collect_41_137: return "moving_collect_41_137";
+        case objects::moving_collect_42_138: return "moving_collect_42_138";
+        case objects::moving_collect_43_139: return "moving_collect_43_139";
+        case objects::moving_collect_44_140: return "moving_collect_44_140";
+
+        case objects::small_arrow_141: return "small_arrow_141";
+        case objects::object_142: return "object_142";
+        case objects::blood_spark_143: return "blood_spark_143";
+        case objects::object_144: return "object_144";
+        case objects::particle_system_145: return "particle_system_145";
+        case objects::firejet_146: return "firejet_146";
+        case objects::object_147: return "object_147";
+        case objects::small_brown_skid_148: return "small_brown_skid_148";
+        case objects::small_grey_skid_149: return "small_grey_skid_149";
+        case objects::small_red_skid_150: return "small_red_skid_150";
+        case objects::medium_brown_skid_151: return "medium_brown_skid_151";
+        case objects::medium_grey_skid_152: return "medium_grey_skid_152";
+        case objects::medium_red_skid_153: return "medium_red_skid_153";
+        case objects::car_crossing_154: return "car_crossing_154";
+        case objects::car_stop_155: return "car_stop_155";
+        case objects::big_white_skid_156: return "big_white_skid_156";
+        case objects::medium_white_skid_157: return "medium_white_skid_157";
+        case objects::small_white_skid_158: return "small_white_skid_158";
+        case objects::object_159: return "object_159";
+        case objects::rocket_160: return "rocket_160";
+        case objects::bus_stop_marker_161: return "bus_stop_marker_161";
+        case objects::car_shop_162: return "car_shop_162";
+        case objects::busy_car_shop_163: return "busy_car_shop_163";
+        case objects::car_bomb_164: return "car_bomb_164";
+        case objects::object_165: return "object_165";
+        case objects::object_166: return "object_166";
+        case objects::molotov_moving_167: return "molotov_moving_167";
+
+        case objects::huge_red_skid_189: return "huge_red_skid_189";
+        case objects::huge_white_skid_190: return "huge_white_skid_190";
+        case objects::huge_brown_skid_191: return "huge_brown_skid_191";
+        case objects::huge_grey_skid_192: return "huge_grey_skid_192";
+        case objects::tanktop_193: return "tanktop_193";
+        case objects::antenna_194: return "antenna_194";
+        case objects::object_195: return "object_195";
+        case objects::animating_rubbish_196: return "animating_rubbish_196";
+        case objects::dead_rubbish_197: return "dead_rubbish_197";
+        case objects::moving_cone_198: return "moving_cone_198";
+        case objects::object_199: return "object_199";
+        case objects::remote_200: return "remote_200";
+
+        case objects::secret_token_266: return "secret_token_266";
+
+        default:
+            return "unknown_object";
+    }
+}
+
 void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
@@ -236,6 +383,16 @@ void CC ImGuiDebugDraw()
     if (ImGui::Button("NoRefs_sub_5B1170"))
     {
         NoRefs_sub_5B1170();
+    }
+
+    if (ImGui::TreeNode("gText_0x14_704DFC"))
+    {
+        static s32 model_num = 0;
+        ImGui::InputInt("model_num", &model_num, 1, 1);
+
+        static char tmpBuffer[512];
+        sprintf(tmpBuffer, "c%02d", model_num);
+        ImGui::Text(gText_0x14_704DFC->Wide2PesudoAscii_5B5D10(gText_0x14_704DFC->Find_5B5F90(tmpBuffer)));
     }
 
     if (gGame_0x40_67E008)
@@ -697,169 +854,22 @@ void CC ImGuiDebugDraw()
                     gShooey_CC_67A4B8->ReportCrimeForPed(0u, pPlayer->field_2C4_player_ped);
                 }
 
-                static int currentObjectIndex = 0;
-                const char* objectNames[] = {"object_0",
-                                             "bin_lid_1",
-                                             "bollard_2",
-                                             "cone_3",
-                                             "boxes_4",
-                                             "blaster_5",
-                                             "rubbish_6",
-                                             "bin_7",
-                                             "animating_oil_8",
-                                             "oil_9",
-                                             "mine_10",
-                                             "bush_11",
-                                             "crate_12",
-                                             "footy_13",
-                                             "hardbox_14",
-                                             "newsdis_15",
-                                             "oildrum_16",
-                                             "tyre_17",
-                                             "hydrant_lid_18",
-                                             "hydrant_19",
-                                             "hydrant_unlid_20",
-                                             "roadblock_21",
-                                             "bench_22",
-                                             "package_23",
-                                             "object_24",
-                                             "tower_25",
-                                             "object_26",
-                                             "object_27",
-                                             "object_28",
-                                             "object_29",
-                                             "object_30",
-                                             "object_31",
-                                             "object_32",
-                                             "object_33",
-                                             "object_34",
-                                             "object_35",
-                                             "object_36",
-                                             "object_37",
-                                             "object_38",
-                                             "object_39",
-                                             "object_40",
-                                             "explode_medium_41",
-                                             "object_42",
-                                             "object_43",
-                                             "object_44",
-                                             "object_45",
-                                             "object_46",
-                                             "moving_collect_00_96",
-                                             "moving_collect_01_97",
-                                             "moving_collect_02_98",
-                                             "moving_collect_03_99",
-                                             "moving_collect_04_100",
-                                             "moving_collect_05_101",
-                                             "moving_collect_06_102",
-                                             "moving_collect_07_103",
-                                             "moving_collect_08_104",
-                                             "moving_collect_09_105",
-                                             "moving_collect_10_106",
-                                             "moving_collect_11_107",
-                                             "moving_collect_12_108",
-                                             "moving_collect_13_109",
-                                             "moving_collect_14_110",
-                                             "moving_collect_15_111",
-                                             "moving_collect_16_112",
-                                             "moving_collect_17_113",
-                                             "moving_collect_18_114",
-                                             "moving_collect_19_115",
-                                             "moving_collect_20_116",
-                                             "moving_collect_21_117",
-                                             "moving_collect_22_118",
-                                             "moving_collect_23_119",
-                                             "moving_collect_24_120",
-                                             "moving_collect_25_121",
-                                             "moving_collect_26_122",
-                                             "moving_collect_27_123",
-                                             "moving_collect_28_124",
-                                             "moving_collect_29_125",
-                                             "moving_collect_30_126",
-                                             "moving_collect_31_127",
-                                             "moving_collect_32_128",
-                                             "moving_collect_33_129",
-                                             "moving_collect_34_130",
-                                             "moving_collect_35_131",
-                                             "moving_collect_36_132",
-                                             "moving_collect_37_133",
-                                             "moving_collect_38_134",
-                                             "moving_collect_39_135",
-                                             "moving_collect_40_136",
-                                             "moving_collect_41_137",
-                                             "moving_collect_42_138",
-                                             "moving_collect_43_139",
-                                             "moving_collect_44_140",
-                                             "small_arrow_141",
-                                             "object_142",
-                                             "blood_spark_143",
-                                             "object_144",
-                                             "particle_system_145",
-                                             "firejet_146",
-                                             "object_147",
-                                             "small_brown_skid_148",
-                                             "small_grey_skid_149",
-                                             "small_red_skid_150",
-                                             "medium_brown_skid_151",
-                                             "medium_grey_skid_152",
-                                             "medium_red_skid_153",
-                                             "car_crossing_154",
-                                             "car_stop_155",
-                                             "big_white_skid_156",
-                                             "medium_white_skid_157",
-                                             "small_white_skid_158",
-                                             "object_159",
-                                             "rocket_160",
-                                             "bus_stop_marker_161",
-                                             "car_shop_162",
-                                             "busy_car_shop_163",
-                                             "car_bomb_164",
-                                             "object_165",
-                                             "object_166",
-                                             "molotov_moving_167",
-                                             "huge_red_skid_189",
-                                             "huge_white_skid_190",
-                                             "huge_brown_skid_191",
-                                             "huge_grey_skid_192",
-                                             "tanktop_193",
-                                             "antenna_194",
-                                             "object_195",
-                                             "animating_rubbish_196",
-                                             "dead_rubbish_197",
-                                             "moving_cone_198",
-                                             "object_199",
-                                             "remote_200"};
-                const int objectCount = sizeof(objectNames) / sizeof(objectNames[0]);
 
-                // Combo box for object selection
-                if (ImGui::Combo("Object", &currentObjectIndex, objectNames, objectCount))
-                {
-                    // Object selection changed
-                }
+                static s32 spawnObjectType = 0;
+                ImGui::InputInt("Object type", &spawnObjectType, 1, 1);
+                ImGui::Text("Object name %s", ObjectIdToString(spawnObjectType));
 
                 if (ImGui::Button("Obj spawn"))
                 {
                     Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                     Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
-                    spawned_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(currentObjectIndex,
-                                                                          pPlayerSprite->field_14_xpos.x,
+                    spawned_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(spawnObjectType,
+                                                                          pPlayerSprite->field_14_xpos.x + Fix16(1),
                                                                           pPlayerSprite->field_14_xpos.y,
                                                                           pPlayerSprite->field_1C_zpos,
                                                                           0);
                 }
 
-                static int tmp = 0;
-                ImGui::InputInt("object number", &tmp, 1, 1);
-                if (ImGui::Button("Obj spawn 2"))
-                {
-                    Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
-                    Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
-                    spawned_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(tmp,
-                                                                          pPlayerSprite->field_14_xpos.x,
-                                                                          pPlayerSprite->field_14_xpos.y,
-                                                                          pPlayerSprite->field_1C_zpos,
-                                                                          0);
-                }
 
                 /*
                 if (ImGui::TreeNode("Object_5C debug"))
