@@ -808,7 +808,7 @@ void PoliceCrew_38::Service_575590()
                 Ped* pUnkPed = pGroup->field_4_ped_list[0];
                 if (pUnkPed)
                 {
-                    pGroup->sub_4C9970(pUnkPed);
+                    pGroup->RemovePed_4C9970(pUnkPed);
                     field_10_subObj->field_8_group->add_ped_leader_4C9B10(pUnkPed);
                     field_10_subObj->field_4_ped = pUnkPed;
                 }

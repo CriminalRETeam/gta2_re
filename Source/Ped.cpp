@@ -80,6 +80,8 @@ DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
 DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
 DEFINE_GLOBAL(Object_2C*, dword_678558, 0x678558);
 DEFINE_GLOBAL(u8, byte_6787D3, 0x6787D3);
+DEFINE_GLOBAL(Fix16, k_dword_678504, 0x678504);
+DEFINE_GLOBAL(Fix16, k_dword_67845C, 0x67845C);
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -736,7 +738,7 @@ void Ped::sub_45C7F0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x45c830)
-char_type Ped::sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+char_type Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     Char_B4* pChar = gChar_B4_Pool_6FDB44->field_0_pool.Allocate();
 
@@ -3538,7 +3540,7 @@ void Ped::sub_46DB80()
 }
 
 MATCH_FUNC(0x46df50)
-Sprite* Ped::sub_46DF50()
+Sprite* Ped::GetSprite_46DF50()
 {
     Car_BC* pBC = this->field_16C_car;
     if (pBC)
@@ -3552,42 +3554,156 @@ Sprite* Ped::sub_46DF50()
 }
 
 MATCH_FUNC(0x46df70)
-void Ped::sub_46DF70(Ped* arg0, s32 WeaponIdx)
+void Ped::SetupFollower_46DF70(Ped* pToFollow, s32 weaponIdx)
 {
-    set_remap_433B90(arg0->field_244_remap);
-    SetRemap_433C10(arg0->field_244_remap);
-    field_26C_graphic_type = arg0->field_26C_graphic_type;
+    set_remap_433B90(pToFollow->field_244_remap);
+    SetRemap_433C10(pToFollow->field_244_remap);
+    field_26C_graphic_type = pToFollow->field_26C_graphic_type;
     Ped::RemovePedWeapons_462510();
-    Ped::ForceWeapon_46F600(WeaponIdx);
+    Ped::ForceWeapon_46F600(weaponIdx);
     set_occupation_403970(ped_ocupation_enum::special_groups_member);
-    field_288_threat_search = arg0->field_288_threat_search;
-    field_28C_threat_reaction = arg0->field_28C_threat_reaction;
-    field_17C_pZone = arg0->field_17C_pZone;
+    field_288_threat_search = pToFollow->field_288_threat_search;
+    field_28C_threat_reaction = pToFollow->field_28C_threat_reaction;
+    field_17C_pZone = pToFollow->field_17C_pZone;
     sub_433BB0(1);
     sub_433BC0(1);
     SetField238_403920(4);
 }
 
-WIP_FUNC(0x46e020)
+MATCH_FUNC(0x46e020)
 bool Ped::sub_46E020(PedGroup* pGroup)
 {
-    WIP_IMPLEMENTED;
     return this->field_164_ped_group != pGroup && !this->field_15C_player &&
-        (IsField238_45EDE0(3) || (IsField238_45EDE0(4) || IsField238_45EDE0(6)) && this->field_240_occupation == 35);
+            (IsField238_45EDE0(3) || (IsField238_45EDE0(4) || IsField238_45EDE0(6)) && this->field_240_occupation == 35) ?
+        true :
+        false;
 }
 
-STUB_FUNC(0x46e080)
-s32 Ped::sub_46E080(s32 a2, s32 a3)
+WIP_FUNC(0x46e080)
+void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    
+    PedGroup* pGroup_; // ecx
+    int z_copy; // ebx
+    Fix16 x; // edi
+    Fix16 y; // ecx
+    Sprite* pSprite; // eax
+    Sprite* pNearest; // eax
+    Char_B4* pB4; // eax
+    Ped* pPed; // edi
+    PedGroup* pGroup; // ecx
+    struct_4 collision_list; // [esp+8h] [ebp-1Ch] BYREF
+    Fix16_Rect rect; // [esp+Ch] [ebp-18h] BYREF
+
+    collision_list.field_0_p18 = 0;
+    pGroup_ = this->field_164_ped_group;
+    if (!pGroup_)
+    {
+        SpawnPedGroupFollowers_46E200(0);
+        z_copy = desiredCount;
+    LABEL_7:
+        x = this->field_1AC_cam.x;
+        // desiredCount = this->field_1AC_cam.z;
+        y = this->field_1AC_cam.y;
+        rect.field_0_left = x - searchRadius / 2;
+        rect.field_4_right = searchRadius / 2 + x;
+        rect.field_C_bottom = y + searchRadius / 2;
+        rect.field_8_top = y - searchRadius / 2;
+        rect.field_10 = searchRadius - k_dword_67845C;
+        rect.field_14 = searchRadius + k_dword_67845C;
+        pSprite = GetSprite_46DF50();
+        if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, pSprite, &collision_list))
+        {
+            for (pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y); pNearest;
+                 pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y))
+            {
+                pB4 = pNearest->AsCharB4_40FEA0();
+
+                if (pB4)
+                {
+                    pPed = pB4->field_7C_pPed;
+                    if (pPed->sub_46E020(this->field_164_ped_group))
+                    {
+                        pGroup = pPed->field_164_ped_group;
+                        if (pGroup)
+                        {
+                            pGroup->RemovePed_4C9970(pPed);
+                        }
+                        field_164_ped_group->add_ped_to_end_of_list_4C8F90(pPed);
+                        pPed->SetupFollower_46DF70(this, weapon_type::dual_pistol);
+                        if (this->field_164_ped_group->field_34_count == z_copy)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        collision_list.sub_5A6E10();
+        return;
+    }
+
+    z_copy = desiredCount;
+    // max(desiredCount, 9)
+    if (desiredCount > 9)
+    {
+        z_copy = 9;
+    }
+
+    if (pGroup_->field_34_count < z_copy)
+    {
+        goto LABEL_7;
+    }
 }
 
-STUB_FUNC(0x46e200)
-u8 Ped::sub_46E200(u8 a2)
+MATCH_FUNC(0x46e200)
+void Ped::SpawnPedGroupFollowers_46E200(u8 total)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    PedGroup* pGroup = PedGroup::New_4CB0D0();
+    pGroup->add_ped_leader_4C9B10(this);
+    u8 current = 0;
+    pGroup->field_36_count = total;
+    pGroup->field_34_count = total;
+    if (total > 0)
+    {
+        s32 i = 0;
+        do
+        {
+
+            Ped* pNewPed = gPedPool_6787B8->field_0_pool.Allocate();
+
+            pNewPed->field_240_occupation = this->field_240_occupation;
+            pNewPed->field_244_remap = this->field_244_remap;
+            pNewPed->field_26C_graphic_type = this->field_26C_graphic_type;
+            pNewPed->field_238 = this->field_238;
+            Fix16 xy_off = k_dword_678504 * Fix16(i);
+            pNewPed->AllocCharB4_45C830(xy_off + this->field_1AC_cam.x, xy_off + this->field_1AC_cam.y, this->field_1AC_cam.z);
+            Char_B4* pB4 = pNewPed->field_168_game_object;
+            const u8 remap = this->field_244_remap;
+            pB4->field_5_remap = field_244_remap;
+            if (remap != 0xFF)
+            {
+                pB4->field_80_sprite_ptr->SetRemap(remap);
+            }
+            pNewPed->field_216_health = this->field_216_health;
+            pNewPed->field_230 = this->field_230;
+            pNewPed->field_22C = this->field_22C;
+            pNewPed->field_288_threat_search = this->field_288_threat_search;
+            pNewPed->field_28C_threat_reaction = this->field_28C_threat_reaction;
+            pNewPed->field_17C_pZone = this->field_17C_pZone;
+            pGroup->add_ped_to_list_4C9B30(pNewPed, current);
+
+            Weapon_30* pWeapon = this->field_170_selected_weapon;
+            if (pWeapon)
+            {
+                pNewPed->ForceWeapon_46F600(pWeapon->field_1C_idx);
+            }
+
+            ++current;
+            ++i;
+        } while (current < total);
+    }
 }
 
 MATCH_FUNC(0x46ef00)
@@ -3930,7 +4046,7 @@ bool Ped::sub_4701D0()
 MATCH_FUNC(0x470200)
 void Ped::sub_470200(Fix16 a2, Fix16 a3, Fix16 a4)
 {
-    Ped::sub_45C830(a2, a3, a4);
+    Ped::AllocCharB4_45C830(a2, a3, a4);
     Char_B4* pB4 = field_168_game_object;
     u8 remap = field_244_remap;
     pB4->field_5_remap = remap;

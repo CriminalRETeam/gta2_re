@@ -1,9 +1,9 @@
 #include "ImGuiDebug.hpp"
 #include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
 #include "Ambulance_110.hpp"
-#include "Car_BC.hpp"
-#include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
+#include "CarPhysics_B0.hpp"
+#include "Car_BC.hpp"
 #include "Char_Pool.hpp"
 #include "Firefighters.hpp"
 #include "Frontend.hpp"
@@ -203,7 +203,7 @@ static void GetPlayerPos(Fix16& xpos, Fix16& ypos, Fix16& zpos)
 {
     Ped* pPlayerPed = GetPlayerPed();
     Sprite* pPlayerSprite = GetPedSprite(pPlayerPed);
-    
+
     if (pPlayerSprite)
     {
         xpos = pPlayerSprite->field_14_xpos.x;
@@ -597,32 +597,18 @@ void CC ImGuiDebugDraw()
                 if (ImGui::Button("Spawn car"))
                 {
 
-                    pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff,
-                                                                ypos,
-                                                                zpos,
-                                                                0,
-                                                                currentCarModelIndex,
-                                                                scale);
+                    pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
                     pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
                 }
                 if (ImGui::Button("Spawn car with trailer"))
                 {
-                    pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff,
-                                                                ypos,
-                                                                zpos,
-                                                                0,
-                                                                currentCarModelIndex,
-                                                                scale);
+                    pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
                     pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
 
                     // Spawns a cab and connected trailer, can spawn trains too apparently
-                    gCar_6C_677930->sub_446530(xpos + xOff,
-                                               ypos,
-                                               0,
-                                               car_model_enum::TRUKCAB1,
-                                               car_model_enum::TRUKTRNS);
+                    gCar_6C_677930->sub_446530(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
 
                     pNewCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                     if (!pNewCar->field_5C)
@@ -933,6 +919,7 @@ void CC ImGuiDebugDraw()
             if (gGame_0x40_67E008)
             {
                 Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
+
                 if (pPlayer)
                 {
                     ImGui::SliderInt("Lives", &pPlayer->field_684_lives.field_0, 0, 99);
@@ -941,6 +928,11 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderInt("??", &pPlayer->field_2D4_scores.field_38_multiplayer_frags.field_0, 0, 99);
 
                     Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
+                    if (ImGui::Button("Instant gang"))
+                    {
+                        pPlayerPed->RecruitNearbyPeds_46E080(9, Fix16(8));
+                    }
+
                     ImGui::SliderS16("wanted points", &pPlayerPed->field_20A_wanted_points, 0, 12000);
                     ImGui::SliderS16("health", &pPlayerPed->field_216_health, 0, 32767);
 
@@ -963,17 +955,17 @@ void CC ImGuiDebugDraw()
                         if (ImGui::TreeNode("Player Car"))
                         {
                             ImGui::Begin("Player Car");
-                            
+
                             char buffer[128];
                             get_car_name(pPlayerCar, buffer);
                             ImGui::Text("Car name: %s", buffer);
-                            
+
                             if (ImGui::TreeNode("Trailer"))
                             {
                                 ImGui::Text("trailer? 0x%X", pPlayerCar->field_64_pTrailer);
                                 ImGui::TreePop();
                             }
-                            
+
                             if (ImGui::Button("ResprayOrCleanPlates"))
                             {
                                 pPlayerCar->ResprayOrCleanPlates(2); // 0xFD - clean plates
@@ -996,7 +988,8 @@ void CC ImGuiDebugDraw()
 
                                 if (ImGui::TreeNode("Model Physics"))
                                 {
-                                    ModelPhysics_48* pModelPhy = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(pPlayerCar->field_84_car_info_idx);
+                                    ModelPhysics_48* pModelPhy =
+                                        gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(pPlayerCar->field_84_car_info_idx);
                                     if (pModelPhy)
                                     {
                                         ImGui::SliderInt("Turn In", &pModelPhy->field_14_turn_in.mValue, 0, 4 * 16384);
@@ -1004,7 +997,10 @@ void CC ImGuiDebugDraw()
                                         ImGui::SliderInt("Mass", &pModelPhy->field_4_mass.mValue, 0, 30 * 16384);
                                         ImGui::SliderInt("Anti Strength", &pModelPhy->field_2C_anti_strngth.mValue, 0, 10 * 16384);
                                         ImGui::SliderInt("Brake Friction", &pModelPhy->field_10_brake_friction.mValue, 0, 10 * 16384);
-                                        ImGui::SliderInt("Rear End Stability", &pModelPhy->field_1C_rear_end_stability.mValue, 0, 10 * 16384);
+                                        ImGui::SliderInt("Rear End Stability",
+                                                         &pModelPhy->field_1C_rear_end_stability.mValue,
+                                                         0,
+                                                         10 * 16384);
                                         ImGui::SliderInt("Thrust", &pModelPhy->field_24_thrust.mValue, 0, 10 * 16384);
                                         ImGui::SliderInt("Skid Threshold", &pModelPhy->field_30_sked_threshold.mValue, 0, 10 * 16384);
                                         ImGui::SliderInt("Front Drive Bias", &pModelPhy->field_8_front_drive_bias.mValue, 0, 10 * 16384);
@@ -1013,7 +1009,6 @@ void CC ImGuiDebugDraw()
                                     }
                                     ImGui::TreePop();
                                 }
-                                
                             }
 
                             if (gGangPool_CA8_67E274)
@@ -1033,7 +1028,6 @@ void CC ImGuiDebugDraw()
                                     }
                                     ImGui::TreePop();
                                 }
-                                
                             }
 
                             //ImGui::SliderS16("Car Angle (read only)", &pPlayerCar->field_50_car_sprite->field_0.rValue, 0, 1439);
@@ -1048,7 +1042,6 @@ void CC ImGuiDebugDraw()
                             ImGui::End();
                             ImGui::TreePop();
                         }
-
                     }
 
                     static int currentWeaponIndex = 0;
@@ -1137,7 +1130,6 @@ void CC ImGuiDebugDraw()
                 gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, exit_state);
             }
 
-            
             ImGui::TreePop();
         }
 
@@ -1148,9 +1140,9 @@ void CC ImGuiDebugDraw()
                 if (ImGui::TreeNode("Arrows"))
                 {
                     static s32 arrow_idx = 0;
-                    ImGui::SliderInt("Arrow idx", &arrow_idx, 0, GTA2_COUNTOF(gHud_2B00_706620->field_1F18.field_0_array)-1);
+                    ImGui::SliderInt("Arrow idx", &arrow_idx, 0, GTA2_COUNTOF(gHud_2B00_706620->field_1F18.field_0_array) - 1);
                     Hud_Arrow_7C* pArrow = &gHud_2B00_706620->field_1F18.field_0_array[arrow_idx];
-                    
+
                     if (pArrow)
                     {
                         ImGui::SliderS16("Rotation", &pArrow->field_8_rotation.rValue, 0, 1439);
@@ -1442,12 +1434,8 @@ void CC ImGuiDebugDraw()
                 {
                     Fix16 xpos, ypos, zpos;
                     GetPlayerPos(xpos, ypos, zpos);
-                    
-                    Ped* pGuard = gPedManager_6787BC->SpawnPedAt(xpos,
-                                                ypos,
-                                                zpos,
-                                                ped_remap_enum::ped_remap_blue_police,
-                                                Ang16(0));
+
+                    Ped* pGuard = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, ped_remap_enum::ped_remap_blue_police, Ang16(0));
 
                     gPolice_7B8_6FEE40->SpawnWalkingGuard_570320(pGuard, xpos, ypos, zpos, Ang16(0));
                 }

@@ -198,7 +198,7 @@ Ped* PedManager::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 
 {
     Ped* pPed = gPedPool_6787B8->Allocate();
 
-    if (!pPed->sub_45C830(xpos, ypos, zpos))
+    if (!pPed->AllocCharB4_45C830(xpos, ypos, zpos))
     {
         return 0;
     }
@@ -336,7 +336,7 @@ Ped* PedManager::sub_470F90(Ped* pSrc)
 
     if (pSrc->field_168_game_object)
     {
-        pDst->sub_45C830(pSrc->field_1AC_cam.x, pSrc->field_1AC_cam.y, pSrc->field_1AC_cam.z);
+        pDst->AllocCharB4_45C830(pSrc->field_1AC_cam.x, pSrc->field_1AC_cam.y, pSrc->field_1AC_cam.z);
         Char_B4* pCharObj = pDst->field_168_game_object;
         u8 remap = pSrc->field_244_remap;
         pCharObj->field_5_remap = remap;

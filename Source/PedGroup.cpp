@@ -337,7 +337,7 @@ void PedGroup::sub_4C9680(u8 a2)
 }
 
 STUB_FUNC(0x4c9970)
-void PedGroup::sub_4C9970(Ped* a2)
+void PedGroup::RemovePed_4C9970(Ped* a2)
 {
     NOT_IMPLEMENTED;
 }
