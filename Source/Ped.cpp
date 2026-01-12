@@ -2466,43 +2466,38 @@ void Ped::sub_467CA0()
     WIP_IMPLEMENTED;
 
     Ped* pObjTargetPed; // eax
-    s32 f278; // edx
-    Car_BC* f140; // eax
     Ped* pObjTargetPed_; // ecx
     s32 car_state; // eax
-    s32 car_state_m1; // eax
-    char f226; // al
-   // s32 flags; // eax
 
+    // TODO: Move this code down somehow
     pObjTargetPed = this->field_148_objective_target_ped;
-    f278 = pObjTargetPed->field_278;
-    if ((pObjTargetPed->field_21C_bf.b1) == 0)
+    if (pObjTargetPed->check_bit_0())
     {
-        if (f278 != 9)
+        if (pObjTargetPed->field_278 != 9)
         {
             this->field_225 = 2;
             return;
         }
-    LABEL_25:
+        // LABEL_25:
+        // this->field_225 = 1;
+        // return;
+    }
+
+    if (pObjTargetPed->field_278 == 9)
+    {
         this->field_225 = 1;
         return;
     }
 
-    if (f278 == 9)
+    if (field_140)
     {
-        goto LABEL_25;
-    }
-
-    f140 = this->field_140;
-    if (f140)
-    {
-        if (f140->field_88 == 5)
+        if (field_140->field_88 == 5)
         {
             this->field_140 = 0;
         }
         else
         {
-            f140->field_76 = 0;
+            field_140->field_76 = 0;
         }
     }
 
@@ -2513,57 +2508,56 @@ void Ped::sub_467CA0()
         {
             return;
         }
-        goto LABEL_10;
+        Ped::sub_463830(0, 9999);
+        return;
     }
 
-    if (!byte_61A8A3 || (this->field_21C_bf.b3) != 0)
+    if (!byte_61A8A3 || (this->field_21C_bf.b2))
     {
         return;
     }
 
     car_state = this->field_25C_car_state;
-    if (!car_state)
+    switch (car_state)
     {
-    LABEL_22:
-        sub_463830(20, 9999);
-        this->field_14C = this->field_148_objective_target_ped;
-        return;
-    }
-
-    car_state_m1 = car_state - 1;
-    if (!car_state_m1)
-    {
-        if (this->field_226 != 1)
-        {
+        case 0:
+            Ped::sub_463830(20, 9999);
+            this->field_14C = this->field_148_objective_target_ped;
             return;
-        }
-        goto LABEL_22;
-    }
-    if (car_state_m1 != 19)
-    {
-        return;
-    }
 
-    f226 = this->field_226;
-    if (f226 == 1)
-    {
-        if (this->field_14C != pObjTargetPed_)
-        {
-        LABEL_10:
-            sub_463830(0, 9999);
+        case 1:
+            if (this->field_226 != 1)
+            {
+                return;
+            }
+            Ped::sub_463830(20, 9999);
+            this->field_14C = this->field_148_objective_target_ped;
             return;
-        }
-        goto LABEL_25;
-    }
 
-    if (f226 == 2)
-    {
-        sub_463830(20, 9999);
-        this->field_14C = this->field_148_objective_target_ped;
-        field_21C_bf.b3 = 0;
-        //        flags = this->field_21C;
-        //      LOBYTE(flags) = flags & ~4;
-        //    this->field_21C = flags;
+        case 20:
+            if (this->field_226 == 1)
+            {
+                if (this->field_14C != pObjTargetPed_)
+                {
+                    // LABEL_10
+                    Ped::sub_463830(0, 9999);
+                    return;
+                }
+                this->field_225 = 1;
+                return;
+            }
+
+            if (this->field_226 == 2)
+            {
+                Ped::sub_463830(20, 9999);
+                this->field_14C = this->field_148_objective_target_ped;
+                field_21C_bf.b3 = 0;
+                return;
+            }
+            return;
+
+        default:
+            return;
     }
 }
 
