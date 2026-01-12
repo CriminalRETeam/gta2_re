@@ -243,8 +243,12 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
     asm.append(".att_syntax")
 
     if objdiff_scratch:
-        asm.append(f'"{target_func.mangled_name}":')
-        asm.append(f'.global "{target_func.mangled_name}"')
+        if target_func.mangled_name is None:
+            name_to_use = str(hex(target_func.og_address))
+        else:
+            name_to_use = target_func.mangled_name
+        asm.append(f'"{name_to_use}":')
+        asm.append(f'.global "{name_to_use}"')
 
     # gather labels first
     for instruction in decoder:
@@ -334,13 +338,17 @@ def get_func_info(func_name: str) -> OgFunctionData | None:
         ret = FUNC_COLLECTION.get_data_by_address(int(func_name, 16))
     return ret
 
+def save_string_to_file(filename: str, content: str):
+    with open(filename, "w") as file:   
+        file.write(content)
+
 def main():
     target_funcs = []
     # Collect all info about the targets 1st
     for func_name in args.ida_function_name:
         target_func = get_func_info(func_name)
         if target_func == None:
-            print(f"could not find a function with the name: {func_name} for GTA 2 version {FUNC_COLLECTION.game_version}")
+            print(f"could not find a function with the name or address: {func_name} for GTA 2 version {FUNC_COLLECTION.game_version}")
             sys.exit(1)
         target_funcs.append(target_func)
 
@@ -351,6 +359,9 @@ def main():
     asm = ""
     for target_func in target_funcs:
         asm = asm + dism_func(target_func, args.objdiff or args.asm) +"\n\n"
+    if args.asm:
+        save_string_to_file("output.asm", asm)
+        print("ASM saved to output.asm")
     print("\n" + asm)
 
     if args.objdiff or args.asm:
