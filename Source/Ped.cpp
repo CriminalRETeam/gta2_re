@@ -3900,6 +3900,7 @@ void Ped::ManageWeapon_46F390()
     }
 }
 
+// 9.6f 0x434E60
 WIP_FUNC(0x46f490)
 Weapon_30* Ped::sub_46F490()
 {
@@ -3929,12 +3930,12 @@ Weapon_30* Ped::sub_46F490()
                 return 0;                
             }
 
-            // TODO: Wrong here
             if (dword_678750 < k_dword_678658 + k_dword_678798)
             {
                 ++unk_6787EE; // police peds in range screen
             }
 
+            // TODO: Wrong here, check needs inverting maybe
             if (gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen < 2u)
             {
                 this->field_198 = 0;
@@ -3942,13 +3943,14 @@ Weapon_30* Ped::sub_46F490()
                 return 0;
             }
 
-            if (gPolice_7B8_6FEE40->field_7B0 && gPolice_7B8_6FEE40->field_7B0 != this)
+            if (!gPolice_7B8_6FEE40->field_7B0 || gPolice_7B8_6FEE40->field_7B0 == this)
             {
-                this->field_198 = 0;
+                return this->field_170_selected_weapon;
+               
+            }
+            this->field_198 = 0;
                 this->field_21C_bf.b9 = 1;
                 return 0;
-            }
-            return this->field_170_selected_weapon;
 
         case ped_ocupation_enum::fbi:
             if (this->field_14C->field_16C_car || dword_678750 > k_dword_67853C)
