@@ -3628,10 +3628,11 @@ void miss2_0x11C::SCRCMD_REMOTE_CONTROL_50D200()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50d2e0)
+MATCH_FUNC(0x50d2e0)
 void miss2_0x11C::SCRCMD_LAUNCH_MISSION_50D2E0()
 {
-    NOT_IMPLEMENTED;
+    str_table_entry* StringById_503080 = gfrosty_pasteur_6F8060->FindStringById_503080(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::launch_mission_5119A0(gBasePtr_6F8070, StringById_503080->get_name());
 }
 
 MATCH_FUNC(0x50d340)
