@@ -2240,28 +2240,28 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
 }
 
 MATCH_FUNC(0x466b90)
-Ped* Ped::sub_466B90(s32 max_x_check)
+Ped* Ped::FindBestTargetPed_Mode1_466B90(s32 max_x_check)
 {
     byte_6787D7 = 1;
-    return Ped::sub_466BF0(max_x_check);
+    return Ped::FindBestTargetPed_466BF0(max_x_check);
 }
 
 MATCH_FUNC(0x466bb0)
-Ped* Ped::sub_466BB0(s32 max_x_check)
+Ped* Ped::FindBestTargetPed_Mode4_466BB0(s32 max_x_check)
 {
     byte_6787D7 = 4;
-    return Ped::sub_466BF0(max_x_check);
+    return Ped::FindBestTargetPed_466BF0(max_x_check);
 }
 
 MATCH_FUNC(0x466bd0)
-Ped* Ped::sub_466BD0(s32 max_x_check)
+Ped* Ped::FindBestTargetPed_Mode5_466BD0(s32 max_x_check)
 {
     byte_6787D7 = 5;
-    return Ped::sub_466BF0(max_x_check);
+    return Ped::FindBestTargetPed_466BF0(max_x_check);
 }
 
 STUB_FUNC(0x466bf0)
-Ped* Ped::sub_466BF0(s32 a2)
+Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2271,11 +2271,11 @@ MATCH_FUNC(0x466f40)
 Ped* Ped::sub_466F40(u8 a2)
 {
     byte_6787D7 = 4;
-    return Ped::sub_466F60(a2);
+    return Ped::FindNearestPed_466F60(a2);
 }
 
 MATCH_FUNC(0x466f60)
-Ped* Ped::sub_466F60(u8 a2)
+Ped* Ped::FindNearestPed_466F60(u8 a2)
 {
     dword_6787DC = this;
     Sprite* pSprite =
