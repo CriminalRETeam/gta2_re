@@ -4205,9 +4205,9 @@ void Ped::UpdateStatsForKiller_46F720()
                 }
                 else if (IsField238_45EDE0(2))
                 {
+                    bool doIt = true;
                     if (this->field_1A8_ped_killer->field_164_ped_group)
                     {
-                        bool done = false;
                         for (pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter != NULL;
                              pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
                         {
@@ -4220,16 +4220,20 @@ void Ped::UpdateStatsForKiller_46F720()
                                     gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(pPlayerIter->field_2E_idx,
                                                                               this->field_15C_player->field_2E_idx);
                                     gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(pPlayerIter, this->field_15C_player);
-                                    done = true;
+                                    doIt = false;
                                     break;
                                 }
                             }
                         }
-                        goto LABEL_25;
+                        //goto LABEL_25;
                     }
-                    else
+
+                    // TODO: Missing test edi, edi & jmp
+
+                    //else
+                    if (!doIt)
                     {
-                    LABEL_25:
+                        //LABEL_25:
                         gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->field_2E_idx,
                                                                   this->field_15C_player->field_2E_idx);
                         if (!field_1A8_ped_killer->sub_45B4E0())
@@ -4270,6 +4274,7 @@ void Ped::UpdateStatsForKiller_46F720()
     {
         if (!this->field_1A8_ped_killer && IsField238_45EDE0(2))
         {
+            // Argument loading wrong somehow
             gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->field_2E_idx, this->field_15C_player->field_2E_idx);
             gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(this->field_15C_player, this->field_15C_player);
         }
