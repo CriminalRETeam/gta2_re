@@ -80,6 +80,7 @@ DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
 DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
 DEFINE_GLOBAL(Object_2C*, dword_678558, 0x678558);
 DEFINE_GLOBAL(u8, byte_6787D3, 0x6787D3);
+DEFINE_GLOBAL(Fix16, k_dword_678504, 0x678504);
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -736,7 +737,7 @@ void Ped::sub_45C7F0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x45c830)
-char_type Ped::sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+char_type Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     Char_B4* pChar = gChar_B4_Pool_6FDB44->field_0_pool.Allocate();
 
@@ -3572,7 +3573,9 @@ MATCH_FUNC(0x46e020)
 bool Ped::sub_46E020(PedGroup* pGroup)
 {
     return this->field_164_ped_group != pGroup && !this->field_15C_player &&
-        (IsField238_45EDE0(3) || (IsField238_45EDE0(4) || IsField238_45EDE0(6)) && this->field_240_occupation == 35) ? true : false;
+            (IsField238_45EDE0(3) || (IsField238_45EDE0(4) || IsField238_45EDE0(6)) && this->field_240_occupation == 35) ?
+        true :
+        false;
 }
 
 STUB_FUNC(0x46e080)
@@ -3582,11 +3585,69 @@ s32 Ped::sub_46E080(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x46e200)
-u8 Ped::sub_46E200(u8 a2)
+WIP_FUNC(0x46e200)
+void Ped::sub_46E200(u8 total)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    
+    PedGroup* pGroup; // ebx
+    s32 i; // ebp
+    Ped* pNewPed; // esi
+    Ped* pPoolNext; // edx
+    Fix16 xy_off; // rax
+    Char_B4* pB4; // ecx
+    Weapon_30* pWeapon; // eax
+    u8 current; // [esp+8h] [ebp-4h]
+
+    pGroup = PedGroup::New_4CB0D0();
+    pGroup->add_ped_leader_4C9B10(this);
+    current = 0;
+    pGroup->field_36_count = total;
+    pGroup->field_34_count = total;
+    if (total)
+    {
+        i = 0;
+        do
+        {
+
+            PedPool* pPedPool = gPedPool_6787B8;
+            pNewPed = gPedPool_6787B8->field_0_pool.field_0_pStart;
+            pPoolNext = gPedPool_6787B8->field_0_pool.field_4_pPrev;
+            gPedPool_6787B8->field_0_pool.field_0_pStart = gPedPool_6787B8->field_0_pool.field_0_pStart->mpNext;
+            pNewPed->mpNext = pPoolNext;
+            pPedPool->field_0_pool.field_4_pPrev = pNewPed;
+
+            pNewPed->PoolAllocate();
+
+            pNewPed->field_240_occupation = this->field_240_occupation;
+            pNewPed->field_244_remap = this->field_244_remap;
+            pNewPed->field_26C_graphic_type = this->field_26C_graphic_type;
+            pNewPed->field_238 = this->field_238;
+            xy_off = k_dword_678504 * Fix16(i);
+            pNewPed->AllocCharB4_45C830(xy_off + this->field_1AC_cam.x, xy_off + this->field_1AC_cam.y, this->field_1AC_cam.z);
+            pB4 = pNewPed->field_168_game_object;
+            const u8 remap = this->field_244_remap;
+            pB4->field_5_remap = field_244_remap;
+            if (remap != 0xFF)
+            {
+                pB4->field_80_sprite_ptr->SetRemap(remap);
+            }
+            pNewPed->field_216_health = this->field_216_health;
+            pNewPed->field_230 = this->field_230;
+            pNewPed->field_22C = this->field_22C;
+            pNewPed->field_288_threat_search = this->field_288_threat_search;
+            pNewPed->field_28C_threat_reaction = this->field_28C_threat_reaction;
+            pNewPed->field_17C_pZone = this->field_17C_pZone;
+            pGroup->add_ped_to_list_4C9B30(pNewPed, current);
+            pWeapon = this->field_170_selected_weapon;
+            if (pWeapon)
+            {
+                pNewPed->ForceWeapon_46F600(pWeapon->field_1C_idx);
+            }
+            ++i;
+            ++current;
+        } while (current < total);
+    }
 }
 
 MATCH_FUNC(0x46ef00)
@@ -3929,7 +3990,7 @@ bool Ped::sub_4701D0()
 MATCH_FUNC(0x470200)
 void Ped::sub_470200(Fix16 a2, Fix16 a3, Fix16 a4)
 {
-    Ped::sub_45C830(a2, a3, a4);
+    Ped::AllocCharB4_45C830(a2, a3, a4);
     Char_B4* pB4 = field_168_game_object;
     u8 remap = field_244_remap;
     pB4->field_5_remap = remap;
