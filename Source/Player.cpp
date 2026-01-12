@@ -1585,7 +1585,7 @@ void Player::Busted_5679E0()
             {
                 field_2C4_player_ped->field_210 = 0;
                 field_2C4_player_ped->field_20A_wanted_points = 0;
-                field_2C4_player_ped->SetObjective(objectives_enum::destroy_car_54, 60);
+                field_2C4_player_ped->SetObjective(objectives_enum::objective_54, 60);
                 field_2C4_player_ped->field_150_target_objective_car = 0;
             }
         }

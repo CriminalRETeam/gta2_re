@@ -1237,7 +1237,7 @@ void Ped::sub_461290()
 
     switch (this->field_258_objective)
     {
-        case objectives_enum::objective_31:
+        case objectives_enum::time_waited_in_car_31:
             pCar_ = this->field_16C_car;
             goto LABEL_23;
 
@@ -1271,7 +1271,7 @@ void Ped::sub_461290()
                 if (field_54_driver && field_54_driver->field_15C_player)
                 {
                     gPublicTransport_181C_6FF1D4->IncrementBusPassengerCount_579B10();
-                    SetObjective(objectives_enum::objective_31, 0);
+                    SetObjective(objectives_enum::time_waited_in_car_31, 0);
                 }
                 else
                 {
@@ -1553,7 +1553,7 @@ void Ped::sub_462280()
         }
         if (field_238 != 2)
         {
-            if (field_258_objective != objectives_enum::flee_char_on_foot_always_3 && field_258_objective != objectives_enum::objective_6)
+            if (field_258_objective != objectives_enum::flee_char_on_foot_always_3 && field_258_objective != objectives_enum::flee_char_always_once_car_stopped_6)
             {
                 if (field_25C_car_state != 3 && field_25C_car_state != 7)
                 {
@@ -1581,7 +1581,7 @@ void Ped::sub_462280()
 
     if (field_218_objective_timer != 9999)
     {
-        if (field_258_objective != objectives_enum::objective_31 && field_258_objective != objectives_enum::goto_area_any_means_13 &&
+        if (field_258_objective != objectives_enum::time_waited_in_car_31 && field_258_objective != objectives_enum::goto_area_any_means_13 &&
             field_258_objective != objectives_enum::kill_char_any_means_19 && field_258_objective != objectives_enum::goto_area_in_car_14)
         {
             if (field_218_objective_timer > 0)
@@ -2116,13 +2116,13 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::flee_char_on_foot_always_3:
                 Ped::sub_467A20();
                 break;
-            case objectives_enum::objective_4:
+            case objectives_enum::flee_char_any_means_till_safe_4:
                 nullsub_9();
                 break;
-            case objectives_enum::objective_5:
+            case objectives_enum::flee_char_any_means_always_5:
                 nullsub_10();
                 break;
-            case objectives_enum::objective_6:
+            case objectives_enum::flee_char_always_once_car_stopped_6:
                 Ped::sub_467AD0();
                 break;
 
@@ -2135,10 +2135,10 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::kill_char_any_means_19:
                 Ped::sub_467E20();
                 break;
-            case objectives_enum::objective_21:
+            case objectives_enum::kill_car_21:
                 nullsub_11();
                 break;
-            case objectives_enum::objective_22:
+            case objectives_enum::kill_frenzy_22:
                 Ped::sub_467FB0();
                 break;
             case objectives_enum::punch_char_23:
@@ -2153,7 +2153,7 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::guard_area_25:
                 Ped::sub_469D60();
                 break;
-            case objectives_enum::objective_31:
+            case objectives_enum::time_waited_in_car_31:
                 Ped::sub_4682A0();
                 break;
             case objectives_enum::goto_area_in_car_14:
@@ -2177,7 +2177,7 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::goto_area_any_means_13:
                 Ped::sub_469060();
                 break;
-            case objectives_enum::follow_car_on_foot_with_offset_51:
+            case objectives_enum::objective_51:
                 Ped::sub_469E10();
                 break;
             case objectives_enum::objective_8:
@@ -2192,13 +2192,13 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::objective_33:
                 Ped::sub_468BD0();
                 break;
-            case objectives_enum::follow_car_in_car_50:
+            case objectives_enum::objective_50:
                 nullsub_12();
                 break;
             case objectives_enum::objective_43:
                 Ped::sub_469E30();
                 break;
-            case objectives_enum::fire_at_object_from_vehicle_52:
+            case objectives_enum::objective_52:
                 Ped::sub_469E50();
                 break;
             case objectives_enum::wait_in_car_27:
@@ -2207,31 +2207,31 @@ void Ped::ProcessOnFootObjective_463AA0()
             case objectives_enum::objective_10:
                 Ped::sub_469F30();
                 break;
-            case objectives_enum::destroy_car_54:
+            case objectives_enum::objective_54:
                 Ped::sub_469FE0();
                 break;
             case objectives_enum::objective_32:
                 Ped::sub_46A1F0();
                 break;
-            case 0x37: //objectives_enum::flee_on_foot_till_safe_1:
+            case objectives_enum::follow_car_in_car_55:
                 Ped::sub_46A290();
                 break;
-            case 0x38: //objectives_enum::objective_48:
+            case objectives_enum::follow_car_on_foot_with_offset_56:
                 Ped::sub_46A350();
                 break;
-            case 0x39: //objectives_enum::objective_49:
+            case objectives_enum::fire_at_object_from_vehicle_57:
                 Ped::sub_46A530();
                 break;
-            case 0x3B: //objectives_enum::follow_car_on_foot_with_offset_51:
+            case objectives_enum::destroy_car_59:
                 Ped::sub_46A850();
                 break;
-            case 0x3A: //objectives_enum::follow_car_in_car_50:
+            case objectives_enum::destroy_object_58:
                 Ped::sub_46A7C0();
                 break;
-            case 0x3C: //objectives_enum::fire_at_object_from_vehicle_52:
+            case objectives_enum::turret_put_out_car_fire_60:
                 Ped::sub_46A6D0();
                 break;
-            case 0x3D: //objectives_enum::destroy_object_53:
+            case objectives_enum::objective_61:
                 Ped::sub_46A5E0();
                 break;
             default:
