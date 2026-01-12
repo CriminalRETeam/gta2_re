@@ -3209,11 +3209,13 @@ void Ped::sub_469E10()
     }
 }
 
-STUB_FUNC(0x469e30)
-s32 Ped::sub_469E30()
+MATCH_FUNC(0x469e30)
+void Ped::sub_469E30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_16C_car)
+    {
+        field_16C_car->field_5C->field_74 = dword_678664;
+    }
 }
 
 STUB_FUNC(0x469e50)

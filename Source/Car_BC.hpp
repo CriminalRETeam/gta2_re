@@ -119,7 +119,7 @@ class Car_78
     s32 field_68;
     s32 field_6C;
     s32 field_70;
-    s32 field_74;
+    Fix16 field_74;
 };
 
 class Car_78_Pool
