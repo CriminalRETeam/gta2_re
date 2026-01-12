@@ -3568,12 +3568,11 @@ void Ped::sub_46DF70(Ped* arg0, s32 WeaponIdx)
     SetField238_403920(4);
 }
 
-WIP_FUNC(0x46e020)
+MATCH_FUNC(0x46e020)
 bool Ped::sub_46E020(PedGroup* pGroup)
 {
-    WIP_IMPLEMENTED;
     return this->field_164_ped_group != pGroup && !this->field_15C_player &&
-        (IsField238_45EDE0(3) || (IsField238_45EDE0(4) || IsField238_45EDE0(6)) && this->field_240_occupation == 35);
+        (IsField238_45EDE0(3) || (IsField238_45EDE0(4) || IsField238_45EDE0(6)) && this->field_240_occupation == 35) ? true : false;
 }
 
 STUB_FUNC(0x46e080)
