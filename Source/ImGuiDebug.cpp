@@ -1386,7 +1386,7 @@ void CC ImGuiDebugDraw()
                         {
                             ImGui::InputInt("field_2C", &phi->field_2C, 1, 1);
                             ImGui::InputInt("field_30", &phi->field_30, 1, 1);
-                            ImGui::InputInt("field_34", &phi->field_34, 1, 1);
+                            ImGui::InputInt("field_34_behavior_type", &phi->field_34_behavior_type, 1, 1);
                             ImGui::InputInt("field_38", &phi->field_38, 1, 1);
                             ImGui::InputInt("field_3C", &phi->field_3C, 1, 1);
                             ImGui::InputInt("field_40_collision_bucket_category", &phi->field_40_collision_bucket_category, 1, 1);
