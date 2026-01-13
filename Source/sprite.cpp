@@ -31,6 +31,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_7035E4, Fix16(8), 0x7035E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_703578, Fix16(256,0), 0x703578);
 DEFINE_GLOBAL_INIT(Fix16, dword_703678, dword_703578, 0x703678);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_7033C0, dword_7035E4 - dword_703678, 0x7033C0);
+DEFINE_GLOBAL_INIT(Ang16, word_70344C, Ang16(360), 0x70344C);
+DEFINE_GLOBAL_INIT(Ang16, word_70351E, Ang16(720), 0x70351E);
+DEFINE_GLOBAL_INIT(Ang16, word_703544, Ang16(1080), 0x703544);
 
 MATCH_FUNC(0x562450)
 Fix16_Point Sprite::GetBoundingBoxCorner_562450(s32 idx)
@@ -1105,6 +1108,132 @@ Sprite_3CC::~Sprite_3CC()
     }
     this->field_3C4 = 0;
     this->field_3C8 = 0;
+}
+
+MATCH_FUNC(0x5A4D90)
+void Sprite_4C::SetCurrentRect_5A4D90()
+{
+    field_30.DoSetCurrentRect_59DD60();
+}
+
+WIP_FUNC(0x5A3550)
+void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
+{
+    WIP_IMPLEMENTED;
+    Fix16 width_over_2 = field_0_width / 2;
+    Fix16 height_over_2 = field_4_height / 2;
+    Fix16 unk_over_2 = field_8 / 2;
+
+    Fix16_Point point = Fix16_Point(xpos, ypos);
+
+    if (rotation == gAng16_703804) // = 0
+    {
+        // okay
+        Fix16_Point northwest = Fix16_Point(-width_over_2, -height_over_2);
+        Fix16_Point northeast = Fix16_Point(width_over_2, -height_over_2);
+        Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
+        Fix16_Point southwest = Fix16_Point(-width_over_2, height_over_2);
+
+        field_C_b_box[0] = point + northwest;
+        field_C_b_box[1] = point + northeast;
+        field_C_b_box[2] = point + southeast;
+        field_C_b_box[3] = point + southwest;
+
+        field_30 = Fix16_Rect(xpos - width_over_2, ypos - height_over_2, width_over_2, height_over_2);
+    }
+    else if (rotation == word_70344C) // = 360
+    {
+        // okay
+        Fix16_Point southwest = Fix16_Point(-width_over_2, height_over_2);
+        Fix16_Point northwest = Fix16_Point(-width_over_2, -height_over_2);
+        Fix16_Point northeast = Fix16_Point(width_over_2, -height_over_2);
+        Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
+
+        field_C_b_box[0] = point + southwest;
+        field_C_b_box[1] = point + northwest;
+        field_C_b_box[2] = point + northeast;
+        field_C_b_box[3] = point + southeast;
+
+        field_30 = Fix16_Rect(xpos - width_over_2, ypos - height_over_2, width_over_2, height_over_2);
+    }
+    else if (rotation == word_70351E) // = 720
+    {
+        // okay
+        Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
+        Fix16_Point southwest = Fix16_Point(-width_over_2, height_over_2);
+        Fix16_Point northwest = Fix16_Point(-width_over_2, -height_over_2);
+        Fix16_Point northeast = Fix16_Point(width_over_2, -height_over_2);
+
+        field_C_b_box[0] = point + southeast;
+        field_C_b_box[1] = point + southwest;
+        field_C_b_box[2] = point + northwest;
+        field_C_b_box[3] = point + northeast;
+
+        field_30 = Fix16_Rect(xpos - width_over_2, ypos - height_over_2, width_over_2, height_over_2);
+    }
+    else if (rotation == word_703544) // = 1080
+    {
+        // okay
+        Fix16_Point northeast = Fix16_Point(width_over_2, -height_over_2);
+        Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
+        Fix16_Point southwest = Fix16_Point(-width_over_2, height_over_2);
+        Fix16_Point northwest = Fix16_Point(-width_over_2, -height_over_2);
+
+        field_C_b_box[0] = point + northeast;
+        field_C_b_box[1] = point + southeast;
+        field_C_b_box[2] = point + southwest;
+        field_C_b_box[3] = point + northwest;
+
+        field_30 = Fix16_Rect(xpos - width_over_2, ypos - height_over_2, width_over_2, height_over_2);
+    }
+    else
+    {
+        //
+        Fix16_Point northwest = Fix16_Point(-width_over_2, -height_over_2);
+        Fix16_Point northeast = Fix16_Point(width_over_2, -height_over_2);
+        Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
+        Fix16_Point southwest = Fix16_Point(-width_over_2, height_over_2);
+
+        northwest.RotateByAngle_40F6B0(rotation);
+        northeast.RotateByAngle_40F6B0(rotation);
+        southeast.RotateByAngle_40F6B0(rotation);
+        southwest.RotateByAngle_40F6B0(rotation);
+
+        field_C_b_box[0] = point + northwest;
+        field_C_b_box[1] = point + northeast;
+        field_C_b_box[2] = point + southeast;
+        field_C_b_box[3] = point + southwest;
+
+        Fix16 left = field_30.field_0_left;
+        Fix16 right = field_30.field_4_right;
+        Fix16 top = field_30.field_8_top;
+        Fix16 bottom = field_30.field_C_bottom;
+
+        FindMinMax_5A57E0(left, right, field_C_b_box[0].x, field_C_b_box[1].x, field_C_b_box[2].x, field_C_b_box[3].x);
+
+        FindMinMax_5A57E0(top, bottom, field_C_b_box[0].y, field_C_b_box[1].y, field_C_b_box[2].y, field_C_b_box[3].y);
+
+        field_30.SetRect_5A5E30(left, right, top, bottom);
+    }
+    field_30.Set_F10_F14_41E370(zpos - unk_over_2, zpos + unk_over_2);
+    field_48_bDrawCollisionBox = true; // line 745
+
+    return;
+    /*
+    // ????????????????????
+    // not on 9.6f function:
+    Fix16 y_negated = -ypos;
+    Fix16 x_negated = -xpos;
+    Fix16_Point_POD unk1 = Fix16_Point_POD(y_negated, x_negated); // ??
+    Fix16_Point_POD unk2 = Fix16_Point_POD(y_negated, x_negated); // ??
+    Fix16_Point_POD unk3 = Fix16_Point_POD(y_negated, x_negated); // ??
+    Fix16_Point_POD unk4 = Fix16_Point_POD(y_negated, x_negated); // ??
+
+    unk1.Rotate_562C20(rotation);
+    unk2.Rotate_562C20(rotation);
+    unk3.Rotate_562C20(rotation);
+    unk4.Rotate_562C20(rotation);
+    */
 }
 
 MATCH_FUNC(0x5a5860)
