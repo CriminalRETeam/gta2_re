@@ -217,7 +217,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* a2)
     {
         Object_2C* pObj;
 
-        if (a2->field_8_obj->field_8->field_34 == 1)
+        if (a2->field_8_obj->field_8->field_34_behavior_type == object_behavior_type::behavior_1)
         {
             a2->field_8_obj->field_26_varrok_idx = pCmd->field_1C_value_shop_type;
         }

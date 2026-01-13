@@ -103,8 +103,8 @@ class Object_2C
     
     inline bool check_is_busy_shop()
     {
-        s32 v1 = field_8->field_34;
-        return v1 == 10;
+        s32 v1 = field_8->field_34_behavior_type;
+        return v1 == object_behavior_type::behavior_10;
     }
 
     // Inlined on version 9.6f 0x447e90
@@ -126,7 +126,10 @@ class Object_2C
 
     bool check_is_shop_421060()
     {
-        return field_8->field_34 == 6 || field_8->field_34 == 7 || field_8->field_34 == 8 || field_8->field_34 == 9;
+        return field_8->field_34_behavior_type == object_behavior_type::behavior_6 || 
+               field_8->field_34_behavior_type == object_behavior_type::behavior_7 || 
+               field_8->field_34_behavior_type == object_behavior_type::behavior_8 || 
+               field_8->field_34_behavior_type == object_behavior_type::behavior_9;
     }
 
     inline void PoolAllocate()

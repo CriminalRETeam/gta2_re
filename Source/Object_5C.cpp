@@ -94,7 +94,7 @@ void Object_2C::PoolDeallocate()
 
     --dword_6F8F88;
 
-    const s32 phi_type = this->field_8->field_34;
+    const s32 phi_type = this->field_8->field_34_behavior_type;
     if (phi_type != 6 && phi_type != 7 && phi_type != 8 && phi_type != 9 && phi_type != 10 && phi_type != 1 && phi_type != 12)
     {
         if (field_26_varrok_idx > 0)
@@ -116,7 +116,7 @@ void Object_2C::PoolDeallocate()
 MATCH_FUNC(0x522250)
 bool Object_2C::sub_522250(Sprite* pSprite)
 {
-    const u32 phi_type = this->field_8->field_34;
+    const u32 phi_type = this->field_8->field_34_behavior_type;
     if (phi_type != 6 && phi_type != 7 && phi_type != 8 && phi_type != 9 && phi_type != 10 && phi_type != 1 && phi_type != 12)
     {
         u8 varrok_idx = this->field_26_varrok_idx;
@@ -224,26 +224,26 @@ char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
     {
         return 0;
     }
-    switch (field_8->field_54)
+    switch (field_8->field_54_react_to_collisions_with)
     {
-        case 0:
+        case CollisionReaction::Always_0:
             // Always
             return true;
-        case 1:
+        case CollisionReaction::OnlyCars_1:
             // Only cars
             if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
             {
                 return false;
             }
             break;
-        case 2:
+        case CollisionReaction::OnlyPeds_2:
             // Only peds
             if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped)
             {
                 return false;
             }
             break;
-        case 3:
+        case CollisionReaction::OnlyObjects_3:
             // Only objects?
             sprite_type = pSprite->field_30_sprite_type_enum;
             if (sprite_type != sprite_types_enum::code_obj1 && sprite_type != sprite_types_enum::map_obj &&
@@ -256,7 +256,7 @@ char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
                 return 0;
             }
             break;
-        case 4:
+        case CollisionReaction::Never_4:
             // Never
             return 0;
             break;
@@ -509,7 +509,7 @@ void Object_2C::sub_525190(u8 varrok_idx)
 {
     WIP_IMPLEMENTED;
 
-    if (field_8->field_3C < 39 || field_8->field_3C > 42)
+    if (field_8->field_3C_next_definition_idx < 39 || field_8->field_3C_next_definition_idx > 42)
     {
         if (field_8->field_48 == 13)
         {
@@ -528,7 +528,7 @@ void Object_2C::sub_525190(u8 varrok_idx)
     }
     else
     {
-        sub_5291E0(field_8->field_3C);
+        sub_5291E0(field_8->field_3C_next_definition_idx);
     }
 }
 
@@ -560,7 +560,7 @@ void Object_2C::UpdateAninmation_5257D0()
 
         if (!field_C_pAny.o8->field_4_timer && !field_C_pAny.o8->field_7_anim_speed_counter)
         {
-            Object_2C::sub_5283C0(this->field_8->field_3C);
+            Object_2C::sub_5283C0(this->field_8->field_3C_next_definition_idx);
         }
     }
 }
@@ -678,16 +678,16 @@ void Object_2C::Update_525F30()
     dword_6F8F8C = 0;
     while (2)
     {
-        switch (this->field_8->field_34)
+        switch (this->field_8->field_34_behavior_type)
         {
-            case 0:
+            case object_behavior_type::behavior_0:
                 if (!sub_525910())
                 {
                     sub_525B20();
                     return;
                 }
                 return;
-            case 1:
+            case object_behavior_type::behavior_1:
                 if (!sub_525910())
                 {
                     sub_525B20();
@@ -695,7 +695,7 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case 5:
+            case object_behavior_type::behavior_5:
                 pWolfy = this->field_C_pAny.pExplosion;
                 if (pWolfy)
                 {
@@ -706,8 +706,8 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case 3:
-            case 7:
+            case object_behavior_type::behavior_3:
+            case object_behavior_type::behavior_7:
                 RemoveFromCollisionBuckets_527D00();
                 byte_6F8C4C = 1;
                 sub_525B80();
@@ -717,8 +717,8 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case 2:
-            case 8:
+            case object_behavior_type::behavior_2:
+            case object_behavior_type::behavior_8:
                 if (!sub_525910())
                 {
                     sub_525B20();
@@ -726,8 +726,8 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case 4:
-            case 9:
+            case object_behavior_type::behavior_4:
+            case object_behavior_type::behavior_9:
                 RemoveFromCollisionBuckets_527D00();
                 byte_6F8C4C = 1;
                 sub_525D90();
@@ -737,14 +737,14 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case 6:
-            case 10:
-            case 11:
+            case object_behavior_type::behavior_6:
+            case object_behavior_type::behavior_10:
+            case object_behavior_type::behavior_11:
                 sub_525910();
                 sub_525B20();
                 return;
 
-            case 12:
+            case object_behavior_type::behavior_12:
                 sub_525B20();
                 return;
 
@@ -866,20 +866,20 @@ void Object_2C::Light_527990()
 MATCH_FUNC(0x527ae0)
 void Object_2C::AssignToBucket_527AE0()
 {
-    switch (field_8->field_40)
+    switch (field_8->field_40_collision_bucket_category)
     {
-        case 0:
-        case 1:
+        case collision_bucket_category::purple_doom_3_single_bucket_0:
+        case collision_bucket_category::purple_doom_3_single_bucket_1:
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
             return;
-        case 3:
+        case collision_bucket_category::purple_doom_2_region_bucket_3:
             DAT_006f8f88++;
             gPurpleDoom_2_67920C->AddToRegionBuckets_477B20(field_4);
             return;
-        case 4:
+        case collision_bucket_category::purple_doom_1_region_bucket_4:
             gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_4);
             return;
-        case 2:
+        case collision_bucket_category::purple_doom_none_2:
             return;
     }
 }
@@ -887,17 +887,17 @@ void Object_2C::AssignToBucket_527AE0()
 MATCH_FUNC(0x527d00)
 void Object_2C::RemoveFromCollisionBuckets_527D00()
 {
-    switch (field_8->field_40)
+    switch (field_8->field_40_collision_bucket_category)
     {
-        case 0:
-        case 1:
+        case collision_bucket_category::purple_doom_3_single_bucket_0:
+        case collision_bucket_category::purple_doom_3_single_bucket_1:
             gPurpleDoom_3_679210->Remove_477B00(field_4);
             break;
-        case 3:
+        case collision_bucket_category::purple_doom_2_region_bucket_3:
             --DAT_006f8f88;
             gPurpleDoom_2_67920C->AddToSpriteRectBuckets_477B60(field_4);
             break;
-        case 4:
+        case collision_bucket_category::purple_doom_1_region_bucket_4:
             gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_4);
             break;
         default:
@@ -1423,7 +1423,7 @@ STUB_FUNC(0x525100)
 void Object_2C::sub_525100()
 {
     NOT_IMPLEMENTED;
-    if (field_8->field_34 <= 1u)
+    if (field_8->field_34_behavior_type <= 1u)
     {
 
         if (get_model_40FEF0() == 148)
@@ -1713,7 +1713,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
 
     if (bUnknown &&
         (pNew2C->field_4->sub_59E7D0(0) ||
-         (pPhi->field_40 == 3 && gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
+         (pPhi->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3 && gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
     {
         if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {
@@ -1733,19 +1733,19 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         field_1C.sub_5A6CD0(pNew2C->field_4);
     }
 
-    switch (pPhi->field_34)
+    switch (pPhi->field_34_behavior_type)
     {
 
-        case 0:
-        case 1:
-        case 6:
-        case 10:
-        case 12:
+        case object_behavior_type::behavior_0:
+        case object_behavior_type::behavior_1:
+        case object_behavior_type::behavior_6:
+        case object_behavior_type::behavior_10:
+        case object_behavior_type::behavior_12:
             pNew2C->field_C_pAny.o8 = 0;
             pNew2C->field_10_obj_3c = 0;
             break;
 
-        case 5:
+        case object_behavior_type::behavior_5:
             pNew30 = gWolfy_7A8_6FD5F0->sub_543800();
             pNew2C->field_C_pAny.pExplosion = pNew30;
             if (pNew30) // 225
@@ -1759,8 +1759,8 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
 
             break;
 
-        case 2:
-        case 8:
+        case object_behavior_type::behavior_2:
+        case object_behavior_type::behavior_8:
             pNew8 = gObject_8_Pool_6F8F78->Allocate();
             pNew2C->field_C_pAny.o8 = pNew8;
             pNew8->field_7_anim_speed_counter = 0;
@@ -1768,8 +1768,8 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_C_pAny.o8->field_6_frame_counter = 0;
             break;
 
-        case 3:
-        case 7:
+        case object_behavior_type::behavior_3:
+        case object_behavior_type::behavior_7:
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
             pNew2C->field_10_obj_3c = pNew3C;
             pNew3C->field_20 = pNew2C->field_14_id;
@@ -1781,8 +1781,8 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_10_obj_3c->field_1C = kFpZero_6F8E10;
             break;
 
-        case 4:
-        case 9:
+        case object_behavior_type::behavior_4:
+        case object_behavior_type::behavior_9:
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
             pNew2C->field_10_obj_3c = pNew3C;
             pNew3C->field_20 = pNew2C->field_14_id;
@@ -1800,7 +1800,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_C_pAny.o8->field_6_frame_counter = 0;
             break;
 
-        case 11:
+        case object_behavior_type::behavior_11:
             pNew2C->field_C_pAny.pLight = gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);
             break;
 
@@ -1910,7 +1910,7 @@ void Object_5C::RestoreObjects_52A590(TurkishDelight_164* pData)
 MATCH_FUNC(0x52A610)
 void Object_5C::sub_52A610(Object_2C* p2C)
 {
-    if (p2C->field_8->field_34 != 11)
+    if (p2C->field_8->field_34_behavior_type != 11)
     {
         gPurpleDoom_3_679210->Remove_477B00(p2C->field_4);
     }
@@ -1952,7 +1952,7 @@ void Object_2C::ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite)
 {
     RemoveFromCollisionBuckets_527D00();
 
-    if (field_8->field_34 != 11)
+    if (field_8->field_34_behavior_type != 11)
     {
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
     }
