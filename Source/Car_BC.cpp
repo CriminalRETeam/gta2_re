@@ -2143,7 +2143,7 @@ void Car_BC::ClearDriver_4407F0()
 }
 
 STUB_FUNC(0x440840)
-Sprite* Car_BC::sub_440840()
+Sprite* Car_BC::GetSprite_440840()
 {
     NOT_IMPLEMENTED;
     return 0;

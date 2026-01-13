@@ -461,7 +461,7 @@ class Car_BC
     EXPORT void ShowCarName_4406B0(Ped* pPed);
     EXPORT void sub_4406E0(Ped* a2);
     EXPORT void ClearDriver_4407F0();
-    EXPORT Sprite* sub_440840();
+    EXPORT Sprite* GetSprite_440840();
     EXPORT void sub_440AC0();
     EXPORT void sub_440B10();
     EXPORT void PutMachineGunOnRoof_440B60();
