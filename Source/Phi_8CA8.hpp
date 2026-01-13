@@ -291,7 +291,7 @@ class Phi_74
     s32 field_30;
     s32 field_34_behavior_type; // One of object_behavior_type
     s32 field_38;
-    s32 field_3C;
+    s32 field_3C_next_definition_idx;
     s32 field_40_collision_bucket_category; // One of collision_bucket_category
     s32 field_44;
     s32 field_48;

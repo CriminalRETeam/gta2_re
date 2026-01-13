@@ -509,7 +509,7 @@ void Object_2C::sub_525190(u8 varrok_idx)
 {
     WIP_IMPLEMENTED;
 
-    if (field_8->field_3C < 39 || field_8->field_3C > 42)
+    if (field_8->field_3C_next_definition_idx < 39 || field_8->field_3C_next_definition_idx > 42)
     {
         if (field_8->field_48 == 13)
         {
@@ -528,7 +528,7 @@ void Object_2C::sub_525190(u8 varrok_idx)
     }
     else
     {
-        sub_5291E0(field_8->field_3C);
+        sub_5291E0(field_8->field_3C_next_definition_idx);
     }
 }
 
@@ -560,7 +560,7 @@ void Object_2C::UpdateAninmation_5257D0()
 
         if (!field_C_pAny.o8->field_4_timer && !field_C_pAny.o8->field_7_anim_speed_counter)
         {
-            Object_2C::sub_5283C0(this->field_8->field_3C);
+            Object_2C::sub_5283C0(this->field_8->field_3C_next_definition_idx);
         }
     }
 }

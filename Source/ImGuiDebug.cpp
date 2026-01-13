@@ -1372,7 +1372,7 @@ void CC ImGuiDebugDraw()
                         ImGui::InputInt("field_8", &phi->field_8.mValue, 1, 1);
                         ImGui::InputInt("field_C", &phi->field_C.mValue, 1, 1);
                         ImGui::InputInt("field_10", &phi->field_10.mValue, 1, 1);
-                        ImGui::InputInt("field_14", &phi->field_14_friction.mValue, 1, 1);
+                        ImGui::InputInt("field_14_friction", &phi->field_14_friction.mValue, 1, 1);
                         ImGui::InputInt("field_18", &phi->field_18.mValue, 1, 1);
                         ImGui::SliderS16("field_1C_remap", &phi->field_1C_remap, 0, 50);
                         ImGui::Input_char_type("field_20", &phi->field_20, 1, 1);
@@ -1388,7 +1388,7 @@ void CC ImGuiDebugDraw()
                             ImGui::InputInt("field_30", &phi->field_30, 1, 1);
                             ImGui::InputInt("field_34_behavior_type", &phi->field_34_behavior_type, 1, 1);
                             ImGui::InputInt("field_38", &phi->field_38, 1, 1);
-                            ImGui::InputInt("field_3C", &phi->field_3C, 1, 1);
+                            ImGui::InputInt("field_3C_next_definition_idx", &phi->field_3C_next_definition_idx, 1, 1);
                             ImGui::InputInt("field_40_collision_bucket_category", &phi->field_40_collision_bucket_category, 1, 1);
                             ImGui::InputInt("field_44", &phi->field_44, 1, 1);
                             ImGui::InputInt("field_48", &phi->field_48, 1, 1);
