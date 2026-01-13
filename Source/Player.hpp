@@ -115,7 +115,7 @@ class Player
     }
 
     // TODO: Ordering
-    EXPORT s32 sub_443CB0(u8 varrok);
+    EXPORT s32 ObjectTypeToWeaponType_443CB0(u8 varrok);
 
     EXPORT u8 GetIdx_4881E0();
     EXPORT void sub_5645B0(Car_BC* a2);

@@ -655,6 +655,13 @@ enum
     moving_cone_198 = 198,
     object_199 = 199,
     remote_200 = 200,
+
+    shop_car_smg_250 = 250,
+    shop_car_oil_stain_251 = 251,
+    shop_car_mines_252 = 252,
+    
+    object_254 = 254,
+
     secret_token_266 = 266,
 };
 } // namespace objects

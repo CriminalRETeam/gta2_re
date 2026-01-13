@@ -3265,12 +3265,12 @@ void Car_BC::HandleShops_443C40(Object_2C* pObj)
         Player* pPlayer = pDriver->field_15C_player;
         if (pPlayer)
         {
-            if (pDriver->field_240_occupation != 1 && pObj->field_18_model == 130)
+            if (pDriver->field_240_occupation != 1 && pObj->field_18_model == objects::moving_collect_34_130)
             {
                 const u8 idx = pObj->field_26_varrok_idx;
-                if (idx >= 250u && (idx <= 252u || idx == 254))
+                if (idx >= objects::shop_car_smg_250 && (idx <= objects::shop_car_mines_252 || idx == objects::object_254))
                 {
-                    Car_BC::BuyCarWeapon_4438C0(pPlayer->sub_443CB0(idx));
+                    Car_BC::BuyCarWeapon_4438C0(pPlayer->ObjectTypeToWeaponType_443CB0(idx));
                 }
                 else
                 {

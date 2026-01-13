@@ -66,11 +66,27 @@ bool UnknownDebugClass::DoBrianTest_42D870(u16 action)
     return false;
 }
 
-STUB_FUNC(0x443CB0)
-EXPORT s32 Player::sub_443CB0(u8 varrok)
+WIP_FUNC(0x443CB0)
+EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 varrok_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    s32 weapon_kind;
+    switch (varrok_idx)
+    {
+        case objects::shop_car_smg_250:
+            weapon_kind = weapon_type::car_smg;
+            break;
+        case objects::shop_car_oil_stain_251:
+            weapon_kind = weapon_type::oil_stain;
+            break;
+        case objects::shop_car_mines_252:
+            weapon_kind = weapon_type::car_mines;
+            break;
+        default:
+            weapon_kind = weapon_type::car_bomb;
+            break;
+    }
+    return weapon_kind;
 }
 
 MATCH_FUNC(0x4881E0)
