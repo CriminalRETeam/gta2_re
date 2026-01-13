@@ -156,7 +156,7 @@ Train_58::Train_58()
     field_8 = 0;
     field_C_first_carriage = NULL;
     field_44 = 0;
-    field_4C = 0;
+    field_4C_maybe_train_station = 0;
     field_4 = 0;
     field_0 = 0;
     field_2 = 0;
@@ -186,7 +186,7 @@ MATCH_FUNC(0x5782c0)
 Train_58::~Train_58()
 {
     this->field_C_first_carriage = 0;
-    this->field_4C = 0;
+    this->field_4C_maybe_train_station = 0;
 }
 
 MATCH_FUNC(0x5782d0)
