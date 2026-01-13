@@ -3651,23 +3651,22 @@ void Ped::sub_46C250()
     NOT_IMPLEMENTED;
 }
 
-WIP_FUNC(0x46c770)
+MATCH_FUNC(0x46c770)
 void Ped::sub_46C770()
 {
-    WIP_IMPLEMENTED;
-
-    if (this->field_278 != 8)
+    if (field_278 != 8)
     {
-        if (this->field_168_game_object->field_44 == 2 || this->field_258_objective == objectives_enum::enter_car_as_driver_35 ||
-            dword_678750 < dword_678790)
+        if (field_168_game_object->field_44 == 2 
+            || field_258_objective == objectives_enum::enter_car_as_driver_35 
+            || dword_678750 < dword_678790)
         {
             Ped::sub_463830(0, 9999);
-            this->field_21C &= ~4;
+            field_21C_bf.b2 = false;
         }
         else
         {
             Ped::sub_4672E0(dword_678750, 1);
-            this->field_168_game_object->field_38_velocity = dword_678448;
+            field_168_game_object->field_38_velocity = dword_678448; // inline doesn't match
         }
     }
 }
