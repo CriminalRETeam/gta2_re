@@ -1989,15 +1989,15 @@ Car_BC* Car_BC::GetCabOrSelf_43E8D0()
     return this;
 }
 
-STUB_FUNC(0x43e990)
+WIP_FUNC(0x43e990)
 Ped* Car_BC::GetEffectiveDriver_43E990()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
-    Trailer* pTrailer = this->field_64_pTrailer;
-    if (pTrailer && pTrailer->field_C_pCarOnTrailer == this)
+    if (is_on_trailer_421720())
     {
-        return pTrailer->field_8_truck_cab->field_54_driver;
+        // TODO: Function chunk here
+        return field_64_pTrailer->field_8_truck_cab->field_54_driver;
     }
     else
     {
@@ -2142,11 +2142,18 @@ void Car_BC::ClearDriver_4407F0()
     field_A7_horn = 0;
 }
 
-STUB_FUNC(0x440840)
-Sprite* Car_BC::sub_440840()
+MATCH_FUNC(0x440840)
+Sprite* Car_BC::GetSprite_440840()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Trailer* pTrailer = this->field_64_pTrailer;
+    if (pTrailer)
+    {
+        return pTrailer->field_C_pCarOnTrailer->field_50_car_sprite;
+    }
+    else
+    {
+        return this->field_50_car_sprite;
+    }
 }
 
 MATCH_FUNC(0x440ac0)
@@ -3258,12 +3265,12 @@ void Car_BC::HandleShops_443C40(Object_2C* pObj)
         Player* pPlayer = pDriver->field_15C_player;
         if (pPlayer)
         {
-            if (pDriver->field_240_occupation != 1 && pObj->field_18_model == 130)
+            if (pDriver->field_240_occupation != 1 && pObj->field_18_model == objects::moving_collect_34_130)
             {
                 const u8 idx = pObj->field_26_varrok_idx;
-                if (idx >= 250u && (idx <= 252u || idx == 254))
+                if (idx >= objects::shop_car_smg_250 && (idx <= objects::shop_car_mines_252 || idx == objects::object_254))
                 {
-                    Car_BC::BuyCarWeapon_4438C0(pPlayer->sub_443CB0(idx));
+                    Car_BC::BuyCarWeapon_4438C0(pPlayer->ObjectTypeToWeaponType_443CB0(idx));
                 }
                 else
                 {

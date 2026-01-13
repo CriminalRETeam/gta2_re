@@ -1935,7 +1935,7 @@
         "v105_address": "0x4407f0"
     },
     {
-        "name": "Car_BC::sub_440840",
+        "name": "Car_BC::GetSprite_440840",
         "v96f_address": null,
         "v105_address": "0x440840"
     },
@@ -2275,7 +2275,7 @@
         "v105_address": "0x443c40"
     },
     {
-        "name": "sub_443CB0",
+        "name": "ObjectTypeToWeaponType_443CB0",
         "v96f_address": null,
         "v105_address": "0x443cb0"
     },
