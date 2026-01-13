@@ -72,7 +72,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, dword_678620, dword_6784C4 / dword_678670, 0x678620);
 DEFINE_GLOBAL_INIT(Fix16, dword_678788, dword_6784C4 * 16, 0x678788);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
+DEFINE_GLOBAL_INIT(Fix16, dword_6785EC, dword_678664, 0x6785EC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678624, Fix16(0xA3, 0), 0x678624);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_67853C, Fix16(0x2000, 0), 0x67853C);
 DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
 DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A4, Fix16(0x3999, 0), 0x6784A4);
@@ -81,7 +83,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct
 DEFINE_GLOBAL_INIT(Fix16, dword_6784DC, dword_6784C4 * 6, 0x6784DC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678668, Fix16(2), 0x678668);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
-DEFINE_GLOBAL(Fix16, k_dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
 DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
 DEFINE_GLOBAL(Object_2C*, dword_678558, 0x678558);
@@ -3529,11 +3530,42 @@ void Ped::sub_46AAE0()
     }
 }
 
-STUB_FUNC(0x46ab50)
-char_type Ped::sub_46AB50()
+MATCH_FUNC(0x46ab50)
+void Ped::sub_46AB50()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_14C->field_278 == 9 || field_14C->field_21C_bf.b0 == false)
+    {
+        Ped::sub_45C500(0);
+        Ped::sub_45C540(0);
+        field_14C = 0;
+        field_226 = 1;
+        Ped::sub_463830(0, 9999);
+        field_21C_bf.b2 = false;
+    }
+    else
+    {
+        if (field_278 != 8)
+        {
+            field_21C_bf.b11 = false;
+            field_14C->field_144 = 0;
+            if (dword_678750 < dword_6785EC)
+            {
+                Ped::sub_45C500(0);
+                Ped::sub_45C540(0);
+                field_14C = 0;
+                field_226 = 1;
+                Ped::sub_463830(0, 9999);
+                field_21C_bf.b2 = false;
+            }
+            else
+            {
+                Ped::sub_45C500(1);
+                Ped::sub_45C540(2);
+                Ped::sub_4672E0(dword_678750, 0);
+                field_168_game_object->field_38_velocity = field_168_game_object->field_3C_run_or_jump_speed; // OBS: inline doesn't match
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x46ac20)
@@ -3619,32 +3651,58 @@ void Ped::sub_46C250()
     NOT_IMPLEMENTED;
 }
 
-WIP_FUNC(0x46c770)
+MATCH_FUNC(0x46c770)
 void Ped::sub_46C770()
 {
-    WIP_IMPLEMENTED;
-
-    if (this->field_278 != 8)
+    if (field_278 != 8)
     {
-        if (this->field_168_game_object->field_44 == 2 || this->field_258_objective == objectives_enum::enter_car_as_driver_35 ||
-            dword_678750 < dword_678790)
+        if (field_168_game_object->field_44 == 2 
+            || field_258_objective == objectives_enum::enter_car_as_driver_35 
+            || dword_678750 < dword_678790)
         {
             Ped::sub_463830(0, 9999);
-            this->field_21C &= ~4;
+            field_21C_bf.b2 = false;
         }
         else
         {
             Ped::sub_4672E0(dword_678750, 1);
-            this->field_168_game_object->field_38_velocity = dword_678448;
+            field_168_game_object->field_38_velocity = dword_678448; // inline doesn't match
         }
     }
 }
 
-STUB_FUNC(0x46c7e0)
-s32 Ped::sub_46C7E0()
+MATCH_FUNC(0x46c7e0)
+void Ped::sub_46C7E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_278 != 8)
+    {
+        if (dword_678750 < dword_6784E8)
+        {
+            if (field_168_game_object->field_10 != 15)
+            {
+                Ped::sub_45C500(7);
+                Ped::sub_45C540(14);
+                field_226 = 1;
+            }
+        }
+        else
+        {
+            if (!field_21A_car_state_timer)
+            {
+                field_226 = 1;
+            }
+            if (field_240_occupation != ped_ocupation_enum::unknown_6 
+                && field_258_objective != objectives_enum::patrol_on_foot_42)
+            {
+                field_168_game_object->SetMaxSpeed_433920(field_1F0_maybe_max_speed);
+            }
+            else
+            {
+                field_168_game_object->SetMaxSpeed_433920(field_1F4);
+            }
+        }
+        Ped::sub_4672E0(dword_678750, 1);
+    }
 }
 
 MATCH_FUNC(0x46c8a0)
@@ -3668,10 +3726,29 @@ void Ped::sub_46C8A0()
     }
 }
 
-STUB_FUNC(0x46c910)
+MATCH_FUNC(0x46c910)
 void Ped::sub_46C910()
 {
-    NOT_IMPLEMENTED;
+    if (field_278 != 8)
+    {
+        if (dword_678750 < dword_6784E8)
+        {
+            field_18C = field_18C + 1; // next patrol point
+            field_1C4_x = k_dword_67853C + Fix16(field_18C->field_0);
+            field_1C8_y = k_dword_67853C + Fix16(field_18C->field_1);
+            if (field_18C->field_0 == 0)
+            {
+                field_226 = 1;
+                Ped::sub_463830(26, 9999);
+            }
+        }
+        else
+        {
+            Ped::sub_45C500(2);
+            Ped::sub_45C540(0);
+            field_168_game_object->field_38_velocity = dword_678448;
+        }
+    }
 }
 
 MATCH_FUNC(0x46c9b0)
@@ -3779,10 +3856,21 @@ char_type Ped::sub_46CEF0()
     return 0;
 }
 
-STUB_FUNC(0x46d030)
+MATCH_FUNC(0x46d030)
 void Ped::sub_46D030()
 {
-    NOT_IMPLEMENTED;
+    if (field_278 != 8)
+    {
+        Train_58* pTrain = gPublicTransport_181C_6FF1D4->GetTrainFromCarExcludingLeadCar_57B6A0(field_154_target_to_enter);
+        Car_BC* pOldTarget = field_154_target_to_enter;
+        if (pTrain->field_4C_maybe_train_station->field_1C == 2 && pTrain->field_10_carriages[0]->field_84_car_info_idx == car_model_enum::TRAIN)
+        {
+            Ped::sub_463830(37, 9999);
+            field_154_target_to_enter = pOldTarget;
+            field_168_game_object->field_84 = pOldTarget;
+            field_168_game_object->field_38_velocity = dword_678448;
+        }
+    }
 }
 
 MATCH_FUNC(0x46d0b0)

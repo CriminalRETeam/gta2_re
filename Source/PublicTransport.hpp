@@ -5,6 +5,7 @@
 class Car_BC;
 class gmp_map_zone;
 class Fix16;
+class TrainStation_34;
 
 class Train_58
 {
@@ -29,7 +30,7 @@ class Train_58
     char_type field_7;
     s32 field_8;
     Car_BC* field_C_first_carriage;
-    Car_BC* field_10[10];
+    Car_BC* field_10_carriages[10];
     char_type field_38[10];
     char_type field_42;
     u8 field_43_idx;
@@ -38,7 +39,7 @@ class Train_58
     char_type field_46;
     char_type field_47;
     s32 field_48;
-    s32 field_4C;
+    TrainStation_34* field_4C_maybe_train_station;
     s32 field_50_state;
     char_type field_54;
     char_type field_55;

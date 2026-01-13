@@ -171,7 +171,7 @@ class Ped
     EXPORT void sub_46A8F0();
     EXPORT void sub_46A9C0();
     EXPORT void sub_46AAE0();
-    EXPORT char_type sub_46AB50();
+    EXPORT void sub_46AB50();
     EXPORT char_type sub_46AC20();
     EXPORT s32 sub_46B170();
     EXPORT s32 sub_46B2F0();
@@ -181,7 +181,7 @@ class Ped
     EXPORT void sub_46BDC0();
     EXPORT void sub_46C250();
     EXPORT void sub_46C770();
-    EXPORT s32 sub_46C7E0();
+    EXPORT void sub_46C7E0();
     EXPORT void sub_46C8A0();
     EXPORT void sub_46C910();
     EXPORT void sub_46C9B0();
@@ -467,7 +467,7 @@ class Ped
     Ped* field_180;
     s32 field_184;
     Ped* field_188_last_char_punched;
-    Ped* field_18C;
+    Marz_3* field_18C;
     Marz_96* field_190;
     Marz_3* field_194;
     s32 field_198;
@@ -479,9 +479,9 @@ class Ped
     Fix16 field_1B8_target_x;
     Fix16 field_1BC_target_y;
     Fix16 field_1C0_target_z;
-    s32 field_1C4_x;
-    s32 field_1C8_y;
-    s32 field_1CC_z;
+    Fix16 field_1C4_x;
+    Fix16 field_1C8_y;
+    Fix16 field_1CC_z;
     Fix16 field_1D0;
     Fix16 field_1D4;
     Fix16 field_1D8;
