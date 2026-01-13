@@ -1,4 +1,5 @@
 #include "youthful_einstein.hpp"
+#include "Frontend.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
@@ -26,49 +27,41 @@ void youthful_einstein::sub_516590(Player* a2)
     NOT_IMPLEMENTED;
 }
 
-// https://decomp.me/scratch/6JbyE 
 MATCH_FUNC(0x516660)
 void youthful_einstein::UpdateFugitive_516660()
-{  
-  switch ( gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() )
-  {
-    case 0:
-      FatalError_4A38C0(
-        Gta2Error::InvalidLineInfo,
-        "C:\\Splitting\\Gta2\\Source\\multip.cpp",
-        108,
-        0);
-    case 1:
-    case 2:
-      return;
-    case 3:
-      this->field_1C++;
-      if ( this->field_1C >= 30 )
-      {
-        this->field_1C = 0;
-        if ( this->field_0_fugitive && dword_6F58A4 != 0 )
-        {
-          this->field_4_time[this->field_0_fugitive->field_2E_idx]++;
-        }
-      }
-      if ( !this->field_0_fugitive )
-      {
-        this->sub_516590(0);
-      }
+{
+    switch (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0())
+    {
+        case 0:
+            FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\multip.cpp", 108, 0);
+        case FRAG_GAME_1:
+        case POINTS_GAME_2:
+            return;
+        case TAG_GAME_3:
+            this->field_1C++;
+            if (this->field_1C >= 30)
+            {
+                this->field_1C = 0;
+                if (this->field_0_fugitive && dword_6F58A4 != 0)
+                {
+                    this->field_4_time[this->field_0_fugitive->field_2E_idx]++;
+                }
+            }
+            if (!this->field_0_fugitive)
+            {
+                this->sub_516590(0);
+            }
 
-      if ( this->field_0_fugitive && this->field_0_fugitive->field_2C4_player_ped && this->field_0_fugitive->field_2C4_player_ped->field_16C_car)
-      {
-        this->field_0_fugitive->field_2C4_player_ped->field_16C_car->sub_43DA90(17, &stru_6F8720);
-      }
-      
-      break;
-    default:
-      FatalError_4A38C0(
-        Gta2Error::InvalidLineInfo,
-        "C:\\Splitting\\Gta2\\Source\\multip.cpp",
-        144,
-        0);
-  }
+            if (this->field_0_fugitive && this->field_0_fugitive->field_2C4_player_ped &&
+                this->field_0_fugitive->field_2C4_player_ped->field_16C_car)
+            {
+                this->field_0_fugitive->field_2C4_player_ped->field_16C_car->sub_43DA90(17, &stru_6F8720);
+            }
+
+            break;
+        default:
+            FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\multip.cpp", 144, 0);
+    }
 }
 
 MATCH_FUNC(0x516740)
@@ -82,7 +75,7 @@ void youthful_einstein::sub_516740(Player* pFormerPlayerFugitive, Player* pPlaye
     Fix16 threshold_distance;
 
     threshold_distance = 0x3FFFC000;
-    if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3 //  3 = tag mode
+    if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3
         && this->field_0_fugitive == pFormerPlayerFugitive)
     {
         if (pPlayer_killer != NULL)
