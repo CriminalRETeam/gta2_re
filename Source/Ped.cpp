@@ -74,6 +74,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678788, dword_6784C4 * 16, 0x678788);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
 DEFINE_GLOBAL_INIT(Fix16, dword_6785EC, dword_678664, 0x6785EC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678624, Fix16(0xA3, 0), 0x678624);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_67853C, Fix16(0x2000, 0), 0x67853C);
 DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
 DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A4, Fix16(0x3999, 0), 0x6784A4);
@@ -82,7 +83,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct
 DEFINE_GLOBAL_INIT(Fix16, dword_6784DC, dword_6784C4 * 6, 0x6784DC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678668, Fix16(2), 0x678668);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
-DEFINE_GLOBAL(Fix16, k_dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
 DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
 DEFINE_GLOBAL(Object_2C*, dword_678558, 0x678558);
@@ -3726,10 +3726,29 @@ void Ped::sub_46C8A0()
     }
 }
 
-STUB_FUNC(0x46c910)
+MATCH_FUNC(0x46c910)
 void Ped::sub_46C910()
 {
-    NOT_IMPLEMENTED;
+    if (field_278 != 8)
+    {
+        if (dword_678750 < dword_6784E8)
+        {
+            field_18C = field_18C + 1; // next patrol point
+            field_1C4_x = k_dword_67853C + Fix16(field_18C->field_0);
+            field_1C8_y = k_dword_67853C + Fix16(field_18C->field_1);
+            if (field_18C->field_0 == 0)
+            {
+                field_226 = 1;
+                Ped::sub_463830(26, 9999);
+            }
+        }
+        else
+        {
+            Ped::sub_45C500(2);
+            Ped::sub_45C540(0);
+            field_168_game_object->field_38_velocity = dword_678448;
+        }
+    }
 }
 
 MATCH_FUNC(0x46c9b0)

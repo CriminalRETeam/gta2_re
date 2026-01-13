@@ -467,7 +467,7 @@ class Ped
     Ped* field_180;
     s32 field_184;
     Ped* field_188_last_char_punched;
-    Ped* field_18C;
+    Marz_3* field_18C;
     Marz_96* field_190;
     Marz_3* field_194;
     s32 field_198;
@@ -479,9 +479,9 @@ class Ped
     Fix16 field_1B8_target_x;
     Fix16 field_1BC_target_y;
     Fix16 field_1C0_target_z;
-    s32 field_1C4_x;
-    s32 field_1C8_y;
-    s32 field_1CC_z;
+    Fix16 field_1C4_x;
+    Fix16 field_1C8_y;
+    Fix16 field_1CC_z;
     Fix16 field_1D0;
     Fix16 field_1D4;
     Fix16 field_1D8;
