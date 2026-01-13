@@ -2142,11 +2142,18 @@ void Car_BC::ClearDriver_4407F0()
     field_A7_horn = 0;
 }
 
-STUB_FUNC(0x440840)
+MATCH_FUNC(0x440840)
 Sprite* Car_BC::GetSprite_440840()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Trailer* pTrailer = this->field_64_pTrailer;
+    if (pTrailer)
+    {
+        return pTrailer->field_C_pCarOnTrailer->field_50_car_sprite;
+    }
+    else
+    {
+        return this->field_50_car_sprite;
+    }
 }
 
 MATCH_FUNC(0x440ac0)
