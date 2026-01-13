@@ -331,12 +331,12 @@ class ArrowTrace_24
     // inline 0x4C6F00
     void init()
     {
-        field_0_ped = 0;
-        field_4_car = 0;
-        field_8_obj = 0;
-        field_C_player = 0;
-        field_10_target_type = 0;
-        field_20_bIsTargetVisible = 0;
+        field_0_ped = NULL;
+        field_4_car = NULL;
+        field_8_obj = NULL;
+        field_C_player = NULL;
+        field_10_target_type = ArrowTargetType::Nothing_0;
+        field_20_bIsTargetVisible = false;
     }
 
     inline void set_arrow_aim_from_pos_4767C0(Fix16 x, Fix16 y, Fix16 z)
@@ -349,7 +349,14 @@ class ArrowTrace_24
     // 9.6f inline 0x4C6F20
     inline bool sub_4C6F20()
     {
-        return field_10_target_type == 0;
+        return field_10_target_type == ArrowTargetType::Nothing_0;
+    }
+    
+    // 9.6f inline 0x4820A0
+    inline void sub_4820A0(Player* player)
+    {
+        field_10_target_type = ArrowTargetType::Player_6;
+        field_C_player = player;
     }
 
     Ped* field_0_ped;

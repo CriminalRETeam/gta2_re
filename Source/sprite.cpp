@@ -1116,6 +1116,7 @@ void Sprite_4C::SetCurrentRect_5A4D90()
     field_30.DoSetCurrentRect_59DD60();
 }
 
+// https://decomp.me/scratch/RAdGk
 WIP_FUNC(0x5A3550)
 void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {

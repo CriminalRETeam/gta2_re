@@ -9805,17 +9805,17 @@
         "v105_address": "0x516560"
     },
     {
-        "name": "youthful_einstein::sub_516590",
+        "name": "youthful_einstein::SetNewFugitive_516590",
         "v96f_address": "0x4820D0",
         "v105_address": "0x516590"
     },
     {
-        "name": "youthful_einstein::UpdateFugitive_516660",
+        "name": "youthful_einstein::ExecuteGamemodeTick_516660",
         "v96f_address": null,
         "v105_address": "0x516660"
     },
     {
-        "name": "youthful_einstein::sub_516740",
+        "name": "youthful_einstein::UpdateFugitive_516740",
         "v96f_address": null,
         "v105_address": "0x516740"
     },

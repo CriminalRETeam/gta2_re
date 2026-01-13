@@ -1014,7 +1014,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
     if (bStartNetworkGame_7081F0)
     {
         TagGameHudUpdate_4DADA0();
-        gYouthful_einstein_6F8450.UpdateFugitive_516660();
+        gYouthful_einstein_6F8450.ExecuteGamemodeTick_516660();
 
         if (!gGame_0x40_67E008->sub_4B8C20())
         {

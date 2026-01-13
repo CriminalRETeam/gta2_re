@@ -1388,7 +1388,7 @@ void Player::Wasted_567130()
         }
 
         (&gYouthful_einstein_6F8450)
-            ->sub_516740( //  tag mode death handler
+            ->UpdateFugitive_516740( //  tag mode death handler
                 gGame_0x40_67E008->field_4_players[field_2E_idx],
                 player_killer); //  if player_killer != NULL then 'player_killer' now is "IT"
     }
