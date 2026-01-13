@@ -3671,11 +3671,38 @@ void Ped::sub_46C770()
     }
 }
 
-STUB_FUNC(0x46c7e0)
-s32 Ped::sub_46C7E0()
+MATCH_FUNC(0x46c7e0)
+void Ped::sub_46C7E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_278 != 8)
+    {
+        if (dword_678750 < dword_6784E8)
+        {
+            if (field_168_game_object->field_10 != 15)
+            {
+                Ped::sub_45C500(7);
+                Ped::sub_45C540(14);
+                field_226 = 1;
+            }
+        }
+        else
+        {
+            if (!field_21A_car_state_timer)
+            {
+                field_226 = 1;
+            }
+            if (field_240_occupation != ped_ocupation_enum::unknown_6 
+                && field_258_objective != objectives_enum::patrol_on_foot_42)
+            {
+                field_168_game_object->SetMaxSpeed_433920(field_1F0_maybe_max_speed);
+            }
+            else
+            {
+                field_168_game_object->SetMaxSpeed_433920(field_1F4);
+            }
+        }
+        Ped::sub_4672E0(dword_678750, 1);
+    }
 }
 
 MATCH_FUNC(0x46c8a0)
