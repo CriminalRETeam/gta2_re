@@ -167,7 +167,7 @@ Train_58::Train_58()
     field_56_passenger_count = 0;
     field_57 = 0;
     pcVar2 = field_38;
-    ppCVar1 = field_10;
+    ppCVar1 = field_10_carriages;
     iVar3 = 10;
     do
     {
@@ -226,11 +226,11 @@ void Train_58::sub_578330()
     {
         for (s32 i = 0; i < 2; i++)
         {
-            if (field_10[i])
+            if (field_10_carriages[i])
             {
-                if (field_10[i]->field_84_car_info_idx == car_model_enum::TRAIN)
+                if (field_10_carriages[i]->field_84_car_info_idx == car_model_enum::TRAIN)
                 {
-                    field_10[i]->sub_43B3D0();
+                    field_10_carriages[i]->sub_43B3D0();
                 }
             }
         }
@@ -244,11 +244,11 @@ void Train_58::sub_578360()
     {
         for (s32 i = 0; i < 2; i++)
         {
-            if (field_10[i])
+            if (field_10_carriages[i])
             {
-                if (field_10[i]->field_84_car_info_idx == car_model_enum::TRAIN)
+                if (field_10_carriages[i]->field_84_car_info_idx == car_model_enum::TRAIN)
                 {
-                    field_10[i]->sub_43B380();
+                    field_10_carriages[i]->sub_43B380();
                 }
             }
         }
@@ -542,7 +542,7 @@ Car_BC** PublicTransport_181C::GetCarArrayFromLeadCar_579B40(Car_BC* toFind)
         Train_58* pIter = &field_1450_train_array[i];
         if (pIter->field_C_first_carriage == toFind)
         {
-            return &pIter->field_10[0];
+            return &pIter->field_10_carriages[0];
         }
     }
     return NULL;
@@ -659,7 +659,7 @@ Train_58* PublicTransport_181C::GetTrainFromCar_57B5C0(Car_BC* pToFind)
             }
             for (u8 wagon_idx = 0; wagon_idx < pTrain->field_43_idx; wagon_idx++)
             {
-                pWagon = pTrain->field_10[wagon_idx];
+                pWagon = pTrain->field_10_carriages[wagon_idx];
                 if (pWagon == pToFind)
                 {
                     return pTrain;
@@ -680,7 +680,7 @@ Train_58* PublicTransport_181C::GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* p
             Train_58* pTrain = &field_1450_train_array[i];
             for (u8 wagon_idx = 0; wagon_idx < pTrain->field_43_idx; wagon_idx++)
             {
-                Car_BC* pWagon = pTrain->field_10[wagon_idx];
+                Car_BC* pWagon = pTrain->field_10_carriages[wagon_idx];
                 if (pWagon == pToFind)
                 {
                     return pTrain;

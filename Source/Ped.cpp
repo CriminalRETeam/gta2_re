@@ -3863,7 +3863,7 @@ void Ped::sub_46D030()
     {
         Train_58* pTrain = gPublicTransport_181C_6FF1D4->GetTrainFromCarExcludingLeadCar_57B6A0(field_154_target_to_enter);
         Car_BC* pOldTarget = field_154_target_to_enter;
-        if (pTrain->field_4C_maybe_train_station->field_1C == 2 && pTrain->field_10[0]->field_84_car_info_idx == car_model_enum::TRAIN)
+        if (pTrain->field_4C_maybe_train_station->field_1C == 2 && pTrain->field_10_carriages[0]->field_84_car_info_idx == car_model_enum::TRAIN)
         {
             Ped::sub_463830(37, 9999);
             field_154_target_to_enter = pOldTarget;

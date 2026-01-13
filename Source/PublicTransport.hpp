@@ -30,7 +30,7 @@ class Train_58
     char_type field_7;
     s32 field_8;
     Car_BC* field_C_first_carriage;
-    Car_BC* field_10[10];
+    Car_BC* field_10_carriages[10];
     char_type field_38[10];
     char_type field_42;
     u8 field_43_idx;
