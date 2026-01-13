@@ -866,20 +866,20 @@ void Object_2C::Light_527990()
 MATCH_FUNC(0x527ae0)
 void Object_2C::AssignToBucket_527AE0()
 {
-    switch (field_8->field_40)
+    switch (field_8->field_40_collision_bucket_category)
     {
-        case 0:
-        case 1:
+        case collision_bucket_category::purple_doom_3_single_bucket_0:
+        case collision_bucket_category::purple_doom_3_single_bucket_1:
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
             return;
-        case 3:
+        case collision_bucket_category::purple_doom_2_region_bucket_3:
             DAT_006f8f88++;
             gPurpleDoom_2_67920C->AddToRegionBuckets_477B20(field_4);
             return;
-        case 4:
+        case collision_bucket_category::purple_doom_1_region_bucket_4:
             gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_4);
             return;
-        case 2:
+        case collision_bucket_category::purple_doom_none_2:
             return;
     }
 }
@@ -887,17 +887,17 @@ void Object_2C::AssignToBucket_527AE0()
 MATCH_FUNC(0x527d00)
 void Object_2C::RemoveFromCollisionBuckets_527D00()
 {
-    switch (field_8->field_40)
+    switch (field_8->field_40_collision_bucket_category)
     {
-        case 0:
-        case 1:
+        case collision_bucket_category::purple_doom_3_single_bucket_0:
+        case collision_bucket_category::purple_doom_3_single_bucket_1:
             gPurpleDoom_3_679210->Remove_477B00(field_4);
             break;
-        case 3:
+        case collision_bucket_category::purple_doom_2_region_bucket_3:
             --DAT_006f8f88;
             gPurpleDoom_2_67920C->AddToSpriteRectBuckets_477B60(field_4);
             break;
-        case 4:
+        case collision_bucket_category::purple_doom_1_region_bucket_4:
             gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_4);
             break;
         default:
@@ -1713,7 +1713,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
 
     if (bUnknown &&
         (pNew2C->field_4->sub_59E7D0(0) ||
-         (pPhi->field_40 == 3 && gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
+         (pPhi->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3 && gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
     {
         if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {

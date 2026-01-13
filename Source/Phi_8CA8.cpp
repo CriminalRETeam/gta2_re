@@ -688,7 +688,7 @@ void Phi_74::sub_5331A0(Sprite* pSprite)
         pSprite->SetRemap(this->field_1C_remap);
     }
 
-    f40 = this->field_40;
+    f40 = this->field_40_collision_bucket_category;
     if (f40 > 0 && (f40 <= 3 || f40 == 4))
     {
         pSprite->AllocInternal_59F950(this->field_0, this->field_4, this->field_8);
@@ -716,7 +716,7 @@ Phi_74::Phi_74()
     field_34 = 0;
     field_38 = 0;
     field_3C = 0;
-    field_40 = 0;
+    field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_0;
     field_44 = 0;
     field_48 = 0;
     field_4C = 1;
@@ -787,7 +787,7 @@ void Phi_8CA8::sub_533360()
             pPVar2->field_38 = puVar3->field_8;
             pPVar2->field_3C = puVar3->field_8;
             pPVar2->field_61 = puVar3->field_C;
-            pPVar2->field_40 = puVar3->field_18;
+            pPVar2->field_40_collision_bucket_category = puVar3->field_18;
             pPVar2->field_44 = puVar3->field_10;
             pPVar2->field_48 = puVar3->field_14;
             pPVar2->field_10 = puVar3->field_1C;
@@ -823,7 +823,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x05';
     pAVar1->field_38 = 0x98;
     pAVar1->field_3C = 0x98;
-    pAVar1->field_40 = 0;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_0;
     pAVar1->field_44 = 0;
     pAVar1->field_65 = '\x01';
     pAVar1->field_61 = '\x01';
@@ -833,7 +833,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_34 = 0;
     pAVar1->field_38 = 0;
     pAVar1->field_3C = 0;
-    pAVar1->field_40 = 0;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_0;
     pAVar1->field_44 = 0;
     pAVar1->field_61 = '\0';
 
@@ -842,7 +842,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_34 = 0;
     pAVar1->field_38 = 0;
     pAVar1->field_3C = 0;
-    pAVar1->field_40 = 0;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_0;
     pAVar1->field_44 = 0;
     pAVar1->field_61 = '\0';
 
@@ -853,7 +853,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x03';
     pAVar1->field_38 = 0x33;
     pAVar1->field_3C = 0x33;
-    pAVar1->field_40 = 0;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_0;
     pAVar1->field_44 = 0;
     pAVar1->field_65 = '\x01';
     pAVar1->field_61 = '\x01';
@@ -863,7 +863,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_34 = 0;
     pAVar1->field_38 = 0;
     pAVar1->field_3C = 0;
-    pAVar1->field_40 = 0;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_0;
     pAVar1->field_44 = 0;
     pAVar1->field_61 = '\0';
 
@@ -873,7 +873,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = 1;
     pAVar1->field_38 = 0x35;
     pAVar1->field_3C = 0x35;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -892,7 +892,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x37;
     pAVar1->field_3C = 0x37;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -911,7 +911,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x36;
     pAVar1->field_3C = 0x36;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -930,7 +930,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0xd;
     pAVar1->field_3C = 0xd;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -946,7 +946,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3a;
     pAVar1->field_3C = 0x3a;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -965,7 +965,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3c;
     pAVar1->field_3C = 0x3c;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -984,7 +984,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3e;
     pAVar1->field_3C = 0x3e;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -1003,7 +1003,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x12;
     pAVar1->field_3C = 0x12;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -1019,7 +1019,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x2e;
     pAVar1->field_3C = 0x2e;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -1038,7 +1038,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x30;
     pAVar1->field_3C = 0x30;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -1055,7 +1055,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_38 = 0x11;
     pAVar1->field_34 = 3;
     pAVar1->field_3C = 0x11;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -1070,7 +1070,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x2c;
     pAVar1->field_3C = 0x2c;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -1089,7 +1089,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_38 = 7;
     pAVar1->field_3C = 7;
-    pAVar1->field_40 = 4;
+    pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
     pAVar1->field_61 = '\x01';
     pAVar1->field_58 = 1;
@@ -1134,7 +1134,7 @@ void Phi_8CA8::sub_533B30()
             this_00->field_38 = puVar2->field_C;
             this_00->field_3C = puVar2->field_10;
             this_00->field_61 = puVar2->field_14;
-            this_00->field_40 = puVar2->field_20;
+            this_00->field_40_collision_bucket_category = puVar2->field_20;
             this_00->field_44 = puVar2->field_18;
             this_00->field_48 = puVar2->field_1C;
             this_00->field_10 = puVar2->field_24;
@@ -1196,13 +1196,13 @@ void Phi_8CA8::sub_533C90()
     tmp = sub_534370(0x9a, 0xfe);
     if (bDo_show_imaginary_67D588 == false)
     {
-        tmp->field_40 = 2;
+        tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
     }
     sub_534370(0x109, 0xfe);
     tmp = sub_534370(0x9f, 0x80);
     if (bDo_show_imaginary_67D588 == false)
     {
-        tmp->field_40 = 2;
+        tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
     }
 
     sub_534370(0x115, 0xfe);
@@ -1214,11 +1214,11 @@ void Phi_8CA8::sub_533C90()
     tmp->field_18 = DAT_006fc584;
     if (bDo_show_imaginary_67D588 == false)
     {
-        tmp->field_40 = 2;
+        tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
     }
     else
     {
-        tmp->field_40 = 1;
+        tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_1;
     }
     tmp->field_44 = 2;
     tmp->field_58 = 1;
@@ -1232,11 +1232,11 @@ void Phi_8CA8::sub_533C90()
     tmp->field_18 = DAT_006fc584;
     if (bDo_show_imaginary_67D588 == '\0')
     {
-        tmp->field_40 = 2;
+        tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
     }
     else
     {
-        tmp->field_40 = 1;
+        tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_1;
     }
     tmp->field_44 = 2;
     tmp->field_58 = 1;
@@ -1247,14 +1247,14 @@ void Phi_8CA8::sub_533C90()
     tmp->field_3C = 0;
     if (bDo_show_imaginary_67D588 == '\0')
     {
-        tmp->field_40 = 2;
+        tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
     }
 
     tmp = sub_534370(0xb9, 0xa3);
     tmp->field_38 = 0xb8;
     tmp->field_3C = 0xb8;
     tmp->field_44 = 4;
-    tmp->field_40 = 3;
+    tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_2_region_bucket_3;
     tmp->field_61 = '\x01';
 
     tmp = sub_534370(0xb8, 0xa3);
@@ -1265,7 +1265,7 @@ void Phi_8CA8::sub_533C90()
     tmp->field_34 = 2;
     tmp->field_6C_sprite_anim_speed = '\x01';
     tmp->field_64_next_frame_max = '\x01';
-    tmp->field_40 = 3;
+    tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_2_region_bucket_3;
     tmp->field_44 = 5;
 
     tmp = sub_534370(0xb0, 0xa3);
@@ -1366,7 +1366,7 @@ void Phi_8CA8::sub_533C90()
         tmp->field_50 = 1;
         tmp->field_61 = '\x01';
         tmp->field_58 = 1;
-        tmp->field_40 = 3;
+        tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_2_region_bucket_3;
         tmp->field_18 = DAT_006f8fd8;
         tmp->field_10 = DAT_006fcde0;
     }

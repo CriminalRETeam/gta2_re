@@ -226,6 +226,20 @@ enum
 };
 } // namespace CollisionReaction
 
+namespace collision_bucket_category
+{
+enum
+{
+    purple_doom_3_single_bucket_0 = 0, // gPurpleDoom_3_679210
+    purple_doom_3_single_bucket_1 = 1, // gPurpleDoom_3_679210
+
+    purple_doom_none_2 = 2, // no bucket assignment
+
+    purple_doom_2_region_bucket_3 = 3, // gPurpleDoom_2_67920C
+    purple_doom_1_region_bucket_4 = 4 // gPurpleDoom_1_679208
+};
+} // namespace collision_bucket_category
+
 class Phi_74
 {
   public:
@@ -258,7 +272,7 @@ class Phi_74
     s32 field_34;
     s32 field_38;
     s32 field_3C;
-    s32 field_40;
+    s32 field_40_collision_bucket_category; // One of collision_bucket_category
     s32 field_44;
     s32 field_48;
     s32 field_4C;
