@@ -1394,7 +1394,7 @@ void CC ImGuiDebugDraw()
                             ImGui::InputInt("field_48", &phi->field_48, 1, 1);
                             ImGui::InputInt("field_4C", &phi->field_4C, 1, 1);
                             ImGui::InputInt("field_50", &phi->field_50, 1, 1);
-                            ImGui::InputInt("field_54", &phi->field_54, 1, 1);
+                            ImGui::InputInt("field_54_react_to_collisions_with", &phi->field_54_react_to_collisions_with, 1, 1);
                             ImGui::InputInt("field_58", &phi->field_58, 1, 1);
                             ImGui::InputInt("field_5C", &phi->field_5C, 1, 1);
 

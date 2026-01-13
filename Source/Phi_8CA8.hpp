@@ -35,7 +35,7 @@ class Phi_54
                   s8 param_19,
                   s32 param_20,
                   s8 param_21);
-    
+
     EXPORT Phi_54(s32 param_1,
                   s32 param_2,
                   s32 param_3,
@@ -214,6 +214,18 @@ class Phi_6C
     s8 field_6B;
 };
 
+namespace CollisionReaction
+{
+enum
+{
+    Always_0 = 0,
+    OnlyCars_1 = 1,
+    OnlyPeds_2 = 2,
+    OnlyObjects_3 = 3,
+    Never_4 = 4,
+};
+} // namespace CollisionReaction
+
 class Phi_74
 {
   public:
@@ -251,7 +263,7 @@ class Phi_74
     s32 field_48;
     s32 field_4C;
     s32 field_50;
-    s32 field_54;
+    s32 field_54_react_to_collisions_with; // One of CollisionReaction
     s32 field_58;
     s32 field_5C;
     char_type field_60;

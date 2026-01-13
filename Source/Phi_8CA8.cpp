@@ -722,7 +722,7 @@ Phi_74::Phi_74()
     field_4C = 1;
     field_50 = 1;
     field_58 = 0;
-    field_54 = 0;
+    field_54_react_to_collisions_with = CollisionReaction::Always_0;
     field_C = dword_6F8FA4;
     field_10 = dword_6F8FA4;
     field_14_friction = dword_6F8FA4;
@@ -805,7 +805,7 @@ void Phi_8CA8::sub_533360()
             pPVar2->field_70 = puVar3->field_44;
             pPVar2->field_62_has_shadows = puVar3->field_48;
             pPVar2->field_63 = puVar3->field_50;
-            pPVar2->field_54 = 0;
+            pPVar2->field_54_react_to_collisions_with = CollisionReaction::Always_0;
             puVar3++;
         } while (--iVar4 != 0);
     }
@@ -1143,7 +1143,7 @@ void Phi_8CA8::sub_533B30()
             this_00->field_4C = puVar2->field_30;
             this_00->field_50 = puVar2->field_34;
             this_00->field_64_next_frame_max = puVar2->field_3C;
-            this_00->field_54 = 0;
+            this_00->field_54_react_to_collisions_with = CollisionReaction::Always_0;
             this_00->field_58 = puVar2->field_40;
             this_00->field_18 = puVar2->field_44;
             this_00->field_2C = puVar2->field_54;
@@ -1209,7 +1209,7 @@ void Phi_8CA8::sub_533C90()
     tmp = sub_534370(0x6e, 0x9b);
     tmp->field_38 = 0x6e;
     tmp->field_3C = 0x6e;
-    tmp->field_54 = 2;
+    tmp->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
     tmp->sub_533060(DAT_006fc578, DAT_006fc578, DAT_006f8fac);
     tmp->field_18 = DAT_006fc584;
     if (bDo_show_imaginary_67D588 == false)
@@ -1227,7 +1227,7 @@ void Phi_8CA8::sub_533C90()
     tmp = sub_534370(0x7f, 0x9b);
     tmp->field_38 = 0;
     tmp->field_3C = 0;
-    tmp->field_54 = 2;
+    tmp->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
     tmp->sub_533060((DAT_006fceb0 * 8), (DAT_006fceb0 * 8), DAT_006f8fac);
     tmp->field_18 = DAT_006fc584;
     if (bDo_show_imaginary_67D588 == '\0')

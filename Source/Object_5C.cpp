@@ -224,26 +224,26 @@ char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
     {
         return 0;
     }
-    switch (field_8->field_54)
+    switch (field_8->field_54_react_to_collisions_with)
     {
-        case 0:
+        case CollisionReaction::Always_0:
             // Always
             return true;
-        case 1:
+        case CollisionReaction::OnlyCars_1:
             // Only cars
             if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
             {
                 return false;
             }
             break;
-        case 2:
+        case CollisionReaction::OnlyPeds_2:
             // Only peds
             if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped)
             {
                 return false;
             }
             break;
-        case 3:
+        case CollisionReaction::OnlyObjects_3:
             // Only objects?
             sprite_type = pSprite->field_30_sprite_type_enum;
             if (sprite_type != sprite_types_enum::code_obj1 && sprite_type != sprite_types_enum::map_obj &&
@@ -256,7 +256,7 @@ char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
                 return 0;
             }
             break;
-        case 4:
+        case CollisionReaction::Never_4:
             // Never
             return 0;
             break;
