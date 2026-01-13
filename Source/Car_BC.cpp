@@ -1989,15 +1989,15 @@ Car_BC* Car_BC::GetCabOrSelf_43E8D0()
     return this;
 }
 
-STUB_FUNC(0x43e990)
+WIP_FUNC(0x43e990)
 Ped* Car_BC::GetEffectiveDriver_43E990()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
-    Trailer* pTrailer = this->field_64_pTrailer;
-    if (pTrailer && pTrailer->field_C_pCarOnTrailer == this)
+    if (is_on_trailer_421720())
     {
-        return pTrailer->field_8_truck_cab->field_54_driver;
+        // TODO: Function chunk here
+        return field_64_pTrailer->field_8_truck_cab->field_54_driver;
     }
     else
     {
