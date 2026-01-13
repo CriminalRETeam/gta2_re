@@ -72,6 +72,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, dword_678620, dword_6784C4 / dword_678670, 0x678620);
 DEFINE_GLOBAL_INIT(Fix16, dword_678788, dword_6784C4 * 16, 0x678788);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
+DEFINE_GLOBAL_INIT(Fix16, dword_6785EC, dword_678664, 0x6785EC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678624, Fix16(0xA3, 0), 0x678624);
 DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
 DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
@@ -3529,11 +3530,42 @@ void Ped::sub_46AAE0()
     }
 }
 
-STUB_FUNC(0x46ab50)
-char_type Ped::sub_46AB50()
+MATCH_FUNC(0x46ab50)
+void Ped::sub_46AB50()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_14C->field_278 == 9 || field_14C->field_21C_bf.b0 == false)
+    {
+        Ped::sub_45C500(0);
+        Ped::sub_45C540(0);
+        field_14C = 0;
+        field_226 = 1;
+        Ped::sub_463830(0, 9999);
+        field_21C_bf.b2 = false;
+    }
+    else
+    {
+        if (field_278 != 8)
+        {
+            field_21C_bf.b11 = false;
+            field_14C->field_144 = 0;
+            if (dword_678750 < dword_6785EC)
+            {
+                Ped::sub_45C500(0);
+                Ped::sub_45C540(0);
+                field_14C = 0;
+                field_226 = 1;
+                Ped::sub_463830(0, 9999);
+                field_21C_bf.b2 = false;
+            }
+            else
+            {
+                Ped::sub_45C500(1);
+                Ped::sub_45C540(2);
+                Ped::sub_4672E0(dword_678750, 0);
+                field_168_game_object->field_38_velocity = field_168_game_object->field_3C_run_or_jump_speed; // OBS: inline doesn't match
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x46ac20)
