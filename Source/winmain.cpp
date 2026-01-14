@@ -64,6 +64,15 @@ DEFINE_GLOBAL(u32, gNetworkFrameCounter_6F5868, 0x6F5868); // TODO: move
 DEFINE_GLOBAL(u8, bRecordStartTime_6F593C, 0x6F593C); // TODO: move
 DEFINE_GLOBAL(Network_Unknown_0x30, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO: move
 DEFINE_GLOBAL(Network_Unknown_0x30, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
+DEFINE_GLOBAL(Network_InputData_0x8*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: move
+DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
+DEFINE_GLOBAL(u32, gTotalNetworkTime_6F5980, 0x6F5980); // TODO: move
+DEFINE_GLOBAL(u32, dword_6F573C, 0x6F573C); // TODO: move
+DEFINE_GLOBAL(s32, gHudTimerIdx_6F5860, 0x6F5860); // TODO: move
+EXTERN_GLOBAL(s32, dword_6F58A4); // TODO: move
+DEFINE_GLOBAL(u32, dword_6F58A0, 0x6F58A0); // TODO: move
+DEFINE_GLOBAL(u32, dword_6F5858, 0x6F5858); // TODO: move
+DEFINE_GLOBAL(u8, byte_6F59C0, 0x6F59C0); // TODO: move
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
@@ -896,14 +905,14 @@ void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA4D0)
+// https://decomp.me/scratch/VazoB
+WIP_FUNC(0x4DA4D0)
 EXPORT void __stdcall InitializeGame_4DA4D0()
 {
-    NOT_IMPLEMENTED;
-
     if (bReplayMode_6F5B71)
     {
         gBurgerKing_67F8B0.input_init_replay_4CE740(gHInstance_708220);
+        bReplayMode_6F5B71 = 0;
     }
     else
     {
@@ -920,10 +929,40 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
         sub_4DB170();
 
         gGame_0x40_67E008 = new Game_0x40(gNetPlay_7071E8.GetMaxPlayers_521350(), gNetPlay_7071E8.field_5D4_player_idx);
-
         gNetPlay_7071E8.SetExitGameCallBack_521330((int)ExitGameCallback_4DB0D0, gGame_0x40_67E008);
 
-        // TODO missing code here
+        memset(&gCurrentNetInputs_6F57D8, 0, sizeof(gCurrentNetInputs_6F57D8));
+        memset(&gPrevNetInputs_6F5B28, 0, sizeof(gPrevNetInputs_6F5B28));
+
+        // Here
+
+        gNetworkPlayerIdx_6F56C8 = gNetPlay_7071E8.field_5D4_player_idx;
+        gpInputBuffer_6F58C0 = &gCurrentNetInputs_6F57D8.field_0_inputs[0];
+
+        //dword_6F5AC8 = 0;
+        //dword_6F5ACC = 0;
+        //dword_6F5AD0 = 0;
+        //word_6F5AD4 = 0;
+
+        gCurrentInputsBufferSize_6F58C4 = 48;
+        //dword_6F5B00 = 0;
+        bRecordStartTime_6F593C = 1;
+        gPlayerQuit_6F5AEC = false;
+        gNetInUsePlayerBits_6F56B8 = 0;
+        gNetworkFrameCounter_6F5868 = 0;
+        //dword_6F580C = 0;
+        gTotalNetworkTime_6F5980 = 0;
+        //dword_6F5AC0 = 0;
+        dword_6F573C = gLucid_hamilton_67E8E0.GetTimeLimit_461DC0();
+        if (dword_6F573C > 60)
+        {
+            dword_6F573C = 60;
+        }
+        gHudTimerIdx_6F5860 = -1;
+        dword_6F58A4 = (dword_6F573C != 0);
+        dword_6F58A0 = 0;
+        dword_6F5858 = 0;
+        byte_6F59C0 = 0;
     }
     else
     {
@@ -933,9 +972,9 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
     gGame_0x40_67E008->LoadGameFiles_4B8C40();
     gGame_0x40_67E008->BootGame_4B8EB0();
 
+    gMatchStartTime_6F5A28 = timeGetTime();
     byte_6F58D8 = 0;
     byte_6F5880 = 0;
-    gMatchStartTime_6F5A28 = timeGetTime();
     byte_6F5760 = 1;
 }
 

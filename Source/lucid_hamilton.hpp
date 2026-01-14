@@ -61,6 +61,11 @@ struct lucid_hamilton
         field_574_secret_tokens_collected = 0;
     }
 
+    inline s32 GetTimeLimit_461DC0()
+    {
+        return field_444_game_time_limit;
+    }
+
     EXPORT void sub_4C53D0();
 
     EXPORT char* SetMapName_4C5870(char_type* Source);
