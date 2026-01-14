@@ -1039,6 +1039,44 @@ void CC ImGuiDebugDraw()
                                     ImGui::TreePop();
                                 }
                             }
+                            
+                            if (pPlayerCar->field_50_car_sprite)
+                            {
+                                Sprite* pSprt = pPlayerCar->field_50_car_sprite;
+                                if (ImGui::TreeNode("Sprite"))
+                                {
+                                    Sprite_4C* p4C = pSprt->field_4_0x4C_len;
+                                    if (p4C)
+                                    {
+                                        Fix16_Rect rect = p4C->field_30;
+                                        if (ImGui::TreeNode("F_30 Rect"))
+                                        {
+                                            ImGui::Value("Left", rect.field_0_left.ToFloat(), "%.2f");
+                                            ImGui::Value("Right", rect.field_4_right.ToFloat(), "%.2f");
+                                            ImGui::Value("Top", rect.field_8_top.ToFloat(), "%.2f");
+                                            ImGui::Value("Bottom", rect.field_C_bottom.ToFloat(), "%.2f");
+                                            ImGui::Value("Lower Z", rect.field_10.ToFloat(), "%.2f");
+                                            ImGui::Value("Higher Z", rect.field_14.ToFloat(), "%.2f");
+                                            ImGui::TreePop();
+                                        }
+
+                                        if (ImGui::TreeNode("F_C Boxes"))
+                                        {
+                                            ImGui::Value("0 x:", p4C->field_C_b_box[0].x.ToFloat(), "%.2f");
+                                            ImGui::Value("0 y:", p4C->field_C_b_box[0].y.ToFloat(), "%.2f");
+                                            ImGui::Value("1 x:", p4C->field_C_b_box[1].x.ToFloat(), "%.2f");
+                                            ImGui::Value("1 y:", p4C->field_C_b_box[1].y.ToFloat(), "%.2f");
+                                            ImGui::Value("2 x:", p4C->field_C_b_box[2].x.ToFloat(), "%.2f");
+                                            ImGui::Value("2 y:", p4C->field_C_b_box[2].y.ToFloat(), "%.2f");
+                                            ImGui::Value("3 x:", p4C->field_C_b_box[3].x.ToFloat(), "%.2f");
+                                            ImGui::Value("3 y:", p4C->field_C_b_box[3].y.ToFloat(), "%.2f");
+                                            ImGui::TreePop();
+                                        }
+                                    }
+                                    ImGui::TreePop();
+                                }
+                            }
+                            
 
                             //ImGui::SliderS16("Car Angle (read only)", &pPlayerCar->field_50_car_sprite->field_0.rValue, 0, 1439);
 
