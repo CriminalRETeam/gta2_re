@@ -1140,22 +1140,24 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         field_C_b_box[2] = point + southeast;
         field_C_b_box[3] = point + southwest;
 
-        field_30 = Fix16_Rect(xpos - width_over_2, ypos - height_over_2, width_over_2, height_over_2);
+        field_30 = Fix16_Rect();
+        field_30.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
     else if (rotation == word_70344C) // = 360
     {
         // okay
-        Fix16_Point southwest = Fix16_Point(-width_over_2, height_over_2);
-        Fix16_Point northwest = Fix16_Point(-width_over_2, -height_over_2);
-        Fix16_Point northeast = Fix16_Point(width_over_2, -height_over_2);
-        Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
+        Fix16_Point southwest = Fix16_Point(-height_over_2, width_over_2);
+        Fix16_Point northwest = Fix16_Point(-height_over_2, -width_over_2);
+        Fix16_Point northeast = Fix16_Point(height_over_2, -width_over_2);
+        Fix16_Point southeast = Fix16_Point(height_over_2, width_over_2);
 
         field_C_b_box[0] = point + southwest;
         field_C_b_box[1] = point + northwest;
         field_C_b_box[2] = point + northeast;
         field_C_b_box[3] = point + southeast;
-
-        field_30 = Fix16_Rect(xpos - width_over_2, ypos - height_over_2, width_over_2, height_over_2);
+        
+        field_30 = Fix16_Rect();
+        field_30.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
     else if (rotation == word_70351E) // = 720
     {
@@ -1170,22 +1172,24 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         field_C_b_box[2] = point + northwest;
         field_C_b_box[3] = point + northeast;
 
-        field_30 = Fix16_Rect(xpos - width_over_2, ypos - height_over_2, width_over_2, height_over_2);
+        field_30 = Fix16_Rect();
+        field_30.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
     else if (rotation == word_703544) // = 1080
     {
         // okay
-        Fix16_Point northeast = Fix16_Point(width_over_2, -height_over_2);
-        Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
-        Fix16_Point southwest = Fix16_Point(-width_over_2, height_over_2);
-        Fix16_Point northwest = Fix16_Point(-width_over_2, -height_over_2);
+        Fix16_Point northeast = Fix16_Point(height_over_2, -width_over_2);
+        Fix16_Point southeast = Fix16_Point(height_over_2, width_over_2);
+        Fix16_Point southwest = Fix16_Point(-height_over_2, width_over_2);
+        Fix16_Point northwest = Fix16_Point(-height_over_2, -width_over_2);
 
         field_C_b_box[0] = point + northeast;
         field_C_b_box[1] = point + southeast;
         field_C_b_box[2] = point + southwest;
         field_C_b_box[3] = point + northwest;
 
-        field_30 = Fix16_Rect(xpos - width_over_2, ypos - height_over_2, width_over_2, height_over_2);
+        field_30 = Fix16_Rect();
+        field_30.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
     else
     {
