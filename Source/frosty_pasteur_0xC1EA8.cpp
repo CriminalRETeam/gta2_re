@@ -643,10 +643,10 @@ bool frosty_pasteur_0xC1EA8::sub_512C70(s32 a2, char_type a3, char_type a4)
 }
 
 // https://decomp.me/scratch/qh4EW
-STUB_FUNC(0x512ce0)
+WIP_FUNC(0x512ce0)
 frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     field_13350_pStringTbl = 0;
     if (!bSkip_mission_67D4E5)
     {
@@ -711,7 +711,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
 
     if (gDo_miss_logging_67D6BC)
     {
-        //gMiss2Log_6F7698.sub_4D9470("test\\MISS_LOG.TXT", 1);
+        gMiss2Log_6F7698.sub_4D9470("test\\MISS_LOG.TXT", 1);
     }
 
     memset(field_45C_scr_file_name, 0, sizeof(field_45C_scr_file_name));

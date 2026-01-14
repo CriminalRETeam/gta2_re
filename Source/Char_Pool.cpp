@@ -42,10 +42,10 @@ void PedManager::sub_46EB60(u32* a2)
 }
 
 // https://decomp.me/scratch/dQf8H
-STUB_FUNC(0x4703f0)
+WIP_FUNC(0x4703f0)
 void PedManager::PedsService_4703F0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     ++word_6787F0;
     word_6787E0 = 0;
@@ -105,7 +105,7 @@ void PedManager::PedsService_4703F0()
 }
 
 // https://decomp.me/scratch/P1OvR
-STUB_FUNC(0x470650)
+WIP_FUNC(0x470650)
 PedManager::PedManager()
 {
     field_8 = 0;

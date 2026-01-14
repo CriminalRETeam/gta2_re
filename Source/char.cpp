@@ -91,7 +91,7 @@ void __stdcall sub_544F70()
 }
 
 // https://decomp.me/scratch/ZsDjc
-STUB_FUNC(0x544ff0)
+WIP_FUNC(0x544ff0)
 Char_B4::Char_B4()
 {
     field_0_id = 0;

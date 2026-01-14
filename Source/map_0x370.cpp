@@ -2136,10 +2136,10 @@ void Map_0x370::sub_4E8CF0(u16*** outColumnPtr,
 }
 
 // https://decomp.me/scratch/eGx1i
-STUB_FUNC(0x4E8E30)
+WIP_FUNC(0x4E8E30)
 void Map_0x370::do_process_loaded_zone_data_4E8E30()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     u16 v16 = 0;
     u16 zonesSize = field_328_pZoneData ? *(u16*)field_32C_pZones : 0;
     if (zonesSize)

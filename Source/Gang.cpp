@@ -310,10 +310,10 @@ u8 GangPool_CA8::get_gang_idx_by_name_4BF210(const char* gangName)
     }
 }
 
-STUB_FUNC(0x4BF230);
+WIP_FUNC(0x4BF230);
 void GangPool_CA8::sub_4BF230(Gang_144* pGang, u8 gang_idx)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     Gang_144 zone;
     zone.init_4BED70();
     if (pGang->field_1_gang_idx != gang_idx)

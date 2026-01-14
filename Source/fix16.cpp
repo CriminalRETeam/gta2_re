@@ -88,7 +88,7 @@ inline Fix16 __stdcall Fix16::SquareRoot_436A70(Fix16& input)
 
 // 10.5 https://decomp.me/scratch/7a41K
 // 9.6f https://decomp.me/scratch/ZkUbq
-STUB_FUNC(0x405320)
+WIP_FUNC(0x405320)
 Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& pMaybeX_FP16, Fix16& pMaybeY_FP16)
 {
     Ang16 v9;
