@@ -248,6 +248,11 @@ class Ped
         field_21C_bf.b11 = 0;
     }
 
+    inline void clear_bit_26_482080()
+    {
+        field_21C_bf.b26 = false;
+    }
+
     bool check_bit_0()
     {
         return field_21C_bf.b0 != 0;

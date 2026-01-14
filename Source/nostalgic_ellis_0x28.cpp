@@ -53,10 +53,10 @@ void nostalgic_ellis_0x28::sub_4D6D70()
     }
 }
 
-STUB_FUNC(0x4D6DC0)
+WIP_FUNC(0x4D6DC0)
 nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     nostalgic_ellis_0x28* v1; // eax
     nostalgic_ellis_0x28* result; // eax
 

@@ -374,18 +374,6 @@ Car_78::Car_78()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5A4D90)
-void Sprite_4C::SetCurrentRect_5A4D90()
-{
-    field_30.DoSetCurrentRect_59DD60();
-}
-
-STUB_FUNC(0x5A3550)
-void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
-{
-    NOT_IMPLEMENTED;
-}
-
 MATCH_FUNC(0x5c8680)
 void Car_214::sub_5C8680(u8 idx)
 {

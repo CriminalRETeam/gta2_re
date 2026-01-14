@@ -32,7 +32,7 @@ EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204);
 EXTERN_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200);
 DEFINE_GLOBAL(Sprite*, gPurpleDoom_exclusion_sprite_678F84, 0x678F84);
-DEFINE_GLOBAL(Fix16, k_dword_678F74, 0x678F74);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_678F74, Fix16(0x2000, 0), 0x678F74);
 DEFINE_GLOBAL(s32, gPurpleDoom_sprite_type1_678FE8, 0x678FE8);
 DEFINE_GLOBAL(s32, gPurpleDoom_sprite_type2_678FEC, 0x678FEC);
 DEFINE_GLOBAL(Sprite*, gPurpleDoom_exclude_sprite_678F40, 0x678F40);

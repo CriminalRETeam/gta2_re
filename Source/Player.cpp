@@ -580,14 +580,14 @@ void Player::IncreaseWantedLevelFromDebugKeys_565860()
 
 // https://decomp.me/scratch/jvjpT
 // pre processor bugged, should match ??
-STUB_FUNC(0x565890)
+WIP_FUNC(0x565890)
 void Player::Hud_Controls_565890(u16 action)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     s32 vol;
 
-    if (!gHud_2B00_706620->IsBusy_5D6C20(action, this)) // OBS: bool
+    if (!gHud_2B00_706620->IsBusy_5D6C20(action, this))
     {
         switch (action)
         {
@@ -1388,7 +1388,7 @@ void Player::Wasted_567130()
         }
 
         (&gYouthful_einstein_6F8450)
-            ->sub_516740( //  tag mode death handler
+            ->UpdateFugitive_516740( //  tag mode death handler
                 gGame_0x40_67E008->field_4_players[field_2E_idx],
                 player_killer); //  if player_killer != NULL then 'player_killer' now is "IT"
     }
@@ -2564,7 +2564,7 @@ void Player::ClearInputs_56A6D0()
 }
 
 // https://decomp.me/scratch/OMzHk early %ecx load
-STUB_FUNC(0x56A740)
+WIP_FUNC(0x56A740)
 Player::Player(u8 player_idx)
 {
     field_794_is_chatting = 0;
