@@ -414,7 +414,7 @@ EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 
     if (gSprite_3CC_67AF1C)
     {
-        gSprite_3CC_67AF1C->sub_48F710();
+        gSprite_3CC_67AF1C->InvalidateAllMasks_48F710();
     }
 
     bExplodingScoresOff_67D4FB = gRegistry_6FF968.Get_Screen_Setting_5870D0("exploding_on", 1) != 1;

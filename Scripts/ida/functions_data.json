@@ -4785,12 +4785,12 @@
         "v105_address": "0x48f690"
     },
     {
-        "name": "Sprite_3CC::sub_48F6E0",
+        "name": "Sprite_3CC::InvalidateMasksByType_48F6E0",
         "v96f_address": null,
         "v105_address": "0x48f6e0"
     },
     {
-        "name": "Sprite_3CC::sub_48F710",
+        "name": "Sprite_3CC::InvalidateAllMasks_48F710",
         "v96f_address": "0x44afe0",
         "v105_address": "0x48f710"
     },
