@@ -38,6 +38,10 @@ DEFINE_GLOBAL_INIT(Ang16, word_70344C, Ang16(360), 0x70344C);
 DEFINE_GLOBAL_INIT(Ang16, word_70351E, Ang16(720), 0x70351E);
 DEFINE_GLOBAL_INIT(Ang16, word_703544, Ang16(1080), 0x703544);
 DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8, 0x7036D0);
+DEFINE_GLOBAL_INIT(u32, dword_61A9AC, 0x0C00060, 0x61A9AC); // BitSet32 flag
+DEFINE_GLOBAL_INIT(u32, dword_61A9A8, 0x0C70060, 0x61A9A8); // BitSet32 flag
+DEFINE_GLOBAL_INIT(u32, dword_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 flag
+DEFINE_GLOBAL(u32, dword_67ACF8, 0x67ACF8); // BitSet32 flag
 
 // matched
 static inline Fix16 __stdcall sub_4B9C70(Fix16& in) 
@@ -473,7 +477,7 @@ char_type Sprite::has_shadows_59EAE0()
 }
 
 STUB_FUNC(0x59eb30)
-void Sprite::sub_59EB30(s32 a2, f32* a3)
+void Sprite::sub_59EB30(f32& a2, f32& a3)
 {
     NOT_IMPLEMENTED;
 }
@@ -560,23 +564,22 @@ void Sprite::Draw_59EFF0()
         }
         if ( gLighting_626A09 )
         {
-            // TODO: stuff here
-            /*
-            if (Car_BC::sub_421680(pCar))
+            if (pCar->sub_421680())
             {
-                sub_4BA360((int)&pCar->field_8_damaged_areas); // sets a global to another
+                pCar->field_8_damaged_areas.sub_4BA360(); // sets a global to another
             }
             else
             {
-                is_FBI_car_411920 = Car_BC::is_FBI_car_411920(pCar);
-                p_field_8_damaged_areas = (int)&pCar->field_8_damaged_areas;
-                if (is_FBI_car_411920)
-                    sub_4BA370(p_field_8_damaged_areas);
+                if (pCar->is_FBI_car_411920())
+                {
+                    pCar->field_8_damaged_areas.sub_4BA370();
+                }
                 else
-                    sub_4BA350(p_field_8_damaged_areas);
+                {
+                    pCar->field_8_damaged_areas.sub_4BA350();
+                }                   
             }
-            sub_4BA340(&pCar->field_8_damaged_areas);
-            */
+            pCar->field_8_damaged_areas.sub_4BA340();
         }
         // TODO: stuff here
     }
@@ -628,7 +631,26 @@ void Sprite::Draw_59EFF0()
     u32 flags = Sprite::sub_4BAC60();
     pgbh_DrawQuad(flags, pTexture, gTileVerts_7036D0, 255);
 
-    // TODO: rest of the function
+    if (pCar && gLighting_626A09)
+    {
+        pCar->field_8_damaged_areas.sub_4BA330();
+
+        u16 unk3 = Sprite::sub_59EAA0();
+        // TODO: missing code here
+    }
+    // TODO: missing code here 
+
+    ++gSprite_8_703820->field_0;
+    if (bDo_show_collision_box_67D6E5)
+    {
+        if (field_C_sprite_4c_ptr)
+        {
+            //field_C_sprite_4c_ptr->DrawCollisionBox_5A4DA0(field_1C_zpos);
+        }
+    }
+    
+    Sprite::sub_59EB30(gTileVerts_7036D0[1].x, gTileVerts_7036D0[1].y);
+    Sprite::ShowHorn_59EE40(gTileVerts_7036D0[3].x, gTileVerts_7036D0[3].y);
 }
 
 MATCH_FUNC(0x59f950)
