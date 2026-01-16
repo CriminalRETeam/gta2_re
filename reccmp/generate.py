@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 
 
-r_function          = re.compile(r"(MATCH|STUB)_FUNC\((?P<addr>0x[0-9A-Fa-f]{6})\);?[\w*&\s]*[\s](?P<func_name>\S+)\(")
+r_function          = re.compile(r"(MATCH|STUB|WIP)_FUNC\((?P<addr>0x[0-9A-Fa-f]{6})\);?[\w*&\s]*[\s](?P<func_name>\S+)\(")
 r_global            = re.compile(r"DEFINE_GLOBAL\([^\s,]+,\s*(?P<var_name>[^\s,]+),\s*(?P<addr>0x[0-9A-Fa-f]{6})\);")
 r_global_array      = re.compile(r"DEFINE_GLOBAL_ARRAY\([^\s,]+,\s*(?P<var_name>[^\s,]+),\s*\d+,\s*(?P<addr>0x[0-9A-Fa-f]{6})\);")
 r_global_init       = re.compile(r"DEFINE_GLOBAL_INIT\([^\s,]+,\s*(?P<var_name>[^\s,]+),.+(?P<addr>0x[0-9A-Fa-f]{6})\);")
