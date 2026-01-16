@@ -89,7 +89,7 @@ void Object_2C::PoolDeallocate()
     else if (f5C == 3)
     {
         --gObject_5C_6F8F84->field_14;
-        gObject_5C_6F8F84->field_1C.sub_5A6B60(this->field_4);
+        gObject_5C_6F8F84->field_1C.RemoveSpriteSafe_5A6B60(this->field_4);
     }
 
     --dword_6F8F88;
@@ -1442,7 +1442,7 @@ void Object_5C::sub_529300()
 {
     for (s32 i = field_14 - 88; i >= 0; i--)
     {
-        Sprite* pSprite = field_1C.sub_5A6DC0();
+        Sprite* pSprite = field_1C.PopBackSprite_5A6DC0();
         Object_2C* o2c = pSprite->As2C_40FEC0();
         if (o2c->field_18_model == 10)
         {
@@ -1713,7 +1713,8 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
 
     if (bUnknown &&
         (pNew2C->field_4->sub_59E7D0(0) ||
-         (pPhi->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3 && gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
+         (pPhi->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3 &&
+          gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
     {
         if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {
@@ -1730,7 +1731,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     if (pPhi->field_5C == 3) // 1e0
     {
         ++field_14;
-        field_1C.sub_5A6CD0(pNew2C->field_4);
+        field_1C.AddSprite_5A6CD0(pNew2C->field_4);
     }
 
     switch (pPhi->field_34_behavior_type)
@@ -1959,12 +1960,9 @@ void Object_2C::ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite)
 
     PoolTake_522360();
 
-    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
+    Car_BC* pObj = pSprite->AsCar_40FEB0();
+    if (pObj)
     {
-        Car_BC* pObj = pSprite->field_8_car_bc_ptr;
-        if (pObj)
-        {
-            field_4->field_28_num = pObj->GetCrashSoundCategory_4435B0();
-        }
+        field_4->field_28_num = pObj->GetCrashSoundCategory_4435B0();
     }
 }

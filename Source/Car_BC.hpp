@@ -635,7 +635,7 @@ class Car_BC
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 2) == 2;
     }
 
-    bool sub_40F890()
+    bool IsMaxDamage_40F890()
     {
         return field_74_damage == 32001;
     }
@@ -646,31 +646,31 @@ class Car_BC
     }
 
     // 9.6f inline 0x421700
-    inline bool sub_421700()
+    inline bool inline_check_0x2_info_421700()
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 2) == 2;
     }
 
     // 9.6f inline 0x421660
-    inline bool sub_421660()
+    inline bool inline_check_0x4_info_421660()
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 4) == 4;
     }
 
     // 9.6f inline 0x4216C0
-    inline bool sub_4216C0()
+    inline bool inline_check_0x20_info_4216C0()
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x20) == 0x20;
     }
 
     // 9.6f inline 0x421680
-    inline bool sub_421680()
+    inline bool inline_check_0x40_info_421680()
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x40) == 0x40;
     }
 
-    // TODO: Get 9.6f addr
-    inline bool inline_check_0x80_info()
+    // 9.6f inline 0x4216A0
+    inline bool inline_check_0x80_info_4216A0()
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x80) == 0x80;
     }
@@ -678,7 +678,7 @@ class Car_BC
     // 9.6f inline 0x425650
     inline void sub_425650()
     {
-        if (sub_421700())
+        if (inline_check_0x2_info_421700())
         {
             // clear left and right rear door frames
             field_8_damaged_areas.clear_bit(11);
@@ -693,7 +693,7 @@ class Car_BC
         }
         field_8_damaged_areas.clear_bit(6); // clear left front headlight
         field_8_damaged_areas.clear_bit(23); // clear right front headlight
-        if (sub_421660())
+        if (inline_check_0x4_info_421660())
         {
             field_8_damaged_areas.clear_bit(15); // clear right siren light or roof light
         }
@@ -724,7 +724,7 @@ class Car_BC
     {
         if (!field_8_damaged_areas.mask_bit(2)) // if not front left damage
         {
-            if (sub_421700())
+            if (inline_check_0x2_info_421700())
             {
                 field_8_damaged_areas.set_bit(11); // set left rear door open/close frame 1 ????
             }
@@ -736,7 +736,7 @@ class Car_BC
 
         if (!field_8_damaged_areas.mask_bit(3)) // if not front right damage
         {
-            if (sub_421700())
+            if (inline_check_0x2_info_421700())
             {
                 field_8_damaged_areas.set_bit(28); // set right rear door open/close frame 1 ????
             }
@@ -745,7 +745,7 @@ class Car_BC
                 field_8_damaged_areas.set_bit(23); // set right front headlight
             }
         }
-        if (sub_421660())
+        if (inline_check_0x4_info_421660())
         {
             field_8_damaged_areas.set_bit(15); // set right siren light or roof light
         }

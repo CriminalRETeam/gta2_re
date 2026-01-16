@@ -31,26 +31,26 @@ DEFINE_GLOBAL_INIT(Ang16, gAng16_703804, Ang16(0), 0x703804);
 DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
 DEFINE_GLOBAL_INIT(Fix16, dword_7035E4, Fix16(8), 0x7035E4);
-DEFINE_GLOBAL_INIT(Fix16, dword_703578, Fix16(256,0), 0x703578);
+DEFINE_GLOBAL_INIT(Fix16, dword_703578, Fix16(256, 0), 0x703578);
 DEFINE_GLOBAL_INIT(Fix16, dword_703678, dword_703578, 0x703678);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_7033C0, dword_7035E4 - dword_703678, 0x7033C0);
 DEFINE_GLOBAL_INIT(Ang16, word_70344C, Ang16(360), 0x70344C);
 DEFINE_GLOBAL_INIT(Ang16, word_70351E, Ang16(720), 0x70351E);
 DEFINE_GLOBAL_INIT(Ang16, word_703544, Ang16(1080), 0x703544);
 DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8, 0x7036D0);
-DEFINE_GLOBAL_INIT(u32, dword_61A9AC, 0x0C00060, 0x61A9AC); // BitSet32 flag
-DEFINE_GLOBAL_INIT(u32, dword_61A9A8, 0x0C70060, 0x61A9A8); // BitSet32 flag
-DEFINE_GLOBAL_INIT(u32, dword_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 flag
-DEFINE_GLOBAL(u32, dword_67ACF8, 0x67ACF8); // BitSet32 flag
+DEFINE_GLOBAL_INIT(u32, kGlobalMask0_61A9AC, 0x0C00060, 0x61A9AC); // BitSet32 flag
+DEFINE_GLOBAL_INIT(u32, kGlobalMask1_61A9A8, 0x0C70060, 0x61A9A8); // BitSet32 flag
+DEFINE_GLOBAL_INIT(u32, kGlobalMask2_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 flag
+DEFINE_GLOBAL(u32, gFlags_67ACF8, 0x67ACF8); // BitSet32 flag
 
 // matched
-static inline Fix16 __stdcall sub_4B9C70(Fix16& in) 
+static inline Fix16 __stdcall sub_4B9C70(Fix16& in)
 {
     return Fix16((in.mValue + 0x80) & 0xFFFFFF00, 0);
 }
 
 // matched
-static inline void __stdcall sub_4B9990(f32 xCoord, f32 yCoord, f32 z_val, Vert* pVerts) 
+static inline void __stdcall sub_4B9990(f32 xCoord, f32 yCoord, f32 z_val, Vert* pVerts)
 {
     s32 next_idx = (pVerts - gTileVerts_7036D0) + 4;
 
@@ -60,16 +60,20 @@ static inline void __stdcall sub_4B9990(f32 xCoord, f32 yCoord, f32 z_val, Vert*
 }
 
 // partially matched: https://decomp.me/scratch/qtmIe
-static inline void sub_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16& zpos) 
+static inline void sub_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16& zpos)
 {
     sub_4B9990(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
     pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-    pVert->x = gViewCamera_676978->field_10_cam_pos_tgt2.field_8_z.ToFloat() * (point.x.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat()) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-    pVert->y = gViewCamera_676978->field_10_cam_pos_tgt2.field_8_z.ToFloat() * (point.y.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_4_y.ToFloat()) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+    pVert->x = gViewCamera_676978->field_10_cam_pos_tgt2.field_8_z.ToFloat() *
+            (point.x.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat()) * pVert->z +
+        (u32)gViewCamera_676978->field_70_screen_px_center_x;
+    pVert->y = gViewCamera_676978->field_10_cam_pos_tgt2.field_8_z.ToFloat() *
+            (point.y.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_4_y.ToFloat()) * pVert->z +
+        (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
 
 // not exactly __fastcall but something similar... https://decomp.me/scratch/N5g2D
-static inline void __fastcall SetUV_4B9BC0(f32& u, f32& v) 
+static inline void __fastcall SetUV_4B9BC0(f32& u, f32& v)
 {
     gTileVerts_7036D0[0].u = 0.30000001f;
     gTileVerts_7036D0[0].v = 0.30000001f;
@@ -501,15 +505,14 @@ void Sprite::Draw_59EFF0()
     STexture* pTexture_1;
 
     u16 unknown;
-    
+
     Sprite::Update_4C_59F990();
     if (this->field_38)
     {
         u16 v2 = gGtx_0x106C_703DD4->field_4_sprite_index_count - 1;
         unknown = v2; //v79 = v2;
         pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v2);
-        converted_pal =
-            gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(this->field_30_sprite_type_enum, this->field_22_sprite_id);
+        converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(this->field_30_sprite_type_enum, this->field_22_sprite_id);
         pSpriteIndex2 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
         pSpriteIndex->field_4_width = pSpriteIndex2->field_4_width - 2 * this->field_38;
         //field_4_width = pSpriteIndex->field_4_width;
@@ -521,21 +524,19 @@ void Sprite::Draw_59EFF0()
         pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * (u8)this->field_38];
         pal = Sprite::sub_59EAA0();
         //LOWORD(v9) = pSpriteIndex->field_5_height;
-        pTexture_1 = gSharp_pare_0x15D8_705064->sub_5B9710(
-                                                   pSpriteIndex->field_4_width,
-                                                   pSpriteIndex->field_5_height,
-                                                   pSpriteIndex->field_0_pData,
-                                                   pal);
+        pTexture_1 = gSharp_pare_0x15D8_705064->sub_5B9710(pSpriteIndex->field_4_width,
+                                                           pSpriteIndex->field_5_height,
+                                                           pSpriteIndex->field_0_pData,
+                                                           pal);
     }
     else
     {
         u16 v11 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(this->field_30_sprite_type_enum, this->field_22_sprite_id);
         unknown = v11; //v79 = v11;
         pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v11);
-        pTexture_1 =
-            gSharp_pare_0x15D8_705064->sub_5B94F0(this->field_30_sprite_type_enum, field_22_sprite_id, field_34, field_24_remap);
+        pTexture_1 = gSharp_pare_0x15D8_705064->sub_5B94F0(this->field_30_sprite_type_enum, field_22_sprite_id, field_34, field_24_remap);
     }
-    
+
     STexture* pTexture = pTexture_1;
     if (!field_4_0x4C_len->field_48_bDrawCollisionBox)
     {
@@ -546,9 +547,9 @@ void Sprite::Draw_59EFF0()
 
     f32 u = pSpriteIndex->field_4_width - 0.30000001f;
     f32 v = pSpriteIndex->field_5_height - 0.30000001f;
-    
+
     Fix16 new_zpos = sub_4B9C70(field_1C_zpos);
-    
+
     sub_4BA4D0(field_4_0x4C_len->field_C_b_box[0], &gTileVerts_7036D0[0], new_zpos);
     sub_4BA4D0(field_4_0x4C_len->field_C_b_box[1], &gTileVerts_7036D0[1], new_zpos);
     sub_4BA4D0(field_4_0x4C_len->field_C_b_box[2], &gTileVerts_7036D0[2], new_zpos);
@@ -562,21 +563,21 @@ void Sprite::Draw_59EFF0()
         {
             gSprite_3CC_67AF1C->sub_48F6E0(&unknown);
         }
-        if ( gLighting_626A09 )
+        if (gLighting_626A09)
         {
-            if (pCar->sub_421680())
+            if (pCar->inline_check_0x40_info_421680())
             {
-                pCar->field_8_damaged_areas.sub_4BA360(); // sets a global to another
+                pCar->field_8_damaged_areas.SetGlobal0_4BA360(); // sets a global to another
             }
             else
             {
                 if (pCar->is_FBI_car_411920())
                 {
-                    pCar->field_8_damaged_areas.sub_4BA370();
+                    pCar->field_8_damaged_areas.SetGlobal1_4BA370();
                 }
                 else
                 {
-                    pCar->field_8_damaged_areas.sub_4BA350();
+                    pCar->field_8_damaged_areas.SetGlobal2_4BA350();
                 }                   
             }
             pCar->field_8_damaged_areas.sub_4BA340();
@@ -604,7 +605,7 @@ void Sprite::Draw_59EFF0()
         Vert pShadowVerts[4]; // length 4? strange
 
         memcpy(&pShadowVerts[0], &gTileVerts_7036D0[0], sizeof(Vert));
-        
+
         memcpy(&pShadowVerts[1], &gTileVerts_7036D0[1], sizeof(Vert));
         memcpy(&pShadowVerts[2], &gTileVerts_7036D0[2], sizeof(Vert));
         memcpy(&pShadowVerts[3], &gTileVerts_7036D0[3], sizeof(Vert));
@@ -1363,7 +1364,7 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         field_C_b_box[1] = point + northwest;
         field_C_b_box[2] = point + northeast;
         field_C_b_box[3] = point + southeast;
-        
+
         field_30 = Fix16_Rect();
         field_30.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
@@ -1551,15 +1552,12 @@ Sprite_Pool::~Sprite_Pool()
 MATCH_FUNC(0x5A6A20)
 void Sprite_18::sub_5A6A20()
 {
-    if (this->field_0->field_30_sprite_type_enum == sprite_types_enum::car)
+    Car_BC* cBC = this->field_0->AsCar_40FEB0();
+    if (cBC)
     {
-        Car_BC* cBC = this->field_0->field_8_car_bc_ptr;
-        if (cBC)
+        if (cBC->field_88 != 2 && cBC->field_88 != 4 && cBC->field_88 != 3)
         {
-            if (cBC->field_88 != 2 && cBC->field_88 != 4 && cBC->field_88 != 3)
-            {
-                cBC->sub_43DD60();
-            }
+            cBC->sub_43DD60();
         }
     }
 }
