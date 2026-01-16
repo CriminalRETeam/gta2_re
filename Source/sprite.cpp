@@ -561,7 +561,7 @@ void Sprite::Draw_59EFF0()
     {
         if (field_38)
         {
-            gSprite_3CC_67AF1C->sub_48F6E0(&unknown);
+            gSprite_3CC_67AF1C->InvalidateMasksByType_48F6E0(&unknown);
         }
         if (gLighting_626A09)
         {
@@ -1244,26 +1244,26 @@ Sprite_14* Sprite_3CC::sub_48F690(u32* a2)
 }
 
 MATCH_FUNC(0x48f6e0)
-void Sprite_3CC::sub_48F6E0(u16* a2)
+void Sprite_3CC::InvalidateMasksByType_48F6E0(u16* a2)
 {
     s32 count = 0;
     for (Sprite_14* pIter = &this->field_0[0]; count < 48; count++, ++pIter)
     {
         if (pIter->field_4 == *a2)
         {
-            pIter->field_4 = -1;
+            pIter->Invalidate_44AF70();
         }
     }
 }
 
 MATCH_FUNC(0x48f710)
-void Sprite_3CC::sub_48F710()
+void Sprite_3CC::InvalidateAllMasks_48F710()
 {
     Sprite_14* psVar1 = field_0;
     s32 iVar2 = 0x30;
     do
     {
-        psVar1->field_4 = -1;
+        psVar1->Invalidate_44AF70();
         psVar1++;
         iVar2--;
     } while (iVar2 != 0);

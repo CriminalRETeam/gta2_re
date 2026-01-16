@@ -168,7 +168,7 @@ class Sprite
         }
     }
 
-    inline s32 sub_4BA200() 
+    inline s32 sub_4BA200()
     {
         return field_2C & 3;
     }
@@ -179,7 +179,7 @@ class Sprite
         return field_2C & 0xFFFFFFF8;
     }
 
-    inline s32 sub_4B9BA0() 
+    inline s32 sub_4B9BA0()
     {
         if ((field_2C & 4) == 0)
         {
@@ -329,13 +329,19 @@ class Sprite_14
 
     EXPORT void sub_48F5C0(u8 xCount, u8 yCount);
 
-    // Inlined, from 9.6f at 0x44af30
+    // 9.6f 0x44af30
     EXPORT Sprite_14()
     {
         field_C = 0;
         field_8 = 0;
         field_4 = -1;
         field_12 = 0;
+    }
+
+    // 9.6f 0x44AF70
+    void Invalidate_44AF70()
+    {
+        field_4 = -1;
     }
 
     u8* field_0;
@@ -353,8 +359,8 @@ class Sprite_3CC
   public:
     EXPORT Sprite_14* sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5);
     EXPORT Sprite_14* sub_48F690(u32* a2);
-    EXPORT void sub_48F6E0(u16* a2);
-    EXPORT void sub_48F710();
+    EXPORT void InvalidateMasksByType_48F6E0(u16* a2);
+    EXPORT void InvalidateAllMasks_48F710();
     EXPORT Sprite_3CC();
     EXPORT ~Sprite_3CC();
 
