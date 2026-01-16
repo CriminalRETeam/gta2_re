@@ -663,6 +663,12 @@ class Car_BC
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x20) == 0x20;
     }
 
+    // 9.6f inline 0x421680
+    inline bool sub_421680()
+    {
+        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x40) == 0x40;
+    }
+
     // TODO: Get 9.6f addr
     inline bool inline_check_0x80_info()
     {

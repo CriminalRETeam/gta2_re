@@ -1,6 +1,12 @@
 #pragma once
 
 #include "types.hpp"
+#include "Function.hpp"
+
+EXTERN_GLOBAL(u32, dword_61A9AC);
+EXTERN_GLOBAL(u32, dword_61A9A8);
+EXTERN_GLOBAL(u32, dword_61A9A4);
+EXTERN_GLOBAL(u32, dword_67ACF8);
 
 // Dumb name to avoid conflict with BitField32
 struct CompilerBitField32
@@ -65,6 +71,41 @@ class BitSet32
     {
         m_var = value;
         return *this;
+    }
+
+    inline u32 sub_4A5190()
+    {
+        return m_var;
+    }
+
+    inline void sub_4A51A0(u32 new_flags)
+    {
+        m_var = new_flags;
+    }
+
+    inline void sub_4BA360()
+    {
+        dword_67ACF8 = dword_61A9AC;
+    }
+
+    inline void sub_4BA370()
+    {
+        dword_67ACF8 = dword_61A9A8;
+    }
+
+    inline void sub_4BA350()
+    {
+        dword_67ACF8 = dword_61A9A4;
+    }
+
+    inline void sub_4BA330()
+    {
+        m_var &= dword_67ACF8;
+    }
+
+    inline void sub_4BA340()
+    {
+        m_var &= ~dword_67ACF8;
     }
 
     // 0x420D80

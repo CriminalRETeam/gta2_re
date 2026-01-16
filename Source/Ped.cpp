@@ -4381,10 +4381,37 @@ void Ped::GiveWeapon_46F650(s32 weapon_kind)
     pWeapon->field_4 = 1;
 }
 
-STUB_FUNC(0x46f680)
-void Ped::sub_46F680(Ped* a2)
+MATCH_FUNC(0x46f680)
+void Ped::sub_46F680(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
+    if (field_17C_pZone)
+    {
+        if (field_17C_pZone->field_111)
+        {
+            if (field_290 != 3 && field_290 != 1)
+            {
+                field_17C_pZone->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
+            }
+            else
+            {
+                field_17C_pZone->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
+            }
+        }
+    }
+    else
+    {
+        if (field_19C && field_19C->field_111)
+        {
+            if (field_290 != 3 && field_290 != 1)
+            {
+                field_19C->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
+            }
+            else
+            {
+                field_19C->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
+            }
+        }
+    }
 }
 
 WIP_FUNC(0x46f720)

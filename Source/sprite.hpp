@@ -85,7 +85,7 @@ class Sprite
     EXPORT void SetRemap(s16 remap);
     EXPORT s16 sub_59EAA0();
     EXPORT char_type has_shadows_59EAE0();
-    EXPORT void sub_59EB30(s32 a2, f32* a3);
+    EXPORT void sub_59EB30(f32& a2, f32& a3);
     EXPORT void ShowHorn_59EE40(s32 a2, s32 a3);
     EXPORT void Draw_59EFF0();
     EXPORT void AllocInternal_59F950(Fix16 width, Fix16 height, Fix16 a4);
@@ -173,9 +173,10 @@ class Sprite
         return field_2C & 3;
     }
 
-    inline u8 sub_4BA210()
+    inline u32 sub_4BA210()
     {
-        return field_2C >> 3;
+        //return field_2C >> 3;
+        return field_2C & 0xFFFFFFF8;
     }
 
     inline s32 sub_4B9BA0() 
@@ -187,7 +188,7 @@ class Sprite
         return 0;
     }
 
-    // matched: https://decomp.me/scratch/iNjwT
+    // matched on 9.6f but slight different on 10.5: https://decomp.me/scratch/iNjwT
     inline u32 sub_4BAC60()
     {
         u32 flags;
@@ -197,18 +198,18 @@ class Sprite
                 return sub_4B9BA0() | 0x80;
             case 1:
                 flags = sub_4BA210();
-                gTileVerts_7036D0[0].diff = (flags << 27) | 0xFFFFFF;
-                gTileVerts_7036D0[1].diff = (flags << 27) | 0xFFFFFF;
-                gTileVerts_7036D0[2].diff = (flags << 27) | 0xFFFFFF;
-                gTileVerts_7036D0[3].diff = (flags << 27) | 0xFFFFFF;
+                gTileVerts_7036D0[0].diff = (flags << 24) | 0xFFFFFF;
+                gTileVerts_7036D0[1].diff = (flags << 24) | 0xFFFFFF;
+                gTileVerts_7036D0[2].diff = (flags << 24) | 0xFFFFFF;
+                gTileVerts_7036D0[3].diff = (flags << 24) | 0xFFFFFF;
                 return sub_4B9BA0() | 0x2180;
                 break;
             case 2:
                 flags = sub_4BA210();
-                gTileVerts_7036D0[0].diff = (flags << 27) | 0xFFFFFF;
-                gTileVerts_7036D0[1].diff = (flags << 27) | 0xFFFFFF;
-                gTileVerts_7036D0[2].diff = (flags << 27) | 0xFFFFFF;
-                gTileVerts_7036D0[3].diff = (flags << 27) | 0xFFFFFF;
+                gTileVerts_7036D0[0].diff = (flags << 24) | 0xFFFFFF;
+                gTileVerts_7036D0[1].diff = (flags << 24) | 0xFFFFFF;
+                gTileVerts_7036D0[2].diff = (flags << 24) | 0xFFFFFF;
+                gTileVerts_7036D0[3].diff = (flags << 24) | 0xFFFFFF;
                 return sub_4B9BA0() | 0x2280;
                 break;
             default:
