@@ -219,6 +219,34 @@ static void GetPlayerPos(Fix16& xpos, Fix16& ypos, Fix16& zpos)
     }
 }
 
+static void ShowRectAndPointsForSprite4C(Sprite_4C* p4C)
+{
+    Fix16_Rect rect = p4C->field_30;
+    if (ImGui::TreeNode("F_30 Rect"))
+    {
+        ImGui::Value("Left", rect.field_0_left.ToFloat(), "%.2f");
+        ImGui::Value("Right", rect.field_4_right.ToFloat(), "%.2f");
+        ImGui::Value("Top", rect.field_8_top.ToFloat(), "%.2f");
+        ImGui::Value("Bottom", rect.field_C_bottom.ToFloat(), "%.2f");
+        ImGui::Value("Lower Z", rect.field_10.ToFloat(), "%.2f");
+        ImGui::Value("Higher Z", rect.field_14.ToFloat(), "%.2f");
+        ImGui::TreePop();
+    }
+
+    if (ImGui::TreeNode("F_C Boxes"))
+    {
+        ImGui::Value("0 x:", p4C->field_C_b_box[0].x.ToFloat(), "%.2f");
+        ImGui::Value("0 y:", p4C->field_C_b_box[0].y.ToFloat(), "%.2f");
+        ImGui::Value("1 x:", p4C->field_C_b_box[1].x.ToFloat(), "%.2f");
+        ImGui::Value("1 y:", p4C->field_C_b_box[1].y.ToFloat(), "%.2f");
+        ImGui::Value("2 x:", p4C->field_C_b_box[2].x.ToFloat(), "%.2f");
+        ImGui::Value("2 y:", p4C->field_C_b_box[2].y.ToFloat(), "%.2f");
+        ImGui::Value("3 x:", p4C->field_C_b_box[3].x.ToFloat(), "%.2f");
+        ImGui::Value("3 y:", p4C->field_C_b_box[3].y.ToFloat(), "%.2f");
+        ImGui::TreePop();
+    }
+}
+
 STUB_FUNC(0x5B1170)
 EXPORT void __stdcall NoRefs_sub_5B1170()
 {
@@ -862,11 +890,11 @@ void CC ImGuiDebugDraw()
                 if (ImGui::Button("Obj spawn"))
                 {
                     Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
-                    Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
+                    Sprite* pPlayerSprite2 = pPlayerChar->field_80_sprite_ptr;
                     spawned_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(spawnObjectType,
-                                                                          pPlayerSprite->field_14_xpos.x + Fix16(1),
-                                                                          pPlayerSprite->field_14_xpos.y,
-                                                                          pPlayerSprite->field_1C_zpos,
+                                                                          pPlayerSprite2->field_14_xpos.x + Fix16(1),
+                                                                          pPlayerSprite2->field_14_xpos.y,
+                                                                          pPlayerSprite2->field_1C_zpos,
                                                                           0);
                 }
 
@@ -1048,30 +1076,7 @@ void CC ImGuiDebugDraw()
                                     Sprite_4C* p4C = pSprt->field_4_0x4C_len;
                                     if (p4C)
                                     {
-                                        Fix16_Rect rect = p4C->field_30;
-                                        if (ImGui::TreeNode("F_30 Rect"))
-                                        {
-                                            ImGui::Value("Left", rect.field_0_left.ToFloat(), "%.2f");
-                                            ImGui::Value("Right", rect.field_4_right.ToFloat(), "%.2f");
-                                            ImGui::Value("Top", rect.field_8_top.ToFloat(), "%.2f");
-                                            ImGui::Value("Bottom", rect.field_C_bottom.ToFloat(), "%.2f");
-                                            ImGui::Value("Lower Z", rect.field_10.ToFloat(), "%.2f");
-                                            ImGui::Value("Higher Z", rect.field_14.ToFloat(), "%.2f");
-                                            ImGui::TreePop();
-                                        }
-
-                                        if (ImGui::TreeNode("F_C Boxes"))
-                                        {
-                                            ImGui::Value("0 x:", p4C->field_C_b_box[0].x.ToFloat(), "%.2f");
-                                            ImGui::Value("0 y:", p4C->field_C_b_box[0].y.ToFloat(), "%.2f");
-                                            ImGui::Value("1 x:", p4C->field_C_b_box[1].x.ToFloat(), "%.2f");
-                                            ImGui::Value("1 y:", p4C->field_C_b_box[1].y.ToFloat(), "%.2f");
-                                            ImGui::Value("2 x:", p4C->field_C_b_box[2].x.ToFloat(), "%.2f");
-                                            ImGui::Value("2 y:", p4C->field_C_b_box[2].y.ToFloat(), "%.2f");
-                                            ImGui::Value("3 x:", p4C->field_C_b_box[3].x.ToFloat(), "%.2f");
-                                            ImGui::Value("3 y:", p4C->field_C_b_box[3].y.ToFloat(), "%.2f");
-                                            ImGui::TreePop();
-                                        }
+                                        ShowRectAndPointsForSprite4C(p4C);
                                     }
                                     ImGui::TreePop();
                                 }
@@ -1154,7 +1159,15 @@ void CC ImGuiDebugDraw()
 
                     if (ImGui::Button("Drown Player ped"))
                     {
-                        pPlayer->field_2C4_player_ped->field_168_game_object->DrownPed_5459E0();
+                        if (pPlayer->field_2C4_player_ped->field_168_game_object)
+                        {
+                            pPlayer->field_2C4_player_ped->field_168_game_object->DrownPed_5459E0();
+                        }
+                    }
+
+                    if (pPlayerSprite)
+                    {
+                        ShowRectAndPointsForSprite4C(pPlayerSprite->field_4_0x4C_len);
                     }
                 }
             }
