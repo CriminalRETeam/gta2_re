@@ -15025,22 +15025,22 @@
         "v105_address": "0x5a6a50"
     },
     {
-        "name": "sub_5A6A90",
+        "name": "FindObject2CByModel_5A6A90",
         "v96f_address": null,
         "v105_address": "0x5a6a90"
     },
     {
-        "name": "sub_5A6AD0",
+        "name": "FindFirstActiveObject_5A6AD0",
         "v96f_address": null,
         "v105_address": "0x5a6ad0"
     },
     {
-        "name": "sub_5A6B10",
+        "name": "RemoveSprite_5A6B10",
         "v96f_address": null,
         "v105_address": "0x5a6b10"
     },
     {
-        "name": "sub_5A6B60",
+        "name": "RemoveSpriteSafe_5A6B60",
         "v96f_address": null,
         "v105_address": "0x5a6b60"
     },
@@ -15055,17 +15055,17 @@
         "v105_address": "0x5a6bd0"
     },
     {
-        "name": "sub_5A6BF0",
+        "name": "DispatchCarImpactEvents_5A6BF0",
         "v96f_address": null,
         "v105_address": "0x5a6bf0"
     },
     {
-        "name": "sub_5A6C10",
+        "name": "TagSpriteWithRng_5A6C10",
         "v96f_address": null,
         "v105_address": "0x5a6c10"
     },
     {
-        "name": "sub_5A6C40",
+        "name": "RemoveByRngValue_5A6C40",
         "v96f_address": null,
         "v105_address": "0x5a6c40"
     },
@@ -15075,7 +15075,7 @@
         "v105_address": "0x5a6ca0"
     },
     {
-        "name": "Object_3C::sub_5A6CD0",
+        "name": "Object_3C::AddSprite_5A6CD0",
         "v96f_address": null,
         "v105_address": "0x5a6cd0"
     },
@@ -15095,22 +15095,22 @@
         "v105_address": "0x5a6d80"
     },
     {
-        "name": "sub_5A6DA0",
+        "name": "PopFrontSprite_5A6DA0",
         "v96f_address": null,
         "v105_address": "0x5a6da0"
     },
     {
-        "name": "sub_5A6DC0",
+        "name": "PopBackSprite_5A6DC0",
         "v96f_address": null,
         "v105_address": "0x5a6dc0"
     },
     {
-        "name": "Object_3C::sub_5A6E10",
+        "name": "Object_3C::ClearList_5A6E10",
         "v96f_address": null,
         "v105_address": "0x5a6e10"
     },
     {
-        "name": "Object_3C::sub_5A6E40",
+        "name": "Object_3C::FindClosestSprite_5A6E40",
         "v96f_address": null,
         "v105_address": "0x5a6e40"
     },
@@ -15150,12 +15150,12 @@
         "v105_address": "0x5a71f0"
     },
     {
-        "name": "Object_3C::sub_5A7240",
+        "name": "Object_3C::PruneNonCollidingSprites_5A7240",
         "v96f_address": null,
         "v105_address": "0x5a7240"
     },
     {
-        "name": "Object_3C::sub_5A72B0",
+        "name": "Object_3C::PropagateMaxZLayer_5A72B0",
         "v96f_address": null,
         "v105_address": "0x5a72b0"
     },

@@ -714,7 +714,7 @@ char_type PurpleDoom::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pR
                 if (gPurpleDoom_list_679214)
                 {
                     bRet = 1;
-                    gPurpleDoom_list_679214->sub_5A6CD0(pObj->field_0_sprt);
+                    gPurpleDoom_list_679214->AddSprite_5A6CD0(pObj->field_0_sprt);
                     goto LABEL_28;
                 }
                 else

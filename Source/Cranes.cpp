@@ -98,12 +98,12 @@ void Crane_15C::sub_47ECC0()
             else
             {
                 field_155 = 1;
-                field_28_strct4.sub_5A6CD0(field_74);
+                field_28_strct4.AddSprite_5A6CD0(field_74);
             }
         }
         else
         {
-            field_28_strct4.sub_5A6CD0(field_74);
+            field_28_strct4.AddSprite_5A6CD0(field_74);
         }
     }
     field_74 = 0;
@@ -129,7 +129,7 @@ void Crane_15C::sub_47ED60()
     pCar->field_88 = 1;
     gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74);
     field_64->DispatchCollisionEvent_5A3100(field_74, dword_679E70, dword_679E70, word_679FC4);
-    field_28_strct4.sub_5A6CD0(field_64);
+    field_28_strct4.AddSprite_5A6CD0(field_64);
     field_74 = 0;
     field_150 = 0;
     field_64 = 0;
@@ -336,7 +336,7 @@ MATCH_FUNC(0x480310)
 void Crane_15C::Service_480310()
 {
     field_159 = 0;
-    field_28_strct4.sub_5A6C40(rng_dword_67AB34->field_0_rng - 1);
+    field_28_strct4.RemoveByRngValue_5A6C40(rng_dword_67AB34->field_0_rng - 1);
     if (field_74)
     {
         gPurpleDoom_3_679210->Remove_477B00(field_74);
@@ -352,16 +352,7 @@ void Crane_15C::Service_480310()
 
     if (field_74)
     {
-        Car_BC* pCar;
-        if (field_74->field_30_sprite_type_enum == sprite_types_enum::car)
-        {
-            pCar = field_74->field_8_car_bc_ptr;
-        }
-        else
-        {
-            pCar = NULL;
-        }
-        pCar->sub_443330();
+        field_74->AsCar_40FEB0()->sub_443330();
     }
 
     if (field_74)

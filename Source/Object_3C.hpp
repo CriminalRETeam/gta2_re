@@ -23,37 +23,34 @@ class struct_4
     }
 
     EXPORT Sprite_18* GetSpriteForModel_5A6A50(s32 a2);
-    EXPORT Object_2C* sub_5A6A90(s32 obj_type);
-    EXPORT Sprite_18* sub_5A6AD0();
-
-   
-    EXPORT void sub_5A6B10(Sprite* a2);
-
-    EXPORT void sub_5A6B60(Sprite* a2);
+    EXPORT Object_2C* FindObject2CByModel_5A6A90(s32 obj_type);
+    EXPORT Sprite_18* FindFirstActiveObject_5A6AD0();
+    EXPORT void RemoveSprite_5A6B10(Sprite* a2);
+    EXPORT void RemoveSpriteSafe_5A6B60(Sprite* a2);
     EXPORT void sub_5A6BB0();
     EXPORT void sub_5A6BD0();
-    EXPORT void sub_5A6BF0(Sprite* pSprite);
-    EXPORT char_type sub_5A6C10(Sprite* a2);
-    EXPORT void sub_5A6C40(s32 a2);
+    EXPORT void DispatchCarImpactEvents_5A6BF0(Sprite* pSprite);
+    EXPORT char_type TagSpriteWithRng_5A6C10(Sprite* a2);
+    EXPORT void RemoveByRngValue_5A6C40(s32 a2);
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
-
-    EXPORT void sub_5A6CD0(Sprite* pSprite);
+    EXPORT void AddSprite_5A6CD0(Sprite* pSprite);
     EXPORT void PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle);
     EXPORT void PushSprite_5A6D40(Sprite* pToFind);
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
-    EXPORT Sprite* sub_5A6DA0();
-    EXPORT Sprite* sub_5A6DC0();
-    EXPORT Sprite_18* sub_5A6E10();
-    EXPORT Sprite* sub_5A6E40(Fix16 xOff, Fix16 yOff);
+    EXPORT Sprite* PopFrontSprite_5A6DA0();
+    EXPORT Sprite* PopBackSprite_5A6DC0();
+    EXPORT Sprite_18* ClearList_5A6E10();
+    EXPORT Sprite* FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff);
     EXPORT Sprite* TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos);
+
     EXPORT void PoolUpdate_5A6F70(Sprite* a2);
     EXPORT void sub_5A7010();
     EXPORT void sub_5A7080();
     EXPORT void sub_5A7110();
     EXPORT s32 sub_5A71A0();
     EXPORT void sub_5A71F0();
-    EXPORT void sub_5A7240(Sprite* a2);
-    EXPORT void sub_5A72B0(Sprite* pSprite, char_type bUnknown);
+    EXPORT void PruneNonCollidingSprites_5A7240(Sprite* a2);
+    EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown);
     EXPORT char_type sub_5A7310();
 
   public:

@@ -4025,7 +4025,7 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
                 }
             }
         }
-        collision_list.sub_5A6E10();
+        collision_list.ClearList_5A6E10();
         return;
     }
 

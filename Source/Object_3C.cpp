@@ -71,7 +71,7 @@ Sprite_18* struct_4::GetSpriteForModel_5A6A50(s32 obj_type)
 }
 
 MATCH_FUNC(0x5a6a90)
-Object_2C* struct_4::sub_5A6A90(s32 obj_type)
+Object_2C* struct_4::FindObject2CByModel_5A6A90(s32 obj_type)
 {
     Sprite_18* pIter = this->field_0_p18;
     while (pIter)
@@ -95,7 +95,7 @@ Object_2C* struct_4::sub_5A6A90(s32 obj_type)
 }
 
 MATCH_FUNC(0x5a6ad0)
-Sprite_18* struct_4::sub_5A6AD0()
+Sprite_18* struct_4::FindFirstActiveObject_5A6AD0()
 {
     Sprite_18* pObjIter = this->field_0_p18;
     while (pObjIter)
@@ -118,7 +118,7 @@ Sprite_18* struct_4::sub_5A6AD0()
 }
 
 MATCH_FUNC(0x5a6b10)
-void struct_4::sub_5A6B10(Sprite* toFind)
+void struct_4::RemoveSprite_5A6B10(Sprite* toFind)
 {
     Sprite_18* pLast = 0;
     Sprite_18* pIter = this->field_0_p18;
@@ -144,7 +144,7 @@ void struct_4::sub_5A6B10(Sprite* toFind)
 }
 
 MATCH_FUNC(0x5a6b60)
-void struct_4::sub_5A6B60(Sprite* toFind)
+void struct_4::RemoveSpriteSafe_5A6B60(Sprite* toFind)
 {
     Sprite_18* pLast = 0;
     Sprite_18* pIter = this->field_0_p18;
@@ -155,13 +155,13 @@ void struct_4::sub_5A6B60(Sprite* toFind)
             if (pLast)
             {
                 pLast->mpNext = pIter->mpNext;
+                gSprite_18_Pool_703B80->DeAllocate(pIter);
             }
             else
             {
                 this->field_0_p18 = pIter->mpNext;
+                gSprite_18_Pool_703B80->DeAllocate(pIter);
             }
-
-            gSprite_18_Pool_703B80->DeAllocate(pIter);
             return;
         }
         pLast = pIter;
@@ -188,7 +188,7 @@ void struct_4::sub_5A6BD0()
 }
 
 MATCH_FUNC(0x5a6bf0)
-void struct_4::sub_5A6BF0(Sprite* pSprite)
+void struct_4::DispatchCarImpactEvents_5A6BF0(Sprite* pSprite)
 {
     for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
@@ -197,7 +197,7 @@ void struct_4::sub_5A6BF0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a6c10)
-char_type struct_4::sub_5A6C10(Sprite* toFind)
+char_type struct_4::TagSpriteWithRng_5A6C10(Sprite* toFind)
 {
     if (field_0_p18 != NULL)
     {
@@ -214,7 +214,7 @@ char_type struct_4::sub_5A6C10(Sprite* toFind)
 }
 
 MATCH_FUNC(0x5a6c40)
-void struct_4::sub_5A6C40(s32 toFind)
+void struct_4::RemoveByRngValue_5A6C40(s32 toFind)
 {
     Sprite_18* pIter = this->field_0_p18;
     Sprite_18* pLast = 0;
@@ -262,7 +262,7 @@ Sprite* struct_4::FirstSpriteOfType_5A6CA0(s32 sprite_type)
 }
 
 MATCH_FUNC(0x5a6cd0)
-void struct_4::sub_5A6CD0(Sprite* pSprite)
+void struct_4::AddSprite_5A6CD0(Sprite* pSprite)
 {
     Sprite_18* p18 = gSprite_18_Pool_703B80->Allocate();
     p18->field_0 = pSprite;
@@ -319,7 +319,7 @@ char_type struct_4::SpriteExists_5A6D80(Sprite* pToFind)
 }
 
 MATCH_FUNC(0x5a6da0)
-Sprite* struct_4::sub_5A6DA0()
+Sprite* struct_4::PopFrontSprite_5A6DA0()
 {
     Sprite_18* p18 = this->field_0_p18;
     if (!this->field_0_p18)
@@ -333,7 +333,7 @@ Sprite* struct_4::sub_5A6DA0()
 }
 
 MATCH_FUNC(0x5a6dc0)
-Sprite* struct_4::sub_5A6DC0()
+Sprite* struct_4::PopBackSprite_5A6DC0()
 {
     Sprite_18* pIter = this->field_0_p18;
     Sprite_18* pLast = 0;
@@ -358,7 +358,7 @@ Sprite* struct_4::sub_5A6DC0()
 }
 
 MATCH_FUNC(0x5a6e10)
-Sprite_18* struct_4::sub_5A6E10()
+Sprite_18* struct_4::ClearList_5A6E10()
 {
     Sprite_18* pIter = this->field_0_p18;
     while (pIter)
@@ -372,7 +372,7 @@ Sprite_18* struct_4::sub_5A6E10()
 }
 
 MATCH_FUNC(0x5a6e40)
-Sprite* struct_4::sub_5A6E40(Fix16 xOff, Fix16 yOff)
+Sprite* struct_4::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
 {
     Fix16 smallest(99999);
 
@@ -434,7 +434,7 @@ void struct_4::sub_5A7010()
         }
         p18Iter = p18Iter->mpNext;
     }
-    sub_5A6E10();
+    ClearList_5A6E10();
 }
 
 // https://decomp.me/scratch/hQof2
@@ -570,7 +570,7 @@ void struct_4::sub_5A71F0()
 }
 
 MATCH_FUNC(0x5a7240)
-void struct_4::sub_5A7240(Sprite* pSprite)
+void struct_4::PruneNonCollidingSprites_5A7240(Sprite* pSprite)
 {
     Sprite_18* pNext = this->field_0_p18;
     Sprite_18* pLast = 0;
@@ -601,7 +601,7 @@ void struct_4::sub_5A7240(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a72b0)
-void struct_4::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
+void struct_4::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
 {
     char start_val = pSprite->ComputeZLayer_5A1BD0();
     char max_val = start_val;
