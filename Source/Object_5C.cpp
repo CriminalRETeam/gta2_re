@@ -1713,7 +1713,8 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
 
     if (bUnknown &&
         (pNew2C->field_4->sub_59E7D0(0) ||
-         (pPhi->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3 && gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
+         (pPhi->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3 &&
+          gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
     {
         if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {
@@ -1959,12 +1960,9 @@ void Object_2C::ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite)
 
     PoolTake_522360();
 
-    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
+    Car_BC* pObj = pSprite->AsCar_40FEB0();
+    if (pObj)
     {
-        Car_BC* pObj = pSprite->field_8_car_bc_ptr;
-        if (pObj)
-        {
-            field_4->field_28_num = pObj->GetCrashSoundCategory_4435B0();
-        }
+        field_4->field_28_num = pObj->GetCrashSoundCategory_4435B0();
     }
 }

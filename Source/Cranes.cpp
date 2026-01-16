@@ -71,16 +71,7 @@ bool Crane_15C::sub_47EB00()
 MATCH_FUNC(0x47ecc0)
 void Crane_15C::sub_47ECC0()
 {
-    Car_BC* pCar;
-
-    if (field_74->field_30_sprite_type_enum == sprite_types_enum::car)
-    {
-        pCar = field_74->field_8_car_bc_ptr;
-    }
-    else
-    {
-        pCar = 0;
-    }
+    Car_BC* pCar = field_74->AsCar_40FEB0();
     gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74);
     pCar->sub_4435F0();
     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
@@ -114,17 +105,7 @@ void Crane_15C::sub_47ECC0()
 MATCH_FUNC(0x47ed60)
 void Crane_15C::sub_47ED60()
 {
-    Car_BC* pCar;
-
-    if (field_74->field_30_sprite_type_enum == sprite_types_enum::car)
-    {
-        pCar = field_74->field_8_car_bc_ptr;
-    }
-    else
-    {
-        pCar = 0;
-    }
-
+    Car_BC* pCar = field_74->AsCar_40FEB0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
     pCar->field_88 = 1;
     gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74);
@@ -203,20 +184,7 @@ void Crane_15C::sub_47F2F0(s32 a2, s32 a3, Sprite* a4)
 MATCH_FUNC(0x47f350)
 bool Crane_15C::sub_47F350()
 {
-    Car_BC* v2;
-    Sprite* v1 = field_70;
-
-    if (v1->field_30_sprite_type_enum == 2)
-    {
-        v2 = v1->field_8_car_bc_ptr;
-    }
-    else
-    {
-        v2 = 0;
-    }
-
-    bool result = false;
-
+    Car_BC* v2 = field_70->AsCar_40FEB0();
     if (v2->field_88 != 5)
     {
         Sprite* v3 = field_6C;
@@ -230,7 +198,7 @@ bool Crane_15C::sub_47F350()
             return true;
         }
     }
-    return result;
+    return false;
 }
 
 STUB_FUNC(0x47f3d0)
@@ -482,16 +450,11 @@ s32* Crane_15C::sub_480B60(s32 a2, s32 a3, s32 a4)
 MATCH_FUNC(0x480da0)
 Car_BC* Crane_15C::GetCarFromCrane_480DA0()
 {
-    Sprite* v1 = field_74;
-
-    if (v1 && v1->field_30_sprite_type_enum == 2)
+    if (field_74)
     {
-        return v1->field_8_car_bc_ptr;
+        return field_74->AsCar_40FEB0();
     }
-    else
-    {
-        return 0;
-    }
+    return 0;
 }
 
 MATCH_FUNC(0x480e00)
