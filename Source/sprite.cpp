@@ -44,13 +44,13 @@ DEFINE_GLOBAL_INIT(u32, kGlobalMask2_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 f
 DEFINE_GLOBAL(u32, gFlags_67ACF8, 0x67ACF8); // BitSet32 flag
 
 // matched
-static inline Fix16 __stdcall sub_4B9C70(Fix16& in)
+static inline Fix16 __stdcall RoundZToLayer_4B9C70(Fix16& in)
 {
     return Fix16((in.mValue + 0x80) & 0xFFFFFF00, 0);
 }
 
 // matched
-static inline void __stdcall sub_4B9990(f32 xCoord, f32 yCoord, f32 z_val, Vert* pVerts)
+static inline void __stdcall SaveUnprojectedVertex_4B9990(f32 xCoord, f32 yCoord, f32 z_val, Vert* pVerts)
 {
     s32 next_idx = (pVerts - gTileVerts_7036D0) + 4;
 
@@ -60,9 +60,9 @@ static inline void __stdcall sub_4B9990(f32 xCoord, f32 yCoord, f32 z_val, Vert*
 }
 
 // partially matched: https://decomp.me/scratch/qtmIe
-static inline void sub_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16& zpos)
+static inline void ProjectWorldPointToScreen_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16& zpos)
 {
-    sub_4B9990(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
+    SaveUnprojectedVertex_4B9990(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
     pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
     pVert->x = gViewCamera_676978->field_10_cam_pos_tgt2.field_8_z.ToFloat() *
             (point.x.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat()) * pVert->z +
@@ -548,12 +548,12 @@ void Sprite::Draw_59EFF0()
     f32 u = pSpriteIndex->field_4_width - 0.30000001f;
     f32 v = pSpriteIndex->field_5_height - 0.30000001f;
 
-    Fix16 new_zpos = sub_4B9C70(field_1C_zpos);
+    Fix16 new_zpos = RoundZToLayer_4B9C70(field_1C_zpos);
 
-    sub_4BA4D0(field_4_0x4C_len->field_C_b_box[0], &gTileVerts_7036D0[0], new_zpos);
-    sub_4BA4D0(field_4_0x4C_len->field_C_b_box[1], &gTileVerts_7036D0[1], new_zpos);
-    sub_4BA4D0(field_4_0x4C_len->field_C_b_box[2], &gTileVerts_7036D0[2], new_zpos);
-    sub_4BA4D0(field_4_0x4C_len->field_C_b_box[3], &gTileVerts_7036D0[3], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_b_box[0], &gTileVerts_7036D0[0], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_b_box[1], &gTileVerts_7036D0[1], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_b_box[2], &gTileVerts_7036D0[2], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_b_box[3], &gTileVerts_7036D0[3], new_zpos);
     SetUV_4B9BC0(u, v);
 
     Car_BC* pCar = AsCar_40FEB0();
