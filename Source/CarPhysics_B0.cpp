@@ -563,7 +563,7 @@ void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
     s32 not_used = 0;
     u32 cornerCount = 0;
 
-    if (!pCar->field_50_car_sprite->IsOnWater_59E1D0() && !field_5C_pCar->sub_40F890())
+    if (!pCar->field_50_car_sprite->IsOnWater_59E1D0() && !field_5C_pCar->IsMaxDamage_40F890())
     {
         if (apply_to_corners_mask == 0)
         {

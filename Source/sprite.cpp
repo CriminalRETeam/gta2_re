@@ -38,10 +38,10 @@ DEFINE_GLOBAL_INIT(Ang16, word_70344C, Ang16(360), 0x70344C);
 DEFINE_GLOBAL_INIT(Ang16, word_70351E, Ang16(720), 0x70351E);
 DEFINE_GLOBAL_INIT(Ang16, word_703544, Ang16(1080), 0x703544);
 DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8, 0x7036D0);
-DEFINE_GLOBAL_INIT(u32, dword_61A9AC, 0x0C00060, 0x61A9AC); // BitSet32 flag
-DEFINE_GLOBAL_INIT(u32, dword_61A9A8, 0x0C70060, 0x61A9A8); // BitSet32 flag
-DEFINE_GLOBAL_INIT(u32, dword_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 flag
-DEFINE_GLOBAL(u32, dword_67ACF8, 0x67ACF8); // BitSet32 flag
+DEFINE_GLOBAL_INIT(u32, kGlobalMask0_61A9AC, 0x0C00060, 0x61A9AC); // BitSet32 flag
+DEFINE_GLOBAL_INIT(u32, kGlobalMask1_61A9A8, 0x0C70060, 0x61A9A8); // BitSet32 flag
+DEFINE_GLOBAL_INIT(u32, kGlobalMask2_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 flag
+DEFINE_GLOBAL(u32, gFlags_67ACF8, 0x67ACF8); // BitSet32 flag
 
 // matched
 static inline Fix16 __stdcall sub_4B9C70(Fix16& in)
@@ -565,19 +565,19 @@ void Sprite::Draw_59EFF0()
         }
         if (gLighting_626A09)
         {
-            if (pCar->sub_421680())
+            if (pCar->inline_check_0x40_info_421680())
             {
-                pCar->field_8_damaged_areas.sub_4BA360(); // sets a global to another
+                pCar->field_8_damaged_areas.SetGlobal0_4BA360(); // sets a global to another
             }
             else
             {
                 if (pCar->is_FBI_car_411920())
                 {
-                    pCar->field_8_damaged_areas.sub_4BA370();
+                    pCar->field_8_damaged_areas.SetGlobal1_4BA370();
                 }
                 else
                 {
-                    pCar->field_8_damaged_areas.sub_4BA350();
+                    pCar->field_8_damaged_areas.SetGlobal2_4BA350();
                 }                   
             }
             pCar->field_8_damaged_areas.sub_4BA340();
