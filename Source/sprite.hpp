@@ -6,9 +6,13 @@
 #include "ang16.hpp"
 #include "enums.hpp"
 #include "fix16.hpp"
+#include "gbh_graphics.hpp"
 
 EXTERN_GLOBAL(Ang16, gAng16_703804);
 EXTERN_GLOBAL(Fix16, gFix16_7035C0);
+
+EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
+EXTERN_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8);
 
 class Car_BC;
 class Char_B4;
@@ -161,6 +165,54 @@ class Sprite
         else
         {
             return NULL;
+        }
+    }
+
+    inline s32 sub_4BA200() 
+    {
+        return field_2C & 3;
+    }
+
+    inline u8 sub_4BA210()
+    {
+        return field_2C >> 3;
+    }
+
+    inline s32 sub_4B9BA0() 
+    {
+        if ((field_2C & 4) == 0)
+        {
+            return gLightingDrawFlag_7068F4;
+        }
+        return 0;
+    }
+
+    // matched: https://decomp.me/scratch/iNjwT
+    inline u32 sub_4BAC60()
+    {
+        u32 flags;
+        switch (sub_4BA200())
+        {
+            case 0:
+                return sub_4B9BA0() | 0x80;
+            case 1:
+                flags = sub_4BA210();
+                gTileVerts_7036D0[0].diff = (flags << 27) | 0xFFFFFF;
+                gTileVerts_7036D0[1].diff = (flags << 27) | 0xFFFFFF;
+                gTileVerts_7036D0[2].diff = (flags << 27) | 0xFFFFFF;
+                gTileVerts_7036D0[3].diff = (flags << 27) | 0xFFFFFF;
+                return sub_4B9BA0() | 0x2180;
+                break;
+            case 2:
+                flags = sub_4BA210();
+                gTileVerts_7036D0[0].diff = (flags << 27) | 0xFFFFFF;
+                gTileVerts_7036D0[1].diff = (flags << 27) | 0xFFFFFF;
+                gTileVerts_7036D0[2].diff = (flags << 27) | 0xFFFFFF;
+                gTileVerts_7036D0[3].diff = (flags << 27) | 0xFFFFFF;
+                return sub_4B9BA0() | 0x2280;
+                break;
+            default:
+                return 0;
         }
     }
 

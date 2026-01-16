@@ -10,10 +10,13 @@
 #include "debug.hpp"
 #include "enums.hpp"
 #include "error.hpp"
+#include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "root_sound.hpp"
+#include "sharp_pare_0x15D8.hpp"
+#include "winmain.hpp" // TODO: only because of gLighting_626A09
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -34,6 +37,48 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_7033C0, dword_7035E4 - dword_703678, 0x7033C0)
 DEFINE_GLOBAL_INIT(Ang16, word_70344C, Ang16(360), 0x70344C);
 DEFINE_GLOBAL_INIT(Ang16, word_70351E, Ang16(720), 0x70351E);
 DEFINE_GLOBAL_INIT(Ang16, word_703544, Ang16(1080), 0x703544);
+DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8, 0x7036D0);
+
+// matched
+static inline Fix16 __stdcall sub_4B9C70(Fix16& in) 
+{
+    return Fix16((in.mValue + 0x80) & 0xFFFFFF00, 0);
+}
+
+// matched
+static inline void __stdcall sub_4B9990(f32 xCoord, f32 yCoord, f32 z_val, Vert* pVerts) 
+{
+    s32 next_idx = (pVerts - gTileVerts_7036D0) + 4;
+
+    gTileVerts_7036D0[next_idx].x = xCoord;
+    gTileVerts_7036D0[next_idx].y = yCoord;
+    gTileVerts_7036D0[next_idx].z = z_val;
+}
+
+// partially matched: https://decomp.me/scratch/qtmIe
+static inline void sub_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16& zpos) 
+{
+    sub_4B9990(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
+    pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+    pVert->x = gViewCamera_676978->field_10_cam_pos_tgt2.field_8_z.ToFloat() * (point.x.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat()) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+    pVert->y = gViewCamera_676978->field_10_cam_pos_tgt2.field_8_z.ToFloat() * (point.y.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_4_y.ToFloat()) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+}
+
+// not exactly __fastcall but something similar... https://decomp.me/scratch/N5g2D
+static inline void __fastcall SetUV_4B9BC0(f32& u, f32& v) 
+{
+    gTileVerts_7036D0[0].u = 0.30000001f;
+    gTileVerts_7036D0[0].v = 0.30000001f;
+
+    gTileVerts_7036D0[1].u = u;
+    gTileVerts_7036D0[1].v = 0.30000001f;
+
+    gTileVerts_7036D0[2].u = u;
+    gTileVerts_7036D0[2].v = v;
+
+    gTileVerts_7036D0[3].u = 0.30000001f;
+    gTileVerts_7036D0[3].v = v;
+}
 
 MATCH_FUNC(0x562450)
 Fix16_Point Sprite::GetBoundingBoxCorner_562450(s32 idx)
@@ -439,10 +484,151 @@ void Sprite::ShowHorn_59EE40(s32 a2, s32 a3)
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/omhyc
 STUB_FUNC(0x59eff0)
 void Sprite::Draw_59EFF0()
 {
     NOT_IMPLEMENTED;
+    s32 v2;
+    sprite_index* pSpriteIndex;
+    u16 converted_pal;
+    sprite_index* pSpriteIndex2;
+    u16 pal;
+    STexture* pTexture_1;
+
+    u16 unknown;
+    
+    Sprite::Update_4C_59F990();
+    if (this->field_38)
+    {
+        u16 v2 = gGtx_0x106C_703DD4->field_4_sprite_index_count - 1;
+        unknown = v2; //v79 = v2;
+        pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v2);
+        converted_pal =
+            gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(this->field_30_sprite_type_enum, this->field_22_sprite_id);
+        pSpriteIndex2 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
+        pSpriteIndex->field_4_width = pSpriteIndex2->field_4_width - 2 * this->field_38;
+        //field_4_width = pSpriteIndex->field_4_width;
+        pSpriteIndex->field_5_height = pSpriteIndex2->field_5_height - 2 * this->field_38;
+        if (!pSpriteIndex->field_4_width || !pSpriteIndex->field_5_height)
+        {
+            return;
+        }
+        pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * (u8)this->field_38];
+        pal = Sprite::sub_59EAA0();
+        //LOWORD(v9) = pSpriteIndex->field_5_height;
+        pTexture_1 = gSharp_pare_0x15D8_705064->sub_5B9710(
+                                                   pSpriteIndex->field_4_width,
+                                                   pSpriteIndex->field_5_height,
+                                                   pSpriteIndex->field_0_pData,
+                                                   pal);
+    }
+    else
+    {
+        u16 v11 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(this->field_30_sprite_type_enum, this->field_22_sprite_id);
+        unknown = v11; //v79 = v11;
+        pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v11);
+        pTexture_1 =
+            gSharp_pare_0x15D8_705064->sub_5B94F0(this->field_30_sprite_type_enum, field_22_sprite_id, field_34, field_24_remap);
+    }
+    
+    STexture* pTexture = pTexture_1;
+    if (!field_4_0x4C_len->field_48_bDrawCollisionBox)
+    {
+        field_4_0x4C_len->UpdateRotatedBoundingBox_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
+    }
+
+    //Sprite_4C* p4C = field_4_0x4C_len;
+
+    f32 u = pSpriteIndex->field_4_width - 0.30000001f;
+    f32 v = pSpriteIndex->field_5_height - 0.30000001f;
+    
+    Fix16 new_zpos = sub_4B9C70(field_1C_zpos);
+    
+    sub_4BA4D0(field_4_0x4C_len->field_C_b_box[0], &gTileVerts_7036D0[0], new_zpos);
+    sub_4BA4D0(field_4_0x4C_len->field_C_b_box[1], &gTileVerts_7036D0[1], new_zpos);
+    sub_4BA4D0(field_4_0x4C_len->field_C_b_box[2], &gTileVerts_7036D0[2], new_zpos);
+    sub_4BA4D0(field_4_0x4C_len->field_C_b_box[3], &gTileVerts_7036D0[3], new_zpos);
+    SetUV_4B9BC0(u, v);
+
+    Car_BC* pCar = AsCar_40FEB0();
+    if (pCar)
+    {
+        if (field_38)
+        {
+            gSprite_3CC_67AF1C->sub_48F6E0(&unknown);
+        }
+        if ( gLighting_626A09 )
+        {
+            // TODO: stuff here
+            /*
+            if (Car_BC::sub_421680(pCar))
+            {
+                sub_4BA360((int)&pCar->field_8_damaged_areas); // sets a global to another
+            }
+            else
+            {
+                is_FBI_car_411920 = Car_BC::is_FBI_car_411920(pCar);
+                p_field_8_damaged_areas = (int)&pCar->field_8_damaged_areas;
+                if (is_FBI_car_411920)
+                    sub_4BA370(p_field_8_damaged_areas);
+                else
+                    sub_4BA350(p_field_8_damaged_areas);
+            }
+            sub_4BA340(&pCar->field_8_damaged_areas);
+            */
+        }
+        // TODO: stuff here
+    }
+    else
+    {
+        Char_B4* pChar = AsCharB4_40FEA0();
+        if (pChar)
+        {
+            Ped* pPed = pChar->get_ped_433A20();
+            if (pPed && pPed->field_15C_player)
+            {
+                if (pPed->field_21C_bf.b26 && !pPed->field_15C_player->IsUser_41DC70())
+                {
+                    return;
+                }
+            }
+        }
+    }
+
+    if (Sprite::has_shadows_59EAE0())
+    {
+        Vert pShadowVerts[4]; // length 4? strange
+
+        memcpy(&pShadowVerts[0], &gTileVerts_7036D0[0], sizeof(Vert));
+        
+        memcpy(&pShadowVerts[1], &gTileVerts_7036D0[1], sizeof(Vert));
+        memcpy(&pShadowVerts[2], &gTileVerts_7036D0[2], sizeof(Vert));
+        memcpy(&pShadowVerts[3], &gTileVerts_7036D0[3], sizeof(Vert));
+
+        f32 shadow_offset = (gViewCamera_676978->field_A8_ui_scale * 5).ToFloat();
+        pShadowVerts[0].diff = 0xA0000000;
+        pShadowVerts[1].diff = 0xA0000000;
+        pShadowVerts[2].diff = 0xA0000000;
+        pShadowVerts[3].diff = 0xA0000000;
+
+        pShadowVerts[0].x = gTileVerts_7036D0[0].x + shadow_offset;
+        pShadowVerts[1].x = gTileVerts_7036D0[1].x + shadow_offset;
+        pShadowVerts[2].x = gTileVerts_7036D0[2].x + shadow_offset;
+        pShadowVerts[3].x = gTileVerts_7036D0[3].x + shadow_offset;
+
+        pShadowVerts[0].y += shadow_offset;
+        pShadowVerts[1].y += shadow_offset;
+        pShadowVerts[2].y += shadow_offset;
+        pShadowVerts[3].y += shadow_offset;
+
+        pgbh_DrawQuad(8576, pTexture, pShadowVerts, 255);
+    }
+
+    u32 flags = Sprite::sub_4BAC60();
+    pgbh_DrawQuad(flags, pTexture, gTileVerts_7036D0, 255);
+
+    // TODO: rest of the function
 }
 
 MATCH_FUNC(0x59f950)

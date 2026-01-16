@@ -140,6 +140,11 @@ class Char_B4
         field_38_velocity = max_speed;
     }
 
+    inline Ped* get_ped_433A20()
+    {
+        return field_7C_pPed;
+    }
+
     Char_B4();
     ~Char_B4();
 
