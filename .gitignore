@@ -29,3 +29,8 @@ venv
 .vscode/cmake-kits.json
 reccmp-build.yml
 reccmp-user.yml
+Scripts/asm/*.asm
+Scripts/asm/*.obj
+Scripts/asm/make_objs.sh
+Scripts/output.asm
+Source/*.obj
