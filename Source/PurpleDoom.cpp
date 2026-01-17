@@ -73,7 +73,7 @@ void PurpleDoom::DrawSpritesClipped_477A40()
 MATCH_FUNC(0x477ae0)
 void PurpleDoom::AddToSingleBucket_477AE0(Sprite* a1)
 {
-    AddToSingleBucket_478440(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
+    AddToSingleBucket_478440(a1->field_14_xy.x.ToInt(), a1->field_14_xy.y.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b00)
@@ -82,7 +82,7 @@ void PurpleDoom::Remove_477B00(Sprite* a1)
     // Note: Single bucket remove only - multi bucket remove doesn't exist
     // reason being the whole structure is cleared and rebuilt every frame.
     // I guess they just needed the single remove for bullets etc.
-    DoRemove_4782C0(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
+    DoRemove_4782C0(a1->field_14_xy.x.ToInt(), a1->field_14_xy.y.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b20)
@@ -160,8 +160,8 @@ Sprite* PurpleDoom::FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1,
                                                           s32 searchMode,
                                                           char_type bUseSpriteZ)
 {
-    gPurpleDoom_start_x_679090 = pExclude->field_14_xpos.x.ToInt();
-    gPurpleDoom_start_y_679098 = pExclude->field_14_xpos.y.ToInt();
+    gPurpleDoom_start_x_679090 = pExclude->field_14_xy.x.ToInt();
+    gPurpleDoom_start_y_679098 = pExclude->field_14_xy.y.ToInt();
     gPurpleDoom_sprite_type1_678FE8 = sprite_type1;
     gPurpleDoom_sprite_type2_678FEC = sprite_type2;
     gPurpleDoom_exclude_sprite_678F40 = pExclude;
@@ -703,7 +703,7 @@ char_type PurpleDoom::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pR
                         if (v10->field_0.rValue)
                         {
                             if (ang_v != 360 && ang_v != 720 && ang_v != 1080 && !v10->sub_59FB10(&pRect->field_0_left) &&
-                                !pRect->sub_59DDF0(pObj->field_0_sprt))
+                                !pRect->IntersectsSpriteRenderingRect_59DDF0(pObj->field_0_sprt))
                             {
                                 goto LABEL_28;
                             }

@@ -379,8 +379,8 @@ Sprite* struct_4::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
     Sprite* new_ret = 0;
     for (Sprite_18* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        Fix16 xd = pIter->field_0->field_14_xpos.x - xOff;
-        Fix16 yd = pIter->field_0->field_14_xpos.y - yOff;
+        Fix16 xd = pIter->field_0->field_14_xy.x - xOff;
+        Fix16 yd = pIter->field_0->field_14_xy.y - yOff;
         Fix16 yDelta = Fix16::Abs(yd);
         Fix16 xDelta = Fix16::Abs(xd);
 

@@ -207,8 +207,8 @@ static void GetPlayerPos(Fix16& xpos, Fix16& ypos, Fix16& zpos)
 
     if (pPlayerSprite)
     {
-        xpos = pPlayerSprite->field_14_xpos.x;
-        ypos = pPlayerSprite->field_14_xpos.y;
+        xpos = pPlayerSprite->field_14_xy.x;
+        ypos = pPlayerSprite->field_14_xy.y;
         zpos = pPlayerSprite->field_1C_zpos;
     }
     else
@@ -221,28 +221,28 @@ static void GetPlayerPos(Fix16& xpos, Fix16& ypos, Fix16& zpos)
 
 static void ShowRectAndPointsForSprite4C(Sprite_4C* p4C)
 {
-    Fix16_Rect rect = p4C->field_30;
-    if (ImGui::TreeNode("F_30 Rect"))
+    Fix16_Rect rect = p4C->field_30_boundingBox;
+    if (ImGui::TreeNode("bounding box"))
     {
         ImGui::Value("Left", rect.field_0_left.ToFloat(), "%.2f");
         ImGui::Value("Right", rect.field_4_right.ToFloat(), "%.2f");
         ImGui::Value("Top", rect.field_8_top.ToFloat(), "%.2f");
         ImGui::Value("Bottom", rect.field_C_bottom.ToFloat(), "%.2f");
-        ImGui::Value("Lower Z", rect.field_10.ToFloat(), "%.2f");
-        ImGui::Value("Higher Z", rect.field_14.ToFloat(), "%.2f");
+        ImGui::Value("Lower Z", rect.field_10_low_z.ToFloat(), "%.2f");
+        ImGui::Value("Higher Z", rect.field_14_high_z.ToFloat(), "%.2f");
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("F_C Boxes"))
+    if (ImGui::TreeNode("rendering rect"))
     {
-        ImGui::Value("0 x:", p4C->field_C_b_box[0].x.ToFloat(), "%.2f");
-        ImGui::Value("0 y:", p4C->field_C_b_box[0].y.ToFloat(), "%.2f");
-        ImGui::Value("1 x:", p4C->field_C_b_box[1].x.ToFloat(), "%.2f");
-        ImGui::Value("1 y:", p4C->field_C_b_box[1].y.ToFloat(), "%.2f");
-        ImGui::Value("2 x:", p4C->field_C_b_box[2].x.ToFloat(), "%.2f");
-        ImGui::Value("2 y:", p4C->field_C_b_box[2].y.ToFloat(), "%.2f");
-        ImGui::Value("3 x:", p4C->field_C_b_box[3].x.ToFloat(), "%.2f");
-        ImGui::Value("3 y:", p4C->field_C_b_box[3].y.ToFloat(), "%.2f");
+        ImGui::Value("0 x:", p4C->field_C_renderingRect[0].x.ToFloat(), "%.2f");
+        ImGui::Value("0 y:", p4C->field_C_renderingRect[0].y.ToFloat(), "%.2f");
+        ImGui::Value("1 x:", p4C->field_C_renderingRect[1].x.ToFloat(), "%.2f");
+        ImGui::Value("1 y:", p4C->field_C_renderingRect[1].y.ToFloat(), "%.2f");
+        ImGui::Value("2 x:", p4C->field_C_renderingRect[2].x.ToFloat(), "%.2f");
+        ImGui::Value("2 y:", p4C->field_C_renderingRect[2].y.ToFloat(), "%.2f");
+        ImGui::Value("3 x:", p4C->field_C_renderingRect[3].x.ToFloat(), "%.2f");
+        ImGui::Value("3 y:", p4C->field_C_renderingRect[3].y.ToFloat(), "%.2f");
         ImGui::TreePop();
     }
 }
@@ -439,8 +439,8 @@ void CC ImGuiDebugDraw()
                     if (pPedSprite && pPedSprite != pPlayerSprite)
                     {
                         //gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPedSprite, 1);
-                        //gParticle_8_6FD5E8->SpawnBlood_53E880(pPedSprite->field_14_xpos.x,
-                        //                                      pPedSprite->field_14_xpos.y,
+                        //gParticle_8_6FD5E8->SpawnBlood_53E880(pPedSprite->field_14_xy.x,
+                        //                                      pPedSprite->field_14_xy.y,
                         //                                      pPedSprite->field_1C_zpos);
                         gParticle_8_6FD5E8->EmitFireTruckSprayParticle_53FAE0(pPedSprite);
                     }
@@ -481,8 +481,8 @@ void CC ImGuiDebugDraw()
                 //gParticle_8_6FD5E8->SpawnParticleSprite_5405D0(pPlayerSprite);
 
                 // Drowing peds/cars in water etc
-                gParticle_8_6FD5E8->EmitWaterSplash_53F060(pPlayerSprite->field_14_xpos.x,
-                                                           pPlayerSprite->field_14_xpos.y,
+                gParticle_8_6FD5E8->EmitWaterSplash_53F060(pPlayerSprite->field_14_xy.x,
+                                                           pPlayerSprite->field_14_xy.y,
                                                            pPlayerSprite->field_1C_zpos,
                                                            0,
                                                            0);
@@ -490,8 +490,8 @@ void CC ImGuiDebugDraw()
                 gParticle_8_6FD5E8->GunMuzzelFlash_53E970(pPlayerSprite);
 
                 // Not sure where this is used in game ??
-                gParticle_8_6FD5E8->EmitElectricArcParticle(pPlayerSprite->field_14_xpos.x,
-                                                            pPlayerSprite->field_14_xpos.y,
+                gParticle_8_6FD5E8->EmitElectricArcParticle(pPlayerSprite->field_14_xy.x,
+                                                            pPlayerSprite->field_14_xy.y,
                                                             pPlayerSprite->field_1C_zpos,
                                                             0);
 
@@ -499,14 +499,14 @@ void CC ImGuiDebugDraw()
                 gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(pPlayerSprite);
 
                 // When being shot etc
-                gParticle_8_6FD5E8->EmitBloodBurst_53E450(pPlayerSprite->field_14_xpos.x,
-                                                          pPlayerSprite->field_14_xpos.y,
+                gParticle_8_6FD5E8->EmitBloodBurst_53E450(pPlayerSprite->field_14_xy.x,
+                                                          pPlayerSprite->field_14_xy.y,
                                                           pPlayerSprite->field_1C_zpos,
                                                           0);
 
                 // Like when a car crashes
-                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pPlayerSprite->field_14_xpos.x,
-                                                               pPlayerSprite->field_14_xpos.y,
+                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pPlayerSprite->field_14_xy.x,
+                                                               pPlayerSprite->field_14_xy.y,
                                                                pPlayerSprite->field_1C_zpos,
                                                                0,
                                                                0);
@@ -650,8 +650,8 @@ void CC ImGuiDebugDraw()
 
                     if (pPlayerSprite)
                     {
-                        pPlayerSprite->field_14_xpos.x = xpos;
-                        pPlayerSprite->field_14_xpos.y = ypos;
+                        pPlayerSprite->field_14_xy.x = xpos;
+                        pPlayerSprite->field_14_xy.y = ypos;
                         pPlayerSprite->field_1C_zpos = zpos;
                         pPlayerSprite->field_8_char_b4_ptr->field_A4_xpos = xpos;
                         pPlayerSprite->field_8_char_b4_ptr->field_A8_ypos = ypos;
@@ -828,8 +828,8 @@ void CC ImGuiDebugDraw()
 
                     //pPlayerPed->GiveWeapon_46F650(weapon_type::flamethrower);
                     /*
-                    Ped* pNewPed = gPedManager_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos.x,
-                                                            pPlayerSprite->field_14_xpos.y,
+                    Ped* pNewPed = gPedManager_6787BC->SpawnPedAt(pPlayerSprite->field_14_xy.x,
+                                                            pPlayerSprite->field_14_xy.y,
                                                             pPlayerSprite->field_1C_zpos,
                                                             pPlayerChar->field_5_remap,
                                                             pPlayerPed->field_134);
@@ -892,8 +892,8 @@ void CC ImGuiDebugDraw()
                     Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                     Sprite* pPlayerSprite2 = pPlayerChar->field_80_sprite_ptr;
                     spawned_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(spawnObjectType,
-                                                                          pPlayerSprite2->field_14_xpos.x + Fix16(1),
-                                                                          pPlayerSprite2->field_14_xpos.y,
+                                                                          pPlayerSprite2->field_14_xy.x + Fix16(1),
+                                                                          pPlayerSprite2->field_14_xy.y,
                                                                           pPlayerSprite2->field_1C_zpos,
                                                                           0);
                 }
@@ -1325,8 +1325,8 @@ void CC ImGuiDebugDraw()
                     {
                         Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                         Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
-                        gPedManager_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos.x,
-                                                       pPlayerSprite->field_14_xpos.y,
+                        gPedManager_6787BC->SpawnPedAt(pPlayerSprite->field_14_xy.x,
+                                                       pPlayerSprite->field_14_xy.y,
                                                        pPlayerSprite->field_1C_zpos,
                                                        pPlayerChar->field_5_remap,
                                                        pPlayerPed->field_134_rotation);

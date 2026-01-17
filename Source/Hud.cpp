@@ -1236,8 +1236,8 @@ void ArrowTrace_24::UpdateAimCoordinates_5D03F0()
             else
             {
                 pSprite = pCar->field_50_car_sprite;
-                field_14_aim_x = pSprite->field_14_xpos.x;
-                field_18_aim_y = pSprite->field_14_xpos.y;
+                field_14_aim_x = pSprite->field_14_xy.x;
+                field_18_aim_y = pSprite->field_14_xy.y;
                 field_1C_aim_z = pSprite->field_1C_zpos;
             }
             break;
@@ -1250,8 +1250,8 @@ void ArrowTrace_24::UpdateAimCoordinates_5D03F0()
             else
             {
                 pSprite = field_8_obj->field_4;
-                field_14_aim_x = pSprite->field_14_xpos.x;
-                field_18_aim_y = pSprite->field_14_xpos.y;
+                field_14_aim_x = pSprite->field_14_xy.x;
+                field_18_aim_y = pSprite->field_14_xy.y;
                 field_1C_aim_z = pSprite->field_1C_zpos;
             }
             break;

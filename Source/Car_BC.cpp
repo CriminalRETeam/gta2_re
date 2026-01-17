@@ -1512,7 +1512,7 @@ void Car_BC::sub_43BBC0()
         s32 pedId = this->field_70_exploder_ped_id;
 
         Object_2C* pExplosion =
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCarSprite->field_14_xpos.x, pCarSprite->field_14_xpos.y, 4, word_67791C, 4, pedId);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCarSprite->field_14_xy.x, pCarSprite->field_14_xy.y, 4, word_67791C, 4, pedId);
         if (pExplosion)
         {
             field_50_car_sprite->DispatchCollisionEvent_5A3100(pExplosion->field_4, gFix16_6777CC, gFix16_6777CC, word_67791C);
@@ -2874,7 +2874,7 @@ void Car_BC::LightUpdate_442D10()
     {
         Sprite* pSprite = p18->field_0;
         Object_2C* o2c = pSprite->As2C_40FEC0();
-        if (gMap_0x370_6F6268->sub_4E7FC0(pSprite->field_14_xpos.x, pSprite->field_14_xpos.y, pSprite->field_1C_zpos))
+        if (gMap_0x370_6F6268->sub_4E7FC0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos))
         {
             o2c->Light_527990();
         }
@@ -3274,10 +3274,10 @@ void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_50_car_sprite);
     Sprite* pCarSprite = field_50_car_sprite;
-    if (pCarSprite->field_14_xpos.x != xpos || pCarSprite->field_14_xpos.y != ypos || pCarSprite->field_1C_zpos != zpos)
+    if (pCarSprite->field_14_xy.x != xpos || pCarSprite->field_14_xy.y != ypos || pCarSprite->field_1C_zpos != zpos)
     {
-        pCarSprite->field_14_xpos.x = xpos;
-        pCarSprite->field_14_xpos.y = ypos;
+        pCarSprite->field_14_xy.x = xpos;
+        pCarSprite->field_14_xy.y = ypos;
         pCarSprite->field_1C_zpos = zpos;
         pCarSprite->ResetZCollisionAndDebugBoxes_59E7B0();
     }

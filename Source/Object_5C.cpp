@@ -514,8 +514,8 @@ void Object_2C::sub_525190(u8 varrok_idx)
         if (field_8->field_48 == 13)
         {
             sub_5291D0();
-            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xpos.x,
-                                                                              this->field_4->field_14_xpos.y,
+            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xy.x,
+                                                                              this->field_4->field_14_xy.y,
                                                                               this->field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               19,
@@ -840,10 +840,10 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     }
 
     Sprite* pSprite = field_4;
-    if (pSprite->field_14_xpos.x != xpos || pSprite->field_14_xpos.y != ypos || pSprite->field_1C_zpos != zpos)
+    if (pSprite->field_14_xy.x != xpos || pSprite->field_14_xy.y != ypos || pSprite->field_1C_zpos != zpos)
     {
-        pSprite->field_14_xpos.x = xpos;
-        pSprite->field_14_xpos.y = ypos;
+        pSprite->field_14_xy.x = xpos;
+        pSprite->field_14_xy.y = ypos;
         pSprite->field_1C_zpos = zpos;
         pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
     }
@@ -1212,8 +1212,8 @@ MATCH_FUNC(0x529240)
 s32 Object_2C::sub_529240()
 {
     s32 result;
-    gmp_block_info* pBlockInfo = gMap_0x370_6F6268->get_block_4DFE10(field_4->field_14_xpos.x.ToInt(),
-                                                                     field_4->field_14_xpos.y.ToInt(),
+    gmp_block_info* pBlockInfo = gMap_0x370_6F6268->get_block_4DFE10(field_4->field_14_xy.x.ToInt(),
+                                                                     field_4->field_14_xy.y.ToInt(),
                                                                      field_4->field_1C_zpos.ToInt());
     switch (field_26_varrok_idx)
     {
@@ -1448,8 +1448,8 @@ void Object_5C::sub_529300()
         {
             if (gGame_0x40_67E008->sub_4B97E0(pSprite, kFpZero_6F8E10))
             {
-                Object_5C::CreateExplosion_52A3D0(pSprite->field_14_xpos.x,
-                                                  pSprite->field_14_xpos.y,
+                Object_5C::CreateExplosion_52A3D0(pSprite->field_14_xy.x,
+                                                  pSprite->field_14_xy.y,
                                                   pSprite->field_1C_zpos,
                                                   kZeroAng_6F8F68,
                                                   18,

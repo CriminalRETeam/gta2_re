@@ -16,9 +16,9 @@ void Fix16_Rect::DoSetCurrentRect_59DD60()
 
 // 0x4BA6C0 9.6f
 MATCH_FUNC(0x59ddf0)
-u32 Fix16_Rect::sub_59DDF0(Sprite* a2)
+u32 Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* a2)
 {
-    Fix16_Point* v3 = a2->field_C_sprite_4c_ptr->field_C_b_box;
+    Fix16_Point* v3 = a2->field_C_sprite_4c_ptr->field_C_renderingRect;
 
     if (IsPointInRect_4B9FD0(&v3[0]) || IsPointInRect_4B9FD0(&v3[1]) 
         || IsPointInRect_4B9FD0(&v3[2]) || IsPointInRect_4B9FD0(&v3[3]))
@@ -32,20 +32,20 @@ u32 Fix16_Rect::sub_59DDF0(Sprite* a2)
 }
 
 WIP_FUNC(0x59de80)
-char_type Fix16_Rect::sub_59DE80()
+char_type Fix16_Rect::CanRectEnterMovementRegion_59DE80()
 {
     WIP_IMPLEMENTED;
     DoSetCurrentRect_59DD60();
-    return gMap_0x370_6F6268->sub_4E4460(
+    return gMap_0x370_6F6268->CanSpriteEnterMovementRegion_4E4460(
              ((this->field_0_left + this->field_4_right) / 2).ToInt(),
              ((this->field_8_top + this->field_C_bottom) / 2).ToInt(),
-             ((this->field_10 + this->field_14) / 2).ToInt(),
+             ((this->field_10_low_z + this->field_14_high_z) / 2).ToInt(),
              0,
              1024);
 }
 
 MATCH_FUNC(0x59dee0)
-void Fix16_Rect::sub_59DEE0(Fix16 a2, Fix16 a3)
+void Fix16_Rect::ExpandToIncludePoint_59DEE0(Fix16 a2, Fix16 a3)
 {
     if (a2 < field_0_left)
     {
@@ -73,7 +73,7 @@ void Fix16_Rect::sub_59DEE0(Fix16 a2, Fix16 a3)
 }
 
 MATCH_FUNC(0x59df20)
-bool Fix16_Rect::sub_59DF20(u8 zone_type)
+bool Fix16_Rect::RectOverlapsZone_59DF20(u8 zone_type)
 {
     u8 zone_y = field_8_top.ToUInt8();
     u8 zone_x;
@@ -95,7 +95,7 @@ bool Fix16_Rect::sub_59DF20(u8 zone_type)
 }
 
 MATCH_FUNC(0x59dfb0)
-bool Fix16_Rect::sub_59DFB0(s32 a2)
+bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 a2)
 {
     u8 y_pos = field_8_top.ToUInt8();
     u8 x_pos;
@@ -112,7 +112,7 @@ bool Fix16_Rect::sub_59DFB0(s32 a2)
                 return false;
             }
 
-            gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x_pos, y_pos, field_10.ToInt());
+            gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x_pos, y_pos, field_10_low_z.ToInt());
             if (block_4DFE10)
             {
                 

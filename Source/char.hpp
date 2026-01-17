@@ -107,12 +107,12 @@ class Char_B4
 
     inline Fix16 get_sprite_xpos()
     {
-        return field_80_sprite_ptr->field_14_xpos.x;
+        return field_80_sprite_ptr->field_14_xy.x;
     }
 
     inline Fix16 get_sprite_ypos()
     {
-        return field_80_sprite_ptr->field_14_xpos.y;
+        return field_80_sprite_ptr->field_14_xy.y;
     }
 
     inline Fix16 get_sprite_zpos()

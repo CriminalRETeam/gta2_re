@@ -45,10 +45,10 @@ class Sprite_4C
     Fix16 field_0_width;
     Fix16 field_4_height;
     Fix16 field_8;
-    Fix16_Point field_C_b_box[4];
+    Fix16_Point field_C_renderingRect[4];
     Sprite_4C* mpNext;
-    Fix16_Rect field_30;
-    char_type field_48_bDrawCollisionBox;
+    Fix16_Rect field_30_boundingBox;
+    bool field_48_bBoxUpToDate;
     char_type field_49;
     char_type field_4A;
     char_type field_4B;
@@ -257,10 +257,10 @@ class Sprite
     // 9.6f inline 0x420600
     inline void set_xyz_lazy_420600(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
-        if (field_14_xpos.x != xpos || field_14_xpos.y != ypos || field_1C_zpos != zpos)
+        if (field_14_xy.x != xpos || field_14_xy.y != ypos || field_1C_zpos != zpos)
         {
-            field_14_xpos.x = xpos;
-            field_14_xpos.y = ypos;
+            field_14_xy.x = xpos;
+            field_14_xy.y = ypos;
             field_1C_zpos = zpos;
             ResetZCollisionAndDebugBoxes_59E7B0();
         }
@@ -269,10 +269,10 @@ class Sprite
     // 9.6f inline 0x447E20
     void set_xy_lazy_447E20(Fix16 x_target, Fix16 y_target)
     {
-        if (field_14_xpos.x != x_target || field_14_xpos.y != y_target)
+        if (field_14_xy.x != x_target || field_14_xy.y != y_target)
         {
-            field_14_xpos.x = x_target;
-            field_14_xpos.y = y_target;
+            field_14_xy.x = x_target;
+            field_14_xy.y = y_target;
             ResetZCollisionAndDebugBoxes_59E7B0();
         }
     }
@@ -289,12 +289,12 @@ class Sprite
 
     inline Fix16 GetXPos()
     {
-        return field_14_xpos.x;
+        return field_14_xy.x;
     }
 
     inline Fix16 GetYPos()
     {
-        return field_14_xpos.y;
+        return field_14_xy.y;
     }
 
     inline Fix16 GetZPos()
@@ -302,7 +302,7 @@ class Sprite
         return field_1C_zpos;
     }
 
-    Fix16_Point_POD field_14_xpos;
+    Fix16_Point_POD field_14_xy;
     Fix16 field_1C_zpos;
     s16 field_20_id;
     s16 field_22_sprite_id;
