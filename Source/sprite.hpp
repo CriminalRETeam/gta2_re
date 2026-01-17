@@ -86,7 +86,7 @@ class Sprite
     EXPORT s16 sub_59EAA0();
     EXPORT char_type has_shadows_59EAE0();
     EXPORT void sub_59EB30(f32& a2, f32& a3);
-    EXPORT void ShowHorn_59EE40(s32 a2, s32 a3);
+    EXPORT void ShowHorn_59EE40(f32 a2, f32 a3);
     EXPORT void Draw_59EFF0();
     EXPORT void AllocInternal_59F950(Fix16 width, Fix16 height, Fix16 a4);
     EXPORT void Update_4C_59F990();

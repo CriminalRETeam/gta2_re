@@ -17,6 +17,7 @@
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "winmain.hpp" // TODO: only because of gLighting_626A09
+#include "Police_7B8.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -42,6 +43,9 @@ DEFINE_GLOBAL_INIT(u32, kGlobalMask0_61A9AC, 0x0C00060, 0x61A9AC); // BitSet32 f
 DEFINE_GLOBAL_INIT(u32, kGlobalMask1_61A9A8, 0x0C70060, 0x61A9A8); // BitSet32 flag
 DEFINE_GLOBAL_INIT(u32, kGlobalMask2_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 flag
 DEFINE_GLOBAL(u32, gFlags_67ACF8, 0x67ACF8); // BitSet32 flag
+
+EXTERN_GLOBAL(s32, window_width_706630);
+EXTERN_GLOBAL(s32, window_height_706B50);
 
 // matched
 static inline Fix16 __stdcall RoundZToLayer_4B9C70(Fix16& in)
@@ -486,10 +490,56 @@ void Sprite::sub_59EB30(f32& a2, f32& a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x59ee40)
-void Sprite::ShowHorn_59EE40(s32 a2, s32 a3)
+WIP_FUNC(0x59ee40)
+void Sprite::ShowHorn_59EE40(f32 x, f32 y)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (bDo_show_horn_67D4F2)
+    {
+        if (this->field_30_sprite_type_enum == 2)
+        {
+            Car_BC* pCar = this->field_8_car_bc_ptr;
+            if (pCar)
+            {
+                // TODO: Code is actually too "good" here so doesn't match
+                Fix16 xpos((u32)(x / (window_width_706630 * 640.0f)));
+                Fix16 ypos((u32)(y / (window_height_706B50 * 480.0f)));
+
+                if (pCar->IsEmittingHorn_411970())
+                {
+                    s32 drawKind = 2;
+                    DrawText_5D8A10(L"H",
+                                    xpos * gViewCamera_676978->field_A8_ui_scale,
+                                    ypos * gViewCamera_676978->field_A8_ui_scale,
+                                    word_703BAA,
+                                    gViewCamera_676978->field_A8_ui_scale,
+                                    drawKind,
+                                    0,
+                                    0,
+                                    0);
+                }
+                
+                Ped* pDriver = pCar->get_driver_4118B0();
+                if (pDriver)
+                {
+                    if (gPolice_7B8_6FEE40->sub_56F880(pDriver))
+                    {
+                        s32 drawKind = 2;
+                        DrawText_5D8A10(L"P",
+                                        xpos * gViewCamera_676978->field_A8_ui_scale,
+                                        ypos * gViewCamera_676978->field_A8_ui_scale,
+                                        word_703BAA,
+                                        gViewCamera_676978->field_A8_ui_scale,
+                                        drawKind,
+                                        0,
+                                        0,
+                                        0);
+                    }
+                }
+            }
+        }
+    }
 }
 
 // https://decomp.me/scratch/omhyc
@@ -578,7 +628,7 @@ void Sprite::Draw_59EFF0()
                 else
                 {
                     pCar->field_8_damaged_areas.SetGlobal2_4BA350();
-                }                   
+                }
             }
             pCar->field_8_damaged_areas.sub_4BA340();
         }
@@ -639,7 +689,7 @@ void Sprite::Draw_59EFF0()
         u16 unk3 = Sprite::sub_59EAA0();
         // TODO: missing code here
     }
-    // TODO: missing code here 
+    // TODO: missing code here
 
     ++gSprite_8_703820->field_0;
     if (bDo_show_collision_box_67D6E5)
@@ -649,7 +699,7 @@ void Sprite::Draw_59EFF0()
             //field_C_sprite_4c_ptr->DrawCollisionBox_5A4DA0(field_1C_zpos);
         }
     }
-    
+
     Sprite::sub_59EB30(gTileVerts_7036D0[1].x, gTileVerts_7036D0[1].y);
     Sprite::ShowHorn_59EE40(gTileVerts_7036D0[3].x, gTileVerts_7036D0[3].y);
 }
@@ -982,7 +1032,11 @@ char_type Sprite::sub_5A2440()
 
     UpdateCollisionBoundsIfNeeded_59E9C0();
     field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
-    char_type result = gMap_0x370_6F6268->CanSpriteEnterMovementRegion_4E4460(field_14_xy.x.ToInt(), field_14_xy.y.ToInt(), field_1C_zpos.ToInt(), this, 2048);
+    char_type result = gMap_0x370_6F6268->CanSpriteEnterMovementRegion_4E4460(field_14_xy.x.ToInt(),
+                                                                              field_14_xy.y.ToInt(),
+                                                                              field_1C_zpos.ToInt(),
+                                                                              this,
+                                                                              2048);
     if (result)
     {
         gRozza_679188.field_1C_mapz = field_1C_zpos;
@@ -1423,9 +1477,19 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         Fix16 top = field_30_boundingBox.field_8_top;
         Fix16 bottom = field_30_boundingBox.field_C_bottom;
 
-        FindMinMax_5A57E0(left, right, field_C_renderingRect[0].x, field_C_renderingRect[1].x, field_C_renderingRect[2].x, field_C_renderingRect[3].x);
+        FindMinMax_5A57E0(left,
+                          right,
+                          field_C_renderingRect[0].x,
+                          field_C_renderingRect[1].x,
+                          field_C_renderingRect[2].x,
+                          field_C_renderingRect[3].x);
 
-        FindMinMax_5A57E0(top, bottom, field_C_renderingRect[0].y, field_C_renderingRect[1].y, field_C_renderingRect[2].y, field_C_renderingRect[3].y);
+        FindMinMax_5A57E0(top,
+                          bottom,
+                          field_C_renderingRect[0].y,
+                          field_C_renderingRect[1].y,
+                          field_C_renderingRect[2].y,
+                          field_C_renderingRect[3].y);
 
         field_30_boundingBox.SetRect_5A5E30(left, right, top, bottom);
     }

@@ -967,10 +967,10 @@ char_type Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
     }
 }
 
-STUB_FUNC(0x45e080)
+WIP_FUNC(0x45e080)
 void Ped::SpawnWeaponOnDeath_45E080()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     Object_2C* v2; // eax
 
     if ((this->field_224 & 0x20) != 0 && !this->field_16C_car)
@@ -986,6 +986,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
+                            // TODO: Prob setting the timer of Object_8 actually?
                             v2->field_C_pAny.pExplosion->field_4_idx = 9;
                         }
                         break;
