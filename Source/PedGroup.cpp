@@ -5,6 +5,7 @@
 
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
 DEFINE_GLOBAL(Fix16, dword_67F610, 0x67F610);
+DEFINE_GLOBAL(Fix16, k_dword_67EEE4, 0x67EEE4);
 
 STUB_FUNC(0x4c8e60)
 void PedGroup::sub_4C8E60()
@@ -324,10 +325,72 @@ void PedGroup::DestroyGroup_4C93A0()
     return;
 }
 
-STUB_FUNC(0x4c94e0)
-void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* a2)
+MATCH_FUNC(0x4c94e0)
+void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
 {
-    NOT_IMPLEMENTED;
+    //    NOT_IMPLEMENTED;
+    Ped* pLeader; // eax
+    int i; // edi
+    Ped* pPedIter; // ecx
+    Ped* pPedIter_; // edi
+    Ped* pPedIter__; // eax
+    char i_; // [esp+10h] [ebp+4h]
+
+    if (!pAttacker)
+    {
+        PedGroup::DestroyGroup_4C93A0();
+    }
+    else
+    {
+        if (!field_2C_ped_leader->IsField238_45EDE0(2))
+        {
+            field_2C_ped_leader->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
+            this->field_2C_ped_leader->field_148_objective_target_ped = pAttacker;
+            field_2C_ped_leader->sub_463830(3, 9999);
+            this->field_2C_ped_leader->field_14C = pAttacker;
+            this->field_2C_ped_leader->field_21C |= 4u;
+            this->field_2C_ped_leader->field_228 = 0;
+            this->field_2C_ped_leader->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
+        }
+        pLeader = this->field_2C_ped_leader;
+        i_ = 0;
+        pLeader->field_164_ped_group = 0;
+        pLeader->field_23C = 0;
+        if (this->field_34_count)
+        {
+            i = 0;
+            do
+            {
+                pPedIter = this->field_4_ped_list[i];
+                if (pPedIter->field_16C_car)
+                {
+                    pPedIter->sub_463830(0, 9999);
+                    field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_always_once_car_stopped_6, 9999);
+                    this->field_4_ped_list[i]->field_148_objective_target_ped = pAttacker;
+                    this->field_4_ped_list[i]->field_228 = 0;
+                    pPedIter_ = this->field_4_ped_list[i];
+                    pPedIter_->field_164_ped_group = 0;
+                    pPedIter_->field_23C = 0;
+                }
+                else
+                {
+                    pPedIter->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
+                    this->field_4_ped_list[i]->field_148_objective_target_ped = pAttacker;
+                    field_4_ped_list[i]->sub_463830(3, 9999);
+                    this->field_4_ped_list[i]->field_14C = pAttacker;
+                    this->field_4_ped_list[i]->field_21C |= 4u;
+                    this->field_4_ped_list[i]->field_228 = 0;
+                    this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
+                    pPedIter__ = this->field_4_ped_list[i];
+                    pPedIter__->field_164_ped_group = 0;
+                    pPedIter__->field_23C = 0;
+                    this->field_4_ped_list[i]->field_238 = 3;
+                }
+                i = ++i_;
+            } while (i_ < (int)this->field_34_count);
+        }
+        PedGroup::sub_4C8E90();
+    }
 }
 
 STUB_FUNC(0x4c9680)
