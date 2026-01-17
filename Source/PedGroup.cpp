@@ -336,50 +336,46 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
     {
         if (!field_2C_ped_leader->IsField238_45EDE0(2))
         {
-            field_2C_ped_leader->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
+            this->field_2C_ped_leader->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
             this->field_2C_ped_leader->field_148_objective_target_ped = pAttacker;
-            field_2C_ped_leader->sub_463830(3, 9999);
+            this->field_2C_ped_leader->sub_463830(3, 9999);
             this->field_2C_ped_leader->field_14C = pAttacker;
             this->field_2C_ped_leader->field_21C |= 4u;
             this->field_2C_ped_leader->field_228 = 0;
             this->field_2C_ped_leader->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
         }
+
         Ped* pLeader = this->field_2C_ped_leader;
-        char_type i_ = 0;
         pLeader->field_164_ped_group = 0;
         pLeader->field_23C = 0;
-        if (this->field_34_count > 0)
+        for (char_type i_ = 0; i_ < (s32)this->field_34_count; i_++)
         {
-            s32 i = 0;
-            do
+            s32 i = i_;
+            Ped* pPedIter = this->field_4_ped_list[i];
+            if (pPedIter->field_16C_car)
             {
-                Ped* pPedIter = this->field_4_ped_list[i];
-                if (pPedIter->field_16C_car)
-                {
-                    pPedIter->sub_463830(0, 9999);
-                    field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_always_once_car_stopped_6, 9999);
-                    this->field_4_ped_list[i]->field_148_objective_target_ped = pAttacker;
-                    this->field_4_ped_list[i]->field_228 = 0;
-                    Ped* pPedIter_ = this->field_4_ped_list[i];
-                    pPedIter_->field_164_ped_group = 0;
-                    pPedIter_->field_23C = 0;
-                }
-                else
-                {
-                    pPedIter->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
-                    this->field_4_ped_list[i]->field_148_objective_target_ped = pAttacker;
-                    field_4_ped_list[i]->sub_463830(3, 9999);
-                    this->field_4_ped_list[i]->field_14C = pAttacker;
-                    this->field_4_ped_list[i]->field_21C |= 4u;
-                    this->field_4_ped_list[i]->field_228 = 0;
-                    this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
-                    Ped* pPedIter__ = this->field_4_ped_list[i];
-                    pPedIter__->field_164_ped_group = 0;
-                    pPedIter__->field_23C = 0;
-                    this->field_4_ped_list[i]->field_238 = 3;
-                }
-                i = ++i_;
-            } while (i_ < (s32)this->field_34_count);
+                pPedIter->sub_463830(0, 9999);
+                this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_always_once_car_stopped_6, 9999);
+                this->field_4_ped_list[i]->field_148_objective_target_ped = pAttacker;
+                this->field_4_ped_list[i]->field_228 = 0;
+                Ped* pPedIter_ = this->field_4_ped_list[i];
+                pPedIter_->field_164_ped_group = 0;
+                pPedIter_->field_23C = 0;
+            }
+            else
+            {
+                pPedIter->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
+                this->field_4_ped_list[i]->field_148_objective_target_ped = pAttacker;
+                this->field_4_ped_list[i]->sub_463830(3, 9999);
+                this->field_4_ped_list[i]->field_14C = pAttacker;
+                this->field_4_ped_list[i]->field_21C |= 4u;
+                this->field_4_ped_list[i]->field_228 = 0;
+                this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
+                Ped* pPedIter__ = this->field_4_ped_list[i];
+                pPedIter__->field_164_ped_group = 0;
+                pPedIter__->field_23C = 0;
+                this->field_4_ped_list[i]->field_238 = 3;
+            }
         }
         PedGroup::sub_4C8E90();
     }
