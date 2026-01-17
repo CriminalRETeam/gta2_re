@@ -372,8 +372,8 @@ void Char_B4::sub_545720(Fix16 a2)
         field_5C--;
     }
     sub_544F70();
-    dword_6FD7F8 = field_80_sprite_ptr->field_14_xpos.x;
-    dword_6FD800 = field_80_sprite_ptr->field_14_xpos.y;
+    dword_6FD7F8 = field_80_sprite_ptr->field_14_xy.x;
+    dword_6FD800 = field_80_sprite_ptr->field_14_xy.y;
     dword_6FD7FC = field_80_sprite_ptr->field_1C_zpos;
     dword_6FD7B0 = Fix16(field_45);
     byte_6FDB55 = 0;
@@ -481,8 +481,8 @@ void Char_B4::DrownPed_5459E0()
     field_7C_pPed->sub_45C540(20);
     field_16 = 1;
 
-    gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_80_sprite_ptr->field_14_xpos.x,
-                                               field_80_sprite_ptr->field_14_xpos.y,
+    gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_80_sprite_ptr->field_14_xy.x,
+                                               field_80_sprite_ptr->field_14_xy.y,
                                                field_80_sprite_ptr->field_1C_zpos,
                                                word_6FD936 + field_80_sprite_ptr->field_0,
                                                1);

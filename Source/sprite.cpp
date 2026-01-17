@@ -91,23 +91,23 @@ static inline void __fastcall SetUV_4B9BC0(f32& u, f32& v)
 MATCH_FUNC(0x562450)
 Fix16_Point Sprite::GetBoundingBoxCorner_562450(s32 idx)
 {
-    return Fix16_Point(field_C_sprite_4c_ptr->field_C_b_box[idx].x, field_C_sprite_4c_ptr->field_C_b_box[idx].y);
+    return Fix16_Point(field_C_sprite_4c_ptr->field_C_renderingRect[idx].x, field_C_sprite_4c_ptr->field_C_renderingRect[idx].y);
 }
 
 // 9.6f 0x4207B0
 MATCH_FUNC(0x443580)
 Fix16_Point Sprite::get_x_y_443580()
 {
-    return Fix16_Point(field_14_xpos.x, field_14_xpos.y);
+    return Fix16_Point(field_14_xy.x, field_14_xy.y);
 }
 
 MATCH_FUNC(0x451950)
 void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    if (field_14_xpos.x != xpos || field_14_xpos.y != ypos || field_1C_zpos != zpos)
+    if (field_14_xy.x != xpos || field_14_xy.y != ypos || field_1C_zpos != zpos)
     {
-        field_14_xpos.x = xpos;
-        field_14_xpos.y = ypos;
+        field_14_xy.x = xpos;
+        field_14_xy.y = ypos;
         field_1C_zpos = zpos;
         ResetZCollisionAndDebugBoxes_59E7B0();
     }
@@ -116,10 +116,10 @@ void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 MATCH_FUNC(0x54EC80)
 void Sprite::sub_54EC80(Fix16 xpos, Fix16 ypos)
 {
-    if (this->field_14_xpos.x != xpos || this->field_14_xpos.y != ypos)
+    if (this->field_14_xy.x != xpos || this->field_14_xy.y != ypos)
     {
-        this->field_14_xpos.x = xpos;
-        this->field_14_xpos.y = ypos;
+        this->field_14_xy.x = xpos;
+        this->field_14_xy.y = ypos;
         ResetZCollisionAndDebugBoxes_59E7B0();
     }
 }
@@ -171,11 +171,11 @@ s32 Sprite::IsOnWater_59E1D0()
     const Fix16 zpos = field_1C_zpos;
     if (zpos > gFix16_7035C0)
     {
-        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xpos.x.ToInt(), field_14_xpos.y.ToInt(), (zpos - dword_7035C4).ToInt());
+        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xy.x.ToInt(), field_14_xy.y.ToInt(), (zpos - dword_7035C4).ToInt());
     }
     else
     {
-        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xpos.x.ToInt(), field_14_xpos.y.ToInt(), zpos.ToInt());
+        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xy.x.ToInt(), field_14_xy.y.ToInt(), zpos.ToInt());
     }
 
     if (pBlock)
@@ -253,7 +253,7 @@ char_type Sprite::CollisionCheck_59E590(Sprite* pOther)
 {
     Sprite_4C* pOurSprite = pOther->field_C_sprite_4c_ptr;
     Sprite_4C* pOtherSprite = field_C_sprite_4c_ptr;
-    return pOtherSprite->field_30.AABB_Intersects_41E2F0(&pOurSprite->field_30) &&
+    return pOtherSprite->field_30_boundingBox.AABB_Intersects_41E2F0(&pOurSprite->field_30_boundingBox) &&
         (pOtherSprite->IsZeroWidth_41E390() || field_0.jIsAxisAligned_41E3C0()) &&
         (pOurSprite->IsZeroWidth_41E390() || pOther->field_0.jIsAxisAligned_41E3C0()) ||
         (pOther->RotatedRectCollisionSAT_5A0380(this) || RotatedRectCollisionSAT_5A0380(pOther));
@@ -272,11 +272,11 @@ void Sprite::ResetZCollisionAndDebugBoxes_59E7B0()
     field_39_z_col = -1;
     if (field_C_sprite_4c_ptr != NULL)
     {
-        field_C_sprite_4c_ptr->field_48_bDrawCollisionBox = 0;
+        field_C_sprite_4c_ptr->field_48_bBoxUpToDate = false;
     }
     if (field_4_0x4C_len != NULL)
     {
-        field_4_0x4C_len->field_48_bDrawCollisionBox = 0;
+        field_4_0x4C_len->field_48_bBoxUpToDate = false;
     }
 }
 
@@ -396,15 +396,15 @@ void Sprite::sub_59E960()
 MATCH_FUNC(0x59e9c0)
 void Sprite::UpdateCollisionBoundsIfNeeded_59E9C0()
 {
-    if (!field_C_sprite_4c_ptr->field_48_bDrawCollisionBox)
+    if (!field_C_sprite_4c_ptr->field_48_bBoxUpToDate)
     {
         if (field_C_sprite_4c_ptr->IsZeroWidth_41E390())
         {
-            field_C_sprite_4c_ptr->UpdateRotatedBoundingBox_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, gAng16_703804);
+            field_C_sprite_4c_ptr->UpdateRotatedBoundingBox_5A3550(field_14_xy.x, field_14_xy.y, field_1C_zpos, gAng16_703804);
         }
         else
         {
-            field_C_sprite_4c_ptr->UpdateRotatedBoundingBox_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
+            field_C_sprite_4c_ptr->UpdateRotatedBoundingBox_5A3550(field_14_xy.x, field_14_xy.y, field_1C_zpos, field_0);
         }
     }
 }
@@ -538,9 +538,9 @@ void Sprite::Draw_59EFF0()
     }
 
     STexture* pTexture = pTexture_1;
-    if (!field_4_0x4C_len->field_48_bDrawCollisionBox)
+    if (!field_4_0x4C_len->field_48_bBoxUpToDate)
     {
-        field_4_0x4C_len->UpdateRotatedBoundingBox_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
+        field_4_0x4C_len->UpdateRotatedBoundingBox_5A3550(field_14_xy.x, field_14_xy.y, field_1C_zpos, field_0);
     }
 
     //Sprite_4C* p4C = field_4_0x4C_len;
@@ -550,10 +550,10 @@ void Sprite::Draw_59EFF0()
 
     Fix16 new_zpos = RoundZToLayer_4B9C70(field_1C_zpos);
 
-    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_b_box[0], &gTileVerts_7036D0[0], new_zpos);
-    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_b_box[1], &gTileVerts_7036D0[1], new_zpos);
-    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_b_box[2], &gTileVerts_7036D0[2], new_zpos);
-    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_b_box[3], &gTileVerts_7036D0[3], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_renderingRect[0], &gTileVerts_7036D0[0], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_renderingRect[1], &gTileVerts_7036D0[1], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_renderingRect[2], &gTileVerts_7036D0[2], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_renderingRect[3], &gTileVerts_7036D0[3], new_zpos);
     SetUV_4B9BC0(u, v);
 
     Car_BC* pCar = AsCar_40FEB0();
@@ -711,7 +711,7 @@ void Sprite::sub_59FA40()
             Sprite_4C* t = field_4_0x4C_len;
             t->field_0_width = width;
             t->field_4_height = height;
-            t->field_48_bDrawCollisionBox = 0;
+            t->field_48_bBoxUpToDate = false;
         }
     }
 }
@@ -750,7 +750,7 @@ MATCH_FUNC(0x5a0320)
 char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2)
 {
     u8 overlapCount = 0;
-    const Fix16_Point* pBoundingBox = &field_C_sprite_4c_ptr->field_C_b_box[0];
+    const Fix16_Point* pBoundingBox = &field_C_sprite_4c_ptr->field_C_renderingRect[0];
 
     for (u8 i = 0; i < 4; i++)
     {
@@ -822,9 +822,9 @@ char_type Sprite::sub_5A19C0()
 {
     Update_4C_59F990();
 
-    if (!field_4_0x4C_len->field_48_bDrawCollisionBox)
+    if (!field_4_0x4C_len->field_48_bBoxUpToDate)
     {
-        field_4_0x4C_len->UpdateRotatedBoundingBox_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
+        field_4_0x4C_len->UpdateRotatedBoundingBox_5A3550(field_14_xy.x, field_14_xy.y, field_1C_zpos, field_0);
     }
     field_4_0x4C_len->SetCurrentRect_5A4D90();
     return gMap_0x370_6F6268->sub_4E4770(field_1C_zpos);
@@ -837,9 +837,9 @@ char Sprite::sub_5A1A60()
 
     Sprite_4C* p4C = this->field_4_0x4C_len;
 
-    if (!p4C->field_48_bDrawCollisionBox)
+    if (!p4C->field_48_bBoxUpToDate)
     {
-        p4C->UpdateRotatedBoundingBox_5A3550(this->field_14_xpos.x, this->field_14_xpos.y, this->field_1C_zpos, this->field_0);
+        p4C->UpdateRotatedBoundingBox_5A3550(this->field_14_xy.x, this->field_14_xy.y, this->field_1C_zpos, this->field_0);
     }
 
     field_4_0x4C_len->SetCurrentRect_5A4D90();
@@ -915,7 +915,7 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
         v7 = k_dword_7033C0;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_b_box[0].x, p4C->field_C_b_box[0].y, v6, v7))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_renderingRect[0].x, p4C->field_C_renderingRect[0].y, v6, v7))
     {
         flags = 1;
         *pCount = 1;
@@ -926,19 +926,19 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
         *pCount = 0;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_b_box[1].x, p4C->field_C_b_box[1].y, v6, v7))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_renderingRect[1].x, p4C->field_C_renderingRect[1].y, v6, v7))
     {
         ++*pCount;
         flags |= 2u;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_b_box[2].x, p4C->field_C_b_box[2].y, v6, v7))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_renderingRect[2].x, p4C->field_C_renderingRect[2].y, v6, v7))
     {
         ++*pCount;
         flags |= 4u;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_b_box[3].x, p4C->field_C_b_box[3].y, v6, v7))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_renderingRect[3].x, p4C->field_C_renderingRect[3].y, v6, v7))
     {
         ++*pCount;
         flags |= 8;
@@ -965,7 +965,7 @@ char_type Sprite::sub_5A21F0()
     {
         zToUse = k_dword_7033C0;
     }
-    return gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(field_14_xpos.x, field_14_xpos.y, field_1C_zpos - z_4c / 2, zToUse);
+    return gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(field_14_xy.x, field_14_xy.y, field_1C_zpos - z_4c / 2, zToUse);
 }
 
 STUB_FUNC(0x5A22B0)
@@ -982,7 +982,7 @@ char_type Sprite::sub_5A2440()
 
     UpdateCollisionBoundsIfNeeded_59E9C0();
     field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
-    char_type result = gMap_0x370_6F6268->sub_4E4460(field_14_xpos.x.ToInt(), field_14_xpos.y.ToInt(), field_1C_zpos.ToInt(), this, 2048);
+    char_type result = gMap_0x370_6F6268->CanSpriteEnterMovementRegion_4E4460(field_14_xy.x.ToInt(), field_14_xy.y.ToInt(), field_1C_zpos.ToInt(), this, 2048);
     if (result)
     {
         gRozza_679188.field_1C_mapz = field_1C_zpos;
@@ -1051,8 +1051,8 @@ void Sprite::PoolAllocate()
     this->field_2C = 0;
     this->field_28_num = 0;
     this->field_8_car_bc_ptr = 0;
-    this->field_14_xpos.x = gFix16_7035C0;
-    this->field_14_xpos.y = gFix16_7035C0;
+    this->field_14_xy.x = gFix16_7035C0;
+    this->field_14_xy.y = gFix16_7035C0;
     this->field_1C_zpos = gFix16_7035C0;
     this->field_39_z_col = -1;
     this->field_0 = gAng16_703804;
@@ -1142,8 +1142,8 @@ MATCH_FUNC(0x5a5e50)
 Sprite::Sprite() : field_0(gAng16_703804)
 {
     field_4_0x4C_len = NULL;
-    field_14_xpos.x = gFix16_7035C0;
-    field_14_xpos.y = gFix16_7035C0;
+    field_14_xy.x = gFix16_7035C0;
+    field_14_xy.y = gFix16_7035C0;
     field_1C_zpos = gFix16_7035C0;
     field_20_id = 0;
     field_22_sprite_id = 0;
@@ -1322,7 +1322,7 @@ Sprite_3CC::~Sprite_3CC()
 MATCH_FUNC(0x5A4D90)
 void Sprite_4C::SetCurrentRect_5A4D90()
 {
-    field_30.DoSetCurrentRect_59DD60();
+    field_30_boundingBox.DoSetCurrentRect_59DD60();
 }
 
 // https://decomp.me/scratch/RAdGk
@@ -1344,13 +1344,13 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
         Fix16_Point southwest = Fix16_Point(-width_over_2, height_over_2);
 
-        field_C_b_box[0] = point + northwest;
-        field_C_b_box[1] = point + northeast;
-        field_C_b_box[2] = point + southeast;
-        field_C_b_box[3] = point + southwest;
+        field_C_renderingRect[0] = point + northwest;
+        field_C_renderingRect[1] = point + northeast;
+        field_C_renderingRect[2] = point + southeast;
+        field_C_renderingRect[3] = point + southwest;
 
-        field_30 = Fix16_Rect();
-        field_30.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
+        field_30_boundingBox = Fix16_Rect();
+        field_30_boundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
     else if (rotation == word_70344C) // = 360
     {
@@ -1360,13 +1360,13 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         Fix16_Point northeast = Fix16_Point(height_over_2, -width_over_2);
         Fix16_Point southeast = Fix16_Point(height_over_2, width_over_2);
 
-        field_C_b_box[0] = point + southwest;
-        field_C_b_box[1] = point + northwest;
-        field_C_b_box[2] = point + northeast;
-        field_C_b_box[3] = point + southeast;
+        field_C_renderingRect[0] = point + southwest;
+        field_C_renderingRect[1] = point + northwest;
+        field_C_renderingRect[2] = point + northeast;
+        field_C_renderingRect[3] = point + southeast;
 
-        field_30 = Fix16_Rect();
-        field_30.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
+        field_30_boundingBox = Fix16_Rect();
+        field_30_boundingBox.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
     else if (rotation == word_70351E) // = 720
     {
@@ -1376,13 +1376,13 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         Fix16_Point northwest = Fix16_Point(-width_over_2, -height_over_2);
         Fix16_Point northeast = Fix16_Point(width_over_2, -height_over_2);
 
-        field_C_b_box[0] = point + southeast;
-        field_C_b_box[1] = point + southwest;
-        field_C_b_box[2] = point + northwest;
-        field_C_b_box[3] = point + northeast;
+        field_C_renderingRect[0] = point + southeast;
+        field_C_renderingRect[1] = point + southwest;
+        field_C_renderingRect[2] = point + northwest;
+        field_C_renderingRect[3] = point + northeast;
 
-        field_30 = Fix16_Rect();
-        field_30.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
+        field_30_boundingBox = Fix16_Rect();
+        field_30_boundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
     else if (rotation == word_703544) // = 1080
     {
@@ -1392,13 +1392,13 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         Fix16_Point southwest = Fix16_Point(-height_over_2, width_over_2);
         Fix16_Point northwest = Fix16_Point(-height_over_2, -width_over_2);
 
-        field_C_b_box[0] = point + northeast;
-        field_C_b_box[1] = point + southeast;
-        field_C_b_box[2] = point + southwest;
-        field_C_b_box[3] = point + northwest;
+        field_C_renderingRect[0] = point + northeast;
+        field_C_renderingRect[1] = point + southeast;
+        field_C_renderingRect[2] = point + southwest;
+        field_C_renderingRect[3] = point + northwest;
 
-        field_30 = Fix16_Rect();
-        field_30.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
+        field_30_boundingBox = Fix16_Rect();
+        field_30_boundingBox.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
     else
     {
@@ -1413,24 +1413,24 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         southeast.RotateByAngle_40F6B0(rotation);
         southwest.RotateByAngle_40F6B0(rotation);
 
-        field_C_b_box[0] = point + northwest;
-        field_C_b_box[1] = point + northeast;
-        field_C_b_box[2] = point + southeast;
-        field_C_b_box[3] = point + southwest;
+        field_C_renderingRect[0] = point + northwest;
+        field_C_renderingRect[1] = point + northeast;
+        field_C_renderingRect[2] = point + southeast;
+        field_C_renderingRect[3] = point + southwest;
 
-        Fix16 left = field_30.field_0_left;
-        Fix16 right = field_30.field_4_right;
-        Fix16 top = field_30.field_8_top;
-        Fix16 bottom = field_30.field_C_bottom;
+        Fix16 left = field_30_boundingBox.field_0_left;
+        Fix16 right = field_30_boundingBox.field_4_right;
+        Fix16 top = field_30_boundingBox.field_8_top;
+        Fix16 bottom = field_30_boundingBox.field_C_bottom;
 
-        FindMinMax_5A57E0(left, right, field_C_b_box[0].x, field_C_b_box[1].x, field_C_b_box[2].x, field_C_b_box[3].x);
+        FindMinMax_5A57E0(left, right, field_C_renderingRect[0].x, field_C_renderingRect[1].x, field_C_renderingRect[2].x, field_C_renderingRect[3].x);
 
-        FindMinMax_5A57E0(top, bottom, field_C_b_box[0].y, field_C_b_box[1].y, field_C_b_box[2].y, field_C_b_box[3].y);
+        FindMinMax_5A57E0(top, bottom, field_C_renderingRect[0].y, field_C_renderingRect[1].y, field_C_renderingRect[2].y, field_C_renderingRect[3].y);
 
-        field_30.SetRect_5A5E30(left, right, top, bottom);
+        field_30_boundingBox.SetRect_5A5E30(left, right, top, bottom);
     }
-    field_30.Set_F10_F14_41E370(zpos - unk_over_2, zpos + unk_over_2);
-    field_48_bDrawCollisionBox = true; // line 745
+    field_30_boundingBox.SetHiLowZ_41E370(zpos - unk_over_2, zpos + unk_over_2);
+    field_48_bBoxUpToDate = true; // line 745
 
     return;
     /*
@@ -1524,7 +1524,7 @@ MATCH_FUNC(0x5a57a0)
 s32 Sprite_4C::PoolAllocate()
 {
     mpNext = NULL;
-    field_48_bDrawCollisionBox = 0;
+    field_48_bBoxUpToDate = false;
     return 0;
 }
 

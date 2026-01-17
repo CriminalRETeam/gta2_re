@@ -43,10 +43,10 @@ class Fix16_Rect
     // TODO: None inline version of SetRect_41E350 ??
     EXPORT void SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
 
-    void Set_F10_F14_41E370(Fix16 a2, Fix16 a3)
+    void SetHiLowZ_41E370(Fix16 lowZ, Fix16 highZ)
     {
-        this->field_10 = a2;
-        this->field_14 = a3;
+        this->field_10_low_z = lowZ;
+        this->field_14_high_z = highZ;
     }
 
     // TODO: Get inline addr
@@ -59,11 +59,11 @@ class Fix16_Rect
     }
 
     EXPORT void DoSetCurrentRect_59DD60();
-    EXPORT u32 sub_59DDF0(Sprite* a2);
-    EXPORT char_type sub_59DE80();
-    EXPORT void sub_59DEE0(Fix16 a2, Fix16 a3);
-    EXPORT bool sub_59DF20(u8 a2);
-    EXPORT bool sub_59DFB0(s32 a2);
+    EXPORT u32 IntersectsSpriteRenderingRect_59DDF0(Sprite* a2);
+    EXPORT char_type CanRectEnterMovementRegion_59DE80();
+    EXPORT void ExpandToIncludePoint_59DEE0(Fix16 a2, Fix16 a3);
+    EXPORT bool RectOverlapsZone_59DF20(u8 a2);
+    EXPORT bool EveryTileMatchesArrowType_59DFB0(s32 a2);
 
     // 9.6f 0x4B9FD0
     inline bool IsPointInRect_4B9FD0(Fix16_Point* a2)
@@ -78,7 +78,7 @@ class Fix16_Rect
         // TODO: The 1st call should get inlined but doesn't unless its a class method, but it makes no sense for it to be a class method
         return IntervalsOverlap_41E160(this->field_0_left, this->field_4_right, pOther->field_0_left, pOther->field_4_right) &&
                 IntervalsOverlap_41E160(this->field_8_top, this->field_C_bottom, pOther->field_8_top, pOther->field_C_bottom) &&
-                IntervalsOverlap_41E160(this->field_10, this->field_14, pOther->field_10, pOther->field_14) ?
+                IntervalsOverlap_41E160(this->field_10_low_z, this->field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z) ?
             true :
             false;
     }
@@ -88,6 +88,6 @@ class Fix16_Rect
     Fix16 field_8_top;
     Fix16 field_C_bottom;
 
-    Fix16 field_10;
-    Fix16 field_14;
+    Fix16 field_10_low_z;
+    Fix16 field_14_high_z;
 };

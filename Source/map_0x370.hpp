@@ -306,8 +306,8 @@ class Map_0x370
     EXPORT char_type sub_4E1520(s32 a2);
     EXPORT bool sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
     EXPORT char_type sub_4E1A30(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-    EXPORT char_type sub_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8);
-    EXPORT char_type sub_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6);
+    EXPORT char_type CanSpriteEnterTile_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8);
+    EXPORT char_type CanSpriteEnterMovementRegion_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6);
     EXPORT char_type sub_4E4630(Fix16 a2);
     EXPORT bool sub_4E4770(Fix16 z_pos);
     EXPORT char_type sub_4E4820(u32* a2, char_type a3);

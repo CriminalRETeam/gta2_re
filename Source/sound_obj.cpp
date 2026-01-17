@@ -479,8 +479,8 @@ void sound_obj::InterrogateAudioEntities_41A730()
             Car_BC* field_16C_car = v4->field_16C_car;
             if (field_16C_car != NULL)
             {
-                field_1468_v1 = field_16C_car->field_50_car_sprite->field_14_xpos.x;
-                field_146C_v2 = field_16C_car->field_50_car_sprite->field_14_xpos.y;
+                field_1468_v1 = field_16C_car->field_50_car_sprite->field_14_xy.x;
+                field_146C_v2 = field_16C_car->field_50_car_sprite->field_14_xy.y;
                 field_1470_v3 = field_16C_car->field_50_car_sprite->field_1C_zpos;
                 field_1474 = field_16C_car->field_50_car_sprite->field_0;
             }

@@ -591,17 +591,17 @@ class Car_BC
 
     inline bool IsWithinArea(SCR_Rect_f* rect)
     {
-        Fix16 x_pos = field_50_car_sprite->field_14_xpos.x;
+        Fix16 x_pos = field_50_car_sprite->field_14_xy.x;
         Fix16 width = rect->field_C_size.field_0_x;
         Fix16 y_pos, z_pos;
         Fix16 height;
         Fix16 z_target;
         return (
             x_pos >= rect->field_0_pos.field_0_x - width && x_pos <= rect->field_0_pos.field_0_x + width &&
-            (y_pos = field_50_car_sprite->field_14_xpos.y,
+            (y_pos = field_50_car_sprite->field_14_xy.y,
              height = rect->field_C_size.field_4_y,
              y_pos >= rect->field_0_pos.field_4_y - height) &&
-            field_50_car_sprite->field_14_xpos.y <= rect->field_0_pos.field_4_y + height &&
+            field_50_car_sprite->field_14_xy.y <= rect->field_0_pos.field_4_y + height &&
             (z_pos = field_50_car_sprite->field_1C_zpos, z_target = rect->field_0_pos.field_8_z, z_pos.ToUInt8() == z_target.ToUInt8()));
     }
 
@@ -609,9 +609,9 @@ class Car_BC
     {
         Sprite* pSprite = field_50_car_sprite;
         Fix16 car_z_pos;
-        return (pSprite->field_14_xpos.x >= pos->field_0_x.ToUInt8() && pSprite->field_14_xpos.x < (pos->field_0_x.ToUInt8() + 1)
+        return (pSprite->field_14_xy.x >= pos->field_0_x.ToUInt8() && pSprite->field_14_xy.x < (pos->field_0_x.ToUInt8() + 1)
 
-                && pSprite->field_14_xpos.y >= pos->field_4_y.ToUInt8() && pSprite->field_14_xpos.y < (pos->field_4_y.ToUInt8() + 1)
+                && pSprite->field_14_xy.y >= pos->field_4_y.ToUInt8() && pSprite->field_14_xy.y < (pos->field_4_y.ToUInt8() + 1)
 
                 && (car_z_pos = pSprite->field_1C_zpos, car_z_pos.ToUInt8() == pos->field_8_z.ToUInt8()));
     }
@@ -829,12 +829,12 @@ class Car_BC
 
     Fix16 get_x_41E430()
     {
-        return field_50_car_sprite->field_14_xpos.x;
+        return field_50_car_sprite->field_14_xy.x;
     }
 
     Fix16 get_y_41E440()
     {
-        return field_50_car_sprite->field_14_xpos.y;
+        return field_50_car_sprite->field_14_xy.y;
     }
 
     Fix16 get_z_41E450()

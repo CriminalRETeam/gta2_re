@@ -41,8 +41,8 @@ Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
     {
         Sprite* pCarSprite = pIter->field_0->field_50_car_sprite;
 
-        Fix16 yd = pCarSprite->field_14_xpos.y - ypos;
-        Fix16 xd = pCarSprite->field_14_xpos.x - xpos;
+        Fix16 yd = pCarSprite->field_14_xy.y - ypos;
+        Fix16 xd = pCarSprite->field_14_xy.x - xpos;
 
         //v14 = xDelta;
 

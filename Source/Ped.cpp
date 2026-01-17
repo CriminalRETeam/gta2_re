@@ -589,8 +589,8 @@ void Ped::sub_45C410()
 
     this->field_21C |= 1;
 
-    this->field_1AC_cam.x = pB4->field_80_sprite_ptr->field_14_xpos.x;
-    this->field_1AC_cam.y = pB4->field_80_sprite_ptr->field_14_xpos.y;
+    this->field_1AC_cam.x = pB4->field_80_sprite_ptr->field_14_xy.x;
+    this->field_1AC_cam.y = pB4->field_80_sprite_ptr->field_14_xy.y;
     this->field_1AC_cam.z = pB4->field_80_sprite_ptr->field_1C_zpos;
 
     this->field_216_health = 100;
@@ -603,8 +603,8 @@ void Ped::sub_45C410()
 MATCH_FUNC(0x45c4b0)
 void Ped::sub_45C4B0()
 {
-    field_1AC_cam.x = field_16C_car->field_50_car_sprite->field_14_xpos.x;
-    field_1AC_cam.y = field_16C_car->field_50_car_sprite->field_14_xpos.y;
+    field_1AC_cam.x = field_16C_car->field_50_car_sprite->field_14_xy.x;
+    field_1AC_cam.y = field_16C_car->field_50_car_sprite->field_14_xy.y;
     field_1AC_cam.z = field_16C_car->field_50_car_sprite->field_1C_zpos;
 }
 
@@ -1951,8 +1951,8 @@ bool Ped::PoolUpdate()
             }
             else
             {
-                field_1AC_cam.x = field_16C_car->field_50_car_sprite->field_14_xpos.x;
-                field_1AC_cam.y = field_16C_car->field_50_car_sprite->field_14_xpos.y;
+                field_1AC_cam.x = field_16C_car->field_50_car_sprite->field_14_xy.x;
+                field_1AC_cam.y = field_16C_car->field_50_car_sprite->field_14_xy.y;
                 field_1AC_cam.z = field_16C_car->field_50_car_sprite->field_1C_zpos;
             }
         }
@@ -2074,8 +2074,8 @@ void Ped::ProcessOnFootObjective_463AA0()
             else if (field_258_objective != objectives_enum::objective_18 &&
                      (field_258_objective <= objectives_enum::objective_34 || field_258_objective > objectives_enum::leave_train_38))
             {
-                field_1B8_target_x = field_150_target_objective_car->field_50_car_sprite->field_14_xpos.x;
-                field_1BC_target_y = field_150_target_objective_car->field_50_car_sprite->field_14_xpos.y;
+                field_1B8_target_x = field_150_target_objective_car->field_50_car_sprite->field_14_xy.x;
+                field_1BC_target_y = field_150_target_objective_car->field_50_car_sprite->field_14_xy.y;
                 field_1C0_target_z = field_150_target_objective_car->field_50_car_sprite->field_1C_zpos;
             }
             else
@@ -2512,8 +2512,8 @@ void Ped::sub_467BD0()
     {
         field_154_target_to_enter = field_150_target_objective_car;
         Ped::SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
-        field_1B8_target_x = field_154_target_to_enter->field_50_car_sprite->field_14_xpos.x;
-        field_1BC_target_y = field_154_target_to_enter->field_50_car_sprite->field_14_xpos.y;
+        field_1B8_target_x = field_154_target_to_enter->field_50_car_sprite->field_14_xy.x;
+        field_1BC_target_y = field_154_target_to_enter->field_50_car_sprite->field_14_xy.y;
         field_1C0_target_z = field_168_game_object->field_80_sprite_ptr->field_1C_zpos;
     }
 }
@@ -3995,8 +3995,8 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
         rect.field_4_right = searchRadius / 2 + x;
         rect.field_C_bottom = y + searchRadius / 2;
         rect.field_8_top = y - searchRadius / 2;
-        rect.field_10 = searchRadius - k_dword_67845C;
-        rect.field_14 = searchRadius + k_dword_67845C;
+        rect.field_10_low_z = searchRadius - k_dword_67845C;
+        rect.field_14_high_z = searchRadius + k_dword_67845C;
         pSprite = GetSprite_46DF50();
         if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, pSprite, &collision_list))
         {
@@ -4624,8 +4624,8 @@ void Ped::AimRoofGun_470050()
     Sprite* pHitSprite = pHit->field_0;
 
     Ped* objective_target_ped = this->field_148_objective_target_ped;
-    Ang16 tan_v = Fix16::atan2_fixed_405320(objective_target_ped->field_1AC_cam.x - pHitSprite->field_14_xpos.x,
-                                            objective_target_ped->field_1AC_cam.y - pHitSprite->field_14_xpos.y);
+    Ang16 tan_v = Fix16::atan2_fixed_405320(objective_target_ped->field_1AC_cam.x - pHitSprite->field_14_xy.x,
+                                            objective_target_ped->field_1AC_cam.y - pHitSprite->field_14_xy.y);
 
     this->field_21C &= ~0x800;
     this->field_21C |= 0x80;

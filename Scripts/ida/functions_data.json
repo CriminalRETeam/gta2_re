@@ -7415,12 +7415,12 @@
         "v105_address": "0x4e1a30"
     },
     {
-        "name": "Map_0x370::sub_4E1E00",
+        "name": "Map_0x370::CanSpriteEnterTile_4E1E00",
         "v96f_address": null,
         "v105_address": "0x4e1e00"
     },
     {
-        "name": "Map_0x370::sub_4E4460",
+        "name": "Map_0x370::CanSpriteEnterMovementRegion_4E4460",
         "v96f_address": null,
         "v105_address": "0x4e4460"
     },
@@ -14590,27 +14590,27 @@
         "v105_address": "0x59dd60"
     },
     {
-        "name": "Car_14_18::sub_59DDF0",
+        "name": "Car_14_18::IntersectsSpriteRenderingRect_59DDF0",
         "v96f_address": "0x4BA6C0",
         "v105_address": "0x59ddf0"
     },
     {
-        "name": "Car_14_18::sub_59DE80",
+        "name": "Car_14_18::CanRectEnterMovementRegion_59DE80",
         "v96f_address": "0x4BA720",
         "v105_address": "0x59de80"
     },
     {
-        "name": "Car_14_18::sub_59DEE0",
+        "name": "Car_14_18::ExpandToIncludePoint_59DEE0",
         "v96f_address": null,
         "v105_address": "0x59dee0"
     },
     {
-        "name": "Car_14_18::sub_59DF20",
+        "name": "Car_14_18::RectOverlapsZone_59DF20",
         "v96f_address": null,
         "v105_address": "0x59df20"
     },
     {
-        "name": "Car_14_18::sub_59DFB0",
+        "name": "Car_14_18::EveryTileMatchesArrowType_59DFB0",
         "v96f_address": null,
         "v105_address": "0x59dfb0"
     },
