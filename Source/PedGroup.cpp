@@ -5,6 +5,7 @@
 
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
 DEFINE_GLOBAL(Fix16, dword_67F610, 0x67F610);
+DEFINE_GLOBAL(Fix16, k_dword_67EEE4, 0x67EEE4);
 
 STUB_FUNC(0x4c8e60)
 void PedGroup::sub_4C8E60()
@@ -324,10 +325,55 @@ void PedGroup::DestroyGroup_4C93A0()
     return;
 }
 
-STUB_FUNC(0x4c94e0)
-void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* a2)
+MATCH_FUNC(0x4c94e0)
+void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
 {
-    NOT_IMPLEMENTED;
+    // TODO: Bunch of missing getter/setter inlines here
+    if (!pAttacker)
+    {
+        PedGroup::DestroyGroup_4C93A0();
+    }
+    else
+    {
+        if (!field_2C_ped_leader->IsField238_45EDE0(2))
+        {
+            this->field_2C_ped_leader->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
+            this->field_2C_ped_leader->field_148_objective_target_ped = pAttacker;
+            this->field_2C_ped_leader->sub_463830(3, 9999);
+            this->field_2C_ped_leader->field_14C = pAttacker;
+            this->field_2C_ped_leader->field_21C |= 4u;
+            this->field_2C_ped_leader->field_228 = 0;
+            this->field_2C_ped_leader->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
+        }
+
+        this->field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
+        
+        for (char_type i_ = 0; i_ < (s32)this->field_34_count; i_++)
+        {
+            s32 i = i_;
+            if (field_4_ped_list[i]->field_16C_car)
+            {
+                this->field_4_ped_list[i]->sub_463830(0, 9999);
+                this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_always_once_car_stopped_6, 9999);
+                this->field_4_ped_list[i]->field_148_objective_target_ped = pAttacker;
+                this->field_4_ped_list[i]->field_228 = 0;
+                this->field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
+            }
+            else
+            {
+                this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
+                this->field_4_ped_list[i]->field_148_objective_target_ped = pAttacker;
+                this->field_4_ped_list[i]->sub_463830(3, 9999);
+                this->field_4_ped_list[i]->field_14C = pAttacker;
+                this->field_4_ped_list[i]->field_21C |= 4u;
+                this->field_4_ped_list[i]->field_228 = 0;
+                this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
+                this->field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
+                this->field_4_ped_list[i]->field_238 = 3;
+            }
+        }
+        PedGroup::sub_4C8E90();
+    }
 }
 
 STUB_FUNC(0x4c9680)

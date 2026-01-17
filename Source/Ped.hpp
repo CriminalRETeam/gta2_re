@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Function.hpp"
 #include "BitSet32.hpp"
-#include "char.hpp"
+#include "Fix16_Point.hpp"
+#include "Function.hpp"
 #include "Marz_1D7E.hpp"
 #include "ang16.hpp"
+#include "char.hpp"
 #include "enums.hpp"
 #include "fix16.hpp"
-#include "Fix16_Point.hpp"
 #include "miss2_xyz.hpp"
 #include "sprite.hpp"
 #include <cstdio>
@@ -77,7 +77,7 @@ class Ped
     EXPORT void sub_45CF20(Object_2C* a2);
     EXPORT char_type HandlePedHitByObject_45D000(Object_2C* a2);
     EXPORT char_type AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
-    EXPORT char_type HandlePickupCollision_45DE80(Object_2C *pPickUp);
+    EXPORT char_type HandlePickupCollision_45DE80(Object_2C* pPickUp);
     EXPORT void SpawnWeaponOnDeath_45E080();
     EXPORT void sub_45E4A0();
     EXPORT void sub_45EA00();
@@ -177,7 +177,7 @@ class Ped
     EXPORT s32 sub_46B2F0();
     EXPORT void sub_46B670();
     EXPORT void sub_46BD30();
-    EXPORT char_type sub_46BD50(Car_BC *pCar);
+    EXPORT char_type sub_46BD50(Car_BC* pCar);
     EXPORT void sub_46BDC0();
     EXPORT void sub_46C250();
     EXPORT void sub_46C770();
@@ -237,11 +237,17 @@ class Ped
     EXPORT void nullsub_11();
     EXPORT void nullsub_12();
 
+    inline void ClearGroupAndGroupIdx_403A30()
+    {
+        this->field_164_ped_group = 0;
+        this->field_23C = 0;
+    }
+
     inline s32 sub_420B70()
     {
         return field_238;
     }
-        
+
     void inline_clear_bit()
     {
         // There was no way to match this without using a bit field
@@ -266,7 +272,7 @@ class Ped
 
     bool sub_433DA0()
     {
-      return (field_21C & 0x2000000) != 0 && field_168_game_object;
+        return (field_21C & 0x2000000) != 0 && field_168_game_object;
     }
 
     void reset_ped_group()
@@ -308,7 +314,7 @@ class Ped
     bool get_bitset_0x04()
     {
         return field_21C & ped_bit_status_enum::k_ped_0x00000004 ? true : false;
-    }    
+    }
 
     void unset_bitset_0x04()
     {
@@ -382,7 +388,7 @@ class Ped
     {
         return field_1F0_maybe_max_speed;
     }
-    
+
     inline u8 get_remap_433BA0()
     {
         return field_244_remap;
@@ -512,7 +518,7 @@ class Ped
     u16 field_218_objective_timer;
     u16 field_21A_car_state_timer;
 
-    union 
+    union
     {
         CompilerBitField32 field_21C_bf;
         // TODO: Move everything to use the above field and remove union
