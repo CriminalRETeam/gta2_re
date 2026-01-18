@@ -267,7 +267,7 @@ class Ped
     // 9.6f inline 0x450CB0
     inline u8 sub_450CB0()
     {
-        return field_225;
+        return field_225_objective_status;
     }
 
     bool sub_433DA0()
@@ -306,9 +306,16 @@ class Ped
         return field_278;
     }
 
-    void set_field_14C(Ped* pSrc)
+    // 9.6f inline 0x403AE0
+    void set_field_14C_403AE0(Ped* pSrc)
     {
         field_14C = pSrc;
+    }
+
+    // 9.6f inline 0x403950
+    inline void SetBit2_403950()
+    {
+        field_21C_bf.b2 = true;
     }
 
     bool get_bitset_0x04()
@@ -450,7 +457,7 @@ class Ped
         field_22C = value;
     }
 
-    Marz_3 field_0[100];
+    Marz_3 field_0_patrol_points[100];
     Ang16 field_12C;
     Ang16 field_12E;
     Ang16 field_130;
@@ -527,7 +534,7 @@ class Ped
 
     s32 field_220;
     char_type field_224;
-    u8 field_225;
+    u8 field_225_objective_status;
     char_type field_226;
     char_type field_227;
     char_type field_228;

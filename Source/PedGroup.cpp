@@ -180,7 +180,7 @@ void PedGroup::sub_4C91B0()
     {
         field_4_ped_list[i]->unset_bitset_0x04();
         field_4_ped_list[i]->sub_463830(9, 9999);
-        field_4_ped_list[i]->set_field_14C(field_2C_ped_leader);
+        field_4_ped_list[i]->set_field_14C_403AE0(field_2C_ped_leader);
     }
 }
 

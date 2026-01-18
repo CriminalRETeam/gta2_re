@@ -2008,7 +2008,7 @@ void miss2_0x11C::sub_509810()
 
     if (pPed != NULL)
     {
-        switch (pPed->field_225)
+        switch (pPed->field_225_objective_status)
         {
             case 2:
             case 0:
@@ -2032,7 +2032,7 @@ void miss2_0x11C::sub_509880()
 
     if (pPed != NULL)
     {
-        switch (pPed->field_225)
+        switch (pPed->field_225_objective_status)
         {
             case 2:
                 field_8 = true;

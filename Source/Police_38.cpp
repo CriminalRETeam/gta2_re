@@ -527,7 +527,7 @@ void PoliceCrew_38::sub_572340()
                                 PoliceCrew_38::sub_575210();
                                 break;
                             case objectives_enum::objective_51:
-                                if (pPed->field_225 == 2)
+                                if (pPed->field_225_objective_status == 2)
                                 {
                                     field_24_state = 6;
                                     field_14_pObj->field_1C = 1;
@@ -542,14 +542,14 @@ void PoliceCrew_38::sub_572340()
                                 break;
                             case objectives_enum::goto_area_on_foot_12:
                                 field_28 = 0;
-                                if (pPed_6FEDDC->field_225 == 1)
+                                if (pPed_6FEDDC->field_225_objective_status == 1)
                                 {
                                     pPed_6FEDDC->sub_463830(0, 9999);
                                     pPed_6FEDDC->SetObjective(objectives_enum::objective_51, 200);
                                 }
                                 break;
                             case objectives_enum::objective_28:
-                                if (pPed->field_225)
+                                if (pPed->field_225_objective_status)
                                 {
                                     pPed->sub_463830(0, 9999);
                                     pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
@@ -697,7 +697,7 @@ void PoliceCrew_38::sub_574F10()
                             pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
                             break;
                         case objectives_enum::objective_28:
-                            if (pPedIter->field_225)
+                            if (pPedIter->field_225_objective_status)
                             {
                                 pPedIter->sub_463830(0, 9999);
                                 pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
@@ -772,7 +772,7 @@ void PoliceCrew_38::sub_575270()
 MATCH_FUNC(0x5752c0)
 void PoliceCrew_38::sub_5752C0()
 {
-    if (pPed_6FEDDC->field_225)
+    if (pPed_6FEDDC->field_225_objective_status)
     {
         field_10_subObj->field_28 = 6;
         pPed_6FEDDC->sub_463830(0, 9999);

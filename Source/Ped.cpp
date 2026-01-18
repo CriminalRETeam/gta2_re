@@ -82,6 +82,8 @@ DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
 DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct init value
 DEFINE_GLOBAL_INIT(Fix16, dword_6784DC, dword_6784C4 * 6, 0x6784DC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678668, Fix16(2), 0x678668);
+DEFINE_GLOBAL_INIT(Fix16, dword_678618, Fix16(256, 0), 0x678618);
+DEFINE_GLOBAL_INIT(Fix16, dword_678484, Fix16(0x1000, 0), 0x678484);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
 DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
@@ -1159,11 +1161,11 @@ void Ped::Mugger_AI_45F360()
             }
             else
             {
-                if (field_225 == 1)
+                if (field_225_objective_status == 1)
                 {
                     Ped::SetObjective(objectives_enum::wait_on_foot_26, 30);
                 }
-                else if (field_225 == 2)
+                else if (field_225_objective_status == 2)
                 {
                     Ped::SetObjective(objectives_enum::no_obj_0, 0);
                     Ped::sub_463830(0, 0);
@@ -1182,7 +1184,7 @@ void Ped::Mugger_AI_45F360()
             break;
 
         case objectives_enum::flee_on_foot_till_safe_1:
-            if (field_225 == 1)
+            if (field_225_objective_status == 1)
             {
                 field_21C_bf.b11 = false;
                 field_278 = 0;
@@ -1194,7 +1196,7 @@ void Ped::Mugger_AI_45F360()
             break;
 
         case objectives_enum::flee_char_on_foot_till_safe_2:
-            if (field_225)
+            if (field_225_objective_status)
             {
                 Ped::SetObjective(objectives_enum::no_obj_0, 9999);
             }
@@ -1262,7 +1264,7 @@ void Ped::sub_461290()
             break;
 
         case objectives_enum::enter_car_as_driver_35:
-            if (this->field_225 == 1)
+            if (this->field_225_objective_status == 1)
             {
                 if (--byte_6787D3 < 0)
                 {
@@ -1301,7 +1303,7 @@ void Ped::sub_461290()
             return;
 
         case objectives_enum::leave_train_38:
-            if (this->field_225)
+            if (this->field_225_objective_status)
             {
             LABEL_21:
                 this->field_238 = 3;
@@ -1428,7 +1430,7 @@ void Ped::Occupation_AI_461F20()
             Ped::sub_461630();
             break;
         case ped_ocupation_enum::unknown_7:
-            if (field_225)
+            if (field_225_objective_status)
             {
                 Ped::SetObjective(objectives_enum::no_obj_0, 9999);
                 Ped::sub_463830(0, 9999);
@@ -1467,7 +1469,7 @@ void Ped::Occupation_AI_461F20()
                         {
                             Ped::Kill_46F9D0();
                         }
-                        else if (field_225 == 1)
+                        else if (field_225_objective_status == 1)
                         {
                             if (field_180)
                             {
@@ -1486,7 +1488,7 @@ void Ped::Occupation_AI_461F20()
                 }
                 else
                 {
-                    if (field_225 == 1)
+                    if (field_225_objective_status == 1)
                     {
                         field_240_occupation = ped_ocupation_enum::dummy;
                         Ped::SetObjective(objectives_enum::no_obj_0, 9999);
@@ -2051,7 +2053,7 @@ MATCH_FUNC(0x463aa0)
 void Ped::ProcessOnFootObjective_463AA0()
 {
     Ang16 angle = 0;
-    if (field_258_objective && !field_225)
+    if (field_258_objective && !field_225_objective_status)
     {
         if (field_148_objective_target_ped)
         {
@@ -2255,10 +2257,457 @@ s16* Ped::sub_4645B0()
     return 0;
 }
 
+// https://decomp.me/scratch/S4YP7
 STUB_FUNC(0x465270)
 void Ped::Threat_Reaction_AI_465270()
 {
     NOT_IMPLEMENTED;
+    //Weapon_30* pWeapon; // edx
+    //bool v14; // cc
+    Ang16 v19; // ax
+    Fix16 diff_x; // ecx
+    Fix16 diff_y; // edx
+    Fix16 diff_x_2; // eax
+    Fix16 diff_y_2; // ecx
+    Ped* v44; // ecx
+    char_type v45; // al
+
+    Ped* BestTargetPed_Mode1_466B90 = 0;
+    bool bUnk2 = false;
+    bool bUnk = false;
+    s32 old_threat_search;
+    switch (field_28C_threat_reaction)
+    {
+        case threat_reaction_enum::no_reaction_0:
+            old_threat_search = this->field_288_threat_search;
+            if ((field_288_threat_search == threat_search_enum::line_of_sight_1 ||
+                 field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
+                 field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
+                field_21C_bf.b19 == false && byte_61A8A2 == 1)
+            {
+                this->field_288_threat_search = threat_search_enum::line_of_sight_player_only_6;
+                Ped* BestTargetPed_Mode5_466BD0 = Ped::FindBestTargetPed_Mode5_466BD0(3);
+                if (BestTargetPed_Mode5_466BD0)
+                {
+                    if (BestTargetPed_Mode5_466BD0->IsField238_45EDE0(2))
+                    {
+                        field_21C_bf.b23 = true;
+                    }
+                }
+                this->field_288_threat_search = old_threat_search;
+            }
+            return;
+        case threat_reaction_enum::react_as_emergency_1:
+        case threat_reaction_enum::react_as_normal_2:
+            if (this->field_240_occupation == ped_ocupation_enum::unknown_13)
+            {
+                return;
+            }
+            if (this->field_16C_car)
+            {
+                if (field_28C_threat_reaction == threat_reaction_enum::react_as_normal_2)
+                {
+                    if (this->field_258_objective)
+                    {
+                        if (this->field_21C_bf.b4 == false && this->field_218_objective_timer > 0x32u)
+                        {
+                            if (Ped::FindBestTargetPed_Mode1_466B90(3))
+                            {
+                                if (field_16C_car->GetVelocity_43A4C0() == dword_678660)
+                                {
+                                    this->field_21C_bf.b2 = true;
+                                    Ped::sub_463830(36, 9999);
+                                    field_16C_car = this->field_16C_car;
+                                    this->field_218_objective_timer = 0;
+                                    this->field_154_target_to_enter = field_16C_car;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    this->field_288_threat_search = threat_search_enum::line_of_sight_1;
+                    Ped::FindBestTargetPed_Mode1_466B90(3);
+                }
+                //return;
+            }
+            else
+            {
+                // line 138 9.6f IDA
+
+                if (field_25C_car_state == 20 || field_25C_car_state == 23 || field_25C_car_state == 32)
+                {
+                    if (field_288_threat_search == threat_search_enum::line_of_sight_1 ||
+                        field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
+                        field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
+                    {
+                        if (field_21C_bf.b19 == false && byte_61A8A2 == 1)
+                        {
+                            BestTargetPed_Mode1_466B90 = Ped::FindBestTargetPed_Mode5_466BD0(3);
+                            bUnk = true;
+                        }
+                    }
+                    else
+                    {
+                        BestTargetPed_Mode1_466B90 = Ped::FindBestTargetPed_Mode1_466B90(3);
+                    }
+                    if (this->field_28C_threat_reaction == threat_reaction_enum::react_as_normal_2)
+                    {
+                        if (BestTargetPed_Mode1_466B90)
+                        {
+                            if (BestTargetPed_Mode1_466B90 != this->field_14C)
+                            {
+                                this->field_14C = BestTargetPed_Mode1_466B90;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (BestTargetPed_Mode1_466B90)
+                        {
+                            if (BestTargetPed_Mode1_466B90 != this->field_14C)
+                            {
+                                diff_x = BestTargetPed_Mode1_466B90->get_cam_x() - this->field_1AC_cam.x;
+                                diff_y = BestTargetPed_Mode1_466B90->get_cam_y() - this->field_1AC_cam.y;
+
+                                Fix16 abs_x = Fix16::Abs(diff_x);
+                                Fix16 abs_y = Fix16::Abs(diff_y);
+
+                                Fix16 unk = abs_x;
+                                if (!(abs_x > abs_y))
+                                {
+                                    unk = abs_y;
+                                }
+
+                                if (unk < dword_678668)
+                                {
+                                    this->field_14C = BestTargetPed_Mode1_466B90;
+                                }
+                            }
+                        }
+                        if (this->field_25C_car_state == 32 &&
+                            (BestTargetPed_Mode1_466B90 == this->field_14C || !BestTargetPed_Mode1_466B90))
+                        {
+                            return;
+                        }
+                    }
+
+                    // line 175 9.6f IDA
+
+                    diff_x_2 = this->field_1C4_x - this->field_1AC_cam.x;
+                    diff_y_2 = this->field_1C8_y - this->field_1AC_cam.y;
+
+                    Fix16 abs_x_2 = Fix16::Abs(diff_x_2);
+                    Fix16 abs_y_2 = Fix16::Abs(diff_y_2);
+
+                    Fix16 unk_2 = abs_x_2;
+                    if (!(abs_x_2 > abs_y_2))
+                    {
+                        unk_2 = abs_y_2;
+                    }
+
+                    if (field_164_ped_group)
+                    {
+                        if (field_23C != 99)
+                        {
+                            if (field_164_ped_group->sub_4CAC20(field_23C)) // OBS: arg is u8 type
+                            {
+                                Ped::sub_463830(7, 9999);
+                                set_field_14C_403AE0(field_164_ped_group->field_2C_ped_leader);
+                                SetBit2_403950();
+                            }
+                            if (field_164_ped_group->sub_4C9220() && field_164_ped_group->sub_4CAD40())
+                            {
+                                Ped::sub_463830(7, 9999);
+                                set_field_14C_403AE0(field_164_ped_group->field_2C_ped_leader);
+                                SetBit2_403950();
+                            }
+                        }
+                    }
+
+                    if (unk_2 <= dword_678520) // v40
+                    {
+                        //v42 = this->field_288_threat_search;
+                        if (field_288_threat_search != threat_search_enum::line_of_sight_1 &&
+                            field_288_threat_search != threat_search_enum::line_of_sight_player_only_6 &&
+                            field_288_threat_search != threat_search_enum::line_of_sight_player_threat_only_4)
+                        {
+                            this->field_20C = 0;
+                            goto LABEL_137;
+                        }
+                        if (this->field_21C_bf.b19 == false == 0 && byte_61A8A2 == 1)
+                        {
+                            if (gMap_0x370_6F6268->sub_4E5640(dword_678618,
+                                                              dword_678484,
+                                                              dword_678618,
+                                                              this->field_1AC_cam.x,
+                                                              this->field_1AC_cam.y,
+                                                              this->field_1AC_cam.z,
+                                                              this->field_14C->field_1AC_cam.x,
+                                                              this->field_14C->field_1AC_cam.y,
+                                                              this->field_14C->field_1AC_cam.z))
+                            {
+                                this->field_20C = 0;
+                            }
+                            else
+                            {
+                                ++this->field_20C;
+                            }
+                            bUnk = 1;
+                            //goto LABEL_137;
+                        }
+                        else
+                        {
+                            ++this->field_20C;
+                        }
+                    }
+                    else
+                    {
+                        ++this->field_20C;
+                    }
+
+                    LABEL_137:
+                    //v43 = this->field_288_threat_search;
+
+                    if ((field_288_threat_search == threat_search_enum::line_of_sight_1 ||
+                         field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
+                         field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
+                        bUnk == 1)
+                    {
+                        this->field_21C_bf.b19 = true; // |= 0x80000u;
+                        byte_61A8A2 = 0;
+                    }
+                    if (this->field_20C > 15)
+                    {
+                        bUnk2 = 1;
+                    }
+
+                    v44 = this->field_14C;
+                    if ((v44->field_21C & 0x2000000) != 0)
+                    {
+                        if (v44->field_168_game_object)
+                        {
+                            bUnk2 = 1;
+                        }
+                    }
+                    v45 = this->field_226;
+                    if (v45 == 1)
+                    {
+                        bUnk2 = 1;
+                    }
+                    if (v45 == 2)
+                    {
+                        bUnk2 = 1;
+                    }
+                    if (this->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+                    {
+                        if (!v44->get_wanted_star_count_46EF00())
+                        {
+                            if (this->field_14C->field_15C_player)
+                            {
+                                bUnk2 = 1;
+                            }
+                        }
+                        if (this->field_258_objective == objectives_enum::enter_car_as_driver_35)
+                        {
+                            goto LABEL_157;
+                        }
+                    }
+                    if (bUnk2 == 1)
+                    {
+                    LABEL_157:
+                        if (this->field_14C != this->field_148_objective_target_ped)
+                        {
+                            if (this->field_168_game_object->field_10 != 15)
+                            {
+                                this->field_0_patrol_points[0].field_0 = 0;
+                                this->field_0_patrol_points[0].field_1 = 0;
+                                field_21C_bf.b2 = false;
+                                field_21C_bf.b11 = false;
+                            }
+                            Ped::sub_463830(0, 9999);
+                        }
+                        else
+                        {
+                            this->field_226 = 2;
+                        }
+                    }
+                    return;
+                }
+                else
+                {
+                    /*
+                    //v25 = this->field_21C;
+                    this->field_20C = 0;
+                    //if ((v25 & 0x8000000) != 0)
+                    if (field_21C_bf.b27)
+                    {
+                        field_21C_bf.b2 = false;
+                        //LOBYTE(v25) = v25 & 0xFB;
+                        //this->field_21C = v25;
+                        return;
+                    }
+                    //v26 = this->field_164_ped_group;
+                    if (!field_164_ped_group || !field_164_ped_group->sub_4C9220() && !field_164_ped_group->sub_4C9210())
+                    {
+                        threat_search = this->field_288_threat_search;
+                        if (threat_search == line_of_sight_1 || threat_search == threat_search_enum::line_of_sight_player_only_6 || threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
+                        {
+                            if ((this->field_21C & 0x80000) != 0 || byte_61A8A2 != 1)
+                            {
+                                goto LABEL_82;
+                            }
+                            v28 = Ped::FindBestTargetPed_Mode5_466BD0(3);
+                            bUnk = 1;
+                        }
+                        else
+                        {
+                            v28 = Ped::FindBestTargetPed_Mode1_466B90(3);
+                        }
+                        if (v28 && (v28->field_21C & 1) != 0)
+                        {
+                            if (this->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1 && (this->field_21C & 0x1000000) == 0)
+                            {
+                                this->field_250 = 17;
+                            }
+                            v29 = this->field_164_ped_group;
+                            if (v28->field_16C_car)
+                            {
+                                if (!v29)
+                                {
+                                    field_21C_bf.b2 = true; //this->field_21C |= 4u;
+                                    Ped::sub_463830(20, 9999);
+                                    this->field_14C = v28;
+                                    this->field_20C = 0;
+                                    goto LABEL_83;
+                                }
+                            }
+                            else if (!v29)
+                            {
+                                if (this->field_258_objective != objectives_enum::goto_area_any_means_13)
+                                {
+                                    field_21C_bf.b2 = true; //this->field_21C |= 4u;
+                                    Ped::sub_463830(20, 9999);
+                                    this->field_14C = v28;
+                                    v28->field_144 = this;
+                                    this->field_20C = 0;
+                                }
+                                goto LABEL_83;
+                            }
+                            v29->sub_4C9B60(v28); // PedGroup
+                        LABEL_83:
+                            //v31 = this->field_288_threat_search;
+                            if ((field_288_threat_search == threat_search_enum::line_of_sight_1 || field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 || field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) && bUnk == 1)
+                            {
+                                field_21C_bf.b19 = true; //this->field_21C |= k_ped_0x00080000;
+                                byte_61A8A2 = 0;
+                            }
+                            return;
+                        }
+                    LABEL_82:
+                        v30 = this->field_21C;
+                        LOBYTE(v30) = v30 & ~k_ped_0x00000004;
+                        this->field_21C = v30;
+                        goto LABEL_83;
+                    }
+                    */
+                }
+                return;
+                case threat_reaction_enum::run_away_3:
+                    if (this->field_168_game_object)
+                    {
+                        /*
+                        if (bHaveThreateningPeds_6787DA)
+                        {
+                            if (this->field_25C_car_state != 2 && (this->field_21C & 0x8000000) == 0)
+                            {
+                                v7 = Ped_List_4::GetFromListClosestPedToPoint_471340(&gThreateningPedsList_678468,
+                                                                                    this->field_1AC_cam.x,
+                                                                                    this->field_1AC_cam.y);
+                                v8 = v7;
+                                if (v7)
+                                {
+                                    pWeapon = v7->field_170_selected_weapon;
+                                    if ((pWeapon || v7->field_16C_car) && v7 != this)
+                                    {
+                                        x = this->field_1AC_cam.x;
+                                        v11 = v7->field_1AC_cam.x - x;
+                                        if (v11 <= 0)
+                                        {
+                                            v11 = x - v8->field_1AC_cam.x;
+                                        }
+                                        v12 = v11;
+                                        v13 = v8->field_1AC_cam.y - this->field_1AC_cam.y;
+                                        v49 = v12;
+                                        if (v13 <= 0)
+                                        {
+                                            v13 = -v13;
+                                        }
+                                        v50 = v13;
+                                        v14 = v12 <= v13;
+                                        v15 = &v49;
+                                        if (v14)
+                                        {
+                                            v15 = &v50;
+                                        }
+                                        if (*v15 < k_dword_678680)
+                                        {
+                                            if (v8->field_16C_car)
+                                            {
+                                                if ((this->field_21C & 0x1000000) == 0)
+                                                {
+                                                    this->field_250 = 1;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                field_1C_idx = field_170_selected_weapon->field_1C_idx;
+                                                if (field_1C_idx < 2 || field_1C_idx == 6 || field_1C_idx == 18 || field_1C_idx == 9 || field_1C_idx == 10)
+                                                {
+                                                    if ((this->field_21C & 0x1000000) == 0)
+                                                    {
+                                                        this->field_250 = 3;
+                                                    }
+                                                }
+                                                else if ((this->field_21C & 0x1000000) == 0)
+                                                {
+                                                    this->field_250 = 2;
+                                                }
+                                            }
+                                            Ped::sub_463830(2, 9999);
+                                            v17 = this->field_1AC_cam.x;
+                                            this->field_14C = v8;
+                                            y = this->field_1AC_cam.y;
+                                            pMaybeY_FP16.mValue = v17 - v8->field_1AC_cam.x;
+                                            pMaybeX_FP16 = y - v8->field_1AC_cam.y;
+                                            v19 = Fix16::atan2_fixed_405320((Fix16*)&pMaybeX_FP16, &pMaybeY_FP16);
+                                            //field_168_game_object = this->field_168_game_object;
+                                            this->field_130 = v19;
+                                            field_168_game_object->field_40_rotation = v19;
+                                            field_21C_bf.b2 = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        */
+                        if (this->field_258_objective == objectives_enum::flee_char_on_foot_till_safe_2 &&
+                            this->field_225_objective_status == objective_status::passed_1)
+                        {
+                            Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+                        }
+                        if (this->field_25C_car_state == 2 && this->field_226 == 1)
+                        {
+                            Ped::sub_463830(0, 9999);
+                            field_21C_bf.b2 = false;
+                        }
+                    }
+            }
+            return;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x465b20)
@@ -2407,7 +2856,7 @@ void Ped::sub_4678E0()
                 {
                     Ped::sub_45C500(0);
                     Ped::sub_45C540(0);
-                    this->field_225 = 1;
+                    this->field_225_objective_status = 1;
                 }
                 else
                 {
@@ -2434,7 +2883,7 @@ void Ped::sub_467960()
         Ped::sub_45C500(0);
         Ped::sub_45C540(0);
         this->field_148_objective_target_ped = 0;
-        this->field_225 = 1;
+        this->field_225_objective_status = 1;
         return;
     }
 
@@ -2447,7 +2896,7 @@ void Ped::sub_467960()
                 Ped::sub_45C500(0);
                 Ped::sub_45C540(0);
                 this->field_148_objective_target_ped = 0;
-                this->field_225 = 1;
+                this->field_225_objective_status = 1;
             }
         }
         else
@@ -2468,7 +2917,7 @@ void Ped::sub_467A20()
         Ped::sub_45C500(0);
         Ped::sub_45C540(0);
         this->field_148_objective_target_ped = 0;
-        this->field_225 = 1;
+        this->field_225_objective_status = 1;
         return;
     }
 
@@ -2529,7 +2978,7 @@ void Ped::sub_467CA0()
     {
         if (field_148_objective_target_ped->field_278 != 9)
         {
-            this->field_225 = 2;
+            this->field_225_objective_status = 2;
             return;
         }
         // LABEL_25:
@@ -2539,7 +2988,7 @@ void Ped::sub_467CA0()
 
     if (field_148_objective_target_ped->field_278 == 9)
     {
-        this->field_225 = 1;
+        this->field_225_objective_status = 1;
         return;
     }
 
@@ -2596,7 +3045,7 @@ void Ped::sub_467CA0()
                     Ped::sub_463830(0, 9999);
                     return;
                 }
-                this->field_225 = 1;
+                this->field_225_objective_status = 1;
                 return;
             }
 
@@ -2627,7 +3076,7 @@ void Ped::sub_467FB0()
     {
         if (!field_218_objective_timer)
         {
-            field_225 = 1;
+            field_225_objective_status = 1;
         }
     }
 }
@@ -2637,7 +3086,7 @@ void Ped::sub_467FD0()
 {
     if ((field_148_objective_target_ped->field_21C & 1) == 0 || field_148_objective_target_ped->field_278 == 9)
     {
-        this->field_225 = 2;
+        this->field_225_objective_status = 2;
         return;
     }
 
@@ -2649,12 +3098,12 @@ void Ped::sub_467FD0()
             {
                 if (field_226 == 1)
                 {
-                    this->field_225 = 1;
+                    this->field_225_objective_status = 1;
                     return;
                 }
                 else if (field_226 == 2)
                 {
-                    this->field_225 = 2;
+                    this->field_225_objective_status = 2;
                 }
             }
         }
@@ -2701,11 +3150,11 @@ void Ped::sub_468310()
     Car_BC* pCar_;
     Car_BC* pCar__;
 
-    if (this->field_225 != 1)
+    if (this->field_225_objective_status != 1)
     {
         if (this->field_168_game_object)
         {
-            this->field_225 = 2;
+            this->field_225_objective_status = 2;
         }
         else
         {
@@ -2742,7 +3191,7 @@ void Ped::sub_468310()
                 this->field_1AC_cam.z == this->field_1E4_objective_target_z)
             {
                 pCar_ = this->field_16C_car;
-                this->field_225 = 1;
+                this->field_225_objective_status = 1;
                 gHamburger_500_678E30->Cancel_474CC0(pCar_->field_60);
                 this->field_16C_car->field_60 = 0;
                 this->field_16C_car->field_A6 |= 0x20u;
@@ -2753,7 +3202,7 @@ void Ped::sub_468310()
                 pCar__ = this->field_16C_car;
                 if (pCar__->field_60->field_26)
                 {
-                    this->field_225 = 1;
+                    this->field_225_objective_status = 1;
                     gHamburger_500_678E30->Cancel_474CC0(pCar__->field_60);
                     this->field_16C_car->field_60 = 0;
                     this->field_16C_car->field_A6 |= 0x20u;
@@ -2805,7 +3254,7 @@ void Ped::sub_4686C0()
                 }
                 else
                 {
-                    field_225 = 1;
+                    field_225_objective_status = 1;
                     Ped::sub_463830(0, 9999);
                     Ped::sub_45C500(10);
                     Ped::sub_45C540(10);
@@ -2814,7 +3263,7 @@ void Ped::sub_4686C0()
             }
             if (field_226 == 2)
             {
-                field_225 = 2;
+                field_225_objective_status = 2;
             }
         }
     }
@@ -2825,7 +3274,7 @@ void Ped::sub_4686C0()
     }
     if (field_150_target_objective_car->field_88 == 5 || field_150_target_objective_car->field_74_damage == 32001)
     {
-        field_225 = 2;
+        field_225_objective_status = 2;
         Ped::sub_463830(0, 9999);
         field_21C_bf.b2 = false;
     }
@@ -2838,7 +3287,7 @@ void Ped::sub_468820()
     {
         if (!field_150_target_objective_car && field_27C == 17)
         {
-            field_225 = 1;
+            field_225_objective_status = 1;
         }
     }
     if ((field_21C & 4) != 0)
@@ -2849,16 +3298,16 @@ void Ped::sub_468820()
             {
                 if (field_164_ped_group->sub_4CAB80())
                 {
-                    field_225 = true;
+                    field_225_objective_status = true;
                 }
                 else
                 {
-                    field_225 = false;
+                    field_225_objective_status = false;
                 }
             }
             else
             {
-                field_225 = true;
+                field_225_objective_status = true;
             }
         }
     }
@@ -2871,7 +3320,7 @@ void Ped::sub_468820()
             {
                 if (field_238 != 2)
                 {
-                    field_225 = 1;
+                    field_225_objective_status = 1;
                 }
                 else
                 {
@@ -2882,7 +3331,7 @@ void Ped::sub_468820()
             }
             else if (field_226 == 2)
             {
-                field_225 = 2;
+                field_225_objective_status = 2;
             }
         }
     }
@@ -2897,16 +3346,16 @@ void Ped::sub_468820()
         {
             if (field_164_ped_group->sub_4CAB80())
             {
-                field_225 = true;
+                field_225_objective_status = true;
             }
             else
             {
-                field_225 = false;
+                field_225_objective_status = false;
             }
         }
         else
         {
-            field_225 = true;
+            field_225_objective_status = true;
         }
     }
 }
@@ -2916,7 +3365,7 @@ void Ped::sub_468930()
 {
     if (field_226 == 2 || field_150_target_objective_car == 0)
     {
-        field_225 = 2;
+        field_225_objective_status = 2;
     }
     else
     {
@@ -2931,7 +3380,7 @@ void Ped::sub_468930()
             {
                 if (field_226 == 1)
                 {
-                    field_225 = 1;
+                    field_225_objective_status = 1;
                     Ped::sub_463830(0, 9999);
                     Ped::sub_45C500(10);
                     Ped::sub_45C540(10);
@@ -2939,7 +3388,7 @@ void Ped::sub_468930()
                 }
                 if (field_226 == 2)
                 {
-                    field_225 = 2;
+                    field_225_objective_status = 2;
                 }
             }
         }
@@ -2950,7 +3399,7 @@ void Ped::sub_468930()
         }
         if (field_150_target_objective_car->field_88 == 5 || field_150_target_objective_car->field_74_damage == 32001)
         {
-            field_225 = 2;
+            field_225_objective_status = 2;
             Ped::sub_463830(0, 9999);
         }
     }
@@ -3003,12 +3452,12 @@ void Ped::sub_468A00()
                     }
                     else
                     {
-                        field_225 = 1;
+                        field_225_objective_status = 1;
                     }
                 }
                 if (field_226 == 2)
                 {
-                    field_225 = 2;
+                    field_225_objective_status = 2;
                 }
             }
         }
@@ -3016,7 +3465,7 @@ void Ped::sub_468A00()
         {
             if (field_278 != 8 && field_226 == 1)
             {
-                field_225 = 1;
+                field_225_objective_status = 1;
                 Ped::sub_463830(0, 9999);
             }
         }
@@ -3028,7 +3477,7 @@ void Ped::sub_468A00()
     }
     else
     {
-        field_225 = 1;
+        field_225_objective_status = 1;
     }
 }
 
@@ -3107,14 +3556,14 @@ void Ped::sub_468DE0()
             {
                 Ped::sub_45C500(7);
                 Ped::sub_45C540(14);
-                field_225 = 1;
+                field_225_objective_status = 1;
             }
         }
         else
         {
             if (!field_218_objective_timer)
             {
-                field_225 = 1;
+                field_225_objective_status = 1;
             }
             field_168_game_object->SetMaxSpeed_433920(field_1F0_maybe_max_speed);
         }
@@ -3208,7 +3657,7 @@ void Ped::sub_469E10()
 {
     if (!this->field_218_objective_timer)
     {
-        this->field_225 = 2;
+        this->field_225_objective_status = 2;
     }
 }
 
@@ -3276,7 +3725,7 @@ void Ped::sub_469FC0()
     }
     else
     {
-        this->field_225 = 2;
+        this->field_225_objective_status = 2;
     }
 }
 
@@ -3291,7 +3740,7 @@ void Ped::sub_46A1F0()
 {
     if (field_148_objective_target_ped->field_21C_bf.b0 == false || field_148_objective_target_ped->field_278 == 9)
     {
-        field_225 = 2;
+        field_225_objective_status = 2;
     }
     else
     {
@@ -3312,11 +3761,11 @@ void Ped::sub_46A1F0()
             {
                 if (field_226 == 1)
                 {
-                    field_225 = 1;
+                    field_225_objective_status = 1;
                 }
                 else if (field_226 == 2)
                 {
-                    field_225 = 2;
+                    field_225_objective_status = 2;
                 }
             }
         }
@@ -3333,7 +3782,7 @@ void Ped::sub_46A290()
 {
     if (!field_150_target_objective_car->field_54_driver || field_168_game_object)
     {
-        field_225 = 2;
+        field_225_objective_status = 2;
     }
     else
     {
@@ -3397,11 +3846,11 @@ void Ped::sub_46A7C0()
             case 58:
                 if (field_226 == 1)
                 {
-                    field_225 = 1;
+                    field_225_objective_status = 1;
                 }
                 if (field_226 == 2)
                 {
-                    field_225 = 2;
+                    field_225_objective_status = 2;
                 }
                 return;
             default:
@@ -3417,7 +3866,7 @@ void Ped::sub_46A850()
 {
     if (field_150_target_objective_car->field_74_damage == 32001)
     {
-        field_225 = 1;
+        field_225_objective_status = 1;
     }
     if (byte_61A8A3 && (field_21C & 4) == 0)
     {
@@ -3436,11 +3885,11 @@ void Ped::sub_46A850()
             case 59:
                 if (field_226 == 1)
                 {
-                    field_225 = 1;
+                    field_225_objective_status = 1;
                 }
                 if (field_226 == 2)
                 {
-                    field_225 = 2;
+                    field_225_objective_status = 2;
                 }
                 return;
             default:
