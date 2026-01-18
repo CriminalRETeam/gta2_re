@@ -1073,7 +1073,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
         {
             if (pPed->field_278 != 10)
             {
-                if (pPed->field_225 == 2 || !pPed->field_150_target_objective_car)
+                if (pPed->field_225_objective_status == objective_status::failed_2 || !pPed->field_150_target_objective_car)
                 {
                     pPed->SetObjective(objectives_enum::no_obj_0, 9999);
                     pPed->sub_463830(0, 9999);
@@ -1082,7 +1082,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
             }
             else
             {
-                if (pPed->field_225)
+                if (pPed->field_225_objective_status != objective_status::not_finished_0)
                 {
                     pPed->SetObjective(objectives_enum::no_obj_0, 9999);
                     pPed->sub_463830(0, 9999);

@@ -1584,7 +1584,7 @@ gmp_map_slope::gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradien
 }
 
 STUB_FUNC(0x4E5640)
-char_type Map_0x370::sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9)
+char_type Map_0x370::sub_4E5640(Fix16 a1, Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9)
 {
     NOT_IMPLEMENTED;
     return 0;

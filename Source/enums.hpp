@@ -677,6 +677,16 @@ enum
 };
 } // namespace threat_reaction_enum
 
+namespace objective_status
+{
+enum
+{
+    not_finished_0 = 0,
+    passed_1 = 1,
+    failed_2 = 2,
+};
+} // namespace objective_status
+
 namespace objectives_enum
 {
 enum
