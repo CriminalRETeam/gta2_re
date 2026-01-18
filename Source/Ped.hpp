@@ -534,7 +534,7 @@ class Ped
 
     s32 field_220;
     char_type field_224;
-    u8 field_225_objective_status;
+    u8 field_225_objective_status; // it uses objective_status enum
     char_type field_226;
     char_type field_227;
     char_type field_228;
