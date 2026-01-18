@@ -146,6 +146,15 @@ bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputText
 
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 
+// crt_init_own_libname_21 or sub_4F7530
+void Init_Unk_Width_Height_F16_array()
+{
+    for (u32 i = 0; i < GTA2_COUNTOF(dword_6F6850.list); i++)
+    {
+        dword_6F6850.list[i] = Fix16(i) / 64;
+    }
+}
+
 static void EnableBoot2MapDebugOptions()
 {
     // Init Phi else its over fr
@@ -153,6 +162,7 @@ static void EnableBoot2MapDebugOptions()
     Init_Phi_6C_array();
     Init_gmp_slopes_array();
     Init_trigonometry_tables();
+    Init_Unk_Width_Height_F16_array();
 
     bSkip_traffic_lights_67D4EC = true;
     bSkip_trains_67D550 = true;

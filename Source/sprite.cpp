@@ -1,5 +1,6 @@
 #include "sprite.hpp"
 #include "Car_BC.hpp"
+#include "CarInfo_808.hpp" // TODO: only because of dword_6F6850
 #include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "Player.hpp"
@@ -29,7 +30,7 @@ DEFINE_GLOBAL(Sprite*, gSprite_6F61E8, 0x6F61E8);
 DEFINE_GLOBAL_INIT(Fix16, dword_7035C4, Fix16(1), 0x7035C4);
 DEFINE_GLOBAL_INIT(Fix16, gFix16_7035C0, Fix16(0), 0x7035C0);
 DEFINE_GLOBAL_INIT(Ang16, gAng16_703804, Ang16(0), 0x703804);
-DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
+DEFINE_GLOBAL(UnknownList, dword_6F6850, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
 DEFINE_GLOBAL_INIT(Fix16, dword_7035E4, Fix16(8), 0x7035E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_703578, Fix16(256, 0), 0x703578);
@@ -733,14 +734,14 @@ void Sprite::Update_4C_59F990()
 
         if (this->field_30_sprite_type_enum == sprite_types_enum::code_obj2)
         {
-            field_4_0x4C_len->field_0_width = dword_6F6850[sprite_index->field_4_width].mValue / 2;
-            field_4_0x4C_len->field_4_height = dword_6F6850[sprite_index->field_5_height].mValue / 2;
+            field_4_0x4C_len->field_0_width = dword_6F6850.list[sprite_index->field_4_width].mValue / 2;
+            field_4_0x4C_len->field_4_height = dword_6F6850.list[sprite_index->field_5_height].mValue / 2;
             field_4_0x4C_len->field_8 = 0;
         }
         else
         {
-            field_4_0x4C_len->field_0_width = dword_6F6850[sprite_index->field_4_width].mValue;
-            field_4_0x4C_len->field_4_height = dword_6F6850[sprite_index->field_5_height].mValue;
+            field_4_0x4C_len->field_0_width = dword_6F6850.list[sprite_index->field_4_width].mValue;
+            field_4_0x4C_len->field_4_height = dword_6F6850.list[sprite_index->field_5_height].mValue;
             field_4_0x4C_len->field_8 = 0;
         }
     }
@@ -754,8 +755,8 @@ void Sprite::sub_59FA40()
         const u16 idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         sprite_index* pSprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(idx);
 
-        const Fix16 height = dword_6F6850[pSprite_index->field_5_height];
-        const Fix16 width = dword_6F6850[pSprite_index->field_4_width];
+        const Fix16 height = dword_6F6850.list[pSprite_index->field_5_height];
+        const Fix16 width = dword_6F6850.list[pSprite_index->field_4_width];
 
         if (width != field_4_0x4C_len->field_0_width || height != field_4_0x4C_len->field_4_height)
         {
