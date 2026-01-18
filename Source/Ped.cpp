@@ -1161,11 +1161,11 @@ void Ped::Mugger_AI_45F360()
             }
             else
             {
-                if (field_225_objective_status == 1)
+                if (field_225_objective_status == objective_status::passed_1)
                 {
                     Ped::SetObjective(objectives_enum::wait_on_foot_26, 30);
                 }
-                else if (field_225_objective_status == 2)
+                else if (field_225_objective_status == objective_status::failed_2)
                 {
                     Ped::SetObjective(objectives_enum::no_obj_0, 0);
                     Ped::sub_463830(0, 0);
@@ -1184,7 +1184,7 @@ void Ped::Mugger_AI_45F360()
             break;
 
         case objectives_enum::flee_on_foot_till_safe_1:
-            if (field_225_objective_status == 1)
+            if (field_225_objective_status == objective_status::passed_1)
             {
                 field_21C_bf.b11 = false;
                 field_278 = 0;
@@ -1196,7 +1196,7 @@ void Ped::Mugger_AI_45F360()
             break;
 
         case objectives_enum::flee_char_on_foot_till_safe_2:
-            if (field_225_objective_status)
+            if (field_225_objective_status != objective_status::not_finished_0)
             {
                 Ped::SetObjective(objectives_enum::no_obj_0, 9999);
             }
@@ -1264,7 +1264,7 @@ void Ped::sub_461290()
             break;
 
         case objectives_enum::enter_car_as_driver_35:
-            if (this->field_225_objective_status == 1)
+            if (this->field_225_objective_status == objective_status::passed_1)
             {
                 if (--byte_6787D3 < 0)
                 {
@@ -1303,7 +1303,7 @@ void Ped::sub_461290()
             return;
 
         case objectives_enum::leave_train_38:
-            if (this->field_225_objective_status)
+            if (this->field_225_objective_status != objective_status::not_finished_0)
             {
             LABEL_21:
                 this->field_238 = 3;
@@ -1469,7 +1469,7 @@ void Ped::Occupation_AI_461F20()
                         {
                             Ped::Kill_46F9D0();
                         }
-                        else if (field_225_objective_status == 1)
+                        else if (field_225_objective_status == objective_status::passed_1)
                         {
                             if (field_180)
                             {
@@ -1488,7 +1488,7 @@ void Ped::Occupation_AI_461F20()
                 }
                 else
                 {
-                    if (field_225_objective_status == 1)
+                    if (field_225_objective_status == objective_status::passed_1)
                     {
                         field_240_occupation = ped_ocupation_enum::dummy;
                         Ped::SetObjective(objectives_enum::no_obj_0, 9999);
@@ -2053,7 +2053,7 @@ MATCH_FUNC(0x463aa0)
 void Ped::ProcessOnFootObjective_463AA0()
 {
     Ang16 angle = 0;
-    if (field_258_objective && !field_225_objective_status)
+    if (field_258_objective && field_225_objective_status == objective_status::not_finished_0)
     {
         if (field_148_objective_target_ped)
         {
@@ -2856,7 +2856,7 @@ void Ped::sub_4678E0()
                 {
                     Ped::sub_45C500(0);
                     Ped::sub_45C540(0);
-                    this->field_225_objective_status = 1;
+                    this->field_225_objective_status = objective_status::passed_1;
                 }
                 else
                 {
@@ -2883,7 +2883,7 @@ void Ped::sub_467960()
         Ped::sub_45C500(0);
         Ped::sub_45C540(0);
         this->field_148_objective_target_ped = 0;
-        this->field_225_objective_status = 1;
+        this->field_225_objective_status = objective_status::passed_1;
         return;
     }
 
@@ -2896,7 +2896,7 @@ void Ped::sub_467960()
                 Ped::sub_45C500(0);
                 Ped::sub_45C540(0);
                 this->field_148_objective_target_ped = 0;
-                this->field_225_objective_status = 1;
+                this->field_225_objective_status = objective_status::passed_1;
             }
         }
         else
@@ -2917,7 +2917,7 @@ void Ped::sub_467A20()
         Ped::sub_45C500(0);
         Ped::sub_45C540(0);
         this->field_148_objective_target_ped = 0;
-        this->field_225_objective_status = 1;
+        this->field_225_objective_status = objective_status::passed_1;
         return;
     }
 
@@ -2978,7 +2978,7 @@ void Ped::sub_467CA0()
     {
         if (field_148_objective_target_ped->field_278 != 9)
         {
-            this->field_225_objective_status = 2;
+            this->field_225_objective_status = objective_status::failed_2;
             return;
         }
         // LABEL_25:
@@ -2988,7 +2988,7 @@ void Ped::sub_467CA0()
 
     if (field_148_objective_target_ped->field_278 == 9)
     {
-        this->field_225_objective_status = 1;
+        this->field_225_objective_status = objective_status::passed_1;
         return;
     }
 
@@ -3045,7 +3045,7 @@ void Ped::sub_467CA0()
                     Ped::sub_463830(0, 9999);
                     return;
                 }
-                this->field_225_objective_status = 1;
+                this->field_225_objective_status = objective_status::passed_1;
                 return;
             }
 
@@ -3076,7 +3076,7 @@ void Ped::sub_467FB0()
     {
         if (!field_218_objective_timer)
         {
-            field_225_objective_status = 1;
+            field_225_objective_status = objective_status::passed_1;
         }
     }
 }
@@ -3086,7 +3086,7 @@ void Ped::sub_467FD0()
 {
     if ((field_148_objective_target_ped->field_21C & 1) == 0 || field_148_objective_target_ped->field_278 == 9)
     {
-        this->field_225_objective_status = 2;
+        this->field_225_objective_status = objective_status::failed_2;
         return;
     }
 
@@ -3098,12 +3098,12 @@ void Ped::sub_467FD0()
             {
                 if (field_226 == 1)
                 {
-                    this->field_225_objective_status = 1;
+                    this->field_225_objective_status = objective_status::passed_1;
                     return;
                 }
                 else if (field_226 == 2)
                 {
-                    this->field_225_objective_status = 2;
+                    this->field_225_objective_status = objective_status::failed_2;
                 }
             }
         }
@@ -3150,11 +3150,11 @@ void Ped::sub_468310()
     Car_BC* pCar_;
     Car_BC* pCar__;
 
-    if (this->field_225_objective_status != 1)
+    if (this->field_225_objective_status != objective_status::passed_1)
     {
         if (this->field_168_game_object)
         {
-            this->field_225_objective_status = 2;
+            this->field_225_objective_status = objective_status::failed_2;
         }
         else
         {
@@ -3191,7 +3191,7 @@ void Ped::sub_468310()
                 this->field_1AC_cam.z == this->field_1E4_objective_target_z)
             {
                 pCar_ = this->field_16C_car;
-                this->field_225_objective_status = 1;
+                this->field_225_objective_status = objective_status::passed_1;
                 gHamburger_500_678E30->Cancel_474CC0(pCar_->field_60);
                 this->field_16C_car->field_60 = 0;
                 this->field_16C_car->field_A6 |= 0x20u;
@@ -3202,7 +3202,7 @@ void Ped::sub_468310()
                 pCar__ = this->field_16C_car;
                 if (pCar__->field_60->field_26)
                 {
-                    this->field_225_objective_status = 1;
+                    this->field_225_objective_status = objective_status::passed_1;
                     gHamburger_500_678E30->Cancel_474CC0(pCar__->field_60);
                     this->field_16C_car->field_60 = 0;
                     this->field_16C_car->field_A6 |= 0x20u;
@@ -3254,7 +3254,7 @@ void Ped::sub_4686C0()
                 }
                 else
                 {
-                    field_225_objective_status = 1;
+                    field_225_objective_status = objective_status::passed_1;
                     Ped::sub_463830(0, 9999);
                     Ped::sub_45C500(10);
                     Ped::sub_45C540(10);
@@ -3263,7 +3263,7 @@ void Ped::sub_4686C0()
             }
             if (field_226 == 2)
             {
-                field_225_objective_status = 2;
+                field_225_objective_status = objective_status::failed_2;
             }
         }
     }
@@ -3274,7 +3274,7 @@ void Ped::sub_4686C0()
     }
     if (field_150_target_objective_car->field_88 == 5 || field_150_target_objective_car->field_74_damage == 32001)
     {
-        field_225_objective_status = 2;
+        field_225_objective_status = objective_status::failed_2;
         Ped::sub_463830(0, 9999);
         field_21C_bf.b2 = false;
     }
@@ -3287,7 +3287,7 @@ void Ped::sub_468820()
     {
         if (!field_150_target_objective_car && field_27C == 17)
         {
-            field_225_objective_status = 1;
+            field_225_objective_status = objective_status::passed_1;
         }
     }
     if ((field_21C & 4) != 0)
@@ -3298,16 +3298,16 @@ void Ped::sub_468820()
             {
                 if (field_164_ped_group->sub_4CAB80())
                 {
-                    field_225_objective_status = true;
+                    field_225_objective_status = objective_status::passed_1;
                 }
                 else
                 {
-                    field_225_objective_status = false;
+                    field_225_objective_status = objective_status::not_finished_0;
                 }
             }
             else
             {
-                field_225_objective_status = true;
+                field_225_objective_status = objective_status::passed_1;
             }
         }
     }
@@ -3320,7 +3320,7 @@ void Ped::sub_468820()
             {
                 if (field_238 != 2)
                 {
-                    field_225_objective_status = 1;
+                    field_225_objective_status = objective_status::passed_1;
                 }
                 else
                 {
@@ -3331,7 +3331,7 @@ void Ped::sub_468820()
             }
             else if (field_226 == 2)
             {
-                field_225_objective_status = 2;
+                field_225_objective_status = objective_status::failed_2;
             }
         }
     }
@@ -3346,16 +3346,16 @@ void Ped::sub_468820()
         {
             if (field_164_ped_group->sub_4CAB80())
             {
-                field_225_objective_status = true;
+                field_225_objective_status = objective_status::passed_1;
             }
             else
             {
-                field_225_objective_status = false;
+                field_225_objective_status = objective_status::not_finished_0;
             }
         }
         else
         {
-            field_225_objective_status = true;
+            field_225_objective_status = objective_status::passed_1;
         }
     }
 }
@@ -3365,7 +3365,7 @@ void Ped::sub_468930()
 {
     if (field_226 == 2 || field_150_target_objective_car == 0)
     {
-        field_225_objective_status = 2;
+        field_225_objective_status = objective_status::failed_2;
     }
     else
     {
@@ -3380,7 +3380,7 @@ void Ped::sub_468930()
             {
                 if (field_226 == 1)
                 {
-                    field_225_objective_status = 1;
+                    field_225_objective_status = objective_status::passed_1;
                     Ped::sub_463830(0, 9999);
                     Ped::sub_45C500(10);
                     Ped::sub_45C540(10);
@@ -3388,7 +3388,7 @@ void Ped::sub_468930()
                 }
                 if (field_226 == 2)
                 {
-                    field_225_objective_status = 2;
+                    field_225_objective_status = objective_status::failed_2;
                 }
             }
         }
@@ -3399,7 +3399,7 @@ void Ped::sub_468930()
         }
         if (field_150_target_objective_car->field_88 == 5 || field_150_target_objective_car->field_74_damage == 32001)
         {
-            field_225_objective_status = 2;
+            field_225_objective_status = objective_status::failed_2;
             Ped::sub_463830(0, 9999);
         }
     }
@@ -3452,12 +3452,12 @@ void Ped::sub_468A00()
                     }
                     else
                     {
-                        field_225_objective_status = 1;
+                        field_225_objective_status = objective_status::passed_1;
                     }
                 }
                 if (field_226 == 2)
                 {
-                    field_225_objective_status = 2;
+                    field_225_objective_status = objective_status::failed_2;
                 }
             }
         }
@@ -3465,7 +3465,7 @@ void Ped::sub_468A00()
         {
             if (field_278 != 8 && field_226 == 1)
             {
-                field_225_objective_status = 1;
+                field_225_objective_status = objective_status::passed_1;
                 Ped::sub_463830(0, 9999);
             }
         }
@@ -3477,7 +3477,7 @@ void Ped::sub_468A00()
     }
     else
     {
-        field_225_objective_status = 1;
+        field_225_objective_status = objective_status::passed_1;
     }
 }
 
@@ -3556,14 +3556,14 @@ void Ped::sub_468DE0()
             {
                 Ped::sub_45C500(7);
                 Ped::sub_45C540(14);
-                field_225_objective_status = 1;
+                field_225_objective_status = objective_status::passed_1;
             }
         }
         else
         {
             if (!field_218_objective_timer)
             {
-                field_225_objective_status = 1;
+                field_225_objective_status = objective_status::passed_1;
             }
             field_168_game_object->SetMaxSpeed_433920(field_1F0_maybe_max_speed);
         }
@@ -3655,9 +3655,9 @@ void Ped::sub_469D60()
 MATCH_FUNC(0x469e10)
 void Ped::sub_469E10()
 {
-    if (!this->field_218_objective_timer)
+    if (field_218_objective_timer == 0)
     {
-        this->field_225_objective_status = 2;
+        this->field_225_objective_status = objective_status::failed_2;
     }
 }
 
@@ -3725,7 +3725,7 @@ void Ped::sub_469FC0()
     }
     else
     {
-        this->field_225_objective_status = 2;
+        this->field_225_objective_status = objective_status::failed_2;
     }
 }
 
@@ -3740,7 +3740,7 @@ void Ped::sub_46A1F0()
 {
     if (field_148_objective_target_ped->field_21C_bf.b0 == false || field_148_objective_target_ped->field_278 == 9)
     {
-        field_225_objective_status = 2;
+        field_225_objective_status = objective_status::failed_2;
     }
     else
     {
@@ -3761,11 +3761,11 @@ void Ped::sub_46A1F0()
             {
                 if (field_226 == 1)
                 {
-                    field_225_objective_status = 1;
+                    field_225_objective_status = objective_status::passed_1;
                 }
                 else if (field_226 == 2)
                 {
-                    field_225_objective_status = 2;
+                    field_225_objective_status = objective_status::failed_2;
                 }
             }
         }
@@ -3782,7 +3782,7 @@ void Ped::sub_46A290()
 {
     if (!field_150_target_objective_car->field_54_driver || field_168_game_object)
     {
-        field_225_objective_status = 2;
+        field_225_objective_status = objective_status::failed_2;
     }
     else
     {
@@ -3846,11 +3846,11 @@ void Ped::sub_46A7C0()
             case 58:
                 if (field_226 == 1)
                 {
-                    field_225_objective_status = 1;
+                    field_225_objective_status = objective_status::passed_1;
                 }
                 if (field_226 == 2)
                 {
-                    field_225_objective_status = 2;
+                    field_225_objective_status = objective_status::failed_2;
                 }
                 return;
             default:
@@ -3866,7 +3866,7 @@ void Ped::sub_46A850()
 {
     if (field_150_target_objective_car->field_74_damage == 32001)
     {
-        field_225_objective_status = 1;
+        field_225_objective_status = objective_status::passed_1;
     }
     if (byte_61A8A3 && (field_21C & 4) == 0)
     {
@@ -3885,11 +3885,11 @@ void Ped::sub_46A850()
             case 59:
                 if (field_226 == 1)
                 {
-                    field_225_objective_status = 1;
+                    field_225_objective_status = objective_status::passed_1;
                 }
                 if (field_226 == 2)
                 {
-                    field_225_objective_status = 2;
+                    field_225_objective_status = objective_status::failed_2;
                 }
                 return;
             default:
