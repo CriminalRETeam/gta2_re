@@ -1096,6 +1096,12 @@ void CC ImGuiDebugDraw()
                             ImGui::TreePop();
                         }
                     }
+                    
+                    if (pPlayerPed)
+                    {
+                        ImGui::InputInt("F 238", &pPlayerPed->field_238, 1, 1);
+                        ImGui::InputInt("F 278", &pPlayerPed->field_278, 1, 1);
+                    }
 
                     static int currentWeaponIndex = 0;
                     const char* weaponNames[] = {"Pistol",         "SMG",

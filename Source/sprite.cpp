@@ -67,11 +67,11 @@ static inline void __stdcall SaveUnprojectedVertex_4B9990(f32 xCoord, f32 yCoord
 static inline void ProjectWorldPointToScreen_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16& zpos)
 {
     SaveUnprojectedVertex_4B9990(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
-    pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-    pVert->x = gViewCamera_676978->field_10_cam_pos_tgt2.field_8_z.ToFloat() *
+    pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
+    pVert->x = gViewCamera_676978->field_60.x.ToFloat() *
             (point.x.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat()) * pVert->z +
         (u32)gViewCamera_676978->field_70_screen_px_center_x;
-    pVert->y = gViewCamera_676978->field_10_cam_pos_tgt2.field_8_z.ToFloat() *
+    pVert->y = gViewCamera_676978->field_60.x.ToFloat() *
             (point.y.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_4_y.ToFloat()) * pVert->z +
         (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
@@ -547,47 +547,41 @@ STUB_FUNC(0x59eff0)
 void Sprite::Draw_59EFF0()
 {
     NOT_IMPLEMENTED;
-    s32 v2;
     sprite_index* pSpriteIndex;
     u16 converted_pal;
     sprite_index* pSpriteIndex2;
     u16 pal;
-    STexture* pTexture_1;
+    STexture* pTexture;
 
-    u16 unknown;
+    u16 sprite_idx;
 
     Sprite::Update_4C_59F990();
-    if (this->field_38)
+    if (field_38)
     {
-        u16 v2 = gGtx_0x106C_703DD4->field_4_sprite_index_count - 1;
-        unknown = v2; //v79 = v2;
-        pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v2);
-        converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(this->field_30_sprite_type_enum, this->field_22_sprite_id);
+        sprite_idx = gGtx_0x106C_703DD4->field_4_sprite_index_count - 1;
+        pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
+        converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         pSpriteIndex2 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
-        pSpriteIndex->field_4_width = pSpriteIndex2->field_4_width - 2 * this->field_38;
-        //field_4_width = pSpriteIndex->field_4_width;
-        pSpriteIndex->field_5_height = pSpriteIndex2->field_5_height - 2 * this->field_38;
+        pSpriteIndex->field_4_width = pSpriteIndex2->field_4_width - 2 * field_38;
+        pSpriteIndex->field_5_height = pSpriteIndex2->field_5_height - 2 * field_38;
         if (!pSpriteIndex->field_4_width || !pSpriteIndex->field_5_height)
         {
             return;
         }
-        pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * (u8)this->field_38];
+        pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * (u8)field_38];
         pal = Sprite::sub_59EAA0();
-        //LOWORD(v9) = pSpriteIndex->field_5_height;
-        pTexture_1 = gSharp_pare_0x15D8_705064->sub_5B9710(pSpriteIndex->field_4_width,
+        pTexture = gSharp_pare_0x15D8_705064->sub_5B9710(pSpriteIndex->field_4_width,
                                                            pSpriteIndex->field_5_height,
                                                            pSpriteIndex->field_0_pData,
                                                            pal);
     }
     else
     {
-        u16 v11 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(this->field_30_sprite_type_enum, this->field_22_sprite_id);
-        unknown = v11; //v79 = v11;
-        pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v11);
-        pTexture_1 = gSharp_pare_0x15D8_705064->sub_5B94F0(this->field_30_sprite_type_enum, field_22_sprite_id, field_34, field_24_remap);
+        sprite_idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
+        pTexture = gSharp_pare_0x15D8_705064->sub_5B94F0(field_30_sprite_type_enum, field_22_sprite_id, field_34, field_24_remap);
     }
 
-    STexture* pTexture = pTexture_1;
     if (!field_4_0x4C_len->field_48_bBoxUpToDate)
     {
         field_4_0x4C_len->UpdateRotatedBoundingBox_5A3550(field_14_xy.x, field_14_xy.y, field_1C_zpos, field_0);
@@ -611,8 +605,9 @@ void Sprite::Draw_59EFF0()
     {
         if (field_38)
         {
-            gSprite_3CC_67AF1C->InvalidateMasksByType_48F6E0(&unknown);
+            gSprite_3CC_67AF1C->InvalidateMasksByType_48F6E0(&sprite_idx);
         }
+        u32 car_flags = pCar->field_8_damaged_areas.GetRaw_4A5190();
         if (gLighting_626A09)
         {
             if (pCar->inline_check_0x40_info_421680())
@@ -621,7 +616,7 @@ void Sprite::Draw_59EFF0()
             }
             else
             {
-                if (pCar->is_FBI_car_411920())
+                if (pCar->is_FBI_car_411920()) // line 6a8
                 {
                     pCar->field_8_damaged_areas.SetGlobal1_4BA370();
                 }
@@ -633,6 +628,9 @@ void Sprite::Draw_59EFF0()
             pCar->field_8_damaged_areas.sub_4BA340();
         }
         // TODO: stuff here
+        u16 v25 = Sprite::sub_59EAA0();
+        // ....
+        pCar->field_8_damaged_areas = car_flags;
     }
     else
     {
@@ -642,7 +640,7 @@ void Sprite::Draw_59EFF0()
             Ped* pPed = pChar->get_ped_433A20();
             if (pPed && pPed->field_15C_player)
             {
-                if (pPed->field_21C_bf.b26 && !pPed->field_15C_player->IsUser_41DC70())
+                if (pPed->field_21C_bf.b25 && !pPed->field_15C_player->IsUser_41DC70())
                 {
                     return;
                 }
@@ -679,8 +677,11 @@ void Sprite::Draw_59EFF0()
         pgbh_DrawQuad(8576, pTexture, pShadowVerts, 255);
     }
 
-    u32 flags = Sprite::sub_4BAC60();
-    pgbh_DrawQuad(flags, pTexture, gTileVerts_7036D0, 255);
+    //u32 render_flags = Sprite::sub_4BAC60();    // another inline...
+    pgbh_DrawQuad(Sprite::sub_4BAC60(), pTexture, gTileVerts_7036D0, 255);
+
+    
+    // this part seems to not be critical for peds
 
     if (pCar && gLighting_626A09)
     {
