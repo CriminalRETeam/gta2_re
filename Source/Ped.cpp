@@ -2167,7 +2167,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::sub_468310();
                 break;
             case objectives_enum::enter_car_as_driver_35:
-                Ped::sub_4686C0();
+                Ped::EnterTargetObjectiveCar_4686C0();
                 break;
             case objectives_enum::leave_car_36:
                 Ped::LeaveTargetObjectiveCar_468820();
@@ -2191,7 +2191,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::sub_469BD0();
                 break;
             case objectives_enum::enter_train_37:
-                Ped::sub_468930();
+                Ped::EnterTrain_468930();
                 break;
             case objectives_enum::leave_train_38:
                 Ped::sub_468A00();
@@ -3314,7 +3314,7 @@ void Ped::sub_468310()
 }
 
 MATCH_FUNC(0x4686c0)
-void Ped::sub_4686C0()
+void Ped::EnterTargetObjectiveCar_4686C0()
 {
     if (field_168_game_object)
     {
@@ -3443,7 +3443,7 @@ void Ped::LeaveTargetObjectiveCar_468820()
 }
 
 MATCH_FUNC(0x468930)
-void Ped::sub_468930()
+void Ped::EnterTrain_468930()
 {
     if (field_226 == 2 || field_150_target_objective_car == 0)
     {
