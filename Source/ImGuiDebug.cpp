@@ -1083,7 +1083,7 @@ void CC ImGuiDebugDraw()
                                 Sprite* pSprt = pPlayerCar->field_50_car_sprite;
                                 if (ImGui::TreeNode("Sprite"))
                                 {
-                                    ImGui::Input_char_type("Sprt F38", &pSprt->field_38, 1, 1);
+                                    ImGui::Input_char_type("Sprt F38", &pSprt->field_38_zoom, 1, 1);
                                     Sprite_4C* p4C = pSprt->field_4_0x4C_len;
                                     if (p4C)
                                     {
@@ -1184,7 +1184,7 @@ void CC ImGuiDebugDraw()
 
                     if (pPlayerSprite)
                     {
-                        ImGui::Input_char_type("Sprt F38", &pPlayerSprite->field_38, 1, 1);
+                        ImGui::Input_char_type("Sprt F38", &pPlayerSprite->field_38_zoom, 1, 1);
                         ShowRectAndPointsForSprite4C(pPlayerSprite->field_4_0x4C_len);
                     }
                 }
