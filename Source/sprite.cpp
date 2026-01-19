@@ -720,11 +720,9 @@ void Sprite::AllocInternal_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
     pSprite4C->field_8 = a4;
 }
 
-// https://decomp.me/scratch/ZqbRh
-STUB_FUNC(0x59f990)
+MATCH_FUNC(0x59f990)
 void Sprite::Update_4C_59F990()
 {
-    NOT_IMPLEMENTED;
     if (this->field_4_0x4C_len == NULL)
     {
         this->field_4_0x4C_len = gSprite_4C_Pool_70381C->Allocate();
@@ -732,18 +730,21 @@ void Sprite::Update_4C_59F990()
         const u16 sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         const sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_pal);
 
+        Fix16 w;
+        Fix16 h;
+
         if (this->field_30_sprite_type_enum == sprite_types_enum::code_obj2)
         {
-            field_4_0x4C_len->field_0_width = dword_6F6850.list[sprite_index->field_4_width].mValue / 2;
-            field_4_0x4C_len->field_4_height = dword_6F6850.list[sprite_index->field_5_height].mValue / 2;
-            field_4_0x4C_len->field_8 = 0;
+            w = dword_6F6850.list[sprite_index->field_4_width] / 2;
+            h = dword_6F6850.list[sprite_index->field_5_height] / 2;
         }
         else
         {
-            field_4_0x4C_len->field_0_width = dword_6F6850.list[sprite_index->field_4_width].mValue;
-            field_4_0x4C_len->field_4_height = dword_6F6850.list[sprite_index->field_5_height].mValue;
-            field_4_0x4C_len->field_8 = 0;
+            w = dword_6F6850.list[sprite_index->field_4_width];
+            h = dword_6F6850.list[sprite_index->field_5_height];
+
         }
+        field_4_0x4C_len->SetWidthHeight_4BA070(w, h);
     }
 }
 

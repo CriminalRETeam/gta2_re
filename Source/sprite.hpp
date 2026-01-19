@@ -36,6 +36,15 @@ class Sprite_4C
         return (field_0_width == field_4_height && field_0_width <= kSmallWidthEpslion_703450) ? true : false;
     }
 
+
+    void SetWidthHeight_4BA070(Fix16 w, Fix16 h)
+    {
+        field_0_width = w;
+        field_4_height = h;
+
+        field_8 = Fix16(0);
+    }
+
     EXPORT void SetCurrentRect_5A4D90();
     EXPORT void UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
 
