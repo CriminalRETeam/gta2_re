@@ -329,7 +329,7 @@ class Sprite
     char_type field_2E_pad;
     char_type field_2F_pad;
     s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
-    s32 field_34;
+    s32 field_34; // remap type?
     char_type field_38_zoom;
     char_type field_39_z_col;
     char_type field_3A;

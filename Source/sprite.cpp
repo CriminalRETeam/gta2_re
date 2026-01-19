@@ -415,41 +415,33 @@ void Sprite::UpdateCollisionBoundsIfNeeded_59E9C0()
     }
 }
 
-STUB_FUNC(0x59ea00)
+MATCH_FUNC(0x59ea00)
 void Sprite::SetRemap(s16 remap)
 {
-    NOT_IMPLEMENTED;
-
     switch (this->field_30_sprite_type_enum)
     {
-        case 2:
+        case sprite_types_enum::car:
             this->field_34 = 3;
-            this->field_24_remap = remap;
             break;
-        case 3:
+        case sprite_types_enum::ped:
             this->field_34 = 4;
-            this->field_24_remap = remap;
             break;
-        case 4:
-        case 8:
+        case sprite_types_enum::code_obj1:
+        case sprite_types_enum::code_obj2:
             this->field_34 = 5;
-            this->field_24_remap = remap;
             break;
-        case 5:
+        case sprite_types_enum::map_obj:
             this->field_34 = 6;
-            this->field_24_remap = remap;
             break;
-        case 6:
+        case sprite_types_enum::user:
             this->field_34 = 7;
-            this->field_24_remap = remap;
             break;
-        case 7:
+        case sprite_types_enum::font:
             this->field_34 = 8;
-            this->field_24_remap = remap;
         default:
-            this->field_24_remap = remap;
             break;
     }
+    this->field_24_remap = remap;
 }
 
 MATCH_FUNC(0x59eaa0)
@@ -513,7 +505,7 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
         if (pCar)
         {
             // TODO: Code is actually too "good" here so doesn't match
-            f32 screen_x = (x / (f32)window_width_706630)  * 640.0f;
+            f32 screen_x = (x / (f32)window_width_706630) * 640.0f;
             f32 screen_y = (y / (f32)window_height_706B50) * 480.0f;
 
             Fix16 xpos(screen_x);
