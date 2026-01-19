@@ -116,7 +116,7 @@ class Sprite
     EXPORT void CreateSoundObj_5A29D0();
     EXPORT bool IsObjectModelEqual_59E930(s32 model);
     EXPORT void FreeSound_5A2A00();
-    EXPORT void sub_5A2A30();
+    EXPORT void ResolveCollisionWithCarPedOrObject_5A2A30();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
     EXPORT void DispatchCollisionEvent_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5);
@@ -126,6 +126,11 @@ class Sprite
     EXPORT ~Sprite(); // 0x5a3540
 
     EXPORT Sprite();
+
+    s32 get_type_416B40()
+    {
+        return field_30_sprite_type_enum;
+    }
 
     Car_BC* AsCar_40FEB0()
     {
