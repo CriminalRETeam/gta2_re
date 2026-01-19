@@ -134,7 +134,7 @@ class Ped
     EXPORT void sub_467AD0();
     EXPORT void sub_467BD0();
     EXPORT void sub_467CA0();
-    EXPORT void sub_467E20();
+    EXPORT void KillCharAnyMeans_467E20();
     EXPORT void sub_467FB0();
     EXPORT void sub_467FD0();
     EXPORT s16 sub_468040();
@@ -274,11 +274,6 @@ class Ped
     inline u8 sub_450CB0()
     {
         return field_225_objective_status;
-    }
-
-    bool sub_433DA0()
-    {
-        return (field_21C & 0x2000000) != 0 && field_168_game_object;
     }
 
     void reset_ped_group()
@@ -461,6 +456,21 @@ class Ped
     inline void sub_433BC0(s32 value)
     {
         field_22C = value;
+    }
+
+    inline bool CheckBit0_433B40()
+    {
+        return field_21C_bf.b0;
+    }
+
+    inline s32 GetPedState_403990()
+    {
+        return field_278;
+    }
+
+    inline bool sub_433DA0()
+    {
+        return field_21C_bf.b25 && field_168_game_object;
     }
 
     Marz_3 field_0_patrol_points[100];

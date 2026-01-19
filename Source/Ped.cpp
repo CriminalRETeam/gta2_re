@@ -2137,7 +2137,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::sub_467CA0();
                 break;
             case objectives_enum::kill_char_any_means_19:
-                Ped::sub_467E20();
+                Ped::KillCharAnyMeans_467E20();
                 break;
             case objectives_enum::kill_car_21:
                 nullsub_11();
@@ -3063,10 +3063,86 @@ void Ped::sub_467CA0()
     }
 }
 
-STUB_FUNC(0x467e20)
-void Ped::sub_467E20()
+MATCH_FUNC(0x467e20)
+void Ped::KillCharAnyMeans_467E20()
 {
-    NOT_IMPLEMENTED;
+    if (!field_148_objective_target_ped->CheckBit0_433B40() || field_148_objective_target_ped->GetPedState_403990() == ped_state_1::dead_9)
+    {
+        if (field_148_objective_target_ped->GetPedState_403990() == ped_state_1::dead_9)
+        {
+            // Target ped was killed/died
+            field_225_objective_status = objective_status::passed_1;
+            Ped::sub_463830(0, 9999);
+            if (field_16C_car)
+            {
+                // If the assassin is on a car, cancel routes
+                field_278 = 10;
+                field_27C = 10;
+                if (field_16C_car->field_5C)
+                {
+                    char_type junc_idx = field_16C_car->field_5C->field_28_junc_idx;
+                    if (junc_idx > 0)
+                    {
+                        gRouteFinder_6FFDC8->CancelRoute_589930(junc_idx);
+                    }
+                }
+                if (field_16C_car->field_60)
+                {
+                    gHamburger_500_678E30->Cancel_474CC0(field_16C_car->field_60);
+                    field_16C_car->field_60 = 0;
+                }
+            }
+        }
+        else
+        {
+            // Target ped is alive
+            field_225_objective_status = objective_status::failed_2;
+        }
+    }
+    else
+    {
+        if (field_148_objective_target_ped->sub_433DA0()) // Target is on foot?
+        {
+            Ped::sub_463830(0, 9999);
+            if (field_16C_car)
+            {
+                field_278 = 10;
+                field_27C = 10;
+                if (field_16C_car->field_5C)
+                {
+                    char_type junc_idx = field_16C_car->field_5C->field_28_junc_idx;
+                    if (junc_idx > 0)
+                    {
+                        gRouteFinder_6FFDC8->CancelRoute_589930(junc_idx);
+                    }
+                }
+                if (field_16C_car->field_60)
+                {
+                    gHamburger_500_678E30->Cancel_474CC0(field_16C_car->field_60);
+                    field_16C_car->field_60 = 0;
+                }
+            }
+        }
+        else if (field_168_game_object)
+        {
+            if (dword_678750 > k_dword_678680)
+            {
+                field_1DC_objective_target_x = field_148_objective_target_ped->get_cam_x();
+                field_1E0_objective_target_y = field_148_objective_target_ped->get_cam_y();
+                field_1E4_objective_target_z = field_148_objective_target_ped->get_cam_z();
+                Ped::sub_469060();
+            }
+            else if (field_25C_car_state != 20)
+            {
+                Ped::sub_463830(20, 9999);
+                field_14C = field_148_objective_target_ped;
+            }
+        }
+        else
+        {
+            Ped::sub_469060();
+        }
+    }
 }
 
 MATCH_FUNC(0x467fb0)
