@@ -2170,7 +2170,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::sub_4686C0();
                 break;
             case objectives_enum::leave_car_36:
-                Ped::sub_468820();
+                Ped::LeaveTargetObjectiveCar_468820();
                 break;
             case objectives_enum::patrol_on_foot_42:
                 Ped::sub_468C70();
@@ -3363,7 +3363,7 @@ void Ped::sub_4686C0()
 }
 
 MATCH_FUNC(0x468820)
-void Ped::sub_468820()
+void Ped::LeaveTargetObjectiveCar_468820()
 {
     if (field_168_game_object)
     {

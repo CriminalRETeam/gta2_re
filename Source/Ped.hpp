@@ -141,7 +141,7 @@ class Ped
     EXPORT void sub_4682A0();
     EXPORT void sub_468310();
     EXPORT void sub_4686C0();
-    EXPORT void sub_468820();
+    EXPORT void LeaveTargetObjectiveCar_468820();
     EXPORT void sub_468930();
     EXPORT void sub_468A00();
     EXPORT void sub_468BD0();
