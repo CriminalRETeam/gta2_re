@@ -416,15 +416,15 @@ void Ped::ManageBurning_45BEC0()
                 }
             }
 
-            if (!this->field_15C_player)
+            if (!this->field_15C_player) // not player
             {
                 if (this->field_168_game_object)
                 {
-                    if (this->field_25C_car_state != 1)
+                    if (this->field_25C_car_state != 1) // not in flee/running state?
                     {
                         this->field_21C |= ped_bit_status_enum::k_ped_0x00000004;
 
-                        sub_463830(1, 9999);
+                        sub_463830(1, 9999); // make them flee
 
                         this->field_1D0 = field_1AC_cam.x;
                         this->field_1D4 = field_1AC_cam.y;

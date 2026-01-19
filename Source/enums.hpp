@@ -770,6 +770,24 @@ enum
 };
 } // namespace threat_search_enum
 
+namespace ped_state_1
+{
+enum
+{
+    walking_0 = 0,
+    flee_or_running_1 = 1,
+    findind_path_2 = 2,
+    entering_car_3 = 3,
+    exiting_car_4 = 4,
+    unknown_5 = 5,
+    unknown_6 = 6,
+    standing_still_7 = 7,
+    immobilized_8 = 8,
+    dead_9 = 9,
+    in_car_10 = 10,
+};
+} // namespace threat_search_enum
+
 namespace CarDamageAreas
 {
 enum
