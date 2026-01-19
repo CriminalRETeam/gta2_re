@@ -3380,7 +3380,7 @@ void Car_BC::sub_443EE0(s32 a2)
 MATCH_FUNC(0x443f30)
 void Car_BC::sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5)
 {
-    Object_2C* pObj = gObject_5C_6F8F84->sub_529AB0(object_type, 0, 0, 0, argb, dword_6772AC, 200);
+    Object_2C* pObj = gObject_5C_6F8F84->NewLight_529AB0(object_type, 0, 0, 0, argb, dword_6772AC, 200);
     pObj->Light_527990();
     field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4,
                                                        Fix16(a4 * dword_677888, 0),
