@@ -105,6 +105,10 @@ void BurgerKing_1::set_game_pad_device_properties_4989C0()
     NOT_IMPLEMENTED;
 }
 
+#if _MSC_VER > 1200
+HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, u32 dwVersion, LPDIRECTINPUTA* ppDI, LPUNKNOWN punkOuter);
+#endif
+
 MATCH_FUNC(0x498BA0)
 bool BurgerKing_1::game_pads_init_498BA0()
 {
