@@ -1,9 +1,10 @@
 #include "sprite.hpp"
-#include "Car_BC.hpp"
 #include "CarInfo_808.hpp" // TODO: only because of dword_6F6850
+#include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "Player.hpp"
+#include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "char.hpp"
@@ -18,7 +19,7 @@
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "winmain.hpp" // TODO: only because of gLighting_626A09
-#include "Police_7B8.hpp"
+#include "Orca_2FD4.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -69,11 +70,11 @@ static inline void ProjectWorldPointToScreen_4BA4D0(Fix16_Point& point, Vert* pV
 {
     SaveUnprojectedVertex_4B9990(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
     pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
-    pVert->x = gViewCamera_676978->field_60.x.ToFloat() *
-            (point.x.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat()) * pVert->z +
+    pVert->x = gViewCamera_676978->field_60.x.ToFloat() * (point.x.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat()) *
+            pVert->z +
         (u32)gViewCamera_676978->field_70_screen_px_center_x;
-    pVert->y = gViewCamera_676978->field_60.x.ToFloat() *
-            (point.y.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_4_y.ToFloat()) * pVert->z +
+    pVert->y = gViewCamera_676978->field_60.x.ToFloat() * (point.y.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_4_y.ToFloat()) *
+            pVert->z +
         (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
 
@@ -520,7 +521,7 @@ void Sprite::ShowHorn_59EE40(f32 x, f32 y)
                                     0,
                                     0);
                 }
-                
+
                 Ped* pDriver = pCar->get_driver_4118B0();
                 if (pDriver)
                 {
@@ -572,9 +573,9 @@ void Sprite::Draw_59EFF0()
         pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * (u8)field_38_zoom];
         pal = Sprite::sub_59EAA0();
         pTexture = gSharp_pare_0x15D8_705064->sub_5B9710(pSpriteIndex->field_4_width,
-                                                           pSpriteIndex->field_5_height,
-                                                           pSpriteIndex->field_0_pData,
-                                                           pal);
+                                                         pSpriteIndex->field_5_height,
+                                                         pSpriteIndex->field_0_pData,
+                                                         pal);
     }
     else
     {
@@ -681,7 +682,6 @@ void Sprite::Draw_59EFF0()
     //u32 render_flags = Sprite::sub_4BAC60();    // another inline...
     pgbh_DrawQuad(Sprite::sub_4BAC60(), pTexture, gTileVerts_7036D0, 255);
 
-    
     // this part seems to not be critical for peds
 
     if (pCar && gLighting_626A09)
@@ -1095,10 +1095,52 @@ void Sprite::FreeSound_5A2A00()
     }
 }
 
-STUB_FUNC(0x5a2a30)
+WIP_FUNC(0x5a2a30)
 void Sprite::sub_5A2A30()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    struct_4 collisions;
+    collisions.field_0_p18 = 0;
+    gPurpleDoom_1_679208->CollectRectCollisions_477F30(&field_C_sprite_4c_ptr->field_30_boundingBox, 0, 0, this, &collisions);
+    for (Sprite_18* pCollisionIter = collisions.field_0_p18; pCollisionIter; pCollisionIter = pCollisionIter->mpNext)
+    {
+        Sprite* pCurrent = pCollisionIter->field_0;
+        switch (pCurrent->field_30_sprite_type_enum)
+        {
+
+
+            case 2:
+            {
+                Car_BC* pCar = pCurrent->AsCar_40FEB0();
+                // TODO: Check is wrong
+                if (!(pCar && pCar->field_64_pTrailer && pCar->is_trailer_cab_41E460() && pCar->is_on_trailer_421720()))
+                {
+                    u8 x = field_14_xy.x.ToInt();
+                    u8 y = field_14_xy.y.ToInt();
+                    u8 z = field_1C_zpos.ToInt();
+                    if (gOrca_2FD4_6FDEF0->sub_5552B0(1, &x, &y, &z, 1))
+                    {
+                        gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pCurrent);
+                        pCar->sub_444E40(x, y, z);
+                        gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pCurrent);
+                    }
+                }
+                break;
+            }
+
+            case 3:
+                pCurrent->field_8_char_b4_ptr->field_7C_pPed->Deallocate_45EB60();
+                break;
+
+            // TODO: Bunch of these missing for some reason
+            case 4:
+            case 5:
+            case 1:
+                pCurrent->field_8_object_2C_ptr->Dealloc_5291B0();
+                break;
+        }
+    }
 }
 
 MATCH_FUNC(0x5a2cf0)
