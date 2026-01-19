@@ -1083,6 +1083,7 @@ void CC ImGuiDebugDraw()
                                 Sprite* pSprt = pPlayerCar->field_50_car_sprite;
                                 if (ImGui::TreeNode("Sprite"))
                                 {
+                                    ImGui::Input_char_type("Sprt F38", &pSprt->field_38_zoom, 1, 1);
                                     Sprite_4C* p4C = pSprt->field_4_0x4C_len;
                                     if (p4C)
                                     {
@@ -1110,7 +1111,7 @@ void CC ImGuiDebugDraw()
                     if (pPlayerPed)
                     {
                         ImGui::InputInt("F 238", &pPlayerPed->field_238, 1, 1);
-                        ImGui::InputInt("F 278", &pPlayerPed->field_278, 1, 1);
+                        ImGui::InputInt("F 278", &pPlayerPed->field_278_ped_state, 1, 1);
                     }
 
                     static int currentWeaponIndex = 0;
@@ -1183,6 +1184,7 @@ void CC ImGuiDebugDraw()
 
                     if (pPlayerSprite)
                     {
+                        ImGui::Input_char_type("Sprt F38", &pPlayerSprite->field_38_zoom, 1, 1);
                         ShowRectAndPointsForSprite4C(pPlayerSprite->field_4_0x4C_len);
                     }
                 }

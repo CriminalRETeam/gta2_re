@@ -316,7 +316,7 @@ class Sprite
     char_type field_2F_pad;
     s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
     s32 field_34;
-    char_type field_38;
+    char_type field_38_zoom;
     char_type field_39_z_col;
     char_type field_3A;
     char_type field_3B;

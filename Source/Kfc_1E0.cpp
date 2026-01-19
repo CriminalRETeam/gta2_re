@@ -48,7 +48,7 @@ bool Kfc_30::sub_5CBC60()
 {
     NOT_IMPLEMENTED;
     Ped* pPed = this->field_4_ped;
-    if (pPed && pPed->field_278 == 9)
+    if (pPed && pPed->field_278_ped_state == ped_state_1::dead_9)
     {
         return false;
     }

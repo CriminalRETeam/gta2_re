@@ -128,22 +128,22 @@ class Ped
     EXPORT char_type sub_467090();
     EXPORT Sprite* sub_467280();
     EXPORT char_type sub_4672E0(Fix16 a2, s32 a3);
-    EXPORT void sub_4678E0();
+    EXPORT void FleeOnFootTillSafe_4678E0();
     EXPORT void sub_467960();
     EXPORT void sub_467A20();
     EXPORT void sub_467AD0();
     EXPORT void sub_467BD0();
     EXPORT void sub_467CA0();
-    EXPORT void sub_467E20();
+    EXPORT void KillCharAnyMeans_467E20();
     EXPORT void sub_467FB0();
     EXPORT void sub_467FD0();
     EXPORT s16 sub_468040();
     EXPORT void sub_4682A0();
     EXPORT void sub_468310();
-    EXPORT void sub_4686C0();
-    EXPORT void sub_468820();
-    EXPORT void sub_468930();
-    EXPORT void sub_468A00();
+    EXPORT void EnterTargetObjectiveCar_4686C0();
+    EXPORT void LeaveTargetObjectiveCar_468820();
+    EXPORT void EnterTrain_468930();
+    EXPORT void LeaveTrain_468A00();
     EXPORT void sub_468BD0();
     EXPORT void sub_468C70();
     EXPORT void sub_468DE0();
@@ -276,11 +276,6 @@ class Ped
         return field_225_objective_status;
     }
 
-    bool sub_433DA0()
-    {
-        return (field_21C & 0x2000000) != 0 && field_168_game_object;
-    }
-
     void reset_ped_group()
     {
         field_164_ped_group = NULL;
@@ -309,7 +304,7 @@ class Ped
 
     s32 get_ped_state1() const
     {
-        return field_278;
+        return field_278_ped_state;
     }
 
     // 9.6f inline 0x403AE0
@@ -397,7 +392,7 @@ class Ped
         return field_200_id;
     }
 
-    inline Fix16 get_field_1F0()
+    inline Fix16 get_max_speed_1F0()
     {
         return field_1F0_maybe_max_speed;
     }
@@ -461,6 +456,21 @@ class Ped
     inline void sub_433BC0(s32 value)
     {
         field_22C = value;
+    }
+
+    inline bool CheckBit0_433B40()
+    {
+        return field_21C_bf.b0;
+    }
+
+    inline s32 GetPedState_403990()
+    {
+        return field_278_ped_state;
+    }
+
+    inline bool sub_433DA0()
+    {
+        return field_21C_bf.b25 && field_168_game_object;
     }
 
     Marz_3 field_0_patrol_points[100];
@@ -590,7 +600,7 @@ class Ped
     s32 field_26C_graphic_type;
     s32 field_270;
     s32 field_274_gang_car_model;
-    s32 field_278;
+    s32 field_278_ped_state;
     s32 field_27C;
     s32 field_280;
     s32 field_284;

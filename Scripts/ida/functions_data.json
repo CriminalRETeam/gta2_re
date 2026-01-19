@@ -3375,7 +3375,7 @@
         "v105_address": "0x4672e0"
     },
     {
-        "name": "Ped::sub_4678E0",
+        "name": "Ped::FleeOnFootTillSafe_4678E0",
         "v96f_address": null,
         "v105_address": "0x4678e0"
     },
@@ -3405,7 +3405,7 @@
         "v105_address": "0x467ca0"
     },
     {
-        "name": "Ped::sub_467E20",
+        "name": "Ped::KillCharAnyMeans_467E20",
         "v96f_address": null,
         "v105_address": "0x467e20"
     },
@@ -3435,22 +3435,22 @@
         "v105_address": "0x468310"
     },
     {
-        "name": "Ped::sub_4686C0",
+        "name": "Ped::EnterTargetObjectiveCar_4686C0",
         "v96f_address": null,
         "v105_address": "0x4686c0"
     },
     {
-        "name": "Ped::sub_468820",
+        "name": "Ped::LeaveTargetObjectiveCar_468820",
         "v96f_address": null,
         "v105_address": "0x468820"
     },
     {
-        "name": "Ped::sub_468930",
+        "name": "Ped::EnterTrain_468930",
         "v96f_address": null,
         "v105_address": "0x468930"
     },
     {
-        "name": "Ped::sub_468A00",
+        "name": "Ped::LeaveTrain_468A00",
         "v96f_address": null,
         "v105_address": "0x468a00"
     },

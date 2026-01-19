@@ -989,7 +989,7 @@ bool Car_BC::is_bus_43A1F0()
 MATCH_FUNC(0x43a230)
 bool Car_BC::sub_43A230()
 {
-    return field_50_car_sprite->field_38 != 0;
+    return field_50_car_sprite->field_38_zoom != 0;
 }
 
 STUB_FUNC(0x43a240)

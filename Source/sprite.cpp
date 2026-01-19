@@ -231,10 +231,10 @@ void Sprite::sub_59E320(char_type a2)
     {
         result = field_5_height >> 1;
     }
-    field_38 = a2 + field_38;
-    if ((field_38 & 0xFF) > result)
+    field_38_zoom = a2 + field_38_zoom;
+    if ((field_38_zoom & 0xFF) > result)
     {
-        field_38 = result;
+        field_38_zoom = result;
     }
 }
 
@@ -557,19 +557,19 @@ void Sprite::Draw_59EFF0()
     u16 sprite_idx;
 
     Sprite::Update_4C_59F990();
-    if (field_38)
+    if (field_38_zoom != 0)
     {
         sprite_idx = gGtx_0x106C_703DD4->field_4_sprite_index_count - 1;
         pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
         converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         pSpriteIndex2 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
-        pSpriteIndex->field_4_width = pSpriteIndex2->field_4_width - 2 * field_38;
-        pSpriteIndex->field_5_height = pSpriteIndex2->field_5_height - 2 * field_38;
+        pSpriteIndex->field_4_width = pSpriteIndex2->field_4_width - 2 * field_38_zoom;
+        pSpriteIndex->field_5_height = pSpriteIndex2->field_5_height - 2 * field_38_zoom;
         if (!pSpriteIndex->field_4_width || !pSpriteIndex->field_5_height)
         {
             return;
         }
-        pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * (u8)field_38];
+        pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * (u8)field_38_zoom];
         pal = Sprite::sub_59EAA0();
         pTexture = gSharp_pare_0x15D8_705064->sub_5B9710(pSpriteIndex->field_4_width,
                                                            pSpriteIndex->field_5_height,
@@ -604,7 +604,7 @@ void Sprite::Draw_59EFF0()
     Car_BC* pCar = AsCar_40FEB0();
     if (pCar)
     {
-        if (field_38)
+        if (field_38_zoom)
         {
             gSprite_3CC_67AF1C->InvalidateMasksByType_48F6E0(&sprite_idx);
         }
@@ -1117,7 +1117,7 @@ void Sprite::PoolAllocate()
     this->field_34 = 2;
     this->field_C_sprite_4c_ptr = 0;
     this->field_4_0x4C_len = 0;
-    this->field_38 = 0;
+    this->field_38_zoom = 0;
     this->field_10_sound = 0;
 
     // TODO: Probably an inline
@@ -1208,7 +1208,7 @@ Sprite::Sprite() : field_0(gAng16_703804)
     field_2C = 0;
     field_30_sprite_type_enum = 0;
     field_34 = 0;
-    field_38 = 0;
+    field_38_zoom = 0;
     field_39_z_col = -1;
     field_8_car_bc_ptr = NULL;
     mpNext = NULL;
