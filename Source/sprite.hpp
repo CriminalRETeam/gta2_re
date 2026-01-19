@@ -36,6 +36,15 @@ class Sprite_4C
         return (field_0_width == field_4_height && field_0_width <= kSmallWidthEpslion_703450) ? true : false;
     }
 
+
+    void SetWidthHeight_4BA070(Fix16 w, Fix16 h)
+    {
+        field_0_width = w;
+        field_4_height = h;
+
+        field_8 = Fix16(0);
+    }
+
     EXPORT void SetCurrentRect_5A4D90();
     EXPORT void UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
 
@@ -86,7 +95,7 @@ class Sprite
     EXPORT s16 sub_59EAA0();
     EXPORT char_type has_shadows_59EAE0();
     EXPORT void sub_59EB30(f32& a2, f32& a3);
-    EXPORT void ShowHorn_59EE40(f32 a2, f32 a3);
+    EXPORT void ShowHorn_59EE40(f32& a2, f32& a3);
     EXPORT void Draw_59EFF0();
     EXPORT void AllocInternal_59F950(Fix16 width, Fix16 height, Fix16 a4);
     EXPORT void Update_4C_59F990();
@@ -320,7 +329,7 @@ class Sprite
     char_type field_2E_pad;
     char_type field_2F_pad;
     s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
-    s32 field_34;
+    s32 field_34; // remap type?
     char_type field_38_zoom;
     char_type field_39_z_col;
     char_type field_3A;
