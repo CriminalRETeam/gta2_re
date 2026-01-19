@@ -105,10 +105,6 @@ void BurgerKing_1::set_game_pad_device_properties_4989C0()
     NOT_IMPLEMENTED;
 }
 
-#if _MSC_VER > 1200
-HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, u32 dwVersion, LPDIRECTINPUTA* ppDI, LPUNKNOWN punkOuter);
-#endif
-
 MATCH_FUNC(0x498BA0)
 bool BurgerKing_1::game_pads_init_498BA0()
 {
@@ -130,7 +126,7 @@ bool BurgerKing_1::game_pads_init_498BA0()
             FARPROC p = GetProcAddress(hDx, "DirectInputCreateA");
             if (p)
             {
-                auto pDirectInputCreateA = reinterpret_cast<Fn_DirectInputCreateA>(p);
+                auto pDirectInputCreateA = reinterpret_cast<decltype(&DirectInputCreateA)>(p);
                 if (FAILED(pDirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, 0)))
                 {
                     return 1;
