@@ -114,12 +114,12 @@ bool BurgerKing_1::game_pads_init_498BA0()
     if (gpDInput_67B804)
     {
         // TODO: Fix link issue on new msvc
-        /*
+        
         if (FAILED(DirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, 0)))
         {
             return 1;
         }
-        */
+        
     }
 
     gpDInput_67B804->EnumDevices(DIDEVTYPE_JOYSTICK, DirectInputDeviceEnumCallBack_498910, this, DIEDFL_ATTACHEDONLY);

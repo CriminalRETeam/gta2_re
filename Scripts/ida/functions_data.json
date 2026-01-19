@@ -2850,7 +2850,7 @@
         "v105_address": "0x45af00"
     },
     {
-        "name": "Ped::sub_45AFC0",
+        "name": "Ped::Reset_45AFC0",
         "v96f_address": "0x435720",
         "v105_address": "0x45afc0"
     },
@@ -3185,7 +3185,7 @@
         "v105_address": "0x4619f0"
     },
     {
-        "name": "Ped::sub_461A60",
+        "name": "Ped::UpdateFacingAngle_461A60",
         "v96f_address": null,
         "v105_address": "0x461a60"
     },
@@ -3225,7 +3225,7 @@
         "v105_address": "0x462620"
     },
     {
-        "name": "Ped::sub_4626B0",
+        "name": "Ped::StateMachineTick_4626B0",
         "v96f_address": null,
         "v105_address": "0x4626b0"
     },
@@ -11655,7 +11655,7 @@
         "v105_address": "0x545af0"
     },
     {
-        "name": "sub_546360",
+        "name": "UpdateAnimState_546360",
         "v96f_address": "0x497DF0",
         "v105_address": "0x546360"
     },

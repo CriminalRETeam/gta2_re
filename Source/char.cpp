@@ -1,6 +1,6 @@
 #include "char.hpp"
-#include "Char_Pool.hpp"
 #include "Car_BC.hpp"
+#include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
 #include "Globals.hpp"
@@ -11,11 +11,11 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
-#include "rng.hpp"
 #include "Varrok_7F8.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
+#include "rng.hpp"
 #include "sprite.hpp"
 
 DEFINE_GLOBAL(s8, byte_6FDB48, 0x6FDB48);
@@ -39,7 +39,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD9E4, Fix16(0), 0x6FD9E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9F4, Fix16(65536, 0), 0x6FD9F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7A4, Fix16(0x1000, 0), 0x6FD7A4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7B0, dword_6FD9E4, 0x6FD7B0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD7C0, dword_6FD9E4, 0x6FD7C0);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7C0, dword_6FD9E4, 0x6FD7C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7DC, dword_6FD9E4, 0x6FD7DC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD868, Fix16(256, 0), 0x6FD868);
 DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, dword_6FD9F4* dword_6FD868, 0x6FD7D0);
@@ -47,6 +47,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B4, dword_6FD9E4, 0x6FD8B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B8, dword_6FD9E4, 0x6FD8B8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8BC, dword_6FD9E4, 0x6FD8BC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8D8, Fix16(0xCCC, 0), 0x6FD8D8);
+
+DEFINE_GLOBAL(Fix16, gCollisionRepulsionSpeed_6FD7BC, 0x6FD7BC);
 
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
@@ -112,7 +114,7 @@ Char_B4::Char_B4()
     field_2C_ang = word_6FDB34;
     field_30 = 4;
     field_34 = 0;
-    field_38_velocity = dword_6FD7C0;
+    field_38_velocity = k_dword_6FD7C0;
     field_3C_run_or_jump_speed = gRunOrJumpSpeed_6FD7D0;
     field_40_rotation = word_6FDB34;
     field_42 = word_6FDB34;
@@ -182,7 +184,7 @@ void Char_B4::PoolAllocate()
     field_2C_ang = word_6FDB34;
     field_30 = 4;
     field_34 = 0;
-    field_38_velocity = dword_6FD7C0;
+    field_38_velocity = k_dword_6FD7C0;
     field_3C_run_or_jump_speed = gRunOrJumpSpeed_6FD7D0;
     field_40_rotation = word_6FDB34;
     field_42 = word_6FDB34;
@@ -441,7 +443,7 @@ void Char_B4::sub_545720(Fix16 a2)
         {
             field_A0 = 0;
         }
-        Char_B4::sub_546360();
+        Char_B4::UpdateAnimState_546360();
 
         field_80_sprite_ptr->set_ang_lazy_420690(field_40_rotation);
 
@@ -502,7 +504,7 @@ void Char_B4::DrownPed_5459E0()
 }
 
 STUB_FUNC(0x546360)
-void Char_B4::sub_546360()
+void Char_B4::UpdateAnimState_546360()
 {
     NOT_IMPLEMENTED;
 }
@@ -605,10 +607,37 @@ void Char_B4::sub_54CC40()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x54dd70)
+MATCH_FUNC(0x54dd70)
 void Char_B4::sub_54DD70()
 {
-    NOT_IMPLEMENTED;
+    if (this->field_8_ped_state_1 != 9 && this->field_10 != 15)
+    {
+        sub_5459C0();
+
+        if (field_7C_pPed->check_bit_11() && field_7C_pPed->field_21C_bf.b9)
+        {
+            if (this->field_6C != 4)
+            {
+                this->field_6C = 4;
+                this->field_68 = 0;
+            }
+            else
+            {
+                field_7C_pPed->HandleClosePedInteraction_45CAA0();
+            }
+        }
+        else if (this->field_6C != 4 || this->field_68 == 6)
+        {
+            if (field_38_velocity != k_dword_6FD7C0)
+            {
+                this->field_6C = field_38_velocity > gCollisionRepulsionSpeed_6FD7BC;
+            }
+            else
+            {
+                this->field_6C = 2;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x54ddf0)
