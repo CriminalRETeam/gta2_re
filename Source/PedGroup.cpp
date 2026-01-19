@@ -470,7 +470,7 @@ void PedGroup::sub_4CA4B0()
                     pIter->field_14C = field_4_ped_list[i - 1];
                 }
             }
-            else if (pIter->field_278 != 9)
+            else if (pIter->field_278_ped_state != 9)
             {
                 if (field_2C_ped_leader->sub_45C920() != dword_67F610)
                 {
@@ -645,7 +645,7 @@ bool PedGroup::IsAllMembersInSomeCar_4CAA20()
 
     for (u8 i = 0; i < field_34_count; i++)
     {
-        if (field_4_ped_list[i]->field_278 != 10)
+        if (field_4_ped_list[i]->field_278_ped_state != ped_state_1::in_car_10)
         {
             return false;
         }
@@ -658,7 +658,8 @@ char_type PedGroup::sub_4CAAE0()
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
-        if (field_4_ped_list[i]->field_278 != 10 && field_4_ped_list[i]->field_278 != 9)
+        if (field_4_ped_list[i]->field_278_ped_state != ped_state_1::in_car_10 
+            && field_4_ped_list[i]->field_278_ped_state != ped_state_1::dead_9)
         {
             return false;
         }

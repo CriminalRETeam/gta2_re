@@ -782,7 +782,7 @@ enum
     unknown_5 = 5,
     unknown_6 = 6,
     standing_still_7 = 7,
-    immobilized_8 = 8,
+    immobilized_8 = 8, // ped lying on ground, or getting repeled by blast waves, or getting pushed, or on air, or sinking
     dead_9 = 9,
     in_car_10 = 10,
 };

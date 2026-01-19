@@ -2109,7 +2109,7 @@ void miss2_0x11C::SCRCMD_HAS_CHAR_DIED_509BB0()
 
     v2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
-    if (v2->field_8_char && v2->field_8_char->field_278 == 9)
+    if (v2->field_8_char && v2->field_8_char->field_278_ped_state == ped_state_1::dead_9)
     {
         field_8 = 1;
     }
@@ -3763,7 +3763,7 @@ void miss2_0x11C::SCRCMD_CHAR_IN_AIR_50DE50()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     Ped* pPed = pPointer->field_8_char;
 
-    if (pPed->field_27C == 19 && pPed->field_278 == 8)
+    if (pPed->field_27C == 19 && pPed->field_278_ped_state == ped_state_1::immobilized_8)
     {
         field_8 = true;
     }
@@ -3780,7 +3780,7 @@ void miss2_0x11C::SCRCMD_CHAR_SUNK_50DEB0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     Ped* pPed = pPointer->field_8_char;
 
-    if (pPed->field_27C == 20 && pPed->field_278 == 8)
+    if (pPed->field_27C == 20 && pPed->field_278_ped_state == ped_state_1::immobilized_8)
     {
         field_8 = true;
     }
@@ -4813,7 +4813,7 @@ void miss2_0x11C::sub_510280()
 
             Ped* pPed = pPlayerPedCmdPointer->field_8_char;
 
-            if (pPed->field_278 == 9 || pPed->field_21C_bf.b5 != 0)
+            if (pPed->field_278_ped_state == ped_state_1::dead_9 || pPed->field_21C_bf.b5 != 0)
             {
                 gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.field_0[pBonusType->field_8_index].sub_431DB0();
                 pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();

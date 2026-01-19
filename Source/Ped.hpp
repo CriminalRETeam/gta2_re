@@ -304,7 +304,7 @@ class Ped
 
     s32 get_ped_state1() const
     {
-        return field_278;
+        return field_278_ped_state;
     }
 
     // 9.6f inline 0x403AE0
@@ -465,7 +465,7 @@ class Ped
 
     inline s32 GetPedState_403990()
     {
-        return field_278;
+        return field_278_ped_state;
     }
 
     inline bool sub_433DA0()
@@ -600,7 +600,7 @@ class Ped
     s32 field_26C_graphic_type;
     s32 field_270;
     s32 field_274_gang_car_model;
-    s32 field_278;
+    s32 field_278_ped_state;
     s32 field_27C;
     s32 field_280;
     s32 field_284;
