@@ -492,52 +492,44 @@ void Sprite::sub_59EB30(f32& a2, f32& a3)
     NOT_IMPLEMENTED;
 }
 
+// 9.6f inline
+static inline void __stdcall sub_4BA2C0(const wchar_t* pStr, Fix16 x, Fix16 y, s32 font)
+{
+    s32 draw_kind = 2;
+    Fix16 scale_y = y * gViewCamera_676978->field_A8_ui_scale;
+    Fix16 scale_x = x * gViewCamera_676978->field_A8_ui_scale;
+    DrawText_5D8A10(pStr, scale_x, scale_y, font, gViewCamera_676978->field_A8_ui_scale, draw_kind, 0, 0, 0);
+}
+
 WIP_FUNC(0x59ee40)
-void Sprite::ShowHorn_59EE40(f32 x, f32 y)
+void Sprite::ShowHorn_59EE40(f32& x, f32& y)
 {
     WIP_IMPLEMENTED;
 
+    // 0x4BAEF0 9.6f
     if (bDo_show_horn_67D4F2)
     {
-        if (this->field_30_sprite_type_enum == 2)
+        Car_BC* pCar = AsCar_40FEB0();
+        if (pCar)
         {
-            Car_BC* pCar = this->field_8_car_bc_ptr;
-            if (pCar)
+            // TODO: Code is actually too "good" here so doesn't match
+            f32 screen_x = (x / (f32)window_width_706630)  * 640.0f;
+            f32 screen_y = (y / (f32)window_height_706B50) * 480.0f;
+
+            Fix16 xpos(screen_x);
+            Fix16 ypos(screen_y);
+
+            if (pCar->IsEmittingHorn_411970())
             {
-                // TODO: Code is actually too "good" here so doesn't match
-                Fix16 xpos((u32)(x / (window_width_706630 * 640.0f)));
-                Fix16 ypos((u32)(y / (window_height_706B50 * 480.0f)));
+                sub_4BA2C0(L"H", xpos, ypos, word_703BAA);
+            }
 
-                if (pCar->IsEmittingHorn_411970())
+            Ped* pDriver = pCar->field_54_driver;
+            if (pDriver)
+            {
+                if (gPolice_7B8_6FEE40->sub_56F880(pDriver))
                 {
-                    s32 drawKind = 2;
-                    DrawText_5D8A10(L"H",
-                                    xpos * gViewCamera_676978->field_A8_ui_scale,
-                                    ypos * gViewCamera_676978->field_A8_ui_scale,
-                                    word_703BAA,
-                                    gViewCamera_676978->field_A8_ui_scale,
-                                    drawKind,
-                                    0,
-                                    0,
-                                    0);
-                }
-
-                Ped* pDriver = pCar->get_driver_4118B0();
-                if (pDriver)
-                {
-                    if (gPolice_7B8_6FEE40->sub_56F880(pDriver))
-                    {
-                        s32 drawKind = 2;
-                        DrawText_5D8A10(L"P",
-                                        xpos * gViewCamera_676978->field_A8_ui_scale,
-                                        ypos * gViewCamera_676978->field_A8_ui_scale,
-                                        word_703BAA,
-                                        gViewCamera_676978->field_A8_ui_scale,
-                                        drawKind,
-                                        0,
-                                        0,
-                                        0);
-                    }
+                    sub_4BA2C0(L"P", xpos, ypos, word_703BAA);
                 }
             }
         }
@@ -742,7 +734,6 @@ void Sprite::Update_4C_59F990()
         {
             w = dword_6F6850.list[sprite_index->field_4_width];
             h = dword_6F6850.list[sprite_index->field_5_height];
-
         }
         field_4_0x4C_len->SetWidthHeight_4BA070(w, h);
     }
