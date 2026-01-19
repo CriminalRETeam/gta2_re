@@ -128,7 +128,7 @@ class Ped
     EXPORT char_type sub_467090();
     EXPORT Sprite* sub_467280();
     EXPORT char_type sub_4672E0(Fix16 a2, s32 a3);
-    EXPORT void sub_4678E0();
+    EXPORT void FleeOnFootTillSafe_4678E0();
     EXPORT void sub_467960();
     EXPORT void sub_467A20();
     EXPORT void sub_467AD0();
@@ -392,7 +392,7 @@ class Ped
         return field_200_id;
     }
 
-    inline Fix16 get_field_1F0()
+    inline Fix16 get_max_speed_1F0()
     {
         return field_1F0_maybe_max_speed;
     }

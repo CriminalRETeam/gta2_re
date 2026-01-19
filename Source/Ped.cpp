@@ -2112,7 +2112,7 @@ void Ped::ProcessOnFootObjective_463AA0()
         switch (field_258_objective)
         {
             case objectives_enum::flee_on_foot_till_safe_1:
-                Ped::sub_4678E0();
+                Ped::FleeOnFootTillSafe_4678E0();
                 break;
             case objectives_enum::flee_char_on_foot_till_safe_2:
                 Ped::sub_467960();
@@ -2844,23 +2844,25 @@ char_type Ped::sub_4672E0(Fix16 a2, s32 a3)
 }
 
 MATCH_FUNC(0x4678e0)
-void Ped::sub_4678E0()
+void Ped::FleeOnFootTillSafe_4678E0()
 {
     if (byte_61A8A3)
     {
-        if (dword_678750 > dword_678520)
+        if (dword_678750 > dword_678520) // far away from the threat?
         {
             if (field_168_game_object)
             {
                 if (field_168_game_object->field_44 == 2)
                 {
+                    // back to normality
                     Ped::sub_45C500(0);
                     Ped::sub_45C540(0);
-                    this->field_225_objective_status = objective_status::passed_1;
+                    field_225_objective_status = objective_status::passed_1;
                 }
                 else
                 {
-                    field_168_game_object->field_38_velocity = this->get_field_1F0();
+                    // RUN
+                    field_168_game_object->field_38_velocity = get_max_speed_1F0();
                 }
             }
             else
@@ -2870,7 +2872,8 @@ void Ped::sub_4678E0()
         }
         else
         {
-            this->field_168_game_object->field_38_velocity = this->get_field_1F0();
+            // It's very close to the threat, so run!
+            field_168_game_object->field_38_velocity = get_max_speed_1F0();
         }
     }
 }
@@ -3992,7 +3995,7 @@ void Ped::sub_46A8F0()
             }
             else
             {
-                pB4->field_38_velocity = get_field_1F0();
+                pB4->field_38_velocity = get_max_speed_1F0();
             }
         }
         else
@@ -4002,7 +4005,7 @@ void Ped::sub_46A8F0()
     }
     else
     {
-        field_168_game_object->field_38_velocity = get_field_1F0();
+        field_168_game_object->field_38_velocity = get_max_speed_1F0();
     }
 }
 
