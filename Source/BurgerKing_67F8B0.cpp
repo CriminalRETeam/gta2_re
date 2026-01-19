@@ -130,7 +130,7 @@ bool BurgerKing_1::game_pads_init_498BA0()
             FARPROC p = GetProcAddress(hDx, "DirectInputCreateA");
             if (p)
             {
-                if (FAILED((decltype(&Fn_DirectInputCreateA))p)(hInstance, 1792, &gpDInput_67B804, 0))
+                if (FAILED((decltype(&Fn_DirectInputCreateA))p)(gHInstance_708220, 0x700, &gpDInput_67B804, 0))
                 {
                     return 1;
                 }
