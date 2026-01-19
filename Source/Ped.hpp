@@ -29,7 +29,7 @@ class Ped
   public:
     EXPORT Ped(); // 45AE70
     EXPORT ~Ped(); // 45AF00
-    EXPORT char_type sub_45AFC0();
+    EXPORT char_type Reset_45AFC0();
     EXPORT void PoolAllocate();
     EXPORT char_type sub_45B4E0();
     EXPORT Fix16_Point sub_45B520();
@@ -93,7 +93,7 @@ class Ped
     EXPORT char_type sub_461530();
     EXPORT void sub_461630();
     EXPORT char_type RoadBlockTank_AI_4619F0();
-    EXPORT s16 sub_461A60();
+    EXPORT s16 UpdateFacingAngle_461A60();
     EXPORT void Occupation_AI_461F20();
     EXPORT void sub_462280();
     EXPORT void sub_4624A0();
@@ -101,7 +101,7 @@ class Ped
     EXPORT void sub_462550();
     EXPORT void ForceDoNothing_462590();
     EXPORT void sub_462620();
-    EXPORT char_type sub_4626B0();
+    EXPORT char_type StateMachineTick_4626B0();
     EXPORT void sub_462B80();
     EXPORT bool PoolUpdate();
     EXPORT void ProcessObjective_4632E0();
@@ -263,6 +263,12 @@ class Ped
     {
         return field_21C_bf.b0 != 0;
     }
+    
+    bool check_bit_11()
+    {
+        return field_21C_bf.b11 != 0;
+    }
+
 
     // 9.6f inline 0x450CB0
     inline u8 sub_450CB0()

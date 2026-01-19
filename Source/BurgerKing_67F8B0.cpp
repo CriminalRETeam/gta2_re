@@ -1,16 +1,15 @@
 #include "BurgerKing_67F8B0.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "debug.hpp"
 #include "enums.hpp"
 #include "error.hpp"
 #include "file.hpp"
-#include "Game_0x40.hpp"
 #include "input.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include <io.h>
-
 
 #define ATTRACT_COUNT 3
 
@@ -106,20 +105,35 @@ void BurgerKing_1::set_game_pad_device_properties_4989C0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x498BA0)
+MATCH_FUNC(0x498BA0)
 bool BurgerKing_1::game_pads_init_498BA0()
 {
-    NOT_IMPLEMENTED;
-
     if (gpDInput_67B804)
     {
-        // TODO: Fix link issue on new msvc
-        /*
+#if defined(__clang__) || (_MSC_VER <= 1200)
+    #pragma comment(lib, "DInput.lib")
+        // VC6-compatible path
         if (FAILED(DirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, 0)))
         {
             return 1;
         }
-        */
+#else
+    #pragma comment(lib, "DInput8.lib")
+        // Runtime dynamic loading path
+        HMODULE hDx = LoadLibrary("DInput.dll");
+        if (hDx)
+        {
+            FARPROC p = GetProcAddress(hDx, "DirectInputCreateA");
+            if (p)
+            {
+                auto pDirectInputCreateA = reinterpret_cast<decltype(&DirectInputCreateA)>(p);
+                if (FAILED(pDirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, 0)))
+                {
+                    return 1;
+                }
+            }
+        }
+#endif
     }
 
     gpDInput_67B804->EnumDevices(DIDEVTYPE_JOYSTICK, DirectInputDeviceEnumCallBack_498910, this, DIEDFL_ATTACHEDONLY);

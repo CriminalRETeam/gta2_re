@@ -66,9 +66,10 @@ class FunctionCollection:
                 for new_func in new_data["functions"]:
                     mangled_name = new_func["mangled_name"]
                     new_og_address = new_func["og_addr"]
-                    if og_address.lower() == new_og_address.lower():
+                    if str(og_address).lower() == str(new_og_address).lower():
                         mangled_name_found = True
                         break
+
 
             if mangled_name_found:
                 data = OgFunctionData(og_name, og_address, og_offset, og_size, self.game_version, mangled_name)
@@ -349,8 +350,10 @@ def main():
         target_func = get_func_info(func_name)
         if target_func == None:
             print(f"could not find a function with the name or address: {func_name} for GTA 2 version {FUNC_COLLECTION.game_version}")
-            sys.exit(1)
-        target_funcs.append(target_func)
+            # Carry on and do whatever funcs we can
+            #sys.exit(1)
+        else:
+            target_funcs.append(target_func)
 
     if (len(target_funcs) > 1) and (not args.asm):
         print("Only --asm option is allowed when dumping multiple functions at once")

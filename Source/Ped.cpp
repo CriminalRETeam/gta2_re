@@ -124,7 +124,7 @@ MATCH_FUNC(0x45ae70)
 Ped::Ped()
 {
     field_200_id = 0;
-    sub_45AFC0();
+    Reset_45AFC0();
     mpNext = 0;
 }
 
@@ -160,7 +160,7 @@ Ped::~Ped()
 }
 
 STUB_FUNC(0x45afc0)
-char_type Ped::sub_45AFC0()
+char_type Ped::Reset_45AFC0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -169,7 +169,7 @@ char_type Ped::sub_45AFC0()
 MATCH_FUNC(0x45b440)
 void Ped::PoolAllocate()
 {
-    Ped::sub_45AFC0();
+    Ped::Reset_45AFC0();
     field_200_id = gPedId_61A89C++;
     field_21C |= 1;
     field_234_timer = 99;
@@ -584,7 +584,7 @@ void Ped::sub_45C410()
 
     PutOutFire();
     const u8 remap = this->field_244_remap;
-    sub_45AFC0();
+    Reset_45AFC0();
 
     this->field_244_remap = remap;
     this->field_168_game_object = pB4;
@@ -1357,7 +1357,7 @@ char_type Ped::RoadBlockTank_AI_4619F0()
 }
 
 STUB_FUNC(0x461a60)
-s16 Ped::sub_461A60()
+s16 Ped::UpdateFacingAngle_461A60()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1553,7 +1553,7 @@ void Ped::sub_462280()
         Ped::ProcessInCarObjective_463FB0();
         if (field_278 > 0 && field_278 <= 7)
         {
-            Ped::sub_461A60();
+            Ped::UpdateFacingAngle_461A60();
         }
         if (field_238 != 2)
         {
@@ -1702,7 +1702,7 @@ void Ped::sub_462620()
 }
 
 STUB_FUNC(0x4626b0)
-char_type Ped::sub_4626B0()
+char_type Ped::StateMachineTick_4626B0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1873,7 +1873,7 @@ bool Ped::PoolUpdate()
     if (field_21C_bf.b0 == 1)
     {
         byte_61A8A4 = 1;
-        if (Ped::sub_4626B0())
+        if (Ped::StateMachineTick_4626B0())
         {
             if (byte_61A8A4)
             {
@@ -1927,7 +1927,7 @@ bool Ped::PoolUpdate()
                     {
                         if (field_278 > 0 && field_278 <= 7)
                         {
-                            Ped::sub_461A60();
+                            Ped::UpdateFacingAngle_461A60();
                         }
                     }
                 }
