@@ -3,6 +3,7 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
+#include "Orca_2FD4.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
@@ -19,7 +20,6 @@
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "winmain.hpp" // TODO: only because of gLighting_626A09
-#include "Orca_2FD4.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -1095,50 +1095,43 @@ void Sprite::FreeSound_5A2A00()
     }
 }
 
-WIP_FUNC(0x5a2a30)
-void Sprite::sub_5A2A30()
+MATCH_FUNC(0x5a2a30)
+void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
 {
-    WIP_IMPLEMENTED;
-
     struct_4 collisions;
     collisions.field_0_p18 = 0;
     gPurpleDoom_1_679208->CollectRectCollisions_477F30(&field_C_sprite_4c_ptr->field_30_boundingBox, 0, 0, this, &collisions);
     for (Sprite_18* pCollisionIter = collisions.field_0_p18; pCollisionIter; pCollisionIter = pCollisionIter->mpNext)
     {
         Sprite* pCurrent = pCollisionIter->field_0;
-        switch (pCurrent->field_30_sprite_type_enum)
+        if (pCurrent->get_type_416B40() == sprite_types_enum::car)
         {
-
-
-            case 2:
+            Car_BC* pIterCar = pCurrent->AsCar_40FEB0();
+            if (field_30_sprite_type_enum != sprite_types_enum::car ||
+                (!pIterCar->IsCargoCarOf_4BA390(field_8_car_bc_ptr) && !pIterCar->HasOtherCarOnTrailer_475E60(field_8_car_bc_ptr)))
             {
-                Car_BC* pCar = pCurrent->AsCar_40FEB0();
-                // TODO: Check is wrong
-                if (!(pCar && pCar->field_64_pTrailer && pCar->is_trailer_cab_41E460() && pCar->is_on_trailer_421720()))
+                u8 x = field_14_xy.x.ToInt();
+                u8 y = field_14_xy.y.ToInt();
+                u8 z = field_1C_zpos.ToInt();
+
+                // car shoving / overlap resolution ?
+                if (gOrca_2FD4_6FDEF0->sub_5552B0(1, &x, &y, &z, 1))
                 {
-                    u8 x = field_14_xy.x.ToInt();
-                    u8 y = field_14_xy.y.ToInt();
-                    u8 z = field_1C_zpos.ToInt();
-                    if (gOrca_2FD4_6FDEF0->sub_5552B0(1, &x, &y, &z, 1))
-                    {
-                        gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pCurrent);
-                        pCar->sub_444E40(x, y, z);
-                        gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pCurrent);
-                    }
+                    gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pCurrent);
+                    pIterCar->sub_444E40(x, y, z);
+                    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pCurrent);
                 }
-                break;
             }
-
-            case 3:
-                pCurrent->field_8_char_b4_ptr->field_7C_pPed->Deallocate_45EB60();
-                break;
-
-            // TODO: Bunch of these missing for some reason
-            case 4:
-            case 5:
-            case 1:
-                pCurrent->field_8_object_2C_ptr->Dealloc_5291B0();
-                break;
+        }
+        else if (pCurrent->get_type_416B40() == sprite_types_enum::ped)
+        {
+            Char_B4* pB4 = pCurrent->AsCharB4_40FEA0();
+            pB4->field_7C_pPed->Deallocate_45EB60();
+        }
+        else if (pCurrent->Is2C_40FE80())
+        {
+            Object_2C* pObj = pCurrent->As2C_40FEC0();
+            pObj->Dealloc_5291B0();
         }
     }
 }

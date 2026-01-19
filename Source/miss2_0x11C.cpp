@@ -289,7 +289,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             pCmd->field_8_ped = pPed;
 
             Sprite* v6 = pPed->GetSprite_46DF50();
-            v6->sub_5A2A30();
+            v6->ResolveCollisionWithCarPedOrObject_5A2A30();
         }
     }
 }
@@ -385,7 +385,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             pPointer->field_8_car->field_98 = 2;
         }
         pPointer->field_8_car->IncrementCarStats_443D70(8);
-        pPointer->field_8_car->field_50_car_sprite->sub_5A2A30();
+        pPointer->field_8_car->field_50_car_sprite->ResolveCollisionWithCarPedOrObject_5A2A30();
 
         if (pCmd->field_2_type >= 0x18Au //  create gang car
             && pCmd->field_2_type <= 0x18Du)
@@ -441,7 +441,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
         a2->field_8_char->SetObjective(objectives_enum::wait_on_foot_26, 9999);
         a2->field_8_char->field_216_health = 100;
         Sprite* v6 = a2->field_8_char->GetSprite_46DF50();
-        v6->sub_5A2A30();
+        v6->ResolveCollisionWithCarPedOrObject_5A2A30();
     }
 }
 

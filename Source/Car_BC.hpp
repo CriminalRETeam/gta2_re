@@ -589,6 +589,11 @@ class Car_BC
         return field_64_pTrailer && field_64_pTrailer->field_C_pCarOnTrailer == pExcludeCar && this != pExcludeCar;
     }
 
+    bool IsCargoCarOf_4BA390(Car_BC* pOther) const
+    {
+        return field_64_pTrailer && field_64_pTrailer->field_8_truck_cab == pOther && this != pOther;
+    }
+
     inline bool IsWithinArea(SCR_Rect_f* rect)
     {
         Fix16 x_pos = field_50_car_sprite->field_14_xy.x;
