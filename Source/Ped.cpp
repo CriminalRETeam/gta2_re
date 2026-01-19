@@ -2194,7 +2194,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::EnterTrain_468930();
                 break;
             case objectives_enum::leave_train_38:
-                Ped::sub_468A00();
+                Ped::LeaveTrain_468A00();
                 break;
             case objectives_enum::objective_33:
                 Ped::sub_468BD0();
@@ -3488,7 +3488,7 @@ void Ped::EnterTrain_468930()
 }
 
 MATCH_FUNC(0x468a00)
-void Ped::sub_468A00()
+void Ped::LeaveTrain_468A00()
 {
     if (field_25C_car_state)
     {
