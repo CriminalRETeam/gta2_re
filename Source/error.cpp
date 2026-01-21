@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 #include "fix16.hpp"
 #include "winmain.hpp"
+#include <FSTREAM.H>
 #include <stdio.h>
 #include <time.h>
 #include <windows.h>
@@ -74,6 +75,12 @@ EXPORT void ErrorLog::log_timestamp_4D9540()
     buffer[strlen(buffer) - 1] = 0; // remove the new line it  adds
     sprintf(gTmpBuffer_67C598, "\n------ %s ------", buffer);
     Write_4D9620(gTmpBuffer_67C598);
+}
+
+MATCH_FUNC(0x4D9690)
+EXPORT void __cdecl log_on_line_written_cb_4D9690(void* a1)
+{
+    ((ostream*)a1)->flush();
 }
 
 MATCH_FUNC(0x4D9670)
