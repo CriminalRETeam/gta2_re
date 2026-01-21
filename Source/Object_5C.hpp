@@ -58,7 +58,7 @@ class Object_2C
     EXPORT void sub_526790(s32 a2);
     EXPORT s32 sub_526830(s32 a1);
     EXPORT s16 sub_526B40(s32 a2);
-    EXPORT char_type sub_527070(s16* a2, s32 a3, s16* a4, s32 a5);
+    EXPORT bool sub_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
     EXPORT void sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT void Light_527990();
     EXPORT void AssignToBucket_527AE0();

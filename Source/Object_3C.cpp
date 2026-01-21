@@ -267,7 +267,8 @@ void struct_4::AddSprite_5A6CD0(Sprite* pSprite)
     Sprite_18* p18 = gSprite_18_Pool_703B80->Allocate();
     p18->field_0 = pSprite;
     p18->mpNext = this->field_0_p18;
-    p18->field_8.reset();
+    p18->field_6_x = 0;
+    p18->field_8_y = 0;
     field_0_p18 = p18;
 }
 
@@ -277,8 +278,8 @@ void struct_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 
     Sprite_18* p18 = gSprite_18_Pool_703B80->Allocate();
     p18->field_0 = pSprite1;
     p18->mpNext = field_0_p18;
-    p18->field_8.x = x;
-    p18->field_8.y = y;
+    p18->field_6_x = x;
+    p18->field_8_y = y;
     p18->field_10 = angle;
     field_0_p18 = p18;
 }

@@ -20,6 +20,7 @@
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "winmain.hpp" // TODO: only because of gLighting_626A09
+#include "Object_2C_Pool.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -45,6 +46,8 @@ DEFINE_GLOBAL_INIT(u32, kGlobalMask0_61A9AC, 0x0C00060, 0x61A9AC); // BitSet32 f
 DEFINE_GLOBAL_INIT(u32, kGlobalMask1_61A9A8, 0x0C70060, 0x61A9A8); // BitSet32 flag
 DEFINE_GLOBAL_INIT(u32, kGlobalMask2_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 flag
 DEFINE_GLOBAL(u32, gFlags_67ACF8, 0x67ACF8); // BitSet32 flag
+DEFINE_GLOBAL(Fix16, dword_703A38, 0x703A38);
+
 
 EXTERN_GLOBAL(s32, window_width_706630);
 EXTERN_GLOBAL(s32, window_height_706B50);
@@ -1657,4 +1660,38 @@ void Sprite_18::sub_5A69E0()
             pBC->sub_43D7B0(19);
         }
     }
+}
+
+bool Sprite_18::PoolUpdate_5A6910(Sprite* a2)
+{
+    bool bRet;
+    Object_2C* o2c = field_0->As2C_40FEC0();
+    if (o2c)
+    {
+        bRet = o2c->sub_527070(a2, field_6_x, field_8_y, field_10);
+        if (bRet)
+        {
+            gObject_2C_Pool_6F8F80->DeAllocate(o2c);
+            return bRet;
+        }
+    }
+    else
+    {
+        Car_BC* cBC = field_0->AsCar_40FEB0();
+        if (cBC)
+        {
+            bRet = cBC->sub_443360(a2, field_6_x, field_8_y, field_10);
+            if (bRet)
+            {
+                gCar_BC_Pool_67792C->Remove(cBC);
+            }
+        }
+        else
+        {
+            Char_B4* cB4 = field_0->AsCharB4_40FEA0();
+            bRet = 0;
+            cB4->sub_545720(dword_703A38);
+        }
+    }
+    return bRet;
 }
