@@ -925,7 +925,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
                 }
                 BurgerKing_67F8B0::modify_inputs_4CDF30(inputs);
             }
-            if (field_75344_bSomething)
+            if (field_75344_bInputEnabled)
             {
                 saved_input = *control_status;
                 // Problem here:
@@ -959,7 +959,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
                 }
                 BurgerKing_67F8B0::modify_inputs_4CDF30(inputs);
             }
-            if (field_75344_bSomething)
+            if (field_75344_bInputEnabled)
             {
                 saved_input = *control_status;
                 // Problem also is here:
@@ -978,7 +978,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
             break;
 
         case Live_0:
-            if (field_75344_bSomething)
+            if (field_75344_bInputEnabled)
             {
                 if (gGame_0x40_67E008->field_0_game_state != GameState::Paused_2)
                 {
