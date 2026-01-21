@@ -15,20 +15,27 @@
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
+// TODO: for some reason it does not have uAppData. 
+// Otherwise using DIDEVICEOBJECTDATA (size 0x14) makes dword_67B5B0 overlaps gKeyboardDevice_67B5C0
+struct mini_device_obj_data 
+{
+    u32 dwOfs;
+    u32 dwData;
+    u32 dwTimeStamp;
+    u32 dwSequence;
+};
+
 DEFINE_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0, 0x67F8B0);
 DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
 DEFINE_GLOBAL(DWORD, gKeyboardStatus_67B624, 0x67B624);
 DEFINE_GLOBAL(u8, byte_67B80C, 0x67B80C);
 DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
 DEFINE_GLOBAL(DIDEVICEOBJECTDATA, stru_67B610, 0x67B610);
-DEFINE_GLOBAL(s32, dword_67B5B0, 0x67B5B0);
-DEFINE_GLOBAL(s32, dword_67B5B4, 0x67B5B4);
-DEFINE_GLOBAL(s32, dword_67B5B8, 0x67B5B8);
-DEFINE_GLOBAL(s32, dword_67B5BC, 0x67B5BC);
+DEFINE_GLOBAL(mini_device_obj_data, dword_67B5B0, 0x67B5B0);
 
 DEFINE_GLOBAL_ARRAY(s32, dword_61A9E4, 12, 0x61A9E4);
-DEFINE_GLOBAL_ARRAY(s32, dword_67B91C, 12, 0x67B91C);
-DEFINE_GLOBAL_ARRAY(s32, dword_67B6E8, 12, 0x67B6E8);
+DEFINE_GLOBAL_ARRAY(s32, gMaybeDeviceType_67B91C, 12, 0x67B91C);
+DEFINE_GLOBAL_ARRAY(s32, gPlayerControlsBinding_67B6E8, 12, 0x67B6E8);
 
 EXTERN_GLOBAL(DIDATAFORMAT, gKeyboardDataFormat_601A54);
 EXTERN_GLOBAL(HINSTANCE, gHInstance_708220);
@@ -94,8 +101,8 @@ void BurgerKing_1::get_registry_controls_498C00()
     for (u32 i = 0; i < 12; ++i)
     {
         const u32 v1 = gRegistry_6FF968.Set_Control_Setting_587010(i, dword_61A9E4[i]);
-        dword_67B91C[i] = v1 >> 15;
-        dword_67B6E8[i] = (u8)v1;
+        gMaybeDeviceType_67B91C[i] = v1 >> 15;
+        gPlayerControlsBinding_67B6E8[i] = (u8)v1;
     }
 }
 
@@ -263,10 +270,9 @@ void BurgerKing_1::sub_498C80(s32* a1, DIDEVICEOBJECTDATA* device_data_keys)
 WIP_FUNC(0x498DA0)
 void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
 {
-    WIP_IMPLEMENTED;
     bool bUnk_1;
-    s32 v5;
-    s32 v6;
+    s32 v5_edi;
+    s32 v6_edx;
     s32 input;
     s32* field_8_input_masks;
     bool bUnk_2_unk;
@@ -285,13 +291,13 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
     if (acquire_input_device_498730(gKeyboardDevice_67B5C0) || acquire_input_device_498730(gGamePadDevice_67B6C0))
     {
         stru_67B610.dwOfs = 0;
-        dword_67B5B0 = 0;
+        dword_67B5B0.dwOfs = 0;
         stru_67B610.dwData = 0;
-        dword_67B5B4 = 0;
+        dword_67B5B0.dwData = 0;
         stru_67B610.dwTimeStamp = 0;
-        dword_67B5B8 = 0;
+        dword_67B5B0.dwTimeStamp = 0;
         stru_67B610.dwSequence = 0;
-        dword_67B5BC = 0;
+        dword_67B5B0.dwSequence = 0;
         if (acquire_input_device_498730(gGamePadDevice_67B6C0))
         {
             gGamePadDevice_67B6C0->Acquire();
@@ -318,10 +324,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                 gKeyboardStatus_67B624 = 1;
                 gGamePadDevice_67B6C0->GetDeviceData(16, 0, (LPDWORD)&status, 1);
 
-                device_data = gGamePadDevice_67B6C0->GetDeviceData(16,
-                                                                   (LPDIDEVICEOBJECTDATA)&dword_67B5B0,
-                                                                   (unsigned long*)&gKeyboardStatus_67B624,
-                                                                   0);
+                device_data = gGamePadDevice_67B6C0->GetDeviceData(16, (DIDEVICEOBJECTDATA*)&dword_67B5B0, (unsigned long*)&gKeyboardStatus_67B624, 0);
                 if (bLog_directinput_67D6C0)
                 {
                     if (gKeyboardStatus_67B624 > 0)
@@ -330,8 +333,8 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                 "%d: input num_items = %d dwOfs = %d; data = %d",
                                 rng_dword_67AB34->field_0_rng,
                                 status,
-                                dword_67B5B0,
-                                dword_67B5B4);
+                                dword_67B5B0.dwOfs,
+                                dword_67B5B0.dwData);
                         gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
                     }
                 }
@@ -343,7 +346,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                 return;
             }
 
-            if (stru_67B610.dwOfs == 56)
+            if (stru_67B610.dwOfs == DIK_LMENU)
             {
                 BurgerKing_1::sub_498CB0(stru_67B610.dwData);
             }
@@ -356,15 +359,18 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
             // line 1ef
             if (!gHud_2B00_706620->sub_5D6C70(stru_67B610.dwOfs)) // OBS: bool return type
             {
-                v5 = dword_67B5B0;
-                v6 = dword_67B5B4;
+                v5_edi = dword_67B5B0.dwOfs;
+                v6_edx = dword_67B5B0.dwData;
                 field_8_input_masks = gBurgerKing_67F8B0.field_8_input_masks;
-
+                
+                // Check for player controls (up, down, shoot etc)
                 for (input = 0; input < 12; input++, ++field_8_input_masks)
                 {
+                    // line 217 or 21b
                     bUnk_2_unk = false;
-                    if (keyb_dev_data == 0 && dword_67B91C[input] == 0 && dword_67B6E8[input] == stru_67B610.dwOfs)
+                    if (keyb_dev_data == 0 && gMaybeDeviceType_67B91C[input] == 0 && gPlayerControlsBinding_67B6E8[input] == stru_67B610.dwOfs)
                     {
+                        // PC binding
                         bUnk_2_unk = true;
                         if ((stru_67B610.dwData & 0x80) != 0) // line 243
                         {
@@ -388,50 +394,65 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                 continue;
                             }
                         }
-                        v5 = dword_67B5B0;
-                        v6 = dword_67B5B4;
+                        v5_edi = dword_67B5B0.dwOfs;
+                        v6_edx = dword_67B5B0.dwData;
                     }
                     else
                     {
-                        if (device_data == 0 && dword_67B91C[input] == 1)
+                        // Maybe gamepad binding
+                        // line 294
+                        if (device_data == 0 && gMaybeDeviceType_67B91C[input] == 1)
                         {
-                            unk_input = dword_67B6E8[input];
+                            unk_input = gPlayerControlsBinding_67B6E8[input];
                             bUnk_3 = false;
                             switch (unk_input)
                             {
                                 case 224:
-                                    if (!v5)
+                                    if (v5_edi == 0)
                                     {
-                                        if (v6 > -750)
+                                        if (v6_edx <= -750)
                                         {
+                                            bUnk_2_unk = true;
+                                            if (bUnknown)
+                                            {
+                                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
+                                                v5_edi = dword_67B5B0.dwOfs;
+                                                v6_edx = dword_67B5B0.dwData;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // jump here
                                             bUnk_3 = true;
                                             if (bUnknown)
                                             {
                                                 if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
                                                 {
                                                     gBurgerKing_67F8B0.clear_input_4CDD10(input);
-                                                    v5 = dword_67B5B0;
-                                                    v6 = dword_67B5B4;
+                                                    v5_edi = dword_67B5B0.dwOfs;
+                                                    v6_edx = dword_67B5B0.dwData;
                                                 }
                                             }
                                             bUnk_2_unk = true;
-                                        }
-                                        else
-                                        {
-                                            bUnk_2_unk = true;
-                                            if (bUnknown)
-                                            {
-                                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
-                                                v5 = dword_67B5B0;
-                                                v6 = dword_67B5B4;
-                                            }
                                         }
                                     }
                                     break;
+
                                 case 225:
-                                    if (v5 == 0)
+                                    // 2ec ?
+                                    if (v5_edi == 0)
                                     {
-                                        if (v6 < 750)
+                                        if (v6_edx >= 750)
+                                        {
+                                            bUnk_2_unk = true;
+                                            if (bUnknown)
+                                            {
+                                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
+                                                v5_edi = dword_67B5B0.dwOfs;
+                                                v6_edx = dword_67B5B0.dwData;
+                                            }
+                                        }
+                                        else
                                         {
                                             bUnk_3 = true;
                                             if (bUnknown)
@@ -439,28 +460,18 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                                 if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
                                                 {
                                                     gBurgerKing_67F8B0.clear_input_4CDD10(input);
-                                                    v5 = dword_67B5B0;
-                                                    v6 = dword_67B5B4;
+                                                    v5_edi = dword_67B5B0.dwOfs;
+                                                    v6_edx = dword_67B5B0.dwData;
                                                 }
                                             }
                                             bUnk_2_unk = true;
-                                        }
-                                        else
-                                        {
-                                            bUnk_2_unk = true;
-                                            if (bUnknown)
-                                            {
-                                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
-                                                v5 = dword_67B5B0;
-                                                v6 = dword_67B5B4;
-                                            }
                                         }
                                     }
                                     break;
                                 case 226:
-                                    if (v5 == 4)
+                                    if (v5_edi == 4)
                                     {
-                                        if (v6 <= -750)
+                                        if (v6_edx <= -750)
                                         {
                                             goto LABEL_63;
                                         }
@@ -470,9 +481,9 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                     }
                                     break;
                                 case 227:
-                                    if (v5 == 4)
+                                    if (v5_edi == 4)
                                     {
-                                        if (v6 >= 750)
+                                        if (v6_edx >= 750)
                                         {
                                             goto LABEL_63;
                                         }
@@ -490,8 +501,8 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                                     if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
                                                     {
                                                         gBurgerKing_67F8B0.clear_input_4CDD10(input);
-                                                        v5 = dword_67B5B0;
-                                                        v6 = dword_67B5B4;
+                                                        v5_edi = dword_67B5B0.dwOfs;
+                                                        v6_edx = dword_67B5B0.dwData;
                                                     }
                                                 }
                                                 bUnk_2_unk = true;
@@ -500,17 +511,17 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                     }
                                     break;
                                 default:
-                                    if (v5 == unk_input + 48)
+                                    if (v5_edi == unk_input + 48)
                                     {
-                                        if ((v6 & 0x80u) != 0)
+                                        if ((v6_edx & 0x80u) != 0)
                                         {
                                         LABEL_63:
                                             bUnk_2_unk = true;
                                             if (bUnknown)
                                             {
                                                 gBurgerKing_67F8B0.set_input_4CDCF0(input);
-                                                v5 = dword_67B5B0;
-                                                v6 = dword_67B5B4;
+                                                v5_edi = dword_67B5B0.dwOfs;
+                                                v6_edx = dword_67B5B0.dwData;
                                             }
                                         }
                                         else
@@ -522,8 +533,8 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                                 if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
                                                 {
                                                     gBurgerKing_67F8B0.clear_input_4CDD10(input);
-                                                    v5 = dword_67B5B0;
-                                                    v6 = dword_67B5B4;
+                                                    v5_edi = dword_67B5B0.dwOfs;
+                                                    v6_edx = dword_67B5B0.dwData;
                                                 }
                                             }
                                             bUnk_2_unk = true;
@@ -540,7 +551,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                     bUnk_1 = false;
                 }
             }
-            else
+            //else
             {
                 if (!bUnk_3)
                 {
@@ -867,7 +878,7 @@ void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
 }
 
 // https://decomp.me/scratch/t5tNu
-STUB_FUNC(0x4ceac0)
+WIP_FUNC(0x4ceac0)
 u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
 {
     s32 inputs;
