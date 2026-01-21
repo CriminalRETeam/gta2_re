@@ -1,25 +1,56 @@
 #include "error.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include "fix16.hpp"
 #include "winmain.hpp"
-#include "Globals.hpp"
 #include <stdio.h>
+#include <time.h>
 #include <windows.h>
 
 DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
 DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
 
+
 STUB_FUNC(0x4D9470)
 void ErrorLog::sub_4D9470(const char_type* path, s32 a3)
 {
     NOT_IMPLEMENTED;
+    
+    u8* fileNameLen = new u8;
+    if (fileNameLen)
+    {
+        *fileNameLen = strlen(path);
+    }
+    else
+    {
+        fileNameLen = 0;
+    }
+    this->field_3C_pLen = fileNameLen;
+
+    // TODO: Werid codegen here, looks like a switch on a3 maybe :')
+    s32 mode;
+    switch (a3)
+    {
+        case 1:
+            mode = 16; //ios::trunc; // 16
+            break;
+
+        default:
+            mode = 8; //ios::app; // 8
+            break;
+    }
+
+    //field_0_ofstr.open(path, mode, 420);
+
+    log_timestamp_4D9540();
 }
 
+// TODO: Does match when ostream is added
 STUB_FUNC(0x4D94E0)
 ErrorLog::ErrorLog(const char* FileName, int a3)
 {
     NOT_IMPLEMENTED;
-    //sub_4D9470(FileName, a3);
+    sub_4D9470(FileName, a3);
 }
 
 STUB_FUNC(0x4D9620)
@@ -36,16 +67,25 @@ void ErrorLog::Write_Log_4D9650(const char_type* buffer)
     //field_0_ofstr.operator<<(buffer).flush();
 }
 
+MATCH_FUNC(0x4D9540)
+EXPORT void ErrorLog::log_timestamp_4D9540()
+{
+    time_t curTime = time(0);
+    char_type* buffer = ctime(&curTime);
+    buffer[strlen(buffer) - 1] = 0; // remove the new line it  adds
+    sprintf(gTmpBuffer_67C598, "\n------ %s ------", buffer);
+    Write_4D9620(gTmpBuffer_67C598);
+}
+
 DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530, 0x67C530);
 DEFINE_GLOBAL(ErrorLog, gErrorLog_67CF58, 0x67CF58);
 DEFINE_GLOBAL(ErrorLog, gMiss2Log_6F7698, 0x6F7698);
-ErrorLog gFile_67C530;//DEFINE_GLOBAL(ErrorLog, gFile_67C530, 0x67C530);
+ErrorLog gFile_67C530; //DEFINE_GLOBAL(ErrorLog, gFile_67C530, 0x67C530);
 
 DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256, 0x67C598); // TODO: Check
 DEFINE_GLOBAL_ARRAY(char_type, gErrStr_67C29C, 256, 0x67C29C);
 DEFINE_GLOBAL_ARRAY(char_type, byte_67C3A8, 256, 0x67C3A8);
 DEFINE_GLOBAL_ARRAY(char_type, gGlobalFileName_67C6AC, 256, 0x67C6AC);
-
 
 const char_type* gListTypes_61AB70[30] = {"objects",
                                           "corner_space",
@@ -77,7 +117,6 @@ const char_type* gListTypes_61AB70[30] = {"objects",
                                           "particle_space",
                                           "scorefx_space",
                                           "audio_info_space"};
-
 
 MATCH_FUNC(0x4A0770)
 EXPORT void __stdcall Error_SetName_4A0770(const char_type* pFileName)

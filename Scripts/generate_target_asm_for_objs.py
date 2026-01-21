@@ -50,7 +50,7 @@ def main():
         if not addrs:
             continue
 
-        #if cpp_file.name != "char.cpp":
+        #if cpp_file.name != "error.cpp":
         #    continue
 
         print(f"Processing {cpp_file.name} with {len(addrs)} addresses")

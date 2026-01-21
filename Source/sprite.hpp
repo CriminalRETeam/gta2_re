@@ -80,7 +80,7 @@ class Sprite
     EXPORT Fix16_Point GetBoundingBoxCorner_562450(s32 idx);
 
     EXPORT Fix16_Point get_x_y_443580();
-    EXPORT void sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT void set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_54EC80(Fix16 xpos, Fix16 ypos);
     EXPORT bool IsControlledByActivePlayer_59E170();
     EXPORT Ped* GetPed_59E1B0();
@@ -115,7 +115,7 @@ class Sprite
     EXPORT char_type FindOverlappingBoundingBoxCorners_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
     EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* a2);
-    EXPORT char_type sub_5A0970(s32 a2, s32 a3, s32 a4);
+    EXPORT char_type CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
     EXPORT char_type sub_5A0A70(Sprite_4C* a2, Sprite** a3, u8* a4);
     EXPORT char_type sub_5A0EF0(s32 a2, s32 a3, s32 a4);
     EXPORT char_type sub_5A1030(Sprite* a2, Sprite** a3, u8* a4);

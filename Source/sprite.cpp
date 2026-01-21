@@ -2,6 +2,7 @@
 #include "CarInfo_808.hpp" // TODO: only because of dword_6F6850
 #include "Car_BC.hpp"
 #include "Globals.hpp"
+#include "Object_2C_Pool.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
 #include "Player.hpp"
@@ -20,7 +21,6 @@
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "winmain.hpp" // TODO: only because of gLighting_626A09
-#include "Object_2C_Pool.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -47,7 +47,6 @@ DEFINE_GLOBAL_INIT(u32, kGlobalMask1_61A9A8, 0x0C70060, 0x61A9A8); // BitSet32 f
 DEFINE_GLOBAL_INIT(u32, kGlobalMask2_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 flag
 DEFINE_GLOBAL(u32, gFlags_67ACF8, 0x67ACF8); // BitSet32 flag
 DEFINE_GLOBAL(Fix16, dword_703A38, 0x703A38);
-
 
 EXTERN_GLOBAL(s32, window_width_706630);
 EXTERN_GLOBAL(s32, window_height_706B50);
@@ -111,7 +110,7 @@ Fix16_Point Sprite::get_x_y_443580()
 }
 
 MATCH_FUNC(0x451950)
-void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+void Sprite::set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     if (field_14_xy.x != xpos || field_14_xy.y != ypos || field_1C_zpos != zpos)
     {
@@ -815,10 +814,29 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* a1)
     return 0;
 }
 
-STUB_FUNC(0x5A0970)
-char_type Sprite::sub_5A0970(s32 a2, s32 a3, s32 a4)
+STUB_FUNC(0x4F76A0)
+EXPORT char_type __stdcall ComputeScanlineIntersectionX_4F76A0(Fix16* scanXMin, Fix16* scanXMax, Fix16* scanY, Fix16_Point* a4, Fix16_Point* a5)
 {
     NOT_IMPLEMENTED;
+    return 0;
+}
+
+MATCH_FUNC(0x5A0970)
+char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY)
+{
+    Fix16_Point* pBBox = field_C_sprite_4c_ptr->field_C_renderingRect;
+    if (ComputeScanlineIntersectionX_4F76A0(&scanXMin, &scanXMax, &scanY, &pBBox[0], &pBBox[1]) ||
+        ComputeScanlineIntersectionX_4F76A0(&scanXMin, &scanXMax, &scanY, &pBBox[1], &pBBox[2]) ||
+        ComputeScanlineIntersectionX_4F76A0(&scanXMin, &scanXMax, &scanY, &pBBox[2], &pBBox[3]) ||
+        ComputeScanlineIntersectionX_4F76A0(&scanXMin, &scanXMax, &scanY, &pBBox[3], &pBBox[0]))
+    {
+        gRozza_679188.field_0_type = 1;
+        gRozza_679188.field_4_mapx_t1 = scanXMin;
+        gRozza_679188.field_8 = scanXMax;
+        gRozza_679188.field_18_mapy_t1 = scanY;
+        gRozza_679188.field_20_pSprite = 0;
+        return 1;
+    }
     return 0;
 }
 

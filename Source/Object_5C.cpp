@@ -1512,7 +1512,7 @@ Object_5C::Object_5C()
     }
 
     field_58 = gSprite_Pool_703818->get_new_sprite();
-    field_58->sub_451950(0, 0, 0);
+    field_58->set_xyz_lazy_451950(0, 0, 0);
 
     field_58->set_ang_lazy_420690(kZeroAng_6F8F68);
     field_58->AllocInternal_59F950(0, 0, 0);

@@ -245,7 +245,7 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
 
     if objdiff_scratch:
         if target_func.mangled_name is None:
-            name_to_use = str(hex(target_func.og_address))
+            name_to_use = str(hex(target_func.address))
         else:
             name_to_use = target_func.mangled_name
         asm.append(f'"{name_to_use}":')

@@ -15,7 +15,7 @@ class Rozza_28
 
     s32 field_0_type;
     Fix16 field_4_mapx_t1;
-    s32 field_8; // prob Fix16
+    Fix16 field_8;
     Fix16 field_C_mapy_t2;
     s32 field_10; // prob Fix16
     Fix16 field_14_mapx_t2;
