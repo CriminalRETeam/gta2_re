@@ -1662,6 +1662,7 @@ void Sprite_18::sub_5A69E0()
     }
 }
 
+MATCH_FUNC(0x5A6910)
 bool Sprite_18::PoolUpdate_5A6910(Sprite* a2)
 {
     bool bRet;
