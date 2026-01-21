@@ -742,13 +742,7 @@ void Sprite::sub_59FA40()
         const Fix16 height = dword_6F6850.list[pSprite_index->field_5_height];
         const Fix16 width = dword_6F6850.list[pSprite_index->field_4_width];
 
-        if (width != field_4_0x4C_len->field_0_width || height != field_4_0x4C_len->field_4_height)
-        {
-            Sprite_4C* t = field_4_0x4C_len;
-            t->field_0_width = width;
-            t->field_4_height = height;
-            t->field_48_bBoxUpToDate = false;
-        }
+        field_4_0x4C_len->set_wh_4BA030(width, height);
     }
 }
 

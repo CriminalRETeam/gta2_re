@@ -57,7 +57,11 @@ class Char_B4
     s8 field_55;
     s8 field_56;
     s8 field_57;
-    CompilerBitField32 field_58_flags_bf;
+    union
+    {
+        u32 field_58_flags; // TODO: Only use CompilerBitField32
+        CompilerBitField32 field_58_flags_bf;
+    };
     u8 field_5C;
     s8 field_5D;
     s8 field_5E;
@@ -94,6 +98,11 @@ class Char_B4
     Fix16 field_A8_ypos;
     Fix16 field_AC_zpos;
     s32 field_B0;
+
+    inline void Set_F8_ped_state_1_433910(s32 a2)
+    {
+        field_8_ped_state_1 = a2;
+    }
 
     inline Ang16 get_rotation_433A40()
     {

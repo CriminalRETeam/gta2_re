@@ -17,6 +17,7 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
+#include "Weapon_30.hpp"
 
 DEFINE_GLOBAL(s8, byte_6FDB48, 0x6FDB48);
 DEFINE_GLOBAL(s8, byte_6FDB49, 0x6FDB49);
@@ -35,20 +36,26 @@ DEFINE_GLOBAL(u8, byte_6FDB55, 0x6FDB55);
 DEFINE_GLOBAL(u8, byte_6FDB58, 0x6FDB58);
 DEFINE_GLOBAL(u8, byte_6FDB59, 0x6FDB59);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD9E4, Fix16(0), 0x6FD9E4);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9E4, Fix16(0), 0x6FD9E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9F4, Fix16(65536, 0), 0x6FD9F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7A4, Fix16(0x1000, 0), 0x6FD7A4);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD7B0, dword_6FD9E4, 0x6FD7B0);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7C0, dword_6FD9E4, 0x6FD7C0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD7DC, dword_6FD9E4, 0x6FD7DC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD7B0, k_dword_6FD9E4, 0x6FD7B0);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7C0, k_dword_6FD9E4, 0x6FD7C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD7DC, k_dword_6FD9E4, 0x6FD7DC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD868, Fix16(256, 0), 0x6FD868);
 DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, dword_6FD9F4* dword_6FD868, 0x6FD7D0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B4, dword_6FD9E4, 0x6FD8B4);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B8, dword_6FD9E4, 0x6FD8B8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD8BC, dword_6FD9E4, 0x6FD8BC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B4, k_dword_6FD9E4, 0x6FD8B4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B8, k_dword_6FD9E4, 0x6FD8B8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD8BC, k_dword_6FD9E4, 0x6FD8BC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8D8, Fix16(0xCCC, 0), 0x6FD8D8);
 
 DEFINE_GLOBAL(Fix16, gCollisionRepulsionSpeed_6FD7BC, 0x6FD7BC);
+DEFINE_GLOBAL(Fix16, dword_6FDAE4, 0x6FDAE4);
+DEFINE_GLOBAL(Fix16, k_dword_6FD9EC, 0x6FD9EC);
+DEFINE_GLOBAL(Fix16, k_dword_6FD9E8, 0x6FD9E8);
+DEFINE_GLOBAL(Fix16, dword_6FD9A8, 0x6FD9A8);
+
+
 
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
@@ -70,14 +77,14 @@ EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
 MATCH_FUNC(0x544F70)
 void __stdcall sub_544F70()
 {
-    dword_6FD7F8 = dword_6FD9E4;
-    dword_6FD800 = dword_6FD9E4;
-    dword_6FD7FC = dword_6FD9E4;
-    dword_6FD7DC = dword_6FD9E4;
-    dword_6FD7B0 = dword_6FD9E4;
-    dword_6FD8B8 = dword_6FD9E4;
-    dword_6FD8BC = dword_6FD9E4;
-    dword_6FD8B4 = dword_6FD9E4;
+    dword_6FD7F8 = k_dword_6FD9E4;
+    dword_6FD800 = k_dword_6FD9E4;
+    dword_6FD7FC = k_dword_6FD9E4;
+    dword_6FD7DC = k_dword_6FD9E4;
+    dword_6FD7B0 = k_dword_6FD9E4;
+    dword_6FD8B8 = k_dword_6FD9E4;
+    dword_6FD8BC = k_dword_6FD9E4;
+    dword_6FD8B4 = k_dword_6FD9E4;
     byte_6FDB51 = 0;
     byte_6FDB52 = 0;
     byte_6FDB53 = 0;
@@ -86,8 +93,8 @@ void __stdcall sub_544F70()
     dword_623F44 = 1;
     byte_6FDB56 = 0;
     byte_623F48 = 1;
-    byte_6FDAD8 = dword_6FD9E4.ToUInt8();
-    byte_6FDAD9 = dword_6FD9E4.ToUInt8();
+    byte_6FDAD8 = k_dword_6FD9E4.ToUInt8();
+    byte_6FDAD9 = k_dword_6FD9E4.ToUInt8();
     byte_6FDB57 = 0;
     byte_6FDB58 = 0;
 }
@@ -133,21 +140,21 @@ Char_B4::Char_B4()
     field_6A = 0;
     field_84 = 0;
     field_88_obj_2c.sub_5A7010();
-    field_8C = dword_6FD9E4;
+    field_8C = k_dword_6FD9E4;
     field_58_flags_bf.b2 = 0;
     field_6C = 18;
     field_70 = 0;
     field_71 = 0;
-    field_90 = dword_6FD9E4;
-    field_94 = dword_6FD9E4;
+    field_90 = k_dword_6FD9E4;
+    field_94 = k_dword_6FD9E4;
     field_58_flags_bf.b1 = 0;
-    field_98.x = dword_6FD9E4;
-    field_98.y = dword_6FD9E4;
+    field_98.x = k_dword_6FD9E4;
+    field_98.y = k_dword_6FD9E4;
     field_58_flags_bf.b3 = 0;
     field_58_flags_bf.b5 = 0;
-    field_A4_xpos = dword_6FD9E4;
-    field_A8_ypos = dword_6FD9E4;
-    field_AC_zpos = dword_6FD9E4;
+    field_A4_xpos = k_dword_6FD9E4;
+    field_A8_ypos = k_dword_6FD9E4;
+    field_AC_zpos = k_dword_6FD9E4;
     field_4A = 0;
 }
 
@@ -203,26 +210,26 @@ void Char_B4::PoolAllocate()
     field_84 = 0;
     field_58_flags_bf.b0 = 0;
     field_88_obj_2c.sub_5A7010();
-    field_8C = dword_6FD9E4;
+    field_8C = k_dword_6FD9E4;
     field_58_flags_bf.b2 = 0;
     field_6C = 18;
     field_70 = 0;
     field_71 = 0;
-    field_90 = dword_6FD9E4;
-    field_94 = dword_6FD9E4;
+    field_90 = k_dword_6FD9E4;
+    field_94 = k_dword_6FD9E4;
     field_58_flags_bf.b1 = 0;
-    field_98.x = dword_6FD9E4;
-    field_98.y = dword_6FD9E4;
+    field_98.x = k_dword_6FD9E4;
+    field_98.y = k_dword_6FD9E4;
     field_58_flags_bf.b5 = 0;
     field_58_flags_bf.b3 = 0;
-    field_A4_xpos = dword_6FD9E4;
-    field_A8_ypos = dword_6FD9E4;
-    field_AC_zpos = dword_6FD9E4;
+    field_A4_xpos = k_dword_6FD9E4;
+    field_A8_ypos = k_dword_6FD9E4;
+    field_AC_zpos = k_dword_6FD9E4;
     field_58_flags_bf.b4 = 0;
-    field_4C = dword_6FD9E4;
-    field_50 = dword_6FD9E4;
-    field_72 = dword_6FD9E4.ToInt();
-    field_73 = dword_6FD9E4.ToInt();
+    field_4C = k_dword_6FD9E4;
+    field_50 = k_dword_6FD9E4;
+    field_72 = k_dword_6FD9E4.ToInt();
+    field_73 = k_dword_6FD9E4.ToInt();
     field_58_flags_bf.b6 = 0;
     field_58_flags_bf.b7 = 0;
     field_60 = 0;
@@ -353,7 +360,7 @@ void Char_B4::sub_5456A0()
 MATCH_FUNC(0x545700)
 bool Char_B4::IsOnScreen_545700()
 {
-    return gGame_0x40_67E008->sub_4B97E0(this->field_80_sprite_ptr, dword_6FD9E4) == 1;
+    return gGame_0x40_67E008->sub_4B97E0(this->field_80_sprite_ptr, k_dword_6FD9E4) == 1;
 }
 
 MATCH_FUNC(0x545720)
@@ -503,10 +510,1107 @@ void Char_B4::DrownPed_5459E0()
     }
 }
 
-STUB_FUNC(0x546360)
-void Char_B4::UpdateAnimState_546360()
+STUB_FUNC(0x4F79B0)
+EXPORT Fix16 __stdcall SnapZTo16_4F79B0(Fix16 a2)
 {
     NOT_IMPLEMENTED;
+    return 0;
+}
+
+// 9.6f 0x497DF0
+WIP_FUNC(0x546360)
+void Char_B4::UpdateAnimState_546360()
+{
+    WIP_IMPLEMENTED;
+
+    s32 newId_ = 0;
+    Ped* pPed = field_7C_pPed;
+    s32 v124 = 0;
+
+    field_70++;
+
+    Fix16 v129 = k_dword_6FD9E4;
+    Fix16 newx = k_dword_6FD9E4;
+    Fix16 newy = k_dword_6FD9E4;
+
+    s32 bUnknown = 0;
+    s32 baseId;
+
+    gmp_block_info* pBlock_;
+    s32 v19;
+    Car_Door_10* pDoor___;
+    Fix16 v44;
+    Fix16 pNewZ_;
+    Ped* pDriver;
+    Char_B4* pB4;
+    u8 remap_;
+    s32 v17;
+    s32 v111;
+    s32 v115;
+    Fix16 v109;
+    s32 bUnknown_1;
+    s32 newId;
+    Fix16 v102;
+    Fix16 pNewZ;
+    Car_Door_10* pDoor__;
+    Car_Door_10* pDoor;
+
+    // Note: was if/else
+    switch (pPed->field_26C_graphic_type)
+    {
+        case 0:
+            baseId = 0;
+            break;
+
+        case 2:
+            baseId = 316;
+            break;
+
+        case 1:
+        default:
+            baseId = 158;
+            break;
+    }
+
+    /*
+    if (pPed->field_26C_graphic_type == 0)
+    {
+        baseId = 0;
+    }
+    else if (pPed->field_26C_graphic_type == 2)
+    {
+        baseId = 316;
+    }
+    else
+    {
+        baseId = 158;
+    }*/
+
+    char_type remap = pPed->field_244_remap;
+    if (remap <= -1)
+    {
+        field_80_sprite_ptr->field_34 = 2;
+    }
+    else
+    {
+        field_80_sprite_ptr->SetRemap((u8)remap);
+    }
+
+    Player* pPlayer = pPed->field_15C_player;
+    if (!pPlayer || field_C_ped_state_2 == 19)
+    {
+        Weapon_30* pWeapon = pPed->field_170_selected_weapon;
+        if (pWeapon)
+        {
+            if ((pPed->field_21C & 0x800) != 0)
+            {
+                if (pWeapon->field_1C_idx == weapon_type::molotov || pWeapon->field_1C_idx == weapon_type::grenade)
+                {
+                    field_6C = 4;
+                    bUnknown = 1;
+                }
+            }
+        }
+    }
+    else
+    {
+        Weapon_30* pWeapon = pPed->field_170_selected_weapon;
+        if (pWeapon)
+        {
+            if (pWeapon->field_1C_idx == weapon_type::molotov || pWeapon->field_1C_idx == weapon_type::grenade)
+            {
+                bUnknown = 1;
+            }
+
+            if ((pPed->field_21C & 0x800) != 0)
+            {
+                //flags = pPed->field_21C;
+                //if ((BYTE1(flags) & 8) != 0)
+                if ((pPed->field_21C & 0x800) != 0)
+                {
+                    if (pWeapon->field_1C_idx == weapon_type::molotov || pWeapon->field_1C_idx == weapon_type::grenade)
+                    {
+                        pPed->field_21C &= ~0x800;
+                        //BYTE1(flags) &= ~8u;
+                        //pPed->field_21C = flags;
+                    }
+                }
+            }
+            else
+            {
+                if ((pWeapon->field_1C_idx == weapon_type::molotov || pWeapon->field_1C_idx == weapon_type::grenade) &&
+                    pPlayer->field_8D_bWasAttackPressed)
+                {
+                    field_6C = 4;
+                    field_68 = 0;
+                }
+            }
+        }
+    }
+
+    switch (field_6C)
+    {
+        case 0:
+            if (field_70 > 2u)
+            {
+                field_68++;
+                if ((u8)field_68 > 7u)
+                {
+                    field_68 = 0;
+                }
+                field_70 = 0;
+            }
+
+            v17 = 37;
+            if (!field_7C_pPed->field_170_selected_weapon || bUnknown)
+            {
+                v17 = 0;
+            }
+
+            if (field_10)
+            {
+                newId_ = v17 + baseId + (u8)field_68;
+            }
+            else
+            {
+                if (field_68 > 5u)
+                {
+                    field_68 = 0;
+                }
+                newId_ = (u8)field_68 + baseId + 143;
+            }
+            goto LABEL_277;
+
+        case 1:
+            if (field_70 > 1u)
+            {
+                field_68++;
+                if (field_68 > 7u)
+                {
+                    field_68 = 0;
+                }
+                field_70 = 0;
+            }
+
+            v19 = 37;
+            if (!field_7C_pPed->field_170_selected_weapon || bUnknown)
+            {
+                v19 = 0;
+            }
+
+            if (field_10)
+            {
+                newId_ = (u8)field_68 + v19 + baseId + 8;
+            }
+            else
+            {
+                if (field_68 > 5u)
+                {
+                    field_68 = 0;
+                }
+                newId_ = (u8)field_68 + baseId + 135;
+            }
+            goto LABEL_277;
+
+        case 2:
+            if ((field_7C_pPed->field_21C & 0x800) == 0x800)
+            {
+                goto LABEL_55;
+            }
+
+            s32 v21;
+            if (field_10 == 35)
+            {
+                s32 f70_limit;
+                if (field_68 == 5)
+                {
+                    f70_limit = 40;
+                    if (field_70 == 1)
+                    {
+                        gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(field_80_sprite_ptr, 1);
+                    }
+                }
+                else
+                {
+                    f70_limit = 3;
+                }
+
+                v21 = 4;
+                if ((u32)field_70 > f70_limit)
+                {
+                    field_68++;
+                    if ((u8)field_68 > 7u)
+                    {
+                        field_68 = 0;
+                        field_10 = 7;
+                    }
+                    field_70 = 0;
+                }
+            }
+            else
+            {
+                if (field_70 > 8u)
+                {
+                    field_68++;
+                    if ((u8)field_68 > 3u)
+                    {
+                        field_68 = 0;
+                    }
+                    field_70 = 0;
+                }
+                v21 = 0;
+            }
+            newId_ = (u8)field_68 + v21 + baseId + 53;
+            goto LABEL_277;
+
+        case 3:
+        LABEL_55:
+            newId_ = baseId + 139;
+            goto LABEL_277;
+
+        case 4:
+            if (field_38_velocity <= k_dword_6FD7C0)
+            {
+                if ((u8)field_70 > 2u)
+                {
+                    field_68++;
+                    if ((u8)field_68 > 7u)
+                    {
+                        field_68 = 0;
+                    }
+                    field_70 = 0;
+                }
+                newId_ = (u8)field_68 + baseId + 115;
+            }
+            else
+            {
+                if ((u8)field_70 > 2u)
+                {
+                    field_68++;
+                    if (field_68 > 7u)
+                    {
+                        field_68 = 0;
+                    }
+                    field_70 = 0;
+                }
+                newId_ = (u8)field_68 + baseId + 123;
+            }
+            goto LABEL_277;
+
+        case 5:
+            if (field_7C_pPed->field_15C_player)
+            {
+                field_71 = 2;
+            }
+            else
+            {
+                field_71 = 1;
+            }
+
+            switch (field_68)
+            {
+                case 0:
+                    field_54 = 0;
+                    dword_6FD7FC += dword_6FDAE4;
+                    dword_6FD7FC = SnapZTo16_4F79B0(dword_6FD7FC);
+                    if ((this->field_58_flags & 1) == 0)
+                    {
+                        goto LABEL_226;
+                    }
+                    goto LABEL_225;
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    dword_6FD7FC += dword_6FDAE4;
+                    dword_6FD7FC = SnapZTo16_4F79B0(dword_6FD7FC);
+                    if ((this->field_58_flags & 1) != 0)
+                    {
+                    LABEL_225:
+                        byte_6FDB54 = 0;
+                    }
+                    goto LABEL_226;
+                case 5:
+                    this->field_71 = 3;
+                    this->field_54 = 12;
+                    goto LABEL_227;
+                case 6:
+                case 7:
+                    v129 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&v129,
+                                                                                this->field_80_sprite_ptr->field_14_xy.x,
+                                                                                this->field_80_sprite_ptr->field_14_xy.y);
+                    gMap_0x370_6F6268->UpdateZFromSlopeAtCoord_4E5BF0(field_80_sprite_ptr->field_14_xy.x,
+                                                                      field_80_sprite_ptr->field_14_xy.y,
+                                                                      v129);
+                    v109 = (this->field_80_sprite_ptr->field_1C_zpos - v129) / k_dword_6FD9EC;
+                    if (v109 <= k_dword_6FD9E4)
+                    {
+                        dword_6FD7FC = v129;
+                    }
+                    else
+                    {
+                        dword_6FD7FC -= v109;
+                        dword_6FD7FC = SnapZTo16_4F79B0(dword_6FD7FC);
+                    LABEL_226:
+                        Char_B4::sub_548590();
+                    }
+
+                LABEL_227:
+                    field_54++;
+                    v111 = field_68 + baseId + 16;
+                    if (field_70 > (u32)field_71)
+                    {
+                        field_70 = 0;
+                        field_68++;
+                    }
+
+                    field_80_sprite_ptr->set_id_lazy_4206C0(197);
+                    field_80_sprite_ptr->set_id_lazy_4206C0(v111);
+
+                    if (field_54 < 0xCu)
+                    {
+                        v115 = field_54;
+                    LABEL_235:
+                        field_80_sprite_ptr->sub_59E4C0((k_dword_6FD9E8 + ((dword_6FD9A8 * v115))).ToInt(), 0);
+                        return;
+                    }
+                    if (field_54 < 24)
+                    {
+                        v115 = 25 - (u8)this->field_54;
+                        goto LABEL_235;
+                    }
+                    break;
+
+                case 8:
+                    this->field_10 = 1;
+                    this->field_6C = 2;
+                    this->field_68 = 0;
+                    newId = baseId + 23;
+                    v129 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&v129,
+                                                                          this->field_80_sprite_ptr->field_14_xy.x,
+                                                                          this->field_80_sprite_ptr->field_14_xy.y);
+                    gMap_0x370_6F6268->UpdateZFromSlopeAtCoord_4E5BF0(field_80_sprite_ptr->field_14_xy.x,
+                                                                      field_80_sprite_ptr->field_14_xy.y,
+                                                                      v129);
+                    v102 = this->field_80_sprite_ptr->field_1C_zpos - v129;
+                    if (v102 <= k_dword_6FD9E4)
+                    {
+                        dword_6FD7FC = v129;
+                    }
+                    else
+                    {
+                        dword_6FD7FC -= v102;
+                        dword_6FD7FC = SnapZTo16_4F79B0(dword_6FD7FC);
+                        Char_B4::sub_548590();
+                    }
+
+                    if (field_80_sprite_ptr->field_1C_zpos < field_8C)
+                    {
+                        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x, newy, field_8C); // ypos ??
+                    }
+
+                    field_80_sprite_ptr->set_id_lazy_4206C0(newId);
+                    return;
+
+                default:
+                    goto LABEL_227;
+            }
+            return;
+
+        case 6:
+        case 9:
+            field_84->field_76 = 0;
+            if ((u8)field_68 > 12u)
+            {
+                goto LABEL_125;
+            }
+            break;
+
+        case 7:
+            field_84->field_76 = 0;
+            switch (field_68)
+            {
+                case 0u:
+                    if ((this->field_58_flags & 0x10) != 0)
+                    {
+                        Car_Door_10* pDoor = field_84->GetDoor(field_7C_pPed->field_24C_target_car_door);
+                        pDoor->sub_439E60();
+                        newId_ = baseId + (u8)this->field_68;
+                        v124 = 0;
+                        CarDoorAlignmentSolver_545AF0(0,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                    }
+                    else
+                    {
+                        CarDoorAlignmentSolver_545AF0(7,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                        v124 = 3;
+                        this->field_80_sprite_ptr->field_28_num = 9;
+                        newId_ = baseId + 36;
+                    }
+                    goto LABEL_162;
+
+                case 1u:
+                    if ((this->field_58_flags & 0x10) != 0)
+                    {
+                        newId_ = baseId + field_68;
+                        v124 = 0;
+                        CarDoorAlignmentSolver_545AF0(1,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                    }
+                    else
+                    {
+                        CarDoorAlignmentSolver_545AF0(6,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                        v124 = 3;
+                        this->field_80_sprite_ptr->field_28_num = 9;
+                        newId_ = baseId + 35;
+                    }
+                    goto LABEL_162;
+
+                case 2u:
+                    if ((this->field_58_flags & 0x10) != 0)
+                    {
+                        newId_ = baseId + field_68;
+                        v124 = 0;
+                        CarDoorAlignmentSolver_545AF0(2,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                    }
+                    else
+                    {
+                        CarDoorAlignmentSolver_545AF0(5,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                        v124 = 3;
+                        this->field_80_sprite_ptr->field_28_num = 9;
+                        newId_ = baseId + 34;
+                    }
+                    goto LABEL_162;
+
+                case 3u:
+                    if ((this->field_58_flags & 0x10) != 0)
+                    {
+                        newId_ = baseId + field_68;
+                        v124 = 0;
+                        CarDoorAlignmentSolver_545AF0(3,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                    }
+                    else
+                    {
+                        CarDoorAlignmentSolver_545AF0(4,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                        v124 = 3;
+                        this->field_80_sprite_ptr->field_28_num = 9;
+                        newId_ = baseId + 33;
+                    }
+                    goto LABEL_162;
+
+                case 4u:
+                    if ((this->field_58_flags & 0x10) != 0)
+                    {
+                        newId_ = baseId + field_68;
+                        v124 = 0;
+                        CarDoorAlignmentSolver_545AF0(4,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                        goto LABEL_162;
+                    }
+                    CarDoorAlignmentSolver_545AF0(0, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+                    goto LABEL_191;
+
+                case 5u:
+                    if ((this->field_58_flags & 0x10) != 0)
+                    {
+                        newId_ = baseId + field_68;
+                        v124 = 0;
+                        CarDoorAlignmentSolver_545AF0(5,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                    }
+                    else
+                    {
+                        CarDoorAlignmentSolver_545AF0(1,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                        v124 = 1;
+                        this->field_80_sprite_ptr->field_28_num = 23;
+                        newId_ = (u8)this->field_68 + baseId + 24;
+                    }
+                    goto LABEL_162;
+                case 6u:
+                    if ((this->field_58_flags & 0x10) != 0)
+                    {
+                        newId_ = baseId + field_68;
+                        v124 = 0;
+                        CarDoorAlignmentSolver_545AF0(6,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                    }
+                    else
+                    {
+                        CarDoorAlignmentSolver_545AF0(2,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                        v124 = 1;
+                        this->field_80_sprite_ptr->field_28_num = 23;
+                        newId_ = (u8)this->field_68 + baseId + 24;
+                    }
+                    goto LABEL_162;
+                case 7u:
+                    if ((this->field_58_flags & 0x10) != 0)
+                    {
+                        newId_ = baseId + field_68;
+                        v124 = 0;
+                        CarDoorAlignmentSolver_545AF0(7,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                    }
+                    else
+                    {
+                        CarDoorAlignmentSolver_545AF0(3,
+                                                      field_84,
+                                                      field_7C_pPed->field_24C_target_car_door,
+                                                      newx,
+                                                      newy,
+                                                      field_40_rotation);
+                    LABEL_191:
+                        v124 = 1;
+                        this->field_80_sprite_ptr->field_28_num = 23;
+                        newId_ = (u8)this->field_68 + baseId + 24;
+                    }
+                LABEL_162:
+                    pNewZ = *gMap_0x370_6F6268->sub_4E4E50(&pNewZ, newx, newy, field_84->field_50_car_sprite->field_1C_zpos);
+
+                    field_80_sprite_ptr->set_xyz_lazy_420600(newx, newy, pNewZ);
+
+                    if (field_70 > v124)
+                    {
+                        goto LABEL_167;
+                    }
+
+                    if (field_70 == 1 && !this->field_68)
+                    {
+                        Car_Door_10* pDoor_ = field_84->GetDoor(field_7C_pPed->field_24C_target_car_door);
+                        if ((this->field_58_flags & 0x10) == 0)
+                        {
+                            goto LABEL_139;
+                        }
+                    }
+                    goto LABEL_277;
+
+                case 8u:
+                    field_80_sprite_ptr->field_28_num = 23;
+                    field_7C_pPed->sub_45C540(0);
+                    field_7C_pPed->sub_45C500(0);
+                    this->field_C_ped_state_2 = 0;
+                    this->field_8_ped_state_1 = 0;
+                    pDoor__ = field_84->GetDoor(field_7C_pPed->field_24C_target_car_door);
+                    if ((this->field_58_flags & 0x10) == 0)
+                    {
+                        pDoor__->sub_439EA0();
+                    }
+
+                    pDoor__->field_8_pObj = 0;
+
+                    if (Char_B4::IsOnWater_545570())
+                    {
+                        field_7C_pPed->PutOutFire();
+                        Char_B4::DrownPed_5459E0();
+                    }
+                    else
+                    {
+                        gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(this->field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                                                     this->field_80_sprite_ptr->field_14_xy.y.ToInt(),
+                                                                                     (this->field_80_sprite_ptr->field_1C_zpos.ToInt()) - 1);
+                        if (pBlock && ((pBlock->field_B_slope_type & 0xFC) != 0) && (pBlock->field_B_slope_type & 0xFCu) < 0xB4 &&
+                            (pBlock->field_B_slope_type & 3) != 0)
+                        {
+                            byte_6FDB54 = 1;
+                            Char_B4::sub_548590();
+                        }
+                        else
+                        {
+                            byte_6FDB54 = 0;
+                            Char_B4::sub_548590();
+                        }
+                    }
+                    return;
+                default:
+                    goto LABEL_162;
+            }
+
+        case 8:
+            field_84->field_76 = 0;
+
+            // Note: was if/else
+            switch (field_68)
+            {
+                case 0: // and default?
+                    CarDoorAlignmentSolver_545AF0(4, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+                    break;
+
+                case 1:
+                    CarDoorAlignmentSolver_545AF0(2, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+                    break;
+
+                case 2:
+                    CarDoorAlignmentSolver_545AF0(99, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+                    break;
+            }
+
+            field_80_sprite_ptr->set_xyz_lazy_420600(newx, newy, field_84->field_50_car_sprite->field_1C_zpos);
+
+            this->field_80_sprite_ptr->field_28_num = 6;
+
+            pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                                          field_80_sprite_ptr->field_14_xy.y.ToInt(),
+                                                                          field_80_sprite_ptr->field_1C_zpos.ToInt() - 1);
+            bUnknown_1 = 0;
+            if (pBlock_)
+            {
+                if ((pBlock_->field_B_slope_type & 0xFC) != 0 && (pBlock_->field_B_slope_type & 0xFCu) < 0xB4 &&
+                    (pBlock_->field_B_slope_type & 3) != 0)
+                {
+                    bUnknown_1 = 1;
+                }
+            }
+            byte_6FDB54 = bUnknown_1;
+            Char_B4::sub_548590();
+            if (field_70 > 2u)
+            {
+                field_70 = 0;
+                field_68 = field_68 + 1;
+            }
+            newId_ = baseId + 36;
+            goto LABEL_277;
+
+        case 10:
+            newId_ = baseId + 72;
+            goto LABEL_277;
+
+        case 11:
+        case 12:
+            field_71 = 1;
+            switch (field_68)
+            {
+                case 0u:
+                case 1u:
+                case 2u:
+                case 3u:
+                case 4u:
+                case 5u:
+                case 6u:
+                case 7u:
+                case 8u:
+                case 9u:
+                    goto LABEL_240;
+                case 0xAu:
+                case 0xBu:
+                case 0xCu:
+                case 0xDu:
+                    field_7C_pPed->TakeDamage(4);
+                LABEL_240:
+                    newId_ = field_68 + baseId + 81;
+                    break;
+                case 0xEu:
+                case 0xFu:
+                case 0x10u:
+                    field_6C = 12;
+                    newId_ = field_68 + baseId + 81;
+                    break;
+                default:
+                    break;
+            }
+
+            if (field_70 > (u32)field_71)
+            {
+                if (field_68 < 16u)
+                {
+                    field_68++;
+                }
+                field_70 = 0;
+            }
+            goto LABEL_277;
+
+        case 13:
+            newId_ = baseId + 72;
+            goto LABEL_277;
+
+        case 14:
+            newId_ = baseId + 80;
+            goto LABEL_277;
+
+        case 15:
+            if ((u32)this->field_70 > (u8)(4 - (field_68 > 5u)))
+            {
+                field_68++;
+                if (field_68 > 7u)
+                {
+                    s16 max_rng = 2;
+                    s32 rng_val = stru_6F6784.get_int_4F7AE0((s16*)&max_rng);
+                    // NOTE: was if else
+                    switch (rng_val)
+                    {
+                        case 0:
+                            field_6C = 19;
+                            break;
+
+                        case 1:
+                            field_6C = 13;
+                            break;
+                    }
+                    field_68 = 7;
+                }
+            }
+            newId_ = (u8)field_68 + baseId + 65;
+            goto LABEL_277;
+
+        case 16:
+            if ((u32)field_70 > (u8)(4 - (field_68 > 5u)))
+            {
+                field_68++;
+                if (field_68 > 7u)
+                {
+                    s16 max_rng_ = 3;
+                    s32 rng_val_ = stru_6F6784.get_int_4F7AE0((s16*)&max_rng_);
+                    // NOTE: Was if else
+                    switch (rng_val_)
+                    {
+                        case 0:
+                            field_6C = 14;
+                            break;
+
+                        case 1:
+                            field_6C = 19;
+                            break;
+
+                        case 2:
+                            field_6C = 20;
+                            break;
+                    }
+                    field_68 = 7;
+                }
+            }
+            newId_ = (u8)field_68 + baseId + 73;
+            goto LABEL_277;
+
+        case 17:
+            if (field_70 > 3u)
+            {
+                field_68++;
+                if ((u8)field_68 > 4u)
+                {
+                    field_68 = 0;
+                }
+                field_70 = 0;
+            }
+
+            if (field_68)
+            {
+                field_80_sprite_ptr->field_34 = 2;
+            }
+            field_80_sprite_ptr->field_28_num = 6;
+            newId_ = (u8)field_68 + baseId + 151;
+            goto LABEL_277;
+        case 19:
+            newId_ = baseId + 156;
+            goto LABEL_277;
+        case 20:
+            newId_ = baseId + 157;
+            goto LABEL_277;
+        case 21:
+            newId_ = baseId + 155;
+            goto LABEL_277;
+        default:
+            goto LABEL_277;
+    }
+
+    switch (field_68)
+    {
+        case 0:
+            pDoor___ = field_84->GetDoor(field_7C_pPed->field_24C_target_car_door);
+            if ((this->field_58_flags & 0x10) != 0)
+            {
+                v124 = 1;
+                pDoor___->sub_439E60();
+                newId_ = baseId + (u8)field_68;
+                CarDoorAlignmentSolver_545AF0(7, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+            }
+            else
+            {
+                if (field_70 == 1)
+                {
+                    if (pDoor___->field_4_state)
+                    {
+                        if (pDoor___->field_4_state != 6)
+                        {
+                            field_68 = 4;
+                            field_71 = 0;
+                        }
+                    }
+                }
+                CarDoorAlignmentSolver_545AF0(field_68,
+                                              field_84,
+                                              field_7C_pPed->field_24C_target_car_door,
+                                              newx,
+                                              newy,
+                                              field_40_rotation);
+                v124 = 5;
+                newId_ = (u8)field_68 + baseId + 24;
+            }
+            goto LABEL_125;
+
+        case 1:
+        case 2:
+        case 3:
+            if ((this->field_58_flags & 0x10) != 0)
+            {
+                v124 = 1;
+                CarDoorAlignmentSolver_545AF0(7 - field_6C,
+                                              field_84,
+                                              field_7C_pPed->field_24C_target_car_door,
+                                              newx,
+                                              newy,
+                                              field_40_rotation);
+                field_80_sprite_ptr->field_28_num = 9;
+                newId_ = baseId + (u8)field_68;
+            }
+            else
+            {
+                CarDoorAlignmentSolver_545AF0(field_6C,
+                                              field_84,
+                                              field_7C_pPed->field_24C_target_car_door,
+                                              newx,
+                                              newy,
+                                              field_40_rotation);
+                v124 = 3;
+                newId_ = (u8)field_68 + baseId + 24;
+            }
+            goto LABEL_125;
+
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+            if ((this->field_58_flags & 0x10) != 0)
+            {
+                v124 = 1;
+                CarDoorAlignmentSolver_545AF0(7 - field_6C,
+                                              field_84,
+                                              field_7C_pPed->field_24C_target_car_door,
+                                              newx,
+                                              newy,
+                                              field_40_rotation);
+                newId_ = baseId + (u8)field_68;
+                field_80_sprite_ptr->field_28_num = 9;
+            }
+            else
+            {
+                CarDoorAlignmentSolver_545AF0(field_6C,
+                                              field_84,
+                                              field_7C_pPed->field_24C_target_car_door,
+                                              newx,
+                                              newy,
+                                              field_40_rotation);
+                v124 = 1;
+                field_80_sprite_ptr->field_28_num = 9;
+                newId_ = (u8)field_68 + baseId + 28;
+            }
+            goto LABEL_125;
+
+        case 8:
+            CarDoorAlignmentSolver_545AF0(field_6C, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+            field_80_sprite_ptr->field_28_num = 9;
+            field_7C_pPed->sub_45C540(10);
+            field_7C_pPed->sub_45C500(10);
+            field_C_ped_state_2 = 10;
+            field_8_ped_state_1 = 10;
+            return;
+
+        case 9:
+            pDriver = field_84->field_54_driver;
+            v124 = 2;
+            newId_ = (u8)field_6C + baseId + 19;
+
+            if (!pDriver)
+            {
+                goto LABEL_123;
+            }
+
+            if (pDriver->field_240_occupation == ped_ocupation_enum::unknown_2)
+            {
+                pDriver = gPedManager_6787BC->sub_470D60();
+                if (field_84->field_84_car_info_idx == car_model_enum::apc || field_84->field_84_car_info_idx == car_model_enum::JEEP ||
+                    field_84->field_84_car_info_idx == car_model_enum::TANK)
+                {
+                    pDriver->field_26C_graphic_type = 2;
+                    pDriver->field_244_remap = 4;
+                }
+                goto LABEL_114;
+            }
+
+            if (pDriver->field_240_occupation == ped_ocupation_enum::driver)
+            {
+                pDriver->field_240_occupation = ped_ocupation_enum::driver_2;
+                pDriver->field_140 = field_84;
+                pDriver->field_180 = field_7C_pPed;
+                goto LABEL_115;
+            }
+
+            if (pDriver->field_240_occupation != ped_ocupation_enum::police)
+            {
+                if (pDriver->field_17C_pZone)
+                {
+                    pDriver->sub_463830(20, 9999);
+                    pDriver->field_14C = field_7C_pPed;
+                }
+            LABEL_114:
+                pDriver->field_140 = field_84;
+                pDriver->field_180 = field_7C_pPed;
+                goto LABEL_115;
+            }
+
+            if (field_7C_pPed->field_20A_wanted_points < 600)
+            {
+                gPolice_7B8_6FEE40->sub_56F940(field_7C_pPed);
+                field_7C_pPed->field_20A_wanted_points = 600;
+            }
+
+            gPolice_7B8_6FEE40->sub_5708C0(field_7C_pPed);
+            if (pDriver->field_258_objective == objectives_enum::objective_43)
+            {
+                gPolice_7B8_6FEE40->sub_5707B0(pDriver->field_16C_car, this->field_7C_pPed);
+            }
+
+            pDriver->SetObjective(objectives_enum::no_obj_0, 9999);
+
+        LABEL_115:
+            if (field_7C_pPed->field_25C_car_state == 35 && field_7C_pPed->field_226 == 1)
+            {
+                field_7C_pPed->field_226 = 0;
+            }
+            pDriver->sub_45C500(8);
+            pDriver->sub_45C540(17);
+            field_84->ClearDriver_4407F0();
+            CarDoorAlignmentSolver_545AF0(8, field_84, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
+            v44 = *gMap_0x370_6F6268->sub_4E4E50(&v44, newx, newy, field_84->field_50_car_sprite->field_1C_zpos);
+            pDriver->AllocCharB4_45C830(newx, newy, v44);
+            pDriver->field_168_game_object->set_rotation_433A30(field_84->field_50_car_sprite->field_0);
+            pDriver->field_168_game_object->Set_F8_ped_state_1_433910(8);
+            pDriver->field_24C_target_car_door = field_7C_pPed->get_target_car_door_403A60();
+            pDriver->field_168_game_object->field_C_ped_state_2 = 17;
+            pDriver->field_168_game_object->field_84 = field_84;
+            pDriver->field_168_game_object->field_80_sprite_ptr->field_28_num = 6;
+
+            pB4 = pDriver->field_168_game_object;
+            remap_ = pDriver->get_remap_433BA0();
+            pDriver->SetRemap_433C10(remap_);
+            pDriver->field_16C_car = 0;
+
+            pDriver->Set_B4_F16_To_1_433B50();
+            if (!pDriver->is_player_41B0A0())
+            {
+                pDriver->Set_F250_IfBit_433DD0(12);
+            }
+
+        LABEL_123:
+            CarDoorAlignmentSolver_545AF0(field_68,
+                                          field_84,
+                                          field_7C_pPed->get_target_car_door_403A60(),
+                                          newx,
+                                          newy,
+                                          field_40_rotation);
+
+        LABEL_125:
+            pNewZ_ = *gMap_0x370_6F6268->sub_4E4E50(&pNewZ_, newx, newy, field_84->field_50_car_sprite->field_1C_zpos);
+            field_80_sprite_ptr->set_xyz_lazy_420600(newx, newy, pNewZ_);
+
+            if ((this->field_58_flags & 0x10) != 0)
+            {
+                field_40_rotation = field_40_rotation + word_6FD936;
+            }
+
+            if (field_70 > v124)
+            {
+            LABEL_167:
+                field_70 = 0;
+                field_68 = field_68 + 1;
+                if (field_68 == 12)
+                {
+                    field_68 = 4;
+                }
+            }
+            else if (field_70 == 5 && !field_68)
+            {
+                pDoor = field_84->GetDoor(field_7C_pPed->field_24C_target_car_door);
+                if ((this->field_58_flags & 0x10) == 0)
+                {
+                LABEL_139:
+                    pDoor->sub_439E60();
+                    pDoor->field_8_pObj = field_7C_pPed;
+                }
+            }
+        LABEL_277:
+            field_80_sprite_ptr->set_id_lazy_4206C0(newId_);
+            return;
+
+        case 10:
+        case 11:
+        case 12:
+            CarDoorAlignmentSolver_545AF0(field_6C, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+            v124 = 2;
+            newId_ = (u8)field_68 + baseId + 19;
+            goto LABEL_125;
+    }
 }
 
 STUB_FUNC(0x548590)
