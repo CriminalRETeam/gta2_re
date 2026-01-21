@@ -32,11 +32,11 @@ void ErrorLog::sub_4D9470(const char_type* path, s32 a3)
     switch (a3)
     {
         case 1:
-            mode = ios::trunc; // 16
+            mode = 16; //ios::trunc; // 16
             break;
 
         default:
-            mode = ios::app; // 8
+            mode = 8; //ios::app; // 8
             break;
     }
 
