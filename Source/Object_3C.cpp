@@ -406,11 +406,54 @@ Sprite* struct_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
     return 0;
 }
 
-// https://decomp.me/scratch/PB56K
-STUB_FUNC(0x5a6f70)
-void struct_4::PoolUpdate_5A6F70(Sprite* pSprite)
+MATCH_FUNC(0x5a6f70)
+void struct_4::PoolUpdate_5A6F70(Sprite* a2)
 {
-    NOT_IMPLEMENTED;
+    // TODO: Pretty much an exact match of UpdatePoolNoDeallocate but this one passes an extra
+    // argument to PoolUpdate, probably DeAllocate was inlined - need to try to consolidate and refactor
+    // all of these.
+    // 9.6f 0x4BEF70
+    Sprite_18* pPreviousItem = 0;
+    Sprite_18* pCurrItem = field_0_p18;
+    while (pCurrItem)
+    {
+        Sprite_18* pNext = pCurrItem->mpNext;
+        if (pCurrItem->PoolUpdate_5A6910(a2))
+        {
+            if (pPreviousItem && pPreviousItem->mpNext != pCurrItem)
+            {
+                pPreviousItem = 0;
+            }
+
+            if (pPreviousItem)
+            {
+                pPreviousItem->mpNext = pCurrItem->mpNext;
+            }
+            else
+            {
+                if (field_0_p18 == pCurrItem)
+                {
+                    field_0_p18 = pCurrItem->mpNext;
+                }
+                else
+                {
+                    pPreviousItem = field_0_p18;
+                    while (pPreviousItem->mpNext != pCurrItem)
+                    {
+                        pPreviousItem = pPreviousItem->mpNext;
+                    }
+                    pPreviousItem->mpNext = pCurrItem->mpNext;
+                }
+            }
+            gSprite_18_Pool_703B80->DeAllocate(pCurrItem);
+        }
+        else
+        {
+            pPreviousItem = pCurrItem;
+        }
+
+        pCurrItem = pNext;
+    }
 }
 
 MATCH_FUNC(0x5a7010)
