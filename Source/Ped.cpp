@@ -868,10 +868,8 @@ void Ped::TakeDamage(s16 damage)
 MATCH_FUNC(0x45cf20)
 void Ped::sub_45CF20(Object_2C* a2)
 {
-    if (field_278_ped_state != ped_state_1::dead_9 
-        && field_278_ped_state != ped_state_1::immobilized_8 
-        && a2->field_18_model == 258 
-        && word_6787D0 < 10)
+    if (field_278_ped_state != ped_state_1::dead_9 && field_278_ped_state != ped_state_1::immobilized_8 && a2->field_18_model == 258 &&
+        word_6787D0 < 10)
     {
         sub_45E4A0();
     }
@@ -1559,7 +1557,8 @@ void Ped::sub_462280()
         }
         if (field_238 != 2)
         {
-            if (field_258_objective != objectives_enum::flee_char_on_foot_always_3 && field_258_objective != objectives_enum::flee_char_always_once_car_stopped_6)
+            if (field_258_objective != objectives_enum::flee_char_on_foot_always_3 &&
+                field_258_objective != objectives_enum::flee_char_always_once_car_stopped_6)
             {
                 if (field_25C_car_state != 3 && field_25C_car_state != 7)
                 {
@@ -1587,7 +1586,8 @@ void Ped::sub_462280()
 
     if (field_218_objective_timer != 9999)
     {
-        if (field_258_objective != objectives_enum::time_waited_in_car_31 && field_258_objective != objectives_enum::goto_area_any_means_13 &&
+        if (field_258_objective != objectives_enum::time_waited_in_car_31 &&
+            field_258_objective != objectives_enum::goto_area_any_means_13 &&
             field_258_objective != objectives_enum::kill_char_any_means_19 && field_258_objective != objectives_enum::goto_area_in_car_14)
         {
             if (field_218_objective_timer > 0)
@@ -2085,7 +2085,12 @@ void Ped::ProcessOnFootObjective_463AA0()
             }
             else
             {
-                CarDoorAlignmentSolver_545AF0(0, field_150_target_objective_car, field_24C_target_car_door, field_1B8_target_x, field_1BC_target_y, angle);
+                CarDoorAlignmentSolver_545AF0(0,
+                                              field_150_target_objective_car,
+                                              field_24C_target_car_door,
+                                              field_1B8_target_x,
+                                              field_1BC_target_y,
+                                              angle);
                 field_1C0_target_z = field_150_target_objective_car->field_50_car_sprite->field_1C_zpos;
             }
         }
@@ -2469,7 +2474,7 @@ void Ped::Threat_Reaction_AI_465270()
                         ++this->field_20C;
                     }
 
-                    LABEL_137:
+                LABEL_137:
                     //v43 = this->field_288_threat_search;
 
                     if ((field_288_threat_search == threat_search_enum::line_of_sight_1 ||
@@ -3819,7 +3824,8 @@ void Ped::sub_469FE0()
 MATCH_FUNC(0x46a1f0)
 void Ped::sub_46A1F0()
 {
-    if (field_148_objective_target_ped->field_21C_bf.b0 == false || field_148_objective_target_ped->field_278_ped_state == ped_state_1::dead_9)
+    if (field_148_objective_target_ped->field_21C_bf.b0 == false ||
+        field_148_objective_target_ped->field_278_ped_state == ped_state_1::dead_9)
     {
         field_225_objective_status = objective_status::failed_2;
     }
@@ -4187,9 +4193,8 @@ void Ped::sub_46C770()
 {
     if (field_278_ped_state != ped_state_1::immobilized_8)
     {
-        if (field_168_game_object->field_44 == 2 
-            || field_258_objective == objectives_enum::enter_car_as_driver_35 
-            || gDistanceToTarget_678750 < dword_678790)
+        if (field_168_game_object->field_44 == 2 || field_258_objective == objectives_enum::enter_car_as_driver_35 ||
+            gDistanceToTarget_678750 < dword_678790)
         {
             Ped::sub_463830(0, 9999);
             field_21C_bf.b2 = false;
@@ -4222,8 +4227,7 @@ void Ped::sub_46C7E0()
             {
                 field_226 = 1;
             }
-            if (field_240_occupation != ped_ocupation_enum::unknown_6 
-                && field_258_objective != objectives_enum::patrol_on_foot_42)
+            if (field_240_occupation != ped_ocupation_enum::unknown_6 && field_258_objective != objectives_enum::patrol_on_foot_42)
             {
                 field_168_game_object->SetMaxSpeed_433920(field_1F0_maybe_max_speed);
             }
@@ -4394,7 +4398,8 @@ void Ped::sub_46D030()
     {
         Train_58* pTrain = gPublicTransport_181C_6FF1D4->GetTrainFromCarExcludingLeadCar_57B6A0(field_154_target_to_enter);
         Car_BC* pOldTarget = field_154_target_to_enter;
-        if (pTrain->field_4C_maybe_train_station->field_1C == 2 && pTrain->field_10_carriages[0]->field_84_car_info_idx == car_model_enum::TRAIN)
+        if (pTrain->field_4C_maybe_train_station->field_1C == 2 &&
+            pTrain->field_10_carriages[0]->field_84_car_info_idx == car_model_enum::TRAIN)
         {
             Ped::sub_463830(37, 9999);
             field_154_target_to_enter = pOldTarget;
@@ -4741,10 +4746,80 @@ s32 Ped::sub_46F100(u8 a2)
     return a2 < get_wanted_star_count_46EF00();
 }
 
-STUB_FUNC(0x46f110)
+WIP_FUNC(0x46f110)
 Weapon_30* Ped::GetWeaponFromPed_46F110()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (IsField238_45EDE0(2))
+    {
+        field_170_selected_weapon = field_15C_player->GetCurrPlayerWeapon_5648F0();
+
+        if (field_16C_car)
+        {
+            if (field_170_selected_weapon && field_170_selected_weapon->field_1C_idx >= weapon_type::car_bomb)
+            {
+                field_21C |= 0x80;
+                return field_170_selected_weapon;
+            }
+        }
+        else
+        {
+            if (!field_170_selected_weapon)
+            {
+                field_21C |= 0x200;
+            }
+            else
+            {
+                return field_170_selected_weapon;
+            }
+        }
+        return 0;
+    }
+    else
+    {
+        if (!field_16C_car || field_238 == 2)
+        {
+            if ((field_21C & 0x2000) != 0)
+            {
+                return field_174_pWeapon;
+            }
+
+            if ((field_21C & 0x200) != 0)
+            {
+                return 0;
+            }
+            return field_170_selected_weapon;
+        }
+        else
+        {
+            // TODO: Needs to be one call to find_5E3D20 but compiler always give us 3
+            Car_BC* t = field_16C_car;
+            Weapon_30* r;
+            if (t->IsFireTruck_4118F0())
+            {
+                r = gWeapon_8_707018->find_5E3D20(t, 20);
+            }
+            else if (t->IsTank_411900())
+            {
+                r = gWeapon_8_707018->find_5E3D20(t, 19);
+            }
+            else if (t->IsGunJeep_411910())
+            {
+                r = gWeapon_8_707018->find_5E3D20(t, 22);
+            }
+            else
+            {
+                return 0;
+            }
+
+            if (r)
+            {
+                return r;
+            }
+        }
+    }
+
     return 0;
 }
 

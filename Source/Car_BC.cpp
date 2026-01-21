@@ -3015,7 +3015,7 @@ void Car_BC::sub_443330()
 }
 
 STUB_FUNC(0x443360)
-char_type Car_BC::sub_443360(s32 a2, s32 a3, s32 a4, s16 a5)
+bool Car_BC::sub_443360(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 {
     NOT_IMPLEMENTED;
     return 0;

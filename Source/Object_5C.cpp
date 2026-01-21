@@ -816,7 +816,7 @@ s16 Object_2C::sub_526B40(s32 a2)
 }
 
 STUB_FUNC(0x527070)
-char_type Object_2C::sub_527070(s16* a2, s32 a3, s16* a4, s32 a5)
+bool Object_2C::sub_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 {
     NOT_IMPLEMENTED;
     return 0;
