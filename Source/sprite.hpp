@@ -80,7 +80,7 @@ class Sprite
     EXPORT Fix16_Point GetBoundingBoxCorner_562450(s32 idx);
 
     EXPORT Fix16_Point get_x_y_443580();
-    EXPORT void sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT void set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_54EC80(Fix16 xpos, Fix16 ypos);
     EXPORT bool IsControlledByActivePlayer_59E170();
     EXPORT Ped* GetPed_59E1B0();

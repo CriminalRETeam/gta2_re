@@ -110,7 +110,7 @@ Fix16_Point Sprite::get_x_y_443580()
 }
 
 MATCH_FUNC(0x451950)
-void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+void Sprite::set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     if (field_14_xy.x != xpos || field_14_xy.y != ypos || field_1C_zpos != zpos)
     {
