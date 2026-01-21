@@ -41,6 +41,7 @@ class Ang16
     Ang16 operator+=(const Ang16& other)
     {
         rValue += other.rValue;
+        Normalize();
         return *this;
     }
 

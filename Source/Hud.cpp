@@ -287,9 +287,9 @@ void Garox_12EC_sub::DrawQuitMessage_5D1430()
 }
 
 MATCH_FUNC(0x5d15a0)
-bool Garox_12EC_sub::sub_5D15A0(s32 a1)
+bool Garox_12EC_sub::sub_5D15A0(s32 action)
 {
-    return gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message && (a1 == 28 || a1 == 1);
+    return gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message && (action == DIK_RETURN || action == DIK_ESCAPE);
 }
 
 MATCH_FUNC(0x5d15d0)
@@ -2387,15 +2387,15 @@ bool Hud_2B00::IsBusy_5D6C20(s32 action, Player* pPlayer)
 }
 
 MATCH_FUNC(0x5d6c70)
-s32 Hud_2B00::sub_5D6C70(s32 a1)
+s32 Hud_2B00::sub_5D6C70(s32 action)
 {
-    return field_12EC_sub.sub_5D15A0(a1) || field_2A25_sub.sub_5D17D0(a1);
+    return field_12EC_sub.sub_5D15A0(action) || field_2A25_sub.sub_5D17D0(action);
 }
 
 MATCH_FUNC(0x5d6cb0)
-bool Hud_2B00::sub_5D6CB0(s32 a1)
+bool Hud_2B00::sub_5D6CB0(s32 action)
 {
-    return field_12EC_sub.sub_5D15A0(a1);
+    return field_12EC_sub.sub_5D15A0(action);
 }
 
 // https://decomp.me/scratch/Y4V1E it matches on decompme

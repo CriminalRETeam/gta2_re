@@ -154,6 +154,16 @@ class Char_B4
         return field_7C_pPed;
     }
 
+    inline void SetPedState1_433910(s32 new_state)
+    {
+        field_8_ped_state_1 = new_state;
+    }
+
+    inline void SetPedState2_433A50(s32 new_state)
+    {
+        field_C_ped_state_2 = new_state;
+    }
+
     Char_B4();
     ~Char_B4();
 

@@ -15,20 +15,27 @@
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
+// TODO: for some reason it does not have uAppData. 
+// Otherwise using DIDEVICEOBJECTDATA (size 0x14) makes dword_67B5B0 overlaps gKeyboardDevice_67B5C0
+struct mini_device_obj_data 
+{
+    u32 dwOfs;
+    u32 dwData;
+    u32 dwTimeStamp;
+    u32 dwSequence;
+};
+
 DEFINE_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0, 0x67F8B0);
 DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
-DEFINE_GLOBAL(DWORD, dword_67B624, 0x67B624);
+DEFINE_GLOBAL(DWORD, gKeyboardStatus_67B624, 0x67B624);
 DEFINE_GLOBAL(u8, byte_67B80C, 0x67B80C);
 DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
 DEFINE_GLOBAL(DIDEVICEOBJECTDATA, stru_67B610, 0x67B610);
-DEFINE_GLOBAL(s32, dword_67B5B0, 0x67B5B0);
-DEFINE_GLOBAL(s32, dword_67B5B4, 0x67B5B4);
-DEFINE_GLOBAL(s32, dword_67B5B8, 0x67B5B8);
-DEFINE_GLOBAL(s32, dword_67B5BC, 0x67B5BC);
+DEFINE_GLOBAL(mini_device_obj_data, dword_67B5B0, 0x67B5B0);
 
 DEFINE_GLOBAL_ARRAY(s32, dword_61A9E4, 12, 0x61A9E4);
-DEFINE_GLOBAL_ARRAY(s32, dword_67B91C, 12, 0x67B91C);
-DEFINE_GLOBAL_ARRAY(s32, dword_67B6E8, 12, 0x67B6E8);
+DEFINE_GLOBAL_ARRAY(s32, gMaybeDeviceType_67B91C, 12, 0x67B91C);
+DEFINE_GLOBAL_ARRAY(s32, gPlayerControlsBinding_67B6E8, 12, 0x67B6E8);
 
 EXTERN_GLOBAL(DIDATAFORMAT, gKeyboardDataFormat_601A54);
 EXTERN_GLOBAL(HINSTANCE, gHInstance_708220);
@@ -75,16 +82,16 @@ void BurgerKing_1::free_input_devices_4987A0()
 MATCH_FUNC(0x498CC0)
 void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
 {
-    dword_67B624 = -1;
+    gKeyboardStatus_67B624 = -1;
     if (gKeyboardDevice_67B5C0)
     {
-        gKeyboardDevice_67B5C0->GetDeviceData(16, 0, &dword_67B624, 0);
+        gKeyboardDevice_67B5C0->GetDeviceData(16, 0, &gKeyboardStatus_67B624, 0);
     }
 
-    dword_67B624 = -1;
+    gKeyboardStatus_67B624 = -1;
     if (gGamePadDevice_67B6C0)
     {
-        gGamePadDevice_67B6C0->GetDeviceData(16, 0, &dword_67B624, 0);
+        gGamePadDevice_67B6C0->GetDeviceData(16, 0, &gKeyboardStatus_67B624, 0);
     }
 }
 
@@ -94,8 +101,8 @@ void BurgerKing_1::get_registry_controls_498C00()
     for (u32 i = 0; i < 12; ++i)
     {
         const u32 v1 = gRegistry_6FF968.Set_Control_Setting_587010(i, dword_61A9E4[i]);
-        dword_67B91C[i] = v1 >> 15;
-        dword_67B6E8[i] = (u8)v1;
+        gMaybeDeviceType_67B91C[i] = v1 >> 15;
+        gPlayerControlsBinding_67B6E8[i] = (u8)v1;
     }
 }
 
@@ -159,9 +166,9 @@ EXPORT bool __stdcall acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadD
         return 0;
     }
 
-    dword_67B624 = -1;
+    gKeyboardStatus_67B624 = -1;
 
-    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), 0, &dword_67B624, DIGDD_PEEK);
+    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), 0, &gKeyboardStatus_67B624, DIGDD_PEEK);
     if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
     {
         return SUCCEEDED(pGamePadDevice->Acquire()) ? true : false;
@@ -259,88 +266,87 @@ void BurgerKing_1::sub_498C80(s32* a1, DIDEVICEOBJECTDATA* device_data_keys)
     }
 }
 
-// https://decomp.me/scratch/HJ1Zp
-STUB_FUNC(0x498DA0)
+// https://decomp.me/scratch/75Pau
+WIP_FUNC(0x498DA0)
 void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
 {
-    NOT_IMPLEMENTED;
-
-    bool bUnk_1; // bl
-    s32 v5; // edi
-    s32 v6; // edx
-    s32 v7; // esi
-    s32* field_8_input_masks; // ebp
-    char v9; // bl
-    s32 v11; // eax
-    s32 v12; // ecx
-    s32 field_4_input_bits; // eax
-    s32 field_0_rng; // [esp+10h] [ebp-30h]
-    s32 v15; // [esp+28h] [ebp-18h]
-    s32 v16; // [esp+2Ch] [ebp-14h] BYREF
-    s32 v17; // [esp+30h] [ebp-10h]
-    s32 v18; // [esp+34h] [ebp-Ch]
-    s32 v19; // [esp+38h] [ebp-8h]
+    bool bUnk_1;
+    s32 v5_edi;
+    s32 v6_edx;
+    s32 input;
+    s32* field_8_input_masks;
+    bool bUnk_2_unk;
+    s32 unk_input;
+    s32 v12;
+    s32 field_4_input_bits;
+    s32 field_0_rng;
+    s32 bUnk_3;
+    s32 status;
+    s32 keyb_dev_data;
+    s32 device_data;
 
     bUnk_1 = true;
-    v15 = 0;
-    v16 = 1;
+    bUnk_3 = 0;
+    status = 1;
     if (acquire_input_device_498730(gKeyboardDevice_67B5C0) || acquire_input_device_498730(gGamePadDevice_67B6C0))
     {
         stru_67B610.dwOfs = 0;
-        dword_67B5B0 = 0;
+        dword_67B5B0.dwOfs = 0;
         stru_67B610.dwData = 0;
-        dword_67B5B4 = 0;
+        dword_67B5B0.dwData = 0;
         stru_67B610.dwTimeStamp = 0;
-        dword_67B5B8 = 0;
+        dword_67B5B0.dwTimeStamp = 0;
         stru_67B610.dwSequence = 0;
-        dword_67B5BC = 0;
+        dword_67B5B0.dwSequence = 0;
         if (acquire_input_device_498730(gGamePadDevice_67B6C0))
         {
             gGamePadDevice_67B6C0->Acquire();
         }
         while (BurgerKing_1::game_pad_read_498D20() || bUnk_1)
         {
-            dword_67B624 = 0;
+            gKeyboardStatus_67B624 = 0;
             if (gKeyboardDevice_67B5C0)
             {
-                dword_67B624 = 1;
-                v17 = gKeyboardDevice_67B5C0->GetDeviceData(16, &stru_67B610, (unsigned long*)&dword_67B624, 0);
+                gKeyboardStatus_67B624 = 1;
+                keyb_dev_data = gKeyboardDevice_67B5C0->GetDeviceData(16, &stru_67B610, (unsigned long*)&gKeyboardStatus_67B624, 0);
             }
             else
             {
-                v17 = -1;
+                keyb_dev_data = -1;
             }
-            if (!gGamePadDevice_67B6C0 || dword_67B624)
+            if (!gGamePadDevice_67B6C0 || gKeyboardStatus_67B624)
             {
-                v18 = -1;
-                v16 = 0;
+                device_data = -1;
+                status = 0;
             }
             else
             {
-                dword_67B624 = 1;
-                gGamePadDevice_67B6C0->GetDeviceData(16, 0, (LPDWORD)&v16, 1);
+                gKeyboardStatus_67B624 = 1;
+                gGamePadDevice_67B6C0->GetDeviceData(16, 0, (LPDWORD)&status, 1);
 
-                v18 = gGamePadDevice_67B6C0->GetDeviceData(16, (LPDIDEVICEOBJECTDATA)&dword_67B5B0, (unsigned long*)&dword_67B624, 0);
+                device_data = gGamePadDevice_67B6C0->GetDeviceData(16, (DIDEVICEOBJECTDATA*)&dword_67B5B0, (unsigned long*)&gKeyboardStatus_67B624, 0);
                 if (bLog_directinput_67D6C0)
                 {
-                    if (dword_67B624 > 0)
+                    if (gKeyboardStatus_67B624 > 0)
                     {
                         sprintf(gTmpBuffer_67C598,
                                 "%d: input num_items = %d dwOfs = %d; data = %d",
                                 rng_dword_67AB34->field_0_rng,
-                                v16,
-                                dword_67B5B0,
-                                dword_67B5B4);
+                                status,
+                                dword_67B5B0.dwOfs,
+                                dword_67B5B0.dwData);
                         gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
                     }
                 }
             }
-            if (v17 < 0 && v18 < 0 || dword_67B624 <= 0)
+
+            // line 195
+            if (keyb_dev_data < 0 && device_data < 0 || gKeyboardStatus_67B624 <= 0)
             {
-                break;
+                return;
             }
 
-            if (stru_67B610.dwOfs == 56)
+            if (stru_67B610.dwOfs == DIK_LMENU)
             {
                 BurgerKing_1::sub_498CB0(stru_67B610.dwData);
             }
@@ -349,107 +355,123 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
             {
                 return;
             }
-            if (!gHud_2B00_706620->sub_5D6C70(stru_67B610.dwOfs))
-            {
-                v5 = dword_67B5B0;
-                v6 = dword_67B5B4;
-                v7 = 0;
-                field_8_input_masks = gBurgerKing_67F8B0.field_8_input_masks;
-                v19 = 12;
 
-                do
+            // line 1ef
+            if (!gHud_2B00_706620->sub_5D6C70(stru_67B610.dwOfs)) // OBS: bool return type
+            {
+                v5_edi = dword_67B5B0.dwOfs;
+                v6_edx = dword_67B5B0.dwData;
+                field_8_input_masks = gBurgerKing_67F8B0.field_8_input_masks;
+                
+                // Check for player controls (up, down, shoot etc)
+                for (input = 0; input < 12; input++, ++field_8_input_masks)
                 {
-                    v9 = 0;
-                    if (v17 == 0 && dword_67B91C[v7] == 0 && dword_67B6E8[v7] == stru_67B610.dwOfs)
+                    // line 217 or 21b
+                    bUnk_2_unk = false;
+                    if (keyb_dev_data == 0 && gMaybeDeviceType_67B91C[input] == 0 && gPlayerControlsBinding_67B6E8[input] == stru_67B610.dwOfs)
                     {
-                        v9 = 1;
-                        if ((stru_67B610.dwData & 0x80) != 0)
+                        // PC binding
+                        bUnk_2_unk = true;
+                        if ((stru_67B610.dwData & 0x80) != 0) // line 243
                         {
                             if (bUnknown)
                             {
-                                gBurgerKing_67F8B0.clear_input_4CDD10(v7);
+                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
+                            }
+                            else
+                            {
+                                continue;
                             }
                         }
                         else
                         {
                             if (bUnknown)
                             {
-                                gBurgerKing_67F8B0.set_input_4CDCF0(v7);
+                                gBurgerKing_67F8B0.clear_input_4CDD10(input);
+                            }
+                            else
+                            {
+                                continue;
                             }
                         }
-                        v5 = dword_67B5B0;
-                        v6 = dword_67B5B4;
+                        v5_edi = dword_67B5B0.dwOfs;
+                        v6_edx = dword_67B5B0.dwData;
                     }
                     else
                     {
-                        if (v18 == 0 && dword_67B91C[v7] == 1)
+                        // Maybe gamepad binding
+                        // line 294
+                        if (device_data == 0 && gMaybeDeviceType_67B91C[input] == 1)
                         {
-                            v11 = dword_67B6E8[v7];
-                            v15 = 0;
-                            switch (v11)
+                            unk_input = gPlayerControlsBinding_67B6E8[input];
+                            bUnk_3 = false;
+                            switch (unk_input)
                             {
                                 case 224:
-                                    if (!v5)
+                                    if (v5_edi == 0)
                                     {
-                                        if (v6 > -750)
+                                        if (v6_edx <= -750)
                                         {
-                                            v15 = 1;
+                                            bUnk_2_unk = true;
+                                            if (bUnknown)
+                                            {
+                                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
+                                                v5_edi = dword_67B5B0.dwOfs;
+                                                v6_edx = dword_67B5B0.dwData;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // jump here
+                                            bUnk_3 = true;
                                             if (bUnknown)
                                             {
                                                 if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
                                                 {
-                                                    gBurgerKing_67F8B0.clear_input_4CDD10(v7);
-                                                    v5 = dword_67B5B0;
-                                                    v6 = dword_67B5B4;
+                                                    gBurgerKing_67F8B0.clear_input_4CDD10(input);
+                                                    v5_edi = dword_67B5B0.dwOfs;
+                                                    v6_edx = dword_67B5B0.dwData;
                                                 }
                                             }
-                                            v9 = 1;
-                                        }
-                                        else
-                                        {
-                                            v9 = 1;
-                                            if (bUnknown)
-                                            {
-                                                gBurgerKing_67F8B0.set_input_4CDCF0(v7);
-                                                v5 = dword_67B5B0;
-                                                v6 = dword_67B5B4;
-                                            }
+                                            bUnk_2_unk = true;
                                         }
                                     }
                                     break;
+
                                 case 225:
-                                    if (v5 == 0)
+                                    // 2ec ?
+                                    if (v5_edi == 0)
                                     {
-                                        if (v6 < 750)
+                                        if (v6_edx >= 750)
                                         {
-                                            v15 = 1;
+                                            bUnk_2_unk = true;
+                                            if (bUnknown)
+                                            {
+                                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
+                                                v5_edi = dword_67B5B0.dwOfs;
+                                                v6_edx = dword_67B5B0.dwData;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            bUnk_3 = true;
                                             if (bUnknown)
                                             {
                                                 if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
                                                 {
-                                                    gBurgerKing_67F8B0.clear_input_4CDD10(v7);
-                                                    v5 = dword_67B5B0;
-                                                    v6 = dword_67B5B4;
+                                                    gBurgerKing_67F8B0.clear_input_4CDD10(input);
+                                                    v5_edi = dword_67B5B0.dwOfs;
+                                                    v6_edx = dword_67B5B0.dwData;
                                                 }
                                             }
-                                            v9 = 1;
-                                        }
-                                        else
-                                        {
-                                            v9 = 1;
-                                            if (bUnknown)
-                                            {
-                                                gBurgerKing_67F8B0.set_input_4CDCF0(v7);
-                                                v5 = dword_67B5B0;
-                                                v6 = dword_67B5B4;
-                                            }
+                                            bUnk_2_unk = true;
                                         }
                                     }
                                     break;
                                 case 226:
-                                    if (v5 == 4)
+                                    if (v5_edi == 4)
                                     {
-                                        if (v6 <= -750)
+                                        if (v6_edx <= -750)
                                         {
                                             goto LABEL_63;
                                         }
@@ -459,9 +481,9 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                     }
                                     break;
                                 case 227:
-                                    if (v5 == 4)
+                                    if (v5_edi == 4)
                                     {
-                                        if (v6 >= 750)
+                                        if (v6_edx >= 750)
                                         {
                                             goto LABEL_63;
                                         }
@@ -473,87 +495,84 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                             if ((field_4_input_bits & v12) != 0)
                                             {
                                                 //goto LABEL_51;
-                                                v15 = 1;
+                                                bUnk_3 = 1;
                                                 if (bUnknown)
                                                 {
                                                     if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
                                                     {
-                                                        gBurgerKing_67F8B0.clear_input_4CDD10(v7);
-                                                        v5 = dword_67B5B0;
-                                                        v6 = dword_67B5B4;
+                                                        gBurgerKing_67F8B0.clear_input_4CDD10(input);
+                                                        v5_edi = dword_67B5B0.dwOfs;
+                                                        v6_edx = dword_67B5B0.dwData;
                                                     }
                                                 }
-                                                v9 = 1;
+                                                bUnk_2_unk = true;
                                             }
                                         }
                                     }
                                     break;
                                 default:
-                                    if (v5 == v11 + 48)
+                                    if (v5_edi == unk_input + 48)
                                     {
-                                        if ((v6 & 0x80u) != 0)
+                                        if ((v6_edx & 0x80u) != 0)
                                         {
                                         LABEL_63:
-                                            v9 = 1;
+                                            bUnk_2_unk = true;
                                             if (bUnknown)
                                             {
-                                                gBurgerKing_67F8B0.set_input_4CDCF0(v7);
-                                                v5 = dword_67B5B0;
-                                                v6 = dword_67B5B4;
+                                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
+                                                v5_edi = dword_67B5B0.dwOfs;
+                                                v6_edx = dword_67B5B0.dwData;
                                             }
                                         }
                                         else
                                         {
                                         LABEL_51:
-                                            v15 = 1;
+                                            bUnk_3 = true;
                                             if (bUnknown)
                                             {
                                                 if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
                                                 {
-                                                    gBurgerKing_67F8B0.clear_input_4CDD10(v7);
-                                                    v5 = dword_67B5B0;
-                                                    v6 = dword_67B5B4;
+                                                    gBurgerKing_67F8B0.clear_input_4CDD10(input);
+                                                    v5_edi = dword_67B5B0.dwOfs;
+                                                    v6_edx = dword_67B5B0.dwData;
                                                 }
                                             }
-                                            v9 = 1;
+                                            bUnk_2_unk = true;
                                         }
                                     }
                                     break;
                             }
                         }
                     }
+                }
 
-                    ++v7;
-                    ++field_8_input_masks;
-                    --v19;
-
-                } while (v19);
-
-                if (v9)
+                if (bUnk_2_unk)
                 {
-                    goto LABEL_65;
+                    bUnk_1 = false;
                 }
             }
-            if (v15)
+            //else
             {
-            LABEL_65:
-                bUnk_1 = false;
-            }
-            else
-            {
-                BurgerKing_1::sub_498C80(input_bits, &stru_67B610);
-                bUnk_1 = false;
-                if (bLog_directinput_67D6C0)
+                if (!bUnk_3)
                 {
-                    field_0_rng = rng_dword_67AB34->field_0_rng;
-                    if ((stru_67B610.dwData & 0x80) != 0)
+                    BurgerKing_1::sub_498C80(input_bits, &stru_67B610);
+                    bUnk_1 = false;
+                    if (bLog_directinput_67D6C0)
                     {
-                        sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", field_0_rng, stru_67B610.dwOfs);
+                        field_0_rng = rng_dword_67AB34->field_0_rng;
+                        if ((stru_67B610.dwData & 0x80) != 0)
+                        {
+                            sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", field_0_rng, stru_67B610.dwOfs);
+                        }
+                        else
+                        {
+                            sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", field_0_rng, stru_67B610.dwOfs);
+                        }
                     }
-                    else
-                    {
-                        sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", field_0_rng, stru_67B610.dwOfs);
-                    }
+                }
+                else
+                {
+                    bUnk_1 = false;
                 }
             }
         }
@@ -859,7 +878,7 @@ void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
 }
 
 // https://decomp.me/scratch/t5tNu
-STUB_FUNC(0x4ceac0)
+WIP_FUNC(0x4ceac0)
 u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
 {
     s32 inputs;

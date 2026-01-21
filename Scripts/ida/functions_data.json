@@ -3045,7 +3045,7 @@
         "v105_address": "0x45c830"
     },
     {
-        "name": "Ped::sub_45C900",
+        "name": "Ped::get_field8_45C900",
         "v96f_address": null,
         "v105_address": "0x45c900"
     },
