@@ -10,12 +10,11 @@
 DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
 DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
 
-
 STUB_FUNC(0x4D9470)
 void ErrorLog::sub_4D9470(const char_type* path, s32 a3)
 {
     NOT_IMPLEMENTED;
-    
+
     u8* fileNameLen = new u8;
     if (fileNameLen)
     {
@@ -75,6 +74,13 @@ EXPORT void ErrorLog::log_timestamp_4D9540()
     buffer[strlen(buffer) - 1] = 0; // remove the new line it  adds
     sprintf(gTmpBuffer_67C598, "\n------ %s ------", buffer);
     Write_4D9620(gTmpBuffer_67C598);
+}
+
+MATCH_FUNC(0x4D9670)
+void* ErrorLog::log_on_line_written_4D9670(TLogLineCallback pCallBack)
+{
+    pCallBack(this);
+    return this;
 }
 
 DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530, 0x67C530);
