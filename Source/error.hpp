@@ -13,8 +13,10 @@ class ErrorLog
 
     EXPORT void log_timestamp_4D9540();
 
-    typedef void (__cdecl *TLogLineCallback)(void*);
+    typedef void(__cdecl* TLogLineCallback)(void*);
     EXPORT void* log_on_line_written_4D9670(TLogLineCallback pCallBack);
+
+    EXPORT void log_intro_4D95A0();
 
     ErrorLog()
     {
@@ -26,7 +28,6 @@ class ErrorLog
 
     //ofstream field_0_ofstr; // Crashes standalone
     u8* field_3C_pLen;
-
 };
 
 EXPORT void __stdcall Error_SetName_4A0770(const char_type* pFileName);
