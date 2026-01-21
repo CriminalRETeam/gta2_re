@@ -115,7 +115,7 @@ class Sprite
     EXPORT char_type FindOverlappingBoundingBoxCorners_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
     EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* a2);
-    EXPORT char_type sub_5A0970(s32 a2, s32 a3, s32 a4);
+    EXPORT char_type CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
     EXPORT char_type sub_5A0A70(Sprite_4C* a2, Sprite** a3, u8* a4);
     EXPORT char_type sub_5A0EF0(s32 a2, s32 a3, s32 a4);
     EXPORT char_type sub_5A1030(Sprite* a2, Sprite** a3, u8* a4);

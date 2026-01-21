@@ -14785,7 +14785,7 @@
         "v105_address": "0x5a0380"
     },
     {
-        "name": "sub_5A0970",
+        "name": "CheckBBoxScanlineIntersection_5A0970",
         "v96f_address": null,
         "v105_address": "0x5a0970"
     },
