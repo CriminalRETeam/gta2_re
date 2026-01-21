@@ -36,13 +36,23 @@ class Sprite_4C
         return (field_0_width == field_4_height && field_0_width <= kSmallWidthEpslion_703450) ? true : false;
     }
 
-
     void SetWidthHeight_4BA070(Fix16 w, Fix16 h)
     {
         field_0_width = w;
         field_4_height = h;
 
         field_8 = Fix16(0);
+    }
+
+    void set_wh_4BA030(Fix16 w, Fix16 h)
+    {
+        // Avoid BB-box recompute if we can
+        if (w != field_0_width || h != field_4_height)
+        {
+            field_0_width = w;
+            field_4_height = h;
+            field_48_bBoxUpToDate = false;
+        }
     }
 
     EXPORT void SetCurrentRect_5A4D90();
@@ -257,6 +267,16 @@ class Sprite
         class Object_5C* field_C_o5c;
     };
     infallible_turing* field_10_sound;
+
+    void set_id_lazy_4206C0(u16 new_id)
+    {
+        if (field_22_sprite_id != new_id)
+        {
+            field_22_sprite_id = new_id;
+            sub_59FA40();
+        }
+    }
+
 
     // 9.6f inline 0x420690
     inline void set_ang_lazy_420690(Ang16 a1)

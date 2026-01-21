@@ -263,12 +263,11 @@ class Ped
     {
         return field_21C_bf.b0 != 0;
     }
-    
+
     bool check_bit_11()
     {
         return field_21C_bf.b11 != 0;
     }
-
 
     // 9.6f inline 0x450CB0
     inline u8 sub_450CB0()
@@ -397,9 +396,34 @@ class Ped
         return field_1F0_maybe_max_speed;
     }
 
+    inline void Set_B4_F16_To_1_433B50()
+    {
+        field_168_game_object->field_16 = 1;
+    }
+
     inline u8 get_remap_433BA0()
     {
         return field_244_remap;
+    }
+
+    inline bool is_player_41B0A0()
+    {
+        return field_15C_player != 0;
+    }
+
+    inline void Set_F250_IfBit_433DD0(s32 a2)
+    {
+        // TODO: Check if (HIBYTE(this->field_21C) & 1)
+        // is correct
+        if (field_21C_bf.b24 == 0)
+        {
+            field_250 = a2;
+        }
+    }
+
+    inline u8 get_target_car_door_403A60()
+    {
+        return field_24C_target_car_door;
     }
 
     // 9.6f inline 0x433B90
@@ -609,6 +633,8 @@ class Ped
     s32 field_290;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped, 0x294)
+
+EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 a1, Car_BC* a2, s8 a3, Fix16& a4, Fix16& a5, Ang16& a6);
 
 EXTERN_GLOBAL(s32, gPedId_61A89C);
 

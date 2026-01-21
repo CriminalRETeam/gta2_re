@@ -100,7 +100,7 @@ EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 // TODO: move
 STUB_FUNC(0x545AF0)
-EXPORT void __stdcall sub_545AF0(s32 a1, Car_BC* a2, s8 a3, Fix16& a4, Fix16& a5, Ang16& a6)
+EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 a1, Car_BC* a2, s8 a3, Fix16& a4, Fix16& a5, Ang16& a6)
 {
     NOT_IMPLEMENTED;
 }
@@ -2086,7 +2086,7 @@ void Ped::ProcessOnFootObjective_463AA0()
             }
             else
             {
-                sub_545AF0(0, field_150_target_objective_car, field_24C_target_car_door, field_1B8_target_x, field_1BC_target_y, angle);
+                CarDoorAlignmentSolver_545AF0(0, field_150_target_objective_car, field_24C_target_car_door, field_1B8_target_x, field_1BC_target_y, angle);
                 field_1C0_target_z = field_150_target_objective_car->field_50_car_sprite->field_1C_zpos;
             }
         }

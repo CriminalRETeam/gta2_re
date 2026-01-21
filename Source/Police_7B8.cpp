@@ -657,7 +657,7 @@ bool Police_7B8::sub_570790(PoliceCrew_38* a1, Police_7C* a2)
 }
 
 STUB_FUNC(0x5707b0)
-char_type Police_7B8::sub_5707B0(s32 a2, s32 a3)
+char_type Police_7B8::sub_5707B0(Car_BC* a2, Ped* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
