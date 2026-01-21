@@ -10,17 +10,45 @@
 DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
 DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
 
+
 STUB_FUNC(0x4D9470)
 void ErrorLog::sub_4D9470(const char_type* path, s32 a3)
 {
     NOT_IMPLEMENTED;
+    
+    u8* fileNameLen = new u8;
+    if (fileNameLen)
+    {
+        *fileNameLen = strlen(path);
+    }
+    else
+    {
+        fileNameLen = 0;
+    }
+    this->field_3C_pLen = fileNameLen;
+
+    // TODO: Werid codegen here, looks like a switch on a3 maybe :')
+    s32 mode;
+    switch (a3)
+    {
+        case 1:
+            mode = ios::trunc; // 16
+            break;
+
+        default:
+            mode = ios::app; // 8
+            break;
+    }
+
+    //field_0_ofstr.open(path, mode, 420);
+
+    log_timestamp_4D9540();
 }
 
-STUB_FUNC(0x4D94E0)
+MATCH_FUNC(0x4D94E0)
 ErrorLog::ErrorLog(const char* FileName, int a3)
 {
-    NOT_IMPLEMENTED;
-    //sub_4D9470(FileName, a3);
+    sub_4D9470(FileName, a3);
 }
 
 STUB_FUNC(0x4D9620)
