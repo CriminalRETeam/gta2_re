@@ -12,6 +12,8 @@ class ErrorLog
     EXPORT ErrorLog& Write_4D9620(const char_type* pMsg);
     EXPORT void Write_Log_4D9650(const char_type* buffer);
 
+    EXPORT void log_timestamp_4D9540();
+
     ErrorLog()
     {
     }
