@@ -95,7 +95,7 @@ class BurgerKing_67F8B0
     s32 field_7533C_used_recs_count;
     u32 field_75340_rec_buf_idx;
     // front end input on/off ??
-    char_type field_75344_bSomething;
+    char_type field_75344_bInputEnabled;
     u8 field_75345_attract_idx;
     s16 field_75346;
 };
