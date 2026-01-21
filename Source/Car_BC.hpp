@@ -521,7 +521,7 @@ class Car_BC
     EXPORT char_type TrailerUpdate_443130();
     EXPORT char_type PoolUpdate();
     EXPORT void sub_443330();
-    EXPORT char_type sub_443360(s32 a2, s32 a3, s32 a4, s16 a5);
+    EXPORT bool sub_443360(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
     EXPORT void sub_4435A0();
     EXPORT s32 GetCrashSoundCategory_4435B0();
     EXPORT void sub_4435F0();
