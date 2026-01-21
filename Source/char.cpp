@@ -23,11 +23,8 @@ DEFINE_GLOBAL(s8, byte_6FDB48, 0x6FDB48);
 DEFINE_GLOBAL(s8, byte_6FDB49, 0x6FDB49);
 DEFINE_GLOBAL(u32, gB4_id_6FDB4C, 0x6FDB4C);
 
-DEFINE_GLOBAL(Fix16, dword_623F44, 0x623F44);
-DEFINE_GLOBAL(Fix16, dword_6FD7F8, 0x6FD7F8);
-DEFINE_GLOBAL(Fix16, dword_6FD800, 0x6FD800);
+DEFINE_GLOBAL(s32, dword_623F44, 0x623F44);
 DEFINE_GLOBAL(Fix16, dword_6FD80C, 0x6FD80C);
-DEFINE_GLOBAL(Fix16, dword_6FD7FC, 0x6FD7FC);
 
 DEFINE_GLOBAL_INIT(Ang16, word_6FD936, Ang16(720), 0x6FD936);
 
@@ -37,6 +34,9 @@ DEFINE_GLOBAL(u8, byte_6FDB58, 0x6FDB58);
 DEFINE_GLOBAL(u8, byte_6FDB59, 0x6FDB59);
 
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9E4, Fix16(0), 0x6FD9E4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD7FC, k_dword_6FD9E4, 0x6FD7FC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD800, k_dword_6FD9E4, 0x6FD800);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD7F8, k_dword_6FD9E4, 0x6FD7F8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9F4, Fix16(65536, 0), 0x6FD9F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7A4, Fix16(0x1000, 0), 0x6FD7A4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7B0, k_dword_6FD9E4, 0x6FD7B0);
@@ -48,14 +48,13 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B4, k_dword_6FD9E4, 0x6FD8B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B8, k_dword_6FD9E4, 0x6FD8B8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8BC, k_dword_6FD9E4, 0x6FD8BC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8D8, Fix16(0xCCC, 0), 0x6FD8D8);
-
-DEFINE_GLOBAL(Fix16, gCollisionRepulsionSpeed_6FD7BC, 0x6FD7BC);
-DEFINE_GLOBAL(Fix16, dword_6FDAE4, 0x6FDAE4);
-DEFINE_GLOBAL(Fix16, k_dword_6FD9EC, 0x6FD9EC);
-DEFINE_GLOBAL(Fix16, k_dword_6FD9E8, 0x6FD9E8);
-DEFINE_GLOBAL(Fix16, dword_6FD9A8, 0x6FD9A8);
-
-
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD870, dword_6FD868 * 2, 0x6FD870);
+DEFINE_GLOBAL_INIT(Fix16, gCollisionRepulsionSpeed_6FD7BC, dword_6FD870, 0x6FD7BC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD9B0, Fix16(0x333, 0), 0x6FD9B0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDAE4, dword_6FD9B0, 0x6FDAE4);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9EC, Fix16(2), 0x6FD9EC);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9E8, Fix16(1), 0x6FD9E8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD9A8, Fix16(0x1EB, 0), 0x6FD9A8);
 
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
@@ -1860,10 +1859,174 @@ void Char_B4::state_5_551BB0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x551CB0)
+// https://decomp.me/scratch/qNjdM
+WIP_FUNC(0x551CB0)
 void Char_B4::state_7_551CB0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    field_38_velocity = k_dword_6FD7C0;
+    if (field_10 != 15)
+    {
+        Char_B4::sub_5459C0();
+    }
+    if (field_7C_pPed->IsField238_45EDE0(2) == true)
+    {
+        field_40_rotation += field_7C_pPed->get_field8_45C900();
+
+        if (field_10 == 15)
+        {
+            Char_B4::state_0_54DDF0();
+            SetPedState1_433910(0);
+            SetPedState2_433A50(0);
+            return;
+        }
+        s32 unk_zpos;
+        if (field_58_flags_bf.b0 || dword_6FD7FC.GetFracValue() != k_dword_6FD9E4)
+        {
+
+            gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(dword_6FD7F8.ToInt(), dword_6FD800.ToInt(), dword_6FD7FC.ToInt());
+            unk_zpos = dword_6FD7FC.ToInt();
+        }
+        else
+        {
+            gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(dword_6FD7F8.ToInt(), dword_6FD800.ToInt(), dword_6FD7FC.ToInt() - 1);
+            unk_zpos = dword_6FD7FC.ToInt() - 1;
+        }
+        gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(dword_6FD7F8.ToInt(), dword_6FD800.ToInt(), unk_zpos);
+        if (block_4DFE10)
+        {
+            if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(block_4DFE10->field_8_lid & 0x3FF))
+            {
+                if (field_7C_pPed->field_21C_bf.b27 == false)
+                {
+                    field_7C_pPed->field_210 += 3;
+                    if (field_7C_pPed->field_204_killer_id != 0)
+                    {
+                        if (gPedManager_6787BC->PedById(field_7C_pPed->field_204_killer_id))
+                        {
+                            field_7C_pPed->field_290 = 2;
+                            field_7C_pPed->field_264 = 50;
+                        }
+                    }
+                }
+            }
+        }
+        if (field_6C != 4)
+        {
+            field_6C = 2;
+        }
+    }
+    else
+    {
+        field_40_rotation = field_7C_pPed->field_130;
+    }
+    if (field_10 == 15)
+    {
+        field_38_velocity = gRunOrJumpSpeed_6FD7D0; // line 1be
+    }
+    if (field_6A > 0 || field_10 == 15 || field_4C != k_dword_6FD9E4 || field_50 != k_dword_6FD9E4)
+    {
+        field_8_ped_state_1 = 0;
+        field_C_ped_state_2 = 0;
+        Char_B4::state_0_54DDF0();
+        field_8_ped_state_1 = 7;
+        field_C_ped_state_2 = 14;
+        if (field_10 == 15)
+        {
+            return;
+        }
+    }
+    else
+    {
+        s32 unk2_zpos;
+        if (field_58_flags_bf.b0 == false &&
+            (dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == dword_6FD9F4 ||
+             dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == k_dword_6FD9E8))
+        {
+            unk2_zpos = dword_6FD7FC.ToInt() - 1;
+        }
+        else
+        {
+            unk2_zpos = dword_6FD7FC.ToInt();
+        }
+
+        u8 block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(dword_6FD7F8.ToInt(), dword_6FD800.ToInt(), unk2_zpos);
+        if ((u8)Char_B4::IsOnWater_545570())
+        {
+            field_7C_pPed->PutOutFire();
+            Char_B4::DrownPed_5459E0();
+            return;
+        }
+        if (block_type == AIR && field_58_flags_bf.b0 == false && field_10 != 15)
+        {
+            field_7C_pPed->sub_45C500(8);
+            field_7C_pPed->sub_45C540(19);
+            field_16 = 1;
+            return;
+        }
+    }
+
+    switch (field_C_ped_state_2)
+    {
+        case 8:
+        case 9:
+            field_6C = 9;
+            break;
+        case 14:
+            if (field_7C_pPed->GetBit11_433CA0() == true) // line 344
+            {
+                if (field_7C_pPed->field_21C_bf.b9)
+                {
+                    if (field_6C != 4)
+                    {
+                        field_6C = 4;
+                        field_68 = 0;
+                    }
+                }
+                else
+                {
+                    if (field_6C == 4)
+                    {
+                        if (field_68 == 0)
+                        {
+                            field_6C = 2;
+                        }
+                    }
+                    else
+                    {
+                        field_6C = 2;
+                    }
+                }
+            }
+            else
+            {
+                if (field_6C == 4)
+                {
+                    if (field_68 == 0)
+                    {
+                        field_6C = 2;
+                    }
+                }
+                else
+                {
+                    if ((field_7C_pPed->IsField238_45EDE0(5) || field_7C_pPed->IsField238_45EDE0(2)) && !field_4A)
+                    {
+                        s16 v15 = 600;
+                        if (stru_6F6784.get_int_4F7AE0(&v15) < 4u && field_10 != 35)
+                        {
+                            field_10 = 35;
+                            field_68 = 0;
+                            field_70 = 0;
+                        }
+                    }
+                    field_6C = 2;
+                }
+            }
+            break;
+        default:
+            field_6C = 2;
+            break;
+    }
 }
 
 STUB_FUNC(0x5520A0)

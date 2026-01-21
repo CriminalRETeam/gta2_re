@@ -67,7 +67,7 @@ class Ped
     EXPORT void EnterCarAsDriver(Car_BC* a2);
     EXPORT void sub_45C7F0(Car_BC* pCar);
     EXPORT char_type AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT Ang16& sub_45C900(Ang16& a2);
+    EXPORT Ang16 get_field8_45C900();
     EXPORT Fix16 sub_45C920();
     EXPORT Ang16 GetRotation();
     EXPORT Fix16& sub_45C9B0(Fix16& a2);
@@ -495,6 +495,11 @@ class Ped
     inline bool sub_433DA0()
     {
         return field_21C_bf.b25 && field_168_game_object;
+    }
+
+    inline u8 GetBit11_433CA0()
+    {
+        return field_21C_bf.b11;
     }
 
     Marz_3 field_0_patrol_points[100];

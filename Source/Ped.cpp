@@ -783,10 +783,9 @@ char_type Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 }
 
 MATCH_FUNC(0x45c900)
-Ang16& Ped::sub_45C900(Ang16& a2)
+Ang16 Ped::get_field8_45C900()
 {
-    a2 = field_15C_player->field_8;
-    return a2;
+    return field_15C_player->field_8;
 }
 
 MATCH_FUNC(0x45c920)

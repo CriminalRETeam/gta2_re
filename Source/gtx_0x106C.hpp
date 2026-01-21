@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "enums.hpp"
 #include <cstdio>
 #include <windows.h>
 
@@ -278,6 +279,11 @@ class gtx_0x106C
     bool does_car_exist(u8 iParm1)  const
     {
         return field_5C_cari->field_0[iParm1] != NULL;
+    }
+
+    inline bool IsElectrifiedFloorType_491F80(u16 tile_idx)
+    {
+        return field_6C_spec[tile_idx] == spec_surface_type_enum::spec_electrified;
     }
 
     s16 field_0_totalPalBase;
