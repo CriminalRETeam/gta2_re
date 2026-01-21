@@ -45,9 +45,11 @@ void ErrorLog::sub_4D9470(const char_type* path, s32 a3)
     log_timestamp_4D9540();
 }
 
-MATCH_FUNC(0x4D94E0)
+// TODO: Does match when ostream is added
+STUB_FUNC(0x4D94E0)
 ErrorLog::ErrorLog(const char* FileName, int a3)
 {
+    NOT_IMPLEMENTED;
     sub_4D9470(FileName, a3);
 }
 
