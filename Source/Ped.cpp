@@ -4752,69 +4752,76 @@ Weapon_30* Ped::GetWeaponFromPed_46F110()
 {
     WIP_IMPLEMENTED;
 
-    Weapon_30* result;
-
     if (IsField238_45EDE0(2))
     {
-        result = field_15C_player->GetCurrPlayerWeapon_5648F0();
-        field_170_selected_weapon = result;
+        field_170_selected_weapon = field_15C_player->GetCurrPlayerWeapon_5648F0();
 
         if (field_16C_car)
         {
-            if (result && result->field_1C_idx >= weapon_type::car_bomb)
+            if (field_170_selected_weapon && field_170_selected_weapon->field_1C_idx >= weapon_type::car_bomb)
             {
                 field_21C |= 0x80;
-                return result;
+                return field_170_selected_weapon;
             }
         }
         else
         {
-            if (result)
+            if (!field_170_selected_weapon)
             {
-                return result;
+                field_21C |= 0x200;
             }
-            field_21C |= 0x200;
+            else
+            {
+                return field_170_selected_weapon;
+            }
         }
-
         return 0;
-    }
-
-    if (!field_16C_car || field_238 == 2)
-    {
-        if ((field_21C & 0x2000) != 0)
-        {
-            return field_174_pWeapon;
-        }
-
-        if ((field_21C & 0x200) != 0)
-        {
-            return 0;
-        }
-        return field_170_selected_weapon;
-    }
-
-    if (field_16C_car->field_84_car_info_idx == car_model_enum::FIRETRUK)
-    {
-        result = gWeapon_8_707018->find_5E3D20(field_16C_car, weapon_type::fire_truck_gun);
-    }
-    else if (field_16C_car->field_84_car_info_idx == car_model_enum::TANK)
-    {
-        result = gWeapon_8_707018->find_5E3D20(field_16C_car, weapon_type::tank_main_gun);
-    }
-    else if (field_16C_car->field_84_car_info_idx == car_model_enum::GUNJEEP)
-    {
-        result = gWeapon_8_707018->find_5E3D20(field_16C_car, weapon_type::army_gun_jeep);
     }
     else
     {
-        return 0;
+        if (!field_16C_car || field_238 == 2)
+        {
+            if ((field_21C & 0x2000) != 0)
+            {
+                return field_174_pWeapon;
+            }
+
+            if ((field_21C & 0x200) != 0)
+            {
+                return 0;
+            }
+            return field_170_selected_weapon;
+        }
+        else
+        {
+            // TODO: Needs to be one call to find_5E3D20 but compiler always give us 3
+            Car_BC* t = field_16C_car;
+            Weapon_30* r;
+            if (t->IsFireTruck_4118F0())
+            {
+                r = gWeapon_8_707018->find_5E3D20(t, 20);
+            }
+            else if (t->IsTank_411900())
+            {
+                r = gWeapon_8_707018->find_5E3D20(t, 19);
+            }
+            else if (t->IsGunJeep_411910())
+            {
+                r = gWeapon_8_707018->find_5E3D20(t, 22);
+            }
+            else
+            {
+                return 0;
+            }
+
+            if (r)
+            {
+                return r;
+            }
+        }
     }
 
-    if (result)
-    {
-        return result;
-    }
-     return 0;
+    return 0;
 }
 
 STUB_FUNC(0x46f1e0)
