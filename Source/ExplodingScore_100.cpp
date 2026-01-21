@@ -162,11 +162,32 @@ s32 ExplodingScore_50::sub_596C90()
     return 0;
 }
 
-STUB_FUNC(0x5970c0)
+MATCH_FUNC(0x5970c0)
 char_type ExplodingScore_50::PoolUpdate()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_38 < 0)
+    {
+        field_3C++;
+        field_40++;
+
+        if (field_36 > 2u)
+        {
+            field_36 -= 2;
+            field_38--;
+            return 0;
+        }
+        else
+        {
+            field_36 = 0;
+            gExplodingScorePool->sub_596880();
+            return 1;
+        }
+    }
+    else
+    {
+        field_38--;
+        return 0;
+    }
 }
 
 STUB_FUNC(0x597100)
@@ -185,7 +206,6 @@ ExplodingScorePool::ExplodingScorePool()
 MATCH_FUNC(0x596840)
 ExplodingScorePool::~ExplodingScorePool()
 {
-
 }
 
 MATCH_FUNC(0x596860)

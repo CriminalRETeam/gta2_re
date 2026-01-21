@@ -441,9 +441,12 @@ class Sprite_18
 
     EXPORT void sub_5A69E0();
 
+    EXPORT bool PoolUpdate_5A6910(Sprite *a2);
+
     Sprite* field_0;
     Sprite_18* mpNext;
-    Fix16_Point field_8;
+    Fix16 field_6_x; // NOTE: Fix16_Point here breaks match of PoolUpdate_5A6910
+    Fix16 field_8_y;
     Ang16 field_10;
     s16 field_12;
     s32 field_14_rng;
