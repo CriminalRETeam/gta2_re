@@ -617,13 +617,16 @@ void Ped::sub_45C4B0()
 MATCH_FUNC(0x45c500)
 void Ped::ChangePedStateIfNotImmobilized_45C500(s32 new_state)
 {
+    // If the ped is immobilized, store the new ped state for later use
     if (field_278_ped_state != ped_state1_enum::ped_fall_on_ground)
     {
+        // Ped is currently not immobilized
         if (new_state == ped_state1_enum::ped_fall_on_ground)
         {
+            // Ped now must be immobilized, so store the previous state
             field_280_stored_ped_state = field_278_ped_state;
         }
-        field_278_ped_state = new_state;
+        field_278_ped_state = new_state; // update state
     }
     else if (new_state != ped_state1_enum::ped_fall_on_ground)
     {
@@ -656,7 +659,7 @@ void Ped::sub_45C540(s32 a2)
 }
 
 MATCH_FUNC(0x45c5a0)
-void Ped::sub_45C5A0()
+void Ped::RestorePreviousPedState_45C5A0()
 {
     field_278_ped_state = field_280_stored_ped_state;
     field_27C = field_284;

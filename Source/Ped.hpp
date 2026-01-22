@@ -60,7 +60,7 @@ class Ped
     EXPORT void sub_45C4B0();
     EXPORT void ChangePedStateIfNotImmobilized_45C500(s32 a2);
     EXPORT void sub_45C540(s32 a2);
-    EXPORT void sub_45C5A0();
+    EXPORT void RestorePreviousPedState_45C5A0();
     EXPORT void sub_45C5C0();
     EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pPed);
     EXPORT void SpawnPedInCar_45C730(Car_BC* pCar);
