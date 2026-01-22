@@ -295,7 +295,7 @@ EXPORT int __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4
 }
 
 MATCH_FUNC(0x45bc70)
-void Ped::sub_45BC70()
+void Ped::ManageShocking_45BC70()
 {
     if (field_278_ped_state_1 != ped_state_1::dead_9)
     {
@@ -2086,7 +2086,7 @@ bool Ped::PoolUpdate()
     }
     Ped::sub_469030();
     Ped::ManageBurning_45BEC0();
-    Ped::sub_45BC70();
+    Ped::ManageShocking_45BC70();
     if (!field_234_timer)
     {
         Ped::sub_4624A0();
