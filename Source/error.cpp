@@ -66,7 +66,7 @@ STUB_FUNC(0x4D9620)
 void ErrorLog::Write_4D9620(const char_type* pMsg)
 {
     NOT_IMPLEMENTED;
-    
+
     // For some reason log_on_line_written_cb_4D9690 addr gets pushed between these calls ??
     ((ostream_type&)this->field_0_ofstr) << pMsg << '\n';
 
@@ -78,7 +78,11 @@ void ErrorLog::Write_4D9620(const char_type* pMsg)
 MATCH_FUNC(0x4D9650)
 void ErrorLog::Write_Log_4D9650(const char_type* buffer)
 {
-     ((ostream_type&)this->field_0_ofstr) << buffer << flush;
+#if defined(__clang__) || (_MSC_VER <= 1200)
+#else
+    using namespace std;
+#endif
+    ((ostream_type&)this->field_0_ofstr) << buffer << flush;
 }
 
 MATCH_FUNC(0x4D9540)
