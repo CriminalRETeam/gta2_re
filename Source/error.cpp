@@ -56,7 +56,8 @@ ErrorLog::ErrorLog(const char* FileName, int a3)
     sub_4D9470(FileName, a3);
 }
 
-MATCH_FUNC(0x4D9690)
+// This func matches but for some reason it's crashing the patched version
+STUB_FUNC(0x4D9690)
 EXPORT void __cdecl log_on_line_written_cb_4D9690(void* a1)
 {
     ((ostream_type*)a1)->flush();
