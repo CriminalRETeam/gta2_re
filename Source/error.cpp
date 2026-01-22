@@ -92,9 +92,10 @@ EXPORT void ErrorLog::log_timestamp_4D9540()
 }
 
 MATCH_FUNC(0x4D9670)
-void ErrorLog::log_on_line_written_4D9670(TLogLineCallback pCallBack)
+void* ErrorLog::log_on_line_written_4D9670(TLogLineCallback pCallBack)
 {
     pCallBack(this);
+    return this;
 }
 
 MATCH_FUNC(0x4D95A0)

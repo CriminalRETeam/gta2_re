@@ -15,7 +15,7 @@ class ErrorLog
     EXPORT void log_timestamp_4D9540();
 
     typedef void(__cdecl* TLogLineCallback)(void*);
-    EXPORT void log_on_line_written_4D9670(TLogLineCallback pCallBack);
+    EXPORT void* log_on_line_written_4D9670(TLogLineCallback pCallBack);
 
     EXPORT void log_intro_4D95A0();
 
