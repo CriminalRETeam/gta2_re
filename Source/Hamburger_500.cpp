@@ -11,7 +11,7 @@ void Hamburger_40::sub_4747B0()
 {
     field_0 = 0;
     field_10 = 0;
-    field_8 = 0;
+    field_8_maybe_path_type = 0;
     field_14_target_x = dword_678D0C;
     field_18_target_y = dword_678D0C;
     field_1C_target_z = dword_678D0C;
@@ -21,14 +21,14 @@ void Hamburger_40::sub_4747B0()
     field_23 = 1;
     field_24 = 0;
     field_25 = 0;
-    field_30 = 0;
+    field_30_ped_to_follow = 0;
     field_26 = 0;
     field_2A = 0;
     field_2C = 0;
     field_2E = 0;
     field_C = 0;
     field_34 = 0;
-    field_4 = 0;
+    field_4_ped_owner = 0;
     field_38 = 0;
     field_3C = 0;
 }
@@ -83,9 +83,9 @@ Ped* Hamburger_500::sub_4748A0(s32 a2, Ped* pPed)
 {
     for (u8 i = 0; i < 20; i++)
     {
-        if (field_0[i].field_0 == 1 && field_0[i].field_30 == pPed && sub_474850(pPed, field_0[i].field_4) && a2 == field_0[i].field_C)
+        if (field_0[i].field_0 == 1 && field_0[i].field_30_ped_to_follow == pPed && sub_474850(pPed, field_0[i].field_4_ped_owner) && a2 == field_0[i].field_C)
         {
-            return field_0[i].field_4;
+            return field_0[i].field_4_ped_owner;
         }
     }
     return 0;
@@ -97,9 +97,9 @@ char_type Hamburger_500::sub_474920(Ped* a2, Ped* a3)
     u8 total = 0;
     for (u8 i = 0; i < 20; i++)
     {
-        if (field_0[i].field_0 == 1 && field_0[i].field_30 == a2)
+        if (field_0[i].field_0 == 1 && field_0[i].field_30_ped_to_follow == a2)
         {
-            if (sub_474850(a3, field_0[i].field_4))
+            if (sub_474850(a3, field_0[i].field_4_ped_owner))
             {
                 total++;
             }
@@ -113,7 +113,7 @@ char_type Hamburger_500::sub_474970(Ped* pPed)
 {
     for (u8 i = 0; i < 20; i++)
     {
-        if (field_0[i].field_0 == 1 && field_0[i].field_30 == pPed)
+        if (field_0[i].field_0 == 1 && field_0[i].field_30_ped_to_follow == pPed)
         {
             return 1;
         }
@@ -135,7 +135,7 @@ char_type Hamburger_500::sub_474A20(Ped* pPed)
     {
         if (field_0[i].field_0 == 1)
         {
-            if (sub_474850(pPed, field_0[i].field_4) && field_0[i].field_C == 8)
+            if (sub_474850(pPed, field_0[i].field_4_ped_owner) && field_0[i].field_C == 8)
             {
                 return 1;
             }
@@ -158,7 +158,7 @@ char_type Hamburger_500::sub_474AF0(Ped* pPed)
     {
         if (field_0[i].field_0 == 1)
         {
-            if (sub_474850(pPed, field_0[i].field_4) && field_0[i].field_C == 9)
+            if (sub_474850(pPed, field_0[i].field_4_ped_owner) && field_0[i].field_C == 9)
             {
                 return 1;
             }
@@ -175,7 +175,7 @@ char_type Hamburger_500::sub_474B50(Ped* pPed)
     {
         if (field_0[i].field_0 == 1)
         {
-            if (sub_474850(pPed, field_0[i].field_4))
+            if (sub_474850(pPed, field_0[i].field_4_ped_owner))
             {
                 if (field_0[i].field_C == 7)
                 {
@@ -214,7 +214,7 @@ char_type Hamburger_500::sub_474BC0(Ped* pPed)
     {
         if (field_0[i].field_0 == 1)
         {
-            if (sub_474850(pPed, field_0[i].field_4))
+            if (sub_474850(pPed, field_0[i].field_4_ped_owner))
             {
                 if (field_0[i].field_C >= 6 && (field_0[i].field_C <= 9 || field_0[i].field_C == 13))
                 {
@@ -233,7 +233,7 @@ char_type Hamburger_500::sub_474C30(Ped* pPed)
     {
         if (field_0[i].field_0 == 1)
         {
-            if (sub_474850(pPed, field_0[i].field_4))
+            if (sub_474850(pPed, field_0[i].field_4_ped_owner))
             {
                 if (field_0[i].field_C < 4)
                 {

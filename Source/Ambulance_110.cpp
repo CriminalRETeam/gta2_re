@@ -166,13 +166,13 @@ bool Ambulance_110::sub_4FA330(Ped* pDeadPed)
                     pIter->field_4_paramedics_crew->field_4_ped = pIter->field_4_paramedics_crew->field_8_group->field_2C_ped_leader;
                 }
 
-                if (pIter->field_8 && pIter->field_8->field_278_ped_state == ped_state_1::dead_9)
+                if (pIter->field_8 && pIter->field_8->field_278_ped_state_1 == ped_state_1::dead_9)
                 {
                     TryAddPatient_4FA470(pIter->field_8);
                     pIter->field_8 = 0;
                 }
 
-                if (pIter->field_C && pIter->field_C->field_278_ped_state == ped_state_1::dead_9)
+                if (pIter->field_C && pIter->field_C->field_278_ped_state_1 == ped_state_1::dead_9)
                 {
                     TryAddPatient_4FA470(pIter->field_C);
                     pIter->field_C = 0;
@@ -198,7 +198,7 @@ bool Ambulance_110::sub_4FA330(Ped* pDeadPed)
                     pIter->field_4_paramedics_crew->sub_5CBC40(pDeadPed);
                 }
 
-                if (pIter->field_C && pIter->field_C->field_278_ped_state == ped_state_1::dead_9)
+                if (pIter->field_C && pIter->field_C->field_278_ped_state_1 == ped_state_1::dead_9)
                 {
                     TryAddPatient_4FA470(pIter->field_C);
                 }

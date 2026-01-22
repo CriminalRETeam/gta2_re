@@ -87,7 +87,7 @@ void Car_Door_10::sub_439DA0(u32* a3a)
     Ped* v4 = field_8_pObj;
     if (v4)
     {
-        if (v4->field_278_ped_state == ped_state_1::dead_9 || (v4->field_21C & 0x8000000) == 0)
+        if (v4->field_278_ped_state_1 == ped_state_1::dead_9 || (v4->field_21C & 0x8000000) == 0)
         {
             field_8_pObj = 0;
         }

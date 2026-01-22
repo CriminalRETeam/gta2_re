@@ -39,7 +39,7 @@ class Ped
     EXPORT s32 CopyStatsFromPed_45B5B0(s32 a2);
     EXPORT Car_BC* sub_45BBF0();
     EXPORT void TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos);
-    EXPORT void sub_45BC70();
+    EXPORT void ManageShocking_45BC70();
     EXPORT bool sub_45BD20(Car_BC* pCar);
     EXPORT s32 sub_45BE30();
     EXPORT void SetOnFire();
@@ -58,9 +58,9 @@ class Ped
     EXPORT void RespawnPed_45C350(gmp_map_zone* pZone);
     EXPORT void sub_45C410();
     EXPORT void sub_45C4B0();
-    EXPORT void sub_45C500(s32 a2);
-    EXPORT void sub_45C540(s32 a2);
-    EXPORT void sub_45C5A0();
+    EXPORT void ChangeNextPedState1_45C500(s32 a2);
+    EXPORT void ChangeNextPedState2_45C540(s32 a2);
+    EXPORT void RestorePreviousPedState_45C5A0();
     EXPORT void sub_45C5C0();
     EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pPed);
     EXPORT void SpawnPedInCar_45C730(Car_BC* pCar);
@@ -130,7 +130,7 @@ class Ped
     EXPORT char_type sub_4672E0(Fix16 a2, s32 a3);
     EXPORT void FleeOnFootTillSafe_4678E0();
     EXPORT void sub_467960();
-    EXPORT void sub_467A20();
+    EXPORT void FleeFromCharOnFootAlways_467A20();
     EXPORT void sub_467AD0();
     EXPORT void sub_467BD0();
     EXPORT void sub_467CA0();
@@ -145,8 +145,8 @@ class Ped
     EXPORT void EnterTrain_468930();
     EXPORT void LeaveTrain_468A00();
     EXPORT void sub_468BD0();
-    EXPORT void sub_468C70();
-    EXPORT void sub_468DE0();
+    EXPORT void PatrolOnFoot_468C70();
+    EXPORT void GotoAreaOnFoot_468DE0();
     EXPORT char_type sub_468E80();
     EXPORT s32 sub_469010();
     EXPORT void sub_469030();
@@ -158,16 +158,16 @@ class Ped
     EXPORT void sub_469E30();
     EXPORT void sub_469E50();
     EXPORT void sub_469F30();
-    EXPORT void sub_469FC0();
+    EXPORT void WaitInCurrentCar_469FC0();
     EXPORT void sub_469FE0();
     EXPORT void sub_46A1F0();
-    EXPORT void sub_46A290();
+    EXPORT void FollowCarInCurrCar_46A290();
     EXPORT char_type sub_46A350();
     EXPORT s32 sub_46A530();
     EXPORT void sub_46A5E0();
     EXPORT s16 sub_46A6D0();
-    EXPORT void sub_46A7C0();
-    EXPORT void sub_46A850();
+    EXPORT void DestroyTargetObject_46A7C0();
+    EXPORT void DestroyTargetCar_46A850();
     EXPORT void sub_46A8F0();
     EXPORT void sub_46A9C0();
     EXPORT void sub_46AAE0();
@@ -303,7 +303,7 @@ class Ped
 
     s32 get_ped_state1() const
     {
-        return field_278_ped_state;
+        return field_278_ped_state_1;
     }
 
     // 9.6f inline 0x403AE0
@@ -489,7 +489,7 @@ class Ped
 
     inline s32 GetPedState_403990()
     {
-        return field_278_ped_state;
+        return field_278_ped_state_1;
     }
 
     inline bool sub_433DA0()
@@ -563,8 +563,8 @@ class Ped
     s16 field_20A_wanted_points;
     s16 field_20C;
     s16 field_20e;
-    u16 field_210;
-    u16 field_212;
+    u16 field_210_shock_counter;
+    u16 field_212_electrocution_threshold;
     s16 field_214;
     s16 field_216_health;
     u16 field_218_objective_timer;
@@ -629,10 +629,10 @@ class Ped
     s32 field_26C_graphic_type;
     s32 field_270;
     s32 field_274_gang_car_model;
-    s32 field_278_ped_state;
-    s32 field_27C;
-    s32 field_280;
-    s32 field_284;
+    s32 field_278_ped_state_1;
+    s32 field_27C_ped_state_2;
+    s32 field_280_stored_ped_state_1;
+    s32 field_284_stored_ped_state_2;
     s32 field_288_threat_search;
     s32 field_28C_threat_reaction;
     s32 field_290;

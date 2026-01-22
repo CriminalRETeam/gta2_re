@@ -1021,6 +1021,9 @@ void CC ImGuiDebugDraw()
                         pPlayer->field_2C4_player_ped->AddThreateningPedToList_46FC70();
                     }
 
+                    ImGui::SliderU16("F-210", &pPlayer->field_2C4_player_ped->field_210_shock_counter, 0, 500);
+                    ImGui::SliderU16("F-212", &pPlayer->field_2C4_player_ped->field_212_electrocution_threshold, 0, 500);
+
                     Car_BC* pPlayerCar = pPlayerPed->field_16C_car;
                     ImGui::Text("Car 0x%X", pPlayerCar);
                     if (pPlayerCar)
@@ -1137,7 +1140,7 @@ void CC ImGuiDebugDraw()
                     if (pPlayerPed)
                     {
                         ImGui::InputInt("F 238", &pPlayerPed->field_238, 1, 1);
-                        ImGui::InputInt("F 278", &pPlayerPed->field_278_ped_state, 1, 1);
+                        ImGui::InputInt("F 278", &pPlayerPed->field_278_ped_state_1, 1, 1);
                     }
 
                     static int currentWeaponIndex = 0;
@@ -1207,6 +1210,8 @@ void CC ImGuiDebugDraw()
                             pPlayer->field_2C4_player_ped->field_168_game_object->DrownPed_5459E0();
                         }
                     }
+
+                    pPlayerSprite = GetPlayerSprite();
 
                     if (pPlayerSprite)
                     {

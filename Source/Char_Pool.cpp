@@ -227,8 +227,8 @@ Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
     pNewPed->field_240_occupation = 4; //unknown_2;
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
-    pNewPed->sub_45C500(10);
-    pNewPed->sub_45C540(10);
+    pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
+    pNewPed->ChangeNextPedState2_45C540(10);
     pNewPed->field_248_enter_car_as_passenger = 0;
     pNewPed->field_24C_target_car_door = 0;
     pNewPed->field_288_threat_search = 2; //area_2;
@@ -249,8 +249,8 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
   pNewPed->field_240_occupation = ped_ocupation_enum::unknown_19;
   pNewPed->field_16C_car = pCar;
   pNewPed->field_168_game_object = 0;
-  pNewPed->sub_45C500(10);
-  pNewPed->sub_45C540(10);
+  pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
+  pNewPed->ChangeNextPedState2_45C540(10);
   pNewPed->field_248_enter_car_as_passenger = 0;
   pNewPed->field_24C_target_car_door = 0;
   pNewPed->field_288_threat_search = threat_search_enum::area_2;
@@ -294,8 +294,8 @@ Ped* PedManager::sub_470CC0(Car_BC* pCar)
     pNewPed->field_240_occupation = 4; //unknown_2;
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
-    pNewPed->sub_45C500(10);
-    pNewPed->sub_45C540(10);
+    pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
+    pNewPed->ChangeNextPedState2_45C540(10);
     pNewPed->field_24C_target_car_door = 0;
     pNewPed->field_288_threat_search = 2; //area_2;
     pNewPed->field_28C_threat_reaction = 3; //run_away_3;

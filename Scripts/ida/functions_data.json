@@ -2900,7 +2900,7 @@
         "v105_address": "0x45bc10"
     },
     {
-        "name": "Ped::sub_45BC70",
+        "name": "Ped::ManageShocking_45BC70",
         "v96f_address": null,
         "v105_address": "0x45bc70"
     },
@@ -3000,17 +3000,17 @@
         "v105_address": "0x45c4e0"
     },
     {
-        "name": "Ped::sub_45C500",
+        "name": "Ped::ChangeNextPedState1_45C500",
         "v96f_address": null,
         "v105_address": "0x45c500"
     },
     {
-        "name": "Ped::sub_45C540",
+        "name": "Ped::ChangeNextPedState2_45C540",
         "v96f_address": null,
         "v105_address": "0x45c540"
     },
     {
-        "name": "Ped::sub_45C5A0",
+        "name": "Ped::RestorePreviousPedState_45C5A0",
         "v96f_address": null,
         "v105_address": "0x45c5a0"
     },
@@ -3385,7 +3385,7 @@
         "v105_address": "0x467960"
     },
     {
-        "name": "Ped::sub_467A20",
+        "name": "Ped::FleeFromCharOnFootAlways_467A20",
         "v96f_address": null,
         "v105_address": "0x467a20"
     },
@@ -3460,12 +3460,12 @@
         "v105_address": "0x468bd0"
     },
     {
-        "name": "Ped::sub_468C70",
+        "name": "Ped::PatrolOnFoot_468C70",
         "v96f_address": null,
         "v105_address": "0x468c70"
     },
     {
-        "name": "Ped::sub_468DE0",
+        "name": "Ped::GotoAreaOnFoot_468DE0",
         "v96f_address": null,
         "v105_address": "0x468de0"
     },
@@ -3525,7 +3525,7 @@
         "v105_address": "0x469f30"
     },
     {
-        "name": "Ped::sub_469FC0",
+        "name": "Ped::WaitInCurrentCar_469FC0",
         "v96f_address": null,
         "v105_address": "0x469fc0"
     },
@@ -3540,7 +3540,7 @@
         "v105_address": "0x46a1f0"
     },
     {
-        "name": "Ped::sub_46A290",
+        "name": "Ped::FollowCarInCurrCar_46A290",
         "v96f_address": null,
         "v105_address": "0x46a290"
     },
@@ -3565,12 +3565,12 @@
         "v105_address": "0x46a6d0"
     },
     {
-        "name": "Ped::sub_46A7C0",
+        "name": "Ped::DestroyTargetObject_46A7C0",
         "v96f_address": null,
         "v105_address": "0x46a7c0"
     },
     {
-        "name": "Ped::sub_46A850",
+        "name": "Ped::DestroyTargetCar_46A850",
         "v96f_address": "0x439810",
         "v105_address": "0x46a850"
     },
@@ -6715,7 +6715,7 @@
         "v105_address": "0x4caae0"
     },
     {
-        "name": "PedGroup::sub_4CAB80",
+        "name": "PedGroup::AreAllMembersOnFoot_4CAB80",
         "v96f_address": null,
         "v105_address": "0x4cab80"
     },

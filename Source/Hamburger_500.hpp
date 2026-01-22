@@ -16,8 +16,8 @@ class Hamburger_40
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    Ped* field_4; // owner/thing going to the target
-    s32 field_8;
+    Ped* field_4_ped_owner; // owner/thing going to the target
+    s32 field_8_maybe_path_type;
     s32 field_C;
     char_type field_10;
     char_type field_11;
@@ -39,7 +39,7 @@ class Hamburger_40
     s16 field_2A;
     u16 field_2C;
     s16 field_2E;
-    Ped* field_30;
+    Ped* field_30_ped_to_follow;
     s16 field_34;
     char_type field_36;
     char_type field_37;
