@@ -1086,7 +1086,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
                 {
                     pPed->SetObjective(objectives_enum::no_obj_0, 9999);
                     pPed->sub_463830(0, 9999);
-                    pPed->ChangePedStateIfNotImmobilized_45C500(10);
+                    pPed->ChangePedStateIfNotImmobilized_45C500(ped_state_1::in_car_10);
                     pPed->sub_45C540(10);
                 }
             }
