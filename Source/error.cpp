@@ -3,7 +3,6 @@
 #include "Globals.hpp"
 #include "fix16.hpp"
 #include "winmain.hpp"
-#include <FSTREAM.H>
 #include <stdio.h>
 #include <time.h>
 #include <windows.h>
@@ -57,11 +56,23 @@ ErrorLog::ErrorLog(const char* FileName, int a3)
     sub_4D9470(FileName, a3);
 }
 
+MATCH_FUNC(0x4D9690)
+EXPORT void __cdecl log_on_line_written_cb_4D9690(void* a1)
+{
+    ((ostream*)a1)->flush();
+}
+
 STUB_FUNC(0x4D9620)
-ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
+void ErrorLog::Write_4D9620(const char_type* pMsg)
 {
     NOT_IMPLEMENTED;
-    return *this;
+    
+    // For some reason log_on_line_written_cb_4D9690 addr gets pushed between these calls ??
+    ((ostream&)this->field_0_ofstr) << pMsg << '\n';
+
+    log_on_line_written_4D9670(log_on_line_written_cb_4D9690);
+
+    ((ostream&)this->field_0_ofstr).flush();
 }
 
 STUB_FUNC(0x4D9650)
@@ -81,17 +92,10 @@ EXPORT void ErrorLog::log_timestamp_4D9540()
     Write_4D9620(gTmpBuffer_67C598);
 }
 
-MATCH_FUNC(0x4D9690)
-EXPORT void __cdecl log_on_line_written_cb_4D9690(void* a1)
-{
-    ((ostream*)a1)->flush();
-}
-
 MATCH_FUNC(0x4D9670)
-void* ErrorLog::log_on_line_written_4D9670(TLogLineCallback pCallBack)
+void ErrorLog::log_on_line_written_4D9670(TLogLineCallback pCallBack)
 {
     pCallBack(this);
-    return this;
 }
 
 MATCH_FUNC(0x4D95A0)
