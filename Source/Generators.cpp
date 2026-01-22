@@ -5,10 +5,22 @@
 DEFINE_GLOBAL(GeneratorPool_14AC*, gGeneratorPool_14AC_67E5D0, 0x67E5D0);
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
-STUB_FUNC(0x4c1c50)
-void Generator_2C::Service_4C1C50()
+STUB_FUNC(0x4C1B10)
+EXPORT void Generator_2C::sub_4C1B10()
 {
     NOT_IMPLEMENTED;
+}
+
+MATCH_FUNC(0x4c1c50)
+void Generator_2C::Service_4C1C50()
+{
+    if (rng_dword_67AB34->field_0_rng >= field_18_cycle)
+    {
+        if (field_1E_kill_timer > 0)
+        {
+            sub_4C1B10();
+        }
+    }
 }
 
 MATCH_FUNC(0x4c1c70)
@@ -23,7 +35,7 @@ void Generator_2C::sub_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generato
     field_14_max_delay = max_delay;
     field_18_cycle = rng_dword_67AB34->field_0_rng + 1;
     field_20 = 1;
-    field_1E = 0;
+    field_1E_kill_timer = 0;
     field_1C_ammo = 0;
     field_24_obj = NULL;
     field_28 = 0;

@@ -9,6 +9,7 @@ class Object_2C;
 class Generator_2C
 {
   public:
+    EXPORT void sub_4C1B10();
     EXPORT void Service_4C1C50();
     EXPORT void sub_4C1C70(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
 
@@ -20,9 +21,9 @@ class Generator_2C
     u16 field_12_min_delay;
     u16 field_14_max_delay;
     s16 field_16;
-    s32 field_18_cycle;
+    u32 field_18_cycle;
     s16 field_1C_ammo;
-    s16 field_1E;
+    u16 field_1E_kill_timer;
     char_type field_20;
     char_type field_21;
     char_type field_22;
