@@ -19,7 +19,7 @@ class Generator_2C
     s32 field_4_x;
     s32 field_8_y;
     s32 field_C_z;
-    s16 field_10;
+    Ang16 field_10_rot;
     u16 field_12_min_delay;
     u16 field_14_max_delay;
     s16 field_16;
@@ -31,7 +31,7 @@ class Generator_2C
     char_type field_22;
     char_type field_23;
     Object_2C* field_24_obj;
-    s32 field_28;
+    s32 field_28_id;
 };
 
 class GeneratorPool_14AC
