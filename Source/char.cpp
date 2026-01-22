@@ -420,10 +420,10 @@ void Char_B4::sub_545720(Fix16 a2)
                 nullsub_28();
                 break;
             case 7:
-                Char_B4::state_7_551CB0(); // Repulsion/Repel Ending?
+                Char_B4::state_7_551CB0(); // Standing Still?
                 break;
             case 8:
-                Char_B4::state_8_5520A0(); // Repulsion/Repel
+                Char_B4::state_8_5520A0(); // Immobilized?
                 break;
             case 9:
                 Char_B4::state_9_552E90(); // Dying?

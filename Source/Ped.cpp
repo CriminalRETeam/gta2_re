@@ -876,8 +876,10 @@ void Ped::TakeDamage(s16 damage)
 MATCH_FUNC(0x45cf20)
 void Ped::sub_45CF20(Object_2C* a2)
 {
-    if (field_278_ped_state_1 != ped_state_1::dead_9 && field_278_ped_state_1 != ped_state_1::immobilized_8 && a2->field_18_model == 258 &&
-        word_6787D0 < 10)
+    if (field_278_ped_state_1 != ped_state_1::dead_9 
+        && field_278_ped_state_1 != ped_state_1::immobilized_8 
+        && a2->field_18_model == 258 
+        && word_6787D0 < 10)
     {
         sub_45E4A0();
     }
@@ -2181,7 +2183,7 @@ bool Ped::PoolUpdate()
                 else
                 {
                     Ped::Occupation_AI_461F20();
-                    if (field_258_objective || field_25C_car_state)
+                    if (field_258_objective != objectives_enum::no_obj_0 || field_25C_car_state)
                     {
                         byte_61A8A3 = 0;
                         Ped::ProcessObjective_4632E0();
@@ -2386,7 +2388,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::sub_467960();
                 break;
             case objectives_enum::flee_char_on_foot_always_3:
-                Ped::sub_467A20();
+                Ped::FleeFromCharOnFootAlways_467A20();
                 break;
             case objectives_enum::flee_char_any_means_till_safe_4:
                 nullsub_9();
@@ -2438,13 +2440,13 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::LeaveTargetObjectiveCar_468820();
                 break;
             case objectives_enum::patrol_on_foot_42:
-                Ped::sub_468C70();
+                Ped::PatrolOnFoot_468C70();
                 break;
             case objectives_enum::goto_char_on_foot_16:
                 Ped::sub_468E80();
                 break;
             case objectives_enum::goto_area_on_foot_12:
-                Ped::sub_468DE0();
+                Ped::GotoAreaOnFoot_468DE0();
                 break;
             case objectives_enum::goto_area_any_means_13:
                 Ped::sub_469060();
@@ -2474,7 +2476,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::sub_469E50();
                 break;
             case objectives_enum::wait_in_car_27:
-                Ped::sub_469FC0();
+                Ped::WaitInCurrentCar_469FC0();
                 break;
             case objectives_enum::objective_10:
                 Ped::sub_469F30();
@@ -2486,7 +2488,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::sub_46A1F0();
                 break;
             case objectives_enum::follow_car_in_car_55:
-                Ped::sub_46A290();
+                Ped::FollowCarInCurrCar_46A290();
                 break;
             case objectives_enum::follow_car_on_foot_with_offset_56:
                 Ped::sub_46A350();
@@ -2495,10 +2497,10 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::sub_46A530();
                 break;
             case objectives_enum::destroy_car_59:
-                Ped::sub_46A850();
+                Ped::DestroyTargetCar_46A850();
                 break;
             case objectives_enum::destroy_object_58:
-                Ped::sub_46A7C0();
+                Ped::DestroyTargetObject_46A7C0();
                 break;
             case objectives_enum::turret_put_out_car_fire_60:
                 Ped::sub_46A6D0();
@@ -3116,7 +3118,7 @@ void Ped::FleeOnFootTillSafe_4678E0()
 {
     if (byte_61A8A3)
     {
-        if (gDistanceToTarget_678750 > dword_678520) // far away from the threat?
+        if (gDistanceToTarget_678750 > dword_678520) // far away from the threat or place?
         {
             if (field_168_game_object)
             {
@@ -3181,20 +3183,21 @@ void Ped::sub_467960()
 }
 
 MATCH_FUNC(0x467a20)
-void Ped::sub_467A20()
+void Ped::FleeFromCharOnFootAlways_467A20()
 {
-    if (field_148_objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9 || (field_148_objective_target_ped->field_21C & 1) == 0)
+    if (field_148_objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9 
+        || field_148_objective_target_ped->field_21C_bf.b0 == false)
     {
+        // Only back to normality if the menacing ped is died or (maybe) cannot move
         Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
         Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
-        this->field_148_objective_target_ped = 0;
-        this->field_225_objective_status = objective_status::passed_1;
-        return;
+        field_148_objective_target_ped = 0;
+        field_225_objective_status = objective_status::passed_1;
     }
-
-    if (byte_61A8A3)
+    else if (byte_61A8A3)
     {
-        this->field_168_game_object->field_38_velocity = this->field_168_game_object->field_3C_run_or_jump_speed;
+        // Run
+        field_168_game_object->field_38_velocity = field_168_game_object->field_3C_run_or_jump_speed;
         field_21C_bf.b11 = 0;
     }
 }
@@ -3508,10 +3511,10 @@ void Ped::sub_468310()
             if (!this->field_16C_car->field_60)
             {
                 this->field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
-                this->field_16C_car->field_60->field_4 = this;
+                this->field_16C_car->field_60->field_4_ped_owner = this;
             }
 
-            this->field_16C_car->field_60->field_8 = 1;
+            this->field_16C_car->field_60->field_8_maybe_path_type = 1;
             this->field_16C_car->field_60->field_22 = 1;
             this->field_16C_car->field_60->field_20 = 0;
             this->field_16C_car->field_60->field_14_target_x = this->field_1DC_objective_target_x;
@@ -3853,7 +3856,7 @@ void Ped::sub_468BD0()
 }
 
 MATCH_FUNC(0x468c70)
-void Ped::sub_468C70()
+void Ped::PatrolOnFoot_468C70()
 {
     if (byte_61A8A3)
     {
@@ -3889,7 +3892,7 @@ void Ped::sub_468C70()
 }
 
 MATCH_FUNC(0x468de0)
-void Ped::sub_468DE0()
+void Ped::GotoAreaOnFoot_468DE0()
 {
     if (field_240_occupation == ped_ocupation_enum::drone)
     {
@@ -4027,11 +4030,11 @@ void Ped::sub_469E50()
         if (!field_16C_car->field_60)
         {
             field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
-            field_16C_car->field_60->field_4 = this;
+            field_16C_car->field_60->field_4_ped_owner = this;
         }
-        field_16C_car->field_60->field_8 = 4;
+        field_16C_car->field_60->field_8_maybe_path_type = 4;
         field_16C_car->sub_421560(5);
-        field_16C_car->field_60->field_30 = field_148_objective_target_ped;
+        field_16C_car->field_60->field_30_ped_to_follow = field_148_objective_target_ped;
         field_16C_car->field_A6 &= ~0x20u;
         field_16C_car->field_5C->field_74 = dword_67866C;
         field_16C_car->field_60->field_20 = 1;
@@ -4055,17 +4058,17 @@ void Ped::sub_469F30()
     if (!field_16C_car->field_60)
     {
         field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
-        field_16C_car->field_60->field_4 = this;
+        field_16C_car->field_60->field_4_ped_owner = this;
     }
-    field_16C_car->field_60->field_8 = 2;
+    field_16C_car->field_60->field_8_maybe_path_type = 2;
     field_16C_car->sub_421560(5);
-    field_16C_car->field_60->field_30 = field_148_objective_target_ped;
+    field_16C_car->field_60->field_30_ped_to_follow = field_148_objective_target_ped;
     field_16C_car->field_A6 &= ~0x20u;
     field_16C_car->field_5C->field_74 = dword_67866C;
 }
 
 MATCH_FUNC(0x469fc0)
-void Ped::sub_469FC0()
+void Ped::WaitInCurrentCar_469FC0()
 {
     Car_BC* pBC = this->field_16C_car;
     if (pBC)
@@ -4074,6 +4077,7 @@ void Ped::sub_469FC0()
     }
     else
     {
+        // He is out of the car
         this->field_225_objective_status = objective_status::failed_2;
     }
 }
@@ -4128,22 +4132,24 @@ void Ped::sub_46A1F0()
 }
 
 MATCH_FUNC(0x46a290)
-void Ped::sub_46A290()
+void Ped::FollowCarInCurrCar_46A290()
 {
     if (!field_150_target_objective_car->field_54_driver || field_168_game_object)
     {
+        // If the car it's following doesnt have a driver OR this ped (which will follow) is on foot (not in a car)
         field_225_objective_status = objective_status::failed_2;
     }
     else
     {
         if (!field_16C_car->field_60)
         {
+            // If no path, create one
             field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
-            field_16C_car->field_60->field_4 = this;
+            field_16C_car->field_60->field_4_ped_owner = this;
         }
-        field_16C_car->field_60->field_8 = 2;
+        field_16C_car->field_60->field_8_maybe_path_type = 2;
         field_16C_car->sub_421560(5);
-        field_16C_car->field_60->field_30 = field_150_target_objective_car->field_54_driver;
+        field_16C_car->field_60->field_30_ped_to_follow = field_150_target_objective_car->field_54_driver;
         field_16C_car->field_A6 &= ~0x20u;
         field_16C_car->field_5C->field_74 = dword_67866C;
     }
@@ -4177,7 +4183,7 @@ s16 Ped::sub_46A6D0()
 }
 
 MATCH_FUNC(0x46a7c0)
-void Ped::sub_46A7C0()
+void Ped::DestroyTargetObject_46A7C0()
 {
     if (byte_61A8A3 && (field_21C & 4) == 0)
     {
@@ -4212,7 +4218,7 @@ void Ped::sub_46A7C0()
 }
 
 MATCH_FUNC(0x46a850)
-void Ped::sub_46A850()
+void Ped::DestroyTargetCar_46A850()
 {
     if (field_150_target_objective_car->field_74_damage == 32001)
     {
@@ -4601,12 +4607,12 @@ void Ped::sub_46CA70()
     if (!this->field_16C_car->field_60)
     {
         this->field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
-        this->field_16C_car->field_60->field_4 = this;
+        this->field_16C_car->field_60->field_4_ped_owner = this;
     }
 
-    if (this->field_258_objective == 19)
+    if (this->field_258_objective == objectives_enum::kill_char_any_means_19)
     {
-        field_16C_car->field_60->field_8 = 5;
+        field_16C_car->field_60->field_8_maybe_path_type = 5;
         if ((field_21C & 0x80u) != 0)
         {
             this->field_21C |= 0x800;
@@ -4614,13 +4620,13 @@ void Ped::sub_46CA70()
     }
     else
     {
-        field_16C_car->field_60->field_8 = 2;
+        field_16C_car->field_60->field_8_maybe_path_type = 2;
     }
 
     Car_BC* pBC = this->field_16C_car;
     pBC->field_7C_uni_num = 5;
     pBC->field_76 = 0;
-    this->field_16C_car->field_60->field_30 = this->field_14C;
+    this->field_16C_car->field_60->field_30_ped_to_follow = this->field_14C;
     this->field_16C_car->field_A6 &= ~0x20u;
     this->field_16C_car->field_5C->field_74 = dword_67866C;
     this->field_16C_car->field_60->field_20 = 1;
