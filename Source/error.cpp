@@ -75,11 +75,10 @@ void ErrorLog::Write_4D9620(const char_type* pMsg)
     ((ostream&)this->field_0_ofstr).flush();
 }
 
-STUB_FUNC(0x4D9650)
+MATCH_FUNC(0x4D9650)
 void ErrorLog::Write_Log_4D9650(const char_type* buffer)
 {
-    NOT_IMPLEMENTED;
-    //field_0_ofstr.operator<<(buffer).flush();
+     ((ostream&)this->field_0_ofstr) << buffer << flush;
 }
 
 MATCH_FUNC(0x4D9540)
