@@ -5,6 +5,36 @@
 DEFINE_GLOBAL(GeneratorPool_14AC*, gGeneratorPool_14AC_67E5D0, 0x67E5D0);
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
+MATCH_FUNC(0x4C1A70)
+void Generator_2C::sub_4C1A70()
+{
+    field_1E_kill_timer = -1;
+
+    if (!bStartNetworkGame_7081F0)
+    {
+        field_18_cycle = next_cycle_4C1AB0();
+        gGeneratorPool_14AC_67E5D0->field_14A4_kill_count++;
+    }
+    else
+    {
+        field_18_cycle = rng_dword_67AB34->field_0_rng + 1;
+        gGeneratorPool_14AC_67E5D0->field_14A4_kill_count++;
+    }
+}
+
+STUB_FUNC(0x4C1AB0)
+s32 Generator_2C::next_cycle_4C1AB0()
+{
+    s32 min_d = field_12_min_delay;
+    s32 max_d = field_14_max_delay;
+    if ((s16)min_d == (s16)max_d)
+    {
+        return (u16)min_d + rng_dword_67AB34->field_0_rng;
+    }
+    s32 mix_max_delta_m4 = 4 * (max_d - (s32)min_d);
+    return stru_6F6784.get_int_4F7AE0((s16*)&mix_max_delta_m4) + 4 * (u16)field_12_min_delay + rng_dword_67AB34->field_0_rng;
+}
+
 STUB_FUNC(0x4C1B10)
 EXPORT void Generator_2C::sub_4C1B10()
 {
@@ -110,6 +140,6 @@ GeneratorPool_14AC::GeneratorPool_14AC()
     }
 
     field_14A0_count = 0;
-    field_14A4 = 0;
+    field_14A4_kill_count = 0;
     field_14A8_count_d3 = 0;
 }

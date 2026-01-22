@@ -9,6 +9,8 @@ class Object_2C;
 class Generator_2C
 {
   public:
+    EXPORT void sub_4C1A70();
+    EXPORT s32 next_cycle_4C1AB0();
     EXPORT void sub_4C1B10();
     EXPORT void Service_4C1C50();
     EXPORT void sub_4C1C70(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
@@ -41,7 +43,7 @@ class GeneratorPool_14AC
     EXPORT GeneratorPool_14AC();
     Generator_2C field_0_pool[120];
     s32 field_14A0_count;
-    s32 field_14A4;
+    s32 field_14A4_kill_count;
     u8 field_14A8_count_d3;
     char_type field_14A9;
     char_type field_14AA;
