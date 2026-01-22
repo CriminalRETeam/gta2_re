@@ -58,7 +58,7 @@ class Ped
     EXPORT void RespawnPed_45C350(gmp_map_zone* pZone);
     EXPORT void sub_45C410();
     EXPORT void sub_45C4B0();
-    EXPORT void sub_45C500(s32 a2);
+    EXPORT void ChangePedStateIfNotImmobilized_45C500(s32 a2);
     EXPORT void sub_45C540(s32 a2);
     EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
@@ -563,8 +563,8 @@ class Ped
     s16 field_20A_wanted_points;
     s16 field_20C;
     s16 field_20e;
-    u16 field_210;
-    u16 field_212;
+    u16 field_210_shock_counter;
+    u16 field_212_electrocution_threshold;
     s16 field_214;
     s16 field_216_health;
     u16 field_218_objective_timer;
@@ -631,7 +631,7 @@ class Ped
     s32 field_274_gang_car_model;
     s32 field_278_ped_state;
     s32 field_27C;
-    s32 field_280;
+    s32 field_280_stored_ped_state;
     s32 field_284;
     s32 field_288_threat_search;
     s32 field_28C_threat_reaction;

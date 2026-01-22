@@ -250,7 +250,7 @@ void PedGroup::sub_4C92A0()
         {
             Ped* this_00 = field_4_ped_list[bVar4];
             Ped** pppVar1 = field_4_ped_list + bVar4;
-            if ((this_00->get_ped_state1() == ped_state1_enum::ped_wasted) || (this_00->field_280 == ped_state1_enum::ped_wasted))
+            if ((this_00->get_ped_state1() == ped_state1_enum::ped_wasted) || (this_00->field_280_stored_ped_state == ped_state1_enum::ped_wasted))
             {
                 this_00->reset_ped_group();
             }
@@ -284,7 +284,7 @@ void PedGroup::DestroyGroup_4C93A0()
     }
 
     Ped* ppVar2 = field_2C_ped_leader;
-    if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) && (ppVar2->field_280 != ped_state1_enum::ped_wasted))
+    if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) && (ppVar2->field_280_stored_ped_state != ped_state1_enum::ped_wasted))
     {
         ppVar2->SetObjective(0, 9999);
         field_2C_ped_leader->sub_463830(0, 9999);
@@ -297,7 +297,7 @@ void PedGroup::DestroyGroup_4C93A0()
         {
             ppVar2 = field_4_ped_list[bVar5];
             Ped** pppVar1 = field_4_ped_list + bVar5;
-            if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) || (ppVar2->field_280 == ped_state1_enum::ped_wasted))
+            if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) || (ppVar2->field_280_stored_ped_state == ped_state1_enum::ped_wasted))
             {
                 ppVar2->reset_ped_group();
             }

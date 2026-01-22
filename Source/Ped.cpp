@@ -298,30 +298,30 @@ void Ped::sub_45BC70()
 {
     if (field_278_ped_state != ped_state_1::dead_9)
     {
-        if (field_210 >= field_212)
+        if (field_210_shock_counter >= field_212_electrocution_threshold)
         {
             if (field_168_game_object)
             {
                 if (field_168_game_object->field_10 != 15 && field_278_ped_state != ped_state_1::immobilized_8)
                 {
-                    sub_45C500(8);
+                    ChangePedStateIfNotImmobilized_45C500(8);
                     sub_45C540(27);
                     field_168_game_object->field_16 = 1;
                 }
 
-                if (field_210 > 0)
+                if (field_210_shock_counter > 0)
                 {
-                    --field_210;
+                    --field_210_shock_counter;
                 }
             }
             else
             {
-                field_210 = 0;
+                field_210_shock_counter = 0;
             }
         }
-        else if (field_210 > 0)
+        else if (field_210_shock_counter > 0)
         {
-            --field_210;
+            --field_210_shock_counter;
         }
 
         if (field_168_game_object)
@@ -345,7 +345,7 @@ bool Ped::sub_45BD20(Car_BC* pCar)
     Door->sub_439EA0();
 
     field_168_game_object->sub_553E00(word_6784FC + pCar->field_50_car_sprite->field_0, dword_678634 + dword_678480, k_dword_678660, 1);
-    Ped::sub_45C500(0);
+    Ped::ChangePedStateIfNotImmobilized_45C500(0);
     Ped::sub_45C540(0);
     return false;
 }
@@ -615,20 +615,20 @@ void Ped::sub_45C4B0()
 }
 
 MATCH_FUNC(0x45c500)
-void Ped::sub_45C500(s32 a2)
+void Ped::ChangePedStateIfNotImmobilized_45C500(s32 new_state)
 {
     if (field_278_ped_state != ped_state1_enum::ped_fall_on_ground)
     {
-        if (a2 == ped_state1_enum::ped_fall_on_ground)
+        if (new_state == ped_state1_enum::ped_fall_on_ground)
         {
-            field_280 = field_278_ped_state;
+            field_280_stored_ped_state = field_278_ped_state;
         }
-        field_278_ped_state = a2;
-        return;
+        field_278_ped_state = new_state;
     }
-    if (a2 != ped_state1_enum::ped_fall_on_ground)
+    else if (new_state != ped_state1_enum::ped_fall_on_ground)
     {
-        field_280 = a2;
+        // current state of the ped is immobilized, so store the new state (if not the same "immobilized")
+        field_280_stored_ped_state = new_state;
     }
 }
 
@@ -658,7 +658,7 @@ void Ped::sub_45C540(s32 a2)
 MATCH_FUNC(0x45c5a0)
 void Ped::sub_45C5A0()
 {
-    field_278_ped_state = field_280;
+    field_278_ped_state = field_280_stored_ped_state;
     field_27C = field_284;
 }
 
@@ -668,7 +668,7 @@ void Ped::sub_45C5C0()
     if (!this->field_16C_car && this->field_258_objective == 35 && this->field_25C_car_state == 35 &&
         this->field_168_game_object->field_10 != 15 && this->field_27C != 6)
     {
-        sub_45C500(0);
+        ChangePedStateIfNotImmobilized_45C500(0);
         sub_45C540(0);
         this->field_16C_car = 0;
         SetObjective(0, 9999);
@@ -1151,7 +1151,7 @@ void Ped::Mugger_AI_45F360()
             else
             {
                 field_218_objective_timer = 40;
-                Ped::sub_45C500(0);
+                Ped::ChangePedStateIfNotImmobilized_45C500(0);
                 Ped::sub_45C540(0);
             }
 
@@ -1758,7 +1758,7 @@ char_type Ped::StateMachineTick_4626B0()
 
             if (!this->field_168_game_object)
             {
-                this->field_210 = 0;
+                this->field_210_shock_counter = 0;
                 goto LABEL_37;
             }
 
@@ -1797,7 +1797,7 @@ char_type Ped::StateMachineTick_4626B0()
             {
                 if (!this->field_278_ped_state && this->field_168_game_object->field_38_velocity == k_dword_678660)
                 {
-                    Ped::sub_45C500(7);
+                    Ped::ChangePedStateIfNotImmobilized_45C500(7);
                     Ped::sub_45C540(14);
                 }
             }
@@ -1805,12 +1805,12 @@ char_type Ped::StateMachineTick_4626B0()
             {
                 if (this->field_278_ped_state == 7)
                 {
-                    Ped::sub_45C500(0);
+                    Ped::ChangePedStateIfNotImmobilized_45C500(0);
                     Ped::sub_45C540(0);
                 }
                 if (this->field_278_ped_state == 3 && this->field_27C == 4)
                 {
-                    Ped::sub_45C500(0);
+                    Ped::ChangePedStateIfNotImmobilized_45C500(0);
                     Ped::sub_45C540(0);
                     Ped::SetObjective(objectives_enum::no_obj_0, 9999);
                     Ped::sub_463830(0, 9999);
@@ -1823,7 +1823,7 @@ char_type Ped::StateMachineTick_4626B0()
             return 1;
         case 3:
             pB4 = this->field_168_game_object;
-            this->field_212 = 100;
+            this->field_212_electrocution_threshold = 100;
             if (pB4)
             {
                 f278_ = this->field_278_ped_state;
@@ -1867,7 +1867,7 @@ char_type Ped::StateMachineTick_4626B0()
         case 4:
         case 6:
             occupation_ = this->field_240_occupation;
-            this->field_212 = 100;
+            this->field_212_electrocution_threshold = 100;
             if (occupation_ == ped_ocupation_enum::unknown_10 && this->field_278_ped_state == 9)
             {
                 --byte_6787CE;
@@ -1940,7 +1940,7 @@ char_type Ped::StateMachineTick_4626B0()
             }
         case 5:
             pB4_ = this->field_168_game_object;
-            this->field_212 = 100;
+            this->field_212_electrocution_threshold = 100;
             this->field_230 = 2;
             if (pB4_)
             {
@@ -2101,19 +2101,19 @@ bool Ped::PoolUpdate()
     field_21C_bf.b23 = 0;
     if (field_21C_bf.b5 != 0 && field_278_ped_state != ped_state_1::immobilized_8)
     {
-        Ped::sub_45C500(8);
+        Ped::ChangePedStateIfNotImmobilized_45C500(8);
         Ped::sub_45C540(22);
         field_168_game_object->field_16 = 1;
     }
 
-    if ((u32)field_210 > field_212)
+    if ((u32)field_210_shock_counter > field_212_electrocution_threshold)
     {
-        field_210 = field_212;
+        field_210_shock_counter = field_212_electrocution_threshold;
     }
-    if (field_210 == field_212 && field_278_ped_state != ped_state_1::immobilized_8 && field_27C != 27)
+    if (field_210_shock_counter == field_212_electrocution_threshold && field_278_ped_state != ped_state_1::immobilized_8 && field_27C != 27)
     {
-        Ped::sub_45C500(8);
-        Ped::sub_45C540(27);
+        Ped::ChangePedStateIfNotImmobilized_45C500(8); // immobilize it
+        Ped::sub_45C540(27); // electrocute ped
         field_168_game_object->field_16 = 1;
     }
     if (byte_6787D8 == 1)
@@ -2251,31 +2251,31 @@ void Ped::sub_463300(u8 a1)
     switch (a1)
     {
         case 1u:
-            Ped::sub_45C500(0);
+            Ped::ChangePedStateIfNotImmobilized_45C500(0);
             Ped::sub_45C540(0);
             break;
         case 2u:
-            Ped::sub_45C500(1);
+            Ped::ChangePedStateIfNotImmobilized_45C500(1);
             Ped::sub_45C540(3);
             break;
         case 3u:
-            Ped::sub_45C500(1);
+            Ped::ChangePedStateIfNotImmobilized_45C500(1);
             Ped::sub_45C540(2);
             break;
         case 4u:
-            Ped::sub_45C500(7);
+            Ped::ChangePedStateIfNotImmobilized_45C500(7);
             Ped::sub_45C540(14);
             break;
         case 5u:
-            Ped::sub_45C500(10);
+            Ped::ChangePedStateIfNotImmobilized_45C500(10);
             Ped::sub_45C540(10);
             break;
         case 6u:
-            Ped::sub_45C500(3);
+            Ped::ChangePedStateIfNotImmobilized_45C500(3);
             Ped::sub_45C540(4);
             break;
         case 7u:
-            Ped::sub_45C500(4);
+            Ped::ChangePedStateIfNotImmobilized_45C500(4);
             Ped::sub_45C540(10);
             break;
         default:
@@ -3114,7 +3114,7 @@ void Ped::FleeOnFootTillSafe_4678E0()
                 if (field_168_game_object->field_44 == 2)
                 {
                     // back to normality
-                    Ped::sub_45C500(0);
+                    Ped::ChangePedStateIfNotImmobilized_45C500(0);
                     Ped::sub_45C540(0);
                     field_225_objective_status = objective_status::passed_1;
                 }
@@ -3142,7 +3142,7 @@ void Ped::sub_467960()
 {
     if (field_148_objective_target_ped->field_278_ped_state == ped_state_1::dead_9 || (field_148_objective_target_ped->field_21C & 1) == 0)
     {
-        Ped::sub_45C500(0);
+        Ped::ChangePedStateIfNotImmobilized_45C500(0);
         Ped::sub_45C540(0);
         this->field_148_objective_target_ped = 0;
         this->field_225_objective_status = objective_status::passed_1;
@@ -3155,7 +3155,7 @@ void Ped::sub_467960()
         {
             if (this->field_168_game_object->field_44 == 2)
             {
-                Ped::sub_45C500(0);
+                Ped::ChangePedStateIfNotImmobilized_45C500(0);
                 Ped::sub_45C540(0);
                 this->field_148_objective_target_ped = 0;
                 this->field_225_objective_status = objective_status::passed_1;
@@ -3163,7 +3163,7 @@ void Ped::sub_467960()
         }
         else
         {
-            Ped::sub_45C500(1);
+            Ped::ChangePedStateIfNotImmobilized_45C500(1);
             Ped::sub_45C540(3);
             this->field_168_game_object->field_38_velocity = this->field_168_game_object->field_3C_run_or_jump_speed;
             field_21C_bf.b11 = 0;
@@ -3176,7 +3176,7 @@ void Ped::sub_467A20()
 {
     if (field_148_objective_target_ped->field_278_ped_state == ped_state_1::dead_9 || (field_148_objective_target_ped->field_21C & 1) == 0)
     {
-        Ped::sub_45C500(0);
+        Ped::ChangePedStateIfNotImmobilized_45C500(0);
         Ped::sub_45C540(0);
         this->field_148_objective_target_ped = 0;
         this->field_225_objective_status = objective_status::passed_1;
@@ -3594,7 +3594,7 @@ void Ped::EnterTargetObjectiveCar_4686C0()
                 {
                     field_225_objective_status = objective_status::passed_1;
                     Ped::sub_463830(0, 9999);
-                    Ped::sub_45C500(10);
+                    Ped::ChangePedStateIfNotImmobilized_45C500(10);
                     Ped::sub_45C540(10);
                 }
                 return;
@@ -3720,7 +3720,7 @@ void Ped::EnterTrain_468930()
                 {
                     field_225_objective_status = objective_status::passed_1;
                     Ped::sub_463830(0, 9999);
-                    Ped::sub_45C500(10);
+                    Ped::ChangePedStateIfNotImmobilized_45C500(10);
                     Ped::sub_45C540(10);
                     return;
                 }
@@ -3892,7 +3892,7 @@ void Ped::sub_468DE0()
         {
             if (field_168_game_object->field_10 != 15)
             {
-                Ped::sub_45C500(7);
+                Ped::ChangePedStateIfNotImmobilized_45C500(7);
                 Ped::sub_45C540(14);
                 field_225_objective_status = objective_status::passed_1;
             }
@@ -3970,7 +3970,7 @@ void Ped::sub_469D60()
         {
             if (field_168_game_object->field_10 != 15)
             {
-                Ped::sub_45C500(7);
+                Ped::ChangePedStateIfNotImmobilized_45C500(7);
                 Ped::sub_45C540(14);
                 field_130 = field_134_rotation;
             }
@@ -4249,7 +4249,7 @@ void Ped::sub_46A8F0()
         {
             if (field_258_objective || pB4->field_44 == 2)
             {
-                Ped::sub_45C500(0);
+                Ped::ChangePedStateIfNotImmobilized_45C500(0);
                 Ped::sub_45C540(0);
                 field_226 = 1;
             }
@@ -4275,7 +4275,7 @@ void Ped::sub_46A9C0()
     field_14C->field_144 = 0;
     if (field_14C->field_278_ped_state == ped_state_1::dead_9 || field_14C->field_21C_bf.b0 == false)
     {
-        Ped::sub_45C500(0);
+        Ped::ChangePedStateIfNotImmobilized_45C500(0);
         Ped::sub_45C540(0);
         field_14C = 0;
         field_226 = 1;
@@ -4286,7 +4286,7 @@ void Ped::sub_46A9C0()
         {
             if (field_168_game_object->field_44 == 2)
             {
-                Ped::sub_45C500(0);
+                Ped::ChangePedStateIfNotImmobilized_45C500(0);
                 Ped::sub_45C540(0);
                 field_14C = 0;
                 field_226 = 1;
@@ -4294,7 +4294,7 @@ void Ped::sub_46A9C0()
         }
         else
         {
-            Ped::sub_45C500(1);
+            Ped::ChangePedStateIfNotImmobilized_45C500(1);
             Ped::sub_45C540(3);
             field_168_game_object->SetMaxSpeed_433920(field_168_game_object->field_3C_run_or_jump_speed);
         }
@@ -4306,7 +4306,7 @@ void Ped::sub_46AAE0()
 {
     if (field_14C->field_278_ped_state == ped_state_1::dead_9 || field_14C->field_21C_bf.b0 == false)
     {
-        Ped::sub_45C500(0);
+        Ped::ChangePedStateIfNotImmobilized_45C500(0);
         Ped::sub_45C540(0);
         field_14C = 0;
         field_226 = 1;
@@ -4324,7 +4324,7 @@ void Ped::sub_46AB50()
 {
     if (field_14C->field_278_ped_state == ped_state_1::dead_9 || field_14C->field_21C_bf.b0 == false)
     {
-        Ped::sub_45C500(0);
+        Ped::ChangePedStateIfNotImmobilized_45C500(0);
         Ped::sub_45C540(0);
         field_14C = 0;
         field_226 = 1;
@@ -4339,7 +4339,7 @@ void Ped::sub_46AB50()
             field_14C->field_144 = 0;
             if (gDistanceToTarget_678750 < dword_6785EC)
             {
-                Ped::sub_45C500(0);
+                Ped::ChangePedStateIfNotImmobilized_45C500(0);
                 Ped::sub_45C540(0);
                 field_14C = 0;
                 field_226 = 1;
@@ -4348,7 +4348,7 @@ void Ped::sub_46AB50()
             }
             else
             {
-                Ped::sub_45C500(1);
+                Ped::ChangePedStateIfNotImmobilized_45C500(1);
                 Ped::sub_45C540(2);
                 Ped::sub_4672E0(gDistanceToTarget_678750, 0);
                 field_168_game_object->field_38_velocity = field_168_game_object->field_3C_run_or_jump_speed; // OBS: inline doesn't match
@@ -4468,7 +4468,7 @@ void Ped::sub_46C7E0()
         {
             if (field_168_game_object->field_10 != 15)
             {
-                Ped::sub_45C500(7);
+                Ped::ChangePedStateIfNotImmobilized_45C500(7);
                 Ped::sub_45C540(14);
                 field_226 = 1;
             }
@@ -4500,7 +4500,7 @@ void Ped::sub_46C8A0()
         field_168_game_object->field_38_velocity = dword_678448;
         if (gDistanceToTarget_678750 < dword_678790)
         {
-            Ped::sub_45C500(7);
+            Ped::ChangePedStateIfNotImmobilized_45C500(7);
             Ped::sub_45C540(14);
             field_226 = 1;
         }
@@ -4531,7 +4531,7 @@ void Ped::sub_46C910()
         }
         else
         {
-            Ped::sub_45C500(2);
+            Ped::ChangePedStateIfNotImmobilized_45C500(2);
             Ped::sub_45C540(0);
             field_168_game_object->field_38_velocity = dword_678448;
         }
@@ -4545,7 +4545,7 @@ void Ped::sub_46C9B0()
     {
         if (gDistanceToTarget_678750 < dword_6784E8)
         {
-            Ped::sub_45C500(0);
+            Ped::ChangePedStateIfNotImmobilized_45C500(0);
             Ped::sub_45C540(0);
             field_226 = 0;
             Ped::sub_463830(49, 100);
@@ -5558,13 +5558,13 @@ void Ped::sub_470200(Fix16 a2, Fix16 a3, Fix16 a4)
     if (field_238 == 2)
     {
         Ped::sub_45C540(0);
-        Ped::sub_45C500(0);
+        Ped::ChangePedStateIfNotImmobilized_45C500(0);
         field_168_game_object->field_38_velocity = dword_678438;
     }
     else
     {
         Ped::sub_45C540(0);
-        Ped::sub_45C500(0);
+        Ped::ChangePedStateIfNotImmobilized_45C500(0);
     }
     field_16C_car = 0;
 }

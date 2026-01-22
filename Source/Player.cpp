@@ -1086,7 +1086,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
                 {
                     pPed->SetObjective(objectives_enum::no_obj_0, 9999);
                     pPed->sub_463830(0, 9999);
-                    pPed->sub_45C500(10);
+                    pPed->ChangePedStateIfNotImmobilized_45C500(10);
                     pPed->sub_45C540(10);
                 }
             }
@@ -1526,7 +1526,7 @@ void Player::Busted_5679E0()
         memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(Camera_0xBC));
         field_2D0 = 1;
         Player::RespawnPlayer_5670B0();
-        field_2C4_player_ped->field_210 = 0;
+        field_2C4_player_ped->field_210_shock_counter = 0;
         field_2C4_player_ped->field_20A_wanted_points = 0;
         field_2C4_player_ped->field_21C_bf.b5 = 0;
     }
@@ -1585,8 +1585,8 @@ void Player::Busted_5679E0()
                 field_68 = 0;
                 field_90_game_camera.sub_435DD0();
                 field_90_game_camera.inline_set_ped_id_to_1_475B60();
-                field_2C8_unkq->field_210 = 0;
-                field_2C8_unkq->field_210 = 0;
+                field_2C8_unkq->field_210_shock_counter = 0;
+                field_2C8_unkq->field_210_shock_counter = 0;
                 field_2C8_unkq->field_20A_wanted_points = 0;
                 field_2C8_unkq->Deallocate_45EB60();
                 field_2C8_unkq = 0;
@@ -1599,7 +1599,7 @@ void Player::Busted_5679E0()
         {
             if (field_2C == 2 && field_684_lives.field_0 > 0 && gLucid_hamilton_67E8E0.sub_4C59A0() != 1)
             {
-                field_2C4_player_ped->field_210 = 0;
+                field_2C4_player_ped->field_210_shock_counter = 0;
                 field_2C4_player_ped->field_20A_wanted_points = 0;
                 field_2C4_player_ped->SetObjective(objectives_enum::objective_54, 60);
                 field_2C4_player_ped->field_150_target_objective_car = 0;
