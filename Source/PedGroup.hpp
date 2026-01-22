@@ -37,7 +37,7 @@ class PedGroup
     EXPORT void sub_4CA820(u8 a2);
     EXPORT bool IsAllMembersInSomeCar_4CAA20();
     EXPORT char_type sub_4CAAE0();
-    EXPORT char_type sub_4CAB80();
+    EXPORT char_type AreAllMembersOnFoot_4CAB80();
     EXPORT bool sub_4CAC20(s32 idx);
     EXPORT bool sub_4CAD40();
     EXPORT Ped* sub_4CAE80(u8 idx);

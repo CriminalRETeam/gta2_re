@@ -3643,7 +3643,7 @@ void Ped::LeaveTargetObjectiveCar_468820()
         {
             if (field_164_ped_group)
             {
-                if (field_164_ped_group->sub_4CAB80())
+                if (field_164_ped_group->AreAllMembersOnFoot_4CAB80())
                 {
                     field_225_objective_status = objective_status::passed_1;
                 }
@@ -3691,7 +3691,7 @@ void Ped::LeaveTargetObjectiveCar_468820()
     {
         if (field_164_ped_group)
         {
-            if (field_164_ped_group->sub_4CAB80())
+            if (field_164_ped_group->AreAllMembersOnFoot_4CAB80())
             {
                 field_225_objective_status = objective_status::passed_1;
             }
@@ -3901,6 +3901,7 @@ void Ped::sub_468DE0()
         {
             if (field_168_game_object->field_10 != 15)
             {
+                // ped reached its destination
                 Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
                 field_225_objective_status = objective_status::passed_1;
@@ -3908,8 +3909,9 @@ void Ped::sub_468DE0()
         }
         else
         {
-            if (!field_218_objective_timer)
+            if (field_218_objective_timer == 0)
             {
+                // Time out. Objective passed anyway O.o, must be failed? OG bug?
                 field_225_objective_status = objective_status::passed_1;
             }
             field_168_game_object->SetMaxSpeed_433920(field_1F0_maybe_max_speed);

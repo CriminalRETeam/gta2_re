@@ -668,7 +668,7 @@ char_type PedGroup::sub_4CAAE0()
 }
 
 MATCH_FUNC(0x4cab80)
-char_type PedGroup::sub_4CAB80()
+char_type PedGroup::AreAllMembersOnFoot_4CAB80()
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
