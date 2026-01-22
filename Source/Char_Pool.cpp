@@ -172,7 +172,7 @@ PedManager::PedManager()
     byte_61A8A2 = 1;
     byte_6787D9 = 0;
     byte_6787DA = 0;
-    gDistanceToTarget_678750 = dword_678660;
+    gDistanceToTarget_678750 = k_dword_678660;
     dword_6787DC = 0;
     word_678760 = word_6787A8;
     byte_61A8A3 = 1;

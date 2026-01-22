@@ -70,7 +70,7 @@ class Ped
     EXPORT Ang16 get_field8_45C900();
     EXPORT Fix16 sub_45C920();
     EXPORT Ang16 GetRotation();
-    EXPORT Fix16& sub_45C9B0(Fix16& a2);
+    EXPORT Fix16 get_fieldC_45C9B0();
     EXPORT s16* ComputeAimAngle_45C9D0(s16* a2);
     EXPORT void HandleClosePedInteraction_45CAA0();
     EXPORT void TakeDamage(s16 damage);
