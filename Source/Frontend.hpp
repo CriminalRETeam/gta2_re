@@ -377,9 +377,9 @@ struct Frontend
 
     EXPORT void sub_4B4280();
 
-    EXPORT u8 sub_4B77B0(player_stats_0xA4* a2);
+    EXPORT u8 GetPrevUnlockedStageIndex_4B77B0(player_stats_0xA4* a2);
 
-    EXPORT u8 sub_4B7800(player_stats_0xA4* a2);
+    EXPORT u8 GetPrevUnlockedStageBonusCode_4B7800(player_stats_0xA4* a2);
 
     EXPORT void sub_4B8530();
 

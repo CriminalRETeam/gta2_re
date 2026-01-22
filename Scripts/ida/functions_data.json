@@ -5785,12 +5785,12 @@
         "v105_address": "0x4b7610"
     },
     {
-        "name": "Frontend::sub_4B77B0",
+        "name": "Frontend::GetPrevUnlockedStageIndex_4B77B0",
         "v96f_address": null,
         "v105_address": "0x4b77b0"
     },
     {
-        "name": "Frontend::sub_4B7800",
+        "name": "Frontend::GetPrevUnlockedStageBonusCode_4B7800",
         "v96f_address": null,
         "v105_address": "0x4b7800"
     },

@@ -1,18 +1,19 @@
 #include "Frontend.hpp"
-#include "ang16.hpp"
 #include "Bink.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "Draw.hpp"
+#include "Fix16_Point.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
+#include "ang16.hpp"
 #include "cSampleManager.hpp"
 #include "crt_stubs.hpp"
 #include "debug.hpp"
 #include "dma_video.hpp"
+#include "enums.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "fix16.hpp"
-#include "Fix16_Point.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "infallible_turing.hpp"
@@ -30,7 +31,6 @@
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
-#include "enums.hpp"
 
 #pragma comment(lib, "dxguid.lib")
 
@@ -276,8 +276,6 @@ TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0}, {"data\\fro
         {"data\\frontend\\DemoInfo.tga ", 614939, 0}};
 */
 
-
-
 DEFINE_GLOBAL_ARRAY_INIT(TgaInfo,
                          tgaArray_61F0C8,
                          25,
@@ -307,7 +305,6 @@ DEFINE_GLOBAL_ARRAY_INIT(TgaInfo,
                          {"data\\frontend\\Credits.tga", 614444, 0},
                          {"data\\frontend\\Mask3.tga", 130427, 0},
                          {"data\\frontend\\DemoInfo.tga", 614939, 0});
-
 
 STUB_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
@@ -715,7 +712,8 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                         {
                             if (v31 != v65 //  not this player (i.e. an opponent)
                                 && gYouthful_einstein_6F8450.field_20[v31] == 0 //  not quit?
-                                && (s16)(&gLucid_hamilton_67E8E0)->GetFragsForPlayerIdx_4C5D60(a3a) > v30) // v30 = highest frag from opponents
+                                &&
+                                (s16)(&gLucid_hamilton_67E8E0)->GetFragsForPlayerIdx_4C5D60(a3a) > v30) // v30 = highest frag from opponents
                             {
                                 v30 = (s16)(&gLucid_hamilton_67E8E0)->GetFragsForPlayerIdx_4C5D60(a3a); // update highest frag
                             }
@@ -734,7 +732,8 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                         {
                             if (v34 != v65 //  not you
                                 && gYouthful_einstein_6F8450.field_20[v34] == 0 //  not quit?
-                                && (s16)(&gLucid_hamilton_67E8E0)->GetPointsForPlayerIdx_4C5CB0(a3b) > v30) // v30 = highest score from opponents
+                                && (s16)(&gLucid_hamilton_67E8E0)->GetPointsForPlayerIdx_4C5CB0(a3b) >
+                                    v30) // v30 = highest score from opponents
                             {
                                 v30 = (s16)(&gLucid_hamilton_67E8E0)->GetPointsForPlayerIdx_4C5CB0(a3b); // update highest opponent score
                             }
@@ -829,7 +828,9 @@ LABEL_116:
         v47->sub_4B6200();
         if (!v47->field_4_options_array[v47->field_BC6_current_option_idx].field_1_is_unlocked)
         {
-            FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4269); // the menu contains no valid options
+            FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown,
+                              "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
+                              4269); // the menu contains no valid options
         }
     }
 
@@ -1075,25 +1076,25 @@ WIP_FUNC(0x4AD140)
 void Frontend::sub_4AD140()
 {
     const s32 v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
-    
+
     MenuPage_0xBCA* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
 
     u16 selected_option_idx;
     u16 last_xpos;
-    
+
     if (field_132_f136_idx == MENUPAGE_START_MENU)
     {
         swprintf(tmpBuff_67BD9C, L"GTA2 V%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
         DrawText_4B87A0(tmpBuff_67BD9C, 300, 460, font_type_703C14, 1);
     }
-    
+
     if (field_132_f136_idx == MENUPAGE_PLAY)
     {
         if (field_110_state == User_Typing_New_Player_Name_3)
         {
             pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = false;
             pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
-            
+
             // NOTE: field_124_font_type is u16
             // NOTE: sub_4B7E10 is not static
 
@@ -1107,8 +1108,9 @@ void Frontend::sub_4AD140()
         {
             u16 idx = pMenuPage->field_4_options_array[0].field_6E_horizontal_selected_idx;
             selected_option_idx = idx;
-            u16 unk_xpos = Frontend::sub_5D8990(gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx].field_90_strPlayerName, field_11C) + 10;
-            
+            u16 unk_xpos =
+                Frontend::sub_5D8990(gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx].field_90_strPlayerName, field_11C) + 10;
+
             if (unk_xpos == 10)
             {
                 unk_xpos = Frontend::sub_5D8990(pMenuPage->field_4_options_array[0].field_6_option_name_str, field_11C) + 40;
@@ -1118,33 +1120,33 @@ void Frontend::sub_4AD140()
     }
 
     high_score_table_0xF0* pHighScoreTable;
-    
+
     if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE)
     {
-        if (field_EE0D < 3)    //  line 1b8
+        if (field_EE0D < 3) //  line 1b8
         {
-            pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[field_EE0D][0];    // main district score
-            Frontend::sub_4B5430((score_table_line *)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
+            pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[field_EE0D][0]; // main district score
+            Frontend::sub_4B5430((score_table_line*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
         }
         else if (field_EE0D < 6)
         {
-            pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[0][field_EE0D-2];
-            Frontend::sub_4B5430((score_table_line *)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
+            pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[0][field_EE0D - 2];
+            Frontend::sub_4B5430((score_table_line*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
         }
         else
         {
             if (field_EE0D < 9)
             {
-                pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[1][field_EE0D-5];
-                Frontend::sub_4B5430((score_table_line *)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
+                pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[1][field_EE0D - 5];
+                Frontend::sub_4B5430((score_table_line*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
             }
             else
             {
-                pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[2][field_EE0D-8];
-                Frontend::sub_4B5430((score_table_line *)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
+                pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[2][field_EE0D - 8];
+                Frontend::sub_4B5430((score_table_line*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
             }
         }
-        
+
         if (!byte_67DA80)
         {
             // left triangle
@@ -1167,15 +1169,13 @@ void Frontend::sub_4AD140()
             }
         }
     }
-    
+
     u8 main_level_idx;
     u8 bonus_stage_idx;
     u8 codified_stages;
-    
-    if (field_132_f136_idx == MENUPAGE_DEAD 
-        || field_132_f136_idx == MENUPAGE_AREA_COMPLETE 
-        || field_132_f136_idx == MENUPAGE_BONUS_AREA 
-        || field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
+
+    if (field_132_f136_idx == MENUPAGE_DEAD || field_132_f136_idx == MENUPAGE_AREA_COMPLETE || field_132_f136_idx == MENUPAGE_BONUS_AREA ||
+        field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
     {
         if (!gLucid_hamilton_67E8E0.sub_4C59A0())
         {
@@ -1195,34 +1195,40 @@ void Frontend::sub_4AD140()
             wcsncpy(pMenuPage->field_518_elements_array[0].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
             //Frontend::sub_4B7D60();
         }
-        
-        Frontend::sub_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_stage_idx].field_0_score_table_line, 0xAAu, 155, 3, field_12A, 0xFFFF, 2);
-        
-        if (field_132_f136_idx == MENUPAGE_DEAD 
-            || field_132_f136_idx == MENUPAGE_AREA_COMPLETE 
-            || field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
+
+        Frontend::sub_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_stage_idx]
+                                 .field_0_score_table_line,
+                             0xAAu,
+                             155,
+                             3,
+                             field_12A,
+                             0xFFFF,
+                             2);
+
+        if (field_132_f136_idx == MENUPAGE_DEAD || field_132_f136_idx == MENUPAGE_AREA_COMPLETE ||
+            field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
         {
             Frontend::sub_4B57B0(10, 0xE1);
         }
     }
-    
+
     if (field_132_f136_idx == MENUPAGE_MULTIPLAYER_RESULTS)
     {
-        Frontend::sub_4B55F0();    // line 41d
+        Frontend::sub_4B55F0(); // line 41d
     }
-    
+
     u32 chosen_option_idx = -1;
     u16 option_idx = 0;
-    
+
     wchar_t* wstr_array;
-    
+
     u16 x_pos;
     u16 y_pos;
 
     for (option_idx = 0; option_idx < pMenuPage->field_0_number_of_options; option_idx++)
     {
         menu_option_0x82* pMenuOption = &pMenuPage->field_4_options_array[option_idx];
-        
+
         if (pMenuOption->field_1_is_unlocked)
         {
             if (pMenuOption->field_0_option_type == STRING_TEXT_2)
@@ -1236,11 +1242,11 @@ void Frontend::sub_4AD140()
 
             x_pos = pMenuOption->field_2_x_pos;
             y_pos = pMenuOption->field_4_y_pos;
-            
+
             if (option_idx == pMenuPage->field_BC6_current_option_idx)
             {
                 DrawText_4B87A0(wstr_array, x_pos, y_pos, field_120, 1);
-                
+
                 if (field_132_f136_idx == MENUPAGE_PLAY)
                 {
                     pMenuPage->field_518_elements_array[4].field_1_is_it_displayed = false;
@@ -1249,7 +1255,7 @@ void Frontend::sub_4AD140()
                     pMenuPage->field_518_elements_array[7].field_1_is_it_displayed = false;
                     pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = false;
                     pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
-                    if (option_idx == 3)    //  START PLAY IN AREA
+                    if (option_idx == 3) //  START PLAY IN AREA
                     {
                         chosen_option_idx = 3;
                         pMenuPage->field_518_elements_array[4].field_6_geometric_shape_type = 1;
@@ -1288,7 +1294,7 @@ void Frontend::sub_4AD140()
                                     field_1EB4B = 0;
                                 }
                             }
-            
+
                             last_xpos = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF);
                             sub_4B7E10(8, last_xpos + 300, 0x1B8u, field_124_font_type, 0xFFFF);
                             last_xpos = sub_4B7E10(1, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF);
@@ -1343,10 +1349,8 @@ void Frontend::sub_4AD140()
             {
                 v45 = true;
             }
-            
-            if (((field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT
-                || field_132_f136_idx == MENUPAGE_DEAD)
-                && option_idx == 0) || v45)
+
+            if (((field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT || field_132_f136_idx == MENUPAGE_DEAD) && option_idx == 0) || v45)
             {
                 if (pMenuOption->field_0_option_type == STRING_TEXT_2)
                 {
@@ -1356,10 +1360,10 @@ void Frontend::sub_4AD140()
                 {
                     wstr_array = (wchar_t*)&pMenuOption->field_6_option_name_str;
                 }
-                
+
                 x_pos = pMenuOption->field_2_x_pos;
                 y_pos = pMenuOption->field_4_y_pos;
-                
+
                 if (pMenuOption->field_6A != 0xFFFF)
                 {
                     DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, 1, 8, 8, false, 0);
@@ -1369,32 +1373,33 @@ void Frontend::sub_4AD140()
                     DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, 1, 8, 8, false, 0);
                 }
             }
-            
+
         } // end else
-    }    //  end FOR
+    } //  end FOR
 
     u8 bonus_level_idx;
 
     if (chosen_option_idx == 3 || chosen_option_idx == 4)
     {
-        if (chosen_option_idx == 3)  //  START PLAY IN AREA
+        if (chosen_option_idx == 3) //  START PLAY IN AREA
         {
             main_level_idx = gLucid_hamilton_67E8E0.sub_4C5980();
             bonus_level_idx = 0;
         }
-        else if (chosen_option_idx == 4)  // BONUS STAGE
+        else if (chosen_option_idx == 4) // BONUS STAGE
         {
             u8 codified_stages = gLucid_hamilton_67E8E0.sub_4C5990();
             main_level_idx = codified_stages >> 4;
             bonus_level_idx = codified_stages & 0xF;
         }
-        Frontend::sub_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_level_idx].field_0_score_table_line,
+        Frontend::sub_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_level_idx]
+                                 .field_0_score_table_line,
                              0x12Cu,
                              v98,
                              1,
                              field_128,
                              0xFFFF,
-                             2);  
+                             2);
     }
 
     for (option_idx = 0; option_idx < pMenuPage->field_2; option_idx++)
@@ -1412,7 +1417,7 @@ void Frontend::sub_4AD140()
                 case GEOMETRIC_SHAPE_3:
                     x_pos = pMenuElement->field_2_xpos;
                     y_pos = pMenuElement->field_4_ypos;
-                    
+
                     switch (pMenuElement->field_6_geometric_shape_type)
                     {
                         case 0u:
@@ -1433,29 +1438,27 @@ void Frontend::sub_4AD140()
                         default:
                             break;
                     }
-                    
+
                     DrawFigure_5D7EC0(6, shape_type, x_pos, y_pos, word_67DA70, dword_67D934, 2, 0, 0, false, 0);
                     break;
-                
+
                 case STRING_TEXT_1:
                     font_type = pMenuElement->field_6A_font_type;
-                
+
                     x_pos = pMenuElement->field_2_xpos;
                     y_pos = pMenuElement->field_4_ypos;
-                    
+
                     if (font_type == 0xFFFF)
                     {
                         font_type = field_11C;
                     }
                     Frontend::sub_4B3CC0(field_132_f136_idx, option_idx, &wstr_array);
-                    
-                    if (field_132_f136_idx == MENUPAGE_PLAY 
-                        && (option_idx == 2 || option_idx == 3)) 
+
+                    if (field_132_f136_idx == MENUPAGE_PLAY && (option_idx == 2 || option_idx == 3))
                     {
                         Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_variant, 1, 0x15u, 1);
                     }
-                    else if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE 
-                             && option_idx == 1)
+                    else if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE && option_idx == 1)
                     {
                         Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_variant, 1, 0x15u, 1);
                     }
@@ -1477,34 +1480,26 @@ void Frontend::sub_4AD140()
         }
     }
 
-    if (field_110_state == User_Typing_New_Player_Name_3)    //  enter new player name
+    if (field_110_state == User_Typing_New_Player_Name_3) //  enter new player name
     {
         if (field_114)
         {
             x_pos = pMenuPage->field_4_options_array[0].field_2_x_pos + Frontend::sub_5D8990(field_C9A0_curr_plyr_name, field_11C);
             y_pos = pMenuPage->field_4_options_array[0].field_4_y_pos;
             swprintf(tmpBuff_67BD9C, L"_");
-            DrawText_4B87A0(tmpBuff_67BD9C, 
-                x_pos, 
-                y_pos, 
-                field_11C, 
-                1);
+            DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
         }
         wcscpy(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("entrnam"));
         x_pos = 0x15Eu;
         y_pos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
         DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_126, 1);
     }
-    if (field_110_state == 5 && field_114)    //  change current player name
+    if (field_110_state == 5 && field_114) //  change current player name
     {
         x_pos = pMenuPage->field_518_elements_array[4].field_2_xpos + Frontend::sub_5D8990(field_C9B8, field_11C);
         y_pos = pMenuPage->field_518_elements_array[4].field_4_ypos;
         swprintf(tmpBuff_67BD9C, L"_");
-        DrawText_4B87A0(tmpBuff_67BD9C, 
-            x_pos, 
-            y_pos, 
-            field_11C, 
-            1);
+        DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
     }
 }
 
@@ -2424,8 +2419,8 @@ void Frontend::sub_4B42E0()
     u8 PlySlotIdx_4C59B0 = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
     MenuPage_0xBCA* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
 
-    u8 v4 = Frontend::sub_4B77B0(pPlayerStats);
-    u8 v8 = Frontend::sub_4B7800(pPlayerStats);
+    u8 v4 = Frontend::GetPrevUnlockedStageIndex_4B77B0(pPlayerStats);
+    u8 v8 = Frontend::GetPrevUnlockedStageBonusCode_4B7800(pPlayerStats);
 
     if (v4 < field_1EB3A[PlySlotIdx_4C59B0])
     {
@@ -4042,9 +4037,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
     {
         if ((letter < 'a' || letter > 'z') && (letter < 'A' || letter > 'Z'))
         {
-            FatalError_4A38C0(Gta2Error::InvalidFirstLineCharacter,
-                              "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
-                              5014);
+            FatalError_4A38C0(Gta2Error::InvalidFirstLineCharacter, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5014);
         }
 
         while (letter != '=')
@@ -4053,9 +4046,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
             letter = File::SkipWhitespace_4A7340(hSeqFile);
             if (!letter)
             {
-                FatalError_4A38C0(Gta2Error::LineInterruptedByNewline,
-                                  "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
-                                  5026);
+                FatalError_4A38C0(Gta2Error::LineInterruptedByNewline, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5026);
             }
             if (pos > 0xFFu)
             {
@@ -4098,9 +4089,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
                     letter = File::SkipWhitespace_4A7340(hSeqFile);
                     if (pos > 255u)
                     {
-                        FatalError_4A38C0(Gta2Error::LineDataTooLong,
-                                          "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
-                                          5074);
+                        FatalError_4A38C0(Gta2Error::LineDataTooLong, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5074);
                     }
                 } while (letter);
             }
@@ -4201,7 +4190,7 @@ char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
 }
 
 MATCH_FUNC(0x4B77B0)
-u8 Frontend::sub_4B77B0(player_stats_0xA4* a2)
+u8 Frontend::GetPrevUnlockedStageIndex_4B77B0(player_stats_0xA4* a2)
 {
     u8 result;
 
@@ -4215,11 +4204,48 @@ u8 Frontend::sub_4B77B0(player_stats_0xA4* a2)
     return result;
 }
 
-STUB_FUNC(0x4B7800)
-u8 Frontend::sub_4B7800(player_stats_0xA4* pPlayerStats)
+WIP_FUNC(0x4B7800)
+u8 Frontend::GetPrevUnlockedStageBonusCode_4B7800(player_stats_0xA4* pStats)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    
+    u8 stage_; // al
+    u8 bonus; // dl
+    u8 bonus_; // di
+    s32 stage; // esi
+
+    stage_ = Frontend::GetPrevUnlockedStageIndex_4B77B0(pStats);
+    while (2)
+    {
+        bonus = this->field_1EB51_blocks[stage_] - 1;
+        bonus_ = bonus;
+        while (bonus)
+        {
+            stage = stage_;
+            if (!pStats->field_0_plyr_stage_stats[stage][bonus_].field_0_is_stage_unlocked)
+            {
+                do
+                {
+                    if (!bonus)
+                    {
+                        break;
+                    }
+                    bonus_ = --bonus;
+                } while (!pStats->field_0_plyr_stage_stats[stage][bonus].field_0_is_stage_unlocked);
+            }
+            if (pStats->field_0_plyr_stage_stats[stage][bonus_].field_0_is_stage_unlocked == 1 && bonus)
+            {
+                return bonus | (0x10 * stage_);
+            }
+        }
+        if (stage_)
+        {
+            --stage_;
+            continue;
+        }
+        break;
+    }
+    return -1;
 }
 
 EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
@@ -4919,7 +4945,7 @@ WIP_FUNC(0x4B6390)
 bool menu_option_0x82::sub_4B6390()
 {
     WIP_IMPLEMENTED;
-    
+
     u16 oldCount = field_6E_horizontal_selected_idx;
     u16 new_count = oldCount;
     char_type bFound = 0;
