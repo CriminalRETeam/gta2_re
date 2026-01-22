@@ -1019,7 +1019,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
     {
         return;
     }
-    if (pPed->field_278_ped_state == ped_state_1::dead_9)
+    if (pPed->field_278_ped_state_1 == ped_state_1::dead_9)
     {
         return;
     }
@@ -1071,7 +1071,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
         s32 objective = pPed->field_258_objective;
         if (objective == objectives_enum::enter_car_as_driver_35 || objective == objectives_enum::enter_train_37)
         {
-            if (pPed->field_278_ped_state != ped_state_1::in_car_10)
+            if (pPed->field_278_ped_state_1 != ped_state_1::in_car_10)
             {
                 if (pPed->field_225_objective_status == objective_status::failed_2 || !pPed->field_150_target_objective_car)
                 {
@@ -1086,8 +1086,8 @@ void Player::HandleControls_5668D0(Ped* pPed)
                 {
                     pPed->SetObjective(objectives_enum::no_obj_0, 9999);
                     pPed->sub_463830(0, 9999);
-                    pPed->ChangePedStateIfNotImmobilized_45C500(ped_state_1::in_car_10);
-                    pPed->sub_45C540(10);
+                    pPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
+                    pPed->ChangeNextPedState2_45C540(10);
                 }
             }
         }
@@ -1850,7 +1850,7 @@ void Player::Service_5687F0()
             this->field_640_busted = 1;
         }
 
-        if (field_2C4_player_ped->field_278_ped_state == ped_state_1::dead_9 && !field_640_busted)
+        if (field_2C4_player_ped->field_278_ped_state_1 == ped_state_1::dead_9 && !field_640_busted)
         {
             Player::Wasted_567130();
         }
@@ -1864,7 +1864,7 @@ void Player::Service_5687F0()
     {
         if (field_2C8_unkq)
         {
-            if (field_2C8_unkq->field_278_ped_state == ped_state_1::dead_9 && !this->field_28)
+            if (field_2C8_unkq->field_278_ped_state_1 == ped_state_1::dead_9 && !this->field_28)
             {
                 Player::sub_567850();
             }

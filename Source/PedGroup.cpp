@@ -250,7 +250,7 @@ void PedGroup::sub_4C92A0()
         {
             Ped* this_00 = field_4_ped_list[bVar4];
             Ped** pppVar1 = field_4_ped_list + bVar4;
-            if ((this_00->get_ped_state1() == ped_state1_enum::ped_wasted) || (this_00->field_280_stored_ped_state == ped_state1_enum::ped_wasted))
+            if ((this_00->get_ped_state1() == ped_state1_enum::ped_wasted) || (this_00->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
             {
                 this_00->reset_ped_group();
             }
@@ -284,7 +284,7 @@ void PedGroup::DestroyGroup_4C93A0()
     }
 
     Ped* ppVar2 = field_2C_ped_leader;
-    if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) && (ppVar2->field_280_stored_ped_state != ped_state1_enum::ped_wasted))
+    if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) && (ppVar2->field_280_stored_ped_state_1 != ped_state1_enum::ped_wasted))
     {
         ppVar2->SetObjective(0, 9999);
         field_2C_ped_leader->sub_463830(0, 9999);
@@ -297,7 +297,7 @@ void PedGroup::DestroyGroup_4C93A0()
         {
             ppVar2 = field_4_ped_list[bVar5];
             Ped** pppVar1 = field_4_ped_list + bVar5;
-            if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) || (ppVar2->field_280_stored_ped_state == ped_state1_enum::ped_wasted))
+            if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) || (ppVar2->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
             {
                 ppVar2->reset_ped_group();
             }
@@ -470,7 +470,7 @@ void PedGroup::sub_4CA4B0()
                     pIter->field_14C = field_4_ped_list[i - 1];
                 }
             }
-            else if (pIter->field_278_ped_state != 9)
+            else if (pIter->field_278_ped_state_1 != 9)
             {
                 if (field_2C_ped_leader->sub_45C920() != dword_67F610)
                 {
@@ -645,7 +645,7 @@ bool PedGroup::IsAllMembersInSomeCar_4CAA20()
 
     for (u8 i = 0; i < field_34_count; i++)
     {
-        if (field_4_ped_list[i]->field_278_ped_state != ped_state_1::in_car_10)
+        if (field_4_ped_list[i]->field_278_ped_state_1 != ped_state_1::in_car_10)
         {
             return false;
         }
@@ -658,8 +658,8 @@ char_type PedGroup::sub_4CAAE0()
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
-        if (field_4_ped_list[i]->field_278_ped_state != ped_state_1::in_car_10 
-            && field_4_ped_list[i]->field_278_ped_state != ped_state_1::dead_9)
+        if (field_4_ped_list[i]->field_278_ped_state_1 != ped_state_1::in_car_10 
+            && field_4_ped_list[i]->field_278_ped_state_1 != ped_state_1::dead_9)
         {
             return false;
         }

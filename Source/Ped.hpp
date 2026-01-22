@@ -58,8 +58,8 @@ class Ped
     EXPORT void RespawnPed_45C350(gmp_map_zone* pZone);
     EXPORT void sub_45C410();
     EXPORT void sub_45C4B0();
-    EXPORT void ChangePedStateIfNotImmobilized_45C500(s32 a2);
-    EXPORT void sub_45C540(s32 a2);
+    EXPORT void ChangeNextPedState1_45C500(s32 a2);
+    EXPORT void ChangeNextPedState2_45C540(s32 a2);
     EXPORT void RestorePreviousPedState_45C5A0();
     EXPORT void sub_45C5C0();
     EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pPed);
@@ -303,7 +303,7 @@ class Ped
 
     s32 get_ped_state1() const
     {
-        return field_278_ped_state;
+        return field_278_ped_state_1;
     }
 
     // 9.6f inline 0x403AE0
@@ -489,7 +489,7 @@ class Ped
 
     inline s32 GetPedState_403990()
     {
-        return field_278_ped_state;
+        return field_278_ped_state_1;
     }
 
     inline bool sub_433DA0()
@@ -629,10 +629,10 @@ class Ped
     s32 field_26C_graphic_type;
     s32 field_270;
     s32 field_274_gang_car_model;
-    s32 field_278_ped_state;
-    s32 field_27C;
-    s32 field_280_stored_ped_state;
-    s32 field_284;
+    s32 field_278_ped_state_1;
+    s32 field_27C_ped_state_2;
+    s32 field_280_stored_ped_state_1;
+    s32 field_284_stored_ped_state_2;
     s32 field_288_threat_search;
     s32 field_28C_threat_reaction;
     s32 field_290;

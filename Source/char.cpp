@@ -485,8 +485,8 @@ void Char_B4::sub_5459C0()
 MATCH_FUNC(0x5459e0)
 void Char_B4::DrownPed_5459E0()
 {
-    field_7C_pPed->ChangePedStateIfNotImmobilized_45C500(ped_state_1::immobilized_8);
-    field_7C_pPed->sub_45C540(20);
+    field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
+    field_7C_pPed->ChangeNextPedState2_45C540(20);
     field_16 = 1;
 
     gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_80_sprite_ptr->field_14_xy.x,
@@ -1148,8 +1148,8 @@ void Char_B4::UpdateAnimState_546360()
 
                 case 8u:
                     field_80_sprite_ptr->field_28_num = 23;
-                    field_7C_pPed->sub_45C540(0);
-                    field_7C_pPed->ChangePedStateIfNotImmobilized_45C500(ped_state_1::walking_0);
+                    field_7C_pPed->ChangeNextPedState2_45C540(0);
+                    field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::walking_0);
                     this->field_C_ped_state_2 = 0;
                     this->field_8_ped_state_1 = 0;
                     pDoor__ = field_84->GetDoor(field_7C_pPed->field_24C_target_car_door);
@@ -1469,8 +1469,8 @@ void Char_B4::UpdateAnimState_546360()
         case 8:
             CarDoorAlignmentSolver_545AF0(field_6C, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
             field_80_sprite_ptr->field_28_num = 9;
-            field_7C_pPed->sub_45C540(10);
-            field_7C_pPed->ChangePedStateIfNotImmobilized_45C500(ped_state_1::in_car_10);
+            field_7C_pPed->ChangeNextPedState2_45C540(10);
+            field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
             field_C_ped_state_2 = 10;
             field_8_ped_state_1 = 10;
             return;
@@ -1537,8 +1537,8 @@ void Char_B4::UpdateAnimState_546360()
             {
                 field_7C_pPed->field_226 = 0;
             }
-            pDriver->ChangePedStateIfNotImmobilized_45C500(ped_state_1::immobilized_8);
-            pDriver->sub_45C540(17);
+            pDriver->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
+            pDriver->ChangeNextPedState2_45C540(17);
             field_84->ClearDriver_4407F0();
             CarDoorAlignmentSolver_545AF0(8, field_84, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
             v44 = *gMap_0x370_6F6268->sub_4E4E50(&v44, newx, newy, field_84->field_50_car_sprite->field_1C_zpos);
@@ -1843,8 +1843,8 @@ void Char_B4::state_4_551B30()
     }
     if (field_10 == 15)
     {
-        field_7C_pPed->ChangePedStateIfNotImmobilized_45C500(ped_state_1::walking_0);
-        field_7C_pPed->sub_45C540(0);
+        field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::walking_0);
+        field_7C_pPed->ChangeNextPedState2_45C540(0);
     }
     if ((u8)Char_B4::IsOnWater_545570())
     {
@@ -1961,8 +1961,8 @@ void Char_B4::state_7_551CB0()
         }
         if (block_type == AIR && field_58_flags_bf.b0 == false && field_10 != 15)
         {
-            field_7C_pPed->ChangePedStateIfNotImmobilized_45C500(ped_state_1::immobilized_8);
-            field_7C_pPed->sub_45C540(19);
+            field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
+            field_7C_pPed->ChangeNextPedState2_45C540(19);
             field_16 = 1;
             return;
         }

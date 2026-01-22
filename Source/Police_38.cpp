@@ -468,7 +468,7 @@ void PoliceCrew_38::sub_572340()
             {
                 for (; pPed; ++idx)
                 {
-                    if (pPed->field_278_ped_state != ped_state_1::dead_9 
+                    if (pPed->field_278_ped_state_1 != ped_state_1::dead_9 
                         && pPed->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
                     {
                         Fix16 xpos_f;
@@ -796,7 +796,7 @@ void PoliceCrew_38::Service_575590()
         Ped* pPed = field_10_subObj->field_4_ped;
         if (pPed)
         {
-            if (!pPed->field_20e && pPed->field_278_ped_state != ped_state_1::dead_9 
+            if (!pPed->field_20e && pPed->field_278_ped_state_1 != ped_state_1::dead_9 
                 && (pPed->field_21C & 1) != 0)
             {
                 gPolice_7B8_6FEE40->field_7B4 = 1;
