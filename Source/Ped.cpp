@@ -1781,10 +1781,10 @@ char_type Ped::StateMachineTick_4626B0()
             byte_6787C4 = 1;
             if (this->field_168_game_object->field_10 == 15)
             {
-                byte_61A8A4 = this->field_278_ped_state == 3;
+                byte_61A8A4 = this->field_278_ped_state == ped_state_1::entering_car_3;
             }
 
-            if (field_278_ped_state == 9 || field_278_ped_state == 8)
+            if (field_278_ped_state == ped_state_1::dead_9 || field_278_ped_state == ped_state_1::immobilized_8)
             {
                 byte_61A8A4 = 0;
             }
@@ -1798,7 +1798,7 @@ char_type Ped::StateMachineTick_4626B0()
             }
             if (Ped::get_fieldC_45C9B0() == k_dword_678660 && Ped::get_field8_45C900() == word_6787A8)
             {
-                if (!this->field_278_ped_state && this->field_168_game_object->field_38_velocity == k_dword_678660)
+                if (field_278_ped_state == ped_state_1::walking_0 && this->field_168_game_object->field_38_velocity == k_dword_678660)
                 {
                     Ped::ChangePedStateIfNotImmobilized_45C500(ped_state_1::standing_still_7);
                     Ped::sub_45C540(14);
@@ -1806,12 +1806,12 @@ char_type Ped::StateMachineTick_4626B0()
             }
             else
             {
-                if (this->field_278_ped_state == 7)
+                if (this->field_278_ped_state == ped_state_1::standing_still_7)
                 {
                     Ped::ChangePedStateIfNotImmobilized_45C500(ped_state_1::walking_0);
                     Ped::sub_45C540(0);
                 }
-                if (this->field_278_ped_state == 3 && this->field_27C == 4)
+                if (this->field_278_ped_state == ped_state_1::entering_car_3 && this->field_27C == 4)
                 {
                     Ped::ChangePedStateIfNotImmobilized_45C500(ped_state_1::walking_0);
                     Ped::sub_45C540(0);
@@ -1862,7 +1862,7 @@ char_type Ped::StateMachineTick_4626B0()
             {
                 goto LABEL_77;
             }
-            if (this->field_278_ped_state == 9)
+            if (this->field_278_ped_state == ped_state_1::dead_9)
             {
                 goto LABEL_79;
             }
@@ -1871,7 +1871,7 @@ char_type Ped::StateMachineTick_4626B0()
         case 6:
             occupation_ = this->field_240_occupation;
             this->field_212_electrocution_threshold = 100;
-            if (occupation_ == ped_ocupation_enum::unknown_10 && this->field_278_ped_state == 9)
+            if (occupation_ == ped_ocupation_enum::unknown_10 && this->field_278_ped_state == ped_state_1::dead_9)
             {
                 --byte_6787CE;
                 this->field_240_occupation = ped_ocupation_enum::dummy;
@@ -1935,7 +1935,7 @@ char_type Ped::StateMachineTick_4626B0()
                         }
                     }
                 }
-                if (this->field_278_ped_state == 9)
+                if (this->field_278_ped_state == ped_state_1::dead_9)
                 {
                     goto LABEL_77;
                 }
