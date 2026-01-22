@@ -10,12 +10,15 @@
 DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
 DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
 
+// todo: add to header
+EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
+EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 STUB_FUNC(0x4D9470)
 void ErrorLog::sub_4D9470(const char_type* path, s32 a3)
 {
     NOT_IMPLEMENTED;
-    
+
     u8* fileNameLen = new u8;
     if (fileNameLen)
     {
@@ -53,23 +56,58 @@ ErrorLog::ErrorLog(const char* FileName, int a3)
     sub_4D9470(FileName, a3);
 }
 
-STUB_FUNC(0x4D9620)
-ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
+MATCH_FUNC(0x4D9690)
+EXPORT void __cdecl log_on_line_written_cb_4D9690(void* a1)
 {
-    NOT_IMPLEMENTED;
-    return *this;
+    ((ostream_type*)a1)->flush();
 }
 
-STUB_FUNC(0x4D9650)
-void ErrorLog::Write_Log_4D9650(const char_type* buffer)
+STUB_FUNC(0x4D9620)
+void ErrorLog::Write_4D9620(const char_type* pMsg)
 {
     NOT_IMPLEMENTED;
-    //field_0_ofstr.operator<<(buffer).flush();
+
+    // For some reason log_on_line_written_cb_4D9690 addr gets pushed between these calls ??
+    ((ostream_type&)this->field_0_ofstr) << pMsg << '\n';
+
+    log_on_line_written_4D9670(log_on_line_written_cb_4D9690);
+
+    ((ostream_type&)this->field_0_ofstr).flush();
+}
+
+MATCH_FUNC(0x4D9650)
+void ErrorLog::Write_Log_4D9650(const char_type* buffer)
+{
+#if defined(__clang__) || (_MSC_VER <= 1200)
+#else
+    using namespace std;
+#endif
+    ((ostream_type&)this->field_0_ofstr) << buffer << flush;
 }
 
 MATCH_FUNC(0x4D9540)
 EXPORT void ErrorLog::log_timestamp_4D9540()
 {
+    time_t curTime = time(0);
+    char_type* buffer = ctime(&curTime);
+    buffer[strlen(buffer) - 1] = 0; // remove the new line it  adds
+    sprintf(gTmpBuffer_67C598, "\n------ %s ------", buffer);
+    Write_4D9620(gTmpBuffer_67C598);
+}
+
+MATCH_FUNC(0x4D9670)
+void* ErrorLog::log_on_line_written_4D9670(TLogLineCallback pCallBack)
+{
+    pCallBack(this);
+    return this;
+}
+
+MATCH_FUNC(0x4D95A0)
+void ErrorLog::log_intro_4D95A0()
+{
+    sprintf(gTmpBuffer_67C598, "Coop v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
+    Write_4D9620(gTmpBuffer_67C598);
+
     time_t curTime = time(0);
     char_type* buffer = ctime(&curTime);
     buffer[strlen(buffer) - 1] = 0; // remove the new line it  adds

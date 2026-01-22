@@ -1,14 +1,128 @@
 #include "Generators.hpp"
 #include "Globals.hpp"
 #include "rng.hpp"
+#include "Object_5C.hpp"
 
 DEFINE_GLOBAL(GeneratorPool_14AC*, gGeneratorPool_14AC_67E5D0, 0x67E5D0);
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
-STUB_FUNC(0x4c1c50)
+MATCH_FUNC(0x4C1A70)
+void Generator_2C::sub_4C1A70()
+{
+    field_1E_kill_timer = -1;
+
+    if (!bStartNetworkGame_7081F0)
+    {
+        field_18_cycle = next_cycle_4C1AB0();
+        gGeneratorPool_14AC_67E5D0->field_14A4_kill_count++;
+    }
+    else
+    {
+        field_18_cycle = rng_dword_67AB34->field_0_rng + 1;
+        gGeneratorPool_14AC_67E5D0->field_14A4_kill_count++;
+    }
+}
+
+WIP_FUNC(0x4C1AB0)
+s32 Generator_2C::next_cycle_4C1AB0()
+{
+    WIP_IMPLEMENTED;
+
+    const s16 min = field_12_min_delay;
+    const s16 max = field_14_max_delay;
+    if (min == max)
+    {
+        return min + rng_dword_67AB34->field_0_rng;
+    }
+    s16 mix_max_delta_m4 = 4 * (max - min);
+    s16 rng = stru_6F6784.get_int_4F7AE0(&mix_max_delta_m4);
+    return rng + 4 * min + rng_dword_67AB34->field_0_rng;
+}
+
+WIP_FUNC(0x4C1B10)
+EXPORT void Generator_2C::sub_4C1B10()
+{
+    WIP_IMPLEMENTED;
+
+    if (field_21 != 2)
+    {
+        Object_2C* pObj = gObject_5C_6F8F84->sub_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
+        if (pObj)
+        {
+            if (field_1E_kill_timer != -1)
+            {
+                field_1E_kill_timer--;
+            }
+
+            if (pObj->check_is_shop_421060())
+            {
+                if (field_1C_ammo)
+                {
+                    pObj->field_26_varrok_idx = field_1C_ammo;
+                }
+            }
+            field_24_obj = pObj;
+            field_28_id = pObj->field_14_id;
+        }
+        field_18_cycle = next_cycle_4C1AB0();
+    }
+    else
+    {
+        if (field_24_obj)
+        {
+            if (field_24_obj->field_14_id == field_28_id && field_24_obj->field_18_model)
+            {
+                field_18_cycle += 4;
+            }
+            else
+            {
+                field_24_obj = 0;
+                field_28_id = 0;
+                field_18_cycle = next_cycle_4C1AB0();
+            }
+        }
+        else
+        {
+            Object_2C* pObj = gObject_5C_6F8F84->sub_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
+            if (pObj)
+            {
+                field_24_obj = pObj;
+                field_28_id = pObj->field_14_id;
+                if (field_1E_kill_timer != -1)
+                {
+                    field_1E_kill_timer--;
+                }
+
+                if (pObj->check_is_shop_421060())
+                {
+                    if (field_1C_ammo)
+                    {
+                        pObj->field_26_varrok_idx = field_1C_ammo;
+                    }
+                }
+                field_24_obj = pObj;
+                field_28_id = pObj->field_14_id;
+            }
+            field_18_cycle += 4;
+        }
+    }
+
+    if (field_1E_kill_timer == 0)
+    {
+        gGeneratorPool_14AC_67E5D0->field_14A4_kill_count--;
+    }
+}
+
+MATCH_FUNC(0x4c1c50)
 void Generator_2C::Service_4C1C50()
 {
-    NOT_IMPLEMENTED;
+    if (rng_dword_67AB34->field_0_rng >= field_18_cycle)
+    {
+        if (field_1E_kill_timer > 0)
+        {
+            sub_4C1B10();
+        }
+    }
 }
 
 MATCH_FUNC(0x4c1c70)
@@ -17,16 +131,16 @@ void Generator_2C::sub_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generato
     field_4_x = x.mValue;
     field_8_y = y.mValue;
     field_C_z = z.mValue;
-    field_10 = rot.rValue;
+    field_10_rot = rot.rValue;
     field_0_gen_type = generator_type;
     field_12_min_delay = min_delay;
     field_14_max_delay = max_delay;
     field_18_cycle = rng_dword_67AB34->field_0_rng + 1;
     field_20 = 1;
-    field_1E = 0;
+    field_1E_kill_timer = 0;
     field_1C_ammo = 0;
     field_24_obj = NULL;
-    field_28 = 0;
+    field_28_id = 0;
     field_21 = 1;
 }
 
@@ -92,12 +206,7 @@ Generator_2C* GeneratorPool_14AC::CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16
 MATCH_FUNC(0x4c1e20)
 GeneratorPool_14AC::GeneratorPool_14AC()
 {
-    for (u32 i = 0; i < GTA2_COUNTOF(field_0_pool); i++)
-    {
-        field_0_pool[i].field_10 = 0;
-    }
-
     field_14A0_count = 0;
-    field_14A4 = 0;
+    field_14A4_kill_count = 0;
     field_14A8_count_d3 = 0;
 }
