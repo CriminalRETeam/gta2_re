@@ -22,17 +22,20 @@ void Generator_2C::sub_4C1A70()
     }
 }
 
-STUB_FUNC(0x4C1AB0)
+WIP_FUNC(0x4C1AB0)
 s32 Generator_2C::next_cycle_4C1AB0()
 {
-    s32 min_d = field_12_min_delay;
-    s32 max_d = field_14_max_delay;
-    if ((s16)min_d == (s16)max_d)
+    WIP_IMPLEMENTED;
+
+    const s16 min = field_12_min_delay;
+    const s16 max = field_14_max_delay; 
+    if (min == max)
     {
-        return (u16)min_d + rng_dword_67AB34->field_0_rng;
+        return min + rng_dword_67AB34->field_0_rng;
     }
-    s32 mix_max_delta_m4 = 4 * (max_d - (s32)min_d);
-    return stru_6F6784.get_int_4F7AE0((s16*)&mix_max_delta_m4) + 4 * (u16)field_12_min_delay + rng_dword_67AB34->field_0_rng;
+    s16 mix_max_delta_m4 = 4 * (max - min);
+    s16 rng = stru_6F6784.get_int_4F7AE0(&mix_max_delta_m4);
+    return rng + 4 * min + rng_dword_67AB34->field_0_rng;
 }
 
 STUB_FUNC(0x4C1B10)
