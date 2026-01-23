@@ -1434,7 +1434,7 @@ bool Car_BC::sub_43B2B0(Ped* pPed)
     // TODO: Return value uses AL instead of EAX
     if (!useLabel12Branch)
     {
-        if (field_98 != 1 && field_98 != 4 && field_98 != 2) 
+        if (field_98 != 1 && field_98 != 4 && field_98 != 2)
         {
             return 0;
         }
@@ -1918,10 +1918,29 @@ bool Car_BC::IsAreaDamaged_43D1C0(s32 damage_area)
     return false;
 }
 
-STUB_FUNC(0x43d2c0)
-void Car_BC::sub_43D2C0(char_type a2, s32 a3)
+MATCH_FUNC(0x43d2c0)
+void Car_BC::TryDamageArea_43D2C0(u8 damage_area, s32 damageAmount)
 {
-    NOT_IMPLEMENTED;
+    if (!IsMaxDamage_40F890() && (field_78_flags & 8) == 0 && (get_anti_strngth_43A1D0() * Fix16(damageAmount, 0)) >= dword_6777D0)
+    {
+        switch (damage_area)
+        {
+            case 0:
+                DamageArea_43CF30(3);
+                break;
+            case 1:
+                DamageArea_43CF30(2);
+                break;
+            case 2:
+                DamageArea_43CF30(0);
+                break;
+            case 3:
+                DamageArea_43CF30(1);
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 STUB_FUNC(0x43d400)
