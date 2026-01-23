@@ -891,7 +891,7 @@ char_type Map_0x370::sub_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_typ
 }
 
 STUB_FUNC(0x4E11E0)
-char_type Map_0x370::sub_4E11E0(s32* a2)
+char_type Map_0x370::sub_4E11E0(Fix16_Rect* a2)
 {
     NOT_IMPLEMENTED;
     return 0;

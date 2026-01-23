@@ -1366,7 +1366,7 @@ char_type Ped::RoadBlockTank_AI_4619F0()
 STUB_FUNC(0x461a60)
 void Ped::UpdateFacingAngle_461A60()
 {
-    STUB_IMPLEMENTED;
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x461f20)

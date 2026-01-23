@@ -7,6 +7,7 @@
 class Sprite;
 
 EXTERN_GLOBAL(Fix16, kSmallWidthEpslion_703450);
+EXTERN_GLOBAL(Fix16, k_dword_6771E4);
 
 // 9.6f 0x41E160
 // https://decomp.me/scratch/A4s7c
@@ -28,6 +29,20 @@ class Fix16_Rect
     // 9.6f 0x41D070
     Fix16_Rect()
     {
+    }
+
+    // 9.6f 0x4204D0
+    void ComputeCollisionPrism_4204D0(Fix16 x, Fix16 y, Fix16 offset, Fix16 z)
+    {
+        Fix16 tmp =  offset / 2;
+
+        field_0_left = x - tmp;
+        field_4_right = x + tmp;
+        field_8_top = y - tmp;
+        field_C_bottom = y + tmp;
+
+        this->field_10_low_z = z - k_dword_6771E4;
+        this->field_14_high_z = z + k_dword_6771E4;
     }
 
     // 9.6f 0x41E350

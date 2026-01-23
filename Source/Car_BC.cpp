@@ -11,6 +11,7 @@
 #include "Hud.hpp"
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
+#include "Orca_2FD4.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "PublicTransport.hpp"
@@ -18,6 +19,7 @@
 #include "RouteFinder.hpp"
 #include "Taxi_4.hpp"
 #include "Weapon_8.hpp"
+#include "collide.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
@@ -91,6 +93,9 @@ DEFINE_GLOBAL(Fix16, dword_677218, 0x677218);
 DEFINE_GLOBAL(Fix16, k_dword_676984, 0x676984);
 DEFINE_GLOBAL(Fix16, k_dword_6778B4, 0x6778B4);
 DEFINE_GLOBAL(Fix16, k_dword_6778E0, 0x6778E0);
+
+DEFINE_GLOBAL(Fix16, k_dword_6772CC, 0x6772CC);
+EXTERN_GLOBAL(u8, byte_6F8EDC);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -1363,10 +1368,34 @@ void Car_BC::sub_43AF60()
     }
 }
 
-STUB_FUNC(0x43afe0)
-char_type Car_BC::sub_43AFE0(s32 a2)
+MATCH_FUNC(0x43afe0)
+char_type Car_BC::sub_43AFE0(s32 target_door)
 {
-    NOT_IMPLEMENTED;
+    Fix16 y;
+    Fix16 x;
+    Fix16_Rect fr;
+
+    sub_43B5A0(target_door, &x, &y);
+    if (gOrca_2FD4_6FDEF0->sub_5540E0(field_50_car_sprite->field_14_xy.x.ToInt(),
+                                      field_50_car_sprite->field_14_xy.y.ToInt(),
+                                      field_50_car_sprite->field_1C_zpos.ToInt(),
+                                      x.ToInt(),
+                                      y.ToInt()))
+    {
+        byte_6F8EDC = 1;
+        fr.ComputeCollisionPrism_4204D0(x, y, k_dword_6772CC, field_50_car_sprite->field_1C_zpos);
+        fr.ExpandToIncludePoint_59DEE0(field_50_car_sprite->field_14_xy.x, field_50_car_sprite->field_14_xy.y);
+        gCollide_C_6791FC->field_8_bUnknown = 1;
+        if (!fr.CanRectEnterMovementRegion_59DE80() &&
+            !gPurpleDoom_1_679208->CheckRectForCollisions_477F60(&fr, 1, 3, field_50_car_sprite) && !gMap_0x370_6F6268->sub_4E11E0(&fr))
+        {
+            gCollide_C_6791FC->field_8_bUnknown = 0;
+            byte_6F8EDC = 0;
+            return 1;
+        }
+        byte_6F8EDC = 0;
+        gCollide_C_6791FC->field_8_bUnknown = 0;
+    }
     return 0;
 }
 
@@ -1428,7 +1457,7 @@ bool Car_BC::sub_43B540(u8 targetDoor)
 }
 
 STUB_FUNC(0x43b5a0)
-s32* Car_BC::sub_43B5A0(s32 a2, u32* a3, s32* a4)
+s32* Car_BC::sub_43B5A0(s32 a2, Fix16* a3, Fix16* a4)
 {
     NOT_IMPLEMENTED;
     return 0;

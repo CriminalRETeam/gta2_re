@@ -4,6 +4,7 @@
 #include "sprite.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, kSmallWidthEpslion_703450, Fix16(0xCCC, 0), 0x703450);
+DEFINE_GLOBAL(Fix16, k_dword_6771E4, 0x6771E4);
 
 MATCH_FUNC(0x59dd60)
 void Fix16_Rect::DoSetCurrentRect_59DD60()

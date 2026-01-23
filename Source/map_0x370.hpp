@@ -7,6 +7,7 @@
 
 class Gang_144;
 class Sprite;
+class Fix16_Rect;
 
 struct gmp_col_info
 {
@@ -302,7 +303,7 @@ class Map_0x370
     EXPORT char_type sub_4E0110();
     EXPORT char_type sub_4E0120();
     EXPORT char_type sub_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7);
-    EXPORT char_type sub_4E11E0(s32* a2);
+    EXPORT char_type sub_4E11E0(Fix16_Rect* a2);
     EXPORT char_type sub_4E1520(s32 a2);
     EXPORT bool sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
     EXPORT char_type sub_4E1A30(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
