@@ -1985,44 +1985,39 @@ void Car_BC::ExplodeCar_Unknown_43D840(s32 a2)
     WIP_IMPLEMENTED;
 
     char bOcc2; // bl
-    Hamburger_40* pBurger; // eax
-    Ped* pDriver; // eax
-    Fix16_Point sprite_xy; // eax
     s32 g6C_f_58; // eax
     Ped* pExploder; // eax
-    Ped* pExploder_; // edi
-    u8 zone_idx; // al
     Gang_144* pZone; // eax
     Fix16_Point v12; // [esp+Ch] [ebp-14h] BYREF
-    //int seh; // [esp+1Ch] [ebp-4h]
 
     bOcc2 = 0;
-    pBurger = this->field_60;
-    if (pBurger)
+    if (field_60)
     {
-        gHamburger_500_678E30->Cancel_474CC0(pBurger);
+        gHamburger_500_678E30->Cancel_474CC0(field_60);
         this->field_60 = 0;
     }
 
     if (this->field_74_damage != 32001)
     {
         sub_441380();
-        ExplodeCar_43D690(a2, stru_6778A8.x.mValue, stru_6778A8.y.mValue);
+        ExplodeCar_43D690(a2, stru_6778A8.x, stru_6778A8.y);
         sub_43B770();
         field_0_qq.sub_5A71F0();
 
-        pDriver = this->field_54_driver;
-        if (pDriver)
+        if (field_54_driver)
         {
-            if (pDriver->field_240_occupation == ped_ocupation_enum::unknown_2)
+            if (field_54_driver->field_240_occupation == ped_ocupation_enum::unknown_2)
             {
                 bOcc2 = 1;
             }
         }
 
         sub_43DB80();
-        sprite_xy = field_50_car_sprite->get_x_y_443580();
+
+        // TODO: Something wrong here
+        Fix16_Point sprite_xy = field_50_car_sprite->get_x_y_443580();
         sub_443710(&sprite_xy);
+
         this->field_74_damage = 32001;
 
         field_0_qq.sub_5A6BB0();
@@ -2036,7 +2031,6 @@ void Car_BC::ExplodeCar_Unknown_43D840(s32 a2)
         if (this->field_70_exploder_ped_id)
         {
             pExploder = gPedManager_6787BC->PedById(this->field_70_exploder_ped_id);
-            pExploder_ = pExploder;
             if (pExploder)
             {
                 if (pExploder->IsField238_45EDE0(2))
@@ -2044,33 +2038,35 @@ void Car_BC::ExplodeCar_Unknown_43D840(s32 a2)
                     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this) &&
                         gPublicTransport_181C_6FF1D4->field_17C0_bus.field_56_passenger_count >= 10)
                     {
-                        pExploder_->field_15C_player->field_2D4_scores.sub_593410(this);
+                        pExploder->field_15C_player->field_2D4_scores.sub_593410(this);
                     }
                     else
                     {
-                        pExploder_->field_15C_player->field_2D4_scores.sub_592DD0(this, pExploder_);
+                        pExploder->field_15C_player->field_2D4_scores.sub_592DD0(this, pExploder);
                         if (bOcc2)
                         {
-                            pExploder_->field_15C_player->field_2D4_scores.sub_593220();
+                            pExploder->field_15C_player->field_2D4_scores.sub_593220();
                         }
                     }
-                    zone_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
+                    s16 zone_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
                     if (zone_idx != -1)
                     {
                         pZone = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
-                        pZone->sub_4BEF70(pExploder_->field_15C_player->field_2E_idx, 1u);
+                        pZone->sub_4BEF70(pExploder->field_15C_player->field_2E_idx, 1u);
                     }
-                    if (pExploder_->field_15C_player)
+                    if (pExploder->field_15C_player)
                     {
-                        if (gShooey_CC_67A4B8->sub_485090(this, pExploder_->field_15C_player))
+                        if (gShooey_CC_67A4B8->sub_485090(this, pExploder->field_15C_player))
                         {
-                            if (pExploder_->field_20A_wanted_points >= 600)
+                            if (pExploder->field_20A_wanted_points < 600)
                             {
-                                pExploder_->add_wanted_points_470160(200);
+                                pExploder->field_20A_wanted_points = 600;
+
                             }
                             else
                             {
-                                pExploder_->field_20A_wanted_points = 600;
+                                pExploder->add_wanted_points_470160(200);
+
                             }
                         }
                     }
@@ -3266,10 +3262,9 @@ void Car_BC::sub_4435F0()
 }
 
 STUB_FUNC(0x443710)
-Car_6C* Car_BC::sub_443710(Fix16_Point* a2)
+void Car_BC::sub_443710(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 MATCH_FUNC(0x443A50)
