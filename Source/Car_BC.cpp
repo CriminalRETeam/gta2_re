@@ -1408,11 +1408,45 @@ bool Car_BC::sub_43B140(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x43b2b0)
-bool Car_BC::sub_43B2B0(Ped* a2)
+WIP_FUNC(0x43b2b0)
+bool Car_BC::sub_43B2B0(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    s32 useLabel12Branch = 0;
+    if (pPed)
+    {
+        if (field_98 == 5)
+        {
+            return pPed->IsField238_45EDE0(2);
+        }
+        if (pPed->IsField238_45EDE0(2) ||
+            (pPed->IsField238_45EDE0(5) && pPed->field_25C_car_state == 35 && pPed->field_154_target_to_enter == this))
+        {
+            useLabel12Branch = 1;
+        }
+    }
+    else
+    {
+        useLabel12Branch = 1;
+    }
+
+    // TODO: Return value uses AL instead of EAX
+    if (!useLabel12Branch)
+    {
+        if (field_98 != 1 && field_98 != 4 && field_98 != 2) 
+        {
+            return 0;
+        }
+    }
+    else
+    {
+        if (field_98 != 1 && field_98 != 4)
+        {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 MATCH_FUNC(0x43b340)
