@@ -1537,17 +1537,17 @@ void Car_BC::sub_43B770()
 }
 
 STUB_FUNC(0x43b7b0)
-char_type Car_BC::sub_43B7B0(Car_BC* a2)
+void Car_BC::sub_43B7B0(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
-STUB_FUNC(0x43b850)
-bool Car_BC::sub_43B850(s32 a2)
+WIP_FUNC(0x43b850)
+bool Car_BC::sub_43B850(s32 wofly_type_or_state)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    // TODO: Flags is a bitfield ??
+    return field_78_flags & 0x600 && wofly_type_or_state != 20 ? true : false;
 }
 
 STUB_FUNC(0x43b870)
