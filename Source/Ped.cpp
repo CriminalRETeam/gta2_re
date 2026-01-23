@@ -94,10 +94,10 @@ DEFINE_GLOBAL(Fix16, k_dword_67845C, 0x67845C);
 DEFINE_GLOBAL(Fix16, k_dword_678798, 0x678798);
 DEFINE_GLOBAL(Fix16, k_dword_678658, 0x678658);
 DEFINE_GLOBAL(Fix16, k_dword_678680, 0x678680);
+DEFINE_GLOBAL(Fix16, k_dword_678430, 0x678430);
 
 DEFINE_GLOBAL(s16, k_word_678656, 0x678656);
 DEFINE_GLOBAL(u8, byte_6787CE, 0x6787CE);
-
 
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
@@ -259,8 +259,7 @@ s32 Ped::CopyStatsFromPed_45B5B0(s32 a2)
 MATCH_FUNC(0x45bbf0)
 Car_BC* Ped::sub_45BBF0()
 {
-    if (field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 
-        || field_27C_ped_state_2 == ped_state_2::ped2_getting_out_a_car_7)
+    if (field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 || field_27C_ped_state_2 == ped_state_2::ped2_getting_out_a_car_7)
     {
         return field_154_target_to_enter;
     }
@@ -654,7 +653,7 @@ void Ped::ChangeNextPedState2_45C540(s32 new_state)
     }
     else
     {
-         // store previous state & update
+        // store previous state & update
         field_284_stored_ped_state_2 = field_27C_ped_state_2;
         field_27C_ped_state_2 = new_state;
     }
@@ -798,7 +797,7 @@ Ang16 Ped::get_field8_45C900()
 }
 
 MATCH_FUNC(0x45c920)
-Fix16 Ped::sub_45C920()
+Fix16 Ped::GetPedVelocity_45C920()
 {
     if (field_168_game_object)
     {
@@ -876,10 +875,8 @@ void Ped::TakeDamage(s16 damage)
 MATCH_FUNC(0x45cf20)
 void Ped::sub_45CF20(Object_2C* a2)
 {
-    if (field_278_ped_state_1 != ped_state_1::dead_9 
-        && field_278_ped_state_1 != ped_state_1::immobilized_8 
-        && a2->field_18_model == 258 
-        && word_6787D0 < 10)
+    if (field_278_ped_state_1 != ped_state_1::dead_9 && field_278_ped_state_1 != ped_state_1::immobilized_8 && a2->field_18_model == 258 &&
+        word_6787D0 < 10)
     {
         sub_45E4A0();
     }
@@ -1367,10 +1364,9 @@ char_type Ped::RoadBlockTank_AI_4619F0()
 }
 
 STUB_FUNC(0x461a60)
-s16 Ped::UpdateFacingAngle_461A60()
+void Ped::UpdateFacingAngle_461A60()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    STUB_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x461f20)
@@ -1743,7 +1739,7 @@ char_type Ped::StateMachineTick_4626B0()
             {
                 this->field_208_invulnerability = 9999;
             }
-            
+
             pWeapon = this->field_170_selected_weapon;
 
             if (pWeapon)
@@ -1775,7 +1771,8 @@ char_type Ped::StateMachineTick_4626B0()
                 Ped::sub_463830(0, 9999);
             }
 
-            if (this->field_258_objective == objectives_enum::leave_car_36 && (this->field_225_objective_status == 1 || this->field_168_game_object->field_10 == 15))
+            if (this->field_258_objective == objectives_enum::leave_car_36 &&
+                (this->field_225_objective_status == 1 || this->field_168_game_object->field_10 == 15))
             {
                 Ped::SetObjective(objectives_enum::no_obj_0, 9999);
                 Ped::sub_463830(0, 9999);
@@ -1815,7 +1812,8 @@ char_type Ped::StateMachineTick_4626B0()
                     Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
                     Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
                 }
-                if (this->field_278_ped_state_1 == ped_state_1::entering_car_3 && this->field_27C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
+                if (this->field_278_ped_state_1 == ped_state_1::entering_car_3 &&
+                    this->field_27C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
                 {
                     Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
                     Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -2118,9 +2116,8 @@ bool Ped::PoolUpdate()
     {
         field_210_shock_counter = field_212_electrocution_threshold;
     }
-    if (field_210_shock_counter == field_212_electrocution_threshold 
-        && field_278_ped_state_1 != ped_state_1::immobilized_8 
-        && field_27C_ped_state_2 != ped_state_2::electrocuted_27)
+    if (field_210_shock_counter == field_212_electrocution_threshold && field_278_ped_state_1 != ped_state_1::immobilized_8 &&
+        field_27C_ped_state_2 != ped_state_2::electrocuted_27)
     {
         // Ped electrocuted
         Ped::ChangeNextPedState1_45C500(ped_state_1::immobilized_8); // immobilize it
@@ -3151,7 +3148,8 @@ void Ped::FleeOnFootTillSafe_4678E0()
 MATCH_FUNC(0x467960)
 void Ped::sub_467960()
 {
-    if (field_148_objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9 || (field_148_objective_target_ped->field_21C & 1) == 0)
+    if (field_148_objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9 ||
+        (field_148_objective_target_ped->field_21C & 1) == 0)
     {
         Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
         Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -3185,8 +3183,8 @@ void Ped::sub_467960()
 MATCH_FUNC(0x467a20)
 void Ped::FleeFromCharOnFootAlways_467A20()
 {
-    if (field_148_objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9 
-        || field_148_objective_target_ped->field_21C_bf.b0 == false)
+    if (field_148_objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9 ||
+        field_148_objective_target_ped->field_21C_bf.b0 == false)
     {
         // Only back to normality if the menacing ped is died or (maybe) cannot move
         Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
@@ -3434,7 +3432,8 @@ void Ped::sub_467FB0()
 MATCH_FUNC(0x467fd0)
 void Ped::sub_467FD0()
 {
-    if ((field_148_objective_target_ped->field_21C & 1) == 0 || field_148_objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9)
+    if ((field_148_objective_target_ped->field_21C & 1) == 0 ||
+        field_148_objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9)
     {
         this->field_225_objective_status = objective_status::failed_2;
         return;
