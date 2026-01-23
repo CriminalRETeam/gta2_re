@@ -1297,11 +1297,13 @@ void Car_BC::sub_43A9F0()
     }
 }
 
-STUB_FUNC(0x43aa60)
-Car_BC* Car_BC::Deactivate_43AA60()
+MATCH_FUNC(0x43aa60)
+void Car_BC::Deactivate_43AA60()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_50_car_sprite);
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_50_car_sprite);
+    gCar_BC_Pool_67792C->field_0_pool.sub_420F30(this);
+    SetF_88_4214E0();
 }
 
 STUB_FUNC(0x43AAE0)

@@ -218,32 +218,57 @@ class Pool
         }
     }
 
-    PoolType* unknown_func(PoolType* pObj)
+    PoolType* unknown_func(PoolType* pToFind)
     {
-        PoolType* v18 = 0;
+        PoolType* pLast = 0;
 
-        for (PoolType* pFirst = field_4_pPrev; pFirst; pFirst = pFirst->mpNext)
+        for (PoolType* pIter = field_4_pPrev; pIter; pIter = pIter->mpNext)
         {
-            if (pFirst == pObj)
+            if (pIter == pToFind)
             {
-                pFirst->PoolDeallocate();
-    
-                if (v18)
+                pIter->PoolDeallocate();
+
+                if (pLast)
                 {
-                    v18->mpNext = pFirst->mpNext;
-                   
+                    pLast->mpNext = pIter->mpNext;
                 }
                 else
                 {
-                    field_4_pPrev = pFirst->mpNext;
+                    field_4_pPrev = pIter->mpNext;
                 }
-                pFirst->mpNext = field_0_pStart;
-                field_0_pStart = pFirst;
-                return pObj;
+                pIter->mpNext = field_0_pStart;
+                field_0_pStart = pIter;
+                return pToFind;
             }
-            v18 = pFirst;
+            pLast = pIter;
         }
-        return pObj;
+        return pToFind;
+    }
+
+    void sub_420F30(PoolType* toFind)
+    {
+        PoolType* pIter = this->field_4_pPrev;
+        PoolType* pLast = 0;
+        while (pIter)
+        {
+            if (pIter == toFind)
+            {
+                if (pLast)
+                {
+                    pLast->mpNext = pIter->mpNext;
+                    pIter->mpNext = 0;
+                }
+                else
+                {
+                    this->field_4_pPrev = pIter->mpNext;
+                    pIter->mpNext = 0;
+                }
+                return;
+            }
+
+            pLast = pIter;
+            pIter = pIter->mpNext;
+        }
     }
 
     PoolType* field_0_pStart;

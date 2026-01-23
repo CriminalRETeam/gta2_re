@@ -386,7 +386,7 @@ class Car_BC
     EXPORT void sub_43A970();
     EXPORT void SetDriver(Ped* a2);
     EXPORT void sub_43A9F0();
-    EXPORT Car_BC* Deactivate_43AA60();
+    EXPORT void Deactivate_43AA60();
     EXPORT char_type IsThreatToSearchingPed_43AAE0();
     EXPORT char_type sub_43AAF0(Sprite* a2);
     EXPORT void ProcessCarToCarImpact_43ADC0(Sprite* a2);
@@ -782,6 +782,11 @@ class Car_BC
     bool sub_4214D0()
     {
         return field_88 == 7;
+    }
+
+    void SetF_88_4214E0()
+    {
+        field_88 = 7;
     }
 
     bool IsGunJeep_411910()
