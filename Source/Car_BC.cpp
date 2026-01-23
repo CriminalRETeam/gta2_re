@@ -6,6 +6,7 @@
 #include "Firefighters.hpp"
 #include "Fix16_Rect.hpp"
 #include "Game_0x40.hpp"
+#include "Gang.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Hud.hpp"
@@ -17,6 +18,7 @@
 #include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
+#include "Shooey_CC.hpp"
 #include "Taxi_4.hpp"
 #include "Weapon_8.hpp"
 #include "collide.hpp"
@@ -30,8 +32,6 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
-#include "Shooey_CC.hpp"
-#include "Gang.hpp"
 
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
@@ -2061,12 +2061,10 @@ void Car_BC::ExplodeCar_Unknown_43D840(s32 a2)
                             if (pExploder->field_20A_wanted_points < 600)
                             {
                                 pExploder->field_20A_wanted_points = 600;
-
                             }
                             else
                             {
                                 pExploder->add_wanted_points_470160(200);
-
                             }
                         }
                     }
@@ -2120,11 +2118,28 @@ void Car_BC::sub_43DBD0()
     }
 }
 
-STUB_FUNC(0x43dc00)
+WIP_FUNC(0x43dc00)
 bool Car_BC::sub_43DC00()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+    if (field_74_damage == 32001)
+    {
+        if (field_50_car_sprite->field_4_0x4C_len->field_0_width != field_50_car_sprite->field_C_sprite_4c_ptr->field_0_width)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    u16 pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(2, pInfo->sprite);
+    if (field_50_car_sprite->field_4_0x4C_len->field_0_width !=
+        dword_6F6850.list[gGtx_0x106C_703DD4->get_sprite_index_5AA440(pal)->field_4_width])
+    {
+        return true;
+    }
+    return false;
 }
 
 STUB_FUNC(0x43dc80)
