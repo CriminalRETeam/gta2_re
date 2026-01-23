@@ -399,7 +399,7 @@ class Car_BC
     EXPORT Car_Door_10* GetDoor(u8 door_idx);
     EXPORT char_type GetRemap();
     EXPORT void sub_43B380();
-    EXPORT char_type sub_43B3D0();
+    EXPORT void sub_43B3D0();
     EXPORT s32 sub_43B420(s32 a2, u32* a3, u32* a4);
     EXPORT bool sub_43B540(u8 targetDoor);
     EXPORT s32* sub_43B5A0(s32 a2, Fix16* a3, Fix16* a4);

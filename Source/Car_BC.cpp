@@ -1436,11 +1436,15 @@ void Car_BC::sub_43B380()
     }
 }
 
-STUB_FUNC(0x43b3d0)
-char_type Car_BC::sub_43B3D0()
+MATCH_FUNC(0x43b3d0)
+void Car_BC::sub_43B3D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u8* pRemap = gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx);
+    for (u8 i = 0; i < *pRemap; i++)
+    {
+        Car_Door_10* pDoor = GetDoor(i);
+        pDoor->sub_439EA0();
+    }
 }
 
 STUB_FUNC(0x43b420)
