@@ -386,27 +386,27 @@ class Car_BC
     EXPORT void sub_43A970();
     EXPORT void SetDriver(Ped* a2);
     EXPORT void sub_43A9F0();
-    EXPORT Car_BC* Deactivate_43AA60();
+    EXPORT void Deactivate_43AA60();
     EXPORT char_type IsThreatToSearchingPed_43AAE0();
     EXPORT char_type sub_43AAF0(Sprite* a2);
     EXPORT void ProcessCarToCarImpact_43ADC0(Sprite* a2);
     EXPORT bool CanExitCar_43AF10();
     EXPORT void sub_43AF40();
     EXPORT void sub_43AF60();
-    EXPORT char_type sub_43AFE0(s32 a2);
+    EXPORT char_type sub_43AFE0(s32 target_door);
     EXPORT bool sub_43B140(s32 a2);
     EXPORT bool sub_43B2B0(Ped* a2);
     EXPORT Car_Door_10* GetDoor(u8 door_idx);
     EXPORT char_type GetRemap();
     EXPORT void sub_43B380();
-    EXPORT char_type sub_43B3D0();
+    EXPORT void sub_43B3D0();
     EXPORT s32 sub_43B420(s32 a2, u32* a3, u32* a4);
     EXPORT bool sub_43B540(u8 targetDoor);
-    EXPORT s32* sub_43B5A0(s32 a2, u32* a3, s32* a4);
+    EXPORT s32* sub_43B5A0(s32 a2, Fix16* a3, Fix16* a4);
     EXPORT char_type sub_43B730();
     EXPORT char_type sub_43B750();
     EXPORT void sub_43B770();
-    EXPORT char_type sub_43B7B0(Car_BC* a2);
+    EXPORT void sub_43B7B0(Car_BC* a2);
     EXPORT bool sub_43B850(s32 a2);
     EXPORT void sub_43B870(s32 a2, s32 a3);
     EXPORT s32 sub_43BB90(u8 a1);
@@ -435,7 +435,7 @@ class Car_BC
     EXPORT Car_BC* sub_43CDF0(char_type a2);
     EXPORT void DamageArea_43CF30(s32 damage_area);
     EXPORT bool IsAreaDamaged_43D1C0(s32 damage_area);
-    EXPORT void sub_43D2C0(char_type a2, s32 a3);
+    EXPORT void TryDamageArea_43D2C0(u8 damage_area, s32 damageAmount);
     EXPORT s32 sub_43D400();
     EXPORT void ExplodeCar_43D690(s32 a3, Fix16 x, Fix16 y);
     EXPORT void sub_43D7B0(s32 a2);
@@ -525,7 +525,7 @@ class Car_BC
     EXPORT void sub_4435A0();
     EXPORT s32 GetCrashSoundCategory_4435B0();
     EXPORT void sub_4435F0();
-    EXPORT Car_6C* sub_443710(s32 a2);
+    EXPORT void sub_443710(Fix16_Point* a2);
     EXPORT static s32 __stdcall get_car_weapon_cost_443A50(s32 weapon_kind);
     EXPORT void BuyCarWeapon_4438C0(s32 weapon_kind);
     EXPORT static void __stdcall sub_443AB0(Player* pPlayer, s32 weapon_cost);
@@ -782,6 +782,11 @@ class Car_BC
     bool sub_4214D0()
     {
         return field_88 == 7;
+    }
+
+    void SetF_88_4214E0()
+    {
+        field_88 = 7;
     }
 
     bool IsGunJeep_411910()

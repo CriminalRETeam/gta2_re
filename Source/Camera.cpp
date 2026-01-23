@@ -161,7 +161,7 @@ Fix16 Camera_0xBC::sub_435A20()
     Ped* pPed = field_34_ped;
     if (pPed)
     {
-        return pPed->sub_45C920();
+        return pPed->GetPedVelocity_45C920();
     }
 
     Car_BC* pCar = field_38_car;

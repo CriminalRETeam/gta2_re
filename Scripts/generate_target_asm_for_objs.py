@@ -50,7 +50,7 @@ def main():
         if not addrs:
             continue
 
-        if cpp_file.name != "Generators.cpp":
+        if cpp_file.name != "Car_BC.cpp":
             continue
 
         print(f"Processing {cpp_file.name} with {len(addrs)} addresses")

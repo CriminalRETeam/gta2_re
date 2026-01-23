@@ -68,7 +68,7 @@ class Ped
     EXPORT void sub_45C7F0(Car_BC* pCar);
     EXPORT char_type AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Ang16 get_field8_45C900();
-    EXPORT Fix16 sub_45C920();
+    EXPORT Fix16 GetPedVelocity_45C920();
     EXPORT Ang16 GetRotation();
     EXPORT Fix16 get_fieldC_45C9B0();
     EXPORT s16* ComputeAimAngle_45C9D0(s16* a2);
@@ -93,7 +93,7 @@ class Ped
     EXPORT char_type sub_461530();
     EXPORT void sub_461630();
     EXPORT char_type RoadBlockTank_AI_4619F0();
-    EXPORT s16 UpdateFacingAngle_461A60();
+    EXPORT void UpdateFacingAngle_461A60();
     EXPORT void Occupation_AI_461F20();
     EXPORT void sub_462280();
     EXPORT void sub_4624A0();

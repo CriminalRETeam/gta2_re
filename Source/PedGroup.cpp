@@ -472,7 +472,7 @@ void PedGroup::sub_4CA4B0()
             }
             else if (pIter->field_278_ped_state_1 != 9)
             {
-                if (field_2C_ped_leader->sub_45C920() != dword_67F610)
+                if (field_2C_ped_leader->GetPedVelocity_45C920() != dword_67F610)
                 {
                     switch (i)
                     {
