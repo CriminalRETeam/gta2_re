@@ -2813,11 +2813,55 @@ void Car_BC::sub_441B20()
     }
 }
 
-STUB_FUNC(0x441b50)
-char_type Car_BC::sub_441B50()
+MATCH_FUNC(0x441b50)
+void Car_BC::sub_441B50()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type cmp1;
+    char_type A5_if_zero;
+
+    if (is_FBI_car_411920())
+    {
+        cmp1 = 0;
+        A5_if_zero = 8;
+    }
+    else
+    {
+        cmp1 = 5;
+        A5_if_zero = 15;
+    }
+
+    if (field_A5 > 0)
+    {
+        field_A5--;
+        if (field_A5 == cmp1)
+        {
+            sub_43C840();
+            sub_43C470();
+        }
+
+        if (!field_A5)
+        {
+            field_A5 = -A5_if_zero;
+            sub_43C500();
+            sub_43C260();
+        }
+    }
+    else
+    {
+        field_A5++;
+        if (field_A5 == -cmp1)
+        {
+            sub_43C650();
+            sub_43C310();
+        }
+
+        if (!field_A5)
+        {
+            field_A5 = A5_if_zero;
+            sub_43C700();
+            sub_43C3C0();
+        }
+    }
 }
 
 STUB_FUNC(0x441c00)
