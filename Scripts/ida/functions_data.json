@@ -14630,7 +14630,7 @@
         "v105_address": "0x59e1d0"
     },
     {
-        "name": "sub_59E250",
+        "name": "GetWaterCornerMask_59E250",
         "v96f_address": null,
         "v105_address": "0x59e250"
     },

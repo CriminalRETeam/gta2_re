@@ -197,11 +197,24 @@ s32 Sprite::IsOnWater_59E1D0()
     return false;
 }
 
-STUB_FUNC(0x59E250)
-char Sprite::sub_59E250()
+MATCH_FUNC(0x59E250)
+u8 Sprite::GetWaterCornerMask_59E250()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u8 bits = 0;
+    Fix16 zpos_delta = this->field_1C_zpos - dword_7035C4;
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+
+    Fix16_Point_POD* pBBox = field_C_sprite_4c_ptr->field_C_renderingRect;
+    for (s32 i = 0; i < 4; i++)
+    {
+        Fix16_Point_POD* pIter = &pBBox[i];
+        if (gMap_0x370_6F6268->sub_4B9F40(pIter->x.ToInt(), pIter->y.ToInt(), zpos_delta.ToInt()))
+        {
+            bits |= 1 << i;
+        }
+    }
+
+    return bits;
 }
 
 MATCH_FUNC(0x59e2e0)
@@ -815,7 +828,11 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* a1)
 }
 
 STUB_FUNC(0x4F76A0)
-EXPORT char_type __stdcall ComputeScanlineIntersectionX_4F76A0(Fix16* scanXMin, Fix16* scanXMax, Fix16* scanY, Fix16_Point* a4, Fix16_Point* a5)
+EXPORT char_type __stdcall ComputeScanlineIntersectionX_4F76A0(Fix16* scanXMin,
+                                                               Fix16* scanXMax,
+                                                               Fix16* scanY,
+                                                               Fix16_Point* a4,
+                                                               Fix16_Point* a5)
 {
     NOT_IMPLEMENTED;
     return 0;
