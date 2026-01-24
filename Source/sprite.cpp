@@ -122,7 +122,7 @@ void Sprite::set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 }
 
 MATCH_FUNC(0x54EC80)
-void Sprite::sub_54EC80(Fix16 xpos, Fix16 ypos)
+void Sprite::setxy_lazy_54EC80(Fix16 xpos, Fix16 ypos)
 {
     if (this->field_14_xy.x != xpos || this->field_14_xy.y != ypos)
     {

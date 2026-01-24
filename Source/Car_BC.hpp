@@ -374,7 +374,7 @@ class Car_BC
     EXPORT Fix16_Point get_linvel_43A450();
     EXPORT Fix16 GetVelocity_43A4C0();
     EXPORT Fix16 sub_43A590();
-    EXPORT u32* sub_43A5B0(u32* a2);
+    EXPORT Fix16 sub_43A5B0();
     EXPORT void RemoveAllDamage();
     EXPORT bool AllowResprayOrPlates();
     EXPORT bool IsNotCurrentRemap(u8 remap);
@@ -476,7 +476,7 @@ class Car_BC
     EXPORT void sub_441360();
     EXPORT void sub_4436A0();
     EXPORT void sub_441380();
-    EXPORT char_type sub_4413B0(s32 a2, s32 a3, s32 a4);
+    EXPORT void UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_441520();
     EXPORT void UpdateBrakeLights_4415C0();
     EXPORT u32* sub_441600(u32* a2);
@@ -500,7 +500,7 @@ class Car_BC
     EXPORT void sub_441A70();
     EXPORT void sub_441B00();
     EXPORT void sub_441B20();
-    EXPORT char_type sub_441B50();
+    EXPORT void sub_441B50();
     EXPORT void sub_441C00();
     EXPORT s16 sub_441D40();
     EXPORT void sub_441E70();

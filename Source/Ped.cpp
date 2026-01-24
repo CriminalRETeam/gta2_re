@@ -923,7 +923,7 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 }
 
 WIP_FUNC(0x45de80)
-char_type Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
+bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
 {
     WIP_IMPLEMENTED;
 

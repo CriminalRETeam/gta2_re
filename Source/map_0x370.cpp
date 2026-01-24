@@ -1857,14 +1857,14 @@ void Map_0x370::sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_ty
 }
 
 STUB_FUNC(0x4E6660)
-s32 Map_0x370::sub_4E6660(s32* a2, s32* a3, s32* a4, s32 a5)
+s32 Map_0x370::sub_4E6660(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E7190)
-s32 Map_0x370::sub_4E7190(s32* a2, s32* a3, s32* a4, s32 a5)
+s32 Map_0x370::sub_4E7190(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5)
 {
     NOT_IMPLEMENTED;
     return 0;
