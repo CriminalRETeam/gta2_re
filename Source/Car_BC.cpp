@@ -1074,12 +1074,20 @@ Fix16 Car_BC::sub_43A590()
     return gCarInfo_808_678098->sub_454840(sub_43A850())->field_0;
 }
 
-// https://decomp.me/scratch/3mKny - matched
-STUB_FUNC(0x43a5b0)
-u32* Car_BC::sub_43A5B0(u32* a2)
+MATCH_FUNC(0x43a5b0)
+Fix16 Car_BC::sub_43A5B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    const car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+    if (pInfo->w < pInfo->h)
+    {
+        Fix16 t = dword_6F6850.list[pInfo->w];
+        return t;
+    }
+    else
+    {
+        Fix16 tt = dword_6F6850.list[pInfo->h];
+        return tt;
+    }
 }
 
 MATCH_FUNC(0x43a600)
@@ -2241,8 +2249,6 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
         case objects::bus_stop_marker_161:
             gCar_214_705F20->sub_5C8780(pObj->field_27, this->field_50_car_sprite);
             break;
-
-
 
         case objects::small_arrow_141:
             if (field_54_driver || field_88 == 5)
