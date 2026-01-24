@@ -57,6 +57,22 @@ EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
 
+// 9.6f inline
+static inline void sub_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, const s32& drawkind, s16 a8, s32 a9, u8 a10)
+{
+    DrawFigure_5D7EC0(type,
+                      pal,
+                      x_pos * gViewCamera_676978->field_A8_ui_scale,
+                      y_pos * gViewCamera_676978->field_A8_ui_scale,
+                      rotation,
+                      gViewCamera_676978->field_A8_ui_scale,
+                      drawkind,
+                      a8,
+                      a9,
+                      a10,
+                      0);
+}
+
 STUB_FUNC(0x5cfe40)
 void Garox_13C0_sub::DrawPlayerNames_5CFE40()
 {
@@ -871,10 +887,18 @@ void Hud_CopHead_C_Array::UpdateWantedLevel_5D00B0()
     }
 }
 
-STUB_FUNC(0x5d0110)
+// https://decomp.me/scratch/QYlEW
+WIP_FUNC(0x5d0110)
 void Hud_CopHead_C_Array::DrawWantedLevel_5D0110()
 {
-    NOT_IMPLEMENTED;
+    Fix16 xpos = (Fix16(640) - (field_4C_w_fp * field_48_cop_level)) / 2;
+    Fix16 y_base = field_50_h_fp / 2;
+
+    for (s32 cop_head_idx = 0; cop_head_idx < field_48_cop_level; cop_head_idx++, xpos += field_4C_w_fp)
+    {
+        Fix16 ypos = y_base + Fix16(field_1028[cop_head_idx].field_4_height);
+        sub_4C71B0(6, field_1028[cop_head_idx].field_0 + 14, xpos, ypos, word_706610, 2, 0, 0, 0);
+    }
 }
 
 MATCH_FUNC(0x5d0210)
@@ -2399,9 +2423,9 @@ bool Hud_2B00::sub_5D6CB0(s32 action)
 }
 
 // https://decomp.me/scratch/Y4V1E it matches on decompme
-STUB_FUNC(0x5d6cd0)
+WIP_FUNC(0x5d6cd0)
 Hud_2B00::Hud_2B00()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     field_13C4_text_speed = 0;
 }

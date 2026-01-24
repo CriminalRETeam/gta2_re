@@ -29,7 +29,7 @@ Montana_2EE4::~Montana_2EE4()
 }
 
 // https://decomp.me/scratch/qyVgM reg swap
-STUB_FUNC(0x5c5cf0)
+WIP_FUNC(0x5c5cf0)
 void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
 {
     Montana_C* pFirst = field_0_pFirst;
@@ -161,10 +161,10 @@ void Montana_4::Reset_5C5E50()
 }
 
 // TODO: Doesn't match due to SEH stuff
-STUB_FUNC(0x5c5e70)
+WIP_FUNC(0x5c5e70)
 Montana_4::Montana_4()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     if (!gMontana_2EE4_705BBC)
     {
         gMontana_2EE4_705BBC = new Montana_2EE4();
