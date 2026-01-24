@@ -385,7 +385,7 @@
         "v105_address": "0x40f050"
     },
     {
-        "name": "root_sound::sub_40F070",
+        "name": "root_sound::CycleRadioStation_40F070",
         "v96f_address": null,
         "v105_address": "0x40f070"
     },
@@ -575,7 +575,7 @@
         "v105_address": "0x4140c0"
     },
     {
-        "name": "sound_obj::sub_414320",
+        "name": "sound_obj::Type_16_414320",
         "v96f_address": null,
         "v105_address": "0x414320"
     },
@@ -590,7 +590,7 @@
         "v105_address": "0x4145e0"
     },
     {
-        "name": "sound_obj::sub_414690",
+        "name": "sound_obj::Type_17_414690",
         "v96f_address": null,
         "v105_address": "0x414690"
     },
@@ -600,7 +600,7 @@
         "v105_address": "0x414710"
     },
     {
-        "name": "sound_obj::sub_4149D0",
+        "name": "sound_obj::Type_19_4149D0",
         "v96f_address": null,
         "v105_address": "0x4149d0"
     },
@@ -610,7 +610,7 @@
         "v105_address": "0x414a50"
     },
     {
-        "name": "sound_obj::sub_414C90",
+        "name": "sound_obj::Type_12_414C90",
         "v96f_address": null,
         "v105_address": "0x414c90"
     },
@@ -620,7 +620,7 @@
         "v105_address": "0x414d30"
     },
     {
-        "name": "sound_obj::sub_414EE0",
+        "name": "sound_obj::Type_11_414EE0",
         "v96f_address": null,
         "v105_address": "0x414ee0"
     },
@@ -630,7 +630,7 @@
         "v105_address": "0x414f90"
     },
     {
-        "name": "sound_obj::sub_415100",
+        "name": "sound_obj::Type_15_415100",
         "v96f_address": null,
         "v105_address": "0x415100"
     },
@@ -640,7 +640,7 @@
         "v105_address": "0x415190"
     },
     {
-        "name": "sound_obj::sub_4153F0",
+        "name": "sound_obj::Type_13_4153F0",
         "v96f_address": null,
         "v105_address": "0x4153f0"
     },
@@ -655,7 +655,7 @@
         "v105_address": "0x415570"
     },
     {
-        "name": "sound_obj::sub_415730",
+        "name": "sound_obj::Type_5_InitEngineSoundProfile_415730",
         "v96f_address": null,
         "v105_address": "0x415730"
     },
@@ -665,7 +665,7 @@
         "v105_address": "0x4157c0"
     },
     {
-        "name": "sound_obj::sub_416260",
+        "name": "sound_obj::Type_1_6_416260",
         "v96f_address": null,
         "v105_address": "0x416260"
     },
@@ -675,7 +675,7 @@
         "v105_address": "0x417060"
     },
     {
-        "name": "sound_obj::sub_4174C0",
+        "name": "sound_obj::Type_3_HandleCarImpactSound_4174C0",
         "v96f_address": null,
         "v105_address": "0x4174c0"
     },
@@ -690,7 +690,7 @@
         "v105_address": "0x4178c0"
     },
     {
-        "name": "sound_obj::sub_417A00",
+        "name": "sound_obj::Type_4_417A00",
         "v96f_address": null,
         "v105_address": "0x417a00"
     },
@@ -725,12 +725,12 @@
         "v105_address": "0x417e30"
     },
     {
-        "name": "sound_obj::sub_417EF0",
+        "name": "sound_obj::Type_7_417EF0",
         "v96f_address": null,
         "v105_address": "0x417ef0"
     },
     {
-        "name": "sound_obj::sub_417F40",
+        "name": "sound_obj::IsHeavyTruckOrBus_417F40",
         "v96f_address": null,
         "v105_address": "0x417f40"
     },
@@ -740,7 +740,7 @@
         "v105_address": "0x417fd0"
     },
     {
-        "name": "sound_obj::sub_418130",
+        "name": "sound_obj::Type_8_418130",
         "v96f_address": null,
         "v105_address": "0x418130"
     },
@@ -750,7 +750,7 @@
         "v105_address": "0x418190"
     },
     {
-        "name": "sound_obj::sub_4182A0",
+        "name": "sound_obj::Type_2_4182A0",
         "v96f_address": null,
         "v105_address": "0x4182a0"
     },
@@ -765,7 +765,7 @@
         "v105_address": "0x418610"
     },
     {
-        "name": "sound_obj::sub_4186D0",
+        "name": "sound_obj::Type_9_4186D0",
         "v96f_address": null,
         "v105_address": "0x4186d0"
     },
@@ -775,7 +775,7 @@
         "v105_address": "0x418720"
     },
     {
-        "name": "sound_obj::sub_418940",
+        "name": "sound_obj::Type_10_HandleCarSkidSound_418940",
         "v96f_address": null,
         "v105_address": "0x418940"
     },
@@ -815,7 +815,7 @@
         "v105_address": "0x419070"
     },
     {
-        "name": "sound_obj::sub_4190B0",
+        "name": "sound_obj::ComputeEmitterDistanceSquared_4190B0",
         "v96f_address": null,
         "v105_address": "0x4190b0"
     },
@@ -875,7 +875,7 @@
         "v105_address": "0x41a4a0"
     },
     {
-        "name": "sound_obj::sub_41A580",
+        "name": "sound_obj::AdjustPlaybackRate_41A580",
         "v96f_address": null,
         "v105_address": "0x41a580"
     },
@@ -1010,7 +1010,7 @@
         "v105_address": "0x426790"
     },
     {
-        "name": "sound_obj::sub_426E10",
+        "name": "sound_obj::EnqueueRadioLocationPhrase_426E10",
         "v96f_address": null,
         "v105_address": "0x426e10"
     },
@@ -1035,22 +1035,22 @@
         "v105_address": "0x4271b0"
     },
     {
-        "name": "sound_obj::sub_427220",
+        "name": "sound_obj::ProcessPoliceRadioWordsPlayback_427220",
         "v96f_address": "0x41C000",
         "v105_address": "0x427220"
     },
     {
-        "name": "sound_obj::sub_427310",
+        "name": "sound_obj::GetQueuedRadioWordCount_427310",
         "v96f_address": null,
         "v105_address": "0x427310"
     },
     {
-        "name": "sound_obj::sub_427340",
+        "name": "sound_obj::EnqueueRadioCrimeCallout_427340",
         "v96f_address": null,
         "v105_address": "0x427340"
     },
     {
-        "name": "sound_obj::sub_4273B0",
+        "name": "sound_obj::AppendRadioMessageSuffix_4273B0",
         "v96f_address": null,
         "v105_address": "0x4273b0"
     },
@@ -13595,17 +13595,17 @@
         "v105_address": "0x57e6c0"
     },
     {
-        "name": "sound_obj::sub_57EA10",
+        "name": "sound_obj::DeInitVocals_57EA10",
         "v96f_address": null,
         "v105_address": "0x57ea10"
     },
     {
-        "name": "sound_obj::sub_57EA90",
+        "name": "sound_obj::UpdateActiveRadioEmitterVolume_57EA90",
         "v96f_address": null,
         "v105_address": "0x57ea90"
     },
     {
-        "name": "sound_obj::sub_57EB90",
+        "name": "sound_obj::ComputeRadioEmitterVolume_57EB90",
         "v96f_address": null,
         "v105_address": "0x57eb90"
     },
@@ -13625,27 +13625,27 @@
         "v105_address": "0x57ee30"
     },
     {
-        "name": "sound_obj::sub_57EEE0",
+        "name": "sound_obj::CycleRadioStation_57EEE0",
         "v96f_address": null,
         "v105_address": "0x57eee0"
     },
     {
-        "name": "sound_obj::sub_57EF60",
+        "name": "sound_obj::SelectBestRadioEmitter_57EF60",
         "v96f_address": null,
         "v105_address": "0x57ef60"
     },
     {
-        "name": "sound_obj::sub_57F050",
+        "name": "sound_obj::FindEmitterByStatus_57F050",
         "v96f_address": null,
         "v105_address": "0x57f050"
     },
     {
-        "name": "sound_obj::sub_57F090",
+        "name": "sound_obj::IsPoliceOrServiceVehicle_57F090",
         "v96f_address": null,
         "v105_address": "0x57f090"
     },
     {
-        "name": "sound_obj::sub_57F120",
+        "name": "sound_obj::IsTrainOrBoxcar_57F120",
         "v96f_address": null,
         "v105_address": "0x57f120"
     },

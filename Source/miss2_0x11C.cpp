@@ -308,7 +308,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
         rotation.sub_406C20();
-        pPointer->field_8_car = gCar_6C_677930->sub_426E10(pCmd->field_C_pos.field_0_x,
+        pPointer->field_8_car = gCar_6C_677930->EnqueueRadioLocationPhrase_426E10(pCmd->field_C_pos.field_0_x,
                                                            pCmd->field_C_pos.field_4_y,
                                                            pCmd->field_C_pos.field_8_z,
                                                            rotation,
@@ -340,7 +340,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
             rotation.Normalize();
 
-            pPointer->field_8_car = gCar_6C_677930->sub_426E10(pCmd->field_C_pos.field_0_x,
+            pPointer->field_8_car = gCar_6C_677930->EnqueueRadioLocationPhrase_426E10(pCmd->field_C_pos.field_0_x,
                                                                pCmd->field_C_pos.field_4_y,
                                                                pCmd->field_C_pos.field_8_z,
                                                                rotation,

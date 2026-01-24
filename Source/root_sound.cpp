@@ -48,7 +48,7 @@ void root_sound::sub_40F010()
 MATCH_FUNC(0x40F020)
 void root_sound::sub_40F020()
 {
-    gSound_obj_66F680.sub_57EA10();
+    gSound_obj_66F680.DeInitVocals_57EA10();
 }
 
 MATCH_FUNC(0x40F030)
@@ -64,9 +64,9 @@ void root_sound::RemoveSound_40F050(s32 a1, s32 a2)
 }
 
 MATCH_FUNC(0x40F070)
-void root_sound::sub_40F070(char_type a1)
+void root_sound::CycleRadioStation_40F070(char_type a1)
 {
-    gSound_obj_66F680.sub_57EEE0(a1);
+    gSound_obj_66F680.CycleRadioStation_57EEE0(a1);
 }
 
 MATCH_FUNC(0x40F090)
@@ -166,7 +166,7 @@ void root_sound::unknown_inlined_function()
 {
     if (gSound_obj_66F680.field_0_bSoundInitialized)
     {
-        gSound_obj_66F680.sub_57EA10();
+        gSound_obj_66F680.DeInitVocals_57EA10();
         gSound_obj_66F680.sub_418C60();
         for (s32 i = 0; i < gSound_obj_66F680.field_10_nActiveSamples; ++i)
         {

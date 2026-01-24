@@ -244,7 +244,7 @@ class Car_6C
     EXPORT ~Car_6C();
 
     // 9.6f inlined
-    inline Car_BC* sub_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
+    inline Car_BC* EnqueueRadioLocationPhrase_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
         return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6F77C4);
     }

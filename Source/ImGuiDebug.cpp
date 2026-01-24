@@ -31,6 +31,8 @@
 #include "registry.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "sound_obj.hpp"
+#include "root_sound.hpp"
 #include <stdarg.h>
 
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
@@ -438,6 +440,30 @@ void CC ImGuiDebugDraw()
     if (ImGui::Button("NoRefs_sub_5B1170"))
     {
         NoRefs_sub_5B1170();
+    }
+
+    if (ImGui::TreeNode("Sound"))
+    {
+        if (ImGui::Button("CycleRadioStation_40F070 (next)"))
+        {
+            gRoot_sound_66B038.CycleRadioStation_40F070(0);
+        }
+
+        if (ImGui::Button("CycleRadioStation_40F070 (prev)"))
+        {
+            gRoot_sound_66B038.CycleRadioStation_40F070(1);
+        }
+
+        if (ImGui::Button("AppendRadioMessageSuffix_4273B0"))
+        {
+            gSound_obj_66F680.AppendRadioMessageSuffix_4273B0();
+        }
+
+        if (ImGui::Button("EnqueueRadioWord_4271B0"))
+        {
+            gSound_obj_66F680.EnqueueRadioWord_4271B0(0x78u);
+        }
+
     }
 
     if (ImGui::TreeNode("gText_0x14_704DFC"))
