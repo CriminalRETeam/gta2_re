@@ -88,6 +88,11 @@ class Weapon_30
         field_2C = new_value;
     }
 
+    inline bool HasAmmo_4A4F80()
+    {
+        return field_0_ammo != 0;
+    }
+
     u16 field_0_ammo;
     u8 field_2_reload_speed;
     s8 field_3;

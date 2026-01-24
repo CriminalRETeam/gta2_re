@@ -259,10 +259,98 @@ char_type Player::sub_564960(s32 weapon_kind, u8 ammo)
     return bAmmoAdded;
 }
 
-STUB_FUNC(0x5649D0)
-void Player::SelectNextOrPrevWeapon_5649D0(char_type bFowards, char_type bBackwards)
+MATCH_FUNC(0x5649D0)
+void Player::SelectNextOrPrevWeapon_5649D0(char_type bForwards, char_type bBackwards)
 {
-    NOT_IMPLEMENTED;
+    Ped* pPlayerPed = GetPlayerPed_4A5130();
+
+    if (!field_31_kf_weapon_mode)
+    {
+        s32 max_idx;
+        if (!pPlayerPed || !pPlayerPed->get_car_416B60())
+        {
+            max_idx = weapon_type::car_bomb; // 15
+        }
+        else
+        {
+            max_idx = 28;
+        }
+
+        if (field_788_curr_weapon_idx < -1 || field_788_curr_weapon_idx >= max_idx)
+        {
+            field_788_curr_weapon_idx = 0;
+        }
+
+        Weapon_30* pWeapon;
+
+        if (bForwards)
+        {
+            while (1)
+            {
+                if (++field_788_curr_weapon_idx == max_idx)
+                {
+                    field_788_curr_weapon_idx = -1;
+                }
+                if (field_788_curr_weapon_idx == -1)
+                {
+                    break;
+                }
+                pWeapon = field_718_weapons[field_788_curr_weapon_idx];
+                if (pWeapon)
+                {
+                    if (pWeapon->HasAmmo_4A4F80())
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!bBackwards)
+        {
+            if (field_788_curr_weapon_idx != -1)
+            {
+                pWeapon = field_718_weapons[field_788_curr_weapon_idx];
+                if (!pWeapon || !pWeapon->HasAmmo_4A4F80())
+                {
+                    field_8F = 1;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+        while (1)
+        {
+            s16 dec_idx;
+            if (field_788_curr_weapon_idx == -1)
+            {
+                dec_idx = max_idx - 1;
+            }
+            else
+            {
+                dec_idx = field_788_curr_weapon_idx - 1;
+            }
+            field_788_curr_weapon_idx = dec_idx;
+            if (dec_idx == -1)
+            {
+                break;
+            }
+            pWeapon = field_718_weapons[dec_idx];
+            if (pWeapon)
+            {
+                if (pWeapon->HasAmmo_4A4F80())
+                {
+                    break;
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x564AD0)
