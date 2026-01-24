@@ -400,10 +400,68 @@ EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, F
 }
 
 // TODO: move
-STUB_FUNC(0x4F75D0)
-EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5, Fix16* a6, Fix16* a7)
+// https://decomp.me/scratch/kwM8W
+WIP_FUNC(0x4F75D0)
+EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
+                                                   Fix16* coord_velocity,
+                                                   Fix16* curr_coord,
+                                                   Fix16* velocity_1,
+                                                   Fix16* velocity_2,
+                                                   Fix16* velocity_3,
+                                                   Fix16* maybe_decrement)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    Fix16 v8;
+    Fix16 v9;
+    Fix16 v10;
+
+    Fix16 DeltaCoord = *target_coord - *curr_coord;
+    if (DeltaCoord > kZero_6F6C50)
+    {
+        if (*coord_velocity >= kZero_6F6C50)
+        {
+            v8 = *velocity_1 + *coord_velocity;
+            if (v8 <= DeltaCoord)
+            {
+                *coord_velocity = v8;
+                v9 = *velocity_2;
+                if (v8 > *velocity_2)
+                {
+                    *coord_velocity = v9;
+                    *curr_coord += v9;
+                    return;
+                }
+                goto LABEL_12;
+            }
+        LABEL_10:
+            *coord_velocity = DeltaCoord;
+            *curr_coord += DeltaCoord;
+            return;
+        }
+        goto LABEL_11;
+    }
+    if (DeltaCoord >= kZero_6F6C50 || *coord_velocity > kZero_6F6C50)
+    {
+    LABEL_11:
+        *coord_velocity = kZero_6F6C50;
+        goto LABEL_12;
+    }
+    v10 = *coord_velocity - *velocity_3;
+    if (v10 < DeltaCoord)
+    {
+        goto LABEL_10;
+    }
+    *coord_velocity = v10;
+    DeltaCoord = -*maybe_decrement;
+    if (v10 < DeltaCoord)
+    {
+        goto LABEL_10;
+    }
+    else
+    {
+    LABEL_12:
+        *curr_coord += *coord_velocity;
+    }
 }
 
 MATCH_FUNC(0x435FF0)
