@@ -1479,7 +1479,7 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
     {
         if (gGame_0x40_67E008 && field_1478_type5Idx)
         {
-            if (field_147C[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Unknown_3)
+            if (field_147C[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::CopRadioReport_3)
             {
                 ProcessType3_57DD50();
             }
@@ -1506,7 +1506,7 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
                     case SoundObjectTypeEnum::Crusher_30_9:
                         ProcessType9_412A60(id);
                         break;
-                    case SoundObjectTypeEnum::Unknown_10:
+                    case SoundObjectTypeEnum::Vocals_10:
                         ProcessType10_418CA0();
                         break;
                     case SoundObjectTypeEnum::Hud_Pager_C_11:
