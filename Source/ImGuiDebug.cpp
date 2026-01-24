@@ -1140,7 +1140,9 @@ void CC ImGuiDebugDraw()
                     if (pPlayerPed)
                     {
                         ImGui::InputInt("F 238", &pPlayerPed->field_238, 1, 1);
-                        ImGui::InputInt("F 278", &pPlayerPed->field_278_ped_state_1, 1, 1);
+                        ImGui::InputInt("Ped State 1", &pPlayerPed->field_278_ped_state_1, 1, 1);
+                        ImGui::InputInt("Ped State 2", &pPlayerPed->field_27C_ped_state_2, 1, 1);
+                        ImGui::InputInt("Car State", &pPlayerPed->field_25C_car_state, 1, 1);
                     }
 
                     static int currentWeaponIndex = 0;
@@ -1216,7 +1218,10 @@ void CC ImGuiDebugDraw()
                     if (pPlayerSprite)
                     {
                         ImGui::Input_char_type("Sprt F38", &pPlayerSprite->field_38_zoom, 1, 1);
-                        ShowRectAndPointsForSprite4C(pPlayerSprite->field_4_0x4C_len);
+                        if (pPlayerSprite->field_4_0x4C_len)
+                        {
+                            ShowRectAndPointsForSprite4C(pPlayerSprite->field_4_0x4C_len);
+                        }
                     }
                 }
             }
@@ -1364,6 +1369,25 @@ void CC ImGuiDebugDraw()
         {
             if (gPedPool_6787B8)
             {
+                static s32 ped_state = 0;
+                static s32 move_state = 0;
+                ImGui::InputInt("Ped state", (s32*)&ped_state, 1, 1);
+                ImGui::InputInt("Move state", (s32*)&move_state, 1, 1);
+                
+                if (ImGui::Button("Apply states globally"))
+                {
+                    Ped* pIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
+                    while (pIter)
+                    {
+                        if (pIter != GetPlayerPed())
+                        {
+                            pIter->ChangeNextPedState1_45C500(ped_state);
+                            pIter->ChangeNextPedState2_45C540(move_state);
+                        }
+                        pIter = pIter->mpNext;
+                    }
+                }
+
                 Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
                 Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
 
