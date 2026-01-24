@@ -1878,7 +1878,7 @@ char_type Map_0x370::sub_4E7E90(u8* a2, char_type* a3)
 }
 
 STUB_FUNC(0x4E7FC0)
-char_type Map_0x370::sub_4E7FC0(Fix16 a2, Fix16 a3, Fix16 a4)
+char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     NOT_IMPLEMENTED;
     return 0;

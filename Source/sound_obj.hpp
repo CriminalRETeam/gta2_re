@@ -278,7 +278,7 @@ class sound_obj
 
     EXPORT bool VolCalc_419070(s32 a2, s32 a3, char_type a4);
 
-    EXPORT char_type sub_419020(Fix16 a2);
+    EXPORT char_type CalculateDistance_419020(Fix16 a2);
 
     EXPORT char_type sub_4186D0(sound_0x68* pObj);
 
@@ -388,7 +388,7 @@ class sound_obj
 
     EXPORT void sub_41B490(sound_0x68* pObj);
 
-    EXPORT Fix16* sub_4190B0(Fix16* a2);
+    EXPORT Fix16 sub_4190B0();
 
     EXPORT BYTE sub_427310();
 
