@@ -2586,13 +2586,11 @@ u32* Car_BC::sub_441600(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x4416d0)
+MATCH_FUNC(0x4416d0)
 void Car_BC::sub_4416D0(s32 a2)
 {
-    NOT_IMPLEMENTED;
-
     char bUnknown = 0;
-    if (field_A8)
+    if (field_A8 > 0)
     {
         field_A8--;
     }
