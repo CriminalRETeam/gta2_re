@@ -2,7 +2,9 @@
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Char_Pool.hpp"
+#include "Cranes.hpp"
 #include "Crushers.hpp"
+#include "Door_4D4.hpp"
 #include "Firefighters.hpp"
 #include "Fix16_Rect.hpp"
 #include "Game_0x40.hpp"
@@ -20,6 +22,7 @@
 #include "RouteFinder.hpp"
 #include "Shooey_CC.hpp"
 #include "Taxi_4.hpp"
+#include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "collide.hpp"
 #include "debug.hpp"
@@ -32,7 +35,6 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
-#include "Varrok_7F8.hpp"
 
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
@@ -2196,10 +2198,67 @@ Ped* Car_BC::GetEffectiveDriver_43E990()
     }
 }
 
-STUB_FUNC(0x43ea60)
-bool Car_BC::OnObjectTouched_43EA60(Object_2C* a2)
+MATCH_FUNC(0x43ea60)
+bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
 {
-    NOT_IMPLEMENTED;
+    if (pObj->check_is_shop_421060() || pObj->field_18_model == objects::secret_token_266)
+    {
+        Ped* pPed = Car_BC::GetEffectiveDriver_43E990();
+        if (pPed)
+        {
+            return (pPed->HandlePickupCollision_45DE80(pObj));
+        }
+
+        return 0;
+    }
+
+    switch (pObj->field_18_model)
+    {
+
+        case objects::moving_collect_33_129:
+            gPublicTransport_181C_6FF1D4->sub_579A30(this);
+            break;
+
+        case objects::moving_collect_34_130:
+            GetCabOrSelf_43E8D0()->HandleShops_443C40(pObj);
+            return 1;
+
+        case objects::moving_collect_41_137:
+            gCranePool_D9C_679FD4->PickUpCar_480E00(this, pObj->field_26_varrok_idx);
+            break;
+
+        case objects::blood_spark_143:
+            gCrusherPool_94_67A830->CrushCarWithCrusher_4887D0(this, pObj->field_26_varrok_idx);
+            break;
+
+        case objects::animating_oil_8:
+        case objects::oil_9:
+            field_58_physics->SpinOutOnOil_559BA0();
+            break;
+        case objects::moving_collect_43_139:
+            field_58_physics->sub_559E20(pObj); // mine?
+            break;
+        case objects::bus_stop_marker_161:
+            gCar_214_705F20->sub_5C8780(pObj->field_27, this->field_50_car_sprite);
+            break;
+
+
+
+        case objects::small_arrow_141:
+            if (field_54_driver || field_88 == 5)
+            {
+                return 0;
+            }
+            field_88 = 3;
+            break;
+
+        case objects::molotov_moving_167: // try open door? for garage?
+            gDoor_4D4_67BD2C->sub_49D340(this, pObj->field_26_varrok_idx);
+            break;
+
+        default:
+            break;
+    }
     return 0;
 }
 
@@ -2407,7 +2466,11 @@ void Car_BC::sub_440F90(char_type instant_bomb)
     }
     else
     {
-        Object_2C* pNew2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::moving_collect_36_132, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+        Object_2C* pNew2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::moving_collect_36_132,
+                                                                    gFix16_6777CC,
+                                                                    gFix16_6777CC,
+                                                                    gFix16_6777CC,
+                                                                    word_67791C);
         Ped* pDriver = this->field_54_driver;
         if (pDriver)
         {

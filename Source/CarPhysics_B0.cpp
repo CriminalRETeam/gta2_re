@@ -236,7 +236,7 @@ void CarPhysics_B0::sub_559DD0()
 }
 
 STUB_FUNC(0x559e20)
-u32 CarPhysics_B0::sub_559E20(s32 a2)
+u32 CarPhysics_B0::sub_559E20(Object_2C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
