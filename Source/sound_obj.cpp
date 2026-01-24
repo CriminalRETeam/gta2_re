@@ -2326,3 +2326,342 @@ void sound_obj::sub_57EDB0(s32 a1, s32 a2)
 {
     NOT_IMPLEMENTED;
 }
+STUB_FUNC(0x57E6C0)
+char_type sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x426F20)
+void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x427400)
+u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x417BA0)
+s32 sound_obj::GetVehicleAudioClass_417BA0(s32 a1)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x4157C0)
+void sound_obj::HandleAICarEngineRevSound_4157C0(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x418190)
+void sound_obj::HandleAICarEngineSound_418190(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x413D10)
+void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x415570)
+void sound_obj::HandleCarAlarmSound_415570(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x414F90)
+void sound_obj::HandleCarBurningSound_414F90(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4177D0)
+void sound_obj::HandleCarDamageSound_4177D0(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4182E0)
+void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x417060)
+void sound_obj::HandleCarHornSound_417060(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x418720)
+void sound_obj::HandleCarTireScrubSound_418720(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x415480)
+void sound_obj::HandleCarWeaponHitSound_415480(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x417E30)
+void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params_8* a2, sound_unknown_0xC* a3)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x423080)
+void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4178C0)
+void sound_obj::HandleSirenActivationSound_4178C0(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4143A0)
+void sound_obj::HandleTrainCabRollingFrictionSound_4143A0(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4140C0)
+void sound_obj::HandleTrainEngineSound_4140C0(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x417FD0)
+void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57DF10)
+void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x426790)
+void sound_obj::PoliceRadioMessageGeneration_426790()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x412B80)
+void sound_obj::ProcessCar_412B80(Sound_Params_8* pType2Entity)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x41E820)
+void sound_obj::ProcessObject_41E820(Sound_Params_8* pEntity)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x41E850)
+void sound_obj::ProcessObject_Type12_41E850(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x413C50)
+void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x41F520)
+void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x422B70)
+void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x413BF0)
+void sound_obj::ProcessTank_413BF0(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x413B90)
+void sound_obj::ProcessTrainCab_413B90(Sound_Params_8* a2, sound_unknown_0xC* a3)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x413BE0)
+void sound_obj::ProcessTrain_413BE0(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x426750)
+void sound_obj::ResetRadioMessageState_426750()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x412D30)
+char_type sound_obj::SelectObjectImpactSound_1_10_412D30(Object_2C* pObj)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x413120)
+char_type sound_obj::SelectObjectImpactSound_413120(Object_2C* pObj, s32 s32eractionType)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x414A50)
+void sound_obj::Tank_414A50(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x414D30)
+void sound_obj::Tank_414D30(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x415190)
+void sound_obj::Tank_415190(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x414710)
+void sound_obj::TrainCab_414710(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57E680)
+void sound_obj::Type3_CopRadioReport_57E680()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4136D0)
+char_type sound_obj::Type6_12_4136D0(Object_2C* a2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x412D40)
+char_type sound_obj::Type6_2_412D40(u8 a2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x413000)
+char_type sound_obj::Type6_3_413000(Object_2C* a2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x412C90)
+char_type sound_obj::Type6_412C90(Object_2C* pObj, u8 a3)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x413A10)
+char_type sound_obj::Type6_413A10(u32* a2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x413040)
+char_type sound_obj::Type6_4_413040(u8 a2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x413090)
+char_type sound_obj::Type6_5_413090(u8 a2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x4130E0)
+char_type sound_obj::Type6_7_4130E0(Object_2C* a2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x413540)
+char_type sound_obj::Type6_9_413540(u32* a2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x412D90)
+void sound_obj::Type6_Play_412D90(s32 model)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57E220)
+void sound_obj::UpdateCarEngineAudio_57E220()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x418610)
+void sound_obj::UpdateCarSurfaceAudio_418610(Sound_Params_8* a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x41FCA0)
+void sound_obj::UpdateRadioChatterLoop_41FCA0()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57E510)
+u32 sound_obj::UpdateVocalStream_57E510()
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x4145E0)
+bool sound_obj::sub_4145E0(s32 a2, s32* a3)
+{
+    NOT_IMPLEMENTED;
+    return false;
+}
