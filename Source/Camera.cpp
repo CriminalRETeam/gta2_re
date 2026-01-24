@@ -411,56 +411,64 @@ EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
                                                    Fix16* maybe_decrement)
 {
     WIP_IMPLEMENTED;
-    Fix16 v8;
-    Fix16 v9;
-    Fix16 v10;
-
     Fix16 DeltaCoord = *target_coord - *curr_coord;
     if (DeltaCoord > kZero_6F6C50)
     {
         if (*coord_velocity >= kZero_6F6C50)
         {
-            v8 = *velocity_1 + *coord_velocity;
+            Fix16 v8 = *velocity_1 + *coord_velocity;
             if (v8 <= DeltaCoord)
             {
                 *coord_velocity = v8;
-                v9 = *velocity_2;
                 if (v8 > *velocity_2)
                 {
-                    *coord_velocity = v9;
-                    *curr_coord += v9;
-                    return;
+                    *coord_velocity = *velocity_2;
+                    *curr_coord += *velocity_2;
                 }
-                goto LABEL_12;
+                else
+                {
+                    *curr_coord += *coord_velocity;
+                }
             }
-        LABEL_10:
-            *coord_velocity = DeltaCoord;
-            *curr_coord += DeltaCoord;
-            return;
+            else
+            {
+                *coord_velocity = DeltaCoord;
+                *curr_coord += DeltaCoord;
+            }
         }
-        goto LABEL_11;
+        else
+        {
+            *coord_velocity = kZero_6F6C50;
+            *curr_coord += *coord_velocity;
+        }
     }
-    if (DeltaCoord >= kZero_6F6C50 || *coord_velocity > kZero_6F6C50)
+    else if (DeltaCoord >= kZero_6F6C50 || *coord_velocity > kZero_6F6C50)
     {
-    LABEL_11:
         *coord_velocity = kZero_6F6C50;
-        goto LABEL_12;
-    }
-    v10 = *coord_velocity - *velocity_3;
-    if (v10 < DeltaCoord)
-    {
-        goto LABEL_10;
-    }
-    *coord_velocity = v10;
-    DeltaCoord = -*maybe_decrement;
-    if (v10 < DeltaCoord)
-    {
-        goto LABEL_10;
+        *curr_coord += *coord_velocity;
     }
     else
     {
-    LABEL_12:
-        *curr_coord += *coord_velocity;
+        Fix16 DeltaVel = *coord_velocity - *velocity_3;
+        if (DeltaVel < DeltaCoord)
+        {
+            *coord_velocity = DeltaCoord;
+            *curr_coord += DeltaCoord;
+        }
+        else
+        {
+            *coord_velocity = DeltaVel;
+            DeltaCoord = -*maybe_decrement;
+            if (DeltaVel < DeltaCoord)
+            {
+                *coord_velocity = DeltaCoord;
+                *curr_coord += DeltaCoord;
+            }
+            else
+            {
+                *curr_coord += *coord_velocity;
+            }
+        }
     }
 }
 
