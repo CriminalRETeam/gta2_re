@@ -376,13 +376,19 @@ class ArrowTrace_24
 class Garox_20_Sub
 {
   public:
+
+    inline bool sub_4C6FB0()
+    {
+        return !field_18_primary_target.sub_4C6F20() && !field_3C_secondary_target.sub_4C6F20();
+    }
+
     s32 field_20;
     s16 field_24;
     char_type field_26;
     char_type field_27;
     s32 field_28_arrow_colour;
     s16 field_2C_arrow_sprt_idx;
-    char_type field_2E;
+    u8 field_2E;
     char_type field_2F;
     Garox_30_Sub field_10;
     ArrowTrace_24 field_18_primary_target;
@@ -395,7 +401,7 @@ class Hud_Arrow_7C
   public:
     EXPORT void SetArrowColour_5D0510(s32 a2);
     EXPORT bool CheckVisibility_5D0530();
-    EXPORT char_type sub_5D0620();
+    EXPORT bool sub_5D0620();
     EXPORT s32 sub_5D0850();
     EXPORT void Service_5D0C60();
     EXPORT void DrawArrow_5D0C90();
@@ -421,13 +427,25 @@ class Hud_Arrow_7C
         return false;
     }
 
+    inline void swap_arrows_4C7060()
+    {
+        if (field_18.field_60_curr_target == &field_18.field_18_primary_target)
+        {
+            field_18.field_60_curr_target = &field_18.field_3C_secondary_target;
+        }
+        else
+        {
+            field_18.field_60_curr_target = &field_18.field_18_primary_target;
+        }
+    }
+
     EXPORT Hud_Arrow_7C();
     Fix16 field_0_screen_pos_x; // x and y are not independent from field_10_radius_pos
     Fix16 field_4_screen_pos_y;
     Ang16 field_8_rotation;
     s16 field_A;
     s32 field_C_min_radius_pos; // minimum radial distance from the player
-    s32 field_10_radius_pos; // radial distance from the player
+    Fix16 field_10_radius_pos; // radial distance from the player
     s32 field_14_reposition_speed; // how slower/faster the arrow goes to the aim target, or "get back" to the player
     Garox_20_Sub field_18;
 };

@@ -1367,11 +1367,48 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
     return true;
 }
 
-STUB_FUNC(0x5d0620)
-char_type Hud_Arrow_7C::sub_5D0620()
+// https://decomp.me/scratch/pp6SY Fix16 annoying stuff
+WIP_FUNC(0x5d0620)
+bool Hud_Arrow_7C::sub_5D0620()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_18.field_18_primary_target.UpdateAimCoordinates_5D03F0();
+    field_18.field_3C_secondary_target.UpdateAimCoordinates_5D03F0();
+
+    if (field_18.field_60_curr_target->sub_4C6F20())
+    {
+        swap_arrows_4C7060(); // Swap arrow traces
+        if (field_18.field_60_curr_target->sub_4C6F20())
+        {
+            return true;
+        }
+    }
+    if (field_18.sub_4C6FB0() 
+        && field_18.field_18_primary_target.field_20_bIsTargetVisible 
+        && field_18.field_3C_secondary_target.field_20_bIsTargetVisible)
+    {
+        if (field_18.field_2E > 0)
+        {
+            field_18.field_2E--;
+            return false;
+        }
+
+        Fix16 xpos;
+        Fix16 ypos;
+        Fix16 zpos;
+        gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
+
+        Fix16 distance_1 = Fix16_Point_POD(xpos - field_18.field_60_curr_target->field_14_aim_x, 
+            ypos - field_18.field_60_curr_target->field_18_aim_y).GetLength() - field_10_radius_pos;
+
+        swap_arrows_4C7060();
+
+        Fix16 distance_2 = Fix16_Point(xpos - field_18.field_60_curr_target->field_14_aim_x, 
+            ypos - field_18.field_60_curr_target->field_18_aim_y).GetLength();
+
+        field_18.field_2E = 20;
+        field_10_radius_pos = distance_2 - distance_1;
+    }
+    return false;
 }
 
 STUB_FUNC(0x5d0850)
