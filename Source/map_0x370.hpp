@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
+#include "gtx_0x106C.hpp"
 #include <windows.h>
 
 class Gang_144;
@@ -340,7 +341,7 @@ class Map_0x370
     EXPORT s32 sub_4E6660(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5);
     EXPORT s32 sub_4E7190(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5);
     EXPORT char_type sub_4E7E90(u8* a2, char_type* a3);
-    EXPORT char_type sub_4E7FC0(Fix16 a2, Fix16 a3, Fix16 a4);
+    EXPORT char_type CheckColumnHasSolidAbove_4E7FC0(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT s32 sub_4E8140(gmp_block_info* pBlockInfo);
     EXPORT s32 sub_4E8180(u32 read_block_idx);
     EXPORT s32 sub_4E81D0(u32 column_idx);
@@ -386,6 +387,12 @@ class Map_0x370
     EXPORT Map_0x370();
 
     EXPORT ~Map_0x370();
+
+    inline bool sub_4B9F40(s32 x, s32 y, s32 z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x, y, z);
+        return pBlock && gGtx_0x106C_703DD4->sub_49E540(pBlock->field_8_lid & 0x3FF);
+    }
 
     // 9.6f inline 0x4634E0
     inline Fix16 get_grad_scale_from_size_4634E0(Fix16& scale, u8 gradient_size)

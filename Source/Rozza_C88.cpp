@@ -71,7 +71,7 @@ void Rozza_A::sub_40B890(Car_BC* pCar)
                 Object_2C* p2C = gRozza_679188.field_20_pSprite->As2C_40FEC0();
 
                 field_18_model_copy = p2C->get_model_40FEF0();
-                if (field_18_model_copy == 166)
+                if (field_18_model_copy == objects::object_166)
                 {
                     field_0 = 5;
                     field_20_map_block_spec = p2C->sub_529240();
@@ -119,7 +119,7 @@ void Rozza_A::sub_40B980()
             {
                 Object_2C* p2C = gRozza_679188.field_20_pSprite->As2C_40FEC0();
                 field_18_model_copy = p2C->get_model_40FEF0();
-                if (field_18_model_copy == 166)
+                if (field_18_model_copy == objects::object_166)
                 {
                     field_0 = 8;
                     field_20_map_block_spec = p2C->sub_529240();
@@ -183,7 +183,7 @@ bool Rozza_A::sub_40BA60(Object_2C* pObj)
                 }
 
                 field_1C = o2c->get_model_40FEF0();
-                if (field_1C == 166)
+                if (field_1C == objects::object_166)
                 {
                     field_0 = 10;
                     field_20_map_block_spec = o2c->sub_529240();

@@ -3263,7 +3263,7 @@ void Car_BC::LightUpdate_442D10()
     {
         Sprite* pSprite = p18->field_0;
         Object_2C* o2c = pSprite->As2C_40FEC0();
-        if (gMap_0x370_6F6268->sub_4E7FC0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos))
+        if (gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos))
         {
             o2c->Light_527990();
         }
