@@ -337,8 +337,8 @@ class Map_0x370
     EXPORT Fix16* sub_4E6400(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT Fix16* GetRailwayZCoordAtXY_4E6510(Fix16* found_z, Fix16 x, Fix16 y);
     EXPORT void sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_type a6);
-    EXPORT s32 sub_4E6660(s32* a2, s32* a3, s32* a4, s32 a5);
-    EXPORT s32 sub_4E7190(s32* a2, s32* a3, s32* a4, s32 a5);
+    EXPORT s32 sub_4E6660(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5);
+    EXPORT s32 sub_4E7190(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5);
     EXPORT char_type sub_4E7E90(u8* a2, char_type* a3);
     EXPORT char_type sub_4E7FC0(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT s32 sub_4E8140(gmp_block_info* pBlockInfo);

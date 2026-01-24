@@ -95,6 +95,7 @@ DEFINE_GLOBAL(Fix16, dword_677218, 0x677218);
 DEFINE_GLOBAL(Fix16, k_dword_676984, 0x676984);
 DEFINE_GLOBAL(Fix16, k_dword_6778B4, 0x6778B4);
 DEFINE_GLOBAL(Fix16, k_dword_6778E0, 0x6778E0);
+DEFINE_GLOBAL(Fix16, k_dword_6777D4, 0x6777D4);
 
 DEFINE_GLOBAL(Fix16, k_dword_6772CC, 0x6772CC);
 EXTERN_GLOBAL(u8, byte_6F8EDC);
@@ -2132,7 +2133,7 @@ bool Car_BC::sub_43DC00()
         }
         return false;
     }
-    
+
     u16 pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(2, pInfo->sprite);
     if (field_50_car_sprite->field_4_0x4C_len->field_0_width !=
         dword_6F6850.list[gGtx_0x106C_703DD4->get_sprite_index_5AA440(pal)->field_4_width])
@@ -2466,11 +2467,66 @@ void Car_BC::sub_441380()
     }
 }
 
-STUB_FUNC(0x4413b0)
-char_type Car_BC::sub_4413B0(s32 a2, s32 a3, s32 a4)
+STUB_FUNC(0x4F7940)
+EXPORT Ang16* __stdcall sub_4F7940(s32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+WIP_FUNC(0x4413b0)
+void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+    WIP_IMPLEMENTED;
+
+    u8 idx = 0;
+    Car_BC** pTrainCars = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(this);
+    Train_58* pTrain = gPublicTransport_181C_6FF1D4->GetTrainFromCar_57B5C0(this);
+    if (pTrain)
+    {
+        pTrainCars = pTrain->field_10_carriages;
+    }
+
+    Fix16 newx;
+    Fix16 newy;
+    Fix16 newz;
+
+    Fix16 car_angle;
+    bool bUnknown = gPublicTransport_181C_6FF1D4->sub_579B90(this, &car_angle);
+
+    for (Car_BC* pTrainCarIter = *pTrainCars; pTrainCarIter; pTrainCarIter = pTrainCars[idx])
+    {
+
+        newx = xpos;
+        newy = ypos;
+        newz = zpos;
+
+        Ang16* v10;
+        if (bUnknown)
+        {
+            s32 v21 = gMap_0x370_6F6268->sub_4E7190(&newx, &newy, &newz, k_dword_6777D4);
+            v10 = sub_4F7940(&v21);
+        }
+        else
+        {
+            s32 v22 = gMap_0x370_6F6268->sub_4E6660(&newx, &newy, &newz, k_dword_6777D4);
+            v10 = sub_4F7940(&v22);
+        }
+
+        pTrainCarIter->field_50_car_sprite->set_xyz_lazy_420600(newx, newy, newz);
+        pTrainCarIter->field_50_car_sprite->set_ang_lazy_420690(*v10);
+
+        if (pTrainCarIter->field_0_qq.field_0_p18)
+        {
+            pTrainCarIter->field_0_qq.PoolUpdate_5A6F70(pTrainCarIter->field_50_car_sprite);
+            pTrainCarIter->field_0_qq.PropagateMaxZLayer_5A72B0(pTrainCarIter->field_50_car_sprite, 0);
+        }
+
+        pTrainCarIter->sub_4426D0();
+        pTrainCarIter->sub_441360();
+
+        idx++;
+    }
 }
 
 MATCH_FUNC(0x441520)
