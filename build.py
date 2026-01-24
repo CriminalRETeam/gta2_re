@@ -158,7 +158,12 @@ def main():
         if args.run_standalone:
             run_exe(ExeType.standalone)
         elif args.run_patched:
-            run_exe(ExeType.patched)
+            return_code = run_patcher()
+            if return_code == 0:
+                copy_patched_exe()
+                run_exe(ExeType.patched)
+            else:
+                print(f"Failed to run patcher with return code {return_code}")
 
 def as_wine_path(unix_path):
     wine_path = unix_path.replace("/", "\\")
@@ -408,6 +413,47 @@ def copy_files():
         
         print(f"Copy {file_src} to {file_dst}")
         shutil.copy2(file_src, file_dst)
+
+def copy_patched_exe():
+    file = "10.5.new.exe"
+    file_src = os.path.join(BUILD_DIRECTORY, file)
+    file_dst = os.path.join(GTA2_ROOT, file)
+
+    print(f"Copy {file_src} to {file_dst}")
+    shutil.copy2(file_src, file_dst)
+
+def run_patcher():
+    file_10_5_name = "10.5.exe"
+    file_10_5_path = os.path.join(BUILD_DIRECTORY, file_10_5_name)
+
+    if not os.path.exists(file_10_5_path):
+        # 10.5 not on build path, so copy from /Scripts/bin_comp/
+        file_10_5_bin_comp_path = os.path.join(BUILD_DIRECTORY, "../Scripts/bin_comp/" + file_10_5_name)
+        if not os.path.exists(file_10_5_bin_comp_path):
+            print(f"Could not find/copy {file_10_5_bin_comp_path}")
+            return -1
+        
+        file_dst = file_10_5_path
+        print(f"Copy {file_10_5_bin_comp_path} to {file_dst}")
+        shutil.copy2(file_10_5_bin_comp_path, file_dst)
+    
+    # now execute patcher
+    patcher_file = "ExePatcher.exe"
+    patcher_path = os.path.join(BUILD_DIRECTORY, patcher_file)
+
+    if not os.path.exists(patcher_path):
+        print(f"Could not find: {patcher_path}")
+        return -2
+
+    arg_list = []
+    if platform.system() == "Windows":
+        arg_list.append(patcher_path)
+    else:
+        arg_list.append("wine")
+        arg_list.append(patcher_path)
+
+    print(f"Executing run command: {arg_list}")
+    return subprocess.run(args=arg_list, cwd=BUILD_DIRECTORY).returncode
 
 def run_exe(exe: ExeType):
     exe_name = "10.5.new.exe" if exe == ExeType.patched else "decomp_main.exe"
