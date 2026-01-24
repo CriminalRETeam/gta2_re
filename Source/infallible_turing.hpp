@@ -7,14 +7,14 @@ namespace SoundObjectTypeEnum
 enum
 {
     Hud_Pager_C_11 = 11,
-    Unknown_10 = 10,
+    Vocals_10 = 10,
     Crusher_30_9 = 9,
     Crane_15C_8 = 8,
     Weapon_30_7 = 7,
     Rozza_C88_6 = 6,
     Camera_0xBC_5 = 5,
     Unknown_4 = 4,
-    Unknown_3 = 3,
+    CopRadioReport_3 = 3,
     infallible_turing_2 = 2,
     Sprite_1 = 1,
 };

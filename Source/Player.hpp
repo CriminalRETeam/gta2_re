@@ -202,6 +202,18 @@ class Player
         return field_0_bIsUser;
     }
 
+    inline Ped* GetPlayerPed_4A5130()
+    {
+        if (field_68 == 2)
+        {
+            return field_2C8_unkq;
+        }
+        else
+        {
+            return field_2C4_player_ped;
+        }
+    }
+
     u8 field_0_bIsUser;
     char_type field_1;
     char_type field_2;

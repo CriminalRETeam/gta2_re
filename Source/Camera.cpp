@@ -40,6 +40,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_67691C, dword_6768E0, 0x67691C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6766F4, Fix16(0x3000, 0), 0x6766F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_676820, Fix16(2), 0x676820);
 DEFINE_GLOBAL_INIT(Fix16, dword_6767B4, Fix16(0xE333, 0), 0x6767B4);
+DEFINE_GLOBAL_INIT(Fix16, dword_676898, Fix16(14), 0x676898);
+DEFINE_GLOBAL_INIT(Fix16, kZero_6F6C50, Fix16(0), 0x6F6C50);
 
 // TODO: move
 static inline Fix16 sub_41E130(Fix16 a1, Fix16 a2)
@@ -121,8 +123,6 @@ void Camera_0xBC::ReturnToDefaultZoom_435830()
 {
     field_40_tgt_elevation = dword_676818;
 }
-
-DEFINE_GLOBAL(Fix16, dword_676898, 0x676898);
 
 MATCH_FUNC(0x435840)
 void Camera_0xBC::sub_435840()
@@ -332,17 +332,144 @@ void Camera_0xBC::sub_435F90(Car_BC* a2)
 }
 
 // TODO: move
-STUB_FUNC(0x4F7540)
-EXPORT void __stdcall SmoothApproach_4F7540(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5)
+// https://decomp.me/scratch/qYIak
+WIP_FUNC(0x4F7540)
+EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 DeltaCoord = Coord_1 - Coord_2;
+    if (DeltaCoord > kZero_6F6C50)
+    {
+        if (Velocity_1 >= kZero_6F6C50)
+        {
+            Fix16 v6 = Velocity_2 + Velocity_1;
+            if (v6 <= DeltaCoord)
+            {
+                Velocity_1 = v6;
+                if (Velocity_1 > Velocity_3) // line 38   jle  7e
+                {
+                    Velocity_1 = Velocity_3;
+                    Coord_2 += Velocity_3;
+                }
+                else
+                {
+                    Coord_2 += Velocity_1;
+                }
+            }
+            else
+            {
+                Velocity_1 = DeltaCoord;
+                Coord_2 += DeltaCoord;
+            }
+        }
+        else
+        {
+            Velocity_1 = kZero_6F6C50;
+            Coord_2 += Velocity_1;
+        }
+    }
+    else if (DeltaCoord < kZero_6F6C50 && Velocity_1 <= kZero_6F6C50)
+    {
+        Fix16 DeltaVel = Velocity_1 - Velocity_2;
+        if (DeltaVel >= DeltaCoord)
+        {
+            Velocity_1 = DeltaVel;
+            DeltaCoord = -Velocity_3;
+            if (Velocity_1 < DeltaCoord)
+            {
+                Velocity_1 = DeltaCoord;
+                Coord_2 += DeltaCoord;
+            }
+            else
+            {
+                Coord_2 += Velocity_1;
+            }
+        }
+        else
+        {
+            Velocity_1 = DeltaCoord;
+            Coord_2 += DeltaCoord;
+        }
+    }
+    else
+    {
+        Velocity_1 = kZero_6F6C50;
+        Coord_2 += Velocity_1;
+    }
 }
 
 // TODO: move
-STUB_FUNC(0x4F75D0)
-EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5, Fix16* a6, Fix16* a7)
+// https://decomp.me/scratch/kwM8W
+WIP_FUNC(0x4F75D0)
+EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
+                                                   Fix16* coord_velocity,
+                                                   Fix16* curr_coord,
+                                                   Fix16* velocity_1,
+                                                   Fix16* velocity_2,
+                                                   Fix16* velocity_3,
+                                                   Fix16* maybe_decrement)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    Fix16 DeltaCoord = *target_coord - *curr_coord;
+    if (DeltaCoord > kZero_6F6C50)
+    {
+        if (*coord_velocity >= kZero_6F6C50)
+        {
+            Fix16 v8 = *velocity_1 + *coord_velocity;
+            if (v8 <= DeltaCoord)
+            {
+                *coord_velocity = v8;
+                if (v8 > *velocity_2)
+                {
+                    *coord_velocity = *velocity_2;
+                    *curr_coord += *velocity_2;
+                }
+                else
+                {
+                    *curr_coord += *coord_velocity;
+                }
+            }
+            else
+            {
+                *coord_velocity = DeltaCoord;
+                *curr_coord += DeltaCoord;
+            }
+        }
+        else
+        {
+            *coord_velocity = kZero_6F6C50;
+            *curr_coord += *coord_velocity;
+        }
+    }
+    else if (DeltaCoord >= kZero_6F6C50 || *coord_velocity > kZero_6F6C50)
+    {
+        *coord_velocity = kZero_6F6C50;
+        *curr_coord += *coord_velocity;
+    }
+    else
+    {
+        Fix16 DeltaVel = *coord_velocity - *velocity_3;
+        if (DeltaVel < DeltaCoord)
+        {
+            *coord_velocity = DeltaCoord;
+            *curr_coord += DeltaCoord;
+        }
+        else
+        {
+            *coord_velocity = DeltaVel;
+            DeltaCoord = -*maybe_decrement;
+            if (DeltaVel < DeltaCoord)
+            {
+                *coord_velocity = DeltaCoord;
+                *curr_coord += DeltaCoord;
+            }
+            else
+            {
+                *curr_coord += *coord_velocity;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x435FF0)
@@ -354,8 +481,8 @@ void Camera_0xBC::sub_435FF0()
     switch (field_3C_followed_ped_id)
     {
         case 1:
-            SmoothApproach_4F7540(&field_0_cam_pos_tgt1.field_0_x, &field_AC_cam_velocity.field_0_x, &field_98_cam_pos2.field_0_x, &dword_676740, &v5);
-            SmoothApproach_4F7540(&field_0_cam_pos_tgt1.field_4_y, &field_AC_cam_velocity.field_4_y, &field_98_cam_pos2.field_4_y, &dword_676740, &v5);
+            SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_0_x, field_AC_cam_velocity.field_0_x, field_98_cam_pos2.field_0_x, dword_676740, v5);
+            SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_4_y, field_AC_cam_velocity.field_4_y, field_98_cam_pos2.field_4_y, dword_676740, v5);
             SmoothApproachClamped_4F75D0(&field_0_cam_pos_tgt1.field_8_z,
                        &field_AC_cam_velocity.field_8_z,
                        &field_98_cam_pos2.field_8_z,
@@ -363,11 +490,11 @@ void Camera_0xBC::sub_435FF0()
                        &dword_676638,
                        &dword_676834,
                        &dword_6765FC);
-            SmoothApproach_4F7540(&field_0_cam_pos_tgt1.field_C_zoom,
-                       &field_AC_cam_velocity.field_C_zoom,
-                       &field_98_cam_pos2.field_C_zoom,
-                       &dword_6766FC,
-                       &dword_6766A4);
+            SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_C_zoom,
+                       field_AC_cam_velocity.field_C_zoom,
+                       field_98_cam_pos2.field_C_zoom,
+                       dword_6766FC,
+                       dword_6766A4);
             break;
         case 2:
             field_98_cam_pos2.field_0_x = field_0_cam_pos_tgt1.field_0_x;
