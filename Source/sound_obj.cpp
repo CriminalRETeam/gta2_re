@@ -1478,7 +1478,7 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
     {
         if (gGame_0x40_67E008 && field_1478_type5Idx)
         {
-            if (field_147C[id].field_4_pObj->field_0_object_type == 3)
+            if (field_147C[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Unknown_3)
             {
                 ProcessType3_57DD50();
             }
@@ -1487,25 +1487,28 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
             {
                 switch (field_147C[id].field_4_pObj->field_0_object_type)
                 {
-                    case 1:
+                    case SoundObjectTypeEnum::Sprite_1:
+                    //case SoundObjectTypeEnum::infallible_turing_2:
+                    //case SoundObjectTypeEnum::Unknown_3:
+                    //case SoundObjectTypeEnum::Unknown_4:
                         ProcessType1_2_3_4_5_412740(id);
                         break;
-                    case 6:
+                    case SoundObjectTypeEnum::Rozza_C88_6:
                         ProcessType6_413760(id);
                         break;
-                    case 7:
+                    case SoundObjectTypeEnum::Weapon_30_7:
                         ProcessType7_42A500(id);
                         break;
-                    case 8:
+                    case SoundObjectTypeEnum::Crane_15C_8:
                         ProcessType8_412820(id);
                         break;
-                    case 9:
+                    case SoundObjectTypeEnum::Crusher_30_9:
                         ProcessType9_412A60(id);
                         break;
-                    case 10:
+                    case SoundObjectTypeEnum::Unknown_10:
                         ProcessType10_418CA0();
                         break;
-                    case 11:
+                    case SoundObjectTypeEnum::Hud_Pager_C_11:
                         ProcessType11_418B60(id);
                         break;
                     default:
@@ -1514,7 +1517,7 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
             }
         }
 
-        if (field_147C[id].field_4_pObj->field_0_object_type == 2)
+        if (field_147C[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::infallible_turing_2)
         {
             ProcessType2_412490(id);
         }

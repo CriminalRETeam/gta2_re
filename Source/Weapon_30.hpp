@@ -49,6 +49,7 @@ class Weapon_30
     EXPORT void pull_trigger_5E3670();
     EXPORT void rocket_5E3850();
     EXPORT char_type IsExplosiveWeapon_5E3BD0();
+    EXPORT void GetSoundPos_5E3F90(Fix16* pX, Fix16* pY, Fix16* pZ);
 
     // 9.6f inline 0x4A4FA0
     bool is_infinite_ammo_4A4FA0()
