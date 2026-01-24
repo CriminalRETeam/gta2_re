@@ -32,6 +32,7 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
+#include "Varrok_7F8.hpp"
 
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
@@ -2390,10 +2391,30 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type a2)
     return 0;
 }
 
-STUB_FUNC(0x440f90)
-void Car_BC::sub_440F90(char_type a2)
+MATCH_FUNC(0x440f90)
+void Car_BC::sub_440F90(char_type instant_bomb)
 {
-    NOT_IMPLEMENTED;
+    if (instant_bomb)
+    {
+        s32 ped_id = gVarrok_7F8_703398->field_0[field_54_driver->field_267_varrok_idx].field_0_ped_id;
+        if (ped_id)
+        {
+            this->field_70_exploder_ped_id = ped_id;
+            this->field_90 = 12;
+            this->field_94 = 50;
+        }
+        Car_BC::sub_43D7B0(20);
+    }
+    else
+    {
+        Object_2C* pNew2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::moving_collect_36_132, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+        Ped* pDriver = this->field_54_driver;
+        if (pDriver)
+        {
+            pNew2C->SetDamageOwner_529080(pDriver->field_267_varrok_idx);
+        }
+        field_50_car_sprite->DispatchCollisionEvent_5A3100(pNew2C->field_4, gFix16_6777CC, gFix16_6777CC, word_67791C);
+    }
 }
 
 MATCH_FUNC(0x441030)
