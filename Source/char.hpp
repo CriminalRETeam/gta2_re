@@ -13,6 +13,9 @@ class Car_BC;
 class Sprite;
 
 EXTERN_GLOBAL(Fix16, dword_678620);
+EXTERN_GLOBAL(Fix16, dword_6FD7F8);
+EXTERN_GLOBAL(Fix16, dword_6FD800);
+EXTERN_GLOBAL(Fix16, dword_6FD7FC);
 
 class Char_B4
 {
