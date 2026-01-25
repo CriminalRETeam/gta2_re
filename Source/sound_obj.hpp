@@ -105,7 +105,7 @@ struct sound_0x68
 
 struct Sound_Params_8
 {
-    infallible_turing* field_0_pObj;
+    Sprite* field_0_pObj;
     char_type field_4_bDrivenByPlayer;
     char_type field_5_bHasSolidAbove;
     // pad?

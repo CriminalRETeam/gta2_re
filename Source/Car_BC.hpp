@@ -554,7 +554,7 @@ class Car_BC
     EXPORT bool sub_564300();
 
     // Inlined 0x4118d0
-    bool is_driven_by_player() const
+    s32 is_driven_by_player() const
     {
         if (field_54_driver != NULL && field_54_driver->field_15C_player != NULL)
         {

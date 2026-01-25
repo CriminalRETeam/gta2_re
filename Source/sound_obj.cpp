@@ -11,11 +11,12 @@
 #include "Weapon_30.hpp"
 #include "cSampleManager.hpp"
 #include "sprite.hpp"
+#include "CarPhysics_B0.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
 DEFINE_GLOBAL(Fix16, dword_674CD8, 0x674CD8);
-DEFINE_GLOBAL_INIT(Fix16, dword_66F3F0, Fix16(0), 0x66F3F0);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_66F3F0, Fix16(0), 0x66F3F0);
 DEFINE_GLOBAL_INIT(Fix16, dword_674DA8, Fix16(0x100000, 0), 0x674DA8);
 DEFINE_GLOBAL_ARRAY(u8, byte_61A688, 64, 0x61A688);
 DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
@@ -1591,10 +1592,10 @@ void sound_obj::ProcessType1_Sprite_412740(s32 idx)
 
     Sound_Params_8 entity;
 
-    entity.field_0_pObj = (infallible_turing*)this->field_147C[idx].field_4_pObj->field_C_pAny.pSprite;
+    entity.field_0_pObj = this->field_147C[idx].field_4_pObj->field_C_pAny.pSprite;
     if (entity.field_0_pObj)
     {
-        Sprite* pSprite = (Sprite*)entity.field_0_pObj;
+        Sprite* pSprite = entity.field_0_pObj;
 
         pSprite->GetXYZ_4117B0(&field_30_sQueueSample.field_8_obj.field_0,
                                &field_30_sQueueSample.field_8_obj.field_4,
@@ -2130,12 +2131,12 @@ void sound_obj::ProcessType2_412490(s32 idx)
     field_30_sQueueSample.field_0_EntityIndex = idx;
     field_30_sQueueSample.field_5C = 0;
     field_30_sQueueSample.field_18 = 1;
-    field_30_sQueueSample.field_8_obj.field_0 = dword_66F3F0;
-    field_30_sQueueSample.field_8_obj.field_4 = dword_66F3F0;
-    field_30_sQueueSample.field_8_obj.field_8 = dword_66F3F0;
+    field_30_sQueueSample.field_8_obj.field_0 = k_dword_66F3F0;
+    field_30_sQueueSample.field_8_obj.field_4 = k_dword_66F3F0;
+    field_30_sQueueSample.field_8_obj.field_8 = k_dword_66F3F0;
     field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 0;
     field_30_sQueueSample.field_24_nVolume = 127;
-    field_30_sQueueSample.field_28_distance = dword_66F3F0;
+    field_30_sQueueSample.field_28_distance = k_dword_66F3F0;
     field_30_sQueueSample.field_30 = 1;
     field_30_sQueueSample.field_34 = 0;
     field_30_sQueueSample.field_38 = -1;
@@ -2548,10 +2549,46 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x412B80)
-void sound_obj::ProcessCar_412B80(Sound_Params_8* pType2Entity)
+MATCH_FUNC(0x412B80)
+void sound_obj::ProcessCar_412B80(Sound_Params_8* pParams)
 {
-    NOT_IMPLEMENTED;
+    Sprite* pSprite = pParams->field_0_pObj;
+    Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
+    if (pCar)
+    {
+        pParams->field_4_bDrivenByPlayer = pCar->is_driven_by_player();
+
+        sound_unknown_0xC* pAlloc = field_147C[field_30_sQueueSample.field_0_EntityIndex].field_8_pAlloc;
+        if (pAlloc)
+        {
+            CarPhysics_B0* pPhysics = pSprite->field_8_car_bc_ptr->field_58_physics; // +8 = Car_BC*
+            if (pPhysics)
+            {
+                pPhysics->sub_562EB0();
+            }
+            else
+            {
+                pAlloc->field_0 = k_dword_66F3F0;
+            }
+            switch (pParams->field_0_pObj->field_8_car_bc_ptr->field_84_car_info_idx)
+            {
+                case car_model_enum::boxcar:
+                case car_model_enum::TRAIN:
+                case car_model_enum::TRAINFB:
+                    sound_obj::ProcessTrain_413BE0(pParams);
+                    break;
+                case car_model_enum::TANK:
+                    sound_obj::ProcessTank_413BF0(pParams, pAlloc);
+                    break;
+                case car_model_enum::TRAINCAB:
+                    sound_obj::ProcessTrainCab_413B90(pParams, pAlloc);
+                    break;
+                default:
+                    sound_obj::ProcessOtherCarTypes_413C50(pParams, pAlloc);
+                    break;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x41E820)
