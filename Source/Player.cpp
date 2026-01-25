@@ -2093,15 +2093,14 @@ void Player::sub_569600(Car_BC* pCar)
     Player::sub_564AD0(pCar);
 }
 
-STUB_FUNC(0x5696D0)
+MATCH_FUNC(0x5696D0)
 void Player::sub_5696D0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
     if (!field_2D0 && !field_2C8_unkq && !field_2CC)
     {
         field_2CC = pCar;
         field_208_aux_game_camera.sub_4364A0(pCar);
-        field_208_aux_game_camera.field_0_cam_pos_tgt1 = field_208_aux_game_camera.field_10_cam_pos_tgt2;
+        field_208_aux_game_camera.sub_41E410();
         field_208_aux_game_camera.sub_435DD0();
         field_68 = 3;
         field_2D0 = 1;
@@ -2207,10 +2206,64 @@ void Player::ChangeLifeCountByAmount_5699F0(s32 amount)
     }
 }
 
-STUB_FUNC(0x569A10)
+MATCH_FUNC(0x569A10)
 void Player::sub_569A10()
 {
-    NOT_IMPLEMENTED;
+    switch (field_2C4_player_ped->field_244_remap)
+    {
+        case 13:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 2);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 2);
+            this->field_790 = 2;
+            this->field_78C = 7;
+            break;
+
+        case 11:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 3);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 3);
+            this->field_790 = 3;
+            this->field_78C = 7;
+            break;
+
+        case 10:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 6);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 6);
+            this->field_790 = 6;
+            this->field_78C = 7;
+            break;
+
+        case 9:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 5);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 5);
+            this->field_790 = 5;
+            this->field_78C = 7;
+            break;
+
+        case 8:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 7);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 7);
+            this->field_790 = 7;
+            this->field_78C = 7;
+            break;
+
+        case 7:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 8);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 8);
+            this->field_790 = 8;
+            this->field_78C = 7;
+            break;
+
+        case 5:
+        case 6:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 4);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 4);
+            this->field_790 = 4;
+            this->field_78C = 7;
+            break;
+
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x569C20)
@@ -2355,18 +2408,58 @@ char* Player::GetDeathText_569F00()
     }
 }
 
-STUB_FUNC(0x569F40)
-s32 Player::sub_569F40()
+MATCH_FUNC(0x569F40)
+void Player::sub_569F40()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // TODO: Almost certainly an inline, and perhaps a switch case too
+    Ped* pPed;
+    if (!field_68)
+    {
+        pPed = this->field_2C4_player_ped;
+    }
+    else
+    {
+        if (field_68 != 2)
+        {
+            pPed = 0;
+        }
+        else
+        {
+            pPed = this->field_2C8_unkq;
+        }
+    }
+
+    if (pPed)
+    {
+        pPed->field_21C_bf.b11 = false;
+
+        Car_BC* pCar = pPed->field_16C_car;
+        if (pCar)
+        {
+            if (pPed->field_248_enter_car_as_passenger != 1)
+            {
+                if (pCar->is_train_model())
+                {
+                    this->field_8 = word_6FE754;
+                    this->field_C = dword_6FE610;
+                }
+                else if (pCar->field_58_physics)
+                {
+                    pCar->HandleUserInput_4418D0(0, 0, 0, 0, 0, 0, 0, 0);
+                }
+            }
+        }
+    }
+
+    this->field_8 = word_6FE754;
+    this->field_C = dword_6FE610;
 }
 
 MATCH_FUNC(0x569FF0)
-s32 Player::DisableAllControls_569FF0()
+void Player::DisableAllControls_569FF0()
 {
     field_2F_disable_all_controls = 1;
-    return sub_569F40();
+    sub_569F40();
 }
 
 MATCH_FUNC(0x56A000)
