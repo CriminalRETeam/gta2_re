@@ -2652,11 +2652,10 @@ void sound_obj::ResetRadioMessageState_426750()
     this->field_556C_timer = 0;
 }
 
-STUB_FUNC(0x412D30)
+MATCH_FUNC(0x412D30)
 char_type sound_obj::SelectObjectImpactSound_1_10_412D30(Object_2C* pObj)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return SelectObjectImpactSound_413120(pObj, 1);
 }
 
 STUB_FUNC(0x413120)
