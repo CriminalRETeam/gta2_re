@@ -2408,18 +2408,58 @@ char* Player::GetDeathText_569F00()
     }
 }
 
-STUB_FUNC(0x569F40)
-s32 Player::sub_569F40()
+MATCH_FUNC(0x569F40)
+void Player::sub_569F40()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // TODO: Almost certainly an inline, and perhaps a switch case too
+    Ped* pPed;
+    if (!field_68)
+    {
+        pPed = this->field_2C4_player_ped;
+    }
+    else
+    {
+        if (field_68 != 2)
+        {
+            pPed = 0;
+        }
+        else
+        {
+            pPed = this->field_2C8_unkq;
+        }
+    }
+
+    if (pPed)
+    {
+        pPed->field_21C_bf.b11 = false;
+
+        Car_BC* pCar = pPed->field_16C_car;
+        if (pCar)
+        {
+            if (pPed->field_248_enter_car_as_passenger != 1)
+            {
+                if (pCar->is_train_model())
+                {
+                    this->field_8 = word_6FE754;
+                    this->field_C = dword_6FE610;
+                }
+                else if (pCar->field_58_physics)
+                {
+                    pCar->HandleUserInput_4418D0(0, 0, 0, 0, 0, 0, 0, 0);
+                }
+            }
+        }
+    }
+
+    this->field_8 = word_6FE754;
+    this->field_C = dword_6FE610;
 }
 
 MATCH_FUNC(0x569FF0)
-s32 Player::DisableAllControls_569FF0()
+void Player::DisableAllControls_569FF0()
 {
     field_2F_disable_all_controls = 1;
-    return sub_569F40();
+    sub_569F40();
 }
 
 MATCH_FUNC(0x56A000)
