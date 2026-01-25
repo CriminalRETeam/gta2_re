@@ -1774,6 +1774,7 @@ void Char_B4::sub_54DD70()
     }
 }
 
+// https://decomp.me/scratch/lJG4n
 STUB_FUNC(0x54ddf0)
 void Char_B4::state_0_54DDF0()
 {

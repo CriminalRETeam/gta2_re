@@ -165,6 +165,7 @@ Ped::~Ped()
     this->field_1A4 = 0;
 }
 
+// https://decomp.me/scratch/2yWEK
 WIP_FUNC(0x45afc0)
 char_type Ped::Reset_45AFC0()
 {
