@@ -2207,10 +2207,64 @@ void Player::ChangeLifeCountByAmount_5699F0(s32 amount)
     }
 }
 
-STUB_FUNC(0x569A10)
+MATCH_FUNC(0x569A10)
 void Player::sub_569A10()
 {
-    NOT_IMPLEMENTED;
+    switch (field_2C4_player_ped->field_244_remap)
+    {
+        case 13:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 2);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 2);
+            this->field_790 = 2;
+            this->field_78C = 7;
+            break;
+
+        case 11:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 3);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 3);
+            this->field_790 = 3;
+            this->field_78C = 7;
+            break;
+
+        case 10:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 6);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 6);
+            this->field_790 = 6;
+            this->field_78C = 7;
+            break;
+
+        case 9:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 5);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 5);
+            this->field_790 = 5;
+            this->field_78C = 7;
+            break;
+
+        case 8:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 7);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 7);
+            this->field_790 = 7;
+            this->field_78C = 7;
+            break;
+
+        case 7:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 8);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 8);
+            this->field_790 = 8;
+            this->field_78C = 7;
+            break;
+
+        case 5:
+        case 6:
+            field_2D4_scores.sub_592360()->sub_4921F0(7, 4);
+            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 4);
+            this->field_790 = 4;
+            this->field_78C = 7;
+            break;
+
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x569C20)
