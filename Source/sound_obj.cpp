@@ -1404,11 +1404,18 @@ void sound_obj::SelectBestRadioEmitter_57EF60()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x57F050)
-u8 sound_obj::FindEmitterByStatus_57F050(s32 a2)
+MATCH_FUNC(0x57F050)
+u8 sound_obj::FindEmitterByStatus_57F050(s32 status)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < 5; i++)
+    {
+        // TODO: Structure is wrong, maybe field_544C starts earlier or later?
+        if (*(u32*)&field_544C[i + 1].field_8.field_4_bStatus == status)
+        {
+            return i;
+        }
+    }
+    return 127;
 }
 
 MATCH_FUNC(0x57F090)
