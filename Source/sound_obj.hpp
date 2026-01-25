@@ -202,7 +202,7 @@ class sound_obj
     char_type field_54F7[5];
     s32 field_54FC;
     s32 field_5500;
-    char_type field_5504;
+    char_type field_5504_radio_station_change_mode;
     char_type field_5505;
     char_type field_5506;
     char_type field_5507;

@@ -10,6 +10,7 @@
 #include "Weapon_30.hpp"
 #include "cSampleManager.hpp"
 #include "sprite.hpp"
+#include "Player.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -17,6 +18,7 @@ DEFINE_GLOBAL(Fix16, dword_674CD8, 0x674CD8);
 DEFINE_GLOBAL_INIT(Fix16, dword_66F3F0, Fix16(0), 0x66F3F0);
 DEFINE_GLOBAL_INIT(Fix16, dword_674DA8, Fix16(0x100000, 0), 0x674DA8);
 DEFINE_GLOBAL_ARRAY(u8, byte_61A688, 64, 0x61A688);
+DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
 
 static inline s32 Min(s32 a, s32 b)
 {
@@ -1392,10 +1394,41 @@ void sound_obj::RemoveSound_57EE30(s32 a2, s32 a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x57EEE0)
-void sound_obj::CycleRadioStation_57EEE0(char_type a2)
+MATCH_FUNC(0x57EEE0)
+void sound_obj::CycleRadioStation_57EEE0(char_type bPrev)
 {
-    NOT_IMPLEMENTED;
+    if (gSoundSwitchRadioCoolDown_6FF539 <= 0)
+    {
+        gSoundSwitchRadioCoolDown_6FF539 = 10;
+        if (gGame_0x40_67E008)
+        {
+            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+            if (pPlayer)
+            {
+                if (pPlayer->sub_5698E0())
+                {
+                    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->sub_5698E0();
+                    // can't change their sucky radio station ;)
+                    if (!IsPoliceOrServiceVehicle_57F090(pCar))
+                    {
+                        Car_BC* pCarAgain = gGame_0x40_67E008->field_38_orf1->sub_5698E0();
+                        // nor trains, which makes sense
+                        if (!IsTrainOrBoxcar_57F120(pCarAgain))
+                        {
+                            if (bPrev)
+                            {
+                                field_5504_radio_station_change_mode = 1;
+                            }
+                            else
+                            {
+                                field_5504_radio_station_change_mode = 2;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x57EF60)
