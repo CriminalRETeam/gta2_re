@@ -1584,10 +1584,44 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x412740)
-void sound_obj::ProcessType1_Sprite_412740(s32 a2)
+WIP_FUNC(0x412740)
+void sound_obj::ProcessType1_Sprite_412740(s32 idx)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Sound_Params_8 entity;
+
+    entity.field_0_pObj = (infallible_turing*)this->field_147C[idx].field_4_pObj->field_C_pAny.pSprite;
+    if (entity.field_0_pObj)
+    {
+        Sprite* pSprite = (Sprite*)entity.field_0_pObj;
+
+        pSprite->GetXYZ_4117B0(&field_30_sQueueSample.field_8_obj.field_0,
+                               &field_30_sQueueSample.field_8_obj.field_4,
+                               &field_30_sQueueSample.field_8_obj.field_8);
+
+        this->field_30_sQueueSample.field_0_EntityIndex = idx;
+        this->field_30_sQueueSample.field_5C = 0;
+
+        entity.field_5_bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0,
+                                                                                           field_30_sQueueSample.field_8_obj.field_4,
+                                                                                           field_30_sQueueSample.field_8_obj.field_8);
+        this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+        this->field_2C_distCalculated = 0;
+
+        if (pSprite->AsCharB4_40FEA0())
+        {
+            sound_obj::ProcessPed_422B70(&entity);
+        }
+        else if (pSprite->AsCar_40FEB0())
+        {
+            sound_obj::ProcessCar_412B80(&entity);
+        }
+        else if (pSprite->As2C_40FEC0())
+        {
+            sound_obj::ProcessObject_41E820(&entity);
+        }
+    }
 }
 
 STUB_FUNC(0x413760)
