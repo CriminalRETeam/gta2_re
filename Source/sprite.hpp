@@ -146,6 +146,13 @@ class Sprite
 
     EXPORT Sprite();
 
+    void GetXYZ_4117B0(Fix16* a2, Fix16* a3, Fix16* a4)
+    {
+        *a2 = this->field_14_xy.x;
+        *a3 = this->field_14_xy.y;
+        *a4 = this->field_1C_zpos;
+    }
+
     s32 get_type_416B40()
     {
         return field_30_sprite_type_enum;
@@ -276,7 +283,6 @@ class Sprite
             sub_59FA40();
         }
     }
-
 
     // 9.6f inline 0x420690
     inline void set_ang_lazy_420690(Ang16 a1)
@@ -441,7 +447,7 @@ class Sprite_18
 
     EXPORT void sub_5A69E0();
 
-    EXPORT bool PoolUpdate_5A6910(Sprite *a2);
+    EXPORT bool PoolUpdate_5A6910(Sprite* a2);
 
     Sprite* field_0;
     Sprite_18* mpNext;

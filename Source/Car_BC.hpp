@@ -244,19 +244,19 @@ class Car_6C
     EXPORT ~Car_6C();
 
     // 9.6f inlined
-    inline Car_BC* sub_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
+    inline Car_BC* SpawnCar_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
         return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6F77C4);
     }
 
     // 9.6f inlined
-    inline Car_BC* sub_4764A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
+    inline Car_BC* SpawnCar_4764A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
         return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6F7690);
     }
 
     // unknown inlined function
-    inline Car_BC* sub_446230_shortened(s32 car_info_idx)
+    inline Car_BC* SpawnCar_shortened(s32 car_info_idx)
     {
         return SpawnCarAt_446230(dword_6F77D4, dword_6F77D4, dword_6F77C0, dword_6F804C, car_info_idx, dword_6F77C4);
     }
@@ -554,7 +554,7 @@ class Car_BC
     EXPORT bool sub_564300();
 
     // Inlined 0x4118d0
-    bool is_driven_by_player() const
+    s32 is_driven_by_player() const
     {
         if (field_54_driver != NULL && field_54_driver->field_15C_player != NULL)
         {

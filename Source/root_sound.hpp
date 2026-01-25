@@ -40,7 +40,7 @@ class root_sound
 
     EXPORT void RemoveSound_40F050(s32 a1, s32 a2);
 
-    EXPORT void sub_40F070(char_type a1);
+    EXPORT void CycleRadioStation_40F070(char_type a1);
 
     EXPORT void PlayVoice_40F090(s32 state);
 

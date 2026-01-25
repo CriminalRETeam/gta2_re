@@ -712,10 +712,10 @@ void Player::Hud_Controls_565890(u16 action)
                 }
                 break;
             case DIK_F1:
-                gRoot_sound_66B038.sub_40F070(0);
+                gRoot_sound_66B038.CycleRadioStation_40F070(0);
                 break;
             case DIK_F2:
-                gRoot_sound_66B038.sub_40F070(1);
+                gRoot_sound_66B038.CycleRadioStation_40F070(1);
                 break;
 
             // ordered above
