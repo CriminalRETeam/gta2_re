@@ -701,9 +701,9 @@ void sound_obj::ProcessActiveQueues_41AB80()
             // v25
             // doppler effect?
             Sample.field_20_rate = sound_obj::AdjustPlaybackRate_41A580(Sample.field_20_rate,
-                                                         t.field_28_distance,
-                                                         Sample.field_28_distance,
-                                                         Sample.field_3C); // v64, field_3C = Fix16 ?
+                                                                        t.field_28_distance,
+                                                                        Sample.field_28_distance,
+                                                                        Sample.field_3C); // v64, field_3C = Fix16 ?
             if (Sample.field_20_rate != t.field_20_rate)
             {
                 u32 freq = Clamp2((s32)Sample.field_20_rate, (s32)t.field_20_rate, 6000);
@@ -1411,10 +1411,22 @@ u8 sound_obj::FindEmitterByStatus_57F050(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x57F090)
+MATCH_FUNC(0x57F090)
 bool sound_obj::IsPoliceOrServiceVehicle_57F090(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
+    switch (pCar->field_84_car_info_idx)
+    {
+        case car_model_enum::apc:
+        case car_model_enum::COPCAR:
+        case car_model_enum::FIRETRUK:
+        case car_model_enum::GUNJEEP:
+        case car_model_enum::JEEP:
+        case car_model_enum::MEDICAR:
+        case car_model_enum::SWATVAN:
+        case car_model_enum::TANK:
+        case car_model_enum::EDSELFBI:
+            return true;
+    }
     return false;
 }
 
