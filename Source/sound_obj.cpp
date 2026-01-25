@@ -2633,10 +2633,10 @@ void sound_obj::ProcessTrainCab_413B90(Sound_Params_8* a2, sound_unknown_0xC* a3
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x413BE0)
+MATCH_FUNC(0x413BE0)
 void sound_obj::ProcessTrain_413BE0(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    HandleCarDoorSounds_4182E0(a2);
 }
 
 MATCH_FUNC(0x426750)
