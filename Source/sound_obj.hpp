@@ -215,24 +215,23 @@ class sound_obj
     s32 field_5514;
     s32 field_5518;
     s32 field_551C;
-    u8 field_5520;
-    char_type field_5521;
-    char_type field_5522;
-    char_type field_5523;
-    s32 field_5524;
+    u8 field_5520_bCanPlay;
+    char_type field_5521_radio_word;
+    s16 field_5522_wanted_star_count;
+    s32 field_5524_radio_word;
     u8 field_5528_idx15_cur;
     u8 field_5529_idx15;
     char_type field_552A_pad;
     char_type field_552B_pad;
     s32 field_552C_15array[15];
-    char_type field_5568;
-    char_type field_5569;
-    s16 field_556A;
-    s16 field_556C;
-    s16 field_556E;
-    s16 field_5570;
-    s16 field_5572;
-    s32 field_5574;
+    char_type field_5568_crime_xpos;
+    char_type field_5569_crime_ypos;
+    s16 field_556A_erv_en_route_timer;
+    s16 field_556C_timer;
+    s16 field_556E_timer;
+    s16 field_5570_timer;
+    s16 field_5572; // pad?
+    s32 field_5574_car_info_idx;
 
     EXPORT sound_obj();
 

@@ -310,13 +310,13 @@ STUB_FUNC(0x427220)
 void sound_obj::ProcessPoliceRadioWordsPlayback_427220()
 {
     NOT_IMPLEMENTED;
-    if (!(field_5448_m_FrameCounter % 10u) && field_5520 == 0 && !gSampManager_6FFF00.SampleNotDone_58E880())
+    if (!(field_5448_m_FrameCounter % 10u) && field_5520_bCanPlay == 0 && !gSampManager_6FFF00.SampleNotDone_58E880())
     {
         gSampManager_6FFF00.EndSample_58E960();
-        field_5520 = 1;
+        field_5520_bCanPlay = 1;
     }
 
-    if (field_5528_idx15_cur != field_5529_idx15 && !gSampManager_6FFF00.SampleNotDone_58E880() && field_5520 == 1)
+    if (field_5528_idx15_cur != field_5529_idx15 && !gSampManager_6FFF00.SampleNotDone_58E880() && field_5520_bCanPlay == 1)
     {
         // todo: this load is missing without volatile!
         volatile s32 old = field_552C_15array[field_5528_idx15_cur];
@@ -2568,10 +2568,16 @@ void sound_obj::ProcessTrain_413BE0(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x426750)
+MATCH_FUNC(0x426750)
 void sound_obj::ResetRadioMessageState_426750()
 {
-    NOT_IMPLEMENTED;
+    Init_RadioMessageQueue_427180();
+    this->field_5520_bCanPlay = 1;
+    this->field_5524_radio_word = 0;
+    this->field_556A_erv_en_route_timer = 0;
+    this->field_5570_timer = 0;
+    this->field_556E_timer = 0;
+    this->field_556C_timer = 0;
 }
 
 STUB_FUNC(0x412D30)
@@ -2619,15 +2625,15 @@ void sound_obj::Type3_CopRadioReport_57E680()
 
     if (gSoundVocalsInited_6FF538)
     {
-        for (u8 i=0; i<5; i++)
+        for (u8 i = 0; i < 5; i++)
         {
             // Increment some counter on each station, probably wrong offset etc here
             u32 v2 = 90000 * this->field_8;
-            if (*(u32*)&field_544C[i+1].field_8.field_C_pAny < v2)
+            if (*(u32*)&field_544C[i + 1].field_8.field_C_pAny < v2)
             {
-                ++*(u32*)&field_544C[i+1].field_8.field_C_pAny;
+                ++*(u32*)&field_544C[i + 1].field_8.field_C_pAny;
             }
-        }        
+        }
     }
 }
 
