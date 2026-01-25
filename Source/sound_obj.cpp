@@ -1,5 +1,6 @@
 #include "sound_obj.hpp"
 #include "Camera.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
@@ -11,7 +12,7 @@
 #include "Weapon_30.hpp"
 #include "cSampleManager.hpp"
 #include "sprite.hpp"
-#include "CarPhysics_B0.hpp"
+#include "Object_5C.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -2729,11 +2730,43 @@ char_type sound_obj::Type6_3_413000(Object_2C* a2)
     return 0;
 }
 
-STUB_FUNC(0x412C90)
+MATCH_FUNC(0x412C90)
 char_type sound_obj::Type6_412C90(Object_2C* pObj, u8 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type result;
+
+    switch ((u32)pObj->mpNext) // ???
+    {
+        case 1u:
+        case 10u:
+            result = sound_obj::SelectObjectImpactSound_1_10_412D30(pObj);
+            break;
+        case 2u:
+            result = sound_obj::Type6_2_412D40(a3);
+            break;
+        case 3u:
+            result = sound_obj::Type6_3_413000(pObj);
+            break;
+        case 4u:
+            result = sound_obj::Type6_4_413040(a3);
+            break;
+        case 5u:
+            result = sound_obj::Type6_5_413090(a3);
+            break;
+        case 7u:
+            result = sound_obj::Type6_7_4130E0(pObj);
+            break;
+        case 9u:
+            result = sound_obj::Type6_9_413540((u32*)pObj);
+            break;
+        case 12u:
+            result = sound_obj::Type6_12_4136D0(pObj);
+            break;
+        default:
+            result = 0;
+            break;
+    }
+    return result;
 }
 
 STUB_FUNC(0x413A10)
