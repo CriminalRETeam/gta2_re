@@ -37,7 +37,7 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9E4, Fix16(0), 0x6FD9E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7FC, k_dword_6FD9E4, 0x6FD7FC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD800, k_dword_6FD9E4, 0x6FD800);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7F8, k_dword_6FD9E4, 0x6FD7F8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD9F4, Fix16(65536, 0), 0x6FD9F4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD9F4, Fix16(4), 0x6FD9F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7A4, Fix16(0x1000, 0), 0x6FD7A4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7B0, k_dword_6FD9E4, 0x6FD7B0);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7C0, k_dword_6FD9E4, 0x6FD7C0);
@@ -55,6 +55,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FDAE4, dword_6FD9B0, 0x6FDAE4);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9EC, Fix16(2), 0x6FD9EC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9E8, Fix16(1), 0x6FD9E8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9A8, Fix16(0x1EB, 0), 0x6FD9A8);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9F0, Fix16(3), 0x6FD9F0);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9F8, Fix16(5), 0x6FD9F8);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9FC, Fix16(6), 0x6FD9FC);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FDA00, Fix16(7), 0x6FDA00);
 
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
@@ -1942,8 +1946,8 @@ void Char_B4::state_7_551CB0()
     {
         s32 unk2_zpos;
         if (field_58_flags_bf.b0 == false &&
-            (dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == dword_6FD9F4 ||
-             dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == k_dword_6FD9E8))
+            (dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == k_dword_6FD9EC || dword_6FD7FC == k_dword_6FD9F0 || dword_6FD7FC == dword_6FD9F4 ||
+             dword_6FD7FC == k_dword_6FD9F8 || dword_6FD7FC == k_dword_6FD9FC || dword_6FD7FC == k_dword_6FDA00))
         {
             unk2_zpos = dword_6FD7FC.ToInt() - 1;
         }
@@ -1962,7 +1966,7 @@ void Char_B4::state_7_551CB0()
         if (block_type == AIR && field_58_flags_bf.b0 == false && field_10 != 15)
         {
             field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
-            field_7C_pPed->ChangeNextPedState2_45C540(19);
+            field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::falling_19);
             field_16 = 1;
             return;
         }
