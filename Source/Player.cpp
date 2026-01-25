@@ -2093,15 +2093,14 @@ void Player::sub_569600(Car_BC* pCar)
     Player::sub_564AD0(pCar);
 }
 
-STUB_FUNC(0x5696D0)
+MATCH_FUNC(0x5696D0)
 void Player::sub_5696D0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
     if (!field_2D0 && !field_2C8_unkq && !field_2CC)
     {
         field_2CC = pCar;
         field_208_aux_game_camera.sub_4364A0(pCar);
-        field_208_aux_game_camera.field_0_cam_pos_tgt1 = field_208_aux_game_camera.field_10_cam_pos_tgt2;
+        field_208_aux_game_camera.sub_41E410();
         field_208_aux_game_camera.sub_435DD0();
         field_68 = 3;
         field_2D0 = 1;
