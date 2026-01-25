@@ -7,10 +7,10 @@
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "Ped.hpp"
+#include "Player.hpp"
 #include "Weapon_30.hpp"
 #include "cSampleManager.hpp"
 #include "sprite.hpp"
-#include "Player.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -19,6 +19,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_66F3F0, Fix16(0), 0x66F3F0);
 DEFINE_GLOBAL_INIT(Fix16, dword_674DA8, Fix16(0x100000, 0), 0x674DA8);
 DEFINE_GLOBAL_ARRAY(u8, byte_61A688, 64, 0x61A688);
 DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
+DEFINE_GLOBAL(bool, gSoundVocalsInited_6FF538, 0x6FF538);
 
 static inline s32 Min(s32 a, s32 b)
 {
@@ -2611,10 +2612,23 @@ void sound_obj::TrainCab_414710(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x57E680)
+WIP_FUNC(0x57E680)
 void sound_obj::Type3_CopRadioReport_57E680()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (gSoundVocalsInited_6FF538)
+    {
+        for (u8 i=0; i<5; i++)
+        {
+            // Increment some counter on each station, probably wrong offset etc here
+            u32 v2 = 90000 * this->field_8;
+            if (*(u32*)&field_544C[i+1].field_8.field_C_pAny < v2)
+            {
+                ++*(u32*)&field_544C[i+1].field_8.field_C_pAny;
+            }
+        }        
+    }
 }
 
 STUB_FUNC(0x4136D0)
