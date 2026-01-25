@@ -7,12 +7,12 @@
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
+#include "Object_5C.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "Weapon_30.hpp"
 #include "cSampleManager.hpp"
 #include "sprite.hpp"
-#include "Object_5C.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -2715,11 +2715,34 @@ char_type sound_obj::Type6_12_4136D0(Object_2C* a2)
     return 0;
 }
 
-STUB_FUNC(0x412D40)
+MATCH_FUNC(0x412D40)
 char_type sound_obj::Type6_2_412D40(u8 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 samp_idx;
+
+    if (a2 < 15u)
+    {
+        return 0;
+    }
+
+    if (a2 < 40u)
+    {
+        samp_idx = 37;
+    }
+    else if (a2 < 90u)
+    {
+        samp_idx = 38;
+    }
+    else
+    {
+        samp_idx = 39;
+    }
+
+    this->field_30_sQueueSample.field_20_rate =
+        RandomDisplacement_41A650(samp_idx) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx);
+    this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
+    this->field_30_sQueueSample.field_18 = 0;
+    return 1;
 }
 
 STUB_FUNC(0x413000)
