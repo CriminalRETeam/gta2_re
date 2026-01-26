@@ -3177,11 +3177,39 @@ void sound_obj::Type3_CopRadioReport_57E680()
     }
 }
 
-STUB_FUNC(0x4136D0)
+MATCH_FUNC(0x4136D0)
 char_type sound_obj::Type6_12_4136D0(Object_2C* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 samp_idx;
+    switch (a2->field_20)
+    {
+        case 4:
+            samp_idx = 68;
+            break;
+
+        case 1:
+        case 3:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+            samp_idx = 39;
+            break;
+        case 2:
+        case 0xA:
+            samp_idx = 38;
+            break;
+
+        default:
+            return 0;
+    }
+    this->field_30_sQueueSample.field_20_rate =
+        RandomDisplacement_41A650(samp_idx) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx);
+    this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
+
+    this->field_30_sQueueSample.field_18 = 0;
+    return 1;
 }
 
 MATCH_FUNC(0x412D40)
