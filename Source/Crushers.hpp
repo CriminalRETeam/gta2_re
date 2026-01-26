@@ -45,7 +45,7 @@ class Crusher_30
     // Target of crusher walls
     Fix16 field_1C_w;
     Fix16 field_20_h;
-
+public:
     // Location of the crusher
     Fix16 field_24_xpos;
     Fix16 field_28_ypos;

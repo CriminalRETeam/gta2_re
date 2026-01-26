@@ -13,6 +13,7 @@
 #include "Weapon_30.hpp"
 #include "cSampleManager.hpp"
 #include "sprite.hpp"
+#include "Crushers.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -917,14 +918,14 @@ void sound_obj::sub_41A6F0()
 }
 
 STUB_FUNC(0x41A3F0)
-char_type sound_obj::CalcVolume_41A3F0(u8 a1, s32 a2, Fix16 a3)
+char_type sound_obj::CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x419070)
-bool sound_obj::VolCalc_419070(s32 a2, s32 a3, char_type a4)
+bool sound_obj::VolCalc_419070(s32 a2, Fix16 a3, char_type a4)
 {
     u8 v5 = CalcVolume_41A3F0(a2, a3, field_30_sQueueSample.field_28_distance);
     field_30_sQueueSample.field_24_nVolume = v5;
@@ -1777,10 +1778,52 @@ void sound_obj::ProcessType8_Crane_412820(s32 a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x412A60)
-void sound_obj::ProcessType9_Crusher_412A60(s32 a2)
+MATCH_FUNC(0x412A60)
+void sound_obj::ProcessType9_Crusher_412A60(s32 idx)
 {
-    NOT_IMPLEMENTED;
+    Crusher_30* pCrusher = field_147C[idx].field_4_pObj->field_C_pAny.pCrusher_30;
+    if (pCrusher)
+    {
+        if (pCrusher->field_2C_state)
+        {
+            Fix16 x = pCrusher->field_24_xpos;
+            this->field_30_sQueueSample.field_8_obj.field_0 = x;
+
+            Fix16 y = pCrusher->field_28_ypos;
+            this->field_30_sQueueSample.field_8_obj.field_4 = y;
+
+            Fix16 z = this->field_1470_v3;
+            this->field_30_sQueueSample.field_8_obj.field_8 = z;
+
+            this->field_30_sQueueSample.field_0_EntityIndex = idx;
+            this->field_30_sQueueSample.field_5C = 0;
+            const char_type bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(x, y, z);
+            this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+            this->field_2C_distCalculated = 0;
+            if (CalculateDistance_419020(Fix16(121)))
+            {
+                if (VolCalc_419070(0x6Eu, Fix16(11), bSolidAbove))
+                {
+                    this->field_30_sQueueSample.field_14_samp_idx = 60;
+                    this->field_30_sQueueSample.field_4_SampleIndex = 0;
+                    this->field_30_sQueueSample.field_41 = 0;
+                    this->field_30_sQueueSample.field_20_rate = 17000;
+                    this->field_30_sQueueSample.field_30 = 0;
+                    this->field_30_sQueueSample.field_4C = 5;
+                    this->field_30_sQueueSample.field_34 = gSampManager_6FFF00.sub_58DC30(60);
+                    this->field_30_sQueueSample.field_38 = gSampManager_6FFF00.sub_58DC50(60);
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 6;
+                    this->field_30_sQueueSample.field_54 = Fix16(11);
+                    this->field_30_sQueueSample.field_60_nEmittingVolume = 110;
+                    this->field_30_sQueueSample.field_64_max_distance = 22;
+                    this->field_30_sQueueSample.field_58_type = 20;
+                    this->field_30_sQueueSample.field_3C = 400;
+                    this->field_30_sQueueSample.field_18 = 0;
+                    AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x418C80)
