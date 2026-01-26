@@ -2740,10 +2740,27 @@ void sound_obj::HandleCarAlarmSound_415570(Sound_Params_8* a2, sound_unknown_0xC
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x414F90)
+MATCH_FUNC(0x414F90)
 void sound_obj::HandleCarBurningSound_414F90(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    if (a2->field_0_pObj->field_8_car_bc_ptr->field_0_qq.GetSpriteForModel_5A6A50(132))
+    {
+        if (CalculateDistance_419020(Fix16(25)))
+        {
+            if (VolCalc_419070(0x28u, Fix16(5), a2->field_5_bHasSolidAbove))
+            {
+                this->field_30_sQueueSample.field_58_type = 15;
+                this->field_30_sQueueSample.field_4_SampleIndex = 15;
+                this->field_30_sQueueSample.field_54 = Fix16(5);
+                this->field_30_sQueueSample.field_60_nEmittingVolume = 40;
+                this->field_30_sQueueSample.field_64_max_distance = 10;
+                this->field_30_sQueueSample.field_41 = 0;
+                this->field_30_sQueueSample.field_18 = 0;
+                this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 7;
+                AddSampleToRequestedQueue_41A850();
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x4177D0)
