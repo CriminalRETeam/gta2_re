@@ -2895,11 +2895,15 @@ char_type sound_obj::Type6_5_413090(u8 a2)
     return 1;
 }
 
-STUB_FUNC(0x4130E0)
+MATCH_FUNC(0x4130E0)
 char_type sound_obj::Type6_7_4130E0(Object_2C* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((a2->field_18_model < 200 || a2->field_18_model > 244) && (a2->field_18_model < 64 || a2->field_18_model > 108))
+    {
+        return SelectObjectImpactSound_413120(a2, 7);
+    }
+    Type6_Play_412D90(a2->field_18_model);
+    return 1;
 }
 
 STUB_FUNC(0x413540)
