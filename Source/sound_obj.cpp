@@ -2852,7 +2852,7 @@ char_type sound_obj::Type6_4_413040(u8 a2)
     {
         return 0;
     }
-    
+
     s32 idx_to_use;
     if (a2 < 23)
     {
@@ -2863,17 +2863,36 @@ char_type sound_obj::Type6_4_413040(u8 a2)
         idx_to_use = 41;
     }
 
-    this->field_30_sQueueSample.field_20_rate = RandomDisplacement_41A650(idx_to_use) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(idx_to_use);
+    this->field_30_sQueueSample.field_20_rate =
+        RandomDisplacement_41A650(idx_to_use) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(idx_to_use);
     this->field_30_sQueueSample.field_14_samp_idx = idx_to_use;
     this->field_30_sQueueSample.field_18 = 0;
     return 1;
 }
 
-STUB_FUNC(0x413090)
+MATCH_FUNC(0x413090)
 char_type sound_obj::Type6_5_413090(u8 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 idx_to_use;
+    if (a2 < 40u)
+    {
+        idx_to_use = 37;
+    }
+    else if (a2 < 90u)
+    {
+        idx_to_use = 38;
+    }
+    else
+    {
+        idx_to_use = 39;
+    }
+
+    this->field_30_sQueueSample.field_20_rate =
+        RandomDisplacement_41A650(idx_to_use) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(idx_to_use);
+    this->field_30_sQueueSample.field_14_samp_idx = idx_to_use;
+
+    this->field_30_sQueueSample.field_18 = 0;
+    return 1;
 }
 
 STUB_FUNC(0x4130E0)
