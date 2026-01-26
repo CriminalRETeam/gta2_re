@@ -2665,10 +2665,19 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x413BF0)
+MATCH_FUNC(0x413BF0)
 void sound_obj::ProcessTank_413BF0(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
 {
-    NOT_IMPLEMENTED;
+    if (a2->field_0_pObj->field_8_car_bc_ptr->field_58_physics)
+    {
+        Tank_414A50(a2);
+        HandleAICarEngineRevSound_4157C0(a2);
+        Tank_415190(a2);
+    }
+    Tank_414D30(a2);
+    HandleCarDoorSounds_4182E0(a2);
+    HandleCarAlarmSound_415570(a2, pAlloc);
+    HandleCarWeaponHitSound_415480(a2);
 }
 
 MATCH_FUNC(0x413B90)
