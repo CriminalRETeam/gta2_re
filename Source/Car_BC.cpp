@@ -1022,12 +1022,23 @@ bool Car_BC::IsCarInAir_43A3C0()
     return field_58_physics->field_98_surface_type == 6; // 6 = air surface (or no surface)
 }
 
-STUB_FUNC(0x43a3e0)
-s16* Car_BC::GetOrientationAngle_43A3E0(s16* a2)
+
+WIP_FUNC(0x43a3e0)
+Ang16 Car_BC::GetOrientationAngle_43A3E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (!field_58_physics)
+    {
+        return field_50_car_sprite->field_0;
+
+    }
+    else
+    {
+        return Fix16::atan2_fixed_405320(field_58_physics->field_40_linvel_1.y, field_58_physics->field_40_linvel_1.x);
+    }
 }
+
 
 MATCH_FUNC(0x43a450)
 Fix16_Point Car_BC::get_linvel_43A450()

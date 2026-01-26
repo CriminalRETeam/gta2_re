@@ -217,7 +217,7 @@ class sound_obj
     s32 field_5518;
     s32 field_551C;
     u8 field_5520_bCanPlay;
-    char_type field_5521_radio_word;
+    u8 field_5521_radio_word;
     s16 field_5522_wanted_star_count;
     s32 field_5524_radio_word;
     u8 field_5528_idx15_cur;
