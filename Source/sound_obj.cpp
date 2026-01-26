@@ -1635,10 +1635,17 @@ void sound_obj::ProcessType6_Rozza_C88_413760(s32 a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4273B0)
+MATCH_FUNC(0x4273B0)
 void sound_obj::AppendRadioMessageSuffix_4273B0()
 {
-    NOT_IMPLEMENTED;
+    if (GetQueuedRadioWordCount_427310() > 3u)
+    {
+        EnqueueRadioWord_4271B0(0x79u);
+        EnqueueRadioWord_4271B0(0x5Fu);
+        EnqueueRadioWord_4271B0(0x5Bu);
+        EnqueueRadioWord_4271B0(0x78u);
+    }
+    field_5521_radio_word = (field_5521_radio_word + 1) % 13;
 }
 
 WIP_FUNC(0x42A500)
