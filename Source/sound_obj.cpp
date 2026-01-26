@@ -2813,10 +2813,52 @@ void sound_obj::HandleCarTireScrubSound_418720(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x415480)
+MATCH_FUNC(0x415480)
 void sound_obj::HandleCarWeaponHitSound_415480(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    const s32 old_weapon_kind = pCar->field_B4_weapon_kind;
+    pCar->field_B4_weapon_kind = 0;
+    switch (old_weapon_kind)
+    {
+        case weapon_type::smg:
+            this->field_30_sQueueSample.field_14_samp_idx = 67;
+            break;
+        case weapon_type::rocket:
+        case weapon_type::shocker:
+            this->field_30_sQueueSample.field_14_samp_idx = 66;
+            break;
+        case weapon_type::molotov:
+            this->field_30_sQueueSample.field_14_samp_idx = 65;
+            break;
+        case weapon_type::grenade:
+            this->field_30_sQueueSample.field_14_samp_idx = 62;
+            break;
+        case weapon_type::shotgun:
+            this->field_30_sQueueSample.field_14_samp_idx = 63;
+            break;
+        case weapon_type::electro_batton:
+            this->field_30_sQueueSample.field_14_samp_idx = 64;
+            break;
+        default:
+            return;
+    }
+
+    this->field_30_sQueueSample.field_60_nEmittingVolume = 50;
+    this->field_30_sQueueSample.field_64_max_distance = 100;
+    this->field_30_sQueueSample.field_58_type = 20;
+    this->field_30_sQueueSample.field_54 = Fix16(1638400, 0);
+    this->field_30_sQueueSample.field_4_SampleIndex = 3;
+    this->field_30_sQueueSample.field_41 = 1;
+    this->field_30_sQueueSample.field_18 = 1;
+    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 0;
+    this->field_30_sQueueSample.field_3C = 0;
+    this->field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(field_30_sQueueSample.field_14_samp_idx);
+    this->field_30_sQueueSample.field_30 = 1;
+    this->field_30_sQueueSample.field_34 = 0;
+    this->field_30_sQueueSample.field_38 = -1;
+    this->field_30_sQueueSample.field_40_pan = 63;
+    AddSampleToRequestedQueue_41A850();
 }
 
 STUB_FUNC(0x417E30)
