@@ -2527,9 +2527,11 @@ char_type sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
     return 0;
 }
 
-MATCH_FUNC(0x426F20)
+WIP_FUNC(0x426F20)
 void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* pCar)
 {
+    WIP_IMPLEMENTED;
+
     u32 car_name_word;
     u32 car_colour_word;
 
@@ -2553,6 +2555,7 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* pCar)
         const s32 car_info_idx = pCar->field_84_car_info_idx;
         if (this->field_5574_car_info_idx != car_info_idx || word_6757FC != (u16)pCar->field_50_car_sprite->field_24_remap)
         {
+            // TODO: Switch base is wrong, fix that and then this func matches
             this->field_5574_car_info_idx = car_info_idx;
             switch (car_info_idx)
             {
