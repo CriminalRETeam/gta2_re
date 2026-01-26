@@ -311,10 +311,10 @@ void sound_obj::EnqueueRadioWord_4271B0(u32 val)
     }
 }
 
-STUB_FUNC(0x427220)
+WIP_FUNC(0x427220)
 void sound_obj::ProcessPoliceRadioWordsPlayback_427220()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     if (!(field_5448_m_FrameCounter % 10u) && field_5520_bCanPlay == 0 && !gSampManager_6FFF00.SampleNotDone_58E880())
     {
         gSampManager_6FFF00.EndSample_58E960();
@@ -323,7 +323,8 @@ void sound_obj::ProcessPoliceRadioWordsPlayback_427220()
 
     if (field_5528_idx15_cur != field_5529_idx15 && !gSampManager_6FFF00.SampleNotDone_58E880() && field_5520_bCanPlay == 1)
     {
-        // todo: this load is missing without volatile!
+        // todo: this load is missing without volatile! Seems to cache the old value but strange because
+        // surely it can't know if SampleNotDone_58E880 may have modified it
         volatile s32 old = field_552C_15array[field_5528_idx15_cur];
         if (field_5528_idx15_cur >= 15)
         {
