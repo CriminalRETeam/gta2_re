@@ -15,6 +15,7 @@
 #include "cSampleManager.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
+#include "Cranes.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -1601,8 +1602,8 @@ void sound_obj::ProcessType1_Sprite_412740(s32 idx)
     {
 
         entity.field_0_pObj->GetXYZ_4117B0(&field_30_sQueueSample.field_8_obj.field_0,
-                               &field_30_sQueueSample.field_8_obj.field_4,
-                               &field_30_sQueueSample.field_8_obj.field_8);
+                                           &field_30_sQueueSample.field_8_obj.field_4,
+                                           &field_30_sQueueSample.field_8_obj.field_8);
 
         this->field_30_sQueueSample.field_0_EntityIndex = idx;
         this->field_30_sQueueSample.field_5C = 0;
@@ -1780,10 +1781,157 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
     }
 }
 
-STUB_FUNC(0x412820)
-void sound_obj::ProcessType8_Crane_412820(s32 a2)
+WIP_FUNC(0x412820)
+void sound_obj::ProcessType8_Crane_412820(s32 idx)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
+    s32 idx_; // ecx
+    Crane_15C* pCrane; // edi
+    Sprite* pSprite; // eax
+    Fix16 ypos; // edx
+    Fix16 f1C_zpos; // eax
+    Fix16 zpos; // ecx
+    Fix16 xpos; // eax
+    u8 new_idx; // cl
+    s32 new_counter; // eax
+    s32 samp_idx; // edi
+    s32 rate; // ebp
+    char_type new_f41; // bl
+    char_type samp_idx_1; // al
+    s32 new_f38; // eax
+    bool bContinue; // cf
+    u8 emitter_vol; // [esp+8h] [ebp-14h]
+    s32 vol_mod; // [esp+Ch] [ebp-10h]
+    Crane_15C* pCrane_; // [esp+10h] [ebp-Ch]
+    s32 counter; // [esp+14h] [ebp-8h]
+    char_type bSolidAbove; // [esp+18h] [ebp-4h]
+
+    idx_ = idx;
+    pCrane = field_147C[idx].field_4_pObj->field_C_pAny.pCrane_15C;
+    pCrane_ = pCrane;
+    if (pCrane)
+    {
+        pSprite = pCrane->field_2C->field_4;
+        if (pSprite)
+        {
+            this->field_30_sQueueSample.field_8_obj.field_0 = pSprite->field_14_xy.x;
+
+            ypos = pSprite->field_14_xy.y;
+            this->field_30_sQueueSample.field_8_obj.field_4 = ypos;
+
+            f1C_zpos = pSprite->field_1C_zpos;
+
+            this->field_30_sQueueSample.field_0_EntityIndex = idx_;
+
+            zpos = f1C_zpos;
+            this->field_30_sQueueSample.field_8_obj.field_8 = f1C_zpos;
+
+            xpos = this->field_30_sQueueSample.field_8_obj.field_0;
+
+            this->field_30_sQueueSample.field_5C = 0;
+            bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(xpos, ypos, zpos);
+            this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+            this->field_2C_distCalculated = 0;
+            if (CalculateDistance_419020(Fix16(0x9C4000, 0)))
+            {
+                new_idx = 0;
+                new_counter = 0;
+                idx = 0;
+                counter = 0;
+                do
+                {
+                    switch (new_counter)
+                    {
+                        case 0:
+                            if (pCrane->field_156)
+                            {
+                                samp_idx = 60;
+                                rate = 9000;
+                                emitter_vol = 60;
+                                vol_mod = 3;
+                                new_f41 = 0;
+                                goto LABEL_14;
+                            }
+                            break;
+
+                        case 1:
+                            if (pCrane->field_157)
+                            {
+                                samp_idx = 60;
+                                rate = 13000;
+                                emitter_vol = 30;
+                                vol_mod = 4;
+                                new_f41 = 0;
+                                goto LABEL_14;
+                            }
+                            break;
+
+                        case 2:
+                            if (pCrane->field_158)
+                            {
+                                samp_idx = 60;
+                                rate = 8000;
+                                emitter_vol = 45;
+                                vol_mod = 4;
+                                new_f41 = 0;
+                                goto LABEL_14;
+                            }
+                            break;
+
+                        case 3:
+                            if (pCrane->field_159)
+                            {
+                                samp_idx = 37;
+                                rate = 22050;
+                                emitter_vol = 50;
+                                vol_mod = 5;
+                                new_f41 = 1;
+
+                            LABEL_14:
+                                if (new_idx < 5u && VolCalc_419070(emitter_vol, Fix16(409600, 0), bSolidAbove))
+                                {
+                                    samp_idx_1 = idx;
+                                    this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
+                                    this->field_30_sQueueSample.field_4_SampleIndex = samp_idx_1;
+                                    this->field_30_sQueueSample.field_41 = new_f41;
+                                    this->field_30_sQueueSample.field_20_rate = rate;
+                                    if (new_f41)
+                                    {
+                                        this->field_30_sQueueSample.field_30 = 1;
+                                    }
+                                    else
+                                    {
+                                        this->field_30_sQueueSample.field_30 = 0;
+                                        this->field_30_sQueueSample.field_4C = 3;
+                                    }
+                                    this->field_30_sQueueSample.field_34 = gSampManager_6FFF00.sub_58DC30(samp_idx);
+                                    new_f38 = gSampManager_6FFF00.sub_58DC50(samp_idx);
+                                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = vol_mod;
+                                    this->field_30_sQueueSample.field_38 = new_f38;
+                                    this->field_30_sQueueSample.field_54 = Fix16(409600, 0);
+                                    this->field_30_sQueueSample.field_60_nEmittingVolume = emitter_vol;
+                                    this->field_30_sQueueSample.field_64_max_distance = 50;
+                                    this->field_30_sQueueSample.field_58_type = 20;
+                                    this->field_30_sQueueSample.field_3C = 400;
+                                    this->field_30_sQueueSample.field_18 = 0;
+                                    AddSampleToRequestedQueue_41A850();
+                                }
+                                pCrane = pCrane_;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    new_idx = idx + 1;
+                    new_counter = counter + 1;
+                    bContinue = (u8)(idx + 1) < 4u;
+                    idx = idx + 1; // LOBYTE(idx) =
+                    ++counter;
+                } while (bContinue);
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x412A60)
