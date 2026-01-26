@@ -2671,10 +2671,20 @@ void sound_obj::ProcessTank_413BF0(Sound_Params_8* a2, sound_unknown_0xC* pAlloc
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x413B90)
+MATCH_FUNC(0x413B90)
 void sound_obj::ProcessTrainCab_413B90(Sound_Params_8* a2, sound_unknown_0xC* a3)
 {
-    NOT_IMPLEMENTED;
+    if (a2->field_0_pObj->field_8_car_bc_ptr->field_58_physics)
+    {
+        if (!a2->field_5_bHasSolidAbove)
+        {
+            HandleTrainEngineSound_4140C0(a2);
+            HandleTrainCabRollingFrictionSound_4143A0(a2);
+        }
+    }
+    HandleCarAlarmSound_415570(a2, a3);
+    HandleCarDoorSounds_4182E0(a2);
+    TrainCab_414710(a2);
 }
 
 MATCH_FUNC(0x413BE0)
