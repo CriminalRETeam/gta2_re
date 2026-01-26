@@ -2648,18 +2648,19 @@ void sound_obj::ProcessObject_Type12_41E850(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-WIP_FUNC(0x413C50)
+MATCH_FUNC(0x413C50)
 void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
 {
-    WIP_IMPLEMENTED;
-
     Car_BC* cBC = a2->field_0_pObj->field_8_car_bc_ptr;
     pAlloc->field_4 = (u32)cBC; // TODO: Likely another union??
     if (cBC->field_68 != k_dword_66F3F4)
     {
-        HandleAICarEngineRevSound_4157C0(a2);
+        if (cBC->field_58_physics)
+        {
+            HandleAICarEngineRevSound_4157C0(a2);
+        }
     }
-    else if (cBC->field_58_physics)
+    else
     {
         if (a2->field_0_pObj->field_8_car_bc_ptr->field_58_physics)
         {
