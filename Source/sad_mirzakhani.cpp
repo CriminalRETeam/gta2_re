@@ -145,7 +145,7 @@ u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4,
     field_0[idx].field_1C = f_1c;
     field_0[idx].field_24 = f_24;
     field_0[idx].field_25 = f_25;
-    field_0[idx].field_26 = 0; 
+    field_0[idx].field_26 = 0;
     field_0[idx].field_28 = f_28;
     field_0[idx].field_2A_bUsed = 1;
     field_0[idx].field_2B = 1;
@@ -197,7 +197,7 @@ void sad_mirzakhani::sub_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s
         if (pFound->field_26 == pFound->field_25)
         {
             field_1B8->field_368_player->field_2D4_scores.AddCash_592620(field_1B8->field_368_player->field_6BC_multpliers.field_0 *
-                                                                    pFound->field_28);
+                                                                         pFound->field_28);
             pFound->sub_431DB0();
         }
     }
@@ -217,9 +217,50 @@ s8 sad_mirzakhani::sub_432240(int a2, int a3)
     return 0;
 }
 
-STUB_FUNC(0x432300);
-bool sad_mirzakhani::sub_432300(int a2, int a3)
+MATCH_FUNC(0x432300);
+bool sad_mirzakhani::sub_432300(int car_info_idx_1, int car_info_idx_2)
 {
-    NOT_IMPLEMENTED;
+    bool is_fed_car_1;
+    bool is_fed_car_2;
+
+    if ((car_info_idx_1 == car_model_enum::TAXI || car_info_idx_1 == car_model_enum::STYPECAB) &&
+        (car_info_idx_2 == car_model_enum::TAXI || car_info_idx_2 == car_model_enum::STYPECAB))
+    {
+        return 1;
+    }
+    switch (car_info_idx_1)
+    {
+        case car_model_enum::apc:
+        case car_model_enum::COPCAR:
+        case car_model_enum::GUNJEEP:
+        case car_model_enum::JEEP:
+        case car_model_enum::SWATVAN:
+        case car_model_enum::TANK:
+        case car_model_enum::EDSELFBI:
+            is_fed_car_1 = 1;
+            break;
+        default:
+            is_fed_car_1 = 0;
+            break;
+    }
+    switch (car_info_idx_2)
+    {
+        case car_model_enum::apc:
+        case car_model_enum::COPCAR:
+        case car_model_enum::GUNJEEP:
+        case car_model_enum::JEEP:
+        case car_model_enum::SWATVAN:
+        case car_model_enum::TANK:
+        case car_model_enum::EDSELFBI:
+            is_fed_car_2 = 1;
+            break;
+        default:
+            is_fed_car_2 = 0;
+            break;
+    }
+    if (is_fed_car_1 && is_fed_car_2)
+    {
+        return true;
+    }
     return false;
 }
