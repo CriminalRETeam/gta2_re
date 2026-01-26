@@ -1705,13 +1705,16 @@ char_type Char_B4::sub_54C3E0()
     return 0;
 }
 
+// 9.6f 0x495540
 WIP_FUNC(0x54c500)
 char_type Char_B4::sub_54C500(char_type x, char_type y)
 {
     WIP_IMPLEMENTED;
 
-    char_type dx = x - field_80_sprite_ptr->field_14_xy.x.ToInt();
-    char_type dy = y - field_80_sprite_ptr->field_14_xy.y.ToInt();
+    Fix16 tx = field_80_sprite_ptr->field_14_xy.x;
+    char_type dx = x - tx.ToInt();
+    Fix16 ty = field_80_sprite_ptr->field_14_xy.y;
+    char_type dy = y - ty.ToInt();
 
     // No movement
     if (dx == 0 && dy == 0)
