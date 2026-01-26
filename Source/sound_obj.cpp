@@ -1591,19 +1591,16 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
     NOT_IMPLEMENTED;
 }
 
-WIP_FUNC(0x412740)
+MATCH_FUNC(0x412740)
 void sound_obj::ProcessType1_Sprite_412740(s32 idx)
 {
-    WIP_IMPLEMENTED;
-
     Sound_Params_8 entity;
 
     entity.field_0_pObj = this->field_147C[idx].field_4_pObj->field_C_pAny.pSprite;
     if (entity.field_0_pObj)
     {
-        Sprite* pSprite = entity.field_0_pObj;
 
-        pSprite->GetXYZ_4117B0(&field_30_sQueueSample.field_8_obj.field_0,
+        entity.field_0_pObj->GetXYZ_4117B0(&field_30_sQueueSample.field_8_obj.field_0,
                                &field_30_sQueueSample.field_8_obj.field_4,
                                &field_30_sQueueSample.field_8_obj.field_8);
 
@@ -1616,15 +1613,15 @@ void sound_obj::ProcessType1_Sprite_412740(s32 idx)
         this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
         this->field_2C_distCalculated = 0;
 
-        if (pSprite->AsCharB4_40FEA0())
+        if (entity.field_0_pObj->AsCharB4_40FEA0())
         {
             sound_obj::ProcessPed_422B70(&entity);
         }
-        else if (pSprite->AsCar_40FEB0())
+        else if (entity.field_0_pObj->AsCar_40FEB0())
         {
             sound_obj::ProcessCar_412B80(&entity);
         }
-        else if (pSprite->As2C_40FEC0())
+        else if (entity.field_0_pObj->As2C_40FEC0())
         {
             sound_obj::ProcessObject_41E820(&entity);
         }
