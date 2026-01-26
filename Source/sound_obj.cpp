@@ -1534,7 +1534,7 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
     {
         if (gGame_0x40_67E008 && field_1478_type5Idx)
         {
-            if (field_147C[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::CopRadioReport_3)
+            if (field_147C[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Radio_3)
             {
                 ProcessType3_CopRadioAndMusic_57DD50();
             }
