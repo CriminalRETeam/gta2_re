@@ -25,6 +25,7 @@ DEFINE_GLOBAL_ARRAY(u8, byte_61A688, 64, 0x61A688);
 DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
 DEFINE_GLOBAL(bool, gSoundVocalsInited_6FF538, 0x6FF538);
 DEFINE_GLOBAL(Fix16, k_dword_66F3F4, 0x66F3F4);
+DEFINE_GLOBAL(u16, word_6757FC, 0x6757FC);
 
 static inline s32 Min(s32 a, s32 b)
 {
@@ -2475,10 +2476,150 @@ char_type sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
     return 0;
 }
 
-STUB_FUNC(0x426F20)
-void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* a2)
+MATCH_FUNC(0x426F20)
+void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
+    u32 car_name_word;
+    u32 car_colour_word;
+
+    u32 unknown = 321;
+    if (!pCar)
+    {
+        if (this->field_5574_car_info_idx != 87)
+        {
+            if (sound_obj::GetQueuedRadioWordCount_427310() > 3u)
+            {
+                sound_obj::EnqueueRadioWord_4271B0(0x79u);
+                sound_obj::EnqueueRadioWord_4271B0(0x62u);
+                sound_obj::EnqueueRadioWord_4271B0(0x63u);
+                sound_obj::EnqueueRadioWord_4271B0(0x6Eu);
+            }
+            this->field_5574_car_info_idx = 87;
+        }
+    }
+    else
+    {
+        const s32 car_info_idx = pCar->field_84_car_info_idx;
+        if (this->field_5574_car_info_idx != car_info_idx || word_6757FC != (u16)pCar->field_50_car_sprite->field_24_remap)
+        {
+            this->field_5574_car_info_idx = car_info_idx;
+            switch (car_info_idx)
+            {
+                case car_model_enum::bug:
+                case car_model_enum::FIAT:
+                case car_model_enum::ISETTA:
+                case car_model_enum::MESSER:
+                case car_model_enum::SPRITE:
+                    car_name_word = 111;
+                    break;
+
+                case car_model_enum::VAN:
+                case car_model_enum::VESPA:
+                    car_name_word = 111;
+                    unknown = 114;
+                    break;
+
+                case car_model_enum::boxtruck:
+                case car_model_enum::TOWTRUCK:
+                case car_model_enum::TRUKCAB1:
+                case car_model_enum::TRUKCAB2:
+                    car_name_word = 114;
+                    break;
+
+                case car_model_enum::alfa:
+                case car_model_enum::amdb4:
+                case car_model_enum::DART:
+                case car_model_enum::MERC:
+                case car_model_enum::MORGAN:
+                case car_model_enum::MORRIS:
+                case car_model_enum::SPIDER:
+                    car_name_word = 112;
+                    break;
+
+                case car_model_enum::allard:
+                case car_model_enum::bmw:
+                case car_model_enum::GT24640:
+                case car_model_enum::JEFFREY:
+                case car_model_enum::MIURA:
+                case car_model_enum::STINGRAY:
+                case car_model_enum::STRATOS:
+                case car_model_enum::STRATOSB:
+                case car_model_enum::STRIPETB:
+                case car_model_enum::T2000GT:
+                case car_model_enum::TBIRD:
+                case car_model_enum::TRANCEAM:
+                case car_model_enum::WBTWIN:
+                case car_model_enum::ZCX5:
+                    car_name_word = 113;
+                    break;
+                default:
+                    return;
+            }
+
+            word_6757FC = (u16)pCar->field_50_car_sprite->field_24_remap;
+            switch (word_6757FC)
+            {
+                case 1:
+                case 2:
+                case 27:
+                    car_colour_word = 108;
+                    break;
+                case 11:
+                case 33:
+                case 34:
+                    car_colour_word = 109;
+                    break;
+                case 6:
+                case 28:
+                    car_colour_word = 104;
+                    break;
+
+                case 5:
+                    car_colour_word = 105;
+                    break;
+                case 0:
+                case 3:
+                case 4:
+                    car_colour_word = 106;
+                    break;
+
+                case 10:
+                case 19:
+                case 22:
+                case 35:
+                    car_colour_word = 107;
+                    break;
+
+                default:
+                    car_colour_word = 321;
+                    break;
+            }
+
+            if (sound_obj::GetQueuedRadioWordCount_427310() > 6u)
+            {
+                sound_obj::EnqueueRadioWord_4271B0(0x79u);
+                sound_obj::EnqueueRadioWord_4271B0(0x62u);
+                if ((this->field_1454_anRandomTable[2] & 1) == 0)
+                {
+                    sound_obj::EnqueueRadioWord_4271B0(0x63u);
+                }
+                else
+                {
+                    sound_obj::EnqueueRadioWord_4271B0(0x66u);
+                }
+                sound_obj::EnqueueRadioWord_4271B0(0x64u);
+                if (car_colour_word != 321)
+                {
+                    sound_obj::EnqueueRadioWord_4271B0(car_colour_word);
+                }
+                sound_obj::EnqueueRadioWord_4271B0(car_name_word);
+                if (unknown != 321)
+                {
+                    sound_obj::EnqueueRadioWord_4271B0(unknown);
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x427400)
