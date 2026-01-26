@@ -24,10 +24,11 @@ class serene_brattain
 struct sound_unknown_0xC
 {
     Fix16 field_0;
-    char_type field_4;
-    char_type field_5;
-    char_type field_6;
-    char_type field_7;
+    u32 field_4;
+    //char_type field_4;
+    //char_type field_5;
+    //char_type field_6;
+    //char_type field_7;
     s16 field_8;
     char_type field_A;
     char_type field_B;
