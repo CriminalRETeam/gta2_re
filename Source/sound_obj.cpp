@@ -2808,10 +2808,42 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4178C0)
+MATCH_FUNC(0x4178C0)
 void sound_obj::HandleSirenActivationSound_4178C0(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    if ((pCar->inline_info_flags_bit2() || pCar->is_FBI_car_411920()) && (pCar->field_A4 & 4))
+    {
+        Car_BC* pCar_ = a2->field_0_pObj->field_8_car_bc_ptr;
+        if (pCar_->field_9C == 3)
+        {
+            if (pCar_->field_54_driver)
+            {
+                if (CalculateDistance_419020(Fix16(400)))
+                {
+                    if (VolCalc_419070(0x46u, Fix16(20), a2->field_5_bHasSolidAbove))
+                    {
+                        this->field_30_sQueueSample.field_54 = Fix16(20);
+                        this->field_30_sQueueSample.field_60_nEmittingVolume = 70;
+                        this->field_30_sQueueSample.field_64_max_distance = 40;
+                        this->field_30_sQueueSample.field_58_type = 4;
+                        this->field_30_sQueueSample.field_4_SampleIndex = 7;
+                        this->field_30_sQueueSample.field_41 = 0;
+                        this->field_30_sQueueSample.field_18 = 0;
+                        if (a2->field_4_bDrivenByPlayer)
+                        {
+                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 2;
+                        }
+                        else
+                        {
+                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
+                        }
+                        AddSampleToRequestedQueue_41A850();
+                    }
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x4143A0)
