@@ -13,6 +13,7 @@
 #include "Player.hpp"
 #include "Weapon_30.hpp"
 #include "cSampleManager.hpp"
+#include "map_0x370.hpp"
 #include "sprite.hpp"
 #include <math.h>
 
@@ -2472,11 +2473,59 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x427400)
+WIP_FUNC(0x427400)
 u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    gmp_map_zone* pZone;
+    gmp_map_zone* pZone_;
+    u32 result;
+
+    pZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 15u);
+    *ppZone = pZone;
+    if (!pZone || pZone->field_5_name_length != 3)
+    {
+        *ppZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 1u);
+    }
+    pZone_ = *ppZone;
+    if (!*ppZone)
+    {
+        goto ret0;
+    }
+    if (pZone_->field_5_name_length != 3)
+    {
+        goto ret0;
+    }
+    if (pZone_->field_6_name[0] != 'm')
+    {
+        goto ret0;
+    }
+    result = pZone_->field_6_name[2] + 10 * pZone_->field_6_name[1] - 528;
+    if (result >= 45)
+    {
+        goto ret0;
+    }
+
+    if (result > 30)
+    {
+        result -= 30;
+    }
+    else
+    {
+        if (result > 15)
+        {
+            result -= 15;
+        }
+    }
+
+    if (result > 14)
+    {
+    ret0:
+        *ppZone = 0;
+        return 0;
+    }
+    return result;
 }
 
 STUB_FUNC(0x417BA0)
