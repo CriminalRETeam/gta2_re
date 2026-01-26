@@ -180,6 +180,7 @@ class Ang16
         }
     }
 
+    EXPORT void SnapToAng4_405640();
     EXPORT Ang16* sub_409300(Ang16* a2, s32 a3);
     EXPORT Ang16* sub_409340(Ang16* pRet, Ang16* toSub);
     EXPORT Ang16* sub_482740(Ang16* a1, s32* a2);

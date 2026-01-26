@@ -8,6 +8,24 @@ DEFINE_GLOBAL(Ang16, word_6F680C, 0x6F680C);
 DEFINE_GLOBAL(Ang16, dword_6F6800, 0x6F6800);
 DEFINE_GLOBAL(Ang16, word_6F67DC, 0x6F67DC);
 
+WIP_FUNC(0x405640)
+void Ang16::SnapToAng4_405640()
+{
+    WIP_IMPLEMENTED;
+    if (rValue < 180 || rValue > 1260)
+    {
+        rValue = 0;
+    }
+    else if (rValue >= 540)
+    {
+        rValue = rValue >= 900 ? 1080 : 720;
+    }
+    else
+    {
+        rValue = 360;
+    }
+}
+
 MATCH_FUNC(0x406C20)
 void Ang16::sub_406C20()
 {
