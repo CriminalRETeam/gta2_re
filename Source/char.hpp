@@ -211,7 +211,7 @@ class Char_B4
     EXPORT void sub_548590();
     EXPORT void sub_548670(char_type a2);
     EXPORT void sub_548840(Object_2C* a2);
-    EXPORT void sub_548BD0(s32 a2);
+    EXPORT void sub_548BD0(Char_B4* a2);
     EXPORT void sub_54A530(Car_BC* a2, Car_BC* a3, s32 a4);
     EXPORT char_type sub_54B8F0();
     EXPORT s32 sub_54C090();

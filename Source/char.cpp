@@ -12,12 +12,12 @@
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
+#include "Weapon_30.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
-#include "Weapon_30.hpp"
 
 DEFINE_GLOBAL(s8, byte_6FDB48, 0x6FDB48);
 DEFINE_GLOBAL(s8, byte_6FDB49, 0x6FDB49);
@@ -874,8 +874,8 @@ void Char_B4::UpdateAnimState_546360()
                 case 6:
                 case 7:
                     v129 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&v129,
-                                                                                this->field_80_sprite_ptr->field_14_xy.x,
-                                                                                this->field_80_sprite_ptr->field_14_xy.y);
+                                                                          this->field_80_sprite_ptr->field_14_xy.x,
+                                                                          this->field_80_sprite_ptr->field_14_xy.y);
                     gMap_0x370_6F6268->UpdateZFromSlopeAtCoord_4E5BF0(field_80_sprite_ptr->field_14_xy.x,
                                                                       field_80_sprite_ptr->field_14_xy.y,
                                                                       v129);
@@ -974,21 +974,11 @@ void Char_B4::UpdateAnimState_546360()
                         pDoor->sub_439E60();
                         newId_ = baseId + (u8)this->field_68;
                         v124 = 0;
-                        CarDoorAlignmentSolver_545AF0(0,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(0, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                     }
                     else
                     {
-                        CarDoorAlignmentSolver_545AF0(7,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(7, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 3;
                         this->field_80_sprite_ptr->field_28_num = 9;
                         newId_ = baseId + 36;
@@ -1000,21 +990,11 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         newId_ = baseId + field_68;
                         v124 = 0;
-                        CarDoorAlignmentSolver_545AF0(1,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(1, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                     }
                     else
                     {
-                        CarDoorAlignmentSolver_545AF0(6,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(6, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 3;
                         this->field_80_sprite_ptr->field_28_num = 9;
                         newId_ = baseId + 35;
@@ -1026,21 +1006,11 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         newId_ = baseId + field_68;
                         v124 = 0;
-                        CarDoorAlignmentSolver_545AF0(2,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(2, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                     }
                     else
                     {
-                        CarDoorAlignmentSolver_545AF0(5,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(5, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 3;
                         this->field_80_sprite_ptr->field_28_num = 9;
                         newId_ = baseId + 34;
@@ -1052,21 +1022,11 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         newId_ = baseId + field_68;
                         v124 = 0;
-                        CarDoorAlignmentSolver_545AF0(3,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(3, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                     }
                     else
                     {
-                        CarDoorAlignmentSolver_545AF0(4,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(4, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 3;
                         this->field_80_sprite_ptr->field_28_num = 9;
                         newId_ = baseId + 33;
@@ -1078,12 +1038,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         newId_ = baseId + field_68;
                         v124 = 0;
-                        CarDoorAlignmentSolver_545AF0(4,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(4, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         goto LABEL_162;
                     }
                     CarDoorAlignmentSolver_545AF0(0, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
@@ -1094,21 +1049,11 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         newId_ = baseId + field_68;
                         v124 = 0;
-                        CarDoorAlignmentSolver_545AF0(5,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(5, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                     }
                     else
                     {
-                        CarDoorAlignmentSolver_545AF0(1,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(1, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 1;
                         this->field_80_sprite_ptr->field_28_num = 23;
                         newId_ = (u8)this->field_68 + baseId + 24;
@@ -1119,21 +1064,11 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         newId_ = baseId + field_68;
                         v124 = 0;
-                        CarDoorAlignmentSolver_545AF0(6,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(6, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                     }
                     else
                     {
-                        CarDoorAlignmentSolver_545AF0(2,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(2, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 1;
                         this->field_80_sprite_ptr->field_28_num = 23;
                         newId_ = (u8)this->field_68 + baseId + 24;
@@ -1144,21 +1079,11 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         newId_ = baseId + field_68;
                         v124 = 0;
-                        CarDoorAlignmentSolver_545AF0(7,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(7, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                     }
                     else
                     {
-                        CarDoorAlignmentSolver_545AF0(3,
-                                                      field_84,
-                                                      field_7C_pPed->field_24C_target_car_door,
-                                                      newx,
-                                                      newy,
-                                                      field_40_rotation);
+                        CarDoorAlignmentSolver_545AF0(3, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                     LABEL_191:
                         v124 = 1;
                         this->field_80_sprite_ptr->field_28_num = 23;
@@ -1205,9 +1130,10 @@ void Char_B4::UpdateAnimState_546360()
                     }
                     else
                     {
-                        gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(this->field_80_sprite_ptr->field_14_xy.x.ToInt(),
-                                                                                     this->field_80_sprite_ptr->field_14_xy.y.ToInt(),
-                                                                                     (this->field_80_sprite_ptr->field_1C_zpos.ToInt()) - 1);
+                        gmp_block_info* pBlock =
+                            gMap_0x370_6F6268->get_block_4DFE10(this->field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                                this->field_80_sprite_ptr->field_14_xy.y.ToInt(),
+                                                                (this->field_80_sprite_ptr->field_1C_zpos.ToInt()) - 1);
                         if (pBlock && ((pBlock->field_B_slope_type & 0xFC) != 0) && (pBlock->field_B_slope_type & 0xFCu) < 0xB4 &&
                             (pBlock->field_B_slope_type & 3) != 0)
                         {
@@ -1249,8 +1175,8 @@ void Char_B4::UpdateAnimState_546360()
             this->field_80_sprite_ptr->field_28_num = 6;
 
             pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(field_80_sprite_ptr->field_14_xy.x.ToInt(),
-                                                                          field_80_sprite_ptr->field_14_xy.y.ToInt(),
-                                                                          field_80_sprite_ptr->field_1C_zpos.ToInt() - 1);
+                                                          field_80_sprite_ptr->field_14_xy.y.ToInt(),
+                                                          field_80_sprite_ptr->field_1C_zpos.ToInt() - 1);
             bUnknown_1 = 0;
             if (pBlock_)
             {
@@ -1435,12 +1361,7 @@ void Char_B4::UpdateAnimState_546360()
                         }
                     }
                 }
-                CarDoorAlignmentSolver_545AF0(field_68,
-                                              field_84,
-                                              field_7C_pPed->field_24C_target_car_door,
-                                              newx,
-                                              newy,
-                                              field_40_rotation);
+                CarDoorAlignmentSolver_545AF0(field_68, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                 v124 = 5;
                 newId_ = (u8)field_68 + baseId + 24;
             }
@@ -1463,12 +1384,7 @@ void Char_B4::UpdateAnimState_546360()
             }
             else
             {
-                CarDoorAlignmentSolver_545AF0(field_6C,
-                                              field_84,
-                                              field_7C_pPed->field_24C_target_car_door,
-                                              newx,
-                                              newy,
-                                              field_40_rotation);
+                CarDoorAlignmentSolver_545AF0(field_6C, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                 v124 = 3;
                 newId_ = (u8)field_68 + baseId + 24;
             }
@@ -1492,12 +1408,7 @@ void Char_B4::UpdateAnimState_546360()
             }
             else
             {
-                CarDoorAlignmentSolver_545AF0(field_6C,
-                                              field_84,
-                                              field_7C_pPed->field_24C_target_car_door,
-                                              newx,
-                                              newy,
-                                              field_40_rotation);
+                CarDoorAlignmentSolver_545AF0(field_6C, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                 v124 = 1;
                 field_80_sprite_ptr->field_28_num = 9;
                 newId_ = (u8)field_68 + baseId + 28;
@@ -1600,12 +1511,7 @@ void Char_B4::UpdateAnimState_546360()
             }
 
         LABEL_123:
-            CarDoorAlignmentSolver_545AF0(field_68,
-                                          field_84,
-                                          field_7C_pPed->get_target_car_door_403A60(),
-                                          newx,
-                                          newy,
-                                          field_40_rotation);
+            CarDoorAlignmentSolver_545AF0(field_68, field_84, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
 
         LABEL_125:
             pNewZ_ = *gMap_0x370_6F6268->sub_4E4E50(&pNewZ_, newx, newy, field_84->field_50_car_sprite->field_1C_zpos);
@@ -1656,10 +1562,101 @@ void Char_B4::sub_548590()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x548670)
+// 9.6f 0x499F00
+MATCH_FUNC(0x548670)
 void Char_B4::sub_548670(char_type a2)
 {
-    NOT_IMPLEMENTED;
+    u8 bUnknown; // bl
+    if (this->field_69 == 1 && this->field_20 && this->field_24 != 3)
+    {
+        bUnknown = 1;
+    }
+    else
+    {
+        bUnknown = a2;
+    }
+
+    Sprite* pNearSprite = field_80_sprite_ptr->sub_59E7D0(2);
+    if (pNearSprite)
+    {
+        s32 sprite_type_enum = pNearSprite->field_30_sprite_type_enum;
+        switch (pNearSprite->get_type_416B40())
+        {
+
+            case 3: // char_b4
+                if (bUnknown == byte_623F48)
+                {
+                    this->field_18 = 0;
+                }
+                else
+                {
+                    if (field_7C_pPed->field_238 >= 2 && field_7C_pPed->field_238 <= 6)
+                    {
+                        Char_B4::sub_548BD0(pNearSprite->AsCharB4_40FEA0());
+                        this->field_18 = 0;
+                    }
+                }
+                break;
+
+            case 2: // car
+            {
+                Sprite* pNearSprite2 = field_80_sprite_ptr->sub_59E7D0(1);
+                if (pNearSprite2->get_type_416B40() == 1) // object
+                {
+                    if (pNearSprite2->As2C_40FEC0())
+                    {
+                        Char_B4::sub_548840(pNearSprite2->As2C_40FEC0());
+                        this->field_20 = 3;
+                    }
+                }
+                else
+                {
+                    Char_B4::sub_54A530(pNearSprite->AsCar_40FEB0(), 0, 0);
+                    this->field_20 = 1;
+                }
+                break;
+            }
+            case 1:
+            case 4:
+            case 5: // object
+                Char_B4::sub_548840(pNearSprite->As2C_40FEC0());
+                this->field_20 = 3;
+                break;
+
+            default:
+                return;
+        }
+    }
+    else
+    {
+        if (field_10 != 10)
+        {
+            if (field_10 == 27)
+            {
+                this->field_10 = 1;
+                this->field_1C = 0;
+                this->field_20 = 0;
+                this->field_18 = 0;
+            }
+            else
+            {
+                this->field_18 = 0;
+            }
+        }
+        else
+        {
+            this->field_10 = 1;
+            this->field_18 = 0;
+        }
+
+        if (field_38_velocity == k_dword_6FD7C0 || field_7C_pPed->IsField238_45EDE0(2) && !this->field_8_ped_state_1)
+        {
+            this->field_1C = 0;
+            this->field_20 = 0;
+            this->field_69 = 0;
+            this->field_2A = word_6FDB34;
+        }
+    }
 }
 
 STUB_FUNC(0x548840)
@@ -1669,7 +1666,7 @@ void Char_B4::sub_548840(Object_2C* a2)
 }
 
 STUB_FUNC(0x548bd0)
-void Char_B4::sub_548BD0(s32 a2)
+void Char_B4::sub_548BD0(Char_B4* a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -1708,11 +1705,36 @@ char_type Char_B4::sub_54C3E0()
     return 0;
 }
 
-STUB_FUNC(0x54c500)
-char_type Char_B4::sub_54C500(char_type a2, char_type a3)
+// 9.6f 0x495540
+WIP_FUNC(0x54c500)
+char_type Char_B4::sub_54C500(char_type x, char_type y)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 tx = field_80_sprite_ptr->field_14_xy.x;
+    char_type dx = x - tx.ToInt();
+    Fix16 ty = field_80_sprite_ptr->field_14_xy.y;
+    char_type dy = y - ty.ToInt();
+
+    // No movement
+    if (dx == 0 && dy == 0)
+    {
+        return 1;
+    }
+
+    // Diagonal movement not allowed
+    if (dx != 0 && dy != 0)
+    {
+        return 0;
+    }
+
+    // Pure horizontal
+    if (dx != 0)
+    {
+        return (dx == -1) ? Char_B4::sub_54C1A0(4) : Char_B4::sub_54C1A0(3);
+    }
+
+    return (dy == -1) ? Char_B4::sub_54C1A0(1) : Char_B4::sub_54C1A0(2);
 }
 
 STUB_FUNC(0x54c580)
@@ -2472,8 +2494,9 @@ void Char_B4::state_7_551CB0()
     {
         s32 unk2_zpos;
         if (field_58_flags_bf.b0 == false &&
-            (dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == k_dword_6FD9EC || dword_6FD7FC == k_dword_6FD9F0 || dword_6FD7FC == dword_6FD9F4 ||
-             dword_6FD7FC == k_dword_6FD9F8 || dword_6FD7FC == k_dword_6FD9FC || dword_6FD7FC == k_dword_6FDA00))
+            (dword_6FD7FC == k_dword_6FD9E8 || dword_6FD7FC == k_dword_6FD9EC || dword_6FD7FC == k_dword_6FD9F0 ||
+             dword_6FD7FC == dword_6FD9F4 || dword_6FD7FC == k_dword_6FD9F8 || dword_6FD7FC == k_dword_6FD9FC ||
+             dword_6FD7FC == k_dword_6FDA00))
         {
             unk2_zpos = dword_6FD7FC.ToInt() - 1;
         }
