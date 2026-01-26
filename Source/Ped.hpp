@@ -502,6 +502,11 @@ class Ped
         return field_21C_bf.b11;
     }
 
+    inline s32 get_objective_403A80()
+    {
+        return field_258_objective;
+    }
+
     Marz_3 field_0_patrol_points[100];
     Ang16 field_12C;
     Ang16 field_12E;
