@@ -1562,11 +1562,10 @@ void Char_B4::sub_548590()
     NOT_IMPLEMENTED;
 }
 
-WIP_FUNC(0x548670)
+// 9.6f 0x499F00
+MATCH_FUNC(0x548670)
 void Char_B4::sub_548670(char_type a2)
 {
-    WIP_IMPLEMENTED;
-
     u8 bUnknown; // bl
     if (this->field_69 == 1 && this->field_20 && this->field_24 != 3)
     {
@@ -1581,50 +1580,8 @@ void Char_B4::sub_548670(char_type a2)
     if (pNearSprite)
     {
         s32 sprite_type_enum = pNearSprite->field_30_sprite_type_enum;
-        switch (pNearSprite->field_30_sprite_type_enum)
+        switch (pNearSprite->get_type_416B40())
         {
-            case 1:
-            case 4:
-            case 5: // object
-                if (sprite_type_enum == 4 || sprite_type_enum == 5 ||
-                    sprite_type_enum == 1)
-                {
-                    Char_B4::sub_548840(pNearSprite->field_8_object_2C_ptr);
-                    this->field_20 = 3;
-                }
-                else
-                {
-                    Char_B4::sub_548840(0);
-                    this->field_20 = 3;
-                }
-                break;
-
-            case 2: // car
-            {
-                Sprite* pNearSprite2 = field_80_sprite_ptr->sub_59E7D0(1);
-                if (pNearSprite2->field_30_sprite_type_enum == 1) // object
-                {
-                    Object_2C* o2c = pNearSprite2->field_8_object_2C_ptr;
-                    if (o2c)
-                    {
-                        Char_B4::sub_548840(o2c);
-                        this->field_20 = 3;
-                    }
-                }
-                else
-                {
-                    if (pNearSprite->field_30_sprite_type_enum == 2) // car
-                    {
-                        Char_B4::sub_54A530(pNearSprite->field_8_car_bc_ptr, 0, 0);
-                    }
-                    else
-                    {
-                        Char_B4::sub_54A530(0, 0, 0);
-                    }
-                    this->field_20 = 1;
-                }
-                break;
-            }
 
             case 3: // char_b4
                 if (bUnknown == byte_623F48)
@@ -1635,36 +1592,62 @@ void Char_B4::sub_548670(char_type a2)
                 {
                     if (field_7C_pPed->field_238 >= 2 && field_7C_pPed->field_238 <= 6)
                     {
-                        if (sprite_type_enum == 3)
-                        {
-                            Char_B4::sub_548BD0(pNearSprite->field_8_char_b4_ptr);
-                        }
-                        else
-                        {
-                            Char_B4::sub_548BD0(0);
-                        }
+                        Char_B4::sub_548BD0(pNearSprite->AsCharB4_40FEA0());
                         this->field_18 = 0;
                     }
                 }
                 break;
+
+            case 2: // car
+            {
+                Sprite* pNearSprite2 = field_80_sprite_ptr->sub_59E7D0(1);
+                if (pNearSprite2->get_type_416B40() == 1) // object
+                {
+                    if (pNearSprite2->As2C_40FEC0())
+                    {
+                        Char_B4::sub_548840(pNearSprite2->As2C_40FEC0());
+                        this->field_20 = 3;
+                    }
+                }
+                else
+                {
+                    Char_B4::sub_54A530(pNearSprite->AsCar_40FEB0(), 0, 0);
+                    this->field_20 = 1;
+                }
+                break;
+            }
+            case 1:
+            case 4:
+            case 5: // object
+                Char_B4::sub_548840(pNearSprite->As2C_40FEC0());
+                this->field_20 = 3;
+                break;
+
             default:
                 return;
         }
     }
     else
     {
-        if (field_10 == 10)
+        if (field_10 != 10)
+        {
+            if (field_10 == 27)
+            {
+                this->field_10 = 1;
+                this->field_1C = 0;
+                this->field_20 = 0;
+                this->field_18 = 0;
+            }
+            else
+            {
+                this->field_18 = 0;
+            }
+        }
+        else
         {
             this->field_10 = 1;
+            this->field_18 = 0;
         }
-        else if (field_10 == 27)
-        {
-            this->field_10 = 1;
-            this->field_1C = 0;
-            this->field_20 = 0;
-        }
-
-        this->field_18 = 0;
 
         if (field_38_velocity == k_dword_6FD7C0 || field_7C_pPed->IsField238_45EDE0(2) && !this->field_8_ped_state_1)
         {
