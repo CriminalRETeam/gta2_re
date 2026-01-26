@@ -23,6 +23,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_674DA8, Fix16(0x100000, 0), 0x674DA8);
 DEFINE_GLOBAL_ARRAY(u8, byte_61A688, 64, 0x61A688);
 DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
 DEFINE_GLOBAL(bool, gSoundVocalsInited_6FF538, 0x6FF538);
+DEFINE_GLOBAL(Fix16, k_dword_66F3F4, 0x66F3F4);
 
 static inline s32 Min(s32 a, s32 b)
 {
@@ -2647,10 +2648,37 @@ void sound_obj::ProcessObject_Type12_41E850(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x413C50)
+WIP_FUNC(0x413C50)
 void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Car_BC* cBC = a2->field_0_pObj->field_8_car_bc_ptr;
+    pAlloc->field_4 = (u32)cBC; // TODO: Likely another union??
+    if (cBC->field_68 != k_dword_66F3F4)
+    {
+        HandleAICarEngineRevSound_4157C0(a2);
+    }
+    else if (cBC->field_58_physics)
+    {
+        if (a2->field_0_pObj->field_8_car_bc_ptr->field_58_physics)
+        {
+            HandleAICarEngineRevSound_4157C0(a2);
+            HandleTruckCorneringAudio_417FD0(a2);
+            HandleAICarEngineSound_418190(a2);
+            HandleCarTireScrubSound_418720(a2);
+        }
+        HandleCarDoorSounds_4182E0(a2);
+        HandleSirenActivationSound_4178C0(a2);
+        HandleCarHornSound_417060(a2);
+        HandleCarAlarmSound_415570(a2, pAlloc);
+        UpdateCarSurfaceAudio_418610(a2);
+        HandleCarDamageSound_4177D0(a2);
+        HandleHeavyVehicleStopSound_417E30(a2, pAlloc);
+        HandleCarWeaponHitSound_415480(a2);
+        HandleCarBurningSound_414F90(a2);
+        HandleAICarHornBeep_413D10(a2);
+    }
 }
 
 STUB_FUNC(0x41F520)
