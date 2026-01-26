@@ -1705,11 +1705,33 @@ char_type Char_B4::sub_54C3E0()
     return 0;
 }
 
-STUB_FUNC(0x54c500)
-char_type Char_B4::sub_54C500(char_type a2, char_type a3)
+WIP_FUNC(0x54c500)
+char_type Char_B4::sub_54C500(char_type x, char_type y)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    char_type dx = x - field_80_sprite_ptr->field_14_xy.x.ToInt();
+    char_type dy = y - field_80_sprite_ptr->field_14_xy.y.ToInt();
+
+    // No movement
+    if (dx == 0 && dy == 0)
+    {
+        return 1;
+    }
+
+    // Diagonal movement not allowed
+    if (dx != 0 && dy != 0)
+    {
+        return 0;
+    }
+
+    // Pure horizontal
+    if (dx != 0)
+    {
+        return (dx == -1) ? Char_B4::sub_54C1A0(4) : Char_B4::sub_54C1A0(3);
+    }
+
+    return (dy == -1) ? Char_B4::sub_54C1A0(1) : Char_B4::sub_54C1A0(2);
 }
 
 STUB_FUNC(0x54c580)
