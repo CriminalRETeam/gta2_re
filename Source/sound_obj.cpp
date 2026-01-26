@@ -2452,10 +2452,68 @@ void sound_obj::EnqueueRadioCrimeCallout_427340(s32 a4, u8 a5, u8 a6)
     }
 }
 
-STUB_FUNC(0x426E10)
+WIP_FUNC(0x426E10)
 void sound_obj::EnqueueRadioLocationPhrase_426E10(u8 xpos, u8 ypos)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    u32 cop_zone; // eax
+    s16 mid_x; // di
+    u8 h; // cl
+    s16 w_half; // si
+    s16 mid_y; // dx
+    s32 h_half; // ecx
+    char_type bUnknown; // [esp+Fh] [ebp-5h]
+    gmp_map_zone* pZone; // [esp+10h] [ebp-4h] BYREF
+    u32 word_zone_name; // [esp+1Ch] [ebp+8h]
+
+    bUnknown = 0;
+    pZone = 0;
+    cop_zone = sound_obj::GetCopRadioZoneIndex_427400(xpos, ypos, &pZone);
+    if (!cop_zone && !pZone)
+    {
+        sound_obj::EnqueueRadioWord_4271B0( 0x75u);
+        sound_obj::EnqueueRadioWord_4271B0(0x77u);
+        return;
+    }
+    word_zone_name = cop_zone + 121;
+    mid_x = pZone->field_1_x + (pZone->field_3_w >> 1);
+    h = pZone->field_4_h;
+    w_half = pZone->field_3_w >> 2;
+    mid_y = pZone->field_2_y + (h >> 1);
+    h_half = h >> 2;
+    if (ypos < mid_y - h_half)
+    {
+        sound_obj::EnqueueRadioWord_4271B0(0x73u);
+    LABEL_8:
+        bUnknown = 1;
+        goto LABEL_9;
+    }
+    if (ypos > h_half + mid_y)
+    {
+        sound_obj::EnqueueRadioWord_4271B0( 0x75u);
+        goto LABEL_8;
+    }
+LABEL_9:
+    if (xpos <= mid_x + w_half)
+    {
+        if (xpos >= mid_x - w_half)
+        {
+            if (!bUnknown)
+            {
+                sound_obj::EnqueueRadioWord_4271B0(0x77u);
+            }
+        }
+        else
+        {
+            sound_obj::EnqueueRadioWord_4271B0(0x76u);
+        }
+    }
+    else
+    {
+        sound_obj::EnqueueRadioWord_4271B0(0x74u);
+    }
+    sound_obj::EnqueueRadioWord_4271B0(word_zone_name);
 }
 
 STUB_FUNC(0x57ECB0)
