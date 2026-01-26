@@ -370,7 +370,7 @@ class Car_BC
     EXPORT bool sub_43A230();
     EXPORT Fix16 sub_43A240();
     EXPORT bool IsCarInAir_43A3C0();
-    EXPORT s16* GetOrientationAngle_43A3E0(s16* a2);
+    EXPORT Ang16 GetOrientationAngle_43A3E0();
     EXPORT Fix16_Point get_linvel_43A450();
     EXPORT Fix16 GetVelocity_43A4C0();
     EXPORT Fix16 sub_43A590();
