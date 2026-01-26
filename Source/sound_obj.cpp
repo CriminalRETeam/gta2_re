@@ -2,6 +2,7 @@
 #include "Camera.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "Crushers.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
@@ -13,7 +14,6 @@
 #include "Weapon_30.hpp"
 #include "cSampleManager.hpp"
 #include "sprite.hpp"
-#include "Crushers.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -2788,11 +2788,15 @@ char_type sound_obj::Type6_2_412D40(u8 a2)
     return 1;
 }
 
-STUB_FUNC(0x413000)
-char_type sound_obj::Type6_3_413000(Object_2C* a2)
+MATCH_FUNC(0x413000)
+char_type sound_obj::Type6_3_413000(Object_2C* pObj)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((pObj->field_18_model < 200 || pObj->field_18_model > 244) && (pObj->field_18_model < 64 || pObj->field_18_model > 108))
+    {
+        return SelectObjectImpactSound_413120(pObj, 3);
+    }
+    Type6_Play_412D90(pObj->field_18_model);
+    return 1;
 }
 
 MATCH_FUNC(0x412C90)
