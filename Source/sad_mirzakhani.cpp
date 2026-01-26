@@ -113,7 +113,7 @@ u16 sad_mirzakhani::find_431EC0(u16 idx, s16 f_4, s32 f_8, s32 f_c, s16 f_10, s1
     return 0;
 }
 
-STUB_FUNC(0x431FE0);
+MATCH_FUNC(0x431FE0);
 u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4,
                                       s32 f_8,
                                       s32 f_c,
