@@ -103,6 +103,8 @@ DEFINE_GLOBAL(Fix16, k_dword_6777D4, 0x6777D4);
 DEFINE_GLOBAL(Fix16, k_dword_6772CC, 0x6772CC);
 EXTERN_GLOBAL(u8, byte_6F8EDC);
 
+DEFINE_GLOBAL(Fix16, k_dword_66AB38, 0x66AB38);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -4114,11 +4116,65 @@ char_type Trailer::sub_4081D0()
     }
 }
 
-STUB_FUNC(0x408220)
+MATCH_FUNC(0x408220)
 s32 Trailer::sub_408220()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_8_truck_cab->field_88 != 5)
+    {
+        gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_8_truck_cab->field_50_car_sprite);
+        gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_C_pCarOnTrailer->field_50_car_sprite);
+    }
+
+    const char_type v3 = field_8_truck_cab->sub_4424C0();
+    field_C_pCarOnTrailer->field_88 = field_8_truck_cab->field_88;
+    if (v3)
+    {
+        gCar_BC_Pool_67792C->Remove(field_C_pCarOnTrailer);
+        return 1;
+    }
+    else
+    {
+        const char_type bUnknown = sub_408140();
+        if (field_8_truck_cab->field_50_car_sprite->field_1C_zpos != k_dword_66AB38)
+        {
+            if (field_C_pCarOnTrailer->field_50_car_sprite->field_1C_zpos != k_dword_66AB38)
+            {
+                field_8_truck_cab->field_50_car_sprite->ResolveZOrder_5A1B30(field_C_pCarOnTrailer->field_50_car_sprite);
+            }
+        }
+
+        field_8_truck_cab->field_50_car_sprite->field_28_num = 15;
+
+        field_8_truck_cab->sub_4426D0();
+        field_C_pCarOnTrailer->sub_4426D0();
+
+        if (field_8_truck_cab->field_88 != 5)
+        {
+            gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_8_truck_cab->field_50_car_sprite);
+            gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_C_pCarOnTrailer->field_50_car_sprite);
+        }
+
+        if (field_8_truck_cab->field_0_qq.field_0_p18)
+        {
+            field_8_truck_cab->field_0_qq.PoolUpdate_5A6F70(field_8_truck_cab->field_50_car_sprite);
+            field_8_truck_cab->field_0_qq.PropagateMaxZLayer_5A72B0(field_8_truck_cab->field_50_car_sprite, 0);
+        }
+
+        if (field_C_pCarOnTrailer->field_0_qq.field_0_p18)
+        {
+            field_C_pCarOnTrailer->field_0_qq.PoolUpdate_5A6F70(field_C_pCarOnTrailer->field_50_car_sprite);
+            field_C_pCarOnTrailer->field_0_qq.PropagateMaxZLayer_5A72B0(field_C_pCarOnTrailer->field_50_car_sprite, 0);
+        }
+
+        if (sub_4081D0() || bUnknown)
+        {
+            return 2;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x5822E0)

@@ -2,6 +2,7 @@
 #include "Camera.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "Crushers.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
@@ -22,6 +23,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_674DA8, Fix16(0x100000, 0), 0x674DA8);
 DEFINE_GLOBAL_ARRAY(u8, byte_61A688, 64, 0x61A688);
 DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
 DEFINE_GLOBAL(bool, gSoundVocalsInited_6FF538, 0x6FF538);
+DEFINE_GLOBAL(Fix16, k_dword_66F3F4, 0x66F3F4);
 
 static inline s32 Min(s32 a, s32 b)
 {
@@ -917,14 +919,14 @@ void sound_obj::sub_41A6F0()
 }
 
 STUB_FUNC(0x41A3F0)
-char_type sound_obj::CalcVolume_41A3F0(u8 a1, s32 a2, Fix16 a3)
+char_type sound_obj::CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x419070)
-bool sound_obj::VolCalc_419070(s32 a2, s32 a3, char_type a4)
+bool sound_obj::VolCalc_419070(s32 a2, Fix16 a3, char_type a4)
 {
     u8 v5 = CalcVolume_41A3F0(a2, a3, field_30_sQueueSample.field_28_distance);
     field_30_sQueueSample.field_24_nVolume = v5;
@@ -1777,10 +1779,52 @@ void sound_obj::ProcessType8_Crane_412820(s32 a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x412A60)
-void sound_obj::ProcessType9_Crusher_412A60(s32 a2)
+MATCH_FUNC(0x412A60)
+void sound_obj::ProcessType9_Crusher_412A60(s32 idx)
 {
-    NOT_IMPLEMENTED;
+    Crusher_30* pCrusher = field_147C[idx].field_4_pObj->field_C_pAny.pCrusher_30;
+    if (pCrusher)
+    {
+        if (pCrusher->field_2C_state)
+        {
+            Fix16 x = pCrusher->field_24_xpos;
+            this->field_30_sQueueSample.field_8_obj.field_0 = x;
+
+            Fix16 y = pCrusher->field_28_ypos;
+            this->field_30_sQueueSample.field_8_obj.field_4 = y;
+
+            Fix16 z = this->field_1470_v3;
+            this->field_30_sQueueSample.field_8_obj.field_8 = z;
+
+            this->field_30_sQueueSample.field_0_EntityIndex = idx;
+            this->field_30_sQueueSample.field_5C = 0;
+            const char_type bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(x, y, z);
+            this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+            this->field_2C_distCalculated = 0;
+            if (CalculateDistance_419020(Fix16(121)))
+            {
+                if (VolCalc_419070(0x6Eu, Fix16(11), bSolidAbove))
+                {
+                    this->field_30_sQueueSample.field_14_samp_idx = 60;
+                    this->field_30_sQueueSample.field_4_SampleIndex = 0;
+                    this->field_30_sQueueSample.field_41 = 0;
+                    this->field_30_sQueueSample.field_20_rate = 17000;
+                    this->field_30_sQueueSample.field_30 = 0;
+                    this->field_30_sQueueSample.field_4C = 5;
+                    this->field_30_sQueueSample.field_34 = gSampManager_6FFF00.sub_58DC30(60);
+                    this->field_30_sQueueSample.field_38 = gSampManager_6FFF00.sub_58DC50(60);
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 6;
+                    this->field_30_sQueueSample.field_54 = Fix16(11);
+                    this->field_30_sQueueSample.field_60_nEmittingVolume = 110;
+                    this->field_30_sQueueSample.field_64_max_distance = 22;
+                    this->field_30_sQueueSample.field_58_type = 20;
+                    this->field_30_sQueueSample.field_3C = 400;
+                    this->field_30_sQueueSample.field_18 = 0;
+                    AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x418C80)
@@ -2604,10 +2648,38 @@ void sound_obj::ProcessObject_Type12_41E850(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x413C50)
+MATCH_FUNC(0x413C50)
 void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
 {
-    NOT_IMPLEMENTED;
+    Car_BC* cBC = a2->field_0_pObj->field_8_car_bc_ptr;
+    pAlloc->field_4 = (u32)cBC; // TODO: Likely another union??
+    if (cBC->field_68 != k_dword_66F3F4)
+    {
+        if (cBC->field_58_physics)
+        {
+            HandleAICarEngineRevSound_4157C0(a2);
+        }
+    }
+    else
+    {
+        if (a2->field_0_pObj->field_8_car_bc_ptr->field_58_physics)
+        {
+            HandleAICarEngineRevSound_4157C0(a2);
+            HandleTruckCorneringAudio_417FD0(a2);
+            HandleAICarEngineSound_418190(a2);
+            HandleCarTireScrubSound_418720(a2);
+        }
+        HandleCarDoorSounds_4182E0(a2);
+        HandleSirenActivationSound_4178C0(a2);
+        HandleCarHornSound_417060(a2);
+        HandleCarAlarmSound_415570(a2, pAlloc);
+        UpdateCarSurfaceAudio_418610(a2);
+        HandleCarDamageSound_4177D0(a2);
+        HandleHeavyVehicleStopSound_417E30(a2, pAlloc);
+        HandleCarWeaponHitSound_415480(a2);
+        HandleCarBurningSound_414F90(a2);
+        HandleAICarHornBeep_413D10(a2);
+    }
 }
 
 STUB_FUNC(0x41F520)
@@ -2622,16 +2694,35 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x413BF0)
+MATCH_FUNC(0x413BF0)
 void sound_obj::ProcessTank_413BF0(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
 {
-    NOT_IMPLEMENTED;
+    if (a2->field_0_pObj->field_8_car_bc_ptr->field_58_physics)
+    {
+        Tank_414A50(a2);
+        HandleAICarEngineRevSound_4157C0(a2);
+        Tank_415190(a2);
+    }
+    Tank_414D30(a2);
+    HandleCarDoorSounds_4182E0(a2);
+    HandleCarAlarmSound_415570(a2, pAlloc);
+    HandleCarWeaponHitSound_415480(a2);
 }
 
-STUB_FUNC(0x413B90)
+MATCH_FUNC(0x413B90)
 void sound_obj::ProcessTrainCab_413B90(Sound_Params_8* a2, sound_unknown_0xC* a3)
 {
-    NOT_IMPLEMENTED;
+    if (a2->field_0_pObj->field_8_car_bc_ptr->field_58_physics)
+    {
+        if (!a2->field_5_bHasSolidAbove)
+        {
+            HandleTrainEngineSound_4140C0(a2);
+            HandleTrainCabRollingFrictionSound_4143A0(a2);
+        }
+    }
+    HandleCarAlarmSound_415570(a2, a3);
+    HandleCarDoorSounds_4182E0(a2);
+    TrainCab_414710(a2);
 }
 
 MATCH_FUNC(0x413BE0)
@@ -2745,11 +2836,15 @@ char_type sound_obj::Type6_2_412D40(u8 a2)
     return 1;
 }
 
-STUB_FUNC(0x413000)
-char_type sound_obj::Type6_3_413000(Object_2C* a2)
+MATCH_FUNC(0x413000)
+char_type sound_obj::Type6_3_413000(Object_2C* pObj)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((pObj->field_18_model < 200 || pObj->field_18_model > 244) && (pObj->field_18_model < 64 || pObj->field_18_model > 108))
+    {
+        return SelectObjectImpactSound_413120(pObj, 3);
+    }
+    Type6_Play_412D90(pObj->field_18_model);
+    return 1;
 }
 
 MATCH_FUNC(0x412C90)
@@ -2798,25 +2893,65 @@ char_type sound_obj::Type6_413A10(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x413040)
+MATCH_FUNC(0x413040)
 char_type sound_obj::Type6_4_413040(u8 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (a2 < 15u)
+    {
+        return 0;
+    }
+
+    s32 idx_to_use;
+    if (a2 < 23)
+    {
+        idx_to_use = 40;
+    }
+    else
+    {
+        idx_to_use = 41;
+    }
+
+    this->field_30_sQueueSample.field_20_rate =
+        RandomDisplacement_41A650(idx_to_use) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(idx_to_use);
+    this->field_30_sQueueSample.field_14_samp_idx = idx_to_use;
+    this->field_30_sQueueSample.field_18 = 0;
+    return 1;
 }
 
-STUB_FUNC(0x413090)
+MATCH_FUNC(0x413090)
 char_type sound_obj::Type6_5_413090(u8 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 idx_to_use;
+    if (a2 < 40u)
+    {
+        idx_to_use = 37;
+    }
+    else if (a2 < 90u)
+    {
+        idx_to_use = 38;
+    }
+    else
+    {
+        idx_to_use = 39;
+    }
+
+    this->field_30_sQueueSample.field_20_rate =
+        RandomDisplacement_41A650(idx_to_use) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(idx_to_use);
+    this->field_30_sQueueSample.field_14_samp_idx = idx_to_use;
+
+    this->field_30_sQueueSample.field_18 = 0;
+    return 1;
 }
 
-STUB_FUNC(0x4130E0)
+MATCH_FUNC(0x4130E0)
 char_type sound_obj::Type6_7_4130E0(Object_2C* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((a2->field_18_model < 200 || a2->field_18_model > 244) && (a2->field_18_model < 64 || a2->field_18_model > 108))
+    {
+        return SelectObjectImpactSound_413120(a2, 7);
+    }
+    Type6_Play_412D90(a2->field_18_model);
+    return 1;
 }
 
 STUB_FUNC(0x413540)

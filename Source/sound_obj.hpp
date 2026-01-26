@@ -24,10 +24,11 @@ class serene_brattain
 struct sound_unknown_0xC
 {
     Fix16 field_0;
-    char_type field_4;
-    char_type field_5;
-    char_type field_6;
-    char_type field_7;
+    u32 field_4;
+    //char_type field_4;
+    //char_type field_5;
+    //char_type field_6;
+    //char_type field_7;
     s16 field_8;
     char_type field_A;
     char_type field_B;
@@ -317,7 +318,7 @@ class sound_obj
     EXPORT void sub_418C80(s32 a2);
     EXPORT void ProcessType10_Vocals_418CA0();
     EXPORT char_type CalculateDistance_419020(Fix16 new_dist);
-    EXPORT bool VolCalc_419070(s32 a2, s32 a3, char_type a4);
+    EXPORT bool VolCalc_419070(s32 a2, Fix16 a3, char_type a4);
     EXPORT Fix16 ComputeEmitterDistanceSquared_4190B0();
     EXPORT s32 AddSoundObject_419FA0(infallible_turing* a2);
 
@@ -328,7 +329,7 @@ class sound_obj
     EXPORT void SetCDVol_41A270(u8 cdVol);
     EXPORT char_type Set3DSound_41A2F0(char_type a2);
     EXPORT void ServiceSoundEffects_41A3A0();
-    EXPORT char_type CalcVolume_41A3F0(u8 a1, s32 a2, Fix16 a3);
+    EXPORT char_type CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3);
     EXPORT u8 sub_41A4A0(Fix16 a1, Fix16 a2);
     EXPORT s32 AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 RandomDisplacement_41A650(u32 seed);

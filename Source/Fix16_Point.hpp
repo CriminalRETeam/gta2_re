@@ -144,6 +144,8 @@ public:
     {
         return Fix16_Point(x * in, y * in);
     }
+
+    Ang16 atan2_40ACD0();
 };
 
 struct Fix16_Vec
