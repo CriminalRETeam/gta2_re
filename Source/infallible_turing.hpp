@@ -14,7 +14,7 @@ enum
     Rozza_C88_6 = 6,
     Camera_0xBC_5 = 5,
     Unknown_4 = 4,
-    CopRadioReport_3 = 3,
+    Radio_3 = 3,
     infallible_turing_2 = 2,
     Sprite_1 = 1,
 };

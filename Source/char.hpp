@@ -17,6 +17,9 @@ EXTERN_GLOBAL(Fix16, dword_6FD7F8);
 EXTERN_GLOBAL(Fix16, dword_6FD800);
 EXTERN_GLOBAL(Fix16, dword_6FD7FC);
 
+EXTERN_GLOBAL(Ang16, word_6FD940);
+EXTERN_GLOBAL(Ang16, word_6FD8F8);
+
 class Char_B4
 {
   public:
@@ -167,6 +170,22 @@ class Char_B4
         field_C_ped_state_2 = new_state;
     }
 
+    inline void sub_4923D0()
+    {
+        field_40_rotation.SnapToAng4_405640();
+        field_40_rotation += word_6FD940;
+        field_10 = 9;
+        field_46 = 10;
+    }
+
+    inline void sub_4923A0()
+    {
+        field_40_rotation.SnapToAng4_405640();
+        field_40_rotation += word_6FD8F8;
+        field_10 = 8;
+        field_46 = 10;
+    }
+
     Char_B4();
     ~Char_B4();
 
@@ -201,7 +220,7 @@ class Char_B4
     EXPORT char_type sub_54C500(char_type a2, char_type a3);
     EXPORT void sub_54C580();
     EXPORT s16 sub_54C6C0(s32 a2);
-    EXPORT s16 sub_54C900(s32 a2);
+    EXPORT s16 sub_54C900();
     EXPORT s16 sub_54CAE0();
     EXPORT void sub_54CC40();
     EXPORT void sub_54DD70();
