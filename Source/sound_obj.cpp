@@ -2484,7 +2484,7 @@ void sound_obj::EnqueueRadioLocationPhrase_426E10(u8 xpos, u8 ypos)
     if (ypos > h_half + mid_y)
     {
         sound_obj::EnqueueRadioWord_4271B0(0x75u);
-         bUnknown = 1;
+        bUnknown = 1;
         goto LABEL_9;
     }
 LABEL_9:
@@ -2866,10 +2866,17 @@ void sound_obj::ProcessCar_412B80(Sound_Params_8* pParams)
     }
 }
 
-STUB_FUNC(0x41E820)
+MATCH_FUNC(0x41E820)
 void sound_obj::ProcessObject_41E820(Sound_Params_8* pEntity)
 {
-    NOT_IMPLEMENTED;
+    if (pEntity->field_0_pObj->field_8_object_2C_ptr->field_8->field_34_behavior_type == 12)
+    {
+        sound_obj::ProcessObject_Type12_41E850(pEntity);
+    }
+    else
+    {
+        sound_obj::ProcessOtherObjects_41F520(pEntity);
+    }
 }
 
 STUB_FUNC(0x41E850)
