@@ -88,6 +88,33 @@ class Pool
         return tmp;
     }
 
+    // alloc_append_4254A0
+    PoolType* AllocateAppend()
+    {
+        // Pop from free list
+        PoolType* obj = field_0_pStart;
+        field_0_pStart = obj->mpNext;
+        obj->mpNext = NULL;
+
+        // Append to active list (FIFO style)
+        if (!field_4_pPrev)
+        {
+            field_4_pPrev = obj; // active list was empty
+        }
+        else
+        {
+            PoolType* tail = field_4_pPrev;
+            while (tail->mpNext)
+            {
+                tail = tail->mpNext;
+            }
+            tail->mpNext = obj;
+        }
+
+        obj->PoolAllocate(); // per-object init
+        return obj;
+    }
+
     PoolType* AllocateUntracked()
     {
         PoolType* tmp = this->field_0_pStart;

@@ -94,7 +94,20 @@ class car_info
     BYTE num_doors;
     door_info doors[1]; // [variable � see num_doors];
 
-    bool has_remaps() const { return num_remaps > 1; }
+    bool has_remaps() const
+    {
+        return num_remaps > 1;
+    }
+
+    bool is_0x8_41FEA0() const
+    {
+        return (this->info_flags & 8) == 8;
+    }
+
+    bool is_0x1_41FF00() const
+    {
+        return (this->info_flags_2 & 1) == 1;
+    }
 };
 
 struct car_info_container
@@ -285,7 +298,7 @@ class gtx_0x106C
     }
 
     // inlined v9.6f, 0x420200
-    bool does_car_exist(u8 iParm1)  const
+    bool does_car_exist(u8 iParm1) const
     {
         return field_5C_cari->field_0[iParm1] != NULL;
     }
@@ -339,4 +352,3 @@ EXTERN_GLOBAL(s16, word_703D9C);
 EXTERN_GLOBAL(s16, word_703DA4);
 EXTERN_GLOBAL(s16, word_703C3E);
 EXTERN_GLOBAL(s16, word_703D9A);
-

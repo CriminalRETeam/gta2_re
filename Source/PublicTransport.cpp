@@ -634,7 +634,7 @@ TrainStation_34* PublicTransport_181C::TrainStationForZone_57B4B0(gmp_map_zone* 
 MATCH_FUNC(0x57b540)
 Car_BC* PublicTransport_181C::GetLeadTrainCar_57B540(Car_BC* a2)
 {
-    if (!bSkip_trains_67D550 && a2->is_train_model())
+    if (!bSkip_trains_67D550 && a2->IsTrainModel_403BA0())
     {
         return GetTrainFromCar_57B5C0(a2)->field_C_first_carriage;
     }
@@ -694,7 +694,7 @@ Train_58* PublicTransport_181C::GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* p
 MATCH_FUNC(0x57b740)
 bool PublicTransport_181C::AreCarsInDifferentTrains_57B740(Car_BC* pCar1, Car_BC* pCar2)
 {
-    if (pCar1->is_train_model() && pCar2->is_train_model())
+    if (pCar1->IsTrainModel_403BA0() && pCar2->IsTrainModel_403BA0())
     {
         Train_58* pTrain1 = GetTrainFromCar_57B5C0(pCar1);
         Train_58* pTrain2 = GetTrainFromCar_57B5C0(pCar2);

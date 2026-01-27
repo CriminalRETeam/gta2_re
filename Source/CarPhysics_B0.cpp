@@ -147,7 +147,7 @@ void CarPhysics_B0::set_field_A0_559B90(const s32& a2)
 MATCH_FUNC(0x559ba0)
 void CarPhysics_B0::SpinOutOnOil_559BA0()
 {
-    if (!field_5C_pCar->is_train_model())
+    if (!field_5C_pCar->IsTrainModel_403BA0())
     {
         if (field_A0 != 1 && field_A0 != 2)
         {
@@ -192,7 +192,7 @@ void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
         {
             if (field_5C_pCar->field_54_driver)
             {
-                if (!field_5C_pCar->is_train_model())
+                if (!field_5C_pCar->IsTrainModel_403BA0())
                 {
                     //Fix16 linvel_length = get_car_lin_vel_4754D0();
 
@@ -452,7 +452,7 @@ void CarPhysics_B0::HandleGravityOnSlope_55AA00()
     }
 
     // Trains ignore slope gravity
-    if (field_5C_pCar->is_train_model())
+    if (field_5C_pCar->IsTrainModel_403BA0())
     {
         return;
     }

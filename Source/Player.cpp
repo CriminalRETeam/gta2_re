@@ -1122,7 +1122,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
                 {
                     pPed->sub_463830(0, 9999);
 
-                    if (pCar->is_train_model())
+                    if (pCar->IsTrainModel_403BA0())
                     {
                         pPed->SetObjective(objectives_enum::enter_train_37, 9999);
                     }
@@ -1216,7 +1216,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
     {
         if (pPed->field_248_enter_car_as_passenger != 1)
         {
-            if (pPedCar->is_train_model())
+            if (pPedCar->IsTrainModel_403BA0())
             {
                 Player::DoPedControlInputs_566C80(pPed);
             }
@@ -2439,7 +2439,7 @@ void Player::sub_569F40()
         {
             if (pPed->field_248_enter_car_as_passenger != 1)
             {
-                if (pCar->is_train_model())
+                if (pCar->IsTrainModel_403BA0())
                 {
                     this->field_8 = word_6FE754;
                     this->field_C = dword_6FE610;

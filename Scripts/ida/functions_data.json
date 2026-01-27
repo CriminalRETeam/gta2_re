@@ -1945,12 +1945,12 @@
         "v105_address": "0x440860"
     },
     {
-        "name": "Car_BC::sub_440AC0",
+        "name": "Car_BC::PutWaterCannonOnRoof_440AC0",
         "v96f_address": null,
         "v105_address": "0x440ac0"
     },
     {
-        "name": "Car_BC::sub_440B10",
+        "name": "Car_BC::PutTankCannonOnRoof_440B10",
         "v96f_address": null,
         "v105_address": "0x440b10"
     },
@@ -2330,12 +2330,12 @@
         "v105_address": "0x444090"
     },
     {
-        "name": "Car_BC::sub_4441B0",
+        "name": "Car_BC::SetSirens_4441B0",
         "v96f_address": "0x424700",
         "v105_address": "0x4441b0"
     },
     {
-        "name": "Car_BC::sub_444490",
+        "name": "Car_BC::PoolAllocate",
         "v96f_address": null,
         "v105_address": "0x444490"
     },
