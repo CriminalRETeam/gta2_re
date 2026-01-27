@@ -30,7 +30,7 @@ class Char_B4
     s8 field_7;
     s32 field_8_ped_state_1;
     s32 field_C_ped_state_2;
-    s32 field_10;
+    s32 field_10_char_state;
     Ang16 field_14;
     s8 field_16;
     s8 field_17;
@@ -74,12 +74,12 @@ class Char_B4
     s8 field_5F;
     s32 field_60;
     s32 field_64;
-    u8 field_68;
+    u8 field_68_animation_frame;
     s8 field_69;
     u8 field_6A;
     s8 field_6b;
-    s32 field_6C;
-    s8 field_70;
+    s32 field_6C_animation_state;
+    s8 field_70_frame_timer;
     s8 field_71;
     s8 field_72;
     s8 field_73;
@@ -174,7 +174,7 @@ class Char_B4
     {
         field_40_rotation.SnapToAng4_405640();
         field_40_rotation += word_6FD940;
-        field_10 = 9;
+        field_10_char_state = 9;
         field_46 = 10;
     }
 
@@ -182,7 +182,7 @@ class Char_B4
     {
         field_40_rotation.SnapToAng4_405640();
         field_40_rotation += word_6FD8F8;
-        field_10 = 8;
+        field_10_char_state = 8;
         field_46 = 10;
     }
 
@@ -197,7 +197,7 @@ class Char_B4
     EXPORT bool sub_5451C0();
 
     EXPORT void sub_5454B0();
-    EXPORT void sub_5454D0();
+    EXPORT void DoJump_5454D0();
     EXPORT void sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 IsOnWater_545570();
     EXPORT void sub_5455F0();

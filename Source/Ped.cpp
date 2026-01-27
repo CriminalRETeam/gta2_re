@@ -441,7 +441,8 @@ void Ped::ManageShocking_45BC70()
         {
             if (field_168_game_object)
             {
-                if (field_168_game_object->field_10 != 15 && field_278_ped_state_1 != ped_state_1::immobilized_8)
+                if (field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15 
+                    && field_278_ped_state_1 != ped_state_1::immobilized_8)
                 {
                     ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                     ChangeNextPedState2_45C540(ped_state_2::electrocuted_27);
@@ -809,7 +810,7 @@ MATCH_FUNC(0x45c5c0)
 void Ped::sub_45C5C0()
 {
     if (!this->field_16C_car && this->field_258_objective == 35 && this->field_25C_car_state == 35 &&
-        this->field_168_game_object->field_10 != 15 && this->field_27C_ped_state_2 != ped_state_2::ped2_entering_a_car_6)
+        this->field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15 && this->field_27C_ped_state_2 != ped_state_2::ped2_entering_a_car_6)
     {
         ChangeNextPedState1_45C500(ped_state_1::walking_0);
         ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -1834,7 +1835,7 @@ void Ped::sub_462620()
     }
     else
     {
-        if (field_168_game_object->field_10 == 15)
+        if (field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
         {
             byte_61A8A4 = field_278_ped_state_1 == ped_state_1::entering_car_3;
         }
@@ -1911,7 +1912,7 @@ char_type Ped::StateMachineTick_4626B0()
             }
 
             if (this->field_258_objective == objectives_enum::leave_car_36 &&
-                (this->field_225_objective_status == 1 || this->field_168_game_object->field_10 == 15))
+                (this->field_225_objective_status == 1 || this->field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15))
             {
                 Ped::SetObjective(objectives_enum::no_obj_0, 9999);
                 Ped::sub_463830(0, 9999);
@@ -1919,7 +1920,7 @@ char_type Ped::StateMachineTick_4626B0()
             ++gNumPedsOnScreen_6787EC;
             ++this->field_20e;
             byte_6787C4 = 1;
-            if (this->field_168_game_object->field_10 == 15)
+            if (this->field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
             {
                 byte_61A8A4 = this->field_278_ped_state_1 == ped_state_1::entering_car_3;
             }
@@ -1960,7 +1961,7 @@ char_type Ped::StateMachineTick_4626B0()
                     Ped::sub_463830(0, 9999);
                 }
             }
-            if (this->field_168_game_object->field_10 == 15)
+            if (this->field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
             {
                 this->field_15C_player->field_64 = 1;
             }
@@ -2247,7 +2248,7 @@ bool Ped::PoolUpdate()
     {
         // Ped busted
         Ped::ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
-        Ped::ChangeNextPedState2_45C540(ped_state_2::busted_22); // BUSTED!
+        Ped::ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22); // BUSTED!
         field_168_game_object->field_16 = 1;
     }
 
@@ -2324,7 +2325,7 @@ bool Ped::PoolUpdate()
                         byte_61A8A3 = 0;
                         Ped::ProcessObjective_4632E0();
                     }
-                    if (field_168_game_object->field_10 == 15)
+                    if (field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
                     {
                         if (field_278_ped_state_1 > 0 && field_278_ped_state_1 <= 7) // not walking neither dead/immobilized
                         {
@@ -2925,7 +2926,7 @@ void Ped::Threat_Reaction_AI_465270()
                     LABEL_157:
                         if (this->field_14C != this->field_148_objective_target_ped)
                         {
-                            if (this->field_168_game_object->field_10 != 15)
+                            if (this->field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15)
                             {
                                 this->field_0_patrol_points[0].field_0 = 0;
                                 this->field_0_patrol_points[0].field_1 = 0;
@@ -3232,11 +3233,11 @@ Sprite* Ped::sub_467280()
 {
     this->field_168_game_object->field_8_ped_state_1 = 0;
     this->field_168_game_object->field_C_ped_state_2 = 0;
-    this->field_168_game_object->field_10 = 1;
+    this->field_168_game_object->field_10_char_state = 1;
 
     Char_B4* pB4 = this->field_168_game_object;
-    pB4->field_6C = 0;
-    pB4->field_68 = 0;
+    pB4->field_6C_animation_state = 0;
+    pB4->field_68_animation_frame = 0;
 
     this->field_216_health = 50;
     return gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 2);
@@ -4040,7 +4041,7 @@ void Ped::GotoAreaOnFoot_468DE0()
     {
         if (gDistanceToTarget_678750 < dword_678788)
         {
-            if (field_168_game_object->field_10 != 15)
+            if (field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15)
             {
                 // ped reached its destination
                 Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
@@ -4120,7 +4121,7 @@ void Ped::sub_469D60()
     {
         if (gDistanceToTarget_678750 <= dword_6784DC && field_1AC_cam.z.ToUInt8() == field_1E4_objective_target_z.ToUInt8())
         {
-            if (field_168_game_object->field_10 != 15)
+            if (field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15)
             {
                 Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
@@ -4621,7 +4622,7 @@ void Ped::sub_46C7E0()
     {
         if (gDistanceToTarget_678750 < dword_6784E8)
         {
-            if (field_168_game_object->field_10 != 15)
+            if (field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15)
             {
                 Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
