@@ -2369,10 +2369,62 @@ void Char_B4::state_1_5519F0()
     Char_B4::state_1_5504F0();
 }
 
-STUB_FUNC(0x551A00)
+MATCH_FUNC(0x551A00)
 void Char_B4::state_3_551A00()
 {
-    NOT_IMPLEMENTED;
+    if (field_C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
+    {
+        field_58_flags_bf.b7 = false;
+        Char_B4::state_1_5504F0();
+        if (!field_7C_pPed->GetBit11_433CA0() && field_10 != 15)
+        {
+            if (field_38_velocity > gCollisionRepulsionSpeed_6FD7BC)
+            {
+                field_6C = 1;
+            }
+            else
+            {
+                if (field_38_velocity != k_dword_6FD7C0)
+                {
+                    field_6C = 0;
+                }
+                else
+                {
+                    field_6C = 2;
+                    if (field_84)
+                    {
+                        field_40_rotation = field_84->field_50_car_sprite->field_0;
+                    }
+                }
+            }
+        }
+    }
+    else if (field_C_ped_state_2 == ped_state_2::ped2_entering_a_car_6)
+    {
+        field_10 = 36;
+        Sprite* nearestSprt = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_80_sprite_ptr, 0);
+        if (!nearestSprt || nearestSprt->field_30_sprite_type_enum != sprite_types_enum::car ||
+            (nearestSprt->field_8_car_bc_ptr == field_7C_pPed->get_target_to_enter_403B10()) ||
+            nearestSprt->field_8_car_bc_ptr->is_on_trailer_421720() || field_7C_pPed->sub_45BD20(nearestSprt->field_8_car_bc_ptr))
+        {
+            if (field_6C != 6)
+            {
+                // TODO: remove Ang16 operator=(const Ang16& other) without breaking Player::DoPedControlInputs_566C80
+                field_40_rotation.rValue = field_84->field_50_car_sprite->field_0.rValue;
+                field_6C = 6;
+                field_68 = 0;
+                if (field_84->sub_43B540(field_7C_pPed->get_target_car_door_403A60()))
+                {
+                    field_58_flags_bf.b4 = true;
+                }
+                else
+                {
+                    field_58_flags_bf.b4 = false;
+                }
+                field_70 = 0;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x551B30)
