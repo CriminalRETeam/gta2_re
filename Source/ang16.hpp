@@ -45,6 +45,7 @@ class Ang16
         return *this;
     }
 
+    // TODO: this shouldn't exist, try to match Player::DoPedControlInputs_566C80 without it
     Ang16 operator=(const Ang16& other)
     {
         rValue = other.rValue;
