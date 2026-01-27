@@ -462,8 +462,8 @@ class Car_BC
     EXPORT void sub_4406E0(Ped* a2);
     EXPORT void ClearDriver_4407F0();
     EXPORT Sprite* GetSprite_440840();
-    EXPORT void sub_440AC0();
-    EXPORT void sub_440B10();
+    EXPORT void PutWaterCannonOnRoof_440AC0();
+    EXPORT void PutTankCannonOnRoof_440B10();
     EXPORT void PutMachineGunOnRoof_440B60();
     EXPORT void PutTV_Antenna_440BB0();
     EXPORT char_type RotateRoofObjectTowardTarget_440C10(Ang16 a2);
@@ -542,8 +542,8 @@ class Car_BC
     EXPORT void sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5);
     EXPORT void sub_444020();
     EXPORT u32 GetEffectiveDriverPedId_444090();
-    EXPORT void sub_4441B0();
-    EXPORT void sub_444490();
+    EXPORT void SetSirens_4441B0();
+    EXPORT void PoolAllocate();
     EXPORT void sub_4446E0();
     EXPORT void PoolDeallocate();
 
@@ -621,7 +621,7 @@ class Car_BC
                 && (car_z_pos = pSprite->field_1C_zpos, car_z_pos.ToUInt8() == pos->field_8_z.ToUInt8()));
     }
 
-    bool is_train_model()
+    bool IsTrainModel_403BA0()
     {
         return field_84_car_info_idx == car_model_enum::TRAIN || field_84_car_info_idx == car_model_enum::TRAINCAB ||
             field_84_car_info_idx == car_model_enum::TRAINFB || field_84_car_info_idx == car_model_enum::boxcar;
@@ -678,6 +678,36 @@ class Car_BC
     inline bool inline_check_0x80_info_4216A0()
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x80) == 0x80;
+    }
+
+    void set_damage_bit15_421810()
+    {
+        field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+    }
+
+    void add_f78_bits_421890(u16 bits)
+    {
+        this->field_78_flags |= bits;
+    }
+
+    void set_f78_0x100_4218C0()
+    {
+        Car_BC::add_f78_bits_421890(0x100);
+    }
+
+    void set_f78_0x400_4218D0()
+    {
+        Car_BC::add_f78_bits_421890(0x400);
+    }
+
+    void set_f78_0x8_4218A0()
+    {
+        Car_BC::add_f78_bits_421890(8);
+    }
+
+    void set_f78_0x40_4218B0()
+    {
+        Car_BC::add_f78_bits_421890(0x40);
     }
 
     // 9.6f inline 0x425650
@@ -817,6 +847,16 @@ class Car_BC
     bool is_FBI_car_411920()
     {
         return field_84_car_info_idx == car_model_enum::EDSELFBI;
+    }
+
+    bool IsGt24640_4217D0()
+    {
+        return field_84_car_info_idx == car_model_enum::GT24640;
+    }
+
+    bool IsTvVan_4217E0()
+    {
+        return this->field_84_car_info_idx == car_model_enum::TVVAN;
     }
 
     bool sub_4215C0()

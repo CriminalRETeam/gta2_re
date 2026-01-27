@@ -262,7 +262,7 @@ bool Sprite::sub_59E390(s32 a2, s32 a3, s32 a4)
 }
 
 STUB_FUNC(0x59e4c0)
-s32 Sprite::sub_59E4C0(s32 a2, s32 a3)
+s32 Sprite::sub_59E4C0(Fix16 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -955,7 +955,7 @@ char_type Sprite::ComputeZLayer_5A1BD0()
 {
     if (this->field_39_z_col == -1)
     {
-        if (this->field_30_sprite_type_enum == sprite_types_enum::car && field_8_car_bc_ptr->is_train_model())
+        if (this->field_30_sprite_type_enum == sprite_types_enum::car && field_8_car_bc_ptr->IsTrainModel_403BA0())
         {
             this->field_39_z_col = (this->field_1C_zpos - dword_7035C4).ToInt();
         }

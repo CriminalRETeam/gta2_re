@@ -908,7 +908,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         v115 = field_54;
                     LABEL_235:
-                        field_80_sprite_ptr->sub_59E4C0((k_dword_6FD9E8 + ((dword_6FD9A8 * v115))).ToInt(), 0);
+                        field_80_sprite_ptr->sub_59E4C0((k_dword_6FD9E8 + ((dword_6FD9A8 * v115))), 0);
                         return;
                     }
                     if (field_54 < 24)

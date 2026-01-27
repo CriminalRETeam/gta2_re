@@ -3905,7 +3905,7 @@ void Ped::LeaveTrain_468A00()
             {
                 if (field_226 == 1)
                 {
-                    if (field_150_target_objective_car->is_train_model())
+                    if (field_150_target_objective_car->IsTrainModel_403BA0())
                     {
                         if (field_238 != 2)
                         {

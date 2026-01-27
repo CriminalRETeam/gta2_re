@@ -59,7 +59,7 @@ char_type FirefighterPool_54::sub_4A8820(Car_BC* pCar)
         return 0;
     }
 
-    if (pCar->is_train_model())
+    if (pCar->IsTrainModel_403BA0())
     {
         return 0;
     }

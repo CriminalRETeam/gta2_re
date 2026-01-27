@@ -36,6 +36,10 @@
 #include "text_0x14.hpp"
 #include "winmain.hpp"
 
+// TODO: Its in FrontEnd by seems crazy to include the whole file just for this
+EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);
+
+
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
 DEFINE_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C, 0x67792C);
@@ -67,10 +71,12 @@ DEFINE_GLOBAL(char_type, gbRngRemapTableDone_679C0A, 0x679C0A);
 // It can probably turned into a static variable inside Car_2
 DEFINE_GLOBAL_ARRAY(u16, gRngRemapTable_679320, 1000, 0x679320);
 DEFINE_GLOBAL(Fix16, dword_6777D0, 0x6777D0);
+DEFINE_GLOBAL(Fix16, dword_6772D0, 0x6772D0);
+DEFINE_GLOBAL(Fix16, dword_6771FC, 0x6771FC);
 DEFINE_GLOBAL(s32, dword_677888, 0x677888);
 DEFINE_GLOBAL(Fix16, dword_6778D0, 0x6778D0);
-DEFINE_GLOBAL(Fix16, DAT_006FF744, 0x006FF744); //, 0x147, 0xUNKNOWN);
-DEFINE_GLOBAL(Fix16, DAT_006FF774, 0x006FF774); //, 0x0, 0xUNKNOWN);
+DEFINE_GLOBAL(Fix16, DAT_006FF744, 0x006FF744);
+DEFINE_GLOBAL(Fix16, DAT_006FF774, 0x006FF774);
 DEFINE_GLOBAL(Fix16, DAT_006FF570, 0x6FF570);
 DEFINE_GLOBAL(Fix16, DAT_006FF7E8, 0x6FF7E8);
 DEFINE_GLOBAL(s8, DAT_006FF8C4, 0x6FF8C4);
@@ -582,12 +588,126 @@ Car_BC* Car_6C::sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x446230)
+// https://decomp.me/scratch/HFGKH
+WIP_FUNC(0x446230)
 Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale)
 {
-    NOT_IMPLEMENTED;
-    // TODO: Standalone implement me
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (gCheatMiniCars_67D6C8)
+    {
+        if (maybe_w_scale == dword_6777D0)
+        {
+            maybe_w_scale = dword_6772D0;
+        }
+    }
+
+    car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(car_info_idx);
+
+    Car_BC* pCar; // esi
+    if (pCarInfo->is_0x8_41FEA0())
+    {
+        // https://decomp.me/scratch/evRsU
+        pCar = gCar_BC_Pool_67792C->field_0_pool.AllocateAppend();
+    }
+    else if (pCarInfo->is_0x1_41FF00())
+    {
+        pCar = gCar_BC_Pool_67792C->field_0_pool.AllocateAppend();
+    }
+    else
+    {
+        pCar = gCar_BC_Pool_67792C->field_0_pool.Allocate();
+    }
+
+    //pCar->PoolAllocate(); // PoolAllocate
+
+    pCar->field_84_car_info_idx = car_info_idx;
+    pCar->field_88 = 1;
+
+    pCar->field_50_car_sprite = gSprite_Pool_703818->get_new_sprite();
+    pCar->field_50_car_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
+
+    // Sprite* pCarSprite = pNewSprite;
+    gMap_0x370_6F6268->UpdateZFromSlopeAtCoord_4E5BF0(pCar->field_50_car_sprite->field_14_xy.x,
+                                                      pCar->field_50_car_sprite->field_14_xy.y,
+                                                      pCar->field_50_car_sprite->field_1C_zpos);
+    pCar->field_50_car_sprite->set_ang_lazy_420690(rotation);
+    pCar->field_50_car_sprite->SetType_4206F0(sprite_types_enum::car);
+    pCar->field_50_car_sprite->set_id_lazy_4206C0(pCarInfo->sprite);
+    pCar->field_50_car_sprite->Set_Car_420710(pCar);
+    pCar->field_50_car_sprite->AllocInternal_59F950(dword_6F6850.list[pCarInfo->w], dword_6F6850.list[pCarInfo->h], dword_6771FC);
+
+    pCar->field_68 = maybe_w_scale; // 19b
+
+    if (maybe_w_scale != dword_6777D0)
+    {
+        pCar->field_50_car_sprite->sub_59E4C0(maybe_w_scale, 1);
+    }
+
+    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pCar->field_50_car_sprite);
+
+    pCar->sub_4435A0();
+
+    pCar->field_5C = 0;
+    pCar->field_64_pTrailer = 0;
+
+    if (pCar->inline_check_0x40_info_421680() && !pCar->IsGt24640_4217D0())
+    {
+        pCar->set_damage_bit15_421810();
+    }
+
+    if (pCar->IsCopCar_421790())
+    {
+        pCar->add_f78_bits_421890(0x0800);
+    }
+    else if (pCar->IsFireTruck_4118F0())
+    {
+        pCar->PutWaterCannonOnRoof_440AC0();
+        gWeapon_8_707018->allocate_5E3D50(20, 50u, pCar);
+
+        // shared flag set
+        pCar->add_f78_bits_421890(0x0800);
+    }
+    else if (pCar->IsTank_411900())
+    {
+        pCar->add_f78_bits_421890(0x0800);
+        pCar->PutTankCannonOnRoof_440B10();
+        //        pCar->field_78_flags |= 0x0508u;
+        pCar->set_f78_0x100_4218C0();
+        pCar->set_f78_0x400_4218D0();
+        pCar->set_f78_0x8_4218A0();
+        gWeapon_8_707018->allocate_5E3D50(19, 20u, pCar);
+    }
+    else if (pCar->IsGunJeep_411910())
+    {
+        pCar->PutMachineGunOnRoof_440B60();
+        gWeapon_8_707018->allocate_5E3D50(22, 20u, pCar);
+    }
+    else if (pCar->IsTvVan_4217E0())
+    {
+        pCar->PutTV_Antenna_440BB0();
+    }
+    else if (pCar->IsTrainModel_403BA0())
+    {
+        pCar->add_f78_bits_421890(2);
+        pCar->set_f78_0x40_4218B0();
+    }
+    else if (pCar->IsGt24640_4217D0())
+    {
+        pCar->sub_43CDF0((gRngRemapTable_679320[this->field_0.field_0] % 11));
+    }
+    else if (pCar->is_FBI_car_411920())
+    {
+        pCar->field_50_car_sprite->SetRemap(2);
+
+        // shared flag set
+        pCar->add_f78_bits_421890(0x0800);
+    }
+
+    pCar->SetSirens_4441B0();
+    pCar->sub_4435F0();
+    pCar->field_50_car_sprite->CreateSoundObj_5A29D0();
+    return pCar;
 }
 
 STUB_FUNC(0x446530)
@@ -1040,7 +1160,7 @@ Ang16 Car_BC::GetOrientationAngle_43A3E0()
 MATCH_FUNC(0x43a450)
 Fix16_Point Car_BC::get_linvel_43A450()
 {
-    if (is_train_model())
+    if (IsTrainModel_403BA0())
     {
         Car_BC* carObj = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(this);
         if (!carObj->field_58_physics)
@@ -1113,7 +1233,7 @@ void Car_BC::RemoveAllDamage()
 MATCH_FUNC(0x43a680)
 bool Car_BC::AllowResprayOrPlates()
 {
-    return (!is_train_model() && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 2) != 2 &&
+    return (!IsTrainModel_403BA0() && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 2) != 2 &&
             !is_FBI_car_411920() && !field_0_qq.sub_5A71A0() && !IsArmyModel(field_84_car_info_idx));
 }
 
@@ -1177,7 +1297,7 @@ char_type Car_BC::sub_43A850()
 {
     if (field_54_driver && !field_54_driver->IsField238_45EDE0(2))
     {
-        if (!is_train_model())
+        if (!IsTrainModel_403BA0())
         {
             if (field_60 && field_60->field_22 != 0)
             {
@@ -1629,7 +1749,7 @@ void Car_BC::SetupCarPhysicsAndSpriteBinding_43BC30()
     }
     else
     {
-        if (is_train_model())
+        if (IsTrainModel_403BA0())
         {
             field_58_physics->SetSprite_563560(this->field_50_car_sprite);
         }
@@ -2437,7 +2557,7 @@ Sprite* Car_BC::GetSprite_440840()
 }
 
 MATCH_FUNC(0x440ac0)
-void Car_BC::sub_440AC0()
+void Car_BC::PutWaterCannonOnRoof_440AC0()
 {
     Object_2C* p2C =
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::moving_collect_18_114, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
@@ -2445,7 +2565,7 @@ void Car_BC::sub_440AC0()
 }
 
 MATCH_FUNC(0x440b10)
-void Car_BC::sub_440B10()
+void Car_BC::PutTankCannonOnRoof_440B10()
 {
     Object_2C* p2C =
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::small_brown_skid_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
@@ -2713,7 +2833,7 @@ void Car_BC::sub_4416D0(s32 a2)
     {
         if (!this->field_A8)
         {
-            if (!is_train_model() && field_84_car_info_idx != car_model_enum::TANK && (this->field_6C_maybe_id & 7) == 0)
+            if (!IsTrainModel_403BA0() && field_84_car_info_idx != car_model_enum::TANK && (this->field_6C_maybe_id & 7) == 0)
             {
                 if (a2 == 2)
                 {
@@ -2739,7 +2859,7 @@ void Car_BC::sub_4416D0(s32 a2)
         {
             if (field_84_car_info_idx == car_model_enum::FIRETRUK || field_84_car_info_idx == car_model_enum::COPCAR ||
                 field_84_car_info_idx == car_model_enum::MEDICAR || field_84_car_info_idx == car_model_enum::SWATVAN ||
-                field_84_car_info_idx == car_model_enum::TANK || is_FBI_car_411920() || is_train_model() ||
+                field_84_car_info_idx == car_model_enum::TANK || is_FBI_car_411920() || IsTrainModel_403BA0() ||
                 (this->field_6C_maybe_id & 3) == 0)
             {
                 this->field_A7_horn = 45;
@@ -3097,7 +3217,7 @@ bool Car_BC::sub_442200()
         return field_74_damage == 32001 ? true : false;
     }
 
-    if (!is_train_model() && !gGame_0x40_67E008->sub_4B9C10(this) && !Car_BC::sub_4421B0())
+    if (!IsTrainModel_403BA0() && !gGame_0x40_67E008->sub_4B9C10(this) && !Car_BC::sub_4421B0())
     {
         if (field_7C_uni_num != 4 && (field_7C_uni_num != 6 || !field_54_driver))
         {
@@ -3119,7 +3239,7 @@ void Car_BC::sub_442310()
         return;
     }
 
-    if (is_train_model())
+    if (IsTrainModel_403BA0())
     {
         if (sub_43B730())
         {
@@ -3338,7 +3458,7 @@ char_type Car_BC::PoolUpdate()
         return TrailerUpdate_443130();
     }
 
-    if (is_train_model())
+    if (IsTrainModel_403BA0())
     {
         return sub_442D70();
     }
@@ -3847,7 +3967,7 @@ u32 Car_BC::GetEffectiveDriverPedId_444090()
 OBS: it is not a switch case :)
 */
 MATCH_FUNC(0x4441b0)
-void Car_BC::sub_4441B0()
+void Car_BC::SetSirens_4441B0()
 {
     // car sirens?
     s32 idx = this->field_84_car_info_idx;
@@ -3884,7 +4004,7 @@ void Car_BC::sub_4441B0()
 }
 
 MATCH_FUNC(0x444490)
-void Car_BC::sub_444490()
+void Car_BC::PoolAllocate()
 {
     this->field_6C_maybe_id = gCar_6C_677930->field_14++;
     this->field_74_damage = 0;

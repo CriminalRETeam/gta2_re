@@ -90,7 +90,7 @@ class Sprite
     EXPORT void sub_59E300();
     EXPORT void sub_59E320(char_type a2);
     EXPORT bool sub_59E390(s32 a2, s32 a3, s32 a4);
-    EXPORT s32 sub_59E4C0(s32 a2, s32 a3);
+    EXPORT s32 sub_59E4C0(Fix16 a2, s32 a3);
     EXPORT char_type CollisionCheck_59E590(Sprite* a2);
     EXPORT char_type sub_59E680(s32 a2, s16* a3);
     EXPORT void ResetZCollisionAndDebugBoxes_59E7B0();
@@ -274,6 +274,17 @@ class Sprite
         class Object_5C* field_C_o5c;
     };
     infallible_turing* field_10_sound;
+
+    void SetType_4206F0(s32 sprite_type)
+    {
+        field_30_sprite_type_enum = sprite_type;
+        sub_59E960(); // Update field_28
+    }
+
+    void Set_Car_420710(Car_BC* pCar)
+    {
+        this->field_8_car_bc_ptr = pCar;
+    }
 
     void set_id_lazy_4206C0(u16 new_id)
     {
