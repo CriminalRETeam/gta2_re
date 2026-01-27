@@ -189,7 +189,7 @@ char_type Ped::Reset_45AFC0()
     field_270 = 1;
     field_12E = word_6787A8;
     field_144 = 0;
-    field_130 = Ang16(0);//-dword_6787A0;
+    field_130 = Ang16(0); //-dword_6787A0;
     field_225_objective_status = 0;
     field_226 = 0;
     field_258_objective = objectives_enum::no_obj_0;
@@ -441,8 +441,8 @@ void Ped::ManageShocking_45BC70()
         {
             if (field_168_game_object)
             {
-                if (field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15 
-                    && field_278_ped_state_1 != ped_state_1::immobilized_8)
+                if (field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15 &&
+                    field_278_ped_state_1 != ped_state_1::immobilized_8)
                 {
                     ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                     ChangeNextPedState2_45C540(ped_state_2::electrocuted_27);
@@ -810,7 +810,8 @@ MATCH_FUNC(0x45c5c0)
 void Ped::sub_45C5C0()
 {
     if (!this->field_16C_car && this->field_258_objective == 35 && this->field_25C_car_state == 35 &&
-        this->field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15 && this->field_27C_ped_state_2 != ped_state_2::ped2_entering_a_car_6)
+        this->field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15 &&
+        this->field_27C_ped_state_2 != ped_state_2::ped2_entering_a_car_6)
     {
         ChangeNextPedState1_45C500(ped_state_1::walking_0);
         ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -1483,11 +1484,40 @@ void Ped::sub_461290()
     }
 }
 
-STUB_FUNC(0x461530)
-char_type Ped::sub_461530()
+MATCH_FUNC(0x461530)
+void Ped::sub_461530()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_25C_car_state == 2 && this->field_226 == 1)
+    {
+        sub_463830(0, 9999);
+    }
+
+    switch (field_25C_car_state)
+    {
+        case 37:
+            if (field_154_target_to_enter->GetVelocity_43A4C0() != k_dword_678660)
+            {
+                this->field_238 = 3;
+                sub_45EE00(3);
+                sub_463830(0, 9999);
+                SetObjective(objectives_enum::no_obj_0, 9999);
+                this->field_1B8_target_x = this->field_1AC_cam.x;
+                this->field_1BC_target_y = this->field_1AC_cam.y;
+            }
+            break;
+
+        case 38:
+            if (this->field_226)
+            {
+                this->field_238 = 3;
+                sub_45EE00(3);
+                sub_463830(0, 9999);
+                SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
+                this->field_1B8_target_x = this->field_1AC_cam.x;
+                this->field_1BC_target_y = this->field_1AC_cam.y;
+            }
+            break;
+    }
 }
 
 STUB_FUNC(0x461630)

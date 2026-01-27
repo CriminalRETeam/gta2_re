@@ -90,7 +90,7 @@ class Ped
     EXPORT void CarThief_AI_45FF60();
     EXPORT void sub_460820();
     EXPORT void sub_461290();
-    EXPORT char_type sub_461530();
+    EXPORT void sub_461530();
     EXPORT void sub_461630();
     EXPORT char_type RoadBlockTank_AI_4619F0();
     EXPORT void UpdateFacingAngle_461A60();
