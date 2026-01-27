@@ -1022,7 +1022,6 @@ bool Car_BC::IsCarInAir_43A3C0()
     return field_58_physics->field_98_surface_type == 6; // 6 = air surface (or no surface)
 }
 
-
 WIP_FUNC(0x43a3e0)
 Ang16 Car_BC::GetOrientationAngle_43A3E0()
 {
@@ -1031,14 +1030,12 @@ Ang16 Car_BC::GetOrientationAngle_43A3E0()
     if (!field_58_physics)
     {
         return field_50_car_sprite->field_0;
-
     }
     else
     {
         return Fix16::atan2_fixed_405320(field_58_physics->field_40_linvel_1.y, field_58_physics->field_40_linvel_1.x);
     }
 }
-
 
 MATCH_FUNC(0x43a450)
 Fix16_Point Car_BC::get_linvel_43A450()
@@ -1813,11 +1810,25 @@ s32 Car_BC::sub_43C500()
     return 0;
 }
 
-STUB_FUNC(0x43c650)
-s32 Car_BC::sub_43C650()
+MATCH_FUNC(0x43c650)
+void Car_BC::sub_43C650()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomRightRoofLight_16);
+
+    Object_2C* pObj1 = field_0_qq.FindObject2CByModel_5A6A90(165);
+    if (pObj1)
+    {
+        pObj1->Light_527990();
+    }
+
+    if (field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::FIRETRUK)
+    {
+        Object_2C* pObj2 = field_0_qq.FindObject2CByModel_5A6A90(172);
+        if (pObj2)
+        {
+            pObj2->Light_527990();
+        }
+    }
 }
 
 STUB_FUNC(0x43c700)
