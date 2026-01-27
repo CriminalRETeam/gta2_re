@@ -107,7 +107,7 @@ class Ped
     EXPORT void ProcessObjective_4632E0();
     EXPORT void sub_463300(u8 a1);
     EXPORT s32 sub_4633E0(char_type a2);
-    EXPORT char_type SetObjective(s32 a2, s16 a3);
+    EXPORT void SetObjective(s32 objective, s16 objective_timer);
     EXPORT void sub_463830(s32 a2, s16 a3);
     EXPORT void ProcessOnFootObjective_463AA0();
     EXPORT void ProcessInCarObjective_463FB0();
@@ -629,7 +629,7 @@ class Ped
     char_type field_262;
     char_type field_263;
     u8 field_264;
-    char_type field_265;
+    u8 field_265;
     char_type field_266;
     u8 field_267_varrok_idx;
     char_type field_268;

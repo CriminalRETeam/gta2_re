@@ -30,6 +30,7 @@
 #include "rng.hpp"
 #include "sprite.hpp"
 #include "youthful_einstein.hpp"
+#include "Ambulance_110.hpp"
 
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
@@ -2468,11 +2469,137 @@ s32 Ped::sub_4633E0(char_type a2)
     return 0;
 }
 
-STUB_FUNC(0x463570)
-char_type Ped::SetObjective(s32 a2, s16 a3)
+WIP_FUNC(0x463570)
+void Ped::SetObjective(s32 objective, s16 objective_timer)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Marz_96* pMarz_96; // eax
+
+    if (this->field_278_ped_state_1 != 9 || objective == objectives_enum::objective_28)
+    {
+        this->field_258_objective = objective;
+        this->field_218_objective_timer = objective_timer;
+        this->field_1B8_target_x = Fix16(-16384, 0);
+        this->field_1BC_target_y = Fix16(-16384, 0);
+        this->field_1C0_target_z = Fix16(-16384, 0);
+        this->field_1DC_objective_target_x = k_dword_678660;
+        this->field_1E0_objective_target_y = k_dword_678660;
+        this->field_148_objective_target_ped = 0;
+        this->field_150_target_objective_car = 0;
+        this->field_1A0_objective_target_object = NULL;
+        this->field_225_objective_status = 0;
+
+        //new_flags = this->field_21C & ~0x400004u;
+        //this->field_21C = new_flags;
+
+        // TODO: Not sure if this is correct
+        field_21C_bf.b2 = false;
+        field_21C_bf.b22 = false;
+
+        // TODO: Switch case ordering is wrong
+        switch (objective)
+        {
+            case 0:
+                sub_463300(field_16C_car != 0 ? 5 : 1);
+                break;
+
+            case 1:
+            case 2:
+            case 3:
+                sub_463300(2u);
+                break;
+
+            case 8:
+            case 51:
+                sub_463300(1u);
+                break;
+
+            case 12:
+            case 16:
+            case 32:
+            case 56:
+                sub_463830(0, 9999);
+                sub_463300(3u);
+                break;
+
+            case 14:
+            case 27:
+            case 31:
+            case 43:
+            case 52:
+            case 54:
+            case 55:
+            case 57:
+            case 60:
+            case 61:
+                sub_463300(5u);
+                break;
+
+            case 20:
+            case 23:
+            case 58:
+            case 59:
+                sub_463830(0, 9999);
+                sub_463300(3u);
+                break;
+
+            case 22:
+                sub_463300(3u);
+                break;
+
+            case 24:
+            case 25:
+            case 26:
+                this->field_1E4_objective_target_z = this->field_1AC_cam.z;
+                this->field_1DC_objective_target_x = this->field_1AC_cam.x;
+                this->field_1E0_objective_target_y = this->field_1AC_cam.y;
+                sub_463300(4u);
+                break;
+
+            case 28:
+                if (gAmbulance_110_6F70A8->TryAddPatient_4FA470(this))
+                {
+                   sub_463300(99u);
+                }
+                else
+                {
+                    this->field_258_objective = objectives_enum::no_obj_0;
+                }
+                break;
+
+            case 35:
+            case 37:
+                sub_463300(6u);
+                break;
+
+            case 36:
+            case 38:
+                sub_463300(field_168_game_object != 0 ? 1 : 7);
+                break;
+
+            case 42:
+                pMarz_96 = gMarz_1D7E_6FD784->sub_543F10(&field_265);
+                field_190 = pMarz_96;
+                while (pMarz_96->field_0[0].field_0)
+                {
+                    pMarz_96->field_0[0].field_0 = 0;
+                    pMarz_96++;
+                }
+                sub_463300(99u);
+                break;
+
+            case 50:
+                ChangeNextPedState1_45C500(9);
+                ChangeNextPedState2_45C540(15);
+                sub_463300(99u);
+                break;
+
+            default:
+                sub_463300(99u);
+                break;
+        }
+    }
 }
 
 STUB_FUNC(0x463830)
