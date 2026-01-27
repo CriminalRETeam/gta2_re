@@ -507,6 +507,11 @@ class Ped
         return field_258_objective;
     }
 
+    inline Car_BC* get_target_to_enter_403B10()
+    {
+        return field_154_target_to_enter;
+    }
+
     Marz_3 field_0_patrol_points[100];
     Ang16 field_12C;
     Ang16 field_12E;

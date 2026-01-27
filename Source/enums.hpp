@@ -441,7 +441,7 @@ enum
     falling_19 = 19,
     sinking_20 = 20,
     Unknown_21 = 21,
-    busted_22 = 22,
+    lying_on_floor_22 = 22,
     Unknown_23 = 23,
     Unknown_24 = 24,
     Unknown_25 = 25,
@@ -468,6 +468,56 @@ enum
 };
 // static_assert(sizeof(ped_type_enum) == 0x4);
 } // namespace ped_type_enum
+
+namespace Char_B4_state
+{
+enum
+{
+    Unknown_0 = 0,
+    Unknown_1 = 1,
+    Unknown_2 = 2,
+    Unknown_3 = 3,
+    Unknown_4 = 4,
+    Unknown_5 = 5,
+    Unknown_6 = 6,
+    Unknown_7 = 7,
+    Unknown_8 = 8,
+    Unknown_9 = 9,
+    Unknown_10 = 10,
+    Unknown_11 = 11,
+    Unknown_12 = 12,
+    Unknown_13 = 13,
+    Unknown_14 = 14,
+    Jumping_15 = 15,
+    Colliding_With_Car_27 = 27,
+    Smoking_35 = 35,
+    Interacting_Car_Door_36 = 36,
+};
+// static_assert(sizeof(ped_state_2) == 0x4);
+} // namespace ped_state_2
+
+namespace Char_Anim_state
+{
+enum
+{
+    Unknown_0 = 0,
+    Unknown_1 = 1,
+    Unknown_2 = 2,
+    Unknown_3 = 3,
+    Unknown_4 = 4,
+    Jumping_5 = 5,
+    Entering_Car_6 = 6,
+    Exiting_Car_7 = 7,
+    Getting_pulled_out_of_car_8 = 8,
+    Unknown_9 = 9,
+    Unknown_10 = 10,
+    Normal_Fall_11 = 11,
+    Letal_Fall_12 = 12,
+    Unknown_13 = 13,
+    Unknown_14 = 14,
+};
+// static_assert(sizeof(ped_state_2) == 0x4);
+} // namespace ped_state_2
 
 namespace spec_surface_type_enum
 {

@@ -3330,7 +3330,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_STUNNED_50C3B0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     Ped* pPed = pPointer->field_8_char;
 
-    if (pPed->field_27C_ped_state_2 == ped_state_2::busted_22 || pPed->field_216_health <= 25)
+    if (pPed->field_27C_ped_state_2 == ped_state_2::lying_on_floor_22 || pPed->field_216_health <= 25)
     {
         field_8 = true;
     }

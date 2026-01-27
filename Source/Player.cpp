@@ -1257,6 +1257,7 @@ void Player::DoCarControlInputs_566C30(Car_BC* pCar)
                                  bAttackPressed);
 }
 
+// https://decomp.me/scratch/mQMMn TODO: try to match without Ang16 operator=()
 MATCH_FUNC(0x566C80)
 void Player::DoPedControlInputs_566C80(Ped* pPed)
 {
@@ -1352,9 +1353,9 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
         pB4 = pPed->field_168_game_object;
         if (pB4)
         {
-            if (pB4->field_10 != 15 && pPed->field_21C_bf.b27 == 0)
+            if (pB4->field_10_char_state != Char_B4_state::Jumping_15 && pPed->field_21C_bf.b27 == 0)
             {
-                pB4->sub_5454D0(); // jump?
+                pB4->DoJump_5454D0(); // jump?
             }
         }
     }
