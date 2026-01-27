@@ -2312,7 +2312,7 @@ STUB_FUNC(0x54ef60)
 char_type Char_B4::sub_54EF60(char_type a2, char_type a3)
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return true;
 }
 
 STUB_FUNC(0x54fec0)
@@ -2363,10 +2363,10 @@ char_type Char_B4::sub_5516F0()
     return 0;
 }
 
-STUB_FUNC(0x5519F0)
+MATCH_FUNC(0x5519F0)
 void Char_B4::state_1_5519F0()
 {
-    NOT_IMPLEMENTED;
+    Char_B4::state_1_5504F0();
 }
 
 STUB_FUNC(0x551A00)
