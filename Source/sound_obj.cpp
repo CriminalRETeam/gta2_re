@@ -30,7 +30,8 @@ DEFINE_GLOBAL(Fix16, k_dword_66F3F4, 0x66F3F4);
 DEFINE_GLOBAL(u16, word_6757FC, 0x6757FC);
 
 DEFINE_GLOBAL(u8, byte_66F541, 0x66F541);
-
+DEFINE_GLOBAL(u8, gSoundSampleIdx_61A684, 0x61A684);
+DEFINE_GLOBAL(char_type, byte_66F543, 0x66F543);
 
 static inline s32 Min(s32 a, s32 b)
 {
@@ -1648,7 +1649,6 @@ void sound_obj::ProcessType6_Rozza_C88_413760(s32 idx)
     u8 emittingVol; // [esp+13h] [ebp-Dh]
     u8 rozza_idx_; // [esp+14h] [ebp-Ch]
     Fix16 distance; // [esp+18h] [ebp-8h]
-    s32 v14; // [esp+1Ch] [ebp-4h] BYREF
     char_type base_sample; // [esp+24h] [ebp+4h]
 
     rozza_idx = 0;
@@ -3006,10 +3006,98 @@ void sound_obj::HandleAICarEngineSound_418190(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x413D10)
+WIP_FUNC(0x413D10)
 void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pCar; // eax
+    s32 fAC; // ecx
+    bool bMaxDmg; // zf
+    s32 samp_idx; // edx
+    u8 emit_vol; // bl
+    s32 f14_samp_idx; // ecx
+    s32 rate; // edi
+    s32 displacement; // eax
+
+    pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    fAC = pCar->field_AC;
+    bMaxDmg = pCar->field_74_damage == 32001;
+    pCar->field_AC = 0;
+    if (!bMaxDmg && pCar->field_54_driver && a2->field_4_bDrivenByPlayer != 1)
+    {
+        switch (pCar->field_84_car_info_idx)
+        {
+            case car_model_enum::apc:
+            case car_model_enum::COPCAR:
+            case car_model_enum::FIRETRUK:
+            case car_model_enum::GUNJEEP:
+            case car_model_enum::JEEP:
+            case car_model_enum::MEDICAR:
+            case car_model_enum::SWATVAN:
+            case car_model_enum::TANK:
+            case car_model_enum::EDSELFBI:
+                return;
+
+            default:
+                if (fAC <= 0)
+                {
+                    return;
+                }
+
+                // TODO: Prob a switch or something here
+                if (fAC <= 2)
+                {
+                    samp_idx = (this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] & 7) + 257;
+                }
+                else
+                {
+                    if (fAC != 3)
+                    {
+                        return;
+                    }
+                    if (byte_66F543)
+                    {
+                        --byte_66F543;
+                        return;
+                    }
+                    byte_66F543 = 8;
+                    samp_idx = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 7u + 265;
+                }
+
+                this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
+
+                if (CalculateDistance_419020(Fix16(1806336, 0)))
+                {
+                    emit_vol = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 30u + 50;
+                    if (VolCalc_419070(emit_vol, Fix16(172032, 0), a2->field_5_bHasSolidAbove))
+                    {
+                        f14_samp_idx = this->field_30_sQueueSample.field_14_samp_idx;
+                        this->field_30_sQueueSample.field_54 = Fix16(172032, 0);
+                        this->field_30_sQueueSample.field_60_nEmittingVolume = emit_vol;
+                        this->field_30_sQueueSample.field_64_max_distance = 21;
+                        rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(f14_samp_idx);
+                        displacement = RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+                        this->field_30_sQueueSample.field_58_type = 20;
+                        this->field_30_sQueueSample.field_20_rate = displacement + rate;
+                        this->field_30_sQueueSample.field_3C = 0;
+                        this->field_30_sQueueSample.field_4_SampleIndex = gSoundSampleIdx_61A684;
+                        this->field_30_sQueueSample.field_41 = 1;
+                        this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 7;
+                        this->field_30_sQueueSample.field_18 = 0;
+                        this->field_30_sQueueSample.field_34 = 0;
+                        this->field_30_sQueueSample.field_38 = -1;
+                        this->field_30_sQueueSample.field_30 = 1;
+                        AddSampleToRequestedQueue_41A850();
+                        if (++gSoundSampleIdx_61A684 >= 200u)
+                        {
+                            gSoundSampleIdx_61A684 = 100;
+                        }
+                    }
+                }
+                break;
+        }
+    }
 }
 
 STUB_FUNC(0x415570)
