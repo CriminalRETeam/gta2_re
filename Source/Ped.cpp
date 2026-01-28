@@ -59,7 +59,7 @@ DEFINE_GLOBAL(s16, word_6787F2, 0x6787F2);
 DEFINE_GLOBAL(u16, word_6787E0, 0x6787E0);
 DEFINE_GLOBAL(Ped*, dword_6787DC, 0x6787DC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678660, Fix16(0), 0x678660);
-DEFINE_GLOBAL_INIT(Fix16, dword_678438, k_dword_678660, 0x678438);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_678438, k_dword_678660, 0x678438);
 DEFINE_GLOBAL_INIT(Fix16, gDistanceToTarget_678750, k_dword_678660, 0x678750);
 DEFINE_GLOBAL_INIT(Fix16, dword_678678, Fix16(98304, 0), 0x678678);
 DEFINE_GLOBAL_INIT(Fix16, dword_678520, dword_678678, 0x678520);
@@ -5872,7 +5872,7 @@ void Ped::sub_470200(Fix16 a2, Fix16 a3, Fix16 a4)
     {
         Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
         Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
-        field_168_game_object->field_38_velocity = dword_678438;
+        field_168_game_object->field_38_velocity = k_dword_678438;
     }
     else
     {

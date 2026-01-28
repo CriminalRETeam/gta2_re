@@ -1,8 +1,5 @@
 #include "Char_Pool.hpp"
-#include "char.hpp"
 #include "Car_BC.hpp"
-#include "debug.hpp"
-#include "error.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
 #include "Hud.hpp"
@@ -10,6 +7,9 @@
 #include "Ped_List_4.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
+#include "char.hpp"
+#include "debug.hpp"
+#include "error.hpp"
 #include "rng.hpp"
 #include <DINPUT.H>
 
@@ -25,6 +25,11 @@ DEFINE_GLOBAL(u8, unk_6787EE, 0x6787EE);
 DEFINE_GLOBAL(u8, unk_6787EF, 0x6787EF);
 DEFINE_GLOBAL(u8, byte_6787DA, 0x6787DA);
 
+DEFINE_GLOBAL(u8, spawnSideLocked_6787D5, 0x6787D5);
+DEFINE_GLOBAL(u8, spawnCountLimit_6787D6, 0x6787D6);
+DEFINE_GLOBAL(Ang16, cameraFacingAng_678760, 0x678760);
+
+
 EXTERN_GLOBAL(u16, word_6787E0);
 EXTERN_GLOBAL(u8, byte_6787E2);
 EXTERN_GLOBAL(u8, byte_6787E4);
@@ -33,10 +38,12 @@ EXTERN_GLOBAL(u8, byte_6787D8);
 EXTERN_GLOBAL(u8, byte_6787D9);
 EXTERN_GLOBAL(u8, byte_6787D2);
 
+EXTERN_GLOBAL(Fix16, k_dword_678438);
+
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 STUB_FUNC(0x46eb60)
-void PedManager::sub_46EB60(u32* a2)
+void PedManager::SpawnDummies_46EB60(Camera_0xBC *pCam)
 {
     NOT_IMPLEMENTED;
 }
@@ -163,8 +170,8 @@ PedManager::PedManager()
     byte_6787D3 = 0;
     HIWORD(dword_6784EE) = word_6787A8;
     byte_6787D4 = 0;
-    byte_6787D5 = 0;
-    byte_6787D6 = 0;
+    spawnSideLocked_6787D5 = 0;
+    spawnCountLimit_6787D6 = 0;
     byte_6787D7 = 0;
     byte_61A8A0 = 1;
     byte_61A8A1 = 1;
@@ -174,7 +181,7 @@ PedManager::PedManager()
     byte_6787DA = 0;
     gDistanceToTarget_678750 = k_dword_678660;
     dword_6787DC = 0;
-    word_678760 = word_6787A8;
+    cameraFacingAng_678760 = word_6787A8;
     byte_61A8A3 = 1;
     byte_61A8A4 = 1;
     word_6787E0 = 0;
@@ -239,49 +246,49 @@ Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
     return pNewPed;
 }
 
-// https://decomp.me/scratch/6AW5o 
+// https://decomp.me/scratch/6AW5o
 MATCH_FUNC(0x470ba0)
 Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 {
- Ped *pNewPed = gPedPool_6787B8->field_0_pool.Allocate();
-    
-  pNewPed->field_238 = 6;
-  pNewPed->field_240_occupation = ped_ocupation_enum::unknown_19;
-  pNewPed->field_16C_car = pCar;
-  pNewPed->field_168_game_object = 0;
-  pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
-  pNewPed->ChangeNextPedState2_45C540(10);
-  pNewPed->field_248_enter_car_as_passenger = 0;
-  pNewPed->field_24C_target_car_door = 0;
-  pNewPed->field_288_threat_search = threat_search_enum::area_2;
-  pNewPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
-  pNewPed->field_216_health = 100;
-  pNewPed->field_26C_graphic_type = 1;
-    
-  pCar->SetDriver(pNewPed);
-    
-  pNewPed->field_17C_pZone = pGang;
-  pNewPed->field_244_remap = pGang->field_101;
-    
-  if ( pNewPed->field_244_remap == 5 )
-  {
-    s16 constant = 2;
-    if ( !stru_6F6784.get_int_4F7AE0(&constant) )
+    Ped* pNewPed = gPedPool_6787B8->field_0_pool.Allocate();
+
+    pNewPed->field_238 = 6;
+    pNewPed->field_240_occupation = ped_ocupation_enum::unknown_19;
+    pNewPed->field_16C_car = pCar;
+    pNewPed->field_168_game_object = 0;
+    pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
+    pNewPed->ChangeNextPedState2_45C540(10);
+    pNewPed->field_248_enter_car_as_passenger = 0;
+    pNewPed->field_24C_target_car_door = 0;
+    pNewPed->field_288_threat_search = threat_search_enum::area_2;
+    pNewPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
+    pNewPed->field_216_health = 100;
+    pNewPed->field_26C_graphic_type = 1;
+
+    pCar->SetDriver(pNewPed);
+
+    pNewPed->field_17C_pZone = pGang;
+    pNewPed->field_244_remap = pGang->field_101;
+
+    if (pNewPed->field_244_remap == 5)
     {
-      pNewPed->field_244_remap = 6;
+        s16 constant = 2;
+        if (!stru_6F6784.get_int_4F7AE0(&constant))
+        {
+            pNewPed->field_244_remap = 6;
+        }
     }
-  }
-  pNewPed->field_26C_graphic_type = 1;
-  pNewPed->field_22C = 1;
-    
-  pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pZone->GetGangCurrWeapon_4BF0C0());
-  pNewPed->GiveWeapon_46F650(weapon_type::pistol);
-    
-  pNewPed->field_270 = 0;
-  pNewPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
-  pNewPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
-    
-  return pNewPed;
+    pNewPed->field_26C_graphic_type = 1;
+    pNewPed->field_22C = 1;
+
+    pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pZone->GetGangCurrWeapon_4BF0C0());
+    pNewPed->GiveWeapon_46F650(weapon_type::pistol);
+
+    pNewPed->field_270 = 0;
+    pNewPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
+    pNewPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
+
+    return pNewPed;
 }
 
 MATCH_FUNC(0x470cc0)
@@ -384,10 +391,42 @@ Ped* PedManager::PedById(s32 pedId)
     return NULL;
 }
 
-STUB_FUNC(0x470330)
+
+WIP_FUNC(0x470330)
 void PedManager::Dummies_470330()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s16 v1 = gPedManager_6787BC->field_0;
+    if (gPolice_7B8_6FEE40->field_654_wanted_level > 3)
+    {
+        v1 = (u16)v1 >> 1;
+    }
+    if (byte_6787E2 < v1)
+    {
+        for (Camera_0xBC* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->sub_4B9C50())
+        {
+            spawnSideLocked_6787D5 = 0;
+            if (pCam->field_34_ped || pCam->field_38_car)
+            {
+                if (pCam->sub_435A20() > k_dword_678438)
+                {
+                    // TODO: BL register is reused to set these to 1 instead
+                    // of a constant value :)
+                    spawnSideLocked_6787D5 = 1;
+                    cameraFacingAng_678760 = pCam->sub_4358D0();
+                    spawnCountLimit_6787D6 = 1; // Set this to 3 and apart from the wrong constant it matches
+                }
+                else
+                {
+                    spawnCountLimit_6787D6 = 2;
+                }
+
+            }
+            // Use global instance even tho we're already in an instance method :)
+            gPedManager_6787BC->SpawnDummies_46EB60(pCam);
+        }
+    }
 }
 
 MATCH_FUNC(0x471110)

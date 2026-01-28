@@ -149,10 +149,10 @@ void Camera_0xBC::sub_435860(Camera_0xBC* a2)
 }
 
 STUB_FUNC(0x4358D0)
-s16* Camera_0xBC::sub_4358D0(s16* a2)
+Ang16 Camera_0xBC::sub_4358D0()
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return Ang16(0);
 }
 
 MATCH_FUNC(0x435A20)
