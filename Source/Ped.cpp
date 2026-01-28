@@ -35,7 +35,7 @@
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
 DEFINE_GLOBAL_INIT(Ang16, word_6FDB34, Ang16(0), 0x6FDB34);
-DEFINE_GLOBAL_INIT(Ang16, word_6787A8, Ang16(0), 0x6787A8);
+DEFINE_GLOBAL_INIT(Ang16, gDummyPedAng_6787A8, Ang16(0), 0x6787A8);
 DEFINE_GLOBAL_INIT(s32, dword_67866C, 0xC000, 0x67866C); // TODO: Fix16? Static init to, 0xC000, 0xUNKNOWN);
 DEFINE_GLOBAL(s32, gPedId_61A89C, 0x61A89C);
 DEFINE_GLOBAL(u8, gNumberMuggersSpawned_6787CA, 0x6787CA);
@@ -72,8 +72,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6784CC, dword_6784C4 * 2, 0x6784CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, dword_678620, dword_6784C4 / dword_678670, 0x678620);
 DEFINE_GLOBAL_INIT(Fix16, dword_678788, dword_6784C4 * 16, 0x678788);
-DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
-DEFINE_GLOBAL_INIT(Fix16, dword_6785EC, dword_678664, 0x6785EC);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_678664, Fix16(1), 0x678664);
+DEFINE_GLOBAL_INIT(Fix16, dword_6785EC, k_dword_678664, 0x6785EC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678624, Fix16(0xA3, 0), 0x678624);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_67853C, Fix16(0x2000, 0), 0x67853C);
 DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
@@ -83,11 +83,11 @@ DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
 DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct init value
 DEFINE_GLOBAL_INIT(Fix16, dword_6784DC, dword_6784C4 * 6, 0x6784DC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678668, Fix16(2), 0x678668);
-DEFINE_GLOBAL_INIT(Fix16, dword_678618, Fix16(256, 0), 0x678618);
+DEFINE_GLOBAL_INIT(Fix16, gSpawnJitterScale_678618, Fix16(256, 0), 0x678618);
 DEFINE_GLOBAL_INIT(Fix16, dword_678484, Fix16(0x1000, 0), 0x678484);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
-DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
-DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
+DEFINE_GLOBAL(Fix16, gDummyW_678530, 0x678530);
+DEFINE_GLOBAL(Fix16, gDummyZ_67841C, 0x67841C);
 DEFINE_GLOBAL(Object_2C*, dword_678558, 0x678558);
 DEFINE_GLOBAL(u8, byte_6787D3, 0x6787D3);
 DEFINE_GLOBAL(Fix16, k_dword_678504, 0x678504);
@@ -181,14 +181,14 @@ char_type Ped::Reset_45AFC0()
     field_1AC_cam.x = k_dword_678660;
     field_1AC_cam.y = k_dword_678660;
     field_1AC_cam.z = k_dword_678660;
-    field_12C = word_6787A8;
+    field_12C = gDummyPedAng_6787A8;
     field_248_enter_car_as_passenger = 1;
     field_24C_target_car_door = 0;
     field_140 = 0;
     field_22C = 0;
     field_230 = 1;
     field_270 = 1;
-    field_12E = word_6787A8;
+    field_12E = gDummyPedAng_6787A8;
     field_144 = 0;
     field_130 = Ang16(0); //-dword_6787A0;
     field_225_objective_status = 0;
@@ -244,7 +244,7 @@ char_type Ped::Reset_45AFC0()
     field_1DC_objective_target_x = k_dword_678660;
     field_1E0_objective_target_y = k_dword_678660;
     field_1E4_objective_target_z = k_dword_678660;
-    field_134_rotation = word_6787A8;
+    field_134_rotation = gDummyPedAng_6787A8;
     field_1E8 = k_dword_678660;
     field_1EC = k_dword_678660.mValue;
     field_184 = 0;
@@ -281,7 +281,7 @@ char_type Ped::Reset_45AFC0()
     field_1A0_objective_target_object = 0;
     field_1F8 = dword_6784A0;
     field_1A4 = 0;
-    field_132 = word_6787A8;
+    field_132 = gDummyPedAng_6787A8;
     field_1FC = k_dword_678660.mValue;
     field_269 = -1;
     field_214 = 0;
@@ -916,7 +916,7 @@ char_type Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     Sprite* pSprite = pSprite = pChar->field_80_sprite_ptr;
     pSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
 
-    pChar->field_80_sprite_ptr->AllocInternal_59F950(dword_678530, dword_678530, dword_67841C);
+    pChar->field_80_sprite_ptr->AllocInternal_59F950(gDummyW_678530, gDummyW_678530, gDummyZ_67841C);
 
     gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pChar->field_80_sprite_ptr);
     field_168_game_object->field_7C_pPed = this;
@@ -968,7 +968,7 @@ Ang16 Ped::GetRotation()
         return field_16C_car->field_50_car_sprite->field_0;
     }
 
-    return word_6787A8;
+    return gDummyPedAng_6787A8;
 }
 
 MATCH_FUNC(0x45c9b0)
@@ -1134,7 +1134,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                 {
                     case weapon_type::pistol:
                     case weapon_type::electro_batton:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
                             // TODO: Prob setting the timer of Object_8 actually?
@@ -1143,7 +1143,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         break;
 
                     case weapon_type::smg:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(201, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(201, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
                             v2->field_C_pAny.pExplosion->field_4_idx = 9;
@@ -1151,7 +1151,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         break;
 
                     case weapon_type::rocket:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(202, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(202, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
                             v2->field_C_pAny.pExplosion->field_4_idx = 9;
@@ -1159,7 +1159,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         break;
 
                     case weapon_type::shocker:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(203, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(203, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
                             v2->field_C_pAny.pExplosion->field_4_idx = 9;
@@ -1167,7 +1167,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         break;
 
                     case weapon_type::molotov:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(204, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(204, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
                             v2->field_C_pAny.pExplosion->field_4_idx = 9;
@@ -1175,7 +1175,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         break;
 
                     case weapon_type::grenade:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(205, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(205, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
                             v2->field_C_pAny.pExplosion->field_4_idx = 9;
@@ -1183,7 +1183,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         break;
 
                     case weapon_type::shotgun:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(206, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(206, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
                             v2->field_C_pAny.pExplosion->field_4_idx = 9;
@@ -1191,7 +1191,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         break;
 
                     case weapon_type::flamethrower:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(208, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(208, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
                             v2->field_C_pAny.pExplosion->field_4_idx = 9;
@@ -1199,7 +1199,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         break;
 
                     case weapon_type::silence_smg:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(209, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(209, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
                             v2->field_C_pAny.pExplosion->field_4_idx = 9;
@@ -1207,7 +1207,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         break;
 
                     case weapon_type::dual_pistol:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(210, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(210, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
                             v2->field_C_pAny.pExplosion->field_4_idx = 9;
@@ -1968,7 +1968,7 @@ char_type Ped::StateMachineTick_4626B0()
             {
                 this->field_20e = 0;
             }
-            if (Ped::get_fieldC_45C9B0() == k_dword_678660 && Ped::get_field8_45C900() == word_6787A8)
+            if (Ped::get_fieldC_45C9B0() == k_dword_678660 && Ped::get_field8_45C900() == gDummyPedAng_6787A8)
             {
                 if (field_278_ped_state_1 == ped_state_1::walking_0 && this->field_168_game_object->field_38_velocity == k_dword_678660)
                 {
@@ -2377,7 +2377,7 @@ bool Ped::PoolUpdate()
                 Fix16 zpos = get_cam_z();
                 if (field_168_game_object->field_58_flags_bf.b0 == 0 && zpos != k_dword_678660)
                 {
-                    zpos -= dword_678664;
+                    zpos -= k_dword_678664;
                 }
                 field_254 = gMap_0x370_6F6268->GetBlockSpec_4E00A0(get_cam_x(), get_cam_y(), zpos);
                 Ped::sub_462B80();
@@ -3002,9 +3002,9 @@ void Ped::Threat_Reaction_AI_465270()
                         }
                         if (this->field_21C_bf.b19 == false == 0 && byte_61A8A2 == 1)
                         {
-                            if (gMap_0x370_6F6268->sub_4E5640(dword_678618,
+                            if (gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618,
                                                               dword_678484,
-                                                              dword_678618,
+                                                              gSpawnJitterScale_678618,
                                                               this->field_1AC_cam.x,
                                                               this->field_1AC_cam.y,
                                                               this->field_1AC_cam.z,
@@ -4071,18 +4071,18 @@ void Ped::LeaveTrain_468A00()
                             {
                                 case 1:
                                     field_1D0 = field_1AC_cam.x;
-                                    field_1D4 = field_1AC_cam.y - dword_678664;
+                                    field_1D4 = field_1AC_cam.y - k_dword_678664;
                                     break;
                                 case 3:
-                                    field_1D0 = dword_678664 + field_1AC_cam.x;
+                                    field_1D0 = k_dword_678664 + field_1AC_cam.x;
                                     field_1D4 = field_1AC_cam.y;
                                     break;
                                 case 2:
                                     field_1D0 = field_1AC_cam.x;
-                                    field_1D4 = dword_678664 + field_1AC_cam.y;
+                                    field_1D4 = k_dword_678664 + field_1AC_cam.y;
                                     break;
                                 case 4:
-                                    field_1D0 = field_1AC_cam.x - dword_678664;
+                                    field_1D0 = field_1AC_cam.x - k_dword_678664;
                                     field_1D4 = field_1AC_cam.y;
                                     break;
                                 default:
@@ -4314,7 +4314,7 @@ void Ped::sub_469E30()
 {
     if (field_16C_car)
     {
-        field_16C_car->field_5C->field_74 = dword_678664;
+        field_16C_car->field_5C->field_74 = k_dword_678664;
     }
 }
 
