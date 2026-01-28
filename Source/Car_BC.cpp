@@ -4614,25 +4614,23 @@ s32 __stdcall Car_14::sub_5838E0(char_type a1)
     return result;
 }
 
-WIP_FUNC(0x583930)
-char_type __stdcall Car_14::sub_583930(char_type a1, char_type a2)
+MATCH_FUNC(0x583930)
+char_type Car_14::sub_583930(char_type a1, char_type a2)
 {
-    WIP_IMPLEMENTED;
-
-    char_type result;
-
     if (a2 == 3)
     {
         return a1;
     }
-    if (a2 != 2)
+    else if (a2 != 2)
     {
         return 2;
     }
-    result = a1;
-    if (a1 == 1)
+    else if (a1 == 1)
     {
         return 2;
     }
-    return result;
+    else
+    {
+        return a1;
+    }
 }

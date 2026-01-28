@@ -1011,7 +1011,7 @@ struct Car_14
     EXPORT char_type sub_583870(Fix16 xpos, Fix16 ypos);
 
     EXPORT static s32 __stdcall sub_5838E0(char_type a1);
-    EXPORT static char_type __stdcall sub_583930(char_type a1, char_type a2);
+    EXPORT char_type sub_583930(char_type a1, char_type a2);
 
     Camera_0xBC* field_0_cam;
     Fix16_Rect* field_4_rect;
