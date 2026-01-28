@@ -16,6 +16,7 @@ class Car_78;
 struct Fix16_Point_POD;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
+EXTERN_GLOBAL(ModelPhysics_48*, dword_6FE258);
 
 class CarPhysics_B0
 {

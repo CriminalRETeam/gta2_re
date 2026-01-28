@@ -9,7 +9,7 @@
 class Car_BC;
 class Object_2C;
 class gmp_map_zone;
-
+class Rozza_A;
 class infallible_turing;
 
 class serene_brattain
@@ -254,19 +254,19 @@ class sound_obj
     EXPORT void ProcessType8_Crane_412820(s32 idx);
     EXPORT void ProcessType9_Crusher_412A60(s32 idx);
     EXPORT void ProcessCar_412B80(Sound_Params_8* pType2Entity);
-    EXPORT char_type Type6_412C90(Object_2C* pObj, u8 a3);
-    EXPORT char_type SelectObjectImpactSound_1_10_412D30(Object_2C* pObj);
+    EXPORT char_type Type6_412C90(Rozza_A* pObj, u8 a3);
+    EXPORT char_type SelectObjectImpactSound_1_10_412D30(Rozza_A* pObj);
     EXPORT char_type Type6_2_412D40(u8 a2);
     EXPORT void Type6_Play_412D90(s32 model);
-    EXPORT char_type Type6_3_413000(Object_2C* a2);
+    EXPORT char_type Type6_3_413000(Rozza_A* a2);
     EXPORT char_type Type6_4_413040(u8 a2);
     EXPORT char_type Type6_5_413090(u8 a2);
-    EXPORT char_type Type6_7_4130E0(Object_2C* a2);
-    EXPORT char_type SelectObjectImpactSound_413120(Object_2C* pObj, s32 s32eractionType);
-    EXPORT char_type Type6_9_413540(u32* a2);
-    EXPORT char_type Type6_12_4136D0(Object_2C* a2);
+    EXPORT char_type Type6_7_4130E0(Rozza_A* a2);
+    EXPORT char_type SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interactionType);
+    EXPORT char_type Type6_9_413540(Rozza_A* a2);
+    EXPORT char_type Type6_12_4136D0(Rozza_A* a2);
     EXPORT void ProcessType6_Rozza_C88_413760(s32 idx);
-    EXPORT char_type Type6_413A10(u32* a2);
+    EXPORT char_type Type6_413A10(Rozza_A* a2);
     EXPORT void ProcessTrainCab_413B90(Sound_Params_8* a2, sound_unknown_0xC* a3);
     EXPORT void ProcessTrain_413BE0(Sound_Params_8* a2);
     EXPORT void ProcessTank_413BF0(Sound_Params_8* a2, sound_unknown_0xC* pAlloc);
@@ -276,7 +276,7 @@ class sound_obj
 
     EXPORT char_type Type_16_414320(sound_0x68* pObj);
     EXPORT void HandleTrainCabRollingFrictionSound_4143A0(Sound_Params_8* a2);
-    EXPORT bool sub_4145E0(s32 a2, s32* a3);
+    EXPORT bool GetCar_4145E0(s32 idx, Car_BC** ppOut);
     EXPORT char_type Type_17_414690(sound_0x68* pObj);
     EXPORT void TrainCab_414710(Sound_Params_8* a2);
     EXPORT char_type Type_19_4149D0(sound_0x68* a1);
@@ -292,7 +292,7 @@ class sound_obj
     EXPORT void HandleCarAlarmSound_415570(Sound_Params_8* a2, sound_unknown_0xC* pAlloc);
     EXPORT char_type Type_5_InitEngineSoundProfile_415730(sound_0x68* a1);
     EXPORT void HandleAICarEngineRevSound_4157C0(Sound_Params_8* a2);
-    EXPORT char_type Type_1_6_416260(Car_BC* a2);
+    EXPORT char_type Type_1_6_416260(sound_0x68* a2);
     EXPORT void HandleCarHornSound_417060(Sound_Params_8* a2);
     EXPORT char_type Type_3_HandleCarImpactSound_4174C0(sound_0x68* a2);
     EXPORT void HandleCarDamageSound_4177D0(Sound_Params_8* a2);

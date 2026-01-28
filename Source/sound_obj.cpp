@@ -1,7 +1,9 @@
 #include "sound_obj.hpp"
 #include "Camera.hpp"
+#include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "Cranes.hpp"
 #include "Crushers.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
@@ -11,11 +13,11 @@
 #include "Object_5C.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
+#include "Rozza_C88.hpp"
 #include "Weapon_30.hpp"
 #include "cSampleManager.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "Cranes.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -27,6 +29,10 @@ DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
 DEFINE_GLOBAL(bool, gSoundVocalsInited_6FF538, 0x6FF538);
 DEFINE_GLOBAL(Fix16, k_dword_66F3F4, 0x66F3F4);
 DEFINE_GLOBAL(u16, word_6757FC, 0x6757FC);
+
+DEFINE_GLOBAL(u8, byte_66F541, 0x66F541);
+DEFINE_GLOBAL(u8, gSoundSampleIdx_61A684, 0x61A684);
+DEFINE_GLOBAL(char_type, byte_66F543, 0x66F543);
 
 static inline s32 Min(s32 a, s32 b)
 {
@@ -1629,10 +1635,135 @@ void sound_obj::ProcessType1_Sprite_412740(s32 idx)
     }
 }
 
-STUB_FUNC(0x413760)
-void sound_obj::ProcessType6_Rozza_C88_413760(s32 a2)
+WIP_FUNC(0x413760)
+void sound_obj::ProcessType6_Rozza_C88_413760(s32 idx)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s32 rozza_idx; // eax
+    Rozza_C88* p88; // ebx
+    Rozza_A* pRozzAOff; // edi
+    char_type bHasSolidAbove; // al
+    Rozza_A* pRozzAOff_; // eax
+    char_type v9; // [esp+11h] [ebp-Fh]
+    u8 vol; // [esp+12h] [ebp-Eh]
+    u8 emittingVol; // [esp+13h] [ebp-Dh]
+    u8 rozza_idx_; // [esp+14h] [ebp-Ch]
+    Fix16 distance; // [esp+18h] [ebp-8h]
+    char_type base_sample; // [esp+24h] [ebp+4h]
+
+    rozza_idx = 0;
+    vol = 0;
+    distance = 0;
+    v9 = -1;
+    emittingVol = 0;
+
+    p88 = field_147C[idx].field_4_pObj->field_C_pAny.pRozza_C88;
+    if (!p88)
+    {
+        return;
+    }
+
+    this->field_30_sQueueSample.field_5C = 0;
+    this->field_30_sQueueSample.field_0_EntityIndex = idx;
+
+    rozza_idx_ = 0;
+    if (p88->field_C84_count <= 0)
+    {
+        return;
+    }
+
+    while (1)
+    {
+        pRozzAOff = &p88->field_4_pool[rozza_idx];
+        base_sample = Type6_413A10(pRozzAOff);
+        if (Type6_412C90(pRozzAOff, base_sample))
+        {
+            break;
+        }
+
+    LABEL_9:
+        rozza_idx = ++rozza_idx_;
+        if (rozza_idx_ >= p88->field_C84_count)
+        {
+            if (v9 == -1)
+            {
+                return;
+            }
+            pRozzAOff_ = &p88->field_4_pool[v9];
+            this->field_30_sQueueSample.field_8_obj = *(serene_brattain*)&pRozzAOff_->field_4_x;
+            this->field_30_sQueueSample.field_24_nVolume = vol;
+            this->field_30_sQueueSample.field_28_distance = distance;
+            this->field_30_sQueueSample.field_60_nEmittingVolume = emittingVol;
+            this->field_30_sQueueSample.field_64_max_distance = 10;
+            this->field_30_sQueueSample.field_54 = 81920;
+            this->field_30_sQueueSample.field_58_type = 20;
+            this->field_30_sQueueSample.field_4_SampleIndex = byte_66F541++;
+            this->field_30_sQueueSample.field_41 = 1;
+            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 8;
+            this->field_30_sQueueSample.field_18 = 0;
+            this->field_30_sQueueSample.field_3C = 600;
+            this->field_30_sQueueSample.field_30 = 1;
+            this->field_30_sQueueSample.field_34 = 0;
+            this->field_30_sQueueSample.field_38 = -1;
+            if (byte_66F541 == -1)
+            {
+                goto LABEL_12;
+            }
+            goto LABEL_13;
+        }
+    } // while(1)
+
+    if (!this->field_30_sQueueSample.field_18)
+    {
+        if (base_sample)
+        {
+            this->field_30_sQueueSample.field_8_obj = *(serene_brattain*)&pRozzAOff->field_4_x;
+            this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+            this->field_2C_distCalculated = 0;
+            if (CalculateDistance_419020(Fix16(409600, 0)))
+            {
+                bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(this->field_30_sQueueSample.field_8_obj.field_0,
+                                                                                    this->field_30_sQueueSample.field_8_obj.field_4,
+                                                                                    this->field_30_sQueueSample.field_8_obj.field_8);
+                if (VolCalc_419070(base_sample, Fix16(81920, 0), bHasSolidAbove))
+                {
+                    v9 = rozza_idx_;
+                    vol = this->field_30_sQueueSample.field_24_nVolume;
+                    distance = this->field_30_sQueueSample.field_28_distance;
+                    emittingVol = base_sample;
+                }
+            }
+        }
+        goto LABEL_9; // another loop iteration
+    }
+
+    this->field_30_sQueueSample.field_8_obj.field_0 = k_dword_66F3F0;
+    this->field_30_sQueueSample.field_8_obj.field_4 = k_dword_66F3F0;
+    this->field_30_sQueueSample.field_8_obj.field_8 = k_dword_66F3F0;
+    this->field_30_sQueueSample.field_4_SampleIndex = byte_66F541++;
+    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 0;
+    this->field_30_sQueueSample.field_24_nVolume = 45;
+    this->field_30_sQueueSample.field_34 = 0;
+    this->field_30_sQueueSample.field_28_distance = k_dword_66F3F0;
+    this->field_30_sQueueSample.field_30 = 1;
+    this->field_30_sQueueSample.field_38 = -1;
+    this->field_30_sQueueSample.field_3C = 0;
+    this->field_30_sQueueSample.field_40_pan = 63;
+    this->field_30_sQueueSample.field_41 = 1;
+    this->field_30_sQueueSample.field_54 = Fix16(81920, 0);
+    this->field_30_sQueueSample.field_58_type = 20;
+    this->field_30_sQueueSample.field_60_nEmittingVolume = 45;
+    this->field_30_sQueueSample.field_64_max_distance = 10;
+
+    if (byte_66F541 == -1)
+    {
+    LABEL_12:
+        byte_66F541 = 0;
+    }
+
+LABEL_13:
+    AddSampleToRequestedQueue_41A850();
 }
 
 MATCH_FUNC(0x4273B0)
@@ -1785,7 +1916,7 @@ WIP_FUNC(0x412820)
 void sound_obj::ProcessType8_Crane_412820(s32 idx)
 {
     WIP_IMPLEMENTED;
-    
+
     s32 idx_; // ecx
     Crane_15C* pCrane; // edi
     Sprite* pSprite; // eax
@@ -2379,7 +2510,7 @@ char_type sound_obj::sub_412260(sound_0x68* pObj)
                 return Type_2_4182A0(pObj);
             case 1:
             case 6:
-                return Type_1_6_416260((Car_BC*)pObj);
+                return Type_1_6_416260(pObj);
             case 3:
                 return Type_3_HandleCarImpactSound_4174C0(pObj);
             case 4:
@@ -2418,7 +2549,7 @@ char_type sound_obj::sub_412260(sound_0x68* pObj)
 }
 
 STUB_FUNC(0x416260)
-char_type sound_obj::Type_1_6_416260(Car_BC* a1)
+char_type sound_obj::Type_1_6_416260(sound_0x68* a1)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2876,10 +3007,98 @@ void sound_obj::HandleAICarEngineSound_418190(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x413D10)
+WIP_FUNC(0x413D10)
 void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pCar; // eax
+    s32 fAC; // ecx
+    bool bMaxDmg; // zf
+    s32 samp_idx; // edx
+    u8 emit_vol; // bl
+    s32 f14_samp_idx; // ecx
+    s32 rate; // edi
+    s32 displacement; // eax
+
+    pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    fAC = pCar->field_AC;
+    bMaxDmg = pCar->field_74_damage == 32001;
+    pCar->field_AC = 0;
+    if (!bMaxDmg && pCar->field_54_driver && a2->field_4_bDrivenByPlayer != 1)
+    {
+        switch (pCar->field_84_car_info_idx)
+        {
+            case car_model_enum::apc:
+            case car_model_enum::COPCAR:
+            case car_model_enum::FIRETRUK:
+            case car_model_enum::GUNJEEP:
+            case car_model_enum::JEEP:
+            case car_model_enum::MEDICAR:
+            case car_model_enum::SWATVAN:
+            case car_model_enum::TANK:
+            case car_model_enum::EDSELFBI:
+                return;
+
+            default:
+                if (fAC <= 0)
+                {
+                    return;
+                }
+
+                // TODO: Prob a switch or something here
+                if (fAC <= 2)
+                {
+                    samp_idx = (this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] & 7) + 257;
+                }
+                else
+                {
+                    if (fAC != 3)
+                    {
+                        return;
+                    }
+                    if (byte_66F543)
+                    {
+                        --byte_66F543;
+                        return;
+                    }
+                    byte_66F543 = 8;
+                    samp_idx = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 7u + 265;
+                }
+
+                this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
+
+                if (CalculateDistance_419020(Fix16(1806336, 0)))
+                {
+                    emit_vol = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 30u + 50;
+                    if (VolCalc_419070(emit_vol, Fix16(172032, 0), a2->field_5_bHasSolidAbove))
+                    {
+                        f14_samp_idx = this->field_30_sQueueSample.field_14_samp_idx;
+                        this->field_30_sQueueSample.field_54 = Fix16(172032, 0);
+                        this->field_30_sQueueSample.field_60_nEmittingVolume = emit_vol;
+                        this->field_30_sQueueSample.field_64_max_distance = 21;
+                        rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(f14_samp_idx);
+                        displacement = RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+                        this->field_30_sQueueSample.field_58_type = 20;
+                        this->field_30_sQueueSample.field_20_rate = displacement + rate;
+                        this->field_30_sQueueSample.field_3C = 0;
+                        this->field_30_sQueueSample.field_4_SampleIndex = gSoundSampleIdx_61A684;
+                        this->field_30_sQueueSample.field_41 = 1;
+                        this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 7;
+                        this->field_30_sQueueSample.field_18 = 0;
+                        this->field_30_sQueueSample.field_34 = 0;
+                        this->field_30_sQueueSample.field_38 = -1;
+                        this->field_30_sQueueSample.field_30 = 1;
+                        AddSampleToRequestedQueue_41A850();
+                        if (++gSoundSampleIdx_61A684 >= 200u)
+                        {
+                            gSoundSampleIdx_61A684 = 100;
+                        }
+                    }
+                }
+                break;
+        }
+    }
 }
 
 STUB_FUNC(0x415570)
@@ -3062,10 +3281,37 @@ void sound_obj::HandleTrainCabRollingFrictionSound_4143A0(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4140C0)
+WIP_FUNC(0x4140C0)
 void sound_obj::HandleTrainEngineSound_4140C0(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 v4 = a2->field_0_pObj->field_8_car_bc_ptr->sub_43A240();
+    Fix16 max_speed = dword_6FE258->field_28_max_speed;
+
+    if (v4 > k_dword_66F3F0 && max_speed > k_dword_66F3F0)
+    {
+        if (CalculateDistance_419020(Fix16(0x4204000, 0)))
+        {
+            //s32 vol = (int)(((0x104000LL * (int)(((__int64)v4 << 14) / max_speed)) >> 14) + 0x2000) >> 14;
+            s32 vol = (v4 / max_speed * Fix16(0x104000, 0) + Fix16(0x2000, 0)).ToInt();
+            if ((u8)vol)
+            {
+                if (VolCalc_419070((u8)vol, 1064960, a2->field_5_bHasSolidAbove))
+                {
+                    this->field_30_sQueueSample.field_54 = Fix16(1064960, 0);
+                    this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
+                    this->field_30_sQueueSample.field_64_max_distance = 130;
+                    this->field_30_sQueueSample.field_58_type = 16;
+                    this->field_30_sQueueSample.field_4_SampleIndex = 0;
+                    this->field_30_sQueueSample.field_41 = 0;
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
+                    this->field_30_sQueueSample.field_18 = 0;
+                    AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x417FD0)
@@ -3243,16 +3489,243 @@ void sound_obj::ResetRadioMessageState_426750()
 }
 
 MATCH_FUNC(0x412D30)
-char_type sound_obj::SelectObjectImpactSound_1_10_412D30(Object_2C* pObj)
+char_type sound_obj::SelectObjectImpactSound_1_10_412D30(Rozza_A* pObj)
 {
     return SelectObjectImpactSound_413120(pObj, 1);
 }
 
-STUB_FUNC(0x413120)
-char_type sound_obj::SelectObjectImpactSound_413120(Object_2C* pObj, s32 s32eractionType)
+WIP_FUNC(0x413120)
+char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interactionType)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    s32 model_copy; // eax
+    char_type result; // al
+    u32 rnd1_mod; // et2
+    s32 rate__; // edi MAPDST
+    s32 rate_plus_displacement; // edi
+    s32 rnd_samp_idx; // eax
+    s32 samp_idx; // edx
+    u32 rnd_1; // eax MAPDST
+    u32 rnd_0; // eax MAPDST
+    u32 rnd_0_mod; // et2 MAPDST
+    s32 rate; // eax
+
+    model_copy = pObj->field_18_model_copy;
+    if (model_copy > 110)
+    {
+        switch (model_copy)
+        {
+            case 166:
+            case 169:
+            case 294:
+                this->field_30_sQueueSample.field_14_samp_idx = 37;
+                this->field_30_sQueueSample.field_18 = 0;
+                this->field_30_sQueueSample.field_20_rate =
+                    RandomDisplacement_41A650(37u) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(37);
+                return 1;
+
+            case 182:
+            case 183:
+                goto skip_switch_2;
+
+            case 192:
+            case 254:
+            case 265:
+                if (interactionType == 3)
+                {
+                    rnd_1 = this->field_1454_anRandomTable[1];
+                    if ((pObj->field_10->field_78_flags & 0x100) != 0)
+                    {
+                        samp_idx = rnd_1 % 3 + 46;
+                    }
+                    else
+                    {
+                        samp_idx = rnd_1 % 3 + 43;
+                    }
+                }
+                else
+                {
+                    if (interactionType == 7)
+                    {
+                        this->field_30_sQueueSample.field_14_samp_idx = 42;
+                        goto exit_switch_1;
+                    }
+                    samp_idx = this->field_1454_anRandomTable[1] % 3u + 49;
+                }
+                this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
+                break;
+
+            case 266:
+                this->field_30_sQueueSample.field_14_samp_idx = 34;
+                rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(34);
+                goto set_rate;
+
+            case 281:
+            case 282:
+                goto set_samp_idx_rnd_rate;
+
+            case 295:
+                this->field_30_sQueueSample.field_14_samp_idx = 33;
+                rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(33);
+            set_rate:
+                this->field_30_sQueueSample.field_20_rate = rate;
+                this->field_30_sQueueSample.field_18 = 1;
+                return 1;
+
+            default:
+                return 0;
+        }
+        goto exit_switch_1;
+    }
+
+    if (model_copy != 110)
+    {
+        switch (model_copy)
+        {
+            case 1:
+            case 18:
+                rnd_0 = this->field_1454_anRandomTable[0];
+                this->field_30_sQueueSample.field_14_samp_idx = 55;
+                rnd_0_mod = rnd_0 % 2000;
+                this->field_30_sQueueSample.field_18 = 0;
+                result = 1;
+                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 23000;
+                return result;
+            case 2:
+            case 15:
+            case 19:
+            case 20:
+            case 60:
+                goto set_samp_idx_rnd_rate;
+            case 3:
+            case 5:
+            case 11:
+            case 13:
+            case 17:
+            case 53:
+            case 54:
+            case 55:
+                this->field_30_sQueueSample.field_14_samp_idx = 56;
+                goto LABEL_10;
+            case 4:
+            case 23:
+            case 44:
+                this->field_30_sQueueSample.field_14_samp_idx = 54;
+            LABEL_10:
+                rnd_0 = this->field_1454_anRandomTable[0];
+                this->field_30_sQueueSample.field_18 = 0;
+                rnd_0_mod = rnd_0 % 2000;
+                result = 1;
+                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 17000;
+                break;
+            case 6:
+                rnd_0 = this->field_1454_anRandomTable[0];
+                this->field_30_sQueueSample.field_14_samp_idx = 52;
+                rnd_0_mod = rnd_0 % 600;
+                this->field_30_sQueueSample.field_18 = 0;
+                result = 1;
+                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 16000;
+                break;
+            case 7:
+                this->field_30_sQueueSample.field_14_samp_idx = 55;
+                goto exit_switch_1;
+            case 12:
+            case 14:
+            case 58:
+                rnd_0 = this->field_1454_anRandomTable[0];
+                this->field_30_sQueueSample.field_14_samp_idx = 53;
+                rnd_0_mod = rnd_0 % 2000;
+                this->field_30_sQueueSample.field_18 = 0;
+                result = 1;
+                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 18000;
+                break;
+            case 16:
+            case 25:
+            case 62:
+                rnd_0 = this->field_1454_anRandomTable[0];
+                this->field_30_sQueueSample.field_14_samp_idx = 55;
+                rnd_0_mod = rnd_0 % 2000;
+                this->field_30_sQueueSample.field_18 = 0;
+                result = 1;
+                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 15000;
+                break;
+            case 21:
+            case 22:
+            case 46:
+            case 48:
+                rnd_0 = this->field_1454_anRandomTable[0];
+                this->field_30_sQueueSample.field_14_samp_idx = 53;
+                rnd_0_mod = rnd_0 % 1000;
+                this->field_30_sQueueSample.field_18 = 0;
+                result = 1;
+                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 15500;
+                break;
+            default:
+                return 0;
+        }
+        return result;
+    }
+
+    // model is 110 here, or via goto
+
+skip_switch_2:
+    if (interactionType != 1)
+    {
+    set_samp_idx_rnd_rate:
+        this->field_30_sQueueSample.field_14_samp_idx = 37;
+    exit_switch_1:
+        rnd_0 = this->field_1454_anRandomTable[0];
+        this->field_30_sQueueSample.field_18 = 0;
+        rnd_0_mod = rnd_0 % 2000;
+        result = 1;
+        this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 20000;
+        return result;
+    }
+
+    switch (pObj->field_20_map_block_spec)
+    {
+        case 1:
+        case 3:
+            this->field_30_sQueueSample.field_14_samp_idx = 198;
+            break;
+        case 2:
+        case 7:
+        case 10:
+            this->field_30_sQueueSample.field_14_samp_idx = 202;
+            break;
+        case 4:
+            this->field_30_sQueueSample.field_14_samp_idx = 68;
+            break;
+        case 5:
+        case 6:
+        case 8:
+        case 9:
+            this->field_30_sQueueSample.field_14_samp_idx = 194;
+            break;
+        default:
+            return 0;
+    }
+
+    if (pObj->field_20_map_block_spec == 4)
+    {
+        rnd_1 = this->field_1454_anRandomTable[1];
+        this->field_30_sQueueSample.field_18 = 0;
+        rnd1_mod = rnd_1 % 4000;
+        result = 1;
+        this->field_30_sQueueSample.field_20_rate = rnd1_mod + 28000;
+    }
+    else
+    {
+        rate__ = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(field_30_sQueueSample.field_14_samp_idx);
+        rate_plus_displacement = RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx) + rate__;
+        rnd_samp_idx = (this->field_1454_anRandomTable[3] & 3) + field_30_sQueueSample.field_14_samp_idx;
+        this->field_30_sQueueSample.field_20_rate = rate_plus_displacement;
+        this->field_30_sQueueSample.field_14_samp_idx = rnd_samp_idx;
+        this->field_30_sQueueSample.field_18 = 0;
+        return 1;
+    }
+    return result;
 }
 
 STUB_FUNC(0x414A50)
@@ -3323,10 +3796,10 @@ void sound_obj::Type3_CopRadioReport_57E680()
 }
 
 MATCH_FUNC(0x4136D0)
-char_type sound_obj::Type6_12_4136D0(Object_2C* a2)
+char_type sound_obj::Type6_12_4136D0(Rozza_A* a2)
 {
     s32 samp_idx;
-    switch (a2->field_20)
+    switch (a2->field_20_map_block_spec)
     {
         case 4:
             samp_idx = 68;
@@ -3388,22 +3861,23 @@ char_type sound_obj::Type6_2_412D40(u8 a2)
 }
 
 MATCH_FUNC(0x413000)
-char_type sound_obj::Type6_3_413000(Object_2C* pObj)
+char_type sound_obj::Type6_3_413000(Rozza_A* pObj)
 {
-    if ((pObj->field_18_model < 200 || pObj->field_18_model > 244) && (pObj->field_18_model < 64 || pObj->field_18_model > 108))
+    if ((pObj->field_18_model_copy < 200 || pObj->field_18_model_copy > 244) &&
+        (pObj->field_18_model_copy < 64 || pObj->field_18_model_copy > 108))
     {
         return SelectObjectImpactSound_413120(pObj, 3);
     }
-    Type6_Play_412D90(pObj->field_18_model);
+    Type6_Play_412D90(pObj->field_18_model_copy);
     return 1;
 }
 
 MATCH_FUNC(0x412C90)
-char_type sound_obj::Type6_412C90(Object_2C* pObj, u8 a3)
+char_type sound_obj::Type6_412C90(Rozza_A* pObj, u8 a3)
 {
     char_type result;
 
-    switch ((u32)pObj->mpNext) // ???
+    switch (pObj->field_0)
     {
         case 1u:
         case 10u:
@@ -3425,7 +3899,7 @@ char_type sound_obj::Type6_412C90(Object_2C* pObj, u8 a3)
             result = sound_obj::Type6_7_4130E0(pObj);
             break;
         case 9u:
-            result = sound_obj::Type6_9_413540((u32*)pObj);
+            result = sound_obj::Type6_9_413540(pObj);
             break;
         case 12u:
             result = sound_obj::Type6_12_4136D0(pObj);
@@ -3438,7 +3912,7 @@ char_type sound_obj::Type6_412C90(Object_2C* pObj, u8 a3)
 }
 
 STUB_FUNC(0x413A10)
-char_type sound_obj::Type6_413A10(u32* a2)
+char_type sound_obj::Type6_413A10(Rozza_A* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -3495,27 +3969,210 @@ char_type sound_obj::Type6_5_413090(u8 a2)
 }
 
 MATCH_FUNC(0x4130E0)
-char_type sound_obj::Type6_7_4130E0(Object_2C* a2)
+char_type sound_obj::Type6_7_4130E0(Rozza_A* a2)
 {
-    if ((a2->field_18_model < 200 || a2->field_18_model > 244) && (a2->field_18_model < 64 || a2->field_18_model > 108))
+    if ((a2->field_18_model_copy < 200 || a2->field_18_model_copy > 244) && (a2->field_18_model_copy < 64 || a2->field_18_model_copy > 108))
     {
         return SelectObjectImpactSound_413120(a2, 7);
     }
-    Type6_Play_412D90(a2->field_18_model);
+    Type6_Play_412D90(a2->field_18_model_copy);
     return 1;
 }
 
-STUB_FUNC(0x413540)
-char_type sound_obj::Type6_9_413540(u32* a2)
+MATCH_FUNC(0x413540)
+char_type sound_obj::Type6_9_413540(Rozza_A* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (a2->field_1C)
+    {
+        case 169:
+        case 182:
+        case 183:
+        case 192:
+        case 254:
+        case 265:
+        case 281:
+        case 282:
+        case 286:
+        case 294:
+        case 295:
+            return SelectObjectImpactSound_413120(a2, 9);
+
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+        case 19:
+        case 20:
+        case 21:
+        case 22:
+        case 23:
+        case 25:
+        case 43:
+        case 44:
+        case 45:
+        case 46:
+        case 47:
+        case 48:
+        case 49:
+        case 53:
+        case 54:
+        case 55:
+        case 56:
+        case 57:
+        case 58:
+        case 59:
+        case 60:
+        case 61:
+        case 62:
+        case 63:
+        case 110:
+        case 123:
+        case 155:
+        case 156:
+        case 157:
+        case 158:
+        case 166:
+            return SelectObjectImpactSound_413120(a2, 9);
+
+        default:
+            return 0;
+    }
 }
 
-STUB_FUNC(0x412D90)
+MATCH_FUNC(0x412D90)
 void sound_obj::Type6_Play_412D90(s32 model)
 {
-    NOT_IMPLEMENTED;
+    s32 sample;
+    switch (model)
+    {
+        case 64:
+        case 200:
+            sample = 34;
+            break;
+        case 65:
+        case 201:
+            sample = 27;
+            break;
+        case 66:
+        case 202:
+            sample = 35;
+            break;
+        case 67:
+        case 203:
+            sample = 29;
+            break;
+        case 68:
+        case 204:
+            sample = 32;
+            break;
+        case 69:
+        case 205:
+            sample = 31;
+            break;
+        case 70:
+        case 206:
+            sample = 36;
+            break;
+        case 72:
+        case 208:
+            sample = 30;
+            break;
+        case 73:
+        case 209:
+            sample = 37;
+            break;
+        case 74:
+        case 210:
+            sample = 28;
+            break;
+        case 79:
+        case 215:
+            sample = 39;
+            break;
+        case 80:
+        case 216:
+            sample = 33;
+            break;
+        case 81:
+        case 217:
+            sample = 41;
+            break;
+        case 82:
+        case 218:
+            sample = 40;
+            break;
+        case 87:
+        case 223:
+            sample = 38;
+            break;
+        case 92:
+        case 228:
+            sample = 53;
+            break;
+        case 93:
+        case 229:
+            sample = 52;
+            break;
+        case 94:
+        case 230:
+            sample = 48;
+            break;
+        case 95:
+        case 231:
+            sample = 42;
+            break;
+        case 96:
+        case 232:
+            sample = 47;
+            break;
+        case 97:
+        case 233:
+            sample = 43;
+            break;
+        case 98:
+        case 234:
+            sample = 51;
+            break;
+        case 99:
+        case 235:
+            sample = 44;
+            break;
+        case 100:
+        case 236:
+            sample = 46;
+            break;
+        case 101:
+        case 237:
+            sample = 45;
+            break;
+        case 102:
+        case 238:
+            sample = 54;
+            break;
+        case 103:
+        case 239:
+            sample = 50;
+            break;
+        case 104:
+        case 240:
+            sample = 49;
+            break;
+        default:
+            return;
+    }
+    gSampManager_6FFF00.PlayVocal_58E510(1, sample, 1);
+    gSampManager_6FFF00.SetVocalVolume_58E6D0(1, 127 * field_24_sfx_vol / 127);
 }
 
 STUB_FUNC(0x57E220)
@@ -3543,9 +4200,24 @@ u32 sound_obj::UpdateVocalStream_57E510()
     return 0;
 }
 
-STUB_FUNC(0x4145E0)
-bool sound_obj::sub_4145E0(s32 a2, s32* a3)
+MATCH_FUNC(0x4145E0)
+bool sound_obj::GetCar_4145E0(s32 idx, Car_BC** ppOut)
 {
-    NOT_IMPLEMENTED;
-    return false;
+    if (field_147C[idx].field_0_bUsed)
+    {
+        Sprite* pSprite = field_147C[idx].field_4_pObj->field_C_pAny.pSprite;
+        if (pSprite)
+        {
+            if (pSprite->field_10_sound)
+            {
+                Car_BC* pCar = pSprite->AsCar_40FEB0();
+                *ppOut = pCar;
+                if (pCar)
+                {
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
 }
