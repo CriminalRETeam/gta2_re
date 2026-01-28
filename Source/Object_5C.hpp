@@ -212,8 +212,8 @@ class Object_5C
     Object_2C* field_4;
     Object_2C* field_8;
     Object_2C* field_C;
-    s32 field_10;
-    s32 field_14;
+    s32 field_10_rotation_counter;
+    s32 field_14_sprites_in_list;
     u8 field_18;
     u8 field_19;
     u16 field_1A;

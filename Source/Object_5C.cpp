@@ -87,11 +87,11 @@ void Object_2C::PoolDeallocate()
     const s32 f5C = field_8->field_5C;
     if (f5C == 2)
     {
-        --gObject_5C_6F8F84->field_10;
+        --gObject_5C_6F8F84->field_10_rotation_counter;
     }
     else if (f5C == 3)
     {
-        --gObject_5C_6F8F84->field_14;
+        --gObject_5C_6F8F84->field_14_sprites_in_list;
         gObject_5C_6F8F84->field_1C.RemoveSpriteSafe_5A6B60(this->field_4);
     }
 
@@ -921,10 +921,75 @@ Ang16 Object_2C::sub_528130(Fix16_Point* a2)
     return 0;
 }
 
-STUB_FUNC(0x528240)
-char_type Object_2C::sub_528240(s32 a2, s32 a3)
+WIP_FUNC(0x528240)
+char_type Object_2C::sub_528240(s32 current, s32 desired)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (current == 1)
+    {
+        if (desired == 2)
+        {
+            if (gObject_5C_6F8F84->field_10_rotation_counter == 360)
+            {
+                goto trans_done;
+            }
+            gObject_5C_6F8F84->field_10_rotation_counter++;
+        }
+        else if (desired == 3)
+        {
+            gObject_5C_6F8F84->field_14_sprites_in_list++;
+            gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
+            return 0;
+        }
+        return 0;
+    }
+
+    if (current == 2)
+    {
+        if (desired == 1)
+        {
+            gObject_5C_6F8F84->field_10_rotation_counter--;
+            return 0;
+        }
+
+        if (desired == 3)
+        {
+            gObject_5C_6F8F84->field_10_rotation_counter--;
+            gObject_5C_6F8F84->field_14_sprites_in_list++;
+            gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
+            return 0;
+        }
+        return 0;
+    }
+
+    if (current != 3)
+    {
+        return 0;
+    }
+
+    if (desired == 1)
+    {
+        gObject_5C_6F8F84->field_14_sprites_in_list--;
+        gObject_5C_6F8F84->field_1C.RemoveSprite_5A6B10(field_4);
+        return 0;
+    }
+
+    if (desired != 2)
+    {
+        return 0;
+    }
+
+    if (gObject_5C_6F8F84->field_10_rotation_counter == 360)
+    {
+    trans_done:
+        sub_5290A0(); // set Field_25=1
+        return 1;
+    }
+
+    gObject_5C_6F8F84->field_14_sprites_in_list--;
+    gObject_5C_6F8F84->field_1C.RemoveSprite_5A6B10(field_4);
+    gObject_5C_6F8F84->field_10_rotation_counter++;
     return 0;
 }
 
@@ -1592,7 +1657,7 @@ void Object_2C::sub_525100()
 MATCH_FUNC(0x529300)
 void Object_5C::sub_529300()
 {
-    for (s32 i = field_14 - 88; i >= 0; i--)
+    for (s32 i = field_14_sprites_in_list - 88; i >= 0; i--)
     {
         Sprite* pSprite = field_1C.PopBackSprite_5A6DC0();
         Object_2C* o2c = pSprite->As2C_40FEC0();
@@ -1632,8 +1697,8 @@ Object_5C::Object_5C()
     byte_6F8C68 = 0;
     byte_6F8C4C = 0;
     byte_6F8F40 = 0;
-    field_10 = 0;
-    field_14 = 0;
+    field_10_rotation_counter = 0;
+    field_14_sprites_in_list = 0;
     dword_6F8E54 = 0;
     dword_6F8F18 = 0;
     dword_6F8DC0 = 0;
@@ -1840,11 +1905,11 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     pPhi = gPhi_8CA8_6FCF00->sub_534360(object_type);
     if (pPhi->field_5C == 2)
     {
-        if (field_10 == 360)
+        if (field_10_rotation_counter == 360)
         {
             return 0;
         }
-        field_10++;
+        field_10_rotation_counter++;
     }
 
     if (pPhi->field_61) // 6c
@@ -1884,7 +1949,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
 
     if (pPhi->field_5C == 3) // 1e0
     {
-        ++field_14;
+        ++field_14_sprites_in_list;
         field_1C.AddSprite_5A6CD0(pNew2C->field_4);
     }
 
