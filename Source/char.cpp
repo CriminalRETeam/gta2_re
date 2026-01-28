@@ -92,24 +92,6 @@ static inline void sub_41FC20(Ang16& angle, Fix16& unk, Fix16& ret1, Fix16& ret2
     ret2 = unk * Ang16::cosine_40F520(angle);
 }
 
-// TODO: provisory functions, they must be referenced to map_0x370.
-// They are not 9.6f inlines but they help reading and understanding the code
-static inline u8 get_slope_bits(u8& slope_byte)
-{
-    return slope_byte & 0xFCu;
-}
-
-static inline bool is_gradient_slope(u8& slope_byte)
-{
-    u8 slope = get_slope_bits(slope_byte);
-    return slope > 0 && slope < 0xB4u; // slope idx in range 1 to 45
-}
-
-static inline bool is_air_type(u8& slope_byte)
-{
-    return (slope_byte & 3) == 0;
-}
-
 //https://decomp.me/scratch/iQH9l
 MATCH_FUNC(0x544F70)
 void __stdcall sub_544F70()
