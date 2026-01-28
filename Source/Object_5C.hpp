@@ -69,6 +69,7 @@ class Object_2C
     EXPORT void sub_5283C0(s32 a2);
     EXPORT bool OnObjectTouched_5288B0(Sprite* a2);
     EXPORT void sub_528900();
+    EXPORT static s32 __stdcall sub_528E00(s32 a1); // TODO: Check if thiscall
     EXPORT char_type HandleObjectHitIfExplosive_528960(Object_2C* pOther);
     EXPORT char_type HandleObjectHit_528990(Sprite* a2);
     EXPORT void ProcessObjectExplosionImpact_528A20(Object_2C *pObj);

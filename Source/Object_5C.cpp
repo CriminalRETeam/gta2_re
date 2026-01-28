@@ -24,10 +24,13 @@ EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
-DEFINE_GLOBAL(s32, DAT_006f8f88, 0x6f8f88);
-s32 dword_6F8F88; //DEFINE_GLOBAL(s32, dword_6F8F88, 0x6F8F88);
+DEFINE_GLOBAL(s32, dword_6F8F88, 0x6f8f88);
+DEFINE_GLOBAL(s32, dword_6F8F90, 0x6F8F90);
+DEFINE_GLOBAL(Ang16, word_6F8D62, 0x6F8D62);
+
 DEFINE_GLOBAL(Fix16_Point, stru_6F8EF0, 0x6F8EF0);
 DEFINE_GLOBAL(Fix16, kFpZero_6F8E10, 0x6F8E10);
+DEFINE_GLOBAL(Fix16, k_dword_6F8C9C, 0x6F8C9C);
 
 DEFINE_GLOBAL(u8, byte_6F8C68, 0x6F8C68);
 DEFINE_GLOBAL(u8, byte_6F8C4C, 0x6F8C4C);
@@ -873,7 +876,7 @@ void Object_2C::AssignToBucket_527AE0()
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
             return;
         case collision_bucket_category::purple_doom_2_region_bucket_3:
-            DAT_006f8f88++;
+            dword_6F8F88++;
             gPurpleDoom_2_67920C->AddToRegionBuckets_477B20(field_4);
             return;
         case collision_bucket_category::purple_doom_1_region_bucket_4:
@@ -894,7 +897,7 @@ void Object_2C::RemoveFromCollisionBuckets_527D00()
             gPurpleDoom_3_679210->Remove_477B00(field_4);
             break;
         case collision_bucket_category::purple_doom_2_region_bucket_3:
-            --DAT_006f8f88;
+            --dword_6F8F88;
             gPurpleDoom_2_67920C->AddToSpriteRectBuckets_477B60(field_4);
             break;
         case collision_bucket_category::purple_doom_1_region_bucket_4:
@@ -1044,13 +1047,12 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
                     remapped = 18;
                 }
             }
-            Object_2C* pExplosion =
-                gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xy.x,
-                                                          this->field_4->field_14_xy.y,
-                                                          this->field_4->field_1C_zpos,
-                                                          kZeroAng_6F8F68,
-                                                          remapped,
-                                                          gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
+            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xy.x,
+                                                                              this->field_4->field_14_xy.y,
+                                                                              this->field_4->field_1C_zpos,
+                                                                              kZeroAng_6F8F68,
+                                                                              remapped,
+                                                                              gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
             if (pExplosion)
             {
                 pExplosion->SetDamageOwner_529080(field_26_varrok_idx);
@@ -1094,10 +1096,93 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
     }
 }
 
-STUB_FUNC(0x528ba0)
+WIP_FUNC(0x528E00)
+s32 __stdcall Object_2C::sub_528E00(s32 a1)
+{
+    WIP_IMPLEMENTED;
+
+    int result; // eax
+
+    switch (a1)
+    {
+        case 0:
+            result = 18;
+            break;
+        case 1:
+            result = 23;
+            break;
+        case 2:
+            result = 22;
+            break;
+        case 4:
+            result = 25;
+            break;
+        default:
+            result = 24;
+            break;
+    }
+    return result;
+}
+
+MATCH_FUNC(0x528ba0)
 void Object_2C::HandleImpactNoSprite_528BA0()
 {
-    NOT_IMPLEMENTED;
+    Fix16_Point point;
+
+    switch (this->field_18_model)
+    {
+        case 128:
+        case 138:
+        {
+            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_4->field_14_xy.x,
+                                                                              field_4->field_14_xy.y,
+                                                                              field_4->field_1C_zpos,
+                                                                              kZeroAng_6F8F68,
+                                                                              sub_528E00(dword_6F8F90),
+                                                                              gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
+            if (pExplosion)
+            {
+                pExplosion->SetDamageOwner_529080(field_26_varrok_idx);
+            }
+            // Fall through
+        }
+
+        case 254:
+        case 265:
+        {
+            point.FromPolar_41E210(k_dword_6F8C9C, field_4->field_0 + word_6F8D62);
+            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
+                                                           field_4->field_14_xy.y,
+                                                           field_4->field_1C_zpos,
+                                                           point.x,
+                                                           point.y);
+            break;
+        }
+
+        case 154:
+        case 159:
+        case 192:
+        case 193:
+        case 194:
+        case 195:
+        case 198:
+        case 199:
+        case 277:
+            break;
+
+        default:
+            return;
+    }
+
+    const s32 id = gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx);
+    if (id)
+    {
+        Ped* pPed = gPedManager_6787BC->PedById(id);
+        if (pPed)
+        {
+            pPed->NotifyWeaponHit_46FF00(field_4->field_14_xy.x, field_4->field_14_xy.y, field_18_model);
+        }
+    }
 }
 
 WIP_FUNC(0x528e50)
