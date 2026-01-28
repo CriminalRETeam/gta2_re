@@ -80,7 +80,8 @@ DEFINE_GLOBAL(Fix16, dword_6771FC, 0x6771FC);
 DEFINE_GLOBAL(s32, dword_677888, 0x677888);
 DEFINE_GLOBAL(Fix16, dword_6778D0, 0x6778D0);
 DEFINE_GLOBAL(Fix16, DAT_006FF744, 0x006FF744);
-DEFINE_GLOBAL(Fix16, DAT_006FF774, 0x006FF774);
+DEFINE_GLOBAL(Fix16, dword_6FF774, 0x006FF774);
+DEFINE_GLOBAL(Fix16, dword_6FF558, 0x6FF558);
 DEFINE_GLOBAL(Fix16, DAT_006FF570, 0x6FF570);
 DEFINE_GLOBAL(Fix16, DAT_006FF7E8, 0x6FF7E8);
 DEFINE_GLOBAL(s8, DAT_006FF8C4, 0x6FF8C4);
@@ -4326,7 +4327,7 @@ s32 Trailer::sub_408220()
 MATCH_FUNC(0x5822E0)
 void sub_5822E0()
 {
-    DAT_006FF7E8 = DAT_006FF774;
+    DAT_006FF7E8 = dword_6FF774;
     DAT_006FF570 = DAT_006FF744;
     DAT_006FF8C4 = 0;
     DAT_006FF8C5 = 0;
@@ -4529,7 +4530,7 @@ Fix16* __stdcall Car_14::sub_583750(Fix16* pRetF16, Fix16 a2, u8* pOut)
         v7 = v5 / Fix16(1638400, 0);
         v8 = dword_6FF70C;
     }
-    
+
     *pRetF16 = v6 + ((v7 * (v8 - v6)));
 
     return pRetF16;
@@ -4540,4 +4541,45 @@ char_type Car_14::SpawnTrafficCar_582480(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+WIP_FUNC(0x583870)
+char_type Car_14::sub_583870(Fix16 xpos, Fix16 ypos)
+{
+    if (xpos <= dword_6FF774)
+    {
+        return 0;
+    }
+    if (ypos <= dword_6FF774)
+    {
+        return 0;
+    }
+    if (xpos >= dword_6FF558)
+    {
+        return 0;
+    }
+    if (ypos >= dword_6FF558)
+    {
+        return 0;
+    }
+
+    s32 zpos;
+    gmp_block_info* pHighBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(xpos.ToInt(), ypos.ToInt(), &zpos);
+    if (!pHighBlock)
+    {
+        return 0;
+    }
+
+    u8 slope_type = pHighBlock->field_B_slope_type;
+    if ((slope_type & 0xFC) != 0 && (slope_type & 0xFCu) < 0xB4 && (slope_type & 3) != 0)
+    {
+        return 0;
+    }
+
+    char_type result = slope_type & 3;
+    if (result != 1)
+    {
+        return 0;
+    }
+    return result;
 }
