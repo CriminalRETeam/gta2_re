@@ -3784,10 +3784,50 @@ skip_switch_2:
     return result;
 }
 
-STUB_FUNC(0x414A50)
+// 9.6f func
+inline s32 __stdcall Fix16_Round_To_Int_410BF0(Fix16& a1)
+{
+    s32 v = a1.mValue;
+    return (v + 0x2000) >> 14;
+}
+
+WIP_FUNC(0x414A50)
 void sound_obj::Tank_414A50(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    if (pCar->field_9C == 3)
+    {
+        if (CalculateDistance_419020((Fix16(20) / Fix16(2)) * (Fix16(20) / Fix16(2))))
+        {
+            Fix16 vol_mult = pCar->sub_43A240();
+            Fix16 max_speed = dword_6FE258->field_28_max_speed;
+            if (max_speed > k_dword_66F3F0)
+            {
+                if (vol_mult > max_speed)
+                {
+                    vol_mult = max_speed;
+                }
+
+                u8 vol = Fix16_Round_To_Int_410BF0((max_speed / vol_mult) * Fix16(90));
+                //vol = (int)(((1474560LL * (int)(((__int64)vol_mult << 14) / max_speed)) >> 14) + 0x2000) >> 14;
+
+                if (VolCalc_419070(vol, Fix16(20) / Fix16(2), a2->field_5_bHasSolidAbove))
+                {
+                    this->field_30_sQueueSample.field_54 = Fix16(20) / Fix16(2);
+                    this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
+                    this->field_30_sQueueSample.field_64_max_distance = 20;
+                    this->field_30_sQueueSample.field_58_type = 12;
+                    this->field_30_sQueueSample.field_4_SampleIndex = 5;
+                    this->field_30_sQueueSample.field_41 = 0;
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 10;
+                    this->field_30_sQueueSample.field_18 = 0;
+                    AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x414D30)
