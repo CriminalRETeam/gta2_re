@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import subprocess
 from pathlib import Path
 
@@ -25,12 +26,6 @@ def extract_addresses_from_cpp(cpp_path: Path):
     return [addr for (_, addr) in matches]
 
 def run_decomp_script(addresses):
-    """
-    Calls generate_function_decompme.py with:
-        --asm <addr1> <addr2> ...
-    Does NOT use stdout.
-    Instead, reads output.asm after the script finishes.
-    """
     out_file = SCRIPT_DIR / "output.asm"
     if out_file.exists():
         out_file.unlink()
@@ -45,12 +40,22 @@ def run_decomp_script(addresses):
 def main():
     asm_files = []
 
-    for cpp_file in SOURCE_DIR.glob("*.cpp"):
+    if len(sys.argv) > 1:
+        target_name = sys.argv[1]
+        target_path = SOURCE_DIR / target_name
+
+        if not target_path.exists():
+            print(f"ERROR: File '{target_name}' not found in {SOURCE_DIR}")
+            sys.exit(1)
+
+        cpp_files = [target_path]
+    else:
+        cpp_files = list(SOURCE_DIR.glob("*.cpp"))
+    # ------------------------------
+
+    for cpp_file in cpp_files:
         addrs = extract_addresses_from_cpp(cpp_file)
         if not addrs:
-            continue
-
-        if cpp_file.name != "sound_obj.cpp":
             continue
 
         print(f"Processing {cpp_file.name} with {len(addrs)} addresses")
@@ -75,9 +80,7 @@ def main():
                 f"-o {obj_name} {asm_name}\n"
             )
 
-    # Make it executable
     os.chmod(makefile_path, 0o755)
-
     print(f"\nGenerated {makefile_path}")
 
 if __name__ == "__main__":
