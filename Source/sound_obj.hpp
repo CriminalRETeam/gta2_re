@@ -276,7 +276,7 @@ class sound_obj
 
     EXPORT char_type Type_16_414320(sound_0x68* pObj);
     EXPORT void HandleTrainCabRollingFrictionSound_4143A0(Sound_Params_8* a2);
-    EXPORT bool sub_4145E0(s32 a2, s32* a3);
+    EXPORT bool GetCar_4145E0(s32 idx, Car_BC** ppOut);
     EXPORT char_type Type_17_414690(sound_0x68* pObj);
     EXPORT void TrainCab_414710(Sound_Params_8* a2);
     EXPORT char_type Type_19_4149D0(sound_0x68* a1);

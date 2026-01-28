@@ -1,5 +1,6 @@
 #include "sound_obj.hpp"
 #include "Camera.hpp"
+#include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Cranes.hpp"
@@ -17,8 +18,6 @@
 #include "cSampleManager.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "CarPhysics_B0.hpp"
-#include "CarInfo_808.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -4201,9 +4200,24 @@ u32 sound_obj::UpdateVocalStream_57E510()
     return 0;
 }
 
-STUB_FUNC(0x4145E0)
-bool sound_obj::sub_4145E0(s32 a2, s32* a3)
+MATCH_FUNC(0x4145E0)
+bool sound_obj::GetCar_4145E0(s32 idx, Car_BC** ppOut)
 {
-    NOT_IMPLEMENTED;
-    return false;
+    if (field_147C[idx].field_0_bUsed)
+    {
+        Sprite* pSprite = field_147C[idx].field_4_pObj->field_C_pAny.pSprite;
+        if (pSprite)
+        {
+            if (pSprite->field_10_sound)
+            {
+                Car_BC* pCar = pSprite->AsCar_40FEB0();
+                *ppOut = pCar;
+                if (pCar)
+                {
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
 }
