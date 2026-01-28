@@ -1020,38 +1020,44 @@ char_type Object_2C::HandleObjectHit_528990(Sprite* pSprite)
     return o2c->HandleObjectHitIfExplosive_528960(this);
 }
 
-WIP_FUNC(0x528A20)
+MATCH_FUNC(0x528A20)
 void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
 {
-    WIP_IMPLEMENTED;
-    
-    s32 remapped; // eax
-    Object_2C* pExplosion; // eax
-    Ped* pPed; // eax
-
     switch (this->field_18_model)
     {
         case 128:
         case 138:
+        {
+            s32 remapped;
             if (pObj->field_18_model == objects::object_166)
             {
                 remapped = pObj->sub_529210();
             }
             else
             {
-                remapped = (pObj->field_8->field_48 == 13) + 18;
+                if (pObj->field_8->field_48 == 13)
+                {
+                    remapped = 19;
+                }
+                else
+                {
+                    remapped = 18;
+                }
             }
-            pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xy.x,
-                                                                   this->field_4->field_14_xy.y,
-                                                                   this->field_4->field_1C_zpos,
-                                                                   kZeroAng_6F8F68,
-                                                                   remapped,
-                                                                   gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id);
+            Object_2C* pExplosion =
+                gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xy.x,
+                                                          this->field_4->field_14_xy.y,
+                                                          this->field_4->field_1C_zpos,
+                                                          kZeroAng_6F8F68,
+                                                          remapped,
+                                                          gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
             if (pExplosion)
             {
                 pExplosion->SetDamageOwner_529080(field_26_varrok_idx);
             }
-            goto LABEL_7;
+            break;
+        }
+
         case 154:
         case 159:
         case 192:
@@ -1063,25 +1069,28 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
         case 254:
         case 265:
         case 277:
-        LABEL_7:
-            if (gVarrok_7F8_703398->field_0[this->field_26_varrok_idx].field_0_ped_id)
-            {
-                pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0[this->field_26_varrok_idx].field_0_ped_id);
-            }
-            else
-            {
-                pPed = 0;
-            }
-            if (pObj->field_18_model == 166)
-            {
-                if (pPed)
-                {
-                    pPed->NotifyWeaponHit_46FF00(this->field_4->field_14_xy.x, this->field_4->field_14_xy.y, this->field_18_model);
-                }
-            }
             break;
         default:
             return;
+    }
+
+    Ped* pPed; // eax
+    s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx);
+    if (pedId)
+    {
+        pPed = gPedManager_6787BC->PedById(pedId);
+    }
+    else
+    {
+        pPed = 0;
+    }
+
+    if (pObj->field_18_model == objects::object_166)
+    {
+        if (pPed)
+        {
+            pPed->NotifyWeaponHit_46FF00(this->field_4->field_14_xy.x, this->field_4->field_14_xy.y, this->field_18_model);
+        }
     }
 }
 
