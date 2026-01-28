@@ -3734,96 +3734,75 @@ char_type sound_obj::Type6_7_4130E0(Rozza_A* a2)
     return 1;
 }
 
-WIP_FUNC(0x413540)
+MATCH_FUNC(0x413540)
 char_type sound_obj::Type6_9_413540(Rozza_A* a2)
 {
-    WIP_IMPLEMENTED;
-
-    s32 v2; // eax
-    char_type result; // al
-
-    v2 = a2->field_1C;
-    if (v2 > 166)
+    switch (a2->field_1C)
     {
-        switch (v2)
-        {
-            case 169:
-            case 182:
-            case 183:
-            case 192:
-            case 254:
-            case 265:
-            case 281:
-            case 282:
-            case 286:
-            case 294:
-            case 295:
-                return SelectObjectImpactSound_413120(a2, 9);
-            default:
-            LABEL_6:
-                result = 0;
-                break;
-        }
+        case 169:
+        case 182:
+        case 183:
+        case 192:
+        case 254:
+        case 265:
+        case 281:
+        case 282:
+        case 286:
+        case 294:
+        case 295:
+            return SelectObjectImpactSound_413120(a2, 9);
+
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+        case 19:
+        case 20:
+        case 21:
+        case 22:
+        case 23:
+        case 25:
+        case 43:
+        case 44:
+        case 45:
+        case 46:
+        case 47:
+        case 48:
+        case 49:
+        case 53:
+        case 54:
+        case 55:
+        case 56:
+        case 57:
+        case 58:
+        case 59:
+        case 60:
+        case 61:
+        case 62:
+        case 63:
+        case 110:
+        case 123:
+        case 155:
+        case 156:
+        case 157:
+        case 158:
+        case 166:
+            return SelectObjectImpactSound_413120(a2, 9);
+
+        default:
+            return 0;
     }
-    else
-    {
-        if (v2 != 166)
-        {
-            switch (v2)
-            {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 25:
-                case 43:
-                case 44:
-                case 45:
-                case 46:
-                case 47:
-                case 48:
-                case 49:
-                case 53:
-                case 54:
-                case 55:
-                case 56:
-                case 57:
-                case 58:
-                case 59:
-                case 60:
-                case 61:
-                case 62:
-                case 63:
-                case 110:
-                case 123:
-                case 155:
-                case 156:
-                case 157:
-                case 158:
-                    return SelectObjectImpactSound_413120(a2, 9);
-                default:
-                    goto LABEL_6;
-            }
-        }
-        return SelectObjectImpactSound_413120(a2, 9);
-    }
-    return result;
 }
 
 MATCH_FUNC(0x412D90)
