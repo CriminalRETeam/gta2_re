@@ -940,7 +940,7 @@ char_type sound_obj::CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3)
 }
 
 MATCH_FUNC(0x419070)
-bool sound_obj::VolCalc_419070(s32 a2, Fix16 a3, char_type a4)
+bool sound_obj::VolCalc_419070(u8 a2, Fix16 a3, char_type a4)
 {
     u8 v5 = CalcVolume_41A3F0(a2, a3, field_30_sQueueSample.field_28_distance);
     field_30_sQueueSample.field_24_nVolume = v5;
@@ -3105,72 +3105,67 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
     }
 }
 
-
 WIP_FUNC(0x415570)
 void sound_obj::HandleCarAlarmSound_415570(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
 {
     WIP_IMPLEMENTED;
-    
-    Car_BC* pCar; // edi
-    s32 car_info_idx; // ecx
-    char_type fA7; // al
-    char_type f_A7; // cl
-    u8 vol; // bl
 
-    pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    u8 f_A7;
+
+    Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     if (pCar->field_84_car_info_idx == car_model_enum::FIRETRUK || !pCar->sub_414F20() || !pCar->sub_414F20() || (pCar->field_A4 & 4) == 0)
     {
-        car_info_idx = pCar->field_84_car_info_idx;
-        if (car_info_idx != car_model_enum::FIRETRUK && car_info_idx != car_model_enum::TANK && car_info_idx != car_model_enum::GUNJEEP || !pCar->field_B8)
+        s32 car_info_idx = pCar->field_84_car_info_idx;
+        if (car_info_idx != car_model_enum::FIRETRUK && car_info_idx != car_model_enum::TANK && car_info_idx != car_model_enum::GUNJEEP ||
+            !pCar->field_B8)
         {
-            fA7 = a2->field_0_pObj->field_8_car_bc_ptr->field_A7_horn;
-            if (fA7)
+            if (a2->field_0_pObj->field_8_car_bc_ptr->IsEmittingHorn_411970())
             {
-                if ((u8)fA7 <= 0xF8u)
+                if (a2->field_4_bDrivenByPlayer)
                 {
-                    if (a2->field_4_bDrivenByPlayer)
+                    goto LABEL_28;
+                }
+                if (car_info_idx == car_model_enum::ICECREAM)
+                {
+                    goto LABEL_28;
+                }
+
+                f_A7 = pCar->field_A7_horn;
+                if ((u8)f_A7 <= 248u)
+                {
+                    if (f_A7 > 0)
                     {
-                        goto LABEL_28;
-                    }
-                    if (car_info_idx == car_model_enum::ICECREAM)
-                    {
-                        goto LABEL_28;
-                    }
-                    f_A7 = pCar->field_A7_horn;
-                    if ((u8)f_A7 <= 248u)
-                    {
-                        if (f_A7)
+                        f_A7 = pCar->field_A7_horn;
+                        if ((u8)f_A7 >= 44u)
                         {
-                            if ((u8)f_A7 >= 44u)
+                            pAlloc->field_A = this->field_1454_anRandomTable[4] & 7;
+                            f_A7 = 44;
+                        }
+
+                        if (byte_5FE434[pAlloc->field_A][(u8)(44 - f_A7)])
+                        {
+                        LABEL_28:
+                            if (CalculateDistance_419020(Fix16(921600, 0)))
                             {
-                                pAlloc->field_A = this->field_1454_anRandomTable[4] & 7;
-                                f_A7 = 44;
-                            }
-                            if (byte_5FE434[pAlloc->field_A][(u8)(44 - f_A7)])
-                            {
-                            LABEL_28:
-                                if (CalculateDistance_419020(Fix16(921600, 0)))
+                                u8 vol = pCar->field_84_car_info_idx == car_model_enum::TRAINCAB ? 127 : 20;
+                                if (VolCalc_419070(vol, Fix16(122880, 0), a2->field_5_bHasSolidAbove))
                                 {
-                                    vol = pCar->field_84_car_info_idx != car_model_enum::TRAINCAB ? 20 : 127;
-                                    if (VolCalc_419070(vol, 122880, a2->field_5_bHasSolidAbove))
+                                    this->field_30_sQueueSample.field_54 = Fix16(122880, 0);
+                                    this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
+                                    this->field_30_sQueueSample.field_64_max_distance = 15;
+                                    this->field_30_sQueueSample.field_58_type = 5;
+                                    this->field_30_sQueueSample.field_4_SampleIndex = 8;
+                                    this->field_30_sQueueSample.field_41 = 0;
+                                    this->field_30_sQueueSample.field_18 = 0;
+                                    if (a2->field_4_bDrivenByPlayer)
                                     {
-                                        this->field_30_sQueueSample.field_54 = Fix16(122880, 0);
-                                        this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
-                                        this->field_30_sQueueSample.field_64_max_distance = 15;
-                                        this->field_30_sQueueSample.field_58_type = 5;
-                                        this->field_30_sQueueSample.field_4_SampleIndex = 8;
-                                        this->field_30_sQueueSample.field_41 = 0;
-                                        this->field_30_sQueueSample.field_18 = 0;
-                                        if (a2->field_4_bDrivenByPlayer)
-                                        {
-                                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 2;
-                                        }
-                                        else
-                                        {
-                                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
-                                        }
-                                        AddSampleToRequestedQueue_41A850();
+                                        this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 2;
                                     }
+                                    else
+                                    {
+                                        this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
+                                    }
+                                    AddSampleToRequestedQueue_41A850();
                                 }
                             }
                         }
