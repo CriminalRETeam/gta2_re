@@ -478,3 +478,41 @@ EXTERN_GLOBAL(s32, gPurple_left_6F5FD4);
 EXTERN_GLOBAL(s32, gPurple_right_6F5B80);
 
 EXPORT void Init_gmp_slopes_array();
+
+
+
+static inline u8 get_slope_bits(u8& slope_byte) // slope_byte but with its first 2 bits cleared
+{
+    return slope_byte & 0xFCu;
+}
+
+static inline u8 get_slope_idx(u8& slope_byte) // 0 to 63
+{
+    return slope_byte >> 2;
+}
+
+static inline bool is_air_type(u8& slope_byte)
+{
+    return (slope_byte & 3) == 0;
+}
+
+static inline bool is_gradient_slope(u8& slope_byte)
+{
+    u8 slope = get_slope_bits(slope_byte);
+    return slope > 0 && slope < 0xB4u; // slope idx in range 1 to 45
+}
+
+static inline u8 get_block_type(u8& slope_byte)
+{
+    return slope_byte & 3;
+}
+
+static inline bool is_partial_block(s32& slope)
+{
+    return slope >= 0xD4 && slope <= 0xF4;
+}
+
+static inline bool is_diagonal_block(s32& slope)
+{
+    return slope >= 0xC4 && slope <= 0xD0;
+}

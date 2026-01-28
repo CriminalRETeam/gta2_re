@@ -4543,47 +4543,30 @@ char_type Car_14::SpawnTrafficCar_582480(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     return 0;
 }
 
-WIP_FUNC(0x583870)
+MATCH_FUNC(0x583870)
 char_type Car_14::sub_583870(Fix16 xpos, Fix16 ypos)
 {
-    WIP_IMPLEMENTED;
+    if (xpos > dword_6FF774 && ypos > dword_6FF774 && xpos < dword_6FF558 && ypos < dword_6FF558)
+    {
+        s32 zpos;
+        gmp_block_info* pHighBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(xpos.ToInt(), ypos.ToInt(), &zpos);
+        if (!pHighBlock)
+        {
+            return 0;
+        }
 
-    if (xpos <= dword_6FF774)
-    {
-        return 0;
-    }
-    if (ypos <= dword_6FF774)
-    {
-        return 0;
-    }
-    if (xpos >= dword_6FF558)
-    {
-        return 0;
-    }
-    if (ypos >= dword_6FF558)
-    {
-        return 0;
-    }
+        u8 slope_type = pHighBlock->field_B_slope_type;
+        if (is_gradient_slope(slope_type) && get_block_type(slope_type) != 0)
+        {
+            return 0;
+        }
 
-    s32 zpos;
-    gmp_block_info* pHighBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(xpos.ToInt(), ypos.ToInt(), &zpos);
-    if (!pHighBlock)
-    {
-        return 0;
+        if (get_block_type(slope_type) == 1)
+        {
+            return 1;
+        }
     }
-
-    u8 slope_type = pHighBlock->field_B_slope_type;
-    if ((slope_type & 0xFC) != 0 && (slope_type & 0xFCu) < 0xB4 && (slope_type & 3) != 0)
-    {
-        return 0;
-    }
-
-    char_type result = slope_type & 3;
-    if (result != 1)
-    {
-        return 0;
-    }
-    return result;
+    return 0;
 }
 
 MATCH_FUNC(0x5838E0)
