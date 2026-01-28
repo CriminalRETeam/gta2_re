@@ -17,6 +17,7 @@
 #include "Orca_2FD4.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
+#include "Police_7B8.hpp"
 #include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
@@ -39,7 +40,6 @@
 // TODO: Its in FrontEnd by seems crazy to include the whole file just for this
 EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);
 
-
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
 DEFINE_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C, 0x67792C);
@@ -47,6 +47,12 @@ DEFINE_GLOBAL(Car_78_Pool*, gCar_78_Pool_677CF8, 0x677CF8);
 DEFINE_GLOBAL(TrailerPool*, gTrailerPool_66AC80, 0x66AC80);
 DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
 DEFINE_GLOBAL(s32, dword_6772AC, 0x6772AC);
+
+DEFINE_GLOBAL(Fix16, dword_6FF70C, 0x6FF70C);
+DEFINE_GLOBAL(Fix16, dword_6FF85C, 0x6FF85C);
+DEFINE_GLOBAL(Fix16, dword_6FF724, 0x6FF724);
+DEFINE_GLOBAL(Fix16, dword_6FF6A4, 0x6FF6A4);
+DEFINE_GLOBAL(Fix16, dword_6FF580, 0x6FF580);
 
 // This is not used outside this file.
 // In fact, it's only allocated and deallocated, it's never used.
@@ -76,12 +82,16 @@ DEFINE_GLOBAL(Fix16, dword_6771FC, 0x6771FC);
 DEFINE_GLOBAL(s32, dword_677888, 0x677888);
 DEFINE_GLOBAL(Fix16, dword_6778D0, 0x6778D0);
 DEFINE_GLOBAL(Fix16, DAT_006FF744, 0x006FF744);
-DEFINE_GLOBAL(Fix16, DAT_006FF774, 0x006FF774);
+DEFINE_GLOBAL(Fix16, dword_6FF774, 0x006FF774);
+DEFINE_GLOBAL(Fix16, dword_6FF558, 0x6FF558);
 DEFINE_GLOBAL(Fix16, DAT_006FF570, 0x6FF570);
-DEFINE_GLOBAL(Fix16, DAT_006FF7E8, 0x6FF7E8);
+DEFINE_GLOBAL(Fix16, dword_6FF7E8, 0x6FF7E8);
 DEFINE_GLOBAL(s8, DAT_006FF8C4, 0x6FF8C4);
 DEFINE_GLOBAL(s8, DAT_006FF8C5, 0x6FF8C5);
-DEFINE_GLOBAL(Fix16, DAT_006FF778, 0x6ff778);
+DEFINE_GLOBAL(Fix16, dword_6FF778, 0x6ff778);
+DEFINE_GLOBAL(Fix16, dword_6FF5E4, 0x6FF5E4);
+DEFINE_GLOBAL(Fix16, dword_6FF5DC, 0x6FF5DC);
+DEFINE_GLOBAL(Fix16, dword_6FF5D4, 0x6FF5D4);
 DEFINE_GLOBAL(Fix16, dword_6F7690, 0x6F7690);
 DEFINE_GLOBAL(Fix16, dword_6F77D4, 0x6F77D4);
 DEFINE_GLOBAL(Ang16, dword_6F804C, 0x6F804C);
@@ -4322,7 +4332,7 @@ s32 Trailer::sub_408220()
 MATCH_FUNC(0x5822E0)
 void sub_5822E0()
 {
-    DAT_006FF7E8 = DAT_006FF774;
+    dword_6FF7E8 = dword_6FF774;
     DAT_006FF570 = DAT_006FF744;
     DAT_006FF8C4 = 0;
     DAT_006FF8C5 = 0;
@@ -4360,14 +4370,14 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
         case 2:
             if (field_8 == 0)
             {
-                if (param_2 < (field_0_cam->field_78_boundaries_non_neg.field_4_right - DAT_006FF778))
+                if (param_2 < (field_0_cam->field_78_boundaries_non_neg.field_4_right - dword_6FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (param_2 > (field_0_cam->field_78_boundaries_non_neg.field_0_left + DAT_006FF778))
+                if (param_2 > (field_0_cam->field_78_boundaries_non_neg.field_0_left + dword_6FF778))
                 {
                     return 1;
                 }
@@ -4377,14 +4387,14 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
         case 4:
             if (field_8 == 0)
             {
-                if (param_3 < (field_0_cam->field_78_boundaries_non_neg.field_C_bottom - DAT_006FF778))
+                if (param_3 < (field_0_cam->field_78_boundaries_non_neg.field_C_bottom - dword_6FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (param_3 > (field_0_cam->field_78_boundaries_non_neg.field_8_top + DAT_006FF778))
+                if (param_3 > (field_0_cam->field_78_boundaries_non_neg.field_8_top + dword_6FF778))
                 {
                     return 1;
                 }
@@ -4394,10 +4404,125 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
     return 0;
 }
 
-STUB_FUNC(0x5832C0)
+WIP_FUNC(0x5832C0)
 void Car_14::MakeTrafficForCurrCamera_5832C0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 wanted_related;
+    if ((!bLimit_recycling_67D4CA || gCar_6C_677930->field_28_recycled_cars < 2) &&
+        gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars != 16)
+    {
+        Ang16 pRot = field_0_cam->sub_4358D0();
+        s32 angleFace = Ang16::GetAngleFace_4F78F0(pRot);
+
+        switch (gPolice_7B8_6FEE40->field_654_wanted_level)
+        {
+            case 0:
+            case 1:
+                wanted_related = dword_6FF778;
+                break;
+            case 2:
+            case 5:
+                wanted_related = dword_6FF5E4;
+                break;
+            case 3:
+                wanted_related = dword_6FF5DC;
+                break;
+            case 4:
+            case 6:
+                wanted_related = dword_6FF5D4;
+                break;
+            default:
+                //wanted_related = rng_; // random value ??
+                break;
+        }
+
+        dword_6FF7E8 = ((wanted_related * (field_0_cam->field_20_boundaries.field_4_right - field_0_cam->field_20_boundaries.field_0_left) *
+                         (field_0_cam->field_20_boundaries.field_C_bottom - field_0_cam->field_20_boundaries.field_8_top))) /
+            Fix16(0x158000, 0);
+
+        this->field_9 = 1;
+        this->field_A = 1;
+
+        u8 tmp = 5;
+        u8 rng_int = stru_6F6784.get_uint8_4F7B70((u8*)&tmp);
+
+        bool maybe_vel = field_0_cam->sub_435A20() > dword_6FF580;
+
+        switch (rng_int)
+        {
+            case 0:
+                field_8 = 1;
+                if (!SpawnTrafficCar_582480(1, 2, 0) && !SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0) &&
+                    !SpawnTrafficCar_582480(3, 4, 0) && gPolice_7B8_6FEE40->field_654_wanted_level < 3)
+                {
+                    if ((u8)maybe_vel)
+                    {
+                        sub_583260(angleFace);
+                    }
+                }
+                break;
+
+            case 1:
+                this->field_8 = 0;
+                if (!SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0) && !SpawnTrafficCar_582480(3, 4, 0) &&
+                    (gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !sub_583260(angleFace)))
+                {
+                    SpawnTrafficCar_582480(1, 2, 0);
+                }
+                break;
+
+            case 2:
+                this->field_8 = 1;
+                if (!SpawnTrafficCar_582480(4, 3, 0) && !SpawnTrafficCar_582480(3, 4, 0) &&
+                    (gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !sub_583260(angleFace)) &&
+                    !SpawnTrafficCar_582480(1, 2, 0))
+                {
+                    SpawnTrafficCar_582480(2, 1, 0);
+                }
+                break;
+
+            case 3:
+                this->field_8 = 0;
+                if (!SpawnTrafficCar_582480(3, 4, 0) &&
+                    (gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !sub_583260(angleFace)) &&
+                    !SpawnTrafficCar_582480(1, 2, 0) && !Car_14::SpawnTrafficCar_582480(2, 1, 0))
+                {
+                    SpawnTrafficCar_582480(4, 3, 0);
+                }
+                break;
+
+            case 4:
+                field_8 = 1;
+                if ((gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !sub_583260(angleFace)) &&
+                    !SpawnTrafficCar_582480(1, 2, 0) && !SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0))
+                {
+                    SpawnTrafficCar_582480(3, 4, 0);
+                }
+                break;
+
+            default:
+                return;
+        }
+    }
+}
+
+MATCH_FUNC(0x583260)
+char_type Car_14::sub_583260(s32 angle_face)
+{
+    switch (angle_face)
+    {
+        case 1:
+            return SpawnTrafficCar_582480(1, 1, 0);
+        case 2:
+            return SpawnTrafficCar_582480(2, 2, 0);
+        case 3:
+            return SpawnTrafficCar_582480(3, 3, 0);
+        case 4:
+            return SpawnTrafficCar_582480(4, 4, 0);
+    }
+    return 1;
 }
 
 MATCH_FUNC(0x583670)
@@ -4413,7 +4538,7 @@ void Car_14::GenerateTraffic_583670()
                                                                            field_C_player->field_2C4_player_ped->field_1AC_cam.y.ToInt());
         }
 
-        for (; field_0_cam;)
+        while (field_0_cam)
         {
             if (field_0_cam->has_camera_car_or_ped_433E90())
             {
@@ -4443,5 +4568,113 @@ void Car_14::GenerateTraffic_583670()
                 field_10_zone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(pPed->get_cam_x().ToInt(), pPed->field_1AC_cam.y.ToInt());
             }
         }
+    }
+}
+
+WIP_FUNC(0x583750)
+Fix16* __stdcall Car_14::sub_583750(Fix16* pRetF16, Fix16 max_speed, u8* pOut)
+{
+    WIP_IMPLEMENTED;
+
+    if (max_speed >= dword_6FF70C)
+    {
+        *pOut = 2;
+    }
+
+    u8 rng_tmp;
+    if (max_speed >= dword_6FF85C)
+    {
+        *pOut = 2;
+        rng_tmp = 100; // As byte
+        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&rng_tmp)) / Fix16(1638400, 0);
+        *pRetF16 = dword_6FF85C + ((v7 * (dword_6FF70C - dword_6FF85C)));
+        return pRetF16;
+    }
+    else if (max_speed >= dword_6FF724)
+    {
+        *pOut = 1;
+        rng_tmp = 100; // As byte
+        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&rng_tmp)) / Fix16(1638400, 0);
+        *pRetF16 = dword_6FF724 + ((v7 * (dword_6FF85C - dword_6FF724)));
+        return pRetF16;
+    }
+    else
+    {
+        *pOut = 0;
+        rng_tmp = 100; // As byte
+        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&rng_tmp)) / Fix16(0x190000, 0);
+        *pRetF16 = dword_6FF6A4 + ((v7 * (dword_6FF724 - dword_6FF6A4)));
+        return pRetF16;
+    }
+}
+
+STUB_FUNC(0x582480)
+char_type Car_14::SpawnTrafficCar_582480(s32 xpos, s32 ypos, s32 zpos)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+MATCH_FUNC(0x583870)
+char_type Car_14::sub_583870(Fix16 xpos, Fix16 ypos)
+{
+    if (xpos > dword_6FF774 && ypos > dword_6FF774 && xpos < dword_6FF558 && ypos < dword_6FF558)
+    {
+        s32 zpos;
+        gmp_block_info* pHighBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(xpos.ToInt(), ypos.ToInt(), &zpos);
+        if (!pHighBlock)
+        {
+            return 0;
+        }
+
+        u8 slope_type = pHighBlock->field_B_slope_type;
+        if (is_gradient_slope(slope_type) && get_block_type(slope_type) != 0)
+        {
+            return 0;
+        }
+
+        if (get_block_type(slope_type) == 1)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+MATCH_FUNC(0x5838E0)
+s32 Car_14::sub_5838E0(u8 a1)
+{
+    switch (a1)
+    {
+        case 0:
+            return -2;
+        case 1:
+            return -1;
+        case 3:
+            return 1;
+        case 4:
+            return 2;
+    }
+    return 0;
+}
+
+MATCH_FUNC(0x583930)
+char_type Car_14::sub_583930(char_type a1, char_type a2)
+{
+    if (a2 == 3)
+    {
+        return a1;
+    }
+    else if (a2 != 2)
+    {
+        return 2;
+    }
+    else if (a1 == 1)
+    {
+        return 2;
+    }
+    else
+    {
+        return a1;
     }
 }

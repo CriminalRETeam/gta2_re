@@ -41,7 +41,7 @@ class Camera_0xBC
     EXPORT void ReturnToDefaultZoom_435830();
     EXPORT void sub_435840();
     EXPORT void sub_435860(Camera_0xBC* a2);
-    EXPORT s16* sub_4358D0(s16* a2);
+    EXPORT Ang16 sub_4358D0();
     EXPORT Fix16 sub_435A20();
     EXPORT s32 IsCoordsPosVisible_435A70(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT void sub_435B90();

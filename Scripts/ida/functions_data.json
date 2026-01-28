@@ -3785,7 +3785,7 @@
         "v105_address": "0x46e380"
     },
     {
-        "name": "PedManager::sub_46EB60",
+        "name": "PedManager::SpawnDummies_46EB60",
         "v96f_address": "0x440CC0",
         "v105_address": "0x46eb60"
     },

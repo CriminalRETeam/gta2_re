@@ -24,10 +24,13 @@ EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
-DEFINE_GLOBAL(s32, DAT_006f8f88, 0x6f8f88);
-s32 dword_6F8F88; //DEFINE_GLOBAL(s32, dword_6F8F88, 0x6F8F88);
+DEFINE_GLOBAL(s32, dword_6F8F88, 0x6f8f88);
+DEFINE_GLOBAL(s32, dword_6F8F90, 0x6F8F90);
+DEFINE_GLOBAL(Ang16, word_6F8D62, 0x6F8D62);
+
 DEFINE_GLOBAL(Fix16_Point, stru_6F8EF0, 0x6F8EF0);
 DEFINE_GLOBAL(Fix16, kFpZero_6F8E10, 0x6F8E10);
+DEFINE_GLOBAL(Fix16, k_dword_6F8C9C, 0x6F8C9C);
 
 DEFINE_GLOBAL(u8, byte_6F8C68, 0x6F8C68);
 DEFINE_GLOBAL(u8, byte_6F8C4C, 0x6F8C4C);
@@ -84,11 +87,11 @@ void Object_2C::PoolDeallocate()
     const s32 f5C = field_8->field_5C;
     if (f5C == 2)
     {
-        --gObject_5C_6F8F84->field_10;
+        --gObject_5C_6F8F84->field_10_rotation_counter;
     }
     else if (f5C == 3)
     {
-        --gObject_5C_6F8F84->field_14;
+        --gObject_5C_6F8F84->field_14_sprites_in_list;
         gObject_5C_6F8F84->field_1C.RemoveSpriteSafe_5A6B60(this->field_4);
     }
 
@@ -873,7 +876,7 @@ void Object_2C::AssignToBucket_527AE0()
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
             return;
         case collision_bucket_category::purple_doom_2_region_bucket_3:
-            DAT_006f8f88++;
+            dword_6F8F88++;
             gPurpleDoom_2_67920C->AddToRegionBuckets_477B20(field_4);
             return;
         case collision_bucket_category::purple_doom_1_region_bucket_4:
@@ -894,7 +897,7 @@ void Object_2C::RemoveFromCollisionBuckets_527D00()
             gPurpleDoom_3_679210->Remove_477B00(field_4);
             break;
         case collision_bucket_category::purple_doom_2_region_bucket_3:
-            --DAT_006f8f88;
+            --dword_6F8F88;
             gPurpleDoom_2_67920C->AddToSpriteRectBuckets_477B60(field_4);
             break;
         case collision_bucket_category::purple_doom_1_region_bucket_4:
@@ -918,10 +921,67 @@ Ang16 Object_2C::sub_528130(Fix16_Point* a2)
     return 0;
 }
 
-STUB_FUNC(0x528240)
-char_type Object_2C::sub_528240(s32 a2, s32 a3)
+MATCH_FUNC(0x528240)
+char_type Object_2C::sub_528240(s32 current, s32 desired)
 {
-    NOT_IMPLEMENTED;
+    switch (current)
+    {
+        case 1:
+            switch (desired)
+            {
+                case 2:
+                    if (gObject_5C_6F8F84->field_10_rotation_counter == 360)
+                    {
+                        sub_5290A0();
+                        return 1;
+                    }
+                    gObject_5C_6F8F84->field_10_rotation_counter++;
+                    break;
+
+                case 3:
+                    gObject_5C_6F8F84->field_14_sprites_in_list++;
+                    gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
+                    break;
+            }
+            break;
+
+        case 2:
+            switch (desired)
+            {
+                case 1:
+                    gObject_5C_6F8F84->field_10_rotation_counter--;
+                    break;
+
+                case 3:
+                    gObject_5C_6F8F84->field_10_rotation_counter--;
+                    gObject_5C_6F8F84->field_14_sprites_in_list++;
+                    gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
+                    break;
+            }
+            break;
+
+        case 3:
+            switch (desired)
+            {
+                case 1:
+                    gObject_5C_6F8F84->field_14_sprites_in_list--;
+                    gObject_5C_6F8F84->field_1C.RemoveSprite_5A6B10(field_4);
+                    break;
+
+                case 2:
+                    if (gObject_5C_6F8F84->field_10_rotation_counter == 360)
+                    {
+                        sub_5290A0();
+                        return 1;
+                    }
+
+                    gObject_5C_6F8F84->field_14_sprites_in_list--;
+                    gObject_5C_6F8F84->field_1C.RemoveSprite_5A6B10(field_4);
+                    gObject_5C_6F8F84->field_10_rotation_counter++;
+                    break;
+            }
+            break;
+    }
     return 0;
 }
 
@@ -1020,16 +1080,166 @@ char_type Object_2C::HandleObjectHit_528990(Sprite* pSprite)
     return o2c->HandleObjectHitIfExplosive_528960(this);
 }
 
-STUB_FUNC(0x528A20)
+MATCH_FUNC(0x528A20)
 void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
 {
-    NOT_IMPLEMENTED;
+    switch (this->field_18_model)
+    {
+        case 128:
+        case 138:
+        {
+            s32 remapped;
+            if (pObj->field_18_model == objects::object_166)
+            {
+                remapped = pObj->sub_529210();
+            }
+            else
+            {
+                if (pObj->field_8->field_48 == 13)
+                {
+                    remapped = 19;
+                }
+                else
+                {
+                    remapped = 18;
+                }
+            }
+            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xy.x,
+                                                                              this->field_4->field_14_xy.y,
+                                                                              this->field_4->field_1C_zpos,
+                                                                              kZeroAng_6F8F68,
+                                                                              remapped,
+                                                                              gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
+            if (pExplosion)
+            {
+                pExplosion->SetDamageOwner_529080(field_26_varrok_idx);
+            }
+            break;
+        }
+
+        case 154:
+        case 159:
+        case 192:
+        case 193:
+        case 194:
+        case 195:
+        case 198:
+        case 199:
+        case 254:
+        case 265:
+        case 277:
+            break;
+        default:
+            return;
+    }
+
+    Ped* pPed; // eax
+    s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx);
+    if (pedId)
+    {
+        pPed = gPedManager_6787BC->PedById(pedId);
+    }
+    else
+    {
+        pPed = 0;
+    }
+
+    if (pObj->field_18_model == objects::object_166)
+    {
+        if (pPed)
+        {
+            pPed->NotifyWeaponHit_46FF00(this->field_4->field_14_xy.x, this->field_4->field_14_xy.y, this->field_18_model);
+        }
+    }
 }
 
-STUB_FUNC(0x528ba0)
+WIP_FUNC(0x528E00)
+s32 __stdcall Object_2C::sub_528E00(s32 a1)
+{
+    WIP_IMPLEMENTED;
+
+    int result; // eax
+
+    switch (a1)
+    {
+        case 0:
+            result = 18;
+            break;
+        case 1:
+            result = 23;
+            break;
+        case 2:
+            result = 22;
+            break;
+        case 4:
+            result = 25;
+            break;
+        default:
+            result = 24;
+            break;
+    }
+    return result;
+}
+
+MATCH_FUNC(0x528ba0)
 void Object_2C::HandleImpactNoSprite_528BA0()
 {
-    NOT_IMPLEMENTED;
+    Fix16_Point point;
+
+    switch (this->field_18_model)
+    {
+        case 128:
+        case 138:
+        {
+            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_4->field_14_xy.x,
+                                                                              field_4->field_14_xy.y,
+                                                                              field_4->field_1C_zpos,
+                                                                              kZeroAng_6F8F68,
+                                                                              sub_528E00(dword_6F8F90),
+                                                                              gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
+            if (pExplosion)
+            {
+                pExplosion->SetDamageOwner_529080(field_26_varrok_idx);
+            }
+            // Fall through
+        }
+
+        case 254:
+        case 265:
+        {
+            point.FromPolar_41E210(k_dword_6F8C9C, field_4->field_0 + word_6F8D62);
+            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
+                                                           field_4->field_14_xy.y,
+                                                           field_4->field_1C_zpos,
+                                                           point.x,
+                                                           point.y);
+            break;
+        }
+
+        case 154:
+        case 159:
+        case 192:
+        case 193:
+        case 194:
+        case 195:
+        case 198:
+        case 199:
+        case 277:
+            break;
+
+        default:
+            return;
+    }
+
+    const s32 id = gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx);
+    if (id)
+    {
+        Ped* pPed = gPedManager_6787BC->PedById(id);
+        if (pPed)
+        {
+            pPed->NotifyWeaponHit_46FF00(field_4->field_14_xy.x, field_4->field_14_xy.y, field_18_model);
+        }
+    }
 }
 
 WIP_FUNC(0x528e50)
@@ -1212,9 +1422,8 @@ MATCH_FUNC(0x529240)
 s32 Object_2C::sub_529240()
 {
     s32 result;
-    gmp_block_info* pBlockInfo = gMap_0x370_6F6268->get_block_4DFE10(field_4->field_14_xy.x.ToInt(),
-                                                                     field_4->field_14_xy.y.ToInt(),
-                                                                     field_4->field_1C_zpos.ToInt());
+    gmp_block_info* pBlockInfo =
+        gMap_0x370_6F6268->get_block_4DFE10(field_4->field_14_xy.x.ToInt(), field_4->field_14_xy.y.ToInt(), field_4->field_1C_zpos.ToInt());
     switch (field_26_varrok_idx)
     {
         case 45u:
@@ -1440,7 +1649,7 @@ void Object_2C::sub_525100()
 MATCH_FUNC(0x529300)
 void Object_5C::sub_529300()
 {
-    for (s32 i = field_14 - 88; i >= 0; i--)
+    for (s32 i = field_14_sprites_in_list - 88; i >= 0; i--)
     {
         Sprite* pSprite = field_1C.PopBackSprite_5A6DC0();
         Object_2C* o2c = pSprite->As2C_40FEC0();
@@ -1480,8 +1689,8 @@ Object_5C::Object_5C()
     byte_6F8C68 = 0;
     byte_6F8C4C = 0;
     byte_6F8F40 = 0;
-    field_10 = 0;
-    field_14 = 0;
+    field_10_rotation_counter = 0;
+    field_14_sprites_in_list = 0;
     dword_6F8E54 = 0;
     dword_6F8F18 = 0;
     dword_6F8DC0 = 0;
@@ -1631,7 +1840,7 @@ WIP_FUNC(0x529ab0)
 Object_2C* Object_5C::NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, s32 radius_flags, u8 intensity)
 {
     WIP_IMPLEMENTED;
-    
+
     Object_2C* pNewObj = Object_5C::sub_529C00(light_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
@@ -1688,11 +1897,11 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     pPhi = gPhi_8CA8_6FCF00->sub_534360(object_type);
     if (pPhi->field_5C == 2)
     {
-        if (field_10 == 360)
+        if (field_10_rotation_counter == 360)
         {
             return 0;
         }
-        field_10++;
+        field_10_rotation_counter++;
     }
 
     if (pPhi->field_61) // 6c
@@ -1732,7 +1941,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
 
     if (pPhi->field_5C == 3) // 1e0
     {
-        ++field_14;
+        ++field_14_sprites_in_list;
         field_1C.AddSprite_5A6CD0(pNew2C->field_4);
     }
 

@@ -5,6 +5,8 @@
 #include "Ped.hpp"
 #include "Pool.hpp"
 
+class Camera_0xBC;
+
 class Char_B4_Pool
 {
   public:
@@ -60,7 +62,7 @@ class Char_8_Pool
 class PedManager
 {
   public:
-    EXPORT void sub_46EB60(u32* a2);
+    EXPORT void SpawnDummies_46EB60(Camera_0xBC *pCam);
     EXPORT void PedsService_4703F0();
     EXPORT PedManager();
     EXPORT ~PedManager();

@@ -90,7 +90,7 @@ class Ped
     EXPORT void CarThief_AI_45FF60();
     EXPORT void sub_460820();
     EXPORT void sub_461290();
-    EXPORT char_type sub_461530();
+    EXPORT void sub_461530();
     EXPORT void sub_461630();
     EXPORT char_type RoadBlockTank_AI_4619F0();
     EXPORT void UpdateFacingAngle_461A60();
@@ -107,7 +107,7 @@ class Ped
     EXPORT void ProcessObjective_4632E0();
     EXPORT void sub_463300(u8 a1);
     EXPORT s32 sub_4633E0(char_type a2);
-    EXPORT char_type SetObjective(s32 a2, s16 a3);
+    EXPORT void SetObjective(s32 objective, s16 objective_timer);
     EXPORT void sub_463830(s32 a2, s16 a3);
     EXPORT void ProcessOnFootObjective_463AA0();
     EXPORT void ProcessInCarObjective_463FB0();
@@ -221,7 +221,7 @@ class Ped
     EXPORT void AddThreateningPedToList_46FC70();
     EXPORT void sub_46FC90(s32 a2, s32 a3);
     EXPORT char_type ProcessWeaponHitResponse_46FE20(Object_2C* a2);
-    EXPORT void NotifyWeaponHit_46FF00(s32 a2, s32 a3, s32 a4);
+    EXPORT void NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model);
     EXPORT void sub_46FFF0(s32 a2);
     EXPORT void AimRoofGun_470050();
     EXPORT void add_wanted_points_470160(s16 wanted_amount);
@@ -629,7 +629,7 @@ class Ped
     char_type field_262;
     char_type field_263;
     u8 field_264;
-    char_type field_265;
+    u8 field_265;
     char_type field_266;
     u8 field_267_varrok_idx;
     char_type field_268;
