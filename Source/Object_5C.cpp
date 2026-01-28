@@ -926,71 +926,69 @@ char_type Object_2C::sub_528240(s32 current, s32 desired)
 {
     WIP_IMPLEMENTED;
 
-    if (current == 1)
+    switch (current)
     {
-        if (desired == 2)
-        {
+        case 1:
+            if (desired == 2)
+            {
+                if (gObject_5C_6F8F84->field_10_rotation_counter == 360)
+                {
+                    goto trans_done;
+                }
+                gObject_5C_6F8F84->field_10_rotation_counter++;
+            }
+            else if (desired == 3)
+            {
+                gObject_5C_6F8F84->field_14_sprites_in_list++;
+                gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
+                return 0;
+            }
+            return 0;
+
+        case 2:
+            if (desired == 1)
+            {
+                gObject_5C_6F8F84->field_10_rotation_counter--;
+                return 0;
+            }
+
+            if (desired == 3)
+            {
+                gObject_5C_6F8F84->field_10_rotation_counter--;
+                gObject_5C_6F8F84->field_14_sprites_in_list++;
+                gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
+                return 0;
+            }
+            return 0;
+
+        case 3:
+            if (desired == 1)
+            {
+                gObject_5C_6F8F84->field_14_sprites_in_list--;
+                gObject_5C_6F8F84->field_1C.RemoveSprite_5A6B10(field_4);
+                return 0;
+            }
+
+            if (desired != 2)
+            {
+                return 0;
+            }
+
             if (gObject_5C_6F8F84->field_10_rotation_counter == 360)
             {
-                goto trans_done;
+            trans_done:
+                sub_5290A0(); // set Field_25=1
+                return 1;
             }
+
+            gObject_5C_6F8F84->field_14_sprites_in_list--;
+            gObject_5C_6F8F84->field_1C.RemoveSprite_5A6B10(field_4);
             gObject_5C_6F8F84->field_10_rotation_counter++;
-        }
-        else if (desired == 3)
-        {
-            gObject_5C_6F8F84->field_14_sprites_in_list++;
-            gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
             return 0;
-        }
-        return 0;
-    }
 
-    if (current == 2)
-    {
-        if (desired == 1)
-        {
-            gObject_5C_6F8F84->field_10_rotation_counter--;
+        default:
             return 0;
-        }
-
-        if (desired == 3)
-        {
-            gObject_5C_6F8F84->field_10_rotation_counter--;
-            gObject_5C_6F8F84->field_14_sprites_in_list++;
-            gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
-            return 0;
-        }
-        return 0;
     }
-
-    if (current != 3)
-    {
-        return 0;
-    }
-
-    if (desired == 1)
-    {
-        gObject_5C_6F8F84->field_14_sprites_in_list--;
-        gObject_5C_6F8F84->field_1C.RemoveSprite_5A6B10(field_4);
-        return 0;
-    }
-
-    if (desired != 2)
-    {
-        return 0;
-    }
-
-    if (gObject_5C_6F8F84->field_10_rotation_counter == 360)
-    {
-    trans_done:
-        sub_5290A0(); // set Field_25=1
-        return 1;
-    }
-
-    gObject_5C_6F8F84->field_14_sprites_in_list--;
-    gObject_5C_6F8F84->field_1C.RemoveSprite_5A6B10(field_4);
-    gObject_5C_6F8F84->field_10_rotation_counter++;
-    return 0;
 }
 
 STUB_FUNC(0x5283c0)
