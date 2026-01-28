@@ -39,7 +39,6 @@
 // TODO: Its in FrontEnd by seems crazy to include the whole file just for this
 EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);
 
-
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
 DEFINE_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C, 0x67792C);
@@ -47,6 +46,11 @@ DEFINE_GLOBAL(Car_78_Pool*, gCar_78_Pool_677CF8, 0x677CF8);
 DEFINE_GLOBAL(TrailerPool*, gTrailerPool_66AC80, 0x66AC80);
 DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
 DEFINE_GLOBAL(s32, dword_6772AC, 0x6772AC);
+
+DEFINE_GLOBAL(Fix16, dword_6FF70C, 0x6FF70C);
+DEFINE_GLOBAL(Fix16, dword_6FF85C, 0x6FF85C);
+DEFINE_GLOBAL(Fix16, dword_6FF724, 0x6FF724);
+DEFINE_GLOBAL(Fix16, dword_6FF6A4, 0x6FF6A4);
 
 // This is not used outside this file.
 // In fact, it's only allocated and deallocated, it's never used.
@@ -4400,6 +4404,33 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
     NOT_IMPLEMENTED;
 }
 
+WIP_FUNC(0x583260)
+char_type Car_14::sub_583260(s32 angle_face)
+{
+    WIP_IMPLEMENTED;
+
+    char_type result;
+    switch (angle_face)
+    {
+        case 1:
+            result = Car_14::SpawnTrafficCar_582480(1, 1, 0);
+            break;
+        case 2:
+            result = Car_14::SpawnTrafficCar_582480(2, 2, 0);
+            break;
+        case 3:
+            result = Car_14::SpawnTrafficCar_582480(3, 3, 0);
+            break;
+        case 4:
+            result = Car_14::SpawnTrafficCar_582480(4, 4, 0);
+            break;
+        default:
+            result = 1;
+            break;
+    }
+    return result;
+}
+
 MATCH_FUNC(0x583670)
 void Car_14::GenerateTraffic_583670()
 {
@@ -4444,4 +4475,69 @@ void Car_14::GenerateTraffic_583670()
             }
         }
     }
+}
+
+WIP_FUNC(0x583750)
+Fix16* __stdcall Car_14::sub_583750(Fix16* pRetF16, Fix16 a2, u8* pOut)
+{
+    WIP_IMPLEMENTED;
+
+    Fix16 v5; // rax
+    Fix16 v6; // esi
+    Fix16 v7; // ecx
+    Fix16 v8; // eax
+    Fix16 v9; // rax
+    Fix16 v10; // rax
+
+    Fix16 max_speed = a2;
+    u8* pOut_ = pOut;
+
+    if (a2 >= dword_6FF70C)
+    {
+        *pOut = 2;
+    }
+
+    // >> 14 to int
+
+    if (max_speed < dword_6FF85C)
+    {
+        if (max_speed < dword_6FF724)
+        {
+            *pOut_ = 0;
+            a2 = 100; // As byte
+            v10 = Fix16(Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&a2)));
+            v6 = dword_6FF6A4;
+            v7 = v10 / Fix16(0x190000, 0);
+            v8 = dword_6FF724;
+        }
+        else
+        {
+            *pOut_ = 1;
+            a2 = 100; // As byte
+            v9 = Fix16(Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&a2)));
+            v6 = dword_6FF724;
+            v7 = v9 / Fix16(1638400, 0);
+            v8 = dword_6FF85C;
+        }
+    }
+    else
+    {
+        *pOut_ = 2;
+        a2 = 100; // As byte
+        v5 = Fix16(Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&a2)));
+        v6 = dword_6FF85C;
+        v7 = v5 / Fix16(1638400, 0);
+        v8 = dword_6FF70C;
+    }
+    
+    *pRetF16 = v6 + ((v7 * (v8 - v6)));
+
+    return pRetF16;
+}
+
+STUB_FUNC(0x582480)
+char_type Car_14::SpawnTrafficCar_582480(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+    NOT_IMPLEMENTED;
+    return 0;
 }

@@ -1001,7 +1001,12 @@ struct Car_14
     EXPORT ~Car_14();
     EXPORT char sub_582360(int param_1, Fix16 param_2, Fix16 param_3);
     EXPORT void MakeTrafficForCurrCamera_5832C0();
+    EXPORT char_type sub_583260(s32 angle_face);
     EXPORT void GenerateTraffic_583670();
+
+    EXPORT static Fix16* __stdcall sub_583750(Fix16* pRetF16, Fix16 a2, u8* pOut);
+
+    EXPORT char_type SpawnTrafficCar_582480(Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
     Camera_0xBC* field_0_cam;
     Fix16_Rect* field_4_rect;
