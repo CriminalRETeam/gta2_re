@@ -3105,65 +3105,57 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
     }
 }
 
-WIP_FUNC(0x415570)
+MATCH_FUNC(0x415570)
 void sound_obj::HandleCarAlarmSound_415570(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
 {
-    WIP_IMPLEMENTED;
-
-    u8 f_A7;
-
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     if (pCar->IsFireTruck_4118F0() || !pCar->sub_414F20() || !pCar->sub_414F80())
     {
-        if (!pCar->IsFireTruck_4118F0() && !pCar->IsTank_411900() && !pCar->IsGunJeep_411910() ||
-            !pCar->field_B8)
+        if (!pCar->IsFireTruck_4118F0() && !pCar->IsTank_411900() && !pCar->IsGunJeep_411910() || !pCar->field_B8)
         {
             if (a2->field_0_pObj->field_8_car_bc_ptr->IsEmittingHorn_411970())
             {
-                if (a2->field_4_bDrivenByPlayer)
+                bool tryPlay = false;
+                if (a2->field_4_bDrivenByPlayer || pCar->GetCarInfoIdx_411940() == car_model_enum::ICECREAM)
                 {
-                    goto LABEL_28;
+                    tryPlay = true;
                 }
-                if (pCar->GetCarInfoIdx_411940() == car_model_enum::ICECREAM)
+                else if (pCar->IsEmittingHorn_411990())
                 {
-                    goto LABEL_28;
-                }
-
-                if (pCar->IsEmittingHorn_411990())
-                {
-                    f_A7 = pCar->field_A7_horn;
-                    if ((u8)f_A7 >= 44u)
+                    u8 f_A7 = pCar->field_A7_horn;
+                    if (f_A7 >= 44u)
                     {
                         pAlloc->field_A = this->field_1454_anRandomTable[4] & 7;
                         f_A7 = 44;
                     }
 
-                    if (byte_5FE434[pAlloc->field_A][(u8)(44 - f_A7)])
+                    if (byte_5FE434[pAlloc->field_A][(u8)(44u - f_A7)])
                     {
-                    LABEL_28:
-                        if (CalculateDistance_419020((Fix16(15) / Fix16(2)) * (Fix16(15) / Fix16(2))))
+                        tryPlay = true;
+                    }
+                }
+
+                if (tryPlay && CalculateDistance_419020((Fix16(15) / Fix16(2)) * (Fix16(15) / Fix16(2))))
+                {
+                    const u8 vol = pCar->field_84_car_info_idx == car_model_enum::TRAINCAB ? 127 : 20;
+                    if (VolCalc_419070(vol, Fix16(15) / Fix16(2), a2->field_5_bHasSolidAbove))
+                    {
+                        this->field_30_sQueueSample.field_54 = Fix16(15) / Fix16(2);
+                        this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
+                        this->field_30_sQueueSample.field_64_max_distance = 15;
+                        this->field_30_sQueueSample.field_58_type = 5;
+                        this->field_30_sQueueSample.field_4_SampleIndex = 8;
+                        this->field_30_sQueueSample.field_41 = 0;
+                        this->field_30_sQueueSample.field_18 = 0;
+                        if (a2->field_4_bDrivenByPlayer)
                         {
-                            const u8 vol = pCar->field_84_car_info_idx == car_model_enum::TRAINCAB ? 127 : 20;
-                            if (VolCalc_419070(vol, Fix16(15) / Fix16(2), a2->field_5_bHasSolidAbove))
-                            {
-                                this->field_30_sQueueSample.field_54 = Fix16(15) / Fix16(2);
-                                this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
-                                this->field_30_sQueueSample.field_64_max_distance = 15;
-                                this->field_30_sQueueSample.field_58_type = 5;
-                                this->field_30_sQueueSample.field_4_SampleIndex = 8;
-                                this->field_30_sQueueSample.field_41 = 0;
-                                this->field_30_sQueueSample.field_18 = 0;
-                                if (a2->field_4_bDrivenByPlayer)
-                                {
-                                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 2;
-                                }
-                                else
-                                {
-                                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
-                                }
-                                AddSampleToRequestedQueue_41A850();
-                            }
+                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 2;
                         }
+                        else
+                        {
+                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
+                        }
+                        AddSampleToRequestedQueue_41A850();
                     }
                 }
             }
