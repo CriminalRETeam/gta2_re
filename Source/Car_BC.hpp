@@ -645,6 +645,16 @@ class Car_BC
         return field_74_damage == 32001;
     }
 
+    inline bool sub_414F80()
+    {
+        return sub_414F20() && (field_A4 & 4) != 0;
+    }
+
+    inline s32 GetCarInfoIdx_411940()
+    {
+        return field_84_car_info_idx;
+    }
+
     bool sub_414F20()
     {
         return inline_info_flags_bit2() || is_FBI_car_411920();
@@ -895,6 +905,12 @@ class Car_BC
     inline bool IsEmittingHorn_411970()
     {
         return field_A7_horn > 0 && field_A7_horn <= 0xF8u;
+    }
+
+    inline bool IsEmittingHorn_411990()
+    {
+        // Not sure what is going on here, seems to same as 0x411970 ??
+        return field_A7_horn <= 0xF8u && field_A7_horn > 0;
     }
 
     EXPORT char sub_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
