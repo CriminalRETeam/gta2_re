@@ -2,6 +2,7 @@
 #include "Camera.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "Cranes.hpp"
 #include "Crushers.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
@@ -15,7 +16,6 @@
 #include "cSampleManager.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "Cranes.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -1785,7 +1785,7 @@ WIP_FUNC(0x412820)
 void sound_obj::ProcessType8_Crane_412820(s32 idx)
 {
     WIP_IMPLEMENTED;
-    
+
     s32 idx_; // ecx
     Crane_15C* pCrane; // edi
     Sprite* pSprite; // eax
@@ -3512,10 +3512,129 @@ char_type sound_obj::Type6_9_413540(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x412D90)
+MATCH_FUNC(0x412D90)
 void sound_obj::Type6_Play_412D90(s32 model)
 {
-    NOT_IMPLEMENTED;
+    s32 sample;
+    switch (model)
+    {
+        case 64:
+        case 200:
+            sample = 34;
+            break;
+        case 65:
+        case 201:
+            sample = 27;
+            break;
+        case 66:
+        case 202:
+            sample = 35;
+            break;
+        case 67:
+        case 203:
+            sample = 29;
+            break;
+        case 68:
+        case 204:
+            sample = 32;
+            break;
+        case 69:
+        case 205:
+            sample = 31;
+            break;
+        case 70:
+        case 206:
+            sample = 36;
+            break;
+        case 72:
+        case 208:
+            sample = 30;
+            break;
+        case 73:
+        case 209:
+            sample = 37;
+            break;
+        case 74:
+        case 210:
+            sample = 28;
+            break;
+        case 79:
+        case 215:
+            sample = 39;
+            break;
+        case 80:
+        case 216:
+            sample = 33;
+            break;
+        case 81:
+        case 217:
+            sample = 41;
+            break;
+        case 82:
+        case 218:
+            sample = 40;
+            break;
+        case 87:
+        case 223:
+            sample = 38;
+            break;
+        case 92:
+        case 228:
+            sample = 53;
+            break;
+        case 93:
+        case 229:
+            sample = 52;
+            break;
+        case 94:
+        case 230:
+            sample = 48;
+            break;
+        case 95:
+        case 231:
+            sample = 42;
+            break;
+        case 96:
+        case 232:
+            sample = 47;
+            break;
+        case 97:
+        case 233:
+            sample = 43;
+            break;
+        case 98:
+        case 234:
+            sample = 51;
+            break;
+        case 99:
+        case 235:
+            sample = 44;
+            break;
+        case 100:
+        case 236:
+            sample = 46;
+            break;
+        case 101:
+        case 237:
+            sample = 45;
+            break;
+        case 102:
+        case 238:
+            sample = 54;
+            break;
+        case 103:
+        case 239:
+            sample = 50;
+            break;
+        case 104:
+        case 240:
+            sample = 49;
+            break;
+        default:
+            return;
+    }
+    gSampManager_6FFF00.PlayVocal_58E510(1, sample, 1);
+    gSampManager_6FFF00.SetVocalVolume_58E6D0(1, 127 * field_24_sfx_vol / 127);
 }
 
 STUB_FUNC(0x57E220)
