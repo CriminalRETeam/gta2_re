@@ -29,6 +29,9 @@ DEFINE_GLOBAL(bool, gSoundVocalsInited_6FF538, 0x6FF538);
 DEFINE_GLOBAL(Fix16, k_dword_66F3F4, 0x66F3F4);
 DEFINE_GLOBAL(u16, word_6757FC, 0x6757FC);
 
+DEFINE_GLOBAL(u8, byte_66F541, 0x66F541);
+
+
 static inline s32 Min(s32 a, s32 b)
 {
     return a < b ? a : b;
@@ -1630,10 +1633,136 @@ void sound_obj::ProcessType1_Sprite_412740(s32 idx)
     }
 }
 
-STUB_FUNC(0x413760)
-void sound_obj::ProcessType6_Rozza_C88_413760(s32 a2)
+WIP_FUNC(0x413760)
+void sound_obj::ProcessType6_Rozza_C88_413760(s32 idx)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s32 rozza_idx; // eax
+    Rozza_C88* p88; // ebx
+    Rozza_A* pRozzAOff; // edi
+    char_type bHasSolidAbove; // al
+    Rozza_A* pRozzAOff_; // eax
+    char_type v9; // [esp+11h] [ebp-Fh]
+    u8 vol; // [esp+12h] [ebp-Eh]
+    u8 emittingVol; // [esp+13h] [ebp-Dh]
+    u8 rozza_idx_; // [esp+14h] [ebp-Ch]
+    Fix16 distance; // [esp+18h] [ebp-8h]
+    s32 v14; // [esp+1Ch] [ebp-4h] BYREF
+    char_type base_sample; // [esp+24h] [ebp+4h]
+
+    rozza_idx = 0;
+    vol = 0;
+    distance = 0;
+    v9 = -1;
+    emittingVol = 0;
+
+    p88 = field_147C[idx].field_4_pObj->field_C_pAny.pRozza_C88;
+    if (!p88)
+    {
+        return;
+    }
+
+    this->field_30_sQueueSample.field_5C = 0;
+    this->field_30_sQueueSample.field_0_EntityIndex = idx;
+
+    rozza_idx_ = 0;
+    if (p88->field_C84_count <= 0)
+    {
+        return;
+    }
+
+    while (1)
+    {
+        pRozzAOff = &p88->field_4_pool[rozza_idx];
+        base_sample = Type6_413A10(pRozzAOff);
+        if (Type6_412C90(pRozzAOff, base_sample))
+        {
+            break;
+        }
+
+    LABEL_9:
+        rozza_idx = ++rozza_idx_;
+        if (rozza_idx_ >= p88->field_C84_count)
+        {
+            if (v9 == -1)
+            {
+                return;
+            }
+            pRozzAOff_ = &p88->field_4_pool[v9];
+            this->field_30_sQueueSample.field_8_obj = *(serene_brattain*)&pRozzAOff_->field_4_x;
+            this->field_30_sQueueSample.field_24_nVolume = vol;
+            this->field_30_sQueueSample.field_28_distance = distance;
+            this->field_30_sQueueSample.field_60_nEmittingVolume = emittingVol;
+            this->field_30_sQueueSample.field_64_max_distance = 10;
+            this->field_30_sQueueSample.field_54 = 81920;
+            this->field_30_sQueueSample.field_58_type = 20;
+            this->field_30_sQueueSample.field_4_SampleIndex = byte_66F541++;
+            this->field_30_sQueueSample.field_41 = 1;
+            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 8;
+            this->field_30_sQueueSample.field_18 = 0;
+            this->field_30_sQueueSample.field_3C = 600;
+            this->field_30_sQueueSample.field_30 = 1;
+            this->field_30_sQueueSample.field_34 = 0;
+            this->field_30_sQueueSample.field_38 = -1;
+            if (byte_66F541 == -1)
+            {
+                goto LABEL_12;
+            }
+            goto LABEL_13;
+        }
+    } // while(1)
+
+    if (!this->field_30_sQueueSample.field_18)
+    {
+        if (base_sample)
+        {
+            this->field_30_sQueueSample.field_8_obj = *(serene_brattain*)&pRozzAOff->field_4_x;
+            this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+            this->field_2C_distCalculated = 0;
+            if (CalculateDistance_419020(Fix16(409600, 0)))
+            {
+                bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(this->field_30_sQueueSample.field_8_obj.field_0,
+                                                                                    this->field_30_sQueueSample.field_8_obj.field_4,
+                                                                                    this->field_30_sQueueSample.field_8_obj.field_8);
+                if (VolCalc_419070(base_sample, Fix16(81920, 0), bHasSolidAbove))
+                {
+                    v9 = rozza_idx_;
+                    vol = this->field_30_sQueueSample.field_24_nVolume;
+                    distance = this->field_30_sQueueSample.field_28_distance;
+                    emittingVol = base_sample;
+                }
+            }
+        }
+        goto LABEL_9; // another loop iteration
+    }
+
+    this->field_30_sQueueSample.field_8_obj.field_0 = k_dword_66F3F0;
+    this->field_30_sQueueSample.field_8_obj.field_4 = k_dword_66F3F0;
+    this->field_30_sQueueSample.field_8_obj.field_8 = k_dword_66F3F0;
+    this->field_30_sQueueSample.field_4_SampleIndex = byte_66F541++;
+    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 0;
+    this->field_30_sQueueSample.field_24_nVolume = 45;
+    this->field_30_sQueueSample.field_34 = 0;
+    this->field_30_sQueueSample.field_28_distance = k_dword_66F3F0;
+    this->field_30_sQueueSample.field_30 = 1;
+    this->field_30_sQueueSample.field_38 = -1;
+    this->field_30_sQueueSample.field_3C = 0;
+    this->field_30_sQueueSample.field_40_pan = 63;
+    this->field_30_sQueueSample.field_41 = 1;
+    this->field_30_sQueueSample.field_54 = Fix16(81920, 0);
+    this->field_30_sQueueSample.field_58_type = 20;
+    this->field_30_sQueueSample.field_60_nEmittingVolume = 45;
+    this->field_30_sQueueSample.field_64_max_distance = 10;
+
+    if (byte_66F541 == -1)
+    {
+    LABEL_12:
+        byte_66F541 = 0;
+    }
+
+LABEL_13:
+    AddSampleToRequestedQueue_41A850();
 }
 
 MATCH_FUNC(0x4273B0)
@@ -3667,7 +3796,7 @@ char_type sound_obj::Type6_412C90(Rozza_A* pObj, u8 a3)
 }
 
 STUB_FUNC(0x413A10)
-char_type sound_obj::Type6_413A10(u32* a2)
+char_type sound_obj::Type6_413A10(Rozza_A* a2)
 {
     NOT_IMPLEMENTED;
     return 0;

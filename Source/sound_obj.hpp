@@ -266,7 +266,7 @@ class sound_obj
     EXPORT char_type Type6_9_413540(Rozza_A* a2);
     EXPORT char_type Type6_12_4136D0(Rozza_A* a2);
     EXPORT void ProcessType6_Rozza_C88_413760(s32 idx);
-    EXPORT char_type Type6_413A10(u32* a2);
+    EXPORT char_type Type6_413A10(Rozza_A* a2);
     EXPORT void ProcessTrainCab_413B90(Sound_Params_8* a2, sound_unknown_0xC* a3);
     EXPORT void ProcessTrain_413BE0(Sound_Params_8* a2);
     EXPORT void ProcessTank_413BF0(Sound_Params_8* a2, sound_unknown_0xC* pAlloc);
