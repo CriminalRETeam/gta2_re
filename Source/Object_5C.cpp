@@ -929,35 +929,35 @@ char_type Object_2C::sub_528240(s32 current, s32 desired)
     switch (current)
     {
         case 1:
-            if (desired == 2)
+            switch (desired)
             {
-                if (gObject_5C_6F8F84->field_10_rotation_counter == 360)
-                {
-                    goto trans_done;
-                }
-                gObject_5C_6F8F84->field_10_rotation_counter++;
-            }
-            else if (desired == 3)
-            {
-                gObject_5C_6F8F84->field_14_sprites_in_list++;
-                gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
-                return 0;
+                case 2:
+                    if (gObject_5C_6F8F84->field_10_rotation_counter == 360)
+                    {
+                        goto trans_done;
+                    }
+                    gObject_5C_6F8F84->field_10_rotation_counter++;
+                    break;
+
+                case 3:
+                    gObject_5C_6F8F84->field_14_sprites_in_list++;
+                    gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
+                    break; // return 0 ??
             }
             return 0;
 
         case 2:
-            if (desired == 1)
+            switch (desired)
             {
-                gObject_5C_6F8F84->field_10_rotation_counter--;
-                return 0;
-            }
+                case 1:
+                    gObject_5C_6F8F84->field_10_rotation_counter--;
+                    return 0;
 
-            if (desired == 3)
-            {
-                gObject_5C_6F8F84->field_10_rotation_counter--;
-                gObject_5C_6F8F84->field_14_sprites_in_list++;
-                gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
-                return 0;
+                case 3:
+                    gObject_5C_6F8F84->field_10_rotation_counter--;
+                    gObject_5C_6F8F84->field_14_sprites_in_list++;
+                    gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
+                    return 0;
             }
             return 0;
 
