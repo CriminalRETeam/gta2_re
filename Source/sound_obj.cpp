@@ -34,6 +34,10 @@ DEFINE_GLOBAL(u8, byte_66F541, 0x66F541);
 DEFINE_GLOBAL(u8, gSoundSampleIdx_61A684, 0x61A684);
 DEFINE_GLOBAL(char_type, byte_66F543, 0x66F543);
 
+// TODO: can't use 2d arrays here :Skull:
+//DEFINE_GLOBAL(char_type, byte_5FE434[8][44], 0x5FE434);
+char_type byte_5FE434[8][44];
+
 static inline s32 Min(s32 a, s32 b)
 {
     return a < b ? a : b;
@@ -3101,10 +3105,80 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
     }
 }
 
-STUB_FUNC(0x415570)
+
+WIP_FUNC(0x415570)
 void sound_obj::HandleCarAlarmSound_415570(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
+    Car_BC* pCar; // edi
+    s32 car_info_idx; // ecx
+    char_type fA7; // al
+    char_type f_A7; // cl
+    u8 vol; // bl
+
+    pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    if (pCar->field_84_car_info_idx == car_model_enum::FIRETRUK || !pCar->sub_414F20() || !pCar->sub_414F20() || (pCar->field_A4 & 4) == 0)
+    {
+        car_info_idx = pCar->field_84_car_info_idx;
+        if (car_info_idx != car_model_enum::FIRETRUK && car_info_idx != car_model_enum::TANK && car_info_idx != car_model_enum::GUNJEEP || !pCar->field_B8)
+        {
+            fA7 = a2->field_0_pObj->field_8_car_bc_ptr->field_A7_horn;
+            if (fA7)
+            {
+                if ((u8)fA7 <= 0xF8u)
+                {
+                    if (a2->field_4_bDrivenByPlayer)
+                    {
+                        goto LABEL_28;
+                    }
+                    if (car_info_idx == car_model_enum::ICECREAM)
+                    {
+                        goto LABEL_28;
+                    }
+                    f_A7 = pCar->field_A7_horn;
+                    if ((u8)f_A7 <= 248u)
+                    {
+                        if (f_A7)
+                        {
+                            if ((u8)f_A7 >= 44u)
+                            {
+                                pAlloc->field_A = this->field_1454_anRandomTable[4] & 7;
+                                f_A7 = 44;
+                            }
+                            if (byte_5FE434[pAlloc->field_A][(u8)(44 - f_A7)])
+                            {
+                            LABEL_28:
+                                if (CalculateDistance_419020(Fix16(921600, 0)))
+                                {
+                                    vol = pCar->field_84_car_info_idx != car_model_enum::TRAINCAB ? 20 : 127;
+                                    if (VolCalc_419070(vol, 122880, a2->field_5_bHasSolidAbove))
+                                    {
+                                        this->field_30_sQueueSample.field_54 = Fix16(122880, 0);
+                                        this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
+                                        this->field_30_sQueueSample.field_64_max_distance = 15;
+                                        this->field_30_sQueueSample.field_58_type = 5;
+                                        this->field_30_sQueueSample.field_4_SampleIndex = 8;
+                                        this->field_30_sQueueSample.field_41 = 0;
+                                        this->field_30_sQueueSample.field_18 = 0;
+                                        if (a2->field_4_bDrivenByPlayer)
+                                        {
+                                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 2;
+                                        }
+                                        else
+                                        {
+                                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
+                                        }
+                                        AddSampleToRequestedQueue_41A850();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x414F90)
