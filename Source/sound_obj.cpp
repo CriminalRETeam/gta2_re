@@ -17,6 +17,8 @@
 #include "cSampleManager.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
+#include "CarPhysics_B0.hpp"
+#include "CarInfo_808.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -3280,10 +3282,37 @@ void sound_obj::HandleTrainCabRollingFrictionSound_4143A0(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4140C0)
+WIP_FUNC(0x4140C0)
 void sound_obj::HandleTrainEngineSound_4140C0(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 v4 = a2->field_0_pObj->field_8_car_bc_ptr->sub_43A240();
+    Fix16 max_speed = dword_6FE258->field_28_max_speed;
+
+    if (v4 > k_dword_66F3F0 && max_speed > k_dword_66F3F0)
+    {
+        if (CalculateDistance_419020(Fix16(0x4204000, 0)))
+        {
+            //s32 vol = (int)(((0x104000LL * (int)(((__int64)v4 << 14) / max_speed)) >> 14) + 0x2000) >> 14;
+            s32 vol = (v4 / max_speed * Fix16(0x104000, 0) + Fix16(0x2000, 0)).ToInt();
+            if ((u8)vol)
+            {
+                if (VolCalc_419070((u8)vol, 1064960, a2->field_5_bHasSolidAbove))
+                {
+                    this->field_30_sQueueSample.field_54 = Fix16(1064960, 0);
+                    this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
+                    this->field_30_sQueueSample.field_64_max_distance = 130;
+                    this->field_30_sQueueSample.field_58_type = 16;
+                    this->field_30_sQueueSample.field_4_SampleIndex = 0;
+                    this->field_30_sQueueSample.field_41 = 0;
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
+                    this->field_30_sQueueSample.field_18 = 0;
+                    AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x417FD0)
