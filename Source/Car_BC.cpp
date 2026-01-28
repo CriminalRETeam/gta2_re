@@ -4405,31 +4405,21 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
     NOT_IMPLEMENTED;
 }
 
-WIP_FUNC(0x583260)
+MATCH_FUNC(0x583260)
 char_type Car_14::sub_583260(s32 angle_face)
 {
-    WIP_IMPLEMENTED;
-
-    char_type result;
     switch (angle_face)
     {
         case 1:
-            result = Car_14::SpawnTrafficCar_582480(1, 1, 0);
-            break;
+            return SpawnTrafficCar_582480(1, 1, 0);
         case 2:
-            result = Car_14::SpawnTrafficCar_582480(2, 2, 0);
-            break;
+            return SpawnTrafficCar_582480(2, 2, 0);
         case 3:
-            result = Car_14::SpawnTrafficCar_582480(3, 3, 0);
-            break;
+            return SpawnTrafficCar_582480(3, 3, 0);
         case 4:
-            result = Car_14::SpawnTrafficCar_582480(4, 4, 0);
-            break;
-        default:
-            result = 1;
-            break;
+            return SpawnTrafficCar_582480(4, 4, 0);
     }
-    return result;
+    return 1;
 }
 
 MATCH_FUNC(0x583670)
@@ -4516,7 +4506,7 @@ Fix16* __stdcall Car_14::sub_583750(Fix16* pRetF16, Fix16 max_speed, u8* pOut)
 }
 
 STUB_FUNC(0x582480)
-char_type Car_14::SpawnTrafficCar_582480(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+char_type Car_14::SpawnTrafficCar_582480(s32 xpos, s32 ypos, s32 zpos)
 {
     NOT_IMPLEMENTED;
     return 0;

@@ -1004,9 +1004,10 @@ struct Car_14
     EXPORT char_type sub_583260(s32 angle_face);
     EXPORT void GenerateTraffic_583670();
 
+    // TODO: Prob just returns Fix16 and isn't static or stdcall
     EXPORT static Fix16* __stdcall sub_583750(Fix16* pRetF16, Fix16 a2, u8* pOut);
 
-    EXPORT char_type SpawnTrafficCar_582480(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT char_type SpawnTrafficCar_582480(s32 xpos, s32 ypos, s32 zpos);
 
     EXPORT char_type sub_583870(Fix16 xpos, Fix16 ypos);
 
