@@ -4479,61 +4479,40 @@ void Car_14::GenerateTraffic_583670()
 }
 
 WIP_FUNC(0x583750)
-Fix16* __stdcall Car_14::sub_583750(Fix16* pRetF16, Fix16 a2, u8* pOut)
+Fix16* __stdcall Car_14::sub_583750(Fix16* pRetF16, Fix16 max_speed, u8* pOut)
 {
     WIP_IMPLEMENTED;
 
-    Fix16 v5; // rax
-    Fix16 v6; // esi
-    Fix16 v7; // ecx
-    Fix16 v8; // eax
-    Fix16 v9; // rax
-    Fix16 v10; // rax
-
-    Fix16 max_speed = a2;
-    u8* pOut_ = pOut;
-
-    if (a2 >= dword_6FF70C)
+    if (max_speed >= dword_6FF70C)
     {
         *pOut = 2;
     }
 
-    // >> 14 to int
-
-    if (max_speed < dword_6FF85C)
+    u8 rng_tmp;
+    if (max_speed >= dword_6FF85C)
     {
-        if (max_speed < dword_6FF724)
-        {
-            *pOut_ = 0;
-            a2 = 100; // As byte
-            v10 = Fix16(Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&a2)));
-            v6 = dword_6FF6A4;
-            v7 = v10 / Fix16(0x190000, 0);
-            v8 = dword_6FF724;
-        }
-        else
-        {
-            *pOut_ = 1;
-            a2 = 100; // As byte
-            v9 = Fix16(Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&a2)));
-            v6 = dword_6FF724;
-            v7 = v9 / Fix16(1638400, 0);
-            v8 = dword_6FF85C;
-        }
+        *pOut = 2;
+        rng_tmp = 100; // As byte
+        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&rng_tmp)) / Fix16(1638400, 0);
+        *pRetF16 = dword_6FF85C + ((v7 * (dword_6FF70C - dword_6FF85C)));
+        return pRetF16;
+    }
+    else if (max_speed >= dword_6FF724)
+    {
+        *pOut = 1;
+        rng_tmp = 100; // As byte
+        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&rng_tmp)) / Fix16(1638400, 0);
+        *pRetF16 = dword_6FF724 + ((v7 * (dword_6FF85C - dword_6FF724)));
+        return pRetF16;
     }
     else
     {
-        *pOut_ = 2;
-        a2 = 100; // As byte
-        v5 = Fix16(Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&a2)));
-        v6 = dword_6FF85C;
-        v7 = v5 / Fix16(1638400, 0);
-        v8 = dword_6FF70C;
+        *pOut = 0;
+        rng_tmp = 100; // As byte
+        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&rng_tmp)) / Fix16(0x190000, 0);
+        *pRetF16 = dword_6FF6A4 + ((v7 * (dword_6FF724 - dword_6FF6A4)));
+        return pRetF16;
     }
-
-    *pRetF16 = v6 + ((v7 * (v8 - v6)));
-
-    return pRetF16;
 }
 
 STUB_FUNC(0x582480)
