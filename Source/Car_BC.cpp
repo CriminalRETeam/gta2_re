@@ -4586,32 +4586,21 @@ char_type Car_14::sub_583870(Fix16 xpos, Fix16 ypos)
     return result;
 }
 
-WIP_FUNC(0x5838E0)
-s32 __stdcall Car_14::sub_5838E0(char_type a1)
+MATCH_FUNC(0x5838E0)
+s32 Car_14::sub_5838E0(u8 a1)
 {
-    WIP_IMPLEMENTED;
-
-    s32 result; // eax
-
     switch (a1)
     {
         case 0:
-            result = -2;
-            break;
+            return -2;
         case 1:
-            result = -1;
-            break;
+            return -1;
         case 3:
-            result = 1;
-            break;
+            return 1;
         case 4:
-            result = 2;
-            break;
-        default:
-            result = 0;
-            break;
+            return 2;
     }
-    return result;
+    return 0;
 }
 
 MATCH_FUNC(0x583930)
