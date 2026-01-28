@@ -4546,6 +4546,8 @@ char_type Car_14::SpawnTrafficCar_582480(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 WIP_FUNC(0x583870)
 char_type Car_14::sub_583870(Fix16 xpos, Fix16 ypos)
 {
+    WIP_IMPLEMENTED;
+
     if (xpos <= dword_6FF774)
     {
         return 0;
@@ -4580,6 +4582,57 @@ char_type Car_14::sub_583870(Fix16 xpos, Fix16 ypos)
     if (result != 1)
     {
         return 0;
+    }
+    return result;
+}
+
+WIP_FUNC(0x5838E0)
+s32 __stdcall Car_14::sub_5838E0(char_type a1)
+{
+    WIP_IMPLEMENTED;
+
+    s32 result; // eax
+
+    switch (a1)
+    {
+        case 0:
+            result = -2;
+            break;
+        case 1:
+            result = -1;
+            break;
+        case 3:
+            result = 1;
+            break;
+        case 4:
+            result = 2;
+            break;
+        default:
+            result = 0;
+            break;
+    }
+    return result;
+}
+
+WIP_FUNC(0x583930)
+char_type __stdcall Car_14::sub_583930(char_type a1, char_type a2)
+{
+    WIP_IMPLEMENTED;
+
+    char_type result;
+
+    if (a2 == 3)
+    {
+        return a1;
+    }
+    if (a2 != 2)
+    {
+        return 2;
+    }
+    result = a1;
+    if (a1 == 1)
+    {
+        return 2;
     }
     return result;
 }
