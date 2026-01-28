@@ -12,11 +12,11 @@
 #include "Object_5C.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
+#include "Rozza_C88.hpp"
 #include "Weapon_30.hpp"
 #include "cSampleManager.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "Rozza_C88.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -3276,7 +3276,8 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
             case 294:
                 this->field_30_sQueueSample.field_14_samp_idx = 37;
                 this->field_30_sQueueSample.field_18 = 0;
-                this->field_30_sQueueSample.field_20_rate = RandomDisplacement_41A650(37u) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(37);
+                this->field_30_sQueueSample.field_20_rate =
+                    RandomDisplacement_41A650(37u) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(37);
                 return 1;
 
             case 182:
@@ -3329,7 +3330,6 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
 
             default:
                 return 0;
-
         }
         goto exit_switch_1;
     }
@@ -3618,7 +3618,8 @@ char_type sound_obj::Type6_2_412D40(u8 a2)
 MATCH_FUNC(0x413000)
 char_type sound_obj::Type6_3_413000(Rozza_A* pObj)
 {
-    if ((pObj->field_18_model_copy < 200 || pObj->field_18_model_copy > 244) && (pObj->field_18_model_copy < 64 || pObj->field_18_model_copy > 108))
+    if ((pObj->field_18_model_copy < 200 || pObj->field_18_model_copy > 244) &&
+        (pObj->field_18_model_copy < 64 || pObj->field_18_model_copy > 108))
     {
         return SelectObjectImpactSound_413120(pObj, 3);
     }
@@ -3733,11 +3734,96 @@ char_type sound_obj::Type6_7_4130E0(Rozza_A* a2)
     return 1;
 }
 
-STUB_FUNC(0x413540)
+WIP_FUNC(0x413540)
 char_type sound_obj::Type6_9_413540(Rozza_A* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    s32 v2; // eax
+    char_type result; // al
+
+    v2 = a2->field_1C;
+    if (v2 > 166)
+    {
+        switch (v2)
+        {
+            case 169:
+            case 182:
+            case 183:
+            case 192:
+            case 254:
+            case 265:
+            case 281:
+            case 282:
+            case 286:
+            case 294:
+            case 295:
+                return SelectObjectImpactSound_413120(a2, 9);
+            default:
+            LABEL_6:
+                result = 0;
+                break;
+        }
+    }
+    else
+    {
+        if (v2 != 166)
+        {
+            switch (v2)
+            {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 25:
+                case 43:
+                case 44:
+                case 45:
+                case 46:
+                case 47:
+                case 48:
+                case 49:
+                case 53:
+                case 54:
+                case 55:
+                case 56:
+                case 57:
+                case 58:
+                case 59:
+                case 60:
+                case 61:
+                case 62:
+                case 63:
+                case 110:
+                case 123:
+                case 155:
+                case 156:
+                case 157:
+                case 158:
+                    return SelectObjectImpactSound_413120(a2, 9);
+                default:
+                    goto LABEL_6;
+            }
+        }
+        return SelectObjectImpactSound_413120(a2, 9);
+    }
+    return result;
 }
 
 MATCH_FUNC(0x412D90)
