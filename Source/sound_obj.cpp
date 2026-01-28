@@ -3810,7 +3810,7 @@ void sound_obj::Tank_414A50(Sound_Params_8* a2)
                     vol_mult = max_speed;
                 }
 
-                u8 vol = Fix16_Round_To_Int_410BF0((max_speed / vol_mult) * Fix16(90));
+                s32 vol = Fix16_Round_To_Int_410BF0((vol_mult / max_speed) * Fix16(90));
                 //vol = (int)(((1474560LL * (int)(((__int64)vol_mult << 14) / max_speed)) >> 14) + 0x2000) >> 14;
 
                 if (VolCalc_419070(vol, Fix16(20) / Fix16(2), a2->field_5_bHasSolidAbove))
