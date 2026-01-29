@@ -174,7 +174,7 @@ void Init_gmp_slopes_array()
     byte_6F5BA8[61] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
     byte_6F5BA8[62] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
     byte_6F5BA8[63] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
-    printf("Map slopes info array initialized!");
+    printf("Map slopes info array initialized!\n");
 }
 
 MATCH_FUNC(0x452980)

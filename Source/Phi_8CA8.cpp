@@ -343,7 +343,7 @@ void Init_Phi_54_array()
     Phi_54_array_006FC5F8[21] = Phi_54(6 ,0 ,151 ,0 ,1 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
     Phi_54_array_006FC5F8[22] = Phi_54(25 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
     Phi_54_array_006FC5F8[23] = Phi_54(17 ,0 ,63 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1);
-    printf("Phi_54 array loaded!");
+    printf("Phi_54 array loaded!\n");
 }
 
 void Init_Phi_6C_array()
@@ -474,7 +474,7 @@ void Init_Phi_6C_array()
     Phi_6C_array_6F9038[123] = Phi_6C(279 ,0 ,12 ,0 ,0 ,1 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1);
     Phi_6C_array_6F9038[124] = Phi_6C(198 ,0 ,3 ,198 ,198 ,0 ,8 ,0 ,2 ,dword_6FCE0C ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
     Phi_6C_array_6F9038[125] = Phi_6C(251 ,0 ,3 ,0 ,0 ,1 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    printf("Phi_6C array loaded!");
+    printf("Phi_6C array loaded!\n");
 }
 
 MATCH_FUNC(0x532fb0)
