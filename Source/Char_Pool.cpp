@@ -461,13 +461,13 @@ LABEL_12:
                     {
                         v31 = 25;
                         v25 = stru_6F6784.get_int_4F7AE0((s16*)&v31);
-                        if (v25 >= 4u)
+                        if (v25 < 4u)
                         {
-                            v26 = v25 + 27;
+                            v26 = v25 + 18;
                         }
                         else
                         {
-                            v26 = v25 + 18;
+                            v26 = v25 + 27;
                         }
                         pPed->field_244_remap = v26;
                     }
