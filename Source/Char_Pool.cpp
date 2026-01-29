@@ -213,7 +213,7 @@ LABEL_12:
                 pPed->field_288_threat_search = threat_search_enum::area_2;
                 pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                 pPed->field_26C_graphic_type = 0;
-                goto LABEL_34;
+                break;
 
             case 2:
                 if (gNumberCarThiefsSpawned_6787CB)
@@ -234,7 +234,7 @@ LABEL_12:
                 //pPed->field_21C = v13;
                 pPed->field_21C |= 8;
                 pPed->field_1F8 = dword_678670;
-                goto LABEL_34;
+                break;
 
             case 3:
                 if (gNumberElvisLeadersSpawned_6787CC)
@@ -244,34 +244,14 @@ LABEL_12:
                 SpawnPedChainGroupAt_46DB90(12, 5u, xpos, ypos, zpos);
                 pPed->Deallocate_45EB60();
                 ++gNumberElvisLeadersSpawned_6787CC;
-                goto LABEL_34;
+                break;
 
             case 4:
                 v14 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x_int, y_int, 14u);
                 if (v14)
                 {
                     pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(v14->field_6_name);
-                    if ((u8)byte_6787CE >= 4u)
-                    {
-                        pPed->field_19C = pGang;
-                        pPed->field_240_occupation = ped_ocupation_enum::dummy;
-                        pPed->field_22C = 0;
-                        pPed->field_238 = 3;
-                        pPed->field_288_threat_search = threat_search_enum::area_2;
-                        pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
-                        v21 = pGang->field_101;
-                        pPed->field_26C_graphic_type = 1;
-                        pPed->field_244_remap = v21;
-                        if (v21 == 5)
-                        {
-                            y_int = 2;
-                            if (!stru_6F6784.get_int_4F7AE0((s16*)&y_int))
-                            {
-                                pPed->field_244_remap = 6;
-                            }
-                        }
-                    }
-                    else
+                    if ((u8)byte_6787CE < 4u)
                     {
                         ++byte_6787CE;
                         pPed->field_238 = 4;
@@ -306,6 +286,26 @@ LABEL_12:
                         pPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
                         pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
                     }
+                    else
+                    {
+                        pPed->field_19C = pGang;
+                        pPed->field_240_occupation = ped_ocupation_enum::dummy;
+                        pPed->field_22C = 0;
+                        pPed->field_238 = 3;
+                        pPed->field_288_threat_search = threat_search_enum::area_2;
+                        pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
+                        v21 = pGang->field_101;
+                        pPed->field_26C_graphic_type = 1;
+                        pPed->field_244_remap = v21;
+                        if (v21 == 5)
+                        {
+                            y_int = 2;
+                            if (!stru_6F6784.get_int_4F7AE0((s16*)&y_int))
+                            {
+                                pPed->field_244_remap = 6;
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -336,7 +336,7 @@ LABEL_12:
                             break;
                     }
                 }
-                goto LABEL_34;
+                break;
 
             case 5:
                 if (gNumberWalkingCopsSpawned_6787CD || bSkip_police_67D4F9 || gPolice_7B8_6FEE40->field_65C == 6)
@@ -350,35 +350,33 @@ LABEL_12:
                 pPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
                 pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
                 wanted_level_ = gPolice_7B8_6FEE40->field_654_wanted_level;
-                if (wanted_level_ < 0)
+                switch (wanted_level_)
                 {
-                    goto LABEL_58;
-                }
+                    case 2:
+                        pPed->GiveWeapon_46F650(weapon_type::pistol);
+                        pPed->field_216_health = 100;
+                        pPed->field_1F0_maybe_max_speed = (dword_678448 * dword_6784A0);
+                        pPed->field_26C_graphic_type = 2;
+                        break;
+                    case 0: // wanted_level_ <= 1 but not negative
+                    case 1:
+                        pPed->field_170_selected_weapon = 0;
+                        pPed->GiveWeapon_46F650(weapon_type::pistol);
+                        pPed->field_216_health = 50;
+                        pPed->field_1F0_maybe_max_speed = (dword_678448 * dword_6784A0);
+                        pPed->field_26C_graphic_type = 2;
+                        break;
 
-                if (wanted_level_ <= 1)
-                {
-                    pPed->field_170_selected_weapon = 0;
-                    pPed->GiveWeapon_46F650(weapon_type::pistol);
-                    pPed->field_216_health = 50;
-                    goto LABEL_56;
-                }
-                else if (wanted_level_ == 2)
-                {
-                    pPed->GiveWeapon_46F650(weapon_type::pistol);
-                    pPed->field_216_health = 100;
-                LABEL_56:
-                    pPed->field_1F0_maybe_max_speed = (dword_678448 * dword_6784A0);
-                    pPed->field_26C_graphic_type = 2;
-                    goto LABEL_34;
-                }
-
-                {
-                LABEL_58:
-                    pPed->GiveWeapon_46F650(weapon_type::pistol);
-                    pPed->field_216_health = 100;
-                    pPed->field_26C_graphic_type = 2;
-                }
-                goto LABEL_34;
+                    default:
+                        if (wanted_level_ < 0)
+                        {
+                            pPed->GiveWeapon_46F650(weapon_type::pistol);
+                            pPed->field_216_health = 100;
+                            pPed->field_26C_graphic_type = 2;
+                        }
+                        break;
+                } // End switch
+                break;
 
             default:
                 if (gPolice_7B8_6FEE40->field_65C == 6)
@@ -417,10 +415,9 @@ LABEL_12:
                         pPed->field_244_remap = v26;
                     }
                 }
-                goto LABEL_34;
+                break;
         } // End switch
 
-    LABEL_34:
         occupation_ = pPed->field_240_occupation;
         if (occupation_ != ped_ocupation_enum::unknown_14 && occupation_ != ped_ocupation_enum::unknown_16)
         {
