@@ -208,7 +208,7 @@ u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId)
 #define STRINGIZE(x) STRINGIZE2(x)
 #define STRINGIZE2(x) #x
 #define LINE_STRING STRINGIZE(__LINE__)
-#define UNIQUE_FUNC printf(__FILE__ LINE_STRING)
+#define UNIQUE_FUNC printf(__FILE__ LINE_STRING "\n")
 
 MATCH_FUNC(0x5AA710)
 u16 gtx_0x106C::sub_5AA710(u16 a2, s16 a3)

@@ -278,5 +278,5 @@ void Init_trigonometry_tables()
         gCos_table_669260[entry] = Fix16( cos(((f64)arg / 1440.0) * 2 * 3.141592654) );
     }
     arc_tan_table_init_4052D0();
-    printf("Sine, cosine and tangent tables initialized!");
+    printf("Sine, cosine and tangent tables initialized!\n");
 }
