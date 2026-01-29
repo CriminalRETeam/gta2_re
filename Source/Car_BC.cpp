@@ -1876,7 +1876,7 @@ bool Car_BC::sub_43B850(s32 wofly_type_or_state)
 }
 
 STUB_FUNC(0x43b870)
-void Car_BC::sub_43B870(s32 a2, s32 a3)
+void Car_BC::sub_43B870(s32 a2, Fix16_Point* a3)
 {
     NOT_IMPLEMENTED;
 }
@@ -2411,11 +2411,64 @@ void Car_BC::ExplodeCar_Unknown_43D840(s32 a2)
     }
 }
 
-STUB_FUNC(0x43da90)
-s16 Car_BC::sub_43DA90(s16 a2, Fix16_Point* a3)
+// 9.6f 0x427180
+WIP_FUNC(0x43da90)
+s16 Car_BC::sub_43DA90(s16 damage, Fix16_Point* pVec)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (IsMaxDamage_40F890())
+    {
+        return 0;
+    }
+
+    Fix16 anti_s = get_anti_strngth_43A1D0();
+    s32 damage_1 = (anti_s * Fix16(damage)).ToInt();
+
+    if (damage_1 == 0)
+    {
+        if (anti_s != gFix16_6777CC)
+        {
+            damage_1 = 1;
+        }
+        else
+        {
+            damage_1 = 0;
+        }
+    }
+
+    this->field_74_damage += damage_1;
+
+    if (this->field_74_damage > 32000u)
+    {
+        this->field_74_damage = 32000;
+    }
+    if (this->field_74_damage >= 16000)
+    {
+        if (this->field_8C < 3u)
+        {
+            Car_BC::sub_43B870(1, pVec);
+            this->field_8C = 3;
+        }
+        if (this->field_74_damage >= 25000)
+        {
+            if (this->field_8C < 4u)
+            {
+                field_0_qq.sub_5A71F0();
+                Car_BC::sub_43B870(2, pVec);
+                this->field_8C = 4;
+            }
+            if (this->field_74_damage >= 31500)
+            {
+                Car_BC::sub_43C1C0();
+            }
+            if (this->field_74_damage == 32000)
+            {
+                Car_BC::ExplodeCar_Unknown_43D840(19);
+            }
+        }
+    }
+    return damage_1;
 }
 
 MATCH_FUNC(0x43db80)
