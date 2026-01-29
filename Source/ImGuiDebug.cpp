@@ -896,7 +896,7 @@ void CC ImGuiDebugDraw()
                                                             pPlayerChar->field_5_remap,
                                                             pPlayerPed->field_134);
     */
-                    //gPedManager_6787BC->sub_470E30();
+                    //gPedManager_6787BC->SpawnTrainLeaver_470E30();
 
                     //gFirefighterPool_54_67D4C0->sub_4A8820(pNewCar);
 

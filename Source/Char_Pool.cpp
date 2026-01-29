@@ -54,8 +54,6 @@ EXTERN_GLOBAL(Fix16, gDummyZ_67841C);
 EXTERN_GLOBAL(Fix16, gSpawnJitterScale_678618);
 EXTERN_GLOBAL(Fix16, k_dword_678664);
 
-
-
 Ang16 gSpawnRotationLeft_6786E0;
 Ang16 gSpawnRotationTop_6787B0;
 Ang16 gSpawnRotationRight_678578;
@@ -63,11 +61,7 @@ Ang16 gSpawnRotationBottom_678540;
 
 // TODO: Prob a method of PedManager?
 STUB_FUNC(0x46E380)
-EXPORT void __stdcall SpawnPedestrianAt_46E380(
-        Fix16 xpos,
-        Fix16 ypos,
-        Fix16 zpos,
-        Ang16 rotation)
+EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
     NOT_IMPLEMENTED;
 }
@@ -530,11 +524,43 @@ Ped* PedManager::sub_470D60()
     return 0;
 }
 
-STUB_FUNC(0x470e30)
-Ped* PedManager::sub_470E30()
+// 9.6f 0x43DEB0
+WIP_FUNC(0x470e30)
+Ped* PedManager::SpawnTrainLeaver_470E30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Ped* pPed = gPedPool_6787B8->Allocate();
+
+    // TODO: Instruction swap here
+    pPed->field_26C_graphic_type = 0;
+
+    s16 base_rng = 4;
+    switch (stru_6F6784.get_int_4F7AE0(&base_rng))
+    {
+        case 0:
+            pPed->field_244_remap = 18;
+            break;
+        case 1:
+            pPed->field_244_remap = 19;
+            break;
+        case 2:
+            pPed->field_244_remap = 20;
+            break;
+        default:
+            pPed->field_244_remap = 21;
+            break;
+    }
+
+    pPed->field_238 = 4;
+    pPed->field_240_occupation = 9;
+    pPed->field_168_game_object = 0;
+    pPed->ChangeNextPedState1_45C500(10);
+    pPed->ChangeNextPedState2_45C540(10);
+    pPed->field_216_health = 50;
+    pPed->field_288_threat_search = threat_search_enum::area_2;
+    pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
+    return pPed;
 }
 
 MATCH_FUNC(0x470f30)

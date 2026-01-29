@@ -71,7 +71,7 @@ class PedManager
     EXPORT Ped* SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang);
     EXPORT Ped* sub_470CC0(Car_BC* pCar);
     EXPORT Ped* sub_470D60();
-    EXPORT Ped* sub_470E30();
+    EXPORT Ped* SpawnTrainLeaver_470E30();
     EXPORT Ped* sub_470F30();
     EXPORT Ped* sub_470F90(Ped* pSrc);
     EXPORT void DoIanTest_471060(s16 a1);
