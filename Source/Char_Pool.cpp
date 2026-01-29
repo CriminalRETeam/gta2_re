@@ -4,6 +4,7 @@
 #include "Gang.hpp"
 #include "Hud.hpp"
 #include "Ped.hpp"
+#include "PedGroup.hpp"
 #include "Ped_List_4.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
@@ -11,7 +12,6 @@
 #include "debug.hpp"
 #include "error.hpp"
 #include "rng.hpp"
-#include "PedGroup.hpp"
 #include <DINPUT.H>
 
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
@@ -674,90 +674,49 @@ PedPool::~PedPool()
 {
 }
 
-STUB_FUNC(0x46DB90)
+MATCH_FUNC(0x46DB90)
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    NOT_IMPLEMENTED;
-    
-    Fix16 xpos_adjusted; // ebp
-    Fix16 ypos_adjusted; // ebx
-    Ped* pLeader; // edi
-    Ped* pNewPed; // esi
-    Char_B4* pB4; // ecx
-    u8 cur_remap; // al
-    bool bContinue; // cf
-    PedGroup* pGroup; // [esp+10h] [ebp-4h]
-    u8 ped_idx; // [esp+20h] [ebp+Ch]
-    Fix16 xy_off; // [esp+24h] [ebp+10h]
+    Fix16 xpos_adjusted = dword_6784A0 + Fix16((u8)(xpos.ToInt()));
+    Fix16 ypos_adjusted = dword_6784A0 + Fix16((u8)(ypos.ToInt()));
 
-    xpos_adjusted = dword_6784A0 + Fix16((u8)(xpos.ToInt()));
-    ypos_adjusted = dword_6784A0 + Fix16((u8)(ypos.ToInt()));
-
-    pLeader = gPedPool_6787B8->Allocate();
-    /*
-    gPoolRoot = gPed_Pool_6787B8;
-    pLeader = gPed_Pool_6787B8->field_0_pStart;
-    field_4_pNext = gPed_Pool_6787B8->field_4_pPrev;
-    gPed_Pool_6787B8->field_0_pStart = gPed_Pool_6787B8->field_0_pStart->mpNext;
-    pLeader->mpNext = field_4_pNext;
-    gPoolRoot->field_4_pPrev = pLeader;
-    Ped::PoolAllocate(pLeader);
-    */
-
+    Ped* pLeader = gPedPool_6787B8->Allocate();
     pLeader->field_240_occupation = ped_ocupation_enum::elvis_leader;
     pLeader->field_244_remap = remap;
     pLeader->field_26C_graphic_type = 1;
     pLeader->field_238 = 4;
-
     pLeader->AllocCharB4_45C830(xpos_adjusted, ypos_adjusted, zpos);
     pLeader->field_168_game_object->SetRemap_46DD50(pLeader->field_244_remap);
     pLeader->field_216_health = 100;
-    pGroup = PedGroup::New_4CB0D0();
+
+    PedGroup* pGroup = PedGroup::New_4CB0D0();
     pGroup->add_ped_leader_4C9B10(pLeader);
     pGroup->field_38_group_type = 1;
-    ped_idx = 0;
     pGroup->field_36_count = number_followers;
     pGroup->field_34_count = number_followers;
 
-    if (number_followers)
+    for (u8 ped_idx = 0; ped_idx < number_followers; ped_idx++)
     {
+        Fix16 xy_off = Fix16(0x4000 * (ped_idx+1), 0);
 
-        xy_off = Fix16(0x4000, 0);
-        do
+        Ped* pNewPed = gPedPool_6787B8->Allocate();
+
+        pNewPed->field_240_occupation = ped_ocupation_enum::elvis;
+        pNewPed->field_244_remap = remap;
+        pNewPed->field_238 = 4;
+        pNewPed->AllocCharB4_45C830(xpos_adjusted - ((dword_678480 * xy_off)), ypos_adjusted - ((dword_678480 * xy_off)), zpos);
+
+        Char_B4* pB4 = pNewPed->field_168_game_object;
+        const u8 cur_remap = pNewPed->field_244_remap;
+        pB4->field_5_remap = cur_remap;
+        if (cur_remap != 0xFF)
         {
-            /*
-            gPoolRoot_ = gPed_Pool_6787B8;
-            pNewPed = gPed_Pool_6787B8->field_0_pStart;
-            v12 = gPed_Pool_6787B8->field_4_pPrev;
-            gPed_Pool_6787B8->field_0_pStart = gPed_Pool_6787B8->field_0_pStart->mpNext;
-            pNewPed->mpNext = v12;
-            gPoolRoot_->field_4_pPrev = pNewPed;
-            pNewPed->PoolAllocate();
-            */
+            pB4->field_80_sprite_ptr->SetRemap(cur_remap);
+        }
 
-            pNewPed = gPedPool_6787B8->Allocate();
-
-            pNewPed->field_240_occupation = ped_ocupation_enum::elvis;
-            pNewPed->field_244_remap = remap;
-            pNewPed->field_238 = 4;
-            pNewPed->AllocCharB4_45C830(xpos_adjusted - ((dword_678480 * xy_off)), ypos_adjusted - ((dword_678480 * xy_off)), zpos);
-            
-            pB4 = pNewPed->field_168_game_object;
-            cur_remap = pNewPed->field_244_remap;
-            pB4->field_5_remap = cur_remap;
-            if (cur_remap != 0xFF)
-            {
-                pB4->field_80_sprite_ptr->SetRemap(cur_remap);
-            }
-
-            pNewPed->field_216_health = 100;
-            pNewPed->field_26C_graphic_type = 1;
-            pGroup->add_ped_to_list_4C9B30(pNewPed, ped_idx);
-
-            bContinue = ++ped_idx < number_followers;
-            xy_off += Fix16(0x4000, 0);
-        } while (bContinue);
+        pNewPed->field_216_health = 100;
+        pNewPed->field_26C_graphic_type = 1;
+        pGroup->add_ped_to_list_4C9B30(pNewPed, ped_idx);
     }
-
     return pLeader;
 }
