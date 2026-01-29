@@ -83,7 +83,6 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     Ped* pPed; // esi
     gmp_zone_info* pZone; // eax
     s32 v11; // edx
-    u16 field_E_carthief_ratio; // edi
     gmp_map_zone* v14; // eax
     Gang_144* pGang; // edi
     char_type v16; // al
