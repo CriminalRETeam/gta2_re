@@ -196,6 +196,8 @@ class Char_B4
     EXPORT void sub_545430();
     EXPORT bool sub_5451C0();
 
+    EXPORT void SetRemap_46DD50(u8 remap);
+
     EXPORT void sub_5454B0();
     EXPORT void DoJump_5454D0();
     EXPORT void sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
