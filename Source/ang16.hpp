@@ -204,7 +204,6 @@ class Ang16
         ret2 = unk * Ang16::cosine_40F520(angle);
     }
 
-
     EXPORT static s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& a1);
 
     // inlined from 0x40f580 on v9.6f
@@ -213,6 +212,12 @@ class Ang16
     {
         s32 value = v.rValue * 71;
         return Fix16(value, 0);
+    }
+
+    // Reverse of above func
+    inline static Ang16 __stdcall Fix16_To_Ang16_40F540(const Fix16& a2)
+    {
+        return Ang16(a2.GetRaw_40F4B0() / 71, 0);
     }
 
     // 9.6f 0x41E110

@@ -285,6 +285,11 @@ class Fix16
         return mValue;
     }
 
+    inline s32 GetRaw_40F4B0() const
+    {
+        return mValue;
+    }
+
     EXPORT static class Ang16 __stdcall atan2_fixed_405320(Fix16& pMaybeX_FP16, Fix16& pMaybeY_FP16);
 
   public:

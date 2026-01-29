@@ -514,7 +514,7 @@ class Car_BC
     EXPORT void sub_442310();
     EXPORT char_type sub_4424C0();
     EXPORT Ang16 GetRadioTowerAngle_442520();
-    EXPORT void sub_4425D0();
+    EXPORT void ManageTVAntenna_4425D0();
     EXPORT void sub_4426D0();
     EXPORT void DetachTrailer_442760();
     EXPORT void AttachTrailer_4427A0(Car_BC* pToFind);
