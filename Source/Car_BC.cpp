@@ -2416,14 +2416,15 @@ WIP_FUNC(0x43da90)
 s16 Car_BC::sub_43DA90(s16 damage, Fix16_Point* pVec)
 {
     WIP_IMPLEMENTED;
-
+    
     if (IsMaxDamage_40F890())
     {
         return 0;
     }
 
     Fix16 anti_s = get_anti_strngth_43A1D0();
-    s32 damage_1 = (anti_s * Fix16(damage)).ToInt();
+    Fix16 t = (anti_s * Fix16(damage));
+    s16 damage_1 = t.ToInt(); // TODO: Shifting from stack instead of [eax]
 
     if (damage_1 == 0)
     {
@@ -2431,40 +2432,39 @@ s16 Car_BC::sub_43DA90(s16 damage, Fix16_Point* pVec)
         {
             damage_1 = 1;
         }
-        else
-        {
-            damage_1 = 0;
-        }
     }
 
     this->field_74_damage += damage_1;
+    if (field_74_damage >= 0) // TODO: Wrong jump target
+    {
 
-    if (this->field_74_damage > 32000u)
-    {
-        this->field_74_damage = 32000;
-    }
-    if (this->field_74_damage >= 16000)
-    {
-        if (this->field_8C < 3u)
+        if (this->field_74_damage > 32000)
         {
-            Car_BC::sub_43B870(1, pVec);
-            this->field_8C = 3;
+            this->field_74_damage = 32000;
         }
-        if (this->field_74_damage >= 25000)
+        if (this->field_74_damage >= 16000)
         {
-            if (this->field_8C < 4u)
+            if (this->field_8C < 3u)
             {
-                field_0_qq.sub_5A71F0();
-                Car_BC::sub_43B870(2, pVec);
-                this->field_8C = 4;
+                Car_BC::sub_43B870(1, pVec);
+                this->field_8C = 3;
             }
-            if (this->field_74_damage >= 31500)
+            if (this->field_74_damage >= 25000)
             {
-                Car_BC::sub_43C1C0();
-            }
-            if (this->field_74_damage == 32000)
-            {
-                Car_BC::ExplodeCar_Unknown_43D840(19);
+                if (this->field_8C < 4u)
+                {
+                    field_0_qq.sub_5A71F0();
+                    Car_BC::sub_43B870(2, pVec);
+                    this->field_8C = 4;
+                }
+                if (this->field_74_damage >= 31500)
+                {
+                    Car_BC::sub_43C1C0();
+                }
+                if (this->field_74_damage == 32000)
+                {
+                    Car_BC::ExplodeCar_Unknown_43D840(19);
+                }
             }
         }
     }
