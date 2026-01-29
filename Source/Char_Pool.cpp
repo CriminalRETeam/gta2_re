@@ -317,28 +317,23 @@ LABEL_12:
                     pPed->field_26C_graphic_type = 0;
                     field_12_gangchar_ratio = 4;
                     int_4F7AE0 = stru_6F6784.get_int_4F7AE0((s16*)&field_12_gangchar_ratio);
-                    if ((u16)int_4F7AE0)
+                    switch (int_4F7AE0)
                     {
-                        v23 = int_4F7AE0 - 1;
-                        if (v23)
-                        {
-                            if (v23 == 1)
-                            {
-                                pPed->field_244_remap = 20;
-                            }
-                            else
-                            {
-                                pPed->field_244_remap = 21;
-                            }
-                        }
-                        else
-                        {
+                        case 0:
+                            pPed->field_244_remap = 18;
+                            break;
+
+                        case 1:
                             pPed->field_244_remap = 19;
-                        }
-                    }
-                    else
-                    {
-                        pPed->field_244_remap = 18;
+                            break;
+
+                        case 2:
+                            pPed->field_244_remap = 20;
+                            break;
+
+                        default:
+                            pPed->field_244_remap = 21;
+                            break;
                     }
                 }
                 goto LABEL_34;
