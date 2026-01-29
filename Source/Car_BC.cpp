@@ -121,6 +121,10 @@ EXTERN_GLOBAL(u8, byte_6F8EDC);
 
 DEFINE_GLOBAL(Fix16, k_dword_66AB38, 0x66AB38);
 
+DEFINE_GLOBAL(Fix16_Point, stru_677370, 0x677370);
+DEFINE_GLOBAL(Fix16_Point, stru_677358, 0x677358);
+
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -1084,11 +1088,26 @@ wchar_t* Car_BC::GetCarStr_439F80()
     return gText_0x14_704DFC->Find_5B5F90(byte_67CE50);
 }
 
-STUB_FUNC(0x439fb0)
-u32* Car_BC::sub_439FB0(u32* a2)
+
+// 9.6f 0x421C40
+WIP_FUNC(0x439fb0)
+Fix16_Point Car_BC::sub_439FB0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+   
+    Fix16_Point point;
+    // TODO: Inline breaks the start of the match, why?
+    if (inline_check_0x10_info_421640())
+    {
+        point = stru_677370;
+    }
+    else
+    {
+        point = stru_677358;
+    }
+
+    point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
+    return point + field_50_car_sprite->get_x_y_443580();
 }
 
 MATCH_FUNC(0x43a0e0)
@@ -1157,7 +1176,6 @@ Fix16 Car_BC::sub_43A240()
         }
         return pPhysics->sub_4211A0();
     }
-     
 }
 
 MATCH_FUNC(0x43a3c0)
@@ -3381,7 +3399,7 @@ WIP_FUNC(0x442760)
 void Car_BC::DetachTrailer_442760()
 {
     WIP_IMPLEMENTED;
-    
+
     Trailer* p = field_64_pTrailer;
     gCar_BC_Pool_67792C->field_0_pool.Remove_NoDeAllocate(field_64_pTrailer->field_C_pCarOnTrailer);
     field_64_pTrailer->field_C_pCarOnTrailer->field_64_pTrailer = 0;

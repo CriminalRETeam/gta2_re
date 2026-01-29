@@ -362,7 +362,7 @@ class Car_BC
     EXPORT Fix16 GetDamageFactorOnSpeed_439EE0();
     EXPORT Fix16 GetMaxSpeed_439F30();
     EXPORT wchar_t* GetCarStr_439F80();
-    EXPORT u32* sub_439FB0(u32* a2);
+    EXPORT Fix16_Point sub_439FB0();
     EXPORT Fix16_Point get_rear_wheel_offset_43A0E0();
     EXPORT Fix16 get_mass_43A120();
     EXPORT Fix16 get_anti_strngth_43A1D0();
@@ -670,6 +670,11 @@ class Car_BC
     inline bool inline_check_0x4_info_421660()
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 4) == 4;
+    }
+
+    inline bool inline_check_0x10_info_421640()
+    {
+        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x10) == 0x10;
     }
 
     // 9.6f inline 0x4216C0
