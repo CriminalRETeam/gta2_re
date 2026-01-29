@@ -293,7 +293,7 @@ MATCH_FUNC(0x5454B0)
 void Char_B4::sub_5454B0()
 {
     field_B0 = -1;
-    field_88_obj_2c.sub_5A7080();
+    field_88_obj_2c.CleanupSpriteList_5A7080();
 }
 
 MATCH_FUNC(0x5454d0)

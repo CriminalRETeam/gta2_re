@@ -483,7 +483,7 @@ void struct_4::sub_5A7010()
 
 // https://decomp.me/scratch/hQof2
 STUB_FUNC(0x5a7080)
-void struct_4::sub_5A7080()
+void struct_4::CleanupSpriteList_5A7080()
 {
     NOT_IMPLEMENTED;
 

@@ -125,6 +125,7 @@ DEFINE_GLOBAL(Fix16_Point, stru_677370, 0x677370);
 DEFINE_GLOBAL(Fix16_Point, stru_677358, 0x677358);
 DEFINE_GLOBAL(Ang16, dword_677234, 0x677234);
 DEFINE_GLOBAL(Fix16, dword_6778FC, 0x6778FC);
+DEFINE_GLOBAL(Fix16, k_dword_677918, 0x677918);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -1039,6 +1040,13 @@ Car_6C::~Car_6C()
     field_4 = 0;
 }
 
+STUB_FUNC(0x43D5D0)
+EXPORT s16 Car_BC::sub_43D5D0(Fix16 a2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 STUB_FUNC(0x4403a0)
 Ang16 Car_BC::sub_4403A0()
 {
@@ -1527,10 +1535,83 @@ char_type Car_BC::sub_43AAF0(Sprite* a2)
     return 0;
 }
 
-STUB_FUNC(0x43adc0)
-void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* a2)
+MATCH_FUNC(0x43adc0)
+void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    s32 score_base_multi = 0;
+    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        Car_BC* pCar = pSprite->field_8_car_bc_ptr;
+        if (pCar)
+        {
+            switch (gCar_6C_677930->field_60)
+            {
+                case 1:
+                {
+                    if (this->field_74_damage != 32001)
+                    {
+                        if (!Car_BC::IsAreaDamaged_43D1C0(3))
+                        {
+                            Car_BC::DamageArea_43CF30(3);
+                            score_base_multi = 1;
+                        }
+                        if (!Car_BC::IsAreaDamaged_43D1C0(2))
+                        {
+                            Car_BC::DamageArea_43CF30(2);
+                            ++score_base_multi;
+                        }
+                        if (!Car_BC::IsAreaDamaged_43D1C0(0))
+                        {
+                            Car_BC::DamageArea_43CF30(0);
+                            ++score_base_multi;
+                        }
+                        if (!Car_BC::IsAreaDamaged_43D1C0(1))
+                        {
+                            Car_BC::DamageArea_43CF30(1);
+                            ++score_base_multi;
+                        }
+                    }
+
+                    s32 score = 1000 * score_base_multi;
+
+                    if (pCar->field_84_car_info_idx == car_model_enum::TANK)
+                    {
+                        score += Car_BC::sub_43D5D0(k_dword_677918);
+                    }
+
+                    if (score > 200)
+                    {
+                        Ped* pDriver = pCar->field_54_driver;
+                        if (pDriver)
+                        {
+                            Player* pPlayer = pDriver->field_15C_player;
+                            if (pPlayer)
+                            {
+                                pPlayer->field_2D4_scores.sub_593030(this, score);
+                            }
+                        }
+                    }
+
+                    field_0_qq.CleanupSpriteList_5A7080();
+                    if (field_58_physics)
+                    {
+                        field_58_physics->field_40_linvel_1 = stru_6778A8;
+                    }
+                    stru_67737C.AddSprite_5A6CD0(field_50_car_sprite);
+                    break;
+                }
+
+                case 2:
+                    if (field_50_car_sprite->field_1C_zpos > gCar_6C_677930->field_64)
+                    {
+                        gCar_6C_677930->field_64 = field_50_car_sprite->field_1C_zpos;
+                        // NOTE: returned here originally
+                    }
+                    break;
+            }
+        }
+    }
+    field_0_qq.DispatchCarImpactEvents_5A6BF0(pSprite);
 }
 
 MATCH_FUNC(0x43af10)
@@ -1599,6 +1680,7 @@ char_type Car_BC::sub_43AFE0(s32 target_door)
     return 0;
 }
 
+// 9.6f 0x425B60
 WIP_FUNC(0x43b140)
 bool Car_BC::sub_43B140(s32 target_car_door)
 {
@@ -1642,7 +1724,9 @@ bool Car_BC::sub_43B140(s32 target_car_door)
     Fix16 t2;
     Ang16::sub_41FC20(angToUse, dword_6778FC, t1, t2);
 
-    if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420((v14+t1).ToInt(), (v13+t2).ToInt(), field_50_car_sprite->field_1C_zpos.ToInt() - 1) != 2)
+    if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420((v14 + t1).ToInt(),
+                                                      (v13 + t2).ToInt(),
+                                                      field_50_car_sprite->field_1C_zpos.ToInt() - 1) != 2)
     {
         return false;
     }

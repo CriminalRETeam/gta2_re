@@ -112,7 +112,7 @@ void Firefighter_28::deinit_4A81A0()
     this->field_8_state = 5;
     if (pCar2)
     {
-        pCar2->field_0_qq.sub_5A7080();
+        pCar2->field_0_qq.CleanupSpriteList_5A7080();
     }
 }
 
