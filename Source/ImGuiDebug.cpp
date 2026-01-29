@@ -276,6 +276,160 @@ static void ShowRectAndPointsForSprite4C(Sprite_4C* p4C)
     }
 }
 
+static void ShowPedBitMask(Ped* pPed)
+{
+    if (pPed)
+    {
+        if (ImGui::TreeNode("Ped BitMask Values"))
+        {
+            ImGui::Value("b0 move", pPed->field_21C_bf.b0);
+            ImGui::Value("b1", pPed->field_21C_bf.b1);
+            ImGui::Value("b2", pPed->field_21C_bf.b2);
+            ImGui::Value("b3 drive aggression", pPed->field_21C_bf.b3);
+            ImGui::Value("b4", pPed->field_21C_bf.b4);
+            ImGui::Value("b5 busted", pPed->field_21C_bf.b5);
+            ImGui::Value("b6", pPed->field_21C_bf.b6);
+            ImGui::Value("b7", pPed->field_21C_bf.b7);
+            ImGui::Value("b8", pPed->field_21C_bf.b8);
+            ImGui::Value("b9", pPed->field_21C_bf.b9);
+            ImGui::Value("b10", pPed->field_21C_bf.b10);
+            ImGui::Value("b11 attacking", pPed->field_21C_bf.b11);
+            ImGui::Value("b12", pPed->field_21C_bf.b12);
+            ImGui::Value("b13", pPed->field_21C_bf.b13);
+            ImGui::Value("b14", pPed->field_21C_bf.b14);
+            ImGui::Value("b15", pPed->field_21C_bf.b15);
+            ImGui::Value("b16", pPed->field_21C_bf.b16);
+            ImGui::Value("b17", pPed->field_21C_bf.b17);
+            ImGui::Value("b18", pPed->field_21C_bf.b18);
+            ImGui::Value("b19", pPed->field_21C_bf.b19);
+            ImGui::Value("b20", pPed->field_21C_bf.b20);
+            ImGui::Value("b21", pPed->field_21C_bf.b21);
+            ImGui::Value("b22", pPed->field_21C_bf.b22);
+            ImGui::Value("b23", pPed->field_21C_bf.b23);
+            ImGui::Value("b24 burn", pPed->field_21C_bf.b24);
+            ImGui::Value("b25 invisib", pPed->field_21C_bf.b25);
+            ImGui::Value("b26 electrof", pPed->field_21C_bf.b26);
+            ImGui::Value("b27", pPed->field_21C_bf.b27);
+            ImGui::Value("b28", pPed->field_21C_bf.b28);
+            ImGui::Value("b29", pPed->field_21C_bf.b29);
+            ImGui::Value("b30", pPed->field_21C_bf.b30);
+            ImGui::Value("b31", pPed->field_21C_bf.b31);
+            ImGui::TreePop();
+        }
+    }
+}
+
+static void ShowPedBitMaskSetting(Ped* pPed)
+{
+    if (pPed)
+    {
+        if (ImGui::TreeNode("Ped BitMask Setting"))
+        {
+            static bool bits[32];
+            ImGui::Checkbox("b0 move", &bits[0]);
+            ImGui::Checkbox("b1", &bits[1]);
+            ImGui::Checkbox("b2", &bits[2]);
+            ImGui::Checkbox("b3 drive aggression", &bits[3]);
+            ImGui::Checkbox("b4", &bits[4]);
+            ImGui::Checkbox("b5 busted", &bits[5]);
+            ImGui::Checkbox("b6", &bits[6]);
+            ImGui::Checkbox("b7", &bits[7]);
+            ImGui::Checkbox("b8", &bits[8]);
+            ImGui::Checkbox("b9", &bits[9]);
+            ImGui::Checkbox("b10", &bits[10]);
+            ImGui::Checkbox("b11 attacking", &bits[11]);
+            ImGui::Checkbox("b12", &bits[12]);
+            ImGui::Checkbox("b13", &bits[13]);
+            ImGui::Checkbox("b14", &bits[14]);
+            ImGui::Checkbox("b15", &bits[15]);
+            ImGui::Checkbox("b16", &bits[16]);
+            ImGui::Checkbox("b17", &bits[17]);
+            ImGui::Checkbox("b18", &bits[18]);
+            ImGui::Checkbox("b19", &bits[19]);
+            ImGui::Checkbox("b20", &bits[20]);
+            ImGui::Checkbox("b21", &bits[21]);
+            ImGui::Checkbox("b22", &bits[22]);
+            ImGui::Checkbox("b23", &bits[23]);
+            ImGui::Checkbox("b24 burn", &bits[24]);
+            ImGui::Checkbox("b25 invisib", &bits[25]);
+            ImGui::Checkbox("b26 electrof", &bits[26]);
+            ImGui::Checkbox("b27", &bits[27]);
+            ImGui::Checkbox("b28", &bits[28]);
+            ImGui::Checkbox("b29", &bits[29]);
+            ImGui::Checkbox("b30", &bits[30]);
+            ImGui::Checkbox("b31", &bits[31]);
+            
+            static BitSet32* flags = (BitSet32*)&pPed->field_21C;
+
+            for (u8 i = 0; i < 32; i++)
+            {
+                if (bits[i])
+                {
+                    flags->set_bit(i);
+                }
+                else
+                {
+                    flags->clear_bit(i);
+                }
+            }
+            ImGui::TreePop();
+        }
+    }
+}
+
+static char_type* GetOccupationStrFromPed(Ped* pPed)
+{
+    if (pPed)
+    {
+        switch (pPed->field_240_occupation)
+        {
+            case ped_ocupation_enum::car_thief:
+                return "Car Thief";
+            case ped_ocupation_enum::mugger:
+                return "Mugger";
+            case ped_ocupation_enum::driver:
+                return "Driver";
+            case ped_ocupation_enum::fireman:
+                return "Fireman";
+            case ped_ocupation_enum::elvis_leader:
+                return "Elvis Leader";
+            case ped_ocupation_enum::elvis:
+                return "Elvis";
+            case ped_ocupation_enum::dummy:
+                return "Dummy";
+            case ped_ocupation_enum::driver_2:
+                return "Driver 2";
+            case ped_ocupation_enum::driver_3:
+                return "Driv3r";
+            case ped_ocupation_enum::no_occupation:
+                return "None";
+            case ped_ocupation_enum::any_gang_member:
+                return "Gang member";
+            case ped_ocupation_enum::police:
+                return "Police";
+            case ped_ocupation_enum::fbi:
+                return "FBI";
+            case ped_ocupation_enum::player:
+                return "Player";
+            case ped_ocupation_enum::swat:
+                return "SWAT";
+            case ped_ocupation_enum::road_block_tank_man:
+                return "Roadblock Tank Man";
+            case ped_ocupation_enum::army_army:
+                return "Army";
+            case ped_ocupation_enum::tank_driver:
+                return "Tank Driver";
+            default:
+                return "Other";
+        }
+    }
+    else
+    {
+        return "No Ped";
+    }
+    
+}
+
 STUB_FUNC(0x5B1170)
 EXPORT void __stdcall NoRefs_sub_5B1170()
 {
@@ -605,6 +759,13 @@ void CC ImGuiDebugDraw()
                         pCarIter->AssignRandomRemap_43A7D0();
                     }
 
+                    if (pCarIter->field_54_driver)
+                    {
+                        ImGui::Text("Driver occupation: %s", GetOccupationStrFromPed(pCarIter->field_54_driver));
+                        ShowPedBitMask(pCarIter->field_54_driver);
+                        ShowPedBitMaskSetting(pCarIter->field_54_driver);
+                    }
+
                     static bool bits[32];
                     ImGui::Checkbox("top left damage", &bits[0]);
                     ImGui::Checkbox("top right damage", &bits[1]);
@@ -906,26 +1067,29 @@ void CC ImGuiDebugDraw()
                     //pNewPed->SpawnDriverRunAway_45C650(pNewCar, 0);
                 }
 
-                if (pNewCar)
+            }
+
+            if (pNewCar)
+            {
+                // test things on spawned car
+                static s32 x_explosion_offset = 0;
+                static s32 y_explosion_offset = 0;
+                ImGui::InputInt("Maybe x offset", &x_explosion_offset, 1, 1);
+                ImGui::InputInt("Maybe y offset", &y_explosion_offset, 1, 1);
+
+                static s32 unknown_arg = 19;
+                ImGui::InputInt("Explosion argument", &unknown_arg, 1, 1);
+
+                if (ImGui::Button("ExplodeCar_43D690"))
                 {
-                    // test things on spawned car
-                    static s32 x_explosion_offset = 0;
-                    static s32 y_explosion_offset = 0;
-                    ImGui::InputInt("Maybe x offset", &x_explosion_offset, 1, 1);
-                    ImGui::InputInt("Maybe y offset", &y_explosion_offset, 1, 1);
-
-                    static s32 unknown_arg = 19;
-                    ImGui::InputInt("Explosion argument", &unknown_arg, 1, 1);
-
-                    if (ImGui::Button("ExplodeCar_43D690"))
-                    {
-                        pNewCar->ExplodeCar_43D690(unknown_arg, x_explosion_offset, y_explosion_offset);
-                    }
-                    if (ImGui::Button("ExplodeCar_Unknown_43D840"))
-                    {
-                        pNewCar->ExplodeCar_Unknown_43D840(unknown_arg);
-                    }
+                    pNewCar->ExplodeCar_43D690(unknown_arg, x_explosion_offset, y_explosion_offset);
                 }
+                if (ImGui::Button("ExplodeCar_Unknown_43D840"))
+                {
+                    pNewCar->ExplodeCar_Unknown_43D840(unknown_arg);
+                }
+
+                ImGui::Value("Car F_88", pNewCar->field_88);
             }
             ImGui::TreePop();
         }
@@ -1172,6 +1336,7 @@ void CC ImGuiDebugDraw()
                         ImGui::InputInt("Ped State 1", &pPlayerPed->field_278_ped_state_1, 1, 1);
                         ImGui::InputInt("Ped State 2", &pPlayerPed->field_27C_ped_state_2, 1, 1);
                         ImGui::InputInt("Car State", &pPlayerPed->field_25C_car_state, 1, 1);
+                        ShowPedBitMask(pPlayerPed);
                     }
 
                     if (pPlayerPed->field_168_game_object)
@@ -1448,12 +1613,18 @@ void CC ImGuiDebugDraw()
                 while (pPedIter)
                 {
                     char buffer[128];
-                    sprintf(buffer, "Ped %d", pPedIter->field_200_id);
+                    sprintf(buffer, "Ped %d %s", pPedIter->field_200_id, GetOccupationStrFromPed(pPedIter));
                     if (ImGui::TreeNode(buffer))
                     {
+                        ImGui::Begin(buffer);
+
                         ImGui::SliderS16("wanted points", &pPedIter->field_20A_wanted_points, 0, 12000);
                         ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 32767);
                         ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
+                        ShowPedBitMask(pPedIter);
+                        ShowPedBitMaskSetting(pPedIter);
+
+                        ImGui::End();
                         ImGui::TreePop();
                     }
                     pPedIter = pPedIter->mpNext;
