@@ -77,7 +77,7 @@ void Crusher_30::Service_488350()
                         field_14_pCarBeingCrushed->field_94 = 50;
                     }
                     field_14_pCarBeingCrushed->ExplodeCar_Unknown_43D840(19);
-                    field_14_pCarBeingCrushed->field_0_qq.sub_5A7080();
+                    field_14_pCarBeingCrushed->field_0_qq.CleanupSpriteList_5A7080();
                 }
                 if (field_1C_w - kCrusher_67A810 <= field_14_pCarBeingCrushed->get_car_width() / 2)
                 {

@@ -85,13 +85,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FD94C, Ang16(1080), 0x6FD94C);
 EXTERN_GLOBAL(Ang16, word_6FDB34);
 EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
 
-// 9.6f inline (TODO: check if it's a Fix16 method)
-static inline void sub_41FC20(Ang16& angle, Fix16& unk, Fix16& ret1, Fix16& ret2)
-{
-    ret1 = unk * Ang16::sine_40F500(angle);
-    ret2 = unk * Ang16::cosine_40F520(angle);
-}
-
 //https://decomp.me/scratch/iQH9l
 MATCH_FUNC(0x544F70)
 void __stdcall sub_544F70()
@@ -300,7 +293,7 @@ MATCH_FUNC(0x5454B0)
 void Char_B4::sub_5454B0()
 {
     field_B0 = -1;
-    field_88_obj_2c.sub_5A7080();
+    field_88_obj_2c.CleanupSpriteList_5A7080();
 }
 
 MATCH_FUNC(0x5454d0)
@@ -1875,11 +1868,11 @@ void Char_B4::state_0_54DDF0()
     {
         if (field_7C_pPed->field_15C_player && field_7C_pPed->get_fieldC_45C9B0() < k_dword_6FD9E4 || (field_58_flags & 8) != 0)
         {
-            sub_41FC20(field_40_rotation + word_6FD936, dword_6FDAC8, ret1, ret2);
+            Ang16::sub_41FC20(field_40_rotation + word_6FD936, dword_6FDAC8, ret1, ret2);
         }
         else
         {
-            sub_41FC20(field_40_rotation, dword_6FDAC8, ret1, ret2);
+            Ang16::sub_41FC20(field_40_rotation, dword_6FDAC8, ret1, ret2);
         }
         // ......
 
@@ -2136,7 +2129,7 @@ void Char_B4::state_0_54DDF0()
     }
 
     // line 401 on 9.6f IDA
-    sub_41FC20(field_40_rotation, dword_6FDAC8, ret1, ret2);
+    Ang16::sub_41FC20(field_40_rotation, dword_6FDAC8, ret1, ret2);
 
     ret1 += dword_6FD7F8 + this->field_4C;
     ret2 += dword_6FD800 + this->field_50;
@@ -2175,7 +2168,7 @@ void Char_B4::state_0_54DDF0()
             v93 += word_6FD8A2;
             Fix16 xpos_3;
             Fix16 ypos_3;
-            sub_41FC20(v93, dword_6FD9B4, xpos_3, ypos_3);
+            Ang16::sub_41FC20(v93, dword_6FD9B4, xpos_3, ypos_3);
 
             xpos_3 += dword_6FD7F8;
             ypos_3 += dword_6FD800;
@@ -2189,7 +2182,7 @@ void Char_B4::state_0_54DDF0()
                 Fix16 xpos_4;
                 Fix16 ypos_4;
 
-                sub_41FC20(v93, dword_6FD9B4, xpos_4, ypos_4);
+                Ang16::sub_41FC20(v93, dword_6FD9B4, xpos_4, ypos_4);
 
                 xpos_4 += dword_6FD7F8;
                 ypos_4 += dword_6FD800;
@@ -2207,7 +2200,7 @@ void Char_B4::state_0_54DDF0()
     LABEL_148:
         field_80_sprite_ptr = this->field_80_sprite_ptr;
 
-        sub_41FC20(field_40_rotation, field_38_velocity, ret1, ret2);
+        Ang16::sub_41FC20(field_40_rotation, field_38_velocity, ret1, ret2);
         ret1 += field_4C;
         ret2 += field_50;
         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + ret1,

@@ -1,3 +1,5 @@
+// Force inline off
+#define INLINE_MODE inline
 #include "miss2_0x11c.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -35,6 +37,8 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+// Back to force inline
+#define INLINE_MODE __forceinline    
 
 DEFINE_GLOBAL_INIT(s16, word_6212EE, 1, 0x6212EE);
 
@@ -3856,14 +3860,17 @@ void miss2_0x11C::sub_50E190()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x50e360)
+STUB_FUNC(0x50e360)
 void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
 {
     SCR_CHECK_CAR_SPEED* pCmd = (SCR_CHECK_CAR_SPEED*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
+    // Here there is 1 call to Fix16::SquareRoot which even though marked inline doesn't get inlined which is 
+    // expected. But so far everywhere else ALL calls to it are supposed to get inlined which only seems to work
+    // using __forceinline
     if (pPointer->field_8_car->field_58_physics &&
-        pPointer->field_8_car->field_58_physics->get_car_velocity_4754D0().get_value_4754D0() > pCmd->field_A_value)
+        pPointer->field_8_car->field_58_physics->get_car_velocity_4211C0().get_value_4754D0() > pCmd->field_A_value)
     {
         field_8 = true;
     }

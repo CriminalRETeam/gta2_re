@@ -34,6 +34,10 @@ DEFINE_GLOBAL(u8, byte_66F541, 0x66F541);
 DEFINE_GLOBAL(u8, gSoundSampleIdx_61A684, 0x61A684);
 DEFINE_GLOBAL(char_type, byte_66F543, 0x66F543);
 
+// TODO: can't use 2d arrays here :Skull:
+//DEFINE_GLOBAL(char_type, byte_5FE434[8][44], 0x5FE434);
+char_type byte_5FE434[8][44];
+
 static inline s32 Min(s32 a, s32 b)
 {
     return a < b ? a : b;
@@ -936,7 +940,7 @@ char_type sound_obj::CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3)
 }
 
 MATCH_FUNC(0x419070)
-bool sound_obj::VolCalc_419070(s32 a2, Fix16 a3, char_type a4)
+bool sound_obj::VolCalc_419070(u8 a2, Fix16 a3, char_type a4)
 {
     u8 v5 = CalcVolume_41A3F0(a2, a3, field_30_sQueueSample.field_28_distance);
     field_30_sQueueSample.field_24_nVolume = v5;
@@ -3101,10 +3105,62 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
     }
 }
 
-STUB_FUNC(0x415570)
+MATCH_FUNC(0x415570)
 void sound_obj::HandleCarAlarmSound_415570(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
 {
-    NOT_IMPLEMENTED;
+    Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    if (pCar->IsFireTruck_4118F0() || !pCar->sub_414F20() || !pCar->sub_414F80())
+    {
+        if (!pCar->IsFireTruck_4118F0() && !pCar->IsTank_411900() && !pCar->IsGunJeep_411910() || !pCar->field_B8)
+        {
+            if (a2->field_0_pObj->field_8_car_bc_ptr->IsEmittingHorn_411970())
+            {
+                bool tryPlay = false;
+                if (a2->field_4_bDrivenByPlayer || pCar->GetCarInfoIdx_411940() == car_model_enum::ICECREAM)
+                {
+                    tryPlay = true;
+                }
+                else if (pCar->IsEmittingHorn_411990())
+                {
+                    u8 f_A7 = pCar->field_A7_horn;
+                    if (f_A7 >= 44u)
+                    {
+                        pAlloc->field_A = this->field_1454_anRandomTable[4] & 7;
+                        f_A7 = 44;
+                    }
+
+                    if (byte_5FE434[pAlloc->field_A][(u8)(44u - f_A7)])
+                    {
+                        tryPlay = true;
+                    }
+                }
+
+                if (tryPlay && CalculateDistance_419020((Fix16(15) / Fix16(2)) * (Fix16(15) / Fix16(2))))
+                {
+                    const u8 vol = pCar->field_84_car_info_idx == car_model_enum::TRAINCAB ? 127 : 20;
+                    if (VolCalc_419070(vol, Fix16(15) / Fix16(2), a2->field_5_bHasSolidAbove))
+                    {
+                        this->field_30_sQueueSample.field_54 = Fix16(15) / Fix16(2);
+                        this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
+                        this->field_30_sQueueSample.field_64_max_distance = 15;
+                        this->field_30_sQueueSample.field_58_type = 5;
+                        this->field_30_sQueueSample.field_4_SampleIndex = 8;
+                        this->field_30_sQueueSample.field_41 = 0;
+                        this->field_30_sQueueSample.field_18 = 0;
+                        if (a2->field_4_bDrivenByPlayer)
+                        {
+                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 2;
+                        }
+                        else
+                        {
+                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
+                        }
+                        AddSampleToRequestedQueue_41A850();
+                    }
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x414F90)
@@ -3728,10 +3784,50 @@ skip_switch_2:
     return result;
 }
 
-STUB_FUNC(0x414A50)
+// 9.6f func
+inline s32 __stdcall Fix16_Round_To_Int_410BF0(Fix16& a1)
+{
+    s32 v = a1.mValue;
+    return (v + 0x2000) >> 14;
+}
+
+WIP_FUNC(0x414A50)
 void sound_obj::Tank_414A50(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    if (pCar->field_9C == 3)
+    {
+        if (CalculateDistance_419020((Fix16(20) / Fix16(2)) * (Fix16(20) / Fix16(2))))
+        {
+            Fix16 vol_mult = pCar->sub_43A240();
+            Fix16 max_speed = dword_6FE258->field_28_max_speed;
+            if (max_speed > k_dword_66F3F0)
+            {
+                if (vol_mult > max_speed)
+                {
+                    vol_mult = max_speed;
+                }
+
+                s32 vol = Fix16_Round_To_Int_410BF0((vol_mult / max_speed) * Fix16(90));
+                //vol = (int)(((1474560LL * (int)(((__int64)vol_mult << 14) / max_speed)) >> 14) + 0x2000) >> 14;
+
+                if (VolCalc_419070(vol, Fix16(20) / Fix16(2), a2->field_5_bHasSolidAbove))
+                {
+                    this->field_30_sQueueSample.field_54 = Fix16(20) / Fix16(2);
+                    this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
+                    this->field_30_sQueueSample.field_64_max_distance = 20;
+                    this->field_30_sQueueSample.field_58_type = 12;
+                    this->field_30_sQueueSample.field_4_SampleIndex = 5;
+                    this->field_30_sQueueSample.field_41 = 0;
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 10;
+                    this->field_30_sQueueSample.field_18 = 0;
+                    AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x414D30)

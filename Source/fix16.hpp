@@ -4,6 +4,10 @@
 #include <math.h>
 #include <windows.h>
 
+#ifndef INLINE_MODE
+#define INLINE_MODE __forceinline
+#endif
+
 class Fix16
 {
     public:
@@ -107,7 +111,7 @@ class Fix16
         return mValue / 16384.0f;
     }
 
-    f64 AsDouble() const
+    inline f64 AsDouble() const
     {
         return mValue / 16384.0;
     }
@@ -241,7 +245,12 @@ class Fix16
         return (diff_x > diff_y) ? diff_x : diff_y;
     }
 
-    inline static Fix16 __stdcall SquareRoot(Fix16& input)
+    
+    // NOTE: Force required for sub_43A240 else 2nd call doesn't get inlined
+    // miss2_0x11C.cpp switches this back to regular inlining mode. In 9.6f it seems like
+    // that file actually does have other inline settings as it actually has inlined way more things in the
+    // opcode switch case compared to 10.5 which has inlined nothing.
+    INLINE_MODE static Fix16 __stdcall SquareRoot(Fix16& input)
     {
         return Fix16(sqrt(input.AsDouble()));
     }

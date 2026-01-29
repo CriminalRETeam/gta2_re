@@ -358,11 +358,14 @@ class Car_BC
   public:
     EXPORT Ang16 sub_4403A0();
 
+    EXPORT s16 sub_43D5D0(Fix16 a2);
+
+
     EXPORT bool IsPoliceCar_439EC0();
     EXPORT Fix16 GetDamageFactorOnSpeed_439EE0();
     EXPORT Fix16 GetMaxSpeed_439F30();
     EXPORT wchar_t* GetCarStr_439F80();
-    EXPORT u32* sub_439FB0(u32* a2);
+    EXPORT Fix16_Point sub_439FB0();
     EXPORT Fix16_Point get_rear_wheel_offset_43A0E0();
     EXPORT Fix16 get_mass_43A120();
     EXPORT Fix16 get_anti_strngth_43A1D0();
@@ -645,6 +648,16 @@ class Car_BC
         return field_74_damage == 32001;
     }
 
+    inline bool sub_414F80()
+    {
+        return sub_414F20() && (field_A4 & 4) != 0;
+    }
+
+    inline s32 GetCarInfoIdx_411940()
+    {
+        return field_84_car_info_idx;
+    }
+
     bool sub_414F20()
     {
         return inline_info_flags_bit2() || is_FBI_car_411920();
@@ -660,6 +673,11 @@ class Car_BC
     inline bool inline_check_0x4_info_421660()
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 4) == 4;
+    }
+
+    inline bool inline_check_0x10_info_421640()
+    {
+        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x10) == 0x10;
     }
 
     // 9.6f inline 0x4216C0
@@ -895,6 +913,12 @@ class Car_BC
     inline bool IsEmittingHorn_411970()
     {
         return field_A7_horn > 0 && field_A7_horn <= 0xF8u;
+    }
+
+    inline bool IsEmittingHorn_411990()
+    {
+        // Not sure what is going on here, seems to same as 0x411970 ??
+        return field_A7_horn <= 0xF8u && field_A7_horn > 0;
     }
 
     EXPORT char sub_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);

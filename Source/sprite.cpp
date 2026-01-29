@@ -269,15 +269,28 @@ s32 Sprite::sub_59E4C0(Fix16 a2, s32 a3)
 }
 
 // https://decomp.me/scratch/GIpfM
-STUB_FUNC(0x59E590)
+WIP_FUNC(0x59E590)
 char_type Sprite::CollisionCheck_59E590(Sprite* pOther)
 {
-    Sprite_4C* pOurSprite = pOther->field_C_sprite_4c_ptr;
-    Sprite_4C* pOtherSprite = field_C_sprite_4c_ptr;
-    return pOtherSprite->field_30_boundingBox.AABB_Intersects_41E2F0(&pOurSprite->field_30_boundingBox) &&
-        (pOtherSprite->IsZeroWidth_41E390() || field_0.jIsAxisAligned_41E3C0()) &&
-        (pOurSprite->IsZeroWidth_41E390() || pOther->field_0.jIsAxisAligned_41E3C0()) ||
-        (pOther->RotatedRectCollisionSAT_5A0380(this) || RotatedRectCollisionSAT_5A0380(pOther));
+    WIP_IMPLEMENTED;
+
+    // TODO: inlining issue inside of AABB_Intersects_41E2F0
+    if (field_C_sprite_4c_ptr->field_30_boundingBox.AABB_Intersects_41E2F0(&pOther->field_C_sprite_4c_ptr->field_30_boundingBox))
+    {
+        if ((field_C_sprite_4c_ptr->IsZeroWidth_41E390() || field_0.jIsAxisAligned_41E3C0()) &&
+            (pOther->field_C_sprite_4c_ptr->IsZeroWidth_41E390() || pOther->field_0.jIsAxisAligned_41E3C0()))
+        {
+
+            return 1;
+        }
+
+        if (RotatedRectCollisionSAT_5A0380(pOther) || pOther->RotatedRectCollisionSAT_5A0380(this))
+        {
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
 STUB_FUNC(0x59E680)

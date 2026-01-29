@@ -51,7 +51,8 @@ class CarPhysics_B0
     EXPORT void sub_55A600();
     EXPORT u32* sub_55A6A0(u32* a2);
     EXPORT void ResetForceAccumulators_55A840();
-    EXPORT char_type HandleUserInputs_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn);
+    EXPORT char_type
+    HandleUserInputs_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn);
     EXPORT void HandleGravityOnSlope_55AA00();
     EXPORT s32* sub_55AB50(s32* a2, Sprite_4C** a3);
     EXPORT s32 sub_55AD90(Fix16 a2);
@@ -141,21 +142,25 @@ class CarPhysics_B0
     EXPORT void SetCar_5638C0(Car_BC* pBC);
     EXPORT CarPhysics_B0();
 
+    inline Fix16 sub_4211A0()
+    {
+        return field_40_linvel_1.GetLength_41E260();
+    }
+
     inline char_type is_backward_gas_on_411810()
     {
         return field_94_is_backward_gas_on;
     }
 
-    inline Fix16 get_car_velocity_4754D0()
+    inline Fix16 get_car_velocity_4211C0()
     {
-        return field_0_vel_read_only.GetLength();
+        return field_0_vel_read_only.GetLength_41E260();
     }
 
     inline bool sub_49EF80()
     {
-        return field_40_linvel_1.x == kFP16Zero_6FE20C 
-            && field_40_linvel_1.y == kFP16Zero_6FE20C 
-            && field_74_ang_vel_rad == kFP16Zero_6FE20C;
+        return field_40_linvel_1.x == kFP16Zero_6FE20C && field_40_linvel_1.y == kFP16Zero_6FE20C &&
+            field_74_ang_vel_rad == kFP16Zero_6FE20C;
     }
 
     Fix16_Point field_0_vel_read_only;

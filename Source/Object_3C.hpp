@@ -45,7 +45,7 @@ class struct_4
 
     EXPORT void PoolUpdate_5A6F70(Sprite* a2);
     EXPORT void sub_5A7010();
-    EXPORT void sub_5A7080();
+    EXPORT void CleanupSpriteList_5A7080();
     EXPORT void sub_5A7110();
     EXPORT s32 sub_5A71A0();
     EXPORT void sub_5A71F0();
