@@ -90,7 +90,8 @@ class Fix16_Rect
     // https://decomp.me/scratch/TT06X
     bool AABB_Intersects_41E2F0(Fix16_Rect* pOther) const
     {
-        // TODO: The 1st call should get inlined but doesn't unless its a class method, but it makes no sense for it to be a class method
+        // TODO: 1st call should be inlined and the remaining 2 calls should be direct calls/not inlined, instead all are inlined
+        // only fix seems to be to make it a class method of Fix16 which makes no sense
         return IntervalsOverlap_41E160(this->field_0_left, this->field_4_right, pOther->field_0_left, pOther->field_4_right) &&
                 IntervalsOverlap_41E160(this->field_8_top, this->field_C_bottom, pOther->field_8_top, pOther->field_C_bottom) &&
                 IntervalsOverlap_41E160(this->field_10_low_z, this->field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z) ?
