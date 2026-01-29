@@ -124,7 +124,6 @@ DEFINE_GLOBAL(Fix16, k_dword_66AB38, 0x66AB38);
 DEFINE_GLOBAL(Fix16_Point, stru_677370, 0x677370);
 DEFINE_GLOBAL(Fix16_Point, stru_677358, 0x677358);
 
-
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -1058,18 +1057,16 @@ bool Car_BC::IsPoliceCar_439EC0()
 }
 
 // https://decomp.me/scratch/I0oG6
-STUB_FUNC(0x439ee0)
+MATCH_FUNC(0x439ee0)
 Fix16 Car_BC::GetDamageFactorOnSpeed_439EE0()
 {
-    NOT_IMPLEMENTED;
-
-    if (field_74_damage < 16000)
+    if (field_74_damage >= 16000)
     {
-        return dword_6777D0;
+        return (Fix16((32001 - field_74_damage))) / Fix16(16000);
     }
     else
     {
-        return Fix16(32001 - field_74_damage) / Fix16(4000);
+        return Fix16(dword_6777D0);
     }
 }
 
@@ -1088,13 +1085,12 @@ wchar_t* Car_BC::GetCarStr_439F80()
     return gText_0x14_704DFC->Find_5B5F90(byte_67CE50);
 }
 
-
 // 9.6f 0x421C40
 WIP_FUNC(0x439fb0)
 Fix16_Point Car_BC::sub_439FB0()
 {
-    WIP_IMPLEMENTED;
-   
+    //  WIP_IMPLEMENTED;
+
     Fix16_Point point;
     // TODO: Inline breaks the start of the match, why?
     if (inline_check_0x10_info_421640())
