@@ -68,7 +68,7 @@ DEFINE_GLOBAL(Ang16, gSpawnRotationTop_6787B0, 0x6787B0);
 DEFINE_GLOBAL(Ang16, gSpawnRotationRight_678578, 0x678578);
 DEFINE_GLOBAL(Ang16, gSpawnRotationBottom_678540, 0x678540);
 DEFINE_GLOBAL(s16, gSpawnCounter_6787C6, 0x6787C6);
-EXTERN_GLOBAL(char_type, byte_6787CE);
+EXTERN_GLOBAL(u8, byte_6787CE);
 
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
