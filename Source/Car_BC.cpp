@@ -123,6 +123,8 @@ DEFINE_GLOBAL(Fix16, k_dword_66AB38, 0x66AB38);
 
 DEFINE_GLOBAL(Fix16_Point, stru_677370, 0x677370);
 DEFINE_GLOBAL(Fix16_Point, stru_677358, 0x677358);
+DEFINE_GLOBAL(Ang16, dword_677234, 0x677234);
+DEFINE_GLOBAL(Fix16, dword_6778FC, 0x6778FC);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -1597,11 +1599,54 @@ char_type Car_BC::sub_43AFE0(s32 target_door)
     return 0;
 }
 
-STUB_FUNC(0x43b140)
-bool Car_BC::sub_43B140(s32 a2)
+WIP_FUNC(0x43b140)
+bool Car_BC::sub_43B140(s32 target_car_door)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Ang16 angToUse;
+
+    u8 remap = GetRemap();
+    if (sub_43A240() > gFix16_6777CC)
+    {
+        return 0;
+    }
+
+    Fix16 v14;
+    Fix16 v13;
+    sub_43B5A0(target_car_door, &v14, &v13);
+
+    if (remap != 3)
+    {
+        switch (target_car_door)
+        {
+            case 0:
+            case 2:
+                angToUse = field_50_car_sprite->field_0 + dword_677234;
+                break;
+            case 1:
+            case 3:
+                angToUse = field_50_car_sprite->field_0 - dword_677234;
+                break;
+            default:
+                break;
+        }
+    }
+    else
+    {
+        angToUse = field_50_car_sprite->field_0 - dword_677234;
+    }
+
+    // TODO: This inline seems to not match
+    Fix16 t1;
+    Fix16 t2;
+    Ang16::sub_41FC20(angToUse, dword_6778FC, t1, t2);
+
+    if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420((v14+t1).ToInt(), (v13+t2).ToInt(), field_50_car_sprite->field_1C_zpos.ToInt() - 1) != 2)
+    {
+        return false;
+    }
+    return true;
 }
 
 WIP_FUNC(0x43b2b0)
