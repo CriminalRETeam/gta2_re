@@ -272,7 +272,8 @@ bool Char_B4::sub_5451C0()
         return false;
     }
 
-    if (field_C_ped_state_2 != 22 && field_10_char_state != Char_B4_state::Jumping_15 && field_C_ped_state_2 != 27 && !field_7C_pPed->sub_433DA0())
+    if (field_C_ped_state_2 != 22 && field_10_char_state != Char_B4_state::Jumping_15 && field_C_ped_state_2 != 27 &&
+        !field_7C_pPed->sub_433DA0())
     {
         return true;
     }
@@ -287,6 +288,16 @@ void Char_B4::sub_545430()
     Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
     field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, word_6FDB34);
     field_B0 = 10; // Start screaming timer
+}
+
+MATCH_FUNC(0x46DD50)
+void Char_B4::SetRemap_46DD50(u8 remap)
+{
+    this->field_5_remap = remap;
+    if (remap != 0xFF)
+    {
+        field_80_sprite_ptr->SetRemap(remap);
+    }
 }
 
 MATCH_FUNC(0x5454B0)
@@ -1336,7 +1347,12 @@ void Char_B4::UpdateAnimState_546360()
                         }
                     }
                 }
-                CarDoorAlignmentSolver_545AF0(field_68_animation_frame, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+                CarDoorAlignmentSolver_545AF0(field_68_animation_frame,
+                                              field_84,
+                                              field_7C_pPed->field_24C_target_car_door,
+                                              newx,
+                                              newy,
+                                              field_40_rotation);
                 v124 = 5;
                 newId_ = (u8)field_68_animation_frame + baseId + 24;
             }
@@ -1359,7 +1375,12 @@ void Char_B4::UpdateAnimState_546360()
             }
             else
             {
-                CarDoorAlignmentSolver_545AF0(field_6C_animation_state, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+                CarDoorAlignmentSolver_545AF0(field_6C_animation_state,
+                                              field_84,
+                                              field_7C_pPed->field_24C_target_car_door,
+                                              newx,
+                                              newy,
+                                              field_40_rotation);
                 v124 = 3;
                 newId_ = (u8)field_68_animation_frame + baseId + 24;
             }
@@ -1383,7 +1404,12 @@ void Char_B4::UpdateAnimState_546360()
             }
             else
             {
-                CarDoorAlignmentSolver_545AF0(field_6C_animation_state, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+                CarDoorAlignmentSolver_545AF0(field_6C_animation_state,
+                                              field_84,
+                                              field_7C_pPed->field_24C_target_car_door,
+                                              newx,
+                                              newy,
+                                              field_40_rotation);
                 v124 = 1;
                 field_80_sprite_ptr->field_28_num = 9;
                 newId_ = (u8)field_68_animation_frame + baseId + 28;
@@ -1391,7 +1417,12 @@ void Char_B4::UpdateAnimState_546360()
             goto LABEL_125;
 
         case 8:
-            CarDoorAlignmentSolver_545AF0(field_6C_animation_state, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+            CarDoorAlignmentSolver_545AF0(field_6C_animation_state,
+                                          field_84,
+                                          field_7C_pPed->field_24C_target_car_door,
+                                          newx,
+                                          newy,
+                                          field_40_rotation);
             field_80_sprite_ptr->field_28_num = 9;
             field_7C_pPed->ChangeNextPedState2_45C540(10);
             field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
@@ -1486,7 +1517,12 @@ void Char_B4::UpdateAnimState_546360()
             }
 
         LABEL_123:
-            CarDoorAlignmentSolver_545AF0(field_68_animation_frame, field_84, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
+            CarDoorAlignmentSolver_545AF0(field_68_animation_frame,
+                                          field_84,
+                                          field_7C_pPed->get_target_car_door_403A60(),
+                                          newx,
+                                          newy,
+                                          field_40_rotation);
 
         LABEL_125:
             pNewZ_ = *gMap_0x370_6F6268->sub_4E4E50(&pNewZ_, newx, newy, field_84->field_50_car_sprite->field_1C_zpos);
@@ -1524,7 +1560,12 @@ void Char_B4::UpdateAnimState_546360()
         case 10:
         case 11:
         case 12:
-            CarDoorAlignmentSolver_545AF0(field_6C_animation_state, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
+            CarDoorAlignmentSolver_545AF0(field_6C_animation_state,
+                                          field_84,
+                                          field_7C_pPed->field_24C_target_car_door,
+                                          newx,
+                                          newy,
+                                          field_40_rotation);
             v124 = 2;
             newId_ = (u8)field_68_animation_frame + baseId + 19;
             goto LABEL_125;
@@ -1835,8 +1876,8 @@ void Char_B4::state_0_54DDF0()
         field_58_flags = field_58_flags ^ (v10 ^ (u8)this->field_58_flags) & 1;
         //v5 = this->field_58_flags ^ (v10 ^ (u8)this->field_58_flags) & 1;
         //this->field_58_flags = v5;
-        if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & 0x3FF) 
-            && field_10_char_state != Char_B4_state::Jumping_15)
+        if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & 0x3FF) &&
+            field_10_char_state != Char_B4_state::Jumping_15)
         {
             //if ((field_7C_pPed->field_21C & 0x8000000) == 0)
             if (field_7C_pPed->field_21C_bf.b27 == 0)

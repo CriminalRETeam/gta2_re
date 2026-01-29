@@ -4,6 +4,7 @@
 #include "Gang.hpp"
 #include "Hud.hpp"
 #include "Ped.hpp"
+#include "PedGroup.hpp"
 #include "Ped_List_4.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
@@ -54,20 +55,17 @@ EXTERN_GLOBAL(Fix16, gDummyZ_67841C);
 EXTERN_GLOBAL(Fix16, gSpawnJitterScale_678618);
 EXTERN_GLOBAL(Fix16, k_dword_678664);
 
+EXTERN_GLOBAL(Fix16, dword_6784A0);
+EXTERN_GLOBAL(Fix16, dword_678480);
 
-
-Ang16 gSpawnRotationLeft_6786E0;
-Ang16 gSpawnRotationTop_6787B0;
-Ang16 gSpawnRotationRight_678578;
-Ang16 gSpawnRotationBottom_678540;
+DEFINE_GLOBAL(Ang16, gSpawnRotationLeft_6786E0, 0x6786E0);
+DEFINE_GLOBAL(Ang16, gSpawnRotationTop_6787B0, 0x6787B0);
+DEFINE_GLOBAL(Ang16, gSpawnRotationRight_678578, 0x678578);
+DEFINE_GLOBAL(Ang16, gSpawnRotationBottom_678540, 0x678540);
 
 // TODO: Prob a method of PedManager?
 STUB_FUNC(0x46E380)
-EXPORT void __stdcall SpawnPedestrianAt_46E380(
-        Fix16 xpos,
-        Fix16 ypos,
-        Fix16 zpos,
-        Ang16 rotation)
+EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
     NOT_IMPLEMENTED;
 }
@@ -530,11 +528,43 @@ Ped* PedManager::sub_470D60()
     return 0;
 }
 
-STUB_FUNC(0x470e30)
-Ped* PedManager::sub_470E30()
+// 9.6f 0x43DEB0
+WIP_FUNC(0x470e30)
+Ped* PedManager::SpawnTrainLeaver_470E30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Ped* pPed = gPedPool_6787B8->Allocate();
+
+    // TODO: Instruction swap here
+    pPed->field_26C_graphic_type = 0;
+
+    s16 base_rng = 4;
+    switch (stru_6F6784.get_int_4F7AE0(&base_rng))
+    {
+        case 0:
+            pPed->field_244_remap = 18;
+            break;
+        case 1:
+            pPed->field_244_remap = 19;
+            break;
+        case 2:
+            pPed->field_244_remap = 20;
+            break;
+        default:
+            pPed->field_244_remap = 21;
+            break;
+    }
+
+    pPed->field_238 = 4;
+    pPed->field_240_occupation = 9;
+    pPed->field_168_game_object = 0;
+    pPed->ChangeNextPedState1_45C500(10);
+    pPed->ChangeNextPedState2_45C540(10);
+    pPed->field_216_health = 50;
+    pPed->field_288_threat_search = threat_search_enum::area_2;
+    pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
+    return pPed;
 }
 
 MATCH_FUNC(0x470f30)
@@ -642,4 +672,51 @@ void PedManager::Dummies_470330()
 MATCH_FUNC(0x471110)
 PedPool::~PedPool()
 {
+}
+
+MATCH_FUNC(0x46DB90)
+EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+    Fix16 xpos_adjusted = dword_6784A0 + Fix16((u8)(xpos.ToInt()));
+    Fix16 ypos_adjusted = dword_6784A0 + Fix16((u8)(ypos.ToInt()));
+
+    Ped* pLeader = gPedPool_6787B8->Allocate();
+    pLeader->field_240_occupation = ped_ocupation_enum::elvis_leader;
+    pLeader->field_244_remap = remap;
+    pLeader->field_26C_graphic_type = 1;
+    pLeader->field_238 = 4;
+    pLeader->AllocCharB4_45C830(xpos_adjusted, ypos_adjusted, zpos);
+    pLeader->field_168_game_object->SetRemap_46DD50(pLeader->field_244_remap);
+    pLeader->field_216_health = 100;
+
+    PedGroup* pGroup = PedGroup::New_4CB0D0();
+    pGroup->add_ped_leader_4C9B10(pLeader);
+    pGroup->field_38_group_type = 1;
+    pGroup->field_36_count = number_followers;
+    pGroup->field_34_count = number_followers;
+
+    for (u8 ped_idx = 0; ped_idx < number_followers; ped_idx++)
+    {
+        Fix16 xy_off = Fix16(0x4000 * (ped_idx+1), 0);
+
+        Ped* pNewPed = gPedPool_6787B8->Allocate();
+
+        pNewPed->field_240_occupation = ped_ocupation_enum::elvis;
+        pNewPed->field_244_remap = remap;
+        pNewPed->field_238 = 4;
+        pNewPed->AllocCharB4_45C830(xpos_adjusted - ((dword_678480 * xy_off)), ypos_adjusted - ((dword_678480 * xy_off)), zpos);
+
+        Char_B4* pB4 = pNewPed->field_168_game_object;
+        const u8 cur_remap = pNewPed->field_244_remap;
+        pB4->field_5_remap = cur_remap;
+        if (cur_remap != 0xFF)
+        {
+            pB4->field_80_sprite_ptr->SetRemap(cur_remap);
+        }
+
+        pNewPed->field_216_health = 100;
+        pNewPed->field_26C_graphic_type = 1;
+        pGroup->add_ped_to_list_4C9B30(pNewPed, ped_idx);
+    }
+    return pLeader;
 }
