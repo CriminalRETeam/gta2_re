@@ -1334,16 +1334,27 @@ void Car_BC::AssignRandomRemap_43A7D0()
 }
 
 // https://decomp.me/scratch/zoRIL
-STUB_FUNC(0x43a850)
+MATCH_FUNC(0x43a850)
 char_type Car_BC::sub_43A850()
 {
     if (field_54_driver && !field_54_driver->IsField238_45EDE0(2))
     {
         if (!IsTrainModel_403BA0())
         {
-            if (field_60 && field_60->field_22 != 0)
+            if (field_60)
             {
-                if (field_84_car_info_idx == car_model_enum::TANK)
+                if (field_60->field_22 != 0)
+                {
+                    if (field_84_car_info_idx == car_model_enum::TANK) // 0x36
+                    {
+                        return car_model_enum::HOTDOG_D4;
+                    }
+                    return car_model_enum::HOTDOG_D1;
+                }
+            }
+            else
+            {
+                if (field_84_car_info_idx == car_model_enum::TANK) // 0x36
                 {
                     return car_model_enum::HOTDOG_D4;
                 }
@@ -1357,8 +1368,7 @@ char_type Car_BC::sub_43A850()
                 case car_model_enum::COPCAR:
                 case car_model_enum::EDSELFBI:
                 case car_model_enum::JEEP:
-                    return car_model_enum::HOTDOG_D1;
-
+                    return car_model_enum::HOTDOG_D2;
                 case car_model_enum::TANK:
                     return car_model_enum::HOTDOG_D4;
             }
