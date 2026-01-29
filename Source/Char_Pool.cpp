@@ -76,7 +76,7 @@ EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_fol
 WIP_FUNC(0x46E380)
 EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    //WIP_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     char_type rng_kind; // bl
     s16 rng_val; // di
