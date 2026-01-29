@@ -8,12 +8,12 @@
 #include "Ped_List_4.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
+#include "PurpleDoom.hpp"
+#include "Weapon_30.hpp"
 #include "char.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "rng.hpp"
-#include "Weapon_30.hpp"
-#include "PurpleDoom.hpp"
 
 #include "Frontend.hpp" // For the cheat bools
 
@@ -67,9 +67,8 @@ DEFINE_GLOBAL(Ang16, gSpawnRotationLeft_6786E0, 0x6786E0);
 DEFINE_GLOBAL(Ang16, gSpawnRotationTop_6787B0, 0x6787B0);
 DEFINE_GLOBAL(Ang16, gSpawnRotationRight_678578, 0x678578);
 DEFINE_GLOBAL(Ang16, gSpawnRotationBottom_678540, 0x678540);
-
-s16 gSpawnCounter_6787C6;
-char_type byte_6787CE;
+DEFINE_GLOBAL(s16, gSpawnCounter_6787C6, 0x6787C6);
+EXTERN_GLOBAL(char_type, byte_6787CE);
 
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
@@ -77,7 +76,7 @@ EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_fol
 WIP_FUNC(0x46E380)
 EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    WIP_IMPLEMENTED;
+    //WIP_IMPLEMENTED;
 
     char_type rng_kind; // bl
     s16 rng_val; // di
@@ -131,10 +130,14 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
     pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
     mugger_ratio = (u16)pZone->field_C_mugger_ratio;
-    
+
     v11 = rng_val;
 
-    if (rng_val >= (s32)(u16)mugger_ratio)
+    if (rng_val < (s32)(u16)mugger_ratio)
+    {
+        rng_kind = 1;
+    }
+    else
     {
         field_E_carthief_ratio = (u16)pZone->field_E_carthief_ratio;
         v31 = (u16)field_E_carthief_ratio;
@@ -149,7 +152,11 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 goto LABEL_12;
             }
             field_12_gangchar_ratio = (u16)pZone->field_12_gangchar_ratio;
-            if (v11 >= mugger_ratio + v31 + field_12_gangchar_ratio + rng_max)
+            if (v11 < mugger_ratio + v31 + field_12_gangchar_ratio + rng_max)
+            {
+                rng_kind = (u8)byte_6787CE < 8u ? 4 : 0;
+            }
+            else
             {
                 if (v11 >= mugger_ratio + v31 + rng_max + field_12_gangchar_ratio + (u16)pZone->field_14_policeped_ratio)
                 {
@@ -157,19 +164,11 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 }
                 rng_kind = 5;
             }
-            else
-            {
-                rng_kind = (u8)byte_6787CE < 8u ? 4 : 0;
-            }
         }
         else
         {
             rng_kind = 2;
         }
-    }
-    else
-    {
-        rng_kind = 1;
     }
 
     kind = rng_kind;
@@ -360,6 +359,7 @@ LABEL_12:
                 {
                     goto LABEL_58;
                 }
+
                 if (wanted_level_ <= 1)
                 {
                     pPed->field_170_selected_weapon = 0;
@@ -367,7 +367,7 @@ LABEL_12:
                     pPed->field_216_health = 50;
                     goto LABEL_56;
                 }
-                if (wanted_level_ == 2)
+                else if (wanted_level_ == 2)
                 {
                     pPed->GiveWeapon_46F650(weapon_type::pistol);
                     pPed->field_216_health = 100;
@@ -376,10 +376,14 @@ LABEL_12:
                     pPed->field_26C_graphic_type = 2;
                     goto LABEL_34;
                 }
-            LABEL_58:
-                pPed->GiveWeapon_46F650(weapon_type::pistol);
-                pPed->field_216_health = 100;
-                pPed->field_26C_graphic_type = 2;
+
+                {
+                LABEL_58:
+                    pPed->GiveWeapon_46F650(weapon_type::pistol);
+                    pPed->field_216_health = 100;
+                    pPed->field_26C_graphic_type = 2;
+                }
+
             LABEL_34:
                 occupation_ = pPed->field_240_occupation;
                 if (occupation_ != ped_ocupation_enum::unknown_14 && occupation_ != ped_ocupation_enum::unknown_16)
