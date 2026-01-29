@@ -1135,11 +1135,29 @@ bool Car_BC::sub_43A230()
     return field_50_car_sprite->field_38_zoom != 0;
 }
 
-STUB_FUNC(0x43a240)
+MATCH_FUNC(0x43a240)
 Fix16 Car_BC::sub_43A240()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    CarPhysics_B0* pPhysics;
+    if (IsTrainModel_403BA0())
+    {
+        pPhysics = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(this)->field_58_physics;
+        if (!pPhysics)
+        {
+            return gFix16_6777CC;
+        }
+        return pPhysics->sub_4211A0();
+    }
+    else
+    {
+        pPhysics = this->field_58_physics;
+        if (!pPhysics)
+        {
+            return gFix16_6777CC;
+        }
+        return pPhysics->sub_4211A0();
+    }
+     
 }
 
 MATCH_FUNC(0x43a3c0)
@@ -1204,7 +1222,7 @@ Fix16 Car_BC::GetVelocity_43A4C0()
     }
     else
     {
-        return field_58_physics->field_0_vel_read_only.GetLength();
+        return field_58_physics->field_0_vel_read_only.GetLength_41E260();
     }
 }
 

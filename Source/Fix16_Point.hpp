@@ -7,12 +7,13 @@
 EXTERN_GLOBAL(Fix16, gFix16_6777CC);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 
+
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
 // but 9.6f leads me to believe both the POD and non-POD type are the same
 struct Fix16_Point_POD
 {
     // None inline exists in 10.5 at 0x453590
-    inline Fix16 GetLength()
+    inline Fix16 GetLength_41E260()
     {
         if (x == gFix16_6777CC)
         {

@@ -1398,12 +1398,12 @@ bool Hud_Arrow_7C::sub_5D0620()
         gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
 
         Fix16 distance_1 = Fix16_Point_POD(xpos - field_18.field_60_curr_target->field_14_aim_x, 
-            ypos - field_18.field_60_curr_target->field_18_aim_y).GetLength() - field_10_radius_pos;
+            ypos - field_18.field_60_curr_target->field_18_aim_y).GetLength_41E260() - field_10_radius_pos;
 
         swap_arrows_4C7060();
 
         Fix16 distance_2 = Fix16_Point(xpos - field_18.field_60_curr_target->field_14_aim_x, 
-            ypos - field_18.field_60_curr_target->field_18_aim_y).GetLength();
+            ypos - field_18.field_60_curr_target->field_18_aim_y).GetLength_41E260();
 
         field_18.field_2E = 20;
         field_10_radius_pos = distance_2 - distance_1;
