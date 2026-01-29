@@ -39,9 +39,9 @@ DEFINE_GLOBAL_INIT(Ang16, gDummyPedAng_6787A8, Ang16(0), 0x6787A8);
 DEFINE_GLOBAL_INIT(s32, dword_67866C, 0xC000, 0x67866C); // TODO: Fix16? Static init to, 0xC000, 0xUNKNOWN);
 DEFINE_GLOBAL(s32, gPedId_61A89C, 0x61A89C);
 DEFINE_GLOBAL(u8, gNumberMuggersSpawned_6787CA, 0x6787CA);
-DEFINE_GLOBAL(u8, byte_6787CB, 0x6787CB);
-DEFINE_GLOBAL(u8, byte_6787CC, 0x6787CC);
-DEFINE_GLOBAL(u8, byte_6787CD, 0x6787CD);
+DEFINE_GLOBAL(u8, gNumberCarThiefsSpawned_6787CB, 0x6787CB);
+DEFINE_GLOBAL(u8, gNumberElvisLeadersSpawned_6787CC, 0x6787CC);
+DEFINE_GLOBAL(u8, gNumberWalkingCopsSpawned_6787CD, 0x6787CD);
 DEFINE_GLOBAL(u8, byte_6787D2, 0x6787D2);
 DEFINE_GLOBAL(u8, byte_61A8A0, 0x61A8A0);
 DEFINE_GLOBAL(u8, byte_6787E2, 0x6787E2);
@@ -324,13 +324,13 @@ void Ped::PoolAllocate()
             gNumberMuggersSpawned_6787CA = 0;
             break;
         case 16:
-            byte_6787CB = 0;
+            gNumberCarThiefsSpawned_6787CB = 0;
             break;
         case 22:
-            byte_6787CC = 0;
+            gNumberElvisLeadersSpawned_6787CC = 0;
             break;
         case 29:
-            byte_6787CD = 0;
+            gNumberWalkingCopsSpawned_6787CD = 0;
             break;
     }
 }
