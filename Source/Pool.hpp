@@ -130,6 +130,12 @@ class Pool
         pItem->mpNext = field_0_pStart;
         field_0_pStart = pItem;
     }
+    
+    void Remove_NoDeAllocate(PoolType* pItem)
+    {
+        pItem->mpNext = field_0_pStart;
+        field_0_pStart = pItem;
+    }
 
     void UpdateNextPrev(PoolType* pItem)
     {

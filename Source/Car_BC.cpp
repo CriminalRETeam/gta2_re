@@ -3377,11 +3377,13 @@ void Car_BC::sub_4426D0()
     }
 }
 
-STUB_FUNC(0x442760)
+WIP_FUNC(0x442760)
 void Car_BC::DetachTrailer_442760()
 {
+    WIP_IMPLEMENTED;
+    
     Trailer* p = field_64_pTrailer;
-    gCar_BC_Pool_67792C->Remove(field_64_pTrailer->field_C_pCarOnTrailer);
+    gCar_BC_Pool_67792C->field_0_pool.Remove_NoDeAllocate(field_64_pTrailer->field_C_pCarOnTrailer);
     field_64_pTrailer->field_C_pCarOnTrailer->field_64_pTrailer = 0;
     field_64_pTrailer->field_8_truck_cab->field_64_pTrailer = 0;
     gTrailerPool_66AC80->field_0_pool.DeAllocate(p);
