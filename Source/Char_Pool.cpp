@@ -378,57 +378,7 @@ LABEL_12:
                     pPed->field_216_health = 100;
                     pPed->field_26C_graphic_type = 2;
                 }
-
-            LABEL_34:
-                occupation_ = pPed->field_240_occupation;
-                if (occupation_ != ped_ocupation_enum::unknown_14 && occupation_ != ped_ocupation_enum::unknown_16)
-                {
-                    pPed->AllocCharB4_45C830(xpos, ypos, zpos);
-                }
-
-                gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pPed->field_168_game_object->field_80_sprite_ptr);
-
-                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(pPed->field_168_game_object->field_80_sprite_ptr, 0))
-                {
-                    pPed->ChangeNextPedState1_45C500(9);
-                    pPed->ChangeNextPedState2_45C540(15);
-                    pPed->Deallocate_45EB60();
-                    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
-                    return;
-                }
-
-                gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
-                if (pPed->field_240_occupation != ped_ocupation_enum::unknown_14)
-                {
-                    game_object = pPed->field_168_game_object;
-                    remap = pPed->field_244_remap;
-                    game_object->field_5_remap = remap;
-                    if (remap != 0xFF)
-                    {
-                        game_object->field_80_sprite_ptr->SetRemap(remap);
-                    }
-                    pPed->field_168_game_object->field_40_rotation = rotation;
-                    pPed->sub_467280();
-                }
-
-                if (gPedManager_6787BC->field_7_make_all_muggers)
-                {
-                    ypos = 2;
-                    if (!stru_6F6784.get_int_4F7AE0((s16*)&ypos))
-                    {
-                        if (pPed->field_240_occupation == ped_ocupation_enum::unknown_10)
-                        {
-                            --byte_6787CE;
-                        }
-                        pPed->field_22C = 2;
-                        pPed->field_218_objective_timer = 40;
-                        pPed->field_240_occupation = ped_ocupation_enum::unknown_18;
-                        pPed->field_238 = 4;
-                        pPed->field_288_threat_search = threat_search_enum::area_2;
-                        pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
-                    }
-                }
-                break;
+                goto LABEL_34;
 
             default:
                 if (gPolice_7B8_6FEE40->field_65C == 6)
@@ -468,8 +418,59 @@ LABEL_12:
                     }
                 }
                 goto LABEL_34;
+        } // End switch
+
+    LABEL_34:
+        occupation_ = pPed->field_240_occupation;
+        if (occupation_ != ped_ocupation_enum::unknown_14 && occupation_ != ped_ocupation_enum::unknown_16)
+        {
+            pPed->AllocCharB4_45C830(xpos, ypos, zpos);
         }
-    }
+
+        gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pPed->field_168_game_object->field_80_sprite_ptr);
+
+        if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(pPed->field_168_game_object->field_80_sprite_ptr, 0))
+        {
+            pPed->ChangeNextPedState1_45C500(9);
+            pPed->ChangeNextPedState2_45C540(15);
+            pPed->Deallocate_45EB60();
+            gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
+            return;
+        }
+
+        gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
+        if (pPed->field_240_occupation != ped_ocupation_enum::unknown_14)
+        {
+            game_object = pPed->field_168_game_object;
+            remap = pPed->field_244_remap;
+            game_object->field_5_remap = remap;
+            if (remap != 0xFF)
+            {
+                game_object->field_80_sprite_ptr->SetRemap(remap);
+            }
+            pPed->field_168_game_object->field_40_rotation = rotation;
+            pPed->sub_467280();
+        }
+
+        if (gPedManager_6787BC->field_7_make_all_muggers)
+        {
+            ypos = 2;
+            if (!stru_6F6784.get_int_4F7AE0((s16*)&ypos))
+            {
+                if (pPed->field_240_occupation == ped_ocupation_enum::unknown_10)
+                {
+                    --byte_6787CE;
+                }
+                pPed->field_22C = 2;
+                pPed->field_218_objective_timer = 40;
+                pPed->field_240_occupation = ped_ocupation_enum::unknown_18;
+                pPed->field_238 = 4;
+                pPed->field_288_threat_search = threat_search_enum::area_2;
+                pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
+            }
+        }
+
+    } // End if
 
     if ((u16)gSpawnCounter_6787C6 > 200u)
     {
