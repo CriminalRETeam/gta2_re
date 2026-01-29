@@ -411,7 +411,7 @@ class Car_BC
     EXPORT void sub_43B770();
     EXPORT void sub_43B7B0(Car_BC* a2);
     EXPORT bool sub_43B850(s32 a2);
-    EXPORT void sub_43B870(s32 a2, s32 a3);
+    EXPORT void sub_43B870(s32 a2, Fix16_Point* a3);
     EXPORT s32 sub_43BB90(u8 a1);
     EXPORT void sub_43BBC0();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
@@ -514,7 +514,7 @@ class Car_BC
     EXPORT void sub_442310();
     EXPORT char_type sub_4424C0();
     EXPORT Ang16 GetRadioTowerAngle_442520();
-    EXPORT void sub_4425D0();
+    EXPORT void ManageTVAntenna_4425D0();
     EXPORT void sub_4426D0();
     EXPORT void DetachTrailer_442760();
     EXPORT void AttachTrailer_4427A0(Car_BC* pToFind);

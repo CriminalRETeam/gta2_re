@@ -126,6 +126,8 @@ DEFINE_GLOBAL(Fix16_Point, stru_677358, 0x677358);
 DEFINE_GLOBAL(Ang16, dword_677234, 0x677234);
 DEFINE_GLOBAL(Fix16, dword_6778FC, 0x6778FC);
 DEFINE_GLOBAL(Fix16, k_dword_677918, 0x677918);
+DEFINE_GLOBAL(Fix16, dword_677920, 0x677920);
+
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -1876,7 +1878,7 @@ bool Car_BC::sub_43B850(s32 wofly_type_or_state)
 }
 
 STUB_FUNC(0x43b870)
-void Car_BC::sub_43B870(s32 a2, s32 a3)
+void Car_BC::sub_43B870(s32 a2, Fix16_Point* a3)
 {
     NOT_IMPLEMENTED;
 }
@@ -2411,11 +2413,64 @@ void Car_BC::ExplodeCar_Unknown_43D840(s32 a2)
     }
 }
 
-STUB_FUNC(0x43da90)
-s16 Car_BC::sub_43DA90(s16 a2, Fix16_Point* a3)
+// 9.6f 0x427180
+WIP_FUNC(0x43da90)
+s16 Car_BC::sub_43DA90(s16 damage, Fix16_Point* pVec)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (IsMaxDamage_40F890())
+    {
+        return 0;
+    }
+
+    Fix16 anti_s = get_anti_strngth_43A1D0();
+    Fix16 t = (anti_s * Fix16(damage));
+    s16 damage_1 = t.ToInt(); // TODO: Shifting from stack instead of [eax]
+
+    if (damage_1 == 0)
+    {
+        if (anti_s != gFix16_6777CC)
+        {
+            damage_1 = 1;
+        }
+    }
+
+    this->field_74_damage += damage_1;
+    if (field_74_damage >= 0) // TODO: Wrong jump target
+    {
+
+        if (this->field_74_damage > 32000)
+        {
+            this->field_74_damage = 32000;
+        }
+        if (this->field_74_damage >= 16000)
+        {
+            if (this->field_8C < 3u)
+            {
+                Car_BC::sub_43B870(1, pVec);
+                this->field_8C = 3;
+            }
+            if (this->field_74_damage >= 25000)
+            {
+                if (this->field_8C < 4u)
+                {
+                    field_0_qq.sub_5A71F0();
+                    Car_BC::sub_43B870(2, pVec);
+                    this->field_8C = 4;
+                }
+                if (this->field_74_damage >= 31500)
+                {
+                    Car_BC::sub_43C1C0();
+                }
+                if (this->field_74_damage == 32000)
+                {
+                    Car_BC::ExplodeCar_Unknown_43D840(19);
+                }
+            }
+        }
+    }
+    return damage_1;
 }
 
 MATCH_FUNC(0x43db80)
@@ -3499,6 +3554,7 @@ char_type Car_BC::sub_4424C0()
     }
 }
 
+// 9.6f 0x424220
 // https://decomp.me/scratch/vhWKK
 STUB_FUNC(0x442520)
 Ang16 Car_BC::GetRadioTowerAngle_442520()
@@ -3507,10 +3563,34 @@ Ang16 Car_BC::GetRadioTowerAngle_442520()
     return Fix16::atan2_fixed_405320(xy.x, xy.y) - field_50_car_sprite->field_0;
 }
 
-STUB_FUNC(0x4425d0)
-void Car_BC::sub_4425D0()
+// 9.6f 0x40ECB0
+// TODO: Move
+STUB_FUNC(0x405CE0)
+EXPORT s32 __stdcall sub_405CE0(Fix16 *a1, Fix16 *a2, Fix16 *a3, Fix16 *a4, Fix16 *a5)
 {
     NOT_IMPLEMENTED;
+    return 0;
+}
+
+// 9.6f 0x424280
+WIP_FUNC(0x4425d0)
+void Car_BC::ManageTVAntenna_4425D0()
+{
+    WIP_IMPLEMENTED;
+
+    Sprite_18* pSprite = field_0_qq.GetSpriteForModel_5A6A50(149);
+    if (pSprite)
+    {
+        Ang16 towerAng = GetRadioTowerAngle_442520();
+        if (pSprite->field_10 != towerAng)
+        {
+            // TODO: The set up or call to the function is wrong, the parts after are OK
+            Fix16 spriteAngFp = Ang16::Ang16_to_Fix16(pSprite->field_10);
+            Fix16 towerAngFp = Ang16::Ang16_to_Fix16(towerAng);
+            sub_405CE0(&towerAngFp, &gFix16_6777CC, &spriteAngFp, &dword_677920, &dword_677920);
+            pSprite->field_10 = Ang16::Fix16_To_Ang16_40F540(spriteAngFp);
+        }
+    }
 }
 
 MATCH_FUNC(0x4426d0)
@@ -3518,15 +3598,18 @@ void Car_BC::sub_4426D0()
 {
     sub_441B00();
     sub_441520();
+
     if (field_74_damage != 32001)
     {
         UpdateBrakeLights_4415C0();
         sub_441E70();
     }
+
     sub_4417D0();
-    if (field_84_car_info_idx == 67 && field_9C == 3)
+
+    if (IsTvVan_4217E0() && field_9C == 3)
     {
-        sub_4425D0();
+        ManageTVAntenna_4425D0();
     }
 }
 
@@ -3791,6 +3874,7 @@ void Car_BC::sub_4435F0()
     }
 }
 
+// 9.6f 0x426580
 STUB_FUNC(0x443710)
 void Car_BC::sub_443710(Fix16_Point* a2)
 {
