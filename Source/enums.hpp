@@ -493,8 +493,7 @@ enum
     Smoking_35 = 35,
     Interacting_Car_Door_36 = 36,
 };
-// static_assert(sizeof(ped_state_2) == 0x4);
-} // namespace ped_state_2
+} // namespace Char_B4_state
 
 namespace Char_Anim_state
 {
@@ -516,8 +515,7 @@ enum
     Unknown_13 = 13,
     Unknown_14 = 14,
 };
-// static_assert(sizeof(ped_state_2) == 0x4);
-} // namespace ped_state_2
+} // namespace Char_Anim_state
 
 namespace spec_surface_type_enum
 {
