@@ -82,9 +82,9 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     s16 rng_val; // di
     Ped* pPed; // esi
     gmp_zone_info* pZone; // eax
-    s32 mugger_ratio; // ecx
+    u16 mugger_ratio; // ecx
     s32 v11; // edx
-    s32 field_E_carthief_ratio; // edi
+    u16 field_E_carthief_ratio; // edi
     gmp_map_zone* v14; // eax
     Gang_144* pGang; // edi
     char_type v16; // al
@@ -100,7 +100,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     char_type v26; // al
     Char_B4* game_object; // ecx
     u8 remap; // al
-    char_type kind; // [esp+10h] [ebp-18h]
+    u8 kind; // [esp+10h] [ebp-18h]
     s32 rng_max; // [esp+14h] [ebp-14h] BYREF
     s32 v31; // [esp+18h] [ebp-10h] BYREF
     s32 field_12_gangchar_ratio; // [esp+1Ch] [ebp-Ch] BYREF
@@ -128,12 +128,12 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     x_int = xpos.ToInt();
     y_int = ypos.ToInt();
 
-    pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
-    mugger_ratio = (u16)pZone->field_C_mugger_ratio;
+    pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x_int, y_int);
+    mugger_ratio = pZone->field_C_mugger_ratio;
 
     v11 = rng_val;
 
-    if (rng_val < (s32)(u16)mugger_ratio)
+    if (rng_val < mugger_ratio)
     {
         rng_kind = 1;
     }
@@ -141,13 +141,25 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     {
         field_E_carthief_ratio = (u16)pZone->field_E_carthief_ratio;
         v31 = (u16)field_E_carthief_ratio;
-        if (v11 >= (u16)field_E_carthief_ratio + mugger_ratio)
+        // 95 jge
+        if (v11 < (u16)field_E_carthief_ratio + mugger_ratio)
+        {
+            rng_kind = 2;
+        }
+        else
         {
             rng_max = (u16)pZone->field_10_elvis_ratio;
             if (v11 < mugger_ratio + field_E_carthief_ratio + rng_max)
             {
                 rng_max = 50;
-                rng_kind = stru_6F6784.get_int_4F7AE0((s16*)&rng_max) != 25 ? 0 : 3;
+                if (stru_6F6784.get_int_4F7AE0((s16*)&rng_max) == 25)
+                {
+                    rng_kind = 3;
+                }
+                else
+                {
+                    rng_kind = 0;
+                }
                 kind = rng_kind;
                 goto LABEL_12;
             }
@@ -164,10 +176,6 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 }
                 rng_kind = 5;
             }
-        }
-        else
-        {
-            rng_kind = 2;
         }
     }
 
