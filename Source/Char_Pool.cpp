@@ -82,7 +82,6 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     s16 rng_val; // di
     Ped* pPed; // esi
     gmp_zone_info* pZone; // eax
-    u16 mugger_ratio; // ecx
     s32 v11; // edx
     u16 field_E_carthief_ratio; // edi
     gmp_map_zone* v14; // eax
@@ -94,7 +93,6 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     s32 occupation_; // eax
     char_type v21; // al
     s32 int_4F7AE0; // eax
-    s32 v23; // eax
     s32 wanted_level_; // eax
     u8 v25; // al
     char_type v26; // al
@@ -112,15 +110,6 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     rng_max = 1000;
     rng_val = stru_6F6784.get_int_4F7AE0((s16*)&rng_max);
 
-    /*
-    gPoolRoot = gPed_Pool_6787B8;
-    pPed = gPed_Pool_6787B8->field_0_pStart;
-    field_4_pPrev = gPed_Pool_6787B8->field_4_pPrev;
-    gPed_Pool_6787B8->field_0_pStart = gPed_Pool_6787B8->field_0_pStart->mpNext;
-    pPed->mpNext = field_4_pPrev;
-    gPoolRoot->field_4_pPrev = pPed;
-    Ped::PoolAllocate(pPed);
-    */
     pPed = gPedPool_6787B8->Allocate();
 
     ++gSpawnCounter_6787C6;
@@ -129,69 +118,56 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     y_int = ypos.ToInt();
 
     pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x_int, y_int);
-    mugger_ratio = pZone->field_C_mugger_ratio;
 
     v11 = rng_val;
 
-    if (rng_val < mugger_ratio)
+    if (rng_val < (u16)pZone->field_C_mugger_ratio)
     {
-        rng_kind = 1;
+        kind = 1; // mugger
     }
-    else
+    else if (rng_val < (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_C_mugger_ratio)
     {
-        field_E_carthief_ratio = (u16)pZone->field_E_carthief_ratio;
-        v31 = (u16)field_E_carthief_ratio;
-        // 95 jge
-        if (v11 < (u16)field_E_carthief_ratio + mugger_ratio)
+        kind = 2; // car thief
+    }
+    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio)
+    {
+        // 1 in 50 chance of elvis
+        rng_max = 50;
+        if (stru_6F6784.get_int_4F7AE0((s16*)&rng_max) == 25)
         {
-            rng_kind = 2;
+            kind = 3;
         }
         else
         {
-            rng_max = (u16)pZone->field_10_elvis_ratio;
-            if (v11 < mugger_ratio + field_E_carthief_ratio + rng_max)
-            {
-                rng_max = 50;
-                if (stru_6F6784.get_int_4F7AE0((s16*)&rng_max) == 25)
-                {
-                    rng_kind = 3;
-                }
-                else
-                {
-                    rng_kind = 0;
-                }
-                kind = rng_kind;
-                goto LABEL_12;
-            }
-            field_12_gangchar_ratio = (u16)pZone->field_12_gangchar_ratio;
-            if (v11 < mugger_ratio + v31 + field_12_gangchar_ratio + rng_max)
-            {
-                rng_kind = (u8)byte_6787CE < 8u ? 4 : 0;
-            }
-            else
-            {
-                if (v11 >= mugger_ratio + v31 + rng_max + field_12_gangchar_ratio + (u16)pZone->field_14_policeped_ratio)
-                {
-                    goto LABEL_12;
-                }
-                rng_kind = 5;
-            }
+            kind = 0;
         }
+        goto LABEL_12;
     }
-
-    kind = rng_kind;
-
+    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_12_gangchar_ratio +
+                 (u16)pZone->field_10_elvis_ratio)
+    {
+        // Gang member, limited to 8
+        kind = (u8)byte_6787CE < 8u ? 4 : 0;
+    }
+    else if (rng_val >= (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio +
+                 (u16)pZone->field_12_gangchar_ratio + (u16)pZone->field_14_policeped_ratio)
+    {
+        goto LABEL_12;
+    }
+    else
+    {
+        kind = 5;
+    }
 LABEL_12:
 
     if (gCheatOnlyElvisPeds_67D4ED)
     {
-        rng_kind = 3;
         kind = 3;
     }
 
     if (bNo_annoying_chars_67D586)
     {
-        if (rng_kind != 5)
+        if (kind != 5)
         {
             kind = 0;
         }
