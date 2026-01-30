@@ -775,10 +775,18 @@ Sprite* PurpleDoom::FindNearestSpriteInRow_478880(u32 y_pos, Sprite* pSprite)
                 }
 
                 gCollide_C_6791FC->field_0_count++;
+
                 if (pSprite->CollisionCheck_59E590(pObj->field_0_sprt))
                 {
-                    break;
+                    if (!pObj->field_0_sprt->TypeIs_446940(gPurpleDoom_exclude_type_678F60))
+                    {
+                        gPurpleDoom_smallestDistSprite_678E40 = pObj->field_0_sprt;
+                        goto save_stamp;
+                    }
+
+                    return pObj->field_0_sprt;
                 }
+                
             save_stamp:
                 pObj->field_0_sprt->field_C_sprite_4c_ptr->SetCollisionId_446920(gCollide_C_6791FC->field_4_count);
             go_next:
@@ -788,14 +796,6 @@ Sprite* PurpleDoom::FindNearestSpriteInRow_478880(u32 y_pos, Sprite* pSprite)
                     goto LABEL_14;
                 }
             }
-
-            if (!pObj->field_0_sprt->TypeIs_446940(gPurpleDoom_exclude_type_678F60))
-            {
-                gPurpleDoom_smallestDistSprite_678E40 = pObj->field_0_sprt;
-                goto save_stamp;
-            }
-
-            return pObj->field_0_sprt;
         }
     LABEL_14:
         pXItem = pXItem->mpNext;
