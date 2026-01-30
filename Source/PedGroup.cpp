@@ -6,6 +6,7 @@
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
 DEFINE_GLOBAL(Fix16, dword_67F610, 0x67F610);
 DEFINE_GLOBAL(Fix16, k_dword_67EEE4, 0x67EEE4);
+DEFINE_GLOBAL(char_type, byte_620838, 0x620838);
 
 STUB_FUNC(0x4c8e60)
 void PedGroup::sub_4C8E60()
@@ -13,10 +14,10 @@ void PedGroup::sub_4C8E60()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4c8e80)
+MATCH_FUNC(0x4c8e80)
 void PedGroup::sub_4C8E80()
 {
-    NOT_IMPLEMENTED;
+    byte_620838 = 1;
 }
 
 MATCH_FUNC(0x4c8e90)
@@ -250,7 +251,8 @@ void PedGroup::sub_4C92A0()
         {
             Ped* this_00 = field_4_ped_list[bVar4];
             Ped** pppVar1 = field_4_ped_list + bVar4;
-            if ((this_00->get_ped_state1() == ped_state1_enum::ped_wasted) || (this_00->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
+            if ((this_00->get_ped_state1() == ped_state1_enum::ped_wasted) ||
+                (this_00->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
             {
                 this_00->reset_ped_group();
             }
@@ -297,7 +299,8 @@ void PedGroup::DestroyGroup_4C93A0()
         {
             ppVar2 = field_4_ped_list[bVar5];
             Ped** pppVar1 = field_4_ped_list + bVar5;
-            if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) || (ppVar2->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
+            if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) ||
+                (ppVar2->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
             {
                 ppVar2->reset_ped_group();
             }
@@ -347,7 +350,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
         }
 
         this->field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
-        
+
         for (char_type i_ = 0; i_ < (s32)this->field_34_count; i_++)
         {
             s32 i = i_;
@@ -658,8 +661,8 @@ char_type PedGroup::sub_4CAAE0()
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
-        if (field_4_ped_list[i]->field_278_ped_state_1 != ped_state_1::in_car_10 
-            && field_4_ped_list[i]->field_278_ped_state_1 != ped_state_1::dead_9)
+        if (field_4_ped_list[i]->field_278_ped_state_1 != ped_state_1::in_car_10 &&
+            field_4_ped_list[i]->field_278_ped_state_1 != ped_state_1::dead_9)
         {
             return false;
         }
