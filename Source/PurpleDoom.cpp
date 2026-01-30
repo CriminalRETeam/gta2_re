@@ -318,10 +318,15 @@ PurpleDoom::PurpleDoom()
     Clear_4789F0();
 }
 
-STUB_FUNC(0x478050)
+MATCH_FUNC(0x478A10)
+void PurpleDoom::Empty_478A10()
+{
+}
+
+MATCH_FUNC(0x478050)
 PurpleDoom::~PurpleDoom()
 {
-    NOT_IMPLEMENTED;
+    Empty_478A10();
 }
 
 STUB_FUNC(0x478160)
