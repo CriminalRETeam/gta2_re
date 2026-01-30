@@ -210,7 +210,7 @@ bool Shooey_CC::sub_485090(Car_BC* pCar, Player* pPlayer)
     bool bInRange = true;
     if (gCar_6C_677930->field_68)
     {
-        if (gGame_0x40_67E008->sub_4B9950(pCar->field_50_car_sprite, pPlayer->GetIdx_4881E0(), 0) == 0)
+        if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(pCar->field_50_car_sprite, pPlayer->GetIdx_4881E0(), 0) == 0)
         {
             bInRange = false;
         }
@@ -231,7 +231,7 @@ char_type Shooey_CC::sub_4850F0(Char_B4* pB4, Player* pPlayer)
     bool result = true;
     if (byte_6FDB59)
     {
-        if (gGame_0x40_67E008->sub_4B9950(pB4->field_80_sprite_ptr, pPlayer->GetIdx_4881E0(), 0) == 0)
+        if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(pB4->field_80_sprite_ptr, pPlayer->GetIdx_4881E0(), 0) == 0)
         {
             result = false;
         }

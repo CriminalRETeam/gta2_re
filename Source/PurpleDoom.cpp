@@ -80,8 +80,6 @@ MATCH_FUNC(0x477b00)
 void PurpleDoom::Remove_477B00(Sprite* a1)
 {
     // Note: Single bucket remove only - multi bucket remove doesn't exist
-    // reason being the whole structure is cleared and rebuilt every frame.
-    // I guess they just needed the single remove for bullets etc.
     DoRemove_4782C0(a1->field_14_xy.x.ToInt(), a1->field_14_xy.y.ToInt(), a1);
 }
 

@@ -1,5 +1,6 @@
 #include "Game_0x40.hpp"
 #include "Ambulance_110.hpp"
+#include "BurgerKing_67F8B0.hpp"
 #include "Camera.hpp"
 #include "CarInfo_808.hpp"
 #include "Car_BC.hpp"
@@ -62,7 +63,6 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
-#include "BurgerKing_67F8B0.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, dword_67DECC, Fix16(5), 0x67DECC);
 DEFINE_GLOBAL_INIT(Fix16, dword_67DFB4, dword_67DECC, 0x67DFB4);
@@ -211,7 +211,6 @@ void Game_0x40::sub_4B8E50()
 
 // TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-
 
 STUB_FUNC(0x46DD70)
 EXPORT void __stdcall sub_46DD70(char_type remap, s32 count)
@@ -567,7 +566,7 @@ WIP_FUNC(0x4B9700)
 void Game_0x40::TogglePause_4B9700()
 {
     WIP_IMPLEMENTED;
-    
+
     // Running?
     if (field_0_game_state == GameState::Running_1)
     {
@@ -657,7 +656,7 @@ s8 Game_0x40::sub_4B97E0(Sprite* a2, Fix16 a3)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (sub_4B9950(a2, i, a3))
+        if (IsSpriteOnScreen_4B9950(a2, i, a3))
         {
             return 1;
         }
@@ -670,7 +669,7 @@ s8 Game_0x40::sub_4B9830(Sprite* pCarSprite, Fix16 a3)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (sub_4B9950(pCarSprite, i, a3) || sub_4B9A10(pCarSprite, i))
+        if (IsSpriteOnScreen_4B9950(pCarSprite, i, a3) || sub_4B9A10(pCarSprite, i))
         {
             return 1;
         }
@@ -706,11 +705,38 @@ bool Game_0x40::sub_4B98E0(s16* a2, u8 playerIdx, s32 a4)
     return false;
 }
 
-STUB_FUNC(0x4B9950)
-s8 Game_0x40::sub_4B9950(Sprite* pCarSprite, u8 idx, Fix16 a4)
+WIP_FUNC(0x4B9950)
+s8 Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 idx, Fix16 margin)
 {
-    NOT_IMPLEMENTED;
-    // TODO: Requires Sprite stubs
+    WIP_IMPLEMENTED;
+
+    Player* pPlayer = this->field_4_players[idx];
+    if (!pPlayer->field_8E_bInUse)
+    {
+        return 0;
+    }
+
+    if (pCarSprite->field_14_xy.x >= pPlayer->field_90_game_camera.field_20_boundaries.field_0_left - margin &&
+        pCarSprite->field_14_xy.x <= margin + pPlayer->field_90_game_camera.field_20_boundaries.field_4_right)
+    {
+        if (pCarSprite->field_14_xy.y >= pPlayer->field_90_game_camera.field_20_boundaries.field_8_top - margin &&
+            pCarSprite->field_14_xy.y <= margin + pPlayer->field_90_game_camera.field_20_boundaries.field_C_bottom)
+        {
+            return 1;
+        }
+    }
+
+    if (pPlayer->field_2D0 && pCarSprite->field_14_xy.x >= pPlayer->field_208_aux_game_camera.field_20_boundaries.field_0_left - margin &&
+        pCarSprite->field_14_xy.x <= margin + pPlayer->field_208_aux_game_camera.field_20_boundaries.field_4_right)
+
+    {
+        if (pCarSprite->field_14_xy.y >= pPlayer->field_208_aux_game_camera.field_20_boundaries.field_8_top - margin &&
+            pCarSprite->field_14_xy.y <= margin + pPlayer->field_208_aux_game_camera.field_20_boundaries.field_C_bottom)
+        {
+            return 1;
+        }
+    }
+
     return 0;
 }
 
@@ -865,7 +891,7 @@ void Game_0x40::sub_4B9D60(Sprite* a2, Player* pExclude)
         Player* p = gGame_0x40_67E008->field_4_players[i];
         if (p && p != pExclude)
         {
-            if (gGame_0x40_67E008->sub_4B9950(a2, i, dword_67DFB4))
+            if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(a2, i, dword_67DFB4))
             {
                 if (p->field_680 > p->field_682)
                 {
