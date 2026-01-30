@@ -269,11 +269,9 @@ s32 Sprite::sub_59E4C0(Fix16 a2, s32 a3)
 }
 
 // https://decomp.me/scratch/GIpfM
-WIP_FUNC(0x59E590)
+MATCH_FUNC(0x59E590)
 char_type Sprite::CollisionCheck_59E590(Sprite* pOther)
 {
-    WIP_IMPLEMENTED;
-
     // TODO: inlining issue inside of AABB_Intersects_41E2F0
     if (field_C_sprite_4c_ptr->field_30_boundingBox.AABB_Intersects_41E2F0(&pOther->field_C_sprite_4c_ptr->field_30_boundingBox))
     {
@@ -791,7 +789,7 @@ void Sprite::FreeSprite4CChildren_59FAD0()
 }
 
 STUB_FUNC(0x59FB10)
-bool Sprite::sub_59FB10(s32* a2)
+bool Sprite::sub_59FB10(Fix16_Rect* a2)
 {
     NOT_IMPLEMENTED;
     return false;

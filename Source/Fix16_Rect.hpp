@@ -74,7 +74,7 @@ class Fix16_Rect
     }
 
     EXPORT void DoSetCurrentRect_59DD60();
-    EXPORT u32 IntersectsSpriteRenderingRect_59DDF0(Sprite* a2);
+    EXPORT u8 IntersectsSpriteRenderingRect_59DDF0(Sprite* a2);
     EXPORT char_type CanRectEnterMovementRegion_59DE80();
     EXPORT void ExpandToIncludePoint_59DEE0(Fix16 a2, Fix16 a3);
     EXPORT bool RectOverlapsZone_59DF20(u8 a2);
@@ -90,11 +90,10 @@ class Fix16_Rect
     // https://decomp.me/scratch/TT06X
     bool AABB_Intersects_41E2F0(Fix16_Rect* pOther) const
     {
-        // TODO: 1st call should be inlined and the remaining 2 calls should be direct calls/not inlined, instead all are inlined
-        // only fix seems to be to make it a class method of Fix16 which makes no sense
-        return IntervalsOverlap_41E160(this->field_0_left, this->field_4_right, pOther->field_0_left, pOther->field_4_right) &&
-                IntervalsOverlap_41E160(this->field_8_top, this->field_C_bottom, pOther->field_8_top, pOther->field_C_bottom) &&
-                IntervalsOverlap_41E160(this->field_10_low_z, this->field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z) ?
+        // TODO: HACK - made 0x438FB0 a method of Fix16 to fix crazy compiler inlining behaviour/force it to do what we need
+        return field_0_left.IntervalIntersectsRange_438FB0_inline(this->field_4_right, pOther->field_0_left, pOther->field_4_right) &&
+                field_8_top.IntervalIntersectsRange_438FB0_inline(this->field_C_bottom, pOther->field_8_top, pOther->field_C_bottom) &&
+                field_10_low_z.IntervalIntersectsRange_438FB0_inline( this->field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z) ?
             true :
             false;
     }

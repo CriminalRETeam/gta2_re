@@ -3489,7 +3489,7 @@ void Car_BC::sub_442310()
         {
             if (gGame_0x40_67E008->get_player_4219E0(i))
             {
-                if (gGame_0x40_67E008->sub_4B9950(field_50_car_sprite, i, dword_6778D0))
+                if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(field_50_car_sprite, i, dword_6778D0))
                 {
                     bIntersection = true;
                 }

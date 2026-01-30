@@ -17,19 +17,12 @@ void Fix16_Rect::DoSetCurrentRect_59DD60()
 
 // 0x4BA6C0 9.6f
 MATCH_FUNC(0x59ddf0)
-u32 Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* a2)
+u8 Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* a2)
 {
     Fix16_Point* v3 = a2->field_C_sprite_4c_ptr->field_C_renderingRect;
 
-    if (IsPointInRect_4B9FD0(&v3[0]) || IsPointInRect_4B9FD0(&v3[1]) 
-        || IsPointInRect_4B9FD0(&v3[2]) || IsPointInRect_4B9FD0(&v3[3]))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (IsPointInRect_4B9FD0(&v3[0]) || IsPointInRect_4B9FD0(&v3[1]) 
+        || IsPointInRect_4B9FD0(&v3[2]) || IsPointInRect_4B9FD0(&v3[3]));
 }
 
 WIP_FUNC(0x59de80)
