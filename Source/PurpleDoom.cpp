@@ -762,42 +762,34 @@ Sprite* PurpleDoom::FindNearestSpriteInRow_478880(u32 y_pos, Sprite* pSprite)
         }
 
         pObj = pXItem->field_4_p8;
-        if (pObj)
+        while (pObj)
         {
-            while (1)
+            pSprt = pObj->field_0_sprt;
+            if (pObj->field_0_sprt == gPurpleDoom_exclusion_sprite_678F84 ||
+                gPurpleDoom_smallestDistSprite_678E40 && !pSprt->TypeIs_446940(gPurpleDoom_exclude_type_678F60) ||
+                pSprt->field_C_sprite_4c_ptr->CollisionIdIs_446930(gCollide_C_6791FC->field_4_count) || !pSprt->sub_59E850(pSprite))
             {
-                pSprt = pObj->field_0_sprt;
-                if (pObj->field_0_sprt == gPurpleDoom_exclusion_sprite_678F84 ||
-                    gPurpleDoom_smallestDistSprite_678E40 && !pSprt->TypeIs_446940(gPurpleDoom_exclude_type_678F60) ||
-                    pSprt->field_C_sprite_4c_ptr->CollisionIdIs_446930(gCollide_C_6791FC->field_4_count) || !pSprt->sub_59E850(pSprite))
-                {
-                    goto go_next;
-                }
-
-                gCollide_C_6791FC->field_0_count++;
-
-                if (pSprite->CollisionCheck_59E590(pObj->field_0_sprt))
-                {
-                    if (!pObj->field_0_sprt->TypeIs_446940(gPurpleDoom_exclude_type_678F60))
-                    {
-                        gPurpleDoom_smallestDistSprite_678E40 = pObj->field_0_sprt;
-                        goto save_stamp;
-                    }
-
-                    return pObj->field_0_sprt;
-                }
-                
-            save_stamp:
-                pObj->field_0_sprt->field_C_sprite_4c_ptr->SetCollisionId_446920(gCollide_C_6791FC->field_4_count);
-            go_next:
-                pObj = pObj->mpNext;
-                if (!pObj)
-                {
-                    goto LABEL_14;
-                }
+                goto go_next;
             }
+
+            gCollide_C_6791FC->field_0_count++;
+
+            if (pSprite->CollisionCheck_59E590(pObj->field_0_sprt))
+            {
+                if (!pObj->field_0_sprt->TypeIs_446940(gPurpleDoom_exclude_type_678F60))
+                {
+                    gPurpleDoom_smallestDistSprite_678E40 = pObj->field_0_sprt;
+                    goto save_stamp;
+                }
+
+                return pObj->field_0_sprt;
+            }
+
+        save_stamp:
+            pObj->field_0_sprt->field_C_sprite_4c_ptr->SetCollisionId_446920(gCollide_C_6791FC->field_4_count);
+        go_next:
+            pObj = pObj->mpNext;
         }
-    LABEL_14:
         pXItem = pXItem->mpNext;
     }
     return 0;
