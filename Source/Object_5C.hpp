@@ -118,7 +118,7 @@ class Object_2C
     }
 
     // Sucky names but better than just "sub" for now
-    bool is_not_type6_to_12_and_idx_matches_4973E0(char_type a2)
+    bool is_not_type6_to_12_and_idx_matches_4973E0(u8 a2)
     {
         return is_not_type6_to_12_421080() && field_26_varrok_idx == a2;
     }

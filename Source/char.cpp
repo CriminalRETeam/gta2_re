@@ -2702,7 +2702,8 @@ bool Char_B4::sub_553340(Sprite* pSprite)
                 Object_2C* pObj = pSprite->As2C_40FEC0();
                 if (pObj)
                 {
-                    if (pObj->is_not_type6_to_12_and_idx_matches_4973E0(field_7C_pPed->get_varrok_idx_420B50()))
+                    u8 idx = field_7C_pPed->get_varrok_idx_420B50();
+                    if (pObj->is_not_type6_to_12_and_idx_matches_4973E0(idx))
                     {
                         return 0;
                     }
@@ -2748,9 +2749,17 @@ bool Char_B4::sub_553340(Sprite* pSprite)
             {
                 return 0;
             }
-            if (this->field_10_char_state == 15 && pSprite && pSprite->get_type_416B40() != 4)
+
+            if (this->field_10_char_state == 15 && pSprite)
             {
-                return 0;
+                switch (pSprite->get_type_416B40())
+                {
+                    //case 0:
+                    //case 1:
+                    case 2:
+                    case 4: // 0xdb je is wrong its jne
+                        return 0;
+                }
             }
             break;
     }
