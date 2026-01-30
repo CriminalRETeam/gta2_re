@@ -671,8 +671,7 @@ char_type PurpleDoom::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pR
     return bRet;
 }
 
-// TODO: It may not be Object_5C. I don't know which struct has field_2C as "s32" type which makes sense here
-STUB_FUNC(0x478750)
+MATCH_FUNC(0x478750)
 char_type PurpleDoom::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite)
 {
     char_type bRet = 0;
@@ -684,22 +683,18 @@ char_type PurpleDoom::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* 
             break;
         }
 
-        Collide_8* pC8Iter = pIter->field_4_p8;
-        while (pC8Iter)
+        for (Collide_8* pC8Iter = pIter->field_4_p8; pC8Iter; pC8Iter = pC8Iter->mpNext)
         {
-            /*
-            if (pC8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count)
+            if (!pC8Iter->field_0_sprt->field_C_sprite_4c_ptr->CollisionIdIs_446930(gCollide_C_6791FC->field_4_count))
             {
-                gCollide_C_6791FC->field_0_count.mValue++;
+                gCollide_C_6791FC->field_0_count++;
                 if (pSprite->CollisionCheck_59E590(pC8Iter->field_0_sprt))
                 {
                     bRet = 1;
                     pC8Iter->field_0_sprt->HandleObjectCollision_59E8C0(pSprite);
                 }
-                pC8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count;
+                pC8Iter->field_0_sprt->field_C_sprite_4c_ptr->SetCollisionId_446920(gCollide_C_6791FC->field_4_count);
             }
-            */
-            pC8Iter = pC8Iter->mpNext;
         }
         pIter = pIter->mpNext;
     }
