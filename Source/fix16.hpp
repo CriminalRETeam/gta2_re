@@ -5,19 +5,41 @@
 #include <windows.h>
 
 #ifndef INLINE_MODE
-#define INLINE_MODE __forceinline
+    #define INLINE_MODE __forceinline
 #endif
 
 class Fix16
 {
-    public:
+  public:
+    // TODO: BIG HACK!!! Makes no sense for this to be a method but its the only way to force certain inlining behaviour
+    // ideally we'll figure out how to get the inlining we need without doing this in the future.
+    bool __stdcall IntervalIntersectsRange_438FB0_inline(const Fix16& intervalEnd, const Fix16& rangeMin, const Fix16& rangeMax) const
+    {
+        if (*this < rangeMin)
+        {
+            if (intervalEnd < rangeMin)
+            {
+                return false;
+            }
+            return true;
+        }
+        else
+        {
+            if (*this <= rangeMax)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+
     // 9.6f 0x40E570
     // https://decomp.me/scratch/5BHO3
     s32 operator==(const Fix16& value) const
     {
         return mValue == value.mValue;
     }
-    
+
     // 9.6f 0x40CE50
     // https://decomp.me/scratch/MBAm6
     s32 operator<=(const Fix16& other) const
@@ -92,7 +114,6 @@ class Fix16
     {
         return mValue >= other.mValue;
     }
-
 
     // MATCH_FUNC(0x509990)
     bool operator>=(const s32 value) const
@@ -245,7 +266,6 @@ class Fix16
         return (diff_x > diff_y) ? diff_x : diff_y;
     }
 
-    
     // NOTE: Force required for sub_43A240 else 2nd call doesn't get inlined
     // miss2_0x11C.cpp switches this back to regular inlining mode. In 9.6f it seems like
     // that file actually does have other inline settings as it actually has inlined way more things in the

@@ -791,7 +791,7 @@ void Sprite::FreeSprite4CChildren_59FAD0()
 }
 
 STUB_FUNC(0x59FB10)
-bool Sprite::sub_59FB10(s32* a2)
+bool Sprite::sub_59FB10(Fix16_Rect* a2)
 {
     NOT_IMPLEMENTED;
     return false;

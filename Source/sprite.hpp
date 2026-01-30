@@ -29,6 +29,21 @@ class Sprite_4C
     {
     }
 
+    // Both of these functions are a bit insane but its what the collision system uses to
+    // avoid checking collisions multiple times, I assume field_2C must be a union then, also
+    // fo sho gonna cause issues if compiled for 64bit :)
+    // Probably when its taken from the linked list its never used as a pointer anymore
+    // until its put back ??
+    void SetCollisionId_446920(u32 id)
+    {
+        this->mpNext = (Sprite_4C*)id;
+    }
+
+    bool CollisionIdIs_446930(u32 a2)
+    {
+        return (u32)mpNext == a2;
+    }
+
     // 9.6f 0x41E390
     // https://decomp.me/scratch/YTMyx
     bool IsZeroWidth_41E390() const
@@ -111,7 +126,7 @@ class Sprite
     EXPORT void Update_4C_59F990();
     EXPORT void sub_59FA40();
     EXPORT void FreeSprite4CChildren_59FAD0();
-    EXPORT bool sub_59FB10(s32* a2);
+    EXPORT bool sub_59FB10(Fix16_Rect* a2);
     EXPORT char_type FindOverlappingBoundingBoxCorners_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
     EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* a2);
@@ -145,6 +160,11 @@ class Sprite
     EXPORT ~Sprite(); // 0x5a3540
 
     EXPORT Sprite();
+
+    inline bool TypeIs_446940(s32 a2)
+    {
+        return field_30_sprite_type_enum == a2;
+    }
 
     void GetXYZ_4117B0(Fix16* a2, Fix16* a3, Fix16* a4)
     {

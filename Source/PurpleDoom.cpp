@@ -148,8 +148,6 @@ bool PurpleDoom::CheckAndHandleAllCollisionsForSprite_477C30(Sprite* pSprt, s32 
     return v3;
 }
 
-
-
 MATCH_FUNC(0x477c90)
 Sprite* PurpleDoom::FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1,
                                                           s32 sprite_type2,
@@ -180,7 +178,7 @@ Sprite* PurpleDoom::FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1,
     }
 
     SearchTileStripForClosestSprite_4781E0(1u);
-    
+
     Sprite* pCollisionSprite = gPurpleDoom_smallestDistSprite_678E40; // from previous call
     if (searchMode > 1 || !gPurpleDoom_smallestDistSprite_678E40)
     {
@@ -622,118 +620,55 @@ PurpleDoom_C* PurpleDoom::GetFirstXCellInRow_478590(s32 start_idx)
 }
 
 // https://decomp.me/scratch/me1ge
-STUB_FUNC(0x4785d0)
+MATCH_FUNC(0x4785d0)
 char_type PurpleDoom::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect)
 {
-    NOT_IMPLEMENTED;
-
-    /*
-    PurpleDoom_C* v3; // ebp
-    char bRet; // bl
-    Collide_8* pObj; // esi
-    Sprite* field_0_sprt; // ecx
-    Sprite* v10; // ecx
-    Sprite_4C* sprite_4c_ptr; // eax
-    __int16 ang_v; // ax
-
-    v3 = GetFirstXCellInRow_478590(y_pos);
-    bRet = 0;
-    while (v3)
+    PurpleDoom_C* pXItemIter = GetFirstXCellInRow_478590(y_pos);
+    char bRet = 0;
+    while (pXItemIter)
     {
-        if (v3->field_0_x_len > gPurple_right_6F5B80)
+        if (pXItemIter->field_0_x_len > gPurple_right_6F5B80)
         {
             return bRet;
         }
 
-        pObj = v3->field_4_p8;
-        while (pObj)
+        for (Collide_8* pObj = pXItemIter->field_4_p8; pObj; pObj = pObj->mpNext)
         {
-
-            field_0_sprt = pObj->field_0_sprt;
-            if (pObj->field_0_sprt->field_30_sprite_type_enum != gPurpleDoom_exclude_types_678F88 && field_0_sprt != gPurpleDoom_exclusion_sprite_678F84 &&
-                field_0_sprt->field_C_o5c->field_1C.field_10.mValue != gCollide_C_6791FC->field_4_count && field_0_sprt->sub_59E850(0))
+            Sprite* field_0_sprt = pObj->field_0_sprt;
+            if (!pObj->field_0_sprt->TypeIs_446940(gPurpleDoom_exclude_types_678F88) &&
+                field_0_sprt != gPurpleDoom_exclusion_sprite_678F84 &&
+                !pObj->field_0_sprt->field_C_sprite_4c_ptr->CollisionIdIs_446930(gCollide_C_6791FC->field_4_count) &&
+                field_0_sprt->sub_59E850(0))
             {
+                //  83:    inc     %edx
                 gCollide_C_6791FC->field_0_count++;
 
-                if (pRect->field_0_left < pObj->field_0_sprt->field_C_o5c->field_1C.field_14)
+                Fix16_Rect* pBBox = &pObj->field_0_sprt->field_C_sprite_4c_ptr->field_30_boundingBox;
+                if (pRect->AABB_Intersects_41E2F0(pBBox) &&
+                    (!bDoCollisionCheck_679006 || pObj->field_0_sprt->field_C_sprite_4c_ptr->IsZeroWidth_41E390() ||
+                     pObj->field_0_sprt->field_0.jIsAxisAligned_41E3C0() || pObj->field_0_sprt->sub_59FB10(pRect) ||
+                     pRect->IntersectsSpriteRenderingRect_59DDF0(pObj->field_0_sprt)))
                 {
-                    if (pRect->field_4_right < pObj->field_0_sprt->field_C_o5c->field_1C.field_14)
+                    if (gPurpleDoom_list_679214)
                     {
-                        goto LABEL_28;
+                        bRet = 1;
+                        // Add to list and keep going to add more
+                        gPurpleDoom_list_679214->AddSprite_5A6CD0(pObj->field_0_sprt);
                     }
-                }
-                else
-                {
-                    if (pRect->field_0_left > pObj->field_0_sprt->field_C_o5c->field_1C.field_18)
+                    else
                     {
-                        goto LABEL_28;
-                    }
-                }
-
-                if (pRect->field_8_top < pObj->field_0_sprt->field_C_o5c->field_1C.field_1C.mValue)
-                {
-                    if (pRect->field_8_top > pObj->field_0_sprt->field_C_o5c->field_1C.field_20)
-                    {
-                        goto LABEL_28;
-                    }
-                }
-                else if (pRect->field_C_bottom >= pObj->field_0_sprt->field_C_o5c->field_1C.field_1C.mValue)
-                {
-                    goto LABEL_28;
-                }
-
-                // LABEL_16:
-                if (!Fix16::sub_438FB0(&pRect->field_10,
-                                       &pRect->field_14,
-                                       &pObj->field_0_sprt->field_C_o5c->field_1C.field_24,
-                                       &pObj->field_0_sprt->field_C_o5c->field_1C.field_28))
-                {
-                    goto LABEL_28;
-                }
-
-                if (bDoCollisionCheck_679006)
-                {
-                    v10 = pObj->field_0_sprt;
-                    sprite_4c_ptr = pObj->field_0_sprt->field_C_sprite_4c_ptr;
-                    if (sprite_4c_ptr->field_0_w != sprite_4c_ptr->field_4_h || sprite_4c_ptr->field_0_w > dword_678EE4)
-                    {
-                        ang_v = v10->field_0.rValue;
-                        if (v10->field_0.rValue)
-                        {
-                            if (ang_v != 360 && ang_v != 720 && ang_v != 1080 && !v10->sub_59FB10(&pRect->field_0_left) &&
-                                !pRect->IntersectsSpriteRenderingRect_59DDF0(pObj->field_0_sprt))
-                            {
-                                goto LABEL_28;
-                            }
-                        }
+                        // No list so stop here
+                        return 1;
                     }
                 }
 
-                if (gPurpleDoom_list_679214)
-                {
-                    bRet = 1;
-                    gPurpleDoom_list_679214->AddSprite_5A6CD0(pObj->field_0_sprt);
-                    goto LABEL_28;
-                }
-                else
-                {
-                    return 1;
-                }
-
-            LABEL_28:
-                pObj->field_0_sprt->field_C_o5c->field_1C.field_10.mValue = gCollide_C_6791FC->field_4_count;
+                pObj->field_0_sprt->field_C_sprite_4c_ptr->SetCollisionId_446920(gCollide_C_6791FC->field_4_count);
             }
 
-            pObj = pObj->mpNext;
-
-        } // end while
-
-        //    LABEL_30:
-        v3 = v3->mpNext;
+        } // end for
+        pXItemIter = pXItemIter->mpNext;
     } // end while
     return bRet;
-*/
-    return 0;
 }
 
 // TODO: It may not be Object_5C. I don't know which struct has field_2C as "s32" type which makes sense here
