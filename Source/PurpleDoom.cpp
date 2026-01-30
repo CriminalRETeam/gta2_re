@@ -706,16 +706,11 @@ char_type PurpleDoom::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* 
     return bRet;
 }
 
-// TODO: It may not be Object_5C. I don't know which struct has field_2C as "s32" type which makes sense here
-STUB_FUNC(0x4787e0)
+MATCH_FUNC(0x4787e0)
 bool PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0(u32 y_pos, Sprite* pSprite)
 {
-    bool bRet;
-    PurpleDoom_C* pXItemIter;
-    Collide_8* p8Iter;
-
-    bRet = false;
-    pXItemIter = GetFirstXCellInRow_478590(y_pos);
+    bool bRet = false;
+    PurpleDoom_C* pXItemIter = GetFirstXCellInRow_478590(y_pos);
     while (pXItemIter)
     {
         if (pXItemIter->field_0_x_len > gPurple_right_6F5B80)
@@ -723,13 +718,12 @@ bool PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0(u32 y_pos, Sprite* 
             break;
         }
 
-        for (p8Iter = pXItemIter->field_4_p8; p8Iter; p8Iter = p8Iter->mpNext)
+        for (Collide_8* p8Iter = pXItemIter->field_4_p8; p8Iter; p8Iter = p8Iter->mpNext)
         {
-            /*
-            if (p8Iter->field_0_sprt->field_30_sprite_type_enum == dword_678FA8 &&
-                p8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count)
+            if (p8Iter->field_0_sprt->TypeIs_446940(dword_678FA8) &&
+                !p8Iter->field_0_sprt->field_C_sprite_4c_ptr->CollisionIdIs_446930(gCollide_C_6791FC->field_4_count))
             {
-                gCollide_C_6791FC->field_0_count.mValue++;
+                gCollide_C_6791FC->field_0_count++;
 
                 if (pSprite->CollisionCheck_59E590(p8Iter->field_0_sprt))
                 {
@@ -737,9 +731,8 @@ bool PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0(u32 y_pos, Sprite* 
                     p8Iter->field_0_sprt->ProcessCarToCarImpactIfCar_59E910(pSprite);
                 }
 
-                p8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count;
+                p8Iter->field_0_sprt->field_C_sprite_4c_ptr->SetCollisionId_446920(gCollide_C_6791FC->field_4_count);
             }
-            */
         }
         pXItemIter = pXItemIter->mpNext;
     }
