@@ -2679,11 +2679,82 @@ char_type Char_B4::IsThreatToSearchingPed_553330()
     return field_7C_pPed->IsThreatToSearchingPed_4661F0();
 }
 
-STUB_FUNC(0x553340)
+// 9.6f 0x497480
+WIP_FUNC(0x553340)
 bool Char_B4::sub_553340(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return false;
+    WIP_IMPLEMENTED;
+
+    Ped* pPed; // eax
+
+    if (pSprite)
+    {
+        switch (pSprite->get_type_416B40())
+        {
+            case sprite_types_enum::car:
+                break;
+
+            case sprite_types_enum::ped:
+                break;
+
+            default:
+            {
+                Object_2C* pObj = pSprite->As2C_40FEC0();
+                if (pObj)
+                {
+                    if (pObj->is_not_type6_to_12_and_idx_matches_4973E0(field_7C_pPed->get_varrok_idx_420B50()))
+                    {
+                        return 0;
+                    }
+
+                    if (pObj->is_region_bucket_3_4210B0())
+                    {
+                        return 0;
+                    }
+                }
+            }
+            break;
+        }
+    }
+
+    switch (this->field_C_ped_state_2)
+    {
+        case 6:
+        case 7:
+        case 9:
+        case 10:
+        case 17:
+        case 19:
+        case 24:
+        case 25:
+        case 26:
+        case 27:
+            return 0;
+
+        case 8:
+            if (pSprite == 0)
+            {
+                return 1;
+            }
+            return 0;
+
+        case 22:
+            break;
+
+        default:
+            pPed = this->field_7C_pPed;
+            if (pPed->GetPedState_403990() == ped_state_1::dead_9 &&
+                ((pPed->GetBit24_475B50()) == 0 || !pSprite || !pSprite->IsObjectModelEqual_59E930(198)))
+            {
+                return 0;
+            }
+            if (this->field_10_char_state == 15 && pSprite && pSprite->get_type_416B40() != 4)
+            {
+                return 0;
+            }
+            break;
+    }
+    return 1;
 }
 
 MATCH_FUNC(0x5535B0)

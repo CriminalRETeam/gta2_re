@@ -237,6 +237,11 @@ class Ped
     EXPORT void nullsub_11();
     EXPORT void nullsub_12();
 
+    inline u8 get_varrok_idx_420B50()
+    {
+        return field_267_varrok_idx;
+    }
+
     inline void ClearGroupAndGroupIdx_403A30()
     {
         this->field_164_ped_group = 0;
@@ -500,6 +505,11 @@ class Ped
     inline u8 GetBit11_433CA0()
     {
         return field_21C_bf.b11;
+    }
+
+    u8 GetBit24_475B50()
+    {
+        return field_21C_bf.b24;
     }
 
     inline s32 get_objective_403A80()
