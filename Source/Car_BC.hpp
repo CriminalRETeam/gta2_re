@@ -358,6 +358,7 @@ static inline bool IsArmyModel(s32 idx1)
 class Car_BC
 {
   public:
+    EXPORT bool sub_445360();
     EXPORT Ang16 sub_4403A0();
 
     EXPORT s16 sub_43D5D0(Fix16 a2);

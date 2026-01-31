@@ -336,10 +336,58 @@ u32 PurpleDoom::SearchTileColumnForClosestSprite_478160(u8 a2)
     return 0;
 }
 
-STUB_FUNC(0x478060)
-void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* a1)
+MATCH_FUNC(0x478060)
+void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* pStart)
 {
-    NOT_IMPLEMENTED;
+    Fix16 dist;
+    for (Collide_8* pColIter = pStart; pColIter; pColIter = pColIter->mpNext)
+    {
+        Sprite* pSprt = pColIter->field_0_sprt;
+        if ((pColIter->field_0_sprt->field_30_sprite_type_enum == gPurpleDoom_sprite_type1_678FE8 ||
+             pColIter->field_0_sprt->field_30_sprite_type_enum == gPurpleDoom_sprite_type2_678FEC) &&
+            pSprt != gPurpleDoom_exclude_sprite_678F40)
+        {
+
+            if (pSprt->field_1C_zpos <= gPurpleDoom_zpos_min_678F3C && pSprt->field_1C_zpos >= gPurpleDoom_zpos_max_678F38)
+            {
+                if (gPurpleDoom_search_mode_678FD0 == 3)
+                {
+                    dist = gPurpleDoom_exclude_sprite_678F40->MinDistanceToAnySpriteBBoxCorner_5A22B0(pSprt);
+                    if (dist < gPurpleDoom_smallestDistance_678E5C)
+                    {
+                        if (pColIter->field_0_sprt->field_30_sprite_type_enum == sprite_types_enum::car)
+                        {
+                            if (pColIter->field_0_sprt->field_8_car_bc_ptr->sub_445360())
+                            {
+                                gPurpleDoom_smallestDistance_678E5C = dist;
+                                gPurpleDoom_smallestDistSprite_678E40 = pColIter->field_0_sprt;
+                            }
+                        }
+                        else
+                        {
+                            gPurpleDoom_smallestDistance_678E5C = dist;
+                            gPurpleDoom_smallestDistSprite_678E40 = pColIter->field_0_sprt;
+                        }
+                    }
+                }
+                else
+                {
+
+                    dist = Fix16::Abs(pSprt->field_14_xy.x - gPurpleDoom_exclude_sprite_678F40->field_14_xy.x) +
+                        Fix16::Abs(pSprt->field_14_xy.y - gPurpleDoom_exclude_sprite_678F40->field_14_xy.y);
+
+                    if (dist < gPurpleDoom_smallestDistance_678E5C)
+                    {
+                        if (pSprt->IsThreatToSearchingPed_59E830())
+                        {
+                            gPurpleDoom_smallestDistance_678E5C = dist;
+                            gPurpleDoom_smallestDistSprite_678E40 = pColIter->field_0_sprt;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x4781E0)

@@ -181,6 +181,8 @@ class Ang16
         }
     }
 
+    EXPORT static bool __stdcall IsAngleAhead_405C60(Ang16* a1, Ang16* a2);
+
     EXPORT void SnapToAng4_405640();
     EXPORT Ang16* sub_409300(Ang16* a2, s32 a3);
     EXPORT Ang16* sub_409340(Ang16* pRet, Ang16* toSub);

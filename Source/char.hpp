@@ -21,6 +21,7 @@ EXTERN_GLOBAL(Ang16, word_6FD940);
 EXTERN_GLOBAL(Ang16, word_6FD8F8);
 
 EXPORT void __stdcall sub_529050(u8 a1, s8* a2, s8* a3);
+EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3);
 
 class Char_B4
 {

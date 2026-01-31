@@ -7,6 +7,7 @@ class Object_3C;
 class Collide_8;
 class Fix16_Rect;
 class struct_4;
+class Ped;
 
 struct PurpleDoom_C
 {
@@ -90,3 +91,4 @@ EXTERN_GLOBAL(s32, gPurple_top_6F6108);
 EXTERN_GLOBAL(s32, gPurple_bottom_6F5F38);
 
 EXTERN_GLOBAL(Sprite*, gPurpleDoom_exclusion_sprite_678F84);
+EXTERN_GLOBAL(Ped*, gPurpleDoom_ped_678F64);

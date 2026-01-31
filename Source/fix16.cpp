@@ -44,7 +44,7 @@ Fix16 Fix16::operator+(const Fix16& rhs) const
 }
 
 MATCH_FUNC(0x44E540)
-Fix16 Fix16::Max_44E540(Fix16& pLhs, Fix16& pRhs)
+Fix16 __stdcall Fix16::Max_44E540(Fix16& pLhs, Fix16& pRhs)
 {
     Fix16 result;
     if (pLhs.mValue > pRhs.mValue)
