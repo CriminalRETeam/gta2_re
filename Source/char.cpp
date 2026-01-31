@@ -66,6 +66,10 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7B8, k_dword_6FD868, 0x6FD7B8);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7CC, k_dword_6FD9F0* k_dword_6FD868, 0x6FD7CC);
 DEFINE_GLOBAL(Ang16, k_dword_6FD892, 0x6FD892); // TODO: Has non trivial init
 
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8DC, Fix16(0x666, 0), 0x6FD8DC);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8E4, Fix16(0x2000, 0), 0x6FD8E4);
+
+
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
 DEFINE_GLOBAL(u8, byte_6FDB51, 0x6FDB51);
@@ -1708,11 +1712,128 @@ s32 Char_B4::sub_54C090()
     return 0;
 }
 
-STUB_FUNC(0x54c1a0)
+WIP_FUNC(0x54c1a0)
 char_type Char_B4::sub_54C1A0(s32 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Sprite* pSprite; // eax
+    Fix16 x_fp; // ebp
+    Fix16 y_fp; // edi
+    s32 y; // edi
+    s32 x; // ebp
+    gmp_block_info* pBlock1; // eax
+    gmp_block_info* pBlock3; // eax
+    gmp_block_info* block2; // eax
+    gmp_block_info* pBlock4; // eax
+    Fix16 zpos_frac; // ecx
+    char_type result; // al
+    char bUnknown; // [esp+12h] [ebp-Eh]
+    u8 v16; // [esp+13h] [ebp-Dh] BYREF
+    s32 tmpZ; // [esp+18h] [ebp-8h]
+    Fix16 zpos; // [esp+1Ch] [ebp-4h]
+
+    u8 slope_type = 0;
+    pSprite = this->field_80_sprite_ptr;
+    bUnknown = 0;
+    x_fp = pSprite->field_14_xy.x;
+    y_fp = pSprite->field_14_xy.y;
+    zpos = pSprite->field_1C_zpos;
+    tmpZ = (zpos.ToInt()) - 1;
+    if (this->field_10_char_state == 15 || this->field_8_ped_state_1 == ped_state_1::dead_9 || field_7C_pPed->IsField238_45EDE0(2) ||
+        this->field_7C_pPed->field_240_occupation == ped_ocupation_enum::drone)
+    {
+        bUnknown = 1;
+    }
+    if ((this->field_58_flags & 1) == 1)
+    {
+        tmpZ = zpos.ToInt();
+    }
+    y = y_fp.ToInt();
+    x = x_fp.ToInt();
+    if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(x, y, zpos.ToInt(), a2, &v16, 0))
+    {
+        return 0;
+    }
+    switch (a2)
+    {
+        case 1:
+            pBlock1 = gMap_0x370_6F6268->get_block_4DFE10(x, y - 1, tmpZ);
+            if (!pBlock1)
+            {
+                goto LABEL_18;
+            }
+            slope_type = pBlock1->field_B_slope_type & 3;
+            break;
+        case 2:
+            block2 = gMap_0x370_6F6268->get_block_4DFE10(x, y + 1, tmpZ);
+            if (!block2)
+            {
+                goto LABEL_18;
+            }
+            slope_type = block2->field_B_slope_type & 3;
+            break;
+        case 3:
+            pBlock3 = gMap_0x370_6F6268->get_block_4DFE10(x + 1, y, tmpZ);
+            if (!pBlock3)
+            {
+                goto LABEL_18;
+            }
+            slope_type = pBlock3->field_B_slope_type & 3;
+            break;
+        case 4:
+            pBlock4 = gMap_0x370_6F6268->get_block_4DFE10(x - 1, y, tmpZ);
+            if (pBlock4)
+            {
+                slope_type = pBlock4->field_B_slope_type & 3;
+            }
+            else
+            {
+            LABEL_18:
+                slope_type = 0;
+            }
+            break;
+        default:
+            break;
+    }
+
+    switch (slope_type)
+    {
+        case 0:
+            if ((this->field_58_flags & 1) != 1)
+            {
+                return 0;
+            }
+            zpos_frac = zpos.GetFracValue();
+            if (zpos_frac < k_dword_6FD8DC)
+            {
+                this->field_58_flags &= ~1;
+                result = sub_54C1A0(a2);
+                this->field_58_flags |= 1u;
+                return result;
+            }
+
+            if (zpos_frac <= k_dword_6FD8E4)
+            {
+                return 0;
+            }
+
+            this->field_58_flags &= ~1;
+            this->field_80_sprite_ptr->field_1C_zpos += Fix16(1);
+            result = sub_54C1A0(a2);
+            this->field_80_sprite_ptr->field_1C_zpos -= Fix16(1);
+            this->field_58_flags |= 1u;
+            break;
+        case 1:
+        case 3:
+            return bUnknown != 0;
+        case 2:
+        case 4:
+            return 1;
+        default:
+            return 0;
+    }
+    return result;
 }
 
 STUB_FUNC(0x54c3e0)

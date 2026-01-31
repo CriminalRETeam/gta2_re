@@ -7390,7 +7390,7 @@
         "v105_address": "0x4e0120"
     },
     {
-        "name": "Map_0x370::sub_4E0130",
+        "name": "Map_0x370::CanMoveOntoSlopeTile_4E0130",
         "v96f_address": "0x4656D0",
         "v105_address": "0x4e0130"
     },
