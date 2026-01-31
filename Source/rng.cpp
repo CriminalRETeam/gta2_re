@@ -79,17 +79,17 @@ s16 rng::get_int_4F7AE0(const s16& max_rnd)
 }
 
 MATCH_FUNC(0x4F7B70)
-u8 rng::get_uint8_4F7B70(u8* max_rnd)
+u8 rng::get_uint8_4F7B70(const u8& max_rnd)
 {
     if (bLog_random_67D5FC)
     {
-        if (!*max_rnd)
+        if (!max_rnd)
         {
             this->field_0_rng = 0;
         }
         else
         {
-            this->field_0_rng = rand() % *max_rnd;
+            this->field_0_rng = rand() % max_rnd;
         }
         sprintf(gTmpBuffer_67C598, "%d: random (get_uint8) %d", rng_dword_67AB34->field_0_rng, (u8)field_0_rng);
         gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
@@ -97,13 +97,13 @@ u8 rng::get_uint8_4F7B70(u8* max_rnd)
     }
     else
     {
-        if (!*max_rnd)
+        if (!max_rnd)
         {
             return 0;
         }
         else
         {
-            return rand() % *max_rnd;
+            return rand() % max_rnd;
         }
     }
 }
