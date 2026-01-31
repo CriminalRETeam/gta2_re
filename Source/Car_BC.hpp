@@ -411,7 +411,7 @@ class Car_BC
     EXPORT char_type sub_43B730();
     EXPORT char_type sub_43B750();
     EXPORT void sub_43B770();
-    EXPORT void sub_43B7B0(Car_BC* a2);
+    EXPORT void AssignDriverBlameForExplosion_43B7B0(Car_BC* a2);
     EXPORT bool sub_43B850(s32 a2);
     EXPORT void sub_43B870(s32 a2, Fix16_Point* a3);
     EXPORT s32 sub_43BB90(u8 a1);

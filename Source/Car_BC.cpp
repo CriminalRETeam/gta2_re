@@ -130,8 +130,6 @@ DEFINE_GLOBAL(Fix16, dword_677920, 0x677920);
 
 DEFINE_GLOBAL(Fix16, k_dword_6778C8, 0x6778C8);
 
-
-
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -1571,8 +1569,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
     sprite_type = pSprite->field_30_sprite_type_enum;
     if (sprite_type != sprite_types_enum::car || (cBC = pSprite->field_8_car_bc_ptr) == 0)
     {
-        if ((sprite_type == 4 || sprite_type == 5 || sprite_type == 1) &&
-            (o2c = pSprite->field_8_object_2C_ptr) != 0)
+        if ((sprite_type == 4 || sprite_type == 5 || sprite_type == 1) && (o2c = pSprite->field_8_object_2C_ptr) != 0)
         {
             pPhi = o2c->field_8;
             phi_type = pPhi->field_34_behavior_type;
@@ -1631,28 +1628,25 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
     {
         return 0;
     }
-    if ((their_flags & 0x2000) != 0 &&
-            (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags_2 & 1) != 1 ||
+    if ((their_flags & 0x2000) != 0 && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags_2 & 1) != 1 ||
         (this->field_78_flags & 0x2000) != 0 &&
             (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags_2 & 1) != 1)
     {
         return 0;
     }
-    
+
     if (this->field_64_pTrailer)
     {
         return 1;
     }
-    
-    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 8) == 8 &&
-        !cBC->field_64_pTrailer &&
+
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 8) == 8 && !cBC->field_64_pTrailer &&
         (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags & 0x10) == 0x10)
     {
         return field_50_car_sprite->sub_59E680(k_dword_6778C8, pSprite);
     }
-    
-    if (this->field_64_pTrailer ||
-        (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 0x10) != 0x10 ||
+
+    if (this->field_64_pTrailer || (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 0x10) != 0x10 ||
         cBC->field_64_pTrailer || (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags & 8) != 8)
     {
         return 1;
@@ -1996,10 +1990,66 @@ void Car_BC::sub_43B770()
     field_4_passengers_list.SyncPassengersWithCarState_4716D0(this);
 }
 
-STUB_FUNC(0x43b7b0)
-void Car_BC::sub_43B7B0(Car_BC* a2)
+WIP_FUNC(0x43b7b0)
+void Car_BC::AssignDriverBlameForExplosion_43B7B0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    char_type bIdsAreDiff; // bl
+    u8 our_id; // esi
+    u8 their_id; // eax
+    char_type bDunno; // [esp+13h] [ebp-1h]
+
+    bIdsAreDiff = 0;
+    bDunno = 0;
+    our_id = GetEffectiveDriverPedId_444090();
+    their_id = pCar->GetEffectiveDriverPedId_444090();
+    if (our_id > 12)
+    {
+        if (their_id && our_id != their_id)
+        {
+        LABEL_7:
+            bIdsAreDiff = 1;
+        }
+    }
+    else
+    {
+        if (their_id > 12)
+        {
+        LABEL_12:
+            if (our_id && their_id != our_id)
+            {
+                goto LABEL_14;
+            }
+            goto LABEL_15;
+        }
+        if (our_id != their_id)
+        {
+            goto LABEL_7;
+        }
+    }
+    if (their_id > 12)
+    {
+        goto LABEL_12;
+    }
+    if (our_id <= 12 && their_id != our_id)
+    {
+    LABEL_14:
+        bDunno = 1;
+    }
+LABEL_15:
+    if (bIdsAreDiff)
+    {
+        this->field_70_exploder_ped_id = their_id;
+        this->field_90 = 1;
+        this->field_94 = 50;
+    }
+    if (bDunno)
+    {
+        pCar->field_70_exploder_ped_id = our_id;
+        pCar->field_90 = 1;
+        pCar->field_94 = 50;
+    }
 }
 
 WIP_FUNC(0x43b850)
