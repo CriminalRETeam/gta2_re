@@ -728,6 +728,11 @@ class Car_BC
         Car_BC::add_f78_bits_421890(0x40);
     }
 
+    inline s32 GetCarKind_4343B0()
+    {
+        return field_A0_car_kind;
+    }
+
     // 9.6f inline 0x425650
     inline void sub_425650()
     {
