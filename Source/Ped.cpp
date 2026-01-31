@@ -1669,8 +1669,7 @@ void Ped::Occupation_AI_461F20()
             {
                 if (field_168_game_object)
                 {
-                    s16 v10;
-                    if (field_20e || byte_6787D2 || (v10 = 1000, stru_6F6784.get_int_4F7AE0(&v10) >= 2))
+                    if (field_20e || byte_6787D2 || stru_6F6784.get_int_4F7AE0(1000) >= 2)
                     {
                         Ped::sub_45EE70();
                     }
@@ -2333,8 +2332,7 @@ bool Ped::PoolUpdate()
             {
                 field_250 = 23;
             }
-            s16 v18 = 300;
-            word_6787F2 = stru_6F6784.get_int_4F7AE0(&v18) + 450;
+            word_6787F2 = stru_6F6784.get_int_4F7AE0(300) + 450;
         }
     }
 

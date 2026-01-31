@@ -1244,8 +1244,7 @@ void Char_B4::UpdateAnimState_546360()
                 field_68_animation_frame++;
                 if (field_68_animation_frame > 7u)
                 {
-                    s16 max_rng = 2;
-                    s32 rng_val = stru_6F6784.get_int_4F7AE0((s16*)&max_rng);
+                    s32 rng_val = stru_6F6784.get_int_4F7AE0(2);
                     // NOTE: was if else
                     switch (rng_val)
                     {
@@ -1269,8 +1268,7 @@ void Char_B4::UpdateAnimState_546360()
                 field_68_animation_frame++;
                 if (field_68_animation_frame > 7u)
                 {
-                    s16 max_rng_ = 3;
-                    s32 rng_val_ = stru_6F6784.get_int_4F7AE0((s16*)&max_rng_);
+                    s32 rng_val_ = stru_6F6784.get_int_4F7AE0(3);
                     // NOTE: Was if else
                     switch (rng_val_)
                     {
@@ -1753,10 +1751,63 @@ char_type Char_B4::sub_54C500(char_type x, char_type y)
     return (dy == -1) ? Char_B4::sub_54C1A0(1) : Char_B4::sub_54C1A0(2);
 }
 
-STUB_FUNC(0x54c580)
+MATCH_FUNC(0x54c580)
 void Char_B4::sub_54C580()
 {
-    NOT_IMPLEMENTED;
+    if (!this->field_46)
+    {
+        switch (byte_6FDB48)
+        {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            {
+                this->field_10_char_state = 1;
+                this->field_6C_animation_state = 0;
+                this->field_46 = stru_6F6784.get_int_4F7AE0(400);
+                break;
+            }
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            {
+                this->field_10_char_state = 3;
+                this->field_6C_animation_state = 0;
+                this->field_46 = stru_6F6784.get_int_4F7AE0(200);
+                break;
+            }
+            case 15:
+            {
+                this->field_10_char_state = 4;
+                this->field_6C_animation_state = 1;
+                this->field_46 = stru_6F6784.get_int_4F7AE0(200);
+                break;
+            }
+            case 20:
+            {
+                this->field_10_char_state = 7;
+                this->field_6C_animation_state = 2;
+                this->field_46 = stru_6F6784.get_int_4F7AE0(200);
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    if (--this->field_46 == 255 && this->field_10_char_state != 25)
+    {
+        this->field_46 = 0;
+    }
 }
 
 STUB_FUNC(0x54c6c0)
@@ -2635,8 +2686,7 @@ void Char_B4::state_7_551CB0()
                 {
                     if ((field_7C_pPed->IsField238_45EDE0(5) || field_7C_pPed->IsField238_45EDE0(2)) && !field_4A)
                     {
-                        s16 v15 = 600;
-                        if (stru_6F6784.get_int_4F7AE0(&v15) < 4u && field_10_char_state != Char_B4_state::Smoking_35)
+                        if (stru_6F6784.get_int_4F7AE0(600) < 4u && field_10_char_state != Char_B4_state::Smoking_35)
                         {
                             field_10_char_state = Char_B4_state::Smoking_35;
                             field_68_animation_frame = 0;

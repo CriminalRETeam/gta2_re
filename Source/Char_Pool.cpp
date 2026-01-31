@@ -91,23 +91,18 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     Weapon_30* field_170_selected_weapon; // eax
     s32 occupation_; // eax
     char_type v21; // al
-    s32 int_4F7AE0; // eax
     s32 wanted_level_; // eax
     u8 v25; // al
     char_type v26; // al
     Char_B4* game_object; // ecx
     u8 remap; // al
     u8 kind; // [esp+10h] [ebp-18h]
-    s32 rng_max; // [esp+14h] [ebp-14h] BYREF
-    s32 v31; // [esp+18h] [ebp-10h] BYREF
-    s32 field_12_gangchar_ratio; // [esp+1Ch] [ebp-Ch] BYREF
     s32 y_int; // [esp+20h] [ebp-8h] BYREF
     s32 x_int; // [esp+24h] [ebp-4h] BYREF
 
     rng_kind = 0;
     kind = 0;
-    rng_max = 1000;
-    rng_val = stru_6F6784.get_int_4F7AE0((s16*)&rng_max);
+    rng_val = stru_6F6784.get_int_4F7AE0(1000);
 
     pPed = gPedPool_6787B8->Allocate();
 
@@ -131,8 +126,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio)
     {
         // 1 in 50 chance of elvis
-        rng_max = 50;
-        if (stru_6F6784.get_int_4F7AE0((s16*)&rng_max) == 25)
+        if (stru_6F6784.get_int_4F7AE0(50) == 25)
         {
             kind = 3;
         }
@@ -244,8 +238,7 @@ LABEL_12:
                         pPed->field_244_remap = v16;
                         if (v16 == 5)
                         {
-                            x_int = 2;
-                            if (!stru_6F6784.get_int_4F7AE0((s16*)&x_int))
+                            if (!stru_6F6784.get_int_4F7AE0(2))
                             {
                                 pPed->field_244_remap = 6;
                             }
@@ -282,8 +275,7 @@ LABEL_12:
                         pPed->field_244_remap = v21;
                         if (v21 == 5)
                         {
-                            y_int = 2;
-                            if (!stru_6F6784.get_int_4F7AE0((s16*)&y_int))
+                            if (!stru_6F6784.get_int_4F7AE0(2))
                             {
                                 pPed->field_244_remap = 6;
                             }
@@ -298,9 +290,7 @@ LABEL_12:
                     pPed->field_288_threat_search = threat_search_enum::area_2;
                     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                     pPed->field_26C_graphic_type = 0;
-                    field_12_gangchar_ratio = 4;
-                    int_4F7AE0 = stru_6F6784.get_int_4F7AE0((s16*)&field_12_gangchar_ratio);
-                    switch (int_4F7AE0)
+                    switch (stru_6F6784.get_int_4F7AE0(4))
                     {
                         case 0:
                             pPed->field_244_remap = 18;
@@ -385,8 +375,7 @@ LABEL_12:
                     }
                     else
                     {
-                        v31 = 25;
-                        v25 = stru_6F6784.get_int_4F7AE0((s16*)&v31);
+                        v25 = stru_6F6784.get_int_4F7AE0(25);
                         if (v25 < 4u)
                         {
                             v26 = v25 + 18;
@@ -434,8 +423,7 @@ LABEL_12:
 
         if (gPedManager_6787BC->field_7_make_all_muggers)
         {
-            ypos = 2;
-            if (!stru_6F6784.get_int_4F7AE0((s16*)&ypos))
+            if (!stru_6F6784.get_int_4F7AE0(2))
             {
                 if (pPed->field_240_occupation == ped_ocupation_enum::unknown_10)
                 {
@@ -472,13 +460,11 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
     s32 last_count_; // edi
     Ang16 rot; // ax
     s32 last_count__; // esi
-    Fix16 x_rng; // ebx
     gmp_zone_info* pZoneInfo; // eax
     u32 slope_type; // eax
 
     // stack
     s32 zpos;
-    s32 rng_max;
 
     Ang16 rotation;
 
@@ -603,12 +589,8 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
                     break;
             }
 
-            rng_max = 32;
-            x_rng = gSpawnJitterScale_678618 * (stru_6F6784.get_int_4F7AE0((s16*)&rng_max) + 8);
-
-            rng_max = 32;
-            xpos += x_rng;
-            ypos += gSpawnJitterScale_678618 * (stru_6F6784.get_int_4F7AE0((s16*)&rng_max) + 8);
+            xpos += gSpawnJitterScale_678618 * (stru_6F6784.get_int_4F7AE0(32) + 8);
+            ypos += gSpawnJitterScale_678618 * (stru_6F6784.get_int_4F7AE0(32) + 8);
 
             if (xpos > k_dword_678664 && xpos < dword_678414 - k_dword_678664 && ypos > k_dword_678664 &&
                 ypos < dword_678414 - k_dword_678664)
@@ -870,8 +852,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 
     if (pNewPed->field_244_remap == 5)
     {
-        s16 constant = 2;
-        if (!stru_6F6784.get_int_4F7AE0(&constant))
+        if (!stru_6F6784.get_int_4F7AE0(2))
         {
             pNewPed->field_244_remap = 6;
         }
@@ -927,8 +908,7 @@ Ped* PedManager::SpawnTrainLeaver_470E30()
     // TODO: Instruction swap here
     pPed->field_26C_graphic_type = 0;
 
-    s16 base_rng = 4;
-    switch (stru_6F6784.get_int_4F7AE0(&base_rng))
+    switch (stru_6F6784.get_int_4F7AE0(4))
     {
         case 0:
             pPed->field_244_remap = 18;

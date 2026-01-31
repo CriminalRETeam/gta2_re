@@ -20,7 +20,7 @@ class rng
     EXPORT void ShowCycle_48B920();
 
     EXPORT void srand_4F7A40();
-    EXPORT s16 get_int_4F7AE0(s16* max_rnd);
+    EXPORT s16 get_int_4F7AE0(const s16& max_rnd);
     EXPORT u8 get_uint8_4F7B70(u8* max_rnd);
     EXPORT int rand_4F7C00();
 

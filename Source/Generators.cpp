@@ -35,7 +35,7 @@ s32 Generator_2C::next_cycle_4C1AB0()
         return min + rng_dword_67AB34->field_0_rng;
     }
     s16 mix_max_delta_m4 = 4 * (max - min);
-    s16 rng = stru_6F6784.get_int_4F7AE0(&mix_max_delta_m4);
+    s16 rng = stru_6F6784.get_int_4F7AE0(mix_max_delta_m4);
     return rng + 4 * min + rng_dword_67AB34->field_0_rng;
 }
 

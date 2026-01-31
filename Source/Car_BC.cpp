@@ -311,8 +311,7 @@ void Car_78::sub_4537D0()
 
     if ((this->field_0->field_A6 & 2) != 2 && (this->field_0->field_A6 & 1) != 1)
     {
-        s16 k2 = 2;
-        if (stru_6F6784.get_int_4F7AE0(&k2) <= 0)
+        if (stru_6F6784.get_int_4F7AE0(2) <= 0)
         {
             field_0->field_A6 |= 1;
         }
@@ -487,8 +486,7 @@ Car_2::Car_2()
 
         for (u16 j = 0; j < 1000; j++)
         {
-            s16 tmp = 1000;
-            u16 idx = stru_6F6784.get_int_4F7AE0(&tmp);
+            u16 idx = stru_6F6784.get_int_4F7AE0(1000);
             s16 next = gRngRemapTable_679320[j];
             gRngRemapTable_679320[j] = gRngRemapTable_679320[idx];
             gRngRemapTable_679320[idx] = next;
