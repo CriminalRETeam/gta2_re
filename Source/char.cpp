@@ -1718,8 +1718,6 @@ void Char_B4::sub_54C090()
 {
     WIP_IMPLEMENTED;
 
-    bool v3; // al
-
     s32 AngleFace_4F78F0 = Ang16::GetAngleFace_4F78F0(field_40_rotation);
     if (!sub_54C1A0(AngleFace_4F78F0))
     {
