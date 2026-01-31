@@ -30,6 +30,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE1C0, k_dword_6FE210, 0x6FE1C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDFE4, Fix16(0x1333, 0), 0x6FDFE4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0A8, dword_6FDFE4, 0x6FE0A8);
 
+DEFINE_GLOBAL(Fix16, k_dword_6FDF34, 0x6FDF34);
+
 DEFINE_GLOBAL(Fix16_Point, g_cm1_6FDF10, 0x6FDF10);
 DEFINE_GLOBAL(Fix16, g_cp3_6FDF08, 0x6FDF08);
 DEFINE_GLOBAL(Ang16, g_theta_6FE344, 0x6FE344);
@@ -55,11 +57,23 @@ DEFINE_GLOBAL(Fix16, k_dword_6FE1B8, 0x6FE1B8);
 DEFINE_GLOBAL(Fix16_Point, stru_6FDF50, 0x6FDF50);
 DEFINE_GLOBAL(Fix16, dword_6FE0B0, 0x6FE0B0);
 
-STUB_FUNC(0x559E90)
+MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_70 > kFP16Zero_6FE20C)
+    {
+        Fix16 cp3 = field_6C_cp3;
+        cp3 += k_dword_6FE210;
+        if (cp3 > k_dword_6FDF34)
+        {
+            cp3 = k_dword_6FDF34;
+        }
+        return cp3;
+    }
+    else
+    {
+        return field_6C_cp3;
+    }
 }
 
 MATCH_FUNC(0x40B560)
