@@ -20,6 +20,8 @@ EXTERN_GLOBAL(Fix16, dword_6FD7FC);
 EXTERN_GLOBAL(Ang16, word_6FD940);
 EXTERN_GLOBAL(Ang16, word_6FD8F8);
 
+EXPORT void __stdcall sub_529050(u8 a1, s8* a2, s8* a3);
+
 class Char_B4
 {
   public:
