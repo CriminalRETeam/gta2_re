@@ -1379,7 +1379,7 @@ char_type Ped::sub_45EE00(s32 a2)
 }
 
 STUB_FUNC(0x45ee70)
-gmp_map_zone* Ped::sub_45EE70()
+gmp_map_zone* Ped::EnterPublicTransport_45EE70()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1671,7 +1671,7 @@ void Ped::Occupation_AI_461F20()
                 {
                     if (field_20e || byte_6787D2 || stru_6F6784.get_int_4F7AE0(1000) >= 2)
                     {
-                        Ped::sub_45EE70();
+                        Ped::EnterPublicTransport_45EE70();
                     }
                     else if (gTaxi_4_704130->field_0)
                     {
