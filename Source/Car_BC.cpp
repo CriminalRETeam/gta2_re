@@ -128,7 +128,6 @@ DEFINE_GLOBAL(Fix16, dword_6778FC, 0x6778FC);
 DEFINE_GLOBAL(Fix16, k_dword_677918, 0x677918);
 DEFINE_GLOBAL(Fix16, dword_677920, 0x677920);
 
-
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -2935,11 +2934,26 @@ void Car_BC::sub_441380()
     }
 }
 
+Ang16 word_6F67EA;
+Ang16 dword_6F6754;
+Ang16 word_6F6808;
+Ang16 word_6F6D3C;
+
 STUB_FUNC(0x4F7940)
-EXPORT Ang16* __stdcall sub_4F7940(s32* a2)
+EXPORT Ang16 __stdcall sub_4F7940(s32* a2)
 {
     NOT_IMPLEMENTED;
-    return 0;
+    switch (*a2)
+    {
+        case 1:
+            return word_6F67EA;
+        case 3:
+            return dword_6F6754;
+        case 4:
+            return word_6F6808;
+        default:
+            return word_6F6D3C;
+    }
 }
 
 WIP_FUNC(0x4413b0)
@@ -2969,7 +2983,7 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
         newy = ypos;
         newz = zpos;
 
-        Ang16* v10;
+        Ang16 v10;
         if (bUnknown)
         {
             s32 v21 = gMap_0x370_6F6268->sub_4E7190(&newx, &newy, &newz, k_dword_6777D4);
@@ -2982,7 +2996,7 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
         }
 
         pTrainCarIter->field_50_car_sprite->set_xyz_lazy_420600(newx, newy, newz);
-        pTrainCarIter->field_50_car_sprite->set_ang_lazy_420690(*v10);
+        pTrainCarIter->field_50_car_sprite->set_ang_lazy_420690(v10);
 
         if (pTrainCarIter->field_0_qq.field_0_p18)
         {
@@ -3564,7 +3578,7 @@ Ang16 Car_BC::GetRadioTowerAngle_442520()
 // 9.6f 0x40ECB0
 // TODO: Move
 STUB_FUNC(0x405CE0)
-EXPORT s32 __stdcall sub_405CE0(Fix16 *a1, Fix16 *a2, Fix16 *a3, Fix16 *a4, Fix16 *a5)
+EXPORT s32 __stdcall sub_405CE0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5)
 {
     NOT_IMPLEMENTED;
     return 0;

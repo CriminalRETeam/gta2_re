@@ -32,7 +32,7 @@ class Player;
 
 EXTERN_GLOBAL(Fix16, dword_6777D0);
 
-EXPORT Ang16* __stdcall sub_4F7940(s32* a2);
+EXPORT Ang16 __stdcall sub_4F7940(s32* a2);
 
 // TODO: Move
 class Car_78

@@ -1760,7 +1760,7 @@ void Char_B4::sub_54C090()
         }
     }
 
-    field_40_rotation = *sub_4F7940(&AngleFace_4F78F0);
+    field_40_rotation = sub_4F7940(&AngleFace_4F78F0);
 
     if (field_10_char_state != 15)
     {
