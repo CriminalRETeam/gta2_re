@@ -279,6 +279,7 @@ target_link_libraries(gta2_dll_imports gta2_dll_exports mss32 Winmm ${dplay_libs
 
 add_library(HookLoader SHARED 
     Source/HookLoader.cpp
+    Source/HookLoader.hpp
     Source/3rdParty/Detours/src/detours.cpp
     Source/3rdParty/Detours/src/disasm.cpp
     "Source/3rdParty/Manual-DLL-Loader/Source/Manual Loader/Loader.cpp"

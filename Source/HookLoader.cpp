@@ -1,17 +1,10 @@
-#include <windows.h>
-
+#include "HookLoader.hpp"
 #include "3rdParty/Detours/include/detours.h"
 #include "3rdParty/Manual-DLL-Loader/Source/Manual Loader/Loader.h"
 #include "Globals.hpp"
 #include <map>
 #include <string>
-
-// patch 10.5.exe -> imports to load HookLoader.dll
-// HookLoader.dll -> manual load of gta2_dll_imports.dll via DllMain which will never return - hooked at executable entry that does CRT
-// start up so that control of the global static init list can be controlled in the future if needed.
-// - redirects imported vars to resolve to locations within 10.5.exe (TODO: How to get vars table?)
-// - jmp hooks 10.5.exe functions to call matched functions (via exports enumeration) (TODO: How to get function table?)
-// - jmp hooks exported functions that are stubbed to jmp to 10.5.exe (via exports enumeration) (TODO: How to get function table?)
+#include <windows.h>
 
 //#define HOOK_VERBOSE
 
@@ -104,7 +97,6 @@ static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals)
                         abort();
                     }
 
-                   
                     //printf("[+]\tFunction %s\n", (LPSTR)lpData->Name);
                 }
 
@@ -115,15 +107,73 @@ static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals)
     }
 }
 
-class HookLoader
+bool FunctionCollector::GetFuncMeta(FuncMeta& meta, HMODULE hDll, const char* pName)
 {
-    struct FuncMeta
+    u8* pFun = reinterpret_cast<u8*>(::GetProcAddress(hDll, pName));
+    if (!pFun)
     {
-        u32 mOgAddr;
-        u32 mStatus;
-    };
+        return false;
+    }
 
-  private:
+    /*
+        Looking backwards for the pattern:
+        90
+        90
+        B8 XX XX XX XX (og addr)
+        B8 XX XX XX XX (status)
+        90
+        90
+        */
+    u8* pFunStart = pFun;
+    for (u32 loopBackPos = 1; loopBackPos <= 10; loopBackPos++)
+    {
+        // find double nop
+        if (*pFun == 0x90 && *(pFun - 1) == 0x90)
+        {
+            // find double mov eax, xyz, mov eax xyz
+            if (*(pFun - 6) == 0xB8 && *(pFun - 11) == 0xB8)
+            {
+                // find final double nop
+                if (*(pFun - 12) == 0x90 && *(pFun - 13) == 0x90)
+                {
+                    meta.mOgAddr = *reinterpret_cast<u32*>(&(pFun[-10]));
+                    meta.mStatus = *reinterpret_cast<u32*>(&(pFun[-5]));
+                    //printf("og addr %X status %d for %s\n", meta.mOgAddr, meta.mStatus, pName);
+                    return true;
+                }
+            }
+        }
+        pFun--;
+    }
+
+    return false;
+}
+
+bool FunctionCollector::OnImportsExport(LPVOID pContext, HMODULE hDll, const char* pName)
+{
+    FuncMeta meta;
+    if (GetFuncMeta(meta, hDll, pName))
+    {
+        reinterpret_cast<FunctionCollector*>(pContext)->mFunctionsToHookMap[pName] = meta;
+    }
+    else
+    {
+        if (strstr(pName, "Marker") == NULL) // ignore Markers
+        {
+            printf("WARNING: No meta for %s\n", pName);
+        }
+    }
+    return true;
+}
+
+FunctionCollector::FunctionCollector(HMODULE hImports)
+{
+    EnumExports(this, hImports, OnImportsExport);
+}
+
+class GlobalVarCollector
+{
+  public:
     static bool OnExportsExport(LPVOID pContext, HMODULE hDll, const char* pName)
     {
         if (stricmp(pName, "GetGlobalsRegistry") == 0)
@@ -134,14 +184,14 @@ class HookLoader
         {
             FARPROC varAddr = GetProcAddress((HINSTANCE)hDll, pName);
 
-            HookLoader* hl = reinterpret_cast<HookLoader*>(pContext);
+            GlobalVarCollector* hl = reinterpret_cast<GlobalVarCollector*>(pContext);
 
             std::map<const void*, u32>::iterator it = hl->mGlobalEntryToOgAddrMap.find(varAddr);
             if (it != hl->mGlobalEntryToOgAddrMap.end())
             {
-                #ifdef HOOK_VERBOSE
+#ifdef HOOK_VERBOSE
                 printf("Found! %s\n", pName);
-                #endif
+#endif
                 hl->mExportNameToOgAddrMap[std::string(pName)] = it->second;
             }
             else
@@ -155,71 +205,40 @@ class HookLoader
         return true;
     }
 
-    static bool GetFuncMeta(FuncMeta& meta, HMODULE hDll, const char* pName)
-    {
-        u8* pFun = reinterpret_cast<u8*>(::GetProcAddress(hDll, pName));
-        if (!pFun)
-        {
-            return false;
-        }
-
-        /*
-        Looking backwards for the pattern:
-        90
-        90
-        B8 XX XX XX XX (og addr)
-        B8 XX XX XX XX (status)
-        90
-        90
-        */
-        u8* pFunStart = pFun;
-        for (u32 loopBackPos = 1; loopBackPos <= 10; loopBackPos++)
-        {
-            // find double nop
-            if (*pFun == 0x90 && *(pFun - 1) == 0x90)
-            {
-                // find double mov eax, xyz, mov eax xyz
-                if (*(pFun - 6) == 0xB8 && *(pFun - 11) == 0xB8)
-                {
-                    // find final double nop
-                    if (*(pFun - 12) == 0x90 && *(pFun - 13) == 0x90)
-                    {
-                        meta.mOgAddr = *reinterpret_cast<u32*>(&(pFun[-10]));
-                        meta.mStatus = *reinterpret_cast<u32*>(&(pFun[-5]));
-                        //printf("og addr %X status %d for %s\n", meta.mOgAddr, meta.mStatus, pName);
-                        return true;
-                    }
-                }
-            }
-            pFun--;
-        }
-
-        return false;
-    }
-
-    static bool OnImportsExport(LPVOID pContext, HMODULE hDll, const char* pName)
-    {
-        FuncMeta meta;
-        if (GetFuncMeta(meta, hDll, pName))
-        {
-            reinterpret_cast<HookLoader*>(pContext)->mFunctionsToHookMap[pName] = meta;
-        }
-        else
-        {
-            if (strstr(pName, "Marker") == NULL) // ignore Markers
-            {
-                printf("WARNING: No meta for %s\n", pName);
-            }
-        }
-        return true;
-    }
-
     void MapExportedVarsToOgAddrs(HMODULE hMod)
     {
         printf("Enumerating exports..\n");
         EnumExports(this, hMod, OnExportsExport);
     }
 
+    GlobalVarCollector(HMODULE hExports) : mGlobalsRegistry(NULL)
+    {
+        printf("Get globals registry %X\n", hExports);
+        TGetGlobalsRegistry pFnGlobalsRegistry = (TGetGlobalsRegistry)GetProcAddress(hExports, "GetGlobalsRegistry");
+        printf("Collect export entries %X\n", pFnGlobalsRegistry);
+        mGlobalsRegistry = pFnGlobalsRegistry();
+
+        printf("Enumerate entries %X count %d\n", mGlobalsRegistry, mGlobalsRegistry->mGlobals.size());
+
+        for (size_t i = 0; i < mGlobalsRegistry->mGlobals.size(); i++)
+        {
+            mGlobalEntryToOgAddrMap[mGlobalsRegistry->mGlobals[i]->mVar] = mGlobalsRegistry->mGlobals[i]->mOgAddr;
+        }
+
+        // Get the actual exported vars and link it to an OG addr
+        MapExportedVarsToOgAddrs(hExports);
+    }
+
+    GlobalsRegistry* mGlobalsRegistry;
+
+  private:
+    std::map<const void*, u32> mGlobalEntryToOgAddrMap;
+    std::map<std::string, u32> mExportNameToOgAddrMap;
+};
+
+class HookLoader
+{
+  private:
     typedef int(__cdecl* PT1)(int);
     typedef int (*TP2)();
     typedef void (*TP3)();
@@ -257,57 +276,48 @@ class HookLoader
         // leaving till we get to a point where double static init calls actually cause a crash etc
     }
 
+    GlobalVarCollector* mVars;
+
   public:
-    void LoadHooks()
+    FunctionCollector* mFuncs;
+
+  private:
+    HMODULE mHImports;
+    HMODULE mHExports;
+
+  public:
+    HookLoader() : mVars(NULL), mFuncs(NULL), mHImports(0), mHExports(0)
+    {
+    }
+
+    ~HookLoader()
+    {
+        delete mVars;
+        delete mFuncs;
+    }
+
+    void CollectVarsAndFuncs()
     {
         // Both DLL export functions, only exports dll exports vars and only imports dll imports var
         printf("Load dll\n");
-        HMODULE hImports = LoadLibraryA("gta2_dll_imports.dll");
+        mHImports = LoadLibraryA("gta2_dll_imports.dll");
 
         // Implicitly loaded as imports links to exports
-        HMODULE hExports = GetModuleHandle("gta2_dll_exports.dll");
+        mHExports = GetModuleHandle("gta2_dll_exports.dll");
 
         // Build a map of exported var records and their OG executable address
-        printf("Get globals registry %X\n", hExports);
-        TGetGlobalsRegistry pFnGlobalsRegistry = (TGetGlobalsRegistry)GetProcAddress(hExports, "GetGlobalsRegistry");
-        printf("Collect export entries %X\n", pFnGlobalsRegistry);
-        GlobalsRegistry* pGlobalsRegistry = pFnGlobalsRegistry();
+        mVars = new GlobalVarCollector(mHExports);
+        mFuncs = new FunctionCollector(mHImports);
+    }
 
-        printf("Enumerate entries %X count %d\n", pGlobalsRegistry, pGlobalsRegistry->mGlobals.size());
-
-        for (size_t i = 0; i < pGlobalsRegistry->mGlobals.size(); i++)
-        {
-            mGlobalEntryToOgAddrMap[pGlobalsRegistry->mGlobals[i]->mVar] = pGlobalsRegistry->mGlobals[i]->mOgAddr;
-        }
-
-
-        // Get the actual exported vars and link it to an OG addr
-        MapExportedVarsToOgAddrs(hExports);
-
-        // TODO: rewrite the address of imports addr of the exported var to the OG executable addr
-        RewriteImports(hImports, pGlobalsRegistry);
-
-
-        // mExportNameToOgAddrMap
-
-        /*
-        printf("Unload exports dll\n");
-        FreeLibrary(hMod);
-
-        printf("Load imports dll\n");
-        GTA2LoaderCallBacks cb(mExportNameToOgAddrMap);
-        LPVOID lpModule = MemoryLoader::LoadDLL("gta2_dll_imports.dll", cb);
-        if (lpModule == NULL)
-        {
-            printf("Loading gta2_dll_imports.dll failed\n");
-        }
-        */
+    void LoadHooks()
+    {
+        // rewrite the address of imports addr of the exported var to the OG executable addr
+        RewriteImports(mHImports, mVars->mGlobalsRegistry);
 
         // Replicate what start() does enough to make things work
         printf("crt inits\n");
         crt_inits();
-
-        EnumExports(this, hImports, OnImportsExport);
 
         LONG err = DetourTransactionBegin();
         if (err != NO_ERROR)
@@ -322,19 +332,21 @@ class HookLoader
         }
 
         printf("Apply hooks..\n");
-        for (std::map<std::string, FuncMeta>::iterator it = mFunctionsToHookMap.begin(); it != mFunctionsToHookMap.end(); it++)
+        for (std::map<std::string, FunctionCollector::FuncMeta>::iterator it = mFuncs->mFunctionsToHookMap.begin();
+             it != mFuncs->mFunctionsToHookMap.end();
+             it++)
         {
             {
-                #ifdef HOOK_VERBOSE
+#ifdef HOOK_VERBOSE
                 printf("Look up %s\n", it->first.c_str());
-                #endif
+#endif
 
-                LPVOID addr = ::GetProcAddress(hImports, it->first.c_str());
-                const FuncMeta& meta = it->second;
-                
-                #ifdef HOOK_VERBOSE
+                LPVOID addr = ::GetProcAddress(mHImports, it->first.c_str());
+                const FunctionCollector::FuncMeta& meta = it->second;
+
+#ifdef HOOK_VERBOSE
                 printf("Doing %s\n", it->first.c_str());
-                #endif
+#endif
 
                 if (meta.mStatus == 0 || meta.mStatus == 2)
                 {
@@ -379,7 +391,7 @@ class HookLoader
         }
 
         printf("Look up GameMain...\n");
-        LPVOID pGameMain = ::GetProcAddress(hImports, "GameMain");
+        LPVOID pGameMain = ::GetProcAddress(mHImports, "GameMain");
         typedef void(__cdecl * TGameMain)();
 
         printf("GameMain = %X\n", pGameMain);
@@ -388,25 +400,23 @@ class HookLoader
         pTypedGameMain();
         printf("Game main returned\n");
     }
-
-  private:
-    std::map<const void*, u32> mGlobalEntryToOgAddrMap;
-    std::map<std::string, u32> mExportNameToOgAddrMap;
-    std::map<std::string, FuncMeta> mFunctionsToHookMap;
 };
+
+int RunHookManagerUi(HINSTANCE hInst, FunctionCollector& funcs);
 
 // The OG patched executable will call this function (outside of DllMain/OS loader locks etc)
 extern "C"
 {
     void __declspec(dllexport) __cdecl HookMain()
     {
-            AllocConsole();
-            freopen("CONOUT$", "w", stdout);
-            SetConsoleTitleA("GTA2 debug console");
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
-        
+        AllocConsole();
+        freopen("CONOUT$", "w", stdout);
+        SetConsoleTitleA("GTA2 debug console");
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
 
         HookLoader hl;
+        hl.CollectVarsAndFuncs();
+        RunHookManagerUi(GetModuleHandle(NULL), *hl.mFuncs);
         hl.LoadHooks();
     }
 }
