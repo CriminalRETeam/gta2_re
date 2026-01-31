@@ -11,10 +11,10 @@ DEFINE_GLOBAL(Ang16, word_6F67DC, 0x6F67DC);
 EXTERN_GLOBAL(Ang16, word_669156);
 
 WIP_FUNC(0x405C60)
-bool __stdcall Ang16::IsAngleAhead_405C60(Ang16* a1, Ang16* a2);
+bool __stdcall Ang16::IsAngleAhead_405C60(Ang16* a1, Ang16* a2)
 {
     WIP_IMPLEMENTED;
-    return a2->field_0 - a1->field_0 <= word_669156;
+    return *a2 - *a1 <= word_669156;
 }
 
 WIP_FUNC(0x405640)
