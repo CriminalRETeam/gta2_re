@@ -1,6 +1,7 @@
 #include "char.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
+#include "Door_4D4.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
 #include "Globals.hpp"
@@ -68,6 +69,8 @@ DEFINE_GLOBAL(Ang16, k_dword_6FD892, 0x6FD892); // TODO: Has non trivial init
 
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8DC, Fix16(0x666, 0), 0x6FD8DC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8E4, Fix16(0x2000, 0), 0x6FD8E4);
+
+DEFINE_GLOBAL(Fix16, k_dword_6FDA9C, 0x6FDA9C);
 
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
@@ -3042,7 +3045,7 @@ bool Char_B4::sub_553340(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5535B0)
-char_type Char_B4::sub_5535B0(Object_2C* p2c)
+bool Char_B4::sub_5535B0(Object_2C* p2c)
 {
     Ped* pPed = field_7C_pPed;
     if (pPed->field_15C_player)
@@ -3055,10 +3058,65 @@ char_type Char_B4::sub_5535B0(Object_2C* p2c)
     }
 }
 
-STUB_FUNC(0x553640)
+WIP_FUNC(0x529050)
+EXPORT void __stdcall sub_529050(u8 a1, s8* a2, s8* a3)
+{
+    WIP_IMPLEMENTED;
+    *a2 = (a1 >> 4) - 7;
+    *a3 = (a1 & 0xF) - 7;
+}
+
+MATCH_FUNC(0x553640)
 bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
 {
-    NOT_IMPLEMENTED;
+    s8 v6;
+    s8 v7;
+
+    if (p2c->check_is_shop_421060())
+    {
+        return field_7C_pPed->HandlePickupCollision_45DE80(p2c);
+    }
+
+    switch (p2c->field_18_model)
+    {
+        case 266:
+            return field_7C_pPed->HandlePickupCollision_45DE80(p2c);
+
+        case 257:
+        case 258:
+            if (field_8_ped_state_1 != ped_state_1::dead_9 && field_8_ped_state_1 != ped_state_1::immobilized_8)
+            {
+                field_7C_pPed->sub_45CF20(p2c);
+            }
+            break;
+
+        case 161:
+            gCar_214_705F20->sub_5C8780(p2c->field_27, this->field_80_sprite_ptr);
+            break;
+
+        case 164:
+        case 177:
+        case 179:
+        case 181:
+            return sub_5535B0(p2c);
+
+        case 167:
+            gDoor_4D4_67BD2C->sub_49D370(field_7C_pPed, p2c->field_26_varrok_idx);
+            break;
+
+        case 141:
+            field_7C_pPed->Kill_46F9D0();
+            break;
+
+        case 139:
+            sub_529050(p2c->field_26_varrok_idx, &v6, &v7); // TODO: Ang8 or something ???
+            this->field_4C = k_dword_6FDA9C * v6;
+            this->field_50 = k_dword_6FDA9C * v7;
+            break;
+
+        default:
+            break;
+    }
     return 0;
 }
 
