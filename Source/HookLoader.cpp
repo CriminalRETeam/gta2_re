@@ -402,8 +402,6 @@ class HookLoader
     }
 };
 
-int RunHookManagerUi(HINSTANCE hInst, FunctionCollector& funcs);
-
 // The OG patched executable will call this function (outside of DllMain/OS loader locks etc)
 extern "C"
 {
@@ -416,7 +414,7 @@ extern "C"
 
         HookLoader hl;
         hl.CollectVarsAndFuncs();
-        RunHookManagerUi(GetModuleHandle(NULL), *hl.mFuncs);
+        //RunHookManagerUi(GetModuleHandle(NULL), *hl.mFuncs);
         hl.LoadHooks();
     }
 }
