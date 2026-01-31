@@ -589,10 +589,10 @@ void CC ImGuiDebugDraw()
     if (ImGui::Button("set boot2map debug opts"))
     {
         EnableBoot2MapDebugOptions();
-        bSkip_dummies_67D4EF = true; // TODO: remove this after fixing dummies spawn
+        //bSkip_dummies_67D4EF = true; // TODO: remove this after fixing dummies spawn
     }
 
-    ImGui::Checkbox("Skip Dummies", &bSkip_dummies_67D4EF); // TODO: remove this after fixing dummies spawn
+    //ImGui::Checkbox("Skip Dummies", &bSkip_dummies_67D4EF); // TODO: remove this after fixing dummies spawn
 
     if (ImGui::Button("NoRefs_sub_5B1170"))
     {
