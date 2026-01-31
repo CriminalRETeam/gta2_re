@@ -1235,10 +1235,127 @@ void Ped::sub_45EA00()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x45eb60)
+// https://decomp.me/scratch/jJ6aF
+WIP_FUNC(0x45eb60)
 void Ped::Deallocate_45EB60()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    switch (field_240_occupation)
+    {
+        case ped_ocupation_enum::mugger:
+            --gNumberMuggersSpawned_6787CA;
+            break;
+        case ped_ocupation_enum::car_thief:
+            --gNumberCarThiefsSpawned_6787CB;
+            break;
+        case ped_ocupation_enum::elvis_leader:
+            if (gNumberElvisLeadersSpawned_6787CC > 0)
+            {
+                --gNumberElvisLeadersSpawned_6787CC;
+            }
+            break;
+        case ped_ocupation_enum::guard:
+            --gNumberWalkingCopsSpawned_6787CD;
+            break;
+        case ped_ocupation_enum::unknown_10:
+            --byte_6787CE;
+            break;
+        case ped_ocupation_enum::unknown_5:
+            if (--byte_6787D3 < 0)
+            {
+                byte_6787D3 = 0;
+            }
+            break;
+        default:
+            break;
+    }
+    if (field_200_id)
+    {
+        if (field_170_selected_weapon)
+        {
+            Ped::RemovePedWeapons_462510();
+        }
+        if (field_174_pWeapon)
+        {
+            Ped::sub_462550();
+        }
+    }
+
+    if (field_267_varrok_idx)
+    {
+        gVarrok_7F8_703398->Clear_434070(field_267_varrok_idx);
+    }
+    if (field_21C_bf.b14)
+    {
+        gOrca_2FD4_6FDEF0->field_3C.RemovePed_471240(this);
+    }
+    gOrca_2FD4_6FDEF0->sub_554620(field_200_id);
+    gThreateningPedsList_678468.RemovePed_471240(this);
+
+    if (field_17C_pZone)
+    {
+        if (field_17C_pZone->field_141)
+        {
+            field_17C_pZone->field_141 = 0;
+        }
+    }
+    field_164_ped_group = field_164_ped_group;
+    if (field_164_ped_group)
+    {
+        if (field_23C == 99)
+        {
+            if (field_164_ped_group->IsAllMembersInSomeCar_4CAA20())
+            {
+                field_164_ped_group->sub_4C8E90();
+            }
+            else
+            {
+                if ((field_240_occupation != ped_ocupation_enum::elvis_leader && field_240_occupation != ped_ocupation_enum::elvis))
+                {
+                    field_164_ped_group->DestroyGroup_4C93A0();
+                }
+                else if (field_164_ped_group->sub_4C9150())
+                {
+                    field_164_ped_group->DestroyGroup_4C93A0();
+                }
+                else
+                {
+                    field_164_ped_group->DisbandGroupDueToAttack_4C94E0(field_1A8_ped_killer);
+                }
+            }
+        }
+        else if (field_240_occupation == ped_ocupation_enum::elvis)
+        {
+            field_164_ped_group->DisbandGroupDueToAttack_4C94E0(field_1A8_ped_killer);
+        }
+        else
+        {
+            field_164_ped_group->RemovePed_4C9970(this);
+        }
+    }
+
+    // Problem Here:
+    field_234_timer = 2;
+    field_21C_bf.b0 = false;
+
+    if (field_16C_car)
+    {
+        if (!field_248_enter_car_as_passenger)
+        {
+            field_16C_car->field_54_driver = 0;
+            if (field_238 == 5)
+            {
+                if (field_16C_car->GetCarKind_4343B0() == 1)
+                {
+                    field_16C_car->field_7C_uni_num = 3;
+                }
+            }
+        }
+    }
+    Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+    Ped::sub_463830(0, 9999);
+    field_278_ped_state_1 = ped_state_1::dead_9;
+    field_27C_ped_state_2 = ped_state_2::Unknown_15;
 }
 
 STUB_FUNC(0x45edc0)

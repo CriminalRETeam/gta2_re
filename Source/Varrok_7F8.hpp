@@ -22,6 +22,12 @@ class Varrok_7F8
     EXPORT ~Varrok_7F8();
     Varrok_8 field_0[255];
 
+    inline void Clear_434070(u8 idx)
+    {
+        field_0[idx].field_0_ped_id = 0;
+        field_0[idx].field_4 = 0;
+    }
+
     s32 GetPedId_420F10(u8 idx)
     {
         return field_0[idx].field_0_ped_id;
