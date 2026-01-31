@@ -91,6 +91,12 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FD940, Ang16(64), 0x6FD940);
 DEFINE_GLOBAL_INIT(Ang16, word_6FD8F8, Ang16(1376), 0x6FD8F8);
 DEFINE_GLOBAL_INIT(Ang16, word_6FD94C, Ang16(1080), 0x6FD94C);
 
+DEFINE_GLOBAL(Ang16, word_6FD8E8, 0x6FD8E8);
+DEFINE_GLOBAL(Ang16, word_6FDB3C, 0x6FDB3C);
+DEFINE_GLOBAL(Ang16, word_6FDA64, 0x6FDA64);
+DEFINE_GLOBAL(Ang16, word_6FD904, 0x6FD904);
+
+
 EXTERN_GLOBAL(Ang16, word_6FDB34);
 EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
 
@@ -1707,11 +1713,62 @@ char_type Char_B4::sub_54B8F0()
     return 0;
 }
 
-STUB_FUNC(0x54c090)
-s32 Char_B4::sub_54C090()
+WIP_FUNC(0x54c090)
+void Char_B4::sub_54C090()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    bool v3; // al
+
+    s32 AngleFace_4F78F0 = Ang16::GetAngleFace_4F78F0(field_40_rotation);
+    if (!sub_54C1A0(AngleFace_4F78F0))
+    {
+        switch (AngleFace_4F78F0)
+        {
+            case 1:
+                AngleFace_4F78F0 = field_40_rotation > word_6FD8E8;
+                break;
+            case 2:
+                AngleFace_4F78F0 = field_40_rotation > word_6FDB3C;
+                break;
+            case 3:
+                AngleFace_4F78F0 = field_40_rotation > word_6FDA64;
+                break;
+            case 4:
+                AngleFace_4F78F0 = field_40_rotation > word_6FD904;
+                break;
+            default:
+                //v3 = v7;
+                break;
+        }
+
+        switch (AngleFace_4F78F0)
+        {
+            case 1:
+                AngleFace_4F78F0 = AngleFace_4F78F0 + 3;
+                break;
+            case 2:
+                AngleFace_4F78F0 = AngleFace_4F78F0 - 4;
+                break;
+            case 3:
+                AngleFace_4F78F0 = AngleFace_4F78F0 - 2;
+                break;
+            case 4:
+                AngleFace_4F78F0 = AngleFace_4F78F0 + 1;
+                break;
+            default:
+                AngleFace_4F78F0 = 2;
+                break;
+        }
+    }
+
+    field_40_rotation = *sub_4F7940(&AngleFace_4F78F0);
+
+    if (field_10_char_state != 15)
+    {
+        this->field_10_char_state = 1;
+    }
+    this->field_46 = 100;
 }
 
 WIP_FUNC(0x54c1a0)
