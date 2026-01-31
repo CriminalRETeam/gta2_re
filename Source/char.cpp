@@ -63,9 +63,8 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6FDA00, Fix16(7), 0x6FDA00);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDAC8, k_dword_6FD868 * 6, 0x6FDAC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD99C, k_dword_6FD868 / dword_6FD9F4, 0x6FD99C);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7B8, k_dword_6FD868, 0x6FD7B8);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7CC, k_dword_6FD9F0 * k_dword_6FD868, 0x6FD7CC);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7CC, k_dword_6FD9F0* k_dword_6FD868, 0x6FD7CC);
 DEFINE_GLOBAL(Ang16, k_dword_6FD892, 0x6FD892); // TODO: Has non trivial init
-
 
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
@@ -1827,11 +1826,9 @@ EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3)
     return a2 - a3; // TODO: Buncha other math missing
 }
 
-WIP_FUNC(0x54c900)
+MATCH_FUNC(0x54c900)
 void Char_B4::sub_54C900()
 {
-    WIP_IMPLEMENTED;
-
     switch (this->field_10_char_state)
     {
         case 1:
@@ -1841,15 +1838,24 @@ void Char_B4::sub_54C900()
             byte_6FDB52 = 1;
             byte_6FDB53 = 0;
             break;
+
         case 3:
             if (this->field_46)
             {
                 this->field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
                 sub_54C6C0();
-                goto LABEL_10;
             }
-            this->field_38_velocity = k_dword_6FD7B8;
-            goto LABEL_9;
+            else
+            {
+                this->field_38_velocity = k_dword_6FD7B8;
+                this->field_10_char_state = 1;
+                this->field_6C_animation_state = 0;
+            }
+            byte_6FDB53 = 0;
+            byte_6FDB51 = 1;
+            byte_6FDB52 = 1;
+            break;
+
         case 4:
             if (this->field_46)
             {
@@ -1859,11 +1865,9 @@ void Char_B4::sub_54C900()
             else
             {
                 this->field_38_velocity = k_dword_6FD7B8;
-            LABEL_9:
                 this->field_10_char_state = 1;
                 this->field_6C_animation_state = 0;
             }
-        LABEL_10:
             byte_6FDB53 = 0;
             byte_6FDB51 = 1;
             byte_6FDB52 = 1;
@@ -1872,8 +1876,8 @@ void Char_B4::sub_54C900()
         case 7:
             if (this->field_46)
             {
-                this->field_6C_animation_state = 2;
                 this->field_38_velocity = k_dword_6FD7C0;
+                this->field_6C_animation_state = 2;
                 this->field_68_animation_frame = 0;
             }
             else
@@ -1906,8 +1910,8 @@ void Char_B4::sub_54C900()
             sub_54CAE0();
             if (ComputeShortestAngleDelta_4056C0(this->field_40_rotation, this->field_14) < k_dword_6FD892)
             {
-                this->field_10_char_state = 1;
                 this->field_38_velocity = k_dword_6FD7B8;
+                this->field_10_char_state = 1;
                 this->field_6C_animation_state = 0;
                 this->field_46 = 0;
             }
