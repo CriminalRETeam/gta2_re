@@ -1048,7 +1048,7 @@ char_type Sprite::sub_5A21F0()
 }
 
 STUB_FUNC(0x5A22B0)
-u32* Sprite::sub_5A22B0(u32* a2, Sprite* a3)
+Fix16 Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* a3)
 {
     NOT_IMPLEMENTED;
     return 0;

@@ -142,7 +142,7 @@ class Sprite
     EXPORT char_type CheckCornerZCollisions_5A1CA0(u32* a2);
     EXPORT char_type IsTouchingSlopeBlock_5A1EB0();
     EXPORT char_type sub_5A21F0();
-    EXPORT u32* sub_5A22B0(u32* a2, Sprite* a3);
+    EXPORT Fix16 MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* a3);
     EXPORT char_type sub_5A2440();
     EXPORT char_type sub_5A2500();
     EXPORT s16* sub_5A26E0(s16* a2);

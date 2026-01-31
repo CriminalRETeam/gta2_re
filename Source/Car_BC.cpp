@@ -131,8 +131,6 @@ DEFINE_GLOBAL(Fix16, dword_677920, 0x677920);
 DEFINE_GLOBAL(Fix16, k_dword_6778C8, 0x6778C8);
 DEFINE_GLOBAL(Ang16, word_677910, 0x677910);
 
-
-
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -1042,6 +1040,22 @@ Car_6C::~Car_6C()
     }
 
     field_4 = 0;
+}
+
+WIP_FUNC(0x445360)
+bool Car_BC::sub_445360()
+{
+    WIP_IMPLEMENTED;
+
+    if (this->field_74_damage != 32001 && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x10) != 0x10 &&
+        !sub_43B2B0(gPurpleDoom_ped_678F64) && !sub_43A230() && field_88 != 7 && !IsCarInAir_43A3C0())
+    {
+        if (!IsTrainModel_403BA0())
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 STUB_FUNC(0x43D5D0)
