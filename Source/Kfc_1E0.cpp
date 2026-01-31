@@ -1,4 +1,5 @@
 #include "Kfc_1E0.hpp"
+#include "Car_BC.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 
@@ -58,10 +59,43 @@ bool Kfc_30::sub_5CBC60()
     return true;
 }
 
-STUB_FUNC(0x5cbc90)
+MATCH_FUNC(0x5cbc90)
 char_type Kfc_30::sub_5CBC90()
 {
-    NOT_IMPLEMENTED;
+    PedGroup* pGroup = this->field_8_group;
+    if (!pGroup)
+    {
+        return 0;
+    }
+
+    u8 idx = 0;
+    Ped* pPedAtIdx = pGroup->field_4_ped_list[idx];
+    while (pPedAtIdx)
+    {
+        if (pPedAtIdx->field_278_ped_state_1 != ped_state_1::dead_9 && !pPedAtIdx->field_16C_car)
+        {
+            Ped* pKfcPed = this->field_4_ped;
+            if (pKfcPed->field_16C_car)
+            {
+                sub_5CBC40(pKfcPed);
+            }
+            else
+            {
+                pGroup->sub_4C9680(idx);
+                Ped* pLeader = this->field_8_group->field_2C_ped_leader;
+                this->field_4_ped = pLeader;
+                pLeader->SetObjective(objectives_enum::no_obj_0, 9999);
+                const s32 occupation = pPedAtIdx->field_240_occupation;
+                pPedAtIdx->field_240_occupation = ped_ocupation_enum::dummy;
+                pPedAtIdx->Kill_46F9D0();
+                pPedAtIdx->field_240_occupation = occupation;
+                pPedAtIdx->SetObjective(objectives_enum::objective_28, 9999);
+            }
+            return 1;
+        }
+        idx++;
+        pPedAtIdx = pGroup->field_4_ped_list[idx];
+    }
     return 0;
 }
 
@@ -77,10 +111,97 @@ void Kfc_30::sub_5CC1C0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5cc480)
-char_type Kfc_30::Service_5CC480()
+MATCH_FUNC(0x5cc480)
+bool Kfc_30::Service_5CC480()
 {
-    NOT_IMPLEMENTED;
+    if (field_18 > 0)
+    {
+        this->field_18--;
+        return 0;
+    }
+
+    if (field_18 > -80)
+    {
+        this->field_18--;
+    }
+
+    switch (this->field_28)
+    {
+        case 5:
+            sub_5CC1C0();
+            return 0;
+
+        case 6:
+            sub_5CBD50();
+            return 0;
+
+        case 3:
+            // fall through to default below
+            break;
+
+        default:
+            return 0;
+    }
+
+    switch (this->field_20_maybe_type)
+    {
+        case 1:
+            if (gCar_6C_677930->CanAllocateOfType_446930(4))
+            {
+                this->field_0_car =
+                    gCar_6C_677930->sub_444CF0(car_model_enum::MEDICAR, this->field_C_x, this->field_10_y, this->field_14_z);
+            }
+            else
+            {
+                this->field_0_car = 0;
+            }
+
+            if (this->field_0_car)
+            {
+                this->field_2C = 1;
+                field_0_car->IncrementCarStats_443D70(4);
+            }
+            break;
+
+        case 3:
+            if (gCar_6C_677930->CanAllocateOfType_446930(6))
+            {
+                this->field_0_car = gCar_6C_677930->sub_444CF0(car_model_enum::COPCAR, this->field_C_x, this->field_10_y, this->field_14_z);
+            }
+            else
+            {
+                this->field_0_car = 0;
+            }
+            if (this->field_0_car)
+            {
+                this->field_2C = 1;
+                field_0_car->IncrementCarStats_443D70(6);
+            }
+            break;
+
+        case 5:
+            if (gCar_6C_677930->CanAllocateOfType_446930(6))
+            {
+                this->field_0_car =
+                    gCar_6C_677930->sub_444CF0(car_model_enum::SWATVAN, this->field_C_x, this->field_10_y, this->field_14_z);
+            }
+            else
+            {
+                this->field_0_car = 0;
+            }
+
+            if (this->field_0_car)
+            {
+                this->field_2C = 1;
+                field_0_car->IncrementCarStats_443D70(6);
+            }
+            break;
+
+        default:
+            this->field_0_car = 0;
+            break;
+    }
+
     return 0;
 }
 

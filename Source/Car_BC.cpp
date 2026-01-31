@@ -863,7 +863,7 @@ bool Car_6C::CanAlloc_446870(s32 type)
 }
 
 WIP_FUNC(0x446930)
-u32 Car_6C::CanAllocateOfType_446930(s32 type)
+bool Car_6C::CanAllocateOfType_446930(s32 type)
 {
     WIP_IMPLEMENTED;
 
