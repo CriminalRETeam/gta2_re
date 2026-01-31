@@ -197,6 +197,7 @@ struct gmp_map_slope
 
 enum gmp_gradient_slope_direction // direction: low to high
 {
+    NO_GRADIENT_SLOPE_0 = 0,
     NORTH_1 = 1,
     SOUTH_2 = 2,
     WEST_3 = 3,

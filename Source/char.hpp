@@ -210,7 +210,7 @@ class Char_B4
     EXPORT void sub_5459C0();
     EXPORT void DrownPed_5459E0();
     EXPORT void UpdateAnimState_546360();
-    EXPORT void sub_548590();
+    EXPORT void ManageZCoordAndSlopes_548590();
     EXPORT void sub_548670(char_type a2);
     EXPORT void sub_548840(Object_2C* a2);
     EXPORT void sub_548BD0(Char_B4* a2);
