@@ -63,7 +63,7 @@ Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
 
         //current = *Fix16::Max_44E540(&v15, &xpos, &ypos);
 
-        Fix16 current = current.Max_44E540(xd, yd);
+        Fix16 current = Fix16::Max_44E540(xd, yd);
 
         if (current < smallest)
         {
