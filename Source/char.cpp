@@ -69,7 +69,6 @@ DEFINE_GLOBAL(Ang16, k_dword_6FD892, 0x6FD892); // TODO: Has non trivial init
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8DC, Fix16(0x666, 0), 0x6FD8DC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8E4, Fix16(0x2000, 0), 0x6FD8E4);
 
-
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
 DEFINE_GLOBAL(u8, byte_6FDB51, 0x6FDB51);
@@ -3063,35 +3062,32 @@ bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
     return 0;
 }
 
-// https://decomp.me/scratch/UYcej
-STUB_FUNC(0x5537F0)
+MATCH_FUNC(0x5537F0)
 char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
 {
-    NOT_IMPLEMENTED;
-
-    const s32 l_18 = p2c->field_18_model;
-    if (l_18 == 128 || l_18 == 138 || l_18 == 10 && !byte_6FDB59)
+    const u8 idx = p2c->get_field_26_420FF0();
+    const s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(idx);
+    if (p2c->field_18_model == 128 || p2c->field_18_model == 138 || p2c->field_18_model == 10 && !byte_6FDB59)
     {
-        gObject_5C_6F8F84->CreateExplosion_52A3D0(field_80_sprite_ptr->GetXPos(),
-                                                  field_80_sprite_ptr->GetYPos(),
-                                                  field_80_sprite_ptr->GetZPos(),
+        gObject_5C_6F8F84->CreateExplosion_52A3D0(field_80_sprite_ptr->field_14_xy.x,
+                                                  field_80_sprite_ptr->field_14_xy.y,
+                                                  field_80_sprite_ptr->field_1C_zpos,
                                                   word_6FDB34,
                                                   18,
-                                                  gVarrok_7F8_703398->field_0[p2c->field_26_varrok_idx].field_0_ped_id);
+                                                  pedId);
         if (p2c->field_18_model == 10)
         {
             byte_6FDB59 = 1;
         }
     }
 
-    Ped* pPed = field_7C_pPed;
-    if (p2c->field_26_varrok_idx == pPed->field_267_varrok_idx)
+    if (p2c->get_field_26_420FF0() != field_7C_pPed->get_varrok_idx_420B50())
     {
-        return 0;
+        return field_7C_pPed->HandlePedHitByObject_45D000(p2c);
     }
     else
     {
-        return pPed->HandlePedHitByObject_45D000(p2c);
+        return 0;
     }
 }
 
