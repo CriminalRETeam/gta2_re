@@ -1560,7 +1560,7 @@
         "v105_address": "0x43aa60"
     },
     {
-        "name": "Car_BC::sub_43AAF0",
+        "name": "Car_BC::CanCarCollideWithSprite_43AAF0",
         "v96f_address": null,
         "v105_address": "0x43aaf0"
     },
@@ -1650,7 +1650,7 @@
         "v105_address": "0x43b770"
     },
     {
-        "name": "Car_BC::sub_43B7B0",
+        "name": "Car_BC::AssignDriverBlameForExplosion_43B7B0",
         "v96f_address": null,
         "v105_address": "0x43b7b0"
     },
@@ -13460,7 +13460,7 @@
         "v105_address": "0x578860"
     },
     {
-        "name": "PublicTransport_181C::sub_5793E0",
+        "name": "PublicTransport_181C::InitStationsLinkedList_5793E0",
         "v96f_address": null,
         "v105_address": "0x5793e0"
     },

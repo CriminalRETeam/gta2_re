@@ -292,7 +292,7 @@ char_type Sprite::CollisionCheck_59E590(Sprite* pOther)
 }
 
 STUB_FUNC(0x59E680)
-char_type Sprite::sub_59E680(s32 a2, s16* a3)
+char_type Sprite::sub_59E680(Fix16 a2, Sprite* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -359,7 +359,7 @@ char_type Sprite::sub_59E850(Sprite* pSprite)
         case 5:
             return field_8_object_2C_ptr->sub_525370(pSprite);
         case 2:
-            return field_8_car_bc_ptr->sub_43AAF0(pSprite);
+            return field_8_car_bc_ptr->CanCarCollideWithSprite_43AAF0(pSprite);
         case 3:
             return field_8_char_b4_ptr->sub_553340(pSprite);
         default:

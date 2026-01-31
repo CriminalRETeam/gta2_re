@@ -7,6 +7,7 @@
 #include "debug.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
+#include "Object_5C.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -29,6 +30,9 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE210, Fix16(1), 0x6FE210);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE1C0, k_dword_6FE210, 0x6FE1C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDFE4, Fix16(0x1333, 0), 0x6FDFE4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0A8, dword_6FDFE4, 0x6FE0A8);
+
+DEFINE_GLOBAL(Fix16, k_dword_6FDF34, 0x6FDF34);
+DEFINE_GLOBAL(Fix16, dword_6FE2E0, 0x6FE2E0);
 
 DEFINE_GLOBAL(Fix16_Point, g_cm1_6FDF10, 0x6FDF10);
 DEFINE_GLOBAL(Fix16, g_cp3_6FDF08, 0x6FDF08);
@@ -55,11 +59,23 @@ DEFINE_GLOBAL(Fix16, k_dword_6FE1B8, 0x6FE1B8);
 DEFINE_GLOBAL(Fix16_Point, stru_6FDF50, 0x6FDF50);
 DEFINE_GLOBAL(Fix16, dword_6FE0B0, 0x6FE0B0);
 
-STUB_FUNC(0x559E90)
+MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_70 > kFP16Zero_6FE20C)
+    {
+        Fix16 cp3 = field_6C_cp3;
+        cp3 += k_dword_6FE210;
+        if (cp3 > k_dword_6FDF34)
+        {
+            cp3 = k_dword_6FDF34;
+        }
+        return cp3;
+    }
+    else
+    {
+        return field_6C_cp3;
+    }
 }
 
 MATCH_FUNC(0x40B560)
@@ -232,11 +248,19 @@ void CarPhysics_B0::sub_559DD0()
     }
 }
 
-STUB_FUNC(0x559e20)
-u32 CarPhysics_B0::sub_559E20(Object_2C* a2)
+MATCH_FUNC(0x559e20)
+void CarPhysics_B0::sub_559E20(Object_2C* pObj)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s8 v1;
+    s8 v2;
+    sub_529050(pObj->field_26_varrok_idx, &v1, &v2);
+    stru_6FDF50.x += dword_6FE2E0 * v1;
+    stru_6FDF50.y += dword_6FE2E0 * v2;
+    u32 rng = rng_dword_67AB34->field_0_rng + 15;
+    if (rng > this->field_8_total_damage_q)
+    {
+        this->field_8_total_damage_q = rng;
+    }
 }
 
 STUB_FUNC(0x559ec0)

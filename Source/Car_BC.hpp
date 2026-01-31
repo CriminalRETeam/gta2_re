@@ -32,6 +32,8 @@ class Player;
 
 EXTERN_GLOBAL(Fix16, dword_6777D0);
 
+EXPORT Ang16 __stdcall sub_4F7940(s32* a2);
+
 // TODO: Move
 class Car_78
 {
@@ -391,7 +393,7 @@ class Car_BC
     EXPORT void sub_43A9F0();
     EXPORT void Deactivate_43AA60();
     EXPORT char_type IsThreatToSearchingPed_43AAE0();
-    EXPORT char_type sub_43AAF0(Sprite* a2);
+    EXPORT char_type CanCarCollideWithSprite_43AAF0(Sprite* a2);
     EXPORT void ProcessCarToCarImpact_43ADC0(Sprite* a2);
     EXPORT bool CanExitCar_43AF10();
     EXPORT void sub_43AF40();
@@ -409,7 +411,7 @@ class Car_BC
     EXPORT char_type sub_43B730();
     EXPORT char_type sub_43B750();
     EXPORT void sub_43B770();
-    EXPORT void sub_43B7B0(Car_BC* a2);
+    EXPORT void AssignDriverBlameForExplosion_43B7B0(Car_BC* a2);
     EXPORT bool sub_43B850(s32 a2);
     EXPORT void sub_43B870(s32 a2, Fix16_Point* a3);
     EXPORT s32 sub_43BB90(u8 a1);

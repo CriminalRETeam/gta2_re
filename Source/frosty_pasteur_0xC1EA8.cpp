@@ -546,7 +546,7 @@ void frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
 }
 
 MATCH_FUNC(0x5129f0)
-u8 frosty_pasteur_0xC1EA8::sub_5129F0(s32 a2, s32 a3)
+bool frosty_pasteur_0xC1EA8::sub_5129F0(s32 a2, s32 a3)
 {
     thread_C* pThrdHeader = frosty_pasteur_0xC1EA8::sub_512980(a2, a3);
     if (pThrdHeader)

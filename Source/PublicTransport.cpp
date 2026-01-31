@@ -373,7 +373,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
 }
 
 MATCH_FUNC(0x5793e0)
-void PublicTransport_181C::sub_5793E0()
+void PublicTransport_181C::InitStationsLinkedList_5793E0()
 {
     if (!bSkip_trains_67D550)
     {
