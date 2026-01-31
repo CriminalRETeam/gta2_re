@@ -1,6 +1,7 @@
 #include "char.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
+#include "Door_4D4.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
 #include "Globals.hpp"
@@ -70,6 +71,7 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8DC, Fix16(0x666, 0), 0x6FD8DC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8E4, Fix16(0x2000, 0), 0x6FD8E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDB28, k_dword_6FD8E4, 0x6FDB28);
 
+DEFINE_GLOBAL(Fix16, k_dword_6FDA9C, 0x6FDA9C);
 
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
@@ -89,6 +91,12 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FD8A2, Ang16(360), 0x6FD8A2);
 DEFINE_GLOBAL_INIT(Ang16, word_6FD940, Ang16(64), 0x6FD940);
 DEFINE_GLOBAL_INIT(Ang16, word_6FD8F8, Ang16(1376), 0x6FD8F8);
 DEFINE_GLOBAL_INIT(Ang16, word_6FD94C, Ang16(1080), 0x6FD94C);
+
+DEFINE_GLOBAL(Ang16, word_6FD8E8, 0x6FD8E8);
+DEFINE_GLOBAL(Ang16, word_6FDB3C, 0x6FDB3C);
+DEFINE_GLOBAL(Ang16, word_6FDA64, 0x6FDA64);
+DEFINE_GLOBAL(Ang16, word_6FD904, 0x6FD904);
+
 
 EXTERN_GLOBAL(Ang16, word_6FDB34);
 EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
@@ -1740,11 +1748,60 @@ char_type Char_B4::sub_54B8F0()
     return 0;
 }
 
-STUB_FUNC(0x54c090)
-s32 Char_B4::sub_54C090()
+WIP_FUNC(0x54c090)
+void Char_B4::sub_54C090()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    s32 AngleFace_4F78F0 = Ang16::GetAngleFace_4F78F0(field_40_rotation);
+    if (!sub_54C1A0(AngleFace_4F78F0))
+    {
+        switch (AngleFace_4F78F0)
+        {
+            case 1:
+                AngleFace_4F78F0 = field_40_rotation > word_6FD8E8;
+                break;
+            case 2:
+                AngleFace_4F78F0 = field_40_rotation > word_6FDB3C;
+                break;
+            case 3:
+                AngleFace_4F78F0 = field_40_rotation > word_6FDA64;
+                break;
+            case 4:
+                AngleFace_4F78F0 = field_40_rotation > word_6FD904;
+                break;
+            default:
+                //v3 = v7;
+                break;
+        }
+
+        switch (AngleFace_4F78F0)
+        {
+            case 1:
+                AngleFace_4F78F0 = AngleFace_4F78F0 + 3;
+                break;
+            case 2:
+                AngleFace_4F78F0 = AngleFace_4F78F0 - 4;
+                break;
+            case 3:
+                AngleFace_4F78F0 = AngleFace_4F78F0 - 2;
+                break;
+            case 4:
+                AngleFace_4F78F0 = AngleFace_4F78F0 + 1;
+                break;
+            default:
+                AngleFace_4F78F0 = 2;
+                break;
+        }
+    }
+
+    field_40_rotation = sub_4F7940(&AngleFace_4F78F0);
+
+    if (field_10_char_state != 15)
+    {
+        this->field_10_char_state = 1;
+    }
+    this->field_46 = 100;
 }
 
 WIP_FUNC(0x54c1a0)
@@ -3078,7 +3135,7 @@ bool Char_B4::sub_553340(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5535B0)
-char_type Char_B4::sub_5535B0(Object_2C* p2c)
+bool Char_B4::sub_5535B0(Object_2C* p2c)
 {
     Ped* pPed = field_7C_pPed;
     if (pPed->field_15C_player)
@@ -3091,42 +3148,94 @@ char_type Char_B4::sub_5535B0(Object_2C* p2c)
     }
 }
 
-STUB_FUNC(0x553640)
+WIP_FUNC(0x529050)
+EXPORT void __stdcall sub_529050(u8 a1, s8* a2, s8* a3)
+{
+    WIP_IMPLEMENTED;
+    *a2 = (a1 >> 4) - 7;
+    *a3 = (a1 & 0xF) - 7;
+}
+
+MATCH_FUNC(0x553640)
 bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
 {
-    NOT_IMPLEMENTED;
+    s8 v6;
+    s8 v7;
+
+    if (p2c->check_is_shop_421060())
+    {
+        return field_7C_pPed->HandlePickupCollision_45DE80(p2c);
+    }
+
+    switch (p2c->field_18_model)
+    {
+        case 266:
+            return field_7C_pPed->HandlePickupCollision_45DE80(p2c);
+
+        case 257:
+        case 258:
+            if (field_8_ped_state_1 != ped_state_1::dead_9 && field_8_ped_state_1 != ped_state_1::immobilized_8)
+            {
+                field_7C_pPed->sub_45CF20(p2c);
+            }
+            break;
+
+        case 161:
+            gCar_214_705F20->sub_5C8780(p2c->field_27, this->field_80_sprite_ptr);
+            break;
+
+        case 164:
+        case 177:
+        case 179:
+        case 181:
+            return sub_5535B0(p2c);
+
+        case 167:
+            gDoor_4D4_67BD2C->sub_49D370(field_7C_pPed, p2c->field_26_varrok_idx);
+            break;
+
+        case 141:
+            field_7C_pPed->Kill_46F9D0();
+            break;
+
+        case 139:
+            sub_529050(p2c->field_26_varrok_idx, &v6, &v7); // TODO: Ang8 or something ???
+            this->field_4C = k_dword_6FDA9C * v6;
+            this->field_50 = k_dword_6FDA9C * v7;
+            break;
+
+        default:
+            break;
+    }
     return 0;
 }
 
-// https://decomp.me/scratch/UYcej
-STUB_FUNC(0x5537F0)
+MATCH_FUNC(0x5537F0)
 char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
 {
-    NOT_IMPLEMENTED;
-
-    const s32 l_18 = p2c->field_18_model;
-    if (l_18 == 128 || l_18 == 138 || l_18 == 10 && !byte_6FDB59)
+    const u8 idx = p2c->get_field_26_420FF0();
+    const s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(idx);
+    if (p2c->field_18_model == 128 || p2c->field_18_model == 138 || p2c->field_18_model == 10 && !byte_6FDB59)
     {
-        gObject_5C_6F8F84->CreateExplosion_52A3D0(field_80_sprite_ptr->GetXPos(),
-                                                  field_80_sprite_ptr->GetYPos(),
-                                                  field_80_sprite_ptr->GetZPos(),
+        gObject_5C_6F8F84->CreateExplosion_52A3D0(field_80_sprite_ptr->field_14_xy.x,
+                                                  field_80_sprite_ptr->field_14_xy.y,
+                                                  field_80_sprite_ptr->field_1C_zpos,
                                                   word_6FDB34,
                                                   18,
-                                                  gVarrok_7F8_703398->field_0[p2c->field_26_varrok_idx].field_0_ped_id);
+                                                  pedId);
         if (p2c->field_18_model == 10)
         {
             byte_6FDB59 = 1;
         }
     }
 
-    Ped* pPed = field_7C_pPed;
-    if (p2c->field_26_varrok_idx == pPed->field_267_varrok_idx)
+    if (p2c->get_field_26_420FF0() != field_7C_pPed->get_varrok_idx_420B50())
     {
-        return 0;
+        return field_7C_pPed->HandlePedHitByObject_45D000(p2c);
     }
     else
     {
-        return pPed->HandlePedHitByObject_45D000(p2c);
+        return 0;
     }
 }
 

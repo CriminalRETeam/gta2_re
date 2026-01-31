@@ -107,7 +107,7 @@ class Sprite
     EXPORT bool sub_59E390(s32 a2, s32 a3, s32 a4);
     EXPORT s32 sub_59E4C0(Fix16 a2, s32 a3);
     EXPORT char_type CollisionCheck_59E590(Sprite* a2);
-    EXPORT char_type sub_59E680(s32 a2, s16* a3);
+    EXPORT char_type sub_59E680(Fix16 a2, Sprite* a3);
     EXPORT void ResetZCollisionAndDebugBoxes_59E7B0();
     EXPORT Sprite* sub_59E7D0(s32 a2);
     EXPORT char_type IsThreatToSearchingPed_59E830();

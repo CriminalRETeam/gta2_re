@@ -20,6 +20,8 @@ EXTERN_GLOBAL(Fix16, dword_6FD7FC);
 EXTERN_GLOBAL(Ang16, word_6FD940);
 EXTERN_GLOBAL(Ang16, word_6FD8F8);
 
+EXPORT void __stdcall sub_529050(u8 a1, s8* a2, s8* a3);
+
 class Char_B4
 {
   public:
@@ -216,7 +218,7 @@ class Char_B4
     EXPORT void sub_548BD0(Char_B4* a2);
     EXPORT void sub_54A530(Car_BC* a2, Car_BC* a3, s32 a4);
     EXPORT char_type sub_54B8F0();
-    EXPORT s32 sub_54C090();
+    EXPORT void sub_54C090();
     EXPORT char_type sub_54C1A0(s32 a2);
     EXPORT char_type sub_54C3E0();
     EXPORT char_type sub_54C500(char_type a2, char_type a3);
@@ -248,7 +250,7 @@ class Char_B4
     EXPORT bool sub_5532C0();
     EXPORT char_type IsThreatToSearchingPed_553330();
     EXPORT bool sub_553340(Sprite* pSprite);
-    EXPORT char_type sub_5535B0(Object_2C* p2c);
+    EXPORT bool sub_5535B0(Object_2C* p2c);
     EXPORT bool OnObjectTouched_553640(Object_2C* p2c);
     EXPORT char_type HandlePedObjectHit_5537F0(Object_2C* p2c);
     EXPORT void sub_5538A0(Car_BC* pCar, s32 a3, s32 a4, s32 a5);
