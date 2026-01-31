@@ -1,5 +1,5 @@
-#include "Function.hpp"
 #include "ang16.hpp"
+#include "Function.hpp"
 #include <cmath>
 
 // TODO: init these angles
@@ -7,6 +7,15 @@ DEFINE_GLOBAL(Ang16, dword_6F677C, 0x6F677C);
 DEFINE_GLOBAL(Ang16, word_6F680C, 0x6F680C);
 DEFINE_GLOBAL(Ang16, dword_6F6800, 0x6F6800);
 DEFINE_GLOBAL(Ang16, word_6F67DC, 0x6F67DC);
+
+EXTERN_GLOBAL(Ang16, word_669156);
+
+WIP_FUNC(0x405C60)
+bool __stdcall Ang16::IsAngleAhead_405C60(Ang16* a1, Ang16* a2);
+{
+    WIP_IMPLEMENTED;
+    return a2->field_0 - a1->field_0 <= word_669156;
+}
 
 WIP_FUNC(0x405640)
 void Ang16::SnapToAng4_405640()

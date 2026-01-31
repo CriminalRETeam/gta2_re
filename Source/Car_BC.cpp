@@ -129,6 +129,9 @@ DEFINE_GLOBAL(Fix16, k_dword_677918, 0x677918);
 DEFINE_GLOBAL(Fix16, dword_677920, 0x677920);
 
 DEFINE_GLOBAL(Fix16, k_dword_6778C8, 0x6778C8);
+DEFINE_GLOBAL(Ang16, word_677910, 0x677910);
+
+
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -3051,7 +3054,7 @@ void Car_BC::sub_4406E0(Ped* pPed)
     {
         sub_4446E0();
     }
-    
+
     f_88 = this->field_88;
     if (f_88 == 2 || f_88 == 4 || f_88 == 3)
     {
@@ -3162,10 +3165,48 @@ void Car_BC::PutTV_Antenna_440BB0()
     field_50_car_sprite->DispatchCollisionEvent_5A3100(pNewObj->field_4, gFix16_6777CC, dword_6778A0, GetRadioTowerAngle_442520());
 }
 
-STUB_FUNC(0x440c10)
-char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 a2)
+WIP_FUNC(0x440c10)
+char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    s32 info_idx; // eax
+    Sprite_18* pFound; // esi
+    Ang16 tmpAng; // di
+    Ang16 f10_nrm; // cx
+    Ang16 ang; // [esp+Ch] [ebp-4h] BYREF
+
+    info_idx = this->field_84_car_info_idx;
+    pFound = 0;
+    ang = 0;
+    switch (info_idx)
+    {
+        case car_model_enum::FIRETRUK:
+            pFound = field_0_qq.GetSpriteForModel_5A6A50(114);
+            tmpAng = word_677326 + pFound->field_0->field_0;
+            ang = tmpAng;
+            break;
+        case car_model_enum::TANK:
+            pFound = field_0_qq.GetSpriteForModel_5A6A50(148);
+            ang = pFound->field_0->field_0;
+            break;
+        case car_model_enum::GUNJEEP:
+            pFound = field_0_qq.GetSpriteForModel_5A6A50(248);
+            ang = pFound->field_0->field_0;
+            break;
+    }
+
+    if (ComputeShortestAngleDelta_4056C0(ang, targetAngle) <= word_677910)
+    {
+        return 1;
+    }
+
+    if (!Ang16::IsAngleAhead_405C60(&ang, &targetAngle))
+    {
+        pFound->field_10 -= word_677910;
+        return 0;
+    }
+
+    pFound->field_10 += word_677910;
     return 0;
 }
 
