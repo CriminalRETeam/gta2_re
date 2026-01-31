@@ -59,11 +59,56 @@ bool Kfc_30::sub_5CBC60()
     return true;
 }
 
-STUB_FUNC(0x5cbc90)
+WIP_FUNC(0x5cbc90)
 char_type Kfc_30::sub_5CBC90()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    PedGroup* pGroup; // ecx
+    Ped* pPedAtIdx; // esi
+    Ped* pKfcPed; // eax
+    Ped* pLeader; // ecx
+    s32 occupation; // edi
+    u8 idx; // [esp+8h] [ebp-4h]
+
+    pGroup = this->field_8_group;
+    if (!pGroup)
+    {
+        return 0;
+    }
+
+    pPedAtIdx = pGroup->field_4_ped_list[0];
+    idx = 0;
+    if (!pPedAtIdx)
+    {
+        return 0;
+    }
+    while (pPedAtIdx->field_278_ped_state_1 == ped_state_1::dead_9 || pPedAtIdx->field_16C_car)
+    {
+        pPedAtIdx = pGroup->field_4_ped_list[++idx];
+        if (!pPedAtIdx)
+        {
+            return 0;
+        }
+    }
+    pKfcPed = this->field_4_ped;
+    if (!pKfcPed->field_16C_car)
+    {
+        pGroup->sub_4C9680(idx);
+        pLeader = this->field_8_group->field_2C_ped_leader;
+        this->field_4_ped = pLeader;
+        pLeader->SetObjective(objectives_enum::no_obj_0, 9999);
+        occupation = pPedAtIdx->field_240_occupation;
+        pPedAtIdx->field_240_occupation = ped_ocupation_enum::dummy;
+        pPedAtIdx->Kill_46F9D0();
+        pPedAtIdx->field_240_occupation = occupation;
+        pPedAtIdx->SetObjective(objectives_enum::objective_28, 9999);
+    }
+    else
+    {
+        sub_5CBC40(pKfcPed);
+    }
+    return 1;
 }
 
 STUB_FUNC(0x5cbd50)
