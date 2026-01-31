@@ -1050,11 +1050,13 @@ char_type Sprite::sub_5A21F0()
 WIP_FUNC(0x5A22B0)
 Fix16 Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther)
 {
-   WIP_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
-    Fix16 xd_box_fp = Fix16::Abs(pOther->field_14_xy.y - field_14_xy.y);
-    Fix16 xd_abs_fp = Fix16::Abs(pOther->field_14_xy.x - field_14_xy.x);    
-    Fix16 xy_pos_max = Fix16::Max_44E540(xd_abs_fp, xd_box_fp);
+    Fix16 yd = pOther->field_14_xy.y - field_14_xy.y;
+    Fix16 xd = pOther->field_14_xy.x - field_14_xy.x;
+    Fix16 yd_abs = Fix16::Abs(yd);
+    Fix16 xd_abs = Fix16::Abs(xd);
+    Fix16 xy_pos_max = Fix16::Max_44E540(yd_abs, xd_abs);
 
     s32 box_idx = 0;
     s32 k4Counter = 4;
@@ -1062,9 +1064,11 @@ Fix16 Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther)
     {
         Sprite_4C* p4C = pOther->field_C_sprite_4c_ptr;
 
-        Fix16 x_abs = Fix16::Abs(p4C->field_C_renderingRect[box_idx].x - field_14_xy.x);
-        Fix16 y_abs = Fix16::Abs(p4C->field_C_renderingRect[box_idx].y - field_14_xy.y);
-        Fix16 v14 = Fix16::Max_44E540(x_abs, y_abs);
+        Fix16 yd2 = p4C->field_C_renderingRect[box_idx].y - field_14_xy.y;
+        Fix16 xd2 = p4C->field_C_renderingRect[box_idx].x - field_14_xy.x;
+        Fix16 yd_abs2 = Fix16::Abs(yd2);
+        Fix16 xd_abs2 = Fix16::Abs(xd2);
+        Fix16 v14 = Fix16::Max_44E540(yd_abs2, xd_abs2);
         if (v14 < xy_pos_max)
         {
             xy_pos_max = v14;
