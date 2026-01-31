@@ -311,8 +311,7 @@ void Car_78::sub_4537D0()
 
     if ((this->field_0->field_A6 & 2) != 2 && (this->field_0->field_A6 & 1) != 1)
     {
-        s16 k2 = 2;
-        if (stru_6F6784.get_int_4F7AE0(&k2) <= 0)
+        if (stru_6F6784.get_int_4F7AE0(2) <= 0)
         {
             field_0->field_A6 |= 1;
         }
@@ -487,8 +486,7 @@ Car_2::Car_2()
 
         for (u16 j = 0; j < 1000; j++)
         {
-            s16 tmp = 1000;
-            u16 idx = stru_6F6784.get_int_4F7AE0(&tmp);
+            u16 idx = stru_6F6784.get_int_4F7AE0(1000);
             s16 next = gRngRemapTable_679320[j];
             gRngRemapTable_679320[j] = gRngRemapTable_679320[idx];
             gRngRemapTable_679320[idx] = next;
@@ -4702,8 +4700,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
         this->field_9 = 1;
         this->field_A = 1;
 
-        u8 tmp = 5;
-        u8 rng_int = stru_6F6784.get_uint8_4F7B70((u8*)&tmp);
+        u8 rng_int = stru_6F6784.get_uint8_4F7B70(5);
 
         bool maybe_vel = field_0_cam->sub_435A20() > dword_6FF580;
 
@@ -4838,28 +4835,24 @@ Fix16* __stdcall Car_14::sub_583750(Fix16* pRetF16, Fix16 max_speed, u8* pOut)
         *pOut = 2;
     }
 
-    u8 rng_tmp;
     if (max_speed >= dword_6FF85C)
     {
         *pOut = 2;
-        rng_tmp = 100; // As byte
-        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&rng_tmp)) / Fix16(1638400, 0);
+        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
         *pRetF16 = dword_6FF85C + ((v7 * (dword_6FF70C - dword_6FF85C)));
         return pRetF16;
     }
     else if (max_speed >= dword_6FF724)
     {
         *pOut = 1;
-        rng_tmp = 100; // As byte
-        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&rng_tmp)) / Fix16(1638400, 0);
+        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
         *pRetF16 = dword_6FF724 + ((v7 * (dword_6FF85C - dword_6FF724)));
         return pRetF16;
     }
     else
     {
         *pOut = 0;
-        rng_tmp = 100; // As byte
-        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70((u8*)&rng_tmp)) / Fix16(0x190000, 0);
+        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70(100)) / Fix16(0x190000, 0);
         *pRetF16 = dword_6FF6A4 + ((v7 * (dword_6FF724 - dword_6FF6A4)));
         return pRetF16;
     }

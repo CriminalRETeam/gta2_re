@@ -505,7 +505,7 @@ char_type Sprite::has_shadows_59EAE0()
 }
 
 STUB_FUNC(0x59eb30)
-void Sprite::sub_59EB30(f32& a2, f32& a3)
+void Sprite::ShowId_59EB30(f32& a2, f32& a3)
 {
     NOT_IMPLEMENTED;
 }
@@ -712,7 +712,7 @@ void Sprite::Draw_59EFF0()
         }
     }
 
-    Sprite::sub_59EB30(gTileVerts_7036D0[1].x, gTileVerts_7036D0[1].y);
+    Sprite::ShowId_59EB30(gTileVerts_7036D0[1].x, gTileVerts_7036D0[1].y);
     Sprite::ShowHorn_59EE40(gTileVerts_7036D0[3].x, gTileVerts_7036D0[3].y);
 }
 

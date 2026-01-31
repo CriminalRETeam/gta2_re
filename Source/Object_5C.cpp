@@ -311,8 +311,7 @@ void Object_2C::sub_522640(Fix16_Point* a2)
 
     if (field_8->field_4C == 3 && field_10_obj_3c->field_34 == 2)
     {
-        s16 maxVal = 9;
-        const s16 rng = stru_6F6784.get_int_4F7AE0(&maxVal);
+        const s16 rng = stru_6F6784.get_int_4F7AE0(9);
         if (rng < 6)
         {
             if (rng < 3)

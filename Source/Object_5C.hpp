@@ -1,11 +1,11 @@
 #pragma once
 
+#include "Fix16_Point.hpp"
 #include "Function.hpp"
 #include "Object_3C.hpp"
 #include "Phi_8CA8.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
-#include "Fix16_Point.hpp"
 
 class Object_2C;
 class Sprite;
@@ -72,7 +72,7 @@ class Object_2C
     EXPORT static s32 __stdcall sub_528E00(s32 a1); // TODO: Check if thiscall
     EXPORT char_type HandleObjectHitIfExplosive_528960(Object_2C* pOther);
     EXPORT char_type HandleObjectHit_528990(Sprite* a2);
-    EXPORT void ProcessObjectExplosionImpact_528A20(Object_2C *pObj);
+    EXPORT void ProcessObjectExplosionImpact_528A20(Object_2C* pObj);
     EXPORT void HandleImpactNoSprite_528BA0();
     EXPORT void HandleImpact_528E50(Sprite* a3);
     EXPORT void HandleCollisionWithObject_529000(Object_2C* pObj);
@@ -101,11 +101,31 @@ class Object_2C
     EXPORT void sub_525B20();
     EXPORT void UpdateLight_527A30();
     EXPORT void sub_525100();
-    
+
     inline bool check_is_busy_shop()
     {
         s32 v1 = field_8->field_34_behavior_type;
         return v1 == object_behavior_type::behavior_10;
+    }
+
+    bool is_not_type6_to_12_421080()
+    {
+        s32 type = this->field_8->field_34_behavior_type;
+        return type != object_behavior_type::behavior_6 && type != object_behavior_type::behavior_7 &&
+            type != object_behavior_type::behavior_8 && type != object_behavior_type::behavior_9 &&
+            type != object_behavior_type::behavior_10 && type != object_behavior_type::behavior_1 &&
+            type != object_behavior_type::behavior_12;
+    }
+
+    // Sucky names but better than just "sub" for now
+    bool is_not_type6_to_12_and_idx_matches_4973E0(u8 a2)
+    {
+        return is_not_type6_to_12_421080() && field_26_varrok_idx == a2;
+    }
+
+    bool is_region_bucket_3_4210B0()
+    {
+        return field_8->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3;
     }
 
     // Inlined on version 9.6f 0x447e90
@@ -127,10 +147,10 @@ class Object_2C
 
     bool check_is_shop_421060()
     {
-        return field_8->field_34_behavior_type == object_behavior_type::behavior_6 || 
-               field_8->field_34_behavior_type == object_behavior_type::behavior_7 || 
-               field_8->field_34_behavior_type == object_behavior_type::behavior_8 || 
-               field_8->field_34_behavior_type == object_behavior_type::behavior_9;
+        return field_8->field_34_behavior_type == object_behavior_type::behavior_6 ||
+            field_8->field_34_behavior_type == object_behavior_type::behavior_7 ||
+            field_8->field_34_behavior_type == object_behavior_type::behavior_8 ||
+            field_8->field_34_behavior_type == object_behavior_type::behavior_9;
     }
 
     inline void PoolAllocate()

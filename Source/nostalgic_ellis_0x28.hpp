@@ -42,7 +42,7 @@ class nostalgic_ellis_0x28
                 field_17_off_time = field_15_off_time;
                 if (field_16_shape)
                 {
-                    field_17_off_time += stru_6F6784.get_uint8_4F7B70(&field_16_shape);
+                    field_17_off_time += stru_6F6784.get_uint8_4F7B70(field_16_shape);
                 }
             }
             else
@@ -53,7 +53,7 @@ class nostalgic_ellis_0x28
                 field_17_off_time = field_14_on_time;
                 if (field_16_shape)
                 {
-                    field_17_off_time += stru_6F6784.get_uint8_4F7B70(&field_16_shape);
+                    field_17_off_time += stru_6F6784.get_uint8_4F7B70(field_16_shape);
                 }
             }
         }

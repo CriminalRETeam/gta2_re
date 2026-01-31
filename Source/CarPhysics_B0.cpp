@@ -151,16 +151,13 @@ void CarPhysics_B0::SpinOutOnOil_559BA0()
     {
         if (field_A0 != 1 && field_A0 != 2)
         {
-            s32 rndMax = 2;
-            if (stru_6F6784.get_int_4F7AE0((s16*)&rndMax))
+            if (stru_6F6784.get_int_4F7AE0(2))
             {
-                rndMax = 1;
-                set_field_A0_559B90(rndMax);
+                set_field_A0_559B90(1);
             }
             else
             {
-                rndMax = 2;
-                set_field_A0_559B90(rndMax);
+                set_field_A0_559B90(2);
             }
         }
         this->field_A4 = 30;
