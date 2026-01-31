@@ -65,10 +65,11 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FDAC8, k_dword_6FD868 * 6, 0x6FDAC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD99C, k_dword_6FD868 / dword_6FD9F4, 0x6FD99C);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7B8, k_dword_6FD868, 0x6FD7B8);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7CC, k_dword_6FD9F0* k_dword_6FD868, 0x6FD7CC);
-DEFINE_GLOBAL(Ang16, k_dword_6FD892, 0x6FD892); // TODO: Has non trivial init
+DEFINE_GLOBAL_INIT(Ang16, k_dword_6FD892, Ang16(48), 0x6FD892);
 
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8DC, Fix16(0x666, 0), 0x6FD8DC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8E4, Fix16(0x2000, 0), 0x6FD8E4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDB28, k_dword_6FD8E4, 0x6FDB28);
 
 DEFINE_GLOBAL(Fix16, k_dword_6FDA9C, 0x6FDA9C);
 
@@ -890,7 +891,7 @@ void Char_B4::UpdateAnimState_546360()
                         dword_6FD7FC -= v109;
                         dword_6FD7FC = SnapZTo16_4F79B0(dword_6FD7FC);
                     LABEL_226:
-                        Char_B4::sub_548590();
+                        Char_B4::ManageZCoordAndSlopes_548590();
                     }
 
                 LABEL_227:
@@ -939,7 +940,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         dword_6FD7FC -= v102;
                         dword_6FD7FC = SnapZTo16_4F79B0(dword_6FD7FC);
-                        Char_B4::sub_548590();
+                        Char_B4::ManageZCoordAndSlopes_548590();
                     }
 
                     if (field_80_sprite_ptr->field_1C_zpos < field_8C)
@@ -1139,12 +1140,12 @@ void Char_B4::UpdateAnimState_546360()
                             (pBlock->field_B_slope_type & 3) != 0)
                         {
                             byte_6FDB54 = 1;
-                            Char_B4::sub_548590();
+                            Char_B4::ManageZCoordAndSlopes_548590();
                         }
                         else
                         {
                             byte_6FDB54 = 0;
-                            Char_B4::sub_548590();
+                            Char_B4::ManageZCoordAndSlopes_548590();
                         }
                     }
                     return;
@@ -1188,7 +1189,7 @@ void Char_B4::UpdateAnimState_546360()
                 }
             }
             byte_6FDB54 = bUnknown_1;
-            Char_B4::sub_548590();
+            Char_B4::ManageZCoordAndSlopes_548590();
             if (field_70_frame_timer > 2u)
             {
                 field_70_frame_timer = 0;
@@ -1585,10 +1586,44 @@ void Char_B4::UpdateAnimState_546360()
     }
 }
 
-STUB_FUNC(0x548590)
-void Char_B4::sub_548590()
+MATCH_FUNC(0x548590)
+void Char_B4::ManageZCoordAndSlopes_548590()
 {
-    NOT_IMPLEMENTED;
+    Fix16 zpos = k_dword_6FD9E4;
+    zpos = field_80_sprite_ptr->field_1C_zpos;
+
+    if (byte_6FDB54 == 1)
+    {
+        zpos -= Fix16(1);
+    }
+    u8 gradient_direction =
+        gMap_0x370_6F6268->UpdateZFromSlopeAtCoord_4E5BF0(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y, zpos);
+
+    if (gradient_direction == NO_GRADIENT_SLOPE_0)
+    {
+        if (field_45)
+        {
+            Fix16 frac = zpos.GetFracValue();
+            zpos = zpos.GetRoundValue();
+
+            if (frac > dword_6FDB28)
+            {
+                zpos += Fix16(1);
+            }
+        }
+        else
+        {
+            field_58_flags_bf.b0 = false;
+            zpos = Fix16(zpos.ToUInt8());
+        }
+        field_45 = 0;
+    }
+    else
+    {
+        field_45 = gradient_direction;
+        field_58_flags_bf.b0 = true;
+    }
+    field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y, zpos);
 }
 
 // 9.6f 0x499F00
@@ -2605,7 +2640,7 @@ LABEL_152:
             }
         }
         byte_6FDB54 = v74;
-        Char_B4::sub_548590();
+        Char_B4::ManageZCoordAndSlopes_548590();
     }
 
     Char_B4::sub_548670(byte_6FDB56);
@@ -2632,7 +2667,7 @@ LABEL_152:
                         byte_6FDB54 = gMap_0x370_6F6268->sub_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                     field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                     (field_80_sprite_ptr->field_1C_zpos - k_dword_6FD9E8).ToInt());
-                        Char_B4::sub_548590();
+                        Char_B4::ManageZCoordAndSlopes_548590();
                     }
                     else
                     {
