@@ -42,15 +42,15 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD7A4, Fix16(0x1000, 0), 0x6FD7A4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7B0, k_dword_6FD9E4, 0x6FD7B0);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7C0, k_dword_6FD9E4, 0x6FD7C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7DC, k_dword_6FD9E4, 0x6FD7DC);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD868, Fix16(256, 0), 0x6FD868);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD868, Fix16(256, 0), 0x6FD868);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9B4, Fix16(0x2000, 0), 0x6FD9B4);
-DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, dword_6FD9F4* dword_6FD868, 0x6FD7D0);
+DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, dword_6FD9F4* k_dword_6FD868, 0x6FD7D0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B4, k_dword_6FD9E4, 0x6FD8B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B8, k_dword_6FD9E4, 0x6FD8B8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8BC, k_dword_6FD9E4, 0x6FD8BC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8D8, Fix16(0xCCC, 0), 0x6FD8D8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD870, dword_6FD868 * 2, 0x6FD870);
-DEFINE_GLOBAL_INIT(Fix16, gCollisionRepulsionSpeed_6FD7BC, dword_6FD870, 0x6FD7BC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD870, k_dword_6FD868 * 2, 0x6FD870);
+DEFINE_GLOBAL_INIT(Fix16, k_CollisionRepulsionSpeed_6FD7BC, dword_6FD870, 0x6FD7BC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9B0, Fix16(0x333, 0), 0x6FD9B0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDAE4, dword_6FD9B0, 0x6FDAE4);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9EC, Fix16(2), 0x6FD9EC);
@@ -60,8 +60,15 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9F0, Fix16(3), 0x6FD9F0);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9F8, Fix16(5), 0x6FD9F8);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD9FC, Fix16(6), 0x6FD9FC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FDA00, Fix16(7), 0x6FDA00);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDAC8, dword_6FD868 * 6, 0x6FDAC8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD99C, dword_6FD868 / dword_6FD9F4, 0x6FD99C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDAC8, k_dword_6FD868 * 6, 0x6FDAC8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD99C, k_dword_6FD868 / dword_6FD9F4, 0x6FD99C);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7B8, k_dword_6FD868, 0x6FD7B8);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7CC, k_dword_6FD9F0* k_dword_6FD868, 0x6FD7CC);
+DEFINE_GLOBAL(Ang16, k_dword_6FD892, 0x6FD892); // TODO: Has non trivial init
+
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8DC, Fix16(0x666, 0), 0x6FD8DC);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8E4, Fix16(0x2000, 0), 0x6FD8E4);
+
 
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
@@ -1705,11 +1712,128 @@ s32 Char_B4::sub_54C090()
     return 0;
 }
 
-STUB_FUNC(0x54c1a0)
+WIP_FUNC(0x54c1a0)
 char_type Char_B4::sub_54C1A0(s32 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Sprite* pSprite; // eax
+    Fix16 x_fp; // ebp
+    Fix16 y_fp; // edi
+    s32 y; // edi
+    s32 x; // ebp
+    gmp_block_info* pBlock1; // eax
+    gmp_block_info* pBlock3; // eax
+    gmp_block_info* block2; // eax
+    gmp_block_info* pBlock4; // eax
+    Fix16 zpos_frac; // ecx
+    char_type result; // al
+    char bUnknown; // [esp+12h] [ebp-Eh]
+    u8 v16; // [esp+13h] [ebp-Dh] BYREF
+    s32 tmpZ; // [esp+18h] [ebp-8h]
+    Fix16 zpos; // [esp+1Ch] [ebp-4h]
+
+    u8 slope_type = 0;
+    pSprite = this->field_80_sprite_ptr;
+    bUnknown = 0;
+    x_fp = pSprite->field_14_xy.x;
+    y_fp = pSprite->field_14_xy.y;
+    zpos = pSprite->field_1C_zpos;
+    tmpZ = (zpos.ToInt()) - 1;
+    if (this->field_10_char_state == 15 || this->field_8_ped_state_1 == ped_state_1::dead_9 || field_7C_pPed->IsField238_45EDE0(2) ||
+        this->field_7C_pPed->field_240_occupation == ped_ocupation_enum::drone)
+    {
+        bUnknown = 1;
+    }
+    if ((this->field_58_flags & 1) == 1)
+    {
+        tmpZ = zpos.ToInt();
+    }
+    y = y_fp.ToInt();
+    x = x_fp.ToInt();
+    if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(x, y, zpos.ToInt(), a2, &v16, 0))
+    {
+        return 0;
+    }
+    switch (a2)
+    {
+        case 1:
+            pBlock1 = gMap_0x370_6F6268->get_block_4DFE10(x, y - 1, tmpZ);
+            if (!pBlock1)
+            {
+                goto LABEL_18;
+            }
+            slope_type = pBlock1->field_B_slope_type & 3;
+            break;
+        case 2:
+            block2 = gMap_0x370_6F6268->get_block_4DFE10(x, y + 1, tmpZ);
+            if (!block2)
+            {
+                goto LABEL_18;
+            }
+            slope_type = block2->field_B_slope_type & 3;
+            break;
+        case 3:
+            pBlock3 = gMap_0x370_6F6268->get_block_4DFE10(x + 1, y, tmpZ);
+            if (!pBlock3)
+            {
+                goto LABEL_18;
+            }
+            slope_type = pBlock3->field_B_slope_type & 3;
+            break;
+        case 4:
+            pBlock4 = gMap_0x370_6F6268->get_block_4DFE10(x - 1, y, tmpZ);
+            if (pBlock4)
+            {
+                slope_type = pBlock4->field_B_slope_type & 3;
+            }
+            else
+            {
+            LABEL_18:
+                slope_type = 0;
+            }
+            break;
+        default:
+            break;
+    }
+
+    switch (slope_type)
+    {
+        case 0:
+            if ((this->field_58_flags & 1) != 1)
+            {
+                return 0;
+            }
+            zpos_frac = zpos.GetFracValue();
+            if (zpos_frac < k_dword_6FD8DC)
+            {
+                this->field_58_flags &= ~1;
+                result = sub_54C1A0(a2);
+                this->field_58_flags |= 1u;
+                return result;
+            }
+
+            if (zpos_frac <= k_dword_6FD8E4)
+            {
+                return 0;
+            }
+
+            this->field_58_flags &= ~1;
+            this->field_80_sprite_ptr->field_1C_zpos += Fix16(1);
+            result = sub_54C1A0(a2);
+            this->field_80_sprite_ptr->field_1C_zpos -= Fix16(1);
+            this->field_58_flags |= 1u;
+            break;
+        case 1:
+        case 3:
+            return bUnknown != 0;
+        case 2:
+        case 4:
+            return 1;
+        default:
+            return 0;
+    }
+    return result;
 }
 
 STUB_FUNC(0x54c3e0)
@@ -1811,17 +1935,119 @@ void Char_B4::sub_54C580()
 }
 
 STUB_FUNC(0x54c6c0)
-s16 Char_B4::sub_54C6C0(s32 a2)
+void Char_B4::sub_54C6C0()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
-STUB_FUNC(0x54c900)
-s16 Char_B4::sub_54C900()
+STUB_FUNC(0x4056C0)
+EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3)
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return a2 - a3; // TODO: Buncha other math missing
+}
+
+MATCH_FUNC(0x54c900)
+void Char_B4::sub_54C900()
+{
+    switch (this->field_10_char_state)
+    {
+        case 1:
+            sub_54C6C0();
+            this->field_38_velocity = k_dword_6FD7B8;
+            byte_6FDB51 = 1;
+            byte_6FDB52 = 1;
+            byte_6FDB53 = 0;
+            break;
+
+        case 3:
+            if (this->field_46)
+            {
+                this->field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
+                sub_54C6C0();
+            }
+            else
+            {
+                this->field_38_velocity = k_dword_6FD7B8;
+                this->field_10_char_state = 1;
+                this->field_6C_animation_state = 0;
+            }
+            byte_6FDB53 = 0;
+            byte_6FDB51 = 1;
+            byte_6FDB52 = 1;
+            break;
+
+        case 4:
+            if (this->field_46)
+            {
+                this->field_38_velocity = k_dword_6FD7CC;
+                sub_54C6C0();
+            }
+            else
+            {
+                this->field_38_velocity = k_dword_6FD7B8;
+                this->field_10_char_state = 1;
+                this->field_6C_animation_state = 0;
+            }
+            byte_6FDB53 = 0;
+            byte_6FDB51 = 1;
+            byte_6FDB52 = 1;
+            break;
+
+        case 7:
+            if (this->field_46)
+            {
+                this->field_38_velocity = k_dword_6FD7C0;
+                this->field_6C_animation_state = 2;
+                this->field_68_animation_frame = 0;
+            }
+            else
+            {
+                this->field_6C_animation_state = 0;
+                this->field_68_animation_frame = 0;
+                this->field_10_char_state = 1;
+                this->field_38_velocity = k_dword_6FD7B8;
+            }
+            byte_6FDB53 = 0;
+            byte_6FDB51 = 1;
+            byte_6FDB52 = 1;
+            break;
+
+        case 8:
+        case 9:
+            if (!this->field_46)
+            {
+                this->field_46 = 100;
+                field_40_rotation.SnapToAng4_405640();
+                this->field_10_char_state = 1;
+                this->field_6C_animation_state = 0;
+            }
+            byte_6FDB52 = 0;
+            byte_6FDB53 = 0;
+            byte_6FDB51 = 1;
+            break;
+
+        case 25:
+            sub_54CAE0();
+            if (ComputeShortestAngleDelta_4056C0(this->field_40_rotation, this->field_14) < k_dword_6FD892)
+            {
+                this->field_38_velocity = k_dword_6FD7B8;
+                this->field_10_char_state = 1;
+                this->field_6C_animation_state = 0;
+                this->field_46 = 0;
+            }
+            byte_6FDB51 = 0;
+            byte_6FDB52 = 0;
+            byte_6FDB53 = 0;
+            break;
+
+        case 36:
+            this->field_10_char_state = 1;
+            break;
+
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x54cae0)
@@ -1860,7 +2086,7 @@ void Char_B4::sub_54DD70()
         {
             if (field_38_velocity != k_dword_6FD7C0)
             {
-                this->field_6C_animation_state = field_38_velocity > gCollisionRepulsionSpeed_6FD7BC;
+                this->field_6C_animation_state = field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC;
             }
             else
             {
@@ -2136,7 +2362,7 @@ void Char_B4::state_0_54DDF0()
                         this->field_40_rotation = this->field_74;
 
                         v87 = 0;
-                        this->field_38_velocity = gCollisionRepulsionSpeed_6FD7BC;
+                        this->field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
                     }
                     else
                     {
@@ -2152,7 +2378,7 @@ void Char_B4::state_0_54DDF0()
 
         if (this->field_7C_pPed->field_21C_bf.b8 != 0) // line 69a
         {
-            this->field_38_velocity = gCollisionRepulsionSpeed_6FD7BC;
+            this->field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
         }
     }
     else
@@ -2173,7 +2399,7 @@ void Char_B4::state_0_54DDF0()
                 v95 = field_40_rotation;
                 this->field_40_rotation = this->field_74;
                 v89 = 0;
-                this->field_38_velocity = gCollisionRepulsionSpeed_6FD7BC;
+                this->field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
                 v87 = 0;
             }
             if (this->field_38_velocity < k_dword_6FD7C0)
@@ -2446,7 +2672,7 @@ void Char_B4::state_3_551A00()
         Char_B4::state_1_5504F0();
         if (!field_7C_pPed->GetBit11_433CA0() && field_10_char_state != 15)
         {
-            if (field_38_velocity > gCollisionRepulsionSpeed_6FD7BC)
+            if (field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC)
             {
                 field_6C_animation_state = 1;
             }

@@ -848,7 +848,7 @@ char_type Map_0x370::sub_4E0120()
 }
 
 STUB_FUNC(0x4E0130)
-char_type Map_0x370::sub_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7)
+char_type Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7)
 {
     NOT_IMPLEMENTED;
     return 0;
