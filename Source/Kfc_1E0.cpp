@@ -59,56 +59,44 @@ bool Kfc_30::sub_5CBC60()
     return true;
 }
 
-WIP_FUNC(0x5cbc90)
+MATCH_FUNC(0x5cbc90)
 char_type Kfc_30::sub_5CBC90()
 {
-    WIP_IMPLEMENTED;
-
-    PedGroup* pGroup; // ecx
-    Ped* pPedAtIdx; // esi
-    Ped* pKfcPed; // eax
-    Ped* pLeader; // ecx
-    s32 occupation; // edi
-    u8 idx; // [esp+8h] [ebp-4h]
-
-    pGroup = this->field_8_group;
+    PedGroup* pGroup = this->field_8_group;
     if (!pGroup)
     {
         return 0;
     }
 
-    pPedAtIdx = pGroup->field_4_ped_list[0];
-    idx = 0;
-    if (!pPedAtIdx)
+    u8 idx = 0;
+    Ped* pPedAtIdx = pGroup->field_4_ped_list[idx];
+    while (pPedAtIdx)
     {
-        return 0;
-    }
-    while (pPedAtIdx->field_278_ped_state_1 == ped_state_1::dead_9 || pPedAtIdx->field_16C_car)
-    {
-        pPedAtIdx = pGroup->field_4_ped_list[++idx];
-        if (!pPedAtIdx)
+        if (pPedAtIdx->field_278_ped_state_1 != ped_state_1::dead_9 && !pPedAtIdx->field_16C_car)
         {
-            return 0;
+            Ped* pKfcPed = this->field_4_ped;
+            if (pKfcPed->field_16C_car)
+            {
+                sub_5CBC40(pKfcPed);
+            }
+            else
+            {
+                pGroup->sub_4C9680(idx);
+                Ped* pLeader = this->field_8_group->field_2C_ped_leader;
+                this->field_4_ped = pLeader;
+                pLeader->SetObjective(objectives_enum::no_obj_0, 9999);
+                const s32 occupation = pPedAtIdx->field_240_occupation;
+                pPedAtIdx->field_240_occupation = ped_ocupation_enum::dummy;
+                pPedAtIdx->Kill_46F9D0();
+                pPedAtIdx->field_240_occupation = occupation;
+                pPedAtIdx->SetObjective(objectives_enum::objective_28, 9999);
+            }
+            return 1;
         }
+        idx++;
+        pPedAtIdx = pGroup->field_4_ped_list[idx];
     }
-    pKfcPed = this->field_4_ped;
-    if (!pKfcPed->field_16C_car)
-    {
-        pGroup->sub_4C9680(idx);
-        pLeader = this->field_8_group->field_2C_ped_leader;
-        this->field_4_ped = pLeader;
-        pLeader->SetObjective(objectives_enum::no_obj_0, 9999);
-        occupation = pPedAtIdx->field_240_occupation;
-        pPedAtIdx->field_240_occupation = ped_ocupation_enum::dummy;
-        pPedAtIdx->Kill_46F9D0();
-        pPedAtIdx->field_240_occupation = occupation;
-        pPedAtIdx->SetObjective(objectives_enum::objective_28, 9999);
-    }
-    else
-    {
-        sub_5CBC40(pKfcPed);
-    }
-    return 1;
+    return 0;
 }
 
 STUB_FUNC(0x5cbd50)
