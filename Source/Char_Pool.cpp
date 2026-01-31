@@ -627,7 +627,7 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
                                 gMap_0x370_6F6268->get_block_4DFE10((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1);
                             if (!pBlock || (slope_type = pBlock->field_B_slope_type & 0xFC, slope_type < 0xB4) || slope_type > 0xD0)
                             {
-                                SpawnPedestrianAt_46E380(xpos, ypos, (zpos + 1) << 14, rotation);
+                                SpawnPedestrianAt_46E380(xpos, ypos, zpos + 1, rotation);
                             }
                         }
                     }
