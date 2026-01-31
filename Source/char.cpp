@@ -1818,10 +1818,9 @@ s16 Char_B4::sub_54C6C0(s32 a2)
 }
 
 STUB_FUNC(0x54c900)
-s16 Char_B4::sub_54C900()
+void Char_B4::sub_54C900()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x54cae0)
