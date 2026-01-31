@@ -2730,10 +2730,111 @@ bool Car_BC::IsBeingCrushed_43DD50()
     return gCrusherPool_94_67A830->IsCarBeingCrushed_4887A0(this);
 }
 
-STUB_FUNC(0x43dd60)
+WIP_FUNC(0x43dd60)
 void Car_BC::sub_43DD60()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    bool bUnknown; // bl
+    Ped* field_54_driver; // eax
+    s32 exploder_ped_id; // eax
+    Ped* pExploderPed; // eax
+    Ped* pPed; // edi
+    u8 gang_idx; // al
+    Gang_144* pGang; // eax
+    s32 f58; // eax
+    Sprite* pSprite; // ecx
+    s32 f88; // eax
+
+    bUnknown = 0;
+
+    sub_43DBD0();
+    field_50_car_sprite->sub_59E320(1);
+    field_0_qq.sub_5A6BD0();
+
+    if (sub_43DC80(2, 2))
+    {
+        field_54_driver = this->field_54_driver;
+        if (field_54_driver)
+        {
+            bUnknown = field_54_driver->field_240_occupation == ped_ocupation_enum::unknown_2;
+        }
+        exploder_ped_id = this->field_70_exploder_ped_id;
+        if (exploder_ped_id)
+        {
+            pExploderPed = gPedManager_6787BC->PedById(exploder_ped_id);
+            pPed = pExploderPed;
+            if (pExploderPed)
+            {
+                if (pExploderPed->IsField238_45EDE0(2))
+                {
+                    if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this) &&
+                        gPublicTransport_181C_6FF1D4->field_17C0_bus.field_56_passenger_count >= 10)
+                    {
+                        pPed->field_15C_player->field_2D4_scores.sub_593410(this);
+                    }
+                    else
+                    {
+                        pPed->field_15C_player->field_2D4_scores.sub_592DD0(this, pPed);
+                        if (bUnknown)
+                        {
+                            pPed->field_15C_player->field_2D4_scores.sub_593220();
+                        }
+                    }
+                    gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
+                    if (gang_idx != -1)
+                    {
+                        pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
+                        pGang->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1u);
+                    }
+                    if (pPed->field_15C_player)
+                    {
+                        if (gShooey_CC_67A4B8->sub_485090(this, pPed->field_15C_player))
+                        {
+                            if (pPed->field_20A_wanted_points >= 600)
+                            {
+                                pPed->add_wanted_points_470160(200);
+                            }
+                            else
+                            {
+                                pPed->field_20A_wanted_points = 600;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        f58 = gCar_6C_677930->field_58_model_to_check_destroy;
+        if (f58 != 87 && f58 == this->field_84_car_info_idx)
+        {
+            gCar_6C_677930->field_5C = 1;
+        }
+
+        sub_43B770();
+        sub_43DB80();
+
+        if (this->field_9C != 6)
+        {
+            this->field_9C = 5;
+        }
+        sub_43C1C0();
+        field_0_qq.sub_5A7010();
+
+        pSprite = this->field_50_car_sprite;
+        if (pSprite->field_1C_zpos != gFix16_6777CC)
+        {
+            pSprite->field_1C_zpos = gFix16_6777CC;
+            pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
+        }
+
+        f88 = this->field_88;
+        if (f88 != 5 && f88 != 2 && f88 != 3)
+        {
+            this->field_88 = 4;
+        }
+        DeAllocateCarPhysics_43BD00();
+    }
 }
 
 STUB_FUNC(0x43e560)
