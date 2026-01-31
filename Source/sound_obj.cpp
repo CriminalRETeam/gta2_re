@@ -40,7 +40,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_675220, dword_675400, 0x675220);
 DEFINE_GLOBAL_INIT(Fix16, dword_675418, Fix16(0x18000, 0), 0x675418);
 DEFINE_GLOBAL_INIT(Fix16, dword_6751F4, Fix16(0x640000, 0), 0x6751F4);
 
-
 // TODO: can't use 2d arrays here :Skull:
 //DEFINE_GLOBAL(char_type, byte_5FE434[8][44], 0x5FE434);
 char_type byte_5FE434[8][44];
@@ -939,11 +938,33 @@ void sound_obj::sub_41A6F0()
     }
 }
 
-STUB_FUNC(0x41A3F0)
+WIP_FUNC(0x41A3F0)
 char_type sound_obj::CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    
+    u8 v3;
+    if (a2 == dword_674CD8)
+    {
+        v3 = 0;
+    }
+    else
+    {
+        Fix16 v4 = (a2 - a3) / a2;
+        v3 = (Fix16(a1) * v4 * v4 + Fix16(0x2000, 0)).ToInt();
+        if (v3 <= 127)
+        {
+            if (v3 < 0)
+            {
+                v3 = 0;
+            }
+        }
+        else
+        {
+            v3 = 127;
+        }
+    }
+    return v3;
 }
 
 MATCH_FUNC(0x419070)
@@ -3587,8 +3608,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
                                     samp_idx = this->field_30_sQueueSample.field_14_samp_idx;
                                     this->field_30_sQueueSample.field_60_nEmittingVolume = v26;
                                     playback_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx);
-                                    base_rate =
-                                        playback_rate + RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+                                    base_rate = playback_rate + RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
                                     this->field_30_sQueueSample.field_58_type = 20;
                                     this->field_30_sQueueSample.field_20_rate = base_rate;
                                     if (pB4->field_68_animation_frame)
@@ -3724,7 +3744,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
                 max_dist = 10;
                 rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(193);
                 this->field_30_sQueueSample.field_20_rate = rate;
-                rate_ = rate +  ((dword_6751F4 * pType3Entity->field_0_pObj->field_1C_zpos) + Fix16(0x2000, 0)).ToInt();
+                rate_ = rate + ((dword_6751F4 * pType3Entity->field_0_pObj->field_1C_zpos) + Fix16(0x2000, 0)).ToInt();
                 samp_idx_ = 193;
                 this->field_30_sQueueSample.field_20_rate = rate_;
                 v19 = Fix16(409600, 0);
