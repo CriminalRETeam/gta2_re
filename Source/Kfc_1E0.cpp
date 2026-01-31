@@ -1,4 +1,5 @@
 #include "Kfc_1E0.hpp"
+#include "Car_BC.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 
@@ -77,10 +78,97 @@ void Kfc_30::sub_5CC1C0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5cc480)
-char_type Kfc_30::Service_5CC480()
+MATCH_FUNC(0x5cc480)
+bool Kfc_30::Service_5CC480()
 {
-    NOT_IMPLEMENTED;
+    if (field_18 > 0)
+    {
+        this->field_18--;
+        return 0;
+    }
+
+    if (field_18 > -80)
+    {
+        this->field_18--;
+    }
+
+    switch (this->field_28)
+    {
+        case 5:
+            sub_5CC1C0();
+            return 0;
+
+        case 6:
+            sub_5CBD50();
+            return 0;
+
+        case 3:
+            // fall through to default below
+            break;
+
+        default:
+            return 0;
+    }
+
+    switch (this->field_20_maybe_type)
+    {
+        case 1:
+            if (gCar_6C_677930->CanAllocateOfType_446930(4))
+            {
+                this->field_0_car =
+                    gCar_6C_677930->sub_444CF0(car_model_enum::MEDICAR, this->field_C_x, this->field_10_y, this->field_14_z);
+            }
+            else
+            {
+                this->field_0_car = 0;
+            }
+
+            if (this->field_0_car)
+            {
+                this->field_2C = 1;
+                field_0_car->IncrementCarStats_443D70(4);
+            }
+            break;
+
+        case 3:
+            if (gCar_6C_677930->CanAllocateOfType_446930(6))
+            {
+                this->field_0_car = gCar_6C_677930->sub_444CF0(car_model_enum::COPCAR, this->field_C_x, this->field_10_y, this->field_14_z);
+            }
+            else
+            {
+                this->field_0_car = 0;
+            }
+            if (this->field_0_car)
+            {
+                this->field_2C = 1;
+                field_0_car->IncrementCarStats_443D70(6);
+            }
+            break;
+
+        case 5:
+            if (gCar_6C_677930->CanAllocateOfType_446930(6))
+            {
+                this->field_0_car =
+                    gCar_6C_677930->sub_444CF0(car_model_enum::SWATVAN, this->field_C_x, this->field_10_y, this->field_14_z);
+            }
+            else
+            {
+                this->field_0_car = 0;
+            }
+
+            if (this->field_0_car)
+            {
+                this->field_2C = 1;
+                field_0_car->IncrementCarStats_443D70(6);
+            }
+            break;
+
+        default:
+            this->field_0_car = 0;
+            break;
+    }
+
     return 0;
 }
 
