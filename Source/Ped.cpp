@@ -1,4 +1,5 @@
 #include "Ped.hpp"
+#include "Ambulance_110.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
@@ -30,7 +31,6 @@
 #include "rng.hpp"
 #include "sprite.hpp"
 #include "youthful_einstein.hpp"
-#include "Ambulance_110.hpp"
 
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
@@ -2677,7 +2677,7 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
             case 28:
                 if (gAmbulance_110_6F70A8->TryAddPatient_4FA470(this))
                 {
-                   sub_463300(99u);
+                    sub_463300(99u);
                 }
                 else
                 {
@@ -2719,10 +2719,126 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
     }
 }
 
-STUB_FUNC(0x463830)
-void Ped::sub_463830(s32 a2, s16 a3)
+WIP_FUNC(0x463830)
+void Ped::sub_463830(s32 car_state, s16 a3)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s32 ped_state_2; // eax
+    Car_BC* target_to_enter; // ecx
+    Car_Door_10* pDoor; // eax
+    Char_B4* game_object; // eax
+    Car_Door_10* pDoor_; // edi
+    u8 tmp; // [esp+4h] [ebp-10h]
+    u8 x_int; // [esp+8h] [ebp-Ch] BYREF
+    u8 y_int; // [esp+Ch] [ebp-8h] BYREF
+    u8 z_int; // [esp+10h] [ebp-4h] BYREF
+
+    tmp = 99;
+    if (this->field_278_ped_state_1 != ped_state_1::dead_9)
+    {
+        ped_state_2 = this->field_27C_ped_state_2;
+        if (ped_state_2 == ped_state_2::ped2_entering_a_car_6 || ped_state_2 == ped_state_2::ped2_getting_out_a_car_7)
+        {
+            target_to_enter = this->field_154_target_to_enter;
+            if (target_to_enter)
+            {
+                pDoor = target_to_enter->GetDoor(this->field_24C_target_car_door);
+            }
+            else
+            {
+                game_object = this->field_168_game_object;
+                if (game_object)
+                {
+                    pDoor = game_object->field_84->GetDoor(this->field_24C_target_car_door);
+                }
+                else
+                {
+                    pDoor = this->field_16C_car->GetDoor(this->field_24C_target_car_door);
+                }
+            }
+            pDoor_ = pDoor;
+            pDoor->sub_439EA0();
+            pDoor_->field_8_pObj = 0;
+        }
+
+        this->field_21A_car_state_timer = a3;
+        this->field_25C_car_state = car_state;
+        this->field_1C4_x = Fix16(-16384, 0);
+        this->field_1C8_y = Fix16(-16384, 0);
+        this->field_1CC_z = Fix16(-16384, 0);
+        this->field_1D0 = k_dword_678660;
+        this->field_1D4 = k_dword_678660;
+        this->field_1D8 = k_dword_678660;
+        this->field_14C = 0;
+        this->field_154_target_to_enter = 0;
+        this->field_1A4 = 0;
+        this->field_226 = 0;
+        switch (car_state)
+        {
+            case 0:
+            case 22:
+            case 49:
+                tmp = 1;
+                Ped::sub_463300(tmp);
+                break;
+            case 1:
+            case 2:
+            case 3:
+                Ped::sub_463300(2u);
+                return;
+            case 7:
+            case 9:
+            case 11:
+            case 12:
+            case 18:
+            case 20:
+            case 23:
+            case 48:
+                Ped::sub_463300(3u);
+                return;
+            case 14:
+                Ped::sub_463300(5u);
+                return;
+            case 17:
+                x_int = this->field_1AC_cam.x.ToUInt8();
+                y_int = this->field_1AC_cam.y.ToUInt8();
+                z_int = this->field_1AC_cam.z.ToUInt8();
+                gMap_0x370_6F6268->sub_4E4930(&x_int, &y_int, &z_int, 2);
+                this->field_1D0 = k_dword_67853C + Fix16(x_int);
+                this->field_1D4 = k_dword_67853C + Fix16(y_int);
+                this->field_1D8 = k_dword_678664 + Fix16(z_int);
+                Ped::sub_463300(3u);
+                return;
+            case 26:
+            case 29:
+            case 30:
+            case 44:
+            case 45:
+            case 46:
+            case 47:
+                Ped::sub_463300(4u);
+                return;
+            case 35:
+                Ped::sub_463300(6u);
+                return;
+            case 36:
+                Ped::sub_463300(7u);
+                return;
+            case 37:
+                Ped::ChangeNextPedState1_45C500(5);
+                Ped::ChangeNextPedState2_45C540(5);
+                goto LABEL_21;
+            case 38:
+                Ped::ChangeNextPedState1_45C500(6);
+                Ped::ChangeNextPedState2_45C540(10);
+                goto LABEL_21;
+            default:
+            LABEL_21:
+                Ped::sub_463300(tmp);
+                break;
+        }
+    }
 }
 
 MATCH_FUNC(0x463aa0)
