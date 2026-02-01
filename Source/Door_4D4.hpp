@@ -15,7 +15,7 @@ class DoorData_10 // Contains only position, face and DoorInfo id
 {
   public:
     EXPORT void PoolAllocate();
-    EXPORT void sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6);
+    EXPORT void sub_49c340(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 a6);
     EXPORT void sub_49C4E0(u8 a1);
     EXPORT void sub_49C590(u8 a1);
     EXPORT static s32 __stdcall sub_4DEEB0(s32 v);
@@ -66,7 +66,7 @@ class DoorData_10_Pool
 class Door_4D4
 {
   public:
-    EXPORT DoorData_10* sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5, char_type a6);
+    EXPORT DoorData_10* sub_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type a6);
     EXPORT Door_38* RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed);
     EXPORT Door_38* RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed);
     EXPORT Door_38* RegisterSingleDoor_49D170(u8 gr_id,
@@ -97,7 +97,7 @@ class Door_4D4
     EXPORT void sub_49D340(Car_BC* a2, u8 a3);
     EXPORT void sub_49D370(Ped* a2, u8 idx);
     EXPORT Door_38* sub_49D3A0();
-    EXPORT char_type sub_49D3C0(s32 a2, u8 a3);
+    EXPORT char_type sub_49D3C0(Sprite* pSprite, u8 door_idx);
     EXPORT void DoorsService_49D460();
     EXPORT Door_4D4();
     EXPORT ~Door_4D4();
