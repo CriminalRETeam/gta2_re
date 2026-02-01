@@ -60,13 +60,21 @@ class Door_38
     EXPORT void sub_49C870(Car_BC* a2);
     EXPORT void sub_49C8A0(Ped* a2);
     EXPORT void sub_49C8D0(u8 arg0, u8 a1, u8 a2, u8 a3, u8 a4, s32 a5);
-    EXPORT void sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5);
+    EXPORT void sub_49CA50(u8 gr_id, char_type x, char_type y, char_type z, s32 face);
     EXPORT void sub_49CAC0(DoorData_10* a2, char_type a3, u8 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
     EXPORT void sub_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8);
     EXPORT void sub_49CD90();
     EXPORT char_type Service_49CE90();
     EXPORT void get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace);
     
+    /*
+    // TODO: Causes a circular dependency
+    inline bool sub_44C860()
+    {
+        return field_0_primary_door_data->field_0 == 2;
+    }
+    */
+
     // inlined in 0x476990
     inline void set_field_20(u32 v)
     {
@@ -74,20 +82,20 @@ class Door_38
     }
 
     // inlined in 0x476a10
-    void set_field_24(u32 v)
+    inline void set_field_24(u32 v)
     {
         field_24 = v;
     }
 
     // inlined in 0x476a20
-    void set_field_1c_1e(s16 v)
+    inline void set_field_1c_1e(s16 v)
     {
         field_1C = v;
         field_1E = v;
     }
 
     // inlined in 0x4769e0
-    void set_open_details_car_bc(u32 open, Car_BC* car_bc_ptr)
+    inline void set_open_details_car_bc(u32 open, Car_BC* car_bc_ptr)
     {
         field_20_state = open;
         field_10_car_bc = car_bc_ptr;
@@ -95,7 +103,7 @@ class Door_38
     }
 
     // inlined in 0x4769a0
-    void set_open_details_model_id(u32 open, s32 id)
+    inline void set_open_details_model_id(u32 open, s32 id)
     {
         field_20_state = open;
         field_10_model_id = id;
@@ -103,7 +111,7 @@ class Door_38
     }
 
     // inlined in 0x4769c0
-    void set_open_details_ped(u32 open, Ped* ped_ptr)
+    inline void set_open_details_ped(u32 open, Ped* ped_ptr)
     {
         field_20_state = open;
         field_10_ped = ped_ptr;
@@ -111,7 +119,7 @@ class Door_38
     }
 
     // inlined in 0x476a00
-    void set_field_14_id(s32 id)
+    inline void set_field_14_id(s32 id)
     {
         field_14 = id;
         field_2C = 1;
