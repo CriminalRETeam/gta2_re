@@ -329,11 +329,21 @@ PurpleDoom::~PurpleDoom()
     Empty_478A10();
 }
 
-STUB_FUNC(0x478160)
-u32 PurpleDoom::SearchTileColumnForClosestSprite_478160(u8 a2)
+MATCH_FUNC(0x478160)
+void PurpleDoom::SearchTileColumnForClosestSprite_478160(u8 height)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 y_pos = gPurpleDoom_start_y_679098;
+    if (gPurpleDoom_start_y_679098 < gPurpleDoom_start_y_679098 + (u32)height)
+    {
+        // Won't match without this redundant iter
+        PurpleDoom_C** pXItemIter = &this->field_0[gPurpleDoom_start_y_679098];
+        while (y_pos < gPurpleDoom_start_y_679098 + (u32)height)
+        {
+            CheckTileSpritesForClosestMatch_478060(sub_446820(gPurpleDoom_start_x_679090, y_pos));
+            ++y_pos;
+            ++pXItemIter;
+        }
+    }
 }
 
 MATCH_FUNC(0x478060)
