@@ -10,6 +10,10 @@
 
 DEFINE_GLOBAL(DoorData_10_Pool*, gDoor_10_Pool_67BD28, 0x67BD28);
 
+EXTERN_GLOBAL(Fix16, DAT_0067BBE4);
+EXTERN_GLOBAL(Fix16, DAT_0067BBE8);
+EXTERN_GLOBAL(Fix16, DAT_0067BA20);
+
 MATCH_FUNC(0x49cf10)
 DoorData_10* Door_4D4::sub_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type a6)
 {
@@ -29,13 +33,67 @@ Door_38* Door_4D4::RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, 
     return pDVar1;
 }
 
-STUB_FUNC(0x49cfa0)
+WIP_FUNC(0x49cfa0)
 Door_38* Door_4D4::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
 {
-    NOT_IMPLEMENTED;
-    // TODO: Standalone implement me
+    WIP_IMPLEMENTED;
 
-    return sub_49D3A0();
+    Door_38* pNewDoor; // eax
+    Door_38* pDoor; // ebx
+    u8 x_; // al
+    Fix16 v12; // ebp
+    Fix16 v13; // esi
+    Fix16 v14; // edi
+    char_type y_; // [esp+30h] [ebp+1Ch]
+    Fix16 tmp;
+
+    pNewDoor = sub_49D3A0();
+    ++this->field_4D0_count;
+    pDoor = pNewDoor;
+    pNewDoor->field_2B = reversed;
+    pNewDoor->field_2A = flip;
+    x_ = x;
+    y_ = y;
+    switch (face)
+    {
+        case 1:
+            v12 = DAT_0067BBE4;
+            y_ = y - 1;
+            tmp = DAT_0067BBE8;
+            v13 = Fix16(x) - DAT_0067BA20;
+            v14 = Fix16(y);
+            break;
+        case 2:
+            v12 = DAT_0067BBE4;
+            v13 = DAT_0067BA20 + Fix16(x + 1);
+            y_ = y + 1;
+            tmp = DAT_0067BBE8;
+            v14 = Fix16(y + 1);
+            break;
+        case 3:
+            v12 = DAT_0067BBE8;
+            ++x;
+            tmp = DAT_0067BBE4;
+            v13 = Fix16(x_ + 1);
+            v14 = Fix16(y) - DAT_0067BA20;
+            break;
+        case 4:
+            v12 = DAT_0067BBE8;
+            v13 = Fix16(x);
+            tmp = DAT_0067BBE4;
+            v14 = DAT_0067BA20 + Fix16(y + 1);
+            --x;
+            break;
+        default:
+            v13 = tmp;
+            v14 = tmp;
+            v12 = tmp;
+            break;
+    }
+    pDoor->sub_49CA50(gr_id, x_, y, z, face);
+    pDoor->sub_49CA50(gr_id, x, y_, z, face);
+    pDoor->sub_49CC00(pDoor->field_0_primary_door_data, 1, (u8)(this->field_4D0_count) - 1, v13, v14, Fix16(z), v12, tmp);
+    return pDoor;
 }
 
 MATCH_FUNC(0x49d170)
