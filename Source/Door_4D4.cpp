@@ -33,6 +33,7 @@ Door_38* Door_4D4::RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, 
     return pDVar1;
 }
 
+// 9.6f 0x44D6F0 ?
 WIP_FUNC(0x49cfa0)
 Door_38* Door_4D4::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
 {
@@ -316,23 +317,22 @@ void DoorData_10::sub_49c340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 a7)
 {
     WIP_IMPLEMENTED;
 
-    s16 v8; // bp
-    s32 field_8_face; // eax
     gmp_block_info blockData; // [esp+10h] [ebp-Ch] BYREF
 
     this->field_4_x = x;
-    this->field_8_face = face;
-    this->field_7_gr_id = id;
     this->field_5_y = y;
     this->field_6_z = z;
+
+    this->field_8_face = face;
+    this->field_7_gr_id = id;
     this->field_0 = 1;
 
     gGtx_0x106C_703DD4->SetTileRemap_5AA930(word_67BB38[id].field_4, word_67BB38[id].field_0_start_frame);
 
-    v8 = word_67BB38[id].field_4 | 0x1C00;
+    s32 v8 = word_67BB38[id].field_4 | 0x1C00;
     if (a7)
     {
-        v8 = word_67BB38[id].field_4 | 0x3C00;
+        v8 = word_67BB38[id].field_4 | 0x2C00;
     }
 
     if (gMap_0x370_6F6268->get_block_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
@@ -342,7 +342,6 @@ void DoorData_10::sub_49c340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 a7)
     }
     else
     {
-        field_8_face = this->field_8_face;
         // memset(&blockData, 0, sizeof(blockData));
 
         blockData.field_0_left = 0;
