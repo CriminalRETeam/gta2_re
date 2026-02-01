@@ -311,10 +311,64 @@ s32 DoorData_10::sub_4DEEB0(s32 v)
     }
 }
 
-STUB_FUNC(0x49c340)
-void DoorData_10::sub_49c340(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 a6)
+WIP_FUNC(0x49c340)
+void DoorData_10::sub_49c340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 a7)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s16 v8; // bp
+    s32 v9; // eax
+    s32 field_8_face; // eax
+    s16 field_4_tile_flags; // [esp-4h] [ebp-20h]
+    gmp_block_info blockData; // [esp+10h] [ebp-Ch] BYREF
+
+    this->field_4_x = x;
+    this->field_8_face = face;
+    this->field_7_gr_id = id;
+    this->field_5_y = y;
+    this->field_6_z = z;
+    this->field_0 = 1;
+
+    gGtx_0x106C_703DD4->SetTileRemap_5AA930(word_67BB38[id].field_4, word_67BB38[id].field_0_start_frame);
+    v8 = word_67BB38[id].field_4 | 0x1C00;
+    if (a7)
+    {
+        v8 = word_67BB38[id].field_4 | 0x3C00;
+    }
+    if (gMap_0x370_6F6268->get_block_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
+    {
+        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, this->field_8_face, v8);
+        field_4_tile_flags = word_67BB38[id].field_4;
+        v9 = sub_4DEEB0(this->field_8_face);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, v9, field_4_tile_flags);
+    }
+    else
+    {
+        field_8_face = this->field_8_face;
+        memset(&blockData, 0, sizeof(blockData));
+        switch (field_8_face)
+        {
+            case 1:
+                blockData.field_0_left = v8;
+                blockData.field_2_right = word_67BB38[id].field_4;
+                break;
+            case 2:
+                blockData.field_2_right = v8;
+                blockData.field_0_left = word_67BB38[id].field_4;
+                break;
+            case 3:
+                blockData.field_4_top = v8;
+                blockData.field_6_bottom = word_67BB38[id].field_4;
+                break;
+            case 4:
+                blockData.field_6_bottom = v8;
+                blockData.field_4_top = word_67BB38[id].field_4;
+                break;
+            default:
+                break;
+        }
+        gMap_0x370_6F6268->AddNewBlock_4E87C0(this->field_4_x, this->field_5_y, this->field_6_z, &blockData);
+    }
 }
 
 MATCH_FUNC(0x49c4e0)
