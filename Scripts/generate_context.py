@@ -16,6 +16,8 @@ MACROS = r"""
 #define DEFINE_GLOBAL(type, name, addr) type name
 #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) type name[size]
 
+#define DEFINE_GLOBAL_INIT(type, name, value, addr) type name
+
 #define EXTERN_GLOBAL(type, name) extern type name
 #define EXTERN_GLOBAL_ARRAY(type, name, size) extern type name[size]
 
