@@ -220,7 +220,7 @@ class Car_6C
     }
 
     EXPORT void sub_444980();
-    EXPORT u32 sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5);
+    EXPORT u32 sub_444AB0(Player* a2, gmp_zone_info* a3, Fix16 a4, u16* a5);
     EXPORT Car_BC* sub_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Car_BC* GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);

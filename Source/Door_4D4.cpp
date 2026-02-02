@@ -33,7 +33,7 @@ Door_38* Door_4D4::RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, 
     return pDVar1;
 }
 
-// 9.6f 0x44D6F0 ?
+// 9.6f 0x44D430 ?
 WIP_FUNC(0x49cfa0)
 Door_38* Door_4D4::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
 {

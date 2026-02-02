@@ -1039,7 +1039,7 @@ void CC ImGuiDebugDraw()
 
                     //pNewCar->field_9C = 3;
                     //pNewCar->sub_43BFE0();
-                    //pNewCar->field_5C->field_74 = dword_6FF570;
+                    //pNewCar->field_5C->field_74 = DAT_006FF570;
 
                     // prevents player entering when 4
                     //pNewCar->field_98 = 3;
