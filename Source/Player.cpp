@@ -183,10 +183,86 @@ void Player::sub_564790(s32 idx)
     EnableKFMode_56A010();
 }
 
-STUB_FUNC(0x5647D0)
+WIP_FUNC(0x5647D0)
 void Player::ClearKFWeapon_5647D0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s32 weapon_kind; // ecx
+    Car_BC* pCar; // eax
+    Weapon_30* pWeapon; // eax
+    Weapon_30_Pool* gWeaponRoot; // ebp
+    Weapon_30* pLast; // ebx
+    Weapon_30* pIter; // esi
+    Ped* pDriver; // eax
+
+    if (this->field_18 != -2)
+    {
+        weapon_kind = this->field_1C_weapon_kind;
+        // Not a car weapon
+        if (weapon_kind < weapon_type::car_bomb)
+        {
+            if (gCheatUnlimitedElectroGun_67D4F7 && weapon_kind == weapon_type::shocker || gCheatUnlimitedFlameThrower_67D6CC && weapon_kind == weapon_type::flamethrower)
+            {
+                this->field_18 = -2;
+                return;
+            }
+            DisableKFMode_56A020();
+            this->field_718_weapons[this->field_1C_weapon_kind]->field_0_ammo = this->field_1A_ammo;
+            this->field_788_curr_weapon_idx = this->field_18;
+        }
+        else
+        {
+            pCar = this->field_20_car;
+            if (pCar->field_6C_maybe_id == this->field_24)
+            {
+                pWeapon = gWeapon_8_707018->find_5E3D20(pCar, this->field_1C_weapon_kind);
+                pWeapon->field_0_ammo = this->field_1A_ammo;
+                if (!this->field_1A_ammo)
+                {
+                    gWeaponRoot = gWeapon_30_Pool_707014;
+                    pLast = 0;
+                    pIter = gWeapon_30_Pool_707014->field_0_pool.field_4_pPrev;
+                    if (pIter)
+                    {
+                        while (pIter != pWeapon)
+                        {
+                            pLast = pIter;
+                            pIter = pIter->mpNext;
+                            if (!pIter)
+                            {
+                                goto exit_loop;
+                            }
+                        }
+                        pIter->clear_5DCDE0(); // PoolDealloc?
+                        if (pLast)
+                        {
+                            pLast->mpNext = pIter->mpNext;
+                        }
+                        else
+                        {
+                            gWeaponRoot->field_0_pool.field_4_pPrev = pIter->mpNext;
+                        }
+                        pIter->mpNext = gWeaponRoot->field_0_pool.field_0_pStart;
+                        gWeaponRoot->field_0_pool.field_0_pStart = pIter;
+                    }
+                exit_loop:
+                    pDriver = this->field_20_car->field_54_driver;
+                    if (pDriver)
+                    {
+                        if (pDriver->field_15C_player == this)
+                        {
+                            this->field_718_weapons[this->field_1C_weapon_kind] = 0;
+                            this->field_788_curr_weapon_idx = this->field_18;
+                            this->field_18 = -2;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        this->field_18 = -2;
+    }
 }
 
 MATCH_FUNC(0x5648F0)
