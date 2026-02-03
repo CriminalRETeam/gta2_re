@@ -130,7 +130,7 @@ WIP_FUNC(0x564610)
 char_type Player::PromoteCarInHistory_564610(Car_BC* pCar, char_type bDontModify)
 {
     WIP_IMPLEMENTED;
-    
+
     Car_BC** ppCarIter; // eax
     char_type count; // cl
     Car_BC** pCarValue; // edx
@@ -2777,11 +2777,29 @@ void Player::EnableEnterVehicles_56A040()
     field_30_disable_enter_vehicles = 0;
 }
 
-STUB_FUNC(0x56A0F0)
-s32 Player::RestoreCarsFromSave_56A0F0()
+WIP_FUNC(0x56A0F0)
+void Player::RestoreCarsFromSave_56A0F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    
+    for (s32 i = 0; i < 3; i++)
+    {
+        if (gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0 > dword_6FE610 &&
+            gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0 > dword_6FE610)
+        {
+            Car_BC* pNewCar =
+                gCar_6C_677930->SpawnCarAt_446230(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0,
+                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0,
+                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_18_z[i].field_0,
+                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_24_ang[i], // rot
+                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_3C[i], // car_info_idx/model
+                                                  dword_6FE614);
+            sub_5645B0(pNewCar);
+            pNewCar->field_8_damaged_areas = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_30[i];
+            pNewCar->field_74_damage = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_2A[i];
+        }
+    }
+    memset(&gGameSave_6F78C8.field_E4_car_and_script_data.field_0, 0, 68u);
 }
 
 MATCH_FUNC(0x56A1A0)

@@ -188,7 +188,7 @@ class Player
     EXPORT void DisableKFMode_56A020();
     EXPORT void DisableEnterVehicles_56A030();
     EXPORT void EnableEnterVehicles_56A040();
-    EXPORT s32 RestoreCarsFromSave_56A0F0();
+    EXPORT void RestoreCarsFromSave_56A0F0();
     EXPORT void CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave);
     EXPORT void UpdateGameFromSave_56A310(save_stats_0x90* a2);
     EXPORT void ApplyCheats_56A490();
