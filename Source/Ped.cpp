@@ -6319,13 +6319,13 @@ void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
         Fix16 yd_abs = Fix16::Abs(yd);
         Fix16 xd_abs = Fix16::Abs(xd);
         Fix16 xd_yd_abs = Fix16::Max_44E540(xd_abs, yd_abs);
-        
+
         if (pObj == this->field_1A4)
         {
             pWeapon->field_4 = 0;
             return;
         }
-        
+
         if (xd_yd_abs < k_dword_678658)
         {
             pWeapon->field_4 = 1;
@@ -6340,10 +6340,37 @@ void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
     }
 }
 
-STUB_FUNC(0x46ff00)
+WIP_FUNC(0x46ff00)
 void Ped::NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Weapon_30* pWeapon; // edi
+
+    if ((this->field_21C & 0x2000) != 0)
+    {
+        pWeapon = this->field_174_pWeapon;
+    }
+    else
+    {
+        pWeapon = this->field_170_selected_weapon;
+    }
+
+    if (pWeapon)
+    {
+        if (IsField238_45EDE0(2))
+        {
+            field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(1u, model, 0);
+        }
+        else
+        {
+            Fix16 xd = xpos - field_1AC_cam.x;
+            Fix16 yd = ypos - field_1AC_cam.y;
+            Fix16 xabs = Fix16::Abs(xd);
+            Fix16 yabs = Fix16::Abs(yd);
+            pWeapon->field_4 = Fix16::Max_44E540(xabs, yabs) < k_dword_678658 ? 1 : 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x46fff0)
