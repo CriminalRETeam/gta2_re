@@ -522,6 +522,11 @@ class Ped
         return field_154_target_to_enter;
     }
 
+    inline void ClearBit11_403A40()
+    {
+        field_21C_bf.b11 = false;
+    }
+
     Marz_3 field_0_patrol_points[100];
     Ang16 field_12C;
     Ang16 field_12E;
