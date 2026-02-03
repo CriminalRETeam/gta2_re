@@ -2248,7 +2248,7 @@ void Player::Service_5687F0()
     this->field_89_bWasEnterExitPressed = bWasEnterExitPressed;
     this->field_81_bNowSpecial_1_Pressed = bNowSpecial_1_Pressed;
     this->field_84_bWasSpecial_1_Pressed = bWasSpecial_1_Pressed;
-    Player::sub_569C20();
+    Player::SetScoreTextColour_569C20();
 }
 
 MATCH_FUNC(0x569410)
@@ -2553,7 +2553,7 @@ void Player::sub_569A10()
 }
 
 MATCH_FUNC(0x569C20)
-void Player::sub_569C20()
+void Player::SetScoreTextColour_569C20()
 {
     if (bStartNetworkGame_7081F0 == false && gfrosty_pasteur_6F8060 != NULL)
     {
@@ -2563,6 +2563,7 @@ void Player::sub_569C20()
             if (score >= gfrosty_pasteur_6F8060->field_310_finish_score)
             {
                 field_60_bFinshScoreReached = 1;
+                // Red when map "beaten"
                 field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps, 6);
             }
         }
@@ -2782,7 +2783,7 @@ WIP_FUNC(0x56A0F0)
 void Player::RestoreCarsFromSave_56A0F0()
 {
     WIP_IMPLEMENTED;
-    
+
     for (s32 i = 0; i < 3; i++)
     {
         if (gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0 > dword_6FE610 &&
@@ -2995,25 +2996,30 @@ void Player::ApplyCheats_56A490()
     {
         field_6BC_multpliers.ChangeStatByAmount_4921B0(9);
     }
+
     if (gCheatOnlyMuggerPeds_67D5A4)
     {
         gPedManager_6787BC->field_7_make_all_muggers = true;
     }
+
     if (gCheatUnknown_67D4F6)
     {
-        Player::CollectPowerUp_564D60(4);
+        Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
     }
+
     if (gCheatInvisibility_67D539)
     {
-        Player::CollectPowerUp_564D60(11);
+        Player::CollectPowerUp_564D60(power_up_indices::Invisibility_11);
     }
+
     if (gCheatUnlimitedDoubleDamage_67D57C)
     {
-        Player::CollectPowerUp_564D60(7);
+        Player::CollectPowerUp_564D60(power_up_indices::DoubleDamage_7);
     }
+
     if (byte_67D56B)
     {
-        Player::CollectPowerUp_564D60(4);
+        Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
         Player::sub_564960(1, 50u);
         for (Gang_144* pIter2 = gGangPool_CA8_67E274->sub_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->sub_4BECE0())
         {

@@ -209,7 +209,7 @@ void force_link()
     lewin.get_pos_569920(0, 0, 0);
     lewin.ChangeLifeCountByAmount_5699F0(0);
     lewin.sub_569A10();
-    lewin.sub_569C20();
+    lewin.SetScoreTextColour_569C20();
     lewin.sub_569CB0();
     lewin.sub_569E70();
     lewin.GetDeathText_569F00();
