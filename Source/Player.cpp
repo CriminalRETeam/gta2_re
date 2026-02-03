@@ -133,11 +133,36 @@ char_type Player::PromoteCarInHistory_564610(Car_BC* pCar, char_type bDontModify
     return 'a';
 }
 
-STUB_FUNC(0x564680)
-u32* Player::sub_564680(Car_BC* a2)
+WIP_FUNC(0x564680)
+void Player::sub_564680(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Car_BC** pIter; // eax
+    u8 idx; // dl
+    Car_BC** pCurrent; // ecx
+
+    pIter = this->field_54_unk;
+    if (!bStartNetworkGame_7081F0)
+    {
+        idx = 0;
+        while (*pIter != pCar)
+        {
+            ++pIter;
+            if (++idx >= 2u)
+            {
+                pCurrent = &this->field_54_unk[idx];
+                if (*pCurrent == *pIter)
+                {
+                    *pCurrent = 0;
+                }
+                return;
+            }
+        }
+        *pIter = pIter[1];
+        memcpy(pIter, pIter + 1, 4 * (2 - idx));
+        pIter[2 - idx] = 0;
+    }
 }
 
 MATCH_FUNC(0x564710)
