@@ -5294,7 +5294,6 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
     Fix16 v19; // edi
     Fix16 nav_x; // ebp
     Fix16 nav_y; // ebx
-    Fix16_Rect* field_4_p18; // eax
     //Fix16_Rect* v28_pRect; // ecx
     gmp_zone_info* pZone; // eax
     u8 rng_val; // al

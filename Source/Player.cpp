@@ -1258,7 +1258,7 @@ void Player::DoCarControlInputs_566C30(Car_BC* pCar)
 }
 
 // https://decomp.me/scratch/mQMMn TODO: try to match without Ang16 operator=()
-MATCH_FUNC(0x566C80)
+WIP_FUNC(0x566C80)
 void Player::DoPedControlInputs_566C80(Ped* pPed)
 {
     Char_B4* pB4 = NULL;
