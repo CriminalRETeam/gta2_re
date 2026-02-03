@@ -12605,17 +12605,17 @@
         "v105_address": "0x564610"
     },
     {
-        "name": "Player::sub_564680",
+        "name": "Player::PushCarInfo_564680",
         "v96f_address": null,
         "v105_address": "0x564680"
     },
     {
-        "name": "Player::sub_564710",
+        "name": "Player::SetKFCarWeapon_564710",
         "v96f_address": null,
         "v105_address": "0x564710"
     },
     {
-        "name": "Player::sub_564790",
+        "name": "Player::SetKFWeapon_564790",
         "v96f_address": null,
         "v105_address": "0x564790"
     },
@@ -12660,7 +12660,7 @@
         "v105_address": "0x564b60"
     },
     {
-        "name": "Player::sub_564B80",
+        "name": "Player::CleanupEmptyAmmoWeapons_564B80",
         "v96f_address": null,
         "v105_address": "0x564b80"
     },
@@ -16845,7 +16845,7 @@
         "v105_address": "0x5dcd90"
     },
     {
-        "name": "Weapon_30::clear_5DCDE0",
+        "name": "Weapon_30::PoolDeallocate",
         "v96f_address": null,
         "v105_address": "0x5dcde0"
     },

@@ -20,7 +20,9 @@ struct save_stats_0x90;
 class Car_BC;
 class Gang_144;
 
-enum power_up_indices
+namespace power_up_indices
+{
+enum 
 {
     Unk_0 = 0,
     Unk_1 = 1,
@@ -34,12 +36,13 @@ enum power_up_indices
     Electrofingers_9 = 9,
     Unk_10 = 10,
     Invisibility_11 = 11,
-    Unk_12 = 12,
+    InstantGang_12 = 12,
     Unk_13 = 13,
     Unk_14 = 14,
     Unk_15 = 15,
     Unk_16 = 16,
 };
+}
 
 class Player
 {
@@ -120,9 +123,9 @@ class Player
     EXPORT u8 GetIdx_4881E0();
     EXPORT void sub_5645B0(Car_BC* a2);
     EXPORT char_type PromoteCarInHistory_564610(Car_BC* pCar, char_type bDontModify);
-    EXPORT u32* sub_564680(Car_BC* a2);
-    EXPORT void sub_564710(Car_BC* pCar, s32 weapon_kind);
-    EXPORT void sub_564790(s32 idx);
+    EXPORT void PushCarInfo_564680(Car_BC* a2);
+    EXPORT void SetKFCarWeapon_564710(Car_BC* pCar, s32 weapon_kind);
+    EXPORT void SetKFWeapon_564790(s32 idx);
     EXPORT void ClearKFWeapon_5647D0();
     EXPORT Weapon_30* GetCurrPlayerWeapon_5648F0();
     EXPORT void sub_564910(Weapon_30* a2);
@@ -131,14 +134,14 @@ class Player
     EXPORT void SelectNextOrPrevWeapon_5649D0(char_type bFowards, char_type bBackwards);
     EXPORT void sub_564AD0(Car_BC* a2);
     EXPORT void sub_564B60();
-    EXPORT s32 sub_564B80();
+    EXPORT void CleanupEmptyAmmoWeapons_564B80();
     EXPORT void sub_564C00();
     EXPORT void RemovePlayerWeapons_564C50();
     EXPORT void sub_564CC0();
     EXPORT void sub_564CF0();
     EXPORT char_type CollectPowerUp_564D60(s32 a2);
     EXPORT void tick_down_powerups_565070();
-    EXPORT s32 RestorePowerUpsFromSave_5651F0(save_stats_0x90* a2);
+    EXPORT void RestorePowerUpsFromSave_5651F0(save_stats_0x90* a2);
     EXPORT void TeleportToDebugCam_565310();
     EXPORT void sub_5653E0();
     EXPORT void sub_565460();
@@ -225,11 +228,13 @@ class Player
     s32 field_10;
     s16 field_14;
     s16 field_16;
-    s16 field_18;
-    s16 field_1A_ammo; // of last weapon ?
-    s32 field_1C_weapon_kind;
-    Car_BC* field_20_car;
-    s32 field_24;
+
+    s16 field_18_pre_kf_weapon_kind;
+    s16 field_1A_pre_kf_ammo;
+    s32 field_1C_kf_weapon_kind;
+    Car_BC* field_20_kf_car;
+    s32 field_24_kf_car_id;
+
     char_type field_28;
     char_type field_29;
     char_type field_2A;

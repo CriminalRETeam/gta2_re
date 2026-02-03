@@ -19,7 +19,7 @@ class Weapon_30
     EXPORT Weapon_30();
     EXPORT ~Weapon_30();
     EXPORT void init_5DCD90();
-    EXPORT void clear_5DCDE0();
+    EXPORT void PoolDeallocate();
     EXPORT void add_ammo_5DCE20(u8 a2);
     EXPORT char_type add_ammo_capped_5DCE40(u8 a2);
     EXPORT bool is_max_capacity_5DCEA0();
@@ -91,6 +91,11 @@ class Weapon_30
     inline bool HasAmmo_4A4F80()
     {
         return field_0_ammo != 0;
+    }
+
+    void SetAmmo_4A4FF0(u16 a2)
+    {
+        this->field_0_ammo = a2;
     }
 
     u16 field_0_ammo;
