@@ -1361,10 +1361,16 @@ void Ped::Deallocate_45EB60()
     field_27C_ped_state_2 = ped_state_2::Unknown_15;
 }
 
-STUB_FUNC(0x45edc0)
+MATCH_FUNC(0x45edc0)
 char_type Ped::sub_45EDC0()
 {
-    NOT_IMPLEMENTED;
+    if (this->field_238 == 2)
+    {
+        if (this->field_240_occupation != ped_ocupation_enum::empty)
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 
