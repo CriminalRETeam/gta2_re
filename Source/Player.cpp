@@ -134,7 +134,7 @@ char_type Player::PromoteCarInHistory_564610(Car_BC* pCar, char_type bDontModify
 }
 
 WIP_FUNC(0x564680)
-void Player::sub_564680(Car_BC* pCar)
+void Player::PushCarInfo_564680(Car_BC* pCar)
 {
     WIP_IMPLEMENTED;
 

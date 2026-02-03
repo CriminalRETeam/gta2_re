@@ -123,7 +123,7 @@ class Player
     EXPORT u8 GetIdx_4881E0();
     EXPORT void sub_5645B0(Car_BC* a2);
     EXPORT char_type PromoteCarInHistory_564610(Car_BC* pCar, char_type bDontModify);
-    EXPORT void sub_564680(Car_BC* a2);
+    EXPORT void PushCarInfo_564680(Car_BC* a2);
     EXPORT void SetKFCarWeapon_564710(Car_BC* pCar, s32 weapon_kind);
     EXPORT void SetKFWeapon_564790(s32 idx);
     EXPORT void ClearKFWeapon_5647D0();
