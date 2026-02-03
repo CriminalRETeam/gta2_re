@@ -489,7 +489,7 @@ void PoliceCrew_38::sub_572340()
                                     u8 xpos = xpos_f.ToInt();
                                     u8 ypos = field_14_pObj->field_14_y.ToInt();
                                     u8 zpos = field_14_pObj->field_18_z.ToInt();
-                                    if (gOrca_2FD4_6FDEF0->sub_5552B0(1, &xpos, &ypos, &zpos, 0))
+                                    if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 0))
                                     {
                                         pPed_6FEDDC->field_1DC_objective_target_x = Fix16(xpos);
                                         field_14_pObj->field_10_x = pPed_6FEDDC->field_1DC_objective_target_x;

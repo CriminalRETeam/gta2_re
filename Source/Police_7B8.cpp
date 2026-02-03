@@ -388,7 +388,7 @@ char_type Police_7B8::sub_56FAA0(Police_7C* p7C)
     u8 yval = p7C->field_14_y.ToInt();
     u8 zval = p7C->field_18_z.ToInt();
 
-    if (gOrca_2FD4_6FDEF0->sub_5552B0(1, &xval, &yval, &zval, 0))
+    if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xval, &yval, &zval, 0))
     {
         PoliceCrew_38* pNewPoliceCrew = Police_7B8::New_56F560();
         pNewPoliceCrew->field_1C_used = 1;

@@ -4614,10 +4614,74 @@ void Ped::WaitInCurrentCar_469FC0()
     }
 }
 
-STUB_FUNC(0x469fe0)
+WIP_FUNC(0x469fe0)
 void Ped::sub_469FE0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (this->field_150_target_objective_car)
+    {
+        if (!this->field_218_objective_timer)
+        {
+            this->field_24C_target_car_door = 2;
+            sub_463830(objectives_enum::no_obj_0, 9999);
+            SetObjective(objectives_enum::objective_33, 9999);
+            this->field_150_target_objective_car = this->field_16C_car;
+        }
+    }
+    else
+    {
+        Fix16 x = this->field_1AC_cam.x;
+        Fix16 y = this->field_1AC_cam.y;
+        Fix16 z = this->field_1AC_cam.z;
+        u8 v18 = x.ToUInt8();
+        u8 v17 = y.ToUInt8();
+        u8 v16 = z.ToUInt8();
+        gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &v18, &v17, &v16, 1);
+        if (gCar_6C_677930->CanAllocateOfType_446930(10))
+        {
+            Car_BC* v6 = gCar_6C_677930->sub_444CF0(12, v18, v17, v16);
+            if (v6)
+            {
+                v6->IncrementCarStats_443D70(10);
+                if (gPolice_7B8_6FEE40->FBI_Army_5703E0(v6))
+                {
+                    Char_B4* field_168_game_object = this->field_168_game_object;
+                    this->field_278_ped_state_1 = ped_state_1::in_car_10;
+                    this->field_27C_ped_state_2 = ped_state_2::ped2_driving_10;
+                    field_168_game_object->field_84 = v6;
+                    //LABEL_10:
+                    this->field_248_enter_car_as_passenger = 1;
+                    this->field_150_target_objective_car = v6;
+                    return;
+                }
+            }
+        }
+        else if (gCar_6C_677930->CanAllocateOfType_446930(6))
+        {
+            Car_BC* v11 = gCar_6C_677930->sub_444CF0(12, v18, v17, v16);
+            if (v11)
+            {
+                v11->IncrementCarStats_443D70(6);
+                if (gPolice_7B8_6FEE40->FBI_Army_5703E0(v11))
+                {
+                    Char_B4* v12 = this->field_168_game_object;
+                    this->field_278_ped_state_1 = ped_state_1::in_car_10;
+                    this->field_27C_ped_state_2 = ped_state_2::ped2_driving_10;
+                    v12->field_84 = v11;
+                    // goto LABEL_10;
+                    this->field_248_enter_car_as_passenger = 1;
+                    this->field_150_target_objective_car = v11;
+                    return;
+                }
+            }
+        }
+
+        this->field_278_ped_state_1 = ped_state_1::walking_0;
+        this->field_27C_ped_state_2 = ped_state_2::ped2_walking_0;
+        SetObjective(objectives_enum::no_obj_0, 9999);
+        sub_463830(0, 9999);
+    }
 }
 
 MATCH_FUNC(0x46a1f0)

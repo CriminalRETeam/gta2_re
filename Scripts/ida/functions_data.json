@@ -11935,7 +11935,7 @@
         "v105_address": "0x554ab0"
     },
     {
-        "name": "Orca_2FD4::sub_5552B0",
+        "name": "Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0",
         "v96f_address": "0x49D7A0",
         "v105_address": "0x5552b0"
     },
