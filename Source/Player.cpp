@@ -431,29 +431,19 @@ void Player::sub_564B60()
     }
 }
 
-WIP_FUNC(0x564B80)
+MATCH_FUNC(0x564B80)
 void Player::CleanupEmptyAmmoWeapons_564B80()
 {
-    WIP_IMPLEMENTED;
-
-    Weapon_30** ppWeapon; // ebp
-    Weapon_30* pToFind; // eax
-    int k13; // [esp+10h] [ebp-4h]
-
-    ppWeapon = &this->field_718_weapons[15];
-    k13 = 13;
-    while (k13)
+    for (s32 i = 15; i < 28; i++)
     {
-        pToFind = *ppWeapon;
-        if (pToFind)
+        if (field_718_weapons[i])
         {
-            if (!pToFind->field_0_ammo)
+            if (!field_718_weapons[i]->field_0_ammo)
             {
-                gWeapon_30_Pool_707014->sub_4A4F20(pToFind);
+                gWeapon_30_Pool_707014->sub_4A4F20(field_718_weapons[i]);
             }
         }
-        *ppWeapon++ = 0;
-        --k13;
+        field_718_weapons[i] = 0;
     }
 }
 
