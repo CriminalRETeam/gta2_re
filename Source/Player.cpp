@@ -393,10 +393,33 @@ void Player::SelectNextOrPrevWeapon_5649D0(char_type bForwards, char_type bBackw
     }
 }
 
-STUB_FUNC(0x564AD0)
-void Player::sub_564AD0(Car_BC* a2)
+MATCH_FUNC(0x564AD0)
+void Player::sub_564AD0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
+    s16 last_weapon_kind = -1;
+    for (s32 weapon_kind = 15; weapon_kind < 28; weapon_kind++)
+    {
+        Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
+        field_718_weapons[weapon_kind] = pWeapon;
+        if (pWeapon)
+        {
+            last_weapon_kind = weapon_kind;
+        }
+    }
+
+    if (!this->field_31_kf_weapon_mode)
+    {
+        this->field_14 = this->field_788_curr_weapon_idx;
+        if (this->field_718_weapons[field_16])
+        {
+            this->field_788_curr_weapon_idx = field_16;
+        }
+        else if (last_weapon_kind != -1)
+        {
+            this->field_788_curr_weapon_idx = last_weapon_kind;
+        }
+        SelectNextOrPrevWeapon_5649D0(0, 0);
+    }
 }
 
 MATCH_FUNC(0x564B60)
@@ -676,7 +699,7 @@ void Player::tick_down_powerups_565070()
 WIP_FUNC(0x5651F0)
 void Player::RestorePowerUpsFromSave_5651F0(save_stats_0x90* pSaveStats)
 {
-    WIP_IMPLEMENTED;
+    //WIP_IMPLEMENTED;
 
     s32 idx; // esi
     u16* pPowerUpTimerIter; // edi
@@ -687,7 +710,7 @@ void Player::RestorePowerUpsFromSave_5651F0(save_stats_0x90* pSaveStats)
     pPowerUpTimerIter = this->field_6F4_power_up_timers;
     pCheatIter = pSaveStats->field_1A_power_ups;
     k17 = 17;
-    do
+    while (k17 > 0)
     {
         if (*pCheatIter > 0)
         {
@@ -709,7 +732,7 @@ void Player::RestorePowerUpsFromSave_5651F0(save_stats_0x90* pSaveStats)
         ++pCheatIter;
         ++pPowerUpTimerIter;
         --k17;
-    } while (k17 > 0);
+    }
 }
 
 MATCH_FUNC(0x565310)
@@ -815,6 +838,7 @@ STUB_FUNC(0x565860)
 void Player::IncreaseWantedLevelFromDebugKeys_565860()
 {
     NOT_IMPLEMENTED;
+    // TODO: This function just calls another - split them
     Ped* pPed = this->field_2C4_player_ped;
     switch (pPed->get_wanted_star_count_46EF00())
     {
