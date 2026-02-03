@@ -3171,10 +3171,9 @@ bool Char_B4::sub_5532C0()
     return false;
 }
 
-STUB_FUNC(0x553330)
+MATCH_FUNC(0x553330)
 char_type Char_B4::IsThreatToSearchingPed_553330()
 {
-    NOT_IMPLEMENTED;
     return field_7C_pPed->IsThreatToSearchingPed_4661F0();
 }
 
