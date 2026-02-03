@@ -919,12 +919,12 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderInt("gZCoord_6F63E0", &gZCoord_6F63E0, 0, 2000);
                 }
 
-                if (ImGui::Button("Orca_2FD4::sub_5552B0"))
+                if (ImGui::Button("Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0"))
                 {
                     u8 xpos = gViewCamera_676978->field_78_boundaries_non_neg.field_0_left.ToInt() + 5;
                     u8 ypos = gViewCamera_676978->field_78_boundaries_non_neg.field_8_top.ToInt() + 5;
                     u8 zpos = 2;
-                    if (gOrca_2FD4_6FDEF0->sub_5552B0(0, &xpos, &ypos, &zpos, 1))
+                    if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(0, &xpos, &ypos, &zpos, 1))
                     {
                     }
                 }

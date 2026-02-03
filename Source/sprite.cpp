@@ -1169,7 +1169,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
                 u8 z = field_1C_zpos.ToInt();
 
                 // car shoving / overlap resolution ?
-                if (gOrca_2FD4_6FDEF0->sub_5552B0(1, &x, &y, &z, 1))
+                if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 1))
                 {
                     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pCurrent);
                     pIterCar->sub_444E40(x, y, z);
