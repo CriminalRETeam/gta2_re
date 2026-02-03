@@ -504,7 +504,7 @@ struct save_stats_0x90
     s32 field_10_money;
     s32 field_14_multipliers;
     s16 field_18_health;
-    s16 field_1A_power_ups[17];
+    u16 field_1A_power_ups[17];
     s32 field_3C_crime_unk[10];
     u16 field_64_pad;
     u8 field_66_weapon_ammo[15];
