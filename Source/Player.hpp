@@ -177,7 +177,7 @@ class Player
     EXPORT void get_pos_569920(Fix16* a2, Fix16* a3, Fix16* a4);
     EXPORT void ChangeLifeCountByAmount_5699F0(s32 a2);
     EXPORT void sub_569A10();
-    EXPORT void sub_569C20();
+    EXPORT void SetScoreTextColour_569C20();
     EXPORT void sub_569CB0();
     EXPORT void sub_569E70();
     EXPORT char* GetDeathText_569F00();
@@ -188,7 +188,7 @@ class Player
     EXPORT void DisableKFMode_56A020();
     EXPORT void DisableEnterVehicles_56A030();
     EXPORT void EnableEnterVehicles_56A040();
-    EXPORT s32 RestoreCarsFromSave_56A0F0();
+    EXPORT void RestoreCarsFromSave_56A0F0();
     EXPORT void CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave);
     EXPORT void UpdateGameFromSave_56A310(save_stats_0x90* a2);
     EXPORT void ApplyCheats_56A490();
@@ -258,7 +258,7 @@ class Player
     infallible_turing* field_4C_pUnk;
     s32 field_50;
     Car_BC* field_54_unk[3];
-    s32 field_60;
+    s32 field_60_bFinshScoreReached;
     char_type field_64;
     char_type field_65;
     char_type field_66;

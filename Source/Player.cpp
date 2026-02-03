@@ -126,11 +126,54 @@ void Player::sub_5645B0(Car_BC* pNewCar)
     }
 }
 
-STUB_FUNC(0x564610)
+WIP_FUNC(0x564610)
 char_type Player::PromoteCarInHistory_564610(Car_BC* pCar, char_type bDontModify)
 {
-    NOT_IMPLEMENTED;
-    return 'a';
+    WIP_IMPLEMENTED;
+
+    Car_BC** ppCarIter; // eax
+    char_type count; // cl
+    Car_BC** pCarValue; // edx
+    s32 subCount; // esi
+
+    ppCarIter = &this->field_54_unk[1];
+    if (!bStartNetworkGame_7081F0)
+    {
+
+        if (pCar != this->field_54_unk[2]) // check 2
+        {
+            return 1;
+        }
+        count = 1;
+        while (*ppCarIter != pCar) // check 1 and 0
+        {
+            --ppCarIter;
+            if (--count < 0)
+            {
+                return 0;
+            }
+        }
+        pCarValue = ppCarIter + 1;
+        if (count < 2)
+        {
+            subCount = 2 - count;
+            do
+            {
+                if (!bDontModify)
+                {
+                    *ppCarIter++ = *pCarValue++;
+                }
+                --subCount;
+            } while (subCount);
+        }
+        if (!bDontModify)
+        {
+            *ppCarIter = pCar;
+        }
+        return 1;
+    }
+
+    return 0;
 }
 
 WIP_FUNC(0x564680)
@@ -868,10 +911,11 @@ void Player::IncrementGangRespectFromDebugKeys_565770(u8 count)
     }
 }
 
-STUB_FUNC(0x565860)
+WIP_FUNC(0x565860)
 void Player::IncreaseWantedLevelFromDebugKeys_565860()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
     // TODO: This function just calls another - split them
     Ped* pPed = this->field_2C4_player_ped;
     switch (pPed->get_wanted_star_count_46EF00())
@@ -2204,7 +2248,7 @@ void Player::Service_5687F0()
     this->field_89_bWasEnterExitPressed = bWasEnterExitPressed;
     this->field_81_bNowSpecial_1_Pressed = bNowSpecial_1_Pressed;
     this->field_84_bWasSpecial_1_Pressed = bWasSpecial_1_Pressed;
-    Player::sub_569C20();
+    Player::SetScoreTextColour_569C20();
 }
 
 MATCH_FUNC(0x569410)
@@ -2509,16 +2553,17 @@ void Player::sub_569A10()
 }
 
 MATCH_FUNC(0x569C20)
-void Player::sub_569C20()
+void Player::SetScoreTextColour_569C20()
 {
     if (bStartNetworkGame_7081F0 == false && gfrosty_pasteur_6F8060 != NULL)
     {
-        if (field_60 == 0)
+        if (field_60_bFinshScoreReached == 0)
         {
             u32 score = field_2D4_scores.GetScore_592370();
             if (score >= gfrosty_pasteur_6F8060->field_310_finish_score)
             {
-                field_60 = 1;
+                field_60_bFinshScoreReached = 1;
+                // Red when map "beaten"
                 field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps, 6);
             }
         }
@@ -2527,7 +2572,7 @@ void Player::sub_569C20()
             u32 score = field_2D4_scores.GetScore_592370();
             if (score < gfrosty_pasteur_6F8060->field_310_finish_score)
             {
-                field_60 = 0;
+                field_60_bFinshScoreReached = 0;
                 field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::sprites, 0);
             }
         }
@@ -2542,7 +2587,7 @@ void Player::sub_569CB0()
         FatalError_4A38C0(Gta2Error::NoRestartZone, "C:\\Splitting\\Gta2\\Source\\player.cpp",
                           2905); // No Restart Zone
     }
-    field_60 = 0;
+    field_60_bFinshScoreReached = 0;
     field_29 = 0;
     field_28 = 0;
     field_640_busted = 0;
@@ -2734,11 +2779,29 @@ void Player::EnableEnterVehicles_56A040()
     field_30_disable_enter_vehicles = 0;
 }
 
-STUB_FUNC(0x56A0F0)
-s32 Player::RestoreCarsFromSave_56A0F0()
+WIP_FUNC(0x56A0F0)
+void Player::RestoreCarsFromSave_56A0F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    for (s32 i = 0; i < 3; i++)
+    {
+        if (gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0 > dword_6FE610 &&
+            gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0 > dword_6FE610)
+        {
+            Car_BC* pNewCar =
+                gCar_6C_677930->SpawnCarAt_446230(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0,
+                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0,
+                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_18_z[i].field_0,
+                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_24_ang[i], // rot
+                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_3C[i], // car_info_idx/model
+                                                  dword_6FE614);
+            sub_5645B0(pNewCar);
+            pNewCar->field_8_damaged_areas = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_30[i];
+            pNewCar->field_74_damage = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_2A[i];
+        }
+    }
+    memset(&gGameSave_6F78C8.field_E4_car_and_script_data.field_0, 0, 68u);
 }
 
 MATCH_FUNC(0x56A1A0)
@@ -2933,25 +2996,30 @@ void Player::ApplyCheats_56A490()
     {
         field_6BC_multpliers.ChangeStatByAmount_4921B0(9);
     }
+
     if (gCheatOnlyMuggerPeds_67D5A4)
     {
         gPedManager_6787BC->field_7_make_all_muggers = true;
     }
+
     if (gCheatUnknown_67D4F6)
     {
-        Player::CollectPowerUp_564D60(4);
+        Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
     }
+
     if (gCheatInvisibility_67D539)
     {
-        Player::CollectPowerUp_564D60(11);
+        Player::CollectPowerUp_564D60(power_up_indices::Invisibility_11);
     }
+
     if (gCheatUnlimitedDoubleDamage_67D57C)
     {
-        Player::CollectPowerUp_564D60(7);
+        Player::CollectPowerUp_564D60(power_up_indices::DoubleDamage_7);
     }
+
     if (byte_67D56B)
     {
-        Player::CollectPowerUp_564D60(4);
+        Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
         Player::sub_564960(1, 50u);
         for (Gang_144* pIter2 = gGangPool_CA8_67E274->sub_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->sub_4BECE0())
         {

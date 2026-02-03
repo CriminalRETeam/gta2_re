@@ -191,7 +191,7 @@ STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, u16 height)
 }
 
 MATCH_FUNC(0x5B9660)
-void sharp_pare_0x15D8::sub_5B9660(u16 texture_idx, u16 pal_idx)
+void sharp_pare_0x15D8::SetPal_5B9660(u16 texture_idx, u16 pal_idx)
 {
     STexture* pTexture = field_10C4[texture_idx].field_4_pTexture;
     u16 pal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal_idx);

@@ -116,7 +116,7 @@ void thirsty_lamarr::sub_4921F0(s32 a2, s16 a3)
 
     while (uVar4 < 9)
     {
-        gSharp_pare_0x15D8_705064->sub_5B9660(field_34 - field_2E_idx + uVar4, a);
+        gSharp_pare_0x15D8_705064->SetPal_5B9660(field_34 - field_2E_idx + uVar4, a);
         uVar4++;
     }
 }
