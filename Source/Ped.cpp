@@ -11,6 +11,7 @@
 #include "Marz_1D7E.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
+#include "Particle_8.hpp"
 #include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
@@ -70,7 +71,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678790, dword_6784C4 * 32, 0x678790);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784E8, dword_6784C4 * 8, 0x6784E8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784CC, dword_6784C4 * 2, 0x6784CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
-DEFINE_GLOBAL_INIT(Fix16, dword_678620, dword_6784C4 / dword_678670, 0x678620);
+DEFINE_GLOBAL_INIT(Fix16, dword, dword_6784C4 / dword_678670, 0x678620);
 DEFINE_GLOBAL_INIT(Fix16, dword_678788, dword_6784C4 * 16, 0x678788);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678664, Fix16(0x4000, 0), 0x678664);
 DEFINE_GLOBAL_INIT(Fix16, dword_6785EC, k_dword_678664, 0x6785EC);
@@ -105,7 +106,6 @@ DEFINE_GLOBAL(u8, byte_6787CE, 0x6787CE);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A0, Fix16(0x3333, 0), 0x6784A0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784BC, dword_6784C4 / dword_678668, 0x6784BC);
-
 
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
@@ -5387,7 +5387,7 @@ void Ped::sub_46D300()
                 }
             }
         }
-        else 
+        else
         {
             if (this->field_168_game_object->field_10_char_state != 15)
             {
@@ -5398,12 +5398,12 @@ void Ped::sub_46D300()
                     {
                         if (field_168_game_object->field_38_velocity > total)
                         {
-                            field_168_game_object->field_38_velocity -= k_dword_678620;
+                            field_168_game_object->field_38_velocity -= dword_678620;
                         }
                     }
                     else
                     {
-                        field_168_game_object->field_38_velocity += k_dword_678620;
+                        field_168_game_object->field_38_velocity += dword_678620;
                     }
                 }
                 else
@@ -6133,10 +6133,155 @@ void Ped::UpdateStatsForKiller_46F720()
     }
 }
 
-STUB_FUNC(0x46f9d0)
+WIP_FUNC(0x46f9d0)
 void Ped::Kill_46F9D0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Char_B4* pB4; // eax
+    PedGroup* pGroup; // ecx
+    Char_B4* field_168_game_object; // eax
+    s32 v5; // eax
+    PedGroup* field_164_ped_group; // ecx
+    PedGroup* v7; // ecx
+    PedGroup* v9; // ecx
+    s32 field_278_ped_state_1; // eax
+
+    if ((this->field_21C & ped_bit_status_enum::k_ped_in_flames) != 0)
+    {
+        pB4 = this->field_168_game_object;
+        if (pB4)
+        {
+            pB4->field_6C_animation_state = 21;
+        }
+        PutOutFire();
+    }
+
+    if (this->field_278_ped_state_1 != ped_state_1::dead_9)
+    {
+        sub_463830(0, 9999);
+        if (this->field_27C_ped_state_2 == ped_state_2::lying_on_floor_22)
+        {
+            this->field_278_ped_state_1 = ped_state_1::dead_9;
+            this->field_27C_ped_state_2 = ped_state_2::Unknown_15;
+        }
+        else
+        {
+            Ped::ChangeNextPedState1_45C500(9);
+            Ped::ChangeNextPedState2_45C540(15);
+        }
+
+        if ((this->field_21C & ped_bit_status_enum::k_ped_in_flames) == 0)
+        {
+            this->field_250 = 4;
+        }
+
+        UpdateStatsForKiller_46F720();
+
+        switch (this->field_240_occupation)
+        {
+            case ped_ocupation_enum::unknown_13:
+                if (!gAmbulance_110_6F70A8->sub_4FA330(this))
+                {
+                    goto LABEL_22;
+                }
+                return;
+
+
+            case ped_ocupation_enum::police:
+            case ped_ocupation_enum::swat:
+            case ped_ocupation_enum::fbi:
+                if (!IsField238_45EDE0(4) || !gPolice_7B8_6FEE40->sub_56F4D0(this))
+                {
+                    goto LABEL_22;
+                }
+                return;
+
+            case ped_ocupation_enum::elvis:
+            case ped_ocupation_enum::elvis_leader:
+                pGroup = this->field_164_ped_group;
+                if (pGroup)
+                {
+                    if (!this->field_1A8_ped_killer)
+                    {
+                        this->field_1A8_ped_killer = this;
+                    }
+                    pGroup->DisbandGroupDueToAttack_4C94E0(this->field_1A8_ped_killer);
+                }
+                goto LABEL_22;
+
+            case ped_ocupation_enum::unknown_1:
+                Deallocate_45EB60();
+                return;
+
+            default:
+            LABEL_22:
+                field_168_game_object = this->field_168_game_object;
+                if (field_168_game_object)
+                {
+                    field_168_game_object->field_16 = 1;
+                    v5 = this->field_238;
+                    field_164_ped_group = this->field_164_ped_group;
+                    if (v5 == 2)
+                    {
+                        if (field_164_ped_group)
+                        {
+                            field_164_ped_group->DestroyGroup_4C93A0();
+                        }
+                    }
+                    else if (!field_164_ped_group && v5 != 5)
+                    {
+                        SetObjective(objectives_enum::objective_28, 9999);
+                    }
+                    this->field_168_game_object->field_80_sprite_ptr->field_28_num = 6;
+                }
+                else if (this->field_238 == 2)
+                {
+                    if (this->field_16C_car)
+                    {
+                        field_15C_player->sub_564C00();
+                    }
+                    v7 = this->field_164_ped_group;
+                    if (v7)
+                    {
+                        v7->DestroyGroup_4C93A0();
+                    }
+                    this->field_21C &= ~0x8;
+                }
+                else
+                {
+                    Deallocate_45EB60();
+                }
+
+                v9 = this->field_164_ped_group;
+                if (!v9 || this->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+                {
+                    field_278_ped_state_1 = this->field_278_ped_state_1;
+                    this->field_216_health = 0;
+                    this->field_20A_wanted_points = 0;
+                    this->field_21C &= 0x800;
+                    if (field_278_ped_state_1 == ped_state_1::dead_9 && this->field_27C_ped_state_2 == ped_state_2::Unknown_15)
+                    {
+                        SpawnWeaponOnDeath_45E080();
+                    }
+
+                    gThreateningPedsList_678468.RemovePed_471240(this);
+
+                    if (bDo_blood_67D5C5)
+                    {
+                        if (!this->field_16C_car && this->field_168_game_object->field_6C_animation_state != 17)
+                        {
+                            gParticle_8_6FD5E8->SpawnBlood_53E880(this->field_1AC_cam.x, this->field_1AC_cam.y, this->field_1AC_cam.z);
+                        }
+                    }
+                }
+                else
+                {
+                    v9->RemovePed_4C9970(this);
+                }
+                break;
+        }
+    }
 }
 
 MATCH_FUNC(0x46fc70)
