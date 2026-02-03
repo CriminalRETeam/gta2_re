@@ -100,13 +100,12 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_678680, dword_6784C4 * 256, 0x678680);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678430, dword_6784C4, 0x678430);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678524, Fix16(0x9C3C000, 0), 0x678524);
 
-
-
-
 DEFINE_GLOBAL_INIT(s16, k_word_678656, 40, 0x678656);
 DEFINE_GLOBAL(u8, byte_6787CE, 0x6787CE);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A0, Fix16(0x3333, 0), 0x6784A0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6784BC, dword_6784C4 / dword_678668, 0x6784BC);
+
 
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
@@ -5224,7 +5223,7 @@ WIP_FUNC(0x46d0d0)
 void Ped::sub_46D0D0()
 {
     WIP_IMPLEMENTED;
-    
+
     s32 state1; // eax
     Fix16 curVal; // ebp
     u8 remap_num; // bl
@@ -5353,10 +5352,71 @@ void Ped::sub_46D240()
     }
 }
 
-STUB_FUNC(0x46d300)
+WIP_FUNC(0x46d300)
 void Ped::sub_46D300()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (this->field_278_ped_state_1 != ped_state_1::immobilized_8)
+    {
+        if (gDistanceToTarget_678750 > dword_678788)
+        {
+            if (gDistanceToTarget_678750 >= dword_678790)
+            {
+                Char_B4* pB4__ = this->field_168_game_object;
+                pB4__->field_38_velocity = dword_6784BC + pB4__->field_38_velocity;
+                if (pB4__->field_38_velocity > pB4__->field_3C_run_or_jump_speed)
+                {
+                    pB4__->field_38_velocity = pB4__->field_3C_run_or_jump_speed;
+                }
+            }
+            else
+            {
+                Fix16 total_ = k_dword_678430 + field_150_target_objective_car->GetVelocity_43A4C0();
+                Char_B4* pB4_ = this->field_168_game_object;
+                if (pB4_->field_38_velocity >= total_)
+                {
+                    if (pB4_->field_38_velocity > total_)
+                    {
+                        pB4_->field_38_velocity -= dword_678620;
+                    }
+                }
+                else
+                {
+                    pB4_->field_38_velocity += dword_678620;
+                }
+            }
+        }
+        else 
+        {
+            if (this->field_168_game_object->field_10_char_state != 15)
+            {
+                if (gDistanceToTarget_678750 >= dword_6784E8)
+                {
+                    Fix16 total = k_dword_678430 + field_150_target_objective_car->GetVelocity_43A4C0();
+                    if (field_168_game_object->field_38_velocity >= total)
+                    {
+                        if (field_168_game_object->field_38_velocity > total)
+                        {
+                            field_168_game_object->field_38_velocity -= k_dword_678620;
+                        }
+                    }
+                    else
+                    {
+                        field_168_game_object->field_38_velocity += k_dword_678620;
+                    }
+                }
+                else
+                {
+                    if (field_150_target_objective_car->GetVelocity_43A4C0() <= GetPedVelocity_45C920())
+                    {
+                        this->field_168_game_object->field_38_velocity = field_150_target_objective_car->GetVelocity_43A4C0();
+                    }
+                }
+            }
+        }
+        sub_4672E0(gDistanceToTarget_678750, 1);
+    }
 }
 
 STUB_FUNC(0x46d460)
