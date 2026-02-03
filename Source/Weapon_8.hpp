@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Function.hpp"
-#include "Weapon_30.hpp"
 #include "Object_3C.hpp"
 #include "Pool.hpp"
+#include "Weapon_30.hpp"
 
 class Ped;
 class Car_BC;
@@ -12,6 +12,11 @@ class infallible_turing;
 class Weapon_8
 {
   public:
+    bool is_car_weapon_433820(s32 weapon_kind)
+    {
+        return weapon_kind >= 15;
+    }
+
     EXPORT Weapon_30* allocate_5E3C10(s32 a2, Ped* a3, u8 a4);
     EXPORT void deallocate_5E3CB0(Weapon_30* pWeapon);
     EXPORT Weapon_30* allocate_5E3CE0(s32 a1, Car_BC* a2, u8 a3);
@@ -32,7 +37,6 @@ class Weapon_30_Pool
   public:
     Weapon_30_Pool() // 4CDA20 inline
     {
-
     }
 
     Weapon_30* Allocate()
@@ -54,7 +58,7 @@ class Weapon_30_Pool
         {
             if (pIter == pW30)
             {
-                pIter->clear_5DCDE0();
+                pIter->PoolDeallocate();
                 if (pLastIter)
                 {
                     pLastIter->mpNext = pIter->mpNext;
@@ -73,13 +77,13 @@ class Weapon_30_Pool
                 pIter = pIter->mpNext;
             }
         }
-    }    
+    }
 
     Weapon_30* get_next_4CC9B0()
     {
         return this->field_0_pool.field_4_pPrev;
     }
-  
+
     EXPORT ~Weapon_30_Pool();
 
     Pool<Weapon_30, 255> field_0_pool;

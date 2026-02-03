@@ -70,7 +70,7 @@ void Weapon_30::init_5DCD90()
 }
 
 MATCH_FUNC(0x5DCDE0)
-void Weapon_30::clear_5DCDE0()
+void Weapon_30::PoolDeallocate()
 {
     init_5DCD90();
 
