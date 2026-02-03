@@ -915,7 +915,7 @@ WIP_FUNC(0x565860)
 void Player::IncreaseWantedLevelFromDebugKeys_565860()
 {
     WIP_IMPLEMENTED;
-    
+
     // TODO: This function just calls another - split them
     Ped* pPed = this->field_2C4_player_ped;
     switch (pPed->get_wanted_star_count_46EF00())
@@ -2557,12 +2557,12 @@ void Player::sub_569C20()
 {
     if (bStartNetworkGame_7081F0 == false && gfrosty_pasteur_6F8060 != NULL)
     {
-        if (field_60 == 0)
+        if (field_60_bFinshScoreReached == 0)
         {
             u32 score = field_2D4_scores.GetScore_592370();
             if (score >= gfrosty_pasteur_6F8060->field_310_finish_score)
             {
-                field_60 = 1;
+                field_60_bFinshScoreReached = 1;
                 field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps, 6);
             }
         }
@@ -2571,7 +2571,7 @@ void Player::sub_569C20()
             u32 score = field_2D4_scores.GetScore_592370();
             if (score < gfrosty_pasteur_6F8060->field_310_finish_score)
             {
-                field_60 = 0;
+                field_60_bFinshScoreReached = 0;
                 field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::sprites, 0);
             }
         }
@@ -2586,7 +2586,7 @@ void Player::sub_569CB0()
         FatalError_4A38C0(Gta2Error::NoRestartZone, "C:\\Splitting\\Gta2\\Source\\player.cpp",
                           2905); // No Restart Zone
     }
-    field_60 = 0;
+    field_60_bFinshScoreReached = 0;
     field_29 = 0;
     field_28 = 0;
     field_640_busted = 0;

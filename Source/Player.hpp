@@ -258,7 +258,7 @@ class Player
     infallible_turing* field_4C_pUnk;
     s32 field_50;
     Car_BC* field_54_unk[3];
-    s32 field_60;
+    s32 field_60_bFinshScoreReached;
     char_type field_64;
     char_type field_65;
     char_type field_66;

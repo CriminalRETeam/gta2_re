@@ -444,7 +444,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     }
     else
     {
-        if (pPlayer->field_60 == 0)
+        if (pPlayer->field_60_bFinshScoreReached == 0)
         {
             sub_5D7670(6, 16, v8 - 8, 14, word_706610, 2, 0, 0, 0);
         }
