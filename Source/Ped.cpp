@@ -98,6 +98,10 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_678798, dword_6784C4 * 64, 0x678798);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678658, dword_6784C4 * 128, 0x678658);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678680, dword_6784C4 * 256, 0x678680);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678430, dword_6784C4, 0x678430);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_678524, Fix16(0x9C3C000, 0), 0x678524);
+
+
+
 
 DEFINE_GLOBAL_INIT(s16, k_word_678656, 40, 0x678656);
 DEFINE_GLOBAL(u8, byte_6787CE, 0x6787CE);
@@ -5216,10 +5220,93 @@ void Ped::sub_46D0B0()
     }
 }
 
-STUB_FUNC(0x46d0d0)
+WIP_FUNC(0x46d0d0)
 void Ped::sub_46D0D0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
+    s32 state1; // eax
+    Fix16 curVal; // ebp
+    u8 remap_num; // bl
+    Fix16 door_xd; // eax
+    Fix16 door_yd; // ecx
+    Fix16 smaller_val; // eax
+    Char_B4* pB4; // eax
+    bool bUnknown; // [esp+Eh] [ebp-16h]
+    u8 target_door; // [esp+Fh] [ebp-15h]
+    u8 target_door_b; // [esp+10h] [ebp-14h]
+    Fix16 doorX; // [esp+14h] [ebp-10h] BYREF
+    Fix16 doorY; // [esp+18h] [ebp-Ch] BYREF
+    Fix16 smaller;
+
+    bUnknown = 0;
+    state1 = this->field_278_ped_state_1;
+    this->field_21C |= 0x8000000u;
+    if (state1 != ped_state_1::immobilized_8)
+    {
+        if (gDistanceToTarget_678750 <= k_dword_678680)
+        {
+            if (gPublicTransport_181C_6FF1D4->GetTrainFromCarExcludingLeadCar_57B6A0(field_154_target_to_enter))
+            {
+                this->field_248_enter_car_as_passenger = 1;
+            }
+            else
+            {
+                this->field_248_enter_car_as_passenger = 0;
+            }
+            curVal = k_dword_678524;
+            remap_num = 0;
+            target_door = 0;
+            target_door_b = 0;
+            if (field_154_target_to_enter->GetRemap())
+            {
+                do
+                {
+                    if (field_154_target_to_enter->sub_43AFE0(target_door_b))
+                    {
+                        field_154_target_to_enter->sub_43B5A0(target_door_b, &doorX, &doorY);
+                        door_xd = Fix16::Abs(doorX - this->field_1AC_cam.x);
+                        door_yd = Fix16::Abs(doorY - this->field_1AC_cam.y);
+
+                        // TODO: min/max ?
+                        if (door_xd <= door_yd)
+                        {
+                            smaller = door_yd;
+                        }
+                        else
+                        {
+                            smaller = door_xd;
+                        }
+
+                        if (smaller < curVal)
+                        {
+                            curVal = smaller;
+                            target_door = remap_num;
+                            bUnknown = 1;
+                        }
+                    }
+                    target_door_b = ++remap_num;
+                } while (remap_num < field_154_target_to_enter->GetRemap());
+
+                if (bUnknown == 1)
+                {
+                    pB4 = this->field_168_game_object;
+                    this->field_24C_target_car_door = target_door;
+                    pB4->field_38_velocity = pB4->field_3C_run_or_jump_speed;
+                    sub_46BDC0();
+                    if (this->field_226 == 1)
+                    {
+                        Deallocate_45EB60();
+                    }
+                }
+            }
+        }
+        else
+        {
+            sub_463830(0, 9999);
+            this->field_226 = 2;
+        }
+    }
 }
 
 WIP_FUNC(0x46d240)
@@ -5236,7 +5323,7 @@ void Ped::sub_46D240()
     if (field_27C_ped_state_2 == ped_state_2::ped2_driving_10)
     {
         v7 = 0;
-        for (u8 i = 0; i < 5; i++ )
+        for (u8 i = 0; i < 5; i++)
         {
             if (field_154_target_to_enter->sub_43B140(field_24C_target_car_door))
             {
