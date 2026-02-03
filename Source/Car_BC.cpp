@@ -5277,6 +5277,7 @@ Fix16* __stdcall Car_14::sub_583750(Fix16* pRetF16, Fix16 max_speed, u8* pOut)
 }
 
 // TODO: Broken in patched, many cars spawn in wrong directions :)
+// https://decomp.me/scratch/ebXFR
 WIP_FUNC(0x582480)
 char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
 {
