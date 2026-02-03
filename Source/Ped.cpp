@@ -5227,56 +5227,42 @@ void Ped::sub_46D240()
 {
     WIP_IMPLEMENTED;
 
-    char_type v2; // al
-    s32 old_flags; // edx
-    s32 state2; // ecx
-    u8 i; // bl
-    char_type next_door; // al
-    char_type v7; // [esp+7h] [ebp-1h]
+    bool v2; // al
+    bool v7; // [esp+7h] [ebp-1h]
 
     v2 = 1;
-    old_flags = this->field_21C;
-    state2 = this->field_27C_ped_state_2;
     this->field_248_enter_car_as_passenger = 1;
-    this->field_21C = old_flags | 0x8000000;
-    if (state2 == ped_state_2::ped2_driving_10)
+    this->field_21C |= 0x8000000;
+    if (field_27C_ped_state_2 == ped_state_2::ped2_driving_10)
     {
         v7 = 0;
-        i = 0;
-        while (1)
+        for (u8 i = 0; i < 5; i++ )
         {
-            ++i;
             if (field_154_target_to_enter->sub_43B140(field_24C_target_car_door))
             {
+                v7 = 1;
                 break;
             }
-            next_door = this->field_24C_target_car_door + 1;
-            this->field_24C_target_car_door = next_door;
-            if ((u8)next_door > 3u)
+            this->field_24C_target_car_door++;
+            if (field_24C_target_car_door > 3u)
             {
                 this->field_24C_target_car_door = 0;
             }
-            if (i >= 5u)
-            {
-                goto exit_doors;
-            }
         }
-        v7 = 1;
-    exit_doors:
         v2 = v7;
     }
 
     if (this->field_226 == 1 || !v2)
     {
-        if (Ped::IsField238_45EDE0(2))
+        if (IsField238_45EDE0(2))
         {
-            Ped::SetObjective(objectives_enum::no_obj_0, 9999);
-            Ped::sub_463830(0, 9999);
+            SetObjective(objectives_enum::no_obj_0, 9999);
+            sub_463830(0, 9999);
         }
     }
     else
     {
-        Ped::sub_46C250();
+        sub_46C250();
     }
 }
 
