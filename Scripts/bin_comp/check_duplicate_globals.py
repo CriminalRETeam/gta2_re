@@ -5,17 +5,18 @@ REPO_ROOT_FOLDER = Path(__file__).parent.parent.parent
 SOURCE_FOLDER = REPO_ROOT_FOLDER / "Source"
 
 class globals():
-    __slots__ = "var_type", "name", "address", "source_file"
+    __slots__ = "var_type", "name", "address", "source_file", "src_line_num"
 
-    def __init__(self, var_type : str, name : str, address : int, source_file : str):
+    def __init__(self, var_type : str, name : str, address : int, source_file : str, src_line_num : int):
         self.var_type = var_type
         self.name = name
         self.address = address
         self.source_file = source_file
+        self.src_line_num = src_line_num
 
 upper_hex = lambda hex_str : hex_str[2:].upper()
 
-def get_uninit_global(line : str, filename : str):
+def get_uninit_global(line : str, filename : str, line_num : int):
 
     line = line.strip()
     parenthesis_span = slice(line.find('(') + 1, line.rfind(')'))
@@ -32,9 +33,9 @@ def get_uninit_global(line : str, filename : str):
     global_name = arguments[1].strip()
     global_address = int(upper_hex(arguments[2].strip()), 16)
 
-    return globals(global_type, global_name, global_address, filename)
+    return globals(global_type, global_name, global_address, filename, line_num)
     
-def get_inited_global(line : str, filename : str):
+def get_inited_global(line : str, filename : str, line_num : int):
 
     line = line.strip()
     parenthesis_span = slice(line.find('(') + 1, line.rfind(')'))
@@ -45,7 +46,7 @@ def get_inited_global(line : str, filename : str):
     global_name = arguments[1].strip()
     global_address = int(upper_hex(arguments[-1].strip()), 16)
     
-    return globals(global_type, global_name, global_address, filename)
+    return globals(global_type, global_name, global_address, filename, line_num)
 
 
 def main():
@@ -64,7 +65,12 @@ def main():
         if path.endswith(".cpp"):
             
             with open(path, "r") as file:
+
+                line_num = 0
+
                 for line in file:
+
+                    line_num += 1
 
                     curr_global = None
                     
@@ -74,9 +80,9 @@ def main():
                     if "DEFINE_GLOBAL_ARRAY" in line.upper():   # TODO: not implemented
                         continue
                     if "DEFINE_GLOBAL_INIT" in line.upper():
-                        curr_global = get_inited_global(line, src_file.name)
+                        curr_global = get_inited_global(line, src_file.name, line_num)
                     elif "DEFINE_GLOBAL" in line.upper():
-                        curr_global = get_uninit_global(line, src_file.name)
+                        curr_global = get_uninit_global(line, src_file.name, line_num)
                     else:
                         continue
                     
@@ -95,7 +101,7 @@ def main():
         sys.exit(0)
     else:
         for global_1, global_2 in error_list:
-            print(f"Found duplicate: {global_1.name} on {global_1.source_file} and {global_2.name} on {global_2.source_file}")
+            print(f"Found duplicate: {global_1.name} on {global_1.source_file}({global_1.src_line_num}) and {global_2.name} on {global_2.source_file}({global_2.src_line_num})")
         sys.exit(1)
 
 
