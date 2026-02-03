@@ -6187,7 +6187,6 @@ void Ped::Kill_46F9D0()
                 }
                 return;
 
-
             case ped_ocupation_enum::police:
             case ped_ocupation_enum::swat:
             case ped_ocupation_enum::fbi:
@@ -6297,11 +6296,48 @@ void Ped::sub_46FC90(s32 a2, s32 a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46fe20)
-char_type Ped::ProcessWeaponHitResponse_46FE20(Object_2C* a2)
+WIP_FUNC(0x46fe20)
+void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Weapon_30* pWeapon; // ebx
+    if ((this->field_21C & 0x2000) != 0)
+    {
+        pWeapon = this->field_174_pWeapon;
+    }
+    else
+    {
+        pWeapon = this->field_170_selected_weapon;
+    }
+
+    if (pWeapon && !Ped::IsField238_45EDE0(2))
+    {
+        Fix16 yd = pObj->field_4->field_14_xy.y - this->field_1AC_cam.y;
+        Fix16 xd = pObj->field_4->field_14_xy.x - this->field_1AC_cam.x;
+
+        Fix16 yd_abs = Fix16::Abs(yd);
+        Fix16 xd_abs = Fix16::Abs(xd);
+        Fix16 xd_yd_abs = Fix16::Max_44E540(xd_abs, yd_abs);
+        
+        if (pObj == this->field_1A4)
+        {
+            pWeapon->field_4 = 0;
+            return;
+        }
+        
+        if (xd_yd_abs < k_dword_678658)
+        {
+            pWeapon->field_4 = 1;
+            return;
+        }
+
+        if (!pWeapon->IsExplosiveWeapon_5E3BD0())
+        {
+            pWeapon->field_4 = 0;
+            return;
+        }
+    }
 }
 
 STUB_FUNC(0x46ff00)
