@@ -9,6 +9,7 @@
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
 #include "Particle_8.hpp"
+#include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
@@ -28,6 +29,7 @@ DEFINE_GLOBAL(s32, dword_623F44, 0x623F44);
 DEFINE_GLOBAL(Fix16, dword_6FD80C, 0x6FD80C);
 
 DEFINE_GLOBAL_INIT(Ang16, word_6FD936, Ang16(720), 0x6FD936);
+DEFINE_GLOBAL_INIT(Ang16, word_6FD938, Ang16(1260), 0x6FD938);
 
 DEFINE_GLOBAL(u8, byte_6FDB55, 0x6FDB55);
 
@@ -3028,10 +3030,138 @@ void Char_B4::state_8_5520A0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x552E90)
+MATCH_FUNC(0x552E90)
 void Char_B4::state_9_552E90()
 {
-    NOT_IMPLEMENTED;
+    s32 rng;
+
+    field_7C_pPed->ClearBit11_403A40();
+    if (field_16 == 1)
+    {
+        switch (field_10_char_state)
+        {
+            case 33:
+                if (field_6C_animation_state != 15)
+                {
+                    field_6C_animation_state = 15;
+                    field_68_animation_frame = 0;
+                }
+                break;
+            case 34:
+                if (field_6C_animation_state != 16)
+                {
+                    field_40_rotation = field_40_rotation + word_6FD936;
+                    field_6C_animation_state = 16;
+                    field_68_animation_frame = 0;
+                }
+                break;
+            default:
+                if (field_6C_animation_state != 21)
+                {
+                    rng = stru_6F6784.get_int_4F7AE0(3);
+
+                    switch (rng)
+                    {
+                        case 0:
+                            field_6C_animation_state = 14;
+                            break;
+                        case 1:
+                            field_6C_animation_state = 19;
+                            break;
+                        case 2:
+                            field_6C_animation_state = 20;
+                            break;
+                    }
+                }
+                break;
+        }
+
+        field_16 = 0;
+        if (field_7C_pPed->field_164_ped_group)
+        {
+            if (field_7C_pPed->field_164_ped_group->field_0)
+            {
+                field_7C_pPed->field_164_ped_group->RemovePed_4C9970(field_7C_pPed);
+                field_7C_pPed->field_164_ped_group = 0;
+            }
+        }
+
+        field_34 = 0;
+        gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
+        Char_B4::ManageZCoordAndSlopes_548590();
+        field_80_sprite_ptr->set_xyz_lazy_420600(field_4C + field_80_sprite_ptr->field_14_xy.x,
+                                                 field_50 + field_80_sprite_ptr->field_14_xy.y,
+                                                 field_80_sprite_ptr->field_1C_zpos);
+    }
+    else
+    {
+        switch (field_6C_animation_state)
+        {
+            case 15:
+                if (field_80_sprite_ptr->field_1C_zpos.ToUInt8() != 0 && field_80_sprite_ptr->field_14_xy.x.ToUInt8() > 1 &&
+                    field_80_sprite_ptr->field_14_xy.y.ToUInt8() > 1 && field_80_sprite_ptr->field_14_xy.x.ToUInt8() < 254 &&
+                    field_80_sprite_ptr->field_14_xy.y.ToUInt8() < 254)
+                {
+                    field_38_velocity = -k_CollisionRepulsionSpeed_6FD7BC;
+                    Char_B4::state_0_54DDF0();
+                }
+                else
+                {
+                    field_6C_animation_state = 14;
+                }
+                break;
+            case 16:
+                if (field_80_sprite_ptr->field_1C_zpos.ToUInt8() != 0 && field_80_sprite_ptr->field_14_xy.x.ToUInt8() > 1 &&
+                    field_80_sprite_ptr->field_14_xy.y.ToUInt8() > 1 && field_80_sprite_ptr->field_14_xy.x.ToUInt8() < 254 &&
+                    field_80_sprite_ptr->field_14_xy.y.ToUInt8() < 254)
+                {
+                    field_38_velocity = -k_CollisionRepulsionSpeed_6FD7BC;
+                    Char_B4::state_0_54DDF0();
+                }
+                else
+                {
+                    field_6C_animation_state = 14;
+                }
+                break;
+            case 13:
+            case 14:
+            case 19:
+            case 20:
+                if (field_4C != k_dword_6FD9E4 || field_50 != k_dword_6FD9E4)
+                {
+                    field_4C = k_dword_6FD9E4;
+                    field_50 = k_dword_6FD9E4;
+                    gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
+
+                    field_80_sprite_ptr->set_xyz_lazy_420600(field_4C + field_80_sprite_ptr->field_14_xy.x,
+                                                             field_50 + field_80_sprite_ptr->field_14_xy.y,
+                                                             field_80_sprite_ptr->field_1C_zpos);
+                }
+
+                field_80_sprite_ptr->field_28_num = 6;
+                break;
+            default:
+                if (field_6C_animation_state != 21)
+                {
+                    rng = stru_6F6784.get_int_4F7AE0(3);
+                    switch (rng)
+                    {
+                        case 0:
+                            field_6C_animation_state = 14;
+                            break;
+                        case 1:
+                            field_6C_animation_state = 19;
+                            break;
+                        case 2:
+                            field_6C_animation_state = 20;
+                            break;
+                    }
+                }
+                field_68_animation_frame = 0;
+                field_80_sprite_ptr->set_num_40F7B0(6);
+                break;
+        }
+    }
 }
 
 STUB_FUNC(0x5532C0)
@@ -3041,10 +3171,9 @@ bool Char_B4::sub_5532C0()
     return false;
 }
 
-STUB_FUNC(0x553330)
+MATCH_FUNC(0x553330)
 char_type Char_B4::IsThreatToSearchingPed_553330()
 {
-    NOT_IMPLEMENTED;
     return field_7C_pPed->IsThreatToSearchingPed_4661F0();
 }
 

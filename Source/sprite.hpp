@@ -373,6 +373,11 @@ class Sprite
         return field_1C_zpos;
     }
 
+    inline void set_num_40F7B0(s32 new_num)
+    {
+        field_28_num = new_num;
+    }
+
     Fix16_Point_POD field_14_xy;
     Fix16 field_1C_zpos;
     s16 field_20_id;
