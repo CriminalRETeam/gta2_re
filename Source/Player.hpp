@@ -134,7 +134,7 @@ class Player
     EXPORT void SelectNextOrPrevWeapon_5649D0(char_type bFowards, char_type bBackwards);
     EXPORT void sub_564AD0(Car_BC* a2);
     EXPORT void sub_564B60();
-    EXPORT s32 sub_564B80();
+    EXPORT void CleanupEmptyAmmoWeapons_564B80();
     EXPORT void sub_564C00();
     EXPORT void RemovePlayerWeapons_564C50();
     EXPORT void sub_564CC0();

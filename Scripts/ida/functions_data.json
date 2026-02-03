@@ -12660,7 +12660,7 @@
         "v105_address": "0x564b60"
     },
     {
-        "name": "Player::sub_564B80",
+        "name": "Player::CleanupEmptyAmmoWeapons_564B80",
         "v96f_address": null,
         "v105_address": "0x564b80"
     },

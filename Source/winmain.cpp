@@ -167,7 +167,7 @@ void force_link()
     lewin.SelectNextOrPrevWeapon_5649D0(0, 0);
     lewin.sub_564AD0(0);
     lewin.sub_564B60();
-    lewin.sub_564B80();
+    lewin.CleanupEmptyAmmoWeapons_564B80();
     lewin.sub_564C00();
     lewin.RemovePlayerWeapons_564C50();
     lewin.sub_564CC0();

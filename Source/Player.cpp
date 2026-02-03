@@ -431,17 +431,36 @@ void Player::sub_564B60()
     }
 }
 
-STUB_FUNC(0x564B80)
-s32 Player::sub_564B80()
+WIP_FUNC(0x564B80)
+void Player::CleanupEmptyAmmoWeapons_564B80()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Weapon_30** ppWeapon; // ebp
+    Weapon_30* pToFind; // eax
+    int k13; // [esp+10h] [ebp-4h]
+
+    ppWeapon = &this->field_718_weapons[15];
+    k13 = 13;
+    while (k13)
+    {
+        pToFind = *ppWeapon;
+        if (pToFind)
+        {
+            if (!pToFind->field_0_ammo)
+            {
+                gWeapon_30_Pool_707014->sub_4A4F20(pToFind);
+            }
+        }
+        *ppWeapon++ = 0;
+        --k13;
+    }
 }
 
 MATCH_FUNC(0x564C00)
 void Player::sub_564C00()
 {
-    sub_564B80();
+    CleanupEmptyAmmoWeapons_564B80();
 
     if (field_788_curr_weapon_idx >= weapon_type::car_bomb)
     {
