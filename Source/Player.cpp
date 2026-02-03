@@ -44,6 +44,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FE488, Ang16(12), 0x6FE488);
 DEFINE_GLOBAL_INIT(Ang16, word_6FE450, Ang16(24), 0x6FE450);
 DEFINE_GLOBAL_INIT(Ang16, word_6FE700, Ang16(48), 0x6FE700);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE614, Fix16(1), 0x6FE614);
+DEFINE_GLOBAL_INIT(Fix16, k_instant_gang_radius_6FE634, Fix16(8), 0x6FE634);
 
 struct UnknownDebugClass
 {
@@ -504,11 +505,182 @@ void Player::sub_564CF0()
     field_6F4_power_up_timers[JailCard_4] = v2;
 }
 
-STUB_FUNC(0x564D60)
-char_type Player::CollectPowerUp_564D60(s32 a2)
+WIP_FUNC(0x564D60)
+char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
 {
-    NOT_IMPLEMENTED;
-    return 'a';
+    WIP_IMPLEMENTED;
+
+    s32 mult_val; // eax
+    thirsty_lamarr* pMultpliers; // ecx
+    char_type result; // al
+    Ped* pPlayerPed__; // esi
+    Ped* pPlayerPed_; // esi
+    Gang_144* pGang; // ecx
+    Ped* pPlayerPed; // ecx
+
+    switch (power_up_idx)
+    {
+        case 0:
+            mult_val = this->field_6BC_multpliers.field_0;
+            pMultpliers = &this->field_6BC_multpliers;
+            if (mult_val == 99)
+            {
+                result = 0;
+            }
+            else
+            {
+                pMultpliers->ChangeStatByAmount_4921B0(1);
+                result = 1;
+            }
+            break;
+        case 1:
+            if (this->field_684_lives.field_0 == 99)
+            {
+                result = 0;
+            }
+            else
+            {
+                ChangeLifeCountByAmount_5699F0(1);
+                result = 1;
+            }
+            break;
+        case 2:
+            pPlayerPed__ = this->field_2C4_player_ped;
+            if (pPlayerPed__->field_216_health < 100)
+            {
+                pPlayerPed__->field_216_health = 100;
+                result = 1;
+            }
+            else
+            {
+                result = 0;
+            }
+            break;
+        case 3:
+            if (this->field_6F4_power_up_timers[3] == 10)
+            {
+                result = 0;
+            }
+            else
+            {
+                this->field_6F4_power_up_timers[3] = 10;
+                result = 1;
+            }
+            break;
+        case 5:
+            pPlayerPed_ = this->field_2C4_player_ped;
+            if (pPlayerPed_->field_20A_wanted_points)
+            {
+                pPlayerPed_->field_20A_wanted_points = 0;
+                result = 1;
+            }
+            else
+            {
+                result = 0;
+            }
+            break;
+        case 6:
+            if (this->field_6F4_power_up_timers[6] == 1200)
+            {
+                result = 0;
+            }
+            else
+            {
+                this->field_6F4_power_up_timers[6] = 1200;
+                field_2C4_player_ped->SetInvulnerable();
+                result = 1;
+            }
+            break;
+        case 7:
+            if (this->field_6F4_power_up_timers[7] == 1800)
+            {
+                result = 0;
+            }
+            else
+            {
+                this->field_6F4_power_up_timers[7] = 1800;
+                result = 1;
+            }
+            break;
+        case 8:
+            if (this->field_6F4_power_up_timers[8] == 1800)
+            {
+                result = 0;
+            }
+            else
+            {
+                this->field_6F4_power_up_timers[8] = 1800;
+                result = 1;
+            }
+            break;
+        case 9:
+            if (this->field_6F4_power_up_timers[9] == 2100)
+            {
+                result = 0;
+            }
+            else
+            {
+                this->field_6F4_power_up_timers[9] = 2100;
+                this->field_2C4_player_ped->field_21C |= 0x4000000u;
+                result = 1;
+            }
+            break;
+        case 10:
+            pGang = this->field_34_gang_curr_location;
+            if (pGang)
+            {
+                if (pGang->GetRespectForPlayer_4BEEF0(this->field_2E_idx) == 100)
+                {
+                    result = 0;
+                }
+                else
+                {
+                    field_34_gang_curr_location->IncrementRespect_4BEE50(this->field_2E_idx, 20);
+                    result = 1;
+                }
+            }
+            else
+            {
+                result = 0;
+            }
+            break;
+        case 11:
+            if (this->field_6F4_power_up_timers[11] == 1800)
+            {
+                result = 0;
+            }
+            else
+            {
+                this->field_6F4_power_up_timers[11] = 1800;
+                field_2C4_player_ped->SetInvisible();
+                result = 1;
+            }
+            break;
+        case 12:
+            pPlayerPed = this->field_2C4_player_ped;
+            if (pPlayerPed->field_168_game_object)
+            {
+                pPlayerPed->RecruitNearbyPeds_46E080(4, k_instant_gang_radius_6FE634);
+                result = 1;
+            }
+            else
+            {
+                result = 0;
+            }
+            break;
+        default:
+            if (this->field_6F4_power_up_timers[power_up_idx] == 1)
+            {
+                result = 0;
+            }
+            else
+            {
+                this->field_6F4_power_up_timers[power_up_idx] = 1;
+                result = 1;
+            }
+            break;
+    }
+    return result;
 }
 
 MATCH_FUNC(0x565070)
