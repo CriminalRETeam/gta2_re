@@ -126,11 +126,54 @@ void Player::sub_5645B0(Car_BC* pNewCar)
     }
 }
 
-STUB_FUNC(0x564610)
+WIP_FUNC(0x564610)
 char_type Player::PromoteCarInHistory_564610(Car_BC* pCar, char_type bDontModify)
 {
-    NOT_IMPLEMENTED;
-    return 'a';
+    WIP_IMPLEMENTED;
+    
+    Car_BC** ppCarIter; // eax
+    char_type count; // cl
+    Car_BC** pCarValue; // edx
+    s32 subCount; // esi
+
+    ppCarIter = &this->field_54_unk[1];
+    if (!bStartNetworkGame_7081F0)
+    {
+
+        if (pCar != this->field_54_unk[2]) // check 2
+        {
+            return 1;
+        }
+        count = 1;
+        while (*ppCarIter != pCar) // check 1 and 0
+        {
+            --ppCarIter;
+            if (--count < 0)
+            {
+                return 0;
+            }
+        }
+        pCarValue = ppCarIter + 1;
+        if (count < 2)
+        {
+            subCount = 2 - count;
+            do
+            {
+                if (!bDontModify)
+                {
+                    *ppCarIter++ = *pCarValue++;
+                }
+                --subCount;
+            } while (subCount);
+        }
+        if (!bDontModify)
+        {
+            *ppCarIter = pCar;
+        }
+        return 1;
+    }
+
+    return 0;
 }
 
 WIP_FUNC(0x564680)
