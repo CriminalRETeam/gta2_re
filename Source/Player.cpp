@@ -140,24 +140,24 @@ u32* Player::sub_564680(Car_BC* a2)
 }
 
 MATCH_FUNC(0x564710)
-void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
+void Player::SetKFCarWeapon_564710(Car_BC* pCar, s32 weapon_kind)
 {
-    this->field_18 = this->field_788_curr_weapon_idx;
+    this->field_18_pre_kf_weapon_kind = this->field_788_curr_weapon_idx;
 
     Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
     if (pWeapon)
     {
-        this->field_1A_ammo = pWeapon->field_0_ammo;
+        this->field_1A_pre_kf_ammo = pWeapon->field_0_ammo;
     }
     else
     {
-        this->field_1A_ammo = 0;
+        this->field_1A_pre_kf_ammo = 0;
         pWeapon = gWeapon_8_707018->allocate_5E3CE0(weapon_kind, pCar, 0);
     }
 
-    this->field_1C_weapon_kind = weapon_kind;
-    this->field_20_car = pCar;
-    this->field_24 = pCar->field_6C_maybe_id;
+    this->field_1C_kf_weapon_kind = weapon_kind;
+    this->field_20_kf_car = pCar;
+    this->field_24_kf_car_id = pCar->field_6C_maybe_id;
 
     pWeapon->field_0_ammo = -1;
 
@@ -167,43 +167,43 @@ void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
         if (pDriver->field_15C_player == this)
         {
             this->field_718_weapons[weapon_kind] = pWeapon;
-            this->field_788_curr_weapon_idx = this->field_1C_weapon_kind;
+            this->field_788_curr_weapon_idx = this->field_1C_kf_weapon_kind;
         }
     }
 }
 
 MATCH_FUNC(0x564790)
-void Player::sub_564790(s32 idx)
+void Player::SetKFWeapon_564790(s32 idx)
 {
-    this->field_18 = this->field_788_curr_weapon_idx;
-    this->field_1C_weapon_kind = idx;
-    this->field_1A_ammo = this->field_718_weapons[idx]->field_0_ammo;
+    this->field_18_pre_kf_weapon_kind = this->field_788_curr_weapon_idx;
+    this->field_1C_kf_weapon_kind = idx;
+    this->field_1A_pre_kf_ammo = this->field_718_weapons[idx]->field_0_ammo;
     this->field_718_weapons[idx]->field_0_ammo = -1;
-    this->field_788_curr_weapon_idx = this->field_1C_weapon_kind;
+    this->field_788_curr_weapon_idx = this->field_1C_kf_weapon_kind;
     EnableKFMode_56A010();
 }
 
 MATCH_FUNC(0x5647D0)
 void Player::ClearKFWeapon_5647D0()
 {
-    if (this->field_18 != -2)
+    if (this->field_18_pre_kf_weapon_kind != -2)
     {
-        if (gWeapon_8_707018->is_car_weapon_433820(field_1C_weapon_kind))
+        if (gWeapon_8_707018->is_car_weapon_433820(field_1C_kf_weapon_kind))
         {
-            if (field_20_car->field_6C_maybe_id == this->field_24)
+            if (field_20_kf_car->field_6C_maybe_id == this->field_24_kf_car_id)
             {
-                Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(field_20_car, this->field_1C_weapon_kind);
-                pWeapon->SetAmmo_4A4FF0(this->field_1A_ammo);
-                if (!this->field_1A_ammo)
+                Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(field_20_kf_car, this->field_1C_kf_weapon_kind);
+                pWeapon->SetAmmo_4A4FF0(this->field_1A_pre_kf_ammo);
+                if (!this->field_1A_pre_kf_ammo)
                 {
                     gWeapon_30_Pool_707014->sub_4A4F20(pWeapon);
-                    Ped* pDriver = this->field_20_car->field_54_driver;
+                    Ped* pDriver = this->field_20_kf_car->field_54_driver;
                     if (pDriver)
                     {
                         if (pDriver->field_15C_player == this)
                         {
-                            this->field_718_weapons[this->field_1C_weapon_kind] = 0;
-                            this->field_788_curr_weapon_idx = this->field_18;
+                            this->field_718_weapons[this->field_1C_kf_weapon_kind] = 0;
+                            this->field_788_curr_weapon_idx = this->field_18_pre_kf_weapon_kind;
                         }
                     }
                 }
@@ -211,20 +211,20 @@ void Player::ClearKFWeapon_5647D0()
         }
         else
         {
-            if (gCheatUnlimitedElectroGun_67D4F7 && field_1C_weapon_kind == weapon_type::shocker ||
-                gCheatUnlimitedFlameThrower_67D6CC && field_1C_weapon_kind == weapon_type::flamethrower)
+            if (gCheatUnlimitedElectroGun_67D4F7 && field_1C_kf_weapon_kind == weapon_type::shocker ||
+                gCheatUnlimitedFlameThrower_67D6CC && field_1C_kf_weapon_kind == weapon_type::flamethrower)
             {
-                this->field_18 = -2;
+                this->field_18_pre_kf_weapon_kind = -2;
                 return;
             }
             else
             {
                 DisableKFMode_56A020();
-                this->field_718_weapons[this->field_1C_weapon_kind]->SetAmmo_4A4FF0(this->field_1A_ammo);
-                this->field_788_curr_weapon_idx = this->field_18;
+                this->field_718_weapons[this->field_1C_kf_weapon_kind]->SetAmmo_4A4FF0(this->field_1A_pre_kf_ammo);
+                this->field_788_curr_weapon_idx = this->field_18_pre_kf_weapon_kind;
             }
         }
-        this->field_18 = -2;
+        this->field_18_pre_kf_weapon_kind = -2;
     }
 }
 
@@ -425,10 +425,10 @@ void Player::sub_564C00()
         field_788_curr_weapon_idx = field_14;
     }
 
-    if (field_18 >= 15)
+    if (field_18_pre_kf_weapon_kind >= weapon_type::car_bomb)
     {
-        field_16 = field_18;
-        field_18 = field_14;
+        field_16 = field_18_pre_kf_weapon_kind;
+        field_18_pre_kf_weapon_kind = field_14;
     }
 
     SelectNextOrPrevWeapon_5649D0(0, 0);
@@ -2350,7 +2350,7 @@ void Player::sub_569CB0()
     field_684_lives.sub_492150();
     field_6BC_multpliers.sub_492150();
     field_64 = 0;
-    field_18 = -2;
+    field_18_pre_kf_weapon_kind = -2;
     if (gfrosty_pasteur_6F8060->field_C1E2C)
     {
         Player::UpdateGameFromSave_56A310(&gGameSave_6F78C8.field_54_player_and_world_stats);

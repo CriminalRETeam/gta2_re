@@ -157,8 +157,8 @@ void force_link()
     lewin.sub_5645B0(0);
     lewin.PromoteCarInHistory_564610(0, 0);
     lewin.sub_564680(0);
-    lewin.sub_564710(0, 0);
-    lewin.sub_564790(0);
+    lewin.SetKFCarWeapon_564710(0, 0);
+    lewin.SetKFWeapon_564790(0);
     lewin.ClearKFWeapon_5647D0();
     lewin.GetCurrPlayerWeapon_5648F0();
     lewin.sub_564910(0);

@@ -12610,12 +12610,12 @@
         "v105_address": "0x564680"
     },
     {
-        "name": "Player::sub_564710",
+        "name": "Player::SetKFCarWeapon_564710",
         "v96f_address": null,
         "v105_address": "0x564710"
     },
     {
-        "name": "Player::sub_564790",
+        "name": "Player::SetKFWeapon_564790",
         "v96f_address": null,
         "v105_address": "0x564790"
     },

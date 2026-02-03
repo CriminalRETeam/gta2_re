@@ -4698,11 +4698,11 @@ void miss2_0x11C::sub_50FE00() // SCRCMD_SET_KF_WEAPON
 
     if (is_car_weapon(weapon_idx))
     {
-        pPointer->field_8_char->field_15C_player->sub_564710(pPointer->field_8_char->field_16C_car, weapon_idx);
+        pPointer->field_8_char->field_15C_player->SetKFCarWeapon_564710(pPointer->field_8_char->field_16C_car, weapon_idx);
     }
     else
     {
-        pPointer->field_8_char->field_15C_player->sub_564790(weapon_idx);
+        pPointer->field_8_char->field_15C_player->SetKFWeapon_564790(weapon_idx);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
