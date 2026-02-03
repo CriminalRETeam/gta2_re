@@ -468,12 +468,12 @@ void Player::sub_564CC0()
 {
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_6F4_power_up_timers); i++)
     {
-        if (i == Invisibility_11 && gCheatInvisibility_67D539)
+        if (i == power_up_indices::Invisibility_11 && gCheatInvisibility_67D539)
         {
             continue;
         }
 
-        if (i == DoubleDamage_7 && gCheatUnlimitedDoubleDamage_67D57C)
+        if (i == power_up_indices::DoubleDamage_7 && gCheatUnlimitedDoubleDamage_67D57C)
         {
             continue;
         }
@@ -485,16 +485,16 @@ void Player::sub_564CC0()
 MATCH_FUNC(0x564CF0)
 void Player::sub_564CF0()
 {
-    u16 v2 = field_6F4_power_up_timers[JailCard_4];
-    if (field_6F4_power_up_timers[Invulnerability_6])
+    u16 v2 = field_6F4_power_up_timers[power_up_indices::JailCard_4];
+    if (field_6F4_power_up_timers[power_up_indices::Invulnerability_6])
     {
         field_2C4_player_ped->sub_45C050();
     }
-    if (field_6F4_power_up_timers[Electrofingers_9])
+    if (field_6F4_power_up_timers[power_up_indices::Electrofingers_9])
     {
         field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
     }
-    if (field_6F4_power_up_timers[Invisibility_11])
+    if (field_6F4_power_up_timers[power_up_indices::Invisibility_11])
     {
         if (!gCheatInvisibility_67D539)
         {
@@ -502,7 +502,7 @@ void Player::sub_564CF0()
         }
     }
     sub_564CC0();
-    field_6F4_power_up_timers[JailCard_4] = v2;
+    field_6F4_power_up_timers[power_up_indices::JailCard_4] = v2;
 }
 
 WIP_FUNC(0x564D60)
@@ -510,222 +510,162 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
 {
     WIP_IMPLEMENTED;
 
-    s32 mult_val; // eax
-    thirsty_lamarr* pMultpliers; // ecx
-    char_type result; // al
-    Ped* pPlayerPed__; // esi
-    Ped* pPlayerPed_; // esi
-    Gang_144* pGang; // ecx
-    Ped* pPlayerPed; // ecx
-
     switch (power_up_idx)
     {
-        case 0:
-            mult_val = this->field_6BC_multpliers.field_0;
-            pMultpliers = &this->field_6BC_multpliers;
-            if (mult_val == 99)
+        case power_up_indices::Unk_0:
+            if (field_6BC_multpliers.field_0 == 99)
             {
-                result = 0;
+                return 0;
             }
-            else
-            {
-                pMultpliers->ChangeStatByAmount_4921B0(1);
-                result = 1;
-            }
+            field_6BC_multpliers.ChangeStatByAmount_4921B0(1);
             break;
-        case 1:
+
+        case power_up_indices::Unk_1:
             if (this->field_684_lives.field_0 == 99)
             {
-                result = 0;
+                return 0;
             }
-            else
-            {
-                ChangeLifeCountByAmount_5699F0(1);
-                result = 1;
-            }
+            ChangeLifeCountByAmount_5699F0(1);
             break;
-        case 2:
-            pPlayerPed__ = this->field_2C4_player_ped;
-            if (pPlayerPed__->field_216_health < 100)
+
+        case power_up_indices::Unk_2:
+            if (field_2C4_player_ped->field_216_health >= 100)
             {
-                pPlayerPed__->field_216_health = 100;
-                result = 1;
+                return 0;
             }
-            else
-            {
-                result = 0;
-            }
+            field_2C4_player_ped->field_216_health = 100;
             break;
-        case 3:
+
+        case power_up_indices::Armor_3:
             if (this->field_6F4_power_up_timers[3] == 10)
             {
-                result = 0;
+                return 0;
             }
-            else
-            {
-                this->field_6F4_power_up_timers[3] = 10;
-                result = 1;
-            }
+            this->field_6F4_power_up_timers[3] = 10;
             break;
-        case 5:
-            pPlayerPed_ = this->field_2C4_player_ped;
-            if (pPlayerPed_->field_20A_wanted_points)
+
+        case power_up_indices::Unk_5:
+            if (field_2C4_player_ped->field_20A_wanted_points == 0)
             {
-                pPlayerPed_->field_20A_wanted_points = 0;
-                result = 1;
+                return 0;
             }
-            else
-            {
-                result = 0;
-            }
+            field_2C4_player_ped->field_20A_wanted_points = 0;
             break;
-        case 6:
+
+        case power_up_indices::Invulnerability_6:
             if (this->field_6F4_power_up_timers[6] == 1200)
             {
-                result = 0;
+                return 0;
             }
-            else
-            {
-                this->field_6F4_power_up_timers[6] = 1200;
-                field_2C4_player_ped->SetInvulnerable();
-                result = 1;
-            }
+            this->field_6F4_power_up_timers[6] = 1200;
+            field_2C4_player_ped->SetInvulnerable();
             break;
-        case 7:
+
+        case power_up_indices::DoubleDamage_7:
             if (this->field_6F4_power_up_timers[7] == 1800)
             {
-                result = 0;
+                return 0;
             }
-            else
-            {
-                this->field_6F4_power_up_timers[7] = 1800;
-                result = 1;
-            }
+            this->field_6F4_power_up_timers[7] = 1800;
             break;
-        case 8:
+
+        case power_up_indices::FastReload_8:
             if (this->field_6F4_power_up_timers[8] == 1800)
             {
-                result = 0;
+                return 0;
             }
-            else
-            {
-                this->field_6F4_power_up_timers[8] = 1800;
-                result = 1;
-            }
+            this->field_6F4_power_up_timers[8] = 1800;
             break;
-        case 9:
+
+        case power_up_indices::Electrofingers_9:
             if (this->field_6F4_power_up_timers[9] == 2100)
             {
-                result = 0;
+                return 0;
             }
-            else
-            {
-                this->field_6F4_power_up_timers[9] = 2100;
-                this->field_2C4_player_ped->field_21C |= 0x4000000u;
-                result = 1;
-            }
+            this->field_6F4_power_up_timers[9] = 2100;
+            this->field_2C4_player_ped->field_21C |= 0x4000000u;
             break;
-        case 10:
-            pGang = this->field_34_gang_curr_location;
-            if (pGang)
-            {
-                if (pGang->GetRespectForPlayer_4BEEF0(this->field_2E_idx) == 100)
-                {
-                    result = 0;
-                }
-                else
-                {
-                    field_34_gang_curr_location->IncrementRespect_4BEE50(this->field_2E_idx, 20);
-                    result = 1;
-                }
-            }
-            else
-            {
-                result = 0;
-            }
-            break;
-        case 11:
+
+        case power_up_indices::Invisibility_11:
             if (this->field_6F4_power_up_timers[11] == 1800)
             {
-                result = 0;
+                return 0;
             }
-            else
-            {
-                this->field_6F4_power_up_timers[11] = 1800;
-                field_2C4_player_ped->SetInvisible();
-                result = 1;
-            }
+            this->field_6F4_power_up_timers[11] = 1800;
+            field_2C4_player_ped->SetInvisible();
             break;
-        case 12:
-            pPlayerPed = this->field_2C4_player_ped;
-            if (pPlayerPed->field_168_game_object)
+
+        case power_up_indices::Unk_10:
+            if (!field_34_gang_curr_location)
             {
-                pPlayerPed->RecruitNearbyPeds_46E080(4, k_instant_gang_radius_6FE634);
-                result = 1;
+                return 0;
             }
-            else
+            if (field_34_gang_curr_location->GetRespectForPlayer_4BEEF0(this->field_2E_idx) == 100)
             {
-                result = 0;
+                return 0;
             }
+            field_34_gang_curr_location->IncrementRespect_4BEE50(this->field_2E_idx, 20);
+            break;
+
+        case power_up_indices::InstantGang_12:
+            if (!field_2C4_player_ped->field_168_game_object)
+            {
+                return 0;
+            }
+            field_2C4_player_ped->RecruitNearbyPeds_46E080(4, k_instant_gang_radius_6FE634);
             break;
         default:
             if (this->field_6F4_power_up_timers[power_up_idx] == 1)
             {
-                result = 0;
+                return 0;
             }
-            else
-            {
-                this->field_6F4_power_up_timers[power_up_idx] = 1;
-                result = 1;
-            }
+            this->field_6F4_power_up_timers[power_up_idx] = 1;
             break;
     }
-    return result;
+    return 1;
 }
 
 MATCH_FUNC(0x565070)
 void Player::tick_down_powerups_565070()
 {
-    // invulnerability
-    if (field_6F4_power_up_timers[Invulnerability_6])
+    if (field_6F4_power_up_timers[power_up_indices::Invulnerability_6])
     {
-        field_6F4_power_up_timers[Invulnerability_6]--;
-        if (!field_6F4_power_up_timers[Invulnerability_6])
+        field_6F4_power_up_timers[power_up_indices::Invulnerability_6]--;
+        if (!field_6F4_power_up_timers[power_up_indices::Invulnerability_6])
         {
             field_2C4_player_ped->sub_45C050();
         }
     }
 
-    // double damage
-    if (field_6F4_power_up_timers[DoubleDamage_7])
+    if (field_6F4_power_up_timers[power_up_indices::DoubleDamage_7])
     {
         if (!gCheatUnlimitedDoubleDamage_67D57C)
         {
-            field_6F4_power_up_timers[DoubleDamage_7]--;
+            field_6F4_power_up_timers[power_up_indices::DoubleDamage_7]--;
         }
     }
 
-    if (field_6F4_power_up_timers[FastReload_8])
+    if (field_6F4_power_up_timers[power_up_indices::FastReload_8])
     {
-        field_6F4_power_up_timers[FastReload_8]--;
+        field_6F4_power_up_timers[power_up_indices::FastReload_8]--;
     }
 
-    if (field_6F4_power_up_timers[Electrofingers_9])
+    if (field_6F4_power_up_timers[power_up_indices::Electrofingers_9])
     {
-        field_6F4_power_up_timers[Electrofingers_9]--;
-        if (!field_6F4_power_up_timers[Electrofingers_9])
+        field_6F4_power_up_timers[power_up_indices::Electrofingers_9]--;
+        if (!field_6F4_power_up_timers[power_up_indices::Electrofingers_9])
         {
             field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
         }
     }
 
     // invisiblity
-    if (field_6F4_power_up_timers[Invisibility_11])
+    if (field_6F4_power_up_timers[power_up_indices::Invisibility_11])
     {
         if (!gCheatInvisibility_67D539)
         {
-            field_6F4_power_up_timers[Invisibility_11]--;
-            if (!field_6F4_power_up_timers[Invisibility_11])
+            field_6F4_power_up_timers[power_up_indices::Invisibility_11]--;
+            if (!field_6F4_power_up_timers[power_up_indices::Invisibility_11])
             {
                 field_2C4_player_ped->SetVisible();
             }
@@ -1845,12 +1785,12 @@ void Player::Busted_5679E0()
             {
                 gHud_2B00_706620->field_111C.ClearTimeToShow_5D1850();
                 Player::ClearKFWeapon_5647D0();
-                u16 power_up_timer = field_6F4_power_up_timers[JailCard_4];
+                u16 power_up_timer = field_6F4_power_up_timers[power_up_indices::JailCard_4];
                 if (power_up_timer != 0)
                 {
                     if (!gCheatUnknown_67D4F6)
                     {
-                        field_6F4_power_up_timers[JailCard_4] = power_up_timer - 1;
+                        field_6F4_power_up_timers[power_up_indices::JailCard_4] = power_up_timer - 1;
                     }
                 }
                 else

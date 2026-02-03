@@ -20,7 +20,9 @@ struct save_stats_0x90;
 class Car_BC;
 class Gang_144;
 
-enum power_up_indices
+namespace power_up_indices
+{
+enum 
 {
     Unk_0 = 0,
     Unk_1 = 1,
@@ -34,12 +36,13 @@ enum power_up_indices
     Electrofingers_9 = 9,
     Unk_10 = 10,
     Invisibility_11 = 11,
-    Unk_12 = 12,
+    InstantGang_12 = 12,
     Unk_13 = 13,
     Unk_14 = 14,
     Unk_15 = 15,
     Unk_16 = 16,
 };
+}
 
 class Player
 {
@@ -225,7 +228,7 @@ class Player
     s32 field_10;
     s16 field_14;
     s16 field_16;
-    
+
     s16 field_18_pre_kf_weapon_kind;
     s16 field_1A_pre_kf_ammo;
     s32 field_1C_kf_weapon_kind;

@@ -154,7 +154,7 @@ void Weapon_30::TickReloadSpeed_5DCF40()
     Player* pPlayer = field_24_pPed->field_15C_player;
     if (pPlayer)
     {
-        if (pPlayer->field_6F4_power_up_timers[FastReload_8]) // Fast reload?
+        if (pPlayer->field_6F4_power_up_timers[power_up_indices::FastReload_8])
         {
             field_2_reload_speed /= 2;
         }
