@@ -911,10 +911,11 @@ void Player::IncrementGangRespectFromDebugKeys_565770(u8 count)
     }
 }
 
-STUB_FUNC(0x565860)
+WIP_FUNC(0x565860)
 void Player::IncreaseWantedLevelFromDebugKeys_565860()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
     // TODO: This function just calls another - split them
     Ped* pPed = this->field_2C4_player_ped;
     switch (pPed->get_wanted_star_count_46EF00())
