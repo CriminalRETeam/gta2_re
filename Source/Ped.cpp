@@ -107,6 +107,10 @@ DEFINE_GLOBAL(u8, byte_6787CE, 0x6787CE);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A0, Fix16(0x3333, 0), 0x6784A0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784BC, dword_6784C4 / dword_678668, 0x6784BC);
 
+DEFINE_GLOBAL(Ang16, word_6784C8, 0x6784C8);
+DEFINE_GLOBAL(Ang16, dword_6784E4, 0x6784E4);
+
+
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
@@ -5876,10 +5880,52 @@ Weapon_30* Ped::GetWeaponFromPed_46F110()
     return 0;
 }
 
-STUB_FUNC(0x46f1e0)
+
+WIP_FUNC(0x46f1e0)
 void Ped::sub_46F1E0(Weapon_30* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    char_type rng_val = 0;
+    if (a2->field_1C_idx <= (u32)weapon_type::smg)
+    {
+        if (field_270)
+        {
+            if (field_270 == 2)
+            {
+                rng_val = 0;
+            }
+        }
+        else if (GetPedVelocity_45C920() == k_dword_678660)
+        {
+            rng_val = stru_6F6784.get_int_4F7AE0(3);
+        }
+        else
+        {
+            rng_val = stru_6F6784.get_int_4F7AE0(5);
+            if (rng_val == 0)
+            {
+                rng_val = stru_6F6784.get_int_4F7AE0(5);
+            }
+        }
+
+        switch (rng_val)
+        {
+            case 1:
+                field_12E -= word_6784C8;
+            case 2:
+                field_12E += word_6784C8;
+                break;
+            case 3:
+                field_12E -= dword_6784E4;
+                break;
+            case 4:
+                field_12E += dword_6784E4;
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 MATCH_FUNC(0x46f390)
