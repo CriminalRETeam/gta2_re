@@ -1,13 +1,13 @@
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
+#include "Object_5C.hpp"
 #include "Particle_8.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "debug.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
-#include "Object_5C.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -897,11 +897,10 @@ s32 CarPhysics_B0::sub_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x55f930)
-s32 CarPhysics_B0::sub_55F930(Fix16_Point* a2)
+MATCH_FUNC(0x55f930)
+void CarPhysics_B0::sub_55F930(Fix16_Point* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_48 += (*a2 * dword_6FE258->field_4_mass);
 }
 
 MATCH_FUNC(0x55f970)
