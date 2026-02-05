@@ -3737,10 +3737,22 @@ void miss2_0x11C::sub_50DB70()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50dd00)
-void miss2_0x11C::sub_50DD00()
+MATCH_FUNC(0x50dd00)
+void miss2_0x11C::sub_50DD00() // GET_NUM_LIVES or GET_NUM_MULT
 {
-    NOT_IMPLEMENTED;
+    SCR_GET_NUM_LIVES_MULTIPLIERS* pCmd = (SCR_GET_NUM_LIVES_MULTIPLIERS*)gBasePtr_6F8070;
+    SCR_POINTER* pPlayerPtr =
+        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this); // pCmd->field_8_player_ped_idx
+    SCR_POINTER* pCounterPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx);
+    if (gBasePtr_6F8070->field_2_type == SCRCMD_GET_NUM_LIVES)
+    {
+        pCounterPtr->field_8_counter = pPlayerPtr->field_8_char->field_15C_player->field_684_lives.field_0;
+    }
+    else
+    {
+        pCounterPtr->field_8_counter = pPlayerPtr->field_8_char->field_15C_player->field_6BC_multpliers.field_0;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 // matches on decompme: https://decomp.me/scratch/y8gtV
