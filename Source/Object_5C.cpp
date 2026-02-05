@@ -338,7 +338,7 @@ void Object_2C::sub_5226A0(char_type a2)
     }
     else
     {
-        sub_528130(&stru_6F8EF0);
+        NewObj3C_528130(&stru_6F8EF0);
         field_10_obj_3c->field_38 = a2;
     }
 }
@@ -913,11 +913,32 @@ void Object_2C::sub_527F10()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x528130)
-Ang16 Object_2C::sub_528130(Fix16_Point* a2)
+// 9.6f 0x4847D0
+WIP_FUNC(0x528130)
+void Object_2C::NewObj3C_528130(Fix16_Point* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Object_3C* pNewObj = gObject_3C_Pool_6F8F7C->Allocate();
+
+    // TODO: Part of PoolAllocate()
+    dword_6F8E54++;
+    pNewObj->field_C = 0;
+    pNewObj->field_18 = 0;
+    pNewObj->field_4 = kZeroAng_6F8F68;
+    pNewObj->field_28 = 0;
+    pNewObj->field_38 = 0;
+    pNewObj->field_34 = 2;
+    pNewObj->field_24 = 0;
+    pNewObj->field_2F = 0;
+    pNewObj->field_30_bSkipAnim = 0;
+
+    pNewObj->field_20 = field_14;
+
+    this->field_10_obj_3c = pNewObj;
+
+    this->field_10_obj_3c->field_C = a2->GetLength_41E260(); // TODO: Uses wrong zero constants?? Artifact of func being inlined into each TU??
+    this->field_10_obj_3c->field_4 = Fix16::atan2_fixed_405320(a2->y, a2->x);
 }
 
 MATCH_FUNC(0x528240)
