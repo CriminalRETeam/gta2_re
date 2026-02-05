@@ -3860,7 +3860,7 @@ void miss2_0x11C::sub_50E190()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e360)
+WIP_FUNC(0x50e360)
 void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
 {
     SCR_CHECK_CAR_SPEED* pCmd = (SCR_CHECK_CAR_SPEED*)gBasePtr_6F8070;
@@ -4788,10 +4788,57 @@ void miss2_0x11C::sub_510090()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x510100)
-void miss2_0x11C::sub_510100()
+MATCH_FUNC(0x510100)
+void miss2_0x11C::sub_510100() // START_BASIC_KF_TEMPLATE
 {
-    NOT_IMPLEMENTED;
+    SCR_START_BASIC_KF_TEMPLATE* pCmd = (SCR_START_BASIC_KF_TEMPLATE*)gBasePtr_6F8070;
+    if (gfrosty_pasteur_6F8060->field_C1E2D)
+    {
+        miss2_0x11C::EnableThread_50A9E0(pCmd->field_8_triggername);
+        miss2_0x11C::sub_506B80();
+    }
+    else
+    {
+        gfrosty_pasteur_6F8060->field_C1E2D = 1;
+        miss2_0x11C::DisableThread_505790(pCmd->field_8_triggername);
+        gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfstart"), 3); // KILL FRENZY!
+        gRoot_sound_66B038.PlayVoice_40F090(12); // KILL FRENZY voice
+        SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_C_objname); // Skull icon?
+        if (miss2_0x11C::sub_503410(pPtr->field_2_type) == 3)
+        {
+            miss2_0x11C::DeallocOrDeleteItem_505B10(pCmd->field_C_objname); // Delete skull icon?
+        }
+        sprintf(gTmpBuffer_67C598, "%d", pCmd->field_A_brief_id);
+        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        SCR_POINTER* pPlayerPedPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_E_playername);
+        u8 weapon_idx = pCmd->field_10_weapon;
+        if (weapon_idx < weapon_type::car_bomb || weapon_idx > 27)
+        {
+            // Ped weapons
+            if (weapon_idx != 28)
+            {
+                pPlayerPedPtr->field_8_char->field_15C_player->SetKFWeapon_564790((u8)pCmd->field_10_weapon);
+            }
+        }
+        else
+        {
+            // Car weapons
+            pPlayerPedPtr->field_8_char->field_15C_player->SetKFCarWeapon_564710(pPlayerPedPtr->field_8_char->field_16C_car,
+                                                                                (u8)pCmd->field_10_weapon);
+        }
+
+        u16* pBasicKF = gfrosty_pasteur_6F8060->field_C1E74_basic_kf;
+        for (u16 idx = 0; idx < GTA2_COUNTOF(gfrosty_pasteur_6F8060->field_C1E74_basic_kf); idx++)
+        {
+            if (*pBasicKF == (u16)gBasePtr_6F8070->field_0_cmd_this)
+            {
+                gGameSave_6F78C8.field_E4_car_and_script_data.field_4C |= 1 << idx;
+                break;
+            }
+            pBasicKF++;
+        }
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+    }
 }
 
 MATCH_FUNC(0x510280)
