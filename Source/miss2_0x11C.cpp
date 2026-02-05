@@ -3626,10 +3626,16 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50d200)
+MATCH_FUNC(0x50d200)
 void miss2_0x11C::SCRCMD_REMOTE_CONTROL_50D200()
 {
-    NOT_IMPLEMENTED;
+    SCR_REMOTE_CONTROL* pCmd = (SCR_REMOTE_CONTROL*)gBasePtr_6F8070;
+    SCR_POINTER* pPlayerPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pCarPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_car_idx);
+    pPlayerPtr->field_8_char->field_15C_player->DisableInputs_569F40();
+    pPlayerPtr->field_8_char->field_15C_player->sub_5695A0();
+    pPlayerPtr->field_8_char->field_15C_player->sub_569600(pCarPtr->field_8_car);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50d2e0)
@@ -4422,7 +4428,7 @@ void miss2_0x11C::sub_50F270() // WARP_FROM_CAR_TO_POINT
         pPointer->field_8_char->field_168_game_object->field_40_rotation = rotation;
         pCar->ClearDriver_4407F0();
         pCar->field_54_driver = 0;
-        gGame_0x40_67E008->field_38_orf1->sub_569F40();
+        gGame_0x40_67E008->field_38_orf1->DisableInputs_569F40();
         gGame_0x40_67E008->field_38_orf1->field_90_game_camera.sub_436540(pPointer->field_8_char);
 
         Camera_0xBC* p_game_camera = &(gGame_0x40_67E008->field_38_orf1->field_90_game_camera);

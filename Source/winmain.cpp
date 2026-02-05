@@ -213,7 +213,7 @@ void force_link()
     lewin.sub_569CB0();
     lewin.sub_569E70();
     lewin.GetDeathText_569F00();
-    lewin.sub_569F40();
+    lewin.DisableInputs_569F40();
     lewin.DisableAllControls_569FF0();
     lewin.EnableAllControls_56A000();
     lewin.EnableKFMode_56A010();

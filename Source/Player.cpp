@@ -2652,7 +2652,7 @@ void Player::sub_569E70()
     {
         if (field_68 == 2)
         {
-            Player::sub_569F40();
+            Player::DisableInputs_569F40();
         }
         Player::sub_5695A0();
     }
@@ -2665,7 +2665,7 @@ void Player::sub_569E70()
         Car_BC* pCar = gCar_6C_677930->GetNearestCarFromCoord_444F80(xpos, ypos, zpos, 0);
         if (pCar)
         {
-            Player::sub_569F40();
+            Player::DisableInputs_569F40();
             Player::sub_569600(pCar);
         }
     }
@@ -2696,7 +2696,7 @@ char* Player::GetDeathText_569F00()
 }
 
 MATCH_FUNC(0x569F40)
-void Player::sub_569F40()
+void Player::DisableInputs_569F40()
 {
     // TODO: Almost certainly an inline, and perhaps a switch case too
     Ped* pPed;
@@ -2746,7 +2746,7 @@ MATCH_FUNC(0x569FF0)
 void Player::DisableAllControls_569FF0()
 {
     field_2F_disable_all_controls = 1;
-    sub_569F40();
+    DisableInputs_569F40();
 }
 
 MATCH_FUNC(0x56A000)
