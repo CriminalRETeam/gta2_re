@@ -3725,10 +3725,14 @@ void miss2_0x11C::SCRCMD_CHANGE_RADIUS_50D9A0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50da50)
-void miss2_0x11C::sub_50DA50()
+MATCH_FUNC(0x50da50)
+void miss2_0x11C::sub_50DA50() // CREATE_LIGHT1 or LIGHT_DECSET2
 {
-    NOT_IMPLEMENTED;
+    //SCR_CREATE_LIGHT* pCmd = (SCR_CREATE_LIGHT*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr =
+        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this); // pCmd->field_8_light_idx
+    miss2_0x11C::CreateLight_504EE0((SCR_CREATE_LIGHT*)gBasePtr_6F8070, pPtr);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50db70)
