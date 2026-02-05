@@ -1487,10 +1487,166 @@ void Ped::Mugger_AI_45F360()
     }
 }
 
-STUB_FUNC(0x45ff60)
+WIP_FUNC(0x45ff60)
 void Ped::CarThief_AI_45FF60()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pNearestSteal; // eax
+    Car_BC* pNearestSteal_; // edi
+    Car_BC* pCar_; // ecx
+    Car_BC* pCar; // eax
+    Fix16 xd;
+    Fix16 yd;
+
+    if (this->field_25C_car_state == 2 && this->field_226 == 1)
+    {
+        sub_463830(0, 9999);
+    }
+
+    switch (this->field_258_objective)
+    {
+        case objectives_enum::no_obj_0:
+            if ((this->field_21C & 0x8000000) != 0)
+            {
+                if (field_150_target_objective_car)
+                {
+                    if (field_150_target_objective_car->field_88 == 5)
+                    {
+                        goto kill_and_ret;
+                    }
+                }
+                else
+                {
+                    ForceDoNothing_462590();
+                    this->field_240_occupation = ped_ocupation_enum::dummy;
+                }
+            }
+            if (this->field_20e)
+            {
+                this->field_218_objective_timer = 40;
+                ChangeNextPedState1_45C500(0);
+                ChangeNextPedState2_45C540(0);
+            }
+            else if (!this->field_218_objective_timer)
+            {
+                pNearestSteal = gCar_6C_677930->GetNearestEnterableCarFromCoord_444FA0(
+                                                                               this->field_1AC_cam.x,
+                                                                               this->field_1AC_cam.y,
+                                                                               this->field_1AC_cam.z,
+                                                                               this);
+                pNearestSteal_ = pNearestSteal;
+                if (pNearestSteal)
+                {
+                    if (pNearestSteal->field_7C_uni_num != 2)
+                    {
+                        if (!pNearestSteal->IsTrainModel_403BA0() &&
+                            !pNearestSteal_->IsPoliceCar_439EC0() && !pNearestSteal_->is_bus_43A1F0() &&
+                            !pNearestSteal_->field_4_passengers_list.field_0_pFirstPed && pNearestSteal_->field_7C_uni_num == 3)
+                        {
+                            SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                            this->field_150_target_objective_car = pNearestSteal_;
+                            this->field_248_enter_car_as_passenger = 0;
+                            this->field_24C_target_car_door = 0;
+                        }
+                    }
+                }
+            }
+            return;
+
+        case objectives_enum::flee_on_foot_till_safe_1:
+            if (this->field_225_objective_status == 1)
+            {
+                goto LABEL_52;
+            }
+            return;
+
+        case objectives_enum::time_waited_in_car_31:
+            pCar = this->field_16C_car;
+            if (pCar)
+            {
+                if (pCar->field_88 == 5)
+                {
+                    goto kill_and_ret;
+                }
+                if (this->field_218_objective_timer > 0x258u)
+                {
+                    SetObjective(objectives_enum::leave_car_36, 9999);
+                    this->field_150_target_objective_car = this->field_16C_car;
+                }
+            }
+            else
+            {
+            LABEL_52:
+                SetObjective(objectives_enum::no_obj_0, 40);
+            }
+            return;
+
+        case objectives_enum::enter_car_as_driver_35:
+            if (field_225_objective_status == 1)
+            {
+                if (this->field_150_target_objective_car->field_88 != 5)
+                {
+                    if (this->field_27C_ped_state_2 == ped_state_2::Unknown_17)
+                    {
+                        SetObjective(objectives_enum::no_obj_0, 40);
+                        sub_463830(0, 9999);
+                    }
+                    else
+                    {
+                        if ((this->field_21C & 0x1000000) == 0)
+                        {
+                            this->field_250 = 15;
+                        }
+                        SetObjective(objectives_enum::time_waited_in_car_31, 0);
+                        pCar_ = this->field_16C_car;
+                        this->field_150_target_objective_car = pCar_;
+                        pCar_->InitCarAIControl_440590();
+                        field_150_target_objective_car->sub_43AF40();
+                    }
+                    return;
+                }
+            kill_and_ret:
+                Kill_46F9D0();
+                return;
+            }
+
+            if (field_225_objective_status == 2)
+            {
+                SetObjective(objectives_enum::no_obj_0, 40);
+                sub_463830(0, 9999);
+            }
+            else if (this->field_16C_car && this->field_150_target_objective_car->field_88 == 5)
+            {
+                goto kill_and_ret;
+            }
+
+            xd = this->field_1B8_target_x - this->field_1AC_cam.x;
+            yd = this->field_1BC_target_y - this->field_1AC_cam.y;
+
+            xd = Fix16::Abs(xd);
+            yd = Fix16::Abs(yd);
+            // TODO: Might be min?
+            if (Fix16::Max_44E540(xd, yd) > k_dword_678680)
+            {
+                SetObjective(objectives_enum::no_obj_0, 9999);
+                sub_463830(0, 9999);
+                this->field_218_objective_timer = 40;
+            }
+            return;
+
+        case objectives_enum::leave_car_36:
+            if (this->field_225_objective_status == 1)
+            {
+                SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
+                this->field_1B8_target_x = this->field_1AC_cam.x;
+                this->field_1BC_target_y = this->field_1AC_cam.y;
+                this->field_1C0_target_z = this->field_1AC_cam.z;
+            }
+            return;
+        default:
+            return;
+    }
 }
 
 WIP_FUNC(0x460820)
@@ -1561,7 +1717,7 @@ void Ped::sub_460820()
                 pTargetObjCar = this->field_150_target_objective_car;
                 if (pTargetObjCar->field_88 == 5)
                 {
-               // kill_and_ret:
+                    // kill_and_ret:
                     Kill_46F9D0();
                     return;
                 }
@@ -1596,7 +1752,7 @@ void Ped::sub_460820()
                     dy_ = Fix16::Abs(dy_);
 
                     // TODO: Might be Min()?
-                    if (Fix16::Max_44E540(dx_, dy_)  > k_dword_678658 || (this->field_21C & 0x20000) != 0)
+                    if (Fix16::Max_44E540(dx_, dy_) > k_dword_678658 || (this->field_21C & 0x20000) != 0)
                     {
                         pTargetObjCar__ = this->field_150_target_objective_car;
                     }
