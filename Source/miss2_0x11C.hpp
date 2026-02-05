@@ -576,8 +576,8 @@ struct SCR_PUT_CAR_ON_TRAILER : SCR_CMD_HEADER
 
 struct SCR_CREATE_LIGHT : SCR_CMD_HEADER
 {
-    u16 field_8_car_idx;
-    u16 field_A_trailer_car_idx;
+    u16 field_8_light_idx;
+    u16 field_A_unknown;
     Fix16 field_C_xpos;
     Fix16 field_10_ypos;
     Fix16 field_14_zpos;
@@ -629,6 +629,24 @@ struct SCR_CHANGE_CAR_LOCK : SCR_CMD_HEADER
 {
     u16 field_8_car_idx;
     s16 field_A_lock_type;
+};
+
+struct SCR_IS_POINT_ON_SCREEN : SCR_CMD_HEADER
+{
+	Fix16 field_8_xpos;
+	Fix16 field_C_ypos;
+};
+
+struct SCR_GET_NUM_LIVES_MULTIPLIERS : SCR_CMD_HEADER
+{
+	u16 field_8_player_ped_idx;
+	u16 field_A_counter_idx;
+};
+
+struct SCR_REMOTE_CONTROL : SCR_CMD_HEADER
+{
+	u16 field_8_player_ped_idx;
+	u16 field_A_car_idx;
 };
 
 namespace SCR_DOOR_OPENTYPES

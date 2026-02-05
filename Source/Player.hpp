@@ -181,7 +181,7 @@ class Player
     EXPORT void sub_569CB0();
     EXPORT void sub_569E70();
     EXPORT char* GetDeathText_569F00();
-    EXPORT void sub_569F40();
+    EXPORT void DisableInputs_569F40();
     EXPORT void DisableAllControls_569FF0();
     EXPORT void EnableAllControls_56A000();
     EXPORT void EnableKFMode_56A010();

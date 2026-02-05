@@ -3626,10 +3626,16 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50d200)
+MATCH_FUNC(0x50d200)
 void miss2_0x11C::SCRCMD_REMOTE_CONTROL_50D200()
 {
-    NOT_IMPLEMENTED;
+    SCR_REMOTE_CONTROL* pCmd = (SCR_REMOTE_CONTROL*)gBasePtr_6F8070;
+    SCR_POINTER* pPlayerPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pCarPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_car_idx);
+    pPlayerPtr->field_8_char->field_15C_player->DisableInputs_569F40();
+    pPlayerPtr->field_8_char->field_15C_player->sub_5695A0();
+    pPlayerPtr->field_8_char->field_15C_player->sub_569600(pCarPtr->field_8_car);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50d2e0)
@@ -3725,10 +3731,14 @@ void miss2_0x11C::SCRCMD_CHANGE_RADIUS_50D9A0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50da50)
-void miss2_0x11C::sub_50DA50()
+MATCH_FUNC(0x50da50)
+void miss2_0x11C::sub_50DA50() // CREATE_LIGHT1 or LIGHT_DECSET2
 {
-    NOT_IMPLEMENTED;
+    //SCR_CREATE_LIGHT* pCmd = (SCR_CREATE_LIGHT*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr =
+        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this); // pCmd->field_8_light_idx
+    miss2_0x11C::CreateLight_504EE0((SCR_CREATE_LIGHT*)gBasePtr_6F8070, pPtr);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50db70)
@@ -3737,10 +3747,22 @@ void miss2_0x11C::sub_50DB70()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50dd00)
-void miss2_0x11C::sub_50DD00()
+MATCH_FUNC(0x50dd00)
+void miss2_0x11C::sub_50DD00() // GET_NUM_LIVES or GET_NUM_MULT
 {
-    NOT_IMPLEMENTED;
+    SCR_GET_NUM_LIVES_MULTIPLIERS* pCmd = (SCR_GET_NUM_LIVES_MULTIPLIERS*)gBasePtr_6F8070;
+    SCR_POINTER* pPlayerPtr =
+        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this); // pCmd->field_8_player_ped_idx
+    SCR_POINTER* pCounterPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx);
+    if (gBasePtr_6F8070->field_2_type == SCRCMD_GET_NUM_LIVES)
+    {
+        pCounterPtr->field_8_counter = pPlayerPtr->field_8_char->field_15C_player->field_684_lives.field_0;
+    }
+    else
+    {
+        pCounterPtr->field_8_counter = pPlayerPtr->field_8_char->field_15C_player->field_6BC_multpliers.field_0;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 // matches on decompme: https://decomp.me/scratch/y8gtV
@@ -3755,10 +3777,19 @@ void miss2_0x11C::SCRCMD_SET_DIR_OF_TVVAN_50DD90()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50de00)
+MATCH_FUNC(0x50de00)
 void miss2_0x11C::SCRCMD_POINT_ONSCREEN_50DE00()
 {
-    NOT_IMPLEMENTED;
+    SCR_IS_POINT_ON_SCREEN* pCmd = (SCR_IS_POINT_ON_SCREEN*)gBasePtr_6F8070;
+    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(pCmd->field_8_xpos, pCmd->field_C_ypos))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50de50)
@@ -3860,7 +3891,7 @@ void miss2_0x11C::sub_50E190()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e360)
+WIP_FUNC(0x50e360)
 void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
 {
     SCR_CHECK_CAR_SPEED* pCmd = (SCR_CHECK_CAR_SPEED*)gBasePtr_6F8070;
@@ -4397,7 +4428,7 @@ void miss2_0x11C::sub_50F270() // WARP_FROM_CAR_TO_POINT
         pPointer->field_8_char->field_168_game_object->field_40_rotation = rotation;
         pCar->ClearDriver_4407F0();
         pCar->field_54_driver = 0;
-        gGame_0x40_67E008->field_38_orf1->sub_569F40();
+        gGame_0x40_67E008->field_38_orf1->DisableInputs_569F40();
         gGame_0x40_67E008->field_38_orf1->field_90_game_camera.sub_436540(pPointer->field_8_char);
 
         Camera_0xBC* p_game_camera = &(gGame_0x40_67E008->field_38_orf1->field_90_game_camera);
@@ -4788,10 +4819,57 @@ void miss2_0x11C::sub_510090()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x510100)
-void miss2_0x11C::sub_510100()
+MATCH_FUNC(0x510100)
+void miss2_0x11C::sub_510100() // START_BASIC_KF_TEMPLATE
 {
-    NOT_IMPLEMENTED;
+    SCR_START_BASIC_KF_TEMPLATE* pCmd = (SCR_START_BASIC_KF_TEMPLATE*)gBasePtr_6F8070;
+    if (gfrosty_pasteur_6F8060->field_C1E2D)
+    {
+        miss2_0x11C::EnableThread_50A9E0(pCmd->field_8_triggername);
+        miss2_0x11C::sub_506B80();
+    }
+    else
+    {
+        gfrosty_pasteur_6F8060->field_C1E2D = 1;
+        miss2_0x11C::DisableThread_505790(pCmd->field_8_triggername);
+        gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfstart"), 3); // KILL FRENZY!
+        gRoot_sound_66B038.PlayVoice_40F090(12); // KILL FRENZY voice
+        SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_C_objname); // Skull icon?
+        if (miss2_0x11C::sub_503410(pPtr->field_2_type) == 3)
+        {
+            miss2_0x11C::DeallocOrDeleteItem_505B10(pCmd->field_C_objname); // Delete skull icon?
+        }
+        sprintf(gTmpBuffer_67C598, "%d", pCmd->field_A_brief_id);
+        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        SCR_POINTER* pPlayerPedPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_E_playername);
+        u8 weapon_idx = pCmd->field_10_weapon;
+        if (weapon_idx < weapon_type::car_bomb || weapon_idx > 27)
+        {
+            // Ped weapons
+            if (weapon_idx != 28)
+            {
+                pPlayerPedPtr->field_8_char->field_15C_player->SetKFWeapon_564790((u8)pCmd->field_10_weapon);
+            }
+        }
+        else
+        {
+            // Car weapons
+            pPlayerPedPtr->field_8_char->field_15C_player->SetKFCarWeapon_564710(pPlayerPedPtr->field_8_char->field_16C_car,
+                                                                                (u8)pCmd->field_10_weapon);
+        }
+
+        u16* pBasicKF = gfrosty_pasteur_6F8060->field_C1E74_basic_kf;
+        for (u16 idx = 0; idx < GTA2_COUNTOF(gfrosty_pasteur_6F8060->field_C1E74_basic_kf); idx++)
+        {
+            if (*pBasicKF == (u16)gBasePtr_6F8070->field_0_cmd_this)
+            {
+                gGameSave_6F78C8.field_E4_car_and_script_data.field_4C |= 1 << idx;
+                break;
+            }
+            pBasicKF++;
+        }
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+    }
 }
 
 MATCH_FUNC(0x510280)
