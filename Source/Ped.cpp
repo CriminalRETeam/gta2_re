@@ -997,11 +997,23 @@ Ang16 Ped::ComputeAimAngle_45C9D0()
                                                                                     this->field_1AC_cam.y,
                                                                                     this->field_12C,
                                                                                     dword_6784E4);
-        if (pNearest || (word_6784F0 = dword_6784E4, (pNearest = FindBestTargetPed_Mode4_466BB0(3)) != 0) ||
-            (pNearest = sub_466F40(3u)) != 0)
+        Ped* best = pNearest;
+
+        if (!best)
         {
-            Fix16 xd = pNearest->field_1AC_cam.x - field_1AC_cam.x;
-            Fix16 yd = pNearest->field_1AC_cam.y - field_1AC_cam.y;
+            word_6784F0 = dword_6784E4;
+            best = FindBestTargetPed_Mode4_466BB0(3);
+        }
+
+        if (!best)
+        {
+            best = sub_466F40(3u);
+        }
+
+        if (best)
+        {
+            Fix16 xd = best->field_1AC_cam.x - field_1AC_cam.x;
+            Fix16 yd = best->field_1AC_cam.y - field_1AC_cam.y;
             field_130 = Fix16::atan2_fixed_405320(xd, yd);
         }
         else
