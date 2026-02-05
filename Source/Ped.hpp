@@ -92,7 +92,7 @@ class Ped
     EXPORT void sub_461290();
     EXPORT void sub_461530();
     EXPORT void sub_461630();
-    EXPORT char_type RoadBlockTank_AI_4619F0();
+    EXPORT void RoadBlockTank_AI_4619F0();
     EXPORT void UpdateFacingAngle_461A60();
     EXPORT void Occupation_AI_461F20();
     EXPORT void sub_462280();

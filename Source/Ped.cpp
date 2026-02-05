@@ -110,7 +110,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6784BC, dword_6784C4 / dword_678668, 0x6784BC);
 DEFINE_GLOBAL(Ang16, word_6784C8, 0x6784C8);
 DEFINE_GLOBAL(Ang16, dword_6784E4, 0x6784E4);
 
-
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
@@ -1659,11 +1658,30 @@ void Ped::sub_461630()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4619f0)
-char_type Ped::RoadBlockTank_AI_4619F0()
+MATCH_FUNC(0x4619f0)
+void Ped::RoadBlockTank_AI_4619F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_16C_car)
+    {
+        this->field_240_occupation = ped_ocupation_enum::dummy;
+    }
+    else
+    {
+        field_16C_car->field_A6 |= 0x20u;
+    }
+
+    if (this->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || gPolice_7B8_6FEE40->field_654_wanted_level == 6)
+    {
+        if (this->field_258_objective == objectives_enum::no_obj_0)
+        {
+            SetObjective(objectives_enum::objective_61, 9999);
+        }
+    }
+    else
+    {
+        SetObjective(objectives_enum::no_obj_0, 9999);
+        this->field_21C &= ~0x800;
+    }
 }
 
 STUB_FUNC(0x461a60)
@@ -5879,7 +5897,6 @@ Weapon_30* Ped::GetWeaponFromPed_46F110()
 
     return 0;
 }
-
 
 WIP_FUNC(0x46f1e0)
 void Ped::sub_46F1E0(Weapon_30* a2)
