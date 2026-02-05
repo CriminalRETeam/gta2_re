@@ -71,7 +71,7 @@ class Ped
     EXPORT Fix16 GetPedVelocity_45C920();
     EXPORT Ang16 GetRotation();
     EXPORT Fix16 get_fieldC_45C9B0();
-    EXPORT s16* ComputeAimAngle_45C9D0(s16* a2);
+    EXPORT Ang16 ComputeAimAngle_45C9D0();
     EXPORT void HandleClosePedInteraction_45CAA0();
     EXPORT void TakeDamage(s16 damage);
     EXPORT void sub_45CF20(Object_2C* a2);
@@ -85,14 +85,14 @@ class Ped
     EXPORT char_type sub_45EDC0();
     EXPORT bool IsField238_45EDE0(s32 a2);
     EXPORT char_type sub_45EE00(s32 a2);
-    EXPORT gmp_map_zone* EnterPublicTransport_45EE70();
+    EXPORT void EnterPublicTransport_45EE70();
     EXPORT void Mugger_AI_45F360();
     EXPORT void CarThief_AI_45FF60();
     EXPORT void sub_460820();
     EXPORT void sub_461290();
     EXPORT void sub_461530();
     EXPORT void sub_461630();
-    EXPORT char_type RoadBlockTank_AI_4619F0();
+    EXPORT void RoadBlockTank_AI_4619F0();
     EXPORT void UpdateFacingAngle_461A60();
     EXPORT void Occupation_AI_461F20();
     EXPORT void sub_462280();
@@ -123,7 +123,7 @@ class Ped
     EXPORT Ped* FindBestTargetPed_466BF0(s32 a2);
     EXPORT Ped* sub_466F40(u8 a2);
     EXPORT Ped* FindNearestPed_466F60(u8 a2);
-    EXPORT s32 FindNearbyPed_466FB0();
+    EXPORT Ped* FindNearbyPed_466FB0();
     EXPORT Ped* sub_467070();
     EXPORT char_type sub_467090();
     EXPORT Sprite* sub_467280();

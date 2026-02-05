@@ -64,7 +64,7 @@ class TrainStation_34
     gmp_map_zone* field_C_stop_point;
     gmp_map_zone* field_10_pZone;
     s32 field_14;
-    s32 field_18;
+    Train_58* field_18; // train stopped at the station?
     s32 field_1C;
     TrainStation_34* field_20_next_station;
     u8 field_24_train_wagons[10];
