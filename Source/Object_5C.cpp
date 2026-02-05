@@ -933,7 +933,7 @@ void Object_2C::NewObj3C_528130(Fix16_Point* a2)
     pNewObj->field_2F = 0;
     pNewObj->field_30_bSkipAnim = 0;
 
-    pNewObj->field_20 = field_14;
+    pNewObj->field_20 = field_14_id;
 
     this->field_10_obj_3c = pNewObj;
 
