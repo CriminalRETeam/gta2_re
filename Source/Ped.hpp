@@ -123,7 +123,7 @@ class Ped
     EXPORT Ped* FindBestTargetPed_466BF0(s32 a2);
     EXPORT Ped* sub_466F40(u8 a2);
     EXPORT Ped* FindNearestPed_466F60(u8 a2);
-    EXPORT s32 FindNearbyPed_466FB0();
+    EXPORT Ped* FindNearbyPed_466FB0();
     EXPORT Ped* sub_467070();
     EXPORT char_type sub_467090();
     EXPORT Sprite* sub_467280();

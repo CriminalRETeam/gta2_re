@@ -992,10 +992,105 @@ s16* Ped::ComputeAimAngle_45C9D0(s16* a2)
     return 0;
 }
 
-STUB_FUNC(0x45caa0)
+WIP_FUNC(0x45caa0)
 void Ped::HandleClosePedInteraction_45CAA0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ped* pNearPed; // eax
+    Ped* pNearPed_; // esi
+    PedGroup* pNearPedGroup; // eax
+    s16 rng; // bp
+
+    pNearPed = FindNearbyPed_466FB0();
+    if (pNearPed)
+    {
+        if (abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, pNearPed->field_1AC_cam.z))
+        {
+            this->field_188_last_char_punched = pNearPed_;
+            pNearPedGroup = pNearPed_->field_164_ped_group;
+            if (!pNearPedGroup || pNearPedGroup != this->field_164_ped_group)
+            {
+                pNearPed_->field_144 = this;
+                if (this->field_168_game_object->field_68_animation_frame >= 3u)
+                {
+                    goto LABEL_27;
+                }
+                if (this->field_240_occupation == ped_ocupation_enum::mugger)
+                {
+                    if ((this->field_21C & 0x1000000) == 0)
+                    {
+                        this->field_250 = 8;
+                    }
+                    if ((pNearPed_->field_21C & 0x1000000) == 0)
+                    {
+                        pNearPed_->field_250 = 7;
+                    }
+                }
+                else if ((u32)(rng_dword_67AB34->field_0_rng - pNearPed_->field_220) > 5)
+                {
+                    if ((pNearPed_->field_21C & 0x1000000) == 0)
+                    {
+                        pNearPed_->field_250 = 25;
+                    }
+                    pNearPed_->field_220 = rng_dword_67AB34->field_0_rng;
+                }
+                pNearPed_->field_204_killer_id = this->field_200_id;
+                pNearPed_->field_290 = 10;
+                pNearPed_->field_264 = 50;
+                rng = stru_6F6784.get_int_4F7AE0(20);
+                if (pNearPed_->field_216_health > 30)
+                {
+                    if (pNearPed_->IsField238_45EDE0(2))
+                    {
+                        if (this->field_240_occupation == ped_ocupation_enum::mugger)
+                        {
+                            pNearPed_->field_15C_player->field_2D4_scores.AddCash_592620(-10 * pNearPed_->field_15C_player->field_6BC_multpliers.field_0);
+                            this->field_229++;
+                            if ((u8)field_229 > 9u)
+                            {
+                                this->field_226 = 1;
+                            }
+                        }
+                        else if (pNearPed_->field_240_occupation != ped_ocupation_enum::criminal_type_1)
+                        {
+                            pNearPed_->TakeDamage(10);
+                        }
+                    }
+                    else if (pNearPed_->field_240_occupation != ped_ocupation_enum::criminal_type_1)
+                    {
+                        pNearPed_->TakeDamage(20);
+                    }
+
+                    if (rng >= 2)
+                    {
+                        goto LABEL_27;
+                    }
+                }
+                if (IsField238_45EDE0(2))
+                {
+                    pNearPed_->ChangeNextPedState2_45C540(22);
+                    pNearPed_->ChangeNextPedState1_45C500(8);
+                    pNearPed_->field_168_game_object->field_16 = 1;
+                    pNearPed_->field_168_game_object->field_10_char_state = 33;
+                }
+                else
+                {
+                LABEL_27:
+                    if (pNearPed_->field_28C_threat_reaction == threat_reaction_enum::run_away_3)
+                    {
+                        pNearPed_->sub_463830(2, 9999);
+                        pNearPed_->field_14C = this;
+                        this->field_21C |= 4;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        this->field_188_last_char_punched = 0;
+    }
 }
 
 MATCH_FUNC(0x45ce50)
@@ -4167,7 +4262,7 @@ Ped* Ped::FindNearestPed_466F60(u8 a2)
 }
 
 STUB_FUNC(0x466fb0)
-s32 Ped::FindNearbyPed_466FB0()
+Ped* Ped::FindNearbyPed_466FB0()
 {
     NOT_IMPLEMENTED;
     return 0;
