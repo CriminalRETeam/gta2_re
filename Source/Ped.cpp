@@ -1658,14 +1658,10 @@ void Ped::sub_461630()
     WIP_IMPLEMENTED;
 
     s16 rng_val; // ax
-    Car_BC* f140___; // eax
     Ped* f180_; // ecx
     Ped* f180; // edx
     Ped* f180__; // ecx
     Car_BC* target_objective_car; // eax
-    Car_BC* f140__; // eax
-    Car_BC* f140_; // edx
-    Car_BC* f140; // eax
 
     if (this->field_25C_car_state == 2 && this->field_226 == 1)
     {
@@ -1718,10 +1714,9 @@ void Ped::sub_461630()
                                 this->field_250 = 13;
                             }
                             SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                            f140___ = this->field_140;
                             this->field_24C_target_car_door = 0;
-                            this->field_150_target_objective_car = f140___;
-                            if (f140___->field_88 == 5)
+                            this->field_150_target_objective_car = field_140;
+                            if (field_140->field_88 == 5)
                             {
                                 this->field_238 = 3;
                                 this->field_240_occupation = ped_ocupation_enum::unknown_7;
@@ -1804,25 +1799,22 @@ void Ped::sub_461630()
         case ped_ocupation_enum::unknown_9:
             if (this->field_225_objective_status == 1)
             {
-                f140__ = this->field_140;
                 this->field_238 = 6;
                 this->field_240_occupation = ped_ocupation_enum::unknown_8;
-                if (f140__ && f140__->field_88 != 5)
+                if (field_140 && field_140->field_88 != 5)
                 {
                     SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                    f140_ = this->field_140;
                     this->field_248_enter_car_as_passenger = 0;
-                    this->field_150_target_objective_car = f140_;
+                    this->field_150_target_objective_car = field_140;
                     this->field_24C_target_car_door = 0;
                     return;
                 }
                 goto LABEL_41;
             }
 
-            f140 = this->field_140;
-            if (f140)
+            if (!field_140)
             {
-                if (f140->field_88 == 5)
+                if (field_140->field_88 == 5)
                 {
                     this->field_140 = 0;
                 }
