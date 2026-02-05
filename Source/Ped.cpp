@@ -1652,10 +1652,202 @@ void Ped::sub_461530()
     }
 }
 
-STUB_FUNC(0x461630)
+WIP_FUNC(0x461630)
 void Ped::sub_461630()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s16 rng_val; // ax
+    Car_BC* f140___; // eax
+    Ped* f180_; // ecx
+    Ped* f180; // edx
+    Ped* f180__; // ecx
+    Car_BC* target_objective_car; // eax
+    Car_BC* f140__; // eax
+    Car_BC* f140_; // edx
+    Car_BC* f140; // eax
+
+    if (this->field_25C_car_state == 2 && this->field_226 == 1)
+    {
+        sub_463830(0, 9999);
+    }
+
+    switch (this->field_240_occupation)
+    {
+        case ped_ocupation_enum::driver_2:
+            if (this->field_168_game_object)
+            {
+                if (this->field_278_ped_state_1 == ped_state_1::immobilized_8)
+                {
+                    if (this->field_140->field_88 == 5)
+                    {
+                        this->field_238 = 3;
+                        this->field_240_occupation = ped_ocupation_enum::unknown_7;
+                        ForceDoNothing_462590();
+                        SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
+                        f180__ = this->field_180;
+                        this->field_180 = 0;
+                        this->field_148_objective_target_ped = f180__;
+                    }
+                }
+                else
+                {
+                    rng_val = stru_6F6784.get_int_4F7AE0(40);
+                    if (bDont_get_car_back_67D4F5)
+                    {
+                        rng_val = 6;
+                    }
+                    if (this->field_180->field_20e)
+                    {
+                        rng_val = 6;
+                    }
+                    else if (this->field_17C_pZone)
+                    {
+                        rng_val = 19;
+                    }
+
+                    switch (rng_val)
+                    {
+                        case 7:
+                        case 16:
+                        case 32:
+                            this->field_238 = 6;
+                            this->field_240_occupation = ped_ocupation_enum::unknown_8;
+                            if ((field_21C & 0x1000000) == 0)
+                            {
+                                this->field_250 = 13;
+                            }
+                            SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                            f140___ = this->field_140;
+                            this->field_24C_target_car_door = 0;
+                            this->field_150_target_objective_car = f140___;
+                            if (f140___->field_88 == 5)
+                            {
+                                this->field_238 = 3;
+                                this->field_240_occupation = ped_ocupation_enum::unknown_7;
+                                ForceDoNothing_462590();
+                                SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
+                                f180_ = this->field_180;
+                                this->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
+                                this->field_148_objective_target_ped = f180_;
+                                this->field_180 = 0;
+                            }
+                            else
+                            {
+                                ForceWeapon_46F600(weapon_type::pistol);
+                                this->field_248_enter_car_as_passenger = 0;
+                            }
+                            break;
+                        case 19:
+                            this->field_238 = 6;
+                            this->field_240_occupation = ped_ocupation_enum::unknown_9;
+                            if ((field_21C & 0x1000000) == 0)
+                            {
+                                this->field_250 = 14;
+                            }
+                            ForceDoNothing_462590();
+                            SetObjective(objectives_enum::kill_char_on_foot_20, 9999);
+                            this->field_148_objective_target_ped = this->field_180;
+                            ForceWeapon_46F600(weapon_type::pistol);
+                            break;
+                        default:
+                            this->field_238 = 3;
+                            this->field_240_occupation = ped_ocupation_enum::unknown_7;
+                            this->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
+                            ForceDoNothing_462590();
+                            SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
+                            f180 = this->field_180;
+                            this->field_180 = 0;
+                            this->field_148_objective_target_ped = f180;
+                            break;
+                    }
+                }
+            }
+            return;
+
+        case ped_ocupation_enum::unknown_7:
+            if (this->field_225_objective_status == 1)
+            {
+                this->field_240_occupation = ped_ocupation_enum::dummy;
+                goto LABEL_44;
+            }
+            return;
+
+        case ped_ocupation_enum::unknown_8:
+            if (field_225_objective_status != 1)
+            {
+                goto LABEL_40;
+            }
+
+            target_objective_car = this->field_150_target_objective_car;
+            if (target_objective_car->field_88 == 5)
+            {
+                Kill_46F9D0();
+            }
+            else
+            {
+                this->field_240_occupation = ped_ocupation_enum::driver;
+                this->field_238 = 3;
+                if (target_objective_car)
+                {
+                    target_objective_car->field_7C_uni_num = 3;
+                    target_objective_car->field_76 = 0;
+                    SetObjective(objectives_enum::no_obj_0, 9999);
+                }
+                else
+                {
+                LABEL_44:
+                    SetObjective(objectives_enum::no_obj_0, 9999);
+                }
+            }
+            return;
+
+        case ped_ocupation_enum::unknown_9:
+            if (this->field_225_objective_status == 1)
+            {
+                f140__ = this->field_140;
+                this->field_238 = 6;
+                this->field_240_occupation = ped_ocupation_enum::unknown_8;
+                if (f140__ && f140__->field_88 != 5)
+                {
+                    SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                    f140_ = this->field_140;
+                    this->field_248_enter_car_as_passenger = 0;
+                    this->field_150_target_objective_car = f140_;
+                    this->field_24C_target_car_door = 0;
+                    return;
+                }
+                goto LABEL_41;
+            }
+
+            f140 = this->field_140;
+            if (f140)
+            {
+                if (f140->field_88 == 5)
+                {
+                    this->field_140 = 0;
+                }
+            }
+
+            if (!this->field_140)
+            {
+                this->field_225_objective_status = 0;
+            }
+
+        LABEL_40:
+            if (field_225_objective_status == 2)
+            {
+            LABEL_41:
+                this->field_240_occupation = ped_ocupation_enum::dummy;
+                SetObjective(objectives_enum::no_obj_0, 9999);
+                sub_463830(0, 9999);
+                this->field_238 = 3;
+            }
+            return;
+
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x4619f0)
