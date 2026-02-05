@@ -109,6 +109,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6784BC, dword_6784C4 / dword_678668, 0x6784BC);
 
 DEFINE_GLOBAL(Ang16, word_6784C8, 0x6784C8);
 DEFINE_GLOBAL(Ang16, dword_6784E4, 0x6784E4);
+DEFINE_GLOBAL(Ang16, word_6784F0, 0x6784F0);
 
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
@@ -985,11 +986,30 @@ Fix16 Ped::get_fieldC_45C9B0()
     return field_15C_player->field_C;
 }
 
-STUB_FUNC(0x45c9d0)
-s16* Ped::ComputeAimAngle_45C9D0(s16* a2)
+WIP_FUNC(0x45c9d0)
+Ang16 Ped::ComputeAimAngle_45C9D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (IsField238_45EDE0(2))
+    {
+        Ped* pNearest = gThreateningPedsList_678468.FindClosestPedInViewCone_4713C0(this->field_1AC_cam.x,
+                                                                                    this->field_1AC_cam.y,
+                                                                                    this->field_12C,
+                                                                                    dword_6784E4);
+        if (pNearest || (word_6784F0 = dword_6784E4, (pNearest = FindBestTargetPed_Mode4_466BB0(3)) != 0) ||
+            (pNearest = sub_466F40(3u)) != 0)
+        {
+            Fix16 xd = pNearest->field_1AC_cam.x - field_1AC_cam.x;
+            Fix16 yd = pNearest->field_1AC_cam.y - field_1AC_cam.y;
+            field_130 = Fix16::atan2_fixed_405320(xd, yd);
+        }
+        else
+        {
+            field_130 = field_12C;
+        }
+    }
+    return field_130;
 }
 
 WIP_FUNC(0x45caa0)
@@ -1045,7 +1065,8 @@ void Ped::HandleClosePedInteraction_45CAA0()
                     {
                         if (this->field_240_occupation == ped_ocupation_enum::mugger)
                         {
-                            pNearPed_->field_15C_player->field_2D4_scores.AddCash_592620(-10 * pNearPed_->field_15C_player->field_6BC_multpliers.field_0);
+                            pNearPed_->field_15C_player->field_2D4_scores.AddCash_592620(
+                                -10 * pNearPed_->field_15C_player->field_6BC_multpliers.field_0);
                             this->field_229++;
                             if ((u8)field_229 > 9u)
                             {
