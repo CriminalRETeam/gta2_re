@@ -85,7 +85,7 @@ class Ped
     EXPORT char_type sub_45EDC0();
     EXPORT bool IsField238_45EDE0(s32 a2);
     EXPORT char_type sub_45EE00(s32 a2);
-    EXPORT gmp_map_zone* EnterPublicTransport_45EE70();
+    EXPORT void EnterPublicTransport_45EE70();
     EXPORT void Mugger_AI_45F360();
     EXPORT void CarThief_AI_45FF60();
     EXPORT void sub_460820();

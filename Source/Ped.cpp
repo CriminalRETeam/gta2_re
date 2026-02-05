@@ -91,7 +91,7 @@ DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
 DEFINE_GLOBAL_INIT(Fix16, gDummyW_678530, dword_678488, 0x678530);
 DEFINE_GLOBAL_INIT(Fix16, gDummyZ_67841C, dword_678484, 0x67841C);
 DEFINE_GLOBAL(Object_2C*, dword_678558, 0x678558);
-DEFINE_GLOBAL(u8, byte_6787D3, 0x6787D3);
+DEFINE_GLOBAL(char_type, byte_6787D3, 0x6787D3);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678504, Fix16(0xAAA, 0), 0x678504);
 DEFINE_GLOBAL_INIT(Fix16, dword_678574, dword_678484, 0x678574);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_67845C, dword_678574 / dword_678668, 0x67845C);
@@ -1390,11 +1390,49 @@ char_type Ped::sub_45EE00(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x45ee70)
-gmp_map_zone* Ped::EnterPublicTransport_45EE70()
+MATCH_FUNC(0x45ee70)
+void Ped::EnterPublicTransport_45EE70()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (gmp_map_zone* pZoneIter = gMap_0x370_6F6268->sub_4DF6A0(field_1AC_cam.x.ToInt(), field_1AC_cam.y.ToInt()); pZoneIter;
+         pZoneIter = gMap_0x370_6F6268->next_zone_4DF770())
+    {
+        if (bSkip_trains_67D550 || pZoneIter->field_0_zone_type != 6)
+        {
+            if (!bSkip_buses_67D558)
+            {
+                if (stru_6F6784.get_int_4F7AE0(100) > 90 && byte_6787D3 < 5 && pZoneIter->field_0_zone_type == 7 &&
+                    !gPublicTransport_181C_6FF1D4->is_bus_full_579AF0())
+                {
+                    if (field_25C_car_state != 37 && field_25C_car_state != 38 && this->field_278_ped_state_1 == ped_state_1::walking_0)
+                    {
+                        sub_45EE00(8);
+                        sub_463830(30, 9999);
+                        ++byte_6787D3;
+                    }
+                }
+            }
+        }
+        else
+        {
+            TrainStation_34* pTrainStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(pZoneIter);
+            if (stru_6F6784.get_int_4F7AE0(100) > 90 && byte_6787D3 < 5)
+            {
+                if (field_25C_car_state != 37 && field_25C_car_state != 38 && field_25C_car_state != 12)
+                {
+                    Train_58* pTrain = pTrainStation->field_18;
+                    if (pTrain)
+                    {
+                        if (pTrain->field_10_carriages[0]->field_84_car_info_idx == car_model_enum::TRAIN)
+                        {
+                            sub_45EE00(9);
+                            sub_463830(29, 9999);
+                            this->field_154_target_to_enter = pTrainStation->field_18->field_10_carriages[0];
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x45f360)
@@ -1530,19 +1568,18 @@ void Ped::CarThief_AI_45FF60()
             }
             else if (!this->field_218_objective_timer)
             {
-                pNearestSteal = gCar_6C_677930->GetNearestEnterableCarFromCoord_444FA0(
-                                                                               this->field_1AC_cam.x,
-                                                                               this->field_1AC_cam.y,
-                                                                               this->field_1AC_cam.z,
-                                                                               this);
+                pNearestSteal = gCar_6C_677930->GetNearestEnterableCarFromCoord_444FA0(this->field_1AC_cam.x,
+                                                                                       this->field_1AC_cam.y,
+                                                                                       this->field_1AC_cam.z,
+                                                                                       this);
                 pNearestSteal_ = pNearestSteal;
                 if (pNearestSteal)
                 {
                     if (pNearestSteal->field_7C_uni_num != 2)
                     {
-                        if (!pNearestSteal->IsTrainModel_403BA0() &&
-                            !pNearestSteal_->IsPoliceCar_439EC0() && !pNearestSteal_->is_bus_43A1F0() &&
-                            !pNearestSteal_->field_4_passengers_list.field_0_pFirstPed && pNearestSteal_->field_7C_uni_num == 3)
+                        if (!pNearestSteal->IsTrainModel_403BA0() && !pNearestSteal_->IsPoliceCar_439EC0() &&
+                            !pNearestSteal_->is_bus_43A1F0() && !pNearestSteal_->field_4_passengers_list.field_0_pFirstPed &&
+                            pNearestSteal_->field_7C_uni_num == 3)
                         {
                             SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
                             this->field_150_target_objective_car = pNearestSteal_;
