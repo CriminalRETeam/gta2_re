@@ -1677,20 +1677,7 @@ void Ped::sub_461630()
         case ped_ocupation_enum::driver_2:
             if (this->field_168_game_object)
             {
-                if (this->field_278_ped_state_1 == ped_state_1::immobilized_8)
-                {
-                    if (this->field_140->field_88 == 5)
-                    {
-                        this->field_238 = 3;
-                        this->field_240_occupation = ped_ocupation_enum::unknown_7;
-                        ForceDoNothing_462590();
-                        SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
-                        f180__ = this->field_180;
-                        this->field_180 = 0;
-                        this->field_148_objective_target_ped = f180__;
-                    }
-                }
-                else
+                if (this->field_278_ped_state_1 != ped_state_1::immobilized_8)
                 {
                     rng_val = stru_6F6784.get_int_4F7AE0(40);
                     if (bDont_get_car_back_67D4F5)
@@ -1708,6 +1695,19 @@ void Ped::sub_461630()
 
                     switch (rng_val)
                     {
+                        case 19:
+                            this->field_238 = 6;
+                            this->field_240_occupation = ped_ocupation_enum::unknown_9;
+                            if ((field_21C & 0x1000000) == 0)
+                            {
+                                this->field_250 = 14;
+                            }
+                            ForceDoNothing_462590();
+                            SetObjective(objectives_enum::kill_char_on_foot_20, 9999);
+                            this->field_148_objective_target_ped = this->field_180;
+                            ForceWeapon_46F600(weapon_type::pistol);
+                            break;
+
                         case 7:
                         case 16:
                         case 32:
@@ -1738,18 +1738,7 @@ void Ped::sub_461630()
                                 this->field_248_enter_car_as_passenger = 0;
                             }
                             break;
-                        case 19:
-                            this->field_238 = 6;
-                            this->field_240_occupation = ped_ocupation_enum::unknown_9;
-                            if ((field_21C & 0x1000000) == 0)
-                            {
-                                this->field_250 = 14;
-                            }
-                            ForceDoNothing_462590();
-                            SetObjective(objectives_enum::kill_char_on_foot_20, 9999);
-                            this->field_148_objective_target_ped = this->field_180;
-                            ForceWeapon_46F600(weapon_type::pistol);
-                            break;
+
                         default:
                             this->field_238 = 3;
                             this->field_240_occupation = ped_ocupation_enum::unknown_7;
@@ -1762,16 +1751,25 @@ void Ped::sub_461630()
                             break;
                     }
                 }
+                else
+                {
+                     if (this->field_140->field_88 == 5)
+                    {
+                        this->field_238 = 3;
+                        this->field_240_occupation = ped_ocupation_enum::unknown_7;
+                        ForceDoNothing_462590();
+                        SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
+                        f180__ = this->field_180;
+                        this->field_180 = 0;
+                        this->field_148_objective_target_ped = f180__;
+                    }
+
+                   
+                }
             }
             return;
 
-        case ped_ocupation_enum::unknown_7:
-            if (this->field_225_objective_status == 1)
-            {
-                this->field_240_occupation = ped_ocupation_enum::dummy;
-                goto LABEL_44;
-            }
-            return;
+    
 
         case ped_ocupation_enum::unknown_8:
             if (field_225_objective_status != 1)
@@ -1796,11 +1794,12 @@ void Ped::sub_461630()
                 }
                 else
                 {
-                LABEL_44:
                     SetObjective(objectives_enum::no_obj_0, 9999);
                 }
             }
             return;
+
+
 
         case ped_ocupation_enum::unknown_9:
             if (this->field_225_objective_status == 1)
@@ -1842,6 +1841,14 @@ void Ped::sub_461630()
                 SetObjective(objectives_enum::no_obj_0, 9999);
                 sub_463830(0, 9999);
                 this->field_238 = 3;
+            }
+            return;
+
+                case ped_ocupation_enum::unknown_7:
+            if (this->field_225_objective_status == 1)
+            {
+                this->field_240_occupation = ped_ocupation_enum::dummy;
+                 SetObjective(objectives_enum::no_obj_0, 9999);
             }
             return;
 
