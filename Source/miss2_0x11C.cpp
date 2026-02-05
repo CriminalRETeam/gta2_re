@@ -3755,10 +3755,19 @@ void miss2_0x11C::SCRCMD_SET_DIR_OF_TVVAN_50DD90()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50de00)
+MATCH_FUNC(0x50de00)
 void miss2_0x11C::SCRCMD_POINT_ONSCREEN_50DE00()
 {
-    NOT_IMPLEMENTED;
+    SCR_IS_POINT_ON_SCREEN* pCmd = (SCR_IS_POINT_ON_SCREEN*)gBasePtr_6F8070;
+    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(pCmd->field_8_xpos, pCmd->field_C_ypos))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50de50)
