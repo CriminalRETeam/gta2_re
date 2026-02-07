@@ -1802,7 +1802,7 @@ void Object_5C::sub_5297F0()
 MATCH_FUNC(0x5298e0)
 Object_2C* Object_5C::GetDirectionalObject_5298E0(s32 maybe_slope)
 {
-    Object_2C *result;
+    Object_2C* result;
     switch (maybe_slope)
     {
         case 180:
@@ -2001,7 +2001,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             break;
 
         case object_behavior_type::behavior_5:
-            pNew30 = gWolfy_7A8_6FD5F0->sub_543800();
+            pNew30 = gWolfy_7A8_6FD5F0->New_40_543800();
             pNew2C->field_C_pAny.pExplosion = pNew30;
             if (pNew30) // 225
             {
@@ -2118,10 +2118,68 @@ s32* Object_5C::sub_52A2C0(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a
     return 0;
 }
 
-STUB_FUNC(0x52a3d0)
+MATCH_FUNC(0x52a3d0)
 Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 pedId)
 {
-    NOT_IMPLEMENTED;
+    Object_2C* pNew2C = NewPhysicsObj_5299B0(objects::moving_collect_17_113, x, y, z, rot);
+    if (pNew2C)
+    {
+        pNew2C->field_1C = 1;
+
+        if (!pNew2C->field_C_pAny.pExplosion)
+        {
+            pNew2C->field_C_pAny.pExplosion = gWolfy_7A8_6FD5F0->New_40_543800();
+        }
+
+        if (!pNew2C->field_C_pAny.pExplosion)
+        {
+            return 0;
+        }
+
+        pNew2C->field_C_pAny.pExplosion->field_10 = a6;
+        pNew2C->field_C_pAny.pExplosion->Set_Obj2C_543680(pNew2C);
+        pNew2C->field_C_pAny.pExplosion->field_2C_ped_id = pedId;
+
+        switch (a6)
+        {
+            case 18:
+            case 19:
+            case 20:
+            case 22:
+            case 23:
+            case 24:
+            case 25:
+            case 32:
+            case 33:
+                pNew2C->field_C_pAny.pExplosion->field_1A = 100;
+                pNew2C->field_C_pAny.pExplosion->field_24 = 0;
+                break;
+            default:
+                pNew2C->field_C_pAny.pExplosion->field_1A = 9999;
+                break;
+        }
+
+        if (!pNew2C->field_10_obj_3c)
+        {
+            Object_3C* pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
+            // TODO: PoolAllocate()
+            ++dword_6F8E54;
+            pNew3C->field_C = 0;
+            pNew3C->field_4 = kZeroAng_6F8F68;
+            pNew3C->field_18 = Fix16(0);
+            pNew3C->field_28 = 0;
+            pNew3C->field_38 = 0;
+            pNew3C->field_34 = 2;
+            pNew3C->field_24 = 0;
+            pNew3C->field_2F = 0;
+            pNew3C->field_30_bSkipAnim = 0;
+            pNew2C->field_10_obj_3c = pNew3C;
+            pNew3C->field_20 = pNew2C->field_14_id;
+            pNew2C->field_10_obj_3c->field_C = kFpZero_6F8E10;
+            pNew2C->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        }
+        return pNew2C;
+    }
     return 0;
 }
 

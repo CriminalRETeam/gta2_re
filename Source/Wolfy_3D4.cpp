@@ -16,7 +16,7 @@ s32 Wolfy_7A8::sub_543690()
 }
 
 STUB_FUNC(0x543800)
-Wolfy_30* Wolfy_7A8::sub_543800()
+Wolfy_30* Wolfy_7A8::New_40_543800()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -201,7 +201,7 @@ void Wolfy_30::Init_543650()
 }
 
 MATCH_FUNC(0x543680)
-void Wolfy_30::sub_543680(Object_2C* a2)
+void Wolfy_30::Set_Obj2C_543680(Object_2C* a2)
 {
     this->field_14 = a2;
 }

@@ -29,7 +29,7 @@ class Wolfy_30
     EXPORT char_type sub_5435D0();
     EXPORT void DeInit_543610();
     EXPORT void Init_543650();
-    EXPORT void sub_543680(Object_2C* a2);
+    EXPORT void Set_Obj2C_543680(Object_2C* a2);
 
     s32 field_0_bIn20Pool;
     u8 field_4_idx;
@@ -54,7 +54,7 @@ class Wolfy_7A8
 {
   public:
     EXPORT s32 sub_543690();
-    EXPORT Wolfy_30* sub_543800();
+    EXPORT Wolfy_30* New_40_543800();
     EXPORT Wolfy_7A8();
     EXPORT ~Wolfy_7A8();
     Wolfy_30 field_0[40];
