@@ -18,6 +18,7 @@
 #include "cSampleManager.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
+#include "PublicTransport.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -4173,10 +4174,49 @@ void sound_obj::Tank_415190(Sound_Params_8* a2)
     }
 }
 
-STUB_FUNC(0x414710)
+WIP_FUNC(0x414710)
 void sound_obj::TrainCab_414710(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ped* pDriver = a2->field_0_pObj->field_8_car_bc_ptr->field_54_driver;
+    if (pDriver)
+    {
+        TrainStation_34* pTrainStation = pDriver->field_13C_pTrainStation;
+        pDriver->field_13C_pTrainStation = 0;
+        if (pTrainStation)
+        {
+            this->field_30_sQueueSample.field_14_samp_idx = 139;
+            gmp_map_zone* pStationZone = pTrainStation->field_10_pZone;
+            if (pStationZone)
+            {
+                // TODO: This part doesn't match
+                this->field_30_sQueueSample.field_8_obj.field_0 = Fix16(pStationZone->field_1_x + (pStationZone->field_3_w >> 1));
+                this->field_30_sQueueSample.field_8_obj.field_4 = Fix16(pStationZone->field_2_y + (pStationZone->field_4_h >> 1));
+            }
+            this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+            this->field_2C_distCalculated = 0;
+            if (CalculateDistance_419020(Fix16(20070400, 0)))
+            {
+                if (VolCalc_419070(100, Fix16(573440, 0), 0))
+                {
+                    this->field_30_sQueueSample.field_54 = Fix16(573440, 0);
+                    this->field_30_sQueueSample.field_60_nEmittingVolume = 100;
+                    this->field_30_sQueueSample.field_64_max_distance = 70;
+                    this->field_30_sQueueSample.field_58_type = 19;
+                    this->field_30_sQueueSample.field_4_SampleIndex = 3;
+                    this->field_30_sQueueSample.field_41 = 1;
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
+                    this->field_30_sQueueSample.field_18 = 0;
+                    AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+        else
+        {
+            pDriver->field_13C_pTrainStation = 0;
+        }
+    }
 }
 
 WIP_FUNC(0x57E680)
