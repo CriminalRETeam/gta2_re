@@ -484,12 +484,12 @@ void RouteFinder::CancelRoute_589930(s16 junc_idx)
 }
 
 MATCH_FUNC(0x589960)
-s16 RouteFinder::sub_589960()
+s16 RouteFinder::GetFreeRouteIdx_589960()
 {
     s16 sVar1 = 1;
     if (this->field_0 < 50)
     {
-        while (sVar1 < 0x32)
+        while (sVar1 < 50)
         {
             if (field_2218[sVar1++].field_0[0] == 0)
             {
@@ -605,7 +605,7 @@ s16 RouteFinder::sub_589F70()
     }
 
     RouteFinder_10* pjVar4 = &field_861C[field_CC66_545_count - 1];
-    s16 sVar2 = sub_589960();
+    s16 sVar2 = GetFreeRouteIdx_589960();
     if (sVar2 == -1)
     {
         return -1;
@@ -635,7 +635,7 @@ s16 RouteFinder::sub_589F70()
 }
 
 WIP_FUNC(0x58a020)
-void RouteFinder::sub_58A020(char_type junc_idx)
+void RouteFinder::DebugPrintRoute_58A020(char_type junc_idx)
 {
     WIP_IMPLEMENTED;
 
