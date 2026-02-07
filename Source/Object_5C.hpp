@@ -55,9 +55,9 @@ class Object_2C
     EXPORT void sub_525D90();
     EXPORT void Update_525F30();
     EXPORT bool PoolUpdate();
-    EXPORT void sub_526790(Sprite *pSprite);
+    EXPORT void sub_526790(Sprite* pSprite);
     EXPORT s32 sub_526830(s32 a1);
-    EXPORT void sub_526B40(Sprite *pSprite);
+    EXPORT void sub_526B40(Sprite* pSprite);
     EXPORT bool sub_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
     EXPORT void sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT void Light_527990();
@@ -106,6 +106,12 @@ class Object_2C
     {
         s32 v1 = field_8->field_34_behavior_type;
         return v1 == object_behavior_type::behavior_10;
+    }
+
+    bool sub_475A80()
+    {
+        s32 t = this->field_8->field_34_behavior_type;
+        return t == 2 || t == 4 || t == 8 || t == 9;
     }
 
     bool is_not_type6_to_12_421080()

@@ -272,6 +272,7 @@ class Phi_74
     EXPORT void sub_5331A0(Sprite* a2);
     EXPORT Phi_74();
 
+
     Fix16 field_0;
     Fix16 field_4;
     Fix16 field_8;
