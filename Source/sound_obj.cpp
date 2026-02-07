@@ -2612,7 +2612,7 @@ char_type sound_obj::Type_3_HandleCarImpactSound_4174C0(sound_0x68* a2)
     return 0;
 }
 
-WIP_FUNC(0x417B80)
+WIP_FUNC(0x417AC0)
 s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
 {
     WIP_IMPLEMENTED;
