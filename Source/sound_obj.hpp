@@ -244,6 +244,7 @@ class sound_obj
     EXPORT void Release_41A290();
     EXPORT u8 GetCDVol_41A280();
     EXPORT void sub_419E10();
+    EXPORT s32 sub_417B80(s32 a1, bool a2);
 
     EXPORT void null_412240();
     EXPORT void null_412250();

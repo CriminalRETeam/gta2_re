@@ -41,7 +41,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_675220, dword_675400, 0x675220);
 DEFINE_GLOBAL_INIT(Fix16, dword_675418, Fix16(0x18000, 0), 0x675418);
 DEFINE_GLOBAL_INIT(Fix16, dword_6751F4, Fix16(0x640000, 0), 0x6751F4);
 
-
 DEFINE_GLOBAL(Fix16, dword_66F3B4, 0x66F3B4);
 DEFINE_GLOBAL(Fix16, dword_66F3F8, 0x66F3F8);
 DEFINE_GLOBAL(Fix16, dword_66F3C0, 0x66F3C0);
@@ -2613,10 +2612,47 @@ char_type sound_obj::Type_3_HandleCarImpactSound_4174C0(sound_0x68* a2)
     return 0;
 }
 
-STUB_FUNC(0x417A00)
+STUB_FUNC(0x417B80)
+EXPORT s32 sound_obj::sub_417B80(s32 car_model, bool bHornOn)
+{
+    if (car_model == car_model_enum::FIRETRUK)
+    {
+        return 14;
+    }
+    else
+    {
+        if (bHornOn)
+        {
+            return 15;
+        }
+        else
+        {
+            return 14;
+        }
+    }
+}
+
+MATCH_FUNC(0x417A00)
 char_type sound_obj::Type_4_417A00(sound_0x68* a2)
 {
-    NOT_IMPLEMENTED;
+    Car_BC* pCar;
+    if (GetCar_4145E0(a2->field_0_EntityIndex, &pCar))
+    {
+        s32 model = pCar->field_84_car_info_idx;
+        a2->field_14_samp_idx = sub_417B80(pCar->field_84_car_info_idx, pCar->IsEmittingHorn_411970());
+        a2->field_3C = 800;
+        a2->field_4C = 2;
+
+        a2->field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(a2->field_14_samp_idx);
+        if (model == car_model_enum::FIRETRUK || model == car_model_enum::MEDICAR)
+        {
+            a2->field_20_rate = 9 * a2->field_20_rate / 10u;
+        }
+        a2->field_30 = 0;
+        a2->field_34 = gSampManager_6FFF00.sub_58DC30(a2->field_14_samp_idx);
+        a2->field_38 = gSampManager_6FFF00.sub_58DC50(a2->field_14_samp_idx);
+        return 1;
+    }
     return 0;
 }
 
