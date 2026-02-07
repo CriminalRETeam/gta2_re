@@ -171,7 +171,7 @@ class sound_obj
     char_type field_1451;
     char_type field_1452;
     char_type field_1453;
-    s32 field_1454_anRandomTable[5];
+    u32 field_1454_anRandomTable[5];
     Fix16 field_1468_v1;
     Fix16 field_146C_v2;
     Fix16 field_1470_v3;

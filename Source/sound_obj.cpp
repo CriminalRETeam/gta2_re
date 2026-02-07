@@ -5079,20 +5079,20 @@ void sound_obj::UpdateRadioChatterLoop_41FCA0()
     u32 rnd_2;
 
     this->field_5520_bCanPlay = 0;
-    if ( (u32)this->field_1454_anRandomTable[4] % 20)
+    if ( this->field_1454_anRandomTable[4] % 20)
     {
         if (!(this->field_1454_anRandomTable[0] % 3u))
         {
-            rnd_3 = (u32)this->field_1454_anRandomTable[1] % 3 + 69;
-            rnd_2 = (u32)this->field_1454_anRandomTable[2] % 3 + 87;
+            rnd_3 = this->field_1454_anRandomTable[1] % 3 + 69;
+            rnd_2 = this->field_1454_anRandomTable[2] % 3 + 87;
         }
         else
         {
-            rnd_3 = (u32)this->field_1454_anRandomTable[1] % 5 + 115;
-            rnd_2 = (u32)this->field_1454_anRandomTable[2] % 5 + 131;
+            rnd_3 = this->field_1454_anRandomTable[1] % 5 + 115;
+            rnd_2 = this->field_1454_anRandomTable[2] % 5 + 131;
         }
         Init_RadioMessageQueue_427180();
-        gSampManager_6FFF00.SetSampleVol_58E7D0((50 * (u32)this->field_24_sfx_vol) >> 7);
+        gSampManager_6FFF00.SetSampleVol_58E7D0((this->field_24_sfx_vol * 50u) >> 7);
         gSampManager_6FFF00.sub_58E8C0(rnd_3, rnd_2);
     }
     else
