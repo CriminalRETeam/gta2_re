@@ -5072,10 +5072,39 @@ void sound_obj::UpdateCarSurfaceAudio_418610(Sound_Params_8* a2)
     }
 }
 
-STUB_FUNC(0x41FCA0)
+WIP_FUNC(0x41FCA0)
 void sound_obj::UpdateRadioChatterLoop_41FCA0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    u32 rnd_4; // eax
+    u32 rnd_1; // eax
+    u32 rnd_3; // edi
+    u32 rnd_2; // ebx
+
+    rnd_4 = this->field_1454_anRandomTable[4];
+    this->field_5520_bCanPlay = 0;
+    if (rnd_4 % 20)
+    {
+        rnd_1 = this->field_1454_anRandomTable[1];
+        if (this->field_1454_anRandomTable[0] % 3u)
+        {
+            rnd_3 = rnd_1 % 5 + 115;
+            rnd_2 = this->field_1454_anRandomTable[2] % 5u + 131;
+        }
+        else
+        {
+            rnd_3 = rnd_1 % 3 + 69;
+            rnd_2 = this->field_1454_anRandomTable[2] % 3u + 87;
+        }
+        Init_RadioMessageQueue_427180();
+        gSampManager_6FFF00.SetSampleVol_58E7D0((50 * (u32)this->field_24_sfx_vol) >> 7);
+        gSampManager_6FFF00.sub_58E8C0(rnd_3, rnd_2);
+    }
+    else
+    {
+        gSampManager_6FFF00.EndSample_58E960();
+    }
 }
 
 STUB_FUNC(0x57E510)
