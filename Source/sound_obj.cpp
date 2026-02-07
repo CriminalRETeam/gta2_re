@@ -41,6 +41,17 @@ DEFINE_GLOBAL_INIT(Fix16, dword_675220, dword_675400, 0x675220);
 DEFINE_GLOBAL_INIT(Fix16, dword_675418, Fix16(0x18000, 0), 0x675418);
 DEFINE_GLOBAL_INIT(Fix16, dword_6751F4, Fix16(0x640000, 0), 0x6751F4);
 
+
+DEFINE_GLOBAL(Fix16, dword_66F3B4, 0x66F3B4);
+DEFINE_GLOBAL(Fix16, dword_66F3F8, 0x66F3F8);
+DEFINE_GLOBAL(Fix16, dword_66F3C0, 0x66F3C0);
+DEFINE_GLOBAL(Fix16, dword_66F24C, 0x66F24C);
+DEFINE_GLOBAL(Fix16, dword_66F490, 0x66F490);
+DEFINE_GLOBAL(Fix16, dword_66F2FC, 0x66F2FC);
+DEFINE_GLOBAL(Fix16, dword_66F3FC, 0x66F3FC);
+DEFINE_GLOBAL(Fix16, dword_66F1CC, 0x66F1CC);
+DEFINE_GLOBAL(u8, byte_66F542, 0x66F542);
+
 // TODO: can't use 2d arrays here :Skull:
 //DEFINE_GLOBAL(char_type, byte_5FE434[8][44], 0x5FE434);
 char_type byte_5FE434[8][44];
@@ -66,7 +77,6 @@ inline s32 __stdcall Fix16_Round_To_Int_410BF0(Fix16& a1)
     s32 v = a1.mValue;
     return (v + 0x2000) >> 14;
 }
-
 
 MATCH_FUNC(0x419CD0)
 sound_obj::sound_obj()
@@ -4380,11 +4390,93 @@ char_type sound_obj::Type6_412C90(Rozza_A* pObj, u8 a3)
     return result;
 }
 
-STUB_FUNC(0x413A10)
-char_type sound_obj::Type6_413A10(Rozza_A* a2)
+WIP_FUNC(0x413A10)
+char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 div_val;
+    u8 sample_base;
+    switch (pRozzA->field_0)
+    {
+        case 2:
+            if (pRozzA->field_24_car_physics_value >= dword_66F3B4)
+            {
+                div_val = dword_66F3F8;
+                if (pRozzA->field_24_car_physics_value > dword_66F3F8)
+                {
+                    pRozzA->field_24_car_physics_value = dword_66F3F8;
+                    div_val = dword_66F3F8;
+                }
+                goto LABEL_23;
+            }
+            sample_base = 0;
+            break;
+
+        case 3:
+            if (pRozzA->field_18_model_copy == 192 || pRozzA->field_18_model_copy == 254 || pRozzA->field_18_model_copy == 265)
+            {
+                sample_base = 37;
+            }
+            else
+            {
+                if (pRozzA->field_10)
+                {
+                    goto LABEL_20;
+                }
+                pRozzA->field_24_car_physics_value = pRozzA->field_10->sub_43A240();
+                if (pRozzA->field_24_car_physics_value >= dword_66F3C0)
+                {
+                    div_val = dword_66F24C;
+                    if (pRozzA->field_24_car_physics_value > dword_66F24C)
+                    {
+                        pRozzA->field_24_car_physics_value = dword_66F24C;
+                        div_val = dword_66F24C;
+                    }
+                    goto LABEL_23;
+                }
+                sample_base = 0;
+            }
+            break;
+
+        case 4:
+            if (pRozzA->field_24_car_physics_value >= dword_66F490)
+            {
+                div_val = dword_66F2FC;
+                if (pRozzA->field_24_car_physics_value > dword_66F2FC)
+                {
+                    pRozzA->field_24_car_physics_value = dword_66F2FC;
+                    div_val = dword_66F2FC;
+                }
+                goto LABEL_23;
+            }
+            sample_base = 0;
+            break;
+
+        case 5:
+            if (pRozzA->field_24_car_physics_value >= dword_66F3B4)
+            {
+                div_val = dword_66F3FC;
+                if (pRozzA->field_24_car_physics_value > dword_66F3FC)
+                {
+                    pRozzA->field_24_car_physics_value = dword_66F3FC;
+                    div_val = dword_66F3FC;
+                }
+            LABEL_23:
+                sample_base = Fix16_Round_To_Int_410BF0((pRozzA->field_24_car_physics_value / div_val) * dword_66F1CC);
+            }
+            else
+            {
+            LABEL_20:
+                sample_base = 0;
+            }
+            break;
+
+        default:
+            sample_base = this->field_1454_anRandomTable[(u8)++byte_66F542 % 5] % 0xAu + 5;
+            break;
+    }
+    return sample_base;
 }
 
 MATCH_FUNC(0x413040)
