@@ -1237,26 +1237,28 @@ char_type sound_obj::LoadStyle_41A1B0(const char_type* pStyleName)
 
 DEFINE_GLOBAL_ARRAY(char_type, byte_674E28, 80, 0x674E28);
 
-STUB_FUNC(0x41A1E0)
+WIP_FUNC(0x41A1E0)
 const char_type* sound_obj::GetFileName_41A1E0(const char_type* pStr)
 {
-    NOT_IMPLEMENTED;
-    const char_type* pSlashStr; // eax
-    const char_type* pAfterSlash; // eax
-    char_type after_slash_char; // dl
+    WIP_IMPLEMENTED;
+
     u8 total_idx; // si
     s32 dst_idx; // ecx
-    const char_type* result; // eax
     u8 src_idx; // [esp+8h] [ebp+4h]
 
-    pSlashStr = strrchr(pStr, '\\');
-    if (pSlashStr)
-        pAfterSlash = pSlashStr + 1;
+    const char_type* pTmp = strrchr(pStr, '\\');
+    if (pTmp)
+    {
+        pTmp = pTmp + 1;
+    }
     else
-        pAfterSlash = pStr;
-    after_slash_char = *pAfterSlash;
+    {
+        pTmp = pStr;
+    }
+
+    char_type after_slash_char = *pTmp;
     src_idx = 0;
-    if (*pAfterSlash == '.')
+    if (*pTmp == '.')
     {
         total_idx = 0;
     }
@@ -1271,12 +1273,12 @@ const char_type* sound_obj::GetFileName_41A1E0(const char_type* pStr)
             byte_674E28[dst_idx] = after_slash_char;
             total_idx = ++src_idx;
             dst_idx = src_idx;
-            after_slash_char = pAfterSlash[src_idx];
+            after_slash_char = pTmp[src_idx];
         } while (after_slash_char != '.');
     }
-    result = byte_674E28;
+
     byte_674E28[total_idx] = 0;
-    return result;
+    return byte_674E28;
 }
 
 struct naughty_elion_0x4C;
