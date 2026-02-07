@@ -3630,10 +3630,35 @@ void sound_obj::HandleCarWeaponHitSound_415480(Sound_Params_8* a2)
     AddSampleToRequestedQueue_41A850();
 }
 
-STUB_FUNC(0x417E30)
+WIP_FUNC(0x417E30)
 void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params_8* a2, sound_unknown_0xC* a3)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Car_BC* cBC = a2->field_0_pObj->field_8_car_bc_ptr;
+    Fix16 v5 = cBC->sub_43A240();
+    if (a3->field_0 > k_dword_66F3F0 && v5 == k_dword_66F3F0)
+    {
+        if (IsHeavyTruckOrBus_417F40(cBC->field_84_car_info_idx))
+        {
+            if (CalculateDistance_419020(Fix16(409600, 0)))
+            {
+                if (VolCalc_419070(0x28u, Fix16(81920, 0), a2->field_5_bHasSolidAbove))
+                {
+                    this->field_30_sQueueSample.field_54 = Fix16(81920, 0);
+                    this->field_30_sQueueSample.field_60_nEmittingVolume = 40;
+                    this->field_30_sQueueSample.field_64_max_distance = 10;
+                    this->field_30_sQueueSample.field_58_type = 7;
+                    this->field_30_sQueueSample.field_4_SampleIndex = 2;
+                    this->field_30_sQueueSample.field_41 = 1;
+                    this->field_30_sQueueSample.field_18 = 0;
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 7;
+                    AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+    }
+    a3->field_0 = v5;
 }
 
 STUB_FUNC(0x423080)
