@@ -1263,14 +1263,15 @@ const char_type* sound_obj::GetFileName_41A1E0(const char_type* pStr)
     else
     {
         dst_idx = 0;
-        do
+        while (pTmp[src_idx] != '.')
         {
             if (!pTmp[src_idx])
             {
                 break;
             }
-            byte_674E28[dst_idx++] = pTmp[src_idx++];
-        } while (pTmp[src_idx] != '.');
+            byte_674E28[dst_idx++] = pTmp[src_idx];
+            src_idx++;
+        } 
     }
 
     byte_674E28[src_idx] = 0;
