@@ -1242,7 +1242,6 @@ const char_type* sound_obj::GetFileName_41A1E0(const char_type* pStr)
 {
     WIP_IMPLEMENTED;
 
-    u8 total_idx; // si
     s32 dst_idx; // ecx
     u8 src_idx; // [esp+8h] [ebp+4h]
 
@@ -1256,28 +1255,25 @@ const char_type* sound_obj::GetFileName_41A1E0(const char_type* pStr)
         pTmp = pStr;
     }
 
-    char_type after_slash_char = *pTmp;
     src_idx = 0;
-    if (*pTmp == '.')
+    if (pTmp[src_idx] == '.')
     {
-        total_idx = 0;
+
     }
     else
     {
-        total_idx = 0;
         dst_idx = 0;
         do
         {
-            if (!after_slash_char)
+            if (!pTmp[src_idx])
+            {
                 break;
-            byte_674E28[dst_idx] = after_slash_char;
-            total_idx = ++src_idx;
-            dst_idx = src_idx;
-            after_slash_char = pTmp[src_idx];
-        } while (after_slash_char != '.');
+            }
+            byte_674E28[dst_idx++] = pTmp[src_idx++];
+        } while (pTmp[src_idx] != '.');
     }
 
-    byte_674E28[total_idx] = 0;
+    byte_674E28[src_idx] = 0;
     return byte_674E28;
 }
 
