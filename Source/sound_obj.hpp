@@ -244,6 +244,7 @@ class sound_obj
     EXPORT void Release_41A290();
     EXPORT u8 GetCDVol_41A280();
     EXPORT void sub_419E10();
+    EXPORT s32 get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrBus);
     EXPORT s32 samp_idx_for_model_417AC0(s32 car_model);
     EXPORT s32 sub_417B80(s32 car_model, bool bHornOn);
 

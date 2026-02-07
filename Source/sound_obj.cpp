@@ -2612,6 +2612,49 @@ char_type sound_obj::Type_3_HandleCarImpactSound_4174C0(sound_0x68* a2)
     return 0;
 }
 
+WIP_FUNC(0x417D70)
+s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrBus)
+{
+    WIP_IMPLEMENTED;
+
+    // TODO: a2 = door opening or closing?
+    s32 result;
+
+    if (bTrainOrBus)
+    {
+        return 31;
+    }
+
+    switch (pCar->field_84_car_info_idx)
+    {
+        case car_model_enum::apc:
+        case car_model_enum::boxtruck:
+        case car_model_enum::FIRETRUK:
+        case car_model_enum::GTRUCK:
+        case car_model_enum::SWATVAN:
+        case car_model_enum::TANK:
+        case car_model_enum::TOWTRUCK:
+        case car_model_enum::TRUKCAB1:
+        case car_model_enum::TRUKCAB2:
+        case car_model_enum::KRSNABUS:
+            result = 28 - (a2 != 0);
+            break;
+
+        case car_model_enum::boxcar:
+        case car_model_enum::BUS:
+        case car_model_enum::TRAIN:
+        case car_model_enum::TRAINCAB:
+        case car_model_enum::TRAINFB:
+            result = 29;
+            break;
+
+        default:
+            result = 26 - (a2 != 0);
+            break;
+    }
+    return result;
+}
+
 WIP_FUNC(0x417AC0)
 s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
 {
