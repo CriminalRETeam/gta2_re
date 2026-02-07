@@ -38,15 +38,15 @@ u16 Junction_10::sub_5885C0(u16 a2)
 {
     if (a2 != 0)
     {
-        if (field_0_n.FUN_0040ce90() == a2)
+        if (field_0_n.GetIndex_0040CE90() == a2)
         {
             return 1;
         }
-        if (field_2_s.FUN_0040ce90() == a2)
+        if (field_2_s.GetIndex_0040CE90() == a2)
         {
             return 2;
         }
-        if (field_4_e.FUN_0040ce90() != a2)
+        if (field_4_e.GetIndex_0040CE90() != a2)
         {
             return 3;
         }
@@ -86,15 +86,15 @@ void RouteFinder::RoadOff_588810(u8 x, u8 y, u8 z)
     {
         Junction_10* j1 = &field_8[r1];
         Junction_10* j2 = &field_8[r2];
-        if ((j1->field_4_e.FUN_0040ce90()) == r2)
+        if ((j1->field_4_e.GetIndex_0040CE90()) == r2)
         {
-            j1->field_4_e.sub_40CEC0();
-            j2->field_6_w.sub_40CEC0();
+            j1->field_4_e.Disable_40CEC0();
+            j2->field_6_w.Disable_40CEC0();
         }
-        else if ((j1->field_6_w.FUN_0040ce90()) == r2)
+        else if ((j1->field_6_w.GetIndex_0040CE90()) == r2)
         {
-            j1->field_6_w.sub_40CEC0();
-            j2->field_4_e.sub_40CEC0();
+            j1->field_6_w.Disable_40CEC0();
+            j2->field_4_e.Disable_40CEC0();
         }
     }
     else
@@ -106,25 +106,67 @@ void RouteFinder::RoadOff_588810(u8 x, u8 y, u8 z)
             Junction_10* j1 = &field_8[r3];
             Junction_10* j2 = &field_8[r4];
 
-            if ((j1->field_2_s.FUN_0040ce90()) == r4)
+            if ((j1->field_2_s.GetIndex_0040CE90()) == r4)
             {
-                j1->field_2_s.sub_40CEC0();
-                j2->field_0_n.sub_40CEC0();
+                j1->field_2_s.Disable_40CEC0();
+                j2->field_0_n.Disable_40CEC0();
             }
-            else if ((j1->field_0_n.FUN_0040ce90()) == r4)
+            else if ((j1->field_0_n.GetIndex_0040CE90()) == r4)
             {
-                j1->field_0_n.sub_40CEC0();
-                j2->field_2_s.sub_40CEC0();
+                j1->field_0_n.Disable_40CEC0();
+                j2->field_2_s.Disable_40CEC0();
             }
         }
     }
 }
 
-STUB_FUNC(0x588950)
-u16 RouteFinder::RoadOn_588950(s32 a2, s32 a3, s32 a4)
+MATCH_FUNC(0x588950)
+void RouteFinder::RoadOn_588950(s32 x, s32 y, s32 z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // Strangely not the exact inverse logic of RoadOff
+    const u16 r1 = RouteFinder::sub_588E60(x, y, z, 0, 3);
+    const u16 r2 = RouteFinder::sub_588E60(x, y, z, 1, 3);
+    if (r1 && r2)
+    {
+        Junction_10* j1 = &field_8[r1];
+        Junction_10* j2 = &field_8[r2];
+        if ((j1->field_4_e.GetIndex_0040CE90()) == r2)
+        {
+            j1->field_4_e.Enable_40CEB0();
+            j2->field_6_w.Enable_40CEB0();
+        }
+        else if ((j1->field_6_w.GetIndex_0040CE90()) == r2)
+        {
+            j1->field_6_w.Enable_40CEB0();
+            j2->field_4_e.Enable_40CEB0();
+        }
+    }
+
+    const u16 r3 = RouteFinder::sub_588F30(x, y, z, 0, 3);
+    const u16 r4 = RouteFinder::sub_588F30(x, y, z, 1, 3);
+    if (r3 && r4)
+    {
+        Junction_10* j1 = &field_8[r3];
+        Junction_10* j2 = &field_8[r4];
+
+        if ((j1->field_2_s.GetIndex_0040CE90()) == r4)
+        {
+            j1->field_2_s.Enable_40CEB0();
+        }
+        else if ((j1->field_0_n.GetIndex_0040CE90()) == r4)
+        {
+            j1->field_0_n.Enable_40CEB0();
+        }
+
+        if ((j2->field_2_s.GetIndex_0040CE90()) == r3)
+        {
+            j2->field_2_s.Enable_40CEB0();
+        }
+        else if ((j2->field_0_n.GetIndex_0040CE90()) == r3)
+        {
+            j2->field_0_n.Enable_40CEB0();
+        }
+    }
 }
 
 STUB_FUNC(0x588aa0)
@@ -155,10 +197,10 @@ void RouteFinder::Load_RGEN_588B30()
                     iVar2,
                     field_8[iVar2].field_C_min_x,
                     field_8[iVar2].field_D_min_y,
-                    field_8[iVar2].field_0_n.FUN_0040ce90(),
-                    field_8[iVar2].field_2_s.FUN_0040ce90(),
-                    field_8[iVar2].field_6_w.FUN_0040ce90(),
-                    field_8[iVar2].field_4_e.FUN_0040ce90());
+                    field_8[iVar2].field_0_n.GetIndex_0040CE90(),
+                    field_8[iVar2].field_2_s.GetIndex_0040CE90(),
+                    field_8[iVar2].field_6_w.GetIndex_0040CE90(),
+                    field_8[iVar2].field_4_e.GetIndex_0040CE90());
             gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
 
             if (iVar2 > 0 && field_8[iVar2].field_C_min_x == 0 && field_8[iVar2].field_D_min_y == 0)

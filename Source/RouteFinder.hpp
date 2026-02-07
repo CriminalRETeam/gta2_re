@@ -7,17 +7,22 @@ struct gmp_block_info;
 class Link_2
 {
   public:
-    inline u16 FUN_0040ce90()
+    inline u16 GetIndex_0040CE90()
     {
         return field_0 & 0x1ff;
     }
 
-    inline void sub_40CEC0()
+    inline void Disable_40CEC0()
     {
         field_0 &= ~0x8000u;
     }
 
-    s16 field_0;
+    inline void Enable_40CEB0()
+    {
+        field_0 |= 0x8000u;
+    }
+
+    u16 field_0;
 };
 
 class Junction_10
@@ -73,7 +78,7 @@ class RouteFinder
   public:
     EXPORT void ShowJunctionIds_588620();
     EXPORT void RoadOff_588810(u8 a2, u8 a3, u8 a4);
-    EXPORT u16 RoadOn_588950(s32 a2, s32 a3, s32 a4);
+    EXPORT void RoadOn_588950(s32 a2, s32 a3, s32 a4);
     EXPORT u16 IsPointInJunctionBounds_588AA0(u8 a2, u8 a3, u16 a4, u16 a5); // ret _BOOL2
     EXPORT void Load_RGEN_588B30();
     EXPORT void Reset_588C60();
