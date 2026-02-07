@@ -605,10 +605,9 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
     {
         do
         {
-            if (!pCarIter->IsMaxDamage_40F890() &&
-                !pCarIter->inline_check_0x10_info_421640() &&
-                (bIgnorePedRestrictions || !pCarIter->sub_43B2B0(pPed)) && !pCarIter->sub_43A230() &&
-                pCarIter->field_88 != 7 && !pCarIter->IsCarInAir_43A3C0())
+            if (!pCarIter->IsMaxDamage_40F890() && !pCarIter->inline_check_0x10_info_421640() &&
+                (bIgnorePedRestrictions || !pCarIter->sub_43B2B0(pPed)) && !pCarIter->sub_43A230() && pCarIter->field_88 != 7 &&
+                !pCarIter->IsCarInAir_43A3C0())
             {
                 if (pCarIter->GetCarInfoIdx_411940() == car_model_enum::TRAINFB && (!bMatchDriverless || !pCarIter->field_54_driver))
                 {
@@ -657,11 +656,41 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
     return pRet;
 }
 
-STUB_FUNC(0x445210)
-Car_BC* Car_6C::sub_445210(Sprite* a1, u8 a2)
+WIP_FUNC(0x445210)
+Car_BC* Car_6C::sub_445210(Sprite* pSprite, u8 k3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 oldx = pSprite->field_14_xy.x;
+    Fix16 oldz = pSprite->field_1C_zpos;
+    Fix16 oldy = pSprite->field_14_xy.y;
+
+    gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pSprite);
+
+    Fix16 v8 = pSprite->field_14_xy.y + (gCos_table_669260[pSprite->field_0.rValue] * dword_6772D0);
+    Fix16 v9 = pSprite->field_14_xy.x + (gSin_table_667A80[pSprite->field_0.rValue] * dword_6772D0);
+
+    pSprite->set_xy_lazy_447E20(v8, v9);
+
+    Sprite* pNearest =
+        gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::car, sprite_types_enum::car, pSprite, k3, 3, 1u);
+
+    pSprite->set_xyz_lazy_420600(oldx, oldy, oldz);
+
+    Car_BC* pCar;
+    Car_BC* pLeadCar;
+    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pSprite);
+    if (pNearest &&
+        ((pCar = pNearest->field_8_car_bc_ptr, pCar->field_84_car_info_idx != car_model_enum::TRAIN) ||
+         (pLeadCar = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(pNearest->field_8_car_bc_ptr),
+          pLeadCar->sub_43A240() == gFix16_6777CC)))
+    {
+        return pCar;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 STUB_FUNC(0x4458b0)
