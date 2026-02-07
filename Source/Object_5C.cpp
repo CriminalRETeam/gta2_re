@@ -937,7 +937,8 @@ void Object_2C::NewObj3C_528130(Fix16_Point* a2)
 
     this->field_10_obj_3c = pNewObj;
 
-    this->field_10_obj_3c->field_C = a2->GetLength_41E260(); // TODO: Uses wrong zero constants?? Artifact of func being inlined into each TU??
+    this->field_10_obj_3c->field_C =
+        a2->GetLength_41E260(); // TODO: Uses wrong zero constants?? Artifact of func being inlined into each TU??
     this->field_10_obj_3c->field_4 = Fix16::atan2_fixed_405320(a2->y, a2->x);
 }
 
@@ -1798,11 +1799,33 @@ void Object_5C::sub_5297F0()
     field_C->field_26_varrok_idx = 47;
 }
 
-STUB_FUNC(0x5298e0)
-s32 Object_5C::sub_5298E0(s32 a2)
+MATCH_FUNC(0x5298e0)
+Object_2C* Object_5C::GetDirectionalObject_5298E0(s32 maybe_slope)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C *result;
+    switch (maybe_slope)
+    {
+        case 180:
+        case 196:
+            result = this->field_0;
+            break;
+        case 184:
+        case 200:
+            result = this->field_8;
+            break;
+        case 188:
+        case 204:
+            result = this->field_C;
+            break;
+        case 192:
+        case 208:
+            result = this->field_4;
+            break;
+        default:
+            result = 0;
+            break;
+    }
+    return result;
 }
 
 MATCH_FUNC(0x529950)
