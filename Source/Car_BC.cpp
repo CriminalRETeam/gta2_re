@@ -656,41 +656,48 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
     return pRet;
 }
 
-WIP_FUNC(0x445210)
+MATCH_FUNC(0x445210)
 Car_BC* Car_6C::sub_445210(Sprite* pSprite, u8 k3)
 {
-    WIP_IMPLEMENTED;
-
     Fix16 oldx = pSprite->field_14_xy.x;
-    Fix16 oldz = pSprite->field_1C_zpos;
     Fix16 oldy = pSprite->field_14_xy.y;
+    Fix16 oldz = pSprite->field_1C_zpos;
 
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pSprite);
 
-    Fix16 v8 = pSprite->field_14_xy.y + (gCos_table_669260[pSprite->field_0.rValue] * dword_6772D0);
-    Fix16 v9 = pSprite->field_14_xy.x + (gSin_table_667A80[pSprite->field_0.rValue] * dword_6772D0);
+    Fix16 new_x;
+    Fix16 new_y;
+    Ang16::sub_41FC20(pSprite->field_0, dword_6772D0, new_x, new_y);
 
-    pSprite->set_xy_lazy_447E20(v8, v9);
+    pSprite->set_xyz_lazy_420600(pSprite->field_14_xy.x + new_x, pSprite->field_14_xy.y + new_y, pSprite->field_1C_zpos);
 
     Sprite* pNearest =
         gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::car, sprite_types_enum::car, pSprite, k3, 3, 1u);
 
     pSprite->set_xyz_lazy_420600(oldx, oldy, oldz);
 
-    Car_BC* pCar;
-    Car_BC* pLeadCar;
     gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pSprite);
-    if (pNearest &&
-        ((pCar = pNearest->field_8_car_bc_ptr, pCar->field_84_car_info_idx != car_model_enum::TRAIN) ||
-         (pLeadCar = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(pNearest->field_8_car_bc_ptr),
-          pLeadCar->sub_43A240() == gFix16_6777CC)))
+
+    if (pNearest)
     {
-        return pCar;
+        // Extract the car pointer first
+        Car_BC* pCar = pNearest->field_8_car_bc_ptr;
+
+        if (pCar->field_84_car_info_idx == car_model_enum::TRAIN)
+        {
+            Car_BC* pLeadCar = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(pNearest->field_8_car_bc_ptr);
+            if (pLeadCar->sub_43A240() == gFix16_6777CC)
+            {
+                return pCar;
+            }
+        }
+        else
+        {
+            return pCar;
+        }
+
     }
-    else
-    {
-        return 0;
-    }
+    return 0;
 }
 
 STUB_FUNC(0x4458b0)
