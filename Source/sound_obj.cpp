@@ -13,12 +13,12 @@
 #include "Object_5C.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
+#include "PublicTransport.hpp"
 #include "Rozza_C88.hpp"
 #include "Weapon_30.hpp"
 #include "cSampleManager.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "PublicTransport.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -59,6 +59,14 @@ static inline s32 Clamp2(s32 v, s32 center, s32 radius)
 {
     return v > center ? Min(v, center + radius) : Max(v, center - radius);
 }
+
+// 9.6f func
+inline s32 __stdcall Fix16_Round_To_Int_410BF0(Fix16& a1)
+{
+    s32 v = a1.mValue;
+    return (v + 0x2000) >> 14;
+}
+
 
 MATCH_FUNC(0x419CD0)
 sound_obj::sound_obj()
@@ -3374,10 +3382,35 @@ void sound_obj::HandleSirenActivationSound_4178C0(Sound_Params_8* a2)
     }
 }
 
-STUB_FUNC(0x4143A0)
+WIP_FUNC(0x4143A0)
 void sound_obj::HandleTrainCabRollingFrictionSound_4143A0(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 v4 = a2->field_0_pObj->field_8_car_bc_ptr->sub_43A240();
+    Fix16 max_speed = dword_6FE258->field_28_max_speed;
+    if (v4 > k_dword_66F3F0 && max_speed > k_dword_66F3F0)
+    {
+        if (CalculateDistance_419020(Fix16(3686400, 0)))
+        {
+            s32 v6 = Fix16_Round_To_Int_410BF0((Fix16(2080768, 0) * v4) / max_speed);
+            if ((u8)v6)
+            {
+                if (VolCalc_419070((u8)v6, Fix16(245760, 0), a2->field_5_bHasSolidAbove))
+                {
+                    this->field_30_sQueueSample.field_54 = Fix16(245760, 0);
+                    this->field_30_sQueueSample.field_60_nEmittingVolume = v6;
+                    this->field_30_sQueueSample.field_64_max_distance = 30;
+                    this->field_30_sQueueSample.field_58_type = 17;
+                    this->field_30_sQueueSample.field_4_SampleIndex = 2;
+                    this->field_30_sQueueSample.field_41 = 0;
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
+                    this->field_30_sQueueSample.field_18 = 0;
+                    AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+    }
 }
 
 WIP_FUNC(0x4140C0)
@@ -4058,13 +4091,6 @@ skip_switch_2:
         return 1;
     }
     return result;
-}
-
-// 9.6f func
-inline s32 __stdcall Fix16_Round_To_Int_410BF0(Fix16& a1)
-{
-    s32 v = a1.mValue;
-    return (v + 0x2000) >> 14;
 }
 
 WIP_FUNC(0x414A50)
