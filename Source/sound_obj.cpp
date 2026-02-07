@@ -1237,14 +1237,9 @@ char_type sound_obj::LoadStyle_41A1B0(const char_type* pStyleName)
 
 DEFINE_GLOBAL_ARRAY(char_type, byte_674E28, 80, 0x674E28);
 
-WIP_FUNC(0x41A1E0)
+MATCH_FUNC(0x41A1E0)
 const char_type* sound_obj::GetFileName_41A1E0(const char_type* pStr)
 {
-    WIP_IMPLEMENTED;
-
-    s32 dst_idx; // ecx
-    u8 src_idx; // [esp+8h] [ebp+4h]
-
     const char_type* pTmp = strrchr(pStr, '\\');
     if (pTmp)
     {
@@ -1255,23 +1250,15 @@ const char_type* sound_obj::GetFileName_41A1E0(const char_type* pStr)
         pTmp = pStr;
     }
 
-    src_idx = 0;
-    if (pTmp[src_idx] == '.')
+    u8 src_idx = 0;
+    while (pTmp[src_idx] != '.')
     {
-
-    }
-    else
-    {
-        dst_idx = 0;
-        while (pTmp[src_idx] != '.')
+        if (!pTmp[src_idx])
         {
-            if (!pTmp[src_idx])
-            {
-                break;
-            }
-            byte_674E28[dst_idx++] = pTmp[src_idx];
-            src_idx++;
-        } 
+            break;
+        }
+        byte_674E28[src_idx] = pTmp[src_idx];
+        src_idx++;
     }
 
     byte_674E28[src_idx] = 0;
