@@ -38,15 +38,15 @@ u16 Junction_10::sub_5885C0(u16 a2)
 {
     if (a2 != 0)
     {
-        if (field_0_n.FUN_0040ce90() == a2)
+        if (field_0_n.GetIndex_0040CE90() == a2)
         {
             return 1;
         }
-        if (field_2_s.FUN_0040ce90() == a2)
+        if (field_2_s.GetIndex_0040CE90() == a2)
         {
             return 2;
         }
-        if (field_4_e.FUN_0040ce90() != a2)
+        if (field_4_e.GetIndex_0040CE90() != a2)
         {
             return 3;
         }
@@ -77,25 +77,150 @@ void RouteFinder::ShowJunctionIds_588620()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x588810)
-u16 RouteFinder::RoadOff_588810(u8 a2, u8 a3, u8 a4)
+MATCH_FUNC(0x588810)
+void RouteFinder::RoadOff_588810(u8 x, u8 y, u8 z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    const u16 r1 = RouteFinder::sub_588E60(x, y, z, 0, 3);
+    const u16 r2 = RouteFinder::sub_588E60(x, y, z, 1, 3);
+    if (r1 && r2)
+    {
+        Junction_10* j1 = &field_8[r1];
+        Junction_10* j2 = &field_8[r2];
+        if ((j1->field_4_e.GetIndex_0040CE90()) == r2)
+        {
+            j1->field_4_e.Disable_40CEC0();
+            j2->field_6_w.Disable_40CEC0();
+        }
+        else if ((j1->field_6_w.GetIndex_0040CE90()) == r2)
+        {
+            j1->field_6_w.Disable_40CEC0();
+            j2->field_4_e.Disable_40CEC0();
+        }
+    }
+    else
+    {
+        const u16 r3 = RouteFinder::sub_588F30(x, y, z, 0, 3);
+        const u16 r4 = RouteFinder::sub_588F30(x, y, z, 1, 3);
+        if (r3 && r4)
+        {
+            Junction_10* j1 = &field_8[r3];
+            Junction_10* j2 = &field_8[r4];
+
+            if ((j1->field_2_s.GetIndex_0040CE90()) == r4)
+            {
+                j1->field_2_s.Disable_40CEC0();
+                j2->field_0_n.Disable_40CEC0();
+            }
+            else if ((j1->field_0_n.GetIndex_0040CE90()) == r4)
+            {
+                j1->field_0_n.Disable_40CEC0();
+                j2->field_2_s.Disable_40CEC0();
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x588950)
-u16 RouteFinder::RoadOn_588950(s32 a2, s32 a3, s32 a4)
+MATCH_FUNC(0x588950)
+void RouteFinder::RoadOn_588950(s32 x, s32 y, s32 z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // Strangely not the exact inverse logic of RoadOff
+    const u16 r1 = RouteFinder::sub_588E60(x, y, z, 0, 3);
+    const u16 r2 = RouteFinder::sub_588E60(x, y, z, 1, 3);
+    if (r1 && r2)
+    {
+        Junction_10* j1 = &field_8[r1];
+        Junction_10* j2 = &field_8[r2];
+        if ((j1->field_4_e.GetIndex_0040CE90()) == r2)
+        {
+            j1->field_4_e.Enable_40CEB0();
+            j2->field_6_w.Enable_40CEB0();
+        }
+        else if ((j1->field_6_w.GetIndex_0040CE90()) == r2)
+        {
+            j1->field_6_w.Enable_40CEB0();
+            j2->field_4_e.Enable_40CEB0();
+        }
+    }
+
+    const u16 r3 = RouteFinder::sub_588F30(x, y, z, 0, 3);
+    const u16 r4 = RouteFinder::sub_588F30(x, y, z, 1, 3);
+    if (r3 && r4)
+    {
+        Junction_10* j1 = &field_8[r3];
+        Junction_10* j2 = &field_8[r4];
+
+        if ((j1->field_2_s.GetIndex_0040CE90()) == r4)
+        {
+            j1->field_2_s.Enable_40CEB0();
+        }
+        else if ((j1->field_0_n.GetIndex_0040CE90()) == r4)
+        {
+            j1->field_0_n.Enable_40CEB0();
+        }
+
+        if ((j2->field_2_s.GetIndex_0040CE90()) == r3)
+        {
+            j2->field_2_s.Enable_40CEB0();
+        }
+        else if ((j2->field_0_n.GetIndex_0040CE90()) == r3)
+        {
+            j2->field_0_n.Enable_40CEB0();
+        }
+    }
 }
 
-STUB_FUNC(0x588aa0)
-u16 RouteFinder::IsPointInJunctionBounds_588AA0(u8 a2, u8 a3, u16 a4, u16 a5)
+MATCH_FUNC(0x588aa0)
+u16 RouteFinder::IsPointInJunctionBounds_588AA0(u8 x, u8 y, u16 junc_idx1, u16 junc_idx2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u8 x1;
+    u8 y1;
+    u8 y2;
+    u8 x2;
+
+    Junction_10* pJ1 = &this->field_8[junc_idx1];
+    Junction_10* pJ2 = &this->field_8[junc_idx2];
+
+    if (pJ1->field_C_min_x <= pJ2->field_C_min_x)
+    {
+        x1 = pJ1->field_C_min_x;
+    }
+    else
+    {
+        x1 = pJ2->field_C_min_x;
+    }
+
+    if (pJ1->field_E_max_x > pJ2->field_E_max_x)
+    {
+        x2 = pJ1->field_E_max_x;
+    }
+    else
+    {
+        x2 = pJ2->field_E_max_x;
+    }
+
+    if (pJ1->field_D_min_y <= pJ2->field_D_min_y)
+    {
+        y1 = pJ1->field_D_min_y;
+    }
+    else
+    {
+        y1 = pJ2->field_D_min_y;
+    }
+
+    if (pJ1->field_F_max_y > pJ2->field_F_max_y)
+    {
+        y2 = pJ1->field_F_max_y;
+    }
+    else
+    {
+        y2 = pJ2->field_F_max_y;
+    }
+
+    if (x >= x1 && x <= x2 && y >= y1 && y <= y2)
+    {
+        return true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x588b30)
@@ -119,10 +244,10 @@ void RouteFinder::Load_RGEN_588B30()
                     iVar2,
                     field_8[iVar2].field_C_min_x,
                     field_8[iVar2].field_D_min_y,
-                    field_8[iVar2].field_0_n.FUN_0040ce90(),
-                    field_8[iVar2].field_2_s.FUN_0040ce90(),
-                    field_8[iVar2].field_6_w.FUN_0040ce90(),
-                    field_8[iVar2].field_4_e.FUN_0040ce90());
+                    field_8[iVar2].field_0_n.GetIndex_0040CE90(),
+                    field_8[iVar2].field_2_s.GetIndex_0040CE90(),
+                    field_8[iVar2].field_6_w.GetIndex_0040CE90(),
+                    field_8[iVar2].field_4_e.GetIndex_0040CE90());
             gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
 
             if (iVar2 > 0 && field_8[iVar2].field_C_min_x == 0 && field_8[iVar2].field_D_min_y == 0)
@@ -417,11 +542,26 @@ s32 RouteFinder::sub_589210(char_type a2, char_type a3, s32 a4, char_type a5, s3
     return 0;
 }
 
-STUB_FUNC(0x5892f0)
-RouteFinder_10* RouteFinder::sub_5892F0(RouteFinder_10* a2, u16 a3, s16 a4)
+WIP_FUNC(0x5892f0)
+RouteFinder_10* RouteFinder::sub_5892F0(RouteFinder_10* a2, u16 idx, s16 a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    RouteFinder_10* pNew10 = &this->field_861C[this->field_CC66_545_count++];
+
+    Junction_10* junc1 = &this->field_8[this->field_861A];
+    Junction_10* junc2 = &this->field_8[idx];
+
+    s32 dx = abs((u8)junc2->field_C_min_x - (u8)junc1->field_C_min_x);
+    s32 dy = abs((u8)junc2->field_D_min_y - (u8)junc1->field_D_min_y);
+
+ 
+    pNew10->field_0_idx = idx;
+    pNew10->field_2 = (dx) + (dy) + a4 + a2->field_2;
+    pNew10->field_8 = a2;
+    pNew10->field_C_pNext = 0;
+
+    return pNew10;
 }
 
 STUB_FUNC(0x589390)
@@ -484,12 +624,12 @@ void RouteFinder::CancelRoute_589930(s16 junc_idx)
 }
 
 MATCH_FUNC(0x589960)
-s16 RouteFinder::sub_589960()
+s16 RouteFinder::GetFreeRouteIdx_589960()
 {
     s16 sVar1 = 1;
     if (this->field_0 < 50)
     {
-        while (sVar1 < 0x32)
+        while (sVar1 < 50)
         {
             if (field_2218[sVar1++].field_0[0] == 0)
             {
@@ -605,7 +745,7 @@ s16 RouteFinder::sub_589F70()
     }
 
     RouteFinder_10* pjVar4 = &field_861C[field_CC66_545_count - 1];
-    s16 sVar2 = sub_589960();
+    s16 sVar2 = GetFreeRouteIdx_589960();
     if (sVar2 == -1)
     {
         return -1;
@@ -634,10 +774,26 @@ s16 RouteFinder::sub_589F70()
     return sVar2;
 }
 
-STUB_FUNC(0x58a020)
-void RouteFinder::sub_58A020(char_type a2)
+WIP_FUNC(0x58a020)
+void RouteFinder::DebugPrintRoute_58A020(char_type junc_idx)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s32 v3 = 0;
+    u16 i = this->field_2218[junc_idx].field_0[(u16)v3];
+    while (i)
+    {
+        sprintf(gTmpBuffer_67C598,
+                "Junc: %d : (%d, %d)(%d, %d)",
+                i,
+                this->field_8[i].field_C_min_x,
+                this->field_8[i].field_D_min_y,
+                this->field_8[i].field_E_max_x,
+                this->field_8[i].field_F_max_y);
+        gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
+        ++v3;
+        i = this->field_2218[junc_idx].field_0[(u16)v3];
+    }
 }
 
 MATCH_FUNC(0x58a0b0)

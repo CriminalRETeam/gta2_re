@@ -777,10 +777,41 @@ bool Object_2C::PoolUpdate()
     }
 }
 
-STUB_FUNC(0x526790)
-void Object_2C::sub_526790(s32 a2)
+// 9.6f 0x4837F0
+WIP_FUNC(0x526790)
+void Object_2C::sub_526790(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Phi_74* pPhi = this->field_8;
+    if (sub_475A80())
+    {
+        Object_8* o8 = this->field_C_pAny.o8;
+        if (!o8->field_4_timer && !o8->field_7_anim_speed_counter)
+        {
+            s32 phi_idx = pPhi->field_3C_next_definition_idx;
+            if (phi_idx >= 39 && phi_idx <= 42) // car
+            {
+                Car_BC* pCar = pSprite->AsCar_40FEB0();
+                if (pCar)
+                {
+                    if (this->field_18_model == objects::moving_collect_36_132)
+                    {
+                       
+                        s32 id =  gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+                        if (id)
+                        {
+                            pCar->field_70_exploder_ped_id = id;
+                            pCar->field_90 = 12;
+                            pCar->field_94 = 50;
+                        }
+                    }
+                    s32 t = sub_526830(field_8->field_3C_next_definition_idx);
+                    pCar->ExplodeCar_Unknown_43D840(t);
+                }
+            }
+        }
+    }
 }
 
 WIP_FUNC(0x526830)
@@ -810,11 +841,42 @@ s32 Object_2C::sub_526830(s32 a1)
     return result;
 }
 
-STUB_FUNC(0x526b40)
-s16 Object_2C::sub_526B40(s32 a2)
+WIP_FUNC(0x526b40)
+void Object_2C::sub_526B40(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Object_3C* p3C; // eax
+
+    switch (pSprite->field_30_sprite_type_enum)
+    {
+        case 3: //sprite_type_3_Char_B4:
+            this->field_10_obj_3c->field_C = (pSprite->field_8_char_b4_ptr->field_38_velocity * k_dword_6F8C9C);
+            this->field_10_obj_3c->field_4 = pSprite->field_0;
+            this->field_4->field_28_num = 27;
+            break;
+
+        case sprite_types_enum::car: // 2
+            this->field_10_obj_3c->field_C = pSprite->field_8_car_bc_ptr->sub_43A240();
+            this->field_10_obj_3c->field_4 = pSprite->field_8_car_bc_ptr->GetOrientationAngle_43A3E0();
+            this->field_4->field_28_num = pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0();
+            break;
+
+        case 4: //sprite_type_4_Object_5C:
+        case 5: //sprite_type_5_Object_5C:
+            p3C = pSprite->field_8_object_2C_ptr->field_10_obj_3c;
+            if (p3C)
+            {
+                this->field_10_obj_3c->field_C = p3C->field_C;
+                this->field_10_obj_3c->field_4 = pSprite->field_8_object_2C_ptr->field_10_obj_3c->field_4;
+                this->field_10_obj_3c->field_10 = pSprite->field_8_object_2C_ptr->field_10_obj_3c->field_10;
+            }
+            this->field_4->field_28_num = 12;
+            break;
+
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x527070)
@@ -937,7 +999,8 @@ void Object_2C::NewObj3C_528130(Fix16_Point* a2)
 
     this->field_10_obj_3c = pNewObj;
 
-    this->field_10_obj_3c->field_C = a2->GetLength_41E260(); // TODO: Uses wrong zero constants?? Artifact of func being inlined into each TU??
+    this->field_10_obj_3c->field_C =
+        a2->GetLength_41E260(); // TODO: Uses wrong zero constants?? Artifact of func being inlined into each TU??
     this->field_10_obj_3c->field_4 = Fix16::atan2_fixed_405320(a2->y, a2->x);
 }
 
@@ -1798,11 +1861,33 @@ void Object_5C::sub_5297F0()
     field_C->field_26_varrok_idx = 47;
 }
 
-STUB_FUNC(0x5298e0)
-s32 Object_5C::sub_5298E0(s32 a2)
+MATCH_FUNC(0x5298e0)
+Object_2C* Object_5C::GetDirectionalObject_5298E0(s32 maybe_slope)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* result;
+    switch (maybe_slope)
+    {
+        case 180:
+        case 196:
+            result = this->field_0;
+            break;
+        case 184:
+        case 200:
+            result = this->field_8;
+            break;
+        case 188:
+        case 204:
+            result = this->field_C;
+            break;
+        case 192:
+        case 208:
+            result = this->field_4;
+            break;
+        default:
+            result = 0;
+            break;
+    }
+    return result;
 }
 
 MATCH_FUNC(0x529950)
@@ -1978,7 +2063,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             break;
 
         case object_behavior_type::behavior_5:
-            pNew30 = gWolfy_7A8_6FD5F0->sub_543800();
+            pNew30 = gWolfy_7A8_6FD5F0->New_40_543800();
             pNew2C->field_C_pAny.pExplosion = pNew30;
             if (pNew30) // 225
             {
@@ -2095,10 +2180,68 @@ s32* Object_5C::sub_52A2C0(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a
     return 0;
 }
 
-STUB_FUNC(0x52a3d0)
+MATCH_FUNC(0x52a3d0)
 Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 pedId)
 {
-    NOT_IMPLEMENTED;
+    Object_2C* pNew2C = NewPhysicsObj_5299B0(objects::moving_collect_17_113, x, y, z, rot);
+    if (pNew2C)
+    {
+        pNew2C->field_1C = 1;
+
+        if (!pNew2C->field_C_pAny.pExplosion)
+        {
+            pNew2C->field_C_pAny.pExplosion = gWolfy_7A8_6FD5F0->New_40_543800();
+        }
+
+        if (!pNew2C->field_C_pAny.pExplosion)
+        {
+            return 0;
+        }
+
+        pNew2C->field_C_pAny.pExplosion->field_10 = a6;
+        pNew2C->field_C_pAny.pExplosion->Set_Obj2C_543680(pNew2C);
+        pNew2C->field_C_pAny.pExplosion->field_2C_ped_id = pedId;
+
+        switch (a6)
+        {
+            case 18:
+            case 19:
+            case 20:
+            case 22:
+            case 23:
+            case 24:
+            case 25:
+            case 32:
+            case 33:
+                pNew2C->field_C_pAny.pExplosion->field_1A = 100;
+                pNew2C->field_C_pAny.pExplosion->field_24 = 0;
+                break;
+            default:
+                pNew2C->field_C_pAny.pExplosion->field_1A = 9999;
+                break;
+        }
+
+        if (!pNew2C->field_10_obj_3c)
+        {
+            Object_3C* pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
+            // TODO: PoolAllocate()
+            ++dword_6F8E54;
+            pNew3C->field_C = 0;
+            pNew3C->field_4 = kZeroAng_6F8F68;
+            pNew3C->field_18 = Fix16(0);
+            pNew3C->field_28 = 0;
+            pNew3C->field_38 = 0;
+            pNew3C->field_34 = 2;
+            pNew3C->field_24 = 0;
+            pNew3C->field_2F = 0;
+            pNew3C->field_30_bSkipAnim = 0;
+            pNew2C->field_10_obj_3c = pNew3C;
+            pNew3C->field_20 = pNew2C->field_14_id;
+            pNew2C->field_10_obj_3c->field_C = kFpZero_6F8E10;
+            pNew2C->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        }
+        return pNew2C;
+    }
     return 0;
 }
 

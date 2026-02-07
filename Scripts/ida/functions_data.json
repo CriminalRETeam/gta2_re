@@ -10910,7 +10910,7 @@
         "v105_address": "0x5297f0"
     },
     {
-        "name": "Object_5C::sub_5298E0",
+        "name": "Object_5C::GetDirectionalObject_5298E0",
         "v96f_address": null,
         "v105_address": "0x5298e0"
     },
@@ -11485,7 +11485,7 @@
         "v105_address": "0x543650"
     },
     {
-        "name": "sub_543680",
+        "name": "Set_Obj2C_543680",
         "v96f_address": null,
         "v105_address": "0x543680"
     },
@@ -11495,7 +11495,7 @@
         "v105_address": "0x543690"
     },
     {
-        "name": "Wolfy_7A8::sub_543800",
+        "name": "Wolfy_7A8::New_40_543800",
         "v96f_address": null,
         "v105_address": "0x543800"
     },
@@ -13980,7 +13980,7 @@
         "v105_address": "0x589930"
     },
     {
-        "name": "RouteFinder::sub_589960",
+        "name": "RouteFinder::GetFreeRouteIdx_589960",
         "v96f_address": "0x40cb90",
         "v105_address": "0x589960"
     },
@@ -14025,7 +14025,7 @@
         "v105_address": "0x589f70"
     },
     {
-        "name": "RouteFinder::sub_58A020",
+        "name": "RouteFinder::DebugPrintRoute_58A020",
         "v96f_address": null,
         "v105_address": "0x58a020"
     },
