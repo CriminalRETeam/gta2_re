@@ -819,7 +819,7 @@ void Ped::RestorePreviousPedState_45C5A0()
 MATCH_FUNC(0x45c5c0)
 void Ped::sub_45C5C0()
 {
-    if (!this->field_16C_car && this->field_258_objective == 35 && this->field_25C_car_state == 35 &&
+    if (!this->field_16C_car && this->field_258_objective == objectives_enum::enter_car_as_driver_35 && this->field_25C_car_state == 35 &&
         this->field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15 &&
         this->field_27C_ped_state_2 != ped_state_2::ped2_entering_a_car_6)
     {
@@ -862,7 +862,7 @@ void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pOther)
                 pPed->field_16C_car = pCar;
                 pPed->field_24C_target_car_door = 0;
                 pPed->field_248_enter_car_as_passenger = 0;
-                pPed->SetObjective(36, 9999);
+                pPed->SetObjective(objectives_enum::leave_car_36, 9999);
                 pPed->field_150_target_objective_car = pPed->field_16C_car;
                 pPed->field_180 = pOther;
                 pPed->field_28C_threat_reaction = 3;
@@ -901,7 +901,7 @@ void Ped::EnterCarAsDriver(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x45c7f0)
-void Ped::sub_45C7F0(Car_BC* pCar)
+void Ped::EnterCarAsPassenger_45C7F0(Car_BC* pCar)
 {
     this->field_248_enter_car_as_passenger = 1;
     this->field_16C_car = pCar;

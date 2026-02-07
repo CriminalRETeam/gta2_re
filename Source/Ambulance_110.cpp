@@ -86,7 +86,7 @@ bool Ambulance_20::sub_4FA820()
         return false;
     }
 
-    pPed2->sub_45C7F0(field_4_paramedics_crew->field_0_car);
+    pPed2->EnterCarAsPassenger_45C7F0(field_4_paramedics_crew->field_0_car);
     pPed2->field_238 = 4;
     pPed2->field_240_occupation = ped_ocupation_enum::unknown_13;
     pPed2->field_230 = 2;

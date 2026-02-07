@@ -586,7 +586,8 @@ Car_BC* Car_6C::GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z
     return DoGetNearestCarFromCoord_444FC0(x, y, z, 0, pPed, 0);
 }
 
-STUB_FUNC(0x444FC0)
+// 9.6f 0x424BD0
+WIP_FUNC(0x444FC0)
 Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                                                 Fix16 ypos,
                                                 Fix16 zpos,
@@ -594,8 +595,66 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                                                 Ped* pPed,
                                                 char_type bIgnorePedRestrictions)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pRet = 0;
+    Fix16 smallestDist = Fix16(0xC00000, 0);
+    Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+    Car_BC* pNearestCar = 0;
+    if (pCarIter)
+    {
+        do
+        {
+            if (!pCarIter->IsMaxDamage_40F890() &&
+                !pCarIter->inline_check_0x10_info_421640() &&
+                (bIgnorePedRestrictions || !pCarIter->sub_43B2B0(pPed)) && !pCarIter->sub_43A230() &&
+                pCarIter->field_88 != 7 && !pCarIter->IsCarInAir_43A3C0())
+            {
+                if (pCarIter->GetCarInfoIdx_411940() == car_model_enum::TRAINFB && (!bMatchDriverless || !pCarIter->field_54_driver))
+                {
+                    Sprite* pCarSprite = pCarIter->field_50_car_sprite;
+                    Fix16 zd = Fix16::Abs(pCarSprite->field_1C_zpos - zpos);
+                    Fix16 yd = Fix16::Abs(pCarSprite->field_14_xy.y - ypos);
+                    Fix16 xd = Fix16::Abs(pCarSprite->field_14_xy.x - xpos);
+
+                    Fix16 currentDistance = xd + yd + zd;
+                    if (currentDistance < smallestDist)
+                    {
+                        smallestDist = currentDistance;
+                        pNearestCar = pCarIter;
+                    }
+
+                    if (pCarIter->IsTrainModel_403BA0())
+                    {
+                        s32 train_car_idx = 0;
+                        Car_BC** pTrainCars = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(pCarIter);
+                        for (Car_BC* pTrainIter = *pTrainCars; pTrainIter; pTrainIter = pTrainCars[train_car_idx])
+                        {
+                            if (train_car_idx >= 2u)
+                            {
+                                break;
+                            }
+
+                            Sprite* pTrainSprite = pTrainIter->field_50_car_sprite;
+                            Fix16 train_zd = Fix16::Abs(pTrainSprite->field_1C_zpos - zpos);
+                            Fix16 train_yd = Fix16::Abs(pTrainSprite->field_14_xy.y - ypos);
+                            Fix16 train_xd = Fix16::Abs(pTrainSprite->field_14_xy.x - xpos);
+
+                            Fix16 trainDistance = train_xd + train_yd + train_zd;
+                            if (trainDistance < currentDistance)
+                            {
+                                smallestDist = trainDistance;
+                                pNearestCar = pTrainIter;
+                            }
+                        }
+                    }
+                }
+            }
+            pCarIter = pCarIter->mpNext;
+        } while (pCarIter);
+        return pNearestCar;
+    }
+    return pRet;
 }
 
 STUB_FUNC(0x445210)
@@ -5651,7 +5710,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                             return 0;
                         }
                     }
-                }                    
+                }
 
                 pModelPhysics = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(gang_car_model);
                 v34 = Car_14::sub_583750(&v133, pModelPhysics->field_28_max_speed, &v107);

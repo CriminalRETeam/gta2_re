@@ -545,7 +545,7 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
     pNewPed1->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     Ped* pNewPed2 = gPedManager_6787BC->sub_470F30();
     pNewPed2->SetObjective(objectives_enum::no_obj_0, 9999);
-    pNewPed2->sub_45C7F0(pKfc->field_0_car);
+    pNewPed2->EnterCarAsPassenger_45C7F0(pKfc->field_0_car);
     pNewPed2->SetField238_403920(4);
     pNewPed2->set_occupation_403970(ped_ocupation_enum::police);
     pNewPed2->field_288_threat_search = threat_search_enum::line_of_sight_1;

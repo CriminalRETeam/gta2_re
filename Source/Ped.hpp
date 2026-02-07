@@ -66,7 +66,7 @@ class Ped
     EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pPed);
     EXPORT void SpawnPedInCar_45C730(Car_BC* pCar);
     EXPORT void EnterCarAsDriver(Car_BC* a2);
-    EXPORT void sub_45C7F0(Car_BC* pCar);
+    EXPORT void EnterCarAsPassenger_45C7F0(Car_BC* pCar);
     EXPORT char_type AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Ang16 get_field8_45C900();
     EXPORT Fix16 GetPedVelocity_45C920();
