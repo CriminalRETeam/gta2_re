@@ -3263,11 +3263,65 @@ u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone)
     return 0;
 }
 
-STUB_FUNC(0x417BA0)
-s32 sound_obj::GetVehicleAudioClass_417BA0(s32 a1)
+WIP_FUNC(0x417BA0)
+s32 sound_obj::GetVehicleAudioClass_417BA0(s32 car_model)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    s32 result;
+    switch (car_model)
+    {
+        case car_model_enum::allard:
+        case car_model_enum::amdb4:
+        case car_model_enum::bmw:
+        case car_model_enum::GT24640:
+        case car_model_enum::GUNJEEP:
+        case car_model_enum::JEEP:
+        case car_model_enum::JEFFREY:
+        case car_model_enum::MONSTER:
+        case car_model_enum::SPIDER:
+        case car_model_enum::STINGRAY:
+        case car_model_enum::STRIPETB:
+        case car_model_enum::T2000GT:
+        case car_model_enum::TBIRD:
+        case car_model_enum::WBTWIN:
+        case car_model_enum::ZCX5:
+            result = 18;
+            break;
+
+        case car_model_enum::apc:
+        case car_model_enum::boxtruck:
+        case car_model_enum::BUS:
+        case car_model_enum::FIRETRUK:
+        case car_model_enum::GTRUCK:
+        case car_model_enum::TANK:
+        case car_model_enum::TRUKCAB1:
+        case car_model_enum::TRUKCAB2:
+        case car_model_enum::KRSNABUS:
+            result = 19;
+            break;
+
+        case car_model_enum::bug:
+        case car_model_enum::DART:
+        case car_model_enum::FIAT:
+        case car_model_enum::ISETTA:
+        case car_model_enum::MESSER:
+        case car_model_enum::MORRIS:
+            result = 17;
+            break;
+
+        case car_model_enum::ICECREAM:
+            result = 23;
+            break;
+
+        case car_model_enum::TRAINCAB:
+            result = 20;
+            break;
+
+        default:
+            result = 16;
+            break;
+    }
+    return result;
 }
 
 STUB_FUNC(0x4157C0)
