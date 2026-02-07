@@ -542,11 +542,26 @@ s32 RouteFinder::sub_589210(char_type a2, char_type a3, s32 a4, char_type a5, s3
     return 0;
 }
 
-STUB_FUNC(0x5892f0)
-RouteFinder_10* RouteFinder::sub_5892F0(RouteFinder_10* a2, u16 a3, s16 a4)
+WIP_FUNC(0x5892f0)
+RouteFinder_10* RouteFinder::sub_5892F0(RouteFinder_10* a2, u16 idx, s16 a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    RouteFinder_10* pNew10 = &this->field_861C[this->field_CC66_545_count++];
+
+    Junction_10* junc1 = &this->field_8[this->field_861A];
+    Junction_10* junc2 = &this->field_8[idx];
+
+    s32 dx = abs((u8)junc2->field_C_min_x - (u8)junc1->field_C_min_x);
+    s32 dy = abs((u8)junc2->field_D_min_y - (u8)junc1->field_D_min_y);
+
+ 
+    pNew10->field_0_idx = idx;
+    pNew10->field_2 = (dx) + (dy) + a4 + a2->field_2;
+    pNew10->field_8 = a2;
+    pNew10->field_C_pNext = 0;
+
+    return pNew10;
 }
 
 STUB_FUNC(0x589390)
