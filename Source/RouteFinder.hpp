@@ -7,9 +7,14 @@ struct gmp_block_info;
 class Link_2
 {
   public:
-    EXPORT u16 FUN_0040ce90()
+    inline u16 FUN_0040ce90()
     {
         return field_0 & 0x1ff;
+    }
+
+    inline void sub_40CEC0()
+    {
+        field_0 &= ~0x8000u;
     }
 
     s16 field_0;
@@ -35,10 +40,7 @@ struct JunctionSegment_0x8
 {
     inline bool sub_40CF20(s16 x, s16 y)
     {
-        return x >= field_4_min_x 
-               && x <= field_6_max_x 
-               && y >= field_5_min_y 
-               && y <= field_7_min_y;
+        return x >= field_4_min_x && x <= field_6_max_x && y >= field_5_min_y && y <= field_7_min_y;
     }
     u16 field_0_junction_num1;
     u16 field_2_junction_num2;

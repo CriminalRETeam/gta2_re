@@ -77,55 +77,44 @@ void RouteFinder::ShowJunctionIds_588620()
     NOT_IMPLEMENTED;
 }
 
-WIP_FUNC(0x588810)
+MATCH_FUNC(0x588810)
 void RouteFinder::RoadOff_588810(u8 x, u8 y, u8 z)
 {
-    WIP_IMPLEMENTED;
-
-    u16 r1; // di
-    u16 r2; // ax
-    s32 r1_; // edi
-    u16 r3; // di
-    u16 r4; // ax
-    Junction_10* p3; // ecx
-    Junction_10* p4; // esi
-
-    r1 = RouteFinder::sub_588E60(x, y, z, 0, 3);
-    r2 = RouteFinder::sub_588E60(x, y, z, 1, 3);
+    const u16 r1 = RouteFinder::sub_588E60(x, y, z, 0, 3);
+    const u16 r2 = RouteFinder::sub_588E60(x, y, z, 1, 3);
     if (r1 && r2)
     {
-        r1_ = r1;
-        if ((this->field_8[r1_].field_4_e.FUN_0040ce90()) == r2)
+        Junction_10* j1 = &field_8[r1];
+        Junction_10* j2 = &field_8[r2];
+        if ((j1->field_4_e.FUN_0040ce90()) == r2)
         {
-            this->field_8[r1_].field_4_e.field_0 &= ~0x8000u;
-            this->field_8[r2].field_6_w.field_0 &= ~0x8000u;
+            j1->field_4_e.sub_40CEC0();
+            j2->field_6_w.sub_40CEC0();
         }
-        else if ((this->field_8[r1_].field_6_w.FUN_0040ce90()) == r2)
+        else if ((j1->field_6_w.FUN_0040ce90()) == r2)
         {
-            this->field_8[r1_].field_6_w.field_0 &= ~0x8000u;
-            this->field_8[r2].field_4_e.field_0 &= ~0x8000u;
+            j1->field_6_w.sub_40CEC0();
+            j2->field_4_e.sub_40CEC0();
         }
     }
     else
     {
-        r3 = RouteFinder::sub_588F30(x, y, z, 0, 3);
-        r4 = RouteFinder::sub_588F30(x, y, z, 1, 3);
-        if (r3)
+        const u16 r3 = RouteFinder::sub_588F30(x, y, z, 0, 3);
+        const u16 r4 = RouteFinder::sub_588F30(x, y, z, 1, 3);
+        if (r3 && r4)
         {
-            if (r4)
+            Junction_10* j1 = &field_8[r3];
+            Junction_10* j2 = &field_8[r4];
+
+            if ((j1->field_2_s.FUN_0040ce90()) == r4)
             {
-                p3 = &this->field_8[r3];
-                p4 = &this->field_8[r4];
-                if ((p3->field_2_s.FUN_0040ce90()) == r4)
-                {
-                    p3->field_2_s.field_0 &= ~0x8000u;
-                    p4->field_0_n.field_0 &= ~0x8000u;
-                }
-                else if ((p3->field_0_n.FUN_0040ce90()) == r4)
-                {
-                    p3->field_0_n.field_0 &= ~0x8000u;
-                    p4->field_2_s.field_0 &= ~0x8000u;
-                }
+                j1->field_2_s.sub_40CEC0();
+                j2->field_0_n.sub_40CEC0();
+            }
+            else if ((j1->field_0_n.FUN_0040ce90()) == r4)
+            {
+                j1->field_0_n.sub_40CEC0();
+                j2->field_2_s.sub_40CEC0();
             }
         }
     }
