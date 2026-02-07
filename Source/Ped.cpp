@@ -302,7 +302,7 @@ char_type Ped::Reset_45AFC0()
     field_250 = 0;
     field_224 &= 0xF0u;
     field_138 = 0;
-    field_13C = 0;
+    field_13C_pTrainStation = 0;
     field_220 = 0;
     field_21C_bf.b7 = 0;
     field_21C_bf.b8 = 0;

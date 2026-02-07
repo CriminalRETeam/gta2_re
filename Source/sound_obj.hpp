@@ -171,7 +171,7 @@ class sound_obj
     char_type field_1451;
     char_type field_1452;
     char_type field_1453;
-    s32 field_1454_anRandomTable[5];
+    u32 field_1454_anRandomTable[5];
     Fix16 field_1468_v1;
     Fix16 field_146C_v2;
     Fix16 field_1470_v3;
@@ -244,6 +244,9 @@ class sound_obj
     EXPORT void Release_41A290();
     EXPORT u8 GetCDVol_41A280();
     EXPORT void sub_419E10();
+    EXPORT s32 get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrBus);
+    EXPORT s32 samp_idx_for_model_417AC0(s32 car_model);
+    EXPORT s32 sub_417B80(s32 car_model, bool bHornOn);
 
     EXPORT void null_412240();
     EXPORT void null_412250();

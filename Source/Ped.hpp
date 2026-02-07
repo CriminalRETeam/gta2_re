@@ -23,6 +23,7 @@ class Char_B4;
 class Marz_96;
 class Object_2C;
 class Car_BC;
+class TrainStation_34;
 
 class Ped
 {
@@ -535,7 +536,7 @@ class Ped
     Ang16 field_134_rotation;
     s16 field_136;
     s32 field_138;
-    s32 field_13C;
+    TrainStation_34* field_13C_pTrainStation;
     Car_BC* field_140;
     Ped* field_144;
     Ped* field_148_objective_target_ped;

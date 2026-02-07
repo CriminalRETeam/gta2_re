@@ -865,6 +865,12 @@ class Car_BC
         return field_84_car_info_idx == car_model_enum::FIRETRUK;
     }
 
+    // TODO: Get 9.6f addr
+    bool IsMediCar()
+    {
+        return field_84_car_info_idx == car_model_enum::MEDICAR;
+    }
+
     bool IsCopCar_421790()
     {
         return field_84_car_info_idx == car_model_enum::COPCAR;
