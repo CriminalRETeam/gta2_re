@@ -1343,6 +1343,9 @@ void CC ImGuiDebugDraw()
                     
                     if (pPlayerPed)
                     {
+
+                        ImGui::InputInt("258_objective", &pPlayerPed->field_258_objective, 1, 1);
+
                         ImGui::InputInt("F 238", &pPlayerPed->field_238, 1, 1);
                         ImGui::InputInt("Ped State 1", &pPlayerPed->field_278_ped_state_1, 1, 1);
                         ImGui::InputInt("Ped State 2", &pPlayerPed->field_27C_ped_state_2, 1, 1);

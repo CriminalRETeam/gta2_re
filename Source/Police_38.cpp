@@ -176,7 +176,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
     pCopLeader->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
 
     Ped* pCopSupporter = gPedManager_6787BC->sub_470F30();
-    pCopSupporter->sub_45C7F0(field_10_subObj->field_0_car);
+    pCopSupporter->EnterCarAsPassenger_45C7F0(field_10_subObj->field_0_car);
     pCopSupporter->field_238 = 4;
     pCopSupporter->field_240_occupation = ped_ocupation_enum::police;
     pCopSupporter->SetObjective(objectives_enum::no_obj_0, 9999);
@@ -242,7 +242,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
     for (u8 i = 0; i < 3; ++i)
     {
         Ped* pSwatMember = gPedManager_6787BC->sub_470F30();
-        pSwatMember->sub_45C7F0(field_10_subObj->field_0_car);
+        pSwatMember->EnterCarAsPassenger_45C7F0(field_10_subObj->field_0_car);
         pSwatMember->field_238 = 4;
         pSwatMember->field_240_occupation = ped_ocupation_enum::swat;
         pSwatMember->SetObjective(objectives_enum::no_obj_0, 9999);
