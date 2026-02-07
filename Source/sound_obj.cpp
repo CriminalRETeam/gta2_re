@@ -3447,10 +3447,34 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x417060)
+MATCH_FUNC(0x417060)
 void sound_obj::HandleCarHornSound_417060(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    if (a2->field_0_pObj->field_8_car_bc_ptr->field_8E)
+    {
+        if (CalculateDistance_419020(Fix16(2560000, 0)))
+        {
+            if (VolCalc_419070(0x32u, Fix16(204800, 0), a2->field_5_bHasSolidAbove))
+            {
+                this->field_30_sQueueSample.field_54 = Fix16(204800, 0);
+                this->field_30_sQueueSample.field_60_nEmittingVolume = 50;
+                this->field_30_sQueueSample.field_64_max_distance = 25;
+                this->field_30_sQueueSample.field_58_type = 3;
+                this->field_30_sQueueSample.field_4_SampleIndex = 6;
+                this->field_30_sQueueSample.field_41 = 0;
+                this->field_30_sQueueSample.field_18 = 0;
+                if (a2->field_4_bDrivenByPlayer)
+                {
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 3;
+                }
+                else
+                {
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
+                }
+                AddSampleToRequestedQueue_41A850();
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x418720)
