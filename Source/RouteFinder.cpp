@@ -169,11 +169,45 @@ void RouteFinder::RoadOn_588950(s32 x, s32 y, s32 z)
     }
 }
 
-STUB_FUNC(0x588aa0)
-u16 RouteFinder::IsPointInJunctionBounds_588AA0(u8 a2, u8 a3, u16 a4, u16 a5)
+WIP_FUNC(0x588aa0)
+u16 RouteFinder::IsPointInJunctionBounds_588AA0(u8 x, u8 y, u16 junc_idx1, u16 junc_idx2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Junction_10* pJ1; // eax
+    Junction_10* pJ2; // esi
+    u8 j1_min_x; // cl
+    u8 j2_min_x; // dl
+    u8 j2_max_y; // cl
+    u8 j1_min_y; // al
+    u8 j2_min_y; // bl
+    u8 j1_max_x; // [esp+14h] [ebp+Ch]
+
+    pJ1 = &this->field_8[junc_idx1];
+    pJ2 = &this->field_8[junc_idx2];
+    j1_min_x = this->field_8[junc_idx1].field_C_min_x;
+    j2_min_x = pJ2->field_C_min_x;
+    if (j1_min_x <= j2_min_x)
+    {
+        j2_min_x = j1_min_x;
+    }
+    j1_max_x = pJ1->field_E_max_x;
+    if (j1_max_x <= pJ2->field_E_max_x)
+    {
+        j1_max_x = pJ2->field_E_max_x;
+    }
+    j2_max_y = pJ2->field_D_min_y;
+    if (pJ1->field_D_min_y <= j2_max_y)
+    {
+        j2_max_y = pJ1->field_D_min_y;
+    }
+    j1_min_y = pJ1->field_F_max_y;
+    j2_min_y = pJ2->field_F_max_y;
+    if (j1_min_y > j2_min_y)
+    {
+        j2_min_y = j1_min_y;
+    }
+    return x >= j2_min_x && x <= j1_max_x && y >= j2_max_y && y <= j2_min_y;
 }
 
 MATCH_FUNC(0x588b30)
