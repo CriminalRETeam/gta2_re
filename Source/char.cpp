@@ -75,8 +75,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FDB28, k_dword_6FD8E4, 0x6FDB28);
 
 DEFINE_GLOBAL(Fix16, k_dword_6FDA9C, 0x6FDA9C);
 
-
-
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
 DEFINE_GLOBAL(u8, byte_6FDB51, 0x6FDB51);
@@ -2846,10 +2844,52 @@ void Char_B4::state_4_551B30()
     }
 }
 
-STUB_FUNC(0x551BB0)
+WIP_FUNC(0x551BB0)
 void Char_B4::state_5_551BB0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (field_C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
+    {
+        this->field_58_flags &= ~0x80;
+
+        state_1_5504F0();
+
+        if ((this->field_7C_pPed->field_21C & 0x800) == 0 && this->field_10_char_state != 15)
+        {
+            if (field_38_velocity <= k_CollisionRepulsionSpeed_6FD7BC)
+            {
+                if (field_38_velocity == k_dword_6FD7C0)
+                {
+                    this->field_6C_animation_state = 2;
+                    this->field_40_rotation = field_84->field_50_car_sprite->field_0;
+                }
+                else
+                {
+                    this->field_6C_animation_state = 0;
+                }
+            }
+            else
+            {
+                this->field_6C_animation_state = 1;
+            }
+        }
+    }
+    else if (field_C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 && this->field_6C_animation_state != 6)
+    {
+        this->field_40_rotation = field_84->field_50_car_sprite->field_0;
+        field_84->sub_43B5A0(field_7C_pPed->field_24C_target_car_door, &field_80_sprite_ptr->field_14_xy.x, &field_80_sprite_ptr->field_14_xy.y);
+        this->field_6C_animation_state = 6;
+        this->field_68_animation_frame = 0;
+        if (field_84->sub_43B540(field_7C_pPed->field_24C_target_car_door))
+        {
+            this->field_70_frame_timer = 3;
+        }
+        else
+        {
+            this->field_70_frame_timer = 0;
+        }
+    }
 }
 
 // https://decomp.me/scratch/qNjdM
