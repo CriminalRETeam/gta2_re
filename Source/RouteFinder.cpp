@@ -169,45 +169,58 @@ void RouteFinder::RoadOn_588950(s32 x, s32 y, s32 z)
     }
 }
 
-WIP_FUNC(0x588aa0)
+MATCH_FUNC(0x588aa0)
 u16 RouteFinder::IsPointInJunctionBounds_588AA0(u8 x, u8 y, u16 junc_idx1, u16 junc_idx2)
 {
-    WIP_IMPLEMENTED;
+    u8 x1;
+    u8 y1;
+    u8 y2;
+    u8 x2;
 
-    Junction_10* pJ1; // eax
-    Junction_10* pJ2; // esi
-    u8 j1_min_x; // cl
-    u8 j2_min_x; // dl
-    u8 j2_max_y; // cl
-    u8 j1_min_y; // al
-    u8 j2_min_y; // bl
-    u8 j1_max_x; // [esp+14h] [ebp+Ch]
+    Junction_10* pJ1 = &this->field_8[junc_idx1];
+    Junction_10* pJ2 = &this->field_8[junc_idx2];
 
-    pJ1 = &this->field_8[junc_idx1];
-    pJ2 = &this->field_8[junc_idx2];
-    j1_min_x = this->field_8[junc_idx1].field_C_min_x;
-    j2_min_x = pJ2->field_C_min_x;
-    if (j1_min_x <= j2_min_x)
+    if (pJ1->field_C_min_x <= pJ2->field_C_min_x)
     {
-        j2_min_x = j1_min_x;
+        x1 = pJ1->field_C_min_x;
     }
-    j1_max_x = pJ1->field_E_max_x;
-    if (j1_max_x <= pJ2->field_E_max_x)
+    else
     {
-        j1_max_x = pJ2->field_E_max_x;
+        x1 = pJ2->field_C_min_x;
     }
-    j2_max_y = pJ2->field_D_min_y;
-    if (pJ1->field_D_min_y <= j2_max_y)
+
+    if (pJ1->field_E_max_x > pJ2->field_E_max_x)
     {
-        j2_max_y = pJ1->field_D_min_y;
+        x2 = pJ1->field_E_max_x;
     }
-    j1_min_y = pJ1->field_F_max_y;
-    j2_min_y = pJ2->field_F_max_y;
-    if (j1_min_y > j2_min_y)
+    else
     {
-        j2_min_y = j1_min_y;
+        x2 = pJ2->field_E_max_x;
     }
-    return x >= j2_min_x && x <= j1_max_x && y >= j2_max_y && y <= j2_min_y;
+
+    if (pJ1->field_D_min_y <= pJ2->field_D_min_y)
+    {
+        y1 = pJ1->field_D_min_y;
+    }
+    else
+    {
+        y1 = pJ2->field_D_min_y;
+    }
+
+    if (pJ1->field_F_max_y > pJ2->field_F_max_y)
+    {
+        y2 = pJ1->field_F_max_y;
+    }
+    else
+    {
+        y2 = pJ2->field_F_max_y;
+    }
+
+    if (x >= x1 && x <= x2 && y >= y1 && y <= y2)
+    {
+        return true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x588b30)
