@@ -942,7 +942,7 @@ WIP_FUNC(0x41A3F0)
 char_type sound_obj::CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3)
 {
     WIP_IMPLEMENTED;
-    
+
     u8 v3;
     if (a2 == dword_674CD8)
     {
@@ -2601,10 +2601,24 @@ char_type sound_obj::Type_4_417A00(sound_0x68* a2)
     return 0;
 }
 
-STUB_FUNC(0x415730)
-char_type sound_obj::Type_5_InitEngineSoundProfile_415730(sound_0x68* a2)
+MATCH_FUNC(0x415730)
+char_type sound_obj::Type_5_InitEngineSoundProfile_415730(sound_0x68* a1)
 {
-    NOT_IMPLEMENTED;
+    a1->field_20_rate = 22050;
+
+    Car_BC* pCar;
+    if (GetCar_4145E0(a1->field_0_EntityIndex, &pCar))
+    {
+        const s32 car_model = pCar->field_84_car_info_idx;
+        a1->field_14_samp_idx = GetVehicleAudioClass_417BA0(car_model);
+        a1->field_3C = 600;
+        a1->field_4C = 1;
+        a1->field_20_rate = ConvertToPlayBackRate_417C60(car_model);
+        a1->field_30 = 0;
+        a1->field_34 = gSampManager_6FFF00.sub_58DC30(a1->field_14_samp_idx);
+        a1->field_38 = gSampManager_6FFF00.sub_58DC50(a1->field_14_samp_idx);
+        return 1;
+    }
     return 0;
 }
 
