@@ -777,10 +777,47 @@ bool Object_2C::PoolUpdate()
     }
 }
 
-STUB_FUNC(0x526790)
-void Object_2C::sub_526790(s32 a2)
+WIP_FUNC(0x526790)
+void Object_2C::sub_526790(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Phi_74* pPhi; // edx
+    s32 phi_type; // eax
+    Object_8* o8; // eax
+    s32 phi_idx; // edx
+    Car_BC* pCar; // esi
+    s32 field_0_ped_id; // eax
+
+    pPhi = this->field_8;
+    phi_type = pPhi->field_34_behavior_type;
+    if (phi_type == 2 || phi_type == 4 || phi_type == 8 || phi_type == 9)
+    {
+        o8 = this->field_C_pAny.o8;
+        if (!o8->field_4_timer && !o8->field_7_anim_speed_counter)
+        {
+            phi_idx = pPhi->field_3C_next_definition_idx;
+            if (phi_idx >= 39 && phi_idx <= 42 && pSprite->field_30_sprite_type_enum == 2) // car
+            {
+                pCar = pSprite->field_8_car_bc_ptr;
+                if (pCar)
+                {
+                    if (this->field_18_model == 132)
+                    {
+                        field_0_ped_id = gVarrok_7F8_703398->field_0[this->field_26_varrok_idx].field_0_ped_id;
+                        if (field_0_ped_id)
+                        {
+                            pCar->field_70_exploder_ped_id = field_0_ped_id;
+                            pCar->field_90 = 12;
+                            pCar->field_94 = 50;
+                        }
+                    }
+                    s32 t = sub_526830(this->field_8->field_3C_next_definition_idx);
+                    pCar->ExplodeCar_Unknown_43D840(t);
+                }
+            }
+        }
+    }
 }
 
 WIP_FUNC(0x526830)
@@ -825,13 +862,11 @@ void Object_2C::sub_526B40(Sprite* pSprite)
             this->field_4->field_28_num = 27;
             break;
 
-
         case sprite_types_enum::car: // 2
             this->field_10_obj_3c->field_C = pSprite->field_8_car_bc_ptr->sub_43A240();
             this->field_10_obj_3c->field_4 = pSprite->field_8_car_bc_ptr->GetOrientationAngle_43A3E0();
             this->field_4->field_28_num = pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0();
             break;
-
 
         case 4: //sprite_type_4_Object_5C:
         case 5: //sprite_type_5_Object_5C:

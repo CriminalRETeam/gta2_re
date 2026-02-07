@@ -55,7 +55,7 @@ class Object_2C
     EXPORT void sub_525D90();
     EXPORT void Update_525F30();
     EXPORT bool PoolUpdate();
-    EXPORT void sub_526790(s32 a2);
+    EXPORT void sub_526790(Sprite *pSprite);
     EXPORT s32 sub_526830(s32 a1);
     EXPORT void sub_526B40(Sprite *pSprite);
     EXPORT bool sub_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
