@@ -50,6 +50,7 @@ DEFINE_GLOBAL(Fix16, dword_66F2FC, 0x66F2FC);
 DEFINE_GLOBAL(Fix16, dword_66F3FC, 0x66F3FC);
 DEFINE_GLOBAL(Fix16, dword_66F1CC, 0x66F1CC);
 DEFINE_GLOBAL(u8, byte_66F542, 0x66F542);
+DEFINE_GLOBAL(u8, byte_67554D, 0x67554D);
 
 // TODO: can't use 2d arrays here :Skull:
 //DEFINE_GLOBAL(char_type, byte_5FE434[8][44], 0x5FE434);
@@ -4150,6 +4151,24 @@ void sound_obj::ProcessTrain_413BE0(Sound_Params_8* a2)
     HandleCarDoorSounds_4182E0(a2);
 }
 
+// TODO: Likely a method of sound_obj
+WIP_FUNC(0x4236C0)
+EXPORT bool Cooldown_4236C0()
+{
+    WIP_IMPLEMENTED;
+
+    if (byte_67554D)
+    {
+        --byte_67554D;
+        return 0;
+    }
+    else
+    {
+        byte_67554D = 6;
+        return 1;
+    }
+}
+
 MATCH_FUNC(0x426750)
 void sound_obj::ResetRadioMessageState_426750()
 {
@@ -5079,7 +5098,7 @@ void sound_obj::UpdateRadioChatterLoop_41FCA0()
     u32 rnd_2;
 
     this->field_5520_bCanPlay = 0;
-    if ( this->field_1454_anRandomTable[4] % 20)
+    if (this->field_1454_anRandomTable[4] % 20)
     {
         if (!(this->field_1454_anRandomTable[0] % 3u))
         {
