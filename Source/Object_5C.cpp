@@ -810,11 +810,44 @@ s32 Object_2C::sub_526830(s32 a1)
     return result;
 }
 
-STUB_FUNC(0x526b40)
-s16 Object_2C::sub_526B40(s32 a2)
+WIP_FUNC(0x526b40)
+void Object_2C::sub_526B40(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Object_3C* p3C; // eax
+
+    switch (pSprite->field_30_sprite_type_enum)
+    {
+        case 3: //sprite_type_3_Char_B4:
+            this->field_10_obj_3c->field_C = (pSprite->field_8_char_b4_ptr->field_38_velocity * k_dword_6F8C9C);
+            this->field_10_obj_3c->field_4 = pSprite->field_0;
+            this->field_4->field_28_num = 27;
+            break;
+
+
+        case sprite_types_enum::car: // 2
+            this->field_10_obj_3c->field_C = pSprite->field_8_car_bc_ptr->sub_43A240();
+            this->field_10_obj_3c->field_4 = pSprite->field_8_car_bc_ptr->GetOrientationAngle_43A3E0();
+            this->field_4->field_28_num = pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0();
+            break;
+
+
+        case 4: //sprite_type_4_Object_5C:
+        case 5: //sprite_type_5_Object_5C:
+            p3C = pSprite->field_8_object_2C_ptr->field_10_obj_3c;
+            if (p3C)
+            {
+                this->field_10_obj_3c->field_C = p3C->field_C;
+                this->field_10_obj_3c->field_4 = pSprite->field_8_object_2C_ptr->field_10_obj_3c->field_4;
+                this->field_10_obj_3c->field_10 = pSprite->field_8_object_2C_ptr->field_10_obj_3c->field_10;
+            }
+            this->field_4->field_28_num = 12;
+            break;
+
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x527070)
