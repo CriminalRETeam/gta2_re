@@ -233,7 +233,7 @@ class Char_B4
     EXPORT char_type sub_54ECB0(s32 a2);
     EXPORT char_type sub_54EF60(char_type a2, char_type a3);
     EXPORT char_type sub_54FEC0(s32 a2);
-    EXPORT char_type sub_550090(Fix16 xpos, Fix16 ypos);
+    EXPORT char_type sub_550090(s32 xpos, s32 ypos);
     EXPORT void state_1_5504F0();
     EXPORT Ang16 sub_550F60(Ang16 a3);
     EXPORT char_type sub_551350(Ang16 a2);

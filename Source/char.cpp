@@ -2790,7 +2790,7 @@ char_type Char_B4::sub_54FEC0(s32 a2)
 }
 
 STUB_FUNC(0x550090)
-char_type Char_B4::sub_550090(Fix16 xpos, Fix16 ypos)
+char_type Char_B4::sub_550090(s32 xpos, s32 ypos)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -3036,7 +3036,9 @@ LABEL_65:
             if (unk_xpos != pMaybeX_FP16.ToUInt8() || unk_ypos != pMaybeY_FP16.ToUInt8())
             {
                 Char_B4::ManageZCoordAndSlopes_548590();
-                if (!Char_B4::sub_550090(pMaybeX_FP16, pMaybeY_FP16))
+                // TODO: fix goto's
+                /*
+                if (!Char_B4::sub_550090(pMaybeX_FP16.ToInt(), pMaybeY_FP16.ToInt()))
                 {
                     field_58_flags |= 0x80;
                     if (field_C_ped_state_2 == ped_state_2::Unknown_3)
@@ -3050,6 +3052,7 @@ LABEL_65:
                     v73 = word_6FD808;
                     field_1C_zpos = word_6FD808;
                 }
+                */
             }
         }
         else
@@ -3135,25 +3138,12 @@ LABEL_65:
             Fix16 x = field_80_sprite_ptr->field_14_xy.x;
             Fix16 y = field_80_sprite_ptr->field_14_xy.y;
 
-            if (dword_6FD7F8.ToUInt8() != pMaybeX_FP16.ToUInt8() || dword_6FD800.ToUInt8() != pMaybeY_FP16.ToUInt8())
+            if (dword_6FD7F8.ToUInt8() != x.ToUInt8() || dword_6FD800.ToUInt8() != y.ToUInt8())
             {
                 field_80_sprite_ptr->set_xyz_lazy_420600(dword_6FD7F8, dword_6FD800, dword_6FD7FC);
 
                 field_45 = dword_6FD7B0.ToUInt8();
-                if (Char_B4::sub_550090(pMaybeX_FP16, pMaybeY_FP16))
-                {
-                    field_80_sprite_ptr->set_xyz_lazy_420600(x, y, dword_6FD7FC);
-
-                    if (v71 == 1 || (field_58_flags & 1) == 1)
-                    {
-
-                        byte_6FDB54 = gMap_0x370_6F6268->sub_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
-                                                                    field_80_sprite_ptr->field_14_xy.y.ToInt(),
-                                                                    (field_80_sprite_ptr->field_1C_zpos - k_dword_6FD9E8).ToInt());
-                        Char_B4::ManageZCoordAndSlopes_548590();
-                    }
-                }
-                else
+                if (!Char_B4::sub_550090(x.ToInt(), y.ToInt()))
                 {
                     field_69 = 0;
                     field_5C = 10;
@@ -3176,6 +3166,19 @@ LABEL_65:
                                 field_40_rotation = word_6FD854;
                                 break;
                         }
+                    }
+                }
+                else
+                {
+                    field_80_sprite_ptr->set_xyz_lazy_420600(x, y, dword_6FD7FC);
+
+                    if (v71 == 1 || (field_58_flags & 1) == 1)
+                    {
+
+                        byte_6FDB54 = gMap_0x370_6F6268->sub_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                                    field_80_sprite_ptr->field_14_xy.y.ToInt(),
+                                                                    (field_80_sprite_ptr->field_1C_zpos - k_dword_6FD9E8).ToInt());
+                        Char_B4::ManageZCoordAndSlopes_548590();
                     }
                 }
             }
