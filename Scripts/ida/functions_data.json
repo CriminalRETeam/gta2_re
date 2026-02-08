@@ -2405,7 +2405,7 @@
         "v105_address": "0x4451e0"
     },
     {
-        "name": "sub_445210",
+        "name": "GetNearestFrontVehicle_445210",
         "v96f_address": null,
         "v105_address": "0x445210"
     },

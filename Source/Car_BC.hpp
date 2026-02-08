@@ -231,7 +231,7 @@ class Car_6C
                                                    Ped* pPed,
                                                    char_type bIgnorePedRestrictions);
 
-    EXPORT Car_BC* sub_445210(Sprite* a1, u8 a2);
+    EXPORT Car_BC* GetNearestFrontVehicle_445210(Sprite* a1, u8 a2);
     EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
     EXPORT Car_BC* SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
     EXPORT Trailer* sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
@@ -408,7 +408,7 @@ class Car_BC
     EXPORT void sub_43B3D0();
     EXPORT s32 sub_43B420(s32 a2, u32* a3, u32* a4);
     EXPORT bool sub_43B540(u8 targetDoor);
-    EXPORT s32* sub_43B5A0(s32 a2, Fix16* a3, Fix16* a4);
+    EXPORT s32* sub_43B5A0(u8 a2, Fix16* a3, Fix16* a4);
     EXPORT char_type sub_43B730();
     EXPORT char_type sub_43B750();
     EXPORT void sub_43B770();

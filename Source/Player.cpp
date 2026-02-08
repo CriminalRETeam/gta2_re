@@ -1402,7 +1402,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
         {
             if (pPed->field_258_objective != objectives_enum::leave_car_36)
             {
-                Car_BC* pCar = gCar_6C_677930->sub_445210(pPed->field_168_game_object->field_80_sprite_ptr, 3u);
+                Car_BC* pCar = gCar_6C_677930->GetNearestFrontVehicle_445210(pPed->field_168_game_object->field_80_sprite_ptr, 3u);
                 if (pCar)
                 {
                     pPed->sub_463830(0, 9999);

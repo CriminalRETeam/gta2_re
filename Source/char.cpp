@@ -75,8 +75,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FDB28, k_dword_6FD8E4, 0x6FDB28);
 
 DEFINE_GLOBAL(Fix16, k_dword_6FDA9C, 0x6FDA9C);
 
-
-
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
 DEFINE_GLOBAL(u8, byte_6FDB51, 0x6FDB51);
@@ -1931,11 +1929,85 @@ char_type Char_B4::sub_54C1A0(s32 a2)
     return result;
 }
 
-STUB_FUNC(0x54c3e0)
-char_type Char_B4::sub_54C3E0()
+WIP_FUNC(0x54c3e0)
+void Char_B4::sub_54C3E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    bool unknown = 0;
+    const s32 face = Ang16::GetAngleFace_4F78F0(field_40_rotation);
+    if (!sub_54C1A0(face))
+    {
+        s32 face_mapped;
+        switch (face)
+        {
+            case 1:
+                face_mapped = 4;
+                break;
+            case 2:
+                face_mapped = 3;
+                break;
+            case 3:
+                face_mapped = 1;
+                break;
+            default:
+                face_mapped = 2;
+                break;
+        }
+
+        if (sub_54C1A0(face_mapped) == 1)
+        {
+            unknown = 1;
+        }
+
+        s32 mapped_val;
+        switch (face)
+        {
+            case 1:
+                mapped_val = 3;
+                break;
+            case 2:
+                mapped_val = 4;
+                break;
+            case 4:
+                mapped_val = 1;
+                break;
+            default:
+                mapped_val = 2;
+                break;
+        }
+
+        if (sub_54C1A0(mapped_val) == 1)
+        {
+            if (unknown != 1)
+            {
+                this->field_14 = sub_4F7940(&face_mapped);
+                this->field_10_char_state = 25;
+                this->field_46 = 255;
+                return;
+            }
+            else
+            {
+                if (!(byte_6FDB48 % 2))
+                {
+                    this->field_14 = sub_4F7940(&face_mapped);
+                    this->field_10_char_state = 25;
+                    this->field_46 = 255;
+                    return;
+                }
+            }
+        }
+        else
+        {
+            if (unknown == 1)
+            {
+                this->field_14 = sub_4F7940(&face_mapped);
+                this->field_10_char_state = 25;
+                this->field_46 = 255;
+                return;
+            }
+        }
+    }
 }
 
 // 9.6f 0x495540
@@ -2846,10 +2918,50 @@ void Char_B4::state_4_551B30()
     }
 }
 
-STUB_FUNC(0x551BB0)
+MATCH_FUNC(0x551BB0)
 void Char_B4::state_5_551BB0()
 {
-    NOT_IMPLEMENTED;
+    if (field_C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
+    {
+        this->field_58_flags_bf.b7 = 0;
+
+        state_1_5504F0();
+
+        if ((this->field_7C_pPed->GetBit11_433CA0()) == 0 && this->field_10_char_state != 15)
+        {
+            if (field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC)
+            {
+
+                this->field_6C_animation_state = 1;
+            }
+            else if (field_38_velocity != k_dword_6FD7C0)
+            {
+                this->field_6C_animation_state = 0;
+            }
+            else
+            {
+                this->field_6C_animation_state = 2;
+                this->field_40_rotation = field_84->field_50_car_sprite->field_0;
+            }
+        }
+    }
+    else if (field_C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 && this->field_6C_animation_state != 6)
+    {
+        this->field_40_rotation = field_84->field_50_car_sprite->field_0;
+        field_84->sub_43B5A0(field_7C_pPed->get_target_car_door_403A60(),
+                             &field_80_sprite_ptr->field_14_xy.x,
+                             &field_80_sprite_ptr->field_14_xy.y);
+        this->field_6C_animation_state = 6;
+        this->field_68_animation_frame = 0;
+        if (field_84->sub_43B540(field_7C_pPed->get_target_car_door_403A60()))
+        {
+            this->field_70_frame_timer = 3;
+        }
+        else
+        {
+            this->field_70_frame_timer = 0;
+        }
+    }
 }
 
 // https://decomp.me/scratch/qNjdM
