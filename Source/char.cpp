@@ -2844,44 +2844,42 @@ void Char_B4::state_4_551B30()
     }
 }
 
-WIP_FUNC(0x551BB0)
+MATCH_FUNC(0x551BB0)
 void Char_B4::state_5_551BB0()
 {
-    WIP_IMPLEMENTED;
-
     if (field_C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
     {
-        this->field_58_flags &= ~0x80;
+        this->field_58_flags_bf.b7 = 0;
 
         state_1_5504F0();
 
-        if ((this->field_7C_pPed->field_21C & 0x800) == 0 && this->field_10_char_state != 15)
+        if ((this->field_7C_pPed->GetBit11_433CA0()) == 0 && this->field_10_char_state != 15)
         {
-            if (field_38_velocity <= k_CollisionRepulsionSpeed_6FD7BC)
+            if (field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC)
             {
-                if (field_38_velocity == k_dword_6FD7C0)
-                {
-                    this->field_6C_animation_state = 2;
-                    this->field_40_rotation = field_84->field_50_car_sprite->field_0;
-                }
-                else
-                {
-                    this->field_6C_animation_state = 0;
-                }
+
+                this->field_6C_animation_state = 1;
+            }
+            else if (field_38_velocity != k_dword_6FD7C0)
+            {
+                this->field_6C_animation_state = 0;
             }
             else
             {
-                this->field_6C_animation_state = 1;
+                this->field_6C_animation_state = 2;
+                this->field_40_rotation = field_84->field_50_car_sprite->field_0;
             }
         }
     }
     else if (field_C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 && this->field_6C_animation_state != 6)
     {
         this->field_40_rotation = field_84->field_50_car_sprite->field_0;
-        field_84->sub_43B5A0(field_7C_pPed->field_24C_target_car_door, &field_80_sprite_ptr->field_14_xy.x, &field_80_sprite_ptr->field_14_xy.y);
+        field_84->sub_43B5A0(field_7C_pPed->get_target_car_door_403A60(),
+                             &field_80_sprite_ptr->field_14_xy.x,
+                             &field_80_sprite_ptr->field_14_xy.y);
         this->field_6C_animation_state = 6;
         this->field_68_animation_frame = 0;
-        if (field_84->sub_43B540(field_7C_pPed->field_24C_target_car_door))
+        if (field_84->sub_43B540(field_7C_pPed->get_target_car_door_403A60()))
         {
             this->field_70_frame_timer = 3;
         }

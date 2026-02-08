@@ -2074,7 +2074,7 @@ bool Car_BC::sub_43B540(u8 targetDoor)
 }
 
 STUB_FUNC(0x43b5a0)
-s32* Car_BC::sub_43B5A0(s32 a2, Fix16* a3, Fix16* a4)
+s32* Car_BC::sub_43B5A0(u8 a2, Fix16* a3, Fix16* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
