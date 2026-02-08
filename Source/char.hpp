@@ -221,7 +221,7 @@ class Char_B4
     EXPORT char_type sub_54B8F0();
     EXPORT void sub_54C090();
     EXPORT char_type sub_54C1A0(s32 a2);
-    EXPORT char_type sub_54C3E0();
+    EXPORT void sub_54C3E0();
     EXPORT char_type sub_54C500(char_type a2, char_type a3);
     EXPORT void sub_54C580();
     EXPORT void sub_54C6C0();

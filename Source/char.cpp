@@ -1929,11 +1929,92 @@ char_type Char_B4::sub_54C1A0(s32 a2)
     return result;
 }
 
-STUB_FUNC(0x54c3e0)
-char_type Char_B4::sub_54C3E0()
+WIP_FUNC(0x54c3e0)
+void Char_B4::sub_54C3E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    bool unknown = 0;
+    const s32 face = Ang16::GetAngleFace_4F78F0(field_40_rotation);
+    if (!sub_54C1A0(face))
+    {
+        s32 face_m1 = face - 1;
+        s32 face_mapped;
+        switch (face_m1)
+        {
+            case 0:
+                face_mapped = 4;
+                break;
+            case 1:
+                face_mapped = 3;
+                break;
+            case 2:
+                face_mapped = 1;
+                break;
+            default:
+                face_mapped = 2;
+                break;
+        }
+
+        s32 face_mapped_ = face_mapped;
+        if (sub_54C1A0(face_mapped) == 1)
+        {
+            unknown = 1;
+        }
+
+        s32 mapped_val;
+        switch (face_m1)
+        {
+            case 0:
+                mapped_val = 3;
+                break;
+            case 1:
+                mapped_val = 4;
+                break;
+            case 3:
+                mapped_val = 1;
+                break;
+            default:
+                mapped_val = 2;
+                break;
+        }
+
+        s32 mapped_val_ = mapped_val;
+
+        //s32 pnew_f14;
+        if (sub_54C1A0(mapped_val) == 1)
+        {
+            if (unknown != 1)
+            {
+                //pnew_f14 = sub_4F7940(&mapped_val_);
+                //goto LABEL_22;
+                this->field_10_char_state = 25;
+                this->field_14 = sub_4F7940(&mapped_val_);
+                this->field_46 = 255;
+                return;
+            }
+
+            if (!(byte_6FDB48 % 2))
+            {
+                //pnew_f14 = sub_4F7940(&mapped_val_);
+                //LABEL_22:
+                this->field_10_char_state = 25;
+                this->field_14 = sub_4F7940(&mapped_val_);
+                this->field_46 = 255;
+                return;
+            }
+        }
+        else if (unknown != 1)
+        {
+            return;
+        }
+        //pnew_f14 = sub_4F7940(&face_mapped_);
+        //goto LABEL_22;
+        this->field_10_char_state = 25;
+        this->field_14 = sub_4F7940(&face_mapped_);
+        this->field_46 = 255;
+        return;
+    }
 }
 
 // 9.6f 0x495540
