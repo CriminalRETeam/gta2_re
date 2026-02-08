@@ -442,6 +442,12 @@ class Map_0x370
         return false;
     }
 
+    inline bool HasBlockAnyArrows_492140(s32 xpos, s32 ypos, s32 zpos)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(xpos, ypos, zpos);
+        return pBlock && pBlock->field_A_arrows;
+    }
+
   public:
     gmp_compressed_map_32* field_0_pDmap;
     Map_sub field_4_obj;

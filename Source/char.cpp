@@ -73,6 +73,10 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8DC, Fix16(0x666, 0), 0x6FD8DC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8E4, Fix16(0x2000, 0), 0x6FD8E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDB28, k_dword_6FD8E4, 0x6FDB28);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD87C, k_dword_6FD868 * 4, 0x6FD87C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD88C, k_dword_6FD868 * 8, 0x6FD88C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD828, Fix16(0x1000, 0), 0x6FD828);
+
 DEFINE_GLOBAL(Fix16, k_dword_6FDA9C, 0x6FDA9C);
 
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
@@ -93,6 +97,8 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FD8A2, Ang16(360), 0x6FD8A2);
 DEFINE_GLOBAL_INIT(Ang16, word_6FD940, Ang16(64), 0x6FD940);
 DEFINE_GLOBAL_INIT(Ang16, word_6FD8F8, Ang16(1376), 0x6FD8F8);
 DEFINE_GLOBAL_INIT(Ang16, word_6FD94C, Ang16(1080), 0x6FD94C);
+DEFINE_GLOBAL_INIT(Ang16, word_6FD95C, Ang16(1080), 0x6FD95C);
+DEFINE_GLOBAL_INIT(Ang16, word_6FD854, Ang16(360), 0x6FD854);
 
 DEFINE_GLOBAL(Ang16, word_6FD8E8, 0x6FD8E8);
 DEFINE_GLOBAL(Ang16, word_6FDB3C, 0x6FDB3C);
@@ -2784,27 +2790,425 @@ char_type Char_B4::sub_54FEC0(s32 a2)
 }
 
 STUB_FUNC(0x550090)
-char_type Char_B4::sub_550090(s32 a2, s32 a3)
+char_type Char_B4::sub_550090(Fix16 xpos, Fix16 ypos)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5504f0)
+// https://decomp.me/scratch/chZqY
+WIP_FUNC(0x5504f0)
 void Char_B4::state_1_5504F0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    s32 zpos;
+    Ang16 v29;
+    Ang16 v30;
+    Ang16 v39;
+    char v70;
+    char v71;
+    Fix16 pMaybeX_FP16;
+    Fix16 pMaybeY_FP16;
+
+    Ang16 v20;
+    Ang16 v73;
+
+    field_4A = 500;
+    Ang16 field_1C_zpos = 0;
+    field_58_flags_bf.b3 = false;
+    field_58_flags_bf.b6 = false;
+    byte_6FDB54 = 0;
+    byte_6FDAD8 = dword_6FD7F8.ToUInt8();
+    byte_6FDAD9 = dword_6FD800.ToUInt8();
+    v71 = 0;
+    Ang16 v77 = 0;
+    v70 = 0;
+    u8 unk_xpos = dword_6FD7F8.ToUInt8();
+    u8 unk_ypos = dword_6FD800.ToUInt8();
+    u8 block_type;
+    if (field_58_flags_bf.b0 == false && dword_6FD7FC.GetFracValue() == k_dword_6FD9E4 && dword_6FD7FC > k_dword_6FD9E4)
+    {
+        block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(dword_6FD7F8.ToInt(), dword_6FD800.ToInt(), dword_6FD7FC.ToInt() - 1);
+        zpos = dword_6FD7FC.ToInt() - 1;
+    }
+    else
+    {
+        block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(dword_6FD7F8.ToInt(), dword_6FD800.ToInt(), dword_6FD7FC.ToInt());
+        zpos = dword_6FD7FC.ToInt();
+    }
+
+    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(dword_6FD7F8.ToInt(), dword_6FD800.ToInt(), zpos);
+    if (pBlock)
+    {
+        u8 v9 = (pBlock->field_B_slope_type & 0xFC) != 0 && (pBlock->field_B_slope_type & 0xFC) != 0xFC;
+        field_58_flags ^= ((u8)field_58_flags ^ v9) & 1;
+        if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & 0x3FF))
+        {
+            if (field_7C_pPed->field_21C_bf.b27 == false)
+            {
+                field_7C_pPed->field_210_shock_counter += 3;
+                if (field_7C_pPed->field_204_killer_id)
+                {
+                    if (gPedManager_6787BC->PedById(field_7C_pPed->field_204_killer_id))
+                    {
+                        field_7C_pPed->field_290 = 2;
+                        field_7C_pPed->field_264 = 50;
+                    }
+                }
+            }
+        }
+    }
+
+    if ((u8)Char_B4::IsOnWater_545570())
+    {
+        field_7C_pPed->PutOutFire();
+        Char_B4::DrownPed_5459E0();
+        return;
+    }
+
+    if (!block_type && field_58_flags_bf.b0 == false)
+    {
+        if (field_10_char_state != 15)
+        {
+            if (gMap_0x370_6F6268->HasBlockAnyArrows_492140(dword_6FD7F8.ToInt(),
+                                                            dword_6FD800.ToInt(),
+                                                            (dword_6FD7FC - k_dword_6FD9E8).ToInt()))
+            {
+                Char_B4::DoJump_5454D0();
+                field_38_velocity = k_dword_6FD7C0;
+                field_58_flags |= 0x40u;
+                field_40_rotation.SnapToAng4_405640();
+            }
+            else
+            {
+                field_7C_pPed->ChangeNextPedState1_45C500(8);
+                field_7C_pPed->ChangeNextPedState2_45C540(19);
+                field_16 = 1;
+                return;
+            }
+        }
+        else
+        {
+            if (gMap_0x370_6F6268->HasBlockAnyArrows_492140(dword_6FD7F8.ToInt(),
+                                                            dword_6FD800.ToInt(),
+                                                            (dword_6FD7FC - k_dword_6FD9E8).ToInt()))
+            {
+                Char_B4::DoJump_5454D0();
+                field_58_flags |= 0x40u;
+                field_40_rotation.SnapToAng4_405640();
+            }
+        }
+    }
+
+    field_58_flags = field_58_flags & 0xFFFFFFF7;
+    if (field_38_velocity < k_dword_6FD9E4)
+    {
+        field_40_rotation = field_40_rotation + word_6FD936;
+        field_38_velocity = -field_38_velocity;
+    }
+    field_44 = block_type;
+
+    if (field_58_flags_bf.b6 != 0)
+    {
+        v20 = field_40_rotation;
+    }
+    else
+    {
+        v20 = field_7C_pPed->field_130;
+    }
+    v73 = v20;
+    if (field_10_char_state != 10)
+    {
+        if (field_10_char_state == 15)
+        {
+            if (field_6C_animation_state != 5)
+            {
+                field_6C_animation_state = 5;
+                field_68_animation_frame = 0;
+                field_71 = 4;
+            }
+            else
+            {
+                if ((field_58_flags & 0x40) != 0) // v19
+                {
+                    goto LABEL_65;
+                }
+                if ((field_7C_pPed->field_224 & 0x10) == 0)
+                {
+                    v20 = field_7C_pPed->field_130;
+                }
+                else
+                {
+                    v20 = field_40_rotation;
+                }
+                v73 = v20;
+            }
+
+            if ((field_58_flags & 0x40) == 0) // v19
+            {
+                if ((field_7C_pPed->field_224 & 0x10) != 0)
+                {
+                    if (dword_6FD80C < dword_6FD87C)
+                    {
+                        field_38_velocity = k_dword_6FD7B8;
+                    }
+                    else
+                    {
+                        if (dword_6FD80C < dword_6FD88C)
+                        {
+                            field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
+                        }
+                        else
+                        {
+                            field_38_velocity = gRunOrJumpSpeed_6FD7D0;
+                        }
+                    }
+                }
+                else
+                {
+                    field_38_velocity = gRunOrJumpSpeed_6FD7D0;
+                }
+            }
+        }
+    }
+    else
+    {
+        if (field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC)
+        {
+            field_38_velocity = k_dword_6FD7CC;
+        }
+        v70 = 1;
+    }
+LABEL_65:
+    if (field_55 > 0)
+    {
+        field_55--;
+    }
+
+    if (field_38_velocity != k_dword_6FD7C0)
+    {
+        if (field_69)
+        {
+            v70 = 1;
+            field_38_velocity = gRunOrJumpSpeed_6FD7D0;
+        }
+
+        if ((field_58_flags & 0x40) != 0 || field_7C_pPed->IsPedGoingToEnterCar_492FD0())
+        {
+            v70 = 1;
+        }
+        field_1C_zpos = v20;
+        if ((field_58_flags & 0x80u) != 0)
+        {
+            pMaybeX_FP16 = k_dword_6FD8E4 + Fix16(field_72) - dword_6FD7F8;
+            pMaybeY_FP16 = k_dword_6FD8E4 + Fix16(field_73) - dword_6FD800;
+            if (Fix16::Max(Fix16::Abs(pMaybeX_FP16), Fix16::Abs(pMaybeY_FP16)) < dword_6FD828)
+            {
+                field_58_flags &= 0x7F;
+            }
+            else
+            {
+                v73 = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
+                field_1C_zpos = v73;
+            }
+        }
+        else
+        {
+            if (field_6A)
+            {
+                if (field_C_ped_state_2 == ped_state_2::Unknown_3)
+                {
+                    goto LABEL_82;
+                }
+                v29 = field_74;
+                v30 = field_40_rotation;
+                field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
+                v73 = v29;
+                v77 = v30;
+                v70 = 1;
+            }
+        }
+        if (field_C_ped_state_2 != ped_state_2::Unknown_3)
+        {
+        LABEL_87:
+            Ang16::sub_41FC20(field_1C_zpos, dword_6FD828, pMaybeX_FP16, pMaybeY_FP16);
+
+            if (unk_xpos != pMaybeX_FP16.ToUInt8() || unk_ypos != pMaybeY_FP16.ToUInt8())
+            {
+                Char_B4::ManageZCoordAndSlopes_548590();
+                if (!Char_B4::sub_550090(pMaybeX_FP16, pMaybeY_FP16))
+                {
+                    field_58_flags |= 0x80;
+                    if (field_C_ped_state_2 == ped_state_2::Unknown_3)
+                    {
+                        Char_B4::sub_551400();
+                    }
+                    else
+                    {
+                        Char_B4::sub_5516F0();
+                    }
+                    v73 = word_6FD808;
+                    field_1C_zpos = word_6FD808;
+                }
+            }
+        }
+        else
+        {
+        LABEL_82:
+            if (field_55 > 0)
+            {
+                if (field_58_flags_bf.b7 == false)
+                {
+                    v73 = field_80_sprite_ptr->field_0;
+                    field_1C_zpos = v73;
+                }
+            }
+            /*
+            v31 = dword_6FD8E4;
+            v32 = (__int16)v73;
+            v33 = gSin_table_667A80[v32];
+            */
+            //sub_41FC20(field_1C_zpos, dword_6FD828, pMaybeX_FP16, pMaybeY_FP16);
+            goto LABEL_87;
+        }
+    }
+
+    if (field_10_char_state == 28 || field_10_char_state == 29 || v70)
+    {
+        field_40_rotation = v73;
+    }
+    else
+    {
+        v39 = Char_B4::sub_550F60(v73);
+        if (Char_B4::sub_551350(v39) == 1)
+        {
+            field_40_rotation = v39;
+            v71 = 1;
+        }
+        else if (field_1C_zpos != v73)
+        {
+            field_40_rotation = field_1C_zpos;
+        }
+        else
+        {
+            field_40_rotation = v73;
+        }
+    }
+
+    if ((field_58_flags & 0x40) != 0)
+    {
+        field_38_velocity = gRunOrJumpSpeed_6FD7D0;
+    }
+
+    Fix16 xpos;
+    Fix16 ypos;
+
+    Ang16::sub_41FC20(field_40_rotation, field_38_velocity, xpos, ypos);
+    field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                             field_80_sprite_ptr->field_14_xy.y + ypos,
+                                             field_80_sprite_ptr->field_1C_zpos);
+
+    field_80_sprite_ptr->set_ang_lazy_420690(field_40_rotation);
+    if (field_69)
+    {
+        v71 = 1;
+    }
+    //v49 = field_7C_pPed;
+    if (field_7C_pPed->IsPedGoingToEnterCar_492FD0())
+    {
+        v71 = 1;
+    }
+    else if (v71 == 1 || field_58_flags_bf.b0 == true)
+    {
+        byte_6FDB54 = gMap_0x370_6F6268->sub_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                    field_80_sprite_ptr->field_14_xy.y.ToInt(),
+                                                    field_80_sprite_ptr->field_1C_zpos.ToInt());
+
+        Char_B4::ManageZCoordAndSlopes_548590();
+    }
+    Char_B4::sub_548670(byte_6FDB56);
+
+    if (field_69)
+    {
+        if (Char_B4::sub_54B8F0() == 1)
+        {
+            Fix16 x = field_80_sprite_ptr->field_14_xy.x;
+            Fix16 y = field_80_sprite_ptr->field_14_xy.y;
+
+            if (dword_6FD7F8.ToUInt8() != pMaybeX_FP16.ToUInt8() || dword_6FD800.ToUInt8() != pMaybeY_FP16.ToUInt8())
+            {
+                field_80_sprite_ptr->set_xyz_lazy_420600(dword_6FD7F8, dword_6FD800, dword_6FD7FC);
+
+                field_45 = dword_6FD7B0.ToUInt8();
+                if (Char_B4::sub_550090(pMaybeX_FP16, pMaybeY_FP16))
+                {
+                    field_80_sprite_ptr->set_xyz_lazy_420600(x, y, dword_6FD7FC);
+
+                    if (v71 == 1 || (field_58_flags & 1) == 1)
+                    {
+
+                        byte_6FDB54 = gMap_0x370_6F6268->sub_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                                    field_80_sprite_ptr->field_14_xy.y.ToInt(),
+                                                                    (field_80_sprite_ptr->field_1C_zpos - k_dword_6FD9E8).ToInt());
+                        Char_B4::ManageZCoordAndSlopes_548590();
+                    }
+                }
+                else
+                {
+                    field_69 = 0;
+                    field_5C = 10;
+                    if (byte_6FDB58)
+                    {
+                        unk_ypos = 4;
+                        s16 int_4F7AE0 = stru_6F6784.get_int_4F7AE0(4);
+                        switch (int_4F7AE0)
+                        {
+                            case 0:
+                                field_40_rotation = word_6FDB34;
+                                break;
+                            case 1:
+                                field_40_rotation = word_6FD936;
+                                break;
+                            case 2:
+                                field_40_rotation = word_6FD95C;
+                                break;
+                            default:
+                                field_40_rotation = word_6FD854;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            field_69 = 0;
+            field_2A = word_6FDB34;
+            field_5C = 10;
+        }
+    }
+
+    if (field_6A)
+    {
+        field_40_rotation = v77;
+    }
+    if ((field_58_flags & 8) != 0)
+    {
+        field_40_rotation = field_40_rotation + word_6FD936;
+        field_38_velocity = -field_38_velocity;
+    }
+    Char_B4::sub_54DD70();
 }
 
 STUB_FUNC(0x550f60)
-s16* Char_B4::sub_550F60(s16* a2, s16 a3)
+Ang16 Char_B4::sub_550F60(Ang16 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x551350)
-char_type Char_B4::sub_551350(s16 a2)
+char_type Char_B4::sub_551350(Ang16 a2)
 {
     NOT_IMPLEMENTED;
     return 0;

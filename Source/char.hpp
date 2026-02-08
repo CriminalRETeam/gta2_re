@@ -63,7 +63,7 @@ class Char_B4
     Fix16 field_4C;
     Fix16 field_50;
     s8 field_54;
-    s8 field_55;
+    u8 field_55;
     s8 field_56;
     s8 field_57;
     union
@@ -84,8 +84,8 @@ class Char_B4
     s32 field_6C_animation_state;
     s8 field_70_frame_timer;
     s8 field_71;
-    s8 field_72;
-    s8 field_73;
+    u8 field_72;
+    u8 field_73;
     Ang16 field_74;
     s8 field_76;
     s8 field_77;
@@ -233,10 +233,10 @@ class Char_B4
     EXPORT char_type sub_54ECB0(s32 a2);
     EXPORT char_type sub_54EF60(char_type a2, char_type a3);
     EXPORT char_type sub_54FEC0(s32 a2);
-    EXPORT char_type sub_550090(s32 a2, s32 a3);
+    EXPORT char_type sub_550090(Fix16 xpos, Fix16 ypos);
     EXPORT void state_1_5504F0();
-    EXPORT s16* sub_550F60(s16* a2, s16 a3);
-    EXPORT char_type sub_551350(s16 a2);
+    EXPORT Ang16 sub_550F60(Ang16 a3);
+    EXPORT char_type sub_551350(Ang16 a2);
     EXPORT char_type sub_551400();
     EXPORT char_type sub_5516F0();
     //EXPORT void state_1_5504F0();
