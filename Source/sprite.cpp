@@ -1044,10 +1044,102 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
     return flags;
 }
 
-STUB_FUNC(0x5A1EB0)
+WIP_FUNC(0x5A1EB0)
 char_type Sprite::IsTouchingSlopeBlock_5A1EB0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s32 zpos_int = this->field_1C_zpos.ToInt();
+
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+    Fix16_Point* pBBox = this->field_C_sprite_4c_ptr->field_C_renderingRect;
+    
+    gmp_block_info* pBlock1 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[0].x.ToInt(), pBBox[0].y.ToInt(), zpos_int);
+    if (pBlock1)
+    {
+        u8 slope_mask1 = pBlock1->field_B_slope_type;
+        if ((slope_mask1 & 0xFC) != 0 && (slope_mask1 & 0xFCu) < 0xB4 && (slope_mask1 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock2 = gMap_0x370_6F6268->get_block_4DFE10( pBBox[1].x.ToInt(), pBBox[1].y.ToInt(), zpos_int);
+    if (pBlock2)
+    {
+        u8 slope_mask2 = pBlock2->field_B_slope_type;
+        if ((slope_mask2 & 0xFC) != 0 && (slope_mask2 & 0xFCu) < 0xB4 && (slope_mask2 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock3 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[2].x.ToInt(), pBBox[2].y.ToInt(), zpos_int);
+    if (pBlock3)
+    {
+        u8 slope_mask3 = pBlock3->field_B_slope_type;
+        if ((slope_mask3 & 0xFC) != 0 && (slope_mask3 & 0xFCu) < 0xB4 && (slope_mask3 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock4 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[3].x.ToInt(), pBBox[3].y.ToInt(), zpos_int);
+    if (pBlock4)
+    {
+        u8 slope_mask4 = pBlock4->field_B_slope_type;
+        if ((slope_mask4 & 0xFC) != 0 && (slope_mask4 & 0xFCu) < 0xB4 && (slope_mask4 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    if (zpos_int <= 0)
+    {
+        return 0;
+    }
+
+    s32 zpos_m1 = zpos_int - 1;
+    gmp_block_info* pBlock5 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[0].x.ToInt(), pBBox->y.ToInt(), zpos_m1);
+    if (pBlock5)
+    {
+        u8 slope_mask5 = pBlock5->field_B_slope_type;
+        if ((slope_mask5 & 0xFC) != 0 && (slope_mask5 & 0xFCu) < 0xB4 && (slope_mask5 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock6 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[1].x.ToInt(), pBBox[1].y.ToInt(), zpos_m1);
+    if (pBlock6)
+    {
+        u8 slope_mask6 = pBlock6->field_B_slope_type;
+        if ((slope_mask6 & 0xFC) != 0 && (slope_mask6 & 0xFCu) < 0xB4 && (slope_mask6 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock7 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[2].x.ToInt(), pBBox[2].y.ToInt(), zpos_m1);
+    if (pBlock7)
+    {
+        u8 slope_mask7 = pBlock7->field_B_slope_type;
+        if ((slope_mask7 & 0xFC) != 0 && (slope_mask7 & 0xFCu) < 0xB4 && (slope_mask7 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock8 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[3].x.ToInt(), pBBox[3].y.ToInt(), zpos_m1);
+    if (pBlock8)
+    {
+        u8 slope_mask8 = pBlock8->field_B_slope_type;
+        if ((slope_mask8 & 0xFC) != 0 && (slope_mask8 & 0xFCu) < 0xB4 && (slope_mask8 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
     return 0;
 }
 
