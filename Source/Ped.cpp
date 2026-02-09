@@ -1421,7 +1421,7 @@ void Ped::Deallocate_45EB60()
     }
     if (field_21C_bf.b14)
     {
-        gOrca_2FD4_6FDEF0->field_3C.RemovePed_471240(this);
+        gOrca_2FD4_6FDEF0->field_3C_ped_list.RemovePed_471240(this);
     }
     gOrca_2FD4_6FDEF0->remove_ped_554620(field_200_id);
     gThreateningPedsList_678468.RemovePed_471240(this);
@@ -3182,7 +3182,7 @@ bool Ped::PoolUpdate()
 
             if (!byte_678554 && field_21C_bf.b14)
             {
-                gOrca_2FD4_6FDEF0->field_3C.RemovePed_471240(this);
+                gOrca_2FD4_6FDEF0->field_3C_ped_list.RemovePed_471240(this);
                 field_21C_bf.b14 = 0;
             }
 
