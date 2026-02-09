@@ -225,35 +225,28 @@ void ExplodingScorePool::sub_596880()
     field_2++;
 }
 
-WIP_FUNC(0x596890)
+MATCH_FUNC(0x596890)
 void ExplodingScorePool::sub_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
 {
-    WIP_IMPLEMENTED;
-
-    ExplodingScore_50* pIter; // eax
-
-    bool bCountisZero = this->field_2 == 0;
-    if (!this->field_2)
+    if (this->field_2 == 0)
     {
-        pIter = field_4_pool.field_4_pPrev; // TODO: Inline here 0x4B8FD0 pool template 9.6f
-        if (pIter)
+        ExplodingScore_50* pIter = field_4_pool.field_4_pPrev; // TODO: Inline here 0x4B8FD0 pool template 9.6f
+        while (pIter)
         {
-            while (pIter->field_4C >= score)
+            if (pIter->field_4C >= score)
             {
                 pIter = pIter->mpNext;
-                if (!pIter)
-                {
-                    goto found_bigger;
-                }
             }
-            field_4_pool.sub_420F30(pIter);
-            ++this->field_2;
+            else
+            {
+                field_4_pool.unknown_func(pIter);
+                ++this->field_2;
+                break;
+            }
         }
-    found_bigger:
-        bCountisZero = this->field_2 == 0;
     }
 
-    if (!bCountisZero)
+    if (this->field_2 > 0)
     {
         ExplodingScore_50* pNew = field_4_pool.Allocate();
         if (pNew)

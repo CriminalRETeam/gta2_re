@@ -47,7 +47,7 @@ class ExplodingScorePool
     EXPORT void DrawExplodingScores_5969E0();
 
     s16 field_0;
-    s16 field_2;
+    u16 field_2;
 
     // NOTE: Nearly all other pools start at offset 0, this object is some 
     // suggestion its composition and not inheritance unless this object 
