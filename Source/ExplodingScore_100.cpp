@@ -1,8 +1,19 @@
 #include "ExplodingScore_100.hpp"
 #include "Globals.hpp"
+#include "Player.hpp"
+#include "Camera.hpp"
+#include "Game_0x40.hpp"
 #include <memory.h>
 
 DEFINE_GLOBAL(ExplodingScorePool*, gExplodingScorePool, 0x702F34);
+
+
+DEFINE_GLOBAL(Fix16, dword_702C6C, 0x702C6C); // 0x2800000000LL / dword_702DF0
+DEFINE_GLOBAL(Fix16, dword_702BC4, 0x702BC4); // 0x3FC000
+DEFINE_GLOBAL(Fix16, dword_702F10, 0x702F10); // 0xA00000 - dword_702C6C
+DEFINE_GLOBAL(Fix16, dword_702C74, 0x702C74); // 0x1E00000000LL / dword_702DF0
+DEFINE_GLOBAL(Fix16, dword_702C08, 0x702C08); // 0x780000 - dword_702C74
+
 
 MATCH_FUNC(0x596a00)
 ExplodingScore_50::ExplodingScore_50()
@@ -155,10 +166,133 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
     this->field_40 = 1;
 }
 
-STUB_FUNC(0x596c90)
+WIP_FUNC(0x596c90)
 void ExplodingScore_50::DrawNumbers_596C90()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
+
+    Fix16 a3;
+    Fix16 v12;
+    Fix16 v6;
+    Fix16 v7;
+    field_38_orf1->field_14C_view_camera.ProjectWorldToScreen_4B90E0(field_28_x, field_2C_y, field_30_z, &a3, &v12);
+    if (a3 < dword_702C6C)
+    {
+        a3 = dword_702C6C - a3;
+        v6 = a3 / dword_702BC4;
+    }
+    else
+    {
+        if (!(a3 > dword_702F10))
+        {
+            goto LABEL_6;
+        }
+        a3 = dword_702F10 - a3;
+        v6 = a3 / dword_702BC4;
+    }
+    field_28_x += v6;
+
+LABEL_6:
+    if (v12 < dword_702C74)
+    {
+        v12 = dword_702C74 - v12;
+        v7 = v12 / dword_702BC4;
+    }
+    else
+    {
+        if (!(v12 > dword_702C08))
+        {
+            goto LABEL_11;
+        }
+        else
+        {
+            v12 = dword_702C08 - v12;
+            v7 = v12 / dword_702BC4;
+        }
+    }
+    field_2C_y += v7;
+
+LABEL_11:
+
+    switch (this->field_0_numbers_count)
+    {
+        case 0:
+            DrawSingleNumber_597100(this->field_4[0], 10);
+            break;
+
+        case 1:
+            DrawSingleNumber_597100(this->field_4[1], 21);
+            DrawSingleNumber_597100(this->field_4[0], 0);
+            break;
+
+        case 2:
+            DrawSingleNumber_597100(this->field_4[2], 31);
+            DrawSingleNumber_597100(this->field_4[1], 10);
+            DrawSingleNumber_597100(this->field_4[0], -11);
+            break;
+
+        case 3:
+            DrawSingleNumber_597100(this->field_4[3], 42);
+            DrawSingleNumber_597100(this->field_4[2], 21);
+            DrawSingleNumber_597100(this->field_4[1], 0);
+            DrawSingleNumber_597100(this->field_4[0], -21);
+            break;
+
+        case 4:
+            DrawSingleNumber_597100(this->field_4[4], 52);
+            DrawSingleNumber_597100(this->field_4[3], 31);
+            DrawSingleNumber_597100(this->field_4[2], 10);
+            DrawSingleNumber_597100(this->field_4[1], -11);
+            DrawSingleNumber_597100(this->field_4[0], -32);
+            break;
+
+        case 5:
+            DrawSingleNumber_597100(this->field_4[5], 63);
+            DrawSingleNumber_597100(this->field_4[4], 42);
+            DrawSingleNumber_597100(this->field_4[3], 21);
+            DrawSingleNumber_597100(this->field_4[2], 0);
+            DrawSingleNumber_597100(this->field_4[1], -21);
+            DrawSingleNumber_597100(this->field_4[0], -42);
+            break;
+
+        case 6:
+            DrawSingleNumber_597100(this->field_4[6], 73);
+            DrawSingleNumber_597100(this->field_4[5], 52);
+            DrawSingleNumber_597100(this->field_4[4], 31);
+            DrawSingleNumber_597100(this->field_4[3], 10);
+            DrawSingleNumber_597100(this->field_4[2], -11);
+            DrawSingleNumber_597100(this->field_4[1], -32);
+            DrawSingleNumber_597100(this->field_4[0], -53);
+            break;
+
+        case 7:
+            DrawSingleNumber_597100(this->field_4[7], 84);
+            DrawSingleNumber_597100(this->field_4[6], 63);
+            DrawSingleNumber_597100(this->field_4[5], 42);
+            DrawSingleNumber_597100(this->field_4[4], 21);
+            DrawSingleNumber_597100(this->field_4[3], 0);
+            DrawSingleNumber_597100(this->field_4[2], -21);
+            DrawSingleNumber_597100(this->field_4[1], -42);
+            DrawSingleNumber_597100(this->field_4[0], -63);
+            break;
+
+        case 8:
+            DrawSingleNumber_597100(this->field_4[8], 94);
+            DrawSingleNumber_597100(this->field_4[7], 73);
+            DrawSingleNumber_597100(this->field_4[6], 52);
+            DrawSingleNumber_597100(this->field_4[5], 31);
+            DrawSingleNumber_597100(this->field_4[4], 10);
+            DrawSingleNumber_597100(this->field_4[3], -11);
+            DrawSingleNumber_597100(this->field_4[2], -32);
+            DrawSingleNumber_597100(this->field_4[1], -53);
+            DrawSingleNumber_597100(this->field_4[0], -74);
+            break;
+
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x5970c0)
