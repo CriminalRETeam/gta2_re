@@ -3355,7 +3355,7 @@ void Char_B4::state_5_551BB0()
     else if (field_C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 && this->field_6C_animation_state != 6)
     {
         this->field_40_rotation = field_84->field_50_car_sprite->field_0;
-        field_84->sub_43B5A0(field_7C_pPed->get_target_car_door_403A60(),
+        field_84->GetDoorWorldPosition_43B5A0(field_7C_pPed->get_target_car_door_403A60(),
                              &field_80_sprite_ptr->field_14_xy.x,
                              &field_80_sprite_ptr->field_14_xy.y);
         this->field_6C_animation_state = 6;

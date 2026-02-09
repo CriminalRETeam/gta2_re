@@ -9,7 +9,7 @@ DEFINE_GLOBAL(u8, byte_6FDEEC, 0x6FDEEC);
 DEFINE_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0, 0x6FDEF0);
 
 MATCH_FUNC(0x554080)
-bool Orca_2FD4::sub_554080(s32 a2)
+bool Orca_2FD4::CanMoveInDirection_554080(s32 a2)
 {
     if (field_25 > 1u && field_25 < 254u && field_26 > 1u && field_26 < 254u)
     {
@@ -20,23 +20,23 @@ bool Orca_2FD4::sub_554080(s32 a2)
 }
 
 MATCH_FUNC(0x5540e0)
-char_type Orca_2FD4::sub_5540E0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6)
+char_type Orca_2FD4::TestDiagonalMove_5540E0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6)
 {
     this->field_25 = a2;
     this->field_26 = a3;
     this->field_27 = a4;
-    return sub_554110(a5, a6);
+    return Internel_CanMoveDiagonally_554110(a5, a6);
 }
 
 STUB_FUNC(0x554110)
-char_type Orca_2FD4::sub_554110(char_type a2, char_type a3)
+char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type a2, char_type a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x5545c0)
-void Orca_2FD4::sub_5545C0()
+void Orca_2FD4::Internel_ClearGrid_5545C0()
 {
     memset(this->field_40, 0, sizeof(this->field_40));
 }
@@ -54,7 +54,7 @@ void Orca_2FD4::init_5545E0()
 }
 
 MATCH_FUNC(0x554620)
-void Orca_2FD4::sub_554620(s32 a2)
+void Orca_2FD4::remove_ped_554620(s32 a2)
 {
     if (a2 == field_0)
     {
@@ -64,30 +64,30 @@ void Orca_2FD4::sub_554620(s32 a2)
 }
 
 STUB_FUNC(0x554640)
-char_type Orca_2FD4::sub_554640()
+char_type Orca_2FD4::Internel_EvaluateBehaviorGridCell_554640()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x554710)
-char_type Orca_2FD4::sub_554710()
+char_type Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 WIP_FUNC(0x5548c0)
-char_type Orca_2FD4::sub_5548C0()
+char_type Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0()
 {
     WIP_IMPLEMENTED;
 
-    char_type v2 = Orca_2FD4::sub_554640();
+    char_type v2 = Orca_2FD4::Internel_EvaluateBehaviorGridCell_554640();
     if (v2 == 1)
     {
-        if (Orca_2FD4::sub_554110(this->field_20, this->field_21))
+        if (Orca_2FD4::Internel_CanMoveDiagonally_554110(this->field_20, this->field_21))
         {
-            Orca_2FD4::sub_554710();
+            Orca_2FD4::Internel_UpdateBehaviorGrid_554710();
             return 0;
         }
 
@@ -113,7 +113,7 @@ char_type Orca_2FD4::sub_5548C0()
 }
 
 STUB_FUNC(0x554920)
-char_type Orca_2FD4::sub_554920()
+char_type Orca_2FD4::RestoreSavedPosition_554920()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -126,7 +126,7 @@ s32 Orca_2FD4::IsFirstPassenger_554A90(Ped* a2)
 }
 
 STUB_FUNC(0x554ab0)
-char_type Orca_2FD4::sub_554AB0(s32 a2, s32 a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a8, u8 a9, s32 a10, u8* a11)
+char_type Orca_2FD4::ComputePath_554AB0(s32 a2, s32 a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a8, u8 a9, s32 a10, u8* a11)
 {
     NOT_IMPLEMENTED;
     return 0;

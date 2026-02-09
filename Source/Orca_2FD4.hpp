@@ -27,23 +27,23 @@ class Orca_2FD4
     {
         init_5545E0();
     }
-    EXPORT bool sub_554080(s32 a2);
-    EXPORT char_type sub_5540E0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6);
-    EXPORT char_type sub_554110(char_type a2, char_type a3);
-    EXPORT void sub_5545C0();
+    EXPORT bool CanMoveInDirection_554080(s32 a2);
+    EXPORT char_type TestDiagonalMove_5540E0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6);
+    EXPORT char_type Internel_CanMoveDiagonally_554110(char_type a2, char_type a3);
+    EXPORT void Internel_ClearGrid_5545C0();
     EXPORT void init_5545E0();
 
     ~Orca_2FD4()
     {
         // TODO: Should this be empty?
     }
-    EXPORT void sub_554620(s32 a2);
-    EXPORT char_type sub_554640();
-    EXPORT char_type sub_554710();
-    EXPORT char_type sub_5548C0();
-    EXPORT char_type sub_554920();
+    EXPORT void remove_ped_554620(s32 a2);
+    EXPORT char_type Internel_EvaluateBehaviorGridCell_554640();
+    EXPORT char_type Internel_UpdateBehaviorGrid_554710();
+    EXPORT char_type Internal_ProcessBehaviorGrid_5548C0();
+    EXPORT char_type RestoreSavedPosition_554920();
     EXPORT s32 IsFirstPassenger_554A90(Ped* a2);
-    EXPORT char_type sub_554AB0(s32 a2, s32 a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a8, u8 a9, s32 a10, u8* a11);
+    EXPORT char_type ComputePath_554AB0(s32 a2, s32 a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a8, u8 a9, s32 a10, u8* a11);
     EXPORT char_type FindNearbyTileMatchingSlopeType_5552B0(char_type a2, u8* xpos, u8* ypos, u8* zpos, char_type a6);
 
     s32 field_0;

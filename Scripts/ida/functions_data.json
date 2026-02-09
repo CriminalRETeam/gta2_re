@@ -1585,7 +1585,7 @@
         "v105_address": "0x43af60"
     },
     {
-        "name": "Car_BC::sub_43AFE0",
+        "name": "Car_BC::IsDoorAccessible_43AFE0",
         "v96f_address": "0x425A40",
         "v105_address": "0x43afe0"
     },
@@ -1630,7 +1630,7 @@
         "v105_address": "0x43b540"
     },
     {
-        "name": "Car_BC::sub_43B5A0",
+        "name": "Car_BC::GetDoorWorldPosition_43B5A0",
         "v96f_address": null,
         "v105_address": "0x43b5a0"
     },
@@ -3360,7 +3360,7 @@
         "v105_address": "0x467070"
     },
     {
-        "name": "Ped::sub_467090",
+        "name": "Ped::FindUsableCarDoor_467090",
         "v96f_address": null,
         "v105_address": "0x467090"
     },
@@ -3625,12 +3625,12 @@
         "v105_address": "0x46bd50"
     },
     {
-        "name": "Ped::sub_46BDC0",
+        "name": "Ped::EnterCarStateMachine_46BDC0",
         "v96f_address": null,
         "v105_address": "0x46bdc0"
     },
     {
-        "name": "Ped::sub_46C250",
+        "name": "Ped::ExitCarStateMachine_46C250",
         "v96f_address": "0x443C30",
         "v105_address": "0x46c250"
     },
@@ -6675,7 +6675,7 @@
         "v105_address": "0x4c9ed0"
     },
     {
-        "name": "PedGroup::sub_4C9F00",
+        "name": "PedGroup::CoordinateGroupCarEntry_4C9F00",
         "v96f_address": null,
         "v105_address": "0x4c9f00"
     },
@@ -11875,22 +11875,22 @@
         "v105_address": "0x553f90"
     },
     {
-        "name": "Orca_2FD4::sub_554080",
+        "name": "Orca_2FD4::CanMoveInDirection_554080",
         "v96f_address": null,
         "v105_address": "0x554080"
     },
     {
-        "name": "Orca_2FD4::sub_5540E0",
+        "name": "Orca_2FD4::TestDiagonalMove_5540E0",
         "v96f_address": null,
         "v105_address": "0x5540e0"
     },
     {
-        "name": "Orca_2FD4::sub_554110",
+        "name": "Orca_2FD4::Internel_CanMoveDiagonally_554110",
         "v96f_address": "0x49CB60",
         "v105_address": "0x554110"
     },
     {
-        "name": "Orca_2FD4::sub_5545C0",
+        "name": "Orca_2FD4::Internel_ClearGrid_5545C0",
         "v96f_address": null,
         "v105_address": "0x5545c0"
     },
@@ -11900,27 +11900,27 @@
         "v105_address": "0x5545e0"
     },
     {
-        "name": "Orca_2FD4::sub_554620",
+        "name": "Orca_2FD4::remove_ped_554620",
         "v96f_address": null,
         "v105_address": "0x554620"
     },
     {
-        "name": "Orca_2FD4::sub_554640",
+        "name": "Orca_2FD4::Internel_EvaluateBehaviorGridCell_554640",
         "v96f_address": null,
         "v105_address": "0x554640"
     },
     {
-        "name": "Orca_2FD4::sub_554710",
+        "name": "Orca_2FD4::Internel_UpdateBehaviorGrid_554710",
         "v96f_address": null,
         "v105_address": "0x554710"
     },
     {
-        "name": "Orca_2FD4::sub_5548C0",
+        "name": "Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0",
         "v96f_address": "0x49CF10",
         "v105_address": "0x5548c0"
     },
     {
-        "name": "Orca_2FD4::sub_554920",
+        "name": "Orca_2FD4::RestoreSavedPosition_554920",
         "v96f_address": null,
         "v105_address": "0x554920"
     },
@@ -11930,7 +11930,7 @@
         "v105_address": "0x554a90"
     },
     {
-        "name": "Orca_2FD4::sub_554AB0",
+        "name": "Orca_2FD4::ComputePath_554AB0",
         "v96f_address": null,
         "v105_address": "0x554ab0"
     },

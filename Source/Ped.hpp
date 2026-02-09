@@ -126,7 +126,7 @@ class Ped
     EXPORT Ped* FindNearestPed_466F60(u8 a2);
     EXPORT Ped* FindNearbyPed_466FB0();
     EXPORT Ped* sub_467070();
-    EXPORT char_type sub_467090();
+    EXPORT char_type FindUsableCarDoor_467090();
     EXPORT Sprite* sub_467280();
     EXPORT char_type sub_4672E0(Fix16 a2, s32 a3);
     EXPORT void FleeOnFootTillSafe_4678E0();
@@ -179,8 +179,8 @@ class Ped
     EXPORT void sub_46B670();
     EXPORT void sub_46BD30();
     EXPORT char_type sub_46BD50(Car_BC* pCar);
-    EXPORT void sub_46BDC0();
-    EXPORT void sub_46C250();
+    EXPORT void EnterCarStateMachine_46BDC0();
+    EXPORT void ExitCarStateMachine_46C250();
     EXPORT void sub_46C770();
     EXPORT void sub_46C7E0();
     EXPORT void sub_46C8A0();

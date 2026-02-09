@@ -429,7 +429,7 @@ Ped* PedGroup::sub_4C9ED0()
 }
 
 STUB_FUNC(0x4c9f00)
-void PedGroup::sub_4C9F00()
+void PedGroup::CoordinateGroupCarEntry_4C9F00()
 {
     NOT_IMPLEMENTED;
 }

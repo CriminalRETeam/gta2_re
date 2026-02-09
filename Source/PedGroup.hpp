@@ -29,7 +29,7 @@ class PedGroup
     EXPORT void add_ped_to_list_4C9B30(Ped* ptr, u8 idx);
     EXPORT char_type sub_4C9B60(Ped* a2);
     EXPORT Ped* sub_4C9ED0();
-    EXPORT void sub_4C9F00();
+    EXPORT void CoordinateGroupCarEntry_4C9F00();
     EXPORT u32 sub_4CA3E0();
     EXPORT Ped* sub_4CA3F0(u32* a2);
     EXPORT void sub_4CA4B0();
