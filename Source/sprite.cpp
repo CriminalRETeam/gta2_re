@@ -875,10 +875,28 @@ char_type Sprite::sub_5A0A70(Sprite_4C* a2, Sprite** a3, u8* a4)
     return 0;
 }
 
-STUB_FUNC(0x5A0EF0)
-char_type Sprite::sub_5A0EF0(s32 a2, s32 a3, s32 a4)
+STUB_FUNC(0x4F77D0)
+EXPORT bool __stdcall sub_4F77D0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5)
 {
-    NOT_IMPLEMENTED;
+    return 0;
+}
+
+WIP_FUNC(0x5A0EF0)
+char_type Sprite::sub_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
+{
+    WIP_IMPLEMENTED;
+
+    Fix16_Point* pBBox = this->field_C_sprite_4c_ptr->field_C_renderingRect;
+    if (sub_4F77D0(&a2, &a3, &a4, &pBBox[0].x, &pBBox[1].y) || sub_4F77D0(&a2, &a3, &a4, &pBBox[1].x, &pBBox[2].y) ||
+        sub_4F77D0(&a2, &a3, &a4, &pBBox[2].x, &pBBox[3].y) || sub_4F77D0(&a2, &a3, &a4, &pBBox[3].x, &pBBox[0].y))
+    {
+        gRozza_679188.field_C_mapy_t2 = a2;
+        gRozza_679188.field_0_type = 2;
+        gRozza_679188.field_10 = a3;
+        gRozza_679188.field_14_mapx_t2 = a4;
+        gRozza_679188.field_20_pSprite = 0;
+        return 1;
+    }
     return 0;
 }
 

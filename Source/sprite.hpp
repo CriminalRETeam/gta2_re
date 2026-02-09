@@ -132,7 +132,7 @@ class Sprite
     EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* a2);
     EXPORT char_type CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
     EXPORT char_type sub_5A0A70(Sprite_4C* a2, Sprite** a3, u8* a4);
-    EXPORT char_type sub_5A0EF0(s32 a2, s32 a3, s32 a4);
+    EXPORT char_type sub_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT char_type sub_5A1030(Sprite* a2, Sprite** a3, u8* a4);
     EXPORT bool sub_5A1490(s32 a2, s32 a3);
     EXPORT char_type sub_5A19C0();
