@@ -156,7 +156,7 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 }
 
 STUB_FUNC(0x596c90)
-s32 ExplodingScore_50::sub_596C90()
+s32 ExplodingScore_50::DrawNumbers_596C90()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -191,7 +191,7 @@ char_type ExplodingScore_50::PoolUpdate()
 }
 
 STUB_FUNC(0x597100)
-void ExplodingScore_50::sub_597100(s32 a2, s32 a3)
+void ExplodingScore_50::DrawSingleNumber_597100(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
 }
@@ -270,7 +270,7 @@ void ExplodingScorePool::DrawExplodingScores_5969E0()
     ExplodingScore_50* pIter = field_4_pool.field_4_pPrev;
     while (pIter)
     {
-        pIter->sub_596C90();
+        pIter->DrawNumbers_596C90();
         pIter = pIter->mpNext;
     }
 }
