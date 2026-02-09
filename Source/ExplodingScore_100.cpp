@@ -156,10 +156,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 }
 
 STUB_FUNC(0x596c90)
-s32 ExplodingScore_50::DrawNumbers_596C90()
+void ExplodingScore_50::DrawNumbers_596C90()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 MATCH_FUNC(0x5970c0)
