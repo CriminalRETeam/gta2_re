@@ -22,16 +22,16 @@ class ExplodingScore_50
     Fix16 field_28_x;
     Fix16 field_2C_y;
     Fix16 field_30_z;
-    s16 field_34;
-    char_type field_36;
-    char_type field_37;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
+    s16 field_34; // draw figure param
+    char_type field_36; // draw figure param
+    char_type field_37; // pad ?
+    s32 field_38; // scale factor?
+    s32 field_3C; // xoff ?
+    s32 field_40; // yoff ?
     // NOTE: Used by a template so the name maters
     ExplodingScore_50* mpNext;
-    s16 field_48;
-    s16 field_4A;
+    s16 field_48; // set to 0, never used ??
+    s16 field_4A; // pad?
     s32 field_4C_score;
 };
 
@@ -46,7 +46,7 @@ class ExplodingScorePool
     EXPORT void sub_596940();
     EXPORT void DrawExplodingScores_5969E0();
 
-    s16 field_0;
+    s16 field_0; // draw figure param, fade maybe?
     u16 field_2_free_scores;
 
     // NOTE: Nearly all other pools start at offset 0, this object is some 

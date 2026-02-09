@@ -1,12 +1,11 @@
 #include "ExplodingScore_100.hpp"
-#include "Globals.hpp"
-#include "Player.hpp"
 #include "Camera.hpp"
 #include "Game_0x40.hpp"
+#include "Globals.hpp"
+#include "Player.hpp"
 #include <memory.h>
 
 DEFINE_GLOBAL(ExplodingScorePool*, gExplodingScorePool, 0x702F34);
-
 
 DEFINE_GLOBAL(Fix16, dword_702C6C, 0x702C6C); // 0x2800000000LL / dword_702DF0
 DEFINE_GLOBAL(Fix16, dword_702BC4, 0x702BC4); // 0x3FC000
@@ -14,6 +13,8 @@ DEFINE_GLOBAL(Fix16, dword_702F10, 0x702F10); // 0xA00000 - dword_702C6C
 DEFINE_GLOBAL(Fix16, dword_702C74, 0x702C74); // 0x1E00000000LL / dword_702DF0
 DEFINE_GLOBAL(Fix16, dword_702C08, 0x702C08); // 0x780000 - dword_702C74
 
+DEFINE_GLOBAL(Fix16, dword_702DE0, 0x702DE0);
+DEFINE_GLOBAL(Ang16, word_702F24, 0x702F24);
 
 MATCH_FUNC(0x596a00)
 ExplodingScore_50::ExplodingScore_50()
@@ -323,10 +324,73 @@ char_type ExplodingScore_50::PoolUpdate()
     }
 }
 
-STUB_FUNC(0x597100)
-void ExplodingScore_50::DrawSingleNumber_597100(s32 a2, s32 a3)
+// 9.6f 0x4B92B0
+WIP_FUNC(0x597100)
+void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+
+    Fix16 proj_x;
+    Fix16 proj_y;
+
+    s32 x_base;
+    if (number_to_draw == 1)
+    {
+        x_base = 4;
+    }
+    else
+    {
+        x_base = 0;
+    }
+
+    pPlayer->field_14C_view_camera.ProjectWorldToScreen_4B90E0(field_28_x, field_2C_y, field_30_z, &proj_x, &proj_y);
+
+    Fix16 base_scale;
+    s32 x_off;
+    s32 y_off;
+    if (field_38 < 0) // scale factor?
+    {
+        x_off = this->field_3C * (x_base - xpos_sub);
+        y_off = -7 * this->field_40;
+        base_scale = Fix16(-field_38);
+    }
+    else
+    {
+        x_off = x_base - xpos_sub;
+        y_off = -7;
+        base_scale = dword_702DE4;
+    }
+
+    Fix16 x_to_use = proj_x + Fix16(x_off);
+    Fix16 y_to_use = proj_y + Fix16(y_off);
+
+    if (x_to_use >= dword_702DE0)
+    {
+        if (x_to_use <= Fix16(640))
+        {
+            if (y_to_use >= dword_702DE0)
+            {
+                if (y_to_use <= Fix16(480))
+                {
+                    s32 drawKind = 7;
+                    Fix16 finalScale = pPlayer->field_14C_view_camera.field_A8_ui_scale * base_scale;
+                    DrawFigure_5D7EC0(6, // type
+                                      number_to_draw + 163, // pal
+                                      x_to_use, // x
+                                      y_to_use, // y
+                                      word_702F24, // rot
+                                      finalScale, // scale
+                                      drawKind, // drawkind
+                                      this->field_34,
+                                      1,
+                                      this->field_36,
+                                      1);
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5967e0)
