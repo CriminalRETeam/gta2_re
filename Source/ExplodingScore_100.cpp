@@ -29,7 +29,7 @@ ExplodingScore_50::~ExplodingScore_50()
 }
 
 MATCH_FUNC(0x596a50)
-void ExplodingScore_50::Empty_596A50()
+void ExplodingScore_50::PoolAllocate()
 {
 }
 
@@ -48,7 +48,7 @@ void ExplodingScore_50::sub_596A70(s32 a2)
 }
 
 MATCH_FUNC(0x596a90)
-void ExplodingScore_50::sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score)
+void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
 {
     u32 tmpScore = score;
 
@@ -225,10 +225,43 @@ void ExplodingScorePool::sub_596880()
     field_2++;
 }
 
-STUB_FUNC(0x596890)
-void ExplodingScorePool::sub_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5)
+WIP_FUNC(0x596890)
+void ExplodingScorePool::sub_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    ExplodingScore_50* pIter; // eax
+
+    bool bCountisZero = this->field_2 == 0;
+    if (!this->field_2)
+    {
+        pIter = field_4_pool.field_4_pPrev; // TODO: Inline here 0x4B8FD0 pool template 9.6f
+        if (pIter)
+        {
+            while (pIter->field_4C >= score)
+            {
+                pIter = pIter->mpNext;
+                if (!pIter)
+                {
+                    goto found_bigger;
+                }
+            }
+            field_4_pool.sub_420F30(pIter);
+            ++this->field_2;
+        }
+    found_bigger:
+        bCountisZero = this->field_2 == 0;
+    }
+
+    if (!bCountisZero)
+    {
+        ExplodingScore_50* pNew = field_4_pool.Allocate();
+        if (pNew)
+        {
+            --this->field_2;
+            pNew->sub_596A90(xpos, ypos, zpos, score);
+        }
+    }
 }
 
 MATCH_FUNC(0x596940)
