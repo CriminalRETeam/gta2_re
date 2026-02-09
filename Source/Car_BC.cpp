@@ -142,6 +142,8 @@ DEFINE_GLOBAL(Ang16, dword_6F6754, 0x6F6754);
 DEFINE_GLOBAL(Ang16, word_6F6808, 0x6F6808);
 DEFINE_GLOBAL(Ang16, word_6F6D3C, 0x6F6D3C);
 
+DEFINE_GLOBAL(Fix16, dword_6772BC, 0x6772BC);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -700,7 +702,6 @@ Car_BC* Car_6C::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3)
         {
             return pCar;
         }
-
     }
     return 0;
 }
@@ -1910,10 +1911,10 @@ char_type Car_BC::IsDoorAccessible_43AFE0(s32 target_door)
 
     GetDoorWorldPosition_43B5A0(target_door, &x, &y);
     if (gOrca_2FD4_6FDEF0->TestDiagonalMove_5540E0(field_50_car_sprite->field_14_xy.x.ToInt(),
-                                      field_50_car_sprite->field_14_xy.y.ToInt(),
-                                      field_50_car_sprite->field_1C_zpos.ToInt(),
-                                      x.ToInt(),
-                                      y.ToInt()))
+                                                   field_50_car_sprite->field_14_xy.y.ToInt(),
+                                                   field_50_car_sprite->field_1C_zpos.ToInt(),
+                                                   x.ToInt(),
+                                                   y.ToInt()))
     {
         byte_6F8EDC = 1;
         fr.ComputeCollisionPrism_4204D0(x, y, k_dword_6772CC, field_50_car_sprite->field_1C_zpos);
@@ -2078,11 +2079,93 @@ bool Car_BC::sub_43B540(u8 targetDoor)
     return false;
 }
 
-STUB_FUNC(0x43b5a0)
-s32* Car_BC::GetDoorWorldPosition_43B5A0(u8 a2, Fix16* a3, Fix16* a4)
+WIP_FUNC(0x43b5a0)
+void Car_BC::GetDoorWorldPosition_43B5A0(u8 target_door, Fix16* pOutX, Fix16* pOutY)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    s32 target_door_ = (u8)target_door;
+    Fix16 remap_0_val;
+    Fix16 remap_1_val;
+
+    u8* pRemap_0 = &gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx)[2 * target_door_ + 1];
+
+    u8 remap_0 = pRemap_0[0];
+    // TODO: Probably sub_41FE70 ??
+    if ((pRemap_0[0] & 0x80u) == 0)
+    {
+        remap_0_val = dword_6F6850.list[remap_0];
+    }
+    else
+    {
+        remap_0_val = -dword_6F6850.list[-remap_0];
+    }
+
+    u8 remap_1 = pRemap_0[1];
+    if (remap_1 >= 0)
+    {
+        remap_1_val = dword_6F6850.list[remap_1];
+    }
+    else
+    {
+        remap_1_val = -dword_6F6850.list[-remap_1];
+    }
+
+    Fix16 x_sin_mul = remap_1_val;
+    Fix16 y_sin_mul = remap_1_val;
+
+    if (remap_0_val < dword_677908)
+    {
+        if (remap_0_val <= -dword_677908)
+        {
+            remap_0_val += dword_677908;
+        }
+    }
+    else
+    {
+        remap_0_val -= dword_677908;
+    }
+
+    switch (target_door_)
+    {
+        case 0:
+            goto LABEL_17;
+
+        case 1:
+        case 3:
+            remap_0_val -= dword_6772BC;
+            break;
+
+        case 2:
+            if (remap_0_val == gFix16_6777CC)
+            {
+                x_sin_mul = remap_1_val - dword_6772BC;
+                y_sin_mul = remap_1_val - dword_6772BC;
+            }
+            else if (remap_0_val >= gFix16_6777CC)
+            {
+            LABEL_17:
+                remap_0_val += dword_6772BC;
+            }
+            else
+            {
+                remap_0_val -= dword_6772BC;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    const s16 ang_v = field_50_car_sprite->field_0.rValue;
+
+    Fix16 x_base = (remap_0_val * gCos_table_669260[ang_v]) + (x_sin_mul * gSin_table_667A80[ang_v]);
+    Fix16 y_base = (-remap_0_val * gSin_table_667A80[ang_v]) + (y_sin_mul * gCos_table_669260[ang_v]);
+
+    *pOutX = x_base + field_50_car_sprite->field_14_xy.x;
+    *pOutY = y_base + field_50_car_sprite->field_14_xy.y;
+
+    return (int*)pOutY;
 }
 
 MATCH_FUNC(0x43b730)
@@ -3437,7 +3520,6 @@ void Car_BC::sub_441380()
         this->field_A9 = 50;
     }
 }
-
 
 WIP_FUNC(0x4F7940)
 EXPORT Ang16 __stdcall sub_4F7940(s32* a2)
