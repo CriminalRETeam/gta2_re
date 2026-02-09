@@ -33,6 +33,7 @@
 #include "text_0x14.hpp"
 #include "sound_obj.hpp"
 #include "root_sound.hpp"
+#include "ExplodingScore_100.hpp"
 #include <stdarg.h>
 
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
@@ -597,6 +598,36 @@ void CC ImGuiDebugDraw()
     if (ImGui::Button("NoRefs_sub_5B1170"))
     {
         NoRefs_sub_5B1170();
+    }
+
+    if (ImGui::TreeNode("Exploding score"))
+    {
+        static ExplodingScore_50 test;
+        Sprite* pPlayerSprite = GetPlayerSprite();
+        if (ImGui::Button("Single number"))
+        {
+            if (pPlayerSprite)
+            {
+                static s32 number = 3;
+                test.field_28_x = pPlayerSprite->GetXPos();
+                test.field_2C_y = pPlayerSprite->GetYPos();
+                test.field_30_z = pPlayerSprite->GetZPos();
+                test.field_34 = 9; // 9-13
+                test.field_36 = 25;
+                test.field_38 = 2;
+                test.field_3C = 1;
+                test.field_40 = 1;
+                test.DrawSingleNumber_597100(number, 10);
+            }
+        }
+
+        if (ImGui::Button("Push score"))
+        {
+            if (pPlayerSprite && gExplodingScorePool)
+            {
+                gExplodingScorePool->PushScore_596890(pPlayerSprite->GetXPos(), pPlayerSprite->GetYPos(), pPlayerSprite->GetZPos(), 999999999);
+            }
+        }
     }
 
     if (ImGui::TreeNode("Sound"))

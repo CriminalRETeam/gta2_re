@@ -14,6 +14,9 @@ EXTERN_GLOBAL(Fix16, dword_676818);
 
 EXTERN_GLOBAL(Fix16, dword_67681C);
 
+EXTERN_GLOBAL(Fix16, dword_702E04);
+EXTERN_GLOBAL(Fix16, dword_702DE4);
+
 struct CameraPos
 {
     Fix16 field_0_x;
@@ -63,6 +66,17 @@ class Camera_0xBC
     EXPORT ~Camera_0xBC(); // empty 4369E0
     EXPORT void sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT bool sub_58CF10(Fix16 a2, Fix16 a3);
+
+    void ProjectWorldToScreen_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+    {
+        z = dword_702DE4 / ((dword_702E04 - z) + field_98_cam_pos2.field_8_z); // z reused
+        
+        Fix16 xd = x - field_98_cam_pos2.field_0_x;
+        *pOut1 = ((xd * field_60.x) * z) + Fix16(field_70_screen_px_center_x);
+
+        Fix16 yd = y - field_98_cam_pos2.field_4_y;
+        *pOut2 = ((yd * field_60.x) * z) + Fix16(field_74_screen_px_center_y);
+    }
 
     inline void inline_set_ped_id_to_1_475B60()
     {

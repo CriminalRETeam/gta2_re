@@ -488,7 +488,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
         {
             if (field_368_player->field_0_bIsUser)
             {
-                gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
+                gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
                                                        pCar->field_50_car_sprite->GetYPos(),
                                                        pCar->field_50_car_sprite->GetZPos(),
                                                        multipler * kill_car_score);
@@ -548,7 +548,7 @@ void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
             {
                 if (this->field_368_player->field_0_bIsUser)
                 {
-                    gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
+                    gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
                                                            pCar->field_50_car_sprite->GetYPos(),
                                                            pCar->field_50_car_sprite->GetZPos(),
                                                            mutipler * base_score);
@@ -619,7 +619,7 @@ void eager_benz::sub_593240(Car_BC* pCar)
     const s32 base_score = sub_5925B0(pCar->field_84_car_info_idx, 0);
     if (!bExplodingScoresOff_67D4FB && field_368_player->field_0_bIsUser)
     {
-        gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
+        gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
                                                pCar->field_50_car_sprite->GetYPos(),
                                                pCar->field_50_car_sprite->GetZPos(),
                                                multipler * base_score);
@@ -635,7 +635,7 @@ void eager_benz::sub_593370(Car_BC* pCar)
 {
     if (!bExplodingScoresOff_67D4FB && field_368_player->field_0_bIsUser)
     {
-        gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
+        gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
                                                pCar->field_50_car_sprite->GetYPos(),
                                                pCar->field_50_car_sprite->GetZPos(),
                                                field_368_player->field_6BC_multpliers.field_0 * 10);
@@ -653,7 +653,7 @@ void eager_benz::sub_593410(Car_BC* pCar)
     {
         if (field_368_player->field_0_bIsUser)
         {
-            gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
+            gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
                                                    pCar->field_50_car_sprite->GetYPos(),
                                                    pCar->field_50_car_sprite->GetZPos(),
                                                    100 * multpliers);

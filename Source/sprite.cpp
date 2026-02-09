@@ -875,10 +875,28 @@ char_type Sprite::sub_5A0A70(Sprite_4C* a2, Sprite** a3, u8* a4)
     return 0;
 }
 
-STUB_FUNC(0x5A0EF0)
-char_type Sprite::sub_5A0EF0(s32 a2, s32 a3, s32 a4)
+STUB_FUNC(0x4F77D0)
+EXPORT bool __stdcall sub_4F77D0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5)
 {
-    NOT_IMPLEMENTED;
+    return 0;
+}
+
+WIP_FUNC(0x5A0EF0)
+char_type Sprite::sub_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
+{
+    WIP_IMPLEMENTED;
+
+    Fix16_Point* pBBox = this->field_C_sprite_4c_ptr->field_C_renderingRect;
+    if (sub_4F77D0(&a2, &a3, &a4, &pBBox[0].x, &pBBox[1].y) || sub_4F77D0(&a2, &a3, &a4, &pBBox[1].x, &pBBox[2].y) ||
+        sub_4F77D0(&a2, &a3, &a4, &pBBox[2].x, &pBBox[3].y) || sub_4F77D0(&a2, &a3, &a4, &pBBox[3].x, &pBBox[0].y))
+    {
+        gRozza_679188.field_C_mapy_t2 = a2;
+        gRozza_679188.field_0_type = 2;
+        gRozza_679188.field_10 = a3;
+        gRozza_679188.field_14_mapx_t2 = a4;
+        gRozza_679188.field_20_pSprite = 0;
+        return 1;
+    }
     return 0;
 }
 
@@ -1026,17 +1044,109 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
     return flags;
 }
 
-STUB_FUNC(0x5A1EB0)
+WIP_FUNC(0x5A1EB0)
 char_type Sprite::IsTouchingSlopeBlock_5A1EB0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s32 zpos_int = this->field_1C_zpos.ToInt();
+
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+    Fix16_Point* pBBox = this->field_C_sprite_4c_ptr->field_C_renderingRect;
+    
+    gmp_block_info* pBlock1 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[0].x.ToInt(), pBBox[0].y.ToInt(), zpos_int);
+    if (pBlock1)
+    {
+        u8 slope_mask1 = pBlock1->field_B_slope_type;
+        if ((slope_mask1 & 0xFC) != 0 && (slope_mask1 & 0xFCu) < 0xB4 && (slope_mask1 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock2 = gMap_0x370_6F6268->get_block_4DFE10( pBBox[1].x.ToInt(), pBBox[1].y.ToInt(), zpos_int);
+    if (pBlock2)
+    {
+        u8 slope_mask2 = pBlock2->field_B_slope_type;
+        if ((slope_mask2 & 0xFC) != 0 && (slope_mask2 & 0xFCu) < 0xB4 && (slope_mask2 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock3 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[2].x.ToInt(), pBBox[2].y.ToInt(), zpos_int);
+    if (pBlock3)
+    {
+        u8 slope_mask3 = pBlock3->field_B_slope_type;
+        if ((slope_mask3 & 0xFC) != 0 && (slope_mask3 & 0xFCu) < 0xB4 && (slope_mask3 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock4 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[3].x.ToInt(), pBBox[3].y.ToInt(), zpos_int);
+    if (pBlock4)
+    {
+        u8 slope_mask4 = pBlock4->field_B_slope_type;
+        if ((slope_mask4 & 0xFC) != 0 && (slope_mask4 & 0xFCu) < 0xB4 && (slope_mask4 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    if (zpos_int <= 0)
+    {
+        return 0;
+    }
+
+    s32 zpos_m1 = zpos_int - 1;
+    gmp_block_info* pBlock5 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[0].x.ToInt(), pBBox->y.ToInt(), zpos_m1);
+    if (pBlock5)
+    {
+        u8 slope_mask5 = pBlock5->field_B_slope_type;
+        if ((slope_mask5 & 0xFC) != 0 && (slope_mask5 & 0xFCu) < 0xB4 && (slope_mask5 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock6 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[1].x.ToInt(), pBBox[1].y.ToInt(), zpos_m1);
+    if (pBlock6)
+    {
+        u8 slope_mask6 = pBlock6->field_B_slope_type;
+        if ((slope_mask6 & 0xFC) != 0 && (slope_mask6 & 0xFCu) < 0xB4 && (slope_mask6 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock7 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[2].x.ToInt(), pBBox[2].y.ToInt(), zpos_m1);
+    if (pBlock7)
+    {
+        u8 slope_mask7 = pBlock7->field_B_slope_type;
+        if ((slope_mask7 & 0xFC) != 0 && (slope_mask7 & 0xFCu) < 0xB4 && (slope_mask7 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
+    gmp_block_info* pBlock8 = gMap_0x370_6F6268->get_block_4DFE10(pBBox[3].x.ToInt(), pBBox[3].y.ToInt(), zpos_m1);
+    if (pBlock8)
+    {
+        u8 slope_mask8 = pBlock8->field_B_slope_type;
+        if ((slope_mask8 & 0xFC) != 0 && (slope_mask8 & 0xFCu) < 0xB4 && (slope_mask8 & 3) != 0)
+        {
+            return 1;
+        }
+    }
+
     return 0;
 }
 
-STUB_FUNC(0x5A21F0)
+WIP_FUNC(0x5A21F0)
 char_type Sprite::sub_5A21F0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     Fix16 z_4c = this->field_C_sprite_4c_ptr->field_8; // which union type ??
     Fix16 zToUse = this->field_1C_zpos + z_4c / 2;
