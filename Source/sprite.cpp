@@ -1143,10 +1143,10 @@ char_type Sprite::IsTouchingSlopeBlock_5A1EB0()
     return 0;
 }
 
-STUB_FUNC(0x5A21F0)
+WIP_FUNC(0x5A21F0)
 char_type Sprite::sub_5A21F0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     Fix16 z_4c = this->field_C_sprite_4c_ptr->field_8; // which union type ??
     Fix16 zToUse = this->field_1C_zpos + z_4c / 2;
