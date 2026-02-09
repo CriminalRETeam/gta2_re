@@ -3874,7 +3874,7 @@ void Ped::ProcessInCarObjective_463FB0()
                 Ped::sub_46B670();
                 break;
             case 20:
-                Ped::sub_46DB60();
+                Ped::AttackPed_46DB60();
                 break;
             case 26:
                 Ped::sub_46BD30();
@@ -3938,10 +3938,10 @@ void Ped::ProcessInCarObjective_463FB0()
                 Ped::sub_46D300();
                 break;
             case 59:
-                Ped::sub_46DB70();
+                Ped::AttackCar_46DB70();
                 break;
             case 58:
-                Ped::sub_46DB80();
+                Ped::AttackObject_46DB80();
                 break;
 
             default:
