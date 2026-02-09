@@ -1423,7 +1423,7 @@ void Ped::Deallocate_45EB60()
     {
         gOrca_2FD4_6FDEF0->field_3C.RemovePed_471240(this);
     }
-    gOrca_2FD4_6FDEF0->sub_554620(field_200_id);
+    gOrca_2FD4_6FDEF0->remove_ped_554620(field_200_id);
     gThreateningPedsList_678468.RemovePed_471240(this);
 
     if (field_17C_pZone)
@@ -2521,7 +2521,7 @@ void Ped::sub_462280()
             else if (field_21C_bf.b2 == 0)
             {
                 byte_61A8A3 = field_164_ped_group->sub_433370() != 1;
-                field_164_ped_group->sub_4C9F00();
+                field_164_ped_group->CoordinateGroupCarEntry_4C9F00();
                 byte_6787C4 = 1;
             }
             else
@@ -4309,7 +4309,7 @@ Ped* Ped::sub_467070()
 }
 
 STUB_FUNC(0x467090)
-char_type Ped::sub_467090()
+char_type Ped::FindUsableCarDoor_467090()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -5736,13 +5736,13 @@ char_type Ped::sub_46BD50(Car_BC* pCar)
 }
 
 STUB_FUNC(0x46bdc0)
-void Ped::sub_46BDC0()
+void Ped::EnterCarStateMachine_46BDC0()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46c250)
-void Ped::sub_46C250()
+void Ped::ExitCarStateMachine_46C250()
 {
     NOT_IMPLEMENTED;
 }
@@ -6019,9 +6019,9 @@ void Ped::sub_46D0D0()
             {
                 do
                 {
-                    if (field_154_target_to_enter->sub_43AFE0(target_door_b))
+                    if (field_154_target_to_enter->IsDoorAccessible_43AFE0(target_door_b))
                     {
-                        field_154_target_to_enter->sub_43B5A0(target_door_b, &doorX, &doorY);
+                        field_154_target_to_enter->GetDoorWorldPosition_43B5A0(target_door_b, &doorX, &doorY);
                         door_xd = Fix16::Abs(doorX - this->field_1AC_cam.x);
                         door_yd = Fix16::Abs(doorY - this->field_1AC_cam.y);
 
@@ -6050,7 +6050,7 @@ void Ped::sub_46D0D0()
                     pB4 = this->field_168_game_object;
                     this->field_24C_target_car_door = target_door;
                     pB4->field_38_velocity = pB4->field_3C_run_or_jump_speed;
-                    sub_46BDC0();
+                    EnterCarStateMachine_46BDC0();
                     if (this->field_226 == 1)
                     {
                         Deallocate_45EB60();
@@ -6106,7 +6106,7 @@ void Ped::sub_46D240()
     }
     else
     {
-        sub_46C250();
+        ExitCarStateMachine_46C250();
     }
 }
 

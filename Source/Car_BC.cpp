@@ -1902,14 +1902,14 @@ void Car_BC::sub_43AF60()
 }
 
 MATCH_FUNC(0x43afe0)
-char_type Car_BC::sub_43AFE0(s32 target_door)
+char_type Car_BC::IsDoorAccessible_43AFE0(s32 target_door)
 {
     Fix16 y;
     Fix16 x;
     Fix16_Rect fr;
 
-    sub_43B5A0(target_door, &x, &y);
-    if (gOrca_2FD4_6FDEF0->sub_5540E0(field_50_car_sprite->field_14_xy.x.ToInt(),
+    GetDoorWorldPosition_43B5A0(target_door, &x, &y);
+    if (gOrca_2FD4_6FDEF0->TestDiagonalMove_5540E0(field_50_car_sprite->field_14_xy.x.ToInt(),
                                       field_50_car_sprite->field_14_xy.y.ToInt(),
                                       field_50_car_sprite->field_1C_zpos.ToInt(),
                                       x.ToInt(),
@@ -1948,7 +1948,7 @@ bool Car_BC::sub_43B140(s32 target_car_door)
 
     Fix16 v14;
     Fix16 v13;
-    sub_43B5A0(target_car_door, &v14, &v13);
+    GetDoorWorldPosition_43B5A0(target_car_door, &v14, &v13);
 
     if (remap != 3)
     {
@@ -2079,7 +2079,7 @@ bool Car_BC::sub_43B540(u8 targetDoor)
 }
 
 STUB_FUNC(0x43b5a0)
-s32* Car_BC::sub_43B5A0(u8 a2, Fix16* a3, Fix16* a4)
+s32* Car_BC::GetDoorWorldPosition_43B5A0(u8 a2, Fix16* a3, Fix16* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
