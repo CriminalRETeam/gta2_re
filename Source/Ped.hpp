@@ -237,6 +237,7 @@ class Ped
     EXPORT void nullsub_10();
     EXPORT void nullsub_11();
     EXPORT void nullsub_12();
+    EXPORT void nullsub_14();
 
     inline u8 get_varrok_idx_420B50()
     {

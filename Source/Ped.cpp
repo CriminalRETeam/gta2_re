@@ -3746,10 +3746,208 @@ void Ped::ProcessOnFootObjective_463AA0()
     }
 }
 
-STUB_FUNC(0x463fb0)
+// https://decomp.me/scratch/0fIeI
+WIP_FUNC(0x463fb0)
 void Ped::ProcessInCarObjective_463FB0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    Ang16 UnkAng(0);
+
+    if (field_226 == 2)
+    {
+        this->field_21C &= ~4u;
+    }
+
+    if (field_25C_car_state && !field_226)
+    {
+        Ped* v4 = this->field_14C;
+        if (v4)
+        {
+            this->field_1C4_x = v4->get_cam_x();
+            this->field_1C8_y = v4->get_cam_y();
+            this->field_1CC_z = v4->get_cam_z();
+            switch (field_25C_car_state)
+            {
+                case 11:
+                case 18:
+                case 20:
+                case 23:
+                    byte_6787C4 = 0;
+                    break;
+                default:
+                    if (byte_6787C4)
+                    {
+                        // Problem here
+                        if (v4->field_168_game_object && this->field_278_ped_state_1 != ped_state_1::entering_car_3)
+                        {
+                            Ped::sub_4645B0();
+                        }
+                        else
+                        {
+                            byte_6787C4 = 0;
+                        }
+                    }
+                    break;
+            }
+        }
+        if (field_154_target_to_enter)
+        {
+            if (field_154_target_to_enter->field_88 == 6)
+            {
+                this->field_226 = 2;
+                return;
+            }
+            u8 Remap = field_154_target_to_enter->GetRemap();
+            if (this->field_24C_target_car_door >= Remap)
+            {
+                this->field_24C_target_car_door = Remap - 1;
+            }
+
+            if (field_25C_car_state == 18 || field_25C_car_state > 34 && field_25C_car_state <= 38)
+            {
+                CarDoorAlignmentSolver_545AF0(0,
+                                              this->field_154_target_to_enter,
+                                              field_24C_target_car_door,
+                                              this->field_1C4_x,
+                                              this->field_1C8_y,
+                                              UnkAng);
+                this->field_1CC_z = this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos;
+            }
+            else
+            {
+                Car_BC* pCar = this->field_154_target_to_enter;
+                field_1C4_x = pCar->field_50_car_sprite->field_14_xy.x;
+                field_1C8_y = pCar->field_50_car_sprite->field_14_xy.y;
+                field_1CC_z = pCar->field_50_car_sprite->field_1C_zpos;
+            }
+        }
+
+        if (field_1A4)
+        {
+            this->field_1C4_x = field_1A4->get_x_4340D0();
+            this->field_1C8_y = field_1A4->get_y_4340E0();
+            this->field_1CC_z = field_1A4->get_z_4340F0();
+        }
+
+        if (field_1D0 != k_dword_678660)
+        {
+            if (field_1D4 != k_dword_678660)
+            {
+                this->field_1C4_x = field_1D0;
+                this->field_1C8_y = field_1D4;
+                this->field_1CC_z = field_1D8;
+            }
+        }
+
+        Fix16 xd = this->field_1C4_x - this->field_1AC_cam.x;
+        Fix16 yd = this->field_1C8_y - this->field_1AC_cam.y;
+
+        xd = Fix16::Abs(xd);
+        yd = Fix16::Abs(yd);
+
+        gDistanceToTarget_678750 = Fix16::Max(xd, yd);
+
+        switch (this->field_25C_car_state)
+        {
+            case 1:
+                Ped::sub_46A8F0();
+                break;
+            case 2:
+                Ped::sub_46A9C0();
+                break;
+            case 3:
+                Ped::sub_46AAE0();
+                break;
+            case 7:
+                Ped::sub_46AB50();
+                break;
+            case 9:
+                Ped::sub_46AC20();
+                break;
+            case 11:
+                Ped::sub_46B170();
+                break;
+            case 32:
+                Ped::sub_46B2F0();
+                break;
+            case 23:
+                Ped::sub_46B670();
+                break;
+            case 20:
+                Ped::AttackPed_46DB60();
+                break;
+            case 26:
+                Ped::sub_46BD30();
+                break;
+            case 35:
+                Ped::EnterCarStateMachine_46BDC0();
+                break;
+            case 36:
+                Ped::ExitCarStateMachine_46C250();
+                break;
+            case 12:
+                Ped::sub_46C7E0();
+                break;
+            case 15:
+                Ped::sub_46C910();
+                break;
+            case 17:
+                Ped::sub_46C770();
+                break;
+            case 14:
+                Ped::sub_46CA60();
+                break;
+            case 18:
+                Ped::sub_46C8A0();
+                break;
+            case 48:
+                Ped::sub_46C9B0();
+                break;
+            case 44:
+                Ped::sub_46CB30();
+                break;
+            case 45:
+                Ped::sub_46CC70();
+                break;
+            case 46:
+                Ped::sub_46CDB0();
+                break;
+            case 47:
+                Ped::sub_46CEF0();
+                break;
+            case 49:
+                Ped::sub_46D0B0();
+                break;
+            case 29:
+                Ped::sub_46D030();
+                break;
+            case 30:
+                nullsub_14();
+                break;
+            case 37:
+                Ped::sub_46D0D0();
+                break;
+            case 38:
+                Ped::sub_46D240();
+                break;
+
+            case 52:
+                Ped::sub_46CA70();
+                break;
+            case 56:
+                Ped::sub_46D300();
+                break;
+            case 59:
+                Ped::AttackCar_46DB70();
+                break;
+            case 58:
+                Ped::AttackObject_46DB80();
+                break;
+
+            default:
+                return;
+        }
+    }
 }
 
 STUB_FUNC(0x4645b0)
@@ -7757,6 +7955,11 @@ EXPORT void Ped::nullsub_11()
 }
 
 EXPORT void Ped::nullsub_12()
+{
+    ;
+}
+
+EXPORT void Ped::nullsub_14()
 {
     ;
 }

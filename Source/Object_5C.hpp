@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "Object_3C.hpp"
 #include "Phi_8CA8.hpp"
+#include "sprite.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
 
@@ -167,6 +168,21 @@ class Object_2C
         field_1C = 0;
         field_4 = 0;
         field_18_model = 0;
+    }
+    
+    inline Fix16 get_x_4340D0()
+    {
+        return field_4->field_14_xy.x;
+    }
+
+    inline Fix16 get_y_4340E0()
+    {
+        return field_4->field_14_xy.y;
+    }
+
+    inline Fix16 get_z_4340F0()
+    {
+        return field_4->field_1C_zpos;
     }
 
     Object_2C* mpNext;
