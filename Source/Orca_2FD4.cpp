@@ -37,13 +37,14 @@ DEFINE_GLOBAL(u8, gOrca_ZPos4_6FDBF4, 0x6FDBF4);
 DEFINE_GLOBAL(u8, gOrca_idx1_6FDBF0, 0x6FDBF0);
 DEFINE_GLOBAL(u8, gOrca_idx2_6FDBF1, 0x6FDBF1);
 
-
 MATCH_FUNC(0x554080)
 bool Orca_2FD4::CanMoveInDirection_554080(s32 a2)
 {
     if (field_25_xpos > 1u && field_25_xpos < 254u && field_26_ypos > 1u && field_26_ypos < 254u)
     {
-        bool result = gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130((u8)field_25_xpos, (u8)field_26_ypos, (u8)field_27_zpos, a2, &byte_6FDEEC, 1) == 0;
+        bool result =
+            gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130((u8)field_25_xpos, (u8)field_26_ypos, (u8)field_27_zpos, a2, &byte_6FDEEC, 1) ==
+            0;
         return result;
     }
     return false;
@@ -58,11 +59,210 @@ char_type Orca_2FD4::TestDiagonalMove_5540E0(char_type a2, char_type a3, char_ty
     return Internel_CanMoveDiagonally_554110(a5, a6);
 }
 
-STUB_FUNC(0x554110)
-char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type a2, char_type a3)
+WIP_FUNC(0x554110)
+char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type xpos2, char_type ypos2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    byte_6FDEEC = 0;
+
+    char_type f25_xpos = this->field_25_xpos;
+    char_type f26_ypos = this->field_26_ypos;
+    char_type xd_ = xpos2 - f25_xpos;
+    char_type yd_ = ypos2 - f26_ypos;
+    bool xd = xpos2 == f25_xpos;
+    char_type yd = ypos2 - f26_ypos;
+    char_type bCanMove;
+
+    if (xd)
+    {
+        if (!yd_)
+        {
+            return 1;
+        }
+        if (yd_ == -1)
+        {
+            return CanMoveInDirection_554080(1);
+        }
+        return CanMoveInDirection_554080(2);
+    }
+
+    if (yd_)
+    {
+        if (gMap_0x370_6F6268->sub_466CF0(f25_xpos, f26_ypos, this->field_27_zpos))
+        {
+            return 0;
+        }
+
+        if (xd_ == 1)
+        {
+            if (yd == 1)
+            {
+                gmp_block_info* pBlock_ =
+                    gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos);
+                if (pBlock_)
+                {
+                    if ((pBlock_->field_B_slope_type & 0xFC) != 0 && (pBlock_->field_B_slope_type & 0xFCu) < 0xB4 &&
+                        (pBlock_->field_B_slope_type & 3) != 0)
+                    {
+                        return 0;
+                    }
+                }
+
+                gmp_block_info* pBlock__ =
+                    gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos);
+                if (pBlock__)
+                {
+                    if ((pBlock__->field_B_slope_type & 0xFC) != 0 && (pBlock__->field_B_slope_type & 0xFCu) < 0xB4 &&
+                        (pBlock__->field_B_slope_type & 3) != 0)
+                    {
+                        return 0;
+                    }
+                }
+
+                if (CanMoveInDirection_554080(2) && CanMoveInDirection_554080(3))
+                {
+                    if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos + 1,
+                                                                       this->field_26_ypos,
+                                                                       this->field_27_zpos,
+                                                                       2,
+                                                                       &byte_6FDEEC,
+                                                                       1))
+                    {
+                        return 0;
+                    }
+                    bCanMove = gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos,
+                                                                              this->field_26_ypos + 1,
+                                                                              this->field_27_zpos,
+                                                                              3,
+                                                                              &byte_6FDEEC,
+                                                                              1);
+                    return bCanMove == 0;
+                }
+                return 0;
+            }
+
+            gmp_block_info* pBlock___1 =
+                gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos, this->field_26_ypos - 1, this->field_27_zpos);
+            if (pBlock___1)
+            {
+                if ((pBlock___1->field_B_slope_type & 0xFC) != 0 && (pBlock___1->field_B_slope_type & 0xFCu) < 0xB4 &&
+                    (pBlock___1->field_B_slope_type & 3) != 0)
+                {
+                    return 0;
+                }
+            }
+
+            gmp_block_info* pBlock_1 =
+                gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos);
+            if (pBlock_1)
+            {
+                if ((pBlock_1->field_B_slope_type & 0xFC) != 0 && (pBlock_1->field_B_slope_type & 0xFCu) < 0xB4 &&
+                    (pBlock_1->field_B_slope_type & 3) != 0)
+                {
+                    return 0;
+                }
+            }
+
+            if (!CanMoveInDirection_554080(1) || !CanMoveInDirection_554080(3))
+            {
+                return 0;
+            }
+
+            if (gMap_0x370_6F6268
+                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos, 1, &byte_6FDEEC, 1))
+            {
+                return 0;
+            }
+            //v29 = 3;
+            //LABEL_73:
+            bCanMove = gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos,
+                                                                      this->field_26_ypos - 1,
+                                                                      this->field_27_zpos,
+                                                                      3,
+                                                                      &byte_6FDEEC,
+                                                                      1);
+            return bCanMove == 0;
+        }
+        if (yd != 1)
+        {
+            gmp_block_info* pBlock_2 =
+                gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos, this->field_26_ypos - 1, this->field_27_zpos);
+            if (pBlock_2)
+            {
+                if ((pBlock_2->field_B_slope_type & 0xFC) != 0 && (pBlock_2->field_B_slope_type & 0xFCu) < 0xB4 &&
+                    (pBlock_2->field_B_slope_type & 3) != 0)
+                {
+                    return 0;
+                }
+            }
+
+            gmp_block_info* pBlock_3 =
+                gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos);
+            if (pBlock_3)
+            {
+                if ((pBlock_3->field_B_slope_type & 0xFC) != 0 && (pBlock_3->field_B_slope_type & 0xFCu) < 0xB4 &&
+                    (pBlock_3->field_B_slope_type & 3) != 0)
+                {
+                    return 0;
+                }
+            }
+
+            if (!CanMoveInDirection_554080(1) || !CanMoveInDirection_554080(4) ||
+                gMap_0x370_6F6268
+                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, 1, &byte_6FDEEC, 1))
+            {
+                return 0;
+            }
+            //v29 = 4;
+            //goto LABEL_73;
+            bCanMove = gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos,
+                                                                      this->field_26_ypos - 1,
+                                                                      this->field_27_zpos,
+                                                                      4,
+                                                                      &byte_6FDEEC,
+                                                                      1);
+            return bCanMove == 0;
+        }
+
+        gmp_block_info* pBlock_5 = gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos);
+        if (pBlock_5)
+        {
+            if ((pBlock_5->field_B_slope_type & 0xFC) != 0 && (pBlock_5->field_B_slope_type & 0xFCu) < 0xB4 &&
+                (pBlock_5->field_B_slope_type & 3) != 0)
+            {
+                return 0;
+            }
+        }
+
+        gmp_block_info* pBlock_4 = gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos);
+        if (pBlock_4)
+        {
+            if ((pBlock_4->field_B_slope_type & 0xFC) != 0 && (pBlock_4->field_B_slope_type & 0xFCu) < 0xB4 &&
+                (pBlock_4->field_B_slope_type & 3) != 0)
+            {
+                return 0;
+            }
+        }
+
+        if (!CanMoveInDirection_554080(2) || !CanMoveInDirection_554080(4))
+        {
+            return 0;
+        }
+
+        return !gMap_0x370_6F6268
+                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, 2, &byte_6FDEEC, 1) &&
+            gMap_0x370_6F6268
+                ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos, 4, &byte_6FDEEC, 1) == 0;
+    }
+    else if (xd_ == -1)
+    {
+        return CanMoveInDirection_554080(4);
+    }
+    else
+    {
+        return CanMoveInDirection_554080(3);
+    }
 }
 
 MATCH_FUNC(0x5545c0)
