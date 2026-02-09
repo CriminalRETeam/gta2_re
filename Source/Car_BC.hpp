@@ -358,6 +358,7 @@ static inline bool IsArmyModel(s32 idx1)
 class Car_BC
 {
   public:
+    EXPORT bool sub_4451E0(Ped* pPed);
     EXPORT bool sub_445360();
     EXPORT Ang16 sub_4403A0();
 
@@ -408,7 +409,7 @@ class Car_BC
     EXPORT void sub_43B3D0();
     EXPORT s32 sub_43B420(s32 a2, u32* a3, u32* a4);
     EXPORT bool sub_43B540(u8 targetDoor);
-    EXPORT s32* GetDoorWorldPosition_43B5A0(u8 a2, Fix16* a3, Fix16* a4);
+    EXPORT void GetDoorWorldPosition_43B5A0(u8 targetDoor, Fix16* pOutX, Fix16* pOutY);
     EXPORT char_type sub_43B730();
     EXPORT char_type sub_43B750();
     EXPORT void sub_43B770();
