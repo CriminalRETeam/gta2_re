@@ -3715,22 +3715,22 @@
         "v105_address": "0x46d300"
     },
     {
-        "name": "Ped::sub_46D460",
+        "name": "Ped::AttackTargetStateMachine_46D460",
         "v96f_address": null,
         "v105_address": "0x46d460"
     },
     {
-        "name": "Ped::sub_46DB60",
+        "name": "Ped::AttackPed_46DB60",
         "v96f_address": null,
         "v105_address": "0x46db60"
     },
     {
-        "name": "Ped::sub_46DB70",
+        "name": "Ped::AttackCar_46DB70",
         "v96f_address": null,
         "v105_address": "0x46db70"
     },
     {
-        "name": "Ped::sub_46DB80",
+        "name": "Ped::AttackObject_46DB80",
         "v96f_address": null,
         "v105_address": "0x46db80"
     },

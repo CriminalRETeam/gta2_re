@@ -197,10 +197,10 @@ class Ped
     EXPORT void sub_46D0D0();
     EXPORT void sub_46D240();
     EXPORT void sub_46D300();
-    EXPORT void sub_46D460(char_type a2);
-    EXPORT void sub_46DB60();
-    EXPORT void sub_46DB70();
-    EXPORT void sub_46DB80();
+    EXPORT void AttackTargetStateMachine_46D460(char_type a2);
+    EXPORT void AttackPed_46DB60();
+    EXPORT void AttackCar_46DB70();
+    EXPORT void AttackObject_46DB80();
     EXPORT Sprite* GetSprite_46DF50();
     EXPORT void SetupFollower_46DF70(Ped* arg0, s32 WeaponIdx);
     EXPORT bool sub_46E020(PedGroup* a2);

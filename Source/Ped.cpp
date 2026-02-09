@@ -6461,27 +6461,27 @@ void Ped::sub_46D300()
 }
 
 STUB_FUNC(0x46d460)
-void Ped::sub_46D460(char_type a2)
+void Ped::AttackTargetStateMachine_46D460(char_type a2)
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x46db60)
-void Ped::sub_46DB60()
+void Ped::AttackPed_46DB60()
 {
-    sub_46D460(0);
+    AttackTargetStateMachine_46D460(0);
 }
 
 MATCH_FUNC(0x46db70)
-void Ped::sub_46DB70()
+void Ped::AttackCar_46DB70()
 {
-    sub_46D460(1);
+    AttackTargetStateMachine_46D460(1);
 }
 
 MATCH_FUNC(0x46db80)
-void Ped::sub_46DB80()
+void Ped::AttackObject_46DB80()
 {
-    sub_46D460(2);
+    AttackTargetStateMachine_46D460(2);
 }
 
 MATCH_FUNC(0x46df50)
