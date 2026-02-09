@@ -3860,7 +3860,7 @@
         "v105_address": "0x46fc70"
     },
     {
-        "name": "Ped::sub_46FC90",
+        "name": "Ped::HandleShootingAtCar_46FC90",
         "v96f_address": null,
         "v105_address": "0x46fc90"
     },

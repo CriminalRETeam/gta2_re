@@ -7373,7 +7373,7 @@ void Ped::AddThreateningPedToList_46FC70()
 }
 
 WIP_FUNC(0x46fc90)
-void Ped::sub_46FC90(Car_BC* a2, s32 model)
+void Ped::HandleShootingAtCar_46FC90(Car_BC* a2, s32 model)
 {
     WIP_IMPLEMENTED;
 
