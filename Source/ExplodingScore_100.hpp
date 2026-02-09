@@ -12,12 +12,12 @@ class ExplodingScore_50
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
     EXPORT void ClearNumbersArrayFrom_596A70(s32 a2);
-    EXPORT void sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score);
+    EXPORT void InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score);
     EXPORT s32 sub_596C90();
     EXPORT char_type PoolUpdate();
     EXPORT void sub_597100(s32 a2, s32 a3);
 
-    s32 field_0;
+    s32 field_0_numbers_count;
     s32 field_4[9]; // Number components
     Fix16 field_28_x;
     Fix16 field_2C_y;

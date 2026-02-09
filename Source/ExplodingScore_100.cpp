@@ -7,7 +7,7 @@ DEFINE_GLOBAL(ExplodingScorePool*, gExplodingScorePool, 0x702F34);
 MATCH_FUNC(0x596a00)
 ExplodingScore_50::ExplodingScore_50()
 {
-    field_0 = 0;
+    field_0_numbers_count = 0;
     for (s32 i = 0; i < 9; i++)
     {
         field_4[i] = 0;
@@ -48,16 +48,16 @@ void ExplodingScore_50::ClearNumbersArrayFrom_596A70(s32 a2)
 }
 
 MATCH_FUNC(0x596a90)
-void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
+void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
 {
     u32 tmpScore = score;
 
     this->field_4C_score = score;
-    this->field_0 = 0;
+    this->field_0_numbers_count = 0;
 
     if (score >= 100000000)
     {
-        this->field_0 = 8;
+        this->field_0_numbers_count = 8;
         this->field_4[8] = score / 100000000;
         ClearNumbersArrayFrom_596A70(7);
         tmpScore = score % 100000000;
@@ -65,9 +65,9 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
 
     if (tmpScore >= 10000000)
     {
-        if (!this->field_0)
+        if (!this->field_0_numbers_count)
         {
-            this->field_0 = 7;
+            this->field_0_numbers_count = 7;
         }
         this->field_4[7] = tmpScore / 10000000;
         ClearNumbersArrayFrom_596A70(6);
@@ -76,9 +76,9 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
 
     if (tmpScore >= 1000000)
     {
-        if (!this->field_0)
+        if (!this->field_0_numbers_count)
         {
-            this->field_0 = 6;
+            this->field_0_numbers_count = 6;
         }
         this->field_4[6] = tmpScore / 1000000;
         ClearNumbersArrayFrom_596A70(5);
@@ -87,9 +87,9 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
 
     if (tmpScore >= 100000)
     {
-        if (!this->field_0)
+        if (!this->field_0_numbers_count)
         {
-            this->field_0 = 5;
+            this->field_0_numbers_count = 5;
         }
         this->field_4[5] = tmpScore / 100000;
         ClearNumbersArrayFrom_596A70(4);
@@ -98,9 +98,9 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
 
     if (tmpScore >= 10000)
     {
-        if (!this->field_0)
+        if (!this->field_0_numbers_count)
         {
-            this->field_0 = 4;
+            this->field_0_numbers_count = 4;
         }
         this->field_4[4] = tmpScore / 10000;
         ClearNumbersArrayFrom_596A70(3);
@@ -109,9 +109,9 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
 
     if (tmpScore >= 1000)
     {
-        if (!this->field_0)
+        if (!this->field_0_numbers_count)
         {
-            this->field_0 = 3;
+            this->field_0_numbers_count = 3;
         }
         this->field_4[3] = tmpScore / 1000;
         ClearNumbersArrayFrom_596A70(2);
@@ -120,9 +120,9 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
 
     if (tmpScore >= 100)
     {
-        if (!this->field_0)
+        if (!this->field_0_numbers_count)
         {
-            this->field_0 = 2;
+            this->field_0_numbers_count = 2;
         }
         this->field_4[2] = tmpScore / 100;
         ClearNumbersArrayFrom_596A70(1);
@@ -131,9 +131,9 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
 
     if (tmpScore >= 10)
     {
-        if (!this->field_0)
+        if (!this->field_0_numbers_count)
         {
-            this->field_0 = 1;
+            this->field_0_numbers_count = 1;
         }
         this->field_4[1] = tmpScore / 10;
         this->field_4[0] = tmpScore % 10;
@@ -252,7 +252,7 @@ void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u3
         if (pNew)
         {
             --this->field_2_free_scores;
-            pNew->sub_596A90(xpos, ypos, zpos, score);
+            pNew->InitScore_596A90(xpos, ypos, zpos, score);
         }
     }
 }
