@@ -16,7 +16,7 @@ ExplodingScore_50::ExplodingScore_50()
     field_38 = 0;
     field_3C = 0;
     field_40 = 0;
-    field_4C = 0;
+    field_4C_score = 0;
     field_48 = 0;
     mpNext = 0;
     field_34 = 9;
@@ -39,7 +39,7 @@ void ExplodingScore_50::PoolDeallocate()
 }
 
 MATCH_FUNC(0x596a70)
-void ExplodingScore_50::sub_596A70(s32 a2)
+void ExplodingScore_50::ClearNumbersArrayFrom_596A70(s32 a2)
 {
     for (u32 i = a2; i > 0; i--)
     {
@@ -52,14 +52,14 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
 {
     u32 tmpScore = score;
 
-    this->field_4C = score;
+    this->field_4C_score = score;
     this->field_0 = 0;
 
     if (score >= 100000000)
     {
         this->field_0 = 8;
         this->field_4[8] = score / 100000000;
-        sub_596A70(7);
+        ClearNumbersArrayFrom_596A70(7);
         tmpScore = score % 100000000;
     }
 
@@ -70,7 +70,7 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
             this->field_0 = 7;
         }
         this->field_4[7] = tmpScore / 10000000;
-        sub_596A70(6);
+        ClearNumbersArrayFrom_596A70(6);
         tmpScore %= 10000000u;
     }
 
@@ -81,7 +81,7 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
             this->field_0 = 6;
         }
         this->field_4[6] = tmpScore / 1000000;
-        sub_596A70(5);
+        ClearNumbersArrayFrom_596A70(5);
         tmpScore %= 1000000u;
     }
 
@@ -92,7 +92,7 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
             this->field_0 = 5;
         }
         this->field_4[5] = tmpScore / 100000;
-        sub_596A70(4);
+        ClearNumbersArrayFrom_596A70(4);
         tmpScore %= 100000u;
     }
 
@@ -103,7 +103,7 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
             this->field_0 = 4;
         }
         this->field_4[4] = tmpScore / 10000;
-        sub_596A70(3);
+        ClearNumbersArrayFrom_596A70(3);
         tmpScore %= 10000u;
     }
 
@@ -114,7 +114,7 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
             this->field_0 = 3;
         }
         this->field_4[3] = tmpScore / 1000;
-        sub_596A70(2);
+        ClearNumbersArrayFrom_596A70(2);
         tmpScore %= 1000u;
     }
 
@@ -125,7 +125,7 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
             this->field_0 = 2;
         }
         this->field_4[2] = tmpScore / 100;
-        sub_596A70(1);
+        ClearNumbersArrayFrom_596A70(1);
         tmpScore %= 100u;
     }
 
@@ -143,9 +143,9 @@ void ExplodingScore_50::sub_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
         this->field_4[0] = tmpScore;
     }
 
-    this->field_28 = xpos;
-    this->field_2C = ypos;
-    this->field_30 = zpos;
+    this->field_28_x = xpos;
+    this->field_2C_y = ypos;
+    this->field_30_z = zpos;
 
     this->field_34 = gExplodingScorePool->sub_596860();
 
@@ -200,7 +200,7 @@ MATCH_FUNC(0x5967e0)
 ExplodingScorePool::ExplodingScorePool()
 {
     field_0 = 9;
-    field_2 = 3;
+    field_2_free_scores = 3;
 }
 
 MATCH_FUNC(0x596840)
@@ -222,36 +222,36 @@ s16 ExplodingScorePool::sub_596860()
 MATCH_FUNC(0x596880)
 void ExplodingScorePool::sub_596880()
 {
-    field_2++;
+    field_2_free_scores++;
 }
 
 MATCH_FUNC(0x596890)
-void ExplodingScorePool::sub_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
+void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
 {
-    if (this->field_2 == 0)
+    if (this->field_2_free_scores == 0)
     {
         ExplodingScore_50* pIter = field_4_pool.field_4_pPrev; // TODO: Inline here 0x4B8FD0 pool template 9.6f
         while (pIter)
         {
-            if (pIter->field_4C >= score)
+            if (pIter->field_4C_score >= score)
             {
                 pIter = pIter->mpNext;
             }
             else
             {
                 field_4_pool.unknown_func(pIter);
-                ++this->field_2;
+                ++this->field_2_free_scores;
                 break;
             }
         }
     }
 
-    if (this->field_2 > 0)
+    if (this->field_2_free_scores > 0)
     {
         ExplodingScore_50* pNew = field_4_pool.Allocate();
         if (pNew)
         {
-            --this->field_2;
+            --this->field_2_free_scores;
             pNew->sub_596A90(xpos, ypos, zpos, score);
         }
     }
