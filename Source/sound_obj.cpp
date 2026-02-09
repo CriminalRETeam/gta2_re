@@ -4592,7 +4592,8 @@ void sound_obj::Type3_CopRadioReport_57E680()
     }
 }
 
-MATCH_FUNC(0x4136D0)
+// this func matches but compiler is misordering calls because of inline funcs count (?)
+WIP_FUNC(0x4136D0)
 char_type sound_obj::Type6_12_4136D0(Rozza_A* a2)
 {
     s32 samp_idx;
@@ -4627,7 +4628,8 @@ char_type sound_obj::Type6_12_4136D0(Rozza_A* a2)
     return 1;
 }
 
-MATCH_FUNC(0x412D40)
+// this func matches but compiler is misordering calls because of inline funcs count (?)
+WIP_FUNC(0x412D40)
 char_type sound_obj::Type6_2_412D40(u8 a2)
 {
     s32 samp_idx;
@@ -4797,7 +4799,8 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
     return sample_base;
 }
 
-MATCH_FUNC(0x413040)
+// this func matches but compiler is misordering calls because of inline funcs count (?)
+WIP_FUNC(0x413040)
 char_type sound_obj::Type6_4_413040(u8 a2)
 {
     if (a2 < 15u)
@@ -4822,7 +4825,8 @@ char_type sound_obj::Type6_4_413040(u8 a2)
     return 1;
 }
 
-MATCH_FUNC(0x413090)
+// this func matches but compiler is misordering calls because of inline funcs count (?)
+WIP_FUNC(0x413090)
 char_type sound_obj::Type6_5_413090(u8 a2)
 {
     s32 idx_to_use;
