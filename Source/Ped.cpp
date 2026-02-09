@@ -117,7 +117,7 @@ DEFINE_GLOBAL(Fix16, dword_678428, 0x678428);
 
 DEFINE_GLOBAL(Fix16, dword_678778, 0x678778);
 DEFINE_GLOBAL(Fix16, dword_678794, 0x678794);
-
+DEFINE_GLOBAL(Fix16, dword_678630, 0x678630);
 
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
@@ -6659,27 +6659,27 @@ void Ped::sub_46D300()
 }
 
 STUB_FUNC(0x46d460)
-void Ped::sub_46D460(char_type a2)
+void Ped::AttackTargetStateMachine_46D460(char_type a2)
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x46db60)
-void Ped::sub_46DB60()
+void Ped::AttackPed_46DB60()
 {
-    sub_46D460(0);
+    AttackTargetStateMachine_46D460(0);
 }
 
 MATCH_FUNC(0x46db70)
-void Ped::sub_46DB70()
+void Ped::AttackCar_46DB70()
 {
-    sub_46D460(1);
+    AttackTargetStateMachine_46D460(1);
 }
 
 MATCH_FUNC(0x46db80)
-void Ped::sub_46DB80()
+void Ped::AttackObject_46DB80()
 {
-    sub_46D460(2);
+    AttackTargetStateMachine_46D460(2);
 }
 
 MATCH_FUNC(0x46df50)
@@ -7570,10 +7570,96 @@ void Ped::AddThreateningPedToList_46FC70()
     gThreateningPedsList_678468.AddPedToFrontIfMissing_4711B0(this);
 }
 
-STUB_FUNC(0x46fc90)
-void Ped::sub_46FC90(s32 a2, s32 a3)
+WIP_FUNC(0x46fc90)
+void Ped::HandleShootingAtCar_46FC90(Car_BC* a2, s32 model)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Weapon_30* pWeapon;
+    if ((this->field_21C & 0x2000) != 0)
+    {
+        pWeapon = this->field_174_pWeapon;
+    }
+    else
+    {
+        pWeapon = this->field_170_selected_weapon;
+    }
+
+    Car_BC* pCar_1;
+
+    if (pWeapon)
+    {
+        Car_BC* pCar = a2;
+        if (a2->GetVelocity_43A4C0() == k_dword_678660)
+        {
+            Ped* pDriver = pCar->field_54_driver;
+            if (pDriver)
+            {
+                if (pDriver->IsField238_45EDE0(3))
+                {
+                    Ped* pDriver2 = pCar->field_54_driver;
+                    if (pDriver2->field_258_objective != objectives_enum::leave_car_36)
+                    {
+                        pDriver2->SpawnDriverRunAway_45C650(pCar, this);
+                    }
+                }
+            }
+        }
+
+        if (IsField238_45EDE0(2))
+        {
+            field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(4u, model, 0);
+            return;
+        }
+
+        Sprite* pSprite = pCar->field_50_car_sprite;
+        Fix16 xd = pSprite->field_14_xy.x - field_1AC_cam.x;
+        Fix16 yd = pSprite->field_14_xy.y - field_1AC_cam.y;
+        Fix16 v15 = Fix16::Abs(yd);
+        Fix16 v9 = Fix16::Abs(xd);
+        Fix16 v10 = Fix16::Max_44E540(v9, v15);
+
+        if (pCar == this->field_154_target_to_enter)
+        {
+            goto LABEL_24;
+        }
+
+        if (field_14C)
+        {
+            Car_BC* f16C_car = field_14C->field_16C_car;
+            if (f16C_car)
+            {
+                if (f16C_car == pCar)
+                {
+                    goto LABEL_24;
+                }
+            }
+        }
+
+        if (v10 < k_dword_678798 + dword_678790 && pCar->GetVelocity_43A4C0() < dword_678630)
+        {
+            pWeapon->field_4 = 1;
+            return;
+        }
+
+        if (!pWeapon->IsExplosiveWeapon_5E3BD0())
+        {
+            pWeapon->field_4 = 0;
+        }
+
+        if (field_14C)
+        {
+            pCar_1 = field_14C->field_16C_car;
+            if (pCar_1)
+            {
+                if (pCar == pCar_1)
+                {
+                LABEL_24:
+                    pWeapon->field_4 = 0;
+                }
+            }
+        }
+    }
 }
 
 WIP_FUNC(0x46fe20)
