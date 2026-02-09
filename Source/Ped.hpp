@@ -528,6 +528,12 @@ class Ped
         field_21C_bf.b11 = false;
     }
 
+    inline bool IsPedGoingToEnterCar_492FD0()
+    {
+        return field_258_objective == objectives_enum::enter_car_as_driver_35 
+            || field_25C_car_state == 35;
+    }
+
     Marz_3 field_0_patrol_points[100];
     Ang16 field_12C;
     Ang16 field_12E;
