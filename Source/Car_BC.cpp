@@ -2164,8 +2164,6 @@ void Car_BC::GetDoorWorldPosition_43B5A0(u8 target_door, Fix16* pOutX, Fix16* pO
 
     *pOutX = x_base + field_50_car_sprite->field_14_xy.x;
     *pOutY = y_base + field_50_car_sprite->field_14_xy.y;
-
-    return (int*)pOutY;
 }
 
 MATCH_FUNC(0x43b730)

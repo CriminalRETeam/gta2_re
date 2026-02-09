@@ -111,6 +111,10 @@ DEFINE_GLOBAL(Ang16, word_6784C8, 0x6784C8);
 DEFINE_GLOBAL(Ang16, dword_6784E4, 0x6784E4);
 DEFINE_GLOBAL(Ang16, word_6784F0, 0x6784F0);
 
+DEFINE_GLOBAL(Fix16, dword_67856C, 0x67856C);
+DEFINE_GLOBAL(Fix16, dword_678428, 0x678428);
+
+
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
@@ -4308,10 +4312,106 @@ Ped* Ped::sub_467070()
     return 0;
 }
 
-STUB_FUNC(0x467090)
+WIP_FUNC(0x467090)
 char_type Ped::FindUsableCarDoor_467090()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pTargetToEnter; // edi
+    Char_B4* pB4; // eax
+    char_type isPedKind; // al
+    Fix16 vel_to_check; // ebx
+    s32 enter_car_as_passenger; // eax
+    u8 target_car_door; // bl
+    Car_Door_10* pDoor; // ebp
+    s32 ped_state_2; // eax
+    Car_Door_10* Door; // ebp
+    s32 target_door_counter; // [esp+10h] [ebp-4h] BYREF
+
+    pTargetToEnter = this->field_154_target_to_enter;
+    if (pTargetToEnter ||
+        (!this->field_150_target_objective_car || this->field_27C_ped_state_2 == ped_state_2::ped2_getting_out_a_car_7 ||
+         this->field_258_objective == objectives_enum::leave_car_36) &&
+            (pB4 = this->field_168_game_object) != 0 && (pTargetToEnter = pB4->field_84) != 0)
+    {
+        isPedKind = sub_45B4E0();
+        vel_to_check = dword_67856C;
+        if (isPedKind)
+        {
+            vel_to_check = dword_678428;
+        }
+        if ((pTargetToEnter->GetVelocity_43A4C0() <= vel_to_check // car going slow enough?
+             || this->field_25C_car_state == 36 || this->field_27C_ped_state_2 == ped_state_2::Unknown_17) &&
+            pTargetToEnter->field_88 != 5 && pTargetToEnter->field_74_damage != 32001 &&
+            (this->field_278_ped_state_1 == ped_state_1::exiting_car_4 || !pTargetToEnter->sub_43B2B0(this)) // can enter this car?
+            && pTargetToEnter->field_88 != 7)
+        {
+            enter_car_as_passenger = this->field_248_enter_car_as_passenger;
+            target_car_door = this->field_24C_target_car_door;
+            target_door_counter = target_car_door; // LOBYTE
+            if (enter_car_as_passenger)
+            {
+                if (target_car_door < pTargetToEnter->GetRemap())
+                {
+                    while (!pTargetToEnter->IsDoorAccessible_43AFE0(target_door_counter))
+                    {
+                        Door = pTargetToEnter->GetDoor(this->field_24C_target_car_door);
+                        Door->sub_439EA0();
+                        Door->field_8_pObj = 0;
+                        if (this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6)
+                        {
+                            return 0;
+                        }
+
+                        target_door_counter = ++target_car_door; // LOBYTE
+                        if (target_car_door >= pTargetToEnter->GetRemap())
+                        {
+                            goto LABEL_29;
+                        }
+                    }
+                    goto LABEL_24;
+                }
+
+            LABEL_29:
+                target_door_counter = this->field_24C_target_car_door; // LOBYTE
+                target_car_door = target_door_counter;
+                if ((u8)target_door_counter != 0xFF)
+                {
+                    while (!pTargetToEnter->IsDoorAccessible_43AFE0(target_door_counter))
+                    {
+                        target_door_counter = --target_car_door; // LOBYTE
+                        if (target_car_door == 0xFF)
+                        {
+                            return 0;
+                        }
+                    }
+                    goto LABEL_24;
+                }
+            }
+            else if (target_car_door < pTargetToEnter->GetRemap())
+            {
+                while (!pTargetToEnter->IsDoorAccessible_43AFE0(target_door_counter))
+                {
+                    pDoor = pTargetToEnter->GetDoor(this->field_24C_target_car_door);
+                    pDoor->sub_439EA0();
+                    pDoor->field_8_pObj = 0;
+                    ped_state_2 = this->field_27C_ped_state_2;
+                    if (ped_state_2 == ped_state_2::ped2_entering_a_car_6 || ped_state_2 == ped_state_2::ped2_getting_out_a_car_7)
+                    {
+                        return 0;
+                    }
+                    target_door_counter = ++target_car_door; // LOBYTE
+                    if (target_car_door >= pTargetToEnter->GetRemap())
+                    {
+                        return 0;
+                    }
+                }
+            LABEL_24:
+                this->field_24C_target_car_door = target_car_door;
+                return 1;
+            }
+        }
+    }
     return 0;
 }
 
