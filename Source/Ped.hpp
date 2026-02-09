@@ -197,10 +197,10 @@ class Ped
     EXPORT void sub_46D0D0();
     EXPORT void sub_46D240();
     EXPORT void sub_46D300();
-    EXPORT void sub_46D460(char_type a2);
-    EXPORT void sub_46DB60();
-    EXPORT void sub_46DB70();
-    EXPORT void sub_46DB80();
+    EXPORT void AttackTargetStateMachine_46D460(char_type a2);
+    EXPORT void AttackPed_46DB60();
+    EXPORT void AttackCar_46DB70();
+    EXPORT void AttackObject_46DB80();
     EXPORT Sprite* GetSprite_46DF50();
     EXPORT void SetupFollower_46DF70(Ped* arg0, s32 WeaponIdx);
     EXPORT bool sub_46E020(PedGroup* a2);
@@ -220,7 +220,7 @@ class Ped
     EXPORT void UpdateStatsForKiller_46F720();
     EXPORT void Kill_46F9D0();
     EXPORT void AddThreateningPedToList_46FC70();
-    EXPORT void sub_46FC90(s32 a2, s32 a3);
+    EXPORT void HandleShootingAtCar_46FC90(Car_BC* a2, s32 a3);
     EXPORT void ProcessWeaponHitResponse_46FE20(Object_2C* a2);
     EXPORT void NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model);
     EXPORT void sub_46FFF0(s32 a2);
