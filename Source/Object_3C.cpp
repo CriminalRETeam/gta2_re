@@ -466,7 +466,7 @@ void struct_4::sub_5A7010()
         switch (p18Iter->field_0->field_30_sprite_type_enum)
         {
             case sprite_types_enum::car:
-                gCar_6C_677930->sub_446730(pSprite->field_8_car_bc_ptr);
+                gCar_6C_677930->RemoveFromPoolAndCollision_446730(pSprite->field_8_car_bc_ptr);
                 break;
             case sprite_types_enum::unknown_1:
             case sprite_types_enum::code_obj1:

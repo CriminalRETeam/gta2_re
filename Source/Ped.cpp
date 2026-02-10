@@ -5637,7 +5637,7 @@ void Ped::sub_469FE0()
         gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &v18, &v17, &v16, 1);
         if (gCar_6C_677930->CanAllocateOfType_446930(10))
         {
-            Car_BC* v6 = gCar_6C_677930->sub_444CF0(12, v18, v17, v16);
+            Car_BC* v6 = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, v18, v17, v16);
             if (v6)
             {
                 v6->IncrementCarStats_443D70(10);
@@ -5656,7 +5656,7 @@ void Ped::sub_469FE0()
         }
         else if (gCar_6C_677930->CanAllocateOfType_446930(6))
         {
-            Car_BC* v11 = gCar_6C_677930->sub_444CF0(12, v18, v17, v16);
+            Car_BC* v11 = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, v18, v17, v16);
             if (v11)
             {
                 v11->IncrementCarStats_443D70(6);

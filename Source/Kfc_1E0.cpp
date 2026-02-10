@@ -149,7 +149,7 @@ bool Kfc_30::Service_5CC480()
             if (gCar_6C_677930->CanAllocateOfType_446930(4))
             {
                 this->field_0_car =
-                    gCar_6C_677930->sub_444CF0(car_model_enum::MEDICAR, this->field_C_x, this->field_10_y, this->field_14_z);
+                    gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::MEDICAR, this->field_C_x, this->field_10_y, this->field_14_z);
             }
             else
             {
@@ -166,7 +166,7 @@ bool Kfc_30::Service_5CC480()
         case 3:
             if (gCar_6C_677930->CanAllocateOfType_446930(6))
             {
-                this->field_0_car = gCar_6C_677930->sub_444CF0(car_model_enum::COPCAR, this->field_C_x, this->field_10_y, this->field_14_z);
+                this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, this->field_C_x, this->field_10_y, this->field_14_z);
             }
             else
             {
@@ -183,7 +183,7 @@ bool Kfc_30::Service_5CC480()
             if (gCar_6C_677930->CanAllocateOfType_446930(6))
             {
                 this->field_0_car =
-                    gCar_6C_677930->sub_444CF0(car_model_enum::SWATVAN, this->field_C_x, this->field_10_y, this->field_14_z);
+                    gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::SWATVAN, this->field_C_x, this->field_10_y, this->field_14_z);
             }
             else
             {
