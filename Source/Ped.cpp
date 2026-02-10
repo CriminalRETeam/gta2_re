@@ -3863,16 +3863,16 @@ void Ped::ProcessInCarObjective_463FB0()
                 Ped::sub_46AB50();
                 break;
             case 9:
-                Ped::sub_46AC20();
+                Ped::FollowTargetStateMachine_46AC20();
                 break;
             case 11:
-                Ped::sub_46B170();
+                Ped::ChaseTargetStateMachine_46B170();
                 break;
             case 32:
-                Ped::sub_46B2F0();
+                Ped::PullDriverOutOfCarStateMachine_46B2F0();
                 break;
             case 23:
-                Ped::sub_46B670();
+                Ped::MeleeAttackStateMachine_46B670();
                 break;
             case 20:
                 Ped::AttackPed_46DB60();
