@@ -3595,22 +3595,22 @@
         "v105_address": "0x46ab50"
     },
     {
-        "name": "Ped::sub_46AC20",
+        "name": "Ped::FollowTargetStateMachine_46AC20",
         "v96f_address": null,
         "v105_address": "0x46ac20"
     },
     {
-        "name": "Ped::sub_46B170",
+        "name": "Ped::ChaseTargetStateMachine_46B170",
         "v96f_address": null,
         "v105_address": "0x46b170"
     },
     {
-        "name": "Ped::sub_46B2F0",
+        "name": "Ped::PullDriverOutOfCarStateMachine_46B2F0",
         "v96f_address": null,
         "v105_address": "0x46b2f0"
     },
     {
-        "name": "Ped::sub_46B670",
+        "name": "Ped::MeleeAttackStateMachine_46B670",
         "v96f_address": null,
         "v105_address": "0x46b670"
     },

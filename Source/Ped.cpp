@@ -28,6 +28,7 @@
 #include "Wolfy_3D4.hpp"
 #include "char.hpp"
 #include "debug.hpp"
+#include "error.hpp"
 #include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
@@ -5967,28 +5968,28 @@ void Ped::sub_46AB50()
 }
 
 STUB_FUNC(0x46ac20)
-char_type Ped::sub_46AC20()
+char_type Ped::FollowTargetStateMachine_46AC20()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46b170)
-s32 Ped::sub_46B170()
+s32 Ped::ChaseTargetStateMachine_46B170()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46b2f0)
-s32 Ped::sub_46B2F0()
+s32 Ped::PullDriverOutOfCarStateMachine_46B2F0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46b670)
-void Ped::sub_46B670()
+void Ped::MeleeAttackStateMachine_46B670()
 {
     NOT_IMPLEMENTED;
 }
@@ -6222,10 +6223,187 @@ LABEL_49:
     }
 }
 
-STUB_FUNC(0x46c250)
+WIP_FUNC(0x46c250)
 void Ped::ExitCarStateMachine_46C250()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    bool bUnknown = 0;
+    this->field_21C |= 0x8000000u;
+
+    if (field_27C_ped_state_2 == ped_state_2::ped2_driving_10)
+    {
+        if (this->field_16C_car->field_60)
+        {
+            gHamburger_500_678E30->Cancel_474CC0(this->field_16C_car->field_60);
+            this->field_16C_car->field_60 = 0;
+        }
+
+        if (this->field_248_enter_car_as_passenger)
+        {
+            if (FindUsableCarDoor_467090())
+            {
+                bUnknown = 1;
+                Car_Door_10* pDoor = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
+                if (!pDoor->field_8_pObj || this->field_25C_car_state == 38)
+                {
+                    field_16C_car->field_4_passengers_list.RemovePed_471240(this);
+                    Fix16 char_x;
+                    Fix16 char_y;
+                    field_154_target_to_enter->GetDoorWorldPosition_43B5A0(field_24C_target_car_door, &char_x, &char_y);
+
+                    Fix16 char_z;
+                    char_z = *gMap_0x370_6F6268->sub_4E4E50(&char_z,
+                                                            char_x,
+                                                            char_y,
+                                                            this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
+
+                    AllocCharB4_45C830(char_x, char_y, char_z);
+                    field_168_game_object->field_5_remap = field_244_remap;
+                    if (field_244_remap != 0xFF)
+                    {
+                        field_168_game_object->field_80_sprite_ptr->SetRemap(field_244_remap);
+                    }
+                    ChangeNextPedState2_45C540(7);
+                    ChangeNextPedState1_45C500(4);
+                    this->field_16C_car = 0;
+                    field_168_game_object->field_84 = field_154_target_to_enter;
+                    this->field_154_target_to_enter = 0;
+                    pDoor->field_8_pObj = this;
+                }
+            }
+            else
+            {
+                if (this->field_240_occupation == 9)
+                {
+                    Kill_46F9D0();
+                    return;
+                }
+
+                field_16C_car->field_4_passengers_list.RemovePed_471240(this);
+
+                Fix16 zpos;
+                zpos = *gMap_0x370_6F6268->sub_4E4E50(&zpos,
+                                                      field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                                      field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                                      field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
+
+                AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                   field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                   zpos);
+                field_168_game_object->field_5_remap = field_244_remap;
+                if (field_244_remap != 0xFF)
+                {
+                    field_168_game_object->field_80_sprite_ptr->SetRemap(field_244_remap);
+                }
+                ChangeNextPedState2_45C540(0);
+                ChangeNextPedState1_45C500(0);
+                field_168_game_object->DoJump_5454D0();
+                this->field_168_game_object->field_80_sprite_ptr->field_0 = this->field_154_target_to_enter->field_50_car_sprite->field_0;
+                this->field_168_game_object->field_40_rotation = this->field_154_target_to_enter->field_50_car_sprite->field_0;
+                this->field_168_game_object->field_5C = 10;
+                this->field_16C_car = 0;
+                field_168_game_object->field_84 = field_154_target_to_enter;
+                this->field_154_target_to_enter = 0;
+                this->field_226 = 1;
+            }
+        }
+        else
+        {
+            if (this->field_258_objective != objectives_enum::objective_33)
+            {
+                field_154_target_to_enter->ClearDriver_4407F0();
+            }
+
+            if (FindUsableCarDoor_467090())
+            {
+                Fix16 char_x;
+                Fix16 char_y;
+                field_154_target_to_enter->GetDoorWorldPosition_43B5A0(field_24C_target_car_door, &char_x, &char_y);
+                Fix16 zTmp;
+                zTmp = *gMap_0x370_6F6268->sub_4E4E50(&zTmp,
+                                                      char_x,
+                                                      char_y,
+                                                      this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
+                AllocCharB4_45C830(char_x, char_y, zTmp);
+
+                field_168_game_object->field_5_remap = field_244_remap;
+                if (field_244_remap != 0xFF)
+                {
+                    field_168_game_object->field_80_sprite_ptr->SetRemap(field_244_remap);
+                }
+
+                ChangeNextPedState2_45C540(7);
+                ChangeNextPedState1_45C500(4);
+
+                this->field_16C_car = 0;
+                field_168_game_object->field_84 = field_154_target_to_enter;
+                this->field_154_target_to_enter = 0;
+                return;
+            }
+
+            Fix16 zpos;
+            zpos = *gMap_0x370_6F6268->sub_4E4E50(&zpos,
+                                                  field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                                  field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                                  field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
+            if (!AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                    field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                    zpos))
+            {
+                FatalError_4A38C0(1, "C:\\Splitting\\Gta2\\Source\\char.cpp", 11894);
+            }
+
+            field_168_game_object->field_5_remap = field_244_remap;
+            if (field_244_remap != 0xFF)
+            {
+                field_168_game_object->field_80_sprite_ptr->SetRemap(field_244_remap);
+            }
+
+            ChangeNextPedState2_45C540(0);
+            ChangeNextPedState1_45C500(0);
+
+            this->field_168_game_object->field_38_velocity = k_dword_678438;
+            field_168_game_object->DoJump_5454D0();
+            field_168_game_object->field_80_sprite_ptr->field_0 = field_154_target_to_enter->field_50_car_sprite->field_0;
+            this->field_168_game_object->field_40_rotation = this->field_154_target_to_enter->field_50_car_sprite->field_0;
+            this->field_16C_car = 0;
+            this->field_226 = 1;
+            field_168_game_object->field_84 = field_154_target_to_enter;
+            this->field_154_target_to_enter = 0;
+        }
+    }
+
+    if (field_168_game_object)
+    {
+        if (field_154_target_to_enter && field_154_target_to_enter->field_88 == 5 ||
+            (field_150_target_objective_car = this->field_150_target_objective_car) != 0 && field_150_target_objective_car->field_88 == 5 ||
+            (this->field_158_unk_car) != 0 && field_158_unk_car->field_88 == 5 ||
+            (field_168_game_object->field_84) != 0 && field_168_game_object->field_84->field_88 == 5)
+        {
+            this->field_278_ped_state_1 = ped_state_1::standing_still_7;
+            this->field_27C_ped_state_2 = ped_state_2::ped2_staying_14;
+            field_168_game_object->field_6C_animation_state = 2;
+            this->field_168_game_object->field_68_animation_frame = 0;
+        }
+        else if (!FindUsableCarDoor_467090() && !bUnknown)
+        {
+            if (field_168_game_object)
+            {
+                field_168_game_object->DoJump_5454D0();
+            }
+        }
+
+        if (this->field_27C_ped_state_2 != ped_state_2::ped2_getting_out_a_car_7 &&
+            this->field_168_game_object->field_6C_animation_state != 7)
+        {
+            this->field_226 = 1;
+            if (field_164_ped_group)
+            {
+                this->field_226 = field_164_ped_group->AreAllMembersOnFoot_4CAB80() != 0;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x46c770)
