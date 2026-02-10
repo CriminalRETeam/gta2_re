@@ -1282,7 +1282,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
                 if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 1))
                 {
                     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pCurrent);
-                    pIterCar->sub_444E40(x, y, z);
+                    pIterCar->SnapCarToGreenArrow_444E40(x, y, z);
                     gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pCurrent);
                 }
             }

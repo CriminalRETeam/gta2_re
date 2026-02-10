@@ -113,7 +113,7 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
 }
 
 MATCH_FUNC(0x5e3df0)
-void Weapon_8::alloc_car_weapon_5E3DF0(Car_BC* pCar)
+void Weapon_8::dealloc_car_weapon_5E3DF0(Car_BC* pCar)
 {
     Weapon_30* pIter = gWeapon_30_Pool_707014->get_next_4CC9B0();
     while (pIter)

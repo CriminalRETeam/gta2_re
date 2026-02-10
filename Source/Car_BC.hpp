@@ -220,8 +220,8 @@ class Car_6C
     }
 
     EXPORT void sub_444980();
-    EXPORT u32 sub_444AB0(Player* a2, gmp_zone_info* a3, Fix16 a4, u16* a5);
-    EXPORT Car_BC* sub_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT u32 SelectTrafficCarModel_444AB0(Player* a2, gmp_zone_info* a3, Fix16 a4, u16* a5);
+    EXPORT Car_BC* SpawnCarAtRoadDirection_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Car_BC* GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
@@ -232,13 +232,13 @@ class Car_6C
                                                    char_type bIgnorePedRestrictions);
 
     EXPORT Car_BC* GetNearestFrontVehicle_445210(Sprite* a1, u8 a2);
-    EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
+    EXPORT Car_BC* SpawnCarOnRoadNetwork_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
     EXPORT Car_BC* SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
     EXPORT Trailer* sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
-    EXPORT void sub_446730(Car_BC* pCar);
+    EXPORT void RemoveFromPoolAndCollision_446730(Car_BC* pCar);
 
-    EXPORT void sub_4466C0(s32 a2);
-    EXPORT void sub_446760();
+    EXPORT void DecrementAllocatedCarType_4466C0(s32 a2);
+    EXPORT void EnableFreeShoppingIfAllKFsPassed_446760();
     EXPORT void CarsService_446790();
     EXPORT bool CanAlloc_446870(s32 a2);
     EXPORT bool CanAllocateOfType_446930(s32 a2);
@@ -448,7 +448,7 @@ class Car_BC
     EXPORT void sub_43D7B0(s32 a2);
     EXPORT void ExplodeCar_Unknown_43D840(s32 a2);
     EXPORT s16 sub_43DA90(s16 a2, Fix16_Point* a3);
-    EXPORT void sub_43DB80();
+    EXPORT void KillContainedPeds_43DB80();
     EXPORT void sub_43DBD0();
     EXPORT bool sub_43DC00();
     EXPORT bool sub_43DC80(s32 a2, s32 a3);
@@ -551,7 +551,7 @@ class Car_BC
     EXPORT u32 GetEffectiveDriverPedId_444090();
     EXPORT void SetSirens_4441B0();
     EXPORT void PoolAllocate();
-    EXPORT void sub_4446E0();
+    EXPORT void DeAllocateAI_4446E0();
     EXPORT void PoolDeallocate();
 
     Car_BC(); // 0x444860
@@ -936,8 +936,8 @@ class Car_BC
         return field_A7_horn <= 0xF8u && field_A7_horn > 0;
     }
 
-    EXPORT char sub_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT char sub_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction);
+    EXPORT char SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT char TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction);
 
     struct_4 field_0_qq;
     Ped_List_4 field_4_passengers_list;
