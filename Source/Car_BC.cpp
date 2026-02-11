@@ -3621,10 +3621,19 @@ void Car_BC::sub_441360()
     }
 }
 
-STUB_FUNC(0x4436A0)
+WIP_FUNC(0x4436A0)
 void Car_BC::sub_4436A0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx);
+    this->field_50_car_sprite->field_22_sprite_id = gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCarInfo->wreck + 72)->sprite;
+    this->field_50_car_sprite->sub_59E2E0();
+    this->field_50_car_sprite->field_34 = 2;
+    this->field_8_damaged_areas = 0;
+    PrepareForExplosion_43C1C0();
+    this->field_A7_horn = 0;
+    sub_43BBC0();
 }
 
 MATCH_FUNC(0x441380)
