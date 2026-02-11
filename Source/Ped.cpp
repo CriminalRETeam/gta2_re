@@ -865,7 +865,7 @@ void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pOther)
         default:
             if (pCar->GetRemap())
             {
-                Ped* pPed = gPedManager_6787BC->sub_470D60();
+                Ped* pPed = gPedManager_6787BC->SpawnRunAwayGuy_470D60();
                 pPed->field_240_occupation = 0x32;
                 pCar->field_54_driver = pPed;
                 pPed->field_16C_car = pCar;

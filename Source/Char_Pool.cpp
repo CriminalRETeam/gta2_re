@@ -890,11 +890,39 @@ Ped* PedManager::sub_470CC0(Car_BC* pCar)
     return pNewPed;
 }
 
-STUB_FUNC(0x470d60)
-Ped* PedManager::sub_470D60()
+MATCH_FUNC(0x470d60)
+Ped* PedManager::SpawnRunAwayGuy_470D60()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pPed = gPedPool_6787B8->Allocate();
+
+    s32 rng_val = stru_6F6784.get_int_4F7AE0(4);
+    switch (rng_val)
+    {
+        default:
+            pPed->field_244_remap = 21;
+            break;
+        case 1:
+            pPed->field_244_remap = 19;
+            break;
+        case 0:
+            pPed->field_244_remap = 18;
+            break;
+
+        case 2:
+            pPed->field_244_remap = 20;
+            break;
+    }
+
+    pPed->field_238 = 6;
+    pPed->field_240_occupation = ped_ocupation_enum::driver_2;
+    pPed->field_168_game_object = 0;
+    pPed->ChangeNextPedState1_45C500(10);
+    pPed->ChangeNextPedState2_45C540(10);
+    pPed->field_216_health = 100;
+    pPed->field_288_threat_search = threat_search_enum::area_2;
+    pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
+    pPed->field_26C_graphic_type = 0;
+    return pPed;
 }
 
 // 9.6f 0x43DEB0

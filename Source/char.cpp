@@ -1463,7 +1463,7 @@ void Char_B4::UpdateAnimState_546360()
 
             if (pDriver->field_240_occupation == ped_ocupation_enum::unknown_2)
             {
-                pDriver = gPedManager_6787BC->sub_470D60();
+                pDriver = gPedManager_6787BC->SpawnRunAwayGuy_470D60();
                 if (field_84->field_84_car_info_idx == car_model_enum::apc || field_84->field_84_car_info_idx == car_model_enum::JEEP ||
                     field_84->field_84_car_info_idx == car_model_enum::TANK)
                 {
