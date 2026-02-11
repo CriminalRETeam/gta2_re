@@ -1648,10 +1648,10 @@ void Car_BC::Deactivate_43AA60()
     SetF_88_4214E0();
 }
 
-STUB_FUNC(0x43AAE0)
+WIP_FUNC(0x43AAE0)
 char_type Car_BC::IsThreatToSearchingPed_43AAE0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     Ped* pDriver = this->field_54_driver;
     if (pDriver)
