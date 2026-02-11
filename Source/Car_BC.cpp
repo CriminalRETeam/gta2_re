@@ -2491,7 +2491,7 @@ void Car_BC::UpdateTopLeftRoofLight_43C3C0()
 }
 
 MATCH_FUNC(0x43c470)
-void Car_BC::sub_43C470()
+void Car_BC::ResetTopLeftRoofLight_43C470()
 {
     if (inline_check_0x80_info_4216A0() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
     {
@@ -2555,7 +2555,7 @@ s32 Car_BC::sub_43C700()
 }
 
 MATCH_FUNC(0x43c840)
-void Car_BC::sub_43C840()
+void Car_BC::ResetBottomLeftRoofLight_43C840()
 {
     field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
 
@@ -2603,9 +2603,9 @@ MATCH_FUNC(0x43c9d0)
 void Car_BC::DeactivateEmergencyLights_43C9D0()
 {
     Car_BC::ResetRoofLights_43C650();
-    Car_BC::sub_43C840();
+    Car_BC::ResetBottomLeftRoofLight_43C840();
     Car_BC::ResetTopRightRoofLight_43C310();
-    Car_BC::sub_43C470();
+    Car_BC::ResetTopLeftRoofLight_43C470();
     field_A4 &= ~4u;
     if (is_FBI_car_411920() && field_74_damage != 32001)
     {
@@ -3923,8 +3923,8 @@ void Car_BC::sub_441B50()
         field_A5--;
         if (field_A5 == cmp1)
         {
-            sub_43C840();
-            sub_43C470();
+            ResetBottomLeftRoofLight_43C840();
+            ResetTopLeftRoofLight_43C470();
         }
 
         if (!field_A5)
