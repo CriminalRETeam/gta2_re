@@ -415,7 +415,7 @@ class Car_BC
     EXPORT void sub_43B770();
     EXPORT void AssignDriverBlameForExplosion_43B7B0(Car_BC* a2);
     EXPORT bool sub_43B850(s32 a2);
-    EXPORT void sub_43B870(s32 a2, Fix16_Point* a3);
+    EXPORT void SpawnDamageFireEffect_43B870(s32 a2, Fix16_Point* a3);
     EXPORT s32 sub_43BB90(u8 a1);
     EXPORT void sub_43BBC0();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
@@ -426,7 +426,7 @@ class Car_BC
     EXPORT void BrakeLightsOff_43BF70();
     EXPORT char_type sub_43BFE0();
     EXPORT void sub_43C0C0();
-    EXPORT void sub_43C1C0();
+    EXPORT void PrepareForExplosion_43C1C0();
     EXPORT void sub_43C260();
     EXPORT void sub_43C310();
     EXPORT void sub_43C3C0();
@@ -444,10 +444,10 @@ class Car_BC
     EXPORT bool IsAreaDamaged_43D1C0(s32 damage_area);
     EXPORT void TryDamageArea_43D2C0(u8 damage_area, s32 damageAmount);
     EXPORT s32 sub_43D400();
-    EXPORT void ExplodeCar_43D690(s32 a3, Fix16 x, Fix16 y);
-    EXPORT void sub_43D7B0(s32 a2);
-    EXPORT void ExplodeCar_Unknown_43D840(s32 a2);
-    EXPORT s16 sub_43DA90(s16 a2, Fix16_Point* a3);
+    EXPORT void EmitExplosion_43D690(s32 a3, Fix16 x, Fix16 y);
+    EXPORT void TriggerExplosion_43D7B0(s32 a2);
+    EXPORT void HandleCarExplosion_43D840(s32 a2);
+    EXPORT s16 AccumulateDamage_43DA90(s16 a2, Fix16_Point* a3);
     EXPORT void KillContainedPeds_43DB80();
     EXPORT void sub_43DBD0();
     EXPORT bool sub_43DC00();

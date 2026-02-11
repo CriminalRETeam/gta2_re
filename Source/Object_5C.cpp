@@ -807,7 +807,7 @@ void Object_2C::sub_526790(Sprite* pSprite)
                         }
                     }
                     s32 t = sub_526830(field_8->field_3C_next_definition_idx);
-                    pCar->ExplodeCar_Unknown_43D840(t);
+                    pCar->HandleCarExplosion_43D840(t);
                 }
             }
         }
