@@ -2095,7 +2095,7 @@
         "v105_address": "0x441b20"
     },
     {
-        "name": "Car_BC::sub_441B50",
+        "name": "Car_BC::UpdateRoofLightFlasher_441B50",
         "v96f_address": null,
         "v105_address": "0x441b50"
     },

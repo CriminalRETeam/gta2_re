@@ -507,7 +507,7 @@ class Car_BC
     EXPORT void sub_441A70();
     EXPORT void sub_441B00();
     EXPORT void sub_441B20();
-    EXPORT void sub_441B50();
+    EXPORT void UpdateRoofLightFlasher_441B50();
     EXPORT void sub_441C00();
     EXPORT s16 sub_441D40();
     EXPORT void sub_441E70();
@@ -977,7 +977,7 @@ class Car_BC
     s32 field_9C;
     s32 field_A0_car_kind; // police car, fire engine, mission car etc
     char_type field_A4;
-    char_type field_A5;
+    char_type field_A5_flash_phase_counter;
     char_type field_A6;
     u8 field_A7_horn;
     u8 field_A8;

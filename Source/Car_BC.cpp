@@ -1592,7 +1592,7 @@ void Car_BC::sub_43A9F0()
     {
         if ((field_A4 & 0x1C) == 0)
         {
-            field_A5 = 12;
+            field_A5_flash_phase_counter = 12;
             field_A4 |= 8;
 
             if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
@@ -2608,11 +2608,11 @@ void Car_BC::ActivateEmergencyLights_43C920()
         field_A4 |= 4u;
         if (is_FBI_car_411920())
         {
-            field_A5 = 8;
+            field_A5_flash_phase_counter = 8;
         }
         else
         {
-            field_A5 = 15;
+            field_A5_flash_phase_counter = 15;
         }
     }
 }
@@ -3920,50 +3920,52 @@ void Car_BC::sub_441B20()
 }
 
 MATCH_FUNC(0x441b50)
-void Car_BC::sub_441B50()
+void Car_BC::UpdateRoofLightFlasher_441B50()
 {
-    char_type cmp1;
-    char_type A5_if_zero;
+    char_type flashOffThreshold;
+    char_type flashCycleAmplitude;
 
     if (is_FBI_car_411920())
     {
-        cmp1 = 0;
-        A5_if_zero = 8;
+        flashOffThreshold = 0; // FBI cars flash faster
+        flashCycleAmplitude = 8; // FBI flash amplitude
     }
     else
     {
-        cmp1 = 5;
-        A5_if_zero = 15;
+        flashOffThreshold = 5; // normal cars flash slower
+        flashCycleAmplitude = 15; // normal flash amplitude
     }
 
-    if (field_A5 > 0)
+    // positive side of flash cycle
+    if (field_A5_flash_phase_counter > 0)
     {
-        field_A5--;
-        if (field_A5 == cmp1)
+        field_A5_flash_phase_counter--;
+        if (field_A5_flash_phase_counter == flashOffThreshold)
         {
             ResetBottomLeftRoofLight_43C840();
             ResetTopLeftRoofLight_43C470();
         }
 
-        if (!field_A5)
+        if (!field_A5_flash_phase_counter)
         {
-            field_A5 = -A5_if_zero;
+            field_A5_flash_phase_counter = -flashCycleAmplitude;
             UpdateRoofLights_43C500();
             UpdateTopRightRoofLight_43C260();
         }
     }
+    // negative side of flash cycle
     else
     {
-        field_A5++;
-        if (field_A5 == -cmp1)
+        field_A5_flash_phase_counter++;
+        if (field_A5_flash_phase_counter == -flashOffThreshold)
         {
             ResetRoofLights_43C650();
             ResetTopRightRoofLight_43C310();
         }
 
-        if (!field_A5)
+        if (!field_A5_flash_phase_counter)
         {
-            field_A5 = A5_if_zero;
+            field_A5_flash_phase_counter = flashCycleAmplitude;
             UpdateBottomLeftRoofLight_43C700();
             UpdateTopLeftRoofLight_43C3C0();
         }
@@ -3988,12 +3990,12 @@ void Car_BC::sub_441E70()
 {
     if ((field_A4 & 4) != 0)
     {
-        Car_BC::sub_441B50();
+        Car_BC::UpdateRoofLightFlasher_441B50();
     }
     else if ((field_A4 & 8) != 0)
     {
-        field_A5--;
-        if (field_A5 == 0)
+        field_A5_flash_phase_counter--;
+        if (field_A5_flash_phase_counter == 0)
         {
             field_8E--;
             if (field_8E == 0)
@@ -4004,12 +4006,12 @@ void Car_BC::sub_441E70()
             {
                 sub_425590();
                 sub_4213D0();
-                field_A5 = 12;
+                field_A5_flash_phase_counter = 12;
             }
         }
         else
         {
-            if (field_A5 == 6)
+            if (field_A5_flash_phase_counter == 6)
             {
                 sub_425650();
                 sub_421430();
@@ -4018,8 +4020,8 @@ void Car_BC::sub_441E70()
     }
     else if ((field_A4 & 0x10) != 0)
     {
-        field_A5--;
-        if (field_A5 == 0)
+        field_A5_flash_phase_counter--;
+        if (field_A5_flash_phase_counter == 0)
         {
             if ((field_A4 & 2) != 0)
             {
@@ -4918,7 +4920,7 @@ void Car_BC::PoolAllocate()
     this->field_98 = 3;
     this->field_58_physics = 0;
     this->field_A4 = 0;
-    this->field_A5 = 0;
+    this->field_A5_flash_phase_counter = 0;
     this->field_76 = 0;
     this->field_7C_uni_num = 3;
     this->field_50_car_sprite = 0;
@@ -5004,7 +5006,7 @@ Car_BC::Car_BC()
     field_7C_uni_num = 0;
     field_76 = 0;
     field_A4 = 0;
-    field_A5 = 0;
+    field_A5_flash_phase_counter = 0;
     field_A6 = 0;
     mpNext = 0;
     field_84_car_info_idx = car_model_enum::none;
