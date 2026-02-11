@@ -431,7 +431,7 @@ class Car_BC
     EXPORT void sub_43C310();
     EXPORT void sub_43C3C0();
     EXPORT void sub_43C470();
-    EXPORT s32 sub_43C500();
+    EXPORT void UpdateRoofLights_43C500();
     EXPORT void sub_43C650();
     EXPORT s32 sub_43C700();
     EXPORT void sub_43C840();

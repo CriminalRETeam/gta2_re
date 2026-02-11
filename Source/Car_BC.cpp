@@ -1153,7 +1153,7 @@ WIP_FUNC(0x4451E0)
 bool Car_BC::sub_4451E0(Ped* pPed)
 {
     WIP_IMPLEMENTED;
-    
+
     Ped* pDriver = this->field_54_driver;
     return (!pDriver || this->field_84_car_info_idx == car_model_enum::MEDICAR ||
             pDriver->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1) &&
@@ -2504,11 +2504,26 @@ void Car_BC::sub_43C470()
     }
 }
 
-STUB_FUNC(0x43c500)
-s32 Car_BC::sub_43C500()
+MATCH_FUNC(0x43c500)
+void Car_BC::UpdateRoofLights_43C500()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_84_car_info_idx != car_model_enum::EDSELFBI ||
+        !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor1_11) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor2_12) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor3_13) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor4_14))
+    {
+        field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomRightRoofLight_16);
+
+        Object_2C* pObj_165 = field_0_qq.FindObject2CByModel_5A6A90(165);
+        pObj_165->UpdateLight_527A30();
+    }
+
+    if (field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::FIRETRUK)
+    {
+        Object_2C* pObj_172 = field_0_qq.FindObject2CByModel_5A6A90(172);
+        pObj_172->UpdateLight_527A30();
+    }
 }
 
 MATCH_FUNC(0x43c650)
@@ -3915,7 +3930,7 @@ void Car_BC::sub_441B50()
         if (!field_A5)
         {
             field_A5 = -A5_if_zero;
-            sub_43C500();
+            UpdateRoofLights_43C500();
             sub_43C260();
         }
     }
@@ -5752,7 +5767,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 if (gPolice_7B8_6FEE40->field_654_wanted_level < 1 || (rng_val = stru_6F6784.get_int_4F7AE0(40), rng_val <= 20u) ||
                     rng_val >= 30u)
                 {
-                    gang_car_model = gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player, this->field_10_zone, dword_6FF7E8, (u16*)&v119);
+                    gang_car_model =
+                        gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player, this->field_10_zone, dword_6FF7E8, (u16*)&v119);
                     //rng_max_ = gang_car_model;
                     if (!(s16)v119)
                     {
@@ -5781,8 +5797,10 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                         // OBS: field_659 of Police_7B8 is u8 type
                         if (gPolice_7B8_6FEE40->field_658_count >= (u32)gPolice_7B8_6FEE40->field_659 || bSkip_police_67D4F9)
                         {
-                            gang_car_model =
-                                gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player, this->field_10_zone, dword_6FF7E8, (u16*)&v119);
+                            gang_car_model = gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player,
+                                                                                          this->field_10_zone,
+                                                                                          dword_6FF7E8,
+                                                                                          (u16*)&v119);
                             //rng_max_ = v32;
                             if (gang_car_model == car_model_enum::COPCAR || !(s16)v119) // 12
                             {
