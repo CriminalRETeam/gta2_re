@@ -90,7 +90,7 @@ void youthful_einstein::ExecuteGamemodeTick_516660()
             if (field_0_fugitive && field_0_fugitive->field_2C4_player_ped &&
                 field_0_fugitive->field_2C4_player_ped->field_16C_car)
             {
-                field_0_fugitive->field_2C4_player_ped->field_16C_car->sub_43DA90(17, &stru_6F8720);
+                field_0_fugitive->field_2C4_player_ped->field_16C_car->AccumulateDamage_43DA90(17, &stru_6F8720);
             }
 
             break;

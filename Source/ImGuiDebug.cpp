@@ -796,6 +796,21 @@ void CC ImGuiDebugDraw()
                     ImGui::Text("field_7C_uni_num %d", pCarIter->field_7C_uni_num);
                     ImGui::Text("field_74_damage %d", pCarIter->field_74_damage);
 
+                    if (ImGui::Button("SpawnDamageFireEffect_43B870 1"))
+                    {
+                        // TODO: Diff stuff if zero point
+                        Fix16_Point p = pCarIter->field_50_car_sprite->get_x_y_443580();
+                        pCarIter->SpawnDamageFireEffect_43B870(1, &p);
+                    }
+
+                    if (ImGui::Button("SpawnDamageFireEffect_43B870 2"))
+                    {
+                        Fix16_Point p;// = pCarIter->field_50_car_sprite->get_x_y_443580();
+                        p.x = 0;
+                        p.y = 0;
+                        pCarIter->SpawnDamageFireEffect_43B870(3, &p);
+                    }
+                    
                     if (ImGui::Button("AssignRandomRemap_43A7D0"))
                     {
                         pCarIter->AssignRandomRemap_43A7D0();
@@ -1122,13 +1137,13 @@ void CC ImGuiDebugDraw()
                 static s32 unknown_arg = 19;
                 ImGui::InputInt("Explosion argument", &unknown_arg, 1, 1);
 
-                if (ImGui::Button("ExplodeCar_43D690"))
+                if (ImGui::Button("EmitExplosion_43D690"))
                 {
-                    pNewCar->ExplodeCar_43D690(unknown_arg, x_explosion_offset, y_explosion_offset);
+                    pNewCar->EmitExplosion_43D690(unknown_arg, x_explosion_offset, y_explosion_offset);
                 }
-                if (ImGui::Button("ExplodeCar_Unknown_43D840"))
+                if (ImGui::Button("HandleCarExplosion_43D840"))
                 {
-                    pNewCar->ExplodeCar_Unknown_43D840(unknown_arg);
+                    pNewCar->HandleCarExplosion_43D840(unknown_arg);
                 }
 
                 ImGui::Value("Car F_88", pNewCar->field_88);

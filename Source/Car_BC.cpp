@@ -1153,7 +1153,7 @@ WIP_FUNC(0x4451E0)
 bool Car_BC::sub_4451E0(Ped* pPed)
 {
     WIP_IMPLEMENTED;
-    
+
     Ped* pDriver = this->field_54_driver;
     return (!pDriver || this->field_84_car_info_idx == car_model_enum::MEDICAR ||
             pDriver->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1) &&
@@ -1592,7 +1592,7 @@ void Car_BC::sub_43A9F0()
     {
         if ((field_A4 & 0x1C) == 0)
         {
-            field_A5 = 12;
+            field_A5_flash_phase_counter = 12;
             field_A4 |= 8;
 
             if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
@@ -1648,10 +1648,10 @@ void Car_BC::Deactivate_43AA60()
     SetF_88_4214E0();
 }
 
-STUB_FUNC(0x43AAE0)
+WIP_FUNC(0x43AAE0)
 char_type Car_BC::IsThreatToSearchingPed_43AAE0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     Ped* pDriver = this->field_54_driver;
     if (pDriver)
@@ -2276,7 +2276,7 @@ bool Car_BC::sub_43B850(s32 wofly_type_or_state)
 }
 
 STUB_FUNC(0x43b870)
-void Car_BC::sub_43B870(s32 a2, Fix16_Point* a3)
+void Car_BC::SpawnDamageFireEffect_43B870(s32 a2, Fix16_Point* a3)
 {
     NOT_IMPLEMENTED;
 }
@@ -2436,7 +2436,7 @@ void Car_BC::sub_43C0C0()
 }
 
 MATCH_FUNC(0x43c1c0)
-void Car_BC::sub_43C1C0()
+void Car_BC::PrepareForExplosion_43C1C0()
 {
     if ((this->field_A4 & 8) != 0)
     {
@@ -2455,7 +2455,7 @@ void Car_BC::sub_43C1C0()
 }
 
 MATCH_FUNC(0x43c260)
-void Car_BC::sub_43C260()
+void Car_BC::UpdateTopRightRoofLight_43C260()
 {
     if (inline_check_0x80_info_4216A0() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
     {
@@ -2466,7 +2466,7 @@ void Car_BC::sub_43C260()
 }
 
 MATCH_FUNC(0x43c310)
-void Car_BC::sub_43C310()
+void Car_BC::ResetTopRightRoofLight_43C310()
 {
     if (inline_check_0x80_info_4216A0() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
     {
@@ -2480,7 +2480,7 @@ void Car_BC::sub_43C310()
 }
 
 MATCH_FUNC(0x43c3c0)
-void Car_BC::sub_43C3C0()
+void Car_BC::UpdateTopLeftRoofLight_43C3C0()
 {
     if (inline_check_0x80_info_4216A0() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
     {
@@ -2491,7 +2491,7 @@ void Car_BC::sub_43C3C0()
 }
 
 MATCH_FUNC(0x43c470)
-void Car_BC::sub_43C470()
+void Car_BC::ResetTopLeftRoofLight_43C470()
 {
     if (inline_check_0x80_info_4216A0() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
     {
@@ -2504,15 +2504,30 @@ void Car_BC::sub_43C470()
     }
 }
 
-STUB_FUNC(0x43c500)
-s32 Car_BC::sub_43C500()
+MATCH_FUNC(0x43c500)
+void Car_BC::UpdateRoofLights_43C500()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_84_car_info_idx != car_model_enum::EDSELFBI ||
+        !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor1_11) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor2_12) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor3_13) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor4_14))
+    {
+        field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomRightRoofLight_16);
+
+        Object_2C* pObj_165 = field_0_qq.FindObject2CByModel_5A6A90(165);
+        pObj_165->UpdateLight_527A30();
+    }
+
+    if (field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::FIRETRUK)
+    {
+        Object_2C* pObj_172 = field_0_qq.FindObject2CByModel_5A6A90(172);
+        pObj_172->UpdateLight_527A30();
+    }
 }
 
 MATCH_FUNC(0x43c650)
-void Car_BC::sub_43C650()
+void Car_BC::ResetRoofLights_43C650()
 {
     field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomRightRoofLight_16);
 
@@ -2532,15 +2547,33 @@ void Car_BC::sub_43C650()
     }
 }
 
-STUB_FUNC(0x43c700)
-s32 Car_BC::sub_43C700()
+MATCH_FUNC(0x43c700)
+void Car_BC::UpdateBottomLeftRoofLight_43C700()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_84_car_info_idx != car_model_enum::EDSELFBI ||
+        !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor1_11) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor2_12) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor3_13) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor4_14))
+    {
+        field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+    }
+
+    if (this->field_84_car_info_idx != car_model_enum::EDSELFBI)
+    {
+        Object_2C* pObj_171 = field_0_qq.FindObject2CByModel_5A6A90(171);
+        pObj_171->UpdateLight_527A30();
+    }
+
+    if (field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::FIRETRUK)
+    {
+        Object_2C* pObj_173 = field_0_qq.FindObject2CByModel_5A6A90(173);
+        pObj_173->UpdateLight_527A30();
+    }
 }
 
 MATCH_FUNC(0x43c840)
-void Car_BC::sub_43C840()
+void Car_BC::ResetBottomLeftRoofLight_43C840()
 {
     field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
 
@@ -2575,11 +2608,11 @@ void Car_BC::ActivateEmergencyLights_43C920()
         field_A4 |= 4u;
         if (is_FBI_car_411920())
         {
-            field_A5 = 8;
+            field_A5_flash_phase_counter = 8;
         }
         else
         {
-            field_A5 = 15;
+            field_A5_flash_phase_counter = 15;
         }
     }
 }
@@ -2587,10 +2620,10 @@ void Car_BC::ActivateEmergencyLights_43C920()
 MATCH_FUNC(0x43c9d0)
 void Car_BC::DeactivateEmergencyLights_43C9D0()
 {
-    Car_BC::sub_43C650();
-    Car_BC::sub_43C840();
-    Car_BC::sub_43C310();
-    Car_BC::sub_43C470();
+    Car_BC::ResetRoofLights_43C650();
+    Car_BC::ResetBottomLeftRoofLight_43C840();
+    Car_BC::ResetTopRightRoofLight_43C310();
+    Car_BC::ResetTopLeftRoofLight_43C470();
     field_A4 &= ~4u;
     if (is_FBI_car_411920() && field_74_damage != 32001)
     {
@@ -2611,11 +2644,88 @@ void Car_BC::SyncEmergencyLightState_43CA80()
     }
 }
 
-STUB_FUNC(0x43cbe0)
-s32 Car_BC::sub_43CBE0()
+MATCH_FUNC(0x43cbe0)
+void Car_BC::sub_43CBE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_A4 &= ~8;
+
+    if ((field_A4 & 2) != 0)
+    {
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
+        {
+            if (inline_check_0x2_info_421700())
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
+            }
+            else
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
+            }
+        }
+
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
+        {
+            if (inline_check_0x2_info_421700())
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
+            }
+            else
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
+            }
+        }
+
+        if (inline_check_0x4_info_421660())
+        {
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+        }
+    }
+    else
+    {
+        if (inline_check_0x2_info_421700())
+        {
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor1_11);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor2_12);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor3_13);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor4_14);
+
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor2_29);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor3_30);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor4_31);
+        }
+
+        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
+        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
+
+        if (inline_check_0x4_info_421660())
+        {
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+        }
+    }
+
+    // Braking?
+    if ((this->field_A4 & 1) != 0)
+    {
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
+        {
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
+        }
+
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
+        {
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
+            this->field_8E = 0;
+            return;
+        }
+    }
+    else
+    {
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
+    }
+
+    this->field_8E = 0;
 }
 
 STUB_FUNC(0x43cdf0)
@@ -2690,7 +2800,7 @@ s32 Car_BC::sub_43D400()
 }
 
 WIP_FUNC(0x43d690)
-void Car_BC::ExplodeCar_43D690(s32 a3, Fix16 x, Fix16 y)
+void Car_BC::EmitExplosion_43D690(s32 a3, Fix16 x, Fix16 y)
 {
     WIP_IMPLEMENTED;
 
@@ -2702,22 +2812,22 @@ void Car_BC::ExplodeCar_43D690(s32 a3, Fix16 x, Fix16 y)
 }
 
 WIP_FUNC(0x43d7b0)
-void Car_BC::sub_43D7B0(s32 k20Or19)
+void Car_BC::TriggerExplosion_43D7B0(s32 k20Or19)
 {
     WIP_IMPLEMENTED;
 
     if (get_anti_strngth_43A1D0() == gFix16_6777CC || this->field_74_damage == 32001)
     {
-        ExplodeCar_43D690(k20Or19, stru_6778A8.x.mValue, stru_6778A8.y.mValue);
+        EmitExplosion_43D690(k20Or19, stru_6778A8.x.mValue, stru_6778A8.y.mValue);
     }
     else
     {
-        ExplodeCar_Unknown_43D840(k20Or19);
+        HandleCarExplosion_43D840(k20Or19);
     }
 }
 
 WIP_FUNC(0x43d840)
-void Car_BC::ExplodeCar_Unknown_43D840(s32 a2)
+void Car_BC::HandleCarExplosion_43D840(s32 a2)
 {
     WIP_IMPLEMENTED;
 
@@ -2737,7 +2847,7 @@ void Car_BC::ExplodeCar_Unknown_43D840(s32 a2)
     if (this->field_74_damage != 32001)
     {
         sub_441380();
-        ExplodeCar_43D690(a2, stru_6778A8.x, stru_6778A8.y);
+        EmitExplosion_43D690(a2, stru_6778A8.x, stru_6778A8.y);
         sub_43B770();
         field_0_qq.sub_5A71F0();
 
@@ -2813,7 +2923,7 @@ void Car_BC::ExplodeCar_Unknown_43D840(s32 a2)
 
 // 9.6f 0x427180
 WIP_FUNC(0x43da90)
-s16 Car_BC::sub_43DA90(s16 damage, Fix16_Point* pVec)
+s16 Car_BC::AccumulateDamage_43DA90(s16 damage, Fix16_Point* pVec)
 {
     WIP_IMPLEMENTED;
 
@@ -2846,7 +2956,7 @@ s16 Car_BC::sub_43DA90(s16 damage, Fix16_Point* pVec)
         {
             if (this->field_8C < 3u)
             {
-                Car_BC::sub_43B870(1, pVec);
+                Car_BC::SpawnDamageFireEffect_43B870(1, pVec);
                 this->field_8C = 3;
             }
             if (this->field_74_damage >= 25000)
@@ -2854,16 +2964,16 @@ s16 Car_BC::sub_43DA90(s16 damage, Fix16_Point* pVec)
                 if (this->field_8C < 4u)
                 {
                     field_0_qq.sub_5A71F0();
-                    Car_BC::sub_43B870(2, pVec);
+                    Car_BC::SpawnDamageFireEffect_43B870(2, pVec);
                     this->field_8C = 4;
                 }
                 if (this->field_74_damage >= 31500)
                 {
-                    Car_BC::sub_43C1C0();
+                    Car_BC::PrepareForExplosion_43C1C0();
                 }
                 if (this->field_74_damage == 32000)
                 {
-                    Car_BC::ExplodeCar_Unknown_43D840(19);
+                    Car_BC::HandleCarExplosion_43D840(19);
                 }
             }
         }
@@ -3033,7 +3143,7 @@ void Car_BC::sub_43DD60()
         {
             this->field_9C = 5;
         }
-        sub_43C1C0();
+        PrepareForExplosion_43C1C0();
         field_0_qq.sub_5A7010();
 
         pSprite = this->field_50_car_sprite;
@@ -3441,7 +3551,7 @@ void Car_BC::sub_440F90(char_type instant_bomb)
             this->field_90 = 12;
             this->field_94 = 50;
         }
-        Car_BC::sub_43D7B0(20);
+        Car_BC::TriggerExplosion_43D7B0(20);
     }
     else
     {
@@ -3887,52 +3997,54 @@ void Car_BC::sub_441B20()
 }
 
 MATCH_FUNC(0x441b50)
-void Car_BC::sub_441B50()
+void Car_BC::UpdateRoofLightFlasher_441B50()
 {
-    char_type cmp1;
-    char_type A5_if_zero;
+    char_type flashOffThreshold;
+    char_type flashCycleAmplitude;
 
     if (is_FBI_car_411920())
     {
-        cmp1 = 0;
-        A5_if_zero = 8;
+        flashOffThreshold = 0; // FBI cars flash faster
+        flashCycleAmplitude = 8; // FBI flash amplitude
     }
     else
     {
-        cmp1 = 5;
-        A5_if_zero = 15;
+        flashOffThreshold = 5; // normal cars flash slower
+        flashCycleAmplitude = 15; // normal flash amplitude
     }
 
-    if (field_A5 > 0)
+    // positive side of flash cycle
+    if (field_A5_flash_phase_counter > 0)
     {
-        field_A5--;
-        if (field_A5 == cmp1)
+        field_A5_flash_phase_counter--;
+        if (field_A5_flash_phase_counter == flashOffThreshold)
         {
-            sub_43C840();
-            sub_43C470();
+            ResetBottomLeftRoofLight_43C840();
+            ResetTopLeftRoofLight_43C470();
         }
 
-        if (!field_A5)
+        if (!field_A5_flash_phase_counter)
         {
-            field_A5 = -A5_if_zero;
-            sub_43C500();
-            sub_43C260();
+            field_A5_flash_phase_counter = -flashCycleAmplitude;
+            UpdateRoofLights_43C500();
+            UpdateTopRightRoofLight_43C260();
         }
     }
+    // negative side of flash cycle
     else
     {
-        field_A5++;
-        if (field_A5 == -cmp1)
+        field_A5_flash_phase_counter++;
+        if (field_A5_flash_phase_counter == -flashOffThreshold)
         {
-            sub_43C650();
-            sub_43C310();
+            ResetRoofLights_43C650();
+            ResetTopRightRoofLight_43C310();
         }
 
-        if (!field_A5)
+        if (!field_A5_flash_phase_counter)
         {
-            field_A5 = A5_if_zero;
-            sub_43C700();
-            sub_43C3C0();
+            field_A5_flash_phase_counter = flashCycleAmplitude;
+            UpdateBottomLeftRoofLight_43C700();
+            UpdateTopLeftRoofLight_43C3C0();
         }
     }
 }
@@ -3955,12 +4067,12 @@ void Car_BC::sub_441E70()
 {
     if ((field_A4 & 4) != 0)
     {
-        Car_BC::sub_441B50();
+        Car_BC::UpdateRoofLightFlasher_441B50();
     }
     else if ((field_A4 & 8) != 0)
     {
-        field_A5--;
-        if (field_A5 == 0)
+        field_A5_flash_phase_counter--;
+        if (field_A5_flash_phase_counter == 0)
         {
             field_8E--;
             if (field_8E == 0)
@@ -3971,12 +4083,12 @@ void Car_BC::sub_441E70()
             {
                 sub_425590();
                 sub_4213D0();
-                field_A5 = 12;
+                field_A5_flash_phase_counter = 12;
             }
         }
         else
         {
-            if (field_A5 == 6)
+            if (field_A5_flash_phase_counter == 6)
             {
                 sub_425650();
                 sub_421430();
@@ -3985,8 +4097,8 @@ void Car_BC::sub_441E70()
     }
     else if ((field_A4 & 0x10) != 0)
     {
-        field_A5--;
-        if (field_A5 == 0)
+        field_A5_flash_phase_counter--;
+        if (field_A5_flash_phase_counter == 0)
         {
             if ((field_A4 & 2) != 0)
             {
@@ -4885,7 +4997,7 @@ void Car_BC::PoolAllocate()
     this->field_98 = 3;
     this->field_58_physics = 0;
     this->field_A4 = 0;
-    this->field_A5 = 0;
+    this->field_A5_flash_phase_counter = 0;
     this->field_76 = 0;
     this->field_7C_uni_num = 3;
     this->field_50_car_sprite = 0;
@@ -4971,7 +5083,7 @@ Car_BC::Car_BC()
     field_7C_uni_num = 0;
     field_76 = 0;
     field_A4 = 0;
-    field_A5 = 0;
+    field_A5_flash_phase_counter = 0;
     field_A6 = 0;
     mpNext = 0;
     field_84_car_info_idx = car_model_enum::none;
@@ -5112,14 +5224,14 @@ char_type Trailer::sub_4081D0()
         if (field_C_pCarOnTrailer->field_74_damage != 32001)
         {
             field_C_pCarOnTrailer->field_74_damage = 32000;
-            field_C_pCarOnTrailer->ExplodeCar_Unknown_43D840(18);
+            field_C_pCarOnTrailer->HandleCarExplosion_43D840(18);
         }
         return 1;
     }
     else if (field_C_pCarOnTrailer->field_74_damage == 32001)
     {
         field_8_truck_cab->field_74_damage = 32000;
-        field_8_truck_cab->ExplodeCar_Unknown_43D840(18);
+        field_8_truck_cab->HandleCarExplosion_43D840(18);
         return 1;
     }
     else
@@ -5752,7 +5864,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 if (gPolice_7B8_6FEE40->field_654_wanted_level < 1 || (rng_val = stru_6F6784.get_int_4F7AE0(40), rng_val <= 20u) ||
                     rng_val >= 30u)
                 {
-                    gang_car_model = gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player, this->field_10_zone, dword_6FF7E8, (u16*)&v119);
+                    gang_car_model =
+                        gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player, this->field_10_zone, dword_6FF7E8, (u16*)&v119);
                     //rng_max_ = gang_car_model;
                     if (!(s16)v119)
                     {
@@ -5781,8 +5894,10 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                         // OBS: field_659 of Police_7B8 is u8 type
                         if (gPolice_7B8_6FEE40->field_658_count >= (u32)gPolice_7B8_6FEE40->field_659 || bSkip_police_67D4F9)
                         {
-                            gang_car_model =
-                                gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player, this->field_10_zone, dword_6FF7E8, (u16*)&v119);
+                            gang_car_model = gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player,
+                                                                                          this->field_10_zone,
+                                                                                          dword_6FF7E8,
+                                                                                          (u16*)&v119);
                             //rng_max_ = v32;
                             if (gang_car_model == car_model_enum::COPCAR || !(s16)v119) // 12
                             {

@@ -1840,7 +1840,7 @@ void Sprite_18::sub_5A69E0()
         Car_BC* pBC = field_0->AsCar_40FEB0();
         if (pBC)
         {
-            pBC->sub_43D7B0(19);
+            pBC->TriggerExplosion_43D7B0(19);
         }
     }
 }

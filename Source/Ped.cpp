@@ -859,7 +859,7 @@ void Ped::ManageBurning_45BEC0()
         else if (field_16C_car)
         {
             PutOutFire();
-            field_16C_car->ExplodeCar_Unknown_43D840(19);
+            field_16C_car->HandleCarExplosion_43D840(19);
         }
         else
         {
