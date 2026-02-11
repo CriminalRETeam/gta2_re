@@ -2644,11 +2644,88 @@ void Car_BC::SyncEmergencyLightState_43CA80()
     }
 }
 
-STUB_FUNC(0x43cbe0)
-s32 Car_BC::sub_43CBE0()
+MATCH_FUNC(0x43cbe0)
+void Car_BC::sub_43CBE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_A4 &= ~8;
+
+    if ((field_A4 & 2) != 0)
+    {
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
+        {
+            if (inline_check_0x2_info_421700())
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
+            }
+            else
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
+            }
+        }
+
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
+        {
+            if (inline_check_0x2_info_421700())
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
+            }
+            else
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
+            }
+        }
+
+        if (inline_check_0x4_info_421660())
+        {
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+        }
+    }
+    else
+    {
+        if (inline_check_0x2_info_421700())
+        {
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor1_11);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor2_12);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor3_13);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor4_14);
+
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor2_29);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor3_30);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor4_31);
+        }
+
+        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
+        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
+
+        if (inline_check_0x4_info_421660())
+        {
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+        }
+    }
+
+    // Braking?
+    if ((this->field_A4 & 1) != 0)
+    {
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
+        {
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
+        }
+
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
+        {
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
+            this->field_8E = 0;
+            return;
+        }
+    }
+    else
+    {
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
+    }
+
+    this->field_8E = 0;
 }
 
 STUB_FUNC(0x43cdf0)
