@@ -2455,7 +2455,7 @@ void Car_BC::PrepareForExplosion_43C1C0()
 }
 
 MATCH_FUNC(0x43c260)
-void Car_BC::sub_43C260()
+void Car_BC::UpdateTopRightRoofLight_43C260()
 {
     if (inline_check_0x80_info_4216A0() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
     {
@@ -2466,7 +2466,7 @@ void Car_BC::sub_43C260()
 }
 
 MATCH_FUNC(0x43c310)
-void Car_BC::sub_43C310()
+void Car_BC::ResetTopRightRoofLight_43C310()
 {
     if (inline_check_0x80_info_4216A0() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
     {
@@ -2480,7 +2480,7 @@ void Car_BC::sub_43C310()
 }
 
 MATCH_FUNC(0x43c3c0)
-void Car_BC::sub_43C3C0()
+void Car_BC::UpdateTopLeftRoofLight_43C3C0()
 {
     if (inline_check_0x80_info_4216A0() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
     {
@@ -2527,7 +2527,7 @@ void Car_BC::UpdateRoofLights_43C500()
 }
 
 MATCH_FUNC(0x43c650)
-void Car_BC::sub_43C650()
+void Car_BC::ResetRoofLights_43C650()
 {
     field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomRightRoofLight_16);
 
@@ -2602,9 +2602,9 @@ void Car_BC::ActivateEmergencyLights_43C920()
 MATCH_FUNC(0x43c9d0)
 void Car_BC::DeactivateEmergencyLights_43C9D0()
 {
-    Car_BC::sub_43C650();
+    Car_BC::ResetRoofLights_43C650();
     Car_BC::sub_43C840();
-    Car_BC::sub_43C310();
+    Car_BC::ResetTopRightRoofLight_43C310();
     Car_BC::sub_43C470();
     field_A4 &= ~4u;
     if (is_FBI_car_411920() && field_74_damage != 32001)
@@ -3931,7 +3931,7 @@ void Car_BC::sub_441B50()
         {
             field_A5 = -A5_if_zero;
             UpdateRoofLights_43C500();
-            sub_43C260();
+            UpdateTopRightRoofLight_43C260();
         }
     }
     else
@@ -3939,15 +3939,15 @@ void Car_BC::sub_441B50()
         field_A5++;
         if (field_A5 == -cmp1)
         {
-            sub_43C650();
-            sub_43C310();
+            ResetRoofLights_43C650();
+            ResetTopRightRoofLight_43C310();
         }
 
         if (!field_A5)
         {
             field_A5 = A5_if_zero;
             sub_43C700();
-            sub_43C3C0();
+            UpdateTopLeftRoofLight_43C3C0();
         }
     }
 }
