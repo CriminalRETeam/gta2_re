@@ -2,6 +2,7 @@
 #include "Ambulance_110.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "CarInfo_808.hpp"
 #include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
@@ -123,11 +124,307 @@ DEFINE_GLOBAL(Fix16, dword_678630, 0x678630);
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
-// TODO: move
-STUB_FUNC(0x545AF0)
-EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 a1, Car_BC* a2, s8 a3, Fix16& a4, Fix16& a5, Ang16& a6)
+// TODO: move with CarDoorAlignmentSolver_545AF0
+EXTERN_GLOBAL(UnknownList, dword_6F6850);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD824, Fix16(0x666, 0), 0x6FD824);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD9C8, Fix16(0x3D7, 0), 0x6FD9C8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD9AC, Fix16(0x147, 0), 0x6FD9AC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD9D4, Fix16(0x51E, 0), 0x6FD9D4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD9B8, Fix16(0x28F, 0), 0x6FD9B8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD830, Fix16(0x1333, 0), 0x6FD830);
+
+// TODO: these are defined in char.cpp
+EXTERN_GLOBAL(Fix16, dword_6FD8D8);
+EXTERN_GLOBAL(Fix16, dword_6FDB20);
+EXTERN_GLOBAL(Fix16, k_dword_6FD9E4);
+EXTERN_GLOBAL(Fix16, dword_6FD82C);
+EXTERN_GLOBAL(Fix16, dword_6FD9B0);
+
+EXTERN_GLOBAL(Ang16, word_6FD936);
+EXTERN_GLOBAL(Ang16, word_6FD854);
+
+// TODO: move with CarDoorAlignmentSolver_545AF0
+// https://decomp.me/scratch/6VBR0
+inline void __stdcall sub_41FC90(Fix16& xpos, Fix16& ypos, Ang16& rotation)
 {
-    NOT_IMPLEMENTED;
+    Fix16 old_xpos = xpos;
+    xpos = xpos * Ang16::cosine_40F520(rotation) + ypos * Ang16::sine_40F500(rotation);
+    ypos = old_xpos * Ang16::sine_40F500(rotation) - ypos * Ang16::cosine_40F520(rotation);
+}
+
+// TODO: move
+// https://decomp.me/scratch/BzcQt
+WIP_FUNC(0x545AF0)
+EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 animPhase, Car_BC* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng)
+{
+    WIP_IMPLEMENTED;
+    // This func is really get_car_remap?? shouldnt be get_car_door_info?
+    u8* car_door_info_array = gGtx_0x106C_703DD4->get_car_remap_5AA3D0(pCar->field_84_car_info_idx);
+    Fix16 offset = dword_6FD8D8;
+
+    s8 x_in_scale = car_door_info_array[2 * doorId + 1];
+    Fix16 x_pos = dword_6F6850.sub_41FE70(x_in_scale);
+
+    s8 y_in_scale = car_door_info_array[2 * doorId + 2];
+    Fix16 y_pos = dword_6F6850.sub_41FE70(y_in_scale);
+
+    bool bUnk = false;
+
+    if (x_pos >= dword_6FDB20)
+    {
+        x_pos -= dword_6FDB20;
+        bUnk = true;
+    }
+    else
+    {
+        if (x_pos <= -dword_6FDB20)
+        {
+            x_pos += dword_6FDB20;
+            bUnk = true;
+        }
+        else
+        {
+            bUnk = false;
+        }
+    }
+
+    switch (doorId)
+    {
+        case 0:
+        case 2:
+            if (x_pos == k_dword_6FD9E4)
+            {
+                y_pos -= offset;
+                switch ((u8)animPhase)
+                {
+                    case 0:
+                        y_pos += dword_6FD82C;
+                        break;
+                    case 1:
+                        y_pos += dword_6FD824 + dword_6FD9C8;
+                        break;
+                    case 2:
+                        y_pos += dword_6FD824 + dword_6FD9AC;
+                        break;
+                    case 3:
+                        y_pos += dword_6FD9D4;
+                        break;
+                    case 4:
+                        y_pos += dword_6FD9B8;
+                        break;
+                    case 6:
+                        y_pos -= dword_6FD9B8;
+                        break;
+                    case 7:
+                        y_pos -= dword_6FD9C8;
+                        break;
+                    default:
+                        break;
+                }
+                outAng = word_6FD936 + pCar->field_50_car_sprite->field_0;
+            }
+            else
+            {
+                if (x_pos >= k_dword_6FD9E4)
+                {
+                    x_pos += offset;
+                }
+                else
+                {
+                    x_pos -= offset;
+                }
+                if (bUnk)
+                {
+                    y_pos -= dword_6FD824;
+                    switch (animPhase)
+                    {
+                        case 0:
+                            x_pos -= dword_6FD82C;
+                            break;
+                        case 1:
+                            x_pos -= dword_6FD824 + dword_6FD9C8;
+                            break;
+                        case 2:
+                            x_pos -= dword_6FD824 + dword_6FD9AC;
+                            break;
+                        case 3:
+                            x_pos -= dword_6FD9D4;
+                            break;
+                        case 4:
+                            x_pos -= dword_6FD9B8;
+                            break;
+                        case 6:
+                            x_pos += dword_6FD9B8;
+                            break;
+                        case 7:
+                            x_pos += dword_6FD9D4;
+                            break;
+                        default:
+                            break;
+                    }
+                    outAng = word_6FD854 + pCar->field_50_car_sprite->field_0;
+                }
+                else if ((u8)animPhase <= 99)
+                {
+                    switch (animPhase)
+                    {
+                        case 0:
+                            x_pos -= dword_6FD824;
+                            y_pos -= dword_6FD824;
+                            outAng = pCar->field_50_car_sprite->field_0;
+                            break;
+                        case 1:
+                            y_pos -= dword_6FD824;
+                            x_pos -= dword_6FD9B0;
+                            outAng = pCar->field_50_car_sprite->field_0;
+                            break;
+                        case 2:
+                            y_pos -= dword_6FD824;
+                            outAng = pCar->field_50_car_sprite->field_0;
+                            break;
+                        case 3:
+                            y_pos -= dword_6FD824;
+                            x_pos += dword_6FD9B0;
+                            outAng = pCar->field_50_car_sprite->field_0;
+                            break;
+                        case 4:
+                            y_pos -= dword_6FD9B0;
+                            x_pos -= dword_6FD824;
+                            outAng = pCar->field_50_car_sprite->field_0;
+                            break;
+                        case 5:
+                            y_pos -= dword_6FD9B0;
+                            x_pos -= dword_6FD824 + dword_6FD9B0;
+                            outAng = pCar->field_50_car_sprite->field_0;
+                            break;
+                        case 6:
+                            y_pos -= dword_6FD9B0;
+                            x_pos -= dword_6FD82C;
+                            outAng = pCar->field_50_car_sprite->field_0;
+                            break;
+                        case 7:
+                            y_pos -= dword_6FD9B0;
+                            x_pos -= dword_6FD82C + dword_6FD9B0;
+                            outAng = pCar->field_50_car_sprite->field_0;
+                            break;
+                        case 8:
+                            y_pos -= dword_6FD9B0;
+                            x_pos -= dword_6FD830;
+                            outAng = pCar->field_50_car_sprite->field_0;
+                            break;
+                        case 9:
+                        case 10:
+                        case 11:
+                        case 12:
+                            y_pos -= dword_6FD9AC + dword_6FD824;
+                            x_pos -= dword_6FD9B8;
+                            outAng = pCar->field_50_car_sprite->field_0;
+                            break;
+                        case 99:
+                            x_pos += dword_6FD824;
+                            outAng = pCar->field_50_car_sprite->field_0;
+                            break;
+                    }
+                }
+            }
+            break;
+        case 1:
+        case 3:
+            x_pos -= offset;
+            if (bUnk)
+            {
+                y_pos -= dword_6FD824;
+                switch (animPhase)
+                {
+                    case 0:
+                        x_pos += dword_6FD82C;
+                        break;
+                    case 1:
+                        x_pos += dword_6FD824 + dword_6FD9C8;
+                        break;
+                    case 2:
+                        x_pos += dword_6FD824 + dword_6FD9AC;
+                        break;
+                    case 3:
+                        x_pos += dword_6FD9D4;
+                        break;
+                    case 4:
+                        x_pos += dword_6FD9B8;
+                        break;
+                    case 6:
+                        x_pos -= dword_6FD9B8;
+                        break;
+                    case 7:
+                        x_pos -= dword_6FD9D4;
+                        break;
+                    default:
+                        break;
+                }
+                outAng = pCar->field_50_car_sprite->field_0 - word_6FD854;
+            }
+            else if ((u8)animPhase <= 99u)
+            {
+                switch (animPhase) // byte_5462F8[(u8)animPhase]  // What is byte_5462F8????
+                {
+                    case 0:
+                        x_pos += dword_6FD824;
+                        y_pos -= dword_6FD824;
+                        outAng = word_6FD936 + pCar->field_50_car_sprite->field_0;
+                        break;
+                    case 1:
+                        x_pos += dword_6FD9B0;
+                        y_pos -= dword_6FD824;
+                        outAng = word_6FD936 + pCar->field_50_car_sprite->field_0;
+                        break;
+                    case 2:
+                        y_pos -= dword_6FD824;
+                        outAng = word_6FD936 + pCar->field_50_car_sprite->field_0;
+                        break;
+                    case 3:
+                        x_pos -= dword_6FD9B0;
+                        y_pos -= dword_6FD824;
+                        outAng = word_6FD936 + pCar->field_50_car_sprite->field_0;
+                        break;
+                    case 4:
+                        y_pos -= dword_6FD9B0;
+                        x_pos += dword_6FD824;
+                        outAng = pCar->field_50_car_sprite->field_0;
+                        break;
+                    case 5:
+                        y_pos -= dword_6FD9B0;
+                        x_pos += dword_6FD824 + dword_6FD9B0;
+                        outAng = pCar->field_50_car_sprite->field_0;
+                        break;
+                    case 6:
+                        y_pos -= dword_6FD9B0;
+                        x_pos += dword_6FD82C;
+                        outAng = pCar->field_50_car_sprite->field_0;
+                        break;
+                    case 7:
+                        y_pos -= dword_6FD9B0;
+                        x_pos += dword_6FD82C + dword_6FD9B0;
+                        outAng = pCar->field_50_car_sprite->field_0;
+                        break;
+                    case 8:
+                        x_pos += dword_6FD9B8;
+                        y_pos -= dword_6FD824;
+                        outAng = word_6FD854 + pCar->field_50_car_sprite->field_0;
+                        break;
+                    case 9:
+                        x_pos -= dword_6FD824;
+                        outAng = pCar->field_50_car_sprite->field_0;
+                        break;
+                    case 10:
+                        break;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    sub_41FC90(x_pos, y_pos, pCar->field_50_car_sprite->field_0);
+    outX = pCar->field_50_car_sprite->field_14_xy.x + x_pos;
+    outY = pCar->field_50_car_sprite->field_14_xy.y + y_pos;
 }
 
 MATCH_FUNC(0x45AE40)
