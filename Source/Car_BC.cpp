@@ -2547,11 +2547,29 @@ void Car_BC::ResetRoofLights_43C650()
     }
 }
 
-STUB_FUNC(0x43c700)
-s32 Car_BC::sub_43C700()
+MATCH_FUNC(0x43c700)
+void Car_BC::UpdateBottomLeftRoofLight_43C700()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_84_car_info_idx != car_model_enum::EDSELFBI ||
+        !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor1_11) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor2_12) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor3_13) &&
+            !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor4_14))
+    {
+        field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+    }
+
+    if (this->field_84_car_info_idx != car_model_enum::EDSELFBI)
+    {
+        Object_2C* pObj_171 = field_0_qq.FindObject2CByModel_5A6A90(171);
+        pObj_171->UpdateLight_527A30();
+    }
+
+    if (field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::FIRETRUK)
+    {
+        Object_2C* pObj_173 = field_0_qq.FindObject2CByModel_5A6A90(173);
+        pObj_173->UpdateLight_527A30();
+    }
 }
 
 MATCH_FUNC(0x43c840)
@@ -3946,7 +3964,7 @@ void Car_BC::sub_441B50()
         if (!field_A5)
         {
             field_A5 = A5_if_zero;
-            sub_43C700();
+            UpdateBottomLeftRoofLight_43C700();
             UpdateTopLeftRoofLight_43C3C0();
         }
     }

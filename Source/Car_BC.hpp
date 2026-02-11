@@ -433,7 +433,7 @@ class Car_BC
     EXPORT void ResetTopLeftRoofLight_43C470();
     EXPORT void UpdateRoofLights_43C500();
     EXPORT void ResetRoofLights_43C650();
-    EXPORT s32 sub_43C700();
+    EXPORT void UpdateBottomLeftRoofLight_43C700();
     EXPORT void ResetBottomLeftRoofLight_43C840();
     EXPORT void ActivateEmergencyLights_43C920();
     EXPORT void DeactivateEmergencyLights_43C9D0();
