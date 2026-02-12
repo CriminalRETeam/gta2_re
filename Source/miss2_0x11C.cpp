@@ -382,7 +382,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
 
         Car_BC* v12 = pPointer->field_8_car;
         v12->field_7C_uni_num = 5;
-        v12->field_76 = 0;
+        v12->field_76_last_seen_timer = 0;
 
         if (pPointer->field_8_car->field_98 != 4)
         {
@@ -411,7 +411,7 @@ void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* pCmd)
     (pCmd->field_8_car)->sub_443EB0(9);
     Car_BC* v1 = pCmd->field_8_car;
     v1->field_7C_uni_num = 4;
-    v1->field_76 = 0;
+    v1->field_76_last_seen_timer = 0;
 }
 
 MATCH_FUNC(0x503fb0)
@@ -1662,7 +1662,7 @@ void miss2_0x11C::SCRCMD_MAKE_CAR_DUMMY_508220()
 
         Car_BC* pCar = pPointer->field_8_car;
         pCar->field_7C_uni_num = 5;
-        pCar->field_76 = 0;
+        pCar->field_76_last_seen_timer = 0;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

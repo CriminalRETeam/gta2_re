@@ -255,7 +255,7 @@ void Sprite::sub_59E320(char_type a2)
 }
 
 STUB_FUNC(0x59e390) // https://decomp.me/scratch/dijmx
-bool Sprite::sub_59E390(s32 a2, s32 a3, s32 a4)
+bool Sprite::ShrinkSprite_59E390(Fix16 a2, Fix16 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
