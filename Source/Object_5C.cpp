@@ -48,7 +48,7 @@ DEFINE_GLOBAL(Ang16, dword_6F8CD0, 0x6F8CD0);
 
 DEFINE_GLOBAL(Sprite*, dword_6F8F8C, 0x6F8F8C);
 DEFINE_GLOBAL(u8, byte_6F8F94, 0x6F8F94);
-DEFINE_GLOBAL(s32, dword_6F8F5C, 0x6F8F5C);
+DEFINE_GLOBAL(Fix16, dword_6F8F5C, 0x6F8F5C);
 DEFINE_GLOBAL(Fix16, dword_6F8DA8, 0x6F8DA8);
 DEFINE_GLOBAL(Fix16, dword_6F8E14, 0x6F8E14);
 DEFINE_GLOBAL(Fix16, k_dword_6F8C58, 0x6F8C58);
@@ -766,7 +766,7 @@ bool Object_2C::PoolUpdate()
         Object_2C::Update_525F30();
     }
 
-    if (field_25 <= 0 || (field_25 == 2 && gGame_0x40_67E008->sub_4B97E0(field_4, kFpZero_6F8E10)))
+    if (field_25 <= 0 || (field_25 == 2 && gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(field_4, kFpZero_6F8E10)))
     {
         return false;
     }
@@ -1108,7 +1108,7 @@ void Object_2C::sub_528900()
     if ((rng_dword_67AB34->field_0_rng & 3) == 0)
     {
         field_4->sub_59E320(1);
-        if (field_4->sub_59E390(dword_6F8F5C, dword_6F8F5C, 0))
+        if (field_4->ShrinkSprite_59E390(dword_6F8F5C, dword_6F8F5C, 0))
         {
             // inline - because has to be a local here?
             Sprite* pSprite = this->field_4;
@@ -1738,7 +1738,7 @@ void Object_5C::sub_529300()
         Object_2C* o2c = pSprite->As2C_40FEC0();
         if (o2c->field_18_model == 10)
         {
-            if (gGame_0x40_67E008->sub_4B97E0(pSprite, kFpZero_6F8E10))
+            if (gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(pSprite, kFpZero_6F8E10))
             {
                 Object_5C::CreateExplosion_52A3D0(pSprite->field_14_xy.x,
                                                   pSprite->field_14_xy.y,

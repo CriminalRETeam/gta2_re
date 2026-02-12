@@ -796,6 +796,12 @@ void CC ImGuiDebugDraw()
                     ImGui::Text("field_7C_uni_num %d", pCarIter->field_7C_uni_num);
                     ImGui::Text("field_74_damage %d", pCarIter->field_74_damage);
 
+                    if (ImGui::Button("TurnToWreck_4436A0"))
+                    {
+                        pCarIter->field_88 = 4;
+                        pCarIter->TurnToWreck_4436A0();
+                    }
+
                     if (ImGui::Button("SpawnDamageFireEffect_43B870 1"))
                     {
                         // TODO: Diff stuff if zero point
@@ -1088,7 +1094,7 @@ void CC ImGuiDebugDraw()
                     pNewCar->SpawnDriverPed();
 
                     pNewCar->field_7C_uni_num = 5;
-                    pNewCar->field_76 = 0;
+                    pNewCar->field_76_last_seen_timer = 0;
                     if (pNewCar->field_98 != 4)
                     {
                         pNewCar->field_98 = 2;

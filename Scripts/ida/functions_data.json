@@ -1205,7 +1205,7 @@
         "v105_address": "0x432300"
     },
     {
-        "name": "Camera_0xBC::sub_4355D0",
+        "name": "Camera_0xBC::IsSpriteTheCameraSubject_4355D0",
         "v96f_address": null,
         "v105_address": "0x4355d0"
     },
@@ -1635,12 +1635,12 @@
         "v105_address": "0x43b5a0"
     },
     {
-        "name": "Car_BC::sub_43B730",
+        "name": "Car_BC::IsOnScreenForAnyPlayer_43B730",
         "v96f_address": null,
         "v105_address": "0x43b730"
     },
     {
-        "name": "Car_BC::sub_43B750",
+        "name": "Car_BC::IsVisibleToAnyPlayer_43B750",
         "v96f_address": null,
         "v105_address": "0x43b750"
     },
@@ -1670,7 +1670,7 @@
         "v105_address": "0x43bb90"
     },
     {
-        "name": "Car_BC::sub_43BBC0",
+        "name": "Car_BC::SpawnFire_43BBC0",
         "v96f_address": null,
         "v105_address": "0x43bbc0"
     },
@@ -1805,7 +1805,7 @@
         "v105_address": "0x43d400"
     },
     {
-        "name": "Car_BC:sub_43D5D0",
+        "name": "Car_BC:ApplyImpactDamage_43D5D0",
         "v96f_address": null,
         "v105_address": "0x43d5d0"
     },
@@ -1845,7 +1845,7 @@
         "v105_address": "0x43dc00"
     },
     {
-        "name": "Car_BC::sub_43DC80",
+        "name": "Car_BC::CarShrinkSprite_43DC80",
         "v96f_address": null,
         "v105_address": "0x43dc80"
     },
@@ -2000,7 +2000,7 @@
         "v105_address": "0x441330"
     },
     {
-        "name": "Car_BC::sub_441360",
+        "name": "Car_BC::CountDownToWreck_441360",
         "v96f_address": null,
         "v105_address": "0x441360"
     },
@@ -5965,12 +5965,12 @@
         "v105_address": "0x4b9790"
     },
     {
-        "name": "Game_0x40::sub_4B97E0",
+        "name": "Game_0x40::IsSpriteOnScreenForAnyPlayer_4B97E0",
         "v96f_address": null,
         "v105_address": "0x4b97e0"
     },
     {
-        "name": "Game_0x40::sub_4B9830",
+        "name": "Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830",
         "v96f_address": null,
         "v105_address": "0x4b9830"
     },
@@ -5990,7 +5990,7 @@
         "v105_address": "0x4b9950"
     },
     {
-        "name": "Game_0x40::sub_4B9A10",
+        "name": "Game_0x40::IsSpriteCameraSubjectForPlayer_4B9A10",
         "v96f_address": null,
         "v105_address": "0x4b9a10"
     },
@@ -14650,7 +14650,7 @@
         "v105_address": "0x59e320"
     },
     {
-        "name": "Sprite::sub_59E390",
+        "name": "Sprite::ShrinkSprite_59E390",
         "v96f_address": null,
         "v105_address": "0x59e390"
     },

@@ -410,7 +410,7 @@ void Char_B4::sub_5456A0()
 MATCH_FUNC(0x545700)
 bool Char_B4::IsOnScreen_545700()
 {
-    return gGame_0x40_67E008->sub_4B97E0(this->field_80_sprite_ptr, k_dword_6FD9E4) == 1;
+    return gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_80_sprite_ptr, k_dword_6FD9E4) == 1;
 }
 
 MATCH_FUNC(0x545720)
@@ -969,7 +969,7 @@ void Char_B4::UpdateAnimState_546360()
 
         case Char_Anim_state::Entering_Car_6:
         case 9:
-            field_84->field_76 = 0;
+            field_84->field_76_last_seen_timer = 0;
             if ((u8)field_68_animation_frame > 12u)
             {
                 goto LABEL_125;
@@ -977,7 +977,7 @@ void Char_B4::UpdateAnimState_546360()
             break;
 
         case Char_Anim_state::Exiting_Car_7:
-            field_84->field_76 = 0;
+            field_84->field_76_last_seen_timer = 0;
             switch (field_68_animation_frame)
             {
                 case 0u:
@@ -1165,7 +1165,7 @@ void Char_B4::UpdateAnimState_546360()
             }
 
         case 8:
-            field_84->field_76 = 0;
+            field_84->field_76_last_seen_timer = 0;
 
             // Note: was if/else
             switch (field_68_animation_frame)

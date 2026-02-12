@@ -292,7 +292,7 @@ class Car_6C
     s32 field_48;
     Fix16_Point field_4C_tv_van_dir;
     u8 field_54;
-    char_type field_55;
+    char_type field_55_visible_cars_count;
     char_type field_56;
     char_type field_57;
     s32 field_58_model_to_check_destroy;
@@ -362,7 +362,7 @@ class Car_BC
     EXPORT bool sub_445360();
     EXPORT Ang16 sub_4403A0();
 
-    EXPORT s16 sub_43D5D0(Fix16 a2);
+    EXPORT s16 ApplyImpactDamage_43D5D0(Fix16 a2);
 
 
     EXPORT bool IsPoliceCar_439EC0();
@@ -410,14 +410,14 @@ class Car_BC
     EXPORT s32 sub_43B420(s32 a2, u32* a3, u32* a4);
     EXPORT bool sub_43B540(u8 targetDoor);
     EXPORT void GetDoorWorldPosition_43B5A0(u8 targetDoor, Fix16* pOutX, Fix16* pOutY);
-    EXPORT char_type sub_43B730();
-    EXPORT char_type sub_43B750();
+    EXPORT char_type IsOnScreenForAnyPlayer_43B730();
+    EXPORT char_type IsVisibleToAnyPlayer_43B750();
     EXPORT void sub_43B770();
     EXPORT void AssignDriverBlameForExplosion_43B7B0(Car_BC* a2);
     EXPORT bool sub_43B850(s32 a2);
     EXPORT void SpawnDamageFireEffect_43B870(s32 a2, Fix16_Point* a3);
     EXPORT s32 sub_43BB90(u8 a1);
-    EXPORT void sub_43BBC0();
+    EXPORT void SpawnFire_43BBC0();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BCA0();
     EXPORT void DeAllocateCarPhysics_43BD00();
@@ -451,7 +451,7 @@ class Car_BC
     EXPORT void KillContainedPeds_43DB80();
     EXPORT void sub_43DBD0();
     EXPORT bool sub_43DC00();
-    EXPORT bool sub_43DC80(s32 a2, s32 a3);
+    EXPORT bool CarShrinkSprite_43DC80(s32 a2, s32 a3);
     EXPORT bool IsBeingCrushed_43DD50();
     EXPORT void sub_43DD60();
     EXPORT char_type ManageDrowning_43E560();
@@ -480,8 +480,8 @@ class Car_BC
     EXPORT void GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT char_type sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5);
     EXPORT Fix16 GetZPos_441330();
-    EXPORT void sub_441360();
-    EXPORT void sub_4436A0();
+    EXPORT void CountDownToWreck_441360();
+    EXPORT void TurnToWreck_4436A0();
     EXPORT void sub_441380();
     EXPORT void UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_441520();
@@ -638,7 +638,7 @@ class Car_BC
     void sub_421560(s32 a1)
     {
         field_7C_uni_num = a1;
-        field_76 = 0;
+        field_76_last_seen_timer = 0;
     }
 
     // TODO: Find 9.6f addr
@@ -954,7 +954,7 @@ class Car_BC
     s32 field_6C_maybe_id;
     s32 field_70_exploder_ped_id;
     s16 field_74_damage;
-    s16 field_76;
+    s16 field_76_last_seen_timer;
     u16 field_78_flags;
     s16 field_7A;
     s32 field_7C_uni_num;
@@ -981,7 +981,7 @@ class Car_BC
     char_type field_A6;
     u8 field_A7_horn;
     u8 field_A8;
-    char_type field_A9;
+    char_type field_A9_timer; // explode/turn to wreck timer?
     char_type field_AA;
     char_type field_AB;
     s32 field_AC;

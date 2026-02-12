@@ -36,7 +36,7 @@ struct WorldRect
 class Camera_0xBC
 {
   public:
-    EXPORT bool sub_4355D0(Sprite* pSprite);
+    EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite);
     EXPORT char_type sub_435630(s16* a2, s32 a3);
     EXPORT void sub_4357B0();
     EXPORT void sub_4357F0();
