@@ -68,6 +68,14 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE1B8, dword_6FE218, 0x6FE1B8);
 DEFINE_GLOBAL(Fix16_Point, stru_6FDF50, 0x6FDF50);
 DEFINE_GLOBAL(Fix16, dword_6FE0B0, 0x6FE0B0);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFF0, Fix16(0x2666, 0), 0x6FDFF0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFD8, Fix16(0xCCC, 0), 0x6FDFD8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE1D4, Fix16(0x333, 0), 0x6FE1D4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFF8, Fix16(0x3333, 0), 0x6FDFF8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE228, dword_6FDFF0, 0x6FE228);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE374, dword_6FDFD8 + dword_6FE1D4, 0x6FE374);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE104, dword_6FDFF8, 0x6FE104);
+
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -1141,11 +1149,24 @@ void CarPhysics_B0::ApplyBrakePhysics_5624F0()
     }
 }
 
-STUB_FUNC(0x562560)
-s32 CarPhysics_B0::UpdateSteeringAngle_562560()
+WIP_FUNC(0x562560)
+void CarPhysics_B0::UpdateSteeringAngle_562560()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    if (field_5C_pCar->field_7C_uni_num != 2)
+    {
+        field_78_pointing_ang_rad = CarPhysics_B0::GetTrailerAwareTurnRatio_55A100() * field_AD_turn_direction;
+    }
+    else
+    {
+        Fix16 v6 = dword_6FE228 - field_40_linvel_1.GetLength_2();
+        if (v6 < dword_6FE374)
+        {
+            v6 = dword_6FE374;
+        }
+        field_78_pointing_ang_rad =
+            CarPhysics_B0::GetTrailerAwareTurnRatio_55A100() * field_AD_turn_direction * (v6 / (dword_6FE228 * dword_6FE104));
+    }
 }
 
 MATCH_FUNC(0x5626a0)
