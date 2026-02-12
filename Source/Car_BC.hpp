@@ -421,7 +421,7 @@ class Car_BC
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BCA0();
     EXPORT void DeAllocateCarPhysics_43BD00();
-    EXPORT char_type sub_43BD40();
+    EXPORT void sub_43BD40();
     EXPORT void BrakeLightsOn_43BF10();
     EXPORT void BrakeLightsOff_43BF70();
     EXPORT char_type sub_43BFE0();
