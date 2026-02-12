@@ -12,6 +12,11 @@ EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 // but 9.6f leads me to believe both the POD and non-POD type are the same
 struct Fix16_Point_POD
 {
+    inline bool IsNull_420360() const
+    {
+        return x == gFix16_6777CC && y == gFix16_6777CC;
+    }
+
     // None inline exists in 10.5 at 0x453590
     inline Fix16 GetLength_41E260()
     {

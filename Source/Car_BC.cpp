@@ -143,6 +143,7 @@ DEFINE_GLOBAL(Ang16, word_6F6808, 0x6F6808);
 DEFINE_GLOBAL(Ang16, word_6F6D3C, 0x6F6D3C);
 
 DEFINE_GLOBAL(Fix16, dword_6772BC, 0x6772BC);
+DEFINE_GLOBAL(Fix16, dword_677214, 0x677214);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -2286,10 +2287,91 @@ bool Car_BC::sub_43B850(s32 wofly_type_or_state)
     return field_78_flags & 0x600 && wofly_type_or_state != 20 ? true : false;
 }
 
-STUB_FUNC(0x43b870)
-void Car_BC::SpawnDamageFireEffect_43B870(s32 a2, Fix16_Point* a3)
+// 9.6f 0x4226C0
+WIP_FUNC(0x43b870)
+void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+
+    Fix16 x_hit;
+    Fix16 y_hit;
+    if (pPos->IsNull_420360())
+    {
+        switch ((u8)k1Or2)
+        {
+            case 1u: // small fire
+                y_hit = dword_6F6850.sub_440860(pCarInfo->rear_window_offset);
+                if (gCar_6C_677930->field_1A && gCar_6C_677930->field_1A != 2)
+                {
+                    x_hit = (gFix16_6777CC * field_68);
+                }
+                else
+                {
+                    x_hit = ((dword_677214 * dword_6F6850.list[pCarInfo->w]) * field_68);
+                }
+                break;
+
+            case 2u: // huge fire
+            {
+                Fix16 v7 = -(dword_677214 * dword_6F6850.list[pCarInfo->w]);
+                if (!gCar_6C_677930->field_1A || gCar_6C_677930->field_1A == 3)
+                {
+                    y_hit = dword_6F6850.sub_440860(pCarInfo->rear_window_offset);
+                }
+                else
+                {
+                    y_hit = dword_6F6850.sub_440860(pCarInfo->front_window_offset);
+                }
+                x_hit = (v7 * field_68);
+                break;
+            }
+
+            case 3u: // also a big fire but never used?
+                y_hit = dword_6F6850.sub_440860(pCarInfo->front_window_offset);
+                if (gCar_6C_677930->field_1A && gCar_6C_677930->field_1A != 2)
+                {
+                    x_hit = (gFix16_6777CC * field_68);
+                }
+                else
+                {
+                    x_hit = ((dword_677214 * dword_6F6850.list[pCarInfo->w]) * field_68);
+                }
+                break;
+
+            default:
+                // ?? 
+                x_hit = (field_68 * k1Or2);
+                break;
+        }
+    }
+    else
+    {
+        Fix16_Point x_y_443580 = field_50_car_sprite->get_x_y_443580();
+        Fix16_Point tmpSub = *pPos - x_y_443580;
+
+        Fix16_Point rot_point = tmpSub;
+        rot_point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
+        x_hit = rot_point.x;
+        y_hit = rot_point.y;
+    }
+
+    const s32 wolfy_state = Car_BC::sub_43BB90(k1Or2);
+    Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_50_car_sprite->field_14_xy.x,
+                                                                      field_50_car_sprite->field_14_xy.y,
+                                                                      Fix16(2),
+                                                                      word_67791C,
+                                                                      wolfy_state,
+                                                                      field_70_exploder_ped_id);
+    if (pExplosion)
+    {
+        field_50_car_sprite->DispatchCollisionEvent_5A3100(pExplosion->field_4, x_hit, y_hit, word_67791C);
+        if (++gCar_6C_677930->field_1A > 3u)
+        {
+            gCar_6C_677930->field_1A = 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x43bb90)

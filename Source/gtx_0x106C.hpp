@@ -84,10 +84,10 @@ class car_info
     BYTE passengers;
     BYTE wreck;
     BYTE rating;
-    char_type front_wheel_offset;
-    char_type rear_wheel_offset;
-    char_type front_window_offset;
-    char_type rear_window_offset;
+    s8 front_wheel_offset;
+    s8 rear_wheel_offset;
+    s8 front_window_offset;
+    s8 rear_window_offset;
     BYTE info_flags;
     BYTE info_flags_2;
     BYTE remap[1]; // [variable � see num_remaps];
