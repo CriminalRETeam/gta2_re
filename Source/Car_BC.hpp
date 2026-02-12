@@ -451,7 +451,7 @@ class Car_BC
     EXPORT void KillContainedPeds_43DB80();
     EXPORT void sub_43DBD0();
     EXPORT bool sub_43DC00();
-    EXPORT bool sub_43DC80(s32 a2, s32 a3);
+    EXPORT bool CarShrinkSprite_43DC80(s32 a2, s32 a3);
     EXPORT bool IsBeingCrushed_43DD50();
     EXPORT void sub_43DD60();
     EXPORT char_type ManageDrowning_43E560();

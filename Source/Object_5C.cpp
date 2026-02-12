@@ -1108,7 +1108,7 @@ void Object_2C::sub_528900()
     if ((rng_dword_67AB34->field_0_rng & 3) == 0)
     {
         field_4->sub_59E320(1);
-        if (field_4->sub_59E390(dword_6F8F5C, dword_6F8F5C, 0))
+        if (field_4->ShrinkSprite_59E390(dword_6F8F5C, dword_6F8F5C, 0))
         {
             // inline - because has to be a local here?
             Sprite* pSprite = this->field_4;

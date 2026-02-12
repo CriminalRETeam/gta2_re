@@ -104,7 +104,7 @@ class Sprite
     EXPORT void sub_59E2E0();
     EXPORT void sub_59E300();
     EXPORT void sub_59E320(char_type a2);
-    EXPORT bool sub_59E390(s32 a2, s32 a3, s32 a4);
+    EXPORT bool ShrinkSprite_59E390(Fix16 a2, Fix16 a3, s32 a4);
     EXPORT s32 sub_59E4C0(Fix16 a2, s32 a3);
     EXPORT char_type CollisionCheck_59E590(Sprite* a2);
     EXPORT char_type sub_59E680(Fix16 a2, Sprite* a3);

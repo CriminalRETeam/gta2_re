@@ -81,7 +81,7 @@ void Crusher_30::Service_488350()
                 }
                 if (field_1C_w - kCrusher_67A810 <= field_14_pCarBeingCrushed->get_car_width() / 2)
                 {
-                    field_14_pCarBeingCrushed->sub_43DC80(2, 0);
+                    field_14_pCarBeingCrushed->CarShrinkSprite_43DC80(2, 0);
                 }
                 break;
 
@@ -104,7 +104,7 @@ void Crusher_30::Service_488350()
 
                 if (field_20_h - kCrusher_67A810 <= (field_14_pCarBeingCrushed->get_car_height() / 2))
                 {
-                    field_14_pCarBeingCrushed->sub_43DC80(0, 2);
+                    field_14_pCarBeingCrushed->CarShrinkSprite_43DC80(0, 2);
                 }
             }
             break;
