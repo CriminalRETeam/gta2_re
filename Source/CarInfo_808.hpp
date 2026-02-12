@@ -31,15 +31,6 @@ struct UnknownList
     Fix16 list[256];
 };
 
-MATCH_FUNC(0x440860)
-Fix16 UnknownList::sub_440860(s8& var)
-{
-    if (var < 0)
-    {
-        return -list[-var];
-    }
-    return list[var];
-}
 
 EXTERN_GLOBAL(UnknownList, dword_6F6850);
 

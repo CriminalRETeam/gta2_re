@@ -2549,11 +2549,41 @@ void Car_BC::BrakeLightsOff_43BF70()
     this->field_A4 &= ~1u;
 }
 
-STUB_FUNC(0x43bfe0)
-char_type Car_BC::sub_43BFE0()
+MATCH_FUNC(0x43bfe0)
+void Car_BC::sub_43BFE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((this->field_A4 & 8) == 0)
+    {
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
+        {
+            if (inline_check_0x2_info_421700())
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
+            }
+            else
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
+            }
+        }
+
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
+        {
+            if (inline_check_0x2_info_421700())
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
+            }
+            else
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
+            }
+        }
+
+        if (inline_check_0x4_info_421660())
+        {
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+        }
+    }
+    this->field_A4 |= 2u;
 }
 
 MATCH_FUNC(0x43c0c0)

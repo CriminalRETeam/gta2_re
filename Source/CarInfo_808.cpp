@@ -42,6 +42,18 @@ DEFINE_GLOBAL_ARRAY_INIT(char*,
                          "Output too big",
                          "Unknown error");
 
+WIP_FUNC(0x440860)
+Fix16 UnknownList::sub_440860(s8& var)
+{
+    WIP_IMPLEMENTED;
+    
+    if (var < 0)
+    {
+        return -list[-var];
+    }
+    return list[var];
+}
+
 MATCH_FUNC(0x454680)
 void ModelPhysics_48::sub_454680()
 {

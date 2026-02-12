@@ -424,7 +424,7 @@ class Car_BC
     EXPORT void sub_43BD40();
     EXPORT void BrakeLightsOn_43BF10();
     EXPORT void BrakeLightsOff_43BF70();
-    EXPORT char_type sub_43BFE0();
+    EXPORT void sub_43BFE0();
     EXPORT void sub_43C0C0();
     EXPORT void PrepareForExplosion_43C1C0();
     EXPORT void UpdateTopRightRoofLight_43C260();
