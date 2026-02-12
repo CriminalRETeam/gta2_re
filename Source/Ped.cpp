@@ -3143,7 +3143,7 @@ char_type Ped::StateMachineTick_4626B0()
             pCarSprite = pCar->field_50_car_sprite;
             if (pCarSprite)
             {
-                if (gGame_0x40_67E008->sub_4B97E0(pCarSprite, k_dword_678660))
+                if (gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(pCarSprite, k_dword_678660))
                 {
                     this->field_20e = 0;
                 }
@@ -3212,7 +3212,7 @@ char_type Ped::StateMachineTick_4626B0()
                     pCarSprite_ = pCar_->field_50_car_sprite;
                     if (pCarSprite_)
                     {
-                        if (gGame_0x40_67E008->sub_4B97E0(pCarSprite_, k_dword_678660))
+                        if (gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(pCarSprite_, k_dword_678660))
                         {
                             this->field_20e = 0;
                         }
@@ -3248,7 +3248,7 @@ char_type Ped::StateMachineTick_4626B0()
             field_16C_car = this->field_16C_car;
             ++this->field_20e;
             field_50_car_sprite = field_16C_car->field_50_car_sprite;
-            if (field_50_car_sprite && gGame_0x40_67E008->sub_4B97E0(field_50_car_sprite, k_dword_678660))
+            if (field_50_car_sprite && gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(field_50_car_sprite, k_dword_678660))
             {
                 this->field_20e = 0;
                 return 1;

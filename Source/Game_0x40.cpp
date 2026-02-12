@@ -652,11 +652,11 @@ void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
 }
 
 MATCH_FUNC(0x4B97E0)
-s8 Game_0x40::sub_4B97E0(Sprite* a2, Fix16 a3)
+s8 Game_0x40::IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (IsSpriteOnScreen_4B9950(a2, i, a3))
+        if (IsSpriteOnScreen_4B9950(pSprite, i, margin))
         {
             return 1;
         }
@@ -665,11 +665,11 @@ s8 Game_0x40::sub_4B97E0(Sprite* a2, Fix16 a3)
 }
 
 MATCH_FUNC(0x4B9830)
-s8 Game_0x40::sub_4B9830(Sprite* pCarSprite, Fix16 a3)
+s8 Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (IsSpriteOnScreen_4B9950(pCarSprite, i, a3) || sub_4B9A10(pCarSprite, i))
+        if (IsSpriteOnScreen_4B9950(pCarSprite, i, margin) || IsSpriteCameraSubjectForPlayer_4B9A10(pCarSprite, i))
         {
             return 1;
         }
@@ -706,11 +706,11 @@ bool Game_0x40::sub_4B98E0(s16* a2, u8 playerIdx, s32 a4)
 }
 
 WIP_FUNC(0x4B9950)
-s8 Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 idx, Fix16 margin)
+s8 Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 margin)
 {
     WIP_IMPLEMENTED;
 
-    Player* pPlayer = this->field_4_players[idx];
+    Player* pPlayer = this->field_4_players[playerIdx];
     if (!pPlayer->field_8E_bInUse)
     {
         return 0;
@@ -741,15 +741,15 @@ s8 Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 idx, Fix16 margin)
 }
 
 MATCH_FUNC(0x4B9A10)
-bool Game_0x40::sub_4B9A10(Sprite* a2, u8 playerIdx)
+bool Game_0x40::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 playerIdx)
 {
     if (field_4_players[playerIdx]->field_8E_bInUse)
     {
-        if (field_4_players[playerIdx]->field_90_game_camera.sub_4355D0(a2))
+        if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite))
         {
             return true;
         }
-        return field_4_players[playerIdx]->field_2D0 && field_4_players[playerIdx]->field_208_aux_game_camera.sub_4355D0(a2) ? true : false;
+        return field_4_players[playerIdx]->field_2D0 && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite) ? true : false;
     }
     return false;
 }

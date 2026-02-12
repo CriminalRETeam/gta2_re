@@ -766,7 +766,7 @@ bool Object_2C::PoolUpdate()
         Object_2C::Update_525F30();
     }
 
-    if (field_25 <= 0 || (field_25 == 2 && gGame_0x40_67E008->sub_4B97E0(field_4, kFpZero_6F8E10)))
+    if (field_25 <= 0 || (field_25 == 2 && gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(field_4, kFpZero_6F8E10)))
     {
         return false;
     }
@@ -1738,7 +1738,7 @@ void Object_5C::sub_529300()
         Object_2C* o2c = pSprite->As2C_40FEC0();
         if (o2c->field_18_model == 10)
         {
-            if (gGame_0x40_67E008->sub_4B97E0(pSprite, kFpZero_6F8E10))
+            if (gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(pSprite, kFpZero_6F8E10))
             {
                 Object_5C::CreateExplosion_52A3D0(pSprite->field_14_xy.x,
                                                   pSprite->field_14_xy.y,

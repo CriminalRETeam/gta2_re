@@ -2178,15 +2178,15 @@ void Car_BC::GetDoorWorldPosition_43B5A0(u8 target_door, Fix16* pOutX, Fix16* pO
 }
 
 MATCH_FUNC(0x43b730)
-char_type Car_BC::sub_43B730()
+char_type Car_BC::IsOnScreenForAnyPlayer_43B730()
 {
-    return gGame_0x40_67E008->sub_4B97E0(field_50_car_sprite, dword_6778D0);
+    return gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(field_50_car_sprite, dword_6778D0);
 }
 
 MATCH_FUNC(0x43b750)
-char_type Car_BC::sub_43B750()
+char_type Car_BC::IsVisibleToAnyPlayer_43B750()
 {
-    return gGame_0x40_67E008->sub_4B9830(field_50_car_sprite, dword_6778D0);
+    return gGame_0x40_67E008->IsSpriteVisibleToAnyPlayer_4B9830(field_50_car_sprite, dword_6778D0);
 }
 
 MATCH_FUNC(0x43b770)
@@ -2301,7 +2301,7 @@ s32 Car_BC::sub_43BB90(u8 a1)
 }
 
 WIP_FUNC(0x43bbc0)
-void Car_BC::sub_43BBC0()
+void Car_BC::SpawnFire_43BBC0()
 {
     WIP_IMPLEMENTED;
 
@@ -3609,20 +3609,20 @@ Fix16 Car_BC::GetZPos_441330()
 }
 
 MATCH_FUNC(0x441360)
-void Car_BC::sub_441360()
+void Car_BC::CountDownToWreck_441360()
 {
-    if (field_A9)
+    if (field_A9_timer)
     {
-        field_A9--;
-        if (field_A9 == 0)
+        field_A9_timer--;
+        if (field_A9_timer == 0)
         {
-            sub_4436A0(); // jmp to function chunk
+            TurnToWreck_4436A0(); // jmp to function chunk
         }
     }
 }
 
 WIP_FUNC(0x4436A0)
-void Car_BC::sub_4436A0()
+void Car_BC::TurnToWreck_4436A0()
 {
     WIP_IMPLEMENTED;
 
@@ -3633,19 +3633,19 @@ void Car_BC::sub_4436A0()
     this->field_8_damaged_areas = 0;
     PrepareForExplosion_43C1C0();
     this->field_A7_horn = 0;
-    sub_43BBC0();
+    SpawnFire_43BBC0();
 }
 
 MATCH_FUNC(0x441380)
 void Car_BC::sub_441380()
 {
-    if (this->field_A9 == 0)
+    if (this->field_A9_timer == 0)
     {
         if (this->field_9C != 6)
         {
             this->field_9C = 5;
         }
-        this->field_A9 = 50;
+        this->field_A9_timer = 50;
     }
 }
 
@@ -3715,7 +3715,7 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
         }
 
         pTrainCarIter->sub_4426D0();
-        pTrainCarIter->sub_441360();
+        pTrainCarIter->CountDownToWreck_441360();
 
         idx++;
     }
@@ -4139,7 +4139,7 @@ MATCH_FUNC(0x442170)
 bool Car_BC::sub_442170()
 {
     Ped* pDriver = this->field_54_driver;
-    if ((!pDriver || !pDriver->field_15C_player) && !sub_43B750())
+    if ((!pDriver || !pDriver->field_15C_player) && !IsVisibleToAnyPlayer_43B750())
     {
         return true;
     }
@@ -4201,7 +4201,7 @@ void Car_BC::sub_442310()
 
     if (IsTrainModel_403BA0())
     {
-        if (sub_43B730())
+        if (IsOnScreenForAnyPlayer_43B730())
         {
             field_76 = 0;
             bCheckMax = false;
@@ -4506,7 +4506,7 @@ char_type Car_BC::PoolUpdate()
 
     sub_4426D0();
     sub_442310();
-    sub_441360();
+    CountDownToWreck_441360();
 
     if (this->field_88 != 5)
     {
@@ -4534,7 +4534,7 @@ void Car_BC::sub_443330()
         field_0_qq.PoolUpdate_5A6F70(field_50_car_sprite);
         field_0_qq.PropagateMaxZLayer_5A72B0(field_50_car_sprite, 0);
     }
-    Car_BC::sub_441360();
+    Car_BC::CountDownToWreck_441360();
 }
 
 STUB_FUNC(0x443360)
@@ -5031,7 +5031,7 @@ void Car_BC::PoolAllocate()
 
     this->field_8E = 0;
     this->field_A8 = 0;
-    this->field_A9 = 0;
+    this->field_A9_timer = 0;
     this->field_B4_weapon_kind = 0;
     this->field_B8 = 0;
     this->field_B0 = 0;
