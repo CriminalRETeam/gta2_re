@@ -68,6 +68,14 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE1B8, dword_6FE218, 0x6FE1B8);
 DEFINE_GLOBAL(Fix16_Point, stru_6FDF50, 0x6FDF50);
 DEFINE_GLOBAL(Fix16, dword_6FE0B0, 0x6FE0B0);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFF0, Fix16(0x2666, 0), 0x6FDFF0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFD8, Fix16(0xCCC, 0), 0x6FDFD8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE1D4, Fix16(0x333, 0), 0x6FE1D4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFF8, Fix16(0x3333, 0), 0x6FDFF8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE228, dword_6FDFF0, 0x6FE228);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE374, dword_6FDFD8 + dword_6FE1D4, 0x6FE374);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE104, dword_6FDFF8, 0x6FE104);
+
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -733,15 +741,44 @@ s32 CarPhysics_B0::sub_55C820(u32* a2, s32 a3)
 }
 
 STUB_FUNC(0x55ca70)
-void CarPhysics_B0::sub_55CA70(s32 a2, s32 a3)
+void CarPhysics_B0::sub_55CA70(Fix16_Point a2, Ang16 a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55cbb0)
-void CarPhysics_B0::sub_55CBB0(s32 a2, s32 a3)
+// https://decomp.me/scratch/0TpGe
+WIP_FUNC(0x55cbb0)
+void CarPhysics_B0::sub_55CBB0(Fix16 a2, Fix16 a3)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    Car_BC* pCar;
+    if (gRozza_679188.field_24->field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        pCar = gRozza_679188.field_24->field_8_car_bc_ptr;
+    }
+    else
+    {
+        pCar = NULL;
+    }
+
+    CarPhysics_B0* pPhysics = pCar->field_58_physics;
+    CarPhysics_B0::restore_saved_physics_state_55A400();
+    CarPhysics_B0::sub_560F20(a2);
+
+    Fix16_Point point(pPhysics->field_38_cp1.x, pPhysics->field_38_cp1.y);
+
+    CarPhysics_B0::restore_saved_physics_state_55A400();
+    CarPhysics_B0::sub_560F20(a3);
+    if (pPhysics == this)
+    {
+        CarPhysics_B0::sub_55CA70(point, pPhysics->field_58_theta);
+    }
+    else
+    {
+        CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0();
+        CarPhysics_B0::sub_55CA70(point, pPhysics->field_58_theta);
+        CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0();
+    }
 }
 
 STUB_FUNC(0x55d200)
@@ -1141,11 +1178,25 @@ void CarPhysics_B0::ApplyBrakePhysics_5624F0()
     }
 }
 
-STUB_FUNC(0x562560)
-s32 CarPhysics_B0::UpdateSteeringAngle_562560()
+// https://decomp.me/scratch/f2UpJ
+WIP_FUNC(0x562560)
+void CarPhysics_B0::UpdateSteeringAngle_562560()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    if (field_5C_pCar->field_7C_uni_num != 2)
+    {
+        field_78_pointing_ang_rad = CarPhysics_B0::GetTrailerAwareTurnRatio_55A100() * field_AD_turn_direction;
+    }
+    else
+    {
+        Fix16 v6 = dword_6FE228 - field_40_linvel_1.GetLength_2();
+        if (v6 < dword_6FE374)
+        {
+            v6 = dword_6FE374;
+        }
+        field_78_pointing_ang_rad =
+            CarPhysics_B0::GetTrailerAwareTurnRatio_55A100() * field_AD_turn_direction * (v6 / (dword_6FE228 * dword_6FE104));
+    }
 }
 
 MATCH_FUNC(0x5626a0)

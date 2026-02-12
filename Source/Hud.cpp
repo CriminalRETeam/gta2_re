@@ -738,7 +738,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
 // ----------------------------------------------------
 
 // https://decomp.me/scratch/bd2MO
-STUB_FUNC(0x5cfa70)
+WIP_FUNC(0x5cfa70)
 void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 {
     u32 random_num = rng_dword_67AB34->field_0_rng & 0xF;

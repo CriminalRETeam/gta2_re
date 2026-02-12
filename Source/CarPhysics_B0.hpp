@@ -67,8 +67,8 @@ class CarPhysics_B0
     EXPORT void sub_55C560(Fix16 a2, Fix16 a3);
     EXPORT s32 sub_55C5C0(u32* a2, s32 a3);
     EXPORT s32 sub_55C820(u32* a2, s32 a3);
-    EXPORT void sub_55CA70(s32 a2, s32 a3);
-    EXPORT void sub_55CBB0(s32 a2, s32 a3);
+    EXPORT void sub_55CA70(Fix16_Point a2, Ang16 a3);
+    EXPORT void sub_55CBB0(Fix16 a2, Fix16 a3);
     EXPORT void sub_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5);
     EXPORT char_type sub_55DC00();
     EXPORT void DoSkidmarks_55E260();
@@ -109,7 +109,7 @@ class CarPhysics_B0
     // 0x62450 moved to Sprite
     EXPORT void ApplyThrottleInput_562480();
     EXPORT void ApplyBrakePhysics_5624F0();
-    EXPORT s32 UpdateSteeringAngle_562560();
+    EXPORT void UpdateSteeringAngle_562560();
     EXPORT s32 IsGasPedalPressedEnough_5626A0();
     EXPORT Fix16 MinGasPedalPressure_5626C0();
     EXPORT char_type ApplyArrowSteerAssist_5626F0();
@@ -181,7 +181,7 @@ class CarPhysics_B0
     Fix16 field_6C_cp3;
     Fix16 field_70;
     Fix16 field_74_ang_vel_rad;
-    s32 field_78_pointing_ang_rad;
+    Fix16 field_78_pointing_ang_rad;
     Fix16 field_7C;
     Fix16 field_80;
     Fix16 field_84_front_skid;
