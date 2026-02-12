@@ -571,31 +571,26 @@ RouteFinder_10* RouteFinder::sub_589390(u16 a2)
     return 0;
 }
 
+// https://decomp.me/scratch/uht0I regswap :)
 WIP_FUNC(0x589420)
 void RouteFinder::sub_589420(RouteFinder_10* p10)
 {
-    WIP_IMPLEMENTED;
+    field_CA40[p10->field_0_idx] = 1;
 
-    this->field_CA40[p10->field_0_idx] = 1;
-    RouteFinder_10* pItem = this->field_A82C;
-    u16 toFind = p10->field_2;
-    if (toFind >= (s32)pItem->field_2)
+    if (p10->field_2 < field_A82C->field_2)
     {
-        for (RouteFinder_10* pIter = pItem->field_C_pNext; pIter; pIter = pIter->field_C_pNext)
-        {
-            if ((s32)pIter->field_2 >= toFind)
-            {
-                break;
-            }
-            pItem = pIter;
-        }
-        p10->field_C_pNext = pItem->field_C_pNext;
-        pItem->field_C_pNext = p10;
+        p10->field_C_pNext = field_A82C;
+        field_A82C = p10;
     }
     else
     {
-        p10->field_C_pNext = pItem;
-        this->field_A82C = p10;
+        RouteFinder_10* v3 = field_A82C;
+        for (RouteFinder_10* i = v3->field_C_pNext; i != NULL && i->field_2 < p10->field_2; i = v3->field_C_pNext)
+        {
+            v3 = i;
+        }
+        p10->field_C_pNext = v3->field_C_pNext;
+        v3->field_C_pNext = p10;
     }
 }
 
