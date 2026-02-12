@@ -741,15 +741,44 @@ s32 CarPhysics_B0::sub_55C820(u32* a2, s32 a3)
 }
 
 STUB_FUNC(0x55ca70)
-void CarPhysics_B0::sub_55CA70(s32 a2, s32 a3)
+void CarPhysics_B0::sub_55CA70(Fix16_Point a2, Ang16 a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55cbb0)
-void CarPhysics_B0::sub_55CBB0(s32 a2, s32 a3)
+// https://decomp.me/scratch/0TpGe
+WIP_FUNC(0x55cbb0)
+void CarPhysics_B0::sub_55CBB0(Fix16 a2, Fix16 a3)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    Car_BC* pCar;
+    if (gRozza_679188.field_24->field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        pCar = gRozza_679188.field_24->field_8_car_bc_ptr;
+    }
+    else
+    {
+        pCar = NULL;
+    }
+
+    CarPhysics_B0* pPhysics = pCar->field_58_physics;
+    CarPhysics_B0::restore_saved_physics_state_55A400();
+    CarPhysics_B0::sub_560F20(a2);
+
+    Fix16_Point point(pPhysics->field_38_cp1.x, pPhysics->field_38_cp1.y);
+
+    CarPhysics_B0::restore_saved_physics_state_55A400();
+    CarPhysics_B0::sub_560F20(a3);
+    if (pPhysics == this)
+    {
+        CarPhysics_B0::sub_55CA70(point, pPhysics->field_58_theta);
+    }
+    else
+    {
+        CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0();
+        CarPhysics_B0::sub_55CA70(point, pPhysics->field_58_theta);
+        CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0();
+    }
 }
 
 STUB_FUNC(0x55d200)
@@ -1149,6 +1178,7 @@ void CarPhysics_B0::ApplyBrakePhysics_5624F0()
     }
 }
 
+// https://decomp.me/scratch/f2UpJ
 WIP_FUNC(0x562560)
 void CarPhysics_B0::UpdateSteeringAngle_562560()
 {
