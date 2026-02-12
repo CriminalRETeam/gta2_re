@@ -969,7 +969,7 @@ void Char_B4::UpdateAnimState_546360()
 
         case Char_Anim_state::Entering_Car_6:
         case 9:
-            field_84->field_76 = 0;
+            field_84->field_76_last_seen_timer = 0;
             if ((u8)field_68_animation_frame > 12u)
             {
                 goto LABEL_125;
@@ -977,7 +977,7 @@ void Char_B4::UpdateAnimState_546360()
             break;
 
         case Char_Anim_state::Exiting_Car_7:
-            field_84->field_76 = 0;
+            field_84->field_76_last_seen_timer = 0;
             switch (field_68_animation_frame)
             {
                 case 0u:
@@ -1165,7 +1165,7 @@ void Char_B4::UpdateAnimState_546360()
             }
 
         case 8:
-            field_84->field_76 = 0;
+            field_84->field_76_last_seen_timer = 0;
 
             // Note: was if/else
             switch (field_68_animation_frame)

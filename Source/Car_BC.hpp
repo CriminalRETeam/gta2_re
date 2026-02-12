@@ -292,7 +292,7 @@ class Car_6C
     s32 field_48;
     Fix16_Point field_4C_tv_van_dir;
     u8 field_54;
-    char_type field_55;
+    char_type field_55_visible_cars_count;
     char_type field_56;
     char_type field_57;
     s32 field_58_model_to_check_destroy;
@@ -638,7 +638,7 @@ class Car_BC
     void sub_421560(s32 a1)
     {
         field_7C_uni_num = a1;
-        field_76 = 0;
+        field_76_last_seen_timer = 0;
     }
 
     // TODO: Find 9.6f addr
@@ -954,7 +954,7 @@ class Car_BC
     s32 field_6C_maybe_id;
     s32 field_70_exploder_ped_id;
     s16 field_74_damage;
-    s16 field_76;
+    s16 field_76_last_seen_timer;
     u16 field_78_flags;
     s16 field_7A;
     s32 field_7C_uni_num;

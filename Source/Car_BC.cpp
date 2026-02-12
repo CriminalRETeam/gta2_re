@@ -918,7 +918,7 @@ void Car_6C::CarsService_446790()
 
     gTaxi_4_704130->PopAll_457BC0();
 
-    field_55 = 0;
+    field_55_visible_cars_count = 0;
 
     gCar_BC_Pool_67792C->field_0_pool.UpdatePool();
 
@@ -1103,7 +1103,7 @@ Car_6C::Car_6C()
     //field_50_tv_van_dir = 0;
     field_4C_tv_van_dir = Fix16_Point(Fix16(0), Fix16(0));
     field_54 = 0;
-    field_55 = 0;
+    field_55_visible_cars_count = 0;
     field_58_model_to_check_destroy = car_model_enum::none;
     field_5C = 0;
     field_C_model_unk = car_model_enum::none;
@@ -3371,7 +3371,7 @@ void Car_BC::sub_4406E0(Ped* pPed)
     SetDriver(pPed);
     InitCarAIControl_440590();
     this->field_7C_uni_num = pPed->field_238;
-    this->field_76 = 0;
+    this->field_76_last_seen_timer = 0;
     if (pPed->IsField238_45EDE0(2))
     {
         DeAllocateAI_4446E0();
@@ -4190,8 +4190,8 @@ bool Car_BC::sub_442200()
 MATCH_FUNC(0x442310)
 void Car_BC::sub_442310()
 {
-    bool bIntersection = false;
-    bool bCheckMax = true;
+    bool bOnScreenForAnyPlayer = false;
+    bool bIsNotSeen = true;
 
     if (bSkip_recycling_67D575 && field_84_car_info_idx != car_model_enum::MEDICAR && field_84_car_info_idx != car_model_enum::COPCAR &&
         field_84_car_info_idx != car_model_enum::EDSELFBI)
@@ -4203,8 +4203,8 @@ void Car_BC::sub_442310()
     {
         if (IsOnScreenForAnyPlayer_43B730())
         {
-            field_76 = 0;
-            bCheckMax = false;
+            field_76_last_seen_timer = 0;
+            bIsNotSeen = false;
         }
     }
     else
@@ -4215,31 +4215,31 @@ void Car_BC::sub_442310()
             {
                 if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(field_50_car_sprite, i, dword_6778D0))
                 {
-                    bIntersection = true;
+                    bOnScreenForAnyPlayer = true;
                 }
             }
         }
 
-        if (bIntersection)
+        if (bOnScreenForAnyPlayer)
         {
-            field_76 = 0;
-            bCheckMax = false;
+            field_76_last_seen_timer = 0;
+            bIsNotSeen = false;
         }
     }
 
-    if (bCheckMax)
+    if (bIsNotSeen)
     {
-        field_76++;
-        if (field_76 > 9999)
+        field_76_last_seen_timer++;
+        if (field_76_last_seen_timer > 9999)
         {
-            field_76 = 9999;
+            field_76_last_seen_timer = 9999;
         }
     }
 
     if (((IsCopCar_421790() || IsFireTruck_4118F0() || IsSwatVan_4217A0() || IsTank_411900() || IsGunJeep_411910() ||
           is_FBI_car_411920()) &&
-         field_76 == 300) ||
-        field_76 >= 130)
+         field_76_last_seen_timer == 300) ||
+        field_76_last_seen_timer >= 130)
     {
         if (sub_442200() && !sub_4214B0() && field_88 != 5)
         {
@@ -4436,9 +4436,9 @@ char_type Car_BC::TrailerUpdate_443130()
 MATCH_FUNC(0x443170)
 char_type Car_BC::PoolUpdate()
 {
-    if (!this->field_76)
+    if (!this->field_76_last_seen_timer)
     {
-        gCar_6C_677930->field_55++;
+        gCar_6C_677930->field_55_visible_cars_count++;
     }
 
     sub_444020();
@@ -5007,7 +5007,7 @@ void Car_BC::PoolAllocate()
     this->field_58_physics = 0;
     this->field_A4 = 0;
     this->field_A5_flash_phase_counter = 0;
-    this->field_76 = 0;
+    this->field_76_last_seen_timer = 0;
     this->field_7C_uni_num = 3;
     this->field_50_car_sprite = 0;
     this->field_9C = 1;
@@ -5090,7 +5090,7 @@ Car_BC::Car_BC()
     field_98 = 0;
     field_9C = 0;
     field_7C_uni_num = 0;
-    field_76 = 0;
+    field_76_last_seen_timer = 0;
     field_A4 = 0;
     field_A5_flash_phase_counter = 0;
     field_A6 = 0;

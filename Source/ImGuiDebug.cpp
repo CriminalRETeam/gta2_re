@@ -1094,7 +1094,7 @@ void CC ImGuiDebugDraw()
                     pNewCar->SpawnDriverPed();
 
                     pNewCar->field_7C_uni_num = 5;
-                    pNewCar->field_76 = 0;
+                    pNewCar->field_76_last_seen_timer = 0;
                     if (pNewCar->field_98 != 4)
                     {
                         pNewCar->field_98 = 2;

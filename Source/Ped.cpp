@@ -1187,7 +1187,7 @@ void Ped::SpawnPedInCar_45C730(Car_BC* pCar)
 
     pCar->SetDriver(this);
     pCar->field_7C_uni_num = field_238;
-    pCar->field_76 = 0;
+    pCar->field_76_last_seen_timer = 0;
 
     // TODO: inline ??
     if (pCar->field_88 == 2 || pCar->field_88 == 4 || pCar->field_88 == 3)
@@ -2567,7 +2567,7 @@ void Ped::sub_461630()
                 if (target_objective_car)
                 {
                     target_objective_car->field_7C_uni_num = 3;
-                    target_objective_car->field_76 = 0;
+                    target_objective_car->field_76_last_seen_timer = 0;
                     SetObjective(objectives_enum::no_obj_0, 9999);
                 }
                 else
@@ -5099,7 +5099,7 @@ void Ped::sub_467CA0()
         }
         else
         {
-            field_140->field_76 = 0;
+            field_140->field_76_last_seen_timer = 0;
         }
     }
 
@@ -6871,7 +6871,7 @@ void Ped::sub_46CA70()
 
     Car_BC* pBC = this->field_16C_car;
     pBC->field_7C_uni_num = 5;
-    pBC->field_76 = 0;
+    pBC->field_76_last_seen_timer = 0;
     this->field_16C_car->field_60->field_30_ped_to_follow = this->field_14C;
     this->field_16C_car->field_A6 &= ~0x20u;
     this->field_16C_car->field_5C->field_74 = dword_67866C;
@@ -8272,7 +8272,7 @@ void Ped::AimRoofGun_470050()
     {
         if (field_148_objective_target_ped->IsField238_45EDE0(2))
         {
-            if (!this->field_16C_car->field_76)
+            if (!this->field_16C_car->field_76_last_seen_timer)
             {
                 this->field_21C |= 0x800;
             }
@@ -8373,7 +8373,7 @@ void Ped::sub_470300()
         if (info_idx != 59 && info_idx != 60 && info_idx != 61 && info_idx != 6)
         {
             pCar->field_7C_uni_num = 3;
-            pCar->field_76 = 0;
+            pCar->field_76_last_seen_timer = 0;
             CarPhysics_B0* pCarPhysics = pCar->field_58_physics;
             if (pCarPhysics)
             {
