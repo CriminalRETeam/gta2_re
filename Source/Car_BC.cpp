@@ -1176,10 +1176,21 @@ bool Car_BC::sub_445360()
     return 0;
 }
 
-STUB_FUNC(0x43D5D0)
-EXPORT s16 Car_BC::sub_43D5D0(Fix16 a2)
+MATCH_FUNC(0x43D5D0)
+EXPORT s16 Car_BC::ApplyImpactDamage_43D5D0(Fix16 damage)
 {
-    NOT_IMPLEMENTED;
+    if ((field_84_car_info_idx == car_model_enum::TAXI || field_84_car_info_idx == car_model_enum::STYPECAB) && damage > k_dword_6777D4)
+    {
+        // Big taxi crash, time for the passengers to do a runner
+        field_4_passengers_list.ForceTaxiPassengersToExit_471680();
+    }
+
+    if ((this->field_78_flags & 8) == 0)
+    {
+
+        return AccumulateDamage_43DA90((damage * 200).ToInt(), &stru_6778A8);
+    }
+
     return 0;
 }
 
@@ -1840,7 +1851,7 @@ void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
 
                     if (pCar->field_84_car_info_idx == car_model_enum::TANK)
                     {
-                        score += Car_BC::sub_43D5D0(k_dword_677918);
+                        score += Car_BC::ApplyImpactDamage_43D5D0(k_dword_677918);
                     }
 
                     if (score > 200)

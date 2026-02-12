@@ -362,7 +362,7 @@ class Car_BC
     EXPORT bool sub_445360();
     EXPORT Ang16 sub_4403A0();
 
-    EXPORT s16 sub_43D5D0(Fix16 a2);
+    EXPORT s16 ApplyImpactDamage_43D5D0(Fix16 a2);
 
 
     EXPORT bool IsPoliceCar_439EC0();
