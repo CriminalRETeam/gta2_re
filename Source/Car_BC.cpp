@@ -149,6 +149,8 @@ DEFINE_GLOBAL(Ang16, word_6771C0, 0x6771C0);
 DEFINE_GLOBAL(Ang16, word_677352, 0x677352);
 DEFINE_GLOBAL(Ang16, word_677810, 0x677810);
 
+DEFINE_GLOBAL(Fix16, dword_676D98, 0x676D98);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -579,11 +581,120 @@ char Car_BC::SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     return 0;
 }
 
-STUB_FUNC(0x445EC0)
+WIP_FUNC(0x445EC0)
 char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 pos_x = xpos;
+    Fix16 pos_y = ypos;
+    Fix16 pos_z;
+
+    s32 time_out_counter = 0;
+    Fix16 zTmp;
+    s32 zTmpInt = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&zTmp, xpos, ypos)->ToInt();
+    while (1)
+    {
+        gmp_block_info* pBlock = gMap_0x370_6F6268->sub_4E4CB0(pos_x.ToInt(), pos_y.ToInt(), zTmpInt);
+        ++zTmpInt;
+        if (pBlock)
+        {
+            if ((pBlock->field_B_slope_type & 3) == 1)
+            {
+                if (!gRouteFinder_6FFDC8->sub_588DE0(pBlock, 1, maybe_direction))
+                {
+                    if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, 1, 1))
+                    {
+                        maybe_direction = 1;
+                    }
+                    else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, 1, 3))
+                    {
+                        maybe_direction = 3;
+                    }
+                    else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, 1, 2))
+                    {
+                        maybe_direction = 2;
+                    }
+                    else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, 1, 4))
+                    {
+                        maybe_direction = 4;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+
+                if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pos_x, pos_y))
+                {
+                    gMap_0x370_6F6268->sub_4E4D40(&pos_z, pos_x, pos_y, Fix16(zTmpInt));
+                    car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+                    Fix16 w_val = dword_6F6850.list[pInfo->w];
+                    Fix16 h_val = dword_6F6850.list[pInfo->h];
+                    if (maybe_direction >= 3 && maybe_direction <= 4)
+                    {
+                        w_val = dword_6F6850.list[pInfo->h];
+                        h_val = dword_6F6850.list[pInfo->w];
+                    }
+                    Fix16_Rect rect;
+                    rect.field_8_top = pos_y - h_val;
+                    rect.field_0_left = pos_x - w_val;
+                    rect.field_14_high_z = dword_6777D0 + pos_z;
+                    rect.field_4_right = w_val + pos_x;
+                    rect.field_C_bottom = h_val + pos_y;
+                    rect.field_10_low_z = pos_z - dword_6777D0;
+                    if (!gPurpleDoom_1_679208->CheckRectForCollisions_477F60(&rect, 0, 0, 0) && !rect.CanRectEnterMovementRegion_59DE80())
+                    {
+                        field_50_car_sprite->set_xyz_lazy_420600(pos_x, pos_y, pos_z);
+
+                        Ang16 ang = sub_4F7940(&maybe_direction);
+                        field_50_car_sprite->set_ang_lazy_420690(ang);
+
+                        if (field_58_physics)
+                        {
+                            field_58_physics->SnapVelocityToSpriteDirection_563590(field_50_car_sprite);
+                            // TODO: Inline
+                            CarPhysics_B0* pPhysics = field_58_physics;
+                            pPhysics->field_93_is_forward_gas_on = 1;
+                            pPhysics->field_91_is_foot_brake_on = 0;
+                            pPhysics->field_94_is_backward_gas_on = 0;
+                            pPhysics->field_95 = 0;
+                            field_58_physics->field_92_is_hand_brake_on = 0;
+                            field_58_physics->field_AD_turn_direction = 0;
+                        }
+                        return 1;
+                    }
+                }
+            }
+        }
+        switch (maybe_direction)
+        {
+            case 1:
+                pos_y += dword_6777D0;
+                break;
+            case 2:
+                pos_y -= dword_6777D0;
+                break;
+            case 3:
+                pos_x -= dword_6777D0;
+                break;
+            case 4:
+                pos_x += dword_6777D0;
+                break;
+            default:
+                break;
+        }
+
+        if (pos_x < gFix16_6777CC || pos_x > dword_676D98 || pos_y < gFix16_6777CC || pos_y > dword_676D98 || zTmpInt >= 8)
+        {
+            time_out_counter = 200;
+        }
+
+        if (++time_out_counter >= 200)
+        {
+            return 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x444f80)
@@ -3750,7 +3861,7 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
         Sprite_18* pTankSprite = field_0_qq.GetSpriteForModel_5A6A50(148);
         if (bLeftOn)
         {
-            pTankSprite->field_10 += word_677352; 
+            pTankSprite->field_10 += word_677352;
         }
         else
         {
