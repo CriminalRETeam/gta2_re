@@ -145,6 +145,10 @@ DEFINE_GLOBAL(Ang16, word_6F6D3C, 0x6F6D3C);
 DEFINE_GLOBAL(Fix16, dword_6772BC, 0x6772BC);
 DEFINE_GLOBAL(Fix16, dword_677214, 0x677214);
 
+DEFINE_GLOBAL(Ang16, word_6771C0, 0x6771C0);
+DEFINE_GLOBAL(Ang16, word_677352, 0x677352);
+DEFINE_GLOBAL(Ang16, word_677810, 0x677810);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -3721,10 +3725,57 @@ char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
     return 0;
 }
 
-STUB_FUNC(0x440d90)
-char_type Car_BC::HandleRoofTurretRotation_440D90(char_type a2)
+WIP_FUNC(0x440d90)
+char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (field_84_car_info_idx == car_model_enum::FIRETRUK)
+    {
+        Sprite_18* pFTruckSprite = field_0_qq.GetSpriteForModel_5A6A50(114);
+        if (bLeftOn)
+        {
+            pFTruckSprite->field_10 += word_6771C0;
+        }
+        else
+        {
+            pFTruckSprite->field_10 -= word_6771C0;
+        }
+        this->field_B8 = 1;
+        return 1;
+    }
+
+    if (field_84_car_info_idx == car_model_enum::TANK)
+    {
+        Sprite_18* pTankSprite = field_0_qq.GetSpriteForModel_5A6A50(148);
+        if (bLeftOn)
+        {
+            pTankSprite->field_10 += word_677352; 
+        }
+        else
+        {
+            pTankSprite->field_10 -= word_677352;
+        }
+        this->field_B8 = 1;
+        return 1;
+    }
+
+    if (field_84_car_info_idx == car_model_enum::GUNJEEP)
+    {
+        Sprite_18* pGunJeepSprite = field_0_qq.GetSpriteForModel_5A6A50(248);
+        if (!bLeftOn)
+        {
+            pGunJeepSprite->field_10 -= word_677810;
+        }
+        else
+        {
+            pGunJeepSprite->field_10 += word_677810;
+        }
+
+        this->field_B8 = 1;
+        return 1;
+    }
+
     return 0;
 }
 
