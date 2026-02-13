@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Fix16_Point.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
-#include "Fix16_Point.hpp"
 
 namespace DataType
 {
@@ -13,11 +13,11 @@ enum
     dword = 2,
     fix16_float = 3,
 };
-};
+}; // namespace DataType
 
 struct UnknownList
 {
-    Fix16 sub_41FE70(s8& var) 
+    Fix16 sub_41FE70(s8& var)
     {
         if (var < 0)
         {
@@ -25,9 +25,12 @@ struct UnknownList
         }
         return list[var];
     }
-    
+
+    EXPORT Fix16 sub_440860(s8& var);
+
     Fix16 list[256];
 };
+
 
 EXTERN_GLOBAL(UnknownList, dword_6F6850);
 
@@ -58,7 +61,7 @@ class ModelPhysics_48
 
     Fix16 get_anti_strngth()
     {
-      return field_2C_anti_strngth;
+        return field_2C_anti_strngth;
     }
 
     EXPORT void sub_454680();
