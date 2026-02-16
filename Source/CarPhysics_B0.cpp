@@ -517,10 +517,26 @@ void CarPhysics_B0::restore_state_55A550()
     }
 }
 
-STUB_FUNC(0x55a600)
+MATCH_FUNC(0x55a600)
 void CarPhysics_B0::save_state_55A600()
 {
-    NOT_IMPLEMENTED;
+    gSaved_cm1_6FE3C8 = this->field_30_cm1;
+    gSaved_cp3_6FDF84 = this->field_6C_cp3;
+    gSaved_theta_6FE158 = this->field_58_theta;
+    gSaved_cp1_6FE090 = this->field_38_cp1;
+    gSaved_f70_6FE268 = this->field_70;
+    gSaved_zpos_6FE32C = this->field_68_z_pos;
+    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
+    if (pTrailer)
+    {
+        CarPhysics_B0* pPhysics = pTrailer->field_C_pCarOnTrailer->field_58_physics;
+        gSaved_trailer_cm1_6FE160 = pPhysics->field_30_cm1;
+        gSaved_trailed_cp3_6FDF8C = pPhysics->field_6C_cp3;
+        gSaved_trailer_theta_6FE310 = pPhysics->field_58_theta;
+        gSaved_trailer_cp1_6FDF40 = pPhysics->field_38_cp1;
+        gSaved_trailer_f70_6FE0E0 = pPhysics->field_70;
+        gSaved_trailer_zpos_6FE394 = pPhysics->field_68_z_pos;
+    }
 }
 
 STUB_FUNC(0x55a6a0)
