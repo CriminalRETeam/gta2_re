@@ -2654,7 +2654,7 @@ EmitImpactParticles_55B7E0,0x55b7e0,0x15b7e0,0xc6
 CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970,0x55b970,0x15b970,0x36a
 CarPhysics_B0::ProcessGroundCollisionAndEmitImpactParticles_55BFE0,0x55bfe0,0x15bfe0,0xa3
 CarPhysics_B0::sub_55C150,0x55c150,0x15c150,0x5a
-CarPhysics_B0::sub_55C3B0,0x55c3b0,0x15c3b0,0xe9
+CarPhysics_B0::SweepTestMovementForCollision_55C3B0,0x55c3b0,0x15c3b0,0xe9
 CarPhysics_B0::sub_55C560,0x55c560,0x15c560,0x59
 CarPhysics_B0::sub_55C5C0,0x55c5c0,0x15c5c0,0x251
 CarPhysics_B0::sub_55C820,0x55c820,0x15c820,0x248

@@ -68,7 +68,7 @@ class CarPhysics_B0
     EXPORT char_type ProcessGroundCollisionAndSurfaceType_55B970(char_type* a2);
     EXPORT void ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
     EXPORT char_type sub_55C150();
-    EXPORT char_type sub_55C3B0(Sprite_4C** a2, Sprite_4C** a3);
+    EXPORT char_type SweepTestMovementForCollision_55C3B0(Fix16* a2, Fix16* a3);
     EXPORT void sub_55C560(Fix16& a2, Fix16& a3);
     EXPORT s32 sub_55C5C0(u32* a2, s32 a3);
     EXPORT s32 sub_55C820(u32* a2, s32 a3);

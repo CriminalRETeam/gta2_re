@@ -802,7 +802,7 @@ char_type CarPhysics_B0::sub_55C150()
 }
 
 STUB_FUNC(0x55c3b0)
-char_type CarPhysics_B0::sub_55C3B0(Sprite_4C** a2, Sprite_4C** a3)
+char_type CarPhysics_B0::SweepTestMovementForCollision_55C3B0(Fix16* a2, Fix16* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
