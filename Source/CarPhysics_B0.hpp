@@ -51,7 +51,7 @@ class CarPhysics_B0
     EXPORT void sub_55A600();
     EXPORT u32* sub_55A6A0(u32* a2);
     EXPORT void ResetForceAccumulators_55A840();
-    EXPORT char_type
+    EXPORT void
     HandleUserInputs_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn);
     EXPORT void HandleGravityOnSlope_55AA00();
     EXPORT s32* sub_55AB50(s32* a2, Sprite_4C** a3);
@@ -72,13 +72,13 @@ class CarPhysics_B0
     EXPORT void sub_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5);
     EXPORT char_type sub_55DC00();
     EXPORT void DoSkidmarks_55E260();
-    EXPORT char_type sub_55E470();
+    EXPORT char_type StepMovementAndCollisions_55E470();
     EXPORT char_type CheckAndHandleCarAndTrailerCollisions_55EB80();
     EXPORT s32 ApplyForwardEngineForce_55EC30();
     EXPORT s32 ApplyReverseEngineForce_55EF20();
     EXPORT s32 ApplyTurningForce_55F020();
     EXPORT char_type ApplyMovementCommand_55F240();
-    EXPORT s32 ProcessCollisionAndClampVelocity_55F280();
+    EXPORT char_type ProcessCollisionAndClampVelocity_55F280();
     EXPORT void sub_55F330();
     EXPORT char_type sub_55F360();
     EXPORT void sub_55F740(Fix16_Point* a2, Fix16_Point* a3);

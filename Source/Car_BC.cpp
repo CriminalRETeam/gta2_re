@@ -6678,7 +6678,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                 return 0;
                             }
                         }
-                        gPolice_7B8_6FEE40->sub_577370(car_x.ToInt(), ypos.ToInt(), arrow_direction);
+                        gPolice_7B8_6FEE40->TryCreateRoadblockAt_577370(car_x.ToInt(), ypos.ToInt(), arrow_direction);
                     }
                 }
             LABEL_117:
