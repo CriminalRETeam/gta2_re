@@ -1187,17 +1187,17 @@ void CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
 }
 
 STUB_FUNC(0x561130)
-u32* CarPhysics_B0::sub_561130(u32* a2, u32* a3)
+Fix16_Point CarPhysics_B0::sub_561130(Fix16_Point* a3)
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return Fix16_Point();
 }
 
-STUB_FUNC(0x561350)
-u32* CarPhysics_B0::sub_561350(u32* a2, u32* a3)
+MATCH_FUNC(0x561350)
+Fix16_Point CarPhysics_B0::sub_561350(Fix16_Point* a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    sub_562ED0();
+    return sub_561130(a3);
 }
 
 STUB_FUNC(0x561380)
