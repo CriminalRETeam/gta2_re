@@ -808,13 +808,10 @@ char_type CarPhysics_B0::sub_55C3B0(Sprite_4C** a2, Sprite_4C** a3)
     return 0;
 }
 
-WIP_FUNC(0x55c560)
-void CarPhysics_B0::sub_55C560(Fix16 a2, Fix16 a3)
+MATCH_FUNC(0x55c560)
+void CarPhysics_B0::sub_55C560(Fix16& a2, Fix16& a3)
 {
-    WIP_IMPLEMENTED;
-
-    s32 i = 3;
-    do
+    for (s32 i = 0; i < 3; i++)
     {
         restore_saved_physics_state_55A400();
         Fix16 total = (a3 + a2) / 2;
@@ -827,8 +824,7 @@ void CarPhysics_B0::sub_55C560(Fix16 a2, Fix16 a3)
         {
             a3 = total;
         }
-        --i;
-    } while (i);
+    }
 }
 
 STUB_FUNC(0x55c5c0)
