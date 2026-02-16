@@ -64,5 +64,17 @@ with open(reccmp_dir / "96f-functions.csv", "w+") as f:
         if addr in ida_map:
             f.write(f"{ida_map[addr]},{type_},{name}\n")
 
+with open(reccmp_dir / "library.csv", "r") as f:
+    library = [line for line in f]
+
+with open(reccmp_dir / "96f-library.csv", "w+") as f:
+    f.write(library[0])
+    for line in library[1:]:
+        (addr, _, rest) = line.partition(",")
+        addr = "0x" + addr.lower()
+        if addr in ida_map:
+            f.write(f"{ida_map[addr]},{rest}")
+
+
 print(f"Read {len(functions)} functions.")
 print(f"Read {len(variables)} variables.")
