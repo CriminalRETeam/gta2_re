@@ -17,6 +17,8 @@ struct Fix16_Point_POD;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(ModelPhysics_48*, dword_6FE258);
+EXTERN_GLOBAL(Ang16, word_6FE00C);
+EXTERN_GLOBAL(Ang16, word_6FE154);
 
 class CarPhysics_B0
 {
@@ -51,8 +53,11 @@ class CarPhysics_B0
     EXPORT void sub_55A600();
     EXPORT u32* sub_55A6A0(u32* a2);
     EXPORT void ResetForceAccumulators_55A840();
-    EXPORT void
-    HandleUserInputs_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn);
+    EXPORT void HandleUserInputs_55A860(char_type bForwardGasOn,
+                                        char_type bFootBrakeOn,
+                                        char_type a4,
+                                        char_type a5,
+                                        char_type bHandBrakeOn);
     EXPORT void HandleGravityOnSlope_55AA00();
     EXPORT s32* sub_55AB50(s32* a2, Sprite_4C** a3);
     EXPORT s32 sub_55AD90(Fix16 a2);
@@ -141,6 +146,12 @@ class CarPhysics_B0
 
     EXPORT void SetCar_5638C0(Car_BC* pBC);
     EXPORT CarPhysics_B0();
+
+    bool sub_40F840()
+    {
+        Ang16 v1 = field_40_linvel_1.atan2_40F790() - field_58_theta;
+        return v1 <= word_6FE00C || v1 >= word_6FE154;
+    }
 
     inline Fix16 sub_4211A0()
     {

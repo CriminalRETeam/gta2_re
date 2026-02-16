@@ -76,6 +76,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE228, dword_6FDFF0, 0x6FE228);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE374, dword_6FDFD8 + dword_6FE1D4, 0x6FE374);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE104, dword_6FDFF8, 0x6FE104);
 
+DEFINE_GLOBAL(Ang16, word_6FE00C, 0x6FE00C);
+DEFINE_GLOBAL(Ang16, word_6FE154, 0x6FE154);
+
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -301,10 +304,11 @@ Fix16_Point CarPhysics_B0::ComputeCombinedCenterOfMass_559EC0()
     {
         Fix16 cab_mass = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->get_mass_43A120();
         Fix16 trailer_mass = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->get_mass_43A120();
-        
+
         Fix16 total_mass = trailer_mass + cab_mass;
 
-        Fix16_Point v10 = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->field_58_physics->field_30_cm1 * (trailer_mass / total_mass);
+        Fix16_Point v10 =
+            field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->field_58_physics->field_30_cm1 * (trailer_mass / total_mass);
         Fix16_Point v9 = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics->field_30_cm1 * (cab_mass / total_mass);
 
         return v9 + v10;
@@ -494,9 +498,6 @@ void CarPhysics_B0::ResetForceAccumulators_55A840()
     field_7C = 0;
     field_80 = 0;
 }
-
-Ang16 word_6FE00C;
-Ang16 word_6FE154;
 
 // https://decomp.me/scratch/efo3b
 WIP_FUNC(0x55a860)
@@ -1395,10 +1396,33 @@ void CarPhysics_B0::RotateVelocity_562C20(const Ang16& angle)
     field_0_vel_read_only.y = (cos * field_0_vel_read_only.y) + ((-x_old) * sin);
 }
 
-STUB_FUNC(0x562d00)
+// 9.6f 0x4A1B20
+WIP_FUNC(0x562d00)
 void CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point polar;
+    if (!IsInAir_55A0B0())
+    {
+        Fix16 radius;
+        if (sub_40F840())
+        {
+            radius = dword_6FE258->field_28_max_speed;
+        }
+        else
+        {
+            radius = dword_6FE258->field_40_gear2_speed;
+        }
+
+        Fix16_Point& linVel = field_40_linvel_1;
+        if (linVel.GetLength_2() > radius)
+        {
+            Ang16 ang = linVel.atan2_40F790();
+            polar.FromPolar_41E210(radius, ang);
+            linVel.ClampTowardsZero_49E480(polar);
+        }
+    }
 }
 
 MATCH_FUNC(0x562eb0)
