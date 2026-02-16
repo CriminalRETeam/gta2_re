@@ -188,7 +188,7 @@ class Ped
     EXPORT void sub_46C9B0();
     EXPORT void sub_46CA60();
     EXPORT void sub_46CA70();
-    EXPORT char_type sub_46CB30();
+    EXPORT void sub_46CB30();
     EXPORT char_type sub_46CC70();
     EXPORT char_type sub_46CDB0();
     EXPORT char_type sub_46CEF0();

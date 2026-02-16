@@ -1,8 +1,8 @@
 #include "Ped.hpp"
 #include "Ambulance_110.hpp"
+#include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
-#include "CarInfo_808.hpp"
 #include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
@@ -6878,11 +6878,45 @@ void Ped::sub_46CA70()
     this->field_16C_car->field_60->field_20 = 1;
 }
 
-STUB_FUNC(0x46cb30)
-char_type Ped::sub_46CB30()
+WIP_FUNC(0x46cb30)
+void Ped::sub_46CB30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 y = this->field_1AC_cam.y;
+    if (this->field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->field_192_phase == 7)
+    {
+        s32 i = 0;
+        gmp_compressed_map_32* pMap = gMap_0x370_6F6268->field_0_pDmap;
+        s32 z_int = (this->field_1AC_cam.z - k_dword_678664).ToInt();
+        u8 x_int = (u8)(this->field_1AC_cam.x.ToInt());
+        while (1)
+        {
+            y -= k_dword_678664;
+            gmp_col_info* pCol = (gmp_col_info*)&pMap->field_40008_pColumn[pMap->field_0_base[(u8)(y.ToInt())][x_int]];
+            if ((u8)z_int < pCol->field_0_height && (u8)z_int >= pCol->field_1_offset)
+            {
+                gmp_block_info* pBlock = &pMap->field_4000C_block[pCol->field_4_blockd[(u8)z_int - pCol->field_1_offset]];
+                if (pBlock)
+                {
+                    if ((pBlock->field_B_slope_type & 3) == 2)
+                    {
+                        break;
+                    }
+                }
+            }
+            if ((u8)++i >= 6u)
+            {
+                return;
+            }
+        }
+
+        sub_463830(48, 9999);
+
+        this->field_1C4_x = this->field_1AC_cam.x;
+        this->field_1C8_y = k_dword_67853C + Fix16((u8)y.ToInt());
+        this->field_1CC_z = this->field_1AC_cam.z;
+    }
 }
 
 STUB_FUNC(0x46cc70)
