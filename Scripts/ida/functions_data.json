@@ -12370,7 +12370,7 @@
         "v105_address": "0x560eb0"
     },
     {
-        "name": "CarPhysics_B0::sub_560F20",
+        "name": "CarPhysics_B0::ApplyMovementStep_560F20",
         "v96f_address": "0x4A2E30",
         "v105_address": "0x560f20"
     },

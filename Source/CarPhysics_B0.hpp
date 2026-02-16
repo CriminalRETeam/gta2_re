@@ -100,7 +100,7 @@ class CarPhysics_B0
     EXPORT void sub_5606C0(s32 a2, char_type a3);
     EXPORT void sub_560B40(s32 a2, s32 a3);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
-    EXPORT void sub_560F20(Fix16 a2);
+    EXPORT void ApplyMovementStep_560F20(Fix16 a2);
     EXPORT void IntegrateAndClampVelocities_5610B0();
     EXPORT Fix16_Point sub_561130(Fix16_Point* a3);
     EXPORT Fix16_Point sub_561350(Fix16_Point* a3);

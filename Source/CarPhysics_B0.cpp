@@ -815,7 +815,7 @@ void CarPhysics_B0::sub_55C560(Fix16& a2, Fix16& a3)
     {
         restore_saved_physics_state_55A400();
         Fix16 total = (a3 + a2) / 2;
-        sub_560F20(total);
+        ApplyMovementStep_560F20(total);
         if (sub_55C150())
         {
             a2 = total;
@@ -864,12 +864,12 @@ void CarPhysics_B0::sub_55CBB0(Fix16 a2, Fix16 a3)
 
     CarPhysics_B0* pPhysics = pCar->field_58_physics;
     CarPhysics_B0::restore_saved_physics_state_55A400();
-    CarPhysics_B0::sub_560F20(a2);
+    CarPhysics_B0::ApplyMovementStep_560F20(a2);
 
     Fix16_Point point(pPhysics->field_38_cp1.x, pPhysics->field_38_cp1.y);
 
     CarPhysics_B0::restore_saved_physics_state_55A400();
-    CarPhysics_B0::sub_560F20(a3);
+    CarPhysics_B0::ApplyMovementStep_560F20(a3);
     if (pPhysics == this)
     {
         CarPhysics_B0::sub_55CA70(point, pPhysics->field_58_theta);
@@ -1038,7 +1038,7 @@ void CarPhysics_B0::sub_55F330()
 {
     dword_6FE198 = k_dword_6FE210;
     save_physics_state_55A4B0();
-    sub_560F20(k_dword_6FE210);
+    ApplyMovementStep_560F20(k_dword_6FE210);
 }
 
 MATCH_FUNC(0x55f360)
@@ -1176,7 +1176,7 @@ void CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0()
 }
 
 STUB_FUNC(0x560f20)
-void CarPhysics_B0::sub_560F20(Fix16 a2)
+void CarPhysics_B0::ApplyMovementStep_560F20(Fix16 a2)
 {
     NOT_IMPLEMENTED;
 }
