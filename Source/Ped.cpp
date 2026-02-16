@@ -4202,16 +4202,16 @@ void Ped::ProcessInCarObjective_463FB0()
                 Ped::sub_46C9B0();
                 break;
             case 44:
-                Ped::sub_46CB30();
+                Ped::StartPedCrossingAtTrafficLight_Y_Backward_46CB30();
                 break;
             case 45:
-                Ped::sub_46CC70();
+                Ped::StartPedCrossingAtTrafficLight_X_Forwards_46CC70();
                 break;
             case 46:
-                Ped::sub_46CDB0();
+                Ped::StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0();
                 break;
             case 47:
-                Ped::sub_46CEF0();
+                Ped::StartPedCrossingAtTrafficLight_X_Backwards_46CEF0();
                 break;
             case 49:
                 Ped::sub_46D0B0();
@@ -6880,7 +6880,7 @@ void Ped::sub_46CA70()
 
 // 9.6f 0x43A550
 WIP_FUNC(0x46cb30)
-void Ped::sub_46CB30()
+void Ped::StartPedCrossingAtTrafficLight_Y_Backward_46CB30()
 {
     WIP_IMPLEMENTED;
 
@@ -6906,21 +6906,21 @@ void Ped::sub_46CB30()
 }
 
 STUB_FUNC(0x46cc70)
-char_type Ped::sub_46CC70()
+char_type Ped::StartPedCrossingAtTrafficLight_X_Forwards_46CC70()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46cdb0)
-char_type Ped::sub_46CDB0()
+char_type Ped::StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46cef0)
-char_type Ped::sub_46CEF0()
+char_type Ped::StartPedCrossingAtTrafficLight_X_Backwards_46CEF0()
 {
     NOT_IMPLEMENTED;
     return 0;
