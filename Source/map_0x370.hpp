@@ -92,6 +92,11 @@ struct gmp_compressed_map_32
     {
         return &field_4000C_block[block];
     }
+
+    u32* get_base_42A830(s32 y, s32 x)
+    {
+        return &field_0_base[y][x];
+    }
 };
 
 struct gmp_dmap_info
@@ -416,6 +421,28 @@ class Map_0x370
         return scale;
     }
 
+    gmp_block_info* get_block_42A850(u8 x, u8 y, u8 z)
+    {
+        u32 col_idx = *field_0_pDmap->get_base_42A830(y, x);
+        gmp_col_info* pCol =
+            reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[col_idx]);
+        if (z >= pCol->field_0_height || z < pCol->field_1_offset)
+        {
+            return 0;
+        }
+        return &field_0_pDmap->field_4000C_block[pCol->field_4_blockd[z - pCol->field_1_offset]];
+    }
+
+    bool sub_433530(u8 x, u8 y, u8 z)
+    {
+        gmp_block_info* pBlock = get_block_42A850(x, y, z);
+        if (pBlock && (pBlock->field_B_slope_type & 3) == 2)
+        {
+            return true;
+        }
+        return false;
+    }
+
     // 9.6f inline 0x420420
     inline u8 GetBlockTypeAtCoord_420420(s32 a2, s32 a3, s32 a4)
     {
@@ -429,13 +456,10 @@ class Map_0x370
 
     inline bool sub_466CF0(s32 xpos, s32 ypos, s32 zpos)
     {
-        gmp_block_info* block_4DFE10 = get_block_4DFE10(
-                                               xpos,
-                                               ypos,
-                                               zpos);
-        if (block_4DFE10 
-        && (block_4DFE10->field_B_slope_type & 0xFC) > 0 && (block_4DFE10->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(block_4DFE10->field_B_slope_type)
-        && (block_4DFE10->field_B_slope_type & 3) != 0) // !is_air_type(block_4DFE10->field_B_slope_type)
+        gmp_block_info* block_4DFE10 = get_block_4DFE10(xpos, ypos, zpos);
+        if (block_4DFE10 && (block_4DFE10->field_B_slope_type & 0xFC) > 0 &&
+            (block_4DFE10->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(block_4DFE10->field_B_slope_type)
+            && (block_4DFE10->field_B_slope_type & 3) != 0) // !is_air_type(block_4DFE10->field_B_slope_type)
         {
             return true;
         }
@@ -485,8 +509,6 @@ EXTERN_GLOBAL(s32, gPurple_left_6F5FD4);
 EXTERN_GLOBAL(s32, gPurple_right_6F5B80);
 
 EXPORT void Init_gmp_slopes_array();
-
-
 
 static inline u8 get_slope_bits(u8& slope_byte) // slope_byte but with its first 2 bits cleared
 {

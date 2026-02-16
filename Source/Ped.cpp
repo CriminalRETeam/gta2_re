@@ -6878,44 +6878,37 @@ void Ped::sub_46CA70()
     this->field_16C_car->field_60->field_20 = 1;
 }
 
+// 9.6f 0x43A550
 WIP_FUNC(0x46cb30)
 void Ped::sub_46CB30()
 {
     WIP_IMPLEMENTED;
 
+    bool found = false;
+    u8 yy;
     Fix16 y = this->field_1AC_cam.y;
-    if (this->field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->field_192_phase == 7)
+    if (this->field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
     {
-        s32 i = 0;
-        gmp_compressed_map_32* pMap = gMap_0x370_6F6268->field_0_pDmap;
-        s32 z_int = (this->field_1AC_cam.z - k_dword_678664).ToInt();
-        u8 x_int = (u8)(this->field_1AC_cam.x.ToInt());
-        while (1)
+        Fix16 z = (this->field_1AC_cam.z - k_dword_678664);
+        for (u8 i = 0; i < 6; i++)
         {
             y -= k_dword_678664;
-            gmp_col_info* pCol = (gmp_col_info*)&pMap->field_40008_pColumn[pMap->field_0_base[(u8)(y.ToInt())][x_int]];
-            if ((u8)z_int < pCol->field_0_height && (u8)z_int >= pCol->field_1_offset)
+            yy = y.ToInt();
+            if (gMap_0x370_6F6268->sub_433530(this->field_1AC_cam.x.ToInt(), yy, z.ToInt()))
             {
-                gmp_block_info* pBlock = &pMap->field_4000C_block[pCol->field_4_blockd[(u8)z_int - pCol->field_1_offset]];
-                if (pBlock)
-                {
-                    if ((pBlock->field_B_slope_type & 3) == 2)
-                    {
-                        break;
-                    }
-                }
-            }
-            if ((u8)++i >= 6u)
-            {
-                return;
+                found = true;
+                break;
             }
         }
+    }
 
+    if (found)
+    {
         sub_463830(48, 9999);
-
-        this->field_1C4_x = this->field_1AC_cam.x;
-        this->field_1C8_y = k_dword_67853C + Fix16((u8)y.ToInt());
-        this->field_1CC_z = this->field_1AC_cam.z;
+        Fix16 t = Fix16(yy) + k_dword_67853C;
+        this->Set_F1C4_x_433C50(this->field_1AC_cam.x);
+        this->Set_F1C8_y_433C60(t);
+        this->Set_F1CC_z_433C70(this->field_1AC_cam.z);
     }
 }
 

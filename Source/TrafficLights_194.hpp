@@ -30,6 +30,10 @@ class TrafficLights_194
     EXPORT void sub_5C2AC0();
     EXPORT TrafficLights_194();
     EXPORT ~TrafficLights_194();
+    bool is_phase_7_434960() const
+    {
+      return field_192_phase == 7;
+    }
     TrafficLight_20* field_0_traffic_lights[100];
     u16 field_190_array_used_count;
     u8 field_192_phase;
