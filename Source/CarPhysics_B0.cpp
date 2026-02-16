@@ -90,6 +90,19 @@ DEFINE_GLOBAL(u8, byte_6FDFC4, 0x6FDFC4);
 DEFINE_GLOBAL(u8, byte_6FDFCC, 0x6FDFCC);
 DEFINE_GLOBAL(Fix16_Point, stru_6FE1A0, 0x6FE1A0);
 
+DEFINE_GLOBAL(Fix16_Point, gSaved_cm1_6FE3C8, 0x6FE3C8);
+DEFINE_GLOBAL(Fix16, gSaved_cp3_6FDF84, 0x6FDF84);
+DEFINE_GLOBAL(Ang16, gSaved_theta_6FE158, 0x6FE158);
+DEFINE_GLOBAL(Fix16_Point, gSaved_cp1_6FE090, 0x6FE090);
+DEFINE_GLOBAL(Fix16, gSaved_f70_6FE268, 0x6FE268);
+DEFINE_GLOBAL(Fix16, gSaved_zpos_6FE32C, 0x6FE32C);
+
+DEFINE_GLOBAL(Fix16_Point, gSaved_trailer_cm1_6FE160, 0x6FE160);
+DEFINE_GLOBAL(Fix16, gSaved_trailed_cp3_6FDF8C, 0x6FDF8C);
+DEFINE_GLOBAL(Ang16, gSaved_trailer_theta_6FE310, 0x6FE310);
+DEFINE_GLOBAL(Fix16_Point, gSaved_trailer_cp1_6FDF40, 0x6FDF40);
+DEFINE_GLOBAL(Fix16, gSaved_trailer_f70_6FE0E0, 0x6FE0E0);
+DEFINE_GLOBAL(Fix16, gSaved_trailer_zpos_6FE394, 0x6FE394);
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -481,10 +494,27 @@ void CarPhysics_B0::save_physics_state_55A4B0()
     }
 }
 
-STUB_FUNC(0x55a550)
+MATCH_FUNC(0x55a550)
 void CarPhysics_B0::restore_state_55A550()
 {
-    NOT_IMPLEMENTED;
+    this->field_30_cm1 = gSaved_cm1_6FE3C8;
+    this->field_6C_cp3 = gSaved_cp3_6FDF84;
+    this->field_58_theta = gSaved_theta_6FE158;
+    this->field_38_cp1 = gSaved_cp1_6FE090;
+    this->field_70 = gSaved_f70_6FE268;
+    this->field_68_z_pos = gSaved_zpos_6FE32C;
+
+    Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
+    if (pTrailer)
+    {
+        CarPhysics_B0* pPhysics = pTrailer->field_C_pCarOnTrailer->field_58_physics;
+        pPhysics->field_30_cm1 = gSaved_trailer_cm1_6FE160;
+        pPhysics->field_6C_cp3 = gSaved_trailed_cp3_6FDF8C;
+        pPhysics->field_58_theta = gSaved_trailer_theta_6FE310;
+        pPhysics->field_38_cp1 = gSaved_trailer_cp1_6FDF40;
+        pPhysics->field_70 = gSaved_trailer_f70_6FE0E0;
+        pPhysics->field_68_z_pos = gSaved_trailer_zpos_6FE394;
+    }
 }
 
 STUB_FUNC(0x55a600)
@@ -941,20 +971,19 @@ void CarPhysics_B0::sub_55CA70(Fix16_Point a2, Ang16 a3)
             break;
         case 3:
             // TODO: Likely wrong arguments here
-            stru_6FE1A0 = *field_5C_pCar->field_50_car_sprite->FindCollisionIntersectionPoint_5A2710(
-                                                                         &arg0,
-                                                                         gRozza_679188.field_20_pSprite,
-                                                                         a2,
-                                                                         a3,
-                                                                         &byte_6FDFC4,
-                                                                         &byte_6FDFCC);
+            stru_6FE1A0 = *field_5C_pCar->field_50_car_sprite->FindCollisionIntersectionPoint_5A2710(&arg0,
+                                                                                                     gRozza_679188.field_20_pSprite,
+                                                                                                     a2,
+                                                                                                     a3,
+                                                                                                     &byte_6FDFC4,
+                                                                                                     &byte_6FDFCC);
 
             Car_BC* pCar = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
             if (pCar)
             {
                 sub_55FF20(pCar);
             }
-            else 
+            else
             {
                 Char_B4* pB4 = gRozza_679188.field_20_pSprite->AsCharB4_40FEA0();
                 if (pB4)
@@ -966,7 +995,6 @@ void CarPhysics_B0::sub_55CA70(Fix16_Point a2, Ang16 a3)
                     Object_2C* p2C = gRozza_679188.field_20_pSprite->As2C_40FEC0();
                     sub_5606C0(p2C, byte_6FDFC4);
                 }
-
             }
             break;
     }
