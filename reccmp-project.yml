@@ -1,4 +1,11 @@
 targets:
+  '96f':
+    filename: 9.6f.exe
+    source_root: Source
+    hash:
+        sha256: 420af867036b1a66ef94c54b8db2e7e654da359031987c6602bcfa74972e089f
+    data-sources:
+        - reccmp/96f-functions.csv
   '105':
     filename: 10.5.exe
     source_root: Source
