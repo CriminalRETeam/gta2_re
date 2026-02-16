@@ -85,6 +85,12 @@ DEFINE_GLOBAL(Fix16_Point, stru_6FE1F0, 0x6FE1F0);
 DEFINE_GLOBAL(Fix16, k_dword_6FDFA4, 0x6FDFA4);
 DEFINE_GLOBAL(Fix16, stru_6FDF80, 0x6FDF80);
 
+DEFINE_GLOBAL(Fix16, dword_6FE33C, 0x6FE33C);
+DEFINE_GLOBAL(u8, byte_6FDFC4, 0x6FDFC4);
+DEFINE_GLOBAL(u8, byte_6FDFCC, 0x6FDFCC);
+DEFINE_GLOBAL(Fix16_Point, stru_6FE1A0, 0x6FE1A0);
+
+
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -906,23 +912,66 @@ void CarPhysics_B0::sub_55C560(Fix16& a2, Fix16& a3)
 }
 
 STUB_FUNC(0x55c5c0)
-s32 CarPhysics_B0::sub_55C5C0(u32* a2, s32 a3)
+void CarPhysics_B0::sub_55C5C0(Fix16_Point& a2, Ang16& a3)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x55c820)
-s32 CarPhysics_B0::sub_55C820(u32* a2, s32 a3)
+void CarPhysics_B0::sub_55C820(Fix16_Point& a2, Ang16& a3)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
-STUB_FUNC(0x55ca70)
+// 9.6f 0x4A4170
+WIP_FUNC(0x55ca70)
 void CarPhysics_B0::sub_55CA70(Fix16_Point a2, Ang16 a3)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point arg0;
+    //v7 = 0;
+    switch (gRozza_679188.field_0_type)
+    {
+        case 1:
+            sub_55C5C0(a2, a3);
+            break;
+        case 2:
+            sub_55C820(a2, a3);
+            break;
+        case 3:
+            // TODO: Likely wrong arguments here
+            stru_6FE1A0 = *field_5C_pCar->field_50_car_sprite->FindCollisionIntersectionPoint_5A2710(
+                                                                         &arg0,
+                                                                         gRozza_679188.field_20_pSprite,
+                                                                         a2,
+                                                                         a3,
+                                                                         &byte_6FDFC4,
+                                                                         &byte_6FDFCC);
+
+            Car_BC* pCar = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
+            if (pCar)
+            {
+                sub_55FF20(pCar);
+            }
+            else 
+            {
+                Char_B4* pB4 = gRozza_679188.field_20_pSprite->AsCharB4_40FEA0();
+                if (pB4)
+                {
+                    sub_560B40(pB4, a3);
+                }
+                else
+                {
+                    Object_2C* p2C = gRozza_679188.field_20_pSprite->As2C_40FEC0();
+                    sub_5606C0(p2C, byte_6FDFC4);
+                }
+
+            }
+            break;
+    }
+
+    gRozza_C88_66AFE0->OtherType_40BBA0(field_5C_pCar->field_50_car_sprite, dword_6FE33C);
 }
 
 // https://decomp.me/scratch/0TpGe
@@ -1043,7 +1092,7 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
             return ret_val;
         }
     }
-    
+
     ret_val = 1;
 
     if (!gRozza_679188.field_20_pSprite || (i = 0, sprites_array_idx <= 0))
@@ -1373,13 +1422,13 @@ Car_78* CarPhysics_B0::sub_55FF20(Car_BC* a2)
 }
 
 STUB_FUNC(0x5606c0)
-void CarPhysics_B0::sub_5606C0(s32 a2, char_type a3)
+void CarPhysics_B0::sub_5606C0(Object_2C* a2, char_type a3)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x560b40)
-void CarPhysics_B0::sub_560B40(s32 a2, s32 a3)
+void CarPhysics_B0::sub_560B40(Char_B4* a2, Ang16& a3)
 {
     NOT_IMPLEMENTED;
 }
