@@ -1,12 +1,11 @@
 #pragma once
 
 #include "Function.hpp"
-#include "fix16.hpp"
 #include "ang16.hpp"
+#include "fix16.hpp"
 
 EXTERN_GLOBAL(Fix16, gFix16_6777CC);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
-
 
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
 // but 9.6f leads me to believe both the POD and non-POD type are the same
@@ -15,6 +14,12 @@ struct Fix16_Point_POD
     inline bool IsNull_420360() const
     {
         return x == gFix16_6777CC && y == gFix16_6777CC;
+    }
+
+    // But also 0x40ACD0 non inlined in 10.5
+    Ang16 atan2_40F790()
+    {
+        return Fix16::atan2_fixed_405320(y, x);
     }
 
     // None inline exists in 10.5 at 0x453590
@@ -30,7 +35,7 @@ struct Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot(x*x + y*y);
+            return Fix16::SquareRoot(x * x + y * y);
         }
     }
 
@@ -45,16 +50,16 @@ struct Fix16_Point_POD
     {
         Fix16 sin = Ang16::sine_40F500(angle);
         Fix16 cos = Ang16::cosine_40F520(angle);
-        
+
         Fix16 x_old = x;
-        
+
         x = (x * cos) + (y * sin);
         y = ((-x_old) * sin) + (y * cos);
     }
 
     void FromPolar_41E210(Fix16 radius, Ang16 angle)
     {
-       
+
         x = radius * Ang16::cosine_40F520(angle);
         y = radius * Ang16::sine_40F500(angle);
     }
@@ -91,20 +96,22 @@ struct Fix16_Point_POD
         x = Fix16(0);
         y = Fix16(0);
     }
-    
+
     Fix16 x;
     Fix16 y;
-}; 
+};
 
 class Fix16_Point : public Fix16_Point_POD
 {
-public:
+  public:
     // Both inlined and exists as a function... some strange array init behaviour??
-    ~Fix16_Point() {}
+    ~Fix16_Point()
+    {
+    }
 
     // It needs to be in the header
     // MATCH_FUNC(0x563970)
-    
+
     Fix16_Point()
     {
     }
@@ -121,6 +128,35 @@ public:
         x = a1;
         y = a2;
     }
+
+
+    void ClampTowardsZero_49E480(const Fix16_Point& limit)
+    {
+        if (x >= kFP16Zero_6FE20C)
+        {
+            if (x > limit.x)
+            {
+                x = limit.x;
+            }
+        }
+        else if (x < limit.x)
+        {
+            x = limit.x;
+        }
+
+        if (y >= kFP16Zero_6FE20C)
+        {
+            if (y > limit.y)
+            {
+                y = limit.y;
+            }
+        }
+        else if (y < limit.y)
+        {
+            y = limit.y;
+        }
+    }
+
 
     // MATCH_FUNC(0x40AC50)
     Fix16_Point operator+(const Fix16_Point& in)
@@ -144,7 +180,7 @@ public:
         }
         else
         {
-            return Fix16::SquareRoot(x*x + y*y);
+            return Fix16::SquareRoot(x * x + y * y);
         }
     }
 
@@ -157,6 +193,8 @@ public:
     {
         return Fix16_Point(x * in, y * in);
     }
+
+    Fix16_Point NormalizeSafe_442AD0();
 
     Ang16 atan2_40ACD0();
 };

@@ -11,7 +11,7 @@ DEFINE_GLOBAL(Fix16, dword_66AE98, 0x66AE98);
 DEFINE_GLOBAL(Fix16, dword_66AE9C, 0x66AE9C);
 
 MATCH_FUNC(0x477A10)
-bool Rozza_28::sub_477A10()
+bool Rozza_28::IsObj2C_477A10()
 {
     if (field_0_type == 3)
     {

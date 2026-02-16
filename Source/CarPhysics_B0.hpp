@@ -17,6 +17,8 @@ struct Fix16_Point_POD;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(ModelPhysics_48*, dword_6FE258);
+EXTERN_GLOBAL(Ang16, word_6FE00C);
+EXTERN_GLOBAL(Ang16, word_6FE154);
 
 class CarPhysics_B0
 {
@@ -27,9 +29,9 @@ class CarPhysics_B0
     EXPORT Fix16_Point get_cp1_40B560();
     EXPORT ~CarPhysics_B0();
     EXPORT void ShowPhysicsDebug_559430();
-    EXPORT void sub_5597B0();
+    EXPORT void ShowSpeedRevsDamage_5597B0();
     EXPORT bool IsNotMoving_5599D0();
-    EXPORT void sub_559A40();
+    EXPORT void UpdateTrailerPhysicsFromTowingCar_559A40();
     EXPORT void sub_559B40();
     EXPORT void sub_559B50();
     EXPORT void set_field_A0_559B90(const s32& a2);
@@ -47,12 +49,15 @@ class CarPhysics_B0
     EXPORT s32 sub_55A1D0(s32 a2, s32 a3, s32 a4, u32* a5);
     EXPORT void restore_saved_physics_state_55A400();
     EXPORT void save_physics_state_55A4B0();
-    EXPORT void sub_55A550();
-    EXPORT void sub_55A600();
-    EXPORT u32* sub_55A6A0(u32* a2);
+    EXPORT void restore_state_55A550();
+    EXPORT void save_state_55A600();
+    EXPORT Fix16 sub_55A6A0();
     EXPORT void ResetForceAccumulators_55A840();
-    EXPORT void
-    HandleUserInputs_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn);
+    EXPORT void HandleUserInputs_55A860(char_type bForwardGasOn,
+                                        char_type bFootBrakeOn,
+                                        char_type a4,
+                                        char_type a5,
+                                        char_type bHandBrakeOn);
     EXPORT void HandleGravityOnSlope_55AA00();
     EXPORT s32* sub_55AB50(s32* a2, Sprite_4C** a3);
     EXPORT s32 sub_55AD90(Fix16 a2);
@@ -63,8 +68,8 @@ class CarPhysics_B0
     EXPORT char_type ProcessGroundCollisionAndSurfaceType_55B970(char_type* a2);
     EXPORT void ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
     EXPORT char_type sub_55C150();
-    EXPORT char_type sub_55C3B0(Sprite_4C** a2, Sprite_4C** a3);
-    EXPORT void sub_55C560(Fix16 a2, Fix16 a3);
+    EXPORT char_type SweepTestMovementForCollision_55C3B0(Fix16* a2, Fix16* a3);
+    EXPORT void sub_55C560(Fix16& a2, Fix16& a3);
     EXPORT s32 sub_55C5C0(u32* a2, s32 a3);
     EXPORT s32 sub_55C820(u32* a2, s32 a3);
     EXPORT void sub_55CA70(Fix16_Point a2, Ang16 a3);
@@ -74,7 +79,7 @@ class CarPhysics_B0
     EXPORT void DoSkidmarks_55E260();
     EXPORT char_type StepMovementAndCollisions_55E470();
     EXPORT char_type CheckAndHandleCarAndTrailerCollisions_55EB80();
-    EXPORT s32 ApplyForwardEngineForce_55EC30();
+    EXPORT void ApplyForwardEngineForce_55EC30();
     EXPORT s32 ApplyReverseEngineForce_55EF20();
     EXPORT s32 ApplyTurningForce_55F020();
     EXPORT char_type ApplyMovementCommand_55F240();
@@ -83,7 +88,7 @@ class CarPhysics_B0
     EXPORT char_type sub_55F360();
     EXPORT void sub_55F740(Fix16_Point* a2, Fix16_Point* a3);
     EXPORT void sub_55F7A0(Fix16_Point* a2, Fix16_Point a3);
-    EXPORT s32 sub_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4);
+    EXPORT void sub_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4);
     EXPORT void sub_55F930(Fix16_Point* a2);
     EXPORT void sub_55F970(Fix16 a2);
     EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce);
@@ -95,7 +100,7 @@ class CarPhysics_B0
     EXPORT void sub_5606C0(s32 a2, char_type a3);
     EXPORT void sub_560B40(s32 a2, s32 a3);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
-    EXPORT void sub_560F20(Fix16 a2);
+    EXPORT void ApplyMovementStep_560F20(Fix16 a2);
     EXPORT void IntegrateAndClampVelocities_5610B0();
     EXPORT Fix16_Point sub_561130(Fix16_Point* a3);
     EXPORT Fix16_Point sub_561350(Fix16_Point* a3);
@@ -103,7 +108,7 @@ class CarPhysics_B0
     EXPORT s32* sub_5615D0(s32* a2, s32* a3, s32 a4, u32* a5, s32 a6);
     EXPORT s32 get_revs_561940();
     EXPORT u32* sub_561970(u32* a2);
-    EXPORT u32* sub_561DD0(u32* a2);
+    EXPORT Fix16 ComputeEngineTorque_561DD0();
     EXPORT Fix16 CalculateFrontSkid_561E50();
     EXPORT Fix16 CalculateRearSkid_5620D0();
     // 0x62450 moved to Sprite
@@ -122,7 +127,7 @@ class CarPhysics_B0
     EXPORT void ApplyInputsAndIntegratePhysics_562F30();
     EXPORT char_type UpdateLastMovementTimer_562FA0();
     EXPORT bool ProcessCarPhysicsStateMachine_562FE0();
-    EXPORT void sub_563280();
+    EXPORT void UpdateCp1FromCm1_563280();
     EXPORT void UpdateCenterOfMassPoint_563350();
     EXPORT void UpdateReferencePoint_563460();
     EXPORT void SetSprite_563560(Sprite* a2);
@@ -141,6 +146,12 @@ class CarPhysics_B0
 
     EXPORT void SetCar_5638C0(Car_BC* pBC);
     EXPORT CarPhysics_B0();
+
+    bool sub_40F840()
+    {
+        Ang16 v1 = field_40_linvel_1.atan2_40F790() - field_58_theta;
+        return v1 <= word_6FE00C || v1 >= word_6FE154;
+    }
 
     inline Fix16 sub_4211A0()
     {

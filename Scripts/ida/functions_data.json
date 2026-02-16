@@ -4175,7 +4175,7 @@
         "v105_address": "0x474d30"
     },
     {
-        "name": "sub_477A10",
+        "name": "IsObj2C_477A10",
         "v96f_address": null,
         "v105_address": "0x477a10"
     },
@@ -12000,7 +12000,7 @@
         "v105_address": "0x559430"
     },
     {
-        "name": "CarPhysics_B0::sub_5597B0",
+        "name": "CarPhysics_B0::ShowSpeedRevsDamage_5597B0",
         "v96f_address": null,
         "v105_address": "0x5597b0"
     },
@@ -12010,7 +12010,7 @@
         "v105_address": "0x5599d0"
     },
     {
-        "name": "CarPhysics_B0::sub_559A40",
+        "name": "CarPhysics_B0::UpdateTrailerPhysicsFromTowingCar_559A40",
         "v96f_address": null,
         "v105_address": "0x559a40"
     },
@@ -12105,12 +12105,12 @@
         "v105_address": "0x55a4b0"
     },
     {
-        "name": "CarPhysics_B0::sub_55A550",
+        "name": "CarPhysics_B0::restore_state_55A550",
         "v96f_address": null,
         "v105_address": "0x55a550"
     },
     {
-        "name": "CarPhysics_B0::sub_55A600",
+        "name": "CarPhysics_B0::save_state_55A600",
         "v96f_address": null,
         "v105_address": "0x55a600"
     },
@@ -12180,7 +12180,7 @@
         "v105_address": "0x55c150"
     },
     {
-        "name": "CarPhysics_B0::sub_55C3B0",
+        "name": "CarPhysics_B0::SweepTestMovementForCollision_55C3B0",
         "v96f_address": null,
         "v105_address": "0x55c3b0"
     },
@@ -12370,7 +12370,7 @@
         "v105_address": "0x560eb0"
     },
     {
-        "name": "CarPhysics_B0::sub_560F20",
+        "name": "CarPhysics_B0::ApplyMovementStep_560F20",
         "v96f_address": "0x4A2E30",
         "v105_address": "0x560f20"
     },
@@ -12420,7 +12420,7 @@
         "v105_address": "0x561db0"
     },
     {
-        "name": "CarPhysics_B0::sub_561DD0",
+        "name": "CarPhysics_B0::ComputeEngineTorque_561DD0",
         "v96f_address": null,
         "v105_address": "0x561dd0"
     },
@@ -12520,7 +12520,7 @@
         "v105_address": "0x562fe0"
     },
     {
-        "name": "CarPhysics_B0::sub_563280",
+        "name": "CarPhysics_B0::UpdateCp1FromCm1_563280",
         "v96f_address": null,
         "v105_address": "0x563280"
     },
