@@ -958,17 +958,18 @@ char_type CarPhysics_B0::ApplyMovementCommand_55F240()
 MATCH_FUNC(0x55f280)
 char_type CarPhysics_B0::ProcessCollisionAndClampVelocity_55F280()
 {
-    char_type v2 = 0;
+    char_type movementApplied = 0;
 
     Fix16_Point_POD cm1 = this->field_30_cm1;
 
-    char_type result;
+    char_type stepResult;
     while (1)
     {
         dword_6FE198 = k_dword_6FE210;
-        result = StepMovementAndCollisions_55E470();
-        char_type v7 = result;
-        if (v2)
+        stepResult = StepMovementAndCollisions_55E470();
+        const char_type prevStepResult = stepResult;
+
+        if (movementApplied)
         {
             if (dword_6FE198 == k_dword_6FE210)
             {
@@ -977,23 +978,34 @@ char_type CarPhysics_B0::ProcessCollisionAndClampVelocity_55F280()
             }
             break;
         }
+
         this->field_AA_sbw = 0;
-        if (dword_6FE198 != k_dword_6FE210 || !result)
+
+        if (dword_6FE198 != k_dword_6FE210 || !stepResult)
         {
             break;
         }
-        if (!IsAccelerationOrReverseOn_55A180() || (v2 = ApplyMovementCommand_55F240()) == 0)
+
+        if (IsAccelerationOrReverseOn_55A180())
         {
-            result = v7;
-            break;
+            movementApplied = ApplyMovementCommand_55F240();
+
+            if (movementApplied)
+            {
+                UpdateLinearAndAngularAccel_560EB0();
+                IntegrateAndClampVelocities_5610B0();
+                continue;
+            }
         }
-        UpdateLinearAndAngularAccel_560EB0();
-        IntegrateAndClampVelocities_5610B0();
+
+        stepResult = prevStepResult;
+        break;
     }
 
     this->field_0_vel_read_only.x = this->field_30_cm1.x - cm1.x;
     this->field_0_vel_read_only.y = this->field_30_cm1.y - cm1.y;
-    return result;
+
+    return stepResult;
 }
 
 MATCH_FUNC(0x55f330)
