@@ -12105,12 +12105,12 @@
         "v105_address": "0x55a4b0"
     },
     {
-        "name": "CarPhysics_B0::sub_55A550",
+        "name": "CarPhysics_B0::restore_state_55A550",
         "v96f_address": null,
         "v105_address": "0x55a550"
     },
     {
-        "name": "CarPhysics_B0::sub_55A600",
+        "name": "CarPhysics_B0::save_state_55A600",
         "v96f_address": null,
         "v105_address": "0x55a600"
     },

@@ -49,9 +49,9 @@ class CarPhysics_B0
     EXPORT s32 sub_55A1D0(s32 a2, s32 a3, s32 a4, u32* a5);
     EXPORT void restore_saved_physics_state_55A400();
     EXPORT void save_physics_state_55A4B0();
-    EXPORT void sub_55A550();
-    EXPORT void sub_55A600();
-    EXPORT u32* sub_55A6A0(u32* a2);
+    EXPORT void restore_state_55A550();
+    EXPORT void save_state_55A600();
+    EXPORT Fix16 sub_55A6A0();
     EXPORT void ResetForceAccumulators_55A840();
     EXPORT void HandleUserInputs_55A860(char_type bForwardGasOn,
                                         char_type bFootBrakeOn,

@@ -470,19 +470,19 @@ void CarPhysics_B0::save_physics_state_55A4B0()
 }
 
 STUB_FUNC(0x55a550)
-void CarPhysics_B0::sub_55A550()
+void CarPhysics_B0::restore_state_55A550()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x55a600)
-void CarPhysics_B0::sub_55A600()
+void CarPhysics_B0::save_state_55A600()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x55a6a0)
-u32* CarPhysics_B0::sub_55A6A0(u32* a2)
+Fix16 CarPhysics_B0::sub_55A6A0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -801,11 +801,83 @@ char_type CarPhysics_B0::sub_55C150()
     return 1;
 }
 
-STUB_FUNC(0x55c3b0)
-char_type CarPhysics_B0::SweepTestMovementForCollision_55C3B0(Fix16* a2, Fix16* a3)
+WIP_FUNC(0x55c3b0)
+char_type CarPhysics_B0::SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* outNoHitStep)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    save_state_55A600();
+
+    Fix16 movement = sub_55A6A0();
+
+    *outHitStep = kFP16Zero_6FE20C;
+    *outNoHitStep = kFP16Zero_6FE20C;
+
+    // Variables used in the sweep
+    Fix16 stepSize = kFP16Zero_6FE20C;
+    Fix16 accumulated = kFP16Zero_6FE20C;
+    s32 numSteps = 0;
+    s32 stepIndex = 0;
+
+    // TODO: Fix control flow
+
+    // Determine whether we need to sweep
+    if (movement > k_dword_6FE210)
+    {
+        stepSize = k_dword_6FE210 / movement;
+        numSteps = movement.ToInt();
+        stepIndex = 0;
+    }
+
+    // If movement is tiny or numSteps <= 0 skip sweep
+    if (movement <= k_dword_6FE210 || numSteps <= 0)
+    {
+        restore_state_55A550();
+        sub_5636C0();
+
+        if (sub_55C150())
+        {
+            *outHitStep = k_dword_6FE210;
+            return 1;
+        }
+
+        *outNoHitStep = k_dword_6FE210;
+        return 0;
+    }
+
+    // Swept movement loop
+    while (true)
+    {
+        accumulated += stepSize;
+
+        restore_saved_physics_state_55A400();
+        ApplyMovementStep_560F20(accumulated);
+
+        if (sub_55C150())
+        {
+            *outHitStep = accumulated;
+            return 1;
+        }
+
+        stepIndex++;
+        *outNoHitStep = accumulated;
+
+        if (stepIndex >= numSteps)
+        {
+            // No collision in sweep test final state
+            restore_state_55A550();
+            sub_5636C0();
+
+            if (sub_55C150())
+            {
+                *outHitStep = k_dword_6FE210;
+                return 1;
+            }
+
+            *outNoHitStep = k_dword_6FE210;
+            return 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x55c560)
