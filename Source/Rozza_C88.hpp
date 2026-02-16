@@ -2,9 +2,9 @@
 
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "sprite.hpp"
 
 class infallible_turing;
-class Sprite;
 class Car_BC;
 class Object_2C;
 
