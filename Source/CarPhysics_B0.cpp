@@ -1222,9 +1222,11 @@ void CarPhysics_B0::ApplyMovementStep_560F20(Fix16 a2)
     sub_5636C0();
 }
 
-STUB_FUNC(0x5610b0)
+WIP_FUNC(0x5610b0)
 void CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
 {
+    WIP_IMPLEMENTED;
+
     // Integrate linear and angular velocity
     this->field_40_linvel_1.x += this->field_50.x;
     this->field_40_linvel_1.y += this->field_50.y;
