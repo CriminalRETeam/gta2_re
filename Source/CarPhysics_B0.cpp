@@ -892,7 +892,7 @@ void CarPhysics_B0::sub_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5)
 }
 
 STUB_FUNC(0x55dc00)
-char_type CarPhysics_B0::sub_55DC00()
+char_type CarPhysics_B0::UpdateWheelSkidEffects_55DC00()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -903,7 +903,7 @@ void CarPhysics_B0::DoSkidmarks_55E260()
 {
     if (!bSkip_skidmarks_67D585)
     {
-        CarPhysics_B0::sub_55DC00();
+        CarPhysics_B0::UpdateWheelSkidEffects_55DC00();
         Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
         if (pTrailer)
         {
@@ -911,7 +911,7 @@ void CarPhysics_B0::DoSkidmarks_55E260()
             pPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
             pPhysics->field_84_front_skid = kFP16Zero_6FE20C;
             pPhysics->field_88_rear_skid = kFP16Zero_6FE20C;
-            pPhysics->sub_55DC00();
+            pPhysics->UpdateWheelSkidEffects_55DC00();
             CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0();
         }
     }

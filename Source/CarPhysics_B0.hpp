@@ -70,7 +70,7 @@ class CarPhysics_B0
     EXPORT void sub_55CA70(Fix16_Point a2, Ang16 a3);
     EXPORT void sub_55CBB0(Fix16 a2, Fix16 a3);
     EXPORT void sub_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5);
-    EXPORT char_type sub_55DC00();
+    EXPORT char_type UpdateWheelSkidEffects_55DC00();
     EXPORT void DoSkidmarks_55E260();
     EXPORT char_type StepMovementAndCollisions_55E470();
     EXPORT char_type CheckAndHandleCarAndTrailerCollisions_55EB80();

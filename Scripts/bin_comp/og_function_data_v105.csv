@@ -2662,7 +2662,7 @@ CarPhysics_B0::sub_55CA70,0x55ca70,0x15ca70,0x13a
 CarPhysics_B0::sub_55CBB0,0x55cbb0,0x15cbb0,0xd0
 CarPhysics_B0::sub_55D200,0x55d200,0x15d200,0x28a
 sub_55D490,0x55d490,0x15d490,0xf4
-CarPhysics_B0::sub_55DC00,0x55dc00,0x15dc00,0x2d7
+CarPhysics_B0::UpdateWheelSkidEffects_55DC00,0x55dc00,0x15dc00,0x2d7
 CarPhysics_B0::DoSkidmarks_55E260,0x55e260,0x15e260,0x51
 CarPhysics_B0::StepMovementAndCollisions_55E470,0x55e470,0x15e470,0x197
 CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80,0x55eb80,0x15eb80,0x44
