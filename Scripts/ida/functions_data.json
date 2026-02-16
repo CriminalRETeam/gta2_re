@@ -13340,7 +13340,7 @@
         "v105_address": "0x577320"
     },
     {
-        "name": "Police_7B8::sub_577370",
+        "name": "Police_7B8::TryCreateRoadblockAt_577370",
         "v96f_address": "0x4AEE70",
         "v105_address": "0x577370"
     },

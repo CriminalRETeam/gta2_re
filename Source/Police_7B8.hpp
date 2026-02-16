@@ -46,7 +46,7 @@ class Police_7B8
     EXPORT void sub_5708C0(Ped* pPed);
     EXPORT void UpdateCriminalLatestPosition_570940(Ped* a3);
     EXPORT char_type sub_577320();
-    EXPORT void sub_577370(u8 a2, s32 a3, s32 a4);
+    EXPORT void TryCreateRoadblockAt_577370(u8 a2, s32 a3, s32 a4);
 
     u8 field_0;
     u8 field_1;

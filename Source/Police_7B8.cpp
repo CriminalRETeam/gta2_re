@@ -706,7 +706,7 @@ char_type Police_7B8::sub_577320()
 }
 
 STUB_FUNC(0x577370)
-void Police_7B8::sub_577370(u8 a2, s32 a3, s32 a4)
+void Police_7B8::TryCreateRoadblockAt_577370(u8 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
 }
