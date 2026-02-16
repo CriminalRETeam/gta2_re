@@ -20,6 +20,13 @@ Fix16_Point Fix16_Point::operator-(const Fix16_Point& rhs)
     return Fix16_Point(x - rhs.x, y - rhs.y);
 }
 
+STUB_FUNC(0x442AD0)
+Fix16_Point Fix16_Point::NormalizeSafe_442AD0()
+{
+    NOT_IMPLEMENTED;
+    return Fix16_Point(x, y);
+}
+
 STUB_FUNC(0x40ACD0)
 Ang16 Fix16_Point::atan2_40ACD0()
 {

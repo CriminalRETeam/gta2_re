@@ -194,6 +194,8 @@ class Fix16_Point : public Fix16_Point_POD
         return Fix16_Point(x * in, y * in);
     }
 
+    Fix16_Point NormalizeSafe_442AD0();
+
     Ang16 atan2_40ACD0();
 };
 

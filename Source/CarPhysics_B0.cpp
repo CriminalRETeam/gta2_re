@@ -78,6 +78,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE104, dword_6FDFF8, 0x6FE104);
 
 DEFINE_GLOBAL(Ang16, word_6FE00C, 0x6FE00C);
 DEFINE_GLOBAL(Ang16, word_6FE154, 0x6FE154);
+DEFINE_GLOBAL(Ang16, k_word_6FE12A, 0x6FE12A);
+DEFINE_GLOBAL(Fix16_Point, stru_6FE1F0, 0x6FE1F0);
+DEFINE_GLOBAL(Fix16, k_dword_6FDFA4, 0x6FDFA4);
+DEFINE_GLOBAL(Fix16, stru_6FDF80, 0x6FDF80);
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -1012,11 +1016,58 @@ char_type CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80()
     return bCollision;
 }
 
-STUB_FUNC(0x55ec30)
-s32 CarPhysics_B0::ApplyForwardEngineForce_55EC30()
+WIP_FUNC(0x55ec30)
+void CarPhysics_B0::ApplyForwardEngineForce_55EC30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Ang16 theta = this->field_58_theta;
+    if (this->field_94_is_backward_gas_on)
+    {
+        theta += k_word_6FE12A;
+    }
+
+    Fix16 global_val;
+
+    if (stru_6FE1F0.x <= kFP16Zero_6FE20C)
+    {
+        if (theta >= word_6FE00C)
+        {
+            if (theta >= k_word_6FE12A)
+            {
+                goto LABEL_13;
+            }
+            global_val = k_dword_6FDFA4;
+        }
+        else
+        {
+            global_val = -k_dword_6FDFA4;
+        }
+        goto LABEL_12;
+    }
+
+    if (theta <= word_6FE154)
+    {
+        if (theta <= k_word_6FE12A)
+        {
+            goto LABEL_13;
+        }
+        global_val = -k_dword_6FDFA4;
+    LABEL_12:
+        sub_55F970(global_val);
+        goto LABEL_13;
+    }
+
+    sub_55F970(k_dword_6FDFA4);
+
+LABEL_13:
+    Fix16_Point v4 = stru_6FE1F0.NormalizeSafe_442AD0();
+    //v9 = 0;
+    Fix16_Point v5 = (v4 * stru_6FDF80);
+    //LOBYTE(v9) = 1;
+    ApplyForceScaledByMass_55F9A0(v5);
+
+    this->field_AA_sbw = 1;
 }
 
 STUB_FUNC(0x55ef20)
