@@ -108,7 +108,7 @@ class CarPhysics_B0
     EXPORT s32* sub_5615D0(s32* a2, s32* a3, s32 a4, u32* a5, s32 a6);
     EXPORT s32 get_revs_561940();
     EXPORT u32* sub_561970(u32* a2);
-    EXPORT u32* sub_561DD0(u32* a2);
+    EXPORT Fix16 ComputeEngineTorque_561DD0();
     EXPORT Fix16 CalculateFrontSkid_561E50();
     EXPORT Fix16 CalculateRearSkid_5620D0();
     // 0x62450 moved to Sprite

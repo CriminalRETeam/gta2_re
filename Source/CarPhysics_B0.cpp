@@ -1203,11 +1203,11 @@ void CarPhysics_B0::ApplyMovementStep_560F20(Fix16 a2)
         this->field_58_theta += tmp;
 
         this->field_30_cm1 = field_30_cm1 + (field_40_linvel_1 * v3);
-        
+
         UpdateCp1FromCm1_563280();
-        
+
         this->field_6C_cp3 += (g_f70_6FDFE0 * a2);
-        
+
         sub_559B40();
 
         if (field_5C_pCar->IsTrainModel_403BA0())
@@ -1295,11 +1295,20 @@ u32* CarPhysics_B0::sub_561970(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x561dd0)
-u32* CarPhysics_B0::sub_561DD0(u32* a2)
+WIP_FUNC(0x561dd0)
+Fix16 CarPhysics_B0::ComputeEngineTorque_561DD0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (get_revs_561940() != 0)
+    {
+        // Somehow this is wrong :')
+        return dword_6FE0E4->field_14 + Fix16(2, 0) * ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18))));
+    }
+    else
+    {
+        return dword_6FE0E4->field_14 + ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18))));
+    }
 }
 
 STUB_FUNC(0x561e50)
