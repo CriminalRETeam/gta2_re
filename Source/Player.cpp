@@ -1669,7 +1669,7 @@ void Player::sub_566EE0(char_type bDoNothing)
             if (pPhysics)
             {
                 pPhysics->ShowPhysicsDebug_559430();
-                pCar->field_58_physics->sub_5597B0();
+                pCar->field_58_physics->ShowSpeedRevsDamage_5597B0();
             }
         }
 

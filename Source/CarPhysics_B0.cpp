@@ -117,7 +117,7 @@ void CarPhysics_B0::ShowPhysicsDebug_559430()
 }
 
 STUB_FUNC(0x5597b0)
-void CarPhysics_B0::sub_5597B0()
+void CarPhysics_B0::ShowSpeedRevsDamage_5597B0()
 {
     NOT_IMPLEMENTED;
 }

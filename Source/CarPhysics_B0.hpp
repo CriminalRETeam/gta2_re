@@ -29,7 +29,7 @@ class CarPhysics_B0
     EXPORT Fix16_Point get_cp1_40B560();
     EXPORT ~CarPhysics_B0();
     EXPORT void ShowPhysicsDebug_559430();
-    EXPORT void sub_5597B0();
+    EXPORT void ShowSpeedRevsDamage_5597B0();
     EXPORT bool IsNotMoving_5599D0();
     EXPORT void sub_559A40();
     EXPORT void sub_559B40();
