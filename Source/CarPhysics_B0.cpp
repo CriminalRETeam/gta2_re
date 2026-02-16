@@ -1190,10 +1190,36 @@ void CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0()
     field_80 = -field_7C / CarPhysics_B0::sub_55A050();
 }
 
-STUB_FUNC(0x560f20)
+WIP_FUNC(0x560f20)
 void CarPhysics_B0::ApplyMovementStep_560F20(Fix16 a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 v3 = (dword_6FE198 * a2);
+
+    if (v3 != kFP16Zero_6FE20C)
+    {
+        Ang16 tmp = Ang16::Fix16_To_Ang16_40F540(v3 * field_74_ang_vel_rad);
+        this->field_58_theta += tmp;
+
+        this->field_30_cm1 = field_30_cm1 + (field_40_linvel_1 * v3);
+        
+        UpdateCp1FromCm1_563280();
+        
+        this->field_6C_cp3 += (g_f70_6FDFE0 * a2);
+        
+        sub_559B40();
+
+        if (field_5C_pCar->IsTrainModel_403BA0())
+        {
+            sub_55B7B0(a2);
+            sub_5636C0();
+            return;
+        }
+        sub_55B3F0(a2);
+    }
+
+    sub_5636C0();
 }
 
 STUB_FUNC(0x5610b0)
@@ -1629,7 +1655,7 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
 }
 
 WIP_FUNC(0x563280)
-void CarPhysics_B0::sub_563280()
+void CarPhysics_B0::UpdateCp1FromCm1_563280()
 {
     WIP_IMPLEMENTED;
 

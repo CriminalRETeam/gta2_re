@@ -127,7 +127,7 @@ class CarPhysics_B0
     EXPORT void ApplyInputsAndIntegratePhysics_562F30();
     EXPORT char_type UpdateLastMovementTimer_562FA0();
     EXPORT bool ProcessCarPhysicsStateMachine_562FE0();
-    EXPORT void sub_563280();
+    EXPORT void UpdateCp1FromCm1_563280();
     EXPORT void UpdateCenterOfMassPoint_563350();
     EXPORT void UpdateReferencePoint_563460();
     EXPORT void SetSprite_563560(Sprite* a2);
