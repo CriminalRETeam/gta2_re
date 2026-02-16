@@ -4805,11 +4805,10 @@ Ped* Ped::FindNearbyPed_466FB0()
     return 0;
 }
 
-STUB_FUNC(0x467070)
+MATCH_FUNC(0x467070)
 Ped* Ped::sub_467070()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return dword_6787C0->field_168_game_object != 0 ? dword_6787C0 : 0;
 }
 
 WIP_FUNC(0x467090)

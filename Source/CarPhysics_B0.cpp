@@ -485,7 +485,7 @@ STUB_FUNC(0x55a6a0)
 Fix16 CarPhysics_B0::sub_55A6A0()
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return Fix16(10, 0);
 }
 
 MATCH_FUNC(0x55a840)
