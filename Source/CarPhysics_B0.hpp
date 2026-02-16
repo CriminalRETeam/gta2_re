@@ -37,7 +37,7 @@ class CarPhysics_B0
     EXPORT void ScarePedsOnDrivingFast_559C30();
     EXPORT void sub_559DD0();
     EXPORT void sub_559E20(Object_2C* a2);
-    EXPORT s32* sub_559EC0(s32* a2);
+    EXPORT Fix16_Point sub_559EC0();
     EXPORT Fix16 CalculateMass_559FF0();
     EXPORT Fix16 sub_55A050();
     EXPORT u8 IsInAir_55A0B0();

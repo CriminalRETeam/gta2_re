@@ -145,7 +145,7 @@ void CarPhysics_B0::sub_559A40()
         Fix16 v6 = (k_dword_6FE210) / dword_6FE198;
         CarPhysics_B0* pPhysics = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->field_58_physics;
         Fix16_Point tmp = pPhysics->field_38_cp1 - gTrailer_cp1_6FE3A8;
-        pPhysics->field_40_linvel_1 = (tmp) * v6;
+        pPhysics->field_40_linvel_1 = (tmp)*v6;
         Ang16 v4 = ComputeShortestAngleDelta_4056C0(gTrailer_theta_6FE018, pPhysics->field_58_theta);
         pPhysics->field_74_ang_vel_rad = v6 * Ang16::Ang16_to_Fix16(v4);
         pPhysics->field_70 = (v6 * (pPhysics->field_6C_cp3 - gTrailer_cp3_6FE1B4));
@@ -292,11 +292,29 @@ void CarPhysics_B0::sub_559E20(Object_2C* pObj)
     }
 }
 
-STUB_FUNC(0x559ec0)
-s32* CarPhysics_B0::sub_559EC0(s32* a2)
+WIP_FUNC(0x559ec0)
+Fix16_Point CarPhysics_B0::sub_559EC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_5C_pCar->field_64_pTrailer)
+    {
+        Fix16 cab_mass = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->get_mass_43A120();
+        Fix16 trailer_mass = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->get_mass_43A120();
+        Fix16 total_mass = trailer_mass + cab_mass;
+        Fix16 div_mass = trailer_mass / total_mass;
+
+        Fix16_Point pRhs = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->field_58_physics->field_30_cm1 * div_mass;
+
+        Fix16 v12 = (cab_mass) / total_mass;
+        Fix16_Point v9 = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics->field_30_cm1 * v12;
+        v9 = v9 + pRhs;
+        return v9;
+    }
+    else
+    {
+        return field_30_cm1;
+    }
 }
 
 MATCH_FUNC(0x559ff0)
