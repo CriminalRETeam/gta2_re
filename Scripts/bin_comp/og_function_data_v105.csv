@@ -2629,7 +2629,7 @@ CarPhysics_B0::ScarePedsOnDrivingFast_559C30,0x559c30,0x159c30,0x19d
 CarPhysics_B0::sub_559DD0,0x559dd0,0x159dd0,0x47
 CarPhysics_B0::sub_559E20,0x559e20,0x159e20,0x63
 CarPhysics_B0::ComputeZPosition_559E90,0x559e90,0x159e90,0x2b
-CarPhysics_B0::sub_559EC0,0x559ec0,0x159ec0,0x12d
+CarPhysics_B0::ComputeCombinedCenterOfMass_559EC0,0x559ec0,0x159ec0,0x12d
 CarPhysics_B0::CalculateMass_559FF0,0x559ff0,0x159ff0,0x5e
 CarPhysics_B0::sub_55A050,0x55a050,0x15a050,0x5e
 CarPhysics_B0::IsInAir_55A0B0,0x55a0b0,0x15a0b0,0x47
