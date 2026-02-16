@@ -13,11 +13,14 @@
 
 #define ATTRACT_COUNT 3
 
+// TODO: From frontend.cpp
+extern DIDATAFORMAT gInputDeviceFormat_601A6C;
+
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
-// TODO: for some reason it does not have uAppData. 
+// TODO: for some reason it does not have uAppData.
 // Otherwise using DIDEVICEOBJECTDATA (size 0x14) makes dword_67B5B0 overlaps gKeyboardDevice_67B5C0
-struct mini_device_obj_data 
+struct mini_device_obj_data
 {
     u32 dwOfs;
     u32 dwData;
@@ -51,11 +54,34 @@ EXPORT int __stdcall FatalDXError_4A3CF0(HRESULT hr, const char* pSourceFile, in
     return 0;
 }
 
-STUB_FUNC(0x498910)
+MATCH_FUNC(0x498910)
 EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA lpddi, LPVOID pvRef)
 {
-    NOT_IMPLEMENTED;
-    return FALSE;
+    const GUID guidInstanceCopy = lpddi->guidInstance;
+    LPDIRECTINPUTDEVICEA tempDevice;
+    if (SUCCEEDED(gpDInput_67B804->CreateDevice(guidInstanceCopy, &tempDevice, 0)))
+    {
+        const HRESULT hr = tempDevice->QueryInterface(IID_IDirectInputDevice2A, (LPVOID*)&gGamePadDevice_67B6C0);
+        tempDevice->Release();
+
+        if (SUCCEEDED(hr))
+        {
+            if (FAILED(gGamePadDevice_67B6C0->SetCooperativeLevel(gHwnd_707F04, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
+            {
+                gGamePadDevice_67B6C0->Release();
+                gGamePadDevice_67B6C0 = 0;
+                return DIENUM_STOP;
+            }
+
+            if (FAILED(gGamePadDevice_67B6C0->SetDataFormat(&gInputDeviceFormat_601A6C)))
+            {
+                gGamePadDevice_67B6C0->Release();
+                gGamePadDevice_67B6C0 = 0;
+                return DIENUM_STOP;
+            }
+        }
+    }
+    return DIENUM_STOP;
 }
 
 MATCH_FUNC(0x4987A0)
@@ -324,7 +350,10 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                 gKeyboardStatus_67B624 = 1;
                 gGamePadDevice_67B6C0->GetDeviceData(16, 0, (LPDWORD)&status, 1);
 
-                device_data = gGamePadDevice_67B6C0->GetDeviceData(16, (DIDEVICEOBJECTDATA*)&dword_67B5B0, (unsigned long*)&gKeyboardStatus_67B624, 0);
+                device_data = gGamePadDevice_67B6C0->GetDeviceData(16,
+                                                                   (DIDEVICEOBJECTDATA*)&dword_67B5B0,
+                                                                   (unsigned long*)&gKeyboardStatus_67B624,
+                                                                   0);
                 if (bLog_directinput_67D6C0)
                 {
                     if (gKeyboardStatus_67B624 > 0)
@@ -362,13 +391,14 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                 v5_edi = dword_67B5B0.dwOfs;
                 v6_edx = dword_67B5B0.dwData;
                 field_8_input_masks = gBurgerKing_67F8B0.field_8_input_masks;
-                
+
                 // Check for player controls (up, down, shoot etc)
                 for (input = 0; input < 12; input++, ++field_8_input_masks)
                 {
                     // line 217 or 21b
                     bUnk_2_unk = false;
-                    if (keyb_dev_data == 0 && gMaybeDeviceType_67B91C[input] == 0 && gPlayerControlsBinding_67B6E8[input] == stru_67B610.dwOfs)
+                    if (keyb_dev_data == 0 && gMaybeDeviceType_67B91C[input] == 0 &&
+                        gPlayerControlsBinding_67B6E8[input] == stru_67B610.dwOfs)
                     {
                         // PC binding
                         bUnk_2_unk = true;

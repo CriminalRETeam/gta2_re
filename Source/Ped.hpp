@@ -188,10 +188,10 @@ class Ped
     EXPORT void sub_46C9B0();
     EXPORT void sub_46CA60();
     EXPORT void sub_46CA70();
-    EXPORT char_type sub_46CB30();
-    EXPORT char_type sub_46CC70();
-    EXPORT char_type sub_46CDB0();
-    EXPORT char_type sub_46CEF0();
+    EXPORT void StartPedCrossingAtTrafficLight_Y_Backward_46CB30();
+    EXPORT char_type StartPedCrossingAtTrafficLight_X_Forwards_46CC70();
+    EXPORT char_type StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0();
+    EXPORT char_type StartPedCrossingAtTrafficLight_X_Backwards_46CEF0();
     EXPORT void sub_46D030();
     EXPORT void sub_46D0B0();
     EXPORT void sub_46D0D0();
@@ -466,6 +466,21 @@ class Ped
         field_238 = unk;
     }
 
+    void Set_F1C4_x_433C50(Fix16 a2)
+    {
+        this->field_1C4_x = a2;
+    }
+
+    void Set_F1C8_y_433C60(Fix16 a2)
+    {
+        this->field_1C8_y = a2;
+    }
+
+    void Set_F1CC_z_433C70(Fix16 a2)
+    {
+        this->field_1CC_z = a2;
+    }
+
     // TODO: to use this inline we need to fix a circular dependency issue
     inline s32 get_car_model();
 
@@ -531,8 +546,7 @@ class Ped
 
     inline bool IsPedGoingToEnterCar_492FD0()
     {
-        return field_258_objective == objectives_enum::enter_car_as_driver_35 
-            || field_25C_car_state == 35;
+        return field_258_objective == objectives_enum::enter_car_as_driver_35 || field_25C_car_state == 35;
     }
 
     Marz_3 field_0_patrol_points[100];

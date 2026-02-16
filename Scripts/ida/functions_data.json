@@ -3670,22 +3670,22 @@
         "v105_address": "0x46ca70"
     },
     {
-        "name": "Ped::sub_46CB30",
+        "name": "Ped::StartPedCrossingAtTrafficLight_Y_Backward_46CB30",
         "v96f_address": null,
         "v105_address": "0x46cb30"
     },
     {
-        "name": "Ped::sub_46CC70",
+        "name": "Ped::StartPedCrossingAtTrafficLight_X_Forwards_46CC70",
         "v96f_address": null,
         "v105_address": "0x46cc70"
     },
     {
-        "name": "Ped::sub_46CDB0",
+        "name": "Ped::StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0",
         "v96f_address": null,
         "v105_address": "0x46cdb0"
     },
     {
-        "name": "Ped::sub_46CEF0",
+        "name": "Ped::StartPedCrossingAtTrafficLight_X_Backwards_46CEF0",
         "v96f_address": null,
         "v105_address": "0x46cef0"
     },
@@ -12055,7 +12055,7 @@
         "v105_address": "0x559e90"
     },
     {
-        "name": "CarPhysics_B0::sub_559EC0",
+        "name": "CarPhysics_B0::ComputeCombinedCenterOfMass_559EC0",
         "v96f_address": null,
         "v105_address": "0x559ec0"
     },
@@ -12220,7 +12220,7 @@
         "v105_address": "0x55d490"
     },
     {
-        "name": "CarPhysics_B0::sub_55DC00",
+        "name": "CarPhysics_B0::UpdateWheelSkidEffects_55DC00",
         "v96f_address": null,
         "v105_address": "0x55dc00"
     },

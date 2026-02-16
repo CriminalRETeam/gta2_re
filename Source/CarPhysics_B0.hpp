@@ -37,7 +37,7 @@ class CarPhysics_B0
     EXPORT void ScarePedsOnDrivingFast_559C30();
     EXPORT void sub_559DD0();
     EXPORT void sub_559E20(Object_2C* a2);
-    EXPORT s32* sub_559EC0(s32* a2);
+    EXPORT Fix16_Point ComputeCombinedCenterOfMass_559EC0();
     EXPORT Fix16 CalculateMass_559FF0();
     EXPORT Fix16 sub_55A050();
     EXPORT u8 IsInAir_55A0B0();
@@ -70,7 +70,7 @@ class CarPhysics_B0
     EXPORT void sub_55CA70(Fix16_Point a2, Ang16 a3);
     EXPORT void sub_55CBB0(Fix16 a2, Fix16 a3);
     EXPORT void sub_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5);
-    EXPORT char_type sub_55DC00();
+    EXPORT char_type UpdateWheelSkidEffects_55DC00();
     EXPORT void DoSkidmarks_55E260();
     EXPORT char_type StepMovementAndCollisions_55E470();
     EXPORT char_type CheckAndHandleCarAndTrailerCollisions_55EB80();
@@ -97,8 +97,8 @@ class CarPhysics_B0
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void sub_560F20(Fix16 a2);
     EXPORT void IntegrateAndClampVelocities_5610B0();
-    EXPORT u32* sub_561130(u32* a2, u32* a3);
-    EXPORT u32* sub_561350(u32* a2, u32* a3);
+    EXPORT Fix16_Point sub_561130(Fix16_Point* a3);
+    EXPORT Fix16_Point sub_561350(Fix16_Point* a3);
     EXPORT u32* sub_561380(u32* a2, u32* a3);
     EXPORT s32* sub_5615D0(s32* a2, s32* a3, s32 a4, u32* a5, s32 a6);
     EXPORT s32 get_revs_561940();
