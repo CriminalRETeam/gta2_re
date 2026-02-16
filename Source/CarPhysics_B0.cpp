@@ -1083,11 +1083,26 @@ void CarPhysics_B0::sub_55F7A0(Fix16_Point* a2, Fix16_Point a3)
     IntegrateAndClampVelocities_5610B0();
 }
 
-STUB_FUNC(0x55f800)
-s32 CarPhysics_B0::sub_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4)
+// 9.6f 0x4A0850
+WIP_FUNC(0x55f800)
+void CarPhysics_B0::sub_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 bRotate)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point_POD point(a2->x, a2->y);
+
+    if (bRotate == 1)
+    {
+        point.RotateByAngle_40F6B0(field_58_theta);
+        point = point + field_38_cp1;
+    }
+
+    field_48 = field_48 + *a3;
+
+    Fix16 v11 = (point.y - field_30_cm1.y) * a3->x;
+    Fix16 v9 = (point.x - field_30_cm1.x) * a3->y;
+    Fix16 v10 = v9 - v11;
+    field_7C = field_7C + v10;
 }
 
 MATCH_FUNC(0x55f930)
