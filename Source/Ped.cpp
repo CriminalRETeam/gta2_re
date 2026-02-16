@@ -6884,31 +6884,24 @@ void Ped::sub_46CB30()
 {
     WIP_IMPLEMENTED;
 
-    bool found = false;
-    u8 yy;
     Fix16 y = this->field_1AC_cam.y;
     if (this->field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
     {
-        Fix16 z = (this->field_1AC_cam.z - k_dword_678664);
         for (u8 i = 0; i < 6; i++)
         {
+            Fix16 z = (this->field_1AC_cam.z - k_dword_678664);
             y -= k_dword_678664;
-            yy = y.ToInt();
+            u8 yy = y.ToInt();
             if (gMap_0x370_6F6268->sub_433530(this->field_1AC_cam.x.ToInt(), yy, z.ToInt()))
             {
-                found = true;
+                sub_463830(48, 9999);
+                Fix16 t = Fix16(yy) + k_dword_67853C;
+                this->Set_F1C4_x_433C50(this->field_1AC_cam.x);
+                this->Set_F1C8_y_433C60(t);
+                this->Set_F1CC_z_433C70(this->field_1AC_cam.z);
                 break;
             }
         }
-    }
-
-    if (found)
-    {
-        sub_463830(48, 9999);
-        Fix16 t = Fix16(yy) + k_dword_67853C;
-        this->Set_F1C4_x_433C50(this->field_1AC_cam.x);
-        this->Set_F1C8_y_433C60(t);
-        this->Set_F1CC_z_433C70(this->field_1AC_cam.z);
     }
 }
 
