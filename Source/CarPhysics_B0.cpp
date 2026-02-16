@@ -62,6 +62,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE07C, k_dword_6FE210 / (dword_6FE2EC * dword_6
 
 DEFINE_GLOBAL_INIT(Fix16, FastCarMinVelocity_6FE1CC, Fix16(0x1EB, 0), 0x6FE1CC);
 DEFINE_GLOBAL(Fix16, dword_6FE198, 0x6FE198);
+DEFINE_GLOBAL(Fix16, dword_6FE370, 0x6FE370);
+
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE218, Fix16(3), 0x6FE218);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE1B8, dword_6FE218, 0x6FE1B8);
 
@@ -143,7 +145,7 @@ bool CarPhysics_B0::IsNotMoving_5599D0()
 
 // 89%
 WIP_FUNC(0x559a40)
-void CarPhysics_B0::sub_559A40()
+void CarPhysics_B0::UpdateTrailerPhysicsFromTowingCar_559A40()
 {
     WIP_IMPLEMENTED;
 
@@ -990,11 +992,87 @@ void CarPhysics_B0::DoSkidmarks_55E260()
     }
 }
 
-STUB_FUNC(0x55e470)
+WIP_FUNC(0x55e470)
 char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    s32 sprites_array_idx = 0;
+    char_type ret_val = 0;
+    s32 k2Counter = 2;
+
+    if (dword_6FE198 < dword_6FE370)
+    {
+        return ret_val;
+    }
+
+    Sprite* sprites_array[4];
+    Sprite** pSpriteIter = sprites_array;
+
+    Fix16 a2;
+    Fix16 a3;
+    s32 i;
+
+    while (1)
+    {
+        gRozza_679188.sub_4637B0();
+        this->field_70 = 0; // fp 0
+        save_physics_state_55A4B0();
+        ApplyMovementStep_560F20(k_dword_6FE210);
+        UpdateTrailerPhysicsFromTowingCar_559A40();
+        if (SweepTestMovementForCollision_55C3B0(&a2, &a3))
+        {
+            break;
+        }
+
+    LABEL_17:
+        dword_6FE198 = (dword_6FE198 * (k_dword_6FE210 - a3));
+        *pSpriteIter = gRozza_679188.field_20_pSprite;
+        ++sprites_array_idx;
+        ++pSpriteIter;
+
+        if ((gRozza_679188.IsCharB4_49EF20() || gRozza_679188.IsObj2C_477A10()) && k2Counter < 4)
+        {
+            ++k2Counter;
+        }
+
+        ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
+
+        if (sprites_array_idx >= k2Counter || dword_6FE198 < dword_6FE370)
+        {
+            return ret_val;
+        }
+    }
+    
+    ret_val = 1;
+
+    if (!gRozza_679188.field_20_pSprite || (i = 0, sprites_array_idx <= 0))
+    {
+    LABEL_9:
+        sub_55C560(a2, a3);
+        if (field_5C_pCar->IsTrainModel_403BA0() && !field_40_linvel_1.IsNull_420360())
+        {
+            a3 = kFP16Zero_6FE20C;
+        }
+        sub_55CBB0(a2, a3);
+        goto LABEL_17;
+    }
+
+    Sprite** pIter = sprites_array;
+    while (*pIter != gRozza_679188.field_20_pSprite)
+    {
+        ++i;
+        ++pIter;
+        if (i >= sprites_array_idx)
+        {
+            goto LABEL_9;
+        }
+    }
+
+    restore_saved_physics_state_55A400();
+    sub_5636C0();
+    ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
+    return 1;
 }
 
 WIP_FUNC(0x55eb80)

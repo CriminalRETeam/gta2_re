@@ -31,7 +31,7 @@ class CarPhysics_B0
     EXPORT void ShowPhysicsDebug_559430();
     EXPORT void ShowSpeedRevsDamage_5597B0();
     EXPORT bool IsNotMoving_5599D0();
-    EXPORT void sub_559A40();
+    EXPORT void UpdateTrailerPhysicsFromTowingCar_559A40();
     EXPORT void sub_559B40();
     EXPORT void sub_559B50();
     EXPORT void set_field_A0_559B90(const s32& a2);

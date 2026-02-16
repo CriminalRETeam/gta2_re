@@ -11,9 +11,21 @@ class Object_2C;
 class Rozza_28
 {
   public:
-    EXPORT bool sub_477A10();
+    EXPORT bool IsObj2C_477A10();
 
-    s32 field_0_type;
+    void sub_4637B0()
+    {
+        this->field_0_type = 0;
+        this->field_20_pSprite = 0;
+        this->field_24 = 0;
+    }
+
+    bool IsCharB4_49EF20()
+    {
+        return this->field_0_type == 3 && field_20_pSprite->AsCharB4_40FEA0();
+    }
+
+    s32 field_0_type; // sprite enum type ?
     Fix16 field_4_mapx_t1;
     Fix16 field_8;
     Fix16 field_C_mapy_t2;
