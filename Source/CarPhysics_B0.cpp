@@ -641,9 +641,11 @@ void CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
     this->field_AD_turn_direction = 0;
 }
 
-STUB_FUNC(0x55aa00)
+WIP_FUNC(0x55aa00)
 void CarPhysics_B0::HandleGravityOnSlope_55AA00()
 {
+    WIP_IMPLEMENTED;
+    
     Fix16_Point_POD force;
 
     // On a slope and no brake inputs
