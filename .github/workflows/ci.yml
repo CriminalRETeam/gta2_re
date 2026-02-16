@@ -132,13 +132,22 @@ jobs:
         python build.py --reccmp
         build_vc6/decomp_main.exe --check_vars_only
 
-    - name: Reccmp
+    - name: Setup Reccmp
       run: |
+        copy build_vc6/decomp_main.exe build_vc6/9.6f.exe
+        copy build_vc6/decomp_main.pdb build_vc6/9.6f.pdb
         copy build_vc6/decomp_main.exe build_vc6/10.5.exe
         copy build_vc6/decomp_main.pdb build_vc6/10.5.pdb
         reccmp-project detect --what original   --search-path Scripts/bin_comp
         reccmp-project detect --what recompiled --search-path build_vc6
+
+    - name: Reccmp 10.5
+      run: |
         reccmp-reccmp --target 105 --html reccmp-105.html
+
+    - name: Reccmp 9.6f
+      run: |
+        reccmp-reccmp --target 96f --html reccmp-96f.html
 
     - name: Upload artifacts on Windows (Windows_VC6)
       uses: actions/upload-artifact@v4
@@ -147,6 +156,7 @@ jobs:
         path: |
           build_vc6/decomp_main.exe
           build_vc6/decomp_main.pdb
+          reccmp-96f.html
           reccmp-105.html
 
     - name: Compare variables
