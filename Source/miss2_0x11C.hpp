@@ -649,6 +649,14 @@ struct SCR_REMOTE_CONTROL : SCR_CMD_HEADER
 	u16 field_A_car_idx;
 };
 
+struct SCR_SWITCH_ROAD_ON_OFF : SCR_CMD_HEADER
+{
+    u8 field_8_xpos;
+    u8 field_9_ypos;
+    u8 field_A_zpos;
+    u8 field_B_status;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum

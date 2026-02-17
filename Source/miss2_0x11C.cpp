@@ -35,6 +35,7 @@
 #include "map_0x370.hpp"
 #include "miss2_8.hpp"
 #include "root_sound.hpp"
+#include "RouteFinder.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 // Back to force inline
@@ -3554,10 +3555,20 @@ void miss2_0x11C::SCRCMD_ADD_NEW_BLOCK_50CAB0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50cb20)
+MATCH_FUNC(0x50cb20)
 void miss2_0x11C::SCRCMD_ROAD_ON_OFF_50CB20()
 {
-    NOT_IMPLEMENTED;
+    SCR_SWITCH_ROAD_ON_OFF* pCmd = (SCR_SWITCH_ROAD_ON_OFF*)gBasePtr_6F8070;
+
+    if (pCmd->field_B_status != 0)
+    {
+        gRouteFinder_6FFDC8->RoadOn_588950(pCmd->field_8_xpos, pCmd->field_9_ypos, pCmd->field_A_zpos);
+    }
+    else
+    {
+        gRouteFinder_6FFDC8->RoadOff_588810(pCmd->field_8_xpos, pCmd->field_9_ypos, pCmd->field_A_zpos);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50cb70)
