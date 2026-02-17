@@ -85,6 +85,12 @@ class nostalgic_ellis_0x28
         field_18_intensity = intensity;
     }
 
+    inline void ChangeLightIntensity_476AE0(u8 intensity)
+    {
+        sub_45B2D0(intensity);
+        field_18_intensity = intensity;
+    }
+
     LightIntensityRadius field_0; // todo ??
     Fix16 field_4_light_x;
     Fix16 field_8_light_y;

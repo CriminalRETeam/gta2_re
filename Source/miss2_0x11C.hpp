@@ -664,6 +664,12 @@ struct SCR_SWITCH_ROAD_ON_OFF : SCR_CMD_HEADER
     u8 field_B_status;
 };
 
+struct SCR_CHANGE_LIGHT_INTENSITY : SCR_CMD_HEADER
+{
+    u16 field_8_light_idx;
+    u16 field_A_intensity;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
