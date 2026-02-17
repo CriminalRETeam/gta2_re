@@ -10,6 +10,7 @@ struct naughty_sinoussi_0x800;
 class Game_0x40;
 class Network_20324;
 
+#pragma pack(push,1)
 class PacketHeader
 {
   public:
@@ -26,6 +27,7 @@ class Packet_SubType_3
     s32 field_D;
     s32 field_11_len;
 };
+#pragma pack(pop)
 
 class Nework_2C
 {
@@ -191,7 +193,7 @@ struct NetPlay
     EXPORT void sub_521220();
     EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
     EXPORT s32 GetMaxPlayers_521350();
-    EXPORT s32 Send_521370();
+    EXPORT void Send_521370();
     EXPORT bool sub_5213E0();
     EXPORT s32 NoRefs_5215B0(u32 a2, u32* a3, size_t* a4);
     EXPORT s32 Send_521630(s32 pData, s32 idx, char_type a4);

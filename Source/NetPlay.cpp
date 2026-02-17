@@ -770,12 +770,18 @@ s32 NetPlay::GetMaxPlayers_521350()
     return maxPlayers;
 }
 
-// https://decomp.me/scratch/tpDuw
-STUB_FUNC(0x521370)
-s32 NetPlay::Send_521370()
+MATCH_FUNC(0x521370)
+void NetPlay::Send_521370()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u32 pDataLen;
+    s32 pData;
+    Packet_SubType_3 pStru;
+
+    memset(&pStru, 0, sizeof(pStru));
+    pStru.field_9 = 0;
+    pStru.header.field_0_type = 2;
+    NetPlay::MakeSendData_51F420(&pStru, &pData, &pDataLen);
+    field_5E4_pDPlay3->Send(field_5D8_player_id, 0, 0, (void*)pData, pDataLen);
 }
 
 STUB_FUNC(0x5213e0)
