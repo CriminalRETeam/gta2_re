@@ -104,6 +104,9 @@ DEFINE_GLOBAL(Fix16_Point, gSaved_trailer_cp1_6FDF40, 0x6FDF40);
 DEFINE_GLOBAL(Fix16, gSaved_trailer_f70_6FE0E0, 0x6FE0E0);
 DEFINE_GLOBAL(Fix16, gSaved_trailer_zpos_6FE394, 0x6FE394);
 
+DEFINE_GLOBAL(Fix16, k_dword_6FE314, 0x6FE314);
+
+
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -443,11 +446,49 @@ char_type CarPhysics_B0::IsAccelerationOrReverseOn_55A180()
     return 0;
 }
 
-STUB_FUNC(0x55a1d0)
-s32 CarPhysics_B0::sub_55A1D0(s32 a2, s32 a3, s32 a4, u32* a5)
+// 9.6f 0x49F760
+WIP_FUNC(0x55a1d0)
+void CarPhysics_B0::sub_55A1D0(Fix16 a2_1, Fix16 a3_1, Fix16 a4, s32* a5)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point point(a2_1, a3_1);
+    CarInfo_2C* pCarInfo = gCarInfo_808_678098->sub_454840(field_5C_pCar->field_84_car_info_idx);
+    
+    Fix16_Point carInfo_point;
+    carInfo_point.x = pCarInfo->field_C.x;
+    carInfo_point.y = pCarInfo->field_C.y;
+    carInfo_point.RotateByAngle_40F6B0(field_58_theta);
+
+    Fix16_Point v8 = point + carInfo_point;
+    carInfo_point.x = v8.x;
+    carInfo_point.y = v8.y;
+
+    field_40_linvel_1 = carInfo_point - field_30_cm1;
+
+    Fix16 v11 = Ang16::Ang16_to_Fix16(field_58_theta);
+
+    field_74_ang_vel_rad = a4 - v11;
+    
+    if (*a5 == 1)
+    {
+        if (field_74_ang_vel_rad <  kFP16Zero_6FE20C)
+        {
+            field_74_ang_vel_rad += k_dword_6FE314;
+        }
+    }
+    else if (*a5 == 2)
+    {
+        if (field_74_ang_vel_rad >  kFP16Zero_6FE20C)
+        {
+            field_74_ang_vel_rad -= k_dword_6FE314;
+        }
+    }
+
+    if (field_8C_state != 4)
+    {
+        field_8C_state = 0;
+    }
 }
 
 MATCH_FUNC(0x55a400)
@@ -645,7 +686,7 @@ WIP_FUNC(0x55aa00)
 void CarPhysics_B0::HandleGravityOnSlope_55AA00()
 {
     WIP_IMPLEMENTED;
-    
+
     Fix16_Point_POD force;
 
     // On a slope and no brake inputs

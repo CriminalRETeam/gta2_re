@@ -46,7 +46,7 @@ class CarPhysics_B0
     EXPORT Fix16 GetTrailerAwareTurnRatio_55A100();
     EXPORT char_type IsFootBrakeOn_55A150();
     EXPORT char_type IsAccelerationOrReverseOn_55A180();
-    EXPORT s32 sub_55A1D0(s32 a2, s32 a3, s32 a4, u32* a5);
+    EXPORT void sub_55A1D0(Fix16 a2, Fix16 a3, Fix16 a4, s32* a5);
     EXPORT void restore_saved_physics_state_55A400();
     EXPORT void save_physics_state_55A4B0();
     EXPORT void restore_state_55A550();
