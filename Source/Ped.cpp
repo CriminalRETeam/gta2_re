@@ -985,10 +985,83 @@ void Ped::RestoreCarOrPedHealth()
     }
 }
 
-STUB_FUNC(0x45c0c0)
-void Ped::sub_45C0C0(gmp_map_zone* a2)
+MATCH_FUNC(0x45c0c0)
+void Ped::sub_45C0C0(gmp_map_zone* pZone)
 {
-    NOT_IMPLEMENTED;
+    u8 next = 0;
+
+    u8 xs = pZone->field_1_x + (pZone->field_3_w >> 1);
+    u8 ys = pZone->field_2_y + (pZone->field_4_h >> 1);
+    u8 xxx = xs;
+    u8 yyy = ys;
+
+    s32 found_z;
+
+    u8 a2 = 1;
+    u8 a0 = 1;
+    u8 a3 = 1;
+    u8 a1 = 1;
+
+    while (true)
+    {
+        if (gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(xxx, yyy, &found_z))
+        {
+            break;
+        }
+        switch (next)
+        {
+            case 0:
+                if (!--a3)
+                {
+                    next = 1;
+                    a1 = a0;
+                }
+                if (--xxx < xs - (pZone->field_3_w >> 1))
+                {
+                    ++xxx;
+                }
+                break;
+            case 1:
+                --a1;
+                if (!a1)
+                {
+                    next = 2;
+                    a3 = ++a2;
+                }
+                if (--yyy < ys - (pZone->field_4_h >> 1))
+                {
+                    ++yyy;
+                }
+                break;
+            case 2:
+                if (!--a3)
+                {
+                    ++a0;
+                    next = 3;
+                    a1 = a0;
+                }
+                if (++xxx > xs + (pZone->field_3_w >> 1))
+                {
+                    ++xxx;
+                }
+                break;
+            case 3:
+                --a1;
+                if (!a1)
+                {
+                    next = 0;
+                    a3 = a2;
+                }
+                if (++yyy > ys + (pZone->field_4_h >> 1))
+                {
+                    --yyy;
+                }
+                break;
+            default:
+                continue;
+        }
+    }
+    AllocCharB4_45C830(Fix16(xxx) + k_dword_67853C, Fix16(yyy) + k_dword_67853C, found_z + 1);
 }
 
 MATCH_FUNC(0x45c310)
