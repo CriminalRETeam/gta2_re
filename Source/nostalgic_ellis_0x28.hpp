@@ -11,7 +11,7 @@ struct LightIntensityRadius
         flag = (flag & ~0x0000FF00) | (unknown << 8);
     }
     
-    inline void sub_463F10(Fix16 radius)
+    inline void SetRadius_463F10(Fix16 radius)
     {
         u8 unknown = (radius * 32).ToInt();
         sub_463EF0(unknown);
@@ -80,12 +80,12 @@ class nostalgic_ellis_0x28
     inline void sub_482D60(s32 argb, s32 flags, u8 intensity)
     {
         field_10_argb = argb;
-        field_0.sub_463F10(flags);
+        field_0.SetRadius_463F10(flags);
         sub_45B2D0(intensity);
         field_18_intensity = intensity;
     }
 
-    inline void ChangeLightIntensity_476AE0(u8 intensity)
+    inline void SetIntensity_476AE0(u8 intensity)
     {
         sub_45B2D0(intensity);
         field_18_intensity = intensity;

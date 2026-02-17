@@ -3743,7 +3743,7 @@ void miss2_0x11C::SCRCMD_CHANGE_INTENSITY_50D870()
     SCR_CHANGE_LIGHT_INTENSITY* pCmd = (SCR_CHANGE_LIGHT_INTENSITY*)gBasePtr_6F8070;
     SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
-    pPtr->field_8_light->ChangeLightIntensity_476AE0(pCmd->field_A_intensity);
+    pPtr->field_8_light->SetIntensity_476AE0(pCmd->field_A_intensity);
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3759,10 +3759,15 @@ void miss2_0x11C::SCRCMD_CHANGE_COLOUR_50D900()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50d9a0)
+MATCH_FUNC(0x50d9a0)
 void miss2_0x11C::SCRCMD_CHANGE_RADIUS_50D9A0()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHANGE_LIGHT_RADIUS* pCmd = (SCR_CHANGE_LIGHT_RADIUS*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    pPtr->field_8_light->field_0.SetRadius_463F10(pCmd->field_A_radius);
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50da50)

@@ -670,6 +670,12 @@ struct SCR_CHANGE_LIGHT_INTENSITY : SCR_CMD_HEADER
     u16 field_A_intensity;
 };
 
+struct SCR_CHANGE_LIGHT_RADIUS : SCR_CMD_HEADER
+{
+	u16 field_8_light_idx;
+	Fix16 field_A_radius;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
