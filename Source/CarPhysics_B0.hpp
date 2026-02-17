@@ -46,7 +46,7 @@ class CarPhysics_B0
     EXPORT Fix16 GetTrailerAwareTurnRatio_55A100();
     EXPORT char_type IsFootBrakeOn_55A150();
     EXPORT char_type IsAccelerationOrReverseOn_55A180();
-    EXPORT s32 sub_55A1D0(s32 a2, s32 a3, s32 a4, u32* a5);
+    EXPORT void sub_55A1D0(Fix16 a2, Fix16 a3, Fix16 a4, s32* a5);
     EXPORT void restore_saved_physics_state_55A400();
     EXPORT void save_physics_state_55A4B0();
     EXPORT void restore_state_55A550();
@@ -70,8 +70,8 @@ class CarPhysics_B0
     EXPORT char_type sub_55C150();
     EXPORT char_type SweepTestMovementForCollision_55C3B0(Fix16* a2, Fix16* a3);
     EXPORT void sub_55C560(Fix16& a2, Fix16& a3);
-    EXPORT s32 sub_55C5C0(u32* a2, s32 a3);
-    EXPORT s32 sub_55C820(u32* a2, s32 a3);
+    EXPORT void sub_55C5C0(Fix16_Point& a2, Ang16& a3);
+    EXPORT void sub_55C820(Fix16_Point& a2, Ang16& a3);
     EXPORT void sub_55CA70(Fix16_Point a2, Ang16 a3);
     EXPORT void sub_55CBB0(Fix16 a2, Fix16 a3);
     EXPORT void sub_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5);
@@ -97,8 +97,8 @@ class CarPhysics_B0
     EXPORT Ped* sub_55FC30(s32* a2, s32 a3);
     EXPORT s32 sub_55FD00(s32 a2);
     EXPORT Car_78* sub_55FF20(Car_BC* a2);
-    EXPORT void sub_5606C0(s32 a2, char_type a3);
-    EXPORT void sub_560B40(s32 a2, s32 a3);
+    EXPORT void sub_5606C0(Object_2C* a2, char_type a3);
+    EXPORT void sub_560B40(Char_B4* a2, Ang16& a3);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void ApplyMovementStep_560F20(Fix16 a2);
     EXPORT void IntegrateAndClampVelocities_5610B0();

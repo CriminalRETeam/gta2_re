@@ -6,6 +6,7 @@
 
 EXTERN_GLOBAL(Fix16, gFix16_6777CC);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
+EXTERN_GLOBAL(Fix16, dword_6FE07C);
 
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
 // but 9.6f leads me to believe both the POD and non-POD type are the same
@@ -14,6 +15,16 @@ struct Fix16_Point_POD
     inline bool IsNull_420360() const
     {
         return x == gFix16_6777CC && y == gFix16_6777CC;
+    }
+
+    void ApplyDeadZone_49E3C0()
+    {
+        Fix16 total = (Fix16::Abs(x) +  Fix16::Abs(y));
+        if (total < dword_6FE07C)
+        {
+            x = kFP16Zero_6FE20C;
+            y = kFP16Zero_6FE20C;
+        }
     }
 
     // But also 0x40ACD0 non inlined in 10.5
@@ -129,7 +140,6 @@ class Fix16_Point : public Fix16_Point_POD
         y = a2;
     }
 
-
     void ClampTowardsZero_49E480(const Fix16_Point& limit)
     {
         if (x >= kFP16Zero_6FE20C)
@@ -156,7 +166,6 @@ class Fix16_Point : public Fix16_Point_POD
             y = limit.y;
         }
     }
-
 
     // MATCH_FUNC(0x40AC50)
     Fix16_Point operator+(const Fix16_Point& in)
