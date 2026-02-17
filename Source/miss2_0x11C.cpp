@@ -3549,10 +3549,24 @@ void miss2_0x11C::sub_50CA70()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50cab0)
+MATCH_FUNC(0x50cab0)
 void miss2_0x11C::SCRCMD_ADD_NEW_BLOCK_50CAB0()
 {
-    NOT_IMPLEMENTED;
+    gmp_block_info Block;
+
+    Block.field_0_left = 0;
+    Block.field_2_right = 0;
+    Block.field_4_top = 0;
+    Block.field_6_bottom = 0;
+    Block.field_8_lid = 0;
+    Block.field_A_arrows = 0;
+    Block.field_B_slope_type = 0;
+
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(((SCR_ADD_BLOCK*)gBasePtr_6F8070)->field_8_xpos,
+                                          ((SCR_ADD_BLOCK*)gBasePtr_6F8070)->field_9_ypos,
+                                          ((SCR_ADD_BLOCK*)gBasePtr_6F8070)->field_A_zpos,
+                                          &Block);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50cb20)

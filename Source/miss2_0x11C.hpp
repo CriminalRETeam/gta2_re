@@ -293,6 +293,13 @@ struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
     SCR_XY_uc field_A_max_pos;
 };
 
+struct SCR_ADD_BLOCK : SCR_CMD_HEADER
+{
+    u8 field_8_xpos;
+    u8 field_9_ypos;
+    u8 field_A_zpos;
+};
+
 struct SCR_REMOVE_BLOCK : SCR_CMD_HEADER
 {
     SCR_XYZ_uc field_8_pos;
