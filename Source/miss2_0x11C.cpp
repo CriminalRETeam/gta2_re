@@ -3614,10 +3614,14 @@ void miss2_0x11C::SCRCMD_PARK_FINISHED_50CE10()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ce50)
+MATCH_FUNC(0x50ce50)
 void miss2_0x11C::sub_50CE50(SCR_CMD_HEADER* pCmd, u16 cmd_idx)
 {
-    NOT_IMPLEMENTED;
+    Frismo_C* v4 = field_114->sub_5031A0();
+    v4->field_0 = field_8;
+    v4->field_4 = pCmd->field_4_cmd_next;
+    field_114->add_503160(v4);
+    miss2_0x11C::JumpToCmd_503650(cmd_idx);
 }
 
 STUB_FUNC(0x50ce90)
