@@ -676,6 +676,13 @@ struct SCR_CHANGE_LIGHT_RADIUS : SCR_CMD_HEADER
 	Fix16 field_A_radius;
 };
 
+struct SCR_DO_SAVE_GAME : SCR_CMD_HEADER
+{
+    u16 field_8_triggername;
+    u16 field_A_unk2;
+    SCR_Rect_f field_C_rect;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum

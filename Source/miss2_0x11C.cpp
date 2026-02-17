@@ -3682,10 +3682,57 @@ void miss2_0x11C::SCRCMD_SAVE_GAME_50D340()
     Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50d3c0)
-void miss2_0x11C::sub_50D3C0()
+// https://decomp.me/scratch/nE3lP
+WIP_FUNC(0x50d3c0)
+void miss2_0x11C::sub_50D3C0() // DO_SAVE_GAME
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    if (field_C == false)
+    {
+        SCR_DO_SAVE_GAME* pCmd = (SCR_DO_SAVE_GAME*)gBasePtr_6F8070;
+        miss2_0x11C::DisableThread_505790(pCmd->field_8_triggername);
+        if ((u32)rng_dword_67AB34->field_0_rng > 0)
+        {
+            u32* mission_flag = (u32*)gfrosty_pasteur_6F8060->field_344_mission_flag;
+            if (!mission_flag || *mission_flag)
+            {
+                // It's in mission, so the player cannot save the game
+                sprintf(gTmpBuffer_67C598, "svmiss");
+            }
+            else if (gGame_0x40_67E008->field_38_orf1->field_2D4_scores.GetScore_592370() >= 50000)
+            {
+                // Hallelluya! Another soul saved!
+                gRoot_sound_66B038.PlayVoice_40F090(61);
+                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.AddCash_592620(-50000);
+                gfrosty_pasteur_6F8060->SaveGame_511E10(gLucid_hamilton_67E8E0.GetDebugStr_4C5970());
+                sprintf(gTmpBuffer_67C598, "svdone");
+            }
+            else
+            {
+                // No donation, no salvation!
+                gRoot_sound_66B038.PlayVoice_40F090(62);
+                sprintf(gTmpBuffer_67C598, "svscore");
+            }
+            gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        }
+        field_C = true;
+    }
+    else
+    {
+        SCR_DO_SAVE_GAME* pCmd = (SCR_DO_SAVE_GAME*)gBasePtr_6F8070;
+        Ped* pPlayerPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+
+        if ((pPlayerPed->get_cam_x() < pCmd->field_C_rect.field_0_pos.field_0_x - pCmd->field_C_rect.field_C_size.field_0_x ||
+             pPlayerPed->get_cam_x() > pCmd->field_C_rect.field_0_pos.field_0_x + pCmd->field_C_rect.field_C_size.field_0_x))
+        {
+            if ((pPlayerPed->get_cam_y() < pCmd->field_C_rect.field_0_pos.field_4_y - pCmd->field_C_rect.field_C_size.field_4_y ||
+                 pPlayerPed->get_cam_y() > pCmd->field_C_rect.field_0_pos.field_4_y + pCmd->field_C_rect.field_C_size.field_4_y))
+            {
+                miss2_0x11C::EnableThread_50A9E0(pCmd->field_8_triggername);
+                miss2_0x11C::Next_503620(gBasePtr_6F8070);
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x50d680)
