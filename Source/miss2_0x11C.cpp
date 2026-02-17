@@ -35,6 +35,7 @@
 #include "map_0x370.hpp"
 #include "miss2_8.hpp"
 #include "root_sound.hpp"
+#include "RouteFinder.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 // Back to force inline
@@ -3548,16 +3549,40 @@ void miss2_0x11C::sub_50CA70()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50cab0)
+MATCH_FUNC(0x50cab0)
 void miss2_0x11C::SCRCMD_ADD_NEW_BLOCK_50CAB0()
 {
-    NOT_IMPLEMENTED;
+    gmp_block_info Block;
+
+    Block.field_0_left = 0;
+    Block.field_2_right = 0;
+    Block.field_4_top = 0;
+    Block.field_6_bottom = 0;
+    Block.field_8_lid = 0;
+    Block.field_A_arrows = 0;
+    Block.field_B_slope_type = 0;
+
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(((SCR_ADD_BLOCK*)gBasePtr_6F8070)->field_8_xpos,
+                                          ((SCR_ADD_BLOCK*)gBasePtr_6F8070)->field_9_ypos,
+                                          ((SCR_ADD_BLOCK*)gBasePtr_6F8070)->field_A_zpos,
+                                          &Block);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50cb20)
+MATCH_FUNC(0x50cb20)
 void miss2_0x11C::SCRCMD_ROAD_ON_OFF_50CB20()
 {
-    NOT_IMPLEMENTED;
+    SCR_SWITCH_ROAD_ON_OFF* pCmd = (SCR_SWITCH_ROAD_ON_OFF*)gBasePtr_6F8070;
+
+    if (pCmd->field_B_status != 0)
+    {
+        gRouteFinder_6FFDC8->RoadOn_588950(pCmd->field_8_xpos, pCmd->field_9_ypos, pCmd->field_A_zpos);
+    }
+    else
+    {
+        gRouteFinder_6FFDC8->RoadOff_588810(pCmd->field_8_xpos, pCmd->field_9_ypos, pCmd->field_A_zpos);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50cb70)
@@ -3614,10 +3639,14 @@ void miss2_0x11C::SCRCMD_PARK_FINISHED_50CE10()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ce50)
+MATCH_FUNC(0x50ce50)
 void miss2_0x11C::sub_50CE50(SCR_CMD_HEADER* pCmd, u16 cmd_idx)
 {
-    NOT_IMPLEMENTED;
+    Frismo_C* v4 = field_114->sub_5031A0();
+    v4->field_0 = field_8;
+    v4->field_4 = pCmd->field_4_cmd_next;
+    field_114->add_503160(v4);
+    miss2_0x11C::JumpToCmd_503650(cmd_idx);
 }
 
 STUB_FUNC(0x50ce90)
@@ -3653,10 +3682,57 @@ void miss2_0x11C::SCRCMD_SAVE_GAME_50D340()
     Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50d3c0)
-void miss2_0x11C::sub_50D3C0()
+// https://decomp.me/scratch/nE3lP
+WIP_FUNC(0x50d3c0)
+void miss2_0x11C::sub_50D3C0() // DO_SAVE_GAME
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    if (field_C == false)
+    {
+        SCR_DO_SAVE_GAME* pCmd = (SCR_DO_SAVE_GAME*)gBasePtr_6F8070;
+        miss2_0x11C::DisableThread_505790(pCmd->field_8_triggername);
+        if ((u32)rng_dword_67AB34->field_0_rng > 0)
+        {
+            u32* mission_flag = (u32*)gfrosty_pasteur_6F8060->field_344_mission_flag;
+            if (!mission_flag || *mission_flag)
+            {
+                // It's in mission, so the player cannot save the game
+                sprintf(gTmpBuffer_67C598, "svmiss");
+            }
+            else if (gGame_0x40_67E008->field_38_orf1->field_2D4_scores.GetScore_592370() >= 50000)
+            {
+                // Hallelluya! Another soul saved!
+                gRoot_sound_66B038.PlayVoice_40F090(61);
+                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.AddCash_592620(-50000);
+                gfrosty_pasteur_6F8060->SaveGame_511E10(gLucid_hamilton_67E8E0.GetDebugStr_4C5970());
+                sprintf(gTmpBuffer_67C598, "svdone");
+            }
+            else
+            {
+                // No donation, no salvation!
+                gRoot_sound_66B038.PlayVoice_40F090(62);
+                sprintf(gTmpBuffer_67C598, "svscore");
+            }
+            gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        }
+        field_C = true;
+    }
+    else
+    {
+        SCR_DO_SAVE_GAME* pCmd = (SCR_DO_SAVE_GAME*)gBasePtr_6F8070;
+        Ped* pPlayerPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+
+        if ((pPlayerPed->get_cam_x() < pCmd->field_C_rect.field_0_pos.field_0_x - pCmd->field_C_rect.field_C_size.field_0_x ||
+             pPlayerPed->get_cam_x() > pCmd->field_C_rect.field_0_pos.field_0_x + pCmd->field_C_rect.field_C_size.field_0_x))
+        {
+            if ((pPlayerPed->get_cam_y() < pCmd->field_C_rect.field_0_pos.field_4_y - pCmd->field_C_rect.field_C_size.field_4_y ||
+                 pPlayerPed->get_cam_y() > pCmd->field_C_rect.field_0_pos.field_4_y + pCmd->field_C_rect.field_C_size.field_4_y))
+            {
+                miss2_0x11C::EnableThread_50A9E0(pCmd->field_8_triggername);
+                miss2_0x11C::Next_503620(gBasePtr_6F8070);
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x50d680)
@@ -3708,10 +3784,15 @@ void miss2_0x11C::SCRCMD_CHANGE_CAR_LOCK_50D680()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50d870)
+MATCH_FUNC(0x50d870)
 void miss2_0x11C::SCRCMD_CHANGE_INTENSITY_50D870()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHANGE_LIGHT_INTENSITY* pCmd = (SCR_CHANGE_LIGHT_INTENSITY*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    pPtr->field_8_light->SetIntensity_476AE0(pCmd->field_A_intensity);
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50d900)
@@ -3725,10 +3806,15 @@ void miss2_0x11C::SCRCMD_CHANGE_COLOUR_50D900()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50d9a0)
+MATCH_FUNC(0x50d9a0)
 void miss2_0x11C::SCRCMD_CHANGE_RADIUS_50D9A0()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHANGE_LIGHT_RADIUS* pCmd = (SCR_CHANGE_LIGHT_RADIUS*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    pPtr->field_8_light->field_0.SetRadius_463F10(pCmd->field_A_radius);
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50da50)

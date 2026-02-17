@@ -293,6 +293,13 @@ struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
     SCR_XY_uc field_A_max_pos;
 };
 
+struct SCR_ADD_BLOCK : SCR_CMD_HEADER
+{
+    u8 field_8_xpos;
+    u8 field_9_ypos;
+    u8 field_A_zpos;
+};
+
 struct SCR_REMOVE_BLOCK : SCR_CMD_HEADER
 {
     SCR_XYZ_uc field_8_pos;
@@ -647,6 +654,33 @@ struct SCR_REMOTE_CONTROL : SCR_CMD_HEADER
 {
 	u16 field_8_player_ped_idx;
 	u16 field_A_car_idx;
+};
+
+struct SCR_SWITCH_ROAD_ON_OFF : SCR_CMD_HEADER
+{
+    u8 field_8_xpos;
+    u8 field_9_ypos;
+    u8 field_A_zpos;
+    u8 field_B_status;
+};
+
+struct SCR_CHANGE_LIGHT_INTENSITY : SCR_CMD_HEADER
+{
+    u16 field_8_light_idx;
+    u16 field_A_intensity;
+};
+
+struct SCR_CHANGE_LIGHT_RADIUS : SCR_CMD_HEADER
+{
+	u16 field_8_light_idx;
+	Fix16 field_A_radius;
+};
+
+struct SCR_DO_SAVE_GAME : SCR_CMD_HEADER
+{
+    u16 field_8_triggername;
+    u16 field_A_unk2;
+    SCR_Rect_f field_C_rect;
 };
 
 namespace SCR_DOOR_OPENTYPES

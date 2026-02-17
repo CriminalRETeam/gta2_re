@@ -121,7 +121,7 @@ void RouteFinder::RoadOff_588810(u8 x, u8 y, u8 z)
 }
 
 MATCH_FUNC(0x588950)
-void RouteFinder::RoadOn_588950(s32 x, s32 y, s32 z)
+void RouteFinder::RoadOn_588950(u8 x, u8 y, u8 z)
 {
     // Strangely not the exact inverse logic of RoadOff
     const u16 r1 = RouteFinder::sub_588E60(x, y, z, 0, 3);

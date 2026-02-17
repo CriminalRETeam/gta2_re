@@ -78,7 +78,7 @@ class RouteFinder
   public:
     EXPORT void ShowJunctionIds_588620();
     EXPORT void RoadOff_588810(u8 a2, u8 a3, u8 a4);
-    EXPORT void RoadOn_588950(s32 a2, s32 a3, s32 a4);
+    EXPORT void RoadOn_588950(u8 a2, u8 a3, u8 a4);
     EXPORT u16 IsPointInJunctionBounds_588AA0(u8 a2, u8 a3, u16 a4, u16 a5); // ret _BOOL2
     EXPORT void Load_RGEN_588B30();
     EXPORT void Reset_588C60();

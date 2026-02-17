@@ -67,7 +67,7 @@ class Light_1D4CC : public LightBase
         pLight->field_C_light_z = zpos;
         pLight->field_10_argb = argb;
         pLight->field_0.flag = 0x10000;
-        pLight->field_0.sub_463F10(radius);
+        pLight->field_0.SetRadius_463F10(radius);
         pLight->sub_45B2D0(intensity);
         pLight->field_18_intensity = intensity;
         pLight->sub_4D6D70();
