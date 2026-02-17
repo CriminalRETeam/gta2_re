@@ -106,7 +106,6 @@ DEFINE_GLOBAL(Fix16, gSaved_trailer_zpos_6FE394, 0x6FE394);
 
 DEFINE_GLOBAL(Fix16, k_dword_6FE314, 0x6FE314);
 
-
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -448,38 +447,36 @@ char_type CarPhysics_B0::IsAccelerationOrReverseOn_55A180()
 
 // 9.6f 0x49F760
 WIP_FUNC(0x55a1d0)
-void CarPhysics_B0::sub_55A1D0(Fix16 a2_1, Fix16 a3_1, Fix16 a4, s32* a5)
+void CarPhysics_B0::sub_55A1D0(Fix16 targetX, Fix16 targetY, Fix16 targetAngle, s32* rotationMode)
 {
     WIP_IMPLEMENTED;
 
-    Fix16_Point point(a2_1, a3_1);
+    Fix16_Point local(targetX, targetY);
     CarInfo_2C* pCarInfo = gCarInfo_808_678098->sub_454840(field_5C_pCar->field_84_car_info_idx);
-    
-    Fix16_Point carInfo_point;
-    carInfo_point.x = pCarInfo->field_C.x;
-    carInfo_point.y = pCarInfo->field_C.y;
-    carInfo_point.RotateByAngle_40F6B0(field_58_theta);
 
-    Fix16_Point v8 = point + carInfo_point;
-    carInfo_point.x = v8.x;
-    carInfo_point.y = v8.y;
+    Fix16_Point offset;
+    offset.x = pCarInfo->field_C.x;
+    offset.y = pCarInfo->field_C.y;
+    offset.RotateByAngle_40F6B0(field_58_theta);
 
-    field_40_linvel_1 = carInfo_point - field_30_cm1;
+    Fix16_Point worldPoint = local + offset;
+    offset.x = worldPoint.x;
+    offset.y = worldPoint.y;
 
-    Fix16 v11 = Ang16::Ang16_to_Fix16(field_58_theta);
+    field_40_linvel_1 = offset - field_30_cm1;
 
-    field_74_ang_vel_rad = a4 - v11;
-    
-    if (*a5 == 1)
+    field_74_ang_vel_rad = targetAngle - Ang16::Ang16_to_Fix16(field_58_theta);
+
+    if (*rotationMode == 1)
     {
-        if (field_74_ang_vel_rad <  kFP16Zero_6FE20C)
+        if (field_74_ang_vel_rad < kFP16Zero_6FE20C)
         {
             field_74_ang_vel_rad += k_dword_6FE314;
         }
     }
-    else if (*a5 == 2)
+    else if (*rotationMode == 2)
     {
-        if (field_74_ang_vel_rad >  kFP16Zero_6FE20C)
+        if (field_74_ang_vel_rad > kFP16Zero_6FE20C)
         {
             field_74_ang_vel_rad -= k_dword_6FE314;
         }
