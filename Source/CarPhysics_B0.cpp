@@ -1556,36 +1556,17 @@ void CarPhysics_B0::ApplyMovementStep_560F20(Fix16 a2)
     sub_5636C0();
 }
 
-WIP_FUNC(0x5610b0)
+MATCH_FUNC(0x5610b0)
 void CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
 {
-    WIP_IMPLEMENTED;
-
     // Integrate linear and angular velocity
-    this->field_40_linvel_1.x += this->field_50.x;
-    this->field_40_linvel_1.y += this->field_50.y;
+    this->field_40_linvel_1 += this->field_50;
     this->field_74_ang_vel_rad += this->field_80;
 
     ResetForceAccumulators_55A840();
 
-    Fix16 y_abs = (field_40_linvel_1.y <= 0) ? -field_40_linvel_1.y : field_40_linvel_1.y;
-    Fix16 x_abs = (field_40_linvel_1.x <= 0) ? -field_40_linvel_1.x : field_40_linvel_1.x;
-
-    if (x_abs + y_abs < dword_6FE07C)
-    {
-        this->field_40_linvel_1.x = kFP16Zero_6FE20C;
-        this->field_40_linvel_1.y = kFP16Zero_6FE20C;
-    }
-
-    Fix16 ang_vel_rad_abs = (field_74_ang_vel_rad <= 0) ? -field_74_ang_vel_rad : field_74_ang_vel_rad;
-
-    // Clamp angular velocity if below threshold
-    if (ang_vel_rad_abs < dword_6FE07C)
-    {
-        ang_vel_rad_abs = kFP16Zero_6FE20C;
-    }
-
-    field_74_ang_vel_rad = ang_vel_rad_abs;
+    field_40_linvel_1.ApplyDeadZone_49E3C0();
+    field_74_ang_vel_rad = field_74_ang_vel_rad.ApplyDeadZone_482730(field_74_ang_vel_rad);
 }
 
 STUB_FUNC(0x561130)

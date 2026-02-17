@@ -8,6 +8,12 @@
     #define INLINE_MODE __forceinline
 #endif
 
+
+class Fix16;
+
+EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
+EXTERN_GLOBAL(Fix16, dword_6FE07C);
+
 class Fix16
 {
   public:
@@ -308,6 +314,18 @@ class Fix16
     inline s32 GetRaw_40F4B0() const
     {
         return mValue;
+    }
+
+    Fix16 ApplyDeadZone_482730(Fix16 to_abs)
+    {
+        if (!(Fix16::Abs(to_abs) < dword_6FE07C))
+        {
+            return to_abs;
+        }
+        else
+        {
+            return kFP16Zero_6FE20C;
+        }
     }
 
     EXPORT static class Ang16 __stdcall atan2_fixed_405320(Fix16& pMaybeX_FP16, Fix16& pMaybeY_FP16);
