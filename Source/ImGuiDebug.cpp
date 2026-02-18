@@ -39,6 +39,8 @@
 #include "HookLoader.hpp"
 #include <shlwapi.h>
 
+#pragma comment(lib, "Shlwapi.lib")
+
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0);
