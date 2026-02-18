@@ -36,6 +36,9 @@
 #include "ExplodingScore_100.hpp"
 #include <stdarg.h>
 
+#include "HookLoader.hpp"
+#include <shlwapi.h>
+
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0);
@@ -583,8 +586,114 @@ static const char* ObjectIdToString(s32 id)
     }
 }
 
+
+namespace HookManagement
+{
+static TEnumerateFuncsFn GetEnumerateFuncsFn()
+{
+    HMODULE hMod = ::GetModuleHandle("HookLoader.dll");
+    if (hMod)
+    {
+        return reinterpret_cast<TEnumerateFuncsFn>(::GetProcAddress(hMod, "EnumerateFuncs"));
+    }
+    return NULL;
+}
+
+static TChangeHookFn GetChangeHookFn()
+{
+    HMODULE hMod = ::GetModuleHandle("HookLoader.dll");
+    if (hMod)
+    {
+        return reinterpret_cast<TChangeHookFn>(::GetProcAddress(hMod, "ChangeHook"));
+    }
+    return NULL;
+}
+
+struct FuncData
+{
+    const char* funcName;
+    u32 ogAddr;
+    bool hooked;
+};
+static std::vector<FuncData> gStubFuncs;
+static std::vector<FuncData> gWipFuncs;
+
+extern "C"
+{
+    void OnEntryFn(const char* funcName, u32 ogAddr, u32 status)
+    {
+        FuncData d;
+        d.funcName = funcName;
+        d.ogAddr = ogAddr;
+        d.hooked = false;
+        if (status == 0)
+        {
+            gStubFuncs.push_back(d);
+        }
+        else if (status == 2)
+        {
+            gWipFuncs.push_back(d);
+        }
+    }
+}
+
+static void DrawHookList(char* filter, std::vector<FuncData>& funcs, TChangeHookFn pChangeHookFn)
+{
+    ImGui::InputText("Filter", filter, 256);
+    for (u32 i = 0; i < funcs.size(); i++)
+    {
+        FuncData& d = funcs[i];
+        if (filter[0] == 0 || StrStrIA(d.funcName, filter))
+        {
+            if (ImGui::Checkbox(d.funcName, &d.hooked))
+            {
+                pChangeHookFn(d.funcName, d.ogAddr, d.hooked);
+            }
+        }
+    }    
+}
+
+static void HooksDebug()
+{
+    static TEnumerateFuncsFn pGetEnumerateFuncs = GetEnumerateFuncsFn();
+    static TChangeHookFn pChangeHookFn = GetChangeHookFn();
+    if (pGetEnumerateFuncs && pChangeHookFn)
+    {
+        static bool collectedFuncs = false;
+        if (!collectedFuncs)
+        {
+            pGetEnumerateFuncs(OnEntryFn);
+            collectedFuncs = true;
+        }
+
+        if (!gStubFuncs.empty() || !gWipFuncs.empty())
+        {
+            ImGui::Begin("Hooks debug");
+
+            if (!gStubFuncs.empty() && ImGui::TreeNode("Stubs"))
+            {
+                static char filter[256];
+                DrawHookList(filter, gStubFuncs, pChangeHookFn);
+                ImGui::TreePop();
+            }
+
+            if (!gWipFuncs.empty() && ImGui::TreeNode("Wips"))
+            {
+                static char filter[256];
+                DrawHookList(filter, gWipFuncs, pChangeHookFn);
+                ImGui::TreePop();
+            }
+
+            ImGui::End();
+        } 
+    }
+}
+}
+
 void CC ImGuiDebugDraw()
 {
+    HookManagement::HooksDebug();
+
     ImGui::Begin("Debugger");
 
     if (ImGui::Button("set boot2map debug opts"))

@@ -236,6 +236,104 @@ class GlobalVarCollector
     std::map<std::string, u32> mExportNameToOgAddrMap;
 };
 
+class DetourHelper
+{
+public:
+    static bool Attach(void** ppTarget, void* pDetour)
+    {
+        if (DetourTransactionBegin() != NO_ERROR) 
+        {
+            return false;
+        }
+
+        if (DetourUpdateThread(GetCurrentThread()) != NO_ERROR) 
+        {
+            DetourTransactionAbort();
+            return false;
+        }
+
+        if (DetourAttach(ppTarget, pDetour) != NO_ERROR)
+        {
+            DetourTransactionAbort();
+            return false;
+        }
+        return DetourTransactionCommit() == NO_ERROR;
+    }
+
+    static bool Detach(void** ppTarget, void* pDetour)
+    {
+        if (DetourTransactionBegin() != NO_ERROR) 
+        {
+            return false;
+        }
+
+        if (DetourUpdateThread(GetCurrentThread()) != NO_ERROR)
+        {
+            DetourTransactionAbort();
+            return false;
+        }
+
+        if (DetourDetach(ppTarget, pDetour) != NO_ERROR)
+        {
+            DetourTransactionAbort();
+            return false;
+        }
+
+        return DetourTransactionCommit() == NO_ERROR;
+    }
+};
+
+
+static FunctionCollector* gFuncCollector;
+
+extern "C"
+{
+    __declspec(dllexport) void EnumerateFuncs(TOnEntryFn callback)
+    {
+        if (gFuncCollector && callback)
+        {
+            std::map<std::string, FunctionCollector::FuncMeta>::iterator it = gFuncCollector->mFunctionsToHookMap.begin();
+            while (it != gFuncCollector->mFunctionsToHookMap.end())
+            {
+                callback(it->first.c_str(), it->second.mOgAddr, it->second.mStatus);
+                it++;
+            }
+        }
+    }
+
+    __declspec(dllexport) void ChangeHook(const char* pFuncName, u32 ogAddr, bool hook)
+    {
+        if (!gFuncCollector)
+        {
+            return;
+        }
+
+        std::map<std::string, FunctionCollector::HookEntry*>::iterator it = gFuncCollector->mHooks.find(pFuncName);
+        if (it == gFuncCollector->mHooks.end())
+        {
+            return;
+        }
+
+        FunctionCollector::HookEntry* hookEntry = it->second;
+
+        if (!DetourHelper::Detach(&(PVOID&)hookEntry->trampoline, hookEntry->detour))
+        {
+            printf("Remove failed\n");
+        }
+
+        void* old = hookEntry->detour;
+        hookEntry->detour = hookEntry->target;
+        hookEntry->target = old;
+
+        hookEntry->trampoline = hookEntry->target;
+        if (!DetourHelper::Attach(&(PVOID&)hookEntry->trampoline, hookEntry->detour))
+        {
+            printf("Add failed\n");
+        }
+    }
+
+}
+
 class HookLoader
 {
   private:
@@ -293,6 +391,7 @@ class HookLoader
     ~HookLoader()
     {
         delete mVars;
+        gFuncCollector = NULL;
         delete mFuncs;
     }
 
@@ -308,6 +407,7 @@ class HookLoader
         // Build a map of exported var records and their OG executable address
         mVars = new GlobalVarCollector(mHExports);
         mFuncs = new FunctionCollector(mHImports);
+        gFuncCollector = mFuncs;
     }
 
     void LoadHooks()
@@ -319,18 +419,6 @@ class HookLoader
         printf("crt inits\n");
         crt_inits();
 
-        LONG err = DetourTransactionBegin();
-        if (err != NO_ERROR)
-        {
-            printf("DetourTransactionBegin failed\n");
-        }
-
-        err = DetourUpdateThread(GetCurrentThread());
-        if (err != NO_ERROR)
-        {
-            printf("DetourUpdateThread failed");
-        }
-
         printf("Apply hooks..\n");
         for (std::map<std::string, FunctionCollector::FuncMeta>::iterator it = mFuncs->mFunctionsToHookMap.begin();
              it != mFuncs->mFunctionsToHookMap.end();
@@ -341,54 +429,52 @@ class HookLoader
                 printf("Look up %s\n", it->first.c_str());
 #endif
 
-                LPVOID addr = ::GetProcAddress(mHImports, it->first.c_str());
+                LPVOID newFuncAddr = ::GetProcAddress(mHImports, it->first.c_str());
                 const FunctionCollector::FuncMeta& meta = it->second;
 
 #ifdef HOOK_VERBOSE
                 printf("Doing %s\n", it->first.c_str());
 #endif
 
+                FunctionCollector::HookEntry* hookEntry = new FunctionCollector::HookEntry();
+
+                bool ok = false;
                 if (meta.mStatus == 0 || meta.mStatus == 2)
                 {
                     // stubbed or wip - hook reimpl func to og
                     //printf("STUB %s\n", it->first.c_str());
 
-                    err = DetourAttach(&(PVOID&)addr, reinterpret_cast<void*>(meta.mOgAddr));
+                    hookEntry->target = newFuncAddr;
+                    hookEntry->detour = reinterpret_cast<void*>(meta.mOgAddr);
                 }
                 else if (meta.mStatus == 1)
                 {
                     // matched - hook og func to reimpl
                     //printf("MATCH %s\n", it->first.c_str());
-                    LPVOID addr2 = reinterpret_cast<void*>(meta.mOgAddr);
-                    err = DetourAttach(&(PVOID&)addr2, addr);
+
+                    hookEntry->target =  reinterpret_cast<void*>(meta.mOgAddr);
+                    hookEntry->detour = newFuncAddr;
                 }
-                if (err != NO_ERROR)
+                else
+                {
+                    // Unknown status
+                }
+
+                hookEntry->trampoline =  hookEntry->target;
+                ok = DetourHelper::Attach(&(PVOID&)hookEntry->trampoline, hookEntry->detour);
+
+                if (!ok)
                 {
                     printf("DetourAttach failed\n");
                 }
+                else
+                {
+                    // TODO: Free in dtor, leaked atm, although dtor is never reached so also doesn't really matter
+                    mFuncs->mHooks[it->first] = hookEntry;
+                }
             }
         }
-
-        printf("commit hooks\n");
-        err = DetourTransactionCommit();
-        if (err != NO_ERROR)
-        {
-            printf("DetourTransactionCommit failed\n");
-        }
-
-        err = DetourTransactionBegin();
-
-        if (err != NO_ERROR)
-        {
-            printf("DetourTransactionBegin failed\n");
-        }
-
-        err = DetourUpdateThread(GetCurrentThread());
-
-        if (err != NO_ERROR)
-        {
-            printf("DetourUpdateThread failed\n");
-        }
+      
 
         printf("Look up GameMain...\n");
         LPVOID pGameMain = ::GetProcAddress(mHImports, "GameMain");
