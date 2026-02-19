@@ -88,6 +88,13 @@ struct Fix16_Point_POD
         return *this;
     }
 
+    // Operator* for Fix16 ?
+    void MultiplyByFix16_49E3A0(Fix16 factor)
+    {
+        x = x * factor;
+        y = y * factor;
+    }
+
     EXPORT Fix16_Point_POD Multiply_438FE0(Fix16& a1);
     EXPORT Fix16_Point_POD Divide_442CB0(Fix16& a1);
 
