@@ -106,6 +106,25 @@ DEFINE_GLOBAL(Fix16, gSaved_trailer_f70_6FE0E0, 0x6FE0E0);
 DEFINE_GLOBAL(Fix16, gSaved_trailer_zpos_6FE394, 0x6FE394);
 
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE314, Fix16(0x18F60, 0), 0x6FE314);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE3D0, k_dword_6FE210, 0x6FE3D0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE148, Fix16(0x8E5, 0), 0x6FE148);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE3D4, dword_6FE148, 0x6FE3D4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE320, dword_6FDFF8, 0x6FE320);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE0A0, Fix16(0x80, 0), 0x6FE0A0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFDC, dword_6FE0A0, 0x6FDFDC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE334, k_dword_6FE210 - dword_6FE1D4, 0x6FE334);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE2F0, Fix16(0x51, 0), 0x6FE2F0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE1C4, Fix16(0xA3, 0), 0x6FE1C4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE330, k_dword_6FE210 - dword_6FE2F0 - dword_6FE1C4, 0x6FE330);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE240, k_dword_6FE210 - dword_6FE2F0 - dword_6FE1C4, 0x6FE240);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE1E4, Fix16(0x3D7, 0), 0x6FE1E4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDF18, k_dword_6FE210 - dword_6FE1E4, 0x6FDF18);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFD0, Fix16(0x666, 0), 0x6FDFD0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE100, k_dword_6FE210 - dword_6FDFD0, 0x6FE100);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE0FC, k_dword_6FE210 - FastCarMinVelocity_6FE1CC, 0x6FE0FC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFBC, k_dword_6FE210 - FastCarMinVelocity_6FE1CC, 0x6FDFBC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE1E0, Fix16(0x7AE, 0), 0x6FE1E0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE318, k_dword_6FE210 - dword_6FE1E0, 0x6FE318);
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -1592,7 +1611,7 @@ Fix16_Point CarPhysics_B0::sub_561380(Fix16_Point* a3)
 }
 
 STUB_FUNC(0x5615d0)
-Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(s32* a3, s32 a4, u32* a5, s32 a6)
+Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 a4, Fix16_Point& a5, Fix16 a6)
 {
     NOT_IMPLEMENTED;
     return Fix16(0);
@@ -1627,11 +1646,83 @@ Fix16 CarPhysics_B0::ComputeTorqueFromThrottle_561DD0()
     }
 }
 
-STUB_FUNC(0x561e50)
+// https://decomp.me/scratch/46zAM
+WIP_FUNC(0x561e50)
 Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
 {
-    NOT_IMPLEMENTED;
-    return Fix16(0);
+    WIP_IMPLEMENTED;
+    Fix16_Point point(Fix16(0), dword_6FE0E4->field_4_front_wheel_offset);
+
+    if (CarPhysics_B0::IsInAir_55A0B0())
+    {
+        return kFP16Zero_6FE20C;
+    }
+    else
+    {
+        Fix16 v6;
+        Fix16 lodword_v5;
+        Fix16 hidword_v5 = CarPhysics_B0::ComputeEngineTorque_561970() * dword_6FE258->field_8_front_drive_bias;
+
+        if (field_AD_turn_direction)
+        {
+            v6 = k_dword_6FE210 + dword_6FE258->field_14_turn_in;
+        }
+        else
+        {
+            v6 = k_dword_6FE210;
+        }
+
+        Fix16 pointing_ang_rad;
+        Fix16 v9;
+        Fix16 v10;
+
+        switch (field_A0)
+        {
+            case 0:
+                v9 = v6 * dword_6FE3D0;
+                v10 = dword_6FE3D4;
+                lodword_v5 = dword_6FE0D8 * dword_6FE320;
+                pointing_ang_rad = this->field_78_pointing_ang_rad;
+                break;
+            case 1:
+            case 2:
+                lodword_v5 = kFP16Zero_6FE20C;
+                if (hidword_v5 == kFP16Zero_6FE20C)
+                {
+                    pointing_ang_rad = this->field_78_pointing_ang_rad;
+                    v9 = kFP16Zero_6FE20C;
+                    v10 = kFP16Zero_6FE20C;
+                }
+                else
+                {
+                    v10 = dword_6FE3D4;
+                    v9 = v6 * dword_6FE3D0;
+                    if (field_A0 == 1)
+                    {
+                        lodword_v5 = kFP16Zero_6FE20C;
+                        pointing_ang_rad = this->field_78_pointing_ang_rad + dword_6FE3C4 * 30;
+                    }
+                    else
+                    {
+                        pointing_ang_rad = this->field_78_pointing_ang_rad - dword_6FE3C4 * 30;
+                        lodword_v5 = kFP16Zero_6FE20C;
+                    }
+                }
+                break;
+            default:
+                lodword_v5 = v6;
+                pointing_ang_rad = field_78_pointing_ang_rad;
+                break;
+        }
+
+        Fix16_Point point2(v9, v10 + lodword_v5);
+
+        Ang16 rotation = Ang16::Fix16_To_Ang16_40F540(pointing_ang_rad);
+
+        Ang16 final_rotation = rotation + field_58_theta;
+
+        return CarPhysics_B0::ApplyDriveForce_5615D0(point, final_rotation, point2, hidword_v5);
+    }
 }
 
 STUB_FUNC(0x5620d0)
@@ -1741,10 +1832,55 @@ char_type CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
     return 0;
 }
 
-STUB_FUNC(0x562910)
+// https://decomp.me/scratch/vdIqi
+WIP_FUNC(0x562910)
 void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    if (CarPhysics_B0::IsInAir_55A0B0())
+    {
+        if (Fix16::Abs(field_40_linvel_1.x) <= dword_6FDFDC && Fix16::Abs(field_40_linvel_1.y) <= dword_6FDFDC)
+        {
+            field_40_linvel_1.MultiplyByFix16_49E3A0(dword_6FE334);
+        }
+        else
+        {
+            field_40_linvel_1.RotateByAngle_40F6B0(-field_58_theta);
+            field_40_linvel_1.x = field_40_linvel_1.x * dword_6FE334;
+            if (!field_5C_pCar->field_64_pTrailer)
+            {
+                field_40_linvel_1.y = field_40_linvel_1.y * dword_6FE330;
+            }
+            else
+            {
+                field_40_linvel_1.y = field_40_linvel_1.y * dword_6FE240;
+            }
+            field_40_linvel_1.RotateByAngle_40F6B0(field_58_theta);
+            field_74_ang_vel_rad = field_74_ang_vel_rad * dword_6FDF18;
+        }
+    }
+    else
+    {
+        if (Fix16::Abs(field_40_linvel_1.x) <= dword_6FDFDC && Fix16::Abs(field_40_linvel_1.y) <= dword_6FDFDC)
+        {
+            field_40_linvel_1.MultiplyByFix16_49E3A0(dword_6FE100);
+        }
+        else
+        {
+            field_40_linvel_1.RotateByAngle_40F6B0(-field_58_theta);
+            field_40_linvel_1.x = field_40_linvel_1.x * dword_6FE100;
+            if (!field_5C_pCar->field_64_pTrailer)
+            {
+                field_40_linvel_1.y = field_40_linvel_1.y * dword_6FE0FC;
+            }
+            else
+            {
+                field_40_linvel_1.y = field_40_linvel_1.y * dword_6FDFBC;
+            }
+            field_40_linvel_1.RotateByAngle_40F6B0(field_58_theta);
+            field_74_ang_vel_rad = field_74_ang_vel_rad * dword_6FE318;
+        }
+    }
 }
 
 // TODO: Actually Fix16_Point method its RotateByAngle_40F6B0
@@ -1981,14 +2117,13 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
     return 0;
 }
 
+// https://decomp.me/scratch/Uxers
 WIP_FUNC(0x563280)
 void CarPhysics_B0::UpdateCp1FromCm1_563280()
 {
     WIP_IMPLEMENTED;
 
-    const CarInfo_2C* info = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->GetCarModelForPhysics_43A850());
-
-    Fix16_Point point = info->field_C_center_of_mass_offset;
+    Fix16_Point point(-dword_6FE0E4->field_C_center_of_mass_offset.x, -dword_6FE0E4->field_C_center_of_mass_offset.y);
     point.RotateByAngle_40F6B0(field_58_theta);
 
     field_38_cp1 = field_30_cm1 + point;

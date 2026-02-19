@@ -105,7 +105,7 @@ class CarPhysics_B0
     EXPORT Fix16_Point sub_561130(Fix16_Point* a3);
     EXPORT Fix16_Point sub_561350(Fix16_Point* a3);
     EXPORT Fix16_Point sub_561380(Fix16_Point* a3);
-    EXPORT Fix16 ApplyDriveForce_5615D0(s32* a3, s32 a4, u32* a5, s32 a6);
+    EXPORT Fix16 ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 a4, Fix16_Point& a5, Fix16 a6);
     EXPORT s32 get_revs_561940();
     EXPORT Fix16 ComputeEngineTorque_561970();
     EXPORT Fix16 ComputeTorqueFromThrottle_561DD0();
