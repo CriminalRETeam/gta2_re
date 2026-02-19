@@ -1516,7 +1516,7 @@ Fix16 Car_BC::GetVelocity_43A4C0()
 MATCH_FUNC(0x43a590)
 Fix16 Car_BC::sub_43A590()
 {
-    return gCarInfo_808_678098->GetInfoAtIdx_454840(GetCarModelForPhysics_43A850())->field_0;
+    return gCarInfo_808_678098->GetInfoAtIdx_454840(GetCarModelForPhysics_43A850())->field_0_moment_of_inertia;
 }
 
 MATCH_FUNC(0x43a5b0)

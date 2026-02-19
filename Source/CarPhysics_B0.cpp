@@ -456,8 +456,8 @@ void CarPhysics_B0::SetVelocityTowardTarget_55A1D0(Fix16 targetX, Fix16 targetY,
     CarInfo_2C* pCarInfo = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->field_84_car_info_idx);
 
     Fix16_Point offset;
-    offset.x = pCarInfo->field_C.x;
-    offset.y = pCarInfo->field_C.y;
+    offset.x = pCarInfo->field_C_center_of_mass_offset.x;
+    offset.y = pCarInfo->field_C_center_of_mass_offset.y;
     offset.RotateByAngle_40F6B0(field_58_theta);
 
     Fix16_Point worldPoint = local + offset;
@@ -1449,7 +1449,7 @@ void CarPhysics_B0::sub_55F930(Fix16_Point* a2)
 MATCH_FUNC(0x55f970)
 void CarPhysics_B0::sub_55F970(Fix16 a2)
 {
-    this->field_7C -= (dword_6FE0E4->field_0 * a2);
+    this->field_7C -= (dword_6FE0E4->field_0_moment_of_inertia * a2);
 }
 
 MATCH_FUNC(0x55f9a0)
@@ -1619,11 +1619,11 @@ Fix16 CarPhysics_B0::ComputeTorqueFromThrottle_561DD0()
     if (get_revs_561940() != 0)
     {
         // Somehow this is wrong :')
-        return dword_6FE0E4->field_14 + Fix16(2, 0) * ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18))));
+        return dword_6FE0E4->field_14_half_thrust + Fix16(2, 0) * ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust))));
     }
     else
     {
-        return dword_6FE0E4->field_14 + ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18))));
+        return dword_6FE0E4->field_14_half_thrust + ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust))));
     }
 }
 
@@ -1988,7 +1988,7 @@ void CarPhysics_B0::UpdateCp1FromCm1_563280()
 
     const CarInfo_2C* info = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->GetCarModelForPhysics_43A850());
 
-    Fix16_Point point = info->field_C;
+    Fix16_Point point = info->field_C_center_of_mass_offset;
     point.RotateByAngle_40F6B0(field_58_theta);
 
     field_38_cp1 = field_30_cm1 + point;
@@ -2001,7 +2001,7 @@ void CarPhysics_B0::UpdateCenterOfMassPoint_563350()
 
     const CarInfo_2C* info = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->GetCarModelForPhysics_43A850());
 
-    Fix16_Point point = info->field_C;
+    Fix16_Point point = info->field_C_center_of_mass_offset;
     point.RotateByAngle_40F6B0(field_58_theta);
 
     field_30_cm1 = field_38_cp1 + point;
@@ -2014,7 +2014,7 @@ void CarPhysics_B0::UpdateReferencePoint_563460()
 {
     WIP_IMPLEMENTED;
 
-    Fix16_Point point = dword_6FE0E4->field_C;
+    Fix16_Point point = dword_6FE0E4->field_C_center_of_mass_offset;
 
     point.RotateByAngle_40F6B0(field_58_theta);
 
