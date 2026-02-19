@@ -1090,7 +1090,7 @@
         "v105_address": "0x430c70"
     },
     {
-        "name": "sub_430E60",
+        "name": "PushData_430E60",
         "v96f_address": null,
         "v105_address": "0x430e60"
     },
@@ -1530,7 +1530,7 @@
         "v105_address": "0x43a7d0"
     },
     {
-        "name": "Car_BC::sub_43A850",
+        "name": "Car_BC::GetCarModelForPhysics_43A850",
         "v96f_address": null,
         "v105_address": "0x43a850"
     },
@@ -2735,7 +2735,7 @@
         "v105_address": "0x453f90"
     },
     {
-        "name": "CarInfo_2C::sub_4542A0",
+        "name": "CarInfo_2C::CalculateCarInfo_4542A0",
         "v96f_address": null,
         "v105_address": "0x4542a0"
     },
@@ -2745,7 +2745,7 @@
         "v105_address": "0x454410"
     },
     {
-        "name": "CarInfo_48::sub_454680",
+        "name": "CarInfo_48::ConvertMass_454680",
         "v96f_address": null,
         "v105_address": "0x454680"
     },
@@ -2755,17 +2755,17 @@
         "v105_address": "0x4546b0"
     },
     {
-        "name": "CarInfo_808::sub_4546D0",
+        "name": "CarInfo_808::LoadModelPhysics_4546D0",
         "v96f_address": "0x432D10",
         "v105_address": "0x4546d0"
     },
     {
-        "name": "CarInfo_808::sub_454840",
+        "name": "CarInfo_808::GetInfoAtIdx_454840",
         "v96f_address": null,
         "v105_address": "0x454840"
     },
     {
-        "name": "CarInfo_808::sub_454850",
+        "name": "CarInfo_808::CalculateAllCarInfo_454850",
         "v96f_address": null,
         "v105_address": "0x454850"
     },
@@ -2785,12 +2785,12 @@
         "v105_address": "0x4549b0"
     },
     {
-        "name": "CarInfo_808::sub_4549C0",
+        "name": "CarInfo_808::ConvertAllMass_4549C0",
         "v96f_address": null,
         "v105_address": "0x4549c0"
     },
     {
-        "name": "CarInfo_808::sub_454A00",
+        "name": "CarInfo_808::LoadFromGciFile_454A00",
         "v96f_address": "0x432FC0",
         "v105_address": "0x454a00"
     },
@@ -2800,12 +2800,12 @@
         "v105_address": "0x454a50"
     },
     {
-        "name": "CarInfo_808::sub_454A80",
+        "name": "CarInfo_808::Clear_454A80",
         "v96f_address": null,
         "v105_address": "0x454a80"
     },
     {
-        "name": "CarInfo_808::sub_454AA0",
+        "name": "CarInfo_808::Free_454AA0",
         "v96f_address": null,
         "v105_address": "0x454aa0"
     },
@@ -12090,7 +12090,7 @@
         "v105_address": "0x55a180"
     },
     {
-        "name": "CarPhysics_B0::sub_55A1D0",
+        "name": "CarPhysics_B0::SetVelocityTowardTarget_55A1D0",
         "v96f_address": null,
         "v105_address": "0x55a1d0"
     },
@@ -12275,7 +12275,7 @@
         "v105_address": "0x55f330"
     },
     {
-        "name": "CarPhysics_B0::sub_55F360",
+        "name": "CarPhysics_B0::CheckPendingCollision_55F360",
         "v96f_address": null,
         "v105_address": "0x55f360"
     },
@@ -12395,7 +12395,7 @@
         "v105_address": "0x561380"
     },
     {
-        "name": "CarPhysics_B0::sub_5615D0",
+        "name": "CarPhysics_B0::ApplyDriveForce_5615D0",
         "v96f_address": null,
         "v105_address": "0x5615d0"
     },
@@ -12410,7 +12410,7 @@
         "v105_address": "0x561940"
     },
     {
-        "name": "CarPhysics_B0::sub_561970",
+        "name": "CarPhysics_B0::ComputeEngineTorque_561970",
         "v96f_address": null,
         "v105_address": "0x561970"
     },
@@ -12420,17 +12420,17 @@
         "v105_address": "0x561db0"
     },
     {
-        "name": "CarPhysics_B0::ComputeEngineTorque_561DD0",
+        "name": "CarPhysics_B0::ComputeTorqueFromThrottle_561DD0",
         "v96f_address": null,
         "v105_address": "0x561dd0"
     },
     {
-        "name": "CarPhysics_B0::CalculateFrontSkid_561E50",
+        "name": "CarPhysics_B0::CalculateFrontWheelForce_561E50",
         "v96f_address": null,
         "v105_address": "0x561e50"
     },
     {
-        "name": "CarPhysics_B0::CalculateRearSkid_5620D0",
+        "name": "CarPhysics_B0::CalculateRearWheelForce_5620D0",
         "v96f_address": null,
         "v105_address": "0x5620d0"
     },
@@ -12490,12 +12490,12 @@
         "v105_address": "0x562d00"
     },
     {
-        "name": "CarPhysics_B0::sub_562EB0",
+        "name": "CarPhysics_B0::SetModelPhysicsGlobal_562EB0",
         "v96f_address": null,
         "v105_address": "0x562eb0"
     },
     {
-        "name": "CarPhysics_B0::sub_562ED0",
+        "name": "CarPhysics_B0::SetCarInfoGlobal_562ED0",
         "v96f_address": null,
         "v105_address": "0x562ed0"
     },
@@ -12545,12 +12545,12 @@
         "v105_address": "0x563590"
     },
     {
-        "name": "CarPhysics_B0::sub_563670",
+        "name": "CarPhysics_B0::UpdateSpriteFromPhysics_563670",
         "v96f_address": null,
         "v105_address": "0x563670"
     },
     {
-        "name": "CarPhysics_B0::sub_5636C0",
+        "name": "CarPhysics_B0::UpdateCarAndTrailerSpriteFromPhysics_5636C0",
         "v96f_address": null,
         "v105_address": "0x5636c0"
     },

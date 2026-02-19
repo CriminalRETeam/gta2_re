@@ -164,11 +164,11 @@ void Game_0x40::LoadGameFiles_4B8C40()
 
     if (strcmp(tmp_array, "data\\"))
     {
-        gCarInfo_808_678098->sub_454A00(tmp_array);
+        gCarInfo_808_678098->LoadFromGciFile_454A00(tmp_array);
     }
     else
     {
-        gCarInfo_808_678098->sub_454A00("data\\nyc.gci");
+        gCarInfo_808_678098->LoadFromGciFile_454A00("data\\nyc.gci");
     }
 
     gCar_6C_677930->sub_444980();
