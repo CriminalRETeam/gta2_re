@@ -1981,14 +1981,13 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
     return 0;
 }
 
+// https://decomp.me/scratch/Uxers
 WIP_FUNC(0x563280)
 void CarPhysics_B0::UpdateCp1FromCm1_563280()
 {
     WIP_IMPLEMENTED;
 
-    const CarInfo_2C* info = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->GetCarModelForPhysics_43A850());
-
-    Fix16_Point point = info->field_C_center_of_mass_offset;
+    Fix16_Point point(-dword_6FE0E4->field_C_center_of_mass_offset.x, -dword_6FE0E4->field_C_center_of_mass_offset.y);
     point.RotateByAngle_40F6B0(field_58_theta);
 
     field_38_cp1 = field_30_cm1 + point;
