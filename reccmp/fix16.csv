@@ -1,0 +1,14 @@
+// Fix16 functions for 10.5
+address,type,symbol
+
+// ctor(s32)
+4369F0,function,??0Fix16@@QAE@H@Z
+
+// ctor(u8)
+45C4E0,function,??0Fix16@@QAE@E@Z
+
+// ctor(u32)
+4926f0,function,??0Fix16@@QAE@I@Z
+
+// ctor(u16)
+4AE970,function,??0Fix16@@QAE@G@Z

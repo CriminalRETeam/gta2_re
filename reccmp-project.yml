@@ -6,6 +6,7 @@ targets:
         sha256: 420af867036b1a66ef94c54b8db2e7e654da359031987c6602bcfa74972e089f
     data-sources:
         - reccmp/96f-ascii.csv
+        - reccmp/96f-fix16.csv
         - reccmp/96f-functions.csv
         - reccmp/96f-library.csv
         - reccmp/96f-widechar.csv
@@ -19,6 +20,7 @@ targets:
       ignore_functions: []
     data-sources:
         - reccmp/ascii.csv
+        - reccmp/fix16.csv
         - reccmp/floats.csv
         - reccmp/library.csv
         - reccmp/functions.csv
