@@ -3789,7 +3789,7 @@ void sound_obj::ProcessCar_412B80(Sound_Params_8* pParams)
             CarPhysics_B0* pPhysics = pSprite->field_8_car_bc_ptr->field_58_physics; // +8 = Car_BC*
             if (pPhysics)
             {
-                pPhysics->sub_562EB0();
+                pPhysics->SetModelPhysicsGlobal_562EB0();
             }
             else
             {

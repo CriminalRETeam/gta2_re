@@ -1382,7 +1382,7 @@ Fix16_Point Car_BC::sub_439FB0()
 MATCH_FUNC(0x43a0e0)
 Fix16_Point Car_BC::get_rear_wheel_offset_43A0E0()
 {
-    CarInfo_2C* pInfo = gCarInfo_808_678098->sub_454840(field_84_car_info_idx);
+    CarInfo_2C* pInfo = gCarInfo_808_678098->GetInfoAtIdx_454840(field_84_car_info_idx);
     return Fix16_Point(Fix16(0), pInfo->field_8_rear_wheel_offset);
 }
 
@@ -1516,7 +1516,7 @@ Fix16 Car_BC::GetVelocity_43A4C0()
 MATCH_FUNC(0x43a590)
 Fix16 Car_BC::sub_43A590()
 {
-    return gCarInfo_808_678098->sub_454840(sub_43A850())->field_0;
+    return gCarInfo_808_678098->GetInfoAtIdx_454840(GetCarModelForPhysics_43A850())->field_0_moment_of_inertia;
 }
 
 MATCH_FUNC(0x43a5b0)
@@ -1608,7 +1608,7 @@ void Car_BC::AssignRandomRemap_43A7D0()
 
 // https://decomp.me/scratch/zoRIL
 MATCH_FUNC(0x43a850)
-char_type Car_BC::sub_43A850()
+char_type Car_BC::GetCarModelForPhysics_43A850()
 {
     if (field_54_driver && !field_54_driver->IsField238_45EDE0(2))
     {

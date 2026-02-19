@@ -55,7 +55,7 @@ Fix16 UnknownList::sub_440860(s8& var)
 }
 
 MATCH_FUNC(0x454680)
-void ModelPhysics_48::sub_454680()
+void ModelPhysics_48::ConvertMass_454680()
 {
     field_4_mass = field_4_mass * (dword_677D74 + dword_677F54);
 }
@@ -227,7 +227,7 @@ s32 __stdcall sub_430C70(char_type* pStr)
                             {
                                 return -2;
                             }
-                            error_ret = CarInfo_808::sub_430E60(&v8s, sizeof(BYTE));
+                            error_ret = CarInfo_808::PushData_430E60(&v8s, sizeof(BYTE));
                         }
                         else
                         {
@@ -235,7 +235,7 @@ s32 __stdcall sub_430C70(char_type* pStr)
                             {
                                 return -2;
                             }
-                            error_ret = CarInfo_808::sub_430E60(&tmp, sizeof(BYTE));
+                            error_ret = CarInfo_808::PushData_430E60(&tmp, sizeof(BYTE));
                         }
 
                         if (error_ret >= 0)
@@ -263,7 +263,7 @@ s32 __stdcall sub_430C70(char_type* pStr)
                         {
                             tmp = -tmp;
                         }
-                        error_ret = CarInfo_808::sub_430E60(&tmp, sizeof(WORD));
+                        error_ret = CarInfo_808::PushData_430E60(&tmp, sizeof(WORD));
 
                         if (error_ret >= 0)
                         {
@@ -288,11 +288,11 @@ s32 __stdcall sub_430C70(char_type* pStr)
                         if (bNegate)
                         {
                             v11 = -(s16)v9;
-                            error_ret = CarInfo_808::sub_430E60(&v11, sizeof(DWORD));
+                            error_ret = CarInfo_808::PushData_430E60(&v11, sizeof(DWORD));
                         }
                         else
                         {
-                            error_ret = CarInfo_808::sub_430E60(&v9, sizeof(DWORD));
+                            error_ret = CarInfo_808::PushData_430E60(&v9, sizeof(DWORD));
                         }
                         if (error_ret >= 0)
                         {
@@ -310,7 +310,7 @@ s32 __stdcall sub_430C70(char_type* pStr)
                         {
                             fix16_num = -fix16_num;
                         }
-                        error_ret = CarInfo_808::sub_430E60(&fix16_num, sizeof(Fix16));
+                        error_ret = CarInfo_808::PushData_430E60(&fix16_num, sizeof(Fix16));
                         if (error_ret >= 0)
                         {
                             return 0;
@@ -377,7 +377,7 @@ char* __stdcall CarInfo_808::SetErr_430AC0(s32 a1)
 }
 
 MATCH_FUNC(0x430e60)
-s32 __stdcall CarInfo_808::sub_430E60(void* pSrc, u32 size)
+s32 __stdcall CarInfo_808::PushData_430E60(void* pSrc, u32 size)
 {
     processed_output_676250 += size;
     if (processed_output_676250 > modelPhyArrLen_675F90)
@@ -542,7 +542,7 @@ CarInfo_2C::~CarInfo_2C()
 }
 
 STUB_FUNC(0x4542A0)
-void CarInfo_2C::sub_4542A0(s32 idx)
+void CarInfo_2C::CalculateCarInfo_4542A0(s32 idx)
 {
     NOT_IMPLEMENTED;
 }
@@ -554,7 +554,7 @@ ModelPhysics_48* CarInfo_808::GetModelPhysicsFromIdx_4546B0(u8 model_idx)
 }
 
 MATCH_FUNC(0x4546d0)
-void CarInfo_808::sub_4546D0()
+void CarInfo_808::LoadModelPhysics_4546D0()
 {
     u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
     u32 local_1c;
@@ -602,15 +602,15 @@ void CarInfo_808::sub_4546D0()
 }
 
 MATCH_FUNC(0x454840)
-CarInfo_2C* CarInfo_808::sub_454840(u8 idx)
+CarInfo_2C* CarInfo_808::GetInfoAtIdx_454840(u8 idx)
 {
     return field_0_ptr_array[idx];
 }
 
-// This function has a full match, but it's waiting until sub_4542A0 has matched.
+// This function has a full match, but it's waiting until CalculateCarInfo_4542A0 has matched.
 // Or moved to a different file. While it's empty, this match will fail because of a single intruction
 STUB_FUNC(0x454850)
-void CarInfo_808::sub_454850()
+void CarInfo_808::CalculateAllCarInfo_454850()
 {
     NOT_IMPLEMENTED;
     const u32 count = gGtx_0x106C_703DD4->get_number_of_cars();
@@ -621,44 +621,44 @@ void CarInfo_808::sub_454850()
         if (gGtx_0x106C_703DD4->does_car_exist(i))
         {
             field_0_ptr_array[i] = &field_400_raw_data[j];
-            field_400_raw_data[j].sub_4542A0(i);
+            field_400_raw_data[j].CalculateCarInfo_4542A0(i);
             j++;
         }
     }
 }
 
 MATCH_FUNC(0x4549c0)
-void CarInfo_808::sub_4549C0()
+void CarInfo_808::ConvertAllMass_4549C0()
 {
     u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
     for (u32 i = 0; i < number_of_cars; i++)
     {
-        field_804_raw_data[i].sub_454680();
+        field_804_raw_data[i].ConvertMass_454680();
     }
 }
 
 MATCH_FUNC(0x454a00)
-void CarInfo_808::sub_454A00(const char_type* pGciFilePath)
+void CarInfo_808::LoadFromGciFile_454A00(const char_type* pGciFilePath)
 {
     strcpy(&file_name_677EC4[0], pGciFilePath);
 
-    sub_4546D0();
-    sub_4549C0();
-    sub_454850();
+    LoadModelPhysics_4546D0();
+    ConvertAllMass_4549C0();
+    CalculateAllCarInfo_454850();
 }
 
 MATCH_FUNC(0x454a50)
 void CarInfo_808::sub_454A50()
 {
-    sub_454AA0();
-    sub_454A80();
-    sub_4546D0();
-    sub_4549C0();
-    sub_454850();
+    Free_454AA0();
+    Clear_454A80();
+    LoadModelPhysics_4546D0();
+    ConvertAllMass_4549C0();
+    CalculateAllCarInfo_454850();
 }
 
 MATCH_FUNC(0x454a80)
-void CarInfo_808::sub_454A80()
+void CarInfo_808::Clear_454A80()
 {
     for (int i = 0; i < 0x100; i++)
     {
@@ -668,7 +668,7 @@ void CarInfo_808::sub_454A80()
 }
 
 MATCH_FUNC(0x454aa0)
-void CarInfo_808::sub_454AA0()
+void CarInfo_808::Free_454AA0()
 {
     delete[] field_400_raw_data;
     field_400_raw_data = 0;
@@ -685,11 +685,11 @@ CarInfo_808::CarInfo_808()
 {
     field_400_raw_data = NULL;
     field_804_raw_data = NULL;
-    sub_454A80();
+    Clear_454A80();
 }
 
 MATCH_FUNC(0x454b20)
 CarInfo_808::~CarInfo_808()
 {
-    sub_454AA0();
+    Free_454AA0();
 }

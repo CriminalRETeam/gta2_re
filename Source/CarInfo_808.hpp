@@ -64,7 +64,7 @@ class ModelPhysics_48
         return field_2C_anti_strngth;
     }
 
-    EXPORT void sub_454680();
+    EXPORT void ConvertMass_454680();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ModelPhysics_48, 0x48);
 
@@ -73,15 +73,15 @@ class CarInfo_2C
   public:
     EXPORT CarInfo_2C();
     EXPORT ~CarInfo_2C();
-    EXPORT void sub_4542A0(s32 idx);
+    EXPORT void CalculateCarInfo_4542A0(s32 idx);
 
-    Fix16 field_0;
-    s32 field_4_front_wheel_offset;
+    Fix16 field_0_moment_of_inertia;
+    Fix16 field_4_front_wheel_offset;
     Fix16 field_8_rear_wheel_offset;
-    Fix16_Point field_C;
-    Fix16 field_14;
-    Fix16 field_18;
-    s32 field_1C;
+    Fix16_Point field_C_center_of_mass_offset;
+    Fix16 field_14_half_thrust;
+    Fix16 field_18_fith_thrust;
+    Fix16 field_1C_max_thrust_with_turbo;
     Fix16 field_20_front_drive_bias;
     Fix16 field_24_skid_threshhold_1;
     Fix16 field_28_skid_threshhold_2;
@@ -92,14 +92,14 @@ class CarInfo_808
 {
   public:
     EXPORT ModelPhysics_48* GetModelPhysicsFromIdx_4546B0(u8 model_idx);
-    EXPORT void sub_4546D0();
-    EXPORT CarInfo_2C* sub_454840(u8 idx);
-    EXPORT void sub_454850();
-    EXPORT void sub_4549C0();
-    EXPORT void sub_454A00(const char_type* pGciFilePath);
+    EXPORT void LoadModelPhysics_4546D0();
+    EXPORT CarInfo_2C* GetInfoAtIdx_454840(u8 idx);
+    EXPORT void CalculateAllCarInfo_454850();
+    EXPORT void ConvertAllMass_4549C0();
+    EXPORT void LoadFromGciFile_454A00(const char_type* pGciFilePath);
     EXPORT void sub_454A50();
-    EXPORT void sub_454A80();
-    EXPORT void sub_454AA0();
+    EXPORT void Clear_454A80();
+    EXPORT void Free_454AA0();
     EXPORT CarInfo_808();
     EXPORT ~CarInfo_808();
 
@@ -110,7 +110,7 @@ class CarInfo_808
                                                         u32* next_position);
     EXPORT static char* __stdcall SetErr_430AC0(s32 a1);
     EXPORT static s32 __stdcall sub_430b10(char* param_1);
-    EXPORT static s32 __stdcall sub_430E60(void* param_1, u32 param_2);
+    EXPORT static s32 __stdcall PushData_430E60(void* param_1, u32 param_2);
     EXPORT static s32 __stdcall HexStr2Int_430EC0(const char* param_1, s32* param_2);
     EXPORT static s32 __stdcall HexStr2Int_430F30(const char* param_1, s16* param_2);
     EXPORT static s32 __stdcall StrToInt_430FA0(const char* param_1, s32* param_2);

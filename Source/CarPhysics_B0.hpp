@@ -46,7 +46,7 @@ class CarPhysics_B0
     EXPORT Fix16 GetTrailerAwareTurnRatio_55A100();
     EXPORT char_type IsFootBrakeOn_55A150();
     EXPORT char_type IsAccelerationOrReverseOn_55A180();
-    EXPORT void sub_55A1D0(Fix16 a2, Fix16 a3, Fix16 a4, s32* a5);
+    EXPORT void SetVelocityTowardTarget_55A1D0(Fix16 a2, Fix16 a3, Fix16 a4, s32* a5);
     EXPORT void restore_saved_physics_state_55A400();
     EXPORT void save_physics_state_55A4B0();
     EXPORT void restore_state_55A550();
@@ -85,7 +85,7 @@ class CarPhysics_B0
     EXPORT char_type ApplyMovementCommand_55F240();
     EXPORT char_type ProcessCollisionAndClampVelocity_55F280();
     EXPORT void sub_55F330();
-    EXPORT char_type sub_55F360();
+    EXPORT char_type CheckPendingCollision_55F360();
     EXPORT void sub_55F740(Fix16_Point* a2, Fix16_Point* a3);
     EXPORT void sub_55F7A0(Fix16_Point* a2, Fix16_Point a3);
     EXPORT void sub_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4);
@@ -104,13 +104,13 @@ class CarPhysics_B0
     EXPORT void IntegrateAndClampVelocities_5610B0();
     EXPORT Fix16_Point sub_561130(Fix16_Point* a3);
     EXPORT Fix16_Point sub_561350(Fix16_Point* a3);
-    EXPORT u32* sub_561380(u32* a2, u32* a3);
-    EXPORT s32* sub_5615D0(s32* a2, s32* a3, s32 a4, u32* a5, s32 a6);
+    EXPORT Fix16_Point sub_561380(Fix16_Point* a3);
+    EXPORT Fix16 ApplyDriveForce_5615D0(s32* a3, s32 a4, u32* a5, s32 a6);
     EXPORT s32 get_revs_561940();
-    EXPORT u32* sub_561970(u32* a2);
-    EXPORT Fix16 ComputeEngineTorque_561DD0();
-    EXPORT Fix16 CalculateFrontSkid_561E50();
-    EXPORT Fix16 CalculateRearSkid_5620D0();
+    EXPORT Fix16 ComputeEngineTorque_561970();
+    EXPORT Fix16 ComputeTorqueFromThrottle_561DD0();
+    EXPORT Fix16 CalculateFrontWheelForce_561E50();
+    EXPORT Fix16 CalculateRearWheelForce_5620D0();
     // 0x62450 moved to Sprite
     EXPORT void ApplyThrottleInput_562480();
     EXPORT void ApplyBrakePhysics_5624F0();
@@ -121,8 +121,8 @@ class CarPhysics_B0
     EXPORT void StabilizeVelocityAtSpeed_562910();
     EXPORT void RotateVelocity_562C20(const Ang16& a2);
     EXPORT void EnforceGearSensitiveMaxSpeed_562D00();
-    EXPORT void sub_562EB0();
-    EXPORT void sub_562ED0();
+    EXPORT void SetModelPhysicsGlobal_562EB0();
+    EXPORT void SetCarInfoGlobal_562ED0();
     EXPORT void SetCurrentCarInfoAndModelPhysics_562EF0();
     EXPORT void ApplyInputsAndIntegratePhysics_562F30();
     EXPORT char_type UpdateLastMovementTimer_562FA0();
@@ -132,8 +132,8 @@ class CarPhysics_B0
     EXPORT void UpdateReferencePoint_563460();
     EXPORT void SetSprite_563560(Sprite* a2);
     EXPORT void SnapVelocityToSpriteDirection_563590(Sprite* a2);
-    EXPORT void sub_563670();
-    EXPORT void sub_5636C0();
+    EXPORT void UpdateSpriteFromPhysics_563670();
+    EXPORT void UpdateCarAndTrailerSpriteFromPhysics_5636C0();
     EXPORT bool IsNearlyStopped_5636E0();
     EXPORT void Init_5637A0();
     EXPORT void PoolAllocate();

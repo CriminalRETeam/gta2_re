@@ -388,7 +388,7 @@ class Car_BC
     EXPORT bool IsNotCurrentRemapOfCarAndTrailerCar(u8 remap);
     EXPORT void SetCarRemap(u8 remap);
     EXPORT void AssignRandomRemap_43A7D0();
-    EXPORT char_type sub_43A850();
+    EXPORT char_type GetCarModelForPhysics_43A850();
     EXPORT void sub_43A950();
     EXPORT void sub_43A970();
     EXPORT void SetDriver(Ped* a2);

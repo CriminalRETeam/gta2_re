@@ -448,16 +448,16 @@ char_type CarPhysics_B0::IsAccelerationOrReverseOn_55A180()
 
 // 9.6f 0x49F760
 WIP_FUNC(0x55a1d0)
-void CarPhysics_B0::sub_55A1D0(Fix16 targetX, Fix16 targetY, Fix16 targetAngle, s32* rotationMode)
+void CarPhysics_B0::SetVelocityTowardTarget_55A1D0(Fix16 targetX, Fix16 targetY, Fix16 targetAngle, s32* rotationMode)
 {
     WIP_IMPLEMENTED;
 
     Fix16_Point local(targetX, targetY);
-    CarInfo_2C* pCarInfo = gCarInfo_808_678098->sub_454840(field_5C_pCar->field_84_car_info_idx);
+    CarInfo_2C* pCarInfo = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->field_84_car_info_idx);
 
     Fix16_Point offset;
-    offset.x = pCarInfo->field_C.x;
-    offset.y = pCarInfo->field_C.y;
+    offset.x = pCarInfo->field_C_center_of_mass_offset.x;
+    offset.y = pCarInfo->field_C_center_of_mass_offset.y;
     offset.RotateByAngle_40F6B0(field_58_theta);
 
     Fix16_Point worldPoint = local + offset;
@@ -932,7 +932,7 @@ char_type CarPhysics_B0::SweepTestMovementForCollision_55C3B0(Fix16* outHitStep,
     if (movement <= k_dword_6FE210 || numSteps <= 0)
     {
         restore_state_55A550();
-        sub_5636C0();
+        UpdateCarAndTrailerSpriteFromPhysics_5636C0();
 
         if (sub_55C150())
         {
@@ -965,7 +965,7 @@ char_type CarPhysics_B0::SweepTestMovementForCollision_55C3B0(Fix16* outHitStep,
         {
             // No collision in sweep test final state
             restore_state_55A550();
-            sub_5636C0();
+            UpdateCarAndTrailerSpriteFromPhysics_5636C0();
 
             if (sub_55C150())
             {
@@ -1204,7 +1204,7 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
     }
 
     restore_saved_physics_state_55A400();
-    sub_5636C0();
+    UpdateCarAndTrailerSpriteFromPhysics_5636C0();
     ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
     return 1;
 }
@@ -1377,7 +1377,7 @@ void CarPhysics_B0::sub_55F330()
 }
 
 MATCH_FUNC(0x55f360)
-char_type CarPhysics_B0::sub_55F360()
+char_type CarPhysics_B0::CheckPendingCollision_55F360()
 {
     if ((this->field_5C_pCar->field_78_flags & 0x2000) != 0)
     {
@@ -1449,7 +1449,7 @@ void CarPhysics_B0::sub_55F930(Fix16_Point* a2)
 MATCH_FUNC(0x55f970)
 void CarPhysics_B0::sub_55F970(Fix16 a2)
 {
-    this->field_7C -= (dword_6FE0E4->field_0 * a2);
+    this->field_7C -= (dword_6FE0E4->field_0_moment_of_inertia * a2);
 }
 
 MATCH_FUNC(0x55f9a0)
@@ -1548,13 +1548,13 @@ void CarPhysics_B0::ApplyMovementStep_560F20(Fix16 a2)
         if (field_5C_pCar->IsTrainModel_403BA0())
         {
             sub_55B7B0(a2);
-            sub_5636C0();
+            UpdateCarAndTrailerSpriteFromPhysics_5636C0();
             return;
         }
         sub_55B3F0(a2);
     }
 
-    sub_5636C0();
+    UpdateCarAndTrailerSpriteFromPhysics_5636C0();
 }
 
 MATCH_FUNC(0x5610b0)
@@ -1580,22 +1580,22 @@ Fix16_Point CarPhysics_B0::sub_561130(Fix16_Point* a3)
 MATCH_FUNC(0x561350)
 Fix16_Point CarPhysics_B0::sub_561350(Fix16_Point* a3)
 {
-    sub_562ED0();
+    SetCarInfoGlobal_562ED0();
     return sub_561130(a3);
 }
 
 STUB_FUNC(0x561380)
-u32* CarPhysics_B0::sub_561380(u32* a2, u32* a3)
+Fix16_Point CarPhysics_B0::sub_561380(Fix16_Point* a3)
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return Fix16_Point(Fix16(0), Fix16(0));
 }
 
 STUB_FUNC(0x5615d0)
-s32* CarPhysics_B0::sub_5615D0(s32* a2, s32* a3, s32 a4, u32* a5, s32 a6)
+Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(s32* a3, s32 a4, u32* a5, s32 a6)
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return Fix16(0);
 }
 
 MATCH_FUNC(0x561940)
@@ -1605,37 +1605,37 @@ s32 CarPhysics_B0::get_revs_561940()
 }
 
 STUB_FUNC(0x561970)
-u32* CarPhysics_B0::sub_561970(u32* a2)
+Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return Fix16(0);
 }
 
 WIP_FUNC(0x561dd0)
-Fix16 CarPhysics_B0::ComputeEngineTorque_561DD0()
+Fix16 CarPhysics_B0::ComputeTorqueFromThrottle_561DD0()
 {
     WIP_IMPLEMENTED;
 
     if (get_revs_561940() != 0)
     {
         // Somehow this is wrong :')
-        return dword_6FE0E4->field_14 + Fix16(2, 0) * ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18))));
+        return dword_6FE0E4->field_14_half_thrust + Fix16(2, 0) * ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust))));
     }
     else
     {
-        return dword_6FE0E4->field_14 + ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18))));
+        return dword_6FE0E4->field_14_half_thrust + ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust))));
     }
 }
 
 STUB_FUNC(0x561e50)
-Fix16 CarPhysics_B0::CalculateFrontSkid_561E50()
+Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
 {
     NOT_IMPLEMENTED;
     return Fix16(0);
 }
 
 STUB_FUNC(0x5620d0)
-Fix16 CarPhysics_B0::CalculateRearSkid_5620D0()
+Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
 {
     NOT_IMPLEMENTED;
     return Fix16(0);
@@ -1790,23 +1790,23 @@ void CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00()
 }
 
 MATCH_FUNC(0x562eb0)
-void CarPhysics_B0::sub_562EB0()
+void CarPhysics_B0::SetModelPhysicsGlobal_562EB0()
 {
-    dword_6FE258 = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(field_5C_pCar->sub_43A850());
+    dword_6FE258 = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(field_5C_pCar->GetCarModelForPhysics_43A850());
 }
 
 MATCH_FUNC(0x562ed0)
-void CarPhysics_B0::sub_562ED0()
+void CarPhysics_B0::SetCarInfoGlobal_562ED0()
 {
-    CarInfo_2C* pInfo = gCarInfo_808_678098->sub_454840(field_5C_pCar->sub_43A850());
+    CarInfo_2C* pInfo = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->GetCarModelForPhysics_43A850());
     dword_6FE0E4 = pInfo;
 }
 
 MATCH_FUNC(0x562ef0)
 void CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0()
 {
-    u8 info_idx_remapped = field_5C_pCar->sub_43A850();
-    dword_6FE0E4 = gCarInfo_808_678098->sub_454840(info_idx_remapped);
+    u8 info_idx_remapped = field_5C_pCar->GetCarModelForPhysics_43A850();
+    dword_6FE0E4 = gCarInfo_808_678098->GetInfoAtIdx_454840(info_idx_remapped);
     dword_6FE258 = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(info_idx_remapped);
 }
 
@@ -1816,8 +1816,8 @@ void CarPhysics_B0::ApplyInputsAndIntegratePhysics_562F30()
     dword_6FE348 = field_5C_pCar->GetDamageFactorOnSpeed_439EE0();
     ApplyThrottleInput_562480();
     ApplyBrakePhysics_5624F0();
-    field_84_front_skid = CalculateFrontSkid_561E50();
-    field_88_rear_skid = CalculateRearSkid_5620D0();
+    field_84_front_skid = CalculateFrontWheelForce_561E50();
+    field_88_rear_skid = CalculateRearWheelForce_5620D0();
     HandleGravityOnSlope_55AA00();
     UpdateLinearAndAngularAccel_560EB0();
     IntegrateAndClampVelocities_5610B0();
@@ -1860,7 +1860,7 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
     Ped* pDriver; // eax
 
     SetCurrentCarInfoAndModelPhysics_562EF0();
-    carModel = field_5C_pCar->sub_43A850();
+    carModel = field_5C_pCar->GetCarModelForPhysics_43A850();
     if (carModel != this->field_A9_car_model)
     {
         this->field_A9_car_model = carModel;
@@ -1876,7 +1876,7 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             bCol1 = CheckAndHandleCarAndTrailerCollisions_55EB80();
             ScarePedsOnDrivingFast_559C30();
             bCol7 = ProcessCollisionAndClampVelocity_55F280() | bCol1;
-            bCol4 = sub_55F360() | bCol7;
+            bCol4 = CheckPendingCollision_55F360() | bCol7;
             DoSkidmarks_55E260();
             pDriver = this->field_5C_pCar->field_54_driver;
             if (pDriver && pDriver->field_15C_player) // Car_BC::IsDrivenByPlayer_4118D0
@@ -1903,7 +1903,7 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             ApplyArrowSteerAssist_5626F0();
             ScarePedsOnDrivingFast_559C30();
             bCol3 = ProcessCollisionAndClampVelocity_55F280() | bCol2;
-            bCol4 = sub_55F360() | bCol3;
+            bCol4 = CheckPendingCollision_55F360() | bCol3;
             DoSkidmarks_55E260();
             this->field_40_linvel_1.x.mValue -= stru_6FDF50.x.mValue;
             this->field_40_linvel_1.y.mValue -= stru_6FDF50.y.mValue;
@@ -1923,7 +1923,7 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             ApplyArrowSteerAssist_5626F0();
             ScarePedsOnDrivingFast_559C30();
             bCol6 = ProcessCollisionAndClampVelocity_55F280() | bCol5;
-            bCol4 = sub_55F360() | bCol6;
+            bCol4 = CheckPendingCollision_55F360() | bCol6;
             DoSkidmarks_55E260();
             this->field_40_linvel_1.x.mValue -= stru_6FDF50.x.mValue;
             this->field_40_linvel_1.y.mValue -= stru_6FDF50.y.mValue;
@@ -1933,9 +1933,9 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             bCol1 = CheckAndHandleCarAndTrailerCollisions_55EB80();
             ApplyInputsAndIntegratePhysics_562F30();
             ScarePedsOnDrivingFast_559C30();
-            sub_55F360();
+            CheckPendingCollision_55F360();
             bCol7 = ProcessCollisionAndClampVelocity_55F280() | bCol1;
-            bCol4 = sub_55F360() | bCol7;
+            bCol4 = CheckPendingCollision_55F360() | bCol7;
             DoSkidmarks_55E260();
             pDriver = this->field_5C_pCar->field_54_driver;
             if (pDriver && pDriver->field_15C_player) // Car_BC::IsDrivenByPlayer_4118D0
@@ -1986,9 +1986,9 @@ void CarPhysics_B0::UpdateCp1FromCm1_563280()
 {
     WIP_IMPLEMENTED;
 
-    const CarInfo_2C* info = gCarInfo_808_678098->sub_454840(field_5C_pCar->sub_43A850());
+    const CarInfo_2C* info = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->GetCarModelForPhysics_43A850());
 
-    Fix16_Point point = info->field_C;
+    Fix16_Point point = info->field_C_center_of_mass_offset;
     point.RotateByAngle_40F6B0(field_58_theta);
 
     field_38_cp1 = field_30_cm1 + point;
@@ -1999,9 +1999,9 @@ void CarPhysics_B0::UpdateCenterOfMassPoint_563350()
 {
     WIP_IMPLEMENTED;
 
-    const CarInfo_2C* info = gCarInfo_808_678098->sub_454840(field_5C_pCar->sub_43A850());
+    const CarInfo_2C* info = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->GetCarModelForPhysics_43A850());
 
-    Fix16_Point point = info->field_C;
+    Fix16_Point point = info->field_C_center_of_mass_offset;
     point.RotateByAngle_40F6B0(field_58_theta);
 
     field_30_cm1 = field_38_cp1 + point;
@@ -2014,7 +2014,7 @@ void CarPhysics_B0::UpdateReferencePoint_563460()
 {
     WIP_IMPLEMENTED;
 
-    Fix16_Point point = dword_6FE0E4->field_C;
+    Fix16_Point point = dword_6FE0E4->field_C_center_of_mass_offset;
 
     point.RotateByAngle_40F6B0(field_58_theta);
 
@@ -2040,7 +2040,7 @@ void CarPhysics_B0::SnapVelocityToSpriteDirection_563590(Sprite* pSprt)
 }
 
 MATCH_FUNC(0x563670)
-void CarPhysics_B0::sub_563670()
+void CarPhysics_B0::UpdateSpriteFromPhysics_563670()
 {
     Sprite* car_sprite = field_5C_pCar->field_50_car_sprite;
     car_sprite->set_xyz_lazy_420600(field_38_cp1.x, field_38_cp1.y, field_6C_cp3);
@@ -2048,14 +2048,14 @@ void CarPhysics_B0::sub_563670()
 }
 
 MATCH_FUNC(0x5636c0)
-void CarPhysics_B0::sub_5636C0()
+void CarPhysics_B0::UpdateCarAndTrailerSpriteFromPhysics_5636C0()
 {
-    sub_563670();
+    UpdateSpriteFromPhysics_563670();
 
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
-        pTrailer->field_C_pCarOnTrailer->field_58_physics->sub_563670();
+        pTrailer->field_C_pCarOnTrailer->field_58_physics->UpdateSpriteFromPhysics_563670();
     }
 }
 
