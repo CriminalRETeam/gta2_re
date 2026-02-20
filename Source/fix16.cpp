@@ -15,27 +15,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_669156, Ang16(720), 0x669156);
 DEFINE_GLOBAL_INIT(Ang16, word_667A7C, Ang16(360), 0x667A7C);
 DEFINE_GLOBAL_INIT(Ang16, word_66916C, Ang16(1080), 0x66916C);
 
-MATCH_FUNC(0x4369F0)
-Fix16& Fix16::FromInt_4369F0(s32 a2)
-{
-    mValue = a2 << 14;
-    return *this;
-}
-
-MATCH_FUNC(0x45C4E0)
-Fix16& Fix16::FromInt_45C4E0(u8 a2)
-{
-    mValue = a2 << 14;
-    return *this;
-}
-
-MATCH_FUNC(0x4AE970)
-Fix16& Fix16::FromU16_4AE970(u16 a2)
-{
-    mValue = a2 << 14;
-    return *this;
-}
-
 MATCH_FUNC(0x408660)
 Fix16 Fix16::operator+(const Fix16& rhs) const
 {

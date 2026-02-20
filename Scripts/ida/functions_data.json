@@ -1345,9 +1345,9 @@
         "v105_address": "0x4369e0"
     },
     {
-        "name": "Fix16::FromInt",
-        "v96f_address": "0x401af0",
-        "v105_address": "0x45c4e0"
+        "name": "Fix16::Fix16(s32)",
+        "v96f_address": "0x41f980",
+        "v105_address": "0x4369f0"
     },
     {
         "name": "Fix16::Subtract",
@@ -2995,8 +2995,8 @@
         "v105_address": "0x45c4b0"
     },
     {
-        "name": "Fix16::FromInt",
-        "v96f_address": "0x401af0",
+        "name": "Fix16::Fix16(u8)",
+        "v96f_address": "0x40ce30",
         "v105_address": "0x45c4e0"
     },
     {
@@ -4860,8 +4860,8 @@
         "v105_address": "0x4925e0"
     },
     {
-        "name": "Fix16::sub_4926F0",
-        "v96f_address": null,
+        "name": "Fix16::Fix16(u32)",
+        "v96f_address": "0x401af0",
         "v105_address": "0x4926f0"
     },
     {
@@ -5395,8 +5395,8 @@
         "v105_address": "0x4ae2d0"
     },
     {
-        "name": "Fix16::sub_4AE970",
-        "v96f_address": null,
+        "name": "Fix16::Fix16(u16)",
+        "v96f_address": "0x41f990",
         "v105_address": "0x4ae970"
     },
     {
