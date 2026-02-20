@@ -1619,7 +1619,7 @@ Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 a4, Fix16_Poi
 }
 
 MATCH_FUNC(0x561940)
-s32 CarPhysics_B0::get_revs_561940()
+bool CarPhysics_B0::get_revs_561940()
 {
     return dword_6FE258->field_1_turbo && this->field_60_gas_pedal >= k_dword_6FE1B8;
 }
@@ -1729,20 +1729,16 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
     return kFP16Zero_6FE20C;
 }
 
-WIP_FUNC(0x561dd0)
+MATCH_FUNC(0x561dd0)
 Fix16 CarPhysics_B0::ComputeTorqueFromThrottle_561DD0()
 {
-    WIP_IMPLEMENTED;
-
     if (get_revs_561940() != 0)
     {
-        // Somehow this is wrong :')
-        return dword_6FE0E4->field_14_half_thrust +
-            Fix16(2, 0) * ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust))));
+        return dword_6FE0E4->field_14_half_thrust + ((field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust)))) * 2;
     }
     else
     {
-        return dword_6FE0E4->field_14_half_thrust + ((this->field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust))));
+        return dword_6FE0E4->field_14_half_thrust + ((field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust))));
     }
 }
 
