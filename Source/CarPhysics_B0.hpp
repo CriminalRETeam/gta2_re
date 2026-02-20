@@ -90,7 +90,7 @@ class CarPhysics_B0
     EXPORT char_type CheckPendingCollision_55F360();
     EXPORT void sub_55F740(Fix16_Point* a2, Fix16_Point* a3);
     EXPORT void sub_55F7A0(Fix16_Point* a2, Fix16_Point a3);
-    EXPORT void sub_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4);
+    EXPORT void ApplyForceAtPoint_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4);
     EXPORT void sub_55F930(Fix16_Point* a2);
     EXPORT void sub_55F970(Fix16 a2);
     EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce);
@@ -106,7 +106,7 @@ class CarPhysics_B0
     EXPORT void IntegrateAndClampVelocities_5610B0();
     EXPORT Fix16_Point sub_561130(Fix16_Point* a3);
     EXPORT Fix16_Point sub_561350(Fix16_Point* a3);
-    EXPORT Fix16_Point sub_561380(Fix16_Point* a3);
+    EXPORT Fix16_Point ComputePointVelocity_561380(Fix16_Point& point);
     EXPORT Fix16 ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 a4, Fix16_Point& a5, Fix16 a6);
     EXPORT bool get_revs_561940();
     EXPORT Fix16 ComputeEngineTorque_561970();
