@@ -1628,124 +1628,99 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
 {
     WIP_IMPLEMENTED;
 
-    if (this->field_5C_pCar->field_9C != 3)
+    if (this->field_5C_pCar->field_9C == 3 && field_98_surface_type != 7 && field_98_surface_type != 8)
     {
-        return kFP16Zero_6FE20C;
-    }
+        if (this->field_8C_state == 2)
+        {
+            // TODO: SquareRoot getting inlined when we don't want it to be
+            Fix16 v20 = field_40_linvel_1.GetLength_2();
 
-    if (field_98_surface_type == 7 || field_98_surface_type == 8)
-    {
-        return kFP16Zero_6FE20C;
-    }
-
-    if (this->field_8C_state == 2)
-    {
-        Fix16 v20;
-        if (this->field_40_linvel_1.x == kFP16Zero_6FE20C)
-        {
-            v20 = Fix16::Abs_436A50(field_40_linvel_1.y);
-        }
-        else if (this->field_40_linvel_1.y == kFP16Zero_6FE20C)
-        {
-            v20 = Fix16::Abs_436A50(field_40_linvel_1.x);
-        }
-        else
-        {
-            Fix16 v21 = (this->field_40_linvel_1.y * this->field_40_linvel_1.y) + (this->field_40_linvel_1.x * this->field_40_linvel_1.x);
-            v20 = Fix16::SquareRoot_436A70(v21);
-        }
-
-        if (field_94_is_backward_gas_on)
-        {
-            if (v20 != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
+            if (field_94_is_backward_gas_on)
             {
-                Fix16 v16;
-                if (get_revs_561940())
+                if (v20 != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
                 {
-                    v16 = (dword_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal) * 2;
-                }
-                else
-                {
-                    v16 = dword_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal;
-                }
-                v20 = dword_6FE0E4->field_14_half_thrust + v16;
-                return (-v20 * dword_6FE258->field_34_gear1_multiplier);
-            }
-            return kFP16Zero_6FE20C;
-        }
-        else if (field_93_is_forward_gas_on)
-        {
-            if (v20 != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
-            {
-                if (v20 <= dword_6FE258->field_44_gear3_speed)
-                {
-                    if (v20 <= dword_6FE258->field_40_gear2_speed)
-                    {
-                        // Gear 1
-                        Fix16 v19;
-                        if (get_revs_561940())
-                        {
-                            v19 = (dword_6FE0E4->field_18_fith_thrust * field_60_gas_pedal) * 2;
-                        }
-                        else
-                        {
-                            v19 = dword_6FE0E4->field_18_fith_thrust * field_60_gas_pedal;
-                        }
-                        v20 = dword_6FE0E4->field_14_half_thrust + v19;
-                        return (v20 * dword_6FE258->field_34_gear1_multiplier);
-                    }
-                    else
-                    {
-                        // Gear 2
-                        Fix16 v18;
-                        if (get_revs_561940())
-                        {
-                            v18 = ((dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal) * 2;
-                        }
-                        else
-                        {
-                            v18 = (dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal;
-                        }
-                        v20 = dword_6FE0E4->field_14_half_thrust + v18;
-                        return (v20 * dword_6FE258->field_38_gear2_multiplier);
-                    }
-                }
-                else
-                {
-                    // Gear 3
-                    Fix16 v17;
+                    Fix16 v16;
                     if (get_revs_561940())
                     {
-                        v17 = ((dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal) * 2;
+                        v16 = (dword_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal) * 2;
                     }
                     else
                     {
-                        v17 = (dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal;
+                        v16 = dword_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal;
                     }
-                    v20 = dword_6FE0E4->field_14_half_thrust + v17;
-                    return (v20 * dword_6FE258->field_3C_gear3_multiplier);
+                    v20 = dword_6FE0E4->field_14_half_thrust + v16;
+                    return (-v20 * dword_6FE258->field_34_gear1_multiplier);
                 }
             }
-            return kFP16Zero_6FE20C;
+            else if (field_93_is_forward_gas_on)
+            {
+                if (v20 != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
+                {
+                    if (v20 <= dword_6FE258->field_44_gear3_speed)
+                    {
+                        if (v20 <= dword_6FE258->field_40_gear2_speed)
+                        {
+                            // Gear 1
+                            Fix16 v19;
+                            if (get_revs_561940())
+                            {
+                                v19 = (dword_6FE0E4->field_18_fith_thrust * field_60_gas_pedal) * 2;
+                            }
+                            else
+                            {
+                                v19 = dword_6FE0E4->field_18_fith_thrust * field_60_gas_pedal;
+                            }
+                            v20 = dword_6FE0E4->field_14_half_thrust + v19;
+                            return (v20 * dword_6FE258->field_34_gear1_multiplier);
+                        }
+                        else
+                        {
+                            // Gear 2
+                            Fix16 v18;
+                            if (get_revs_561940())
+                            {
+                                v18 = ((dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal) * 2;
+                            }
+                            else
+                            {
+                                v18 = (dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal;
+                            }
+                            v20 = dword_6FE0E4->field_14_half_thrust + v18;
+                            return (v20 * dword_6FE258->field_38_gear2_multiplier);
+                        }
+                    }
+                    else
+                    {
+                        // Gear 3
+                        Fix16 v17;
+                        if (get_revs_561940())
+                        {
+                            v17 = ((dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal) * 2;
+                        }
+                        else
+                        {
+                            v17 = (dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal;
+                        }
+                        v20 = dword_6FE0E4->field_14_half_thrust + v17;
+                        return (v20 * dword_6FE258->field_3C_gear3_multiplier);
+                    }
+                }
+            }
         }
         else
         {
-            return kFP16Zero_6FE20C;
-        }
-    }
-    else
-    {
-        if (this->field_93_is_forward_gas_on)
-        {
-            return ComputeTorqueFromThrottle_561DD0();
-        }
+            if (this->field_93_is_forward_gas_on)
+            {
+                return ComputeTorqueFromThrottle_561DD0();
+            }
 
-        if (this->field_94_is_backward_gas_on)
-        {
-            return -ComputeTorqueFromThrottle_561DD0();
+            if (this->field_94_is_backward_gas_on)
+            {
+                return -ComputeTorqueFromThrottle_561DD0();
+            }
         }
-        return kFP16Zero_6FE20C;
     }
+    return kFP16Zero_6FE20C;
 }
 
 WIP_FUNC(0x561dd0)
