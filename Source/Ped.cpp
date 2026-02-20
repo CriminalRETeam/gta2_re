@@ -1890,11 +1890,42 @@ bool Ped::IsField238_45EDE0(s32 a2)
     return field_238 == a2 ? true : false;
 }
 
-STUB_FUNC(0x45ee00)
-char_type Ped::sub_45EE00(s32 a2)
+// https://decomp.me/scratch/pXF8g
+MATCH_FUNC(0x45ee00)
+void Ped::sub_45EE00(u32 occupation)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_240_occupation <= (u32) ped_ocupation_enum::bank_robber)
+    {
+        switch ( field_240_occupation )
+        {
+            case ped_ocupation_enum::player:
+            case ped_ocupation_enum::empty:
+            case ped_ocupation_enum::unknown_1:
+            case ped_ocupation_enum::dummy:
+            case ped_ocupation_enum::unknown_2:
+            case ped_ocupation_enum::driver:
+            case ped_ocupation_enum::unknown_3:
+            case ped_ocupation_enum::unknown_4:
+            case ped_ocupation_enum::unknown_6:
+            case ped_ocupation_enum::driver_2:
+            case ped_ocupation_enum::unknown_7:
+            case ped_ocupation_enum::unknown_8:
+            case ped_ocupation_enum::unknown_9:
+            case ped_ocupation_enum::psycho:
+            case ped_ocupation_enum::mugger:
+            case ped_ocupation_enum::car_thief:
+            case ped_ocupation_enum::bank_robber:
+                field_240_occupation = occupation;
+                break;
+            case ped_ocupation_enum::unknown_5:
+                if ( --byte_6787D3 < 0 )
+                    byte_6787D3 = 0;
+                field_240_occupation = occupation;
+                break;
+        }
+    }
+    else
+        field_240_occupation = occupation;
 }
 
 MATCH_FUNC(0x45ee70)
