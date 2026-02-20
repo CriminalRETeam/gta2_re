@@ -1635,80 +1635,38 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
         if (this->field_8C_state == 2)
         {
             // TODO: SquareRoot getting inlined when we don't want it to be
-            Fix16 v20 = field_40_linvel_1.GetLength_2();
+            Fix16 vel_len = field_40_linvel_1.GetLength_2();
 
             if (field_94_is_backward_gas_on)
             {
-                if (v20 != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
+                if (vel_len != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
                 {
-                    Fix16 v16;
-                    // TODO: inlined ComputeTorqueFromThrottle_561DD0 ?
-                    if (get_revs_561940())
-                    {
-                        v16 = (dword_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal) * 2;
-                    }
-                    else
-                    {
-                        v16 = dword_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal;
-                    }
-                    v20 = dword_6FE0E4->field_14_half_thrust + v16;
-                    return (-v20 * dword_6FE258->field_34_gear1_multiplier);
+                    return (-(dword_6FE0E4->field_14_half_thrust + ComputeTorqueUnknown_49E8E0()) * dword_6FE258->field_34_gear1_multiplier);
                 }
             }
             else if (field_93_is_forward_gas_on)
             {
-                if (v20 != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
+                if (vel_len != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
                 {
-                    if (v20 <= dword_6FE258->field_44_gear3_speed)
+                    if (vel_len <= dword_6FE258->field_44_gear3_speed)
                     {
-                        if (v20 <= dword_6FE258->field_40_gear2_speed)
+                        if (vel_len <= dword_6FE258->field_40_gear2_speed)
                         {
                             // Gear 1
-                            Fix16 v19;
-                            // TODO: inlined ComputeTorqueFromThrottle_561DD0 ?
-                            if (get_revs_561940())
-                            {
-                                v19 = (dword_6FE0E4->field_18_fith_thrust * field_60_gas_pedal) * 2;
-                            }
-                            else
-                            {
-                                v19 = dword_6FE0E4->field_18_fith_thrust * field_60_gas_pedal;
-                            }
-                            v20 = dword_6FE0E4->field_14_half_thrust + v19;
-                            return (v20 * dword_6FE258->field_34_gear1_multiplier);
+                            return ((dword_6FE0E4->field_14_half_thrust + ComputeTorqueUnknown_49E8E0()) * dword_6FE258->field_34_gear1_multiplier);
                         }
                         else
                         {
                             // Gear 2
-                            Fix16 v18;
-                            // TODO: inlined ComputeTorqueFromThrottle_561DD0 ?
-                            if (get_revs_561940())
-                            {
-                                v18 = ((dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal) * 2;
-                            }
-                            else
-                            {
-                                v18 = (dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal;
-                            }
-                            v20 = dword_6FE0E4->field_14_half_thrust + v18;
-                            return (v20 * dword_6FE258->field_38_gear2_multiplier);
+                            return ((dword_6FE0E4->field_14_half_thrust + inline_ComputeTorqueFromThrottle_561DD0()) *
+                                    dword_6FE258->field_38_gear2_multiplier);
                         }
                     }
                     else
                     {
                         // Gear 3
-                        Fix16 v17;
-                        // TODO: inlined ComputeTorqueFromThrottle_561DD0 ?
-                        if (get_revs_561940())
-                        {
-                            v17 = ((dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal) * 2;
-                        }
-                        else
-                        {
-                            v17 = (dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal;
-                        }
-                        v20 = dword_6FE0E4->field_14_half_thrust + v17;
-                        return (v20 * dword_6FE258->field_3C_gear3_multiplier);
+                        return ((dword_6FE0E4->field_14_half_thrust + inline_ComputeTorqueFromThrottle_561DD0()) *
+                                dword_6FE258->field_3C_gear3_multiplier);
                     }
                 }
             }
