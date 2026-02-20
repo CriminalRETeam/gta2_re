@@ -1346,7 +1346,7 @@
     },
     {
         "name": "Fix16::Fix16(s32)",
-        "v96f_address": "0x41f980",
+        "v96f_address": "0x401af0",
         "v105_address": "0x4369f0"
     },
     {
@@ -4861,7 +4861,7 @@
     },
     {
         "name": "Fix16::Fix16(u32)",
-        "v96f_address": "0x401af0",
+        "v96f_address": "0x41f980",
         "v105_address": "0x4926f0"
     },
     {

@@ -2,13 +2,13 @@
 address,type,symbol
 
 // ctor(s32)
-41F980,function,??0Fix16@@QAE@H@Z
+401AF0,function,??0Fix16@@QAE@H@Z
 
 // ctor(u8)
 40CE30,function,??0Fix16@@QAE@E@Z
 
 // ctor(u32)
-401AF0,function,??0Fix16@@QAE@I@Z
+41F980,function,??0Fix16@@QAE@I@Z
 
 // ctor(u16)
 41F990,function,??0Fix16@@QAE@G@Z
