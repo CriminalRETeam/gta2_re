@@ -1610,6 +1610,7 @@ Fix16_Point CarPhysics_B0::sub_561380(Fix16_Point* a3)
     return Fix16_Point(Fix16(0), Fix16(0));
 }
 
+// 9.6f 0x4A0D40
 STUB_FUNC(0x5615d0)
 Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 a4, Fix16_Point& a5, Fix16 a6)
 {
@@ -1623,6 +1624,7 @@ s32 CarPhysics_B0::get_revs_561940()
     return dword_6FE258->field_1_turbo && this->field_60_gas_pedal >= k_dword_6FE1B8;
 }
 
+// 9.6f 0x4A0F30
 WIP_FUNC(0x561970)
 Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
 {
@@ -1640,6 +1642,7 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
                 if (v20 != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
                 {
                     Fix16 v16;
+                    // TODO: inlined ComputeTorqueFromThrottle_561DD0 ?
                     if (get_revs_561940())
                     {
                         v16 = (dword_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal) * 2;
@@ -1662,6 +1665,7 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
                         {
                             // Gear 1
                             Fix16 v19;
+                            // TODO: inlined ComputeTorqueFromThrottle_561DD0 ?
                             if (get_revs_561940())
                             {
                                 v19 = (dword_6FE0E4->field_18_fith_thrust * field_60_gas_pedal) * 2;
@@ -1677,6 +1681,7 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
                         {
                             // Gear 2
                             Fix16 v18;
+                            // TODO: inlined ComputeTorqueFromThrottle_561DD0 ?
                             if (get_revs_561940())
                             {
                                 v18 = ((dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal) * 2;
@@ -1693,6 +1698,7 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
                     {
                         // Gear 3
                         Fix16 v17;
+                        // TODO: inlined ComputeTorqueFromThrottle_561DD0 ?
                         if (get_revs_561940())
                         {
                             v17 = ((dword_6FE0E4->field_18_fith_thrust * dword_6FE348) * field_60_gas_pedal) * 2;
