@@ -1,13 +1,17 @@
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
+#include "crt_stubs.hpp"
+#include "enums.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include "crt_stubs.hpp"
-#include "enums.hpp"
+
+EXTERN_GLOBAL(Fix16, k_dword_6FE210);
+EXTERN_GLOBAL(Fix16, k_dword_6FDFEC);
+EXTERN_GLOBAL(Fix16, k_dword_6FDEFC);
 
 DEFINE_GLOBAL(CarInfo_808*, gCarInfo_808_678098, 0x678098);
 DEFINE_GLOBAL_ARRAY(char, file_name_677EC4, 64, 0x677EC4);
@@ -24,10 +28,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_677D74, Fix16(0x666, 0), 0x677D74);
 DEFINE_GLOBAL_INIT(Fix16, DAT_6761A4, Fix16(0), 0x6761a4);
 DEFINE_GLOBAL_ARRAY(char, Buffer_675FD4, 80, 0x675FD4);
 DEFINE_GLOBAL_ARRAY(char, byte_676024, 256, 0x676024);
-DEFINE_GLOBAL_ARRAY_INIT(char*, 
-                         error_table_61A6D4, 
-                         13, 
-                         0x61A6D4, 
+DEFINE_GLOBAL_ARRAY_INIT(char*,
+                         error_table_61A6D4,
+                         13,
+                         0x61A6D4,
                          "Invalid integer",
                          "Number too big",
                          "Write error",
@@ -46,7 +50,7 @@ WIP_FUNC(0x440860)
 Fix16 UnknownList::sub_440860(s8& var)
 {
     WIP_IMPLEMENTED;
-    
+
     if (var < 0)
     {
         return -list[-var];
@@ -97,7 +101,8 @@ s32 __stdcall CarInfo_808::sub_430b10(char* pOut)
                 {
                     found_open_brackets_67626C = 1;
                 }
-                else if (currentChar != ' ' && currentChar != '\t' && currentChar != '\n' && currentChar != ')' && currentChar != '(' && currentChar != '\r')
+                else if (currentChar != ' ' && currentChar != '\t' && currentChar != '\n' && currentChar != ')' && currentChar != '(' &&
+                         currentChar != '\r')
                 {
                     found_open_brackets_67626C = 2;
                     pOut[i] = (char)currentChar;
@@ -126,7 +131,8 @@ s32 __stdcall CarInfo_808::sub_430b10(char* pOut)
                     found_open_brackets_67626C = 1;
                     return 0;
                 }
-                if (currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == ')' || currentChar == '(' || currentChar == '\r')
+                if (currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == ')' || currentChar == '(' ||
+                    currentChar == '\r')
                 {
                     pOut[i] = 0;
                     found_open_brackets_67626C = 0;
@@ -541,10 +547,85 @@ CarInfo_2C::~CarInfo_2C()
 {
 }
 
-STUB_FUNC(0x4542A0)
-void CarInfo_2C::CalculateCarInfo_4542A0(s32 idx)
+STUB_FUNC(0x454410)
+EXPORT Fix16 __stdcall ComputeCarMassAndInertia_454410(Fix16 width, Fix16 height, Fix16 mass, Fix16 front_mass_bias, s32* pOut2)
 {
     NOT_IMPLEMENTED;
+    return Fix16(10);
+}
+
+WIP_FUNC(0x5618F0)
+EXPORT Fix16 __stdcall ComputeThrustWithTurbo_5618F0(Fix16 half_thrust, Fix16 thrust_div5, bool bTurbo)
+{
+    WIP_IMPLEMENTED;
+
+    Fix16 v4;
+    if (bTurbo)
+    {
+        v4 = (k_dword_6FE210 + k_dword_6FDFEC) * ((thrust_div5 * k_dword_6FDEFC));
+    }
+    else
+    {
+        v4 = thrust_div5 * k_dword_6FDEFC;
+    }
+    return half_thrust + (v4.ToInt());
+}
+
+WIP_FUNC(0x4542A0)
+void CarInfo_2C::CalculateCarInfo_4542A0(s32 idx)
+{
+    WIP_IMPLEMENTED;
+
+    s32 idx_ = idx;
+    car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(idx);
+    ModelPhysics_48* pModelPhysics = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(idx_);
+    Fix16 gear2_speed = pModelPhysics->field_40_gear2_speed;
+    Fix16 gear3_speed = pModelPhysics->field_44_gear3_speed;
+    Fix16 max_speed;
+    if (gear2_speed > gear3_speed || (max_speed = pModelPhysics->field_28_max_speed, gear3_speed > max_speed) || gear2_speed > max_speed)
+    {
+        FatalError_4A38C0(0x3F6, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 91, idx_);
+    }
+
+    s8 front_wheel_offset = pCarInfo->front_wheel_offset;
+    Fix16 new_front_wheel_offset;
+    if (front_wheel_offset >= 0)
+    {
+        new_front_wheel_offset = dword_6F6850.list[front_wheel_offset];
+    }
+    else
+    {
+        new_front_wheel_offset = -dword_6F6850.list[-front_wheel_offset];
+    }
+    this->field_4_front_wheel_offset = new_front_wheel_offset;
+    s8 rear_wheel_offset = pCarInfo->rear_wheel_offset;
+    Fix16 new_rear_wheel_offset;
+    if (rear_wheel_offset >= 0)
+    {
+        new_rear_wheel_offset = dword_6F6850.list[rear_wheel_offset];
+    }
+    else
+    {
+        new_rear_wheel_offset = -dword_6F6850.list[-rear_wheel_offset];
+    }
+    this->field_8_rear_wheel_offset = new_rear_wheel_offset;
+    Fix16 new_field_0 = ComputeCarMassAndInertia_454410(dword_6F6850.list[pCarInfo->w],
+                                                        dword_6F6850.list[pCarInfo->h],
+                                                        pModelPhysics->field_4_mass,
+                                                        pModelPhysics->field_C_front_mass_bias,
+                                                        &idx);
+    s32 idx__ = idx;
+    this->field_0_moment_of_inertia = new_field_0;
+    this->field_C_center_of_mass_offset.x = 0;
+    this->field_C_center_of_mass_offset.y = idx__; // out val of func above
+    this->field_14_half_thrust = pModelPhysics->field_24_thrust / 2;
+    Fix16 fith_thrust = pModelPhysics->field_24_thrust / 5;
+    field_14_half_thrust = this->field_14_half_thrust;
+    this->field_18_fith_thrust = fith_thrust;
+    this->field_1C_max_thrust_with_turbo = ComputeThrustWithTurbo_5618F0(field_14_half_thrust, fith_thrust, pModelPhysics->field_1_turbo);
+    this->field_20_front_drive_bias = dword_677F54 - pModelPhysics->field_8_front_drive_bias;
+    this->field_24_skid_threshhold_1 = (pModelPhysics->field_30_sked_threshold * (dword_677F54 - dword_677D74));
+    this->field_28_skid_threshhold_2 = (pModelPhysics->field_30_sked_threshold * (dword_677F54 + dword_677D74));
 }
 
 MATCH_FUNC(0x4546b0)
@@ -564,10 +645,10 @@ void CarInfo_808::LoadModelPhysics_4546D0()
     field_804_raw_data = new ModelPhysics_48[number_of_cars];
 
     char* pErrorMsg = CarInfo_808::parse_gci_file_430A30(file_content,
-                                                      file_size,
-                                                      field_804_raw_data,
-                                                      number_of_cars * sizeof(ModelPhysics_48),
-                                                      &local_1c);
+                                                         file_size,
+                                                         field_804_raw_data,
+                                                         number_of_cars * sizeof(ModelPhysics_48),
+                                                         &local_1c);
 
     crt::free(file_content);
 
