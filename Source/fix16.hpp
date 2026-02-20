@@ -88,6 +88,7 @@ class Fix16
         return Fix16(value, 0);
     }
 
+    // 10.5 is 0x561DB0
     // Inlined from 9.6f from 0x401bd0
     Fix16 operator*(const s32& in) const
     {
@@ -286,8 +287,8 @@ class Fix16
     EXPORT Fix16& FromU16_4AE970(u16 a2);
 
     EXPORT static Fix16 __stdcall Max_44E540(Fix16& pLhs, Fix16& pRhs);
-    EXPORT inline static Fix16 __stdcall Abs_436A50(Fix16& a2);
-    EXPORT inline static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
+    EXPORT static Fix16 __stdcall Abs_436A50(Fix16& a2);
+    EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
     EXPORT Fix16 operator+(const Fix16& rhs) const;
 
     //MATCH_FUNC(0x436A20)
