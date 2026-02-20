@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
+#include "CarInfo_808.hpp"
 
 class Sprite;
 class Car_BC;
@@ -11,7 +12,6 @@ class Trailer;
 class Sprite_4C;
 class Ped;
 class ModelPhysics_48;
-class CarInfo_2C;
 class Car_78;
 struct Fix16_Point_POD;
 
@@ -19,6 +19,8 @@ EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(ModelPhysics_48*, dword_6FE258);
 EXTERN_GLOBAL(Ang16, word_6FE00C);
 EXTERN_GLOBAL(Ang16, word_6FE154);
+EXTERN_GLOBAL(CarInfo_2C*, dword_6FE0E4);
+EXTERN_GLOBAL(Fix16, dword_6FE348);
 
 class CarPhysics_B0
 {
@@ -88,7 +90,7 @@ class CarPhysics_B0
     EXPORT char_type CheckPendingCollision_55F360();
     EXPORT void sub_55F740(Fix16_Point* a2, Fix16_Point* a3);
     EXPORT void sub_55F7A0(Fix16_Point* a2, Fix16_Point a3);
-    EXPORT void sub_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4);
+    EXPORT void ApplyForceAtPoint_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4);
     EXPORT void sub_55F930(Fix16_Point* a2);
     EXPORT void sub_55F970(Fix16 a2);
     EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce);
@@ -104,11 +106,36 @@ class CarPhysics_B0
     EXPORT void IntegrateAndClampVelocities_5610B0();
     EXPORT Fix16_Point sub_561130(Fix16_Point* a3);
     EXPORT Fix16_Point sub_561350(Fix16_Point* a3);
-    EXPORT Fix16_Point sub_561380(Fix16_Point* a3);
+    EXPORT Fix16_Point ComputePointVelocity_561380(Fix16_Point& point);
     EXPORT Fix16 ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 a4, Fix16_Point& a5, Fix16 a6);
-    EXPORT s32 get_revs_561940();
+    EXPORT bool get_revs_561940();
     EXPORT Fix16 ComputeEngineTorque_561970();
     EXPORT Fix16 ComputeTorqueFromThrottle_561DD0();
+
+    Fix16 inline_ComputeTorqueFromThrottle_561DD0()
+    {
+        if (get_revs_561940() != 0)
+        {
+            return dword_6FE0E4->field_14_half_thrust + ((field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust)))) * 2;
+        }
+        else
+        {
+            return dword_6FE0E4->field_14_half_thrust + ((field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust))));
+        }
+    }
+
+    Fix16 ComputeTorqueUnknown_49E8E0()
+    {
+        if (get_revs_561940())
+        {
+            return (dword_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal) * 2;
+        }
+        else
+        {
+            return dword_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal;
+        }
+    }
+
     EXPORT Fix16 CalculateFrontWheelForce_561E50();
     EXPORT Fix16 CalculateRearWheelForce_5620D0();
     // 0x62450 moved to Sprite

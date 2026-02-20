@@ -12,6 +12,12 @@ EXTERN_GLOBAL(Fix16, dword_6FE07C);
 // but 9.6f leads me to believe both the POD and non-POD type are the same
 struct Fix16_Point_POD
 {
+    void SetXY_432860(Fix16& a2, Fix16& a3)
+    {
+        this->x = a2;
+        this->y = a3;
+    }
+
     inline bool IsNull_420360() const
     {
         return x == gFix16_6777CC && y == gFix16_6777CC;
@@ -19,7 +25,7 @@ struct Fix16_Point_POD
 
     void ApplyDeadZone_49E3C0()
     {
-        Fix16 total = (Fix16::Abs(x) +  Fix16::Abs(y));
+        Fix16 total = (Fix16::Abs(x) + Fix16::Abs(y));
         if (total < dword_6FE07C)
         {
             x = kFP16Zero_6FE20C;
