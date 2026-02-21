@@ -130,6 +130,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE15C, dword_6FE1C4, 0x6FE15C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE2F4, dword_6FDFD0, 0x6FE2F4);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0C0, Fix16(0x2000, 0), 0x6FE0C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE064, Fix16(0x1FE8, 0), 0x6FE064);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE350, Fix16(0x824, 0), 0x6FE350);
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -754,11 +756,108 @@ void CarPhysics_B0::HandleGravityOnSlope_55AA00()
     }
 }
 
-STUB_FUNC(0x55ab50)
+WIP_FUNC(0x55ab50)
 Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point point_to_sub;
+    if (field_5C_pCar->field_64_pTrailer && field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer == field_5C_pCar)
+    {
+        point_to_sub = gTrailer_cp1_6FE3A8;
+    }
+    else
+    {
+        point_to_sub = g_cp1_6FDF00;
+    }
+    Fix16_Point sub_point = field_38_cp1 - point_to_sub;
+    Fix16 x_val = sub_point.x;
+    Fix16 y_val = sub_point.y;
+
+    s32 surface_type_m1 = this->field_98_surface_type - 1;
+    Fix16 x_val_ = x_val;
+    Fix16 y_val_ = y_val;
+
+    Fix16 slope_val;
+    Fix16 lower;
+    Fix16 upper;
+    Fix16* result;
+
+    switch (surface_type_m1)
+    {
+        case 0:
+            y_val = -y_val;
+            goto LABEL_7;
+
+        case 1:
+        LABEL_7:
+            x_val = y_val;
+            goto LABEL_9;
+
+        case 2:
+            x_val = -x_val;
+            goto LABEL_9;
+
+        case 3:
+        LABEL_9:
+            switch (this->field_A5_current_slope_length)
+            {
+                case 1:
+                    slope_val = dword_6FDF7C;
+                    break;
+                case 2:
+                    slope_val = dword_6FE064;
+                    break;
+                case 8:
+                    slope_val = dword_6FE350;
+                    break;
+                default:
+                    slope_val = kFP16Zero_6FE20C;
+                    break;
+            }
+            lower = (x_val * slope_val);
+            if (!this->field_A6_current_slope_left_tiles && lower > kFP16Zero_6FE20C &&
+                    (u8)(this->field_6C_cp3.ToInt()) == this->field_A7_current_tile_z ||
+                this->field_AA_sbw && this->field_AB_tpa)
+            {
+                upper = k_dword_6FE210 - (this->field_6C_cp3.GetFracValue());
+                if (lower >= upper)
+                {
+                    *pOutY = lower;
+                }
+                else
+                {
+                    *pOutY = upper;
+                }
+                result = pOutX;
+                *pOutX = lower;
+            }
+            else
+            {
+                if (lower > kFP16Zero_6FE20C)
+                {
+                    if (field_5C_pCar->field_64_pTrailer)
+                    {
+                        if (field_5C_pCar->field_64_pTrailer->GetCabOrLoadedCar_407B90(field_5C_pCar)
+                                ->field_58_physics->field_98_surface_type != 6)
+                        {
+                            lower = kFP16Zero_6FE20C;
+                        }
+                    }
+                }
+                result = pOutX;
+                *pOutY = lower;
+                *pOutX = lower;
+            }
+            break;
+
+        default:
+            *pOutY = kFP16Zero_6FE20C;
+            result = pOutX;
+            *pOutX = kFP16Zero_6FE20C;
+            break;
+    }
+    return result;
 }
 
 STUB_FUNC(0x55ad90)
