@@ -434,14 +434,14 @@ void Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
 }
 
 STUB_FUNC(0x480900)
-s32* Crane_15C::sub_480900(s32 a2, s32 a3, s32 a4)
+s32* Crane_15C::sub_480900(Fix16 a2, Fix16 a3, Ang16 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x480b60)
-s32* Crane_15C::sub_480B60(s32 a2, s32 a3, s32 a4)
+s32* Crane_15C::sub_480B60(Fix16 a2, Fix16 a3, Ang16 a4)
 {
     NOT_IMPLEMENTED;
     return 0;

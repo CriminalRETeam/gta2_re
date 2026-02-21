@@ -41,9 +41,14 @@ class Crane_15C
     EXPORT void sub_47FE10();
     EXPORT void Service_480310();
     EXPORT void sub_4803B0(Fix16 a2, Fix16 a3, char_type a4);
-    EXPORT s32* sub_480900(s32 a2, s32 a3, s32 a4);
-    EXPORT s32* sub_480B60(s32 a2, s32 a3, s32 a4);
+    EXPORT s32* sub_480900(Fix16 a2, Fix16 a3, Ang16 a4);
+    EXPORT s32* sub_480B60(Fix16 a2, Fix16 a3, Ang16 a4);
     EXPORT Car_BC* GetCarFromCrane_480DA0();
+
+    inline void sub_4768E0(Ang16 rotation)
+    {
+        field_A8 = Ang16::Ang16_to_Fix16(rotation);
+    }
 
     s32 field_0;
     s32 field_4;

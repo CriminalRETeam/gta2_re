@@ -487,11 +487,47 @@ void miss2_0x11C::SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* pCmd)
     pCmd->field_8_u32 = 0;
 }
 
-STUB_FUNC(0x5041c0)
-s32 miss2_0x11C::SCRCMD_CRANE_5041C0(s32 a1, s32 a2)
+WIP_FUNC(0x5041c0)
+void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* a1, SCR_CRANE_BASIC_DEC* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    a2->field_8_crane = gCranePool_D9C_679FD4->sub_480EC0(a1->field_10_pos.field_0_x, a1->field_10_pos.field_4_y);
+    Ang16 rotation(NULL, NULL);
+
+    if (a1->field_2_type == SCRCMD_CRANE_TARGET_DEC)
+    {
+        if (a1->field_1A_home_cranetype == 0)
+        {
+            rotation = word_6F8044.sub_401CB0(Fix16(a1->field_24_target_rotation));
+
+            a1->field_8_crane->sub_480900(a1->field_1C_target_pos.field_0_x, a1->field_1C_target_pos.field_4_y, rotation);
+        }
+        else if (a1->field_1A_home_cranetype == 1)
+        {
+            rotation = word_6F8044.sub_401CB0(Fix16(a1->field_24_target_rotation));
+
+            a1->field_8_crane->sub_480B60(a1->field_1C_target_pos.field_0_x, a1->field_1C_target_pos.field_4_y, rotation);
+        }
+    }
+    else if (a1->field_2_type == SCRCMD_CRANE_BASIC_DEC)
+    {
+        // line e0
+        rotation = word_6F8044.sub_401CB0(Fix16(a2->field_24_target_rotation));
+        a2->field_8_crane->sub_480900(a2->field_1C_target_pos.field_0_x, a2->field_1C_target_pos.field_4_y, rotation);
+
+        // line 125
+
+        rotation = word_6F8044.sub_401CB0(Fix16(a2->field_26_second_rotation));
+        a2->field_8_crane->sub_480B60(a2->field_28_second_pos.field_0_x, a2->field_28_second_pos.field_4_y, rotation);
+    }
+
+    rotation = word_6F8044.sub_401CB0(Fix16(a1->field_18_home_rotation));
+    a2->field_8_crane->sub_4768E0(rotation);
+    if (a1->field_C_homecrane)
+    {
+        SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(a1->field_C_homecrane);
+        a2->field_8_crane->field_78_maybe_homecrane = pPointer->field_8_crane;
+    }
 }
 
 MATCH_FUNC(0x5043a0)
@@ -1228,7 +1264,7 @@ void miss2_0x11C::ExecOpCode_5061C0()
                 case SCRCMD_CRANE_BASIC_DEC:
                 case SCRCMD_CRANE_TARGET_DEC:
                 case SCRCMD_CRANE2TARGET_DEC:
-                    miss2_0x11C::SCRCMD_CRANE_5041C0((s32)pBasePtr, (s32)pBasePtr); // TODO: correct type after matching this func
+                    miss2_0x11C::SCRCMD_CRANE_5041C0((SCR_CRANE_TARGET_DEC*)pBasePtr, (SCR_CRANE_BASIC_DEC*)pBasePtr);
                     break;
                 case SCRCMD_CONVEYOR_DECSET1:
                 case SCRCMD_CONVEYOR_DECSET2:

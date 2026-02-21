@@ -219,6 +219,31 @@ struct SCR_RADIOSTATION_DEC : SCR_CMD_HEADER
     u16 field_12_padding;
 };
 
+struct SCR_CRANE_TARGET_DEC : SCR_CMD_HEADER
+{
+    Crane_15C* field_8_crane;
+    u32 field_C_homecrane;
+    SCR_XY_f field_10_pos;
+    u16 field_18_home_rotation;
+    u16 field_1A_home_cranetype; // "first" or "second"
+    SCR_XY_f field_1C_target_pos;
+    u16 field_24_target_rotation;
+    u16 field_26_unk6;
+};
+
+struct SCR_CRANE_BASIC_DEC : SCR_CMD_HEADER
+{
+    Crane_15C* field_8_crane;
+    u32 field_C_homecrane;
+    SCR_XY_f field_10_pos;
+    u16 field_18_home_rotation;
+    u16 field_1A_home_cranetype; // "first" or "second"
+    SCR_XY_f field_1C_target_pos;
+    u16 field_24_target_rotation;
+    u16 field_26_second_rotation;
+    SCR_XY_f field_28_second_pos;
+};
+
 struct SCR_DECLARE_CRANE_POWERUP : SCR_CMD_HEADER
 {
     u16 field_8_crane_idx;
@@ -744,7 +769,7 @@ class miss2_0x11C
     EXPORT Ped* sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_MAP_ZONE_SET_504150(SCR_MAP_ZONE_SET* a1);
     EXPORT void SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* a1);
-    EXPORT s32 SCRCMD_CRANE_5041C0(s32 a1, s32 a2);
+    EXPORT void SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* a1, SCR_CRANE_BASIC_DEC* a2);
     EXPORT void SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* a1, SCR_POINTER* a2);

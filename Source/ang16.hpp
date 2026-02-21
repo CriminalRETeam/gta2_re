@@ -263,6 +263,18 @@ class Ang16
     {
     }
 
+    // 9.6f func: 0x401C40
+    Ang16(Fix16& value, u8 zero)
+    {
+        rValue = value.ToInt();
+        Normalize();
+    }
+
+    Ang16 sub_401CB0(Fix16& a2)
+    {
+        return Ang16(Fix16(rValue) * a2, 0);
+    }
+
     s16 rValue;
 };
 
