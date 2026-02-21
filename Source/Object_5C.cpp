@@ -20,6 +20,8 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
+#include "Door_4D4.hpp"
+#include "collide.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
@@ -639,11 +641,123 @@ bool Object_2C::ShouldStopAtTrafficLight_525290(Sprite* pSprite)
     return false;
 }
 
-STUB_FUNC(0x525370)
+WIP_FUNC(0x525370)
 char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    switch (this->field_18_model)
+    {
+        case 122:
+            if (!pSprite)
+            {
+                return 0;
+            }
+            return ShouldStopAtTrafficLight_525290(pSprite);
+
+        case 139:
+            return 0;
+
+        case 169:
+            if (pSprite)
+            {
+                return gDoor_4D4_67BD2C->CheckDoorAccess_49D3C0(pSprite, this->field_26_varrok_idx);
+            }
+            else
+            {
+                return byte_6F8EDC;
+            }
+
+        case 294:
+            if (pSprite)
+            {
+                Car_BC* pCar = pSprite->AsCar_40FEB0();
+                if (pCar)
+                {
+                    return !pSprite->field_8_car_bc_ptr->IsTrainModel_403BA0();
+                }
+            }
+            // Fall through
+        default:
+            if (gCollide_C_6791FC->field_8_bUnknown == 1)
+            {
+                if (field_8->field_34_behavior_type == 3 || field_8->field_34_behavior_type == 4 || field_8->field_34_behavior_type <= 2 && field_8->field_44 == 2)
+                {
+                    return 0;
+                }
+            }
+
+            if (!field_10_obj_3c)
+            {
+                goto LABEL_35;
+            }
+
+            if (field_10_obj_3c->field_34 != 2)
+            {
+                return 0;
+            }
+
+            if (pSprite)
+            {
+                if (pSprite->field_30_sprite_type_enum != sprite_types_enum::ped)
+                {
+                    if (field_8->field_4C == 3)
+                    {
+                        return 0;
+                    }
+
+                    if (field_8->field_4C == 0)
+                    {
+                        return 0;
+                    }
+                }
+
+            LABEL_35:
+                if (pSprite)
+                {
+                    Object_2C* pObj2C = pSprite->As2C_40FEC0();
+                    if (pObj2C)
+                    {
+                        if (pObj2C->field_8->field_44 != 7 && pObj2C->field_8->field_44 != 8)
+                        {
+                            goto LABEL_44;
+                        }
+
+                        if (!field_8->field_48)
+                        {
+                            return 0;
+                        }
+
+                        if ((u32)(field_8->field_48 - 12) >= 2)
+                        {
+                        LABEL_44:
+                            if (pObj2C->field_18_model == 139)
+                            {
+                                return 0;
+                            }
+
+                            // Don't collide shops, I guess
+                            if (pObj2C->check_is_shop_421060() && !check_is_shop_421060())
+                            {
+                                return 0;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (field_8->field_4C == 3)
+                {
+                    return 0;
+                }
+                if (field_8->field_4C == 0)
+                {
+                    return 0;
+                }
+            }
+            return 1;
+    }
 }
 
 MATCH_FUNC(0x525AE0)

@@ -53,8 +53,8 @@ class Door_38
   public:
     EXPORT Door_38();
     EXPORT ~Door_38();
-    EXPORT bool sub_49C6A0(Sprite* a1);
-    EXPORT bool sub_49C6D0(Car_BC* a2);
+    EXPORT bool IsSpriteClearOfDoorCollision_49C6A0(Sprite* a1);
+    EXPORT bool CanOpen_49C6D0(Car_BC* a2);
     EXPORT bool sub_49C7F0(Ped* a2);
     EXPORT void sub_49C840();
     EXPORT void sub_49C870(Car_BC* a2);

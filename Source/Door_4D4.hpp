@@ -97,7 +97,7 @@ class Door_4D4
     EXPORT void sub_49D340(Car_BC* a2, u8 a3);
     EXPORT void sub_49D370(Ped* a2, u8 idx);
     EXPORT Door_38* sub_49D3A0();
-    EXPORT char_type sub_49D3C0(Sprite* pSprite, u8 door_idx);
+    EXPORT char_type CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx);
     EXPORT void DoorsService_49D460();
     EXPORT Door_4D4();
     EXPORT ~Door_4D4();

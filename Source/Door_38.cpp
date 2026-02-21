@@ -53,7 +53,7 @@ Door_38::~Door_38()
 }
 
 MATCH_FUNC(0x49c6a0)
-bool Door_38::sub_49C6A0(Sprite* a1)
+bool Door_38::IsSpriteClearOfDoorCollision_49C6A0(Sprite* a1)
 {
     if (a1)
     {
@@ -63,7 +63,7 @@ bool Door_38::sub_49C6A0(Sprite* a1)
 }
 
 MATCH_FUNC(0x49c6d0)
-bool Door_38::sub_49C6D0(Car_BC* a2)
+bool Door_38::CanOpen_49C6D0(Car_BC* a2)
 {
     bool ret = false;
     switch (field_20_state)
@@ -109,7 +109,7 @@ bool Door_38::sub_49C6D0(Car_BC* a2)
                 break;
             }
 
-            if (sub_49C6A0(a2->field_50_car_sprite) && (!a2->is_driven_by_player() || gGarage_48_6FD26C->sub_44C870(a2)))
+            if (IsSpriteClearOfDoorCollision_49C6A0(a2->field_50_car_sprite) && (!a2->is_driven_by_player() || gGarage_48_6FD26C->sub_44C870(a2)))
             {
                 if (a2->is_driven_by_player())
                 {
@@ -182,7 +182,7 @@ void Door_38::sub_49C870(Car_BC* a2)
 {
     if (field_29)
     {
-        if (sub_49C6D0(a2))
+        if (CanOpen_49C6D0(a2))
         {
             if (field_2C)
             {
@@ -400,8 +400,8 @@ void Door_38::sub_49CD90()
             {
                 if (field_24 == door_close_type::close_when_open_rule_fails && field_10_car_bc != NULL)
                 {
-                    if (sub_49C6D0(field_10_car_bc) == false && sub_49C7F0(field_10_ped) == false &&
-                        !sub_49C6A0(field_10_car_bc->field_50_car_sprite))
+                    if (CanOpen_49C6D0(field_10_car_bc) == false && sub_49C7F0(field_10_ped) == false &&
+                        !IsSpriteClearOfDoorCollision_49C6A0(field_10_car_bc->field_50_car_sprite))
                     {
                         field_28 = 1;
                         field_1E = 0;
