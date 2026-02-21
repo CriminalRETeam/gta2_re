@@ -41,16 +41,17 @@ DEFINE_GLOBAL_INIT(Fix16, dword_675220, dword_675400, 0x675220);
 DEFINE_GLOBAL_INIT(Fix16, dword_675418, Fix16(0x18000, 0), 0x675418);
 DEFINE_GLOBAL_INIT(Fix16, dword_6751F4, Fix16(0x640000, 0), 0x6751F4);
 
-DEFINE_GLOBAL(Fix16, dword_66F3B4, 0x66F3B4);
-DEFINE_GLOBAL(Fix16, dword_66F3F8, 0x66F3F8);
-DEFINE_GLOBAL(Fix16, dword_66F3C0, 0x66F3C0);
-DEFINE_GLOBAL(Fix16, dword_66F24C, 0x66F24C);
-DEFINE_GLOBAL(Fix16, dword_66F490, 0x66F490);
-DEFINE_GLOBAL(Fix16, dword_66F2FC, 0x66F2FC);
-DEFINE_GLOBAL(Fix16, dword_66F3FC, 0x66F3FC);
-DEFINE_GLOBAL(Fix16, dword_66F1CC, 0x66F1CC);
+DEFINE_GLOBAL_INIT(Fix16, dword_66F3B4, Fix16(0xA3, 0), 0x66F3B4);
+DEFINE_GLOBAL_INIT(Fix16, dword_66F3F8, Fix16(0x8000, 0), 0x66F3F8);
+DEFINE_GLOBAL_INIT(Fix16, dword_66F3C0, Fix16(0x147, 0), 0x66F3C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_66F24C, Fix16(0xCCC, 0), 0x66F24C);
+DEFINE_GLOBAL_INIT(Fix16, dword_66F490, Fix16(0x41, 0), 0x66F490);
+DEFINE_GLOBAL_INIT(Fix16, dword_66F2FC, Fix16(0x2000, 0), 0x66F2FC);
+DEFINE_GLOBAL_INIT(Fix16, dword_66F3FC, Fix16(0xC000, 0), 0x66F3FC);
+DEFINE_GLOBAL_INIT(Fix16, dword_66F1CC, Fix16(0x1FC000, 0), 0x66F1CC);
 DEFINE_GLOBAL(u8, byte_66F542, 0x66F542);
 DEFINE_GLOBAL(u8, byte_67554D, 0x67554D);
+DEFINE_GLOBAL_INIT(Fix16, dword_674E18, Fix16(0x190000, 0), 0x674E18);
 
 // TODO: can't use 2d arrays here :Skull:
 //DEFINE_GLOBAL(char_type, byte_5FE434[8][44], 0x5FE434);
@@ -308,11 +309,36 @@ u8 sound_obj::sub_41A4A0(Fix16 a1, Fix16 a2) // TODO: Ret type
     }
 }
 
-STUB_FUNC(0x41A580)
+WIP_FUNC(0x41A580)
 s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (zpos != 0)
+    {
+
+        if (ypos - xpos == dword_674CD8)
+        {
+            return snd_rate;
+        }
+
+        s32 v5 = (((zpos / dword_674E18) * (ypos - xpos)) / Fix16(field_C)).ToInt();
+        if (v5 <= 0)
+        {
+            v5 = -v5;
+        }
+
+        if (v5 >= field_4)
+        {
+            return snd_rate;
+        }
+        else
+        {
+            return Fix16_Round_To_Int_410BF0((Fix16(snd_rate) * Fix16(field_4)) / (Fix16(field_4) + Fix16(v5)));
+        }
+    }
+
+    return snd_rate;
 }
 
 MATCH_FUNC(0x427180)
@@ -1733,7 +1759,7 @@ void sound_obj::ProcessType6_Rozza_C88_413760(s32 idx)
             this->field_30_sQueueSample.field_28_distance = distance;
             this->field_30_sQueueSample.field_60_nEmittingVolume = emittingVol;
             this->field_30_sQueueSample.field_64_max_distance = 10;
-            this->field_30_sQueueSample.field_54 = 81920;
+            this->field_30_sQueueSample.field_54 = 81920; // F16
             this->field_30_sQueueSample.field_58_type = 20;
             this->field_30_sQueueSample.field_4_SampleIndex = byte_66F541++;
             this->field_30_sQueueSample.field_41 = 1;
