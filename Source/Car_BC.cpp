@@ -1176,7 +1176,7 @@ Car_6C::Car_6C()
         }
     }
 
-    field_64 = gFix16_6777CC;
+    field_64_zpos = gFix16_6777CC;
     field_60 = 0;
     field_4 = 0;
     field_14 = 1;
@@ -1993,9 +1993,9 @@ void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
                 }
 
                 case 2:
-                    if (field_50_car_sprite->field_1C_zpos > gCar_6C_677930->field_64)
+                    if (field_50_car_sprite->field_1C_zpos > gCar_6C_677930->field_64_zpos)
                     {
-                        gCar_6C_677930->field_64 = field_50_car_sprite->field_1C_zpos;
+                        gCar_6C_677930->field_64_zpos = field_50_car_sprite->field_1C_zpos;
                         // NOTE: returned here originally
                     }
                     break;

@@ -61,10 +61,10 @@ class CarPhysics_B0
                                         char_type a5,
                                         char_type bHandBrakeOn);
     EXPORT void HandleGravityOnSlope_55AA00();
-    EXPORT s32* ComputeSlopeCorrection_55AB50(s32* a2, Sprite_4C** a3);
-    EXPORT s32 UpdateZPhysics_55AD90(Fix16 a2);
+    EXPORT Fix16* ComputeSlopeCorrection_55AB50(Fix16* a2, Fix16* a3);
+    EXPORT void UpdateZPhysics_55AD90(Fix16 a2);
     EXPORT void SyncZWithTrailer_55B3F0(Fix16 a2);
-    EXPORT s32 UpdateZPosition_55B4F0(Fix16 a2);
+    EXPORT void UpdateZPosition_55B4F0(Fix16 a2);
     EXPORT void UpdateZPosition_55B7B0(Fix16 a2);
     EXPORT void EmitImpactParticles_55B7E0(u8 apply_to_corners_mask);
     EXPORT char_type ProcessGroundCollisionAndSurfaceType_55B970(char_type* a2);
@@ -96,7 +96,7 @@ class CarPhysics_B0
     EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce);
     EXPORT void ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2);
     EXPORT u32* ComputeFinalImpactDamage_55FA60(u32* a2, s32* a3, s32* a4, s32 a5);
-    EXPORT Ped* AccumulateImpulse_55FC30(s32* a2, s32 a3);
+    EXPORT void AccumulateImpulse_55FC30(Fix16_Point* a2, s32 a3);
     EXPORT s32 HandleWorldCollision_55FD00(s32 a2);
     EXPORT Car_78* HandleCarCollision_55FF20(Car_BC* a2);
     EXPORT void HandleObjectCollision_5606C0(Object_2C* a2, char_type a3);

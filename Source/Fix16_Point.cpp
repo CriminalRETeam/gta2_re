@@ -20,6 +20,11 @@ Fix16_Point Fix16_Point::operator-(const Fix16_Point& rhs)
     return Fix16_Point(x - rhs.x, y - rhs.y);
 }
 
+Fix16_Point Fix16_Point::operator/(Fix16& in)
+{
+    return Fix16_Point(x / in, y / in);
+}
+
 STUB_FUNC(0x442AD0)
 Fix16_Point Fix16_Point::NormalizeSafe_442AD0()
 {
