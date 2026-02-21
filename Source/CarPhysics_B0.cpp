@@ -745,9 +745,9 @@ LABEL_12:
         v16 = NormalizeAngleDeltaScaled_405B60(gTrailer_theta_6FE018, gSaved_trailer_theta_6FE310, (__int16*)&dword_6FE058);
         v15 = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->sub_43A5B0();
         v11 = Fix16::Abs_436A50(v21);
-        v12 = ClampToRangeFlexible_55EEE0(&v27, v11, &v18, &v17);
+        v12 = ClampToRangeFlexible_55EEE0(v11, v18, v17);
         v13 = (v12 / v15);
-        v9 = *ClampToRangeFlexible_55EEE0(&v28, &v22, v13, v16);
+        v9 = ClampToRangeFlexible_55EEE0(v22, v13, v16);
     }
     return v9;
 */

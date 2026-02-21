@@ -121,6 +121,11 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678778, dword_6784C4 * 10, 0x678778);
 DEFINE_GLOBAL_INIT(Fix16, dword_678794, dword_6784C4 * 48, 0x678794);
 DEFINE_GLOBAL_INIT(Fix16, dword_678630, Fix16(0x147, 0), 0x678630);
 
+DEFINE_GLOBAL(Ang16, word_6785A6, 0x6785A6); // TODO: Init via 0x45FCB0 func
+DEFINE_GLOBAL_INIT(Fix16, dword_678780, dword_6784C4 * 12, 0x678780);
+DEFINE_GLOBAL(Fix16, dword_6784B0, 0x6784B0); // TODO: Init via 0x45FAA0 func
+
+
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
@@ -1894,9 +1899,9 @@ bool Ped::IsField238_45EDE0(s32 a2)
 MATCH_FUNC(0x45ee00)
 void Ped::sub_45EE00(u32 occupation)
 {
-    if (field_240_occupation <= (u32) ped_ocupation_enum::bank_robber)
+    if (field_240_occupation <= (u32)ped_ocupation_enum::bank_robber)
     {
-        switch ( field_240_occupation )
+        switch (field_240_occupation)
         {
             case ped_ocupation_enum::player:
             case ped_ocupation_enum::empty:
@@ -1918,7 +1923,7 @@ void Ped::sub_45EE00(u32 occupation)
                 field_240_occupation = occupation;
                 break;
             case ped_ocupation_enum::unknown_5:
-                if ( --byte_6787D3 < 0 )
+                if (--byte_6787D3 < 0)
                     byte_6787D3 = 0;
                 field_240_occupation = occupation;
                 break;
@@ -2760,10 +2765,120 @@ void Ped::RoadBlockTank_AI_4619F0()
     }
 }
 
-STUB_FUNC(0x461a60)
+// For entering a car angles the player ped towards the car door
+WIP_FUNC(0x461a60)
 void Ped::UpdateFacingAngle_461A60()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (this->field_258_objective)
+    {
+        if (!this->field_25C_car_state)
+        {
+            this->field_1C4_x = field_1B8_target_x;
+            this->field_1C8_y = field_1BC_target_y;
+            this->field_1CC_z = field_1C0_target_z;
+        }
+    }
+
+    switch (this->field_278_ped_state_1)
+    {
+        case ped_state_1::flee_or_running_1:
+        {
+            if (this->field_27C_ped_state_2 == ped_state_2::Unknown_3)
+            {
+                Fix16 v32 = this->field_1AC_cam.x - this->field_1C4_x;
+                Fix16 v33 = this->field_1AC_cam.y - this->field_1C8_y;
+                this->field_130 = Fix16::atan2_fixed_405320(v33, v32);
+            }
+
+            if (this->field_27C_ped_state_2 != ped_state_2::Unknown_2)
+            {
+                //goto LABEL_37;
+                this->field_12E = this->field_130;
+                return;
+            }
+
+            field_1C8_y = this->field_1C8_y;
+
+            Fix16 v34 = field_1C4_x - this->field_1AC_cam.x;
+            Fix16 v35 = field_1C8_y - this->field_1AC_cam.y;
+
+            this->field_130 = Fix16::atan2_fixed_405320(v35, v34);
+
+            if (!byte_6787C4 || !this->field_14C || gDistanceToTarget_678750 >= dword_678780 ||
+                ComputeShortestAngleDelta_4056C0(field_130, field_12C) <= dword_6784B0)
+            {
+                if (byte_6787D4 == 1)
+                {
+                    this->field_168_game_object->field_6A = 1;
+                    if ((this->field_200_id & 1) != 0)
+                    {
+                        Ang16 v17 = Ang16::Fix16_To_Ang16_40F540(dword_6784C4 * Fix16(stru_6F6784.get_int_4F7AE0(45)));
+                        Ang16 v12 = field_130 + dword_6784B0;
+                        Ang16 v18 = v17 + v12;
+                        this->field_168_game_object->field_74 = v18;
+                    }
+                    else
+                    {
+                        Ang16 v13 = Ang16::Fix16_To_Ang16_40F540(dword_6784C4 * Fix16(stru_6F6784.get_int_4F7AE0(45)));
+                        Ang16 v14 = field_130 - dword_6784B0;
+                        Ang16 v19 = v14 - v13;
+                        this->field_168_game_object->field_74 = v19;
+                    }
+                }
+                else if (GetPedVelocity_45C920() < k_dword_678660)
+                {
+                    field_130 += word_6785A6;
+                }
+                //goto LABEL_37;
+                this->field_12E = this->field_130;
+                return;
+            }
+            field_130 = this->field_12C;
+            this->field_168_game_object->field_38_velocity = field_14C->GetPedVelocity_45C920() - k_dword_678430;
+            return;
+        }
+
+        case ped_state_1::findind_path_2:
+        {
+            Fix16 pMaybeY_FP16 = this->field_1C4_x - this->field_1AC_cam.x;
+            Fix16 pMaybeX_FP16 = this->field_1C8_y - this->field_1AC_cam.y;
+            this->field_130 = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
+            //goto LABEL_37;
+            this->field_12E = this->field_130;
+            return;
+        }
+
+        case ped_state_1::entering_car_3:
+        {
+            Fix16 v30 = this->field_1C4_x - this->field_1AC_cam.x;
+            Fix16 v31 = this->field_1C8_y - this->field_1AC_cam.y;
+        //LABEL_6:
+            this->field_130 = Fix16::atan2_fixed_405320(v31, v30);
+            //goto LABEL_37;
+            this->field_12E = this->field_130;
+            return;
+        }
+
+        case ped_state_1::standing_still_7:
+        {
+            if (this->field_27C_ped_state_2 == 11) // ped_state_2::Unknown_11)
+            {
+                Fix16 v38 = this->field_1C4_x - this->field_1AC_cam.x;
+                Fix16 v39 = this->field_1C8_y - this->field_1AC_cam.y;
+                this->field_130 = Fix16::atan2_fixed_405320(v39, v38);
+            }
+            //goto LABEL_37;
+            this->field_12E = this->field_130;
+            return;
+        }
+
+        default:
+        //LABEL_37:
+            this->field_12E = this->field_130;
+            return;
+    }
 }
 
 MATCH_FUNC(0x461f20)
