@@ -163,7 +163,7 @@ void force_link()
     lewin.GetCurrPlayerWeapon_5648F0();
     lewin.sub_564910(0);
     lewin.HasAnyAmmo_564940();
-    lewin.sub_564960(0, 0);
+    lewin.AddWeaponWithAmmo_564960(0, 0);
     lewin.SelectNextOrPrevWeapon_5649D0(0, 0);
     lewin.sub_564AD0(0);
     lewin.sub_564B60();

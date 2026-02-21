@@ -111,7 +111,7 @@ class Sprite
     EXPORT void ResetZCollisionAndDebugBoxes_59E7B0();
     EXPORT Sprite* QuerySpriteCollision_59E7D0(s32 a2);
     EXPORT char_type IsThreatToSearchingPed_59E830();
-    EXPORT char_type sub_59E850(Sprite* pSprite);
+    EXPORT char_type ShouldCollideWithSprite_59E850(Sprite* pSprite);
     EXPORT void HandleObjectCollision_59E8C0(Sprite* pSprite);
     EXPORT void ProcessCarToCarImpactIfCar_59E910(Sprite* a2);
     EXPORT void sub_59E960();

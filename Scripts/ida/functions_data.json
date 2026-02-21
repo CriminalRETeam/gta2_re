@@ -3875,7 +3875,7 @@
         "v105_address": "0x46ff00"
     },
     {
-        "name": "Ped::sub_46FFF0",
+        "name": "Ped::HandleWeaponFireEnd_46FFF0",
         "v96f_address": null,
         "v105_address": "0x46fff0"
     },
@@ -5005,12 +5005,12 @@
         "v105_address": "0x49c690"
     },
     {
-        "name": "Door_38::sub_49C6A0",
+        "name": "Door_38::IsSpriteClearOfDoorCollision_49C6A0",
         "v96f_address": "0x44c6d0",
         "v105_address": "0x49c6a0"
     },
     {
-        "name": "Door_38::sub_49C6D0",
+        "name": "Door_38::CanOpen_49C6D0",
         "v96f_address": "0x44ca70",
         "v105_address": "0x49c6d0"
     },
@@ -5115,7 +5115,7 @@
         "v105_address": "0x49d3a0"
     },
     {
-        "name": "Door_4D4::sub_49D3C0",
+        "name": "Door_4D4::CheckDoorAccess_49D3C0",
         "v96f_address": null,
         "v105_address": "0x49d3c0"
     },
@@ -10475,7 +10475,7 @@
         "v105_address": "0x521e40"
     },
     {
-        "name": "sub_521FD0",
+        "name": "GetMovementSpeedAndAngle_521FD0",
         "v96f_address": null,
         "v105_address": "0x521fd0"
     },
@@ -10490,7 +10490,7 @@
         "v105_address": "0x522180"
     },
     {
-        "name": "Object_2C::sub_522250",
+        "name": "Object_2C::CanCollideWithSpriteByVarrok_522250",
         "v96f_address": null,
         "v105_address": "0x522250"
     },
@@ -10500,7 +10500,7 @@
         "v105_address": "0x5222b0"
     },
     {
-        "name": "Object_2C::sub_5222D0",
+        "name": "Object_2C::UpdatePhysics_5222D0",
         "v96f_address": null,
         "v105_address": "0x5222d0"
     },
@@ -10520,22 +10520,22 @@
         "v105_address": "0x5223c0"
     },
     {
-        "name": "Object_2C::sub_522430",
+        "name": "Object_2C::ShouldCollideWithSprite_522430",
         "v96f_address": null,
         "v105_address": "0x522430"
     },
     {
-        "name": "Object_2C::sub_522460",
+        "name": "Object_2C::SelectCollisionSprite_522460",
         "v96f_address": null,
         "v105_address": "0x522460"
     },
     {
-        "name": "Object_2C::sub_5224E0",
+        "name": "Object_2C::SetMovementVector_5224E0",
         "v96f_address": null,
         "v105_address": "0x5224e0"
     },
     {
-        "name": "Object_2C::sub_522640",
+        "name": "Object_2C::SetMovementVectorWithRandomState_522640",
         "v96f_address": null,
         "v105_address": "0x522640"
     },
@@ -10545,32 +10545,32 @@
         "v105_address": "0x5226a0"
     },
     {
-        "name": "Object_2C::sub_522710",
+        "name": "Object_2C::ResolveCollisionWithObject_522710",
         "v96f_address": null,
         "v105_address": "0x522710"
     },
     {
-        "name": "Object_2C::sub_5229B0",
+        "name": "Object_2C::ResolveCollisionWithPed_5229B0",
         "v96f_address": null,
         "v105_address": "0x5229b0"
     },
     {
-        "name": "Object_2C::sub_522B20",
+        "name": "Object_2C::ResolveCollisionWithWorld_522B20",
         "v96f_address": null,
         "v105_address": "0x522b20"
     },
     {
-        "name": "Object_2C::sub_522BE0",
+        "name": "Object_2C::ResolveCollisionWithMapTile_522BE0",
         "v96f_address": null,
         "v105_address": "0x522be0"
     },
     {
-        "name": "Object_2C::sub_522D00",
+        "name": "Object_2C::ResolveCollisionWithMapTileHorizontal_522D00",
         "v96f_address": null,
         "v105_address": "0x522d00"
     },
     {
-        "name": "Object_2C::sub_522E10",
+        "name": "Object_2C::HandleCollision_522E10",
         "v96f_address": null,
         "v105_address": "0x522e10"
     },
@@ -10590,22 +10590,22 @@
         "v105_address": "0x5233a0"
     },
     {
-        "name": "Object_2C::sub_523440",
+        "name": "Object_2C::HandleCollisionOutcome_523440",
         "v96f_address": null,
         "v105_address": "0x523440"
     },
     {
-        "name": "Object_2C::sub_5235B0",
+        "name": "Object_2C::HandleSpriteGroundAndCollision_5235B0",
         "v96f_address": null,
         "v105_address": "0x5235b0"
     },
     {
-        "name": "sub_523770",
+        "name": "HandleSpriteGroundAndCollisionSimple_523770",
         "v96f_address": "0x523770",
         "v105_address": "0x523770"
     },
     {
-        "name": "sub_5238B0",
+        "name": "HandleSpriteZCollision_5238B0",
         "v96f_address": null,
         "v105_address": "0x5238b0"
     },
@@ -10620,7 +10620,7 @@
         "v105_address": "0x524550"
     },
     {
-        "name": "Object_2C::sub_524630",
+        "name": "Object_2C::IntegrateHorizontalMovementAndCollisions_524630",
         "v96f_address": null,
         "v105_address": "0x524630"
     },
@@ -10635,7 +10635,7 @@
         "v105_address": "0x525290"
     },
     {
-        "name": "sub_525370",
+        "name": "ShouldCollideWithSprite_525370",
         "v96f_address": null,
         "v105_address": "0x525370"
     },
@@ -10645,7 +10645,7 @@
         "v105_address": "0x5257d0"
     },
     {
-        "name": "Object_2C::sub_525910",
+        "name": "Object_2C::DispatchFrameAction_525910",
         "v96f_address": null,
         "v105_address": "0x525910"
     },
@@ -10655,27 +10655,27 @@
         "v105_address": "0x525ac0"
     },
     {
-        "name": "sub_525AE0",
+        "name": "CheckCollisionForModel_139_And_141_525AE0",
         "v96f_address": null,
         "v105_address": "0x525ae0"
     },
     {
-        "name": "sub_525B20",
+        "name": "UpdateEffectPool_525B20",
         "v96f_address": null,
         "v105_address": "0x525b20"
     },
     {
-        "name": "Object_2C::sub_525B40",
+        "name": "Object_2C::SpawnSpriteParticlesForModel128_525B40",
         "v96f_address": null,
         "v105_address": "0x525b40"
     },
     {
-        "name": "sub_525B60",
+        "name": "CheckWaterDeath_525B60",
         "v96f_address": null,
         "v105_address": "0x525b60"
     },
     {
-        "name": "Object_2C::sub_525B80",
+        "name": "Object_2C::UpdatePhysicsAndMovement_525B80",
         "v96f_address": null,
         "v105_address": "0x525b80"
     },
@@ -10685,7 +10685,7 @@
         "v105_address": "0x525d50"
     },
     {
-        "name": "Object_2C::sub_525D90",
+        "name": "Object_2C::UpdatePhysicsMovementAndAnimation_525D90",
         "v96f_address": null,
         "v105_address": "0x525d90"
     },
@@ -10700,7 +10700,7 @@
         "v105_address": "0x5263d0"
     },
     {
-        "name": "Object_2C::sub_526790",
+        "name": "Object_2C::TriggerCarExplosionIfApplicable_526790",
         "v96f_address": null,
         "v105_address": "0x526790"
     },
@@ -10715,12 +10715,12 @@
         "v105_address": "0x526b40"
     },
     {
-        "name": "Object_2C::sub_527070",
+        "name": "Object_2C::UpdateMovementAndEffects_527070",
         "v96f_address": null,
         "v105_address": "0x527070"
     },
     {
-        "name": "Object_2C::sub_527630",
+        "name": "Object_2C::InitializeObject_527630",
         "v96f_address": null,
         "v105_address": "0x527630"
     },
@@ -10755,7 +10755,7 @@
         "v105_address": "0x528130"
     },
     {
-        "name": "Object_2C::sub_528240",
+        "name": "Object_2C::HandleRotationStateTransition_528240",
         "v96f_address": null,
         "v105_address": "0x528240"
     },
@@ -10770,7 +10770,7 @@
         "v105_address": "0x5288b0"
     },
     {
-        "name": "sub_528900",
+        "name": "HandleWaterDeath_528900",
         "v96f_address": null,
         "v105_address": "0x528900"
     },
@@ -10865,7 +10865,7 @@
         "v105_address": "0x5291e0"
     },
     {
-        "name": "sub_529200",
+        "name": "IsNotModel_174_529200",
         "v96f_address": null,
         "v105_address": "0x529200"
     },
@@ -10880,7 +10880,7 @@
         "v105_address": "0x529240"
     },
     {
-        "name": "sub_5292D0",
+        "name": "get_weapon_default_ammo_5292D0",
         "v96f_address": null,
         "v105_address": "0x5292d0"
     },
@@ -10950,7 +10950,7 @@
         "v105_address": "0x529bc0"
     },
     {
-        "name": "Object_5C::sub_529C00",
+        "name": "Object_5C::New_529C00",
         "v96f_address": "0x484E00",
         "v105_address": "0x529c00"
     },
@@ -11100,12 +11100,12 @@
         "v105_address": "0x533150"
     },
     {
-        "name": "Phi_74::sub_533170",
+        "name": "Phi_74::CreateSpriteFromDefinition_533170",
         "v96f_address": null,
         "v105_address": "0x533170"
     },
     {
-        "name": "Phi_74::sub_5331A0",
+        "name": "Phi_74::ApplyDefinitionToSprite_5331A0",
         "v96f_address": "0x4883a0",
         "v105_address": "0x5331a0"
     },
@@ -11165,7 +11165,7 @@
         "v105_address": "0x534330"
     },
     {
-        "name": "Phi_8CA8::sub_534360",
+        "name": "Phi_8CA8::GetObjectDefinition_534360",
         "v96f_address": null,
         "v105_address": "0x534360"
     },
@@ -11840,7 +11840,7 @@
         "v105_address": "0x5532c0"
     },
     {
-        "name": "sub_553340",
+        "name": "ShouldCollideWithSprite_553340",
         "v96f_address": null,
         "v105_address": "0x553340"
     },
@@ -12640,7 +12640,7 @@
         "v105_address": "0x564940"
     },
     {
-        "name": "Player::sub_564960",
+        "name": "Player::AddWeaponWithAmmo_564960",
         "v96f_address": null,
         "v105_address": "0x564960"
     },
@@ -14685,7 +14685,7 @@
         "v105_address": "0x59e830"
     },
     {
-        "name": "sub_59E850",
+        "name": "ShouldCollideWithSprite_59E850",
         "v96f_address": null,
         "v105_address": "0x59e850"
     },
@@ -17045,7 +17045,7 @@
         "v105_address": "0x5e3e70"
     },
     {
-        "name": "Weapon_8::get_ammo_5E3E80",
+        "name": "Weapon_8::get_defalt_ammo_5E3E80",
         "v96f_address": null,
         "v105_address": "0x5e3e80"
     },

@@ -328,7 +328,7 @@ char_type Player::HasAnyAmmo_564940()
 }
 
 MATCH_FUNC(0x564960)
-char_type Player::sub_564960(s32 weapon_kind, u8 ammo)
+char_type Player::AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo)
 {
     Ped* pPed;
     bool bHasAnyAmmo;
@@ -3020,7 +3020,7 @@ void Player::ApplyCheats_56A490()
     if (byte_67D56B)
     {
         Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
-        Player::sub_564960(1, 50u);
+        Player::AddWeaponWithAmmo_564960(1, 50u);
         for (Gang_144* pIter2 = gGangPool_CA8_67E274->sub_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->sub_4BECE0())
         {
             pIter2->SetRespect_4BEE30(field_2E_idx, 80);

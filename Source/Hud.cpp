@@ -1266,7 +1266,7 @@ void ArrowTrace_24::UpdateAimCoordinates_5D03F0()
             }
             break;
         case ArrowTargetType::Object_4:
-            if (!field_8_obj->sub_529200())
+            if (!field_8_obj->IsNotModel_174_529200())
             {
                 gHud_2B00_706620->field_1F18.field_844 = 1;
                 field_10_target_type = ArrowTargetType::Nothing_0;

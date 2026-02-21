@@ -701,7 +701,7 @@ char_type PurpleDoom::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pR
             if (!pObj->field_0_sprt->TypeIs_446940(gPurpleDoom_exclude_types_678F88) &&
                 field_0_sprt != gPurpleDoom_exclusion_sprite_678F84 &&
                 !pObj->field_0_sprt->field_C_sprite_4c_ptr->CollisionIdIs_446930(gCollide_C_6791FC->field_4_count) &&
-                field_0_sprt->sub_59E850(0))
+                field_0_sprt->ShouldCollideWithSprite_59E850(0))
             {
                 //  83:    inc     %edx
                 gCollide_C_6791FC->field_0_count++;
@@ -814,7 +814,7 @@ Sprite* PurpleDoom::FindNearestSpriteInRow_478880(u32 y_pos, Sprite* pSprite)
             Sprite* pSprt = pObj->field_0_sprt;
             if (pObj->field_0_sprt == gPurpleDoom_exclusion_sprite_678F84 ||
                 gPurpleDoom_smallestDistSprite_678E40 && !pSprt->TypeIs_446940(gPurpleDoom_exclude_type_678F60) ||
-                pSprt->field_C_sprite_4c_ptr->CollisionIdIs_446930(gCollide_C_6791FC->field_4_count) || !pSprt->sub_59E850(pSprite))
+                pSprt->field_C_sprite_4c_ptr->CollisionIdIs_446930(gCollide_C_6791FC->field_4_count) || !pSprt->ShouldCollideWithSprite_59E850(pSprite))
             {
                 continue;
             }

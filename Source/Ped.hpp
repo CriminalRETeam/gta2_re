@@ -223,7 +223,7 @@ class Ped
     EXPORT void HandleShootingAtCar_46FC90(Car_BC* a2, s32 a3);
     EXPORT void ProcessWeaponHitResponse_46FE20(Object_2C* a2);
     EXPORT void NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model);
-    EXPORT void sub_46FFF0(s32 a2);
+    EXPORT void HandleWeaponFireEnd_46FFF0(s32 a2);
     EXPORT void AimRoofGun_470050();
     EXPORT void add_wanted_points_470160(s16 wanted_amount);
     EXPORT bool sub_4701D0();

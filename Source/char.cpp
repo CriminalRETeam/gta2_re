@@ -4292,7 +4292,7 @@ char_type Char_B4::IsThreatToSearchingPed_553330()
 
 // 9.6f 0x497480
 WIP_FUNC(0x553340)
-bool Char_B4::sub_553340(Sprite* pSprite)
+bool Char_B4::ShouldCollideWithSprite_553340(Sprite* pSprite)
 {
     WIP_IMPLEMENTED;
 

@@ -657,15 +657,15 @@ void Phi_74::sub_533150(s16 a2, s16 a3)
 }
 
 MATCH_FUNC(0x533170)
-Sprite* Phi_74::sub_533170()
+Sprite* Phi_74::CreateSpriteFromDefinition_533170()
 {
     Sprite* pFreeSprite = gSprite_Pool_703818->get_new_sprite();
-    sub_5331A0(pFreeSprite);
+    ApplyDefinitionToSprite_5331A0(pFreeSprite);
     return pFreeSprite;
 }
 
 MATCH_FUNC(0x5331a0)
-void Phi_74::sub_5331A0(Sprite* pSprite)
+void Phi_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
 {
     s16 f1E; // ax
     s32 f40; // eax
@@ -782,7 +782,7 @@ void Phi_8CA8::sub_533360()
         Phi_54* puVar3 = Phi_54_array_006FC5F8;
         do
         {
-            Phi_74* pPVar2 = sub_534360(puVar3->field_0);
+            Phi_74* pPVar2 = GetObjectDefinition_534360(puVar3->field_0);
             pPVar2->field_34_behavior_type = puVar3->field_4;
             pPVar2->field_38 = puVar3->field_8;
             pPVar2->field_3C_next_definition_idx = puVar3->field_8;
@@ -817,7 +817,7 @@ void Phi_8CA8::sub_533420()
     Phi_74* pAVar1;
 
     sub_534370(0x97, 6);
-    pAVar1 = sub_534360(0x97);
+    pAVar1 = GetObjectDefinition_534360(0x97);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::behavior_2;
     pAVar1->field_64_next_frame_max = '\x05';
@@ -847,7 +847,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_61 = '\0';
 
     sub_534370(0x32, 0xc);
-    pAVar1 = sub_534360(0x32);
+    pAVar1 = GetObjectDefinition_534360(0x32);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::behavior_2;
     pAVar1->field_64_next_frame_max = '\x03';
@@ -1103,7 +1103,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_44 = 0;
     pAVar1->field_61 = '\x01';
     pAVar1->field_58 = 1;
-    pAVar1 = sub_534360(0x19);
+    pAVar1 = GetObjectDefinition_534360(0x19);
     pAVar1->field_28 = 1;
     pAVar1->field_8 = DAT_006fce10;
     return;
@@ -1274,7 +1274,7 @@ void Phi_8CA8::sub_533C90()
     tmp->field_3C_next_definition_idx = 0xb1;
     if (bDo_kill_phones_on_answer_67D6E8 != '\0')
     {
-        tmp = sub_534360(0xa4);
+        tmp = GetObjectDefinition_534360(0xa4);
         tmp->field_38 = 0xae;
         tmp->field_3C_next_definition_idx = 0xae;
     }
@@ -1389,13 +1389,13 @@ void Phi_8CA8::sub_534270()
 MATCH_FUNC(0x5342d0)
 void Phi_8CA8::sub_5342D0()
 {
-    field_8CA4 = sub_534360(112)->field_1E;
+    field_8CA4 = GetObjectDefinition_534360(112)->field_1E;
 }
 
 MATCH_FUNC(0x5342f0)
 void Phi_8CA8::sub_5342F0(s32 idx)
 {
-    Phi_74* v2 = sub_534360(idx);
+    Phi_74* v2 = GetObjectDefinition_534360(idx);
     u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(4, v2->field_1E);
     sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
     psprite_index->sub_5ABAA0(1);
@@ -1413,7 +1413,7 @@ void Phi_8CA8::sub_534330()
 }
 
 MATCH_FUNC(0x534360)
-Phi_74* Phi_8CA8::sub_534360(s32 idx)
+Phi_74* Phi_8CA8::GetObjectDefinition_534360(s32 idx)
 {
     return field_87F4[idx];
 }

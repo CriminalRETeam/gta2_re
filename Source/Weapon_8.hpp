@@ -24,7 +24,7 @@ class Weapon_8
     EXPORT char_type allocate_5E3D50(s32 a2, u8 a3, Car_BC* a4);
     EXPORT void dealloc_car_weapon_5E3DF0(Car_BC* a1);
     EXPORT u8 get_max_ammo_capacity_5E3E70(s32 a2);
-    EXPORT u8 get_ammo_5E3E80(s32 a2);
+    EXPORT u8 get_defalt_ammo_5E3E80(s32 a2);
     EXPORT Weapon_8();
     EXPORT ~Weapon_8();
     struct_4 field_0;

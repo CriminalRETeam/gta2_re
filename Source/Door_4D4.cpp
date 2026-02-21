@@ -219,7 +219,7 @@ inline bool Door_38_inline_unknown(Door_38* pDoor)
 
 // https://decomp.me/scratch/dGqMg
 MATCH_FUNC(0x49d3c0)
-char_type Door_4D4::sub_49D3C0(Sprite* pSprite, u8 door_idx)
+char_type Door_4D4::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
 {
     Car_BC* pCar = pSprite->AsCar_40FEB0();
     if (pCar)
@@ -227,7 +227,7 @@ char_type Door_4D4::sub_49D3C0(Sprite* pSprite, u8 door_idx)
 
         if (!Door_38_inline_unknown(&field_0[door_idx]))
         {
-            if (!field_0[door_idx].sub_49C6D0(pCar))
+            if (!field_0[door_idx].CanOpen_49C6D0(pCar))
             {
                 return 1;
             }

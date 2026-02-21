@@ -255,8 +255,8 @@ enum
     behavior_8 = 8, // animated object (like 2)
     behavior_9 = 9, // removed from buckets, special routine (like 4)
     behavior_10 = 10, // simple object with special hit logic
-    behavior_11 = 11, // runs sub_525910 + sub_525B20 only
-    behavior_12 = 12 // runs sub_525B20 only
+    behavior_11 = 11, // runs DispatchFrameAction_525910 + UpdateEffectPool_525B20 only
+    behavior_12 = 12 // runs UpdateEffectPool_525B20 only
 };
 } // namespace object_behavior_type
 
@@ -268,8 +268,8 @@ class Phi_74
     EXPORT void sub_533090();
     EXPORT void sub_533110(s16 remap);
     EXPORT void sub_533150(s16 a2, s16 a3);
-    EXPORT Sprite* sub_533170();
-    EXPORT void sub_5331A0(Sprite* a2);
+    EXPORT Sprite* CreateSpriteFromDefinition_533170();
+    EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* a2);
     EXPORT Phi_74();
 
 
@@ -331,7 +331,7 @@ class Phi_8CA8
     EXPORT void sub_5342D0();
     EXPORT void sub_5342F0(s32 idx);
     EXPORT void sub_534330();
-    EXPORT Phi_74* sub_534360(s32 idx);
+    EXPORT Phi_74* GetObjectDefinition_534360(s32 idx);
     EXPORT Phi_74* sub_534370(s32 idx1, s32 idx2);
     EXPORT Phi_74* sub_5343C0(s32 idx);
     EXPORT Phi_8CA8();
