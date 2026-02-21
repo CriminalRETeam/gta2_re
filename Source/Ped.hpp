@@ -514,6 +514,11 @@ class Ped
         return field_278_ped_state_1;
     }
 
+    inline s32 GetPedState2_433B60()
+    {
+        return field_27C_ped_state_2;
+    }
+
     inline bool sub_433DA0()
     {
         return field_21C_bf.b25 && field_168_game_object;
@@ -575,7 +580,7 @@ class Ped
     Weapon_30* field_178;
     Gang_144* field_17C_pZone; //  Maybe it's the zone of the gang the ped belongs to;
     Ped* field_180;
-    s32 field_184;
+    Object_2C* field_184_pObj2C;
     Ped* field_188_last_char_punched;
     Marz_3* field_18C;
     Marz_96* field_190;
@@ -703,3 +708,4 @@ EXTERN_GLOBAL(u8, byte_6787EF);
 EXTERN_GLOBAL(Fix16, dword_678620);
 EXTERN_GLOBAL(Fix16, dword_678670);
 EXTERN_GLOBAL(Fix16, dword_678448);
+EXTERN_GLOBAL(Fix16, dword_6FD824);

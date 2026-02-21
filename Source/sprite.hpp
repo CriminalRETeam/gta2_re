@@ -348,8 +348,8 @@ class Sprite
         }
     }
 
-    // TODO: get 9.6f addr
-    void set_z_lazy(Fix16 zpos)
+    // 9.6f inline 0x420660
+    void set_z_lazy_420660(Fix16 zpos)
     {
         if (field_1C_zpos != zpos)
         {

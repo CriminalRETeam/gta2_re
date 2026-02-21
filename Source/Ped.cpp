@@ -470,7 +470,7 @@ Ped::~Ped()
     this->field_180 = 0;
     this->field_18C = 0;
     this->field_21C &= ~0x4000u;
-    this->field_184 = 0;
+    this->field_184_pObj2C = 0;
     this->field_208_invulnerability = 0;
     this->field_204_killer_id = 0;
     this->field_290 = 0;
@@ -562,7 +562,7 @@ char_type Ped::Reset_45AFC0()
     field_134_rotation = gDummyPedAng_6787A8;
     field_1E8 = k_dword_678660;
     field_1EC = k_dword_678660.mValue;
-    field_184 = 0;
+    field_184_pObj2C = 0;
     field_267_varrok_idx = 0;
     field_280_stored_ped_state_1 = 11;
     field_284_stored_ped_state_2 = 28;

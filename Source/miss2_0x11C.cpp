@@ -487,6 +487,7 @@ void miss2_0x11C::SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* pCmd)
     pCmd->field_8_u32 = 0;
 }
 
+// https://decomp.me/scratch/m17JR
 WIP_FUNC(0x5041c0)
 void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* a1, SCR_CRANE_BASIC_DEC* a2)
 {

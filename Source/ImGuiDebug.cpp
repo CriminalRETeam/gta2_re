@@ -1016,6 +1016,26 @@ void CC ImGuiDebugDraw()
                 {
                     gpMapRenderer_6F66E4->set_shading_lev_4E9DB0(shading_level);
                 }
+                if (ImGui::TreeNode("Colours"))
+                {
+                    ImGui::Value("field C", gpMapRenderer_6F66E4->field_C_colour_t1);
+                    ImGui::Value("field D", gpMapRenderer_6F66E4->field_D);
+                    ImGui::Value("field E", gpMapRenderer_6F66E4->field_E_colour_t2);
+                    ImGui::Value("field F", gpMapRenderer_6F66E4->field_F_colour_t3);
+                    ImGui::Value("field 10", gpMapRenderer_6F66E4->field_10);
+                    ImGui::Value("field 11", gpMapRenderer_6F66E4->field_11);
+                    ImGui::Value("field 12", gpMapRenderer_6F66E4->field_12);
+                    ImGui::Value("field 13", gpMapRenderer_6F66E4->field_13);
+                    ImGui::Value("field 14", gpMapRenderer_6F66E4->field_14_dcolour);
+                    ImGui::Value("field 15", gpMapRenderer_6F66E4->field_15);
+                    ImGui::Value("field 16", gpMapRenderer_6F66E4->field_16);
+                    ImGui::Value("field 17", gpMapRenderer_6F66E4->field_17);
+                    ImGui::Value("field 18", gpMapRenderer_6F66E4->field_18_color);
+                    ImGui::Value("field 19", gpMapRenderer_6F66E4->field_19);
+                    ImGui::Value("field 1A", gpMapRenderer_6F66E4->field_1A);
+                    ImGui::Value("field 1B", gpMapRenderer_6F66E4->field_1B);
+                    ImGui::TreePop();
+                }
                 ImGui::TreePop();
             }
         }

@@ -227,11 +227,32 @@ void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
     }
 }
 
-STUB_FUNC(0x4e9db0)
-char_type MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
+// https://decomp.me/scratch/SrbHE
+WIP_FUNC(0x4e9db0)
+void MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    u8 v6 = 2 * shading_lev / 3;
+    u8 v2 = 255 - 4 * shading_lev;
+    u8 v7 = v2 + 2 * v6;
+    u8 shading_leva = 5 * (51 - shading_lev);
+
+    field_E_colour_t2 = v2;
+    field_10 = v2;
+    field_C_colour_t1 = v2 + 2 * v6;
+    field_D = shading_leva - 3 * v6;
+    field_F_colour_t3 = shading_leva - v6;
+    field_11 = shading_leva - 2 * v6;
+    field_12 = v6 + v2;
+    field_13 = shading_leva - v6;
+    field_17 = v2 + 3 * v6;
+    field_14_dcolour = v6 + v2;
+    field_18_color = v6 + v2;
+    field_15 = shading_leva;
+    field_19 = shading_leva - v6;
+    field_16 = shading_leva - 2 * v6;
+    field_1A = v7;
+    field_1B = shading_leva;
 }
 
 // this function matches, but some "fcomps" offsets are wrong

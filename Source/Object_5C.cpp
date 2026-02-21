@@ -448,7 +448,7 @@ void Object_2C::sub_523440(Fix16_Point point, char_type bUnknown1, char_type bUn
         case 4:
             if (gRozza_679188.field_20_pSprite)
             {
-                field_4->set_z_lazy(gRozza_679188.field_20_pSprite->field_1C_zpos);
+                field_4->set_z_lazy_420660(gRozza_679188.field_20_pSprite->field_1C_zpos);
             }
 
             if (!bUnknown1 || gRozza_679188.field_0_type == 3)
