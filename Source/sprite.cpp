@@ -313,7 +313,7 @@ void Sprite::ResetZCollisionAndDebugBoxes_59E7B0()
 }
 
 MATCH_FUNC(0x59e7d0)
-Sprite* Sprite::sub_59E7D0(s32 a2)
+Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 a2)
 {
     Sprite* result;
 
@@ -1211,7 +1211,7 @@ char_type Sprite::sub_5A2440()
 }
 
 STUB_FUNC(0x5a2500)
-char_type Sprite::sub_5A2500()
+char_type Sprite::CheckSpriteMovementRegion_5A2500()
 {
     NOT_IMPLEMENTED;
     return 0;

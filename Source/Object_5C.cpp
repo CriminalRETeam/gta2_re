@@ -281,7 +281,7 @@ char_type Object_2C::sub_522460(Sprite* a2)
 {
     byte_6F8F94 = 0;
 
-    Sprite* pSprite = a2->sub_59E7D0(2);
+    Sprite* pSprite = a2->QuerySpriteCollision_59E7D0(2);
     if (pSprite && dword_6F8F8C && pSprite->field_30_sprite_type_enum == 2 // IsCar
         || !sub_522430(pSprite) || pSprite == dword_6F8F8C)
     {
@@ -2028,7 +2028,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     }
 
     if (bUnknown &&
-        (pNew2C->field_4->sub_59E7D0(0) ||
+        (pNew2C->field_4->QuerySpriteCollision_59E7D0(0) ||
          (pPhi->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3 &&
           gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
     {
