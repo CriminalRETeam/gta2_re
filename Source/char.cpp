@@ -394,6 +394,12 @@ void Char_B4::sub_545600()
     field_2C_ang = word_6FDB34;
 }
 
+MATCH_FUNC(0x545670)
+void Char_B4::sub_545670(Fix16 a1, s16* output)
+{
+    *output = (a1.GetFracValue() * Fix16(64)).ToInt();
+}
+
 MATCH_FUNC(0x5456a0)
 void Char_B4::sub_5456A0()
 {
