@@ -61,10 +61,10 @@ class CarPhysics_B0
                                         char_type a5,
                                         char_type bHandBrakeOn);
     EXPORT void HandleGravityOnSlope_55AA00();
-    EXPORT s32* ComputeSlopeCorrection_55AB50(s32* a2, Sprite_4C** a3);
+    EXPORT Fix16* ComputeSlopeCorrection_55AB50(Fix16* a2, Fix16* a3);
     EXPORT s32 UpdateZPhysics_55AD90(Fix16 a2);
     EXPORT void SyncZWithTrailer_55B3F0(Fix16 a2);
-    EXPORT s32 UpdateZPosition_55B4F0(Fix16 a2);
+    EXPORT void UpdateZPosition_55B4F0(Fix16 a2);
     EXPORT void UpdateZPosition_55B7B0(Fix16 a2);
     EXPORT void EmitImpactParticles_55B7E0(u8 apply_to_corners_mask);
     EXPORT char_type ProcessGroundCollisionAndSurfaceType_55B970(char_type* a2);

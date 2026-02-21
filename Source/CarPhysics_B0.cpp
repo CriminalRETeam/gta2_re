@@ -129,6 +129,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE3B4, dword_6FE1D4, 0x6FE3B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE15C, dword_6FE1C4, 0x6FE15C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE2F4, dword_6FDFD0, 0x6FE2F4);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE0C0, Fix16(0x2000, 0), 0x6FE0C0);
+
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -753,7 +755,7 @@ void CarPhysics_B0::HandleGravityOnSlope_55AA00()
 }
 
 STUB_FUNC(0x55ab50)
-s32* CarPhysics_B0::ComputeSlopeCorrection_55AB50(s32* a2, Sprite_4C** a3)
+Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -798,11 +800,63 @@ void CarPhysics_B0::SyncZWithTrailer_55B3F0(Fix16 a2)
     }
 }
 
-STUB_FUNC(0x55b4f0)
-s32 CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
+WIP_FUNC(0x55b4f0)
+void CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 zCoord;
+    Fix16* pZCoord = gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&zCoord, this->field_38_cp1.x, this->field_38_cp1.y);
+    Fix16 zCoordTmp = *pZCoord;
+    if (*pZCoord == kFP16Zero_6FE20C)
+    {
+        zCoordTmp = k_dword_6FE210;
+    }
+
+    if (zCoordTmp >= field_6C_cp3 + dword_6FE0C0)
+    {
+        zCoordTmp = *gMap_0x370_6F6268->sub_4E6400(&zCoord, field_38_cp1.x, field_38_cp1.y, zCoordTmp - k_dword_6FE210);
+        if (zCoordTmp >= field_6C_cp3 + k_dword_6FE210)
+        {
+            zCoordTmp = this->field_6C_cp3;
+        }
+    }
+
+    Fix16 a2_ = a2;
+    if (zCoordTmp <= field_6C_cp3 - dword_6FE0C0)
+    {
+        Fix16 v14;
+        Fix16 new_z = *ComputeSlopeCorrection_55AB50(&a2, &v14);
+        this->field_68_z_pos = new_z;
+        zCoordTmp = new_z + field_6C_cp3;
+        if (a2_ != kFP16Zero_6FE20C)
+        {
+            field_68_z_pos = field_68_z_pos / a2_;
+        }
+    }
+    else
+    {
+        if (zCoordTmp < field_6C_cp3)
+        {
+            UpdateSpriteFromPhysics_563670();
+
+            field_5C_pCar->field_50_car_sprite->set_xyz_lazy_420600(field_5C_pCar->field_50_car_sprite->field_14_xy.x,
+                                                                    field_5C_pCar->field_50_car_sprite->field_14_xy.y,
+                                                                    zCoordTmp);
+
+            if (field_5C_pCar->field_50_car_sprite->CheckSpriteMovementRegion_5A2500())
+            {
+                zCoordTmp = this->field_6C_cp3;
+            }
+        }
+    }
+
+    this->field_70 = zCoordTmp - this->field_6C_cp3;
+    this->field_6C_cp3 += field_70;
+    if (a2_ != kFP16Zero_6FE20C)
+    {
+        field_70 = field_70 / a2_;
+    }
 }
 
 MATCH_FUNC(0x55B7B0)
