@@ -1176,7 +1176,7 @@ Car_6C::Car_6C()
         }
     }
 
-    field_64 = gFix16_6777CC;
+    field_64_zpos = gFix16_6777CC;
     field_60 = 0;
     field_4 = 0;
     field_14 = 1;

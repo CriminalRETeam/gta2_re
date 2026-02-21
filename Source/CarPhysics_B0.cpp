@@ -860,11 +860,147 @@ Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
     return result;
 }
 
-STUB_FUNC(0x55ad90)
-s32 CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
+WIP_FUNC(0x55ad90)
+void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 a2_ = a2;
+    s32 surface_type = this->field_98_surface_type;
+
+    Fix16 map_z;
+    Fix16 zpos;
+    Fix16 v20;
+    Fix16* ground_z;
+    Fix16 cp3;
+    s32 surface_type_;
+    Fix16* map_z_;
+    Fix16 map_z__;
+    Fix16 a2__;
+    Fix16* new_z;
+
+    switch (surface_type)
+    {
+        case 6:
+            if (this->field_6C_cp3 > k_dword_6FDF34)
+            {
+                this->field_6C_cp3 = k_dword_6FDF34;
+            }
+            map_z = *gMap_0x370_6F6268->sub_4E4D40(&v20, this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3);
+            zpos = this->field_6C_cp3 + ((a2_ * g_ZPos_6FE0AC));
+            if (zpos > map_z)
+            {
+                if (zpos > k_dword_6FDF34)
+                {
+                    zpos = k_dword_6FDF34;
+                }
+            }
+            else
+            {
+                zpos = map_z;
+            }
+            break;
+
+        case 7:
+            goto LABEL_36;
+
+        case 8:
+            goto LABEL_36;
+
+        default:
+            ground_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&v20, field_38_cp1.x, field_38_cp1.y);
+            zpos = *ground_z;
+            if (*ground_z == kFP16Zero_6FE20C)
+            {
+                zpos = k_dword_6FE210;
+            }
+            cp3 = this->field_6C_cp3;
+            if (zpos >= cp3 + dword_6FE0C0)
+            {
+                surface_type_ = this->field_98_surface_type;
+                if (surface_type_ != 1 && surface_type_ != 2 && surface_type_ != 3 && surface_type_ != 4 ||
+                    (zpos.GetFracValue()) == kFP16Zero_6FE20C || zpos > cp3 + k_dword_6FE210)
+                {
+                    map_z_ = gMap_0x370_6F6268->sub_4E4D40(&v20, this->field_38_cp1.x, this->field_38_cp1.y, zpos - dword_6FE2E0);
+                    zpos = *map_z_;
+
+                    if (*map_z_ > this->field_6C_cp3)
+                    {
+                        map_z__ = *gMap_0x370_6F6268->sub_4E4F40(&v20, this->field_38_cp1.x, this->field_38_cp1.y, zpos - dword_6FE2E0);
+                        if (map_z__ > kFP16Zero_6FE20C)
+                        {
+                            zpos = map_z__;
+                        }
+                    }
+
+                    cp3 = this->field_6C_cp3;
+                    if (zpos >= cp3 + k_dword_6FE210)
+                    {
+                        zpos = this->field_6C_cp3;
+                    }
+                }
+            }
+            if (zpos <= cp3 - dword_6FE0C0 || zpos < cp3 && this->field_AA_sbw && this->field_AB_tpa)
+            {
+                new_z = ComputeSlopeCorrection_55AB50(&v20, &a2);
+                a2__ = a2;
+                this->field_68_z_pos = *new_z;
+
+                zpos = this->field_6C_cp3 + a2__;
+                if (a2_ != kFP16Zero_6FE20C)
+                {
+                    this->field_68_z_pos = field_68_z_pos / a2_;
+                }
+
+                if (zpos > k_dword_6FDF34)
+                {
+                    zpos = k_dword_6FDF34;
+                }
+            }
+
+            if (zpos < this->field_6C_cp3)
+            {
+                UpdateSpriteFromPhysics_563670();
+
+                field_5C_pCar->field_50_car_sprite->set_xyz_lazy_420600(field_5C_pCar->field_50_car_sprite->field_14_xy.x,
+                                                                        field_5C_pCar->field_50_car_sprite->field_14_xy.y,
+                                                                        zpos);
+
+                if (field_5C_pCar->field_50_car_sprite->CheckSpriteMovementRegion_5A2500())
+                {
+                LABEL_36:
+                    zpos = this->field_6C_cp3;
+                }
+            }
+            break;
+    }
+
+    if ((this->field_5C_pCar->field_78_flags & 0x2000) != 0)
+    {
+        UpdateSpriteFromPhysics_563670();
+
+        field_5C_pCar->field_50_car_sprite->set_xyz_lazy_420600(field_5C_pCar->field_50_car_sprite->field_14_xy.x,
+                                                                field_5C_pCar->field_50_car_sprite->field_14_xy.y,
+                                                                zpos);
+
+        gCar_6C_677930->field_60 = 2;
+        gCar_6C_677930->field_64_zpos = kFP16Zero_6FE20C;
+
+        gPurpleDoom_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, sprite_types_enum::car);
+
+        gCar_6C_677930->field_64_zpos += dword_6FDFD8;
+        if (gCar_6C_677930->field_64_zpos > zpos)
+        {
+            zpos = gCar_6C_677930->field_64_zpos;
+        }
+    }
+
+    this->field_70 = zpos - this->field_6C_cp3;
+    this->field_6C_cp3 += field_70;
+    if (a2_ != kFP16Zero_6FE20C)
+    {
+        this->field_70 = field_70 / a2_;
+    }
 }
 
 WIP_FUNC(0x55b3f0)
