@@ -1556,7 +1556,7 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 {
     if (ammo == 100) // max is 99, 100 means get default count
     {
-        ammo = gWeapon_8_707018->get_ammo_5E3E80(weapon_kind);
+        ammo = gWeapon_8_707018->get_defalt_ammo_5E3E80(weapon_kind);
     }
 
     if (weapon_kind >= 0xf) // car_bomb
@@ -1570,7 +1570,7 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 
     if (field_15C_player)
     {
-        return field_15C_player->sub_564960(weapon_kind, ammo);
+        return field_15C_player->AddWeaponWithAmmo_564960(weapon_kind, ammo);
     }
 
     if (field_170_selected_weapon && field_170_selected_weapon->field_1C_idx == weapon_kind)

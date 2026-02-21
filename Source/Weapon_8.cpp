@@ -138,7 +138,7 @@ u8 Weapon_8::get_max_ammo_capacity_5E3E70(s32 weapon_kind)
 }
 
 MATCH_FUNC(0x5e3e80)
-u8 Weapon_8::get_ammo_5E3E80(s32 weapon_kind)
+u8 Weapon_8::get_defalt_ammo_5E3E80(s32 weapon_kind)
 {
     return byte_5FF778[weapon_kind];
 }

@@ -10475,7 +10475,7 @@
         "v105_address": "0x521e40"
     },
     {
-        "name": "sub_521FD0",
+        "name": "GetMovementSpeedAndAngle_521FD0",
         "v96f_address": null,
         "v105_address": "0x521fd0"
     },
@@ -10500,7 +10500,7 @@
         "v105_address": "0x5222b0"
     },
     {
-        "name": "Object_2C::sub_5222D0",
+        "name": "Object_2C::UpdatePhysics_5222D0",
         "v96f_address": null,
         "v105_address": "0x5222d0"
     },
@@ -10530,12 +10530,12 @@
         "v105_address": "0x522460"
     },
     {
-        "name": "Object_2C::sub_5224E0",
+        "name": "Object_2C::SetMovementVector_5224E0",
         "v96f_address": null,
         "v105_address": "0x5224e0"
     },
     {
-        "name": "Object_2C::sub_522640",
+        "name": "Object_2C::SetMovementVectorWithRandomState_522640",
         "v96f_address": null,
         "v105_address": "0x522640"
     },
@@ -10645,7 +10645,7 @@
         "v105_address": "0x5257d0"
     },
     {
-        "name": "Object_2C::sub_525910",
+        "name": "Object_2C::DispatchFrameAction_525910",
         "v96f_address": null,
         "v105_address": "0x525910"
     },
@@ -10655,12 +10655,12 @@
         "v105_address": "0x525ac0"
     },
     {
-        "name": "sub_525AE0",
+        "name": "CheckCollisionForModel_139_And_141_525AE0",
         "v96f_address": null,
         "v105_address": "0x525ae0"
     },
     {
-        "name": "sub_525B20",
+        "name": "UpdateEffectPool_525B20",
         "v96f_address": null,
         "v105_address": "0x525b20"
     },
@@ -10670,12 +10670,12 @@
         "v105_address": "0x525b40"
     },
     {
-        "name": "sub_525B60",
+        "name": "CheckWaterDeath_525B60",
         "v96f_address": null,
         "v105_address": "0x525b60"
     },
     {
-        "name": "Object_2C::sub_525B80",
+        "name": "Object_2C::UpdatePhysicsAndMovement_525B80",
         "v96f_address": null,
         "v105_address": "0x525b80"
     },
@@ -10685,7 +10685,7 @@
         "v105_address": "0x525d50"
     },
     {
-        "name": "Object_2C::sub_525D90",
+        "name": "Object_2C::UpdatePhysicsMovementAndAnimation_525D90",
         "v96f_address": null,
         "v105_address": "0x525d90"
     },
@@ -10700,7 +10700,7 @@
         "v105_address": "0x5263d0"
     },
     {
-        "name": "Object_2C::sub_526790",
+        "name": "Object_2C::TriggerCarExplosionIfApplicable_526790",
         "v96f_address": null,
         "v105_address": "0x526790"
     },
@@ -10720,7 +10720,7 @@
         "v105_address": "0x527070"
     },
     {
-        "name": "Object_2C::sub_527630",
+        "name": "Object_2C::InitializeObject_527630",
         "v96f_address": null,
         "v105_address": "0x527630"
     },
@@ -10755,7 +10755,7 @@
         "v105_address": "0x528130"
     },
     {
-        "name": "Object_2C::sub_528240",
+        "name": "Object_2C::HandleRotationStateTransition_528240",
         "v96f_address": null,
         "v105_address": "0x528240"
     },
@@ -10770,7 +10770,7 @@
         "v105_address": "0x5288b0"
     },
     {
-        "name": "sub_528900",
+        "name": "HandleWaterDeath_528900",
         "v96f_address": null,
         "v105_address": "0x528900"
     },
@@ -10865,7 +10865,7 @@
         "v105_address": "0x5291e0"
     },
     {
-        "name": "sub_529200",
+        "name": "IsNotModel_174_529200",
         "v96f_address": null,
         "v105_address": "0x529200"
     },
@@ -10880,7 +10880,7 @@
         "v105_address": "0x529240"
     },
     {
-        "name": "sub_5292D0",
+        "name": "get_weapon_default_ammo_5292D0",
         "v96f_address": null,
         "v105_address": "0x5292d0"
     },
@@ -10950,7 +10950,7 @@
         "v105_address": "0x529bc0"
     },
     {
-        "name": "Object_5C::sub_529C00",
+        "name": "Object_5C::New_529C00",
         "v96f_address": "0x484E00",
         "v105_address": "0x529c00"
     },
@@ -11100,12 +11100,12 @@
         "v105_address": "0x533150"
     },
     {
-        "name": "Phi_74::sub_533170",
+        "name": "Phi_74::CreateSpriteFromDefinition_533170",
         "v96f_address": null,
         "v105_address": "0x533170"
     },
     {
-        "name": "Phi_74::sub_5331A0",
+        "name": "Phi_74::ApplyDefinitionToSprite_5331A0",
         "v96f_address": "0x4883a0",
         "v105_address": "0x5331a0"
     },
@@ -11165,7 +11165,7 @@
         "v105_address": "0x534330"
     },
     {
-        "name": "Phi_8CA8::sub_534360",
+        "name": "Phi_8CA8::GetObjectDefinition_534360",
         "v96f_address": null,
         "v105_address": "0x534360"
     },
@@ -12640,7 +12640,7 @@
         "v105_address": "0x564940"
     },
     {
-        "name": "Player::sub_564960",
+        "name": "Player::AddWeaponWithAmmo_564960",
         "v96f_address": null,
         "v105_address": "0x564960"
     },
@@ -17045,7 +17045,7 @@
         "v105_address": "0x5e3e70"
     },
     {
-        "name": "Weapon_8::get_ammo_5E3E80",
+        "name": "Weapon_8::get_defalt_ammo_5E3E80",
         "v96f_address": null,
         "v105_address": "0x5e3e80"
     },
