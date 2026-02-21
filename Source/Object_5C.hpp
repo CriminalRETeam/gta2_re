@@ -36,11 +36,11 @@ class Object_2C
     EXPORT s16* SetMovementVector_5224E0(Fix16_Point* a2);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point* a2);
     EXPORT void sub_5226A0(char_type a2);
-    EXPORT void ResolveCollisionWithObject_522710(Object_2C* a2, u32* a3);
-    EXPORT void ResolveCollisionWithPed_5229B0(s32 a2, u32* a3, s32 a4);
+    EXPORT void ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3);
+    EXPORT void ResolveCollisionWithPed_5229B0(Char_B4* a2, Fix16_Point* a3, s32 a4);
     EXPORT void ResolveCollisionWithWorld_522B20(s32* a2, s32* a3, s32* a4);
-    EXPORT void ResolveCollisionWithMapTile_522BE0(u32* a2);
-    EXPORT void ResolveCollisionWithMapTileHorizontal_522D00(u32* a2);
+    EXPORT void ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2);
+    EXPORT void ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* a2);
     EXPORT void HandleCollision_522E10(Fix16_Point* a2);
     EXPORT char_type sub_5233A0(Fix16 a2);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point a3, char_type a4, char_type a5);

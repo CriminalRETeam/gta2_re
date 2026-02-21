@@ -1,6 +1,7 @@
 #include "Object_5C.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
+#include "Door_4D4.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Light_1D4CC.hpp"
@@ -15,13 +16,13 @@
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
+#include "collide.hpp"
 #include "enums.hpp"
 #include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "Door_4D4.hpp"
-#include "collide.hpp"
+#include "CarPhysics_B0.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
@@ -64,6 +65,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F8ECC, dword_6F8DC8, 0x6F8ECC);
 
 DEFINE_GLOBAL(Ang16, word_6F8C88, 0x6F8C88); // TODO: Init via func 0x5269F0
 DEFINE_GLOBAL_INIT(u8, byte_6771DC, 0, 0x6771DC);
+
+// TODO: From CarPhysics_B0
+EXTERN_GLOBAL(Fix16_Point, stru_6FE1A0);
+
 
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
@@ -350,13 +355,13 @@ void Object_2C::sub_5226A0(char_type a2)
 }
 
 STUB_FUNC(0x522710)
-void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, u32* a3)
+void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x5229b0)
-void Object_2C::ResolveCollisionWithPed_5229B0(s32 a2, u32* a3, s32 a4)
+void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* a2, Fix16_Point* a3, s32 a4)
 {
     NOT_IMPLEMENTED;
 }
@@ -386,21 +391,63 @@ void Object_2C::ResolveCollisionWithWorld_522B20(s32* f18, s32* a3, s32* a4)
 }
 
 STUB_FUNC(0x522be0)
-void Object_2C::ResolveCollisionWithMapTile_522BE0(u32* a2)
+void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x522d00)
-void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(u32* a2)
+void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x522e10)
-void Object_2C::HandleCollision_522E10(Fix16_Point* a2)
+WIP_FUNC(0x522e10)
+void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    switch (gRozza_679188.field_0_type)
+    {
+        case 1:
+            ResolveCollisionWithMapTile_522BE0(a4);
+            break;
+        case 2:
+            ResolveCollisionWithMapTileHorizontal_522D00(a4);
+            break;
+
+        case 3:
+        {
+            u8 a7;
+            u8 a8;
+            Fix16_Point v13;
+            field_4->FindCollisionIntersectionPoint_5A2710(&v13, gRozza_679188.field_20_pSprite, *a4, field_4->field_0, &a7, &a8);
+            Car_BC* pCar = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
+            if (pCar)
+            {
+                pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                pCar->field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
+                stru_6FE1A0 = v13;
+                pCar->field_58_physics->HandleObjectCollision_5606C0(this, a8); // a4?
+            }
+            else
+            {
+                Char_B4* pChar = gRozza_679188.field_20_pSprite->AsCharB4_40FEA0();
+                if (pChar)
+                {
+                    s32 v12; // ?? 
+                    ResolveCollisionWithPed_5229B0(pChar, &v13, v12);
+                    HandleImpact_528E50(gRozza_679188.field_20_pSprite);
+                }
+                else
+                {
+                    Object_2C* pObj = gRozza_679188.field_20_pSprite->As2C_40FEC0();
+                    ResolveCollisionWithObject_522710(pObj, &v13);
+                }
+            }
+            break;
+        }
+    }
 }
 
 MATCH_FUNC(0x5233a0)
@@ -681,7 +728,8 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
         default:
             if (gCollide_C_6791FC->field_8_bUnknown == 1)
             {
-                if (field_8->field_34_behavior_type == 3 || field_8->field_34_behavior_type == 4 || field_8->field_34_behavior_type <= 2 && field_8->field_44 == 2)
+                if (field_8->field_34_behavior_type == 3 || field_8->field_34_behavior_type == 4 ||
+                    field_8->field_34_behavior_type <= 2 && field_8->field_44 == 2)
                 {
                     return 0;
                 }
