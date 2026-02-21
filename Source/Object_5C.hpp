@@ -30,6 +30,7 @@ class Object_2C
     EXPORT void PoolGive_522340();
     EXPORT void PoolTake_522360();
     EXPORT char_type ShouldCollideWith_5223C0(Sprite* a2);
+    EXPORT bool ShouldStopAtTrafficLight_525290(Sprite* pSprite);
     EXPORT bool ShouldCollideWithSprite_522430(Sprite* a2);
     EXPORT char_type SelectCollisionSprite_522460(Sprite* a2);
     EXPORT s16* sub_5224E0(Fix16_Point* a2);
@@ -44,11 +45,11 @@ class Object_2C
     EXPORT char_type sub_5233A0(Fix16 a2);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point a3, char_type a4, char_type a5);
     EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5);
-    EXPORT void sub_524630(s32 a2, s16 a3);
+    EXPORT void IntegrateHorizontalMovementAndCollisions_524630(s32 a2, s16 a3);
     EXPORT void sub_525190(u8 varrok_idx);
     EXPORT void UpdateAninmation_5257D0();
     EXPORT bool sub_525910();
-    EXPORT char sub_525370(Sprite* pSprite);
+    EXPORT char ShouldCollideWithSprite_525370(Sprite* pSprite);
     EXPORT void sub_525AE0();
     EXPORT void SpawnSpriteParticlesForModel128_525B40();
     EXPORT char_type sub_525B60();

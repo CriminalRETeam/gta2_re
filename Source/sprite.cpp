@@ -350,18 +350,18 @@ char_type Sprite::IsThreatToSearchingPed_59E830()
 }
 
 MATCH_FUNC(0x59E850)
-char_type Sprite::sub_59E850(Sprite* pSprite)
+char_type Sprite::ShouldCollideWithSprite_59E850(Sprite* pSprite)
 {
     switch (this->field_30_sprite_type_enum)
     {
         case 1:
         case 4:
         case 5:
-            return field_8_object_2C_ptr->sub_525370(pSprite);
+            return field_8_object_2C_ptr->ShouldCollideWithSprite_525370(pSprite);
         case 2:
             return field_8_car_bc_ptr->CanCarCollideWithSprite_43AAF0(pSprite);
         case 3:
-            return field_8_char_b4_ptr->sub_553340(pSprite);
+            return field_8_char_b4_ptr->ShouldCollideWithSprite_553340(pSprite);
         default:
             return 1;
     }

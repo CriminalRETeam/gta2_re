@@ -10605,7 +10605,7 @@
         "v105_address": "0x523770"
     },
     {
-        "name": "sub_5238B0",
+        "name": "HandleSpriteZCollision_5238B0",
         "v96f_address": null,
         "v105_address": "0x5238b0"
     },
@@ -10620,7 +10620,7 @@
         "v105_address": "0x524550"
     },
     {
-        "name": "Object_2C::sub_524630",
+        "name": "Object_2C::IntegrateHorizontalMovementAndCollisions_524630",
         "v96f_address": null,
         "v105_address": "0x524630"
     },
@@ -10635,7 +10635,7 @@
         "v105_address": "0x525290"
     },
     {
-        "name": "sub_525370",
+        "name": "ShouldCollideWithSprite_525370",
         "v96f_address": null,
         "v105_address": "0x525370"
     },
@@ -11840,7 +11840,7 @@
         "v105_address": "0x5532c0"
     },
     {
-        "name": "sub_553340",
+        "name": "ShouldCollideWithSprite_553340",
         "v96f_address": null,
         "v105_address": "0x553340"
     },
@@ -14685,7 +14685,7 @@
         "v105_address": "0x59e830"
     },
     {
-        "name": "sub_59E850",
+        "name": "ShouldCollideWithSprite_59E850",
         "v96f_address": null,
         "v105_address": "0x59e850"
     },

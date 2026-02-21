@@ -11,6 +11,7 @@
 #include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
+#include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
@@ -58,6 +59,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CE8, Fix16(12), 0x6F8CE8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CEC, Fix16(1), 0x6F8CEC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8ECC, dword_6F8DC8, 0x6F8ECC);
+
+DEFINE_GLOBAL(Ang16, word_6F8C88, 0x6F8C88); // TODO: Init via func 0x5269F0
+DEFINE_GLOBAL_INIT(u8, byte_6771DC, 0, 0x6771DC);
 
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
@@ -500,7 +504,7 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, u32* a3, 
 }
 
 STUB_FUNC(0x524630)
-void Object_2C::sub_524630(s32 a2, s16 a3)
+void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(s32 a2, s16 a3)
 {
     NOT_IMPLEMENTED;
 }
@@ -616,8 +620,27 @@ bool Object_2C::sub_525910()
     return false;
 }
 
+// Turns traffic lights into collision objects so AI stops at red lights
+MATCH_FUNC(0x525290)
+bool Object_2C::ShouldStopAtTrafficLight_525290(Sprite* pSprite)
+{
+    Car_BC* pCar = pSprite->AsCar_40FEB0();
+    if (pCar)
+    {
+        if (byte_6771DC)
+        {
+            if ((field_4->field_0 != kZeroAng_6F8F68 || gTrafficLights_194_705958->field_192_phase != 1) &&
+                (field_4->field_0 != word_6F8C88 || gTrafficLights_194_705958->field_192_phase != 4))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 STUB_FUNC(0x525370)
-char Object_2C::sub_525370(Sprite* pSprite)
+char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -797,8 +820,8 @@ void Object_2C::sub_526790(Sprite* pSprite)
                 {
                     if (this->field_18_model == objects::moving_collect_36_132)
                     {
-                       
-                        s32 id =  gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+
+                        s32 id = gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
                         if (id)
                         {
                             pCar->field_70_exploder_ped_id = id;
