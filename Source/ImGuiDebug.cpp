@@ -641,8 +641,20 @@ extern "C"
 
 static void DrawHookList(char* filter, std::vector<FuncData>& funcs, TChangeHookFn pChangeHookFn)
 {
+    u32 i;
+
     ImGui::InputText("Filter", filter, 256);
-    for (u32 i = 0; i < funcs.size(); i++)
+    if (ImGui::Button("Toggle all"))
+    {
+        for (i = 0; i < funcs.size(); i++)
+        {
+            FuncData& d = funcs[i];
+            d.hooked = !d.hooked;
+            pChangeHookFn(d.funcName, d.ogAddr, d.hooked);
+        }
+    }
+
+    for (i = 0; i < funcs.size(); i++)
     {
         FuncData& d = funcs[i];
         if (filter[0] == 0 || StrStrIA(d.funcName, filter))
@@ -701,15 +713,18 @@ void CC ImGuiDebugDraw()
     if (ImGui::Button("set boot2map debug opts"))
     {
         EnableBoot2MapDebugOptions();
-        //bSkip_dummies_67D4EF = true; // TODO: remove this after fixing dummies spawn
     }
 
-    //ImGui::Checkbox("Skip Dummies", &bSkip_dummies_67D4EF); // TODO: remove this after fixing dummies spawn
-
-    if (ImGui::Button("NoRefs_sub_5B1170"))
+    ImGui::InputFloat("UI scale", &ImGui::GetIO().FontGlobalScale, 0.1f, 0.5f);
+    if (ImGui::GetIO().FontGlobalScale < 1.0f)
     {
-        NoRefs_sub_5B1170();
+        ImGui::GetIO().FontGlobalScale = 1.0f;
     }
+    else if (ImGui::GetIO().FontGlobalScale > 4.0f)
+    {
+        ImGui::GetIO().FontGlobalScale = 4.0f;
+    }
+
 
     if (ImGui::TreeNode("Exploding score"))
     {
