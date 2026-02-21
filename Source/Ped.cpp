@@ -8453,7 +8453,7 @@ void Ped::NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model)
 }
 
 MATCH_FUNC(0x46fff0)
-void Ped::sub_46FFF0(s32 model)
+void Ped::HandleWeaponFireEnd_46FFF0(s32 model)
 {
     if (IsField238_45EDE0(2))
     {
