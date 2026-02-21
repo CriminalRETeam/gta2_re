@@ -117,7 +117,7 @@ void Object_2C::PoolDeallocate()
 }
 
 MATCH_FUNC(0x522250)
-bool Object_2C::sub_522250(Sprite* pSprite)
+bool Object_2C::CanCollideWithSpriteByVarrok_522250(Sprite* pSprite)
 {
     const u32 phi_type = this->field_8->field_34_behavior_type;
     if (phi_type != 6 && phi_type != 7 && phi_type != 8 && phi_type != 9 && phi_type != 10 && phi_type != 1 && phi_type != 12)
@@ -271,19 +271,19 @@ char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x522430)
-bool Object_2C::sub_522430(Sprite* pSprite)
+bool Object_2C::ShouldCollideWithSprite_522430(Sprite* pSprite)
 {
-    return (pSprite && ShouldCollideWith_5223C0(pSprite) && !sub_522250(pSprite)) ? true : false;
+    return (pSprite && ShouldCollideWith_5223C0(pSprite) && !CanCollideWithSpriteByVarrok_522250(pSprite)) ? true : false;
 }
 
 MATCH_FUNC(0x522460)
-char_type Object_2C::sub_522460(Sprite* a2)
+char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
 {
     byte_6F8F94 = 0;
 
     Sprite* pSprite = a2->QuerySpriteCollision_59E7D0(2);
     if (pSprite && dword_6F8F8C && pSprite->field_30_sprite_type_enum == 2 // IsCar
-        || !sub_522430(pSprite) || pSprite == dword_6F8F8C)
+        || !ShouldCollideWithSprite_522430(pSprite) || pSprite == dword_6F8F8C)
     {
         return 0;
     }
@@ -344,13 +344,13 @@ void Object_2C::sub_5226A0(char_type a2)
 }
 
 STUB_FUNC(0x522710)
-void Object_2C::sub_522710(Object_2C* a2, u32* a3)
+void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, u32* a3)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x5229b0)
-void Object_2C::sub_5229B0(s32 a2, u32* a3, s32 a4)
+void Object_2C::ResolveCollisionWithPed_5229B0(s32 a2, u32* a3, s32 a4)
 {
     NOT_IMPLEMENTED;
 }
@@ -374,25 +374,25 @@ EXPORT s32* __stdcall ComputeLineLineIntersection_55F3B0(s32* a1,
 }
 
 STUB_FUNC(0x522b20)
-void Object_2C::sub_522B20(s32* f18, s32* a3, s32* a4)
+void Object_2C::ResolveCollisionWithWorld_522B20(s32* f18, s32* a3, s32* a4)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x522be0)
-void Object_2C::sub_522BE0(u32* a2)
+void Object_2C::ResolveCollisionWithMapTile_522BE0(u32* a2)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x522d00)
-void Object_2C::sub_522D00(u32* a2)
+void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(u32* a2)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x522e10)
-void Object_2C::sub_522E10(Fix16_Point* a2)
+void Object_2C::HandleCollision_522E10(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -402,7 +402,7 @@ char_type Object_2C::sub_5233A0(Fix16 a2)
 {
     dword_6F8F8C = 0;
 
-    if (sub_522460(this->field_4))
+    if (SelectCollisionSprite_522460(this->field_4))
     {
 
         byte_623EC4 = 0;
@@ -434,7 +434,7 @@ char_type Object_2C::sub_5233A0(Fix16 a2)
 }
 
 MATCH_FUNC(0x523440)
-void Object_2C::sub_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2)
+void Object_2C::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2)
 {
     if ((u8)field_4->IsOnWater_59E1D0())
     {
@@ -485,7 +485,7 @@ void Object_2C::sub_523440(Fix16_Point point, char_type bUnknown1, char_type bUn
 
         case 2:
         case 3:
-            sub_522E10(&point);
+            HandleCollision_522E10(&point);
             return;
         default:
             return;
@@ -493,7 +493,7 @@ void Object_2C::sub_523440(Fix16_Point point, char_type bUnknown1, char_type bUn
 }
 
 STUB_FUNC(0x5235b0)
-char_type Object_2C::sub_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5)
+char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -639,7 +639,7 @@ EXPORT void Object_2C::sub_525AE0()
 }
 
 MATCH_FUNC(0x525b40)
-void Object_2C::sub_525B40()
+void Object_2C::SpawnSpriteParticlesForModel128_525B40()
 {
     if (field_18_model == 128)
     {
@@ -880,7 +880,7 @@ void Object_2C::sub_526B40(Sprite* pSprite)
 }
 
 STUB_FUNC(0x527070)
-bool Object_2C::sub_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
+bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 {
     NOT_IMPLEMENTED;
     return 0;

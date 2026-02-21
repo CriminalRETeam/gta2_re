@@ -1852,7 +1852,7 @@ bool Sprite_18::PoolUpdate_5A6910(Sprite* a2)
     Object_2C* o2c = field_0->As2C_40FEC0();
     if (o2c)
     {
-        bRet = o2c->sub_527070(a2, field_6_x, field_8_y, field_10);
+        bRet = o2c->UpdateMovementAndEffects_527070(a2, field_6_x, field_8_y, field_10);
         if (bRet)
         {
             gObject_2C_Pool_6F8F80->DeAllocate(o2c);

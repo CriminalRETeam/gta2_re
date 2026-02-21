@@ -10490,7 +10490,7 @@
         "v105_address": "0x522180"
     },
     {
-        "name": "Object_2C::sub_522250",
+        "name": "Object_2C::CanCollideWithSpriteByVarrok_522250",
         "v96f_address": null,
         "v105_address": "0x522250"
     },
@@ -10520,12 +10520,12 @@
         "v105_address": "0x5223c0"
     },
     {
-        "name": "Object_2C::sub_522430",
+        "name": "Object_2C::ShouldCollideWithSprite_522430",
         "v96f_address": null,
         "v105_address": "0x522430"
     },
     {
-        "name": "Object_2C::sub_522460",
+        "name": "Object_2C::SelectCollisionSprite_522460",
         "v96f_address": null,
         "v105_address": "0x522460"
     },
@@ -10545,32 +10545,32 @@
         "v105_address": "0x5226a0"
     },
     {
-        "name": "Object_2C::sub_522710",
+        "name": "Object_2C::ResolveCollisionWithObject_522710",
         "v96f_address": null,
         "v105_address": "0x522710"
     },
     {
-        "name": "Object_2C::sub_5229B0",
+        "name": "Object_2C::ResolveCollisionWithPed_5229B0",
         "v96f_address": null,
         "v105_address": "0x5229b0"
     },
     {
-        "name": "Object_2C::sub_522B20",
+        "name": "Object_2C::ResolveCollisionWithWorld_522B20",
         "v96f_address": null,
         "v105_address": "0x522b20"
     },
     {
-        "name": "Object_2C::sub_522BE0",
+        "name": "Object_2C::ResolveCollisionWithMapTile_522BE0",
         "v96f_address": null,
         "v105_address": "0x522be0"
     },
     {
-        "name": "Object_2C::sub_522D00",
+        "name": "Object_2C::ResolveCollisionWithMapTileHorizontal_522D00",
         "v96f_address": null,
         "v105_address": "0x522d00"
     },
     {
-        "name": "Object_2C::sub_522E10",
+        "name": "Object_2C::HandleCollision_522E10",
         "v96f_address": null,
         "v105_address": "0x522e10"
     },
@@ -10590,17 +10590,17 @@
         "v105_address": "0x5233a0"
     },
     {
-        "name": "Object_2C::sub_523440",
+        "name": "Object_2C::HandleCollisionOutcome_523440",
         "v96f_address": null,
         "v105_address": "0x523440"
     },
     {
-        "name": "Object_2C::sub_5235B0",
+        "name": "Object_2C::HandleSpriteGroundAndCollision_5235B0",
         "v96f_address": null,
         "v105_address": "0x5235b0"
     },
     {
-        "name": "sub_523770",
+        "name": "HandleSpriteGroundAndCollisionSimple_523770",
         "v96f_address": "0x523770",
         "v105_address": "0x523770"
     },
@@ -10665,7 +10665,7 @@
         "v105_address": "0x525b20"
     },
     {
-        "name": "Object_2C::sub_525B40",
+        "name": "Object_2C::SpawnSpriteParticlesForModel128_525B40",
         "v96f_address": null,
         "v105_address": "0x525b40"
     },
@@ -10715,7 +10715,7 @@
         "v105_address": "0x526b40"
     },
     {
-        "name": "Object_2C::sub_527070",
+        "name": "Object_2C::UpdateMovementAndEffects_527070",
         "v96f_address": null,
         "v105_address": "0x527070"
     },
