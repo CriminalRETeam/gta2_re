@@ -1836,13 +1836,13 @@ void Object_2C::UpdateLight_527A30()
 */
 }
 
-STUB_FUNC(0x525100)
+WIP_FUNC(0x525100)
 void Object_2C::sub_525100()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
     if (field_8->field_34_behavior_type <= 1u)
     {
-
         if (get_model_40FEF0() == 148)
         {
             sub_5290C0(1u);
