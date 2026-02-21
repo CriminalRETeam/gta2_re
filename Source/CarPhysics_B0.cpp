@@ -1797,11 +1797,37 @@ u32* CarPhysics_B0::ComputeFinalImpactDamage_55FA60(u32* a2, s32* a3, s32* a4, s
     return 0;
 }
 
-STUB_FUNC(0x55fc30)
-Ped* CarPhysics_B0::AccumulateImpulse_55FC30(s32* a2, s32 a3)
+WIP_FUNC(0x55fc30)
+void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point* arg0, s32 base_dmg)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (!field_5C_pCar->IsTrainModel_403BA0())
+    {
+        Fix16_Point a2;
+        if (this->field_92_is_hand_brake_on)
+        {
+            a2 = (*arg0 / dword_6FE214);
+        }
+        else
+        {
+            a2 = *arg0;
+        }
+        
+        ApplyImpulseWithTrailerRedirect_55FA10(&a2);
+        
+        u32 rng_damage = base_dmg + rng_dword_67AB34->field_0_rng;
+        if (rng_damage > this->field_8_total_damage_q)
+        {
+            this->field_8_total_damage_q = rng_damage;
+        }
+        
+        Ped* pDriver = this->field_5C_pCar->field_54_driver;
+        if (!pDriver || !pDriver->field_15C_player)
+        {
+            this->field_92_is_hand_brake_on = 0;
+        }
+    }
 }
 
 STUB_FUNC(0x55fd00)

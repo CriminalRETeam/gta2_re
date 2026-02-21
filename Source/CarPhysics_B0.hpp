@@ -96,7 +96,7 @@ class CarPhysics_B0
     EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce);
     EXPORT void ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2);
     EXPORT u32* ComputeFinalImpactDamage_55FA60(u32* a2, s32* a3, s32* a4, s32 a5);
-    EXPORT Ped* AccumulateImpulse_55FC30(s32* a2, s32 a3);
+    EXPORT void AccumulateImpulse_55FC30(Fix16_Point* a2, s32 a3);
     EXPORT s32 HandleWorldCollision_55FD00(s32 a2);
     EXPORT Car_78* HandleCarCollision_55FF20(Car_BC* a2);
     EXPORT void HandleObjectCollision_5606C0(Object_2C* a2, char_type a3);
