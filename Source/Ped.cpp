@@ -6566,7 +6566,7 @@ LABEL_30:
         {
             pDoor_->field_8_pObj = this;
         }
-        field_154_target_to_enter->sub_43A9F0();
+        field_154_target_to_enter->ApplyVisualDamage_43A9F0();
     }
 
 LABEL_49:

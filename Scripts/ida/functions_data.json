@@ -165,7 +165,7 @@
         "v105_address": "0x406c20"
     },
     {
-        "name": "Trailer::sub_407B90",
+        "name": "Trailer::GetCabOrLoadedCar_407B90",
         "v96f_address": null,
         "v105_address": "0x407b90"
     },
@@ -180,7 +180,7 @@
         "v105_address": "0x407bd0"
     },
     {
-        "name": "Trailer::sub_407CE0",
+        "name": "Trailer::UpdateTrailerAlignment_407CE0",
         "v96f_address": "0x40F900",
         "v105_address": "0x407ce0"
     },
@@ -1490,7 +1490,7 @@
         "v105_address": "0x43a4c0"
     },
     {
-        "name": "Car_BC::sub_43A590",
+        "name": "Car_BC::GetMomentOfInertia_43A590",
         "v96f_address": null,
         "v105_address": "0x43a590"
     },
@@ -1550,7 +1550,7 @@
         "v105_address": "0x43a9a0"
     },
     {
-        "name": "Car_BC::sub_43A9F0",
+        "name": "Car_BC::ApplyVisualDamage_43A9F0",
         "v96f_address": null,
         "v105_address": "0x43a9f0"
     },
@@ -12015,12 +12015,12 @@
         "v105_address": "0x559a40"
     },
     {
-        "name": "CarPhysics_B0::sub_559B40",
+        "name": "CarPhysics_B0::UpdateTrailerAlignment_559B40",
         "v96f_address": "0x49DD10",
         "v105_address": "0x559b40"
     },
     {
-        "name": "CarPhysics_B0::sub_559B50",
+        "name": "CarPhysics_B0::EnforceTrailerControlLimits_559B50",
         "v96f_address": null,
         "v105_address": "0x559b50"
     },
@@ -12040,12 +12040,12 @@
         "v105_address": "0x559c30"
     },
     {
-        "name": "CarPhysics_B0::sub_559DD0",
+        "name": "CarPhysics_B0::ApplyForcedSteering_559DD0",
         "v96f_address": null,
         "v105_address": "0x559dd0"
     },
     {
-        "name": "CarPhysics_B0::sub_559E20",
+        "name": "CarPhysics_B0::ApplyObjectImpact_559E20",
         "v96f_address": null,
         "v105_address": "0x559e20"
     },
@@ -12065,7 +12065,7 @@
         "v105_address": "0x559ff0"
     },
     {
-        "name": "CarPhysics_B0::sub_55A050",
+        "name": "CarPhysics_B0::GetEffectiveMomentOfInertia_55A050",
         "v96f_address": null,
         "v105_address": "0x55a050"
     },
@@ -12115,7 +12115,7 @@
         "v105_address": "0x55a600"
     },
     {
-        "name": "CarPhysics_B0::sub_55A6A0",
+        "name": "CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0",
         "v96f_address": null,
         "v105_address": "0x55a6a0"
     },
@@ -12135,27 +12135,27 @@
         "v105_address": "0x55aa00"
     },
     {
-        "name": "CarPhysics_B0::sub_55AB50",
+        "name": "CarPhysics_B0::ComputeSlopeCorrection_55AB50",
         "v96f_address": null,
         "v105_address": "0x55ab50"
     },
     {
-        "name": "CarPhysics_B0::sub_55AD90",
+        "name": "CarPhysics_B0::UpdateZPhysics_55AD90",
         "v96f_address": null,
         "v105_address": "0x55ad90"
     },
     {
-        "name": "CarPhysics_B0::sub_55B3F0",
+        "name": "CarPhysics_B0::SyncZWithTrailer_55B3F0",
         "v96f_address": null,
         "v105_address": "0x55b3f0"
     },
     {
-        "name": "CarPhysics_B0::sub_55B4F0",
+        "name": "CarPhysics_B0::UpdateZPosition_55B4F0",
         "v96f_address": null,
         "v105_address": "0x55b4f0"
     },
     {
-        "name": "sub_55B7B0",
+        "name": "UpdateZPosition_55B7B0",
         "v96f_address": null,
         "v105_address": "0x55b7b0"
     },
@@ -12175,7 +12175,7 @@
         "v105_address": "0x55bfe0"
     },
     {
-        "name": "CarPhysics_B0::sub_55C150",
+        "name": "CarPhysics_B0::TestCollision_55C150",
         "v96f_address": null,
         "v105_address": "0x55c150"
     },
@@ -12185,32 +12185,32 @@
         "v105_address": "0x55c3b0"
     },
     {
-        "name": "CarPhysics_B0::sub_55C560",
+        "name": "CarPhysics_B0::BinarySearchCollisionTime_55C560",
         "v96f_address": null,
         "v105_address": "0x55c560"
     },
     {
-        "name": "CarPhysics_B0::sub_55C5C0",
+        "name": "CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0",
         "v96f_address": null,
         "v105_address": "0x55c5c0"
     },
     {
-        "name": "CarPhysics_B0::sub_55C820",
+        "name": "CarPhysics_B0::HandleMapBoundaryCollisionX_55C820",
         "v96f_address": null,
         "v105_address": "0x55c820"
     },
     {
-        "name": "CarPhysics_B0::sub_55CA70",
+        "name": "CarPhysics_B0::DispatchCollision_55CA70",
         "v96f_address": null,
         "v105_address": "0x55ca70"
     },
     {
-        "name": "CarPhysics_B0::sub_55CBB0",
+        "name": "CarPhysics_B0::ReplayAndDispatchCollision_55CBB0",
         "v96f_address": null,
         "v105_address": "0x55cbb0"
     },
     {
-        "name": "CarPhysics_B0::sub_55D200",
+        "name": "CarPhysics_B0::SpawnSkidSegment_55D200",
         "v96f_address": null,
         "v105_address": "0x55d200"
     },
@@ -12270,7 +12270,7 @@
         "v105_address": "0x55f280"
     },
     {
-        "name": "CarPhysics_B0::sub_55F330",
+        "name": "CarPhysics_B0::StepPhysics_55F330",
         "v96f_address": "0x4A3120",
         "v105_address": "0x55f330"
     },
@@ -12285,12 +12285,12 @@
         "v105_address": "0x55f3b0"
     },
     {
-        "name": "CarPhysics_B0::sub_55F740",
+        "name": "CarPhysics_B0::ApplyForceWithTrailerRedirect_55F740",
         "v96f_address": null,
         "v105_address": "0x55f740"
     },
     {
-        "name": "CarPhysics_B0::sub_55F7A0",
+        "name": "CarPhysics_B0::ApplyForceAndIntegrate_55F7A0",
         "v96f_address": null,
         "v105_address": "0x55f7a0"
     },
@@ -12300,12 +12300,12 @@
         "v105_address": "0x55f800"
     },
     {
-        "name": "CarPhysics_B0::sub_55F930",
+        "name": "CarPhysics_B0::AccumulateImpulse_55F930",
         "v96f_address": null,
         "v105_address": "0x55f930"
     },
     {
-        "name": "CarPhysics_B0::sub_55F970",
+        "name": "CarPhysics_B0::ApplyAngularImpulse_55F970",
         "v96f_address": null,
         "v105_address": "0x55f970"
     },
@@ -12320,27 +12320,27 @@
         "v105_address": "0x55f9e0"
     },
     {
-        "name": "CarPhysics_B0::sub_55FA10",
+        "name": "CarPhysics_B0::ApplyImpulseWithTrailerRedirect_55FA10",
         "v96f_address": null,
         "v105_address": "0x55fa10"
     },
     {
-        "name": "CarPhysics_B0::sub_55FA60",
+        "name": "CarPhysics_B0::ComputeFinalImpactDamage_55FA60",
         "v96f_address": null,
         "v105_address": "0x55fa60"
     },
     {
-        "name": "CarPhysics_B0::sub_55FC30",
+        "name": "CarPhysics_B0::AccumulateImpulse_55FC30",
         "v96f_address": null,
         "v105_address": "0x55fc30"
     },
     {
-        "name": "CarPhysics_B0::sub_55FD00",
+        "name": "CarPhysics_B0::HandleWorldCollision_55FD00",
         "v96f_address": null,
         "v105_address": "0x55fd00"
     },
     {
-        "name": "CarPhysics_B0::sub_55FF20",
+        "name": "CarPhysics_B0::HandleCarCollision_55FF20",
         "v96f_address": null,
         "v105_address": "0x55ff20"
     },
@@ -12355,12 +12355,12 @@
         "v105_address": "0x560680"
     },
     {
-        "name": "CarPhysics_B0::sub_5606C0",
+        "name": "CarPhysics_B0::HandleObjectCollision_5606C0",
         "v96f_address": null,
         "v105_address": "0x5606c0"
     },
     {
-        "name": "CarPhysics_B0::sub_560B40",
+        "name": "CarPhysics_B0::ProcessPedImpact_560B40",
         "v96f_address": null,
         "v105_address": "0x560b40"
     },
@@ -12380,12 +12380,12 @@
         "v105_address": "0x5610b0"
     },
     {
-        "name": "CarPhysics_B0::sub_561130",
+        "name": "CarPhysics_B0::ComputeRelativePointVelocity_561130",
         "v96f_address": null,
         "v105_address": "0x561130"
     },
     {
-        "name": "CarPhysics_B0::sub_561350",
+        "name": "CarPhysics_B0::GetPointVelocity_561350",
         "v96f_address": null,
         "v105_address": "0x561350"
     },
@@ -14675,7 +14675,7 @@
         "v105_address": "0x59e7b0"
     },
     {
-        "name": "Sprite::sub_59E7D0",
+        "name": "Sprite::QuerySpriteCollision_59E7D0",
         "v96f_address": null,
         "v105_address": "0x59e7d0"
     },
@@ -14855,7 +14855,7 @@
         "v105_address": "0x5a2440"
     },
     {
-        "name": "Sprite::sub_5A2500",
+        "name": "Sprite::CheckSpriteMovementRegion_5A2500",
         "v96f_address": null,
         "v105_address": "0x5a2500"
     },

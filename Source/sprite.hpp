@@ -109,7 +109,7 @@ class Sprite
     EXPORT char_type CollisionCheck_59E590(Sprite* a2);
     EXPORT char_type sub_59E680(Fix16 a2, Sprite* a3);
     EXPORT void ResetZCollisionAndDebugBoxes_59E7B0();
-    EXPORT Sprite* sub_59E7D0(s32 a2);
+    EXPORT Sprite* QuerySpriteCollision_59E7D0(s32 a2);
     EXPORT char_type IsThreatToSearchingPed_59E830();
     EXPORT char_type sub_59E850(Sprite* pSprite);
     EXPORT void HandleObjectCollision_59E8C0(Sprite* pSprite);
@@ -144,7 +144,7 @@ class Sprite
     EXPORT char_type sub_5A21F0();
     EXPORT Fix16 MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* a3);
     EXPORT char_type sub_5A2440();
-    EXPORT char_type sub_5A2500();
+    EXPORT char_type CheckSpriteMovementRegion_5A2500();
     EXPORT s16* sub_5A26E0(s16* a2);
     EXPORT Fix16_Point* FindCollisionIntersectionPoint_5A2710(Fix16_Point* point, Sprite* a3, Fix16_Point& a4, Ang16 a5, u8* a7, u8* a8);
     EXPORT void CreateSoundObj_5A29D0();

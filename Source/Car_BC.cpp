@@ -1514,7 +1514,7 @@ Fix16 Car_BC::GetVelocity_43A4C0()
 }
 
 MATCH_FUNC(0x43a590)
-Fix16 Car_BC::sub_43A590()
+Fix16 Car_BC::GetMomentOfInertia_43A590()
 {
     return gCarInfo_808_678098->GetInfoAtIdx_454840(GetCarModelForPhysics_43A850())->field_0_moment_of_inertia;
 }
@@ -1713,7 +1713,7 @@ void Car_BC::SetDriver(Ped* pNewDriver)
 }
 
 STUB_FUNC(0x43a9f0)
-void Car_BC::sub_43A9F0()
+void Car_BC::ApplyVisualDamage_43A9F0()
 {
     if (!field_54_driver && (field_78_flags & 0x80) && field_7C_uni_num != 2 && (field_A4 & 8) == 0 && field_74_damage != 32001)
     {
@@ -3537,7 +3537,7 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
             field_58_physics->SpinOutOnOil_559BA0();
             break;
         case objects::moving_collect_43_139:
-            field_58_physics->sub_559E20(pObj); // mine?
+            field_58_physics->ApplyObjectImpact_559E20(pObj); // mine?
             break;
         case objects::bus_stop_marker_161:
             gCar_214_705F20->sub_5C8780(pObj->field_27, this->field_50_car_sprite);
@@ -5510,7 +5510,7 @@ bool Car_BC::sub_564300()
 }
 
 MATCH_FUNC(0x407b90)
-Car_BC* Trailer::sub_407B90(Car_BC* a2)
+Car_BC* Trailer::GetCabOrLoadedCar_407B90(Car_BC* a2)
 {
     if (a2 == field_8_truck_cab)
     {
@@ -5538,7 +5538,7 @@ s32* Trailer::sub_407BD0(s32* a2)
 }
 
 STUB_FUNC(0x407ce0)
-s32* Trailer::sub_407CE0()
+s32* Trailer::UpdateTrailerAlignment_407CE0()
 {
     NOT_IMPLEMENTED;
     return 0;

@@ -1651,7 +1651,7 @@ void Char_B4::sub_548670(char_type a2)
         bUnknown = a2;
     }
 
-    Sprite* pNearSprite = field_80_sprite_ptr->sub_59E7D0(2);
+    Sprite* pNearSprite = field_80_sprite_ptr->QuerySpriteCollision_59E7D0(2);
     if (pNearSprite)
     {
         s32 sprite_type_enum = pNearSprite->field_30_sprite_type_enum;
@@ -1675,7 +1675,7 @@ void Char_B4::sub_548670(char_type a2)
 
             case 2: // car
             {
-                Sprite* pNearSprite2 = field_80_sprite_ptr->sub_59E7D0(1);
+                Sprite* pNearSprite2 = field_80_sprite_ptr->QuerySpriteCollision_59E7D0(1);
                 if (pNearSprite2->get_type_416B40() == 1) // object
                 {
                     if (pNearSprite2->As2C_40FEC0())

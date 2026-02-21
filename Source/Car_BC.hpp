@@ -313,10 +313,10 @@ EXTERN_GLOBAL(Car_6C*, gCar_6C_677930);
 class Trailer
 {
   public:
-    EXPORT Car_BC* sub_407B90(Car_BC* a2);
+    EXPORT Car_BC* GetCabOrLoadedCar_407B90(Car_BC* a2);
     EXPORT void SetTruckCabAndTrailerCar_407BB0(Car_BC* a2, Car_BC* a3);
     EXPORT s32* sub_407BD0(s32* a2);
-    EXPORT s32* sub_407CE0();
+    EXPORT s32* UpdateTrailerAlignment_407CE0();
     EXPORT char_type sub_408140();
     EXPORT void SetupCarPhysicsAndSpriteBinding_408190();
     EXPORT void DeAllocateCarPhysics_4081B0();
@@ -380,7 +380,7 @@ class Car_BC
     EXPORT Ang16 GetOrientationAngle_43A3E0();
     EXPORT Fix16_Point get_linvel_43A450();
     EXPORT Fix16 GetVelocity_43A4C0();
-    EXPORT Fix16 sub_43A590();
+    EXPORT Fix16 GetMomentOfInertia_43A590();
     EXPORT Fix16 sub_43A5B0();
     EXPORT void RemoveAllDamage();
     EXPORT bool AllowResprayOrPlates();
@@ -392,7 +392,7 @@ class Car_BC
     EXPORT void sub_43A950();
     EXPORT void sub_43A970();
     EXPORT void SetDriver(Ped* a2);
-    EXPORT void sub_43A9F0();
+    EXPORT void ApplyVisualDamage_43A9F0();
     EXPORT void Deactivate_43AA60();
     EXPORT char_type IsThreatToSearchingPed_43AAE0();
     EXPORT char_type CanCarCollideWithSprite_43AAF0(Sprite* a2);
