@@ -250,7 +250,7 @@ class Object_5C
 
     EXPORT void SaveObjects_52A500(TurkishDelight_164* pUnknownObj);
     EXPORT void RestoreObjects_52A590(TurkishDelight_164* pUnknownObj);
-    EXPORT void sub_52A610(Object_2C* p2C);
+    EXPORT void RemoveAndFree_52A610(Object_2C* p2C);
 
     Object_2C* field_0; // Object_2C* ?
     Object_2C* field_4;

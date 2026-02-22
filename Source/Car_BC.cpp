@@ -3448,7 +3448,7 @@ void Car_BC::sub_43DD60()
             this->field_9C = 5;
         }
         PrepareForExplosion_43C1C0();
-        field_0_qq.sub_5A7010();
+        field_0_qq.DestroyAllSprites_5A7010();
 
         pSprite = this->field_50_car_sprite;
         if (pSprite->field_1C_zpos != gFix16_6777CC)
@@ -5367,7 +5367,7 @@ void Car_BC::PoolAllocate()
     this->field_78_flags = 0;
     //clear();
 
-    this->field_0_qq.sub_5A7010();
+    this->field_0_qq.DestroyAllSprites_5A7010();
 
     this->field_A7_horn = 0;
     IncrementCarStats_443D70(0);
@@ -5406,7 +5406,7 @@ void Car_BC::DeAllocateAI_4446E0()
 MATCH_FUNC(0x4447d0)
 void Car_BC::PoolDeallocate()
 {
-    this->field_0_qq.sub_5A7010();
+    this->field_0_qq.DestroyAllSprites_5A7010();
 
     DeAllocateCarPhysics_441A10();
 
@@ -5454,7 +5454,7 @@ Car_BC::Car_BC()
     field_6C_maybe_id = 0xFFFF;
     field_64_pTrailer = 0;
     field_78_flags = 0;
-    this->field_0_qq.sub_5A7010();
+    this->field_0_qq.DestroyAllSprites_5A7010();
     field_A7_horn = 0;
     field_80 = 0;
     field_A0_car_kind = 0;

@@ -10990,7 +10990,7 @@
         "v105_address": "0x52a590"
     },
     {
-        "name": "sub_52A610",
+        "name": "RemoveAndFree_52A610",
         "v96f_address": null,
         "v105_address": "0x52a610"
     },
@@ -11670,22 +11670,22 @@
         "v105_address": "0x548670"
     },
     {
-        "name": "sub_548840",
+        "name": "HandleObjectCollision_548840",
         "v96f_address": null,
         "v105_address": "0x548840"
     },
     {
-        "name": "sub_548BD0",
+        "name": "HandlePedCollision_548BD0",
         "v96f_address": null,
         "v105_address": "0x548bd0"
     },
     {
-        "name": "sub_54A530",
+        "name": "HandleGenericCollision_54A530",
         "v96f_address": null,
         "v105_address": "0x54a530"
     },
     {
-        "name": "sub_54B8F0",
+        "name": "ContinueMovementAfterCollision_54B8F0",
         "v96f_address": null,
         "v105_address": "0x54b8f0"
     },
@@ -11695,7 +11695,7 @@
         "v105_address": "0x54c090"
     },
     {
-        "name": "sub_54C1A0",
+        "name": "CanMoveOntoSlope_54C1A0",
         "v96f_address": "0x495220",
         "v105_address": "0x54c1a0"
     },
@@ -11705,7 +11705,7 @@
         "v105_address": "0x54c3e0"
     },
     {
-        "name": "sub_54C500",
+        "name": "CanMoveToTile_54C500",
         "v96f_address": "0x495540",
         "v105_address": "0x54c500"
     },
@@ -11730,7 +11730,7 @@
         "v105_address": "0x54cae0"
     },
     {
-        "name": "sub_54CC40",
+        "name": "ApplyMovement_54CC40",
         "v96f_address": null,
         "v105_address": "0x54cc40"
     },
@@ -11750,17 +11750,17 @@
         "v105_address": "0x54ec80"
     },
     {
-        "name": "sub_54ECB0",
+        "name": "CanStepForwardWithRegionCheck_54ECB0",
         "v96f_address": null,
         "v105_address": "0x54ecb0"
     },
     {
-        "name": "sub_54EF60",
+        "name": "CanStepDiagonal_54EF60",
         "v96f_address": null,
         "v105_address": "0x54ef60"
     },
     {
-        "name": "sub_54FEC0",
+        "name": "CanStepForward_54FEC0",
         "v96f_address": "0x54fec0",
         "v105_address": "0x54fec0"
     },
@@ -11845,7 +11845,7 @@
         "v105_address": "0x553340"
     },
     {
-        "name": "sub_5535B0",
+        "name": "PhoneTouched_5535B0",
         "v96f_address": null,
         "v105_address": "0x5535b0"
     },
@@ -11860,12 +11860,12 @@
         "v105_address": "0x5537f0"
     },
     {
-        "name": "sub_5538A0",
+        "name": "HandleCarImpact_5538A0",
         "v96f_address": null,
         "v105_address": "0x5538a0"
     },
     {
-        "name": "sub_553E00",
+        "name": "HandleGenericImpact_553E00",
         "v96f_address": null,
         "v105_address": "0x553e00"
     },
@@ -15125,7 +15125,7 @@
         "v105_address": "0x5a6f70"
     },
     {
-        "name": "Object_3C::sub_5A7010",
+        "name": "Object_3C::DestroyAllSprites_5A7010",
         "v96f_address": null,
         "v105_address": "0x5a7010"
     },

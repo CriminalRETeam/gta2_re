@@ -798,7 +798,7 @@ bool Ped::sub_45BD20(Car_BC* pCar)
     Car_Door_10* Door = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
     Door->sub_439EA0();
 
-    field_168_game_object->sub_553E00(word_6784FC + pCar->field_50_car_sprite->field_0, dword_678634 + dword_678480, k_dword_678660, 1);
+    field_168_game_object->HandleGenericImpact_553E00(word_6784FC + pCar->field_50_car_sprite->field_0, dword_678634 + dword_678480, k_dword_678660, 1);
     Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
     Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
     return false;
@@ -3120,7 +3120,7 @@ void Ped::sub_4624A0()
     {
         if (field_168_game_object->field_88_obj_2c.field_0_p18)
         {
-            field_168_game_object->field_88_obj_2c.sub_5A7010();
+            field_168_game_object->field_88_obj_2c.DestroyAllSprites_5A7010();
         }
     }
 
@@ -3490,7 +3490,7 @@ void Ped::sub_462B80()
             field_16C_car = pB4->field_84;
             if (pB4->field_88_obj_2c.field_0_p18)
             {
-                pB4->field_88_obj_2c.sub_5A7010();
+                pB4->field_88_obj_2c.DestroyAllSprites_5A7010();
             }
             gChar_B4_Pool_6FDB44->DeAllocate(field_168_game_object);
 
@@ -6591,7 +6591,7 @@ void Ped::EnterCarStateMachine_46BDC0()
         {
             Sprite* pCarSprite = this->field_154_target_to_enter->field_50_car_sprite;
             Ang16 ang_to_use = (word_6784FC + pCarSprite->field_0);
-            field_168_game_object->sub_553E00(ang_to_use, dword_678634, k_dword_678660, 1);
+            field_168_game_object->HandleGenericImpact_553E00(ang_to_use, dword_678634, k_dword_678660, 1);
         }
         ChangeNextPedState1_45C500(0);
         ChangeNextPedState2_45C540(0);

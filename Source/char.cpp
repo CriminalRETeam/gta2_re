@@ -187,7 +187,7 @@ Char_B4::Char_B4()
     field_74 = word_6FDB34;
     field_6A = 0;
     field_84 = 0;
-    field_88_obj_2c.sub_5A7010();
+    field_88_obj_2c.DestroyAllSprites_5A7010();
     field_8C = k_dword_6FD9E4;
     field_58_flags_bf.b2 = 0;
     field_6C_animation_state = 18;
@@ -257,7 +257,7 @@ void Char_B4::PoolAllocate()
     field_6A = 0;
     field_84 = 0;
     field_58_flags_bf.b0 = 0;
-    field_88_obj_2c.sub_5A7010();
+    field_88_obj_2c.DestroyAllSprites_5A7010();
     field_8C = k_dword_6FD9E4;
     field_58_flags_bf.b2 = 0;
     field_6C_animation_state = 18;
@@ -296,7 +296,7 @@ void Char_B4::PoolDeallocate()
         gSprite_Pool_703818->remove(field_80_sprite_ptr);
         field_80_sprite_ptr = NULL;
     }
-    field_88_obj_2c.sub_5A7010();
+    field_88_obj_2c.DestroyAllSprites_5A7010();
     field_B0 = -1;
 }
 
@@ -1688,7 +1688,7 @@ void Char_B4::sub_548670(char_type a2)
                 {
                     if (field_7C_pPed->field_238 >= 2 && field_7C_pPed->field_238 <= 6)
                     {
-                        Char_B4::sub_548BD0(pNearSprite->AsCharB4_40FEA0());
+                        Char_B4::HandlePedCollision_548BD0(pNearSprite->AsCharB4_40FEA0());
                         this->field_18 = 0;
                     }
                 }
@@ -1701,13 +1701,13 @@ void Char_B4::sub_548670(char_type a2)
                 {
                     if (pNearSprite2->As2C_40FEC0())
                     {
-                        Char_B4::sub_548840(pNearSprite2->As2C_40FEC0());
+                        Char_B4::HandleObjectCollision_548840(pNearSprite2->As2C_40FEC0());
                         this->field_20 = 3;
                     }
                 }
                 else
                 {
-                    Char_B4::sub_54A530(pNearSprite->AsCar_40FEB0(), 0, 0);
+                    Char_B4::HandleGenericCollision_54A530(pNearSprite->AsCar_40FEB0(), 0, 0);
                     this->field_20 = 1;
                 }
                 break;
@@ -1715,7 +1715,7 @@ void Char_B4::sub_548670(char_type a2)
             case 1:
             case 4:
             case 5: // object
-                Char_B4::sub_548840(pNearSprite->As2C_40FEC0());
+                Char_B4::HandleObjectCollision_548840(pNearSprite->As2C_40FEC0());
                 this->field_20 = 3;
                 break;
 
@@ -1756,25 +1756,25 @@ void Char_B4::sub_548670(char_type a2)
 }
 
 STUB_FUNC(0x548840)
-void Char_B4::sub_548840(Object_2C* a2)
+void Char_B4::HandleObjectCollision_548840(Object_2C* a2)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x548bd0)
-void Char_B4::sub_548BD0(Char_B4* a2)
+void Char_B4::HandlePedCollision_548BD0(Char_B4* a2)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x54a530)
-void Char_B4::sub_54A530(Car_BC* a2, Car_BC* a3, s32 a4)
+void Char_B4::HandleGenericCollision_54A530(Car_BC* a2, Car_BC* a3, s32 a4)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x54b8f0)
-char_type Char_B4::sub_54B8F0()
+char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1786,7 +1786,7 @@ void Char_B4::sub_54C090()
     WIP_IMPLEMENTED;
 
     s32 AngleFace_4F78F0 = Ang16::GetAngleFace_4F78F0(field_40_rotation);
-    if (!sub_54C1A0(AngleFace_4F78F0))
+    if (!CanMoveOntoSlope_54C1A0(AngleFace_4F78F0))
     {
         switch (AngleFace_4F78F0)
         {
@@ -1837,7 +1837,7 @@ void Char_B4::sub_54C090()
 }
 
 WIP_FUNC(0x54c1a0)
-char_type Char_B4::sub_54C1A0(s32 a2)
+char_type Char_B4::CanMoveOntoSlope_54C1A0(s32 a2)
 {
     WIP_IMPLEMENTED;
 
@@ -1932,7 +1932,7 @@ char_type Char_B4::sub_54C1A0(s32 a2)
             if (zpos_frac < k_dword_6FD8DC)
             {
                 this->field_58_flags &= ~1;
-                result = sub_54C1A0(a2);
+                result = CanMoveOntoSlope_54C1A0(a2);
                 this->field_58_flags |= 1u;
                 return result;
             }
@@ -1944,7 +1944,7 @@ char_type Char_B4::sub_54C1A0(s32 a2)
 
             this->field_58_flags &= ~1;
             this->field_80_sprite_ptr->field_1C_zpos += Fix16(1);
-            result = sub_54C1A0(a2);
+            result = CanMoveOntoSlope_54C1A0(a2);
             this->field_80_sprite_ptr->field_1C_zpos -= Fix16(1);
             this->field_58_flags |= 1u;
             break;
@@ -1967,7 +1967,7 @@ void Char_B4::sub_54C3E0()
 
     bool unknown = 0;
     const s32 face = Ang16::GetAngleFace_4F78F0(field_40_rotation);
-    if (!sub_54C1A0(face))
+    if (!CanMoveOntoSlope_54C1A0(face))
     {
         s32 face_mapped;
         switch (face)
@@ -1986,7 +1986,7 @@ void Char_B4::sub_54C3E0()
                 break;
         }
 
-        if (sub_54C1A0(face_mapped) == 1)
+        if (CanMoveOntoSlope_54C1A0(face_mapped) == 1)
         {
             unknown = 1;
         }
@@ -2008,7 +2008,7 @@ void Char_B4::sub_54C3E0()
                 break;
         }
 
-        if (sub_54C1A0(mapped_val) == 1)
+        if (CanMoveOntoSlope_54C1A0(mapped_val) == 1)
         {
             if (unknown != 1)
             {
@@ -2043,7 +2043,7 @@ void Char_B4::sub_54C3E0()
 
 // 9.6f 0x495540
 WIP_FUNC(0x54c500)
-char_type Char_B4::sub_54C500(char_type x, char_type y)
+char_type Char_B4::CanMoveToTile_54C500(char_type x, char_type y)
 {
     WIP_IMPLEMENTED;
 
@@ -2067,10 +2067,10 @@ char_type Char_B4::sub_54C500(char_type x, char_type y)
     // Pure horizontal
     if (dx != 0)
     {
-        return (dx == -1) ? Char_B4::sub_54C1A0(4) : Char_B4::sub_54C1A0(3);
+        return (dx == -1) ? Char_B4::CanMoveOntoSlope_54C1A0(4) : Char_B4::CanMoveOntoSlope_54C1A0(3);
     }
 
-    return (dy == -1) ? Char_B4::sub_54C1A0(1) : Char_B4::sub_54C1A0(2);
+    return (dy == -1) ? Char_B4::CanMoveOntoSlope_54C1A0(1) : Char_B4::CanMoveOntoSlope_54C1A0(2);
 }
 
 MATCH_FUNC(0x54c580)
@@ -2278,7 +2278,7 @@ void Char_B4::TurnTowardsAngle_54CAE0()
 }
 
 STUB_FUNC(0x54cc40)
-void Char_B4::sub_54CC40()
+void Char_B4::ApplyMovement_54CC40()
 {
     NOT_IMPLEMENTED;
 }
@@ -2680,16 +2680,16 @@ void Char_B4::state_0_54DDF0()
     {
         v88 = 1;
         word_6FD808 = field_40_rotation;
-        u8 v90 = Char_B4::sub_54EF60(ret1.ToInt(), ret2.ToInt());
+        u8 v90 = Char_B4::CanStepDiagonal_54EF60(ret1.ToInt(), ret2.ToInt());
         if (gMap_0x370_6F6268->sub_4E0110() != 1 && !v90)
         {
-            Char_B4::sub_54CC40();
+            Char_B4::ApplyMovement_54CC40();
             v88 = 0;
             goto LABEL_152;
         }
         goto LABEL_148;
     }
-    v91 = Char_B4::sub_54C500(ret1.ToInt(), ret2.ToInt()); //(v54 >> 14, v55 >> 14);
+    v91 = Char_B4::CanMoveToTile_54C500(ret1.ToInt(), ret2.ToInt()); //(v54 >> 14, v55 >> 14);
 
     if (byte_6FDB51)
     {
@@ -2711,7 +2711,7 @@ void Char_B4::state_0_54DDF0()
             xpos_3 += dword_6FD7F8;
             ypos_3 += dword_6FD800;
 
-            if (Char_B4::sub_54C500(xpos_3.ToInt(), ypos_3.ToInt()) == 1)
+            if (Char_B4::CanMoveToTile_54C500(xpos_3.ToInt(), ypos_3.ToInt()) == 1)
             {
                 v93 = field_40_rotation;
                 v93.SnapToAng4_405640();
@@ -2725,7 +2725,7 @@ void Char_B4::state_0_54DDF0()
                 xpos_4 += dword_6FD7F8;
                 ypos_4 += dword_6FD800;
 
-                if (!Char_B4::sub_54C500(xpos_4.ToInt(), ypos_4.ToInt()))
+                if (!Char_B4::CanMoveToTile_54C500(xpos_4.ToInt(), ypos_4.ToInt()))
                 {
                     sub_4923D0();
                 }
@@ -2777,7 +2777,7 @@ LABEL_152:
     {
         if (field_69)
         {
-            if (Char_B4::sub_54B8F0() == 1)
+            if (Char_B4::ContinueMovementAfterCollision_54B8F0() == 1)
             {
                 if (dword_6FD7F8.ToInt() != field_80_sprite_ptr->field_14_xy.x.ToInt() ||
                     dword_6FD800.ToInt() != field_80_sprite_ptr->field_14_xy.y.ToInt())
@@ -2816,21 +2816,21 @@ LABEL_152:
 }
 
 STUB_FUNC(0x54ecb0)
-char_type Char_B4::sub_54ECB0(s32 a2)
+char_type Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x54ef60)
-char_type Char_B4::sub_54EF60(char_type a2, char_type a3)
+char_type Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 {
     NOT_IMPLEMENTED;
     return true;
 }
 
 STUB_FUNC(0x54fec0)
-char_type Char_B4::sub_54FEC0(s32 a2)
+char_type Char_B4::CanStepForward_54FEC0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -3174,7 +3174,7 @@ LABEL_65:
 
     if (field_69)
     {
-        if (Char_B4::sub_54B8F0() == 1)
+        if (Char_B4::ContinueMovementAfterCollision_54B8F0() == 1)
         {
             Fix16 x = field_80_sprite_ptr->field_14_xy.x;
             Fix16 y = field_80_sprite_ptr->field_14_xy.y;
@@ -3850,7 +3850,7 @@ void Char_B4::state_8_5520A0()
                     Ang16::sub_41FC20(field_40_rotation, this->field_90, v44, v45);
                     v44 += dword_6FD7F8;
                     v45 += dword_6FD800;
-                    if (Char_B4::sub_54C500(v44.ToInt(), v45.ToInt())) // ToUInt8 ?????
+                    if (Char_B4::CanMoveToTile_54C500(v44.ToInt(), v45.ToInt())) // ToUInt8 ?????
                     {
                         field_80_sprite_ptr->set_xyz_lazy_420600(v44, v45, field_80_sprite_ptr->field_1C_zpos);
                     }
@@ -4406,7 +4406,7 @@ bool Char_B4::ShouldCollideWithSprite_553340(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5535B0)
-bool Char_B4::sub_5535B0(Object_2C* p2c)
+bool Char_B4::PhoneTouched_5535B0(Object_2C* p2c)
 {
     Ped* pPed = field_7C_pPed;
     if (pPed->field_15C_player)
@@ -4459,7 +4459,7 @@ bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
         case 177:
         case 179:
         case 181:
-            return sub_5535B0(p2c);
+            return PhoneTouched_5535B0(p2c);
 
         case 167:
             gDoor_4D4_67BD2C->sub_49D370(field_7C_pPed, p2c->field_26_varrok_idx);
@@ -4511,13 +4511,13 @@ char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
 }
 
 STUB_FUNC(0x5538A0)
-void Char_B4::sub_5538A0(Car_BC* pCar, s32 a3, s32 a4, s32 a5)
+void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 a3, s32 a4, s32 a5)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x553E00)
-void Char_B4::sub_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5)
+void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5)
 {
     NOT_IMPLEMENTED;
 }

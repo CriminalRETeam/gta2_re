@@ -2601,7 +2601,7 @@ void Object_5C::RestoreObjects_52A590(TurkishDelight_164* pData)
 }
 
 MATCH_FUNC(0x52A610)
-void Object_5C::sub_52A610(Object_2C* p2C)
+void Object_5C::RemoveAndFree_52A610(Object_2C* p2C)
 {
     if (p2C->field_8->field_34_behavior_type != 11)
     {
