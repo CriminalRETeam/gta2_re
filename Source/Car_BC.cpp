@@ -790,7 +790,7 @@ Car_BC* Car_6C::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3)
 
     Fix16 new_x;
     Fix16 new_y;
-    Ang16::sub_41FC20(pSprite->field_0, dword_6772D0, new_x, new_y);
+    Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6772D0, new_x, new_y);
 
     pSprite->set_xyz_lazy_420600(pSprite->field_14_xy.x + new_x, pSprite->field_14_xy.y + new_y, pSprite->field_1C_zpos);
 
@@ -2113,7 +2113,7 @@ bool Car_BC::sub_43B140(s32 target_car_door)
     // TODO: This inline seems to not match
     Fix16 t1;
     Fix16 t2;
-    Ang16::sub_41FC20(angToUse, dword_6778FC, t1, t2);
+    Ang16::PolarToCartesian_41FC20(angToUse, dword_6778FC, t1, t2);
 
     if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420((v14 + t1).ToInt(),
                                                       (v13 + t2).ToInt(),

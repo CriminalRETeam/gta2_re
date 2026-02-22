@@ -201,22 +201,22 @@ class Char_B4
 
     EXPORT void SetRemap_46DD50(u8 remap);
 
-    EXPORT void sub_5454B0();
+    EXPORT void RemoveFireSprites_5454B0();
     EXPORT void DoJump_5454D0();
-    EXPORT void sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT void Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 IsOnWater_545570();
     EXPORT void sub_5455F0();
     EXPORT void sub_545600();
     EXPORT void sub_545640(Fix16 a1, s16* output);
     EXPORT void sub_545670(Fix16 a1, s16* output);
-    EXPORT void sub_5456A0();
+    EXPORT void InitSprite_5456A0();
     EXPORT bool IsOnScreen_545700();
-    EXPORT void sub_545720(Fix16 a2);
+    EXPORT void Update_545720(Fix16 a2);
     EXPORT void sub_5459C0();
     EXPORT void DrownPed_5459E0();
     EXPORT void UpdateAnimState_546360();
     EXPORT void ManageZCoordAndSlopes_548590();
-    EXPORT void sub_548670(char_type a2);
+    EXPORT void DispatchCollision_548670(char_type a2);
     EXPORT void HandleObjectCollision_548840(Object_2C* a2);
     EXPORT void HandlePedCollision_548BD0(Char_B4* a2);
     EXPORT void HandleGenericCollision_54A530(Car_BC* a2, Car_BC* a3, s32 a4);
@@ -225,9 +225,9 @@ class Char_B4
     EXPORT char_type CanMoveOntoSlope_54C1A0(s32 a2);
     EXPORT void sub_54C3E0();
     EXPORT char_type CanMoveToTile_54C500(char_type a2, char_type a3);
-    EXPORT void sub_54C580();
-    EXPORT void sub_54C6C0();
-    EXPORT void sub_54C900();
+    EXPORT void SelectRandomIdleBehavior_54C580();
+    EXPORT void ApplyRandomRotationJitter_54C6C0();
+    EXPORT void TickMovementStateMachine_54C900();
     EXPORT void TurnTowardsAngle_54CAE0();
     EXPORT void ApplyMovement_54CC40();
     EXPORT void sub_54DD70();
@@ -235,12 +235,12 @@ class Char_B4
     EXPORT char_type CanStepForwardWithRegionCheck_54ECB0(s32 a2);
     EXPORT char_type CanStepDiagonal_54EF60(char_type a2, char_type a3);
     EXPORT char_type CanStepForward_54FEC0(s32 a2);
-    EXPORT char_type sub_550090(s32 xpos, s32 ypos);
+    EXPORT char_type CanReachTile_550090(s32 xpos, s32 ypos);
     EXPORT void state_1_5504F0();
-    EXPORT Ang16 sub_550F60(Ang16 a3);
-    EXPORT char_type sub_551350(Ang16 a2);
-    EXPORT char_type sub_551400();
-    EXPORT char_type sub_5516F0();
+    EXPORT Ang16 GetNextRotationToward_550F60(Ang16 a3);
+    EXPORT char_type CanStepInDirection_551350(Ang16 a2);
+    EXPORT char_type ChooseNextMovementTile_551400();
+    EXPORT char_type SelectNextTileFast_5516F0();
     //EXPORT void state_1_5504F0();
     EXPORT void state_1_5519F0();
     EXPORT void state_3_551A00();

@@ -221,7 +221,7 @@ MATCH_FUNC(0x545200)
 void Char_B4::PoolAllocate()
 {
     field_0_id = gB4_id_6FDB4C++;
-    Char_B4::sub_5456A0();
+    Char_B4::InitSprite_5456A0();
     field_4 = 1;
     field_5_remap = -1;
     field_6 = 0;
@@ -337,7 +337,7 @@ void Char_B4::SetRemap_46DD50(u8 remap)
 }
 
 MATCH_FUNC(0x5454B0)
-void Char_B4::sub_5454B0()
+void Char_B4::RemoveFireSprites_5454B0()
 {
     field_B0 = -1;
     field_88_obj_2c.CleanupSpriteList_5A7080();
@@ -369,7 +369,7 @@ void Char_B4::DoJump_5454D0()
 }
 
 MATCH_FUNC(0x545530)
-void Char_B4::sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+void Char_B4::Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     field_58_flags_bf.b5 = true;
     field_A4_xpos = xpos;
@@ -416,12 +416,12 @@ void Char_B4::sub_545670(Fix16 a1, s16* output)
 }
 
 MATCH_FUNC(0x5456a0)
-void Char_B4::sub_5456A0()
+void Char_B4::InitSprite_5456A0()
 {
     // TODO: maybe an inline here: temp var not needed
     Sprite* pFirst = gSprite_Pool_703818->get_new_sprite();
     field_80_sprite_ptr = pFirst;
-    pFirst->field_30_sprite_type_enum = 3;
+    pFirst->field_30_sprite_type_enum = sprite_types_enum::ped;
     pFirst->sub_59E960();
     field_80_sprite_ptr->AllocInternal_59F950(dword_6FD8D8, dword_6FD8D8, dword_6FD7A4);
     field_80_sprite_ptr->field_8_char_b4_ptr = this;
@@ -435,7 +435,7 @@ bool Char_B4::IsOnScreen_545700()
 }
 
 MATCH_FUNC(0x545720)
-void Char_B4::sub_545720(Fix16 a2)
+void Char_B4::Update_545720(Fix16 a2)
 {
     if (++byte_6FDB48 > 20)
     {
@@ -1660,7 +1660,7 @@ void Char_B4::ManageZCoordAndSlopes_548590()
 
 // 9.6f 0x499F00
 MATCH_FUNC(0x548670)
-void Char_B4::sub_548670(char_type a2)
+void Char_B4::DispatchCollision_548670(char_type a2)
 {
     u8 bUnknown; // bl
     if (this->field_69 == 1 && this->field_20 && this->field_24 != 3)
@@ -2074,7 +2074,7 @@ char_type Char_B4::CanMoveToTile_54C500(char_type x, char_type y)
 }
 
 MATCH_FUNC(0x54c580)
-void Char_B4::sub_54C580()
+void Char_B4::SelectRandomIdleBehavior_54C580()
 {
     if (!this->field_46)
     {
@@ -2133,7 +2133,7 @@ void Char_B4::sub_54C580()
 }
 
 STUB_FUNC(0x54c6c0)
-void Char_B4::sub_54C6C0()
+void Char_B4::ApplyRandomRotationJitter_54C6C0()
 {
     NOT_IMPLEMENTED;
 }
@@ -2146,12 +2146,12 @@ EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3)
 }
 
 MATCH_FUNC(0x54c900)
-void Char_B4::sub_54C900()
+void Char_B4::TickMovementStateMachine_54C900()
 {
     switch (this->field_10_char_state)
     {
         case 1:
-            sub_54C6C0();
+            ApplyRandomRotationJitter_54C6C0();
             this->field_38_velocity = k_dword_6FD7B8;
             byte_6FDB51 = 1;
             byte_6FDB52 = 1;
@@ -2162,7 +2162,7 @@ void Char_B4::sub_54C900()
             if (this->field_46)
             {
                 this->field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
-                sub_54C6C0();
+                ApplyRandomRotationJitter_54C6C0();
             }
             else
             {
@@ -2179,7 +2179,7 @@ void Char_B4::sub_54C900()
             if (this->field_46)
             {
                 this->field_38_velocity = k_dword_6FD7CC;
-                sub_54C6C0();
+                ApplyRandomRotationJitter_54C6C0();
             }
             else
             {
@@ -2406,11 +2406,11 @@ void Char_B4::state_0_54DDF0()
     {
         if (field_7C_pPed->field_15C_player && field_7C_pPed->get_fieldC_45C9B0() < k_dword_6FD9E4 || (field_58_flags & 8) != 0)
         {
-            Ang16::sub_41FC20(field_40_rotation + word_6FD936, dword_6FDAC8, ret1, ret2);
+            Ang16::PolarToCartesian_41FC20(field_40_rotation + word_6FD936, dword_6FDAC8, ret1, ret2);
         }
         else
         {
-            Ang16::sub_41FC20(field_40_rotation, dword_6FDAC8, ret1, ret2);
+            Ang16::PolarToCartesian_41FC20(field_40_rotation, dword_6FDAC8, ret1, ret2);
         }
         // ......
 
@@ -2648,8 +2648,8 @@ void Char_B4::state_0_54DDF0()
                     default:
                         if (this->field_C_ped_state_2 == 0 && v89)
                         {
-                            Char_B4::sub_54C580();
-                            Char_B4::sub_54C900();
+                            Char_B4::SelectRandomIdleBehavior_54C580();
+                            Char_B4::TickMovementStateMachine_54C900();
                         }
                         break;
                 }
@@ -2667,7 +2667,7 @@ void Char_B4::state_0_54DDF0()
     }
 
     // line 401 on 9.6f IDA
-    Ang16::sub_41FC20(field_40_rotation, dword_6FDAC8, ret1, ret2);
+    Ang16::PolarToCartesian_41FC20(field_40_rotation, dword_6FDAC8, ret1, ret2);
 
     ret1 += dword_6FD7F8 + this->field_4C;
     ret2 += dword_6FD800 + this->field_50;
@@ -2706,7 +2706,7 @@ void Char_B4::state_0_54DDF0()
             v93 += word_6FD8A2;
             Fix16 xpos_3;
             Fix16 ypos_3;
-            Ang16::sub_41FC20(v93, dword_6FD9B4, xpos_3, ypos_3);
+            Ang16::PolarToCartesian_41FC20(v93, dword_6FD9B4, xpos_3, ypos_3);
 
             xpos_3 += dword_6FD7F8;
             ypos_3 += dword_6FD800;
@@ -2720,7 +2720,7 @@ void Char_B4::state_0_54DDF0()
                 Fix16 xpos_4;
                 Fix16 ypos_4;
 
-                Ang16::sub_41FC20(v93, dword_6FD9B4, xpos_4, ypos_4);
+                Ang16::PolarToCartesian_41FC20(v93, dword_6FD9B4, xpos_4, ypos_4);
 
                 xpos_4 += dword_6FD7F8;
                 ypos_4 += dword_6FD800;
@@ -2738,7 +2738,7 @@ void Char_B4::state_0_54DDF0()
     LABEL_148:
         field_80_sprite_ptr = this->field_80_sprite_ptr;
 
-        Ang16::sub_41FC20(field_40_rotation, field_38_velocity, ret1, ret2);
+        Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, ret1, ret2);
         ret1 += field_4C;
         ret2 += field_50;
         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + ret1,
@@ -2771,7 +2771,7 @@ LABEL_152:
         Char_B4::ManageZCoordAndSlopes_548590();
     }
 
-    Char_B4::sub_548670(byte_6FDB56);
+    Char_B4::DispatchCollision_548670(byte_6FDB56);
 
     if (!field_7C_pPed->IsField238_45EDE0(2))
     {
@@ -2785,8 +2785,8 @@ LABEL_152:
                     field_80_sprite_ptr->set_xyz_lazy_420600(dword_6FD7F8, dword_6FD800, dword_6FD7FC);
 
                     field_45 = dword_6FD7B0.ToInt(); //dword_6FD7B0 >> 14;
-                    //////if (Char_B4::sub_550090(v85, v86))
-                    if (Char_B4::sub_550090(field_80_sprite_ptr->field_14_xy.x.ToInt(), field_80_sprite_ptr->field_14_xy.y.ToInt()))
+                    //////if (Char_B4::CanReachTile_550090(v85, v86))
+                    if (Char_B4::CanReachTile_550090(field_80_sprite_ptr->field_14_xy.x.ToInt(), field_80_sprite_ptr->field_14_xy.y.ToInt()))
                     {
                         // Line 507 on 9.6f IDA
                         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x,
@@ -2837,7 +2837,7 @@ char_type Char_B4::CanStepForward_54FEC0(s32 a2)
 }
 
 STUB_FUNC(0x550090)
-char_type Char_B4::sub_550090(s32 xpos, s32 ypos)
+char_type Char_B4::CanReachTile_550090(s32 xpos, s32 ypos)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -3086,11 +3086,11 @@ LABEL_65:
                     field_1C_zpos = v73;
                 }
             }
-            Ang16::sub_41FC20(v73, k_dword_6FD8E4, pMaybeX_FP16, pMaybeY_FP16);
+            Ang16::PolarToCartesian_41FC20(v73, k_dword_6FD8E4, pMaybeX_FP16, pMaybeY_FP16);
         }
         else
         {
-            Ang16::sub_41FC20(field_1C_zpos, dword_6FD828, pMaybeX_FP16, pMaybeY_FP16);
+            Ang16::PolarToCartesian_41FC20(field_1C_zpos, dword_6FD828, pMaybeX_FP16, pMaybeY_FP16);
         }
     LABEL_87:
         u8 x_u8 = pMaybeX_FP16.ToUInt8();
@@ -3099,16 +3099,16 @@ LABEL_65:
         {
             Char_B4::ManageZCoordAndSlopes_548590();
             /*
-            if (!Char_B4::sub_550090(x_u8, y_u8)) // u8 type?
+            if (!Char_B4::CanReachTile_550090(x_u8, y_u8)) // u8 type?
             {
                 field_58_flags_bf.b7 = true;
                 if (field_C_ped_state_2 == ped_state_2::Unknown_3)
                 {
-                    Char_B4::sub_551400();
+                    Char_B4::ChooseNextMovementTile_551400();
                 }
                 else
                 {
-                    Char_B4::sub_5516F0();
+                    Char_B4::SelectNextTileFast_5516F0();
                 }
                 v73 = word_6FD808;
                 field_1C_zpos = word_6FD808;
@@ -3123,8 +3123,8 @@ LABEL_65:
     }
     else
     {
-        v39 = Char_B4::sub_550F60(v73);
-        if (Char_B4::sub_551350(v39) == 1)
+        v39 = Char_B4::GetNextRotationToward_550F60(v73);
+        if (Char_B4::CanStepInDirection_551350(v39) == 1)
         {
             field_40_rotation = v39;
             v71 = 1;
@@ -3147,7 +3147,7 @@ LABEL_65:
     Fix16 xpos;
     Fix16 ypos;
 
-    Ang16::sub_41FC20(field_40_rotation, field_38_velocity, xpos, ypos);
+    Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, xpos, ypos);
     field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
                                              field_80_sprite_ptr->field_14_xy.y + ypos,
                                              field_80_sprite_ptr->field_1C_zpos);
@@ -3170,7 +3170,7 @@ LABEL_65:
 
         Char_B4::ManageZCoordAndSlopes_548590();
     }
-    Char_B4::sub_548670(byte_6FDB56);
+    Char_B4::DispatchCollision_548670(byte_6FDB56);
 
     if (field_69)
     {
@@ -3184,7 +3184,7 @@ LABEL_65:
                 field_80_sprite_ptr->set_xyz_lazy_420600(dword_6FD7F8, dword_6FD800, dword_6FD7FC);
 
                 field_45 = dword_6FD7B0.ToUInt8();
-                if (!Char_B4::sub_550090(x.ToInt(), y.ToInt()))
+                if (!Char_B4::CanReachTile_550090(x.ToInt(), y.ToInt()))
                 {
                     field_69 = 0;
                     field_5C = 10;
@@ -3245,28 +3245,28 @@ LABEL_65:
 }
 
 STUB_FUNC(0x550f60)
-Ang16 Char_B4::sub_550F60(Ang16 a3)
+Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x551350)
-char_type Char_B4::sub_551350(Ang16 a2)
+char_type Char_B4::CanStepInDirection_551350(Ang16 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x551400)
-char_type Char_B4::sub_551400()
+char_type Char_B4::ChooseNextMovementTile_551400()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5516f0)
-char_type Char_B4::sub_5516F0()
+char_type Char_B4::SelectNextTileFast_5516F0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -3847,7 +3847,7 @@ void Char_B4::state_8_5520A0()
                 v36 = *gMap_0x370_6F6268->sub_4E4D40(&temp, dword_6FD7F8, dword_6FD800, dword_6FD7FC); // TODO: fix Fix16 return
                 if (dword_6FD7FC < v36 || dword_6FD7FC >= v36 + dword_6FDB04)
                 {
-                    Ang16::sub_41FC20(field_40_rotation, this->field_90, v44, v45);
+                    Ang16::PolarToCartesian_41FC20(field_40_rotation, this->field_90, v44, v45);
                     v44 += dword_6FD7F8;
                     v45 += dword_6FD800;
                     if (Char_B4::CanMoveToTile_54C500(v44.ToInt(), v45.ToInt())) // ToUInt8 ?????
@@ -4411,7 +4411,7 @@ bool Char_B4::PhoneTouched_5535B0(Object_2C* p2c)
     Ped* pPed = field_7C_pPed;
     if (pPed->field_15C_player)
     {
-        return gfrosty_pasteur_6F8060->sub_5129F0(pPed->field_200_id, p2c->field_14_id);
+        return gfrosty_pasteur_6F8060->AnswerPhone_5129F0(pPed->field_200_id, p2c->field_14_id);
     }
     else
     {

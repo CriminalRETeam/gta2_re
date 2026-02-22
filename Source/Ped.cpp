@@ -734,7 +734,7 @@ void Ped::TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos)
     }
     else
     {
-        field_168_game_object->sub_545530(xpos, ypos, tempZ);
+        field_168_game_object->Teleport_545530(xpos, ypos, tempZ);
     }
 }
 
@@ -839,7 +839,7 @@ void Ped::PutOutFire()
         Char_B4* pB4 = this->field_168_game_object;
         if (pB4)
         {
-            pB4->sub_5454B0();
+            pB4->RemoveFireSprites_5454B0();
         }
         this->field_21C &= ~ped_bit_status_enum::k_ped_in_flames;
     }
@@ -3476,7 +3476,7 @@ void Ped::sub_462B80()
 {
     field_168_game_object->field_8_ped_state_1 = field_278_ped_state_1;
     field_168_game_object->field_C_ped_state_2 = field_27C_ped_state_2;
-    field_168_game_object->sub_545720(gDistanceToTarget_678750);
+    field_168_game_object->Update_545720(gDistanceToTarget_678750);
     if (field_168_game_object)
     {
         field_1AC_cam.x = field_168_game_object->get_sprite_xpos();

@@ -203,7 +203,7 @@ class Ang16
     }
 
     // TODO: Create a scratch and check this matches
-    inline static void __stdcall sub_41FC20(Ang16& angle, Fix16& unk, Fix16& ret1, Fix16& ret2)
+    inline static void __stdcall PolarToCartesian_41FC20(Ang16& angle, Fix16& unk, Fix16& ret1, Fix16& ret2)
     {
         ret1 = unk * Ang16::sine_40F500(angle);
         ret2 = unk * Ang16::cosine_40F520(angle);
