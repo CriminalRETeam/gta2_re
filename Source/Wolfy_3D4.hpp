@@ -5,6 +5,7 @@
 #include "ang16.hpp"
 
 class Object_2C;
+class Sprite;
 
 class Wolfy_30
 {
