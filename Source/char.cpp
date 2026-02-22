@@ -67,7 +67,7 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6FDA00, Fix16(7), 0x6FDA00);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDAC8, k_dword_6FD868 * 6, 0x6FDAC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD99C, k_dword_6FD868 / dword_6FD9F4, 0x6FD99C);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7B8, k_dword_6FD868, 0x6FD7B8);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7CC, k_dword_6FD9F0 * k_dword_6FD868, 0x6FD7CC);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7CC, k_dword_6FD9F0* k_dword_6FD868, 0x6FD7CC);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDB20, k_dword_6FD868 / 64, 0x6FDB20);
 
@@ -111,6 +111,12 @@ DEFINE_GLOBAL(Ang16, word_6FD8E8, 0x6FD8E8);
 DEFINE_GLOBAL(Ang16, word_6FDB3C, 0x6FDB3C);
 DEFINE_GLOBAL(Ang16, word_6FDA64, 0x6FDA64);
 DEFINE_GLOBAL(Ang16, word_6FD904, 0x6FD904);
+
+
+DEFINE_GLOBAL(Ang16, word_6FDA54, 0x6FDA54); // TODO: Init via func 0x54A300
+DEFINE_GLOBAL_INIT(Ang16, word_6FD920, word_6FD936, 0x6FD920);  
+DEFINE_GLOBAL(Ang16, dword_6FD9D8, 0x6FD9D8); // TODO: Init via func 0x54A270
+
 
 EXTERN_GLOBAL(Ang16, word_6FDB34);
 EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
@@ -2220,7 +2226,7 @@ void Char_B4::sub_54C900()
             break;
 
         case 25:
-            sub_54CAE0();
+            TurnTowardsAngle_54CAE0();
             if (ComputeShortestAngleDelta_4056C0(this->field_40_rotation, this->field_14) < k_dword_6FD892)
             {
                 this->field_38_velocity = k_dword_6FD7B8;
@@ -2242,11 +2248,33 @@ void Char_B4::sub_54C900()
     }
 }
 
-STUB_FUNC(0x54cae0)
-s16 Char_B4::sub_54CAE0()
+WIP_FUNC(0x54cae0)
+void Char_B4::TurnTowardsAngle_54CAE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_14 > field_40_rotation)
+    {
+        if ((field_40_rotation - field_14 <= word_6FD920))
+        {
+            this->field_40_rotation += word_6FDA54;
+        }
+        else
+        {
+            this->field_40_rotation += dword_6FD9D8;
+        }
+    }
+    else
+    {
+        if (field_14 - field_40_rotation <= word_6FD920)
+        {
+            this->field_40_rotation += word_6FDA54;
+        }
+        else
+        {
+            this->field_40_rotation += dword_6FD9D8;
+        }
+    }
 }
 
 STUB_FUNC(0x54cc40)
@@ -3369,8 +3397,8 @@ void Char_B4::state_5_551BB0()
     {
         this->field_40_rotation = field_84->field_50_car_sprite->field_0;
         field_84->GetDoorWorldPosition_43B5A0(field_7C_pPed->get_target_car_door_403A60(),
-                             &field_80_sprite_ptr->field_14_xy.x,
-                             &field_80_sprite_ptr->field_14_xy.y);
+                                              &field_80_sprite_ptr->field_14_xy.x,
+                                              &field_80_sprite_ptr->field_14_xy.y);
         this->field_6C_animation_state = 6;
         this->field_68_animation_frame = 0;
         if (field_84->sub_43B540(field_7C_pPed->get_target_car_door_403A60()))
@@ -3868,7 +3896,7 @@ void Char_B4::state_8_5520A0()
                             this->field_7C_pPed->field_168_game_object->field_16 = 1;
                             return;
                         }
-                        
+
                         if (field_7C_pPed->field_208_invulnerability)
                         {
                             SetPedState1_433910(0);

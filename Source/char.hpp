@@ -228,7 +228,7 @@ class Char_B4
     EXPORT void sub_54C580();
     EXPORT void sub_54C6C0();
     EXPORT void sub_54C900();
-    EXPORT s16 sub_54CAE0();
+    EXPORT void TurnTowardsAngle_54CAE0();
     EXPORT void sub_54CC40();
     EXPORT void sub_54DD70();
     EXPORT void state_0_54DDF0();
