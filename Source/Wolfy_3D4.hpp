@@ -26,7 +26,7 @@ class Wolfy_30
     EXPORT s16 sub_542790();
     EXPORT void sub_542E30(char_type a2);
     EXPORT char_type Update_5434A0(Fix16 a2, Ang16 a3);
-    EXPORT char_type sub_5435D0();
+    EXPORT char_type IsState_5435D0();
     EXPORT void DeInit_543610();
     EXPORT void Init_543650();
     EXPORT void Set_Obj2C_543680(Object_2C* a2);
@@ -42,7 +42,7 @@ class Wolfy_30
     Object_2C* field_14;
     s16 field_18;
     s16 field_1A;
-    s32 field_1C;
+    Sprite* field_1C;
     s16 field_20;
     s16 field_22;
     s32 field_24;

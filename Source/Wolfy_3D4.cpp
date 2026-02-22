@@ -167,7 +167,7 @@ char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 a3)
 }
 
 STUB_FUNC(0x5435d0)
-char_type Wolfy_30::sub_5435D0()
+char_type Wolfy_30::IsState_5435D0()
 {
     NOT_IMPLEMENTED;
     return 0;

@@ -148,14 +148,7 @@ EXTERN_GLOBAL(Fix16, dword_6FD9B0);
 EXTERN_GLOBAL(Ang16, word_6FD936);
 EXTERN_GLOBAL(Ang16, word_6FD854);
 
-// TODO: move with CarDoorAlignmentSolver_545AF0
-// https://decomp.me/scratch/6VBR0
-inline void __stdcall sub_41FC90(Fix16& xpos, Fix16& ypos, Ang16& rotation)
-{
-    Fix16 old_xpos = xpos;
-    xpos = xpos * Ang16::cosine_40F520(rotation) + ypos * Ang16::sine_40F500(rotation);
-    ypos = old_xpos * Ang16::sine_40F500(rotation) - ypos * Ang16::cosine_40F520(rotation);
-}
+
 
 // TODO: move
 // https://decomp.me/scratch/BzcQt
@@ -427,7 +420,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 animPhase, Car_BC* pCar,
         default:
             break;
     }
-    sub_41FC90(x_pos, y_pos, pCar->field_50_car_sprite->field_0);
+    Ang16::RotateVector_41FC90(x_pos, y_pos, pCar->field_50_car_sprite->field_0);
     outX = pCar->field_50_car_sprite->field_14_xy.x + x_pos;
     outY = pCar->field_50_car_sprite->field_14_xy.y + y_pos;
 }
