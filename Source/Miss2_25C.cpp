@@ -67,7 +67,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
                         PedGroup* pPedGroup = pIter->field_0_ped->field_164_ped_group;
                         if (pPedGroup)
                         {
-                            pPedGroup->sub_4C92A0();
+                            pPedGroup->DisbandGroup_4C92A0();
                         }
                         pIter->field_0_ped->ForceDoNothing_462590();
                         pIter->field_0_ped->field_21C_bf.b10 = true;

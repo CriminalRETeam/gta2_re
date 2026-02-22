@@ -457,7 +457,7 @@ void struct_4::PoolUpdate_5A6F70(Sprite* a2)
 }
 
 MATCH_FUNC(0x5a7010)
-void struct_4::sub_5A7010()
+void struct_4::DestroyAllSprites_5A7010()
 {
     Sprite_18* p18Iter = this->field_0_p18;
     while (p18Iter)
@@ -471,7 +471,7 @@ void struct_4::sub_5A7010()
             case sprite_types_enum::unknown_1:
             case sprite_types_enum::code_obj1:
             case sprite_types_enum::map_obj:
-                gObject_5C_6F8F84->sub_52A610(pSprite->field_8_object_2C_ptr);
+                gObject_5C_6F8F84->RemoveAndFree_52A610(pSprite->field_8_object_2C_ptr);
                 break;
             default:
                 break;
@@ -503,7 +503,7 @@ void struct_4::CleanupSpriteList_5A7080()
             o2c = pIter->field_0->field_8_object_2C_ptr;
             if (o2c->field_18_model == 197 || o2c->sub_525AC0())
             {
-                gObject_5C_6F8F84->sub_52A610((Object_2C*)o2c); // ??
+                gObject_5C_6F8F84->RemoveAndFree_52A610((Object_2C*)o2c); // ??
                 if (pLastOfType)
                 {
                     pLastOfType->mpNext = pIter->mpNext;
@@ -555,7 +555,7 @@ void struct_4::sub_5A7110()
             }
         }
 
-        gObject_5C_6F8F84->sub_52A610(p5C);
+        gObject_5C_6F8F84->RemoveAndFree_52A610(p5C);
 
         if (pLast)
         {

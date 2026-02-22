@@ -790,7 +790,7 @@ Car_BC* Car_6C::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3)
 
     Fix16 new_x;
     Fix16 new_y;
-    Ang16::sub_41FC20(pSprite->field_0, dword_6772D0, new_x, new_y);
+    Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6772D0, new_x, new_y);
 
     pSprite->set_xyz_lazy_420600(pSprite->field_14_xy.x + new_x, pSprite->field_14_xy.y + new_y, pSprite->field_1C_zpos);
 
@@ -2113,7 +2113,7 @@ bool Car_BC::sub_43B140(s32 target_car_door)
     // TODO: This inline seems to not match
     Fix16 t1;
     Fix16 t2;
-    Ang16::sub_41FC20(angToUse, dword_6778FC, t1, t2);
+    Ang16::PolarToCartesian_41FC20(angToUse, dword_6778FC, t1, t2);
 
     if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420((v14 + t1).ToInt(),
                                                       (v13 + t2).ToInt(),
@@ -3448,7 +3448,7 @@ void Car_BC::sub_43DD60()
             this->field_9C = 5;
         }
         PrepareForExplosion_43C1C0();
-        field_0_qq.sub_5A7010();
+        field_0_qq.DestroyAllSprites_5A7010();
 
         pSprite = this->field_50_car_sprite;
         if (pSprite->field_1C_zpos != gFix16_6777CC)
@@ -5367,7 +5367,7 @@ void Car_BC::PoolAllocate()
     this->field_78_flags = 0;
     //clear();
 
-    this->field_0_qq.sub_5A7010();
+    this->field_0_qq.DestroyAllSprites_5A7010();
 
     this->field_A7_horn = 0;
     IncrementCarStats_443D70(0);
@@ -5406,7 +5406,7 @@ void Car_BC::DeAllocateAI_4446E0()
 MATCH_FUNC(0x4447d0)
 void Car_BC::PoolDeallocate()
 {
-    this->field_0_qq.sub_5A7010();
+    this->field_0_qq.DestroyAllSprites_5A7010();
 
     DeAllocateCarPhysics_441A10();
 
@@ -5454,7 +5454,7 @@ Car_BC::Car_BC()
     field_6C_maybe_id = 0xFFFF;
     field_64_pTrailer = 0;
     field_78_flags = 0;
-    this->field_0_qq.sub_5A7010();
+    this->field_0_qq.DestroyAllSprites_5A7010();
     field_A7_horn = 0;
     field_80 = 0;
     field_A0_car_kind = 0;

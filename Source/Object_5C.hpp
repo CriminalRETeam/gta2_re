@@ -45,6 +45,7 @@ class Object_2C
     EXPORT char_type sub_5233A0(Fix16 a2);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point a3, char_type a4, char_type a5);
     EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5);
+    EXPORT void sub_524550();
     EXPORT void IntegrateHorizontalMovementAndCollisions_524630(s32 a2, s16 a3);
     EXPORT void sub_525190(u8 varrok_idx);
     EXPORT void UpdateAninmation_5257D0();
@@ -68,7 +69,7 @@ class Object_2C
     EXPORT void sub_527F10();
     EXPORT void NewObj3C_528130(Fix16_Point* a2);
     EXPORT char_type HandleRotationStateTransition_528240(s32 a2, s32 a3);
-    EXPORT void sub_5283C0(s32 a2);
+    EXPORT void TickObject_5283C0(s32 a2);
     EXPORT bool OnObjectTouched_5288B0(Sprite* a2);
     EXPORT void HandleWaterDeath_528900();
     EXPORT static s32 __stdcall sub_528E00(s32 a1); // TODO: Check if thiscall
@@ -249,7 +250,7 @@ class Object_5C
 
     EXPORT void SaveObjects_52A500(TurkishDelight_164* pUnknownObj);
     EXPORT void RestoreObjects_52A590(TurkishDelight_164* pUnknownObj);
-    EXPORT void sub_52A610(Object_2C* p2C);
+    EXPORT void RemoveAndFree_52A610(Object_2C* p2C);
 
     Object_2C* field_0; // Object_2C* ?
     Object_2C* field_4;

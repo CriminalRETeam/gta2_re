@@ -203,7 +203,7 @@ class Ang16
     }
 
     // TODO: Create a scratch and check this matches
-    inline static void __stdcall sub_41FC20(Ang16& angle, Fix16& unk, Fix16& ret1, Fix16& ret2)
+    inline static void __stdcall PolarToCartesian_41FC20(Ang16& angle, Fix16& unk, Fix16& ret1, Fix16& ret2)
     {
         ret1 = unk * Ang16::sine_40F500(angle);
         ret2 = unk * Ang16::cosine_40F520(angle);
@@ -273,6 +273,15 @@ class Ang16
     Ang16 sub_401CB0(Fix16& a2)
     {
         return Ang16(Fix16(rValue) * a2, 0);
+    }
+
+    // TODO: move with CarDoorAlignmentSolver_545AF0
+    // https://decomp.me/scratch/6VBR0
+    static inline void __stdcall RotateVector_41FC90(Fix16& xpos, Fix16& ypos, Ang16& rotation)
+    {
+        Fix16 old_xpos = xpos;
+        xpos = xpos * Ang16::cosine_40F520(rotation) + ypos * Ang16::sine_40F500(rotation);
+        ypos = old_xpos * Ang16::sine_40F500(rotation) - ypos * Ang16::cosine_40F520(rotation);
     }
 
     s16 rValue;

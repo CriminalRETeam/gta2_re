@@ -21,7 +21,7 @@ void PedGroup::sub_4C8E80()
 }
 
 MATCH_FUNC(0x4c8e90)
-void PedGroup::sub_4C8E90()
+void PedGroup::ClearGroupData_4C8E90()
 {
     field_40_in_use = false;
     field_38_group_type = 2;
@@ -49,7 +49,7 @@ void PedGroup::sub_4C8E90()
 }
 
 MATCH_FUNC(0x4c8ef0)
-void PedGroup::sub_4C8EF0()
+void PedGroup::Reset_4C8EF0()
 {
     field_40_in_use = 0;
     field_38_group_type = 2;
@@ -67,17 +67,17 @@ void PedGroup::sub_4C8EF0()
 }
 
 MATCH_FUNC(0x4c8f20)
-void PedGroup::sub_4C8F20()
+void PedGroup::ResetGroupObjectives_4C8F20()
 {
-    field_2C_ped_leader->SetObjective(0, 9999);
-    field_2C_ped_leader->sub_463830(0, 9999);
+    field_2C_ped_leader->SetObjective(objectives_enum::no_obj_0, 9999);
+    field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
 
     u8 bVar1 = 0;
 
     while (bVar1 < field_34_count)
     {
-        field_4_ped_list[bVar1]->SetObjective(0, 9999);
-        field_4_ped_list[bVar1]->sub_463830(0, 9999);
+        field_4_ped_list[bVar1]->SetObjective(objectives_enum::no_obj_0, 9999);
+        field_4_ped_list[bVar1]->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
         bVar1++;
     }
 }
@@ -85,8 +85,8 @@ void PedGroup::sub_4C8F20()
 MATCH_FUNC(0x4c8f90)
 void PedGroup::add_ped_to_end_of_list_4C8F90(Ped* pPed)
 {
-    pPed->sub_463830(0, 9999);
-    pPed->SetObjective(0, 9999);
+    pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+    pPed->SetObjective(objectives_enum::no_obj_0, 9999);
     add_ped_to_list_4C9B30(pPed, field_34_count);
     ++field_34_count;
     ++field_36_count;
@@ -101,12 +101,12 @@ void PedGroup::replace_leader_4C8FE0(Ped* new_leader)
 
     for (u8 i = 0; i < field_34_count; i++)
     {
-        field_4_ped_list[i]->sub_463830(0, 9999);
+        field_4_ped_list[i]->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
     }
 }
 
 MATCH_FUNC(0x4c9040)
-bool PedGroup::sub_4C9040()
+bool PedGroup::PurgeMembersInCars_4C9040()
 {
     field_36_count = field_34_count;
     if (field_2C_ped_leader->field_16C_car != NULL)
@@ -175,18 +175,18 @@ char_type PedGroup::sub_4C9150()
 }
 
 MATCH_FUNC(0x4c91b0)
-void PedGroup::sub_4C91B0()
+void PedGroup::ResetMembersToFollowLeader_4C91B0()
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
         field_4_ped_list[i]->unset_bitset_0x04();
-        field_4_ped_list[i]->sub_463830(9, 9999);
+        field_4_ped_list[i]->SetObjective2_463830(objectives_enum::objective_9, 9999);
         field_4_ped_list[i]->set_field_14C_403AE0(field_2C_ped_leader);
     }
 }
 
 MATCH_FUNC(0x4c9210)
-bool PedGroup::sub_4C9210()
+bool PedGroup::IsLeaderInCar_4C9210()
 {
     if (field_2C_ped_leader->field_16C_car != NULL)
     {
@@ -199,7 +199,7 @@ bool PedGroup::sub_4C9210()
 }
 
 MATCH_FUNC(0x4c9220)
-bool PedGroup::sub_4C9220()
+bool PedGroup::IsLeaderEnteringCarOrUnknown5_4C9220()
 {
     if (field_2C_ped_leader->get_ped_state1() != ped_state1_enum::ped_entering_a_car)
     {
@@ -212,7 +212,7 @@ bool PedGroup::sub_4C9220()
 }
 
 WIP_FUNC(0x4c9240)
-void PedGroup::sub_4C9240()
+void PedGroup::KillEntireGroup_4C9240()
 {
     WIP_IMPLEMENTED;
 
@@ -237,7 +237,7 @@ void PedGroup::sub_4C9240()
 }
 
 MATCH_FUNC(0x4c92a0)
-void PedGroup::sub_4C92A0()
+void PedGroup::DisbandGroup_4C92A0()
 {
     if (field_40_in_use == false)
     {
@@ -265,16 +265,16 @@ void PedGroup::sub_4C92A0()
                 }
                 else
                 {
-                    this_00->SetObjective(0, 9999);
+                    this_00->SetObjective(objectives_enum::no_obj_0, 9999);
                 }
-                (*pppVar1)->sub_463830(0, 9999);
+                (*pppVar1)->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 (*pppVar1)->reset_ped_group();
                 (*pppVar1)->set_ped_type(ped_type_enum::New_Name_2);
             }
             (*pppVar1)->field_21C |= 0x400;
         }
     }
-    sub_4C8E90();
+    ClearGroupData_4C8E90();
 }
 
 MATCH_FUNC(0x4c93a0)
@@ -288,8 +288,8 @@ void PedGroup::DestroyGroup_4C93A0()
     Ped* ppVar2 = field_2C_ped_leader;
     if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) && (ppVar2->field_280_stored_ped_state_1 != ped_state1_enum::ped_wasted))
     {
-        ppVar2->SetObjective(0, 9999);
-        field_2C_ped_leader->sub_463830(0, 9999);
+        ppVar2->SetObjective(objectives_enum::no_obj_0, 9999);
+        field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
     }
 
     field_2C_ped_leader->reset_ped_group();
@@ -308,7 +308,7 @@ void PedGroup::DestroyGroup_4C93A0()
             {
                 if (ppVar2->has_field_16C_car() == true)
                 {
-                    ppVar2->sub_463830(0, 9999);
+                    ppVar2->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     (*pppVar1)->SetObjective(objectives_enum::objective_34, 9999);
                     (*pppVar1)->set_field_150_target_objective_car((*pppVar1)->field_16C_car);
                     (*pppVar1)->reset_ped_group();
@@ -316,15 +316,15 @@ void PedGroup::DestroyGroup_4C93A0()
                 }
                 else
                 {
-                    ppVar2->SetObjective(0, 9999);
-                    (*pppVar1)->sub_463830(0, 9999);
+                    ppVar2->SetObjective(objectives_enum::no_obj_0, 9999);
+                    (*pppVar1)->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     (*pppVar1)->reset_ped_group();
                     (*pppVar1)->set_ped_type(ped_type_enum::New_Name_2);
                 }
             }
         }
     }
-    sub_4C8E90();
+    ClearGroupData_4C8E90();
     return;
 }
 
@@ -342,7 +342,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
         {
             this->field_2C_ped_leader->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
             this->field_2C_ped_leader->field_148_objective_target_ped = pAttacker;
-            this->field_2C_ped_leader->sub_463830(3, 9999);
+            this->field_2C_ped_leader->SetObjective2_463830(3, 9999);
             this->field_2C_ped_leader->field_14C = pAttacker;
             this->field_2C_ped_leader->field_21C |= 4u;
             this->field_2C_ped_leader->field_228 = 0;
@@ -356,7 +356,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
             s32 i = i_;
             if (field_4_ped_list[i]->field_16C_car)
             {
-                this->field_4_ped_list[i]->sub_463830(0, 9999);
+                this->field_4_ped_list[i]->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_always_once_car_stopped_6, 9999);
                 this->field_4_ped_list[i]->field_148_objective_target_ped = pAttacker;
                 this->field_4_ped_list[i]->field_228 = 0;
@@ -366,7 +366,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
             {
                 this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
                 this->field_4_ped_list[i]->field_148_objective_target_ped = pAttacker;
-                this->field_4_ped_list[i]->sub_463830(3, 9999);
+                this->field_4_ped_list[i]->SetObjective2_463830(3, 9999);
                 this->field_4_ped_list[i]->field_14C = pAttacker;
                 this->field_4_ped_list[i]->field_21C |= 4u;
                 this->field_4_ped_list[i]->field_228 = 0;
@@ -375,12 +375,12 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
                 this->field_4_ped_list[i]->field_238 = 3;
             }
         }
-        PedGroup::sub_4C8E90();
+        PedGroup::ClearGroupData_4C8E90();
     }
 }
 
 STUB_FUNC(0x4c9680)
-void PedGroup::sub_4C9680(u8 a2)
+void PedGroup::PromoteMemberToLeader_4C9680(u8 a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -408,7 +408,7 @@ void PedGroup::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
 }
 
 STUB_FUNC(0x4c9b60)
-char_type PedGroup::sub_4C9B60(Ped* a2)
+char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -441,14 +441,14 @@ u32 PedGroup::sub_4CA3E0()
 }
 
 STUB_FUNC(0x4ca3f0)
-Ped* PedGroup::sub_4CA3F0(u32* a2)
+Ped* PedGroup::FindFarthestMember_4CA3F0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x4ca4b0)
-void PedGroup::sub_4CA4B0()
+void PedGroup::UpdateFormation_4CA4B0()
 {
     if (!field_2C_ped_leader->field_16C_car && (field_2C_ped_leader->field_21C_bf.b27) == 0)
     {
@@ -459,7 +459,7 @@ void PedGroup::sub_4CA4B0()
             {
                 if (pIter->field_168_game_object)
                 {
-                    pIter->sub_463830(9, 9999);
+                    pIter->SetObjective2_463830(9, 9999);
                 }
             }
             if (field_38_group_type == 1)
@@ -510,7 +510,7 @@ void PedGroup::sub_4CA4B0()
 }
 
 STUB_FUNC(0x4ca5e0)
-void PedGroup::sub_4CA5E0(u8 idx)
+void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
 {
     NOT_IMPLEMENTED;
     /*Ped *this_00 = field_4_ped_list[idx];
@@ -633,7 +633,7 @@ void PedGroup::sub_4CA5E0(u8 idx)
 }
 
 STUB_FUNC(0x4ca820)
-void PedGroup::sub_4CA820(u8 a2)
+void PedGroup::UpdateMemberTightFollowState_4CA820(u8 a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -657,7 +657,7 @@ bool PedGroup::IsAllMembersInSomeCar_4CAA20()
 }
 
 MATCH_FUNC(0x4caae0)
-char_type PedGroup::sub_4CAAE0()
+char_type PedGroup::HasNoActiveMembers_4CAAE0()
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
@@ -685,7 +685,7 @@ char_type PedGroup::AreAllMembersOnFoot_4CAB80()
 
 // https://decomp.me/scratch/p3Ujn
 STUB_FUNC(0x4cac20)
-bool PedGroup::sub_4CAC20(s32 idx)
+bool PedGroup::IsMemberTooFarFromLeader_4CAC20(s32 idx)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -693,28 +693,28 @@ bool PedGroup::sub_4CAC20(s32 idx)
 
 // https://decomp.me/scratch/MrO9e
 STUB_FUNC(0x4cad40)
-bool PedGroup::sub_4CAD40()
+bool PedGroup::IsLeaderCloseToTargetCar_4CAD40()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4cae80)
-Ped* PedGroup::sub_4CAE80(u8 idx)
+Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x4cb080)
-void PedGroup::sub_4CB080()
+void PedGroup::ResetAllGroups_4CB080()
 {
     sub_4C8E80();
 
     PedGroup* pIter = pedGroups_67EF20;
     for (s32 i = 0; i < 20; i++)
     {
-        pIter->sub_4C8EF0();
+        pIter->Reset_4C8EF0();
         pIter++;
     }
 }
@@ -726,7 +726,7 @@ PedGroup* PedGroup::New_4CB0D0()
     {
         if (!pedGroups_67EF20[i].field_40_in_use)
         {
-            pedGroups_67EF20[i].sub_4C8EF0();
+            pedGroups_67EF20[i].Reset_4C8EF0();
             pedGroups_67EF20[i].field_40_in_use = 1;
             return &pedGroups_67EF20[i];
         }
@@ -737,7 +737,7 @@ PedGroup* PedGroup::New_4CB0D0()
 MATCH_FUNC(0x4cb860)
 PedGroup::PedGroup()
 {
-    sub_4C8EF0();
+    Reset_4C8EF0();
 }
 
 MATCH_FUNC(0x4cb870)

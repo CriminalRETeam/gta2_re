@@ -1,4 +1,5 @@
 #include "Object_5C.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
 #include "Door_4D4.hpp"
@@ -22,7 +23,6 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "CarPhysics_B0.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
@@ -64,11 +64,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F8CEC, Fix16(1), 0x6F8CEC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8ECC, dword_6F8DC8, 0x6F8ECC);
 
 DEFINE_GLOBAL(Ang16, word_6F8C88, 0x6F8C88); // TODO: Init via func 0x5269F0
+DEFINE_GLOBAL(Ang16, word_6F8D88, 0x6F8D88); // TODO: Init via func 0x526E70
+
 DEFINE_GLOBAL_INIT(u8, byte_6771DC, 0, 0x6771DC);
 
 // TODO: From CarPhysics_B0
 EXTERN_GLOBAL(Fix16_Point, stru_6FE1A0);
-
 
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
@@ -435,7 +436,7 @@ void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
                 Char_B4* pChar = gRozza_679188.field_20_pSprite->AsCharB4_40FEA0();
                 if (pChar)
                 {
-                    s32 v12; // ?? 
+                    s32 v12; // ??
                     ResolveCollisionWithPed_5229B0(pChar, &v13, v12);
                     HandleImpact_528E50(gRozza_679188.field_20_pSprite);
                 }
@@ -552,6 +553,33 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, u32* a3, 
     return 0;
 }
 
+MATCH_FUNC(0x524550)
+void Object_2C::sub_524550()
+{
+    if (gRozza_679188.field_0_type == 1)
+    {
+        if (field_10_obj_3c->field_4 >= word_6F8D88 || field_10_obj_3c->field_4 <= word_6F8C88)
+        {
+            dword_6F8F90 = 3;
+        }
+        else
+        {
+            dword_6F8F90 = 4;
+        }
+    }
+    else if (gRozza_679188.field_0_type == 2)
+    {
+        if (field_10_obj_3c->field_4 >= word_6F8D62)
+        {
+            dword_6F8F90 = 2;
+        }
+        else
+        {
+            dword_6F8F90 = 1;
+        }
+    }
+}
+
 STUB_FUNC(0x524630)
 void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(s32 a2, s16 a3)
 {
@@ -615,7 +643,7 @@ void Object_2C::UpdateAninmation_5257D0()
 
         if (!field_C_pAny.o8->field_4_timer && !field_C_pAny.o8->field_7_anim_speed_counter)
         {
-            Object_2C::sub_5283C0(this->field_8->field_3C_next_definition_idx);
+            Object_2C::TickObject_5283C0(this->field_8->field_3C_next_definition_idx);
         }
     }
 }
@@ -635,18 +663,18 @@ bool Object_2C::DispatchFrameAction_525910()
             case 11:
                 if (field_24_bDoneThisFrame == 1)
                 {
-                    sub_5283C0(field_8->field_38);
+                    TickObject_5283C0(field_8->field_38);
                 }
                 else
                 {
-                    sub_5283C0(field_24_bDoneThisFrame);
+                    TickObject_5283C0(field_24_bDoneThisFrame);
                 }
                 field_24_bDoneThisFrame = 0;
                 return true;
             case 4:
                 if (field_24_bDoneThisFrame != 1)
                 {
-                    sub_5283C0(field_24_bDoneThisFrame);
+                    TickObject_5283C0(field_24_bDoneThisFrame);
                 }
                 field_24_bDoneThisFrame = 0;
                 return true;
@@ -662,7 +690,7 @@ bool Object_2C::DispatchFrameAction_525910()
     }
     else if (field_8->field_44 == 3 || field_8->field_44 == 4)
     {
-        sub_5283C0(field_8->field_38);
+        TickObject_5283C0(field_8->field_38);
         return true;
     }
 
@@ -1064,11 +1092,128 @@ void Object_2C::sub_526B40(Sprite* pSprite)
     }
 }
 
-STUB_FUNC(0x527070)
+WIP_FUNC(0x527070)
 bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    byte_6F8C68 = 1;
+
+    if (this->field_10_obj_3c)
+    {
+        sub_526B40(pSprite);
+    }
+
+    if (this->field_8->field_34_behavior_type != 11)
+    {
+        gPurpleDoom_3_679210->Remove_477B00(field_4);
+    }
+
+    PoolTake_522360();
+
+    if (field_25)
+    {
+        TriggerCarExplosionIfApplicable_526790(pSprite);
+        byte_6F8C68 = 0;
+        return 1;
+    }
+
+    Fix16 new_x;
+    Fix16 new_y;
+
+    Wolfy_30* w30;
+    bool result;
+
+    if (x == kFpZero_6F8E10 && y == kFpZero_6F8E10)
+    {
+        new_x = pSprite->field_14_xy.x;
+        new_y = pSprite->field_14_xy.y;
+    }
+    else
+    {
+        Ang16::RotateVector_41FC90(x, y, pSprite->field_0);
+        new_x = pSprite->field_14_xy.x + x;
+        new_y = pSprite->field_14_xy.y + y;
+    }
+
+    pSprite->set_xyz_lazy_420600(new_x, new_y, pSprite->field_1C_zpos);
+    field_4->set_ang_lazy_420690(rot + pSprite->field_0);
+
+    if (this->field_8->field_34_behavior_type == 2)
+    {
+        UpdateAninmation_5257D0();
+        goto LABEL_35;
+    }
+
+    if (this->field_8->field_34_behavior_type != 5)
+    {
+        if (this->field_8->field_34_behavior_type == 11)
+        {
+            nostalgic_ellis_0x28* pLight = this->field_C_pAny.pLight;
+            pLight->sub_4D6DC0();
+            pLight->field_4_light_x = field_4->field_14_xy.x;
+            pLight->field_8_light_y = field_4->field_14_xy.y;
+            pLight->field_C_light_z = field_4->field_1C_zpos;
+            pLight->sub_4D6D70();
+        }
+        goto LABEL_35;
+    }
+
+    w30 = this->field_C_pAny.pExplosion;
+    if (!w30)
+    {
+    LABEL_35:
+        if (field_10_obj_3c)
+        {
+            if (field_10_obj_3c->field_0.field_0_p18)
+            {
+                field_10_obj_3c->field_0.PoolUpdate_5A6F70(field_4);
+            }
+        }
+
+        if (this->field_8->field_34_behavior_type != 11)
+        {
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
+        }
+        byte_6F8C68 = 0;
+        return 0;
+    }
+
+    switch (pSprite->field_30_sprite_type_enum)
+    {
+        case sprite_types_enum::car:
+            if (w30->IsState_5435D0())
+            {
+                field_4->set_z_lazy_420660(pSprite->field_8_car_bc_ptr->GetZPos_441330());
+                pSprite->field_8_car_bc_ptr->AccumulateDamage_43DA90(1, &stru_6F8EF0);
+            }
+
+            this->field_C_pAny.pExplosion->field_1C = pSprite;
+
+            if (!field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C, field_10_obj_3c->field_4))
+            {
+                goto LABEL_35;
+            }
+            byte_6F8C68 = 0;
+            result = 1;
+            break;
+
+        case 3:
+        case 4:
+        case 5:
+            if (!w30->Update_5434A0(field_10_obj_3c->field_C, field_10_obj_3c->field_4))
+            {
+                goto LABEL_35;
+            }
+            byte_6F8C68 = 0;
+            result = 1;
+            break;
+
+        default:
+            goto LABEL_35;
+    }
+
+    return result;
 }
 
 MATCH_FUNC(0x527630)
@@ -1242,7 +1387,7 @@ char_type Object_2C::HandleRotationStateTransition_528240(s32 current, s32 desir
 }
 
 STUB_FUNC(0x5283c0)
-void Object_2C::sub_5283C0(s32 a2)
+void Object_2C::TickObject_5283C0(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -1847,7 +1992,7 @@ char Object_2C::sub_525AC0()
 {
     if (field_18_model == 113)
     {
-        return field_C_pAny.pExplosion->sub_5435D0();
+        return field_C_pAny.pExplosion->IsState_5435D0();
     }
     else
     {
@@ -2456,7 +2601,7 @@ void Object_5C::RestoreObjects_52A590(TurkishDelight_164* pData)
 }
 
 MATCH_FUNC(0x52A610)
-void Object_5C::sub_52A610(Object_2C* p2C)
+void Object_5C::RemoveAndFree_52A610(Object_2C* p2C)
 {
     if (p2C->field_8->field_34_behavior_type != 11)
     {

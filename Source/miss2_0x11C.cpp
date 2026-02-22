@@ -2926,7 +2926,7 @@ void miss2_0x11C::sub_50B4F0()
     {
         if (gBasePtr_6F8070->field_2_type != SCRCMD_CHAR_TO_BACKDOOR)
         {
-            pPtrPed->field_8_char->sub_463830(0, 9999);
+            pPtrPed->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
             pPtrPed->field_8_char->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
             pPtrPed->field_8_char->field_150_target_objective_car = pPtrCar->field_8_car;
             pPtrPed->field_8_char->field_248_enter_car_as_passenger = false;
@@ -2945,7 +2945,7 @@ void miss2_0x11C::sub_50B5A0() // SCRCMD_DRIVER_OUT_CAR
     SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     if (pPtr->field_8_char)
     {
-        pPtr->field_8_char->sub_463830(0, 9999);
+        pPtr->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
         pPtr->field_8_char->SetObjective(objectives_enum::leave_car_36, 9999);
         pPtr->field_8_char->field_150_target_objective_car = pPtr->field_8_char->field_16C_car;
     }

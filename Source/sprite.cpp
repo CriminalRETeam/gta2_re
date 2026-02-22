@@ -1874,7 +1874,7 @@ bool Sprite_18::PoolUpdate_5A6910(Sprite* a2)
         {
             Char_B4* cB4 = field_0->AsCharB4_40FEA0();
             bRet = 0;
-            cB4->sub_545720(dword_703A38);
+            cB4->Update_545720(dword_703A38);
         }
     }
     return bRet;
