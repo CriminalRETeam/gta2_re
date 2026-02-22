@@ -1,4 +1,5 @@
 #include "Object_5C.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
 #include "Door_4D4.hpp"
@@ -22,7 +23,6 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "CarPhysics_B0.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
@@ -64,11 +64,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F8CEC, Fix16(1), 0x6F8CEC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8ECC, dword_6F8DC8, 0x6F8ECC);
 
 DEFINE_GLOBAL(Ang16, word_6F8C88, 0x6F8C88); // TODO: Init via func 0x5269F0
+DEFINE_GLOBAL(Ang16, word_6F8D88, 0x6F8D88); // TODO: Init via func 0x526E70
+
 DEFINE_GLOBAL_INIT(u8, byte_6771DC, 0, 0x6771DC);
 
 // TODO: From CarPhysics_B0
 EXTERN_GLOBAL(Fix16_Point, stru_6FE1A0);
-
 
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
@@ -435,7 +436,7 @@ void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
                 Char_B4* pChar = gRozza_679188.field_20_pSprite->AsCharB4_40FEA0();
                 if (pChar)
                 {
-                    s32 v12; // ?? 
+                    s32 v12; // ??
                     ResolveCollisionWithPed_5229B0(pChar, &v13, v12);
                     HandleImpact_528E50(gRozza_679188.field_20_pSprite);
                 }
@@ -552,6 +553,33 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, u32* a3, 
     return 0;
 }
 
+MATCH_FUNC(0x524550)
+void Object_2C::sub_524550()
+{
+    if (gRozza_679188.field_0_type == 1)
+    {
+        if (field_10_obj_3c->field_4 >= word_6F8D88 || field_10_obj_3c->field_4 <= word_6F8C88)
+        {
+            dword_6F8F90 = 3;
+        }
+        else
+        {
+            dword_6F8F90 = 4;
+        }
+    }
+    else if (gRozza_679188.field_0_type == 2)
+    {
+        if (field_10_obj_3c->field_4 >= word_6F8D62)
+        {
+            dword_6F8F90 = 2;
+        }
+        else
+        {
+            dword_6F8F90 = 1;
+        }
+    }
+}
+
 STUB_FUNC(0x524630)
 void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(s32 a2, s16 a3)
 {
@@ -615,7 +643,7 @@ void Object_2C::UpdateAninmation_5257D0()
 
         if (!field_C_pAny.o8->field_4_timer && !field_C_pAny.o8->field_7_anim_speed_counter)
         {
-            Object_2C::sub_5283C0(this->field_8->field_3C_next_definition_idx);
+            Object_2C::TickObject_5283C0(this->field_8->field_3C_next_definition_idx);
         }
     }
 }
@@ -635,18 +663,18 @@ bool Object_2C::DispatchFrameAction_525910()
             case 11:
                 if (field_24_bDoneThisFrame == 1)
                 {
-                    sub_5283C0(field_8->field_38);
+                    TickObject_5283C0(field_8->field_38);
                 }
                 else
                 {
-                    sub_5283C0(field_24_bDoneThisFrame);
+                    TickObject_5283C0(field_24_bDoneThisFrame);
                 }
                 field_24_bDoneThisFrame = 0;
                 return true;
             case 4:
                 if (field_24_bDoneThisFrame != 1)
                 {
-                    sub_5283C0(field_24_bDoneThisFrame);
+                    TickObject_5283C0(field_24_bDoneThisFrame);
                 }
                 field_24_bDoneThisFrame = 0;
                 return true;
@@ -662,7 +690,7 @@ bool Object_2C::DispatchFrameAction_525910()
     }
     else if (field_8->field_44 == 3 || field_8->field_44 == 4)
     {
-        sub_5283C0(field_8->field_38);
+        TickObject_5283C0(field_8->field_38);
         return true;
     }
 
@@ -1242,7 +1270,7 @@ char_type Object_2C::HandleRotationStateTransition_528240(s32 current, s32 desir
 }
 
 STUB_FUNC(0x5283c0)
-void Object_2C::sub_5283C0(s32 a2)
+void Object_2C::TickObject_5283C0(s32 a2)
 {
     NOT_IMPLEMENTED;
 }

@@ -2340,7 +2340,7 @@ Object_2C::RemoveFromCollisionBuckets_527D00,0x527d00,0x127d00,0x4f
 Object_2C::sub_527F10,0x527f10,0x127f10,0x10a
 Object_2C::NewObj3C_528130,0x528130,0x128130,0x10e
 Object_2C::HandleRotationStateTransition_528240,0x528240,0x128240,0x129
-Object_2C::sub_5283C0,0x5283c0,0x1283c0,0x4b4
+Object_2C::TickObject_5283C0,0x5283c0,0x1283c0,0x4b4
 Object_2C::OnObjectTouched_5288B0,0x5288b0,0x1288b0,0x42
 Object_2C::HandleWaterDeath_528900,0x528900,0x128900,0x55
 Object_2C::HandleObjectHitIfExplosive_528960,0x528960,0x128960,0x24
