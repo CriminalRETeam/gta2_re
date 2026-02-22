@@ -4185,7 +4185,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::PatrolOnFoot_468C70();
                 break;
             case objectives_enum::goto_char_on_foot_16:
-                Ped::sub_468E80();
+                Ped::UpdateFollowPedObjective_468E80();
                 break;
             case objectives_enum::goto_area_on_foot_12:
                 Ped::GotoAreaOnFoot_468DE0();
@@ -4360,10 +4360,10 @@ void Ped::ProcessInCarObjective_463FB0()
         switch (this->field_25C_car_state)
         {
             case 1:
-                Ped::sub_46A8F0();
+                Ped::FleeOnFootTillSafe_46A8F0();
                 break;
             case 2:
-                Ped::sub_46A9C0();
+                Ped::FleeFromPedTillSafe_46A9C0();
                 break;
             case 3:
                 Ped::sub_46AAE0();
@@ -5142,7 +5142,7 @@ Sprite* Ped::sub_467280()
 }
 
 STUB_FUNC(0x4672e0)
-char_type Ped::sub_4672E0(Fix16 a2, s32 a3)
+char_type Ped::UpdateMovementTowardsTarget_4672E0(Fix16 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -5956,12 +5956,12 @@ void Ped::GotoAreaOnFoot_468DE0()
             }
             field_168_game_object->SetMaxSpeed_433920(field_1F0_maybe_max_speed);
         }
-        Ped::sub_4672E0(gDistanceToTarget_678750, 4);
+        Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 4);
     }
 }
 
 STUB_FUNC(0x468e80)
-char_type Ped::sub_468E80()
+char_type Ped::UpdateFollowPedObjective_468E80()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -6029,7 +6029,7 @@ void Ped::sub_469D60()
         else
         {
             field_168_game_object->SetMaxSpeed_433920(field_1F4);
-            Ped::sub_4672E0(gDistanceToTarget_678750, 4);
+            Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 4);
         }
     }
     else
@@ -6358,7 +6358,7 @@ void Ped::DestroyTargetCar_46A850()
 }
 
 MATCH_FUNC(0x46a8f0)
-void Ped::sub_46A8F0()
+void Ped::FleeOnFootTillSafe_46A8F0()
 {
     if (gDistanceToTarget_678750 > dword_678520)
     {
@@ -6388,7 +6388,7 @@ void Ped::sub_46A8F0()
 }
 
 MATCH_FUNC(0x46a9c0)
-void Ped::sub_46A9C0()
+void Ped::FleeFromPedTillSafe_46A9C0()
 {
     field_14C->field_144 = 0;
     if (field_14C->field_278_ped_state_1 == ped_state_1::dead_9 || field_14C->field_21C_bf.b0 == false)
@@ -6468,7 +6468,7 @@ void Ped::sub_46AB50()
             {
                 Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
-                Ped::sub_4672E0(gDistanceToTarget_678750, 0);
+                Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
                 field_168_game_object->field_38_velocity = field_168_game_object->field_3C_run_or_jump_speed; // OBS: inline doesn't match
             }
         }
@@ -6651,7 +6651,7 @@ void Ped::EnterCarStateMachine_46BDC0()
                 goto LABEL_40;
             }
         }
-        sub_4672E0(gDistanceToTarget_678750, 2);
+        UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 2);
         goto LABEL_49;
     }
 
@@ -6927,7 +6927,7 @@ void Ped::sub_46C770()
         }
         else
         {
-            Ped::sub_4672E0(gDistanceToTarget_678750, 1);
+            Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 1);
             field_168_game_object->field_38_velocity = dword_678448; // inline doesn't match
         }
     }
@@ -6962,7 +6962,7 @@ void Ped::sub_46C7E0()
                 field_168_game_object->SetMaxSpeed_433920(field_1F4);
             }
         }
-        Ped::sub_4672E0(gDistanceToTarget_678750, 1);
+        Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 1);
     }
 }
 
@@ -6981,7 +6981,7 @@ void Ped::sub_46C8A0()
         else
         {
             field_230 = 2;
-            Ped::sub_4672E0(gDistanceToTarget_678750, 2);
+            Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 2);
             field_168_game_object->field_38_velocity = dword_678448;
         }
     }
@@ -7360,7 +7360,7 @@ void Ped::sub_46D300()
                 }
             }
         }
-        sub_4672E0(gDistanceToTarget_678750, 1);
+        UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 1);
     }
 }
 

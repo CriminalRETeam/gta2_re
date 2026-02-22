@@ -3370,7 +3370,7 @@
         "v105_address": "0x467280"
     },
     {
-        "name": "Ped::sub_4672E0",
+        "name": "Ped::UpdateMovementTowardsTarget_4672E0",
         "v96f_address": null,
         "v105_address": "0x4672e0"
     },
@@ -3470,7 +3470,7 @@
         "v105_address": "0x468de0"
     },
     {
-        "name": "Ped::sub_468E80",
+        "name": "Ped::UpdateFollowPedObjective_468E80",
         "v96f_address": null,
         "v105_address": "0x468e80"
     },
@@ -3575,12 +3575,12 @@
         "v105_address": "0x46a850"
     },
     {
-        "name": "Ped::sub_46A8F0",
+        "name": "Ped::FleeOnFootTillSafe_46A8F0",
         "v96f_address": null,
         "v105_address": "0x46a8f0"
     },
     {
-        "name": "Ped::sub_46A9C0",
+        "name": "Ped::FleeFromPedTillSafe_46A9C0",
         "v96f_address": null,
         "v105_address": "0x46a9c0"
     },

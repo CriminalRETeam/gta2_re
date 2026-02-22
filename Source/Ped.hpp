@@ -128,7 +128,7 @@ class Ped
     EXPORT Ped* sub_467070();
     EXPORT char_type FindUsableCarDoor_467090();
     EXPORT Sprite* sub_467280();
-    EXPORT char_type sub_4672E0(Fix16 a2, s32 a3);
+    EXPORT char_type UpdateMovementTowardsTarget_4672E0(Fix16 a2, s32 a3);
     EXPORT void FleeOnFootTillSafe_4678E0();
     EXPORT void sub_467960();
     EXPORT void FleeFromCharOnFootAlways_467A20();
@@ -148,7 +148,7 @@ class Ped
     EXPORT void sub_468BD0();
     EXPORT void PatrolOnFoot_468C70();
     EXPORT void GotoAreaOnFoot_468DE0();
-    EXPORT char_type sub_468E80();
+    EXPORT char_type UpdateFollowPedObjective_468E80();
     EXPORT s32 sub_469010();
     EXPORT void sub_469030();
     EXPORT void sub_469060();
@@ -169,8 +169,8 @@ class Ped
     EXPORT s16 sub_46A6D0();
     EXPORT void DestroyTargetObject_46A7C0();
     EXPORT void DestroyTargetCar_46A850();
-    EXPORT void sub_46A8F0();
-    EXPORT void sub_46A9C0();
+    EXPORT void FleeOnFootTillSafe_46A8F0();
+    EXPORT void FleeFromPedTillSafe_46A9C0();
     EXPORT void sub_46AAE0();
     EXPORT void sub_46AB50();
     EXPORT char_type FollowTargetStateMachine_46AC20();
