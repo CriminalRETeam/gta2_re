@@ -81,7 +81,7 @@ char_type Kfc_30::sub_5CBC90()
             }
             else
             {
-                pGroup->sub_4C9680(idx);
+                pGroup->PromoteMemberToLeader_4C9680(idx);
                 Ped* pLeader = this->field_8_group->field_2C_ped_leader;
                 this->field_4_ped = pLeader;
                 pLeader->SetObjective(objectives_enum::no_obj_0, 9999);

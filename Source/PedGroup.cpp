@@ -21,7 +21,7 @@ void PedGroup::sub_4C8E80()
 }
 
 MATCH_FUNC(0x4c8e90)
-void PedGroup::sub_4C8E90()
+void PedGroup::ClearGroupData_4C8E90()
 {
     field_40_in_use = false;
     field_38_group_type = 2;
@@ -67,7 +67,7 @@ void PedGroup::Reset_4C8EF0()
 }
 
 MATCH_FUNC(0x4c8f20)
-void PedGroup::sub_4C8F20()
+void PedGroup::ResetGroupObjectives_4C8F20()
 {
     field_2C_ped_leader->SetObjective(objectives_enum::no_obj_0, 9999);
     field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
@@ -175,7 +175,7 @@ char_type PedGroup::sub_4C9150()
 }
 
 MATCH_FUNC(0x4c91b0)
-void PedGroup::sub_4C91B0()
+void PedGroup::ResetMembersToFollowLeader_4C91B0()
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
@@ -199,7 +199,7 @@ bool PedGroup::IsLeaderInCar_4C9210()
 }
 
 MATCH_FUNC(0x4c9220)
-bool PedGroup::sub_4C9220()
+bool PedGroup::IsLeaderEnteringCarOrUnknown5_4C9220()
 {
     if (field_2C_ped_leader->get_ped_state1() != ped_state1_enum::ped_entering_a_car)
     {
@@ -274,7 +274,7 @@ void PedGroup::DisbandGroup_4C92A0()
             (*pppVar1)->field_21C |= 0x400;
         }
     }
-    sub_4C8E90();
+    ClearGroupData_4C8E90();
 }
 
 MATCH_FUNC(0x4c93a0)
@@ -324,7 +324,7 @@ void PedGroup::DestroyGroup_4C93A0()
             }
         }
     }
-    sub_4C8E90();
+    ClearGroupData_4C8E90();
     return;
 }
 
@@ -375,12 +375,12 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
                 this->field_4_ped_list[i]->field_238 = 3;
             }
         }
-        PedGroup::sub_4C8E90();
+        PedGroup::ClearGroupData_4C8E90();
     }
 }
 
 STUB_FUNC(0x4c9680)
-void PedGroup::sub_4C9680(u8 a2)
+void PedGroup::PromoteMemberToLeader_4C9680(u8 a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -408,7 +408,7 @@ void PedGroup::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
 }
 
 STUB_FUNC(0x4c9b60)
-char_type PedGroup::sub_4C9B60(Ped* a2)
+char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -441,7 +441,7 @@ u32 PedGroup::sub_4CA3E0()
 }
 
 STUB_FUNC(0x4ca3f0)
-Ped* PedGroup::sub_4CA3F0(u32* a2)
+Ped* PedGroup::FindFarthestMember_4CA3F0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -510,7 +510,7 @@ void PedGroup::UpdateFormation_4CA4B0()
 }
 
 STUB_FUNC(0x4ca5e0)
-void PedGroup::sub_4CA5E0(u8 idx)
+void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
 {
     NOT_IMPLEMENTED;
     /*Ped *this_00 = field_4_ped_list[idx];
@@ -633,7 +633,7 @@ void PedGroup::sub_4CA5E0(u8 idx)
 }
 
 STUB_FUNC(0x4ca820)
-void PedGroup::sub_4CA820(u8 a2)
+void PedGroup::UpdateMemberTightFollowState_4CA820(u8 a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -685,7 +685,7 @@ char_type PedGroup::AreAllMembersOnFoot_4CAB80()
 
 // https://decomp.me/scratch/p3Ujn
 STUB_FUNC(0x4cac20)
-bool PedGroup::sub_4CAC20(s32 idx)
+bool PedGroup::IsMemberTooFarFromLeader_4CAC20(s32 idx)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -693,14 +693,14 @@ bool PedGroup::sub_4CAC20(s32 idx)
 
 // https://decomp.me/scratch/MrO9e
 STUB_FUNC(0x4cad40)
-bool PedGroup::sub_4CAD40()
+bool PedGroup::IsLeaderCloseToTargetCar_4CAD40()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4cae80)
-Ped* PedGroup::sub_4CAE80(u8 idx)
+Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx)
 {
     NOT_IMPLEMENTED;
     return 0;

@@ -6575,7 +6575,7 @@
         "v105_address": "0x4c8e80"
     },
     {
-        "name": "PedGroup::sub_4C8E90",
+        "name": "PedGroup::ClearGroupData_4C8E90",
         "v96f_address": null,
         "v105_address": "0x4c8e90"
     },
@@ -6585,7 +6585,7 @@
         "v105_address": "0x4c8ef0"
     },
     {
-        "name": "PedGroup::sub_4C8F20",
+        "name": "PedGroup::ResetGroupObjectives_4C8F20",
         "v96f_address": null,
         "v105_address": "0x4c8f20"
     },
@@ -6610,7 +6610,7 @@
         "v105_address": "0x4c9150"
     },
     {
-        "name": "PedGroup::sub_4C91B0",
+        "name": "PedGroup::ResetMembersToFollowLeader_4C91B0",
         "v96f_address": null,
         "v105_address": "0x4c91b0"
     },
@@ -6620,7 +6620,7 @@
         "v105_address": "0x4c9210"
     },
     {
-        "name": "PedGroup::sub_4C9220",
+        "name": "PedGroup::IsLeaderEnteringCarOrUnknown5_4C9220",
         "v96f_address": null,
         "v105_address": "0x4c9220"
     },
@@ -6645,7 +6645,7 @@
         "v105_address": "0x4c94e0"
     },
     {
-        "name": "PedGroup::sub_4C9680",
+        "name": "PedGroup::PromoteMemberToLeader_4C9680",
         "v96f_address": null,
         "v105_address": "0x4c9680"
     },
@@ -6665,7 +6665,7 @@
         "v105_address": "0x4c9b30"
     },
     {
-        "name": "PedGroup::sub_4C9B60",
+        "name": "PedGroup::MergeWithOtherGroup_4C9B60",
         "v96f_address": null,
         "v105_address": "0x4c9b60"
     },
@@ -6685,7 +6685,7 @@
         "v105_address": "0x4ca3e0"
     },
     {
-        "name": "PedGroup::sub_4CA3F0",
+        "name": "PedGroup::FindFarthestMember_4CA3F0",
         "v96f_address": null,
         "v105_address": "0x4ca3f0"
     },
@@ -6695,12 +6695,12 @@
         "v105_address": "0x4ca4b0"
     },
     {
-        "name": "PedGroup::sub_4CA5E0",
+        "name": "PedGroup::UpdateMemberAIState_4CA5E0",
         "v96f_address": null,
         "v105_address": "0x4ca5e0"
     },
     {
-        "name": "PedGroup::sub_4CA820",
+        "name": "PedGroup::UpdateMemberTightFollowState_4CA820",
         "v96f_address": null,
         "v105_address": "0x4ca820"
     },
@@ -6720,17 +6720,17 @@
         "v105_address": "0x4cab80"
     },
     {
-        "name": "PedGroup::sub_4CAC20",
+        "name": "PedGroup::IsMemberTooFarFromLeader_4CAC20",
         "v96f_address": null,
         "v105_address": "0x4cac20"
     },
     {
-        "name": "PedGroup::sub_4CAD40",
+        "name": "PedGroup::IsLeaderCloseToTargetCar_4CAD40",
         "v96f_address": null,
         "v105_address": "0x4cad40"
     },
     {
-        "name": "PedGroup::sub_4CAE80",
+        "name": "PedGroup::FindNearestOtherMember_4CAE80",
         "v96f_address": null,
         "v105_address": "0x4cae80"
     },

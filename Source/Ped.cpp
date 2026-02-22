@@ -1208,7 +1208,7 @@ void Ped::sub_45C5C0()
         PedGroup* pGroup = this->field_164_ped_group;
         if (pGroup)
         {
-            pGroup->sub_4C91B0();
+            pGroup->ResetMembersToFollowLeader_4C91B0();
         }
     }
 }
@@ -1817,7 +1817,7 @@ void Ped::Deallocate_45EB60()
         {
             if (field_164_ped_group->IsAllMembersInSomeCar_4CAA20())
             {
-                field_164_ped_group->sub_4C8E90();
+                field_164_ped_group->ClearGroupData_4C8E90();
             }
             else
             {
@@ -3026,7 +3026,7 @@ void Ped::sub_462280()
             {
                 if (field_21C_bf.b2 == 0)
                 {
-                    field_164_ped_group->sub_4CA5E0(field_23C);
+                    field_164_ped_group->UpdateMemberAIState_4CA5E0(field_23C);
                     byte_61A8A3 = 1;
                     byte_6787C4 = field_164_ped_group->field_38_group_type != 1;
                 }
@@ -3038,7 +3038,7 @@ void Ped::sub_462280()
             }
             else if (field_21C_bf.b2 == 0)
             {
-                byte_61A8A3 = field_164_ped_group->sub_433370() != 1;
+                byte_61A8A3 = field_164_ped_group->Get_F3C_433370() != 1;
                 field_164_ped_group->CoordinateGroupCarEntry_4C9F00();
                 byte_6787C4 = 1;
             }
@@ -4621,13 +4621,13 @@ void Ped::Threat_Reaction_AI_465270()
                     {
                         if (field_23C != 99)
                         {
-                            if (field_164_ped_group->sub_4CAC20(field_23C)) // OBS: arg is u8 type
+                            if (field_164_ped_group->IsMemberTooFarFromLeader_4CAC20(field_23C)) // OBS: arg is u8 type
                             {
                                 Ped::SetObjective2_463830(7, 9999);
                                 set_field_14C_403AE0(field_164_ped_group->field_2C_ped_leader);
                                 SetBit2_403950();
                             }
-                            if (field_164_ped_group->sub_4C9220() && field_164_ped_group->sub_4CAD40())
+                            if (field_164_ped_group->IsLeaderEnteringCarOrUnknown5_4C9220() && field_164_ped_group->IsLeaderCloseToTargetCar_4CAD40())
                             {
                                 Ped::SetObjective2_463830(7, 9999);
                                 set_field_14C_403AE0(field_164_ped_group->field_2C_ped_leader);
@@ -4759,7 +4759,7 @@ void Ped::Threat_Reaction_AI_465270()
                         return;
                     }
                     //v26 = this->field_164_ped_group;
-                    if (!field_164_ped_group || !field_164_ped_group->sub_4C9220() && !field_164_ped_group->IsLeaderInCar_4C9210())
+                    if (!field_164_ped_group || !field_164_ped_group->IsLeaderEnteringCarOrUnknown5_4C9220() && !field_164_ped_group->IsLeaderInCar_4C9210())
                     {
                         threat_search = this->field_288_threat_search;
                         if (threat_search == line_of_sight_1 || threat_search == threat_search_enum::line_of_sight_player_only_6 || threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
@@ -4805,7 +4805,7 @@ void Ped::Threat_Reaction_AI_465270()
                                 }
                                 goto LABEL_83;
                             }
-                            v29->sub_4C9B60(v28); // PedGroup
+                            v29->MergeWithOtherGroup_4C9B60(v28); // PedGroup
                         LABEL_83:
                             //v31 = this->field_288_threat_search;
                             if ((field_288_threat_search == threat_search_enum::line_of_sight_1 || field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 || field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) && bUnk == 1)
@@ -6001,7 +6001,7 @@ void Ped::sub_469BD0()
 {
     if (field_168_game_object)
     {
-        field_164_ped_group->sub_4CA820(field_23C);
+        field_164_ped_group->UpdateMemberTightFollowState_4CA820(field_23C);
     }
 }
 

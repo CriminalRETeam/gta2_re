@@ -311,7 +311,7 @@ void PoliceCrew_38::sub_571350()
                     break;
                 }
             }
-            field_10_subObj->field_8_group->sub_4C8E90();
+            field_10_subObj->field_8_group->ClearGroupData_4C8E90();
             field_10_subObj->field_28 = 5;
             field_10_subObj->field_2C = 1;
         }
