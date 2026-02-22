@@ -3260,7 +3260,7 @@
         "v105_address": "0x463570"
     },
     {
-        "name": "Ped::sub_463830",
+        "name": "Ped::SetObjective2_463830",
         "v96f_address": "0x436920",
         "v105_address": "0x463830"
     },
@@ -6580,7 +6580,7 @@
         "v105_address": "0x4c8e90"
     },
     {
-        "name": "PedGroup::sub_4C8EF0",
+        "name": "PedGroup::Reset_4C8EF0",
         "v96f_address": null,
         "v105_address": "0x4c8ef0"
     },
@@ -6600,7 +6600,7 @@
         "v105_address": "0x4c8fe0"
     },
     {
-        "name": "PedGroup::sub_4C9040",
+        "name": "PedGroup::PurgeMembersInCars_4C9040",
         "v96f_address": null,
         "v105_address": "0x4c9040"
     },
@@ -6615,7 +6615,7 @@
         "v105_address": "0x4c91b0"
     },
     {
-        "name": "PedGroup::sub_4C9210",
+        "name": "PedGroup::IsLeaderInCar_4C9210",
         "v96f_address": null,
         "v105_address": "0x4c9210"
     },
@@ -6625,12 +6625,12 @@
         "v105_address": "0x4c9220"
     },
     {
-        "name": "PedGroup::sub_4C9240",
+        "name": "PedGroup::KillEntireGroup_4C9240",
         "v96f_address": null,
         "v105_address": "0x4c9240"
     },
     {
-        "name": "PedGroup::sub_4C92A0",
+        "name": "PedGroup::DisbandGroup_4C92A0",
         "v96f_address": null,
         "v105_address": "0x4c92a0"
     },
@@ -6690,7 +6690,7 @@
         "v105_address": "0x4ca3f0"
     },
     {
-        "name": "PedGroup::sub_4CA4B0",
+        "name": "PedGroup::UpdateFormation_4CA4B0",
         "v96f_address": null,
         "v105_address": "0x4ca4b0"
     },
@@ -6710,7 +6710,7 @@
         "v105_address": "0x4caa20"
     },
     {
-        "name": "PedGroup::sub_4CAAE0",
+        "name": "PedGroup::HasNoActiveMembers_4CAAE0",
         "v96f_address": null,
         "v105_address": "0x4caae0"
     },
@@ -6735,7 +6735,7 @@
         "v105_address": "0x4cae80"
     },
     {
-        "name": "PedGroup::sub_4CB080",
+        "name": "PedGroup::ResetAllGroups_4CB080",
         "v96f_address": null,
         "v105_address": "0x4cb080"
     },

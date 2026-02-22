@@ -1504,7 +1504,7 @@ void Char_B4::UpdateAnimState_546360()
             {
                 if (pDriver->field_17C_pZone)
                 {
-                    pDriver->sub_463830(20, 9999);
+                    pDriver->SetObjective2_463830(20, 9999);
                     pDriver->field_14C = field_7C_pPed;
                 }
             LABEL_114:
@@ -2614,7 +2614,7 @@ void Char_B4::state_0_54DDF0()
                         if (field_7C_pPed->get_objective_403A80() == objectives_enum::no_obj_0 ||
                             field_7C_pPed->get_objective_403A80() == objectives_enum::objective_8)
                         {
-                            field_7C_pPed->sub_463830(17, 9999);
+                            field_7C_pPed->SetObjective2_463830(17, 9999);
                         }
                         break;
                     default:

@@ -105,7 +105,7 @@ void Firefighter_28::deinit_4A81A0()
     Ped* pPed = this->field_20_ped;
     if (pPed)
     {
-        pPed->SetObjective(0, 9999);
+        pPed->SetObjective(objectives_enum::no_obj_0, 9999);
     }
 
     Car_BC* pCar2 = this->field_C_target_car;

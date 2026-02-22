@@ -249,7 +249,7 @@ void Game_0x40::BootGame_4B8EB0()
     gTileAnim_2_7052C4->Empty_5BC300();
     gPublicTransport_181C_6FF1D4->SetupTrainAndBusStops_5794B0();
     gObject_5C_6F8F84->sub_5297F0();
-    PedGroup::sub_4CB080();
+    PedGroup::ResetAllGroups_4CB080();
     if (bDo_mike_67D5CC)
     {
         gMike_A80_6F7328->sub_4FF1B0();

@@ -109,7 +109,7 @@ class Ped
     EXPORT void sub_463300(u8 a1);
     EXPORT s32 sub_4633E0(char_type a2);
     EXPORT void SetObjective(s32 objective, s16 objective_timer);
-    EXPORT void sub_463830(s32 a2, s16 a3);
+    EXPORT void SetObjective2_463830(s32 a2, s16 a3);
     EXPORT void ProcessOnFootObjective_463AA0();
     EXPORT void ProcessInCarObjective_463FB0();
     EXPORT s16* sub_4645B0();

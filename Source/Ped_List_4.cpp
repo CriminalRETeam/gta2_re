@@ -248,7 +248,7 @@ void Ped_List_4::ApplyPassengerBusStopBehavior_471630()
     {
         if (pIter->field_0_char_ped->field_240_occupation == 8)
         {
-            pIter->field_0_char_ped->sub_463830(0, 9999);
+            pIter->field_0_char_ped->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
             pIter->field_0_char_ped->SetObjective(objectives_enum::objective_34, 9999);
             pIter->field_0_char_ped->field_150_target_objective_car = pIter->field_0_char_ped->field_16C_car;
         }
