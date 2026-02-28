@@ -8,6 +8,8 @@
 #include "debug.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
+#include "Hud.hpp"
+#include "Player.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -132,6 +134,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE2F4, dword_6FDFD0, 0x6FE2F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0C0, Fix16(0x2000, 0), 0x6FE0C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE064, Fix16(0x1FE8, 0), 0x6FE064);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE350, Fix16(0x824, 0), 0x6FE350);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE10C, Fix16(0x63D8, 0), 0x6FE10C);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE134, dword_6FE3C4 * 25, 0x6FE134);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE278, Fix16(0x12B88, 0), 0x6FE278);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE260, Fix16(0xC7B0, 0), 0x6FE260);
+
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -2183,21 +2191,18 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
                         if (vel_len <= dword_6FE258->field_40_gear2_speed)
                         {
                             // Gear 1
-                            return ((ComputeTorqueUnknown_49E8E0()) *
-                                    dword_6FE258->field_34_gear1_multiplier);
+                            return ((ComputeTorqueUnknown_49E8E0()) * dword_6FE258->field_34_gear1_multiplier);
                         }
                         else
                         {
                             // Gear 2
-                            return ((inline_ComputeTorqueFromThrottle_561DD0()) *
-                                    dword_6FE258->field_38_gear2_multiplier);
+                            return ((inline_ComputeTorqueFromThrottle_561DD0()) * dword_6FE258->field_38_gear2_multiplier);
                         }
                     }
                     else
                     {
                         // Gear 3
-                        return ((inline_ComputeTorqueFromThrottle_561DD0()) *
-                                dword_6FE258->field_3C_gear3_multiplier);
+                        return ((inline_ComputeTorqueFromThrottle_561DD0()) * dword_6FE258->field_3C_gear3_multiplier);
                     }
                 }
             }
@@ -2410,11 +2415,104 @@ Fix16 CarPhysics_B0::MinGasPedalPressure_5626C0()
     }
 }
 
-STUB_FUNC(0x5626f0)
-char_type CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
+WIP_FUNC(0x5626f0)
+void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    dword_6FE0B0 = kFP16Zero_6FE20C;
+    Fix16 theta_fp = Ang16::Ang16_to_Fix16(field_58_theta);
+    Car_78* pAi = this->field_5C_pCar->field_5C;
+    if ((!pAi || (pAi->field_24_flags & 0x2000) != 0) && this->field_78_pointing_ang_rad == kFP16Zero_6FE20C)
+    {
+        if (IsGasPedalPressedEnough_5626A0())
+        {
+            Ang16 v5 = field_40_linvel_1.atan2_40ACD0();
+            Ang16 v14 = (v5 - field_58_theta);
+            if ((v14 <= word_6FE00C || v14 >= word_6FE154) && !this->field_40_linvel_1.IsNull_420360() && !this->field_A0)
+            {
+                gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(this->field_38_cp1.x.ToInt(),
+                                                                             this->field_38_cp1.y.ToInt(),
+                                                                             (this->field_6C_cp3 - k_dword_6FE210).ToInt());
+                if (pBlock)
+                {
+                    if ((pBlock->field_B_slope_type & 3) == 1)
+                    {
+                        if ((pBlock->field_A_arrows & 0x33) != 0)
+                        {
+                            if (theta_fp <= dword_6FE10C - k_dword_6FE134 || theta_fp >= k_dword_6FE134 + dword_6FE10C)
+                            {
+                                if (theta_fp > dword_6FE278 - k_dword_6FE134 && theta_fp < dword_6FE278 + k_dword_6FE134)
+                                {
+                                    dword_6FE0B0 = dword_6FE278 - theta_fp;
+                                }
+                            }
+                            else
+                            {
+                                dword_6FE0B0 = dword_6FE10C - theta_fp;
+                            }
+                        }
+                        else if ((pBlock->field_A_arrows & 0xCC) != 0)
+                        {
+                            if (theta_fp <= k_dword_6FE260 - k_dword_6FE134 || theta_fp >= k_dword_6FE260 + k_dword_6FE134)
+                            {
+                                if (theta_fp <= k_dword_6FE314 - k_dword_6FE134)
+                                {
+                                    if (theta_fp < k_dword_6FE134)
+                                    {
+                                        dword_6FE0B0 = -theta_fp;
+                                    }
+                                }
+                                else
+                                {
+                                    dword_6FE0B0 = k_dword_6FE314 - theta_fp;
+                                }
+                            }
+                            else
+                            {
+                                dword_6FE0B0 = k_dword_6FE260 - theta_fp;
+                            }
+                        }
+
+                        if (dword_6FE0B0 != kFP16Zero_6FE20C)
+                        {
+                            Fix16 v10 = field_5C_pCar->sub_440510();
+                            if (dword_6FE0B0 <= kFP16Zero_6FE20C)
+                            {
+                                v10 = -v10;
+                                if (dword_6FE0B0 < v10)
+                                {
+                                    dword_6FE0B0 = v10;
+                                }
+                            }
+                            else if (dword_6FE0B0 > v10)
+                            {
+                                dword_6FE0B0 = v10;
+                            }
+
+                            if (bDo_show_instruments_67D64C)
+                            {
+                                Ped* pDriver = this->field_5C_pCar->field_54_driver;
+                                if (pDriver)
+                                {
+                                    Player* pPlayer = pDriver->field_15C_player;
+                                    if (pPlayer)
+                                    {
+                                        if (pPlayer->field_0_bIsUser)
+                                        {
+                                            gHud_2B00_706620->field_650.sub_5D1F50(L"snap", 0, 64, word_706600, 1);
+                                        }
+                                    }
+                                }
+                            }
+
+                            this->field_74_ang_vel_rad += dword_6FE0B0;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 // https://decomp.me/scratch/vdIqi
