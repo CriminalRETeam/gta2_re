@@ -2395,7 +2395,7 @@ void CarPhysics_B0::UpdateSteeringAngle_562560()
 }
 
 MATCH_FUNC(0x5626a0)
-s32 CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
+bool CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
 {
     Fix16 t = MinGasPedalPressure_5626C0();
     return field_60_gas_pedal >= t;
@@ -2417,17 +2417,16 @@ Fix16 CarPhysics_B0::MinGasPedalPressure_5626C0()
 WIP_FUNC(0x5626f0)
 void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
 {
-     WIP_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
-    dword_6FE0B0 = kFP16Zero_6FE20C;
     Fix16 theta_fp = Ang16::Ang16_to_Fix16(field_58_theta);
+    dword_6FE0B0 = kFP16Zero_6FE20C;
     Car_78* pAi = this->field_5C_pCar->field_5C;
     if ((!pAi || (pAi->field_24_flags & 0x2000) != 0) && this->field_78_pointing_ang_rad == kFP16Zero_6FE20C)
     {
         if (IsGasPedalPressedEnough_5626A0())
         {
-            Ang16 v14 = (field_40_linvel_1.atan2_40ACD0() - field_58_theta);
-            if ((v14 <= word_6FE00C || v14 >= word_6FE154) && !this->field_40_linvel_1.IsNull_420360() && !this->field_A0)
+            if (sub_40F840() && !this->field_40_linvel_1.IsNull_420360() && !this->field_A0)
             {
                 gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(this->field_38_cp1.x.ToInt(),
                                                                              this->field_38_cp1.y.ToInt(),
@@ -2456,12 +2455,12 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
                             {
                                 if (theta_fp > k_dword_6FE314 - k_dword_6FE134)
                                 {
-                                   
+
                                     dword_6FE0B0 = k_dword_6FE314 - theta_fp;
                                 }
                                 else
                                 {
-                                     if (theta_fp < k_dword_6FE134)
+                                    if (theta_fp < k_dword_6FE134)
                                     {
                                         dword_6FE0B0 = -theta_fp;
                                     }

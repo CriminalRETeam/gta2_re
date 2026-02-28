@@ -1,10 +1,10 @@
 #pragma once
 
+#include "CarInfo_808.hpp"
 #include "Car_BC.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
-#include "CarInfo_808.hpp"
 
 class Sprite;
 class Car_BC;
@@ -112,6 +112,12 @@ class CarPhysics_B0
     EXPORT Fix16 ComputeEngineTorque_561970();
     EXPORT Fix16 ComputeTorqueFromThrottle_561DD0();
 
+    bool IsVelocityAlignedWithHeading_40F840()
+    {
+        Ang16 v14 = (field_40_linvel_1.atan2_40ACD0() - field_58_theta);
+        return v14 <= word_6FE00C || v14 >= word_6FE154;
+    }
+
     Fix16 inline_ComputeTorqueFromThrottle_561DD0()
     {
         if (get_revs_561940() != 0)
@@ -142,7 +148,7 @@ class CarPhysics_B0
     EXPORT void ApplyThrottleInput_562480();
     EXPORT void ApplyBrakePhysics_5624F0();
     EXPORT void UpdateSteeringAngle_562560();
-    EXPORT s32 IsGasPedalPressedEnough_5626A0();
+    EXPORT bool IsGasPedalPressedEnough_5626A0();
     EXPORT Fix16 MinGasPedalPressure_5626C0();
     EXPORT void ApplyArrowSteerAssist_5626F0();
     EXPORT void StabilizeVelocityAtSpeed_562910();
