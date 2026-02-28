@@ -1,15 +1,15 @@
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
+#include "Hud.hpp"
 #include "Object_5C.hpp"
 #include "Particle_8.hpp"
+#include "Player.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "debug.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
-#include "Hud.hpp"
-#include "Player.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -139,7 +139,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE10C, Fix16(0x63D8, 0), 0x6FE10C);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE134, dword_6FE3C4 * 25, 0x6FE134);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE278, Fix16(0x12B88, 0), 0x6FE278);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE260, Fix16(0xC7B0, 0), 0x6FE260);
-
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -2418,7 +2417,7 @@ Fix16 CarPhysics_B0::MinGasPedalPressure_5626C0()
 WIP_FUNC(0x5626f0)
 void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
 {
-    WIP_IMPLEMENTED;
+     WIP_IMPLEMENTED;
 
     dword_6FE0B0 = kFP16Zero_6FE20C;
     Fix16 theta_fp = Ang16::Ang16_to_Fix16(field_58_theta);
@@ -2427,8 +2426,7 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
     {
         if (IsGasPedalPressedEnough_5626A0())
         {
-            Ang16 v5 = field_40_linvel_1.atan2_40ACD0();
-            Ang16 v14 = (v5 - field_58_theta);
+            Ang16 v14 = (field_40_linvel_1.atan2_40ACD0() - field_58_theta);
             if ((v14 <= word_6FE00C || v14 >= word_6FE154) && !this->field_40_linvel_1.IsNull_420360() && !this->field_A0)
             {
                 gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(this->field_38_cp1.x.ToInt(),
@@ -2456,16 +2454,17 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
                         {
                             if (theta_fp <= k_dword_6FE260 - k_dword_6FE134 || theta_fp >= k_dword_6FE260 + k_dword_6FE134)
                             {
-                                if (theta_fp <= k_dword_6FE314 - k_dword_6FE134)
+                                if (theta_fp > k_dword_6FE314 - k_dword_6FE134)
                                 {
-                                    if (theta_fp < k_dword_6FE134)
-                                    {
-                                        dword_6FE0B0 = -theta_fp;
-                                    }
+                                   
+                                    dword_6FE0B0 = k_dword_6FE314 - theta_fp;
                                 }
                                 else
                                 {
-                                    dword_6FE0B0 = k_dword_6FE314 - theta_fp;
+                                     if (theta_fp < k_dword_6FE134)
+                                    {
+                                        dword_6FE0B0 = -theta_fp;
+                                    }
                                 }
                             }
                             else
@@ -2477,17 +2476,20 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
                         if (dword_6FE0B0 != kFP16Zero_6FE20C)
                         {
                             Fix16 v10 = field_5C_pCar->sub_440510();
-                            if (dword_6FE0B0 <= kFP16Zero_6FE20C)
+                            if (dword_6FE0B0 > kFP16Zero_6FE20C)
+                            {
+                                if (dword_6FE0B0 > v10)
+                                {
+                                    dword_6FE0B0 = v10;
+                                }
+                            }
+                            else
                             {
                                 v10 = -v10;
                                 if (dword_6FE0B0 < v10)
                                 {
                                     dword_6FE0B0 = v10;
                                 }
-                            }
-                            else if (dword_6FE0B0 > v10)
-                            {
-                                dword_6FE0B0 = v10;
                             }
 
                             if (bDo_show_instruments_67D64C)
