@@ -23,6 +23,12 @@ struct Fix16_Point_POD
         return x == gFix16_6777CC && y == gFix16_6777CC;
     }
 
+    // For some reason uses another constant
+    inline bool IsNull() const
+    {
+        return x == kFP16Zero_6FE20C && y == kFP16Zero_6FE20C;
+    }
+
     void ApplyDeadZone_49E3C0()
     {
         Fix16 total = (Fix16::Abs(x) + Fix16::Abs(y));

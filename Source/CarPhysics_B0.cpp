@@ -2414,11 +2414,9 @@ Fix16 CarPhysics_B0::MinGasPedalPressure_5626C0()
     }
 }
 
-WIP_FUNC(0x5626f0)
+MATCH_FUNC(0x5626f0)
 void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
 {
-    WIP_IMPLEMENTED;
-
     Fix16 theta_fp = Ang16::Ang16_to_Fix16(field_58_theta);
     dword_6FE0B0 = kFP16Zero_6FE20C;
     Car_78* pAi = this->field_5C_pCar->field_5C;
@@ -2426,7 +2424,7 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
     {
         if (IsGasPedalPressedEnough_5626A0())
         {
-            if (sub_40F840() && !this->field_40_linvel_1.IsNull_420360() && !this->field_A0)
+            if (sub_40F840() && !this->field_40_linvel_1.IsNull() && !this->field_A0)
             {
                 gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(this->field_38_cp1.x.ToInt(),
                                                                              this->field_38_cp1.y.ToInt(),
@@ -2474,20 +2472,20 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
 
                         if (dword_6FE0B0 != kFP16Zero_6FE20C)
                         {
-                            Fix16 v10 = field_5C_pCar->sub_440510();
+                            theta_fp = field_5C_pCar->sub_440510();
                             if (dword_6FE0B0 > kFP16Zero_6FE20C)
                             {
-                                if (dword_6FE0B0 > v10)
+                                if (dword_6FE0B0 > theta_fp)
                                 {
-                                    dword_6FE0B0 = v10;
+                                    dword_6FE0B0 = theta_fp;
                                 }
                             }
                             else
                             {
-                                v10 = -v10;
-                                if (dword_6FE0B0 < v10)
+                                theta_fp = -theta_fp;
+                                if (dword_6FE0B0 < theta_fp)
                                 {
-                                    dword_6FE0B0 = v10;
+                                    dword_6FE0B0 = theta_fp;
                                 }
                             }
 
