@@ -1693,10 +1693,76 @@ void miss2_0x11C::sub_506ED0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x507110)
+MATCH_FUNC(0x507110)
 void miss2_0x11C::sub_507110()
 {
-    NOT_IMPLEMENTED;
+    u8 operation_type = miss2_0x11C::sub_506BC0(gBasePtr_6F8070->field_2_type);
+    SCR_OPERATE_INT_AND_COUNTER* pCmd = (SCR_OPERATE_INT_AND_COUNTER*)gBasePtr_6F8070;
+    SCR_POINTER* pOperand =
+        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_2_type); // pCmd->field_A_counter_idx
+
+    switch (operation_type)
+    {
+        case 0:
+            this->field_8 = pCmd->field_8_value + pOperand->field_8_counter;
+            break;
+        case 1:
+            this->field_8 = pCmd->field_8_value - pOperand->field_8_counter;
+            break;
+        case 2:
+            if (pCmd->field_8_value < pOperand->field_8_counter)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+            break;
+        case 3:
+            if (pCmd->field_8_value <= pOperand->field_8_counter)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+            break;
+        case 4:
+            if (pCmd->field_8_value > pOperand->field_8_counter)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+            break;
+        case 5:
+            if (pCmd->field_8_value >= pOperand->field_8_counter)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+            break;
+        case 6:
+            if (pCmd->field_8_value == pOperand->field_8_counter)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+            break;
+        default:
+            break;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x507750)
