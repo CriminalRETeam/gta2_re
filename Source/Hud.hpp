@@ -81,7 +81,7 @@ class Garox_12E4_sub
         field_1 = 45;
     }
     EXPORT void DrawPause_5D63B0();
-    char_type field_12E4;
+    u8 field_12E4;
     char_type field_1;
 };
 

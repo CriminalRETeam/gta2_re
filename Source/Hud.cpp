@@ -1382,9 +1382,8 @@ bool Hud_Arrow_7C::sub_5D0620()
             return true;
         }
     }
-    if (field_18.sub_4C6FB0() 
-        && field_18.field_18_primary_target.field_20_bIsTargetVisible 
-        && field_18.field_3C_secondary_target.field_20_bIsTargetVisible)
+    if (field_18.sub_4C6FB0() && field_18.field_18_primary_target.field_20_bIsTargetVisible &&
+        field_18.field_3C_secondary_target.field_20_bIsTargetVisible)
     {
         if (field_18.field_2E > 0)
         {
@@ -1397,13 +1396,16 @@ bool Hud_Arrow_7C::sub_5D0620()
         Fix16 zpos;
         gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
 
-        Fix16 distance_1 = Fix16_Point_POD(xpos - field_18.field_60_curr_target->field_14_aim_x, 
-            ypos - field_18.field_60_curr_target->field_18_aim_y).GetLength_41E260() - field_10_radius_pos;
+        Fix16 distance_1 =
+            Fix16_Point_POD(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y)
+                .GetLength_41E260() -
+            field_10_radius_pos;
 
         swap_arrows_4C7060();
 
-        Fix16 distance_2 = Fix16_Point(xpos - field_18.field_60_curr_target->field_14_aim_x, 
-            ypos - field_18.field_60_curr_target->field_18_aim_y).GetLength_41E260();
+        Fix16 distance_2 =
+            Fix16_Point(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y)
+                .GetLength_41E260();
 
         field_18.field_2E = 20;
         field_10_radius_pos = distance_2 - distance_1;
@@ -2345,10 +2347,58 @@ void Hud_2B00::DrawGui_5D6860()
     }
 }
 
-STUB_FUNC(0x5d69c0)
+WIP_FUNC(0x5d69c0)
 void Hud_2B00::sub_5D69C0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    // TODO: This whole thing is another func
+
+    Garox_12E4_sub* pSub = &this->field_12E4_sub;
+    if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+    {
+        pSub->field_1--;
+        if (pSub->field_1 == 0)
+        {
+            pSub->field_1 = 45;
+            pSub->field_12E4++;
+
+            if (pSub->field_12E4 > 6u)
+            {
+                pSub->field_12E4 = 0;
+            }
+
+            if (pSub->field_12E4 == 1)
+            {
+                if (!gGangPool_CA8_67E274->sub_4BECA0())
+                {
+                    pSub->field_12E4 = 4;
+                }
+                return;
+            }
+
+            if (pSub->field_12E4 == 2)
+            {
+                if (gGangPool_CA8_67E274->sub_4BECA0())
+                {
+                    if (!gGangPool_CA8_67E274->sub_4BECE0())
+                    {
+                        pSub->field_12E4 = 4;
+                    }
+                    return;
+                }
+                pSub->field_12E4 = 4;
+                return;
+            }
+
+            if (pSub->field_12E4 == 3 &&
+                (!gGangPool_CA8_67E274->sub_4BECA0() || !gGangPool_CA8_67E274->sub_4BECE0() || !gGangPool_CA8_67E274->sub_4BECE0()))
+            {
+                pSub->field_12E4 = 4;
+                return;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5d69d0)
