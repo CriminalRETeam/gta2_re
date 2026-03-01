@@ -1045,7 +1045,8 @@ char_type sound_obj::CalculateDistance_419020(Fix16 a2)
     return 0;
 }
 
-MATCH_FUNC(0x4186D0)
+// TODO: Too many inlines issue
+WIP_FUNC(0x4186D0)
 char_type sound_obj::Type_9_4186D0(sound_0x68* pObj)
 {
     pObj->field_3C = 600;
