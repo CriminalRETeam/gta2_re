@@ -2065,11 +2065,10 @@ s32 Garox_1E34_L::sub_5D3F10(s32 a2, const char_type* a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x5d4400)
-s32 Garox_1E34_L::sub_5D4400(s32 a2, const char_type* a3)
+MATCH_FUNC(0x5d4400)
+s32 Garox_1E34_L::sub_5D4400(s32 priority, const char_type* pTextIdStr)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return sub_5D3F10(priority, pTextIdStr, -1);
 }
 
 MATCH_FUNC(0x5d44d0)
