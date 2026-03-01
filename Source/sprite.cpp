@@ -1284,7 +1284,7 @@ s16* Sprite::sub_5A26E0(s16* a2)
 }
 
 STUB_FUNC(0x5a2710)
-Fix16_Point* Sprite::FindCollisionIntersectionPoint_5A2710(Fix16_Point* point, Sprite* a3, Fix16_Point& a4, Ang16 a5, u8* a7, u8* a8)
+Fix16_Point* Sprite::FindCollisionIntersectionPoint_5A2710(Fix16_Point* point, Sprite* pOther, Fix16_Point& newPos, Ang16 newAng, u8* pOutSideSelf, u8* pOutSideOther, u8* pOutHitType)
 {
     NOT_IMPLEMENTED;
     return point;

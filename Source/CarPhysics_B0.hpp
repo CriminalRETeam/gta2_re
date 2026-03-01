@@ -100,7 +100,7 @@ class CarPhysics_B0
     EXPORT s32 HandleWorldCollision_55FD00(s32 a2);
     EXPORT Car_78* HandleCarCollision_55FF20(Car_BC* a2);
     EXPORT void HandleObjectCollision_5606C0(Object_2C* a2, char_type a3);
-    EXPORT void ProcessPedImpact_560B40(Char_B4* a2, Ang16& a3);
+    EXPORT void ProcessPedImpact_560B40(Char_B4* a2, u8 a3);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void ApplyMovementStep_560F20(Fix16 a2);
     EXPORT void IntegrateAndClampVelocities_5610B0();

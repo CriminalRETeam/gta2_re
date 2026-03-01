@@ -185,7 +185,7 @@ class Sprite
     EXPORT char_type sub_5A2440();
     EXPORT char_type CheckSpriteMovementRegion_5A2500();
     EXPORT s16* sub_5A26E0(s16* a2);
-    EXPORT Fix16_Point* FindCollisionIntersectionPoint_5A2710(Fix16_Point* point, Sprite* a3, Fix16_Point& a4, Ang16 a5, u8* a7, u8* a8);
+    EXPORT Fix16_Point* FindCollisionIntersectionPoint_5A2710(Fix16_Point* point, Sprite* pOther, Fix16_Point& newPos, Ang16 newAng, u8* pOutSideSelf, u8* pOutSideOther, u8* pOutHitType);
     EXPORT void CreateSoundObj_5A29D0();
     EXPORT bool IsObjectModelEqual_59E930(s32 model);
     EXPORT void FreeSound_5A2A00();

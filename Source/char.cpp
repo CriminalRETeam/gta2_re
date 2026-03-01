@@ -4425,7 +4425,7 @@ char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
 }
 
 STUB_FUNC(0x5538A0)
-void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 a3, s32 a4, s32 a5)
+void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 a3, Fix16 a4, Fix16 a5)
 {
     NOT_IMPLEMENTED;
 }

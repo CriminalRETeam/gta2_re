@@ -371,23 +371,6 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* a2, Fix16_Point* a3, s32
     NOT_IMPLEMENTED;
 }
 
-// TODO: Probably move
-STUB_FUNC(0x55F3B0)
-EXPORT s32* __stdcall ComputeLineLineIntersection_55F3B0(s32* a1,
-                                                         s32 a2,
-                                                         s32 a3,
-                                                         s32* a4,
-                                                         s32 a5,
-                                                         s32 a6,
-                                                         Fix16_Point* a7,
-                                                         Fix16_Point* a8,
-                                                         s32 a9,
-                                                         s32 a10,
-                                                         s32 a11)
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
 
 STUB_FUNC(0x522b20)
 void Object_2C::ResolveCollisionWithWorld_522B20(s32* f18, s32* a3, s32* a4)
@@ -440,8 +423,7 @@ void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
                 Char_B4* pChar = gRozza_679188.field_20_pSprite->AsCharB4_40FEA0();
                 if (pChar)
                 {
-                    s32 v12; // ??
-                    ResolveCollisionWithPed_5229B0(pChar, &v13, v12);
+                    ResolveCollisionWithPed_5229B0(pChar, &v13, a8);
                     HandleImpact_528E50(gRozza_679188.field_20_pSprite);
                 }
                 else

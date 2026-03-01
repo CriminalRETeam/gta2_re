@@ -140,6 +140,10 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE134, dword_6FE3C4 * 25, 0x6FE134);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE278, Fix16(0x12B88, 0), 0x6FE278);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE260, Fix16(0xC7B0, 0), 0x6FE260);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE2F8, dword_6FE0C0, 0x6FE2F8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE070, k_dword_6FE210, 0x6FE070);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE3DC, k_dword_6FE210, 0x6FE3DC);
+
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -1478,6 +1482,7 @@ void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point a2, Ang16 a3)
     WIP_IMPLEMENTED;
 
     Fix16_Point arg0;
+    u8 hitType;
     //v7 = 0;
     switch (gRozza_679188.field_0_type)
     {
@@ -1494,7 +1499,8 @@ void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point a2, Ang16 a3)
                                                                                                      a2,
                                                                                                      a3,
                                                                                                      &byte_6FDFC4,
-                                                                                                     &byte_6FDFCC);
+                                                                                                     &byte_6FDFCC,
+                                                                                                     &hitType);
 
             Car_BC* pCar = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
             if (pCar)
@@ -1506,7 +1512,7 @@ void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point a2, Ang16 a3)
                 Char_B4* pB4 = gRozza_679188.field_20_pSprite->AsCharB4_40FEA0();
                 if (pB4)
                 {
-                    ProcessPedImpact_560B40(pB4, a3);
+                    ProcessPedImpact_560B40(pB4, hitType);
                 }
                 else
                 {
@@ -2000,10 +2006,123 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* a2, char_type a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x560b40)
-void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* a2, Ang16& a3)
+// TODO: Probably move
+STUB_FUNC(0x55F3B0)
+EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(
+                                                         Fix16 a2,
+                                                         Fix16 a3,
+                                                         Fix16_Point* a4,
+                                                         Fix16_Point* a5,
+                                                         Fix16_Point* a6,
+                                                         Fix16_Point* a7,
+                                                         Fix16_Point* a8,
+                                                         Fix16 a9,
+                                                         Fix16 a10,
+                                                         Fix16 a11)
 {
     NOT_IMPLEMENTED;
+    return Fix16_Point();
+}
+
+WIP_FUNC(0x560b40)
+void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
+{
+    WIP_IMPLEMENTED;
+
+    Sprite* pSprite = pCharB4->field_80_sprite_ptr;
+
+    Fix16_Point sprite_xy;
+    sprite_xy.x = pSprite->field_14_xy.x;
+    sprite_xy.y = pSprite->field_14_xy.y;
+
+    Fix16_Point combinedCentreOfmass = ComputeCombinedCenterOfMass_559EC0();
+    Fix16_Point relativePointVel = ComputeRelativePointVelocity_561130(&stru_6FE1A0);
+
+    stru_6FE1F0 = combinedCentreOfmass - stru_6FE1A0;
+
+    Fix16 effectiveMomentOfInertia = GetEffectiveMomentOfInertia_55A050();
+    Fix16 carMass = CalculateMass_559FF0();
+
+    Fix16_Point pIntersection = ComputeLineLineIntersection_55F3B0(carMass,
+                                                                   dword_6FE2F8,
+                                                                   &relativePointVel,
+                                                                   &stru_6FE1F0,
+                                                                   &stru_6FE1A0,
+                                                                   &combinedCentreOfmass,
+                                                                   &sprite_xy,
+                                                                   effectiveMomentOfInertia,
+                                                                   dword_6FE070,
+                                                                   dword_6FE3DC);
+
+    Fix16_Point intersect_abs;
+    intersect_abs.x = pIntersection.x;
+    intersect_abs.y = pIntersection.y;
+
+    u8 bUnknown =
+        field_98_surface_type == 6 && pCharB4->field_80_sprite_ptr->field_1C_zpos != field_5C_pCar->field_50_car_sprite->field_1C_zpos ||
+        hitType == 0;
+
+    dword_6FE33C = pIntersection.GetLength_2();
+
+    Car_BC* pCar = this->field_5C_pCar;
+
+    Fix16_Point v15 = -intersect_abs;
+    Fix16_Point v16 = v15 / dword_6FE2F8;
+
+    Ped* pCarDriver = field_5C_pCar->field_54_driver;
+    if (pCarDriver)
+    {
+        pCharB4->field_7C_pPed->field_204_killer_id = pCarDriver->field_200_id;
+        pCharB4->field_7C_pPed->field_264 = 50;
+
+        Ped* pPed = pCharB4->field_7C_pPed;
+        if (pPed->field_140 == this->field_5C_pCar)
+        {
+            pPed->field_290 = 3;
+        }
+        else
+        {
+            pPed->field_290 = 1;
+        }
+    }
+    else
+    {
+        Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
+        if (pTrailer)
+        {
+            // is_on_trailer_421720 ?
+            Car_BC* pCarOnTrailer = pTrailer->field_C_pCarOnTrailer;
+            if (pCarOnTrailer)
+            {
+                if (pCarOnTrailer == field_5C_pCar)
+                {
+                    Car_BC* pTruckCab = pTrailer->field_8_truck_cab;
+                    if (pTruckCab)
+                    {
+                        pCar = pTruckCab;
+                        Ped* pTruckCabDriver = pTruckCab->field_54_driver;
+                        if (pTruckCabDriver)
+                        {
+                            pCharB4->field_7C_pPed->field_204_killer_id = pTruckCabDriver->field_200_id;
+                            pCharB4->field_7C_pPed->field_264 = 50;
+
+                            Ped* pPed = pCharB4->field_7C_pPed;
+                            if (pPed->field_140 == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)
+                            {
+                                pPed->field_290 = 3;
+                            }
+                            else
+                            {
+                                pPed->field_290 = 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    pCharB4->HandleCarImpact_5538A0(pCar, bUnknown, v16.x, v16.y);
 }
 
 MATCH_FUNC(0x560eb0)
