@@ -222,6 +222,11 @@ class Player
         }
     }
 
+    inline u8 get_idx_4219D0()
+    {
+        return field_2E_idx;
+    }
+
     u8 field_0_bIsUser;
     char_type field_1;
     char_type field_2;
