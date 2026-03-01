@@ -919,10 +919,46 @@ void Hud_CopHead_C_Array::sub_5D0210()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d1b10)
-void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime)
+WIP_FUNC(0x5d1b10)
+void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
+    this->field_AC_fontType = fontType;
+
+    gText_0x14_704DFC->sub_5B5BC0(field_0_str_buf, pStr, 640, fontType);
+
+    if (field_AC_fontType == word_703C9C || field_AC_fontType == word_703D9C)
+    {
+        /*v7 =*/ gText_0x14_704DFC->sub_5B5B80(field_0_str_buf);
+    }
+
+    s16 xTmp = xpos;
+    this->field_B0_drawKind = 2;
+    this->field_B4 = 0;
+    
+    if (xpos == -1)
+    {
+        xTmp = ((640 - Frontend::sub_5D8990(field_0_str_buf, this->field_AC_fontType)) / 2);
+    }
+    this->field_A8_x = xTmp;
+
+    s16 yTmp = ypos;
+    if (ypos == -1)
+    {
+        yTmp = ((480 - sub_5D8940(field_0_str_buf, field_AC_fontType)) / 2);
+    }
+    this->field_AA_y = yTmp;
+
+    s32 calcDisplayTime = displayTime;
+    if (displayTime == -2)
+    {
+        calcDisplayTime = gHud_2B00_706620->field_13C4_text_speed * wcslen(field_0_str_buf);
+    }
+    this->field_A4_display_time = calcDisplayTime;
+
+    this->field_B8_alpha = 0;
+    this->field_BC_alpha_flag = 0; // LOBYTE() = read as s32 else where, hmm
 }
 
 MATCH_FUNC(0x5d1d00)
