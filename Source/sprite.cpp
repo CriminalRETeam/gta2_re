@@ -100,7 +100,7 @@ WIP_FUNC(0x5A5AA0)
 EXPORT Fix16* __stdcall ProjectOntoAxis_5A5AA0(Fix16* xpos1, Fix16* ypos1, Ang16* v1, Fix16* xpos2, Fix16* ypos2, Fix16* v2, Fix16* v3)
 {
     WIP_IMPLEMENTED;
-    
+
     Fix16* result;
     *v2 = (Ang16::sine_40F500(*v1) * (*ypos1 - *ypos2)) + (Ang16::cosine_40F520(*v1) * (*xpos1 - *xpos2));
     result = v3;
@@ -852,10 +852,76 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* a2)
     return false;
 }
 
-STUB_FUNC(0x5a0150)
-char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(s32 a2, u8* a3, u8* a4)
+WIP_FUNC(0x5a0150)
+char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(Sprite* pOther, u8* pOut1, u8* pOut2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    u8 i = 0;
+    u8 last_i;
+    
+    s32 counter = 0;
+    s32 last_counter;
+
+    Fix16_Point* pBBox = pOther->field_C_sprite_4c_ptr->field_C_renderingRect;
+    Fix16 pHalfW;
+    Fix16 pHalfH;
+    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&pHalfW, &pHalfH);
+
+    last_i = 0;
+
+    Fix16 halfw_neg;
+    Fix16 halfh_neg;
+
+    Fix16 corner_x;
+    Fix16 corner_y;
+
+    Fix16_Point* pCorner;
+
+    while (1)
+    {
+        pCorner = &pBBox[(u8)last_i];
+        RotateAndTranslatePoint_42A720(pCorner->x, pCorner->y, -field_0, field_14_xy.x, field_14_xy.y, corner_x, corner_y);
+
+        halfw_neg = -pHalfW;
+        if (!(corner_x >= halfw_neg))
+        {
+            goto next_iter;
+        }
+
+        if (!(corner_x <= pHalfW))
+        {
+            goto next_iter;
+        }
+
+        halfh_neg = -pHalfH;
+        if (!(corner_y >= halfh_neg) || !(corner_y <= pHalfH))
+        {
+            goto next_iter;
+        }
+
+        last_counter = ++counter;
+        if (counter != 1)
+        {
+            break;
+        }
+
+        *pOut1 = i;
+
+    next_iter:
+        last_i = ++i;
+        if (i >= 4u)
+        {
+            return counter;
+        }
+    }
+
+    if (last_counter == 2)
+    {
+        *pOut2 = i;
+        goto next_iter;
+    }
+
     return 0;
 }
 
@@ -1284,7 +1350,13 @@ s16* Sprite::sub_5A26E0(s16* a2)
 }
 
 STUB_FUNC(0x5a2710)
-Fix16_Point* Sprite::FindCollisionIntersectionPoint_5A2710(Fix16_Point* point, Sprite* pOther, Fix16_Point& newPos, Ang16 newAng, u8* pOutSideSelf, u8* pOutSideOther, u8* pOutHitType)
+Fix16_Point* Sprite::FindCollisionIntersectionPoint_5A2710(Fix16_Point* point,
+                                                           Sprite* pOther,
+                                                           Fix16_Point& newPos,
+                                                           Ang16 newAng,
+                                                           u8* pOutSideSelf,
+                                                           u8* pOutSideOther,
+                                                           u8* pOutHitType)
 {
     NOT_IMPLEMENTED;
     return point;

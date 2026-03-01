@@ -109,6 +109,12 @@ class Sprite_4C
         return field_4_height == gFix16_7035C0;
     }
 
+    void HalfWH_4BA0A0(Fix16* pHalfW, Fix16* pHalfH)
+    {
+        *pHalfW = (field_0_width / 2);
+        *pHalfH = (field_4_height / 2);
+    }
+
     EXPORT void SetCurrentRect_5A4D90();
     EXPORT void UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
 
@@ -166,7 +172,7 @@ class Sprite
     EXPORT void UpdateDimensionsFromSpriteIndex_59FA40();
     EXPORT void FreeSprite4CChildren_59FAD0();
     EXPORT bool IntersectsRectSAT_59FB10(Fix16_Rect* a2);
-    EXPORT char_type FindOverlappingBoundingBoxCorners_5A0150(s32 a2, u8* a3, u8* a4);
+    EXPORT char_type FindOverlappingBoundingBoxCorners_5A0150(Sprite* a2, u8* a3, u8* a4);
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
     EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* a2);
     EXPORT char_type CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
@@ -185,7 +191,13 @@ class Sprite
     EXPORT char_type sub_5A2440();
     EXPORT char_type CheckSpriteMovementRegion_5A2500();
     EXPORT s16* sub_5A26E0(s16* a2);
-    EXPORT Fix16_Point* FindCollisionIntersectionPoint_5A2710(Fix16_Point* point, Sprite* pOther, Fix16_Point& newPos, Ang16 newAng, u8* pOutSideSelf, u8* pOutSideOther, u8* pOutHitType);
+    EXPORT Fix16_Point* FindCollisionIntersectionPoint_5A2710(Fix16_Point* point,
+                                                              Sprite* pOther,
+                                                              Fix16_Point& newPos,
+                                                              Ang16 newAng,
+                                                              u8* pOutSideSelf,
+                                                              u8* pOutSideOther,
+                                                              u8* pOutHitType);
     EXPORT void CreateSoundObj_5A29D0();
     EXPORT bool IsObjectModelEqual_59E930(s32 model);
     EXPORT void FreeSound_5A2A00();
@@ -315,6 +327,23 @@ class Sprite
             default:
                 return 0;
         }
+    }
+
+    inline void __stdcall RotateAndTranslatePoint_42A720(Fix16& pInX,
+                                                         Fix16& pInY,
+                                                         Ang16& pRotAng,
+                                                         Fix16& pTransX,
+                                                         Fix16& pTransY,
+                                                         Fix16& pRotTransX,
+                                                         Fix16& pRotTransY)
+    {
+        Fix16 ySin = ((pInY - pTransY) * Ang16::sine_40F500(pRotAng));
+        Fix16 xCos = ((pInX - pTransX) * Ang16::cosine_40F520(pRotAng));
+        pRotTransX = (xCos + ySin);
+
+        Fix16 yCos = ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng));
+        Fix16 negXSin = (-(pInX - pTransX) * Ang16::sine_40F500(pRotAng));
+        pRotTransY = (negXSin + yCos);
     }
 
     Ang16 field_0;
