@@ -48,6 +48,9 @@ DEFINE_GLOBAL_INIT(u32, kGlobalMask2_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 f
 DEFINE_GLOBAL(u32, gFlags_67ACF8, 0x67ACF8); // BitSet32 flag
 DEFINE_GLOBAL(Fix16, dword_703A38, 0x703A38);
 
+DEFINE_GLOBAL_INIT(Fix16, k_dword_7033B4, Fix16(0x3FC000, 0), 0x7033B4);
+DEFINE_GLOBAL_INIT(Fix16, dword_7035DC, Fix16(0x1C000, 0), 0x7035DC);
+
 EXTERN_GLOBAL(s32, window_width_706630);
 EXTERN_GLOBAL(s32, window_height_706B50);
 
@@ -100,7 +103,7 @@ WIP_FUNC(0x5A5AA0)
 EXPORT Fix16* __stdcall ProjectOntoAxis_5A5AA0(Fix16* xpos1, Fix16* ypos1, Ang16* v1, Fix16* xpos2, Fix16* ypos2, Fix16* v2, Fix16* v3)
 {
     WIP_IMPLEMENTED;
-    
+
     Fix16* result;
     *v2 = (Ang16::sine_40F500(*v1) * (*ypos1 - *ypos2)) + (Ang16::cosine_40F520(*v1) * (*xpos1 - *xpos2));
     result = v3;
@@ -348,11 +351,24 @@ char_type Sprite::CollisionCheck_59E590(Sprite* pOther)
     return 0;
 }
 
-STUB_FUNC(0x59E680)
-char_type Sprite::CheckDirectionalSliceCollision_59E680(Fix16 a2, Sprite* a3)
+// 9.6f 0x4BDF20
+MATCH_FUNC(0x59E680)
+char_type Sprite::CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16_Point point;
+    point.FromPolar_41E210(-sliceLen / 2, pSprite->field_0);
+
+    gSprite_703814->field_C_sprite_4c_ptr->CopyXYZ_447DF0(pSprite->field_C_sprite_4c_ptr);
+    gSprite_703814->field_C_sprite_4c_ptr->ReduceWBy_4BA110(sliceLen);
+
+    gSprite_703814->field_1C_zpos = pSprite->field_1C_zpos;
+    gSprite_703814->field_0 = pSprite->field_0;
+
+    gSprite_703814->field_14_xy.x = point.x + pSprite->field_14_xy.x;
+    gSprite_703814->field_14_xy.y = point.y + pSprite->field_14_xy.y;
+    gSprite_703814->ResetZCollisionAndDebugBoxes_59E7B0();
+    gSprite_703814->UpdateCollisionBoundsIfNeeded_59E9C0();
+    return CollisionCheck_59E590(gSprite_703814);
 }
 
 MATCH_FUNC(0x59e7b0)
@@ -852,11 +868,48 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* a2)
     return false;
 }
 
-STUB_FUNC(0x5a0150)
-char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(s32 a2, u8* a3, u8* a4)
+WIP_FUNC(0x5a0150)
+char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(Sprite* pOther, u8* pOut1, u8* pOut2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    u8 i = 0;
+
+    char_type counter = 0;
+
+    Fix16_Point* pBBox = pOther->field_C_sprite_4c_ptr->field_C_renderingRect;
+
+    Fix16 pHalfW;
+    Fix16 pHalfH;
+    // TODO: This inline seems to be breaking the match
+    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&pHalfW, &pHalfH);
+
+    for (i = 0; i < 4; i++)
+    {
+        Ang16 t = -field_0;
+        Fix16 corner_x;
+        Fix16 corner_y;
+        Fix16_Point* pCorner = &pBBox[i];
+        RotateAndTranslatePoint_42A720(pCorner->x, pCorner->y, t, field_14_xy.x, field_14_xy.y, corner_x, corner_y);
+
+        if (((corner_x >= -pHalfW) && (corner_x <= pHalfW) && (corner_y >= -pHalfH) && (corner_y <= pHalfH)))
+        {
+            counter++;
+            if (counter == 1)
+            {
+                *pOut1 = i;
+            }
+            else if (counter == 2)
+            {
+                *pOut2 = i;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
+    return counter;
 }
 
 MATCH_FUNC(0x5a0320)
@@ -1269,11 +1322,66 @@ char_type Sprite::sub_5A2440()
     return result;
 }
 
-STUB_FUNC(0x5a2500)
+WIP_FUNC(0x5a2500)
 char_type Sprite::CheckSpriteMovementRegion_5A2500()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_1C_zpos >= dword_7035DC)
+    {
+        if (field_14_xy.x < dword_7035C4)
+        {
+            gRozza_679188.sub_4BA280(dword_7035C4, (field_14_xy.y.GetRoundValue()) + dword_7035C4, field_14_xy.y.GetRoundValue());
+            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
+            return 1;
+        }
+
+        if (field_14_xy.x > k_dword_7033B4)
+        {
+            gRozza_679188.sub_4BA280(k_dword_7033B4, (field_14_xy.y.GetRoundValue()) + k_dword_7033B4, field_14_xy.y.GetRoundValue());
+            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
+            return 1;
+        }
+
+        if (field_14_xy.y < dword_7035C4)
+        {
+            gRozza_679188.sub_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + dword_7035C4, dword_7035C4);
+            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
+            return 1;
+        }
+
+        if (field_14_xy.y > k_dword_7033B4)
+        {
+            gRozza_679188.sub_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + dword_7035C4, k_dword_7033B4);
+            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
+            return 1;
+        }
+    }
+
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+    field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+
+    Object_2C* pObject2C = As2C_40FEC0();
+    s16 val;
+    if (pObject2C)
+    {
+        val = pObject2C->sub_5222B0();
+    }
+    else
+    {
+        val = 1024;
+    }
+
+    char_type result = gMap_0x370_6F6268->CanSpriteEnterMovementRegion_4E4460(field_14_xy.x.ToInt(),
+                                                                              field_14_xy.y.ToInt(),
+                                                                              field_1C_zpos.ToInt(),
+                                                                              this,
+                                                                              val);
+    if (result)
+    {
+        gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
+    }
+    return result;
 }
 
 STUB_FUNC(0x5A26E0)
@@ -1284,7 +1392,13 @@ s16* Sprite::sub_5A26E0(s16* a2)
 }
 
 STUB_FUNC(0x5a2710)
-Fix16_Point* Sprite::FindCollisionIntersectionPoint_5A2710(Fix16_Point* point, Sprite* a3, Fix16_Point& a4, Ang16 a5, u8* a7, u8* a8)
+Fix16_Point* Sprite::FindCollisionIntersectionPoint_5A2710(Fix16_Point* point,
+                                                           Sprite* pOther,
+                                                           Fix16_Point& newPos,
+                                                           Ang16 newAng,
+                                                           u8* pOutSideSelf,
+                                                           u8* pOutSideOther,
+                                                           u8* pOutHitType)
 {
     NOT_IMPLEMENTED;
     return point;

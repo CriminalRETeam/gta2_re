@@ -1,10 +1,10 @@
 #pragma once
 
+#include "CarInfo_808.hpp"
 #include "Car_BC.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
-#include "CarInfo_808.hpp"
 
 class Sprite;
 class Car_BC;
@@ -74,7 +74,7 @@ class CarPhysics_B0
     EXPORT void BinarySearchCollisionTime_55C560(Fix16& a2, Fix16& a3);
     EXPORT void HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& a2, Ang16& a3);
     EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& a2, Ang16& a3);
-    EXPORT void DispatchCollision_55CA70(Fix16_Point a2, Ang16 a3);
+    EXPORT void DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3);
     EXPORT void ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3);
     EXPORT void SpawnSkidSegment_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5);
     EXPORT char_type UpdateWheelSkidEffects_55DC00();
@@ -100,7 +100,7 @@ class CarPhysics_B0
     EXPORT s32 HandleWorldCollision_55FD00(s32 a2);
     EXPORT Car_78* HandleCarCollision_55FF20(Car_BC* a2);
     EXPORT void HandleObjectCollision_5606C0(Object_2C* a2, char_type a3);
-    EXPORT void ProcessPedImpact_560B40(Char_B4* a2, Ang16& a3);
+    EXPORT void ProcessPedImpact_560B40(Char_B4* a2, u8 a3);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void ApplyMovementStep_560F20(Fix16 a2);
     EXPORT void IntegrateAndClampVelocities_5610B0();
@@ -111,6 +111,12 @@ class CarPhysics_B0
     EXPORT bool get_revs_561940();
     EXPORT Fix16 ComputeEngineTorque_561970();
     EXPORT Fix16 ComputeTorqueFromThrottle_561DD0();
+
+    bool IsVelocityAlignedWithHeading_40F840()
+    {
+        Ang16 v14 = (field_40_linvel_1.atan2_40ACD0() - field_58_theta);
+        return v14 <= word_6FE00C || v14 >= word_6FE154;
+    }
 
     Fix16 inline_ComputeTorqueFromThrottle_561DD0()
     {
@@ -142,9 +148,9 @@ class CarPhysics_B0
     EXPORT void ApplyThrottleInput_562480();
     EXPORT void ApplyBrakePhysics_5624F0();
     EXPORT void UpdateSteeringAngle_562560();
-    EXPORT s32 IsGasPedalPressedEnough_5626A0();
+    EXPORT bool IsGasPedalPressedEnough_5626A0();
     EXPORT Fix16 MinGasPedalPressure_5626C0();
-    EXPORT char_type ApplyArrowSteerAssist_5626F0();
+    EXPORT void ApplyArrowSteerAssist_5626F0();
     EXPORT void StabilizeVelocityAtSpeed_562910();
     EXPORT void RotateVelocity_562C20(const Ang16& a2);
     EXPORT void EnforceGearSensitiveMaxSpeed_562D00();

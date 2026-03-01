@@ -1,8 +1,10 @@
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
+#include "Hud.hpp"
 #include "Object_5C.hpp"
 #include "Particle_8.hpp"
+#include "Player.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "debug.hpp"
@@ -132,6 +134,15 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE2F4, dword_6FDFD0, 0x6FE2F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0C0, Fix16(0x2000, 0), 0x6FE0C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE064, Fix16(0x1FE8, 0), 0x6FE064);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE350, Fix16(0x824, 0), 0x6FE350);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE10C, Fix16(0x63D8, 0), 0x6FE10C);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE134, dword_6FE3C4 * 25, 0x6FE134);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE278, Fix16(0x12B88, 0), 0x6FE278);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE260, Fix16(0xC7B0, 0), 0x6FE260);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE2F8, dword_6FE0C0, 0x6FE2F8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE070, k_dword_6FE210, 0x6FE070);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE3DC, k_dword_6FE210, 0x6FE3DC);
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -1466,11 +1477,12 @@ void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& a2, Ang16& a
 
 // 9.6f 0x4A4170
 WIP_FUNC(0x55ca70)
-void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point a2, Ang16 a3)
+void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3)
 {
     WIP_IMPLEMENTED;
 
     Fix16_Point arg0;
+    u8 hitType;
     //v7 = 0;
     switch (gRozza_679188.field_0_type)
     {
@@ -1487,7 +1499,8 @@ void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point a2, Ang16 a3)
                                                                                                      a2,
                                                                                                      a3,
                                                                                                      &byte_6FDFC4,
-                                                                                                     &byte_6FDFCC);
+                                                                                                     &byte_6FDFCC,
+                                                                                                     &hitType);
 
             Car_BC* pCar = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
             if (pCar)
@@ -1499,7 +1512,7 @@ void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point a2, Ang16 a3)
                 Char_B4* pB4 = gRozza_679188.field_20_pSprite->AsCharB4_40FEA0();
                 if (pB4)
                 {
-                    ProcessPedImpact_560B40(pB4, a3);
+                    ProcessPedImpact_560B40(pB4, hitType);
                 }
                 else
                 {
@@ -1993,10 +2006,123 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* a2, char_type a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x560b40)
-void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* a2, Ang16& a3)
+// TODO: Probably move
+STUB_FUNC(0x55F3B0)
+EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(
+                                                         Fix16 a2,
+                                                         Fix16 a3,
+                                                         Fix16_Point* a4,
+                                                         Fix16_Point* a5,
+                                                         Fix16_Point* a6,
+                                                         Fix16_Point* a7,
+                                                         Fix16_Point* a8,
+                                                         Fix16 a9,
+                                                         Fix16 a10,
+                                                         Fix16 a11)
 {
     NOT_IMPLEMENTED;
+    return Fix16_Point();
+}
+
+WIP_FUNC(0x560b40)
+void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
+{
+    WIP_IMPLEMENTED;
+
+    Sprite* pSprite = pCharB4->field_80_sprite_ptr;
+
+    Fix16_Point sprite_xy;
+    sprite_xy.x = pSprite->field_14_xy.x;
+    sprite_xy.y = pSprite->field_14_xy.y;
+
+    Fix16_Point combinedCentreOfmass = ComputeCombinedCenterOfMass_559EC0();
+    Fix16_Point relativePointVel = ComputeRelativePointVelocity_561130(&stru_6FE1A0);
+
+    stru_6FE1F0 = combinedCentreOfmass - stru_6FE1A0;
+
+    Fix16 effectiveMomentOfInertia = GetEffectiveMomentOfInertia_55A050();
+    Fix16 carMass = CalculateMass_559FF0();
+
+    Fix16_Point pIntersection = ComputeLineLineIntersection_55F3B0(carMass,
+                                                                   dword_6FE2F8,
+                                                                   &relativePointVel,
+                                                                   &stru_6FE1F0,
+                                                                   &stru_6FE1A0,
+                                                                   &combinedCentreOfmass,
+                                                                   &sprite_xy,
+                                                                   effectiveMomentOfInertia,
+                                                                   dword_6FE070,
+                                                                   dword_6FE3DC);
+
+    Fix16_Point intersect_abs;
+    intersect_abs.x = pIntersection.x;
+    intersect_abs.y = pIntersection.y;
+
+    u8 bUnknown =
+        field_98_surface_type == 6 && pCharB4->field_80_sprite_ptr->field_1C_zpos != field_5C_pCar->field_50_car_sprite->field_1C_zpos ||
+        hitType == 0;
+
+    dword_6FE33C = pIntersection.GetLength_2();
+
+    Car_BC* pCar = this->field_5C_pCar;
+
+    Fix16_Point v15 = -intersect_abs;
+    Fix16_Point v16 = v15 / dword_6FE2F8;
+
+    Ped* pCarDriver = field_5C_pCar->field_54_driver;
+    if (pCarDriver)
+    {
+        pCharB4->field_7C_pPed->field_204_killer_id = pCarDriver->field_200_id;
+        pCharB4->field_7C_pPed->field_264 = 50;
+
+        Ped* pPed = pCharB4->field_7C_pPed;
+        if (pPed->field_140 == this->field_5C_pCar)
+        {
+            pPed->field_290 = 3;
+        }
+        else
+        {
+            pPed->field_290 = 1;
+        }
+    }
+    else
+    {
+        Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
+        if (pTrailer)
+        {
+            // is_on_trailer_421720 ?
+            Car_BC* pCarOnTrailer = pTrailer->field_C_pCarOnTrailer;
+            if (pCarOnTrailer)
+            {
+                if (pCarOnTrailer == field_5C_pCar)
+                {
+                    Car_BC* pTruckCab = pTrailer->field_8_truck_cab;
+                    if (pTruckCab)
+                    {
+                        pCar = pTruckCab;
+                        Ped* pTruckCabDriver = pTruckCab->field_54_driver;
+                        if (pTruckCabDriver)
+                        {
+                            pCharB4->field_7C_pPed->field_204_killer_id = pTruckCabDriver->field_200_id;
+                            pCharB4->field_7C_pPed->field_264 = 50;
+
+                            Ped* pPed = pCharB4->field_7C_pPed;
+                            if (pPed->field_140 == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)
+                            {
+                                pPed->field_290 = 3;
+                            }
+                            else
+                            {
+                                pPed->field_290 = 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    pCharB4->HandleCarImpact_5538A0(pCar, bUnknown, v16.x, v16.y);
 }
 
 MATCH_FUNC(0x560eb0)
@@ -2183,21 +2309,18 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
                         if (vel_len <= dword_6FE258->field_40_gear2_speed)
                         {
                             // Gear 1
-                            return ((ComputeTorqueUnknown_49E8E0()) *
-                                    dword_6FE258->field_34_gear1_multiplier);
+                            return ((ComputeTorqueUnknown_49E8E0()) * dword_6FE258->field_34_gear1_multiplier);
                         }
                         else
                         {
                             // Gear 2
-                            return ((inline_ComputeTorqueFromThrottle_561DD0()) *
-                                    dword_6FE258->field_38_gear2_multiplier);
+                            return ((inline_ComputeTorqueFromThrottle_561DD0()) * dword_6FE258->field_38_gear2_multiplier);
                         }
                     }
                     else
                     {
                         // Gear 3
-                        return ((inline_ComputeTorqueFromThrottle_561DD0()) *
-                                dword_6FE258->field_3C_gear3_multiplier);
+                        return ((inline_ComputeTorqueFromThrottle_561DD0()) * dword_6FE258->field_3C_gear3_multiplier);
                     }
                 }
             }
@@ -2391,7 +2514,7 @@ void CarPhysics_B0::UpdateSteeringAngle_562560()
 }
 
 MATCH_FUNC(0x5626a0)
-s32 CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
+bool CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
 {
     Fix16 t = MinGasPedalPressure_5626C0();
     return field_60_gas_pedal >= t;
@@ -2410,11 +2533,104 @@ Fix16 CarPhysics_B0::MinGasPedalPressure_5626C0()
     }
 }
 
-STUB_FUNC(0x5626f0)
-char_type CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
+MATCH_FUNC(0x5626f0)
+void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 theta_fp = Ang16::Ang16_to_Fix16(field_58_theta);
+    dword_6FE0B0 = kFP16Zero_6FE20C;
+    Car_78* pAi = this->field_5C_pCar->field_5C;
+    if ((!pAi || (pAi->field_24_flags & 0x2000) != 0) && this->field_78_pointing_ang_rad == kFP16Zero_6FE20C)
+    {
+        if (IsGasPedalPressedEnough_5626A0())
+        {
+            if (sub_40F840() && !this->field_40_linvel_1.IsNull() && !this->field_A0)
+            {
+                gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(this->field_38_cp1.x.ToInt(),
+                                                                             this->field_38_cp1.y.ToInt(),
+                                                                             (this->field_6C_cp3 - k_dword_6FE210).ToInt());
+                if (pBlock)
+                {
+                    if ((pBlock->field_B_slope_type & 3) == 1)
+                    {
+                        if ((pBlock->field_A_arrows & 0x33) != 0)
+                        {
+                            if (theta_fp <= dword_6FE10C - k_dword_6FE134 || theta_fp >= k_dword_6FE134 + dword_6FE10C)
+                            {
+                                if (theta_fp > dword_6FE278 - k_dword_6FE134 && theta_fp < dword_6FE278 + k_dword_6FE134)
+                                {
+                                    dword_6FE0B0 = dword_6FE278 - theta_fp;
+                                }
+                            }
+                            else
+                            {
+                                dword_6FE0B0 = dword_6FE10C - theta_fp;
+                            }
+                        }
+                        else if ((pBlock->field_A_arrows & 0xCC) != 0)
+                        {
+                            if (theta_fp <= k_dword_6FE260 - k_dword_6FE134 || theta_fp >= k_dword_6FE260 + k_dword_6FE134)
+                            {
+                                if (theta_fp > k_dword_6FE314 - k_dword_6FE134)
+                                {
+
+                                    dword_6FE0B0 = k_dword_6FE314 - theta_fp;
+                                }
+                                else
+                                {
+                                    if (theta_fp < k_dword_6FE134)
+                                    {
+                                        dword_6FE0B0 = -theta_fp;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                dword_6FE0B0 = k_dword_6FE260 - theta_fp;
+                            }
+                        }
+
+                        if (dword_6FE0B0 != kFP16Zero_6FE20C)
+                        {
+                            theta_fp = field_5C_pCar->sub_440510();
+                            if (dword_6FE0B0 > kFP16Zero_6FE20C)
+                            {
+                                if (dword_6FE0B0 > theta_fp)
+                                {
+                                    dword_6FE0B0 = theta_fp;
+                                }
+                            }
+                            else
+                            {
+                                theta_fp = -theta_fp;
+                                if (dword_6FE0B0 < theta_fp)
+                                {
+                                    dword_6FE0B0 = theta_fp;
+                                }
+                            }
+
+                            if (bDo_show_instruments_67D64C)
+                            {
+                                Ped* pDriver = this->field_5C_pCar->field_54_driver;
+                                if (pDriver)
+                                {
+                                    Player* pPlayer = pDriver->field_15C_player;
+                                    if (pPlayer)
+                                    {
+                                        if (pPlayer->field_0_bIsUser)
+                                        {
+                                            gHud_2B00_706620->field_650.sub_5D1F50(L"snap", 0, 64, word_706600, 1);
+                                        }
+                                    }
+                                }
+                            }
+
+                            this->field_74_ang_vel_rad += dword_6FE0B0;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 // https://decomp.me/scratch/vdIqi

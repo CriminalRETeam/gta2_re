@@ -20,6 +20,29 @@ class Rozza_28
         this->field_24 = 0;
     }
 
+    void SetMapZ_4BA2B0(Fix16 a2)
+    {
+        this->field_1C_mapz = a2;
+    }
+
+    void sub_4BA280(Fix16 a2, Fix16 a3, Fix16 a4)
+    {
+        this->field_C_mapy_t2 = a2;
+        this->field_0_type = 2;
+        this->field_10 = a3;
+        this->field_14_mapx_t2 = a4;
+        this->field_20_pSprite = 0;
+    }
+
+    void sub_4BA250(Fix16 a2, Fix16 a3, Fix16 a4)
+    {
+        this->field_4_mapx_t1 = a2;
+        this->field_0_type = 1;
+        this->field_8 = a3;
+        this->field_18_mapy_t1 = a4;
+        this->field_20_pSprite = 0;
+    }
+
     bool IsCharB4_49EF20()
     {
         return this->field_0_type == 3 && field_20_pSprite->AsCharB4_40FEA0();
