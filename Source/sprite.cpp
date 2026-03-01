@@ -48,6 +48,9 @@ DEFINE_GLOBAL_INIT(u32, kGlobalMask2_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 f
 DEFINE_GLOBAL(u32, gFlags_67ACF8, 0x67ACF8); // BitSet32 flag
 DEFINE_GLOBAL(Fix16, dword_703A38, 0x703A38);
 
+DEFINE_GLOBAL_INIT(Fix16, k_dword_7033B4, Fix16(0x3FC000, 0), 0x7033B4);
+DEFINE_GLOBAL_INIT(Fix16, dword_7035DC, Fix16(0x1C000, 0), 0x7035DC);
+
 EXTERN_GLOBAL(s32, window_width_706630);
 EXTERN_GLOBAL(s32, window_height_706B50);
 
@@ -1319,11 +1322,82 @@ char_type Sprite::sub_5A2440()
     return result;
 }
 
-STUB_FUNC(0x5a2500)
+WIP_FUNC(0x5a2500)
 char_type Sprite::CheckSpriteMovementRegion_5A2500()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_1C_zpos >= dword_7035DC)
+    {
+        if (field_14_xy.x < dword_7035C4)
+        {
+            gRozza_679188.field_0_type = 2;
+            gRozza_679188.field_14_mapx_t2 = dword_7035C4;
+            gRozza_679188.field_C_mapy_t2 = field_14_xy.y.GetRoundValue();
+            gRozza_679188.field_10 = (field_14_xy.y.GetRoundValue()) + dword_7035C4;
+            gRozza_679188.field_20_pSprite = 0;
+            gRozza_679188.field_1C_mapz = this->field_1C_zpos;
+            return 1;
+        }
+
+        if (field_14_xy.x > k_dword_7033B4)
+        {
+            gRozza_679188.field_0_type = 2;
+            gRozza_679188.field_14_mapx_t2 = k_dword_7033B4;
+            gRozza_679188.field_C_mapy_t2 = field_14_xy.y.GetRoundValue();
+            gRozza_679188.field_10 = (field_14_xy.y.GetRoundValue()) + dword_7035C4;
+            gRozza_679188.field_20_pSprite = 0;
+            gRozza_679188.field_1C_mapz = this->field_1C_zpos;
+            return 1;
+        }
+
+        if (field_14_xy.y < dword_7035C4)
+        {
+            gRozza_679188.field_0_type = 1;
+            gRozza_679188.field_4_mapx_t1 = field_14_xy.x.GetRoundValue();
+            gRozza_679188.field_18_mapy_t1 = dword_7035C4;
+            gRozza_679188.field_8 = (field_14_xy.x.GetRoundValue()) + dword_7035C4;
+            gRozza_679188.field_20_pSprite = 0;
+            gRozza_679188.field_1C_mapz = this->field_1C_zpos;
+            return 1;
+        }
+
+        if (field_14_xy.y > k_dword_7033B4)
+        {
+            gRozza_679188.field_0_type = 1;
+            gRozza_679188.field_4_mapx_t1 = field_14_xy.x.GetRoundValue();
+            gRozza_679188.field_8 = (field_14_xy.x.GetRoundValue()) + dword_7035C4;
+            gRozza_679188.field_18_mapy_t1 = k_dword_7033B4;
+            gRozza_679188.field_20_pSprite = 0;
+            gRozza_679188.field_1C_mapz = this->field_1C_zpos;
+            return 1;
+        }
+    }
+
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+    field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+
+    Object_2C* pObject2C = As2C_40FEC0();
+    s32 val;
+    if (pObject2C)
+    {
+        val = pObject2C->sub_5222B0();
+    }
+    else
+    {
+        val = 1024;
+    }
+
+    char_type result = gMap_0x370_6F6268->CanSpriteEnterMovementRegion_4E4460(field_14_xy.x.ToInt(),
+                                                                              field_14_xy.y.ToInt(),
+                                                                              field_1C_zpos.ToInt(),
+                                                                              this,
+                                                                              val);
+    if (result)
+    {
+        gRozza_679188.field_1C_mapz = this->field_1C_zpos;
+    }
+    return result;
 }
 
 STUB_FUNC(0x5A26E0)
