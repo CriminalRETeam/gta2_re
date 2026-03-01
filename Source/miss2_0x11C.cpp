@@ -1621,10 +1621,76 @@ void miss2_0x11C::sub_506D60()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x506ed0)
+MATCH_FUNC(0x506ed0)
 void miss2_0x11C::sub_506ED0()
 {
-    NOT_IMPLEMENTED;
+    u8 operation_type = miss2_0x11C::sub_506BC0(gBasePtr_6F8070->field_2_type);
+    SCR_OPERATE_COUNTER_AND_COUNTER_2* pCmd = (SCR_OPERATE_COUNTER_AND_COUNTER_2*)gBasePtr_6F8070;
+    SCR_POINTER* pLeftOperand =
+        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this); // pCmd->field_8_left_counter_idx
+    SCR_POINTER* pRightOperand = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_right_counter_idx);
+    switch (operation_type)
+    {
+        case 0:
+            this->field_8 = pLeftOperand->field_8_counter + pRightOperand->field_8_counter;
+            break;
+        case 1:
+            this->field_8 = pLeftOperand->field_8_counter - pRightOperand->field_8_counter;
+            break;
+        case 2:
+            if (pLeftOperand->field_8_counter < pRightOperand->field_8_counter)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+            break;
+        case 3:
+            if (pLeftOperand->field_8_counter <= pRightOperand->field_8_counter)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+            break;
+        case 4:
+            if (pLeftOperand->field_8_counter > pRightOperand->field_8_counter)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+            break;
+        case 5:
+            if (pLeftOperand->field_8_counter >= pRightOperand->field_8_counter)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+            break;
+        case 6:
+            if (pLeftOperand->field_8_counter == pRightOperand->field_8_counter)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+            break;
+        default:
+            break;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x507110)
