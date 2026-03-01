@@ -372,10 +372,13 @@ void Hud_Message_1C8::sub_5D1860()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d1940)
+MATCH_FUNC(0x5d1940)
 void Hud_Message_1C8::DrawMessage_5D1940()
 {
-    NOT_IMPLEMENTED;
+    if (field_0_time_to_show)
+    {
+        DrawText_5D7720(&field_2_str[100], field_1BC_str_width, field_1C0_num_lines, word_7062F0, 2, 0, 0, 0);
+    }
 }
 
 MATCH_FUNC(0x5d1a00)
@@ -923,20 +926,20 @@ WIP_FUNC(0x5d1b10)
 void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime)
 {
     WIP_IMPLEMENTED;
-    
+
     this->field_AC_fontType = fontType;
 
     gText_0x14_704DFC->sub_5B5BC0(field_0_str_buf, pStr, 640, fontType);
 
     if (field_AC_fontType == word_703C9C || field_AC_fontType == word_703D9C)
     {
-        /*v7 =*/ gText_0x14_704DFC->sub_5B5B80(field_0_str_buf);
+        /*v7 =*/gText_0x14_704DFC->sub_5B5B80(field_0_str_buf);
     }
 
     s16 xTmp = xpos;
     this->field_B0_drawKind = 2;
     this->field_B4 = 0;
-    
+
     if (xpos == -1)
     {
         xTmp = ((640 - Frontend::sub_5D8990(field_0_str_buf, this->field_AC_fontType)) / 2);
