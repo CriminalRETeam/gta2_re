@@ -98,6 +98,18 @@ class Sprite_4C
         return field_0_width == gFix16_7035C0;
     }
 
+    void ReduceWBy_4BA110(Fix16 a2)
+    {
+        field_4_height -= a2;
+    }
+
+    void CopyXYZ_447DF0(Sprite_4C* a2)
+    {
+        this->field_0_width = a2->field_0_width;
+        this->field_4_height = a2->field_4_height;
+        this->field_8 = a2->field_8;
+    }
+
     bool ReduceHeightBy_4BA160(Fix16 a2)
     {
         field_4_height -= a2;
@@ -340,7 +352,7 @@ class Sprite
                                                          Fix16& pRotTransY)
     {
         pRotTransX = (((pInX - pTransX) * Ang16::cosine_40F520(pRotAng)) + ((pInY - pTransY) * Ang16::sine_40F500(pRotAng)));
-        pRotTransY = ( (-(pInX - pTransX) * Ang16::sine_40F500(pRotAng)) + ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng)));
+        pRotTransY = ((-(pInX - pTransX) * Ang16::sine_40F500(pRotAng)) + ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng)));
     }
 
     Ang16 field_0;
