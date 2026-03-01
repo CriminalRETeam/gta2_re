@@ -348,11 +348,26 @@ char_type Sprite::CollisionCheck_59E590(Sprite* pOther)
     return 0;
 }
 
-STUB_FUNC(0x59E680)
-char_type Sprite::CheckDirectionalSliceCollision_59E680(Fix16 a2, Sprite* a3)
+WIP_FUNC(0x59E680)
+char_type Sprite::CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 sin_v = (gSin_table_667A80[pSprite->field_0.rValue] * (sliceLen / -2));
+    Sprite_4C* p4C = pSprite->field_C_sprite_4c_ptr;
+    Fix16 cos_v = (gCos_table_669260[pSprite->field_0.rValue] * (sliceLen / -2));
+    Sprite_4C* pOther_4C = gSprite_703814->field_C_sprite_4c_ptr;
+    pOther_4C->field_0_width = p4C->field_0_width;
+    pOther_4C->field_4_height = p4C->field_4_height;
+    pOther_4C->field_8 = p4C->field_8;
+    gSprite_703814->field_C_sprite_4c_ptr->field_0_width -= sliceLen;
+    gSprite_703814->field_1C_zpos = pSprite->field_1C_zpos;
+    gSprite_703814->field_0 = pSprite->field_0;
+    gSprite_703814->field_14_xy.x = sin_v + pSprite->field_14_xy.x;
+    gSprite_703814->field_14_xy.y = cos_v + pSprite->field_14_xy.y;
+    gSprite_703814->ResetZCollisionAndDebugBoxes_59E7B0();
+    gSprite_703814->UpdateCollisionBoundsIfNeeded_59E9C0();
+    return CollisionCheck_59E590(gSprite_703814);
 }
 
 MATCH_FUNC(0x59e7b0)
