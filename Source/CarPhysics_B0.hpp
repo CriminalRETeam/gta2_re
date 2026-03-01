@@ -74,7 +74,7 @@ class CarPhysics_B0
     EXPORT void BinarySearchCollisionTime_55C560(Fix16& a2, Fix16& a3);
     EXPORT void HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& a2, Ang16& a3);
     EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& a2, Ang16& a3);
-    EXPORT void DispatchCollision_55CA70(Fix16_Point a2, Ang16 a3);
+    EXPORT void DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3);
     EXPORT void ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3);
     EXPORT void SpawnSkidSegment_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5);
     EXPORT char_type UpdateWheelSkidEffects_55DC00();
