@@ -1331,45 +1331,29 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
     {
         if (field_14_xy.x < dword_7035C4)
         {
-            gRozza_679188.field_0_type = 2;
-            gRozza_679188.field_14_mapx_t2 = dword_7035C4;
-            gRozza_679188.field_C_mapy_t2 = field_14_xy.y.GetRoundValue();
-            gRozza_679188.field_10 = (field_14_xy.y.GetRoundValue()) + dword_7035C4;
-            gRozza_679188.field_20_pSprite = 0;
-            gRozza_679188.field_1C_mapz = this->field_1C_zpos;
+            gRozza_679188.sub_4BA280(dword_7035C4, (field_14_xy.y.GetRoundValue()) + dword_7035C4, field_14_xy.y.GetRoundValue());
+            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.x > k_dword_7033B4)
         {
-            gRozza_679188.field_0_type = 2;
-            gRozza_679188.field_14_mapx_t2 = k_dword_7033B4;
-            gRozza_679188.field_C_mapy_t2 = field_14_xy.y.GetRoundValue();
-            gRozza_679188.field_10 = (field_14_xy.y.GetRoundValue()) + dword_7035C4;
-            gRozza_679188.field_20_pSprite = 0;
-            gRozza_679188.field_1C_mapz = this->field_1C_zpos;
+            gRozza_679188.sub_4BA280(k_dword_7033B4, (field_14_xy.y.GetRoundValue()) + k_dword_7033B4, field_14_xy.y.GetRoundValue());
+            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.y < dword_7035C4)
         {
-            gRozza_679188.field_0_type = 1;
-            gRozza_679188.field_4_mapx_t1 = field_14_xy.x.GetRoundValue();
-            gRozza_679188.field_18_mapy_t1 = dword_7035C4;
-            gRozza_679188.field_8 = (field_14_xy.x.GetRoundValue()) + dword_7035C4;
-            gRozza_679188.field_20_pSprite = 0;
-            gRozza_679188.field_1C_mapz = this->field_1C_zpos;
+            gRozza_679188.sub_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + dword_7035C4, dword_7035C4);
+            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.y > k_dword_7033B4)
         {
-            gRozza_679188.field_0_type = 1;
-            gRozza_679188.field_4_mapx_t1 = field_14_xy.x.GetRoundValue();
-            gRozza_679188.field_8 = (field_14_xy.x.GetRoundValue()) + dword_7035C4;
-            gRozza_679188.field_18_mapy_t1 = k_dword_7033B4;
-            gRozza_679188.field_20_pSprite = 0;
-            gRozza_679188.field_1C_mapz = this->field_1C_zpos;
+            gRozza_679188.sub_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + dword_7035C4, k_dword_7033B4);
+            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
     }
@@ -1378,7 +1362,7 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
     field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
 
     Object_2C* pObject2C = As2C_40FEC0();
-    s32 val;
+    s16 val;
     if (pObject2C)
     {
         val = pObject2C->sub_5222B0();
@@ -1395,7 +1379,7 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
                                                                               val);
     if (result)
     {
-        gRozza_679188.field_1C_mapz = this->field_1C_zpos;
+        gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
     }
     return result;
 }
