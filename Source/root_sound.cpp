@@ -58,7 +58,7 @@ void root_sound::DeclareRadioStation_40F030(s32 station_idx, Fix16 xpos, Fix16 y
 }
 
 MATCH_FUNC(0x40F050)
-void root_sound::RemoveSound_40F050(s32 a1, s32 a2)
+void root_sound::RemoveSound_40F050(Fix16 a1, Fix16 a2)
 {
     gSound_obj_66F680.RemoveSound_57EE30(a1, a2);
 }

@@ -74,6 +74,51 @@ class Light_1D4CC : public LightBase
         return pLight;
     }
 
+    inline void sub_47F4B0(nostalgic_ellis_0x28* pLight)
+    {
+        pLight->PoolDeallocate();
+        pLight->mpNext = field_0_pool.field_0_pStart;
+        field_0_pool.field_0_pStart = pLight;
+    }
+
+    // matched https://decomp.me/scratch/cZQwK
+    inline void sub_47F450(nostalgic_ellis_0x28* pLight)
+    {
+        nostalgic_ellis_0x28* pPrevious = NULL;
+
+        for (nostalgic_ellis_0x28* pCurr = field_0_pool.field_4_pPrev; pCurr; pPrevious = pCurr, pCurr = pCurr->mpNext)
+        {
+            if (pCurr == pLight)
+            {
+                pCurr->PoolDeallocate();
+                if (pPrevious != NULL)
+                {
+                    pPrevious->mpNext = pCurr->mpNext;
+                }
+                else
+                {
+                    field_0_pool.field_4_pPrev = pCurr->mpNext;
+                }
+                pCurr->mpNext = field_0_pool.field_0_pStart;
+                field_0_pool.field_0_pStart = pCurr;
+                break;
+            }
+        }
+    }
+
+    inline void DeallocLight_47F4F0(nostalgic_ellis_0x28* pLight)
+    {
+        pLight->sub_4D6DC0();
+        if (pLight->field_14_on_time)
+        {
+            sub_47F450(pLight);
+        }
+        else
+        {
+            sub_47F4B0(pLight);
+        }
+    }
+
     EXPORT ~Light_1D4CC();
     EXPORT nostalgic_ellis_0x28* sub_5C2B70();
     EXPORT nostalgic_ellis_0x28* sub_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);

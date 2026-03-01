@@ -65,7 +65,7 @@ void miss2_0x11C::sub_503200()
 }
 
 STUB_FUNC(0x503410)
-char_type miss2_0x11C::sub_503410(u32 a1)
+u8 miss2_0x11C::sub_503410(u32 a1)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1146,10 +1146,70 @@ s32 miss2_0x11C::DisableThread_505790(u16 a1)
     return 0;
 }
 
-STUB_FUNC(0x505b10)
+MATCH_FUNC(0x505b10)
 void miss2_0x11C::DeallocOrDeleteItem_505B10(u16 idx)
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pCarCmdPointer;
+    SCR_POINTER* pPedCmdPointer;
+    SCR_POINTER* pObjCmdPointer;
+    SCR_POINTER* pLghtCmdPointer;
+    SCR_DELETE_SOUND* pSoundCmdPointer;
+
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
+    switch (miss2_0x11C::sub_503410(pPointer->field_2_type))
+    {
+        case 2:
+            pCarCmdPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
+            if (pCarCmdPointer->field_8_car)
+            {
+                gfrosty_pasteur_6F8060->sub_512BA0(pCarCmdPointer->field_8_car->field_6C_maybe_id, 0);
+                pCarCmdPointer->field_8_car->sub_421470();
+                pCarCmdPointer->field_8_car = NULL;
+            }
+            break;
+
+        case 1:
+            pPedCmdPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
+            if (pPedCmdPointer->field_8_char)
+            {
+                pPedCmdPointer->field_8_char->Deallocate_45EB60();
+                pPedCmdPointer->field_8_char = NULL;
+            }
+            break;
+
+        case 3:
+            pObjCmdPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
+            if (pObjCmdPointer->field_8_obj)
+            {
+                pObjCmdPointer->field_8_obj->Dealloc_5291B0();
+                pObjCmdPointer->field_8_obj = NULL;
+            }
+            break;
+        case 8:
+            pLghtCmdPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
+            if (pLghtCmdPointer->field_8_light)
+            {
+                gLight_1D4CC_6F5520->DeallocLight_47F4F0(pLghtCmdPointer->field_8_light);
+                pLghtCmdPointer->field_8_light = NULL;
+            }
+            break;
+
+        case 9:
+            pSoundCmdPointer = (SCR_DELETE_SOUND*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
+            gRoot_sound_66B038.RemoveSound_40F050(pSoundCmdPointer->field_8_maybe_xpos, pSoundCmdPointer->field_C_maybe_ypos);
+            break;
+
+        case 10:
+            pObjCmdPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
+            if (pObjCmdPointer->field_8_obj)
+            {
+                pObjCmdPointer->field_8_obj->Dealloc_5291B0();
+                pObjCmdPointer->field_8_obj = NULL;
+            }
+            return;
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x505ea0)
