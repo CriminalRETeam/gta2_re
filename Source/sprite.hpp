@@ -111,8 +111,10 @@ class Sprite_4C
 
     void HalfWH_4BA0A0(Fix16* pHalfW, Fix16* pHalfH)
     {
-        *pHalfW = (field_0_width / 2);
-        *pHalfH = (field_4_height / 2);
+        s32 t1 = 2;
+        *pHalfW = (field_0_width / t1);
+        s32 t2 = 2;
+        *pHalfH = (field_4_height / t2);
     }
 
     EXPORT void SetCurrentRect_5A4D90();
@@ -337,13 +339,8 @@ class Sprite
                                                          Fix16& pRotTransX,
                                                          Fix16& pRotTransY)
     {
-        Fix16 ySin = ((pInY - pTransY) * Ang16::sine_40F500(pRotAng));
-        Fix16 xCos = ((pInX - pTransX) * Ang16::cosine_40F520(pRotAng));
-        pRotTransX = (xCos + ySin);
-
-        Fix16 yCos = ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng));
-        Fix16 negXSin = (-(pInX - pTransX) * Ang16::sine_40F500(pRotAng));
-        pRotTransY = (negXSin + yCos);
+        pRotTransX = (((pInX - pTransX) * Ang16::cosine_40F520(pRotAng)) + ((pInY - pTransY) * Ang16::sine_40F500(pRotAng)));
+        pRotTransY = ( (-(pInX - pTransX) * Ang16::sine_40F500(pRotAng)) + ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng)));
     }
 
     Ang16 field_0;

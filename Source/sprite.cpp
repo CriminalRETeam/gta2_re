@@ -858,71 +858,42 @@ char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(Sprite* pOther, u8* p
     WIP_IMPLEMENTED;
 
     u8 i = 0;
-    u8 last_i;
-    
-    s32 counter = 0;
-    s32 last_counter;
+
+    char_type counter = 0;
 
     Fix16_Point* pBBox = pOther->field_C_sprite_4c_ptr->field_C_renderingRect;
+
     Fix16 pHalfW;
     Fix16 pHalfH;
+    // TODO: This inline seems to be breaking the match
     field_C_sprite_4c_ptr->HalfWH_4BA0A0(&pHalfW, &pHalfH);
 
-    last_i = 0;
-
-    Fix16 halfw_neg;
-    Fix16 halfh_neg;
-
-    Fix16 corner_x;
-    Fix16 corner_y;
-
-    Fix16_Point* pCorner;
-
-    while (1)
+    for (i = 0; i < 4; i++)
     {
-        pCorner = &pBBox[(u8)last_i];
-        RotateAndTranslatePoint_42A720(pCorner->x, pCorner->y, -field_0, field_14_xy.x, field_14_xy.y, corner_x, corner_y);
+        Ang16 t = -field_0;
+        Fix16 corner_x;
+        Fix16 corner_y;
+        Fix16_Point* pCorner = &pBBox[i];
+        RotateAndTranslatePoint_42A720(pCorner->x, pCorner->y, t, field_14_xy.x, field_14_xy.y, corner_x, corner_y);
 
-        halfw_neg = -pHalfW;
-        if (!(corner_x >= halfw_neg))
+        if (((corner_x >= -pHalfW) && (corner_x <= pHalfW) && (corner_y >= -pHalfH) && (corner_y <= pHalfH)))
         {
-            goto next_iter;
-        }
-
-        if (!(corner_x <= pHalfW))
-        {
-            goto next_iter;
-        }
-
-        halfh_neg = -pHalfH;
-        if (!(corner_y >= halfh_neg) || !(corner_y <= pHalfH))
-        {
-            goto next_iter;
-        }
-
-        last_counter = ++counter;
-        if (counter != 1)
-        {
-            break;
-        }
-
-        *pOut1 = i;
-
-    next_iter:
-        last_i = ++i;
-        if (i >= 4u)
-        {
-            return counter;
+            counter++;
+            if (counter == 1)
+            {
+                *pOut1 = i;
+            }
+            else if (counter == 2)
+            {
+                *pOut2 = i;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
-
-    if (last_counter == 2)
-    {
-        *pOut2 = i;
-        goto next_iter;
-    }
-
-    return 0;
+    return counter;
 }
 
 MATCH_FUNC(0x5a0320)
