@@ -81,7 +81,7 @@ class Garox_12E4_sub
         field_1 = 45;
     }
     EXPORT void DrawPause_5D63B0();
-    char_type field_12E4;
+    u8 field_12E4;
     char_type field_1;
 };
 
@@ -288,7 +288,7 @@ class Hud_Pager_C_Array
 class Garox_18
 {
   public:
-    Garox_18** field_0; // prob wrong type
+    Garox_18** field_0_pStr;
     s32 field_4;
     s32 field_8_brief_priority;
     Garox_18* field_C; // prob wrong type
@@ -296,7 +296,7 @@ class Garox_18
     u8 field_11;
     u8 field_12;
     u8 field_13;
-    s32 field_14;
+    s32 field_14_cost_param;
 };
 
 namespace ArrowTargetType
@@ -486,42 +486,24 @@ class Hud_Arrow_7C_Array
     char_type field_847;
 };
 
-class Hud_Brief_704 // not sure where to put this, maybe it's Garox_1E34_L, but it has size 0x704
-{
-  public:
-    wchar_t field_0_str[640];
-    char field_500[36];
-    int* field_524;
-    char field_528[452];
-    char field_6EC[12];
-    Hud_Brief_704* field_6F8_prev;
-    int field_6FC;
-    char* field_700;
-    /*
-  public:
-    void SetHudBrief(int priority, const char* str);
-    void Clear(int priority);
-  */
-};
-
-class Garox_1E34_L // size 0x704
+class Hud_Brief_704 // size 0x704
 {
   public:
     EXPORT void sub_5D3330();
-    EXPORT char_type* sub_5D3350();
+    EXPORT void sub_5D3350();
     EXPORT void sub_5D3370();
     EXPORT void sub_5D33A0();
-    EXPORT s32 sub_5D33F0();
+    EXPORT Garox_18* sub_5D33F0();
     EXPORT size_t sub_5D3470();
     EXPORT char_type sub_5D3680(s16 a1);
     EXPORT void sub_5D39D0();
     EXPORT void DrawBrief_5D3B80();
-    EXPORT s32 sub_5D3F10(s32 a2, const char_type* a3, s32 a4);
-    EXPORT s32 sub_5D4400(s32 a2, const char_type* a3);
+    EXPORT void SetHudBrief_5D3F10(s32 priority, const char_type* str, s32 cost_param);
+    EXPORT void SetHudBrief_5D4400(s32 priority, const char_type* str);
     EXPORT void sub_5D44D0();
     EXPORT void ShowBrief_5D4850();
-    EXPORT s32 ClearAllBriefsWithPriority_5D4890(s32 a2);
-    EXPORT Garox_1E34_L();
+    EXPORT s32 ClearAllBriefsWithPriority_5D4890(s32 priority);
+    EXPORT Hud_Brief_704();
 
     wchar_t field_0_str[640];
     s16 field_500;
@@ -533,14 +515,16 @@ class Garox_1E34_L // size 0x704
     s32 field_510_time_to_show;
     s32 field_514_upward_timer;
     Garox_18* field_518_ary_19_start_q;
+
     s32 field_51C;
     s32 field_520;
     Garox_18 field_524_ary_19[19];
     s32 field_6EC;
     s32 field_6F0;
+
     s32 field_6F4;
     Garox_18* field_6F8_prev_brief;
-    Garox_18** field_6FC_p_start_q;
+    Garox_18* field_6FC_p_start_q;
     Garox_18* field_700;
 };
 
@@ -578,6 +562,7 @@ class Hud_CarName_4C
 {
   public:
     EXPORT Hud_CarName_4C();
+    EXPORT void sub_5D4A10();
     char_type field_0_display_time;
     char_type field_1;
     wchar_t field_2_car_name[33];
@@ -589,7 +574,6 @@ class Hud_2B00
 {
   public:
     EXPORT ~Hud_2B00();
-    EXPORT void sub_5D4A10();
     EXPORT void sub_5D5190();
     EXPORT void sub_5D5240(wchar_t* Source);
     EXPORT void sub_5D5350();
@@ -608,7 +592,7 @@ class Hud_2B00
 
     Hud_CarName_4C field_0; // ok
     Hud_MapZone_98 field_4C; // ok
-    Garox_1E34_L field_DC; // ok    TODO: check if it's Hud_Brief_704
+    Hud_Brief_704 field_DC; // ok    TODO: check if it's Hud_Brief_704
     Hud_Pager_C_Array field_620; // ok
     Garox_1700_L field_650; // ok
     Hud_Arrow_7C_Array field_1F18; // ok

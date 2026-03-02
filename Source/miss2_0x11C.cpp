@@ -1985,13 +1985,13 @@ void miss2_0x11C::sub_5093C0()
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598), 3);
             break;
         case SCRCMD_DISPLAY_BRIEF:
-            gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
             break;
         case SCRCMD_DISPLAY_BRIEF_NOW:
-            gHud_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
+            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
             break;
         case SCRCMD_DISPLAY_BRIEF_SOON:
-            gHud_2B00_706620->field_DC.sub_5D4400(2, gTmpBuffer_67C598);
+            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(2, gTmpBuffer_67C598);
             break;
         default:
             break;
@@ -3750,7 +3750,7 @@ void miss2_0x11C::sub_50D3C0() // DO_SAVE_GAME
                 gRoot_sound_66B038.PlayVoice_40F090(62);
                 sprintf(gTmpBuffer_67C598, "svscore");
             }
-            gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         }
         field_C = true;
     }
@@ -4431,7 +4431,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 v9 = v1->field_8_brief_id - 5;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4439,7 +4439,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 v9 = v1->field_8_brief_id - 2;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4447,7 +4447,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 v9 = v1->field_8_brief_id - 1;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4456,7 +4456,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
         //  not used in original levels, since phones are disabled after finishing mission
         s32 v9 = v1->field_8_brief_id;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4465,7 +4465,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
         //  not used in the game as you can repeat a failed mission in GTA2
         s32 v9 = v1->field_8_brief_id + 1;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4484,7 +4484,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 v9 = v1->field_8_brief_id - 6;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4494,7 +4494,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 v9 = v1->field_8_brief_id - 4;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
     }
     else
@@ -4502,7 +4502,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
         //  In this case, the player has positive respect but not enough to launch the mission
         s32 v9 = v1->field_8_brief_id - 7;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
     }
 }
@@ -4963,7 +4963,7 @@ void miss2_0x11C::sub_510100() // START_BASIC_KF_TEMPLATE
             miss2_0x11C::DeallocOrDeleteItem_505B10(pCmd->field_C_objname); // Delete skull icon?
         }
         sprintf(gTmpBuffer_67C598, "%d", pCmd->field_A_brief_id);
-        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         SCR_POINTER* pPlayerPedPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_E_playername);
         u8 weapon_idx = pCmd->field_10_weapon;
         if (weapon_idx < weapon_type::car_bomb || weapon_idx > 27)

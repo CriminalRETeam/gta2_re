@@ -82,7 +82,7 @@ class text_0x14
 
     EXPORT wchar_t* sub_5B5B80(wchar_t* pWideStr);
 
-    EXPORT s32 __stdcall sub_5B5BC0(u16* a1, s32 a2, s32 a3, s32 a4);
+    EXPORT s32 __stdcall sub_5B5BC0(wchar_t* a1, const wchar_t* a2, s32 a3, s32 a4);
 
     EXPORT static char_type* __stdcall Wide2PesudoAscii_5B5D10(const wchar_t* a1);
 

@@ -328,7 +328,7 @@ void Garox_4::sub_5CF620()
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
     } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
-    gHud_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
+    gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gHud_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
 }
@@ -345,7 +345,7 @@ void Garox_4::sub_5CF6B0()
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
     } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
-    gHud_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
+    gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gHud_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
 }
@@ -372,10 +372,13 @@ void Hud_Message_1C8::sub_5D1860()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d1940)
+MATCH_FUNC(0x5d1940)
 void Hud_Message_1C8::DrawMessage_5D1940()
 {
-    NOT_IMPLEMENTED;
+    if (field_0_time_to_show)
+    {
+        DrawText_5D7720(&field_2_str[100], field_1BC_str_width, field_1C0_num_lines, word_7062F0, 2, 0, 0, 0);
+    }
 }
 
 MATCH_FUNC(0x5d1a00)
@@ -919,10 +922,46 @@ void Hud_CopHead_C_Array::sub_5D0210()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d1b10)
-void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime)
+WIP_FUNC(0x5d1b10)
+void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    this->field_AC_fontType = fontType;
+
+    gText_0x14_704DFC->sub_5B5BC0(field_0_str_buf, pStr, 640, fontType);
+
+    if (field_AC_fontType == word_703C9C || field_AC_fontType == word_703D9C)
+    {
+        /*v7 =*/gText_0x14_704DFC->sub_5B5B80(field_0_str_buf);
+    }
+
+    s16 xTmp = xpos;
+    this->field_B0_drawKind = 2;
+    this->field_B4 = 0;
+
+    if (xpos == -1)
+    {
+        xTmp = ((640 - Frontend::sub_5D8990(field_0_str_buf, this->field_AC_fontType)) / 2);
+    }
+    this->field_A8_x = xTmp;
+
+    s16 yTmp = ypos;
+    if (ypos == -1)
+    {
+        yTmp = ((480 - sub_5D8940(field_0_str_buf, field_AC_fontType)) / 2);
+    }
+    this->field_AA_y = yTmp;
+
+    s32 calcDisplayTime = displayTime;
+    if (displayTime == -2)
+    {
+        calcDisplayTime = gHud_2B00_706620->field_13C4_text_speed * wcslen(field_0_str_buf);
+    }
+    this->field_A4_display_time = calcDisplayTime;
+
+    this->field_B8_alpha = 0;
+    this->field_BC_alpha_flag = 0; // LOBYTE() = read as s32 else where, hmm
 }
 
 MATCH_FUNC(0x5d1d00)
@@ -1382,9 +1421,8 @@ bool Hud_Arrow_7C::sub_5D0620()
             return true;
         }
     }
-    if (field_18.sub_4C6FB0() 
-        && field_18.field_18_primary_target.field_20_bIsTargetVisible 
-        && field_18.field_3C_secondary_target.field_20_bIsTargetVisible)
+    if (field_18.sub_4C6FB0() && field_18.field_18_primary_target.field_20_bIsTargetVisible &&
+        field_18.field_3C_secondary_target.field_20_bIsTargetVisible)
     {
         if (field_18.field_2E > 0)
         {
@@ -1397,13 +1435,16 @@ bool Hud_Arrow_7C::sub_5D0620()
         Fix16 zpos;
         gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
 
-        Fix16 distance_1 = Fix16_Point_POD(xpos - field_18.field_60_curr_target->field_14_aim_x, 
-            ypos - field_18.field_60_curr_target->field_18_aim_y).GetLength_41E260() - field_10_radius_pos;
+        Fix16 distance_1 =
+            Fix16_Point_POD(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y)
+                .GetLength_41E260() -
+            field_10_radius_pos;
 
         swap_arrows_4C7060();
 
-        Fix16 distance_2 = Fix16_Point(xpos - field_18.field_60_curr_target->field_14_aim_x, 
-            ypos - field_18.field_60_curr_target->field_18_aim_y).GetLength_41E260();
+        Fix16 distance_2 =
+            Fix16_Point(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y)
+                .GetLength_41E260();
 
         field_18.field_2E = 20;
         field_10_radius_pos = distance_2 - distance_1;
@@ -1882,7 +1923,7 @@ void Hud_Arrow_7C_Array::SetNewGangArrow_5D1310(Gang_144* pZone)
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d3330)
-void Garox_1E34_L::sub_5D3330()
+void Hud_Brief_704::sub_5D3330()
 {
     Garox_18* pGarox_18 = field_700;
     field_700 = pGarox_18->field_C;
@@ -1890,15 +1931,18 @@ void Garox_1E34_L::sub_5D3330()
     field_6F8_prev_brief = pGarox_18;
 }
 
-STUB_FUNC(0x5d3350)
-char_type* Garox_1E34_L::sub_5D3350()
+MATCH_FUNC(0x5d3350)
+void Hud_Brief_704::sub_5D3350()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Garox_18* pPrev;
+    pPrev = this->field_6F8_prev_brief;
+    this->field_6F8_prev_brief = pPrev->field_C;
+    pPrev->field_C = this->field_6FC_p_start_q;
+    this->field_6FC_p_start_q = pPrev;
 }
 
 MATCH_FUNC(0x5d3370)
-void Garox_1E34_L::sub_5D3370()
+void Hud_Brief_704::sub_5D3370()
 {
     Garox_18* pPrev = this->field_6F8_prev_brief;
     this->field_6F8_prev_brief = pPrev->field_C;
@@ -1908,7 +1952,7 @@ void Garox_1E34_L::sub_5D3370()
 }
 
 MATCH_FUNC(0x5d33a0)
-void Garox_1E34_L::sub_5D33A0()
+void Hud_Brief_704::sub_5D33A0()
 {
     Garox_18* pBrief;
     for (pBrief = field_700; pBrief->field_C; pBrief = pBrief->field_C)
@@ -1922,21 +1966,21 @@ void Garox_1E34_L::sub_5D33A0()
 }
 
 STUB_FUNC(0x5d33f0)
-s32 Garox_1E34_L::sub_5D33F0()
+Garox_18* Hud_Brief_704::sub_5D33F0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5d3470)
-size_t Garox_1E34_L::sub_5D3470()
+size_t Hud_Brief_704::sub_5D3470()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 WIP_FUNC(0x5d3680)
-char_type Garox_1E34_L::sub_5D3680(s16 a1)
+char_type Hud_Brief_704::sub_5D3680(s16 a1)
 {
     WIP_IMPLEMENTED;
 
@@ -1978,9 +2022,9 @@ char_type Garox_1E34_L::sub_5D3680(s16 a1)
 }
 
 MATCH_FUNC(0x5d39d0)
-void Garox_1E34_L::sub_5D39D0()
+void Hud_Brief_704::sub_5D39D0()
 {
-    field_510_time_to_show = Garox_1E34_L::sub_5D3470();
+    field_510_time_to_show = Hud_Brief_704::sub_5D3470();
     field_504_tick_timer = field_510_time_to_show * gHud_2B00_706620->field_13C4_text_speed;
     field_50C = 0;
     field_514_upward_timer = 0;
@@ -1988,10 +2032,10 @@ void Garox_1E34_L::sub_5D39D0()
 }
 
 // https://decomp.me/scratch/exFU8
-STUB_FUNC(0x5d3b80)
-void Garox_1E34_L::DrawBrief_5D3B80()
+WIP_FUNC(0x5d3b80)
+void Hud_Brief_704::DrawBrief_5D3B80()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     if (this->field_6F8_prev_brief)
     {
@@ -2005,7 +2049,7 @@ void Garox_1E34_L::DrawBrief_5D3B80()
                    0,
                    0);
 
-        s32 t = 480 - (u16)gGtx_0x106C_703DD4->sub_5AA800(&word_7065C4) * field_508_num_lines;
+        u16 t = 480 - gGtx_0x106C_703DD4->sub_5AA800(&word_7065C4) * field_508_num_lines;
         DrawText_5D7720(field_0_str, // str
                         (64), // x
                         t, // y
@@ -2017,22 +2061,70 @@ void Garox_1E34_L::DrawBrief_5D3B80()
     }
 }
 
-STUB_FUNC(0x5d3f10)
-s32 Garox_1E34_L::sub_5D3F10(s32 a2, const char_type* a3, s32 a4)
+WIP_FUNC(0x5d3f10)
+void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32 cost_param)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Garox_18* v5 = sub_5D33F0();
+    strcpy((char*)v5->field_0_pStr, pText); // TODO
+    v5->field_8_brief_priority = priority;
+    v5->field_10 = 0;
+    v5->field_14_cost_param = cost_param;
+
+    Garox_18* pIter = this->field_6F8_prev_brief;
+    if (pIter)
+    {
+        if (pIter->field_8_brief_priority < priority || priority == 3)
+        {
+            if (pIter->field_10)
+            {
+                sub_5D3370();
+            }
+            v5->field_C = this->field_6F8_prev_brief;
+            this->field_6F8_prev_brief = v5;
+            sub_5D39D0();
+        }
+        else
+        {
+            for (Garox_18* i = pIter->field_C; i; i = i->field_C)
+            {
+                if (i->field_8_brief_priority < priority)
+                {
+                    break;
+                }
+                pIter = i;
+            }
+
+            Garox_18* v8 = pIter->field_C;
+            if (v8)
+            {
+                v5->field_C = v8;
+                pIter->field_C = v5;
+            }
+            else
+            {
+                pIter->field_C = v5;
+                v5->field_C = 0;
+            }
+        }
+    }
+    else
+    {
+        this->field_6F8_prev_brief = v5;
+        v5->field_C = 0;
+        sub_5D39D0();
+    }
 }
 
-STUB_FUNC(0x5d4400)
-s32 Garox_1E34_L::sub_5D4400(s32 a2, const char_type* a3)
+MATCH_FUNC(0x5d4400)
+void Hud_Brief_704::SetHudBrief_5D4400(s32 priority, const char_type* pTextIdStr)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    SetHudBrief_5D3F10(priority, pTextIdStr, -1);
 }
 
 MATCH_FUNC(0x5d44d0)
-void Garox_1E34_L::sub_5D44D0()
+void Hud_Brief_704::sub_5D44D0()
 {
     if (field_6F8_prev_brief)
     {
@@ -2071,7 +2163,7 @@ void Garox_1E34_L::sub_5D44D0()
 }
 
 MATCH_FUNC(0x5d4850)
-void Garox_1E34_L::ShowBrief_5D4850()
+void Hud_Brief_704::ShowBrief_5D4850()
 {
     if (field_700)
     {
@@ -2080,25 +2172,25 @@ void Garox_1E34_L::ShowBrief_5D4850()
         {
             if (prev_brief->field_10)
             {
-                Garox_1E34_L::sub_5D33A0();
+                Hud_Brief_704::sub_5D33A0();
             }
         }
-        Garox_1E34_L::sub_5D3330();
-        Garox_1E34_L::sub_5D39D0();
+        Hud_Brief_704::sub_5D3330();
+        Hud_Brief_704::sub_5D39D0();
     }
 }
 
 STUB_FUNC(0x5d4890)
-s32 Garox_1E34_L::ClearAllBriefsWithPriority_5D4890(s32 a2)
+s32 Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x5d4930)
-Garox_1E34_L::Garox_1E34_L()
+Hud_Brief_704::Hud_Brief_704()
 {
-    field_6FC_p_start_q = &field_518_ary_19_start_q;
+    field_6FC_p_start_q = (Garox_18*)&field_518_ary_19_start_q;
 
     field_50C = 0;
     field_510_time_to_show = 0;
@@ -2109,7 +2201,8 @@ Garox_1E34_L::Garox_1E34_L()
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_524_ary_19); i++)
     {
-        field_524_ary_19[i].field_0 = &field_524_ary_19[i].field_C;
+        // TODO: Some wrong data structure
+        field_524_ary_19[i].field_0_pStr = &field_524_ary_19[i].field_C;
     }
 
     field_6EC = 0;
@@ -2274,10 +2367,30 @@ Hud_2B00::~Hud_2B00()
 {
 }
 
-STUB_FUNC(0x5d4a10)
-void Hud_2B00::sub_5D4A10()
+// TODO: Calls 2 Fix16 ctors that are exactly the same but are 2 unique functions ??
+WIP_FUNC(0x5d4a10)
+void Hud_CarName_4C::sub_5D4A10()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
+    if (field_0_display_time)
+    {
+        u16 v2 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 11);
+        s32 sprite_w = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v2)->field_4_width;
+        if (field_44_xpos_offset > (sprite_w * 2) - 10)
+        {
+            sub_5D7670(6, 13, 320 + sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
+            sub_5D7670(6, 12, 320, field_48_ypos, word_706610, 2, 0, 0, 0);
+            sub_5D7670(6, 11, 320 - sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
+        }
+        else
+        {
+            sub_5D7670(6, 11, 320 - (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
+            sub_5D7670(6, 13, 320 + (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
+        }
+
+        sub_5D77A0(field_2_car_name, ((640 - field_44_xpos_offset) / 2), (field_48_ypos - sub_5D7700(word_706508) / 2), word_706508);
+    }
 }
 
 MATCH_FUNC(0x5d5190)
@@ -2331,7 +2444,7 @@ void Hud_2B00::DrawGui_5D6860()
         field_107C_sub.DrawGangRespectBars_5CFA70();
         field_1108_sub.DrawHealth_5D0260();
         field_4C.DrawZoneName_5D5900();
-        sub_5D4A10();
+        field_0.sub_5D4A10();
         field_1080.sub_5D5420();
         field_DC.DrawBrief_5D3B80();
         field_620.DrawPagers_5D3040();
@@ -2345,10 +2458,58 @@ void Hud_2B00::DrawGui_5D6860()
     }
 }
 
-STUB_FUNC(0x5d69c0)
+WIP_FUNC(0x5d69c0)
 void Hud_2B00::sub_5D69C0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    // TODO: This whole thing is another func
+
+    Garox_12E4_sub* pSub = &this->field_12E4_sub;
+    if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+    {
+        pSub->field_1--;
+        if (pSub->field_1 == 0)
+        {
+            pSub->field_1 = 45;
+            pSub->field_12E4++;
+
+            if (pSub->field_12E4 > 6u)
+            {
+                pSub->field_12E4 = 0;
+            }
+
+            if (pSub->field_12E4 == 1)
+            {
+                if (!gGangPool_CA8_67E274->sub_4BECA0())
+                {
+                    pSub->field_12E4 = 4;
+                }
+                return;
+            }
+
+            if (pSub->field_12E4 == 2)
+            {
+                if (gGangPool_CA8_67E274->sub_4BECA0())
+                {
+                    if (!gGangPool_CA8_67E274->sub_4BECE0())
+                    {
+                        pSub->field_12E4 = 4;
+                    }
+                    return;
+                }
+                pSub->field_12E4 = 4;
+                return;
+            }
+
+            if (pSub->field_12E4 == 3 &&
+                (!gGangPool_CA8_67E274->sub_4BECA0() || !gGangPool_CA8_67E274->sub_4BECE0() || !gGangPool_CA8_67E274->sub_4BECE0()))
+            {
+                pSub->field_12E4 = 4;
+                return;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5d69d0)
