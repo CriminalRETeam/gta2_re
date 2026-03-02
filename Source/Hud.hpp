@@ -562,6 +562,7 @@ class Hud_CarName_4C
 {
   public:
     EXPORT Hud_CarName_4C();
+    EXPORT void sub_5D4A10();
     char_type field_0_display_time;
     char_type field_1;
     wchar_t field_2_car_name[33];
@@ -573,7 +574,6 @@ class Hud_2B00
 {
   public:
     EXPORT ~Hud_2B00();
-    EXPORT void sub_5D4A10();
     EXPORT void sub_5D5190();
     EXPORT void sub_5D5240(wchar_t* Source);
     EXPORT void sub_5D5350();

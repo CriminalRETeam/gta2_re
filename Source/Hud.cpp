@@ -1934,7 +1934,7 @@ void Hud_Brief_704::sub_5D3330()
 MATCH_FUNC(0x5d3350)
 void Hud_Brief_704::sub_5D3350()
 {
-    Garox_18* pPrev; 
+    Garox_18* pPrev;
     pPrev = this->field_6F8_prev_brief;
     this->field_6F8_prev_brief = pPrev->field_C;
     pPrev->field_C = this->field_6FC_p_start_q;
@@ -2190,7 +2190,7 @@ s32 Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 a2)
 MATCH_FUNC(0x5d4930)
 Hud_Brief_704::Hud_Brief_704()
 {
-    field_6FC_p_start_q = field_518_ary_19_start_q;
+    field_6FC_p_start_q = (Garox_18*)&field_518_ary_19_start_q;
 
     field_50C = 0;
     field_510_time_to_show = 0;
@@ -2367,10 +2367,27 @@ Hud_2B00::~Hud_2B00()
 {
 }
 
-STUB_FUNC(0x5d4a10)
-void Hud_2B00::sub_5D4A10()
+MATCH_FUNC(0x5d4a10)
+void Hud_CarName_4C::sub_5D4A10()
 {
-    NOT_IMPLEMENTED;
+    if (field_0_display_time)
+    {
+        u16 v2 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 11);
+        s32 sprite_w = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v2)->field_4_width;
+        if (field_44_xpos_offset > (sprite_w * 2) - 10)
+        {
+            sub_5D7670(6, 13, 320 + sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
+            sub_5D7670(6, 12, 320, field_48_ypos, word_706610, 2, 0, 0, 0);
+            sub_5D7670(6, 11, 320 - sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
+        }
+        else
+        {
+            sub_5D7670(6, 11, 320 - (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
+            sub_5D7670(6, 13, 320 + (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
+        }
+
+        sub_5D77A0(field_2_car_name, ((640 - field_44_xpos_offset) / 2), (field_48_ypos - sub_5D7700(word_706508) / 2), word_706508);
+    }
 }
 
 MATCH_FUNC(0x5d5190)
@@ -2424,7 +2441,7 @@ void Hud_2B00::DrawGui_5D6860()
         field_107C_sub.DrawGangRespectBars_5CFA70();
         field_1108_sub.DrawHealth_5D0260();
         field_4C.DrawZoneName_5D5900();
-        sub_5D4A10();
+        field_0.sub_5D4A10();
         field_1080.sub_5D5420();
         field_DC.DrawBrief_5D3B80();
         field_620.DrawPagers_5D3040();
