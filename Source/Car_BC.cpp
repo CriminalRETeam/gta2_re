@@ -5105,7 +5105,7 @@ void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
         // Ammo full
         if (pPlayer->field_0_bIsUser)
         {
-            gHud_2B00_706620->field_DC.sub_5D4400(1, "arig");
+            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "arig");
         }
     }
     else
@@ -5121,7 +5121,7 @@ void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
         {
             if (pPlayer->field_0_bIsUser)
             {
-                gHud_2B00_706620->field_DC.sub_5D3F10(1, "bdone", car_weapon_cost);
+                gHud_2B00_706620->field_DC.SetHudBrief_5D3F10(1, "bdone", car_weapon_cost);
             }
 
             pPlayer->field_2D4_scores.AddCash_592620(-car_weapon_cost);
@@ -5166,7 +5166,7 @@ void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 {
     if (pPlayer->field_0_bIsUser)
     {
-        gHud_2B00_706620->field_DC.sub_5D3F10(1, "nspraya", weapon_cost);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D3F10(1, "nspraya", weapon_cost);
     }
 }
 
@@ -5181,11 +5181,11 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
         {
             if (remap == 0xFD) // clean plates only
             {
-                gHud_2B00_706620->field_DC.sub_5D3F10(1, "cdone", cost);
+                gHud_2B00_706620->field_DC.SetHudBrief_5D3F10(1, "cdone", cost);
             }
             else
             {
-                gHud_2B00_706620->field_DC.sub_5D3F10(1, "sdone", cost);
+                gHud_2B00_706620->field_DC.SetHudBrief_5D3F10(1, "sdone", cost);
             }
         }
 
@@ -5228,7 +5228,7 @@ void Car_BC::ResprayOrCleanPlates(u8 remap)
     else if (field_54_driver->field_15C_player->field_0_bIsUser)
     {
         // I ain't touching that get outta here!
-        gHud_2B00_706620->field_DC.sub_5D4400(1, "nespray");
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "nespray");
     }
 }
 

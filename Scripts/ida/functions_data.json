@@ -16325,77 +16325,77 @@
         "v105_address": "0x5d3310"
     },
     {
-        "name": "Garox_1E34_L::sub_5D3330",
+        "name": "Hud_Brief_704::sub_5D3330",
         "v96f_address": null,
         "v105_address": "0x5d3330"
     },
     {
-        "name": "Garox_1E34_L::sub_5D3350",
+        "name": "Hud_Brief_704::sub_5D3350",
         "v96f_address": null,
         "v105_address": "0x5d3350"
     },
     {
-        "name": "Garox_1E34_L::sub_5D3370",
+        "name": "Hud_Brief_704::sub_5D3370",
         "v96f_address": null,
         "v105_address": "0x5d3370"
     },
     {
-        "name": "Garox_1E34_L::sub_5D33A0",
+        "name": "Hud_Brief_704::sub_5D33A0",
         "v96f_address": "0x4C6340",
         "v105_address": "0x5d33a0"
     },
     {
-        "name": "Garox_1E34_L::sub_5D33F0",
+        "name": "Hud_Brief_704::sub_5D33F0",
         "v96f_address": "0x4C6380",
         "v105_address": "0x5d33f0"
     },
     {
-        "name": "Garox_1E34_L::sub_5D3470",
+        "name": "Hud_Brief_704::sub_5D3470",
         "v96f_address": null,
         "v105_address": "0x5d3470"
     },
     {
-        "name": "Garox_1E34_L::sub_5D3680",
+        "name": "Hud_Brief_704::sub_5D3680",
         "v96f_address": null,
         "v105_address": "0x5d3680"
     },
     {
-        "name": "Garox_1E34_L::sub_5D39D0",
+        "name": "Hud_Brief_704::sub_5D39D0",
         "v96f_address": null,
         "v105_address": "0x5d39d0"
     },
     {
-        "name": "Garox_1E34_L::DrawBrief_5D3B80",
+        "name": "Hud_Brief_704::DrawBrief_5D3B80",
         "v96f_address": null,
         "v105_address": "0x5d3b80"
     },
     {
-        "name": "Garox_1E34_L::sub_5D3F10",
+        "name": "Hud_Brief_704::SetHudBrief_5D3F10",
         "v96f_address": "0x4C6690",
         "v105_address": "0x5d3f10"
     },
     {
-        "name": "Garox_1E34_L::sub_5D4400",
+        "name": "Hud_Brief_704::SetHudBrief_5D4400",
         "v96f_address": "0x4C6750",
         "v105_address": "0x5d4400"
     },
     {
-        "name": "Garox_1E34_L::sub_5D44D0",
+        "name": "Hud_Brief_704::sub_5D44D0",
         "v96f_address": null,
         "v105_address": "0x5d44d0"
     },
     {
-        "name": "Garox_1E34_L::ShowBrief_5D4850",
+        "name": "Hud_Brief_704::ShowBrief_5D4850",
         "v96f_address": "0x4C6830",
         "v105_address": "0x5d4850"
     },
     {
-        "name": "Garox_1E34_L::ClearAllBriefsWithPriority_5D4890",
+        "name": "Hud_Brief_704::ClearAllBriefsWithPriority_5D4890",
         "v96f_address": null,
         "v105_address": "0x5d4890"
     },
     {
-        "name": "Garox_1E34_L::ctor",
+        "name": "Hud_Brief_704::ctor",
         "v96f_address": "0x4C68E0",
         "v105_address": "0x5d4930"
     },

@@ -328,7 +328,7 @@ void Garox_4::sub_5CF620()
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
     } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
-    gHud_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
+    gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gHud_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
 }
@@ -345,7 +345,7 @@ void Garox_4::sub_5CF6B0()
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
     } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
-    gHud_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
+    gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gHud_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
 }
@@ -1923,7 +1923,7 @@ void Hud_Arrow_7C_Array::SetNewGangArrow_5D1310(Gang_144* pZone)
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d3330)
-void Garox_1E34_L::sub_5D3330()
+void Hud_Brief_704::sub_5D3330()
 {
     Garox_18* pGarox_18 = field_700;
     field_700 = pGarox_18->field_C;
@@ -1932,14 +1932,14 @@ void Garox_1E34_L::sub_5D3330()
 }
 
 STUB_FUNC(0x5d3350)
-char_type* Garox_1E34_L::sub_5D3350()
+char_type* Hud_Brief_704::sub_5D3350()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x5d3370)
-void Garox_1E34_L::sub_5D3370()
+void Hud_Brief_704::sub_5D3370()
 {
     Garox_18* pPrev = this->field_6F8_prev_brief;
     this->field_6F8_prev_brief = pPrev->field_C;
@@ -1949,7 +1949,7 @@ void Garox_1E34_L::sub_5D3370()
 }
 
 MATCH_FUNC(0x5d33a0)
-void Garox_1E34_L::sub_5D33A0()
+void Hud_Brief_704::sub_5D33A0()
 {
     Garox_18* pBrief;
     for (pBrief = field_700; pBrief->field_C; pBrief = pBrief->field_C)
@@ -1963,21 +1963,21 @@ void Garox_1E34_L::sub_5D33A0()
 }
 
 STUB_FUNC(0x5d33f0)
-s32 Garox_1E34_L::sub_5D33F0()
+Garox_18* Hud_Brief_704::sub_5D33F0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5d3470)
-size_t Garox_1E34_L::sub_5D3470()
+size_t Hud_Brief_704::sub_5D3470()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 WIP_FUNC(0x5d3680)
-char_type Garox_1E34_L::sub_5D3680(s16 a1)
+char_type Hud_Brief_704::sub_5D3680(s16 a1)
 {
     WIP_IMPLEMENTED;
 
@@ -2019,9 +2019,9 @@ char_type Garox_1E34_L::sub_5D3680(s16 a1)
 }
 
 MATCH_FUNC(0x5d39d0)
-void Garox_1E34_L::sub_5D39D0()
+void Hud_Brief_704::sub_5D39D0()
 {
-    field_510_time_to_show = Garox_1E34_L::sub_5D3470();
+    field_510_time_to_show = Hud_Brief_704::sub_5D3470();
     field_504_tick_timer = field_510_time_to_show * gHud_2B00_706620->field_13C4_text_speed;
     field_50C = 0;
     field_514_upward_timer = 0;
@@ -2030,7 +2030,7 @@ void Garox_1E34_L::sub_5D39D0()
 
 // https://decomp.me/scratch/exFU8
 STUB_FUNC(0x5d3b80)
-void Garox_1E34_L::DrawBrief_5D3B80()
+void Hud_Brief_704::DrawBrief_5D3B80()
 {
     NOT_IMPLEMENTED;
 
@@ -2058,21 +2058,70 @@ void Garox_1E34_L::DrawBrief_5D3B80()
     }
 }
 
-STUB_FUNC(0x5d3f10)
-s32 Garox_1E34_L::sub_5D3F10(s32 a2, const char_type* a3, s32 a4)
+WIP_FUNC(0x5d3f10)
+void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32 cost_param)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Garox_18* v5 = sub_5D33F0();
+    strcpy((char*)v5->field_0_pStr, pText); // TODO
+    v5->field_8_brief_priority = priority;
+    v5->field_10 = 0;
+    v5->field_14_cost_param = cost_param;
+
+    Garox_18* pIter = this->field_6F8_prev_brief;
+    if (pIter)
+    {
+        if (pIter->field_8_brief_priority < priority || priority == 3)
+        {
+            if (pIter->field_10)
+            {
+                sub_5D3370();
+            }
+            v5->field_C = this->field_6F8_prev_brief;
+            this->field_6F8_prev_brief = v5;
+            sub_5D39D0();
+        }
+        else
+        {
+            for (Garox_18* i = pIter->field_C; i; i = i->field_C)
+            {
+                if (i->field_8_brief_priority < priority)
+                {
+                    break;
+                }
+                pIter = i;
+            }
+            
+            Garox_18* v8 = pIter->field_C;
+            if (v8)
+            {
+                v5->field_C = v8;
+                pIter->field_C = v5;
+            }
+            else
+            {
+                pIter->field_C = v5;
+                v5->field_C = 0;
+            }
+        }
+    }
+    else
+    {
+        this->field_6F8_prev_brief = v5;
+        v5->field_C = 0;
+        sub_5D39D0();
+    }
 }
 
 MATCH_FUNC(0x5d4400)
-s32 Garox_1E34_L::sub_5D4400(s32 priority, const char_type* pTextIdStr)
+void Hud_Brief_704::SetHudBrief_5D4400(s32 priority, const char_type* pTextIdStr)
 {
-    return sub_5D3F10(priority, pTextIdStr, -1);
+    SetHudBrief_5D3F10(priority, pTextIdStr, -1);
 }
 
 MATCH_FUNC(0x5d44d0)
-void Garox_1E34_L::sub_5D44D0()
+void Hud_Brief_704::sub_5D44D0()
 {
     if (field_6F8_prev_brief)
     {
@@ -2111,7 +2160,7 @@ void Garox_1E34_L::sub_5D44D0()
 }
 
 MATCH_FUNC(0x5d4850)
-void Garox_1E34_L::ShowBrief_5D4850()
+void Hud_Brief_704::ShowBrief_5D4850()
 {
     if (field_700)
     {
@@ -2120,23 +2169,23 @@ void Garox_1E34_L::ShowBrief_5D4850()
         {
             if (prev_brief->field_10)
             {
-                Garox_1E34_L::sub_5D33A0();
+                Hud_Brief_704::sub_5D33A0();
             }
         }
-        Garox_1E34_L::sub_5D3330();
-        Garox_1E34_L::sub_5D39D0();
+        Hud_Brief_704::sub_5D3330();
+        Hud_Brief_704::sub_5D39D0();
     }
 }
 
 STUB_FUNC(0x5d4890)
-s32 Garox_1E34_L::ClearAllBriefsWithPriority_5D4890(s32 a2)
+s32 Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x5d4930)
-Garox_1E34_L::Garox_1E34_L()
+Hud_Brief_704::Hud_Brief_704()
 {
     field_6FC_p_start_q = &field_518_ary_19_start_q;
 
@@ -2149,7 +2198,8 @@ Garox_1E34_L::Garox_1E34_L()
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_524_ary_19); i++)
     {
-        field_524_ary_19[i].field_0 = &field_524_ary_19[i].field_C;
+        // TODO: Some wrong data structure
+        field_524_ary_19[i].field_0_pStr = &field_524_ary_19[i].field_C;
     }
 
     field_6EC = 0;
