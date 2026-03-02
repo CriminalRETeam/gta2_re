@@ -64,11 +64,81 @@ void miss2_0x11C::sub_503200()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x503410)
+// https://decomp.me/scratch/o1VKh
+WIP_FUNC(0x503410)
 u8 miss2_0x11C::sub_503410(u32 a1)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // fun stuff with switch cases and jump tables :-)
+    WIP_IMPLEMENTED;
+    switch (a1)
+    {
+        case SCRCMD_CONVEYOR_DEC:
+        case SCRCMD_CONVEYOR_DECSET1:
+        case SCRCMD_CONVEYOR_DECSET2:
+            return 5;
+        case SCRCMD_GENERATOR_DEC:
+        case SCRCMD_GENERATOR_DECSET3:
+        case SCRCMD_GENERATOR_DECSET4:
+            return 7;
+        case SCRCMD_DESTRUCTOR_DEC:
+        case SCRCMD_DESTRUCTOR_DECSET1:
+        case SCRCMD_DESTRUCTOR_DECSET2:
+            return 6;
+        case SCRCMD_CRANE_DEC:
+        case SCRCMD_CRANE_BASIC_DEC:
+        case SCRCMD_CRANE_TARGET_DEC:
+        case SCRCMD_CRANE2TARGET_DEC:
+            return 4;
+
+        // 1
+        case SCRCMD_PLAYER_PED:
+        case SCRCMD_CHAR_DEC:
+        case SCRCMD_CHAR_DECSET_2D:
+        case SCRCMD_CHAR_DECSET_3D:
+        case SCRCMD_CREATE_CHAR_2D:
+        case SCRCMD_CREATE_CHAR_3D:
+            return 1;
+
+        // 3
+        case SCRCMD_OBJ_DEC:
+        case SCRCMD_OBJ_DECSET_2D:
+        case SCRCMD_OBJ_DECSET_3D:
+        case SCRCMD_OBJ_DECSET_2D_s32:
+        case SCRCMD_OBJ_DECSET_3D_s32:
+        case SCRCMD_OBJ_DECSET_2D_STR:
+        case SCRCMD_OBJ_DECSET_3D_STR:
+        case SCRCMD_CREATE_OBJ_2D:
+        case SCRCMD_CREATE_OBJ_3D:
+        case SCRCMD_CREATE_OBJ_3D_s32:
+        case SCRCMD_CREATE_OBJ_2D_s32:
+        case SCRCMD_CREATE_OBJ_3D_STR:
+        case SCRCMD_CREATE_OBJ_2D_STR:
+            return 3;
+
+        // 8
+        case SCRCMD_LIGHT_DEC:
+        case SCRCMD_LIGHT_DECSET1:
+            return 8;
+
+        // 2
+        case SCRCMD_PARKED_CAR_DECSET_2D:
+        case SCRCMD_PARKED_CAR_DECSET_3D:
+        case SCRCMD_PARKED_CAR_DECSET_2D_STR:
+        case SCRCMD_PARKED_CAR_DECSET_3D_STR:
+        case SCRCMD_CREATE_CAR_2D:
+        case SCRCMD_CREATE_CAR_3D:
+            return 2;
+
+        case SCRCMD_RADIOSTATION_DEC:
+            return 9;
+
+        case SCRCMD_SOUND:
+        case SCRCMD_SOUND_DECSET:
+        case SCRCMD_CREATE_SOUND:
+            return 10;
+        default:
+            return 0;
+    }
 }
 
 MATCH_FUNC(0x5035b0)
@@ -1968,7 +2038,7 @@ void miss2_0x11C::sub_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_AR
 
 // https://decomp.me/scratch/nO0Vw
 WIP_FUNC(0x5086f0)
-void miss2_0x11C::sub_5086F0()
+void miss2_0x11C::sub_5086F0() // SCRCMD_POINT_ARROW_AT
 {
     WIP_IMPLEMENTED;
     SCR_POINT_ARROW_AT* pCmd = (SCR_POINT_ARROW_AT*)gBasePtr_6F8070;
