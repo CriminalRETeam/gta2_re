@@ -1931,11 +1931,14 @@ void Hud_Brief_704::sub_5D3330()
     field_6F8_prev_brief = pGarox_18;
 }
 
-STUB_FUNC(0x5d3350)
-char_type* Hud_Brief_704::sub_5D3350()
+MATCH_FUNC(0x5d3350)
+void Hud_Brief_704::sub_5D3350()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Garox_18* pPrev; 
+    pPrev = this->field_6F8_prev_brief;
+    this->field_6F8_prev_brief = pPrev->field_C;
+    pPrev->field_C = this->field_6FC_p_start_q;
+    this->field_6FC_p_start_q = pPrev;
 }
 
 MATCH_FUNC(0x5d3370)
@@ -2092,7 +2095,7 @@ void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32
                 }
                 pIter = i;
             }
-            
+
             Garox_18* v8 = pIter->field_C;
             if (v8)
             {
@@ -2187,7 +2190,7 @@ s32 Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 a2)
 MATCH_FUNC(0x5d4930)
 Hud_Brief_704::Hud_Brief_704()
 {
-    field_6FC_p_start_q = &field_518_ary_19_start_q;
+    field_6FC_p_start_q = field_518_ary_19_start_q;
 
     field_50C = 0;
     field_510_time_to_show = 0;

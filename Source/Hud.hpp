@@ -490,7 +490,7 @@ class Hud_Brief_704 // size 0x704
 {
   public:
     EXPORT void sub_5D3330();
-    EXPORT char_type* sub_5D3350();
+    EXPORT void sub_5D3350();
     EXPORT void sub_5D3370();
     EXPORT void sub_5D33A0();
     EXPORT Garox_18* sub_5D33F0();
@@ -524,7 +524,7 @@ class Hud_Brief_704 // size 0x704
 
     s32 field_6F4;
     Garox_18* field_6F8_prev_brief;
-    Garox_18** field_6FC_p_start_q;
+    Garox_18* field_6FC_p_start_q;
     Garox_18* field_700;
 };
 
