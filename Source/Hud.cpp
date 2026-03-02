@@ -2367,9 +2367,12 @@ Hud_2B00::~Hud_2B00()
 {
 }
 
-MATCH_FUNC(0x5d4a10)
+// TODO: Calls 2 Fix16 ctors that are exactly the same but are 2 unique functions ??
+WIP_FUNC(0x5d4a10)
 void Hud_CarName_4C::sub_5D4A10()
 {
+    WIP_IMPLEMENTED;
+    
     if (field_0_display_time)
     {
         u16 v2 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 11);
