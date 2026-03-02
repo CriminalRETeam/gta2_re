@@ -708,6 +708,46 @@ struct SCR_DO_SAVE_GAME : SCR_CMD_HEADER
     SCR_Rect_f field_C_rect;
 };
 
+struct SCR_DELETE_SOUND : SCR_CMD_HEADER
+{
+    Fix16 field_8_maybe_xpos;
+    Fix16 field_C_maybe_ypos;
+};
+
+struct SCR_OPERATE_COUNTER_AND_COUNTER_2 : SCR_CMD_HEADER
+{
+    u16 field_8_left_counter_idx;
+    u16 field_A_right_counter_idx;
+};
+
+struct SCR_OPERATE_INT_AND_COUNTER : SCR_CMD_HEADER
+{
+    s16 field_8_value;
+    u16 field_A_counter_idx;
+};
+
+struct SCR_POINT_ARROW_AT : SCR_CMD_HEADER
+{
+    u16 field_8_target_entity_idx;
+    u16 field_A_unknown;
+    u16 field_C_arrow_idx;
+};
+
+struct SCR_ARROW_ENTITY : SCR_CMD_HEADER
+{
+    union
+    {
+        Car_BC* field_8_car;
+        Ped* field_8_char;
+        Object_2C* field_8_obj;
+    };
+};
+
+struct SCR_ARROW_XYZ : SCR_CMD_HEADER
+{
+    SCR_XYZ_f field_8_coord;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
@@ -753,7 +793,7 @@ class miss2_0x11C
 {
   public:
     EXPORT void sub_503200();
-    EXPORT char_type sub_503410(u32 a1);
+    EXPORT u8 sub_503410(u32 a1);
     EXPORT void sub_5035B0();
     EXPORT void sub_5035D0();
     EXPORT void sub_503610();

@@ -304,6 +304,7 @@ namespace ArrowTargetType
 enum
 {
     Nothing_0 = 0,
+    XYZ_Coord_1 = 1,
     Ped_2 = 2,
     Car_3 = 3,
     Object_4 = 4,
@@ -437,6 +438,12 @@ class Hud_Arrow_7C
         {
             field_18.field_60_curr_target = &field_18.field_18_primary_target;
         }
+    }
+
+    inline void SetArrowAim_476840(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+    {
+        field_18.field_18_primary_target.set_arrow_aim_from_pos_4767C0(xpos, ypos, zpos);
+        field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::XYZ_Coord_1;
     }
 
     EXPORT Hud_Arrow_7C();
