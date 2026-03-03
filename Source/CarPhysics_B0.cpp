@@ -622,27 +622,22 @@ Fix16 CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0()
 {
     WIP_IMPLEMENTED;
 
-    Fix16 v9 = Ang16::NormalizeAngleDeltaScaled_405B60(g_theta_6FE344, gSaved_theta_6FE158, word_6FE058);
-
-    Fix16 v2 = Fix16::Abs(gSaved_cp3_6FDF84 - g_cp3_6FDF08);
-    Fix16 v4 = Fix16::Abs(gSaved_cm1_6FE3C8.y - g_cm1_6FDF10.y);
-    Fix16 v6 = Fix16::Abs(gSaved_cm1_6FE3C8.x - g_cm1_6FDF10.x);
-    Fix16 v7 = Fix16::ClampToRangeFlexible_55EEE0(v6, v2, v4);
-
-    v9 = Fix16::Max((v7) / field_5C_pCar->sub_43A5B0(), v9);
+    Fix16 v9 = Fix16::Max((Fix16::ClampToRangeFlexible_55EEE0(Fix16::Abs(gSaved_cm1_6FE3C8.x - g_cm1_6FDF10.x),
+                                                              Fix16::Abs(gSaved_cm1_6FE3C8.y - g_cm1_6FDF10.y),
+                                                              Fix16::Abs(gSaved_cp3_6FDF84 - g_cp3_6FDF08))) /
+                              field_5C_pCar->sub_43A5B0(),
+                          Ang16::NormalizeAngleDeltaScaled_405B60(g_theta_6FE344, gSaved_theta_6FE158, word_6FE058));
 
     if (field_5C_pCar->field_64_pTrailer)
     {
-        Fix16 v17 = Fix16::Abs(gSaved_trailed_cp3_6FDF8C - gTrailer_cp3_6FE1B4);
-        Fix16 v18 = Fix16::Abs(gSaved_trailer_cm1_6FE160.y - g_trailer_cm1_6FE068.y);
-        Fix16 v11 = Fix16::Abs(gSaved_trailer_cm1_6FE160.x - g_trailer_cm1_6FE068.x);
-        Fix16 v16 = Ang16::NormalizeAngleDeltaScaled_405B60(gTrailer_theta_6FE018, gSaved_trailer_theta_6FE310, word_6FE058);
 
-        Fix16 v15 = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->sub_43A5B0();
-       
-        Fix16 v12 = Fix16::ClampToRangeFlexible_55EEE0(v11, v18, v17);
-        Fix16 v13 = (v12 / v15);
-        v9 = Fix16::ClampToRangeFlexible_55EEE0(v9, v13, v16);
+        v9 = Fix16::ClampToRangeFlexible_55EEE0(
+            v9,
+            (Fix16::ClampToRangeFlexible_55EEE0(Fix16::Abs(gSaved_trailer_cm1_6FE160.x - g_trailer_cm1_6FE068.x),
+                                                Fix16::Abs(gSaved_trailer_cm1_6FE160.y - g_trailer_cm1_6FE068.y),
+                                                Fix16::Abs(gSaved_trailed_cp3_6FDF8C - gTrailer_cp3_6FE1B4)) /
+             field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->sub_43A5B0()),
+            Ang16::NormalizeAngleDeltaScaled_405B60(gTrailer_theta_6FE018, gSaved_trailer_theta_6FE310, word_6FE058));
     }
 
     return v9;
