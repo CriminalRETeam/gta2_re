@@ -20,6 +20,20 @@ class FunctionCollector
 
     std::map<std::string, FuncMeta> mFunctionsToHookMap;
 
+    bool IsOgFunctionAddr(u32 addr)
+    {
+      std::map<std::string, FuncMeta>::iterator it = mFunctionsToHookMap.begin();
+      while (it != mFunctionsToHookMap.end())
+      {
+        if (it->second.mOgAddr == addr)
+        {
+          return true;
+        }
+        it++;
+      }
+      return false;
+    }
+
     struct HookEntry
     {
       void* trampoline; // detour trampoline

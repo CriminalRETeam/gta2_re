@@ -32,7 +32,7 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_66F3F4, Fix16(0x4000, 0), 0x66F3F4);
 DEFINE_GLOBAL(u16, word_6757FC, 0x6757FC);
 
 DEFINE_GLOBAL(u8, byte_66F541, 0x66F541);
-DEFINE_GLOBAL(u8, gSoundSampleIdx_61A684, 0x61A684);
+DEFINE_GLOBAL_INIT(u8, gSoundSampleIdx_61A684, 0x64, 0x61A684);
 DEFINE_GLOBAL(char_type, byte_66F543, 0x66F543);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_675414, Fix16(0x14000, 0), 0x675414);
@@ -3363,7 +3363,7 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
     if (pCar->field_9C == 3 && CalculateDistance_419020(Fix16(0x90000, 0)))
     {
         Fix16 gas_pedal = pCar->sub_43A240();
-        Fix16 max_speed = dword_6FE258->field_28_max_speed;
+        Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
         u8 emitting_vol;
         if (max_speed <= k_dword_66F3F0)
         {
@@ -3389,7 +3389,7 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
 
             if (gas_pedal > max_speed)
             {
-                gas_pedal = dword_6FE258->field_28_max_speed;
+                gas_pedal = gCarInfo_48_6FE258->field_28_max_speed;
             }
 
             if (pCar->field_84_car_info_idx == car_model_enum::TANK || pCar->field_58_physics->field_94_is_backward_gas_on)
@@ -3402,8 +3402,8 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
 
             if (pCar->field_68 == k_dword_66F3F4)
             {
-                gear2_speed = dword_6FE258->field_40_gear2_speed;
-                gear3_speed = dword_6FE258->field_44_gear3_speed;
+                gear2_speed = gCarInfo_48_6FE258->field_40_gear2_speed;
+                gear3_speed = gCarInfo_48_6FE258->field_44_gear3_speed;
                 if (gas_pedal >= gear2_speed)
                 {
                     if (gas_pedal >= gear3_speed)
@@ -3924,7 +3924,7 @@ void sound_obj::HandleTrainCabRollingFrictionSound_4143A0(Sound_Params_8* a2)
     WIP_IMPLEMENTED;
 
     Fix16 v4 = a2->field_0_pObj->field_8_car_bc_ptr->sub_43A240();
-    Fix16 max_speed = dword_6FE258->field_28_max_speed;
+    Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
     if (v4 > k_dword_66F3F0 && max_speed > k_dword_66F3F0)
     {
         if (CalculateDistance_419020(Fix16(3686400, 0)))
@@ -3955,7 +3955,7 @@ void sound_obj::HandleTrainEngineSound_4140C0(Sound_Params_8* a2)
     WIP_IMPLEMENTED;
 
     Fix16 v4 = a2->field_0_pObj->field_8_car_bc_ptr->sub_43A240();
-    Fix16 max_speed = dword_6FE258->field_28_max_speed;
+    Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
 
     if (v4 > k_dword_66F3F0 && max_speed > k_dword_66F3F0)
     {
@@ -4658,7 +4658,7 @@ void sound_obj::Tank_414A50(Sound_Params_8* a2)
         if (CalculateDistance_419020((Fix16(20) / Fix16(2)) * (Fix16(20) / Fix16(2))))
         {
             Fix16 vol_mult = pCar->sub_43A240();
-            Fix16 max_speed = dword_6FE258->field_28_max_speed;
+            Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
             if (max_speed > k_dword_66F3F0)
             {
                 if (vol_mult > max_speed)
@@ -4727,12 +4727,12 @@ void sound_obj::Tank_415190(Sound_Params_8* a2)
         if (CalculateDistance_419020(Fix16(921600, 0)))
         {
             Fix16 vol_mult = pCar->sub_43A240();
-            Fix16 max_speed = dword_6FE258->field_28_max_speed;
+            Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
             if (max_speed > k_dword_66F3F0)
             {
                 if (vol_mult > max_speed)
                 {
-                    vol_mult = dword_6FE258->field_28_max_speed;
+                    vol_mult = gCarInfo_48_6FE258->field_28_max_speed;
                 }
 
                 s32 vol = Fix16_Round_To_Int_410BF0((Fix16(1310720, 0) * vol_mult) / max_speed);

@@ -9,7 +9,7 @@
 
 DEFINE_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8, 0x6F70A8);
 
-DEFINE_GLOBAL(s32, dword_6F6DD4, 0x6F6DD4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6DD4, Fix16(0x1999, 0), 0x6F6DD4);
 
 MATCH_FUNC(0x4beab0)
 Ambulance_20::Ambulance_20()
