@@ -1628,17 +1628,15 @@ LABEL_13:
 }
 
 STUB_FUNC(0x55ef20)
-s32 CarPhysics_B0::ApplyReverseEngineForce_55EF20()
+void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x55f020)
-s32 CarPhysics_B0::ApplyTurningForce_55F020()
+void CarPhysics_B0::ApplyTurningForce_55F020()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 MATCH_FUNC(0x55f240)
