@@ -3,6 +3,8 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
+EXTERN_GLOBAL(class Ang16, word_669156);
+
 class Ang16
 {
   public:
@@ -274,6 +276,13 @@ class Ang16
     {
         return Ang16(Fix16(rValue) * a2, 0);
     }
+
+    Fix16 divideBy_40E640(const Ang16& scale) const
+    {
+        return Fix16(rValue) / scale.rValue;
+    }
+
+    EXPORT static Fix16 __stdcall NormalizeAngleDeltaScaled_405B60(Ang16& a2, Ang16& a3, Ang16& a4);
 
     // TODO: move with CarDoorAlignmentSolver_545AF0
     // https://decomp.me/scratch/6VBR0

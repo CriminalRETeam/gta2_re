@@ -86,3 +86,18 @@ s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& a1)
     }
     return a1 < word_6F67DC ? 1 : 4; // word_6F67DC = 225°  ,  1 = South, 4 = West
 }
+
+MATCH_FUNC(0x405B60)
+Fix16 __stdcall Ang16::NormalizeAngleDeltaScaled_405B60(Ang16& a2, Ang16& a3, Ang16& a4)
+{
+    Ang16 d = a3 - a2;
+    if (d > word_669156)
+    {
+        d = -d;
+        return d.divideBy_40E640(a4);
+    }
+    else
+    {
+        return d.divideBy_40E640(a4);
+    }
+}

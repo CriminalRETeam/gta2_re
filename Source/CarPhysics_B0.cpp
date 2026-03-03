@@ -144,6 +144,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE2F8, dword_6FE0C0, 0x6FE2F8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE070, k_dword_6FE210, 0x6FE070);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE3DC, k_dword_6FE210, 0x6FE3DC);
 
+DEFINE_GLOBAL(Ang16, word_6FE058, 0x6FE058); // TODO: Init via 0x55D740
+
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -615,154 +617,35 @@ void CarPhysics_B0::save_state_55A600()
     }
 }
 
-WIP_FUNC(0x55EEE0)
-EXPORT Fix16 __stdcall ClampToRangeFlexible_55EEE0(Fix16& a2, Fix16& a3, Fix16& a4)
+WIP_FUNC(0x55a6a0)
+Fix16 CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0()
 {
     WIP_IMPLEMENTED;
 
-    if (a2 > a3)
-    {
-        if (a3 > a4)
-        {
-            return a2;
-        }
-        else
-        {
-            return a4;
-        }
-    }
-    else
-    {
-        if ((a2 > a4))
-        {
-            return a3;
-        }
-        else
-        {
-            return a4;
-        }
-    }
-}
+    Fix16 v9 = Ang16::NormalizeAngleDeltaScaled_405B60(g_theta_6FE344, gSaved_theta_6FE158, word_6FE058);
 
-/*
-void sub_40E640(Ang16& v, Fix16& t)
-{
-    return Fix16(v.rValue) / t;
-}
+    Fix16 v2 = Fix16::Abs(gSaved_cp3_6FDF84 - g_cp3_6FDF08);
+    Fix16 v4 = Fix16::Abs(gSaved_cm1_6FE3C8.y - g_cm1_6FDF10.y);
+    Fix16 v6 = Fix16::Abs(gSaved_cm1_6FE3C8.x - g_cm1_6FDF10.x);
+    Fix16 v7 = Fix16::ClampToRangeFlexible_55EEE0(v6, v2, v4);
 
-STUB_FUNC(0x405B60)
-EXPORT Fix16 __stdcall NormalizeAngleDeltaScaled_405B60(Ang16& a2, Ang16& a3, Ang16& a4)
-{
-    NOT_IMPLEMENTED;
-    Ang16 d = a2 - a3;
-
-    if (d > word_669156)
-    {
-        d = -d;
-        return d.sub_40E640(a2, a4);
-    }
-    else
-    {
-        return d.sub_40E640(a2, a4);
-    }
-}
-*/
-
-STUB_FUNC(0x55a6a0)
-Fix16 CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0()
-{
-    NOT_IMPLEMENTED;
-    /*
-    Fix16 v2 = gSaved_cp3_6FDF84 - g_cp3_6FDF08;
-    if (gSaved_cp3_6FDF84 - g_cp3_6FDF08 <= 0)
-    {
-        v2 = g_cp3_6FDF08 - gSaved_cp3_6FDF84;
-    }
-
-    Fix16 v4 = gSaved_cm1_6FE3C8.y - g_cm1_6FDF10.y;
-    if (gSaved_cm1_6FE3C8.y - g_cm1_6FDF10.y <= 0)
-    {
-        v4 = g_cm1_6FDF10.y - gSaved_cm1_6FE3C8.y;
-    }
-    Fix16 v5 = v4;
-
-    Fix16 v6 = gSaved_cm1_6FE3C8.x - g_cm1_6FDF10.x;
-    if (gSaved_cm1_6FE3C8.x - g_cm1_6FDF10.x <= 0)
-    {
-        v6 = g_cm1_6FDF10.x - gSaved_cm1_6FE3C8.x;
-    }
-
-    Fix16 v7;
-    Fix16 v8;
-    Fix16 v9;
-    Fix16 v11;
-    Fix16 v13;
-    Fix16 v17;
-    Fix16 v18;
-    Fix16 v19;
-    Fix16 v20;
-    Fix16 v21;
-    Fix16 v15;
-    Fix16 v16;
-    Fix16 v9;
-
-    if (v6 <= v5)
-    {
-        v7 = v5;
-        if (v5 > v2)
-        {
-            goto LABEL_12;
-        }
-    }
-    else if (v6 > v2)
-    {
-        v7 = v6;
-        goto LABEL_12;
-    }
-    v7 = v2;
-
-LABEL_12:
-    v8 = v7 / field_5C_pCar->sub_43A5B0();
-    v9 = NormalizeAngleDeltaScaled_405B60(g_theta_6FE344, gSaved_theta_6FE158, (__int16*)&dword_6FE058);
-    if (v8 > v9)
-    {
-        v9 = v8;
-    }
-    v22 = v9;
+    v9 = Fix16::Max((v7) / field_5C_pCar->sub_43A5B0(), v9);
 
     if (field_5C_pCar->field_64_pTrailer)
     {
-        v19 = gSaved_trailed_cp3_6FDF8C - gTrailer_cp3_6FE1B4;
-        if (gSaved_trailed_cp3_6FDF8C - gTrailer_cp3_6FE1B4 <= 0)
-        {
-            v17 = -v19;
-        }
-        else
-        {
-            v17 = gSaved_trailed_cp3_6FDF8C - gTrailer_cp3_6FE1B4;
-        }
+        Fix16 v17 = Fix16::Abs(gSaved_trailed_cp3_6FDF8C - gTrailer_cp3_6FE1B4);
+        Fix16 v18 = Fix16::Abs(gSaved_trailer_cm1_6FE160.y - g_trailer_cm1_6FE068.y);
+        Fix16 v11 = Fix16::Abs(gSaved_trailer_cm1_6FE160.x - g_trailer_cm1_6FE068.x);
+        Fix16 v16 = Ang16::NormalizeAngleDeltaScaled_405B60(gTrailer_theta_6FE018, gSaved_trailer_theta_6FE310, word_6FE058);
 
-        v20 = gSaved_trailer_cm1_6FE160.y - g_trailer_cm1_6FE068.y;
-        if (gSaved_trailer_cm1_6FE160.y - g_trailer_cm1_6FE068.y <= 0)
-        {
-            v18 = -v20;
-        }
-        else
-        {
-            v18 = gSaved_trailer_cm1_6FE160.y - g_trailer_cm1_6FE068.y;
-        }
-
-        v21 = gSaved_trailer_cm1_6FE160.x - g_trailer_cm1_6FE068.x;
-        v16 = NormalizeAngleDeltaScaled_405B60(gTrailer_theta_6FE018, gSaved_trailer_theta_6FE310, (__int16*)&dword_6FE058);
-        v15 = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->sub_43A5B0();
-        v11 = Fix16::Abs_436A50(v21);
-        v12 = ClampToRangeFlexible_55EEE0(v11, v18, v17);
-        v13 = (v12 / v15);
-        v9 = ClampToRangeFlexible_55EEE0(v22, v13, v16);
+        Fix16 v15 = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->sub_43A5B0();
+       
+        Fix16 v12 = Fix16::ClampToRangeFlexible_55EEE0(v11, v18, v17);
+        Fix16 v13 = (v12 / v15);
+        v9 = Fix16::ClampToRangeFlexible_55EEE0(v9, v13, v16);
     }
+
     return v9;
-*/
-    return 0;
 }
 
 MATCH_FUNC(0x55a840)
@@ -2008,17 +1891,16 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* a2, char_type a3)
 
 // TODO: Probably move
 STUB_FUNC(0x55F3B0)
-EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(
-                                                         Fix16 a2,
-                                                         Fix16 a3,
-                                                         Fix16_Point* a4,
-                                                         Fix16_Point* a5,
-                                                         Fix16_Point* a6,
-                                                         Fix16_Point* a7,
-                                                         Fix16_Point* a8,
-                                                         Fix16 a9,
-                                                         Fix16 a10,
-                                                         Fix16 a11)
+EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
+                                                                Fix16 a3,
+                                                                Fix16_Point* a4,
+                                                                Fix16_Point* a5,
+                                                                Fix16_Point* a6,
+                                                                Fix16_Point* a7,
+                                                                Fix16_Point* a8,
+                                                                Fix16 a9,
+                                                                Fix16 a10,
+                                                                Fix16 a11)
 {
     NOT_IMPLEMENTED;
     return Fix16_Point();
