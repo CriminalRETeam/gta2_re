@@ -34,7 +34,7 @@ static void SetFuncField(T& toSet, Y value)
     memcpy(&toSet, &value, 4);
 }
 
-static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals)
+static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals, FunctionCollector* pFunctions)
 {
     const PIMAGE_DOS_HEADER lpImageDOSHeader = (PIMAGE_DOS_HEADER)hImports;
     const PIMAGE_NT_HEADERS lpImageNTHeader = (PIMAGE_NT_HEADERS)((DWORD_PTR)lpImageDOSHeader + lpImageDOSHeader->e_lfanew);
@@ -82,6 +82,38 @@ static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals)
                         if ((void*)lpThunkData->u1.Function == pGlobals->mGlobals[i]->mVar)
                         {
                             DWORD functionAddress = pGlobals->mGlobals[i]->mOgAddr;
+
+                            u32 len = pGlobals->mGlobals[i]->mSize;
+
+                            u8* pOgVar = (u8*)lpThunkData->u1.Function;
+                            u8* pNewVar = (u8*)functionAddress;
+
+                            if (memcmp(pOgVar, pNewVar, len) != 0)
+                            {
+                                switch(len)
+                                {
+                                    case 1:
+                                    printf("Var 0x%X has wrong value [%02X:%02X]\n", functionAddress, *pOgVar, *pNewVar);
+                                    break;
+
+                                    case 2:
+                                    printf("Var 0x%X has wrong value [%04X:%04X]\n", functionAddress, *(u16*)pOgVar, *(u16*)pNewVar);
+                                    break;
+
+                                    case 4:
+                                    // Filter out function pointer diffs
+                                    if (!pFunctions->IsOgFunctionAddr(*(u32*)pNewVar))
+                                    {
+                                        printf("Var 0x%X has wrong value [%08X:%08X]\n", functionAddress, *(u32*)pOgVar, *(u32*)pNewVar);
+                                    }
+                                    break;
+
+                                    default:
+                                    printf("Var 0x%X mismatch len %d\n", functionAddress, len);
+                                    break;
+                                }
+                            }
+
                             //(unsigned long*)callBacks.VGetProcAddress(hModule, (const char*)lpData->Name);
                             DWORD dwOld = 0;
                             VirtualProtect(&lpThunkData->u1.Function, 4, PAGE_EXECUTE_READWRITE, &dwOld);
@@ -412,12 +444,12 @@ class HookLoader
 
     void LoadHooks()
     {
-        // rewrite the address of imports addr of the exported var to the OG executable addr
-        RewriteImports(mHImports, mVars->mGlobalsRegistry);
-
         // Replicate what start() does enough to make things work
         printf("crt inits\n");
         crt_inits();
+        
+        // rewrite the address of imports addr of the exported var to the OG executable addr
+        RewriteImports(mHImports, mVars->mGlobalsRegistry, mFuncs);
 
         printf("Apply hooks..\n");
         for (std::map<std::string, FunctionCollector::FuncMeta>::iterator it = mFuncs->mFunctionsToHookMap.begin();

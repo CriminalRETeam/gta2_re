@@ -16,10 +16,10 @@ class Car_78;
 struct Fix16_Point_POD;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
-EXTERN_GLOBAL(ModelPhysics_48*, dword_6FE258);
+EXTERN_GLOBAL(ModelPhysics_48*, gCarInfo_48_6FE258);
 EXTERN_GLOBAL(Ang16, word_6FE00C);
 EXTERN_GLOBAL(Ang16, word_6FE154);
-EXTERN_GLOBAL(CarInfo_2C*, dword_6FE0E4);
+EXTERN_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4);
 EXTERN_GLOBAL(Fix16, dword_6FE348);
 
 class CarPhysics_B0
@@ -122,11 +122,11 @@ class CarPhysics_B0
     {
         if (get_revs_561940() != 0)
         {
-            return dword_6FE0E4->field_14_half_thrust + ((field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust)))) * 2;
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust + ((field_60_gas_pedal * ((dword_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust)))) * 2;
         }
         else
         {
-            return dword_6FE0E4->field_14_half_thrust + ((field_60_gas_pedal * ((dword_6FE348 * dword_6FE0E4->field_18_fith_thrust))));
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust + ((field_60_gas_pedal * ((dword_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust))));
         }
     }
 
@@ -134,11 +134,11 @@ class CarPhysics_B0
     {
         if (get_revs_561940())
         {
-            return dword_6FE0E4->field_14_half_thrust + (dword_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal) * 2;
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust + (gCarInfo_2C_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal) * 2;
         }
         else
         {
-            return dword_6FE0E4->field_14_half_thrust + dword_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal;
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust + gCarInfo_2C_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal;
         }
     }
 

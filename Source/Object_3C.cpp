@@ -8,7 +8,7 @@
 #include "sprite.hpp"
 
 // TODO: Init to correct values
-DEFINE_GLOBAL(Fix16, dword_6F8BF0, 0x6F8BF0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F8BF0, Fix16(0x3FC000, 0), 0x6F8BF0);
 DEFINE_GLOBAL(Ang16, kZeroAng_6F8F68, 0x6F8F68);
 DEFINE_GLOBAL(struct_4, stru_67727C, 0x67727C);
 

@@ -8,7 +8,7 @@
 #include "PurpleDoom.hpp"
 #include "rng.hpp"
 
-DEFINE_GLOBAL(s32, dword_679E58, 0x679E58);
+DEFINE_GLOBAL_INIT(s32, dword_679E58, 0x2000, 0x679E58);
 DEFINE_GLOBAL_INIT(Fix16, dword_679E70, Fix16(0), 0x679E70);
 DEFINE_GLOBAL_INIT(Fix16, dword_679E78, Fix16(2), 0x679E78);
 DEFINE_GLOBAL_INIT(Fix16, dword_679C78, dword_679E78, 0x679C78);
