@@ -4750,11 +4750,15 @@ char_type Car_BC::sub_4424C0()
 
 // 9.6f 0x424220
 // https://decomp.me/scratch/vhWKK
-STUB_FUNC(0x442520)
+WIP_FUNC(0x442520)
 Ang16 Car_BC::GetRadioTowerAngle_442520()
 {
-    Fix16_Point xy = gCar_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y_443580();
-    return Fix16::atan2_fixed_405320(xy.x, xy.y) - field_50_car_sprite->field_0;
+    WIP_IMPLEMENTED;
+    
+    Fix16_Point xy;
+    // TODO: SEH around subtract operator is wrong
+    xy = gCar_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y_443580();
+    return xy.atan2_40F790() -  field_50_car_sprite->field_0;
 }
 
 // 9.6f 0x40ECB0
