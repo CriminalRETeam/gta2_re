@@ -5000,11 +5000,82 @@ void Ped::Threat_Reaction_AI_465270()
     }
 }
 
-STUB_FUNC(0x465b20)
-char_type Ped::sub_465B20()
+WIP_FUNC(0x465b20)
+void Ped::sub_465B20()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_144->field_278_ped_state_1 == ped_state_1::dead_9 || (field_144->field_21C & 1) == 0)
+    {
+        this->field_144 = 0;
+        this->field_21C &= ~4;
+    }
+    else if ((field_144->field_21C & 0x2000000) == 0 || !field_144->field_168_game_object)
+    {
+        Gang_144* pZone = this->field_17C_pZone;
+        if (pZone && pZone == field_144->field_17C_pZone)
+        {
+            this->field_144 = 0;
+            this->field_21C &= ~4;
+        }
+        else
+        {
+            PedGroup* pGroup = this->field_164_ped_group;
+            if (pGroup && pGroup == field_144->field_164_ped_group)
+            {
+                this->field_144 = 0;
+                this->field_21C &= ~4;
+            }
+            else
+            {
+                if (field_28C_threat_reaction > threat_reaction_enum::no_reaction_0)
+                {
+                    if (field_28C_threat_reaction <= threat_reaction_enum::react_as_normal_2)
+                    {
+                        if (this->field_240_occupation != ped_ocupation_enum::unknown_13)
+                        {
+                            if (this->field_168_game_object)
+                            {
+                                if (pGroup)
+                                {
+                                    if (pGroup->field_2C_ped_leader->field_15C_player && (field_144->field_20e || this->field_20C >= 5u || Fix16::Abs(field_144->field_1AC_cam.z - field_1AC_cam.z) >= k_dword_678664))
+                                    {
+                                        this->field_144 = 0;
+                                    }
+                                    else
+                                    {
+                                        pGroup->MergeWithOtherGroup_4C9B60(field_144);
+                                    }
+                                }
+                                else
+                                {
+                                    this->field_218_objective_timer = 0;
+                                    if (field_170_selected_weapon)
+                                    {
+                                        Ped::SetObjective2_463830(20, 9999);
+                                    }
+                                    else
+                                    {
+                                        Ped::SetObjective2_463830(23, 9999);
+                                    }
+                                    this->field_14C = this->field_144;
+                                    this->field_21C |= 4;
+                                }
+                            }
+                        }
+                    }
+                    else if (field_28C_threat_reaction == threat_reaction_enum::run_away_3)
+                    {
+                        if (this->field_168_game_object)
+                        {
+                            SetObjective2_463830(2, 9999);
+                            this->field_14C = this->field_144;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x465cd0)

@@ -114,7 +114,7 @@ class Ped
     EXPORT void ProcessInCarObjective_463FB0();
     EXPORT s16* sub_4645B0();
     EXPORT void Threat_Reaction_AI_465270();
-    EXPORT char_type sub_465B20();
+    EXPORT void sub_465B20();
     EXPORT bool sub_465CD0();
     EXPORT char_type sub_465D00(Ped* a2);
     EXPORT char_type IsThreatToSearchingPed_4661F0();
