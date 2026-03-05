@@ -4879,10 +4879,154 @@ void Car_BC::LightUpdate_442D10()
     }
 }
 
-STUB_FUNC(0x442d70)
+WIP_FUNC(0x442d70)
 char_type Car_BC::sub_442D70()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    s32 train_car_idx_ = 0;
+    if (sub_43A240() > gFix16_6777CC)
+    {
+        Fix16 player_x;
+        Fix16 player_y;
+        Fix16 player_z;
+        gGame_0x40_67E008->field_38_orf1->get_pos_569920(&player_x, &player_y, &player_z);
+
+        if (Fix16::Abs(field_50_car_sprite->field_14_xy.x - player_x) >= Fix16(0x28000, 0) ||
+            Fix16::Abs(field_50_car_sprite->field_14_xy.y - player_y) >= Fix16(0x28000, 0))
+        {
+            field_A8 = 0;
+        }
+        else
+        {
+            Fix16 sprite_x;
+            Fix16 sprite_y;
+            Fix16 sprite_z;
+            Fix16_Rect rect;
+            switch (Ang16::GetAngleFace_4F78F0(field_50_car_sprite->field_0))
+            {
+                case 1:
+                    sprite_z = field_50_car_sprite->field_1C_zpos;
+                    sprite_y = field_50_car_sprite->field_14_xy.y.mValue;
+                    sprite_x = field_50_car_sprite->field_14_xy.x.mValue;
+                    rect.field_C_bottom = sprite_y;
+                    rect.field_0_left = sprite_x - Fix16(0x4000, 0);
+                    rect.field_4_right = sprite_x + Fix16(0x4000, 0);
+                    rect.field_8_top = sprite_y - Fix16(0x28000, 0);
+                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
+                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    break;
+                case 2:
+                    sprite_y = field_50_car_sprite->field_14_xy.y;
+                    sprite_z = field_50_car_sprite->field_1C_zpos;
+                    sprite_x = field_50_car_sprite->field_14_xy.x;
+                    rect.field_8_top = sprite_y;
+                    rect.field_0_left = sprite_x - Fix16(0x4000, 0);
+                    rect.field_4_right = sprite_x + Fix16(0x4000, 0);
+                    rect.field_C_bottom = sprite_y + Fix16(0x28000, 0);
+                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
+                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    break;
+
+                case 3:
+                    sprite_y = field_50_car_sprite->field_14_xy.y.mValue;
+                    sprite_z = field_50_car_sprite->field_1C_zpos;
+                    sprite_x = field_50_car_sprite->field_14_xy.x.mValue;
+                    rect.field_C_bottom = sprite_y + Fix16(0x4000, 0);
+                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
+                    rect.field_0_left = sprite_x;
+                    rect.field_4_right = sprite_x + Fix16(0x28000, 0);
+                    rect.field_8_top = sprite_y - Fix16(0x4000, 0);
+                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    break;
+
+                case 4:
+                    sprite_y = field_50_car_sprite->field_14_xy.y;
+                    sprite_z = field_50_car_sprite->field_1C_zpos;
+                    rect.field_4_right = field_50_car_sprite->field_14_xy.x;
+                    rect.field_8_top = sprite_y - Fix16(0x4000, 0);
+                    rect.field_0_left = rect.field_4_right - Fix16(0x28000, 0);
+                    rect.field_C_bottom = sprite_y + Fix16(0x4000, 0);
+                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
+                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    break;
+
+                default:
+                    FatalError_4A38C0(0x431, "C:\\Splitting\\Gta2\\Source\\car.cpp", 5458, 0);
+            }
+
+            if (gPurpleDoom_1_679208->CheckRectForCollisions_477F60(&rect, 0, 0, this->field_50_car_sprite))
+            {
+                sub_4416D0(0);
+            }
+        }
+    }
+
+    Car_BC** pTrainCarsArray = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(this);
+
+    if (field_88 != 5)
+    {
+        gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_50_car_sprite);
+    }
+
+    for (Car_BC* pTrainCarIter_ = *pTrainCarsArray; pTrainCarIter_; pTrainCarIter_ = pTrainCarsArray[train_car_idx_])
+    {
+        if (pTrainCarIter_->field_88 != 5)
+        {
+            gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pTrainCarIter_->field_50_car_sprite);
+        }
+        ++train_car_idx_;
+    }
+
+    if (sub_4424C0())
+    {
+        return 1;
+    }
+
+    if (field_58_physics)
+    {
+        if (!field_5C)
+        {
+            field_5C = gCar_78_Pool_677CF8->Allocate();
+            field_5C->SetCar_453BF0(this);
+        }
+
+        if (field_5C)
+        {
+            field_5C->sub_453A40();
+        }
+        sub_442190();
+    }
+
+    UpdateTrainCarriagesOnTrack_4413B0(this->field_50_car_sprite->field_14_xy.x,
+                                       this->field_50_car_sprite->field_14_xy.y,
+                                       this->field_50_car_sprite->field_1C_zpos);
+    sub_4426D0();
+    sub_442310();
+    CountDownToWreck_441360();
+
+    if (this->field_0_qq.field_0_p18)
+    {
+        field_0_qq.PoolUpdate_5A6F70(field_50_car_sprite);
+        field_0_qq.PropagateMaxZLayer_5A72B0(field_50_car_sprite, 0);
+    }
+
+    if (this->field_88 != 5)
+    {
+        gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_50_car_sprite);
+    }
+
+    Car_BC* pTrainCarIter = *pTrainCarsArray;
+    for (s32 train_car_idx = 0; pTrainCarIter; pTrainCarIter = pTrainCarsArray[train_car_idx])
+    {
+        if (pTrainCarIter->field_88 != 5)
+        {
+            gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pTrainCarIter->field_50_car_sprite);
+        }
+        ++train_car_idx;
+    }
+
+    LightUpdate_442D10();
     return 0;
 }
 
