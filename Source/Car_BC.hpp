@@ -156,7 +156,7 @@ class Car_18
     s32 field_0;
     Object_2C* field_4_O2C;
     s32 field_8_type;
-    s32 field_C;
+    Fix16 field_C;
     u8 field_10_remap_rng;
     u8 field_11_pad[3];
     s32 field_14;
@@ -523,7 +523,7 @@ class Car_BC
     EXPORT void AttachTrailer_4427A0(Car_BC* pToFind);
     EXPORT s32 sub_442810();
     EXPORT void LightUpdate_442D10();
-    EXPORT char_type sub_442D70();
+    EXPORT char_type TrainUpdate_442D70();
     EXPORT char_type TrailerUpdate_443130();
     EXPORT char_type PoolUpdate();
     EXPORT void sub_443330();
