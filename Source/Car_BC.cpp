@@ -1430,10 +1430,10 @@ EXPORT s16 Car_BC::ApplyImpactDamage_43D5D0(Fix16 damage)
     return 0;
 }
 
-STUB_FUNC(0x4403a0)
+WIP_FUNC(0x4403a0)
 Ang16 Car_BC::sub_4403A0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     Fix16 w_fp = Fix16(pCarInfo->w) / 2;
