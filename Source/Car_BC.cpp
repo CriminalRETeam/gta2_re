@@ -1,3 +1,5 @@
+#define INLINE_MODE inline
+
 #include "Car_BC.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
@@ -5072,17 +5074,19 @@ WIP_FUNC(0x443710)
 void Car_BC::sub_443710(Fix16_Point* xy)
 {
     WIP_IMPLEMENTED;
+    
+    Fix16_Point v16;
 
     if (field_88 != 7)
     {
         SetupCarPhysicsAndSpriteBinding_43BCA0();
 
-        Fix16_Point v16 = field_50_car_sprite->get_x_y_443580();
+        v16 = field_50_car_sprite->get_x_y_443580();
         v16.x += dword_677208 * gCar_6C_677930->field_1C - dword_6772D0;
         v16.y += dword_677208 * gCar_6C_677930->field_1C - dword_6772D0;
 
         Fix16_Point v4 = (v16 - *xy);
-        Fix16 vecLen = v16.GetLength_41E260();
+        Fix16 vecLen = v4.GetLength_41E260();
 
         if (vecLen != gFix16_6777CC)
         {
