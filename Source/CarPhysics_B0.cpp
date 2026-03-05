@@ -1825,10 +1825,10 @@ void CarPhysics_B0::ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2)
 }
 
 STUB_FUNC(0x55fa60)
-u32* CarPhysics_B0::ComputeFinalImpactDamage_55FA60(u32* a2, s32* a3, s32* a4, s32 a5)
+Fix16* CarPhysics_B0::ComputeFinalImpactDamage_55FA60(Fix16* a2, Fix16_Point* a3, Fix16_Point* a4, s32 a5)
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return a2;
 }
 
 WIP_FUNC(0x55fc30)
