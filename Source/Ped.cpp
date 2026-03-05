@@ -137,6 +137,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD9D4, Fix16(0x51E, 0), 0x6FD9D4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9B8, Fix16(0x28F, 0), 0x6FD9B8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD830, Fix16(0x1333, 0), 0x6FD830);
 
+DEFINE_GLOBAL_INIT(Fix16, k_dword_67878C, dword_6784C4 * 24, 0x67878C);
+
 // TODO: these are defined in char.cpp
 EXTERN_GLOBAL(Fix16, dword_6FD8D8);
 EXTERN_GLOBAL(Fix16, dword_6FDB20);
@@ -4240,7 +4242,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::sub_467FD0();
                 break;
             case objectives_enum::wait_on_foot_26:
-                Ped::sub_468040();
+                Ped::ProcessAirborneMovement_468040();
                 break;
             case objectives_enum::guard_spot_24:
                 Ped::sub_469BF0();
@@ -5170,20 +5172,19 @@ Ped* Ped::FindNearbyPed_466FB0()
 
     byte_6787D7 = 3;
     dword_6787DC = this;
-    Sprite* pNearest = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(
-                                                                 sprite_types_enum::ped,
-                                                                 sprite_types_enum::car,
-                                                                 this->field_168_game_object->field_80_sprite_ptr,
-                                                                 3u,
-                                                                 1,
-                                                                 0);
+    Sprite* pNearest = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped,
+                                                                                   sprite_types_enum::car,
+                                                                                   this->field_168_game_object->field_80_sprite_ptr,
+                                                                                   3u,
+                                                                                   1,
+                                                                                   0);
     if (!pNearest)
     {
         return 0;
     }
 
-    Fix16 xd =  Fix16::Abs(pNearest->field_14_xy.x - field_1AC_cam.x);
-    Fix16 yd =  Fix16::Abs(pNearest->field_14_xy.y - field_1AC_cam.y);
+    Fix16 xd = Fix16::Abs(pNearest->field_14_xy.x - field_1AC_cam.x);
+    Fix16 yd = Fix16::Abs(pNearest->field_14_xy.y - field_1AC_cam.y);
     if (Fix16::Max_44E540(xd, yd) >= dword_678788)
     {
         return 0;
@@ -5679,11 +5680,84 @@ void Ped::sub_467FD0()
     }
 }
 
-STUB_FUNC(0x468040)
-s16 Ped::sub_468040()
+WIP_FUNC(0x468040)
+void Ped::ProcessAirborneMovement_468040()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    s32 bUnknown = 1;
+    if (this->field_240_occupation == ped_ocupation_enum::drone)
+    {
+        gDistanceToTarget_678750 = k_dword_678660;
+        this->field_1E4_objective_target_z = this->field_1AC_cam.z;
+    }
+
+    if (!byte_61A8A3)
+    {
+        bUnknown = this->field_168_game_object->field_10_char_state == 15 && (this->field_21C & 4) == 0;
+    }
+
+    if ((field_224 & 0x10) != 0 && (this->field_21C & 4) != 0)
+    {
+        this->field_260 = 0;
+        this->field_224 &= ~0x10;
+    }
+
+    if (bUnknown)
+    {
+        if ((this->field_224 & 0x10) != 0 ||
+            gDistanceToTarget_678750 <= dword_678780 &&
+                abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, this->field_1E4_objective_target_z))
+        {
+            if (field_168_game_object->field_10_char_state == 15)
+            {
+                this->field_224 |= 0x10u;
+            }
+            else
+            {
+                if ((this->field_224 & 0x10) != 0)
+                {
+                    Fix16 vel = field_168_game_object->field_38_velocity;
+                    if (vel >= k_dword_678438)
+                    {
+                        if (vel > k_dword_678438)
+                        {
+                            field_168_game_object->field_38_velocity -= dword_678620;
+                        }
+                    }
+                    else
+                    {
+                        field_168_game_object->field_38_velocity += dword_678620;
+                    }
+                }
+
+                ChangeNextPedState1_45C500(7);
+                ChangeNextPedState2_45C540(14);
+            }
+        }
+        else
+        {
+            if (field_168_game_object->field_10_char_state != 15)
+            {
+                if (gDistanceToTarget_678750 <= k_dword_67878C)
+                {
+                    field_168_game_object->field_38_velocity = this->field_1F4;
+                }
+                else
+                {
+                    field_168_game_object->field_38_velocity = this->field_1F0_maybe_max_speed;
+                }
+                UpdateMovementTowardsTarget_4672E0( gDistanceToTarget_678750, 4);
+            }
+        }
+    }
+
+    this->field_130 = this->field_134_rotation;
+
+    if (field_218_objective_timer == 0)
+    {
+        this->field_225_objective_status = 1;
+    }
 }
 
 MATCH_FUNC(0x4682a0)

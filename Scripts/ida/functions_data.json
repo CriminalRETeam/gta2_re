@@ -3420,7 +3420,7 @@
         "v105_address": "0x467fd0"
     },
     {
-        "name": "Ped::sub_468040",
+        "name": "Ped::ProcessAirborneMovement_468040",
         "v96f_address": null,
         "v105_address": "0x468040"
     },

@@ -138,7 +138,7 @@ class Ped
     EXPORT void KillCharAnyMeans_467E20();
     EXPORT void sub_467FB0();
     EXPORT void sub_467FD0();
-    EXPORT s16 sub_468040();
+    EXPORT void ProcessAirborneMovement_468040();
     EXPORT void sub_4682A0();
     EXPORT void sub_468310();
     EXPORT void EnterTargetObjectiveCar_4686C0();
