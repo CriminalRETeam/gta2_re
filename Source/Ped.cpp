@@ -5038,7 +5038,9 @@ void Ped::sub_465B20()
                             {
                                 if (pGroup)
                                 {
-                                    if (pGroup->field_2C_ped_leader->field_15C_player && (field_144->field_20e || this->field_20C >= 5u || Fix16::Abs(field_144->field_1AC_cam.z - field_1AC_cam.z) >= k_dword_678664))
+                                    if (pGroup->field_2C_ped_leader->field_15C_player &&
+                                        (field_144->field_20e || this->field_20C >= 5u ||
+                                         Fix16::Abs(field_144->field_1AC_cam.z - field_1AC_cam.z) >= k_dword_678664))
                                     {
                                         this->field_144 = 0;
                                     }
@@ -5161,11 +5163,34 @@ Ped* Ped::FindNearestPed_466F60(u8 a2)
     return 0;
 }
 
-STUB_FUNC(0x466fb0)
+WIP_FUNC(0x466fb0)
 Ped* Ped::FindNearbyPed_466FB0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    byte_6787D7 = 3;
+    dword_6787DC = this;
+    Sprite* pNearest = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(
+                                                                 sprite_types_enum::ped,
+                                                                 sprite_types_enum::car,
+                                                                 this->field_168_game_object->field_80_sprite_ptr,
+                                                                 3u,
+                                                                 1,
+                                                                 0);
+    if (!pNearest)
+    {
+        return 0;
+    }
+
+    Fix16 xd =  Fix16::Abs(pNearest->field_14_xy.x - field_1AC_cam.x);
+    Fix16 yd =  Fix16::Abs(pNearest->field_14_xy.y - field_1AC_cam.y);
+    if (Fix16::Max_44E540(xd, yd) >= dword_678788)
+    {
+        return 0;
+    }
+
+    // @OG_BUG: Null de-ref
+    return pNearest->AsCharB4_40FEA0()->field_7C_pPed;
 }
 
 MATCH_FUNC(0x467070)
