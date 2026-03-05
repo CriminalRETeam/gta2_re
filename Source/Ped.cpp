@@ -3794,11 +3794,90 @@ void Ped::sub_463300(u8 a1)
     }
 }
 
-STUB_FUNC(0x4633e0)
-s32 Ped::sub_4633E0(char_type a2)
+WIP_FUNC(0x4633e0)
+void Ped::sub_4633E0(char_type bMainObj)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    s32 obj;
+    if (bMainObj)
+    {
+        obj = this->field_258_objective;
+    }
+    else
+    {
+        obj = this->field_25C_car_state;
+    }
+    switch (obj)
+    {
+        case objectives_enum::no_obj_0:
+            Ped::sub_463300(this->field_16C_car != 0 ? 5 : 1);
+            break;
+        case objectives_enum::flee_on_foot_till_safe_1:
+        case objectives_enum::flee_char_on_foot_till_safe_2:
+        case objectives_enum::flee_char_on_foot_always_3:
+            Ped::sub_463300(2u);
+            break;
+        case objectives_enum::objective_7:
+        case objectives_enum::objective_9:
+        case objectives_enum::objective_11:
+        case objectives_enum::goto_area_on_foot_12:
+        case objectives_enum::goto_char_on_foot_16:
+        case objectives_enum::objective_17:
+        case objectives_enum::objective_18:
+        case objectives_enum::kill_char_on_foot_20:
+        case objectives_enum::punch_char_23:
+        case objectives_enum::objective_32:
+        case objectives_enum::objective_48:
+        case objectives_enum::follow_car_on_foot_with_offset_56:
+        case objectives_enum::destroy_object_58:
+        case objectives_enum::destroy_car_59:
+            Ped::sub_463300(3u);
+            break;
+        case objectives_enum::objective_8:
+        case objectives_enum::kill_frenzy_22:
+        case objectives_enum::objective_49:
+        case objectives_enum::objective_51:
+            Ped::sub_463300(1u);
+            break;
+        case objectives_enum::goto_area_in_car_14:
+        case objectives_enum::wait_in_car_27:
+        case objectives_enum::time_waited_in_car_31:
+        case objectives_enum::objective_43:
+        case objectives_enum::objective_52:
+        case objectives_enum::objective_54:
+        case objectives_enum::follow_car_in_car_55:
+        case objectives_enum::fire_at_object_from_vehicle_57:
+            Ped::sub_463300(5u);
+            break;
+        case objectives_enum::guard_spot_24:
+        case objectives_enum::guard_area_25:
+        case objectives_enum::wait_on_foot_26:
+        case objectives_enum::objective_29:
+        case objectives_enum::objective_30:
+        case objectives_enum::objective_44:
+        case objectives_enum::objective_45:
+        case objectives_enum::objective_46:
+        case objectives_enum::objective_47:
+            Ped::sub_463300(4u);
+            break;
+        case objectives_enum::enter_car_as_driver_35:
+        case objectives_enum::enter_train_37:
+            Ped::sub_463300(6u);
+            break;
+        case objectives_enum::leave_car_36:
+        case objectives_enum::leave_train_38:
+            Ped::sub_463300(field_168_game_object != 0 ? 1 : 7);
+            break;
+        case objectives_enum::objective_50:
+            Ped::ChangeNextPedState1_45C500(9);
+            Ped::ChangeNextPedState2_45C540(15);
+            goto LABEL_14;
+        default:
+        LABEL_14:
+            Ped::sub_463300(99u);
+            break;
+    }
 }
 
 WIP_FUNC(0x463570)
@@ -6289,11 +6368,11 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
     else
     {
         Sprite_18* p18 = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(114);
-        field_21C |= 0x80 ;
+        field_21C |= 0x80;
 
         Fix16 dx = field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - p18->field_0->field_14_xy.x;
         Fix16 dy = field_150_target_objective_car->field_50_car_sprite->field_14_xy.y - p18->field_0->field_14_xy.y;
-        
+
         if (field_16C_car->RotateRoofObjectTowardTarget_440C10(Fix16::atan2_fixed_405320(dy, dx)))
         {
             field_21C |= 8;
