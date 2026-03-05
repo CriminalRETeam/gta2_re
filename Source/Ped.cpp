@@ -125,7 +125,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_6785A6, Ang16(0x2D0), 0x6785A6); // TODO: Init vi
 DEFINE_GLOBAL_INIT(Fix16, dword_678780, dword_6784C4 * 12, 0x678780);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784B0, Fix16(0x168, 0), 0x6784B0); // TODO: Init via 0x45FAA0 func
 
-
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
@@ -147,8 +146,6 @@ EXTERN_GLOBAL(Fix16, dword_6FD9B0);
 
 EXTERN_GLOBAL(Ang16, word_6FD936);
 EXTERN_GLOBAL(Ang16, word_6FD854);
-
-
 
 // TODO: move
 // https://decomp.me/scratch/BzcQt
@@ -798,7 +795,10 @@ bool Ped::sub_45BD20(Car_BC* pCar)
     Car_Door_10* Door = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
     Door->sub_439EA0();
 
-    field_168_game_object->HandleGenericImpact_553E00(word_6784FC + pCar->field_50_car_sprite->field_0, dword_678634 + dword_678480, k_dword_678660, 1);
+    field_168_game_object->HandleGenericImpact_553E00(word_6784FC + pCar->field_50_car_sprite->field_0,
+                                                      dword_678634 + dword_678480,
+                                                      k_dword_678660,
+                                                      1);
     Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
     Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
     return false;
@@ -2847,7 +2847,7 @@ void Ped::UpdateFacingAngle_461A60()
         {
             Fix16 v30 = this->field_1C4_x - this->field_1AC_cam.x;
             Fix16 v31 = this->field_1C8_y - this->field_1AC_cam.y;
-        //LABEL_6:
+            //LABEL_6:
             this->field_130 = Fix16::atan2_fixed_405320(v31, v30);
             //goto LABEL_37;
             this->field_12E = this->field_130;
@@ -2868,7 +2868,7 @@ void Ped::UpdateFacingAngle_461A60()
         }
 
         default:
-        //LABEL_37:
+            //LABEL_37:
             this->field_12E = this->field_130;
             return;
     }
@@ -4245,7 +4245,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::DestroyTargetObject_46A7C0();
                 break;
             case objectives_enum::turret_put_out_car_fire_60:
-                Ped::sub_46A6D0();
+                Ped::AimVehicleTurretStateMachine_46A6D0();
                 break;
             case objectives_enum::objective_61:
                 Ped::sub_46A5E0();
@@ -4627,7 +4627,8 @@ void Ped::Threat_Reaction_AI_465270()
                                 set_field_14C_403AE0(field_164_ped_group->field_2C_ped_leader);
                                 SetBit2_403950();
                             }
-                            if (field_164_ped_group->IsLeaderEnteringCarOrUnknown5_4C9220() && field_164_ped_group->IsLeaderCloseToTargetCar_4CAD40())
+                            if (field_164_ped_group->IsLeaderEnteringCarOrUnknown5_4C9220() &&
+                                field_164_ped_group->IsLeaderCloseToTargetCar_4CAD40())
                             {
                                 Ped::SetObjective2_463830(7, 9999);
                                 set_field_14C_403AE0(field_164_ped_group->field_2C_ped_leader);
@@ -6276,11 +6277,42 @@ void Ped::sub_46A5E0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46a6d0)
-s16 Ped::sub_46A6D0()
+WIP_FUNC(0x46a6d0)
+void Ped::AimVehicleTurretStateMachine_46A6D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_150_target_objective_car->field_88 == 5 || field_16C_car == 0)
+    {
+        field_225_objective_status = objective_status::failed_2;
+    }
+    else
+    {
+        Sprite_18* p18 = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(114);
+        field_21C |= 0x80 ;
+
+        Fix16 dx = field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - p18->field_0->field_14_xy.x;
+        Fix16 dy = field_150_target_objective_car->field_50_car_sprite->field_14_xy.y - p18->field_0->field_14_xy.y;
+        
+        if (field_16C_car->RotateRoofObjectTowardTarget_440C10(Fix16::atan2_fixed_405320(dy, dx)))
+        {
+            field_21C |= 8;
+
+            if (field_218_objective_timer == 9999)
+            {
+                field_218_objective_timer = 50;
+            }
+        }
+        else
+        {
+            field_21C &= ~8u;
+        }
+
+        if (field_218_objective_timer == 0)
+        {
+            field_225_objective_status = objective_status::passed_1;
+        }
+    }
 }
 
 MATCH_FUNC(0x46a7c0)

@@ -166,7 +166,7 @@ class Ped
     EXPORT char_type sub_46A350();
     EXPORT s32 sub_46A530();
     EXPORT void sub_46A5E0();
-    EXPORT s16 sub_46A6D0();
+    EXPORT void AimVehicleTurretStateMachine_46A6D0();
     EXPORT void DestroyTargetObject_46A7C0();
     EXPORT void DestroyTargetCar_46A850();
     EXPORT void FleeOnFootTillSafe_46A8F0();
