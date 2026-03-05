@@ -4359,7 +4359,7 @@ void Car_BC::DetachTrailerAndUpdateDamage_4418B0()
 }
 
 // https://decomp.me/scratch/KU02C
-STUB_FUNC(0x4418d0)
+WIP_FUNC(0x4418d0)
 void Car_BC::HandleUserInput_4418D0(char_type bForwardGasOn,
                                     char_type bFootBrakeOn,
                                     char_type bLeftOn,
@@ -4369,6 +4369,8 @@ void Car_BC::HandleUserInput_4418D0(char_type bForwardGasOn,
                                     char_type bWasSpecialPressed,
                                     char_type bAttack)
 {
+    WIP_IMPLEMENTED;
+    
     this->field_B8 = 0;
 
     if (bNowSpecialPressed && (bLeftOn || bRightOn))
@@ -4754,7 +4756,7 @@ WIP_FUNC(0x442520)
 Ang16 Car_BC::GetRadioTowerAngle_442520()
 {
     WIP_IMPLEMENTED;
-    
+
     Fix16_Point xy;
     // TODO: SEH around subtract operator is wrong
     xy = gCar_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y_443580();
