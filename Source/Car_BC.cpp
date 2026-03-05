@@ -4880,7 +4880,7 @@ void Car_BC::LightUpdate_442D10()
 }
 
 WIP_FUNC(0x442d70)
-char_type Car_BC::sub_442D70()
+char_type Car_BC::TrainUpdate_442D70()
 {
     WIP_IMPLEMENTED;
 
@@ -5065,7 +5065,7 @@ char_type Car_BC::PoolUpdate()
 
     if (IsTrainModel_403BA0())
     {
-        return sub_442D70();
+        return TrainUpdate_442D70();
     }
 
     if (this->field_88 != 5)
