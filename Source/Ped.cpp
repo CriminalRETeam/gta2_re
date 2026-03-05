@@ -4317,7 +4317,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::FollowCarOnFootWithOffset_46A350();
                 break;
             case objectives_enum::fire_at_object_from_vehicle_57:
-                Ped::sub_46A530();
+                Ped::FireAtObject_46A530();
                 break;
             case objectives_enum::destroy_car_59:
                 Ped::DestroyTargetCar_46A850();
@@ -6662,7 +6662,7 @@ void Ped::FollowCarOnFootWithOffset_46A350()
     {
         Sprite* pCarSprite = field_150_target_objective_car->field_50_car_sprite;
         Ang16 ang = pCarSprite->field_0 - field_132;
-        Fix16 sin_v =  Ang16::sine_40F500(ang) * this->field_1FC;
+        Fix16 sin_v = Ang16::sine_40F500(ang) * this->field_1FC;
         Fix16 cos_v = Ang16::cosine_40F520(ang) * this->field_1FC;
 
         if (byte_61A8A3)
@@ -6703,11 +6703,30 @@ void Ped::FollowCarOnFootWithOffset_46A350()
     }
 }
 
-STUB_FUNC(0x46a530)
-s32 Ped::sub_46A530()
+WIP_FUNC(0x46a530)
+void Ped::FireAtObject_46A530()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Sprite_18* pSprite_148 = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(148);
+    Sprite* pSprite_18 = pSprite_148->field_0;
+    Fix16 x_v = pSprite_18->field_14_xy.x;
+    Fix16 y_v = pSprite_18->field_14_xy.y;
+    Fix16 xd = field_1A0_objective_target_object->field_4->field_14_xy.x - x_v;
+    Fix16 yd = field_1A0_objective_target_object->field_4->field_14_xy.y - y_v;
+    Ang16 v7 = Fix16::atan2_fixed_405320(yd, xd);
+
+    field_21C |= 0x80;
+
+    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(v7) == 0)
+    {
+        field_21C &= ~0x80; // TODO: check values
+    }
+    else
+    {
+        field_21C |= 0x80;
+    }
+
 }
 
 STUB_FUNC(0x46a5e0)
