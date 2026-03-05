@@ -90,7 +90,7 @@ void PurpleDoom::AddToRegionBuckets_477B20(Sprite* pSprite)
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
     {
-        //AddToRowBuckets_4784D0(y_pos, pSprite);
+        AddToRowBuckets_4784D0(y_pos, pSprite);
     }
 }
 
@@ -100,7 +100,7 @@ void PurpleDoom::AddToSpriteRectBuckets_477B60(Sprite* pSprite)
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
     {
-        //AddToColumnBuckets_478370(y_pos, pSprite);
+        AddToColumnBuckets_478370(y_pos, pSprite);
     }
 }
 

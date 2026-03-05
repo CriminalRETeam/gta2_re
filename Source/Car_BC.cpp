@@ -1,5 +1,3 @@
-#define INLINE_MODE inline
-
 #include "Car_BC.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
