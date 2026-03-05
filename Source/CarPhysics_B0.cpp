@@ -2054,11 +2054,20 @@ void CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
     field_74_ang_vel_rad = field_74_ang_vel_rad.ApplyDeadZone_482730(field_74_ang_vel_rad);
 }
 
-STUB_FUNC(0x561130)
+WIP_FUNC(0x561130)
 Fix16_Point CarPhysics_B0::ComputeRelativePointVelocity_561130(Fix16_Point* a3)
 {
-    NOT_IMPLEMENTED;
-    return Fix16_Point();
+    WIP_IMPLEMENTED;
+    
+    Fix16_Point v11 = (*a3 - field_38_cp1);
+    v11.RotateByAngle_40F6B0(-field_58_theta);
+    v11 = v11 - gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset;
+    
+    Ang16 v6 = Ang16::Fix16_To_Ang16_40F540(field_74_ang_vel_rad) + field_58_theta;
+    v11.RotateByAngle_40F6B0(v6);
+
+    v11 = v11 + (field_30_cm1 + field_40_linvel_1);
+    return v11 - *a3;
 }
 
 MATCH_FUNC(0x561350)
@@ -2223,11 +2232,13 @@ Fix16 CarPhysics_B0::ComputeTorqueFromThrottle_561DD0()
 {
     if (get_revs_561940() != 0)
     {
-        return gCarInfo_2C_6FE0E4->field_14_half_thrust + ((field_60_gas_pedal * ((dword_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust)))) * 2;
+        return gCarInfo_2C_6FE0E4->field_14_half_thrust +
+            ((field_60_gas_pedal * ((dword_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust)))) * 2;
     }
     else
     {
-        return gCarInfo_2C_6FE0E4->field_14_half_thrust + ((field_60_gas_pedal * ((dword_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust))));
+        return gCarInfo_2C_6FE0E4->field_14_half_thrust +
+            ((field_60_gas_pedal * ((dword_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust))));
     }
 }
 

@@ -156,7 +156,7 @@ class Car_18
     s32 field_0;
     Object_2C* field_4_O2C;
     s32 field_8_type;
-    s32 field_C;
+    Fix16 field_C;
     u8 field_10_remap_rng;
     u8 field_11_pad[3];
     s32 field_14;
