@@ -163,7 +163,7 @@ class Ped
     EXPORT void sub_469FE0();
     EXPORT void sub_46A1F0();
     EXPORT void FollowCarInCurrCar_46A290();
-    EXPORT char_type sub_46A350();
+    EXPORT void FollowCarOnFootWithOffset_46A350();
     EXPORT s32 sub_46A530();
     EXPORT void sub_46A5E0();
     EXPORT void AimVehicleTurretStateMachine_46A6D0();
@@ -623,7 +623,7 @@ class Ped
     Fix16 field_1F0_maybe_max_speed;
     Fix16 field_1F4;
     Fix16 field_1F8;
-    s32 field_1FC;
+    Fix16 field_1FC;
     u32 field_200_id;
     s32 field_204_killer_id;
     u16 field_208_invulnerability;

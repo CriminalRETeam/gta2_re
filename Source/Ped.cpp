@@ -4314,7 +4314,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::FollowCarInCurrCar_46A290();
                 break;
             case objectives_enum::follow_car_on_foot_with_offset_56:
-                Ped::sub_46A350();
+                Ped::FollowCarOnFootWithOffset_46A350();
                 break;
             case objectives_enum::fire_at_object_from_vehicle_57:
                 Ped::sub_46A530();
@@ -6649,11 +6649,58 @@ void Ped::FollowCarInCurrCar_46A290()
     }
 }
 
-STUB_FUNC(0x46a350)
-char_type Ped::sub_46A350()
+WIP_FUNC(0x46a350)
+void Ped::FollowCarOnFootWithOffset_46A350()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_150_target_objective_car->field_88 == 5)
+    {
+        this->field_225_objective_status = objective_status::failed_2;
+    }
+    else
+    {
+        Sprite* pCarSprite = field_150_target_objective_car->field_50_car_sprite;
+        Ang16 ang = pCarSprite->field_0 - field_132;
+        Fix16 sin_v =  Ang16::sine_40F500(ang) * this->field_1FC;
+        Fix16 cos_v = Ang16::cosine_40F520(ang) * this->field_1FC;
+
+        if (byte_61A8A3)
+        {
+            if (field_25C_car_state)
+            {
+                if (field_25C_car_state == objectives_enum::follow_car_on_foot_with_offset_56)
+                {
+                    this->field_1D0 = sin_v + pCarSprite->field_14_xy.x;
+                    this->field_1D4 = cos_v + field_150_target_objective_car->field_50_car_sprite->field_14_xy.y;
+                    this->field_1D8 = field_150_target_objective_car->field_50_car_sprite->field_1C_zpos;
+                    if (this->field_226 == 1)
+                    {
+                        if (field_168_game_object->field_38_velocity >= k_dword_678660)
+                        {
+                            if (field_168_game_object->field_38_velocity > k_dword_678660)
+                            {
+                                field_168_game_object->field_38_velocity -= dword_678620;
+                            }
+                            this->field_226 = 0;
+                        }
+                        else
+                        {
+                            field_168_game_object->field_38_velocity += dword_678620;
+                            this->field_226 = 0;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Ped::SetObjective2_463830(objectives_enum::follow_car_on_foot_with_offset_56, 9999);
+                this->field_1D0 = sin_v + field_150_target_objective_car->field_50_car_sprite->field_14_xy.x;
+                this->field_1D4 = cos_v + field_150_target_objective_car->field_50_car_sprite->field_14_xy.y;
+                this->field_1D8 = field_150_target_objective_car->field_50_car_sprite->field_1C_zpos;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x46a530)
