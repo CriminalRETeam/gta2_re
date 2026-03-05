@@ -4245,7 +4245,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::ProcessAirborneMovement_468040();
                 break;
             case objectives_enum::guard_spot_24:
-                Ped::sub_469BF0();
+                Ped::GuardSpot_469BF0();
                 break;
             case objectives_enum::guard_area_25:
                 Ped::sub_469D60();
@@ -6338,11 +6338,71 @@ void Ped::sub_469BD0()
     }
 }
 
-STUB_FUNC(0x469bf0)
-char_type Ped::sub_469BF0()
+WIP_FUNC(0x469bf0)
+void Ped::GuardSpot_469BF0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    s32 bUnknown = 1;
+
+    this->field_21C |= 0x400000;
+
+    if (!byte_61A8A3)
+    {
+        bUnknown = this->field_168_game_object->field_10_char_state == 15 && (field_21C & 4) == 0;
+    }
+
+    if ((field_224 & 0x10) != 0 && ((field_21C & 4) != 0 || this->field_260 > 200u))
+    {
+        this->field_260 = 0;
+        this->field_224 &= ~0x10;
+    }
+
+    if (bUnknown)
+    {
+        if ((this->field_224 & 0x10) != 0 ||
+            gDistanceToTarget_678750 <= dword_678780 &&
+                abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, this->field_1E4_objective_target_z))
+        {
+            if (this->field_168_game_object->field_10_char_state == 15)
+            {
+                this->field_224 |= 0x10;
+            }
+            else if ((field_224 & 0x10) != 0)
+            {
+                Ped::ChangeNextPedState1_45C500(7);
+                Ped::ChangeNextPedState2_45C540(14);
+                if (field_168_game_object->field_38_velocity >= k_dword_678438)
+                {
+                    if (field_168_game_object->field_38_velocity > k_dword_678438)
+                    {
+                        field_168_game_object->field_38_velocity -= dword_678620;
+                    }
+                }
+                else
+                {
+                    field_168_game_object->field_38_velocity += dword_678620;
+                }
+
+                ++this->field_260;
+                this->field_130 = this->field_134_rotation;
+            }
+            else
+            {
+                Ped::ChangeNextPedState1_45C500(7);
+                Ped::ChangeNextPedState2_45C540(14);
+                this->field_130 = this->field_134_rotation;
+            }
+        }
+        else
+        {
+            if (field_168_game_object->field_10_char_state != 15)
+            {
+                field_168_game_object->field_38_velocity = this->field_1F4;
+                UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 4);
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x469d60)

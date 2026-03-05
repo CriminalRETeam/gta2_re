@@ -153,7 +153,7 @@ class Ped
     EXPORT void sub_469030();
     EXPORT void sub_469060();
     EXPORT void sub_469BD0();
-    EXPORT char_type sub_469BF0();
+    EXPORT void GuardSpot_469BF0();
     EXPORT void sub_469D60();
     EXPORT void sub_469E10();
     EXPORT void sub_469E30();
