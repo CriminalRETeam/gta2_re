@@ -148,7 +148,7 @@ class Ped
     EXPORT void sub_468BD0();
     EXPORT void PatrolOnFoot_468C70();
     EXPORT void GotoAreaOnFoot_468DE0();
-    EXPORT char_type UpdateFollowPedObjective_468E80();
+    EXPORT void UpdateFollowPedObjective_468E80();
     EXPORT s32 sub_469010();
     EXPORT void sub_469030();
     EXPORT void sub_469060();
