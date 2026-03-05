@@ -5008,10 +5008,60 @@ void Car_BC::sub_443330()
     Car_BC::CountDownToWreck_441360();
 }
 
-STUB_FUNC(0x443360)
+WIP_FUNC(0x443360)
 bool Car_BC::sub_443360(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    gPurpleDoom_3_679210->Remove_477B00(field_50_car_sprite);
+
+    Fix16 sprite_x;
+    Fix16 sprite_y;
+
+    if (x != gFix16_6777CC || y != gFix16_6777CC)
+    {
+        Ang16::RotateVector_41FC90(x, y, rot);
+
+        sprite_x = pSprite->field_14_xy.x + x;
+        sprite_y = pSprite->field_14_xy.y + y;
+    }
+    else
+    {
+        sprite_x = pSprite->field_14_xy.x;
+        sprite_y = pSprite->field_14_xy.y;
+    }
+
+    field_50_car_sprite->set_xyz_lazy_420600(sprite_x, sprite_y, pSprite->field_1C_zpos);
+    Ang16 tmp = pSprite->field_0;
+    tmp += rot;
+    field_50_car_sprite->set_ang_lazy_420690(tmp);
+
+    switch (pSprite->get_type_416B40())
+    {
+        case sprite_types_enum::car:
+            field_50_car_sprite->set_num_40F7B0(18);
+            break;
+
+        case sprite_types_enum::unknown_1:
+        case sprite_types_enum::code_obj1:
+        case sprite_types_enum::map_obj:
+            field_50_car_sprite->set_num_40F7B0(17);
+            break;
+
+        default:
+            break;
+    }
+
+    sub_4426D0();
+    CountDownToWreck_441360();
+
+    if (field_0_qq.field_0_p18)
+    {
+        field_0_qq.PoolUpdate_5A6F70(field_50_car_sprite);
+        field_0_qq.PropagateMaxZLayer_5A72B0(field_50_car_sprite, 0);
+    }
+
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_50_car_sprite);
     return 0;
 }
 
@@ -5074,7 +5124,7 @@ WIP_FUNC(0x443710)
 void Car_BC::sub_443710(Fix16_Point* xy)
 {
     WIP_IMPLEMENTED;
-    
+
     Fix16_Point v16;
 
     if (field_88 != 7)
