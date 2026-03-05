@@ -165,7 +165,7 @@ class Ped
     EXPORT void FollowCarInCurrCar_46A290();
     EXPORT void FollowCarOnFootWithOffset_46A350();
     EXPORT void FireAtObject_46A530();
-    EXPORT void sub_46A5E0();
+    EXPORT void FireAtPlayer_46A5E0();
     EXPORT void AimVehicleTurretStateMachine_46A6D0();
     EXPORT void DestroyTargetObject_46A7C0();
     EXPORT void DestroyTargetCar_46A850();
