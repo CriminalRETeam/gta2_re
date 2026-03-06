@@ -196,10 +196,11 @@ Ped* Ped_List_4::RemoveFirstPed_471320()
 }
 
 // 9.6f 0x445C30
-STUB_FUNC(0x471340)
+WIP_FUNC(0x471340)
 Ped* Ped_List_4::GetFromListClosestPedToPoint_471340(Fix16 x, Fix16 y)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
     Fix16 smallest(99999);
     Ped* pNearest = 0;
     Char_8* pIter = this->field_0_pFirstPed;
