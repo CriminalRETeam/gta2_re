@@ -12325,7 +12325,7 @@
         "v105_address": "0x55fa10"
     },
     {
-        "name": "CarPhysics_B0::ComputeFinalImpactDamage_55FA60",
+        "name": "CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60",
         "v96f_address": null,
         "v105_address": "0x55fa60"
     },

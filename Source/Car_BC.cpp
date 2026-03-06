@@ -5290,7 +5290,7 @@ void Car_BC::sub_443710(Fix16_Point* xy)
             vecLen = vecLen * 4;
             Fix16_Point v9 = (v4.NormalizeSafe_442AD0() / vecLen);
             field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
-            field_58_physics->ComputeFinalImpactDamage_55FA60(&vecLen, &v16, &v9, 10);
+            field_58_physics->ApplyImpactForcesAndDamage_55FA60(&vecLen, &v16, &v9, 10);
         }
     }
 

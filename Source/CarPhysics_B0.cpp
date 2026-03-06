@@ -147,6 +147,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE3DC, k_dword_6FE210, 0x6FE3DC);
 DEFINE_GLOBAL_INIT(Ang16, word_6FE3B8, Ang16(4), 0x6FE3B8); // Only exists so that sub_401CB0 can be called
 
 DEFINE_GLOBAL_INIT(Ang16, word_6FE058, word_6FE3B8.sub_401CB0(Fix16(45)), 0x6FE058);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE37C, dword_6FE1C4, 0x6FE37C);
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -1824,11 +1825,58 @@ void CarPhysics_B0::ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2)
     }
 }
 
-STUB_FUNC(0x55fa60)
-Fix16* CarPhysics_B0::ComputeFinalImpactDamage_55FA60(Fix16* a2, Fix16_Point* a3, Fix16_Point* a4, s32 a5)
+WIP_FUNC(0x55fa60)
+Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point* a2, Fix16_Point* a4, s32 base_dmg)
 {
-    NOT_IMPLEMENTED;
-    return a2;
+    WIP_IMPLEMENTED;
+
+    Fix16 v17 = a4->GetLength_2();
+    Fix16 v10 = CalculateMass_559FF0();
+
+    if ((v17 / v10) <= dword_6FE37C)
+    {
+        return v17;
+    }
+    else
+    {
+        Fix16_Point a3;
+        a3.x = a4->x;
+        a3.y = a4->y;
+
+        if ((field_5C_pCar->field_78_flags & 0x800) != 0)
+        {
+            if (!field_5C_pCar->field_54_driver || !field_5C_pCar->field_54_driver->field_15C_player)
+            {
+                Fix16 v17_ = field_0_vel_read_only.GetLength_41E260();
+                if (v17_ <= dword_6FE1D4 || this->field_92_is_hand_brake_on)
+                {
+                    a3 = (*a4 / dword_6FE218);
+                }
+            }
+        }
+
+        field_5C_pCar->ApplyVisualDamage_43A9F0();
+        
+        if ((this->field_5C_pCar->field_78_flags & 2) != 0)
+        {
+            return v17;
+        }
+        else
+        {
+            ApplyForceWithTrailerRedirect_55F740(a2, &a3);
+            s32 v14 = base_dmg + rng_dword_67AB34->field_0_rng;
+            if (v14 > this->field_8_total_damage_q)
+            {
+                this->field_8_total_damage_q = v14;
+            }
+
+            if (!field_5C_pCar->field_54_driver || !field_5C_pCar->field_54_driver->field_15C_player)
+            {
+                this->field_92_is_hand_brake_on = 0;
+            }
+            return v17;
+        }
+    }
 }
 
 WIP_FUNC(0x55fc30)
@@ -2058,11 +2106,11 @@ WIP_FUNC(0x561130)
 Fix16_Point CarPhysics_B0::ComputeRelativePointVelocity_561130(Fix16_Point* a3)
 {
     WIP_IMPLEMENTED;
-    
+
     Fix16_Point v11 = (*a3 - field_38_cp1);
     v11.RotateByAngle_40F6B0(-field_58_theta);
     v11 = v11 - gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset;
-    
+
     Ang16 v6 = Ang16::Fix16_To_Ang16_40F540(field_74_ang_vel_rad) + field_58_theta;
     v11.RotateByAngle_40F6B0(v6);
 
