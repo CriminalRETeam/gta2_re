@@ -148,6 +148,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FE3B8, Ang16(4), 0x6FE3B8); // Only exists so th
 
 DEFINE_GLOBAL_INIT(Ang16, word_6FE058, word_6FE3B8.sub_401CB0(Fix16(45)), 0x6FE058);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE37C, dword_6FE1C4, 0x6FE37C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE004, Fix16(0x1C00, 0), 0x6FE004);
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -1255,14 +1256,14 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
     s32 cp3_int = cp3.ToInt();
     gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3.ToInt());
     gmp_block_info* pBlock_ = pBlock;
-    
+
     u8 v28;
     u8 gradient_level;
     u8 graident_size;
 
     if (!pBlock)
     {
-    //LABEL_36:
+        //LABEL_36:
         v28 = 5;
         //goto LABEL_37;
     }
@@ -1271,7 +1272,7 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
         s32 lid_idx = pBlock->field_8_lid & 0x3FF;
         if (gGtx_0x106C_703DD4->field_6C_spec[pBlock_->field_8_lid & 0x3FF] != 4 || !gGtx_0x106C_703DD4->IsTileRemapped_5AA850(lid_idx))
         {
-        //LABEL_31:
+            //LABEL_31:
             if ((pBlock_->field_B_slope_type & 3) != 0)
             {
                 s32 lid_idx_ = pBlock_->field_8_lid & 0x3FF;
@@ -1307,7 +1308,7 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
         }
     }
 
-//LABEL_37:
+    //LABEL_37:
     if (v28 != 5)
     {
         this->field_98_surface_type = (u8)v28;
@@ -1608,16 +1609,153 @@ void CarPhysics_B0::ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3)
 }
 
 STUB_FUNC(0x55d200)
-void CarPhysics_B0::SpawnSkidSegment_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5)
+void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55dc00)
-char_type CarPhysics_B0::UpdateWheelSkidEffects_55DC00()
+WIP_FUNC(0x55dc00)
+void CarPhysics_B0::UpdateWheelSkidEffects_55DC00()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (!field_5C_pCar->IsOnScreenForAnyPlayer_43B730())
+    {
+        this->field_10[0].x = 0;
+        this->field_10[0].y = 0;
+        this->field_10[1].x = 0;
+        this->field_10[1].y = 0;
+        this->field_10[2].x = 0;
+        this->field_10[2].y = 0;
+        this->field_10[3].x = 0;
+        this->field_10[3].y = 0;
+        //goto LABEL_32;
+    }
+    else
+    {
+        s32 b_d9C;
+        if (field_9C == 2 || (b_d9C = 0, field_9C == 10))
+        {
+            b_d9C = 2;
+        }
+
+        Car_BC* pCar = this->field_5C_pCar;
+        Fix16 w_adjusted = (pCar->field_50_car_sprite->field_C_sprite_4c_ptr->field_0_width * dword_6FE004);
+
+        Fix16 v9;
+        if (pCar->field_68 == k_dword_6FE210)
+        {
+            v9 = gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset;
+        }
+        else
+        {
+            v9 = gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset * pCar->field_68;
+        }
+
+        Fix16 front_wheel_offset_;
+        if (field_5C_pCar->field_68 != k_dword_6FE210)
+        {
+            front_wheel_offset_ = gCarInfo_2C_6FE0E4->field_4_front_wheel_offset * field_5C_pCar->field_68;
+        }
+        else
+        {
+            front_wheel_offset_ = gCarInfo_2C_6FE0E4->field_4_front_wheel_offset;
+        }
+
+        if (field_98_surface_type == 7 || field_98_surface_type == 8 || field_98_surface_type == 9)
+        {
+            //v21 = -w_adjusted;
+            //v22 = v9;
+            Fix16_Point spawn_pos;
+            spawn_pos.y = v9;
+            spawn_pos.x = -w_adjusted;
+            SpawnSkidSegment_55D200(0, spawn_pos, 3); // spawns the skid obj?
+            //v22 = v9;
+            //v21 = w_adjusted;
+            Fix16_Point t;
+            t.x = v9;
+            t.y = w_adjusted;
+            SpawnSkidSegment_55D200(1, t, 3);
+            //goto LABEL_20;
+        }
+        else
+        {
+            if ((this->field_88_rear_skid >= gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2 ||
+                 this->field_AC_drive_wheels_locked_q && gCarInfo_2C_6FE0E4->field_20_front_drive_bias > kFP16Zero_6FE20C) &&
+                field_98_surface_type != 6)
+            {
+                //v21 = -w_adjusted;
+                //v22 = v9;
+                Fix16_Point spawn_pos_;
+                spawn_pos_.y = v9;
+                spawn_pos_.x = -w_adjusted;
+                SpawnSkidSegment_55D200(0, spawn_pos_, b_d9C);
+                //v22 = v9;
+                //v21 = w_adjusted;
+                Fix16_Point t;
+                t.x = v9;
+                t.y = w_adjusted;
+                SpawnSkidSegment_55D200(1, t, b_d9C);
+                //LABEL_20:
+                //goto LABEL_21;
+            }
+            else
+            {
+                this->field_10[0].x = 0;
+                this->field_10[0].y = 0;
+                this->field_10[1].x = 0;
+                this->field_10[1].y = 0;
+            }
+        }
+
+        //LABEL_21:
+
+        if (field_98_surface_type == 7 || field_98_surface_type == 8 || field_98_surface_type == 9)
+        {
+            //v22 = front_wheel_offset_;
+            //v21 = -w_adjusted;
+            Fix16_Point spawn_pos__;
+            spawn_pos__.y = front_wheel_offset_;
+            spawn_pos__.x = -w_adjusted;
+            SpawnSkidSegment_55D200(3, spawn_pos__, 3);
+            //v21 = w_adjusted;
+            //v22 = front_wheel_offset_;
+            Fix16_Point t;
+            t.x = front_wheel_offset_;
+            t.y = w_adjusted;
+            SpawnSkidSegment_55D200(2, t, 3);
+        }
+        else if (this->field_84_front_skid < gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1 &&
+                     (!this->field_AC_drive_wheels_locked_q || gCarInfo_48_6FE258->field_8_front_drive_bias <= kFP16Zero_6FE20C) ||
+                 field_98_surface_type == 6)
+        {
+            this->field_10[3].x = 0;
+            this->field_10[3].y = 0;
+            this->field_10[2].x = 0;
+            this->field_10[2].y = 0;
+        }
+        else
+        {
+            //v21 = -w_adjusted;
+            //v22 = front_wheel_offset_;
+            Fix16_Point spawn_pos___;
+            spawn_pos___.y = front_wheel_offset_;
+            spawn_pos___.x = -w_adjusted;
+            SpawnSkidSegment_55D200(3, spawn_pos___, b_d9C);
+            //v21 = w_adjusted;
+            //v22 = front_wheel_offset_;
+            Fix16_Point t;
+            t.x = front_wheel_offset_;
+            t.y = w_adjusted;
+            SpawnSkidSegment_55D200(2, t, b_d9C);
+        }
+    }
+
+    //LABEL_32:
+    if (field_AC_drive_wheels_locked_q)
+    {
+        field_AC_drive_wheels_locked_q--;
+    }
 }
 
 MATCH_FUNC(0x55e260)
