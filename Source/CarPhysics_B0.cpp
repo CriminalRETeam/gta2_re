@@ -1174,11 +1174,176 @@ void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
     gRozza_C88_66AFE0->Type4_40BC40(pCarSprite);
 }
 
-STUB_FUNC(0x55b970)
-char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* a2)
+WIP_FUNC(0x55b970)
+char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* check_mask)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Sprite* pSprite = this->field_5C_pCar->field_50_car_sprite;
+    s32 corner_idx_ = 0;
+    this->field_AB_tpa = 0;
+
+    if (IsInAir_55A0B0())
+    {
+        if (this->field_68_z_pos > -dword_6FE370)
+        {
+            this->field_68_z_pos -= dword_6FE1AC;
+        }
+    }
+
+    if (gMap_0x370_6F6268->sub_4E5170(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3))
+    {
+        *check_mask = 0;
+        this->field_9C =
+            gMap_0x370_6F6268->GetBlockSpec_4E00A0(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3 - k_dword_6FE210);
+    }
+    else
+    {
+        this->field_9C = 0;
+        u32 v29;
+        *check_mask = pSprite->CheckCornerZCollisions_5A1CA0(&v29);
+        if (v29 == 1 || v29 == 2)
+        {
+            this->field_AB_tpa = 1;
+        }
+
+        if (*check_mask)
+        {
+            Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
+            if (!pTrailer || pTrailer->GetCabOrLoadedCar_407B90(field_5C_pCar)->field_58_physics->field_98_surface_type == 6)
+            {
+                u8 mask_ = 1;
+                do
+                {
+                    if (((u8)mask_ & (u8)*check_mask) != mask_)
+                    {
+                        Fix16 v28 = Fix16(0xC8000, 0);
+                        Fix16_Point pCorner_ = pSprite->GetBoundingBoxCorner_562450(corner_idx_);
+                        Fix16_Point v10 = (pCorner_ - field_30_cm1);
+                        Fix16_Point v11 = (v10 / v28);
+                        ApplyImpulseWithTrailerRedirect_55FA10(&v11);
+                    }
+                    ++corner_idx_;
+                    mask_ *= 2;
+                } while (corner_idx_ < 4);
+            }
+        }
+        else
+        {
+            if (field_98_surface_type != 1 && field_98_surface_type != 2 && field_98_surface_type != 3 && field_98_surface_type != 4)
+            {
+                this->field_98_surface_type = 6;
+                return 0;
+            }
+
+            char_type result = pSprite->IsTouchingSlopeBlock_5A1EB0();
+            if (!result)
+            {
+                this->field_98_surface_type = 6;
+                return result;
+            }
+        }
+    }
+
+    Fix16 cp3 = this->field_6C_cp3;
+    bool is6 = this->field_98_surface_type == 6;
+    if (cp3.GetFracValue() == kFP16Zero_6FE20C)
+    {
+        cp3 -= k_dword_6FE210;
+    }
+
+    s32 cp3_int = cp3.ToInt();
+    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3.ToInt());
+    gmp_block_info* pBlock_ = pBlock;
+    
+    u8 v28;
+    u8 gradient_level;
+    u8 graident_size;
+
+    if (!pBlock)
+    {
+    //LABEL_36:
+        v28 = 5;
+        //goto LABEL_37;
+    }
+    else
+    {
+        s32 lid_idx = pBlock->field_8_lid & 0x3FF;
+        if (gGtx_0x106C_703DD4->field_6C_spec[pBlock_->field_8_lid & 0x3FF] != 4 || !gGtx_0x106C_703DD4->IsTileRemapped_5AA850(lid_idx))
+        {
+        //LABEL_31:
+            if ((pBlock_->field_B_slope_type & 3) != 0)
+            {
+                s32 lid_idx_ = pBlock_->field_8_lid & 0x3FF;
+                if (gGtx_0x106C_703DD4->field_6C_spec[lid_idx_] != 4 || gGtx_0x106C_703DD4->IsTileRemapped_5AA850(lid_idx_))
+                {
+                    graident_size = byte_6F5BA8[pBlock_->field_B_slope_type >> 2].field_1_gradient_size;
+                    gradient_level = byte_6F5BA8[pBlock_->field_B_slope_type >> 2].field_2_gradient_level;
+                    v28 = byte_6F5BA8[pBlock_->field_B_slope_type >> 2].field_0_gradient_direction;
+                }
+                else
+                {
+                    v28 = 9;
+                }
+                //goto LABEL_37;
+            }
+            else
+            {
+                v28 = 5;
+                //goto LABEL_36;
+            }
+        }
+        else
+        {
+            /*
+            if (!gGtx_0x106C_703DD4->IsTileRemapped_5AA850(lid_idx))
+            {
+                goto LABEL_31;
+            }
+            else*/
+            {
+                v28 = 7;
+            }
+        }
+    }
+
+//LABEL_37:
+    if (v28 != 5)
+    {
+        this->field_98_surface_type = (u8)v28;
+        this->field_A5_current_slope_length = (char)graident_size;
+        this->field_A6_current_slope_left_tiles = gradient_level;
+        this->field_A7_current_tile_z = cp3_int;
+        if (v28 == 7)
+        {
+            s32 water_mask = pSprite->GetWaterCornerMask_59E250();
+            s32 water_mask_ = water_mask;
+            if (water_mask == 15)
+            {
+                this->field_98_surface_type = 8;
+            }
+            else
+            {
+                s32 corner_idx = 0;
+                s32 mask = 1;
+                do
+                {
+                    if (((u8)mask & (u8)water_mask) != mask)
+                    {
+                        Fix16 v28_ = Fix16(819200, 0);
+                        Fix16_Point pCorner = pSprite->GetBoundingBoxCorner_562450(corner_idx);
+                        Fix16_Point v24 = field_30_cm1 - pCorner;
+                        Fix16_Point v25 = v24 / v28_;
+                        ApplyImpulseWithTrailerRedirect_55FA10(&v25);
+                        water_mask = water_mask_;
+                    }
+                    ++corner_idx;
+                    mask *= 2;
+                } while (corner_idx < 4);
+            }
+        }
+    }
+    return is6;
 }
 
 WIP_FUNC(0x55bfe0)
@@ -1856,7 +2021,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point* a2, Fix16_Po
         }
 
         field_5C_pCar->ApplyVisualDamage_43A9F0();
-        
+
         if ((this->field_5C_pCar->field_78_flags & 2) != 0)
         {
             return v17;
