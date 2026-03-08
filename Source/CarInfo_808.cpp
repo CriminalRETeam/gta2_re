@@ -33,18 +33,18 @@ DEFINE_GLOBAL_ARRAY_INIT(char*,
                          error_table_61A6D4,
                          13,
                          0x61A6D4,
-                         "Invalid integer",
-                         "Number too big",
-                         "Write error",
-                         "EOF in comment",
-                         "Token too big",
-                         "Input file not found",
-                         "Can't open output file",
-                         "Invalid long integer",
-                         "Invalid hex integer",
-                         "Invalid hex long integer",
-                         "Invalid f32",
-                         "Output too big",
+                         "Invalid integer" COMMA
+                         "Number too big" COMMA
+                         "Write error" COMMA
+                         "EOF in comment" COMMA
+                         "Token too big" COMMA
+                         "Input file not found" COMMA
+                         "Can't open output file" COMMA
+                         "Invalid long integer" COMMA
+                         "Invalid hex integer" COMMA
+                         "Invalid hex long integer" COMMA
+                         "Invalid f32" COMMA
+                         "Output too big" COMMA
                          "Unknown error");
 
 MATCH_FUNC(0x440860)
