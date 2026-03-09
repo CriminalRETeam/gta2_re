@@ -1936,10 +1936,54 @@ LABEL_13:
     this->field_AA_sbw = 1;
 }
 
-STUB_FUNC(0x55ef20)
+WIP_FUNC(0x55ef20)
 void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ang16 theta = this->field_58_theta;
+    if (field_94_is_backward_gas_on)
+    {
+        theta += k_word_6FE12A;
+    }
+
+    if (stru_6FE1F0.y <= kFP16Zero_6FE20C)
+    {
+        // Moving backwards or stationary
+        if (theta < word_6FE00C)
+        {
+            ApplyAngularImpulse_55F970(k_dword_6FDFA4);
+        }
+        else if (theta > word_6FE154)
+        {
+            ApplyAngularImpulse_55F970(-k_dword_6FDFA4);
+        }
+    }
+    else
+    {
+        // Moving forward
+        if (theta <= word_6FE00C)
+        {
+            if (theta > k_word_6FE12A && theta < word_6FE154)
+            {
+                ApplyAngularImpulse_55F970(k_dword_6FDFA4);
+            }
+        }
+        else
+        {
+            if (theta < k_word_6FE12A)
+            {
+                ApplyAngularImpulse_55F970(-k_dword_6FDFA4);
+            }
+            else if (theta > k_word_6FE12A && theta < word_6FE154)
+            {
+                ApplyAngularImpulse_55F970(k_dword_6FDFA4);
+            }
+        }
+    }
+
+    ApplyForceScaledByMass_55F9A0(stru_6FE1F0.NormalizeSafe_442AD0() * stru_6FDF80);
+    this->field_AA_sbw = 1;
 }
 
 STUB_FUNC(0x55f020)
@@ -2758,7 +2802,7 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
             }
             new_x = (gCarInfo_48_6FE258->field_20_handbrake_slide_value * (v7 * dword_6FE3D0));
             pointing_ang_rad = this->field_78_pointing_ang_rad;
-            brake_force3 = (gCarInfo_48_6FE258->field_10_brake_friction *  this->field_A8_hand_brake_force) / (128);
+            brake_force3 = (gCarInfo_48_6FE258->field_10_brake_friction * this->field_A8_hand_brake_force) / (128);
         }
         else
         {
