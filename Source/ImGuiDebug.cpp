@@ -191,6 +191,19 @@ static void EnableBoot2MapDebugOptions()
 
     bSkip_traffic_lights_67D4EC = true;
     bSkip_trains_67D550 = true;
+
+    bSkip_dummies_67D4EF = true;
+    bSkip_police_67D4F9 = true;
+    bSkip_fire_engines_67D53A = true;
+    bSkip_user_67D506 = true;
+    bSkip_buses_67D558 = true;
+    bSkip_recycling_67D575 = true;
+    bSkip_particles_67D64D = true;
+    bSkip_ambulance_67D6C9 = true;
+    
+    // bSkip_slopes_67D505
+    // bSkip_window_check_67D54E
+    // 
 }
 
 static Sprite* GetPedSprite(Ped* pPed)
