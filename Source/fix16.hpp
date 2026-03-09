@@ -89,6 +89,13 @@ class Fix16
         return Fix16(value, 0);
     }
 
+    // 10.5 non inline addr is 0x562430
+    Fix16& operator*=(const Fix16& rhs)
+    {
+        mValue = (s32)((mValue * (__int64)rhs.mValue) >> 14);
+        return *this;
+    }
+
     // 10.5 is 0x561DB0
     // Inlined from 9.6f from 0x401bd0
     Fix16 operator*(const s32& in) const
