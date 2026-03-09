@@ -15,6 +15,7 @@
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
+#include "Particle_8.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
@@ -154,6 +155,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_677352, Ang16(0x14), 0x677352);
 DEFINE_GLOBAL_INIT(Ang16, word_677810, Ang16(0x14), 0x677810);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_676D98, Fix16(0x3FC000, 0), 0x676D98);
+DEFINE_GLOBAL_INIT(Fix16, dword_677794, dword_6777A0, 0x677794);
 
 DEFINE_GLOBAL(s32, dword_6772DC, 0x6772DC);
 DEFINE_GLOBAL(s32, dword_6772EC, 0x6772EC);
@@ -3583,11 +3585,29 @@ void Car_BC::sub_43DD60()
     }
 }
 
-STUB_FUNC(0x43e560)
+WIP_FUNC(0x43e560)
 char_type Car_BC::ManageDrowning_43E560()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    // TODO: Fails due to __Forceinline, else matches
+    char_type ret = field_58_physics->sub_421100();
+    if (ret)
+    {
+        if (this->field_94 > 0)
+        {
+            this->field_94 = 50;
+        }
+
+        sub_43DD60();
+
+        gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_50_car_sprite->field_14_xy.x,
+                                                   field_50_car_sprite->field_14_xy.y,
+                                                   field_50_car_sprite->field_1C_zpos,
+                                                   field_50_car_sprite->field_0 + word_677326,
+                                                   1);
+    }
+    return ret;
 }
 
 MATCH_FUNC(0x43e8d0)
@@ -4368,7 +4388,7 @@ void Car_BC::HandleUserInput_4418D0(char_type bForwardGasOn,
                                     char_type bAttack)
 {
     WIP_IMPLEMENTED;
-    
+
     this->field_B8 = 0;
 
     if (bNowSpecialPressed && (bLeftOn || bRightOn))
@@ -4758,7 +4778,7 @@ Ang16 Car_BC::GetRadioTowerAngle_442520()
     Fix16_Point xy;
     // TODO: SEH around subtract operator is wrong
     xy = gCar_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y_443580();
-    return xy.atan2_40F790() -  field_50_car_sprite->field_0;
+    return xy.atan2_40F790() - field_50_car_sprite->field_0;
 }
 
 // 9.6f 0x40ECB0

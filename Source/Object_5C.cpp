@@ -371,7 +371,6 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* a2, Fix16_Point* a3, s32
     NOT_IMPLEMENTED;
 }
 
-
 STUB_FUNC(0x522b20)
 void Object_2C::ResolveCollisionWithWorld_522B20(s32* f18, s32* a3, s32* a4)
 {
@@ -1500,10 +1499,234 @@ char_type Object_2C::HandleRotationStateTransition_528240(s32 current, s32 desir
     return 0;
 }
 
-STUB_FUNC(0x5283c0)
+WIP_FUNC(0x5283c0)
 void Object_2C::TickObject_5283C0(s32 obj_type)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (obj_type)
+    {
+        if (obj_type < 39 || obj_type > 42) // sub_482400
+        {
+            if (obj_type == 259)
+            {
+                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
+                                                               field_4->field_14_xy.y,
+                                                               field_4->field_1C_zpos,
+                                                               (gSin_table_667A80[field_4->field_0.rValue] * k_dword_6F8C9C),
+                                                               (gCos_table_669260[field_4->field_0.rValue] * k_dword_6F8C9C));
+                Object_2C::sub_5290A0();
+            }
+            else
+            {
+                Phi_74* pPhi = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(obj_type);
+                if (field_8->field_5C == pPhi->field_5C ||
+                    !Object_2C::HandleRotationStateTransition_528240(field_8->field_5C, pPhi->field_5C))
+                {
+                    if (!byte_6F8C4C && !byte_6F8C68)
+                    {
+                        Object_2C::RemoveFromCollisionBuckets_527D00();
+                    }
+                    field_4->FreeSprite4CChildren_59FAD0();
+
+                    switch (pPhi->field_34_behavior_type)
+                    {
+                        case object_behavior_type::behavior_0:
+                        case object_behavior_type::behavior_1:
+                        case object_behavior_type::behavior_6:
+                        case object_behavior_type::behavior_10:
+                        case object_behavior_type::behavior_12:
+                            Object_2C::sub_527F10();
+                            Object_2C::InitializeObject_527630(obj_type,
+                                                               this->field_4->field_14_xy.x,
+                                                               this->field_4->field_14_xy.y,
+                                                               this->field_4->field_1C_zpos,
+                                                               this->field_4->field_0);
+                            if (this->field_10_obj_3c)
+                            {
+                                return;
+                            }
+                            break;
+
+                        case object_behavior_type::behavior_2:
+                        case object_behavior_type::behavior_8:
+                        {
+                            if (field_10_obj_3c)
+                            {
+                                if (!field_10_obj_3c->field_0.field_0_p18)
+                                {
+                                    gObject_3C_Pool_6F8F7C->DeAllocate(field_10_obj_3c);
+                                    --gObj3C_id_6F8E54;
+                                    ++dword_6F8F0C;
+                                    this->field_10_obj_3c = 0;
+                                }
+                            }
+
+                            s32 bUnknown;
+                            if (this->field_C_pAny.o8)
+                            {
+                                bUnknown = 0;
+                            }
+                            else
+                            {
+                                bUnknown = 1;
+                                Object_8* pNewObj8 = gObject_8_Pool_6F8F78->Allocate();
+                                ++dword_6F8F18;
+                                this->field_C_pAny.o8 = pNewObj8;
+                            }
+
+                            if (pPhi->field_65 != field_8->field_65 || bUnknown)
+                            {
+                                this->field_C_pAny.o8->field_4_timer = pPhi->field_65;
+                                this->field_C_pAny.o8->field_7_anim_speed_counter = 0;
+                                this->field_C_pAny.o8->field_6_frame_counter = 0;
+                            }
+                            else if (pPhi->field_6C_sprite_anim_speed < field_8->field_6C_sprite_anim_speed)
+                            {
+                                this->field_C_pAny.o8->field_7_anim_speed_counter = 0;
+                            }
+                            Object_2C::InitializeObject_527630(obj_type,
+                                                               this->field_4->field_14_xy.x,
+                                                               this->field_4->field_14_xy.y,
+                                                               this->field_4->field_1C_zpos,
+                                                               this->field_4->field_0);
+                            field_4->set_id_lazy_4206C0(this->field_8->field_1E + this->field_C_pAny.o8->field_7_anim_speed_counter);
+                            break;
+                        }
+
+                        case object_behavior_type::behavior_3:
+                        case object_behavior_type::behavior_7:
+                            if (!this->field_10_obj_3c)
+                            {
+                                Object_3C* pNew3C_ = gObject_3C_Pool_6F8F7C->Allocate();
+                                ++gObj3C_id_6F8E54;
+                                pNew3C_->field_C = 0;
+                                pNew3C_->field_18 = 0;
+                                pNew3C_->field_4 = kZeroAng_6F8F68;
+                                pNew3C_->field_28 = 0;
+                                pNew3C_->field_38 = 0;
+                                pNew3C_->field_34 = 2;
+                                pNew3C_->field_24 = 0;
+                                pNew3C_->field_2F = 0;
+                                pNew3C_->field_30_bSkipAnim = 0;
+                                pNew3C_->field_20 = field_14_id;
+                                this->field_10_obj_3c = pNew3C_;
+                            }
+
+                            if (field_C_pAny.o8)
+                            {
+                                gObject_8_Pool_6F8F78->DeAllocate(field_C_pAny.o8);
+                                --dword_6F8F18;
+                                ++dword_6F8DC0;
+                                this->field_C_pAny.o8 = 0;
+                            }
+
+                            this->field_10_obj_3c->field_18 = pPhi->field_14_friction;
+                            this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
+                            this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                            this->field_10_obj_3c->field_28 = pPhi->field_65;
+                            Object_2C::InitializeObject_527630(obj_type,
+                                                               this->field_4->field_14_xy.x,
+                                                               this->field_4->field_14_xy.y,
+                                                               this->field_4->field_1C_zpos,
+                                                               this->field_4->field_0);
+                            break;
+
+                        case object_behavior_type::behavior_4:
+                        case object_behavior_type::behavior_9:
+                        {
+                            if (!this->field_10_obj_3c)
+                            {
+                                Object_3C* pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
+                                ++gObj3C_id_6F8E54;
+                                pNew3C->field_C = 0;
+                                pNew3C->field_18 = 0;
+                                pNew3C->field_4 = kZeroAng_6F8F68;
+                                pNew3C->field_28 = 0;
+                                pNew3C->field_38 = 0;
+                                pNew3C->field_34 = 2;
+                                pNew3C->field_24 = 0;
+                                pNew3C->field_2F = 0;
+                                pNew3C->field_30_bSkipAnim = 0;
+                                pNew3C->field_20 = field_14_id;
+                                this->field_10_obj_3c = pNew3C;
+                            }
+
+                            s32 bUnknown2;
+                            if (this->field_C_pAny.o8)
+                            {
+                                bUnknown2 = 0;
+                            }
+                            else
+                            {
+                                bUnknown2 = 1;
+                                Object_8* pNewObj8 = gObject_8_Pool_6F8F78->Allocate();
+                                ++dword_6F8F18;
+                                this->field_C_pAny.o8 = pNewObj8;
+                            }
+
+                            if (pPhi->field_65 != field_8->field_65 || bUnknown2)
+                            {
+                                this->field_C_pAny.o8->field_4_timer = pPhi->field_65;
+                                this->field_C_pAny.o8->field_7_anim_speed_counter = 0;
+                                this->field_C_pAny.o8->field_6_frame_counter = 0;
+                            }
+                            else if (pPhi->field_6C_sprite_anim_speed < field_8->field_6C_sprite_anim_speed)
+                            {
+                                this->field_C_pAny.o8->field_7_anim_speed_counter = 0;
+                            }
+
+                            Object_2C::InitializeObject_527630(obj_type,
+                                                               this->field_4->field_14_xy.x,
+                                                               this->field_4->field_14_xy.y,
+                                                               this->field_4->field_1C_zpos,
+                                                               this->field_4->field_0);
+                            field_4->set_id_lazy_4206C0(this->field_8->field_1E + this->field_C_pAny.o8->field_7_anim_speed_counter);
+                            this->field_10_obj_3c->field_18 = pPhi->field_14_friction;
+                            this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
+                            this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                            break;
+                        }
+
+                        default:
+                            break;
+                    }
+
+                    //LABEL_48:
+                    if (!pPhi->field_61 && !this->field_25)
+                    {
+                        Object_2C::PoolTake_522360();
+                    }
+                    if (!byte_6F8C68)
+                    {
+                        byte_6F8F40 = 1;
+                        Object_2C::AssignToBucket_527AE0();
+                    }
+                    //break;
+                }
+            }
+        }
+        else
+        {
+            s32 ped_id = gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id;
+            s32 type_or_state = sub_526830(obj_type);
+            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_4->field_14_xy.x,
+                                                                              field_4->field_14_xy.y,
+                                                                              field_4->field_1C_zpos,
+                                                                              kZeroAng_6F8F68,
+                                                                              type_or_state,
+                                                                              ped_id);
+            if (pExplosion)
+            {
+                pExplosion->SetDamageOwner_529080(this->field_26_varrok_idx);
+            }
+            Object_2C::sub_5290A0();
+        }
+    }
+    else
+    {
+        Object_2C::sub_5290A0();
+    }
 }
 
 MATCH_FUNC(0x5288B0)

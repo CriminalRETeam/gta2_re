@@ -15,6 +15,11 @@ class Object_8
         field_4_timer = 0;
     }
 
+    inline void PoolDeallocate()
+    {
+      // TODO ?
+    }
+
     Object_8* mpNext;
     s16 field_4_timer;
     u8 field_6_frame_counter;

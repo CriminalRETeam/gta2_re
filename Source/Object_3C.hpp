@@ -69,6 +69,11 @@ class Object_3C
       // check and move common stuff in here
     }
 
+    void PoolDeallocate()
+    {
+      // TODO ??
+    }
+
     // ?? not sure if this is O3C either :skull:
     EXPORT Fix16_Point GetRot_52ADF0();
 
