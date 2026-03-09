@@ -15,6 +15,7 @@
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
+#include "Particle_8.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
@@ -36,7 +37,6 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
-#include "Particle_8.hpp"
 
 // TODO: Its in FrontEnd by seems crazy to include the whole file just for this
 EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);
@@ -156,7 +156,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_677810, Ang16(0x14), 0x677810);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_676D98, Fix16(0x3FC000, 0), 0x676D98);
 DEFINE_GLOBAL_INIT(Fix16, dword_677794, dword_6777A0, 0x677794);
-
 
 DEFINE_GLOBAL(s32, dword_6772DC, 0x6772DC);
 DEFINE_GLOBAL(s32, dword_6772EC, 0x6772EC);
@@ -3591,32 +3590,24 @@ char_type Car_BC::ManageDrowning_43E560()
 {
     WIP_IMPLEMENTED;
 
-    if (field_58_physics->field_98_surface_type != 8)
+    // TODO: Fails due to __Forceinline, else matches
+    char_type ret = field_58_physics->sub_421100();
+    if (ret)
     {
-        return 0;
+        if (this->field_94 > 0)
+        {
+            this->field_94 = 50;
+        }
+
+        sub_43DD60();
+
+        gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_50_car_sprite->field_14_xy.x,
+                                                   field_50_car_sprite->field_14_xy.y,
+                                                   field_50_car_sprite->field_1C_zpos,
+                                                   field_50_car_sprite->field_0 + word_677326,
+                                                   1);
     }
-
-    Fix16 vecLen = field_58_physics->field_40_linvel_1.GetLength_41E260();
-    if (vecLen > dword_677794)
-    {
-        return 0;
-    }
-
-    if (this->field_94)
-    {
-        this->field_94 = 50;
-    }
-
-    sub_43DD60();
-
-    Ang16 v10 = word_677326 + field_50_car_sprite->field_0;
-
-    gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_50_car_sprite->field_14_xy.x,
-                                               field_50_car_sprite->field_14_xy.y,
-                                               field_50_car_sprite->field_1C_zpos,
-                                               v10,
-                                               1);
-    return 1;
+    return ret;
 }
 
 MATCH_FUNC(0x43e8d0)
