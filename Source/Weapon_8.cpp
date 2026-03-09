@@ -10,9 +10,9 @@
 DEFINE_GLOBAL(Weapon_30_Pool*, gWeapon_30_Pool_707014, 0x707014);
 DEFINE_GLOBAL(Weapon_8*, gWeapon_8_707018, 0x707018);
 
-DEFINE_GLOBAL_ARRAY_INIT(u8, max_ammo_capacity_5FF75C, 28, 0x5FF75C, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u,
-                                                                      99u, 99u, 99u, 99u, 99u, 1u,  99u, 99u, 99u, 99u,
-                                                                      99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u);
+DEFINE_GLOBAL_ARRAY_INIT(u8, max_ammo_capacity_5FF75C, 28, 0x5FF75C, 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA
+                                                                      99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 1u COMMA  99u COMMA 99u COMMA 99u COMMA 99u COMMA
+                                                                      99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u);
 
                                                                       
 

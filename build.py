@@ -125,11 +125,7 @@ def main():
     if args.single_cpp:
         returncode = build_single_cpp(args.single_cpp)
     else:
-        core_count_to_use = 0
-        if args.reccmp:
-            core_count_to_use = 1
-        else:
-            core_count_to_use = args.cores
+        core_count_to_use = args.cores
         returncode = build_cmake(args.reccmp, core_count_to_use)
     if returncode != 0:
         print(f"Build failed with return code {returncode}")
