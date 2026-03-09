@@ -1947,7 +1947,28 @@ void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
         theta += k_word_6FE12A;
     }
 
-    if (stru_6FE1F0.y <= kFP16Zero_6FE20C)
+    if (stru_6FE1F0.y > kFP16Zero_6FE20C)
+    {
+        if (theta > word_6FE00C && theta >= k_word_6FE12A)
+        {
+            if (theta < k_word_6FE12A)
+            {
+                ApplyAngularImpulse_55F970(k_dword_6FDFA4);
+            }
+            else if (theta > k_word_6FE12A && theta < word_6FE154)
+            {
+                ApplyAngularImpulse_55F970(-k_dword_6FDFA4);
+            }
+        }
+        else
+        {
+            if (theta > k_word_6FE12A && theta < word_6FE154)
+            {
+                ApplyAngularImpulse_55F970(k_dword_6FDFA4);
+            }
+        }
+    }
+    else
     {
         // Moving backwards or stationary
         if (theta < word_6FE00C)
@@ -1957,28 +1978,6 @@ void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
         else if (theta > word_6FE154)
         {
             ApplyAngularImpulse_55F970(-k_dword_6FDFA4);
-        }
-    }
-    else
-    {
-        // Moving forward
-        if (theta <= word_6FE00C)
-        {
-            if (theta > k_word_6FE12A && theta < word_6FE154)
-            {
-                ApplyAngularImpulse_55F970(k_dword_6FDFA4);
-            }
-        }
-        else
-        {
-            if (theta < k_word_6FE12A)
-            {
-                ApplyAngularImpulse_55F970(-k_dword_6FDFA4);
-            }
-            else if (theta > k_word_6FE12A && theta < word_6FE154)
-            {
-                ApplyAngularImpulse_55F970(k_dword_6FDFA4);
-            }
         }
     }
 
