@@ -95,7 +95,7 @@ class Sprite_4C
             field_0_width = gFix16_7035C0;
         }
         field_48_bBoxUpToDate = 0;
-        return field_0_width == gFix16_7035C0;
+        return field_0_width == gFix16_7035C0 ? true : false;
     }
 
     void ReduceWBy_4BA110(Fix16 a2)
@@ -118,7 +118,7 @@ class Sprite_4C
             field_4_height = gFix16_7035C0;
         }
         field_48_bBoxUpToDate = 0;
-        return field_4_height == gFix16_7035C0;
+        return field_4_height == gFix16_7035C0 ? true : false;
     }
 
     void HalfWH_4BA0A0(Fix16* pHalfW, Fix16* pHalfH)

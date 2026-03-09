@@ -201,6 +201,8 @@ static void EnableBoot2MapDebugOptions()
     bSkip_particles_67D64D = true;
     bSkip_ambulance_67D6C9 = true;
     
+    //bSkip_audio_67D6BE = true;
+
     // bSkip_slopes_67D505
     // bSkip_window_check_67D54E
     // 
