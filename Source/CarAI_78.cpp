@@ -231,29 +231,25 @@ Car_BC* CarAI_78::sub_4539B0()
     return 0;
 }
 
-WIP_FUNC(0x4539d0)
+MATCH_FUNC(0x4539d0)
 void CarAI_78::sub_4539D0()
 {
-    WIP_IMPLEMENTED;
-
     Fix16 f14 = this->field_14;
     Fix16 f18 = this->field_18;
-    if (f14 >= f18)
+    if (f14 < f18)
     {
-        if (f14 > f18)
+        this->field_14 = field_1C + f14;
+        if (field_1C < dword_677B90)
         {
-            Fix16 f18_ = this->field_18;
-            this->field_14 = f14 - ((dword_677BA0 * dword_677AC4));
-            sub_453990(f18_);
+            sub_453990(this->field_18);
         }
     }
     else
     {
-        Fix16 f1c = this->field_1C;
-        this->field_14 = f1c + f14;
-        if (f1c < dword_677B90)
+        if (f14 > f18)
         {
-            sub_453990(this->field_18);
+            this->field_14 = f14 - ((dword_677BA0 * dword_677AC4));
+            sub_453990(field_18);
         }
     }
 
