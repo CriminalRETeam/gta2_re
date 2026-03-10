@@ -4,8 +4,8 @@
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
-#include "Police_7B8.hpp"
 #include "Ped.hpp"
+#include "Police_7B8.hpp"
 #include "sprite.hpp"
 
 DEFINE_GLOBAL(Camera_0xBC*, gViewCamera_676978, 0x676978);
@@ -26,13 +26,13 @@ DEFINE_GLOBAL_INIT(Fix16, dword_676664, Fix16(1638, 0), 0x676664);
 DEFINE_GLOBAL_INIT(Fix16, dword_676678, Fix16(0x2000, 0), 0x676678);
 DEFINE_GLOBAL_INIT(Fix16, dword_6768D8, dword_6767D0, 0x6768D8);
 DEFINE_GLOBAL_INIT(Fix16, dword_676918, dword_6768D8 * 12, 0x676918);
-DEFINE_GLOBAL_INIT(Fix16, dword_6767B8, dword_6768D8 * dword_676678, 0x6767B8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6767B8, dword_6768D8* dword_676678, 0x6767B8);
 DEFINE_GLOBAL_INIT(Fix16, dword_676638, dword_6768D8 * 40, 0x676638);
-DEFINE_GLOBAL_INIT(Fix16, dword_676834, dword_6768D8 * dword_676664, 0x676834);
+DEFINE_GLOBAL_INIT(Fix16, dword_676834, dword_6768D8* dword_676664, 0x676834);
 DEFINE_GLOBAL_INIT(Fix16, dword_6765FC, dword_6768D8 * 5, 0x6765FC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6766FC, dword_6768D8, 0x6766FC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6766A4, dword_6768D8 * 4, 0x6766A4);
-DEFINE_GLOBAL_INIT(Fix16, dword_676740, dword_6768D8 * dword_67681C, 0x676740);
+DEFINE_GLOBAL_INIT(Fix16, dword_676740, dword_6768D8* dword_67681C, 0x676740);
 DEFINE_GLOBAL_INIT(Fix16, dword_676838, Fix16(0x1C000, 0), 0x676838);
 DEFINE_GLOBAL_INIT(Fix16, dword_67668C, Fix16(0x3FFFFF, 0), 0x67668C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6768E0, Fix16(0x3000, 0), 0x6768E0);
@@ -42,7 +42,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_676820, Fix16(2), 0x676820);
 DEFINE_GLOBAL_INIT(Fix16, dword_6767B4, Fix16(0xE333, 0), 0x6767B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_676898, Fix16(14), 0x676898);
 DEFINE_GLOBAL_INIT(Fix16, kZero_6F6C50, Fix16(0), 0x6F6C50);
-
 
 DEFINE_GLOBAL_INIT(Fix16, dword_702E04, Fix16(0x20000, 0), 0x702E04);
 DEFINE_GLOBAL_INIT(Fix16, dword_702DE4, Fix16(0x4000, 0), 0x702DE4);
@@ -318,7 +317,8 @@ MATCH_FUNC(0x435F90)
 void Camera_0xBC::AccumulateSuspicionOnDriver_435F90(Car_BC* a2)
 {
     if (a2->field_54_driver &&
-        (gPolice_7B8_6FEE40->IsPedActiveCriminal_56F880(a2->field_54_driver) || gHamburger_500_678E30->HasAnyFollower_474970(a2->field_54_driver)))
+        (gPolice_7B8_6FEE40->IsPedActiveCriminal_56F880(a2->field_54_driver) ||
+         gHamburger_500_678E30->HasAnyFollower_474970(a2->field_54_driver)))
     {
         field_44++;
         if (field_44 > 80u)
@@ -485,20 +485,28 @@ void Camera_0xBC::sub_435FF0()
     switch (field_3C_followed_ped_id)
     {
         case 1:
-            SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_0_x, field_AC_cam_velocity.field_0_x, field_98_cam_pos2.field_0_x, dword_676740, v5);
-            SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_4_y, field_AC_cam_velocity.field_4_y, field_98_cam_pos2.field_4_y, dword_676740, v5);
+            SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_0_x,
+                                  field_AC_cam_velocity.field_0_x,
+                                  field_98_cam_pos2.field_0_x,
+                                  dword_676740,
+                                  v5);
+            SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_4_y,
+                                  field_AC_cam_velocity.field_4_y,
+                                  field_98_cam_pos2.field_4_y,
+                                  dword_676740,
+                                  v5);
             SmoothApproachClamped_4F75D0(&field_0_cam_pos_tgt1.field_8_z,
-                       &field_AC_cam_velocity.field_8_z,
-                       &field_98_cam_pos2.field_8_z,
-                       &dword_6767B8,
-                       &dword_676638,
-                       &dword_676834,
-                       &dword_6765FC);
+                                         &field_AC_cam_velocity.field_8_z,
+                                         &field_98_cam_pos2.field_8_z,
+                                         &dword_6767B8,
+                                         &dword_676638,
+                                         &dword_676834,
+                                         &dword_6765FC);
             SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_C_zoom,
-                       field_AC_cam_velocity.field_C_zoom,
-                       field_98_cam_pos2.field_C_zoom,
-                       dword_6766FC,
-                       dword_6766A4);
+                                  field_AC_cam_velocity.field_C_zoom,
+                                  field_98_cam_pos2.field_C_zoom,
+                                  dword_6766FC,
+                                  dword_6766A4);
             break;
         case 2:
             field_98_cam_pos2.field_0_x = field_0_cam_pos_tgt1.field_0_x;
@@ -563,10 +571,32 @@ s32 Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* a2, Fix16* a3, Fix1
     return 0;
 }
 
-STUB_FUNC(0x4364A0)
+WIP_FUNC(0x4364A0)
 void Camera_0xBC::sub_4364A0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    this->field_34_ped = 0;
+    this->field_38_car = pCar;
+
+    if (pCar)
+    {
+        Sprite* pCarSprite = pCar->field_50_car_sprite;
+        Fix16 new_x = pCarSprite->field_14_xy.x;
+        Fix16 new_y = pCarSprite->field_14_xy.y;
+        Fix16 new_z = pCarSprite->field_1C_zpos - dword_676820;
+        if (new_z <= dword_67681C)
+        {
+            new_z = dword_67681C;
+        }
+
+        AccumulateSuspicionOnDriver_435F90(pCar);
+        ApplyCarVelocityCameraOffset_436200(pCar, &new_x, &new_y, &new_z);
+        this->field_10_cam_pos_tgt2.field_0_x = new_x;
+        this->field_10_cam_pos_tgt2.field_C_zoom = dword_6766D4;
+        this->field_10_cam_pos_tgt2.field_4_y = new_y;
+        this->field_10_cam_pos_tgt2.field_8_z = new_z + field_40_tgt_elevation;
+    }
 }
 
 MATCH_FUNC(0x436540)
