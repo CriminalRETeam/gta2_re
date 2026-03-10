@@ -9,12 +9,13 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 
-DEFINE_GLOBAL_INIT(s32, dword_679E58, 0x2000, 0x679E58);
+DEFINE_GLOBAL_INIT(Fix16, dword_679E58, Fix16(0x2000, 0), 0x679E58);
 DEFINE_GLOBAL_INIT(Fix16, dword_679E70, Fix16(0), 0x679E70);
 DEFINE_GLOBAL_INIT(Fix16, dword_679E78, Fix16(2), 0x679E78);
 DEFINE_GLOBAL_INIT(Fix16, dword_679C78, dword_679E78, 0x679C78);
 DEFINE_GLOBAL_INIT(Ang16, word_679FC4, Ang16(0), 0x679FC4);
 DEFINE_GLOBAL(CranePool_D9C*, gCranePool_D9C_679FD4, 0x679FD4);
+DEFINE_GLOBAL_INIT(Fix16, dword_679D50, dword_679E70, 0x679D50);
 
 // TODO: Should match but doesn't
 WIP_FUNC(0x47e5b0)
@@ -140,11 +141,31 @@ s32 Crane_15C::sub_47EF80()
     return 0;
 }
 
-STUB_FUNC(0x47f170)
-s32 Crane_15C::sub_47F170()
+WIP_FUNC(0x47f170)
+void Crane_15C::sub_47F170()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (this->field_150)
+    {
+        this->field_150 = 3;
+        this->field_114 = field_90_hook_radius;
+        this->field_110 = field_8C_crane_angle;
+        this->field_118 = field_A0_hook_axial_angle;
+        this->field_11C = dword_679C78;
+        this->field_B0_hook_radius_target = field_90_hook_radius;
+        this->field_B4_hook_angle_target = field_A0_hook_axial_angle;
+        this->field_AC_crane_angle_target = field_8C_crane_angle;
+        this->field_B8_hook_depth_target = dword_679C78;
+    }
+    else
+    {
+        this->field_B0_hook_radius_target = dword_679E58;
+        this->field_AC_crane_angle_target = field_A8;
+        this->field_B4_hook_angle_target = dword_679D50;
+        this->field_B8_hook_depth_target = dword_679E70;
+    }
+    this->field_14D_is_busy = 0;
 }
 
 MATCH_FUNC(0x47f220)
