@@ -1074,10 +1074,10 @@ Car_6C::Car_6C()
 }
 
 // Some SEH stuff, prob needs some dtors moving to or from another file
-STUB_FUNC(0x446dc0)
+WIP_FUNC(0x446dc0)
 Car_6C::~Car_6C()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     if (gCar_BC_Pool_67792C)
     {
