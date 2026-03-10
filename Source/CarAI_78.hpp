@@ -37,7 +37,7 @@ class CarAI_78
     EXPORT void sub_4538B0();
     EXPORT void sub_453990(Fix16 a2);
     EXPORT Car_BC* sub_4539B0();
-    EXPORT u8* sub_4539D0();
+    EXPORT void sub_4539D0();
     EXPORT s32 sub_453A40();
     EXPORT void sub_453BB0();
     EXPORT void SetCar_453BF0(Car_BC* a2);

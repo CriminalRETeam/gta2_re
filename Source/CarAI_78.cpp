@@ -3,6 +3,7 @@
 #include "Hamburger_500.hpp"
 #include "RouteFinder.hpp"
 #include "rng.hpp"
+#include "CarPhysics_B0.hpp"
 
 DEFINE_GLOBAL(Ang16, word_677CE8, 0x677CE8);
 DEFINE_GLOBAL(Fix16, dword_677B90, 0x677B90);
@@ -10,6 +11,10 @@ DEFINE_GLOBAL(Fix16, dword_677C30, 0x677C30);
 DEFINE_GLOBAL(Fix16, dword_677C38, 0x677C38);
 DEFINE_GLOBAL(Fix16, dword_677C48, 0x677C48);
 DEFINE_GLOBAL(Fix16, dword_6779F8, 0x6779F8);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_677BA0, Fix16(0x10000, 0), 0x677BA0);
+DEFINE_GLOBAL_INIT(Fix16, dword_677B5C, Fix16(0x147, 0), 0x677B5C);
+DEFINE_GLOBAL_INIT(Fix16, dword_677AC4, dword_677B5C, 0x677AC4);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_677B94, Fix16(0x4000, 0), 0x677B94);
 DEFINE_GLOBAL_INIT(Fix16, dword_6779B8, Fix16(0x666, 0), 0x6779B8);
@@ -226,11 +231,37 @@ Car_BC* CarAI_78::sub_4539B0()
     return 0;
 }
 
-STUB_FUNC(0x4539d0)
-u8* CarAI_78::sub_4539D0()
+WIP_FUNC(0x4539d0)
+void CarAI_78::sub_4539D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 f14 = this->field_14;
+    Fix16 f18 = this->field_18;
+    if (f14 >= f18)
+    {
+        if (f14 > f18)
+        {
+            Fix16 f18_ = this->field_18;
+            this->field_14 = f14 - ((dword_677BA0 * dword_677AC4));
+            sub_453990(f18_);
+        }
+    }
+    else
+    {
+        Fix16 f1c = this->field_1C;
+        this->field_14 = f1c + f14;
+        if (f1c < dword_677B90)
+        {
+            sub_453990(this->field_18);
+        }
+    }
+
+    CarPhysics_B0* pPhysics = this->field_0->field_58_physics;
+    pPhysics->field_91_is_foot_brake_on = 0;
+    pPhysics->field_93_is_forward_gas_on = 0;
+    pPhysics->field_94_is_backward_gas_on = 0;
+    pPhysics->field_95 = 0;
 }
 
 STUB_FUNC(0x453a40)
