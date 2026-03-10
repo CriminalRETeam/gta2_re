@@ -5239,18 +5239,10 @@ MATCH_FUNC(0x443d00)
 void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_50_car_sprite);
-    Sprite* pCarSprite = field_50_car_sprite;
-    if (pCarSprite->field_14_xy.x != xpos || pCarSprite->field_14_xy.y != ypos || pCarSprite->field_1C_zpos != zpos)
+    field_50_car_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
+    if (field_58_physics)
     {
-        pCarSprite->field_14_xy.x = xpos;
-        pCarSprite->field_14_xy.y = ypos;
-        pCarSprite->field_1C_zpos = zpos;
-        pCarSprite->ResetZCollisionAndDebugBoxes_59E7B0();
-    }
-    CarPhysics_B0* field_58_uni = field_58_physics;
-    if (field_58_uni)
-    {
-        field_58_uni->SetSprite_563560(field_50_car_sprite);
+        field_58_physics->SetSprite_563560(field_50_car_sprite);
     }
     gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_50_car_sprite);
 }
