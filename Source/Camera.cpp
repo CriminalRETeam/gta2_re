@@ -593,9 +593,9 @@ void Camera_0xBC::sub_4364A0(Car_BC* pCar)
         AccumulateSuspicionOnDriver_435F90(pCar);
         ApplyCarVelocityCameraOffset_436200(pCar, &new_x, &new_y, &new_z);
         this->field_10_cam_pos_tgt2.field_0_x = new_x;
-        this->field_10_cam_pos_tgt2.field_C_zoom = dword_6766D4;
         this->field_10_cam_pos_tgt2.field_4_y = new_y;
         this->field_10_cam_pos_tgt2.field_8_z = new_z + field_40_tgt_elevation;
+        this->field_10_cam_pos_tgt2.field_C_zoom = dword_6766D4;
     }
 }
 
