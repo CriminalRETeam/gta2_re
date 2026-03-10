@@ -2,9 +2,9 @@
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Hamburger_500.hpp"
+#include "Object_5C.hpp"
 #include "RouteFinder.hpp"
 #include "rng.hpp"
-#include "Object_5C.hpp"
 
 DEFINE_GLOBAL(Ang16, word_677CE8, 0x677CE8);
 DEFINE_GLOBAL(Fix16, dword_677B90, 0x677B90);
@@ -32,10 +32,13 @@ DEFINE_GLOBAL_INIT(Fix16, dword_677B60, Fix16(0x333, 0), 0x677B60);
 DEFINE_GLOBAL(u8, byte_677BBC, 0x677BBC);
 DEFINE_GLOBAL(u8, byte_677B3C, 0x677B3C);
 
-STUB_FUNC(0x4476f0)
+MATCH_FUNC(0x4476f0)
 void CarAI_78::sub_4476F0()
 {
-    NOT_IMPLEMENTED;
+    if (field_0->IsPoliceCar_439EC0())
+    {
+        field_0->sub_4417F0();
+    }
 }
 
 STUB_FUNC(0x447710)
@@ -156,7 +159,7 @@ void CarAI_78::sub_451FA0()
         {
             field_0->sub_43A970();
             byte_677B3C = 0;
-            this->field_24_bf.b12 = 1;
+            this->field_24_bf.b4 = 1;
         }
     }
 }
@@ -252,13 +255,6 @@ void CarAI_78::sub_453470()
     {
         sub_452DF0();
     }
-}
-
-STUB_FUNC(0x453590)
-s32* CarAI_78::sub_453590(s32* a2)
-{
-    NOT_IMPLEMENTED;
-    return 0;
 }
 
 WIP_FUNC(0x4537d0)

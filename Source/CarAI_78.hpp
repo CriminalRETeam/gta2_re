@@ -33,7 +33,6 @@ class CarAI_78
     EXPORT s16 sub_452A20();
     EXPORT s16 sub_452DF0();
     EXPORT void sub_453470();
-    EXPORT s32* sub_453590(s32* a2);
     EXPORT void sub_4537D0();
     EXPORT void sub_4538B0();
     EXPORT void sub_453990(Fix16 a2);
