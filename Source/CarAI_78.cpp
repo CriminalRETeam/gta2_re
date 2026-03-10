@@ -32,6 +32,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_677B60, Fix16(0x333, 0), 0x677B60);
 DEFINE_GLOBAL(u8, byte_677BBC, 0x677BBC);
 DEFINE_GLOBAL(u8, byte_677B3C, 0x677B3C);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6779C8, Fix16(0x1999, 0), 0x6779C8);
+
 MATCH_FUNC(0x4476f0)
 void CarAI_78::sub_4476F0()
 {
@@ -164,11 +166,26 @@ void CarAI_78::sub_451FA0()
     }
 }
 
-STUB_FUNC(0x451ff0)
-s32 CarAI_78::sub_451FF0()
+MATCH_FUNC(0x451ff0)
+void CarAI_78::sub_451FF0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_24_bf.b21)
+    {
+        if (!byte_677BBC || (field_0->field_60->field_8_maybe_path_type != 5) ||
+            field_0->field_60->field_30_ped_to_follow != field_70->field_8_char_b4_ptr->field_7C_pPed)
+        {
+            if (dword_677B00 > dword_6779C8)
+            {
+                field_0->sub_43A970();
+                byte_677B3C = 0;
+                field_0->sub_4416D0(2);
+                return;
+            }
+            field_0->sub_43A950();
+            byte_677B3C = 0;
+        }
+    }
+    field_0->sub_4416D0(2);
 }
 
 STUB_FUNC(0x452060)
@@ -348,7 +365,7 @@ void CarAI_78::sub_453BB0()
     sub_447650();
     this->field_10 = this->field_0->field_50_car_sprite->field_0;
     this->field_4C = Ang16::GetAngleFace_4F78F0(field_10);
-    if (field_2B < 0xff )
+    if (field_2B < 0xff)
     {
         field_2B++;
     }
