@@ -774,11 +774,9 @@ PedManager::PedManager()
     gThreateningPedsList_678468.ClearList_420E90();
 }
 
-WIP_FUNC(0x4709b0)
+MATCH_FUNC(0x4709b0)
 PedManager::~PedManager()
 {
-    //WIP_IMPLEMENTED;
-
     if (gThreateningPedsList_678468.field_0_pFirstPed)
     {
         gThreateningPedsList_678468.ClearPeds_4712F0();
