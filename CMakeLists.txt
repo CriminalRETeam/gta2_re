@@ -110,6 +110,8 @@ set(gta2_lib_src
   Source/Ped.cpp
   Source/Car_BC.hpp
   Source/Car_BC.cpp
+  Source/CarAI_78.hpp
+  Source/CarAI_78.cpp
   Source/Car_10.hpp
   Source/Car_10.cpp
   Source/Fix16_Rect.hpp

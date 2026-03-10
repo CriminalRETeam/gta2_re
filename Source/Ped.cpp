@@ -35,6 +35,7 @@
 #include "rng.hpp"
 #include "sprite.hpp"
 #include "youthful_einstein.hpp"
+#include "CarAI_78.hpp"
 
 // =================
 DEFINE_GLOBAL_INIT(s8, byte_61A8A3, 1, 0x61A8A3);

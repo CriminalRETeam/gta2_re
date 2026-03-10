@@ -34,6 +34,7 @@
 #include "sound_obj.hpp"
 #include "root_sound.hpp"
 #include "ExplodingScore_100.hpp"
+#include "CarAI_78.hpp"
 #include <stdarg.h>
 
 #include "HookLoader.hpp"

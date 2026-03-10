@@ -13,6 +13,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "RouteFinder.hpp"
+#include "CarAI_78.hpp"
 
 DEFINE_GLOBAL(Fix16, dword_6FECE8, 0x6FECE8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FED54, Fix16(0x28000, 0), 0x6FED54);

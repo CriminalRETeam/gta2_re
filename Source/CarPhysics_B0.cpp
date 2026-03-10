@@ -10,6 +10,7 @@
 #include "debug.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
+#include "CarAI_78.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4, 0x6FE0E4);
