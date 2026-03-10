@@ -1,9 +1,9 @@
 #include "CarAI_78.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Hamburger_500.hpp"
 #include "RouteFinder.hpp"
 #include "rng.hpp"
-#include "CarPhysics_B0.hpp"
 
 DEFINE_GLOBAL(Ang16, word_677CE8, 0x677CE8);
 DEFINE_GLOBAL(Fix16, dword_677B90, 0x677B90);
@@ -224,11 +224,11 @@ void CarAI_78::sub_453990(Fix16 a2)
     }
 }
 
-STUB_FUNC(0x4539b0)
-Car_BC* CarAI_78::sub_4539B0()
+MATCH_FUNC(0x4539b0)
+void CarAI_78::sub_4539B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    this->field_0->field_A6 &= ~4u;
+    this->field_0->field_A6 &= ~8u;
 }
 
 MATCH_FUNC(0x4539d0)
