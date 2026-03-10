@@ -176,63 +176,56 @@ s16 CarAI_78::sub_452DF0()
     return 0;
 }
 
-WIP_FUNC(0x453470)
+MATCH_FUNC(0x453470)
 void CarAI_78::sub_453470()
 {
-    WIP_IMPLEMENTED;
-
     this->field_0->field_58_physics->field_92_is_hand_brake_on = 0;
-    dword_677B00 = field_0->field_58_physics->field_40_linvel_1.GetLength_453590();
+    Fix16 t = field_0->field_58_physics->field_40_linvel_1.GetLength_453590();
+    dword_677B00 = t;
 
     if (this->field_0->field_80)
     {
         this->field_0->field_A6 |= 0x20u;
     }
 
-    char_type f30 = this->field_30;
-    if (f30)
+    if (this->field_30 > 0)
     {
-        char_type new_f30 = f30 - 1;
-        this->field_30 = new_f30;
+        this->field_30--;
 
-        char_type fA6 = this->field_0->field_A6;
-        char_type new_fA6;
-        if (new_f30)
+        if (this->field_30)
         {
-            new_fA6 = fA6 | 0x20;
+            this->field_0->field_A6 |= 0x20;
         }
         else
         {
-            new_fA6 = fA6 & ~0x20;
+            this->field_0->field_A6 &= ~0x20;
         }
-        this->field_0->field_A6 = new_fA6;
     }
 
-    Car_BC* pCarF0 = this->field_0;
     if ((this->field_0->field_A6 & 0x20) == 0x20)
     {
-        if ((this->field_24_flags & 0x100000) != 0)
+        if (this->field_24_bf.b20)
         {
             if (dword_677B00 > dword_677B60)
             {
-                pCarF0->sub_43A970();
+                field_0->sub_43A970();
             }
             else
             {
-                pCarF0->sub_43A950();
+                field_0->sub_43A950();
             }
             this->field_68 = 0;
-            this->field_24_flags =  ~0x1000u;
+            this->field_24_bf.b12 = 0;
         }
         else
         {
             if (dword_677B00 > dword_677B60)
             {
-                pCarF0->sub_43A970(); // gas on
+                field_0->sub_43A970(); // gas on
             }
             else
             {
-                CarPhysics_B0* pPhysics = pCarF0->field_58_physics;
+                CarPhysics_B0* pPhysics = field_0->field_58_physics;
                 pPhysics->field_91_is_foot_brake_on = 0;
                 pPhysics->field_93_is_forward_gas_on = 0;
                 pPhysics->field_94_is_backward_gas_on = 0;
@@ -240,7 +233,7 @@ void CarAI_78::sub_453470()
                 
             }
             this->field_68 = 0;
-            this->field_24_flags &= ~0x1000u;
+            this->field_24_bf.b12 = 0;
         }
     }
     else

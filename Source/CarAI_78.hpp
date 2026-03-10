@@ -63,7 +63,13 @@ class CarAI_78
     Fix16 field_18;
     Fix16 field_1C;
     s32 field_20;
-    s32 field_24_flags;
+    
+    union
+    {
+    u32 field_24_flags;
+    CompilerBitField32 field_24_bf;
+    };
+
     char_type field_28_junc_idx;
     char_type field_29;
     char_type field_2A;
@@ -72,7 +78,7 @@ class CarAI_78
     char_type field_2D;
     char_type field_2E;
     char_type field_2F;
-    char_type field_30;
+    u8 field_30;
     char_type field_31;
     char_type field_32;
     char_type field_33;
