@@ -165,6 +165,14 @@ DEFINE_GLOBAL_ARRAY(s32, dword_676DB8, 256, 0x676DB8);
 DEFINE_GLOBAL_ARRAY(s32, dword_67698C, 256, 0x67698C);
 DEFINE_GLOBAL_ARRAY(s32, dword_677388, 256, 0x677388);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6779B8, Fix16(0x666, 0), 0x6779B8);
+DEFINE_GLOBAL_INIT(Fix16, dword_677B50, Fix16(163, 0), 0x677B50);
+
+DEFINE_GLOBAL(Ang16, word_677CE8, 0x677CE8);
+DEFINE_GLOBAL(Fix16, dword_677B90, 0x677B90);
+DEFINE_GLOBAL_INIT(Fix16, dword_677CB4, dword_6779B8, 0x677CB4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6779A4, dword_677B50, 0x6779A4);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -440,10 +448,54 @@ s32 Car_78::PoolAllocate()
     return 0;
 }
 
-STUB_FUNC(0x453cb0)
+WIP_FUNC(0x453cb0)
 Car_78::Car_78()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    this->field_10 = 0;
+    this->field_0 = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_9 = 0;
+    this->field_A = 0;
+    this->mpNext = 0;
+    this->field_10 = word_677CE8;
+    this->field_14 = dword_677B90;
+    this->field_18 = dword_677CB4;
+    this->field_1C = dword_6779A4;
+    s32 v2 = this->field_24_flags & ~0x2DFEFu;
+    this->field_20 = 0;
+    v2 |= 0x12010u;
+    this->field_56 = 0;
+    this->field_28_junc_idx = -1;
+    this->field_29 = 0;
+    this->field_58 = 0;
+    this->field_24_flags = v2;
+    this->field_2D = 0;
+    this->field_2E = 0;
+    this->field_2F = 0;
+    this->field_5C = dword_677B90;
+    this->field_60 = dword_677B90;
+    this->field_64 = dword_677B90;
+    this->field_68 = 0;
+    this->field_6C = 0;
+    this->field_34 = 0;
+    this->field_38 = 0;
+    this->field_3C = 0;
+    this->field_40 = 0;
+    this->field_44 = 0;
+    this->field_48 = 0;
+    this->field_4C = 0;
+    this->field_70 = 0;
+    this->field_74 = dword_677B90;
+    this->field_54 = 0;
+    this->field_2A = 0;
+    this->field_2B = 0;
+    this->field_2C = 0;
+    this->field_5A = 0;
+    this->field_50 = 0;
+    this->field_24_flags = v2 & ~0x3C0000u;
 }
 
 MATCH_FUNC(0x5c8680)

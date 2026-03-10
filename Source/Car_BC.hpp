@@ -86,9 +86,9 @@ class Car_78
     Car_78* mpNext;
     Ang16 field_10;
     s16 field_12;
-    s32 field_14;
+    Fix16 field_14;
     Fix16 field_18;
-    s32 field_1C;
+    Fix16 field_1C;
     s32 field_20;
     s32 field_24_flags;
     char_type field_28_junc_idx;
@@ -115,9 +115,9 @@ class Car_78
     s16 field_56;
     s16 field_58;
     s16 field_5A;
-    s32 field_5C;
-    s32 field_60;
-    s32 field_64;
+    Fix16 field_5C;
+    Fix16 field_60;
+    Fix16 field_64;
     s32 field_68;
     s32 field_6C;
     s32 field_70;
