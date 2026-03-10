@@ -16,10 +16,10 @@ DEFINE_GLOBAL_INIT(Ang16, word_679FC4, Ang16(0), 0x679FC4);
 DEFINE_GLOBAL(CranePool_D9C*, gCranePool_D9C_679FD4, 0x679FD4);
 
 // TODO: Should match but doesn't
-STUB_FUNC(0x47e5b0)
+WIP_FUNC(0x47e5b0)
 Crane_15C::~Crane_15C()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     if (field_7C)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_7C);
