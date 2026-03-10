@@ -257,20 +257,18 @@ void CarAI_78::sub_453470()
     }
 }
 
-WIP_FUNC(0x4537d0)
+MATCH_FUNC(0x4537d0)
 void CarAI_78::sub_4537D0()
 {
-    WIP_IMPLEMENTED;
-
     if ((this->field_0->field_A6 & 2) != 2 && (this->field_0->field_A6 & 1) != 1)
     {
-        if (stru_6F6784.get_int_4F7AE0(2) <= 0)
+        if (stru_6F6784.get_int_4F7AE0(2) > 0)
         {
-            field_0->field_A6 |= 1;
+            field_0->field_A6 |= 2;
         }
         else
         {
-            field_0->field_A6 |= 2;
+            field_0->field_A6 |= 1;
         }
     }
 }
