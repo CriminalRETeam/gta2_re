@@ -42,7 +42,7 @@ class CarAI_78
     EXPORT void sub_453BB0();
     EXPORT void SetCar_453BF0(Car_BC* a2);
     EXPORT u8* sub_453C00();
-    EXPORT s32 PoolAllocate();
+    EXPORT void PoolAllocate();
     EXPORT CarAI_78();
 
     void PoolDeallocate()
