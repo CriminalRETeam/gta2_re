@@ -213,30 +213,31 @@ void CarAI_78::sub_453470()
     {
         if ((this->field_24_flags & 0x100000) != 0)
         {
-            if (dword_677B00 <= dword_677B60)
+            if (dword_677B00 > dword_677B60)
             {
-                pCarF0->sub_43A950();
+                pCarF0->sub_43A970();
             }
             else
             {
-                pCarF0->sub_43A970();
+                pCarF0->sub_43A950();
             }
             this->field_68 = 0;
             this->field_24_flags =  ~0x1000u;
         }
         else
         {
-            if (dword_677B00 <= dword_677B60)
+            if (dword_677B00 > dword_677B60)
+            {
+                pCarF0->sub_43A970(); // gas on
+            }
+            else
             {
                 CarPhysics_B0* pPhysics = pCarF0->field_58_physics;
                 pPhysics->field_91_is_foot_brake_on = 0;
                 pPhysics->field_93_is_forward_gas_on = 0;
                 pPhysics->field_94_is_backward_gas_on = 0;
                 pPhysics->field_95 = 0;
-            }
-            else
-            {
-                pCarF0->sub_43A970(); // gas on
+                
             }
             this->field_68 = 0;
             this->field_24_flags &= ~0x1000u;
