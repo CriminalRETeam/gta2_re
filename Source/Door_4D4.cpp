@@ -279,9 +279,11 @@ Door_4D4::Door_4D4()
 }
 
 // TODO: Missing SEH even with Door_38 in another TU
-STUB_FUNC(0x49d570)
+WIP_FUNC(0x49d570)
 Door_4D4::~Door_4D4()
 {
+    WIP_IMPLEMENTED;
+
     if (gDoor_10_Pool_67BD28)
     {
         GTA2_DELETE_AND_NULL(gDoor_10_Pool_67BD28);
