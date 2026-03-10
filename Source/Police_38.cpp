@@ -13,6 +13,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "RouteFinder.hpp"
+#include "CarAI_78.hpp"
 
 DEFINE_GLOBAL(Fix16, dword_6FECE8, 0x6FECE8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FED54, Fix16(0x28000, 0), 0x6FED54);
@@ -617,7 +618,7 @@ void PoliceCrew_38::sub_574F10()
             Car_BC* pCar = field_10_subObj->field_0_car;
             if (pCar)
             {
-                Car_78* v7 = pCar->field_5C;
+                CarAI_78* v7 = pCar->field_5C;
                 if (v7)
                 {
                     char field_28_junc_idx = v7->field_28_junc_idx;

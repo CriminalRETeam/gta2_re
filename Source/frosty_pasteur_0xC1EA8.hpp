@@ -592,7 +592,7 @@ class frosty_pasteur_0xC1EA8
   public:
     EXPORT str_table_entry* FindStringById_503080(s16 stringId);
     EXPORT str_table_entry* StrEntryByString_5030B0(char_type* strToFind);
-    EXPORT char_type sub_511B10(s32 idx);
+    EXPORT char_type sub_511B10(s16 idx);
     EXPORT void SaveScriptCounters_511B90();
     EXPORT void LoadScriptCounters_511C30();
     EXPORT void sub_511C60();

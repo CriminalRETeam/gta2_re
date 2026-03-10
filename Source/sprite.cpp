@@ -1956,6 +1956,7 @@ Sprite_18::Sprite_18()
 MATCH_FUNC(0x5a5c20)
 Sprite_18_Pool::~Sprite_18_Pool()
 {
+    field_0_pool.field_0_pHead = 0;
 }
 
 MATCH_FUNC(0x5a57a0)
@@ -1980,11 +1981,13 @@ Sprite_4C::~Sprite_4C()
 MATCH_FUNC(0x5a5be0)
 Sprite_4C_Pool::~Sprite_4C_Pool()
 {
+    field_0_pool.field_0_pHead = 0;
 }
 
 MATCH_FUNC(0x5A5C00)
 Sprite_Pool::~Sprite_Pool()
 {
+    field_0_pool.field_0_pHead = 0;
 }
 
 MATCH_FUNC(0x5A6A20)

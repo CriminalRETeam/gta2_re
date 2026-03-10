@@ -12,7 +12,7 @@ class Trailer;
 class Sprite_4C;
 class Ped;
 class ModelPhysics_48;
-class Car_78;
+class CarAI_78;
 struct Fix16_Point_POD;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
@@ -99,7 +99,7 @@ class CarPhysics_B0
     EXPORT Fix16 ApplyImpactForcesAndDamage_55FA60(Fix16_Point* a3, Fix16_Point* a4, s32 base_dmg);
     EXPORT void AccumulateImpulse_55FC30(Fix16_Point* a2, s32 a3);
     EXPORT s32 HandleWorldCollision_55FD00(s32 a2);
-    EXPORT Car_78* HandleCarCollision_55FF20(Car_BC* a2);
+    EXPORT CarAI_78* HandleCarCollision_55FF20(Car_BC* a2);
     EXPORT void HandleObjectCollision_5606C0(Object_2C* a2, char_type a3);
     EXPORT void ProcessPedImpact_560B40(Char_B4* a2, u8 a3);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();

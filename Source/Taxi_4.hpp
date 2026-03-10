@@ -21,7 +21,21 @@ struct Taxi_8
     Taxi_8* mpNext;
 };
 
-typedef PoolBasic<Taxi_8, 100> T_Taxi_4_Pool;
+
+class Taxi_4_Pool : public PoolBasic<Taxi_8, 100>
+{
+public:
+    Taxi_4_Pool()
+    {
+        
+    }
+    
+    ~Taxi_4_Pool()
+    {
+        this->field_0_pHead = 0;
+    }
+};
+
 
 class Taxi_4
 {

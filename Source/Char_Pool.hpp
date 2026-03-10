@@ -1,9 +1,9 @@
 #pragma once
 
-#include "char.hpp"
 #include "Function.hpp"
 #include "Ped.hpp"
 #include "Pool.hpp"
+#include "char.hpp"
 
 class Camera_0xBC;
 
@@ -53,6 +53,11 @@ class Char_8_Pool
     s8 field_31f;
     s32 field_320_in_use;
 
+    ~Char_8_Pool()
+    {
+        field_0_pool.field_0_pHead = 0;
+    }
+
     Char_8_Pool()
     {
         field_320_in_use = 0;
@@ -62,7 +67,7 @@ class Char_8_Pool
 class PedManager
 {
   public:
-    EXPORT void SpawnDummies_46EB60(Camera_0xBC *pCam);
+    EXPORT void SpawnDummies_46EB60(Camera_0xBC* pCam);
     EXPORT void PedsService_4703F0();
     EXPORT PedManager();
     EXPORT ~PedManager();

@@ -37,3 +37,20 @@ Ang16 Fix16_Point::atan2_40ACD0()
 {
     return Fix16::atan2_fixed_405320(y, x);
 }
+
+MATCH_FUNC(0x453590)
+Fix16 Fix16_Point_POD::GetLength_453590()
+{
+    if (x == gFix16_6777CC)
+    {
+        return Fix16::Abs(y);
+    }
+    else if (y == gFix16_6777CC)
+    {
+        return Fix16::Abs(x);
+    }
+    else
+    {
+        return Fix16::SquareRoot(x * x + y * y);
+    }
+}

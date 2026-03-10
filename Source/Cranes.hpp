@@ -14,7 +14,7 @@ class Crane_15C
   public:
     EXPORT ~Crane_15C();
     EXPORT Crane_15C();
-    EXPORT s32 sub_47E620(s32 a2, s32 a3, s32* a4);
+    EXPORT s32 ComputeHookPos_47E620(Fix16 a2, Ang16 a3, Fix16_Point* a4);
     EXPORT s32 sub_47E730(s32 a2, s32 a3, u32 a4);
     EXPORT s32 sub_47E840(s32 a2, s32 a3);
     EXPORT bool sub_47E920();
@@ -23,7 +23,7 @@ class Crane_15C
     EXPORT void sub_47ED60();
     EXPORT s32 sub_47EDF0();
     EXPORT s32 sub_47EF80();
-    EXPORT s32 sub_47F170();
+    EXPORT void sub_47F170();
     EXPORT s32 sub_47F220(s32 a2, s32 a3, Sprite* a4, Sprite* a5);
     EXPORT void sub_47F290(Fix16 a2, Fix16 a3, Sprite* a4);
     EXPORT void sub_47F2F0(s32 a2, s32 a3, Sprite* a4);
@@ -36,7 +36,7 @@ class Crane_15C
     EXPORT void sub_47F930(Car_BC* a2);
     EXPORT s32 sub_47FB40();
     EXPORT s32 sub_47FBA0();
-    EXPORT s32 sub_47FD10();
+    EXPORT void sub_47FD10();
     EXPORT void UpdateCraneTick_47FD50();
     EXPORT void sub_47FE10();
     EXPORT void Service_480310();
@@ -52,8 +52,8 @@ class Crane_15C
 
     s32 field_0;
     s32 field_4;
-    s32 field_8;
-    s32 field_C;
+    Fix16 field_8;
+    Fix16 field_C;
     s32 field_10;
     s32 field_14;
     s32 field_18;

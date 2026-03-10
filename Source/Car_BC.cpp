@@ -37,6 +37,7 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
+#include "CarAI_78.hpp"
 
 // TODO: Its in FrontEnd by seems crazy to include the whole file just for this
 EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);
@@ -44,7 +45,6 @@ EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
 DEFINE_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C, 0x67792C);
-DEFINE_GLOBAL(Car_78_Pool*, gCar_78_Pool_677CF8, 0x677CF8);
 DEFINE_GLOBAL(TrailerPool*, gTrailerPool_66AC80, 0x66AC80);
 DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
 DEFINE_GLOBAL_INIT(s32, dword_6772AC, 0x6000, 0x6772AC);
@@ -111,11 +111,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FF674, Fix16(0x2000, 0), 0x6FF674);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF5CC, Fix16(0xCCC, 0), 0x6FF5CC);
 
 DEFINE_GLOBAL(Fix16_Point, stru_6778A8, 0x6778A8);
-DEFINE_GLOBAL(Fix16, dword_677C38, 0x677C38);
-DEFINE_GLOBAL(Fix16, dword_677C30, 0x677C30);
-DEFINE_GLOBAL(Fix16, dword_677C48, 0x677C48);
-DEFINE_GLOBAL_INIT(Fix16, dword_677B94, Fix16(0x4000, 0), 0x677B94);
-DEFINE_GLOBAL(Fix16, dword_6779F8, 0x6779F8);
 DEFINE_GLOBAL_INIT(Fix16, dword_677908, Fix16(1), 0x677908);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_705DDC, Fix16(0x4000, 0), 0x705DDC);
@@ -176,274 +171,6 @@ MATCH_FUNC(0x447640)
 void sub_447640()
 {
     DAT_677CFC = 0;
-}
-
-STUB_FUNC(0x4476f0)
-void Car_78::sub_4476F0()
-{
-    NOT_IMPLEMENTED;
-}
-
-STUB_FUNC(0x447710)
-char_type Car_78::sub_447710()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x447970)
-void Car_78::sub_447970()
-{
-    NOT_IMPLEMENTED;
-}
-
-MATCH_FUNC(0x447ca0)
-bool Car_78::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction)
-{
-    field_28_junc_idx = gRouteFinder_6FFDC8->StartRoute_58A190(dword_677C38.ToInt(),
-                                                               dword_677C30.ToInt(),
-                                                               (dword_677C48 - dword_677B94).ToInt(),
-                                                               x,
-                                                               y,
-                                                               z,
-                                                               maybe_direction);
-    if (field_28_junc_idx > 0)
-    {
-        field_0->field_60->field_14_target_x = Fix16(x);
-        field_0->field_60->field_18_target_y = Fix16(y);
-        field_0->field_60->field_1C_target_z = dword_6779F8;
-        field_56 = 0;
-        return true;
-    }
-    return false;
-}
-
-STUB_FUNC(0x447d40)
-char_type Car_78::sub_447D40(s32 a2)
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x448270)
-char_type Car_78::sub_448270()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x4482c0)
-char_type Car_78::sub_4482C0()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x448770)
-char_type Car_78::sub_448770()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x448ce0)
-char_type Car_78::sub_448CE0()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x44a1f0)
-char_type Car_78::sub_44A1F0()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x44af00)
-s16 Car_78::sub_44AF00()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x44d1d0)
-char_type Car_78::sub_44D1D0()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x44e0c0)
-void Car_78::sub_44E0C0()
-{
-    NOT_IMPLEMENTED;
-}
-
-STUB_FUNC(0x44e560)
-void Car_78::sub_44E560()
-{
-    NOT_IMPLEMENTED;
-}
-
-STUB_FUNC(0x451980)
-void Car_78::sub_451980()
-{
-    NOT_IMPLEMENTED;
-}
-
-STUB_FUNC(0x451fa0)
-void Car_78::sub_451FA0()
-{
-    NOT_IMPLEMENTED;
-}
-
-STUB_FUNC(0x451ff0)
-s32 Car_78::sub_451FF0()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x452060)
-char_type Car_78::sub_452060()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x452a20)
-s16 Car_78::sub_452A20()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x452df0)
-s16 Car_78::sub_452DF0()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x453470)
-s16 Car_78::sub_453470()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x453590)
-s32* Car_78::sub_453590(s32* a2)
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-WIP_FUNC(0x4537d0)
-void Car_78::sub_4537D0()
-{
-    WIP_IMPLEMENTED;
-
-    if ((this->field_0->field_A6 & 2) != 2 && (this->field_0->field_A6 & 1) != 1)
-    {
-        if (stru_6F6784.get_int_4F7AE0(2) <= 0)
-        {
-            field_0->field_A6 |= 1;
-        }
-        else
-        {
-            field_0->field_A6 |= 2;
-        }
-    }
-}
-
-MATCH_FUNC(0x4538b0)
-void Car_78::sub_4538B0()
-{
-    if (this->field_24_flags & 0x80)
-    {
-        this->field_0->field_A6 &= ~2u;
-        this->field_0->field_A6 &= ~1u;
-    }
-}
-
-MATCH_FUNC(0x453990)
-void Car_78::sub_453990(s32 a2)
-{
-    if (this->field_14 < a2)
-    {
-        this->field_14 = a2;
-    }
-}
-
-STUB_FUNC(0x4539b0)
-Car_BC* Car_78::sub_4539B0()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x4539d0)
-u8* Car_78::sub_4539D0()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x453a40)
-s32 Car_78::sub_453A40()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-// TODO: Move
-STUB_FUNC(0x447650)
-void __stdcall sub_447650()
-{
-    NOT_IMPLEMENTED;
-}
-
-WIP_FUNC(0x453bb0)
-void Car_78::sub_453BB0()
-{
-    WIP_IMPLEMENTED;
-
-    sub_447650();
-    this->field_10 = this->field_0->field_50_car_sprite->field_0;
-    this->field_4C = Ang16::GetAngleFace_4F78F0(field_10);
-    if (field_2B != -1)
-    {
-        field_2B++;
-    }
-    sub_453470();
-}
-
-MATCH_FUNC(0x453bf0)
-void Car_78::SetCar_453BF0(Car_BC* a2)
-{
-    field_0 = a2;
-}
-
-STUB_FUNC(0x453c00)
-u8* Car_78::sub_453C00()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x453d80)
-s32 Car_78::PoolAllocate()
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x453cb0)
-Car_78::Car_78()
-{
-    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x5c8680)
@@ -1278,10 +1005,10 @@ Car_6C::Car_6C()
         }
     }
 
-    if (!gCar_78_Pool_677CF8)
+    if (!gCarAI_78_Pool_677CF8)
     {
-        gCar_78_Pool_677CF8 = new Car_78_Pool();
-        if (!gCar_78_Pool_677CF8)
+        gCarAI_78_Pool_677CF8 = new CarAI_78_Pool();
+        if (!gCarAI_78_Pool_677CF8)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8335);
         }
@@ -1347,10 +1074,10 @@ Car_6C::Car_6C()
 }
 
 // Some SEH stuff, prob needs some dtors moving to or from another file
-STUB_FUNC(0x446dc0)
+WIP_FUNC(0x446dc0)
 Car_6C::~Car_6C()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     if (gCar_BC_Pool_67792C)
     {
@@ -1367,9 +1094,9 @@ Car_6C::~Car_6C()
         GTA2_DELETE_AND_NULL(gCar_14_677934);
     }
 
-    if (gCar_78_Pool_677CF8)
+    if (gCarAI_78_Pool_677CF8)
     {
-        GTA2_DELETE_AND_NULL(gCar_78_Pool_677CF8);
+        GTA2_DELETE_AND_NULL(gCarAI_78_Pool_677CF8);
     }
 
     if (gTrailerPool_66AC80)
@@ -3747,7 +3474,7 @@ void Car_BC::InitCarAIControl_440590()
         {
             if (this->field_5C == 0)
             {
-                this->field_5C = gCar_78_Pool_677CF8->Allocate();
+                this->field_5C = gCarAI_78_Pool_677CF8->Allocate();
             }
             this->field_5C->SetCar_453BF0(this);
             this->field_9C = 3;
@@ -4062,7 +3789,7 @@ void Car_BC::GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction)
 {
     if (!field_5C)
     {
-        field_5C = gCar_78_Pool_677CF8->Allocate();
+        field_5C = gCarAI_78_Pool_677CF8->Allocate();
     }
     field_5C->SetCar_453BF0(this);
     field_5C->GoToBlock_447CA0(x, y, z, maybe_direction);
@@ -4073,7 +3800,7 @@ void Car_BC::GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction)
 {
     if (!field_5C)
     {
-        field_5C = gCar_78_Pool_677CF8->Allocate();
+        field_5C = gCarAI_78_Pool_677CF8->Allocate();
     }
     field_5C->SetCar_453BF0(this);
     field_5C->GoToBlock_447CA0(x, y, z, maybe_direction);
@@ -5010,7 +4737,7 @@ char_type Car_BC::TrainUpdate_442D70()
     {
         if (!field_5C)
         {
-            field_5C = gCar_78_Pool_677CF8->Allocate();
+            field_5C = gCarAI_78_Pool_677CF8->Allocate();
             field_5C->SetCar_453BF0(this);
         }
 
@@ -5103,7 +4830,7 @@ char_type Car_BC::PoolUpdate()
 
     if (this->field_58_physics)
     {
-        Car_78* pAi = this->field_5C;
+        CarAI_78* pAi = this->field_5C;
         if (pAi)
         {
             Ped* pDriver = this->field_54_driver;
@@ -5763,7 +5490,7 @@ void Car_BC::DeAllocateAI_4446E0()
             gRouteFinder_6FFDC8->CancelRoute_589930(field_5C->field_28_junc_idx);
         }
 
-        gCar_78_Pool_677CF8->DeAllocate(field_5C);
+        gCarAI_78_Pool_677CF8->DeAllocate(field_5C);
         field_5C = 0;
     }
 }

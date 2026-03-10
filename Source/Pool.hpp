@@ -20,10 +20,10 @@ class PoolBasic
         field_0_pHead = field_4_pool;
     }
 
-    ~PoolBasic()
+    /*~PoolBasic()
     {
         field_0_pHead = 0;
-    }
+    }*/
 
     PoolType* Allocate()
     {

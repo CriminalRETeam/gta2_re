@@ -774,10 +774,34 @@ PedManager::PedManager()
     gThreateningPedsList_678468.ClearList_420E90();
 }
 
-STUB_FUNC(0x4709b0)
+MATCH_FUNC(0x4709b0)
 PedManager::~PedManager()
 {
-    NOT_IMPLEMENTED;
+    if (gThreateningPedsList_678468.field_0_pFirstPed)
+    {
+        gThreateningPedsList_678468.ClearPeds_4712F0();
+    }
+
+    if (gPedPool_6787B8)
+    {
+        GTA2_DELETE_AND_NULL(gPedPool_6787B8);
+    }
+
+    if (gChar_B4_Pool_6FDB44)
+    {
+        GTA2_DELETE_AND_NULL(gChar_B4_Pool_6FDB44);
+    }
+
+    if (gChar_8_Pool_678b50)
+    {
+        GTA2_DELETE_AND_NULL(gChar_8_Pool_678b50);
+    }
+
+    if (field_8)
+    {
+        gSprite_Pool_703818->remove(field_8);
+        field_8 = 0;
+    }
 }
 
 MATCH_FUNC(0x470a50)

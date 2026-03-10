@@ -22,8 +22,33 @@ class Collide_8
     Collide_8* mpNext;
 };
 
-typedef PoolBasic<Collide_8, 4096> T_Collide_8_Pool;
-typedef PoolBasic<PurpleDoom_C, 6000> T_PurpleDoom_C_Pool;
+class Collide_8_Pool : public PoolBasic<Collide_8, 4096>
+{
+  public:
+    Collide_8_Pool()
+    {
+
+    }
+
+    ~Collide_8_Pool()
+    {
+      this->field_0_pHead = 0;
+    }
+};
+
+class PurpleDoom_C_Pool : public PoolBasic<PurpleDoom_C, 6000>
+{
+  public:
+    PurpleDoom_C_Pool()
+    {
+
+    }
+
+    ~PurpleDoom_C_Pool()
+    {
+      this->field_0_pHead = 0;
+    }
+};
 
 class Collide_C
 {

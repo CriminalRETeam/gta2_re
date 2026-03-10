@@ -18,7 +18,7 @@ struct gmp_zone_info;
 class Camera_0xBC;
 class Object_2C;
 class Fix16_Rect;
-class Car_78;
+class CarAI_78;
 class CarPhysics_B0;
 class Trailer;
 class Ped;
@@ -33,122 +33,6 @@ class Player;
 EXTERN_GLOBAL(Fix16, dword_6777D0);
 
 EXPORT Ang16 __stdcall sub_4F7940(s32* a2);
-
-// TODO: Move
-class Car_78
-{
-  public:
-    EXPORT void sub_4476F0();
-    EXPORT char_type sub_447710();
-    EXPORT void sub_447970();
-    EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction);
-    EXPORT char_type sub_447D40(s32 a2);
-    EXPORT char_type sub_448270();
-    EXPORT char_type sub_4482C0();
-    EXPORT char_type sub_448770();
-    EXPORT char_type sub_448CE0();
-    EXPORT char_type sub_44A1F0();
-    EXPORT s16 sub_44AF00();
-    EXPORT char_type sub_44D1D0();
-    EXPORT void sub_44E0C0();
-    EXPORT void sub_44E560();
-    EXPORT void sub_451980();
-    EXPORT void sub_451FA0();
-    EXPORT s32 sub_451FF0();
-    EXPORT char_type sub_452060();
-    EXPORT s16 sub_452A20();
-    EXPORT s16 sub_452DF0();
-    EXPORT s16 sub_453470();
-    EXPORT s32* sub_453590(s32* a2);
-    EXPORT void sub_4537D0();
-    EXPORT void sub_4538B0();
-    EXPORT void sub_453990(s32 a2);
-    EXPORT Car_BC* sub_4539B0();
-    EXPORT u8* sub_4539D0();
-    EXPORT s32 sub_453A40();
-    EXPORT void sub_453BB0();
-    EXPORT void SetCar_453BF0(Car_BC* a2);
-    EXPORT u8* sub_453C00();
-    EXPORT s32 PoolAllocate();
-    EXPORT Car_78();
-
-    void PoolDeallocate()
-    {
-        field_0 = 0;
-    }
-
-    Car_BC* field_0;
-    s32 field_4;
-    char_type field_8;
-    char_type field_9;
-    char_type field_A;
-    char_type field_B;
-    Car_78* mpNext;
-    Ang16 field_10;
-    s16 field_12;
-    s32 field_14;
-    Fix16 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24_flags;
-    char_type field_28_junc_idx;
-    char_type field_29;
-    char_type field_2A;
-    char_type field_2B;
-    char_type field_2C;
-    char_type field_2D;
-    char_type field_2E;
-    char_type field_2F;
-    char_type field_30;
-    char_type field_31;
-    char_type field_32;
-    char_type field_33;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s16 field_54;
-    s16 field_56;
-    s16 field_58;
-    s16 field_5A;
-    s32 field_5C;
-    s32 field_60;
-    s32 field_64;
-    s32 field_68;
-    s32 field_6C;
-    s32 field_70;
-    Fix16 field_74;
-};
-
-class Car_78_Pool
-{
-  public:
-    //Inlined in Car_6C constructor 9.6f -> 0x420eb0
-    Car_78_Pool()
-    {
-    }
-
-    ~Car_78_Pool()
-    {
-    }
-
-    Car_78* Allocate()
-    {
-        return field_0_pool.Allocate();
-    }
-
-    // TODO: get 9.6f inline addr
-    void DeAllocate(Car_78* p78)
-    {
-        field_0_pool.DeAllocate(p78);
-    }
-
-    PoolBasic<Car_78, 306> field_0_pool;
-};
 
 class Car_18
 {
@@ -958,7 +842,7 @@ class Car_BC
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
     CarPhysics_B0* field_58_physics;
-    Car_78* field_5C;
+    CarAI_78* field_5C;
     Hamburger_40* field_60;
     Trailer* field_64_pTrailer;
     Fix16 field_68;
@@ -1077,8 +961,6 @@ struct Car_14
 EXTERN_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C);
 
 EXTERN_GLOBAL(Sprite*, gSprite_6F61E8);
-
-EXTERN_GLOBAL(Car_78_Pool*, gCar_78_Pool_677CF8);
 
 EXTERN_GLOBAL(TrailerPool*, gTrailerPool_66AC80);
 

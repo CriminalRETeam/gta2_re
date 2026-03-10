@@ -34,6 +34,7 @@
 #include "sound_obj.hpp"
 #include "root_sound.hpp"
 #include "ExplodingScore_100.hpp"
+#include "CarAI_78.hpp"
 #include <stdarg.h>
 
 #include "HookLoader.hpp"
@@ -201,6 +202,8 @@ static void EnableBoot2MapDebugOptions()
     bSkip_particles_67D64D = true;
     bSkip_ambulance_67D6C9 = true;
     
+    //bSkip_audio_67D6BE = true;
+
     // bSkip_slopes_67D505
     // bSkip_window_check_67D54E
     // 
@@ -1247,7 +1250,7 @@ void CC ImGuiDebugDraw()
                     if (!pNewCar->field_5C)
                     {
                         printf("Alloc AI (?)\n");
-                        pNewCar->field_5C = gCar_78_Pool_677CF8->Allocate();
+                        pNewCar->field_5C = gCarAI_78_Pool_677CF8->Allocate();
                     }
                     pNewCar->field_5C->SetCar_453BF0(pNewCar);
                     pNewCar->SpawnDriverPed();

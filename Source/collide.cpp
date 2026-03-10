@@ -5,8 +5,8 @@
 #include "enums.hpp"
 
 DEFINE_GLOBAL(Collide_C*, gCollide_C_6791FC, 0x6791FC);
-DEFINE_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200, 0x679200);
-DEFINE_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204, 0x679204);
+DEFINE_GLOBAL(Collide_8_Pool*, gCollide_8_Pool_679200, 0x679200);
+DEFINE_GLOBAL(PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204, 0x679204);
 
 MATCH_FUNC(0x478a20)
 void Collide_C::sub_478A20()
@@ -22,13 +22,13 @@ Collide_C::Collide_C()
     
     field_8_bUnknown = 0;
 
-    gCollide_8_Pool_679200 = new T_Collide_8_Pool();
+    gCollide_8_Pool_679200 = new Collide_8_Pool();
     if (!gCollide_8_Pool_679200)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1416);
     }
 
-    gPurpleDoom_C_Pool_679204 = new T_PurpleDoom_C_Pool();
+    gPurpleDoom_C_Pool_679204 = new PurpleDoom_C_Pool();
     if (!gPurpleDoom_C_Pool_679204)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1418);
