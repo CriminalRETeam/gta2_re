@@ -3,7 +3,7 @@
 #include "error.hpp"
 #include "Car_BC.hpp"
 
-DEFINE_GLOBAL(T_Taxi_4_Pool*, gTaxi_4_Pool_6783F8, 0x6783F8);
+DEFINE_GLOBAL(Taxi_4_Pool*, gTaxi_4_Pool_6783F8, 0x6783F8);
 DEFINE_GLOBAL(Taxi_4*, gTaxi_4_704130, 0x704130);
 
 MATCH_FUNC(0x457ba0)
@@ -84,7 +84,7 @@ Taxi_4::Taxi_4()
 
     if (!gTaxi_4_Pool_6783F8)
     {
-        gTaxi_4_Pool_6783F8 = new T_Taxi_4_Pool();
+        gTaxi_4_Pool_6783F8 = new Taxi_4_Pool();
         if (!gTaxi_4_Pool_6783F8)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\taxi.cpp", 29);

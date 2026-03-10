@@ -25,5 +25,5 @@ void Frismo_C::PoolAllocate()
 MATCH_FUNC(0x4bc300)
 Frismo_C_Pool::~Frismo_C_Pool()
 {
-
+    field_0_pool.field_0_pHead = 0;
 }
