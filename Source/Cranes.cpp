@@ -54,29 +54,18 @@ s32 Crane_15C::sub_47E840(s32 a2, s32 a3)
     return 0;
 }
 
-WIP_FUNC(0x47e920)
+MATCH_FUNC(0x47e920)
 bool Crane_15C::sub_47E920()
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point pos;
-    Ang16 f110 = Ang16::Fix16_To_Ang16_40F540(field_110);
 
-    ComputeHookPos_47E620(this->field_114, f110, &pos);
+    ComputeHookPos_47E620(this->field_114, Ang16::Fix16_To_Ang16_40F540(field_110), &pos);
 
-    Fix16 new_x = this->field_8 + pos.x.mValue;
-    Fix16 new_y = this->field_C + pos.y.mValue;
-    Fix16 new_z = this->field_80 - this->field_11C;
-    Sprite* pSprite = this->field_60;
-    pos.x = new_x;
-    pos.y = new_y;
+    pos.x += this->field_8;
+    pos.y += this->field_C;
 
-    pSprite->set_xyz_lazy_420600(new_x, new_y, new_z);
-
-    Ang16 f118_ang = Ang16::Fix16_To_Ang16_40F540(field_118);
-
-    Sprite* pSprite_ = this->field_60;
-    pSprite_->set_ang_lazy_420690(f118_ang);
+    field_60->set_xyz_lazy_420600(pos.x, pos.y, this->field_80 - this->field_11C);
+    field_60->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_118));
     return !gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_60, 0) && !field_60->CheckSpriteMovementRegion_5A2500();
 }
 

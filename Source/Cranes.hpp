@@ -52,8 +52,8 @@ class Crane_15C
 
     s32 field_0;
     s32 field_4;
-    s32 field_8;
-    s32 field_C;
+    Fix16 field_8;
+    Fix16 field_C;
     s32 field_10;
     s32 field_14;
     s32 field_18;
