@@ -4,6 +4,7 @@
 #include "Hamburger_500.hpp"
 #include "RouteFinder.hpp"
 #include "rng.hpp"
+#include "Object_5C.hpp"
 
 DEFINE_GLOBAL(Ang16, word_677CE8, 0x677CE8);
 DEFINE_GLOBAL(Fix16, dword_677B90, 0x677B90);
@@ -27,6 +28,9 @@ DEFINE_GLOBAL(CarAI_78_Pool*, gCarAI_78_Pool_677CF8, 0x677CF8);
 
 DEFINE_GLOBAL(Fix16, dword_677B00, 0x677B00);
 DEFINE_GLOBAL_INIT(Fix16, dword_677B60, Fix16(0x333, 0), 0x677B60);
+
+DEFINE_GLOBAL(u8, byte_677BBC, 0x677BBC);
+DEFINE_GLOBAL(u8, byte_677B3C, 0x677B3C);
 
 STUB_FUNC(0x4476f0)
 void CarAI_78::sub_4476F0()
@@ -142,10 +146,19 @@ void CarAI_78::sub_451980()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x451fa0)
+MATCH_FUNC(0x451fa0)
 void CarAI_78::sub_451FA0()
 {
-    NOT_IMPLEMENTED;
+    if (!byte_677BBC)
+    {
+        Object_2C* pObj = field_70->As2C_40FEC0();
+        if (pObj->field_18_model == 21 || pObj->field_18_model == 122)
+        {
+            field_0->sub_43A970();
+            byte_677B3C = 0;
+            this->field_24_bf.b12 = 1;
+        }
+    }
 }
 
 STUB_FUNC(0x451ff0)
@@ -230,7 +243,6 @@ void CarAI_78::sub_453470()
                 pPhysics->field_93_is_forward_gas_on = 0;
                 pPhysics->field_94_is_backward_gas_on = 0;
                 pPhysics->field_95 = 0;
-                
             }
             this->field_68 = 0;
             this->field_24_bf.b12 = 0;

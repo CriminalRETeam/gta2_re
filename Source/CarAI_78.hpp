@@ -2,11 +2,12 @@
 
 #include "BitSet32.hpp"
 #include "Fix16.hpp"
-#include "ang16.hpp"
 #include "Function.hpp"
 #include "Pool.hpp"
+#include "ang16.hpp"
 
 class Car_BC;
+class Sprite;
 
 class CarAI_78
 {
@@ -63,11 +64,11 @@ class CarAI_78
     Fix16 field_18;
     Fix16 field_1C;
     s32 field_20;
-    
+
     union
     {
-    u32 field_24_flags;
-    CompilerBitField32 field_24_bf;
+        u32 field_24_flags;
+        CompilerBitField32 field_24_bf;
     };
 
     char_type field_28_junc_idx;
@@ -99,7 +100,7 @@ class CarAI_78
     Fix16 field_64;
     s32 field_68;
     s32 field_6C;
-    s32 field_70;
+    Sprite* field_70;
     Fix16 field_74;
 };
 
