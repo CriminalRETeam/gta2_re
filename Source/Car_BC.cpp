@@ -1005,10 +1005,10 @@ Car_6C::Car_6C()
         }
     }
 
-    if (!gCar_78_Pool_677CF8)
+    if (!gCarAI_78_Pool_677CF8)
     {
-        gCar_78_Pool_677CF8 = new Car_78_Pool();
-        if (!gCar_78_Pool_677CF8)
+        gCarAI_78_Pool_677CF8 = new CarAI_78_Pool();
+        if (!gCarAI_78_Pool_677CF8)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8335);
         }
@@ -1094,9 +1094,9 @@ Car_6C::~Car_6C()
         GTA2_DELETE_AND_NULL(gCar_14_677934);
     }
 
-    if (gCar_78_Pool_677CF8)
+    if (gCarAI_78_Pool_677CF8)
     {
-        GTA2_DELETE_AND_NULL(gCar_78_Pool_677CF8);
+        GTA2_DELETE_AND_NULL(gCarAI_78_Pool_677CF8);
     }
 
     if (gTrailerPool_66AC80)
@@ -3474,7 +3474,7 @@ void Car_BC::InitCarAIControl_440590()
         {
             if (this->field_5C == 0)
             {
-                this->field_5C = gCar_78_Pool_677CF8->Allocate();
+                this->field_5C = gCarAI_78_Pool_677CF8->Allocate();
             }
             this->field_5C->SetCar_453BF0(this);
             this->field_9C = 3;
@@ -3789,7 +3789,7 @@ void Car_BC::GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction)
 {
     if (!field_5C)
     {
-        field_5C = gCar_78_Pool_677CF8->Allocate();
+        field_5C = gCarAI_78_Pool_677CF8->Allocate();
     }
     field_5C->SetCar_453BF0(this);
     field_5C->GoToBlock_447CA0(x, y, z, maybe_direction);
@@ -3800,7 +3800,7 @@ void Car_BC::GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction)
 {
     if (!field_5C)
     {
-        field_5C = gCar_78_Pool_677CF8->Allocate();
+        field_5C = gCarAI_78_Pool_677CF8->Allocate();
     }
     field_5C->SetCar_453BF0(this);
     field_5C->GoToBlock_447CA0(x, y, z, maybe_direction);
@@ -4737,7 +4737,7 @@ char_type Car_BC::TrainUpdate_442D70()
     {
         if (!field_5C)
         {
-            field_5C = gCar_78_Pool_677CF8->Allocate();
+            field_5C = gCarAI_78_Pool_677CF8->Allocate();
             field_5C->SetCar_453BF0(this);
         }
 
@@ -4830,7 +4830,7 @@ char_type Car_BC::PoolUpdate()
 
     if (this->field_58_physics)
     {
-        Car_78* pAi = this->field_5C;
+        CarAI_78* pAi = this->field_5C;
         if (pAi)
         {
             Ped* pDriver = this->field_54_driver;
@@ -5490,7 +5490,7 @@ void Car_BC::DeAllocateAI_4446E0()
             gRouteFinder_6FFDC8->CancelRoute_589930(field_5C->field_28_junc_idx);
         }
 
-        gCar_78_Pool_677CF8->DeAllocate(field_5C);
+        gCarAI_78_Pool_677CF8->DeAllocate(field_5C);
         field_5C = 0;
     }
 }

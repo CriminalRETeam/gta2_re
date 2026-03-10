@@ -18,7 +18,7 @@ struct gmp_zone_info;
 class Camera_0xBC;
 class Object_2C;
 class Fix16_Rect;
-class Car_78;
+class CarAI_78;
 class CarPhysics_B0;
 class Trailer;
 class Ped;
@@ -842,7 +842,7 @@ class Car_BC
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
     CarPhysics_B0* field_58_physics;
-    Car_78* field_5C;
+    CarAI_78* field_5C;
     Hamburger_40* field_60;
     Trailer* field_64_pTrailer;
     Fix16 field_68;

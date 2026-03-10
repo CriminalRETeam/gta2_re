@@ -2515,67 +2515,67 @@
         "v105_address": "0x447650"
     },
     {
-        "name": "Car_78::sub_4476F0",
+        "name": "CarAI_78::sub_4476F0",
         "v96f_address": null,
         "v105_address": "0x4476f0"
     },
     {
-        "name": "Car_78::sub_447710",
+        "name": "CarAI_78::sub_447710",
         "v96f_address": null,
         "v105_address": "0x447710"
     },
     {
-        "name": "Car_78::sub_447970",
+        "name": "CarAI_78::sub_447970",
         "v96f_address": null,
         "v105_address": "0x447970"
     },
     {
-        "name": "Car_78::GoToBlock_447CA0",
+        "name": "CarAI_78::GoToBlock_447CA0",
         "v96f_address": null,
         "v105_address": "0x447ca0"
     },
     {
-        "name": "Car_78::sub_447D40",
+        "name": "CarAI_78::sub_447D40",
         "v96f_address": null,
         "v105_address": "0x447d40"
     },
     {
-        "name": "Car_78::sub_448270",
+        "name": "CarAI_78::sub_448270",
         "v96f_address": null,
         "v105_address": "0x448270"
     },
     {
-        "name": "Car_78::sub_4482C0",
+        "name": "CarAI_78::sub_4482C0",
         "v96f_address": null,
         "v105_address": "0x4482c0"
     },
     {
-        "name": "Car_78::sub_448770",
+        "name": "CarAI_78::sub_448770",
         "v96f_address": null,
         "v105_address": "0x448770"
     },
     {
-        "name": "Car_78::sub_448CE0",
+        "name": "CarAI_78::sub_448CE0",
         "v96f_address": null,
         "v105_address": "0x448ce0"
     },
     {
-        "name": "Car_78::sub_44A1F0",
+        "name": "CarAI_78::sub_44A1F0",
         "v96f_address": null,
         "v105_address": "0x44a1f0"
     },
     {
-        "name": "Car_78::sub_44AF00",
+        "name": "CarAI_78::sub_44AF00",
         "v96f_address": null,
         "v105_address": "0x44af00"
     },
     {
-        "name": "Car_78::sub_44D1D0",
+        "name": "CarAI_78::sub_44D1D0",
         "v96f_address": null,
         "v105_address": "0x44d1d0"
     },
     {
-        "name": "Car_78::sub_44E0C0",
+        "name": "CarAI_78::sub_44E0C0",
         "v96f_address": "0x42D390",
         "v105_address": "0x44e0c0"
     },
@@ -2585,7 +2585,7 @@
         "v105_address": "0x44e540"
     },
     {
-        "name": "Car_78::sub_44E560",
+        "name": "CarAI_78::sub_44E560",
         "v96f_address": null,
         "v105_address": "0x44e560"
     },
@@ -2620,22 +2620,22 @@
         "v105_address": "0x451950"
     },
     {
-        "name": "Car_78::sub_451980",
+        "name": "CarAI_78::sub_451980",
         "v96f_address": null,
         "v105_address": "0x451980"
     },
     {
-        "name": "Car_78::sub_451FA0",
+        "name": "CarAI_78::sub_451FA0",
         "v96f_address": null,
         "v105_address": "0x451fa0"
     },
     {
-        "name": "Car_78::sub_451FF0",
+        "name": "CarAI_78::sub_451FF0",
         "v96f_address": null,
         "v105_address": "0x451ff0"
     },
     {
-        "name": "Car_78::sub_452060",
+        "name": "CarAI_78::sub_452060",
         "v96f_address": null,
         "v105_address": "0x452060"
     },
@@ -2645,77 +2645,77 @@
         "v105_address": "0x4dfe10"
     },
     {
-        "name": "Car_78::sub_452A20",
+        "name": "CarAI_78::sub_452A20",
         "v96f_address": null,
         "v105_address": "0x452a20"
     },
     {
-        "name": "Car_78::sub_452DF0",
+        "name": "CarAI_78::sub_452DF0",
         "v96f_address": "0x432370",
         "v105_address": "0x452df0"
     },
     {
-        "name": "Car_78::sub_453470",
+        "name": "CarAI_78::sub_453470",
         "v96f_address": "0x4326E0",
         "v105_address": "0x453470"
     },
     {
-        "name": "Car_78::sub_453590",
+        "name": "CarAI_78::sub_453590",
         "v96f_address": null,
         "v105_address": "0x453590"
     },
     {
-        "name": "Car_78::sub_4537D0",
+        "name": "CarAI_78::sub_4537D0",
         "v96f_address": null,
         "v105_address": "0x4537d0"
     },
     {
-        "name": "Car_78::sub_4538B0",
+        "name": "CarAI_78::sub_4538B0",
         "v96f_address": null,
         "v105_address": "0x4538b0"
     },
     {
-        "name": "Car_78::sub_453990",
+        "name": "CarAI_78::sub_453990",
         "v96f_address": null,
         "v105_address": "0x453990"
     },
     {
-        "name": "Car_78::sub_4539B0",
+        "name": "CarAI_78::sub_4539B0",
         "v96f_address": null,
         "v105_address": "0x4539b0"
     },
     {
-        "name": "Car_78::sub_4539D0",
+        "name": "CarAI_78::sub_4539D0",
         "v96f_address": null,
         "v105_address": "0x4539d0"
     },
     {
-        "name": "Car_78::sub_453A40",
+        "name": "CarAI_78::sub_453A40",
         "v96f_address": null,
         "v105_address": "0x453a40"
     },
     {
-        "name": "Car_78::sub_453BB0",
+        "name": "CarAI_78::sub_453BB0",
         "v96f_address": "0x4327A0",
         "v105_address": "0x453bb0"
     },
     {
-        "name": "Car_78::SetCar_453BF0",
+        "name": "CarAI_78::SetCar_453BF0",
         "v96f_address": null,
         "v105_address": "0x453bf0"
     },
     {
-        "name": "Car_78::sub_453C00",
+        "name": "CarAI_78::sub_453C00",
         "v96f_address": null,
         "v105_address": "0x453c00"
     },
     {
-        "name": "Car_78::ctor",
+        "name": "CarAI_78::ctor",
         "v96f_address": null,
         "v105_address": "0x453cb0"
     },
     {
-        "name": "Car_78::sub_453D80",
+        "name": "CarAI_78::sub_453D80",
         "v96f_address": null,
         "v105_address": "0x453d80"
     },

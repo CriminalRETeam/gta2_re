@@ -618,7 +618,7 @@ void PoliceCrew_38::sub_574F10()
             Car_BC* pCar = field_10_subObj->field_0_car;
             if (pCar)
             {
-                Car_78* v7 = pCar->field_5C;
+                CarAI_78* v7 = pCar->field_5C;
                 if (v7)
                 {
                     char field_28_junc_idx = v7->field_28_junc_idx;

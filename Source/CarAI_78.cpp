@@ -17,29 +17,29 @@ DEFINE_GLOBAL_INIT(Fix16, dword_677B50, Fix16(163, 0), 0x677B50);
 DEFINE_GLOBAL_INIT(Fix16, dword_677CB4, dword_6779B8, 0x677CB4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6779A4, dword_677B50, 0x6779A4);
 
-DEFINE_GLOBAL(Car_78_Pool*, gCar_78_Pool_677CF8, 0x677CF8);
+DEFINE_GLOBAL(CarAI_78_Pool*, gCarAI_78_Pool_677CF8, 0x677CF8);
 
 STUB_FUNC(0x4476f0)
-void Car_78::sub_4476F0()
+void CarAI_78::sub_4476F0()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x447710)
-char_type Car_78::sub_447710()
+char_type CarAI_78::sub_447710()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x447970)
-void Car_78::sub_447970()
+void CarAI_78::sub_447970()
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x447ca0)
-bool Car_78::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction)
+bool CarAI_78::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction)
 {
     field_28_junc_idx = gRouteFinder_6FFDC8->StartRoute_58A190(dword_677C38.ToInt(),
                                                                dword_677C30.ToInt(),
@@ -60,129 +60,129 @@ bool Car_78::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction)
 }
 
 STUB_FUNC(0x447d40)
-char_type Car_78::sub_447D40(s32 a2)
+char_type CarAI_78::sub_447D40(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x448270)
-char_type Car_78::sub_448270()
+char_type CarAI_78::sub_448270()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4482c0)
-char_type Car_78::sub_4482C0()
+char_type CarAI_78::sub_4482C0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x448770)
-char_type Car_78::sub_448770()
+char_type CarAI_78::sub_448770()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x448ce0)
-char_type Car_78::sub_448CE0()
+char_type CarAI_78::sub_448CE0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x44a1f0)
-char_type Car_78::sub_44A1F0()
+char_type CarAI_78::sub_44A1F0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x44af00)
-s16 Car_78::sub_44AF00()
+s16 CarAI_78::sub_44AF00()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x44d1d0)
-char_type Car_78::sub_44D1D0()
+char_type CarAI_78::sub_44D1D0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x44e0c0)
-void Car_78::sub_44E0C0()
+void CarAI_78::sub_44E0C0()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x44e560)
-void Car_78::sub_44E560()
+void CarAI_78::sub_44E560()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x451980)
-void Car_78::sub_451980()
+void CarAI_78::sub_451980()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x451fa0)
-void Car_78::sub_451FA0()
+void CarAI_78::sub_451FA0()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x451ff0)
-s32 Car_78::sub_451FF0()
+s32 CarAI_78::sub_451FF0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x452060)
-char_type Car_78::sub_452060()
+char_type CarAI_78::sub_452060()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x452a20)
-s16 Car_78::sub_452A20()
+s16 CarAI_78::sub_452A20()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x452df0)
-s16 Car_78::sub_452DF0()
+s16 CarAI_78::sub_452DF0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x453470)
-s16 Car_78::sub_453470()
+s16 CarAI_78::sub_453470()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x453590)
-s32* Car_78::sub_453590(s32* a2)
+s32* CarAI_78::sub_453590(s32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 WIP_FUNC(0x4537d0)
-void Car_78::sub_4537D0()
+void CarAI_78::sub_4537D0()
 {
     WIP_IMPLEMENTED;
 
@@ -200,7 +200,7 @@ void Car_78::sub_4537D0()
 }
 
 MATCH_FUNC(0x4538b0)
-void Car_78::sub_4538B0()
+void CarAI_78::sub_4538B0()
 {
     if (this->field_24_flags & 0x80)
     {
@@ -210,7 +210,7 @@ void Car_78::sub_4538B0()
 }
 
 MATCH_FUNC(0x453990)
-void Car_78::sub_453990(Fix16 a2)
+void CarAI_78::sub_453990(Fix16 a2)
 {
     if (this->field_14 < a2)
     {
@@ -219,21 +219,21 @@ void Car_78::sub_453990(Fix16 a2)
 }
 
 STUB_FUNC(0x4539b0)
-Car_BC* Car_78::sub_4539B0()
+Car_BC* CarAI_78::sub_4539B0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4539d0)
-u8* Car_78::sub_4539D0()
+u8* CarAI_78::sub_4539D0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x453a40)
-s32 Car_78::sub_453A40()
+s32 CarAI_78::sub_453A40()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -247,7 +247,7 @@ void __stdcall sub_447650()
 }
 
 WIP_FUNC(0x453bb0)
-void Car_78::sub_453BB0()
+void CarAI_78::sub_453BB0()
 {
     WIP_IMPLEMENTED;
 
@@ -262,30 +262,28 @@ void Car_78::sub_453BB0()
 }
 
 MATCH_FUNC(0x453bf0)
-void Car_78::SetCar_453BF0(Car_BC* a2)
+void CarAI_78::SetCar_453BF0(Car_BC* a2)
 {
     field_0 = a2;
 }
 
 STUB_FUNC(0x453c00)
-u8* Car_78::sub_453C00()
+u8* CarAI_78::sub_453C00()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x453d80)
-s32 Car_78::PoolAllocate()
+s32 CarAI_78::PoolAllocate()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-WIP_FUNC(0x453cb0)
-Car_78::Car_78()
+MATCH_FUNC(0x453cb0)
+CarAI_78::CarAI_78()
 {
-    WIP_IMPLEMENTED;
-
     this->field_10 = 0;
     this->field_0 = 0;
     this->field_4 = 0;
@@ -297,14 +295,13 @@ Car_78::Car_78()
     this->field_14 = dword_677B90;
     this->field_18 = dword_677CB4;
     this->field_1C = dword_6779A4;
-    s32 v2 = this->field_24_flags & ~0x2DFEFu;
     this->field_20 = 0;
-    v2 |= 0x12010u;
     this->field_56 = 0;
     this->field_28_junc_idx = -1;
     this->field_29 = 0;
     this->field_58 = 0;
-    this->field_24_flags = v2;
+    this->field_24_flags &= ~0x2DFEFu;
+    this->field_24_flags |= 0x12010u;
     this->field_2D = 0;
     this->field_2E = 0;
     this->field_2F = 0;
@@ -328,5 +325,5 @@ Car_78::Car_78()
     this->field_2C = 0;
     this->field_5A = 0;
     this->field_50 = 0;
-    this->field_24_flags = v2 & ~0x3C0000u;
+    this->field_24_flags &= ~0x3C0000u;
 }
