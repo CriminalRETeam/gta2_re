@@ -3,11 +3,11 @@
 #include "Object_5C.hpp"
 #include "PurpleDoom.hpp"
 #include "debug.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
 
 DEFINE_GLOBAL_INIT(s32, dword_679E58, 0x2000, 0x679E58);
 DEFINE_GLOBAL_INIT(Fix16, dword_679E70, Fix16(0), 0x679E70);
@@ -261,23 +261,25 @@ s32 Crane_15C::sub_47FBA0()
     return 0;
 }
 
-WIP_FUNC(0x47fd10)
+MATCH_FUNC(0x47fd10)
 void Crane_15C::sub_47FD10()
 {
-    WIP_IMPLEMENTED;
-
     if (field_140)
     {
         gfrosty_pasteur_6F8060->sub_511B10(field_140);
     }
 
-    if (field_150 == 1)
+    switch (field_150)
     {
-        sub_47ED60();
-    }
-    else if (field_150 > 1 && field_150 <= 4)
-    {
-        sub_47ECC0();
+        case 1:
+            sub_47ED60();
+            break;
+
+        case 2:
+        case 3:
+        case 4:
+            sub_47ECC0();
+            break;
     }
 }
 

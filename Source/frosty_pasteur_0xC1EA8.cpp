@@ -58,7 +58,7 @@ str_table_entry* frosty_pasteur_0xC1EA8::StrEntryByString_5030B0(char_type* strT
 }
 
 STUB_FUNC(0x511b10)
-char_type frosty_pasteur_0xC1EA8::sub_511B10(s32 idx)
+char_type frosty_pasteur_0xC1EA8::sub_511B10(s16 idx)
 {
     NOT_IMPLEMENTED;
     return 0;
