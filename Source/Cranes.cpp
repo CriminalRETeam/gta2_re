@@ -1,12 +1,12 @@
 #include "Cranes.hpp"
 #include "Globals.hpp"
-#include "root_sound.hpp"
-#include "map_0x370.hpp"
 #include "Object_5C.hpp"
-#include "sprite.hpp"
-#include "debug.hpp"
 #include "PurpleDoom.hpp"
+#include "debug.hpp"
+#include "map_0x370.hpp"
 #include "rng.hpp"
+#include "root_sound.hpp"
+#include "sprite.hpp"
 
 DEFINE_GLOBAL_INIT(s32, dword_679E58, 0x2000, 0x679E58);
 DEFINE_GLOBAL_INIT(Fix16, dword_679E70, Fix16(0), 0x679E70);
@@ -34,7 +34,7 @@ Crane_15C::Crane_15C()
 }
 
 STUB_FUNC(0x47e620)
-s32 Crane_15C::sub_47E620(s32 a2, s32 a3, s32* a4)
+s32 Crane_15C::ComputeHookPos_47E620(Fix16 a2, Ang16 a3, Fix16_Point* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -54,11 +54,30 @@ s32 Crane_15C::sub_47E840(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x47e920)
+WIP_FUNC(0x47e920)
 bool Crane_15C::sub_47E920()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point pos;
+    Ang16 f110 = Ang16::Fix16_To_Ang16_40F540(field_110);
+
+    ComputeHookPos_47E620(this->field_114, f110, &pos);
+
+    Fix16 new_x = this->field_8 + pos.x.mValue;
+    Fix16 new_y = this->field_C + pos.y.mValue;
+    Fix16 new_z = this->field_80 - this->field_11C;
+    Sprite* pSprite = this->field_60;
+    pos.x = new_x;
+    pos.y = new_y;
+
+    pSprite->set_xyz_lazy_420600(new_x, new_y, new_z);
+
+    Ang16 f118_ang = Ang16::Fix16_To_Ang16_40F540(field_118);
+
+    Sprite* pSprite_ = this->field_60;
+    pSprite_->set_ang_lazy_420690(f118_ang);
+    return !gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_60, 0) && !field_60->CheckSpriteMovementRegion_5A2500();
 }
 
 STUB_FUNC(0x47eb00)
@@ -189,11 +208,8 @@ bool Crane_15C::sub_47F350()
     {
         Sprite* v3 = field_6C;
         Car_BC* v4 = v3->field_30_sprite_type_enum == 2 ? v3->field_8_car_bc_ptr : 0;
-        if (v4->field_88 != 5 
-            && field_FC == v3->field_14_xy.x 
-            && field_100 == v3->field_14_xy.y 
-            && field_104 == v3->field_1C_zpos
-            && field_108 == Ang16::Ang16_to_Fix16(v3->field_0))
+        if (v4->field_88 != 5 && field_FC == v3->field_14_xy.x && field_100 == v3->field_14_xy.y && field_104 == v3->field_1C_zpos &&
+            field_108 == Ang16::Ang16_to_Fix16(v3->field_0))
         {
             return true;
         }
@@ -312,7 +328,8 @@ void Crane_15C::Service_480310()
     Crane_15C::UpdateCraneTargets_47F4C0();
     if (!field_148)
     {
-        if (!field_78_maybe_homecrane || field_8C_crane_angle != field_A8 || (field_78_maybe_homecrane->field_8C_crane_angle == field_78_maybe_homecrane->field_A8))
+        if (!field_78_maybe_homecrane || field_8C_crane_angle != field_A8 ||
+            (field_78_maybe_homecrane->field_8C_crane_angle == field_78_maybe_homecrane->field_A8))
         {
             Crane_15C::UpdateCraneTick_47FD50();
         }
