@@ -25,6 +25,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6779A4, dword_677B50, 0x6779A4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6779D4, Fix16(0x2CCC, 0), 0x6779D4);
 DEFINE_GLOBAL(CarAI_78_Pool*, gCarAI_78_Pool_677CF8, 0x677CF8);
 
+DEFINE_GLOBAL(Fix16, dword_677B00, 0x677B00);
+DEFINE_GLOBAL_INIT(Fix16, dword_677B60, Fix16(0x333, 0), 0x677B60);
+
 STUB_FUNC(0x4476f0)
 void CarAI_78::sub_4476F0()
 {
@@ -173,11 +176,76 @@ s16 CarAI_78::sub_452DF0()
     return 0;
 }
 
-STUB_FUNC(0x453470)
-s16 CarAI_78::sub_453470()
+WIP_FUNC(0x453470)
+void CarAI_78::sub_453470()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    this->field_0->field_58_physics->field_92_is_hand_brake_on = 0;
+    dword_677B00 = field_0->field_58_physics->field_40_linvel_1.GetLength_453590();
+
+    if (this->field_0->field_80)
+    {
+        this->field_0->field_A6 |= 0x20u;
+    }
+
+    char_type f30 = this->field_30;
+    if (f30)
+    {
+        char_type new_f30 = f30 - 1;
+        this->field_30 = new_f30;
+
+        char_type fA6 = this->field_0->field_A6;
+        char_type new_fA6;
+        if (new_f30)
+        {
+            new_fA6 = fA6 | 0x20;
+        }
+        else
+        {
+            new_fA6 = fA6 & ~0x20;
+        }
+        this->field_0->field_A6 = new_fA6;
+    }
+
+    Car_BC* pCarF0 = this->field_0;
+    if ((this->field_0->field_A6 & 0x20) == 0x20)
+    {
+        if ((this->field_24_flags & 0x100000) != 0)
+        {
+            if (dword_677B00 <= dword_677B60)
+            {
+                pCarF0->sub_43A950();
+            }
+            else
+            {
+                pCarF0->sub_43A970();
+            }
+            this->field_68 = 0;
+            this->field_24_flags =  ~0x1000u;
+        }
+        else
+        {
+            if (dword_677B00 <= dword_677B60)
+            {
+                CarPhysics_B0* pPhysics = pCarF0->field_58_physics;
+                pPhysics->field_91_is_foot_brake_on = 0;
+                pPhysics->field_93_is_forward_gas_on = 0;
+                pPhysics->field_94_is_backward_gas_on = 0;
+                pPhysics->field_95 = 0;
+            }
+            else
+            {
+                pCarF0->sub_43A970(); // gas on
+            }
+            this->field_68 = 0;
+            this->field_24_flags &= ~0x1000u;
+        }
+    }
+    else
+    {
+        sub_452DF0();
+    }
 }
 
 STUB_FUNC(0x453590)

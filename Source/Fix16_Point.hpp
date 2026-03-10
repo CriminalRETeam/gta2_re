@@ -45,6 +45,8 @@ struct Fix16_Point_POD
         return Fix16::atan2_fixed_405320(y, x);
     }
 
+    Fix16 GetLength_453590();
+
     // None inline exists in 10.5 at 0x453590
     inline Fix16 GetLength_41E260()
     {
