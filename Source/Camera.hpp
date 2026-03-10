@@ -37,7 +37,7 @@ class Camera_0xBC
 {
   public:
     EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite);
-    EXPORT char_type sub_435630(s16* a2, s32 a3);
+    EXPORT char_type sub_435630(Sprite* pSprite, s32 bUnknown);
     EXPORT void sub_4357B0();
     EXPORT void sub_4357F0();
     EXPORT void sub_435810();
