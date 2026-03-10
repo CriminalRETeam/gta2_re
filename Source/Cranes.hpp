@@ -36,7 +36,7 @@ class Crane_15C
     EXPORT void sub_47F930(Car_BC* a2);
     EXPORT s32 sub_47FB40();
     EXPORT s32 sub_47FBA0();
-    EXPORT s32 sub_47FD10();
+    EXPORT void sub_47FD10();
     EXPORT void UpdateCraneTick_47FD50();
     EXPORT void sub_47FE10();
     EXPORT void Service_480310();
