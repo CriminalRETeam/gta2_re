@@ -678,7 +678,7 @@ s8 Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin
 }
 
 MATCH_FUNC(0x4B9890)
-s8 Game_0x40::sub_4B9890(s16* a2, s32 a3)
+s8 Game_0x40::sub_4B9890(Sprite* a2, s32 a3)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
@@ -691,7 +691,7 @@ s8 Game_0x40::sub_4B9890(s16* a2, s32 a3)
 }
 
 MATCH_FUNC(0x4B98E0)
-bool Game_0x40::sub_4B98E0(s16* a2, u8 playerIdx, s32 a4)
+bool Game_0x40::sub_4B98E0(Sprite* a2, u8 playerIdx, s32 a4)
 {
     if (field_4_players[playerIdx]->field_8E_bInUse)
     {
