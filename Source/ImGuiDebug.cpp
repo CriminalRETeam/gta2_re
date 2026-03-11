@@ -193,6 +193,7 @@ static void EnableBoot2MapDebugOptions()
     bSkip_traffic_lights_67D4EC = true;
     bSkip_trains_67D550 = true;
 
+    /*
     bSkip_dummies_67D4EF = true;
     bSkip_police_67D4F9 = true;
     bSkip_fire_engines_67D53A = true;
@@ -201,12 +202,7 @@ static void EnableBoot2MapDebugOptions()
     bSkip_recycling_67D575 = true;
     bSkip_particles_67D64D = true;
     bSkip_ambulance_67D6C9 = true;
-    
-    //bSkip_audio_67D6BE = true;
-
-    // bSkip_slopes_67D505
-    // bSkip_window_check_67D54E
-    // 
+    */
 }
 
 static Sprite* GetPedSprite(Ped* pPed)
@@ -667,6 +663,33 @@ static void DrawHookList(char* filter, std::vector<FuncData>& funcs, TChangeHook
             FuncData& d = funcs[i];
             d.hooked = !d.hooked;
             pChangeHookFn(d.funcName, d.ogAddr, d.hooked);
+        }
+    }
+
+    static bool enableAllSlowly = false;
+    if (ImGui::Button("Slowly enable all"))
+    {
+        enableAllSlowly = true;
+    }
+
+    if (enableAllSlowly)
+    {
+        static s32 delay = 0;
+        delay++;
+        if (delay > 30)
+        {
+            delay = 0;
+            for (i = 0; i < funcs.size(); i++)
+            {
+                FuncData& d = funcs[i];
+                if (!d.hooked)
+                {
+                    d.hooked = !d.hooked;
+                    printf("Enable %s\n", d.funcName);
+                    pChangeHookFn(d.funcName, d.ogAddr, d.hooked);
+                    break;
+                }
+            }
         }
     }
 
