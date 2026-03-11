@@ -2990,7 +2990,6 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
                             }
                             else
                             {
-                                //theta_fp = -theta_fp;
                                 if (dword_6FE0B0 < -theta_fp)
                                 {
                                     dword_6FE0B0 = -theta_fp;
@@ -3172,6 +3171,8 @@ char_type CarPhysics_B0::UpdateLastMovementTimer_562FA0()
 WIP_FUNC(0x562fe0)
 bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
 {
+    WIP_IMPLEMENTED;
+
     char carModel; // al
     char bCol2; // bl
     char bCol3; // bl
