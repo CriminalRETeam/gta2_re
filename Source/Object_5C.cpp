@@ -1210,9 +1210,11 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
 {
     WIP_IMPLEMENTED;
 
+    Object_3C* p3C = field_10_obj_3c;
+
     byte_6F8C68 = 1;
 
-    if (this->field_10_obj_3c)
+    if (p3C)
     {
         sub_526B40(pSprite);
     }
@@ -1224,57 +1226,85 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
 
     PoolTake_522360();
 
-    if (field_25)
+    if (!field_25)
     {
-        TriggerCarExplosionIfApplicable_526790(pSprite);
-        byte_6F8C68 = 0;
-        return 1;
-    }
 
-    Fix16 new_x;
-    Fix16 new_y;
+        Fix16 new_x;
+        Fix16 new_y;
 
-    Wolfy_30* w30;
-    bool result;
+        Wolfy_30* w30;
+        bool result;
 
-    if (x == kFpZero_6F8E10 && y == kFpZero_6F8E10)
-    {
-        new_x = pSprite->field_14_xy.x;
-        new_y = pSprite->field_14_xy.y;
-    }
-    else
-    {
-        Ang16::RotateVector_41FC90(x, y, pSprite->field_0);
-        new_x = pSprite->field_14_xy.x + x;
-        new_y = pSprite->field_14_xy.y + y;
-    }
-
-    pSprite->set_xyz_lazy_420600(new_x, new_y, pSprite->field_1C_zpos);
-    field_4->set_ang_lazy_420690(rot + pSprite->field_0);
-
-    if (this->field_8->field_34_behavior_type == 2)
-    {
-        UpdateAninmation_5257D0();
-        goto LABEL_35;
-    }
-
-    if (this->field_8->field_34_behavior_type != 5)
-    {
-        if (this->field_8->field_34_behavior_type == 11)
+        if (x != kFpZero_6F8E10 || y != kFpZero_6F8E10)
         {
-            nostalgic_ellis_0x28* pLight = this->field_C_pAny.pLight;
-            pLight->sub_4D6DC0();
-            pLight->field_4_light_x = field_4->field_14_xy.x;
-            pLight->field_8_light_y = field_4->field_14_xy.y;
-            pLight->field_C_light_z = field_4->field_1C_zpos;
-            pLight->sub_4D6D70();
+            Ang16::RotateVector_41FC90(x, y, pSprite->field_0);
+            x += pSprite->field_14_xy.x;
+            y += pSprite->field_14_xy.y;
+            new_x = x;
+            new_y = y;
         }
-        goto LABEL_35;
-    }
+        else
+        {
+            new_x = pSprite->field_14_xy.x;
+            new_y = pSprite->field_14_xy.y;
+        }
 
-    w30 = this->field_C_pAny.pExplosion;
-    if (!w30)
-    {
+        pSprite->set_xyz_lazy_420600(new_x, new_y, pSprite->field_1C_zpos);
+        field_4->set_ang_lazy_420690(pSprite->field_0 + rot);
+
+        nostalgic_ellis_0x28* pLight;
+        switch (this->field_8->field_34_behavior_type)
+        {
+            case object_behavior_type::behavior_2:
+                UpdateAninmation_5257D0();
+                goto LABEL_35;
+
+            case object_behavior_type::behavior_11:
+                pLight = this->field_C_pAny.pLight;
+                pLight->sub_482D30(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
+                goto LABEL_35;
+
+            case object_behavior_type::behavior_5:
+                w30 = this->field_C_pAny.pExplosion;
+                if (w30)
+                {
+                    switch (pSprite->field_30_sprite_type_enum)
+                    {
+                        case sprite_types_enum::car:
+                            if (w30->IsState_5435D0())
+                            {
+                                field_4->set_z_lazy_420660(pSprite->field_8_car_bc_ptr->GetZPos_441330());
+                                pSprite->field_8_car_bc_ptr->AccumulateDamage_43DA90(1, &stru_6F8EF0);
+                            }
+
+                            this->field_C_pAny.pExplosion->field_1C = pSprite;
+
+                            if (!field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C, field_10_obj_3c->field_4))
+                            {
+                                goto LABEL_35;
+                            }
+                            byte_6F8C68 = 0;
+                            result = 1;
+                            return result;
+
+                        case 3:
+                        case 4:
+                        case 5:
+                            if (!w30->Update_5434A0(field_10_obj_3c->field_C, field_10_obj_3c->field_4))
+                            {
+                                goto LABEL_35;
+                            }
+                            byte_6F8C68 = 0;
+                            result = 1;
+                            return result;
+
+                        default:
+                            goto LABEL_35;
+                    }
+                }
+                break;
+        }
+
     LABEL_35:
         if (field_10_obj_3c)
         {
@@ -1291,42 +1321,12 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
         byte_6F8C68 = 0;
         return 0;
     }
-
-    switch (pSprite->field_30_sprite_type_enum)
+    else
     {
-        case sprite_types_enum::car:
-            if (w30->IsState_5435D0())
-            {
-                field_4->set_z_lazy_420660(pSprite->field_8_car_bc_ptr->GetZPos_441330());
-                pSprite->field_8_car_bc_ptr->AccumulateDamage_43DA90(1, &stru_6F8EF0);
-            }
-
-            this->field_C_pAny.pExplosion->field_1C = pSprite;
-
-            if (!field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C, field_10_obj_3c->field_4))
-            {
-                goto LABEL_35;
-            }
-            byte_6F8C68 = 0;
-            result = 1;
-            break;
-
-        case 3:
-        case 4:
-        case 5:
-            if (!w30->Update_5434A0(field_10_obj_3c->field_C, field_10_obj_3c->field_4))
-            {
-                goto LABEL_35;
-            }
-            byte_6F8C68 = 0;
-            result = 1;
-            break;
-
-        default:
-            goto LABEL_35;
+        TriggerCarExplosionIfApplicable_526790(pSprite);
+        byte_6F8C68 = 0;
+        return 1;
     }
-
-    return result;
 }
 
 MATCH_FUNC(0x527630)

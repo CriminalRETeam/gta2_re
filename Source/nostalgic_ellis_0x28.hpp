@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Function.hpp"
-#include "rng.hpp"
 #include "fix16.hpp"
+#include "rng.hpp"
 
 struct LightIntensityRadius
 {
@@ -10,7 +10,7 @@ struct LightIntensityRadius
     {
         flag = (flag & ~0x0000FF00) | (unknown << 8);
     }
-    
+
     inline void SetRadius_463F10(Fix16 radius)
     {
         u8 unknown = (radius * 32).ToInt();
@@ -89,6 +89,15 @@ class nostalgic_ellis_0x28
     {
         sub_45B2D0(intensity);
         field_18_intensity = intensity;
+    }
+
+    void sub_482D30(Fix16 y, Fix16 x, Fix16 z)
+    {
+        sub_4D6DC0();
+        this->field_8_light_y = x;
+        this->field_4_light_x = y;
+        this->field_C_light_z = z;
+        sub_4D6D70();
     }
 
     LightIntensityRadius field_0; // todo ??
