@@ -91,11 +91,11 @@ class nostalgic_ellis_0x28
         field_18_intensity = intensity;
     }
 
-    void sub_482D30(Fix16 y, Fix16 x, Fix16 z)
+    void sub_482D30(Fix16 x, Fix16 y, Fix16 z)
     {
         sub_4D6DC0();
-        this->field_8_light_y = x;
-        this->field_4_light_x = y;
+        this->field_8_light_y = y;
+        this->field_4_light_x = x;
         this->field_C_light_z = z;
         sub_4D6D70();
     }
