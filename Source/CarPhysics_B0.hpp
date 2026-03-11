@@ -222,6 +222,18 @@ class CarPhysics_B0
             field_74_ang_vel_rad == kFP16Zero_6FE20C;
     }
 
+    // FUNCTION: 96f 0x49f4e0
+    inline void Field40Add(Fix16_Point_POD& pt)
+    {
+        field_40_linvel_1 += pt;
+    }
+
+    // FUNCTION: 96f 0x49f4f0
+    inline void Field40Subtract(Fix16_Point_POD& pt)
+    {
+        field_40_linvel_1 -= pt;
+    }
+
     EXPORT Fix16 vec_len_552DE0(); // Char_B4.cpp func
 
     Fix16_Point field_0_vel_read_only;

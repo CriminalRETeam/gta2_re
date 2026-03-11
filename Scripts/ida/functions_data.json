@@ -1421,7 +1421,7 @@
     },
     {
         "name": "Car_BC::GetDamageFactorOnSpeed_439EE0",
-        "v96f_address": null,
+        "v96f_address": "0x421b90",
         "v105_address": "0x439ee0"
     },
     {
@@ -1446,7 +1446,7 @@
     },
     {
         "name": "Car_BC::get_mass_43A120",
-        "v96f_address": null,
+        "v96f_address": "0x421cf0",
         "v105_address": "0x43a120"
     },
     {
@@ -1491,7 +1491,7 @@
     },
     {
         "name": "Car_BC::GetMomentOfInertia_43A590",
-        "v96f_address": null,
+        "v96f_address": "0x425790",
         "v105_address": "0x43a590"
     },
     {
@@ -1531,7 +1531,7 @@
     },
     {
         "name": "Car_BC::GetCarModelForPhysics_43A850",
-        "v96f_address": null,
+        "v96f_address": "0x4220a0",
         "v105_address": "0x43a850"
     },
     {
@@ -1891,7 +1891,7 @@
     },
     {
         "name": "Car_BC::sub_440510",
-        "v96f_address": null,
+        "v96f_address": "0x4234a0",
         "v105_address": "0x440510"
     },
     {
@@ -2751,7 +2751,7 @@
     },
     {
         "name": "CarInfo_808::GetModelPhysicsFromIdx_4546B0",
-        "v96f_address": null,
+        "v96f_address": "0x4327e0",
         "v105_address": "0x4546b0"
     },
     {
@@ -2761,7 +2761,7 @@
     },
     {
         "name": "CarInfo_808::GetInfoAtIdx_454840",
-        "v96f_address": null,
+        "v96f_address": "0x432800",
         "v105_address": "0x454840"
     },
     {
@@ -4211,7 +4211,7 @@
     },
     {
         "name": "PurpleDoom::CheckAndHandleCollisionInStrips_477BD0",
-        "v96f_address": null,
+        "v96f_address": "0x447480",
         "v105_address": "0x477bd0"
     },
     {
@@ -12021,7 +12021,7 @@
     },
     {
         "name": "CarPhysics_B0::EnforceTrailerControlLimits_559B50",
-        "v96f_address": null,
+        "v96f_address": "0x49f280",
         "v105_address": "0x559b50"
     },
     {
@@ -12041,7 +12041,7 @@
     },
     {
         "name": "CarPhysics_B0::ApplyForcedSteering_559DD0",
-        "v96f_address": null,
+        "v96f_address": "0x49dd30",
         "v105_address": "0x559dd0"
     },
     {
@@ -12061,12 +12061,12 @@
     },
     {
         "name": "CarPhysics_B0::CalculateMass_559FF0",
-        "v96f_address": null,
+        "v96f_address": "0x49f660",
         "v105_address": "0x559ff0"
     },
     {
         "name": "CarPhysics_B0::GetEffectiveMomentOfInertia_55A050",
-        "v96f_address": null,
+        "v96f_address": "0x49f6c0",
         "v105_address": "0x55a050"
     },
     {
@@ -12076,7 +12076,7 @@
     },
     {
         "name": "CarPhysics_B0::GetTrailerAwareTurnRatio_55A100",
-        "v96f_address": null,
+        "v96f_address": "0x49f720",
         "v105_address": "0x55a100"
     },
     {
@@ -12101,7 +12101,7 @@
     },
     {
         "name": "CarPhysics_B0::save_physics_state_55A4B0",
-        "v96f_address": null,
+        "v96f_address": "0x49def0",
         "v105_address": "0x55a4b0"
     },
     {
@@ -12121,7 +12121,7 @@
     },
     {
         "name": "CarPhysics_B0::ResetForceAccumulators_55A840",
-        "v96f_address": null,
+        "v96f_address": "0x49fac0",
         "v105_address": "0x55a840"
     },
     {
@@ -12131,7 +12131,7 @@
     },
     {
         "name": "CarPhysics_B0::HandleGravityOnSlope_55AA00",
-        "v96f_address": null,
+        "v96f_address": "0x4a20e0",
         "v105_address": "0x55aa00"
     },
     {
@@ -12191,22 +12191,22 @@
     },
     {
         "name": "CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0",
-        "v96f_address": null,
+        "v96f_address": "0x4a3df0",
         "v105_address": "0x55c5c0"
     },
     {
         "name": "CarPhysics_B0::HandleMapBoundaryCollisionX_55C820",
-        "v96f_address": null,
+        "v96f_address": "0x4a3fb0",
         "v105_address": "0x55c820"
     },
     {
         "name": "CarPhysics_B0::DispatchCollision_55CA70",
-        "v96f_address": null,
+        "v96f_address": "0x4a4170",
         "v105_address": "0x55ca70"
     },
     {
         "name": "CarPhysics_B0::ReplayAndDispatchCollision_55CBB0",
-        "v96f_address": null,
+        "v96f_address": "0x4a4270",
         "v105_address": "0x55cbb0"
     },
     {
@@ -12236,7 +12236,7 @@
     },
     {
         "name": "CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80",
-        "v96f_address": null,
+        "v96f_address": "0x49e270",
         "v105_address": "0x55eb80"
     },
     {
@@ -12296,7 +12296,7 @@
     },
     {
         "name": "CarPhysics_B0::ApplyForceAtPoint_55F800",
-        "v96f_address": null,
+        "v96f_address": "0x4a0850",
         "v105_address": "0x55f800"
     },
     {
@@ -12311,7 +12311,7 @@
     },
     {
         "name": "CarPhysics_B0::ApplyForceScaledByMass_55F9A0",
-        "v96f_address": null,
+        "v96f_address": "0x4a0930",
         "v105_address": "0x55f9a0"
     },
     {
@@ -12341,7 +12341,7 @@
     },
     {
         "name": "CarPhysics_B0::HandleCarCollision_55FF20",
-        "v96f_address": null,
+        "v96f_address": "0x4a34a0",
         "v105_address": "0x55ff20"
     },
     {
@@ -12361,12 +12361,12 @@
     },
     {
         "name": "CarPhysics_B0::ProcessPedImpact_560B40",
-        "v96f_address": null,
+        "v96f_address": "0x4a0a30",
         "v105_address": "0x560b40"
     },
     {
         "name": "CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0",
-        "v96f_address": null,
+        "v96f_address": "0x4a0c60",
         "v105_address": "0x560eb0"
     },
     {
@@ -12376,7 +12376,7 @@
     },
     {
         "name": "CarPhysics_B0::IntegrateAndClampVelocities_5610B0",
-        "v96f_address": null,
+        "v96f_address": "0x4a0cc0",
         "v105_address": "0x5610b0"
     },
     {
@@ -12426,12 +12426,12 @@
     },
     {
         "name": "CarPhysics_B0::CalculateFrontWheelForce_561E50",
-        "v96f_address": null,
+        "v96f_address": "0x4a1130",
         "v105_address": "0x561e50"
     },
     {
         "name": "CarPhysics_B0::CalculateRearWheelForce_5620D0",
-        "v96f_address": null,
+        "v96f_address": "0x4a1360",
         "v105_address": "0x5620d0"
     },
     {
@@ -12446,22 +12446,22 @@
     },
     {
         "name": "CarPhysics_B0::ApplyThrottleInput_562480",
-        "v96f_address": null,
+        "v96f_address": "0x49e950",
         "v105_address": "0x562480"
     },
     {
         "name": "CarPhysics_B0::ApplyBrakePhysics_5624F0",
-        "v96f_address": null,
+        "v96f_address": "0x49e980",
         "v105_address": "0x5624f0"
     },
     {
         "name": "CarPhysics_B0::UpdateSteeringAngle_562560",
-        "v96f_address": null,
+        "v96f_address": "0x4a16b0",
         "v105_address": "0x562560"
     },
     {
         "name": "CarPhysics_B0::IsGasPedalPressedEnough_5626A0",
-        "v96f_address": null,
+        "v96f_address": "0x4a17a0",
         "v105_address": "0x5626a0"
     },
     {
@@ -12471,12 +12471,12 @@
     },
     {
         "name": "CarPhysics_B0::ApplyArrowSteerAssist_5626F0",
-        "v96f_address": null,
+        "v96f_address": "0x4a17c0",
         "v105_address": "0x5626f0"
     },
     {
         "name": "CarPhysics_B0::StabilizeVelocityAtSpeed_562910",
-        "v96f_address": null,
+        "v96f_address": "0x49ea70",
         "v105_address": "0x562910"
     },
     {
@@ -12486,7 +12486,7 @@
     },
     {
         "name": "CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00",
-        "v96f_address": null,
+        "v96f_address": "0x4a1b20",
         "v105_address": "0x562d00"
     },
     {
@@ -12501,12 +12501,12 @@
     },
     {
         "name": "CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0",
-        "v96f_address": null,
+        "v96f_address": "0x49ecc0",
         "v105_address": "0x562ef0"
     },
     {
         "name": "CarPhysics_B0::ApplyInputsAndIntegratePhysics_562F30",
-        "v96f_address": null,
+        "v96f_address": "0x4a2f20",
         "v105_address": "0x562f30"
     },
     {
@@ -12531,7 +12531,7 @@
     },
     {
         "name": "CarPhysics_B0::UpdateReferencePoint_563460",
-        "v96f_address": null,
+        "v96f_address": "0x49edc0",
         "v105_address": "0x563460"
     },
     {

@@ -102,6 +102,15 @@ struct Fix16_Point_POD
         return *this;
     }
 
+    // FUNCTION: 96f 0x4828c0
+    Fix16_Point_POD& Fix16_Point_POD::operator-=(Fix16_Point_POD& other)
+    {
+        x -= other.x;
+        y -= other.y;
+        return *this;
+    }
+
+
     // Operator* for Fix16 ?
     void MultiplyByFix16_49E3A0(Fix16 factor)
     {
