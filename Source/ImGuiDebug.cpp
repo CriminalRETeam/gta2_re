@@ -670,6 +670,33 @@ static void DrawHookList(char* filter, std::vector<FuncData>& funcs, TChangeHook
         }
     }
 
+    static bool enableAllSlowly = false;
+    if (ImGui::Button("Slowly enable all"))
+    {
+        enableAllSlowly = true;
+    }
+
+    if (enableAllSlowly)
+    {
+        static s32 delay = 0;
+        delay++;
+        if (delay > 30)
+        {
+            delay = 0;
+            for (i = 0; i < funcs.size(); i++)
+            {
+                FuncData& d = funcs[i];
+                if (!d.hooked)
+                {
+                    d.hooked = !d.hooked;
+                    printf("Enable %s\n", d.funcName);
+                    pChangeHookFn(d.funcName, d.ogAddr, d.hooked);
+                    break;
+                }
+            }
+        }
+    }
+
     for (i = 0; i < funcs.size(); i++)
     {
         FuncData& d = funcs[i];
