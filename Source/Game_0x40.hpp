@@ -58,8 +58,8 @@ class Game_0x40
     EXPORT void sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT s8 IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* a2, Fix16 a3);
     EXPORT s8 IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 a3);
-    EXPORT s8 sub_4B9890(s16* a2, s32 a3);
-    EXPORT bool sub_4B98E0(s16* a2, u8 playerIdx, s32 a4);
+    EXPORT s8 sub_4B9890(Sprite* a2, s32 a3);
+    EXPORT bool sub_4B98E0(Sprite* a2, u8 playerIdx, s32 a4);
     EXPORT s8 IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 margin);
     EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* a2, u8 playerIdx);
     EXPORT bool is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp);
