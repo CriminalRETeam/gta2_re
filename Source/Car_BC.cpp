@@ -84,7 +84,7 @@ DEFINE_GLOBAL_ARRAY(u16, gRngRemapTable_679320, 1000, 0x679320);
 DEFINE_GLOBAL_INIT(Fix16, dword_6777D0, Fix16(0x4000, 0), 0x6777D0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6772D0, Fix16(0x2000, 0), 0x6772D0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6771FC, Fix16(0x2000, 0), 0x6771FC);
-DEFINE_GLOBAL_INIT(s32, dword_677888, 0x100, 0x677888);
+DEFINE_GLOBAL_INIT(Fix16, dword_677888, Fix16(0x100, 0), 0x677888);
 DEFINE_GLOBAL_INIT(Fix16, dword_6778D0, Fix16(0x14000, 0), 0x6778D0);
 DEFINE_GLOBAL_INIT(Fix16, DAT_006FF744, Fix16(0x147, 0), 0x6FF744);
 DEFINE_GLOBAL(Fix16, dword_6FF774, 0x006FF774);
@@ -128,7 +128,7 @@ EXTERN_GLOBAL(u8, byte_6F8EDC);
 DEFINE_GLOBAL(Fix16, k_dword_66AB38, 0x66AB38);
 
 DEFINE_GLOBAL(Fix16_Point, stru_677370, 0x677370);
-DEFINE_GLOBAL(Fix16_Point, stru_677358, 0x677358);
+DEFINE_GLOBAL_INIT(Fix16_Point, stru_677358, Fix16_Point(0, dword_677888 * -30), 0x677358);
 DEFINE_GLOBAL_INIT(Ang16, dword_677234, Ang16(0x168), 0x677234);
 DEFINE_GLOBAL_INIT(Fix16, dword_6778FC, Fix16(0x2000, 0), 0x6778FC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_677918, Fix16(0x20000, 0), 0x677918);
@@ -2938,6 +2938,7 @@ STUB_FUNC(0x43d400)
 s32 Car_BC::sub_43D400()
 {
     NOT_IMPLEMENTED;
+    field_0_qq.CleanupSpriteList_5A7080();
     return 0;
 }
 
@@ -5341,8 +5342,8 @@ void Car_BC::sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5)
     Object_2C* pObj = gObject_5C_6F8F84->NewLight_529AB0(object_type, 0, 0, 0, argb, dword_6772AC, 200);
     pObj->Light_527990();
     field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4,
-                                                       Fix16(a4 * dword_677888, 0),
-                                                       Fix16(a5 * dword_677888, 0),
+                                                       (dword_677888 * a4),
+                                                       (dword_677888 * a5),
                                                        word_67791C);
 }
 
