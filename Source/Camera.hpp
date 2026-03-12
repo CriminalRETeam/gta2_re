@@ -88,6 +88,7 @@ class Camera_0xBC
         field_3C_followed_ped_id = 2;
     }
 
+    // FUNCTION: 96f 0x40cfc0
     inline Fix16_Point_POD sub_40CFC0(Fix16 x, Fix16 y, Fix16 z)
     {
         Fix16_Point_POD tmp;

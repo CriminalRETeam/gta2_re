@@ -220,11 +220,6 @@
         "v105_address": "0x40ac50"
     },
     {
-        "name": "Fix16::Multiply",
-        "v96f_address": null,
-        "v105_address": "0x438fe0"
-    },
-    {
         "name": "Fix16::Negate",
         "v96f_address": null,
         "v105_address": "0x40acb0"
@@ -1231,7 +1226,7 @@
     },
     {
         "name": "Camera_0xBC::ReturnToDefaultZoom_435830",
-        "v96f_address": null,
+        "v96f_address": "0x41dfb0",
         "v105_address": "0x435830"
     },
     {
@@ -1256,12 +1251,12 @@
     },
     {
         "name": "Camera_0xBC::IsCoordsPosVisible_435A70",
-        "v96f_address": "0x40CFC0",
+        "v96f_address": "0x41e710",
         "v105_address": "0x435a70"
     },
     {
         "name": "Camera_0xBC::sub_435B90",
-        "v96f_address": null,
+        "v96f_address": "0x41e7a0",
         "v105_address": "0x435b90"
     },
     {
@@ -1301,7 +1296,7 @@
     },
     {
         "name": "Camera_0xBC::sub_4361B0",
-        "v96f_address": null,
+        "v96f_address": "0x41eb70",
         "v105_address": "0x4361b0"
     },
     {
@@ -1355,11 +1350,6 @@
         "v105_address": "0x436a00"
     },
     {
-        "name": "Fix16::Divide",
-        "v96f_address": null,
-        "v105_address": "0x442cb0"
-    },
-    {
         "name": "Fix16::Abs",
         "v96f_address": null,
         "v105_address": "0x436a50"
@@ -1375,8 +1365,8 @@
         "v105_address": "0x438fb0"
     },
     {
-        "name": "Fix16::Multiply",
-        "v96f_address": null,
+        "name": "Fix16_Point::Multiply",
+        "v96f_address": "0x41e1a0",
         "v105_address": "0x438fe0"
     },
     {
@@ -2151,7 +2141,7 @@
     },
     {
         "name": "Car_BC::ManageTVAntenna_4425D0",
-        "v96f_address": null,
+        "v96f_address": "0x424280",
         "v105_address": "0x4425d0"
     },
     {
@@ -2185,8 +2175,8 @@
         "v105_address": "0x442c80"
     },
     {
-        "name": "Fix16::Divide",
-        "v96f_address": null,
+        "name": "Fix16_Point::Divide",
+        "v96f_address": "0x4202e0",
         "v105_address": "0x442cb0"
     },
     {
@@ -7416,12 +7406,12 @@
     },
     {
         "name": "Map_0x370::CanSpriteEnterTile_4E1E00",
-        "v96f_address": null,
+        "v96f_address": "0x46a570",
         "v105_address": "0x4e1e00"
     },
     {
         "name": "Map_0x370::CanSpriteEnterMovementRegion_4E4460",
-        "v96f_address": null,
+        "v96f_address": "0x46b440",
         "v105_address": "0x4e4460"
     },
     {
@@ -12011,7 +12001,7 @@
     },
     {
         "name": "CarPhysics_B0::UpdateTrailerPhysicsFromTowingCar_559A40",
-        "v96f_address": null,
+        "v96f_address": "0x49f1b0",
         "v105_address": "0x559a40"
     },
     {
@@ -12086,12 +12076,12 @@
     },
     {
         "name": "CarPhysics_B0::IsAccelerationOrReverseOn_55A180",
-        "v96f_address": null,
+        "v96f_address": "0x49ddf0",
         "v105_address": "0x55a180"
     },
     {
         "name": "CarPhysics_B0::SetVelocityTowardTarget_55A1D0",
-        "v96f_address": null,
+        "v96f_address": "0x49f760",
         "v105_address": "0x55a1d0"
     },
     {
@@ -12181,7 +12171,7 @@
     },
     {
         "name": "CarPhysics_B0::SweepTestMovementForCollision_55C3B0",
-        "v96f_address": null,
+        "v96f_address": "0x4a2f90",
         "v105_address": "0x55c3b0"
     },
     {
@@ -12231,7 +12221,7 @@
     },
     {
         "name": "CarPhysics_B0::StepMovementAndCollisions_55E470",
-        "v96f_address": null,
+        "v96f_address": "0x4a4310",
         "v105_address": "0x55e470"
     },
     {
@@ -12241,7 +12231,7 @@
     },
     {
         "name": "CarPhysics_B0::ApplyForwardEngineForce_55EC30",
-        "v96f_address": null,
+        "v96f_address": "0x4a2a30",
         "v105_address": "0x55ec30"
     },
     {
@@ -12251,22 +12241,22 @@
     },
     {
         "name": "CarPhysics_B0::ApplyReverseEngineForce_55EF20",
-        "v96f_address": null,
+        "v96f_address": "0x4a2b40",
         "v105_address": "0x55ef20"
     },
     {
         "name": "CarPhysics_B0::ApplyTurningForce_55F020",
-        "v96f_address": null,
+        "v96f_address": "0x4a2c70",
         "v105_address": "0x55f020"
     },
     {
         "name": "CarPhysics_B0::ApplyMovementCommand_55F240",
-        "v96f_address": null,
+        "v96f_address": "0x4a2d70",
         "v105_address": "0x55f240"
     },
     {
         "name": "CarPhysics_B0::ProcessCollisionAndClampVelocity_55F280",
-        "v96f_address": null,
+        "v96f_address": "0x4a4490",
         "v105_address": "0x55f280"
     },
     {
@@ -14511,7 +14501,7 @@
     },
     {
         "name": "ExplodingScore_100::DrawExploding",
-        "v96f_address": null,
+        "v96f_address": "0x4b98b0",
         "v105_address": "0x5969e0"
     },
     {
@@ -14546,7 +14536,7 @@
     },
     {
         "name": "ExplodingScore_50::DrawNumbers_596C90",
-        "v96f_address": null,
+        "v96f_address": "0x4b94b0",
         "v105_address": "0x596c90"
     },
     {

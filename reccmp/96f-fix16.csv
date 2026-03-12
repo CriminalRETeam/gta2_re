@@ -28,8 +28,17 @@ address,type,symbol
 // operator/(s32)
 401BF0,function,??KFix16@@QAE?AV0@ABH@Z
 
+// Ang16::Normalize
+401C10,function,?Normalize@Ang16@@QAEXXZ
+
+// Ang16::ctor(s16,s32)
+401C60,function,??0Ang16@@QAE@ABFH@Z
+
 // Fix16Pt_POD(Fix16, Fix16)
 401D20,function,??0Fix16_Point_POD@@QAE@AAVFix16@@0@Z
+
+// Fix16_Point::operator/(Fix16)
+4202E0,function,??KFix16_Point_POD@@QAE?AU0@ABVFix16@@@Z
 
 // operator-(negate)
 403780,function,??GFix16@@QBE?AV0@XZ
@@ -46,11 +55,17 @@ address,type,symbol
 // abs
 403840,function,?Abs@Fix16@@SG?AV1@AAV1@@Z
 
+// ctor(?)
+// 40CE00,function,
+
 // ctor(u8)
 40CE30,function,??0Fix16@@QAE@E@Z
 
 // operator<=
 40CE50,function,??NFix16@@QBEHABV0@@Z
+
+// operator>=
+40CE70,function,??PFix16@@QBEHABV0@@Z
 
 // operator+=
 40E530,function,??YFix16@@QAEAAV0@ABV0@@Z
@@ -61,8 +76,32 @@ address,type,symbol
 // operator==
 40E570,function,??8Fix16@@QBEHABV0@@Z
 
+// Ang16::operator+
+40E5A0,function,??HAng16@@QAE?AV0@ABV0@@Z
+
+// Ang16::operator-
+40E5D0,function,??GAng16@@QAE?AV0@ABV0@@Z
+
+// Ang16::operator>
+40E670,function,??OAng16@@QAEHABV0@@Z
+
+// Ang16::operator<=
+40F4C0,function,??NAng16@@QAEHABV0@@Z
+
+// Ang16::operator Fix16()
+40F580,function,?Ang16_to_Fix16@Ang16@@SA?AVFix16@@ABV1@@Z
+
 // Fix16Point::operator+=
 40F680,function,??YFix16_Point_POD@@QAEAAU0@AAU0@@Z
+
+// Ang16::operator!=
+41CFF0,function,??9Ang16@@QAEHABV0@@Z
+
+// Ang16::operator<
+41E0F0,function,??MAng16@@QAEHABV0@@Z
+
+// Fix16_Point::operator*(Fix16)
+41E1A0,function,??DFix16_Point_POD@@QAE?AU0@ABVFix16@@@Z
 
 // ctor(u32)
 41F980,function,??0Fix16@@QAE@I@Z
@@ -72,6 +111,9 @@ address,type,symbol
 
 // operator s32()
 41F9D0,function,?ToInt@Fix16@@QBEHXZ
+
+// Ang16::operator+=
+41FA70,function,??YAng16@@QAE?AV0@ABV0@@Z
 
 // GetFracValue
 42A630,function,?GetFracValue@Fix16@@QBE?AV1@XZ
