@@ -246,9 +246,11 @@ s32 Camera_0xBC::IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z)
 }
 
 // https://decomp.me/scratch/YoPmg Is field_60 really a Fix16_Point ?
-STUB_FUNC(0x435B90)
+WIP_FUNC(0x435B90)
 void Camera_0xBC::sub_435B90()
 {
+    WIP_IMPLEMENTED;
+
     field_60.x = Fix16(field_68_screen_px_width) * field_98_cam_pos2.field_C_zoom;
     field_60.y = Fix16(640) * field_98_cam_pos2.field_C_zoom;
 
