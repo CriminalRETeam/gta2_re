@@ -18,6 +18,14 @@ EXTERN_GLOBAL(Fix16, dword_6F8CF0);
 class Fix16
 {
   public:
+    // 9.6f func
+    static inline s32 __stdcall Round_To_Int_410BF0(Fix16& a1)
+    {
+        s32 v = a1.mValue;
+        return (v + 0x2000) >> 14;
+    }
+
+
     // TODO: BIG HACK!!! Makes no sense for this to be a method but its the only way to force certain inlining behaviour
     // ideally we'll figure out how to get the inlining we need without doing this in the future.
     bool __stdcall IntervalIntersectsRange_438FB0_inline(const Fix16& intervalEnd, const Fix16& rangeMin, const Fix16& rangeMax) const
