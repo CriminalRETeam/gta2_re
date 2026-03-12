@@ -78,13 +78,6 @@ static inline s32 Clamp2(s32 v, s32 center, s32 radius)
     return v > center ? Min(v, center + radius) : Max(v, center - radius);
 }
 
-// 9.6f func
-inline s32 __stdcall Fix16_Round_To_Int_410BF0(Fix16& a1)
-{
-    s32 v = a1.mValue;
-    return (v + 0x2000) >> 14;
-}
-
 MATCH_FUNC(0x419CD0)
 sound_obj::sound_obj()
 {
@@ -340,7 +333,7 @@ s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, F
         }
         else
         {
-            return Fix16_Round_To_Int_410BF0((Fix16(snd_rate) * Fix16(field_4)) / (Fix16(field_4) + Fix16(v5)));
+            return Fix16::Round_To_Int_410BF0((Fix16(snd_rate) * Fix16(field_4)) / (Fix16(field_4) + Fix16(v5)));
         }
     }
 
@@ -3424,10 +3417,10 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
                 v9 = Fix16(573440, 0) * (v8 / div_factor);
 
             LABEL_11:
-                emitting_vol =  Fix16_Round_To_Int_410BF0(v9) + 25;
+                emitting_vol =  Fix16::Round_To_Int_410BF0(v9) + 25;
                 goto LABEL_24;
             }
-            emitting_vol =  Fix16_Round_To_Int_410BF0((Fix16(655360, 0) * gas_pedal) / max_speed);
+            emitting_vol =  Fix16::Round_To_Int_410BF0((Fix16(655360, 0) * gas_pedal) / max_speed);
         }
 
     LABEL_24:
@@ -3929,7 +3922,7 @@ void sound_obj::HandleTrainCabRollingFrictionSound_4143A0(Sound_Params_8* a2)
     {
         if (CalculateDistance_419020(Fix16(3686400, 0)))
         {
-            s32 v6 = Fix16_Round_To_Int_410BF0((Fix16(2080768, 0) * v4) / max_speed);
+            s32 v6 = Fix16::Round_To_Int_410BF0((Fix16(2080768, 0) * v4) / max_speed);
             if ((u8)v6)
             {
                 if (VolCalc_419070((u8)v6, Fix16(245760, 0), a2->field_5_bHasSolidAbove))
@@ -4666,7 +4659,7 @@ void sound_obj::Tank_414A50(Sound_Params_8* a2)
                     vol_mult = max_speed;
                 }
 
-                s32 vol = Fix16_Round_To_Int_410BF0((vol_mult / max_speed) * Fix16(90));
+                s32 vol = Fix16::Round_To_Int_410BF0((vol_mult / max_speed) * Fix16(90));
                 //vol = (int)(((1474560LL * (int)(((__int64)vol_mult << 14) / max_speed)) >> 14) + 0x2000) >> 14;
 
                 if (VolCalc_419070(vol, Fix16(20) / Fix16(2), a2->field_5_bHasSolidAbove))
@@ -4735,7 +4728,7 @@ void sound_obj::Tank_415190(Sound_Params_8* a2)
                     vol_mult = gCarInfo_48_6FE258->field_28_max_speed;
                 }
 
-                s32 vol = Fix16_Round_To_Int_410BF0((Fix16(1310720, 0) * vol_mult) / max_speed);
+                s32 vol = Fix16::Round_To_Int_410BF0((Fix16(1310720, 0) * vol_mult) / max_speed);
 
                 if (VolCalc_419070(vol, Fix16(122880, 0), a2->field_5_bHasSolidAbove))
                 {
@@ -5009,7 +5002,7 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
                     div_val = dword_66F3FC;
                 }
             LABEL_23:
-                sample_base = Fix16_Round_To_Int_410BF0((pRozzA->field_24_car_physics_value / div_val) * dword_66F1CC);
+                sample_base = Fix16::Round_To_Int_410BF0((pRozzA->field_24_car_physics_value / div_val) * dword_66F1CC);
             }
             else
             {

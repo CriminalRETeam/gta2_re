@@ -56,7 +56,7 @@ class Camera_0xBC
     EXPORT void sub_436120(Fix16 a2);
     EXPORT void sub_436140();
     EXPORT void sub_4361B0(u32 a2, u32 a3);
-    EXPORT s32 ApplyCarVelocityCameraOffset_436200(Car_BC* a2, Fix16* a3, Fix16* a4, Fix16* a5);
+    EXPORT void ApplyCarVelocityCameraOffset_436200(Car_BC* a2, Fix16* a3, Fix16* a4, Fix16* a5);
     EXPORT void sub_4364A0(Car_BC* pCar);
     EXPORT void UpdateFollowPedCamera_436540(Ped* a2);
     EXPORT void HandlePanning_436710(char_type a2, char_type a3, char_type a4, char_type a5);

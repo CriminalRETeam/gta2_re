@@ -50,6 +50,18 @@ DEFINE_GLOBAL_INIT(Fix16, dword_67666C, Fix16(0xCCC, 0), 0x67666C);
 DEFINE_GLOBAL_INIT(Fix16, dword_676694, dword_67666C, 0x676694);
 DEFINE_GLOBAL_INIT(Fix16, dword_676684, Fix16(0x3333, 0), 0x676684);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6768B4, Fix16(0x40000, 0), 0x6768B4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6768E4, Fix16(0x100000, 0), 0x6768E4);
+DEFINE_GLOBAL_INIT(Fix16, dword_676900, dword_676678, 0x676900);
+DEFINE_GLOBAL_INIT(Fix16, dword_67696C, dword_6768B4, 0x67696C);
+DEFINE_GLOBAL_INIT(Fix16, dword_67674C, dword_67681C + dword_676678, 0x67674C);
+
+DEFINE_GLOBAL_INIT(Ang16, dword_6766DC, Ang16(0x00B4, 0), 0x6766DC);
+DEFINE_GLOBAL_INIT(Ang16, dword_676790, Ang16(0x021C, 0), 0x676790);
+DEFINE_GLOBAL_INIT(Ang16, word_676764, Ang16(0x0384, 0), 0x676764);
+DEFINE_GLOBAL_INIT(Ang16, word_67679C, Ang16(0x04EC, 0), 0x67679C);
+
+
 // TODO: move
 static inline Fix16 sub_41E130(Fix16 a1, Fix16 a2)
 {
@@ -622,11 +634,77 @@ void Camera_0xBC::sub_4361B0(u32 x_pos, u32 y_pos)
     field_A8_ui_scale = Fix16(x_pos) / 640;
 }
 
-STUB_FUNC(0x436200)
-s32 Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* a2, Fix16* a3, Fix16* a4, Fix16* a5)
+WIP_FUNC(0x436200)
+void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, Fix16* pY, Fix16* pZ)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 ret;
+    Fix16 pMaybeY_FP16;
+    Fix16 pMaybeX_FP16;
+
+    if (pCar->IsTrainModel_403BA0())
+    {
+        ret = (dword_676900 * dword_67696C);
+    }
+    else
+    {
+        Fix16_Point linvel_43A450 = pCar->get_linvel_43A450();
+
+        Fix16_Point v10 = (linvel_43A450 * dword_67696C);
+        pMaybeY_FP16 = v10.x;
+        pMaybeX_FP16 = v10.y;
+
+        // TODO: Uses dword_676818 as kZero
+        ret = v10.GetLength_2();
+    }
+
+    if (ret > dword_67674C)
+    {
+        *pZ += ret;
+
+        if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
+        {
+            Ang16 v16 = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
+            Fix16 v17;
+            if (v16 <= dword_6766DC || v16 >= dword_676790 && (v16 <= word_676764 || v16 >= word_67679C))
+            {
+                v17 = Fix16(0x2D0000, 0);
+            }
+            else
+            {
+                v17 = Fix16(0x3C0000, 0);
+            }
+
+            Trailer* pTrailer = pCar->field_64_pTrailer;
+            if (pTrailer)
+            {
+                if (pTrailer->field_8_truck_cab == pCar)
+                {
+                    v17 = (v17 * dword_6768E0);
+                }
+            }
+
+            u8 f44 = this->field_44;
+            if (f44)
+            {
+                Fix16 v20;
+                if ((u8)f44 <= 64u)
+                {
+                    v20 = Fix16(this->field_44);
+                }
+                else
+                {
+                    v20 = dword_6768E4;
+                }
+                v17 = (v17 * (dword_67681C - v20 / 128));
+            }
+            Fix16 v25 = Fix16(Fix16::Round_To_Int_410BF0(v17 * (*pZ - pCar->field_50_car_sprite->field_1C_zpos))) / field_60.y;
+
+            *pX += (v25 * Ang16::sine_40F500(v16));
+            *pY += (v25 * Ang16::cosine_40F520(v16));
+        }
+    }
 }
 
 WIP_FUNC(0x4364A0)
