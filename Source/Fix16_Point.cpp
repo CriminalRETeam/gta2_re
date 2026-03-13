@@ -42,11 +42,8 @@ WIP_FUNC(0x5605E0)
 Fix16_Point Fix16_Point::Rotate90CCW_5605E0()
 {
     WIP_IMPLEMENTED;
-
-    Fix16_Point t;
-    t.x = -this->y;
-    t.y = this->x;
-    return t;
+    // TODO: Mov instruction is encoded wrongly ??
+    return Fix16_Point(-y, x);
 }
 
 MATCH_FUNC(0x55F9E0)
