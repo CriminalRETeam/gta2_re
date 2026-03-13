@@ -131,7 +131,7 @@ struct Fix16_Point_POD
         y = a2;
     }
 
-    // Inlined, on version 9.6f 0x41E1E0
+    // FUNCTION: 96f 0x41e1e0
     void reset()
     {
         x = Fix16(0);

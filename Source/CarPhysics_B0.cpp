@@ -3168,20 +3168,11 @@ char_type CarPhysics_B0::UpdateLastMovementTimer_562FA0()
     return false;
 }
 
-WIP_FUNC(0x562fe0)
+MATCH_FUNC(0x562fe0)
 bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
 {
-    WIP_IMPLEMENTED;
-
     char carModel; // al
-    char bCol2; // bl
-    char bCol3; // bl
-    char bCol4; // bl
-    char bCol5; // bl
-    char bCol6; // bl
-    char bCol1; // bl
-    char bCol7; // bl
-    Ped* pDriver; // eax
+    char flag; // bl
 
     SetCurrentCarInfoAndModelPhysics_562EF0();
     carModel = field_5C_pCar->GetCarModelForPhysics_43A850();
@@ -3197,89 +3188,84 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
     switch (field_8C_state)
     {
         case 1:
-            stru_6FDF50.x.mValue = 0;
-            stru_6FDF50.y.mValue = 0;
-            bCol2 = CheckAndHandleCarAndTrailerCollisions_55EB80();
+            ResetPoint6FDF50();
+            flag = CheckAndHandleCarAndTrailerCollisions_55EB80();
             ApplyForcedSteering_559DD0();
             EnforceTrailerControlLimits_559B50();
             UpdateSteeringAngle_562560();
             ApplyInputsAndIntegratePhysics_562F30();
             StabilizeVelocityAtSpeed_562910();
             EnforceGearSensitiveMaxSpeed_562D00();
-            Field40Add(stru_6FDF50);
+            Field40Add();
             ApplyArrowSteerAssist_5626F0();
             ScarePedsOnDrivingFast_559C30();
-            bCol3 = ProcessCollisionAndClampVelocity_55F280() | bCol2;
-            bCol4 = CheckPendingCollision_55F360() | bCol3;
+            flag = ProcessCollisionAndClampVelocity_55F280() | flag;
+            flag = CheckPendingCollision_55F360() | flag;
             DoSkidmarks_55E260();
-            Field40Subtract(stru_6FDF50);
-            this->field_74_ang_vel_rad -= dword_6FE0B0;
+            Field40Subtract();
+            Field74Subtract();
             break;
         case 2:
-            stru_6FDF50.x.mValue = 0;
-            stru_6FDF50.y.mValue = 0;
-            bCol5 = CheckAndHandleCarAndTrailerCollisions_55EB80();
+            ResetPoint6FDF50();
+            flag = CheckAndHandleCarAndTrailerCollisions_55EB80();
             EnforceTrailerControlLimits_559B50();
             UpdateSteeringAngle_562560();
             ApplyInputsAndIntegratePhysics_562F30();
             StabilizeVelocityAtSpeed_562910();
             EnforceGearSensitiveMaxSpeed_562D00();
-            Field40Add(stru_6FDF50);
+            Field40Add();
             ApplyArrowSteerAssist_5626F0();
             ScarePedsOnDrivingFast_559C30();
-            bCol6 = ProcessCollisionAndClampVelocity_55F280() | bCol5;
-            bCol4 = CheckPendingCollision_55F360() | bCol6;
+            flag = ProcessCollisionAndClampVelocity_55F280() | flag;
+            flag = CheckPendingCollision_55F360() | flag;
             DoSkidmarks_55E260();
-            Field40Subtract(stru_6FDF50);
-            this->field_74_ang_vel_rad -= dword_6FE0B0;
+            Field40Subtract();
+            Field74Subtract();
             break;
         case 3:
-            bCol1 = CheckAndHandleCarAndTrailerCollisions_55EB80();
+            flag = CheckAndHandleCarAndTrailerCollisions_55EB80();
             ApplyInputsAndIntegratePhysics_562F30();
             ScarePedsOnDrivingFast_559C30();
             CheckPendingCollision_55F360();
-            bCol7 = ProcessCollisionAndClampVelocity_55F280() | bCol1;
-            bCol4 = CheckPendingCollision_55F360() | bCol7;
+            flag = ProcessCollisionAndClampVelocity_55F280() | flag;
+            flag = CheckPendingCollision_55F360() | flag;
             DoSkidmarks_55E260();
-            pDriver = this->field_5C_pCar->field_54_driver;
-            if (pDriver && pDriver->field_15C_player) // Car_BC::IsDrivenByPlayer_4118D0
+            if (this->field_5C_pCar->is_driven_by_player())
             {
-                this->field_8C_state = 2; // sub_4212B0
+                SetField8C_to_2();
             }
             else
             {
-                this->field_8C_state = 1; // sub_4212A0
+                SetField8C_to_1();
             }
             break;
         case 0:
-            bCol1 = CheckAndHandleCarAndTrailerCollisions_55EB80();
+            flag = CheckAndHandleCarAndTrailerCollisions_55EB80();
             ScarePedsOnDrivingFast_559C30();
-            bCol7 = ProcessCollisionAndClampVelocity_55F280() | bCol1;
-            bCol4 = CheckPendingCollision_55F360() | bCol7;
+            flag = ProcessCollisionAndClampVelocity_55F280() | flag;
+            flag = CheckPendingCollision_55F360() | flag;
             DoSkidmarks_55E260();
-            pDriver = this->field_5C_pCar->field_54_driver;
-            if (pDriver && pDriver->field_15C_player) // Car_BC::IsDrivenByPlayer_4118D0
+            if (this->field_5C_pCar->is_driven_by_player())
             {
-                this->field_8C_state = 2; // sub_4212B0
+                SetField8C_to_2();
             }
             else
             {
-                this->field_8C_state = 1; // sub_4212A0
+                SetField8C_to_1();
             }
             break;
         case 4:
-            bCol4 = CheckAndHandleCarAndTrailerCollisions_55EB80();
+            flag = CheckAndHandleCarAndTrailerCollisions_55EB80();
             StepPhysics_55F330();
             ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
             DoSkidmarks_55E260();
-            pDriver = this->field_5C_pCar->field_54_driver;
-            if (pDriver && pDriver->field_15C_player) // Car_BC::IsDrivenByPlayer_4118D0
+            if (this->field_5C_pCar->is_driven_by_player())
             {
-                this->field_8C_state = 2; // sub_4212B0
+                SetField8C_to_2();
             }
             else
             {
-                this->field_8C_state = 1; // sub_4212A0
+                SetField8C_to_1();
             }
             break;
         default:
@@ -3287,18 +3273,8 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             break;
     }
 
-    if (UpdateLastMovementTimer_562FA0())
-    {
-        if (!bCol4)
-        {
-            if (field_98_surface_type != 7 && field_98_surface_type != 8 && field_98_surface_type != 6)
-            {
-                return 1;
-            }
-        }
-    }
-
-    return 0;
+    return (UpdateLastMovementTimer_562FA0() && !flag && field_98_surface_type != 7 && field_98_surface_type != 8 &&
+            field_98_surface_type != 6);
 }
 
 // https://decomp.me/scratch/Uxers

@@ -22,6 +22,8 @@ EXTERN_GLOBAL(Ang16, word_6FE154);
 EXTERN_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4);
 EXTERN_GLOBAL(Fix16, dword_6FE348);
 EXTERN_GLOBAL(Fix16, dword_677794);
+EXTERN_GLOBAL(Fix16_Point, stru_6FDF50);
+EXTERN_GLOBAL(Fix16, dword_6FE0B0);
 
 class CarPhysics_B0
 {
@@ -216,22 +218,46 @@ class CarPhysics_B0
         return field_0_vel_read_only.GetLength_41E260();
     }
 
+    // FUNCTION: 96f 0x4212a0
+    inline void SetField8C_to_1()
+    {
+        field_8C_state = 1;
+    }
+
+    // FUNCTION: 96f 0x4212b0
+    inline void SetField8C_to_2()
+    {
+        field_8C_state = 2;
+    }
+
     inline bool sub_49EF80()
     {
         return field_40_linvel_1.x == kFP16Zero_6FE20C && field_40_linvel_1.y == kFP16Zero_6FE20C &&
             field_74_ang_vel_rad == kFP16Zero_6FE20C;
     }
 
-    // FUNCTION: 96f 0x49f4e0
-    inline void Field40Add(Fix16_Point_POD& pt)
+    // FUNCTION: 96f 0x49ea60
+    inline void Field74Subtract()
     {
-        field_40_linvel_1 += pt;
+        field_74_ang_vel_rad -= dword_6FE0B0;
+    }
+
+    // FUNCTION: 96f 0x49f4e0
+    inline void Field40Add()
+    {
+        field_40_linvel_1 += stru_6FDF50;
     }
 
     // FUNCTION: 96f 0x49f4f0
-    inline void Field40Subtract(Fix16_Point_POD& pt)
+    inline void Field40Subtract()
     {
-        field_40_linvel_1 -= pt;
+        field_40_linvel_1 -= stru_6FDF50;
+    }
+
+    // FUNCTION: 96f 0x49f500
+    inline void ResetPoint6FDF50()
+    {
+        stru_6FDF50.reset();
     }
 
     EXPORT Fix16 vec_len_552DE0(); // Char_B4.cpp func

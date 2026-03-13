@@ -471,7 +471,7 @@
     },
     {
         "name": "sound_obj::sub_412B80",
-        "v96f_address": null,
+        "v96f_address": "0x415df0",
         "v105_address": "0x412b80"
     },
     {
@@ -541,22 +541,22 @@
     },
     {
         "name": "sound_obj::sub_413B90",
-        "v96f_address": null,
+        "v96f_address": "0x415c70",
         "v105_address": "0x413b90"
     },
     {
         "name": "sound_obj::sub_413BE0",
-        "v96f_address": null,
+        "v96f_address": "0x4143b0",
         "v105_address": "0x413be0"
     },
     {
         "name": "sound_obj::sub_413BF0",
-        "v96f_address": null,
+        "v96f_address": "0x415cc0",
         "v105_address": "0x413bf0"
     },
     {
         "name": "sound_obj::sub_413C50",
-        "v96f_address": null,
+        "v96f_address": "0x415d20",
         "v105_address": "0x413c50"
     },
     {
@@ -2111,7 +2111,7 @@
     },
     {
         "name": "Car_BC::sub_442190",
-        "v96f_address": null,
+        "v96f_address": "0x427b40",
         "v105_address": "0x442190"
     },
     {
@@ -12026,7 +12026,7 @@
     },
     {
         "name": "CarPhysics_B0::ScarePedsOnDrivingFast_559C30",
-        "v96f_address": null,
+        "v96f_address": "0x49f350",
         "v105_address": "0x559c30"
     },
     {
@@ -12161,7 +12161,7 @@
     },
     {
         "name": "CarPhysics_B0::ProcessGroundCollisionAndEmitImpactParticles_55BFE0",
-        "v96f_address": null,
+        "v96f_address": "0x4a2980",
         "v105_address": "0x55bfe0"
     },
     {
@@ -12216,7 +12216,7 @@
     },
     {
         "name": "CarPhysics_B0::DoSkidmarks_55E260",
-        "v96f_address": null,
+        "v96f_address": "0x4a0560",
         "v105_address": "0x55e260"
     },
     {
@@ -12266,7 +12266,7 @@
     },
     {
         "name": "CarPhysics_B0::CheckPendingCollision_55F360",
-        "v96f_address": null,
+        "v96f_address": "0x4a2db0",
         "v105_address": "0x55f360"
     },
     {
@@ -12481,7 +12481,7 @@
     },
     {
         "name": "CarPhysics_B0::SetModelPhysicsGlobal_562EB0",
-        "v96f_address": null,
+        "v96f_address": "0x49ec80",
         "v105_address": "0x562eb0"
     },
     {
@@ -12501,7 +12501,7 @@
     },
     {
         "name": "CarPhysics_B0::UpdateLastMovementTimer_562FA0",
-        "v96f_address": null,
+        "v96f_address": "0x4a1ba0",
         "v105_address": "0x562fa0"
     },
     {
