@@ -1,4 +1,5 @@
 #include "CarPhysics_B0.hpp"
+#include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
@@ -8,9 +9,9 @@
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "debug.hpp"
+#include "error.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
-#include "CarAI_78.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4, 0x6FE0E4);
@@ -153,6 +154,17 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE004, Fix16(0x1C00, 0), 0x6FE004);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE2B0, k_dword_6FE210 - dword_6FE320, 0x6FE2B0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE340, dword_6FE218 + dword_6FDFF8, 0x6FE340);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDF1C, Fix16(0xFFFFC000, 0), 0x6FDF1C);
+DEFINE_GLOBAL(Fix16_Point, stru_6FE300, 0x6FE300);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFFC, Fix16(0x3999, 0), 0x6FDFFC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE358, dword_6FE2E0*(dword_6FDFD0 + k_dword_6FE210), 0x6FE358);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE078, (dword_6FE3C4 * dword_6FDFFC), 0x6FE078);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE390, (dword_6FE2E0 * dword_6FDFFC), 0x6FE390);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE080, dword_6FE3C4*(dword_6FDFD0 + k_dword_6FE210), 0x6FE080);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE270, Fix16(0x400, 0), 0x6FE270);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE178, Fix16(0x1800, 0), 0x6FE178);
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -1612,10 +1624,151 @@ void CarPhysics_B0::ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3)
     }
 }
 
-STUB_FUNC(0x55d200)
+WIP_FUNC(0x55D490)
+EXPORT s32 __stdcall get_skid_obj_type_55D490(s32 surface, Fix16 box_idx)
+{
+    WIP_IMPLEMENTED;
+
+    int result; // eax
+
+    if (box_idx > dword_6FE270)
+    {
+        if (box_idx > dword_6FDFD4)
+        {
+            if (box_idx > dword_6FE178)
+            {
+                switch (surface)
+                {
+                    case 0:
+                        result = 147;
+                        break;
+                    case 1:
+                        result = 144;
+                        break;
+                    case 2:
+                        result = 146;
+                        break;
+                    case 3:
+                        result = 145;
+                        break;
+                    default:
+                    LABEL_13:
+                        result = 117;
+                        break;
+                }
+            }
+            else
+            {
+                switch (surface)
+                {
+                    case 0:
+                        result = 250;
+                        break;
+                    case 1:
+                        result = 253;
+                        break;
+                    case 2:
+                        result = 249;
+                        break;
+                    case 3:
+                        result = 124;
+                        break;
+                    default:
+                        goto LABEL_13;
+                }
+            }
+        }
+        else
+        {
+            switch (surface)
+            {
+                case 0:
+                    result = 120;
+                    break;
+                case 1:
+                    result = 121;
+                    break;
+                case 2:
+                    result = 119;
+                    break;
+                case 3:
+                    result = 125;
+                    break;
+                default:
+                    FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\physics.cpp", 2331, surface);
+            }
+        }
+    }
+    else
+    {
+        switch (surface)
+        {
+            case 1:
+                result = 118;
+                break;
+            case 2:
+                result = 116;
+                break;
+            case 3:
+                result = 126;
+                break;
+            default:
+                goto LABEL_13;
+        }
+    }
+    return result;
+}
+
+// 9.6f 0x4A0120
+WIP_FUNC(0x55d200)
 void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    arg_4.RotateByAngle_40F6B0(field_58_theta);
+    arg_4 += this->field_38_cp1;
+
+    s32 map_ret = gMap_0x370_6F6268->sub_4E52A0(arg_4.x, arg_4.y, field_6C_cp3);
+    if (map_ret == 5 || surface == 3 && map_ret != 7)
+    {
+        Fix16_Point* pBoxCorner_ = &this->field_10[(u8)box_idx];
+        pBoxCorner_->clear_41E1E0();
+    }
+    else
+    {
+        Fix16_Point* pBoxCorner = &this->field_10[(u8)box_idx];
+        if (!pBoxCorner->IsNull_420360())
+        {
+            Fix16_Point v13 = (arg_4 - *pBoxCorner);
+            Fix16_Point t;
+            t.x = v13.x;
+            t.y = v13.y;
+            box_idx = 2;
+            Fix16_Point v14 = (*pBoxCorner + arg_4);
+            //LOBYTE(seh) = 3;
+            Fix16_Point v15 = (v14 / box_idx);
+            Fix16 obj_x = v15.x;
+            Fix16 obj_y = v15.y;
+
+            //LOBYTE(seh) = 2;
+            Ang16 r = t.atan2_40F790();
+            Fix16 len = t.GetLength_2();
+            if (len > kFP16Zero_6FE20C)
+            {
+                s32 obj_type = get_skid_obj_type_55D490(surface, len);
+                Object_2C* pObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(obj_type, obj_x, obj_y, field_6C_cp3, r);
+                if (pObj)
+                {
+                    if (pObj->field_4->sub_5A19C0())
+                    {
+                        pObj->sub_5290A0();
+                    }
+                }
+            }
+        }
+        pBoxCorner->x = arg_4.x; // setting field_10
+        pBoxCorner->y = arg_4.y;
+    }
 }
 
 WIP_FUNC(0x55dc00)
@@ -1986,10 +2139,59 @@ void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
     this->field_AA_sbw = 1;
 }
 
-STUB_FUNC(0x55f020)
+WIP_FUNC(0x55f020)
 void CarPhysics_B0::ApplyTurningForce_55F020()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 v17 = dword_6FE358;
+
+    Object_2C* pObj = gRozza_679188.field_20_pSprite->As2C_40FEC0();
+    Fix16 v4;
+    if (pObj && pObj->field_18_model == 166)
+    {
+        v4 = k_dword_6FDFA4;
+        v17 = stru_6FDF80;
+    }
+    else
+    {
+        Ped* pDriver = this->field_5C_pCar->field_54_driver;
+        if (pDriver && pDriver->field_15C_player)
+        {
+            v4 = dword_6FE078;
+            v17 = dword_6FE390;
+        }
+        else
+        {
+            v4 = dword_6FE080;
+            v17 = dword_6FE358;
+        }
+    }
+
+    Fix16_Point v6 = (this->field_38_cp1 - stru_6FE1A0);
+    Fix16 var_14 = v6.x;
+    Fix16 v7 = v6.y;
+
+    Ang16 v6_ = -this->field_58_theta;
+
+    Fix16 v21 = var_14;
+    Fix16 v19 = (Ang16::sine_40F500(v6_) * v7);
+    Fix16 v10 = (var_14 * Ang16::cosine_40F520(v6_));
+    var_14 = (v10 + v19);
+    Fix16 v15 = (v7 * Ang16::cosine_40F520(v6_));
+    Fix16 v11 = -v21;
+    Fix16 v12 = (v11 * Ang16::sine_40F500(v6_));
+    var_14 = (v12 + v15);
+
+    if (var_14 >= kFP16Zero_6FE20C)
+    {
+        v4 = -v4;
+    }
+
+    ApplyAngularImpulse_55F970(v4);
+    Fix16_Point v13 = stru_6FE1F0.NormalizeSafe_442AD0();
+    Fix16_Point v14 = (v13 * v17);
+    ApplyForceScaledByMass_55F9A0(v14);
 }
 
 MATCH_FUNC(0x55f240)
@@ -2282,8 +2484,16 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* a2, char_type a3)
     NOT_IMPLEMENTED;
 }
 
+WIP_FUNC(0x560680)
+EXPORT Fix16 __stdcall DotProduct_560680(const Fix16_Point& a2, const Fix16_Point& a3)
+{
+    WIP_IMPLEMENTED;
+
+    return (a3.x * a2.x) + (a3.y * a2.y);
+}
+
 // TODO: Probably move
-STUB_FUNC(0x55F3B0)
+WIP_FUNC(0x55F3B0)
 EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
                                                                 Fix16 a3,
                                                                 Fix16_Point* a4,
@@ -2295,8 +2505,70 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
                                                                 Fix16 a10,
                                                                 Fix16 a11)
 {
-    NOT_IMPLEMENTED;
-    return Fix16_Point();
+    WIP_IMPLEMENTED;
+
+    //Fix16 v36 = 0;
+
+    //    v47 = 2;
+    if (a4->IsNull_420360() || a5->IsNull_420360())
+    {
+        return stru_6FE300;
+    }
+
+    Fix16 _a5 = ((k_dword_6FE210) / a2);
+    Fix16_Point v14 = (*a6 - *a7);
+    //      LOBYTE(v47) = 3;
+    Fix16_Point v44 = v14.Rotate90CCW_5605E0();
+    //  LOBYTE(v47) = 2;
+    Fix16_Point v43 = a5->NormalizeSafe_442AD0();
+    Fix16 v31 = (a4->y * v43.y);
+    Fix16 v15 = (a4->x * v43.x);
+
+    Fix16 _a4 = (v15 + v31);
+
+    Fix16 v35 = (-(k_dword_6FE210 + a11) * _a4);
+    if (a3 == dword_6FDF1C)
+    {
+        Fix16 v32 = (v44.y * v43.y);
+        Fix16 v16 = (v44.x * v43.x);
+        Fix16 __a4 = (v16 + v32);
+        Fix16 _a7 = (__a4 * __a4);
+        Fix16 v17 = (_a7) / a9;
+
+        Fix16 v33 = (v43.y * v43.y);
+        Fix16 v18 = (v43.x * v43.x);
+        Fix16 _a6 = (v18 + v33);
+        a2 = v17 + ((_a5 * _a6));
+    }
+    else
+    {
+        Fix16 _a6 = ((k_dword_6FE210) / a3);
+        Fix16_Point v19 = (*a6 - *a8);
+        //LOBYTE(v47) = 4;
+        Fix16_Point v19r = v19.Rotate90CCW_5605E0();
+
+        //LOBYTE(v47) = 6;
+        Fix16 v20 = DotProduct_560680(v19r, v43);
+        Fix16 __a4 = (v20 * v20);
+
+        Fix16 v21 = DotProduct_560680(v44, v43);
+        Fix16 _a7 = (v21 * v21);
+
+        Fix16 v34 = (__a4 / a10);
+        Fix16 v30 = (_a7 / a9);
+        Fix16 v29 = (_a5 + _a6);
+        Fix16 v22 = DotProduct_560680(v43, v43);
+        Fix16 v23 = (v22 * v29);
+        Fix16 v24 = (v23 + v30);
+        a2 = (v24 + v34);
+        //LOBYTE(v47) = 2;
+    }
+
+    Fix16_Point v25 = (v43 * (v35 / a2));
+    return v25;
+    //a1->x = v25.x;
+    //a1->y = v25.y;
+    //return *a1;
 }
 
 WIP_FUNC(0x560b40)

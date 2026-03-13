@@ -70,7 +70,7 @@ class Camera_0xBC
     void ProjectWorldToScreen_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
     {
         z = dword_702DE4 / ((dword_702E04 - z) + field_98_cam_pos2.field_8_z); // z reused
-        
+
         Fix16 xd = x - field_98_cam_pos2.field_0_x;
         *pOut1 = ((xd * field_60.x) * z) + Fix16(field_70_screen_px_center_x);
 
@@ -146,6 +146,16 @@ class Camera_0xBC
         field_10_cam_pos_tgt2.field_4_y = ypos;
         field_10_cam_pos_tgt2.field_8_z = zpos + field_40_tgt_elevation;
         field_10_cam_pos_tgt2.field_C_zoom = zoom;
+    }
+
+    Fix16 sub_4B3110()
+    {
+        return field_20_boundaries.field_4_right - field_20_boundaries.field_0_left;
+    }
+
+    Fix16 sub_4B3130()
+    {
+        return field_20_boundaries.field_C_bottom - field_20_boundaries.field_8_top;
     }
 
     CameraPos field_0_cam_pos_tgt1;

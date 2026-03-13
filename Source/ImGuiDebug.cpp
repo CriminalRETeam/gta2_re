@@ -676,7 +676,7 @@ static void DrawHookList(char* filter, std::vector<FuncData>& funcs, TChangeHook
     {
         static s32 delay = 0;
         delay++;
-        if (delay > 30)
+        if (delay > 10)
         {
             delay = 0;
             for (i = 0; i < funcs.size(); i++)

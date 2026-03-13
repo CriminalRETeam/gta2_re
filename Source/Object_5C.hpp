@@ -8,6 +8,8 @@
 #include "fix16.hpp"
 #include "sprite.hpp"
 
+EXTERN_GLOBAL(s32, gObj2C_id_623EC0);
+
 class Object_2C;
 class Sprite;
 class Sprite_4C;
@@ -165,8 +167,11 @@ class Object_2C
             field_8->field_34_behavior_type == object_behavior_type::behavior_9;
     }
 
+    // 9.6f 0x482490
     inline void PoolAllocate()
     {
+        field_14_id = gObj2C_id_623EC0++;
+        field_25 = 0;
         field_26_varrok_idx = 99;
         field_10_obj_3c = 0;
         field_C_pAny.o8 = 0;
@@ -247,17 +252,8 @@ class Object_5C
     EXPORT Object_2C* NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 a9);
     EXPORT Object_2C* NewPhysicsObj_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
     EXPORT Object_2C* sub_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6);
-    EXPORT Object_2C* sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7);
-    EXPORT Object_2C* NewLight_529AB0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, s32 a6, s32 a7, u8 a8);
-    EXPORT Object_2C* sub_529B20(s32 obj_type,
-                                 s32 a3,
-                                 s32 a4,
-                                 s32 argb,
-                                 s32 a6,
-                                 u8 intensity,
-                                 char_type on_time,
-                                 char_type off_time,
-                                 u8 shape);
+    EXPORT Object_2C* NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
+    EXPORT Object_2C* NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
     EXPORT Object_2C* sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
     EXPORT Object_2C* New_529C00(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6, char_type a7);
     EXPORT char_type sub_52A210(char_type a2);
