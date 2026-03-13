@@ -5854,7 +5854,9 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
                 break;
         }
 
-        dword_6FF7E8 = ((((field_0_cam->sub_4B3110()) * (field_0_cam->sub_4B3130()))) / Fix16(86)) * wanted_related;
+        Fix16 t = (field_0_cam->sub_4B3110()) * (field_0_cam->sub_4B3130());
+        t = t / Fix16(86);
+        dword_6FF7E8 = (t) * wanted_related;
 
         this->field_9 = 1;
         this->field_A = 1;
