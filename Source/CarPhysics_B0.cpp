@@ -3273,18 +3273,8 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             break;
     }
 
-    if (UpdateLastMovementTimer_562FA0())
-    {
-        if (!flag)
-        {
-            if (field_98_surface_type != 7 && field_98_surface_type != 8 && field_98_surface_type != 6)
-            {
-                return 1;
-            }
-        }
-    }
-
-    return 0;
+    return (UpdateLastMovementTimer_562FA0() && !flag && field_98_surface_type != 7 && field_98_surface_type != 8 &&
+            field_98_surface_type != 6);
 }
 
 // https://decomp.me/scratch/Uxers
