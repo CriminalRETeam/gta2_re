@@ -38,6 +38,17 @@ Ang16 Fix16_Point::atan2_40ACD0()
     return Fix16::atan2_fixed_405320(y, x);
 }
 
+WIP_FUNC(0x5605E0)
+Fix16_Point Fix16_Point::Rotate90CCW_5605E0()
+{
+    WIP_IMPLEMENTED;
+    
+    Fix16_Point t;
+    t.x = -this->y;
+    t.y = this->x;
+    return t;
+}
+
 MATCH_FUNC(0x453590)
 Fix16 Fix16_Point_POD::GetLength_453590()
 {
@@ -54,3 +65,4 @@ Fix16 Fix16_Point_POD::GetLength_453590()
         return Fix16::SquareRoot(x * x + y * y);
     }
 }
+

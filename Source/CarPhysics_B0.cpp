@@ -1,4 +1,5 @@
 #include "CarPhysics_B0.hpp"
+#include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
@@ -10,7 +11,6 @@
 #include "debug.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
-#include "CarAI_78.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4, 0x6FE0E4);
@@ -153,6 +153,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE004, Fix16(0x1C00, 0), 0x6FE004);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE2B0, k_dword_6FE210 - dword_6FE320, 0x6FE2B0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE340, dword_6FE218 + dword_6FDFF8, 0x6FE340);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDF1C, Fix16(0xFFFFC000, 0), 0x6FDF1C);
+DEFINE_GLOBAL(Fix16_Point, stru_6FE300, 0x6FE300);
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -2282,8 +2285,16 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* a2, char_type a3)
     NOT_IMPLEMENTED;
 }
 
+WIP_FUNC(0x560680)
+EXPORT Fix16 __stdcall DotProduct_560680(const Fix16_Point& a2, const Fix16_Point& a3)
+{
+    WIP_IMPLEMENTED;
+
+    return (a3.x * a2.x) + (a3.y * a2.y);
+}
+
 // TODO: Probably move
-STUB_FUNC(0x55F3B0)
+WIP_FUNC(0x55F3B0)
 EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
                                                                 Fix16 a3,
                                                                 Fix16_Point* a4,
@@ -2295,8 +2306,70 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
                                                                 Fix16 a10,
                                                                 Fix16 a11)
 {
-    NOT_IMPLEMENTED;
-    return Fix16_Point();
+    WIP_IMPLEMENTED;
+
+    //Fix16 v36 = 0;
+
+    //    v47 = 2;
+    if (a4->IsNull_420360() || a5->IsNull_420360())
+    {
+        return stru_6FE300;
+    }
+
+    Fix16 _a5 = ((k_dword_6FE210) / a2);
+    Fix16_Point v14 = (*a6 - *a7);
+    //      LOBYTE(v47) = 3;
+    Fix16_Point v44 = v14.Rotate90CCW_5605E0();
+    //  LOBYTE(v47) = 2;
+    Fix16_Point v43 = a5->NormalizeSafe_442AD0();
+    Fix16 v31 = (a4->y * v43.y);
+    Fix16 v15 = (a4->x * v43.x);
+
+    Fix16 _a4 = (v15 + v31);
+
+    Fix16 v35 = (-(k_dword_6FE210 + a11) * _a4);
+    if (a3 == dword_6FDF1C)
+    {
+        Fix16 v32 = (v44.y * v43.y);
+        Fix16 v16 = (v44.x * v43.x);
+        Fix16 __a4 = (v16 + v32);
+        Fix16 _a7 = (__a4 * __a4);
+        Fix16 v17 = (_a7) / a9;
+
+        Fix16 v33 = (v43.y * v43.y);
+        Fix16 v18 = (v43.x * v43.x);
+        Fix16 _a6 = (v18 + v33);
+        a2 = v17 + ((_a5 * _a6));
+    }
+    else
+    {
+        Fix16 _a6 = ((k_dword_6FE210) / a3);
+        Fix16_Point v19 = (*a6 - *a8);
+        //LOBYTE(v47) = 4;
+        Fix16_Point v19r = v19.Rotate90CCW_5605E0();
+
+        //LOBYTE(v47) = 6;
+        Fix16 v20 = DotProduct_560680(v19r, v43);
+        Fix16 __a4 = (v20 * v20);
+
+        Fix16 v21 = DotProduct_560680(v44, v43);
+        Fix16 _a7 = (v21 * v21);
+
+        Fix16 v34 = (__a4 / a10);
+        Fix16 v30 = (_a7 / a9);
+        Fix16 v29 = (_a5 + _a6);
+        Fix16 v22 = DotProduct_560680(v43, v43);
+        Fix16 v23 = (v22 * v29);
+        Fix16 v24 = (v23 + v30);
+        a2 = (v24 + v34);
+        //LOBYTE(v47) = 2;
+    }
+
+    Fix16_Point v25 = (v43 * (v35 / a2));
+    return v25;
+    //a1->x = v25.x;
+    //a1->y = v25.y;
+    //return *a1;
 }
 
 WIP_FUNC(0x560b40)

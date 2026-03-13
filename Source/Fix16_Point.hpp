@@ -138,6 +138,7 @@ struct Fix16_Point_POD
         y = Fix16(0);
     }
 
+
     Fix16 x;
     Fix16 y;
 };
@@ -239,11 +240,14 @@ class Fix16_Point : public Fix16_Point_POD
     }    
 
     // 10.0 0x442CB0
-    Fix16_Point operator/(Fix16& in);
+    EXPORT Fix16_Point operator/(Fix16& in);
 
-    Fix16_Point NormalizeSafe_442AD0();
+    EXPORT Fix16_Point NormalizeSafe_442AD0();
 
-    Ang16 atan2_40ACD0();
+    EXPORT Ang16 atan2_40ACD0();
+
+    EXPORT Fix16_Point Rotate90CCW_5605E0();
+
 };
 
 struct Fix16_Vec
