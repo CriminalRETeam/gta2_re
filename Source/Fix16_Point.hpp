@@ -110,7 +110,6 @@ struct Fix16_Point_POD
         return *this;
     }
 
-
     // Operator* for Fix16 ?
     void MultiplyByFix16_49E3A0(Fix16 factor)
     {
@@ -137,7 +136,6 @@ struct Fix16_Point_POD
         x = Fix16(0);
         y = Fix16(0);
     }
-
 
     Fix16 x;
     Fix16 y;
@@ -237,7 +235,7 @@ class Fix16_Point : public Fix16_Point_POD
     Fix16_Point operator-() const
     {
         return Fix16_Point(-x, -y);
-    }    
+    }
 
     // 10.0 0x442CB0
     EXPORT Fix16_Point operator/(Fix16& in);
@@ -248,6 +246,13 @@ class Fix16_Point : public Fix16_Point_POD
 
     EXPORT Fix16_Point Rotate90CCW_5605E0();
 
+    void clear_41E1E0()
+    {
+        x = 0;
+        y = 0;
+    }
+
+    EXPORT Fix16_Point operator/(const s32& a3);
 };
 
 struct Fix16_Vec

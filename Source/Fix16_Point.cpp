@@ -42,11 +42,19 @@ WIP_FUNC(0x5605E0)
 Fix16_Point Fix16_Point::Rotate90CCW_5605E0()
 {
     WIP_IMPLEMENTED;
-    
+
     Fix16_Point t;
     t.x = -this->y;
     t.y = this->x;
     return t;
+}
+
+WIP_FUNC(0x55F9E0)
+Fix16_Point Fix16_Point::operator/(const s32& a3)
+{
+    WIP_IMPLEMENTED;
+
+    return Fix16_Point(x / Fix16(a3, 0), y / Fix16(a3, 0));
 }
 
 MATCH_FUNC(0x453590)
@@ -65,4 +73,3 @@ Fix16 Fix16_Point_POD::GetLength_453590()
         return Fix16::SquareRoot(x * x + y * y);
     }
 }
-
