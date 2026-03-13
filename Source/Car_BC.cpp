@@ -1,4 +1,5 @@
 #include "Car_BC.hpp"
+#include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Char_Pool.hpp"
@@ -37,7 +38,6 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
-#include "CarAI_78.hpp"
 
 // TODO: Its in FrontEnd by seems crazy to include the whole file just for this
 EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);
@@ -5341,10 +5341,7 @@ void Car_BC::sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5)
 {
     Object_2C* pObj = gObject_5C_6F8F84->NewLight_529AB0(object_type, 0, 0, 0, argb, dword_6772AC, 200);
     pObj->Light_527990();
-    field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4,
-                                                       (dword_677888 * a4),
-                                                       (dword_677888 * a5),
-                                                       word_67791C);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4, (dword_677888 * a4), (dword_677888 * a5), word_67791C);
 }
 
 MATCH_FUNC(0x444020)
@@ -5821,6 +5818,7 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
     return 0;
 }
 
+// 9.6f 0x4B4A60
 WIP_FUNC(0x5832C0)
 void Car_14::MakeTrafficForCurrCamera_5832C0()
 {
@@ -5830,8 +5828,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
     if ((!bLimit_recycling_67D4CA || gCar_6C_677930->field_28_recycled_cars < 2) &&
         gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars != 16)
     {
-        Ang16 pRot = field_0_cam->sub_4358D0();
-        s32 angleFace = Ang16::GetAngleFace_4F78F0(pRot);
+        s32 angleFace = Ang16::GetAngleFace_4F78F0(field_0_cam->sub_4358D0());
 
         switch (gPolice_7B8_6FEE40->field_654_wanted_level)
         {
@@ -5839,14 +5836,16 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
             case 1:
                 wanted_related = dword_6FF778;
                 break;
+            case 3:
+                wanted_related = dword_6FF5DC;
+                break;
             case 2:
             case 5:
                 wanted_related = dword_6FF5E4;
                 break;
-            case 3:
-                wanted_related = dword_6FF5DC;
-                break;
             case 4:
+                wanted_related = dword_6FF5D4;
+                break;
             case 6:
                 wanted_related = dword_6FF5D4;
                 break;
@@ -5855,16 +5854,14 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
                 break;
         }
 
-        dword_6FF7E8 = ((wanted_related * (field_0_cam->field_20_boundaries.field_4_right - field_0_cam->field_20_boundaries.field_0_left) *
-                         (field_0_cam->field_20_boundaries.field_C_bottom - field_0_cam->field_20_boundaries.field_8_top))) /
-            Fix16(0x158000, 0);
+        dword_6FF7E8 = ((((field_0_cam->sub_4B3110()) * (field_0_cam->sub_4B3130()))) / Fix16(86)) * wanted_related;
 
         this->field_9 = 1;
         this->field_A = 1;
 
         u8 rng_int = stru_6F6784.get_uint8_4F7B70(5);
-
         bool maybe_vel = field_0_cam->sub_435A20() > dword_6FF580;
+
 
         switch (rng_int)
         {
