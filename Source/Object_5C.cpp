@@ -1414,12 +1414,11 @@ void Object_2C::sub_527F10()
         this->field_C_pAny.o8 = 0;
     }
 
-    Object_3C* p3C = this->field_10_obj_3c;
-    if (p3C)
+    if (field_10_obj_3c)
     {
-        if (p3C->field_0.field_0_p18)
+        if (field_10_obj_3c->field_0.field_0_p18)
         {
-            p3C->field_0.DestroyAllSprites_5A7010();
+            field_10_obj_3c->field_0.DestroyAllSprites_5A7010();
         }
 
         gObject_3C_Pool_6F8F7C->DeAllocate(field_10_obj_3c);

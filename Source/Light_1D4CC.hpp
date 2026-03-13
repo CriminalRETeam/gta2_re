@@ -111,11 +111,13 @@ class Light_1D4CC : public LightBase
         pLight->sub_4D6DC0();
         if (pLight->field_14_on_time)
         {
-            sub_47F450(pLight);
+            //sub_47F450(pLight);
+            field_0_pool.unknown_func(pLight);
         }
         else
         {
-            sub_47F4B0(pLight);
+            field_0_pool.DeAllocate(pLight);
+            //sub_47F4B0(pLight);
         }
     }
 
