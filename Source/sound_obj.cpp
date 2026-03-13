@@ -4014,18 +4014,18 @@ void sound_obj::ProcessCar_412B80(Sound_Params_8* pParams)
             {
                 pAlloc->field_0 = k_dword_66F3F0;
             }
-            switch (pParams->field_0_pObj->field_8_car_bc_ptr->field_84_car_info_idx)
+            switch (pParams->field_0_pObj->field_8_car_bc_ptr->GetCarInfoIdx_411940())
             {
                 case car_model_enum::boxcar:
                 case car_model_enum::TRAIN:
                 case car_model_enum::TRAINFB:
                     sound_obj::ProcessTrain_413BE0(pParams);
                     break;
-                case car_model_enum::TANK:
-                    sound_obj::ProcessTank_413BF0(pParams, pAlloc);
-                    break;
                 case car_model_enum::TRAINCAB:
                     sound_obj::ProcessTrainCab_413B90(pParams, pAlloc);
+                    break;
+                case car_model_enum::TANK:
+                    sound_obj::ProcessTank_413BF0(pParams, pAlloc);
                     break;
                 default:
                     sound_obj::ProcessOtherCarTypes_413C50(pParams, pAlloc);

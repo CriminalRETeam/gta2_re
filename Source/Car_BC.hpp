@@ -443,7 +443,7 @@ class Car_BC
     EXPORT void sub_447360();
     EXPORT bool sub_564300();
 
-    // Inlined 0x4118d0
+    // FUNCTION: 96f 0x4118d0
     s32 is_driven_by_player() const
     {
         if (field_54_driver != NULL && field_54_driver->field_15C_player != NULL)
@@ -540,6 +540,7 @@ class Car_BC
         return sub_414F20() && (field_A4 & 4) != 0;
     }
 
+    // FUNCTION: 96f 0x411940
     inline s32 GetCarInfoIdx_411940()
     {
         return field_84_car_info_idx;
