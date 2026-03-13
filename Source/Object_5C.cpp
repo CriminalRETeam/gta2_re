@@ -71,6 +71,7 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8BFC, Fix16(0x1FF00, 0), 0x6F8BFC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8D10, Fix16(0x2000, 0), 0x6F8D10);
 
 DEFINE_GLOBAL_INIT(u8, byte_6771DC, 0, 0x6771DC);
+DEFINE_GLOBAL(s32, gObj2C_id_623EC0, 0x623EC0);
 
 // TODO: From CarPhysics_B0
 EXTERN_GLOBAL(Fix16_Point, stru_6FE1A0);
@@ -2642,17 +2643,12 @@ Object_2C* Object_5C::sub_529BC0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 
     return tmp;
 }
 
+// 9.6f 0x484E00
 // https://decomp.me/scratch/dZQWS
 WIP_FUNC(0x529c00)
 Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char bUnknown)
 {
     WIP_IMPLEMENTED;
-
-    Phi_74* pPhi; // edi
-    Object_2C* pNew2C; // esi
-    Wolfy_30* pNew30; // eax
-    Object_3C* pNew3C; // eax
-    Object_8* pNew8; // eax
 
     if (object_type == objects::secret_token_266)
     {
@@ -2663,7 +2659,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         }
     }
 
-    pPhi = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(object_type);
+    Phi_74* pPhi = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(object_type);
     if (pPhi->field_5C == 2)
     {
         if (field_10_rotation_counter == 360)
@@ -2673,6 +2669,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         field_10_rotation_counter++;
     }
 
+    Object_2C* pNew2C; // esi
     if (pPhi->field_61) // 6c
     {
         pNew2C = gObject_2C_Pool_6F8F80->Allocate();
@@ -2699,13 +2696,13 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {
             gObject_2C_Pool_6F8F80->unknown_func(pNew2C);
-            return 0;
+            
         }
         else
         {
             gObject_2C_Pool_6F8F80->DeAllocate(pNew2C);
-            return 0;
         }
+        return 0;
     }
 
     if (pPhi->field_5C == 3) // 1e0
@@ -2727,6 +2724,8 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             break;
 
         case object_behavior_type::behavior_5:
+        {
+            Wolfy_30* pNew30; // eax
             pNew30 = gWolfy_7A8_6FD5F0->New_40_543800();
             pNew2C->field_C_pAny.pExplosion = pNew30;
             if (pNew30) // 225
@@ -2739,18 +2738,24 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             }
 
             break;
+        }
 
         case object_behavior_type::behavior_2:
         case object_behavior_type::behavior_8:
+        {
+            Object_8* pNew8; // eax
             pNew8 = gObject_8_Pool_6F8F78->Allocate();
             pNew2C->field_C_pAny.o8 = pNew8;
-            pNew8->field_7_anim_speed_counter = 0;
+            pNew2C->field_C_pAny.o8->field_7_anim_speed_counter = 0;
             pNew2C->field_C_pAny.o8->field_4_timer = pPhi->field_65;
             pNew2C->field_C_pAny.o8->field_6_frame_counter = 0;
             break;
+        }
 
         case object_behavior_type::behavior_3:
         case object_behavior_type::behavior_7:
+        {
+            Object_3C* pNew3C; // eax
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
             pNew2C->field_10_obj_3c = pNew3C;
             pNew3C->field_20 = pNew2C->field_14_id;
@@ -2761,9 +2766,12 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_10_obj_3c->field_10 = kFpZero_6F8E10;
             pNew2C->field_10_obj_3c->field_1C = kFpZero_6F8E10;
             break;
+        }
 
         case object_behavior_type::behavior_4:
         case object_behavior_type::behavior_9:
+        {
+            Object_3C* pNew3C; // eax
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
             pNew2C->field_10_obj_3c = pNew3C;
             pNew3C->field_20 = pNew2C->field_14_id;
@@ -2774,12 +2782,14 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_10_obj_3c->field_4 = rotation;
             pNew2C->field_10_obj_3c->field_28 = pNew2C->field_8->field_65;
 
+            Object_8* pNew8; // eax
             pNew8 = gObject_8_Pool_6F8F78->Allocate();
             pNew2C->field_C_pAny.o8 = pNew8;
-            pNew8->field_7_anim_speed_counter = 0; // ??
+            pNew2C->field_C_pAny.o8->field_7_anim_speed_counter = 0; // ??
             pNew2C->field_C_pAny.o8->field_4_timer = pPhi->field_65;
             pNew2C->field_C_pAny.o8->field_6_frame_counter = 0;
             break;
+        }
 
         case object_behavior_type::behavior_11:
             pNew2C->field_C_pAny.pLight = gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);

@@ -8,6 +8,8 @@
 #include "fix16.hpp"
 #include "sprite.hpp"
 
+EXTERN_GLOBAL(s32, gObj2C_id_623EC0);
+
 class Object_2C;
 class Sprite;
 class Sprite_4C;
@@ -165,8 +167,11 @@ class Object_2C
             field_8->field_34_behavior_type == object_behavior_type::behavior_9;
     }
 
+    // 9.6f 0x482490
     inline void PoolAllocate()
     {
+        field_14_id = gObj2C_id_623EC0++;
+        field_25 = 0;
         field_26_varrok_idx = 99;
         field_10_obj_3c = 0;
         field_C_pAny.o8 = 0;
