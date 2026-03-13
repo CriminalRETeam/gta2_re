@@ -1,9 +1,13 @@
 #pragma once
 
+#include "Fix16_Point.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
-#include "Fix16_Point.hpp"
+
+EXTERN_GLOBAL(u32, gObj3C_id_6F8E54);
+EXTERN_GLOBAL(u32, dword_6F8F0C);
+EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 class Sprite;
 class Sprite_18;
@@ -63,21 +67,32 @@ class Object_3C
     EXPORT Object_3C(); // 0x52ad80
     EXPORT ~Object_3C(); // 0x52ade0
 
+    // 9.6f 0x482B20
     void PoolAllocate()
     {
-      // TODO: This probably should have some code - once we have all call sites 
-      // check and move common stuff in here
+        ++gObj3C_id_6F8E54;
+        field_C = 0;
+        field_4 = kZeroAng_6F8F68;
+        field_18 = Fix16(0);
+        field_28 = 0;
+        field_38 = 0;
+        field_34 = 2;
+        field_24 = 0;
+        field_2F = 0;
+        field_30_bSkipAnim = 0;
     }
 
+    // 9.6f 0x482B80
     void PoolDeallocate()
     {
-      // TODO ??
+        --gObj3C_id_6F8E54;
+        ++dword_6F8F0C;
     }
 
     // ?? not sure if this is O3C either :skull:
     EXPORT Fix16_Point GetRot_52ADF0();
 
-    EXPORT Ang16* GetMovementSpeedAndAngle_521FD0(Fix16 *a2, Ang16 *a3);
+    EXPORT Ang16* GetMovementSpeedAndAngle_521FD0(Fix16* a2, Ang16* a3);
 
     struct_4 field_0;
     Ang16 field_4;

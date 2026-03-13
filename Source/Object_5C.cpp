@@ -1209,7 +1209,7 @@ WIP_FUNC(0x527070)
 bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 {
     WIP_IMPLEMENTED;
-    
+
     byte_6F8C68 = 1;
 
     if (field_10_obj_3c)
@@ -1294,7 +1294,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                 break;
 
             default:
-               break;
+                break;
         }
 
         if (field_10_obj_3c)
@@ -1391,10 +1391,40 @@ void Object_2C::RemoveFromCollisionBuckets_527D00()
     }
 }
 
-STUB_FUNC(0x527f10)
+// 9.6f 0x484760
+WIP_FUNC(0x527f10)
 void Object_2C::sub_527F10()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (field_C_pAny.o8)
+    {
+        if (this->field_8->field_34_behavior_type == object_behavior_type::behavior_11)
+        {
+            gLight_1D4CC_6F5520->DeallocLight_47F4F0(field_C_pAny.pLight);
+        }
+        else if (this->field_1C)
+        {
+            field_C_pAny.pExplosion->DeInit_543610();
+        }
+        else
+        {
+            gObject_8_Pool_6F8F78->DeAllocate(field_C_pAny.o8);
+        }
+        this->field_C_pAny.o8 = 0;
+    }
+
+    Object_3C* p3C = this->field_10_obj_3c;
+    if (p3C)
+    {
+        if (p3C->field_0.field_0_p18)
+        {
+            p3C->field_0.DestroyAllSprites_5A7010();
+        }
+
+        gObject_3C_Pool_6F8F7C->DeAllocate(field_10_obj_3c);
+        field_10_obj_3c = 0;
+    }
 }
 
 // 9.6f 0x4847D0
@@ -1404,18 +1434,6 @@ void Object_2C::NewObj3C_528130(Fix16_Point* a2)
     WIP_IMPLEMENTED;
 
     Object_3C* pNewObj = gObject_3C_Pool_6F8F7C->Allocate();
-
-    // TODO: Part of PoolAllocate()
-    gObj3C_id_6F8E54++;
-    pNewObj->field_C = 0;
-    pNewObj->field_18 = 0;
-    pNewObj->field_4 = kZeroAng_6F8F68;
-    pNewObj->field_28 = 0;
-    pNewObj->field_38 = 0;
-    pNewObj->field_34 = 2;
-    pNewObj->field_24 = 0;
-    pNewObj->field_2F = 0;
-    pNewObj->field_30_bSkipAnim = 0;
 
     pNewObj->field_20 = field_14_id;
 
@@ -1547,8 +1565,6 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                 if (!field_10_obj_3c->field_0.field_0_p18)
                                 {
                                     gObject_3C_Pool_6F8F7C->DeAllocate(field_10_obj_3c);
-                                    --gObj3C_id_6F8E54;
-                                    ++dword_6F8F0C;
                                     this->field_10_obj_3c = 0;
                                 }
                             }
@@ -1562,7 +1578,6 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             {
                                 bUnknown = 1;
                                 Object_8* pNewObj8 = gObject_8_Pool_6F8F78->Allocate();
-                                ++dword_6F8F18;
                                 this->field_C_pAny.o8 = pNewObj8;
                             }
 
@@ -1590,16 +1605,6 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             if (!this->field_10_obj_3c)
                             {
                                 Object_3C* pNew3C_ = gObject_3C_Pool_6F8F7C->Allocate();
-                                ++gObj3C_id_6F8E54;
-                                pNew3C_->field_C = 0;
-                                pNew3C_->field_18 = 0;
-                                pNew3C_->field_4 = kZeroAng_6F8F68;
-                                pNew3C_->field_28 = 0;
-                                pNew3C_->field_38 = 0;
-                                pNew3C_->field_34 = 2;
-                                pNew3C_->field_24 = 0;
-                                pNew3C_->field_2F = 0;
-                                pNew3C_->field_30_bSkipAnim = 0;
                                 pNew3C_->field_20 = field_14_id;
                                 this->field_10_obj_3c = pNew3C_;
                             }
@@ -1607,8 +1612,6 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             if (field_C_pAny.o8)
                             {
                                 gObject_8_Pool_6F8F78->DeAllocate(field_C_pAny.o8);
-                                --dword_6F8F18;
-                                ++dword_6F8DC0;
                                 this->field_C_pAny.o8 = 0;
                             }
 
@@ -1629,16 +1632,6 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             if (!this->field_10_obj_3c)
                             {
                                 Object_3C* pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
-                                ++gObj3C_id_6F8E54;
-                                pNew3C->field_C = 0;
-                                pNew3C->field_18 = 0;
-                                pNew3C->field_4 = kZeroAng_6F8F68;
-                                pNew3C->field_28 = 0;
-                                pNew3C->field_38 = 0;
-                                pNew3C->field_34 = 2;
-                                pNew3C->field_24 = 0;
-                                pNew3C->field_2F = 0;
-                                pNew3C->field_30_bSkipAnim = 0;
                                 pNew3C->field_20 = field_14_id;
                                 this->field_10_obj_3c = pNew3C;
                             }
@@ -1652,7 +1645,6 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             {
                                 bUnknown2 = 1;
                                 Object_8* pNewObj8 = gObject_8_Pool_6F8F78->Allocate();
-                                ++dword_6F8F18;
                                 this->field_C_pAny.o8 = pNewObj8;
                             }
 
@@ -2882,22 +2874,7 @@ Object_2C* Object_5C::New_52A2C0(s32 object_type,
         Phi_74* pPhi74 = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(object_type);
         if (!pNewObj->field_10_obj_3c)
         {
-            // OBS: this is an inline: 9.6f func: 0x483FE0
-            //Object_3C* p3C = gObject_3C_Pool_6F8F7C->sub_483FE0();
-
             Object_3C* p3C = gObject_3C_Pool_6F8F7C->Allocate();
-            ++gObj3C_id_6F8E54;
-            p3C->field_C = 0;
-            Ang16 zero_ang16 = kZeroAng_6F8F68;
-            p3C->field_18 = 0;
-            p3C->field_4 = zero_ang16;
-            p3C->field_28 = 0;
-            p3C->field_38 = 0;
-            p3C->field_34 = 2;
-            p3C->field_24 = 0;
-            p3C->field_2F = 0;
-            p3C->field_30_bSkipAnim = 0;
-
             pNewObj->field_10_obj_3c = p3C;
             if (!p3C)
             {
@@ -2965,17 +2942,6 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
         if (!pNew2C->field_10_obj_3c)
         {
             Object_3C* pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
-            // TODO: PoolAllocate()
-            ++gObj3C_id_6F8E54;
-            pNew3C->field_C = 0;
-            pNew3C->field_4 = kZeroAng_6F8F68;
-            pNew3C->field_18 = Fix16(0);
-            pNew3C->field_28 = 0;
-            pNew3C->field_38 = 0;
-            pNew3C->field_34 = 2;
-            pNew3C->field_24 = 0;
-            pNew3C->field_2F = 0;
-            pNew3C->field_30_bSkipAnim = 0;
             pNew2C->field_10_obj_3c = pNew3C;
             pNew3C->field_20 = pNew2C->field_14_id;
             pNew2C->field_10_obj_3c->field_C = kFpZero_6F8E10;
@@ -3039,22 +3005,6 @@ void Object_2C::EnsureObject3C_52A650()
     if (!field_10_obj_3c)
     {
         Object_3C* p3C = gObject_3C_Pool_6F8F7C->Allocate();
-
-        // TODO: some of this is probably part of PoolAllocate for Object_3C
-
-        ++gObj3C_id_6F8E54;
-        p3C->field_C = 0;
-
-        Ang16 v2 = kZeroAng_6F8F68;
-        p3C->field_18 = 0;
-        p3C->field_4 = v2;
-
-        p3C->field_28 = 0;
-        p3C->field_38 = 0;
-        p3C->field_34 = 2;
-        p3C->field_24 = 0;
-        p3C->field_2F = 0;
-        p3C->field_30_bSkipAnim = 0;
         field_10_obj_3c = p3C;
         p3C->field_20 = field_14_id;
         field_10_obj_3c->field_C = kFpZero_6F8E10;

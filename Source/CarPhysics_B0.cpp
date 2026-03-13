@@ -1759,6 +1759,9 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 
                 Object_2C* pObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(obj_type, obj_x, obj_y, field_6C_cp3, r);
                 if (pObj)
                 {
+
+                    printf("SKID %d\n", pObj->field_8->field_34_behavior_type);
+
                     if (pObj->field_4->sub_5A19C0())
                     {
                         pObj->sub_5290A0();
