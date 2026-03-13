@@ -2644,12 +2644,9 @@ Object_2C* Object_5C::sub_529BC0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 
 }
 
 // 9.6f 0x484E00
-// https://decomp.me/scratch/dZQWS
-WIP_FUNC(0x529c00)
+MATCH_FUNC(0x529c00)
 Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char bUnknown)
 {
-    WIP_IMPLEMENTED;
-
     if (object_type == objects::secret_token_266)
     {
         if (!field_20_bUnCollectedTokens[field_54_uncollected_token_index]) // 20
@@ -2696,7 +2693,6 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {
             gObject_2C_Pool_6F8F80->unknown_func(pNew2C);
-            
         }
         else
         {
@@ -2813,7 +2809,6 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
                                                        (dword_6F8CE8 * dword_6F8ECC), // x?
                                                        (dword_6F8CEC * dword_6F8ECC), // y?
                                                        kZeroAng_6F8F68); // ang?
-        return pNew2C;
     }
     else
     {
@@ -2822,9 +2817,8 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->set_field_26(field_54_uncollected_token_index);
             field_54_uncollected_token_index++;
         }
-        return pNew2C;
     }
-    // return pNew2C;
+    return pNew2C;
 }
 
 MATCH_FUNC(0x52a210)
