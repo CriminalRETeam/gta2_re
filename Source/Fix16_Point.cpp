@@ -32,7 +32,7 @@ Fix16_Point Fix16_Point::NormalizeSafe_442AD0()
     return Fix16_Point(x, y);
 }
 
-STUB_FUNC(0x40ACD0)
+MATCH_FUNC(0x40ACD0)
 Ang16 Fix16_Point::atan2_40ACD0()
 {
     return Fix16::atan2_fixed_405320(y, x);
