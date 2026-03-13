@@ -157,6 +157,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE340, dword_6FE218 + dword_6FDFF8, 0x6FE340);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDF1C, Fix16(0xFFFFC000, 0), 0x6FDF1C);
 DEFINE_GLOBAL(Fix16_Point, stru_6FE300, 0x6FE300);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFFC, Fix16(0x3999, 0), 0x6FDFFC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE358, dword_6FE2E0 * (dword_6FDFD0 + k_dword_6FE210), 0x6FE358);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE078, (dword_6FE3C4 * dword_6FDFFC), 0x6FE078);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE390, (dword_6FE2E0 * dword_6FDFFC), 0x6FE390);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE080, dword_6FE3C4 * (dword_6FDFD0 + k_dword_6FE210), 0x6FE080);
+
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -1989,10 +1995,59 @@ void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
     this->field_AA_sbw = 1;
 }
 
-STUB_FUNC(0x55f020)
+WIP_FUNC(0x55f020)
 void CarPhysics_B0::ApplyTurningForce_55F020()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 v17 = dword_6FE358;
+
+    Object_2C* pObj = gRozza_679188.field_20_pSprite->As2C_40FEC0();
+    Fix16 v4;
+    if (pObj && pObj->field_18_model == 166)
+    {
+        v4 = k_dword_6FDFA4;
+        v17 = stru_6FDF80;
+    }
+    else
+    {
+        Ped* pDriver = this->field_5C_pCar->field_54_driver;
+        if (pDriver && pDriver->field_15C_player)
+        {
+            v4 = dword_6FE078;
+            v17 = dword_6FE390;
+        }
+        else
+        {
+            v4 = dword_6FE080;
+            v17 = dword_6FE358;
+        }
+    }
+
+    Fix16_Point v6 = (this->field_38_cp1 - stru_6FE1A0);
+    Fix16 var_14 = v6.x;
+    Fix16 v7 = v6.y;
+
+    Ang16 v6_ = -this->field_58_theta;
+
+    Fix16 v21 = var_14;
+    Fix16 v19 = (Ang16::sine_40F500(v6_) * v7);
+    Fix16 v10 = (var_14 * Ang16::cosine_40F520(v6_));
+    var_14 = (v10 + v19);
+    Fix16 v15 = (v7 * Ang16::cosine_40F520(v6_));
+    Fix16 v11 = -v21;
+    Fix16 v12 = (v11 * Ang16::sine_40F500(v6_));
+    var_14 = (v12 + v15);
+
+    if (var_14 >= kFP16Zero_6FE20C)
+    {
+        v4 = -v4;
+    }
+
+    ApplyAngularImpulse_55F970(v4);
+    Fix16_Point v13 = stru_6FE1F0.NormalizeSafe_442AD0();
+    Fix16_Point v14 = (v13 * v17);
+    ApplyForceScaledByMass_55F9A0(v14);
 }
 
 MATCH_FUNC(0x55f240)
