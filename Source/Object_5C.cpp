@@ -2596,37 +2596,26 @@ Object_2C* Object_5C::sub_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fi
     return pNewObj;
 }
 
-STUB_FUNC(0x529a40)
-Object_2C* Object_5C::sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7)
+MATCH_FUNC(0x529a40)
+Object_2C* Object_5C::NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
 {
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-MATCH_FUNC(0x529ab0)
-Object_2C* Object_5C::NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius_flags, u8 intensity)
-{
-    Object_2C* pNewObj = Object_5C::New_529C00(light_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
+    Object_2C* pNewObj = New_529C00(165, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
-        pNewObj->field_C_pAny.pLight->sub_482D60(argb, radius_flags, intensity);
+        pNewObj->field_C_pAny.pLight->sub_482D60(argb, radius, intensity);
     }
     return pNewObj;
 }
 
-STUB_FUNC(0x529b20)
-Object_2C* Object_5C::sub_529B20(s32 obj_type,
-                                 s32 a3,
-                                 s32 a4,
-                                 s32 argb,
-                                 s32 a6,
-                                 u8 intensity,
-                                 char_type on_time,
-                                 char_type off_time,
-                                 u8 shape)
+MATCH_FUNC(0x529ab0)
+Object_2C* Object_5C::NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* pNewObj = Object_5C::New_529C00(light_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
+    if (pNewObj)
+    {
+        pNewObj->field_C_pAny.pLight->sub_482D60(argb, radius, intensity);
+    }
+    return pNewObj;
 }
 
 MATCH_FUNC(0x529bc0)
