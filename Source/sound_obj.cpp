@@ -3012,10 +3012,108 @@ char_type sound_obj::Type_5_InitEngineSoundProfile_415730(sound_0x68* a1)
     return 0;
 }
 
-STUB_FUNC(0x418940)
+WIP_FUNC(0x418940)
 char_type sound_obj::Type_10_HandleCarSkidSound_418940(sound_0x68* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 kGlobal1 = k_dword_66F3F0;
+    Fix16 kGlobal2 = k_dword_66F3F0;
+
+    Car_BC* pCar;
+    if (GetCar_4145E0(a2->field_0_EntityIndex, &pCar))
+    {
+        CarPhysics_B0* pPhysics = pCar->field_58_physics;
+        if (pPhysics)
+        {
+            a2->field_14_samp_idx = 22;
+            s32 rate;
+            switch (pPhysics->field_9C)
+            {
+                case 2:
+                    rate = 13000;
+                    break;
+                case 5:
+                case 6:
+                case 8:
+                case 9:
+                    rate = 18000;
+                    break;
+                case 7:
+                    rate = 17000;
+                    break;
+                case 10:
+                    rate = 12600;
+                    break;
+                default:
+                    rate = 16000;
+                    break;
+            }
+
+            pPhysics->SetCarInfoGlobal_562ED0();
+            pPhysics->SetModelPhysicsGlobal_562EB0();
+
+            Fix16 v4;
+            s32 new_rate;
+
+            if (pPhysics->field_AC_drive_wheels_locked_q)
+            {
+                if (gCarInfo_48_6FE258->field_28_max_speed <= k_dword_66F3F0)
+                {
+                    new_rate = rate;
+                LABEL_23:
+                    a2->field_20_rate = new_rate;
+                    a2->field_3C = 600;
+                    a2->field_30 = 0;
+                    a2->field_34 = gSampManager_6FFF00.sub_58DC30(a2->field_14_samp_idx);
+                    a2->field_38 = gSampManager_6FFF00.sub_58DC50(a2->field_14_samp_idx);
+                    a2->field_4C = 3;
+                    return 1;
+                }
+                else
+                {
+                    v4 = pCar->sub_43A240() / gCarInfo_48_6FE258->field_28_max_speed;
+                LABEL_22:
+                    new_rate = rate + Fix16::Round_To_Int_410BF0(Fix16(98304000, 0) * v4);
+                    goto LABEL_23;
+                }
+            }
+
+            if (pPhysics->field_84_front_skid > gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1)
+            {
+                kGlobal1 = (pPhysics->field_84_front_skid - gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1) / gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1;
+                if (kGlobal1 > k_dword_66F3F4)
+                {
+                    kGlobal1 = k_dword_66F3F4;
+                }
+            }
+
+            if (pPhysics->field_88_rear_skid > gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2)
+            {
+                v4 = (pPhysics->field_88_rear_skid - gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2) / gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2;
+                if (v4 <= k_dword_66F3F4)
+                {
+                    goto LABEL_20;
+                }
+                else
+                {
+                    kGlobal2 = k_dword_66F3F4;
+                    v4 = kGlobal2;
+                }
+            }
+            else
+            {
+                v4 = kGlobal2;
+            }
+
+        LABEL_20:
+            if (kGlobal1 > v4)
+            {
+                v4 = kGlobal1;
+            }
+            goto LABEL_22;
+        }
+    }
     return 0;
 }
 
