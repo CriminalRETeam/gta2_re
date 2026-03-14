@@ -90,6 +90,11 @@ class Player
         }
     }
 
+    inline bool GetInUse_461DB0()
+    {
+        return field_8E_bInUse;
+    }
+
     // 9.6f inline 0x41D020
     inline Ped* GetPlayerPed_41D020()
     {
@@ -310,7 +315,7 @@ class Player
     bool field_8C_bWasDownPressed;
     bool field_8D_bWasAttackPressed;
 
-    char_type field_8E_bInUse;
+    bool field_8E_bInUse;
     char_type field_8F;
     Camera_0xBC field_90_game_camera;
     Camera_0xBC field_14C_view_camera;

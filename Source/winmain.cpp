@@ -1035,10 +1035,18 @@ EXPORT void Net_Send_Our_Inputs_4DACB0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4DAD50)
+MATCH_FUNC(0x4DAD50)
 EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
 {
-    NOT_IMPLEMENTED;
+    for (u32 player_idx = 0; player_idx < 6; player_idx++)
+    {
+        Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(player_idx);
+        if (pPlayer && pPlayer->GetInUse_461DB0())
+        {
+            pPlayer->SetInputs_565740(gPrevNetInputs_6F5B28.field_0_inputs[player_idx].field_0_Inputs);
+            gPrevNetInputs_6F5B28.field_0_inputs[player_idx].field_0_Inputs &= ~0x3FF000;
+        }
+    }
 }
 
 STUB_FUNC(0x4DADA0)
