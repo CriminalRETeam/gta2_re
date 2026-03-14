@@ -58,7 +58,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_66F1D0, dword_66F404, 0x66F1D0);
 DEFINE_GLOBAL_INIT(Fix16, dword_66F220, dword_66F1D0, 0x66F220);
 DEFINE_GLOBAL_INIT(Fix16, dword_66F258, Fix16(0x2000, 0), 0x66F258);
 
-
 // TODO: can't use 2d arrays here :Skull:
 //DEFINE_GLOBAL(char_type, byte_5FE434[8][44], 0x5FE434);
 char_type byte_5FE434[8][44];
@@ -2614,11 +2613,157 @@ char_type sound_obj::sub_412260(sound_0x68* pObj)
     return gFrontend_67DC84 && pObj->field_58_type == 20 ? true : false;
 }
 
-STUB_FUNC(0x416260)
-char_type sound_obj::Type_1_6_416260(sound_0x68* a1)
+// Car engine sounds/revs etc of the car we are driving
+WIP_FUNC(0x416260)
+char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    a2->field_20_rate = 8000;
+
+    Car_BC* pCar;
+    if (!GetCar_4145E0(a2->field_0_EntityIndex, &pCar))
+    {
+        return 0;
+    }
+
+    if (pCar->field_9C != 3)
+    {
+        return 0;
+    }
+
+    CarPhysics_B0* pPhysics = pCar->field_58_physics;
+
+    Fix16 gear2_speed;
+    Fix16 gear3_speed;
+    Fix16 v12;
+    Fix16 v19;
+
+    if (pPhysics)
+    {
+        pPhysics->SetModelPhysicsGlobal_562EB0();
+        Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
+        Fix16 gas_pedal = pCar->sub_43A240();
+
+        if (max_speed <= k_dword_66F3F0)
+        {
+        LABEL_32:
+            if (pCar->IsCarInAir_43A3C0())
+            {
+                a2->field_20_rate *= 2;
+            }
+            goto LABEL_35;
+        }
+
+        if (gas_pedal == k_dword_66F3F0)
+        {
+            max_speed = dword_66F220;
+            if (!pCar->field_58_physics->is_backward_gas_on_411810())
+            {
+                max_speed = dword_66F1D0;
+            }
+
+            if (a2->field_58_type == 1)
+            {
+                gas_pedal = pCar->field_58_physics->field_60_gas_pedal; // TODO: inline ?
+                if (pCar->field_68 == k_dword_66F3F4)
+                {
+                    a2->field_20_rate = Fix16::Round_To_Int_410BF0(Fix16(360448000, 0) * (gas_pedal / max_speed)) + 8000;
+                    goto LABEL_32;
+                }
+                else
+                {
+                LABEL_20:
+                    a2->field_20_rate = Fix16::Round_To_Int_410BF0(Fix16(311296000, 0) * (gas_pedal / max_speed)) + 11000;
+                    goto LABEL_32;
+                }
+            }
+            gas_pedal = pCar->field_58_physics->field_60_gas_pedal;
+            goto LABEL_13;
+        }
+
+        if (gas_pedal > max_speed)
+        {
+            gas_pedal = max_speed;
+        }
+
+        if (pCar->IsTank_411900() || pCar->field_58_physics->field_94_is_backward_gas_on)
+        {
+            v12 = gas_pedal; //  << 14;
+            v19 = max_speed;
+        }
+        else
+        {
+            if (pCar->field_68 != k_dword_66F3F4)
+            {
+                goto LABEL_20;
+            }
+
+            gear2_speed = gCarInfo_48_6FE258->field_40_gear2_speed;
+            gear3_speed = gCarInfo_48_6FE258->field_44_gear3_speed;
+
+            if (gas_pedal >= gear2_speed)
+            {
+                if (gas_pedal >= gear3_speed)
+                {
+                    if (a2->field_58_type == 1)
+                    {
+                        a2->field_20_rate = Fix16::Round_To_Int_410BF0((Fix16(262144000, 0) * dword_66F258) * (gas_pedal - gear3_speed) /
+                                                                       (max_speed - gear3_speed)) +
+                            16000;
+                        goto LABEL_32;
+                    }
+                }
+                else if (a2->field_58_type == 1)
+                {
+                    a2->field_20_rate =
+                        Fix16::Round_To_Int_410BF0(Fix16(262144000, 0) * (gas_pedal - gear2_speed) / (gear3_speed - gear2_speed)) + 14600;
+                    goto LABEL_32;
+                }
+                else
+                {
+                LABEL_13:
+                    a2->field_20_rate = Fix16::Round_To_Int_410BF0(Fix16(541900800, 0) * (gas_pedal / max_speed)) + 11025;
+                    goto LABEL_32;
+                }
+            }
+
+            if (a2->field_58_type != 1)
+            {
+                goto LABEL_13;
+            }
+
+            v12 = gas_pedal; // << 14;
+            v19 = gear2_speed;
+        }
+        a2->field_20_rate = Fix16::Round_To_Int_410BF0(Fix16(262144000, 0) * (v12 / v19)) + 12000;
+        goto LABEL_32;
+    }
+
+LABEL_35:
+    if (a2->field_58_type == 1)
+    {
+        if (pCar->field_68 == k_dword_66F3F4)
+        {
+            a2->field_14_samp_idx = samp_idx_for_model_417AC0(pCar->field_84_car_info_idx);
+        }
+        else
+        {
+            a2->field_14_samp_idx = 9;
+        }
+        a2->field_3C = 600;
+    }
+    else
+    {
+        a2->field_14_samp_idx = 21;
+        a2->field_3C = 400;
+    }
+
+    a2->field_4C = 3;
+    a2->field_30 = 0;
+    a2->field_34 = gSampManager_6FFF00.sub_58DC30(a2->field_14_samp_idx);
+    a2->field_38 = gSampManager_6FFF00.sub_58DC50(a2->field_14_samp_idx);
+    return 1;
 }
 
 WIP_FUNC(0x4174C0)
@@ -3417,10 +3562,10 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
                 v9 = Fix16(573440, 0) * (v8 / div_factor);
 
             LABEL_11:
-                emitting_vol =  Fix16::Round_To_Int_410BF0(v9) + 25;
+                emitting_vol = Fix16::Round_To_Int_410BF0(v9) + 25;
                 goto LABEL_24;
             }
-            emitting_vol =  Fix16::Round_To_Int_410BF0((Fix16(655360, 0) * gas_pedal) / max_speed);
+            emitting_vol = Fix16::Round_To_Int_410BF0((Fix16(655360, 0) * gas_pedal) / max_speed);
         }
 
     LABEL_24:
