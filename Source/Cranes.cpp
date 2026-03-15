@@ -35,18 +35,22 @@ Crane_15C::Crane_15C()
     field_7C = 0;
 }
 
-STUB_FUNC(0x47e620)
-s32 Crane_15C::ComputeHookPos_47E620(Fix16 a2, Ang16 a3, Fix16_Point* a4)
+WIP_FUNC(0x47e620)
+void Crane_15C::ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    pOutPoint->SetXY_432860(dword_679E70, radius);
+    pOutPoint->RotateByAngle_40F6B0(ang);
+    *pOutPoint += field_2C->field_4->get_x_y_443580();
 }
 
-STUB_FUNC(0x47e730)
-s32 Crane_15C::sub_47E730(s32 a2, s32 a3, u32 a4)
+WIP_FUNC(0x47e730)
+void Crane_15C::ComputeHookPos_47E730(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    pOutPoint->SetXY_432860(dword_679E70, radius);
+    pOutPoint->RotateByAngle_40F6B0(ang);
+    *pOutPoint += field_2C->field_4->get_x_y_443580();
 }
 
 STUB_FUNC(0x47e840)

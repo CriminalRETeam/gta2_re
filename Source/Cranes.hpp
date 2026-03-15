@@ -14,8 +14,8 @@ class Crane_15C
   public:
     EXPORT ~Crane_15C();
     EXPORT Crane_15C();
-    EXPORT s32 ComputeHookPos_47E620(Fix16 a2, Ang16 a3, Fix16_Point* a4);
-    EXPORT s32 sub_47E730(s32 a2, s32 a3, u32 a4);
+    EXPORT void ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint);
+    EXPORT void ComputeHookPos_47E730(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint);
     EXPORT s32 sub_47E840(s32 a2, s32 a3);
     EXPORT bool sub_47E920();
     EXPORT bool sub_47EB00();

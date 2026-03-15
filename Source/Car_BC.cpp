@@ -1209,7 +1209,7 @@ wchar_t* Car_BC::GetCarStr_439F80()
 WIP_FUNC(0x439fb0)
 Fix16_Point Car_BC::sub_439FB0()
 {
-    //  WIP_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     Fix16_Point point;
     // TODO: Inline breaks the start of the match, why?

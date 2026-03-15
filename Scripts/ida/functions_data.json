@@ -4360,7 +4360,7 @@
         "v105_address": "0x47e620"
     },
     {
-        "name": "Crane_15C::sub_47E730",
+        "name": "Crane_15C::ComputeHookPos_47E730",
         "v96f_address": "0x447FE0",
         "v105_address": "0x47e730"
     },
