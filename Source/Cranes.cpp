@@ -286,6 +286,23 @@ void Crane_15C::sub_47F930(Car_BC* a2)
     NOT_IMPLEMENTED;
 }
 
+inline Fix16 __stdcall sub_40E790(Fix16 a2)
+{
+    while (a2 < dword_679E70)
+    {
+        a2 += dword_679F58;
+    }
+
+    if (a2 >= dword_679F58)
+    {
+        do
+        {
+            a2 -= dword_679F58;
+        } while (a2 >= dword_679F58);
+    }
+    return a2;
+}
+
 // 9.6f 0x448C00
 MATCH_FUNC(0x47fb40)
 void Crane_15C::sub_47FB40()
@@ -297,19 +314,7 @@ void Crane_15C::sub_47FB40()
     else
     {
         field_114 = dword_679F8C;
-
-        Fix16 v1 = field_110 + dword_679F64;
-        while (v1 < dword_679E70)
-        {
-            v1 += dword_679F58;
-        }
-
-        while (v1 >= dword_679F58)
-        {
-            v1 -= dword_679F58;
-        }
-
-        field_110 = v1;
+        field_110 = sub_40E790(field_110 + dword_679F64);
     }
 }
 
