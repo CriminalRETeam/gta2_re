@@ -22,6 +22,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_679F88, dword_679E7C, 0x679F88);
 DEFINE_GLOBAL_INIT(Fix16, dword_679FC8, Fix16(0x11C, 0), 0x679FC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_679F64, dword_679FC8 * 20, 0x679F64);
 DEFINE_GLOBAL_INIT(Fix16, dword_679F58, Fix16(0x18F60, 0), 0x679F58);
+DEFINE_GLOBAL_INIT(Fix16, dword_679E80, Fix16(0x10000, 0), 0x679E80);
+DEFINE_GLOBAL_INIT(Fix16, dword_679F68, dword_679E80, 0x679F68);
+DEFINE_GLOBAL_INIT(Fix16, dword_679CB0, Fix16(0x2000, 0), 0x679CB0);
+DEFINE_GLOBAL_INIT(Fix16, dword_679C3C, dword_679CB0, 0x679C3C);
 
 // TODO: Should match but doesn't
 WIP_FUNC(0x47e5b0)
@@ -159,6 +163,7 @@ s32 Crane_15C::sub_47EF80()
     return 0;
 }
 
+// 9.6f 0x447D40
 WIP_FUNC(0x47f170)
 void Crane_15C::sub_47F170()
 {
@@ -266,11 +271,23 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x47f6c0)
-char_type Crane_15C::sub_47F6C0(u32* a2, s32* a3, u32* a4)
+// 9.6f 0x448900
+WIP_FUNC(0x47f6c0)
+char_type Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point* pPoint, Fix16* pOutF16, Ang16* pOutAng)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point v10 = (*pPoint - field_2C->field_4->get_x_y_443580());
+    *pOutF16 = v10.GetLength_2(); // TODO: Uses dword_679E70 as Zero
+
+    // TODO: 1st check is removed in 9.6f ??
+    if (*pOutF16 > dword_679F68 || *pOutF16 < dword_679C3C)
+    {
+        return 0;
+    }
+
+    *pOutAng = Ang16::Ang16_to_Fix16(v10.atan2_40F790());
+    return 1;
 }
 
 STUB_FUNC(0x47f7f0)
