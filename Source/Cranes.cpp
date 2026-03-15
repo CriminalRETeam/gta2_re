@@ -194,19 +194,20 @@ void Crane_15C::sub_47F170()
 }
 
 MATCH_FUNC(0x47f220)
-s32 Crane_15C::sub_47F220(s32 a2, s32 a3, Sprite* a4, Sprite* a5)
+void Crane_15C::sub_47F220(Fix16 a2, Fix16 a3, Sprite* a4, Sprite* a5)
 {
     field_F4 = a2;
     field_F8 = a3;
     field_6C = a4;
     field_70 = a5;
     field_108 = Ang16::Ang16_to_Fix16(a4->field_0);
+    
     field_FC = a4->field_14_xy.x;
     field_100 = a4->field_14_xy.y;
-    s32 result = a4->field_1C_zpos.mValue;
-    field_104.mValue = result;
-    field_10C = field_80.mValue - result;
-    return result;
+
+    Fix16 result = a4->field_1C_zpos;
+    field_104 = result;
+    field_10C = field_80 - result;
 }
 
 MATCH_FUNC(0x47f290)
@@ -223,7 +224,7 @@ void Crane_15C::sub_47F290(Fix16 a2, Fix16 a3, Sprite* a4)
 }
 
 MATCH_FUNC(0x47f2f0)
-void Crane_15C::sub_47F2F0(s32 a2, s32 a3, Sprite* a4)
+void Crane_15C::sub_47F2F0(Fix16 a2, Fix16 a3, Sprite* a4)
 {
     field_D8 = a2;
     field_DC = a3;
@@ -233,7 +234,7 @@ void Crane_15C::sub_47F2F0(s32 a2, s32 a3, Sprite* a4)
     field_E4 = a4->field_14_xy.y;
     Fix16 field_1C_zpos = a4->field_1C_zpos;
     field_E8 = field_1C_zpos;
-    field_F0 = field_80.mValue - field_1C_zpos.mValue;
+    field_F0 = field_80 - field_1C_zpos;
 }
 
 MATCH_FUNC(0x47f350)
@@ -280,7 +281,7 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
 
 // 9.6f 0x448900
 WIP_FUNC(0x47f6c0)
-char_type Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point* pPoint, Fix16* pOutF16, Ang16* pOutAng)
+char_type Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point* pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
     WIP_IMPLEMENTED;
 
@@ -297,11 +298,43 @@ char_type Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point* pPoint, Fix16* pOutF16
     return 1;
 }
 
-STUB_FUNC(0x47f7f0)
-char_type Crane_15C::sub_47F7F0(Car_BC* a2)
+WIP_FUNC(0x47f7f0)
+void Crane_15C::sub_47F7F0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Sprite* pFoundSprite = pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car);
+    if (pFoundSprite)
+    {
+        if (!field_150)
+        {
+            Fix16_Point car_xy = pFoundSprite->get_x_y_443580();
+            Fix16 point;
+            Fix16 t;
+            if (ComputeHookPolar_47F6C0(&car_xy, &point, &t))
+            {
+                if (field_6C == 0 || pFoundSprite == field_6C)
+                {
+                    sub_47F220(point, t, pFoundSprite, pCar->field_50_car_sprite);
+                    this->field_64 = 0;
+                    this->field_68 = 0;
+                }
+            }
+        }
+    }
+    else if (!this->field_6C && this->field_150 <= 1u && !this->field_144)
+    {
+        Fix16_Point car_xy = pCar->field_50_car_sprite->get_x_y_443580();
+        Fix16 point;
+        Fix16 t;
+        if (ComputeHookPolar_47F6C0(&car_xy, &point, &t))
+        {
+            if (field_64 == 0 || pCar->field_50_car_sprite == field_64)
+            {
+                sub_47F290(point, t, pCar->field_50_car_sprite);
+            }
+        }
+    }
 }
 
 // 9.6f 0x448A80
@@ -337,15 +370,14 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
                     {
                         Fix16_Point sprite_xy = pCar->field_50_car_sprite->get_x_y_443580();
                         Fix16 a2a;
-                        Ang16 angTmp;
+                        Fix16 angTmp;
                         if (ComputeHookPolar_47F6C0(&sprite_xy, &a2a, &angTmp))
                         {
                             if (this->field_144 != 1 || sub_47EB00())
                             {
                                 if (field_68 == 0 || pCar->field_50_car_sprite == field_68)
                                 {
-                                    // TODO: Args
-                                    sub_47F2F0(a2a.mValue, angTmp.rValue, pCar->field_50_car_sprite);
+                                    sub_47F2F0(a2a, angTmp, pCar->field_50_car_sprite);
                                 }
                             }
                         }
