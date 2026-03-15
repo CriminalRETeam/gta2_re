@@ -75,27 +75,16 @@ bool Crane_15C::sub_47E920()
     return !gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_60, 0) && !field_60->CheckSpriteMovementRegion_5A2500();
 }
 
-WIP_FUNC(0x47eb00)
+// 9.6f 0x448150
+MATCH_FUNC(0x47eb00)
 bool Crane_15C::sub_47EB00()
 {
-    WIP_IMPLEMENTED;
-
-    Ang16 v3 = Ang16::Fix16_To_Ang16_40F540(field_124);
-
     Fix16_Point hookPos;
-    ComputeHookPos_47E620(this->field_120, v3, &hookPos);
+    ComputeHookPos_47E620(field_120, Ang16::Fix16_To_Ang16_40F540(field_124), &hookPos);
+    hookPos += field_18;
 
-    Fix16 v4 = field_18.x + hookPos.x;
-    Fix16 v5 = field_18.y + hookPos.y;
-    Fix16 new_z = field_80 - field_12C;
-
-    hookPos.x = v4;
-    hookPos.y = v5;
-
-    field_60->set_xyz_lazy_420600(v4, v5, new_z);
-
-    Ang16 v8 = Ang16::Fix16_To_Ang16_40F540(field_128);
-    field_60->set_ang_lazy_420690(v8);
+    field_60->set_xyz_lazy_420600(hookPos.x, hookPos.y, field_80 - field_12C);
+    field_60->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_128));
 
     return gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_60, sprite_types_enum::unknown_0) == 0;
 }
