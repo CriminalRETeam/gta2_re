@@ -52,13 +52,11 @@ class Crane_15C
 
     s32 field_0;
     s32 field_4;
-    Fix16 field_8;
-    Fix16 field_C;
+    Fix16_Point_POD field_8;
     s32 field_10;
     s32 field_14;
-    Fix16_Point field_18;
-    s32 field_20;
-    s32 field_24;
+    Fix16_Point_POD field_18;
+    Fix16_Point_POD field_20;
     struct_4 field_28_strct4;
     Object_2C* field_2C;
     Object_2C* field_30;

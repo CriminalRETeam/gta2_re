@@ -60,19 +60,19 @@ s32 Crane_15C::sub_47E840(s32 a2, s32 a3)
     return 0;
 }
 
+// 9.6f 0x448090
 MATCH_FUNC(0x47e920)
 bool Crane_15C::sub_47E920()
 {
     Fix16_Point pos;
-
-    ComputeHookPos_47E620(this->field_114, Ang16::Fix16_To_Ang16_40F540(field_110), &pos);
-
-    pos.x += this->field_8;
-    pos.y += this->field_C;
+    ComputeHookPos_47E620(field_114, Ang16::Fix16_To_Ang16_40F540(field_110), &pos);
+    pos += field_8;
 
     field_60->set_xyz_lazy_420600(pos.x, pos.y, this->field_80 - this->field_11C);
     field_60->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_118));
-    return !gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_60, 0) && !field_60->CheckSpriteMovementRegion_5A2500();
+
+    return !gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_60, sprite_types_enum::unknown_0) &&
+        !field_60->CheckSpriteMovementRegion_5A2500();
 }
 
 // 9.6f 0x448150
@@ -138,6 +138,7 @@ void Crane_15C::sub_47ED60()
     Crane_15C::sub_47F170();
 }
 
+// 9.6 0x448300
 STUB_FUNC(0x47edf0)
 s32 Crane_15C::sub_47EDF0()
 {
@@ -445,8 +446,8 @@ void Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_114 = dword_679E70;
     field_110 = dword_679E70;
     field_118 = dword_679E70;
-    field_8 = 0;
-    field_C = 0;
+    field_8.x = 0;
+    field_8.y = 0;
     field_11C = dword_679E70;
 
     Sprite* current_sprite = gSprite_Pool_703818->get_new_sprite();
@@ -470,8 +471,8 @@ void Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_130 = dword_679E70;
     field_134 = dword_679E70;
     field_138 = dword_679E70;
-    field_20 = 0;
-    field_24 = 0;
+    field_20.x = 0;
+    field_20.y = 0;
     field_13C = dword_679E70;
     field_155 = 1;
     Crane_15C::sub_47FE10();
