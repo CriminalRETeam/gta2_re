@@ -16,6 +16,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_679C78, dword_679E78, 0x679C78);
 DEFINE_GLOBAL_INIT(Ang16, word_679FC4, Ang16(0), 0x679FC4);
 DEFINE_GLOBAL(CranePool_D9C*, gCranePool_D9C_679FD4, 0x679FD4);
 DEFINE_GLOBAL_INIT(Fix16, dword_679D50, dword_679E70, 0x679D50);
+DEFINE_GLOBAL_INIT(Fix16, dword_679F8C, dword_679E78, 0x679F8C);
+DEFINE_GLOBAL_INIT(Fix16, dword_679E7C, Fix16(0xC000, 0), 0x679E7C);
+DEFINE_GLOBAL_INIT(Fix16, dword_679F88, dword_679E7C, 0x679F88);
+DEFINE_GLOBAL_INIT(Fix16, dword_679FC8, Fix16(0x11C, 0), 0x679FC8);
+DEFINE_GLOBAL_INIT(Fix16, dword_679F64, dword_679FC8 * 20, 0x679F64);
+DEFINE_GLOBAL_INIT(Fix16, dword_679F58, Fix16(0x18F60, 0), 0x679F58);
 
 // TODO: Should match but doesn't
 WIP_FUNC(0x47e5b0)
@@ -280,11 +286,31 @@ void Crane_15C::sub_47F930(Car_BC* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x47fb40)
-s32 Crane_15C::sub_47FB40()
+// 9.6f 0x448C00
+MATCH_FUNC(0x47fb40)
+void Crane_15C::sub_47FB40()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_114 == dword_679F8C)
+    {
+        field_114 = dword_679F88;
+    }
+    else
+    {
+        field_114 = dword_679F8C;
+
+        Fix16 v1 = field_110 + dword_679F64;
+        while (v1 < dword_679E70)
+        {
+            v1 += dword_679F58;
+        }
+
+        while (v1 >= dword_679F58)
+        {
+            v1 -= dword_679F58;
+        }
+
+        field_110 = v1;
+    }
 }
 
 STUB_FUNC(0x47fba0)
