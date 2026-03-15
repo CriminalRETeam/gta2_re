@@ -78,6 +78,7 @@ EXTERN_GLOBAL(Ang16, word_6F771E);
 
 EXTERN_GLOBAL(Fix16, dword_6F77C0);
 EXTERN_GLOBAL(Fix16, dword_6F77C4);
+EXTERN_GLOBAL(Fix16, dword_679E74);
 
 class Car_6C
 {
@@ -778,10 +779,20 @@ class Car_BC
         return this->field_84_car_info_idx == car_model_enum::TVVAN;
     }
 
+    bool Is_TRUKTRNS_447EC0()
+    {
+        return this->field_84_car_info_idx == car_model_enum::TRUKTRNS;
+    }
+
     bool sub_4215C0()
     {
         return field_54_driver && field_54_driver->field_15C_player &&
             field_54_driver->get_occupation_403980() != ped_ocupation_enum::empty;
+    }
+
+    bool Is_F9_Eq7_447EB0()
+    {
+        return this->field_9C == 7;
     }
 
     Fix16 sub_421910(Fix16 value)
@@ -830,6 +841,22 @@ class Car_BC
     bool sub_4215B0()
     {
         return this->field_88 == 5;
+    }
+
+    bool sub_421620()
+    {
+        car_info* v1 =  gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+        return v1->is_0x8_41FEA0();
+    }
+
+    bool sub_447ED0()
+    {
+        return (field_50_car_sprite->GetH_447E70() > dword_679E74) ? true : false;
+    }
+
+    bool sub_447F00()
+    {
+        return !sub_421620() && !inline_check_0x10_info_421640() && !IsTrainModel_403BA0() && !sub_447ED0();
     }
 
     EXPORT char SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);

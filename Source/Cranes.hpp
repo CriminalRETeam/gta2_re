@@ -32,8 +32,8 @@ class Crane_15C
     EXPORT bool sub_47F450();
     EXPORT void UpdateCraneTargets_47F4C0();
     EXPORT char_type ComputeHookPolar_47F6C0(Fix16_Point* pPoint, Fix16* pOutF16, Ang16* pOutAng);
-    EXPORT char_type sub_47F7F0(u32* a2);
-    EXPORT void sub_47F930(Car_BC* a2);
+    EXPORT char_type sub_47F7F0(Car_BC* a2);
+    EXPORT void PickUpCar_47F930(Car_BC* a2);
     EXPORT void sub_47FB40();
     EXPORT s32 sub_47FBA0();
     EXPORT void sub_47FD10();
