@@ -96,8 +96,7 @@ class Crane_15C
     Fix16 field_B8_hook_depth_target;
     Fix16 field_BC;
     Fix16 field_C0;
-    Fix16 field_C4;
-    Fix16 field_C8;
+    Fix16_Point_POD field_C4;
     Fix16 field_CC;
     Fix16 field_D0;
     Fix16 field_D4;

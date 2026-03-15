@@ -1,5 +1,6 @@
 #include "Cranes.hpp"
 #include "Globals.hpp"
+#include "Hud.hpp"
 #include "Object_5C.hpp"
 #include "PurpleDoom.hpp"
 #include "debug.hpp"
@@ -8,7 +9,6 @@
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
-#include "Hud.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, dword_679E58, Fix16(0x2000, 0), 0x679E58);
 DEFINE_GLOBAL_INIT(Fix16, dword_679E70, Fix16(0), 0x679E70);
@@ -216,8 +216,8 @@ void Crane_15C::sub_47F290(Fix16 a2, Fix16 a3, Sprite* a4)
     field_C0 = a3;
     field_64 = a4;
     field_D0 = Ang16::Ang16_to_Fix16(a4->field_0);
-    field_C4 = a4->field_14_xy.x;
-    field_C8 = a4->field_14_xy.y;
+    field_C4.x = a4->field_14_xy.x;
+    field_C4.y = a4->field_14_xy.y;
     field_CC = a4->field_1C_zpos;
     field_D4 = field_80 - field_CC;
 }
@@ -260,11 +260,16 @@ bool Crane_15C::sub_47F3D0()
     return 0;
 }
 
-STUB_FUNC(0x47f450)
+MATCH_FUNC(0x47f450)
 bool Crane_15C::sub_47F450()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCar = field_64->AsCar_40FEB0();
+    if (!pCar->sub_4215B0() && this->field_C4.x == field_64->field_14_xy.x && this->field_C4.y == field_64->field_14_xy.y &&
+        this->field_CC == field_64->field_1C_zpos && this->field_D0 == Ang16::Ang16_to_Fix16(field_64->field_0))
+    {
+        return pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car) ? false : true;
+    }
+    return false;
 }
 
 STUB_FUNC(0x47f4c0)
@@ -554,8 +559,8 @@ void Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_C0 = dword_679E70;
     field_64 = 0;
     field_D0 = dword_679E70;
-    field_C4 = dword_679E70;
-    field_C8 = dword_679E70;
+    field_C4.x = dword_679E70;
+    field_C4.y = dword_679E70;
     field_CC = dword_679E70;
     field_D4 = dword_679E70;
     field_120 = dword_679E70;
