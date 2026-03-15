@@ -6,12 +6,13 @@
 
 class Car_BC;
 class Ped;
+class Door_38;
 
 class Garage_48
 {
   public:
     EXPORT ~Garage_48();
-    EXPORT char_type sub_534650();
+    EXPORT void ValidateParkCommand_534650();
     EXPORT void ParkCarAtDoor_534700(Car_BC* a2, void* a3);
     EXPORT void GaragesService_5349D0();
     EXPORT Garage_48();
@@ -30,12 +31,12 @@ class Garage_48
     Car_BC* field_4;
     s32 field_8;
     s32 field_C;
-    s32 field_10;
+    Door_38* field_10;
     Ped* field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
+    Fix16 field_18;
+    Fix16 field_1C;
+    Fix16 field_20;
+    Fix16 field_24;
     s32 field_28;
     s32 field_2C;
     s32 field_30;

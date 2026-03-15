@@ -11180,7 +11180,7 @@
         "v105_address": "0x5345e0"
     },
     {
-        "name": "Garage_48::sub_534650",
+        "name": "Garage_48::ValidateParkCommand_534650",
         "v96f_address": "0x489B10",
         "v105_address": "0x534650"
     },
