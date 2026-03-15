@@ -201,7 +201,7 @@ void Crane_15C::sub_47F220(Fix16 a2, Fix16 a3, Sprite* a4, Sprite* a5)
     field_6C = a4;
     field_70 = a5;
     field_108 = Ang16::Ang16_to_Fix16(a4->field_0);
-    
+
     field_FC = a4->field_14_xy.x;
     field_100 = a4->field_14_xy.y;
 
@@ -298,19 +298,20 @@ char_type Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point* pPoint, Fix16* pOutF16
     return 1;
 }
 
+// 9.6f 0x448980
 WIP_FUNC(0x47f7f0)
 void Crane_15C::sub_47F7F0(Car_BC* pCar)
 {
     WIP_IMPLEMENTED;
 
+    Fix16 point;
+    Fix16 t;
     Sprite* pFoundSprite = pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car);
     if (pFoundSprite)
     {
         if (!field_150)
         {
             Fix16_Point car_xy = pFoundSprite->get_x_y_443580();
-            Fix16 point;
-            Fix16 t;
             if (ComputeHookPolar_47F6C0(&car_xy, &point, &t))
             {
                 if (field_6C == 0 || pFoundSprite == field_6C)
@@ -322,11 +323,9 @@ void Crane_15C::sub_47F7F0(Car_BC* pCar)
             }
         }
     }
-    else if (!this->field_6C && this->field_150 <= 1u && !this->field_144)
+    else if (this->field_6C == 0 && this->field_150 <= 1 && this->field_144 == 0)
     {
         Fix16_Point car_xy = pCar->field_50_car_sprite->get_x_y_443580();
-        Fix16 point;
-        Fix16 t;
         if (ComputeHookPolar_47F6C0(&car_xy, &point, &t))
         {
             if (field_64 == 0 || pCar->field_50_car_sprite == field_64)
