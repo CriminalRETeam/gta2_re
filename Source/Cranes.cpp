@@ -28,6 +28,11 @@ DEFINE_GLOBAL_INIT(Fix16, dword_679F68, dword_679E80, 0x679F68);
 DEFINE_GLOBAL_INIT(Fix16, dword_679CB0, Fix16(0x2000, 0), 0x679CB0);
 DEFINE_GLOBAL_INIT(Fix16, dword_679C3C, dword_679CB0, 0x679C3C);
 DEFINE_GLOBAL_INIT(Fix16, dword_679E74, Fix16(0x4000, 0), 0x679E74);
+DEFINE_GLOBAL_INIT(Fix16, dword_679D64, Fix16(0x2000, 0), 0x679D64);
+DEFINE_GLOBAL_INIT(Fix16, dword_679D34, dword_679D64, 0x679D34);
+DEFINE_GLOBAL_INIT(Fix16, dword_679D28, dword_679E7C + dword_679D64, 0x679D28);
+DEFINE_GLOBAL_INIT(Fix16, dword_679D2C, dword_679E78 + dword_679D64, 0x679D2C);
+DEFINE_GLOBAL_INIT(Fix16, dword_679D30, dword_679E74 + dword_679D64, 0x679D30);
 
 // TODO: Should match but doesn't
 WIP_FUNC(0x47e5b0)
@@ -57,19 +62,18 @@ void Crane_15C::ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOut
 }
 
 WIP_FUNC(0x47e730)
-void Crane_15C::ComputeHookPos_47E730(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint)
+void Crane_15C::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOutPoint)
 {
     WIP_IMPLEMENTED;
-    pOutPoint->SetXY_432860(dword_679E70, radius);
-    pOutPoint->RotateByAngle_40F6B0(ang);
+    pOutPoint->SetXY_432860(dword_679E70, ang);
+    pOutPoint->RotateByAngle_40F6B0(radius);
     *pOutPoint += field_2C->field_4->get_x_y_443580();
 }
 
 STUB_FUNC(0x47e840)
-s32 Crane_15C::sub_47E840(s32 a2, s32 a3)
+void Crane_15C::ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 // 9.6f 0x448090
@@ -461,7 +465,7 @@ void Crane_15C::UpdateCraneTick_47FD50()
     if (old_crane_angle != field_8C_crane_angle || old_hook_radius != field_90_hook_radius ||
         old_hook_axial_angle != field_A0_hook_axial_angle || old_hook_depth != field_84_hook_depth)
     {
-        Crane_15C::sub_47FE10();
+        Crane_15C::UpdateCraneSprites_47FE10();
     }
     if (v6 != 0)
     {
@@ -480,10 +484,84 @@ void Crane_15C::UpdateCraneTick_47FD50()
     }
 }
 
-STUB_FUNC(0x47fe10)
-void Crane_15C::sub_47FE10()
+// 9.6f 0x448E30
+WIP_FUNC(0x47fe10)
+void Crane_15C::UpdateCraneSprites_47FE10()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point a4;
+    Ang16 a2 = Ang16::Fix16_To_Ang16_40F540(field_8C_crane_angle);
+
+    field_30->RemoveFromCollisionBuckets_527D00();
+    field_34->RemoveFromCollisionBuckets_527D00();
+    field_38->RemoveFromCollisionBuckets_527D00();
+    field_3C->RemoveFromCollisionBuckets_527D00();
+    field_40->RemoveFromCollisionBuckets_527D00();
+    field_44->RemoveFromCollisionBuckets_527D00();
+    field_48->RemoveFromCollisionBuckets_527D00();
+    field_4C->RemoveFromCollisionBuckets_527D00();
+    field_50->RemoveFromCollisionBuckets_527D00();
+    field_54->RemoveFromCollisionBuckets_527D00();
+
+    ComputeHookPos_47E730(a2, dword_679D34, &a4);
+    field_30->field_4->set_ang_lazy_420690(a2);
+    field_30->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+
+    field_40->field_4->set_ang_lazy_420690(a2);
+    field_40->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+
+    ComputeHookPos_47E730(a2, dword_679D30, &a4);
+    field_34->field_4->set_ang_lazy_420690(a2);
+    field_34->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+
+    field_44->field_4->set_ang_lazy_420690(a2);
+    field_44->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    
+    ComputeHookPos_47E730(a2, dword_679D2C, &a4);
+    field_38->field_4->set_ang_lazy_420690(a2);
+    field_38->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+
+    field_48->field_4->set_ang_lazy_420690(a2);
+    field_48->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+
+    ComputeHookPos_47E730(a2, dword_679D28, &a4);
+    field_3C->field_4->set_ang_lazy_420690(a2);
+    field_3C->field_4->set_xy_lazy_447E20(a4.x, a4.y);    
+
+    field_4C->field_4->set_ang_lazy_420690(a2);
+    field_4C->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+
+    field_50->field_4->set_ang_lazy_420690(a2);
+
+    ComputeHookOffset_47E840(a2, &a4);
+    field_5C->field_4->set_ang_lazy_420690(a2);
+    field_5C->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+
+    ComputeHookPos_47E620(field_90_hook_radius, a2, &a4);
+    field_50->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+
+    field_54->field_4->set_xyz_lazy_420600(a4.x, a4.y, field_80 - field_84_hook_depth);
+    field_54->field_4->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
+
+    // TODO: Some missing control flow around here?? then it will match
+    if (field_74)
+    {
+        a4 += field_10;
+        field_74->set_xyz_lazy_420600(a4.x, a4.y, field_80 - field_84_hook_depth);
+        field_74->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
+    }
+
+    field_30->AssignToBucket_527AE0();
+    field_34->AssignToBucket_527AE0();
+    field_38->AssignToBucket_527AE0();
+    field_3C->AssignToBucket_527AE0();
+    field_40->AssignToBucket_527AE0();
+    field_44->AssignToBucket_527AE0();
+    field_48->AssignToBucket_527AE0();
+    field_4C->AssignToBucket_527AE0();
+    field_50->AssignToBucket_527AE0();
+    field_54->AssignToBucket_527AE0();
 }
 
 MATCH_FUNC(0x480310)
@@ -607,7 +685,7 @@ void Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_20.y = 0;
     field_13C = dword_679E70;
     field_155 = 1;
-    Crane_15C::sub_47FE10();
+    Crane_15C::UpdateCraneSprites_47FE10();
     field_156 = 0;
     field_157 = 0;
     field_158 = 0;
@@ -626,7 +704,7 @@ void Crane_15C::CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
     WIP_IMPLEMENTED;
 
     // TODO: Busted stack like the next func
-    Fix16_Point v10(xpos, ypos); 
+    Fix16_Point v10(xpos, ypos);
     Fix16_Point t;
     ComputeHookPolar_47F6C0(&v10, &field_120, &field_124);
 

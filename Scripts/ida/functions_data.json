@@ -4365,7 +4365,7 @@
         "v105_address": "0x47e730"
     },
     {
-        "name": "Crane_15C::sub_47E840",
+        "name": "Crane_15C::ComputeHookOffset_47E840",
         "v96f_address": null,
         "v105_address": "0x47e840"
     },
@@ -4475,7 +4475,7 @@
         "v105_address": "0x47fd50"
     },
     {
-        "name": "Crane_15C::sub_47FE10",
+        "name": "Crane_15C::UpdateCraneSprites_47FE10",
         "v96f_address": "0x448E30",
         "v105_address": "0x47fe10"
     },
@@ -4525,7 +4525,7 @@
         "v105_address": "0x480f50"
     },
     {
-        "name": "Fix16::sub_482740",
+        "name": "Fix16::Fix16_To_Ang16_482740",
         "v96f_address": null,
         "v105_address": "0x482740"
     },

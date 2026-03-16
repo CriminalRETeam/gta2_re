@@ -15,8 +15,8 @@ class Crane_15C
     EXPORT ~Crane_15C();
     EXPORT Crane_15C();
     EXPORT void ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint);
-    EXPORT void ComputeHookPos_47E730(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint);
-    EXPORT s32 sub_47E840(s32 a2, s32 a3);
+    EXPORT void ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOutPoint);
+    EXPORT void ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint);
     EXPORT bool sub_47E920();
     EXPORT bool sub_47EB00();
     EXPORT void sub_47ECC0();
@@ -38,7 +38,7 @@ class Crane_15C
     EXPORT s32 sub_47FBA0();
     EXPORT void sub_47FD10();
     EXPORT void UpdateCraneTick_47FD50();
-    EXPORT void sub_47FE10();
+    EXPORT void UpdateCraneSprites_47FE10();
     EXPORT void Service_480310();
     EXPORT void sub_4803B0(Fix16 a2, Fix16 a3, char_type a4);
     EXPORT void CraneTargetPickupCheck_480900(Fix16 a2, Fix16 a3, Ang16 a4);
@@ -53,8 +53,7 @@ class Crane_15C
     s32 field_0;
     s32 field_4;
     Fix16_Point_POD field_8;
-    s32 field_10;
-    s32 field_14;
+    Fix16_Point_POD field_10;
     Fix16_Point_POD field_18;
     Fix16_Point_POD field_20;
     struct_4 field_28_strct4;
