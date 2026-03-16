@@ -65,11 +65,9 @@ Ang16* Ang16::sub_4516B0(s32* a2, s32 a3)
 }
 
 MATCH_FUNC(0x482740)
-Ang16* Ang16::sub_482740(Ang16* a1, s32* a2)
+Ang16 Ang16::Fix16_To_Ang16_482740(Fix16& a2)
 {
-    a1->rValue = (s32)*a2 / 71;
-    a1->Normalize();
-    return a1;
+    return Ang16(a2.mValue / 71, 0);
 }
 
 MATCH_FUNC(0x4F78F0)

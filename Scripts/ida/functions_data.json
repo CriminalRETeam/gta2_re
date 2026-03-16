@@ -4360,12 +4360,12 @@
         "v105_address": "0x47e620"
     },
     {
-        "name": "Crane_15C::sub_47E730",
+        "name": "Crane_15C::ComputeHookPos_47E730",
         "v96f_address": "0x447FE0",
         "v105_address": "0x47e730"
     },
     {
-        "name": "Crane_15C::sub_47E840",
+        "name": "Crane_15C::ComputeHookOffset_47E840",
         "v96f_address": null,
         "v105_address": "0x47e840"
     },
@@ -4440,7 +4440,7 @@
         "v105_address": "0x47f4c0"
     },
     {
-        "name": "Crane_15C::sub_47F6C0",
+        "name": "Crane_15C::ComputeHookPolar_47F6C0",
         "v96f_address": null,
         "v105_address": "0x47f6c0"
     },
@@ -4450,7 +4450,7 @@
         "v105_address": "0x47f7f0"
     },
     {
-        "name": "Crane_15C::sub_47F930",
+        "name": "Crane_15C::PickUpCar_47F930",
         "v96f_address": null,
         "v105_address": "0x47f930"
     },
@@ -4475,7 +4475,7 @@
         "v105_address": "0x47fd50"
     },
     {
-        "name": "Crane_15C::sub_47FE10",
+        "name": "Crane_15C::UpdateCraneSprites_47FE10",
         "v96f_address": "0x448E30",
         "v105_address": "0x47fe10"
     },
@@ -4490,12 +4490,12 @@
         "v105_address": "0x4803b0"
     },
     {
-        "name": "Crane_15C::sub_480900",
+        "name": "Crane_15C::CraneTargetPickupCheck_480900",
         "v96f_address": null,
         "v105_address": "0x480900"
     },
     {
-        "name": "Crane_15C::sub_480B60",
+        "name": "Crane_15C::ComputePickupAlignment_480B60",
         "v96f_address": null,
         "v105_address": "0x480b60"
     },
@@ -4525,7 +4525,7 @@
         "v105_address": "0x480f50"
     },
     {
-        "name": "Fix16::sub_482740",
+        "name": "Fix16::Fix16_To_Ang16_482740",
         "v96f_address": null,
         "v105_address": "0x482740"
     },
@@ -11180,7 +11180,7 @@
         "v105_address": "0x5345e0"
     },
     {
-        "name": "Garage_48::sub_534650",
+        "name": "Garage_48::ValidateParkCommand_534650",
         "v96f_address": "0x489B10",
         "v105_address": "0x534650"
     },
