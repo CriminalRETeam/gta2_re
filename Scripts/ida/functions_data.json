@@ -4490,12 +4490,12 @@
         "v105_address": "0x4803b0"
     },
     {
-        "name": "Crane_15C::sub_480900",
+        "name": "Crane_15C::CraneTargetPickupCheck_480900",
         "v96f_address": null,
         "v105_address": "0x480900"
     },
     {
-        "name": "Crane_15C::sub_480B60",
+        "name": "Crane_15C::ComputePickupAlignment_480B60",
         "v96f_address": null,
         "v105_address": "0x480b60"
     },

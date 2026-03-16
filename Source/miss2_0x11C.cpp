@@ -571,25 +571,25 @@ void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* a1, SCR_CRANE_BASIC_
         {
             rotation = word_6F8044.sub_401CB0(Fix16(a1->field_24_target_rotation));
 
-            a1->field_8_crane->sub_480900(a1->field_1C_target_pos.field_0_x, a1->field_1C_target_pos.field_4_y, rotation);
+            a1->field_8_crane->CraneTargetPickupCheck_480900(a1->field_1C_target_pos.field_0_x, a1->field_1C_target_pos.field_4_y, rotation);
         }
         else if (a1->field_1A_home_cranetype == 1)
         {
             rotation = word_6F8044.sub_401CB0(Fix16(a1->field_24_target_rotation));
 
-            a1->field_8_crane->sub_480B60(a1->field_1C_target_pos.field_0_x, a1->field_1C_target_pos.field_4_y, rotation);
+            a1->field_8_crane->ComputePickupAlignment_480B60(a1->field_1C_target_pos.field_0_x, a1->field_1C_target_pos.field_4_y, rotation);
         }
     }
     else if (a1->field_2_type == SCRCMD_CRANE_BASIC_DEC)
     {
         // line e0
         rotation = word_6F8044.sub_401CB0(Fix16(a2->field_24_target_rotation));
-        a2->field_8_crane->sub_480900(a2->field_1C_target_pos.field_0_x, a2->field_1C_target_pos.field_4_y, rotation);
+        a2->field_8_crane->CraneTargetPickupCheck_480900(a2->field_1C_target_pos.field_0_x, a2->field_1C_target_pos.field_4_y, rotation);
 
         // line 125
 
         rotation = word_6F8044.sub_401CB0(Fix16(a2->field_26_second_rotation));
-        a2->field_8_crane->sub_480B60(a2->field_28_second_pos.field_0_x, a2->field_28_second_pos.field_4_y, rotation);
+        a2->field_8_crane->ComputePickupAlignment_480B60(a2->field_28_second_pos.field_0_x, a2->field_28_second_pos.field_4_y, rotation);
     }
 
     rotation = word_6F8044.sub_401CB0(Fix16(a1->field_18_home_rotation));
