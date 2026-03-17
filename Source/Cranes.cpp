@@ -277,10 +277,101 @@ bool Crane_15C::sub_47F450()
     return false;
 }
 
-STUB_FUNC(0x47f4c0)
+WIP_FUNC(0x47f4c0)
 void Crane_15C::UpdateCraneTargets_47F4C0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (this->field_6C)
+    {
+        if (!sub_47F350())
+        {
+            this->field_6C = 0;
+            this->field_14C = 60;
+        }
+    }
+
+    if (this->field_68)
+    {
+        if (!sub_47F3D0())
+        {
+            this->field_68 = 0;
+            this->field_14C = 60;
+        }
+    }
+
+    if (this->field_64)
+    {
+        if (!sub_47F450())
+        {
+            this->field_64 = 0;
+            this->field_14C = 60;
+        }
+    }
+
+    if (field_150 == 2 || field_150 == 3 || field_150 == 4)
+    {
+        if (sub_47E920())
+        {
+            this->field_14D_is_busy = 1;
+        }
+        else
+        {
+            this->field_14D_is_busy = 0;
+            if (field_150 != 4)
+            {
+                sub_47FB40();
+            }
+        }
+    }
+
+    if (field_150 == 2 || field_150 == 3 || field_150 == 4)
+    {
+        this->field_B0_hook_radius_target = field_114;
+        this->field_AC_crane_angle_target = field_110;
+        this->field_B4_hook_angle_target = field_118;
+        this->field_0 = this->field_8;
+        this->field_B8_hook_depth_target = field_11C;
+    }
+    else if (field_150 == 1 && this->field_64)
+    {
+        this->field_B0_hook_radius_target = field_BC;
+        this->field_0.x = 0;
+        this->field_0.y = 0;
+        this->field_AC_crane_angle_target = field_C0;
+        this->field_14D_is_busy = 1;
+        this->field_B4_hook_angle_target = field_D0;
+        this->field_B8_hook_depth_target = field_D4;
+    }
+    else if (field_6C)
+    {
+        this->field_B0_hook_radius_target = field_F4;
+        this->field_AC_crane_angle_target = field_F8;
+        this->field_B4_hook_angle_target = field_108;
+        this->field_14D_is_busy = 1;
+        this->field_B8_hook_depth_target = field_10C;
+    }
+    else if (field_68 && (field_64 || field_144 == 1 || field_144 == 2 || field_144 == 3))
+    {
+        this->field_B0_hook_radius_target = field_D8;
+        this->field_AC_crane_angle_target = field_DC;
+        this->field_B4_hook_angle_target = field_EC;
+        this->field_14D_is_busy = 1;
+        this->field_B8_hook_depth_target = field_F0;
+    }
+    else
+    {
+        field_14D_is_busy = 0;
+
+        if (field_14C)
+        {
+            field_14C--;
+        }
+        else
+        {
+            sub_47F170();
+        }
+    }
 }
 
 // 9.6f 0x448900
@@ -517,7 +608,7 @@ void Crane_15C::UpdateCraneSprites_47FE10()
 
     field_44->field_4->set_ang_lazy_420690(a2);
     field_44->field_4->set_xy_lazy_447E20(a4.x, a4.y);
-    
+
     ComputeHookPos_47E730(a2, dword_679D2C, &a4);
     field_38->field_4->set_ang_lazy_420690(a2);
     field_38->field_4->set_xy_lazy_447E20(a4.x, a4.y);
@@ -527,7 +618,7 @@ void Crane_15C::UpdateCraneSprites_47FE10()
 
     ComputeHookPos_47E730(a2, dword_679D28, &a4);
     field_3C->field_4->set_ang_lazy_420690(a2);
-    field_3C->field_4->set_xy_lazy_447E20(a4.x, a4.y);    
+    field_3C->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
     field_4C->field_4->set_ang_lazy_420690(a2);
     field_4C->field_4->set_xy_lazy_447E20(a4.x, a4.y);
@@ -633,8 +724,8 @@ void Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_AC_crane_angle_target = field_8C_crane_angle;
     field_B0_hook_radius_target = field_90_hook_radius;
     field_14D_is_busy = 0;
-    field_0 = 0;
-    field_4 = 0;
+    field_0.x = 0;
+    field_0.y = 0;
     field_B4_hook_angle_target = field_8C_crane_angle;
     field_B8_hook_depth_target = dword_679E70;
     field_68 = 0;

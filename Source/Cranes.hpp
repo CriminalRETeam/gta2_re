@@ -50,8 +50,7 @@ class Crane_15C
         field_A8 = Ang16::Ang16_to_Fix16(rotation);
     }
 
-    s32 field_0;
-    s32 field_4;
+    Fix16_Point_POD field_0;
     Fix16_Point_POD field_8;
     Fix16_Point_POD field_10;
     Fix16_Point_POD field_18;
