@@ -179,11 +179,9 @@ s32 Crane_15C::sub_47EDF0()
 }
 
 // 9.6f 0x448450
-WIP_FUNC(0x47ef80)
+MATCH_FUNC(0x47ef80)
 void Crane_15C::sub_47EF80()
 {
-    WIP_IMPLEMENTED;
-
     this->field_159 = 1;
 
     Car_BC* pCar = field_68->AsCar_40FEB0();
@@ -206,7 +204,7 @@ void Crane_15C::sub_47EF80()
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_68);
     
     this->field_74 = this->field_68;
-    this->field_10 = field_54->field_4->get_x_y_443580() - field_74->get_x_y_443580();
+    this->field_10 = field_74->get_x_y_443580() - field_54->field_4->get_x_y_443580();
 
     field_60->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74->field_C_sprite_4c_ptr);
 
