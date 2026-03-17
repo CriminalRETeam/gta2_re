@@ -206,21 +206,19 @@ void Crane_15C::sub_47EF80()
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_68);
     
     this->field_74 = this->field_68;
-    Fix16_Point sprite_xy = field_54->field_4->get_x_y_443580();
-    Fix16_Point x_y_443580 = field_74->get_x_y_443580();
-    this->field_10 = x_y_443580 - sprite_xy;
+    this->field_10 = field_54->field_4->get_x_y_443580() - field_74->get_x_y_443580();
 
     field_60->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74->field_C_sprite_4c_ptr);
 
-    Fix16 v21;
     this->field_68 = 0;
+
     if ((this->field_144 == 2 || this->field_144 == 3) && pCar->Is_F9_Eq7_447EB0())
     {
         this->field_114 = this->field_130;
         this->field_110 = this->field_134;
         this->field_118 = this->field_138;
-        v21 = this->field_13C;
         this->field_8 = this->field_20;
+        this->field_11C = this->field_13C;
     }
     else
     {
@@ -232,10 +230,10 @@ void Crane_15C::sub_47EF80()
         this->field_114 = this->field_120;
         this->field_110 = this->field_124;
         this->field_118 = this->field_128;
-        v21 = this->field_12C;
         this->field_8 = this->field_18;
+        this->field_11C = this->field_12C;
     }
-    this->field_11C = v21;
+   
     this->field_150 = 4;
 }
 
