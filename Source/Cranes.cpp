@@ -9,6 +9,7 @@
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
+#include "Char_Pool.hpp"
 
 // TODO: Move
 EXPORT s32 __stdcall sub_405CE0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5);
@@ -177,10 +178,65 @@ s32 Crane_15C::sub_47EDF0()
     return 0;
 }
 
-STUB_FUNC(0x47ef80)
+// 9.6f 0x448450
+WIP_FUNC(0x47ef80)
 void Crane_15C::sub_47EF80()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    this->field_159 = 1;
+
+    Car_BC* pCar = field_68->AsCar_40FEB0();
+    if (pCar->field_95)
+    {
+        Ped* pPed = gPedManager_6787BC->PedById(pCar->field_95);
+        if (pPed)
+        {
+            if (pPed->field_15C_player)
+            {
+                pCar->field_95 = 0;
+            }
+        }
+    }
+
+    gCar_BC_Pool_67792C->field_0_pool.sub_420F30(pCar);
+
+    pCar->SetF_88_4214E0();
+    pCar->DeAllocateCarPhysics_43BD00();
+    gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_68);
+    
+    this->field_74 = this->field_68;
+    Fix16_Point sprite_xy = field_54->field_4->get_x_y_443580();
+    Fix16_Point x_y_443580 = field_74->get_x_y_443580();
+    this->field_10 = x_y_443580 - sprite_xy;
+
+    field_60->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74->field_C_sprite_4c_ptr);
+
+    Fix16 v21;
+    this->field_68 = 0;
+    if ((this->field_144 == 2 || this->field_144 == 3) && pCar->Is_F9_Eq7_447EB0())
+    {
+        this->field_114 = this->field_130;
+        this->field_110 = this->field_134;
+        this->field_118 = this->field_138;
+        v21 = this->field_13C;
+        this->field_8 = this->field_20;
+    }
+    else
+    {
+        if (this->field_144 != 1 && this->field_144 != 2)
+        {
+            this->field_150 = 1;
+            return;
+        }
+        this->field_114 = this->field_120;
+        this->field_110 = this->field_124;
+        this->field_118 = this->field_128;
+        v21 = this->field_12C;
+        this->field_8 = this->field_18;
+    }
+    this->field_11C = v21;
+    this->field_150 = 4;
 }
 
 // 9.6f 0x447D40
@@ -263,8 +319,8 @@ bool Crane_15C::sub_47F350()
     if (!pCar1->sub_4215B0())
     {
         Car_BC* pCar2 = field_6C->AsCar_40FEB0();
-        if (!pCar2->sub_4215B0() && field_FC == field_6C->field_14_xy.x && field_100 == field_6C->field_14_xy.y && field_104 == field_6C->field_1C_zpos &&
-            field_108 == Ang16::Ang16_to_Fix16(field_6C->field_0))
+        if (!pCar2->sub_4215B0() && field_FC == field_6C->field_14_xy.x && field_100 == field_6C->field_14_xy.y &&
+            field_104 == field_6C->field_1C_zpos && field_108 == Ang16::Ang16_to_Fix16(field_6C->field_0))
         {
             return true;
         }
