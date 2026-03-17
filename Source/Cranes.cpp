@@ -178,10 +178,9 @@ s32 Crane_15C::sub_47EDF0()
 }
 
 STUB_FUNC(0x47ef80)
-s32 Crane_15C::sub_47EF80()
+void Crane_15C::sub_47EF80()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 // 9.6f 0x447D40
@@ -735,7 +734,7 @@ void Crane_15C::Service_480310()
 }
 
 MATCH_FUNC(0x4803b0)
-void Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
+void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
 {
     field_144 = 0;
     field_148 = 0;
@@ -926,12 +925,12 @@ void CranePool_D9C::CranesService_480E50()
 }
 
 MATCH_FUNC(0x480ec0)
-Crane_15C* CranePool_D9C::sub_480EC0(Fix16 x_pos, Fix16 y_pos)
+Crane_15C* CranePool_D9C::NewCrane_480EC0(Fix16 x_pos, Fix16 y_pos)
 {
-    Crane_15C* v4 = &field_0[field_D98_count];
-    v4->sub_4803B0(x_pos, y_pos, field_D98_count);
+    Crane_15C* pNewCrane = &field_0[field_D98_count];
+    pNewCrane->InitCrane_4803B0(x_pos, y_pos, field_D98_count);
     field_D98_count++;
-    return v4;
+    return pNewCrane;
 }
 
 MATCH_FUNC(0x480f50)
