@@ -277,11 +277,9 @@ bool Crane_15C::sub_47F450()
     return false;
 }
 
-WIP_FUNC(0x47f4c0)
+MATCH_FUNC(0x47f4c0)
 void Crane_15C::UpdateCraneTargets_47F4C0()
 {
-    WIP_IMPLEMENTED;
-
     if (this->field_6C)
     {
         if (!sub_47F350())
@@ -336,8 +334,7 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
     else if (field_150 == 1 && this->field_64)
     {
         this->field_B0_hook_radius_target = field_BC;
-        this->field_0.x = 0;
-        this->field_0.y = 0;
+        this->field_0.reset();
         this->field_AC_crane_angle_target = field_C0;
         this->field_14D_is_busy = 1;
         this->field_B4_hook_angle_target = field_D0;
@@ -363,13 +360,13 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
     {
         field_14D_is_busy = 0;
 
-        if (field_14C)
+        if (!field_14C)
         {
-            field_14C--;
+            sub_47F170();
         }
         else
         {
-            sub_47F170();
+            field_14C--;
         }
     }
 }
