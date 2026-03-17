@@ -104,10 +104,15 @@ void Crane_15C::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOut
     *pOutPoint += field_2C->field_4->get_x_y_443580();
 }
 
+// 9.6f 0x448030
 STUB_FUNC(0x47e840)
 void Crane_15C::ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    pOutPoint->SetXY_432860(dword_679E70, -dword_679D64);
+    pOutPoint->RotateByAngle_40F6B0(ang);
+    *pOutPoint += field_2C->field_4->get_x_y_443580();
 }
 
 // 9.6f 0x448090
