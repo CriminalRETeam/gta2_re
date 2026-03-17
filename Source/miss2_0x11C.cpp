@@ -562,7 +562,7 @@ WIP_FUNC(0x5041c0)
 void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* a1, SCR_CRANE_BASIC_DEC* a2)
 {
     WIP_IMPLEMENTED;
-    a2->field_8_crane = gCranePool_D9C_679FD4->sub_480EC0(a1->field_10_pos.field_0_x, a1->field_10_pos.field_4_y);
+    a2->field_8_crane = gCranePool_D9C_679FD4->NewCrane_480EC0(a1->field_10_pos.field_0_x, a1->field_10_pos.field_4_y);
     Ang16 rotation(NULL, NULL);
 
     if (a1->field_2_type == SCRCMD_CRANE_TARGET_DEC)

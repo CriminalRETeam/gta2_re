@@ -21,8 +21,8 @@ class Crane_15C
     EXPORT bool sub_47EB00();
     EXPORT void sub_47ECC0();
     EXPORT void sub_47ED60();
-    EXPORT s32 sub_47EDF0();
-    EXPORT s32 sub_47EF80();
+    EXPORT void sub_47EDF0();
+    EXPORT void sub_47EF80();
     EXPORT void sub_47F170();
     EXPORT void sub_47F220(Fix16 a2, Fix16 a3, Sprite* a4, Sprite* a5);
     EXPORT void sub_47F290(Fix16 a2, Fix16 a3, Sprite* a4);
@@ -40,7 +40,7 @@ class Crane_15C
     EXPORT void UpdateCraneTick_47FD50();
     EXPORT void UpdateCraneSprites_47FE10();
     EXPORT void Service_480310();
-    EXPORT void sub_4803B0(Fix16 a2, Fix16 a3, char_type a4);
+    EXPORT void InitCrane_4803B0(Fix16 a2, Fix16 a3, char_type a4);
     EXPORT void CraneTargetPickupCheck_480900(Fix16 a2, Fix16 a3, Ang16 a4);
     EXPORT void ComputePickupAlignment_480B60(Fix16 a2, Fix16 a3, Ang16 a4);
     EXPORT Car_BC* GetCarFromCrane_480DA0();
@@ -50,8 +50,7 @@ class Crane_15C
         field_A8 = Ang16::Ang16_to_Fix16(rotation);
     }
 
-    s32 field_0;
-    s32 field_4;
+    Fix16_Point_POD field_0;
     Fix16_Point_POD field_8;
     Fix16_Point_POD field_10;
     Fix16_Point_POD field_18;
@@ -149,7 +148,7 @@ class CranePool_D9C
   public:
     EXPORT void PickUpCar_480E00(Car_BC* a2, u8 a3);
     EXPORT void CranesService_480E50();
-    EXPORT Crane_15C* sub_480EC0(Fix16 a2, Fix16 a3);
+    EXPORT Crane_15C* NewCrane_480EC0(Fix16 a2, Fix16 a3);
     EXPORT CranePool_D9C();
     EXPORT ~CranePool_D9C();
 

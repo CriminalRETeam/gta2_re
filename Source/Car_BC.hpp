@@ -893,7 +893,7 @@ class Car_BC
     char_type field_8F;
     s32 field_90;
     u8 field_94;
-    char_type field_95;
+    u8 field_95;
     char_type field_96;
     char_type field_97;
     s32 field_98;
