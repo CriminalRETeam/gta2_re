@@ -10,6 +10,10 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 
+// TODO: Move
+EXPORT s32 __stdcall sub_405CE0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5);
+EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
+
 DEFINE_GLOBAL_INIT(Fix16, dword_679E58, Fix16(0x2000, 0), 0x679E58);
 DEFINE_GLOBAL_INIT(Fix16, dword_679E70, Fix16(0), 0x679E70);
 DEFINE_GLOBAL_INIT(Fix16, dword_679E78, Fix16(2), 0x679E78);
@@ -33,6 +37,17 @@ DEFINE_GLOBAL_INIT(Fix16, dword_679D34, dword_679D64, 0x679D34);
 DEFINE_GLOBAL_INIT(Fix16, dword_679D28, dword_679E7C + dword_679D64, 0x679D28);
 DEFINE_GLOBAL_INIT(Fix16, dword_679D2C, dword_679E78 + dword_679D64, 0x679D2C);
 DEFINE_GLOBAL_INIT(Fix16, dword_679D30, dword_679E74 + dword_679D64, 0x679D30);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_679E20, Fix16(0x100, 0), 0x679E20);
+DEFINE_GLOBAL_INIT(Fix16, dword_679F28, dword_679E20, 0x679F28);
+DEFINE_GLOBAL_INIT(Fix16, dword_679C14, dword_679F28, 0x679C14);
+DEFINE_GLOBAL_INIT(Fix16, dword_679E6C, dword_679F28 * 4, 0x679E6C);
+DEFINE_GLOBAL_INIT(Fix16, dword_679F70, dword_679FC8 * dword_679D64, 0x679F70);
+DEFINE_GLOBAL_INIT(Fix16, dword_679DEC, dword_679FC8 * 2, 0x679DEC);
+DEFINE_GLOBAL_INIT(Fix16, dword_679D70, dword_679FC8, 0x679D70);
+DEFINE_GLOBAL_INIT(Fix16, dword_679C40, dword_679FC8 * 4, 0x679C40);
+DEFINE_GLOBAL_INIT(Fix16, dword_679DC0, dword_679F28, 0x679DC0);
+DEFINE_GLOBAL_INIT(Fix16, dword_679DC8, dword_679F28 * 4, 0x679DC8);
 
 // TODO: Should match but doesn't
 WIP_FUNC(0x47e5b0)
@@ -511,11 +526,41 @@ void Crane_15C::sub_47FB40()
     }
 }
 
-STUB_FUNC(0x47fba0)
+MATCH_FUNC(0x47fba0)
 s32 Crane_15C::sub_47FBA0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_84_hook_depth == dword_679E70)
+    {
+        SmoothApproach_4F7540(this->field_B0_hook_radius_target, this->field_94, this->field_90_hook_radius, dword_679C14, dword_679E6C);
+        sub_405CE0(&this->field_AC_crane_angle_target, &this->field_98, &this->field_8C_crane_angle, &dword_679F70, &dword_679DEC);
+        sub_405CE0(&this->field_B4_hook_angle_target, &this->field_A4, &this->field_A0_hook_axial_angle, &dword_679D70, &dword_679C40);
+        if (this->field_74)
+        {
+            this->field_10 = this->field_0;
+        }
+    }
+
+    bool bUnknown;
+    Fix16 f_B8_hook_depth_target;
+    if (this->field_90_hook_radius == this->field_B0_hook_radius_target &&
+        this->field_8C_crane_angle == this->field_AC_crane_angle_target &&
+        this->field_A0_hook_axial_angle == this->field_B4_hook_angle_target && this->field_14D_is_busy)
+    {
+        bUnknown = 1;
+        f_B8_hook_depth_target = this->field_B8_hook_depth_target;
+    }
+    else
+    {
+        bUnknown = 0;
+        f_B8_hook_depth_target = dword_679E70;
+    }
+
+    SmoothApproach_4F7540(f_B8_hook_depth_target, this->field_88, this->field_84_hook_depth, dword_679DC0, dword_679DC8);
+
+    this->field_156 = this->field_8C_crane_angle != this->field_AC_crane_angle_target;
+    this->field_157 = this->field_90_hook_radius != this->field_B0_hook_radius_target;
+    this->field_158 = f_B8_hook_depth_target != field_84_hook_depth;
+    return bUnknown && field_84_hook_depth == f_B8_hook_depth_target;
 }
 
 MATCH_FUNC(0x47fd10)
