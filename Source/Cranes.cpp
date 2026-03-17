@@ -42,7 +42,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_679E20, Fix16(0x100, 0), 0x679E20);
 DEFINE_GLOBAL_INIT(Fix16, dword_679F28, dword_679E20, 0x679F28);
 DEFINE_GLOBAL_INIT(Fix16, dword_679C14, dword_679F28, 0x679C14);
 DEFINE_GLOBAL_INIT(Fix16, dword_679E6C, dword_679F28 * 4, 0x679E6C);
-DEFINE_GLOBAL_INIT(Fix16, dword_679F70, dword_679FC8 * dword_679D64, 0x679F70);
+DEFINE_GLOBAL_INIT(Fix16, dword_679F70, dword_679FC8* dword_679D64, 0x679F70);
 DEFINE_GLOBAL_INIT(Fix16, dword_679DEC, dword_679FC8 * 2, 0x679DEC);
 DEFINE_GLOBAL_INIT(Fix16, dword_679D70, dword_679FC8, 0x679D70);
 DEFINE_GLOBAL_INIT(Fix16, dword_679C40, dword_679FC8 * 4, 0x679C40);
@@ -256,16 +256,16 @@ void Crane_15C::sub_47F2F0(Fix16 a2, Fix16 a3, Sprite* a4)
     field_F0 = field_80 - field_1C_zpos;
 }
 
+// 9.6f 0x448730
 MATCH_FUNC(0x47f350)
 bool Crane_15C::sub_47F350()
 {
-    Car_BC* v2 = field_70->AsCar_40FEB0();
-    if (v2->field_88 != 5)
+    Car_BC* pCar1 = field_70->AsCar_40FEB0();
+    if (!pCar1->sub_4215B0())
     {
-        Sprite* v3 = field_6C;
-        Car_BC* v4 = v3->field_30_sprite_type_enum == 2 ? v3->field_8_car_bc_ptr : 0;
-        if (v4->field_88 != 5 && field_FC == v3->field_14_xy.x && field_100 == v3->field_14_xy.y && field_104 == v3->field_1C_zpos &&
-            field_108 == Ang16::Ang16_to_Fix16(v3->field_0))
+        Car_BC* pCar2 = field_6C->AsCar_40FEB0();
+        if (!pCar2->sub_4215B0() && field_FC == field_6C->field_14_xy.x && field_100 == field_6C->field_14_xy.y && field_104 == field_6C->field_1C_zpos &&
+            field_108 == Ang16::Ang16_to_Fix16(field_6C->field_0))
         {
             return true;
         }
@@ -273,11 +273,18 @@ bool Crane_15C::sub_47F350()
     return false;
 }
 
-STUB_FUNC(0x47f3d0)
+// 9.6f 0x4487D0
+MATCH_FUNC(0x47f3d0)
 bool Crane_15C::sub_47F3D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* v2 = field_68->AsCar_40FEB0();
+    if (!v2->sub_4215B0() && this->field_E0 == field_68->field_14_xy.x && this->field_E4 == field_68->field_14_xy.y &&
+        this->field_E8 == field_68->field_1C_zpos && this->field_EC == Ang16::Ang16_to_Fix16(field_68->field_0) && !v2->field_54_driver &&
+        v2->sub_441A40())
+    {
+        return true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x47f450)
