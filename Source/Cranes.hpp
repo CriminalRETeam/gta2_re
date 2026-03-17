@@ -21,7 +21,7 @@ class Crane_15C
     EXPORT bool sub_47EB00();
     EXPORT void sub_47ECC0();
     EXPORT void sub_47ED60();
-    EXPORT s32 sub_47EDF0();
+    EXPORT void sub_47EDF0();
     EXPORT void sub_47EF80();
     EXPORT void sub_47F170();
     EXPORT void sub_47F220(Fix16 a2, Fix16 a3, Sprite* a4, Sprite* a5);

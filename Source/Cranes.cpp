@@ -1,4 +1,5 @@
 #include "Cranes.hpp"
+#include "Char_Pool.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "Object_5C.hpp"
@@ -9,7 +10,6 @@
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
-#include "Char_Pool.hpp"
 
 // TODO: Move
 EXPORT s32 __stdcall sub_405CE0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5);
@@ -49,6 +49,24 @@ DEFINE_GLOBAL_INIT(Fix16, dword_679D70, dword_679FC8, 0x679D70);
 DEFINE_GLOBAL_INIT(Fix16, dword_679C40, dword_679FC8 * 4, 0x679C40);
 DEFINE_GLOBAL_INIT(Fix16, dword_679DC0, dword_679F28, 0x679DC0);
 DEFINE_GLOBAL_INIT(Fix16, dword_679DC8, dword_679F28 * 4, 0x679DC8);
+DEFINE_GLOBAL_INIT(Fix16, dword_679EB8, Fix16(0xC7B0, 0), 0x679EB8);
+
+inline Fix16 __stdcall sub_40E790(Fix16 a2)
+{
+    while (a2 < dword_679E70)
+    {
+        a2 += dword_679F58;
+    }
+
+    if (a2 >= dword_679F58)
+    {
+        do
+        {
+            a2 -= dword_679F58;
+        } while (a2 >= dword_679F58);
+    }
+    return a2;
+}
 
 // TODO: Should match but doesn't
 WIP_FUNC(0x47e5b0)
@@ -171,11 +189,40 @@ void Crane_15C::sub_47ED60()
 }
 
 // 9.6 0x448300
-STUB_FUNC(0x47edf0)
-s32 Crane_15C::sub_47EDF0()
+MATCH_FUNC(0x47edf0)
+void Crane_15C::sub_47EDF0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCar = field_70->AsCar_40FEB0();
+
+    pCar->field_0_qq.RemoveSprite_5A6B10(field_6C);
+    gPurpleDoom_3_679210->Remove_477B00(field_6C);
+
+    this->field_74 = this->field_6C;
+    this->field_10 = field_74->get_x_y_443580() - field_54->field_4->get_x_y_443580();
+
+    field_60->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74->field_C_sprite_4c_ptr);
+
+    this->field_6C = 0;
+
+    if (field_144 == 1 || field_144 == 2 || field_144 == 3)
+    {
+        this->field_150 = 4;
+        this->field_114 = this->field_120;
+        this->field_110 = this->field_124;
+        this->field_118 = this->field_128;
+        this->field_8 = this->field_18;
+        this->field_11C = this->field_12C;
+    }
+    else
+    {
+        this->field_150 = 2;
+        this->field_114 = dword_679E78;
+
+        this->field_110 = sub_40E790(field_8C_crane_angle + dword_679EB8);
+        this->field_118 = field_A0_hook_axial_angle;
+        this->field_8 = this->field_10;
+        this->field_11C = dword_679C78;
+    }
 }
 
 // 9.6f 0x448450
@@ -202,7 +249,7 @@ void Crane_15C::sub_47EF80()
     pCar->SetF_88_4214E0();
     pCar->DeAllocateCarPhysics_43BD00();
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_68);
-    
+
     this->field_74 = this->field_68;
     this->field_10 = field_74->get_x_y_443580() - field_54->field_4->get_x_y_443580();
 
@@ -231,7 +278,7 @@ void Crane_15C::sub_47EF80()
         this->field_8 = this->field_18;
         this->field_11C = this->field_12C;
     }
-   
+
     this->field_150 = 4;
 }
 
@@ -550,23 +597,6 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
             }
         }
     }
-}
-
-inline Fix16 __stdcall sub_40E790(Fix16 a2)
-{
-    while (a2 < dword_679E70)
-    {
-        a2 += dword_679F58;
-    }
-
-    if (a2 >= dword_679F58)
-    {
-        do
-        {
-            a2 -= dword_679F58;
-        } while (a2 >= dword_679F58);
-    }
-    return a2;
 }
 
 // 9.6f 0x448C00
