@@ -105,7 +105,7 @@ void Crane_15C::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOut
 }
 
 // 9.6f 0x448030
-STUB_FUNC(0x47e840)
+WIP_FUNC(0x47e840)
 void Crane_15C::ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint)
 {
     WIP_IMPLEMENTED;
