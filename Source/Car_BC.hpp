@@ -328,7 +328,7 @@ class Car_BC
     EXPORT void DamageArea_43CF30(s32 damage_area);
     EXPORT bool IsAreaDamaged_43D1C0(s32 damage_area);
     EXPORT void TryDamageArea_43D2C0(u8 damage_area, s32 damageAmount);
-    EXPORT s32 sub_43D400();
+    EXPORT void sub_43D400();
     EXPORT void EmitExplosion_43D690(s32 a3, Fix16 x, Fix16 y);
     EXPORT void TriggerExplosion_43D7B0(s32 a2);
     EXPORT void HandleCarExplosion_43D840(s32 a2);
