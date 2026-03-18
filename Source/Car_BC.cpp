@@ -3714,7 +3714,6 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
     switch (model)
     {
 
-        
         case 128:
         case 138:
         {
@@ -3738,8 +3737,6 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             break;
         }
 
-        
-
         case 194:
         {
             if ((this->field_78_flags & 0x400) == 0)
@@ -3752,7 +3749,6 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             break;
         }
 
-        
         case 10:
         {
             if (!gCar_6C_677930->field_68)
@@ -3780,8 +3776,6 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             break;
         }
 
-
-
         case 198:
         {
             field_0_qq.CleanupSpriteList_5A7080();
@@ -3806,8 +3800,6 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
 
             break;
         }
-
-        
 
         case 210:
         default:
@@ -4220,11 +4212,96 @@ void Car_BC::GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction)
     field_5C->GoToBlock_447CA0(x, y, z, maybe_direction);
 }
 
-STUB_FUNC(0x4410d0)
-char_type Car_BC::sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5)
+WIP_FUNC(0x4410d0)
+char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, u8* pRet, Fix16 spritex, Fix16 spritey)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    s32 y_coord_add = 0;
+    s32 x_coord_add = 0;
+    s32 mask1 = 0;
+    s32 mask2 = 0;
+    s32 angleFace = Ang16::GetAngleFace_4F78F0(ang);
+    s32 ypos_int = spritex.ToInt();
+    s32 ypos_int_ = spritex.ToInt();
+    s32 y_coord__ = spritey.ToInt();
+    s32 sprite_y_int = spritey.ToInt();
+    
+    u8 spritez = (this->field_50_car_sprite->field_1C_zpos.ToInt()) - 1;
+
+    switch (angleFace)
+    {
+        case 1:
+            x_coord_add = -1;
+            mask1 = 4;
+            mask2 = 0x40;
+            break;
+        case 2:
+            x_coord_add = 1;
+            mask1 = 8;
+            mask2 = 0x80;
+            break;
+        case 3:
+            y_coord_add = -1;
+            mask1 = 2;
+            mask2 = 0x20;
+            break;
+        case 4:
+            y_coord_add = 1;
+            mask2 = 0x10;
+            mask1 = 1;
+            break;
+        default:
+            break;
+    }
+
+    u8 z_coord = (u8)spritez;
+    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(ypos_int_, sprite_y_int, (u8)spritez);
+    if (pBlock && ((( pBlock->field_A_arrows & (u8)mask1) != 0) || ( pBlock->field_A_arrows & (u8)mask2) != 0))
+    {
+        s32 y_coord = y_coord_add + sprite_y_int;
+        s32 x_coord = x_coord_add + ypos_int_;
+
+        spritez = 0;
+        for (gmp_block_info* pBlockIter = gMap_0x370_6F6268->get_block_4DFE10(x_coord, y_coord, z_coord); pBlockIter;
+             pBlockIter = gMap_0x370_6F6268->get_block_4DFE10(x_coord, y_coord, z_coord))
+        {
+            u8 arrows = pBlockIter->field_A_arrows;
+            if ((arrows & (u8)mask1) == 0 && (arrows & (u8)mask2) == 0)
+            {
+                break;
+            }
+            spritez++;
+            y_coord += y_coord_add;
+            x_coord += x_coord_add;
+        }
+
+        s32 x_coord_ = ypos_int;
+        s32 y_coord_ = y_coord__;
+
+        s32 x_inc = -x_coord_add;
+        s32 y_inc = -y_coord_add;
+        for (gmp_block_info* pBlockIter_ = gMap_0x370_6F6268->get_block_4DFE10((u8)ypos_int, (u8)y_coord__, z_coord);
+             pBlockIter_;
+             pBlockIter_ = gMap_0x370_6F6268->get_block_4DFE10(x_coord_, y_coord_, z_coord))
+        {
+            u8 arrows_1 = pBlockIter_->field_A_arrows;
+            if ((arrows_1 & (u8)mask1) == 0 && (arrows_1 & (u8)mask2) == 0)
+            {
+                break;
+            }
+            x_coord_ += x_inc;
+            y_coord_ += y_inc;
+            spritez++;
+        }
+        *pRet = spritez;
+        return spritez;
+    }
+    else
+    {
+        *pRet = -1;
+        return -1;
+    }    
 }
 
 MATCH_FUNC(0x441330)

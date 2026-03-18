@@ -364,7 +364,7 @@ class Car_BC
     EXPORT void sub_440F90(char_type a2);
     EXPORT void GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT void GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction);
-    EXPORT char_type sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5);
+    EXPORT char_type CountConsecutiveArrowBlocks_4410D0(Ang16 ang, u8* pRet, Fix16 spritex, Fix16 spritey);
     EXPORT Fix16 GetZPos_441330();
     EXPORT void CountDownToWreck_441360();
     EXPORT void TurnToWreck_4436A0();
