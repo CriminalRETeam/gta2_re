@@ -277,6 +277,7 @@ class Car_BC
     EXPORT void sub_43A970();
     EXPORT void SetDriver(Ped* a2);
     EXPORT void ApplyVisualDamage_43A9F0();
+    EXPORT void sub_43CAC0();
     EXPORT void Deactivate_43AA60();
     EXPORT char_type IsThreatToSearchingPed_43AAE0();
     EXPORT char_type CanCarCollideWithSprite_43AAF0(Sprite* a2);
@@ -323,11 +324,11 @@ class Car_BC
     EXPORT void DeactivateEmergencyLights_43C9D0();
     EXPORT void SyncEmergencyLightState_43CA80();
     EXPORT void sub_43CBE0();
-    EXPORT Car_BC* sub_43CDF0(char_type a2);
+    EXPORT void sub_43CDF0(char_type a2);
     EXPORT void DamageArea_43CF30(s32 damage_area);
     EXPORT bool IsAreaDamaged_43D1C0(s32 damage_area);
     EXPORT void TryDamageArea_43D2C0(u8 damage_area, s32 damageAmount);
-    EXPORT s32 sub_43D400();
+    EXPORT void sub_43D400();
     EXPORT void EmitExplosion_43D690(s32 a3, Fix16 x, Fix16 y);
     EXPORT void TriggerExplosion_43D7B0(s32 a2);
     EXPORT void HandleCarExplosion_43D840(s32 a2);
