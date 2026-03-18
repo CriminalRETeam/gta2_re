@@ -1558,57 +1558,65 @@ void Car_BC::SetDriver(Ped* pNewDriver)
     this->field_54_driver = pNewDriver;
 }
 
-STUB_FUNC(0x43a9f0)
+MATCH_FUNC(0x43a9f0)
 void Car_BC::ApplyVisualDamage_43A9F0()
 {
     if (!field_54_driver && (field_78_flags & 0x80) && field_7C_uni_num != 2 && (field_A4 & 8) == 0 && field_74_damage != 32001)
     {
-        if ((field_A4 & 0x1C) == 0)
+        sub_43CAC0();
+    }
+}
+
+WIP_FUNC(0x43CAC0)
+void Car_BC::sub_43CAC0()
+{
+    WIP_IMPLEMENTED;
+
+    if ((field_A4 & 0x1C) == 0)
+    {
+        field_A5_flash_phase_counter = 12;
+        field_A4 |= 8;
+
+        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
         {
-            field_A5_flash_phase_counter = 12;
-            field_A4 |= 8;
-
-            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
+            if (inline_check_0x2_info_421700())
             {
-                if (inline_check_0x2_info_421700())
-                {
-                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
-                }
-                else
-                {
-                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
-                }
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
             }
-
-            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
+            else
             {
-                if (inline_check_0x2_info_421700())
-                {
-                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
-                }
-                else
-                {
-                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
-                }
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
             }
-
-            if (inline_check_0x4_info_421660())
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
-            }
-
-            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
-            }
-
-            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
-            }
-
-            field_8E = 50;
         }
+
+        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
+        {
+            if (inline_check_0x2_info_421700())
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
+            }
+            else
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
+            }
+        }
+
+        if (inline_check_0x4_info_421660())
+        {
+            field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+        }
+
+        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
+        {
+            field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
+        }
+
+        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
+        {
+            field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
+        }
+
+        field_8E = 50;
     }
 }
 
@@ -5856,14 +5864,13 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
 
         Fix16 t = (field_0_cam->sub_4B3110()) * (field_0_cam->sub_4B3130());
         t = t / Fix16(86);
-        dword_6FF7E8 = (t) * wanted_related;
+        dword_6FF7E8 = (t)*wanted_related;
 
         this->field_9 = 1;
         this->field_A = 1;
 
         u8 rng_int = stru_6F6784.get_uint8_4F7B70(5);
         bool maybe_vel = field_0_cam->sub_435A20() > dword_6FF580;
-
 
         switch (rng_int)
         {
