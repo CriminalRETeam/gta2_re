@@ -324,7 +324,7 @@ class Car_BC
     EXPORT void DeactivateEmergencyLights_43C9D0();
     EXPORT void SyncEmergencyLightState_43CA80();
     EXPORT void sub_43CBE0();
-    EXPORT Car_BC* sub_43CDF0(char_type a2);
+    EXPORT void sub_43CDF0(char_type a2);
     EXPORT void DamageArea_43CF30(s32 damage_area);
     EXPORT bool IsAreaDamaged_43D1C0(s32 damage_area);
     EXPORT void TryDamageArea_43D2C0(u8 damage_area, s32 damageAmount);
