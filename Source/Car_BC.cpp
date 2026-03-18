@@ -2878,11 +2878,9 @@ void Car_BC::sub_43CBE0()
     this->field_8E = 0;
 }
 
-WIP_FUNC(0x43cdf0)
+MATCH_FUNC(0x43cdf0)
 void Car_BC::sub_43CDF0(char_type a2)
 {
-    WIP_IMPLEMENTED;
-
     this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor1_11);
     this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor2_12);
     this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor3_13);
@@ -2890,15 +2888,14 @@ void Car_BC::sub_43CDF0(char_type a2)
     this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
     this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomRightRoofLight_16);
     this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftRoofLight_17);
-    this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftRoofLight_17);
     this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightRoofLight_18);
     this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::Bit19_19);
     this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::Bit20_20);
 
     if (a2 != 10)
     {
-        this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::Bit21_21);
-        //this->field_8_damaged_areas |= 1 << (a2 + 11);
+        // Hmm... bit annoying to make this clean
+        this->field_8_damaged_areas.set_bit(a2 + CarDeltaBitsEnum::TopRightDoor1_11);
     }
 }
 
