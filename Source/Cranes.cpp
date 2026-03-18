@@ -51,6 +51,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_679DC0, dword_679F28, 0x679DC0);
 DEFINE_GLOBAL_INIT(Fix16, dword_679DC8, dword_679F28 * 4, 0x679DC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_679EB8, Fix16(0xC7B0, 0), 0x679EB8);
 
+// FUNCTION: 96f 0x40e790
 inline Fix16 __stdcall sub_40E790(Fix16 a2)
 {
     while (a2 < dword_679E70)
@@ -183,7 +184,7 @@ void Crane_15C::sub_47ED60()
 {
     Car_BC* pCar = field_74->AsCar_40FEB0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
-    pCar->field_88 = 1;
+    pCar->SetF_88_447ea0();
     gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74);
     field_64->DispatchCollisionEvent_5A3100(field_74, dword_679E70, dword_679E70, word_679FC4);
     field_28_strct4.AddSprite_5A6CD0(field_64);
@@ -323,13 +324,10 @@ void Crane_15C::sub_47F220(Fix16 a2, Fix16 a3, Sprite* a4, Sprite* a5)
     field_6C = a4;
     field_70 = a5;
     field_108 = Ang16::Ang16_to_Fix16(a4->field_0);
-
     field_FC = a4->field_14_xy.x;
     field_100 = a4->field_14_xy.y;
-
-    Fix16 result = a4->field_1C_zpos;
-    field_104 = result;
-    field_10C = field_80 - result;
+    field_104 = a4->field_1C_zpos;
+    field_10C = field_80 - field_104;
 }
 
 MATCH_FUNC(0x47f290)
@@ -354,9 +352,8 @@ void Crane_15C::sub_47F2F0(Fix16 a2, Fix16 a3, Sprite* a4)
     field_EC = Ang16::Ang16_to_Fix16(a4->field_0);
     field_E0 = a4->field_14_xy.x;
     field_E4 = a4->field_14_xy.y;
-    Fix16 field_1C_zpos = a4->field_1C_zpos;
-    field_E8 = field_1C_zpos;
-    field_F0 = field_80 - field_1C_zpos;
+    field_E8 = a4->field_1C_zpos;
+    field_F0 = field_80 - field_E8;
 }
 
 // 9.6f 0x448730
@@ -366,9 +363,10 @@ bool Crane_15C::sub_47F350()
     Car_BC* pCar1 = field_70->AsCar_40FEB0();
     if (!pCar1->sub_4215B0())
     {
-        Car_BC* pCar2 = field_6C->AsCar_40FEB0();
-        if (!pCar2->sub_4215B0() && field_FC == field_6C->field_14_xy.x && field_100 == field_6C->field_14_xy.y &&
-            field_104 == field_6C->field_1C_zpos && field_108 == Ang16::Ang16_to_Fix16(field_6C->field_0))
+        Sprite *sp = field_6C;
+        Car_BC* pCar2 = sp->AsCar_40FEB0();
+        if (!(pCar2->sub_4215B0() || field_FC != sp->field_14_xy.x || field_100 != sp->field_14_xy.y ||
+            field_104 != sp->field_1C_zpos || field_108 != Ang16::Ang16_to_Fix16(sp->field_0)))
         {
             return true;
         }
@@ -794,7 +792,7 @@ MATCH_FUNC(0x480310)
 void Crane_15C::Service_480310()
 {
     field_159 = 0;
-    field_28_strct4.RemoveByRngValue_5A6C40(rng_dword_67AB34->field_0_rng - 1);
+    field_28_strct4.RemoveByRngValue_5A6C40(rng_dword_67AB34->get_cur_rng_41CFE0() - 1);
     if (field_74)
     {
         gPurpleDoom_3_679210->Remove_477B00(field_74);
@@ -802,8 +800,7 @@ void Crane_15C::Service_480310()
     Crane_15C::UpdateCraneTargets_47F4C0();
     if (!field_148)
     {
-        if (!field_78_maybe_homecrane || field_8C_crane_angle != field_A8 ||
-            (field_78_maybe_homecrane->field_8C_crane_angle == field_78_maybe_homecrane->field_A8))
+        if (field_78_maybe_homecrane == NULL || !check_8c_a8_447f40() || field_78_maybe_homecrane->check_8c_a8_447f40())
         {
             Crane_15C::UpdateCraneTick_47FD50();
         }

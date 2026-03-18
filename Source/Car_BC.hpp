@@ -735,6 +735,12 @@ class Car_BC
         field_88 = 7;
     }
 
+    // FUNCTION: 96f 0x447ea0
+    void SetF_88_447ea0()
+    {
+        field_88 = 1;
+    }
+
     bool IsGunJeep_411910()
     {
         return field_84_car_info_idx == car_model_enum::GUNJEEP;
@@ -840,6 +846,7 @@ class Car_BC
         return field_76_last_seen_timer;
     }
 
+    // FUNCTION: 96f 0x4215b0
     bool sub_4215B0()
     {
         return this->field_88 == 5;
@@ -937,6 +944,7 @@ struct Car_BC_Pool
         field_0_pool.DeAllocate(pCar);
     }
 
+    // FUNCTION: 96f 0x420f20
     void UpdateNextPrev(Car_BC* pItem)
     {
         field_0_pool.UpdateNextPrev(pItem);

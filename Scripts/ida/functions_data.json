@@ -4181,12 +4181,12 @@
     },
     {
         "name": "PurpleDoom::Remove_477B00",
-        "v96f_address": null,
+        "v96f_address": "0x447bd0",
         "v105_address": "0x477b00"
     },
     {
         "name": "PurpleDoom::AddToRegionBuckets_477B20",
-        "v96f_address": null,
+        "v96f_address": "0x447c00",
         "v105_address": "0x477b20"
     },
     {
@@ -4266,7 +4266,7 @@
     },
     {
         "name": "PurpleDoom::sub_4782C0",
-        "v96f_address": null,
+        "v96f_address": "0x447850",
         "v105_address": "0x4782c0"
     },
     {
@@ -4346,12 +4346,12 @@
     },
     {
         "name": "Crane_15C::dtor",
-        "v96f_address": null,
+        "v96f_address": "0x447f70",
         "v105_address": "0x47e5b0"
     },
     {
         "name": "Crane_15C::ctor",
-        "v96f_address": null,
+        "v96f_address": "0x449860",
         "v105_address": "0x47e610"
     },
     {
@@ -4381,27 +4381,27 @@
     },
     {
         "name": "Crane_15C::sub_47ECC0",
-        "v96f_address": null,
+        "v96f_address": "0x4481f0",
         "v105_address": "0x47ecc0"
     },
     {
         "name": "Crane_15C::sub_47ED60",
-        "v96f_address": null,
+        "v96f_address": "0x448290",
         "v105_address": "0x47ed60"
     },
     {
         "name": "Crane_15C::sub_47EDF0",
-        "v96f_address": null,
+        "v96f_address": "0x448300",
         "v105_address": "0x47edf0"
     },
     {
         "name": "Crane_15C::sub_47EF80",
-        "v96f_address": null,
+        "v96f_address": "0x448450",
         "v105_address": "0x47ef80"
     },
     {
         "name": "Crane_15C::sub_47F170",
-        "v96f_address": null,
+        "v96f_address": "0x447d40",
         "v105_address": "0x47f170"
     },
     {
@@ -4426,12 +4426,12 @@
     },
     {
         "name": "Crane_15C::sub_47F3D0",
-        "v96f_address": null,
+        "v96f_address": "0x4487d0",
         "v105_address": "0x47f3d0"
     },
     {
         "name": "Crane_15C::sub_47F450",
-        "v96f_address": null,
+        "v96f_address": "0x448870",
         "v105_address": "0x47f450"
     },
     {
@@ -4456,7 +4456,7 @@
     },
     {
         "name": "Crane_15C::sub_47FB40",
-        "v96f_address": null,
+        "v96f_address": "0x448c00",
         "v105_address": "0x47fb40"
     },
     {
@@ -4466,7 +4466,7 @@
     },
     {
         "name": "Crane_15C::sub_47FD10",
-        "v96f_address": null,
+        "v96f_address": "0x448df0",
         "v105_address": "0x47fd10"
     },
     {
@@ -9551,7 +9551,7 @@
     },
     {
         "name": "frosty_pasteur_0xC1EA8::sub_511B10",
-        "v96f_address": null,
+        "v96f_address": "0x47edb0",
         "v105_address": "0x511b10"
     },
     {
@@ -15056,7 +15056,7 @@
     },
     {
         "name": "RemoveByRngValue_5A6C40",
-        "v96f_address": null,
+        "v96f_address": "0x4bed00",
         "v105_address": "0x5a6c40"
     },
     {

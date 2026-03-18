@@ -215,7 +215,7 @@ class Ang16
 
     // inlined from 0x40f580 on v9.6f
     // I was tempted to put this on the Fix16 header, but that will create a circular dependency...
-    EXPORT static Fix16 Ang16_to_Fix16(const Ang16& v)
+    EXPORT static Fix16 _stdcall Ang16_to_Fix16(const Ang16& v)
     {
         s32 value = v.rValue * 71;
         return Fix16(value, 0);
