@@ -161,6 +161,11 @@ DEFINE_GLOBAL_ARRAY(s32, dword_676DB8, 256, 0x676DB8);
 DEFINE_GLOBAL_ARRAY(s32, dword_67698C, 256, 0x67698C);
 DEFINE_GLOBAL_ARRAY(s32, dword_677388, 256, 0x677388);
 
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6772C0, dword_677888 * 8, 0x6772C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_677900, dword_677888 * 3, 0x677900);
+
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -4226,7 +4231,7 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, u8* pRet, Fix16 
     s32 ypos_int_ = spritex.ToInt();
     s32 y_coord__ = spritey.ToInt();
     s32 sprite_y_int = spritey.ToInt();
-    
+
     u8 spritez = (this->field_50_car_sprite->field_1C_zpos.ToInt()) - 1;
 
     switch (angleFace)
@@ -4257,7 +4262,7 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, u8* pRet, Fix16 
 
     u8 z_coord = (u8)spritez;
     gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(ypos_int_, sprite_y_int, (u8)spritez);
-    if (pBlock && ((( pBlock->field_A_arrows & (u8)mask1) != 0) || ( pBlock->field_A_arrows & (u8)mask2) != 0))
+    if (pBlock && (((pBlock->field_A_arrows & (u8)mask1) != 0) || (pBlock->field_A_arrows & (u8)mask2) != 0))
     {
         s32 y_coord = y_coord_add + sprite_y_int;
         s32 x_coord = x_coord_add + ypos_int_;
@@ -4281,8 +4286,7 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, u8* pRet, Fix16 
 
         s32 x_inc = -x_coord_add;
         s32 y_inc = -y_coord_add;
-        for (gmp_block_info* pBlockIter_ = gMap_0x370_6F6268->get_block_4DFE10((u8)ypos_int, (u8)y_coord__, z_coord);
-             pBlockIter_;
+        for (gmp_block_info* pBlockIter_ = gMap_0x370_6F6268->get_block_4DFE10((u8)ypos_int, (u8)y_coord__, z_coord); pBlockIter_;
              pBlockIter_ = gMap_0x370_6F6268->get_block_4DFE10(x_coord_, y_coord_, z_coord))
         {
             u8 arrows_1 = pBlockIter_->field_A_arrows;
@@ -4301,7 +4305,7 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, u8* pRet, Fix16 
     {
         *pRet = -1;
         return -1;
-    }    
+    }
 }
 
 MATCH_FUNC(0x441330)
@@ -5137,11 +5141,74 @@ void Car_BC::AttachTrailer_4427A0(Car_BC* pToFind)
     }
 }
 
-STUB_FUNC(0x442810)
-s32 Car_BC::sub_442810()
+WIP_FUNC(0x442810)
+void Car_BC::sub_442810()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    field_50_car_sprite->field_28_num = 15;
+
+    if (!sub_43A230() && field_74_damage != 32001)
+    {
+        if (field_88 != 2 && field_88 != 4 && field_88 != 3 && field_88 != 5)
+        {
+            stru_67727C.PruneNonCollidingSprites_5A7240(field_50_car_sprite);
+            Sprite* v4 =
+                stru_67727C.FindClosestSprite_5A6E40(this->field_50_car_sprite->field_14_xy.x, this->field_50_car_sprite->field_14_xy.y);
+            if (!v4)
+            {
+                //goto LABEL_28;
+                this->field_78_flags &= ~1u;
+            }
+            else
+            {
+                if (field_50_car_sprite->sub_5A1A60() || stru_67727C.sub_5A7310())
+                {
+                    this->field_50_car_sprite->field_28_num = 8;
+                    stru_67727C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
+                }
+
+                Car_BC* pCar = v4->AsCar_40FEB0();
+                Fix16_Point v6 = (sub_439FB0() - pCar->sub_439FB0());
+                Fix16 v6_len = v6.GetLength_41E260();
+
+                Fix16 z_delta = Fix16::Abs(v4->field_1C_zpos - field_50_car_sprite->field_1C_zpos);
+
+                if (v6_len < dword_6772C0 && z_delta < dword_6772C0)
+                {
+                    if ((this->field_78_flags & 1) == 0)
+                    {
+                        if (v6_len >= dword_677900)
+                        {
+                            pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                            if (rng_dword_67AB34->field_0_rng >= (u32)pCar->field_58_physics->field_8_total_damage_q)
+                            {
+                                Fix16_Point v12 = v6.NormalizeSafe_442AD0();
+                                Fix16_Point v16 = (pCar->field_50_car_sprite->get_x_y_443580() + (v12 * dword_677888));
+                                s32 a5 = 1;
+                                pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
+                                    v16.x,
+                                    v16.y,
+                                    Ang16::Ang16_to_Fix16(pCar->field_58_physics->field_58_theta),
+                                    &a5);
+                            }
+                        }
+                        else
+                        {
+                            AttachTrailer_4427A0(pCar);
+                            sub_43BD40();
+                        }
+                    }
+                }
+                else
+                {
+                    //LABEL_28:
+                    this->field_78_flags &= ~1u;
+                }
+            }
+        }
+    }
+    stru_67727C.ClearList_5A6E10();
 }
 
 MATCH_FUNC(0x442d10)

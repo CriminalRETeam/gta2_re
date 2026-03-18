@@ -408,7 +408,7 @@ class Car_BC
     EXPORT void sub_4426D0();
     EXPORT void DetachTrailer_442760();
     EXPORT void AttachTrailer_4427A0(Car_BC* pToFind);
-    EXPORT s32 sub_442810();
+    EXPORT void sub_442810();
     EXPORT void LightUpdate_442D10();
     EXPORT char_type TrainUpdate_442D70();
     EXPORT char_type TrailerUpdate_443130();
