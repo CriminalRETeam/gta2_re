@@ -314,7 +314,16 @@ class CarPhysics_B0
 class CarPhyisicsPool : public PoolBasic<CarPhysics_B0, 306>
 {
   public:
-    //Inlined in Car_6C constructor 9.6f -> 0x420f80
+    //Inlined in Car_6C constructor 9.6f -> 0x420f8
+    CarPhyisicsPool()
+    {
+
+    }
+
+    ~CarPhyisicsPool()
+    {
+        field_0_pHead = 0;
+    }
 };
 
 EXTERN_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0);
