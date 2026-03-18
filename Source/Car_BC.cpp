@@ -2899,10 +2899,53 @@ void Car_BC::sub_43CDF0(char_type a2)
     }
 }
 
-STUB_FUNC(0x43cf30)
+MATCH_FUNC(0x43cf30)
 void Car_BC::DamageArea_43CF30(s32 damage_area)
 {
-    NOT_IMPLEMENTED;
+    switch (damage_area)
+    {
+        case 0:
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
+            if (inline_check_0x2_info_421700())
+            {
+                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor1_11);
+                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor2_12);
+                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor3_13);
+                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor4_14);
+            }
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum:: BottomRightDamage_2);
+            break;
+
+        case 1:
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftDamage_3);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
+            if (inline_check_0x2_info_421700())
+            {
+                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
+                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor2_29);
+                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor3_30);
+                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor4_31);
+            }
+            break;
+
+        case 2:
+            ResetTopRightRoofLight_43C310();
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDamage_1);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
+            break;
+
+        case 3:
+            ResetTopLeftRoofLight_43C470();
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDamage_0);
+            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
+            break;
+
+        case 4:
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::WindshieldDamage_4);
+            break;
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x43d1c0)
