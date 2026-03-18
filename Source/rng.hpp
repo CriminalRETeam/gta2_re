@@ -11,6 +11,7 @@ class rng
         field_4_rnd = 0;
     }
 
+    // FUNCTION: 96f 0x41cfe0
     inline s32 get_cur_rng_41CFE0()
     {
         return field_0_rng;

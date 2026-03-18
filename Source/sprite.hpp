@@ -253,6 +253,7 @@ class Sprite
         return field_30_sprite_type_enum;
     }
 
+    // FUNCTION: 96f 0x40feb0
     Car_BC* AsCar_40FEB0()
     {
         if (field_30_sprite_type_enum == sprite_types_enum::car)

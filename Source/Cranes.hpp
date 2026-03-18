@@ -50,6 +50,12 @@ class Crane_15C
         field_A8 = Ang16::Ang16_to_Fix16(rotation);
     }
 
+    // FUNCTION: 96f 0x447f40
+    inline s32 check_8c_a8_447f40()
+    {
+        return field_8C_crane_angle == field_A8;
+    }
+
     Fix16_Point_POD field_0;
     Fix16_Point_POD field_8;
     Fix16_Point_POD field_10;

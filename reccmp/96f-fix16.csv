@@ -89,7 +89,7 @@ address,type,symbol
 40F4C0,function,??NAng16@@QAEHABV0@@Z
 
 // Ang16::operator Fix16()
-40F580,function,?Ang16_to_Fix16@Ang16@@SA?AVFix16@@ABV1@@Z
+40F580,function,?Ang16_to_Fix16@Ang16@@SG?AVFix16@@ABV1@@Z
 
 // Fix16Point::operator+=
 40F680,function,??YFix16_Point_POD@@QAEAAU0@AAU0@@Z
