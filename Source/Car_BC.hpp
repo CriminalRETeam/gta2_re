@@ -64,6 +64,7 @@ class Car_2
 {
   public:
     EXPORT Car_2();
+    ~Car_2() {}
     EXPORT void IncNextRngRemapIdx_47BD90();
     u16 field_0;
 };
@@ -927,6 +928,7 @@ struct Car_BC_Pool
 
     ~Car_BC_Pool()
     {
+
     }
 
     // TODO: 9.6f addr/check
@@ -953,6 +955,7 @@ class TrailerPool
 
     ~TrailerPool()
     {
+       field_0_pool.field_0_pHead = 0;
     }
 
     PoolBasic<Trailer, 10> field_0_pool;
