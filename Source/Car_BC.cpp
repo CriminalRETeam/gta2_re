@@ -3664,13 +3664,14 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
 
     s32 v2 = 0;
     s32 sinv = 0;
-    s32 cosv;
+    s32 cosv = 0;
     //seh = 1;
+    Fix16_Point a4;
 
     Ped* pFoundPed;
-    if (pObj->field_26_varrok_idx)
+    if (pObj->get_field_26_420FF0())
     {
-        s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(pObj->field_26_varrok_idx);
+        s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(pObj->get_field_26_420FF0());
         if (pedId)
         {
             pFoundPed = gPedManager_6787BC->PedById(pedId);
@@ -3708,138 +3709,140 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
 
     gfrosty_pasteur_6F8060->sub_512C00(field_6C_maybe_id, pObj->field_18_model, 0);
 
-    s32 mode_sub_10_sub_118;
-    s32 mode_sub_10;
-    s32 model_sub_198;
+    s32 model = pObj->field_18_model;
 
-    if (pObj->field_18_model <= 194)
+    switch (model)
     {
-        if (pObj->field_18_model == 194)
+
+        
+        case 128:
+        case 138:
+        {
+            if ((this->field_78_flags & 0x200) == 0 && this->field_74_damage != 32001)
+            {
+                a4 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * dword_677218);
+                v2 = AccumulateDamage_43DA90(32000, &a4);
+                if (this->field_74_damage != 32001)
+                {
+                    a4 = (pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580());
+                    a4.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
+                    EmitExplosion_43D690(18, a4.x, a4.y);
+                }
+            }
+            else
+            {
+                a4 = (pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580());
+                a4.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
+                EmitExplosion_43D690(18, a4.x, a4.y);
+            }
+            break;
+        }
+
+        
+
+        case 194:
         {
             if ((this->field_78_flags & 0x400) == 0)
             {
                 Fix16_Point v78 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * dword_677218);
+
                 s16 v60 = sub_45CF90(pFoundPed);
                 v2 = AccumulateDamage_43DA90(100 * v60, &v78);
             }
-            goto LABEL_48;
+            break;
         }
 
-        mode_sub_10 = pObj->field_18_model - 10;
-        if (!mode_sub_10)
+        
+        case 10:
         {
-            if (gCar_6C_677930->field_68)
+            if (!gCar_6C_677930->field_68)
             {
-                goto LABEL_48;
-            }
-            gCar_6C_677930->field_68 = 1;
+                gCar_6C_677930->field_68 = 1;
 
-            if (this->field_74_damage == 32001)
-            {
-                goto LABEL_48;
-            }
-
-            if ((this->field_78_flags & 0x200) == 0)
-            {
-                Fix16_Point v46 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * dword_677218);
-                v2 = AccumulateDamage_43DA90(32000, &v46);
-            }
-
-            if (this->field_74_damage == 32001)
-            {
-                goto LABEL_48;
-            }
-
-            Fix16_Point a4 = (pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580());
-            a4.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
-            EmitExplosion_43D690(18, a4.x, a4.y);
-            goto LABEL_48;
-        }
-
-        mode_sub_10_sub_118 = mode_sub_10 - 118;
-        if (!mode_sub_10_sub_118 || mode_sub_10_sub_118 == 10)
-        {
-            if ((this->field_78_flags & 0x200) == 0 && this->field_74_damage != 32001)
-            {
-                Fix16_Point t = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * dword_677218);
-                v2 = AccumulateDamage_43DA90(32000, &t);
-
-                if (!(this->field_74_damage == 32001))
+                if (this->field_74_damage != 32001)
                 {
-                    Fix16_Point a4 = (pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580());
-                    a4.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
-                    EmitExplosion_43D690(18, a4.x, a4.y);
+
+                    if ((this->field_78_flags & 0x200) == 0)
+                    {
+                        Fix16_Point a4 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * dword_677218);
+
+                        v2 = AccumulateDamage_43DA90(32000, &a4);
+                    }
+
+                    if (this->field_74_damage != 32001)
+                    {
+                        a4 = (pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580());
+                        a4.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
+                        EmitExplosion_43D690(18, a4.x, a4.y);
+                    }
                 }
-                goto LABEL_48;
             }
-
-            Fix16_Point a4 = (pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580());
-            a4.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
-            EmitExplosion_43D690(18, a4.x, a4.y);
-            goto LABEL_48;
+            break;
         }
 
-    LABEL_41:
-        if ((this->field_78_flags & 0x100) == 0)
+
+
+        case 198:
         {
-            Fix16_Point v79 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * dword_677218);
-            s16 v67 = sub_45CF90(pFoundPed);
-            v2 = AccumulateDamage_43DA90(800 * v67, &v79);
+            field_0_qq.CleanupSpriteList_5A7080();
+            break;
         }
-        gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
-                                                       pObj->field_4->field_14_xy.y,
-                                                       pObj->field_4->field_1C_zpos,
-                                                       sinv,
-                                                       cosv);
-        goto LABEL_48;
-    }
 
-    model_sub_198 = pObj->field_18_model - 198;
-    if (model_sub_198)
-    {
-        s32 model_sub_198_sub_67 = model_sub_198 - 67;
-        if (!model_sub_198_sub_67)
+        case 265:
         {
             if ((this->field_78_flags & 0x100) == 0)
             {
-                Fix16_Point v80 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * dword_677218);
+                a4 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * dword_677218);
+
                 s16 v71 = sub_45CF90(pFoundPed);
-                v2 = AccumulateDamage_43DA90(1600 * v71, &v80);
+                v2 = AccumulateDamage_43DA90(1600 * v71, &a4);
             }
+
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
                                                            pObj->field_4->field_14_xy.y,
                                                            pObj->field_4->field_1C_zpos,
                                                            sinv,
                                                            cosv);
-            goto LABEL_48;
+
+            break;
         }
 
-        if (model_sub_198_sub_67 != 12)
+        
+
+        case 210:
+        default:
         {
-            goto LABEL_41;
+            if ((this->field_78_flags & 0x100) == 0)
+            {
+                a4 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * dword_677218);
+
+                s16 v67 = sub_45CF90(pFoundPed);
+                v2 = AccumulateDamage_43DA90(800 * v67, &a4);
+            }
+
+            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
+                                                           pObj->field_4->field_14_xy.y,
+                                                           pObj->field_4->field_1C_zpos,
+                                                           sinv,
+                                                           cosv);
+
+            break;
         }
     }
-    else
-    {
-        field_0_qq.CleanupSpriteList_5A7080();
-    }
 
-LABEL_48:
-    if (pObj->field_18_model == 192 || pObj->field_18_model == 254 || pObj->field_18_model == 265)
+    if (model == 192 || model == 254 || model == 265)
     {
         this->field_AC = 3;
     }
 
-    if (pObj->field_18_model != 198 && v2 > 0)
+    if (model != 198 && v2 > 0)
     {
-        if (pFoundPed)
+        if (pFoundPed && pFoundPed->IsField238_45EDE0(2))
         {
-            if (pFoundPed->IsField238_45EDE0(2))
-            {
-                pFoundPed->field_15C_player->field_2D4_scores.sub_593150(this, 1);
-            }
+            pFoundPed->field_15C_player->field_2D4_scores.sub_593150(this, 1);
         }
     }
+
     return 1;
 }
 
