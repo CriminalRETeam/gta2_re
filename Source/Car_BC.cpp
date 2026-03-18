@@ -161,10 +161,8 @@ DEFINE_GLOBAL_ARRAY(s32, dword_676DB8, 256, 0x676DB8);
 DEFINE_GLOBAL_ARRAY(s32, dword_67698C, 256, 0x67698C);
 DEFINE_GLOBAL_ARRAY(s32, dword_677388, 256, 0x677388);
 
-
 DEFINE_GLOBAL_INIT(Fix16, dword_6772C0, dword_677888 * 8, 0x6772C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_677900, dword_677888 * 3, 0x677900);
-
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -5141,70 +5139,68 @@ void Car_BC::AttachTrailer_4427A0(Car_BC* pToFind)
     }
 }
 
+// 9.6f 0x4262E0
 WIP_FUNC(0x442810)
 void Car_BC::sub_442810()
 {
     WIP_IMPLEMENTED;
 
-    field_50_car_sprite->field_28_num = 15;
+    field_50_car_sprite->set_num_40F7B0(15);
 
-    if (!sub_43A230() && field_74_damage != 32001)
+    if (!sub_43A230() && !IsMaxDamage_40F890() && !sub_4214B0() && !sub_4215B0())
     {
-        if (field_88 != 2 && field_88 != 4 && field_88 != 3 && field_88 != 5)
+        stru_67727C.PruneNonCollidingSprites_5A7240(field_50_car_sprite);
+        Sprite* v4 =
+            stru_67727C.FindClosestSprite_5A6E40(this->field_50_car_sprite->field_14_xy.x, this->field_50_car_sprite->field_14_xy.y);
+        if (!v4)
         {
-            stru_67727C.PruneNonCollidingSprites_5A7240(field_50_car_sprite);
-            Sprite* v4 =
-                stru_67727C.FindClosestSprite_5A6E40(this->field_50_car_sprite->field_14_xy.x, this->field_50_car_sprite->field_14_xy.y);
-            if (!v4)
+            //goto LABEL_28;
+            this->field_78_flags &= ~1u;
+        }
+        else
+        {
+            if (field_50_car_sprite->sub_5A1A60() || stru_67727C.sub_5A7310())
             {
-                //goto LABEL_28;
-                this->field_78_flags &= ~1u;
+                this->field_50_car_sprite->set_num_40F7B0(8);
+                stru_67727C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
+            }
+
+            Car_BC* pCar = v4->AsCar_40FEB0();
+            Fix16_Point v6 = (sub_439FB0() - pCar->sub_439FB0());
+            Fix16 v6_len = v6.GetLength_41E260();
+
+            Fix16 z_delta = Fix16::Abs(v4->field_1C_zpos - field_50_car_sprite->field_1C_zpos);
+
+            if (v6_len < dword_6772C0 && z_delta < dword_6772C0)
+            {
+                if ((this->field_78_flags & 1) == 0)
+                {
+                    if (v6_len < dword_677900)
+                    {
+                        AttachTrailer_4427A0(pCar);
+                        sub_43BD40();
+                    }
+                    else
+                    {
+                        pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                        if (rng_dword_67AB34->field_0_rng >= (u32)pCar->field_58_physics->field_8_total_damage_q)
+                        {
+                            Fix16_Point v16 = (pCar->field_50_car_sprite->get_x_y_443580() + (v6.NormalizeSafe_442AD0() * dword_677888));
+                            s32 a5 = 1;
+                            pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
+                                v16.x,
+                                v16.y,
+                                Ang16::Ang16_to_Fix16(pCar->field_58_physics->field_58_theta),
+                                &a5);
+                        }
+                        
+                    }
+                }
             }
             else
             {
-                if (field_50_car_sprite->sub_5A1A60() || stru_67727C.sub_5A7310())
-                {
-                    this->field_50_car_sprite->field_28_num = 8;
-                    stru_67727C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
-                }
-
-                Car_BC* pCar = v4->AsCar_40FEB0();
-                Fix16_Point v6 = (sub_439FB0() - pCar->sub_439FB0());
-                Fix16 v6_len = v6.GetLength_41E260();
-
-                Fix16 z_delta = Fix16::Abs(v4->field_1C_zpos - field_50_car_sprite->field_1C_zpos);
-
-                if (v6_len < dword_6772C0 && z_delta < dword_6772C0)
-                {
-                    if ((this->field_78_flags & 1) == 0)
-                    {
-                        if (v6_len >= dword_677900)
-                        {
-                            pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                            if (rng_dword_67AB34->field_0_rng >= (u32)pCar->field_58_physics->field_8_total_damage_q)
-                            {
-                                Fix16_Point v12 = v6.NormalizeSafe_442AD0();
-                                Fix16_Point v16 = (pCar->field_50_car_sprite->get_x_y_443580() + (v12 * dword_677888));
-                                s32 a5 = 1;
-                                pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
-                                    v16.x,
-                                    v16.y,
-                                    Ang16::Ang16_to_Fix16(pCar->field_58_physics->field_58_theta),
-                                    &a5);
-                            }
-                        }
-                        else
-                        {
-                            AttachTrailer_4427A0(pCar);
-                            sub_43BD40();
-                        }
-                    }
-                }
-                else
-                {
-                    //LABEL_28:
-                    this->field_78_flags &= ~1u;
-                }
+                //LABEL_28:
+                this->field_78_flags &= ~1u;
             }
         }
     }
