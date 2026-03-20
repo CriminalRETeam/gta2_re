@@ -115,6 +115,7 @@ class CarPhysics_B0
     EXPORT Fix16 ComputeEngineTorque_561970();
     EXPORT Fix16 ComputeTorqueFromThrottle_561DD0();
 
+    // FUNCTION: 96f 0x40f840
     bool IsVelocityAlignedWithHeading_40F840()
     {
         Ang16 v14 = (field_40_linvel_1.atan2_40ACD0() - field_58_theta);
@@ -196,12 +197,6 @@ class CarPhysics_B0
 
     EXPORT void SetCar_5638C0(Car_BC* pBC);
     EXPORT CarPhysics_B0();
-
-    bool sub_40F840()
-    {
-        Ang16 v1 = field_40_linvel_1.atan2_40F790() - field_58_theta;
-        return v1 <= word_6FE00C || v1 >= word_6FE154;
-    }
 
     inline Fix16 sub_4211A0()
     {
