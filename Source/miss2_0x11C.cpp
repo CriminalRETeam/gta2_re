@@ -3427,10 +3427,12 @@ void miss2_0x11C::SCRCMD_GET_PASSENGER_NUM_50B9C0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ba30)
-void miss2_0x11C::sub_50BA30()
+MATCH_FUNC(0x50ba30)
+void miss2_0x11C::sub_50BA30() // Clear wanted level
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    pPtr->field_8_char->field_20A_wanted_points = 0;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50ba70)
