@@ -46,7 +46,7 @@ Wolfy_30::Wolfy_30()
     this->field_20 = 0;
     this->field_22 = 0;
     this->field_4_idx = 0;
-    this->field_10 = 0;
+    this->field_10_type_or_state = 0;
     this->field_14 = 0;
     this->field_18 = 0;
     this->field_1A = 0;
@@ -166,11 +166,21 @@ char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 a3)
     return 0;
 }
 
-STUB_FUNC(0x5435d0)
+MATCH_FUNC(0x5435d0)
 char_type Wolfy_30::IsState_5435D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (field_10_type_or_state)
+    {
+        case 3:
+        case 4:
+        case 5:
+        case 12:
+        case 13:
+        case 14:
+            return 1;
+        default:
+            return 0;
+    }
 }
 
 MATCH_FUNC(0x543610)
@@ -190,7 +200,7 @@ void Wolfy_30::DeInit_543610()
 MATCH_FUNC(0x543650)
 void Wolfy_30::Init_543650()
 {
-    this->field_10 = 0;
+    this->field_10_type_or_state = 0;
     this->field_18 = 0;
     this->field_24 = 0;
     this->field_22 = word_6FD5D4;

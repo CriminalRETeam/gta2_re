@@ -2905,7 +2905,7 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
             return 0;
         }
 
-        pNew2C->field_C_pAny.pExplosion->field_10 = a6;
+        pNew2C->field_C_pAny.pExplosion->field_10_type_or_state = a6;
         pNew2C->field_C_pAny.pExplosion->Set_Obj2C_543680(pNew2C);
         pNew2C->field_C_pAny.pExplosion->field_2C_ped_id = pedId;
 

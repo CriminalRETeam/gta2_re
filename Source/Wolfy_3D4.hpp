@@ -39,7 +39,7 @@ class Wolfy_30
     s32 field_8;
     s16 field_C;
     s16 field_E;
-    s32 field_10;
+    s32 field_10_type_or_state;
     Object_2C* field_14;
     s16 field_18;
     s16 field_1A;
