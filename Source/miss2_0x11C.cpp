@@ -3427,10 +3427,12 @@ void miss2_0x11C::SCRCMD_GET_PASSENGER_NUM_50B9C0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ba30)
-void miss2_0x11C::sub_50BA30()
+MATCH_FUNC(0x50ba30)
+void miss2_0x11C::sub_50BA30() // Clear wanted level
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    pPtr->field_8_char->field_20A_wanted_points = 0;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50ba70)
@@ -3487,10 +3489,13 @@ void miss2_0x11C::sub_50BD10()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50bdc0)
-void miss2_0x11C::sub_50BDC0()
+MATCH_FUNC(0x50bdc0)
+void miss2_0x11C::sub_50BDC0() // Set counter to a given constant value
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_COUNTER* pCmd = (SCR_SET_COUNTER*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    pPtr->field_8_counter = pCmd->field_A_value;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50be00)
@@ -4463,11 +4468,11 @@ void miss2_0x11C::sub_50E780()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50e7f0)
-void miss2_0x11C::sub_50E7F0()
+MATCH_FUNC(0x50e7f0)
+void miss2_0x11C::sub_50E7F0() // Give car alarm
 {
-    NOT_IMPLEMENTED;
-
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    pPtr->field_8_car->field_78_flags |= 0x80;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 

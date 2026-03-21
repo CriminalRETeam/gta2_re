@@ -390,14 +390,21 @@ char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, s32* recvId, 
     return 0;
 }
 
-STUB_FUNC(0x51f0d0)
-void NetPlay::sub_51F0D0(char_type* a2, s32 a3, s32 a4, s32 a5)
+MATCH_FUNC(0x51f0d0)
+void NetPlay::SendOrReceivePacket_51F0D0(void* pPacket, s32 a3, s32 a4, s32 bSendOrRecv)
 {
-    NOT_IMPLEMENTED;
+    if (bSendOrRecv == 0)
+    {
+        NetPlay::OnPacketReceived_51F870(pPacket, a3, a4, 0);
+    }
+    else
+    {
+        NetPlay::ProcessPingOrHandshakeSend_51F110(pPacket, a3, a4, bSendOrRecv);
+    }
 }
 
 STUB_FUNC(0x51f110)
-void NetPlay::sub_51F110(s32 a2, s32 a3, s32 a4, s32 a5)
+void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s32 a5)
 {
     NOT_IMPLEMENTED;
 }
@@ -416,7 +423,7 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
 }
 
 STUB_FUNC(0x51f870)
-void NetPlay::sub_51F870(char_type* pPacket, s32 packetLen, s32 recvId, s32 a5)
+void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 a5)
 {
     NOT_IMPLEMENTED;
 }
@@ -499,10 +506,12 @@ void NetPlay::ProcessIncomingPacket_520230(s32 idx, u32 pUnknown)
     }
 }
 
-STUB_FUNC(0x520530)
-void NetPlay::Set6_520530(s32 pFunc, s32 pParam)
+MATCH_FUNC(0x520530)
+void NetPlay::Set6_520530(void* pFunc, void* pParam)
 {
-    NOT_IMPLEMENTED;
+    field_4C_func_ptrs_and_params[2].field_0_param_fn_callback = pFunc;
+    field_4C_func_ptrs_and_params[2].field_4_param_context = pParam;
+    field_4C_func_ptrs_and_params[2].field_8_fn_type = 2;
 }
 
 STUB_FUNC(0x520570)

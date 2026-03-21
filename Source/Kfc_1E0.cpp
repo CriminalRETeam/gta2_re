@@ -45,19 +45,19 @@ void Kfc_30::sub_5CBC40(Ped* a2)
     field_4_ped = field_8_group->field_2C_ped_leader;
 }
 
+// https://decomp.me/scratch/HmQPr
 STUB_FUNC(0x5cbc60)
 bool Kfc_30::sub_5CBC60()
 {
-    NOT_IMPLEMENTED;
-    Ped* pPed = this->field_4_ped;
-    if (pPed && pPed->field_278_ped_state_1 == ped_state_1::dead_9)
+    WIP_IMPLEMENTED;
+    if (field_4_ped && field_4_ped->isDead_403B60())
     {
         return false;
     }
     // TODO: Something strange going on here:
-    // mov 0x28(%ecx),%ecx
-    //this = (Kfc_30*)field_28;
-    s32 v4 = this->field_28;
+    // 10.5: mov 0x28(%ecx),%ecx
+    // 9.6f: mov 0x28(%esi),%esi
+    s32 v4 = field_28;
     return true;
 }
 

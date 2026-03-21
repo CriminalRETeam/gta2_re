@@ -97,7 +97,7 @@ s32 Network_20324::ShowNetworkUiBlocking_519BD0(Network_20324* dwInitParam, HINS
 
     dwInitParam->field_202E4_hInstance = hInstance;
     gNetPlay_7071E8.Set15_51ECD0((int)Network_20324::cb_sub_519D30, dwInitParam);
-    gNetPlay_7071E8.Set6_520530((int)Network_20324::cb_sub_519E30, (int)dwInitParam);
+    gNetPlay_7071E8.Set6_520530((void*)Network_20324::cb_sub_519E30, (void*)dwInitParam);
     gNetPlay_7071E8.Set9_520E60((int)Network_20324::cb_sub_51ACD0, (int)dwInitParam);
     gNetPlay_7071E8.Set3_Disconnect_520E80((int)Network_20324::cb_Disconnect_51ADE0, (int)dwInitParam);
     gNetPlay_7071E8.Set18_520F50((int)Network_20324::cb_sub_51AE50, (int)dwInitParam);

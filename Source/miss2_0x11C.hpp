@@ -748,6 +748,12 @@ struct SCR_ARROW_XYZ : SCR_CMD_HEADER
     SCR_XYZ_f field_8_coord;
 };
 
+struct SCR_SET_COUNTER : SCR_CMD_HEADER
+{
+    u16 field_8_counter_idx;
+    s16 field_A_value;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum

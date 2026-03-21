@@ -1384,11 +1384,10 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
     return result;
 }
 
-STUB_FUNC(0x5A26E0)
-s16* Sprite::sub_5A26E0(s16* a2)
+MATCH_FUNC(0x5A26E0)
+Ang16 Sprite::sub_5A26E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return -field_0;
 }
 
 STUB_FUNC(0x5a2710)
