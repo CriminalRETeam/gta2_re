@@ -204,7 +204,7 @@ class Sprite
     EXPORT Fix16 MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* a3);
     EXPORT char_type sub_5A2440();
     EXPORT char_type CheckSpriteMovementRegion_5A2500();
-    EXPORT s16* sub_5A26E0(s16* a2);
+    EXPORT Ang16 sub_5A26E0();
     EXPORT Fix16_Point* FindCollisionIntersectionPoint_5A2710(Fix16_Point* point,
                                                               Sprite* pOther,
                                                               Fix16_Point& newPos,
