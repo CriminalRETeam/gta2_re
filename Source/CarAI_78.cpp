@@ -84,11 +84,39 @@ char_type CarAI_78::sub_447D40(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x448270)
-char_type CarAI_78::sub_448270()
+MATCH_FUNC(0x448270)
+bool CarAI_78::sub_448270()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (field_4C)
+    {
+        case 1:
+            if (field_44 == 3)
+            {
+                return true;
+            }
+            break;
+        case 3:
+            if (field_44 == 2)
+            {
+                return true;
+            }
+            break;
+        case 2:
+            if (field_44 == 4)
+            {
+                return true;
+            }
+            break;
+        case 4:
+            if (field_44 == 1)
+            {
+                return true;
+            }
+            break;
+        default:
+            break;
+    }
+    return false;
 }
 
 STUB_FUNC(0x4482c0)
