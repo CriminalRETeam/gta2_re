@@ -4463,11 +4463,11 @@ void miss2_0x11C::sub_50E780()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50e7f0)
-void miss2_0x11C::sub_50E7F0()
+MATCH_FUNC(0x50e7f0)
+void miss2_0x11C::sub_50E7F0() // Give car alarm
 {
-    NOT_IMPLEMENTED;
-
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    pPtr->field_8_car->field_78_flags |= 0x80;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
