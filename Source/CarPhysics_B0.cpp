@@ -3204,7 +3204,7 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
     {
         if (IsGasPedalPressedEnough_5626A0())
         {
-            if (sub_40F840() && !this->field_40_linvel_1.IsNull() && !this->field_A0)
+            if (IsVelocityAlignedWithHeading_40F840() && !this->field_40_linvel_1.IsNull() && !this->field_A0)
             {
                 gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(this->field_38_cp1.x.ToInt(),
                                                                              this->field_38_cp1.y.ToInt(),
@@ -3368,7 +3368,7 @@ void CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00()
     if (!IsInAir_55A0B0())
     {
         Fix16 radius;
-        if (sub_40F840())
+        if (IsVelocityAlignedWithHeading_40F840())
         {
             radius = gCarInfo_48_6FE258->field_28_max_speed;
         }
