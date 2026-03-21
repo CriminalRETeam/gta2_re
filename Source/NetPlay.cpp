@@ -499,10 +499,12 @@ void NetPlay::ProcessIncomingPacket_520230(s32 idx, u32 pUnknown)
     }
 }
 
-STUB_FUNC(0x520530)
-void NetPlay::Set6_520530(s32 pFunc, s32 pParam)
+MATCH_FUNC(0x520530)
+void NetPlay::Set6_520530(void* pFunc, void* pParam)
 {
-    NOT_IMPLEMENTED;
+    field_4C_func_ptrs_and_params[2].field_0_param_fn_callback = pFunc;
+    field_4C_func_ptrs_and_params[2].field_4_param_context = pParam;
+    field_4C_func_ptrs_and_params[2].field_8_fn_type = 2;
 }
 
 STUB_FUNC(0x520570)
