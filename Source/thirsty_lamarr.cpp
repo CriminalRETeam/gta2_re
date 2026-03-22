@@ -136,7 +136,6 @@ s32 thirsty_lamarr::sub_492260(s32 a2, s32 a3)
     s32 v7 = a3 + (field_28_sprite_h_calc >> 1);
     bool bUnk = true;
     s32 v37 = v7;
-    u16 start_idx = curr_idx; // u32?
 
     s16 v8 = 9 - curr_idx;
     s16 v36 = 9 - curr_idx;
@@ -186,8 +185,8 @@ s32 thirsty_lamarr::sub_492260(s32 a2, s32 a3)
         {
             s16 v15 = 58 - field_9[curr_idx];
             u16 v16 = field_28_sprite_h_calc * v15 - v9;
-            curr_idx = start_idx;
-            sub_495470(gSharp_pare_0x15D8_705064->sub_5B95F0(start_idx + field_34 - field_2E_idx, v16, field_28_sprite_h_calc),
+            
+            sub_495470(gSharp_pare_0x15D8_705064->sub_5B95F0(curr_idx + field_34 - field_2E_idx, v16, field_28_sprite_h_calc),
                        a2 + ((field_27_sprite_w >> 1) - (field_27_sprite_w * v8)),
                        v37,
                        field_27_sprite_w,
