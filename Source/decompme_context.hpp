@@ -6,6 +6,7 @@
 #include "BurgerKing_67F8B0.hpp"
 #include "Car_10.hpp"
 #include "Car_BC.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Garage_48.hpp"
 #include "ExplodingScore_100.hpp"
 #include "Door_4D4.hpp"
