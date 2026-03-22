@@ -1240,7 +1240,7 @@
         "v105_address": "0x435860"
     },
     {
-        "name": "Camera_0xBC::sub_4358D0",
+        "name": "Camera_0xBC::ComputeTargetFacingAngle_4358D0",
         "v96f_address": "0x41E620",
         "v105_address": "0x4358d0"
     },

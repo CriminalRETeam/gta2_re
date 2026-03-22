@@ -34,6 +34,17 @@ EXTERN_GLOBAL(Fix16, dword_6777D0);
 
 EXPORT Ang16 __stdcall sub_4F7940(s32* a2);
 
+struct car_rng_list
+{
+    car_rng_list(Fix16 unk)
+    {
+        this->unknown = unk;
+    }
+    
+    Fix16 unknown;
+    s32 values[256];
+};
+
 class Car_18
 {
   public:
@@ -866,6 +877,11 @@ class Car_BC
     bool sub_447F00()
     {
         return !sub_421620() && !inline_check_0x10_info_421640() && !IsTrainModel_403BA0() && !sub_447ED0();
+    }
+
+    inline Ang16 get_car_rotation_416BB0()
+    {
+        return field_50_car_sprite->field_0;
     }
 
     EXPORT char SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);

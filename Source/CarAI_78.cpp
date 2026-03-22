@@ -31,6 +31,25 @@ DEFINE_GLOBAL_INIT(Fix16, dword_677B60, Fix16(0x333, 0), 0x677B60);
 
 DEFINE_GLOBAL(u8, byte_677BBC, 0x677BBC);
 DEFINE_GLOBAL(u8, byte_677B3C, 0x677B3C);
+DEFINE_GLOBAL(u8, byte_677A78, 0x677A78);
+DEFINE_GLOBAL(u8, byte_677C90, 0x677C90);
+DEFINE_GLOBAL(u8, byte_677A5D, 0x677A5D);
+DEFINE_GLOBAL(u8, byte_677A6C, 0x677A6C);
+DEFINE_GLOBAL(u8, byte_677A94, 0x677A94);
+DEFINE_GLOBAL(u8, byte_677A5C, 0x677A5C);
+DEFINE_GLOBAL(u8, byte_677B8C, 0x677B8C);
+DEFINE_GLOBAL(u8, byte_677CA8, 0x677CA8);
+DEFINE_GLOBAL(u8, byte_677C06, 0x677C06);
+
+DEFINE_GLOBAL(Fix16, dword_677A74, 0x677A74);
+DEFINE_GLOBAL(Fix16, dword_677A80, 0x677A80);
+DEFINE_GLOBAL(Fix16, dword_677C9C, 0x677C9C);
+DEFINE_GLOBAL(Fix16, dword_677A8C, 0x677A8C);
+DEFINE_GLOBAL(Fix16, dword_6779F0, 0x6779F0);
+DEFINE_GLOBAL(Fix16, dword_6779F4, 0x6779F4);
+
+DEFINE_GLOBAL(s32, dword_677C88, 0x677C88);
+DEFINE_GLOBAL(s32, dword_6779B0, 0x6779B0);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6779C8, Fix16(0x1999, 0), 0x6779C8);
 
@@ -381,10 +400,33 @@ s32 CarAI_78::sub_453A40()
 }
 
 // TODO: Move
-STUB_FUNC(0x447650)
+MATCH_FUNC(0x447650)
 void __stdcall sub_447650()
 {
-    NOT_IMPLEMENTED;
+    byte_677A78 = 0;
+    byte_677C90 = 0;
+    byte_677A5D = 1;
+    byte_677B3C = 1;
+    byte_677BBC = 0;
+    byte_677A6C = 1;
+    byte_677A94 = 0;
+    byte_677A5C = 0;
+    byte_677B8C = 1;
+    byte_677CA8 = 0;
+    byte_677C06 = 0;
+    dword_677C38 = dword_677B90;
+    dword_677C30 = dword_677B90;
+    dword_677C48 = dword_677B90;
+    dword_677A74 = dword_677B90;
+    dword_677A80 = dword_677B90;
+    dword_677B00 = dword_677B90;
+    dword_677C9C = dword_677B90;
+    dword_677A8C = dword_677B90;
+    dword_6779F0 = dword_677B90;
+    dword_6779F4 = dword_677B90;
+    dword_6779F8 = dword_677B90;
+    dword_677C88 = 1;
+    dword_6779B0 = 0;
 }
 
 MATCH_FUNC(0x453bb0)

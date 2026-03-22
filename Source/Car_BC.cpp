@@ -53,13 +53,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FF70C, Fix16(0x1999, 0), 0x6FF70C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF85C, Fix16(0x1333, 0), 0x6FF85C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF724, Fix16(0xCCC, 0), 0x6FF724);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF6A4, Fix16(0x1EB, 0), 0x6FF6A4);
-DEFINE_GLOBAL(Fix16, dword_6FF580, 0x6FF580);
 
 // This is not used outside this file.
 // In fact, it's only allocated and deallocated, it's never used.
 DEFINE_GLOBAL(Sprite*, gSprite_Unused_677938, 0x677938);
 
-DEFINE_GLOBAL(Fix16, gFix16_6777CC, 0x6777CC);
+DEFINE_GLOBAL_INIT(Fix16, gFix16_6777CC, Fix16(0), 0x6777CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6778A0, Fix16(0x100, 0), 0x6778A0);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6777FC, Fix16(0xFFFFEE00, 0), 0x6777FC);
 
@@ -88,21 +87,22 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6771FC, Fix16(0x2000, 0), 0x6771FC);
 DEFINE_GLOBAL_INIT(Fix16, dword_677888, Fix16(0x100, 0), 0x677888);
 DEFINE_GLOBAL_INIT(Fix16, dword_6778D0, Fix16(0x14000, 0), 0x6778D0);
 DEFINE_GLOBAL_INIT(Fix16, DAT_006FF744, Fix16(0x147, 0), 0x6FF744);
-DEFINE_GLOBAL(Fix16, dword_6FF774, 0x006FF774);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF774, Fix16(0), 0x006FF774);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF580, dword_6FF774, 0x6FF580);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF558, Fix16(0x3FC000, 0), 0x6FF558);
 DEFINE_GLOBAL_INIT(Fix16, DAT_006FF570, Fix16(0x147, 0), 0x6FF570);
-DEFINE_GLOBAL(Fix16, dword_6FF7E8, 0x6FF7E8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF7E8, dword_6FF774, 0x6FF7E8);
 DEFINE_GLOBAL(s8, DAT_006FF8C4, 0x6FF8C4);
 DEFINE_GLOBAL(s8, DAT_006FF8C5, 0x6FF8C5);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FF778, Fix16(0x4000, 0), 0x6ff778);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF778, Fix16(1), 0x6ff778);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF5E4, Fix16(0x3333, 0), 0x6FF5E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF5DC, Fix16(0x2666, 0), 0x6FF5DC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF5D4, Fix16(0x1999, 0), 0x6FF5D4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F7690, Fix16(0x2000, 0), 0x6F7690);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F77D4, Fix16(0x14000, 0), 0x6F77D4);
-DEFINE_GLOBAL(Ang16, dword_6F804C, 0x6F804C);
+DEFINE_GLOBAL_INIT(Ang16, dword_6F804C, Ang16(0), 0x6F804C);
 DEFINE_GLOBAL_INIT(Ang16, word_6F771E, Ang16(0x2D0), 0x6F771E);
-DEFINE_GLOBAL(Ang16, word_67791C, 0x67791C);
+DEFINE_GLOBAL_INIT(Ang16, word_67791C, Ang16(0), 0x67791C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6777A0, Fix16(0x333, 0), 0x6777A0);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF77C, Fix16(0x8000, 0), 0x6FF77C);
@@ -111,11 +111,11 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FF6D4, Fix16(0x14000, 0), 0x6FF6D4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF674, Fix16(0x2000, 0), 0x6FF674);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF5CC, Fix16(0xCCC, 0), 0x6FF5CC);
 
-DEFINE_GLOBAL(Fix16_Point, stru_6778A8, 0x6778A8);
+DEFINE_GLOBAL_INIT(Fix16_Point, stru_6778A8, Fix16_Point(0, 0), 0x6778A8);
 DEFINE_GLOBAL_INIT(Fix16, dword_677908, Fix16(1), 0x677908);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_705DDC, Fix16(0x4000, 0), 0x705DDC);
-DEFINE_GLOBAL(Ang16, word_705F10, 0x705F10);
+DEFINE_GLOBAL_INIT(Ang16, word_705F10, Ang16(0), 0x705F10);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_677218, Fix16(0x2000, 0), 0x677218);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_676984, Fix16(0x852, 0), 0x676984);
@@ -126,9 +126,9 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6777D4, Fix16(0x8000, 0), 0x6777D4);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6772CC, Fix16(0xCCC, 0), 0x6772CC);
 EXTERN_GLOBAL(u8, byte_6F8EDC);
 
-DEFINE_GLOBAL(Fix16, k_dword_66AB38, 0x66AB38);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_66AB38, Fix16(0), 0x66AB38);
 
-DEFINE_GLOBAL(Fix16_Point, stru_677370, 0x677370);
+DEFINE_GLOBAL_INIT(Fix16_Point, stru_677370, Fix16_Point(0, dword_677888 * 47), 0x677370);
 DEFINE_GLOBAL_INIT(Fix16_Point, stru_677358, Fix16_Point(0, dword_677888 * -30), 0x677358);
 DEFINE_GLOBAL_INIT(Ang16, dword_677234, Ang16(0x168), 0x677234);
 DEFINE_GLOBAL_INIT(Fix16, dword_6778FC, Fix16(0x2000, 0), 0x6778FC);
@@ -141,7 +141,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_677910, Ang16(4), 0x677910);
 DEFINE_GLOBAL_INIT(Ang16, word_6F67EA, Ang16(0x2D0), 0x6F67EA);
 DEFINE_GLOBAL_INIT(Ang16, dword_6F6754, Ang16(0x168), 0x6F6754);
 DEFINE_GLOBAL_INIT(Ang16, word_6F6808, Ang16(0x438), 0x6F6808);
-DEFINE_GLOBAL(Ang16, word_6F6D3C, 0x6F6D3C);
+DEFINE_GLOBAL_INIT(Ang16, word_6F6D3C, Ang16(0), 0x6F6D3C);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6772BC, Fix16(0xCCC, 0), 0x6772BC);
 DEFINE_GLOBAL_INIT(Fix16, dword_677214, Fix16(0x1999, 0), 0x677214);
@@ -157,9 +157,12 @@ DEFINE_GLOBAL(s32, dword_6772DC, 0x6772DC);
 DEFINE_GLOBAL(s32, dword_6772EC, 0x6772EC);
 DEFINE_GLOBAL(s32, unk_677294, 0x677294);
 
-DEFINE_GLOBAL_ARRAY(s32, dword_676DB8, 256, 0x676DB8);
-DEFINE_GLOBAL_ARRAY(s32, dword_67698C, 256, 0x67698C);
-DEFINE_GLOBAL_ARRAY(s32, dword_677388, 256, 0x677388);
+DEFINE_GLOBAL_INIT(car_rng_list, dword_677384, car_rng_list(Fix16(256, 0)), 0x677384);
+DEFINE_GLOBAL_INIT(car_rng_list, dword_676DB4, car_rng_list(Fix16(512, 0)), 0x676DB4);
+DEFINE_GLOBAL_INIT(car_rng_list, dword_676988, car_rng_list(Fix16(81920, 0)), 0x676988);
+
+//DEFINE_GLOBAL_ARRAY(s32, dword_676DB8, 256, 0x676DB8); // TODO: may be part of a struct
+//DEFINE_GLOBAL_ARRAY(s32, dword_67698C, 256, 0x67698C); // TODO: may be part of a struct
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6772C0, dword_677888 * 8, 0x6772C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_677900, dword_677888 * 3, 0x677900);
@@ -278,46 +281,43 @@ void Car_6C::sub_444980()
     NOT_IMPLEMENTED;
 }
 
-WIP_FUNC(0x444ab0)
+MATCH_FUNC(0x444ab0)
 u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneInfo, Fix16 a4, u16* pOut)
 {
-    WIP_IMPLEMENTED;
-
     u32 result;
     Fix16 density_calc = Fix16(pZoneInfo->field_0_car_density) / Fix16(0xFA0000, 0);
     if (density_calc == gFix16_6777CC)
     {
         *pOut = 0;
-        return 87;
+        return car_model_enum::none;
     }
     else
     {
-        s32 v8 = (Fix16(0x190000, 0) * (a4 * density_calc)).ToInt();
-        if ((u16)v8 > 99u)
+        u16 v8 = (Fix16(0x190000, 0) * (a4 * density_calc)).ToInt();
+        if (v8 > 99)
         {
             v8 = 99;
         }
 
-        u32 v9 = (u32)pPlayer->field_680 < (u16)(100 - v8);
         pPlayer->field_682 = 100 - v8;
-        if (v9)
+        if (pPlayer->field_680 < (u16)(100 - v8))
         {
-            result = 87;
             *pOut = 0;
+            return car_model_enum::none;
         }
         else
         {
-            s16 goodcar_ratio;
-            s16 badcar_ratio;
-            s16 gangcar_ratio;
-            s16 policecar_ratio;
+            u16 goodcar_ratio;
+            u16 badcar_ratio;
+            u16 gangcar_ratio;
+            u16 policecar_ratio;
 
             if (pZoneInfo)
             {
                 goodcar_ratio = pZoneInfo->field_2_goodcar_ratio;
                 badcar_ratio = pZoneInfo->field_4_badcar_ratio;
-                gangcar_ratio = pZoneInfo->field_8_gangcar_ratio;
                 policecar_ratio = pZoneInfo->field_6_policecar_ratio;
+                gangcar_ratio = pZoneInfo->field_8_gangcar_ratio;
             }
             else
             {
@@ -327,45 +327,29 @@ u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneIn
                 gangcar_ratio = 0;
             }
 
-            u16 remap = gRngRemapTable_679320[this->field_0.field_0];
+            u16 value = gRngRemapTable_679320[this->field_0.field_0];
 
             field_0.IncNextRngRemapIdx_47BD90();
 
-            if (remap >= goodcar_ratio)
+            if (value < goodcar_ratio)
             {
-                if (remap >= goodcar_ratio + badcar_ratio)
+                do
                 {
-                    if (remap >= badcar_ratio + goodcar_ratio + policecar_ratio)
+                    result = dword_677384.values[field_9++];
+                    if (field_9 == unk_677294)
                     {
-                        if (remap >= badcar_ratio + goodcar_ratio + policecar_ratio + gangcar_ratio)
-                        {
-                            do
-                            {
-                                result = dword_676DB8[field_B++];
-                                if (field_B == dword_6772DC)
-                                {
-                                    field_B = 0;
-                                }
-                            } while (result == field_C_model_unk);
-                            *pOut = 3;
-                        }
-                        else
-                        {
-                            result = 87;
-                            *pOut = 5;
-                        }
+                        field_9 = 0;
                     }
-                    else
-                    {
-                        result = 12;
-                        *pOut = 4;
-                    }
-                }
-                else
+                } while (result == field_C_model_unk);
+                *pOut = 1;
+            }
+            else
+            {
+                if (value < goodcar_ratio + badcar_ratio)
                 {
                     do
                     {
-                        result = dword_67698C[field_A++];
+                        result = dword_676988.values[field_A++];
                         if (field_A == dword_6772EC)
                         {
                             field_A = 0;
@@ -373,18 +357,34 @@ u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneIn
                     } while (result == field_C_model_unk);
                     *pOut = 2;
                 }
-            }
-            else
-            {
-                do
+                else
                 {
-                    result = dword_677388[field_9++];
-                    if (field_9 == unk_677294)
+                    if (value < badcar_ratio + goodcar_ratio + policecar_ratio)
                     {
-                        field_9 = 0;
+                        result = 12;
+                        *pOut = 4;
                     }
-                } while (result == field_C_model_unk);
-                *pOut = 1;
+                    else
+                    {
+                        if (value < badcar_ratio + goodcar_ratio + policecar_ratio + gangcar_ratio)
+                        {
+                            result = car_model_enum::none;
+                            *pOut = 5;
+                        }
+                        else
+                        {
+                            do
+                            {
+                                result = dword_676DB4.values[field_B++];
+                                if (field_B == dword_6772DC)
+                                {
+                                    field_B = 0;
+                                }
+                            } while (result == field_C_model_unk);
+                            *pOut = 3;
+                        }
+                    }
+                }
             }
         }
     }
@@ -6424,7 +6424,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
     if ((!bLimit_recycling_67D4CA || gCar_6C_677930->field_28_recycled_cars < 2) &&
         gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars != 16)
     {
-        s32 angleFace = Ang16::GetAngleFace_4F78F0(field_0_cam->sub_4358D0());
+        s32 angleFace = Ang16::GetAngleFace_4F78F0(field_0_cam->ComputeTargetFacingAngle_4358D0());
 
         switch (gPolice_7B8_6FEE40->field_654_wanted_level)
         {
@@ -6636,7 +6636,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
     //Fix16_Rect* v28_pRect; // ecx
     gmp_zone_info* pZone; // eax
     u8 rng_val; // al
-    int gang_car_model; // ebx
+    int car_model_idx; // ebx
     ModelPhysics_48* pModelPhysics; // eax
     Fix16* v34; // eax
     Fix16 v35; // ebx
@@ -6698,7 +6698,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
     int v116; // [esp+30h] [ebp-54h]
     Fix16 car_h_; // [esp+34h] [ebp-50h]
     Fix16 car_w_; // [esp+38h] [ebp-4Ch]
-    int v119; // [esp+3Ch] [ebp-48h] BYREF
+    u16 v119; // [esp+3Ch] [ebp-48h] BYREF
     int v120; // [esp+40h] [ebp-44h]
     Fix16 v121; // [esp+44h] [ebp-40h]
     Fix16 val5; // [esp+48h] [ebp-3Ch]
@@ -6781,7 +6781,6 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 }
                 else
                 {
-                LABEL_13:
                     unknown = -1;
                     x_coord = dword_6FF778 + field_0_cam->field_78_boundaries_non_neg.field_4_right;
                     x_coord = x_coord;
@@ -6789,10 +6788,19 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 break;
             case 3:
                 x_coord = dword_6FF6D4 + this->field_0_cam->field_78_boundaries_non_neg.field_4_right;
-                goto LABEL_18;
+                if (!field_8)
+                {
+                    unknown2 = 1;
+                    y_coord = field_0_cam->field_78_boundaries_non_neg.field_8_top - dword_6FF778;
+                }
+                else
+                {
+                    unknown2 = -1;
+                    y_coord = dword_6FF778 + field_0_cam->field_78_boundaries_non_neg.field_C_bottom;
+                }
+                break;
             case 4:
                 x_coord = this->field_0_cam->field_78_boundaries_non_neg.field_0_left - dword_6FF6D4;
-            LABEL_18:
                 if (!field_8)
                 {
                     unknown2 = 1;
@@ -6836,9 +6844,9 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 break;
         }
 
-        if (x_coord > dword_6FF774)
+        while (x_coord > dword_6FF774)
         {
-            while (1)
+            //while (1)
             {
                 // Bounds check
                 if (y_coord <= val1 || x_coord >= dword_6FF558 || y_coord >= dword_6FF558)
@@ -6872,26 +6880,14 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
 
                 DAT_006FF570 = dword_6FF5CC;
 
-                //field_4_rect = this->field_4_rect;
-                field_4_rect->field_0_left = nav_x - car_w_;
-                field_4_rect->field_8_top = nav_y - car_h_;
-                field_4_rect->field_4_right = car_w_ + nav_x;
-                field_4_rect->field_C_bottom = nav_y + car_h_;
-
-                //v28_pRect = this->field_4_rect;
-                field_4_rect->field_10_low_z = dword_6FF778 - v19;
-                field_4_rect->field_14_high_z = dword_6FF778 + v19;
+                field_4_rect->SetRect_41E350(nav_x - car_w_, car_w_ + nav_x, nav_y - car_h_, nav_y + car_h_);
+                field_4_rect->SetHiLowZ_41E370(v19 - dword_6FF778, v19 + dword_6FF778);
 
                 // different types of arrows, so it could be a road corner/turn
-                // TODO: it's always falling here, no idea why
-                /*
                 if (!field_4_rect->EveryTileMatchesArrowType_59DFB0(arrow_direction))
                 {
                     goto LABEL_117;
                 }
-                */
-
-                //FatalError_4A38C0(Gta2Error::InvalidMapObjectData, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6024);
 
                 // no spawn if the car density is zero on this zone
                 pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(nav_x.ToInt(), nav_y.ToInt());
@@ -6903,42 +6899,39 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 if (gPolice_7B8_6FEE40->field_654_wanted_level < 1 || (rng_val = stru_6F6784.get_int_4F7AE0(40), rng_val <= 20u) ||
                     rng_val >= 30u)
                 {
-                    gang_car_model =
-                        gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player, this->field_10_zone, dword_6FF7E8, (u16*)&v119);
-                    //rng_max_ = gang_car_model;
-                    if (!(s16)v119)
+                    car_model_idx =
+                        gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player, this->field_10_zone, dword_6FF7E8, &v119);
+                    
+                    if (v119 == 0)
                     {
                         return 0;
                     }
                 }
                 else
                 {
-                    gang_car_model = car_model_enum::COPCAR; // 12;
+                    car_model_idx = car_model_enum::COPCAR; // 12;
                     v119 = 4;
-                    //rng_max_ = 12;
                 }
-
-                // FatalError_4A38C0(Gta2Error::InvalidMapObjectData, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6024);
-
+                
                 if (gPolice_7B8_6FEE40->sub_577320())
                 {
                     v108 = 1;
-                    gang_car_model = car_model_enum::bank_van; // 4;
+                    car_model_idx = car_model_enum::bank_van; // 4;
                     // bank van? humm...
                 }
                 else
                 {
-                    if (gang_car_model == car_model_enum::COPCAR) // 12
+                    if (car_model_idx == car_model_enum::COPCAR) // 12
                     {
                         // OBS: field_659 of Police_7B8 is u8 type
                         if (gPolice_7B8_6FEE40->field_658_count >= (u32)gPolice_7B8_6FEE40->field_659 || bSkip_police_67D4F9)
                         {
-                            gang_car_model = gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player,
+                            car_model_idx = gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player,
                                                                                           this->field_10_zone,
                                                                                           dword_6FF7E8,
                                                                                           (u16*)&v119);
                             //rng_max_ = v32;
-                            if (gang_car_model == car_model_enum::COPCAR || !(s16)v119) // 12
+                            if (car_model_idx == car_model_enum::COPCAR || v119 == 0) // 12
                             {
                                 return 0;
                             }
@@ -6948,13 +6941,13 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                             switch (gPolice_7B8_6FEE40->field_65C)
                             {
                                 case 3:
-                                    gang_car_model = car_model_enum::COPCAR; //12;
+                                    car_model_idx = car_model_enum::COPCAR; //12;
                                     break;
                                 case 4:
-                                    gang_car_model = car_model_enum::EDSELFBI; // 84;
+                                    car_model_idx = car_model_enum::EDSELFBI; // 84;
                                     break;
                                 case 6:
-                                    gang_car_model = car_model_enum::GUNJEEP; //22;
+                                    car_model_idx = car_model_enum::GUNJEEP; //22;
                                     break;
                             }
                         }
@@ -6967,25 +6960,25 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                             case 1:
                             case 2:
                             case 3:
-                                gang_car_model = car_model_enum::apc; // 3;
+                                car_model_idx = car_model_enum::apc; // 3;
                                 break;
                             case 4:
                             case 5:
                             case 6:
-                                gang_car_model = car_model_enum::TANK; //54;
+                                car_model_idx = car_model_enum::TANK; //54;
                                 break;
                             default:
-                                gang_car_model = car_model_enum::JEEP; //30;
+                                car_model_idx = car_model_enum::JEEP; //30;
                                 break;
                         }
                     }
 
-                    if ((s16)v119 == 5)
+                    if (v119 == 5)
                     {
                         gang_curr_location = this->field_C_player->field_34_gang_curr_location;
                         if (gang_curr_location && gang_curr_location->field_139_kill_respect_change > 0)
                         {
-                            gang_car_model = gang_curr_location->field_13C_gang_car_model;
+                            car_model_idx = gang_curr_location->field_13C_gang_car_model;
                         }
                         else
                         {
@@ -6994,7 +6987,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     }
                 }
 
-                pModelPhysics = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(gang_car_model);
+                pModelPhysics = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(car_model_idx);
                 v34 = Car_14::sub_583750(&v133, pModelPhysics->field_28_max_speed, &v107);
                 v35 = y_coord - val3;
                 v36 = x_coord - val2;
@@ -7154,7 +7147,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                         break;
                 }
 
-*/
+                */
                 switch (v67)
                 {
                     case 1:
@@ -7285,22 +7278,22 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                         if (!v108)
                         {
                             v88 = sub_4F7940(&arrow_direction);
-                            //car_model_1 = gang_car_model; // = rng_max_
+                            //car_model_1 = car_model_idx; // = rng_max_
                             //v128 = *v88; // LOWORD =
-                            if (gang_car_model == car_model_enum::TRAIN || gang_car_model == car_model_enum::TRAINCAB ||
-                                gang_car_model == car_model_enum::TRAINFB || gang_car_model == car_model_enum::boxcar)
+                            if (car_model_idx == car_model_enum::TRAIN || car_model_idx == car_model_enum::TRAINCAB ||
+                                car_model_idx == car_model_enum::TRAINFB || car_model_idx == car_model_enum::boxcar)
                             {
                                 rail_z = *gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&v133, car_x, car_y);
-                                pNewCar = gCar_6C_677930->SpawnCarAt_446230(car_x, car_y, rail_z, v88, gang_car_model, dword_6FF778);
+                                pNewCar = gCar_6C_677930->SpawnCarAt_446230(car_x, car_y, rail_z, v88, car_model_idx, dword_6FF778);
                             }
                             else
                             {
                                 car_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&v134, car_x, car_y);
-                                pNewCar = gCar_6C_677930->SpawnCarAt_446230(car_x, car_y, car_z, v88, gang_car_model, dword_6FF778);
+                                pNewCar = gCar_6C_677930->SpawnCarAt_446230(car_x, car_y, car_z, v88, car_model_idx, dword_6FF778);
                             }
 
-                            if (gang_car_model == car_model_enum::SWATVAN || gang_car_model == car_model_enum::COPCAR ||
-                                gang_car_model == car_model_enum::JEEP || gang_car_model == car_model_enum::EDSELFBI)
+                            if (car_model_idx == car_model_enum::SWATVAN || car_model_idx == car_model_enum::COPCAR ||
+                                car_model_idx == car_model_enum::JEEP || car_model_idx == car_model_enum::EDSELFBI)
                             {
                                 if (gCar_6C_677930->CanAllocateOfType_446930(6) && gPolice_7B8_6FEE40->FBI_Army_5703E0(pNewCar))
                                 {
@@ -7318,7 +7311,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                             else
                             {
                                 pNewCar->IncrementCarStats_443D70(1);
-                                if ((s16)v119 == 5)
+                                if (v119 == 5)
                                 {
                                     pGang = gang_curr_location;
                                     gang_car_remap = gang_curr_location->field_140_gang_car_remap;
@@ -7368,12 +7361,6 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     return 0;
                 }
                 val1 = dword_6FF774;
-                if (x_coord <= dword_6FF774)
-                {
-                    return 0;
-                }
-                //x_coord = x_coord;
-                //y_coord = y_coord;
             } // end while(1)
         }
     }
