@@ -278,46 +278,43 @@ void Car_6C::sub_444980()
     NOT_IMPLEMENTED;
 }
 
-WIP_FUNC(0x444ab0)
+MATCH_FUNC(0x444ab0)
 u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneInfo, Fix16 a4, u16* pOut)
 {
-    WIP_IMPLEMENTED;
-
     u32 result;
     Fix16 density_calc = Fix16(pZoneInfo->field_0_car_density) / Fix16(0xFA0000, 0);
     if (density_calc == gFix16_6777CC)
     {
         *pOut = 0;
-        return 87;
+        return car_model_enum::none;
     }
     else
     {
-        s32 v8 = (Fix16(0x190000, 0) * (a4 * density_calc)).ToInt();
-        if ((u16)v8 > 99u)
+        u16 v8 = (Fix16(0x190000, 0) * (a4 * density_calc)).ToInt();
+        if (v8 > 99)
         {
             v8 = 99;
         }
 
-        u32 v9 = (u32)pPlayer->field_680 < (u16)(100 - v8);
         pPlayer->field_682 = 100 - v8;
-        if (v9)
+        if (pPlayer->field_680 < (u16)(100 - v8))
         {
-            result = 87;
             *pOut = 0;
+            return car_model_enum::none;
         }
         else
         {
-            s16 goodcar_ratio;
-            s16 badcar_ratio;
-            s16 gangcar_ratio;
-            s16 policecar_ratio;
+            u16 goodcar_ratio;
+            u16 badcar_ratio;
+            u16 gangcar_ratio;
+            u16 policecar_ratio;
 
             if (pZoneInfo)
             {
                 goodcar_ratio = pZoneInfo->field_2_goodcar_ratio;
                 badcar_ratio = pZoneInfo->field_4_badcar_ratio;
-                gangcar_ratio = pZoneInfo->field_8_gangcar_ratio;
                 policecar_ratio = pZoneInfo->field_6_policecar_ratio;
+                gangcar_ratio = pZoneInfo->field_8_gangcar_ratio;
             }
             else
             {
@@ -331,37 +328,21 @@ u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneIn
 
             field_0.IncNextRngRemapIdx_47BD90();
 
-            if (remap >= goodcar_ratio)
+            if (remap < goodcar_ratio)
             {
-                if (remap >= goodcar_ratio + badcar_ratio)
+                do
                 {
-                    if (remap >= badcar_ratio + goodcar_ratio + policecar_ratio)
+                    result = dword_677388[field_9++];
+                    if (field_9 == unk_677294)
                     {
-                        if (remap >= badcar_ratio + goodcar_ratio + policecar_ratio + gangcar_ratio)
-                        {
-                            do
-                            {
-                                result = dword_676DB8[field_B++];
-                                if (field_B == dword_6772DC)
-                                {
-                                    field_B = 0;
-                                }
-                            } while (result == field_C_model_unk);
-                            *pOut = 3;
-                        }
-                        else
-                        {
-                            result = 87;
-                            *pOut = 5;
-                        }
+                        field_9 = 0;
                     }
-                    else
-                    {
-                        result = 12;
-                        *pOut = 4;
-                    }
-                }
-                else
+                } while (result == field_C_model_unk);
+                *pOut = 1;
+            }
+            else
+            {
+                if (remap < goodcar_ratio + badcar_ratio)
                 {
                     do
                     {
@@ -373,18 +354,34 @@ u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneIn
                     } while (result == field_C_model_unk);
                     *pOut = 2;
                 }
-            }
-            else
-            {
-                do
+                else
                 {
-                    result = dword_677388[field_9++];
-                    if (field_9 == unk_677294)
+                    if (remap < badcar_ratio + goodcar_ratio + policecar_ratio)
                     {
-                        field_9 = 0;
+                        result = 12;
+                        *pOut = 4;
                     }
-                } while (result == field_C_model_unk);
-                *pOut = 1;
+                    else
+                    {
+                        if (remap < badcar_ratio + goodcar_ratio + policecar_ratio + gangcar_ratio)
+                        {
+                            result = car_model_enum::none;
+                            *pOut = 5;
+                        }
+                        else
+                        {
+                            do
+                            {
+                                result = dword_676DB8[field_B++];
+                                if (field_B == dword_6772DC)
+                                {
+                                    field_B = 0;
+                                }
+                            } while (result == field_C_model_unk);
+                            *pOut = 3;
+                        }
+                    }
+                }
             }
         }
     }
