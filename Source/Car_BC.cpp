@@ -53,13 +53,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FF70C, Fix16(0x1999, 0), 0x6FF70C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF85C, Fix16(0x1333, 0), 0x6FF85C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF724, Fix16(0xCCC, 0), 0x6FF724);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF6A4, Fix16(0x1EB, 0), 0x6FF6A4);
-DEFINE_GLOBAL(Fix16, dword_6FF580, 0x6FF580);
 
 // This is not used outside this file.
 // In fact, it's only allocated and deallocated, it's never used.
 DEFINE_GLOBAL(Sprite*, gSprite_Unused_677938, 0x677938);
 
-DEFINE_GLOBAL(Fix16, gFix16_6777CC, 0x6777CC);
+DEFINE_GLOBAL_INIT(Fix16, gFix16_6777CC, Fix16(0), 0x6777CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6778A0, Fix16(0x100, 0), 0x6778A0);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6777FC, Fix16(0xFFFFEE00, 0), 0x6777FC);
 
@@ -88,21 +87,22 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6771FC, Fix16(0x2000, 0), 0x6771FC);
 DEFINE_GLOBAL_INIT(Fix16, dword_677888, Fix16(0x100, 0), 0x677888);
 DEFINE_GLOBAL_INIT(Fix16, dword_6778D0, Fix16(0x14000, 0), 0x6778D0);
 DEFINE_GLOBAL_INIT(Fix16, DAT_006FF744, Fix16(0x147, 0), 0x6FF744);
-DEFINE_GLOBAL(Fix16, dword_6FF774, 0x006FF774);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF774, Fix16(0), 0x006FF774);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF580, dword_6FF774, 0x6FF580);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF558, Fix16(0x3FC000, 0), 0x6FF558);
 DEFINE_GLOBAL_INIT(Fix16, DAT_006FF570, Fix16(0x147, 0), 0x6FF570);
-DEFINE_GLOBAL(Fix16, dword_6FF7E8, 0x6FF7E8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF7E8, dword_6FF774, 0x6FF7E8);
 DEFINE_GLOBAL(s8, DAT_006FF8C4, 0x6FF8C4);
 DEFINE_GLOBAL(s8, DAT_006FF8C5, 0x6FF8C5);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FF778, Fix16(0x4000, 0), 0x6ff778);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF778, Fix16(1), 0x6ff778);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF5E4, Fix16(0x3333, 0), 0x6FF5E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF5DC, Fix16(0x2666, 0), 0x6FF5DC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF5D4, Fix16(0x1999, 0), 0x6FF5D4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F7690, Fix16(0x2000, 0), 0x6F7690);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F77D4, Fix16(0x14000, 0), 0x6F77D4);
-DEFINE_GLOBAL(Ang16, dword_6F804C, 0x6F804C);
+DEFINE_GLOBAL_INIT(Ang16, dword_6F804C, Ang16(0), 0x6F804C);
 DEFINE_GLOBAL_INIT(Ang16, word_6F771E, Ang16(0x2D0), 0x6F771E);
-DEFINE_GLOBAL(Ang16, word_67791C, 0x67791C);
+DEFINE_GLOBAL_INIT(Ang16, word_67791C, Ang16(0), 0x67791C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6777A0, Fix16(0x333, 0), 0x6777A0);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF77C, Fix16(0x8000, 0), 0x6FF77C);
@@ -111,11 +111,11 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FF6D4, Fix16(0x14000, 0), 0x6FF6D4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF674, Fix16(0x2000, 0), 0x6FF674);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF5CC, Fix16(0xCCC, 0), 0x6FF5CC);
 
-DEFINE_GLOBAL(Fix16_Point, stru_6778A8, 0x6778A8);
+DEFINE_GLOBAL_INIT(Fix16_Point, stru_6778A8, Fix16_Point(0, 0), 0x6778A8);
 DEFINE_GLOBAL_INIT(Fix16, dword_677908, Fix16(1), 0x677908);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_705DDC, Fix16(0x4000, 0), 0x705DDC);
-DEFINE_GLOBAL(Ang16, word_705F10, 0x705F10);
+DEFINE_GLOBAL_INIT(Ang16, word_705F10, Ang16(0), 0x705F10);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_677218, Fix16(0x2000, 0), 0x677218);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_676984, Fix16(0x852, 0), 0x676984);
@@ -126,9 +126,9 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_6777D4, Fix16(0x8000, 0), 0x6777D4);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6772CC, Fix16(0xCCC, 0), 0x6772CC);
 EXTERN_GLOBAL(u8, byte_6F8EDC);
 
-DEFINE_GLOBAL(Fix16, k_dword_66AB38, 0x66AB38);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_66AB38, Fix16(0), 0x66AB38);
 
-DEFINE_GLOBAL(Fix16_Point, stru_677370, 0x677370);
+DEFINE_GLOBAL_INIT(Fix16_Point, stru_677370, Fix16_Point(0, dword_677888 * 47), 0x677370);
 DEFINE_GLOBAL_INIT(Fix16_Point, stru_677358, Fix16_Point(0, dword_677888 * -30), 0x677358);
 DEFINE_GLOBAL_INIT(Ang16, dword_677234, Ang16(0x168), 0x677234);
 DEFINE_GLOBAL_INIT(Fix16, dword_6778FC, Fix16(0x2000, 0), 0x6778FC);
@@ -141,7 +141,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_677910, Ang16(4), 0x677910);
 DEFINE_GLOBAL_INIT(Ang16, word_6F67EA, Ang16(0x2D0), 0x6F67EA);
 DEFINE_GLOBAL_INIT(Ang16, dword_6F6754, Ang16(0x168), 0x6F6754);
 DEFINE_GLOBAL_INIT(Ang16, word_6F6808, Ang16(0x438), 0x6F6808);
-DEFINE_GLOBAL(Ang16, word_6F6D3C, 0x6F6D3C);
+DEFINE_GLOBAL_INIT(Ang16, word_6F6D3C, Ang16(0), 0x6F6D3C);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6772BC, Fix16(0xCCC, 0), 0x6772BC);
 DEFINE_GLOBAL_INIT(Fix16, dword_677214, Fix16(0x1999, 0), 0x677214);
@@ -6424,7 +6424,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
     if ((!bLimit_recycling_67D4CA || gCar_6C_677930->field_28_recycled_cars < 2) &&
         gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars != 16)
     {
-        s32 angleFace = Ang16::GetAngleFace_4F78F0(field_0_cam->sub_4358D0());
+        s32 angleFace = Ang16::GetAngleFace_4F78F0(field_0_cam->ComputeTargetFacingAngle_4358D0());
 
         switch (gPolice_7B8_6FEE40->field_654_wanted_level)
         {
@@ -6872,26 +6872,14 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
 
                 DAT_006FF570 = dword_6FF5CC;
 
-                //field_4_rect = this->field_4_rect;
-                field_4_rect->field_0_left = nav_x - car_w_;
-                field_4_rect->field_8_top = nav_y - car_h_;
-                field_4_rect->field_4_right = car_w_ + nav_x;
-                field_4_rect->field_C_bottom = nav_y + car_h_;
-
-                //v28_pRect = this->field_4_rect;
-                field_4_rect->field_10_low_z = dword_6FF778 - v19;
-                field_4_rect->field_14_high_z = dword_6FF778 + v19;
+                field_4_rect->SetRect_41E350(nav_x - car_w_, car_w_ + nav_x, nav_y - car_h_, nav_y + car_h_);
+                field_4_rect->SetHiLowZ_41E370(v19 - dword_6FF778, v19 + dword_6FF778);
 
                 // different types of arrows, so it could be a road corner/turn
-                // TODO: it's always falling here, no idea why
-                /*
                 if (!field_4_rect->EveryTileMatchesArrowType_59DFB0(arrow_direction))
                 {
                     goto LABEL_117;
                 }
-                */
-
-                //FatalError_4A38C0(Gta2Error::InvalidMapObjectData, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6024);
 
                 // no spawn if the car density is zero on this zone
                 pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(nav_x.ToInt(), nav_y.ToInt());
