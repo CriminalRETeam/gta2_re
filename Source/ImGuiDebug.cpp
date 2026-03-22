@@ -47,6 +47,10 @@ EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0);
 EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);
 
+EXTERN_GLOBAL(car_rng_list, dword_676DB4);
+EXTERN_GLOBAL(car_rng_list, dword_676988);
+EXTERN_GLOBAL(car_rng_list, dword_677384);
+
 Object_2C* spawned_obj = NULL;
 Car_BC* pNewCar = NULL;
 
@@ -2350,6 +2354,17 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("field_4 float", slope_struct->field_4_zpos_lower.ToFloat());
                 ImGui::Value("field_8 float", slope_struct->field_8_zpos_higher.ToFloat());
             }
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("Car RNG arrays"))
+        {
+            static u8 idx = 0;
+            ImGui::SliderU8("idx", &idx, 0, 255);
+
+            ImGui::Value("dword_676DB8", dword_676DB4.values[idx]);
+            ImGui::Value("dword_67698C", dword_676988.values[idx]);
+            ImGui::Value("dword_677388", dword_677384.values[idx]);
             ImGui::TreePop();
         }
 

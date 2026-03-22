@@ -34,6 +34,17 @@ EXTERN_GLOBAL(Fix16, dword_6777D0);
 
 EXPORT Ang16 __stdcall sub_4F7940(s32* a2);
 
+struct car_rng_list
+{
+    car_rng_list(Fix16 unk)
+    {
+        this->unknown = unk;
+    }
+    
+    Fix16 unknown;
+    s32 values[256];
+};
+
 class Car_18
 {
   public:

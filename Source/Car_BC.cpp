@@ -157,9 +157,12 @@ DEFINE_GLOBAL(s32, dword_6772DC, 0x6772DC);
 DEFINE_GLOBAL(s32, dword_6772EC, 0x6772EC);
 DEFINE_GLOBAL(s32, unk_677294, 0x677294);
 
-DEFINE_GLOBAL_ARRAY(s32, dword_676DB8, 256, 0x676DB8);
-DEFINE_GLOBAL_ARRAY(s32, dword_67698C, 256, 0x67698C);
-DEFINE_GLOBAL_ARRAY(s32, dword_677388, 256, 0x677388);
+DEFINE_GLOBAL_INIT(car_rng_list, dword_677384, car_rng_list(Fix16(256, 0)), 0x677384);
+DEFINE_GLOBAL_INIT(car_rng_list, dword_676DB4, car_rng_list(Fix16(512, 0)), 0x676DB4);
+DEFINE_GLOBAL_INIT(car_rng_list, dword_676988, car_rng_list(Fix16(81920, 0)), 0x676988);
+
+//DEFINE_GLOBAL_ARRAY(s32, dword_676DB8, 256, 0x676DB8); // TODO: may be part of a struct
+//DEFINE_GLOBAL_ARRAY(s32, dword_67698C, 256, 0x67698C); // TODO: may be part of a struct
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6772C0, dword_677888 * 8, 0x6772C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_677900, dword_677888 * 3, 0x677900);
@@ -332,7 +335,7 @@ u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneIn
             {
                 do
                 {
-                    result = dword_677388[field_9++];
+                    result = dword_677384.values[field_9++];
                     if (field_9 == unk_677294)
                     {
                         field_9 = 0;
@@ -346,7 +349,7 @@ u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneIn
                 {
                     do
                     {
-                        result = dword_67698C[field_A++];
+                        result = dword_676988.values[field_A++];
                         if (field_A == dword_6772EC)
                         {
                             field_A = 0;
@@ -372,7 +375,7 @@ u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneIn
                         {
                             do
                             {
-                                result = dword_676DB8[field_B++];
+                                result = dword_676DB4.values[field_B++];
                                 if (field_B == dword_6772DC)
                                 {
                                     field_B = 0;
