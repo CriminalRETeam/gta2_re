@@ -1,5 +1,6 @@
 #include "Camera.hpp"
 #include "Car_BC.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
@@ -60,6 +61,8 @@ DEFINE_GLOBAL_INIT(Ang16, dword_6766DC, Ang16(0x00B4, 0), 0x6766DC);
 DEFINE_GLOBAL_INIT(Ang16, dword_676790, Ang16(0x021C, 0), 0x676790);
 DEFINE_GLOBAL_INIT(Ang16, word_676764, Ang16(0x0384, 0), 0x676764);
 DEFINE_GLOBAL_INIT(Ang16, word_67679C, Ang16(0x04EC, 0), 0x67679C);
+DEFINE_GLOBAL_INIT(Ang16, word_676772, Ang16(720), 0x676772);
+DEFINE_GLOBAL_INIT(Ang16, word_676964, Ang16(0), 0x676964);
 
 
 // TODO: move
@@ -219,11 +222,56 @@ void Camera_0xBC::sub_435860(Camera_0xBC* a2)
     sub_435840();
 }
 
-STUB_FUNC(0x4358D0)
-Ang16 Camera_0xBC::sub_4358D0()
+// matches on decompme: https://decomp.me/scratch/NpBvl
+WIP_FUNC(0x4358D0)
+Ang16 Camera_0xBC::ComputeTargetFacingAngle_4358D0()
 {
-    NOT_IMPLEMENTED;
-    return Ang16(0);
+    Ang16 CarRotation;
+    Ang16 PedRotation;
+
+    if (field_34_ped)
+    {
+        Car_BC* field_16C_car = field_34_ped->get_car_416B60();
+        if (field_16C_car)
+        {
+            CarRotation = field_16C_car->get_car_rotation_416BB0();
+            CarPhysics_B0* pCarPhysics = field_16C_car->field_58_physics;
+
+            if (pCarPhysics && pCarPhysics->is_backward_gas_on_411810())
+            {
+                return CarRotation + word_676772;
+            }
+            return CarRotation;
+        }
+        PedRotation = field_34_ped->GetRotation();
+        Char_B4* field_168_game_object = field_34_ped->field_168_game_object;
+        if (field_168_game_object && (field_168_game_object->field_58_flags & 8) != 0)
+        {
+            return PedRotation + word_676772;
+        }
+        else
+        {
+            return PedRotation;
+        }
+    }
+    else
+    {
+        if (field_38_car)
+        {
+            CarRotation = field_38_car->get_car_rotation_416BB0();
+            CarPhysics_B0* pCarPhysics = field_38_car->field_58_physics;
+
+            if (pCarPhysics && pCarPhysics->is_backward_gas_on_411810())
+            {
+                return CarRotation + word_676772;
+            }
+            return CarRotation;
+        }
+        else
+        {
+            return word_676964;
+        }
+    }
 }
 
 MATCH_FUNC(0x435A20)

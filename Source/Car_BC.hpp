@@ -868,6 +868,11 @@ class Car_BC
         return !sub_421620() && !inline_check_0x10_info_421640() && !IsTrainModel_403BA0() && !sub_447ED0();
     }
 
+    inline Ang16 get_car_rotation_416BB0()
+    {
+        return field_50_car_sprite->field_0;
+    }
+
     EXPORT char SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT char TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction);
 

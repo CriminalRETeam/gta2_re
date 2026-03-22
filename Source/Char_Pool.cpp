@@ -1075,7 +1075,7 @@ void PedManager::Dummies_470330()
                     // TODO: BL register is reused to set these to 1 instead
                     // of a constant value :)
                     spawnSideLocked_6787D5 = 1;
-                    cameraFacingAng_678760 = pCam->sub_4358D0();
+                    cameraFacingAng_678760 = pCam->ComputeTargetFacingAngle_4358D0();
                     spawnCountLimit_6787D6 = 1; // Set this to 3 and apart from the wrong constant it matches
                 }
                 else
