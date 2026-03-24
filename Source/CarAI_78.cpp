@@ -55,6 +55,29 @@ DEFINE_GLOBAL(s32, dword_6779B0, 0x6779B0);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6779C8, Fix16(0x1999, 0), 0x6779C8);
 
+DEFINE_GLOBAL(Fix16, dword_6779F0, 0x6779F0);
+DEFINE_GLOBAL(Fix16, dword_6779C0, 0x6779C0);
+DEFINE_GLOBAL(Fix16, dword_677BB8, 0x677BB8);
+DEFINE_GLOBAL(Fix16, dword_6779F4, 0x6779F4);
+DEFINE_GLOBAL(Fix16, dword_677B9C, 0x677B9C);
+DEFINE_GLOBAL(Fix16, dword_677A84, 0x677A84);
+DEFINE_GLOBAL(Fix16, dword_677A4C, 0x677A4C);
+DEFINE_GLOBAL(Fix16, dword_677A8C, 0x677A8C);
+DEFINE_GLOBAL(Fix16, dword_677B58, 0x677B58);
+DEFINE_GLOBAL(Fix16, dword_677B98, 0x677B98);
+DEFINE_GLOBAL(Fix16, dword_6779BC, 0x6779BC);
+DEFINE_GLOBAL(Fix16, dword_677CBC, 0x677CBC);
+DEFINE_GLOBAL(Fix16, dword_677A38, 0x677A38);
+
+DEFINE_GLOBAL(Ang16, word_677ADE, 0x677ADE);
+DEFINE_GLOBAL(Ang16, dword_6779E4, 0x6779E4);
+DEFINE_GLOBAL(Ang16, dword_677A2E, 0x677A2E);
+DEFINE_GLOBAL(Ang16, word_677CE2, 0x677CE2);
+
+DEFINE_GLOBAL(u8, byte_677A5D, 0x677A5D);
+DEFINE_GLOBAL(u8, byte_677A5C, 0x677A5C);
+DEFINE_GLOBAL(Car_BC*, dword_6779B0, 0x6779B0);
+
 MATCH_FUNC(0x4476f0)
 void CarAI_78::sub_4476F0()
 {
@@ -188,30 +211,7 @@ void CarAI_78::sub_44E0C0()
     NOT_IMPLEMENTED;
 }
 
-Fix16 dword_6779F0;
-Fix16 dword_6779C0;
-Fix16 dword_677BB8;
-Fix16 dword_6779F4;
-Fix16 dword_677B9C;
-Fix16 dword_677A84;
-Fix16 dword_677A4C;
-Fix16 dword_677A8C;
-Fix16 dword_677B58;
-Fix16 dword_677B98;
-Fix16 dword_6779BC;
-Fix16 dword_677CBC;
-Fix16 dword_677A38;
-
-Ang16 word_677ADE;
-Ang16 dword_6779E4;
-Ang16 dword_677A2E;
-Ang16 word_677CE2;
-
-u8 byte_677A5D;
-u8 byte_677A5C;
-Car_BC* dword_6779B0;
-
-STUB_FUNC(0x44e560)
+WIP_FUNC(0x44e560)
 void CarAI_78::UpdateStateMachine_44E560()
 {
     NOT_IMPLEMENTED;
@@ -913,7 +913,7 @@ LABEL_190:
     {
         field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
 
-        Fix16 v247 = ((dword_677A38) * Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
+        Fix16 v247 = ((dword_677A38)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
         Ang16 v244;
         v244.sub_4516B0(&v247, 0); // ctor ?
 
@@ -1152,7 +1152,7 @@ LABEL_190:
 
                     // Ang16::sub_4516F0 - inlined operator+
                     Ang16 v206 = dword_6779B0->field_50_car_sprite->field_0 + dword_6779E4;
-                    
+
                     //  Ang16::sub_451730 - inlined PolarToCartesian_41FC20 ?
                     Fix16 v237;
                     Ang16::PolarToCartesian_41FC20(v206, dword_677B94, v237, v241);
@@ -1175,6 +1175,9 @@ LABEL_190:
             case 5:
             {
                 s32 v162;
+                Fix16 v237;
+                Ang16 v253;
+
                 switch (gHamburger_500_678E30->CountFollowers_474920(pHam40->field_30_ped_to_follow, this->field_0->field_54_driver))
                 {
                     case 1:
@@ -1300,8 +1303,8 @@ LABEL_190:
 
                             field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_6779F0, dword_6779F4, dword_677C48);
 
-                            Ang16 v253 = dword_6779B0->field_50_car_sprite->field_0 - dword_6779E4;
-                            Fix16 v237 = (Ang16::sine_40F500(v253) * dword_677B94);
+                            v253 = dword_6779B0->field_50_car_sprite->field_0 - dword_6779E4;
+                            v237 = (Ang16::sine_40F500(v253) * dword_677B94);
                             v241 = (Ang16::cosine_40F520(v253) * dword_677B94);
 
                             field_0->field_50_car_sprite->set_xyz_lazy_420600(v237 + field_0->field_50_car_sprite->field_14_xy.x,
@@ -1315,19 +1318,18 @@ LABEL_190:
 
                             field_70 = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite,
                                                                                             sprite_types_enum::unknown_0);
-                            if (field_70)
+                            if (!field_70)
                             {
-                                goto LABEL_273;
+                                v237 = (Ang16::sine_40F500(field_0->field_50_car_sprite->field_0) * dword_677B94);
+                                v241 = (Ang16::cosine_40F520(field_0->field_50_car_sprite->field_0) * dword_677B94);
+
+                                field_0->field_50_car_sprite->set_xyz_lazy_420600(v237 + field_0->field_50_car_sprite->field_14_xy.x,
+                                                                                  v241 + field_0->field_50_car_sprite->field_14_xy.y,
+                                                                                  field_0->field_50_car_sprite->field_1C_zpos);
+
+                                field_70 = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0);
                             }
 
-                            v237 = (Ang16::sine_40F500(field_0->field_50_car_sprite->field_0) * dword_677B94);
-                            v241 = (Ang16::cosine_40F520(field_0->field_50_car_sprite->field_0) * dword_677B94);
-
-                            field_0->field_50_car_sprite->set_xyz_lazy_420600(v237 + field_0->field_50_car_sprite->field_14_xy.x,
-                                                                              v241 + field_0->field_50_car_sprite->field_14_xy.y,
-                                                                              field_0->field_50_car_sprite->field_1C_zpos);
-
-                            field_70 = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0);
                             if (field_70)
                             {
                             LABEL_273:

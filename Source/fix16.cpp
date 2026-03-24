@@ -47,7 +47,7 @@ Fix16 Fix16::operator/(const Fix16& in)
 */
 
 MATCH_FUNC(0x436A50)
-inline Fix16 __stdcall Fix16::Abs_436A50(Fix16& input)
+Fix16 __stdcall Fix16::Abs_436A50(Fix16& input)
 {
     if (input.mValue > 0)
     {
