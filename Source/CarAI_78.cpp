@@ -7,6 +7,11 @@
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
 #include "rng.hpp"
+#include "map_0x370.hpp"
+#include "Game_0x40.hpp"
+#include "Police_7B8.hpp"
+#include "Orca_2FD4.hpp"
+#include "PublicTransport.hpp"
 
 DEFINE_GLOBAL(Ang16, word_677CE8, 0x677CE8);
 DEFINE_GLOBAL(Fix16, dword_677B90, 0x677B90);
@@ -51,18 +56,15 @@ DEFINE_GLOBAL(Fix16, dword_6779F0, 0x6779F0);
 DEFINE_GLOBAL(Fix16, dword_6779F4, 0x6779F4);
 
 DEFINE_GLOBAL(s32, dword_677C88, 0x677C88);
-DEFINE_GLOBAL(s32, dword_6779B0, 0x6779B0);
+DEFINE_GLOBAL(Car_BC*, dword_6779B0, 0x6779B0);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6779C8, Fix16(0x1999, 0), 0x6779C8);
 
-DEFINE_GLOBAL(Fix16, dword_6779F0, 0x6779F0);
 DEFINE_GLOBAL(Fix16, dword_6779C0, 0x6779C0);
 DEFINE_GLOBAL(Fix16, dword_677BB8, 0x677BB8);
-DEFINE_GLOBAL(Fix16, dword_6779F4, 0x6779F4);
 DEFINE_GLOBAL(Fix16, dword_677B9C, 0x677B9C);
 DEFINE_GLOBAL(Fix16, dword_677A84, 0x677A84);
 DEFINE_GLOBAL(Fix16, dword_677A4C, 0x677A4C);
-DEFINE_GLOBAL(Fix16, dword_677A8C, 0x677A8C);
 DEFINE_GLOBAL(Fix16, dword_677B58, 0x677B58);
 DEFINE_GLOBAL(Fix16, dword_677B98, 0x677B98);
 DEFINE_GLOBAL(Fix16, dword_6779BC, 0x6779BC);
@@ -74,15 +76,12 @@ DEFINE_GLOBAL(Ang16, dword_6779E4, 0x6779E4);
 DEFINE_GLOBAL(Ang16, dword_677A2E, 0x677A2E);
 DEFINE_GLOBAL(Ang16, word_677CE2, 0x677CE2);
 
-DEFINE_GLOBAL(u8, byte_677A5D, 0x677A5D);
-DEFINE_GLOBAL(u8, byte_677A5C, 0x677A5C);
-DEFINE_GLOBAL(Car_BC*, dword_6779B0, 0x6779B0);
-
 DEFINE_GLOBAL(Fix16, dword_677C84, 0x677C84);
 DEFINE_GLOBAL(Ang16, word_677B08, 0x677B08);
 DEFINE_GLOBAL(Fix16, dword_677BA4, 0x677BA4);
 DEFINE_GLOBAL(Fix16, dword_677CA0, 0x677CA0);
-DEFINE_GLOBAL(u16, word_677CFC, 0x677CFC);
+
+EXTERN_GLOBAL(u16, word_677CFC);
 
 MATCH_FUNC(0x4476f0)
 void CarAI_78::sub_4476F0()
@@ -93,11 +92,135 @@ void CarAI_78::sub_4476F0()
     }
 }
 
-STUB_FUNC(0x447710)
-char_type CarAI_78::sub_447710()
+WIP_FUNC(0x447710)
+void CarAI_78::sub_447710()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    u8 v12 = 0;
+    if (field_28_junc_idx >= 0)
+    {
+        Junction_10* Junction_58A0B0 =
+            gRouteFinder_6FFDC8->GetJunction_58A0B0(gRouteFinder_6FFDC8->field_2218[field_28_junc_idx].field_0[this->field_56]);
+        u16 v4 = gRouteFinder_6FFDC8->field_2218[this->field_28_junc_idx].field_0[this->field_56 + 1];
+        if (v4)
+        {
+            if ((this->field_24_flags & 1) == 0)
+            {
+                u16 v5 = Junction_58A0B0->sub_5885C0(v4);
+                switch (Ang16::GetAngleFace_4F78F0(this->field_10))
+                {
+                    case 1:
+                        this->field_0->field_A6 &= ~1u;
+                        this->field_0->field_A6 &= ~2u;
+                        switch (v5)
+                        {
+                            case 2:
+                                this->field_38 = 2;
+                                this->field_24_flags = 0x800;
+                                break;
+                            case 3:
+                                //goto LABEL_14;
+                                this->field_0->field_A6 |= 1u;
+                                break;
+                            case 4:
+                                //goto LABEL_8;
+                                this->field_0->field_A6 |= 2u;
+                                break;
+                        }
+                        break;
+
+                    case 2:
+                        this->field_0->field_A6 &= ~1u;
+                        this->field_0->field_A6 &= ~2u;
+                        switch (v5)
+                        {
+                            case 1:
+                                this->field_38 = 1;
+                                this->field_24_flags |= 0x800u;
+                                break;
+                            case 3:
+                                //goto LABEL_8;
+                                this->field_0->field_A6 |= 2u;
+                                break;
+                            case 4:
+                                //goto LABEL_14;
+                                this->field_0->field_A6 |= 1u;
+                                break;
+                        }
+                        break;
+
+                    case 3:
+                        this->field_0->field_A6 &= ~1u;
+                        this->field_0->field_A6 &= ~2u;
+                        switch (v5)
+                        {
+                            case 1:
+                                //goto LABEL_14;
+                                this->field_0->field_A6 |= 1u;
+                                break;
+                            case 2:
+                                //goto LABEL_8;
+                                this->field_0->field_A6 |= 2u;
+                                break;
+                            case 3:
+                                this->field_38 = 4;
+                                this->field_24_flags |= 0x800u;
+                                break;
+                        }
+                        break;
+
+                    case 4:
+                        this->field_0->field_A6 &= ~1u;
+                        this->field_0->field_A6 &= ~2u;
+                        switch (v5)
+                        {
+                            case 1:
+                                //LABEL_8:
+                                this->field_0->field_A6 |= 2u;
+                                break;
+                            case 2:
+                                //LABEL_14:
+                                this->field_0->field_A6 |= 1u;
+                                break;
+                            case 4:
+                                this->field_38 = 3;
+                                this->field_24_flags |= 0x800u;
+                                break;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+                char_type v6 = this->field_0->CountConsecutiveArrowBlocks_4410D0(this->field_10,
+                                                         &v12,
+                                                         this->field_0->field_50_car_sprite->field_14_xy.x,
+                                                         this->field_0->field_50_car_sprite->field_14_xy.y);
+                if (v12 > -1)
+                {
+                    char_type v7 = this->field_0->field_A6;
+                    if ((v7 & 1) == 1)
+                    {
+                        if (v6)
+                        {
+                            if ((v7 & 4) != 4)
+                            {
+                                sub_4539B0();
+                                this->field_0->field_A6 |= 4u;
+                            }
+                        }
+                    }
+                    else if ((v7 & 2) == 2 && v6 != v12 - 1 && (v7 & 8) != 8)
+                    {
+                        sub_4539B0();
+                        this->field_0->field_A6 |= 8u;
+                    }
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x447970)

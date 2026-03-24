@@ -13,7 +13,7 @@ class CarAI_78
 {
   public:
     EXPORT void sub_4476F0();
-    EXPORT char_type sub_447710();
+    EXPORT void sub_447710();
     EXPORT void sub_447970();
     EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT char_type sub_447D40(s32 a2);
