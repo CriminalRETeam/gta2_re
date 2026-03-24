@@ -695,10 +695,165 @@ char_type CarAI_78::sub_44D1D0()
     return 0;
 }
 
-STUB_FUNC(0x44e0c0)
+WIP_FUNC(0x44e0c0)
 void CarAI_78::sub_44E0C0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+     byte_677BBC = 1;
+    u8 t_z = 0;
+    this->field_74 = this->field_0->field_54_driver->field_1F8;
+    Hamburger_40* p60_ = field_0->field_60;
+
+    Fix16 target_x;
+    Fix16 target_y;
+    Fix16 target_z;
+
+    if (p60_->field_8_maybe_path_type == 1)
+    {
+        target_x = p60_->field_14_target_x;
+        dword_6779F0 = target_x;
+        target_y = this->field_0->field_60->field_18_target_y;
+        dword_6779F4 = this->field_0->field_60->field_18_target_y;
+        target_z = this->field_0->field_60->field_1C_target_z;
+    }
+    else
+    {
+        dword_6779B0 = p60_->field_30_ped_to_follow->field_16C_car;
+        target_x = this->field_0->field_60->field_30_ped_to_follow->field_1AC_cam.x;
+        dword_6779F0 = target_x;
+        target_y = this->field_0->field_60->field_30_ped_to_follow->field_1AC_cam.y;
+        dword_6779F4 = this->field_0->field_60->field_30_ped_to_follow->field_1AC_cam.y;
+        target_z = this->field_0->field_60->field_30_ped_to_follow->field_1AC_cam.z;
+    }
+
+    dword_6779F8 = target_z;
+    Fix16 abs_y = Fix16::Abs_436A50(target_y - dword_677C30);
+    Fix16 abs_x = Fix16::Abs_436A50(target_x - dword_677C38);
+    if (Fix16::Max_44E540(abs_x, abs_y) < dword_677BA4 && this->field_0->field_60->field_8_maybe_path_type != 1)
+    {
+        if (field_28_junc_idx > 0)
+        {
+            gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
+            this->field_28_junc_idx = -1;
+        }
+        
+        this->field_0->field_60->field_22 = 0;
+
+        if (gPolice_7B8_6FEE40->field_654_wanted_level > 2 || field_0->IsPoliceCar_439EC0())
+        {
+            this->field_0->field_60->field_34 = 100;
+        }
+        else
+        {
+            this->field_0->field_60->field_34 = 300;
+        }
+        return;
+    }
+
+    Hamburger_40* p60 = this->field_0->field_60;
+    if (p60->field_20)
+    {
+        if (p60->field_34)
+        {
+            p60->field_34--;
+        }
+
+        else if (!gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_0->field_50_car_sprite, dword_677CA0))
+        {
+            if (this->field_0->field_58_physics)
+            {
+                if ((this->field_24_flags & 0x40) == 0)
+                {
+                    if (field_0->SnapCarToGreenArrow_444E40(dword_6779F0, dword_6779F4, dword_6779F8))
+                    {
+                        if (gPolice_7B8_6FEE40->field_654_wanted_level > 2 || field_0->IsPoliceCar_439EC0())
+                        {
+                            this->field_0->field_60->field_34 = 100;
+                        }
+                        else
+                        {
+                            this->field_0->field_60->field_34 = 300;
+                        }
+
+                        this->field_8 = 0;
+                        this->field_24_flags &= ~0x4540u;
+                        this->field_0->field_60->field_C = 0;
+                        this->field_0->field_60->field_2A = 0;
+                        this->field_0->field_80 = 0;
+                        field_0->sub_43D400();
+                        gPolice_7B8_6FEE40->sub_56F6D0(this->field_0);
+                    }
+                }
+            }
+        }
+        return;
+    }
+    else
+    {
+
+        if (field_28_junc_idx > 0)
+        {
+            gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
+            this->field_28_junc_idx = -1;
+        }
+
+        gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(dword_6779F0.ToInt(), dword_6779F4.ToInt(), dword_6779F8.ToInt());
+        Fix16 maybe_z = dword_6779F8;
+        if (!pBlock || (pBlock->field_B_slope_type & 0xFC) == 0 || (pBlock->field_B_slope_type & 0xFCu) >= 0xB4 ||
+            (pBlock->field_B_slope_type & 3) == 0)
+        {
+            maybe_z = dword_6779F8 - dword_677B94;
+            pBlock = gMap_0x370_6F6268->get_block_4DFE10(dword_6779F0.ToInt(), dword_6779F4.ToInt(), (dword_6779F8 - dword_677B94).ToInt());
+        }
+        if (pBlock && (u8)gMap_0x370_6F6268->sub_4E5FC0(pBlock, 1))
+        {
+        LABEL_47:
+            GoToBlock_447CA0(dword_6779F0.ToInt(), dword_6779F4.ToInt(), maybe_z.ToInt(), 3);
+            this->field_0->field_60->field_22 = 1;
+            return;
+        }
+        u8 t_x = dword_6779F0.ToInt();
+        u8 t_y = dword_6779F4.ToInt();
+        t_z = dword_6779F8.ToInt();
+        if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &t_x, &t_y, &t_z, 0))
+        {
+            dword_6779F8 = t_z; // Fix16
+            dword_6779F4 = t_y;
+            dword_6779F0 = t_x;
+            gmp_block_info* pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(dword_6779F0.ToInt(), dword_6779F4.ToInt(), dword_6779F8.ToInt());
+            maybe_z = dword_6779F8;
+            if (!pBlock_ || (pBlock_->field_B_slope_type & 0xFC) == 0 || (pBlock_->field_B_slope_type & 0xFCu) >= 0xB4 ||
+                (pBlock_->field_B_slope_type & 3) == 0)
+            {
+                maybe_z = dword_6779F8 - dword_677B94;
+                pBlock_ =
+                    gMap_0x370_6F6268->get_block_4DFE10(dword_6779F0.ToInt(), dword_6779F4.ToInt(), (dword_6779F8 - dword_677B94).ToInt());
+            }
+            if (pBlock_)
+            {
+                gMap_0x370_6F6268->sub_4E5FC0(pBlock_, 1);
+            }
+            goto LABEL_47;
+        }
+
+        if (field_28_junc_idx > 0)
+        {
+            gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
+            this->field_28_junc_idx = -1;
+        }
+
+        this->field_0->field_60->field_22 = 0;
+
+        if (gPolice_7B8_6FEE40->field_654_wanted_level > 2 || field_0->IsPoliceCar_439EC0())
+        {
+            this->field_0->field_60->field_34 = 100;
+        }
+        else
+        {
+            this->field_0->field_60->field_34 = 300;
+        }
+    } 
 }
 
 WIP_FUNC(0x44e560)
