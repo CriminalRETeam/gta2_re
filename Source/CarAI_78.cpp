@@ -2665,11 +2665,65 @@ void CarAI_78::sub_4539D0()
     pPhysics->field_95 = 0;
 }
 
-STUB_FUNC(0x453a40)
-s32 CarAI_78::sub_453A40()
+MATCH_FUNC(0x453a40)
+void CarAI_78::sub_453A40()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 zpos = dword_677B90;
+    s32 a5 = 0;
+    Car_BC* v2 = this->field_0;
+
+    this->field_10 = this->field_0->field_50_car_sprite->field_0;
+
+    Fix16 xpos = v2->field_50_car_sprite->field_14_xy.x;
+    Fix16 ypos = v2->field_50_car_sprite->field_14_xy.y;
+    zpos = v2->field_50_car_sprite->field_1C_zpos;
+
+    s32 v4;
+    if (gPublicTransport_181C_6FF1D4->sub_579B90(v2, &this->field_18))
+    {
+        v4 = gMap_0x370_6F6268->sub_4E6660(&xpos, &ypos, &zpos, this->field_14);
+    }
+    else
+    {
+        v4 = gMap_0x370_6F6268->sub_4E7190(&xpos, &ypos, &zpos, this->field_14);
+    }
+
+    s32 AngleFace_4F78F0 = Ang16::GetAngleFace_4F78F0(field_10);
+    s32 v6 = Ang16::GetAngleFace_4F78F0(field_10);
+    if (v4 != v6)
+    {
+        switch (v4)
+        {
+            case 1:
+                a5 = (AngleFace_4F78F0 != 3) + 1;
+                break;
+            case 2:
+                a5 = (AngleFace_4F78F0 == 3) + 1;
+                break;
+            case 3:
+                a5 = (AngleFace_4F78F0 != 2) + 1;
+                break;
+            case 4:
+                a5 = (AngleFace_4F78F0 == 2) + 1;
+                break;
+            default:
+                break;
+        }
+    }
+
+    Fix16 i;
+    for (i = Ang16::Ang16_to_Fix16(sub_4F7940(&v4)); i < dword_677B90; i += dword_677C84)
+    {
+        ;
+    }
+
+    for (; i >= dword_677C84; i -= dword_677C84)
+    {
+        ;
+    }
+
+    sub_4539D0();
+    field_0->field_58_physics->SetVelocityTowardTarget_55A1D0(xpos, ypos, i, &a5);
 }
 
 // TODO: Move
