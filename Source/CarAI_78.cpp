@@ -81,7 +81,6 @@ DEFINE_GLOBAL(Fix16, dword_677BA4, 0x677BA4);
 DEFINE_GLOBAL(Fix16, dword_677CA0, 0x677CA0);
 DEFINE_GLOBAL(Fix16, dword_677B78, 0x677B78);
 DEFINE_GLOBAL(Fix16, dword_677B70, 0x677B70);
-DEFINE_GLOBAL(Fix16, word_677A3A, 0x677A3A);
 
 EXTERN_GLOBAL(u16, word_677CFC);
 EXTERN_GLOBAL(u8, byte_6771DC);
@@ -2211,7 +2210,7 @@ void CarAI_78::sub_452060()
     {
         field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
 
-        v86 = ((word_677A3A)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
+        v86 = ((dword_677A38)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
         v83.sub_4516B0(&v86, 0); // ctor ?
 
         v82 = v83 + this->field_10;
