@@ -30,7 +30,7 @@ class CarAI_78
     EXPORT void sub_451980();
     EXPORT void sub_451FA0();
     EXPORT void sub_451FF0();
-    EXPORT char_type sub_452060();
+    EXPORT void sub_452060();
     EXPORT void sub_452A20();
     EXPORT void sub_452DF0();
     EXPORT void sub_453470();
