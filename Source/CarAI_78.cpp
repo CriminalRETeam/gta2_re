@@ -1,17 +1,16 @@
 #include "CarAI_78.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "Game_0x40.hpp"
 #include "Hamburger_500.hpp"
 #include "Object_5C.hpp"
+#include "Orca_2FD4.hpp"
 #include "Police_7B8.hpp"
+#include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
-#include "rng.hpp"
 #include "map_0x370.hpp"
-#include "Game_0x40.hpp"
-#include "Police_7B8.hpp"
-#include "Orca_2FD4.hpp"
-#include "PublicTransport.hpp"
+#include "rng.hpp"
 
 DEFINE_GLOBAL(Ang16, word_677CE8, 0x677CE8);
 DEFINE_GLOBAL(Fix16, dword_677B90, 0x677B90);
@@ -195,9 +194,9 @@ void CarAI_78::sub_447710()
                 }
 
                 char_type v6 = this->field_0->CountConsecutiveArrowBlocks_4410D0(this->field_10,
-                                                         &v12,
-                                                         this->field_0->field_50_car_sprite->field_14_xy.x,
-                                                         this->field_0->field_50_car_sprite->field_14_xy.y);
+                                                                                 &v12,
+                                                                                 this->field_0->field_50_car_sprite->field_14_xy.x,
+                                                                                 this->field_0->field_50_car_sprite->field_14_xy.y);
                 if (v12 > -1)
                 {
                     char_type v7 = this->field_0->field_A6;
@@ -223,10 +222,145 @@ void CarAI_78::sub_447710()
     }
 }
 
-STUB_FUNC(0x447970)
+WIP_FUNC(0x447970)
 void CarAI_78::sub_447970()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    this->field_24_flags &= ~0xC0000u;
+
+    Fix16 field_14_target_x = field_0->field_60->field_14_target_x;
+    Fix16 field_18_target_y = field_0->field_60->field_18_target_y;
+    s32 v18 = field_0->field_60->field_1C_target_z.ToInt();
+    s32 v7 = field_14_target_x.ToInt();
+    s32 v8 = field_18_target_y.ToInt();
+    s32 v19 = v8;
+    if (field_28_junc_idx > 0)
+    {
+        u16 v9 = gRouteFinder_6FFDC8->field_2218[field_28_junc_idx].field_0[this->field_56];
+        if (!v9 || (u8)v7 == (u16)(dword_677C38.ToInt()) && (u8)v8 == (u16)(dword_677C30.ToInt()))
+        {
+            gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
+            Car_BC* v17 = this->field_0;
+            this->field_28_junc_idx = -1;
+            v17->sub_43AF60();
+            this->field_0->field_60->field_26 = 1;
+        }
+        else
+        {
+            Junction_10* Junction_58A0B0 = gRouteFinder_6FFDC8->GetJunction_58A0B0(v9);
+            if ((u8)v7)
+            {
+                s32 v11 = this->field_56 + (this->field_28_junc_idx << 8);
+                s32 v12;
+                s32 v13;
+                if (gRouteFinder_6FFDC8->IsPointInJunctionBounds_588AA0(v7,
+                                                                        v19,
+                                                                        gRouteFinder_6FFDC8->field_2218[0].field_0[v11],
+                                                                        gRouteFinder_6FFDC8->field_2218[0].field_0[v11 + 1]) &&
+                    v18 == (u16)(field_0->field_50_car_sprite->field_1C_zpos - dword_677B94).ToInt())
+                {
+                    switch (
+                        Junction_58A0B0->sub_5885C0(gRouteFinder_6FFDC8->field_2218[this->field_28_junc_idx].field_0[this->field_56 + 1]))
+                    {
+                        case 1:
+                            if (v19 >= (u8)(dword_677C30.ToInt()))
+                            {
+                                goto LABEL_13;
+                            }
+                            v12 = (u8)v7 < (u8)(dword_677C38.ToInt());
+                            if ((u8)v7 <= (u8)(dword_677C38.ToInt()))
+                            {
+                                goto LABEL_16;
+                            }
+                            v13 = this->field_24_flags | 0x40000;
+                            goto LABEL_28;
+
+                        case 2:
+                            if (v19 <= (u8)(dword_677C30.ToInt()))
+                            {
+                                goto LABEL_13;
+                            }
+                            v12 = (u8)v7 < (u8)(dword_677C38.ToInt());
+                            if ((u8)v7 > (u8)(dword_677C38.ToInt()))
+                            {
+                                v13 = this->field_24_flags | 0x40000;
+                                goto LABEL_28;
+                            }
+                        LABEL_16:
+                            if (v12)
+                            {
+                                goto LABEL_27;
+                            }
+                            break;
+
+                        case 3:
+                            if ((u8)v7 >= (u8)(dword_677C38.ToInt()))
+                            {
+                                goto LABEL_13;
+                            }
+                            if (v19 > (u8)(dword_677C30.ToInt()))
+                            {
+                                goto LABEL_27;
+                            }
+                            if (v19 >= (u8)(dword_677C30.ToInt()))
+                            {
+                                break;
+                            }
+                            v13 = this->field_24_flags | 0x40000;
+                            goto LABEL_28;
+
+                        case 4:
+                            if ((u8)v7 <= (u8)(dword_677C38.ToInt()))
+                            {
+                            LABEL_13:
+                                this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                                this->field_0->field_60->field_22 = 0;
+                                this->field_0->sub_43AF60();
+                                this->field_0->field_60->field_26 = 1;
+                                return;
+                            }
+                            if (v19 <= (u8)(dword_677C30.ToInt()))
+                            {
+                                if (v19 >= (u8)(dword_677C30.ToInt()))
+                                {
+                                    break;
+                                }
+                            LABEL_27:
+                                v13 = this->field_24_flags | 0x80000;
+                            }
+                            else
+                            {
+                                v13 = this->field_24_flags | 0x40000;
+                            }
+                        LABEL_28:
+                            this->field_24_flags = v13;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            s32 v14 = dword_677C30.ToInt();
+            if ((s16)(dword_677C38.ToInt()) < Junction_58A0B0->field_C_min_x ||
+                (s16)(dword_677C38.ToInt()) > Junction_58A0B0->field_E_max_x || (s16)v14 < Junction_58A0B0->field_D_min_y ||
+                (s16)v14 > Junction_58A0B0->field_F_max_y)
+            {
+                if ((field_24_flags & 2) != 0)
+                {
+                    this->field_24_flags &= 0xFD;
+                }
+                sub_447710();
+            }
+            else
+            {
+                this->field_24_flags |= 2;
+                sub_447710();
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x447ca0)

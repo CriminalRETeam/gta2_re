@@ -8,6 +8,7 @@
 
 class Car_BC;
 class Sprite;
+class Hamburger_40;
 
 class CarAI_78
 {
