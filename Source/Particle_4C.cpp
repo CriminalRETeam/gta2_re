@@ -133,11 +133,14 @@ char_type Particle_4C::Service_53D260()
     return 0;
 }
 
-STUB_FUNC(0x53e2c0)
-char_type Particle_4C::sub_53E2C0()
+MATCH_FUNC(0x53e2c0)
+void Particle_4C::sub_53E2C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_8 = 0;
+    field_C = 0;
+    field_10 = 0;
+    field_40 = 0;
+    field_4 &= ~1;
 }
 
 STUB_FUNC(0x53e2e0)

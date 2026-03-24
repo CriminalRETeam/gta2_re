@@ -1,5 +1,7 @@
 #include "Bink.hpp"
 
+DEFINE_GLOBAL(char_type, gBink_state_6F83FE, 0x6F83FE);
+
 STUB_FUNC(0x513210)
 void __stdcall Bink::Reset_513210()
 {
@@ -24,10 +26,12 @@ void __stdcall Bink::sub_5136D0(s32* pNewWindowX, s32* pNewWindowY)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x513770)
+MATCH_FUNC(0x513770)
 BOOL Bink::sub_513770()
 {
-    NOT_IMPLEMENTED;
+    if (gBink_state_6F83FE == 2 || gBink_state_6F83FE == 1)
+        return TRUE;
+
     return FALSE;
 }
 
