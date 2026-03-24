@@ -2775,11 +2775,31 @@ void CarAI_78::SetCar_453BF0(Car_BC* a2)
     field_0 = a2;
 }
 
-STUB_FUNC(0x453c00)
-u8* CarAI_78::sub_453C00()
+WIP_FUNC(0x453c00)
+void CarAI_78::sub_453C00()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    CarPhysics_B0* pPhysics = this->field_0->field_58_physics;
+    Ang16 tanAng(pPhysics->field_40_linvel_1.atan2_40F790());
+    Ang16 v6 = pPhysics->field_58_theta - tanAng;
+
+    if (v6 <= dword_6779E4 || v6 >= word_677B08 || field_0->sub_43A240() < dword_677A8C)
+    {
+        CarPhysics_B0* v4 = this->field_0->field_58_physics;
+        v4->field_94_is_backward_gas_on = 1;
+        v4->field_91_is_foot_brake_on = 0;
+        v4->field_93_is_forward_gas_on = 0;
+        v4->field_95 = 0;
+    }
+    else
+    {
+        CarPhysics_B0* v3 = this->field_0->field_58_physics;
+        v3->field_95 = 1;
+        v3->field_91_is_foot_brake_on = 0;
+        v3->field_94_is_backward_gas_on = 0;
+        v3->field_93_is_forward_gas_on = 0;
+    }
 }
 
 MATCH_FUNC(0x453d80)
