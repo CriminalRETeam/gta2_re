@@ -25,7 +25,7 @@ class CarAI_78
     EXPORT s16 sub_44AF00();
     EXPORT char_type sub_44D1D0();
     EXPORT void sub_44E0C0();
-    EXPORT void sub_44E560();
+    EXPORT void UpdateStateMachine_44E560();
     EXPORT void sub_451980();
     EXPORT void sub_451FA0();
     EXPORT void sub_451FF0();

@@ -57,9 +57,9 @@ Ang16* Ang16::sub_409340(Ang16* pRet, Ang16* toSub)
 }
 
 MATCH_FUNC(0x4516B0)
-Ang16* Ang16::sub_4516B0(s32* a2, s32 a3)
+Ang16* Ang16::sub_4516B0(Fix16* a2, s32 a3)
 {
-    rValue = *a2 >> 14;
+    rValue = a2->ToInt();
     Normalize();
     return this;
 }

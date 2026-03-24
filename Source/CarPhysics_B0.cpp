@@ -3712,3 +3712,30 @@ CarPhysics_B0::CarPhysics_B0()
     mpNext = NULL;
     PoolAllocate();
 }
+
+MATCH_FUNC(0x453F90)
+void CarPhysics_B0::ClearDriverInputs_453F90()
+{
+  this->field_91_is_foot_brake_on = 0;
+  this->field_93_is_forward_gas_on = 0;
+  this->field_94_is_backward_gas_on = 0;
+  this->field_95 = 0;
+}
+
+MATCH_FUNC(0x453F50)
+void CarPhysics_B0::ForceNeutralInput_453F50()
+{
+  this->field_95 = 1;
+  this->field_91_is_foot_brake_on = 0;
+  this->field_94_is_backward_gas_on = 0;
+  this->field_93_is_forward_gas_on = 0;
+}
+
+MATCH_FUNC(0x453F70)
+void CarPhysics_B0::ForceForwardAcceleration_453F70()
+{
+  this->field_93_is_forward_gas_on = 1;
+  this->field_91_is_foot_brake_on = 0;
+  this->field_94_is_backward_gas_on = 0;
+  this->field_95 = 0;
+}

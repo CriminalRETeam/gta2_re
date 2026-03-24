@@ -257,6 +257,11 @@ class CarPhysics_B0
 
     EXPORT Fix16 vec_len_552DE0(); // Char_B4.cpp func
 
+    EXPORT void ClearDriverInputs_453F90();
+    EXPORT void ForceNeutralInput_453F50();
+    EXPORT void ForceForwardAcceleration_453F70();
+
+
     Fix16_Point field_0_vel_read_only;
     s32 field_8_total_damage_q;
     CarPhysics_B0* mpNext;
