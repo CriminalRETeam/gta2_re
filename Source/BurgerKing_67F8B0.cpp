@@ -611,10 +611,10 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
 
 // ================================================
 
-STUB_FUNC(0x4cdcd0)
+MATCH_FUNC(0x4cdcd0)
 void BurgerKing_67F8B0::sub_4CDCD0()
 {
-    NOT_IMPLEMENTED;
+    gBurgerKing_67F8B0.Shutdown_4CEA00();
 }
 
 MATCH_FUNC(0x4cdce0)
