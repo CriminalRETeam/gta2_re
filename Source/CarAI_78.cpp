@@ -700,7 +700,7 @@ void CarAI_78::sub_44E0C0()
 {
     WIP_IMPLEMENTED;
 
-     byte_677BBC = 1;
+    byte_677BBC = 1;
     u8 t_z = 0;
     this->field_74 = this->field_0->field_54_driver->field_1F8;
     Hamburger_40* p60_ = field_0->field_60;
@@ -737,7 +737,7 @@ void CarAI_78::sub_44E0C0()
             gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
             this->field_28_junc_idx = -1;
         }
-        
+
         this->field_0->field_60->field_22 = 0;
 
         if (gPolice_7B8_6FEE40->field_654_wanted_level > 2 || field_0->IsPoliceCar_439EC0())
@@ -853,7 +853,7 @@ void CarAI_78::sub_44E0C0()
         {
             this->field_0->field_60->field_34 = 300;
         }
-    } 
+    }
 }
 
 WIP_FUNC(0x44e560)
@@ -2157,11 +2157,179 @@ char_type CarAI_78::sub_452060()
     return 0;
 }
 
-STUB_FUNC(0x452a20)
-s16 CarAI_78::sub_452A20()
+WIP_FUNC(0x452a20)
+void CarAI_78::sub_452A20()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    //v46 = 0;
+
+    if ((field_24_flags & 0x1000) != 0)
+    {
+        // goto LABEL_41;
+
+        if (this->field_68->field_88 == 5)
+        {
+            return;
+        }
+
+        if (this->field_3C == 1)
+        {
+            this->field_3C = 0;
+            this->field_24_flags &= 0x3F;
+        }
+
+        if (byte_677BBC)
+        {
+            Hamburger_40* v3 = this->field_0->field_60;
+            if (v3)
+            {
+                if (v3->field_10)
+                {
+                    Fix16_Point v45;
+                    v45.x = Ang16::sine_40F500(word_677CE8) * dword_677B90;
+                    v45.y = (Ang16::cosine_40F520(word_677CE8) * dword_677B90);
+                    if (dword_6779B0)
+                    {
+                        if (dword_6779B0 == this->field_68)
+                        {
+                            dword_6779B0->AccumulateDamage_43DA90(500, &v45);
+                        }
+                    }
+                }
+            }
+        }
+        this->field_24_flags &= ~0x30100u;
+        byte_677BBC = 0;
+        if (this->field_0->field_60)
+        {
+            this->field_0->field_60->field_2E = 0;
+            this->field_0->field_60->field_2A = 0;
+            this->field_0->field_60->field_2C = 0;
+        }
+
+        Ang16 v35 = -this->field_10;
+
+        Fix16 p_y = field_68->field_50_car_sprite->field_14_xy.y;
+
+        Fix16 p_field_14_xy = field_68->field_50_car_sprite->field_14_xy.x;
+
+        Fix16 rotX = (((p_field_14_xy - dword_677C38) * Ang16::cosine_40F520(v35)) + ((p_y - dword_677C30) * Ang16::sine_40F500(v35)));
+        Fix16 rotY = ((-(p_field_14_xy - dword_677C38) * Ang16::sine_40F500(v35)) + ((p_y - dword_677C30) * Ang16::cosine_40F520(v35)));
+
+        Fix16 v21 = this->field_0->field_50_car_sprite->field_14_xy.x + rotX;
+
+        Ped* pDriver = this->field_68->field_54_driver;
+
+        CarPhysics_B0* v29;
+
+        if (pDriver && pDriver->IsField238_45EDE0(2))
+        {
+            if ((this->field_24_flags & 0x200000) == 0)
+            {
+                CarPhysics_B0* pPhysics = this->field_0->field_58_physics;
+                pPhysics->field_91_is_foot_brake_on = 0;
+                pPhysics->field_93_is_forward_gas_on = 0;
+                pPhysics->field_94_is_backward_gas_on = 0;
+                pPhysics->field_95 = 0;
+                byte_677A5D = 0;
+                return;
+            }
+            goto LABEL_18;
+        }
+
+        if ((this->field_24_flags & 0x200000) != 0)
+        {
+        LABEL_18:
+            if (v21 <= this->field_0->field_50_car_sprite->field_14_xy.x)
+            {
+                field_0->field_58_physics->field_AD_turn_direction = 1;
+            }
+            else
+            {
+                field_0->field_58_physics->field_AD_turn_direction = -1;
+            }
+            goto LABEL_29;
+        }
+
+        u8 v26;
+        if (field_2A)
+        {
+            v26 = (u8)field_2A <= 0x14u;
+            if ((u8)field_2A < 0x14u)
+            {
+                goto LABEL_18;
+            }
+        }
+        else
+        {
+            v26 = 1;
+        }
+
+        if (v26)
+        {
+            CarPhysics_B0* v32 = this->field_0->field_58_physics;
+            v32->field_91_is_foot_brake_on = 0;
+            v32->field_93_is_forward_gas_on = 0;
+            v32->field_94_is_backward_gas_on = 0;
+            v32->field_95 = 0;
+            return;
+        }
+
+        if (v21 <= this->field_0->field_50_car_sprite->field_14_xy.x.mValue)
+        {
+            field_0->field_58_physics->field_AD_turn_direction = -1;
+        }
+        else
+        {
+            field_0->field_58_physics->field_AD_turn_direction = 1;
+        }
+
+    LABEL_29:
+        if (!field_70)
+        {
+            CarPhysics_B0* v29 = this->field_0->field_58_physics;
+            v29->field_91_is_foot_brake_on = 0;
+            v29->field_93_is_forward_gas_on = 0;
+            goto LABEL_35;
+        }
+
+        if (field_70->field_8_car_bc_ptr != field_68)
+        {
+            CarPhysics_B0* v29 = this->field_0->field_58_physics;
+            v29->field_91_is_foot_brake_on = 0;
+            v29->field_93_is_forward_gas_on = 0;
+            goto LABEL_35;
+        }
+
+        v29 = this->field_0->field_58_physics;
+        v29->field_93_is_forward_gas_on = 1;
+        v29->field_91_is_foot_brake_on = 0;
+    LABEL_35:
+        v29->field_94_is_backward_gas_on = 0;
+        v29->field_95 = 0;
+        byte_677A5D = 0;
+
+        if ((this->field_24_flags & 0x200000) != 0 && this->field_2A < 0x3Cu && dword_677B00 < dword_677B58)
+        {
+            CarPhysics_B0* v30 = this->field_0->field_58_physics;
+            v30->field_93_is_forward_gas_on = 1;
+            v30->field_91_is_foot_brake_on = 0;
+            v30->field_94_is_backward_gas_on = 0;
+            v30->field_95 = 0;
+        }
+
+        if (!this->field_54)
+        {
+            this->field_54 = 4;
+        }
+    }
+
+    //LABEL_41:
+    if (field_54)
+    {
+        this->field_54--;
+    }
 }
 
 STUB_FUNC(0x452df0)

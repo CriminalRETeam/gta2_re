@@ -31,7 +31,7 @@ class CarAI_78
     EXPORT void sub_451FA0();
     EXPORT void sub_451FF0();
     EXPORT char_type sub_452060();
-    EXPORT s16 sub_452A20();
+    EXPORT void sub_452A20();
     EXPORT s16 sub_452DF0();
     EXPORT void sub_453470();
     EXPORT void sub_4537D0();
@@ -98,7 +98,7 @@ class CarAI_78
     Fix16 field_5C;
     Fix16 field_60;
     Fix16 field_64;
-    s32 field_68;
+    Car_BC* field_68;
     Car_BC* field_6C;
     Sprite* field_70;
     Fix16 field_74;
