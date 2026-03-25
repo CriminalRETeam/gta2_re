@@ -1,6 +1,8 @@
 ## Contributing
 Anyone who wishes to contribute is encouraged to join the project's [Discord](https://discord.gg/4mTfhQKNQM), where most of the communication happens.
 
+Also, you can find more info about the project (and how to effectively contribute) on [GTA2 RE Hub](https://valps.github.io/gta2-re-hub/).
+
 ## Building
 
 ### Prerequisites 
@@ -38,4 +40,4 @@ Optionally, you can automatically run the built exe by passing one of the follow
 - `--run_patched`
 
 > [!IMPORTANT]
-> To use `--run_patched`, you need to generate the patched exe yourself by running `ExePatcher.exe` within the `build_vc6` folder. The patcher expects the original GTA2 exe (called `10.5.exe`) to be inside the same directory.
+> To use `--run_patched`, you need the original GTA2 exe (called `10.5.exe`) to be within the `build_vc6` folder. The script will try to setup it automatically (using the executable downloaded automatically after building for example), otherwise you can generate the patched exe yourself by running `ExePatcher.exe` within the `build_vc6` folder.
