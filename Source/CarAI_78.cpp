@@ -82,6 +82,11 @@ DEFINE_GLOBAL(Fix16, dword_677CA0, 0x677CA0);
 DEFINE_GLOBAL(Fix16, dword_677B78, 0x677B78);
 DEFINE_GLOBAL(Fix16, dword_677B70, 0x677B70);
 
+DEFINE_GLOBAL(Fix16, dword_677950, 0x677950);
+DEFINE_GLOBAL(Fix16, dword_6779D8, 0x6779D8);
+DEFINE_GLOBAL(Fix16, dword_677B64, 0x677B64);
+
+
 EXTERN_GLOBAL(u16, word_677CFC);
 EXTERN_GLOBAL(u8, byte_6771DC);
 
@@ -388,7 +393,7 @@ bool CarAI_78::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction)
 }
 
 STUB_FUNC(0x447d40)
-char_type CarAI_78::sub_447D40(s32 a2)
+char_type CarAI_78::sub_447D40(gmp_block_info* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -663,11 +668,200 @@ void CarAI_78::sub_4482C0()
     this->field_24_flags &= 0x80;
 }
 
-STUB_FUNC(0x448770)
-char_type CarAI_78::sub_448770()
+// 9.6f 0x430650
+WIP_FUNC(0x448770)
+void CarAI_78::sub_448770()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 toUse = dword_677B90;
+    gmp_block_info* pBlock_ = 0;
+    Sprite* obj_5C_f58 = gObject_5C_6F8F84->field_58;
+    Sprite* pCarSprite = this->field_0->field_50_car_sprite;
+    gmp_block_info* pBlock_____ = 0;
+    gmp_block_info* pBlock___ = 0;
+
+    Fix16 sprite_x = pCarSprite->field_14_xy.x;
+    Fix16 sprite_y = pCarSprite->field_14_xy.y;
+
+    Fix16 new_x_ = sprite_x;
+    Fix16 new_y_ = sprite_y;
+
+    Fix16 x_off = (Ang16::sine_40F500(this->field_10) * dword_677A84);
+    Fix16 y_off = (Ang16::cosine_40F520(this->field_10) * dword_677A84);
+
+    Fix16 x_v = x_off + this->field_0->field_50_car_sprite->field_14_xy.x;
+    dword_677A74 = x_v;
+
+    Fix16 y_v = y_off + this->field_0->field_50_car_sprite->field_14_xy.y;
+    dword_677A80 = y_v;
+
+    if (x_v > dword_677B90 && y_v > dword_677B90 && x_v < dword_677950 && y_v < dword_677950)
+    {
+        pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(x_v.ToInt(), y_v.ToInt(), field_0->field_50_car_sprite->field_1C_zpos.ToInt());
+        if (pBlock_ && (pBlock_->field_B_slope_type & 0xFC) > 0 &&
+            (pBlock_->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(block_4DFE10->field_B_slope_type)
+            && (pBlock_->field_B_slope_type & 3) != 0) // !is_air_type(block_4DFE10->field_B_slope_type)
+        {
+        }
+        else
+        {
+            pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
+                                                          dword_677A80.ToInt(),
+                                                          (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+        }
+    }
+
+    if (sub_448270())
+    {
+        toUse = dword_6779C8;
+    }
+    else
+    {
+        toUse = dword_6779D8;
+    }
+
+    if (dword_677B00 < dword_677B64)
+    {
+        toUse = dword_6779C0;
+    }
+
+    if (pBlock_)
+    {
+        if (gGtx_0x106C_703DD4->field_6C_spec[pBlock_->field_8_lid & 0x3FF] == 3 || (this->field_24_flags & 0x20000) != 0)
+        {
+            if (!byte_677BBC)
+            {
+                sub_4537D0();
+            }
+
+            if ((this->field_0->field_A6 & 2) == 2)
+            {
+                Fix16 new_x = dword_677A74.ToInt();
+                Fix16 new_y = dword_677A80.ToInt();
+
+                switch (this->field_4C)
+                {
+                    case 1:
+                        new_y -= dword_677A84;
+                        new_x -= dword_677B94;
+                        break;
+                    case 2:
+                        new_y += dword_677B94;
+                        new_x += dword_677B98;
+                        break;
+                    case 3:
+                        new_x += dword_677B94;
+                        new_y += dword_677B98;
+                        break;
+                    case 4:
+                        new_x -= dword_677A84;
+                        new_y -= dword_677B98;
+                        break;
+                    default:
+                        break;
+                }
+
+                obj_5C_f58->set_xyz_lazy_420600(new_x, new_y, this->field_0->field_50_car_sprite->field_1C_zpos);
+                obj_5C_f58->set_ang_lazy_420690(dword_6779E4 + this->field_10);
+                obj_5C_f58->AllocInternal_59F950(dword_677B94, dword_677A84, dword_6779C0);
+
+                Sprite* pNearestSpriteOfType = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(obj_5C_f58, 0);
+                if (pNearestSpriteOfType)
+                {
+                    if (pNearestSpriteOfType->field_30_sprite_type_enum == sprite_types_enum::car)
+                    {
+                        this->field_0->sub_43A950();
+                        this->field_8 = 0;
+                        this->field_24_flags &= 0x7F;
+                    }
+                }
+            }
+            else if ((this->field_0->field_A6 & 1) == 1)
+            {
+                sub_4482C0();
+            }
+        }
+    }
+
+    this->field_0->field_50_car_sprite->set_xyz_lazy_420600(new_x_, new_y_, field_0->field_50_car_sprite->field_1C_zpos);
+
+    field_0->field_50_car_sprite->set_ang_lazy_420690(this->field_10);
+
+    Fix16 x_off_ = (Ang16::sine_40F500(this->field_10) * toUse);
+    Fix16 y_off_ = (Ang16::cosine_40F520(this->field_10) * toUse);
+
+    Fix16 x_v_ = x_off_ + this->field_0->field_50_car_sprite->field_14_xy.x;
+    dword_677A74 = x_v_;
+
+    Fix16 y_v_ = y_off_ + this->field_0->field_50_car_sprite->field_14_xy.y;
+    dword_677A80 = y_v_;
+
+    if (x_v_ > dword_677B90 && y_v_ > dword_677B90 && x_v_ < dword_677950 && y_v_ < dword_677950)
+    {
+        pBlock___ = gMap_0x370_6F6268->get_block_4DFE10(x_v_.ToInt(), y_v_.ToInt(), field_0->field_50_car_sprite->field_1C_zpos.ToInt());
+        if (pBlock___ && (pBlock___->field_B_slope_type & 0xFC) > 0 &&
+            (pBlock___->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(block_4DFE10->field_B_slope_type)
+            && (pBlock___->field_B_slope_type & 3) != 0) // !is_air_type(block_4DFE10->field_B_slope_type)
+        {
+        }
+        else
+        {
+            pBlock___ = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
+                                                            dword_677A80.ToInt(),
+                                                            (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+        }
+    }
+
+    Fix16 x_v__ = (Ang16::sine_40F500(this->field_10) * dword_677B9C) + this->field_0->field_50_car_sprite->field_14_xy.x;
+    dword_677A74 = x_v__;
+
+    Fix16 y_v__ = (Ang16::cosine_40F520(this->field_10) * dword_677B9C) + this->field_0->field_50_car_sprite->field_14_xy.y;
+    dword_677A80 = y_v__;
+    if (x_v__ <= dword_677B90 || y_v__ <= dword_677B90 || x_v__ >= dword_677950 || y_v__ >= dword_677950)
+    {
+    }
+    else
+    {
+        pBlock_____ =
+            gMap_0x370_6F6268->get_block_4DFE10(x_v__.ToInt(), y_v__.ToInt(), this->field_0->field_50_car_sprite->field_1C_zpos.ToInt());
+        if (!pBlock_____ || ((pBlock_____->field_B_slope_type & 0xFC) == 0) || (pBlock_____->field_B_slope_type & 0xFCu) >= 0xB4 ||
+            (pBlock_____->field_B_slope_type & 3) == 0)
+        {
+            pBlock_____ = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
+                                                              dword_677A80.ToInt(),
+                                                              (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+        }
+    }
+
+    if (!byte_677C90 && !this->field_8)
+    {
+        if (!pBlock___)
+        {
+            //goto LABEL_69;
+            this->field_44 = 0;
+        }
+        else
+        {
+            if (sub_447D40(pBlock___))
+            {
+                this->field_8 = 20;
+                this->field_24_flags &= ~0xC000u;
+                this->field_24_flags |= 0x80;
+                return;
+            }
+
+            if (pBlock_____ && sub_447D40(pBlock_____))
+            {
+                this->field_24_flags |= 0x4000u;
+            }
+            else
+            {
+            //LABEL_69:
+                this->field_44 = 0;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x448ce0)
@@ -2323,7 +2517,7 @@ LABEL_31:
         }
     }
 
-//LABEL_62:
+    //LABEL_62:
     byte_6771DC = 0;
     if (byte_677C90)
     {
@@ -2400,8 +2594,8 @@ LABEL_31:
         if (byte_677C90)
         {
             pBlock = gMap_0x370_6F6268->get_block_452980(f70->field_14_xy.x.ToInt(),
-                                                                         f70->field_14_xy.y.ToInt(),
-                                                                         (f70->field_1C_zpos - dword_677B94).ToInt());
+                                                         f70->field_14_xy.y.ToInt(),
+                                                         (f70->field_1C_zpos - dword_677B94).ToInt());
             if (!pBlock || (pBlock->field_B_slope_type & 3) != 1)
             {
                 goto LABEL_104;

@@ -9,6 +9,7 @@
 class Car_BC;
 class Sprite;
 class Hamburger_40;
+struct gmp_block_info;
 
 class CarAI_78
 {
@@ -17,10 +18,10 @@ class CarAI_78
     EXPORT void sub_447710();
     EXPORT void sub_447970();
     EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction);
-    EXPORT char_type sub_447D40(s32 a2);
+    EXPORT char_type sub_447D40(gmp_block_info* a2);
     EXPORT bool sub_448270();
     EXPORT void sub_4482C0();
-    EXPORT char_type sub_448770();
+    EXPORT void sub_448770();
     EXPORT char_type sub_448CE0();
     EXPORT char_type sub_44A1F0();
     EXPORT s16 sub_44AF00();
