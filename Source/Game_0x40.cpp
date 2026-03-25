@@ -171,7 +171,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
         gCarInfo_808_678098->LoadFromGciFile_454A00("data\\nyc.gci");
     }
 
-    gCar_6C_677930->sub_444980();
+    gCar_6C_677930->DistributeCarsByRating_444980();
 
     if (gMagical_germain_0x8EC_6F5168 != NULL)
     {

@@ -275,10 +275,65 @@ void Car_2::IncNextRngRemapIdx_47BD90()
     }
 }
 
-STUB_FUNC(0x444980)
-void Car_6C::sub_444980()
+MATCH_FUNC(0x444980)
+void Car_6C::DistributeCarsByRating_444980()
 {
-    NOT_IMPLEMENTED;
+    u16 i = 0;
+    dword_6772EC = 0;
+    dword_6772DC = 0;
+    unk_677294 = 0;
+
+    for (; i < 256; i++)
+    {
+        if (gGtx_0x106C_703DD4->field_5C_cari->field_0[(u8)i])
+        {
+            if (bStartNetworkGame_7081F0 || gGtx_0x106C_703DD4->sub_5AB380(i))
+            {
+                car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(i);
+
+                if (pInfo->rating != 99)
+                {
+                    u16 r_mod_10 = pInfo->rating % 10;
+                    u16 idx_type;
+
+                    if (pInfo->rating < 10)
+                    {
+                        idx_type = 1;
+                    }
+                    else if (pInfo->rating < 20)
+                    {
+                        idx_type = 2;
+                    }
+                    else if (pInfo->rating < 30)
+                    {
+                        idx_type = 3;
+                    }
+
+                    if (idx_type == 1)
+                    {
+                        for (; r_mod_10 > 0; r_mod_10--)
+                        {
+                            dword_676988.values[dword_6772EC++] = pInfo->model;
+                        }
+                    }
+                    else if (idx_type == 2)
+                    {
+                        for (; r_mod_10 > 0; r_mod_10--)
+                        {
+                            dword_676DB4.values[dword_6772DC++] = pInfo->model;
+                        }
+                    }
+                    else if (idx_type == 3)
+                    {
+                        for (; r_mod_10 > 0; r_mod_10--)
+                        {
+                            dword_677384.values[unk_677294++] = pInfo->model;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x444ab0)

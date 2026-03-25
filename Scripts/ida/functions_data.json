@@ -2350,7 +2350,7 @@
         "v105_address": "0x444960"
     },
     {
-        "name": "Car_6C::sub_444980",
+        "name": "Car_6C::DistributeCarsByRating_444980",
         "v96f_address": "0x420A10",
         "v105_address": "0x444980"
     },
