@@ -10,11 +10,13 @@ REPO_DIR = Path(__file__).parent.parent
 INCLUDE_PATHS = [REPO_DIR / "Source", REPO_DIR]
 IGNORE_PATHS = ["Function.hpp"]
 
+CTORS_TO_FIX = ["UnknownList", "TrailerPool", "Hud_CopHead_C_Array", "Hud_Arrow_7C_Array", "Police_7B8"]
+
 MACROS = r"""
 #define EXPORT 
 
-#define DEFINE_GLOBAL(type, name, addr) type name
-#define DEFINE_GLOBAL_ARRAY(type, name, size, addr) type name[size]
+#define DEFINE_GLOBAL(type, name, addr) extern type name
+#define DEFINE_GLOBAL_ARRAY(type, name, size, addr) extern type name[size]
 
 #define DEFINE_GLOBAL_INIT(type, name, value, addr) type name
 
@@ -77,6 +79,28 @@ def cpp_expand_path(path, matched_files):
     
     raise Exception("No include found for " + path + " in " + str(INCLUDE_PATHS))
 
+def remove_annoying_inlined_ctors(ctx_body : str):
+    """Remove ctors from context, so decompme won't display junk asm.
+    
+    This won't work for complex ctors, such as involving IFs and FORs"""
+    new_body = ctx_body
+    for ctor_class in CTORS_TO_FIX:
+        str_index = new_body.find(f"{ctor_class}()\n")
+
+        if str_index == -1:
+            continue    # not found
+
+        body_stripped = new_body[str_index : ]
+
+        left_brace_idx = body_stripped.find(r"{")
+        right_brace_idx = body_stripped.find(r"}")
+        
+        block_to_remove = body_stripped[left_brace_idx : right_brace_idx+1]
+
+        new_body = new_body.replace(f"{ctor_class}()\n    " + block_to_remove, f"{ctor_class}();\n")
+    
+    return new_body
+
 def main():
     matched_files = set()
     for ignore_path in IGNORE_PATHS:
@@ -90,6 +114,9 @@ def main():
     ctx_body = ctx_body.replace("<VC98/Include/DPLOBBY.H>", "<DPLOBBY.H>")
 
     ctx_body = ctx_body.replace("#pragma once", "")
+
+    ctx_body = remove_annoying_inlined_ctors(ctx_body)
+
     ctx = MACROS + ctx_body
 
     pyclip.copy(ctx)
