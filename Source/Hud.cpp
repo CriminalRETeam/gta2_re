@@ -77,10 +77,58 @@ static inline void sub_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16
                       0);
 }
 
-STUB_FUNC(0x5cfe40)
+WIP_FUNC(0x5cfe40)
 void Garox_13C0_sub::DrawPlayerNames_5CFE40()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (bStartNetworkGame_7081F0 && bShow_player_names_67D54C)
+    {
+        Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+        Camera_0xBC* pCam;
+        if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+        {
+            pCam = &pPlayer->field_208_aux_game_camera;
+        }
+        else
+        {
+            pCam = &pPlayer->field_90_game_camera;
+        }
+
+        for (Player* pIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pIter; pIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
+        {
+            if (!pIter->field_0_bIsUser)
+            {
+                Ped* pPlayerPed = pIter->field_2C4_player_ped;
+                if (!pPlayerPed || (pPlayerPed->field_21C & 0x2000000) == 0)
+                {
+                    if (pCam->IsCoordsPosVisible_435A70(pPlayerPed->field_1AC_cam.x,
+                                                        pPlayerPed->field_1AC_cam.y,
+                                                        pPlayerPed->field_1AC_cam.z))
+                    {
+                        Fix16 zCalc = (dword_7064C4) /
+                            (dword_7064E8 + (pCam->field_98_cam_pos2.field_8_z - pPlayerPed->field_1AC_cam.z)); // dword_7064C4 ??
+
+                        Fix16 xTmp = pCam->field_60.x * (pPlayerPed->field_1AC_cam.x - pCam->field_98_cam_pos2.field_0_x);
+                        Fix16 xCalc = ((zCalc * xTmp)) + Fix16(0x500000, 0);
+
+                        Fix16 yTmp = (pCam->field_60.y * (pPlayerPed->field_1AC_cam.y - pCam->field_98_cam_pos2.field_4_y));
+                        Fix16 yCalc = ((zCalc * yTmp) + Fix16(0x3C0000, 0));
+
+                        DrawText_5D8A10(pIter->field_83C_player_name,
+                                        (xCalc * gViewCamera_676978->field_A8_ui_scale), // x
+                                        (yCalc * gViewCamera_676978->field_A8_ui_scale), // y
+                                        word_7062DC, // font
+                                        gViewCamera_676978->field_A8_ui_scale, // scale
+                                        pIter->field_78C != 7 ? 2 : 8,
+                                        pIter->field_790 - 1,
+                                        0,
+                                        0);
+                    }
+                }
+            }
+        }
+    }
 }
 
 // ----------------------------------------------------
@@ -588,7 +636,8 @@ void Garox_110C_sub::sub_5CF730()
     }
     else
     {
-        field_284E = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pPed->field_1AC_cam.x, pPed->field_1AC_cam.y, pPed->field_1AC_cam.z);
+        field_284E =
+            gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pPed->field_1AC_cam.x, pPed->field_1AC_cam.y, pPed->field_1AC_cam.z);
         if (field_284E)
         {
             this->field_1114 = word_706412 + pPed->GetRotation();
