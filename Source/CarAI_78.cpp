@@ -59,28 +59,35 @@ DEFINE_GLOBAL(Car_BC*, dword_6779B0, 0x6779B0);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6779C8, Fix16(0x1999, 0), 0x6779C8);
 
-DEFINE_GLOBAL(Fix16, dword_6779C0, 0x6779C0);
-DEFINE_GLOBAL(Fix16, dword_677BB8, 0x677BB8);
-DEFINE_GLOBAL(Fix16, dword_677B9C, 0x677B9C);
-DEFINE_GLOBAL(Fix16, dword_677A84, 0x677A84);
-DEFINE_GLOBAL(Fix16, dword_677A4C, 0x677A4C);
-DEFINE_GLOBAL(Fix16, dword_677B58, 0x677B58);
-DEFINE_GLOBAL(Fix16, dword_677B98, 0x677B98);
-DEFINE_GLOBAL(Fix16, dword_6779BC, 0x6779BC);
-DEFINE_GLOBAL(Fix16, dword_677CBC, 0x677CBC);
-DEFINE_GLOBAL(Fix16, dword_677A38, 0x677A38);
+DEFINE_GLOBAL_INIT(Fix16, dword_6779C0, Fix16(0xCCC, 0), 0x6779C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_677BB8, Fix16(0x24000, 0), 0x677BB8);
+DEFINE_GLOBAL_INIT(Fix16, dword_677B9C, Fix16(0xC000, 0), 0x677B9C);
+DEFINE_GLOBAL_INIT(Fix16, dword_677A84, Fix16(0x2000, 0), 0x677A84);
+DEFINE_GLOBAL_INIT(Fix16, dword_677A4C, Fix16(0x3000, 0), 0x677A4C);
+DEFINE_GLOBAL_INIT(Fix16, dword_677B58, Fix16(0x1EB, 0), 0x677B58);
+DEFINE_GLOBAL_INIT(Fix16, dword_677B98, Fix16(0x8000, 0), 0x677B98);
+DEFINE_GLOBAL_INIT(Fix16, dword_6779BC, Fix16(0x1000, 0), 0x6779BC);
+DEFINE_GLOBAL_INIT(Fix16, dword_677CBC, Fix16(0x800, 0), 0x677CBC);
 
-DEFINE_GLOBAL(Ang16, word_677ADE, 0x677ADE);
-DEFINE_GLOBAL(Ang16, dword_6779E4, 0x6779E4);
-DEFINE_GLOBAL(Ang16, dword_677A2E, 0x677A2E);
-DEFINE_GLOBAL(Ang16, word_677CE2, 0x677CE2);
+DEFINE_GLOBAL_INIT(Ang16, word_677ADE, Ang16(0x02D0), 0x677ADE);
+DEFINE_GLOBAL_INIT(Ang16, dword_6779E4, Ang16(0x0168), 0x6779E4);
+DEFINE_GLOBAL_INIT(Ang16, dword_677A2E, Ang16(0x30), 0x677A2E);
+DEFINE_GLOBAL_INIT(Ang16, word_677CE2, Ang16(0x10), 0x677CE2);
 
-DEFINE_GLOBAL(Fix16, dword_677C84, 0x677C84);
-DEFINE_GLOBAL(Ang16, word_677B08, 0x677B08);
-DEFINE_GLOBAL(Fix16, dword_677BA4, 0x677BA4);
-DEFINE_GLOBAL(Fix16, dword_677CA0, 0x677CA0);
+DEFINE_GLOBAL_INIT(Fix16, dword_677C84, Fix16(0x18F60, 0), 0x677C84);
+DEFINE_GLOBAL_INIT(Ang16, word_677B08, Ang16(0x0438), 0x677B08);
+DEFINE_GLOBAL_INIT(Fix16, dword_677BA4, Fix16(0x14000, 0), 0x677BA4);
+DEFINE_GLOBAL_INIT(Fix16, dword_677CA0, Fix16(0x14000, 0), 0x677CA0);
+DEFINE_GLOBAL_INIT(Fix16, dword_677B78, Fix16(0x5C2, 0), 0x677B78);
+DEFINE_GLOBAL_INIT(Fix16, dword_677B70, Fix16(0x3D7, 0), 0x677B70);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_677950, Fix16(0x3FC000, 0), 0x677950);
+DEFINE_GLOBAL_INIT(Fix16, dword_6779D8, Fix16(0x3333, 0), 0x6779D8);
+DEFINE_GLOBAL_INIT(Fix16, dword_677B64, Fix16(0x28F, 0), 0x677B64);
+DEFINE_GLOBAL_INIT(Ang16, word_677A38, Ang16(0x00B4), 0x677A38);
 
 EXTERN_GLOBAL(u16, word_677CFC);
+EXTERN_GLOBAL(u8, byte_6771DC);
 
 MATCH_FUNC(0x4476f0)
 void CarAI_78::sub_4476F0()
@@ -384,11 +391,253 @@ bool CarAI_78::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction)
     return false;
 }
 
-STUB_FUNC(0x447d40)
-char_type CarAI_78::sub_447D40(s32 a2)
+WIP_FUNC(0x447d40)
+char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    switch (this->field_4C)
+    {
+        case 1:
+            if ((this->field_0->field_A6 & 2) == 2 || (this->field_0->field_A6 & 1) == 1)
+            {
+                if ((this->field_0->field_A6 & 2) == 2)
+                {
+                    if ((pBlock->field_A_arrows & 2) != 0 && ComputeShortestAngleDelta_4056C0(dword_6779E4, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 3;
+                        return 1;
+                    }
+                }
+                else
+                {
+                    if ((pBlock->field_A_arrows & 1) != 0 && ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 4;
+                        return 1;
+                    }
+                }
+            }
+
+            if ((pBlock->field_A_arrows & 0xF) != 1)
+            {
+                if ((pBlock->field_A_arrows & 0xF) != 2)
+                {
+                    return 0;
+                }
+
+                if (ComputeShortestAngleDelta_4056C0(dword_6779E4, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 3;
+                return 1;
+            }
+
+            if (ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) <= word_677A38)
+            {
+                return 0;
+            }
+            this->field_44 = 4;
+            return 1;
+
+        case 2:
+            if ((this->field_0->field_A6 & 2) == 2 || (this->field_0->field_A6 & 1) == 1)
+            {
+                if ((this->field_0->field_A6 & 2) == 2)
+                {
+                    if (byte_677CA8)
+                    {
+                        if ((pBlock->field_A_arrows & 0x11) != 0)
+                        {
+                            if (ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) > word_677A38)
+                            {
+                                this->field_44 = 4;
+                                return 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ((pBlock->field_A_arrows & 1) == 0)
+                        {
+                            goto LABEL_40;
+                        }
+
+                        if (ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) > word_677A38)
+                        {
+                            this->field_44 = 4;
+                            return 1;
+                        }
+                    }
+                }
+                else
+                {
+                    if (byte_677CA8)
+                    {
+                        if ((pBlock->field_A_arrows & 0x22) != 0 &&
+                            ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) > word_677A38)
+                        {
+                            this->field_44 = 3;
+                            return 1;
+                        }
+                    }
+                    else
+                    {
+                        if ((pBlock->field_A_arrows & 2) == 0)
+                        {
+                            goto LABEL_40;
+                        }
+                        if (ComputeShortestAngleDelta_4056C0(dword_6779E4, this->field_10) > word_677A38)
+                        {
+                            this->field_44 = 3;
+                            return 1;
+                        }
+                    }
+                }
+            }
+
+            if (byte_677CA8)
+            {
+                if (pBlock->field_A_arrows & 0xF0)
+                {
+                    if ((pBlock->field_A_arrows & 0xF) == 0)
+                    {
+                        if ((pBlock->field_A_arrows & 0xF0) == 0x10)
+                        {
+                            if (ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) <= word_677A38)
+                            {
+                                return 0;
+                            }
+                            this->field_44 = 4;
+                            return 1;
+                        }
+
+                        if ((pBlock->field_A_arrows & 0xF0) != 0x20)
+                        {
+                            return 0;
+                        }
+
+                        if (ComputeShortestAngleDelta_4056C0(dword_6779E4, this->field_10) <= word_677A38)
+                        {
+                            return 0;
+                        }
+                        this->field_44 = 3;
+                        return 1;
+                    }
+                }
+            }
+
+        LABEL_40:
+            if (!(pBlock->field_A_arrows) || (pBlock->field_A_arrows & 0xF0) != 0)
+            {
+                return 0;
+            }
+            if ((pBlock->field_A_arrows) != 1)
+            {
+                if ((pBlock->field_A_arrows) != 2)
+                {
+                    return 0;
+                }
+
+                if (ComputeShortestAngleDelta_4056C0(dword_6779E4, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 3;
+                return 1;
+            }
+
+            if (ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) <= word_677A38)
+            {
+                return 0;
+            }
+            this->field_44 = 4;
+            return 1;
+
+        case 3:
+            if ((this->field_0->field_A6) == 2 || (this->field_0->field_A6 & 1) == 1)
+            {
+                if ((this->field_0->field_A6) == 2)
+                {
+                    if ((pBlock->field_A_arrows & 8) != 0 && ComputeShortestAngleDelta_4056C0(word_677CE8, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 2;
+                        return 1;
+                    }
+                }
+                else
+                {
+                    if ((pBlock->field_A_arrows & 4) != 0 && ComputeShortestAngleDelta_4056C0(word_677ADE, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 1;
+                        return 1;
+                    }
+                }
+            }
+
+            if ((pBlock->field_A_arrows & 0xF) == 8)
+            {
+                if (ComputeShortestAngleDelta_4056C0(word_677CE8, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 2;
+                return 1;
+            }
+            else
+            {
+                if ((pBlock->field_A_arrows & 0xF) != 4 || ComputeShortestAngleDelta_4056C0(word_677ADE, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 1;
+                return 1;
+            }
+
+        case 4:
+            if ((this->field_0->field_A6 & 2) == 2 || (this->field_0->field_A6 & 1) == 1)
+            {
+                if ((this->field_0->field_A6 & 2) == 2)
+                {
+                    if ((pBlock->field_A_arrows & 4) != 0 && ComputeShortestAngleDelta_4056C0(word_677ADE, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 1;
+                        return 1;
+                    }
+                }
+                else
+                {
+                    if ((pBlock->field_A_arrows & 8) != 0 && ComputeShortestAngleDelta_4056C0(word_677CE8, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 2;
+                        return 1;
+                    }
+                }
+            }
+
+            if ((pBlock->field_A_arrows & 0xF) == 8)
+            {
+                if (ComputeShortestAngleDelta_4056C0(word_677CE8, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 2;
+                return 1;
+            }
+            else
+            {
+                if ((pBlock->field_A_arrows & 0xF) != 4 || ComputeShortestAngleDelta_4056C0(word_677ADE, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 1;
+                return 1;
+            }
+
+        default:
+            return 0;
+    }
 }
 
 MATCH_FUNC(0x448270)
@@ -660,11 +909,200 @@ void CarAI_78::sub_4482C0()
     this->field_24_flags &= 0x80;
 }
 
-STUB_FUNC(0x448770)
-char_type CarAI_78::sub_448770()
+// 9.6f 0x430650
+WIP_FUNC(0x448770)
+void CarAI_78::sub_448770()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 toUse = dword_677B90;
+    gmp_block_info* pBlock_ = 0;
+    Sprite* obj_5C_f58 = gObject_5C_6F8F84->field_58;
+    Sprite* pCarSprite = this->field_0->field_50_car_sprite;
+    gmp_block_info* pBlock_____ = 0;
+    gmp_block_info* pBlock___ = 0;
+
+    Fix16 sprite_x = pCarSprite->field_14_xy.x;
+    Fix16 sprite_y = pCarSprite->field_14_xy.y;
+
+    Fix16 new_x_ = sprite_x;
+    Fix16 new_y_ = sprite_y;
+
+    Fix16 x_off = (Ang16::sine_40F500(this->field_10) * dword_677A84);
+    Fix16 y_off = (Ang16::cosine_40F520(this->field_10) * dword_677A84);
+
+    Fix16 x_v = x_off + this->field_0->field_50_car_sprite->field_14_xy.x;
+    dword_677A74 = x_v;
+
+    Fix16 y_v = y_off + this->field_0->field_50_car_sprite->field_14_xy.y;
+    dword_677A80 = y_v;
+
+    if (x_v > dword_677B90 && y_v > dword_677B90 && x_v < dword_677950 && y_v < dword_677950)
+    {
+        pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(x_v.ToInt(), y_v.ToInt(), field_0->field_50_car_sprite->field_1C_zpos.ToInt());
+        if (pBlock_ && (pBlock_->field_B_slope_type & 0xFC) > 0 &&
+            (pBlock_->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(block_4DFE10->field_B_slope_type)
+            && (pBlock_->field_B_slope_type & 3) != 0) // !is_air_type(block_4DFE10->field_B_slope_type)
+        {
+        }
+        else
+        {
+            pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
+                                                          dword_677A80.ToInt(),
+                                                          (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+        }
+    }
+
+    if (sub_448270())
+    {
+        toUse = dword_6779C8;
+    }
+    else
+    {
+        toUse = dword_6779D8;
+    }
+
+    if (dword_677B00 < dword_677B64)
+    {
+        toUse = dword_6779C0;
+    }
+
+    if (pBlock_)
+    {
+        if (gGtx_0x106C_703DD4->field_6C_spec[pBlock_->field_8_lid & 0x3FF] == 3 || (this->field_24_flags & 0x20000) != 0)
+        {
+            if (!byte_677BBC)
+            {
+                sub_4537D0();
+            }
+
+            if ((this->field_0->field_A6 & 2) == 2)
+            {
+                Fix16 new_x = dword_677A74.ToInt();
+                Fix16 new_y = dword_677A80.ToInt();
+
+                switch (this->field_4C)
+                {
+                    case 1:
+                        new_y -= dword_677A84;
+                        new_x -= dword_677B94;
+                        break;
+                    case 2:
+                        new_y += dword_677B94;
+                        new_x += dword_677B98;
+                        break;
+                    case 3:
+                        new_x += dword_677B94;
+                        new_y += dword_677B98;
+                        break;
+                    case 4:
+                        new_x -= dword_677A84;
+                        new_y -= dword_677B98;
+                        break;
+                    default:
+                        break;
+                }
+
+                obj_5C_f58->set_xyz_lazy_420600(new_x, new_y, this->field_0->field_50_car_sprite->field_1C_zpos);
+                obj_5C_f58->set_ang_lazy_420690(dword_6779E4 + this->field_10);
+                obj_5C_f58->AllocInternal_59F950(dword_677B94, dword_677A84, dword_6779C0);
+
+                Sprite* pNearestSpriteOfType = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(obj_5C_f58, 0);
+                if (pNearestSpriteOfType)
+                {
+                    if (pNearestSpriteOfType->field_30_sprite_type_enum == sprite_types_enum::car)
+                    {
+                        this->field_0->sub_43A950();
+                        this->field_8 = 0;
+                        this->field_24_flags &= 0x7F;
+                    }
+                }
+            }
+            else if ((this->field_0->field_A6 & 1) == 1)
+            {
+                sub_4482C0();
+            }
+        }
+    }
+
+    this->field_0->field_50_car_sprite->set_xyz_lazy_420600(new_x_, new_y_, field_0->field_50_car_sprite->field_1C_zpos);
+
+    field_0->field_50_car_sprite->set_ang_lazy_420690(this->field_10);
+
+    Fix16 x_off_ = (Ang16::sine_40F500(this->field_10) * toUse);
+    Fix16 y_off_ = (Ang16::cosine_40F520(this->field_10) * toUse);
+
+    Fix16 x_v_ = x_off_ + this->field_0->field_50_car_sprite->field_14_xy.x;
+    dword_677A74 = x_v_;
+
+    Fix16 y_v_ = y_off_ + this->field_0->field_50_car_sprite->field_14_xy.y;
+    dword_677A80 = y_v_;
+
+    if (x_v_ > dword_677B90 && y_v_ > dword_677B90 && x_v_ < dword_677950 && y_v_ < dword_677950)
+    {
+        pBlock___ = gMap_0x370_6F6268->get_block_4DFE10(x_v_.ToInt(), y_v_.ToInt(), field_0->field_50_car_sprite->field_1C_zpos.ToInt());
+        if (pBlock___ && (pBlock___->field_B_slope_type & 0xFC) > 0 &&
+            (pBlock___->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(block_4DFE10->field_B_slope_type)
+            && (pBlock___->field_B_slope_type & 3) != 0) // !is_air_type(block_4DFE10->field_B_slope_type)
+        {
+        }
+        else
+        {
+            pBlock___ = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
+                                                            dword_677A80.ToInt(),
+                                                            (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+        }
+    }
+
+    Fix16 x_v__ = (Ang16::sine_40F500(this->field_10) * dword_677B9C) + this->field_0->field_50_car_sprite->field_14_xy.x;
+    dword_677A74 = x_v__;
+
+    Fix16 y_v__ = (Ang16::cosine_40F520(this->field_10) * dword_677B9C) + this->field_0->field_50_car_sprite->field_14_xy.y;
+    dword_677A80 = y_v__;
+    if (x_v__ <= dword_677B90 || y_v__ <= dword_677B90 || x_v__ >= dword_677950 || y_v__ >= dword_677950)
+    {
+    }
+    else
+    {
+        pBlock_____ =
+            gMap_0x370_6F6268->get_block_4DFE10(x_v__.ToInt(), y_v__.ToInt(), this->field_0->field_50_car_sprite->field_1C_zpos.ToInt());
+        if (!pBlock_____ || ((pBlock_____->field_B_slope_type & 0xFC) == 0) || (pBlock_____->field_B_slope_type & 0xFCu) >= 0xB4 ||
+            (pBlock_____->field_B_slope_type & 3) == 0)
+        {
+            pBlock_____ = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
+                                                              dword_677A80.ToInt(),
+                                                              (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+        }
+    }
+
+    if (!byte_677C90 && !this->field_8)
+    {
+        if (!pBlock___)
+        {
+            //goto LABEL_69;
+            this->field_44 = 0;
+        }
+        else
+        {
+            if (sub_447D40(pBlock___))
+            {
+                this->field_8 = 20;
+                this->field_24_flags &= ~0xC000u;
+                this->field_24_flags |= 0x80;
+                return;
+            }
+
+            if (pBlock_____ && sub_447D40(pBlock_____))
+            {
+                this->field_24_flags |= 0x4000u;
+            }
+            else
+            {
+                //LABEL_69:
+                this->field_44 = 0;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x448ce0)
@@ -1558,7 +1996,7 @@ LABEL_190:
     {
         field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
 
-        Fix16 v247 = ((dword_677A38)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
+        Fix16 v247 = (Fix16(word_677A38.rValue)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
         Ang16 v244;
         v244.sub_4516B0(&v247, 0); // ctor ?
 
@@ -2150,11 +2588,428 @@ void CarAI_78::sub_451FF0()
     field_0->sub_4416D0(2);
 }
 
-STUB_FUNC(0x452060)
-char_type CarAI_78::sub_452060()
+WIP_FUNC(0x452060)
+void CarAI_78::sub_452060()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 v1;
+    v1 = dword_677B94;
+
+    byte_677B8C = 1;
+    byte_677B3C = 1;
+
+    Fix16 v85 = dword_677B94;
+
+    Car_BC* pCar = this->field_0;
+
+    if (pCar->field_7C_uni_num == 2)
+    {
+        this->field_24_flags &= ~0x10;
+        v1 = dword_677B94;
+    }
+
+    Fix16 new_z;
+    if (byte_677C90)
+    {
+        new_z = v1 + pCar->field_50_car_sprite->field_1C_zpos;
+    }
+    else
+    {
+        new_z = pCar->field_50_car_sprite->field_1C_zpos;
+    }
+
+    Ang16 f10 = this->field_10;
+    Fix16 zpos_ = new_z;
+    //f10 *= 4;
+    f10 = f10 * 4;
+
+    Fix16 v7 = v1 + dword_677A4C;
+    Fix16 v9 = Ang16::sine_40F500(f10) * v7;
+    Fix16 v10 = (Ang16::cosine_40F520(f10) * v7);
+
+    Fix16 new_x = v9 + field_0->field_50_car_sprite->field_14_xy.x;
+    Fix16 new_y = v10 + field_0->field_50_car_sprite->field_14_xy.y;
+
+    field_0->field_50_car_sprite->set_xyz_lazy_420600(new_x, new_y, new_z);
+
+    byte_6771DC = 1;
+
+    Fix16 new_x_1;
+    Fix16 new_y_2;
+    Ang16 v82;
+    Ang16 v83;
+    Fix16 v86;
+
+    if (this->field_24_flags & 0x80)
+    {
+        field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
+
+        v86 = (Fix16(word_677A38.rValue)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
+        v83.sub_4516B0(&v86, 0); // ctor ?
+
+        v82 = v83 + this->field_10;
+
+        new_x_1 = (Ang16::sine_40F500(v82) * dword_677B94) + field_0->field_50_car_sprite->field_14_xy.x;
+        new_y_2 = (Ang16::cosine_40F520(v82) * dword_677B94) + field_0->field_50_car_sprite->field_14_xy.y;
+
+        this->field_0->field_50_car_sprite->set_xyz_lazy_420600(new_x_1, new_y_2, new_z);
+
+    LABEL_30:
+        this->field_70 = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0);
+        goto LABEL_31;
+    }
+
+    this->field_70 = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0);
+    if (!this->field_70 || byte_677C90)
+    {
+        field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
+
+        v9 = (Ang16::sine_40F500(this->field_10) * v85);
+        v10 = (Ang16::cosine_40F520(this->field_10) * v85);
+
+        Fix16 new_x_2 = v9 + field_0->field_50_car_sprite->field_14_xy.x;
+        Fix16 new_y_4 = v10 + field_0->field_50_car_sprite->field_14_xy.y;
+
+        field_0->field_50_car_sprite->set_xyz_lazy_420600(new_x_2, new_y_4, new_z);
+
+        goto LABEL_30;
+    }
+
+LABEL_31:
+    if (!this->field_70)
+    {
+        if (byte_677C90)
+        {
+            Fix16 new_y_5 = v10 + field_0->field_50_car_sprite->field_14_xy.y;
+            Fix16 new_x_3 = v9 + field_0->field_50_car_sprite->field_14_xy.x;
+
+            field_0->field_50_car_sprite->set_xyz_lazy_420600(new_x_3, new_y_5, zpos_ - dword_677B94);
+            new_z = zpos_;
+            this->field_70 = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0);
+        }
+    }
+
+    field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
+
+    char_type bCheckMovement;
+
+    Fix16 v52;
+    Fix16 v53;
+    Fix16 new_y_7;
+    Fix16 new_x_4;
+    if ((this->field_24_flags & 0x40) == 0)
+    {
+        v52 = (Ang16::sine_40F500(this->field_10) * dword_677B94);
+        v53 = (Ang16::cosine_40F520(this->field_10) * dword_677B94);
+
+        new_y_7 = v53 + field_0->field_50_car_sprite->field_14_xy.y;
+        new_x_4 = v52 + field_0->field_50_car_sprite->field_14_xy.x;
+
+        if (field_0->field_50_car_sprite->field_14_xy.x == new_x_4 && field_0->field_50_car_sprite->field_14_xy.y == new_y_7 &&
+            field_0->field_50_car_sprite->field_1C_zpos == new_z)
+        {
+            goto LABEL_61;
+        }
+    LABEL_60:
+        field_0->field_50_car_sprite->field_14_xy.x = new_x_4;
+        field_0->field_50_car_sprite->field_14_xy.y = new_y_7;
+        field_0->field_50_car_sprite->field_1C_zpos = new_z;
+        field_0->field_50_car_sprite->ResetZCollisionAndDebugBoxes_59E7B0();
+    LABEL_61:
+        bCheckMovement = field_0->field_50_car_sprite->CheckSpriteMovementRegion_5A2500();
+        //goto LABEL_62;
+    }
+    else
+    {
+        Fix16 v36 = (Ang16::sine_40F500(this->field_10) * dword_677A84);
+        Fix16 v37 = (Ang16::cosine_40F520(this->field_10) * dword_677A84);
+        Fix16 new_y_8 = v37 + field_0->field_50_car_sprite->field_14_xy.y;
+        Fix16 new_x_5 = v36 + field_0->field_50_car_sprite->field_14_xy.x;
+
+        field_0->field_50_car_sprite->set_xyz_lazy_420600(new_x_5, new_y_8, new_z);
+
+        bCheckMovement = field_0->field_50_car_sprite->CheckSpriteMovementRegion_5A2500();
+        if (!bCheckMovement)
+        {
+            Fix16 v42 = (Ang16::sine_40F500(this->field_10) * dword_677A84);
+            Fix16 v43 = (Ang16::cosine_40F520(this->field_10) * dword_677A84);
+
+            Fix16 new_y_9 = v43 + field_0->field_50_car_sprite->field_14_xy.y;
+            Fix16 new_x_6 = v42 + field_0->field_50_car_sprite->field_14_xy.x;
+
+            field_0->field_50_car_sprite->set_xyz_lazy_420600(new_x_6, new_y_9, new_z);
+
+            bCheckMovement = field_0->field_50_car_sprite->CheckSpriteMovementRegion_5A2500();
+            if (!bCheckMovement)
+            {
+                Fix16 v47 = (Ang16::sine_40F500(this->field_10) * dword_677A84);
+                Fix16 v48 = (Ang16::cosine_40F520(this->field_10) * dword_677A84);
+
+                Fix16 new_y_7 = v48 + field_0->field_50_car_sprite->field_14_xy.y;
+                Fix16 new_x_4 = v47 + field_0->field_50_car_sprite->field_14_xy.x;
+                if (field_0->field_50_car_sprite->field_14_xy.x == new_x_4 && field_0->field_50_car_sprite->field_14_xy.y == new_y_7 &&
+                    field_0->field_50_car_sprite->field_1C_zpos == new_z)
+                {
+                    goto LABEL_61;
+                }
+                goto LABEL_60;
+            }
+        }
+    }
+
+    //LABEL_62:
+    byte_6771DC = 0;
+    if (byte_677C90)
+    {
+        if (bCheckMovement)
+        {
+            bCheckMovement = 0;
+        }
+    }
+
+    Sprite* f70 = this->field_70;
+    if (!f70)
+    {
+        if (!bCheckMovement)
+        {
+            if ((this->field_24_flags & 0x40) != 0)
+            {
+                if (this->field_5A <= 0xAu)
+                {
+                    byte_677B8C = 0;
+                }
+                else
+                {
+                    this->field_5A = 0;
+                    this->field_24_flags &= ~0x40;
+                }
+                ++this->field_5A;
+            }
+
+            if (!byte_677BBC || this->field_0->field_60->field_22)
+            {
+                sub_44D1D0();
+            }
+
+            goto LABEL_104;
+        }
+        goto LABEL_76;
+    }
+
+    if (bCheckMovement)
+    {
+    LABEL_76:
+        byte_677BBC = 0;
+        this->field_24_flags &= ~0x80u;
+        if (dword_677B00 == dword_677B90)
+        {
+            this->field_5A = 0;
+            this->field_24_flags |= 0x40;
+            byte_677B8C = 0;
+            sub_453C00();
+        }
+        else if ((this->field_24_flags & 0x40) != 0)
+        {
+            byte_677B8C = 0;
+        }
+        else
+        {
+            byte_677B8C = 1;
+            byte_677B3C = 0;
+            if (dword_677B00 <= dword_6779C8)
+            {
+                field_0->sub_43A950();
+            }
+            else
+            {
+                field_0->sub_43A970();
+            }
+        }
+        goto LABEL_104;
+    }
+
+    if ((f70->field_1C_zpos.GetFracValue()) == dword_677B90)
+    {
+        gmp_block_info* pBlock;
+        if (byte_677C90)
+        {
+            pBlock = gMap_0x370_6F6268->get_block_452980(f70->field_14_xy.x.ToInt(),
+                                                         f70->field_14_xy.y.ToInt(),
+                                                         (f70->field_1C_zpos - dword_677B94).ToInt());
+            if (!pBlock || (pBlock->field_B_slope_type & 3) != 1)
+            {
+                goto LABEL_104;
+            }
+
+        LABEL_99:
+            switch (this->field_70->field_30_sprite_type_enum)
+            {
+                case 1:
+                case 4:
+                case 5:
+                    sub_451FA0();
+                    break;
+
+                case sprite_types_enum::car:
+                    sub_451980();
+                    break;
+
+                case 3:
+                    if (this->field_24_flags & 0x80)
+                    {
+                        sub_451FF0();
+                    }
+                    break;
+
+                default:
+                    goto LABEL_104;
+            }
+            goto LABEL_104;
+        }
+
+        gmp_block_info* pBlock_ = gMap_0x370_6F6268->get_block_452980(f70->field_14_xy.x.ToInt(),
+                                                                      f70->field_14_xy.y.ToInt(),
+                                                                      (f70->field_1C_zpos - dword_677B94).ToInt());
+        if (pBlock_ && (pBlock_->field_B_slope_type & 3) == 1)
+        {
+            goto LABEL_99;
+        }
+    }
+    else if (byte_677C90)
+    {
+        gmp_block_info* pBlock__ =
+            gMap_0x370_6F6268->get_block_452980(f70->field_14_xy.x.ToInt(), f70->field_14_xy.y.ToInt(), f70->field_1C_zpos.ToInt());
+        if (pBlock__ && (pBlock__->field_B_slope_type & 3) == 1)
+        {
+            goto LABEL_99;
+        }
+    }
+    else
+    {
+        gmp_block_info* pBlock___ =
+            gMap_0x370_6F6268->get_block_42A850(f70->field_14_xy.x.ToInt(), f70->field_14_xy.y.ToInt(), f70->field_1C_zpos.ToInt());
+        if (pBlock___ && (pBlock___->field_B_slope_type & 3) == 1)
+        {
+            goto LABEL_99;
+        }
+        /*
+        pDMap = gMap_0x370_6F6268->field_0_pDmap;
+        zpos_int = f70->field_1C_zpos >> 14;
+        v71 = gMap_0x370_6F6268->field_0_pDmap->field_0_base[(u8)(f70->field_14_xy.y >> 14)][(u8)(f70->field_14_xy.x >> 14)];
+        pCol = gMap_0x370_6F6268->field_0_pDmap->field_40008_pColumn;
+        LOBYTE(v87) = zpos_int;
+        v73 = &pCol[v71];
+        
+        if ((u8)zpos_int < *(_BYTE*)v73 && (u8)zpos_int >= *((_BYTE*)v73 + 1))
+        {
+            pBlock___ = &pDMap->field_4000C_block[(_DWORD)v73[(u8)v87 - *((u8*)v73 + 1) + 1]];
+            if (pBlock___)
+            {
+                if ((pBlock___->field_B_slope_type & 3) == 1)
+                {
+                    goto LABEL_99;
+                }
+            }
+        }
+        */
+    }
+
+LABEL_104:
+    if (this->field_6C)
+    {
+        if (this->field_6C->field_5C)
+        {
+            if ((this->field_6C->field_5C->field_24_flags & 0x20000) != 0)
+            {
+                byte_677B3C = 0;
+                field_0->sub_43A970();
+            }
+        }
+
+        if (this->field_2C)
+        {
+            this->field_2C--;
+        }
+        else
+        {
+            this->field_6C = 0;
+        }
+    }
+
+    sub_44AF00();
+
+    if (byte_677B8C)
+    {
+        if (!byte_677B3C)
+        {
+            return;
+        }
+
+        if ((field_24_flags & 0x80u) == 0 && (field_24_flags & 0x4500) == 0)
+        {
+            if (dword_677B00 < dword_677A8C)
+            {
+                CarPhysics_B0* pPhysics = this->field_0->field_58_physics;
+                pPhysics->field_93_is_forward_gas_on = 1;
+                pPhysics->field_91_is_foot_brake_on = 0;
+                pPhysics->field_94_is_backward_gas_on = 0;
+                pPhysics->field_95 = 0;
+                return;
+            }
+
+            CarPhysics_B0* pPhysics_ = this->field_0->field_58_physics;
+            pPhysics_->field_95 = 1;
+            pPhysics_->field_91_is_foot_brake_on = 0;
+            pPhysics_->field_94_is_backward_gas_on = 0;
+            pPhysics_->field_93_is_forward_gas_on = 0;
+            return;
+        }
+
+        Fix16 v81 = dword_677B70;
+        if (dword_677B70 > this->field_74)
+        {
+            v81 = this->field_74;
+        }
+
+        if (dword_677B00 < v81)
+        {
+            CarPhysics_B0* pPhysics = this->field_0->field_58_physics;
+            pPhysics->field_93_is_forward_gas_on = 1;
+            pPhysics->field_91_is_foot_brake_on = 0;
+            pPhysics->field_94_is_backward_gas_on = 0;
+            pPhysics->field_95 = 0;
+            return;
+        }
+
+        if (dword_677B00 <= dword_6779B8)
+        {
+            if (dword_677B00 <= dword_677B78)
+            {
+                if (dword_677B00 > v81)
+                {
+                    CarPhysics_B0* pPhysics_ = this->field_0->field_58_physics;
+                    pPhysics_->field_95 = 1;
+                    pPhysics_->field_91_is_foot_brake_on = 0;
+                    pPhysics_->field_94_is_backward_gas_on = 0;
+                    pPhysics_->field_93_is_forward_gas_on = 0;
+                    return;
+                }
+            }
+            else
+            {
+                field_0->sub_43A950();
+            }
+        }
+        else
+        {
+            field_0->sub_43A970();
+        }
+    }
+    else
+    {
+        sub_453C00();
+    }
 }
 
 WIP_FUNC(0x452a20)
