@@ -471,7 +471,7 @@ class Hud_Arrow_7C_Array
     EXPORT void sub_5D1350();
     EXPORT bool IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow_7C* a2);
     EXPORT void DrawArrows_5D0E90();
-    EXPORT Hud_Arrow_7C* sub_5D0EF0();
+    EXPORT void sub_5D0EF0();
     EXPORT char_type IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144* a2);
     EXPORT void sub_5D0F80();
     EXPORT void UpdateArrows_5D0FD0();

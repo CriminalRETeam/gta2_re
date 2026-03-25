@@ -46,6 +46,10 @@ DEFINE_GLOBAL(Fix16, dword_67CD10, 0x67CD10);
 
 DEFINE_GLOBAL_INIT(Ang16, word_706610, Ang16(0), 0x706610);
 
+DEFINE_GLOBAL(Ang16, word_706412, 0x706412);
+DEFINE_GLOBAL(Fix16, dword_7064C4, 0x7064C4);
+DEFINE_GLOBAL(Fix16, dword_7064E8, 0x7064E8);
+
 // TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -73,10 +77,58 @@ static inline void sub_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16
                       0);
 }
 
-STUB_FUNC(0x5cfe40)
+WIP_FUNC(0x5cfe40)
 void Garox_13C0_sub::DrawPlayerNames_5CFE40()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (bStartNetworkGame_7081F0 && bShow_player_names_67D54C)
+    {
+        Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+        Camera_0xBC* pCam;
+        if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+        {
+            pCam = &pPlayer->field_208_aux_game_camera;
+        }
+        else
+        {
+            pCam = &pPlayer->field_90_game_camera;
+        }
+
+        for (Player* pIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pIter; pIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
+        {
+            if (!pIter->field_0_bIsUser)
+            {
+                Ped* pPlayerPed = pIter->field_2C4_player_ped;
+                if (!pPlayerPed || (pPlayerPed->field_21C & 0x2000000) == 0)
+                {
+                    if (pCam->IsCoordsPosVisible_435A70(pPlayerPed->field_1AC_cam.x,
+                                                        pPlayerPed->field_1AC_cam.y,
+                                                        pPlayerPed->field_1AC_cam.z))
+                    {
+                        Fix16 zCalc = (dword_7064C4) /
+                            (dword_7064E8 + (pCam->field_98_cam_pos2.field_8_z - pPlayerPed->field_1AC_cam.z)); // dword_7064C4 ??
+
+                        Fix16 xTmp = pCam->field_60.x * (pPlayerPed->field_1AC_cam.x - pCam->field_98_cam_pos2.field_0_x);
+                        Fix16 xCalc = ((zCalc * xTmp)) + Fix16(0x500000, 0);
+
+                        Fix16 yTmp = (pCam->field_60.y * (pPlayerPed->field_1AC_cam.y - pCam->field_98_cam_pos2.field_4_y));
+                        Fix16 yCalc = ((zCalc * yTmp) + Fix16(0x3C0000, 0));
+
+                        DrawText_5D8A10(pIter->field_83C_player_name,
+                                        (xCalc * gViewCamera_676978->field_A8_ui_scale), // x
+                                        (yCalc * gViewCamera_676978->field_A8_ui_scale), // y
+                                        word_7062DC, // font
+                                        gViewCamera_676978->field_A8_ui_scale, // scale
+                                        pIter->field_78C != 7 ? 2 : 8,
+                                        pIter->field_790 - 1,
+                                        0,
+                                        0);
+                    }
+                }
+            }
+        }
+    }
 }
 
 // ----------------------------------------------------
@@ -366,10 +418,15 @@ void Hud_Message_1C8::ClearTimeToShow_5D1850()
     field_0_time_to_show = 0;
 }
 
-STUB_FUNC(0x5d1860)
+MATCH_FUNC(0x5d1860)
 void Hud_Message_1C8::sub_5D1860()
 {
-    NOT_IMPLEMENTED;
+    if (this->field_0_time_to_show)
+    {
+        text_0x14::sub_5B5BC0(&this->field_2_str[100], this->field_2_str, 580, word_7062F0);
+        this->field_1BC_str_width = (u16)((640 - Frontend::sub_5D8990(&this->field_2_str[100], word_7062F0)) / 2);
+        this->field_1C0_num_lines = (u16)((480 - sub_5D8940(&this->field_2_str[100], word_7062F0)) / 4);
+    }
 }
 
 MATCH_FUNC(0x5d1940)
@@ -570,10 +627,49 @@ void Garox_1118_sub::sub_5D6290()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5cf730)
+WIP_FUNC(0x5cf730)
 void Garox_110C_sub::sub_5CF730()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    Ped* pPed = gGame_0x40_67E008->field_38_orf1->Get_Field_68_Ped();
+
+    if (!pPed || pPed->sub_470F00())
+    {
+        field_284E = 0;
+    }
+    else
+    {
+        field_284E =
+            gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pPed->field_1AC_cam.x, pPed->field_1AC_cam.y, pPed->field_1AC_cam.z);
+        if (field_284E)
+        {
+            this->field_1114 = word_706412 + pPed->GetRotation();
+
+            Fix16 camx = pPed->field_1AC_cam.x;
+            Fix16 camy = pPed->field_1AC_cam.y;
+            Fix16 camz = pPed->field_1AC_cam.z;
+
+            Player* pPlayer_ = gGame_0x40_67E008->field_38_orf1;
+            Camera_0xBC* pCam;
+            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            {
+                pCam = &pPlayer->field_208_aux_game_camera;
+            }
+            else
+            {
+                pCam = &pPlayer->field_90_game_camera;
+            }
+
+            Fix16 tmp = ((dword_7064C4) / (dword_7064E8 + pCam->field_98_cam_pos2.field_8_z - camz));
+
+            this->field_110C =
+                Fix16(pCam->field_70_screen_px_center_x) + ((pCam->field_60.x * (camx - pCam->field_98_cam_pos2.field_0_x)) * tmp);
+            this->field_1110 =
+                Fix16(pCam->field_74_screen_px_center_y) + ((pCam->field_60.x * (camy - pCam->field_98_cam_pos2.field_4_y)) * tmp);
+        }
+    }
 }
 
 MATCH_FUNC(0x5cf910)
@@ -929,7 +1025,7 @@ void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType,
 
     this->field_AC_fontType = fontType;
 
-    gText_0x14_704DFC->sub_5B5BC0(field_0_str_buf, pStr, 640, fontType);
+    text_0x14::sub_5B5BC0(field_0_str_buf, pStr, 640, fontType);
 
     if (field_AC_fontType == word_703C9C || field_AC_fontType == word_703D9C)
     {
@@ -1681,11 +1777,27 @@ void Hud_Arrow_7C_Array::DrawArrows_5D0E90()
     }
 }
 
-STUB_FUNC(0x5d0ef0)
-Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D0EF0()
+MATCH_FUNC(0x5d0ef0)
+void Hud_Arrow_7C_Array::sub_5D0EF0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 idx = 0;
+    Hud_Arrow_7C* pIter = &field_0_array[0];
+    while (idx < GTA2_COUNTOF_S(field_0_array))
+    {
+        if (!pIter->field_18.field_18_primary_target.field_10_target_type &&
+                !pIter->field_18.field_3C_secondary_target.field_10_target_type ||
+            !pIter->field_18.field_10.field_30_gang || !pIter->field_18.field_60_curr_target->field_20_bIsTargetVisible)
+        {
+            idx++;
+            pIter++;
+        }
+        else
+        {
+            this->field_840 = pIter;
+            return;
+        }
+    }
+    this->field_840 = 0;
 }
 
 MATCH_FUNC(0x5d0f40)
@@ -2372,7 +2484,7 @@ WIP_FUNC(0x5d4a10)
 void Hud_CarName_4C::sub_5D4A10()
 {
     WIP_IMPLEMENTED;
-    
+
     if (field_0_display_time)
     {
         u16 v2 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 11);
