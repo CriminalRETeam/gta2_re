@@ -1772,11 +1772,27 @@ void Hud_Arrow_7C_Array::DrawArrows_5D0E90()
     }
 }
 
-STUB_FUNC(0x5d0ef0)
-Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D0EF0()
+MATCH_FUNC(0x5d0ef0)
+void Hud_Arrow_7C_Array::sub_5D0EF0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 idx = 0;
+    Hud_Arrow_7C* pIter = &field_0_array[0];
+    while (idx < GTA2_COUNTOF_S(field_0_array))
+    {
+        if (!pIter->field_18.field_18_primary_target.field_10_target_type &&
+                !pIter->field_18.field_3C_secondary_target.field_10_target_type ||
+            !pIter->field_18.field_10.field_30_gang || !pIter->field_18.field_60_curr_target->field_20_bIsTargetVisible)
+        {
+            idx++;
+            pIter++;
+        }
+        else
+        {
+            this->field_840 = pIter;
+            return;
+        }
+    }
+    this->field_840 = 0;
 }
 
 MATCH_FUNC(0x5d0f40)
