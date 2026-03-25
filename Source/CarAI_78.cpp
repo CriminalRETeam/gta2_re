@@ -68,7 +68,6 @@ DEFINE_GLOBAL(Fix16, dword_677B58, 0x677B58);
 DEFINE_GLOBAL(Fix16, dword_677B98, 0x677B98);
 DEFINE_GLOBAL(Fix16, dword_6779BC, 0x6779BC);
 DEFINE_GLOBAL(Fix16, dword_677CBC, 0x677CBC);
-DEFINE_GLOBAL(Fix16, dword_677A38, 0x677A38);
 
 DEFINE_GLOBAL(Ang16, word_677ADE, 0x677ADE);
 DEFINE_GLOBAL(Ang16, dword_6779E4, 0x6779E4);
@@ -85,7 +84,7 @@ DEFINE_GLOBAL(Fix16, dword_677B70, 0x677B70);
 DEFINE_GLOBAL(Fix16, dword_677950, 0x677950);
 DEFINE_GLOBAL(Fix16, dword_6779D8, 0x6779D8);
 DEFINE_GLOBAL(Fix16, dword_677B64, 0x677B64);
-
+DEFINE_GLOBAL(Ang16, word_677A38, 0x677A38);
 
 EXTERN_GLOBAL(u16, word_677CFC);
 EXTERN_GLOBAL(u8, byte_6771DC);
@@ -392,11 +391,253 @@ bool CarAI_78::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction)
     return false;
 }
 
-STUB_FUNC(0x447d40)
-char_type CarAI_78::sub_447D40(gmp_block_info* a2)
+WIP_FUNC(0x447d40)
+char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    switch (this->field_4C)
+    {
+        case 1:
+            if ((this->field_0->field_A6 & 2) == 2 || (this->field_0->field_A6 & 1) == 1)
+            {
+                if ((this->field_0->field_A6 & 2) == 2)
+                {
+                    if ((pBlock->field_A_arrows & 2) != 0 && ComputeShortestAngleDelta_4056C0(dword_6779E4, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 3;
+                        return 1;
+                    }
+                }
+                else
+                {
+                    if ((pBlock->field_A_arrows & 1) != 0 && ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 4;
+                        return 1;
+                    }
+                }
+            }
+
+            if ((pBlock->field_A_arrows & 0xF) != 1)
+            {
+                if ((pBlock->field_A_arrows & 0xF) != 2)
+                {
+                    return 0;
+                }
+
+                if (ComputeShortestAngleDelta_4056C0(dword_6779E4, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 3;
+                return 1;
+            }
+
+            if (ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) <= word_677A38)
+            {
+                return 0;
+            }
+            this->field_44 = 4;
+            return 1;
+
+        case 2:
+            if ((this->field_0->field_A6 & 2) == 2 || (this->field_0->field_A6 & 1) == 1)
+            {
+                if ((this->field_0->field_A6 & 2) == 2)
+                {
+                    if (byte_677CA8)
+                    {
+                        if ((pBlock->field_A_arrows & 0x11) != 0)
+                        {
+                            if (ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) > word_677A38)
+                            {
+                                this->field_44 = 4;
+                                return 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ((pBlock->field_A_arrows & 1) == 0)
+                        {
+                            goto LABEL_40;
+                        }
+
+                        if (ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) > word_677A38)
+                        {
+                            this->field_44 = 4;
+                            return 1;
+                        }
+                    }
+                }
+                else
+                {
+                    if (byte_677CA8)
+                    {
+                        if ((pBlock->field_A_arrows & 0x22) != 0 &&
+                            ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) > word_677A38)
+                        {
+                            this->field_44 = 3;
+                            return 1;
+                        }
+                    }
+                    else
+                    {
+                        if ((pBlock->field_A_arrows & 2) == 0)
+                        {
+                            goto LABEL_40;
+                        }
+                        if (ComputeShortestAngleDelta_4056C0(dword_6779E4, this->field_10) > word_677A38)
+                        {
+                            this->field_44 = 3;
+                            return 1;
+                        }
+                    }
+                }
+            }
+
+            if (byte_677CA8)
+            {
+                if (pBlock->field_A_arrows & 0xF0)
+                {
+                    if ((pBlock->field_A_arrows & 0xF) == 0)
+                    {
+                        if ((pBlock->field_A_arrows & 0xF0) == 0x10)
+                        {
+                            if (ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) <= word_677A38)
+                            {
+                                return 0;
+                            }
+                            this->field_44 = 4;
+                            return 1;
+                        }
+
+                        if ((pBlock->field_A_arrows & 0xF0) != 0x20)
+                        {
+                            return 0;
+                        }
+
+                        if (ComputeShortestAngleDelta_4056C0(dword_6779E4, this->field_10) <= word_677A38)
+                        {
+                            return 0;
+                        }
+                        this->field_44 = 3;
+                        return 1;
+                    }
+                }
+            }
+
+        LABEL_40:
+            if (!(pBlock->field_A_arrows) || (pBlock->field_A_arrows & 0xF0) != 0)
+            {
+                return 0;
+            }
+            if ((pBlock->field_A_arrows) != 1)
+            {
+                if ((pBlock->field_A_arrows) != 2)
+                {
+                    return 0;
+                }
+
+                if (ComputeShortestAngleDelta_4056C0(dword_6779E4, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 3;
+                return 1;
+            }
+
+            if (ComputeShortestAngleDelta_4056C0(word_677B08, this->field_10) <= word_677A38)
+            {
+                return 0;
+            }
+            this->field_44 = 4;
+            return 1;
+
+        case 3:
+            if ((this->field_0->field_A6) == 2 || (this->field_0->field_A6 & 1) == 1)
+            {
+                if ((this->field_0->field_A6) == 2)
+                {
+                    if ((pBlock->field_A_arrows & 8) != 0 && ComputeShortestAngleDelta_4056C0(word_677CE8, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 2;
+                        return 1;
+                    }
+                }
+                else
+                {
+                    if ((pBlock->field_A_arrows & 4) != 0 && ComputeShortestAngleDelta_4056C0(word_677ADE, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 1;
+                        return 1;
+                    }
+                }
+            }
+
+            if ((pBlock->field_A_arrows & 0xF) == 8)
+            {
+                if (ComputeShortestAngleDelta_4056C0(word_677CE8, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 2;
+                return 1;
+            }
+            else
+            {
+                if ((pBlock->field_A_arrows & 0xF) != 4 || ComputeShortestAngleDelta_4056C0(word_677ADE, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 1;
+                return 1;
+            }
+
+        case 4:
+            if ((this->field_0->field_A6 & 2) == 2 || (this->field_0->field_A6 & 1) == 1)
+            {
+                if ((this->field_0->field_A6 & 2) == 2)
+                {
+                    if ((pBlock->field_A_arrows & 4) != 0 && ComputeShortestAngleDelta_4056C0(word_677ADE, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 1;
+                        return 1;
+                    }
+                }
+                else
+                {
+                    if ((pBlock->field_A_arrows & 8) != 0 && ComputeShortestAngleDelta_4056C0(word_677CE8, this->field_10) > word_677A38)
+                    {
+                        this->field_44 = 2;
+                        return 1;
+                    }
+                }
+            }
+
+            if ((pBlock->field_A_arrows & 0xF) == 8)
+            {
+                if (ComputeShortestAngleDelta_4056C0(word_677CE8, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 2;
+                return 1;
+            }
+            else
+            {
+                if ((pBlock->field_A_arrows & 0xF) != 4 || ComputeShortestAngleDelta_4056C0(word_677ADE, this->field_10) <= word_677A38)
+                {
+                    return 0;
+                }
+                this->field_44 = 1;
+                return 1;
+            }
+
+        default:
+            return 0;
+    }
 }
 
 MATCH_FUNC(0x448270)
@@ -857,7 +1098,7 @@ void CarAI_78::sub_448770()
             }
             else
             {
-            //LABEL_69:
+                //LABEL_69:
                 this->field_44 = 0;
             }
         }
@@ -1755,7 +1996,7 @@ LABEL_190:
     {
         field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
 
-        Fix16 v247 = ((dword_677A38)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
+        Fix16 v247 = (Fix16(word_677A38.rValue)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
         Ang16 v244;
         v244.sub_4516B0(&v247, 0); // ctor ?
 
@@ -2404,7 +2645,7 @@ void CarAI_78::sub_452060()
     {
         field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
 
-        v86 = ((dword_677A38)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
+        v86 = (Fix16(word_677A38.rValue)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
         v83.sub_4516B0(&v86, 0); // ctor ?
 
         v82 = v83 + this->field_10;
