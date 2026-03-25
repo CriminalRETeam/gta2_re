@@ -46,6 +46,10 @@ DEFINE_GLOBAL(Fix16, dword_67CD10, 0x67CD10);
 
 DEFINE_GLOBAL_INIT(Ang16, word_706610, Ang16(0), 0x706610);
 
+DEFINE_GLOBAL(Ang16, word_706412, 0x706412);
+DEFINE_GLOBAL(Fix16, dword_7064C4, 0x7064C4);
+DEFINE_GLOBAL(Fix16, dword_7064E8, 0x7064E8);
+
 // TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -570,10 +574,48 @@ void Garox_1118_sub::sub_5D6290()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5cf730)
+WIP_FUNC(0x5cf730)
 void Garox_110C_sub::sub_5CF730()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    Ped* pPed = gGame_0x40_67E008->field_38_orf1->Get_Field_68_Ped();
+
+    if (!pPed || pPed->sub_470F00())
+    {
+        field_284E = 0;
+    }
+    else
+    {
+        field_284E = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pPed->field_1AC_cam.x, pPed->field_1AC_cam.y, pPed->field_1AC_cam.z);
+        if (field_284E)
+        {
+            this->field_1114 = word_706412 + pPed->GetRotation();
+
+            Fix16 camx = pPed->field_1AC_cam.x;
+            Fix16 camy = pPed->field_1AC_cam.y;
+            Fix16 camz = pPed->field_1AC_cam.z;
+
+            Player* pPlayer_ = gGame_0x40_67E008->field_38_orf1;
+            Camera_0xBC* pCam;
+            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            {
+                pCam = &pPlayer->field_208_aux_game_camera;
+            }
+            else
+            {
+                pCam = &pPlayer->field_90_game_camera;
+            }
+
+            Fix16 tmp = ((dword_7064C4) / (dword_7064E8 + pCam->field_98_cam_pos2.field_8_z - camz));
+
+            this->field_110C =
+                Fix16(pCam->field_70_screen_px_center_x) + ((pCam->field_60.x * (camx - pCam->field_98_cam_pos2.field_0_x)) * tmp);
+            this->field_1110 =
+                Fix16(pCam->field_74_screen_px_center_y) + ((pCam->field_60.x * (camy - pCam->field_98_cam_pos2.field_4_y)) * tmp);
+        }
+    }
 }
 
 MATCH_FUNC(0x5cf910)
@@ -2372,7 +2414,7 @@ WIP_FUNC(0x5d4a10)
 void Hud_CarName_4C::sub_5D4A10()
 {
     WIP_IMPLEMENTED;
-    
+
     if (field_0_display_time)
     {
         u16 v2 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 11);
