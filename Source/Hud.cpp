@@ -418,10 +418,15 @@ void Hud_Message_1C8::ClearTimeToShow_5D1850()
     field_0_time_to_show = 0;
 }
 
-STUB_FUNC(0x5d1860)
+MATCH_FUNC(0x5d1860)
 void Hud_Message_1C8::sub_5D1860()
 {
-    NOT_IMPLEMENTED;
+    if (this->field_0_time_to_show)
+    {
+        text_0x14::sub_5B5BC0(&this->field_2_str[100], this->field_2_str, 580, word_7062F0);
+        this->field_1BC_str_width = (u16)((640 - Frontend::sub_5D8990(&this->field_2_str[100], word_7062F0)) / 2);
+        this->field_1C0_num_lines = (u16)((480 - sub_5D8940(&this->field_2_str[100], word_7062F0)) / 4);
+    }
 }
 
 MATCH_FUNC(0x5d1940)
@@ -1020,7 +1025,7 @@ void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType,
 
     this->field_AC_fontType = fontType;
 
-    gText_0x14_704DFC->sub_5B5BC0(field_0_str_buf, pStr, 640, fontType);
+    text_0x14::sub_5B5BC0(field_0_str_buf, pStr, 640, fontType);
 
     if (field_AC_fontType == word_703C9C || field_AC_fontType == word_703D9C)
     {
