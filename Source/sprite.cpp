@@ -948,14 +948,54 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* a1)
     return 0;
 }
 
-STUB_FUNC(0x4F76A0)
-EXPORT char_type __stdcall ComputeScanlineIntersectionX_4F76A0(Fix16* scanXMin,
-                                                               Fix16* scanXMax,
-                                                               Fix16* scanY,
-                                                               Fix16_Point* a4,
-                                                               Fix16_Point* a5)
+WIP_FUNC(0x4F76A0)
+EXPORT char_type __stdcall ComputeScanlineIntersectionX_4F76A0(Fix16* outMinX,
+                                                               Fix16* outMinY,
+                                                               Fix16* scanLineY,
+                                                               Fix16_Point* p0,
+                                                               Fix16_Point* p1)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point pd;
+
+    Fix16 p0_y = p0->y;
+    Fix16 p1_y = p1->y;
+
+    if (p0_y == p1_y)
+    {
+        return 0;
+    }
+
+    if (p0_y > *scanLineY)
+    {
+        if (p1_y > *scanLineY)
+        {
+            return 0;
+        }
+    }
+    else if (p1_y >= *scanLineY)
+    {
+        pd = (*p1 -  *p0);
+        Fix16 p0_x = p0->x + (((*scanLineY - p0->y) * ((pd.x) / pd.y)));
+        if (p0_x >= *outMinX && p0_x <= *outMinY)
+        {
+            gRozza_679188.field_14_mapx_t2 = p0_x;
+            return 1;
+        }
+        return 0;
+    }
+
+    if (p0_y >= *scanLineY)
+    {
+        pd = (*p0 - *p1);
+        Fix16 p1_x = p1->x + (((*scanLineY - p1->y) * ((pd.x) / pd.y)));
+        if (p1_x >= *outMinX && p1_x <= *outMinY)
+        {
+            gRozza_679188.field_14_mapx_t2 = p1_x;
+            return 1;
+        }
+    }
     return 0;
 }
 
