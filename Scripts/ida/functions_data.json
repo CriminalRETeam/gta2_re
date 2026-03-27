@@ -7990,7 +7990,7 @@
         "v105_address": "0x4f76a0"
     },
     {
-        "name": "IntersectVerticalLineWithSegment_4F77D0",
+        "name": "ComputeScanlineIntersectionX_4F77D0",
         "v96f_address": "0x4f77d0",
         "v105_address": "0x4f77d0"
     },
