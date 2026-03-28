@@ -3471,10 +3471,21 @@ void miss2_0x11C::sub_50BBD0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50bc60)
+WIP_FUNC(0x50bc60)
 void miss2_0x11C::SCRCMD_CHECK_NUM_ALIVE_50BC60()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    PedGroup* pPedGroup = ((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx))->field_8_char->field_164_ped_group;
+    if (pPedGroup != NULL && (s16)pPedGroup->field_34_count >= pCmd->field_A_objective)
+    {
+        field_8 = 1;
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+    field_8 = 0;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50bcd0)
