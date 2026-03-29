@@ -2836,18 +2836,348 @@ char_type Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
     return true;
 }
 
-STUB_FUNC(0x54fec0)
-char_type Char_B4::CanStepForward_54FEC0(s32 a2)
+// https://decomp.me/scratch/xc0PO
+WIP_FUNC(0x54fec0)
+bool Char_B4::CanStepForward_54FEC0(s32 direction)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    bool result;
+    gmp_block_info* block_4DFE10;
+
+    Fix16 v16;
+    u8 block_type;
+
+    Fix16 xpos = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 ypos = field_80_sprite_ptr->field_14_xy.y;
+    Fix16 field_1C_zpos = field_80_sprite_ptr->field_1C_zpos;
+    s8 v18 = 0;
+    s32 zpos_int = field_1C_zpos.ToInt();
+
+    s8 v9 = zpos_int - 1;
+
+    if ((field_58_flags & 1) == 1)
+    {
+        v9 = zpos_int;
+    }
+
+    if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos.ToInt(), ypos.ToInt(), zpos_int, direction, (u8*)&v18, 0))
+    {
+        dword_623F44 = direction;
+        return 0;
+    }
+    else
+    {
+        s32 new_z_int = v18 + v9;
+
+        if (new_z_int < 0)
+        {
+            return 0;
+        }
+        else
+        {
+            switch (direction)
+            {
+                case 1:
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, new_z_int);
+                    if (block_type == AIR)
+                    {
+                        break;
+                    }
+                    else if (block_type > 0 && block_type <= 4)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    break;
+                case 2:
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, new_z_int);
+                    if (block_type == AIR)
+                    {
+                        break;
+                    }
+                    else if (block_type > 0 && block_type <= 4)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    break;
+                case 3:
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), new_z_int);
+                    if (block_type == AIR)
+                    {
+                        break;
+                    }
+                    else if (block_type > 0 && block_type <= 4)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    break;
+                case 4:
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), new_z_int);
+                    if (block_type == AIR)
+                    {
+                        break;
+                    }
+                    else if (block_type > 0 && block_type <= 4)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            if ((field_58_flags & 1) == 1)
+            {
+                v16 = field_1C_zpos.GetFracValue();
+                if (v16 < k_dword_6FD8E4)
+                {
+                    field_58_flags &= 0xFE;
+                    result = Char_B4::CanStepForward_54FEC0(direction);
+                    field_58_flags |= 1u;
+                    return result;
+                }
+                if (field_7C_pPed->IsField238_45EDE0(2))
+                {
+                    return 1;
+                }
+                if (v16 > k_dword_6FD8E4)
+                {
+                    field_58_flags &= ~1u;
+                    field_80_sprite_ptr->field_1C_zpos += Fix16(1);
+                    result = Char_B4::CanStepForward_54FEC0(direction);
+                    field_80_sprite_ptr->field_1C_zpos -= Fix16(1);
+                    field_58_flags |= 1u;
+                    return result;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 1;
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x550090)
-char_type Char_B4::CanReachTile_550090(s32 xpos, s32 ypos)
+MATCH_FUNC(0x550090)
+bool Char_B4::CanReachTile_550090(s32 xpos, s32 ypos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    bool bRes_1;
+    bool bRes_2;
+
+    Fix16 original_x = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 original_y = field_80_sprite_ptr->field_14_xy.y;
+
+    char_type diff_x = xpos - original_x.ToInt();
+    char_type diff_y = ypos - original_y.ToInt();
+
+    if (diff_x == 0)
+    {
+        if (diff_y == 0)
+        {
+            return true;
+        }
+    }
+
+    if (diff_x)
+    {
+        if (diff_y)
+        {
+            if (diff_x == -1)
+            {
+                bRes_1 = true;
+                if (diff_y == -1)
+                {
+                    field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
+
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y = original_y;
+                    if (!Char_B4::CanReachTile_550090((dword_6FD7F8 - k_dword_6FD9E8).ToInt(), dword_6FD800.ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+                    if (!Char_B4::CanReachTile_550090(dword_6FD7F8.ToInt(), (dword_6FD800 - k_dword_6FD9E8).ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+                }
+                else
+                {
+                    field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
+
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y = original_y;
+                    if (!Char_B4::CanReachTile_550090((field_80_sprite_ptr->field_14_xy.x - k_dword_6FD9E8).ToInt(),
+                                                      field_80_sprite_ptr->field_14_xy.y.ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+
+                    if (!Char_B4::CanReachTile_550090(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                      (k_dword_6FD9E8 + field_80_sprite_ptr->field_14_xy.y).ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+                }
+            }
+            else
+            {
+                bRes_2 = true;
+                if (diff_y == -1)
+                {
+                    field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_2 = false;
+                        dword_623F44 = 3;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_2 = false;
+                        dword_623F44 = 1;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y = original_y;
+                    if (!Char_B4::CanReachTile_550090((k_dword_6FD9E8 + field_80_sprite_ptr->field_14_xy.x).ToInt(),
+                                                      field_80_sprite_ptr->field_14_xy.y.ToInt()))
+                    {
+                        bRes_2 = false;
+                        dword_623F44 = 1;
+                    }
+                    if (!Char_B4::CanReachTile_550090(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                      (field_80_sprite_ptr->field_14_xy.y - k_dword_6FD9E8).ToInt()))
+                    {
+                        bRes_2 = false;
+                        dword_623F44 = 3;
+                    }
+                    return bRes_2;
+                }
+                else
+                {
+                    field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y = original_y;
+                    if (!Char_B4::CanReachTile_550090((k_dword_6FD9E8 + field_80_sprite_ptr->field_14_xy.x).ToInt(),
+                                                      field_80_sprite_ptr->field_14_xy.y.ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+                    if (!Char_B4::CanReachTile_550090(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                      (k_dword_6FD9E8 + field_80_sprite_ptr->field_14_xy.y).ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+                }
+            }
+            return bRes_1;
+        }
+        else // diff_y = 0
+        {
+            if (diff_x == -1)
+            {
+                if (Char_B4::CanStepForward_54FEC0(4))
+                {
+                    return true;
+                }
+                else
+                {
+                    dword_623F44 = 4;
+                    return false;
+                }
+            }
+            else if (Char_B4::CanStepForward_54FEC0(3))
+            {
+                return true;
+            }
+            else
+            {
+                dword_623F44 = 3;
+                return false;
+            }
+        }
+    }
+    else // diff_x = 0
+    {
+        if (diff_y == 0)
+        {
+            return true;
+        }
+        if (diff_y == -1)
+        {
+            if (Char_B4::CanStepForward_54FEC0(1))
+            {
+                return true;
+            }
+            else
+            {
+                dword_623F44 = 1;
+                return false;
+            }
+        }
+        else if (Char_B4::CanStepForward_54FEC0(2))
+        {
+            return true;
+        }
+        else
+        {
+            dword_623F44 = 2;
+            return false;
+        }
+    }
+    return false;
 }
 
 // https://decomp.me/scratch/chZqY

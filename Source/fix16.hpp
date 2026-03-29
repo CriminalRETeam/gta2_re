@@ -387,6 +387,18 @@ class Fix16
         }
     }
 
+    inline Fix16* subtract_one_491F00()
+    {
+        mValue -= 0x4000;
+        return this;
+    }
+
+    inline Fix16* add_one_491EF0()
+    {
+        mValue += 0x4000;
+        return this;
+    }
+
     EXPORT static class Ang16 __stdcall atan2_fixed_405320(Fix16& pMaybeX_FP16, Fix16& pMaybeY_FP16);
 
   public:

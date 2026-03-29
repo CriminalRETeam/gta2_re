@@ -234,8 +234,8 @@ class Char_B4
     EXPORT void state_0_54DDF0();
     EXPORT char_type CanStepForwardWithRegionCheck_54ECB0(s32 a2);
     EXPORT char_type CanStepDiagonal_54EF60(char_type a2, char_type a3);
-    EXPORT char_type CanStepForward_54FEC0(s32 a2);
-    EXPORT char_type CanReachTile_550090(s32 xpos, s32 ypos);
+    EXPORT bool CanStepForward_54FEC0(s32 direction);
+    EXPORT bool CanReachTile_550090(s32 xpos, s32 ypos);
     EXPORT void state_1_5504F0();
     EXPORT Ang16 GetNextRotationToward_550F60(Ang16 a3);
     EXPORT char_type CanStepInDirection_551350(Ang16 a2);
