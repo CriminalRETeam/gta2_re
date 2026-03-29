@@ -2836,15 +2836,150 @@ char_type Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
     return true;
 }
 
-STUB_FUNC(0x54fec0)
-char_type Char_B4::CanStepForward_54FEC0(s32 a2)
+// https://decomp.me/scratch/xc0PO
+WIP_FUNC(0x54fec0)
+bool Char_B4::CanStepForward_54FEC0(s32 direction)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    bool result;
+    gmp_block_info* block_4DFE10;
+
+    Fix16 v16;
+    u8 block_type;
+
+    Fix16 xpos = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 ypos = field_80_sprite_ptr->field_14_xy.y;
+    Fix16 field_1C_zpos = field_80_sprite_ptr->field_1C_zpos;
+    s8 v18 = 0;
+    s32 zpos_int = field_1C_zpos.ToInt();
+
+    s8 v9 = zpos_int - 1;
+
+    if ((field_58_flags & 1) == 1)
+    {
+        v9 = zpos_int;
+    }
+
+    if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos.ToInt(), ypos.ToInt(), zpos_int, direction, (u8*)&v18, 0))
+    {
+        dword_623F44 = direction;
+        return 0;
+    }
+    else
+    {
+        s32 new_z_int = v18 + v9;
+
+        if (new_z_int < 0)
+        {
+            return 0;
+        }
+        else
+        {
+            switch (direction)
+            {
+                case 1:
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, new_z_int);
+                    if (block_type == AIR)
+                    {
+                        break;
+                    }
+                    else if (block_type > 0 && block_type <= 4)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    break;
+                case 2:
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, new_z_int);
+                    if (block_type == AIR)
+                    {
+                        break;
+                    }
+                    else if (block_type > 0 && block_type <= 4)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    break;
+                case 3:
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), new_z_int);
+                    if (block_type == AIR)
+                    {
+                        break;
+                    }
+                    else if (block_type > 0 && block_type <= 4)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    break;
+                case 4:
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), new_z_int);
+                    if (block_type == AIR)
+                    {
+                        break;
+                    }
+                    else if (block_type > 0 && block_type <= 4)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            if ((field_58_flags & 1) == 1)
+            {
+                v16 = field_1C_zpos.GetFracValue();
+                if (v16 < k_dword_6FD8E4)
+                {
+                    field_58_flags &= 0xFE;
+                    result = Char_B4::CanStepForward_54FEC0(direction);
+                    field_58_flags |= 1u;
+                    return result;
+                }
+                if (field_7C_pPed->IsField238_45EDE0(2))
+                {
+                    return 1;
+                }
+                if (v16 > k_dword_6FD8E4)
+                {
+                    field_58_flags &= ~1u;
+                    field_80_sprite_ptr->field_1C_zpos += Fix16(1);
+                    result = Char_B4::CanStepForward_54FEC0(direction);
+                    field_80_sprite_ptr->field_1C_zpos -= Fix16(1);
+                    field_58_flags |= 1u;
+                    return result;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 1;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x550090)
-char_type Char_B4::CanReachTile_550090(s32 xpos, s32 ypos)
+bool Char_B4::CanReachTile_550090(s32 xpos, s32 ypos)
 {
     NOT_IMPLEMENTED;
     return 0;
