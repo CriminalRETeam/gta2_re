@@ -1,11 +1,21 @@
 #include "Bink.hpp"
 
+DEFINE_GLOBAL(s32, gBink_state_6F83B0, 0x6F83B0);
+DEFINE_GLOBAL(s32, gBink_state_6F8168, 0x6F8168);
+DEFINE_GLOBAL(s32, gBink_state_6F80C4, 0x6F80C4);
+DEFINE_GLOBAL(s32, gBink_state_6F8170, 0x6F8170);
 DEFINE_GLOBAL(char_type, gBink_state_6F83FE, 0x6F83FE);
+DEFINE_GLOBAL(char_type, gBink_state_6F83FF, 0x6F83FF);
 
-STUB_FUNC(0x513210)
+MATCH_FUNC(0x513210)
 void __stdcall Bink::Reset_513210()
 {
-    NOT_IMPLEMENTED;
+    gBink_state_6F83B0 = 0;
+    gBink_state_6F8168 = 0;
+    gBink_state_6F80C4 = 0;
+    gBink_state_6F8170 = 0;
+    gBink_state_6F83FE = 0;
+    gBink_state_6F83FF = 0;
 }
 
 STUB_FUNC(0x513340)
@@ -30,7 +40,9 @@ MATCH_FUNC(0x513770)
 BOOL Bink::sub_513770()
 {
     if (gBink_state_6F83FE == 2 || gBink_state_6F83FE == 1)
+    {
         return TRUE;
+    }
 
     return FALSE;
 }
