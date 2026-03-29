@@ -67,11 +67,11 @@ void Bink::sub_5136D0(s32* pNewWindowX, s32* pNewWindowY)
     WIP_IMPLEMENTED;
 
     // To-do: Get bink header stubs.
-    if (gBink_state_6F83FF == '\x01' && gBink_state_6F8170 != 0)
+    if (gBink_state_6F83FF == 1 && gBink_state_6F8170 != 0)
     {
         //_BinkBufferCheckWinPos@12(gBink_state_6F8170, pNewWindowX, pNewWindowY);
     }
-    else if (gBink_state_6F83FF == '\x02' && gBink_state_6F80C4 != 0)
+    else if (gBink_state_6F83FF == 2 && gBink_state_6F80C4 != 0)
     {
         //_BinkBufferCheckWinPos@12(gBink_state_6F8170, pNewWindowX, pNewWindowY);
     }
@@ -88,11 +88,10 @@ BOOL Bink::sub_513770()
     return FALSE;
 }
 
-STUB_FUNC(0x513760)
+MATCH_FUNC(0x513760)
 BOOL Bink::sub_513760()
 {
-    NOT_IMPLEMENTED;
-    return FALSE;
+    return gBink_state_6F83FE == 2;
 }
 
 STUB_FUNC(0x513720)
