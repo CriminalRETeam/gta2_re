@@ -22,9 +22,9 @@ class CarAI_78
     EXPORT bool sub_448270();
     EXPORT void sub_4482C0();
     EXPORT void sub_448770();
-    EXPORT char_type sub_448CE0();
-    EXPORT char_type sub_44A1F0();
-    EXPORT s16 sub_44AF00();
+    EXPORT void sub_448CE0();
+    EXPORT void sub_44A1F0();
+    EXPORT void sub_44AF00();
     EXPORT char_type sub_44D1D0();
     EXPORT void sub_44E0C0();
     EXPORT void UpdateStateMachine_44E560();

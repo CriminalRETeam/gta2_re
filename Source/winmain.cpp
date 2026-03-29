@@ -19,6 +19,7 @@
 #include "resource.h"
 #include "root_sound.hpp"
 #include "sharp_bose_0x54.hpp"
+#include "Particle_4C.hpp"
 #include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>
@@ -301,6 +302,9 @@ void force_link()
 
     Fix16_Rect car14_18;
     car14_18.DoSetCurrentRect_59DD60();
+
+    Particle_4C p4C;
+    p4C.PoolAllocate_53E2C0();
 }
 
 DEFINE_GLOBAL(HINSTANCE, gHInstance_708220, 0x708220);

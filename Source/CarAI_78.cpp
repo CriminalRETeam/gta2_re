@@ -57,6 +57,10 @@ DEFINE_GLOBAL(Fix16, dword_6779F4, 0x6779F4);
 DEFINE_GLOBAL(s32, dword_677C88, 0x677C88);
 DEFINE_GLOBAL(Car_BC*, dword_6779B0, 0x6779B0);
 
+DEFINE_GLOBAL(Fix16, dword_6779D0, 0x6779D0);
+DEFINE_GLOBAL(Ang16, dword_677A08, 0x677A08);
+DEFINE_GLOBAL(Fix16, dword_6779CC, 0x6779CC);
+
 DEFINE_GLOBAL_INIT(Fix16, dword_6779C8, Fix16(0x1999, 0), 0x6779C8);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6779C0, Fix16(0xCCC, 0), 0x6779C0);
@@ -1105,25 +1109,1361 @@ void CarAI_78::sub_448770()
     }
 }
 
-STUB_FUNC(0x448ce0)
-char_type CarAI_78::sub_448CE0()
+WIP_FUNC(0x448ce0)
+void CarAI_78::sub_448CE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 v1 = dword_677C48;
+    Fix16 v3 = dword_677C30;
+
+    field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
+
+    Car_BC* v5 = this->field_0;
+    this->field_24_flags |= 0x400u;
+    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(field_0->field_50_car_sprite->field_14_xy.x.ToInt(),
+                                                                       field_0->field_50_car_sprite->field_14_xy.y.ToInt(),
+                                                                       field_0->field_50_car_sprite->field_1C_zpos.ToInt());
+
+    gmp_block_info* v7 = block_4DFE10;
+    if (!block_4DFE10 || ((block_4DFE10->field_B_slope_type & 0xFC) == 0) || (block_4DFE10->field_B_slope_type & 0xFCu) >= 0xB4 ||
+        (block_4DFE10->field_B_slope_type & 3) == 0)
+    {
+        v7 = gMap_0x370_6F6268->get_block_4DFE10(this->field_0->field_50_car_sprite->field_14_xy.x.ToInt(),
+                                                 this->field_0->field_50_car_sprite->field_14_xy.y.ToInt(),
+                                                 (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+    }
+
+    sub_448770();
+
+    if (v7)
+    {
+        switch (this->field_4C)
+        {
+            case 1:
+                if ((v7->field_A_arrows & 4) == 0)
+                {
+                    if ((v7->field_A_arrows & 0x40) == 0)
+                    {
+                        field_24_flags &= ~0x10;
+                    }
+                    else
+                    {
+                        field_24_flags |= 0x10u;
+                    }
+                }
+                else
+                {
+                    field_24_flags |= 0x10;
+                }
+                break;
+
+            case 2:
+                if ((v7->field_A_arrows & 8) != 0)
+                {
+                    field_24_flags |= 0x10;
+                }
+                else
+                {
+                    if ((v7->field_A_arrows & 0x80u) == 0)
+                    {
+                        field_24_flags &= ~0x10;
+                    }
+                    else
+                    {
+                        field_24_flags |= 0x10u;
+                    }
+                }
+                break;
+
+            case 3:
+                if ((v7->field_A_arrows & 2) != 0)
+                {
+                    field_24_flags |= 0x10;
+                }
+                else
+                {
+                    if ((v7->field_A_arrows & 0x20) == 0)
+                    {
+                        field_24_flags &= ~0x10;
+                    }
+                    else
+                    {
+                        field_24_flags |= 0x10u;
+                    }
+                }
+                break;
+
+            case 4:
+                if ((v7->field_A_arrows & 1) != 0)
+                {
+                    field_24_flags |= 0x10;
+                }
+                else
+                {
+                    if ((v7->field_A_arrows & 0x40) == 0)
+                    {
+                        field_24_flags &= ~0x10;
+                    }
+                    else
+                    {
+                        field_24_flags |= 0x10u;
+                    }
+                }
+                break;
+
+            default:
+                field_24_flags &= ~0x10;
+                break;
+        }
+    }
+
+    Fix16 v15 = ((dword_677C9C / dword_677B98) * Ang16::sine_40F500(field_10));
+    Fix16 v16 = ((dword_677C9C / dword_677B98) * Ang16::cosine_40F520(field_10));
+
+    dword_677A74 = v15 + this->field_0->field_50_car_sprite->field_14_xy.x;
+    dword_677A80 = v16 + this->field_0->field_50_car_sprite->field_14_xy.y;
+
+    if ((field_24_flags & 0x10) == 0)
+    {
+        sub_44A1F0();
+        return;
+    }
+
+    field_24_flags &= ~0x08;
+    field_24_flags |= 0x10010;
+
+    Ang16 v79;
+
+    switch (field_4C - 1)
+    {
+        case 0:
+            if ((field_24_flags & 0x80u) == 0)
+            {
+                this->field_40 = 1;
+                v79 = word_677ADE;
+
+                Ang16 v23;
+
+                if (field_10 <= word_677ADE - dword_677A08 || (v23 = v79, field_10 >= v79 + dword_677A08))
+                {
+                    this->field_24_flags &= ~0x12000u;
+                    if (field_10 <= word_677ADE)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    else
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                    }
+                }
+
+                if (byte_677BBC)
+                {
+                    this->field_8 = 0;
+                }
+
+                Fix16 v25 = this->field_0->field_50_car_sprite->field_14_xy.x - ((this->field_0->field_50_car_sprite->field_14_xy.x));
+                if (v25 <= dword_6779C8 || v25 >= dword_6779D0)
+                {
+                    this->field_24_flags &= ~0x12000u;
+                    if (v25 > dword_6779C8)
+                    {
+                        if (field_10 >= v23 + dword_677A08)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+
+                        if (field_10 > word_677ADE + word_677CE2)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = 0;
+                            field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                            return;
+                        }
+                        field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    else
+                    {
+                        if (field_10 <= v23 - dword_677A08)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+
+                        if (field_10 >= word_677ADE - word_677CE2)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    }
+                    return;
+                }
+
+                if (this->field_10 != word_677ADE)
+                {
+                    field_0->field_58_physics->field_AD_turn_direction = 0;
+                    field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    return;
+                }
+
+                field_8 = 0;
+                field_0->field_58_physics->field_8_total_damage_q = 0;
+                field_24_flags &= ~0x400;
+                field_24_flags |= 0x10;
+            }
+            else
+            {
+                field_40 = field_44;
+                switch (field_44)
+                {
+                    case 1:
+                        sub_4538B0();
+                        field_24_flags &= ~0x20080;
+                        return;
+                    case 3:
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                        break;
+                    case 4:
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                }
+            }
+            return;
+
+        case 1:
+            if ((field_24_flags & 0x80u) == 0)
+            {
+                this->field_40 = 2;
+
+                Ang16 v64 = this->field_10 + dword_6779E4;
+                Ang16 v31 = v64;
+
+                Ang16 v32 = dword_6779E4;
+                v79 = dword_6779E4;
+
+                Ang16 v65 = dword_6779E4 - word_677CE2;
+                Ang16 v67;
+                Ang16 v68;
+
+                if (v64 <= v65 - word_677CE2 || (v67 = v32 + word_677CE2, v68 = v67 + word_677CE2, v64 >= v68))
+                {
+                    this->field_24_flags &= ~0x12000u;
+                    if (v64 <= v32)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    else
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    }
+                    return;
+                }
+                if (byte_677BBC)
+                {
+                    this->field_8 = 0;
+                }
+
+                Fix16 v33 = this->field_0->field_50_car_sprite->field_14_xy.x - ((this->field_0->field_50_car_sprite->field_14_xy.x));
+                if (v33 <= dword_6779C8 || v33 >= dword_6779D0)
+                {
+                    this->field_24_flags &= ~0x12000u;
+                    if (v33 <= dword_6779C8)
+                    {
+                        if (v64 >= v79 + dword_677A08)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+
+                        if (v64 <= v32 + word_677CE2)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+
+                    if (v64 <= v79 - dword_677A08)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+
+                    if (v64 >= v32 - word_677CE2)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                        return;
+                    }
+
+                    field_0->field_58_physics->field_AD_turn_direction = 0;
+                    field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    return;
+                }
+                else if (this->field_10 != word_677CE8 || this->field_70)
+                {
+                    field_0->field_58_physics->field_AD_turn_direction = 0;
+                    field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    return;
+                }
+                else
+                {
+                    field_0->field_58_physics->field_8_total_damage_q = 0;
+                    this->field_8 = 0;
+                    this->field_24_flags &= ~0x4000;
+                    this->field_24_flags |= 0x10;
+                }
+            }
+            else
+            {
+                this->field_40 = field_44;
+                switch (field_44)
+                {
+                    case 2:
+                        sub_4538B0();
+                        this->field_24_flags &= 0xFFFDFF7F;
+                        return;
+                    case 4:
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        break;
+                    case 3:
+                        field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                }
+            }
+            return;
+
+        case 2:
+            this->field_40 = 3;
+
+            v79 = dword_6779E4;
+
+            if ((field_24_flags & 0x80u) == 0)
+            {
+                Ang16 v74 = (dword_6779E4 - word_677CE2) - word_677CE2;
+                Ang16 v75;
+                Ang16 v76;
+
+                if (field_10 <= v74 || (v75 = dword_6779E4 + word_677CE2, v76 = word_677CE2 + v75, field_10 >= v76))
+                {
+                    this->field_24_flags &= ~0x12000u;
+                    if (field_10 <= dword_6779E4)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    else
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                    }
+                    return;
+                }
+
+                if (byte_677BBC)
+                {
+                    this->field_8 = 0;
+                }
+
+                Fix16 v39 = this->field_0->field_50_car_sprite->field_14_xy.y - ((this->field_0->field_50_car_sprite->field_14_xy.y));
+                if (v39 > dword_6779C8 && v39 < dword_6779D0)
+                {
+                    if (this->field_10 == dword_6779E4)
+                    {
+                        field_0->field_58_physics->field_8_total_damage_q = 0;
+                        this->field_8 = 0;
+                        this->field_24_flags &= ~0x400;
+                        this->field_24_flags |= 0x10;
+                    }
+                    else
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    }
+                    return;
+                }
+
+                this->field_24_flags &= ~0x12000u;
+
+                if (v39 > dword_6779C8)
+                {
+                    if (field_10 > dword_6779E4 + word_677CE2)
+                    {
+                        if (field_10 >= dword_677A08 + v79)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+                    field_0->field_58_physics->field_AD_turn_direction = 1;
+                }
+                else
+                {
+                    if (field_10 >= dword_6779E4 - word_677CE2)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                        return;
+                    }
+
+                    if (field_10 > v79 - dword_677A08)
+                    {
+                        field_0->field_58_physics = this->field_0->field_58_physics;
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+                    field_0->field_58_physics->field_AD_turn_direction = 1;
+                    return;
+                }
+            }
+            else
+            {
+                this->field_40 = field_44;
+                switch (field_44)
+                {
+                    case 3:
+                        sub_4538B0();
+                        this->field_24_flags &= 0xFFFDFF7F;
+                        return;
+                    case 1:
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        break;
+                    case 2:
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        break;
+                }
+            }
+            return;
+
+        case 3:
+            if ((field_24_flags & 0x80u) == 0)
+            {
+                this->field_40 = 4;
+                v79 = word_677B08;
+
+                if (field_10 <= (word_677B08 - word_677CE2) - word_677CE2)
+                {
+                    this->field_24_flags = field_24_flags & ~0x12000u;
+                    if (field_10 <= v79)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    else
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                    }
+                    return;
+                }
+
+                if (field_10 >= word_677CE2 + word_677CE2 + word_677B08)
+                {
+                    this->field_24_flags = field_24_flags & ~0x12000u;
+                    if (field_10 <= v79)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    else
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                    }
+                    return;
+                }
+                else
+                {
+                    if (byte_677BBC)
+                    {
+                        this->field_8 = 0;
+                    }
+
+                    Fix16 v52 = this->field_0->field_50_car_sprite->field_14_xy.y - (this->field_0->field_50_car_sprite->field_14_xy.y);
+                    if (v52 > dword_6779C8 && v52 < dword_6779D0)
+                    {
+                        if (field_10 == word_677B08)
+                        {
+                            field_0->field_58_physics->field_8_total_damage_q = 0;
+                            this->field_8 = 0;
+                            this->field_24_flags &= ~0x400;
+                            this->field_24_flags |= 0x10;
+                        }
+                        else
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = 0;
+                            field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                        return;
+                    }
+
+                    this->field_24_flags &= 0xFFFEDFFF;
+                    if (v52 > dword_6779C8)
+                    {
+                        if (field_10 >= v79 - word_677CE2)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+
+                        if (field_10 <= v79 - dword_677A08)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+
+                    if (field_10 <= v79 + word_677CE2)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+
+                    if (field_10 < dword_677A08 + v79)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+                }
+
+                field_0->field_58_physics->field_AD_turn_direction = -1;
+                return;
+            }
+
+            field_40 = field_44;
+            switch (field_44)
+            {
+                case 4:
+                    sub_4538B0();
+                    this->field_24_flags &= 0xFFFDFF7F;
+                    return;
+                case 1:
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+                case 2:
+                    field_0->field_58_physics->field_AD_turn_direction = 1;
+                    return;
+            }
+            return;
+        default:
+            return;
+    }
 }
 
-STUB_FUNC(0x44a1f0)
-char_type CarAI_78::sub_44A1F0()
+WIP_FUNC(0x44a1f0)
+void CarAI_78::sub_44A1F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Ang16 v2 = word_677CE8;
+    Ang16 v3 = word_677CE8;
+    Fix16 v6 = dword_677B90;
+
+    field_24_flags &= ~0x2000u;
+
+    Fix16 v40 = v6;
+    s32 v34 = field_0->field_50_car_sprite->field_1C_zpos.ToInt();
+    Ang16 v39 = v3;
+
+    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(), dword_677A80.ToInt(), v34);
+    if (!block_4DFE10 || (block_4DFE10->field_B_slope_type & 0xFC) == 0 || (block_4DFE10->field_B_slope_type & 0xFCu) >= 0xB4 ||
+        (block_4DFE10->field_B_slope_type & 3) == 0)
+    {
+        block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
+                                                           dword_677A80.ToInt(),
+                                                           (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+    }
+
+    s32 v9;
+    if (block_4DFE10)
+    {
+        v9 = gMap_0x370_6F6268->sub_4E5FC0(block_4DFE10, 1);
+        if (v9)
+        {
+            if (this->field_3C)
+            {
+                this->field_3C = 0;
+                this->field_24_flags &= ~0x3F00;
+                if (byte_677BBC)
+                {
+                    this->field_0->field_60->field_22 = 1;
+                }
+            }
+        }
+    }
+    else
+    {
+        v9 = 0;
+    }
+
+    this->field_24_flags &= ~400u;
+
+    switch (v9)
+    {
+        case 1:
+            switch (this->field_4C)
+            {
+                case 1:
+                {
+                    Fix16 v12 = this->field_0->field_50_car_sprite->field_14_xy.x - (this->field_0->field_50_car_sprite->field_14_xy.x);
+                    if (v12 > dword_6779C8 && v12 < dword_6779D0)
+                    {
+                        return;
+                    }
+
+                    this->field_24_flags &= 0xFFFEDFFF;
+
+                    if (v12 <= dword_6779C8)
+                    {
+                        if (v3 <= v39 - dword_677A08)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+
+                        if (v3 < v2 - word_677CE2)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                            return;
+                        }
+
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        return;
+                    }
+
+                    if (v3 >= v39 + dword_677A08)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        return;
+                    }
+
+                    if (v3 > v2 + word_677CE2)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                        this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+                    break;
+                }
+
+                case 2:
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+
+                case 3:
+                    if ((field_24_flags & 0x80u) != 0 && this->field_44 == 1)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    if (this->field_10 > word_677A38)
+                    {
+                        if ((field_24_flags & 0x40) != 0)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    if ((field_24_flags & 0x40) == 0)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        return;
+                    }
+                    this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    return;
+
+                case 4:
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+
+                default:
+                    return;
+            }
+            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+            return;
+
+        case 2:
+            switch (field_4C)
+            {
+                case 4:
+                    if (this->field_10 <= word_677B08)
+                    {
+                        if ((field_24_flags & 0x40) == 0)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    else
+                    {
+                        if ((field_24_flags & 0x40) != 0)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    return;
+
+                case 3:
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+
+                case 2:
+                    this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                    this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    return;
+            }
+            if (field_4C != 1)
+            {
+                return;
+            }
+
+            if ((field_24_flags & 0x80u) != 0)
+            {
+                if (this->field_44 == 4)
+                {
+                    this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    return;
+                }
+            }
+            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+            return;
+
+        case 3:
+            switch (this->field_4C)
+            {
+                case 1:
+                    if ((field_24_flags & 0x40) != 0)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    return;
+
+                case 2:
+                    if (this->field_10 <= word_677B08)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+
+                case 3:
+                {
+                    Fix16 v17 = this->field_0->field_50_car_sprite->field_14_xy.y - ((this->field_0->field_50_car_sprite->field_14_xy.y));
+                    if (v17 > dword_6779C8 && v17 < dword_6779D0)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                        this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+
+                    this->field_24_flags = field_24_flags & 0xFFFEDFFF;
+
+                    if (v17 > dword_6779C8)
+                    {
+                        if (v3 <= v2 + word_677CE2)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+
+                        if (v3 >= dword_677A08 + v39)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (v3 >= v2 - word_677CE2)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+
+                        if (v3 <= v39 - dword_677A08)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+                    }
+                    break;
+                }
+
+                case 4:
+                    if ((field_24_flags & 0x80u) != 0 && this->field_44 == 2)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+
+                default:
+                    return;
+            }
+            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+            return;
+
+        case 4:
+            if (this->field_4C == 1)
+            {
+                if (this->field_10 <= word_677ADE)
+                {
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+                }
+                this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                return;
+            }
+
+            if (this->field_4C == 2)
+            {
+                if ((field_24_flags & 0x80u) != 0 && this->field_44 == 4)
+                {
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+                }
+                this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                return;
+            }
+            if (this->field_4C != 3)
+            {
+                return;
+            }
+            if ((field_24_flags & 0x80u) != 0)
+            {
+                if (this->field_44 == 1)
+                {
+                    this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    return;
+                }
+            }
+            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+            return;
+
+        default:
+            this->field_24_flags = field_24_flags | 8;
+            if (field_3C)
+            {
+                if (this->field_50 == 3)
+                {
+                    field_0->field_58_physics->field_AD_turn_direction = 0;
+                    field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    return;
+                }
+            }
+            else
+            {
+                Fix16 v25; // ?? = field_1C_zpos;
+
+                this->field_3C = 1;
+                u8 v41 = 0;
+                while (1)
+                {
+                    Fix16 v42 = dword_677A74;
+                    Fix16 v43 = dword_677A80;
+                    Fix16 t = field_0->field_50_car_sprite->field_1C_zpos;
+
+                    Ang16 v28;
+                    switch (v41)
+                    {
+                        case 0:
+                            v28 = this->field_10;
+                            v25 = (gSin_table_667A80[v28.rValue] * dword_677B94);
+                            v40 = (gCos_table_669260[v28.rValue] * dword_677B94);
+                            break;
+
+                        case 1:
+                            v28 = dword_6779E4 + this->field_10;
+                            v25 = (gSin_table_667A80[v28.rValue] * dword_677B94);
+                            v40 = (gCos_table_669260[v28.rValue] * dword_677B94);
+                            break;
+
+                        case 2:
+                            v28 = dword_6779E4 - this->field_10;
+                            v25 = (gSin_table_667A80[v28.rValue] * dword_677B94);
+                            v40 = (gCos_table_669260[v28.rValue] * dword_677B94);
+                            break;
+
+                        case 3:
+                            v28 = word_677ADE + this->field_10;
+                            v25 = (gSin_table_667A80[v28.rValue] * dword_677B94);
+                            v40 = (gCos_table_669260[v28.rValue] * dword_677B94);
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    gmp_block_info* v32 = gMap_0x370_6F6268->get_block_4DFE10((v25 + v42).ToInt(), (v40 + v43).ToInt(), t.ToInt());
+                    if (!v32 || (v32->field_B_slope_type & 0xFC) == 0 || (v32->field_B_slope_type & 0xFCu) >= 0xB4 ||
+                        (v32->field_B_slope_type & 3) == 0)
+                    {
+                        v32 = gMap_0x370_6F6268->get_block_4DFE10((v25 + v42).ToInt(), (v40 + v43).ToInt(), t.ToInt() - 1);
+                    }
+                    if (v32 && gMap_0x370_6F6268->sub_4E5FC0(v32, 1))
+                    {
+                        break;
+                    }
+
+                    v41++;
+                    if ((u8)v41 >= 4u)
+                    {
+                        return;
+                    }
+                }
+
+                this->field_24_flags &= ~0xC0u;
+
+                switch (v41)
+                {
+                    case 0:
+                        this->field_50 = 0;
+                        break;
+                    case 1:
+                        this->field_50 = 1;
+                        break;
+                    case 2:
+                        this->field_50 = 2;
+                        break;
+                    case 3:
+                        this->field_50 = 3;
+                        break;
+                    default:
+                        return;
+                }
+            }
+            return;
+    }
 }
 
-STUB_FUNC(0x44af00)
-s16 CarAI_78::sub_44AF00()
+WIP_FUNC(0x44af00)
+void CarAI_78::sub_44AF00()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    u8 v72 = 0;
+    if ((this->field_24_flags & 0x100) != 0)
+    {
+        byte_677A5D = 0;
+        char_type v2 = this->field_0->CountConsecutiveArrowBlocks_4410D0(this->field_10, &v72, dword_677C38, dword_677C30);
+        Fix16 v3 = dword_677C48;
+        Fix16 v4 = dword_677C30;
+
+        this->field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
+
+        if (v2 == (u8)this->field_2F)
+        {
+            switch (this->field_4C)
+            {
+                case 1:
+                {
+                    Fix16 v11 = this->field_0->field_50_car_sprite->field_14_xy.x - ((this->field_0->field_50_car_sprite->field_14_xy.x));
+                    if (v11 < dword_6779C8)
+                    {
+                        if (this->field_10 > word_677ADE - dword_677A2E)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                    }
+                    else
+                    {
+                        if (v11 <= dword_6779D0)
+                        {
+                            byte_677A5D = 1;
+                            this->field_24_flags |= 0x10000u;
+                        }
+                        else if (this->field_10 < word_677ADE + dword_677A2E)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                    }
+                    break;
+                }
+
+                case 2:
+                {
+                    Fix16 v13 = this->field_0->field_50_car_sprite->field_14_xy.x - ((this->field_0->field_50_car_sprite->field_14_xy.x));
+                    if (v13 < dword_6779C8)
+                    {
+                        if (this->field_10 >= dword_677A2E)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        }
+                    }
+                    else if (v13 > dword_6779D0)
+                    {
+                        if (this->field_10 <= word_677CE8 - dword_677A2E)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        }
+                    }
+                    else
+                    {
+                        byte_677A5D = 1;
+                        this->field_24_flags |= 0x10000u;
+                    }
+                    break;
+                }
+
+                case 3:
+                {
+                    Fix16 v15 = this->field_0->field_50_car_sprite->field_14_xy.y - ((this->field_0->field_50_car_sprite->field_14_xy.y));
+                    if (v15 <= dword_6779C8)
+                    {
+                        if (this->field_10 <= dword_6779E4 - dword_677A2E)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        }
+                    }
+                    else
+                    {
+                        if (v15 >= dword_6779D0)
+                        {
+                            if (this->field_10 < dword_677A2E + dword_6779E4)
+                            {
+                                this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                            }
+                            else
+                            {
+                                this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                                this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                            }
+                        }
+                        else
+                        {
+                            byte_677A5D = 1;
+                            this->field_24_flags |= 0x10000u;
+                        }
+                    }
+                    break;
+                }
+
+                case 4:
+                {
+                    Fix16 v17 = this->field_0->field_50_car_sprite->field_14_xy.y - ((this->field_0->field_50_car_sprite->field_14_xy.y));
+                    if (v17 <= dword_6779C8)
+                    {
+                        if (this->field_10 < word_677B08 - dword_677A2E)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                    }
+                    else
+                    {
+                        if (v17 < dword_6779D0)
+                        {
+                            byte_677A5D = 1;
+                            this->field_24_flags |= 0x10000u;
+                        }
+                        else if (this->field_10 > dword_677A2E + word_677B08)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                    }
+                    break;
+                }
+
+                default:
+                    break;
+            }
+
+            if ((field_24_flags & 0x10) != 0 && (field_24_flags & 0x10000) != 0)
+            {
+                this->field_24_flags &= ~0x100u;
+            }
+            return;
+        }
+
+        if (v2 < (u8)this->field_2F)
+        {
+            switch (this->field_4C)
+            {
+                case 1:
+                {
+                    Fix16 v42 = this->field_0->field_50_car_sprite->field_14_xy.x + (gSin_table_667A80[dword_6779E4.rValue] * dword_6779CC);
+                    Fix16 v43 = this->field_0->field_50_car_sprite->field_14_xy.y + (gCos_table_669260[dword_6779E4.rValue] * dword_6779CC);
+
+                    this->field_0->field_50_car_sprite->set_xyz_lazy_420600(v42, v43, field_0->field_50_car_sprite->field_1C_zpos);
+
+                    if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0))
+                    {
+                        if (this->field_10 <= word_677ADE - dword_677A2E)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        }
+                    }
+                    else
+                    {
+                        byte_677A5D = 1;
+                    }
+                    break;
+                }
+
+                case 2:
+                {
+                    Fix16 v34 = (gSin_table_667A80[word_677B08.rValue] * dword_6779CC);
+                    Fix16 v35 = (gCos_table_669260[word_677B08.rValue] * dword_6779CC);
+                    Fix16 v38 = v35 + field_0->field_50_car_sprite->field_14_xy.y;
+                    Fix16 v39 = v34 + field_0->field_50_car_sprite->field_14_xy.x;
+
+                    this->field_0->field_50_car_sprite->set_xyz_lazy_420600(v39, v38, field_0->field_50_car_sprite->field_1C_zpos);
+
+                    if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0))
+                    {
+                        byte_677A5D = 1;
+                    }
+                    else
+                    {
+                        if (field_10 <= word_677CE8 - dword_677A2E && field_10 >= dword_6779E4)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        }
+                    }
+                    break;
+                }
+
+                case 3:
+                {
+                    Fix16 v20 = (gSin_table_667A80[word_677CE8.rValue] * dword_6779CC);
+                    Fix16 v21 = (gCos_table_669260[word_677CE8.rValue] * dword_6779CC);
+                    Fix16 v24 = v21 + this->field_0->field_50_car_sprite->field_14_xy.y;
+                    Fix16 v25 = v20 + this->field_0->field_50_car_sprite->field_14_xy.x;
+
+                    this->field_0->field_50_car_sprite->set_xyz_lazy_420600(v25, v24, this->field_0->field_50_car_sprite->field_1C_zpos);
+
+                    if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0))
+                    {
+                        byte_677A5D = 1;
+                    }
+                    else
+                    {
+                        if (this->field_10 <= dword_6779E4 - dword_677A2E)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        }
+                    }
+                    break;
+                }
+
+                case 4:
+                {
+                    Fix16 v27 = (gSin_table_667A80[word_677ADE.rValue] * dword_6779CC);
+                    Fix16 v28 = (gCos_table_669260[word_677ADE.rValue] * dword_6779CC);
+
+                    Fix16 v31 = v28 + this->field_0->field_50_car_sprite->field_14_xy.y.mValue;
+                    Fix16 v32 = v27 + this->field_0->field_50_car_sprite->field_14_xy.x.mValue;
+
+                    this->field_0->field_50_car_sprite->set_xyz_lazy_420600(v32, v31, this->field_0->field_50_car_sprite->field_1C_zpos);
+
+                    if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0))
+                    {
+                        byte_677A5D = 1;
+                    }
+                    else
+                    {
+                        if (this->field_10 <= word_677B08 - dword_677A2E)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        }
+                    }
+                    break;
+                }
+
+                default:
+                    return;
+            }
+        }
+        else
+        {
+            switch (this->field_4C)
+            {
+                case 1:
+                {
+                    Fix16 v68 = (gCos_table_669260[word_677B08.rValue] * dword_6779CC) + this->field_0->field_50_car_sprite->field_14_xy.y;
+                    Fix16 v69 = (gSin_table_667A80[word_677B08.rValue] * dword_6779CC) + this->field_0->field_50_car_sprite->field_14_xy.x;
+
+                    this->field_0->field_50_car_sprite->set_xyz_lazy_420600(v69, v68, this->field_0->field_50_car_sprite->field_1C_zpos);
+
+                    if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0))
+                    {
+                        byte_677A5D = 1;
+                    }
+                    else
+                    {
+                        if (this->field_10 >= word_677ADE + dword_677A2E)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        }
+                    }
+                    break;
+                }
+
+                case 2:
+                {
+                    Fix16 v63 =
+                        ((gCos_table_669260[dword_6779E4.rValue] * dword_6779CC)) + this->field_0->field_50_car_sprite->field_14_xy.y;
+                    Fix16 v64 = (gSin_table_667A80[dword_6779E4.rValue] * dword_6779CC) + this->field_0->field_50_car_sprite->field_14_xy.x;
+
+                    this->field_0->field_50_car_sprite->set_xyz_lazy_420600(v64, v63, this->field_0->field_50_car_sprite->field_1C_zpos);
+
+                    if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0))
+                    {
+                        byte_677A5D = 1;
+                    }
+                    else
+                    {
+                        if (this->field_10 >= dword_677A2E + word_677CE8)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        }
+                    }
+                    break;
+                }
+
+                case 3:
+                {
+                    Fix16 v48 = (gSin_table_667A80[word_677ADE.rValue] * dword_6779CC);
+                    Fix16 v49 = (gCos_table_669260[word_677ADE.rValue] * dword_6779CC);
+                    Fix16 v52 = v49 + this->field_0->field_50_car_sprite->field_14_xy.y;
+                    Fix16 v53 = v48 + this->field_0->field_50_car_sprite->field_14_xy.x;
+
+                    this->field_0->field_50_car_sprite->set_xyz_lazy_420600(v53, v52, this->field_0->field_50_car_sprite->field_1C_zpos);
+
+                    if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0))
+                    {
+                        if (this->field_10 < dword_677A2E + dword_6779E4)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                    }
+                    else
+                    {
+                        byte_677A5D = 1;
+                    }
+                    break;
+                }
+
+                case 4:
+                {
+                    Fix16 v55 = (gSin_table_667A80[word_677CE8.rValue] * dword_6779CC);
+                    Fix16 v56 = (gCos_table_669260[word_677CE8.rValue] * dword_6779CC);
+                    Fix16 v59 = v56 + this->field_0->field_50_car_sprite->field_14_xy.y;
+                    Fix16 v60 = v55 + this->field_0->field_50_car_sprite->field_14_xy.x;
+
+                    this->field_0->field_50_car_sprite->set_xyz_lazy_420600(v60, v59, this->field_0->field_50_car_sprite->field_1C_zpos);
+
+                    if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0->field_50_car_sprite, 0))
+                    {
+                        byte_677A5D = 1;
+                    }
+                    else
+                    {
+                        if (this->field_10 < dword_677A2E + word_677B08)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        }
+                        else
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                    }
+                    break;
+                }
+
+                default:
+                    return;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x44d1d0)
@@ -1996,7 +3336,7 @@ LABEL_190:
     {
         field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
 
-        Fix16 v247 = (Fix16(word_677A38.rValue)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
+        Fix16 v247 = (Fix16(word_677A38.rValue) * Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
         Ang16 v244;
         v244.sub_4516B0(&v247, 0); // ctor ?
 
@@ -2645,7 +3985,7 @@ void CarAI_78::sub_452060()
     {
         field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
 
-        v86 = (Fix16(word_677A38.rValue)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
+        v86 = (Fix16(word_677A38.rValue) * Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
         v83.sub_4516B0(&v86, 0); // ctor ?
 
         v82 = v83 + this->field_10;
