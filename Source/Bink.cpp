@@ -88,18 +88,16 @@ BOOL Bink::sub_513760()
     return gBink_state_6F83FE == 2;
 }
 
-WIP_FUNC(0x513720)
+MATCH_FUNC(0x513720)
 void Bink::sub_513720()
 {
-    WIP_IMPLEMENTED;
-
     if (gBink_state_6F83FF == 1 && gBink_state_6F8170 != 0)
     {
-        //_BinkBufferSetOffset@12(gBink_state_6F8170, 0, 0);
+        BinkBufferSetOffset(gBink_state_6F8170, 0, 0);
     }
     else if (gBink_state_6F83FF == 2 && gBink_state_6F80C4 != 0)
     {
-        //_BinkBufferSetOffset@12(gBink_state_6F80C4, 0, 0);
+        BinkBufferSetOffset(gBink_state_6F80C4, 0, 0);
     }
 }
 
