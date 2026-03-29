@@ -23,6 +23,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PublicTransport.hpp"
+#include "RouteFinder.hpp"
 #include "Weapon_8.hpp"
 #include "ang16.hpp"
 #include "char.hpp"
@@ -35,11 +36,10 @@
 #include "map_0x370.hpp"
 #include "miss2_8.hpp"
 #include "root_sound.hpp"
-#include "RouteFinder.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 // Back to force inline
-#define INLINE_MODE __forceinline    
+#define INLINE_MODE __forceinline
 
 DEFINE_GLOBAL_INIT(s16, word_6212EE, 1, 0x6212EE);
 
@@ -217,10 +217,10 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER
         rotation.Normalize();
 
         a2->field_8_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(pCmd->field_18_obj_id,
-                                                        pCmd->field_C_pos.field_0_x,
-                                                        pCmd->field_C_pos.field_4_y,
-                                                        pCmd->field_C_pos.field_8_z,
-                                                        rotation);
+                                                                  pCmd->field_C_pos.field_0_x,
+                                                                  pCmd->field_C_pos.field_4_y,
+                                                                  pCmd->field_C_pos.field_8_z,
+                                                                  rotation);
     }
     else
     {
@@ -270,10 +270,10 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* a2)
         rotation.sub_406C20();
 
         a2->field_8_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(pCmd->field_18_obj_id,
-                                                        pCmd->field_C_pos.field_0_x,
-                                                        pCmd->field_C_pos.field_4_y,
-                                                        pCmd->field_C_pos.field_8_z,
-                                                        rotation);
+                                                                  pCmd->field_C_pos.field_0_x,
+                                                                  pCmd->field_C_pos.field_4_y,
+                                                                  pCmd->field_C_pos.field_8_z,
+                                                                  rotation);
     }
     else
     {
@@ -384,10 +384,10 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
         rotation.sub_406C20();
         pPointer->field_8_car = gCar_6C_677930->SpawnCar_426E10(pCmd->field_C_pos.field_0_x,
-                                                           pCmd->field_C_pos.field_4_y,
-                                                           pCmd->field_C_pos.field_8_z,
-                                                           rotation,
-                                                           pCmd->field_1C_car_id);
+                                                                pCmd->field_C_pos.field_4_y,
+                                                                pCmd->field_C_pos.field_8_z,
+                                                                rotation,
+                                                                pCmd->field_1C_car_id);
     }
     else if (pCmd->field_1E_trailer_id == -2) //  Mini car
     {
@@ -395,10 +395,10 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
         rotation.sub_406C20();
         pPointer->field_8_car = gCar_6C_677930->SpawnCar_4764A0(pCmd->field_C_pos.field_0_x,
-                                                           pCmd->field_C_pos.field_4_y,
-                                                           pCmd->field_C_pos.field_8_z,
-                                                           rotation,
-                                                           pCmd->field_1C_car_id);
+                                                                pCmd->field_C_pos.field_4_y,
+                                                                pCmd->field_C_pos.field_8_z,
+                                                                rotation,
+                                                                pCmd->field_1C_car_id);
         if (pPointer->field_8_car != NULL)
         {
             pPointer->field_8_car->field_98 = 4;
@@ -416,11 +416,14 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             rotation.Normalize();
 
             pPointer->field_8_car = gCar_6C_677930->SpawnCar_426E10(pCmd->field_C_pos.field_0_x,
-                                                               pCmd->field_C_pos.field_4_y,
-                                                               pCmd->field_C_pos.field_8_z,
-                                                               rotation,
-                                                               pCmd->field_1C_car_id);
-            pPointer->field_8_car->field_50_car_sprite->DispatchCollisionEvent_5A3100(v7->field_50_car_sprite, dword_6F77C0, dword_6F77C0, word_6F771E);
+                                                                    pCmd->field_C_pos.field_4_y,
+                                                                    pCmd->field_C_pos.field_8_z,
+                                                                    rotation,
+                                                                    pCmd->field_1C_car_id);
+            pPointer->field_8_car->field_50_car_sprite->DispatchCollisionEvent_5A3100(v7->field_50_car_sprite,
+                                                                                      dword_6F77C0,
+                                                                                      dword_6F77C0,
+                                                                                      word_6F771E);
             v7->IncrementCarStats_443D70(8);
         }
         else
@@ -571,13 +574,17 @@ void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* a1, SCR_CRANE_BASIC_
         {
             rotation = word_6F8044.sub_401CB0(Fix16(a1->field_24_target_rotation));
 
-            a1->field_8_crane->CraneTargetPickupCheck_480900(a1->field_1C_target_pos.field_0_x, a1->field_1C_target_pos.field_4_y, rotation);
+            a1->field_8_crane->CraneTargetPickupCheck_480900(a1->field_1C_target_pos.field_0_x,
+                                                             a1->field_1C_target_pos.field_4_y,
+                                                             rotation);
         }
         else if (a1->field_1A_home_cranetype == 1)
         {
             rotation = word_6F8044.sub_401CB0(Fix16(a1->field_24_target_rotation));
 
-            a1->field_8_crane->ComputePickupAlignment_480B60(a1->field_1C_target_pos.field_0_x, a1->field_1C_target_pos.field_4_y, rotation);
+            a1->field_8_crane->ComputePickupAlignment_480B60(a1->field_1C_target_pos.field_0_x,
+                                                             a1->field_1C_target_pos.field_4_y,
+                                                             rotation);
         }
     }
     else if (a1->field_2_type == SCRCMD_CRANE_BASIC_DEC)
@@ -612,13 +619,13 @@ void miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* a1, SCR_POINTER
                                                                                                 a1->field_C_rect.field_0_pos.field_4_y);
     }
     a2->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(139,
-                                                    a1->field_C_rect.field_0_pos.field_0_x,
-                                                    a1->field_C_rect.field_0_pos.field_4_y,
-                                                    a1->field_C_rect.field_0_pos.field_8_z,
-                                                    dword_6F804C,
-                                                    a1->field_C_rect.field_C_size.field_0_x,
-                                                    a1->field_C_rect.field_C_size.field_4_y,
-                                                    dword_6F77C4);
+                                                              a1->field_C_rect.field_0_pos.field_0_x,
+                                                              a1->field_C_rect.field_0_pos.field_4_y,
+                                                              a1->field_C_rect.field_0_pos.field_8_z,
+                                                              dword_6F804C,
+                                                              a1->field_C_rect.field_C_size.field_0_x,
+                                                              a1->field_C_rect.field_C_size.field_4_y,
+                                                              dword_6F77C4);
 
     a2->field_8_obj->sub_529030(a1->field_18_speed.field_0_x, a1->field_18_speed.field_1_y);
 }
@@ -662,13 +669,13 @@ void miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* a1, SCR_POINTE
     }
 
     a2->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(141,
-                                                    a1->field_C_rect.field_0_pos.field_0_x,
-                                                    a1->field_C_rect.field_0_pos.field_4_y,
-                                                    a1->field_C_rect.field_0_pos.field_8_z,
-                                                    dword_6F804C,
-                                                    a1->field_C_rect.field_C_size.field_0_x,
-                                                    a1->field_C_rect.field_C_size.field_4_y,
-                                                    dword_6F77C4);
+                                                              a1->field_C_rect.field_0_pos.field_0_x,
+                                                              a1->field_C_rect.field_0_pos.field_4_y,
+                                                              a1->field_C_rect.field_0_pos.field_8_z,
+                                                              dword_6F804C,
+                                                              a1->field_C_rect.field_C_size.field_0_x,
+                                                              a1->field_C_rect.field_C_size.field_4_y,
+                                                              dword_6F77C4);
 }
 
 MATCH_FUNC(0x5045a0)
@@ -760,27 +767,27 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
         if (a1->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a1->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
             a1->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoorNoCheck_49CF50(a1->field_10_gr_id,
-                                                       a1->field_C_block.field_0_x,
-                                                       a1->field_C_block.field_1_y,
-                                                       a1->field_C_block.field_2_z,
-                                                       a1->field_F_face,
-                                                       a1->field_28_flip,
-                                                       a1->field_29_reversed);
+                                                                             a1->field_C_block.field_0_x,
+                                                                             a1->field_C_block.field_1_y,
+                                                                             a1->field_C_block.field_2_z,
+                                                                             a1->field_F_face,
+                                                                             a1->field_28_flip,
+                                                                             a1->field_29_reversed);
         }
         else
         {
             a1->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoor_49D170(a1->field_10_gr_id,
-                                                       a1->field_C_block.field_0_x,
-                                                       a1->field_C_block.field_1_y,
-                                                       a1->field_C_block.field_2_z,
-                                                       a1->field_F_face,
-                                                       a1->field_14_check.field_0_pos.field_0_x,
-                                                       a1->field_14_check.field_0_pos.field_4_y,
-                                                       a1->field_14_check.field_0_pos.field_8_z,
-                                                       a1->field_14_check.field_C_size.field_0_x,
-                                                       a1->field_14_check.field_C_size.field_4_y,
-                                                       a1->field_28_flip,
-                                                       a1->field_29_reversed);
+                                                                      a1->field_C_block.field_0_x,
+                                                                      a1->field_C_block.field_1_y,
+                                                                      a1->field_C_block.field_2_z,
+                                                                      a1->field_F_face,
+                                                                      a1->field_14_check.field_0_pos.field_0_x,
+                                                                      a1->field_14_check.field_0_pos.field_4_y,
+                                                                      a1->field_14_check.field_0_pos.field_8_z,
+                                                                      a1->field_14_check.field_C_size.field_0_x,
+                                                                      a1->field_14_check.field_C_size.field_4_y,
+                                                                      a1->field_28_flip,
+                                                                      a1->field_29_reversed);
         }
     }
     else
@@ -788,27 +795,27 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
         if (a1->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a1->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
             a1->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoorNoCheck_49CFA0(a1->field_10_gr_id,
-                                                       a1->field_C_block.field_0_x,
-                                                       a1->field_C_block.field_1_y,
-                                                       a1->field_C_block.field_2_z,
-                                                       a1->field_F_face,
-                                                       a1->field_28_flip,
-                                                       a1->field_29_reversed);
+                                                                             a1->field_C_block.field_0_x,
+                                                                             a1->field_C_block.field_1_y,
+                                                                             a1->field_C_block.field_2_z,
+                                                                             a1->field_F_face,
+                                                                             a1->field_28_flip,
+                                                                             a1->field_29_reversed);
         }
         else
         {
             a1->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoor_49D1F0(a1->field_10_gr_id,
-                                                       a1->field_C_block.field_0_x,
-                                                       a1->field_C_block.field_1_y,
-                                                       a1->field_C_block.field_2_z,
-                                                       a1->field_F_face,
-                                                       a1->field_14_check.field_0_pos.field_0_x,
-                                                       a1->field_14_check.field_0_pos.field_4_y,
-                                                       a1->field_14_check.field_0_pos.field_8_z,
-                                                       a1->field_14_check.field_C_size.field_0_x,
-                                                       a1->field_14_check.field_C_size.field_4_y,
-                                                       a1->field_28_flip,
-                                                       a1->field_29_reversed);
+                                                                      a1->field_C_block.field_0_x,
+                                                                      a1->field_C_block.field_1_y,
+                                                                      a1->field_C_block.field_2_z,
+                                                                      a1->field_F_face,
+                                                                      a1->field_14_check.field_0_pos.field_0_x,
+                                                                      a1->field_14_check.field_0_pos.field_4_y,
+                                                                      a1->field_14_check.field_0_pos.field_8_z,
+                                                                      a1->field_14_check.field_C_size.field_0_x,
+                                                                      a1->field_14_check.field_C_size.field_4_y,
+                                                                      a1->field_28_flip,
+                                                                      a1->field_29_reversed);
         }
     }
     switch (a1->field_11_open_type)
@@ -889,27 +896,27 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
         if (a3->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a3->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
             a3->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoorNoCheck_49CF50(a3->field_10_gr_id,
-                                                       a3->field_C_block.field_0_x,
-                                                       a3->field_C_block.field_1_y,
-                                                       a3->field_C_block.field_2_z,
-                                                       a3->field_F_face,
-                                                       a3->field_28_flip,
-                                                       a3->field_29_reversed);
+                                                                             a3->field_C_block.field_0_x,
+                                                                             a3->field_C_block.field_1_y,
+                                                                             a3->field_C_block.field_2_z,
+                                                                             a3->field_F_face,
+                                                                             a3->field_28_flip,
+                                                                             a3->field_29_reversed);
         }
         else
         {
             a3->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoor_49D170(a3->field_10_gr_id,
-                                                       a3->field_C_block.field_0_x,
-                                                       a3->field_C_block.field_1_y,
-                                                       a3->field_C_block.field_2_z,
-                                                       a3->field_F_face,
-                                                       a3->field_14_check.field_0_pos.field_0_x,
-                                                       a3->field_14_check.field_0_pos.field_4_y,
-                                                       a3->field_14_check.field_0_pos.field_8_z,
-                                                       a3->field_14_check.field_C_size.field_0_x,
-                                                       a3->field_14_check.field_C_size.field_4_y,
-                                                       a3->field_28_flip,
-                                                       a3->field_29_reversed);
+                                                                      a3->field_C_block.field_0_x,
+                                                                      a3->field_C_block.field_1_y,
+                                                                      a3->field_C_block.field_2_z,
+                                                                      a3->field_F_face,
+                                                                      a3->field_14_check.field_0_pos.field_0_x,
+                                                                      a3->field_14_check.field_0_pos.field_4_y,
+                                                                      a3->field_14_check.field_0_pos.field_8_z,
+                                                                      a3->field_14_check.field_C_size.field_0_x,
+                                                                      a3->field_14_check.field_C_size.field_4_y,
+                                                                      a3->field_28_flip,
+                                                                      a3->field_29_reversed);
         }
     }
     else
@@ -917,27 +924,27 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
         if (a3->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a3->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
             a3->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoorNoCheck_49CFA0(a3->field_10_gr_id,
-                                                       a3->field_C_block.field_0_x,
-                                                       a3->field_C_block.field_1_y,
-                                                       a3->field_C_block.field_2_z,
-                                                       a3->field_F_face,
-                                                       a3->field_28_flip,
-                                                       a3->field_29_reversed);
+                                                                             a3->field_C_block.field_0_x,
+                                                                             a3->field_C_block.field_1_y,
+                                                                             a3->field_C_block.field_2_z,
+                                                                             a3->field_F_face,
+                                                                             a3->field_28_flip,
+                                                                             a3->field_29_reversed);
         }
         else
         {
             a3->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoor_49D1F0(a3->field_10_gr_id,
-                                                       a3->field_C_block.field_0_x,
-                                                       a3->field_C_block.field_1_y,
-                                                       a3->field_C_block.field_2_z,
-                                                       a3->field_F_face,
-                                                       a3->field_14_check.field_0_pos.field_0_x,
-                                                       a3->field_14_check.field_0_pos.field_4_y,
-                                                       a3->field_14_check.field_0_pos.field_8_z,
-                                                       a3->field_14_check.field_C_size.field_0_x,
-                                                       a3->field_14_check.field_C_size.field_4_y,
-                                                       a3->field_28_flip,
-                                                       a3->field_29_reversed);
+                                                                      a3->field_C_block.field_0_x,
+                                                                      a3->field_C_block.field_1_y,
+                                                                      a3->field_C_block.field_2_z,
+                                                                      a3->field_F_face,
+                                                                      a3->field_14_check.field_0_pos.field_0_x,
+                                                                      a3->field_14_check.field_0_pos.field_4_y,
+                                                                      a3->field_14_check.field_0_pos.field_8_z,
+                                                                      a3->field_14_check.field_C_size.field_0_x,
+                                                                      a3->field_14_check.field_C_size.field_4_y,
+                                                                      a3->field_28_flip,
+                                                                      a3->field_29_reversed);
         }
     }
 
@@ -3134,8 +3141,7 @@ STUB_FUNC(0x50b2c0)
 void miss2_0x11C::SCRCMD_CHECK_PHONETIMER_50B2C0()
 {
     SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
-    thread_C* pHeader =
-        gfrosty_pasteur_6F8060->sub_512AD0(pPtr->field_8_obj->field_14_id);
+    thread_C* pHeader = gfrosty_pasteur_6F8060->sub_512AD0(pPtr->field_8_obj->field_14_id);
     if (pHeader)
     {
         SCR_ANSWER_PHONE* pAnswer = (SCR_ANSWER_PHONE*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pHeader->field_8_cmd_line);
@@ -3477,7 +3483,9 @@ void miss2_0x11C::SCRCMD_CHECK_NUM_ALIVE_50BC60()
     WIP_IMPLEMENTED;
 
     SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
-    PedGroup* pPedGroup = ((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx))->field_8_char->field_164_ped_group;
+    PedGroup* pPedGroup =
+        ((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx))
+            ->field_8_char->field_164_ped_group;
     if (pPedGroup != NULL && (s16)pPedGroup->field_34_count >= pCmd->field_A_objective)
     {
         field_8 = 1;
@@ -3492,8 +3500,9 @@ MATCH_FUNC(0x50bcd0)
 void miss2_0x11C::SCRCMD_SET_MIN_ALIVE_50BCD0()
 {
     SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
-    pPointer->field_8_char->field_164_ped_group->field_35 = pCmd->field_A_objective; 
+    SCR_POINTER* pPointer =
+        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
+    pPointer->field_8_char->field_164_ped_group->field_35 = pCmd->field_A_objective;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -4255,8 +4264,7 @@ void miss2_0x11C::SCRCMD_CHAR_IN_AIR_50DE50()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     Ped* pPed = pPointer->field_8_char;
 
-    if (pPed->field_27C_ped_state_2 == ped_state_2::falling_19 
-        && pPed->field_278_ped_state_1 == ped_state_1::immobilized_8)
+    if (pPed->field_27C_ped_state_2 == ped_state_2::falling_19 && pPed->field_278_ped_state_1 == ped_state_1::immobilized_8)
     {
         field_8 = true;
     }
@@ -4273,8 +4281,7 @@ void miss2_0x11C::SCRCMD_CHAR_SUNK_50DEB0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     Ped* pPed = pPointer->field_8_char;
 
-    if (pPed->field_27C_ped_state_2 == ped_state_2::sinking_20 
-        && pPed->field_278_ped_state_1 == ped_state_1::immobilized_8)
+    if (pPed->field_27C_ped_state_2 == ped_state_2::sinking_20 && pPed->field_278_ped_state_1 == ped_state_1::immobilized_8)
     {
         field_8 = true;
     }
@@ -4354,7 +4361,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
     SCR_CHECK_CAR_SPEED* pCmd = (SCR_CHECK_CAR_SPEED*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
-    // Here there is 1 call to Fix16::SquareRoot which even though marked inline doesn't get inlined which is 
+    // Here there is 1 call to Fix16::SquareRoot which even though marked inline doesn't get inlined which is
     // expected. But so far everywhere else ALL calls to it are supposed to get inlined which only seems to work
     // using __forceinline
     if (pPointer->field_8_car->field_58_physics &&
@@ -4551,15 +4558,18 @@ void miss2_0x11C::sub_50E900()
         if (pTrailer != NULL && pTrailer->field_8_truck_cab == pDstCar)
         {
             // put car on the trailer attached to the truck cab
-            pDstCar->GetSprite_440840()->DispatchCollisionEvent_5A3100(pCarPointer->field_8_car->field_50_car_sprite, dword_6F77C0, dword_6F77C0, word_6F771E);
+            pDstCar->GetSprite_440840()->DispatchCollisionEvent_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
+                                                                       dword_6F77C0,
+                                                                       dword_6F77C0,
+                                                                       word_6F771E);
         }
         else
         {
             // put car directly on the trailer
             pDstCar->field_50_car_sprite->DispatchCollisionEvent_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
-                                                     dword_6F77C0,
-                                                     dword_6F77C0,
-                                                     word_6F771E);
+                                                                        dword_6F77C0,
+                                                                        dword_6F77C0,
+                                                                        word_6F771E);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -5312,7 +5322,7 @@ void miss2_0x11C::sub_510100() // START_BASIC_KF_TEMPLATE
         {
             // Car weapons
             pPlayerPedPtr->field_8_char->field_15C_player->SetKFCarWeapon_564710(pPlayerPedPtr->field_8_char->field_16C_car,
-                                                                                (u8)pCmd->field_10_weapon);
+                                                                                 (u8)pCmd->field_10_weapon);
         }
 
         u16* pBasicKF = gfrosty_pasteur_6F8060->field_C1E74_basic_kf;
@@ -6349,7 +6359,7 @@ miss2_0x11C::miss2_0x11C()
     field_118 = 0;
 }
 
-// https://decomp.me/scratch/gmYBd 
+// https://decomp.me/scratch/gmYBd
 MATCH_FUNC(0x511cd0)
 void miss2_0x11C::sub_511CD0()
 {
@@ -6358,7 +6368,7 @@ void miss2_0x11C::sub_511CD0()
         if ((1 << i) & gGameSave_6F78C8.field_E4_car_and_script_data.field_4C)
         {
             SCR_START_BASIC_KF_TEMPLATE* pPtr = (SCR_START_BASIC_KF_TEMPLATE*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
-                                    gfrosty_pasteur_6F8060->field_C1E74_basic_kf[i]);
+                gfrosty_pasteur_6F8060->field_C1E74_basic_kf[i]);
             miss2_0x11C::DisableThread_505790(pPtr->field_8_triggername);
             miss2_0x11C::DeallocOrDeleteItem_505B10(pPtr->field_C_objname);
         }

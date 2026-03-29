@@ -1,11 +1,11 @@
 #pragma once
 
-#include "3rdParty/mss.h"
 #include "3rdParty/bink.h"
+#include "3rdParty/mss.h"
 #include "Function.hpp"
+#include "dma_video.hpp"
 #include "enums.hpp"
 #include "error.hpp"
-#include "dma_video.hpp"
 #include "winmain.hpp"
 #include <windows.h>
 
