@@ -100,11 +100,19 @@ void Bink::sub_513720()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x513240)
+WIP_FUNC(0x513240)
 char_type Bink::sub_513240()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (gBink_state_6F83FF == 1 && gBink_state_6F8170 != 0)
+    {
+        //_BinkBufferSetOffset@12(gBink_state_6F8170, 0, 0);
+    }
+    else if (gBink_state_6F83FF == 2 && gBink_state_6F80C4 != 0)
+    {
+        //_BinkBufferSetOffset@12(gBink_state_6F80C4, 0, 0);
+    }
 }
 
 STUB_FUNC(0x513790)
