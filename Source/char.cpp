@@ -2978,11 +2978,206 @@ bool Char_B4::CanStepForward_54FEC0(s32 direction)
     }
 }
 
-STUB_FUNC(0x550090)
+MATCH_FUNC(0x550090)
 bool Char_B4::CanReachTile_550090(s32 xpos, s32 ypos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    bool bRes_1;
+    bool bRes_2;
+
+    Fix16 original_x = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 original_y = field_80_sprite_ptr->field_14_xy.y;
+
+    char_type diff_x = xpos - original_x.ToInt();
+    char_type diff_y = ypos - original_y.ToInt();
+
+    if (diff_x == 0)
+    {
+        if (diff_y == 0)
+        {
+            return true;
+        }
+    }
+
+    if (diff_x)
+    {
+        if (diff_y)
+        {
+            if (diff_x == -1)
+            {
+                bRes_1 = true;
+                if (diff_y == -1)
+                {
+                    field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
+
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y = original_y;
+                    if (!Char_B4::CanReachTile_550090((dword_6FD7F8 - k_dword_6FD9E8).ToInt(), dword_6FD800.ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+                    if (!Char_B4::CanReachTile_550090(dword_6FD7F8.ToInt(), (dword_6FD800 - k_dword_6FD9E8).ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+                }
+                else
+                {
+                    field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
+
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y = original_y;
+                    if (!Char_B4::CanReachTile_550090((field_80_sprite_ptr->field_14_xy.x - k_dword_6FD9E8).ToInt(),
+                                                      field_80_sprite_ptr->field_14_xy.y.ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+
+                    if (!Char_B4::CanReachTile_550090(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                      (k_dword_6FD9E8 + field_80_sprite_ptr->field_14_xy.y).ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+                }
+            }
+            else
+            {
+                bRes_2 = true;
+                if (diff_y == -1)
+                {
+                    field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_2 = false;
+                        dword_623F44 = 3;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_2 = false;
+                        dword_623F44 = 1;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y = original_y;
+                    if (!Char_B4::CanReachTile_550090((k_dword_6FD9E8 + field_80_sprite_ptr->field_14_xy.x).ToInt(),
+                                                      field_80_sprite_ptr->field_14_xy.y.ToInt()))
+                    {
+                        bRes_2 = false;
+                        dword_623F44 = 1;
+                    }
+                    if (!Char_B4::CanReachTile_550090(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                      (field_80_sprite_ptr->field_14_xy.y - k_dword_6FD9E8).ToInt()))
+                    {
+                        bRes_2 = false;
+                        dword_623F44 = 3;
+                    }
+                    return bRes_2;
+                }
+                else
+                {
+                    field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
+                    if (!Char_B4::CanReachTile_550090(xpos, ypos))
+                    {
+                        bRes_1 = false;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = original_x;
+                    field_80_sprite_ptr->field_14_xy.y = original_y;
+                    if (!Char_B4::CanReachTile_550090((k_dword_6FD9E8 + field_80_sprite_ptr->field_14_xy.x).ToInt(),
+                                                      field_80_sprite_ptr->field_14_xy.y.ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+                    if (!Char_B4::CanReachTile_550090(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                      (k_dword_6FD9E8 + field_80_sprite_ptr->field_14_xy.y).ToInt()))
+                    {
+                        bRes_1 = false;
+                    }
+                }
+            }
+            return bRes_1;
+        }
+        else // diff_y = 0
+        {
+            if (diff_x == -1)
+            {
+                if (Char_B4::CanStepForward_54FEC0(4))
+                {
+                    return true;
+                }
+                else
+                {
+                    dword_623F44 = 4;
+                    return false;
+                }
+            }
+            else if (Char_B4::CanStepForward_54FEC0(3))
+            {
+                return true;
+            }
+            else
+            {
+                dword_623F44 = 3;
+                return false;
+            }
+        }
+    }
+    else // diff_x = 0
+    {
+        if (diff_y == 0)
+        {
+            return true;
+        }
+        if (diff_y == -1)
+        {
+            if (Char_B4::CanStepForward_54FEC0(1))
+            {
+                return true;
+            }
+            else
+            {
+                dword_623F44 = 1;
+                return false;
+            }
+        }
+        else if (Char_B4::CanStepForward_54FEC0(2))
+        {
+            return true;
+        }
+        else
+        {
+            dword_623F44 = 2;
+            return false;
+        }
+    }
+    return false;
 }
 
 // https://decomp.me/scratch/chZqY
