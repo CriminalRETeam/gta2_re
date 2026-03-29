@@ -6,6 +6,7 @@ DEFINE_GLOBAL(s32, gBink_state_6F80C4, 0x6F80C4);
 DEFINE_GLOBAL(s32, gBink_state_6F8170, 0x6F8170);
 DEFINE_GLOBAL(char_type, gBink_state_6F83FE, 0x6F83FE);
 DEFINE_GLOBAL(char_type, gBink_state_6F83FF, 0x6F83FF);
+DEFINE_GLOBAL(s32, gBink_state_6f8250, 0x6F8250);
 
 MATCH_FUNC(0x513210)
 void __stdcall Bink::Reset_513210()
@@ -18,23 +19,21 @@ void __stdcall Bink::Reset_513210()
     gBink_state_6F83FF = 0;
 }
 
-WIP_FUNC(0x513340)
+MATCH_FUNC(0x513340)
 void Bink::Close1_513340()
 {
-    WIP_IMPLEMENTED;
-
-    // To-do: Get bink header stubs.
     if (gBink_state_6F8170 != 0)
     {
-        //_BinkBufferClose@4(gBink_state_6F8170);
+        BinkBufferClose(gBink_state_6F8170);
         gBink_state_6F8170 = 0;
         gBink_state_6F83FE = 0;
         gBink_state_6F83FF = 0;
     }
 
-    if (gBink_state_6F8168 != 0) {
-        //_BinkGetSummary@8(gBink_state_6F8168, &DAT_006f8250);
-        //_BinkClose@4(gBink_state_6F8168);
+    if (gBink_state_6F8168 != 0)
+    {
+        BinkGetSummary(gBink_state_6F8168, &gBink_state_6f8250);
+        BinkClose(gBink_state_6F8168);
         gBink_state_6F8168 = 0;
     }
 }
@@ -55,7 +54,7 @@ void Bink::Close2_513390()
 
     if (gBink_state_6F83B0)
     {
-        //_BinkGetSummary@8(gBink_state_6F83B0, &DAT_006f8250);
+        //_BinkGetSummary@8(gBink_state_6F83B0, &gBink_state_6f8250);
         //_BinkClose@4(gBink_state_6F83B0);
         gBink_state_6F83B0 = 0;
     }

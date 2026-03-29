@@ -1,6 +1,7 @@
 #pragma once
 
 #include "3rdParty/mss.h"
+#include "3rdParty/bink.h"
 #include "Function.hpp"
 #include "enums.hpp"
 #include "error.hpp"
@@ -14,6 +15,7 @@ EXTERN_GLOBAL(s32, gBink_state_6F80C4);
 EXTERN_GLOBAL(s32, gBink_state_6F8170);
 EXTERN_GLOBAL(char_type, gBink_state_6F83FE);
 EXTERN_GLOBAL(char_type, gBink_state_6F83FF);
+EXTERN_GLOBAL(s32, gBink_state_6f8250);
 
 class Bink
 {
