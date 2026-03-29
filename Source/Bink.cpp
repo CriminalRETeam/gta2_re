@@ -82,10 +82,10 @@ BOOL Bink::sub_513770()
 {
     if (gBink_state_6F83FE == 2 || gBink_state_6F83FE == 1)
     {
-        return TRUE;
+        return true;
     }
 
-    return FALSE;
+    return false;
 }
 
 MATCH_FUNC(0x513760)
