@@ -18,22 +18,63 @@ void __stdcall Bink::Reset_513210()
     gBink_state_6F83FF = 0;
 }
 
-STUB_FUNC(0x513340)
-void __stdcall Bink::Close1_513340()
+WIP_FUNC(0x513340)
+void Bink::Close1_513340()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    // To-do: Get bink header stubs.
+    if (gBink_state_6F8170 != 0)
+    {
+        //_BinkBufferClose@4(gBink_state_6F8170);
+        gBink_state_6F8170 = 0;
+        gBink_state_6F83FE = 0;
+        gBink_state_6F83FF = 0;
+    }
+
+    if (gBink_state_6F8168 != 0) {
+        //_BinkGetSummary@8(gBink_state_6F8168, &DAT_006f8250);
+        //_BinkClose@4(gBink_state_6F8168);
+        gBink_state_6F8168 = 0;
+    }
 }
 
-STUB_FUNC(0x513390)
-void __stdcall Bink::Close2_513390()
+WIP_FUNC(0x513390)
+void Bink::Close2_513390()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    // To-do: Get bink header stubs.
+    if (gBink_state_6F80C4 != 0)
+    {
+        //_BinkBufferClose@4(gBink_state_6F80C4);
+        gBink_state_6F80C4 = 0;
+        gBink_state_6F83FE = 0;
+        gBink_state_6F83FF = 0;
+    }
+
+    if (gBink_state_6F83B0)
+    {
+        //_BinkGetSummary@8(gBink_state_6F83B0, &DAT_006f8250);
+        //_BinkClose@4(gBink_state_6F83B0);
+        gBink_state_6F83B0 = 0;
+    }
 }
 
-STUB_FUNC(0x5136D0)
-void __stdcall Bink::sub_5136D0(s32* pNewWindowX, s32* pNewWindowY)
+WIP_FUNC(0x5136D0)
+void Bink::sub_5136D0(s32* pNewWindowX, s32* pNewWindowY)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    // To-do: Get bink header stubs.
+    if (gBink_state_6F83FF == '\x01' && gBink_state_6F8170 != 0)
+    {
+        //_BinkBufferCheckWinPos@12(gBink_state_6F8170, pNewWindowX, pNewWindowY);
+    }
+    else if (gBink_state_6F83FF == '\x02' && gBink_state_6F80C4 != 0)
+    {
+        //_BinkBufferCheckWinPos@12(gBink_state_6F8170, pNewWindowX, pNewWindowY);
+    }
 }
 
 MATCH_FUNC(0x513770)

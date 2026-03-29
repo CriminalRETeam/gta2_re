@@ -16,11 +16,11 @@ class Bink
   public:
     EXPORT static void __stdcall Reset_513210();
 
-    EXPORT static void __stdcall Close1_513340();
+    EXPORT static void Close1_513340();
 
-    EXPORT static void __stdcall Close2_513390();
+    EXPORT static void Close2_513390();
 
-    EXPORT static void __stdcall sub_5136D0(s32* pNewWindowX, s32* pNewWindowY);
+    EXPORT static void sub_5136D0(s32* pNewWindowX, s32* pNewWindowY);
 
     EXPORT static BOOL sub_513770();
 
