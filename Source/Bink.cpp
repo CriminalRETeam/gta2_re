@@ -94,14 +94,8 @@ BOOL Bink::sub_513760()
     return gBink_state_6F83FE == 2;
 }
 
-STUB_FUNC(0x513720)
+WIP_FUNC(0x513720)
 void Bink::sub_513720()
-{
-    NOT_IMPLEMENTED;
-}
-
-WIP_FUNC(0x513240)
-char_type Bink::sub_513240()
 {
     WIP_IMPLEMENTED;
 
@@ -113,6 +107,13 @@ char_type Bink::sub_513240()
     {
         //_BinkBufferSetOffset@12(gBink_state_6F80C4, 0, 0);
     }
+}
+
+STUB_FUNC(0x513240)
+char_type Bink::sub_513240()
+{
+    NOT_IMPLEMENTED;
+    return 0;
 }
 
 STUB_FUNC(0x513790)
