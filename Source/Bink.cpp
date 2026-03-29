@@ -122,12 +122,10 @@ char_type Bink::sub_513790()
     return gBink_state_6F83FF;
 }
 
-STUB_FUNC(0x5137A0)
+MATCH_FUNC(0x5137A0)
 void __stdcall Bink::sub_5137A0(char_type a1)
 {
-    NOT_IMPLEMENTED;
-    // todo
-    //gBink_6F83FF = a1;
+    gBink_state_6F83FF = a1;
 }
 
 STUB_FUNC(0x5133E0)
