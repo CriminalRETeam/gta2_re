@@ -1124,15 +1124,15 @@ void CarAI_78::sub_448CE0()
                                                                        field_0->field_50_car_sprite->field_14_xy.y.ToInt(),
                                                                        field_0->field_50_car_sprite->field_1C_zpos.ToInt());
 
-    gmp_block_info*  v7 = block_4DFE10;
-    if (!block_4DFE10 || ((block_4DFE10->field_B_slope_type & 0xFC) == 0) ||
-        (block_4DFE10->field_B_slope_type & 0xFCu) >= 0xB4 || (block_4DFE10->field_B_slope_type & 3) == 0)
+    gmp_block_info* v7 = block_4DFE10;
+    if (!block_4DFE10 || ((block_4DFE10->field_B_slope_type & 0xFC) == 0) || (block_4DFE10->field_B_slope_type & 0xFCu) >= 0xB4 ||
+        (block_4DFE10->field_B_slope_type & 3) == 0)
     {
         v7 = gMap_0x370_6F6268->get_block_4DFE10(this->field_0->field_50_car_sprite->field_14_xy.x.ToInt(),
                                                  this->field_0->field_50_car_sprite->field_14_xy.y.ToInt(),
                                                  (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
     }
-    
+
     sub_448770();
 
     if (v7)
@@ -1262,8 +1262,7 @@ void CarAI_78::sub_448CE0()
                     this->field_8 = 0;
                 }
 
-                Fix16 v25 = this->field_0->field_50_car_sprite->field_14_xy.x -
-                    ((this->field_0->field_50_car_sprite->field_14_xy.x));
+                Fix16 v25 = this->field_0->field_50_car_sprite->field_14_xy.x - ((this->field_0->field_50_car_sprite->field_14_xy.x));
                 if (v25 <= dword_6779C8 || v25 >= dword_6779D0)
                 {
                     this->field_24_flags &= ~0x12000u;
@@ -1309,7 +1308,7 @@ void CarAI_78::sub_448CE0()
                     field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
                     return;
                 }
-                
+
                 field_8 = 0;
                 field_0->field_58_physics->field_8_total_damage_q = 0;
                 field_24_flags &= ~0x400;
@@ -1349,9 +1348,7 @@ void CarAI_78::sub_448CE0()
                 Ang16 v67;
                 Ang16 v68;
 
-                if (v64 <= v65 - word_677CE2 ||
-                    (v67 = v32 + word_677CE2,
-                     v68 = v67 + word_677CE2, v64 >= v68))
+                if (v64 <= v65 - word_677CE2 || (v67 = v32 + word_677CE2, v68 = v67 + word_677CE2, v64 >= v68))
                 {
                     this->field_24_flags &= ~0x12000u;
                     if (v64 <= v32)
@@ -1369,8 +1366,7 @@ void CarAI_78::sub_448CE0()
                     this->field_8 = 0;
                 }
 
-                Fix16 v33 = this->field_0->field_50_car_sprite->field_14_xy.x -
-                    ((this->field_0->field_50_car_sprite->field_14_xy.x));
+                Fix16 v33 = this->field_0->field_50_car_sprite->field_14_xy.x - ((this->field_0->field_50_car_sprite->field_14_xy.x));
                 if (v33 <= dword_6779C8 || v33 >= dword_6779D0)
                 {
                     this->field_24_flags &= ~0x12000u;
@@ -1390,7 +1386,6 @@ void CarAI_78::sub_448CE0()
                         field_0->field_58_physics->field_AD_turn_direction = 0;
                         field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
                         return;
-
                     }
 
                     if (v64 <= v79 - dword_677A08)
@@ -1420,7 +1415,7 @@ void CarAI_78::sub_448CE0()
                     field_0->field_58_physics->field_8_total_damage_q = 0;
                     this->field_8 = 0;
                     this->field_24_flags &= ~0x4000;
-                    this->field_24_flags|= 0x10;
+                    this->field_24_flags |= 0x10;
                 }
             }
             else
@@ -1438,14 +1433,13 @@ void CarAI_78::sub_448CE0()
                     case 3:
                         field_0->field_58_physics->field_AD_turn_direction = 1;
                         return;
-
                 }
             }
             return;
 
         case 2:
             this->field_40 = 3;
-            
+
             v79 = dword_6779E4;
 
             if ((field_24_flags & 0x80u) == 0)
@@ -1454,9 +1448,7 @@ void CarAI_78::sub_448CE0()
                 Ang16 v75;
                 Ang16 v76;
 
-                if (field_10 <= v74 || (v75 = dword_6779E4 + word_677CE2,
-                     v76 = word_677CE2 + v75,
-                     field_10 >= v76))
+                if (field_10 <= v74 || (v75 = dword_6779E4 + word_677CE2, v76 = word_677CE2 + v75, field_10 >= v76))
                 {
                     this->field_24_flags &= ~0x12000u;
                     if (field_10 <= dword_6779E4)
@@ -1476,8 +1468,7 @@ void CarAI_78::sub_448CE0()
                     this->field_8 = 0;
                 }
 
-                Fix16 v39 = this->field_0->field_50_car_sprite->field_14_xy.y -
-                    ((this->field_0->field_50_car_sprite->field_14_xy.y));
+                Fix16 v39 = this->field_0->field_50_car_sprite->field_14_xy.y - ((this->field_0->field_50_car_sprite->field_14_xy.y));
                 if (v39 > dword_6779C8 && v39 < dword_6779D0)
                 {
                     if (this->field_10 == dword_6779E4)
@@ -1494,7 +1485,7 @@ void CarAI_78::sub_448CE0()
                     }
                     return;
                 }
-                
+
                 this->field_24_flags &= ~0x12000u;
 
                 if (v39 > dword_6779C8)
@@ -1556,7 +1547,6 @@ void CarAI_78::sub_448CE0()
                 this->field_40 = 4;
                 v79 = word_677B08;
 
-
                 if (field_10 <= (word_677B08 - word_677CE2) - word_677CE2)
                 {
                     this->field_24_flags = field_24_flags & ~0x12000u;
@@ -1571,7 +1561,7 @@ void CarAI_78::sub_448CE0()
                     }
                     return;
                 }
-                
+
                 if (field_10 >= word_677CE2 + word_677CE2 + word_677B08)
                 {
                     this->field_24_flags = field_24_flags & ~0x12000u;
@@ -1593,8 +1583,7 @@ void CarAI_78::sub_448CE0()
                         this->field_8 = 0;
                     }
 
-                    Fix16 v52 = this->field_0->field_50_car_sprite->field_14_xy.y -
-                        (this->field_0->field_50_car_sprite->field_14_xy.y);
+                    Fix16 v52 = this->field_0->field_50_car_sprite->field_14_xy.y - (this->field_0->field_50_car_sprite->field_14_xy.y);
                     if (v52 > dword_6779C8 && v52 < dword_6779D0)
                     {
                         if (field_10 == word_677B08)
@@ -1669,11 +1658,399 @@ void CarAI_78::sub_448CE0()
     }
 }
 
-STUB_FUNC(0x44a1f0)
-char_type CarAI_78::sub_44A1F0()
+WIP_FUNC(0x44a1f0)
+void CarAI_78::sub_44A1F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Ang16 v2 = word_677CE8;
+    Ang16 v3 = word_677CE8;
+    Fix16 v6 = dword_677B90;
+
+    field_24_flags &= ~0x2000u;
+
+    Fix16 v40 = v6;
+    s32 v34 = field_0->field_50_car_sprite->field_1C_zpos.ToInt();
+    Ang16 v39 = v3;
+
+    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(), dword_677A80.ToInt(), v34);
+    if (!block_4DFE10 || (block_4DFE10->field_B_slope_type & 0xFC) == 0 || (block_4DFE10->field_B_slope_type & 0xFCu) >= 0xB4 ||
+        (block_4DFE10->field_B_slope_type & 3) == 0)
+    {
+        block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
+                                                           dword_677A80.ToInt(),
+                                                           (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+    }
+
+    s32 v9;
+    if (block_4DFE10)
+    {
+        v9 = gMap_0x370_6F6268->sub_4E5FC0(block_4DFE10, 1);
+        if (v9)
+        {
+            if (this->field_3C)
+            {
+                this->field_3C = 0;
+                this->field_24_flags &= ~0x3F00;
+                if (byte_677BBC)
+                {
+                    this->field_0->field_60->field_22 = 1;
+                }
+            }
+        }
+    }
+    else
+    {
+        v9 = 0;
+    }
+
+    this->field_24_flags &= ~400u;
+
+    switch (v9)
+    {
+        case 1:
+            switch (this->field_4C)
+            {
+                case 1:
+                {
+                    Fix16 v12 = this->field_0->field_50_car_sprite->field_14_xy.x - (this->field_0->field_50_car_sprite->field_14_xy.x);
+                    if (v12 > dword_6779C8 && v12 < dword_6779D0)
+                    {
+                        return;
+                    }
+
+                    this->field_24_flags &= 0xFFFEDFFF;
+
+                    if (v12 <= dword_6779C8)
+                    {
+                        if (v3 <= v39 - dword_677A08)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+
+                        if (v3 < v2 - word_677CE2)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                            return;
+                        }
+
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        return;
+                    }
+
+                    if (v3 >= v39 + dword_677A08)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        return;
+                    }
+
+                    if (v3 > v2 + word_677CE2)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                        this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+                    break;
+                }
+
+                case 2:
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+
+                case 3:
+                    if ((field_24_flags & 0x80u) != 0 && this->field_44 == 1)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    if (this->field_10 > word_677A38)
+                    {
+                        if ((field_24_flags & 0x40) != 0)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    if ((field_24_flags & 0x40) == 0)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        return;
+                    }
+                    this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    return;
+
+                case 4:
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+
+                default:
+                    return;
+            }
+            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+            return;
+
+        case 2:
+            switch (field_4C)
+            {
+                case 4:
+                    if (this->field_10 <= word_677B08)
+                    {
+                        if ((field_24_flags & 0x40) == 0)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    else
+                    {
+                        if ((field_24_flags & 0x40) != 0)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    return;
+
+                case 3:
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+
+                case 2:
+                    this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                    this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    return;
+            }
+            if (field_4C != 1)
+            {
+                return;
+            }
+
+            if ((field_24_flags & 0x80u) != 0)
+            {
+                if (this->field_44 == 4)
+                {
+                    this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    return;
+                }
+            }
+            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+            return;
+
+        case 3:
+            switch (this->field_4C)
+            {
+                case 1:
+                    if ((field_24_flags & 0x40) != 0)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    return;
+
+                case 2:
+                    if (this->field_10 <= word_677B08)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+
+                case 3:
+                {
+                    Fix16 v17 = this->field_0->field_50_car_sprite->field_14_xy.y - ((this->field_0->field_50_car_sprite->field_14_xy.y));
+                    if (v17 > dword_6779C8 && v17 < dword_6779D0)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 0;
+                        this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+
+                    this->field_24_flags = field_24_flags & 0xFFFEDFFF;
+
+                    if (v17 > dword_6779C8)
+                    {
+                        if (v3 <= v2 + word_677CE2)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+
+                        if (v3 >= dword_677A08 + v39)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (v3 >= v2 - word_677CE2)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+
+                        if (v3 <= v39 - dword_677A08)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+                    }
+                    break;
+                }
+
+                case 4:
+                    if ((field_24_flags & 0x80u) != 0 && this->field_44 == 2)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+
+                default:
+                    return;
+            }
+            this->field_0->field_58_physics->field_AD_turn_direction = 0;
+            this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+            return;
+
+        case 4:
+            if (this->field_4C == 1)
+            {
+                if (this->field_10 <= word_677ADE)
+                {
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+                }
+                this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                return;
+            }
+
+            if (this->field_4C == 2)
+            {
+                if ((field_24_flags & 0x80u) != 0 && this->field_44 == 4)
+                {
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+                }
+                this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                return;
+            }
+            if (this->field_4C != 3)
+            {
+                return;
+            }
+            if ((field_24_flags & 0x80u) != 0)
+            {
+                if (this->field_44 == 1)
+                {
+                    this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                    return;
+                }
+            }
+            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+            return;
+
+        default:
+            this->field_24_flags = field_24_flags | 8;
+            if (field_3C)
+            {
+                if (this->field_50 == 3)
+                {
+                    field_0->field_58_physics->field_AD_turn_direction = 0;
+                    field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    return;
+                }
+            }
+            else
+            {
+                Fix16 v25; // ?? = field_1C_zpos;
+
+                this->field_3C = 1;
+                u8 v41 = 0;
+                while (1)
+                {
+                    Fix16 v42 = dword_677A74;
+                    Fix16 v43 = dword_677A80;
+                    Fix16 t = field_0->field_50_car_sprite->field_1C_zpos;
+
+                    Ang16 v28;
+                    switch (v41)
+                    {
+                        case 0:
+                            v28 = this->field_10;
+                            v25 = (gSin_table_667A80[v28.rValue] * dword_677B94);
+                            v40 = (gCos_table_669260[v28.rValue] * dword_677B94);
+                            break;
+
+                        case 1:
+                            v28 = dword_6779E4 + this->field_10;
+                            v25 = (gSin_table_667A80[v28.rValue] * dword_677B94);
+                            v40 = (gCos_table_669260[v28.rValue] * dword_677B94);
+                            break;
+
+                        case 2:
+                            v28 = dword_6779E4 - this->field_10;
+                            v25 = (gSin_table_667A80[v28.rValue] * dword_677B94);
+                            v40 = (gCos_table_669260[v28.rValue] * dword_677B94);
+                            break;
+
+                        case 3:
+                            v28 = word_677ADE + this->field_10;
+                            v25 = (gSin_table_667A80[v28.rValue] * dword_677B94);
+                            v40 = (gCos_table_669260[v28.rValue] * dword_677B94);
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    gmp_block_info* v32 = gMap_0x370_6F6268->get_block_4DFE10((v25 + v42).ToInt(), (v40 + v43).ToInt(), t.ToInt());
+                    if (!v32 || (v32->field_B_slope_type & 0xFC) == 0 || (v32->field_B_slope_type & 0xFCu) >= 0xB4 ||
+                        (v32->field_B_slope_type & 3) == 0)
+                    {
+                        v32 = gMap_0x370_6F6268->get_block_4DFE10((v25 + v42).ToInt(), (v40 + v43).ToInt(), t.ToInt() - 1);
+                    }
+                    if (v32 && gMap_0x370_6F6268->sub_4E5FC0(v32, 1))
+                    {
+                        break;
+                    }
+
+                    v41++;
+                    if ((u8)v41 >= 4u)
+                    {
+                        return;
+                    }
+                }
+
+                this->field_24_flags &= ~0xC0u;
+
+                switch (v41)
+                {
+                    case 0:
+                        this->field_50 = 0;
+                        break;
+                    case 1:
+                        this->field_50 = 1;
+                        break;
+                    case 2:
+                        this->field_50 = 2;
+                        break;
+                    case 3:
+                        this->field_50 = 3;
+                        break;
+                    default:
+                        return;
+                }
+            }
+            return;
+    }
 }
 
 STUB_FUNC(0x44af00)
@@ -2553,7 +2930,7 @@ LABEL_190:
     {
         field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
 
-        Fix16 v247 = (Fix16(word_677A38.rValue)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
+        Fix16 v247 = (Fix16(word_677A38.rValue) * Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
         Ang16 v244;
         v244.sub_4516B0(&v247, 0); // ctor ?
 
@@ -3202,7 +3579,7 @@ void CarAI_78::sub_452060()
     {
         field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
 
-        v86 = (Fix16(word_677A38.rValue)*Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
+        v86 = (Fix16(word_677A38.rValue) * Fix16(this->field_0->field_58_physics->field_AD_turn_direction));
         v83.sub_4516B0(&v86, 0); // ctor ?
 
         v82 = v83 + this->field_10;
