@@ -57,6 +57,9 @@ DEFINE_GLOBAL(Fix16, dword_6779F4, 0x6779F4);
 DEFINE_GLOBAL(s32, dword_677C88, 0x677C88);
 DEFINE_GLOBAL(Car_BC*, dword_6779B0, 0x6779B0);
 
+DEFINE_GLOBAL(Fix16, dword_6779D0, 0x6779D0);
+DEFINE_GLOBAL(Ang16, dword_677A08, 0x677A08);
+
 DEFINE_GLOBAL_INIT(Fix16, dword_6779C8, Fix16(0x1999, 0), 0x6779C8);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6779C0, Fix16(0xCCC, 0), 0x6779C0);
@@ -1105,11 +1108,565 @@ void CarAI_78::sub_448770()
     }
 }
 
-STUB_FUNC(0x448ce0)
-char_type CarAI_78::sub_448CE0()
+WIP_FUNC(0x448ce0)
+void CarAI_78::sub_448CE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 v1 = dword_677C48;
+    Fix16 v3 = dword_677C30;
+
+    field_0->field_50_car_sprite->set_xyz_lazy_420600(dword_677C38, dword_677C30, dword_677C48);
+
+    Car_BC* v5 = this->field_0;
+    this->field_24_flags |= 0x400u;
+    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(field_0->field_50_car_sprite->field_14_xy.x.ToInt(),
+                                                                       field_0->field_50_car_sprite->field_14_xy.y.ToInt(),
+                                                                       field_0->field_50_car_sprite->field_1C_zpos.ToInt());
+
+    gmp_block_info*  v7 = block_4DFE10;
+    if (!block_4DFE10 || ((block_4DFE10->field_B_slope_type & 0xFC) == 0) ||
+        (block_4DFE10->field_B_slope_type & 0xFCu) >= 0xB4 || (block_4DFE10->field_B_slope_type & 3) == 0)
+    {
+        v7 = gMap_0x370_6F6268->get_block_4DFE10(this->field_0->field_50_car_sprite->field_14_xy.x.ToInt(),
+                                                 this->field_0->field_50_car_sprite->field_14_xy.y.ToInt(),
+                                                 (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+    }
+    
+    sub_448770();
+
+    if (v7)
+    {
+        switch (this->field_4C)
+        {
+            case 1:
+                if ((v7->field_A_arrows & 4) == 0)
+                {
+                    if ((v7->field_A_arrows & 0x40) == 0)
+                    {
+                        field_24_flags &= ~0x10;
+                    }
+                    else
+                    {
+                        field_24_flags |= 0x10u;
+                    }
+                }
+                else
+                {
+                    field_24_flags |= 0x10;
+                }
+                break;
+
+            case 2:
+                if ((v7->field_A_arrows & 8) != 0)
+                {
+                    field_24_flags |= 0x10;
+                }
+                else
+                {
+                    if ((v7->field_A_arrows & 0x80u) == 0)
+                    {
+                        field_24_flags &= ~0x10;
+                    }
+                    else
+                    {
+                        field_24_flags |= 0x10u;
+                    }
+                }
+                break;
+
+            case 3:
+                if ((v7->field_A_arrows & 2) != 0)
+                {
+                    field_24_flags |= 0x10;
+                }
+                else
+                {
+                    if ((v7->field_A_arrows & 0x20) == 0)
+                    {
+                        field_24_flags &= ~0x10;
+                    }
+                    else
+                    {
+                        field_24_flags |= 0x10u;
+                    }
+                }
+                break;
+
+            case 4:
+                if ((v7->field_A_arrows & 1) != 0)
+                {
+                    field_24_flags |= 0x10;
+                }
+                else
+                {
+                    if ((v7->field_A_arrows & 0x40) == 0)
+                    {
+                        field_24_flags &= ~0x10;
+                    }
+                    else
+                    {
+                        field_24_flags |= 0x10u;
+                    }
+                }
+                break;
+
+            default:
+                field_24_flags &= ~0x10;
+                break;
+        }
+    }
+
+    Fix16 v15 = ((dword_677C9C / dword_677B98) * Ang16::sine_40F500(field_10));
+    Fix16 v16 = ((dword_677C9C / dword_677B98) * Ang16::cosine_40F520(field_10));
+
+    dword_677A74 = v15 + this->field_0->field_50_car_sprite->field_14_xy.x;
+    dword_677A80 = v16 + this->field_0->field_50_car_sprite->field_14_xy.y;
+
+    if ((field_24_flags & 0x10) == 0)
+    {
+        sub_44A1F0();
+        return;
+    }
+
+    field_24_flags &= ~0x08;
+    field_24_flags |= 0x10010;
+
+    Ang16 v79;
+
+    switch (field_4C - 1)
+    {
+        case 0:
+            if ((field_24_flags & 0x80u) == 0)
+            {
+                this->field_40 = 1;
+                v79 = word_677ADE;
+
+                Ang16 v23;
+
+                if (field_10 <= word_677ADE - dword_677A08 || (v23 = v79, field_10 >= v79 + dword_677A08))
+                {
+                    this->field_24_flags &= ~0x12000u;
+                    if (field_10 <= word_677ADE)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    else
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                    }
+                }
+
+                if (byte_677BBC)
+                {
+                    this->field_8 = 0;
+                }
+
+                Fix16 v25 = this->field_0->field_50_car_sprite->field_14_xy.x -
+                    ((this->field_0->field_50_car_sprite->field_14_xy.x));
+                if (v25 <= dword_6779C8 || v25 >= dword_6779D0)
+                {
+                    this->field_24_flags &= ~0x12000u;
+                    if (v25 > dword_6779C8)
+                    {
+                        if (field_10 >= v23 + dword_677A08)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+
+                        if (field_10 > word_677ADE + word_677CE2)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = 0;
+                            field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                            return;
+                        }
+                        field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    else
+                    {
+                        if (field_10 <= v23 - dword_677A08)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+
+                        if (field_10 >= word_677ADE - word_677CE2)
+                        {
+                            this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    }
+                    return;
+                }
+
+                if (this->field_10 != word_677ADE)
+                {
+                    field_0->field_58_physics->field_AD_turn_direction = 0;
+                    field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    return;
+                }
+                
+                field_8 = 0;
+                field_0->field_58_physics->field_8_total_damage_q = 0;
+                field_24_flags &= ~0x400;
+                field_24_flags |= 0x10;
+            }
+            else
+            {
+                field_40 = field_44;
+                switch (field_44)
+                {
+                    case 1:
+                        sub_4538B0();
+                        field_24_flags &= ~0x20080;
+                        return;
+                    case 3:
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                        break;
+                    case 4:
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                }
+            }
+            return;
+
+        case 1:
+            if ((field_24_flags & 0x80u) == 0)
+            {
+                this->field_40 = 2;
+
+                Ang16 v64 = this->field_10 + dword_6779E4;
+                Ang16 v31 = v64;
+
+                Ang16 v32 = dword_6779E4;
+                v79 = dword_6779E4;
+
+                Ang16 v65 = dword_6779E4 - word_677CE2;
+                Ang16 v67;
+                Ang16 v68;
+
+                if (v64 <= v65 - word_677CE2 ||
+                    (v67 = v32 + word_677CE2,
+                     v68 = v67 + word_677CE2, v64 >= v68))
+                {
+                    this->field_24_flags &= ~0x12000u;
+                    if (v64 <= v32)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = 1;
+                    }
+                    else
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    }
+                    return;
+                }
+                if (byte_677BBC)
+                {
+                    this->field_8 = 0;
+                }
+
+                Fix16 v33 = this->field_0->field_50_car_sprite->field_14_xy.x -
+                    ((this->field_0->field_50_car_sprite->field_14_xy.x));
+                if (v33 <= dword_6779C8 || v33 >= dword_6779D0)
+                {
+                    this->field_24_flags &= ~0x12000u;
+                    if (v33 <= dword_6779C8)
+                    {
+                        if (v64 >= v79 + dword_677A08)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+
+                        if (v64 <= v32 + word_677CE2)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+
+                    }
+
+                    if (v64 <= v79 - dword_677A08)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+
+                    if (v64 >= v32 - word_677CE2)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                        return;
+                    }
+
+                    field_0->field_58_physics->field_AD_turn_direction = 0;
+                    field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    return;
+                }
+                else if (this->field_10 != word_677CE8 || this->field_70)
+                {
+                    field_0->field_58_physics->field_AD_turn_direction = 0;
+                    field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    return;
+                }
+                else
+                {
+                    field_0->field_58_physics->field_8_total_damage_q = 0;
+                    this->field_8 = 0;
+                    this->field_24_flags &= ~0x4000;
+                    this->field_24_flags|= 0x10;
+                }
+            }
+            else
+            {
+                this->field_40 = field_44;
+                switch (field_44)
+                {
+                    case 2:
+                        sub_4538B0();
+                        this->field_24_flags &= 0xFFFDFF7F;
+                        return;
+                    case 4:
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        break;
+                    case 3:
+                        field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+
+                }
+            }
+            return;
+
+        case 2:
+            this->field_40 = 3;
+            
+            v79 = dword_6779E4;
+
+            if ((field_24_flags & 0x80u) == 0)
+            {
+                Ang16 v74 = (dword_6779E4 - word_677CE2) - word_677CE2;
+                Ang16 v75;
+                Ang16 v76;
+
+                if (field_10 <= v74 || (v75 = dword_6779E4 + word_677CE2,
+                     v76 = word_677CE2 + v75,
+                     field_10 >= v76))
+                {
+                    this->field_24_flags &= ~0x12000u;
+                    if (field_10 <= dword_6779E4)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    else
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                    }
+                    return;
+                }
+
+                if (byte_677BBC)
+                {
+                    this->field_8 = 0;
+                }
+
+                Fix16 v39 = this->field_0->field_50_car_sprite->field_14_xy.y -
+                    ((this->field_0->field_50_car_sprite->field_14_xy.y));
+                if (v39 > dword_6779C8 && v39 < dword_6779D0)
+                {
+                    if (this->field_10 == dword_6779E4)
+                    {
+                        field_0->field_58_physics->field_8_total_damage_q = 0;
+                        this->field_8 = 0;
+                        this->field_24_flags &= ~0x400;
+                        this->field_24_flags |= 0x10;
+                    }
+                    else
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                    }
+                    return;
+                }
+                
+                this->field_24_flags &= ~0x12000u;
+
+                if (v39 > dword_6779C8)
+                {
+                    if (field_10 > dword_6779E4 + word_677CE2)
+                    {
+                        if (field_10 >= dword_677A08 + v79)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+                    field_0->field_58_physics->field_AD_turn_direction = 1;
+                }
+                else
+                {
+                    if (field_10 >= dword_6779E4 - word_677CE2)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                        return;
+                    }
+
+                    if (field_10 > v79 - dword_677A08)
+                    {
+                        field_0->field_58_physics = this->field_0->field_58_physics;
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+                    field_0->field_58_physics->field_AD_turn_direction = 1;
+                    return;
+                }
+            }
+            else
+            {
+                this->field_40 = field_44;
+                switch (field_44)
+                {
+                    case 3:
+                        sub_4538B0();
+                        this->field_24_flags &= 0xFFFDFF7F;
+                        return;
+                    case 1:
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        break;
+                    case 2:
+                        this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                        break;
+                }
+            }
+            return;
+
+        case 3:
+            if ((field_24_flags & 0x80u) == 0)
+            {
+                this->field_40 = 4;
+                v79 = word_677B08;
+
+
+                if (field_10 <= (word_677B08 - word_677CE2) - word_677CE2)
+                {
+                    this->field_24_flags = field_24_flags & ~0x12000u;
+                    if (field_10 <= v79)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    else
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                    }
+                    return;
+                }
+                
+                if (field_10 >= word_677CE2 + word_677CE2 + word_677B08)
+                {
+                    this->field_24_flags = field_24_flags & ~0x12000u;
+                    if (field_10 <= v79)
+                    {
+                        this->field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+                    else
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = -1;
+                    }
+                    return;
+                }
+                else
+                {
+                    if (byte_677BBC)
+                    {
+                        this->field_8 = 0;
+                    }
+
+                    Fix16 v52 = this->field_0->field_50_car_sprite->field_14_xy.y -
+                        (this->field_0->field_50_car_sprite->field_14_xy.y);
+                    if (v52 > dword_6779C8 && v52 < dword_6779D0)
+                    {
+                        if (field_10 == word_677B08)
+                        {
+                            field_0->field_58_physics->field_8_total_damage_q = 0;
+                            this->field_8 = 0;
+                            this->field_24_flags &= ~0x400;
+                            this->field_24_flags |= 0x10;
+                        }
+                        else
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = 0;
+                            field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        }
+                        return;
+                    }
+
+                    this->field_24_flags &= 0xFFFEDFFF;
+                    if (v52 > dword_6779C8)
+                    {
+                        if (field_10 >= v79 - word_677CE2)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = -1;
+                            return;
+                        }
+
+                        if (field_10 <= v79 - dword_677A08)
+                        {
+                            field_0->field_58_physics->field_AD_turn_direction = 1;
+                            return;
+                        }
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+
+                    if (field_10 <= v79 + word_677CE2)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = 1;
+                        return;
+                    }
+
+                    if (field_10 < dword_677A08 + v79)
+                    {
+                        field_0->field_58_physics->field_AD_turn_direction = 0;
+                        field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
+                        return;
+                    }
+                }
+
+                field_0->field_58_physics->field_AD_turn_direction = -1;
+                return;
+            }
+
+            field_40 = field_44;
+            switch (field_44)
+            {
+                case 4:
+                    sub_4538B0();
+                    this->field_24_flags &= 0xFFFDFF7F;
+                    return;
+                case 1:
+                    this->field_0->field_58_physics->field_AD_turn_direction = -1;
+                    return;
+                case 2:
+                    field_0->field_58_physics->field_AD_turn_direction = 1;
+                    return;
+            }
+            return;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x44a1f0)
