@@ -38,15 +38,12 @@ void Bink::Close1_513340()
     }
 }
 
-WIP_FUNC(0x513390)
+MATCH_FUNC(0x513390)
 void Bink::Close2_513390()
 {
-    WIP_IMPLEMENTED;
-
-    // To-do: Get bink header stubs.
     if (gBink_state_6F80C4 != 0)
     {
-        //_BinkBufferClose@4(gBink_state_6F80C4);
+        BinkBufferClose(gBink_state_6F80C4);
         gBink_state_6F80C4 = 0;
         gBink_state_6F83FE = 0;
         gBink_state_6F83FF = 0;
@@ -54,8 +51,8 @@ void Bink::Close2_513390()
 
     if (gBink_state_6F83B0)
     {
-        //_BinkGetSummary@8(gBink_state_6F83B0, &gBink_state_6f8250);
-        //_BinkClose@4(gBink_state_6F83B0);
+        BinkGetSummary(gBink_state_6F83B0, &gBink_state_6f8250);
+        BinkClose(gBink_state_6F83B0);
         gBink_state_6F83B0 = 0;
     }
 }
