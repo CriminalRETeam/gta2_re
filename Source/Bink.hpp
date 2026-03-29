@@ -2,6 +2,10 @@
 
 #include "3rdParty/mss.h"
 #include "Function.hpp"
+#include "enums.hpp"
+#include "error.hpp"
+#include "dma_video.hpp"
+#include "winmain.hpp"
 #include <windows.h>
 
 EXTERN_GLOBAL(s32, gBink_state_6F83B0);
