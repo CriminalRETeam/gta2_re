@@ -116,13 +116,10 @@ char_type Bink::sub_513240()
     return 0;
 }
 
-STUB_FUNC(0x513790)
+MATCH_FUNC(0x513790)
 char_type Bink::sub_513790()
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return 0;
-    //    return gBink_6F83FF;
+    return gBink_state_6F83FF;
 }
 
 STUB_FUNC(0x5137A0)
