@@ -26,7 +26,7 @@ class Bink
 
     EXPORT static void Close2_513390();
 
-    EXPORT static void sub_5136D0(s32* pNewWindowX, s32* pNewWindowY);
+    EXPORT static void __stdcall sub_5136D0(s32* pNewWindowX, s32* pNewWindowY);
 
     EXPORT static BOOL sub_513770();
 

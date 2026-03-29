@@ -57,19 +57,17 @@ void Bink::Close2_513390()
     }
 }
 
-WIP_FUNC(0x5136D0)
-void Bink::sub_5136D0(s32* pNewWindowX, s32* pNewWindowY)
+MATCH_FUNC(0x5136D0)
+void __stdcall Bink::sub_5136D0(s32* pNewWindowX, s32* pNewWindowY)
 {
-    WIP_IMPLEMENTED;
-
-    // To-do: Get bink header stubs.
     if (gBink_state_6F83FF == 1 && gBink_state_6F8170 != 0)
     {
-        //_BinkBufferCheckWinPos@12(gBink_state_6F8170, pNewWindowX, pNewWindowY);
+        BinkBufferCheckWinPos(gBink_state_6F8170, pNewWindowX, pNewWindowY);
+        return;
     }
     else if (gBink_state_6F83FF == 2 && gBink_state_6F80C4 != 0)
     {
-        //_BinkBufferCheckWinPos@12(gBink_state_6F8170, pNewWindowX, pNewWindowY);
+        BinkBufferCheckWinPos(gBink_state_6F80C4, pNewWindowX, pNewWindowY);
     }
 }
 
