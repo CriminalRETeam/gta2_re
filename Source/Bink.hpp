@@ -16,6 +16,7 @@ EXTERN_GLOBAL(s32, gBink_state_6F8170);
 EXTERN_GLOBAL(char_type, gBink_state_6F83FE);
 EXTERN_GLOBAL(char_type, gBink_state_6F83FF);
 EXTERN_GLOBAL(s32, gBink_state_6f8250);
+EXTERN_GLOBAL(s32, gBink_state_6F81B0);
 
 class Bink
 {
