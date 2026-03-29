@@ -135,12 +135,10 @@ void __stdcall Bink::sub_5133E0(const char_type* a1, HDIGDRIVER a2)
     // todo
 }
 
-STUB_FUNC(0x5137B0)
+MATCH_FUNC(0x5137B0)
 void __stdcall Bink::sub_5137B0(char_type a1)
 {
-    NOT_IMPLEMENTED;
-    // todo
-    //gBink_state_6F83FE = a1;
+    gBink_state_6F83FE = a1;
 }
 
 STUB_FUNC(0x513560)
