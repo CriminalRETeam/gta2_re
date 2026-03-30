@@ -46,8 +46,8 @@ class Wolfy_30
     Sprite* field_1C;
     s16 field_20;
     s16 field_22;
-    s32 field_24;
-    s32 field_28;
+    Fix16 field_24;
+    Fix16 field_28;
     s32 field_2C_ped_id;
 };
 

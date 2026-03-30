@@ -402,13 +402,23 @@ class Sprite
         this->field_8_car_bc_ptr = pCar;
     }
 
-    void set_id_lazy_4206C0(u16 new_id)
+    void set_id_lazy_4206C0(s16 new_id)
     {
         if (field_22_sprite_id != new_id)
         {
             field_22_sprite_id = new_id;
             UpdateDimensionsFromSpriteIndex_59FA40();
         }
+    }
+
+    void set_id_4206E0(u16 a2)
+    {
+        this->field_22_sprite_id = a2;
+    }
+
+    void Set_2C_0x4_Flag_4337F0()
+    {
+        this->field_2C |= 4u;
     }
 
     // 9.6f inline 0x420690
@@ -482,7 +492,7 @@ class Sprite
     char_type field_26_pad;
     char_type field_27_pad;
     s32 field_28_num;
-    char_type field_2C;
+    u8 field_2C;
     char_type field_2D_pad;
     char_type field_2E_pad;
     char_type field_2F_pad;

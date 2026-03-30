@@ -1,23 +1,38 @@
 #include "Particle_8.hpp"
 #include "Globals.hpp"
+#include "Particle_4C.hpp"
 #include "Pool.hpp"
 #include "enums.hpp"
 #include "error.hpp"
-#include "Particle_4C.hpp"
+#include "sprite.hpp"
 
 typedef Pool<Particle_4C, 500> T_Particle_4C_Pool;
 
 DEFINE_GLOBAL(T_Particle_4C_Pool*, gParticle_4C_Pool_6FD5E4, 0x6FD5E4);
 DEFINE_GLOBAL(Particle_8*, gParticle_8_6FD5E8, 0x6FD5E8);
 
+// NOTE: Will not match in marked extern !!
+DEFINE_GLOBAL(u16, gParticleInstCount_6FD5F4, 0x6FD5F4);
 
-STUB_FUNC(0x53E3C0)
+MATCH_FUNC(0x53E3C0)
 Particle_4C* Particle_8::New_53E3C0(Fix16 xpos, Fix16 ypos, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Particle_4C* pNew4C = 0;
+    if (gParticle_4C_Pool_6FD5E4->field_0_pStart && gSprite_Pool_703818->field_0_pool.field_0_pHead)
+    {
+        pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+        pNew4C->field_8_xpos = xpos;
+        pNew4C->field_C_ypos = ypos;
+        pNew4C->field_10 = a4;
+        pNew4C->field_14 = a5;
+        pNew4C->field_18 = a6;
+        pNew4C->field_1C = a7;
+        pNew4C->field_0_id = gParticleInstCount_6FD5F4;
+        pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+        ++gParticleInstCount_6FD5F4;
+    }
+    return pNew4C;
 }
-
 
 STUB_FUNC(0x53e320)
 void Particle_8::ParticlesService_53E320()
@@ -98,7 +113,6 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
 {
     NOT_IMPLEMENTED;
 }
-
 
 STUB_FUNC(0x53FE40)
 void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv)
