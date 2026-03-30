@@ -766,6 +766,7 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 a4, s32
 }
 
 // https://decomp.me/scratch/HFGKH
+// 9.6f 0x426AC0
 WIP_FUNC(0x446230)
 Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale)
 {
@@ -871,7 +872,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
     }
     else if (pCar->IsGt24640_4217D0())
     {
-        pCar->sub_43CDF0((gRngRemapTable_679320[this->field_0.field_0] % 11));
+        pCar->sub_43CDF0(field_0.GetRngValue_4212D0() % 11);
     }
     else if (pCar->is_FBI_car_411920())
     {

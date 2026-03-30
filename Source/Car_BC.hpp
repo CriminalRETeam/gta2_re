@@ -70,6 +70,7 @@ class Car_214
 };
 
 EXTERN_GLOBAL(Car_214*, gCar_214_705F20);
+EXTERN_GLOBAL_ARRAY(u16, gRngRemapTable_679320, 1000);
 
 class Car_2
 {
@@ -77,6 +78,12 @@ class Car_2
     EXPORT Car_2();
     ~Car_2() {}
     EXPORT void IncNextRngRemapIdx_47BD90();
+
+    u16 GetRngValue_4212D0()
+    {
+        return gRngRemapTable_679320[this->field_0];
+    }
+
     u16 field_0;
 };
 
