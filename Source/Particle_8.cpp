@@ -36,10 +36,10 @@ Particle_4C* Particle_8::New_53E3C0(Fix16 xpos, Fix16 ypos, Fix16 a4, Fix16 a5, 
     return pNew4C;
 }
 
-STUB_FUNC(0x53e320)
+MATCH_FUNC(0x53e320)
 void Particle_8::ParticlesService_53E320()
 {
-    NOT_IMPLEMENTED;
+    gParticle_4C_Pool_6FD5E4->UpdatePool();
 }
 
 STUB_FUNC(0x53E450)

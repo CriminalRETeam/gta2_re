@@ -27,9 +27,9 @@ class Particle_4C
     EXPORT char_type UpdateAttachedEmitter_state_9_10_53B670();
     EXPORT char_type UpdateBurstAnimation_state_29_30_53B9F0();
     EXPORT char_type UpdateCollisionBurst_state_31_34_53BAC0();
-    EXPORT s32 Service_53D260();
+    EXPORT bool PoolUpdate();
     EXPORT void PoolAllocate();
-    EXPORT void PoolDeallocate_53E2E0();
+    EXPORT void PoolDeallocate();
     
     s32 field_0_id;
     s32 field_4_flags;

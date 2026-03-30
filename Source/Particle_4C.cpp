@@ -239,7 +239,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 }
 
 STUB_FUNC(0x53d260)
-s32 Particle_4C::Service_53D260()
+bool Particle_4C::PoolUpdate()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -256,7 +256,7 @@ void Particle_4C::PoolAllocate()
 }
 
 MATCH_FUNC(0x53e2e0)
-void Particle_4C::PoolDeallocate_53E2E0()
+void Particle_4C::PoolDeallocate()
 {
     if (field_30_pNext)
     {
