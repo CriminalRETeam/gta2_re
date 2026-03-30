@@ -7,10 +7,13 @@
 class Fix16;
 class Sprite;
 class Sprite;
+class Particle_4C;
 
 class Particle_8
 {
   public:
+    EXPORT Particle_4C* New_53E3C0(Fix16 xpos, Fix16 ypos, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7);
+
     EXPORT void ParticlesService_53E320();
     EXPORT void EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
     EXPORT void SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos);

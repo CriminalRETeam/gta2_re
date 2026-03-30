@@ -3,11 +3,21 @@
 #include "Pool.hpp"
 #include "enums.hpp"
 #include "error.hpp"
+#include "Particle_4C.hpp"
 
 typedef Pool<Particle_4C, 500> T_Particle_4C_Pool;
 
 DEFINE_GLOBAL(T_Particle_4C_Pool*, gParticle_4C_Pool_6FD5E4, 0x6FD5E4);
 DEFINE_GLOBAL(Particle_8*, gParticle_8_6FD5E8, 0x6FD5E8);
+
+
+STUB_FUNC(0x53E3C0)
+Particle_4C* Particle_8::New_53E3C0(Fix16 xpos, Fix16 ypos, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 
 STUB_FUNC(0x53e320)
 void Particle_8::ParticlesService_53E320()
