@@ -1,17 +1,25 @@
 #include "Particle_8.hpp"
 #include "Globals.hpp"
 #include "Particle_4C.hpp"
+#include "Phi_8CA8.hpp"
 #include "Pool.hpp"
+#include "PurpleDoom.hpp"
+#include "debug.hpp"
 #include "enums.hpp"
 #include "error.hpp"
 #include "sprite.hpp"
-#include "Phi_8CA8.hpp"
-#include "PurpleDoom.hpp"
 
 typedef Pool<Particle_4C, 500> T_Particle_4C_Pool;
 
+EXTERN_GLOBAL(Fix16, dword_6FD46C);
+EXTERN_GLOBAL(Fix16_Point, stru_6FD388);
+EXTERN_GLOBAL(Fix16, dword_6FD330);
+
 DEFINE_GLOBAL(T_Particle_4C_Pool*, gParticle_4C_Pool_6FD5E4, 0x6FD5E4);
 DEFINE_GLOBAL(Particle_8*, gParticle_8_6FD5E8, 0x6FD5E8);
+DEFINE_GLOBAL(Fix16, dword_6FD474, 0x6FD474);
+DEFINE_GLOBAL(Fix16, dword_6FD468, 0x6FD468);
+DEFINE_GLOBAL(Ang16, dword_6FD314, 0x6FD314);
 
 // NOTE: Will not match in marked extern !!
 DEFINE_GLOBAL(u16, gParticleInstCount_6FD5F4, 0x6FD5F4);
@@ -93,10 +101,65 @@ void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5406b0)
-void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* a2, char_type a3)
+// 9.6f 0x48E060
+WIP_FUNC(0x5406b0)
+void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnknown)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (!bSkip_particles_67D64D)
+    {
+        Fix16 zero(0);
+        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(zero, zero, dword_6FD330, 0, 0, 0);
+        if (pNew4C)
+        {
+            pNew4C->field_34 = 1;
+
+            if (bUnknown)
+            {
+                pNew4C->field_38_state = 9;
+                pNew4C->field_2C_counter = 80;
+            }
+            else
+            {
+                pNew4C->field_38_state = 10;
+                pNew4C->field_2C_counter = 70;
+            }
+
+            pNew4C->field_2E = pNew4C->field_2C_counter;
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 3);
+
+            //v11 = pSprite->field_0 * 4;
+
+            if (bUnknown)
+            {
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD474, stru_6FD388.x, stru_6FD388.y);
+
+            }
+            else
+            {
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD46C, stru_6FD388.x, stru_6FD388.y);
+            }
+
+            Fix16 v16;
+            Fix16 v17;
+            Ang16::PolarToCartesian_41FC20(pSprite->field_0 - dword_6FD314, dword_6FD468, v16, v17);
+
+            stru_6FD388.x += v16 + pSprite->field_14_xy.x;
+            stru_6FD388.y += v17 + pSprite->field_14_xy.y;
+
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388.x, stru_6FD388.y, pSprite->field_1C_zpos);
+            pNew4C->field_28_pSprite = pSprite;
+
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+
+            if (bUnknown)
+            {
+                pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5439d0)
