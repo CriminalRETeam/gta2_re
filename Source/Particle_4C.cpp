@@ -65,10 +65,9 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
     return 0;
 }
 
-STUB_FUNC(0x53ab70)
+MATCH_FUNC(0x53ab70)
 char_type Particle_4C::Empty_state_42_53AB70()
 {
-    NOT_IMPLEMENTED;
     return 0;
 }
 
