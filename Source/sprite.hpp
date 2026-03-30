@@ -14,6 +14,9 @@ EXTERN_GLOBAL(Fix16, gFix16_7035C0);
 EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 EXTERN_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8);
 
+EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16* minX, Fix16* minY, Fix16* scanLineX, Fix16_Point* p0, Fix16_Point* p1);
+EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16* minX, Fix16* minY, Fix16* scanLineY, Fix16_Point* p0, Fix16_Point* p1);
+
 class Car_BC;
 class Char_B4;
 class Object_2C;

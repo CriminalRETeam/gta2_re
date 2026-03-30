@@ -938,12 +938,72 @@ char_type Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 a2, s32 a3, s32 a4, s32 a5,
     return 0;
 }
 
-STUB_FUNC(0x4E11E0)
-char_type Map_0x370::sub_4E11E0(Fix16_Rect* a2)
+WIP_FUNC(0x4E11E0)
+char_type Map_0x370::sub_4E11E0(Fix16_Rect* pRect)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    // TODO: rect ?
+    Fix16_Point p1;
+    Fix16_Point p2;
+
+    pRect->DoSetCurrentRect_59DD60();
+
+    Fix16 z_sum = (pRect->field_10_low_z + pRect->field_14_high_z);
+
+    s32 z_calc = z_sum.ToInt();
+
+    s32 y_count = gPurple_top_6F6108;
+    s32 x_count = gPurple_left_6F5FD4;
+    while (y_count <= gPurple_bottom_6F5F38)
+    {
+        Fix16 left = (gPurple_left_6F5FD4 + 1); // Fix16()
+        while (x_count <= gPurple_right_6F5B80)
+        {
+            gmp_block_info* pBlock = get_block_4DFE10(x_count, y_count, z_calc);
+            if (pBlock)
+            {
+                u8 slope_mask = pBlock->field_B_slope_type & 0xFC;
+                if (slope_mask >= 0xB4 && slope_mask <= 0xD0)
+                {
+
+                    if (slope_mask == 0xB4 || slope_mask == 0xC0 || slope_mask == 0xC4 || slope_mask == 0xD0)
+                    {
+                        p1.x = x_count; // Fix16()
+                        p1.y = (y_count + 1); // Fix16()
+                        p2.x = left;
+                        p2.y = y_count; // Fix16()
+                    }
+                    else
+                    {
+                        p1.x = x_count; // Fix16()
+                        p1.y = y_count; // Fix16()
+                        p2.x = left;
+                        p2.y = y_count + 1; // Fix16()
+                    }
+                   
+
+                    if (ComputeScanlineIntersectionY_4F76A0(&pRect->field_0_left, &pRect->field_4_right, &pRect->field_8_top, &p1, &p2)
+                             || ComputeScanlineIntersectionY_4F76A0(&pRect->field_0_left,
+                                                            &pRect->field_4_right,
+                                                            &pRect->field_C_bottom,
+                                                            &p1,
+                                                            &p2) ||
+                        ComputeScanlineIntersectionX_4F77D0(&pRect->field_8_top, &pRect->field_C_bottom, &pRect->field_0_left, &p1, &p2) ||
+                        ComputeScanlineIntersectionX_4F77D0(&pRect->field_8_top, &pRect->field_C_bottom, &pRect->field_4_right, &p1, &p2))
+                    {
+                        return 1;
+                    }
+                }
+            }
+            ++x_count;
+            left += Fix16(0x4000, 0);
+        }
+        ++y_count;
+    }
     return 0;
 }
+
 
 STUB_FUNC(0x4E1520)
 char_type Map_0x370::sub_4E1520(s32 a2)
