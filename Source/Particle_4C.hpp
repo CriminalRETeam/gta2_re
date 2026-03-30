@@ -53,7 +53,7 @@ class Particle_4C
     s16 field_44;
     u8 field_46_sub_state;
     char_type field_47;
-    char_type field_48_timer;
+    u8 field_48_timer;
     char_type field_49;
     char_type field_4A;
     char_type field_4B;

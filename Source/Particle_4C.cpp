@@ -1,6 +1,7 @@
 #include "Particle_4C.hpp"
 #include "PurpleDoom.hpp"
 #include "sprite.hpp"
+#include "Phi_8CA8.hpp"
 
 STUB_FUNC(0x538060)
 char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
@@ -51,10 +52,32 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
     return 0;
 }
 
-STUB_FUNC(0x53a180)
+MATCH_FUNC(0x53a180)
 char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
 {
-    NOT_IMPLEMENTED;
+    gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+
+    if (this->field_2C_counter == 0)
+    {
+        return 1;
+    }
+
+    if (field_48_timer > 0)
+    {
+        this->field_48_timer--;
+    }
+    else
+    {
+        this->field_48_timer = 3;
+        this->field_46_sub_state++;
+        if (field_46_sub_state > 5u)
+        {
+            this->field_46_sub_state = 5;
+        }
+    }
+    
+    field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + this->field_46_sub_state + 191);
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
 
