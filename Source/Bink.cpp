@@ -119,21 +119,20 @@ void __stdcall Bink::sub_5137A0(char_type a1)
 WIP_FUNC(0x5133E0)
 void __stdcall Bink::sub_5133E0(const char_type* a1, HDIGDRIVER a2)
 {
-    WIP_IMPLEMENTED;
-
     BinkSetSoundSystem((void*)BinkOpenMiles, (s32)a2);
     BinkSetIOSize(600000);
+
     gBink_state_6F83B0 = BinkOpen(a1, 0x4000000);
 
     if (gBink_state_6F83B0 == 0)
     {
         FatalError_4A38C0(Gta2Error::BinkOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.", 376);
-        gBink_state_6F83FF = 2;
         return;
     }
 
     if (gBufferMode_706B34 == 2)
     {
+        // Hardware-accelerated path: pick Bink colour format based on surface bit depth.
         if (gVidSys_7071D0->field_5C == 5)
         {
             if (gVidSys_7071D0->field_64_r == 5 && gVidSys_7071D0->field_6C == 5)
@@ -142,38 +141,35 @@ void __stdcall Bink::sub_5133E0(const char_type* a1, HDIGDRIVER a2)
                 gBink_state_6F83FF = 2;
                 return;
             }
-            else if (gVidSys_7071D0->field_64_r == 6)
-            {
-                gVidSys_7071D0->field_6C;
-            }
         }
         else if (gVidSys_7071D0->field_5C == 6)
         {
             if (gVidSys_7071D0->field_64_r == 5 && gVidSys_7071D0->field_6C == 5)
             {
-                gBink_state_6F83FF = 2;
                 gBink_state_6F81B0 = 4;
+                gBink_state_6F83FF = 2;
                 return;
             }
             if (gVidSys_7071D0->field_64_r == 6 && gVidSys_7071D0->field_6C == 4)
             {
-                gBink_state_6F83FF = 2;
                 gBink_state_6F81B0 = 5;
+                gBink_state_6F83FF = 2;
                 return;
             }
         }
-        gBink_state_6F83FF = 2;
+
         gBink_state_6F81B0 = 3;
+        gBink_state_6F83FF = 2;
         return;
     }
 
+    // Software / DirectDraw path.
     if (gBink_state_6F83FE == 0)
     {
         BinkBufferSetDDPrimary((s32)gVidSys_7071D0->field_134_SurfacePrimary);
     }
-
+    
     gBink_state_6F83FE = 1;
-    // The [1] might indicate this might be part of a struct?
     gBink_state_6F80C4 = BinkBufferOpen(gHwnd_707F04, *(s32*)gBink_state_6F83B0, ((s32*)gBink_state_6F83B0)[1], 0);
 
     if (gBink_state_6F80C4 == 0)
