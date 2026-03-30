@@ -12,6 +12,7 @@
 #include "gtx_0x106C.hpp"
 #include "miss2_xyz.hpp"
 #include "sprite.hpp"
+#include "map_0x370.hpp"
 #include <wchar.h>
 
 struct gmp_zone_info;
@@ -138,7 +139,7 @@ class Car_6C
     EXPORT Car_BC* GetNearestFrontVehicle_445210(Sprite* a1, u8 a2);
     EXPORT Car_BC* SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 a4, s32 car_model_type);
     EXPORT Car_BC* SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
-    EXPORT Trailer* sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
+    EXPORT Trailer* SpawnCabAndTrailer_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
     EXPORT void RemoveFromPoolAndCollision_446730(Car_BC* pCar);
 
     EXPORT void DecrementAllocatedCarType_4466C0(s32 a2);
@@ -165,6 +166,20 @@ class Car_6C
     inline Car_BC* SpawnCar_shortened(s32 car_info_idx)
     {
         return SpawnCarAt_446230(dword_6F77D4, dword_6F77D4, dword_6F77C0, dword_6F804C, car_info_idx, dword_6F77C4);
+    }
+
+    inline Car_BC* SpawnCarAtCorrectZ_426E40(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model)
+    {
+        Fix16 temp_z;
+        if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
+            car_model == car_model_enum::boxcar)
+        {
+            return SpawnCarAt_446230(xpos, ypos, *gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&temp_z, xpos, ypos), rotation, car_model, dword_6777D0);
+        }
+        else
+        {
+            return SpawnCarAt_446230(xpos, ypos, *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, xpos, ypos), rotation, car_model, dword_6777D0);
+        }
     }
 
     Car_2 field_0;

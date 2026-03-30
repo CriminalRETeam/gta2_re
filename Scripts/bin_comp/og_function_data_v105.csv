@@ -542,7 +542,7 @@ sub_4453E0,0x4453e0,0x453e0,0x4ac
 Car_6C::SpawnCarOnRoadNetwork_4458B0,0x4458b0,0x458b0,0x5e0
 Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0,0x445ec0,0x45ec0,0x2f3
 Car_6C::SpawnCarAt_446230,0x446230,0x46230,0x2fd
-Car_6C::sub_446530,0x446530,0x46530,0x184
+Car_6C::SpawnCabAndTrailer_446530,0x446530,0x46530,0x184
 Car_6C::DecrementAllocatedCarType_4466C0,0x4466c0,0x466c0,0x47
 Car_6C::RemoveFromPoolAndCollision_446730,0x446730,0x46730,0x2e
 Car_6C::EnableFreeShoppingIfAllKFsPassed_446760,0x446760,0x46760,0x2c

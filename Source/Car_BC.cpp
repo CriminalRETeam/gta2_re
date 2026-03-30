@@ -450,10 +450,10 @@ WIP_FUNC(0x444cf0)
 Car_BC* Car_6C::SpawnCarAtRoadDirection_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     WIP_IMPLEMENTED;
-    
+
     u8 v8 = xpos.ToInt();
     u8 v5 = ypos.ToInt();
-    
+
     gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(v8, v5, (zpos.ToInt()) - 1);
 
     if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(4, pBlock))
@@ -463,11 +463,7 @@ Car_BC* Car_6C::SpawnCarAtRoadDirection_444CF0(s32 car_model_type, Fix16 xpos, F
 
     if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(2, pBlock))
     {
-        return gCar_6C_677930->SpawnCarOnRoadNetwork_4458B0(
-                                                    dword_677218 + (v8 << 14),
-                                                    dword_6777D0 + (v5 << 14),
-                                                    2,
-                                                    car_model_type);
+        return gCar_6C_677930->SpawnCarOnRoadNetwork_4458B0(dword_677218 + (v8 << 14), dword_6777D0 + (v5 << 14), 2, car_model_type);
     }
 
     if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(3, pBlock))
@@ -888,11 +884,50 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
     return pCar;
 }
 
-STUB_FUNC(0x446530)
-Trailer* Car_6C::sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx)
+STUB_FUNC(0x408370)
+EXPORT void __stdcall SpawnCabAndTrailerHelper_408370(
+        Fix16 xpos,
+        Fix16 ypos,
+        Fix16 zpos,
+        Ang16 rot,
+        Ang16 uknown_rot,
+        Fix16 *pOutX,
+        Fix16 *pOutY,
+        Fix16 *pOutZ,
+        Ang16 *pOutRot)
 {
     NOT_IMPLEMENTED;
-    return 0;
+}
+
+// 9.6f 0x428EC0
+WIP_FUNC(0x446530)
+Trailer* Car_6C::SpawnCabAndTrailer_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model, s32 trailer_model)
+{
+    WIP_IMPLEMENTED;
+    
+    Ang16 out_rot;
+
+    Car_BC* pCab = SpawnCarAtCorrectZ_426E40(xpos, ypos, rotation, car_model);
+
+    Fix16 zpos;
+    SpawnCabAndTrailerHelper_408370(xpos,
+                                    ypos,
+                                    pCab->field_50_car_sprite->field_1C_zpos,
+                                    rotation,
+                                    word_67791C,
+                                    &xpos,
+                                    &ypos,
+                                    &zpos,
+                                    &out_rot);
+
+    
+    Car_BC* pTrailer = SpawnCarAtCorrectZ_426E40(xpos, ypos, out_rot, trailer_model);
+    gCar_BC_Pool_67792C->field_0_pool.sub_420F30(pTrailer);
+
+    Trailer* pNewTrailer = gTrailerPool_66AC80->field_0_pool.Allocate();
+    pNewTrailer->SetTruckCabAndTrailerCar_407BB0(pCab, pTrailer);
+
+    return pNewTrailer;
 }
 
 MATCH_FUNC(0x446730)
