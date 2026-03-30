@@ -2653,12 +2653,60 @@ char_type Map_0x370::sub_4E7E90(u8* a2, char_type* a3)
     return 0;
 }
 
-STUB_FUNC(0x4E7FC0)
-char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 a2, Fix16 a3, Fix16 a4)
+MATCH_FUNC(0x4E7FC0)
+char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
 {
-    NOT_IMPLEMENTED;
+    gmp_compressed_map_32* pDMap = this->field_0_pDmap;
+
+    s32 z_int = z.ToInt();
+    gmp_col_info* pColInfo = (gmp_col_info*)&pDMap->field_40008_pColumn[pDMap->field_0_base[y.ToInt()][x.ToInt()]];
+    if (z_int < pColInfo->field_0_height)
+    {
+        if (z_int < pColInfo->field_1_offset)
+        {
+            z_int = pColInfo->field_1_offset;
+        }
+
+        s32 block_d_idx = z_int - pColInfo->field_1_offset;
+        s32 block_idx = pColInfo->field_4_blockd[block_d_idx];
+
+        if (pDMap->field_4000C_block[block_idx].field_8_lid)
+        {
+            if ((pDMap->field_4000C_block[block_idx].field_8_lid & 0x1000) == 0)
+            {
+                u8 slope_type = pDMap->field_4000C_block[block_idx].field_B_slope_type;
+                u8 slope_type_masked = slope_type & 0xFC;
+                if (((slope_type & 0xFCu) < 0xB4 || slope_type_masked > 0xF4u) &&
+                    (slope_type_masked <= 0 || slope_type_masked >= 0xB4u || (slope_type & 3) == 0))
+                {
+                    return 1;
+                }
+            }
+        }
+
+        block_d_idx++;
+
+        s32 remainder = pColInfo->field_0_height - pColInfo->field_1_offset;
+        while (block_d_idx < remainder)
+        {
+            s32 idx = pColInfo->field_4_blockd[block_d_idx];
+            if (pDMap->field_4000C_block[idx].field_8_lid)
+            {
+                if ((pDMap->field_4000C_block[idx].field_8_lid & 0x1000) == 0)
+                {
+                    u8 slope_type_masked_ = pDMap->field_4000C_block[idx].field_B_slope_type & 0xFC;
+                    if (slope_type_masked_ < 0xB4u || slope_type_masked_ > 0xF4u)
+                    {
+                        return 1;
+                    }
+                }
+            }
+            ++block_d_idx;
+        }
+    }
     return 0;
 }
+
 
 MATCH_FUNC(0x4E80A0)
 void gmp_compressed_map_32::sub_4E80A0(Map_sub* a2)
