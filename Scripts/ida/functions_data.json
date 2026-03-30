@@ -2425,7 +2425,7 @@
         "v105_address": "0x446230"
     },
     {
-        "name": "Car_6C::sub_446530",
+        "name": "Car_6C::SpawnCabAndTrailer_446530",
         "v96f_address": null,
         "v105_address": "0x446530"
     },
@@ -11390,7 +11390,7 @@
         "v105_address": "0x540a40"
     },
     {
-        "name": "sub_540D30",
+        "name": "state_3_12_540D30",
         "v96f_address": null,
         "v105_address": "0x540d30"
     },
@@ -11400,12 +11400,12 @@
         "v105_address": "0x540f90"
     },
     {
-        "name": "sub_5411E0",
+        "name": "state_13_14_5411E0",
         "v96f_address": null,
         "v105_address": "0x5411e0"
     },
     {
-        "name": "sub_541430",
+        "name": "state_5_541430",
         "v96f_address": null,
         "v105_address": "0x541430"
     },
@@ -11445,12 +11445,12 @@
         "v105_address": "0x542340"
     },
     {
-        "name": "sub_542790",
+        "name": "state_18_19_20_32_33_542790",
         "v96f_address": null,
         "v105_address": "0x542790"
     },
     {
-        "name": "sub_542E30",
+        "name": "state_22_23_24_25_542E30",
         "v96f_address": null,
         "v105_address": "0x542e30"
     },

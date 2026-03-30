@@ -1271,7 +1271,7 @@ void CC ImGuiDebugDraw()
                     pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
 
                     // Spawns a cab and connected trailer, can spawn trains too apparently
-                    gCar_6C_677930->sub_446530(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
+                    gCar_6C_677930->SpawnCabAndTrailer_446530(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
 
                     pNewCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                     if (!pNewCar->field_5C)
