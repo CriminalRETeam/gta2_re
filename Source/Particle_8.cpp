@@ -5,6 +5,8 @@
 #include "enums.hpp"
 #include "error.hpp"
 #include "sprite.hpp"
+#include "Phi_8CA8.hpp"
+#include "PurpleDoom.hpp"
 
 typedef Pool<Particle_4C, 500> T_Particle_4C_Pool;
 
@@ -46,10 +48,29 @@ void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x53e880)
-void Particle_8::SpawnBlood_53E880(Fix16 a2, Fix16 a3, Fix16 a4)
+MATCH_FUNC(0x53e880)
+void Particle_8::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    NOT_IMPLEMENTED;
+    Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(xpos, ypos, 0, 0, 0, 0);
+    if (pNew4C)
+    {
+        Sprite* pNext = pNew4C->field_30_pNext;
+
+        pNew4C->field_34 = 1;
+        pNew4C->field_38_state = 39;
+        pNew4C->field_2C_counter = 800;
+        pNew4C->field_46_sub_state = 0;
+        pNew4C->field_48_timer = 3;
+        pNew4C->field_2E = 800;
+        
+        pNext->field_30_sprite_type_enum = 8;
+        pNext->sub_59E960();
+
+        pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 191);
+        pNew4C->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
+        pNew4C->field_30_pNext->field_28_num = 2;
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+    }
 }
 
 STUB_FUNC(0x53e970)
