@@ -13,7 +13,7 @@ class Wolfy_30
     EXPORT Wolfy_30();
     EXPORT ~Wolfy_30();
     EXPORT void sub_540A40();
-    EXPORT void sub_540D30(s32 a2, s32 a3);
+    EXPORT void sub_540D30(Ang16 a2, Fix16 a3);
     EXPORT void state_4_540F90(s32 a2, s32 a3);
     EXPORT void sub_5411E0(s32 a2, s32 a3);
     EXPORT void sub_541430(s32 a2, s32 a3);
@@ -36,8 +36,8 @@ class Wolfy_30
     u8 field_4_idx;
     u8 field_5;
     s16 field_6_id;
-    s32 field_8;
-    s16 field_C;
+    Fix16 field_8;
+    Ang16 field_C;
     s16 field_E;
     s32 field_10_type_or_state;
     Object_2C* field_14;

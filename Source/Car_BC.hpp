@@ -406,7 +406,7 @@ class Car_BC
     EXPORT void sub_441B20();
     EXPORT void UpdateRoofLightFlasher_441B50();
     EXPORT void sub_441C00();
-    EXPORT s16 sub_441D40();
+    EXPORT void sub_441D40();
     EXPORT void sub_441E70();
     EXPORT bool sub_442170();
     EXPORT void sub_442190();

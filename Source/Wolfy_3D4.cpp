@@ -1,5 +1,10 @@
 #include "Wolfy_3D4.hpp"
 #include "Globals.hpp"
+#include "Particle_4C.hpp"
+#include "rng.hpp"
+#include "Object_5C.hpp"
+#include "Particle_8.hpp"
+#include "PurpleDoom.hpp"
 
 DEFINE_GLOBAL(Wolfy_7A8*, gWolfy_7A8_6FD5F0, 0x6FD5F0);
 DEFINE_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC, 0x6FD5EC);
@@ -8,6 +13,11 @@ DEFINE_GLOBAL(s16, gParticleInstCount_6FD5F4, 0x6FD5F4);
 DEFINE_GLOBAL(s32, dword_6FD49C, 0x6FD49C);
 DEFINE_GLOBAL(s16, word_6FD5D4, 0x6FD5D4);
 
+DEFINE_GLOBAL(Ang16, word_6FD3EE, 0x6FD3EE);
+DEFINE_GLOBAL(Fix16, dword_6FD330, 0x6FD330);
+
+DEFINE_GLOBAL_INIT(s16, gWolfyId_40_pool_623F18, 1, 0x623F18);
+
 STUB_FUNC(0x543690)
 s32 Wolfy_7A8::sub_543690()
 {
@@ -15,11 +25,57 @@ s32 Wolfy_7A8::sub_543690()
     return 0;
 }
 
-STUB_FUNC(0x543800)
+WIP_FUNC(0x543800)
 Wolfy_30* Wolfy_7A8::New_40_543800()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+
+    s32 k20Idx = 0;
+    s32 k40Idx;
+    s32 _20IdxCopy = 0;
+    s32 idx_to_use;
+
+    while (1)
+    {
+        idx_to_use = _20IdxCopy;
+        if (!this->field_780_bUsed[_20IdxCopy])
+        {
+            // Found a free entry
+            break;
+        }
+
+        _20IdxCopy = ++k20Idx;
+        if (k20Idx >= 20u)
+        {
+            sub_543690();
+            k20Idx = 0;
+            k40Idx = 0;
+            while (1)
+            {
+                idx_to_use = k40Idx;
+                if (!this->field_780_bUsed[k40Idx])
+                {
+                    break;
+                }
+                k40Idx = ++k20Idx;
+                if (k20Idx >= 40u)
+                {
+                    return 0;
+                }
+            }
+            break;
+        }
+    }
+
+    Wolfy_30* pNew = &this->field_0[idx_to_use];
+    pNew->Init_543650();
+    pNew->field_4_idx = k20Idx;
+    pNew->field_6_id = gWolfyId_40_pool_623F18;
+    pNew->field_0_bIn20Pool = 0;
+    gWolfyId_40_pool_623F18++;
+    this->field_780_bUsed[idx_to_use] = 1;
+    return pNew;
 }
 
 MATCH_FUNC(0x5438b0)
@@ -74,10 +130,58 @@ void Wolfy_30::sub_540A40()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x540d30)
-void Wolfy_30::sub_540D30(s32 a2, s32 a3)
+WIP_FUNC(0x540d30)
+void Wolfy_30::sub_540D30(Ang16 a2, Fix16 a3)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ang16 v6 = word_6FD3EE + a2;
+    
+    Fix16 v32 = ((a3 * gCos_table_669260[v6.rValue]) + (a3 * gSin_table_667A80[v6.rValue]));
+    Fix16 v13 = ((-a3 * gSin_table_667A80[v6.rValue]) + (a3 * a3));
+
+
+    this->field_8 = a3;
+    this->field_C = a2;
+
+    if (field_18)
+    {
+        field_18--;
+    }
+    else
+    {
+        //a3 = (int)&v27;
+        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(v32, v13, dword_6FD330, v32, v13, 0);
+        if (!pParticle)
+        {
+            return;
+        }
+        Sprite* pNext = pParticle->field_30_pNext;
+        pParticle->field_40_pUnknown = this;
+        pParticle->field_20 = a3; // F16
+        pParticle->field_44 = field_6_id;
+        pParticle->field_24 = a2;
+        pParticle->field_34 = 0;
+        pParticle->field_46_sub_state = 0;
+        pParticle->field_2C_counter = 32;
+        pParticle->field_2E = 32;
+        pNext->field_30_sprite_type_enum = 8;
+        pNext->sub_59E960();
+        pParticle->field_38_state = 3;
+
+        Sprite* v19 = pParticle->field_30_pNext;
+
+        v19->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 96);
+
+        pParticle->field_30_pNext->field_2C |= 4u;
+        Sprite* v21 = pParticle->field_30_pNext;
+        Sprite* v22 = this->field_14->field_4;
+
+        v21->set_xyz_lazy_420600(v22->field_14_xy.x, v22->field_14_xy.y, v22->field_1C_zpos);
+
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+        field_18 = stru_6F6784.get_int_4F7AE0(2);
+    }
 }
 
 STUB_FUNC(0x540f90)

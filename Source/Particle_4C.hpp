@@ -39,7 +39,7 @@ class Particle_4C
     s32 field_14;
     s32 field_18;
     s32 field_1C;
-    s32 field_20;
+    Fix16 field_20;
     Ang16 field_24;
     s16 field_26;
     Sprite* field_28_pSprite;
