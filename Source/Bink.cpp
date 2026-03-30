@@ -1,7 +1,7 @@
 #include "Bink.hpp"
 
-DEFINE_GLOBAL(s32, gBinkHandle2_6F83B0, 0x6F83B0);
-DEFINE_GLOBAL(s32, gBinkHandle1_6F8168, 0x6F8168);
+DEFINE_GLOBAL(BINK*, gBinkHandle2_6F83B0, 0x6F83B0);
+DEFINE_GLOBAL(BINK*, gBinkHandle1_6F8168, 0x6F8168);
 DEFINE_GLOBAL(s32, gBinkBuffer2_6F80C4, 0x6F80C4);
 DEFINE_GLOBAL(s32, gBinkBuffer1_6F8170, 0x6F8170);
 DEFINE_GLOBAL(char_type, gBinkDDState_6F83FE, 0x6F83FE);
@@ -166,11 +166,11 @@ void __stdcall Bink::sub_5133E0(const char_type* a1, HDIGDRIVER a2)
     // Software / DirectDraw path.
     if (gBinkDDState_6F83FE == 0)
     {
-        BinkBufferSetDDPrimary((s32)gVidSys_7071D0->field_134_SurfacePrimary);
+        BinkBufferSetDDPrimary(gVidSys_7071D0->field_134_SurfacePrimary);
     }
     
     gBinkDDState_6F83FE = 1;
-    gBinkBuffer2_6F80C4 = BinkBufferOpen(gHwnd_707F04, *(s32*)gBinkHandle2_6F83B0, ((s32*)gBinkHandle2_6F83B0)[1], 0);
+    gBinkBuffer2_6F80C4 = BinkBufferOpen(gHwnd_707F04, gBinkHandle2_6F83B0->width, gBinkHandle2_6F83B0->height, 0);
 
     if (gBinkBuffer2_6F80C4 == 0)
     {

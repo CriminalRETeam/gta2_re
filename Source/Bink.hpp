@@ -9,8 +9,8 @@
 #include "winmain.hpp"
 #include <windows.h>
 
-EXTERN_GLOBAL(s32, gBinkHandle2_6F83B0);
-EXTERN_GLOBAL(s32, gBinkHandle1_6F8168);
+EXTERN_GLOBAL(BINK*, gBinkHandle2_6F83B0);
+EXTERN_GLOBAL(BINK*, gBinkHandle1_6F8168);
 EXTERN_GLOBAL(s32, gBinkBuffer2_6F80C4);
 EXTERN_GLOBAL(s32, gBinkBuffer1_6F8170);
 EXTERN_GLOBAL(char_type, gBinkDDState_6F83FE);
