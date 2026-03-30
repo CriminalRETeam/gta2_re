@@ -5,6 +5,7 @@
 #include "Particle_8.hpp"
 #include "PurpleDoom.hpp"
 #include "rng.hpp"
+#include "debug.hpp"
 
 DEFINE_GLOBAL(Wolfy_7A8*, gWolfy_7A8_6FD5F0, 0x6FD5F0);
 DEFINE_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC, 0x6FD5EC);
@@ -131,7 +132,7 @@ void Wolfy_30::sub_540A40()
 }
 
 WIP_FUNC(0x540d30)
-void Wolfy_30::sub_540D30(Ang16 a2, Fix16 a3)
+void Wolfy_30::state_3_12_540D30(Fix16 a3, Ang16 a2)
 {
     WIP_IMPLEMENTED;
 
@@ -184,19 +185,19 @@ void Wolfy_30::sub_540D30(Ang16 a2, Fix16 a3)
 }
 
 STUB_FUNC(0x540f90)
-void Wolfy_30::state_4_540F90(s32 a2, s32 a3)
+void Wolfy_30::state_4_540F90(Fix16 a2, Ang16 a3)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x5411e0)
-void Wolfy_30::sub_5411E0(s32 a2, s32 a3)
+void Wolfy_30::state_13_14_5411E0(Fix16 a2, Ang16 a3)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x541430)
-void Wolfy_30::sub_541430(s32 a2, s32 a3)
+void Wolfy_30::state_5_541430(Fix16 a2, Ang16 a3)
 {
     NOT_IMPLEMENTED;
 }
@@ -250,22 +251,22 @@ char_type Wolfy_30::sub_542340()
 }
 
 STUB_FUNC(0x542790)
-s16 Wolfy_30::sub_542790()
+s16 Wolfy_30::state_18_19_20_32_33_542790()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x542e30)
-void Wolfy_30::sub_542E30(char_type a2)
+void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5434a0)
+WIP_FUNC(0x5434a0)
 char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 a3)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     s16 timer = this->field_1A;
     if (timer != 9999)
