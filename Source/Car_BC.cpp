@@ -446,10 +446,40 @@ u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneIn
     return result;
 }
 
-STUB_FUNC(0x444cf0)
+WIP_FUNC(0x444cf0)
 Car_BC* Car_6C::SpawnCarAtRoadDirection_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
+    u8 v8 = xpos.ToInt();
+    u8 v5 = ypos.ToInt();
+    
+    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(v8, v5, (zpos.ToInt()) - 1);
+
+    if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(4, pBlock))
+    {
+        return gCar_6C_677930->SpawnCarOnRoadNetwork_4458B0(Fix16(v8), dword_677218 + Fix16(v5), 4, car_model_type);
+    }
+
+    if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(2, pBlock))
+    {
+        return gCar_6C_677930->SpawnCarOnRoadNetwork_4458B0(
+                                                    dword_677218 + (v8 << 14),
+                                                    dword_6777D0 + (v5 << 14),
+                                                    2,
+                                                    car_model_type);
+    }
+
+    if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(3, pBlock))
+    {
+        return gCar_6C_677930->SpawnCarOnRoadNetwork_4458B0(Fix16(v8), dword_677218 + Fix16(v5), 3, car_model_type);
+    }
+
+    if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(1, pBlock))
+    {
+        return gCar_6C_677930->SpawnCarOnRoadNetwork_4458B0(dword_677218 + Fix16(v8), Fix16(v5), 1, car_model_type);
+    }
+
     return 0;
 }
 
@@ -729,7 +759,7 @@ Car_BC* Car_6C::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3)
 }
 
 STUB_FUNC(0x4458b0)
-Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2)
+Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 a4, s32 car_model_type)
 {
     NOT_IMPLEMENTED;
     return 0;
