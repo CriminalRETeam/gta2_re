@@ -234,7 +234,7 @@ s32 Particle_4C::Service_53D260()
 }
 
 MATCH_FUNC(0x53e2c0)
-void Particle_4C::PoolAllocate_53E2C0()
+void Particle_4C::PoolAllocate()
 {
     field_8_xpos = 0;
     field_C_ypos = 0;

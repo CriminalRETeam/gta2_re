@@ -28,17 +28,17 @@ class Particle_4C
     EXPORT char_type UpdateBurstAnimation_state_29_30_53B9F0();
     EXPORT char_type UpdateCollisionBurst_state_31_34_53BAC0();
     EXPORT s32 Service_53D260();
-    EXPORT void PoolAllocate_53E2C0();
+    EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate_53E2E0();
     
     s32 field_0_id;
     s32 field_4_flags;
     Fix16 field_8_xpos;
     Fix16 field_C_ypos;
-    s32 field_10;
+    Fix16 field_10;
     Fix16 field_14;
     Fix16 field_18;
-    s32 field_1C;
+    Fix16 field_1C;
     Fix16 field_20;
     Ang16 field_24;
     s16 field_26;
