@@ -1,51 +1,100 @@
 #include "Bink.hpp"
 
+DEFINE_GLOBAL(s32, gBink_state_6F83B0, 0x6F83B0);
+DEFINE_GLOBAL(s32, gBink_state_6F8168, 0x6F8168);
+DEFINE_GLOBAL(s32, gBink_state_6F80C4, 0x6F80C4);
+DEFINE_GLOBAL(s32, gBink_state_6F8170, 0x6F8170);
 DEFINE_GLOBAL(char_type, gBink_state_6F83FE, 0x6F83FE);
+DEFINE_GLOBAL(char_type, gBink_state_6F83FF, 0x6F83FF);
+DEFINE_GLOBAL(s32, gBink_state_6f8250, 0x6F8250);
+DEFINE_GLOBAL(s32, gBink_state_6F81B0, 0x6F81B0);
 
-STUB_FUNC(0x513210)
+MATCH_FUNC(0x513210)
 void __stdcall Bink::Reset_513210()
 {
-    NOT_IMPLEMENTED;
+    gBink_state_6F83B0 = 0;
+    gBink_state_6F8168 = 0;
+    gBink_state_6F80C4 = 0;
+    gBink_state_6F8170 = 0;
+    gBink_state_6F83FE = 0;
+    gBink_state_6F83FF = 0;
 }
 
-STUB_FUNC(0x513340)
-void __stdcall Bink::Close1_513340()
+MATCH_FUNC(0x513340)
+void Bink::Close1_513340()
 {
-    NOT_IMPLEMENTED;
+    if (gBink_state_6F8170 != 0)
+    {
+        BinkBufferClose(gBink_state_6F8170);
+        gBink_state_6F8170 = 0;
+        gBink_state_6F83FE = 0;
+        gBink_state_6F83FF = 0;
+    }
+
+    if (gBink_state_6F8168 != 0)
+    {
+        BinkGetSummary(gBink_state_6F8168, &gBink_state_6f8250);
+        BinkClose(gBink_state_6F8168);
+        gBink_state_6F8168 = 0;
+    }
 }
 
-STUB_FUNC(0x513390)
-void __stdcall Bink::Close2_513390()
+MATCH_FUNC(0x513390)
+void Bink::Close2_513390()
 {
-    NOT_IMPLEMENTED;
+    if (gBink_state_6F80C4 != 0)
+    {
+        BinkBufferClose(gBink_state_6F80C4);
+        gBink_state_6F80C4 = 0;
+        gBink_state_6F83FE = 0;
+        gBink_state_6F83FF = 0;
+    }
+
+    if (gBink_state_6F83B0)
+    {
+        BinkGetSummary(gBink_state_6F83B0, &gBink_state_6f8250);
+        BinkClose(gBink_state_6F83B0);
+        gBink_state_6F83B0 = 0;
+    }
 }
 
-STUB_FUNC(0x5136D0)
+MATCH_FUNC(0x5136D0)
 void __stdcall Bink::sub_5136D0(s32* pNewWindowX, s32* pNewWindowY)
 {
-    NOT_IMPLEMENTED;
+    if (gBink_state_6F83FF == 1 && gBink_state_6F8170 != 0)
+    {
+        BinkBufferCheckWinPos(gBink_state_6F8170, pNewWindowX, pNewWindowY);
+        return;
+    }
+    else if (gBink_state_6F83FF == 2 && gBink_state_6F80C4 != 0)
+    {
+        BinkBufferCheckWinPos(gBink_state_6F80C4, pNewWindowX, pNewWindowY);
+    }
 }
 
 MATCH_FUNC(0x513770)
 BOOL Bink::sub_513770()
 {
-    if (gBink_state_6F83FE == 2 || gBink_state_6F83FE == 1)
-        return TRUE;
-
-    return FALSE;
+    return gBink_state_6F83FE == 2 || gBink_state_6F83FE == 1;
 }
 
-STUB_FUNC(0x513760)
+MATCH_FUNC(0x513760)
 BOOL Bink::sub_513760()
 {
-    NOT_IMPLEMENTED;
-    return FALSE;
+    return gBink_state_6F83FE == 2;
 }
 
-STUB_FUNC(0x513720)
+MATCH_FUNC(0x513720)
 void Bink::sub_513720()
 {
-    NOT_IMPLEMENTED;
+    if (gBink_state_6F83FF == 1 && gBink_state_6F8170 != 0)
+    {
+        BinkBufferSetOffset(gBink_state_6F8170, 0, 0);
+    }
+    else if (gBink_state_6F83FF == 2 && gBink_state_6F80C4 != 0)
+    {
+        BinkBufferSetOffset(gBink_state_6F80C4, 0, 0);
+    }
 }
 
 STUB_FUNC(0x513240)
@@ -55,36 +104,94 @@ char_type Bink::sub_513240()
     return 0;
 }
 
-STUB_FUNC(0x513790)
+MATCH_FUNC(0x513790)
 char_type Bink::sub_513790()
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return 0;
-    //    return gBink_6F83FF;
+    return gBink_state_6F83FF;
 }
 
-STUB_FUNC(0x5137A0)
+MATCH_FUNC(0x5137A0)
 void __stdcall Bink::sub_5137A0(char_type a1)
 {
-    NOT_IMPLEMENTED;
-    // todo
-    //gBink_6F83FF = a1;
+    gBink_state_6F83FF = a1;
 }
 
-STUB_FUNC(0x5133E0)
+WIP_FUNC(0x5133E0)
 void __stdcall Bink::sub_5133E0(const char_type* a1, HDIGDRIVER a2)
 {
-    NOT_IMPLEMENTED;
-    // todo
+    WIP_IMPLEMENTED;
+
+    BinkSetSoundSystem((void*)BinkOpenMiles, (s32)a2);
+    BinkSetIOSize(600000);
+    gBink_state_6F83B0 = BinkOpen(a1, 0x4000000);
+
+    if (gBink_state_6F83B0 == 0)
+    {
+        FatalError_4A38C0(Gta2Error::BinkOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.", 376);
+        gBink_state_6F83FF = 2;
+        return;
+    }
+
+    if (gBufferMode_706B34 == 2)
+    {
+        if (gVidSys_7071D0->field_5C == 5)
+        {
+            if (gVidSys_7071D0->field_64_r == 5 && gVidSys_7071D0->field_6C == 5)
+            {
+                gBink_state_6F81B0 = 2;
+                gBink_state_6F83FF = 2;
+                return;
+            }
+            else if (gVidSys_7071D0->field_64_r == 6)
+            {
+                gVidSys_7071D0->field_6C;
+            }
+        }
+        else if (gVidSys_7071D0->field_5C == 6)
+        {
+            if (gVidSys_7071D0->field_64_r == 5 && gVidSys_7071D0->field_6C == 5)
+            {
+                gBink_state_6F83FF = 2;
+                gBink_state_6F81B0 = 4;
+                return;
+            }
+            if (gVidSys_7071D0->field_64_r == 6 && gVidSys_7071D0->field_6C == 4)
+            {
+                gBink_state_6F83FF = 2;
+                gBink_state_6F81B0 = 5;
+                return;
+            }
+        }
+        gBink_state_6F83FF = 2;
+        gBink_state_6F81B0 = 3;
+        return;
+    }
+
+    if (gBink_state_6F83FE == 0)
+    {
+        BinkBufferSetDDPrimary((s32)gVidSys_7071D0->field_134_SurfacePrimary);
+    }
+
+    gBink_state_6F83FE = 1;
+    // The [1] might indicate this might be part of a struct?
+    gBink_state_6F80C4 = BinkBufferOpen(gHwnd_707F04, *(s32*)gBink_state_6F83B0, ((s32*)gBink_state_6F83B0)[1], 0);
+
+    if (gBink_state_6F80C4 == 0)
+    {
+        gBink_state_6F83FE = 0;
+        FatalError_4A38C0(Gta2Error::BinkBufferOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.", 360);
+        gBink_state_6F83FF = 2;
+        return;
+    }
+
+    gBink_state_6F83FE = 2;
+    gBink_state_6F83FF = 2;
 }
 
-STUB_FUNC(0x5137B0)
+MATCH_FUNC(0x5137B0)
 void __stdcall Bink::sub_5137B0(char_type a1)
 {
-    NOT_IMPLEMENTED;
-    // todo
-    //gBink_state_6F83FE = a1;
+    gBink_state_6F83FE = a1;
 }
 
 STUB_FUNC(0x513560)
