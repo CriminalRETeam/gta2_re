@@ -2,8 +2,8 @@
 
 DEFINE_GLOBAL(BINK*, gBinkHandle2_6F83B0, 0x6F83B0);
 DEFINE_GLOBAL(BINK*, gBinkHandle1_6F8168, 0x6F8168);
-DEFINE_GLOBAL(s32, gBinkBuffer2_6F80C4, 0x6F80C4);
-DEFINE_GLOBAL(s32, gBinkBuffer1_6F8170, 0x6F8170);
+DEFINE_GLOBAL(BINKBUFFER*, gBinkBuffer2_6F80C4, 0x6F80C4);
+DEFINE_GLOBAL(BINKBUFFER*, gBinkBuffer1_6F8170, 0x6F8170);
 DEFINE_GLOBAL(char_type, gBinkDDState_6F83FE, 0x6F83FE);
 DEFINE_GLOBAL(char_type, gBinkActiveSlot_6F83FF, 0x6F83FF);
 DEFINE_GLOBAL(s32, gBinkSummary_6F8250, 0x6F8250);
@@ -97,11 +97,60 @@ void Bink::sub_513720()
     }
 }
 
-STUB_FUNC(0x513240)
+WIP_FUNC(0x513240)
 char_type Bink::sub_513240()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    BINK* hbink = (gBinkActiveSlot_6F83FF == 1) ? gBinkHandle1_6F8168 : gBinkHandle2_6F83B0;
+    BINKBUFFER* hbinkbuffer = (gBinkActiveSlot_6F83FF == 1) ? gBinkBuffer1_6F8170 : gBinkBuffer2_6F80C4;
+
+    if (BinkWait(hbink) != 0)
+    {
+        return false;
+    }
+
+    BinkDoFrame(hbink);
+
+    if (gBufferMode_706B34 == 2)
+    {
+        // Hardware-accelerated path: blit decoded frame into the locked surface directly.
+        sub_5D7D30();
+        BinkCopyToBuffer(hbink,
+                         gVidSys_7071D0->field_50_surface_pixels_ptr,
+                         gVidSys_7071D0->field_54_surface_pixels_pitch,
+                         hbink->height,
+                         0,
+                         0,
+                         gBinkSurfaceType_6F81B0 | 0x4000000);
+        FreeSurface_5D7DC0();
+        pVid_FlipBuffers(gVidSys_7071D0);
+        pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_74, gVidSys_7071D0->field_4C_rect_bottom);
+    }
+    else
+    {
+        // Software / DirectDraw path: copy into the locked BinkBuffer, then blit.
+        if (BinkBufferLock(hbinkbuffer) != 0)
+        {
+            BinkCopyToBuffer(hbink,
+                             hbinkbuffer->pixels,
+                             hbinkbuffer->pitch,
+                             hbinkbuffer->height,
+                             0,
+                             0,
+                             hbinkbuffer->surface_type | 0x4000000);
+            BinkBufferUnlock(hbinkbuffer);
+        }
+        BinkBufferBlit(hbinkbuffer, &hbink->rects, 1);
+    }
+
+    if (hbink->current_frame == hbink->total_frames)
+    {
+        return true;
+    }
+
+    BinkNextFrame(hbink);
+    return false;
 }
 
 MATCH_FUNC(0x513790)
@@ -119,6 +168,8 @@ void __stdcall Bink::sub_5137A0(char_type a1)
 WIP_FUNC(0x5133E0)
 void __stdcall Bink::sub_5133E0(const char_type* a1, HDIGDRIVER a2)
 {
+    WIP_IMPLEMENTED;
+
     BinkSetSoundSystem((void*)BinkOpenMiles, (s32)a2);
     BinkSetIOSize(600000);
 
@@ -168,7 +219,7 @@ void __stdcall Bink::sub_5133E0(const char_type* a1, HDIGDRIVER a2)
     {
         BinkBufferSetDDPrimary(gVidSys_7071D0->field_134_SurfacePrimary);
     }
-    
+
     gBinkDDState_6F83FE = 1;
     gBinkBuffer2_6F80C4 = BinkBufferOpen(gHwnd_707F04, gBinkHandle2_6F83B0->width, gBinkHandle2_6F83B0->height, 0);
 
