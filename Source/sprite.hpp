@@ -492,7 +492,7 @@ class Sprite
     char_type field_26_pad;
     char_type field_27_pad;
     s32 field_28_num;
-    char_type field_2C;
+    u8 field_2C;
     char_type field_2D_pad;
     char_type field_2E_pad;
     char_type field_2F_pad;

@@ -23,10 +23,22 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     return 0;
 }
 
-STUB_FUNC(0x538a40)
+MATCH_FUNC(0x538a40)
 char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
 {
-    NOT_IMPLEMENTED;
+    gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+
+    this->field_46_sub_state++;
+    if (field_46_sub_state > 7u)
+    {
+        return 1;
+    }
+
+    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 103);
+
+    this->field_30_pNext->field_2C = 0xA2;
+    this->field_30_pNext->field_2C |= 4u;
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
 
@@ -108,7 +120,7 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
     Fix16 v1 = dword_6FD46C;
     Fix16 v3 = dword_6FD49C;
     Fix16 v16 = dword_6FD49C;
-    
+
     gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
 
     field_2C_counter = this->field_2C_counter;
