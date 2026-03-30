@@ -33,11 +33,11 @@ class Particle_4C
     
     s32 field_0_id;
     s32 field_4_flags;
-    s32 field_8_xpos;
-    s32 field_C_ypos;
+    Fix16 field_8_xpos;
+    Fix16 field_C_ypos;
     s32 field_10;
-    s32 field_14;
-    s32 field_18;
+    Fix16 field_14;
+    Fix16 field_18;
     s32 field_1C;
     Fix16 field_20;
     Ang16 field_24;

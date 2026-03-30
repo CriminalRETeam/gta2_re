@@ -1,7 +1,13 @@
 #include "Particle_4C.hpp"
+#include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
 #include "sprite.hpp"
-#include "Phi_8CA8.hpp"
+
+EXTERN_GLOBAL(Fix16, dword_6FD49C);
+
+DEFINE_GLOBAL(Fix16, dword_6FD46C, 0x6FD46C);
+DEFINE_GLOBAL(Fix16, dword_6FD28C, 0x6FD28C);
+DEFINE_GLOBAL(Fix16_Point, stru_6FD388, 0x6FD388);
 
 STUB_FUNC(0x538060)
 char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
@@ -75,7 +81,7 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
             this->field_46_sub_state = 5;
         }
     }
-    
+
     field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + this->field_46_sub_state + 191);
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
@@ -94,10 +100,59 @@ char_type Particle_4C::Empty_state_42_53AB70()
     return 0;
 }
 
-STUB_FUNC(0x53aba0)
+WIP_FUNC(0x53aba0)
 char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 v1 = dword_6FD46C;
+    Fix16 v3 = dword_6FD49C;
+    Fix16 v16 = dword_6FD49C;
+    
+    gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+
+    field_2C_counter = this->field_2C_counter;
+    if (!field_2C_counter)
+    {
+        return 1;
+    }
+
+    Fix16 new_z;
+    Fix16 v8;
+    if ((u16)field_2C_counter <= (u16)((s16)this->field_2E >> 1))
+    {
+        field_C_ypos = this->field_C_ypos;
+        Fix16 v12 = this->field_14 + this->field_8_xpos;
+        this->field_8_xpos = v12;
+        v8 = v12;
+        this->field_C_ypos = this->field_18 + field_C_ypos;
+        field_30_pNext = this->field_30_pNext;
+        new_z = field_30_pNext->field_1C_zpos - v1;
+    }
+    else
+    {
+        Fix16 v6 = this->field_14 + this->field_8_xpos;
+        Fix16 v7 = this->field_C_ypos;
+        this->field_8_xpos = v6;
+        v8 = v6;
+        field_30_pNext = this->field_30_pNext;
+        this->field_C_ypos = this->field_18 + v7;
+        new_z = v1 + field_30_pNext->field_1C_zpos;
+    }
+
+    Fix16 new_x = v3 + v8 + field_30_pNext->field_14_xy.x;
+    stru_6FD388.x = new_x;
+    Fix16 new_y = v16 + this->field_C_ypos + field_30_pNext->field_14_xy.y;
+    stru_6FD388.y = new_y;
+    if (new_z > dword_6FD28C)
+    {
+        new_z = dword_6FD28C;
+    }
+
+    this->field_30_pNext->set_xyz_lazy_420600(new_x, new_y, new_z);
+
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+
     return 0;
 }
 
