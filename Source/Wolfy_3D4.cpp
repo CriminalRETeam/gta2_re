@@ -4,8 +4,8 @@
 #include "Particle_4C.hpp"
 #include "Particle_8.hpp"
 #include "PurpleDoom.hpp"
-#include "rng.hpp"
 #include "debug.hpp"
+#include "rng.hpp"
 
 DEFINE_GLOBAL(Wolfy_7A8*, gWolfy_7A8_6FD5F0, 0x6FD5F0);
 DEFINE_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC, 0x6FD5EC);
@@ -19,6 +19,8 @@ DEFINE_GLOBAL(Ang16, word_6FD3EE, 0x6FD3EE);
 DEFINE_GLOBAL(Fix16, dword_6FD330, 0x6FD330);
 
 DEFINE_GLOBAL_INIT(s16, gWolfyId_40_pool_623F18, 1, 0x623F18);
+
+DEFINE_GLOBAL(Fix16, dword_6FD2F0, 0x6FD2F0);
 
 STUB_FUNC(0x543690)
 s32 Wolfy_7A8::sub_543690()
@@ -209,11 +211,27 @@ u32* Wolfy_30::sub_541680(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x541710)
-u32* Wolfy_30::sub_541710(u32* a2)
+MATCH_FUNC(0x541710)
+Fix16 Wolfy_30::sub_541710()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 r;
+    switch (this->field_10_type_or_state)
+    {
+        case 18:
+        case 19:
+        case 20:
+        case 22:
+        case 23:
+        case 24:
+        case 25:
+        case 32:
+        case 33:
+            r = dword_6FD2F0;
+            break;
+        default:
+            break;
+    }
+    return r;
 }
 
 STUB_FUNC(0x541760)
@@ -290,7 +308,7 @@ char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 a3)
             {
                 case 3:
                 case 12:
-                    Wolfy_30::state_3_12_540D30( a2, a3);
+                    Wolfy_30::state_3_12_540D30(a2, a3);
                     result = 0;
                     break;
                 case 4:
