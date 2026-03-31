@@ -8,6 +8,7 @@
 #include "enums.hpp"
 #include "error.hpp"
 #include "sprite.hpp"
+#include "rng.hpp"
 
 typedef Pool<Particle_4C, 500> T_Particle_4C_Pool;
 
@@ -23,6 +24,10 @@ DEFINE_GLOBAL(Particle_8*, gParticle_8_6FD5E8, 0x6FD5E8);
 DEFINE_GLOBAL(Fix16, dword_6FD474, 0x6FD474);
 DEFINE_GLOBAL(Fix16, dword_6FD468, 0x6FD468);
 DEFINE_GLOBAL(Ang16, dword_6FD314, 0x6FD314);
+
+DEFINE_GLOBAL(Fix16, dword_6FD4EC, 0x6FD4EC);
+DEFINE_GLOBAL(Fix16, dword_6FD558, 0x6FD558);
+DEFINE_GLOBAL(Ang16, word_6FD5CC, 0x6FD5CC);
 
 // NOTE: Will not match in marked extern !!
 DEFINE_GLOBAL(u16, gParticleInstCount_6FD5F4, 0x6FD5F4);
@@ -103,7 +108,7 @@ void Particle_8::SpawnParticleSprite_5405D0(Sprite* pSprite)
             pNew4C->field_28_pSprite = pSprite;
             pNew4C->field_34 = 0;
             pNew4C->field_46_sub_state = 0;
-            
+
             pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
             pNew4C->field_30_pNext->SetType_4206F0(8);
             pNew4C->field_38_state = 38;
@@ -214,10 +219,61 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x53FE40)
+WIP_FUNC(0x53FE40)
 void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ang16 ang1;
+    Ang16 ang2;
+    Fix16_Point t(sinv, cosv);
+    Ang16 tanAng = t.atan2_40F790();
+    
+    for (s32 i = 0; i < 6u; ++i)
+    {
+        Fix16 spawnX(0);
+        Fix16 spawnY = (dword_6FD4EC * (dword_6FD558 + Fix16(stru_6F6784.get_int_4F7AE0(100))));
+        if (i >= 4u)
+        {
+            ang1 = word_6FD5CC.sub_401CB0(stru_6F6784.get_int_4F7AE0(360));
+            ang2 = word_6FD5CC.sub_401CB0(Fix16(180));
+
+            ang1 = ang1 + tanAng;
+            ang1 = ang1 - ang2;
+            t.RotateByAngle_40F6B0(ang1);
+        }
+        else
+        {
+            ang1 = word_6FD5CC.sub_401CB0(stru_6F6784.get_int_4F7AE0(32));
+            ang2 = word_6FD5CC.sub_401CB0(Fix16(16));
+
+            ang1 = ang1 + tanAng;
+            ang1 = ang1 - ang2;
+            t.RotateByAngle_40F6B0(ang1);
+        }
+
+        Fix16 k15_1(15, 0);
+        Fix16 k15_2(15, 0);
+
+        Fix16 v3(0);        
+        Fix16 v2 = -(spawnY / k15_1);
+        Fix16 v1 = -(spawnX / k15_2);
+
+        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(spawnX, spawnY, dword_6FD330, v1, v2, v3);
+        if (pNew4C)
+        {
+            pNew4C->field_34 = 1;
+            pNew4C->field_38_state = 7;
+            pNew4C->field_2C_counter = 7;
+            pNew4C->field_2E = 7;
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 127);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(x, y, z);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+        }
+    }
 }
 
 STUB_FUNC(0x53F4C0)

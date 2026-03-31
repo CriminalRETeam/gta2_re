@@ -272,7 +272,7 @@ class Ang16
         Normalize();
     }
 
-    Ang16 sub_401CB0(Fix16& a2)
+    Ang16 sub_401CB0(const Fix16& a2)
     {
         return Ang16(Fix16(rValue) * a2, 0);
     }
