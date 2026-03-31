@@ -160,7 +160,7 @@ void __stdcall sub_5D7D30()
 }
 
 // https://decomp.me/scratch/Zmms7
-STUB_FUNC(0x5D7EC0)
+WIP_FUNC(0x5D7EC0)
 void __stdcall DrawFigure_5D7EC0(s32 type,
                           s16 pal,
                           Fix16 x_pos,
@@ -173,6 +173,7 @@ void __stdcall DrawFigure_5D7EC0(s32 type,
                           u8 a10,
                           char_type a11)
 {
+    WIP_IMPLEMENTED;
 
     u16 v11 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(type, pal);
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v11);

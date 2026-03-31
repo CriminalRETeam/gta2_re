@@ -25,6 +25,17 @@ EXTERN_GLOBAL(Fix16, dword_677794);
 EXTERN_GLOBAL(Fix16_Point, stru_6FDF50);
 EXTERN_GLOBAL(Fix16, dword_6FE0B0);
 
+EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
+                                                                Fix16 a3,
+                                                                Fix16_Point* a4,
+                                                                Fix16_Point* a5,
+                                                                Fix16_Point* a6,
+                                                                Fix16_Point* a7,
+                                                                Fix16_Point* a8,
+                                                                Fix16 a9,
+                                                                Fix16 a10,
+                                                                Fix16 a11);
+                                                                
 class CarPhysics_B0
 {
   public:
