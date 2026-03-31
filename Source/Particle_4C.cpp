@@ -182,10 +182,9 @@ char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
     return 0;
 }
 
-STUB_FUNC(0x53b170)
+MATCH_FUNC(0x53b170)
 char_type Particle_4C::Empty_state_44_53B170()
 {
-    NOT_IMPLEMENTED;
     return 0;
 }
 
