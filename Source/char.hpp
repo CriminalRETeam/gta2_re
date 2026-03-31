@@ -199,6 +199,7 @@ class Char_B4
     EXPORT void sub_545430();
     EXPORT bool sub_5451C0();
 
+    EXPORT Fix16_Point* sub_545580(Fix16_Point* a2);
     EXPORT void SetRemap_46DD50(u8 remap);
 
     EXPORT void RemoveFireSprites_5454B0();

@@ -73,6 +73,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F8D10, Fix16(0x2000, 0), 0x6F8D10);
 DEFINE_GLOBAL_INIT(u8, byte_6771DC, 0, 0x6771DC);
 DEFINE_GLOBAL_INIT(s32, gObj2C_id_623EC0, 1, 0x623EC0);
 
+DEFINE_GLOBAL(Fix16, k_dword_6F8D38, 0x6F8D38);
+DEFINE_GLOBAL(Fix16, k_dword_6F8CE0, 0x6F8CE0);
+DEFINE_GLOBAL(Fix16, k_dword_6F8F74, 0x6F8F74);
+DEFINE_GLOBAL(Fix16, k_dword_6F8EE4, 0x6F8EE4);
+
+
 // TODO: From CarPhysics_B0
 EXTERN_GLOBAL(Fix16_Point, stru_6FE1A0);
 
@@ -366,10 +372,56 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5229b0)
-void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* a2, Fix16_Point* a3, s32 a4)
+// 9.6f 0x4867E0
+WIP_FUNC(0x5229b0)
+void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint, s32 not_used)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ped* pPed = pB4->field_7C_pPed;
+    Fix16_Point camPos(pPed->get_cam_x(), pPed->get_cam_y());
+
+    //LOBYTE(seh) = 3;
+    Fix16_Point spritePos = GetXY_52AE70();
+    //LOBYTE(seh) = 4;
+    Fix16_Point posDelta = (spritePos - *pPoint);
+
+    Fix16_Point tmp;
+    pB4->sub_545580(&tmp);
+    //LOBYTE(seh) = 5;
+
+    Fix16_Point lineHitPos = ComputeLineLineIntersection_55F3B0(field_8->field_18,
+                                                                k_dword_6F8EE4,
+                                                                &tmp,
+                                                                &posDelta,
+                                                                pPoint,
+                                                                &spritePos,
+                                                                &camPos,
+                                                                k_dword_6F8D38,
+                                                                k_dword_6F8CE0,
+                                                                k_dword_6F8F74);
+    //LOBYTE(seh) = 4;
+    Fix16_Point nrmHitPos = (lineHitPos / field_8->field_18); // TODO: sub_482C80
+    //LOBYTE(seh) = 6;
+    SetMovementVectorWithRandomState_522640(&nrmHitPos);
+    //LOBYTE(seh) = 4;
+    Fix16_Point v15 = (-lineHitPos);
+    //LOBYTE(seh) = 7;
+    Fix16_Point v16 = (v15 / k_dword_6F8EE4);
+    //mValue = v16->x;
+    //v18 = v16->y;
+    Fix16_Point t;
+    t.x = kFpZero_6F8E10;
+    t.y = kFpZero_6F8E10;
+    if (t.x != kFpZero_6F8E10 && t.y != kFpZero_6F8E10)
+    {
+        pB4->HandleCarImpact_5538A0(0, 0, kFpZero_6F8E10, kFpZero_6F8E10);
+    }
+    //LOBYTE(seh) = 4;
+    //v21 = kFpZero_6F8E10;
+    //v22 = kFpZero_6F8E10;
+
+    HandleImpact_528E50(pB4->field_80_sprite_ptr); // TODO: sub_4338D0
 }
 
 STUB_FUNC(0x522b20)
@@ -617,7 +669,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     u8 a2_ = 1;
     //v59.x = v13;
     s32 t = v11.ToInt();
-//    v60.x = v11.ToInt();
+    //    v60.x = v11.ToInt();
     if (v11.ToInt() < 1)
     {
     LABEL_56:
@@ -643,8 +695,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         v57 = v5->field_14_xy.y;
         field_10_obj_3c->field_2A = 0;
 
-        block_4DFE10 =
-            gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
+        block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
         if (block_4DFE10)
         {
             if ((block_4DFE10->field_B_slope_type & 0xFC) != 0 && (block_4DFE10->field_B_slope_type & 0xFCu) < 0xB4 &&
@@ -657,8 +708,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         v5->set_xy_lazy_447E20(v5->field_14_xy.x + v53, v5->field_14_xy.y + v13);
         v5->set_ang_lazy_420690(a3);
 
-        v23 =
-            gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
+        v23 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
         if (v23)
         {
             if ((v23->field_B_slope_type & 0xFC) != 0 && (v23->field_B_slope_type & 0xFCu) < 0xB4 && (v23->field_B_slope_type & 3) != 0)
@@ -668,8 +718,8 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         }
 
         v25 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(),
-                                                                  v5->field_14_xy.y.ToInt(),
-                                                                  (v5->field_1C_zpos - dword_6F8E14).ToInt());
+                                                  v5->field_14_xy.y.ToInt(),
+                                                  (v5->field_1C_zpos - dword_6F8E14).ToInt());
         if (!v25 || (v25->field_B_slope_type & 3) == 0)
         {
             gmp_block_info* v26 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(),

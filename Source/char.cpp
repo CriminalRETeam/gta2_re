@@ -25,7 +25,7 @@
 #include "winmain.hpp"
 
 // Ped.cpp
-EXTERN_GLOBAL(Fix16, dword_6FD9AC); 
+EXTERN_GLOBAL(Fix16, dword_6FD9AC);
 
 DEFINE_GLOBAL(s8, byte_6FDB48, 0x6FDB48);
 DEFINE_GLOBAL(s8, byte_6FDB49, 0x6FDB49);
@@ -126,7 +126,6 @@ EXTERN_GLOBAL(Ang16, word_6FDB34);
 EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F67B0, Fix16(0x2000, 0), 0x6F67B0);
-
 
 //https://decomp.me/scratch/iQH9l
 MATCH_FUNC(0x544F70)
@@ -331,6 +330,15 @@ void Char_B4::sub_545430()
     Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
     field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, word_6FDB34);
     field_B0 = 10; // Start screaming timer
+}
+
+// 9.6f 0x493780
+WIP_FUNC(0x545580)
+Fix16_Point* Char_B4::sub_545580(Fix16_Point* a2)
+{
+    WIP_IMPLEMENTED;
+    a2->FromPolar_41E210(-gRunOrJumpSpeed_6FD7D0, field_80_sprite_ptr->field_0);
+    return a2;
 }
 
 MATCH_FUNC(0x46DD50)
@@ -4806,12 +4814,12 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_typ
                 field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = a4;
                 if (field_7C_pPed->field_208_invulnerability > 0)
                 {
-                   
+
                     field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);
                 }
                 else
                 {
-                     if (field_7C_pPed->IsField238_45EDE0(2))
+                    if (field_7C_pPed->IsField238_45EDE0(2))
                     {
                         field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_25);
                     }
