@@ -43,8 +43,8 @@ class Particle_4C
     Ang16 field_24;
     s16 field_26;
     Sprite* field_28_pSprite;
-    s16 field_2C_counter;
-    s16 field_2E;
+    u16 field_2C_counter;
+    u16 field_2E;
     Sprite* field_30_pNext;
     s32 field_34;
     s32 field_38_state;
