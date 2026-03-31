@@ -16,7 +16,6 @@ EXTERN_GLOBAL(Fix16, dword_6FD46C);
 EXTERN_GLOBAL(Fix16, stru_6FD388);
 EXTERN_GLOBAL(Fix16, stru_6FD38C);
 
-
 EXTERN_GLOBAL(Fix16, dword_6FD330);
 
 DEFINE_GLOBAL(T_Particle_4C_Pool*, gParticle_4C_Pool_6FD5E4, 0x6FD5E4);
@@ -93,10 +92,28 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5405D0)
+MATCH_FUNC(0x5405D0)
 void Particle_8::SpawnParticleSprite_5405D0(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
+    {
+        Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+        if (pNew4C)
+        {
+            pNew4C->field_28_pSprite = pSprite;
+            pNew4C->field_34 = 0;
+            pNew4C->field_46_sub_state = 0;
+            
+            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_38_state = 38;
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 164);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos);
+
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+        }
+    }
 }
 
 STUB_FUNC(0x540320)
@@ -139,7 +156,6 @@ void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnkn
             if (bUnknown)
             {
                 Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD474, stru_6FD388, stru_6FD38C);
-
             }
             else
             {
