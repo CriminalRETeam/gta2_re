@@ -2,6 +2,8 @@
 
 #include "3rdParty/bink.h"
 #include "3rdParty/mss.h"
+#include "Draw.hpp"
+#include "Frontend.hpp"
 #include "Function.hpp"
 #include "dma_video.hpp"
 #include "enums.hpp"
@@ -9,14 +11,14 @@
 #include "winmain.hpp"
 #include <windows.h>
 
-EXTERN_GLOBAL(s32, gBink_state_6F83B0);
-EXTERN_GLOBAL(s32, gBink_state_6F8168);
-EXTERN_GLOBAL(s32, gBink_state_6F80C4);
-EXTERN_GLOBAL(s32, gBink_state_6F8170);
-EXTERN_GLOBAL(char_type, gBink_state_6F83FE);
-EXTERN_GLOBAL(char_type, gBink_state_6F83FF);
-EXTERN_GLOBAL(s32, gBink_state_6f8250);
-EXTERN_GLOBAL(s32, gBink_state_6F81B0);
+EXTERN_GLOBAL(BINK*, gBinkHandle2_6F83B0);
+EXTERN_GLOBAL(BINK*, gBinkHandle1_6F8168);
+EXTERN_GLOBAL(BINKBUFFER*, gBinkBuffer2_6F80C4);
+EXTERN_GLOBAL(BINKBUFFER*, gBinkBuffer1_6F8170);
+EXTERN_GLOBAL(char_type, gBinkDDState_6F83FE);
+EXTERN_GLOBAL(char_type, gBinkActiveSlot_6F83FF);
+EXTERN_GLOBAL(s32, gBinkSummary_6F8250);
+EXTERN_GLOBAL(s32, gBinkSurfaceType_6F81B0);
 
 class Bink
 {
