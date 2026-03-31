@@ -7,7 +7,10 @@ EXTERN_GLOBAL(Fix16, dword_6FD49C);
 
 DEFINE_GLOBAL(Fix16, dword_6FD46C, 0x6FD46C);
 DEFINE_GLOBAL(Fix16, dword_6FD28C, 0x6FD28C);
-DEFINE_GLOBAL(Fix16_Point, stru_6FD388, 0x6FD388);
+//DEFINE_GLOBAL(Fix16_Point, stru_6FD388, 0x6FD388);
+
+DEFINE_GLOBAL(Fix16, stru_6FD388, 0x6FD388);
+DEFINE_GLOBAL(Fix16, stru_6FD38C, 0x6FD38C);
 
 STUB_FUNC(0x538060)
 char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
@@ -129,12 +132,14 @@ struct Fix16_Vec2
 
 
 // 9.6f 0x48C270
+// 92%
 WIP_FUNC(0x53aba0)
 char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 {
     WIP_IMPLEMENTED;
 
     Fix16_Vec2 v(dword_6FD49C, dword_6FD49C, dword_6FD46C);
+    Fix16 new_z;
 
     gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
 
@@ -143,7 +148,6 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
         return 1;
     }
 
-    Fix16 new_z;
     if (field_2C_counter > this->field_2E >> 1)
     {
         this->field_8_xpos = this->field_14 + this->field_8_xpos;
@@ -157,14 +161,14 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
         new_z = field_30_pNext->field_1C_zpos - v.z;
     }
 
-    stru_6FD388.x = v.x + field_8_xpos + field_30_pNext->field_14_xy.x;
-    stru_6FD388.y = v.y + field_C_ypos + field_30_pNext->field_14_xy.y;
+    stru_6FD388 = v.x + field_8_xpos + field_30_pNext->field_14_xy.x;
+    stru_6FD38C = v.y + field_C_ypos + field_30_pNext->field_14_xy.y;
     if (new_z > dword_6FD28C)
     {
         new_z = dword_6FD28C;
     }
 
-    this->field_30_pNext->set_xyz_lazy_420600(stru_6FD388.x, stru_6FD388.y, new_z);
+    this->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, new_z);
 
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
 
