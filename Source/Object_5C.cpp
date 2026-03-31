@@ -567,10 +567,212 @@ void Object_2C::sub_524550()
     }
 }
 
-STUB_FUNC(0x524630)
+WIP_FUNC(0x524630)
 void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 a3)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    bool v50 = 0;
+    //v4 = a2;
+    Sprite* v5 = gObject_5C_6F8F84->field_58;
+    //v63 = 0;
+    dword_6F8F8C = 0;
+    if (a2 == kFpZero_6F8E10 && !this->field_10_obj_3c->field_2A)
+    {
+        return;
+    }
+    gRozza_679188.field_0_type = 0;
+    gRozza_679188.field_20_pSprite = 0;
+    gRozza_679188.field_24 = 0;
+
+    v5->set_xyz_lazy_420600(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
+    v5->set_ang_lazy_420690(field_4->field_0);
+    v5->AllocInternal_59F950(this->field_8->field_0, this->field_8->field_4, this->field_8->field_8);
+    v5->field_30_sprite_type_enum = this->field_4->field_30_sprite_type_enum;
+    v5->sub_59E960();
+    v5->field_8_pSprite = this->field_4->field_8_pSprite;
+
+    Fix16 v11;
+    Fix16 v52;
+    if (a2 == kFpZero_6F8E10)
+    {
+        v11 = kFpZero_6F8E10;
+        v52 = kFpZero_6F8E10;
+    }
+    else
+    {
+        v11 = (a2) / this->field_8->field_C;
+        v52 = (a2) / v11;
+    }
+
+    if (v11 < dword_6F8E14)
+    {
+        v11 = dword_6F8E14;
+        v52 = a2;
+    }
+
+    Fix16 v53 = (v52 * gSin_table_667A80[a3.rValue]);
+    Fix16 v13 = (v52 * gCos_table_669260[a3.rValue]);
+
+    u8 a2_ = 1;
+    //v59.x = v13;
+    s32 t = v11.ToInt();
+//    v60.x = v11.ToInt();
+    if (v11.ToInt() < 1)
+    {
+    LABEL_56:
+        field_4->set_xyz_lazy_420600(v5->field_14_xy.x, v5->field_14_xy.y, v5->field_1C_zpos);
+        field_4->set_ang_lazy_420690(v5->field_0);
+        return;
+    }
+
+    Fix16_Point hitPoint;
+
+    Ang16 v55;
+    Fix16 v57;
+    Fix16 v61;
+
+    gmp_block_info* block_4DFE10;
+    gmp_block_info* v23;
+    gmp_block_info* v25;
+
+    while (1)
+    {
+        v61 = v5->field_14_xy.x;
+        v55 = v5->field_0;
+        v57 = v5->field_14_xy.y;
+        field_10_obj_3c->field_2A = 0;
+
+        block_4DFE10 =
+            gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
+        if (block_4DFE10)
+        {
+            if ((block_4DFE10->field_B_slope_type & 0xFC) != 0 && (block_4DFE10->field_B_slope_type & 0xFCu) < 0xB4 &&
+                (block_4DFE10->field_B_slope_type & 3) != 0)
+            {
+                v50 = 1;
+            }
+        }
+
+        v5->set_xy_lazy_447E20(v5->field_14_xy.x + v53, v5->field_14_xy.y + v13);
+        v5->set_ang_lazy_420690(a3);
+
+        v23 =
+            gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
+        if (v23)
+        {
+            if ((v23->field_B_slope_type & 0xFC) != 0 && (v23->field_B_slope_type & 0xFCu) < 0xB4 && (v23->field_B_slope_type & 3) != 0)
+            {
+                Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
+            }
+        }
+
+        v25 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(),
+                                                                  v5->field_14_xy.y.ToInt(),
+                                                                  (v5->field_1C_zpos - dword_6F8E14).ToInt());
+        if (!v25 || (v25->field_B_slope_type & 3) == 0)
+        {
+            gmp_block_info* v26 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(),
+                                                                      v5->field_14_xy.y.ToInt(),
+                                                                      (v5->field_1C_zpos - dword_6F8E14).ToInt());
+            if (v26)
+            {
+                if ((v26->field_B_slope_type & 0xFC) != 0 && (v26->field_B_slope_type & 0xFCu) < 0xB4 && (v26->field_B_slope_type & 3) != 0)
+                {
+                    Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
+                }
+            }
+        }
+
+        if (!v5->CheckSpriteMovementRegion_5A2500())
+        {
+            break;
+        }
+
+        if (v50 != 1)
+        {
+            goto LABEL_47;
+        }
+
+        v5->field_1C_zpos = v5->field_1C_zpos.GetRoundValue();
+        if (v5->field_1C_zpos > dword_6F8D10)
+        {
+            v5->field_1C_zpos = v5->field_1C_zpos + Fix16(0x4000, 0);
+        }
+
+        if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
+        {
+        LABEL_47:
+            hitPoint = v5->get_x_y_443580();
+            sub_524550();
+            goto LABEL_48;
+        }
+    LABEL_45:
+        a2_ = a2_ + 1;
+        if (a2_ > t)
+        {
+            goto LABEL_56;
+        }
+    }
+
+    if (!SelectCollisionSprite_522460(v5))
+    {
+        goto LABEL_45;
+    }
+
+    hitPoint = v5->get_x_y_443580();
+
+LABEL_48:
+
+    v5->set_xy_lazy_447E20(v61, v57);
+    v5->set_ang_lazy_420690(v55);
+
+    Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
+    a2_ = 3;
+
+    while (1)
+    {
+        Fix16 old_x = v5->field_14_xy.x;
+        Fix16 old_y = v5->field_14_xy.y;
+        Ang16 old_ang = v5->field_0;
+        // Search closer?
+        v61 = v52 / 2;
+
+        v5->set_xy_lazy_447E20(v5->field_14_xy.x + (gSin_table_667A80[a3.rValue] * (v61)),
+                               v5->field_14_xy.y + (gCos_table_669260[a3.rValue] * (v61)));
+        v5->set_ang_lazy_420690(a3);
+
+        if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
+        {
+            hitPoint = v5->get_x_y_443580();
+            v5->set_xy_lazy_447E20(old_x, old_y);
+            v5->set_ang_lazy_420690(old_ang);
+            Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
+        }
+
+        if (!--a2_)
+        {
+            break;
+        }
+        v52 = v61;
+    }
+
+    field_4->set_xyz_lazy_420600(v5->field_14_xy.x, v5->field_14_xy.y, v5->field_1C_zpos);
+    field_4->set_ang_lazy_420690(v5->field_0);
+
+    switch (this->field_8->field_4C)
+    {
+        case 0:
+        case 1:
+            HandleImpact_528E50(gRozza_679188.field_20_pSprite);
+            break;
+        case 2:
+        case 3:
+            HandleCollision_522E10(&hitPoint);
+            break;
+        default:
+            return;
+    }
 }
 
 // https://decomp.me/scratch/jLuSq
