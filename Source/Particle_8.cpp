@@ -12,7 +12,11 @@
 typedef Pool<Particle_4C, 500> T_Particle_4C_Pool;
 
 EXTERN_GLOBAL(Fix16, dword_6FD46C);
-EXTERN_GLOBAL(Fix16_Point, stru_6FD388);
+//EXTERN_GLOBAL(Fix16_Point, stru_6FD388);
+EXTERN_GLOBAL(Fix16, stru_6FD388);
+EXTERN_GLOBAL(Fix16, stru_6FD38C);
+
+
 EXTERN_GLOBAL(Fix16, dword_6FD330);
 
 DEFINE_GLOBAL(T_Particle_4C_Pool*, gParticle_4C_Pool_6FD5E4, 0x6FD5E4);
@@ -134,22 +138,22 @@ void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnkn
 
             if (bUnknown)
             {
-                Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD474, stru_6FD388.x, stru_6FD388.y);
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD474, stru_6FD388, stru_6FD38C);
 
             }
             else
             {
-                Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD46C, stru_6FD388.x, stru_6FD388.y);
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD46C, stru_6FD388, stru_6FD38C);
             }
 
             Fix16 v16;
             Fix16 v17;
             Ang16::PolarToCartesian_41FC20(pSprite->field_0 - dword_6FD314, dword_6FD468, v16, v17);
 
-            stru_6FD388.x += v16 + pSprite->field_14_xy.x;
-            stru_6FD388.y += v17 + pSprite->field_14_xy.y;
+            stru_6FD388 += v16 + pSprite->field_14_xy.x;
+            stru_6FD38C += v17 + pSprite->field_14_xy.y;
 
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388.x, stru_6FD388.y, pSprite->field_1C_zpos);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, pSprite->field_1C_zpos);
             pNew4C->field_28_pSprite = pSprite;
 
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
