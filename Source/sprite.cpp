@@ -46,7 +46,7 @@ DEFINE_GLOBAL_INIT(u32, kGlobalMask0_61A9AC, 0x0C00060, 0x61A9AC); // BitSet32 f
 DEFINE_GLOBAL_INIT(u32, kGlobalMask1_61A9A8, 0x0C70060, 0x61A9A8); // BitSet32 flag
 DEFINE_GLOBAL_INIT(u32, kGlobalMask2_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 flag
 DEFINE_GLOBAL(u32, gFlags_67ACF8, 0x67ACF8); // BitSet32 flag
-DEFINE_GLOBAL(Fix16, dword_703A38, 0x703A38);
+DEFINE_GLOBAL_INIT(Fix16, dword_703A38, Fix16(0), 0x703A38);
 
 DEFINE_GLOBAL_INIT(Fix16, k_dword_7033B4, Fix16(0x3FC000, 0), 0x7033B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_7035DC, Fix16(0x1C000, 0), 0x7035DC);
@@ -321,11 +321,17 @@ bool Sprite::ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bUnknown)
     return bHOrWLimit;
 }
 
-STUB_FUNC(0x59e4c0)
-s32 Sprite::ApplyScaleToDimensions_59E4C0(Fix16 a2, s32 a3)
+MATCH_FUNC(0x59e4c0)
+void Sprite::ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScale_Field_C_4C)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite::Update_4C_59F990();
+
+    field_4_0x4C_len->ScaleWidthHeight_4BA1A0(scale);
+
+    if (bScale_Field_C_4C == 1)
+    {
+        field_C_sprite_4c_ptr->ScaleWidthHeight_4BA1A0(scale);
+    }
 }
 
 // https://decomp.me/scratch/GIpfM

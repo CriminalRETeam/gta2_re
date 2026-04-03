@@ -130,6 +130,9 @@ EXTERN_GLOBAL(Ang16, word_6FDB34);
 EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F67B0, Fix16(0x2000, 0), 0x6F67B0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDB18, k_dword_6FD868 * 32, 0x6FDB18);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDB08, k_dword_6FD868 * 12, 0x6FDB08);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD91C, Fix16(0x1333, 0), 0x6FD91C);
 
 //https://decomp.me/scratch/iQH9l
 MATCH_FUNC(0x544F70)
@@ -2869,7 +2872,7 @@ LABEL_152:
                         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x,
                                                                  field_80_sprite_ptr->field_14_xy.y,
                                                                  dword_6FD7FC);
-                        byte_6FDB54 = gMap_0x370_6F6268->sub_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                        byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                     field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                     (field_80_sprite_ptr->field_1C_zpos - k_dword_6FD9E8).ToInt());
                         Char_B4::ManageZCoordAndSlopes_548590();
@@ -2892,11 +2895,139 @@ LABEL_152:
     Char_B4::sub_54DD70();
 }
 
-STUB_FUNC(0x54ecb0)
-char_type Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 a2)
+// https://decomp.me/scratch/Zk9Eh
+WIP_FUNC(0x54ecb0)
+bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    u8 u8_unk;
+
+    Fix16 xpos = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 ypos = field_80_sprite_ptr->field_14_xy.y;
+    Fix16 zpos = field_80_sprite_ptr->field_1C_zpos;
+
+    s32 new_zpos = (zpos).ToInt() - 1;
+
+    if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(xpos.ToInt(), ypos.ToInt(), (zpos - k_dword_6FD9E8).ToInt()))
+    {
+        new_zpos = zpos.ToInt();
+    }
+    if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &u8_unk, 0))
+    {
+        dword_623F44 = direction;
+        return 0;
+    }
+    if (byte_6FDB57)
+    {
+        field_80_sprite_ptr->set_xyz_lazy_420600(dword_6FD8B8, dword_6FD8BC, zpos);
+        Char_B4::ManageZCoordAndSlopes_548590();
+        if (field_80_sprite_ptr->CheckSpriteMovementRegion_5A2500())
+        {
+            dword_623F44 = direction;
+
+            field_80_sprite_ptr->set_xyz_lazy_420600(xpos, ypos, zpos);
+            gMap_0x370_6F6268->Clear_F36E_492130();
+            return 0;
+        }
+        field_80_sprite_ptr->set_xyz_lazy_420600(xpos, ypos, zpos);
+        Char_B4::ManageZCoordAndSlopes_548590();
+    }
+
+    u8 block_type;
+
+    switch (direction)
+    {
+        case 1:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, new_zpos);
+            if (block_type == AIR)
+            {
+                break;
+            }
+            else if (block_type > 0 && block_type <= 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            break;
+
+        case 2:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, new_zpos);
+            if (block_type == AIR)
+            {
+                break;
+            }
+            else if (block_type > 0 && block_type <= 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            break;
+
+        case 3:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), new_zpos);
+            if (block_type == AIR)
+            {
+                break;
+            }
+            else if (block_type > 0 && block_type <= 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            break;
+
+        case 4:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), new_zpos);
+            if (block_type == AIR)
+            {
+                break;
+            }
+            else if (block_type > 0 && block_type <= 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    if ((field_58_flags & 1) != 0)
+    {
+        return true;
+    }
+    else if (zpos.GetFracValue() < dword_6FD91C)
+    {
+        field_58_flags = field_58_flags & 0xFE;
+        bool result = Char_B4::CanStepForward_54FEC0(direction);
+        field_58_flags |= 1u;
+        return result;
+    }
+    else
+    {
+        if (field_7C_pPed->IsField238_45EDE0(2))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 STUB_FUNC(0x54ef60)
@@ -3571,7 +3702,7 @@ LABEL_65:
     }
     if (v71 == 1 || field_58_flags_bf.b0 == true)
     {
-        byte_6FDB54 = gMap_0x370_6F6268->sub_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+        byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                     field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                     field_80_sprite_ptr->field_1C_zpos.ToInt());
 
@@ -3623,7 +3754,7 @@ LABEL_65:
                     if (v71 == 1 || field_58_flags_bf.b0 == true)
                     {
 
-                        byte_6FDB54 = gMap_0x370_6F6268->sub_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                        byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                     field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                     (field_80_sprite_ptr->field_1C_zpos - k_dword_6FD9E8).ToInt());
                         Char_B4::ManageZCoordAndSlopes_548590();
@@ -3658,11 +3789,25 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 a3)
     return 0;
 }
 
-STUB_FUNC(0x551350)
-char_type Char_B4::CanStepInDirection_551350(Ang16 a2)
+MATCH_FUNC(0x551350)
+bool Char_B4::CanStepInDirection_551350(Ang16 ang)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 old_x = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 old_y = field_80_sprite_ptr->field_14_xy.y;
+    Fix16 x_pos;
+    Fix16 y_pos;
+
+    if (field_C_ped_state_2 == ped_state_2::Unknown_3)
+    {
+        Ang16::PolarToCartesian_41FC20(ang, dword_6FDB18, x_pos, y_pos);
+    }
+    else
+    {
+        Ang16::PolarToCartesian_41FC20(ang, dword_6FDB08, x_pos, y_pos);
+    }
+    x_pos += old_x;
+    y_pos += old_y;
+    return Char_B4::CanReachTile_550090(x_pos.ToInt(), y_pos.ToInt());
 }
 
 STUB_FUNC(0x551400)
@@ -4619,10 +4764,17 @@ void Char_B4::state_9_552E90()
     }
 }
 
-STUB_FUNC(0x5532C0)
+MATCH_FUNC(0x5532C0)
 bool Char_B4::sub_5532C0()
 {
-    NOT_IMPLEMENTED;
+    s16 ret1 = 0;
+    s16 ret2 = 0;
+    Char_B4::sub_545640(dword_6FD7F8, &ret1);
+    Char_B4::sub_545670(dword_6FD800, &ret2);
+    if (ret1 > 20 && ret1 < 44 && ret2 > 20 && ret2 < 44)
+    {
+        return true;
+    }
     return false;
 }
 

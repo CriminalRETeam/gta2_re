@@ -14,6 +14,8 @@ EXTERN_GLOBAL(Fix16, gFix16_7035C0);
 EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 EXTERN_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8);
 
+EXTERN_GLOBAL(Fix16, gFix16_7035C0);
+
 EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16* minX, Fix16* minY, Fix16* scanLineX, Fix16_Point* p0, Fix16_Point* p1);
 EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16* minX, Fix16* minY, Fix16* scanLineY, Fix16_Point* p0, Fix16_Point* p1);
 
@@ -132,6 +134,22 @@ class Sprite_4C
         *pHalfH = (field_4_height / t2);
     }
 
+    void ScaleWidthHeight_4BA1A0(Fix16 scale)
+    {
+        field_0_width *= scale;
+        if (field_0_width <= gFix16_7035C0)
+        {
+            field_0_width = gFix16_7035C0;
+        }
+
+        field_4_height *= scale;
+        if (field_4_height <= gFix16_7035C0)
+        {
+            field_4_height = gFix16_7035C0;
+        }
+        field_48_bBoxUpToDate = false;
+    }
+
     EXPORT void SetCurrentRect_5A4D90();
     EXPORT void UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
 
@@ -167,7 +185,7 @@ class Sprite
     EXPORT void sub_59E300();
     EXPORT void sub_59E320(char_type a2);
     EXPORT bool ShrinkSprite_59E390(Fix16 a2, Fix16 a3, s32 a4);
-    EXPORT s32 ApplyScaleToDimensions_59E4C0(Fix16 a2, s32 a3);
+    EXPORT void ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScale_Field_C_4C);
     EXPORT char_type CollisionCheck_59E590(Sprite* a2);
     EXPORT char_type CheckDirectionalSliceCollision_59E680(Fix16 a2, Sprite* a3);
     EXPORT void ResetZCollisionAndDebugBoxes_59E7B0();

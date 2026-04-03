@@ -217,10 +217,53 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
     }
 }
 
-STUB_FUNC(0x5dd0f0)
+// https://decomp.me/scratch/73olU
+WIP_FUNC(0x5dd0f0)
 void Weapon_30::flamethrower_5DD0F0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ang16 ped_rot;
+    Fix16_Point cartesian_offset;
+    Fix16_Point ped_pos_maybe;
+
+    Fix16 cam_x = field_24_pPed->get_cam_x();
+    Fix16 cam_y = field_24_pPed->get_cam_y();
+    Fix16 cam_z = field_24_pPed->get_cam_z();
+
+    ped_rot = field_24_pPed->GetRotation();
+
+    ped_pos_maybe = field_24_pPed->sub_45B520();
+
+    cartesian_offset.FromPolar_41E210(dword_706CF4, ped_rot);
+
+    Fix16 xpos = cam_x + cartesian_offset.x;
+    Fix16 ypos = cam_y + cartesian_offset.y;
+
+    if (!field_4)
+    {
+        field_2C = 1;
+        bAllowFlameSegment_706D60 = 0;
+        Weapon_30::spawn_bullet_5DCF60(154, xpos, ypos, cam_z, ped_rot, ped_pos_maybe);
+        if (bAllowFlameSegment_706D60)
+        {
+            gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
+
+            if (field_24_pPed->IsField238_45EDE0(2) && field_0_ammo != 0xFFFF)
+            {
+                --field_0_ammo;
+            }
+            field_24_pPed->AddThreateningPedToList_46FC70();
+            if (field_24_pPed->is_player_41B0A0())
+            {
+                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+            }
+        }
+    }
+    else
+    {
+        Weapon_30::spawn_bullet_5DCF60(195, cam_x, cam_y, cam_z, ped_rot, ped_pos_maybe);
+    }
 }
 
 STUB_FUNC(0x5dd290)
