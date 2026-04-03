@@ -220,7 +220,7 @@ class Char_B4
     EXPORT void DispatchCollision_548670(char_type a2);
     EXPORT void HandleObjectCollision_548840(Object_2C* a2);
     EXPORT void HandlePedCollision_548BD0(Char_B4* a2);
-    EXPORT void HandleGenericCollision_54A530(Car_BC* a2, Car_BC* a3, s32 a4);
+    EXPORT void HandleGenericCollision_54A530(Car_BC* a2, Object_2C* a3, Object_2C* a4);
     EXPORT char_type ContinueMovementAfterCollision_54B8F0();
     EXPORT void sub_54C090();
     EXPORT char_type CanMoveOntoSlope_54C1A0(s32 a2);

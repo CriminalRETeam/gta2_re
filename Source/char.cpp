@@ -1,4 +1,5 @@
 #include "char.hpp"
+#include "CarAI_78.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
@@ -22,7 +23,6 @@
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
-#include "CarAI_78.hpp"
 #include "winmain.hpp"
 
 // Ped.cpp
@@ -123,6 +123,8 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FD904, Ang16(0x438), 0x6FD904);
 DEFINE_GLOBAL_INIT(Ang16, word_6FDA54, Ang16(0x18), 0x6FDA54); // TODO: Init via func 0x54A300
 DEFINE_GLOBAL_INIT(Ang16, word_6FD920, word_6FD936, 0x6FD920);
 DEFINE_GLOBAL_INIT(Ang16, dword_6FD9D8, Ang16(0x588), 0x6FD9D8); // TODO: Init via func 0x54A270
+
+DEFINE_GLOBAL(Fix16, dword_6FDAB0, 0x6FDAB0);
 
 EXTERN_GLOBAL(Ang16, word_6FDB34);
 EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
@@ -1771,10 +1773,68 @@ void Char_B4::DispatchCollision_548670(char_type a2)
     }
 }
 
-STUB_FUNC(0x548840)
-void Char_B4::HandleObjectCollision_548840(Object_2C* a2)
+WIP_FUNC(0x548840)
+void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    //pObj_ = pObj;
+    //out3 = 0;
+    bool bUnknown = 0;
+    //v19 = 4;
+    //pPhi = pObj->field_8;
+    //phi_type = pPhi->field_34_type;
+    Fix16_Point a4;
+    Fix16_Point point;
+    u8 a6;
+    u8 out2;
+    u8 out3 = 0;
+
+    s32 phi_type = pObj->field_8->field_34_behavior_type;
+
+    if (phi_type == 6 || phi_type == 7 || phi_type == 8 || phi_type == 9 || phi_type == 10 || phi_type == 1 || phi_type == 12 ||
+        (pObj->field_26_varrok_idx) == 0 || pObj->field_26_varrok_idx != this->field_7C_pPed->field_267_varrok_idx)
+    {
+        if (phi_type != 3 && phi_type != 4 && (phi_type > 2 || pObj->field_8->field_44 != 2))
+        {
+            goto LABEL_28;
+        }
+
+        if (field_7C_pPed->IsField238_45EDE0(2))
+        {
+            if (this->field_10_char_state == 15)
+            {
+                goto LABEL_28;
+            }
+        }
+        else
+        {
+            if (pObj->field_8->field_4C == 3)
+            {
+                bUnknown = 1;
+            }
+
+            if (pObj->field_8->field_4C && !bUnknown)
+            {
+                goto LABEL_28;
+            }
+        }
+
+        if (pObj->field_8->field_18 < dword_6FDAB0)
+        {
+
+            field_80_sprite_ptr->set_xyz_lazy_420600(dword_6FD7F8, dword_6FD800, dword_6FD7FC);
+
+            point = *field_80_sprite_ptr
+                        ->FindCollisionIntersectionPoint_5A2710(&point, pObj->field_4, a4, field_80_sprite_ptr->field_0, &a6, &out2, &out3);
+            pObj->ResolveCollisionWithPed_5229B0(this, &point, 1);
+            return;
+        }
+        this->field_5C = 10;
+
+    LABEL_28:
+        HandleGenericCollision_54A530(0, pObj, 0);
+    }
 }
 
 STUB_FUNC(0x548bd0)
@@ -1784,7 +1844,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* a2)
 }
 
 STUB_FUNC(0x54a530)
-void Char_B4::HandleGenericCollision_54A530(Car_BC* a2, Car_BC* a3, s32 a4)
+void Char_B4::HandleGenericCollision_54A530(Car_BC* a2, Object_2C* a3, Object_2C* a4)
 {
     NOT_IMPLEMENTED;
 }
