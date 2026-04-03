@@ -472,6 +472,11 @@ class Map_0x370
         return pBlock && pBlock->field_A_arrows;
     }
 
+    inline void Clear_F36E_492130()
+    {
+        field_36E = 0;
+    }
+
   public:
     gmp_compressed_map_32* field_0_pDmap;
     Map_sub field_4_obj;

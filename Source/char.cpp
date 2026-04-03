@@ -132,6 +132,7 @@ EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F67B0, Fix16(0x2000, 0), 0x6F67B0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDB18, k_dword_6FD868 * 32, 0x6FDB18);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDB08, k_dword_6FD868 * 12, 0x6FDB08);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD91C, Fix16(0x1333, 0), 0x6FD91C);
 
 //https://decomp.me/scratch/iQH9l
 MATCH_FUNC(0x544F70)
@@ -2894,11 +2895,139 @@ LABEL_152:
     Char_B4::sub_54DD70();
 }
 
-STUB_FUNC(0x54ecb0)
-char_type Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 a2)
+// https://decomp.me/scratch/Zk9Eh
+WIP_FUNC(0x54ecb0)
+bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    u8 u8_unk;
+
+    Fix16 xpos = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 ypos = field_80_sprite_ptr->field_14_xy.y;
+    Fix16 zpos = field_80_sprite_ptr->field_1C_zpos;
+
+    s32 new_zpos = (zpos).ToInt() - 1;
+
+    if (gMap_0x370_6F6268->sub_466CF0(xpos.ToInt(), ypos.ToInt(), (zpos - k_dword_6FD9E8).ToInt()))
+    {
+        new_zpos = zpos.ToInt();
+    }
+    if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &u8_unk, 0))
+    {
+        dword_623F44 = direction;
+        return 0;
+    }
+    if (byte_6FDB57)
+    {
+        field_80_sprite_ptr->set_xyz_lazy_420600(dword_6FD8B8, dword_6FD8BC, zpos);
+        Char_B4::ManageZCoordAndSlopes_548590();
+        if (field_80_sprite_ptr->CheckSpriteMovementRegion_5A2500())
+        {
+            dword_623F44 = direction;
+
+            field_80_sprite_ptr->set_xyz_lazy_420600(xpos, ypos, zpos);
+            gMap_0x370_6F6268->Clear_F36E_492130();
+            return 0;
+        }
+        field_80_sprite_ptr->set_xyz_lazy_420600(xpos, ypos, zpos);
+        Char_B4::ManageZCoordAndSlopes_548590();
+    }
+
+    u8 block_type;
+
+    switch (direction)
+    {
+        case 1:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, new_zpos);
+            if (block_type == AIR)
+            {
+                break;
+            }
+            else if (block_type > 0 && block_type <= 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            break;
+
+        case 2:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, new_zpos);
+            if (block_type == AIR)
+            {
+                break;
+            }
+            else if (block_type > 0 && block_type <= 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            break;
+
+        case 3:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), new_zpos);
+            if (block_type == AIR)
+            {
+                break;
+            }
+            else if (block_type > 0 && block_type <= 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            break;
+
+        case 4:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), new_zpos);
+            if (block_type == AIR)
+            {
+                break;
+            }
+            else if (block_type > 0 && block_type <= 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    if ((field_58_flags & 1) != 0)
+    {
+        return true;
+    }
+    else if (zpos.GetFracValue() < dword_6FD91C)
+    {
+        field_58_flags = field_58_flags & 0xFE;
+        bool result = Char_B4::CanStepForward_54FEC0(direction);
+        field_58_flags |= 1u;
+        return result;
+    }
+    else
+    {
+        if (field_7C_pPed->IsField238_45EDE0(2))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 STUB_FUNC(0x54ef60)
