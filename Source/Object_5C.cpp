@@ -2620,7 +2620,7 @@ MATCH_FUNC(0x522FA0)
 void Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
 {
     Fix16 z_val = pSprite->field_1C_zpos;
-    if (gMap_0x370_6F6268->sub_466CF0(pSprite->field_14_xy.x.ToInt(), pSprite->field_14_xy.y.ToInt(), (z_val.ToInt()) - 1))
+    if (gMap_0x370_6F6268->IsBlockGradientSlope_466CF0(pSprite->field_14_xy.x.ToInt(), pSprite->field_14_xy.y.ToInt(), (z_val.ToInt()) - 1))
     {
         z_val -= Fix16(0x4000, 0);
     }

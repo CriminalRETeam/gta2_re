@@ -74,9 +74,9 @@ class Orca_2FD4
     u8 field_22_zpos;
     char_type field_23_f40_idx1;
     char_type field_24_f40_idx2;
-    char_type field_25_xpos;
-    char_type field_26_ypos;
-    char_type field_27_zpos;
+    u8 field_25_xpos;
+    u8 field_26_ypos;
+    u8 field_27_zpos;
     char_type field_28;
     char_type field_29;
     char_type field_2A;

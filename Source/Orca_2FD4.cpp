@@ -85,7 +85,7 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type xpos2, char_typ
 
     if (yd)
     {
-        if (!gMap_0x370_6F6268->sub_466CF0(field_25_xpos, field_26_ypos, this->field_27_zpos))
+        if (gMap_0x370_6F6268->IsBlockGradientSlope_466CF0(field_25_xpos, field_26_ypos, this->field_27_zpos))
         {
             return 0;
         }
@@ -94,12 +94,12 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type xpos2, char_typ
         {
             if (yd == 1)
             {
-                if (!gMap_0x370_6F6268->sub_466CF0(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos))
+                if (gMap_0x370_6F6268->IsBlockGradientSlope_466CF0(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos))
                 {
                     return 0;
                 }
 
-                if (!gMap_0x370_6F6268->sub_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
+                if (gMap_0x370_6F6268->IsBlockGradientSlope_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
                 {
                     return 0;
                 }
@@ -126,12 +126,12 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type xpos2, char_typ
                 return 0;
             }
 
-            if (!gMap_0x370_6F6268->sub_466CF0(this->field_25_xpos, this->field_26_ypos - 1, this->field_27_zpos))
+            if (gMap_0x370_6F6268->IsBlockGradientSlope_466CF0(this->field_25_xpos, this->field_26_ypos - 1, this->field_27_zpos))
             {
                 return 0;
             }
 
-            if (!gMap_0x370_6F6268->sub_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
+            if (gMap_0x370_6F6268->IsBlockGradientSlope_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
             {
                 return 0;
             }

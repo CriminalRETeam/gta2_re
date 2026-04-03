@@ -311,7 +311,7 @@ void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
     WIP_IMPLEMENTED;
     Fix16 cp3 = field_6C_cp3;
 
-    if (!gMap_0x370_6F6268->sub_466CF0(field_38_cp1.x.ToInt(), field_38_cp1.y.ToInt(), cp3.ToInt()))
+    if (!gMap_0x370_6F6268->IsBlockGradientSlope_466CF0(field_38_cp1.x.ToInt(), field_38_cp1.y.ToInt(), cp3.ToInt()))
     {
         cp3 = field_6C_cp3 - k_dword_6FE210;
     }
