@@ -22,7 +22,7 @@ class Particle_4C
     EXPORT char_type UpdateSimpleBallisticMotion_state_1_53ABA0();
     EXPORT char_type UpdateLargeBallisticDebris_state_35_53AE60();
     EXPORT char_type Empty_state_44_53B170();
-    EXPORT void UpdateDebrisArc_state_7_53B1A0();
+    EXPORT char_type UpdateDebrisArc_state_7_53B1A0();
     EXPORT char_type UpdateShortAnim_state_37_53B580();
     EXPORT char_type UpdateAttachedEmitter_state_9_10_53B670();
     EXPORT char_type UpdateBurstAnimation_state_29_30_53B9F0();

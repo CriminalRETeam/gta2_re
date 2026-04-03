@@ -78,6 +78,8 @@ DEFINE_GLOBAL(Fix16, k_dword_6F8CE0, 0x6F8CE0);
 DEFINE_GLOBAL(Fix16, k_dword_6F8F74, 0x6F8F74);
 DEFINE_GLOBAL(Fix16, k_dword_6F8EE4, 0x6F8EE4);
 
+DEFINE_GLOBAL(Fix16, k_dword_6F8D3C, 0x6F8D3C);
+DEFINE_GLOBAL(Fix16, k_dword_6F8BE8, 0x6F8BE8);
 
 // TODO: From CarPhysics_B0
 EXTERN_GLOBAL(Fix16_Point, stru_6FE1A0);
@@ -424,10 +426,28 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
     HandleImpact_528E50(pB4->field_80_sprite_ptr); // TODO: sub_4338D0
 }
 
-STUB_FUNC(0x522b20)
-void Object_2C::ResolveCollisionWithWorld_522B20(s32* f18, s32* a3, s32* a4)
+WIP_FUNC(0x522b20)
+void Object_2C::ResolveCollisionWithWorld_522B20(s32* f18, Fix16_Point* a3, Fix16_Point* a4)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point t;
+    Fix16_Point v9;
+    Fix16_Point obj_xy = GetXY_52AE70();
+    v9 = ComputeLineLineIntersection_55F3B0(
+                                       field_8->field_18,
+                                       k_dword_6F8BE8,
+                                       a4,
+                                       a3,
+                                       &t,
+                                       &obj_xy,
+                                       &stru_6F8EF0,
+                                       k_dword_6F8D38,
+                                       kFpZero_6F8E10,
+                                       k_dword_6F8D3C);
+    Fix16_Point v7 = (v9 / this->field_8->field_18);
+    SetMovementVectorWithRandomState_522640(&v7);
+    HandleImpact_528E50(0);
 }
 
 STUB_FUNC(0x522be0)
