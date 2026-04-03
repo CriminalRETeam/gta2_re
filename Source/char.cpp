@@ -4635,10 +4635,17 @@ void Char_B4::state_9_552E90()
     }
 }
 
-STUB_FUNC(0x5532C0)
+MATCH_FUNC(0x5532C0)
 bool Char_B4::sub_5532C0()
 {
-    NOT_IMPLEMENTED;
+    s16 ret1 = 0;
+    s16 ret2 = 0;
+    Char_B4::sub_545640(dword_6FD7F8, &ret1);
+    Char_B4::sub_545670(dword_6FD800, &ret2);
+    if (ret1 > 20 && ret1 < 44 && ret2 > 20 && ret2 < 44)
+    {
+        return true;
+    }
     return false;
 }
 
