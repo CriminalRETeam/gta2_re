@@ -2872,7 +2872,7 @@ LABEL_152:
                         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x,
                                                                  field_80_sprite_ptr->field_14_xy.y,
                                                                  dword_6FD7FC);
-                        byte_6FDB54 = gMap_0x370_6F6268->IsBlockGradientSlope_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                        byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                     field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                     (field_80_sprite_ptr->field_1C_zpos - k_dword_6FD9E8).ToInt());
                         Char_B4::ManageZCoordAndSlopes_548590();
@@ -2909,7 +2909,7 @@ bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 
     s32 new_zpos = (zpos).ToInt() - 1;
 
-    if (gMap_0x370_6F6268->IsBlockGradientSlope_466CF0(xpos.ToInt(), ypos.ToInt(), (zpos - k_dword_6FD9E8).ToInt()))
+    if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(xpos.ToInt(), ypos.ToInt(), (zpos - k_dword_6FD9E8).ToInt()))
     {
         new_zpos = zpos.ToInt();
     }
@@ -3702,7 +3702,7 @@ LABEL_65:
     }
     if (v71 == 1 || field_58_flags_bf.b0 == true)
     {
-        byte_6FDB54 = gMap_0x370_6F6268->IsBlockGradientSlope_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+        byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                     field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                     field_80_sprite_ptr->field_1C_zpos.ToInt());
 
@@ -3754,7 +3754,7 @@ LABEL_65:
                     if (v71 == 1 || field_58_flags_bf.b0 == true)
                     {
 
-                        byte_6FDB54 = gMap_0x370_6F6268->IsBlockGradientSlope_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                        byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                     field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                     (field_80_sprite_ptr->field_1C_zpos - k_dword_6FD9E8).ToInt());
                         Char_B4::ManageZCoordAndSlopes_548590();
