@@ -239,7 +239,7 @@ class Char_B4
     EXPORT bool CanReachTile_550090(s32 xpos, s32 ypos);
     EXPORT void state_1_5504F0();
     EXPORT Ang16 GetNextRotationToward_550F60(Ang16 a3);
-    EXPORT char_type CanStepInDirection_551350(Ang16 a2);
+    EXPORT bool CanStepInDirection_551350(Ang16 angle);
     EXPORT char_type ChooseNextMovementTile_551400();
     EXPORT char_type SelectNextTileFast_5516F0();
     //EXPORT void state_1_5504F0();

@@ -130,6 +130,8 @@ EXTERN_GLOBAL(Ang16, word_6FDB34);
 EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F67B0, Fix16(0x2000, 0), 0x6F67B0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDB18, k_dword_6FD868 * 32, 0x6FDB18);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDB08, k_dword_6FD868 * 12, 0x6FDB08);
 
 //https://decomp.me/scratch/iQH9l
 MATCH_FUNC(0x544F70)
@@ -3658,11 +3660,25 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 a3)
     return 0;
 }
 
-STUB_FUNC(0x551350)
-char_type Char_B4::CanStepInDirection_551350(Ang16 a2)
+MATCH_FUNC(0x551350)
+bool Char_B4::CanStepInDirection_551350(Ang16 ang)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 old_x = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 old_y = field_80_sprite_ptr->field_14_xy.y;
+    Fix16 x_pos;
+    Fix16 y_pos;
+
+    if (field_C_ped_state_2 == ped_state_2::Unknown_3)
+    {
+        Ang16::PolarToCartesian_41FC20(ang, dword_6FDB18, x_pos, y_pos);
+    }
+    else
+    {
+        Ang16::PolarToCartesian_41FC20(ang, dword_6FDB08, x_pos, y_pos);
+    }
+    x_pos += old_x;
+    y_pos += old_y;
+    return Char_B4::CanReachTile_550090(x_pos.ToInt(), y_pos.ToInt());
 }
 
 STUB_FUNC(0x551400)
