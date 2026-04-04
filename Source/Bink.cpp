@@ -241,9 +241,67 @@ void __stdcall Bink::sub_5137B0(char_type a1)
     gBinkDDState_6F83FE = a1;
 }
 
-STUB_FUNC(0x513560)
+WIP_FUNC(0x513560)
 void __stdcall Bink::sub_513560(const char_type* pFileName, HDIGDRIVER a2)
 {
-    NOT_IMPLEMENTED;
-    // todo
+    WIP_IMPLEMENTED;
+    
+    BinkSetSoundSystem((void*)BinkOpenMiles, (s32)a2);
+    BinkSetIOSize(600000);
+
+    gBinkHandle1_6F8168 = BinkOpen(pFileName, 0x4000000);
+
+    if (gBinkHandle1_6F8168 == 0)
+    {
+        FatalError_4A38C0(Gta2Error::BinkOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.", 460);
+        return;
+    }
+
+    if (gBufferMode_706B34 == 2)
+    {
+        if (gVidSys_7071D0->field_5C == 5)
+        {
+            if (gVidSys_7071D0->field_64_r == 5 && gVidSys_7071D0->field_6C == 5)
+            {
+                gBinkSurfaceType_6F81B0 = 2;
+                gBinkActiveSlot_6F83FF = 1;
+                return;
+            }
+        }
+        else if (gVidSys_7071D0->field_5C == 6)
+        {
+            if (gVidSys_7071D0->field_64_r == 5 && gVidSys_7071D0->field_6C == 5)
+            {
+                gBinkSurfaceType_6F81B0 = 4;
+                gBinkActiveSlot_6F83FF = 1;
+                return;
+            }
+            if (gVidSys_7071D0->field_64_r == 6 && gVidSys_7071D0->field_6C == 4)
+            {
+                gBinkSurfaceType_6F81B0 = 5;
+                gBinkActiveSlot_6F83FF = 1;
+                return;
+            }
+        }
+
+        gBinkSurfaceType_6F81B0 = 3;
+        gBinkActiveSlot_6F83FF = 1;
+        return;
+    }
+
+    BinkBufferSetDDPrimary(gVidSys_7071D0->field_134_SurfacePrimary);
+
+    gBinkDDState_6F83FE = 1;
+    gBinkBuffer1_6F8170 = BinkBufferOpen(gHwnd_707F04, gBinkHandle1_6F8168->width, gBinkHandle1_6F8168->height, 0);
+
+    if (gBinkBuffer1_6F8170 == 0)
+    {
+        gBinkDDState_6F83FE = 0;
+        FatalError_4A38C0(Gta2Error::BinkBufferOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 450);
+        gBinkActiveSlot_6F83FF = 1;
+        return;
+    }
+
+    gBinkDDState_6F83FE = 2;
+    gBinkActiveSlot_6F83FF = 1;
 }
