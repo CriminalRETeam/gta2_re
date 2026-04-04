@@ -85,7 +85,7 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type xpos2, char_typ
 
     if (yd)
     {
-        if (!gMap_0x370_6F6268->sub_466CF0(field_25_xpos, field_26_ypos, this->field_27_zpos))
+        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_25_xpos, field_26_ypos, this->field_27_zpos))
         {
             return 0;
         }
@@ -94,12 +94,12 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type xpos2, char_typ
         {
             if (yd == 1)
             {
-                if (!gMap_0x370_6F6268->sub_466CF0(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos))
+                if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos))
                 {
                     return 0;
                 }
 
-                if (!gMap_0x370_6F6268->sub_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
+                if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
                 {
                     return 0;
                 }
@@ -126,12 +126,12 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type xpos2, char_typ
                 return 0;
             }
 
-            if (!gMap_0x370_6F6268->sub_466CF0(this->field_25_xpos, this->field_26_ypos - 1, this->field_27_zpos))
+            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos, this->field_26_ypos - 1, this->field_27_zpos))
             {
                 return 0;
             }
 
-            if (!gMap_0x370_6F6268->sub_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
+            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
             {
                 return 0;
             }
@@ -259,39 +259,33 @@ char_type Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
     return 0;
 }
 
-WIP_FUNC(0x5548c0)
-char_type Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0()
+MATCH_FUNC(0x5548c0)
+bool Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0()
 {
-    WIP_IMPLEMENTED;
-
     char_type v2 = Orca_2FD4::Internel_EvaluateBehaviorGridCell_554640();
     if (v2 == 1)
     {
-        if (Orca_2FD4::Internel_CanMoveDiagonally_554110(this->field_20_xpos, this->field_21_ypos))
+        if (Orca_2FD4::Internel_CanMoveDiagonally_554110(field_20_xpos, field_21_ypos))
         {
             Orca_2FD4::Internel_UpdateBehaviorGrid_554710();
-            return 0;
         }
-
-        u16 idx = this->field_1C_f40_idx;
-        if (this->field_40[idx].field_0 != 1 || this->field_40[idx].field_3)
+        else
         {
-            return 0;
+            Orca_8* pOrca = &field_40[field_1C_f40_idx];
+            if (pOrca->field_0 == 1 && pOrca->field_3 == 0)
+            {
+                pOrca->field_0 = 0;
+            }
         }
-        this->field_40[idx].field_0 = 0;
-        return 0;
     }
-    else
+    else if (v2 == 2)
     {
-        if (v2 != 2)
-        {
-            return 0;
-        }
-        this->field_18 = 0;
-        this->field_19 = 1;
-        this->field_1A = 1;
+        field_18 = 0;
+        field_19 = 1;
+        field_1A = 1;
         return 1;
     }
+    return 0;
 }
 
 MATCH_FUNC(0x554920)

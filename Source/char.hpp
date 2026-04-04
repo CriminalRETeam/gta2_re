@@ -199,6 +199,7 @@ class Char_B4
     EXPORT void sub_545430();
     EXPORT bool sub_5451C0();
 
+    EXPORT Fix16_Point* sub_545580(Fix16_Point* a2);
     EXPORT void SetRemap_46DD50(u8 remap);
 
     EXPORT void RemoveFireSprites_5454B0();
@@ -219,7 +220,7 @@ class Char_B4
     EXPORT void DispatchCollision_548670(char_type a2);
     EXPORT void HandleObjectCollision_548840(Object_2C* a2);
     EXPORT void HandlePedCollision_548BD0(Char_B4* a2);
-    EXPORT void HandleGenericCollision_54A530(Car_BC* a2, Car_BC* a3, s32 a4);
+    EXPORT void HandleGenericCollision_54A530(Car_BC* a2, Object_2C* a3, Object_2C* a4);
     EXPORT char_type ContinueMovementAfterCollision_54B8F0();
     EXPORT void sub_54C090();
     EXPORT char_type CanMoveOntoSlope_54C1A0(s32 a2);
@@ -232,13 +233,13 @@ class Char_B4
     EXPORT void ApplyMovement_54CC40();
     EXPORT void sub_54DD70();
     EXPORT void state_0_54DDF0();
-    EXPORT char_type CanStepForwardWithRegionCheck_54ECB0(s32 a2);
+    EXPORT bool CanStepForwardWithRegionCheck_54ECB0(s32 direction);
     EXPORT char_type CanStepDiagonal_54EF60(char_type a2, char_type a3);
-    EXPORT char_type CanStepForward_54FEC0(s32 a2);
-    EXPORT char_type CanReachTile_550090(s32 xpos, s32 ypos);
+    EXPORT bool CanStepForward_54FEC0(s32 direction);
+    EXPORT bool CanReachTile_550090(s32 xpos, s32 ypos);
     EXPORT void state_1_5504F0();
     EXPORT Ang16 GetNextRotationToward_550F60(Ang16 a3);
-    EXPORT char_type CanStepInDirection_551350(Ang16 a2);
+    EXPORT bool CanStepInDirection_551350(Ang16 angle);
     EXPORT char_type ChooseNextMovementTile_551400();
     EXPORT char_type SelectNextTileFast_5516F0();
     //EXPORT void state_1_5504F0();

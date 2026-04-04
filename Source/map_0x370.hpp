@@ -454,7 +454,7 @@ class Map_0x370
         return 0;
     }
 
-    inline bool sub_466CF0(s32 xpos, s32 ypos, s32 zpos)
+    inline bool IsGradientSlopeAt_466CF0(s32 xpos, s32 ypos, s32 zpos)
     {
         gmp_block_info* block_4DFE10 = get_block_4DFE10(xpos, ypos, zpos);
         if (block_4DFE10 && (block_4DFE10->field_B_slope_type & 0xFC) > 0 &&
@@ -470,6 +470,11 @@ class Map_0x370
     {
         gmp_block_info* pBlock = get_block_4DFE10(xpos, ypos, zpos);
         return pBlock && pBlock->field_A_arrows;
+    }
+
+    inline void Clear_F36E_492130()
+    {
+        field_36E = 0;
     }
 
   public:
