@@ -234,11 +234,27 @@ Fix16 Wolfy_30::sub_541710()
     return r;
 }
 
-STUB_FUNC(0x541760)
-char_type Wolfy_30::sub_541760()
+MATCH_FUNC(0x541760)
+void Wolfy_30::sub_541760()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_10_type_or_state != 18 && field_10_type_or_state != 32)
+    {
+        if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
+        {
+            Particle_4C* pNew = gParticle_4C_Pool_6FD5E4->Allocate();
+            pNew->field_46_sub_state = 0;
+            pNew->field_38_state = 29;
+            pNew->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew->field_30_pNext->SetType_4206F0(8);
+            pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 37);
+            pNew->field_30_pNext->set_xyz_lazy_420600(field_14->field_4->field_14_xy.x,
+                                                      field_14->field_4->field_14_xy.y,
+                                                      field_14->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+            pNew->field_48_timer = 10;
+        }
+    }
 }
 
 STUB_FUNC(0x541850)
