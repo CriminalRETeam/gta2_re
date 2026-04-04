@@ -1660,7 +1660,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
         {
             if (gFrontend_67DC84)
             {
-                Bink::sub_513720();
+                Bink::ResetBufferOffset_513720();
             }
             break;
         }
@@ -1690,7 +1690,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                     Input_Read_498D10();
                 }
 
-                if (gVidSys_7071D0 && !Bink::sub_513770())
+                if (gVidSys_7071D0 && !Bink::IsUsingDDBuffer_513770())
                 {
                     sub_5D92D0();
                     sub_5D9680();
@@ -1715,10 +1715,10 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                 gRoot_sound_66B038.Set3DSound_40F160(0);
                 gRoot_sound_66B038.Release_40F130();
 
-                if (gFrontend_67DC84 && Bink::sub_513760())
+                if (gFrontend_67DC84 && Bink::IsDDBufferOpen_513760())
                 {
-                    Bink::Close1_513340();
-                    Bink::Close2_513390();
+                    Bink::CloseSlot1_513340();
+                    Bink::CloseSlot2_513390();
                     gFrontend_67DC84->sub_4B3170(0);
                 }
 
@@ -1800,7 +1800,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             {
                 s32 newX = pPos->x;
                 s32 newY = pPos->y;
-                Bink::sub_5136D0(&newX, &newY);
+                Bink::CheckWindowPos_5136D0(&newX, &newY);
                 pPos->x = newX;
                 pPos->y = newY;
             }

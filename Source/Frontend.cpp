@@ -371,8 +371,8 @@ void __stdcall Frontend::destroy_4AD070()
         GTA2_DELETE_AND_NULL(gFrontend_67DC84);
     }
 
-    Bink::Close1_513340();
-    Bink::Close2_513390();
+    Bink::CloseSlot1_513340();
+    Bink::CloseSlot2_513390();
 }
 
 WIP_FUNC(0x4B3170)
@@ -803,13 +803,13 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             {
                 field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
                 v44 = gFrontend_67DC84->pre_intro_bik_4B5F20();
-                Bink::sub_513560(v44, field_0_hDriver);
+                Bink::OpenSlot1_513560(v44, field_0_hDriver);
             }
             else
             {
                 v50 = gSampManager_6FFF00.field_0_hDriver;
                 v45 = gFrontend_67DC84->intro_bik_4B5E50();
-                Bink::sub_5133E0(v45, v50);
+                Bink::OpenSlot2_5133E0(v45, v50);
             }
             break;
 
@@ -908,21 +908,21 @@ s32 Frontend::sub_4AEDB0()
     local_field_132_f136_idx = field_132_f136_idx;
     if (local_field_132_f136_idx == MENUPAGE_PLAY_INTRO)
     {
-        if (Bink::sub_513240())
+        if (Bink::TickFrame_513240())
         {
-            if (Bink::sub_513790() == 1)
+            if (Bink::GetActiveSlot_513790() == 1)
             {
-                Bink::sub_5137A0(2);
+                Bink::SetActiveSlot_5137A0(2);
                 local_field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
-                Bink::sub_5133E0(gFrontend_67DC84->intro_bik_4B5E50(), local_field_0_hDriver);
-                Bink::Close1_513340();
-                Bink::sub_5137A0(2);
-                Bink::sub_5137B0(2);
+                Bink::OpenSlot2_5133E0(gFrontend_67DC84->intro_bik_4B5E50(), local_field_0_hDriver);
+                Bink::CloseSlot1_513340();
+                Bink::SetActiveSlot_5137A0(2);
+                Bink::SetDDState_5137B0(2);
             }
             else
             {
-                Bink::Close1_513340();
-                Bink::Close2_513390();
+                Bink::CloseSlot1_513340();
+                Bink::CloseSlot2_513390();
                 if (bIsFrench_67D53C)
                 {
                     sub_4B8680();
@@ -940,8 +940,8 @@ s32 Frontend::sub_4AEDB0()
         {
             if ((*local_field_8_keys & 0x80u) != 0)
             {
-                Bink::Close1_513340();
-                Bink::Close2_513390();
+                Bink::CloseSlot1_513340();
+                Bink::CloseSlot2_513390();
                 if (bIsFrench_67D53C)
                 {
                     sub_4B8680();
