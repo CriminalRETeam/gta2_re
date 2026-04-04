@@ -17,9 +17,9 @@ class Wolfy_30
     EXPORT void state_4_540F90(Fix16 a2, Ang16 a3);
     EXPORT void state_13_14_5411E0(Fix16 a2, Ang16 a3);
     EXPORT void state_5_541430(Fix16 a2, Ang16 a3);
-    EXPORT u32* sub_541680(u32* a2);
+    EXPORT Fix16* sub_541680(Fix16* a2);
     EXPORT Fix16 sub_541710();
-    EXPORT char_type sub_541760();
+    EXPORT void sub_541760();
     EXPORT void sub_541850(u16 a2);
     EXPORT char_type sub_541D60();
     EXPORT char_type sub_542060();

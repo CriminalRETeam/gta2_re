@@ -10,7 +10,6 @@
 #include "sprite.hpp"
 #include "rng.hpp"
 
-typedef Pool<Particle_4C, 500> T_Particle_4C_Pool;
 
 EXTERN_GLOBAL(Fix16, dword_6FD46C);
 //EXTERN_GLOBAL(Fix16_Point, stru_6FD388);

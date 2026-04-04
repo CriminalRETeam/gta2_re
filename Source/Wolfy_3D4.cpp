@@ -22,6 +22,12 @@ DEFINE_GLOBAL_INIT(s16, gWolfyId_40_pool_623F18, 1, 0x623F18);
 
 DEFINE_GLOBAL(Fix16, dword_6FD2F0, 0x6FD2F0);
 
+EXTERN_GLOBAL(Fix16, dword_6FD39C);
+EXTERN_GLOBAL(Fix16, dword_6FD4A0);
+EXTERN_GLOBAL(Fix16, dword_6FD4A4);
+
+DEFINE_GLOBAL(Fix16, dword_6FD370, 0x6FD370);
+
 STUB_FUNC(0x543690)
 s32 Wolfy_7A8::sub_543690()
 {
@@ -204,11 +210,40 @@ void Wolfy_30::state_5_541430(Fix16 a2, Ang16 a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x541680)
-u32* Wolfy_30::sub_541680(u32* a2)
+WIP_FUNC(0x541680)
+Fix16* Wolfy_30::sub_541680(Fix16* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Fix16* result;
+    switch (this->field_10_type_or_state)
+    {
+        case 18:
+        case 22:
+        case 23:
+        case 24:
+        case 25:
+            result = a2;
+            *a2 = dword_6FD39C;
+            break;
+        case 19:
+        case 32:
+            result = a2;
+            *a2 = dword_6FD4A0;
+            break;
+        case 20:
+            result = a2;
+            *a2 = dword_6FD4A4;
+            break;
+        case 33:
+            result = a2;
+            *a2 = dword_6FD370;
+            break;
+        default:
+            result = a2;
+            //*a2 = a2;
+            break;
+    }
+    return result;
 }
 
 MATCH_FUNC(0x541710)
@@ -234,11 +269,27 @@ Fix16 Wolfy_30::sub_541710()
     return r;
 }
 
-STUB_FUNC(0x541760)
-char_type Wolfy_30::sub_541760()
+MATCH_FUNC(0x541760)
+void Wolfy_30::sub_541760()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_10_type_or_state != 18 && field_10_type_or_state != 32)
+    {
+        if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
+        {
+            Particle_4C* pNew = gParticle_4C_Pool_6FD5E4->Allocate();
+            pNew->field_46_sub_state = 0;
+            pNew->field_38_state = 29;
+            pNew->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew->field_30_pNext->SetType_4206F0(8);
+            pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 37);
+            pNew->field_30_pNext->set_xyz_lazy_420600(field_14->field_4->field_14_xy.x,
+                                                      field_14->field_4->field_14_xy.y,
+                                                      field_14->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+            pNew->field_48_timer = 10;
+        }
+    }
 }
 
 STUB_FUNC(0x541850)
