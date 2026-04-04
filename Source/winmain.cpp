@@ -7,6 +7,7 @@
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "NetPlay.hpp"
+#include "Particle_4C.hpp"
 #include "debug.hpp"
 #include "dma_video.hpp"
 #include "error.hpp"
@@ -19,7 +20,6 @@
 #include "resource.h"
 #include "root_sound.hpp"
 #include "sharp_bose_0x54.hpp"
-#include "Particle_4C.hpp"
 #include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>

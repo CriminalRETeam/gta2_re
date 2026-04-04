@@ -245,7 +245,7 @@ WIP_FUNC(0x513560)
 void __stdcall Bink::OpenSlot1_513560(const char_type* pFileName, HDIGDRIVER a2)
 {
     WIP_IMPLEMENTED;
-    
+
     BinkSetSoundSystem((void*)BinkOpenMiles, (s32)a2);
     BinkSetIOSize(600000);
 
