@@ -8191,7 +8191,7 @@ void Ped::set_wanted_star_count_46F070(u8 star_count)
 }
 
 MATCH_FUNC(0x46f100)
-s32 Ped::sub_46F100(u8 a2)
+bool Ped::WantedStartCountLessThan_46F100(u8 a2)
 {
     return a2 < get_wanted_star_count_46EF00();
 }

@@ -3442,10 +3442,25 @@ void miss2_0x11C::sub_50BA30() // Clear wanted level
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ba70)
+MATCH_FUNC(0x50ba70)
 void miss2_0x11C::sub_50BA70()
 {
-    NOT_IMPLEMENTED;
+    SCR_CMD_ALTER_WANTED_LEVEL* kGlobal = (SCR_CMD_ALTER_WANTED_LEVEL*)gBasePtr_6F8070;
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+
+    if (gBasePtr_6F8070->field_2_type == SCRCMD_ALTER_WANTED_LEVEL)
+    {
+        if (!pCmd->field_8_char->WantedStartCountLessThan_46F100(kGlobal->field_C_wanted_level))
+        {
+            pCmd->field_8_char->set_wanted_star_count_46F070(kGlobal->field_C_wanted_level);
+        }
+    }
+    else
+    {
+        pCmd->field_8_char->set_wanted_star_count_46F070(kGlobal->field_C_wanted_level);
+    }
+
+    Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50bad0)

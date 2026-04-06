@@ -209,7 +209,7 @@ class Ped
     EXPORT u8 get_wanted_star_count_46EF00();
     EXPORT void set_wanted_level_46EF40(u16 wanted);
     EXPORT void set_wanted_star_count_46F070(u8 star_count);
-    EXPORT s32 sub_46F100(u8 a2);
+    EXPORT bool WantedStartCountLessThan_46F100(u8 a2);
     EXPORT Weapon_30* GetWeaponFromPed_46F110();
     EXPORT void sub_46F1E0(Weapon_30* a2);
     EXPORT void ManageWeapon_46F390();
