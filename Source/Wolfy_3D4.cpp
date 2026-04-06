@@ -6,6 +6,7 @@
 #include "PurpleDoom.hpp"
 #include "debug.hpp"
 #include "rng.hpp"
+#include "Game_0x40.hpp"
 
 DEFINE_GLOBAL(Wolfy_7A8*, gWolfy_7A8_6FD5F0, 0x6FD5F0);
 DEFINE_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC, 0x6FD5EC);
@@ -13,7 +14,7 @@ DEFINE_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC, 0x6FD5EC);
 EXTERN_GLOBAL(u16, gParticleInstCount_6FD5F4);
 
 DEFINE_GLOBAL(Fix16, dword_6FD49C, 0x6FD49C);
-DEFINE_GLOBAL(s16, word_6FD5D4, 0x6FD5D4);
+DEFINE_GLOBAL(Ang16, word_6FD5D4, 0x6FD5D4);
 
 DEFINE_GLOBAL(Ang16, word_6FD3EE, 0x6FD3EE);
 DEFINE_GLOBAL(Fix16, dword_6FD330, 0x6FD330);
@@ -32,12 +33,15 @@ EXTERN_GLOBAL(Fix16, stru_6FD38C);
 DEFINE_GLOBAL(Fix16, dword_6FD370, 0x6FD370);
 DEFINE_GLOBAL(Fix16, dword_6FD2EC, 0x6FD2EC);
 DEFINE_GLOBAL(Fix16, dword_6FD448, 0x6FD448);
+DEFINE_GLOBAL(Fix16, dword_6FD540, 0x6FD540);
+DEFINE_GLOBAL(Fix16, dword_6FD484, 0x6FD484);
+DEFINE_GLOBAL(u8, unk_6FD5F6, 0x6FD5F6);
 
 WIP_FUNC(0x543690)
 void Wolfy_7A8::sub_543690()
 {
     WIP_IMPLEMENTED;
-    
+
     u8 currentVal1 = 0;
     u8 next_idx = 0;
     u8 smallestVal = 99;
@@ -413,7 +417,7 @@ void Wolfy_30::sub_541760()
 }
 
 STUB_FUNC(0x541850)
-void Wolfy_30::sub_541850(u16 a2)
+void Wolfy_30::TimerAfter50Handler_541850(u16 a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -475,24 +479,123 @@ void Wolfy_30::state_18_33_541D60()
 }
 
 STUB_FUNC(0x542060)
-char_type Wolfy_30::sub_542060()
+char_type Wolfy_30::state_19_32_542060()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x542340)
-char_type Wolfy_30::sub_542340()
+char_type Wolfy_30::state_20_542340()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x542790)
-s16 Wolfy_30::state_18_19_20_32_33_542790()
+WIP_FUNC(0x542790)
+void Wolfy_30::state_18_19_20_32_33_542790()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    bool isOnScreen = true;
+    if (this->field_1A < 90u)
+    {
+        isOnScreen = gGame_0x40_67E008->is_point_on_screen_4B9A80(this->field_14->field_4->field_14_xy.x,
+                                                                  this->field_14->field_4->field_14_xy.y);
+    }
+
+    unk_6FD5F6 = 0;
+    if (isOnScreen)
+    {
+        switch (this->field_10_type_or_state)
+        {
+            case 18:
+            case 33:
+                state_18_33_541D60();
+                break;
+            case 19:
+            case 32:
+                state_19_32_542060();
+                unk_6FD5F6 = 1;
+                break;
+            case 20:
+                state_20_542340();
+                unk_6FD5F6 = 1;
+                break;
+            default:
+                break;
+        }
+
+        switch (this->field_1A)
+        {
+            case 59:
+            case 69:
+            case 79:
+            case 89:
+            {
+                Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(113, 145, 2, word_6FD5D4, 5, field_2C_ped_id);
+                if (pExplosion)
+                {
+                    Object_2C* v8 = gObject_5C_6F8F84->NewUnknown_52A240(127,
+                                                                         field_14->field_4->field_14_xy.x,
+                                                                         field_14->field_4->field_14_xy.y,
+                                                                         field_14->field_4->field_1C_zpos,
+                                                                         this->field_22,
+                                                                         word_6FD5D4,
+                                                                         dword_6FD484,
+                                                                         -dword_6FD540,
+                                                                         dword_6FD2F0);
+                    v8->field_4->DispatchCollisionEvent_5A3100(pExplosion->field_4, 0, 0, word_6FD5D4);
+
+                    Object_2C* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
+                    v8->field_4->DispatchCollisionEvent_5A3100(pLight->field_4, 0, 0, word_6FD5D4);
+                }
+                break;
+            }
+
+            default:
+                break;
+        }
+    }
+
+    if (this->field_1A <= 0x1Eu)
+    {
+        if (this->field_24 > dword_6FD448)
+        {
+            this->field_24 = dword_6FD448;
+        }
+        this->field_24 -= (dword_6FD540 / dword_6FD4A4);
+    }
+    else
+    {
+        Fix16 v21 = (dword_6FD448 * dword_6FD4A4);
+        if (this->field_24 > v21)
+        {
+            this->field_24 = v21;
+        }
+        this->field_24 += (dword_6FD540 / dword_6FD4A4);
+    }
+
+    if (this->field_1A > 50u)
+    {
+        TimerAfter50Handler_541850(this->field_1A);
+    }
+
+    if (this->field_1A == 99)
+    {
+        // TODO: Arg order correct?
+        gGame_0x40_67E008->sub_4B9790(8, this->field_14->field_4->field_14_xy.x, this->field_14->field_4->field_14_xy.y);
+    }
+
+    if (this->field_1A != 9999)
+    {
+        this->field_1A--;
+    }
+
+    if (this->field_1A > 9999u)
+    {
+        this->field_1A = 1;
+    }
 }
 
 STUB_FUNC(0x542e30)

@@ -11425,7 +11425,7 @@
         "v105_address": "0x541760"
     },
     {
-        "name": "sub_541850",
+        "name": "TimerAfter50Handler_541850",
         "v96f_address": null,
         "v105_address": "0x541850"
     },
@@ -11435,12 +11435,12 @@
         "v105_address": "0x541d60"
     },
     {
-        "name": "sub_542060",
+        "name": "state_19_32_542060",
         "v96f_address": null,
         "v105_address": "0x542060"
     },
     {
-        "name": "sub_542340",
+        "name": "state_20_542340",
         "v96f_address": null,
         "v105_address": "0x542340"
     },

@@ -20,11 +20,11 @@ class Wolfy_30
     EXPORT Fix16* sub_541680(Fix16* a2);
     EXPORT Fix16 sub_541710();
     EXPORT void sub_541760();
-    EXPORT void sub_541850(u16 a2);
+    EXPORT void TimerAfter50Handler_541850(u16 a2);
     EXPORT void state_18_33_541D60();
-    EXPORT char_type sub_542060();
-    EXPORT char_type sub_542340();
-    EXPORT s16 state_18_19_20_32_33_542790();
+    EXPORT char_type state_19_32_542060();
+    EXPORT char_type state_20_542340();
+    EXPORT void state_18_19_20_32_33_542790();
     EXPORT void state_22_23_24_25_542E30(char_type a2);
     EXPORT char_type Update_5434A0(Fix16 a2, Ang16 a3);
     EXPORT char_type IsState_5435D0();
@@ -44,7 +44,7 @@ class Wolfy_30
     s16 field_18;
     u16 field_1A;
     Sprite* field_1C;
-    s16 field_20;
+    Ang16 field_20;
     Ang16 field_22;
     Fix16 field_24;
     Fix16 field_28;
