@@ -33,11 +33,84 @@ DEFINE_GLOBAL(Fix16, dword_6FD370, 0x6FD370);
 DEFINE_GLOBAL(Fix16, dword_6FD2EC, 0x6FD2EC);
 DEFINE_GLOBAL(Fix16, dword_6FD448, 0x6FD448);
 
-STUB_FUNC(0x543690)
-s32 Wolfy_7A8::sub_543690()
+WIP_FUNC(0x543690)
+void Wolfy_7A8::sub_543690()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    
+    u8 currentVal1 = 0;
+    u8 next_idx = 0;
+    u8 smallestVal = 99;
+    u8 smallestVal_idx = 99;
+    u8 last_idx = 0;
+    do
+    {
+        if (this->field_780_bUsed[last_idx] == 1)
+        {
+            Wolfy_30* pObj = &this->field_0[last_idx];
+            switch (pObj->field_10_type_or_state)
+            {
+                case 2:
+                case 3:
+                case 4:
+                case 21:
+                case 31:
+                case 34:
+                    goto update_smallest;
+                case 5:
+                case 28:
+                case 29:
+                case 30:
+                    currentVal1 = 2;
+                    goto update_smallest;
+                case 12:
+                case 14:
+                case 15:
+                    currentVal1 = 5;
+                    goto update_smallest;
+                case 13:
+                    currentVal1 = 4;
+                    goto update_smallest;
+                case 16:
+                case 17:
+                    currentVal1 = 6;
+                    goto update_smallest;
+                case 18:
+                case 33:
+                    if (pObj->field_1A < 82u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    goto update_smallest;
+                case 19:
+                case 20:
+                case 32:
+                    if (pObj->field_1A < 50u)
+                    {
+                        goto set_cur_to_3;
+                    }
+                    goto update_smallest;
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                set_cur_to_3:
+                    currentVal1 = 3;
+                update_smallest:
+                    if (currentVal1 < smallestVal)
+                    {
+                        smallestVal = currentVal1;
+                        smallestVal_idx = next_idx;
+                    }
+                    break;
+                default:
+                    this->field_0[last_idx].field_1A = 0;
+                    return;
+            }
+        }
+        last_idx = ++next_idx;
+    } while (next_idx < 40u);
+    this->field_0[smallestVal_idx].field_1A = 0;
 }
 
 WIP_FUNC(0x543800)
@@ -375,7 +448,7 @@ void Wolfy_30::state_18_33_541D60()
             else
             {
                 Fix16 radius = (this->field_24 * Fix16(stru_6F6784.get_int_4F7AE0(8)));
-                
+
                 this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
 
                 Ang16::PolarToCartesian_41FC20(field_22, radius, stru_6FD388, stru_6FD38C);
@@ -385,10 +458,10 @@ void Wolfy_30::state_18_33_541D60()
                 // NOTE: This proves these 2 vars are not a Fix16_Point
                 stru_6FD388 += this->field_14->field_4->field_14_xy.x;
                 stru_6FD38C += this->field_14->field_4->field_14_xy.y;
-                
+
                 Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
                 pNew4C->field_46_sub_state = 0;
-                pNew4C->field_38_state = 18;                
+                pNew4C->field_38_state = 18;
                 pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
                 pNew4C->field_30_pNext->SetType_4206F0(8);
                 pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();

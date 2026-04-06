@@ -54,7 +54,7 @@ class Wolfy_30
 class Wolfy_7A8
 {
   public:
-    EXPORT s32 sub_543690();
+    EXPORT void sub_543690();
     EXPORT Wolfy_30* New_40_543800();
     EXPORT Wolfy_7A8();
     EXPORT ~Wolfy_7A8();
