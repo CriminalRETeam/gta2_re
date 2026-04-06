@@ -151,7 +151,8 @@ struct SCR_POINTER : SCR_CMD_HEADER
 
 struct SCR_CMD_ALTER_WANTED_LEVEL : SCR_CMD_HEADER
 {
-    miss2_0x11C* field_8_ped;
+    u8 pad1;
+    u8 pad2;
     u8 field_C_wanted_level;
 };
 
