@@ -21,7 +21,7 @@ class Wolfy_30
     EXPORT Fix16 sub_541710();
     EXPORT void sub_541760();
     EXPORT void sub_541850(u16 a2);
-    EXPORT char_type sub_541D60();
+    EXPORT void state_18_33_541D60();
     EXPORT char_type sub_542060();
     EXPORT char_type sub_542340();
     EXPORT s16 state_18_19_20_32_33_542790();
@@ -42,10 +42,10 @@ class Wolfy_30
     s32 field_10_type_or_state;
     Object_2C* field_14;
     s16 field_18;
-    s16 field_1A;
+    u16 field_1A;
     Sprite* field_1C;
     s16 field_20;
-    s16 field_22;
+    Ang16 field_22;
     Fix16 field_24;
     Fix16 field_28;
     s32 field_2C_ped_id;

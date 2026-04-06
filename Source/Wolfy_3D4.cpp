@@ -26,7 +26,12 @@ EXTERN_GLOBAL(Fix16, dword_6FD39C);
 EXTERN_GLOBAL(Fix16, dword_6FD4A0);
 EXTERN_GLOBAL(Fix16, dword_6FD4A4);
 
+EXTERN_GLOBAL(Fix16, stru_6FD388);
+EXTERN_GLOBAL(Fix16, stru_6FD38C);
+
 DEFINE_GLOBAL(Fix16, dword_6FD370, 0x6FD370);
+DEFINE_GLOBAL(Fix16, dword_6FD2EC, 0x6FD2EC);
+DEFINE_GLOBAL(Fix16, dword_6FD448, 0x6FD448);
 
 STUB_FUNC(0x543690)
 s32 Wolfy_7A8::sub_543690()
@@ -237,7 +242,6 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
     else
     {
         field_18--;
-        
     }
 }
 
@@ -341,11 +345,60 @@ void Wolfy_30::sub_541850(u16 a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x541d60)
-char_type Wolfy_30::sub_541D60()
+// 9.6f 0x48EB00
+WIP_FUNC(0x541d60)
+void Wolfy_30::state_18_33_541D60()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
+    {
+        if ((u16)field_1A > 0x52u)
+        {
+            if ((u16)field_1A <= 0x5Au)
+            {
+                stru_6FD388 = this->field_14->field_4->field_14_xy.x;
+                stru_6FD38C = this->field_14->field_4->field_14_xy.y;
+
+                Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+                pNew4C->field_46_sub_state = 0;
+                pNew4C->field_38_state = 18;
+                pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+                pNew4C->field_30_pNext->SetType_4206F0(8);
+                pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+                pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 20);
+                pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+                pNew4C->field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD2EC, 0);
+                pNew4C->field_48_timer = 5;
+            }
+            else
+            {
+                Fix16 radius = (this->field_24 * Fix16(stru_6F6784.get_int_4F7AE0(8)));
+                
+                this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
+
+                Ang16::PolarToCartesian_41FC20(field_22, radius, stru_6FD388, stru_6FD38C);
+                //stru_6FD388 = (radius * gSin_table_667A80[field_22.rValue]);
+                //stru_6FD38C = (radius * gCos_table_669260[field_22.rValue]);
+
+                // NOTE: This proves these 2 vars are not a Fix16_Point
+                stru_6FD388 += this->field_14->field_4->field_14_xy.x;
+                stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+                
+                Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+                pNew4C->field_46_sub_state = 0;
+                pNew4C->field_38_state = 18;                
+                pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+                pNew4C->field_30_pNext->SetType_4206F0(8);
+                pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+                pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 20);
+                pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+                pNew4C->field_48_timer = 1;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x542060)
