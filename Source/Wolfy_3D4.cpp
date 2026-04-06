@@ -1,4 +1,5 @@
 #include "Wolfy_3D4.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "Particle_4C.hpp"
@@ -6,7 +7,6 @@
 #include "PurpleDoom.hpp"
 #include "debug.hpp"
 #include "rng.hpp"
-#include "Game_0x40.hpp"
 
 DEFINE_GLOBAL(Wolfy_7A8*, gWolfy_7A8_6FD5F0, 0x6FD5F0);
 DEFINE_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC, 0x6FD5EC);
@@ -500,8 +500,10 @@ void Wolfy_30::state_18_19_20_32_33_542790()
     bool isOnScreen = true;
     if (this->field_1A < 90u)
     {
-        isOnScreen = gGame_0x40_67E008->is_point_on_screen_4B9A80(this->field_14->field_4->field_14_xy.x,
-                                                                  this->field_14->field_4->field_14_xy.y);
+        if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(this->field_14->field_4->field_14_xy.x, this->field_14->field_4->field_14_xy.y))
+        {
+            isOnScreen = false;
+        }
     }
 
     unk_6FD5F6 = 0;
@@ -536,7 +538,7 @@ void Wolfy_30::state_18_19_20_32_33_542790()
                 Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(113, 145, 2, word_6FD5D4, 5, field_2C_ped_id);
                 if (pExplosion)
                 {
-                    Object_2C* v8 = gObject_5C_6F8F84->NewUnknown_52A240(127,
+                    Object_2C* pBlast = gObject_5C_6F8F84->NewUnknown_52A240(127,
                                                                          field_14->field_4->field_14_xy.x,
                                                                          field_14->field_4->field_14_xy.y,
                                                                          field_14->field_4->field_1C_zpos,
@@ -545,10 +547,10 @@ void Wolfy_30::state_18_19_20_32_33_542790()
                                                                          dword_6FD484,
                                                                          -dword_6FD540,
                                                                          dword_6FD2F0);
-                    v8->field_4->DispatchCollisionEvent_5A3100(pExplosion->field_4, 0, 0, word_6FD5D4);
+                    pBlast->field_4->DispatchCollisionEvent_5A3100(pExplosion->field_4, 0, 0, word_6FD5D4);
 
                     Object_2C* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
-                    v8->field_4->DispatchCollisionEvent_5A3100(pLight->field_4, 0, 0, word_6FD5D4);
+                    pBlast->field_4->DispatchCollisionEvent_5A3100(pLight->field_4, 0, 0, word_6FD5D4);
                 }
                 break;
             }
@@ -558,15 +560,7 @@ void Wolfy_30::state_18_19_20_32_33_542790()
         }
     }
 
-    if (this->field_1A <= 0x1Eu)
-    {
-        if (this->field_24 > dword_6FD448)
-        {
-            this->field_24 = dword_6FD448;
-        }
-        this->field_24 -= (dword_6FD540 / dword_6FD4A4);
-    }
-    else
+    if (this->field_1A > 0x1Eu)
     {
         Fix16 v21 = (dword_6FD448 * dword_6FD4A4);
         if (this->field_24 > v21)
@@ -574,6 +568,16 @@ void Wolfy_30::state_18_19_20_32_33_542790()
             this->field_24 = v21;
         }
         this->field_24 += (dword_6FD540 / dword_6FD4A4);
+
+    }
+    else
+    {
+        if (this->field_24 > dword_6FD448)
+        {
+            this->field_24 = dword_6FD448;
+        }
+        this->field_24 -= (dword_6FD540 / dword_6FD4A4);
+
     }
 
     if (this->field_1A > 50u)
