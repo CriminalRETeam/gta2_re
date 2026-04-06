@@ -192,10 +192,53 @@ void Wolfy_30::state_3_12_540D30(Fix16 a3, Ang16 a2)
     }
 }
 
-STUB_FUNC(0x540f90)
-void Wolfy_30::state_4_540F90(Fix16 a2, Ang16 a3)
+// 9.6f 0x48E5F0
+WIP_FUNC(0x540f90)
+void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point point(0, 0);
+
+    point.x = pos;
+    point.y = pos;
+
+    point.RotateByAngle_40F6B0(ang + word_6FD3EE);
+
+    this->field_8 = pos;
+    this->field_C = ang;
+
+    if (field_18 == 0)
+    {
+        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
+        if (!pNew)
+        {
+            return;
+        }
+
+        pNew->field_40_pUnknown = this;
+        pNew->field_20 = pos;
+        pNew->field_24 = ang;
+        pNew->field_34 = 0;
+        pNew->field_46_sub_state = 0;
+        pNew->field_2C_counter = 32;
+        pNew->field_2E = 32;
+        pNew->field_30_pNext->SetType_4206F0(8);
+        pNew->field_38_state = 4;
+        pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4);
+        pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+        pNew->field_30_pNext->set_xyz_lazy_420600(field_14->field_4->field_14_xy.x,
+                                                  field_14->field_4->field_14_xy.y,
+                                                  field_14->field_4->field_1C_zpos);
+
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+        field_18 = stru_6F6784.get_int_4F7AE0(2);
+    }
+    else
+    {
+        field_18--;
+        
+    }
 }
 
 STUB_FUNC(0x5411e0)
@@ -333,7 +376,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
 }
 
 WIP_FUNC(0x5434a0)
-char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 a3)
+char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 ang)
 {
     WIP_IMPLEMENTED;
 
@@ -359,20 +402,20 @@ char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 a3)
             {
                 case 3:
                 case 12:
-                    Wolfy_30::state_3_12_540D30(a2, a3);
+                    Wolfy_30::state_3_12_540D30(a2, ang);
                     result = 0;
                     break;
                 case 4:
-                    Wolfy_30::state_4_540F90(a2, a3);
+                    Wolfy_30::state_4_540F90(ang, a2);
                     result = 0;
                     break;
                 case 5:
-                    Wolfy_30::state_5_541430(a2, a3);
+                    Wolfy_30::state_5_541430(a2, ang);
                     result = 0;
                     break;
                 case 13:
                 case 14:
-                    Wolfy_30::state_13_14_5411E0(a2, a3);
+                    Wolfy_30::state_13_14_5411E0(a2, ang);
                     result = 0;
                     break;
                 case 18:

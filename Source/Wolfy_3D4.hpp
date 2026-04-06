@@ -14,7 +14,7 @@ class Wolfy_30
     EXPORT ~Wolfy_30();
     EXPORT void sub_540A40();
     EXPORT void state_3_12_540D30(Fix16 a2, Ang16 a3);
-    EXPORT void state_4_540F90(Fix16 a2, Ang16 a3);
+    EXPORT void state_4_540F90(Ang16 a3, Fix16 a2);
     EXPORT void state_13_14_5411E0(Fix16 a2, Ang16 a3);
     EXPORT void state_5_541430(Fix16 a2, Ang16 a3);
     EXPORT Fix16* sub_541680(Fix16* a2);
