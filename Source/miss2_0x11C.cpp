@@ -1,5 +1,5 @@
 // Force inline off
-#define INLINE_MODE inline
+//#define INLINE_MODE inline
 #include "miss2_0x11c.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -433,10 +433,10 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             rotation.Normalize();
 
             Trailer* pTrailer = gCar_6C_677930->SpawnCabAndTrailer_446530(pCmd->field_C_pos.field_0_x,
-                                                           pCmd->field_C_pos.field_4_y,
-                                                           rotation,
-                                                           pCmd->field_1C_car_id,
-                                                           pCmd->field_1E_trailer_id);
+                                                                          pCmd->field_C_pos.field_4_y,
+                                                                          rotation,
+                                                                          pCmd->field_1C_car_id,
+                                                                          pCmd->field_1E_trailer_id);
             if (pTrailer != NULL)
             {
                 pPointer->field_8_car = pTrailer->field_8_truck_cab;
@@ -1775,8 +1775,8 @@ void miss2_0x11C::sub_507110()
 {
     u8 operation_type = miss2_0x11C::sub_506BC0(gBasePtr_6F8070->field_2_type);
     SCR_OPERATE_INT_AND_COUNTER* pCmd = (SCR_OPERATE_INT_AND_COUNTER*)gBasePtr_6F8070;
-    SCR_POINTER* pOperand =
-        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type); // pCmd->field_A_counter_idx
+    SCR_POINTER* pOperand = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+        ((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type); // pCmd->field_A_counter_idx
 
     switch (operation_type)
     {
@@ -2024,7 +2024,8 @@ MATCH_FUNC(0x508550)
 void miss2_0x11C::sub_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_ARROW2
 {
     SCR_LEVEL_END_ARROW2* v1 = (SCR_LEVEL_END_ARROW2*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CMD_HEADER*)gBasePtr_6F8070)[2].field_4_cmd_next);
+    SCR_POINTER* pPointer =
+        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CMD_HEADER*)gBasePtr_6F8070)[2].field_4_cmd_next);
     if (pPointer->field_8_arrow == NULL)
     {
         pPointer->field_8_arrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
@@ -2049,7 +2050,8 @@ void miss2_0x11C::sub_5086F0() // SCRCMD_POINT_ARROW_AT
 {
     WIP_IMPLEMENTED;
     SCR_POINT_ARROW_AT* pCmd = (SCR_POINT_ARROW_AT*)gBasePtr_6F8070;
-    SCR_POINTER* pArrowPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_4_cmd_next);
+    SCR_POINTER* pArrowPtr =
+        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_4_cmd_next);
     SCR_ARROW_ENTITY* pEntityPtr = (SCR_ARROW_ENTITY*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_target_entity_idx);
 
     if (pArrowPtr->field_8_arrow == NULL)
@@ -2057,8 +2059,8 @@ void miss2_0x11C::sub_5086F0() // SCRCMD_POINT_ARROW_AT
         pArrowPtr->field_8_arrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
     }
 
-    Ped* pPed;
-    Player* pPlayer;
+    //Ped* pPed;
+    //Player* pPlayer;
 
     switch (miss2_0x11C::sub_503410(pEntityPtr->field_2_type))
     {
@@ -2794,8 +2796,7 @@ void miss2_0x11C::sub_50A460()
     SCR_POINTER* pCmd;
 
     v1 = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
-    pCmd =
-        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index); //  TODO: fix gBasePtr_6F8070 type
+    pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index); //  TODO: fix gBasePtr_6F8070 type
     miss2_0x11C::sub_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, pCmd);
 
     SCR_POINTER* v4 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_C_car_idx);
@@ -2948,7 +2949,7 @@ MATCH_FUNC(0x50a980)
 void miss2_0x11C::sub_50A980() //  DELAY
 {
     s16 param_1 = gBasePtr_6F8070->field_8_index;
-    SCR_CMD_HEADER* v2 = ((SCR_CMD_HEADER*)gBasePtr_6F8070)  + 1; //  TODO: remove this hack
+    SCR_CMD_HEADER* v2 = ((SCR_CMD_HEADER*)gBasePtr_6F8070) + 1; //  TODO: remove this hack
 
     if (param_1 == -1)
     {
@@ -3506,10 +3507,33 @@ void miss2_0x11C::SCRCMD_SET_MIN_ALIVE_50BCD0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50bd10)
+WIP_FUNC(0x50bd10)
 void miss2_0x11C::sub_50BD10()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pNextCmd =
+        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_index);
+    Ped* pPed = pCmd->field_8_char;
+    PedGroup* pGroup = pPed->field_164_ped_group;
+    switch (gBasePtr_6F8070->field_2_type)
+    {
+        case SCRCMD_ADD_CHAR_TO_GROUP:
+            pGroup->add_ped_to_end_of_list_4C8F90(pNextCmd->field_8_char);
+            break;
+
+        case SCRCMD_REMOVE_char_type:
+            pGroup->RemovePed_4C9970(pNextCmd->field_8_char);
+            Next_503620(gBasePtr_6F8070);
+            return;
+
+        case SCRCMD_MAKE_LEADER:
+            pNextCmd->field_8_char->sub_4702D0(pCmd->field_8_char);
+            Next_503620(gBasePtr_6F8070);
+            return;
+    }
+    Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50bdc0)
