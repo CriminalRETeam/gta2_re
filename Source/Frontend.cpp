@@ -276,35 +276,24 @@ TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0}, {"data\\fro
         {"data\\frontend\\DemoInfo.tga ", 614939, 0}};
 */
 
-DEFINE_GLOBAL_ARRAY_INIT(TgaInfo,
-                         tgaArray_61F0C8,
-                         25,
-                         0x61F0C8,
-                         {"data\\frontend\\1.tga"             COMMA 347564 COMMA 0} COMMA
-                         {"data\\frontend\\1_Options.tga"     COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\1_Play.tga"        COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\1_Quit.tga"        COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\2.tga"             COMMA 347564 COMMA 0} COMMA
-                         {"data\\frontend\\2_Bonus1.tga"      COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\2_Bonus2.tga"      COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\2_Bonus3.tga"      COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\2_League.tga"      COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\2_Level1.tga"      COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\2_Level2.tga"      COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\2_Level3.tga"      COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\2_Name.tga"        COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\2_Restart.tga"     COMMA 266924 COMMA 0} COMMA
-                         {"data\\frontend\\3.tga"             COMMA 347564 COMMA 0} COMMA
-                         {"data\\frontend\\3_Tables.tga"      COMMA 614444 COMMA 0} COMMA
-                         {"data\\frontend\\GameComplete.tga"  COMMA 614444 COMMA 0} COMMA
-                         {"data\\frontend\\LevelComplete.tga" COMMA 614444 COMMA 0} COMMA
-                         {"data\\frontend\\MPLose.tga"        COMMA 614444 COMMA 0} COMMA
-                         {"data\\frontend\\PlayerDead.tga"    COMMA 614444 COMMA 0} COMMA
-                         {"data\\frontend\\Mask.tga"          COMMA 104300 COMMA 0} COMMA
-                         {"data\\frontend\\Mask2.tga"         COMMA 53594  COMMA 0} COMMA
-                         {"data\\frontend\\Credits.tga"       COMMA 614444 COMMA 0} COMMA
-                         {"data\\frontend\\Mask3.tga"         COMMA 130427 COMMA 0} COMMA
-                         {"data\\frontend\\DemoInfo.tga"      COMMA 614939 COMMA 0});
+DEFINE_GLOBAL_ARRAY_INIT(
+    TgaInfo,
+    tgaArray_61F0C8,
+    25,
+    0x61F0C8,
+    {"data\\frontend\\1.tga" COMMA 347564 COMMA 0} COMMA {"data\\frontend\\1_Options.tga" COMMA 266924 COMMA 0} COMMA {
+        "data\\frontend\\1_Play.tga" COMMA 266924 COMMA 0} COMMA {"data\\frontend\\1_Quit.tga" COMMA 266924 COMMA 0} COMMA {
+        "data\\frontend\\2.tga" COMMA 347564 COMMA 0} COMMA {"data\\frontend\\2_Bonus1.tga" COMMA 266924 COMMA 0} COMMA {
+        "data\\frontend\\2_Bonus2.tga" COMMA 266924 COMMA 0} COMMA {"data\\frontend\\2_Bonus3.tga" COMMA 266924 COMMA 0} COMMA {
+        "data\\frontend\\2_League.tga" COMMA 266924 COMMA 0} COMMA {"data\\frontend\\2_Level1.tga" COMMA 266924 COMMA 0} COMMA {
+        "data\\frontend\\2_Level2.tga" COMMA 266924 COMMA 0} COMMA {"data\\frontend\\2_Level3.tga" COMMA 266924 COMMA 0} COMMA {
+        "data\\frontend\\2_Name.tga" COMMA 266924 COMMA 0} COMMA {"data\\frontend\\2_Restart.tga" COMMA 266924 COMMA 0} COMMA {
+        "data\\frontend\\3.tga" COMMA 347564 COMMA 0} COMMA {"data\\frontend\\3_Tables.tga" COMMA 614444 COMMA 0} COMMA {
+        "data\\frontend\\GameComplete.tga" COMMA 614444 COMMA 0} COMMA {"data\\frontend\\LevelComplete.tga" COMMA 614444 COMMA 0} COMMA {
+        "data\\frontend\\MPLose.tga" COMMA 614444 COMMA 0} COMMA {"data\\frontend\\PlayerDead.tga" COMMA 614444 COMMA 0} COMMA {
+        "data\\frontend\\Mask.tga" COMMA 104300 COMMA 0} COMMA {"data\\frontend\\Mask2.tga" COMMA 53594 COMMA 0} COMMA {
+        "data\\frontend\\Credits.tga" COMMA 614444 COMMA 0} COMMA {"data\\frontend\\Mask3.tga" COMMA 130427 COMMA 0} COMMA {
+        "data\\frontend\\DemoInfo.tga" COMMA 614939 COMMA 0});
 
 STUB_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
@@ -371,8 +360,8 @@ void __stdcall Frontend::destroy_4AD070()
         GTA2_DELETE_AND_NULL(gFrontend_67DC84);
     }
 
-    Bink::Close1_513340();
-    Bink::Close2_513390();
+    Bink::CloseSlot1_513340();
+    Bink::CloseSlot2_513390();
 }
 
 WIP_FUNC(0x4B3170)
@@ -803,13 +792,13 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             {
                 field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
                 v44 = gFrontend_67DC84->pre_intro_bik_4B5F20();
-                Bink::sub_513560(v44, field_0_hDriver);
+                Bink::OpenSlot1_513560(v44, field_0_hDriver);
             }
             else
             {
                 v50 = gSampManager_6FFF00.field_0_hDriver;
                 v45 = gFrontend_67DC84->intro_bik_4B5E50();
-                Bink::sub_5133E0(v45, v50);
+                Bink::OpenSlot2_5133E0(v45, v50);
             }
             break;
 
@@ -908,21 +897,21 @@ s32 Frontend::sub_4AEDB0()
     local_field_132_f136_idx = field_132_f136_idx;
     if (local_field_132_f136_idx == MENUPAGE_PLAY_INTRO)
     {
-        if (Bink::sub_513240())
+        if (Bink::TickFrame_513240())
         {
-            if (Bink::sub_513790() == 1)
+            if (Bink::GetActiveSlot_513790() == 1)
             {
-                Bink::sub_5137A0(2);
+                Bink::SetActiveSlot_5137A0(2);
                 local_field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
-                Bink::sub_5133E0(gFrontend_67DC84->intro_bik_4B5E50(), local_field_0_hDriver);
-                Bink::Close1_513340();
-                Bink::sub_5137A0(2);
-                Bink::sub_5137B0(2);
+                Bink::OpenSlot2_5133E0(gFrontend_67DC84->intro_bik_4B5E50(), local_field_0_hDriver);
+                Bink::CloseSlot1_513340();
+                Bink::SetActiveSlot_5137A0(2);
+                Bink::SetDDState_5137B0(2);
             }
             else
             {
-                Bink::Close1_513340();
-                Bink::Close2_513390();
+                Bink::CloseSlot1_513340();
+                Bink::CloseSlot2_513390();
                 if (bIsFrench_67D53C)
                 {
                     sub_4B8680();
@@ -940,8 +929,8 @@ s32 Frontend::sub_4AEDB0()
         {
             if ((*local_field_8_keys & 0x80u) != 0)
             {
-                Bink::Close1_513340();
-                Bink::Close2_513390();
+                Bink::CloseSlot1_513340();
+                Bink::CloseSlot2_513390();
                 if (bIsFrench_67D53C)
                 {
                     sub_4B8680();
@@ -4208,7 +4197,7 @@ WIP_FUNC(0x4B7800)
 u8 Frontend::GetPrevUnlockedStageBonusCode_4B7800(player_stats_0xA4* pStats)
 {
     WIP_IMPLEMENTED;
-    
+
     u8 stage_; // al
     u8 bonus; // dl
     u8 bonus_; // di
