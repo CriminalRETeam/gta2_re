@@ -568,7 +568,12 @@ class Ped
     {
         return this->field_20e;
     }
-    
+
+    PedGroup* GetGroup_475AF0()
+    {
+        return this->field_164_ped_group;
+    }
+
     Marz_3 field_0_patrol_points[100];
     Ang16 field_12C;
     Ang16 field_12E;

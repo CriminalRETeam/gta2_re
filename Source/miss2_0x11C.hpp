@@ -138,6 +138,11 @@ struct SCR_POINTER : SCR_CMD_HEADER
         Crusher_30* field_8_crusher;
         s32 field_8_counter;
         u16 field_8_index;
+        union
+        {
+            u16 field_6;
+            u16 field_8;
+        } words;
         Generator_2C* field_8_generator;
         Hud_Arrow_7C* field_8_arrow;
         Sprite_18* field_8_sprite;

@@ -3507,20 +3507,23 @@ void miss2_0x11C::SCRCMD_SET_MIN_ALIVE_50BCD0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
+// 9.6f 0x47BAC0
 WIP_FUNC(0x50bd10)
 void miss2_0x11C::sub_50BD10()
 {
     WIP_IMPLEMENTED;
-    
+
+    SCR_POINTER* pGlobal = gBasePtr_6F8070;
+
     SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pNextCmd =
-        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_index);
-    Ped* pPed = pCmd->field_8_char;
-    PedGroup* pGroup = pPed->field_164_ped_group;
+    SCR_POINTER* pNextCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pGlobal->field_8_index);
+
+    PedGroup* pGroup = pCmd->field_8_char->GetGroup_475AF0();
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_ADD_CHAR_TO_GROUP:
             pGroup->add_ped_to_end_of_list_4C8F90(pNextCmd->field_8_char);
+
             break;
 
         case SCRCMD_REMOVE_char_type:
