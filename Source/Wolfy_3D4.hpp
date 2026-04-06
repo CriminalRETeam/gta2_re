@@ -14,17 +14,17 @@ class Wolfy_30
     EXPORT ~Wolfy_30();
     EXPORT void sub_540A40();
     EXPORT void state_3_12_540D30(Fix16 a2, Ang16 a3);
-    EXPORT void state_4_540F90(Fix16 a2, Ang16 a3);
+    EXPORT void state_4_540F90(Ang16 a3, Fix16 a2);
     EXPORT void state_13_14_5411E0(Fix16 a2, Ang16 a3);
     EXPORT void state_5_541430(Fix16 a2, Ang16 a3);
     EXPORT Fix16* sub_541680(Fix16* a2);
     EXPORT Fix16 sub_541710();
     EXPORT void sub_541760();
-    EXPORT void sub_541850(u16 a2);
-    EXPORT char_type sub_541D60();
-    EXPORT char_type sub_542060();
-    EXPORT char_type sub_542340();
-    EXPORT s16 state_18_19_20_32_33_542790();
+    EXPORT void TimerAfter50Handler_541850(u16 a2);
+    EXPORT void state_18_33_541D60();
+    EXPORT char_type state_19_32_542060();
+    EXPORT char_type state_20_542340();
+    EXPORT void state_18_19_20_32_33_542790();
     EXPORT void state_22_23_24_25_542E30(char_type a2);
     EXPORT char_type Update_5434A0(Fix16 a2, Ang16 a3);
     EXPORT char_type IsState_5435D0();
@@ -42,10 +42,10 @@ class Wolfy_30
     s32 field_10_type_or_state;
     Object_2C* field_14;
     s16 field_18;
-    s16 field_1A;
+    u16 field_1A;
     Sprite* field_1C;
-    s16 field_20;
-    s16 field_22;
+    Ang16 field_20;
+    Ang16 field_22;
     Fix16 field_24;
     Fix16 field_28;
     s32 field_2C_ped_id;
@@ -54,7 +54,7 @@ class Wolfy_30
 class Wolfy_7A8
 {
   public:
-    EXPORT s32 sub_543690();
+    EXPORT void sub_543690();
     EXPORT Wolfy_30* New_40_543800();
     EXPORT Wolfy_7A8();
     EXPORT ~Wolfy_7A8();
