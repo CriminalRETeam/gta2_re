@@ -138,10 +138,22 @@ struct SCR_POINTER : SCR_CMD_HEADER
         Crusher_30* field_8_crusher;
         s32 field_8_counter;
         u16 field_8_index;
+        union
+        {
+            u16 field_6;
+            u16 field_8;
+        } words;
         Generator_2C* field_8_generator;
         Hud_Arrow_7C* field_8_arrow;
         Sprite_18* field_8_sprite;
     };
+};
+
+struct SCR_CMD_ALTER_WANTED_LEVEL : SCR_CMD_HEADER
+{
+    u8 pad1;
+    u8 pad2;
+    u8 field_C_wanted_level;
 };
 
 struct SCR_THREAD : SCR_CMD_HEADER
