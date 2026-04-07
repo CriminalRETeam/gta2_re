@@ -7,6 +7,10 @@
 #include "PurpleDoom.hpp"
 #include "debug.hpp"
 #include "rng.hpp"
+#include "Car_BC.hpp"
+#include "Varrok_7F8.hpp"
+#include "Char_Pool.hpp"
+#include "Player.hpp"
 
 DEFINE_GLOBAL(Wolfy_7A8*, gWolfy_7A8_6FD5F0, 0x6FD5F0);
 DEFINE_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC, 0x6FD5EC);
@@ -36,6 +40,13 @@ DEFINE_GLOBAL(Fix16, dword_6FD448, 0x6FD448);
 DEFINE_GLOBAL(Fix16, dword_6FD540, 0x6FD540);
 DEFINE_GLOBAL(Fix16, dword_6FD484, 0x6FD484);
 DEFINE_GLOBAL(u8, unk_6FD5F6, 0x6FD5F6);
+
+DEFINE_GLOBAL(Fix16_Point, stru_6FD570, 0x6FD570);
+DEFINE_GLOBAL(Fix16, dword_6FD2F4, 0x6FD2F4);
+
+EXTERN_GLOBAL(Fix16, dword_6FD2E8);
+EXTERN_GLOBAL(Fix16, dword_6FD46C);
+
 
 WIP_FUNC(0x543690)
 void Wolfy_7A8::sub_543690()
@@ -416,10 +427,188 @@ void Wolfy_30::sub_541760()
     }
 }
 
-STUB_FUNC(0x541850)
-void Wolfy_30::TimerAfter50Handler_541850(u16 a2)
+WIP_FUNC(0x541850)
+void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    struct_4 collision_list;
+
+    Fix16 zoff = Wolfy_30::sub_541710();
+
+    Fix16 f28;
+    Wolfy_30::sub_541680(&f28);
+
+    this->field_28 = f28;
+
+    Fix16 v4 = (field_28 * dword_6FD4A4);
+
+    Sprite* v5 = this->field_14->field_4;
+    Fix16 new_bottom = v4 + v5->field_14_xy.y;
+    Fix16 new_left = v4 - v5->field_14_xy.x;
+    Fix16 new_right = v4 + v5->field_14_xy.x;
+    Fix16 new_top = v4 - v5->field_14_xy.y;
+
+    Fix16 zm = v5->field_1C_zpos - zoff;
+    Fix16 zp = v5->field_1C_zpos + zoff;
+
+    //v55 = zm;
+    //v56 = zp;
+
+    if (this->field_1A == 99 && unk_6FD5F6 == 1)
+    {
+        sub_541760();
+        //zp = v56;
+        //zm = v55;
+    }
+
+    Fix16_Rect rect;
+    rect.field_14_high_z = zp;
+    rect.field_10_low_z = zm;
+    rect.field_0_left = new_left;
+    rect.field_4_right = new_right;
+    rect.field_8_top = new_top;
+    rect.field_C_bottom = new_bottom;
+
+    if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, field_14->field_4, &collision_list))
+    {
+        while (collision_list.field_0_p18)
+        {
+            Sprite* pCollisionSprite = collision_list.PopFrontSprite_5A6DA0();
+            Char_B4* pB4 = pCollisionSprite->AsCharB4_40FEA0();
+            if (pB4)
+            {
+                if (timerVal > 50u && pB4->field_8_ped_state_1 != ped_state_1::immobilized_8)
+                {
+                    Ped* pPed = pB4->field_7C_pPed;
+                    s32 ped_id = gVarrok_7F8_703398->field_0[this->field_14->field_26_varrok_idx].field_0_ped_id;
+                    if (ped_id)
+                    {
+                        pPed->field_204_killer_id = ped_id;
+                    }
+                    else
+                    {
+                        pPed->field_204_killer_id = this->field_2C_ped_id;
+                    }
+                    pB4->field_7C_pPed->field_290 = 4;
+                    pB4->field_7C_pPed->field_264 = 50;
+
+                    Fix16 pMaybeY_FP16 = pCollisionSprite->field_14_xy.x - this->field_14->field_4->field_14_xy.x;
+                    Fix16 pMaybeX_FP16 = pCollisionSprite->field_14_xy.y - this->field_14->field_4->field_14_xy.y;
+
+                    Ang16 ang = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
+
+                    Fix16 xd_abs = field_14->field_4->field_14_xy.x - pCollisionSprite->field_14_xy.x;
+                    Fix16 yd_abs = field_14->field_4->field_14_xy.y - pCollisionSprite->field_14_xy.y;
+
+                    Fix16 v48 = Fix16::Abs_436A50(yd_abs);
+                    Fix16 v27 = Fix16::Abs_436A50(xd_abs);
+
+                    Fix16 cur_max = Fix16::Max_44E540(v27, v48);
+                    if (cur_max <= this->field_28)
+                    {
+                        char_type a5;
+                        Fix16 v30;
+                        if (cur_max >= (dword_6FD39C * this->field_28))
+                        {
+                            v30 = dword_6FD2E8;
+                            a5 = 1;
+                        }
+                        else
+                        {
+                            v30 = dword_6FD2F4;
+                            a5 = 2;
+                        }
+                        pB4->HandleGenericImpact_553E00(ang, dword_6FD484, v30, a5);
+                    }
+                    else if (timerVal < 70u)
+                    {
+                        pB4->HandleGenericImpact_553E00(ang, dword_6FD2E8 + dword_6FD46C, dword_6FD49C, 0);
+                    }
+                }
+            }
+            else
+            {
+                Car_BC* pCar = pCollisionSprite->AsCar_40FEB0();
+                if (pCar)
+                {
+                    if ((timerVal <= 50u || timerVal >= 60u) && (timerVal <= 80u || timerVal >= 90u))
+                    {
+                        if (timerVal == 99)
+                        {
+                            Sprite* v41 = this->field_14->field_4;
+
+                            Fix16 xd__1 = v41->field_14_xy.x - pCollisionSprite->field_14_xy.x;
+                            Fix16 yd__1 = v41->field_14_xy.y - pCollisionSprite->field_14_xy.y;
+
+                            Fix16 v55 = Fix16::Abs(yd__1);
+                            Fix16 v56 = Fix16::Abs(xd__1);
+
+                            if (Fix16::Max_44E540(v56, v55) <= this->field_28)
+                            {
+                                Fix16_Point tmp = this->field_14->field_4->get_x_y_443580();
+                                pCar->sub_443710(&tmp);
+                            }
+                        }
+                    }
+                    else if (pCar->field_74_damage != 32001)
+                    {
+                        if (!pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type_or_state))
+                        {
+                            Sprite* v33 = this->field_14->field_4;
+                            Fix16 xd_ = v33->field_14_xy.x - pCollisionSprite->field_14_xy.x;
+                            Fix16 yd_ = v33->field_14_xy.y - pCollisionSprite->field_14_xy.y;
+       
+                            Fix16 v53 = Fix16::Abs(xd_);
+                            Fix16 v36 = Fix16::Abs(yd_);
+
+                            if (Fix16::Max_44E540(v36, v53) > this->field_28)
+                            {
+                                pCar->ApplyVisualDamage_43A9F0();
+                            }
+                            else
+                            {
+                                s32 ped_id_ = gVarrok_7F8_703398->field_0[this->field_14->field_26_varrok_idx].field_0_ped_id;
+                                if (ped_id_)
+                                {
+                                    pCar->field_70_exploder_ped_id = ped_id_;
+                                }
+                                else
+                                {
+                                    pCar->field_70_exploder_ped_id = this->field_2C_ped_id;
+                                }
+                                pCar->field_90 = 4;
+                                pCar->field_94 = 50;
+                                s16 damage = pCar->AccumulateDamage_43DA90(32000, &stru_6FD570);
+                                if (pCar->field_70_exploder_ped_id)
+                                {
+                                    if (damage > 0)
+                                    {
+                                        Ped* pPed_ = gPedManager_6787BC->PedById(pCar->field_70_exploder_ped_id);
+                                        if (pPed_)
+                                        {
+                                            if (pPed_->IsField238_45EDE0(2))
+                                            {
+                                                pPed_->field_15C_player->field_2D4_scores.sub_593150(pCar, 1);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Object_2C* o2C = pCollisionSprite->As2C_40FEC0();
+                    if (timerVal > 50u && timerVal < 60u)
+                    {
+                        o2C->sub_525190(this->field_14->field_26_varrok_idx);
+                    }
+                }
+            }
+        }
+    }
 }
 
 // 9.6f 0x48EB00
@@ -539,14 +728,14 @@ void Wolfy_30::state_18_19_20_32_33_542790()
                 if (pExplosion)
                 {
                     Object_2C* pBlast = gObject_5C_6F8F84->NewUnknown_52A240(127,
-                                                                         field_14->field_4->field_14_xy.x,
-                                                                         field_14->field_4->field_14_xy.y,
-                                                                         field_14->field_4->field_1C_zpos,
-                                                                         this->field_22,
-                                                                         word_6FD5D4,
-                                                                         dword_6FD484,
-                                                                         -dword_6FD540,
-                                                                         dword_6FD2F0);
+                                                                             field_14->field_4->field_14_xy.x,
+                                                                             field_14->field_4->field_14_xy.y,
+                                                                             field_14->field_4->field_1C_zpos,
+                                                                             this->field_22,
+                                                                             word_6FD5D4,
+                                                                             dword_6FD484,
+                                                                             -dword_6FD540,
+                                                                             dword_6FD2F0);
                     pBlast->field_4->DispatchCollisionEvent_5A3100(pExplosion->field_4, 0, 0, word_6FD5D4);
 
                     Object_2C* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
@@ -568,7 +757,6 @@ void Wolfy_30::state_18_19_20_32_33_542790()
             this->field_24 = v21;
         }
         this->field_24 += (dword_6FD540 / dword_6FD4A4);
-
     }
     else
     {
@@ -577,7 +765,6 @@ void Wolfy_30::state_18_19_20_32_33_542790()
             this->field_24 = dword_6FD448;
         }
         this->field_24 -= (dword_6FD540 / dword_6FD4A4);
-
     }
 
     if (this->field_1A > 50u)
