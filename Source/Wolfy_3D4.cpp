@@ -1,16 +1,16 @@
 #include "Wolfy_3D4.hpp"
+#include "Car_BC.hpp"
+#include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "Particle_4C.hpp"
 #include "Particle_8.hpp"
+#include "Player.hpp"
 #include "PurpleDoom.hpp"
+#include "Varrok_7F8.hpp"
 #include "debug.hpp"
 #include "rng.hpp"
-#include "Car_BC.hpp"
-#include "Varrok_7F8.hpp"
-#include "Char_Pool.hpp"
-#include "Player.hpp"
 
 DEFINE_GLOBAL(Wolfy_7A8*, gWolfy_7A8_6FD5F0, 0x6FD5F0);
 DEFINE_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC, 0x6FD5EC);
@@ -46,7 +46,6 @@ DEFINE_GLOBAL(Fix16, dword_6FD2F4, 0x6FD2F4);
 
 EXTERN_GLOBAL(Fix16, dword_6FD2E8);
 EXTERN_GLOBAL(Fix16, dword_6FD46C);
-
 
 WIP_FUNC(0x543690)
 void Wolfy_7A8::sub_543690()
@@ -333,10 +332,57 @@ void Wolfy_30::state_13_14_5411E0(Fix16 a2, Ang16 a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x541430)
-void Wolfy_30::state_5_541430(Fix16 a2, Ang16 a3)
+WIP_FUNC(0x541430)
+void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 xpos = pos;
+    Fix16 ypos = pos;
+    Ang16 ang_idx = ang + word_6FD3EE;
+    Fix16 oldx = xpos;
+    Fix16 sin_v = gSin_table_667A80[ang_idx.rValue];
+    Fix16 cos_v = gCos_table_669260[ang_idx.rValue];
+    xpos = ((xpos * cos_v) + (ypos * sin_v));
+    ypos = ((-oldx * sin_v) + (ypos * cos_v));
+
+    this->field_8 = pos;
+    this->field_C = ang;
+
+    if (field_14->sub_5290F0() == dword_6FD49C && this->field_1A == 9999)
+    {
+        this->field_1A = 20;
+    }
+
+    if (this->field_18)
+    {
+        this->field_18--;
+    }
+    else
+    {
+        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(xpos, ypos, dword_6FD330, xpos, ypos, 0);
+        if (pNew)
+        {
+            pNew->field_40_pUnknown = this;
+            pNew->field_20 = pos;
+            pNew->field_44 = field_6_id;
+            pNew->field_24 = ang;
+            pNew->field_34 = 0;
+            pNew->field_46_sub_state = 0;
+            pNew->field_2C_counter = 32;
+            pNew->field_2E = 32;
+            pNew->field_30_pNext->SetType_4206F0(8);
+            pNew->field_38_state = 5;
+            pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 96);
+            pNew->field_30_pNext->set_xyz_lazy_420600(field_14->field_4->field_14_xy.x,
+                                                      field_14->field_4->field_14_xy.y,
+                                                      field_14->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+            this->field_18 = stru_6F6784.get_int_4F7AE0(2);
+            pNew->field_30_pNext->field_2C = 0xA2;
+            pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+        }
+    }
 }
 
 WIP_FUNC(0x541680)
@@ -552,7 +598,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                             Sprite* v33 = this->field_14->field_4;
                             Fix16 xd_ = v33->field_14_xy.x - pCollisionSprite->field_14_xy.x;
                             Fix16 yd_ = v33->field_14_xy.y - pCollisionSprite->field_14_xy.y;
-       
+
                             Fix16 v53 = Fix16::Abs(xd_);
                             Fix16 v36 = Fix16::Abs(yd_);
 
@@ -824,7 +870,7 @@ char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 ang)
                     result = 0;
                     break;
                 case 5:
-                    Wolfy_30::state_5_541430(a2, ang);
+                    Wolfy_30::state_5_541430(ang, a2);
                     result = 0;
                     break;
                 case 13:
