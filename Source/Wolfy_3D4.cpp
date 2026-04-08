@@ -226,12 +226,6 @@ Wolfy_30::~Wolfy_30()
     field_1C = 0;
 }
 
-STUB_FUNC(0x540a40)
-void Wolfy_30::sub_540A40()
-{
-    NOT_IMPLEMENTED;
-}
-
 WIP_FUNC(0x540d30)
 void Wolfy_30::state_3_12_540D30(Fix16 a3, Ang16 a2)
 {
