@@ -41,6 +41,14 @@ DEFINE_GLOBAL(Fix16, dword_6FD540, 0x6FD540);
 DEFINE_GLOBAL(Fix16, dword_6FD484, 0x6FD484);
 DEFINE_GLOBAL(u8, unk_6FD5F6, 0x6FD5F6);
 
+DEFINE_GLOBAL(Fix16, dword_6FD548, 0x6FD548);
+DEFINE_GLOBAL(Fix16, dword_6FD4C0, 0x6FD4C0);
+DEFINE_GLOBAL(Ang16, dword_6FD350, 0x6FD350);
+DEFINE_GLOBAL(Ang16, dword_6FD40C, 0x6FD40C);
+DEFINE_GLOBAL(Ang16, dword_6FD418, 0x6FD418);
+DEFINE_GLOBAL(Ang16, dword_6FD3E0, 0x6FD3E0);
+DEFINE_GLOBAL(Ang16, dword_6FD35C, 0x6FD35C);
+
 DEFINE_GLOBAL(Fix16_Point, stru_6FD570, 0x6FD570);
 DEFINE_GLOBAL(Fix16, dword_6FD2F4, 0x6FD2F4);
 
@@ -829,10 +837,145 @@ void Wolfy_30::state_18_19_20_32_33_542790()
     }
 }
 
-STUB_FUNC(0x542e30)
+WIP_FUNC(0x542e30)
 void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Sprite* p2CSprite = this->field_14->field_4;
+    if (p2CSprite->field_14_xy.x < Fix16(0x3F8000, 0) && p2CSprite->field_14_xy.x > dword_6FD4A0 &&
+        p2CSprite->field_14_xy.y < Fix16(0x3F8000, 0) && p2CSprite->field_14_xy.y > dword_6FD4A0)
+    {
+        unk_6FD5F6 = 0;
+        u8 v42 = 0;
+        while (!gParticle_4C_Pool_6FD5E4->field_0_pStart)
+        {
+        LABEL_27:
+            if ((u8)++v42 >= 2u)
+            {
+                if (this->field_1A == 99)
+                {
+                    gGame_0x40_67E008->sub_4B9790(8, field_14->field_4->field_14_xy.x, field_14->field_4->field_14_xy.y);
+                }
+
+                if (this->field_1A > 50u)
+                {
+                    TimerAfter50Handler_541850(this->field_1A);
+                }
+
+                if (this->field_1A != 9999)
+                {
+                    if (this->field_1A > 60u)
+                    {
+                        this->field_1A--;
+                    }
+
+                    if (this->field_1A > 9999u)
+                    {
+                        this->field_1A = 1;
+                    }
+                }
+                return;
+            }
+        }
+
+        Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+        pNew4C->field_46_sub_state = 0;
+
+        switch (a2)
+        {
+            case 0:
+            {
+                pNew4C->field_38_state = 24;
+                Ang16 v47 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(45))));
+                Ang16 v48 = dword_6FD40C + dword_6FD350;
+                Ang16 v43 = v48 + v47;
+                this->field_22 = v43;
+
+                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
+                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+
+                stru_6FD388 += this->field_14->field_4->field_14_xy.x;
+                stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+                break;
+            }
+
+            case 1:
+            {
+                pNew4C->field_38_state = 25;
+                Ang16 v49 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(90))));
+                Ang16 v50 = dword_6FD350 + dword_6FD418;
+                Ang16 v44 = v50 + v49;
+                this->field_22 = v44;
+                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
+                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+
+                stru_6FD388 += this->field_14->field_4->field_14_xy.x;
+                stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+                break;
+            }
+
+            case 2:
+            {
+                pNew4C->field_38_state = 23;
+                Ang16 v51 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(90))));
+                Ang16 v52 = dword_6FD350 + dword_6FD3E0;
+                Ang16 v54 = v52 + v51;
+                this->field_22 = v54;
+
+                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
+                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+
+                stru_6FD388 += this->field_14->field_4->field_14_xy.x;
+                stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+                break;
+            }
+
+            case 3:
+            {
+                pNew4C->field_38_state = 22;
+                Ang16 v54 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(90))));
+                Ang16 v58 = dword_6FD350 + dword_6FD35C;
+                Ang16 v12 = v58 + v54;
+                this->field_22 = v12;
+                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
+                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+
+                stru_6FD388 += this->field_14->field_4->field_14_xy.x;
+                stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+                break;
+            }
+
+            default:
+                break;
+        }
+
+        pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+        pNew4C->field_30_pNext->SetType_4206F0(8);
+        pNew4C->field_48_timer = 0;
+        pNew4C->field_46_sub_state = 0;
+        pNew4C->field_24 = this->field_22;
+
+        if (this->field_1A <= 29u)
+        {
+            v42 = 4;
+        }
+
+        pNew4C->field_20 = (dword_6FD548 * Fix16(stru_6F6784.get_int_4F7AE0(field_1A)));
+        pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 40);
+
+        if (field_14->field_4->field_1C_zpos + dword_6FD4A0 < dword_6FD4C0)
+        {
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos + dword_6FD4A0);
+        }
+        else
+        {
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+        }
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+        pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+        goto LABEL_27;
+    }
 }
 
 WIP_FUNC(0x5434a0)
