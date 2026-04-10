@@ -21,7 +21,7 @@ class Wolfy_30
     EXPORT void sub_541760();
     EXPORT void TimerAfter50Handler_541850(u16 a2);
     EXPORT void state_18_33_541D60();
-    EXPORT char_type state_19_32_542060();
+    EXPORT void state_19_32_542060();
     EXPORT char_type state_20_542340();
     EXPORT void state_18_19_20_32_33_542790();
     EXPORT void state_22_23_24_25_542E30(char_type a2);

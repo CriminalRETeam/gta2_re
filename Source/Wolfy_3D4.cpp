@@ -715,11 +715,54 @@ void Wolfy_30::state_18_33_541D60()
     }
 }
 
-STUB_FUNC(0x542060)
-char_type Wolfy_30::state_19_32_542060()
+WIP_FUNC(0x542060)
+void Wolfy_30::state_19_32_542060()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
+    {
+        if (this->field_1A <= 8u)
+        {
+            stru_6FD388 = this->field_14->field_4->field_14_xy.x;
+            stru_6FD38C = this->field_14->field_4->field_14_xy.y;
+
+            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+            pNew4C->field_46_sub_state = 0;
+            pNew4C->field_38_state = 19;
+            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 20);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            pNew4C->field_48_timer = 5;
+        }
+        else
+        {
+            Fix16 v24 = (this->field_24 * Fix16(stru_6F6784.get_int_4F7AE0(48)));
+            this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
+
+            stru_6FD388 = (v24 * gSin_table_667A80[this->field_22.rValue]);
+            stru_6FD38C = (v24 * gCos_table_669260[this->field_22.rValue]);
+
+            stru_6FD388 += this->field_14->field_4->field_14_xy.x;
+            stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+
+            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+            pNew4C->field_46_sub_state = 0;
+            pNew4C->field_38_state = 19;
+            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_40_pUnknown = this;
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 20);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, this->field_14->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            pNew4C->field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD39C + dword_6FD4A0, 0);
+            pNew4C->field_48_timer = 1;
+        }
+    }
 }
 
 STUB_FUNC(0x542340)
