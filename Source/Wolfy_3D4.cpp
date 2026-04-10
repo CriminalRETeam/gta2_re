@@ -334,10 +334,53 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
     }
 }
 
-STUB_FUNC(0x5411e0)
-void Wolfy_30::state_13_14_5411E0(Fix16 a2, Ang16 a3)
+WIP_FUNC(0x5411e0)
+void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ang16 new_ang = ang + word_6FD3EE;
+    Fix16 xpos = pos;
+    Fix16 ypos = pos;
+
+    Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
+    Fix16 cos_v = gCos_table_669260[new_ang.rValue];
+
+    xpos = ((xpos * cos_v) + (pos * sin_v));
+    ypos = ((-pos * sin_v) + (ypos * cos_v));
+
+    this->field_8 = pos;
+    this->field_C = ang;
+
+    if (this->field_18)
+    {
+        this->field_18--;
+    }
+    else
+    {
+        //pos = (int)&v27; // TODO: Field_20 wrong val ??
+        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(xpos, ypos, dword_6FD330, xpos, ypos, 0);
+        if (!pNew)
+        {
+            return;
+        }
+
+        pNew->field_40_pUnknown = this;
+        pNew->field_20 = pos;
+        pNew->field_44 = this->field_6_id;
+        pNew->field_24 = ang;
+        pNew->field_34 = 0;
+        pNew->field_46_sub_state = 0;
+        pNew->field_2C_counter = 32;
+        pNew->field_2E = 32;
+        pNew->field_30_pNext->SetType_4206F0(8);
+        pNew->field_38_state = 36;
+        pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4);
+        pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+        pNew->field_30_pNext->set_xyz_lazy_420600(field_14->field_4->field_14_xy.x, field_14->field_4->field_14_xy.y, field_14->field_4->field_1C_zpos);
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+        this->field_18 = stru_6F6784.get_int_4F7AE0(2);
+    }
 }
 
 WIP_FUNC(0x541430)
@@ -715,18 +758,102 @@ void Wolfy_30::state_18_33_541D60()
     }
 }
 
-STUB_FUNC(0x542060)
-char_type Wolfy_30::state_19_32_542060()
+WIP_FUNC(0x542060)
+void Wolfy_30::state_19_32_542060()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
+    {
+        if (this->field_1A <= 8u)
+        {
+            stru_6FD388 = this->field_14->field_4->field_14_xy.x;
+            stru_6FD38C = this->field_14->field_4->field_14_xy.y;
+
+            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+            pNew4C->field_46_sub_state = 0;
+            pNew4C->field_38_state = 19;
+            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 20);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            pNew4C->field_48_timer = 5;
+        }
+        else
+        {
+            Fix16 v24 = (this->field_24 * Fix16(stru_6F6784.get_int_4F7AE0(48)));
+            this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
+
+            stru_6FD388 = (v24 * gSin_table_667A80[this->field_22.rValue]);
+            stru_6FD38C = (v24 * gCos_table_669260[this->field_22.rValue]);
+
+            stru_6FD388 += this->field_14->field_4->field_14_xy.x;
+            stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+
+            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+            pNew4C->field_46_sub_state = 0;
+            pNew4C->field_38_state = 19;
+            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_40_pUnknown = this;
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 20);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, this->field_14->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            pNew4C->field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD39C + dword_6FD4A0, 0);
+            pNew4C->field_48_timer = 1;
+        }
+    }
 }
 
-STUB_FUNC(0x542340)
-char_type Wolfy_30::state_20_542340()
+WIP_FUNC(0x542340)
+void Wolfy_30::state_20_542340()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
+    {
+        if (this->field_1A <= 8u)
+        {
+            stru_6FD388 = this->field_14->field_4->field_14_xy.x;
+            stru_6FD38C = this->field_14->field_4->field_14_xy.y;
+
+            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+            pNew4C->field_46_sub_state = 0;
+            pNew4C->field_38_state = 20;
+            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 56);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            pNew4C->field_48_timer = 5;
+        }
+        else
+        {
+            Fix16 v24 = (this->field_24 * Fix16(stru_6F6784.get_int_4F7AE0(80)));
+            this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
+
+            stru_6FD388 = (v24 * gSin_table_667A80[this->field_22.rValue]);
+            stru_6FD38C = (v24 * gCos_table_669260[this->field_22.rValue]);
+
+            stru_6FD388 += this->field_14->field_4->field_14_xy.x;
+            stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+
+            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+            pNew4C->field_46_sub_state = 0;
+            pNew4C->field_38_state = 20;
+            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 56);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            pNew4C->field_48_timer = 1;
+        }
+    }
 }
 
 WIP_FUNC(0x542790)
@@ -1018,7 +1145,7 @@ char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 ang)
                     break;
                 case 13:
                 case 14:
-                    Wolfy_30::state_13_14_5411E0(a2, ang);
+                    Wolfy_30::state_13_14_5411E0(ang, a2);
                     result = 0;
                     break;
                 case 18:

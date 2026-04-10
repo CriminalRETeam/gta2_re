@@ -14,15 +14,15 @@ class Wolfy_30
     EXPORT ~Wolfy_30();
     EXPORT void state_3_12_540D30(Fix16 a2, Ang16 a3);
     EXPORT void state_4_540F90(Ang16 a3, Fix16 a2);
-    EXPORT void state_13_14_5411E0(Fix16 a2, Ang16 a3);
+    EXPORT void state_13_14_5411E0(Ang16 a3, Fix16 a2);
     EXPORT void state_5_541430(Ang16 ang, Fix16 pos);
     EXPORT Fix16* sub_541680(Fix16* a2);
     EXPORT Fix16 sub_541710();
     EXPORT void sub_541760();
     EXPORT void TimerAfter50Handler_541850(u16 a2);
     EXPORT void state_18_33_541D60();
-    EXPORT char_type state_19_32_542060();
-    EXPORT char_type state_20_542340();
+    EXPORT void state_19_32_542060();
+    EXPORT void state_20_542340();
     EXPORT void state_18_19_20_32_33_542790();
     EXPORT void state_22_23_24_25_542E30(char_type a2);
     EXPORT char_type Update_5434A0(Fix16 a2, Ang16 a3);
