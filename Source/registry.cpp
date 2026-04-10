@@ -419,30 +419,22 @@ char_type Registry::CreateNetworkRoot_587420(PHKEY phkResult)
     return 1;
 }
 
-STUB_FUNC(0x5874E0)
+WIP_FUNC(0x5874E0)
 DWORD Registry::Get_Int_Setting_5874E0(HKEY hKey, const char_type* lpValueName)
 {
-    NOT_IMPLEMENTED;
-    u32 valueData;
+    WIP_IMPLEMENTED;
 
-    DWORD cbData = sizeof(DWORD);
-    DWORD dataType;
-    u32 ret;
-    u32 err = RegQueryValueExA(hKey, lpValueName, 0, &dataType, reinterpret_cast<BYTE*>(&valueData), &cbData);
-    if (err == ERROR_SUCCESS)
+    // First 13 instructions match.
+    // WIP because I can't solve the last bit,
+    // this function always ends up branchless unlike the original.
+    DWORD cbData = 4;
+
+    if (RegQueryValueExA(hKey, lpValueName, 0, (LPDWORD)&hKey, (LPBYTE)&lpValueName, &cbData) == ERROR_SUCCESS)
     {
-        // the f64 return is removed without the printf, ran out of ideas to try
-        printf("meh");
-        return (int)valueData;
+        return (DWORD)lpValueName;
     }
-    else
-    {
-        ret = 0;
-        err = 0;
-        valueData = 99;
-        cbData = 0;
-        return ret;
-    }
+
+    return 0;
 }
 
 MATCH_FUNC(0x587690)
