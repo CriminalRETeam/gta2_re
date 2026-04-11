@@ -1341,7 +1341,7 @@ void CC ImGuiDebugDraw()
                     pNewCar->HandleCarExplosion_43D840(unknown_arg);
                 }
 
-                ImGui::Value("Car F_88", pNewCar->field_88);
+                ImGui::InputInt("Car F_88", &pNewCar->field_88, 1, 1);
             }
             ImGui::TreePop();
         }
