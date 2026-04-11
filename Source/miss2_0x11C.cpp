@@ -687,7 +687,7 @@ void miss2_0x11C::SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER
 MATCH_FUNC(0x5045d0)
 void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2)
 {
-    SCR_THREAD_DECLARE* pCmd = (SCR_THREAD_DECLARE*)a1;
+    SCR_THREAD* pCmd = (SCR_THREAD*)a1;
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12);
     
@@ -713,7 +713,7 @@ void miss2_0x11C::sub_504710(s32 a1)
 MATCH_FUNC(0x5047c0)
 void miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16* a2)
 {
-    SCR_THREAD_DECLARE* pCmd = (SCR_THREAD_DECLARE*)a1;
+    SCR_THREAD* pCmd = (SCR_THREAD*)a1;
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12);
 

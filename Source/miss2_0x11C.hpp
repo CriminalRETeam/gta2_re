@@ -161,10 +161,6 @@ struct SCR_THREAD : SCR_CMD_HEADER
     miss2_0x11C* field_8_script_thread;
     s16 field_C_unknown;
     u16 field_E;
-};
-
-struct SCR_THREAD_DECLARE : SCR_THREAD
-{
     u16 field_10;
     u16 field_12;
 };
