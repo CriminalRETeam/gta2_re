@@ -435,10 +435,20 @@ class Map_0x370
 
     bool IsBlockPavementType_42A8C0(u8 x, u8 y, u8 z)
     {
-        gmp_block_info* pBlock = get_block_42A850(x, y, z);
+        gmp_block_info* pBlock = get_block_452980(x, y, z);
         if (pBlock && (pBlock->field_B_slope_type & 3) == PAVEMENT)
         {
             return true;
+        }
+        return false;
+    }
+
+    inline bool IsBlockPavementTypeInlined_433530(u8 x, u8 y, u8 z)
+    {
+        gmp_block_info* pBlock = get_block_42A850(x, y, z);
+        if (pBlock)
+        {
+            return (pBlock->field_B_slope_type & 3) == PAVEMENT;
         }
         return false;
     }
