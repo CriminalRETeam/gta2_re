@@ -16,6 +16,7 @@ EXTERN_GLOBAL(Fix16, dword_678620);
 EXTERN_GLOBAL(Fix16, dword_6FD7F8);
 EXTERN_GLOBAL(Fix16, dword_6FD800);
 EXTERN_GLOBAL(Fix16, dword_6FD7FC);
+EXTERN_GLOBAL(Fix16, dword_6784BC);
 
 EXTERN_GLOBAL(Ang16, word_6FD940);
 EXTERN_GLOBAL(Ang16, word_6FD8F8);
@@ -138,22 +139,38 @@ class Char_B4
         return field_80_sprite_ptr->field_1C_zpos;
     }
 
-    inline void sub_433970(Fix16 a1)
+    inline void RegulateVelocity_433970(Fix16 threshold)
     {
-        if (field_38_velocity < a1)
+        if (field_38_velocity < threshold)
         {
             field_38_velocity += dword_678620;
         }
-        else
+        else if (field_38_velocity > threshold)
         {
-            if (field_38_velocity > a1)
-            {
-                field_38_velocity -= dword_678620;
-            }
+            field_38_velocity -= dword_678620;
+        }
+    }
+
+    // strange, the same 9.6f func but Ped::ChaseTargetStateMachine_46B170 only matches if it pass by ref
+    inline void RegulateVelocityByRef_433970(Fix16& threshold)
+    {
+        if (field_38_velocity < threshold)
+        {
+            field_38_velocity += dword_678620;
+        }
+        else if (field_38_velocity > threshold)
+        {
+            field_38_velocity -= dword_678620;
         }
     }
 
     inline void SetMaxSpeed_433920(Fix16 max_speed)
+    {
+        field_38_velocity = max_speed;
+    }
+
+    // strange, the same 9.6f func but Ped::ChaseTargetStateMachine_46B170 only matches if it pass by ref
+    inline void SetMaxSpeedByRef_433920(Fix16& max_speed)
     {
         field_38_velocity = max_speed;
     }
@@ -187,6 +204,21 @@ class Char_B4
         field_40_rotation += word_6FD8F8;
         field_10_char_state = 8;
         field_46_timer = 10;
+    }
+
+    inline s32 GetCharState_433A80()
+    {
+        return field_10_char_state;
+    }
+
+    inline void IncreaseSpeedIfAllowed_433940()
+    {
+        field_38_velocity += dword_6784BC;
+        
+        if (field_38_velocity > field_3C_run_or_jump_speed)
+        {
+            field_38_velocity = field_3C_run_or_jump_speed;
+        }
     }
 
     Char_B4();

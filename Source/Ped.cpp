@@ -41,7 +41,7 @@
 DEFINE_GLOBAL_INIT(s8, byte_61A8A3, 1, 0x61A8A3);
 DEFINE_GLOBAL_INIT(Ang16, word_6FDB34, Ang16(0), 0x6FDB34);
 DEFINE_GLOBAL_INIT(Ang16, gDummyPedAng_6787A8, Ang16(0), 0x6787A8);
-DEFINE_GLOBAL_INIT(s32, dword_67866C, 0xC000, 0x67866C); // TODO: Fix16? Static init to, 0xC000, 0xUNKNOWN);
+DEFINE_GLOBAL_INIT(Fix16, dword_67866C, Fix16(0xC000, 0), 0x67866C); // TODO: Fix16? Static init to, 0xC000, 0xUNKNOWN);
 DEFINE_GLOBAL_INIT(s32, gPedId_61A89C, 0x7, 0x61A89C);
 DEFINE_GLOBAL_INIT(u8, gNumberMuggersSpawned_6787CA, 0, 0x6787CA);
 DEFINE_GLOBAL_INIT(u8, gNumberCarThiefsSpawned_6787CB, 0, 0x6787CB);
@@ -110,6 +110,8 @@ DEFINE_GLOBAL(u8, byte_6787CE, 0x6787CE);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A0, Fix16(0x3333, 0), 0x6784A0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784BC, dword_6784C4 / dword_678668, 0x6784BC);
+DEFINE_GLOBAL_INIT(Fix16, dword_678444, dword_67866C * dword_6784C4, 0x678444);
+DEFINE_GLOBAL_INIT(Fix16, dword_678784, dword_6784C4 * 20, 0x678784);
 
 DEFINE_GLOBAL_INIT(Ang16, word_6784C8, Ang16(40), 0x6784C8);
 DEFINE_GLOBAL_INIT(Ang16, dword_6784E4, Ang16(64), 0x6784E4);
@@ -6164,7 +6166,7 @@ void Ped::PatrolOnFoot_468C70()
                     field_1D4 = k_dword_67853C + Fix16(field_194->field_1);
                     field_1D8 = Fix16(field_194->field_2);
                 }
-                field_168_game_object->sub_433970(field_1F4);
+                field_168_game_object->RegulateVelocity_433970(field_1F4);
             }
         }
         else if (field_21C_bf.b2 == false)
@@ -6174,7 +6176,7 @@ void Ped::PatrolOnFoot_468C70()
             field_1D0 = k_dword_67853C + Fix16(field_194->field_0);
             field_1D4 = k_dword_67853C + Fix16(field_194->field_1);
             field_1D8 = Fix16(field_194->field_2);
-            field_168_game_object->sub_433970(field_1F4);
+            field_168_game_object->RegulateVelocity_433970(field_1F4);
         }
     }
 }
@@ -7004,11 +7006,54 @@ char_type Ped::FollowTargetStateMachine_46AC20()
     return 0;
 }
 
-STUB_FUNC(0x46b170)
-s32 Ped::ChaseTargetStateMachine_46B170()
+MATCH_FUNC(0x46b170)
+void Ped::ChaseTargetStateMachine_46B170()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_14C->isDead_403B60() && field_14C->CheckBit0_433B40())
+    {
+        if (field_278_ped_state_1 != ped_state_1::immobilized_8)
+        {
+            if (gDistanceToTarget_678750 < dword_6784E8)
+            {
+                if (field_168_game_object->GetCharState_433A80() != 15)
+                {
+                    Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
+
+                    field_168_game_object->RegulateVelocityByRef_433970(k_dword_678438);
+                }
+            }
+            else
+            {
+                if (gDistanceToTarget_678750 > dword_678790)
+                {
+                    field_168_game_object->IncreaseSpeedIfAllowed_433940();
+                }
+                else if (gDistanceToTarget_678750 > k_dword_67878C)
+                {
+                    field_168_game_object->RegulateVelocityByRef_433970(dword_678444);
+                }
+                else if (gDistanceToTarget_678750 > dword_678784)
+                {
+                    field_168_game_object->RegulateVelocityByRef_433970(dword_678434);
+                }
+                else
+                {
+                    field_168_game_object->RegulateVelocityByRef_433970(k_dword_678430);
+                }
+
+                if (field_168_game_object->GetCharState_433A80() == 10)
+                {
+                    field_168_game_object->SetMaxSpeedByRef_433920(k_dword_678438);
+                }
+                Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
+            }
+        }
+    }
+    else
+    {
+        field_226 = 1;
+    }
 }
 
 STUB_FUNC(0x46b2f0)
