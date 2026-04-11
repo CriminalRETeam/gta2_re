@@ -684,11 +684,18 @@ void miss2_0x11C::SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER
     a2->field_8_crusher = gCrusherPool_94_67A830->CreateCrusher_488820(a1->field_C_pos.field_0_x, a1->field_C_pos.field_4_y);
 }
 
-STUB_FUNC(0x5045d0)
-s32 miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2)
+MATCH_FUNC(0x5045d0)
+void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    SCR_THREAD* pCmd = (SCR_THREAD*)a1;
+    SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12);
+    
+    if (pParam1->field_8_char && pParam2->field_8_car)
+    {
+        gfrosty_pasteur_6F8060->sub_5128D0(pParam1->field_8_char->field_200_id, pParam2->field_8_car->field_6C_maybe_id, *a2);
+        pParam2->field_8_car->field_8D |= 1;
+    }
 }
 
 STUB_FUNC(0x504660)
@@ -703,11 +710,18 @@ void miss2_0x11C::sub_504710(s32 a1)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5047c0)
-s32* miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16* a2)
+MATCH_FUNC(0x5047c0)
+void miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    SCR_THREAD* pCmd = (SCR_THREAD*)a1;
+    SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12);
+
+    if (pParam1->field_8_char && pParam2->field_8_car)
+    {
+        pParam2->field_8_obj->sub_5291D0();
+        gfrosty_pasteur_6F8060->sub_5129B0(pParam1->field_8_char->field_200_id, pParam2->field_8_obj->field_14_id, *a2);
+    }
 }
 
 MATCH_FUNC(0x504830)
