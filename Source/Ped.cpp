@@ -41,7 +41,7 @@
 DEFINE_GLOBAL_INIT(s8, byte_61A8A3, 1, 0x61A8A3);
 DEFINE_GLOBAL_INIT(Ang16, word_6FDB34, Ang16(0), 0x6FDB34);
 DEFINE_GLOBAL_INIT(Ang16, gDummyPedAng_6787A8, Ang16(0), 0x6787A8);
-DEFINE_GLOBAL_INIT(s32, dword_67866C, 0xC000, 0x67866C); // TODO: Fix16? Static init to, 0xC000, 0xUNKNOWN);
+DEFINE_GLOBAL_INIT(Fix16, dword_67866C, Fix16(0xC000, 0), 0x67866C); // TODO: Fix16? Static init to, 0xC000, 0xUNKNOWN);
 DEFINE_GLOBAL_INIT(s32, gPedId_61A89C, 0x7, 0x61A89C);
 DEFINE_GLOBAL_INIT(u8, gNumberMuggersSpawned_6787CA, 0, 0x6787CA);
 DEFINE_GLOBAL_INIT(u8, gNumberCarThiefsSpawned_6787CB, 0, 0x6787CB);
@@ -110,6 +110,8 @@ DEFINE_GLOBAL(u8, byte_6787CE, 0x6787CE);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A0, Fix16(0x3333, 0), 0x6784A0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784BC, dword_6784C4 / dword_678668, 0x6784BC);
+DEFINE_GLOBAL_INIT(Fix16, dword_678444, dword_67866C * dword_6784C4, 0x678444);
+DEFINE_GLOBAL_INIT(Fix16, dword_678784, dword_6784C4 * 20, 0x678784);
 
 DEFINE_GLOBAL_INIT(Ang16, word_6784C8, Ang16(40), 0x6784C8);
 DEFINE_GLOBAL_INIT(Ang16, dword_6784E4, Ang16(64), 0x6784E4);
@@ -6164,7 +6166,7 @@ void Ped::PatrolOnFoot_468C70()
                     field_1D4 = k_dword_67853C + Fix16(field_194->field_1);
                     field_1D8 = Fix16(field_194->field_2);
                 }
-                field_168_game_object->sub_433970(field_1F4);
+                field_168_game_object->RegulateVelocity_433970(field_1F4);
             }
         }
         else if (field_21C_bf.b2 == false)
@@ -6174,7 +6176,7 @@ void Ped::PatrolOnFoot_468C70()
             field_1D0 = k_dword_67853C + Fix16(field_194->field_0);
             field_1D4 = k_dword_67853C + Fix16(field_194->field_1);
             field_1D8 = Fix16(field_194->field_2);
-            field_168_game_object->sub_433970(field_1F4);
+            field_168_game_object->RegulateVelocity_433970(field_1F4);
         }
     }
 }
@@ -7004,11 +7006,54 @@ char_type Ped::FollowTargetStateMachine_46AC20()
     return 0;
 }
 
-STUB_FUNC(0x46b170)
-s32 Ped::ChaseTargetStateMachine_46B170()
+MATCH_FUNC(0x46b170)
+void Ped::ChaseTargetStateMachine_46B170()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_14C->isDead_403B60() && field_14C->CheckBit0_433B40())
+    {
+        if (field_278_ped_state_1 != ped_state_1::immobilized_8)
+        {
+            if (gDistanceToTarget_678750 < dword_6784E8)
+            {
+                if (field_168_game_object->GetCharState_433A80() != 15)
+                {
+                    Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
+
+                    field_168_game_object->RegulateVelocityByRef_433970(k_dword_678438);
+                }
+            }
+            else
+            {
+                if (gDistanceToTarget_678750 > dword_678790)
+                {
+                    field_168_game_object->IncreaseSpeedIfAllowed_433940();
+                }
+                else if (gDistanceToTarget_678750 > k_dword_67878C)
+                {
+                    field_168_game_object->RegulateVelocityByRef_433970(dword_678444);
+                }
+                else if (gDistanceToTarget_678750 > dword_678784)
+                {
+                    field_168_game_object->RegulateVelocityByRef_433970(dword_678434);
+                }
+                else
+                {
+                    field_168_game_object->RegulateVelocityByRef_433970(k_dword_678430);
+                }
+
+                if (field_168_game_object->GetCharState_433A80() == 10)
+                {
+                    field_168_game_object->SetMaxSpeedByRef_433920(k_dword_678438);
+                }
+                Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
+            }
+        }
+    }
+    else
+    {
+        field_226 = 1;
+    }
 }
 
 STUB_FUNC(0x46b2f0)
@@ -7612,51 +7657,107 @@ void Ped::sub_46CA70()
 }
 
 // 9.6f 0x43A550
-WIP_FUNC(0x46cb30)
+MATCH_FUNC(0x46cb30)
 void Ped::StartPedCrossingAtTrafficLight_Y_Backward_46CB30()
 {
-    WIP_IMPLEMENTED;
-
-    Fix16 y = this->field_1AC_cam.y;
-    if (this->field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
+    Fix16 y_iter = field_1AC_cam.y;
+    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
     {
         for (u8 i = 0; i < 6; i++)
         {
-            Fix16 z = (this->field_1AC_cam.z - k_dword_678664);
-            y -= k_dword_678664;
-            u8 yy = y.ToInt();
-            if (gMap_0x370_6F6268->sub_433530(this->field_1AC_cam.x.ToInt(), yy, z.ToInt()))
+            y_iter -= k_dword_678664;
+            u8 ypos = y_iter.ToInt();
+            if (gMap_0x370_6F6268->IsBlockPavementTypeInlined_433530(field_1AC_cam.x.ToInt(),
+                                                                     ypos,
+                                                                     (field_1AC_cam.z - k_dword_678664).ToInt()))
             {
-                SetObjective2_463830(48, 9999);
-                Fix16 t = Fix16(yy) + k_dword_67853C;
-                this->Set_F1C4_x_433C50(this->field_1AC_cam.x);
-                this->Set_F1C8_y_433C60(t);
-                this->Set_F1CC_z_433C70(this->field_1AC_cam.z);
+                SetObjective2_463830(objectives_enum::objective_48, 9999);
+                Fix16 t = Fix16(ypos) + k_dword_67853C;
+                Set_F1C4_x_433C50(field_1AC_cam.x);
+                Set_F1C8_y_433C60(t);
+                Set_F1CC_z_433C70(field_1AC_cam.z);
                 break;
             }
         }
     }
 }
 
-STUB_FUNC(0x46cc70)
-char_type Ped::StartPedCrossingAtTrafficLight_X_Forwards_46CC70()
+MATCH_FUNC(0x46cc70)
+void Ped::StartPedCrossingAtTrafficLight_X_Forwards_46CC70()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 x_iter = field_1AC_cam.x;
+    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
+    {
+        for (u8 i = 0; i < 6; i++)
+        {
+            x_iter += k_dword_678664;
+            u8 x = x_iter.ToUInt8();
+            if (gMap_0x370_6F6268->IsBlockPavementTypeInlined_433530(x,
+                                                                     field_1AC_cam.y.ToInt(),
+                                                                     (field_1AC_cam.z - k_dword_678664).ToInt()))
+            {
+                Ped::SetObjective2_463830(objectives_enum::objective_48, 9999);
+                Fix16 xpos(x);
+                xpos += k_dword_67853C;
+                Set_F1C4_x_433C50(xpos);
+                Set_F1C8_y_433C60(field_1AC_cam.y);
+                Set_F1CC_z_433C70(field_1AC_cam.z);
+                break;
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x46cdb0)
-char_type Ped::StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0()
+MATCH_FUNC(0x46cdb0)
+void Ped::StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 y_iter = field_1AC_cam.y;
+    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
+    {
+        for (u8 i = 0; i < 6; i++)
+        {
+            y_iter += k_dword_678664;
+            u8 y = y_iter.ToUInt8();
+            if (gMap_0x370_6F6268->IsBlockPavementTypeInlined_433530(field_1AC_cam.x.ToInt(),
+                                                                     y,
+                                                                     (field_1AC_cam.z - k_dword_678664).ToInt()))
+            {
+                Ped::SetObjective2_463830(48, 9999);
+                Fix16 ypos(y);
+                ypos += k_dword_67853C;
+                Set_F1C4_x_433C50(field_1AC_cam.x);
+                Set_F1C8_y_433C60(ypos);
+                Set_F1CC_z_433C70(field_1AC_cam.z);
+                break;
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x46cef0)
-char_type Ped::StartPedCrossingAtTrafficLight_X_Backwards_46CEF0()
+MATCH_FUNC(0x46cef0)
+void Ped::StartPedCrossingAtTrafficLight_X_Backwards_46CEF0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 x_iter = field_1AC_cam.x;
+    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
+    {
+        for (u8 i = 0; i < 6; i++)
+        {
+            x_iter -= k_dword_678664;
+            u8 x = x_iter.ToUInt8();
+            if (gMap_0x370_6F6268->IsBlockPavementTypeInlined_433530(x,
+                                                                     field_1AC_cam.y.ToInt(),
+                                                                     (field_1AC_cam.z - k_dword_678664).ToInt()))
+            {
+                Ped::SetObjective2_463830(48, 9999);
+                Fix16 xpos(x);
+                xpos += k_dword_67853C;
+                Set_F1C4_x_433C50(xpos);
+                Set_F1C8_y_433C60(field_1AC_cam.y);
+                Set_F1CC_z_433C70(field_1AC_cam.z);
+                break;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x46d030)
