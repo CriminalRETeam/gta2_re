@@ -7625,7 +7625,7 @@ void Ped::StartPedCrossingAtTrafficLight_Y_Backward_46CB30()
             Fix16 z = (this->field_1AC_cam.z - k_dword_678664);
             y -= k_dword_678664;
             u8 yy = y.ToInt();
-            if (gMap_0x370_6F6268->sub_433530(this->field_1AC_cam.x.ToInt(), yy, z.ToInt()))
+            if (gMap_0x370_6F6268->IsBlockPavementType_42A8C0(this->field_1AC_cam.x.ToInt(), yy, z.ToInt()))
             {
                 SetObjective2_463830(48, 9999);
                 Fix16 t = Fix16(yy) + k_dword_67853C;
