@@ -190,8 +190,8 @@ class Ped
     EXPORT void sub_46CA70();
     EXPORT void StartPedCrossingAtTrafficLight_Y_Backward_46CB30();
     EXPORT void StartPedCrossingAtTrafficLight_X_Forwards_46CC70();
-    EXPORT char_type StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0();
-    EXPORT char_type StartPedCrossingAtTrafficLight_X_Backwards_46CEF0();
+    EXPORT void StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0();
+    EXPORT void StartPedCrossingAtTrafficLight_X_Backwards_46CEF0();
     EXPORT void sub_46D030();
     EXPORT void sub_46D0B0();
     EXPORT void sub_46D0D0();

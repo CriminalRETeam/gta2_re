@@ -7663,18 +7663,36 @@ void Ped::StartPedCrossingAtTrafficLight_X_Forwards_46CC70()
     }
 }
 
-STUB_FUNC(0x46cdb0)
-char_type Ped::StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0()
+MATCH_FUNC(0x46cdb0)
+void Ped::StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 y_iter = field_1AC_cam.y;
+    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
+    {
+        for (u8 i = 0; i < 6; i++)
+        {
+            y_iter += k_dword_678664;
+            u8 y = y_iter.ToUInt8();
+            if (gMap_0x370_6F6268->IsBlockPavementTypeInlined_433530(field_1AC_cam.x.ToInt(),
+                                                                     y,
+                                                                     (field_1AC_cam.z - k_dword_678664).ToInt()))
+            {
+                Ped::SetObjective2_463830(48, 9999);
+                Fix16 ypos(y);
+                ypos += k_dword_67853C;
+                Set_F1C4_x_433C50(field_1AC_cam.x);
+                Set_F1C8_y_433C60(ypos);
+                Set_F1CC_z_433C70(field_1AC_cam.z);
+                break;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x46cef0)
-char_type Ped::StartPedCrossingAtTrafficLight_X_Backwards_46CEF0()
+void Ped::StartPedCrossingAtTrafficLight_X_Backwards_46CEF0()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 MATCH_FUNC(0x46d030)
