@@ -57,8 +57,8 @@ void lucid_hamilton::sub_4C53D0()
     gLucid_hamilton_67E8E0.sub_4C58F0(0);
     gLucid_hamilton_67E8E0.sub_4C5900(0);
     gLucid_hamilton_67E8E0.sub_4C5910(0);
-    gLucid_hamilton_67E8E0.sub_4C5920(0);
-    gLucid_hamilton_67E8E0.sub_4C5930(0);
+    gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(0);
+    gLucid_hamilton_67E8E0.SetLevelFinishBonusType_4C5930(0);
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_408_statistics); i++)
     {
@@ -100,13 +100,13 @@ char_type* lucid_hamilton::DebugStr_4C58D0(char_type* Source)
 MATCH_FUNC(0x4C58F0)
 void lucid_hamilton::sub_4C58F0(char_type a2)
 {
-    field_400 = a2;
+    field_400_main_stage = a2;
 }
 
 MATCH_FUNC(0x4C5900)
 void lucid_hamilton::sub_4C5900(char_type a2)
 {
-    field_401 = a2;
+    field_401_stage = a2;
 }
 
 MATCH_FUNC(0x4C5910)
@@ -116,15 +116,15 @@ void lucid_hamilton::sub_4C5910(char_type a2)
 }
 
 MATCH_FUNC(0x4C5920)
-void lucid_hamilton::sub_4C5920(char_type a2)
+void lucid_hamilton::SetPlySlotIdx_4C5920(char_type a2)
 {
-    field_403 = a2;
+    field_403_player_slot_idx = a2;
 }
 
 MATCH_FUNC(0x4C5930)
-void lucid_hamilton::sub_4C5930(char_type a2)
+void lucid_hamilton::SetLevelFinishBonusType_4C5930(char_type a2)
 {
-    field_404 = a2;
+    field_404_level_finish_bonus_type = a2;
 }
 
 MATCH_FUNC(0x4C5940)
@@ -152,15 +152,15 @@ char* lucid_hamilton::GetDebugStr_4C5970()
 }
 
 MATCH_FUNC(0x4C5980)
-char_type lucid_hamilton::sub_4C5980()
+char_type lucid_hamilton::GetMainStageIdx_4C5980()
 {
-    return field_400;
+    return field_400_main_stage;
 }
 
 MATCH_FUNC(0x4C5990)
-char_type lucid_hamilton::sub_4C5990()
+char_type lucid_hamilton::GetStage_4C5990()
 {
-    return field_401;
+    return field_401_stage;
 }
 
 MATCH_FUNC(0x4C59A0)
@@ -172,13 +172,13 @@ char_type lucid_hamilton::sub_4C59A0()
 MATCH_FUNC(0x4C59B0)
 u8 lucid_hamilton::GetPlySlotIdx_4C59B0()
 {
-    return field_403;
+    return field_403_player_slot_idx;
 }
 
 MATCH_FUNC(0x4C59C0)
-char_type lucid_hamilton::sub_4C59C0()
+char_type lucid_hamilton::GetLevelFinishBonusType_4C59C0()
 {
-    return field_404;
+    return field_404_level_finish_bonus_type;
 }
 
 MATCH_FUNC(0x4C59D0)

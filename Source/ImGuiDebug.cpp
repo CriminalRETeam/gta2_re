@@ -2212,8 +2212,8 @@ void CC ImGuiDebugDraw()
                     // fix softlock crashes after trying to change player name in standalone
                     if (ImGui::Button("Set Player"))
                     {
-                        gLucid_hamilton_67E8E0.sub_4C5920(player_idx);
-                        gFrontend_67DC84->sub_4B42E0();
+                        gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(player_idx);
+                        gFrontend_67DC84->UpdateMenuForCurrPlayer_4B42E0();
                         gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", player_idx);
                     }
                     ImGui::TreePop();

@@ -97,7 +97,7 @@ void Game_0x40::ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type)
     {
         field_28_timer = new_timer;
         field_2C_game_exit_type = exit_type;
-        gLucid_hamilton_67E8E0.sub_4C5930(bonus_type);
+        gLucid_hamilton_67E8E0.SetLevelFinishBonusType_4C5930(bonus_type);
     }
 }
 

@@ -5485,7 +5485,7 @@
         "v105_address": "0x4b3dd0"
     },
     {
-        "name": "Frontend::sub_4B4230",
+        "name": "Frontend::SaveAndUpdatePlayerName_4B4230",
         "v96f_address": "0x459540",
         "v105_address": "0x4b4230"
     },
@@ -5495,17 +5495,17 @@
         "v105_address": "0x4b4280"
     },
     {
-        "name": "Frontend::sub_4B42B0",
+        "name": "Frontend::StripPlayerNameToCurrLength_4B42B0",
         "v96f_address": null,
         "v105_address": "0x4b42b0"
     },
     {
-        "name": "Frontend::sub_4B42E0",
+        "name": "Frontend::UpdateMenuForCurrPlayer_4B42E0",
         "v96f_address": null,
         "v105_address": "0x4b42e0"
     },
     {
-        "name": "Frontend::sub_4B43E0",
+        "name": "Frontend::GetCurrPlayerStats_4B43E0",
         "v96f_address": null,
         "v105_address": "0x4b43e0"
     },
@@ -5710,7 +5710,7 @@
         "v105_address": "0x4b6ff0"
     },
     {
-        "name": "Frontend::sub_4B7060",
+        "name": "Frontend::GetPreviousUnlockedMainStage_4B7060",
         "v96f_address": null,
         "v105_address": "0x4b7060"
     },
@@ -5725,12 +5725,12 @@
         "v105_address": "0x4b7120"
     },
     {
-        "name": "Frontend::sub_4B7200",
+        "name": "Frontend::HasMainStageChangedToNext_4B7200",
         "v96f_address": "0x456280",
         "v105_address": "0x4b7200"
     },
     {
-        "name": "Frontend::sub_4B7270",
+        "name": "Frontend::GetNextUnlockedMainStage_4B7270",
         "v96f_address": "0x453230",
         "v105_address": "0x4b7270"
     },
@@ -5745,12 +5745,12 @@
         "v105_address": "0x4b7360"
     },
     {
-        "name": "Frontend::sub_4B7490",
+        "name": "Frontend::HasPreviousMainStage_4B7490",
         "v96f_address": null,
         "v105_address": "0x4b7490"
     },
     {
-        "name": "Frontend::sub_4B74C0",
+        "name": "Frontend::ExistsNextMainStage_4B74C0",
         "v96f_address": null,
         "v105_address": "0x4b74c0"
     },
@@ -5765,12 +5765,12 @@
         "v105_address": "0x4b7520"
     },
     {
-        "name": "Frontend::sub_4B7550",
+        "name": "Frontend::UpdateMainStageArrows_4B7550",
         "v96f_address": null,
         "v105_address": "0x4b7550"
     },
     {
-        "name": "Frontend::sub_4B7610",
+        "name": "Frontend::UpdateBonusStageArrows_4B7610",
         "v96f_address": null,
         "v105_address": "0x4b7610"
     },
@@ -6370,12 +6370,12 @@
         "v105_address": "0x4c5910"
     },
     {
-        "name": "lucid_hamilton::sub_4C5920",
+        "name": "lucid_hamilton::SetPlySlotIdx_4C5920",
         "v96f_address": null,
         "v105_address": "0x4c5920"
     },
     {
-        "name": "lucid_hamilton::sub_4C5930",
+        "name": "lucid_hamilton::SetLevelFinishBonusType_4C5930",
         "v96f_address": null,
         "v105_address": "0x4c5930"
     },
@@ -6400,12 +6400,12 @@
         "v105_address": "0x4c5970"
     },
     {
-        "name": "lucid_hamilton::sub_4C5980",
+        "name": "lucid_hamilton::GetMainStageIdx_4C5980",
         "v96f_address": null,
         "v105_address": "0x4c5980"
     },
     {
-        "name": "lucid_hamilton::sub_4C5990",
+        "name": "lucid_hamilton::GetStage_4C5990",
         "v96f_address": null,
         "v105_address": "0x4c5990"
     },
@@ -6420,7 +6420,7 @@
         "v105_address": "0x4c59b0"
     },
     {
-        "name": "lucid_hamilton::sub_4C59C0",
+        "name": "lucid_hamilton::GetLevelFinishBonusType_4C59C0",
         "v96f_address": null,
         "v105_address": "0x4c59c0"
     },
@@ -12985,7 +12985,7 @@
         "v105_address": "0x56b620"
     },
     {
-        "name": "player_stats_0xA4::sub_56B630",
+        "name": "player_stats_0xA4::ResetPlayerSlot_56B630",
         "v96f_address": null,
         "v105_address": "0x56b630"
     },

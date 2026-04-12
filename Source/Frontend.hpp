@@ -160,6 +160,8 @@ enum WinMainState
     Start_Replay_4 = 4,
 };
 
+namespace FrontendState
+{
 enum FrontendState
 {
     Unknown_1 = 1,
@@ -168,6 +170,7 @@ enum FrontendState
     Unknown_4 = 4,
     Unknown_5 = 5,
 };
+} // namespace FrontendState
 
 enum MenuScreen
 {
@@ -367,11 +370,11 @@ struct Frontend
 
     EXPORT void sub_4B4410();
 
-    EXPORT player_stats_0xA4* sub_4B43E0();
+    EXPORT player_stats_0xA4* GetCurrPlayerStats_4B43E0();
 
-    EXPORT void sub_4B42E0();
+    EXPORT void UpdateMenuForCurrPlayer_4B42E0();
 
-    EXPORT void sub_4B4230();
+    EXPORT void SaveAndUpdatePlayerName_4B4230();
 
     EXPORT void HandleCheatCode_4B3DD0(const wchar_t* String);
 
@@ -443,23 +446,23 @@ struct Frontend
 
     EXPORT u16 sub_4B0190(wchar_t* a2, s16 a3, s32 a4);
 
-    EXPORT u8 sub_4B7060(u8 a2);
+    EXPORT u8 GetPreviousUnlockedMainStage_4B7060(u8 a2);
 
-    EXPORT u8 sub_4B7270(char_type a2);
+    EXPORT u8 GetNextUnlockedMainStage_4B7270(char_type a2);
 
-    EXPORT bool sub_4B7490();
+    EXPORT bool ExistsPreviousMainStage_4B7490();
 
-    EXPORT bool sub_4B74C0();
+    EXPORT bool ExistsNextMainStage_4B74C0();
 
-    EXPORT void sub_4B7550();
+    EXPORT void UpdateMainStageArrows_4B7550();
 
     EXPORT bool sub_4B6FF0();
 
-    EXPORT void sub_4B42B0();
+    EXPORT void StripPlayerNameToCurrLength_4B42B0();
 
     EXPORT char_type sub_4B7120(char_type a2);
 
-    EXPORT void sub_4B7610();
+    EXPORT void UpdateBonusStageArrows_4B7610();
 
     EXPORT bool sub_4B70B0();
 
@@ -471,7 +474,7 @@ struct Frontend
 
     EXPORT bool sub_4B72F0();
 
-    EXPORT bool sub_4B7200();
+    EXPORT bool HasMainStageChangedToNext_4B7200();
 
     EXPORT void sub_4B4EC0();
 

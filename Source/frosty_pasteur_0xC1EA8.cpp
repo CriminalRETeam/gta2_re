@@ -131,8 +131,8 @@ void frosty_pasteur_0xC1EA8::SaveMapInfo_511D40()
     gGameSave_6F78C8.field_0_map_name[24] = '\n';
     gGameSave_6F78C8.field_19_style_name[24] = '\n';
     gGameSave_6F78C8.field_32_script_name[24] = '\n';
-    gGameSave_6F78C8.field_4B_main_stage = gLucid_hamilton_67E8E0.sub_4C5980();
-    gGameSave_6F78C8.field_4C_lhv = gLucid_hamilton_67E8E0.sub_4C5990();
+    gGameSave_6F78C8.field_4B_main_stage = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+    gGameSave_6F78C8.field_4C_lhv = gLucid_hamilton_67E8E0.GetStage_4C5990();
     gGameSave_6F78C8.field_4D_bonus_stage = gLucid_hamilton_67E8E0.sub_4C59A0();
 }
 

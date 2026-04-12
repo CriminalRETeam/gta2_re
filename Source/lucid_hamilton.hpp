@@ -21,11 +21,11 @@ struct lucid_hamilton
     char_type field_100_style_name[256];
     char_type field_200_script_name[256];
     char_type field_300_debug_str[256];
-    char_type field_400;
-    char_type field_401;
+    char_type field_400_main_stage;
+    char_type field_401_stage;
     char_type field_402;
-    u8 field_403;
-    char_type field_404;
+    u8 field_403_player_slot_idx;
+    char_type field_404_level_finish_bonus_type;
     char_type field_405;
     char_type field_406;
     char_type field_407;
@@ -82,9 +82,9 @@ struct lucid_hamilton
 
     EXPORT void sub_4C5910(char_type a2);
 
-    EXPORT void sub_4C5920(char_type a2);
+    EXPORT void SetPlySlotIdx_4C5920(char_type a2);
 
-    EXPORT void sub_4C5930(char_type a2);
+    EXPORT void SetLevelFinishBonusType_4C5930(char_type a2);
 
     EXPORT char_type* GetMapName_4C5940();
 
@@ -94,15 +94,15 @@ struct lucid_hamilton
 
     EXPORT char_type* GetDebugStr_4C5970();
 
-    EXPORT char_type sub_4C5980();
+    EXPORT char_type GetMainStageIdx_4C5980();
 
-    EXPORT char_type sub_4C5990();
+    EXPORT char_type GetStage_4C5990();
 
     EXPORT char_type sub_4C59A0();
 
     EXPORT u8 GetPlySlotIdx_4C59B0();
 
-    EXPORT char_type sub_4C59C0();
+    EXPORT char_type GetLevelFinishBonusType_4C59C0();
 
     EXPORT void sub_4C59D0(u8 a2, s32 a3);
 
