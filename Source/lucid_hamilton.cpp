@@ -67,7 +67,7 @@ void lucid_hamilton::sub_4C53D0()
 
     field_430 = 0;
     field_434 = 0;
-    field_438 = 0;
+    field_438_bonus_rating_text_idx = 0;
     field_43A = 0;
 
     init_4C5AF0();
@@ -230,15 +230,15 @@ s32 lucid_hamilton::sub_4C5AA0()
 }
 
 MATCH_FUNC(0x4C5AB0)
-void lucid_hamilton::sub_4C5AB0(s16 a2)
+void lucid_hamilton::SetBonusRatingTextIdx_4C5AB0(s16 gxt_text_idx)
 {
-    field_438 = a2;
+    field_438_bonus_rating_text_idx = gxt_text_idx;
 }
 
 MATCH_FUNC(0x4C5AC0)
-s16 lucid_hamilton::sub_4C5AC0()
+s16 lucid_hamilton::GetBonusRatingTextIdx_4C5AC0()
 {
-    return field_438;
+    return field_438_bonus_rating_text_idx;
 }
 
 MATCH_FUNC(0x4C5AD0)

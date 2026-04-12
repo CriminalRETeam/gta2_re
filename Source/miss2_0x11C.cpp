@@ -5479,7 +5479,7 @@ void miss2_0x11C::sub_510280()
 MATCH_FUNC(0x510530)
 void miss2_0x11C::sub_510530()
 {
-    gLucid_hamilton_67E8E0.sub_4C5AB0(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type);
+    gLucid_hamilton_67E8E0.SetBonusRatingTextIdx_4C5AB0(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 

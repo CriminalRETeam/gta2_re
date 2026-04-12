@@ -6460,12 +6460,12 @@
         "v105_address": "0x4c5aa0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5AB0",
+        "name": "lucid_hamilton::SetBonusRatingTextIdx_4C5AB0",
         "v96f_address": null,
         "v105_address": "0x4c5ab0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5AC0",
+        "name": "lucid_hamilton::GetBonusRatingTextIdx_4C5AC0",
         "v96f_address": null,
         "v105_address": "0x4c5ac0"
     },

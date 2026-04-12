@@ -236,7 +236,7 @@ MATCH_FUNC(0x4B8EB0)
 void Game_0x40::BootGame_4B8EB0()
 {
 
-    gLucid_hamilton_67E8E0.sub_4C5AB0(0);
+    gLucid_hamilton_67E8E0.SetBonusRatingTextIdx_4C5AB0(0);
     if (bStartNetworkGame_7081F0)
     {
         sub_4B8E50();

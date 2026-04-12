@@ -40,7 +40,7 @@ struct lucid_hamilton
     s32 field_408_statistics[10];
     s32 field_430;
     s32 field_434;
-    s16 field_438;
+    s16 field_438_bonus_rating_text_idx;
     char_type field_43A;
     char_type field_43B_game_type;
     s32 field_43C_points_limit;
@@ -118,9 +118,9 @@ struct lucid_hamilton
 
     EXPORT s32 sub_4C5AA0();
 
-    EXPORT void sub_4C5AB0(s16 a2);
+    EXPORT void SetBonusRatingTextIdx_4C5AB0(s16 a2);
 
-    EXPORT s16 sub_4C5AC0();
+    EXPORT s16 GetBonusRatingTextIdx_4C5AC0();
 
     EXPORT void sub_4C5AD0(char_type a2);
 
