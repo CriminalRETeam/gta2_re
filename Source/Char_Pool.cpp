@@ -29,7 +29,7 @@ DEFINE_GLOBAL_INIT(u8, byte_61A8A1, 1, 0x61A8A1);
 DEFINE_GLOBAL_INIT(u8, byte_61A8A2, 1, 0x61A8A2);
 DEFINE_GLOBAL(u8, unk_6787EE, 0x6787EE);
 DEFINE_GLOBAL(u8, unk_6787EF, 0x6787EF);
-DEFINE_GLOBAL(u8, byte_6787DA, 0x6787DA);
+DEFINE_GLOBAL(u8, bHaveThreateningPeds_6787DA, 0x6787DA);
 
 DEFINE_GLOBAL(u8, spawnSideLocked_6787D5, 0x6787D5);
 DEFINE_GLOBAL(u8, spawnCountLimit_6787D6, 0x6787D6);
@@ -649,11 +649,11 @@ void PedManager::PedsService_4703F0()
 
     if (unk_6787EF) // 11d: je 128
     {
-        byte_6787DA = 1;
+        bHaveThreateningPeds_6787DA = 1;
     }
     else
     {
-        byte_6787DA = 0;
+        bHaveThreateningPeds_6787DA = 0;
         gThreateningPedsList_678468.ClearPeds_4712F0();
     }
 
@@ -758,7 +758,7 @@ PedManager::PedManager()
     byte_6787D8 = 0;
     byte_61A8A2 = 1;
     byte_6787D9 = 0;
-    byte_6787DA = 0;
+    bHaveThreateningPeds_6787DA = 0;
     gDistanceToTarget_678750 = k_dword_678660;
     dword_6787DC = 0;
     cameraFacingAng_678760 = gDummyPedAng_6787A8;

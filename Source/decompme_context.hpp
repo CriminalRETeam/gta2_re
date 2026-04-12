@@ -52,6 +52,7 @@
 #include "chunk.hpp"
 #include "collide.hpp"
 #include "Ped.hpp"
+#include "PedGroup.hpp"
 #include "debug.hpp"
 #include "distracted_einstein_0xC.hpp"
 #include "dma_video.hpp"

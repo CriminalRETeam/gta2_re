@@ -71,12 +71,12 @@ void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
     u8 bonus_num;
     if (!gLucid_hamilton_67E8E0.sub_4C59A0())
     {
-        map_num = gLucid_hamilton_67E8E0.sub_4C5980();
+        map_num = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
         bonus_num = 0;
     }
     else
     {
-        const u8 map_and_bonus_nibbles = gLucid_hamilton_67E8E0.sub_4C5990();
+        const u8 map_and_bonus_nibbles = gLucid_hamilton_67E8E0.GetStage_4C5990();
         map_num = map_and_bonus_nibbles >> 4;
         bonus_num = map_and_bonus_nibbles & 0xF;
     }
@@ -446,7 +446,7 @@ char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findSco
 MATCH_FUNC(0x56B610)
 player_stats_0xA4::player_stats_0xA4()
 {
-    sub_56B630();
+    ResetPlayerSlot_56B630();
 }
 
 MATCH_FUNC(0x56B620)
@@ -455,7 +455,7 @@ player_stats_0xA4::~player_stats_0xA4()
 }
 
 MATCH_FUNC(0x56B630)
-void player_stats_0xA4::sub_56B630()
+void player_stats_0xA4::ResetPlayerSlot_56B630()
 {
     for (u16 k = 0; k < 9; k++)
     {
