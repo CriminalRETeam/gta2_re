@@ -327,8 +327,8 @@ struct Frontend
     char_type field_1EB4D;
     char_type field_1EB4E;
     char_type field_1EB4F;
-    u8 field_1EB50_idx;
-    u8 field_1EB51_blocks[3];
+    u8 field_1EB50_num_main_stages;
+    u8 field_1EB51_num_bonus_stages[3];
 
     // todo: ordering
     EXPORT void LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
@@ -356,7 +356,7 @@ struct Frontend
 
     EXPORT void sub_4B6780();
 
-    EXPORT void sub_4B7A10();
+    EXPORT void ManageCredits_4B7A10();
 
     EXPORT void UpdatePageFromUserInput_4AE2D0();
 
@@ -388,11 +388,11 @@ struct Frontend
 
     EXPORT void sub_4B8560();
 
-    EXPORT void sub_4B8020();
+    EXPORT void ContinueToNextStage_4B8020();
 
     EXPORT int __stdcall sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind);
 
-    EXPORT char_type sub_4B7FB0();
+    EXPORT char_type AreAllStagesUnlocked_4B7FB0();
 
     EXPORT void LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx);
 
@@ -426,9 +426,9 @@ struct Frontend
 
     EXPORT void sub_4AF0E0();
 
-    EXPORT void sub_4B0220();
+    EXPORT void SetupMenuStringsOptionsElements_4B0220();
 
-    EXPORT void sub_4B4440();
+    EXPORT void GetMainAndBonusStagesFromSeqFile_4B4440();
 
     EXPORT void GetSeqItem_4B48D0(s32 type, char_type *ppRet, FILE *hSeqFile);
 
@@ -456,7 +456,7 @@ struct Frontend
 
     EXPORT void UpdateMainStageArrows_4B7550();
 
-    EXPORT bool sub_4B6FF0();
+    EXPORT bool ChangeMainStageToPrevious_4B6FF0();
 
     EXPORT void StripPlayerNameToCurrLength_4B42B0();
 
@@ -474,15 +474,15 @@ struct Frontend
 
     EXPORT bool sub_4B72F0();
 
-    EXPORT bool HasMainStageChangedToNext_4B7200();
+    EXPORT bool ChangeMainStageToNext_4B7200();
 
     EXPORT void sub_4B4EC0();
 
     EXPORT s32 sub_4AEDB0();
 
-    EXPORT void sub_4AD140();
+    EXPORT void DrawMenu_4AD140();
 
-    EXPORT void sub_4B7AE0();
+    EXPORT void DrawCredits_4B7AE0();
 
     EXPORT void sub_4B8650();
 

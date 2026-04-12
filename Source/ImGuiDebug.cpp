@@ -2219,6 +2219,12 @@ void CC ImGuiDebugDraw()
                     ImGui::TreePop();
                 }
 
+                if (ImGui::TreeNode("Fields"))
+                {
+                    ImGui::SliderInt("Frontend State", &gFrontend_67DC84->field_110_state, 1, 5);
+                    ImGui::TreePop();
+                }
+
                 if (ImGui::TreeNode("Credits"))
                 {
 

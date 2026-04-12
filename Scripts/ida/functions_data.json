@@ -5345,7 +5345,7 @@
         "v105_address": "0x4ad070"
     },
     {
-        "name": "Frontend::sub_4AD140",
+        "name": "Frontend::DrawMenu_4AD140",
         "v96f_address": "0x457920",
         "v105_address": "0x4ad140"
     },
@@ -5455,7 +5455,7 @@
         "v105_address": "0x4b0190"
     },
     {
-        "name": "Frontend::sub_4B0220",
+        "name": "Frontend::SetupMenuStringsOptionsElements_4B0220",
         "v96f_address": null,
         "v105_address": "0x4b0220"
     },
@@ -5515,7 +5515,7 @@
         "v105_address": "0x4b4410"
     },
     {
-        "name": "Frontend::sub_4B4440",
+        "name": "Frontend::GetMainAndBonusStagesFromSeqFile_4B4440",
         "v96f_address": null,
         "v105_address": "0x4b4440"
     },
@@ -5705,7 +5705,7 @@
         "v105_address": "0x4b6e10"
     },
     {
-        "name": "Frontend::sub_4B6FF0",
+        "name": "Frontend::ChangeMainStageToPrevious_4B6FF0",
         "v96f_address": null,
         "v105_address": "0x4b6ff0"
     },
@@ -5725,7 +5725,7 @@
         "v105_address": "0x4b7120"
     },
     {
-        "name": "Frontend::HasMainStageChangedToNext_4B7200",
+        "name": "Frontend::ChangeMainStageToNext_4B7200",
         "v96f_address": "0x456280",
         "v105_address": "0x4b7200"
     },
@@ -5790,12 +5790,12 @@
         "v105_address": "0x4b78b0"
     },
     {
-        "name": "Frontend::sub_4B7A10",
+        "name": "Frontend::ManageCredits_4B7A10",
         "v96f_address": null,
         "v105_address": "0x4b7a10"
     },
     {
-        "name": "Frontend::sub_4B7AE0",
+        "name": "Frontend::DrawCredits_4B7AE0",
         "v96f_address": "0x453590",
         "v105_address": "0x4b7ae0"
     },
@@ -5810,12 +5810,12 @@
         "v105_address": "0x4b7e10"
     },
     {
-        "name": "Frontend::sub_4B7FB0",
+        "name": "Frontend::AreAllStagesUnlocked_4B7FB0",
         "v96f_address": null,
         "v105_address": "0x4b7fb0"
     },
     {
-        "name": "Frontend::sub_4B8020",
+        "name": "Frontend::ContinueToNextStage_4B8020",
         "v96f_address": null,
         "v105_address": "0x4b8020"
     },
