@@ -2378,11 +2378,117 @@ void Frontend::sub_4AE9A0()
     }
 }
 
-STUB_FUNC(0x4B8280)
+// https://decomp.me/scratch/ySQ2h
+WIP_FUNC(0x4B8280)
 void Frontend::sub_4B8280()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    WIP_IMPLEMENTED;
+
+    wchar_t v6;
+    s16 v3 = 256;
+    char_type* pKeyIter = &field_8_keys[0];
+
+    for (u16 i = 0; i < 256; i++, ++pKeyIter)
+    {
+        if ((*pKeyIter & 0x80u) != 0 && i != 54 && i != 42)
+        {
+            v3 = i;
+        }
+    }
+
+    if (field_C9B4 != v3)
+    {
+        field_C9B4 = v3;
+        field_C9B6 = 5;
+
+        if (v3 == DIK_RETURN)
+        {
+            field_110_state = 1;
+            Frontend::sub_4B8530();
+            Frontend::sub_4B8560();
+            snd1_67D818.field_0_object_type = 5;
+        }
+        else if (v3 == DIK_BACK)
+        {
+            if (field_C9CA > 0)
+            {
+                field_C9CA--;
+                Frontend::sub_4B8530();
+                snd1_67D818.field_0_object_type = 8;
+            }
+        }
+        else if (v3 == DIK_ESCAPE)
+        {
+            field_110_state = 1;
+            Frontend::sub_4B8530();
+            Frontend::sub_4B3170(9);
+            snd1_67D818.field_0_object_type = 6;
+        }
+        else if (v3 == 256)
+        {
+            field_C9B3 = 0;
+            goto LABEL_30;
+        }
+        else if (v3 == DIK_SPACE)
+        {
+            v6 = 32;
+        LABEL_12:
+            if (field_C9CA != 8)
+            {
+                if (field_C9CB)
+                {
+                    field_C9CB = 0;
+                    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[0].field_6_element_name_str,
+                            gText_0x14_704DFC->Find_5B5F90("fr_ent1"),
+                            0x32u);
+                    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[1].field_6_element_name_str,
+                            gText_0x14_704DFC->Find_5B5F90("fr_ent2"),
+                            0x32u);
+                    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[2].field_6_element_name_str, word_67DC8C, 0x32u);
+                }
+                field_C9B8[field_C9CA++] = v6;
+                snd1_67D818.field_0_object_type = 7;
+            }
+            goto LABEL_27;
+        }
+        u16 v5 = gKeybrd_0x204_6F52F4->GetKey_4D5F40(v3);
+        v6 = v5;
+        wchar_t v12 = v6;
+        s32 v13 = field_11C;
+        if (gGtx_0x106C_703DD4->sub_5AA760((u16*)&v13, &v12) >= 3 && v6)
+        {
+            goto LABEL_12;
+        }
+    }
+    else
+    {
+        if (field_C9B6 == 0)
+        {
+            field_C9B4 = 256;
+            field_C9B6 = 5;
+        }
+        else
+        {
+            field_C9B6--;
+        }
+    }
+
+LABEL_27:
+    if (v3 != 256)
+    {
+        field_C9B3 = 1;
+    }
+    else
+    {
+        field_C9B3 = 0;
+    }
+LABEL_30:
+    field_118--;
+    if (field_118 <= 0)
+    {
+        field_114 = (field_114 == 0);
+        field_118 = 2;
+    }
 }
 
 MATCH_FUNC(0x4B4410)

@@ -258,7 +258,7 @@ struct Frontend
     s32 field_110_state;
     s32 field_114;
     s32 field_118;
-    s16 field_11C;
+    u16 field_11C;
     s16 field_11E;
     s16 field_120;
     s16 field_122;
