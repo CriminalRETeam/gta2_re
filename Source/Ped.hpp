@@ -633,7 +633,7 @@ class Ped
     s32 field_204_killer_id;
     u16 field_208_invulnerability;
     s16 field_20A_wanted_points;
-    s16 field_20C;
+    u16 field_20C;
     s16 field_20e;
     u16 field_210_shock_counter;
     u16 field_212_electrocution_threshold;

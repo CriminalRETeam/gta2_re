@@ -98,6 +98,11 @@ class Weapon_30
         this->field_0_ammo = a2;
     }
 
+    s32 GetWeaponType_41CC90()
+    {
+        return field_1C_idx;
+    }
+
     u16 field_0_ammo;
     u8 field_2_reload_speed;
     s8 field_3;
