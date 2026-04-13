@@ -81,6 +81,9 @@ DEFINE_GLOBAL(Fix16, k_dword_6F8EE4, 0x6F8EE4);
 DEFINE_GLOBAL(Fix16, k_dword_6F8D3C, 0x6F8D3C);
 DEFINE_GLOBAL(Fix16, k_dword_6F8BE8, 0x6F8BE8);
 
+DEFINE_GLOBAL(Fix16, k_dword_6F8F2C, 0x6F8F2C);
+DEFINE_GLOBAL(Fix16, k_dword_6F8D24, 0x6F8D24);
+
 // TODO: From CarPhysics_B0
 EXTERN_GLOBAL(Fix16_Point, stru_6FE1A0);
 
@@ -368,10 +371,88 @@ void Object_2C::sub_5226A0(char_type a2)
     }
 }
 
-STUB_FUNC(0x522710)
+WIP_FUNC(0x522710)
 void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point v30 = a2->GetXY_52AE70();
+    Fix16_Point v29 = GetXY_52AE70();
+
+    Ang16 v25;
+    Fix16_Point v6 = (v29 - *a3);
+    Fix16_Point v26;
+    v26.x = v6.x;
+    v26.y = v6.y;
+
+    Fix16_Point v28;
+    if (a2->field_8->field_34_behavior_type == 3 || a2->field_8->field_34_behavior_type == 4 || a2->field_8->field_34_behavior_type <= 2 && a2->field_8->field_44 == 2)
+    {
+        Fix16_Point v11 = (GetRot_52AE90() - a2->GetRot_52AE90());
+        Fix16_Point v27;
+        v27.x = v11.x;
+        v27.y = v11.y;
+        Fix16_Point v13 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
+                                                             a2->field_8->field_18,
+                                                             &v27,
+                                                             &v26,
+                                                             a3,
+                                                             &v29,
+                                                             &v30,
+                                                             k_dword_6F8D38,
+                                                             k_dword_6F8D38,
+                                                             k_dword_6F8D24);
+
+        v28.x = v13.x;
+        v28.y = v13.y;
+        Fix16_Point v17 = (-v28 / a2->field_8->field_18);
+        a2->SetMovementVectorWithRandomState_522640(&v17);
+    }
+    else
+    {
+        Fix16_Point v18 = GetRot_52AE90();
+        Fix16_Point v27;
+        v27.x = v18.x;
+        v27.y = v18.y;
+        if (v26.x == kFpZero_6F8E10 && v26.y == kFpZero_6F8E10)
+        {
+            v26.x = v18.x;
+            v26.y = v18.y;
+        }
+
+        v28 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
+                                                 k_dword_6F8BE8,
+                                                 &v27,
+                                                 &v26,
+                                                 a3,
+                                                 &v29,
+                                                 &v30,
+                                                 k_dword_6F8D38,
+                                                 k_dword_6F8D38,
+                                                 k_dword_6F8F2C);
+    }
+
+    if (field_10_obj_3c)
+    {
+        v25 = field_10_obj_3c->field_4;
+    }
+
+    Fix16_Point v22 = (v28 / field_8->field_18);
+    SetMovementVectorWithRandomState_522640(&v22);
+
+    if (byte_6F8F94)
+    {
+        if (field_10_obj_3c)
+        {
+            if (ComputeShortestAngleDelta_4056C0(field_10_obj_3c->field_4, v25) < word_6F8C88)
+            {
+                field_10_obj_3c->field_4 += word_6F8D62;
+            }
+        }
+    }
+
+    a2->HandleImpact_528E50(field_4);
+    HandleImpact_528E50(a2->field_4);
 }
 
 // 9.6f 0x4867E0
@@ -434,17 +515,16 @@ void Object_2C::ResolveCollisionWithWorld_522B20(s32* f18, Fix16_Point* a3, Fix1
     Fix16_Point t;
     Fix16_Point v9;
     Fix16_Point obj_xy = GetXY_52AE70();
-    v9 = ComputeLineLineIntersection_55F3B0(
-                                       field_8->field_18,
-                                       k_dword_6F8BE8,
-                                       a4,
-                                       a3,
-                                       &t,
-                                       &obj_xy,
-                                       &stru_6F8EF0,
-                                       k_dword_6F8D38,
-                                       kFpZero_6F8E10,
-                                       k_dword_6F8D3C);
+    v9 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
+                                            k_dword_6F8BE8,
+                                            a4,
+                                            a3,
+                                            &t,
+                                            &obj_xy,
+                                            &stru_6F8EF0,
+                                            k_dword_6F8D38,
+                                            kFpZero_6F8E10,
+                                            k_dword_6F8D3C);
     Fix16_Point v7 = (v9 / this->field_8->field_18);
     SetMovementVectorWithRandomState_522640(&v7);
     HandleImpact_528E50(0);
