@@ -730,6 +730,62 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, u32* a3, 
     return 0;
 }
 
+WIP_FUNC(0x523770)
+char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5)
+{
+    WIP_IMPLEMENTED;
+
+    this->field_10_obj_3c->field_2A = 1;
+
+    if (pSprite->field_1C_zpos > k_dword_6F8BFC)
+    {
+        pSprite->field_1C_zpos = k_dword_6F8BFC;
+        pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
+        this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
+    }
+
+    if (pSprite->sub_5A21F0())
+    {
+        *a5 = 1;
+        this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
+        if (this->field_8->field_50 == 4)
+        {
+            return 1;
+        }
+    }
+
+    if (pSprite->CheckSpriteMovementRegion_5A2500())
+    {
+        this->field_10_obj_3c->field_14 = this->field_10_obj_3c->field_C;
+        *pPoint = pSprite->get_x_y_443580();
+        *a4 = 1;
+        sub_524550();
+        return 1;
+    }
+    else if (SelectCollisionSprite_522460(pSprite))
+    {
+        this->field_10_obj_3c->field_14 = this->field_10_obj_3c->field_C;
+        if (byte_6F8F94 == 0)
+        {
+            *pPoint = pSprite->get_x_y_443580();
+            return 1;
+        }
+        else
+        {
+            *pPoint = pSprite->get_x_y_443580();
+            *a4 = 1;
+            return 1;
+        }
+        return 0;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 MATCH_FUNC(0x524550)
 void Object_2C::sub_524550()
 {
