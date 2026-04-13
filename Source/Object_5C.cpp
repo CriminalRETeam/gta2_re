@@ -325,11 +325,23 @@ char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
     return 1;
 }
 
-STUB_FUNC(0x5224e0)
-s16* Object_2C::SetMovementVector_5224E0(const Fix16_Point* a2)
+WIP_FUNC(0x5224e0)
+void Object_2C::SetMovementVector_5224E0(Fix16_Point* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_10_obj_3c)
+    {
+        Fix16_Point v5 = (GetRot_52AE90() + *a2);
+        Fix16 v5_len = v5.GetLength_2(); // TODO: Should be using kFpZero_6F8E10
+        this->field_10_obj_3c->field_C = v5_len;
+        this->field_10_obj_3c->field_4 = v5.atan2_40F790();
+        this->field_10_obj_3c->field_18 = this->field_8->field_14_friction;
+    }
+    else
+    {
+        NewObj3C_528130(a2);
+    }
 }
 
 MATCH_FUNC(0x522640)

@@ -35,7 +35,7 @@ class Object_2C
     EXPORT bool ShouldStopAtTrafficLight_525290(Sprite* pSprite);
     EXPORT bool ShouldCollideWithSprite_522430(Sprite* a2);
     EXPORT char_type SelectCollisionSprite_522460(Sprite* a2);
-    EXPORT s16* SetMovementVector_5224E0(const Fix16_Point* a2);
+    EXPORT void SetMovementVector_5224E0(Fix16_Point* a2);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point* a2);
     EXPORT void sub_5226A0(char_type a2);
     EXPORT void ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3);

@@ -179,7 +179,7 @@ void Weapon_30::TickReloadSpeed_5DCF40()
 
 // 9.6f 0x4CDA90
 WIP_FUNC(0x5dcf60)
-Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot, const Fix16_Point& rPoint)
+Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot, Fix16_Point& rPoint)
 {
     WIP_IMPLEMENTED;
 
