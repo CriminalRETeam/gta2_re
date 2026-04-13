@@ -81,6 +81,9 @@ DEFINE_GLOBAL(Fix16, k_dword_6F8EE4, 0x6F8EE4);
 DEFINE_GLOBAL(Fix16, k_dword_6F8D3C, 0x6F8D3C);
 DEFINE_GLOBAL(Fix16, k_dword_6F8BE8, 0x6F8BE8);
 
+DEFINE_GLOBAL(Fix16, k_dword_6F8F2C, 0x6F8F2C);
+DEFINE_GLOBAL(Fix16, k_dword_6F8D24, 0x6F8D24);
+
 // TODO: From CarPhysics_B0
 EXTERN_GLOBAL(Fix16_Point, stru_6FE1A0);
 
@@ -322,11 +325,23 @@ char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
     return 1;
 }
 
-STUB_FUNC(0x5224e0)
-s16* Object_2C::SetMovementVector_5224E0(const Fix16_Point* a2)
+WIP_FUNC(0x5224e0)
+void Object_2C::SetMovementVector_5224E0(Fix16_Point* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_10_obj_3c)
+    {
+        Fix16_Point v5 = (GetRot_52AE90() + *a2);
+        Fix16 v5_len = v5.GetLength_2(); // TODO: Should be using kFpZero_6F8E10
+        this->field_10_obj_3c->field_C = v5_len;
+        this->field_10_obj_3c->field_4 = v5.atan2_40F790();
+        this->field_10_obj_3c->field_18 = this->field_8->field_14_friction;
+    }
+    else
+    {
+        NewObj3C_528130(a2);
+    }
 }
 
 MATCH_FUNC(0x522640)
@@ -368,10 +383,89 @@ void Object_2C::sub_5226A0(char_type a2)
     }
 }
 
-STUB_FUNC(0x522710)
+WIP_FUNC(0x522710)
 void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point v30 = a2->GetXY_52AE70();
+    Fix16_Point v29 = GetXY_52AE70();
+
+    Ang16 v25;
+    Fix16_Point v6 = (v29 - *a3);
+    Fix16_Point v26;
+    v26.x = v6.x;
+    v26.y = v6.y;
+
+    Fix16_Point v28;
+    if (a2->field_8->field_34_behavior_type == 3 || a2->field_8->field_34_behavior_type == 4 ||
+        a2->field_8->field_34_behavior_type <= 2 && a2->field_8->field_44 == 2)
+    {
+        Fix16_Point v11 = (GetRot_52AE90() - a2->GetRot_52AE90());
+        Fix16_Point v27;
+        v27.x = v11.x;
+        v27.y = v11.y;
+        Fix16_Point v13 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
+                                                             a2->field_8->field_18,
+                                                             &v27,
+                                                             &v26,
+                                                             a3,
+                                                             &v29,
+                                                             &v30,
+                                                             k_dword_6F8D38,
+                                                             k_dword_6F8D38,
+                                                             k_dword_6F8D24);
+
+        v28.x = v13.x;
+        v28.y = v13.y;
+        Fix16_Point v17 = (-v28 / a2->field_8->field_18);
+        a2->SetMovementVectorWithRandomState_522640(&v17);
+    }
+    else
+    {
+        Fix16_Point v18 = GetRot_52AE90();
+        Fix16_Point v27;
+        v27.x = v18.x;
+        v27.y = v18.y;
+        if (v26.x == kFpZero_6F8E10 && v26.y == kFpZero_6F8E10)
+        {
+            v26.x = v18.x;
+            v26.y = v18.y;
+        }
+
+        v28 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
+                                                 k_dword_6F8BE8,
+                                                 &v27,
+                                                 &v26,
+                                                 a3,
+                                                 &v29,
+                                                 &v30,
+                                                 k_dword_6F8D38,
+                                                 k_dword_6F8D38,
+                                                 k_dword_6F8F2C);
+    }
+
+    if (field_10_obj_3c)
+    {
+        v25 = field_10_obj_3c->field_4;
+    }
+
+    Fix16_Point v22 = (v28 / field_8->field_18);
+    SetMovementVectorWithRandomState_522640(&v22);
+
+    if (byte_6F8F94)
+    {
+        if (field_10_obj_3c)
+        {
+            if (ComputeShortestAngleDelta_4056C0(field_10_obj_3c->field_4, v25) < word_6F8C88)
+            {
+                field_10_obj_3c->field_4 += word_6F8D62;
+            }
+        }
+    }
+
+    a2->HandleImpact_528E50(field_4);
+    HandleImpact_528E50(a2->field_4);
 }
 
 // 9.6f 0x4867E0
@@ -427,33 +521,69 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
 }
 
 WIP_FUNC(0x522b20)
-void Object_2C::ResolveCollisionWithWorld_522B20(s32* f18, Fix16_Point* a3, Fix16_Point* a4)
+void Object_2C::ResolveCollisionWithWorld_522B20(Fix16* f18, Fix16_Point* a3, Fix16_Point* a4)
 {
     WIP_IMPLEMENTED;
 
     Fix16_Point t;
     Fix16_Point v9;
     Fix16_Point obj_xy = GetXY_52AE70();
-    v9 = ComputeLineLineIntersection_55F3B0(
-                                       field_8->field_18,
-                                       k_dword_6F8BE8,
-                                       a4,
-                                       a3,
-                                       &t,
-                                       &obj_xy,
-                                       &stru_6F8EF0,
-                                       k_dword_6F8D38,
-                                       kFpZero_6F8E10,
-                                       k_dword_6F8D3C);
+    v9 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
+                                            k_dword_6F8BE8,
+                                            a4,
+                                            a3,
+                                            &t,
+                                            &obj_xy,
+                                            &stru_6F8EF0,
+                                            k_dword_6F8D38,
+                                            kFpZero_6F8E10,
+                                            k_dword_6F8D3C);
     Fix16_Point v7 = (v9 / this->field_8->field_18);
     SetMovementVectorWithRandomState_522640(&v7);
     HandleImpact_528E50(0);
 }
 
-STUB_FUNC(0x522be0)
+WIP_FUNC(0x522be0)
 void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point v13 = GetRot_52AE90();
+    Fix16_Point v12;
+    Fix16 t1;
+    u8 v9;
+    if (this->field_4->GetNearestHorizontalEdgeToCoordinate_5A0A70(gRozza_679188.field_18_mapy_t1, &t1, &v9))
+    {
+        v12.x = 0;
+        v12.y = this->field_4->field_14_xy.y - gRozza_679188.field_18_mapy_t1;
+    }
+    else
+    {
+        Fix16 xt1d = field_4->field_14_xy.x + (gRozza_679188.field_14_mapx_t2 - a2->x);
+        Fix16 ttt = (gRozza_679188.field_18_mapy_t1 - a2->y); // not used, from an inline ??
+
+        Fix16 v7 = xt1d - gRozza_679188.field_8;
+        if (v7 <= 0)
+        {
+            v7 = gRozza_679188.field_8 - xt1d;
+        }
+
+        Fix16 v8 = xt1d - gRozza_679188.field_4_mapx_t1;
+        if (v8 <= 0)
+        {
+            v8 = -v8;
+        }
+
+        t1 = gRozza_679188.field_4_mapx_t1;
+        if (v8 >= v7)
+        {
+            t1 = gRozza_679188.field_8;
+        }
+
+        v12 = -v13;
+    }
+
+    ResolveCollisionWithWorld_522B20(&t1, &v12, &v13);
 }
 
 STUB_FUNC(0x522d00)
@@ -605,11 +735,131 @@ void Object_2C::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnkn
     }
 }
 
-STUB_FUNC(0x5235b0)
-char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5)
+WIP_FUNC(0x5235b0)
+char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Point* a3, u8* a4, s32 a5)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Sprite* v5 = a2;
+    this->field_10_obj_3c->field_2A = 0;
+    gmp_block_info* pBlock =
+        gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
+    if (pBlock && ((pBlock->field_B_slope_type & 0xFC) != 0) && (pBlock->field_B_slope_type & 0xFCu) < 0xB4 &&
+        (pBlock->field_B_slope_type & 3) != 0)
+    {
+        Fix16 temp_z;
+        bool v15;
+        temp_z = *gMap_0x370_6F6268->sub_4E5050(&temp_z, v5->field_14_xy.x, v5->field_14_xy.y, v5->field_1C_zpos, v15);
+        if (v15)
+        {
+            Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
+        }
+        else if (temp_z < v5->field_1C_zpos)
+        {
+            Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
+            this->field_10_obj_3c->field_10 = dword_6F8DA8;
+            this->field_10_obj_3c->field_2F = 1;
+            goto LABEL_18;
+        }
+        this->field_10_obj_3c->field_2F = 1;
+    }
+    else
+    {
+        gmp_block_info* block_4DFE10 =
+            gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), (v5->field_1C_zpos.ToInt()) - 1);
+        if (block_4DFE10 && (block_4DFE10->field_B_slope_type & 3) != 0 || field_10_obj_3c->field_2F)
+        {
+            if (this->field_10_obj_3c->field_2F)
+            {
+                Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
+            }
+            this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+            this->field_10_obj_3c->field_2A = 0;
+        }
+        else
+        {
+            field_10_obj_3c->field_10 = dword_6F8DA8;
+            this->field_10_obj_3c->field_2A = 1;
+        }
+        this->field_10_obj_3c->field_2F = 0;
+    }
+
+LABEL_18:
+    if (v5->CheckSpriteMovementRegion_5A2500())
+    {
+        *a3 = v5->get_x_y_443580();
+        *a4 = 1;
+        sub_524550();
+        return 1;
+    }
+    else if (SelectCollisionSprite_522460(v5))
+    {
+        this->field_10_obj_3c->field_14 = this->field_10_obj_3c->field_C.mValue;
+        this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        this->field_10_obj_3c->field_2A = 0;
+        *a3 = v5->get_x_y_443580();
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+WIP_FUNC(0x523770)
+char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5)
+{
+    WIP_IMPLEMENTED;
+
+    this->field_10_obj_3c->field_2A = 1;
+
+    if (pSprite->field_1C_zpos > k_dword_6F8BFC)
+    {
+        pSprite->field_1C_zpos = k_dword_6F8BFC;
+        pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
+        this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
+    }
+
+    if (pSprite->sub_5A21F0())
+    {
+        *a5 = 1;
+        this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
+        if (this->field_8->field_50 == 4)
+        {
+            return 1;
+        }
+    }
+
+    if (pSprite->CheckSpriteMovementRegion_5A2500())
+    {
+        this->field_10_obj_3c->field_14 = this->field_10_obj_3c->field_C;
+        *pPoint = pSprite->get_x_y_443580();
+        *a4 = 1;
+        sub_524550();
+        return 1;
+    }
+    else if (SelectCollisionSprite_522460(pSprite))
+    {
+        this->field_10_obj_3c->field_14 = this->field_10_obj_3c->field_C;
+        if (byte_6F8F94 == 0)
+        {
+            *pPoint = pSprite->get_x_y_443580();
+            return 1;
+        }
+        else
+        {
+            *pPoint = pSprite->get_x_y_443580();
+            *a4 = 1;
+            return 1;
+        }
+        return 0;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 MATCH_FUNC(0x524550)

@@ -25,7 +25,7 @@ class Weapon_30
     EXPORT bool is_max_capacity_5DCEA0();
     EXPORT bool sub_5DCEF0();
     EXPORT void TickReloadSpeed_5DCF40();
-    EXPORT Object_2C* spawn_bullet_5DCF60(s32 bullet_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, const Fix16_Point& pPoint);
+    EXPORT Object_2C* spawn_bullet_5DCF60(s32 bullet_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16_Point& pPoint);
     EXPORT void flamethrower_5DD0F0();
     EXPORT void shotgun_5DD290();
     EXPORT void pistol_5DD860();
