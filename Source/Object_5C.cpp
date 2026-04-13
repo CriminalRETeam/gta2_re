@@ -735,11 +735,75 @@ void Object_2C::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnkn
     }
 }
 
-STUB_FUNC(0x5235b0)
-char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5)
+WIP_FUNC(0x5235b0)
+char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Point* a3, u8* a4, s32 a5)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Sprite* v5 = a2;
+    this->field_10_obj_3c->field_2A = 0;
+    gmp_block_info* pBlock =
+        gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
+    if (pBlock && ((pBlock->field_B_slope_type & 0xFC) != 0) && (pBlock->field_B_slope_type & 0xFCu) < 0xB4 &&
+        (pBlock->field_B_slope_type & 3) != 0)
+    {
+        Fix16 temp_z;
+        bool v15;
+        temp_z = *gMap_0x370_6F6268->sub_4E5050(&temp_z, v5->field_14_xy.x, v5->field_14_xy.y, v5->field_1C_zpos, v15);
+        if (v15)
+        {
+            Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
+        }
+        else if (temp_z < v5->field_1C_zpos)
+        {
+            Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
+            this->field_10_obj_3c->field_10 = dword_6F8DA8;
+            this->field_10_obj_3c->field_2F = 1;
+            goto LABEL_18;
+        }
+        this->field_10_obj_3c->field_2F = 1;
+    }
+    else
+    {
+        gmp_block_info* block_4DFE10 =
+            gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), (v5->field_1C_zpos.ToInt()) - 1);
+        if (block_4DFE10 && (block_4DFE10->field_B_slope_type & 3) != 0 || field_10_obj_3c->field_2F)
+        {
+            if (this->field_10_obj_3c->field_2F)
+            {
+                Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
+            }
+            this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+            this->field_10_obj_3c->field_2A = 0;
+        }
+        else
+        {
+            field_10_obj_3c->field_10 = dword_6F8DA8;
+            this->field_10_obj_3c->field_2A = 1;
+        }
+        this->field_10_obj_3c->field_2F = 0;
+    }
+
+LABEL_18:
+    if (v5->CheckSpriteMovementRegion_5A2500())
+    {
+        *a3 = v5->get_x_y_443580();
+        *a4 = 1;
+        sub_524550();
+        return 1;
+    }
+    else if (SelectCollisionSprite_522460(v5))
+    {
+        this->field_10_obj_3c->field_14 = this->field_10_obj_3c->field_C.mValue;
+        this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        this->field_10_obj_3c->field_2A = 0;
+        *a3 = v5->get_x_y_443580();
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 WIP_FUNC(0x523770)
