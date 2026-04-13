@@ -386,7 +386,8 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
     v26.y = v6.y;
 
     Fix16_Point v28;
-    if (a2->field_8->field_34_behavior_type == 3 || a2->field_8->field_34_behavior_type == 4 || a2->field_8->field_34_behavior_type <= 2 && a2->field_8->field_44 == 2)
+    if (a2->field_8->field_34_behavior_type == 3 || a2->field_8->field_34_behavior_type == 4 ||
+        a2->field_8->field_34_behavior_type <= 2 && a2->field_8->field_44 == 2)
     {
         Fix16_Point v11 = (GetRot_52AE90() - a2->GetRot_52AE90());
         Fix16_Point v27;
@@ -508,7 +509,7 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
 }
 
 WIP_FUNC(0x522b20)
-void Object_2C::ResolveCollisionWithWorld_522B20(s32* f18, Fix16_Point* a3, Fix16_Point* a4)
+void Object_2C::ResolveCollisionWithWorld_522B20(Fix16* f18, Fix16_Point* a3, Fix16_Point* a4)
 {
     WIP_IMPLEMENTED;
 
@@ -530,10 +531,47 @@ void Object_2C::ResolveCollisionWithWorld_522B20(s32* f18, Fix16_Point* a3, Fix1
     HandleImpact_528E50(0);
 }
 
-STUB_FUNC(0x522be0)
+WIP_FUNC(0x522be0)
 void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point v13 = GetRot_52AE90();
+    Fix16_Point v12;
+    Fix16 t1;
+    u8 v9;
+    if (this->field_4->GetNearestHorizontalEdgeToCoordinate_5A0A70(gRozza_679188.field_18_mapy_t1, &t1, &v9))
+    {
+        v12.x = 0;
+        v12.y = this->field_4->field_14_xy.y - gRozza_679188.field_18_mapy_t1;
+    }
+    else
+    {
+        Fix16 xt1d = field_4->field_14_xy.x + (gRozza_679188.field_14_mapx_t2 - a2->x);
+        Fix16 ttt = (gRozza_679188.field_18_mapy_t1 - a2->y); // not used, from an inline ??
+
+        Fix16 v7 = xt1d - gRozza_679188.field_8;
+        if (v7 <= 0)
+        {
+            v7 = gRozza_679188.field_8 - xt1d;
+        }
+
+        Fix16 v8 = xt1d - gRozza_679188.field_4_mapx_t1;
+        if (v8 <= 0)
+        {
+            v8 = -v8;
+        }
+
+        t1 = gRozza_679188.field_4_mapx_t1;
+        if (v8 >= v7)
+        {
+            t1 = gRozza_679188.field_8;
+        }
+
+        v12 = -v13;
+    }
+
+    ResolveCollisionWithWorld_522B20(&t1, &v12, &v13);
 }
 
 STUB_FUNC(0x522d00)
