@@ -433,12 +433,32 @@ class Map_0x370
         return &field_0_pDmap->field_4000C_block[pCol->field_4_blockd[z - pCol->field_1_offset]];
     }
 
-    bool sub_433530(u8 x, u8 y, u8 z)
+    bool IsBlockPavementType_42A8C0(u8 x, u8 y, u8 z)
     {
-        gmp_block_info* pBlock = get_block_42A850(x, y, z);
-        if (pBlock && (pBlock->field_B_slope_type & 3) == 2)
+        gmp_block_info* pBlock = get_block_452980(x, y, z);
+        if (pBlock && (pBlock->field_B_slope_type & 3) == PAVEMENT)
         {
             return true;
+        }
+        return false;
+    }
+
+    inline bool IsBlockPavementTypeInlined_433530(u8 x, u8 y, u8 z)
+    {
+        gmp_block_info* pBlock = get_block_42A850(x, y, z);
+        if (pBlock)
+        {
+            return (pBlock->field_B_slope_type & 3) == PAVEMENT;
+        }
+        return false;
+    }
+
+    inline bool IsBlockRoadType_42A8C0(u8 x, u8 y, u8 z)
+    {
+        gmp_block_info* pBlock = get_block_452980(x, y, z);
+        if (pBlock)
+        {
+            return (pBlock->field_B_slope_type & 3) == ROAD;
         }
         return false;
     }

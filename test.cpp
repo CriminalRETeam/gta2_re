@@ -101,7 +101,7 @@ void test_registry()
 void test_lucid_hamilton()
 {
     lucid_hamilton c;
-    c.sub_4C5920(0);
+    c.SetPlySlotIdx_4C5920(0);
 }
 
 void test_winmain()

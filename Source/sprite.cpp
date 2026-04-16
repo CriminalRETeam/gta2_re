@@ -1068,7 +1068,7 @@ char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 sca
 }
 
 STUB_FUNC(0x5A0A70)
-char_type Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Sprite_4C* a2, Sprite** a3, u8* a4)
+char_type Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16* a3, u8* a4)
 {
     NOT_IMPLEMENTED;
     return 0;

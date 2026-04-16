@@ -24,6 +24,7 @@ EXTERN_GLOBAL(Fix16, dword_6FE348);
 EXTERN_GLOBAL(Fix16, dword_677794);
 EXTERN_GLOBAL(Fix16_Point, stru_6FDF50);
 EXTERN_GLOBAL(Fix16, dword_6FE0B0);
+EXTERN_GLOBAL(Fix16, dword_677B90);
 
 EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
                                                                 Fix16 a3,
@@ -264,6 +265,51 @@ class CarPhysics_B0
     inline void ResetPoint6FDF50()
     {
         stru_6FDF50.reset();
+    }
+
+    // FUNCTION: 96f 0x421210
+    void sub_421210()
+    {
+        field_93_is_forward_gas_on = 1;
+        field_91_is_foot_brake_on = 0;
+        field_94_is_backward_gas_on = 0;
+        field_95 = 0;
+    }
+
+    // FUNCTION: 96f 0x42ABC0
+    void sub_42ABC0()
+    {
+        field_95 = 1;
+        field_91_is_foot_brake_on = 0;
+        field_94_is_backward_gas_on = 0;
+        field_93_is_forward_gas_on = 0;
+    }
+
+    // FUNCTION: 96f 0x42AC00
+    void sub_42AC00()
+    {
+        field_91_is_foot_brake_on = 0;
+        field_93_is_forward_gas_on = 0;
+        field_94_is_backward_gas_on = 0;
+        field_95 = 0;
+    }
+
+    // FUNCTION: 96f 0x42ABA0
+    void TurnDirectionMinus_42ABA0()
+    {
+        field_AD_turn_direction = -1;
+    }
+
+    // FUNCTION: 96f 0x42AB90
+    void TurnDirectionPlus_42AB90()
+    {
+        field_AD_turn_direction = 1;
+    }
+
+    void SetGoStraight_42ABB0()
+    {
+        field_AD_turn_direction = 0;
+        field_78_pointing_ang_rad = dword_677B90;
     }
 
     EXPORT Fix16 vec_len_552DE0(); // Char_B4.cpp func

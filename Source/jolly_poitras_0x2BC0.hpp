@@ -26,7 +26,7 @@ struct player_stats_0xA4
     EXPORT player_stats_0xA4();
     EXPORT ~player_stats_0xA4();
 
-    EXPORT void sub_56B630();
+    EXPORT void ResetPlayerSlot_56B630();
     EXPORT s32 sub_56B680();
     EXPORT s32 sub_56B6B0();
 };
