@@ -161,8 +161,23 @@ struct SCR_THREAD : SCR_CMD_HEADER
     miss2_0x11C* field_8_script_thread;
     s16 field_C_unknown;
     u16 field_E;
-    u16 field_10;
-    u16 field_12;
+    union
+    {
+        struct
+        {
+            u16 field_10;
+            u16 field_12;
+        };
+        struct
+        {
+            u16 field_10_char_idx;
+            u8 field_12_x;
+            u8 field_13_y;
+            u8 field_14_z;
+            char_type field_15;
+            u8 field_16_flag;
+        };
+    };
 };
 
 struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
