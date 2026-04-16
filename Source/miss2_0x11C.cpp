@@ -3429,10 +3429,31 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b8b0)
-void miss2_0x11C::sub_50B8B0()
+WIP_FUNC(0x50b8b0)
+void miss2_0x11C::SCRCMD_SET_NO_COLLIDE_50B8B0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    Car_BC* pCar = pPointer->field_8_car;
+
+    if (pCar)
+    {
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_NO_COLLIDE)
+        {
+            pCar->add_f78_bits_421890(2);
+            miss2_0x11C::Next_503620(gBasePtr_6F8070);
+            return;
+        }
+
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_CLEAR_NO_COLLIDE)
+        {
+            pCar->field_78_flags &= 0xFFFD;
+        }
+    }
+
+    // Function fully matches, except gBasePtr_6F8070 is moved into ecx instead of eax?
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50b910)
@@ -5886,7 +5907,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 SCRCMD_IS_CHAR_IN_GANG_50B7D0();
                 break;
             case SCRCMD_SET_NO_COLLIDE:
-                sub_50B8B0();
+                SCRCMD_SET_NO_COLLIDE_50B8B0();
                 break;
             case SCRCMD_IS_CHAR_FIRING_AREA:
                 SCRCMD_IS_CHAR_FIRING_AREA_50B910();
