@@ -698,25 +698,20 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2)
     }
 }
 
-WIP_FUNC(0x504660)
+MATCH_FUNC(0x504660)
 void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(s32 a2)
 {
-    WIP_IMPLEMENTED;
-
     SCR_THREAD* pCmd = (SCR_THREAD*)a2;
 
     if (((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx))->field_8_char)
     {
-        s32 type;
-        a2 = 2;
-        type = 4;
         pCmd->field_15 = gCar_214_705F20->sub_5C86C0(
-            &type,
-            a2,
+            4,
+            2,
             pCmd,
             Fix16(pCmd->field_12_x) + dword_6F75F0,
             Fix16(pCmd->field_13_y) + dword_6F75F0,
-            Fix16(pCmd->field_14_z),
+            pCmd->field_14_z,
             dword_6F75F0,
             dword_6F75F0
         );
