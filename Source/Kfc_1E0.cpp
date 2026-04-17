@@ -9,7 +9,7 @@ DEFINE_GLOBAL(Kfc_1E0*, gKfc_1E0_706280, 0x706280);
 MATCH_FUNC(0x4beb00)
 Kfc_30::Kfc_30()
 {
-    sub_5CBC00();
+    Init_5CBC00();
 }
 
 MATCH_FUNC(0x4beb10)
@@ -18,7 +18,7 @@ Kfc_30::~Kfc_30()
 }
 
 MATCH_FUNC(0x5cbc00)
-void Kfc_30::sub_5CBC00()
+void Kfc_30::Init_5CBC00()
 {
     field_1A = 150;
     field_1E_is_used = 0;
@@ -33,13 +33,13 @@ void Kfc_30::sub_5CBC00()
 }
 
 MATCH_FUNC(0x5cbc30)
-void Kfc_30::sub_5CBC30()
+void Kfc_30::ReInit_5CBC30()
 {
-    sub_5CBC00();
+    Init_5CBC00();
 }
 
 MATCH_FUNC(0x5cbc40)
-void Kfc_30::sub_5CBC40(Ped* a2)
+void Kfc_30::RemovePed_5CBC40(Ped* a2)
 {
     field_8_group->RemovePed_4C9970(a2);
     field_4_ped = field_8_group->field_2C_ped_leader;
@@ -47,7 +47,7 @@ void Kfc_30::sub_5CBC40(Ped* a2)
 
 // https://decomp.me/scratch/HmQPr
 STUB_FUNC(0x5cbc60)
-bool Kfc_30::sub_5CBC60()
+bool Kfc_30::PedIsValid_5CBC60()
 {
     WIP_IMPLEMENTED;
     if (field_4_ped && field_4_ped->isDead_403B60())
@@ -62,7 +62,7 @@ bool Kfc_30::sub_5CBC60()
 }
 
 MATCH_FUNC(0x5cbc90)
-char_type Kfc_30::sub_5CBC90()
+char_type Kfc_30::ReplaceLeaderIfNeeded_5CBC90()
 {
     PedGroup* pGroup = this->field_8_group;
     if (!pGroup)
@@ -79,7 +79,7 @@ char_type Kfc_30::sub_5CBC90()
             Ped* pKfcPed = this->field_4_ped;
             if (pKfcPed->field_16C_car)
             {
-                sub_5CBC40(pKfcPed);
+                RemovePed_5CBC40(pKfcPed);
             }
             else
             {
@@ -102,14 +102,14 @@ char_type Kfc_30::sub_5CBC90()
 }
 
 STUB_FUNC(0x5cbd50)
-void Kfc_30::sub_5CBD50()
+void Kfc_30::UpdateStateMachine_5CBD50()
 {
     NOT_IMPLEMENTED;
 }
 
 // 9.6f 0x4C5A00
 WIP_FUNC(0x5cc1c0)
-void Kfc_30::sub_5CC1C0()
+void Kfc_30::CleanupExpiredEntities_5CC1C0()
 {
     WIP_IMPLEMENTED;
 
@@ -299,11 +299,11 @@ bool Kfc_30::Service_5CC480()
     switch (this->field_28)
     {
         case 5:
-            sub_5CC1C0();
+            CleanupExpiredEntities_5CC1C0();
             return 0;
 
         case 6:
-            sub_5CBD50();
+            UpdateStateMachine_5CBD50();
             return 0;
 
         case 3:
@@ -407,7 +407,7 @@ Kfc_30* Kfc_1E0::New_5CBB80()
 }
 
 MATCH_FUNC(0x5cbbd0)
-void Kfc_1E0::sub_5CBBD0()
+void Kfc_1E0::Service_5CBBD0()
 {
     for (s32 i = 0; i < 10; i++)
     {

@@ -596,7 +596,7 @@ char_type Ped::Reset_45AFC0()
     byte_6787C4 = 0;
     field_21C_bf.b3 = 0;
     field_1A0_objective_target_object = 0;
-    field_1F8 = dword_6784A0;
+    field_1F8_run_speed = dword_6784A0;
     field_1A4 = 0;
     field_132 = gDummyPedAng_6787A8;
     field_1FC = k_dword_678660.mValue;
@@ -8761,7 +8761,7 @@ void Ped::Kill_46F9D0()
         switch (this->field_240_occupation)
         {
             case ped_ocupation_enum::unknown_13:
-                if (!gAmbulance_110_6F70A8->sub_4FA330(this))
+                if (!gAmbulance_110_6F70A8->HandlePedDeath_4FA330(this))
                 {
                     goto LABEL_22;
                 }

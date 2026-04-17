@@ -93,7 +93,7 @@ bool Police_7B8::sub_56F4D0(Ped* a2)
         {
             if (v3->field_10_subObj->field_4_ped == a2)
             {
-                char_type v6 = v3->field_10_subObj->sub_5CBC90();
+                char_type v6 = v3->field_10_subObj->ReplaceLeaderIfNeeded_5CBC90();
                 Kfc_30* v7 = v3->field_10_subObj;
                 if (v3->field_10_subObj->field_8_group)
                 {

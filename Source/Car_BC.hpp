@@ -926,6 +926,11 @@ class Car_BC
     s32 field_70_exploder_ped_id;
     s16 field_74_damage;
     s16 field_76_last_seen_timer;
+    /*
+    0x100 = bullet proof
+    0x200 = rocket proof
+    0x400 = flame proof
+    */
     u16 field_78_flags;
     s16 field_7A;
     s32 field_7C_uni_num;

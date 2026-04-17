@@ -627,7 +627,7 @@ class Ped
     s32 field_1EC;
     Fix16 field_1F0_maybe_max_speed;
     Fix16 field_1F4;
-    Fix16 field_1F8;
+    Fix16 field_1F8_run_speed;
     Fix16 field_1FC;
     u32 field_200_id;
     s32 field_204_killer_id;

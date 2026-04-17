@@ -18,12 +18,12 @@ class Ambulance_20
   public:
     EXPORT Ambulance_20();
     EXPORT ~Ambulance_20();
-    EXPORT void sub_4FA7D0();
+    EXPORT void ClearTask_4FA7D0();
     EXPORT void AddPassenger_4FA800(Ped* pPed);
-    EXPORT bool sub_4FA820();
-    EXPORT char_type sub_4FA9D0();
-    EXPORT u32* sub_4FAAC0();
-    EXPORT void sub_4FB330();
+    EXPORT bool SpawnParamedicCrew_4FA820();
+    EXPORT void EvaluatePickupState_4FA9D0();
+    EXPORT void HandleObjectiveState_4FAAC0();
+    EXPORT void UpdateState_4FB330();
 
     char_type field_0;
     char_type field_1;
@@ -53,10 +53,10 @@ class Ambulance_110
 
     EXPORT ~Ambulance_110();
     EXPORT void init_4FA310();
-    EXPORT bool sub_4FA330(Ped* pDeadPed);
+    EXPORT bool HandlePedDeath_4FA330(Ped* pDeadPed);
     EXPORT char_type TryAddPatient_4FA470(Ped* a2);
-    EXPORT Ambulance_20* sub_4FA4B0();
-    EXPORT void sub_4FA500();
+    EXPORT Ambulance_20* AllocateTaskSlot_4FA4B0();
+    EXPORT void ProcessPatientQueue_4FA500();
     EXPORT void AmbulancesService_4FA790();
 
     char_type field_0;

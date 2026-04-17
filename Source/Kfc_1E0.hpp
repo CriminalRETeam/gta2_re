@@ -12,13 +12,13 @@ class Kfc_30
   public:
     EXPORT Kfc_30();
     EXPORT ~Kfc_30();
-    EXPORT void sub_5CBC00();
-    EXPORT void sub_5CBC30();
-    EXPORT void sub_5CBC40(Ped* a2);
-    EXPORT bool sub_5CBC60();
-    EXPORT char_type sub_5CBC90();
-    EXPORT void sub_5CBD50();
-    EXPORT void sub_5CC1C0();
+    EXPORT void Init_5CBC00();
+    EXPORT void ReInit_5CBC30();
+    EXPORT void RemovePed_5CBC40(Ped* a2);
+    EXPORT bool PedIsValid_5CBC60();
+    EXPORT char_type ReplaceLeaderIfNeeded_5CBC90();
+    EXPORT void UpdateStateMachine_5CBD50();
+    EXPORT void CleanupExpiredEntities_5CC1C0();
     EXPORT bool Service_5CC480();
     Car_BC* field_0_car;
     Ped* field_4_ped;
@@ -50,7 +50,7 @@ class Kfc_1E0
     EXPORT ~Kfc_1E0();
     EXPORT void init_5CBB70();
     EXPORT Kfc_30* New_5CBB80();
-    EXPORT void sub_5CBBD0();
+    EXPORT void Service_5CBBD0();
     Kfc_30 field_0[10];
 };
 
