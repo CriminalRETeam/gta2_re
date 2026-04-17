@@ -2950,7 +2950,7 @@ void CarAI_78::sub_44E0C0()
 
     byte_677BBC = 1;
     u8 t_z = 0;
-    this->field_74 = this->field_0->field_54_driver->field_1F8;
+    this->field_74 = this->field_0->field_54_driver->field_1F8_run_speed;
     Hamburger_40* p60_ = field_0->field_60;
 
     Fix16 target_x;

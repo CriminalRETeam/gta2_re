@@ -830,7 +830,7 @@ class miss2_0x11C
     EXPORT void sub_503200();
     EXPORT u8 sub_503410(u32 a1);
     EXPORT void sub_5035B0();
-    EXPORT void sub_5035D0();
+    EXPORT void Log_5035D0();
     EXPORT void sub_503610();
     EXPORT void Next_503620(SCR_CMD_HEADER* a2);
     EXPORT void JumpToCmd_503650(u16 a2);
@@ -923,7 +923,7 @@ class miss2_0x11C
     EXPORT void sub_509E70();
     EXPORT void sub_509ED0();
     EXPORT void SCRCMD_EXPLODE_BUILDING_509F60();
-    EXPORT void sub_509FD0();
+    EXPORT void Locate_509FD0();
     EXPORT void sub_50A200();
     EXPORT void sub_50A3E0();
     EXPORT void sub_50A460();
@@ -932,7 +932,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_CHECK_CAR_MODEL_50A610();
     EXPORT void SCRCMD_CHECK_CAR_REMAP_50A670();
     EXPORT void SCRCMD_CHECK_CAR_BOTH_50A6E0();
-    EXPORT void sub_50A760();
+    EXPORT void IsOnScreen_50A760();
     EXPORT void SCRCMD_DELAY_HERE_50A940();
     EXPORT void sub_50A980();
     EXPORT void EnableThread_50A9E0(u16 idx);
@@ -940,7 +940,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_ENABLE_THREAD_50ABF0();
     EXPORT void SCRCMD_SET_GANG_KILL_REACTION_50AC20();
     EXPORT void sub_50ACF0();
-    EXPORT void sub_50AEF0();
+    EXPORT void RespectOperator_50AEF0();
     EXPORT void sub_50B0E0();
     EXPORT void SCRCMD_SET_AMBIENT_50B150();
     EXPORT void sub_50B180();
@@ -999,7 +999,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_ROAD_ON_OFF_50CB20();
     EXPORT void sub_50CB70();
     EXPORT void sub_50CCB0();
-    EXPORT void sub_50CD30();
+    EXPORT void SwitchGenerator_50CD30();
     EXPORT void SCRCMD_CAR_DAMAGE_POS_50CDB0();
     EXPORT void SCRCMD_PARK_FINISHED_50CE10();
     EXPORT void sub_50CE50(SCR_CMD_HEADER* pCmd, u16 cmd_idx);
@@ -1013,26 +1013,26 @@ class miss2_0x11C
     EXPORT void SCRCMD_CHANGE_COLOUR_50D900();
     EXPORT void SCRCMD_CHANGE_RADIUS_50D9A0();
     EXPORT void sub_50DA50();
-    EXPORT void sub_50DB70();
+    EXPORT void GetSetLivesAndMultipler_50DB70();
     EXPORT void sub_50DD00();
     EXPORT void SCRCMD_SET_DIR_OF_TVVAN_50DD90();
     EXPORT void SCRCMD_POINT_ONSCREEN_50DE00();
     EXPORT void SCRCMD_CHAR_IN_AIR_50DE50();
     EXPORT void SCRCMD_CHAR_SUNK_50DEB0();
-    EXPORT void sub_50DF10();
-    EXPORT void sub_50E0B0();
-    EXPORT void sub_50E120();
-    EXPORT void sub_50E150();
-    EXPORT void sub_50E190();
+    EXPORT void StartBonus_50DF10();
+    EXPORT void SCRCMD_CHECK_BONUS_50E0B0();
+    EXPORT void SCRCMD_SETUP_MODEL_CHECK_50E120();
+    EXPORT void SCRCMD_MODEL_CHECK_50E150();
+    EXPORT void GetSpeed_50E190();
     EXPORT void SCRCMD_CHECK_CAR_SPEED_50E360();
-    EXPORT void sub_50E460();
+    EXPORT void SCRCMD_SET_CAR_GRAPHIC_50E460();
     EXPORT void SCRCMD_CHAR_ARRESTED_50E4A0();
     EXPORT void sub_50E4F0();
     EXPORT void sub_50E610();
     EXPORT void sub_50E730();
-    EXPORT void sub_50E780();
-    EXPORT void sub_50E7F0();
-    EXPORT void sub_50E820();
+    EXPORT void SCRCMD_SET_SPEED_50E780();
+    EXPORT void SCRCMD_GIVE_CAR_ALARM_50E7F0();
+    EXPORT void SCRCMD_CAR_WEAPON_KIND_PROOF_50E820();
     EXPORT void sub_50E900();
     EXPORT void sub_50E9A0();
     EXPORT void sub_50E9E0();
@@ -1054,7 +1054,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_PED_GRAPHIC_50F550();
     EXPORT void sub_50F5E0();
     EXPORT void SCRCMD_MAKE_MUGGERS_50F770();
-    EXPORT void sub_50F7B0();
+    EXPORT void LocSecChar_50F7B0();
     EXPORT void SCRCMD_STOP_CAR_DRIVE_50F900();
     EXPORT void SCRCMD_IS_BUS_FULL_50F940();
     EXPORT void SCRCMD_NO_CHARS_OFF_BUS_50F9B0();
@@ -1065,7 +1065,7 @@ class miss2_0x11C
     EXPORT void sub_50FAF0();
     EXPORT void sub_50FB60();
     EXPORT void sub_50FC20();
-    EXPORT void sub_50FC60();
+    EXPORT void GroupInArea_50FC60();
     EXPORT void sub_50FE00();
     EXPORT void sub_50FED0();
     EXPORT void sub_50FF50();
@@ -1131,11 +1131,11 @@ class miss2_0x11C_Pool
 
     }
 
-    void sub_47F4D0()
+    void LogAll_47F4D0()
     {
         for (miss2_0x11C* pThread = field_0_pool.field_4_pPrev; pThread; pThread = pThread->mpNext)
         {
-            pThread->sub_5035D0();
+            pThread->Log_5035D0();
         }
     }
 

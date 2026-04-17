@@ -78,7 +78,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     pPed1->field_288_threat_search = threat_search_enum::no_threats_0;
     pPed1->field_244_remap = 16;
     pPed1->field_26C_graphic_type = 0;
-    pPed1->field_1F8 = dword_6F6DD4;
+    pPed1->field_1F8_run_speed = dword_6F6DD4;
 
     Ped* pPed2 = gPedManager_6787BC->sub_470F30();
     if (!pPed2)
