@@ -161,8 +161,23 @@ struct SCR_THREAD : SCR_CMD_HEADER
     miss2_0x11C* field_8_script_thread;
     s16 field_C_unknown;
     u16 field_E;
-    u16 field_10;
-    u16 field_12;
+    union
+    {
+        struct
+        {
+            u16 field_10;
+            u16 field_12;
+        };
+        struct
+        {
+            u16 field_10_char_idx;
+            u8 field_12_x;
+            u8 field_13_y;
+            u8 field_14_z;
+            char_type field_15;
+            u8 field_16_flag;
+        };
+    };
 };
 
 struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
@@ -943,7 +958,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_CHECK_SCORE_50B6F0();
     EXPORT void SCRCMD_GET_SCORE_50B760();
     EXPORT void SCRCMD_IS_CHAR_IN_GANG_50B7D0();
-    EXPORT void sub_50B8B0();
+    EXPORT void SCRCMD_SET_NO_COLLIDE_50B8B0();
     EXPORT void SCRCMD_IS_CHAR_FIRING_AREA_50B910();
     EXPORT void SCRCMD_GET_PASSENGER_NUM_50B9C0();
     EXPORT void sub_50BA30();

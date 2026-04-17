@@ -698,10 +698,30 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2)
     }
 }
 
-STUB_FUNC(0x504660)
+WIP_FUNC(0x504660)
 void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(s32 a2)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    SCR_THREAD* pCmd = (SCR_THREAD*)a2;
+
+    if (((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx))->field_8_char)
+    {
+        s32 type;
+        a2 = 2;
+        type = 4;
+        pCmd->field_15 = gCar_214_705F20->sub_5C86C0(
+            &type,
+            a2,
+            pCmd,
+            Fix16(pCmd->field_12_x) + dword_6F75F0,
+            Fix16(pCmd->field_13_y) + dword_6F75F0,
+            Fix16(pCmd->field_14_z),
+            dword_6F75F0,
+            dword_6F75F0
+        );
+        pCmd->field_16_flag = 1;
+    }
 }
 
 STUB_FUNC(0x504710)
@@ -3151,8 +3171,7 @@ void miss2_0x11C::SCRCMD_CHECK_PHONE_50B230()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-// https://decomp.me/scratch/Fu170 matches on decompme, wrong instr size?
-STUB_FUNC(0x50b2c0)
+MATCH_FUNC(0x50b2c0)
 void miss2_0x11C::SCRCMD_CHECK_PHONETIMER_50B2C0()
 {
     SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
@@ -3160,7 +3179,7 @@ void miss2_0x11C::SCRCMD_CHECK_PHONETIMER_50B2C0()
     if (pHeader)
     {
         SCR_ANSWER_PHONE* pAnswer = (SCR_ANSWER_PHONE*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pHeader->field_8_cmd_line);
-        if (field_E != -1)
+        if ((u16)field_E != 0xFFFF)
         {
             if (field_E == 0 && pAnswer->field_12 == 0)
             {
@@ -3402,10 +3421,31 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b8b0)
-void miss2_0x11C::sub_50B8B0()
+WIP_FUNC(0x50b8b0)
+void miss2_0x11C::SCRCMD_SET_NO_COLLIDE_50B8B0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    Car_BC* pCar = pPointer->field_8_car;
+
+    if (pCar)
+    {
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_NO_COLLIDE)
+        {
+            pCar->add_f78_bits_421890(2);
+            miss2_0x11C::Next_503620(gBasePtr_6F8070);
+            return;
+        }
+
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_CLEAR_NO_COLLIDE)
+        {
+            pCar->field_78_flags &= 0xFFFD;
+        }
+    }
+
+    // Function fully matches, except gBasePtr_6F8070 is moved into ecx instead of eax?
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50b910)
@@ -5859,7 +5899,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 SCRCMD_IS_CHAR_IN_GANG_50B7D0();
                 break;
             case SCRCMD_SET_NO_COLLIDE:
-                sub_50B8B0();
+                SCRCMD_SET_NO_COLLIDE_50B8B0();
                 break;
             case SCRCMD_IS_CHAR_FIRING_AREA:
                 SCRCMD_IS_CHAR_FIRING_AREA_50B910();

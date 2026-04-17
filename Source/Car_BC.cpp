@@ -192,7 +192,7 @@ void Car_214::sub_5C8680(u8 idx)
 }
 
 MATCH_FUNC(0x5c86c0)
-char_type Car_214::sub_5C86C0(s32* pType, s32* f_C, s32 f_0, Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 a8, Fix16 a9)
+char_type Car_214::sub_5C86C0(s32* pType, s32& f_C, SCR_THREAD* f_0, Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 a8, Fix16 a9)
 {
     Car_18* pIter = field_0;
     for (u8 idx = 0; idx < GTA2_COUNTOF(field_0); idx++)
@@ -200,8 +200,8 @@ char_type Car_214::sub_5C86C0(s32* pType, s32* f_C, s32 f_0, Fix16 xpos, Fix16 y
         if (pIter->field_8_type == 0)
         {
             pIter->field_8_type = *pType;
-            pIter->field_C = *f_C;
-            pIter->field_0 = f_0;
+            pIter->field_C = f_C;
+            pIter->field_0 = (s32)f_0;
             pIter->field_14 = 1;
             pIter->field_4_O2C = gObject_5C_6F8F84->NewTouchPoint_529950(161, // save point?
                                                                          xpos,
