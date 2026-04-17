@@ -638,7 +638,7 @@ void PoliceCrew_38::sub_574F10()
                 }
             }
             field_10_subObj->field_28 = 0;
-            field_10_subObj->sub_5CBC30();
+            field_10_subObj->ReInit_5CBC30();
             PoliceCrew_38::Init_5709C0();
         }
         else

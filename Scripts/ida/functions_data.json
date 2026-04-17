@@ -8035,7 +8035,7 @@
         "v105_address": "0x4fa310"
     },
     {
-        "name": "Ambulance_110::sub_4FA330",
+        "name": "Ambulance_110::HandlePedDeath_4FA330",
         "v96f_address": "0x473010",
         "v105_address": "0x4fa330"
     },
@@ -8045,12 +8045,12 @@
         "v105_address": "0x4fa470"
     },
     {
-        "name": "Ambulance_110::sub_4FA4B0",
+        "name": "Ambulance_110::AllocateTaskSlot_4FA4B0",
         "v96f_address": null,
         "v105_address": "0x4fa4b0"
     },
     {
-        "name": "Ambulance_110::sub_4FA500",
+        "name": "Ambulance_110::ProcessPatientQueue_4FA500",
         "v96f_address": "0x473E00",
         "v105_address": "0x4fa500"
     },
@@ -8060,7 +8060,7 @@
         "v105_address": "0x4fa790"
     },
     {
-        "name": "Ambulance_20::sub_4FA7D0",
+        "name": "Ambulance_20::ClearTask_4FA7D0",
         "v96f_address": null,
         "v105_address": "0x4fa7d0"
     },
@@ -8070,22 +8070,22 @@
         "v105_address": "0x4fa800"
     },
     {
-        "name": "Ambulance_20::sub_4FA820",
+        "name": "Ambulance_20::SpawnParamedicCrew_4FA820",
         "v96f_address": null,
         "v105_address": "0x4fa820"
     },
     {
-        "name": "Ambulance_20::sub_4FA9D0",
+        "name": "Ambulance_20::EvaluatePickupState_4FA9D0",
         "v96f_address": null,
         "v105_address": "0x4fa9d0"
     },
     {
-        "name": "Ambulance_20::sub_4FAAC0",
+        "name": "Ambulance_20::HandleObjectiveState_4FAAC0",
         "v96f_address": null,
         "v105_address": "0x4faac0"
     },
     {
-        "name": "Ambulance_20::sub_4FB330",
+        "name": "Ambulance_20::UpdateState_4FB330",
         "v96f_address": null,
         "v105_address": "0x4fb330"
     },
@@ -15900,42 +15900,42 @@
         "v105_address": "0x5cbb80"
     },
     {
-        "name": "Kfc_1E0::sub_5CBBD0",
+        "name": "Kfc_1E0::Service_5CBBD0",
         "v96f_address": null,
         "v105_address": "0x5cbbd0"
     },
     {
-        "name": "Kfc_30::sub_5CBC00",
+        "name": "Kfc_30::Init_5CBC00",
         "v96f_address": null,
         "v105_address": "0x5cbc00"
     },
     {
-        "name": "Kfc_30::sub_5CBC30",
+        "name": "Kfc_30::ReInit_5CBC30",
         "v96f_address": null,
         "v105_address": "0x5cbc30"
     },
     {
-        "name": "Kfc_30::sub_5CBC40",
+        "name": "Kfc_30::RemovePed_5CBC40",
         "v96f_address": null,
         "v105_address": "0x5cbc40"
     },
     {
-        "name": "Kfc_30::sub_5CBC60",
+        "name": "Kfc_30::PedIsValid_5CBC60",
         "v96f_address": null,
         "v105_address": "0x5cbc60"
     },
     {
-        "name": "Kfc_30::sub_5CBC90",
+        "name": "Kfc_30::ReplaceLeaderIfNeeded_5CBC90",
         "v96f_address": null,
         "v105_address": "0x5cbc90"
     },
     {
-        "name": "Kfc_30::sub_5CBD50",
+        "name": "Kfc_30::UpdateStateMachine_5CBD50",
         "v96f_address": null,
         "v105_address": "0x5cbd50"
     },
     {
-        "name": "Kfc_30::sub_5CC1C0",
+        "name": "Kfc_30::CleanupExpiredEntities_5CC1C0",
         "v96f_address": null,
         "v105_address": "0x5cc1c0"
     },

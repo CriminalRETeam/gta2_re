@@ -8761,7 +8761,7 @@ void Ped::Kill_46F9D0()
         switch (this->field_240_occupation)
         {
             case ped_ocupation_enum::unknown_13:
-                if (!gAmbulance_110_6F70A8->sub_4FA330(this))
+                if (!gAmbulance_110_6F70A8->HandlePedDeath_4FA330(this))
                 {
                     goto LABEL_22;
                 }
