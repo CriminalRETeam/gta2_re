@@ -160,7 +160,7 @@ struct NetPlay
     EXPORT void Set15_51ECD0(s32 pFunc, Network_20324* pParam);
     EXPORT void NetworkTick_51ED00();
     EXPORT s32 Send_51EF60();
-    EXPORT char_type Receive_51F010(s32* pOutData, s32* pOutDataLen, s32* recvId, u32* senderId);
+    EXPORT char_type Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId);
     EXPORT void SendOrReceivePacket_51F0D0(void* pPacket, s32 a3, s32 a4, s32 a5);
     EXPORT void ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s32 a5);
     EXPORT s32 CalcPacketLen_51F210(u32 pPacket);
