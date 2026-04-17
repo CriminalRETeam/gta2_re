@@ -708,20 +708,15 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(s32 a2)
     if (((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx))->field_8_char)
     {
         s32 type;
-        Fix16 zpos(pCmd->field_14_z);
         a2 = 2;
         type = 4;
-        Fix16 temp_y(pCmd->field_13_y);
-        Fix16 ypos = temp_y + dword_6F75F0;
-        Fix16 temp_x(pCmd->field_12_x);
-        Fix16 xpos = temp_x + dword_6F75F0;
         pCmd->field_15 = gCar_214_705F20->sub_5C86C0(
             &type,
             a2,
             pCmd,
-            xpos,
-            ypos,
-            zpos,
+            Fix16(pCmd->field_12_x) + dword_6F75F0,
+            Fix16(pCmd->field_13_y) + dword_6F75F0,
+            Fix16(pCmd->field_14_z),
             dword_6F75F0,
             dword_6F75F0
         );
