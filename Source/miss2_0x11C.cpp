@@ -698,6 +698,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2)
     }
 }
 
+// https://decomp.me/scratch/qRfiZ
 WIP_FUNC(0x504660)
 void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(s32 a2)
 {
@@ -716,7 +717,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(s32 a2)
             pCmd,
             Fix16(pCmd->field_12_x) + dword_6F75F0,
             Fix16(pCmd->field_13_y) + dword_6F75F0,
-            Fix16(pCmd->field_14_z),
+            pCmd->field_14_z,
             dword_6F75F0,
             dword_6F75F0
         );
