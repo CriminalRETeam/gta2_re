@@ -16,6 +16,7 @@
 #include <wchar.h>
 
 struct gmp_zone_info;
+struct SCR_THREAD;
 class Camera_0xBC;
 class Object_2C;
 class Fix16_Rect;
@@ -62,7 +63,7 @@ class Car_214
 {
   public:
     EXPORT void sub_5C8680(u8 idx);
-    EXPORT char_type sub_5C86C0(s32* pType, s32* f_C, s32 f_0, Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 a8, Fix16 a9);
+    EXPORT char_type sub_5C86C0(s32* pType, s32& f_C, SCR_THREAD* f_0, Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 a8, Fix16 a9);
     EXPORT void sub_5C8750();
     EXPORT u16* sub_5C8780(u8 a2, Sprite* pCarSprite);
     Car_18 field_0[22];
