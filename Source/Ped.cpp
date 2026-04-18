@@ -1965,11 +1965,11 @@ void Ped::EnterPublicTransport_45EE70()
                     Train_58* pTrain = pTrainStation->field_18;
                     if (pTrain)
                     {
-                        if (pTrain->field_10_carriages[0]->field_84_car_info_idx == car_model_enum::TRAIN)
+                        if (pTrain->field_C_carriages[1]->field_84_car_info_idx == car_model_enum::TRAIN)
                         {
                             sub_45EE00(9);
                             SetObjective2_463830(29, 9999);
-                            this->field_154_target_to_enter = pTrainStation->field_18->field_10_carriages[0];
+                            this->field_154_target_to_enter = pTrainStation->field_18->field_C_carriages[1];
                         }
                     }
                 }
@@ -7739,7 +7739,7 @@ void Ped::sub_46D030()
         Train_58* pTrain = gPublicTransport_181C_6FF1D4->GetTrainFromCarExcludingLeadCar_57B6A0(field_154_target_to_enter);
         Car_BC* pOldTarget = field_154_target_to_enter;
         if (pTrain->field_4C_maybe_train_station->field_1C == 2 &&
-            pTrain->field_10_carriages[0]->field_84_car_info_idx == car_model_enum::TRAIN)
+            pTrain->field_C_carriages[1]->field_84_car_info_idx == car_model_enum::TRAIN)
         {
             Ped::SetObjective2_463830(37, 9999);
             field_154_target_to_enter = pOldTarget;
