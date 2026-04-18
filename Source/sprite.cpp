@@ -947,11 +947,112 @@ char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollision
     return overlapCount;
 }
 
-STUB_FUNC(0x5a0380)
-bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* a1)
+// https://decomp.me/scratch/5emc4
+WIP_FUNC(0x5a0380)
+bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_C_sprite_4c_ptr->IsZeroWidth_41E390())
+    {
+        return field_C_sprite_4c_ptr->field_30_boundingBox.IntersectsSpriteRenderingRect_59DDF0(pOther);
+    }
+
+    Fix16 half_width;
+    Fix16 half_height;
+
+    Fix16_Point* pOtherRenderRect = pOther->field_C_sprite_4c_ptr->field_C_renderingRect;
+
+    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&half_width, &half_height);
+
+    Fix16 pRotTransX;
+    Fix16 pRotTransY;
+
+    // First rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[0].x,
+                                   pOtherRenderRect[0].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Second rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[1].x,
+                                   pOtherRenderRect[1].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Third rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[2].x,
+                                   pOtherRenderRect[2].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Fourth rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[3].x,
+                                   pOtherRenderRect[3].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Last rotation (it's different)
+    RotateAndTranslatePoint_42A720(pOther->field_14_xy.x,
+                                   pOther->field_14_xy.y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 WIP_FUNC(0x4F77D0)
