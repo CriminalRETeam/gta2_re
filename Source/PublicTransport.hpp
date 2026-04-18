@@ -10,7 +10,7 @@ class TrainStation_34;
 class Train_58
 {
   public:
-    EXPORT void sub_578030();
+    EXPORT void ReassignTrainHead_578030();
     EXPORT void sub_578180();
     EXPORT void sub_5781F0();
     EXPORT Train_58();

@@ -1,12 +1,14 @@
 #include "PublicTransport.hpp"
 #include "Car_BC.hpp"
+#include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "map_0x370.hpp"
-#include "Char_Pool.hpp"
 #include "rng.hpp"
+#include "CarAI_78.hpp"
+#include "CarPhysics_B0.hpp"
 
 DEFINE_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
 DEFINE_GLOBAL(TrainStationList, dword_6FEE68, 0x6FEE68);
@@ -84,10 +86,66 @@ gmp_map_zone* __stdcall sub_577EE0(char_type* pChar, u8 case_value)
     return pZone;
 }
 
-STUB_FUNC(0x578030)
-void Train_58::sub_578030()
+WIP_FUNC(0x578030)
+void Train_58::ReassignTrainHead_578030()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (!bSkip_trains_67D550)
+    {
+        Car_BC* pFirst = this->field_C_carriages[0];
+        this->field_C_carriages[0] = this->field_C_carriages[this->field_43_idx];
+        this->field_C_carriages[this->field_43_idx] = pFirst;
+
+        //pFirst_ = this->field_C_carriages[0];
+        //pFirst_->field_4C_next = gCar_BC_Pool_67792C->field_4_firstCar;
+        //gCar_BC_Pool_67792C->field_4_firstCar = pFirst_;
+
+        gCar_BC_Pool_67792C->field_0_pool.sub_420F30(this->field_C_carriages[this->field_43_idx]);
+
+        Car_BC* pTrainCar = this->field_C_carriages[this->field_43_idx];
+        if (pTrainCar->field_58_physics) // BUG?
+        {
+            pTrainCar->AllocCarPhysics_4419E0();
+        }
+
+        this->field_C_carriages[this->field_43_idx]->field_58_physics->Init_5637A0();
+        if (this->field_C_carriages[0]->field_58_physics) // BUG?
+        {
+            this->field_C_carriages[0]->AllocCarPhysics_4419E0();
+        }
+
+        this->field_C_carriages[0]->field_58_physics->SetSprite_563560(this->field_C_carriages[0]->field_50_car_sprite);
+        this->field_C_carriages[0]->field_54_driver = pFirst->field_54_driver;
+        
+        if (this->field_C_carriages[0]->field_58_physics) // BUG?
+        {
+            this->field_C_carriages[0]->AllocCarPhysics_4419E0();
+        }
+
+        Ped* pTrainDriver = this->field_C_carriages[0]->field_54_driver;
+        if (pTrainDriver && pTrainDriver->field_15C_player)
+        {
+            this->field_C_carriages[0]->field_58_physics->field_8C_state = 2;
+        }
+        else
+        {
+            this->field_C_carriages[0]->field_58_physics->field_8C_state = 1;
+        }
+        pFirst->field_54_driver = 0;
+
+        if (!this->field_C_carriages[0]->field_5C)
+        {
+            gCarAI_78_Pool_677CF8->DeAllocate(this->field_C_carriages[0]->field_5C);
+        }
+
+        this->field_C_carriages[0]->field_5C->SetCar_453BF0(this->field_C_carriages[0]);
+
+        pFirst->DeAllocateAI_4446E0();
+
+        this->field_C_carriages[0]->field_76_last_seen_timer = 0;
+        this->field_C_carriages[0]->field_7C_uni_num = this->field_C_carriages[0]->field_54_driver->field_238;
+    }
 }
 
 MATCH_FUNC(0x578180)
@@ -101,7 +159,7 @@ void Train_58::sub_578180()
                 this->field_50_state = 1;
                 break;
             case 1:
-                sub_578030();
+                ReassignTrainHead_578030();
                 this->field_50_state = 2;
                 break;
             case 2:
@@ -130,7 +188,7 @@ void Train_58::sub_5781F0()
                 this->field_50_state = 0;
                 break;
             case 2:
-                sub_578030();
+                ReassignTrainHead_578030();
                 this->field_50_state = 1;
                 break;
             case 3:
@@ -215,7 +273,7 @@ void Train_58::sub_578300()
         if (this->field_50_state < 2)
         {
             this->field_1 = 1;
-            sub_578030();
+            ReassignTrainHead_578030();
         }
         this->field_50_state = 2;
     }
@@ -228,11 +286,11 @@ void Train_58::sub_578330()
     {
         for (s32 i = 0; i < 2; i++)
         {
-            if (field_C_carriages[i+1])
+            if (field_C_carriages[i + 1])
             {
-                if (field_C_carriages[i+1]->field_84_car_info_idx == car_model_enum::TRAIN)
+                if (field_C_carriages[i + 1]->field_84_car_info_idx == car_model_enum::TRAIN)
                 {
-                    field_C_carriages[i+1]->sub_43B3D0();
+                    field_C_carriages[i + 1]->sub_43B3D0();
                 }
             }
         }
@@ -246,11 +304,11 @@ void Train_58::sub_578360()
     {
         for (s32 i = 0; i < 2; i++)
         {
-            if (field_C_carriages[i+1])
+            if (field_C_carriages[i + 1])
             {
-                if (field_C_carriages[i+1]->field_84_car_info_idx == car_model_enum::TRAIN)
+                if (field_C_carriages[i + 1]->field_84_car_info_idx == car_model_enum::TRAIN)
                 {
-                    field_C_carriages[i+1]->sub_43B380();
+                    field_C_carriages[i + 1]->sub_43B380();
                 }
             }
         }
