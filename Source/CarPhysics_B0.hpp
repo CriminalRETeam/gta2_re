@@ -28,11 +28,11 @@ EXTERN_GLOBAL(Fix16, dword_677B90);
 
 EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
                                                                 Fix16 a3,
-                                                                Fix16_Point* a4,
-                                                                Fix16_Point* a5,
-                                                                Fix16_Point* a6,
-                                                                Fix16_Point* a7,
-                                                                Fix16_Point* a8,
+                                                                Fix16_Point& a4,
+                                                                Fix16_Point& a5,
+                                                                Fix16_Point& a6,
+                                                                Fix16_Point& a7,
+                                                                Fix16_Point& a8,
                                                                 Fix16 a9,
                                                                 Fix16 a10,
                                                                 Fix16 a11);
@@ -111,9 +111,9 @@ class CarPhysics_B0
     EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce);
     EXPORT void ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2);
     EXPORT Fix16 ApplyImpactForcesAndDamage_55FA60(Fix16_Point* a3, Fix16_Point* a4, s32 base_dmg);
-    EXPORT void AccumulateImpulse_55FC30(Fix16_Point* a2, s32 a3);
+    EXPORT void AccumulateImpulse_55FC30(Fix16_Point& a2, s32 a3);
     EXPORT s32 HandleWorldCollision_55FD00(s32 a2);
-    EXPORT CarAI_78* HandleCarCollision_55FF20(Car_BC* a2);
+    EXPORT void HandleCarCollision_55FF20(Car_BC* pOtherCar);
     EXPORT void HandleObjectCollision_5606C0(Object_2C* a2, char_type a3);
     EXPORT void ProcessPedImpact_560B40(Char_B4* a2, u8 a3);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
