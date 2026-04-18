@@ -166,6 +166,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE080, dword_6FE3C4*(dword_6FDFD0 + k_dword_6FE
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE270, Fix16(0x400, 0), 0x6FE270);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE178, Fix16(0x1800, 0), 0x6FE178);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE0D0, dword_6FE0C0, 0x6FE0D0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFF4, Fix16(0x2CCC, 0), 0x6FDFF4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE118, Fix16(0x200, 0), 0x6FE118);
+
+
+
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
 {
@@ -2432,7 +2438,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point* a2, Fix16_Po
 }
 
 WIP_FUNC(0x55fc30)
-void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point* arg0, s32 base_dmg)
+void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& arg0, s32 base_dmg)
 {
     WIP_IMPLEMENTED;
 
@@ -2441,11 +2447,11 @@ void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point* arg0, s32 base_dmg)
         Fix16_Point a2;
         if (this->field_92_is_hand_brake_on)
         {
-            a2 = (*arg0 / dword_6FE214);
+            a2 = (arg0 / dword_6FE214);
         }
         else
         {
-            a2 = *arg0;
+            a2 = arg0;
         }
 
         ApplyImpulseWithTrailerRedirect_55FA10(&a2);
@@ -2471,11 +2477,168 @@ s32 CarPhysics_B0::HandleWorldCollision_55FD00(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x55ff20)
-CarAI_78* CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* a2)
+// https://decomp.me/scratch/IiClE
+WIP_FUNC(0x55ff20)
+void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16 ThisCarMass = CalculateMass_559FF0();
+    pOtherCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+    pOtherCar->field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
+    Fix16_Point RelativeVelocity_1 = ComputeRelativePointVelocity_561130(&stru_6FE1A0);
+    SetCurrentCarInfoAndModelPhysics_562EF0();
+    Fix16_Point RelativeVelocity_2 = ComputeRelativePointVelocity_561130(&stru_6FE1A0);
+    Fix16_Point ThisCoM = ComputeCombinedCenterOfMass_559EC0();
+    Fix16_Point OtherCoM = pOtherCar->field_58_physics->ComputeCombinedCenterOfMass_559EC0();
+    stru_6FE1F0 = ThisCoM - stru_6FE1A0;
+
+    // Workaround until ComputeLineLineIntersection_55F3B0 is finished
+    Fix16_Point IntersectPoint(Fix16(0), Fix16(0));
+    /*
+    Fix16_Point IntersectPoint = ComputeLineLineIntersection_55F3B0(ThisCarMass,
+                                                                    pOtherCar->field_58_physics->CalculateMass_559FF0(),
+                                                                    RelativeVelocity_1 - RelativeVelocity_2,
+                                                                    stru_6FE1F0,
+                                                                    stru_6FE1A0,
+                                                                    ThisCoM,
+                                                                    OtherCoM,
+                                                                    GetEffectiveMomentOfInertia_55A050(),
+                                                                    pOtherCar->field_58_physics->GetEffectiveMomentOfInertia_55A050(),
+                                                                    dword_6FE0D0);
+    */                                                                    
+
+    if (field_98_surface_type == 6 && pOtherCar->field_50_car_sprite->field_1C_zpos != field_5C_pCar->field_50_car_sprite->field_1C_zpos)
+    {
+        field_68_z_pos = dword_6FDFF4 * (-field_68_z_pos);
+
+        if (Fix16::Abs(field_68_z_pos) < dword_6FE118)
+        {
+            field_68_z_pos = kFP16Zero_6FE20C;
+        }
+
+        Fix16_Point Impulse = (ThisCoM - OtherCoM).NormalizeSafe_442AD0() / 10;
+
+        if (field_5C_pCar->sub_49EFE0() && pOtherCar->sub_4216E0())
+        {
+            field_5C_pCar->sub_49EFC0();
+        }
+        else
+        {
+            AccumulateImpulse_55FC30(Impulse, 50);
+            pOtherCar->field_58_physics->AccumulateImpulse_55FC30(-Impulse, 50);
+        }
+
+        dword_6FE33C = (ThisCarMass * Fix16::Abs(field_70)) * 50;
+    }
+    else
+    {
+        dword_6FE33C = 0;
+    }
+
+    u8 bGreatCollision;
+
+    // Implement developments of collision with CopCar
+    if (field_5C_pCar->sub_49EFE0() && !pOtherCar->sub_4216E0() && IntersectPoint.GetLength_41E260() > dword_6FDFD8 &&
+        field_40_linvel_1.GetLength_453590() > dword_6FE1C4)
+    {
+        bGreatCollision = true;
+        field_5C_pCar->sub_49EFC0();
+        if (pOtherCar->IsPoliceCar_439EC0())
+        {
+            Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
+            if (pDriver && pDriver->is_player_41B0A0() && pDriver->field_20A_wanted_points < 600)
+            {
+                pDriver->field_20A_wanted_points = 600;
+            }
+        }
+    }
+    else
+    {
+        bGreatCollision = false;
+        dword_6FE33C += CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(&stru_6FE1A0, &IntersectPoint, 50);
+    }
+    field_5C_pCar->AssignDriverBlameForExplosion_43B7B0(pOtherCar);
+
+    // Apply score if needed
+    s16 damage = field_5C_pCar->ApplyImpactDamage_43D5D0(dword_6FE33C);
+    if (damage > 200)
+    {
+        Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
+        if (pDriver && pDriver->is_player_41B0A0())
+        {
+            pDriver->field_15C_player->field_2D4_scores.sub_593030(field_5C_pCar, damage);
+        }
+    }
+
+    u16 damage_2;
+
+    if (!bGreatCollision)
+    {
+        SetCurrentCarInfoAndModelPhysics_562EF0();
+        //ApplyImpactForcesAndDamage_55FA60(&stru_6FE1A0, &(-IntersectPoint), 50); // TODO
+        if (field_5C_pCar->IsTrainModel_403BA0())
+        {
+            pOtherCar->HandleCarExplosion_43D840(19);
+            damage_2 = 32000;
+
+            Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
+            if (pDriver && pDriver->is_player_41B0A0())
+            {
+                pDriver->field_15C_player->field_2D4_scores.sub_593030(field_5C_pCar, damage_2);
+            }
+        }
+        else
+        {
+            damage_2 = pOtherCar->ApplyImpactDamage_43D5D0(dword_6FE33C);
+            if (damage_2 <= 200)
+            {
+                CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0();
+                //goto LABEL_53;
+            }
+            else
+            {
+                Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
+                if (pDriver && pDriver->is_player_41B0A0())
+                {
+                    pDriver->field_15C_player->field_2D4_scores.sub_593030(field_5C_pCar, damage_2);
+                }
+            }
+        }
+    }
+    //LABEL_53:
+    Fix16 Velocity = field_40_linvel_1.GetLength_41E260();
+    if (Velocity > FastCarMinVelocity_6FE1CC && field_5C_pCar->field_74_damage != 32001)
+    {
+        // I'm not sure about the last two params
+        //gParticle_8_6FD5E8->EmitImpactParticles_53FE40(stru_6FE1A0.x, stru_6FE1A0.y, field_6C_cp3, -stru_6FE1A0.x, -stru_6FE1A0.y);
+    }
+
+    if (dword_6FE33C > dword_6FDFE4)
+    {
+        field_5C_pCar->TryDamageArea_43D2C0(byte_6FDFC4, dword_6FE33C.mValue);
+        pOtherCar->TryDamageArea_43D2C0(byte_6FDFCC, dword_6FE33C.mValue);
+        if (dword_6FE33C > dword_6FDFF0 && pOtherCar->IsPoliceCar_439EC0())
+        {
+            Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
+            if (pDriver && pDriver->is_player_41B0A0() && pDriver->field_20A_wanted_points < 600)
+            {
+                pDriver->field_20A_wanted_points = 600;
+            }
+        }
+    }
+
+    if (field_5C_pCar->field_5C)
+    {
+        field_5C_pCar->field_5C->field_24_flags |= 0x1000u;
+        field_5C_pCar->field_5C->field_68 = pOtherCar;
+    }
+
+    if (pOtherCar->field_5C)
+    {
+        pOtherCar->field_5C->field_24_flags |= 0x1000u;
+        pOtherCar->field_5C->field_68 = field_5C_pCar;
+    }
 }
 
 STUB_FUNC(0x5606c0)
@@ -2496,11 +2659,11 @@ EXPORT Fix16 __stdcall DotProduct_560680(const Fix16_Point& a2, const Fix16_Poin
 WIP_FUNC(0x55F3B0)
 EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
                                                                 Fix16 a3,
-                                                                Fix16_Point* a4,
-                                                                Fix16_Point* a5,
-                                                                Fix16_Point* a6,
-                                                                Fix16_Point* a7,
-                                                                Fix16_Point* a8,
+                                                                Fix16_Point& a4,
+                                                                Fix16_Point& a5,
+                                                                Fix16_Point& a6,
+                                                                Fix16_Point& a7,
+                                                                Fix16_Point& a8,
                                                                 Fix16 a9,
                                                                 Fix16 a10,
                                                                 Fix16 a11)
@@ -2510,19 +2673,19 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
     //Fix16 v36 = 0;
 
     //    v47 = 2;
-    if (a4->IsNull_420360() || a5->IsNull_420360())
+    if (a4.IsNull_420360() || a5.IsNull_420360())
     {
         return stru_6FE300;
     }
 
     Fix16 _a5 = ((k_dword_6FE210) / a2);
-    Fix16_Point v14 = (*a6 - *a7);
+    Fix16_Point v14 = (a6 - a7);
     //      LOBYTE(v47) = 3;
     Fix16_Point v44 = v14.Rotate90CCW_5605E0();
     //  LOBYTE(v47) = 2;
-    Fix16_Point v43 = a5->NormalizeSafe_442AD0();
-    Fix16 v31 = (a4->y * v43.y);
-    Fix16 v15 = (a4->x * v43.x);
+    Fix16_Point v43 = a5.NormalizeSafe_442AD0();
+    Fix16 v31 = (a4.y * v43.y);
+    Fix16 v15 = (a4.x * v43.x);
 
     Fix16 _a4 = (v15 + v31);
 
@@ -2543,7 +2706,7 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
     else
     {
         Fix16 _a6 = ((k_dword_6FE210) / a3);
-        Fix16_Point v19 = (*a6 - *a8);
+        Fix16_Point v19 = (a6 - a8);
         //LOBYTE(v47) = 4;
         Fix16_Point v19r = v19.Rotate90CCW_5605E0();
 
@@ -2592,11 +2755,11 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
 
     Fix16_Point pIntersection = ComputeLineLineIntersection_55F3B0(carMass,
                                                                    dword_6FE2F8,
-                                                                   &relativePointVel,
-                                                                   &stru_6FE1F0,
-                                                                   &stru_6FE1A0,
-                                                                   &combinedCentreOfmass,
-                                                                   &sprite_xy,
+                                                                   relativePointVel,
+                                                                   stru_6FE1F0,
+                                                                   stru_6FE1A0,
+                                                                   combinedCentreOfmass,
+                                                                   sprite_xy,
                                                                    effectiveMomentOfInertia,
                                                                    dword_6FE070,
                                                                    dword_6FE3DC);

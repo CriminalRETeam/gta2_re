@@ -1505,29 +1505,29 @@ void Frontend::DrawCredits_4B7AE0()
     for (Fix16 y = field_1EB34; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_unk.field_2[credit_idx].field_4)
     {
         sleepy_stonebraker_0x6C* sleepy = &field_EE0E_unk.field_2[credit_idx];
-        switch (sleepy->field_6)
+        switch (sleepy->field_6_string_category)
         {
-            case 0:
+            case 0: // normal string: white
                 font_type = field_11E;
                 draw_kind = 2;
                 palette = 0;
                 break;
-            case 1:
+            case 1: // ???
                 font_type = field_120;
                 draw_kind = 2;
                 palette = 0;
                 break;
-            case 2:
+            case 2: // dev names: blue
                 font_type = field_120;
                 draw_kind = 8;
                 palette = 13;
                 break;
-            case 3:
+            case 3: // department (DMA, T2 etc) : green
                 font_type = field_120;
                 draw_kind = 8;
                 palette = 14;
                 break;
-            case 4:
+            case 4: // game name "GTA2" : yellow
                 font_type = field_120;
                 draw_kind = 8;
                 palette = 15;

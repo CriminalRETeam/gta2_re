@@ -2243,7 +2243,7 @@ void CC ImGuiDebugDraw()
                             ImGui::SliderS8("Sleepy field_1", &pCreditLine->field_1, -127, 127);
                             ImGui::InputS16("Sleepy field_2", &pCreditLine->field_2, 1, 1);
                             ImGui::InputU16("Sleepy field_4", &pCreditLine->field_4, 1, 1);
-                            ImGui::InputU16("Sleepy field_6", &pCreditLine->field_6, 1, 1);
+                            ImGui::InputU16("Sleepy field_6", &pCreditLine->field_6_string_category, 1, 1);
                         }
                     }
                 }

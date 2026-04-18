@@ -100,15 +100,12 @@ static inline void __fastcall SetUV_4B9BC0(f32& u, f32& v)
 }
 
 WIP_FUNC(0x5A5AA0)
-EXPORT Fix16* __stdcall ProjectOntoAxis_5A5AA0(Fix16* xpos1, Fix16* ypos1, Ang16* v1, Fix16* xpos2, Fix16* ypos2, Fix16* v2, Fix16* v3)
+EXPORT void __stdcall ProjectOntoAxis_5A5AA0(Fix16& xpos1, Fix16& ypos1, Ang16& angle, Fix16& xpos2, Fix16& ypos2, Fix16& outX, Fix16& outY)
 {
     WIP_IMPLEMENTED;
 
-    Fix16* result;
-    *v2 = (Ang16::sine_40F500(*v1) * (*ypos1 - *ypos2)) + (Ang16::cosine_40F520(*v1) * (*xpos1 - *xpos2));
-    result = v3;
-    *v3 = (Ang16::sine_40F500(*v1) * (*xpos2 - *xpos1)) + (Ang16::cosine_40F520(*v1) * (*ypos1 - *ypos2));
-    return result;
+    outX = (Ang16::sine_40F500(angle) * (ypos1 - ypos2)) + (Ang16::cosine_40F520(angle) * (xpos1 - xpos2));
+    outY = (Ang16::sine_40F500(angle) * (xpos2 - xpos1)) + (Ang16::cosine_40F520(angle) * (ypos1 - ypos2));
 }
 
 MATCH_FUNC(0x562450)
@@ -867,10 +864,106 @@ void Sprite::FreeSprite4CChildren_59FAD0()
     }
 }
 
-STUB_FUNC(0x59FB10)
-bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* a2)
+WIP_FUNC(0x59FB10)
+bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 half_width;
+    Fix16 half_height;
+
+    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&half_width, &half_height);
+
+    Fix16 pRotTransX;
+    Fix16 pRotTransY;
+
+    // First rotation
+    RotateAndTranslatePoint_42A720(pOtherRect->get_left_45ADB0(),
+                                   pOtherRect->get_top_45ADD0(),
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Second rotation
+    RotateAndTranslatePoint_42A720(pOtherRect->get_right_45ADA0(),
+                                   pOtherRect->get_top_45ADD0(),
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Third rotation
+    RotateAndTranslatePoint_42A720(pOtherRect->get_right_45ADA0(),
+                                   pOtherRect->get_bottom_45ADC0(),
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Fourth rotation
+    RotateAndTranslatePoint_42A720(pOtherRect->get_left_45ADB0(),
+                                   pOtherRect->get_bottom_45ADC0(),
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Last rotation
+    // In 9.6f, it's RotateAndTranslatePoint_42A720.
+    // Either this was changed in 10.5 or, for some reason, it doesn't get inlined
+    ProjectOntoAxis_5A5AA0((pOtherRect->get_left_45ADB0() + pOtherRect->get_right_45ADA0()) / 2,
+                           (pOtherRect->get_bottom_45ADC0() + pOtherRect->get_top_45ADD0()) / 2,
+                           -field_0,
+                           field_14_xy.x,
+                           field_14_xy.y,
+                           pRotTransX,
+                           pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
     return false;
 }
 
@@ -947,11 +1040,112 @@ char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollision
     return overlapCount;
 }
 
-STUB_FUNC(0x5a0380)
-bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* a1)
+// https://decomp.me/scratch/5emc4
+WIP_FUNC(0x5a0380)
+bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_C_sprite_4c_ptr->IsZeroWidth_41E390())
+    {
+        return field_C_sprite_4c_ptr->field_30_boundingBox.IntersectsSpriteRenderingRect_59DDF0(pOther);
+    }
+
+    Fix16 half_width;
+    Fix16 half_height;
+
+    Fix16_Point* pOtherRenderRect = pOther->field_C_sprite_4c_ptr->field_C_renderingRect;
+
+    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&half_width, &half_height);
+
+    Fix16 pRotTransX;
+    Fix16 pRotTransY;
+
+    // First rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[0].x,
+                                   pOtherRenderRect[0].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Second rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[1].x,
+                                   pOtherRenderRect[1].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Third rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[2].x,
+                                   pOtherRenderRect[2].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Fourth rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[3].x,
+                                   pOtherRenderRect[3].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Last rotation (it's different)
+    RotateAndTranslatePoint_42A720(pOther->field_14_xy.x,
+                                   pOther->field_14_xy.y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 WIP_FUNC(0x4F77D0)

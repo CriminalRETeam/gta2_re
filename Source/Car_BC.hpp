@@ -907,6 +907,32 @@ class Car_BC
         return field_50_car_sprite->field_0;
     }
 
+    inline bool sub_4216E0()
+    {
+        car_info* pCarInfo = gGtx_0x106C_703DD4->sub_4BF1F0(field_84_car_info_idx);
+        return pCarInfo->is_0x1_41FF00();
+    }
+
+    inline bool sub_4214F0()
+    {
+        return field_54_driver && !field_54_driver->IsField238_45EDE0(2);
+    }
+
+    inline bool sub_49EFE0()
+    {
+        return sub_4216E0() && (IsTank_411900() || !sub_4214F0());
+    }
+
+    inline void sub_421890(u16 flag)
+    {
+        field_78_flags |= flag;
+    }
+
+    inline void sub_49EFC0()
+    {
+        sub_421890(0x2000);
+    }
+
     EXPORT char SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT char TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction);
 

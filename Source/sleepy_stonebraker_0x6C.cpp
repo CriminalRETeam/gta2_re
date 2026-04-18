@@ -7,7 +7,7 @@ sleepy_stonebraker_0x6C::sleepy_stonebraker_0x6C() // 483E30
     field_0 = 0;
     field_2 = 0;
     field_4 = 0;
-    field_6 = 0;
+    field_6_string_category = 0;
     memset(field_8_strBuf, 0, sizeof(field_8_strBuf));
 }
 
