@@ -48,30 +48,30 @@ void xenodochial_morse::sub_483F20()
                 {
                     if (v6 == 'B')
                     {
-                        v5->field_6 = 2;
+                        v5->field_6_string_category = 2;
                     }
                     else if (v6 == 'G')
                     {
-                        v5->field_6 = 3;
+                        v5->field_6_string_category = 3;
                     }
                     else if (v6 == 'C')
                     {
-                        v5->field_6 = 4;
+                        v5->field_6_string_category = 4;
                     }
                     else
                     {
-                        v5->field_6 = 1;
+                        v5->field_6_string_category = 1;
                     }
                 }
                 else
                 {
-                    v5->field_6 = 0;
+                    v5->field_6_string_category = 0;
                 }
             }
             else
             {
                 a4--;
-                v5->field_6 = 0;
+                v5->field_6_string_category = 0;
             }
 
             v5->field_4 = v2;
