@@ -5090,8 +5090,6 @@ void CarAI_78::sub_452A20()
 {
     WIP_IMPLEMENTED;
 
-    //v46 = 0;
-
     if ((field_24_flags & 0x1000) != 0)
     {
         // goto LABEL_41;
@@ -5219,24 +5217,28 @@ void CarAI_78::sub_452A20()
             CarPhysics_B0* v29 = this->field_0->field_58_physics;
             v29->field_91_is_foot_brake_on = 0;
             v29->field_93_is_forward_gas_on = 0;
-            goto LABEL_35;
+            v29->field_94_is_backward_gas_on = 0;
+            v29->field_95 = 0;
+            byte_677A5D = 0;
         }
-
-        if (field_70->field_8_car_bc_ptr != field_68)
+        else if (field_70->field_8_car_bc_ptr != field_68)
         {
             CarPhysics_B0* v29 = this->field_0->field_58_physics;
             v29->field_91_is_foot_brake_on = 0;
             v29->field_93_is_forward_gas_on = 0;
-            goto LABEL_35;
+            v29->field_94_is_backward_gas_on = 0;
+            v29->field_95 = 0;
+            byte_677A5D = 0;
         }
-
-        v29 = this->field_0->field_58_physics;
-        v29->field_93_is_forward_gas_on = 1;
-        v29->field_91_is_foot_brake_on = 0;
-    LABEL_35:
-        v29->field_94_is_backward_gas_on = 0;
-        v29->field_95 = 0;
-        byte_677A5D = 0;
+        else
+        {
+            v29 = this->field_0->field_58_physics;
+            v29->field_93_is_forward_gas_on = 1;
+            v29->field_91_is_foot_brake_on = 0;
+            v29->field_94_is_backward_gas_on = 0;
+            v29->field_95 = 0;
+            byte_677A5D = 0;
+        }
 
         if ((this->field_24_flags & 0x200000) != 0 && this->field_2A < 0x3Cu && dword_677B00 < dword_677B58)
         {
