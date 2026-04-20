@@ -4505,7 +4505,7 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
     Train_58* pTrain = gPublicTransport_181C_6FF1D4->GetTrainFromCar_57B5C0(this);
     if (pTrain)
     {
-        pTrainCars = pTrain->field_10_carriages;
+        pTrainCars = &pTrain->field_C_carriages[1];
     }
 
     Fix16 newx;
