@@ -85,7 +85,7 @@ DEFINE_GLOBAL(Fix16, k_dword_6F8F2C, 0x6F8F2C);
 DEFINE_GLOBAL(Fix16, k_dword_6F8D24, 0x6F8D24);
 
 // TODO: From CarPhysics_B0
-EXTERN_GLOBAL(Fix16_Point, stru_6FE1A0);
+EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
 
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
@@ -612,13 +612,13 @@ void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
             u8 a8;
             u8 a9;
             Fix16_Point v13;
-            field_4->FindCollisionIntersectionPoint_5A2710(&v13, gRozza_679188.field_20_pSprite, *a4, field_4->field_0, &a7, &a8, &a9);
+            field_4->FindCollisionIntersectionPoint_5A2710(gRozza_679188.field_20_pSprite, *a4, field_4->field_0, a7, a8, a9);
             Car_BC* pCar = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
             if (pCar)
             {
                 pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                 pCar->field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
-                stru_6FE1A0 = v13;
+                CollisionIntersectionPoint_6FE1A0 = v13;
                 pCar->field_58_physics->HandleObjectCollision_5606C0(this, a9); // a4?
             }
             else

@@ -93,7 +93,7 @@ DEFINE_GLOBAL_INIT(Fix16, stru_6FDF80, dword_6FE2E0, 0x6FDF80);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE33C, Fix16(0), 0x6FE33C);
 DEFINE_GLOBAL(u8, byte_6FDFC4, 0x6FDFC4);
 DEFINE_GLOBAL(u8, byte_6FDFCC, 0x6FDFCC);
-DEFINE_GLOBAL(Fix16_Point, stru_6FE1A0, 0x6FE1A0);
+DEFINE_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0, 0x6FE1A0);
 
 DEFINE_GLOBAL(Fix16_Point, gSaved_cm1_6FE3C8, 0x6FE3C8);
 DEFINE_GLOBAL(Fix16, gSaved_cp3_6FDF84, 0x6FDF84);
@@ -1563,13 +1563,12 @@ void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3)
             break;
         case 3:
             // TODO: Likely wrong arguments here
-            stru_6FE1A0 = *field_5C_pCar->field_50_car_sprite->FindCollisionIntersectionPoint_5A2710(&arg0,
-                                                                                                     gRozza_679188.field_20_pSprite,
+            CollisionIntersectionPoint_6FE1A0 = field_5C_pCar->field_50_car_sprite->FindCollisionIntersectionPoint_5A2710(gRozza_679188.field_20_pSprite,
                                                                                                      a2,
                                                                                                      a3,
-                                                                                                     &byte_6FDFC4,
-                                                                                                     &byte_6FDFCC,
-                                                                                                     &hitType);
+                                                                                                     byte_6FDFC4,
+                                                                                                     byte_6FDFCC,
+                                                                                                     hitType);
 
             Car_BC* pCar = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
             if (pCar)
@@ -2174,7 +2173,7 @@ void CarPhysics_B0::ApplyTurningForce_55F020()
         }
     }
 
-    Fix16_Point v6 = (this->field_38_cp1 - stru_6FE1A0);
+    Fix16_Point v6 = (this->field_38_cp1 - CollisionIntersectionPoint_6FE1A0);
     Fix16 var_14 = v6.x;
     Fix16 v7 = v6.y;
 
@@ -2486,27 +2485,24 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     Fix16 ThisCarMass = CalculateMass_559FF0();
     pOtherCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
     pOtherCar->field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
-    Fix16_Point RelativeVelocity_1 = ComputeRelativePointVelocity_561130(&stru_6FE1A0);
+    Fix16_Point RelativeVelocity_1 = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
     SetCurrentCarInfoAndModelPhysics_562EF0();
-    Fix16_Point RelativeVelocity_2 = ComputeRelativePointVelocity_561130(&stru_6FE1A0);
+    Fix16_Point RelativeVelocity_2 = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
     Fix16_Point ThisCoM = ComputeCombinedCenterOfMass_559EC0();
     Fix16_Point OtherCoM = pOtherCar->field_58_physics->ComputeCombinedCenterOfMass_559EC0();
-    stru_6FE1F0 = ThisCoM - stru_6FE1A0;
-
-    // Workaround until ComputeLineLineIntersection_55F3B0 is finished
-    Fix16_Point IntersectPoint(Fix16(0), Fix16(0));
-    /*
+    stru_6FE1F0 = ThisCoM - CollisionIntersectionPoint_6FE1A0;
+    
     Fix16_Point IntersectPoint = ComputeLineLineIntersection_55F3B0(ThisCarMass,
                                                                     pOtherCar->field_58_physics->CalculateMass_559FF0(),
                                                                     RelativeVelocity_1 - RelativeVelocity_2,
                                                                     stru_6FE1F0,
-                                                                    stru_6FE1A0,
+                                                                    CollisionIntersectionPoint_6FE1A0,
                                                                     ThisCoM,
                                                                     OtherCoM,
                                                                     GetEffectiveMomentOfInertia_55A050(),
                                                                     pOtherCar->field_58_physics->GetEffectiveMomentOfInertia_55A050(),
                                                                     dword_6FE0D0);
-    */                                                                    
+                                                                       
 
     if (field_98_surface_type == 6 && pOtherCar->field_50_car_sprite->field_1C_zpos != field_5C_pCar->field_50_car_sprite->field_1C_zpos)
     {
@@ -2556,7 +2552,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     else
     {
         bGreatCollision = false;
-        dword_6FE33C += CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(&stru_6FE1A0, &IntersectPoint, 50);
+        dword_6FE33C += CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(&CollisionIntersectionPoint_6FE1A0, &field_40_linvel_1, 50);
     }
     field_5C_pCar->AssignDriverBlameForExplosion_43B7B0(pOtherCar);
 
@@ -2576,7 +2572,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     if (!bGreatCollision)
     {
         SetCurrentCarInfoAndModelPhysics_562EF0();
-        //ApplyImpactForcesAndDamage_55FA60(&stru_6FE1A0, &(-IntersectPoint), 50); // TODO
+        ApplyImpactForcesAndDamage_55FA60(&CollisionIntersectionPoint_6FE1A0, &(-field_40_linvel_1), 50);
         if (field_5C_pCar->IsTrainModel_403BA0())
         {
             pOtherCar->HandleCarExplosion_43D840(19);
@@ -2746,9 +2742,9 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
     sprite_xy.y = pSprite->field_14_xy.y;
 
     Fix16_Point combinedCentreOfmass = ComputeCombinedCenterOfMass_559EC0();
-    Fix16_Point relativePointVel = ComputeRelativePointVelocity_561130(&stru_6FE1A0);
+    Fix16_Point relativePointVel = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
 
-    stru_6FE1F0 = combinedCentreOfmass - stru_6FE1A0;
+    stru_6FE1F0 = combinedCentreOfmass - CollisionIntersectionPoint_6FE1A0;
 
     Fix16 effectiveMomentOfInertia = GetEffectiveMomentOfInertia_55A050();
     Fix16 carMass = CalculateMass_559FF0();
@@ -2757,7 +2753,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
                                                                    dword_6FE2F8,
                                                                    relativePointVel,
                                                                    stru_6FE1F0,
-                                                                   stru_6FE1A0,
+                                                                   CollisionIntersectionPoint_6FE1A0,
                                                                    combinedCentreOfmass,
                                                                    sprite_xy,
                                                                    effectiveMomentOfInertia,
