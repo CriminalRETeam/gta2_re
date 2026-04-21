@@ -237,6 +237,8 @@ class Fix16_Point : public Fix16_Point_POD
         return Fix16_Point(-x, -y);
     }
 
+    EXPORT Fix16_Point MultBy_442C80(const s32& factor);
+
     // 10.0 0x442CB0
     EXPORT Fix16_Point operator/(Fix16& in);
 

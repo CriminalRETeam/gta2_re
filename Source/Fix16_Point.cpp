@@ -8,6 +8,12 @@ Fix16_Point_POD Fix16_Point_POD::Multiply_438FE0(Fix16& in)
     return Fix16_Point_POD(x * in, y * in);
 }
 
+MATCH_FUNC(0x442C80)
+Fix16_Point Fix16_Point::MultBy_442C80(const s32& factor)
+{
+    return Fix16_Point(x * factor, y * factor);
+}
+
 // https://decomp.me/scratch/nFSYS
 STUB_FUNC(0x442CB0)
 Fix16_Point_POD Fix16_Point_POD::Divide_442CB0(Fix16& in)
