@@ -1665,6 +1665,7 @@ Ang16 Sprite::sub_5A26E0()
     return -field_0;
 }
 
+// https://decomp.me/scratch/tc76b
 WIP_FUNC(0x5a2710)
 Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
                                                           Fix16_Point& newPos,
@@ -1687,7 +1688,7 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
     set_ang_lazy_420690(newAng);
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
-    pOutHitType = FindOverlappingBoundingBoxCorners_5A0150(this, &idx1, &idx2);
+    pOutHitType = pOther->FindOverlappingBoundingBoxCorners_5A0150(this, &idx1, &idx2);
 
     if (pOutHitType != 0)
     {
@@ -1707,7 +1708,7 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
     else
     {
         // pOutHitType == 0
-        pOutHitType = FindOverlappingBoundingBoxCorners_5A0150(this, &idx1, &idx2);
+        pOutHitType = FindOverlappingBoundingBoxCorners_5A0150(pOther, &idx1, &idx2);
         set_xyz_lazy_420600(SpritePos.x, SpritePos.y, field_1C_zpos);
         set_ang_lazy_420690(newAng);
 
