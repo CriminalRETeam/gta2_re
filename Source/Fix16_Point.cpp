@@ -31,11 +31,20 @@ Fix16_Point Fix16_Point::operator/(Fix16& in)
     return Fix16_Point(x / in, y / in);
 }
 
-STUB_FUNC(0x442AD0)
+WIP_FUNC(0x442AD0)
 Fix16_Point Fix16_Point::NormalizeSafe_442AD0()
 {
-    NOT_IMPLEMENTED;
-    return Fix16_Point(x, y);
+    WIP_IMPLEMENTED;
+    Fix16 length = GetLength_41E260();
+    if (length == gFix16_6777CC)
+    {
+        Fix16_Point scaled = MultBy_442C80(128);
+        return scaled / scaled.GetLength_41E260();
+    }
+    else
+    {
+        return *this / length;
+    }
 }
 
 MATCH_FUNC(0x40ACD0)
