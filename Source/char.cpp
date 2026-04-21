@@ -1828,8 +1828,8 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 
             field_80_sprite_ptr->set_xyz_lazy_420600(dword_6FD7F8, dword_6FD800, dword_6FD7FC);
 
-            point = *field_80_sprite_ptr
-                        ->FindCollisionIntersectionPoint_5A2710(&point, pObj->field_4, a4, field_80_sprite_ptr->field_0, &a6, &out2, &out3);
+            point = field_80_sprite_ptr
+                        ->FindCollisionIntersectionPoint_5A2710(pObj->field_4, a4, field_80_sprite_ptr->field_0, a6, out2, out3);
             pObj->ResolveCollisionWithPed_5229B0(this, &point, 1);
             return;
         }

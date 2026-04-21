@@ -1665,17 +1665,71 @@ Ang16 Sprite::sub_5A26E0()
     return -field_0;
 }
 
-STUB_FUNC(0x5a2710)
-Fix16_Point* Sprite::FindCollisionIntersectionPoint_5A2710(Fix16_Point* point,
-                                                           Sprite* pOther,
-                                                           Fix16_Point& newPos,
-                                                           Ang16 newAng,
-                                                           u8* pOutSideSelf,
-                                                           u8* pOutSideOther,
-                                                           u8* pOutHitType)
+WIP_FUNC(0x5a2710)
+Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
+                                                          Fix16_Point& newPos,
+                                                          Ang16 newAng,
+                                                          u8& bOutSideSelf,
+                                                          u8& bOutSideOther,
+                                                          u8& pOutHitType)
 {
-    NOT_IMPLEMENTED;
-    return point;
+    WIP_IMPLEMENTED;
+    
+    u8 idx1;
+    u8 idx2;
+
+    Fix16_Point SpritePos = get_x_y_443580();
+
+    bOutSideSelf = 5;
+    bOutSideOther = 5;
+
+    set_xyz_lazy_420600(newPos.x, newPos.y, field_1C_zpos);
+    set_ang_lazy_420690(newAng);
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+
+    pOutHitType = FindOverlappingBoundingBoxCorners_5A0150(this, &idx1, &idx2);
+
+    if (pOutHitType != 0)
+    {
+        set_xyz_lazy_420600(SpritePos.x, SpritePos.y, field_1C_zpos);
+        set_ang_lazy_420690(newAng);
+        UpdateCollisionBoundsIfNeeded_59E9C0();
+        if (pOutHitType == 1)
+        {
+            bOutSideOther = idx1;
+            return GetBoundingBoxCorner_562450(idx1);
+        }
+        else
+        {
+            return (GetBoundingBoxCorner_562450(idx1) + GetBoundingBoxCorner_562450(idx2)) / 2;
+        }
+    }
+    else
+    {
+        // pOutHitType == 0
+        pOutHitType = FindOverlappingBoundingBoxCorners_5A0150(this, &idx1, &idx2);
+        set_xyz_lazy_420600(SpritePos.x, SpritePos.y, field_1C_zpos);
+        set_ang_lazy_420690(newAng);
+
+        if (pOutHitType != 0)
+        {
+            if (pOutHitType == 1)
+            {
+                bOutSideSelf = idx1;
+                return GetBoundingBoxCorner_562450(idx1);
+            }
+            else
+            {
+                // not 0, not 1
+                return (GetBoundingBoxCorner_562450(idx1) + GetBoundingBoxCorner_562450(idx2)) / 2;
+            }
+        }
+        else
+        {
+            // pOutHitType == 0
+            return (SpritePos + get_x_y_443580()) / 2;
+        }
+    }
 }
 
 MATCH_FUNC(0x5a29d0)
