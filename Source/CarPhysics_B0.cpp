@@ -2484,26 +2484,29 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
 
     Fix16 ThisCarMass = CalculateMass_559FF0();
     pOtherCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-    pOtherCar->field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
+
+    CarPhysics_B0* OtherCarPhysics = pOtherCar->field_58_physics;
+
+    OtherCarPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
     Fix16_Point RelativeVelocity_1 = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
     SetCurrentCarInfoAndModelPhysics_562EF0();
-    Fix16_Point RelativeVelocity_2 = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+    Fix16_Point RelativeVelocity_2 = OtherCarPhysics->ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
     Fix16_Point ThisCoM = ComputeCombinedCenterOfMass_559EC0();
-    Fix16_Point OtherCoM = pOtherCar->field_58_physics->ComputeCombinedCenterOfMass_559EC0();
+    Fix16_Point OtherCoM = OtherCarPhysics->ComputeCombinedCenterOfMass_559EC0();
     stru_6FE1F0 = ThisCoM - CollisionIntersectionPoint_6FE1A0;
-    
-    Fix16_Point IntersectPoint = ComputeLineLineIntersection_55F3B0(ThisCarMass,
-                                                                    pOtherCar->field_58_physics->CalculateMass_559FF0(),
-                                                                    RelativeVelocity_1 - RelativeVelocity_2,
-                                                                    stru_6FE1F0,
-                                                                    CollisionIntersectionPoint_6FE1A0,
-                                                                    ThisCoM,
-                                                                    OtherCoM,
-                                                                    GetEffectiveMomentOfInertia_55A050(),
-                                                                    pOtherCar->field_58_physics->GetEffectiveMomentOfInertia_55A050(),
-                                                                    dword_6FE0D0);
-                                                                       
 
+    Fix16_Point ImpulseForce = ComputeLineLineIntersection_55F3B0(ThisCarMass,
+                                                                  OtherCarPhysics->CalculateMass_559FF0(),
+                                                                  RelativeVelocity_1 - RelativeVelocity_2,
+                                                                  stru_6FE1F0,
+                                                                  CollisionIntersectionPoint_6FE1A0,
+                                                                  ThisCoM,
+                                                                  OtherCoM,
+                                                                  GetEffectiveMomentOfInertia_55A050(),
+                                                                  OtherCarPhysics->GetEffectiveMomentOfInertia_55A050(),
+                                                                  dword_6FE0D0);
+
+    // If it's falling at another car  (surface type 6 = air)
     if (field_98_surface_type == 6 && pOtherCar->field_50_car_sprite->field_1C_zpos != field_5C_pCar->field_50_car_sprite->field_1C_zpos)
     {
         field_68_z_pos = dword_6FDFF4 * (-field_68_z_pos);
@@ -2513,7 +2516,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
             field_68_z_pos = kFP16Zero_6FE20C;
         }
 
-        Fix16_Point Impulse = (ThisCoM - OtherCoM).NormalizeSafe_442AD0() / 10;
+        Fix16_Point DirectionBetweenCoMs_Scaled = (ThisCoM - OtherCoM).NormalizeSafe_442AD0() / 10;
 
         if (field_5C_pCar->sub_49EFE0() && pOtherCar->sub_4216E0())
         {
@@ -2521,8 +2524,8 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
         }
         else
         {
-            AccumulateImpulse_55FC30(Impulse, 50);
-            pOtherCar->field_58_physics->AccumulateImpulse_55FC30(-Impulse, 50);
+            AccumulateImpulse_55FC30(DirectionBetweenCoMs_Scaled, 50);
+            OtherCarPhysics->AccumulateImpulse_55FC30(-DirectionBetweenCoMs_Scaled, 50);
         }
 
         dword_6FE33C = (ThisCarMass * Fix16::Abs(field_70)) * 50;
@@ -2535,7 +2538,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     u8 bGreatCollision;
 
     // Implement developments of collision with CopCar
-    if (field_5C_pCar->sub_49EFE0() && !pOtherCar->sub_4216E0() && IntersectPoint.GetLength_41E260() > dword_6FDFD8 &&
+    if (field_5C_pCar->sub_49EFE0() && !pOtherCar->sub_4216E0() && ImpulseForce.GetLength_41E260() > dword_6FDFD8 &&
         field_40_linvel_1.GetLength_453590() > dword_6FE1C4)
     {
         bGreatCollision = true;
@@ -2552,7 +2555,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     else
     {
         bGreatCollision = false;
-        dword_6FE33C += CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(&CollisionIntersectionPoint_6FE1A0, &field_40_linvel_1, 50);
+        dword_6FE33C += CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(&CollisionIntersectionPoint_6FE1A0, &ImpulseForce, 50);
     }
     field_5C_pCar->AssignDriverBlameForExplosion_43B7B0(pOtherCar);
 
@@ -2571,13 +2574,17 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
 
     if (!bGreatCollision)
     {
-        SetCurrentCarInfoAndModelPhysics_562EF0();
-        ApplyImpactForcesAndDamage_55FA60(&CollisionIntersectionPoint_6FE1A0, &(-field_40_linvel_1), 50);
+        OtherCarPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
+        OtherCarPhysics->ApplyImpactForcesAndDamage_55FA60(&CollisionIntersectionPoint_6FE1A0, &(-ImpulseForce), 50);
+
+        // if the collider is a train
         if (field_5C_pCar->IsTrainModel_403BA0())
         {
+            // Explode the target car
             pOtherCar->HandleCarExplosion_43D840(19);
             damage_2 = 32000;
 
+            // Add score to the driver (who should prob die)
             Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
             if (pDriver && pDriver->is_player_41B0A0())
             {
@@ -2590,7 +2597,6 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
             if (damage_2 <= 200)
             {
                 CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0();
-                //goto LABEL_53;
             }
             else
             {
@@ -2606,8 +2612,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     Fix16 Velocity = field_40_linvel_1.GetLength_41E260();
     if (Velocity > FastCarMinVelocity_6FE1CC && field_5C_pCar->field_74_damage != 32001)
     {
-        // I'm not sure about the last two params
-        //gParticle_8_6FD5E8->EmitImpactParticles_53FE40(stru_6FE1A0.x, stru_6FE1A0.y, field_6C_cp3, -stru_6FE1A0.x, -stru_6FE1A0.y);
+        gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x, CollisionIntersectionPoint_6FE1A0.y, field_6C_cp3, -CollisionIntersectionPoint_6FE1A0.x, -CollisionIntersectionPoint_6FE1A0.y);
     }
 
     if (dword_6FE33C > dword_6FDFE4)
