@@ -2382,58 +2382,53 @@ void CarPhysics_B0::ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2)
     }
 }
 
+// https://decomp.me/scratch/TSKLx
 WIP_FUNC(0x55fa60)
-Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point* a2, Fix16_Point* a4, s32 base_dmg)
+Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg)
 {
     WIP_IMPLEMENTED;
 
-    Fix16 v17 = a4->GetLength_2();
-    Fix16 v10 = CalculateMass_559FF0();
+    Fix16 ImpulseIntensity = Impulse.GetLength_2();
+    Fix16 Mass = CalculateMass_559FF0();
 
-    if ((v17 / v10) <= dword_6FE37C)
+    if ((ImpulseIntensity / Mass) > dword_6FE37C)
     {
-        return v17;
-    }
-    else
-    {
-        Fix16_Point a3;
-        a3.x = a4->x;
-        a3.y = a4->y;
+        Fix16_Point NewImpulse = Impulse;
+
+        // TODO: many inlines here
 
         if ((field_5C_pCar->field_78_flags & 0x800) != 0)
         {
             if (!field_5C_pCar->field_54_driver || !field_5C_pCar->field_54_driver->field_15C_player)
             {
-                Fix16 v17_ = field_0_vel_read_only.GetLength_41E260();
-                if (v17_ <= dword_6FE1D4 || this->field_92_is_hand_brake_on)
+                Fix16 MaybeVelocity = field_0_vel_read_only.GetLength_453590();
+                if (MaybeVelocity <= dword_6FE1D4 || field_92_is_hand_brake_on)
                 {
-                    a3 = (*a4 / dword_6FE218);
+                    NewImpulse = (Impulse / dword_6FE218);
                 }
             }
         }
 
         field_5C_pCar->ApplyVisualDamage_43A9F0();
 
-        if ((this->field_5C_pCar->field_78_flags & 2) != 0)
+        if ((field_5C_pCar->field_78_flags & 2) == 0)
         {
-            return v17;
-        }
-        else
-        {
-            ApplyForceWithTrailerRedirect_55F740(a2, &a3);
+            ApplyForceWithTrailerRedirect_55F740(&PointOfForce, &NewImpulse);
+
+            // TODO: many inlines here
             s32 v14 = base_dmg + rng_dword_67AB34->field_0_rng;
-            if (v14 > this->field_8_total_damage_q)
+            if (v14 > field_8_total_damage_q)
             {
-                this->field_8_total_damage_q = v14;
+                field_8_total_damage_q = v14;
             }
 
             if (!field_5C_pCar->field_54_driver || !field_5C_pCar->field_54_driver->field_15C_player)
             {
-                this->field_92_is_hand_brake_on = 0;
+                field_92_is_hand_brake_on = 0;
             }
-            return v17;
         }
     }
+    return ImpulseIntensity;
 }
 
 WIP_FUNC(0x55fc30)
@@ -2555,7 +2550,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     else
     {
         bGreatCollision = false;
-        dword_6FE33C += CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(&CollisionIntersectionPoint_6FE1A0, &ImpulseForce, 50);
+        dword_6FE33C += CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(CollisionIntersectionPoint_6FE1A0, ImpulseForce, 50);
     }
     field_5C_pCar->AssignDriverBlameForExplosion_43B7B0(pOtherCar);
 
@@ -2575,7 +2570,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     if (!bGreatCollision)
     {
         OtherCarPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
-        OtherCarPhysics->ApplyImpactForcesAndDamage_55FA60(&CollisionIntersectionPoint_6FE1A0, &(-ImpulseForce), 50);
+        OtherCarPhysics->ApplyImpactForcesAndDamage_55FA60(CollisionIntersectionPoint_6FE1A0, -ImpulseForce, 50);
 
         // if the collider is a train
         if (field_5C_pCar->IsTrainModel_403BA0())
