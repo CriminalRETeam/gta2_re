@@ -2643,12 +2643,15 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* a2, char_type a3)
     NOT_IMPLEMENTED;
 }
 
-WIP_FUNC(0x560680)
-EXPORT Fix16 __stdcall DotProduct_560680(const Fix16_Point& a2, const Fix16_Point& a3)
+MATCH_FUNC(0x560680)
+EXPORT Fix16 __stdcall DotProduct_560680(const Fix16_Point& Vector1, const Fix16_Point& Vector2)
 {
-    WIP_IMPLEMENTED;
+    return (Vector1.x * Vector2.x) + (Vector1.y * Vector2.y);
+}
 
-    return (a3.x * a2.x) + (a3.y * a2.y);
+static inline Fix16 __stdcall DotProductInlined_49E500(Fix16_Point& Vector1, Fix16_Point& Vector2)
+{
+    return (Vector1.x * Vector2.x) + (Vector1.y * Vector2.y);
 }
 
 // TODO: Probably move
