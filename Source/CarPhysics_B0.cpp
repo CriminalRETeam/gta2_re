@@ -170,7 +170,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE0D0, dword_6FE0C0, 0x6FE0D0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDFF4, Fix16(0x2CCC, 0), 0x6FDFF4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE118, Fix16(0x200, 0), 0x6FE118);
 
-
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE1A8, dword_6FDFD4, 0x6FE1A8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE098, k_dword_6FE210, 0x6FE098);
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -2449,11 +2450,58 @@ void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& arg0, s32 base_dmg)
     }
 }
 
-STUB_FUNC(0x55fd00)
-s32 CarPhysics_B0::HandleWorldCollision_55FD00(s32 a2)
+// https://decomp.me/scratch/qCXRd
+WIP_FUNC(0x55fd00)
+void CarPhysics_B0::HandleWorldCollision_55FD00(Fix16_Point& pHitPoint)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point Impulse = ComputeLineLineIntersection_55F3B0(CalculateMass_559FF0(),
+                                                             dword_6FDF1C,
+                                                             pHitPoint,
+                                                             stru_6FE1F0,
+                                                             CollisionIntersectionPoint_6FE1A0,
+                                                             ComputeCombinedCenterOfMass_559EC0(),
+                                                             stru_6FE300,
+                                                             GetEffectiveMomentOfInertia_55A050(),
+                                                             kFP16Zero_6FE20C,
+                                                             dword_6FE1A8);
+
+    // surface type 6 = air
+    if (field_98_surface_type == 6 && field_70 <= kFP16Zero_6FE20C)
+    {
+        field_68_z_pos = (-field_68_z_pos) * dword_6FDFF4;
+
+        if (Fix16::Abs(field_68_z_pos) < dword_6FE118)
+        {
+            field_68_z_pos = kFP16Zero_6FE20C;
+        }
+    }
+
+    Fix16 damage = ApplyImpactForcesAndDamage_55FA60(pHitPoint, CollisionIntersectionPoint_6FE1A0, 15);
+    dword_6FE33C = damage;
+    if (field_98_surface_type == 6 && field_70 == kFP16Zero_6FE20C && field_68_z_pos == kFP16Zero_6FE20C &&
+        field_40_linvel_1.x == kFP16Zero_6FE20C && field_40_linvel_1.y == kFP16Zero_6FE20C && damage < dword_6FE098)
+    {
+        damage = dword_6FE098;
+        dword_6FE33C = dword_6FE098;
+    }
+    field_5C_pCar->ApplyImpactDamage_43D5D0(damage);
+    Fix16 Velocity = field_40_linvel_1.GetLength_41E260();
+
+    if (Velocity > FastCarMinVelocity_6FE1CC)
+    {
+        if (!field_5C_pCar->IsMaxDamage_40F890())
+        {
+            Fix16_Point HitPointNegative = -pHitPoint;
+            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x,
+                                                           CollisionIntersectionPoint_6FE1A0.y,
+                                                           field_6C_cp3,
+                                                           HitPointNegative.x,
+                                                           HitPointNegative.y);
+        }
+        field_5C_pCar->TryDamageArea_43D2C0(byte_6FDFC4, dword_6FE33C.mValue);
+    }
 }
 
 // https://decomp.me/scratch/IiClE
