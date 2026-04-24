@@ -1533,10 +1533,47 @@ void CarPhysics_B0::BinarySearchCollisionTime_55C560(Fix16& a2, Fix16& a3)
     }
 }
 
-STUB_FUNC(0x55c5c0)
-void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& a2, Ang16& a3)
+// https://decomp.me/scratch/A5Yhg
+WIP_FUNC(0x55c5c0)
+void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang16& angle)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point RelativePointVelocity;
+    if (field_5C_pCar->field_50_car_sprite->GetNearestHorizontalEdgeToCoordinate_5A0A70(gRozza_679188.field_18_mapy_t1,
+                                                                                        &CollisionIntersectionPoint_6FE1A0.x,
+                                                                                        &byte_6FDFC4))
+    {
+        stru_6FE1F0.SetXY_432860(Fix16(0), field_38_cp1.y - gRozza_679188.field_18_mapy_t1);
+        RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+    }
+    else
+    {
+        CollisionIntersectionPoint_6FE1A0.SetXY_432860(gRozza_679188.field_14_mapx_t2 - pPoint.x,
+                                                       gRozza_679188.field_18_mapy_t1 - pPoint.y);
+        CollisionIntersectionPoint_6FE1A0.RotateByAngle_40F6B0(field_58_theta - angle);
+        CollisionIntersectionPoint_6FE1A0.x += field_38_cp1.x;
+
+        if (Fix16::Abs(CollisionIntersectionPoint_6FE1A0.x - gRozza_679188.field_4_mapx_t1) <
+            Fix16::Abs(CollisionIntersectionPoint_6FE1A0.x - gRozza_679188.field_8))
+        {
+            CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_4_mapx_t1;
+        }
+        else
+        {
+            CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_8;
+        }
+        RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+        if (field_38_cp1.y < RelativePointVelocity.y)
+        {
+            stru_6FE1F0.SetXY_432860(Fix16(0), -k_dword_6FE210);
+        }
+        else
+        {
+            stru_6FE1F0.SetXY_432860(Fix16(0), k_dword_6FE210);
+        }
+    }
+    CarPhysics_B0::HandleWorldCollision_55FD00(RelativePointVelocity);
 }
 
 STUB_FUNC(0x55c820)
