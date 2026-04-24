@@ -2483,16 +2483,16 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     CarPhysics_B0* OtherCarPhysics = pOtherCar->field_58_physics;
 
     OtherCarPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
-    Fix16_Point RelativeVelocity_1 = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+    Fix16_Point RelativeVelocity_1 = OtherCarPhysics->ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
     SetCurrentCarInfoAndModelPhysics_562EF0();
-    Fix16_Point RelativeVelocity_2 = OtherCarPhysics->ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+    Fix16_Point RelativeVelocity_2 = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
     Fix16_Point ThisCoM = ComputeCombinedCenterOfMass_559EC0();
     Fix16_Point OtherCoM = OtherCarPhysics->ComputeCombinedCenterOfMass_559EC0();
     stru_6FE1F0 = ThisCoM - CollisionIntersectionPoint_6FE1A0;
 
     Fix16_Point ImpulseForce = ComputeLineLineIntersection_55F3B0(ThisCarMass,
                                                                   OtherCarPhysics->CalculateMass_559FF0(),
-                                                                  RelativeVelocity_1 - RelativeVelocity_2,
+                                                                  RelativeVelocity_2 - RelativeVelocity_1,
                                                                   stru_6FE1F0,
                                                                   CollisionIntersectionPoint_6FE1A0,
                                                                   ThisCoM,
