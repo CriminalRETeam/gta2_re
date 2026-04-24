@@ -2144,15 +2144,15 @@ void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
     this->field_AA_sbw = 1;
 }
 
+// matches on decompme: https://decomp.me/scratch/Hyun8
 WIP_FUNC(0x55f020)
 void CarPhysics_B0::ApplyTurningForce_55F020()
 {
-    WIP_IMPLEMENTED;
-
+    Fix16_Point v6;
     Fix16 v17 = dword_6FE358;
-
     Object_2C* pObj = gRozza_679188.field_20_pSprite->As2C_40FEC0();
     Fix16 v4;
+
     if (pObj && pObj->field_18_model == 166)
     {
         v4 = k_dword_6FDFA4;
@@ -2160,8 +2160,7 @@ void CarPhysics_B0::ApplyTurningForce_55F020()
     }
     else
     {
-        Ped* pDriver = this->field_5C_pCar->field_54_driver;
-        if (pDriver && pDriver->field_15C_player)
+        if (field_5C_pCar->is_driven_by_player())
         {
             v4 = dword_6FE078;
             v17 = dword_6FE390;
@@ -2173,30 +2172,16 @@ void CarPhysics_B0::ApplyTurningForce_55F020()
         }
     }
 
-    Fix16_Point v6 = (this->field_38_cp1 - CollisionIntersectionPoint_6FE1A0);
-    Fix16 var_14 = v6.x;
-    Fix16 v7 = v6.y;
+    v6 = (field_38_cp1 - CollisionIntersectionPoint_6FE1A0);
 
-    Ang16 v6_ = -this->field_58_theta;
+    v6.RotateByAngle_40F6B0(-field_58_theta);
 
-    Fix16 v21 = var_14;
-    Fix16 v19 = (Ang16::sine_40F500(v6_) * v7);
-    Fix16 v10 = (var_14 * Ang16::cosine_40F520(v6_));
-    var_14 = (v10 + v19);
-    Fix16 v15 = (v7 * Ang16::cosine_40F520(v6_));
-    Fix16 v11 = -v21;
-    Fix16 v12 = (v11 * Ang16::sine_40F500(v6_));
-    var_14 = (v12 + v15);
-
-    if (var_14 >= kFP16Zero_6FE20C)
+    if (v6.x >= kFP16Zero_6FE20C)
     {
         v4 = -v4;
     }
-
     ApplyAngularImpulse_55F970(v4);
-    Fix16_Point v13 = stru_6FE1F0.NormalizeSafe_442AD0();
-    Fix16_Point v14 = (v13 * v17);
-    ApplyForceScaledByMass_55F9A0(v14);
+    ApplyForceScaledByMass_55F9A0(stru_6FE1F0.NormalizeSafe_442AD0() * v17);
 }
 
 MATCH_FUNC(0x55f240)
