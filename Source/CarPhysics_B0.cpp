@@ -2515,7 +2515,7 @@ void CarPhysics_B0::HandleWorldCollision_55FD00(Fix16_Point& pHitPoint)
         }
     }
 
-    Fix16 damage = ApplyImpactForcesAndDamage_55FA60(pHitPoint, CollisionIntersectionPoint_6FE1A0, 15);
+    Fix16 damage = ApplyImpactForcesAndDamage_55FA60(CollisionIntersectionPoint_6FE1A0, Impulse, 15);
     dword_6FE33C = damage;
     if (field_98_surface_type == 6 && field_70 == kFP16Zero_6FE20C && field_68_z_pos == kFP16Zero_6FE20C &&
         field_40_linvel_1.x == kFP16Zero_6FE20C && field_40_linvel_1.y == kFP16Zero_6FE20C && damage < dword_6FE098)
