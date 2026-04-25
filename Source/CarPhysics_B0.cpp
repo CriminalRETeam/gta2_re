@@ -1564,7 +1564,7 @@ void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang1
             CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_8;
         }
         RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
-        if (field_38_cp1.y < RelativePointVelocity.y)
+        if (field_38_cp1.y < CollisionIntersectionPoint_6FE1A0.y)
         {
             stru_6FE1F0.SetXY_432860(Fix16(0), -k_dword_6FE210);
         }
@@ -1576,10 +1576,47 @@ void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang1
     CarPhysics_B0::HandleWorldCollision_55FD00(RelativePointVelocity);
 }
 
-STUB_FUNC(0x55c820)
-void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& a2, Ang16& a3)
+// https://decomp.me/scratch/N4ktT
+WIP_FUNC(0x55c820)
+void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang16& angle)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point RelativePointVelocity;
+    if (field_5C_pCar->field_50_car_sprite->GetNearestHorizontalEdgeToCoordinate_5A0A70(gRozza_679188.field_14_mapx_t2,
+                                                                                        &CollisionIntersectionPoint_6FE1A0.x,
+                                                                                        &byte_6FDFC4))
+    {
+        stru_6FE1F0.SetXY_432860(field_38_cp1.x - gRozza_679188.field_14_mapx_t2, Fix16(0));
+        RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+    }
+    else
+    {
+        CollisionIntersectionPoint_6FE1A0.SetXY_432860(gRozza_679188.field_14_mapx_t2 - pPoint.x,
+                                                       gRozza_679188.field_18_mapy_t1 - pPoint.y);
+        CollisionIntersectionPoint_6FE1A0.RotateByAngle_40F6B0(field_58_theta - angle);
+        CollisionIntersectionPoint_6FE1A0.y += field_38_cp1.y;
+
+        if (Fix16::Abs(CollisionIntersectionPoint_6FE1A0.y - gRozza_679188.field_C_mapy_t2) <
+            Fix16::Abs(CollisionIntersectionPoint_6FE1A0.y - gRozza_679188.field_10))
+        {
+            CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_C_mapy_t2;
+        }
+        else
+        {
+            CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_10;
+        }
+        RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+        if (field_38_cp1.x < CollisionIntersectionPoint_6FE1A0.x)
+        {
+            stru_6FE1F0.SetXY_432860(-k_dword_6FE210, Fix16(0));
+        }
+        else
+        {
+            stru_6FE1F0.SetXY_432860(k_dword_6FE210, Fix16(0));
+        }
+    }
+    CarPhysics_B0::HandleWorldCollision_55FD00(RelativePointVelocity);
 }
 
 // 9.6f 0x4A4170
