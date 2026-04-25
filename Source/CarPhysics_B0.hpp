@@ -112,7 +112,7 @@ class CarPhysics_B0
     EXPORT void ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2);
     EXPORT Fix16 ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg);
     EXPORT void AccumulateImpulse_55FC30(Fix16_Point& a2, s32 a3);
-    EXPORT s32 HandleWorldCollision_55FD00(s32 a2);
+    EXPORT void HandleWorldCollision_55FD00(Fix16_Point& pHitPoint);
     EXPORT void HandleCarCollision_55FF20(Car_BC* pOtherCar);
     EXPORT void HandleObjectCollision_5606C0(Object_2C* a2, char_type a3);
     EXPORT void ProcessPedImpact_560B40(Char_B4* a2, u8 a3);
