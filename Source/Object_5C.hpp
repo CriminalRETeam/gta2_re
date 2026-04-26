@@ -40,7 +40,7 @@ class Object_2C
     EXPORT void sub_5226A0(char_type a2);
     EXPORT void ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3);
     EXPORT void ResolveCollisionWithPed_5229B0(Char_B4* a2, Fix16_Point* a3, s32 a4);
-    EXPORT void ResolveCollisionWithWorld_522B20(Fix16* a2, Fix16_Point* a3, Fix16_Point* a4);
+    EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* a2, Fix16_Point* a3, Fix16_Point* a4);
     EXPORT void ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2);
     EXPORT void ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* a2);
     EXPORT void HandleCollision_522E10(Fix16_Point* a2);
