@@ -521,7 +521,7 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
 }
 
 WIP_FUNC(0x522b20)
-void Object_2C::ResolveCollisionWithWorld_522B20(Fix16* f18, Fix16_Point* a3, Fix16_Point* a4)
+void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* a3, Fix16_Point* a4)
 {
     WIP_IMPLEMENTED;
 
@@ -550,9 +550,9 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
 
     Fix16_Point v13 = GetRot_52AE90();
     Fix16_Point v12;
-    Fix16 t1;
+    Fix16_Point t1;
     u8 v9;
-    if (this->field_4->GetNearestHorizontalEdgeToCoordinate_5A0A70(gRozza_679188.field_18_mapy_t1, &t1, &v9))
+    if (this->field_4->GetNearestHorizontalEdgeToCoordinate_5A0A70(gRozza_679188.field_18_mapy_t1, t1, v9))
     {
         v12.x = 0;
         v12.y = this->field_4->field_14_xy.y - gRozza_679188.field_18_mapy_t1;
@@ -574,10 +574,10 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
             v8 = -v8;
         }
 
-        t1 = gRozza_679188.field_4_mapx_t1;
+        t1.x = gRozza_679188.field_4_mapx_t1;
         if (v8 >= v7)
         {
-            t1 = gRozza_679188.field_8;
+            t1.x = gRozza_679188.field_8;
         }
 
         v12 = -v13;

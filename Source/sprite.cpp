@@ -1279,11 +1279,92 @@ char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 sca
     return 0;
 }
 
-STUB_FUNC(0x5A0A70)
-char_type Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16* a3, u8* a4)
+// https://decomp.me/scratch/EK1Y2
+WIP_FUNC(0x5A0A70)
+bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16& a2, Fix16_Point& a3, u8& a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+    Fix16_Point* RenderingRect = field_C_sprite_4c_ptr->field_C_renderingRect;
+
+    Fix16 diff_1 = RenderingRect[0].y - a2;
+
+    Fix16 sign_1 = sub_4B9C20(diff_1.mValue);
+    Fix16 abs_1 = Fix16::Abs(diff_1);
+
+    Fix16 least_abs = abs_1;
+
+    a3.x = RenderingRect[0].x;
+    a3.y = RenderingRect[0].y;
+    a4 = 0;
+
+    Fix16 diff_2 = RenderingRect[1].y - a2;
+
+    Fix16 sign_2 = sub_4B9C20(diff_2.mValue);
+    if (sign_2 != sign_1)
+    {
+        return false;
+    }
+
+    Fix16 abs_2 = Fix16::Abs(diff_2);
+    if (abs_2 < least_abs)
+    {
+        a3.x = RenderingRect[1].x;
+        a3.y = RenderingRect[1].y;
+        least_abs = abs_2;
+        a4 = 1;
+    }
+    else if (abs_2 == least_abs)
+    {
+        a3.x = (a3.x + RenderingRect[1].x) / dword_7035C8;
+        a4 = 5;
+    }
+
+    Fix16 diff_3 = RenderingRect[2].y - a2;
+    Fix16 sign_3 = sub_4B9C20(diff_3.mValue);
+
+    if (sign_3 != sign_1)
+    {
+        return false;
+    }
+    Fix16 abs_3 = Fix16::Abs(diff_3);
+
+    if (abs_3 < least_abs)
+    {
+        a3.x = RenderingRect[2].x;
+        a3.y = RenderingRect[2].y;
+        least_abs = abs_3;
+        a4 = 2;
+    }
+    else if (abs_3 == least_abs)
+    {
+        a3.x = (a3.x + RenderingRect[2].x) / dword_7035C8;
+        a4 = 5;
+    }
+
+    Fix16 diff_4 = RenderingRect[3].y - a2;
+    Fix16 sign_4 = sub_4B9C20(diff_4.mValue);
+
+    if (sign_4 != sign_1)
+    {
+        return false;
+    }
+    Fix16 abs_4 = Fix16::Abs(diff_4);
+
+    if (abs_4 < least_abs)
+    {
+        a3.x = RenderingRect[3].x;
+        a3.y = RenderingRect[3].y;
+        a4 = 3;
+    }
+    else if (abs_4 == least_abs)
+    {
+        a3.x = (a3.x + RenderingRect[3].x) / dword_7035C8;
+        a4 = 5;
+    }
+
+    return true;
 }
 
 MATCH_FUNC(0x5A0EF0)
@@ -1310,7 +1391,7 @@ WIP_FUNC(0x5a1030)
 bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16& a2, Fix16_Point& a3, u8& a4)
 {
     WIP_IMPLEMENTED;
-    
+
     Fix16_Point* RenderingRect = field_C_sprite_4c_ptr->field_C_renderingRect;
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
