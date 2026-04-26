@@ -50,6 +50,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_703A38, Fix16(0), 0x703A38);
 
 DEFINE_GLOBAL_INIT(Fix16, k_dword_7033B4, Fix16(0x3FC000, 0), 0x7033B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_7035DC, Fix16(0x1C000, 0), 0x7035DC);
+DEFINE_GLOBAL_INIT(Fix16, dword_7035C8, Fix16(2), 0x7035C8);
 
 EXTERN_GLOBAL(s32, window_width_706630);
 EXTERN_GLOBAL(s32, window_height_706B50);
@@ -97,6 +98,23 @@ static inline void __fastcall SetUV_4B9BC0(f32& u, f32& v)
 
     gTileVerts_7036D0[3].u = 0.30000001f;
     gTileVerts_7036D0[3].v = v;
+}
+
+// matched https://decomp.me/scratch/RhBO0
+static inline Fix16 __stdcall sub_4B9C20(s32& a2)
+{
+    if (a2 > 0)
+    {
+        return Fix16(1);
+    }
+    else if (a2 < 0)
+    {
+        return Fix16(-1);
+    }
+    else
+    {
+        return Fix16(0);
+    }
 }
 
 WIP_FUNC(0x5A5AA0)
@@ -1287,11 +1305,96 @@ char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
     return 0;
 }
 
-STUB_FUNC(0x5a1030)
-char_type Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Sprite* a2, Sprite** a3, u8* a4)
+// https://decomp.me/scratch/ScgaC
+WIP_FUNC(0x5a1030)
+bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16& a2, Fix16_Point& a3, u8& a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    
+    Fix16_Point* RenderingRect = field_C_sprite_4c_ptr->field_C_renderingRect;
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+
+    Fix16 diff_1 = RenderingRect[0].x - a2;
+
+    Fix16 sign_1 = sub_4B9C20(diff_1.mValue);
+    Fix16 abs_1 = Fix16::Abs(diff_1);
+
+    Fix16 least_abs = abs_1;
+
+    a3.x = RenderingRect[0].x;
+    a3.y = RenderingRect[0].y;
+    a4 = 0;
+
+    Fix16 diff_2 = RenderingRect[1].x - a2;
+
+    Fix16 sign_2 = sub_4B9C20(diff_2.mValue);
+    if (sign_2 != sign_1)
+    {
+        return false;
+    }
+
+    Fix16 abs_2 = Fix16::Abs(diff_2);
+    if (abs_2 < least_abs)
+    {
+        a3.x = RenderingRect[1].x;
+        a3.y = RenderingRect[1].y;
+        least_abs = abs_2;
+        a4 = 1;
+    }
+    else if (abs_2 == least_abs)
+    {
+        a3.y = (a3.y + RenderingRect[1].y) / dword_7035C8;
+        a4 = 5;
+    }
+
+    // .........
+
+    // line 55 on 9.6f IDA idb
+    Fix16 diff_3 = RenderingRect[2].x - a2;
+    Fix16 sign_3 = sub_4B9C20(diff_3.mValue);
+
+    if (sign_3 != sign_1)
+    {
+        return false;
+    }
+    Fix16 abs_3 = Fix16::Abs(diff_3);
+
+    if (abs_3 < least_abs)
+    {
+        a3.x = RenderingRect[2].x;
+        a3.y = RenderingRect[2].y;
+        least_abs = abs_3;
+        a4 = 2;
+    }
+    else if (abs_3 == least_abs)
+    {
+        a3.y = (a3.y + RenderingRect[2].y) / dword_7035C8;
+        a4 = 5;
+    }
+
+    // line 74 on 9.6f IDA idb
+    Fix16 diff_4 = RenderingRect[3].x - a2;
+    Fix16 sign_4 = sub_4B9C20(diff_4.mValue);
+
+    if (sign_4 != sign_1)
+    {
+        return false;
+    }
+    Fix16 abs_4 = Fix16::Abs(diff_4);
+
+    if (abs_4 < least_abs)
+    {
+        a3.x = RenderingRect[3].x;
+        a3.y = RenderingRect[3].y;
+        a4 = 3;
+    }
+    else if (abs_4 == least_abs)
+    {
+        a3.y = (a3.y + RenderingRect[3].y) / dword_7035C8;
+        a4 = 5;
+    }
+
+    return true;
 }
 
 STUB_FUNC(0x5a1490)

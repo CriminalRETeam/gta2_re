@@ -213,7 +213,7 @@ class Sprite
     EXPORT char_type CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
     EXPORT char_type GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16* a3, u8* a4);
     EXPORT char_type HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4);
-    EXPORT char_type GetNearestVerticalEdgeToCoordinate_5A1030(Sprite* a2, Sprite** a3, u8* a4);
+    EXPORT bool GetNearestVerticalEdgeToCoordinate_5A1030(Fix16& a2, Fix16_Point& a3, u8& a4);
     EXPORT bool PointInsideRotatedBounds_5A1490(s32 a2, s32 a3);
     EXPORT char_type sub_5A19C0();
     EXPORT char sub_5A1A60();
