@@ -59,11 +59,11 @@ void NetPlay::AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionIn
 
 MATCH_FUNC(0x51da30)
 s32 __stdcall NetPlay::EnumConnections_cb_51DA30(const GUID* lpguidSP,
-                                       void* lpConnection,
-                                       unsigned long dwConnectionSize,
-                                       const DPNAME* lpName,
-                                       unsigned long dwFlags,
-                                       void* lpContext)
+                                                 void* lpConnection,
+                                                 unsigned long dwConnectionSize,
+                                                 const DPNAME* lpName,
+                                                 unsigned long dwFlags,
+                                                 void* lpContext)
 {
     EnumeratedConnection info;
     info.field_0_sp_guid = *lpguidSP; // store guid
@@ -383,11 +383,35 @@ s32 NetPlay::Send_51EF60()
     return 0;
 }
 
-STUB_FUNC(0x51f010)
-char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, s32* recvId, u32* senderId)
+WIP_FUNC(0x51f010)
+char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    unsigned long readLen = 0x1800;
+    if (field_5E4_pDPlay3->Receive(senderId, recvId, 1, (void*)field_8E4_p0x1800_1, &readLen))
+    {
+        return 0;
+    }
+
+    while (!*senderId)
+    {
+        OnPacketReceived_51F870((char*)this->field_8E4_p0x1800_1, readLen, *recvId, 0);
+        if (!this->field_8F0)
+        {
+            readLen = 0x1800;
+            if (!field_5E4_pDPlay3->Receive(senderId, recvId, 1, (void*)field_8E4_p0x1800_1, &readLen))
+            {
+                continue;
+            }
+        }
+        return 0;
+    }
+
+    s32 outDataLen = CalcPacketLen_51F210(this->field_8E4_p0x1800_1);
+    *pOutData = this->field_8E4_p0x1800_1;
+    *pOutDataLen = outDataLen;
+    return 1;
 }
 
 MATCH_FUNC(0x51f0d0)

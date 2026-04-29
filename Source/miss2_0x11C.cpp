@@ -149,7 +149,7 @@ void miss2_0x11C::sub_5035B0()
 }
 
 MATCH_FUNC(0x5035d0)
-void miss2_0x11C::sub_5035D0()
+void miss2_0x11C::Log_5035D0()
 {
     if (gDo_miss_logging_67D6BC)
     {
@@ -2735,7 +2735,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
 }
 
 STUB_FUNC(0x509fd0)
-void miss2_0x11C::sub_509FD0()
+void miss2_0x11C::Locate_509FD0()
 {
     NOT_IMPLEMENTED;
 }
@@ -2949,7 +2949,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_BOTH_50A6E0()
 }
 
 STUB_FUNC(0x50a760)
-void miss2_0x11C::sub_50A760()
+void miss2_0x11C::IsOnScreen_50A760()
 {
     NOT_IMPLEMENTED;
 }
@@ -3089,7 +3089,7 @@ void miss2_0x11C::sub_50ACF0()
 }
 
 STUB_FUNC(0x50aef0)
-void miss2_0x11C::sub_50AEF0()
+void miss2_0x11C::RespectOperator_50AEF0()
 {
     NOT_IMPLEMENTED;
 }
@@ -4069,7 +4069,7 @@ void miss2_0x11C::sub_50CCB0()
 }
 
 STUB_FUNC(0x50cd30)
-void miss2_0x11C::sub_50CD30()
+void miss2_0x11C::SwitchGenerator_50CD30()
 {
     NOT_IMPLEMENTED;
 }
@@ -4297,7 +4297,7 @@ void miss2_0x11C::sub_50DA50() // CREATE_LIGHT1 or LIGHT_DECSET2
 }
 
 STUB_FUNC(0x50db70)
-void miss2_0x11C::sub_50DB70()
+void miss2_0x11C::GetSetLivesAndMultipler_50DB70()
 {
     NOT_IMPLEMENTED;
 }
@@ -4382,13 +4382,13 @@ void miss2_0x11C::SCRCMD_CHAR_SUNK_50DEB0()
 }
 
 STUB_FUNC(0x50df10)
-void miss2_0x11C::sub_50DF10()
+void miss2_0x11C::StartBonus_50DF10()
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x50e0b0)
-void miss2_0x11C::sub_50E0B0()
+void miss2_0x11C::SCRCMD_CHECK_BONUS_50E0B0()
 {
     s16 result = miss2_0x11C::sub_505EA0(gBasePtr_6F8070->field_8_index);
     field_8 = false;
@@ -4418,14 +4418,14 @@ void miss2_0x11C::sub_50E0B0()
 }
 
 MATCH_FUNC(0x50e120)
-void miss2_0x11C::sub_50E120()
+void miss2_0x11C::SCRCMD_SETUP_MODEL_CHECK_50E120()
 {
     gCar_6C_677930->field_58_model_to_check_destroy = (u16)gBasePtr_6F8070->field_8_index;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e150)
-void miss2_0x11C::sub_50E150() // SCRCMD_MODEL_CHECK
+void miss2_0x11C::SCRCMD_MODEL_CHECK_50E150() // SCRCMD_MODEL_CHECK
 {
     if (gCar_6C_677930->field_5C)
     {
@@ -4439,7 +4439,7 @@ void miss2_0x11C::sub_50E150() // SCRCMD_MODEL_CHECK
 }
 
 STUB_FUNC(0x50e190)
-void miss2_0x11C::sub_50E190()
+void miss2_0x11C::GetSpeed_50E190()
 {
     NOT_IMPLEMENTED;
 }
@@ -4466,7 +4466,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
 }
 
 MATCH_FUNC(0x50e460)
-void miss2_0x11C::sub_50E460() //  SCRCMD_SET_CAR_GRAPHIC
+void miss2_0x11C::SCRCMD_SET_CAR_GRAPHIC_50E460() //  SCRCMD_SET_CAR_GRAPHIC
 {
     SCR_SET_CAR_GRAPHIC* pCmd = (SCR_SET_CAR_GRAPHIC*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
@@ -4563,7 +4563,7 @@ void miss2_0x11C::sub_50E730()
 }
 
 MATCH_FUNC(0x50e780)
-void miss2_0x11C::sub_50E780()
+void miss2_0x11C::SCRCMD_SET_SPEED_50E780()
 {
     SCR_SET_RUN_SPEED* pCmd = (SCR_SET_RUN_SPEED*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
@@ -4573,13 +4573,13 @@ void miss2_0x11C::sub_50E780()
     }
     else
     {
-        pPointer->field_8_char->field_1F8 = pCmd->field_A_value;
+        pPointer->field_8_char->field_1F8_run_speed = pCmd->field_A_value;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e7f0)
-void miss2_0x11C::sub_50E7F0() // Give car alarm
+void miss2_0x11C::SCRCMD_GIVE_CAR_ALARM_50E7F0() // Give car alarm
 {
     SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     pPtr->field_8_car->field_78_flags |= 0x80;
@@ -4587,7 +4587,7 @@ void miss2_0x11C::sub_50E7F0() // Give car alarm
 }
 
 MATCH_FUNC(0x50e820)
-void miss2_0x11C::sub_50E820()
+void miss2_0x11C::SCRCMD_CAR_WEAPON_KIND_PROOF_50E820()
 {
     SCR_SET_CAR_DAMAGE_PROOF* pCmd = (SCR_SET_CAR_DAMAGE_PROOF*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
@@ -5104,7 +5104,7 @@ void miss2_0x11C::SCRCMD_MAKE_MUGGERS_50F770()
 }
 
 STUB_FUNC(0x50f7b0)
-void miss2_0x11C::sub_50F7B0()
+void miss2_0x11C::LocSecChar_50F7B0()
 {
     NOT_IMPLEMENTED;
 }
@@ -5270,7 +5270,7 @@ void miss2_0x11C::sub_50FC20() // SCRCMD_SET_FAV_CAR
 }
 
 STUB_FUNC(0x50fc60)
-void miss2_0x11C::sub_50FC60()
+void miss2_0x11C::GroupInArea_50FC60()
 {
     NOT_IMPLEMENTED;
 }
@@ -5780,7 +5780,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case SCRCMD_STOP_LOCATE_CHAR_ANY:
             case SCRCMD_STOP_LOCATE_CHAR_FOOT:
             case SCRCMD_STOP_LOCATE_CHAR_CAR:
-                sub_509FD0();
+                Locate_509FD0();
                 break;
             case SCRCMD_SET_CHAR_OBJ2:
                 sub_50A200();
@@ -5812,7 +5812,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 break;
             case SCRCMD_IS_ITEM_ONSCREEN:
             case SCRCMD_ONSCREEN_ACCURACY:
-                sub_50A760();
+                IsOnScreen_50A760();
                 break;
             case SCRCMD_DELAY_HERE:
                 SCRCMD_DELAY_HERE_50A940();
@@ -5837,7 +5837,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case SCRCMD_CHECK_RESPECT_GREATER:
             case SCRCMD_CHECK_RESPECT_LESS:
             case SCRCMD_CHECK_RESPECT_IS:
-                sub_50AEF0();
+                RespectOperator_50AEF0();
                 break;
             case SCRCMD_ADD_PATROL_POs32:
                 sub_50B0E0();
@@ -6027,7 +6027,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 break;
             case SCRCMD_SWITCH_GENERATOR3:
             case SCRCMD_SWITCH_GENERATOR4:
-                sub_50CD30();
+                SwitchGenerator_50CD30();
                 break;
             case SCRCMD_CAR_DAMAGE_POS:
                 SCRCMD_CAR_DAMAGE_POS_50CDB0();
@@ -6074,7 +6074,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case SCRCMD_CHECK_MULT:
             case SCRCMD_ADD_LIVES:
             case SCRCMD_ADD_MULTIPLIER:
-                sub_50DB70();
+                GetSetLivesAndMultipler_50DB70();
                 break;
             case SCRCMD_GET_NUM_LIVES:
             case SCRCMD_GET_MULT:
@@ -6096,29 +6096,29 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case SCRCMD_START_BONUS2:
             case SCRCMD_START_BONUS3:
             case SCRCMD_START_BONUS4:
-                sub_50DF10();
+                StartBonus_50DF10();
                 break;
             case SCRCMD_CHECK_BONUS1:
             case SCRCMD_CHECK_BONUS2:
             case SCRCMD_CHECK_BONUS3:
-                sub_50E0B0();
+                SCRCMD_CHECK_BONUS_50E0B0();
                 break;
             case SCRCMD_SETUP_MODEL_CHECK:
-                sub_50E120();
+                SCRCMD_SETUP_MODEL_CHECK_50E120();
                 break;
             case SCRCMD_MODEL_CHECK:
-                sub_50E150();
+                SCRCMD_MODEL_CHECK_50E150();
                 break;
             case SCRCMD_GET_CAR_SPEED:
             case SCRCMD_GET_CHAR_CAR_SPEED:
             case SCRCMD_GET_MAX_SPEED:
-                sub_50E190();
+                GetSpeed_50E190();
                 break;
             case SCRCMD_CHECK_CAR_SPEED:
                 SCRCMD_CHECK_CAR_SPEED_50E360();
                 break;
             case SCRCMD_SET_CAR_GRAPHIC:
-                sub_50E460();
+                SCRCMD_SET_CAR_GRAPHIC_50E460();
                 break;
             case SCRCMD_S_IS_S_MINUS_S:
             case SCRCMD_S_IS_S_PLUS_S:
@@ -6135,19 +6135,19 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 sub_50E610();
                 break;
             case SCRCMD_GIVE_CAR_ALARM:
-                sub_50E7F0();
+                SCRCMD_GIVE_CAR_ALARM_50E7F0();
                 break;
             case SCRCMD_CAR_BULLETPROOF:
             case SCRCMD_CAR_ROCKETPROOF:
             case SCRCMD_CAR_FLAMEPROOF:
-                sub_50E820();
+                SCRCMD_CAR_WEAPON_KIND_PROOF_50E820();
                 break;
             case SCRCMD_CHAR_DRIVE_AGGR:
                 sub_50E730();
                 break;
             case SCRCMD_CHAR_DRIVE_SPEED:
             case SCRCMD_SET_RUN_SPEED:
-                sub_50E780();
+                SCRCMD_SET_SPEED_50E780();
                 break;
             case SCRCMD_SET_CHAR_OBJ_FOLLOW:
                 sub_50A460();
@@ -6225,7 +6225,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case SCRCMD_LOC_SECOND_char_type:
             case SCRCMD_LOC_SEC_CHAR_CAR:
             case SCRCMD_LOC_SEC_CHAR_ANY:
-                sub_50F7B0();
+                LocSecChar_50F7B0();
                 break;
             case SCRCMD_STOP_CAR_DRIVE:
                 SCRCMD_STOP_CAR_DRIVE_50F900();
@@ -6259,7 +6259,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 sub_50FC20();
                 break;
             case SCRCMD_GROUP_IN_AREA:
-                sub_50FC60();
+                GroupInArea_50FC60();
                 break;
             case SCRCMD_SET_CHAR_OCCUPATION:
                 sub_509790();

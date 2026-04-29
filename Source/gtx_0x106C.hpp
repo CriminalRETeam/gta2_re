@@ -308,6 +308,11 @@ class gtx_0x106C
         return field_6C_spec[tile_idx] == spec_surface_type_enum::spec_electrified;
     }
 
+    inline car_info* sub_4BF1F0(u8 model_idx)
+    {
+        return field_5C_cari->field_0[model_idx];
+    }
+
     s16 field_0_totalPalBase;
     u16 field_2_font_base_total;
     s16 field_4_sprite_index_count;

@@ -50,6 +50,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_703A38, Fix16(0), 0x703A38);
 
 DEFINE_GLOBAL_INIT(Fix16, k_dword_7033B4, Fix16(0x3FC000, 0), 0x7033B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_7035DC, Fix16(0x1C000, 0), 0x7035DC);
+DEFINE_GLOBAL_INIT(Fix16, dword_7035C8, Fix16(2), 0x7035C8);
 
 EXTERN_GLOBAL(s32, window_width_706630);
 EXTERN_GLOBAL(s32, window_height_706B50);
@@ -99,16 +100,30 @@ static inline void __fastcall SetUV_4B9BC0(f32& u, f32& v)
     gTileVerts_7036D0[3].v = v;
 }
 
+// matched https://decomp.me/scratch/RhBO0
+static inline Fix16 __stdcall sub_4B9C20(s32& a2)
+{
+    if (a2 > 0)
+    {
+        return Fix16(1);
+    }
+    else if (a2 < 0)
+    {
+        return Fix16(-1);
+    }
+    else
+    {
+        return Fix16(0);
+    }
+}
+
 WIP_FUNC(0x5A5AA0)
-EXPORT Fix16* __stdcall ProjectOntoAxis_5A5AA0(Fix16* xpos1, Fix16* ypos1, Ang16* v1, Fix16* xpos2, Fix16* ypos2, Fix16* v2, Fix16* v3)
+EXPORT void __stdcall ProjectOntoAxis_5A5AA0(Fix16& xpos1, Fix16& ypos1, Ang16& angle, Fix16& xpos2, Fix16& ypos2, Fix16& outX, Fix16& outY)
 {
     WIP_IMPLEMENTED;
 
-    Fix16* result;
-    *v2 = (Ang16::sine_40F500(*v1) * (*ypos1 - *ypos2)) + (Ang16::cosine_40F520(*v1) * (*xpos1 - *xpos2));
-    result = v3;
-    *v3 = (Ang16::sine_40F500(*v1) * (*xpos2 - *xpos1)) + (Ang16::cosine_40F520(*v1) * (*ypos1 - *ypos2));
-    return result;
+    outX = (Ang16::sine_40F500(angle) * (ypos1 - ypos2)) + (Ang16::cosine_40F520(angle) * (xpos1 - xpos2));
+    outY = (Ang16::sine_40F500(angle) * (xpos2 - xpos1)) + (Ang16::cosine_40F520(angle) * (ypos1 - ypos2));
 }
 
 MATCH_FUNC(0x562450)
@@ -867,10 +882,106 @@ void Sprite::FreeSprite4CChildren_59FAD0()
     }
 }
 
-STUB_FUNC(0x59FB10)
-bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* a2)
+WIP_FUNC(0x59FB10)
+bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 half_width;
+    Fix16 half_height;
+
+    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&half_width, &half_height);
+
+    Fix16 pRotTransX;
+    Fix16 pRotTransY;
+
+    // First rotation
+    RotateAndTranslatePoint_42A720(pOtherRect->get_left_45ADB0(),
+                                   pOtherRect->get_top_45ADD0(),
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Second rotation
+    RotateAndTranslatePoint_42A720(pOtherRect->get_right_45ADA0(),
+                                   pOtherRect->get_top_45ADD0(),
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Third rotation
+    RotateAndTranslatePoint_42A720(pOtherRect->get_right_45ADA0(),
+                                   pOtherRect->get_bottom_45ADC0(),
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Fourth rotation
+    RotateAndTranslatePoint_42A720(pOtherRect->get_left_45ADB0(),
+                                   pOtherRect->get_bottom_45ADC0(),
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Last rotation
+    // In 9.6f, it's RotateAndTranslatePoint_42A720.
+    // Either this was changed in 10.5 or, for some reason, it doesn't get inlined
+    ProjectOntoAxis_5A5AA0((pOtherRect->get_left_45ADB0() + pOtherRect->get_right_45ADA0()) / 2,
+                           (pOtherRect->get_bottom_45ADC0() + pOtherRect->get_top_45ADD0()) / 2,
+                           -field_0,
+                           field_14_xy.x,
+                           field_14_xy.y,
+                           pRotTransX,
+                           pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
     return false;
 }
 
@@ -947,11 +1058,112 @@ char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollision
     return overlapCount;
 }
 
-STUB_FUNC(0x5a0380)
-bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* a1)
+// https://decomp.me/scratch/5emc4
+WIP_FUNC(0x5a0380)
+bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (field_C_sprite_4c_ptr->IsZeroWidth_41E390())
+    {
+        return field_C_sprite_4c_ptr->field_30_boundingBox.IntersectsSpriteRenderingRect_59DDF0(pOther);
+    }
+
+    Fix16 half_width;
+    Fix16 half_height;
+
+    Fix16_Point* pOtherRenderRect = pOther->field_C_sprite_4c_ptr->field_C_renderingRect;
+
+    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&half_width, &half_height);
+
+    Fix16 pRotTransX;
+    Fix16 pRotTransY;
+
+    // First rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[0].x,
+                                   pOtherRenderRect[0].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Second rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[1].x,
+                                   pOtherRenderRect[1].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Third rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[2].x,
+                                   pOtherRenderRect[2].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Fourth rotation
+    RotateAndTranslatePoint_42A720(pOtherRenderRect[3].x,
+                                   pOtherRenderRect[3].y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    // Last rotation (it's different)
+    RotateAndTranslatePoint_42A720(pOther->field_14_xy.x,
+                                   pOther->field_14_xy.y,
+                                   -field_0,
+                                   field_14_xy.x,
+                                   field_14_xy.y,
+                                   pRotTransX,
+                                   pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 WIP_FUNC(0x4F77D0)
@@ -1067,11 +1279,92 @@ char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 sca
     return 0;
 }
 
-STUB_FUNC(0x5A0A70)
-char_type Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16* a3, u8* a4)
+// https://decomp.me/scratch/EK1Y2
+WIP_FUNC(0x5A0A70)
+bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16& a2, Fix16_Point& a3, u8& a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+    Fix16_Point* RenderingRect = field_C_sprite_4c_ptr->field_C_renderingRect;
+
+    Fix16 diff_1 = RenderingRect[0].y - a2;
+
+    Fix16 sign_1 = sub_4B9C20(diff_1.mValue);
+    Fix16 abs_1 = Fix16::Abs(diff_1);
+
+    Fix16 least_abs = abs_1;
+
+    a3.x = RenderingRect[0].x;
+    a3.y = RenderingRect[0].y;
+    a4 = 0;
+
+    Fix16 diff_2 = RenderingRect[1].y - a2;
+
+    Fix16 sign_2 = sub_4B9C20(diff_2.mValue);
+    if (sign_2 != sign_1)
+    {
+        return false;
+    }
+
+    Fix16 abs_2 = Fix16::Abs(diff_2);
+    if (abs_2 < least_abs)
+    {
+        a3.x = RenderingRect[1].x;
+        a3.y = RenderingRect[1].y;
+        least_abs = abs_2;
+        a4 = 1;
+    }
+    else if (abs_2 == least_abs)
+    {
+        a3.x = (a3.x + RenderingRect[1].x) / dword_7035C8;
+        a4 = 5;
+    }
+
+    Fix16 diff_3 = RenderingRect[2].y - a2;
+    Fix16 sign_3 = sub_4B9C20(diff_3.mValue);
+
+    if (sign_3 != sign_1)
+    {
+        return false;
+    }
+    Fix16 abs_3 = Fix16::Abs(diff_3);
+
+    if (abs_3 < least_abs)
+    {
+        a3.x = RenderingRect[2].x;
+        a3.y = RenderingRect[2].y;
+        least_abs = abs_3;
+        a4 = 2;
+    }
+    else if (abs_3 == least_abs)
+    {
+        a3.x = (a3.x + RenderingRect[2].x) / dword_7035C8;
+        a4 = 5;
+    }
+
+    Fix16 diff_4 = RenderingRect[3].y - a2;
+    Fix16 sign_4 = sub_4B9C20(diff_4.mValue);
+
+    if (sign_4 != sign_1)
+    {
+        return false;
+    }
+    Fix16 abs_4 = Fix16::Abs(diff_4);
+
+    if (abs_4 < least_abs)
+    {
+        a3.x = RenderingRect[3].x;
+        a3.y = RenderingRect[3].y;
+        a4 = 3;
+    }
+    else if (abs_4 == least_abs)
+    {
+        a3.x = (a3.x + RenderingRect[3].x) / dword_7035C8;
+        a4 = 5;
+    }
+
+    return true;
 }
 
 MATCH_FUNC(0x5A0EF0)
@@ -1093,11 +1386,96 @@ char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
     return 0;
 }
 
-STUB_FUNC(0x5a1030)
-char_type Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Sprite* a2, Sprite** a3, u8* a4)
+// https://decomp.me/scratch/ScgaC
+WIP_FUNC(0x5a1030)
+bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16& a2, Fix16_Point& a3, u8& a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point* RenderingRect = field_C_sprite_4c_ptr->field_C_renderingRect;
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+
+    Fix16 diff_1 = RenderingRect[0].x - a2;
+
+    Fix16 sign_1 = sub_4B9C20(diff_1.mValue);
+    Fix16 abs_1 = Fix16::Abs(diff_1);
+
+    Fix16 least_abs = abs_1;
+
+    a3.x = RenderingRect[0].x;
+    a3.y = RenderingRect[0].y;
+    a4 = 0;
+
+    Fix16 diff_2 = RenderingRect[1].x - a2;
+
+    Fix16 sign_2 = sub_4B9C20(diff_2.mValue);
+    if (sign_2 != sign_1)
+    {
+        return false;
+    }
+
+    Fix16 abs_2 = Fix16::Abs(diff_2);
+    if (abs_2 < least_abs)
+    {
+        a3.x = RenderingRect[1].x;
+        a3.y = RenderingRect[1].y;
+        least_abs = abs_2;
+        a4 = 1;
+    }
+    else if (abs_2 == least_abs)
+    {
+        a3.y = (a3.y + RenderingRect[1].y) / dword_7035C8;
+        a4 = 5;
+    }
+
+    // .........
+
+    // line 55 on 9.6f IDA idb
+    Fix16 diff_3 = RenderingRect[2].x - a2;
+    Fix16 sign_3 = sub_4B9C20(diff_3.mValue);
+
+    if (sign_3 != sign_1)
+    {
+        return false;
+    }
+    Fix16 abs_3 = Fix16::Abs(diff_3);
+
+    if (abs_3 < least_abs)
+    {
+        a3.x = RenderingRect[2].x;
+        a3.y = RenderingRect[2].y;
+        least_abs = abs_3;
+        a4 = 2;
+    }
+    else if (abs_3 == least_abs)
+    {
+        a3.y = (a3.y + RenderingRect[2].y) / dword_7035C8;
+        a4 = 5;
+    }
+
+    // line 74 on 9.6f IDA idb
+    Fix16 diff_4 = RenderingRect[3].x - a2;
+    Fix16 sign_4 = sub_4B9C20(diff_4.mValue);
+
+    if (sign_4 != sign_1)
+    {
+        return false;
+    }
+    Fix16 abs_4 = Fix16::Abs(diff_4);
+
+    if (abs_4 < least_abs)
+    {
+        a3.x = RenderingRect[3].x;
+        a3.y = RenderingRect[3].y;
+        a4 = 3;
+    }
+    else if (abs_4 == least_abs)
+    {
+        a3.y = (a3.y + RenderingRect[3].y) / dword_7035C8;
+        a4 = 5;
+    }
+
+    return true;
 }
 
 STUB_FUNC(0x5a1490)
@@ -1471,17 +1849,72 @@ Ang16 Sprite::sub_5A26E0()
     return -field_0;
 }
 
-STUB_FUNC(0x5a2710)
-Fix16_Point* Sprite::FindCollisionIntersectionPoint_5A2710(Fix16_Point* point,
-                                                           Sprite* pOther,
-                                                           Fix16_Point& newPos,
-                                                           Ang16 newAng,
-                                                           u8* pOutSideSelf,
-                                                           u8* pOutSideOther,
-                                                           u8* pOutHitType)
+// https://decomp.me/scratch/tc76b
+WIP_FUNC(0x5a2710)
+Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
+                                                          Fix16_Point& newPos,
+                                                          Ang16 newAng,
+                                                          u8& bOutSideSelf,
+                                                          u8& bOutSideOther,
+                                                          u8& pOutHitType)
 {
-    NOT_IMPLEMENTED;
-    return point;
+    WIP_IMPLEMENTED;
+    
+    u8 idx1;
+    u8 idx2;
+
+    Fix16_Point SpritePos = get_x_y_443580();
+
+    bOutSideSelf = 5;
+    bOutSideOther = 5;
+
+    set_xyz_lazy_420600(newPos.x, newPos.y, field_1C_zpos);
+    set_ang_lazy_420690(newAng);
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+
+    pOutHitType = pOther->FindOverlappingBoundingBoxCorners_5A0150(this, &idx1, &idx2);
+
+    if (pOutHitType != 0)
+    {
+        set_xyz_lazy_420600(SpritePos.x, SpritePos.y, field_1C_zpos);
+        set_ang_lazy_420690(newAng);
+        UpdateCollisionBoundsIfNeeded_59E9C0();
+        if (pOutHitType == 1)
+        {
+            bOutSideOther = idx1;
+            return GetBoundingBoxCorner_562450(idx1);
+        }
+        else
+        {
+            return (GetBoundingBoxCorner_562450(idx1) + GetBoundingBoxCorner_562450(idx2)) / 2;
+        }
+    }
+    else
+    {
+        // pOutHitType == 0
+        pOutHitType = FindOverlappingBoundingBoxCorners_5A0150(pOther, &idx1, &idx2);
+        set_xyz_lazy_420600(SpritePos.x, SpritePos.y, field_1C_zpos);
+        set_ang_lazy_420690(newAng);
+
+        if (pOutHitType != 0)
+        {
+            if (pOutHitType == 1)
+            {
+                bOutSideSelf = idx1;
+                return GetBoundingBoxCorner_562450(idx1);
+            }
+            else
+            {
+                // not 0, not 1
+                return (GetBoundingBoxCorner_562450(idx1) + GetBoundingBoxCorner_562450(idx2)) / 2;
+            }
+        }
+        else
+        {
+            // pOutHitType == 0
+            return (SpritePos + get_x_y_443580()) / 2;
+        }
+    }
 }
 
 MATCH_FUNC(0x5a29d0)

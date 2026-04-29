@@ -10,7 +10,7 @@ class TrainStation_34;
 class Train_58
 {
   public:
-    EXPORT void sub_578030();
+    EXPORT void ReassignTrainHead_578030();
     EXPORT void sub_578180();
     EXPORT void sub_5781F0();
     EXPORT Train_58();
@@ -19,7 +19,7 @@ class Train_58
     EXPORT void sub_578300();
     EXPORT void sub_578330();
     EXPORT void sub_578360();
-    EXPORT void sub_578390();
+    EXPORT void UpdatePassengerAI_578390();
     EXPORT u8 ProcessTrainExplosionChain_578670();
     char_type field_0;
     char_type field_1;
@@ -29,10 +29,8 @@ class Train_58
     char_type field_6;
     char_type field_7;
     s32 field_8;
-    Car_BC* field_C_first_carriage;
-    Car_BC* field_10_carriages[10];
-    char_type field_38[10];
-    char_type field_42;
+    Car_BC* field_C_carriages[11];
+    char_type field_38[11];
     u8 field_43_idx;
     char_type field_44;
     char_type field_45;

@@ -74,7 +74,7 @@ class Fix16_Rect
     }
 
     EXPORT void DoSetCurrentRect_59DD60();
-    EXPORT u8 IntersectsSpriteRenderingRect_59DDF0(Sprite* a2);
+    EXPORT bool IntersectsSpriteRenderingRect_59DDF0(Sprite* a2);
     EXPORT char_type CanRectEnterMovementRegion_59DE80();
     EXPORT void ExpandToIncludePoint_59DEE0(Fix16 a2, Fix16 a3);
     EXPORT bool RectOverlapsZone_59DF20(u8 a2);
@@ -96,6 +96,26 @@ class Fix16_Rect
                 field_10_low_z.IntervalIntersectsRange_438FB0_inline( this->field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z) ?
             true :
             false;
+    }
+
+    Fix16& get_top_45ADD0()
+    {
+        return field_8_top;
+    }
+
+    Fix16& get_left_45ADB0()
+    {
+        return field_0_left;
+    }
+
+    Fix16& get_right_45ADA0()
+    {
+        return field_4_right;
+    }
+
+    Fix16& get_bottom_45ADC0()
+    {
+        return field_C_bottom;
     }
 
     Fix16 field_0_left;

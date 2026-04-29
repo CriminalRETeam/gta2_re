@@ -210,7 +210,7 @@ LABEL_12:
                 pPed->field_26C_graphic_type = 0;
                 //pPed->field_21C = v13;
                 pPed->field_21C |= 8;
-                pPed->field_1F8 = dword_678670;
+                pPed->field_1F8_run_speed = dword_678670;
                 break;
 
             case 3:

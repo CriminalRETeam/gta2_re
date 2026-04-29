@@ -8,6 +8,12 @@ Fix16_Point_POD Fix16_Point_POD::Multiply_438FE0(Fix16& in)
     return Fix16_Point_POD(x * in, y * in);
 }
 
+MATCH_FUNC(0x442C80)
+Fix16_Point Fix16_Point::MultBy_442C80(const s32& factor)
+{
+    return Fix16_Point(x * factor, y * factor);
+}
+
 // https://decomp.me/scratch/nFSYS
 STUB_FUNC(0x442CB0)
 Fix16_Point_POD Fix16_Point_POD::Divide_442CB0(Fix16& in)
@@ -25,11 +31,20 @@ Fix16_Point Fix16_Point::operator/(Fix16& in)
     return Fix16_Point(x / in, y / in);
 }
 
-STUB_FUNC(0x442AD0)
+WIP_FUNC(0x442AD0)
 Fix16_Point Fix16_Point::NormalizeSafe_442AD0()
 {
-    NOT_IMPLEMENTED;
-    return Fix16_Point(x, y);
+    WIP_IMPLEMENTED;
+    Fix16 length = GetLength_41E260();
+    if (length == gFix16_6777CC)
+    {
+        Fix16_Point scaled = MultBy_442C80(128);
+        return scaled / scaled.GetLength_41E260();
+    }
+    else
+    {
+        return *this / length;
+    }
 }
 
 MATCH_FUNC(0x40ACD0)

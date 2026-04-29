@@ -85,7 +85,7 @@ DEFINE_GLOBAL(Fix16, k_dword_6F8F2C, 0x6F8F2C);
 DEFINE_GLOBAL(Fix16, k_dword_6F8D24, 0x6F8D24);
 
 // TODO: From CarPhysics_B0
-EXTERN_GLOBAL(Fix16_Point, stru_6FE1A0);
+EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
 
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
@@ -407,11 +407,11 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
         v27.y = v11.y;
         Fix16_Point v13 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
                                                              a2->field_8->field_18,
-                                                             &v27,
-                                                             &v26,
-                                                             a3,
-                                                             &v29,
-                                                             &v30,
+                                                             v27,
+                                                             v26,
+                                                             *a3,
+                                                             v29,
+                                                             v30,
                                                              k_dword_6F8D38,
                                                              k_dword_6F8D38,
                                                              k_dword_6F8D24);
@@ -435,11 +435,11 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
 
         v28 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
                                                  k_dword_6F8BE8,
-                                                 &v27,
-                                                 &v26,
-                                                 a3,
-                                                 &v29,
-                                                 &v30,
+                                                 v27,
+                                                 v26,
+                                                 *a3,
+                                                 v29,
+                                                 v30,
                                                  k_dword_6F8D38,
                                                  k_dword_6F8D38,
                                                  k_dword_6F8F2C);
@@ -488,11 +488,11 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
 
     Fix16_Point lineHitPos = ComputeLineLineIntersection_55F3B0(field_8->field_18,
                                                                 k_dword_6F8EE4,
-                                                                &tmp,
-                                                                &posDelta,
-                                                                pPoint,
-                                                                &spritePos,
-                                                                &camPos,
+                                                                tmp,
+                                                                posDelta,
+                                                                *pPoint,
+                                                                spritePos,
+                                                                camPos,
                                                                 k_dword_6F8D38,
                                                                 k_dword_6F8CE0,
                                                                 k_dword_6F8F74);
@@ -521,7 +521,7 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
 }
 
 WIP_FUNC(0x522b20)
-void Object_2C::ResolveCollisionWithWorld_522B20(Fix16* f18, Fix16_Point* a3, Fix16_Point* a4)
+void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* a3, Fix16_Point* a4)
 {
     WIP_IMPLEMENTED;
 
@@ -530,11 +530,11 @@ void Object_2C::ResolveCollisionWithWorld_522B20(Fix16* f18, Fix16_Point* a3, Fi
     Fix16_Point obj_xy = GetXY_52AE70();
     v9 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
                                             k_dword_6F8BE8,
-                                            a4,
-                                            a3,
-                                            &t,
-                                            &obj_xy,
-                                            &stru_6F8EF0,
+                                            *a4,
+                                            *a3,
+                                            t,
+                                            obj_xy,
+                                            stru_6F8EF0,
                                             k_dword_6F8D38,
                                             kFpZero_6F8E10,
                                             k_dword_6F8D3C);
@@ -550,9 +550,9 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
 
     Fix16_Point v13 = GetRot_52AE90();
     Fix16_Point v12;
-    Fix16 t1;
+    Fix16_Point t1;
     u8 v9;
-    if (this->field_4->GetNearestHorizontalEdgeToCoordinate_5A0A70(gRozza_679188.field_18_mapy_t1, &t1, &v9))
+    if (this->field_4->GetNearestHorizontalEdgeToCoordinate_5A0A70(gRozza_679188.field_18_mapy_t1, t1, v9))
     {
         v12.x = 0;
         v12.y = this->field_4->field_14_xy.y - gRozza_679188.field_18_mapy_t1;
@@ -574,10 +574,10 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
             v8 = -v8;
         }
 
-        t1 = gRozza_679188.field_4_mapx_t1;
+        t1.x = gRozza_679188.field_4_mapx_t1;
         if (v8 >= v7)
         {
-            t1 = gRozza_679188.field_8;
+            t1.x = gRozza_679188.field_8;
         }
 
         v12 = -v13;
@@ -611,14 +611,13 @@ void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
             u8 a7;
             u8 a8;
             u8 a9;
-            Fix16_Point v13;
-            field_4->FindCollisionIntersectionPoint_5A2710(&v13, gRozza_679188.field_20_pSprite, *a4, field_4->field_0, &a7, &a8, &a9);
+            Fix16_Point v13 = field_4->FindCollisionIntersectionPoint_5A2710(gRozza_679188.field_20_pSprite, *a4, field_4->field_0, a7, a8, a9);
             Car_BC* pCar = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
             if (pCar)
             {
                 pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                 pCar->field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
-                stru_6FE1A0 = v13;
+                CollisionIntersectionPoint_6FE1A0 = v13;
                 pCar->field_58_physics->HandleObjectCollision_5606C0(this, a9); // a4?
             }
             else

@@ -18,7 +18,7 @@ DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
 DEFINE_GLOBAL(SaveData_748, gGameSave_6F78C8, 0x6F78C8);
 DEFINE_GLOBAL(Car_BC*, gStoredCar_6F7560, 0x6F7560);
 DEFINE_GLOBAL(s32, gStoredCarId_6F78B4, 0x6F78B4);
-DEFINE_GLOBAL_INIT(u8, byte_6212EC, 1, 0x6212EC);
+DEFINE_GLOBAL_INIT(u8, gbAllowMiss2Logging_6212EC, 1, 0x6212EC);
 
 //Car_BC* gStoredCar_6F7560;
 //s32 gStoredCarId_6F78B4;
@@ -447,12 +447,12 @@ void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
 {
     if (!bSkip_mission_67D4E5)
     {
-        if (byte_6212EC)
+        if (gbAllowMiss2Logging_6212EC)
         {
             if (gDo_miss_logging_67D6BC)
             {
-                miss2_0x11C_Pool_6F8064->sub_47F4D0();
-                gMiss2Log_6F7698.Write_Log_4D9650("UTF-16LE");
+                miss2_0x11C_Pool_6F8064->LogAll_47F4D0();
+                gMiss2Log_6F7698.Write_Log_4D9650("\n");
             }
         }
         miss2_0x11C_Pool_6F8064->field_0_pool.UpdatePoolNoDeallocate();

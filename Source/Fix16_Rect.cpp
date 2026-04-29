@@ -17,7 +17,7 @@ void Fix16_Rect::DoSetCurrentRect_59DD60()
 
 // 0x4BA6C0 9.6f
 MATCH_FUNC(0x59ddf0)
-u8 Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* a2)
+bool Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* a2)
 {
     Fix16_Point* v3 = a2->field_C_sprite_4c_ptr->field_C_renderingRect;
 

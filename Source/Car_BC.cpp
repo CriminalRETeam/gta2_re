@@ -4505,7 +4505,7 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
     Train_58* pTrain = gPublicTransport_181C_6FF1D4->GetTrainFromCar_57B5C0(this);
     if (pTrain)
     {
-        pTrainCars = pTrain->field_10_carriages;
+        pTrainCars = &pTrain->field_C_carriages[1];
     }
 
     Fix16 newx;
@@ -5797,7 +5797,7 @@ void Car_BC::sub_443710(Fix16_Point* xy)
             vecLen = vecLen * 4;
             Fix16_Point v9 = (v4.NormalizeSafe_442AD0() / vecLen);
             field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
-            vecLen = field_58_physics->ApplyImpactForcesAndDamage_55FA60(&v16, &v9, 10);
+            vecLen = field_58_physics->ApplyImpactForcesAndDamage_55FA60(v16, v9, 10);
         }
     }
 

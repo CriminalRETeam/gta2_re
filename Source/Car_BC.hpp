@@ -907,6 +907,32 @@ class Car_BC
         return field_50_car_sprite->field_0;
     }
 
+    inline bool sub_4216E0()
+    {
+        car_info* pCarInfo = gGtx_0x106C_703DD4->sub_4BF1F0(field_84_car_info_idx);
+        return pCarInfo->is_0x1_41FF00();
+    }
+
+    inline bool sub_4214F0()
+    {
+        return field_54_driver && !field_54_driver->IsField238_45EDE0(2);
+    }
+
+    inline bool sub_49EFE0()
+    {
+        return sub_4216E0() && (IsTank_411900() || !sub_4214F0());
+    }
+
+    inline void sub_421890(u16 flag)
+    {
+        field_78_flags |= flag;
+    }
+
+    inline void sub_49EFC0()
+    {
+        sub_421890(0x2000);
+    }
+
     EXPORT char SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT char TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction);
 
@@ -926,6 +952,11 @@ class Car_BC
     s32 field_70_exploder_ped_id;
     s16 field_74_damage;
     s16 field_76_last_seen_timer;
+    /*
+    0x100 = bullet proof
+    0x200 = rocket proof
+    0x400 = flame proof
+    */
     u16 field_78_flags;
     s16 field_7A;
     s32 field_7C_uni_num;

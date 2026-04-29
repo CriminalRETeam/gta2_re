@@ -211,9 +211,9 @@ class Sprite
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
     EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* a2);
     EXPORT char_type CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
-    EXPORT char_type GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16* a3, u8* a4);
+    EXPORT bool GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16& a2, Fix16_Point& a3, u8& a4);
     EXPORT char_type HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4);
-    EXPORT char_type GetNearestVerticalEdgeToCoordinate_5A1030(Sprite* a2, Sprite** a3, u8* a4);
+    EXPORT bool GetNearestVerticalEdgeToCoordinate_5A1030(Fix16& a2, Fix16_Point& a3, u8& a4);
     EXPORT bool PointInsideRotatedBounds_5A1490(s32 a2, s32 a3);
     EXPORT char_type sub_5A19C0();
     EXPORT char sub_5A1A60();
@@ -226,13 +226,12 @@ class Sprite
     EXPORT char_type sub_5A2440();
     EXPORT char_type CheckSpriteMovementRegion_5A2500();
     EXPORT Ang16 sub_5A26E0();
-    EXPORT Fix16_Point* FindCollisionIntersectionPoint_5A2710(Fix16_Point* point,
-                                                              Sprite* pOther,
+    EXPORT Fix16_Point FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
                                                               Fix16_Point& newPos,
                                                               Ang16 newAng,
-                                                              u8* pOutSideSelf,
-                                                              u8* pOutSideOther,
-                                                              u8* pOutHitType);
+                                                              u8& pOutSideSelf,
+                                                              u8& pOutSideOther,
+                                                              u8& pOutHitType);
     EXPORT void CreateSoundObj_5A29D0();
     EXPORT bool IsObjectModelEqual_59E930(s32 model);
     EXPORT void FreeSound_5A2A00();
