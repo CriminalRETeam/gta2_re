@@ -3530,10 +3530,17 @@ void miss2_0x11C::SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50bb80)
-void miss2_0x11C::sub_50BB80()
+MATCH_FUNC(0x50bb80)
+void miss2_0x11C::SCRCMD_SEND_CAR_TO_BLOCK_50BB80()
 {
-    NOT_IMPLEMENTED;
+    SCR_CAR_DATA_DEC* pCmd = (SCR_CAR_DATA_DEC*)gBasePtr_6F8070;
+    SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_car_idx);
+    pScrPtr->field_8_car->GotoBlock_441080(
+        pCmd->field_C_pos.field_0_x.ToUInt8(),
+        pCmd->field_C_pos.field_4_y.ToUInt8(),
+        pCmd->field_C_pos.field_8_z.ToUInt8(),
+        1);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50bbd0)
@@ -5907,7 +5914,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0();
                 break;
             case SCRCMD_SEND_CAR_TO_BLOCK:
-                sub_50BB80();
+                SCRCMD_SEND_CAR_TO_BLOCK_50BB80();
                 break;
             case SCRCMD_CHECK_NUM_ALIVE:
                 SCRCMD_CHECK_NUM_ALIVE_50BC60();
