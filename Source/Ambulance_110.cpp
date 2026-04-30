@@ -5,10 +5,12 @@
 #include "Kfc_1E0.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
+#include "error.hpp"
 #include <stdio.h>
 
 DEFINE_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8, 0x6F70A8);
 
+DEFINE_GLOBAL(class Ped*, dword_6F6D60, 0x6F6D60);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6DD4, Fix16(0x1999, 0), 0x6F6DD4);
 
 MATCH_FUNC(0x4beab0)
@@ -111,10 +113,67 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     return true;
 }
 
-STUB_FUNC(0x4fa9d0)
+MATCH_FUNC(0x4fa9d0)
 void Ambulance_20::EvaluatePickupState_4FA9D0()
 {
-    NOT_IMPLEMENTED;
+    bool bUnk = false;
+    if (field_4_paramedics_crew->field_24 == 2)
+    {
+        bUnk = true;
+        if (!field_4_paramedics_crew->field_4_ped || field_4_paramedics_crew->field_4_ped->GetPedState_403990() == ped_state_1::dead_9)
+        {
+            field_4_paramedics_crew->field_28 = 5;
+            field_4_paramedics_crew->field_2C = 0;
+            dword_6F6D60 = 0;
+            return;
+        }
+    }
+    if (bUnk)
+    {
+        if (field_4_paramedics_crew->field_0_car)
+        {
+            if (field_4_paramedics_crew->field_0_car->IsMaxDamage_40F890())
+            {
+                field_4_paramedics_crew->field_0_car = 0;
+                field_4_paramedics_crew->field_24 = 0;
+            }
+        }
+        else
+        {
+            field_4_paramedics_crew->field_24 = 0;
+        }
+    }
+
+    dword_6F6D60 = field_4_paramedics_crew->field_4_ped;
+    if (!dword_6F6D60)
+    {
+        field_4_paramedics_crew->field_24 = 2;
+    }
+    else if (field_1C)
+    {
+        if (!field_4_paramedics_crew->field_24)
+        {
+            field_4_paramedics_crew->field_28 = 5;
+            field_4_paramedics_crew->field_2C = 0;
+        }
+        else if (dword_6F6D60->field_16C_car && dword_6F6D60 == dword_6F6D60->field_16C_car->field_54_driver)
+        {
+            if (field_4_paramedics_crew->field_8_group)
+            {
+                if (field_4_paramedics_crew->field_8_group->IsAllMembersInSomeCar_4CAA20())
+                {
+                    field_4_paramedics_crew->field_0_car->sub_43AF40();
+                    field_4_paramedics_crew->field_28 = 5;
+                    field_4_paramedics_crew->field_2C = 0;
+                    dword_6F6D60 = 0;
+                }
+                else
+                {
+                    field_4_paramedics_crew->field_0_car->sub_43AF60();
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x4faac0)
