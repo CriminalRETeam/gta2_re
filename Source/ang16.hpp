@@ -222,7 +222,8 @@ class Ang16
     }
 
     // Reverse of above func
-    inline static Ang16 __stdcall Fix16_To_Ang16_40F540(const Fix16& a2)
+    // OBS: INLINE_MODE required to match Char_B4::ApplyRandomRotationJitter_54C6C0
+    INLINE_MODE static Ang16 __stdcall Fix16_To_Ang16_40F540(const Fix16& a2)
     {
         return Ang16(a2.GetRaw_40F4B0() / 71, 0);
     }

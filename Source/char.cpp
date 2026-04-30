@@ -2212,8 +2212,7 @@ void Char_B4::SelectRandomIdleBehavior_54C580()
     }
 }
 
-// match on decompme https://decomp.me/scratch/kx7up
-WIP_FUNC(0x54c6c0)
+MATCH_FUNC(0x54c6c0)
 void Char_B4::ApplyRandomRotationJitter_54C6C0()
 {
     if (stru_6F6784.get_int_4F7AE0(32) > 22)
