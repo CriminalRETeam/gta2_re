@@ -182,10 +182,80 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4fb330)
+// near match https://decomp.me/scratch/cxgie
+WIP_FUNC(0x4fb330)
 void Ambulance_20::UpdateState_4FB330()
 {
-    NOT_IMPLEMENTED;
+    field_10.RemovePedsInSpecificState_471290();
+    switch (field_4_paramedics_crew->field_28)
+    {
+        case 3:
+        {
+            if (field_4_paramedics_crew->field_2C)
+            {
+                if (!SpawnParamedicCrew_4FA820())
+                {
+                    if (field_4_paramedics_crew->field_0_car)
+                    {
+                        field_4_paramedics_crew->field_0_car->sub_421470();
+                    }
+                    field_4_paramedics_crew->ReInit_5CBC30();
+                    ClearTask_4FA7D0();
+                    break;
+                }
+                else
+                {
+                    dword_6F6D60 = field_4_paramedics_crew->field_4_ped;
+                    this->field_1C = 0;
+                    if (field_4_paramedics_crew->field_0_car)
+                    {
+                        field_4_paramedics_crew->field_0_car->ActivateEmergencyLights_43C920();
+                        HandleObjectiveState_4FAAC0();
+                        break;
+                    }
+                    HandleObjectiveState_4FAAC0();
+                    break;
+                }
+            }
+            else
+            {
+                ++field_4_paramedics_crew->field_1C;
+                if (field_4_paramedics_crew->field_1C > 500)
+                {
+                    field_4_paramedics_crew->field_28 = 5;
+                }
+            }
+            break;
+        }
+        case 5:
+        {
+            while (field_10.field_0_pFirstPed)
+            {
+                Ped* pPed = field_10.RemoveFirstPed_471320();
+                gAmbulance_110_6F70A8->TryAddPatient_4FA470(pPed);
+            }
+
+            if (field_4_paramedics_crew->field_2C)
+            {
+                field_4_paramedics_crew->field_28 = 0;
+                field_4_paramedics_crew->ReInit_5CBC30();
+                ClearTask_4FA7D0();
+                break;
+            }
+            HandleObjectiveState_4FAAC0();
+            break;
+        }
+        case 6:
+        {
+            EvaluatePickupState_4FA9D0();
+            HandleObjectiveState_4FAAC0();
+            break;
+        }
+        default:
+            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\medical.cpp", 1087);
+            HandleObjectiveState_4FAAC0();
+    }
+    return;
 }
 
 MATCH_FUNC(0x4beae0)
