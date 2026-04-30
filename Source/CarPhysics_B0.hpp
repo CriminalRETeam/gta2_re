@@ -87,8 +87,8 @@ class CarPhysics_B0
     EXPORT char_type TestCollision_55C150();
     EXPORT char_type SweepTestMovementForCollision_55C3B0(Fix16* a2, Fix16* a3);
     EXPORT void BinarySearchCollisionTime_55C560(Fix16& a2, Fix16& a3);
-    EXPORT void HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& a2, Ang16& a3);
-    EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& a2, Ang16& a3);
+    EXPORT void HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& a2, Ang16 a3);
+    EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& a2, Ang16 a3);
     EXPORT void DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3);
     EXPORT void ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3);
     EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface);

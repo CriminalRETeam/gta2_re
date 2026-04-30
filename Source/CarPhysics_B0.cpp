@@ -1535,7 +1535,7 @@ void CarPhysics_B0::BinarySearchCollisionTime_55C560(Fix16& a2, Fix16& a3)
 
 // https://decomp.me/scratch/A5Yhg
 WIP_FUNC(0x55c5c0)
-void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang16& angle)
+void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang16 angle)
 {
     WIP_IMPLEMENTED;
 
@@ -1578,7 +1578,7 @@ void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang1
 
 // https://decomp.me/scratch/N4ktT
 WIP_FUNC(0x55c820)
-void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang16& angle)
+void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang16 angle)
 {
     WIP_IMPLEMENTED;
 
