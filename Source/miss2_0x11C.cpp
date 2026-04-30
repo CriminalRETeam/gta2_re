@@ -4092,10 +4092,30 @@ void miss2_0x11C::SCRCMD_SWITCH_GENERATOR1_50CCB0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50cd30)
+MATCH_FUNC(0x50cd30)
 void miss2_0x11C::SCRCMD_SWITCH_GENERATOR3_50CD30()
 {
-    NOT_IMPLEMENTED;
+    SCR_FOUR_PARAMS* v1 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    pCmd->field_8_generator->field_0_gen_type = v1->field_C_signed_3;
+
+    Generator_2C* pGen = pCmd->field_8_generator;
+    u16 killTimer = v1->field_A_unsigned_2;
+    pGen->sub_4C1A70();
+    pGen->field_1E_kill_timer = killTimer;
+
+    s16 type = v1->field_C_signed_3;
+
+    if ((type >= 200 && type <= 244) || (type >= 64 && type <= 108))
+    {
+        pCmd->field_8_generator->field_21 = 2;
+    }
+    else
+    {
+        pCmd->field_8_generator->field_21 = 1;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50cdb0)
