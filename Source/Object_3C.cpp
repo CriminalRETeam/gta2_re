@@ -1,5 +1,6 @@
 #include "Object_3C.hpp"
 #include "Car_BC.hpp"
+#include "char.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "Wolfy_3D4.hpp"
@@ -11,6 +12,8 @@
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8BF0, Fix16(0x3FC000, 0), 0x6F8BF0);
 DEFINE_GLOBAL(Ang16, kZeroAng_6F8F68, 0x6F8F68);
 DEFINE_GLOBAL(struct_4, stru_67727C, 0x67727C);
+
+EXTERN_GLOBAL(Fix16, dword_6F8ECC);
 
 MATCH_FUNC(0x52ad80)
 Object_3C::Object_3C()
@@ -47,12 +50,29 @@ Fix16_Point Object_3C::GetRot_52ADF0()
     return p;
 }
 
+// 10.5 https://decomp.me/scratch/kj3y3
 // 9.6f 0x482D90
-STUB_FUNC(0x521FD0)
-Ang16* Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16* a2, Ang16* a3)
+WIP_FUNC(0x521FD0)
+void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
 {
-    NOT_IMPLEMENTED;
-    return a3;
+    WIP_IMPLEMENTED;
+    s8 x_related;
+    s8 y_related;
+    if (field_38)
+    {
+        sub_529050(field_38, &x_related, &y_related);
+        Fix16_Point unk(dword_6F8ECC * x_related, dword_6F8ECC * y_related);
+        Fix16_Point point = unk + GetRot_52ADF0();
+
+        Speed = point.GetLength_41E260();
+        Angle = point.atan2_40F790();
+        ClearF38_482BD0();
+    }
+    else
+    {
+        Speed = field_C;
+        Angle = field_4;
+    }
 }
 
 MATCH_FUNC(0x5a6a50)
