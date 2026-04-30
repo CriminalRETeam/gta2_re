@@ -2267,10 +2267,79 @@ void MapRenderer::draw_lid_4F4D60(Fix16_Point* xpos, Fix16_Point* diffuse_colour
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f6580)
+WIP_FUNC(0x4f6580)
 void MapRenderer::DrawPartialBlocks_4F6580()
 {
-    NOT_IMPLEMENTED;
+    u8 slope_byte = gpBlock_6F6478->field_B_slope_type;
+    dword_6F646C.field_0_gradient_direction = NO_GRADIENT_SLOPE_0;
+    switch (slope_byte & 0xFC)
+    {
+        case PARTIAL_BLOCK_LEFT: // 53
+            DrawPartialBlockLeft();
+            break;
+        case PARTIAL_BLOCK_RIGHT: // 54
+            DrawPartialBlockRight();
+            break;
+        case PARTIAL_BLOCK_TOP: // 55
+            DrawPartialBlockTop();
+            break;
+        case PARTIAL_BLOCK_BOTTOM: // 56
+            DrawPartialBlockBottom();
+            break;
+        case PARTIAL_TOP_LEFT_CORNER: // 57
+            DrawPartialBlockTopLeftCorner();
+            break;
+        case PARTIAL_TOP_RIGHT_CORNER: // 58
+            DrawPartialBlockTopRightCorner();
+            break;
+        case PARTIAL_BOTTOM_RIGHT_CORNER: // 59
+            DrawPartialBlockBottomRightCorner();
+            break;
+        case PARTIAL_BOTTOM_LEFT_CORNER: // 60
+            DrawPartialBlockBottomLeftCorner();
+            break;
+        case PARTIAL_CENTRE_BLOCK: // 61
+            DrawPartialCentreBlock();
+            break;
+        default:
+            break;
+    }
+}
+
+void MapRenderer::DrawPartialBlockLeft()
+{
+}
+
+void MapRenderer::DrawPartialBlockRight()
+{
+}
+
+void MapRenderer::DrawPartialBlockTop()
+{
+}
+
+void MapRenderer::DrawPartialBlockBottom()
+{
+}
+
+void MapRenderer::DrawPartialBlockTopLeftCorner()
+{
+}
+
+void MapRenderer::DrawPartialBlockTopRightCorner()
+{
+}
+
+void MapRenderer::DrawPartialBlockBottomRightCorner()
+{
+}
+
+void MapRenderer::DrawPartialBlockBottomLeftCorner()
+{
+}
+
+void MapRenderer::DrawPartialCentreBlock()
+{
 }
 
 MATCH_FUNC(0x4f6630)

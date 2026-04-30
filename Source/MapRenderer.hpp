@@ -43,6 +43,15 @@ enum MapSlopes
     TRIANGULAR_SIDES_DIAGONAL_UP_RIGHT = 0xC8,
     TRIANGULAR_SIDES_DIAGONAL_DOWN_LEFT = 0xCC,
     TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT = 0xD0,
+    PARTIAL_BLOCK_LEFT = 0xD4,
+    PARTIAL_BLOCK_RIGHT = 0xD8,
+    PARTIAL_BLOCK_TOP = 0xDC,
+    PARTIAL_BLOCK_BOTTOM = 0xE0,
+    PARTIAL_TOP_LEFT_CORNER = 0xE4,
+    PARTIAL_TOP_RIGHT_CORNER = 0xE8,
+    PARTIAL_BOTTOM_RIGHT_CORNER = 0xEC,
+    PARTIAL_BOTTOM_LEFT_CORNER = 0xF0,
+    PARTIAL_CENTRE_BLOCK = 0xF4,
 };
 
 class MapRenderer
@@ -74,10 +83,22 @@ class MapRenderer
     EXPORT void sub_4ECE40(u16& right_word);
     EXPORT void draw_bottom_4ED290(u16& a2);
     EXPORT void draw_lid_4EE130();
+
+    // Note: These are func chunks
     void DrawDiagonalWallUpLeft_4EE7D0();
     void DrawDiagonalWallUpRight_4EE8A0();
     void DrawDiagonalWallDownLeft_4EE970();
     void DrawDiagonalWallDownRight_4EEA40();
+    void DrawPartialBlockLeft();
+    void DrawPartialBlockRight();
+    void DrawPartialBlockTop();
+    void DrawPartialBlockBottom();
+    void DrawPartialBlockTopLeftCorner();
+    void DrawPartialBlockTopRightCorner();
+    void DrawPartialBlockBottomRightCorner();
+    void DrawPartialBlockBottomLeftCorner();
+    void DrawPartialCentreBlock();
+
     EXPORT void Draw3SidedDiagonalUpLeft_4EEAF0();
     EXPORT void Draw3SidedDiagonalUpRight_4EEE60();
     EXPORT void Draw3SidedDiagonalDownLeft_4EF1C0();
