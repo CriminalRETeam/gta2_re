@@ -9100,12 +9100,12 @@
         "v105_address": "0x50cb70"
     },
     {
-        "name": "miss2_0x11C::sub_50CCB0",
+        "name": "miss2_0x11C::SCRCMD_SWITCH_GENERATOR1_50CCB0",
         "v96f_address": null,
         "v105_address": "0x50ccb0"
     },
     {
-        "name": "miss2_0x11C::SwitchGenerator_50CD30",
+        "name": "miss2_0x11C::SCRCMD_SWITCH_GENERATOR3_50CD30",
         "v96f_address": null,
         "v105_address": "0x50cd30"
     },

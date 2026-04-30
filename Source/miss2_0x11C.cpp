@@ -4067,16 +4067,33 @@ void miss2_0x11C::sub_50CB70()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ccb0)
-void miss2_0x11C::sub_50CCB0()
+MATCH_FUNC(0x50ccb0)
+void miss2_0x11C::SCRCMD_SWITCH_GENERATOR1_50CCB0()
 {
-    NOT_IMPLEMENTED;
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+
+    u16 killTimer = v1->field_A_unsigned_2;
+    Generator_2C* pGen = pCmd->field_8_generator;
+    pGen->sub_4C1A70();
+    pGen->field_1E_kill_timer = killTimer;
+
+    s32 type = pCmd->field_8_generator->field_0_gen_type;
+
+    if ((type >= 200 && type <= 244) || (type >= 64 && type <= 108))
+    {
+        pCmd->field_8_generator->field_21 = 2;
+    }
+    else
+    {
+        pCmd->field_8_generator->field_21 = 1;
+    }
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50cd30)
-void miss2_0x11C::SwitchGenerator_50CD30()
+void miss2_0x11C::SCRCMD_SWITCH_GENERATOR3_50CD30()
 {
     NOT_IMPLEMENTED;
 }
@@ -6030,11 +6047,11 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 break;
             case SCRCMD_SWITCH_GENERATOR1:
             case SCRCMD_SWITCH_GENERATOR2:
-                sub_50CCB0();
+                SCRCMD_SWITCH_GENERATOR1_50CCB0();
                 break;
             case SCRCMD_SWITCH_GENERATOR3:
             case SCRCMD_SWITCH_GENERATOR4:
-                SwitchGenerator_50CD30();
+                SCRCMD_SWITCH_GENERATOR3_50CD30();
                 break;
             case SCRCMD_CAR_DAMAGE_POS:
                 SCRCMD_CAR_DAMAGE_POS_50CDB0();
