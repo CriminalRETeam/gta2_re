@@ -89,10 +89,15 @@ class Object_3C
         ++dword_6F8F0C;
     }
 
+    void ClearF38_482BD0()
+    {
+        field_38 = 0;
+    }
+
     // ?? not sure if this is O3C either :skull:
     EXPORT Fix16_Point GetRot_52ADF0();
 
-    EXPORT Ang16* GetMovementSpeedAndAngle_521FD0(Fix16* a2, Ang16* a3);
+    EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
     struct_4 field_0;
     Ang16 field_4;

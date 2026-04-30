@@ -1388,7 +1388,7 @@ void Object_2C::UpdatePhysicsAndMovement_525B80()
 
     UpdatePhysics_5222D0();
     Fix16 mov_speed;
-    field_10_obj_3c->GetMovementSpeedAndAngle_521FD0(&mov_speed, &ang);
+    field_10_obj_3c->GetMovementSpeedAndAngle_521FD0(mov_speed, ang);
 
     if (!field_8->field_58)
     {
@@ -1462,7 +1462,7 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
     UpdatePhysics_5222D0();
 
     Fix16 mov_speed;
-    field_10_obj_3c->GetMovementSpeedAndAngle_521FD0(&mov_speed, &ang);
+    field_10_obj_3c->GetMovementSpeedAndAngle_521FD0(mov_speed, ang);
 
     if (!field_8->field_58)
     {

@@ -1281,7 +1281,7 @@ char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 sca
 
 // https://decomp.me/scratch/EK1Y2
 WIP_FUNC(0x5A0A70)
-bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16& a2, Fix16_Point& a3, u8& a4)
+bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& a3, u8& a4)
 {
     WIP_IMPLEMENTED;
 
@@ -1388,7 +1388,7 @@ char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
 
 // https://decomp.me/scratch/ScgaC
 WIP_FUNC(0x5a1030)
-bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16& a2, Fix16_Point& a3, u8& a4)
+bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3, u8& a4)
 {
     WIP_IMPLEMENTED;
 

@@ -221,6 +221,11 @@ class Char_B4
         }
     }
 
+    inline void AddAngle_4928A0(Ang16 ang)
+    {
+        field_40_rotation += ang;
+    }
+
     Char_B4();
     ~Char_B4();
 

@@ -133,6 +133,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F67B0, Fix16(0x2000, 0), 0x6F67B0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDB18, k_dword_6FD868 * 32, 0x6FDB18);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDB08, k_dword_6FD868 * 12, 0x6FDB08);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD91C, Fix16(0x1333, 0), 0x6FD91C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDA08, Fix16(8), 0x6FDA08);
 
 //https://decomp.me/scratch/iQH9l
 MATCH_FUNC(0x544F70)
@@ -2211,10 +2212,23 @@ void Char_B4::SelectRandomIdleBehavior_54C580()
     }
 }
 
-STUB_FUNC(0x54c6c0)
+MATCH_FUNC(0x54c6c0)
 void Char_B4::ApplyRandomRotationJitter_54C6C0()
 {
-    NOT_IMPLEMENTED;
+    if (stru_6F6784.get_int_4F7AE0(32) > 22)
+    {
+        Ang16 old_angle = field_42;
+        field_42 = Ang16::Fix16_To_Ang16_40F540(k_dword_6FD868 * (Fix16(stru_6F6784.get_int_4F7AE0(16)) - dword_6FDA08));
+        if (old_angle > word_6FD936 && field_42 > word_6FD936)
+        {
+            field_42 = -field_42;
+        }
+        if (old_angle < word_6FD936 && field_42 < word_6FD936)
+        {
+            field_42 = -field_42;
+        }
+        AddAngle_4928A0(field_42);
+    }
 }
 
 STUB_FUNC(0x4056C0)
