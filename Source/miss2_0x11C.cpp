@@ -3530,10 +3530,17 @@ void miss2_0x11C::SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50bb80)
-void miss2_0x11C::sub_50BB80()
+MATCH_FUNC(0x50bb80)
+void miss2_0x11C::SCRCMD_SEND_CAR_TO_BLOCK_50BB80()
 {
-    NOT_IMPLEMENTED;
+    SCR_CAR_DATA_DEC* pCmd = (SCR_CAR_DATA_DEC*)gBasePtr_6F8070;
+    SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_car_idx);
+    pScrPtr->field_8_car->GotoBlock_441080(
+        pCmd->field_C_pos.field_0_x.ToUInt8(),
+        pCmd->field_C_pos.field_4_y.ToUInt8(),
+        pCmd->field_C_pos.field_8_z.ToUInt8(),
+        1);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50bbd0)
@@ -3546,11 +3553,9 @@ WIP_FUNC(0x50bc60)
 void miss2_0x11C::SCRCMD_CHECK_NUM_ALIVE_50BC60()
 {
     WIP_IMPLEMENTED;
-
     SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
-    PedGroup* pPedGroup =
-        ((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx))
-            ->field_8_char->field_164_ped_group;
+    SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
+    PedGroup* pPedGroup = pScrPtr->field_8_char->field_164_ped_group;
     if (pPedGroup != NULL && (s16)pPedGroup->field_34_count >= pCmd->field_A_objective)
     {
         field_8 = 1;
@@ -4062,18 +4067,55 @@ void miss2_0x11C::sub_50CB70()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ccb0)
-void miss2_0x11C::sub_50CCB0()
+MATCH_FUNC(0x50ccb0)
+void miss2_0x11C::SCRCMD_SWITCH_GENERATOR1_50CCB0()
 {
-    NOT_IMPLEMENTED;
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+
+    u16 killTimer = v1->field_A_unsigned_2;
+    Generator_2C* pGen = pCmd->field_8_generator;
+    pGen->sub_4C1A70();
+    pGen->field_1E_kill_timer = killTimer;
+
+    s32 type = pCmd->field_8_generator->field_0_gen_type;
+
+    if ((type >= 200 && type <= 244) || (type >= 64 && type <= 108))
+    {
+        pCmd->field_8_generator->field_21 = 2;
+    }
+    else
+    {
+        pCmd->field_8_generator->field_21 = 1;
+    }
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50cd30)
-void miss2_0x11C::SwitchGenerator_50CD30()
+MATCH_FUNC(0x50cd30)
+void miss2_0x11C::SCRCMD_SWITCH_GENERATOR3_50CD30()
 {
-    NOT_IMPLEMENTED;
+    SCR_FOUR_PARAMS* v1 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    pCmd->field_8_generator->field_0_gen_type = v1->field_C_signed_3;
+
+    Generator_2C* pGen = pCmd->field_8_generator;
+    u16 killTimer = v1->field_A_unsigned_2;
+    pGen->sub_4C1A70();
+    pGen->field_1E_kill_timer = killTimer;
+
+    s16 type = v1->field_C_signed_3;
+
+    if ((type >= 200 && type <= 244) || (type >= 64 && type <= 108))
+    {
+        pCmd->field_8_generator->field_21 = 2;
+    }
+    else
+    {
+        pCmd->field_8_generator->field_21 = 1;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50cdb0)
@@ -5909,7 +5951,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0();
                 break;
             case SCRCMD_SEND_CAR_TO_BLOCK:
-                sub_50BB80();
+                SCRCMD_SEND_CAR_TO_BLOCK_50BB80();
                 break;
             case SCRCMD_CHECK_NUM_ALIVE:
                 SCRCMD_CHECK_NUM_ALIVE_50BC60();
@@ -6025,11 +6067,11 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 break;
             case SCRCMD_SWITCH_GENERATOR1:
             case SCRCMD_SWITCH_GENERATOR2:
-                sub_50CCB0();
+                SCRCMD_SWITCH_GENERATOR1_50CCB0();
                 break;
             case SCRCMD_SWITCH_GENERATOR3:
             case SCRCMD_SWITCH_GENERATOR4:
-                SwitchGenerator_50CD30();
+                SCRCMD_SWITCH_GENERATOR3_50CD30();
                 break;
             case SCRCMD_CAR_DAMAGE_POS:
                 SCRCMD_CAR_DAMAGE_POS_50CDB0();
