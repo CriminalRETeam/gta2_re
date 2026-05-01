@@ -120,7 +120,7 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
     if (field_4_paramedics_crew->field_24 == 2)
     {
         bUnk = true;
-        if (!field_4_paramedics_crew->field_4_ped || field_4_paramedics_crew->field_4_ped->GetPedState_403990() == ped_state_1::dead_9)
+        if (!field_4_paramedics_crew->field_4_ped || field_4_paramedics_crew->field_4_ped->isDead_403B60())
         {
             field_4_paramedics_crew->field_28 = 5;
             field_4_paramedics_crew->field_2C = 0;
@@ -293,13 +293,13 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
                     pIter->field_4_paramedics_crew->field_4_ped = pIter->field_4_paramedics_crew->field_8_group->field_2C_ped_leader;
                 }
 
-                if (pIter->field_8 && pIter->field_8->field_278_ped_state_1 == ped_state_1::dead_9)
+                if (pIter->field_8 && pIter->field_8->isDead_403B60())
                 {
                     TryAddPatient_4FA470(pIter->field_8);
                     pIter->field_8 = 0;
                 }
 
-                if (pIter->field_C && pIter->field_C->field_278_ped_state_1 == ped_state_1::dead_9)
+                if (pIter->field_C && pIter->field_C->isDead_403B60())
                 {
                     TryAddPatient_4FA470(pIter->field_C);
                     pIter->field_C = 0;
@@ -325,7 +325,7 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
                     pIter->field_4_paramedics_crew->RemovePed_5CBC40(pDeadPed);
                 }
 
-                if (pIter->field_C && pIter->field_C->field_278_ped_state_1 == ped_state_1::dead_9)
+                if (pIter->field_C && pIter->field_C->isDead_403B60())
                 {
                     TryAddPatient_4FA470(pIter->field_C);
                 }
