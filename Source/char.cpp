@@ -2371,6 +2371,7 @@ void Char_B4::TurnTowardsAngle_54CAE0()
     }
 }
 
+// https://decomp.me/scratch/RGvHW
 WIP_FUNC(0x54cc40)
 void Char_B4::ApplyMovement_54CC40()
 {
