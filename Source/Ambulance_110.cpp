@@ -5,10 +5,12 @@
 #include "Kfc_1E0.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
+#include "error.hpp"
 #include <stdio.h>
 
 DEFINE_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8, 0x6F70A8);
 
+DEFINE_GLOBAL(class Ped*, dword_6F6D60, 0x6F6D60);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6DD4, Fix16(0x1999, 0), 0x6F6DD4);
 
 MATCH_FUNC(0x4beab0)
@@ -111,10 +113,67 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     return true;
 }
 
-STUB_FUNC(0x4fa9d0)
+MATCH_FUNC(0x4fa9d0)
 void Ambulance_20::EvaluatePickupState_4FA9D0()
 {
-    NOT_IMPLEMENTED;
+    bool bUnk = false;
+    if (field_4_paramedics_crew->field_24 == 2)
+    {
+        bUnk = true;
+        if (!field_4_paramedics_crew->field_4_ped || field_4_paramedics_crew->field_4_ped->isDead_403B60())
+        {
+            field_4_paramedics_crew->field_28 = 5;
+            field_4_paramedics_crew->field_2C = 0;
+            dword_6F6D60 = 0;
+            return;
+        }
+    }
+    if (bUnk)
+    {
+        if (field_4_paramedics_crew->field_0_car)
+        {
+            if (field_4_paramedics_crew->field_0_car->IsMaxDamage_40F890())
+            {
+                field_4_paramedics_crew->field_0_car = 0;
+                field_4_paramedics_crew->field_24 = 0;
+            }
+        }
+        else
+        {
+            field_4_paramedics_crew->field_24 = 0;
+        }
+    }
+
+    dword_6F6D60 = field_4_paramedics_crew->field_4_ped;
+    if (!dword_6F6D60)
+    {
+        field_4_paramedics_crew->field_24 = 2;
+    }
+    else if (field_1C)
+    {
+        if (!field_4_paramedics_crew->field_24)
+        {
+            field_4_paramedics_crew->field_28 = 5;
+            field_4_paramedics_crew->field_2C = 0;
+        }
+        else if (dword_6F6D60->field_16C_car && dword_6F6D60 == dword_6F6D60->field_16C_car->field_54_driver)
+        {
+            if (field_4_paramedics_crew->field_8_group)
+            {
+                if (field_4_paramedics_crew->field_8_group->IsAllMembersInSomeCar_4CAA20())
+                {
+                    field_4_paramedics_crew->field_0_car->sub_43AF40();
+                    field_4_paramedics_crew->field_28 = 5;
+                    field_4_paramedics_crew->field_2C = 0;
+                    dword_6F6D60 = 0;
+                }
+                else
+                {
+                    field_4_paramedics_crew->field_0_car->sub_43AF60();
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x4faac0)
@@ -123,10 +182,80 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4fb330)
+// near match https://decomp.me/scratch/cxgie
+WIP_FUNC(0x4fb330)
 void Ambulance_20::UpdateState_4FB330()
 {
-    NOT_IMPLEMENTED;
+    field_10.RemovePedsInSpecificState_471290();
+    switch (field_4_paramedics_crew->field_28)
+    {
+        case 3:
+        {
+            if (field_4_paramedics_crew->field_2C)
+            {
+                if (!SpawnParamedicCrew_4FA820())
+                {
+                    if (field_4_paramedics_crew->field_0_car)
+                    {
+                        field_4_paramedics_crew->field_0_car->sub_421470();
+                    }
+                    field_4_paramedics_crew->ReInit_5CBC30();
+                    ClearTask_4FA7D0();
+                    break;
+                }
+                else
+                {
+                    dword_6F6D60 = field_4_paramedics_crew->field_4_ped;
+                    this->field_1C = 0;
+                    if (field_4_paramedics_crew->field_0_car)
+                    {
+                        field_4_paramedics_crew->field_0_car->ActivateEmergencyLights_43C920();
+                        HandleObjectiveState_4FAAC0();
+                        break;
+                    }
+                    HandleObjectiveState_4FAAC0();
+                    break;
+                }
+            }
+            else
+            {
+                ++field_4_paramedics_crew->field_1C;
+                if (field_4_paramedics_crew->field_1C > 500)
+                {
+                    field_4_paramedics_crew->field_28 = 5;
+                }
+            }
+            break;
+        }
+        case 5:
+        {
+            while (field_10.field_0_pFirstPed)
+            {
+                Ped* pPed = field_10.RemoveFirstPed_471320();
+                gAmbulance_110_6F70A8->TryAddPatient_4FA470(pPed);
+            }
+
+            if (field_4_paramedics_crew->field_2C)
+            {
+                field_4_paramedics_crew->field_28 = 0;
+                field_4_paramedics_crew->ReInit_5CBC30();
+                ClearTask_4FA7D0();
+                break;
+            }
+            HandleObjectiveState_4FAAC0();
+            break;
+        }
+        case 6:
+        {
+            EvaluatePickupState_4FA9D0();
+            HandleObjectiveState_4FAAC0();
+            break;
+        }
+        default:
+            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\medical.cpp", 1087);
+            HandleObjectiveState_4FAAC0();
+    }
+    return;
 }
 
 MATCH_FUNC(0x4beae0)
@@ -164,13 +293,13 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
                     pIter->field_4_paramedics_crew->field_4_ped = pIter->field_4_paramedics_crew->field_8_group->field_2C_ped_leader;
                 }
 
-                if (pIter->field_8 && pIter->field_8->field_278_ped_state_1 == ped_state_1::dead_9)
+                if (pIter->field_8 && pIter->field_8->isDead_403B60())
                 {
                     TryAddPatient_4FA470(pIter->field_8);
                     pIter->field_8 = 0;
                 }
 
-                if (pIter->field_C && pIter->field_C->field_278_ped_state_1 == ped_state_1::dead_9)
+                if (pIter->field_C && pIter->field_C->isDead_403B60())
                 {
                     TryAddPatient_4FA470(pIter->field_C);
                     pIter->field_C = 0;
@@ -196,7 +325,7 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
                     pIter->field_4_paramedics_crew->RemovePed_5CBC40(pDeadPed);
                 }
 
-                if (pIter->field_C && pIter->field_C->field_278_ped_state_1 == ped_state_1::dead_9)
+                if (pIter->field_C && pIter->field_C->isDead_403B60())
                 {
                     TryAddPatient_4FA470(pIter->field_C);
                 }
