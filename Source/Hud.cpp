@@ -2176,46 +2176,32 @@ size_t Hud_Brief_704::sub_5D3470()
     return num_chars;
 }
 
-WIP_FUNC(0x5d3680)
+MATCH_FUNC(0x5d3680)
 char_type __stdcall sub_5D3680(u16 a1)
 {
-    WIP_IMPLEMENTED;
-
-    char_type result;
     switch (a1)
     {
-        case 8555:
-            result = 6;
-            break;
         case 8556:
-            result = 1;
-            break;
-        case 8557:
-            result = 7;
-            break;
-        case 8558:
-            result = 8;
-            break;
-        case 8560:
-            result = 9;
-            break;
-        case 8562:
-            result = 4;
-            break;
-        case 8563:
-            result = 5;
-            break;
+            return 1;
         case 8569:
-            result = 2;
-            break;
+            return 2;
         case 8570:
-            result = 3;
-            break;
+            return 3;
+        case 8562:
+            return 4;
+        case 8563:
+            return 5;
+        case 8555:
+            return 6;
+        case 8557:
+            return 7;
+        case 8558:
+            return 8;
+        case 8560:
+            return 9;
         default:
-            result = 0;
-            break;
+            return 0;
     }
-    return result;
 }
 
 MATCH_FUNC(0x5d39d0)
