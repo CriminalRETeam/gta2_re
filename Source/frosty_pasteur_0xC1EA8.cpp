@@ -546,9 +546,9 @@ void frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
 }
 
 MATCH_FUNC(0x5129f0)
-bool frosty_pasteur_0xC1EA8::AnswerPhone_5129F0(s32 a2, s32 a3)
+bool frosty_pasteur_0xC1EA8::AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx)
 {
-    thread_C* pThrdHeader = frosty_pasteur_0xC1EA8::sub_512980(a2, a3);
+    thread_C* pThrdHeader = frosty_pasteur_0xC1EA8::sub_512980(ped_idx, phone_idx);
     if (pThrdHeader)
     {
         SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThrdHeader->field_8_cmd_line);

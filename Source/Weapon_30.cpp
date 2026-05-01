@@ -28,6 +28,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_706DCC, Fix16(0xFFFFFD00, 0), 0x706DCC);
 DEFINE_GLOBAL_INIT(Fix16, dword_706FD0, Fix16(0x100, 0), 0x706FD0);
 DEFINE_GLOBAL_INIT(Fix16, dword_706EA4, Fix16(0x600, 0), 0x706EA4);
 DEFINE_GLOBAL_INIT(Fix16, dword_706EE8, Fix16(0xFFFFEE00, 0), 0x706EE8);
+DEFINE_GLOBAL_INIT(Fix16, dword_706E7C, Fix16(0x1EB, 0), 0x706E7C);
+DEFINE_GLOBAL_INIT(Fix16, dword_706CF0, Fix16(0x666, 0), 0x706CF0);
+DEFINE_GLOBAL_INIT(Fix16, dword_706E80, Fix16(0x147, 0), 0x706E80);
 
 // TODO: move
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
@@ -338,10 +341,66 @@ void Weapon_30::dual_pistol_5DDA70()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5ddd20)
+// https://decomp.me/scratch/lAo1H
+WIP_FUNC(0x5ddd20)
 void Weapon_30::smg_5DDD20()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point point;
+    if (field_2_reload_speed == 0)
+    {
+        set_field_2C_4CCA80(1);
+        if (!field_4)
+        {
+            Ang16 AimAngle = field_24_pPed->ComputeAimAngle_45C9D0();
+
+            point = Fix16_Point(-dword_706E7C, dword_706CF0 + dword_706E80);
+            point.RotateByAngle_40F6B0(field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
+
+            point = point + field_24_pPed->sub_45B520();
+
+            if (Weapon_30::spawn_bullet_5DCF60(254,
+                                               field_24_pPed->get_cam_x() + point.x,
+                                               field_24_pPed->get_cam_y() + point.y,
+                                               field_24_pPed->get_cam_z(),
+                                               AimAngle,
+                                               field_24_pPed->sub_45B520()))
+            {
+                if (field_24_pPed->IsField238_45EDE0(2))
+                {
+                    DecreaseAmmo_4CCA60();
+                }
+            }
+
+            field_2_reload_speed = 2;
+            gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
+
+            if (field_1C_idx != weapon_type::silence_smg)
+            {
+                field_24_pPed->AddThreateningPedToList_46FC70();
+                if (field_24_pPed->is_player_41B0A0())
+                {
+                    gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                }
+            }
+        }
+        else
+        {
+            Weapon_30::spawn_bullet_5DCF60(154,
+                                           field_24_pPed->get_cam_x(),
+                                           field_24_pPed->get_cam_y(),
+                                           field_24_pPed->get_cam_z(),
+                                           field_24_pPed->field_12E,
+                                           field_24_pPed->sub_45B520());
+            field_2_reload_speed = 1;
+        }
+        Weapon_30::TickReloadSpeed_5DCF40();
+    }
+    else
+    {
+        field_2_reload_speed--;
+    }
 }
 
 STUB_FUNC(0x5ddfc0)

@@ -271,7 +271,7 @@ class Char_B4
     EXPORT void sub_54DD70();
     EXPORT void state_0_54DDF0();
     EXPORT bool CanStepForwardWithRegionCheck_54ECB0(s32 direction);
-    EXPORT char_type CanStepDiagonal_54EF60(char_type a2, char_type a3);
+    EXPORT bool CanStepDiagonal_54EF60(char_type a2, char_type a3);
     EXPORT bool CanStepForward_54FEC0(s32 direction);
     EXPORT bool CanReachTile_550090(s32 xpos, s32 ypos);
     EXPORT void state_1_5504F0();

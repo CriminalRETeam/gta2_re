@@ -34,6 +34,12 @@ void Ang16::SnapToAng4_405640()
     }
 }
 
+MATCH_FUNC(0x4056A0)
+u8 Ang16::GetOctant_4056A0()
+{
+    return rValue / 180;
+}
+
 MATCH_FUNC(0x406C20)
 void Ang16::sub_406C20()
 {
@@ -97,4 +103,12 @@ Fix16 __stdcall Ang16::NormalizeAngleDeltaScaled_405B60(Ang16& a2, Ang16& a3, An
     {
         return d.divideBy_40E640(a4);
     }
+}
+
+// TODO: move
+MATCH_FUNC(0x451730)
+void __stdcall Ang16::PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
+{
+    ret1 = radius * Ang16::sine_40F500(angle);
+    ret2 = radius * Ang16::cosine_40F520(angle);
 }
