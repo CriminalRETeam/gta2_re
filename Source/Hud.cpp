@@ -2037,18 +2037,18 @@ void Hud_Arrow_7C_Array::SetNewGangArrow_5D1310(Gang_144* pZone)
 MATCH_FUNC(0x5d3330)
 void Hud_Brief_704::sub_5D3330()
 {
-    Garox_18* pGarox_18 = field_700;
-    field_700 = pGarox_18->field_C;
-    pGarox_18->field_C = field_6F8_prev_brief;
-    field_6F8_prev_brief = pGarox_18;
+    Garox_18* pGarox_18 = field_700_prev_brief;
+    field_700_prev_brief = pGarox_18->field_C;
+    pGarox_18->field_C = field_6F8_curr_brief;
+    field_6F8_curr_brief = pGarox_18;
 }
 
 MATCH_FUNC(0x5d3350)
 void Hud_Brief_704::sub_5D3350()
 {
     Garox_18* pPrev;
-    pPrev = this->field_6F8_prev_brief;
-    this->field_6F8_prev_brief = pPrev->field_C;
+    pPrev = this->field_6F8_curr_brief;
+    this->field_6F8_curr_brief = pPrev->field_C;
     pPrev->field_C = this->field_6FC_p_start_q;
     this->field_6FC_p_start_q = pPrev;
 }
@@ -2056,10 +2056,10 @@ void Hud_Brief_704::sub_5D3350()
 MATCH_FUNC(0x5d3370)
 void Hud_Brief_704::sub_5D3370()
 {
-    Garox_18* pPrev = this->field_6F8_prev_brief;
-    this->field_6F8_prev_brief = pPrev->field_C;
-    pPrev->field_C = this->field_700;
-    this->field_700 = pPrev;
+    Garox_18* pPrev = this->field_6F8_curr_brief;
+    this->field_6F8_curr_brief = pPrev->field_C;
+    pPrev->field_C = this->field_700_prev_brief;
+    this->field_700_prev_brief = pPrev;
     pPrev->field_8_brief_priority = 0;
 }
 
@@ -2067,13 +2067,13 @@ MATCH_FUNC(0x5d33a0)
 void Hud_Brief_704::sub_5D33A0()
 {
     Garox_18* pBrief;
-    for (pBrief = field_700; pBrief->field_C; pBrief = pBrief->field_C)
+    for (pBrief = field_700_prev_brief; pBrief->field_C; pBrief = pBrief->field_C)
     {
         ;
     }
-    pBrief->field_C = field_6F8_prev_brief;
-    field_6F8_prev_brief->field_8_brief_priority = 0;
-    field_6F8_prev_brief = field_6F8_prev_brief->field_C;
+    pBrief->field_C = field_6F8_curr_brief;
+    field_6F8_curr_brief->field_8_brief_priority = 0;
+    field_6F8_curr_brief = field_6F8_curr_brief->field_C;
     pBrief->field_C->field_C = 0;
 }
 
@@ -2140,7 +2140,7 @@ void Hud_Brief_704::sub_5D39D0()
     field_504_tick_timer = field_510_time_to_show * gHud_2B00_706620->field_13C4_text_speed;
     field_50C = 0;
     field_514_upward_timer = 0;
-    field_6F8_prev_brief->field_10 = 0;
+    field_6F8_curr_brief->field_10 = 0;
 }
 
 // https://decomp.me/scratch/exFU8
@@ -2149,7 +2149,7 @@ void Hud_Brief_704::DrawBrief_5D3B80()
 {
     WIP_IMPLEMENTED;
 
-    if (this->field_6F8_prev_brief)
+    if (this->field_6F8_curr_brief)
     {
         sub_5D7670(6, // type
                    field_50C + 3 * field_502_face_idx + 16, // LOBYTE(v1->field_502_face_idx) pal
@@ -2179,12 +2179,12 @@ void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32
     WIP_IMPLEMENTED;
 
     Garox_18* v5 = sub_5D33F0();
-    strcpy((char*)v5->field_0_pStr, pText); // TODO
+    strcpy(v5->field_0_brief_id_str, pText);
     v5->field_8_brief_priority = priority;
     v5->field_10 = 0;
     v5->field_14_cost_param = cost_param;
 
-    Garox_18* pIter = this->field_6F8_prev_brief;
+    Garox_18* pIter = this->field_6F8_curr_brief;
     if (pIter)
     {
         if (pIter->field_8_brief_priority < priority || priority == 3)
@@ -2193,8 +2193,8 @@ void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32
             {
                 sub_5D3370();
             }
-            v5->field_C = this->field_6F8_prev_brief;
-            this->field_6F8_prev_brief = v5;
+            v5->field_C = this->field_6F8_curr_brief;
+            this->field_6F8_curr_brief = v5;
             sub_5D39D0();
         }
         else
@@ -2223,7 +2223,7 @@ void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32
     }
     else
     {
-        this->field_6F8_prev_brief = v5;
+        this->field_6F8_curr_brief = v5;
         v5->field_C = 0;
         sub_5D39D0();
     }
@@ -2238,7 +2238,7 @@ void Hud_Brief_704::SetHudBrief_5D4400(s32 priority, const char_type* pTextIdStr
 MATCH_FUNC(0x5d44d0)
 void Hud_Brief_704::sub_5D44D0()
 {
-    if (field_6F8_prev_brief)
+    if (field_6F8_curr_brief)
     {
         field_504_tick_timer--;
 
@@ -2261,12 +2261,12 @@ void Hud_Brief_704::sub_5D44D0()
             }
         }
 
-        field_6F8_prev_brief->field_10 = 1;
+        field_6F8_curr_brief->field_10 = 1;
 
         if (field_504_tick_timer == 0)
         {
             sub_5D3370();
-            if (field_6F8_prev_brief)
+            if (field_6F8_curr_brief)
             {
                 sub_5D39D0();
             }
@@ -2277,9 +2277,9 @@ void Hud_Brief_704::sub_5D44D0()
 MATCH_FUNC(0x5d4850)
 void Hud_Brief_704::ShowBrief_5D4850()
 {
-    if (field_700)
+    if (field_700_prev_brief)
     {
-        Garox_18* prev_brief = field_6F8_prev_brief;
+        Garox_18* prev_brief = field_6F8_curr_brief;
         if (prev_brief)
         {
             if (prev_brief->field_10)
@@ -2307,14 +2307,14 @@ Hud_Brief_704::Hud_Brief_704()
     field_50C = 0;
     field_510_time_to_show = 0;
     field_514_upward_timer = 0;
-    field_6F8_prev_brief = 0;
-    field_700 = 0;
+    field_6F8_curr_brief = 0;
+    field_700_prev_brief = 0;
     field_504_tick_timer = 0;
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_524_ary_19); i++)
     {
         // TODO: Some wrong data structure
-        field_524_ary_19[i].field_0_pStr = &field_524_ary_19[i].field_C;
+        field_524_ary_19[i].field_0_ptr = (char_type*)&field_524_ary_19[i].field_C;
     }
 
     field_6EC = 0;

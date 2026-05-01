@@ -1790,6 +1790,66 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("field_6EC", pHud_Brief_704->field_6EC);
                         ImGui::Value("field_6F0", pHud_Brief_704->field_6F0);
                         ImGui::Value("field_6F4", pHud_Brief_704->field_6F4);
+
+                        if (ImGui::TreeNode("Try field_6F8_prev_brief as text"))
+                        {
+                            ImGui::Text("Text: %s", pHud_Brief_704->field_6F8_curr_brief->field_0_brief_id_str);
+                            ImGui::TreePop();
+                        }
+
+                        if (ImGui::TreeNode("Try field_6FC_p_start_q as text"))
+                        {
+                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_6FC_p_start_q);
+                            ImGui::TreePop();
+                        }
+
+                        if (ImGui::TreeNode("Try field_700 as text"))
+                        {
+                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_700_prev_brief);
+                            ImGui::TreePop();
+                        }
+
+                        if (ImGui::TreeNode("Try field_518_ary_19_start_q as text"))
+                        {
+                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_518_ary_19_start_q);
+                            ImGui::TreePop();
+                        }
+
+                        Garox_18* curr_brief = pHud_Brief_704->field_6F8_curr_brief;
+                        if (curr_brief)
+                        {
+                            ImGui::Value("curr brief f_10", curr_brief->field_10);
+                            if (ImGui::TreeNode("Try field_C as text"))
+                            {
+                                ImGui::Text("Text: %s", (const char*)curr_brief->field_C);
+                                ImGui::TreePop();
+                            }
+                        }
+
+                        static u16 brief_idx = 0;
+                        ImGui::SliderU16("Brief idx", &brief_idx, 0, 18);
+                        Garox_18* brief = &pHud_Brief_704->field_524_ary_19[brief_idx];
+                        if (brief)
+                        {
+                            ImGui::Text("Brief f_0: 0x%X", brief->field_0_brief_id_str);
+                            ImGui::Value("Brief f_4", brief->field_4);
+                            ImGui::Value("Brief f_8", brief->field_8_brief_priority);
+                            //ImGui::Value("Brief f_C", brief->field_C);
+                            ImGui::Value("Brief f_10", brief->field_10);
+
+                            if (ImGui::TreeNode("Try field_C as text"))
+                            {
+                                if (brief->field_C)
+                                {
+                                    ImGui::Text("Text: %s", (const char*)brief->field_C->field_0_brief_id_str);
+                                }
+                                else
+                                {
+                                    ImGui::Text("Null field C :(");
+                                }
+                                ImGui::TreePop();
+                            }
+                        }
                     }
 
                     ImGui::TreePop();

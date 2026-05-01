@@ -4865,8 +4865,8 @@ void miss2_0x11C::sub_50ECE0() //  SCRCMD_IS_CHAR_ON_FIRE
 MATCH_FUNC(0x50ed40)
 void miss2_0x11C::sub_50ED40() //  SCRCMD_BRIEF_ONSCREEN
 {
-    Garox_18* field_6F8_prev_brief = gHud_2B00_706620->field_DC.field_6F8_prev_brief;
-    if (field_6F8_prev_brief != NULL && field_6F8_prev_brief->field_8_brief_priority != 0)
+    Garox_18* field_6F8_curr_brief = gHud_2B00_706620->field_DC.field_6F8_curr_brief;
+    if (field_6F8_curr_brief != NULL && field_6F8_curr_brief->field_8_brief_priority != 0)
     {
         field_8 = true;
     }
