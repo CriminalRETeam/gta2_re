@@ -497,6 +497,8 @@ class Hud_Arrow_7C_Array
     char_type field_847;
 };
 
+EXPORT char_type __stdcall sub_5D3680(u16 a1);
+
 class Hud_Brief_704 // size 0x704
 {
   public:
@@ -506,7 +508,6 @@ class Hud_Brief_704 // size 0x704
     EXPORT void sub_5D33A0();
     EXPORT Garox_18* sub_5D33F0();
     EXPORT size_t sub_5D3470();
-    EXPORT char_type sub_5D3680(s16 a1);
     EXPORT void sub_5D39D0();
     EXPORT void DrawBrief_5D3B80();
     EXPORT void SetHudBrief_5D3F10(s32 priority, const char_type* str, s32 cost_param);

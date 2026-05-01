@@ -86,7 +86,7 @@ class text_0x14
 
     EXPORT static char_type* __stdcall Wide2PesudoAscii_5B5D10(const wchar_t* a1);
 
-    EXPORT wchar_t* Ascii2Wide_5B5DF0(char_type* a1);
+    EXPORT static wchar_t* __stdcall Ascii2Wide_5B5DF0(char_type* a1);
 
     EXPORT void load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len);
 

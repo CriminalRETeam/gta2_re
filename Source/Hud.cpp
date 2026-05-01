@@ -50,6 +50,9 @@ DEFINE_GLOBAL_INIT(Ang16, word_706412, Ang16(720), 0x706412);
 DEFINE_GLOBAL_INIT(Fix16, dword_7064C4, Fix16(1), 0x7064C4);
 DEFINE_GLOBAL_INIT(Fix16, dword_7064E8, Fix16(8), 0x7064E8);
 
+EXTERN_GLOBAL_ARRAY(wchar_t, word_67C7D8, 640);
+DEFINE_GLOBAL(s32, dword_62689C, 0x62689C);
+
 // TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -2084,15 +2087,97 @@ Garox_18* Hud_Brief_704::sub_5D33F0()
     return 0;
 }
 
-STUB_FUNC(0x5d3470)
+MATCH_FUNC(0x5d3470)
 size_t Hud_Brief_704::sub_5D3470()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    size_t num_chars;
+
+    if (field_6F8_curr_brief)
+    {
+        if (field_6F8_curr_brief->field_14_cost_param != -1)
+        {
+            swprintf(tmpBuff_67BD9C,
+                     gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str),
+                     field_6F8_curr_brief->field_14_cost_param);
+            char_type v4 = sub_5D3680(tmpBuff_67BD9C[0]);
+            *(u8*)&field_502_face_idx = v4; // TODO
+
+            wchar_t* v6;
+            if (v4)
+            {
+                v6 = &tmpBuff_67BD9C[1];
+            }
+            else
+            {
+                v6 = tmpBuff_67BD9C;
+                *(u8*)&field_502_face_idx = 8; // TODO
+            }
+
+            field_508_num_lines = gText_0x14_704DFC->sub_5B5BC0(field_0_str, v6, dword_62689C, word_7065C4);
+            num_chars = wcslen(field_0_str);
+            if (bShow_brief_number_67D504)
+            {
+                swprintf(tmpBuff_67BD9C,
+                         gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str),
+                         field_6F8_curr_brief->field_14_cost_param);
+                char_type v8 = sub_5D3680(tmpBuff_67BD9C[0]);
+                *(u8*)&field_502_face_idx = v8; // TODO
+
+                wchar_t* v9;
+                if (v8)
+                {
+                    v9 = &tmpBuff_67BD9C[1];
+                }
+                else
+                {
+                    *(u8*)&field_502_face_idx = 8; // TODO
+                    v9 = tmpBuff_67BD9C;
+                }
+                swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), v9);
+                field_508_num_lines = text_0x14::sub_5B5BC0(field_0_str, word_67C7D8, dword_62689C, word_7065C4);
+            }
+        }
+        else
+        {
+            wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
+            char_type v13 = sub_5D3680(_5B5F90[0]);
+            *(u8*)&field_502_face_idx = v13; // TODO
+
+            if (v13)
+            {
+                ++_5B5F90;
+            }
+            else
+            {
+                *(u8*)&field_502_face_idx = 8; // TODO
+            }
+            field_508_num_lines = gText_0x14_704DFC->sub_5B5BC0(field_0_str, (const wchar_t*)_5B5F90, dword_62689C, word_7065C4);
+            num_chars = wcslen(field_0_str);
+
+            if (bShow_brief_number_67D504)
+            {
+                wchar_t* v15 = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
+                char_type v16 = sub_5D3680(v15[0]);
+                *(u8*)&field_502_face_idx = v16; // TODO
+
+                if (v16)
+                {
+                    ++v15;
+                }
+                else
+                {
+                    *(u8*)&field_502_face_idx = 8; // TODO
+                }
+                swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), v15);
+                field_508_num_lines = text_0x14::sub_5B5BC0(field_0_str, word_67C7D8, dword_62689C, word_7065C4);
+            }
+        }
+    }
+    return num_chars;
 }
 
 WIP_FUNC(0x5d3680)
-char_type Hud_Brief_704::sub_5D3680(s16 a1)
+char_type __stdcall sub_5D3680(u16 a1)
 {
     WIP_IMPLEMENTED;
 
