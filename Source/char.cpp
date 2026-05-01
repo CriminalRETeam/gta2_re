@@ -2371,10 +2371,238 @@ void Char_B4::TurnTowardsAngle_54CAE0()
     }
 }
 
-STUB_FUNC(0x54cc40)
+WIP_FUNC(0x54cc40)
 void Char_B4::ApplyMovement_54CC40()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 xpos;
+    Fix16 ypos;
+
+    u8 octant = field_40_rotation.GetOctant_4056A0();
+
+    switch (dword_623F44)
+    {
+        case 1:
+            switch (octant)
+            {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    Ang16::PolarToCartesian_41FC20(word_6FDA64, field_38_velocity, xpos, ypos);
+                    xpos += dword_6FD7F8;
+                    ypos += dword_6FD800;
+                    word_6FD808 = word_6FDA64;
+                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                    {
+                        Ang16::PolarToCartesian_41FC20(word_6FDA64, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                 field_80_sprite_ptr->field_1C_zpos);
+                    }
+                    else
+                    {
+                        Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity, xpos, ypos);
+                        xpos += dword_6FD7F8;
+                        ypos += dword_6FD800;
+                        word_6FD808 = word_6FDB3C;
+                        if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                        {
+                            Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                            field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                     field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                     field_80_sprite_ptr->field_1C_zpos);
+                        }
+                    }
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    Ang16::PolarToCartesian_41FC20(word_6FD904, field_38_velocity, xpos, ypos);
+                    xpos += dword_6FD7F8;
+                    ypos += dword_6FD800;
+                    word_6FD808 = word_6FD904;
+                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                    {
+                        Ang16::PolarToCartesian_41FC20(word_6FD904, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                 field_80_sprite_ptr->field_1C_zpos);
+                    }
+                    else
+                    {
+                        Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity, xpos, ypos);
+                        xpos += dword_6FD7F8;
+                        ypos += dword_6FD800;
+                        word_6FD808 = word_6FDB3C;
+                        if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                        {
+                            Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                            field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                     field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                     field_80_sprite_ptr->field_1C_zpos);
+                        }
+                    }
+                    break;
+                default:
+                    return;
+            }
+            break;
+
+        case 2:
+            switch (octant)
+            {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    Ang16::PolarToCartesian_41FC20(word_6FDA64, field_38_velocity, xpos, ypos);
+                    xpos += dword_6FD7F8;
+                    ypos += dword_6FD800;
+                    word_6FD808 = word_6FDA64;
+                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                    {
+                        Ang16::PolarToCartesian_41FC20(word_6FDA64, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                 field_80_sprite_ptr->field_1C_zpos);
+                    }
+                    else
+                    {
+                        Ang16::PolarToCartesian_41FC20(word_6FD8E8, field_38_velocity, xpos, ypos);
+                        xpos += dword_6FD7F8;
+                        ypos += dword_6FD800;
+                        word_6FD808 = word_6FD8E8;
+                        if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                        {
+                            Ang16::PolarToCartesian_41FC20(word_6FD8E8, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                            field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                     field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                     field_80_sprite_ptr->field_1C_zpos);
+                        }
+                    }
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    Ang16::PolarToCartesian_41FC20(word_6FD904, field_38_velocity, xpos, ypos);
+                    xpos += dword_6FD7F8;
+                    ypos += dword_6FD800;
+                    word_6FD808 = word_6FD904;
+                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                    {
+                        Ang16::PolarToCartesian_41FC20(word_6FD904, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                 field_80_sprite_ptr->field_1C_zpos);
+                    }
+                    else
+                    {
+                        Ang16::PolarToCartesian_41FC20(word_6FD8E8, field_38_velocity, xpos, ypos);
+                        xpos += dword_6FD7F8;
+                        ypos += dword_6FD800;
+                        word_6FD808 = word_6FD8E8;
+                        if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                        {
+                            Ang16::PolarToCartesian_41FC20(word_6FD8E8, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                            field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                     field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                     field_80_sprite_ptr->field_1C_zpos);
+                        }
+                    }
+                    break;
+
+                default:
+                    return;
+            }
+            break;
+
+        case 3:
+            switch (octant)
+            {
+                case 0:
+                case 1:
+                case 6:
+                case 7:
+                    Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity, xpos, ypos);
+                    xpos += dword_6FD7F8;
+                    ypos += dword_6FD800;
+                    word_6FD808 = word_6FDB3C;
+                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                    {
+                        Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                 field_80_sprite_ptr->field_1C_zpos);
+                    }
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    Ang16::PolarToCartesian_41FC20(word_6FD8E8, field_38_velocity, xpos, ypos);
+                    xpos += dword_6FD7F8;
+                    ypos += dword_6FD800;
+                    word_6FD808 = word_6FD8E8;
+                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                    {
+                        Ang16::PolarToCartesian_41FC20(word_6FD8E8, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                 field_80_sprite_ptr->field_1C_zpos);
+                    }
+                    break;
+                default:
+                    return;
+            }
+            break;
+
+        case 4:
+            switch (octant)
+            {
+                case 0:
+                case 1:
+                case 6:
+                case 7:
+                    Ang16::PolarToCartesian_451730(word_6FDB3C, field_38_velocity, xpos, ypos);
+                    xpos += dword_6FD7F8;
+                    ypos += dword_6FD800;
+                    word_6FD808 = word_6FDB3C;
+                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                    {
+                        Ang16::PolarToCartesian_451730(word_6FDB3C, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                 field_80_sprite_ptr->field_1C_zpos);
+                    }
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    Ang16::PolarToCartesian_41FC20(word_6FD8E8, field_38_velocity, xpos, ypos);
+                    xpos += dword_6FD7F8;
+                    ypos += dword_6FD800;
+                    word_6FD808 = word_6FD8E8;
+                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                    {
+                        Ang16::PolarToCartesian_41FC20(word_6FD8E8, field_38_velocity / k_dword_6FD9EC, xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                 field_80_sprite_ptr->field_1C_zpos);
+                    }
+                    break;
+
+                default:
+                    return;
+            }
+            break;
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x54dd70)

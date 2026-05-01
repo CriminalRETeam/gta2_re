@@ -211,6 +211,9 @@ class Ang16
         ret2 = radius * Ang16::cosine_40F520(angle);
     }
 
+    // Non-inlined version of above function
+    EXPORT static void __stdcall PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2);
+
     EXPORT static s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& a1);
 
     // inlined from 0x40f580 on v9.6f
@@ -284,6 +287,7 @@ class Ang16
     }
 
     EXPORT static Fix16 __stdcall NormalizeAngleDeltaScaled_405B60(Ang16& a2, Ang16& a3, Ang16& a4);
+    EXPORT u8 GetOctant_4056A0();
 
     // TODO: move with CarDoorAlignmentSolver_545AF0
     // https://decomp.me/scratch/6VBR0
