@@ -2080,11 +2080,72 @@ void Hud_Brief_704::sub_5D33A0()
     pBrief->field_C->field_C = 0;
 }
 
-STUB_FUNC(0x5d33f0)
+// https://decomp.me/scratch/L1e5G reg swap
+WIP_FUNC(0x5d33f0)
 Garox_18* Hud_Brief_704::sub_5D33F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Garox_18* result = field_6FC_p_start_q;
+    if (result)
+    {
+        field_6FC_p_start_q = result->field_C;
+    }
+    else
+    {
+        Garox_18* pPrev;
+        Garox_18* pIter;
+        result = field_700_prev_brief;
+        if (field_700_prev_brief)
+        {
+            pIter = field_700_prev_brief->field_C;
+            if (pIter) // line 29
+            {
+                for (; pIter; pIter = pIter->field_C)
+                {
+                    pPrev = result;
+                    result = pIter;
+                }
+                if (pPrev)
+                {
+                    pPrev->field_C = NULL;
+                }
+                else
+                {
+                    field_700_prev_brief = NULL;
+                }
+            }
+            else
+            {
+                field_700_prev_brief = NULL;
+            }
+        }
+        else
+        {
+            result = field_6F8_curr_brief;
+            pIter = result->field_C;
+            if (!pIter)
+            {
+                field_6F8_curr_brief = NULL;
+            }
+            else
+            {
+                for (; pIter; pIter = pIter->field_C)
+                {
+                    pPrev = result;
+                    result = pIter;
+                }
+                if (pPrev)
+                {
+                    pPrev->field_C = NULL;
+                }
+                else
+                {
+                    field_6F8_curr_brief = NULL;
+                }
+            }
+        }
+    }
+    return result;
 }
 
 MATCH_FUNC(0x5d3470)
