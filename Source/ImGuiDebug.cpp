@@ -1501,7 +1501,10 @@ void CC ImGuiDebugDraw()
                                 ImGui::SliderInt("Car Angle Velocity", &pPhysics->field_74_ang_vel_rad.mValue, -10 * 16384, 10 * 16384);
                                 if (ImGui::TreeNode("Car Physics"))
                                 {
-
+                                    ImGui::Value("Center of Mass x", pPhysics->field_30_cm1.x.ToFloat(), "%.2f");
+                                    ImGui::Value("Center of Mass y", pPhysics->field_30_cm1.y.ToFloat(), "%.2f");
+                                    ImGui::Value("Center of ??? x", pPhysics->field_38_cp1.x.ToFloat(), "%.2f");
+                                    ImGui::Value("Center of ??? y", pPhysics->field_38_cp1.y.ToFloat(), "%.2f");
                                     ImGui::Value("Physics fA0", pPhysics->field_A0);
                                     ImGui::SliderInt("Physics fA0", &pPhysics->field_A0, 0, 3);
                                     //ImGui::SliderInt("Physics front skid", &pPhysics->field_84_front_skid.mValue, -3*16384, 3*16384);

@@ -134,6 +134,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FDB18, k_dword_6FD868 * 32, 0x6FDB18);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDB08, k_dword_6FD868 * 12, 0x6FDB08);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD91C, Fix16(0x1333, 0), 0x6FD91C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDA08, Fix16(8), 0x6FDA08);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDACC, Fix16(0x800, 0), 0x6FDACC);
 
 //https://decomp.me/scratch/iQH9l
 MATCH_FUNC(0x544F70)
@@ -3044,11 +3045,406 @@ bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
     }
 }
 
-STUB_FUNC(0x54ef60)
-char_type Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
+// https://decomp.me/scratch/r1IyX
+WIP_FUNC(0x54ef60)
+bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 {
-    NOT_IMPLEMENTED;
-    return true;
+    WIP_IMPLEMENTED;
+
+    Fix16 sprite_xpos = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 sprite_ypos = field_80_sprite_ptr->field_14_xy.y;
+    Fix16 sprite_zpos = field_80_sprite_ptr->field_1C_zpos;
+
+    u8 old_f45 = field_45;
+
+    byte_6FDB57 = 1;
+    Fix16 xpos, ypos;
+    Ang16::PolarToCartesian_41FC20(word_6FD808, dword_6FDACC, xpos, ypos);
+    dword_6FD8B8 = dword_6FD7F8 + xpos;
+    dword_6FD8BC = dword_6FD800 + ypos;
+
+    Fix16 unkRatio = dword_6FD8D8 / k_dword_6FD9EC;
+
+    u8 x_related = (xpos + dword_6FD7F8 + unkRatio).ToInt() - (sprite_xpos).ToInt();
+    bool b_xpos = true;
+
+    if (x_related == 0)
+    {
+        x_related = (xpos + dword_6FD7F8 - unkRatio).ToInt() -
+            (sprite_xpos).ToInt(); //((dword_6FD7F8 + v30 - (int)unkRatio) >> 14) - BYTE4(unkRatio);
+        if (x_related == 0)
+        {
+            b_xpos = false;
+        }
+    }
+
+    u8 y_related = (ypos + dword_6FD800 + unkRatio).ToInt() - (sprite_ypos).ToInt();
+    bool b_ypos = true;
+
+    if (y_related == 0)
+    {
+        y_related = (ypos + dword_6FD800 - unkRatio).ToInt() - (sprite_ypos).ToInt();
+        if (y_related == 0)
+        {
+            b_ypos = false;
+        }
+    }
+
+    if (x_related || y_related)
+    {
+        if (x_related == 0)
+        {
+        LABEL_126:
+            if (y_related = 0xFF)
+            {
+                return Char_B4::CanStepForwardWithRegionCheck_54ECB0(1);
+            }
+            else
+            {
+                return Char_B4::CanStepForwardWithRegionCheck_54ECB0(2);
+            }
+        }
+    }
+    else
+    {
+        x_related = a2 - field_80_sprite_ptr->field_14_xy.x.ToInt();
+        y_related = a3 - field_80_sprite_ptr->field_14_xy.y.ToInt();
+        if (x_related == 0)
+        {
+            if (y_related == 0)
+            {
+                return true;
+            }
+            else
+            {
+                goto LABEL_126;
+            }
+        }
+    }
+
+    bool bUnk_1;
+
+    if (y_related)
+    {
+        if (x_related == 255)
+        {
+            bUnk_1 = true;
+            if (y_related == 255)
+            {
+                field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
+                if ((field_58_flags & 1) != 0)
+                {
+                    Fix16 ztmp;
+                    field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
+                                                                                                        field_80_sprite_ptr->field_14_xy.x,
+                                                                                                        field_80_sprite_ptr->field_14_xy.y);
+                    Sprite* pSprt_inlined_1 = field_80_sprite_ptr;
+                    if (pSprt_inlined_1->field_1C_zpos == k_dword_6FD9E4)
+                    {
+                        pSprt_inlined_1->field_1C_zpos = sprite_zpos;
+                    }
+                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(1) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        dword_623F44 = 1;
+                        bUnk_1 = false;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+                    field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
+                    if ((field_58_flags & 1) != 0)
+                    {
+                        field_80_sprite_ptr->field_1C_zpos =
+                            *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
+                                                                           field_80_sprite_ptr->field_14_xy.x,
+                                                                           field_80_sprite_ptr->field_14_xy.y);
+                    }
+
+                    Sprite* pSprt_inlined_2 = field_80_sprite_ptr;
+                    if (pSprt_inlined_2->field_1C_zpos == k_dword_6FD9E4)
+                    {
+                        pSprt_inlined_2->field_1C_zpos = sprite_zpos;
+                    }
+                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        dword_623F44 = 4;
+                        bUnk_1 = false;
+                    }
+                    field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+                    field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
+                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+                    if (!bUnk_1)
+                    {
+                        dword_6FD8BC = dword_6FD800;
+                        dword_6FD8B8 = dword_6FD7F8;
+                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110() ||
+                            (dword_623F44 = 1, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(1)) ||
+                            gMap_0x370_6F6268->sub_4E0110())
+                        {
+                            dword_623F44 = 4;
+                            field_45 = old_f45;
+                            return bUnk_1;
+                        }
+                        else
+                        {
+                            field_45 = old_f45;
+                            return false;
+                        }
+                    }
+
+                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        bUnk_1 = false;
+                        dword_623F44 = 4;
+                    }
+
+                    // goto LABEL_43;
+                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(1) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        bUnk_1 = false;
+                        dword_623F44 = 2;
+                    }
+                    field_45 = old_f45;
+                    return bUnk_1;
+                }
+            }
+
+            // line 180 on 10.5 idb
+            field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
+            if ((field_58_flags & 1) != 0)
+            {
+                Fix16 ztmp;
+                field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
+                                                                                                    field_80_sprite_ptr->field_14_xy.x,
+                                                                                                    field_80_sprite_ptr->field_14_xy.y);
+            }
+            Sprite* pSprt_inlined_3 = field_80_sprite_ptr;
+            if (pSprt_inlined_3->field_1C_zpos == k_dword_6FD9E4)
+            {
+                pSprt_inlined_3->field_1C_zpos = sprite_zpos;
+            }
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(2) && !gMap_0x370_6F6268->sub_4E0110())
+            {
+                dword_623F44 = 2;
+                bUnk_1 = false;
+            }
+            field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+            field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
+            if ((field_58_flags & 1) != 0)
+            {
+                Fix16 ztmp;
+                field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
+                                                                                                    field_80_sprite_ptr->field_14_xy.x,
+                                                                                                    field_80_sprite_ptr->field_14_xy.y);
+            }
+
+            Sprite* pSprt_inlined_4 = field_80_sprite_ptr;
+            if (pSprt_inlined_4->field_1C_zpos == k_dword_6FD9E4)
+            {
+                pSprt_inlined_4->field_1C_zpos = sprite_zpos;
+            }
+
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110())
+            {
+                dword_623F44 = 4;
+                bUnk_1 = false;
+            }
+            field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+            field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
+            field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+            if (!bUnk_1)
+            {
+                dword_6FD8BC = dword_6FD800;
+                dword_6FD8B8 = dword_6FD7F8;
+                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110() ||
+                    (dword_623F44 = 2, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(2)) || gMap_0x370_6F6268->sub_4E0110())
+                {
+                    dword_623F44 = 4;
+                    field_45 = old_f45;
+                    return bUnk_1;
+                }
+                else
+                {
+                    field_45 = old_f45;
+                    return false;
+                }
+            }
+
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110())
+            {
+                bUnk_1 = false;
+                dword_623F44 = 4;
+            }
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(2) && !gMap_0x370_6F6268->sub_4E0110())
+            {
+                bUnk_1 = false;
+                dword_623F44 = 2;
+            }
+            // label 46
+            field_45 = old_f45;
+            return bUnk_1;
+        } // must be x = 255
+
+        // line 260 on 10.5 idb
+        bUnk_1 = true;
+        if (y_related == 255)
+        {
+            field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
+            if ((field_58_flags & 1) != 0)
+            {
+                Fix16 ztmp;
+                field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
+                                                                                                    field_80_sprite_ptr->field_14_xy.x,
+                                                                                                    field_80_sprite_ptr->field_14_xy.y);
+            }
+            Sprite* pSprt_inlined_5 = field_80_sprite_ptr;
+            if (pSprt_inlined_5->field_1C_zpos == k_dword_6FD9E4)
+            {
+                pSprt_inlined_5->field_1C_zpos = sprite_zpos;
+            }
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(1) && !gMap_0x370_6F6268->sub_4E0110())
+            {
+                dword_623F44 = 1;
+                bUnk_1 = false;
+            }
+            field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+            field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
+            if ((field_58_flags & 1) != 0)
+            {
+                Fix16 ztmp;
+                field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
+                                                                                                    field_80_sprite_ptr->field_14_xy.x,
+                                                                                                    field_80_sprite_ptr->field_14_xy.y);
+            }
+            Sprite* pSprt_inlined_6 = field_80_sprite_ptr;
+            if (pSprt_inlined_6->field_1C_zpos == k_dword_6FD9E4)
+            {
+                pSprt_inlined_6->field_1C_zpos = sprite_zpos;
+            }
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110())
+            {
+                dword_623F44 = 3;
+                bUnk_1 = false;
+            }
+            field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+            field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
+            field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+            if (bUnk_1)
+            {
+                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    bUnk_1 = false;
+                    dword_623F44 = 3;
+                }
+                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(1) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    dword_623F44 = 1;
+                    field_45 = old_f45;
+                    return false;
+                }
+                else
+                {
+                    field_45 = old_f45;
+                    return bUnk_1;
+                }
+            }
+            dword_6FD8BC = dword_6FD800;
+            dword_6FD8B8 = dword_6FD7F8;
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110() ||
+                (dword_623F44 = 1, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(1)) || gMap_0x370_6F6268->sub_4E0110())
+            {
+                dword_623F44 = 3;
+                field_45 = old_f45;
+                return bUnk_1;
+            }
+            else
+            {
+                field_45 = old_f45;
+                return false;
+            }
+        }
+        else
+        {
+            // line 348 on 10.5 idb
+            field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
+            if ((field_58_flags & 1) != 0)
+            {
+                Fix16 ztmp;
+                field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
+                                                                                                    field_80_sprite_ptr->field_14_xy.x,
+                                                                                                    field_80_sprite_ptr->field_14_xy.y);
+            }
+            Sprite* pSprt_inlined_7 = field_80_sprite_ptr;
+            if (pSprt_inlined_7->field_1C_zpos == k_dword_6FD9E4)
+            {
+                pSprt_inlined_7->field_1C_zpos = sprite_zpos;
+            }
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(2) && !gMap_0x370_6F6268->sub_4E0110())
+            {
+                dword_623F44 = 2;
+                bUnk_1 = false;
+            }
+            field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+            field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+            field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
+
+            Fix16 ztmp;
+            field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
+                                                                                                field_80_sprite_ptr->field_14_xy.x,
+                                                                                                field_80_sprite_ptr->field_14_xy.y);
+
+            Sprite* pSprt_inlined_8 = field_80_sprite_ptr;
+            if (pSprt_inlined_8->field_1C_zpos == k_dword_6FD9E4)
+            {
+                pSprt_inlined_8->field_1C_zpos = sprite_zpos;
+            }
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110())
+            {
+                dword_623F44 = 3;
+                bUnk_1 = false;
+            }
+            field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+            field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
+            field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+            if (bUnk_1)
+            {
+                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    bUnk_1 = false;
+                    dword_623F44 = 3;
+                }
+                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(2) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    bUnk_1 = false;
+                    dword_623F44 = 2;
+                }
+                field_45 = old_f45;
+                return bUnk_1;
+            }
+            // line 399 on 10.5 idb
+
+            dword_6FD8BC = dword_6FD800;
+            dword_6FD8B8 = dword_6FD7F8;
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110() ||
+                (dword_623F44 = 2, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(2)) || gMap_0x370_6F6268->sub_4E0110())
+            {
+                dword_623F44 = 3;
+                field_45 = old_f45;
+                return bUnk_1;
+            }
+            else
+            {
+                field_45 = old_f45;
+                return false;
+            }
+        } // must be else of y = 255
+    }
+    else if (x_related == 255)
+    {
+        return Char_B4::CanStepForwardWithRegionCheck_54ECB0(4);
+    }
+    else
+    {
+        return Char_B4::CanStepForwardWithRegionCheck_54ECB0(3);
+    }
 }
 
 // https://decomp.me/scratch/xc0PO
