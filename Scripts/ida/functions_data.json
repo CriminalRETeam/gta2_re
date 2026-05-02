@@ -4810,7 +4810,7 @@
         "v105_address": "0x4920b0"
     },
     {
-        "name": "thirsty_lamarr::sub_492110",
+        "name": "thirsty_lamarr::SetupDigitsParams_492110",
         "v96f_address": "0x44b220",
         "v105_address": "0x492110"
     },
@@ -7980,7 +7980,7 @@
         "v105_address": "0x4f75d0"
     },
     {
-        "name": "sub_4F7660",
+        "name": "GetMaxNumOfDigits_4F7660",
         "v96f_address": "0x472570",
         "v105_address": "0x4f7660"
     },
@@ -15210,17 +15210,17 @@
         "v105_address": "0x5aa710"
     },
     {
-        "name": "gtx_0x106C::sub_5AA760",
+        "name": "gtx_0x106C::GetFontWidth_5AA760",
         "v96f_address": null,
         "v105_address": "0x5aa760"
     },
     {
-        "name": "gtx_0x106C::space_width",
+        "name": "gtx_0x106C::GetSpaceCharWidth_5AA7B0",
         "v96f_address": null,
         "v105_address": "0x5aa7b0"
     },
     {
-        "name": "gtx_0x106C::sub_5AA800",
+        "name": "gtx_0x106C::GetLineSpacing_5AA800",
         "v96f_address": null,
         "v105_address": "0x5aa800"
     },
@@ -15235,7 +15235,7 @@
         "v105_address": "0x5aa870"
     },
     {
-        "name": "gtx_0x106C::sub_5AA890",
+        "name": "gtx_0x106C::GetFirstFreeReservedTileIdx_5AA890",
         "v96f_address": "0x4bf6d0",
         "v105_address": "0x5aa890"
     },
@@ -15375,7 +15375,7 @@
         "v105_address": "0x5ab2c0"
     },
     {
-        "name": "gtx_0x106C::sub_5AB380",
+        "name": "gtx_0x106C::IsCarModelInRecycleList_5AB380",
         "v96f_address": null,
         "v105_address": "0x5ab380"
     },
@@ -15615,7 +15615,7 @@
         "v105_address": "0x5b9180"
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B9220",
+        "name": "sharp_pare_0x15D8::RegisterDigits_5B9220",
         "v96f_address": null,
         "v105_address": "0x5b9220"
     },
@@ -16345,7 +16345,7 @@
         "v105_address": "0x5d3470"
     },
     {
-        "name": "Hud_Brief_704::sub_5D3680",
+        "name": "sub_5D3680",
         "v96f_address": null,
         "v105_address": "0x5d3680"
     },
@@ -16605,7 +16605,7 @@
         "v105_address": "0x5d7670"
     },
     {
-        "name": "sub_5D7700",
+        "name": "GetLineSpacingFromFontType_5D7700",
         "v96f_address": null,
         "v105_address": "0x5d7700"
     },
@@ -16675,12 +16675,12 @@
         "v105_address": "0x5d8470"
     },
     {
-        "name": "sub_5D8940",
+        "name": "CountLineSpacing_5D8940",
         "v96f_address": null,
         "v105_address": "0x5d8940"
     },
     {
-        "name": "Frontend::sub_5D8990",
+        "name": "Frontend::GetMaxTextWidth_5D8990",
         "v96f_address": null,
         "v105_address": "0x5d8990"
     },

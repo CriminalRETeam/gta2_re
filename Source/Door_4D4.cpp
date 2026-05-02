@@ -15,10 +15,10 @@ EXTERN_GLOBAL(Fix16, DAT_0067BBE8);
 EXTERN_GLOBAL(Fix16, DAT_0067BA20);
 
 MATCH_FUNC(0x49cf10)
-DoorData_10* Door_4D4::sub_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type a6)
+DoorData_10* Door_4D4::sub_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip)
 {
     DoorData_10* tmp = gDoor_10_Pool_67BD28->Allocate();
-    tmp->sub_49c340(gr_id, x, y, z, face, a6);
+    tmp->sub_49c340(gr_id, x, y, z, face, bDoFlip);
     return tmp;
 }
 
@@ -27,7 +27,7 @@ Door_38* Door_4D4::RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, 
 {
     Door_38* pDVar1 = sub_49D3A0();
     field_4D0_count++;
-    pDVar1->field_2A = flip;
+    pDVar1->field_2A_bDoFlip = flip;
     pDVar1->field_2B = reversed;
     pDVar1->sub_49C8D0(field_4D0_count + -1, gr_id, x, y, z, face);
     return pDVar1;
@@ -52,7 +52,7 @@ Door_38* Door_4D4::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, 
     ++this->field_4D0_count;
     pDoor = pNewDoor;
     pNewDoor->field_2B = reversed;
-    pNewDoor->field_2A = flip;
+    pNewDoor->field_2A_bDoFlip = flip;
     x_ = x;
     y_ = y;
     switch (face)
@@ -113,7 +113,7 @@ Door_38* Door_4D4::RegisterSingleDoor_49D170(u8 gr_id,
 {
     Door_38* this_00 = sub_49D3A0();
     field_4D0_count++;
-    this_00->field_2A = flip;
+    this_00->field_2A_bDoFlip = flip;
     this_00->field_2B = reversed;
     this_00->sub_49CA50(gr_id, x, y, z, face);
     this_00->sub_49CAC0(this_00->field_0_primary_door_data, 1, field_4D0_count + -1, check_x, check_y, check_z, check_width, check_height);
@@ -137,7 +137,7 @@ Door_38* Door_4D4::RegisterDoubleDoor_49D1F0(u8 gr_id,
 {
     Door_38* this_00 = sub_49D3A0();
     field_4D0_count++;
-    this_00->field_2A = flip;
+    this_00->field_2A_bDoFlip = flip;
     this_00->field_2B = reversed;
     reversed = x;
     flip = y;
@@ -180,11 +180,11 @@ void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type
     psVar3->field_0_start_frame = start_frame;
     psVar3->field_2_end_frame = end_frame;
     psVar3->field_8_speed = speed;
-    s16 sVar2 = gGtx_0x106C_703DD4->sub_5AA890();
-    psVar3->field_4 = sVar2;
-    gGtx_0x106C_703DD4->SetTileRemap_5AA930(sVar2, psVar3->field_0_start_frame);
-    sVar2 = gGtx_0x106C_703DD4->sub_5AA890();
-    psVar3->field_6 = sVar2;
+    s16 reserved_tile_idx = gGtx_0x106C_703DD4->GetFirstFreeReservedTileIdx_5AA890();
+    psVar3->field_4_internal_tile_idx = reserved_tile_idx;
+    gGtx_0x106C_703DD4->SetTileRemap_5AA930(reserved_tile_idx, psVar3->field_0_start_frame);
+    reserved_tile_idx = gGtx_0x106C_703DD4->GetFirstFreeReservedTileIdx_5AA890();
+    psVar3->field_6 = reserved_tile_idx;
 }
 
 MATCH_FUNC(0x49d340)
@@ -315,7 +315,7 @@ s32 DoorData_10::sub_4DEEB0(s32 v)
 }
 
 WIP_FUNC(0x49c340)
-void DoorData_10::sub_49c340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 a7)
+void DoorData_10::sub_49c340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 {
     WIP_IMPLEMENTED;
 
@@ -329,18 +329,18 @@ void DoorData_10::sub_49c340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 a7)
     this->field_7_gr_id = id;
     this->field_0 = 1;
 
-    gGtx_0x106C_703DD4->SetTileRemap_5AA930(word_67BB38[id].field_4, word_67BB38[id].field_0_start_frame);
+    gGtx_0x106C_703DD4->SetTileRemap_5AA930(word_67BB38[id].field_4_internal_tile_idx, word_67BB38[id].field_0_start_frame);
 
-    s32 v8 = word_67BB38[id].field_4 | 0x1C00;
-    if (a7)
+    s32 v8 = word_67BB38[id].field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
+    if (bDoFlip)
     {
-        v8 = word_67BB38[id].field_4 | 0x2C00;
+        v8 = word_67BB38[id].field_4_internal_tile_idx | 0x2C00; // flip
     }
 
     if (gMap_0x370_6F6268->get_block_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
     {
         gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, this->field_8_face, v8);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, sub_4DEEB0(this->field_8_face), word_67BB38[id].field_4);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, sub_4DEEB0(this->field_8_face), word_67BB38[id].field_4_internal_tile_idx);
     }
     else
     {
@@ -358,19 +358,19 @@ void DoorData_10::sub_49c340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 a7)
         {
             case 1:
                 blockData.field_0_left = v8;
-                blockData.field_2_right = word_67BB38[id].field_4;
+                blockData.field_2_right = word_67BB38[id].field_4_internal_tile_idx;
                 break;
             case 2:
                 blockData.field_2_right = v8;
-                blockData.field_0_left = word_67BB38[id].field_4;
+                blockData.field_0_left = word_67BB38[id].field_4_internal_tile_idx;
                 break;
             case 3:
                 blockData.field_4_top = v8;
-                blockData.field_6_bottom = word_67BB38[id].field_4;
+                blockData.field_6_bottom = word_67BB38[id].field_4_internal_tile_idx;
                 break;
             case 4:
                 blockData.field_6_bottom = v8;
-                blockData.field_4_top = word_67BB38[id].field_4;
+                blockData.field_4_top = word_67BB38[id].field_4_internal_tile_idx;
                 break;
             default:
                 break;
@@ -398,19 +398,19 @@ void DoorData_10::sub_49C4E0(u8 a1)
 }
 
 MATCH_FUNC(0x49c590)
-void DoorData_10::sub_49C590(u8 a1)
+void DoorData_10::sub_49C590(u8 bDoFlip)
 {
     DoorAnimInfo_A* tmp = &word_67BB38[field_7_gr_id];
     if (field_0 != 1)
     {
         field_0 = 1;
-        s16 uVar3 = tmp->field_4 | 0x1C00;
-        if (a1)
+        s16 block_side_word = tmp->field_4_internal_tile_idx | 0x1C00; // 0x1C00 means: wall, bullet wall and flat
+        if (bDoFlip)
         {
-            uVar3 |= 0x2000;
+            block_side_word |= 0x2000; // flip
         }
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, uVar3);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, sub_4DEEB0(field_8_face), tmp->field_4);
-        gTileAnim_2_7052C4->sub_5BC260(tmp->field_4, tmp->field_2_end_frame, tmp->field_0_start_frame, tmp->field_8_speed, 1);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, block_side_word);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, sub_4DEEB0(field_8_face), tmp->field_4_internal_tile_idx);
+        gTileAnim_2_7052C4->sub_5BC260(tmp->field_4_internal_tile_idx, tmp->field_2_end_frame, tmp->field_0_start_frame, tmp->field_8_speed, 1);
     }
 }

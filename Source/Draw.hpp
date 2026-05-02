@@ -14,7 +14,7 @@ EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix
 
 EXPORT void __stdcall sub_5D7670(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, const s32& drawkind, s16 a8, s32 a9, u8 a10);
 
-EXPORT s32 __stdcall sub_5D7700(u16 a1);
+EXPORT s32 __stdcall GetLineSpacingFromFontType_5D7700(u16 a1);
 
 EXPORT void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& a5, u16 a6, s32 alpha, u8 alpha_flag);
 
@@ -62,5 +62,5 @@ EXPORT void __stdcall sub_5D8470(STexture* pTexture,
 
 EXPORT void __stdcall sub_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 a7, u8 a8);
 
-EXPORT inline s32 __stdcall sub_5D7700_inlined(u16 a1);
-EXPORT s32 __stdcall sub_5D8940(wchar_t* a1, u16 a2);
+EXPORT inline s32 __stdcall GetLineSpacingFromFontType_5D7700_inlined(u16 a1);
+EXPORT s32 __stdcall CountLineSpacing_5D8940(wchar_t* a1, u16 a2);

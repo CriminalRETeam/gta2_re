@@ -10,7 +10,7 @@ struct palette_base
     u16 field_0_tile;
     u16 field_2_sprite;
     u16 field_4_car_remap;
-    u16 field_6_red_remap;
+    u16 field_6_ped_remap;
     u16 field_8_code_obj_remap;
     u16 field_A_map_obj_remap;
     u16 field_C_user_remap;
@@ -205,17 +205,17 @@ class gtx_0x106C
 
     EXPORT u16 sub_5AA710(u16 a2, s16 a3);
 
-    EXPORT u16 sub_5AA760(u16* a2, wchar_t* a3);
+    EXPORT u16 GetFontWidth_5AA760(u16* a2, wchar_t* a3);
 
-    EXPORT u16 space_width_5AA7B0(u16* a2);
+    EXPORT u16 GetSpaceCharWidth_5AA7B0(u16* a2);
 
-    EXPORT s16 sub_5AA800(u16* a2);
+    EXPORT s16 GetLineSpacing_5AA800(u16* a2);
 
     EXPORT bool IsTileRemapped_5AA850(u16 tile_idx);
 
     EXPORT s16 GetTile_5AA870(u16 tile_idx);
 
-    EXPORT s16 sub_5AA890();
+    EXPORT s16 GetFirstFreeReservedTileIdx_5AA890();
 
     EXPORT void* GetTiles_5AA8C0();
 
@@ -271,7 +271,7 @@ class gtx_0x106C
 
     EXPORT void load_palete_base_5AB2C0(u32 palette_base_chunk_len);
 
-    EXPORT bool sub_5AB380(u8 car_id);
+    EXPORT bool IsCarModelInRecycleList_5AB380(u8 car_id);
 
     EXPORT void load_car_recycling_info_5AB3C0(u32 recy_chunk_size);
 

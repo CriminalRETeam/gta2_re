@@ -6,7 +6,7 @@ class thirsty_lamarr
 {
   public:
     EXPORT thirsty_lamarr();
-    EXPORT void sub_492110(s16 a1, s32 a2, s16 a3);
+    EXPORT void SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette);
     EXPORT void sub_492150();
     EXPORT void ChangeStatByAmount_4921B0(s32 amount);
     EXPORT void sub_4921F0(s32 a2, s16 a3);
@@ -17,10 +17,10 @@ class thirsty_lamarr
 
     inline s32 get_value()
     {
-        return field_0;
+        return field_0_value;
     }
 
-    s32 field_0;
+    s32 field_0_value;
     s32 field_4;
     char_type field_8;
     s8 field_9[9];
@@ -32,10 +32,10 @@ class thirsty_lamarr
     u8 field_27_sprite_w;
     u8 field_28_sprite_h_calc;
     char_type field_29;
-    s16 field_2A;
-    s16 field_2C;
-    u16 field_2E_idx;
-    s32 field_30;
-    s16 field_34;
-    s16 field_36;
+    s16 field_2A_max_num_of_digits;
+    s16 field_2C_digit_transition_speed;
+    u16 field_2E_non_used_digits;
+    s32 field_30_max_value;
+    s16 field_34_first_digit_texture_idx;
+    s16 field_36_palette;
 };

@@ -613,7 +613,7 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
     switch (power_up_idx)
     {
         case power_up_indices::Unk_0:
-            if (field_6BC_multpliers.field_0 == 99)
+            if (field_6BC_multpliers.field_0_value == 99)
             {
                 return 0;
             }
@@ -621,7 +621,7 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
             break;
 
         case power_up_indices::Unk_1:
-            if (this->field_684_lives.field_0 == 99)
+            if (this->field_684_lives.field_0_value == 99)
             {
                 return 0;
             }
@@ -1718,7 +1718,7 @@ void Player::RespawnPlayer_5670B0()
     {
         Player::ChangeLifeCountByAmount_5699F0(-1);
     }
-    if (field_684_lives.field_0 > 0)
+    if (field_684_lives.field_0_value > 0)
     {
         gmp_map_zone* pZone;
         if ((u8)bStartNetworkGame_7081F0)
@@ -1773,7 +1773,7 @@ void Player::Wasted_567130()
     {
         if (field_0_bIsUser)
         {
-            if (field_684_lives.field_0 > 1 || bStartNetworkGame_7081F0)
+            if (field_684_lives.field_0_value > 1 || bStartNetworkGame_7081F0)
             {
                 gHud_2B00_706620->field_111C.ShowMessage_5D1A00( //  It's really ugly, it's probably inlined
                     gText_0x14_704DFC->Find_5B5F90(GetDeathText_569F00()),
@@ -1793,7 +1793,7 @@ void Player::Wasted_567130()
         }
         field_28 = 1;
         field_2C = 70;
-        if (field_684_lives.field_0 > 1)
+        if (field_684_lives.field_0_value > 1)
         {
             field_2C8_unkq = gPedManager_6787BC->sub_470F90(field_2C4_player_ped);
             field_2C8_unkq->field_170_selected_weapon = 0;
@@ -1815,7 +1815,7 @@ void Player::Wasted_567130()
 
         if (field_2C == 0)
         {
-            if (field_684_lives.field_0 > 0 || bStartNetworkGame_7081F0)
+            if (field_684_lives.field_0_value > 0 || bStartNetworkGame_7081F0)
             {
                 Player::ClearKFWeapon_5647D0();
                 if (!bKeep_weapons_after_death_67D54D)
@@ -1911,7 +1911,7 @@ void Player::Busted_5679E0()
 
         if (!field_2C)
         {
-            if (field_684_lives.field_0 <= 0 || gLucid_hamilton_67E8E0.sub_4C59A0() == 1)
+            if (field_684_lives.field_0_value <= 0 || gLucid_hamilton_67E8E0.sub_4C59A0() == 1)
             {
                 gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::GameOverRIP_3);
             }
@@ -1935,24 +1935,24 @@ void Player::Busted_5679E0()
                         Player::RemovePlayerWeapons_564C50();
                         Player::sub_564CF0();
                     }
-                    s32 multiplers = field_6BC_multpliers.field_0 / 2;
+                    s32 multiplers = field_6BC_multpliers.field_0_value / 2;
                     if (multiplers == 0)
                     {
                         multiplers = 1;
                     }
-                    if (multiplers < -field_6BC_multpliers.field_30)
+                    if (multiplers < -field_6BC_multpliers.field_30_max_value)
                     {
-                        field_6BC_multpliers.field_0 = -field_6BC_multpliers.field_30;
+                        field_6BC_multpliers.field_0_value = -field_6BC_multpliers.field_30_max_value;
                     }
                     else
                     {
-                        if (multiplers > field_6BC_multpliers.field_30)
+                        if (multiplers > field_6BC_multpliers.field_30_max_value)
                         {
-                            field_6BC_multpliers.field_0 = field_6BC_multpliers.field_30;
+                            field_6BC_multpliers.field_0_value = field_6BC_multpliers.field_30_max_value;
                         }
                         else
                         {
-                            field_6BC_multpliers.field_0 = multiplers;
+                            field_6BC_multpliers.field_0_value = multiplers;
                         }
                     }
                 }
@@ -1971,7 +1971,7 @@ void Player::Busted_5679E0()
         }
         else
         {
-            if (field_2C == 2 && field_684_lives.field_0 > 0 && gLucid_hamilton_67E8E0.sub_4C59A0() != 1)
+            if (field_2C == 2 && field_684_lives.field_0_value > 0 && gLucid_hamilton_67E8E0.sub_4C59A0() != 1)
             {
                 field_2C4_player_ped->field_210_shock_counter = 0;
                 field_2C4_player_ped->field_20A_wanted_points = 0;
@@ -2812,7 +2812,7 @@ void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
     pSave->field_8_z = field_2C4_player_ped->get_cam_z();
     pSave->field_C_rotation = field_2C4_player_ped->GetRotation();
     pSave->field_10_money = field_2D4_scores.GetScore_592370();
-    pSave->field_14_multipliers = field_6BC_multpliers.field_0;
+    pSave->field_14_multipliers = field_6BC_multpliers.field_0_value;
     pSave->field_18_health = field_2C4_player_ped->field_216_health;
     pSave->field_7F_player_ped_remap = field_2C4_player_ped->field_244_remap;
     pSave->field_80_lives = field_684_lives.get_value();
@@ -2842,53 +2842,53 @@ MATCH_FUNC(0x56A310)
 void Player::UpdateGameFromSave_56A310(save_stats_0x90* pSave)
 {
     s32 lives = pSave->field_80_lives;
-    if (lives < -field_684_lives.field_30)
+    if (lives < -field_684_lives.field_30_max_value)
     {
-        this->field_684_lives.field_0 = -field_684_lives.field_30;
+        this->field_684_lives.field_0_value = -field_684_lives.field_30_max_value;
     }
     else
     {
-        if (lives > field_684_lives.field_30)
+        if (lives > field_684_lives.field_30_max_value)
         {
-            this->field_684_lives.field_0 = field_684_lives.field_30;
+            this->field_684_lives.field_0_value = field_684_lives.field_30_max_value;
         }
         else
         {
-            this->field_684_lives.field_0 = lives;
+            this->field_684_lives.field_0_value = lives;
         }
     }
 
     s32 multipliers = pSave->field_14_multipliers;
-    if (multipliers < -field_6BC_multpliers.field_30)
+    if (multipliers < -field_6BC_multpliers.field_30_max_value)
     {
-        this->field_6BC_multpliers.field_0 = -field_6BC_multpliers.field_30;
+        this->field_6BC_multpliers.field_0_value = -field_6BC_multpliers.field_30_max_value;
     }
     else
     {
-        if (multipliers > field_6BC_multpliers.field_30)
+        if (multipliers > field_6BC_multpliers.field_30_max_value)
         {
-            this->field_6BC_multpliers.field_0 = field_6BC_multpliers.field_30;
+            this->field_6BC_multpliers.field_0_value = field_6BC_multpliers.field_30_max_value;
         }
         else
         {
-            this->field_6BC_multpliers.field_0 = multipliers;
+            this->field_6BC_multpliers.field_0_value = multipliers;
         }
     }
 
     s32 money = pSave->field_10_money;
-    if (money < -field_2D4_scores.field_0_money.field_30)
+    if (money < -field_2D4_scores.field_0_money.field_30_max_value)
     {
-        this->field_2D4_scores.field_0_money.field_0 = -field_2D4_scores.field_0_money.field_30;
+        this->field_2D4_scores.field_0_money.field_0_value = -field_2D4_scores.field_0_money.field_30_max_value;
     }
     else
     {
-        if (money > field_2D4_scores.field_0_money.field_30)
+        if (money > field_2D4_scores.field_0_money.field_30_max_value)
         {
-            this->field_2D4_scores.field_0_money.field_0 = field_2D4_scores.field_0_money.field_30;
+            this->field_2D4_scores.field_0_money.field_0_value = field_2D4_scores.field_0_money.field_30_max_value;
         }
         else
         {
-            this->field_2D4_scores.field_0_money.field_0 = money;
+            this->field_2D4_scores.field_0_money.field_0_value = money;
         }
     }
 
@@ -2925,37 +2925,37 @@ void Player::ApplyCheats_56A490()
 {
     if (gCheatGetPlayerPoints_67D4C8)
     {
-        if (-field_2D4_scores.field_0_money.field_30 > 200000)
+        if (-field_2D4_scores.field_0_money.field_30_max_value > 200000)
         {
-            field_2D4_scores.field_0_money.field_0 = -field_2D4_scores.field_0_money.field_30;
+            field_2D4_scores.field_0_money.field_0_value = -field_2D4_scores.field_0_money.field_30_max_value;
         }
         else
         {
-            if (field_2D4_scores.field_0_money.field_30 < 200000)
+            if (field_2D4_scores.field_0_money.field_30_max_value < 200000)
             {
-                field_2D4_scores.field_0_money.field_0 = field_2D4_scores.field_0_money.field_30;
+                field_2D4_scores.field_0_money.field_0_value = field_2D4_scores.field_0_money.field_30_max_value;
             }
             else
             {
-                field_2D4_scores.field_0_money.field_0 = 200000;
+                field_2D4_scores.field_0_money.field_0_value = 200000;
             }
         }
     }
     if (gCheatGet10MillionMoney_67D6CE)
     {
-        if (-field_2D4_scores.field_0_money.field_30 > 9999999)
+        if (-field_2D4_scores.field_0_money.field_30_max_value > 9999999)
         {
-            field_2D4_scores.field_0_money.field_0 = -field_2D4_scores.field_0_money.field_30;
+            field_2D4_scores.field_0_money.field_0_value = -field_2D4_scores.field_0_money.field_30_max_value;
         }
         else
         {
-            if (field_2D4_scores.field_0_money.field_30 < 9999999)
+            if (field_2D4_scores.field_0_money.field_30_max_value < 9999999)
             {
-                field_2D4_scores.field_0_money.field_0 = field_2D4_scores.field_0_money.field_30;
+                field_2D4_scores.field_0_money.field_0_value = field_2D4_scores.field_0_money.field_30_max_value;
             }
             else
             {
-                field_2D4_scores.field_0_money.field_0 = 9999999;
+                field_2D4_scores.field_0_money.field_0_value = 9999999;
             }
         }
     }
@@ -2976,19 +2976,19 @@ void Player::ApplyCheats_56A490()
     }
     if (gCheatGet99Lives_67D4F1)
     {
-        if (-field_684_lives.field_30 > 99)
+        if (-field_684_lives.field_30_max_value > 99)
         {
-            field_684_lives.field_0 = -field_684_lives.field_30;
+            field_684_lives.field_0_value = -field_684_lives.field_30_max_value;
         }
         else
         {
-            if (field_684_lives.field_30 < 99)
+            if (field_684_lives.field_30_max_value < 99)
             {
-                field_684_lives.field_0 = field_684_lives.field_30;
+                field_684_lives.field_0_value = field_684_lives.field_30_max_value;
             }
             else
             {
-                field_684_lives.field_0 = 99;
+                field_684_lives.field_0_value = 99;
             }
         }
     }
@@ -3113,8 +3113,8 @@ Player::Player(u8 player_idx)
     field_4C_pUnk = 0;
     field_2E_idx = player_idx;
     field_2D4_scores.sub_5922F0(this, 2, 999999999, 158, 999u);
-    field_684_lives.sub_492110(1, 99, 115);
-    field_6BC_multpliers.sub_492110(1, 99, 116);
+    field_684_lives.SetupDigitsParams_492110(1, 99, 115);
+    field_6BC_multpliers.SetupDigitsParams_492110(1, 99, 116);
     Player::sub_564CC0();
     sub_4A5180();
     SetDeathType_434950(0);

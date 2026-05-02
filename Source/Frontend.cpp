@@ -1098,11 +1098,11 @@ void Frontend::DrawMenu_4AD140()
             u16 idx = pMenuPage->field_4_options_array[0].field_6E_horizontal_selected_idx;
             selected_option_idx = idx;
             u16 unk_xpos =
-                Frontend::sub_5D8990(gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx].field_90_strPlayerName, field_11C) + 10;
+                Frontend::GetMaxTextWidth_5D8990(gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx].field_90_strPlayerName, field_11C) + 10;
 
             if (unk_xpos == 10)
             {
-                unk_xpos = Frontend::sub_5D8990(pMenuPage->field_4_options_array[0].field_6_option_name_str, field_11C) + 40;
+                unk_xpos = Frontend::GetMaxTextWidth_5D8990(pMenuPage->field_4_options_array[0].field_6_option_name_str, field_11C) + 40;
             }
             pMenuPage->field_518_elements_array[9].field_2_xpos = unk_xpos + pMenuPage->field_4_options_array[0].field_2_x_pos;
         }
@@ -1473,7 +1473,7 @@ void Frontend::DrawMenu_4AD140()
     {
         if (field_114)
         {
-            x_pos = pMenuPage->field_4_options_array[0].field_2_x_pos + Frontend::sub_5D8990(field_C9A0_curr_plyr_name, field_11C);
+            x_pos = pMenuPage->field_4_options_array[0].field_2_x_pos + Frontend::GetMaxTextWidth_5D8990(field_C9A0_curr_plyr_name, field_11C);
             y_pos = pMenuPage->field_4_options_array[0].field_4_y_pos;
             swprintf(tmpBuff_67BD9C, L"_");
             DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
@@ -1485,7 +1485,7 @@ void Frontend::DrawMenu_4AD140()
     }
     if (field_110_state == 5 && field_114) //  change current player name
     {
-        x_pos = pMenuPage->field_518_elements_array[4].field_2_xpos + Frontend::sub_5D8990(field_C9B8, field_11C);
+        x_pos = pMenuPage->field_518_elements_array[4].field_2_xpos + Frontend::GetMaxTextWidth_5D8990(field_C9B8, field_11C);
         y_pos = pMenuPage->field_518_elements_array[4].field_4_ypos;
         swprintf(tmpBuff_67BD9C, L"_");
         DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
@@ -1549,7 +1549,7 @@ void Frontend::DrawCredits_4B7AE0()
             }
             else
             {
-                s32 v7 = Frontend::sub_5D8990(pStrBuf, font_type);
+                s32 v7 = Frontend::GetMaxTextWidth_5D8990(pStrBuf, font_type);
                 u32 draw_x = (640 - v7) / 2;
                 DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, draw_kind, palette, 0, 0);
             }
@@ -2268,7 +2268,7 @@ void Frontend::sub_4B2F60()
         v7 = gText_0x14_704DFC->sub_5B58D0(Key_4D5F40);
         v11 = v7;
         v12 = field_11C;
-        if ((u16)gGtx_0x106C_703DD4->sub_5AA760((u16*)&v12, (wchar_t*)&v11) >= 3u && v7)
+        if ((u16)gGtx_0x106C_703DD4->GetFontWidth_5AA760((u16*)&v12, (wchar_t*)&v11) >= 3u && v7)
         {
             goto LABEL_13;
         }
@@ -2455,7 +2455,7 @@ void Frontend::sub_4B8280()
         v6 = v5;
         wchar_t v12 = v6;
         s32 v13 = field_11C;
-        if (gGtx_0x106C_703DD4->sub_5AA760((u16*)&v13, &v12) >= 3 && v6)
+        if (gGtx_0x106C_703DD4->GetFontWidth_5AA760((u16*)&v13, &v12) >= 3 && v6)
         {
             goto LABEL_12;
         }
@@ -4363,11 +4363,15 @@ void __stdcall Frontend::sub_5E53C0(BYTE* a1)
 }
 
 MATCH_FUNC(0x5D8990)
-s32 __stdcall Frontend::sub_5D8990(wchar_t* pStr, u16 a2)
+s32 __stdcall Frontend::GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type)
 {
+    /*If pStr has 1 line, this will return num of characters of pStr. 
+    If pStr has multiple lines, this will return the num of characters of the line which have more 
+    characters of all lines.*/ 
+
     wchar_t* pStrIter = pStr;
     s32 current = 0;
-    s32 spaceSize = gGtx_0x106C_703DD4->space_width_5AA7B0(&a2);
+    s32 spaceSize = gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
     s32 biggestLine = 0;
     if (*pStr)
     {
@@ -4384,11 +4388,11 @@ s32 __stdcall Frontend::sub_5D8990(wchar_t* pStr, u16 a2)
                 {
                     biggestLine = current;
                 }
-                current = 0;
+                current = 0; // reset for next line
             }
             else if (str_char_type != '#')
             {
-                current += gGtx_0x106C_703DD4->sub_5AA760(&a2, pStrIter);
+                current += gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, pStrIter);
             }
             ++pStrIter;
         } while (*pStrIter);
@@ -4425,7 +4429,7 @@ void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 ar
 
     for (chr[0] = pString[0]; chr[0]; chr[0] = pString[++text_xposa])
     {
-        u16 biggestLine = Frontend::sub_5D8990(chr, arg_C);
+        u16 biggestLine = Frontend::GetMaxTextWidth_5D8990(chr, arg_C);
         u16 v16 = (a7 - biggestLine) / 2;
         if ((u16)a2 == 0xFFFF)
         {
@@ -4505,7 +4509,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90("last");
     swprintf(tmpBuff_67BD9C, _5B5F90);
 
-    s32 x = Frontend::sub_5D8990(tmpBuff_67BD9C, font_type);
+    s32 x = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, font_type);
 
     u16 x_pos;
     u16 y_pos;
@@ -4513,7 +4517,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
 
     swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("best"));
 
-    x = Frontend::sub_5D8990(tmpBuff_67BD9C, font_type);
+    x = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, font_type);
 
     y_pos = a5 - 15;
     DrawText_4B87A0(tmpBuff_67BD9C, (u16)(a3 - x + 624), y_pos, font_type, 1);
@@ -4619,11 +4623,11 @@ u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
     u16 v4;
     if (fontType != -1)
     {
-        v4 = ((u16)sub_5D8990(pText, fontType)) / 2;
+        v4 = ((u16)GetMaxTextWidth_5D8990(pText, fontType)) / 2;
     }
     else
     {
-        v4 = ((u16)sub_5D8990(pText, field_11C)) / 2;
+        v4 = ((u16)GetMaxTextWidth_5D8990(pText, field_11C)) / 2;
     }
     return width - v4;
 }

@@ -343,7 +343,7 @@ void jolly_poitras_0x2BC0::DoMuchCashCheat_56C250()
         if (wcscmp(pStats->field_90_strPlayerName, L"MUCHCASH") == 0)
         {
             Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
-            pPlayer->field_2D4_scores.AddCash_592620(pPlayer->field_6BC_multpliers.field_0 * 500000);
+            pPlayer->field_2D4_scores.AddCash_592620(pPlayer->field_6BC_multpliers.field_0_value * 500000);
         }
     }
 }

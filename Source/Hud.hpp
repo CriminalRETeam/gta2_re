@@ -288,7 +288,11 @@ class Hud_Pager_C_Array
 class Garox_18
 {
   public:
-    Garox_18** field_0_pStr;
+    union
+    {
+        char_type field_0_brief_id_str[4];
+        char_type* field_0_ptr; // TODO: workaround to Hud_Brief_704 ctor
+    };
     s32 field_4;
     s32 field_8_brief_priority;
     Garox_18* field_C; // prob wrong type
@@ -493,6 +497,8 @@ class Hud_Arrow_7C_Array
     char_type field_847;
 };
 
+EXPORT char_type __stdcall sub_5D3680(u16 a1);
+
 class Hud_Brief_704 // size 0x704
 {
   public:
@@ -502,7 +508,6 @@ class Hud_Brief_704 // size 0x704
     EXPORT void sub_5D33A0();
     EXPORT Garox_18* sub_5D33F0();
     EXPORT size_t sub_5D3470();
-    EXPORT char_type sub_5D3680(s16 a1);
     EXPORT void sub_5D39D0();
     EXPORT void DrawBrief_5D3B80();
     EXPORT void SetHudBrief_5D3F10(s32 priority, const char_type* str, s32 cost_param);
@@ -530,9 +535,9 @@ class Hud_Brief_704 // size 0x704
     s32 field_6F0;
 
     s32 field_6F4;
-    Garox_18* field_6F8_prev_brief;
+    Garox_18* field_6F8_curr_brief;
     Garox_18* field_6FC_p_start_q;
-    Garox_18* field_700;
+    Garox_18* field_700_prev_brief;
 };
 
 class gmp_map_zone;

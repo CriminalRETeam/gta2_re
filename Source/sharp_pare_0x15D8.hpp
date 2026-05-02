@@ -88,7 +88,7 @@ struct sharp_pare_0x15D8
     EXPORT void LoadPals_5B90F0();
     EXPORT void FreePals_5B9140();
     EXPORT void LoadTextures2_5B9180();
-    EXPORT s16 sub_5B9220(u16 a2, u16 a3);
+    EXPORT s16 RegisterDigits_5B9220(u16 a2, u16 a3);
     EXPORT void ReadTextures_5B92E0();
     EXPORT void sub_5B9350();
     EXPORT STexture* sub_5B94F0(s32 type, u16 pal, s32 kind, s32 a5);

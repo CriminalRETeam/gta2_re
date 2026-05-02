@@ -50,12 +50,12 @@ void test_gtx_0x106C()
     c.GetPalData_5AA6A0(0);
     c.get_phys_pal_5AA6F0(0);
     c.sub_5AA710(0, 0);
-    c.sub_5AA760(0, 0);
-    c.space_width_5AA7B0(0);
-    c.sub_5AA800(0);
+    c.GetFontWidth_5AA760(0, 0);
+    c.GetSpaceCharWidth_5AA7B0(0);
+    c.GetLineSpacing_5AA800(0);
     c.IsTileRemapped_5AA850(0);
     c.GetTile_5AA870(0);
-    c.sub_5AA890();
+    c.GetFirstFreeReservedTileIdx_5AA890();
     c.get_physical_palettes_len_5AA900();
     c.get_map_object_info_5AA910(0);
     c.SetTileRemap_5AA930(0, 0);
@@ -82,7 +82,7 @@ void test_gtx_0x106C()
     c.ConvertToVirtualOffsets_5AB1C0(0, 0);
     c.load_sprite_base_5AB210(0);
     c.load_palete_base_5AB2C0(0);
-    c.sub_5AB380(0);
+    c.IsCarModelInRecycleList_5AB380(0);
     c.load_car_recycling_info_5AB3C0(0);
     c.read_spec_5AB3F0(0);
     c.load_spec_5AB450();

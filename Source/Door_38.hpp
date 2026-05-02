@@ -42,7 +42,7 @@ struct DoorAnimInfo_A
 {
     u16 field_0_start_frame;
     u16 field_2_end_frame;
-    s16 field_4;
+    s16 field_4_internal_tile_idx;
     s16 field_6;
     u8 field_8_speed;
     s8 field_9;
@@ -143,7 +143,7 @@ class Door_38
     s32 field_24;
     char_type field_28;
     char_type field_29;
-    char_type field_2A;
+    char_type field_2A_bDoFlip;
     char_type field_2B;
     char_type field_2C;
     char_type field_2D;

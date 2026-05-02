@@ -58,27 +58,27 @@ void __stdcall sub_5D7670(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16 rot
 }
 
 MATCH_FUNC(0x5D7700)
-s32 __stdcall sub_5D7700(u16 a1)
+s32 __stdcall GetLineSpacingFromFontType_5D7700(u16 font_type)
 {
-    return (u16)gGtx_0x106C_703DD4->sub_5AA800(&a1);
+    return (u16)gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
 }
 
-inline s32 __stdcall sub_5D7700_inlined(u16 a1)
+inline s32 __stdcall GetLineSpacingFromFontType_5D7700_inlined(u16 font_type)
 {
-    return (u16)gGtx_0x106C_703DD4->sub_5AA800(&a1);
+    return (u16)gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
 }
 
 MATCH_FUNC(0x5D8940)
-s32 __stdcall sub_5D8940(wchar_t* a1, u16 a2)
+s32 __stdcall CountLineSpacing_5D8940(wchar_t* pStr, u16 font_type)
 {
-    s32 v3 = sub_5D7700_inlined(a2);
+    s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(font_type);
 
-    s32 result = v3;
-    for (wchar_t* i = a1; *i; ++i)
+    s32 result = line_spacing;
+    for (wchar_t* i = pStr; *i; ++i)
     {
-        if (*i == 10)
+        if (*i == '\n')
         {
-            result += v3;
+            result += line_spacing;
         }
     }
     return result;
@@ -371,8 +371,8 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
 
     Fix16 cur_xpos = xpos_fp; // note: new var
 
-    Fix16 spaceWidth = scale_fp * gGtx_0x106C_703DD4->space_width_5AA7B0(&font_type);
-    Fix16 lineHeight = scale_fp * gGtx_0x106C_703DD4->sub_5AA800(&font_type);
+    Fix16 spaceWidth = scale_fp * gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
+    Fix16 lineHeight = scale_fp * gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
 
     unknown2 = unknown1;
 

@@ -36,7 +36,7 @@ MATCH_FUNC(0x5B9180)
 void sharp_pare_0x15D8::LoadTextures2_5B9180()
 {
     u16 width_height = 64;
-    if (gGtx_0x106C_703DD4->sub_5AA4F0(2))
+    if (gGtx_0x106C_703DD4->sub_5AA4F0(sprite_types_enum::car))
     {
         field_1000_bFreeTextures2 = 1;
         u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(2, 0);
@@ -60,17 +60,17 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
 }
 
 MATCH_FUNC(0x5B9220)
-s16 sharp_pare_0x15D8::sub_5B9220(u16 a2, u16 a3)
+s16 sharp_pare_0x15D8::RegisterDigits_5B9220(u16 num_of_digits, u16 palette)
 {
     const u16 og_idx = field_15D4_idx;
-    const s16 v4 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, a3);
+    const s16 v4 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, palette);
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v4);
     u8* field_0_pData = sprite_index_5AA440->field_0_pData;
     const u16 phys_pal_5AA6F0 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v4));
 
-    field_15D4_idx += a2;
+    field_15D4_idx += num_of_digits;
 
-    for (s32 i = 0; i < a2; i++)
+    for (s32 i = 0; i < num_of_digits; i++)
     {
         field_10C4[og_idx + i].field_4_pTexture =
             pgbh_RegisterTexture(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height, field_0_pData, phys_pal_5AA6F0, 0);
@@ -323,9 +323,9 @@ STexture* festive_hopper::get_texture_5B90A0(s32 type, s16 sprite_pal)
 }
 
 MATCH_FUNC(0x5B90D0)
-STexture* festive_hopper::sub_5B90D0(s16 a2, s16 a3)
+STexture* festive_hopper::sub_5B90D0(s16 pal, s16 a3)
 {
-    return field_0_pAlloc[(u16)(a3 + (a2 * field_6_count))];
+    return field_0_pAlloc[(u16)(a3 + (pal * field_6_count))];
 }
 
 MATCH_FUNC(0x5B9790)

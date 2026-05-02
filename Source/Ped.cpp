@@ -1462,7 +1462,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
                         if (this->field_240_occupation == ped_ocupation_enum::mugger)
                         {
                             pNearPed_->field_15C_player->field_2D4_scores.AddCash_592620(
-                                -10 * pNearPed_->field_15C_player->field_6BC_multpliers.field_0);
+                                -10 * pNearPed_->field_15C_player->field_6BC_multpliers.field_0_value);
                             this->field_229++;
                             if ((u8)field_229 > 9u)
                             {

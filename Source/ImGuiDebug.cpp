@@ -1441,10 +1441,10 @@ void CC ImGuiDebugDraw()
 
                 if (pPlayer)
                 {
-                    ImGui::SliderInt("Lives", &pPlayer->field_684_lives.field_0, 0, 99);
-                    ImGui::SliderInt("Multiplier", &pPlayer->field_6BC_multpliers.field_0, 0, 99);
-                    ImGui::SliderInt("Cash", &pPlayer->field_2D4_scores.field_0_money.field_0, 0, 999999999 - 50);
-                    ImGui::SliderInt("??", &pPlayer->field_2D4_scores.field_38_multiplayer_frags.field_0, 0, 99);
+                    ImGui::SliderInt("Lives", &pPlayer->field_684_lives.field_0_value, 0, 99);
+                    ImGui::SliderInt("Multiplier", &pPlayer->field_6BC_multpliers.field_0_value, 0, 99);
+                    ImGui::SliderInt("Cash", &pPlayer->field_2D4_scores.field_0_money.field_0_value, 0, 999999999 - 50);
+                    ImGui::SliderInt("??", &pPlayer->field_2D4_scores.field_38_multiplayer_frags.field_0_value, 0, 99);
 
                     Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
                     if (ImGui::Button("Instant gang"))
@@ -1684,6 +1684,29 @@ void CC ImGuiDebugDraw()
                             ShowRectAndPointsForSprite4C(pPlayerSprite->field_4_0x4C_len);
                         }
                     }
+
+                    if (ImGui::TreeNode("Thirsty_lamarr"))
+                    {
+                        ImGui::Value("f_0", pPlayer->field_2D4_scores.field_0_money.field_0_value);
+                        ImGui::Value("f_4", pPlayer->field_2D4_scores.field_0_money.field_4);
+                        ImGui::Value("f_8", pPlayer->field_2D4_scores.field_0_money.field_8);
+
+                        ImGui::Value("f_2A", pPlayer->field_2D4_scores.field_0_money.field_2A_max_num_of_digits);
+                        ImGui::InputS16("f_2C", &pPlayer->field_2D4_scores.field_0_money.field_2C_digit_transition_speed, 1, 1);
+                        ImGui::Value("f_2E", pPlayer->field_2D4_scores.field_0_money.field_2E_non_used_digits);
+                        ImGui::Value("f_30", pPlayer->field_2D4_scores.field_0_money.field_30_max_value);
+                        ImGui::Value("f_34", pPlayer->field_2D4_scores.field_0_money.field_34_first_digit_texture_idx);
+                        ImGui::Value("f_36", pPlayer->field_2D4_scores.field_0_money.field_36_palette);
+
+                        static char_type num_idx = 0;
+                        ImGui::SliderS8("Array Idx", &num_idx, 0, 8);
+
+                        ImGui::Value("f_9", pPlayer->field_2D4_scores.field_0_money.field_9[num_idx]);
+                        ImGui::Value("f_13", pPlayer->field_2D4_scores.field_0_money.field_13[num_idx]);
+                        ImGui::Value("f_1D", pPlayer->field_2D4_scores.field_0_money.field_1D_buf[num_idx]);
+
+                        ImGui::TreePop();
+                    }
                 }
             }
             ImGui::TreePop();
@@ -1790,6 +1813,66 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("field_6EC", pHud_Brief_704->field_6EC);
                         ImGui::Value("field_6F0", pHud_Brief_704->field_6F0);
                         ImGui::Value("field_6F4", pHud_Brief_704->field_6F4);
+
+                        if (ImGui::TreeNode("Try field_6F8_prev_brief as text"))
+                        {
+                            ImGui::Text("Text: %s", pHud_Brief_704->field_6F8_curr_brief->field_0_brief_id_str);
+                            ImGui::TreePop();
+                        }
+
+                        if (ImGui::TreeNode("Try field_6FC_p_start_q as text"))
+                        {
+                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_6FC_p_start_q);
+                            ImGui::TreePop();
+                        }
+
+                        if (ImGui::TreeNode("Try field_700 as text"))
+                        {
+                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_700_prev_brief);
+                            ImGui::TreePop();
+                        }
+
+                        if (ImGui::TreeNode("Try field_518_ary_19_start_q as text"))
+                        {
+                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_518_ary_19_start_q);
+                            ImGui::TreePop();
+                        }
+
+                        Garox_18* curr_brief = pHud_Brief_704->field_6F8_curr_brief;
+                        if (curr_brief)
+                        {
+                            ImGui::Value("curr brief f_10", curr_brief->field_10);
+                            if (ImGui::TreeNode("Try field_C as text"))
+                            {
+                                ImGui::Text("Text: %s", (const char*)curr_brief->field_C);
+                                ImGui::TreePop();
+                            }
+                        }
+
+                        static u16 brief_idx = 0;
+                        ImGui::SliderU16("Brief idx", &brief_idx, 0, 18);
+                        Garox_18* brief = &pHud_Brief_704->field_524_ary_19[brief_idx];
+                        if (brief)
+                        {
+                            ImGui::Text("Brief f_0: 0x%X", brief->field_0_brief_id_str);
+                            ImGui::Value("Brief f_4", brief->field_4);
+                            ImGui::Value("Brief f_8", brief->field_8_brief_priority);
+                            //ImGui::Value("Brief f_C", brief->field_C);
+                            ImGui::Value("Brief f_10", brief->field_10);
+
+                            if (ImGui::TreeNode("Try field_C as text"))
+                            {
+                                if (brief->field_C)
+                                {
+                                    ImGui::Text("Text: %s", (const char*)brief->field_C->field_0_brief_id_str);
+                                }
+                                else
+                                {
+                                    ImGui::Text("Null field C :(");
+                                }
+                                ImGui::TreePop();
+                            }
+                        }
                     }
 
                     ImGui::TreePop();
