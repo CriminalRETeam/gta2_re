@@ -36,7 +36,7 @@ Door_38::Door_38()
     field_1E = 0;
     field_14 = 0;
     field_29 = 1;
-    field_2A = 0;
+    field_2A_bDoFlip = 0;
     field_2B = 0;
     field_30 = dword_67BBE0;
     field_34 = dword_67BBE0;
@@ -172,7 +172,7 @@ void Door_38::sub_49C840()
     }
     if (this->field_4_secondary_door_data != NULL)
     {
-        this->field_4_secondary_door_data->sub_49C4E0(this->field_2A);
+        this->field_4_secondary_door_data->sub_49C4E0(this->field_2A_bDoFlip);
     }
     this->field_28 = 0;
 }
@@ -279,7 +279,7 @@ void Door_38::sub_49CA50(u8 gr_id, char_type x, char_type y, char_type z, s32 fa
 
     if (!field_4_secondary_door_data)
     {
-        field_4_secondary_door_data = gDoor_4D4_67BD2C->sub_49CF10(gr_id, x, y, z, face, field_2A);
+        field_4_secondary_door_data = gDoor_4D4_67BD2C->sub_49CF10(gr_id, x, y, z, face, field_2A_bDoFlip);
     }
 }
 
@@ -420,11 +420,11 @@ void Door_38::sub_49CD90()
                     if (field_0_primary_door_data != NULL)
                     {
                         gObject_5C_6F8F84->sub_5299F0(0x117, 0x33, field_30, field_34, field_0_primary_door_data->field_6_z);
-                        field_0_primary_door_data->sub_49C590(0);
+                        field_0_primary_door_data->sub_49C590(false);
                     }
                     if (field_4_secondary_door_data != NULL)
                     {
-                        field_4_secondary_door_data->sub_49C590(field_2A);
+                        field_4_secondary_door_data->sub_49C590(field_2A_bDoFlip);
                     }
                 }
             }

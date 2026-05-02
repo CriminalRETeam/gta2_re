@@ -141,7 +141,7 @@ void Garox_1_v2::sub_5D56B0()
 {
     if (this->field_0_timer)
     {
-        this->field_CC = Frontend::sub_5D8990(field_2_str, word_7064D8);
+        this->field_CC = Frontend::GetMaxTextWidth_5D8990(field_2_str, word_7064D8);
     }
 }
 
@@ -339,21 +339,21 @@ void Garox_12EC_sub::DrawQuitMessage_5D1430()
     {
         wchar_t* pQuitText = gText_0x14_704DFC->Find_5B5F90("quit1");
 
-        s32 v2 = Frontend::sub_5D8990(pQuitText, word_7064D8);
-        s32 v4 = sub_5D8940(pQuitText, word_7064D8);
-        s32 v6 = ((3 * (160 - v4)) / 2);
+        s32 max_text_width = Frontend::GetMaxTextWidth_5D8990(pQuitText, word_7064D8);
+        s32 line_spacing_added = CountLineSpacing_5D8940(pQuitText, word_7064D8);
+        s32 v6 = ((3 * (160 - line_spacing_added)) / 2);
 
-        DrawText_5D7720(pQuitText, (u32)((640 - v2) / 2), v6 - v4, word_7064D8, 2, 0, 0, 0);
+        DrawText_5D7720(pQuitText, (u32)((640 - max_text_width) / 2), v6 - line_spacing_added, word_7064D8, 2, 0, 0, 0);
 
         wchar_t* pQuitText2 = gText_0x14_704DFC->Find_5B5F90("quit2");
-        s32 v9 = Frontend::sub_5D8990(pQuitText2, word_7064D8);
+        s32 v9 = Frontend::GetMaxTextWidth_5D8990(pQuitText2, word_7064D8);
 
         DrawText_5D7720(pQuitText2, (u32)((640 - v9) / 2), (u32)v6, word_7064D8, 2, 0, 0, 0);
 
         wchar_t* pQuitText3 = gText_0x14_704DFC->Find_5B5F90("quit3");
-        s32 v14 = Frontend::sub_5D8990(pQuitText3, word_7064D8);
+        s32 v14 = Frontend::GetMaxTextWidth_5D8990(pQuitText3, word_7064D8);
 
-        DrawText_5D7720(pQuitText3, (u32)((640 - v14) / 2), v6 + v4, word_7064D8, 2, 0, 0, 0);
+        DrawText_5D7720(pQuitText3, (u32)((640 - v14) / 2), v6 + line_spacing_added, word_7064D8, 2, 0, 0, 0);
     }
 }
 
@@ -427,8 +427,8 @@ void Hud_Message_1C8::sub_5D1860()
     if (this->field_0_time_to_show)
     {
         text_0x14::sub_5B5BC0(&this->field_2_str[100], this->field_2_str, 580, word_7062F0);
-        this->field_1BC_str_width = (u16)((640 - Frontend::sub_5D8990(&this->field_2_str[100], word_7062F0)) / 2);
-        this->field_1C0_num_lines = (u16)((480 - sub_5D8940(&this->field_2_str[100], word_7062F0)) / 4);
+        this->field_1BC_str_width = (u16)((640 - Frontend::GetMaxTextWidth_5D8990(&this->field_2_str[100], word_7062F0)) / 2);
+        this->field_1C0_num_lines = (u16)((480 - CountLineSpacing_5D8940(&this->field_2_str[100], word_7062F0)) / 4);
     }
 }
 
@@ -599,7 +599,7 @@ void __stdcall sub_5D6060(s16 ammo_idx, u8 ammo_count)
             {
                 swprintf(tmpBuff_67BD9C, L"%d", ammo_count);
             }
-            DrawText_5D7720(tmpBuff_67BD9C, (u32)(638 - Frontend::sub_5D8990(tmpBuff_67BD9C, word_70646C)), 82, word_70646C, 8, 6, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C, (u32)(638 - Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, word_70646C)), 82, word_70646C, 8, 6, 0, 0);
         }
     }
 }
@@ -745,7 +745,7 @@ void Garox_1::sub_5D53E0()
 {
     if (field_0_timer)
     {
-        field_84 = Frontend::sub_5D8990(field_2_str, word_7064B8);
+        field_84 = Frontend::GetMaxTextWidth_5D8990(field_2_str, word_7064B8);
     }
 }
 
@@ -1041,14 +1041,14 @@ void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType,
 
     if (xpos == -1)
     {
-        xTmp = ((640 - Frontend::sub_5D8990(field_0_str_buf, this->field_AC_fontType)) / 2);
+        xTmp = ((640 - Frontend::GetMaxTextWidth_5D8990(field_0_str_buf, this->field_AC_fontType)) / 2);
     }
     this->field_A8_x = xTmp;
 
     s16 yTmp = ypos;
     if (ypos == -1)
     {
-        yTmp = ((480 - sub_5D8940(field_0_str_buf, field_AC_fontType)) / 2);
+        yTmp = ((480 - CountLineSpacing_5D8940(field_0_str_buf, field_AC_fontType)) / 2);
     }
     this->field_AA_y = yTmp;
 
@@ -2293,10 +2293,10 @@ void Hud_Brief_704::DrawBrief_5D3B80()
                    0,
                    0);
 
-        u16 t = 480 - gGtx_0x106C_703DD4->sub_5AA800(&word_7065C4) * field_508_num_lines;
+        u16 first_line_ypos = 480 - gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&word_7065C4) * field_508_num_lines;
         DrawText_5D7720(field_0_str, // str
                         (64), // x
-                        t, // y
+                        first_line_ypos, // y
                         word_7065C4, // fontType
                         2,
                         0, // a6
@@ -2473,7 +2473,7 @@ void Hud_MapZone_98::DrawZoneName_5D5900()
 
         DrawText_5D7720(field_2_wstr,
                         (640 - field_84_xpos_offset) / 2,
-                        27 - (sub_5D7700(word_706618) / 2),
+                        27 - (GetLineSpacingFromFontType_5D7700(word_706618) / 2),
                         word_706618,
                         2,
                         0,
@@ -2487,7 +2487,7 @@ void Hud_MapZone_98::GetXPosOffset_5D5AD0()
 {
     if (field_0_timer)
     {
-        field_84_xpos_offset = Frontend::sub_5D8990(field_2_wstr, word_706618);
+        field_84_xpos_offset = Frontend::GetMaxTextWidth_5D8990(field_2_wstr, word_706618);
     }
 }
 
@@ -2633,7 +2633,7 @@ void Hud_CarName_4C::sub_5D4A10()
             sub_5D7670(6, 13, 320 + (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
         }
 
-        sub_5D77A0(field_2_car_name, ((640 - field_44_xpos_offset) / 2), (field_48_ypos - sub_5D7700(word_706508) / 2), word_706508);
+        sub_5D77A0(field_2_car_name, ((640 - field_44_xpos_offset) / 2), (field_48_ypos - GetLineSpacingFromFontType_5D7700(word_706508) / 2), word_706508);
     }
 }
 
@@ -2643,7 +2643,7 @@ void Hud_2B00::sub_5D5190()
     if (field_0.field_0_display_time)
     {
         // TODO: Structure seems wrong, probablty field_2 to field_4C of Garox_2B00 is a string buffer?
-        field_0.field_44_xpos_offset = Frontend::sub_5D8990((wchar_t*)&field_0.field_2_car_name, word_706508);
+        field_0.field_44_xpos_offset = Frontend::GetMaxTextWidth_5D8990((wchar_t*)&field_0.field_2_car_name, word_706508);
     }
 }
 

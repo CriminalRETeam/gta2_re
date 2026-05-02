@@ -211,62 +211,66 @@ u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId)
 #define UNIQUE_FUNC printf(__FILE__ LINE_STRING "\n")
 
 MATCH_FUNC(0x5AA710)
-u16 gtx_0x106C::sub_5AA710(u16 a2, s16 a3)
+u16 gtx_0x106C::sub_5AA710(u16 font_type, s16 offset)
 {
-    u16 result = field_1C_font_base->field_2_base[a2] + a3;
-    if (a2 == (u16)field_1C_font_base->field_0_font_count - 1)
+    u16 result = field_1C_font_base->field_2_base[font_type] + offset;
+    if (font_type == (u16)field_1C_font_base->field_0_font_count - 1)
     {
         if (result >= field_2_font_base_total)
         {
-            return field_1C_font_base->field_2_base[a2];
+            return field_1C_font_base->field_2_base[font_type];
         }
         else
         {
             return result;
         }
     }
-    else if (result >= (u32)field_1C_font_base->field_2_base[a2 + 1])
+    else if (result >= (u32)field_1C_font_base->field_2_base[font_type + 1])
     {
-        return field_1C_font_base->field_2_base[a2];
+        return field_1C_font_base->field_2_base[font_type];
     }
     return result;
 }
 
 MATCH_FUNC(0x5AA760)
-u16 gtx_0x106C::sub_5AA760(u16* a2, wchar_t* a3)
+u16 gtx_0x106C::GetFontWidth_5AA760(u16* font_type, wchar_t* pStr)
 {
-    if (*a2 >= 0x65u)
+    if (*font_type >= 101)
     {
-        return (*a2 < 0xC9u) ? 0x10 : 0x20;
+        // Standardized width for all letters
+        return (*font_type < 201) ? 16 : 32;
     }
     else
     {
-        return this->field_20_sprite_index[(u16)this->field_14_sprite_base2->field_A_font + gtx_0x106C::sub_5AA710(*a2, *a3 - 33)]
+        // In this case letters have different widths
+        return this->field_20_sprite_index[(u16)this->field_14_sprite_base2->field_A_font + gtx_0x106C::sub_5AA710(*font_type, *pStr - 33)]
             .field_4_width;
     }
 }
 
 MATCH_FUNC(0x5AA7B0)
-u16 gtx_0x106C::space_width_5AA7B0(u16* a2)
+u16 gtx_0x106C::GetSpaceCharWidth_5AA7B0(u16* font_type)
 {
-    if (*a2 >= 101)
+    if (*font_type >= 101)
     {
-        return (*a2 < 0xc9) ? 0x10 : 0x20;
+        // Standardized width for all space characters
+        return (*font_type < 201) ? 16 : 32;
     }
 
-    return field_20_sprite_index[field_14_sprite_base2->field_A_font + 77 + field_1C_font_base->field_2_base[*a2]].field_4_width;
+    // In this case space characters have different widths for different font types below 101
+    return field_20_sprite_index[field_14_sprite_base2->field_A_font + 77 + field_1C_font_base->field_2_base[*font_type]].field_4_width;
 }
 
 MATCH_FUNC(0x5AA800)
-s16 gtx_0x106C::sub_5AA800(u16* a2)
+s16 gtx_0x106C::GetLineSpacing_5AA800(u16* font_type)
 {
-    if (*a2 >= 0x65u)
+    if (*font_type >= 0x65u)
     {
-        return (*a2 < 0xC9u) ? 0x11 : 0x22;
+        return (*font_type < 0xC9u) ? 0x11 : 0x22;
     }
     else
     {
-        return this->field_20_sprite_index[this->field_14_sprite_base2->field_A_font + 32 + this->field_1C_font_base->field_2_base[*a2]]
+        return this->field_20_sprite_index[this->field_14_sprite_base2->field_A_font + 32 + this->field_1C_font_base->field_2_base[*font_type]]
             .field_5_height;
     }
 }
@@ -284,8 +288,9 @@ s16 gtx_0x106C::GetTile_5AA870(u16 tile_idx)
 }
 
 MATCH_FUNC(0x5AA890)
-s16 gtx_0x106C::sub_5AA890()
+s16 gtx_0x106C::GetFirstFreeReservedTileIdx_5AA890()
 {
+    // Decreasing order: starts from 1023 down to 992
     u16* i = &field_40_tile->field_0[1023];
     for (u16 j = 1023; j >= 992; j--, i--)
     {
