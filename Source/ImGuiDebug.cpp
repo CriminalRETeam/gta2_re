@@ -1441,10 +1441,10 @@ void CC ImGuiDebugDraw()
 
                 if (pPlayer)
                 {
-                    ImGui::SliderInt("Lives", &pPlayer->field_684_lives.field_0, 0, 99);
-                    ImGui::SliderInt("Multiplier", &pPlayer->field_6BC_multpliers.field_0, 0, 99);
-                    ImGui::SliderInt("Cash", &pPlayer->field_2D4_scores.field_0_money.field_0, 0, 999999999 - 50);
-                    ImGui::SliderInt("??", &pPlayer->field_2D4_scores.field_38_multiplayer_frags.field_0, 0, 99);
+                    ImGui::SliderInt("Lives", &pPlayer->field_684_lives.field_0_value, 0, 99);
+                    ImGui::SliderInt("Multiplier", &pPlayer->field_6BC_multpliers.field_0_value, 0, 99);
+                    ImGui::SliderInt("Cash", &pPlayer->field_2D4_scores.field_0_money.field_0_value, 0, 999999999 - 50);
+                    ImGui::SliderInt("??", &pPlayer->field_2D4_scores.field_38_multiplayer_frags.field_0_value, 0, 99);
 
                     Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
                     if (ImGui::Button("Instant gang"))
@@ -1683,6 +1683,29 @@ void CC ImGuiDebugDraw()
                         {
                             ShowRectAndPointsForSprite4C(pPlayerSprite->field_4_0x4C_len);
                         }
+                    }
+
+                    if (ImGui::TreeNode("Thirsty_lamarr"))
+                    {
+                        ImGui::Value("f_0", pPlayer->field_2D4_scores.field_0_money.field_0_value);
+                        ImGui::Value("f_4", pPlayer->field_2D4_scores.field_0_money.field_4);
+                        ImGui::Value("f_8", pPlayer->field_2D4_scores.field_0_money.field_8);
+
+                        ImGui::Value("f_2A", pPlayer->field_2D4_scores.field_0_money.field_2A_max_num_of_digits);
+                        ImGui::InputS16("f_2C", &pPlayer->field_2D4_scores.field_0_money.field_2C_digit_transition_speed, 1, 1);
+                        ImGui::Value("f_2E", pPlayer->field_2D4_scores.field_0_money.field_2E_non_used_digits);
+                        ImGui::Value("f_30", pPlayer->field_2D4_scores.field_0_money.field_30_max_value);
+                        ImGui::Value("f_34", pPlayer->field_2D4_scores.field_0_money.field_34_first_digit_texture_idx);
+                        ImGui::Value("f_36", pPlayer->field_2D4_scores.field_0_money.field_36_palette);
+
+                        static char_type num_idx = 0;
+                        ImGui::SliderS8("Array Idx", &num_idx, 0, 8);
+
+                        ImGui::Value("f_9", pPlayer->field_2D4_scores.field_0_money.field_9[num_idx]);
+                        ImGui::Value("f_13", pPlayer->field_2D4_scores.field_0_money.field_13[num_idx]);
+                        ImGui::Value("f_1D", pPlayer->field_2D4_scores.field_0_money.field_1D_buf[num_idx]);
+
+                        ImGui::TreePop();
                     }
                 }
             }

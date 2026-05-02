@@ -4810,7 +4810,7 @@
         "v105_address": "0x4920b0"
     },
     {
-        "name": "thirsty_lamarr::sub_492110",
+        "name": "thirsty_lamarr::SetupDigitsParams_492110",
         "v96f_address": "0x44b220",
         "v105_address": "0x492110"
     },
@@ -7980,7 +7980,7 @@
         "v105_address": "0x4f75d0"
     },
     {
-        "name": "sub_4F7660",
+        "name": "GetMaxNumOfDigits_4F7660",
         "v96f_address": "0x472570",
         "v105_address": "0x4f7660"
     },
@@ -15615,7 +15615,7 @@
         "v105_address": "0x5b9180"
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B9220",
+        "name": "sharp_pare_0x15D8::RegisterDigits_5B9220",
         "v96f_address": null,
         "v105_address": "0x5b9220"
     },

@@ -2598,7 +2598,7 @@ void miss2_0x11C::sub_509D90()
         {
             if (gBasePtr_6F8070->field_2_type == SCRCMD_ADD_SCORE1)
             {
-                pPlayer->field_2D4_scores.AddCash_592620(pCmd->field_C_s32 * pPlayer->field_6BC_multpliers.field_0);
+                pPlayer->field_2D4_scores.AddCash_592620(pCmd->field_C_s32 * pPlayer->field_6BC_multpliers.field_0_value);
             }
             else
             {
@@ -2623,7 +2623,7 @@ void miss2_0x11C::SCRCMD_ADD_SCORE2_509E00()
         Player* pPlayer = pPed->field_15C_player;
         if (pPlayer != NULL)
         {
-            pPlayer->field_2D4_scores.AddCash_592620(pCounter->field_8_counter * pPlayer->field_6BC_multpliers.field_0);
+            pPlayer->field_2D4_scores.AddCash_592620(pCounter->field_8_counter * pPlayer->field_6BC_multpliers.field_0_value);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -4355,11 +4355,11 @@ void miss2_0x11C::sub_50DD00() // GET_NUM_LIVES or GET_NUM_MULT
     SCR_POINTER* pCounterPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx);
     if (gBasePtr_6F8070->field_2_type == SCRCMD_GET_NUM_LIVES)
     {
-        pCounterPtr->field_8_counter = pPlayerPtr->field_8_char->field_15C_player->field_684_lives.field_0;
+        pCounterPtr->field_8_counter = pPlayerPtr->field_8_char->field_15C_player->field_684_lives.field_0_value;
     }
     else
     {
-        pCounterPtr->field_8_counter = pPlayerPtr->field_8_char->field_15C_player->field_6BC_multpliers.field_0;
+        pCounterPtr->field_8_counter = pPlayerPtr->field_8_char->field_15C_player->field_6BC_multpliers.field_0_value;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
