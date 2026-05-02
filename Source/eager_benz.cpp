@@ -296,7 +296,7 @@ void eager_benz::sub_592380(char_type bits)
     {
         for (u16 i = 0; i < 256; i++)
         {
-            if (gGtx_0x106C_703DD4->does_car_exist(i) && gGtx_0x106C_703DD4->sub_5AB380(i))
+            if (gGtx_0x106C_703DD4->does_car_exist(i) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(i))
             {
                 field_8C[i] &= ~1;
             }
@@ -311,7 +311,7 @@ void eager_benz::sub_592380(char_type bits)
     {
         for (u16 i = 0; i < 256; i++)
         {
-            if (gGtx_0x106C_703DD4->does_car_exist(i) && gGtx_0x106C_703DD4->sub_5AB380(i))
+            if (gGtx_0x106C_703DD4->does_car_exist(i) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(i))
             {
                 const u8 wreck = gGtx_0x106C_703DD4->get_car_info_5AA3B0(i)->wreck;
 

@@ -287,7 +287,7 @@ void Car_6C::DistributeCarsByRating_444980()
     {
         if (gGtx_0x106C_703DD4->field_5C_cari->field_0[(u8)i])
         {
-            if (bStartNetworkGame_7081F0 || gGtx_0x106C_703DD4->sub_5AB380(i))
+            if (bStartNetworkGame_7081F0 || gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(i))
             {
                 car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(i);
 

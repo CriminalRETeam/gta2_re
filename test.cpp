@@ -82,7 +82,7 @@ void test_gtx_0x106C()
     c.ConvertToVirtualOffsets_5AB1C0(0, 0);
     c.load_sprite_base_5AB210(0);
     c.load_palete_base_5AB2C0(0);
-    c.sub_5AB380(0);
+    c.IsCarModelInRecycleList_5AB380(0);
     c.load_car_recycling_info_5AB3C0(0);
     c.read_spec_5AB3F0(0);
     c.load_spec_5AB450();

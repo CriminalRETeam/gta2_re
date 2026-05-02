@@ -36,7 +36,7 @@ MATCH_FUNC(0x5B9180)
 void sharp_pare_0x15D8::LoadTextures2_5B9180()
 {
     u16 width_height = 64;
-    if (gGtx_0x106C_703DD4->sub_5AA4F0(2))
+    if (gGtx_0x106C_703DD4->sub_5AA4F0(sprite_types_enum::car))
     {
         field_1000_bFreeTextures2 = 1;
         u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(2, 0);
@@ -323,9 +323,9 @@ STexture* festive_hopper::get_texture_5B90A0(s32 type, s16 sprite_pal)
 }
 
 MATCH_FUNC(0x5B90D0)
-STexture* festive_hopper::sub_5B90D0(s16 a2, s16 a3)
+STexture* festive_hopper::sub_5B90D0(s16 pal, s16 a3)
 {
-    return field_0_pAlloc[(u16)(a3 + (a2 * field_6_count))];
+    return field_0_pAlloc[(u16)(a3 + (pal * field_6_count))];
 }
 
 MATCH_FUNC(0x5B9790)

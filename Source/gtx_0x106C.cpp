@@ -107,22 +107,22 @@ u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
 }
 
 MATCH_FUNC(0x5AA4F0)
-s16 gtx_0x106C::sub_5AA4F0(s32 a2)
+s16 gtx_0x106C::sub_5AA4F0(s32 sprite_type)
 {
-    switch (a2)
+    switch (sprite_type)
     {
-        case 2:
+        case sprite_types_enum::car:
             return field_18_sprite_base1->field_0_car;
-        case 3:
+        case sprite_types_enum::ped:
             return field_18_sprite_base1->field_2_ped;
-        case 4:
-        case 8:
+        case sprite_types_enum::code_obj1:
+        case sprite_types_enum::code_obj2:
             return field_18_sprite_base1->field_4_code_obj;
-        case 5:
+        case sprite_types_enum::map_obj:
             return field_18_sprite_base1->field_6_map_obj;
-        case 7:
+        case sprite_types_enum::font:
             return field_18_sprite_base1->field_A_font;
-        case 6:
+        case sprite_types_enum::user:
             return field_18_sprite_base1->field_8_user;
         default:
             return 0;
@@ -130,9 +130,9 @@ s16 gtx_0x106C::sub_5AA4F0(s32 a2)
 }
 
 MATCH_FUNC(0x5AA560)
-s16 gtx_0x106C::sub_5AA560(s32 a2)
+s16 gtx_0x106C::sub_5AA560(s32 remap_type)
 {
-    switch (a2)
+    switch (remap_type)
     {
         case 1:
             return field_10_palette_base1->field_0_tile;
@@ -141,7 +141,7 @@ s16 gtx_0x106C::sub_5AA560(s32 a2)
         case 3:
             return field_10_palette_base1->field_4_car_remap;
         case 4:
-            return field_10_palette_base1->field_6_red_remap;
+            return field_10_palette_base1->field_6_ped_remap;
         case 5:
             return field_10_palette_base1->field_8_code_obj_remap;
         case 6:
@@ -172,7 +172,7 @@ s16 gtx_0x106C::convert_pal_type_5AA5F0(s32 type, s16 pal)
             result = pal + field_C_palette_base2->field_4_car_remap;
             break;
         case 4:
-            result = pal + field_C_palette_base2->field_6_red_remap;
+            result = pal + field_C_palette_base2->field_6_ped_remap;
             break;
         case 5:
             result = pal + field_C_palette_base2->field_8_code_obj_remap;
@@ -820,14 +820,17 @@ void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
 }
 
 MATCH_FUNC(0x5AB380)
-bool gtx_0x106C::sub_5AB380(u8 car_id)
+bool gtx_0x106C::IsCarModelInRecycleList_5AB380(u8 car_id)
 {
+    // Certain car models are in the recycle list only for certain stages/districts
     s32 i = 0;
     if (!field_64_car_recycling_info)
     {
         return 1;
     }
 
+    // This while only ends if it finds 'car_id' or if it reaches the 
+    // sentinel value 255, which is surely greater than 'car_id'
     while (field_64_car_recycling_info[i] < car_id)
     {
         i++;
