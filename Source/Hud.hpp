@@ -497,7 +497,7 @@ class Hud_Arrow_7C_Array
     char_type field_847;
 };
 
-EXPORT char_type __stdcall sub_5D3680(u16 a1);
+EXPORT char_type __stdcall GetBriefFaceIdx_5D3680(u16 a1);
 
 class Hud_Brief_704 // size 0x704
 {

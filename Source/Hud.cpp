@@ -51,7 +51,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_7064C4, Fix16(1), 0x7064C4);
 DEFINE_GLOBAL_INIT(Fix16, dword_7064E8, Fix16(8), 0x7064E8);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67C7D8, 640);
-DEFINE_GLOBAL(s32, dword_62689C, 0x62689C);
+DEFINE_GLOBAL_INIT(s32, MaxLineWidth_62689C, 576, 0x62689C);
 
 // TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
@@ -2160,7 +2160,7 @@ size_t Hud_Brief_704::sub_5D3470()
             swprintf(tmpBuff_67BD9C,
                      gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str),
                      field_6F8_curr_brief->field_14_cost_param);
-            char_type v4 = sub_5D3680(tmpBuff_67BD9C[0]);
+            char_type v4 = GetBriefFaceIdx_5D3680(tmpBuff_67BD9C[0]);
             *(u8*)&field_502_face_idx = v4; // TODO
 
             wchar_t* v6;
@@ -2174,14 +2174,14 @@ size_t Hud_Brief_704::sub_5D3470()
                 *(u8*)&field_502_face_idx = 8; // TODO
             }
 
-            field_508_num_lines = gText_0x14_704DFC->sub_5B5BC0(field_0_str, v6, dword_62689C, word_7065C4);
+            field_508_num_lines = gText_0x14_704DFC->sub_5B5BC0(field_0_str, v6, MaxLineWidth_62689C, word_7065C4);
             num_chars = wcslen(field_0_str);
             if (bShow_brief_number_67D504)
             {
                 swprintf(tmpBuff_67BD9C,
                          gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str),
                          field_6F8_curr_brief->field_14_cost_param);
-                char_type v8 = sub_5D3680(tmpBuff_67BD9C[0]);
+                char_type v8 = GetBriefFaceIdx_5D3680(tmpBuff_67BD9C[0]);
                 *(u8*)&field_502_face_idx = v8; // TODO
 
                 wchar_t* v9;
@@ -2195,16 +2195,16 @@ size_t Hud_Brief_704::sub_5D3470()
                     v9 = tmpBuff_67BD9C;
                 }
                 swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), v9);
-                field_508_num_lines = text_0x14::sub_5B5BC0(field_0_str, word_67C7D8, dword_62689C, word_7065C4);
+                field_508_num_lines = text_0x14::sub_5B5BC0(field_0_str, word_67C7D8, MaxLineWidth_62689C, word_7065C4);
             }
         }
         else
         {
             wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
-            char_type v13 = sub_5D3680(_5B5F90[0]);
-            *(u8*)&field_502_face_idx = v13; // TODO
+            char_type face_idx = GetBriefFaceIdx_5D3680(_5B5F90[0]);
+            *(u8*)&field_502_face_idx = face_idx; // TODO
 
-            if (v13)
+            if (face_idx)
             {
                 ++_5B5F90;
             }
@@ -2212,16 +2212,16 @@ size_t Hud_Brief_704::sub_5D3470()
             {
                 *(u8*)&field_502_face_idx = 8; // TODO
             }
-            field_508_num_lines = gText_0x14_704DFC->sub_5B5BC0(field_0_str, (const wchar_t*)_5B5F90, dword_62689C, word_7065C4);
+            field_508_num_lines = gText_0x14_704DFC->sub_5B5BC0(field_0_str, (const wchar_t*)_5B5F90, MaxLineWidth_62689C, word_7065C4);
             num_chars = wcslen(field_0_str);
 
             if (bShow_brief_number_67D504)
             {
                 wchar_t* v15 = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
-                char_type v16 = sub_5D3680(v15[0]);
-                *(u8*)&field_502_face_idx = v16; // TODO
+                char_type face_idx_2 = GetBriefFaceIdx_5D3680(v15[0]);
+                *(u8*)&field_502_face_idx = face_idx_2; // TODO
 
-                if (v16)
+                if (face_idx_2)
                 {
                     ++v15;
                 }
@@ -2230,7 +2230,7 @@ size_t Hud_Brief_704::sub_5D3470()
                     *(u8*)&field_502_face_idx = 8; // TODO
                 }
                 swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), v15);
-                field_508_num_lines = text_0x14::sub_5B5BC0(field_0_str, word_67C7D8, dword_62689C, word_7065C4);
+                field_508_num_lines = text_0x14::sub_5B5BC0(field_0_str, word_67C7D8, MaxLineWidth_62689C, word_7065C4);
             }
         }
     }
@@ -2238,27 +2238,27 @@ size_t Hud_Brief_704::sub_5D3470()
 }
 
 MATCH_FUNC(0x5d3680)
-char_type __stdcall sub_5D3680(u16 a1)
+char_type __stdcall GetBriefFaceIdx_5D3680(u16 two_byte_chars)
 {
-    switch (a1)
+    switch (two_byte_chars)
     {
-        case 8556:
+        case 8556: // "!l" = loonies
             return 1;
-        case 8569:
+        case 8569: // "!y" = yakuza
             return 2;
-        case 8570:
+        case 8570: // "!z" = zaibatsu
             return 3;
-        case 8562:
+        case 8562: // "!r" = rednecks
             return 4;
-        case 8563:
+        case 8563: // "!s" = scientists
             return 5;
-        case 8555:
+        case 8555: // "!k" = krishna
             return 6;
-        case 8557:
+        case 8557: // "!m" = mafia (russian)
             return 7;
-        case 8558:
+        case 8558: // "!n" = neutral
             return 8;
-        case 8560:
+        case 8560: // "!p" = police
             return 9;
         default:
             return 0;

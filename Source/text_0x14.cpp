@@ -224,7 +224,7 @@ wchar_t* text_0x14::sub_5B5B80(wchar_t* pWideStr)
 }
 
 STUB_FUNC(0x5B5BC0)
-s32 __stdcall text_0x14::sub_5B5BC0(wchar_t* a1, const wchar_t* a2, s32 a3, u16 a4)
+s32 __stdcall text_0x14::sub_5B5BC0(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type)
 {
     NOT_IMPLEMENTED;
     // todo
