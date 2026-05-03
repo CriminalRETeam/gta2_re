@@ -82,7 +82,7 @@ class text_0x14
 
     EXPORT wchar_t* sub_5B5B80(wchar_t* pWideStr);
 
-    EXPORT static s32 __stdcall sub_5B5BC0(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type);
+    EXPORT static s32 __stdcall InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type);
 
     EXPORT static char_type* __stdcall Wide2PesudoAscii_5B5D10(const wchar_t* a1);
 

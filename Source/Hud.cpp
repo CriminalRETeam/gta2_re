@@ -426,7 +426,7 @@ void Hud_Message_1C8::sub_5D1860()
 {
     if (this->field_0_time_to_show)
     {
-        text_0x14::sub_5B5BC0(&this->field_2_str[100], this->field_2_str, 580, word_7062F0);
+        text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(&this->field_2_str[100], this->field_2_str, 580, word_7062F0);
         this->field_1BC_str_width = (u16)((640 - Frontend::GetMaxTextWidth_5D8990(&this->field_2_str[100], word_7062F0)) / 2);
         this->field_1C0_num_lines = (u16)((480 - CountLineSpacing_5D8940(&this->field_2_str[100], word_7062F0)) / 4);
     }
@@ -1028,7 +1028,7 @@ void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType,
 
     this->field_AC_fontType = fontType;
 
-    text_0x14::sub_5B5BC0(field_0_str_buf, pStr, 640, fontType);
+    text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str_buf, pStr, 640, fontType);
 
     if (field_AC_fontType == word_703C9C || field_AC_fontType == word_703D9C)
     {
@@ -2174,7 +2174,7 @@ size_t Hud_Brief_704::sub_5D3470()
                 *(u8*)&field_502_face_idx = 8; // TODO
             }
 
-            field_508_num_lines = gText_0x14_704DFC->sub_5B5BC0(field_0_str, v6, MaxLineWidth_62689C, word_7065C4);
+            field_508_num_lines = gText_0x14_704DFC->InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, v6, MaxLineWidth_62689C, word_7065C4);
             num_chars = wcslen(field_0_str);
             if (bShow_brief_number_67D504)
             {
@@ -2195,7 +2195,7 @@ size_t Hud_Brief_704::sub_5D3470()
                     v9 = tmpBuff_67BD9C;
                 }
                 swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), v9);
-                field_508_num_lines = text_0x14::sub_5B5BC0(field_0_str, word_67C7D8, MaxLineWidth_62689C, word_7065C4);
+                field_508_num_lines = text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, word_67C7D8, MaxLineWidth_62689C, word_7065C4);
             }
         }
         else
@@ -2212,7 +2212,7 @@ size_t Hud_Brief_704::sub_5D3470()
             {
                 *(u8*)&field_502_face_idx = 8; // TODO
             }
-            field_508_num_lines = gText_0x14_704DFC->sub_5B5BC0(field_0_str, (const wchar_t*)_5B5F90, MaxLineWidth_62689C, word_7065C4);
+            field_508_num_lines = gText_0x14_704DFC->InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, (const wchar_t*)_5B5F90, MaxLineWidth_62689C, word_7065C4);
             num_chars = wcslen(field_0_str);
 
             if (bShow_brief_number_67D504)
@@ -2230,7 +2230,7 @@ size_t Hud_Brief_704::sub_5D3470()
                     *(u8*)&field_502_face_idx = 8; // TODO
                 }
                 swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), v15);
-                field_508_num_lines = text_0x14::sub_5B5BC0(field_0_str, word_67C7D8, MaxLineWidth_62689C, word_7065C4);
+                field_508_num_lines = text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, word_67C7D8, MaxLineWidth_62689C, word_7065C4);
             }
         }
     }
