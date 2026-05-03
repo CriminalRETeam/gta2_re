@@ -1116,7 +1116,7 @@ void BurgerKing_67F8B0::sub_4CED90()
         if (((1 << bit_idx) & field_4_input_bits) != 0)
         {
             swprintf(tmpBuff_67BD9C, L"Control %d", bit_idx);
-            gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), word_706600, 1);
+            gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), word_706600, 1);
         }
         ++i;
         ++bit_idx;
@@ -1138,11 +1138,11 @@ void BurgerKing_67F8B0::ShowInput_4CEE10()
 {
     if (RecOrPlayBackState_4CEDF0())
     {
-        gHud_2B00_706620->field_650.sub_5D1F50(L"PLAYBACK", -1, 0, word_706600, 1);
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(L"PLAYBACK", -1, 0, word_706600, 1);
     }
     else
     {
-        gHud_2B00_706620->field_650.sub_5D1F50(L"RECORDING", -1, 0, word_706600, 1);
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(L"RECORDING", -1, 0, word_706600, 1);
     }
     sub_4CED90();
 }

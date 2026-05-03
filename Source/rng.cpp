@@ -39,7 +39,7 @@ void rng::ShowCycle_48B920()
 
 
     }
-    gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 460, word_706600, 1);
+    gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 460, word_706600, 1);
 }
 
 MATCH_FUNC(0x4F7A40)

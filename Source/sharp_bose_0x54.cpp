@@ -13,7 +13,7 @@ MATCH_FUNC(0x5BEC30)
 void sharp_bose_0x54::ShowFps_5BEC30()
 {
     swprintf(tmpBuff_67BD9C, L"%d/%d fps", field_8, field_14);
-    gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 0, word_706600, 1);
+    gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 0, word_706600, 1);
 }
 
 MATCH_FUNC(0x5BEC70)

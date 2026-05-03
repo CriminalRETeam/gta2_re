@@ -35,7 +35,7 @@ DEFINE_GLOBAL(u16, word_7062DC, 0x7062DC);
 DEFINE_GLOBAL(u16, word_70643E, 0x70643E);
 DEFINE_GLOBAL_ARRAY(char, byte_67CE50, 264, 0x67CE50); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
-DEFINE_GLOBAL(s32, dword_7064C0, 0x7064C0);
+DEFINE_GLOBAL_INIT(s32, dword_7064C0, 0, 0x7064C0);
 DEFINE_GLOBAL_INIT(s32, dword_7063B0, 0x400, 0x7063B0);
 DEFINE_GLOBAL_INIT(s32, dword_7065B4, 0x1C00, 0x7065B4);
 DEFINE_GLOBAL_INIT(s32, dword_706338, 0x100, 0x706338);
@@ -831,7 +831,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
                  pPed->get_cam_z().AsDouble(),
                  pZoneName);
 
-        Garox_C4* pC4 = gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
+        Garox_C4* pC4 = gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
         pC4->field_B0_drawKind = 8;
         pC4->field_B4 = 0;
     }
@@ -1022,7 +1022,7 @@ void Hud_CopHead_C_Array::sub_5D0210()
 // ----------------------------------------------------
 
 WIP_FUNC(0x5d1b10)
-void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime)
+void Garox_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime)
 {
     WIP_IMPLEMENTED;
 
@@ -1115,14 +1115,14 @@ void Garox_1700_L::sub_5D1EB0(Garox_C4* String2)
 }
 
 MATCH_FUNC(0x5d1f50)
-Garox_C4* Garox_1700_L::sub_5D1F50(const wchar_t* pStr, s16 maybe_x, s16 maybe_y, s16 a5, s32 a6)
+Garox_C4* Garox_1700_L::DisplayText_5D1F50(const wchar_t* pStr, s16 maybe_x, s16 maybe_y, s16 font_type, s32 display_time)
 {
     Garox_C4* pOld_964 = field_964;
     Garox_C4* pOldFirst = field_960_pFirst;
     field_964 = pOld_964->field_C0_pNext;
     pOld_964->field_C0_pNext = pOldFirst;
     field_960_pFirst = pOld_964;
-    pOld_964->sub_5D1B10(pStr, maybe_x, maybe_y, a5, a6);
+    pOld_964->FormatAndSetupText_5D1B10(pStr, maybe_x, maybe_y, font_type, display_time);
     sub_5D1EB0(pOld_964);
     return pOld_964;
 }
