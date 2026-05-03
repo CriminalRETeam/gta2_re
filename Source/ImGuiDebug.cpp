@@ -1802,7 +1802,7 @@ void CC ImGuiDebugDraw()
                     if (pHud_Brief_704)
                     {
                         ImGui::Value("field_500", pHud_Brief_704->field_500);
-                        ImGui::InputS16("field_502_face_idx", &pHud_Brief_704->field_502_face_idx, 1, 1);
+                        ImGui::InputU8("field_502_face_idx", &pHud_Brief_704->field_502_face_idx, 1, 1);
                         ImGui::Value("field_504_tick_timer", pHud_Brief_704->field_504_tick_timer);
                         ImGui::Value("field_506", pHud_Brief_704->field_506);
                         ImGui::Value("field_508_num_lines", pHud_Brief_704->field_508_num_lines);

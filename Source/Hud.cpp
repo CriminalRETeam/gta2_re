@@ -2152,6 +2152,7 @@ MATCH_FUNC(0x5d3470)
 size_t Hud_Brief_704::sub_5D3470()
 {
     size_t num_chars;
+    char_type brief_face_idx;
 
     if (field_6F8_curr_brief)
     {
@@ -2160,76 +2161,76 @@ size_t Hud_Brief_704::sub_5D3470()
             swprintf(tmpBuff_67BD9C,
                      gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str),
                      field_6F8_curr_brief->field_14_cost_param);
-            char_type v4 = GetBriefFaceIdx_5D3680(tmpBuff_67BD9C[0]);
-            *(u8*)&field_502_face_idx = v4; // TODO
+            brief_face_idx = GetBriefFaceIdx_5D3680(tmpBuff_67BD9C[0]);
+            field_502_face_idx = brief_face_idx;
 
-            wchar_t* v6;
-            if (v4)
+            wchar_t* pStartStr;
+            if (brief_face_idx)
             {
-                v6 = &tmpBuff_67BD9C[1];
+                pStartStr = &tmpBuff_67BD9C[1]; // ignore next two chars
             }
             else
             {
-                v6 = tmpBuff_67BD9C;
-                *(u8*)&field_502_face_idx = 8; // TODO
+                pStartStr = tmpBuff_67BD9C;
+                field_502_face_idx = 8; // neutral face
             }
 
-            field_508_num_lines = gText_0x14_704DFC->InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, v6, MaxLineWidth_62689C, word_7065C4);
+            field_508_num_lines = gText_0x14_704DFC->InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, pStartStr, MaxLineWidth_62689C, word_7065C4);
             num_chars = wcslen(field_0_str);
             if (bShow_brief_number_67D504)
             {
                 swprintf(tmpBuff_67BD9C,
                          gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str),
                          field_6F8_curr_brief->field_14_cost_param);
-                char_type v8 = GetBriefFaceIdx_5D3680(tmpBuff_67BD9C[0]);
-                *(u8*)&field_502_face_idx = v8; // TODO
+                brief_face_idx = GetBriefFaceIdx_5D3680(tmpBuff_67BD9C[0]);
+                field_502_face_idx = brief_face_idx;
 
-                wchar_t* v9;
-                if (v8)
+                wchar_t* pStartStr_2;
+                if (brief_face_idx)
                 {
-                    v9 = &tmpBuff_67BD9C[1];
+                    pStartStr_2 = &tmpBuff_67BD9C[1]; // ignore next two chars
                 }
                 else
                 {
-                    *(u8*)&field_502_face_idx = 8; // TODO
-                    v9 = tmpBuff_67BD9C;
+                    field_502_face_idx = 8; // neutral face
+                    pStartStr_2 = tmpBuff_67BD9C;
                 }
-                swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), v9);
+                swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), pStartStr_2);
                 field_508_num_lines = text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, word_67C7D8, MaxLineWidth_62689C, word_7065C4);
             }
         }
         else
         {
             wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
-            char_type face_idx = GetBriefFaceIdx_5D3680(_5B5F90[0]);
-            *(u8*)&field_502_face_idx = face_idx; // TODO
+            brief_face_idx = GetBriefFaceIdx_5D3680(_5B5F90[0]);
+            field_502_face_idx = brief_face_idx;
 
-            if (face_idx)
+            if (brief_face_idx)
             {
-                ++_5B5F90;
+                ++_5B5F90; // ignore next two chars
             }
             else
             {
-                *(u8*)&field_502_face_idx = 8; // TODO
+                field_502_face_idx = 8; // neutral face
             }
             field_508_num_lines = gText_0x14_704DFC->InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, (const wchar_t*)_5B5F90, MaxLineWidth_62689C, word_7065C4);
             num_chars = wcslen(field_0_str);
 
             if (bShow_brief_number_67D504)
             {
-                wchar_t* v15 = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
-                char_type face_idx_2 = GetBriefFaceIdx_5D3680(v15[0]);
-                *(u8*)&field_502_face_idx = face_idx_2; // TODO
+                wchar_t* pString = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
+                brief_face_idx = GetBriefFaceIdx_5D3680(pString[0]);
+                field_502_face_idx = brief_face_idx;
 
-                if (face_idx_2)
+                if (brief_face_idx)
                 {
-                    ++v15;
+                    ++pString; // ignore next two chars
                 }
                 else
                 {
-                    *(u8*)&field_502_face_idx = 8; // TODO
+                    field_502_face_idx = 8; // neutral face
                 }
-                swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), v15);
+                swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), pString);
                 field_508_num_lines = text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, word_67C7D8, MaxLineWidth_62689C, word_7065C4);
             }
         }

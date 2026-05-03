@@ -519,7 +519,8 @@ class Hud_Brief_704 // size 0x704
 
     wchar_t field_0_str[640];
     s16 field_500;
-    s16 field_502_face_idx;
+    u8 field_502_face_idx;
+    u8 field_503;
     u16 field_504_tick_timer;
     u16 field_506;
     s32 field_508_num_lines;
