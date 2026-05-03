@@ -203,7 +203,7 @@ class Hud_CopHead_C_Array
 class Garox_C4
 {
   public:
-    EXPORT void sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime);
+    EXPORT void FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime);
     EXPORT void sub_5D1D00();
     EXPORT bool sub_5D1DB0();
     EXPORT bool operator_equals_5D1E10(Garox_C4* pOther);
@@ -225,7 +225,7 @@ class Garox_1700_L
 {
   public:
     EXPORT void sub_5D1EB0(Garox_C4* String2);
-    EXPORT Garox_C4* sub_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 a6);
+    EXPORT Garox_C4* DisplayText_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 a6);
     EXPORT void Service_5D2010();
     EXPORT void sub_5D2050();
     EXPORT Garox_1700_L();
@@ -497,7 +497,7 @@ class Hud_Arrow_7C_Array
     char_type field_847;
 };
 
-EXPORT char_type __stdcall sub_5D3680(u16 a1);
+EXPORT char_type __stdcall GetBriefFaceIdx_5D3680(u16 a1);
 
 class Hud_Brief_704 // size 0x704
 {
@@ -519,7 +519,8 @@ class Hud_Brief_704 // size 0x704
 
     wchar_t field_0_str[640];
     s16 field_500;
-    s16 field_502_face_idx;
+    u8 field_502_face_idx;
+    u8 field_503;
     u16 field_504_tick_timer;
     u16 field_506;
     s32 field_508_num_lines;

@@ -679,14 +679,14 @@ void PedManager::PedsService_4703F0()
         u16 num_peds = *(u32*)&gNumPedsOnScreen_6787EC; //  TODO: fix me
         swprintf(tmpBuff_67BD9C, L"num peds on screen : %d",
                  num_peds); // num peds on screen : %d
-        gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
         if (gPolice_7B8_6FEE40)
         {
             swprintf(tmpBuff_67BD9C,
                      L"num police peds in range screen : %d", // num police peds in range screen : %d
                      (u8)gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen);
-            gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+            gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
         }
     }
 }

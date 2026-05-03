@@ -3534,7 +3534,7 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
                                     {
                                         if (pPlayer->IsUser_41DC70())
                                         {
-                                            gHud_2B00_706620->field_650.sub_5D1F50(L"snap", 0, 64, word_706600, 1);
+                                            gHud_2B00_706620->field_650.DisplayText_5D1F50(L"snap", 0, 64, word_706600, 1);
                                         }
                                     }
                                 }

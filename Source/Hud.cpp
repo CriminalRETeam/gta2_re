@@ -35,7 +35,7 @@ DEFINE_GLOBAL(u16, word_7062DC, 0x7062DC);
 DEFINE_GLOBAL(u16, word_70643E, 0x70643E);
 DEFINE_GLOBAL_ARRAY(char, byte_67CE50, 264, 0x67CE50); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
-DEFINE_GLOBAL(s32, dword_7064C0, 0x7064C0);
+DEFINE_GLOBAL_INIT(s32, dword_7064C0, 0, 0x7064C0);
 DEFINE_GLOBAL_INIT(s32, dword_7063B0, 0x400, 0x7063B0);
 DEFINE_GLOBAL_INIT(s32, dword_7065B4, 0x1C00, 0x7065B4);
 DEFINE_GLOBAL_INIT(s32, dword_706338, 0x100, 0x706338);
@@ -51,7 +51,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_7064C4, Fix16(1), 0x7064C4);
 DEFINE_GLOBAL_INIT(Fix16, dword_7064E8, Fix16(8), 0x7064E8);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67C7D8, 640);
-DEFINE_GLOBAL(s32, dword_62689C, 0x62689C);
+DEFINE_GLOBAL_INIT(s32, MaxLineWidth_62689C, 576, 0x62689C);
 
 // TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
@@ -426,7 +426,7 @@ void Hud_Message_1C8::sub_5D1860()
 {
     if (this->field_0_time_to_show)
     {
-        text_0x14::sub_5B5BC0(&this->field_2_str[100], this->field_2_str, 580, word_7062F0);
+        text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(&this->field_2_str[100], this->field_2_str, 580, word_7062F0);
         this->field_1BC_str_width = (u16)((640 - Frontend::GetMaxTextWidth_5D8990(&this->field_2_str[100], word_7062F0)) / 2);
         this->field_1C0_num_lines = (u16)((480 - CountLineSpacing_5D8940(&this->field_2_str[100], word_7062F0)) / 4);
     }
@@ -831,7 +831,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
                  pPed->get_cam_z().AsDouble(),
                  pZoneName);
 
-        Garox_C4* pC4 = gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
+        Garox_C4* pC4 = gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
         pC4->field_B0_drawKind = 8;
         pC4->field_B4 = 0;
     }
@@ -1022,13 +1022,13 @@ void Hud_CopHead_C_Array::sub_5D0210()
 // ----------------------------------------------------
 
 WIP_FUNC(0x5d1b10)
-void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime)
+void Garox_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime)
 {
     WIP_IMPLEMENTED;
 
     this->field_AC_fontType = fontType;
 
-    text_0x14::sub_5B5BC0(field_0_str_buf, pStr, 640, fontType);
+    text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str_buf, pStr, 640, fontType);
 
     if (field_AC_fontType == word_703C9C || field_AC_fontType == word_703D9C)
     {
@@ -1115,14 +1115,14 @@ void Garox_1700_L::sub_5D1EB0(Garox_C4* String2)
 }
 
 MATCH_FUNC(0x5d1f50)
-Garox_C4* Garox_1700_L::sub_5D1F50(const wchar_t* pStr, s16 maybe_x, s16 maybe_y, s16 a5, s32 a6)
+Garox_C4* Garox_1700_L::DisplayText_5D1F50(const wchar_t* pStr, s16 maybe_x, s16 maybe_y, s16 font_type, s32 display_time)
 {
     Garox_C4* pOld_964 = field_964;
     Garox_C4* pOldFirst = field_960_pFirst;
     field_964 = pOld_964->field_C0_pNext;
     pOld_964->field_C0_pNext = pOldFirst;
     field_960_pFirst = pOld_964;
-    pOld_964->sub_5D1B10(pStr, maybe_x, maybe_y, a5, a6);
+    pOld_964->FormatAndSetupText_5D1B10(pStr, maybe_x, maybe_y, font_type, display_time);
     sub_5D1EB0(pOld_964);
     return pOld_964;
 }
@@ -2152,6 +2152,7 @@ MATCH_FUNC(0x5d3470)
 size_t Hud_Brief_704::sub_5D3470()
 {
     size_t num_chars;
+    char_type brief_face_idx;
 
     if (field_6F8_curr_brief)
     {
@@ -2160,77 +2161,77 @@ size_t Hud_Brief_704::sub_5D3470()
             swprintf(tmpBuff_67BD9C,
                      gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str),
                      field_6F8_curr_brief->field_14_cost_param);
-            char_type v4 = sub_5D3680(tmpBuff_67BD9C[0]);
-            *(u8*)&field_502_face_idx = v4; // TODO
+            brief_face_idx = GetBriefFaceIdx_5D3680(tmpBuff_67BD9C[0]);
+            field_502_face_idx = brief_face_idx;
 
-            wchar_t* v6;
-            if (v4)
+            wchar_t* pStartStr;
+            if (brief_face_idx)
             {
-                v6 = &tmpBuff_67BD9C[1];
+                pStartStr = &tmpBuff_67BD9C[1]; // ignore next two chars
             }
             else
             {
-                v6 = tmpBuff_67BD9C;
-                *(u8*)&field_502_face_idx = 8; // TODO
+                pStartStr = tmpBuff_67BD9C;
+                field_502_face_idx = 8; // neutral face
             }
 
-            field_508_num_lines = gText_0x14_704DFC->sub_5B5BC0(field_0_str, v6, dword_62689C, word_7065C4);
+            field_508_num_lines = gText_0x14_704DFC->InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, pStartStr, MaxLineWidth_62689C, word_7065C4);
             num_chars = wcslen(field_0_str);
             if (bShow_brief_number_67D504)
             {
                 swprintf(tmpBuff_67BD9C,
                          gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str),
                          field_6F8_curr_brief->field_14_cost_param);
-                char_type v8 = sub_5D3680(tmpBuff_67BD9C[0]);
-                *(u8*)&field_502_face_idx = v8; // TODO
+                brief_face_idx = GetBriefFaceIdx_5D3680(tmpBuff_67BD9C[0]);
+                field_502_face_idx = brief_face_idx;
 
-                wchar_t* v9;
-                if (v8)
+                wchar_t* pStartStr_2;
+                if (brief_face_idx)
                 {
-                    v9 = &tmpBuff_67BD9C[1];
+                    pStartStr_2 = &tmpBuff_67BD9C[1]; // ignore next two chars
                 }
                 else
                 {
-                    *(u8*)&field_502_face_idx = 8; // TODO
-                    v9 = tmpBuff_67BD9C;
+                    field_502_face_idx = 8; // neutral face
+                    pStartStr_2 = tmpBuff_67BD9C;
                 }
-                swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), v9);
-                field_508_num_lines = text_0x14::sub_5B5BC0(field_0_str, word_67C7D8, dword_62689C, word_7065C4);
+                swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), pStartStr_2);
+                field_508_num_lines = text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, word_67C7D8, MaxLineWidth_62689C, word_7065C4);
             }
         }
         else
         {
             wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
-            char_type v13 = sub_5D3680(_5B5F90[0]);
-            *(u8*)&field_502_face_idx = v13; // TODO
+            brief_face_idx = GetBriefFaceIdx_5D3680(_5B5F90[0]);
+            field_502_face_idx = brief_face_idx;
 
-            if (v13)
+            if (brief_face_idx)
             {
-                ++_5B5F90;
+                ++_5B5F90; // ignore next two chars
             }
             else
             {
-                *(u8*)&field_502_face_idx = 8; // TODO
+                field_502_face_idx = 8; // neutral face
             }
-            field_508_num_lines = gText_0x14_704DFC->sub_5B5BC0(field_0_str, (const wchar_t*)_5B5F90, dword_62689C, word_7065C4);
+            field_508_num_lines = gText_0x14_704DFC->InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, (const wchar_t*)_5B5F90, MaxLineWidth_62689C, word_7065C4);
             num_chars = wcslen(field_0_str);
 
             if (bShow_brief_number_67D504)
             {
-                wchar_t* v15 = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
-                char_type v16 = sub_5D3680(v15[0]);
-                *(u8*)&field_502_face_idx = v16; // TODO
+                wchar_t* pString = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
+                brief_face_idx = GetBriefFaceIdx_5D3680(pString[0]);
+                field_502_face_idx = brief_face_idx;
 
-                if (v16)
+                if (brief_face_idx)
                 {
-                    ++v15;
+                    ++pString; // ignore next two chars
                 }
                 else
                 {
-                    *(u8*)&field_502_face_idx = 8; // TODO
+                    field_502_face_idx = 8; // neutral face
                 }
-                swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), v15);
-                field_508_num_lines = text_0x14::sub_5B5BC0(field_0_str, word_67C7D8, dword_62689C, word_7065C4);
+                swprintf(word_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), pString);
+                field_508_num_lines = text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, word_67C7D8, MaxLineWidth_62689C, word_7065C4);
             }
         }
     }
@@ -2238,27 +2239,27 @@ size_t Hud_Brief_704::sub_5D3470()
 }
 
 MATCH_FUNC(0x5d3680)
-char_type __stdcall sub_5D3680(u16 a1)
+char_type __stdcall GetBriefFaceIdx_5D3680(u16 two_byte_chars)
 {
-    switch (a1)
+    switch (two_byte_chars)
     {
-        case 8556:
+        case 8556: // "!l" = loonies
             return 1;
-        case 8569:
+        case 8569: // "!y" = yakuza
             return 2;
-        case 8570:
+        case 8570: // "!z" = zaibatsu
             return 3;
-        case 8562:
+        case 8562: // "!r" = rednecks
             return 4;
-        case 8563:
+        case 8563: // "!s" = scientists
             return 5;
-        case 8555:
+        case 8555: // "!k" = krishna
             return 6;
-        case 8557:
+        case 8557: // "!m" = mafia (russian)
             return 7;
-        case 8558:
+        case 8558: // "!n" = neutral
             return 8;
-        case 8560:
+        case 8560: // "!p" = police
             return 9;
         default:
             return 0;

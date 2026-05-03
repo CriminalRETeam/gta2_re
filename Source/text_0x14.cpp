@@ -5,6 +5,7 @@
 #include "file.hpp"
 #include "registry.hpp"
 #include "Globals.hpp"
+#include "gtx_0x106C.hpp"
 #include "enums.hpp"
 
 DEFINE_GLOBAL(text_0x14*, gText_0x14_704DFC, 0x704DFC);
@@ -223,12 +224,72 @@ wchar_t* text_0x14::sub_5B5B80(wchar_t* pWideStr)
     return pWideStr;
 }
 
-STUB_FUNC(0x5B5BC0)
-s32 __stdcall text_0x14::sub_5B5BC0(wchar_t* a1, const wchar_t* a2, s32 a3, u16 a4)
+// https://decomp.me/scratch/JzIDq
+WIP_FUNC(0x5B5BC0)
+s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type)
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return 0;
+    WIP_IMPLEMENTED;
+
+    const wchar_t* pSrcStrCopy = pSrcStr;
+    wchar_t* pDestStrCopy = pDestStr;
+    s32 num_of_lines = 1;
+    s32 current_width = 0;
+    wchar_t* pPrevDestCheckpoint = NULL;
+
+    u16 space_width = gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
+
+    const wchar_t* pPrevSrcCheckpoint = NULL;
+
+    for (; *pSrcStrCopy; pSrcStrCopy++, pDestStrCopy++)
+    {
+        *pDestStrCopy = *pSrcStrCopy;
+
+        switch (*pSrcStrCopy)
+        {
+            case '\n':
+                current_width = 0;
+                pPrevSrcCheckpoint = 0;
+                pPrevDestCheckpoint = NULL;
+                num_of_lines += 1;
+                break;
+            case ' ':
+                current_width += space_width;
+                pPrevSrcCheckpoint = pSrcStrCopy;
+                pPrevDestCheckpoint = pDestStrCopy;
+                break;
+            case '#':
+                break;
+            default:
+                current_width += gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, (wchar_t*)pSrcStr);
+                break;
+        }
+
+        if (current_width > max_line_width)
+        {
+            current_width = 0;
+            if (pPrevSrcCheckpoint && pPrevDestCheckpoint)
+            {
+                pDestStrCopy = pPrevDestCheckpoint; // retrocede
+                pSrcStrCopy = pPrevSrcCheckpoint;
+                *pDestStrCopy = '\n';
+
+                pPrevSrcCheckpoint = NULL;
+                pPrevDestCheckpoint = NULL;
+            }
+            else
+            {
+                *pDestStrCopy = '\n';
+                pDestStrCopy++;
+
+                current_width = gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, (wchar_t*)pSrcStr);
+                *pDestStrCopy = *pSrcStrCopy;
+            }
+            num_of_lines += 1;
+        }
+    }
+    *pDestStrCopy = 0; // terminate string
+
+    return num_of_lines;
 }
 
 MATCH_FUNC(0x5B5D10)
