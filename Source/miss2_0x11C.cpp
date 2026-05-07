@@ -3543,10 +3543,26 @@ void miss2_0x11C::SCRCMD_SEND_CAR_TO_BLOCK_50BB80()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50bbd0)
-void miss2_0x11C::sub_50BBD0()
+MATCH_FUNC(0x50bbd0)
+void miss2_0x11C::SCRCMD_SET_CHAR_BRAVERY_50BBD0()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx);
+
+    switch (gBasePtr_6F8070->field_2_type)
+    {
+        case 153:
+            pScrPtr->field_8_char->SpawnPedGroupFollowers_46E200(pCmd->field_A_objective);
+            break;
+        case 152:
+            pScrPtr->field_8_char->field_28C_threat_reaction = pCmd->field_A_objective;
+            break;
+        case 151:
+            pScrPtr->field_8_char->field_288_threat_search = pCmd->field_A_objective;
+            break;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 WIP_FUNC(0x50bc60)
@@ -5837,7 +5853,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case SCRCMD_ADD_GROUP:
             case SCRCMD_SET_CHAR_SHOOT:
             case SCRCMD_SET_CHAR_BRAVERY:
-                sub_50BBD0();
+                SCRCMD_SET_CHAR_BRAVERY_50BBD0();
                 break;
             case SCRCMD_CHANGE_CAR_REMAP:
                 SCRCMD_CHANGE_CAR_REMAP_50A570();
