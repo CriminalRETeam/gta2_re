@@ -115,7 +115,7 @@ void frosty_pasteur_0xC1EA8::sub_511C60()
     {
         if (((1 << bit) & gGameSave_6F78C8.field_E4_car_and_script_data.field_48_flags) != 0)
         {
-            SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(field_C1E32[bit]);
+            SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(field_C1E32_phone_ids[bit]);
             pPointer->field_8_obj->sub_5291E0(174);
             gfrosty_pasteur_6F8060->sub_512AA0(pPointer->field_8_obj->field_14_id);
         }
@@ -715,7 +715,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     }
 
     memset(field_45C_scr_file_name, 0, sizeof(field_45C_scr_file_name));
-    memset(field_C1E32, 0, sizeof(field_C1E32));
+    memset(field_C1E32_phone_ids, 0, sizeof(field_C1E32_phone_ids));
     memset(field_C1E2F, 0, sizeof(field_C1E2F));
     memset(field_C1E74_basic_kf, 0, sizeof(field_C1E74_basic_kf));
 

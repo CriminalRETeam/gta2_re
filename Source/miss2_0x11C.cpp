@@ -52,6 +52,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F8044, Ang16(0x4), 0x6F8044);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F7570, Fix16(0x3FC000, 0), 0x6F7570);
 EXTERN_GLOBAL(Ang16, dword_6F804C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F77C4, Fix16(0x4000, 0), 0x6F77C4);
+DEFINE_GLOBAL(u32, gPhoneFlags_6F79F4, 0x6F79F4);
 
 static inline bool is_car_weapon(s32& weapon_idx)
 {
@@ -243,9 +244,9 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER
             gHud_2B00_706620->field_1F18.place_gang_phone_5D1110(a2->field_8_obj);
             for (u8 v9 = 0; v9 < 0x1Fu; v9++)
             {
-                if (gfrosty_pasteur_6F8060->field_C1E32[v9] == 0)
+                if (gfrosty_pasteur_6F8060->field_C1E32_phone_ids[v9] == 0)
                 {
-                    gfrosty_pasteur_6F8060->field_C1E32[v9] = a2->field_0_cmd_this;
+                    gfrosty_pasteur_6F8060->field_C1E32_phone_ids[v9] = a2->field_0_cmd_this;
                     break;
                 }
             }
@@ -3693,10 +3694,28 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50c040)
+MATCH_FUNC(0x50c040)
 void miss2_0x11C::SCRCMD_SET_PHONE_DEAD_50C040()
 {
-    NOT_IMPLEMENTED;
+    u16* pIndex = &gBasePtr_6F8070->field_8_index;
+    SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(*pIndex);
+
+    pScrPtr->field_8_obj->sub_5291E0(174);
+    gfrosty_pasteur_6F8060->sub_512AA0(pScrPtr->field_8_obj->field_14_id);
+    u16* pPhoneIds = &gfrosty_pasteur_6F8060->field_C1E32_phone_ids[0];
+
+    for (u8 i = 0; i < 31; i++)
+    {
+        if (*pPhoneIds == *pIndex)
+        {
+            gPhoneFlags_6F79F4 |= 1 << i;
+            break;
+        }
+
+        pPhoneIds++;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c0e0)
