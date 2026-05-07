@@ -180,6 +180,21 @@ struct SCR_THREAD : SCR_CMD_HEADER
     };
 };
 
+struct SCR_CHAR_AREA_ANY : SCR_CMD_HEADER
+{
+    miss2_0x11C* field_8_script_thread;
+    s16 field_C;
+    u16 field_E;
+    Fix16 field_10_x;
+    Fix16 field_14_y;
+    Fix16 field_18_z;
+    Fix16 field_1C_w;
+    Fix16 field_20_h;
+    u16 field_24_char_idx;
+    char_type field_26_result;
+    u8 field_27_flag;
+};
+
 struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
 {
     u16 field_8_char_idx; //  SCR_SET_CHAR_OBJ1
@@ -851,7 +866,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2);
     EXPORT void SCRCMD_THREAD_DECLARE3_504660(s32 a2);
-    EXPORT void sub_504710(s32 a1);
+    EXPORT void SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd);
     EXPORT void SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16* a2);
     EXPORT void SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* a1);
     EXPORT void SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* a1);
@@ -965,7 +980,7 @@ class miss2_0x11C
     EXPORT void sub_50BA70();
     EXPORT void SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0();
     EXPORT void SCRCMD_SEND_CAR_TO_BLOCK_50BB80();
-    EXPORT void sub_50BBD0();
+    EXPORT void SCRCMD_SET_CHAR_BRAVERY_50BBD0();
     EXPORT void SCRCMD_CHECK_NUM_ALIVE_50BC60();
     EXPORT void SCRCMD_SET_MIN_ALIVE_50BCD0();
     EXPORT void sub_50BD10();

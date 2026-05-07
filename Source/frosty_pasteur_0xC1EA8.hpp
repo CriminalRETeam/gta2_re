@@ -682,7 +682,7 @@ class frosty_pasteur_0xC1EA8
     char_type field_C1E2D;
     char_type field_C1E2E_death_arrest_flag;
     char_type field_C1E2F[3];
-    u16 field_C1E32[31];
+    u16 field_C1E32_phone_ids[31];
     u32 field_C1E70;
     u16 field_C1E74_basic_kf[25];
     s16 field_C1EA6;

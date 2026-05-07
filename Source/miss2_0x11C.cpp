@@ -52,6 +52,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F8044, Ang16(0x4), 0x6F8044);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F7570, Fix16(0x3FC000, 0), 0x6F7570);
 EXTERN_GLOBAL(Ang16, dword_6F804C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F77C4, Fix16(0x4000, 0), 0x6F77C4);
+DEFINE_GLOBAL(u32, gPhoneFlags_6F79F4, 0x6F79F4);
 
 static inline bool is_car_weapon(s32& weapon_idx)
 {
@@ -243,9 +244,9 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER
             gHud_2B00_706620->field_1F18.place_gang_phone_5D1110(a2->field_8_obj);
             for (u8 v9 = 0; v9 < 0x1Fu; v9++)
             {
-                if (gfrosty_pasteur_6F8060->field_C1E32[v9] == 0)
+                if (gfrosty_pasteur_6F8060->field_C1E32_phone_ids[v9] == 0)
                 {
-                    gfrosty_pasteur_6F8060->field_C1E32[v9] = a2->field_0_cmd_this;
+                    gfrosty_pasteur_6F8060->field_C1E32_phone_ids[v9] = a2->field_0_cmd_this;
                     break;
                 }
             }
@@ -719,10 +720,43 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(s32 a2)
     }
 }
 
-STUB_FUNC(0x504710)
-void miss2_0x11C::sub_504710(s32 a1)
+MATCH_FUNC(0x504710)
+void miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 {
-    NOT_IMPLEMENTED;
+    if (((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_24_char_idx))->field_8_char)
+    {
+        pCmd->field_27_flag = 1;
+
+        switch (pCmd->field_2_type)
+        {
+            case SCRCMD_THREAD_DECLARE5:
+                pCmd->field_26_result = gCar_214_705F20->sub_5C86C0(
+                    4,
+                    2,
+                    (SCR_THREAD*)pCmd,
+                    pCmd->field_10_x,
+                    pCmd->field_14_y,
+                    pCmd->field_18_z,
+                    pCmd->field_1C_w,
+                    pCmd->field_20_h
+                );
+
+                break;
+            case SCRCMD_CHAR_AREA_ANY_MEANS:
+                pCmd->field_26_result = gCar_214_705F20->sub_5C86C0(
+                    3,
+                    2,
+                    (SCR_THREAD*)pCmd,
+                    pCmd->field_10_x,
+                    pCmd->field_14_y,
+                    pCmd->field_18_z,
+                    pCmd->field_1C_w,
+                    pCmd->field_20_h
+                );
+
+                break;
+        }
+    }
 }
 
 MATCH_FUNC(0x5047c0)
@@ -1523,8 +1557,8 @@ void miss2_0x11C::ExecOpCode_5061C0()
                     miss2_0x11C::SCRCMD_DECLARE_MISSION_504DD0((SCR_TWO_PARAMS*)pBasePtr);
                     break;
                 case SCRCMD_CHAR_AREA_ANY_MEANS:
-                case SCRCMD_THREAD_DECLARE5: // ?????
-                    miss2_0x11C::sub_504710((s32)pBasePtr); // TODO: correct type after matching this func
+                case SCRCMD_THREAD_DECLARE5:
+                    miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710((SCR_CHAR_AREA_ANY*)pBasePtr);
                     break;
                 case SCRCMD_DECLARE_CARLIST:
                     miss2_0x11C::SCRCMD_DECLARE_CARLIST_505750((SCR_TWO_PARAMS*)pBasePtr);
@@ -3543,10 +3577,26 @@ void miss2_0x11C::SCRCMD_SEND_CAR_TO_BLOCK_50BB80()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50bbd0)
-void miss2_0x11C::sub_50BBD0()
+MATCH_FUNC(0x50bbd0)
+void miss2_0x11C::SCRCMD_SET_CHAR_BRAVERY_50BBD0()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx);
+
+    switch (gBasePtr_6F8070->field_2_type)
+    {
+        case 153:
+            pScrPtr->field_8_char->SpawnPedGroupFollowers_46E200(pCmd->field_A_objective);
+            break;
+        case 152:
+            pScrPtr->field_8_char->field_28C_threat_reaction = pCmd->field_A_objective;
+            break;
+        case 151:
+            pScrPtr->field_8_char->field_288_threat_search = pCmd->field_A_objective;
+            break;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 WIP_FUNC(0x50bc60)
@@ -3677,10 +3727,28 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50c040)
+MATCH_FUNC(0x50c040)
 void miss2_0x11C::SCRCMD_SET_PHONE_DEAD_50C040()
 {
-    NOT_IMPLEMENTED;
+    u16* pIndex = &gBasePtr_6F8070->field_8_index;
+    SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(*pIndex);
+
+    pScrPtr->field_8_obj->sub_5291E0(174);
+    gfrosty_pasteur_6F8060->sub_512AA0(pScrPtr->field_8_obj->field_14_id);
+    u16* pPhoneIds = &gfrosty_pasteur_6F8060->field_C1E32_phone_ids[0];
+
+    for (u8 i = 0; i < 31; i++)
+    {
+        if (*pPhoneIds == *pIndex)
+        {
+            gPhoneFlags_6F79F4 |= 1 << i;
+            break;
+        }
+
+        pPhoneIds++;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c0e0)
@@ -5837,7 +5905,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case SCRCMD_ADD_GROUP:
             case SCRCMD_SET_CHAR_SHOOT:
             case SCRCMD_SET_CHAR_BRAVERY:
-                sub_50BBD0();
+                SCRCMD_SET_CHAR_BRAVERY_50BBD0();
                 break;
             case SCRCMD_CHANGE_CAR_REMAP:
                 SCRCMD_CHANGE_CAR_REMAP_50A570();
