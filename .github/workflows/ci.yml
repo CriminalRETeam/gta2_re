@@ -8,7 +8,7 @@ jobs:
     # ======================================
 
   build-windows-latest:
-    runs-on: windows-latest
+    runs-on: windows-2022
     name: Windows_VC_Latest
 
     steps:
