@@ -720,10 +720,43 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(s32 a2)
     }
 }
 
-STUB_FUNC(0x504710)
-void miss2_0x11C::sub_504710(s32 a1)
+MATCH_FUNC(0x504710)
+void miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 {
-    NOT_IMPLEMENTED;
+    if (((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_24_char_idx))->field_8_char)
+    {
+        pCmd->field_27_flag = 1;
+
+        switch (pCmd->field_2_type)
+        {
+            case SCRCMD_THREAD_DECLARE5:
+                pCmd->field_26_result = gCar_214_705F20->sub_5C86C0(
+                    4,
+                    2,
+                    (SCR_THREAD*)pCmd,
+                    pCmd->field_10_x,
+                    pCmd->field_14_y,
+                    pCmd->field_18_z,
+                    pCmd->field_1C_w,
+                    pCmd->field_20_h
+                );
+
+                break;
+            case SCRCMD_CHAR_AREA_ANY_MEANS:
+                pCmd->field_26_result = gCar_214_705F20->sub_5C86C0(
+                    3,
+                    2,
+                    (SCR_THREAD*)pCmd,
+                    pCmd->field_10_x,
+                    pCmd->field_14_y,
+                    pCmd->field_18_z,
+                    pCmd->field_1C_w,
+                    pCmd->field_20_h
+                );
+
+                break;
+        }
+    }
 }
 
 MATCH_FUNC(0x5047c0)
@@ -1524,8 +1557,8 @@ void miss2_0x11C::ExecOpCode_5061C0()
                     miss2_0x11C::SCRCMD_DECLARE_MISSION_504DD0((SCR_TWO_PARAMS*)pBasePtr);
                     break;
                 case SCRCMD_CHAR_AREA_ANY_MEANS:
-                case SCRCMD_THREAD_DECLARE5: // ?????
-                    miss2_0x11C::sub_504710((s32)pBasePtr); // TODO: correct type after matching this func
+                case SCRCMD_THREAD_DECLARE5:
+                    miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710((SCR_CHAR_AREA_ANY*)pBasePtr);
                     break;
                 case SCRCMD_DECLARE_CARLIST:
                     miss2_0x11C::SCRCMD_DECLARE_CARLIST_505750((SCR_TWO_PARAMS*)pBasePtr);
