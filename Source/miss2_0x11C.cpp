@@ -43,6 +43,10 @@
 
 DEFINE_GLOBAL_INIT(s16, word_6212EE, 1, 0x6212EE);
 
+DEFINE_GLOBAL_ARRAY_INIT(u8, byte_6212F0, 19, 0x6212F0,
+    0x41u COMMA 0x42u COMMA 0x43u COMMA 0x44u COMMA 0x45u COMMA 0x46u COMMA 0x47u COMMA 0x48u COMMA 0x49u COMMA
+    0x5Eu COMMA 0x5Fu COMMA 0x60u COMMA 0x61u COMMA 0x62u COMMA 0x63u COMMA 0x64u COMMA 0x65u COMMA 0x66u COMMA 0x67u);
+
 DEFINE_GLOBAL(miss2_0x11C_Pool*, miss2_0x11C_Pool_6F8064, 0x6F8064);
 DEFINE_GLOBAL(SCR_POINTER*, gBasePtr_6F8070, 0x6F8070);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F76DC, Fix16(0x6000, 0), 0x6F76DC);
@@ -4241,10 +4245,10 @@ void miss2_0x11C::SCRCMD_REMOTE_CONTROL_50D200()
 {
     SCR_REMOTE_CONTROL* pCmd = (SCR_REMOTE_CONTROL*)gBasePtr_6F8070;
     SCR_POINTER* pPlayerPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pCarPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_car_idx);
+    SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_car_idx);
     pPlayerPtr->field_8_char->field_15C_player->DisableInputs_569F40();
     pPlayerPtr->field_8_char->field_15C_player->sub_5695A0();
-    pPlayerPtr->field_8_char->field_15C_player->sub_569600(pCarPtr->field_8_car);
+    pPlayerPtr->field_8_char->field_15C_player->sub_569600(pParam1->field_8_car);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -5058,10 +5062,49 @@ void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50f150)
+MATCH_FUNC(0x50f150)
 void miss2_0x11C::SCRCMD_DECIDE_POWERUP_50F150()
 {
-    NOT_IMPLEMENTED;
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+
+    Car_BC* pCar = pParam1->field_8_car;
+    u8* pCarList = (u8*)gfrosty_pasteur_6F8060->field_340_car_list;
+
+    for (u16 i = 0; i < 19; i++)
+    {
+        if (pCar != NULL && pCar->field_84_car_info_idx == *pCarList)
+        {
+            pParam2->field_8_generator->field_0_gen_type = byte_6212F0[i];
+            Generator_2C* pGen = pParam2->field_8_generator;
+
+            if (byte_6212F0[i] < 91)
+            {
+                pGen->sub_4C1A70();
+                pGen->field_1E_kill_timer = 3;
+            }
+            else
+            {
+                pGen->sub_4C1A70();
+                pGen->field_1E_kill_timer = 1;
+            }
+
+            break;
+        }
+
+        pCarList++;
+    }
+
+    if (i == 19)
+    {
+        Generator_2C* pGen = pParam2->field_8_generator;
+        pGen->sub_4C1A70();
+        pGen->field_1E_kill_timer = 3;
+        pParam2->field_8_generator->field_0_gen_type = 65;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50f220)
