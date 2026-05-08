@@ -3039,10 +3039,53 @@ void miss2_0x11C::sub_50A980() //  DELAY
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50a9e0)
+MATCH_FUNC(0x50a9e0)
 void miss2_0x11C::EnableThread_50A9E0(u16 idx)
 {
-    NOT_IMPLEMENTED;
+    SCR_CMD_HEADER* pCmd = gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
+
+    switch (pCmd->field_2_type)
+    {
+        case SCRCMD_THREAD_DECLARE2:
+            SCRCMD_THREAD_DECLARE2_5045D0((s32)pCmd, (s16*)pCmd);
+            break;
+        case SCRCMD_THREAD_DECLARE3:
+        {
+            SCR_THREAD* pThread = (SCR_THREAD*)pCmd;
+
+            if (pThread->field_16_flag)
+            {
+                gCar_214_705F20->field_0[(u8)pThread->field_15].field_14 = 1;
+            }
+            else
+            {
+                SCRCMD_THREAD_DECLARE3_504660((s32)pCmd);
+            }
+
+            break;
+        }
+        case SCRCMD_THREAD_DECLARE4:
+            SCRCMD_THREAD_DECLARE4_5047C0((s32)pCmd, (s16*)pCmd);
+            break;
+        case SCRCMD_THREAD_DECLARE5:
+        case SCRCMD_CHAR_AREA_ANY_MEANS:
+        {
+            SCR_CHAR_AREA_ANY* pAny = (SCR_CHAR_AREA_ANY*)pCmd;
+
+            if (pAny->field_27_flag)
+            {
+                gCar_214_705F20->field_0[(u8)pAny->field_26_result].field_14 = 1;
+            }
+            else
+            {
+                SCRCMD_THREAD_DECLARE5_504710(pAny);
+            }
+
+            break;
+        }
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50abc0)
