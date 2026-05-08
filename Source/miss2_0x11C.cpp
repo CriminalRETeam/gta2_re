@@ -4034,10 +4034,57 @@ void miss2_0x11C::SCRCMD_UPDATE_DOOR_50C7D0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c8a0)
+MATCH_FUNC(0x50c8a0)
 void miss2_0x11C::SCRCMD_DOOR_50C8A0()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+
+    switch (gBasePtr_6F8070->field_2_type)
+    {
+        case SCRCMD_OPEN_DOOR:
+        {
+            Door_38* door = pPtr->field_8_door;
+
+            if (door->field_0_primary_door_data)
+            {
+                door->field_0_primary_door_data->sub_49C4E0(0);
+            }
+
+            if (door->field_4_secondary_door_data)
+            {
+                door->field_4_secondary_door_data->sub_49C4E0(door->field_2A_bDoFlip);
+            }
+
+            break;
+        }
+        case SCRCMD_CLOSE_DOOR:
+        {
+            Door_38* door = pPtr->field_8_door;
+
+            if (!door->field_28)
+            {
+                break;
+            }
+
+            if (door->field_0_primary_door_data)
+            {
+                door->field_0_primary_door_data->sub_49C590(0);
+            }
+
+            if (door->field_4_secondary_door_data)
+            {
+                door->field_4_secondary_door_data->sub_49C590(door->field_2A_bDoFlip);
+            }
+
+            break;
+        }
+        case SCRCMD_SET_DOOR_AUTO:
+            pPtr->field_8_door->field_29 = true;
+            break;
+        case SCRCMD_SET_DOOR_MANUAL:
+            pPtr->field_8_door->field_29 = false;
+            break;
+    }
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
