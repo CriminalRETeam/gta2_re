@@ -2,6 +2,7 @@
 //#define INLINE_MODE inline
 #include "miss2_0x11c.hpp"
 #include "CarPhysics_B0.hpp"
+#include "CarAI_78.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
 #include "Cranes.hpp"
@@ -5146,10 +5147,48 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     }
 }
 
-STUB_FUNC(0x50f060)
+MATCH_FUNC(0x50f060)
 void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHAR_INTO_CAR* pCmd = (SCR_CHAR_INTO_CAR*)gBasePtr_6F8070;
+    SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_car_idx);
+
+    Ped* pNewPed = gPedManager_6787BC->sub_470F30();
+    pParam1->field_8_char = pNewPed;
+
+    if (pNewPed)
+    {
+        pNewPed->field_238 = 5;
+        pParam1->field_8_char->SpawnPedInCar_45C730(pParam2->field_8_car);
+        pParam1->field_8_char->field_244_remap = pCmd->field_C_remap;
+        pParam1->field_8_char->field_240_occupation = pCmd->field_E_occupation;
+
+        if (!field_118)
+        {
+            gMiss2_25C_6F805C->push_type_3_ped_502FB0(pParam1->field_8_char);
+        }
+    }
+
+    Car_BC* pCarTest = pParam2->field_8_car;
+
+    if (pCarTest)
+    {
+        pCarTest->field_7C_uni_num = 5;
+        pCarTest->field_76_last_seen_timer = 0;
+
+        Car_BC* pCar = pParam2->field_8_car;
+
+        if (!pCar->field_5C)
+        {
+            pCar->field_5C = gCarAI_78_Pool_677CF8->Allocate();
+        }
+
+        pParam2->field_8_car->field_5C->SetCar_453BF0(pParam2->field_8_car);
+        pParam2->field_8_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50f150)

@@ -362,6 +362,16 @@ struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
     SCR_XY_uc field_A_max_pos;
 };
 
+struct SCR_CHAR_INTO_CAR : SCR_CMD_HEADER
+{
+    u16 field_8_char_idx;
+    u16 field_A;
+    u8 field_C_remap;
+    u8 field_D;
+    s16 field_E_occupation;
+    u16 field_10_car_idx;
+};
+
 struct SCR_ADD_BLOCK : SCR_CMD_HEADER
 {
     u8 field_8_xpos;
