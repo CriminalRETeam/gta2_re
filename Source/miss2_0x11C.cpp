@@ -5198,7 +5198,9 @@ void miss2_0x11C::SCRCMD_DECIDE_POWERUP_50F150()
     Car_BC* pCar = pParam1->field_8_car;
     u8* pCarList = (u8*)gfrosty_pasteur_6F8060->field_340_car_list;
 
-    for (u16 i = 0; i < 19; i++)
+    u16 i;
+
+    for (i = 0; i < 19; i++)
     {
         if (pCar != NULL && pCar->field_84_car_info_idx == *pCarList)
         {
