@@ -1,11 +1,11 @@
 #pragma once
 
+#include "Fix16_Point.hpp"
 #include "Function.hpp"
+#include "Pool.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
-#include "Fix16_Point.hpp"
 #include "miss2_xyz.hpp"
-#include "Pool.hpp"
 
 class Ped;
 class Generator_2C;
@@ -362,6 +362,16 @@ struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
     SCR_XY_uc field_A_max_pos;
 };
 
+struct SCR_CHAR_INTO_CAR : SCR_CMD_HEADER
+{
+    u16 field_8_char_idx;
+    u16 field_A;
+    u8 field_C_remap;
+    u8 field_D;
+    s16 field_E_occupation;
+    u16 field_10_car_idx;
+};
+
 struct SCR_ADD_BLOCK : SCR_CMD_HEADER
 {
     u8 field_8_xpos;
@@ -709,20 +719,20 @@ struct SCR_CHANGE_CAR_LOCK : SCR_CMD_HEADER
 
 struct SCR_IS_POINT_ON_SCREEN : SCR_CMD_HEADER
 {
-	Fix16 field_8_xpos;
-	Fix16 field_C_ypos;
+    Fix16 field_8_xpos;
+    Fix16 field_C_ypos;
 };
 
 struct SCR_GET_NUM_LIVES_MULTIPLIERS : SCR_CMD_HEADER
 {
-	u16 field_8_player_ped_idx;
-	u16 field_A_counter_idx;
+    u16 field_8_player_ped_idx;
+    u16 field_A_counter_idx;
 };
 
 struct SCR_REMOTE_CONTROL : SCR_CMD_HEADER
 {
-	u16 field_8_player_ped_idx;
-	u16 field_A_car_idx;
+    u16 field_8_player_ped_idx;
+    u16 field_A_car_idx;
 };
 
 struct SCR_SWITCH_ROAD_ON_OFF : SCR_CMD_HEADER
@@ -741,8 +751,8 @@ struct SCR_CHANGE_LIGHT_INTENSITY : SCR_CMD_HEADER
 
 struct SCR_CHANGE_LIGHT_RADIUS : SCR_CMD_HEADER
 {
-	u16 field_8_light_idx;
-	Fix16 field_A_radius;
+    u16 field_8_light_idx;
+    Fix16 field_A_radius;
 };
 
 struct SCR_DO_SAVE_GAME : SCR_CMD_HEADER
@@ -1128,7 +1138,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(miss2_0x11C, 0x11C)
 class miss2_0x11C_Pool
 {
   public:
-  // TODO: Pools Use pool method
+    // TODO: Pools Use pool method
     // inlined
     miss2_0x11C* sub_4767A0()
     {
@@ -1143,7 +1153,6 @@ class miss2_0x11C_Pool
     // 9.6f inlined ctor 0x481310
     miss2_0x11C_Pool()
     {
-
     }
 
     void LogAll_47F4D0()

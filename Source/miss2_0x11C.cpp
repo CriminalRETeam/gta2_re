@@ -1,6 +1,7 @@
 // Force inline off
 //#define INLINE_MODE inline
 #include "miss2_0x11c.hpp"
+#include "CarAI_78.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
@@ -42,6 +43,13 @@
 #define INLINE_MODE __forceinline
 
 DEFINE_GLOBAL_INIT(s16, word_6212EE, 1, 0x6212EE);
+
+DEFINE_GLOBAL_ARRAY_INIT(
+    u8,
+    byte_6212F0,
+    19,
+    0x6212F0,
+    0x41u COMMA 0x42u COMMA 0x43u COMMA 0x44u COMMA 0x45u COMMA 0x46u COMMA 0x47u COMMA 0x48u COMMA 0x49u COMMA 0x5Eu COMMA 0x5Fu COMMA 0x60u COMMA 0x61u COMMA 0x62u COMMA 0x63u COMMA 0x64u COMMA 0x65u COMMA 0x66u COMMA 0x67u);
 
 DEFINE_GLOBAL(miss2_0x11C_Pool*, miss2_0x11C_Pool_6F8064, 0x6F8064);
 DEFINE_GLOBAL(SCR_POINTER*, gBasePtr_6F8070, 0x6F8070);
@@ -691,7 +699,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2)
     SCR_THREAD* pCmd = (SCR_THREAD*)a1;
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12);
-    
+
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
         gfrosty_pasteur_6F8060->sub_5128D0(pParam1->field_8_char->field_200_id, pParam2->field_8_car->field_6C_maybe_id, *a2);
@@ -706,16 +714,14 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(s32 a2)
 
     if (((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx))->field_8_char)
     {
-        pCmd->field_15 = gCar_214_705F20->sub_5C86C0(
-            4,
-            2,
-            pCmd,
-            Fix16(pCmd->field_12_x) + dword_6F75F0,
-            Fix16(pCmd->field_13_y) + dword_6F75F0,
-            pCmd->field_14_z,
-            dword_6F75F0,
-            dword_6F75F0
-        );
+        pCmd->field_15 = gCar_214_705F20->sub_5C86C0(4,
+                                                     2,
+                                                     pCmd,
+                                                     Fix16(pCmd->field_12_x) + dword_6F75F0,
+                                                     Fix16(pCmd->field_13_y) + dword_6F75F0,
+                                                     pCmd->field_14_z,
+                                                     dword_6F75F0,
+                                                     dword_6F75F0);
         pCmd->field_16_flag = 1;
     }
 }
@@ -730,29 +736,25 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
         switch (pCmd->field_2_type)
         {
             case SCRCMD_THREAD_DECLARE5:
-                pCmd->field_26_result = gCar_214_705F20->sub_5C86C0(
-                    4,
-                    2,
-                    (SCR_THREAD*)pCmd,
-                    pCmd->field_10_x,
-                    pCmd->field_14_y,
-                    pCmd->field_18_z,
-                    pCmd->field_1C_w,
-                    pCmd->field_20_h
-                );
+                pCmd->field_26_result = gCar_214_705F20->sub_5C86C0(4,
+                                                                    2,
+                                                                    (SCR_THREAD*)pCmd,
+                                                                    pCmd->field_10_x,
+                                                                    pCmd->field_14_y,
+                                                                    pCmd->field_18_z,
+                                                                    pCmd->field_1C_w,
+                                                                    pCmd->field_20_h);
 
                 break;
             case SCRCMD_CHAR_AREA_ANY_MEANS:
-                pCmd->field_26_result = gCar_214_705F20->sub_5C86C0(
-                    3,
-                    2,
-                    (SCR_THREAD*)pCmd,
-                    pCmd->field_10_x,
-                    pCmd->field_14_y,
-                    pCmd->field_18_z,
-                    pCmd->field_1C_w,
-                    pCmd->field_20_h
-                );
+                pCmd->field_26_result = gCar_214_705F20->sub_5C86C0(3,
+                                                                    2,
+                                                                    (SCR_THREAD*)pCmd,
+                                                                    pCmd->field_10_x,
+                                                                    pCmd->field_14_y,
+                                                                    pCmd->field_18_z,
+                                                                    pCmd->field_1C_w,
+                                                                    pCmd->field_20_h);
 
                 break;
         }
@@ -3035,10 +3037,53 @@ void miss2_0x11C::sub_50A980() //  DELAY
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50a9e0)
+MATCH_FUNC(0x50a9e0)
 void miss2_0x11C::EnableThread_50A9E0(u16 idx)
 {
-    NOT_IMPLEMENTED;
+    SCR_CMD_HEADER* pCmd = gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
+
+    switch (pCmd->field_2_type)
+    {
+        case SCRCMD_THREAD_DECLARE2:
+            SCRCMD_THREAD_DECLARE2_5045D0((s32)pCmd, (s16*)pCmd);
+            break;
+        case SCRCMD_THREAD_DECLARE3:
+        {
+            SCR_THREAD* pThread = (SCR_THREAD*)pCmd;
+
+            if (pThread->field_16_flag)
+            {
+                gCar_214_705F20->field_0[(u8)pThread->field_15].field_14 = 1;
+            }
+            else
+            {
+                SCRCMD_THREAD_DECLARE3_504660((s32)pCmd);
+            }
+
+            break;
+        }
+        case SCRCMD_THREAD_DECLARE4:
+            SCRCMD_THREAD_DECLARE4_5047C0((s32)pCmd, (s16*)pCmd);
+            break;
+        case SCRCMD_THREAD_DECLARE5:
+        case SCRCMD_CHAR_AREA_ANY_MEANS:
+        {
+            SCR_CHAR_AREA_ANY* pAny = (SCR_CHAR_AREA_ANY*)pCmd;
+
+            if (pAny->field_27_flag)
+            {
+                gCar_214_705F20->field_0[(u8)pAny->field_26_result].field_14 = 1;
+            }
+            else
+            {
+                SCRCMD_THREAD_DECLARE5_504710(pAny);
+            }
+
+            break;
+        }
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50abc0)
@@ -3569,11 +3614,10 @@ void miss2_0x11C::SCRCMD_SEND_CAR_TO_BLOCK_50BB80()
 {
     SCR_CAR_DATA_DEC* pCmd = (SCR_CAR_DATA_DEC*)gBasePtr_6F8070;
     SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_car_idx);
-    pScrPtr->field_8_car->GotoBlock_441080(
-        pCmd->field_C_pos.field_0_x.ToUInt8(),
-        pCmd->field_C_pos.field_4_y.ToUInt8(),
-        pCmd->field_C_pos.field_8_z.ToUInt8(),
-        1);
+    pScrPtr->field_8_car->GotoBlock_441080(pCmd->field_C_pos.field_0_x.ToUInt8(),
+                                           pCmd->field_C_pos.field_4_y.ToUInt8(),
+                                           pCmd->field_C_pos.field_8_z.ToUInt8(),
+                                           1);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -3604,7 +3648,8 @@ void miss2_0x11C::SCRCMD_CHECK_NUM_ALIVE_50BC60()
 {
     WIP_IMPLEMENTED;
     SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
-    SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
+    SCR_POINTER* pScrPtr =
+        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
     PedGroup* pPedGroup = pScrPtr->field_8_char->field_164_ped_group;
     if (pPedGroup != NULL && (s16)pPedGroup->field_34_count >= pCmd->field_A_objective)
     {
@@ -4030,10 +4075,57 @@ void miss2_0x11C::SCRCMD_UPDATE_DOOR_50C7D0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c8a0)
+MATCH_FUNC(0x50c8a0)
 void miss2_0x11C::SCRCMD_DOOR_50C8A0()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+
+    switch (gBasePtr_6F8070->field_2_type)
+    {
+        case SCRCMD_OPEN_DOOR:
+        {
+            Door_38* door = pPtr->field_8_door;
+
+            if (door->field_0_primary_door_data)
+            {
+                door->field_0_primary_door_data->sub_49C4E0(0);
+            }
+
+            if (door->field_4_secondary_door_data)
+            {
+                door->field_4_secondary_door_data->sub_49C4E0(door->field_2A_bDoFlip);
+            }
+
+            break;
+        }
+        case SCRCMD_CLOSE_DOOR:
+        {
+            Door_38* door = pPtr->field_8_door;
+
+            if (!door->field_28)
+            {
+                break;
+            }
+
+            if (door->field_0_primary_door_data)
+            {
+                door->field_0_primary_door_data->sub_49C590(0);
+            }
+
+            if (door->field_4_secondary_door_data)
+            {
+                door->field_4_secondary_door_data->sub_49C590(door->field_2A_bDoFlip);
+            }
+
+            break;
+        }
+        case SCRCMD_SET_DOOR_AUTO:
+            pPtr->field_8_door->field_29 = true;
+            break;
+        case SCRCMD_SET_DOOR_MANUAL:
+            pPtr->field_8_door->field_29 = false;
+            break;
+    }
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -5052,16 +5144,95 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     }
 }
 
-STUB_FUNC(0x50f060)
+MATCH_FUNC(0x50f060)
 void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHAR_INTO_CAR* pCmd = (SCR_CHAR_INTO_CAR*)gBasePtr_6F8070;
+    SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_car_idx);
+
+    Ped* pNewPed = gPedManager_6787BC->sub_470F30();
+    pParam1->field_8_char = pNewPed;
+
+    if (pNewPed)
+    {
+        pNewPed->field_238 = 5;
+        pParam1->field_8_char->SpawnPedInCar_45C730(pParam2->field_8_car);
+        pParam1->field_8_char->field_244_remap = pCmd->field_C_remap;
+        pParam1->field_8_char->field_240_occupation = pCmd->field_E_occupation;
+
+        if (!field_118)
+        {
+            gMiss2_25C_6F805C->push_type_3_ped_502FB0(pParam1->field_8_char);
+        }
+    }
+
+    Car_BC* pCarTest = pParam2->field_8_car;
+
+    if (pCarTest)
+    {
+        pCarTest->field_7C_uni_num = 5;
+        pCarTest->field_76_last_seen_timer = 0;
+
+        Car_BC* pCar = pParam2->field_8_car;
+
+        if (!pCar->field_5C)
+        {
+            pCar->field_5C = gCarAI_78_Pool_677CF8->Allocate();
+        }
+
+        pParam2->field_8_car->field_5C->SetCar_453BF0(pParam2->field_8_car);
+        pParam2->field_8_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50f150)
+MATCH_FUNC(0x50f150)
 void miss2_0x11C::SCRCMD_DECIDE_POWERUP_50F150()
 {
-    NOT_IMPLEMENTED;
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+
+    Car_BC* pCar = pParam1->field_8_car;
+    u8* pCarList = (u8*)gfrosty_pasteur_6F8060->field_340_car_list;
+
+    u16 i;
+
+    for (i = 0; i < 19; i++)
+    {
+        if (pCar != NULL && pCar->field_84_car_info_idx == *pCarList)
+        {
+            pParam2->field_8_generator->field_0_gen_type = byte_6212F0[i];
+            Generator_2C* pGen = pParam2->field_8_generator;
+
+            if (byte_6212F0[i] < 91)
+            {
+                pGen->sub_4C1A70();
+                pGen->field_1E_kill_timer = 3;
+            }
+            else
+            {
+                pGen->sub_4C1A70();
+                pGen->field_1E_kill_timer = 1;
+            }
+
+            break;
+        }
+
+        pCarList++;
+    }
+
+    if (i == 19)
+    {
+        Generator_2C* pGen = pParam2->field_8_generator;
+        pGen->sub_4C1A70();
+        pGen->field_1E_kill_timer = 3;
+        pParam2->field_8_generator->field_0_gen_type = 65;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50f220)
