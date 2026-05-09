@@ -222,6 +222,23 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
+    // OBS: needed for matching Crane_15C::ComputeHookPolar_47F6C0
+    inline Fix16 GetLength_no_sqrt_inline()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70(x * x + y * y);
+        }
+    }
+
     Fix16_Point operator+(Fix16_Point& in)
     {
         return Fix16_Point(x + in.x, y + in.y);

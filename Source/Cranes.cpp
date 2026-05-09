@@ -289,31 +289,29 @@ void Crane_15C::sub_47EF80()
 }
 
 // 9.6f 0x447D40
-WIP_FUNC(0x47f170)
+MATCH_FUNC(0x47f170)
 void Crane_15C::sub_47F170()
 {
-    WIP_IMPLEMENTED;
-
-    if (this->field_150)
+    if (field_150)
     {
-        this->field_150 = 3;
-        this->field_114 = field_90_hook_radius;
-        this->field_110 = field_8C_crane_angle;
-        this->field_118 = field_A0_hook_axial_angle;
-        this->field_11C = dword_679C78;
-        this->field_B0_hook_radius_target = field_90_hook_radius;
-        this->field_B4_hook_angle_target = field_A0_hook_axial_angle;
-        this->field_AC_crane_angle_target = field_8C_crane_angle;
-        this->field_B8_hook_depth_target = dword_679C78;
+        field_150 = 3;
+        field_114 = field_90_hook_radius;
+        field_110 = field_8C_crane_angle;
+        field_118 = field_A0_hook_axial_angle;
+        field_11C = dword_679C78;
+        field_B0_hook_radius_target = field_90_hook_radius;
+        field_AC_crane_angle_target = field_8C_crane_angle;
+        field_B4_hook_angle_target = field_A0_hook_axial_angle;
+        field_B8_hook_depth_target = field_11C;
     }
     else
     {
-        this->field_B0_hook_radius_target = dword_679E58;
-        this->field_AC_crane_angle_target = field_A8;
-        this->field_B4_hook_angle_target = dword_679D50;
-        this->field_B8_hook_depth_target = dword_679E70;
+        field_B0_hook_radius_target = dword_679E58;
+        field_AC_crane_angle_target = field_A8;
+        field_B4_hook_angle_target = dword_679D50;
+        field_B8_hook_depth_target = dword_679E70;
     }
-    this->field_14D_is_busy = 0;
+    field_14D_is_busy = 0;
 }
 
 MATCH_FUNC(0x47f220)
@@ -495,25 +493,26 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
 }
 
 // 9.6f 0x448900
-WIP_FUNC(0x47f6c0)
-char_type Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point* pPoint, Fix16* pOutF16, Fix16* pOutAng)
+MATCH_FUNC(0x47f6c0)
+bool Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
-    WIP_IMPLEMENTED;
-
-    Fix16_Point v10 = (*pPoint - field_2C->field_4->get_x_y_443580());
-    *pOutF16 = v10.GetLength_2(); // TODO: Uses dword_679E70 as Zero
+    Fix16_Point v10 = (pPoint - field_2C->field_4->get_x_y_443580());
+    *pOutF16 = v10.GetLength_no_sqrt_inline(); // TODO: Uses dword_679E70 as Zero
 
     // TODO: 1st check is removed in 9.6f ??
-    if (*pOutF16 > dword_679F68 || *pOutF16 < dword_679C3C)
+    if (*pOutF16 <= dword_679F68 && *pOutF16 >= dword_679C3C)
     {
-        return 0;
+        *pOutAng = Ang16::Ang16_to_Fix16(v10.atan2_40F790());
+        return true;
     }
-
-    *pOutAng = Ang16::Ang16_to_Fix16(v10.atan2_40F790());
-    return 1;
+    else
+    {
+        return false;
+    }
 }
 
 // 9.6f 0x448980
+// 10.5 https://decomp.me/scratch/XYPfQ
 WIP_FUNC(0x47f7f0)
 void Crane_15C::sub_47F7F0(Car_BC* pCar)
 {
@@ -526,51 +525,67 @@ void Crane_15C::sub_47F7F0(Car_BC* pCar)
     {
         if (!field_150)
         {
-            Fix16_Point car_xy = pFoundSprite->get_x_y_443580();
-            if (ComputeHookPolar_47F6C0(&car_xy, &point, &t))
+            if (ComputeHookPolar_47F6C0(pFoundSprite->get_x_y_443580(), &point, &t))
             {
                 if (field_6C == 0 || pFoundSprite == field_6C)
                 {
                     sub_47F220(point, t, pFoundSprite, pCar->field_50_car_sprite);
-                    this->field_64 = 0;
-                    this->field_68 = 0;
+                    field_64 = 0;
+                    field_68 = 0;
                 }
             }
         }
     }
-    else if (this->field_6C == 0 && this->field_150 <= 1 && this->field_144 == 0)
+    else if (field_6C == 0 && (field_150 == 0 || field_150 == 1) && field_144 == 0)
     {
-        Fix16_Point car_xy = pCar->field_50_car_sprite->get_x_y_443580();
-        if (ComputeHookPolar_47F6C0(&car_xy, &point, &t))
+        Sprite* pSprt = pCar->field_50_car_sprite;
+        if (ComputeHookPolar_47F6C0(pSprt->get_x_y_443580(), &point, &t))
         {
-            if (field_64 == 0 || pCar->field_50_car_sprite == field_64)
+            if (field_64 == 0 || pSprt == field_64)
             {
-                sub_47F290(point, t, pCar->field_50_car_sprite);
+                sub_47F290(point, t, pSprt);
             }
         }
     }
 }
 
 // 9.6f 0x448A80
+// 10.5 https://decomp.me/scratch/HB5R5 return jump issue
 WIP_FUNC(0x47f930)
 void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
 {
     WIP_IMPLEMENTED;
 
-    if (pCar->field_88 != 5 && !field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite))
+    if (!pCar->sub_4215B0() && !field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite))
     {
         if (pCar->Is_TRUKTRNS_447EC0())
         {
             sub_47F7F0(pCar);
         }
-        else if (this->field_64 || (field_144 == 1) || (field_144 == 2 || field_144 == 3) && field_155 == 1 && pCar->field_9C != 7 ||
-                 this->field_155 == 2 && pCar->Is_F9_Eq7_447EB0())
+        else if (field_64 || (field_144 == 1) || (field_144 == 2 || field_144 == 3) && field_155 == 1 && !pCar->Is_F9_Eq7_447EB0() ||
+                 field_155 == 2 && pCar->Is_F9_Eq7_447EB0())
         {
-            if (!this->field_150 && !pCar->field_54_driver)
+            if (!field_150 && !pCar->field_54_driver)
             {
                 if (pCar->sub_441A40())
                 {
                     if (pCar->sub_447F00())
+                    {
+                        Fix16 a2a;
+                        Fix16 angTmp;
+                        Sprite* pSprt = pCar->field_50_car_sprite;
+                        if (ComputeHookPolar_47F6C0(pSprt->get_x_y_443580(), &a2a, &angTmp))
+                        {
+                            if (field_144 != 1 || sub_47EB00())
+                            {
+                                if (field_68 == 0 || pSprt == field_68)
+                                {
+                                    sub_47F2F0(a2a, angTmp, pSprt);
+                                }
+                            }
+                        }
+                    }
+                    else
                     {
                         Trailer* pTrailer = pCar->field_64_pTrailer;
                         if (!pTrailer || pTrailer->field_C_pCarOnTrailer == 0 || !pTrailer->field_C_pCarOnTrailer->Is_TRUKTRNS_447EC0())
@@ -578,22 +593,6 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
                             gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "nespray");
                             field_28_strct4.AddSprite_5A6CD0(pCar->field_50_car_sprite);
                             field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite);
-                        }
-                    }
-                    else
-                    {
-                        Fix16_Point sprite_xy = pCar->field_50_car_sprite->get_x_y_443580();
-                        Fix16 a2a;
-                        Fix16 angTmp;
-                        if (ComputeHookPolar_47F6C0(&sprite_xy, &a2a, &angTmp))
-                        {
-                            if (this->field_144 != 1 || sub_47EB00())
-                            {
-                                if (field_68 == 0 || pCar->field_50_car_sprite == field_68)
-                                {
-                                    sub_47F2F0(a2a, angTmp, pCar->field_50_car_sprite);
-                                }
-                            }
                         }
                     }
                 }
@@ -709,11 +708,9 @@ void Crane_15C::UpdateCraneTick_47FD50()
 }
 
 // 9.6f 0x448E30
-WIP_FUNC(0x47fe10)
+MATCH_FUNC(0x47fe10)
 void Crane_15C::UpdateCraneSprites_47FE10()
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point a4;
     Ang16 a2 = Ang16::Fix16_To_Ang16_40F540(field_8C_crane_angle);
 
@@ -768,11 +765,10 @@ void Crane_15C::UpdateCraneSprites_47FE10()
     field_54->field_4->set_xyz_lazy_420600(a4.x, a4.y, field_80 - field_84_hook_depth);
     field_54->field_4->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
 
-    // TODO: Some missing control flow around here?? then it will match
     if (field_74)
     {
         a4 += field_10;
-        field_74->set_xyz_lazy_420600(a4.x, a4.y, field_80 - field_84_hook_depth);
+        field_74->set_xyz_lazy_inlined_420600(a4.x, a4.y, field_80 - field_84_hook_depth); // INLINED_MODE required
         field_74->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
     }
 
@@ -823,11 +819,8 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_144 = 0;
     field_148 = 0;
 
-    Fix16 temp_z;
-    Fix16 v6 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos);
-
-    field_80 = v6;
-    field_2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(135, x_pos, y_pos, v6, word_679FC4);
+    field_80 = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x_pos, y_pos);
+    field_2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(135, x_pos, y_pos, field_80, word_679FC4);
     field_30 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
     field_34 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
     field_38 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
@@ -921,62 +914,55 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_28_strct4.field_0_p18 = 0;
 }
 
-WIP_FUNC(0x480900)
+MATCH_FUNC(0x480900)
 void Crane_15C::CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
 {
-    WIP_IMPLEMENTED;
-
-    // TODO: Busted stack like the next func
     Fix16_Point v10(xpos, ypos);
     Fix16_Point t;
-    ComputeHookPolar_47F6C0(&v10, &field_120, &field_124);
+    ComputeHookPolar_47F6C0(v10, &field_120, &field_124);
 
-    this->field_128 = Ang16::Ang16_to_Fix16(ang);
+    field_128 = Ang16::Ang16_to_Fix16(ang);
 
     if (field_144 == 3)
     {
-        this->field_144 = 2;
-        this->field_155 = 1;
+        field_144 = 2;
+        field_155 = 1;
     }
     else
     {
-        this->field_144 = 1;
+        field_144 = 1;
     }
 
     ComputeHookPos_47E620(field_120, Ang16::Fix16_To_Ang16_40F540(field_124), &t);
-    this->field_18 = v10 - t;
+    field_18 = v10 - t;
 
-    Fix16 foundZ;
-    this->field_12C = this->field_80 - *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&foundZ, xpos, ypos);
+    field_12C = field_80 - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
 }
 
 // 9.6f 0x4496E0
-WIP_FUNC(0x480b60)
+MATCH_FUNC(0x480b60)
 void Crane_15C::ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point v10(xpos, ypos);
     Fix16_Point t;
-    ComputeHookPolar_47F6C0(&v10, &field_130, &field_134);
+    ComputeHookPolar_47F6C0(v10, &field_130, &field_134);
 
     field_138 = Ang16::Ang16_to_Fix16(ang);
 
     if (field_144 == 1)
     {
-        this->field_144 = 2;
+        field_144 = 2;
     }
     else
     {
-        this->field_144 = 3;
-        this->field_155 = 2;
+        field_144 = 3;
+        field_155 = 2;
     }
 
     ComputeHookPos_47E620(field_130, Ang16::Fix16_To_Ang16_40F540(field_134), &t);
-    this->field_20 = v10 - t;
+    field_20 = v10 - t;
 
-    Fix16 foundZ;
-    this->field_13C = this->field_80 - *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&foundZ, xpos, ypos);
+    field_13C = field_80 - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
 }
 
 MATCH_FUNC(0x480da0)

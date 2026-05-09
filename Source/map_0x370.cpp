@@ -689,12 +689,10 @@ void Map_0x370::SpawnMapObjects_4DFB90()
         Ang16 rotation = pMapObjects->field_4_rotation.convert_to_ang16();
         rotation.Normalize();
 
-        Fix16 temp_z;
-
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(pMapObjects->field_5_object_type,
                                                 x_pos,
                                                 y_pos,
-                                                *Map_0x370::FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos),
+                                                Map_0x370::FindGroundZForCoord_4E5B60(x_pos, y_pos),
                                                 rotation);
     }
 }
@@ -2427,7 +2425,7 @@ char_type Map_0x370::sub_4E5640(Fix16 a1, Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5
 }
 
 MATCH_FUNC(0x4E5B60)
-Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* found_z, Fix16 x_pos, Fix16 y_pos)
+Fix16 Map_0x370::FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos)
 {
     s32 z_pos_int;
     gmp_block_info* pHighestBlock = Map_0x370::FindHighestBlockForCoord_4E4C30(x_pos.ToInt(), y_pos.ToInt(), &z_pos_int);
@@ -2435,8 +2433,7 @@ Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* found_z, Fix16 x_pos, Fix16 
 
     if (pHighestBlock == NULL)
     {
-        *found_z = 0;
-        return found_z;
+        return Fix16(0);
     }
     else
     {
@@ -2451,8 +2448,7 @@ Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* found_z, Fix16 x_pos, Fix16 
         {
             z_pos = Fix16(z_pos_int) + 1;
         }
-        *found_z = z_pos;
-        return found_z;
+        return z_pos;
     }
 }
 
