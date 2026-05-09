@@ -708,11 +708,9 @@ void Crane_15C::UpdateCraneTick_47FD50()
 }
 
 // 9.6f 0x448E30
-WIP_FUNC(0x47fe10)
+MATCH_FUNC(0x47fe10)
 void Crane_15C::UpdateCraneSprites_47FE10()
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point a4;
     Ang16 a2 = Ang16::Fix16_To_Ang16_40F540(field_8C_crane_angle);
 
@@ -767,11 +765,10 @@ void Crane_15C::UpdateCraneSprites_47FE10()
     field_54->field_4->set_xyz_lazy_420600(a4.x, a4.y, field_80 - field_84_hook_depth);
     field_54->field_4->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
 
-    // TODO: Some missing control flow around here?? then it will match
     if (field_74)
     {
         a4 += field_10;
-        field_74->set_xyz_lazy_420600(a4.x, a4.y, field_80 - field_84_hook_depth);
+        field_74->set_xyz_lazy_inlined_420600(a4.x, a4.y, field_80 - field_84_hook_depth); // INLINED_MODE required
         field_74->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
     }
 
