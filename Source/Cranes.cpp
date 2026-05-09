@@ -494,11 +494,11 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
 
 // 9.6f 0x448900
 WIP_FUNC(0x47f6c0)
-char_type Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point* pPoint, Fix16* pOutF16, Fix16* pOutAng)
+char_type Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
     WIP_IMPLEMENTED;
 
-    Fix16_Point v10 = (*pPoint - field_2C->field_4->get_x_y_443580());
+    Fix16_Point v10 = (pPoint - field_2C->field_4->get_x_y_443580());
     *pOutF16 = v10.GetLength_2(); // TODO: Uses dword_679E70 as Zero
 
     // TODO: 1st check is removed in 9.6f ??
@@ -512,6 +512,7 @@ char_type Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point* pPoint, Fix16* pOutF16
 }
 
 // 9.6f 0x448980
+// 10.5 https://decomp.me/scratch/XYPfQ
 WIP_FUNC(0x47f7f0)
 void Crane_15C::sub_47F7F0(Car_BC* pCar)
 {
@@ -524,26 +525,25 @@ void Crane_15C::sub_47F7F0(Car_BC* pCar)
     {
         if (!field_150)
         {
-            Fix16_Point car_xy = pFoundSprite->get_x_y_443580();
-            if (ComputeHookPolar_47F6C0(&car_xy, &point, &t))
+            if (ComputeHookPolar_47F6C0(pFoundSprite->get_x_y_443580(), &point, &t))
             {
                 if (field_6C == 0 || pFoundSprite == field_6C)
                 {
                     sub_47F220(point, t, pFoundSprite, pCar->field_50_car_sprite);
-                    this->field_64 = 0;
-                    this->field_68 = 0;
+                    field_64 = 0;
+                    field_68 = 0;
                 }
             }
         }
     }
-    else if (this->field_6C == 0 && this->field_150 <= 1 && this->field_144 == 0)
+    else if (field_6C == 0 && (field_150 == 0 || field_150 == 1) && field_144 == 0)
     {
-        Fix16_Point car_xy = pCar->field_50_car_sprite->get_x_y_443580();
-        if (ComputeHookPolar_47F6C0(&car_xy, &point, &t))
+        Sprite* pSprt = pCar->field_50_car_sprite;
+        if (ComputeHookPolar_47F6C0(pSprt->get_x_y_443580(), &point, &t))
         {
-            if (field_64 == 0 || pCar->field_50_car_sprite == field_64)
+            if (field_64 == 0 || pSprt == field_64)
             {
-                sub_47F290(point, t, pCar->field_50_car_sprite);
+                sub_47F290(point, t, pSprt);
             }
         }
     }
@@ -583,7 +583,7 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
                         Fix16_Point sprite_xy = pCar->field_50_car_sprite->get_x_y_443580();
                         Fix16 a2a;
                         Fix16 angTmp;
-                        if (ComputeHookPolar_47F6C0(&sprite_xy, &a2a, &angTmp))
+                        if (ComputeHookPolar_47F6C0(sprite_xy, &a2a, &angTmp))
                         {
                             if (this->field_144 != 1 || sub_47EB00())
                             {
@@ -927,7 +927,7 @@ void Crane_15C::CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
     // TODO: Busted stack like the next func
     Fix16_Point v10(xpos, ypos);
     Fix16_Point t;
-    ComputeHookPolar_47F6C0(&v10, &field_120, &field_124);
+    ComputeHookPolar_47F6C0(v10, &field_120, &field_124);
 
     this->field_128 = Ang16::Ang16_to_Fix16(ang);
 
@@ -956,7 +956,7 @@ void Crane_15C::ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang)
 
     Fix16_Point v10(xpos, ypos);
     Fix16_Point t;
-    ComputeHookPolar_47F6C0(&v10, &field_130, &field_134);
+    ComputeHookPolar_47F6C0(v10, &field_130, &field_134);
 
     field_138 = Ang16::Ang16_to_Fix16(ang);
 
