@@ -52,7 +52,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F8044, Ang16(0x4), 0x6F8044);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F7570, Fix16(0x3FC000, 0), 0x6F7570);
 EXTERN_GLOBAL(Ang16, dword_6F804C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F77C4, Fix16(0x4000, 0), 0x6F77C4);
-DEFINE_GLOBAL(u32, gPhoneFlags_6F79F4, 0x6F79F4);
 
 static inline bool is_car_weapon(s32& weapon_idx)
 {
@@ -3741,7 +3740,7 @@ void miss2_0x11C::SCRCMD_SET_PHONE_DEAD_50C040()
     {
         if (*pPhoneIds == *pIndex)
         {
-            gPhoneFlags_6F79F4 |= 1 << i;
+            gGameSave_6F78C8.field_E4_car_and_script_data.field_48_flags |= 1 << i;
             break;
         }
 
