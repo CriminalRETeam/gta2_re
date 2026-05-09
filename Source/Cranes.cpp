@@ -940,11 +940,9 @@ void Crane_15C::CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
 }
 
 // 9.6f 0x4496E0
-WIP_FUNC(0x480b60)
+MATCH_FUNC(0x480b60)
 void Crane_15C::ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point v10(xpos, ypos);
     Fix16_Point t;
     ComputeHookPolar_47F6C0(v10, &field_130, &field_134);
@@ -953,18 +951,18 @@ void Crane_15C::ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang)
 
     if (field_144 == 1)
     {
-        this->field_144 = 2;
+        field_144 = 2;
     }
     else
     {
-        this->field_144 = 3;
-        this->field_155 = 2;
+        field_144 = 3;
+        field_155 = 2;
     }
 
     ComputeHookPos_47E620(field_130, Ang16::Fix16_To_Ang16_40F540(field_134), &t);
-    this->field_20 = v10 - t;
+    field_20 = v10 - t;
 
-    this->field_13C = this->field_80 - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
+    field_13C = field_80 - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
 }
 
 MATCH_FUNC(0x480da0)
