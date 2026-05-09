@@ -914,32 +914,29 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_28_strct4.field_0_p18 = 0;
 }
 
-WIP_FUNC(0x480900)
+MATCH_FUNC(0x480900)
 void Crane_15C::CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
 {
-    WIP_IMPLEMENTED;
-
-    // TODO: Busted stack like the next func
     Fix16_Point v10(xpos, ypos);
     Fix16_Point t;
     ComputeHookPolar_47F6C0(v10, &field_120, &field_124);
 
-    this->field_128 = Ang16::Ang16_to_Fix16(ang);
+    field_128 = Ang16::Ang16_to_Fix16(ang);
 
     if (field_144 == 3)
     {
-        this->field_144 = 2;
-        this->field_155 = 1;
+        field_144 = 2;
+        field_155 = 1;
     }
     else
     {
-        this->field_144 = 1;
+        field_144 = 1;
     }
 
     ComputeHookPos_47E620(field_120, Ang16::Fix16_To_Ang16_40F540(field_124), &t);
-    this->field_18 = v10 - t;
+    field_18 = v10 - t;
 
-    this->field_12C = this->field_80 - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
+    field_12C = field_80 - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
 }
 
 // 9.6f 0x4496E0
