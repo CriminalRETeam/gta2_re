@@ -930,8 +930,7 @@ void Char_B4::UpdateAnimState_546360()
                     goto LABEL_227;
                 case 6:
                 case 7:
-                    v129 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&v129,
-                                                                          this->field_80_sprite_ptr->field_14_xy.x,
+                    v129 = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(this->field_80_sprite_ptr->field_14_xy.x,
                                                                           this->field_80_sprite_ptr->field_14_xy.y);
                     gMap_0x370_6F6268->UpdateZFromSlopeAtCoord_4E5BF0(field_80_sprite_ptr->field_14_xy.x,
                                                                       field_80_sprite_ptr->field_14_xy.y,
@@ -980,8 +979,7 @@ void Char_B4::UpdateAnimState_546360()
                     this->field_6C_animation_state = 2;
                     this->field_68_animation_frame = 0;
                     newId = baseId + 23;
-                    v129 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&v129,
-                                                                          this->field_80_sprite_ptr->field_14_xy.x,
+                    v129 = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(this->field_80_sprite_ptr->field_14_xy.x,
                                                                           this->field_80_sprite_ptr->field_14_xy.y);
                     gMap_0x370_6F6268->UpdateZFromSlopeAtCoord_4E5BF0(field_80_sprite_ptr->field_14_xy.x,
                                                                       field_80_sprite_ptr->field_14_xy.y,
@@ -3364,8 +3362,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                 if ((field_58_flags & 1) != 0)
                 {
                     Fix16 ztmp;
-                    field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
-                                                                                                        field_80_sprite_ptr->field_14_xy.x,
+                    field_80_sprite_ptr->field_1C_zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
                                                                                                         field_80_sprite_ptr->field_14_xy.y);
                     Sprite* pSprt_inlined_1 = field_80_sprite_ptr;
                     if (pSprt_inlined_1->field_1C_zpos == k_dword_6FD9E4)
@@ -3382,8 +3379,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     if ((field_58_flags & 1) != 0)
                     {
                         field_80_sprite_ptr->field_1C_zpos =
-                            *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
-                                                                           field_80_sprite_ptr->field_14_xy.x,
+                            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
                                                                            field_80_sprite_ptr->field_14_xy.y);
                     }
 
@@ -3441,8 +3437,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             if ((field_58_flags & 1) != 0)
             {
                 Fix16 ztmp;
-                field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
-                                                                                                    field_80_sprite_ptr->field_14_xy.x,
+                field_80_sprite_ptr->field_1C_zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
                                                                                                     field_80_sprite_ptr->field_14_xy.y);
             }
             Sprite* pSprt_inlined_3 = field_80_sprite_ptr;
@@ -3460,8 +3455,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             if ((field_58_flags & 1) != 0)
             {
                 Fix16 ztmp;
-                field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
-                                                                                                    field_80_sprite_ptr->field_14_xy.x,
+                field_80_sprite_ptr->field_1C_zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
                                                                                                     field_80_sprite_ptr->field_14_xy.y);
             }
 
@@ -3520,8 +3514,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             if ((field_58_flags & 1) != 0)
             {
                 Fix16 ztmp;
-                field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
-                                                                                                    field_80_sprite_ptr->field_14_xy.x,
+                field_80_sprite_ptr->field_1C_zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
                                                                                                     field_80_sprite_ptr->field_14_xy.y);
             }
             Sprite* pSprt_inlined_5 = field_80_sprite_ptr;
@@ -3539,8 +3532,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             if ((field_58_flags & 1) != 0)
             {
                 Fix16 ztmp;
-                field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
-                                                                                                    field_80_sprite_ptr->field_14_xy.x,
+                field_80_sprite_ptr->field_1C_zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
                                                                                                     field_80_sprite_ptr->field_14_xy.y);
             }
             Sprite* pSprt_inlined_6 = field_80_sprite_ptr;
@@ -3597,8 +3589,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             if ((field_58_flags & 1) != 0)
             {
                 Fix16 ztmp;
-                field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
-                                                                                                    field_80_sprite_ptr->field_14_xy.x,
+                field_80_sprite_ptr->field_1C_zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
                                                                                                     field_80_sprite_ptr->field_14_xy.y);
             }
             Sprite* pSprt_inlined_7 = field_80_sprite_ptr;
@@ -3616,8 +3607,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
 
             Fix16 ztmp;
-            field_80_sprite_ptr->field_1C_zpos = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&ztmp,
-                                                                                                field_80_sprite_ptr->field_14_xy.x,
+            field_80_sprite_ptr->field_1C_zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
                                                                                                 field_80_sprite_ptr->field_14_xy.y);
 
             Sprite* pSprt_inlined_8 = field_80_sprite_ptr;

@@ -179,7 +179,7 @@ class Car_6C
         }
         else
         {
-            return SpawnCarAt_446230(xpos, ypos, *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, xpos, ypos), rotation, car_model, dword_6777D0);
+            return SpawnCarAt_446230(xpos, ypos, gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos), rotation, car_model, dword_6777D0);
         }
     }
 

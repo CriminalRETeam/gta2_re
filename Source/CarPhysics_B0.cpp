@@ -930,7 +930,6 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
     Fix16 map_z;
     Fix16 zpos;
     Fix16 v20;
-    Fix16* ground_z;
     Fix16 cp3;
     s32 surface_type_;
     Fix16* map_z_;
@@ -967,9 +966,8 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
             goto LABEL_36;
 
         default:
-            ground_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&v20, field_38_cp1.x, field_38_cp1.y);
-            zpos = *ground_z;
-            if (*ground_z == kFP16Zero_6FE20C)
+            zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_38_cp1.x, field_38_cp1.y);
+            if (zpos == kFP16Zero_6FE20C)
             {
                 zpos = k_dword_6FE210;
             }

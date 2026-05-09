@@ -523,8 +523,7 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
     Fix16 pos_z;
 
     s32 time_out_counter = 0;
-    Fix16 zTmp;
-    s32 zTmpInt = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&zTmp, xpos, ypos)->ToInt();
+    s32 zTmpInt = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos).ToInt();
     while (1)
     {
         gmp_block_info* pBlock = gMap_0x370_6F6268->sub_4E4CB0(pos_x.ToInt(), pos_y.ToInt(), zTmpInt);
@@ -7018,7 +7017,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 }
 
                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x_coord.ToInt(), y_coord.ToInt(), &z_tmp);
-                v19 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&v132, x_coord, y_coord);
+                v19 = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x_coord, y_coord);
 
                 // block must exists
                 if (!pBlock)
@@ -7451,7 +7450,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                             }
                             else
                             {
-                                car_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&v134, car_x, car_y);
+                                car_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(car_x, car_y);
                                 pNewCar = gCar_6C_677930->SpawnCarAt_446230(car_x, car_y, car_z, v88, car_model_idx, dword_6FF778);
                             }
 

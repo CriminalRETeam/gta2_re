@@ -819,8 +819,7 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_144 = 0;
     field_148 = 0;
 
-    Fix16 temp_z;
-    Fix16 v6 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos);
+    Fix16 v6 = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x_pos, y_pos);
 
     field_80 = v6;
     field_2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(135, x_pos, y_pos, v6, word_679FC4);
@@ -942,8 +941,7 @@ void Crane_15C::CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
     ComputeHookPos_47E620(field_120, Ang16::Fix16_To_Ang16_40F540(field_124), &t);
     this->field_18 = v10 - t;
 
-    Fix16 foundZ;
-    this->field_12C = this->field_80 - *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&foundZ, xpos, ypos);
+    this->field_12C = this->field_80 - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
 }
 
 // 9.6f 0x4496E0
@@ -971,8 +969,7 @@ void Crane_15C::ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang)
     ComputeHookPos_47E620(field_130, Ang16::Fix16_To_Ang16_40F540(field_134), &t);
     this->field_20 = v10 - t;
 
-    Fix16 foundZ;
-    this->field_13C = this->field_80 - *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&foundZ, xpos, ypos);
+    this->field_13C = this->field_80 - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
 }
 
 MATCH_FUNC(0x480da0)

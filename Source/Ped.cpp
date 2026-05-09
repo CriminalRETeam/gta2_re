@@ -729,16 +729,15 @@ Car_BC* Ped::GetCarBeingEnteredOrExited_45BBF0()
 MATCH_FUNC(0x45bc10)
 void Ped::TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos)
 {
-    Fix16 tempZ;
-    gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&tempZ, xpos, ypos);
+    Fix16 zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
     Car_BC* pCar = field_16C_car;
     if (pCar)
     {
-        pCar->sub_443D00(xpos, ypos, tempZ);
+        pCar->sub_443D00(xpos, ypos, zpos);
     }
     else
     {
-        field_168_game_object->Teleport_545530(xpos, ypos, tempZ);
+        field_168_game_object->Teleport_545530(xpos, ypos, zpos);
     }
 }
 

@@ -43,8 +43,7 @@ void TrafficLight_20::sub_5C1D00(u8 x, u8 y, u8 w, u8 h)
 {
     WIP_IMPLEMENTED;
 
-    Fix16 zpos;
-    gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&zpos, x, y);
+    Fix16 zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, y);
     u8 zTmp = (zpos.ToInt()) - 1;
 
     // West side
