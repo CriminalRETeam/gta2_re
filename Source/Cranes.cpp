@@ -493,22 +493,22 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
 }
 
 // 9.6f 0x448900
-WIP_FUNC(0x47f6c0)
-char_type Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
+MATCH_FUNC(0x47f6c0)
+bool Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point v10 = (pPoint - field_2C->field_4->get_x_y_443580());
-    *pOutF16 = v10.GetLength_2(); // TODO: Uses dword_679E70 as Zero
+    *pOutF16 = v10.GetLength_no_sqrt_inline(); // TODO: Uses dword_679E70 as Zero
 
     // TODO: 1st check is removed in 9.6f ??
-    if (*pOutF16 > dword_679F68 || *pOutF16 < dword_679C3C)
+    if (*pOutF16 <= dword_679F68 && *pOutF16 >= dword_679C3C)
     {
-        return 0;
+        *pOutAng = Ang16::Ang16_to_Fix16(v10.atan2_40F790());
+        return true;
     }
-
-    *pOutAng = Ang16::Ang16_to_Fix16(v10.atan2_40F790());
-    return 1;
+    else
+    {
+        return false;
+    }
 }
 
 // 9.6f 0x448980
