@@ -550,25 +550,42 @@ void Crane_15C::sub_47F7F0(Car_BC* pCar)
 }
 
 // 9.6f 0x448A80
+// 10.5 https://decomp.me/scratch/HB5R5 return jump issue
 WIP_FUNC(0x47f930)
 void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
 {
     WIP_IMPLEMENTED;
 
-    if (pCar->field_88 != 5 && !field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite))
+    if (!pCar->sub_4215B0() && !field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite))
     {
         if (pCar->Is_TRUKTRNS_447EC0())
         {
             sub_47F7F0(pCar);
         }
-        else if (this->field_64 || (field_144 == 1) || (field_144 == 2 || field_144 == 3) && field_155 == 1 && pCar->field_9C != 7 ||
-                 this->field_155 == 2 && pCar->Is_F9_Eq7_447EB0())
+        else if (field_64 || (field_144 == 1) || (field_144 == 2 || field_144 == 3) && field_155 == 1 && !pCar->Is_F9_Eq7_447EB0() ||
+                 field_155 == 2 && pCar->Is_F9_Eq7_447EB0())
         {
-            if (!this->field_150 && !pCar->field_54_driver)
+            if (!field_150 && !pCar->field_54_driver)
             {
                 if (pCar->sub_441A40())
                 {
                     if (pCar->sub_447F00())
+                    {
+                        Fix16 a2a;
+                        Fix16 angTmp;
+                        Sprite* pSprt = pCar->field_50_car_sprite;
+                        if (ComputeHookPolar_47F6C0(pSprt->get_x_y_443580(), &a2a, &angTmp))
+                        {
+                            if (field_144 != 1 || sub_47EB00())
+                            {
+                                if (field_68 == 0 || pSprt == field_68)
+                                {
+                                    sub_47F2F0(a2a, angTmp, pSprt);
+                                }
+                            }
+                        }
+                    }
+                    else
                     {
                         Trailer* pTrailer = pCar->field_64_pTrailer;
                         if (!pTrailer || pTrailer->field_C_pCarOnTrailer == 0 || !pTrailer->field_C_pCarOnTrailer->Is_TRUKTRNS_447EC0())
@@ -576,22 +593,6 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
                             gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "nespray");
                             field_28_strct4.AddSprite_5A6CD0(pCar->field_50_car_sprite);
                             field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite);
-                        }
-                    }
-                    else
-                    {
-                        Fix16_Point sprite_xy = pCar->field_50_car_sprite->get_x_y_443580();
-                        Fix16 a2a;
-                        Fix16 angTmp;
-                        if (ComputeHookPolar_47F6C0(sprite_xy, &a2a, &angTmp))
-                        {
-                            if (this->field_144 != 1 || sub_47EB00())
-                            {
-                                if (field_68 == 0 || pCar->field_50_car_sprite == field_68)
-                                {
-                                    sub_47F2F0(a2a, angTmp, pCar->field_50_car_sprite);
-                                }
-                            }
                         }
                     }
                 }

@@ -2219,7 +2219,7 @@ void Char_B4::ApplyRandomRotationJitter_54C6C0()
     if (stru_6F6784.get_int_4F7AE0(32) > 22)
     {
         Ang16 old_angle = field_42;
-        field_42 = Ang16::Fix16_To_Ang16_40F540(k_dword_6FD868 * (Fix16(stru_6F6784.get_int_4F7AE0(16)) - dword_6FDA08));
+        field_42 = Ang16::Fix16_To_Ang16_inlined_40F540(k_dword_6FD868 * (Fix16(stru_6F6784.get_int_4F7AE0(16)) - dword_6FDA08)); // INLINED_MODE required
         if (old_angle > word_6FD936 && field_42 > word_6FD936)
         {
             field_42 = -field_42;
