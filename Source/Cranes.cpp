@@ -819,10 +819,8 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_144 = 0;
     field_148 = 0;
 
-    Fix16 v6 = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x_pos, y_pos);
-
-    field_80 = v6;
-    field_2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(135, x_pos, y_pos, v6, word_679FC4);
+    field_80 = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x_pos, y_pos);
+    field_2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(135, x_pos, y_pos, field_80, word_679FC4);
     field_30 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
     field_34 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
     field_38 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
