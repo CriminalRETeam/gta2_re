@@ -289,31 +289,29 @@ void Crane_15C::sub_47EF80()
 }
 
 // 9.6f 0x447D40
-WIP_FUNC(0x47f170)
+MATCH_FUNC(0x47f170)
 void Crane_15C::sub_47F170()
 {
-    WIP_IMPLEMENTED;
-
-    if (this->field_150)
+    if (field_150)
     {
-        this->field_150 = 3;
-        this->field_114 = field_90_hook_radius;
-        this->field_110 = field_8C_crane_angle;
-        this->field_118 = field_A0_hook_axial_angle;
-        this->field_11C = dword_679C78;
-        this->field_B0_hook_radius_target = field_90_hook_radius;
-        this->field_B4_hook_angle_target = field_A0_hook_axial_angle;
-        this->field_AC_crane_angle_target = field_8C_crane_angle;
-        this->field_B8_hook_depth_target = dword_679C78;
+        field_150 = 3;
+        field_114 = field_90_hook_radius;
+        field_110 = field_8C_crane_angle;
+        field_118 = field_A0_hook_axial_angle;
+        field_11C = dword_679C78;
+        field_B0_hook_radius_target = field_90_hook_radius;
+        field_AC_crane_angle_target = field_8C_crane_angle;
+        field_B4_hook_angle_target = field_A0_hook_axial_angle;
+        field_B8_hook_depth_target = field_11C;
     }
     else
     {
-        this->field_B0_hook_radius_target = dword_679E58;
-        this->field_AC_crane_angle_target = field_A8;
-        this->field_B4_hook_angle_target = dword_679D50;
-        this->field_B8_hook_depth_target = dword_679E70;
+        field_B0_hook_radius_target = dword_679E58;
+        field_AC_crane_angle_target = field_A8;
+        field_B4_hook_angle_target = dword_679D50;
+        field_B8_hook_depth_target = dword_679E70;
     }
-    this->field_14D_is_busy = 0;
+    field_14D_is_busy = 0;
 }
 
 MATCH_FUNC(0x47f220)
