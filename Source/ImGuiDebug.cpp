@@ -51,6 +51,8 @@ EXTERN_GLOBAL(car_rng_list, dword_676DB4);
 EXTERN_GLOBAL(car_rng_list, dword_676988);
 EXTERN_GLOBAL(car_rng_list, dword_677384);
 
+EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
+
 Object_2C* spawned_obj = NULL;
 Car_BC* pNewCar = NULL;
 
@@ -604,6 +606,109 @@ static const char* ObjectIdToString(s32 id)
     }
 }
 
+static Camera_0xBC* GetPlayerCam()
+{
+    if (gGame_0x40_67E008)
+    {
+        Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+        if (pPlayer)
+        {
+            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            {
+                return &pPlayer->field_208_aux_game_camera;
+            }
+            else
+            {
+                return &pPlayer->field_90_game_camera;
+            }
+        }
+    }
+    return NULL;
+}
+
+EXTERN_GLOBAL(Fix16, dword_7064C4);
+EXTERN_GLOBAL(Fix16, dword_7064E8);
+EXTERN_GLOBAL(s16, word_706600);
+
+static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& screen_x, Fix16& screen_y, Camera_0xBC* pCam)
+{
+    Fix16 zCalc = (dword_7064C4) /
+        (dword_7064E8 + (pCam->field_98_cam_pos2.field_8_z - zpos)); // dword_7064C4 ??
+
+    Fix16 xTmp = pCam->field_60.x * (xpos - pCam->field_98_cam_pos2.field_0_x);
+    screen_x = ((zCalc * xTmp)) + Fix16(0x500000, 0);
+
+    Fix16 yTmp = (pCam->field_60.y * (ypos - pCam->field_98_cam_pos2.field_4_y));
+    screen_y = ((zCalc * yTmp) + Fix16(0x3C0000, 0));
+}
+
+// Draw Text with char_type
+static void DisplayTextAtSprite(char* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
+{
+    Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
+    if (pPlayer && pPlayer->field_6C_bIn_debug_cam_mode)
+    {
+        return; // Do not draw if it's on debug cam mode
+    }
+    if (gHud_2B00_706620)
+    {
+        Camera_0xBC* pPlayerCam = GetPlayerCam();
+        if (pPlayerCam && pSprt)
+        {
+            Fix16 sprt_xpos = pSprt->field_14_xy.x;
+            Fix16 sprt_ypos = pSprt->field_14_xy.y;
+            Fix16 sprt_zpos = pSprt->field_1C_zpos;
+            if (pPlayerCam->IsCoordsPosVisible_435A70(sprt_xpos, sprt_ypos, sprt_zpos))
+            {
+                Fix16 screen_xpos_f16;
+                Fix16 screen_ypos_f16;
+                ProjectXYZ_intoScreen(sprt_xpos, sprt_ypos, sprt_zpos, screen_xpos_f16, screen_ypos_f16, pPlayerCam);
+
+                s16 screen_xpos = screen_xpos_f16.ToInt() + x_offset;
+                s16 screen_ypos = screen_ypos_f16.ToInt() + y_offset;
+
+                if (gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
+                {
+                    gHud_2B00_706620->field_650.DisplayText_5D1F50(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos, word_706600, 1);
+                }
+            }
+        }
+    }
+}
+
+// Draw Text with wchar_t
+static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
+{
+    Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
+    if (pPlayer && pPlayer->field_6C_bIn_debug_cam_mode)
+    {
+        return; // Do not draw if it's on debug cam mode
+    }
+    if (gHud_2B00_706620)
+    {
+        Camera_0xBC* pPlayerCam = GetPlayerCam();
+        if (pPlayerCam && pSprt)
+        {
+            Fix16 sprt_xpos = pSprt->field_14_xy.x;
+            Fix16 sprt_ypos = pSprt->field_14_xy.y;
+            Fix16 sprt_zpos = pSprt->field_1C_zpos;
+            if (pPlayerCam->IsCoordsPosVisible_435A70(sprt_xpos, sprt_ypos, sprt_zpos))
+            {
+                Fix16 screen_xpos_f16;
+                Fix16 screen_ypos_f16;
+                ProjectXYZ_intoScreen(sprt_xpos, sprt_ypos, sprt_zpos, screen_xpos_f16, screen_ypos_f16, pPlayerCam);
+
+                s16 screen_xpos = screen_xpos_f16.ToInt() + x_offset;
+                s16 screen_ypos = screen_ypos_f16.ToInt() + y_offset;
+
+                if (gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
+                {
+                    gHud_2B00_706620->field_650.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+                }
+            }
+        }
+    }
+}
 
 namespace HookManagement
 {
@@ -1342,6 +1447,16 @@ void CC ImGuiDebugDraw()
                 }
 
                 ImGui::InputInt("Car F_88", &pNewCar->field_88, 1, 1);
+
+                if (ImGui::TreeNode("Draw Testing") && pNewCar->field_50_car_sprite)
+                {
+                    swprintf(tmpBuff_67BD9C, L"Testing Draw\nCoords (%.1f, %.1f, %.1f)", 
+                        pNewCar->field_50_car_sprite->field_14_xy.x.ToFloat(),
+                        pNewCar->field_50_car_sprite->field_14_xy.y.ToFloat(),
+                        pNewCar->field_50_car_sprite->field_1C_zpos.ToFloat());
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pNewCar->field_50_car_sprite, 0, 0);
+                    ImGui::TreePop();
+                }
             }
             ImGui::TreePop();
         }
