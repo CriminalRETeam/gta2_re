@@ -39,34 +39,10 @@ s32 Generator_2C::next_cycle_4C1AB0()
     return rng + 4 * min + rng_dword_67AB34->field_0_rng;
 }
 
-WIP_FUNC(0x4C1B10)
+MATCH_FUNC(0x4C1B10)
 EXPORT void Generator_2C::sub_4C1B10()
 {
-    WIP_IMPLEMENTED;
-
-    if (field_21 != 2)
-    {
-        Object_2C* pObj = gObject_5C_6F8F84->sub_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
-        if (pObj)
-        {
-            if (field_1E_kill_timer != -1)
-            {
-                field_1E_kill_timer--;
-            }
-
-            if (pObj->check_is_shop_421060())
-            {
-                if (field_1C_ammo)
-                {
-                    pObj->field_26_varrok_idx = field_1C_ammo;
-                }
-            }
-            field_24_obj = pObj;
-            field_28_id = pObj->field_14_id;
-        }
-        field_18_cycle = next_cycle_4C1AB0();
-    }
-    else
+    if (field_21 == 2)
     {
         if (field_24_obj)
         {
@@ -88,14 +64,14 @@ EXPORT void Generator_2C::sub_4C1B10()
             {
                 field_24_obj = pObj;
                 field_28_id = pObj->field_14_id;
-                if (field_1E_kill_timer != -1)
+                if (field_1E_kill_timer < 0xFFFF)
                 {
                     field_1E_kill_timer--;
                 }
 
                 if (pObj->check_is_shop_421060())
                 {
-                    if (field_1C_ammo)
+                    if (field_1C_ammo > 0)
                     {
                         pObj->field_26_varrok_idx = field_1C_ammo;
                     }
@@ -105,6 +81,28 @@ EXPORT void Generator_2C::sub_4C1B10()
             }
             field_18_cycle += 4;
         }
+    }
+    else
+    {
+        Object_2C* pObj = gObject_5C_6F8F84->sub_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
+        if (pObj)
+        {
+            if (field_1E_kill_timer < 0xFFFF)
+            {
+                field_1E_kill_timer--;
+            }
+
+            if (pObj->check_is_shop_421060())
+            {
+                if (field_1C_ammo > 0)
+                {
+                    pObj->field_26_varrok_idx = field_1C_ammo;
+                }
+            }
+            field_24_obj = pObj;
+            field_28_id = pObj->field_14_id;
+        }
+        field_18_cycle = next_cycle_4C1AB0();
     }
 
     if (field_1E_kill_timer == 0)
