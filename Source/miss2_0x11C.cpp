@@ -3758,10 +3758,47 @@ void miss2_0x11C::SCRCMD_CHECK_MAX_PASS_50BED0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50bf40)
+MATCH_FUNC(0x50bf40)
 void miss2_0x11C::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
 {
-    NOT_IMPLEMENTED;
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    str_table_entry* pStrEntry = gfrosty_pasteur_6F8060->FindStringById_503080(v1->field_A_signed_2);
+    Player* pPlayer = pCmd->field_8_char->field_15C_player;
+
+    gmp_map_zone* pZone1;
+    gmp_map_zone* pZone2;
+
+    if (pPlayer)
+    {
+        pZone1 = pPlayer->field_38_local_navigation_zone;
+        pZone2 = pPlayer->field_3C_navigation_zone;
+    }
+    else
+    {
+        pZone1 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(
+            pCmd->field_8_char->get_cam_x().ToInt(),
+            pCmd->field_8_char->get_cam_y().ToInt(),
+            16
+        );
+        pZone2 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(
+            pCmd->field_8_char->get_cam_x().ToInt(),
+            pCmd->field_8_char->get_cam_y().ToInt(),
+            1
+        );
+    }
+
+    if ((pZone1 && !_strnicmp(pZone1->field_6_name, (const char*)&pStrEntry[1], pZone1->field_5_name_length)) ||
+        (pZone2 && !_strnicmp(pZone2->field_6_name, (const char*)&pStrEntry[1], pZone2->field_5_name_length)))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c040)
