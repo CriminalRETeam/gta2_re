@@ -4529,10 +4529,59 @@ void miss2_0x11C::sub_50DA50() // CREATE_LIGHT1 or LIGHT_DECSET2
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50db70)
+MATCH_FUNC(0x50db70)
 void miss2_0x11C::GetSetLivesAndMultipler_50DB70()
 {
-    NOT_IMPLEMENTED;
+    SCR_GET_NUM_LIVES_MULTIPLIERS* pCmd = (SCR_GET_NUM_LIVES_MULTIPLIERS*)gBasePtr_6F8070;
+    SCR_POINTER* pPlayerPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_player_ped_idx);
+
+    switch (pCmd->field_2_type)
+    {
+        case SCRCMD_ADD_LIVES:
+            if (pPlayerPtr->field_8_char->field_15C_player)
+            {
+                pPlayerPtr->field_8_char->field_15C_player->ChangeLifeCountByAmount_5699F0(pCmd->field_A_counter_idx);
+            }
+
+            break;
+        case SCRCMD_CHECK_NUM_LIVES:
+            if (pPlayerPtr->field_8_char->field_15C_player)
+            {
+                if (pPlayerPtr->field_8_char->field_15C_player->field_684_lives.field_0_value > pCmd->field_A_counter_idx)
+                {
+                    field_8 = true;
+                }
+                else
+                {
+                    field_8 = false;
+                }
+            }
+
+            break;
+        case SCRCMD_ADD_MULTIPLIER:
+            if (pPlayerPtr->field_8_char->field_15C_player)
+            {
+                pPlayerPtr->field_8_char->field_15C_player->field_6BC_multpliers.ChangeStatByAmount_4921B0(pCmd->field_A_counter_idx);
+            }
+
+            break;
+        case SCRCMD_CHECK_MULT:
+            if (pPlayerPtr->field_8_char->field_15C_player)
+            {
+                if (pPlayerPtr->field_8_char->field_15C_player->field_6BC_multpliers.field_0_value > pCmd->field_A_counter_idx)
+                {
+                    field_8 = true;
+                }
+                else
+                {
+                    field_8 = false;
+                }
+            }
+
+            break;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50dd00)

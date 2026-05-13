@@ -726,7 +726,7 @@ struct SCR_IS_POINT_ON_SCREEN : SCR_CMD_HEADER
 struct SCR_GET_NUM_LIVES_MULTIPLIERS : SCR_CMD_HEADER
 {
     u16 field_8_player_ped_idx;
-    u16 field_A_counter_idx;
+    s16 field_A_counter_idx;
 };
 
 struct SCR_REMOTE_CONTROL : SCR_CMD_HEADER
