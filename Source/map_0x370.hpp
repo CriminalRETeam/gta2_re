@@ -226,6 +226,13 @@ EXTERN_GLOBAL(Fix16, dword_6F6214);
 
 EXTERN_GLOBAL(Fix16, dword_6F610C);
 
+struct gmp_zone_list
+{
+    u16 field_0_num_zones;
+    u16 field_2_pad;
+    gmp_map_zone* field_4_zone_array[2];
+};
+
 class Map_0x370
 {
   public:
@@ -501,7 +508,7 @@ class Map_0x370
     gmp_compressed_map_32* field_0_pDmap;
     Map_sub field_4_obj;
     gmp_map_zone* field_328_pZoneData;
-    gmp_map_zone** field_32C_pZones;
+    gmp_zone_list* field_32C_pZones;
     BYTE* field_330_pZoneArray;
     gmp_zone_info* field_334_pUnknownZoneData;
     gmp_map_object* field_338_pMapObjects;
