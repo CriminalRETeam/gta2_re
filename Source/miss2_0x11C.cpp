@@ -5441,10 +5441,54 @@ void miss2_0x11C::SCRCMD_PED_GRAPHIC_50F550()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50f5e0)
+MATCH_FUNC(0x50f5e0)
 void miss2_0x11C::sub_50F5E0()
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_STATE* pCmd = (SCR_SET_STATE*)gBasePtr_6F8070;
+    Ped* pPed = ((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_SET_STATE*)gBasePtr_6F8070)->field_8_unk))->field_8_char;
+
+    if (pPed)
+    {
+        switch (gBasePtr_6F8070->field_2_type)
+        {
+            case SCRCMD_CHAR_INVINCIBLE:
+                if (pCmd->field_A_status == 1)
+                {
+                    pPed->field_208_invulnerability = 9999;
+                }
+                else
+                {
+                    pPed->field_208_invulnerability = 0;
+                }
+
+                break;
+            case SCRCMD_SET_STAY_IN_CAR:
+                if (pCmd->field_A_status == 1)
+                {
+                    pPed->field_21C |= 16;
+                }
+                else
+                {
+                    pPed->field_21C &= ~16;
+                }
+
+                break;
+            case SCRCMD_SET_USE_CAR_WEAPON:
+                if (pCmd->field_A_status == 1)
+                {
+                    pPed->field_21C |= 128;
+                }
+                else
+                {
+                    pPed->field_21C &= ~128;
+                }
+
+                break;
+            case SCRCMD_DEATH_ARR_STATE:
+                gfrosty_pasteur_6F8060->field_355 = pCmd->field_A_status;
+                break;
+        }
+    }
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
