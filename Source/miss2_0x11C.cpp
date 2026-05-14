@@ -4250,10 +4250,81 @@ void miss2_0x11C::SCRCMD_ROAD_ON_OFF_50CB20()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50cb70)
-void miss2_0x11C::sub_50CB70()
+MATCH_FUNC(0x50cb70)
+void miss2_0x11C::SCRCMD_CHECK_CAR_DRIVER_50CB70()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    field_8 = false;
+
+    switch (gBasePtr_6F8070->field_2_type)
+    {
+        case SCRCMD_CHECK_CAR_DRIVER:
+            if (pPtr->field_8_car->field_54_driver != NULL)
+            {
+                field_8 = true;
+            }
+
+            break;
+        case SCRCMD_IS_CAR_WRECKED:
+        {
+            Car_BC* pCar = pPtr->field_8_car;
+
+            if (pCar->field_88 == 6 || pCar->field_88 == 5 || pCar->field_74_damage >= 32000 || pCar->sub_43A230())
+            {
+                field_8 = true;
+            }
+
+            break;
+        }
+        case SCRCMD_CAR_SUNK:
+            if (pPtr->field_8_car->sub_43A230())
+            {
+                field_8 = true;
+            }
+
+            break;
+        case SCRCMD_CAR_IN_AIR:
+            if (pPtr->field_8_car->IsCarInAir_43A3C0())
+            {
+                field_8 = true;
+            }
+
+            break;
+        case SCRCMD_IS_CAR_CRUSHED:
+            if (pPtr->field_8_car->IsBeingCrushed_43DD50())
+            {
+                field_8 = true;
+            }
+
+            break;
+        case SCRCMD_CARBOMB_ACTIVE:
+        {
+            Car_BC* pCar = pPtr->field_8_car;
+            if (pCar->field_0_qq.GetSpriteForModel_5A6A50(132) != NULL)
+            {
+                field_8 = true;
+            }
+
+            break;
+        }
+        case SCRCMD_EMERG_LIGHTS_ON:
+        {
+            Car_BC* pCar = pPtr->field_8_car;
+            car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCar->field_84_car_info_idx);
+
+            if ((pInfo->info_flags & 2) == 2 || pCar->field_84_car_info_idx == 84)
+            {
+                if ((pCar->field_A4 & 4) != 0)
+                {
+                    field_8 = true;
+                }
+            }
+
+            break;
+        }
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50ccb0)
@@ -6689,7 +6760,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case SCRCMD_IS_CAR_CRUSHED:
             case SCRCMD_CARBOMB_ACTIVE:
             case SCRCMD_EMERG_LIGHTS_ON:
-                sub_50CB70();
+                SCRCMD_CHECK_CAR_DRIVER_50CB70();
                 break;
             case SCRCMD_CHANGE_POLICE:
                 sub_510030();
