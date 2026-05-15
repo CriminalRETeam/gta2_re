@@ -613,6 +613,10 @@ static Camera_0xBC* GetPlayerCam()
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
         if (pPlayer)
         {
+            if (pPlayer->field_6C_bIn_debug_cam_mode)
+            {
+                return &pPlayer->field_14C_view_camera;
+            }
             if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
             {
                 return &pPlayer->field_208_aux_game_camera;
@@ -642,48 +646,9 @@ static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& scr
     screen_y = ((zCalc * yTmp) + Fix16(0x3C0000, 0));
 }
 
-// Draw Text with char_type
-static void DisplayTextAtSprite(char* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
-{
-    Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-    if (pPlayer && pPlayer->field_6C_bIn_debug_cam_mode)
-    {
-        return; // Do not draw if it's on debug cam mode
-    }
-    if (gHud_2B00_706620)
-    {
-        Camera_0xBC* pPlayerCam = GetPlayerCam();
-        if (pPlayerCam && pSprt)
-        {
-            Fix16 sprt_xpos = pSprt->field_14_xy.x;
-            Fix16 sprt_ypos = pSprt->field_14_xy.y;
-            Fix16 sprt_zpos = pSprt->field_1C_zpos;
-            if (pPlayerCam->IsCoordsPosVisible_435A70(sprt_xpos, sprt_ypos, sprt_zpos))
-            {
-                Fix16 screen_xpos_f16;
-                Fix16 screen_ypos_f16;
-                ProjectXYZ_intoScreen(sprt_xpos, sprt_ypos, sprt_zpos, screen_xpos_f16, screen_ypos_f16, pPlayerCam);
-
-                s16 screen_xpos = screen_xpos_f16.ToInt() + x_offset;
-                s16 screen_ypos = screen_ypos_f16.ToInt() + y_offset;
-
-                if (gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
-                {
-                    gHud_2B00_706620->field_650.DisplayText_5D1F50(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos, word_706600, 1);
-                }
-            }
-        }
-    }
-}
-
 // Draw Text with wchar_t
 static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
 {
-    Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-    if (pPlayer && pPlayer->field_6C_bIn_debug_cam_mode)
-    {
-        return; // Do not draw if it's on debug cam mode
-    }
     if (gHud_2B00_706620)
     {
         Camera_0xBC* pPlayerCam = GetPlayerCam();
@@ -708,6 +673,12 @@ static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, 
             }
         }
     }
+}
+
+// Draw Text with char_type
+static void DisplayTextAtSprite(char* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
+{
+    DisplayWideTextAtSprite(text_0x14::Ascii2Wide_5B5DF0(pStr), pSprt, x_offset, y_offset);
 }
 
 namespace HookManagement
