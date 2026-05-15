@@ -2271,7 +2271,7 @@ void Hud_Brief_704::sub_5D39D0()
 {
     field_510_time_to_show = Hud_Brief_704::sub_5D3470();
     field_504_tick_timer = field_510_time_to_show * gHud_2B00_706620->field_13C4_text_speed;
-    field_50C = 0;
+    field_50C_face_variant = 0;
     field_514_upward_timer = 0;
     field_6F8_curr_brief->field_10 = 0;
 }
@@ -2282,10 +2282,10 @@ void Hud_Brief_704::DrawBrief_5D3B80()
 {
     WIP_IMPLEMENTED;
 
-    if (this->field_6F8_curr_brief)
+    if (field_6F8_curr_brief)
     {
         sub_5D7670(6, // type
-                   field_50C + 3 * field_502_face_idx + 16, // LOBYTE(v1->field_502_face_idx) pal
+                   field_50C_face_variant + 3 * field_502_face_idx + 16,
                    (32), // x
                    (443), // y
                    word_706610, // rot
@@ -2384,13 +2384,13 @@ void Hud_Brief_704::sub_5D44D0()
             }
 
             const s32 ary_val = field_0_str[field_514_upward_timer];
-            if (!(ary_val % 20))
+            if (!(ary_val % 20)) // (, <, P, d, x
             {
-                field_50C = 1;
+                field_50C_face_variant = 1; // blinking (closed eyes)
             }
             else
             {
-                field_50C = 2 * (ary_val % 2);
+                field_50C_face_variant = 2 * (ary_val % 2); // mouth open and closed, but with open eyes
             }
         }
 
@@ -2437,7 +2437,7 @@ Hud_Brief_704::Hud_Brief_704()
 {
     field_6FC_p_start_q = (Garox_18*)&field_518_ary_19_start_q;
 
-    field_50C = 0;
+    field_50C_face_variant = 0;
     field_510_time_to_show = 0;
     field_514_upward_timer = 0;
     field_6F8_curr_brief = 0;

@@ -524,7 +524,7 @@ class Hud_Brief_704 // size 0x704
     u16 field_504_tick_timer;
     u16 field_506;
     s32 field_508_num_lines;
-    s32 field_50C;
+    s32 field_50C_face_variant;
     s32 field_510_time_to_show;
     s32 field_514_upward_timer;
     Garox_18* field_518_ary_19_start_q;
