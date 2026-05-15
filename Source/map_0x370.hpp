@@ -133,7 +133,7 @@ class gmp_map_zone
     u8 field_5_name_length;
     char_type field_6_name[2];
 
-    EXPORT s8 sub_4DEF40();
+    EXPORT s8 IsZoneVisibleToAnyPlayer_4DEF40();
     EXPORT wchar_t* get_zone_str_4DEF00();
 };
 

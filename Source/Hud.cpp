@@ -1931,7 +1931,7 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
 MATCH_FUNC(0x5d1110)
 void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 {
-    s32 phone_type = sub_5D1260(pPhoneInfo->field_18_model);
+    s32 phone_type = GetPhoneTypeFromObjModel_5D1260(pPhoneInfo->field_18_model);
     Gang_144* pZone = gMap_0x370_6F6268->GetGangAtCoords_4DFB50(pPhoneInfo->field_4->GetXPos(), pPhoneInfo->field_4->GetYPos());
 
     if (!pZone)
@@ -1976,9 +1976,9 @@ void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 }
 
 MATCH_FUNC(0x5D1260)
-s32 __stdcall sub_5D1260(s32 a1)
+s32 __stdcall GetPhoneTypeFromObjModel_5D1260(s32 phone_model_idx)
 {
-    switch (a1)
+    switch (phone_model_idx)
     {
         case 176:
         case 177:
@@ -2412,10 +2412,10 @@ void Hud_Brief_704::ShowBrief_5D4850()
 {
     if (field_700_prev_brief)
     {
-        Garox_18* prev_brief = field_6F8_curr_brief;
-        if (prev_brief)
+        Garox_18* curr_brief = field_6F8_curr_brief;
+        if (curr_brief)
         {
-            if (prev_brief->field_10)
+            if (curr_brief->field_10)
             {
                 Hud_Brief_704::sub_5D33A0();
             }

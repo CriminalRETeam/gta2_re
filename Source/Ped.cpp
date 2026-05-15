@@ -1938,7 +1938,7 @@ void Ped::EnterPublicTransport_45EE70()
     for (gmp_map_zone* pZoneIter = gMap_0x370_6F6268->sub_4DF6A0(field_1AC_cam.x.ToInt(), field_1AC_cam.y.ToInt()); pZoneIter;
          pZoneIter = gMap_0x370_6F6268->next_zone_4DF770())
     {
-        if (bSkip_trains_67D550 || pZoneIter->field_0_zone_type != 6)
+        if (bSkip_trains_67D550 || pZoneIter->field_0_zone_type != Railway_Station_Platform_6)
         {
             if (!bSkip_buses_67D558)
             {

@@ -936,6 +936,26 @@ void CC ImGuiDebugDraw()
         static char tmpBuffer[512];
         sprintf(tmpBuffer, "c%02d", model_num);
         ImGui::Text(gText_0x14_704DFC->Wide2PesudoAscii_5B5D10(gText_0x14_704DFC->Find_5B5F90(tmpBuffer)));
+
+        static int currentCharIndex = 0;
+        const char* char_lang_codes[] = {"e", "f", "i", "g", "s", "r", "j", "z"};
+        const char char_lang[] = {'e', 'f', 'i', 'g', 's', 'r', 'j', 'z'};
+
+        // Calculate the size of the char_lang_codes array
+        const int charCount = sizeof(char_lang_codes) / sizeof(char_lang_codes[0]);
+
+        // Combo box for car model selection
+        if (ImGui::Combo("Lang Code", &currentCharIndex, char_lang_codes, charCount))
+        {
+            // Lang Code selection changed
+        }
+
+        if (ImGui::Button("Apply Lang Code"))
+        {
+            gText_0x14_704DFC->field_10_lang_code = char_lang[currentCharIndex];
+            gText_0x14_704DFC->Load_5B5E90();
+        }
+        ImGui::Text("Curr Lang Code: %c", gText_0x14_704DFC->field_10_lang_code);
     }
 
     if (gGame_0x40_67E008)
@@ -1921,7 +1941,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("field_504_tick_timer", pHud_Brief_704->field_504_tick_timer);
                         ImGui::Value("field_506", pHud_Brief_704->field_506);
                         ImGui::Value("field_508_num_lines", pHud_Brief_704->field_508_num_lines);
-                        ImGui::Value("field_50C", pHud_Brief_704->field_50C);
+                        ImGui::Value("field_50C", pHud_Brief_704->field_50C_face_variant);
                         ImGui::Value("field_510_time_to_show", pHud_Brief_704->field_510_time_to_show);
                         ImGui::Value("field_514_upward_timer", pHud_Brief_704->field_514_upward_timer);
                         ImGui::Value("field_51C", pHud_Brief_704->field_51C);

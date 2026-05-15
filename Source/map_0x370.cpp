@@ -211,7 +211,7 @@ gmp_block_info* Map_0x370::get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord)
 }
 
 MATCH_FUNC(0x4DEF40)
-s8 gmp_map_zone::sub_4DEF40()
+s8 gmp_map_zone::IsZoneVisibleToAnyPlayer_4DEF40()
 {
     Fix16_Rect zoneBounds(field_1_x, field_2_y, field_3_w, field_4_h);
     return gGame_0x40_67E008->IsRectVisibleToAnyPlayer_4B9B10(&zoneBounds);
@@ -334,13 +334,12 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
 
     s32 zone_idx;
 
-    // TODO: wrong field_32C_pZones type
     for (zone_idx = 0; zone_idx < field_32C_pZones->field_0_num_zones; ++zone_idx)
     {
         gmp_map_zone* pZone = Map_0x370::get_zone_4DFB30(zone_idx);
 
-        if (pZone->field_0_zone_type == zone_type //  zone type zone_type
-            && !pZone->sub_4DEF40())
+        if (pZone->field_0_zone_type == zone_type
+            && !pZone->IsZoneVisibleToAnyPlayer_4DEF40())
         {
             Fix16 v13 = Fix16::MaxAbsDistance_42A6B0(pZone->field_1_x, pZone->field_2_y, xpos, ypos);
 
@@ -376,7 +375,6 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
 
     if (!pOtherZone)
     {
-        // TODO: wrong field_32C_pZones type
         for (zone_idx = 0; zone_idx < field_32C_pZones->field_0_num_zones; zone_idx++)
         {
             gmp_map_zone* v15 = Map_0x370::get_zone_4DFB30(zone_idx);
@@ -429,7 +427,9 @@ gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y)
         for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
-            if ((pZone->field_0_zone_type == 10 || pZone->field_0_zone_type == 1 || pZone->field_0_zone_type == 15) &&
+            if ((pZone->field_0_zone_type == Information_10 
+                || pZone->field_0_zone_type == Navigation_1 
+                || pZone->field_0_zone_type == Local_Navigation_15) &&
                 Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
             {
                 return pZone;
