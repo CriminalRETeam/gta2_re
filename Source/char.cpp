@@ -1555,7 +1555,7 @@ void Char_B4::UpdateAnimState_546360()
             pDriver->SetObjective(objectives_enum::no_obj_0, 9999);
 
         LABEL_115:
-            if (field_7C_pPed->field_25C_car_state == 35 && field_7C_pPed->field_226 == 1)
+            if (field_7C_pPed->field_25C_internal_objective == 35 && field_7C_pPed->field_226 == 1)
             {
                 field_7C_pPed->field_226 = 0;
             }

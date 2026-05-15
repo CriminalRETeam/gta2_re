@@ -1699,7 +1699,7 @@ void CC ImGuiDebugDraw()
                         ImGui::InputInt("F 238", &pPlayerPed->field_238, 1, 1);
                         ImGui::InputInt("Ped State 1", &pPlayerPed->field_278_ped_state_1, 1, 1);
                         ImGui::InputInt("Ped State 2", &pPlayerPed->field_27C_ped_state_2, 1, 1);
-                        ImGui::InputInt("Car State", &pPlayerPed->field_25C_car_state, 1, 1);
+                        ImGui::InputInt("Car State", &pPlayerPed->field_25C_internal_objective, 1, 1);
                         ShowPedBitMask(pPlayerPed);
                     }
 
@@ -2073,6 +2073,44 @@ void CC ImGuiDebugDraw()
 
                         ImGui::End();
                         ImGui::TreePop();
+                    }
+
+                    if (pPedIter->field_240_occupation == ped_ocupation_enum::mugger
+                        || pPedIter->field_240_occupation == ped_ocupation_enum::car_thief)
+                    {
+                        swprintf(tmpBuff_67BD9C, L"(%d, %d)", 
+                        pPedIter->field_21C_bf.b2,
+                        pPedIter->field_21C_bf.b11);
+                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::driver)
+                    {
+                        DisplayTextAtSprite("Driver", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::driver_2)
+                    {
+                        DisplayTextAtSprite("Driver 2", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::driver_3)
+                    {
+                        DisplayTextAtSprite("Driver 3", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    // objectives_enum
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::unknown_2) 
+                    {
+                        DisplayTextAtSprite("Occp 4", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::taxi_customer_7) 
+                    {
+                        DisplayTextAtSprite("Occp 7", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::unknown_5) 
+                    {
+                        DisplayTextAtSprite("Occp 8", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::unknown_14) 
+                    {
+                        DisplayTextAtSprite("Occp 29", pPedIter->GetSprite_46DF50(), 0, 0);
                     }
                     pPedIter = pPedIter->mpNext;
                 }

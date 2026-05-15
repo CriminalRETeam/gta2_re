@@ -315,7 +315,7 @@ enum
     unknown_2 = 4,
     driver = 5,
     unknown_3 = 6,
-    unknown_4 = 7,
+    taxi_customer_7 = 7,
     unknown_5 = 8,
     unknown_6 = 9,
     driver_2 = 10,

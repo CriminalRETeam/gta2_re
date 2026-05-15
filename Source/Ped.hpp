@@ -89,7 +89,7 @@ class Ped
     EXPORT void EnterPublicTransport_45EE70();
     EXPORT void Mugger_AI_45F360();
     EXPORT void CarThief_AI_45FF60();
-    EXPORT void sub_460820();
+    EXPORT void TaxiCustomer_AI_460820();
     EXPORT void sub_461290();
     EXPORT void sub_461530();
     EXPORT void sub_461630();
@@ -551,7 +551,7 @@ class Ped
 
     inline bool IsPedGoingToEnterCar_492FD0()
     {
-        return field_258_objective == objectives_enum::enter_car_as_driver_35 || field_25C_car_state == 35;
+        return field_258_objective == objectives_enum::enter_car_as_driver_35 || field_25C_internal_objective == 35;
     }
 
     Ang16 Get_F12E_4CCA90()
@@ -685,7 +685,7 @@ class Ped
     //char_type field_256;
     //char_type field_257;
     s32 field_258_objective;
-    s32 field_25C_car_state;
+    s32 field_25C_internal_objective;
     char_type field_260;
     char_type field_261;
     char_type field_262;

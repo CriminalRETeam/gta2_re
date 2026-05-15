@@ -455,7 +455,7 @@ void PedGroup::UpdateFormation_4CA4B0()
         for (u8 i = 0; i < field_34_count; i++)
         {
             Ped* pIter = field_4_ped_list[i];
-            if (pIter->field_25C_car_state != 9)
+            if (pIter->field_25C_internal_objective != 9)
             {
                 if (pIter->field_168_game_object)
                 {
