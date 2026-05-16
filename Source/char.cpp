@@ -1521,7 +1521,7 @@ void Char_B4::UpdateAnimState_546360()
 
             if (pDriver->field_240_occupation == ped_ocupation_enum::driver)
             {
-                pDriver->field_240_occupation = ped_ocupation_enum::driver_2;
+                pDriver->field_240_occupation = ped_ocupation_enum::robbed_driver_10;
                 pDriver->field_140 = field_84;
                 pDriver->field_180 = field_7C_pPed;
                 goto LABEL_115;
@@ -1529,7 +1529,7 @@ void Char_B4::UpdateAnimState_546360()
 
             if (pDriver->field_240_occupation != ped_ocupation_enum::police)
             {
-                if (pDriver->field_17C_pZone)
+                if (pDriver->field_17C_pGang)
                 {
                     pDriver->SetObjective2_463830(20, 9999);
                     pDriver->field_14C = field_7C_pPed;

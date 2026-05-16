@@ -316,12 +316,12 @@ enum
     driver = 5,
     unknown_3 = 6,
     taxi_customer_7 = 7,
-    unknown_5 = 8,
-    unknown_6 = 9,
-    driver_2 = 10,
-    unknown_7 = 11,
-    unknown_8 = 12,
-    unknown_9 = 13,
+    bus_customer_8 = 8,
+    train_customer_9 = 9,
+    robbed_driver_10 = 10, // victim of a steal
+    fleeing_robbed_driver_11 = 11,
+    angry_armed_robbed_driver_12 = 12, // get the car back from the thief
+    very_angry_armed_robbed_driver_13 = 13, // shoots at the thief
     psycho = 14,
     mugger = 15,
     car_thief = 16,
@@ -337,7 +337,7 @@ enum
     fbi = 26,
     army_army = 27,
     guard = 28,
-    unknown_14 = 29,
+    walking_guard_29 = 29,
     unknown_15 = 30,
     unknown_16 = 31,
     guard_against_player = 32,
@@ -358,7 +358,7 @@ enum
     any_emergency_service_man = 47,
     any_gang_member = 48,
     any_elvis = 49,
-    driver_3 = 50,
+    scared_driver_50 = 50, // scared by shooting at his car
     no_occupation = 51,
 };
 // static_assert(sizeof(ped_ocupation_enum) == 0x4);

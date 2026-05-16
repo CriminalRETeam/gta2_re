@@ -90,9 +90,9 @@ class Ped
     EXPORT void Mugger_AI_45F360();
     EXPORT void CarThief_AI_45FF60();
     EXPORT void TaxiCustomer_AI_460820();
-    EXPORT void sub_461290();
-    EXPORT void sub_461530();
-    EXPORT void sub_461630();
+    EXPORT void BusCustomer_AI_461290();
+    EXPORT void TrainCustomer_AI_461530();
+    EXPORT void RobbedDriver_AI_461630();
     EXPORT void RoadBlockTank_AI_4619F0();
     EXPORT void UpdateFacingAngle_461A60();
     EXPORT void Occupation_AI_461F20();
@@ -598,7 +598,7 @@ class Ped
     Weapon_30* field_170_selected_weapon;
     Weapon_30* field_174_pWeapon;
     Weapon_30* field_178;
-    Gang_144* field_17C_pZone; //  Maybe it's the zone of the gang the ped belongs to;
+    Gang_144* field_17C_pGang;
     Ped* field_180;
     Object_2C* field_184_pObj2C;
     Ped* field_188_last_char_punched;

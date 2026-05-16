@@ -487,7 +487,7 @@ void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix
     }
     else
     {
-        pPed->set_occupation_403970(ped_ocupation_enum::unknown_14);
+        pPed->set_occupation_403970(ped_ocupation_enum::walking_guard_29);
         pPed->SetField238_403920(3);
         pPed->set_remap_433B90(0);
     }

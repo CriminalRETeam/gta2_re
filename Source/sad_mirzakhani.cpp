@@ -336,7 +336,7 @@ s8 sad_mirzakhani::sub_432240(int occupation, int a3)
                 case ped_ocupation_enum::swat:
                 case ped_ocupation_enum::fbi:
                 case ped_ocupation_enum::army_army:
-                case ped_ocupation_enum::unknown_14:
+                case ped_ocupation_enum::walking_guard_29:
                 case ped_ocupation_enum::unknown_15:
                 case ped_ocupation_enum::unknown_16:
                 case ped_ocupation_enum::tank_driver:
@@ -354,7 +354,7 @@ s8 sad_mirzakhani::sub_432240(int occupation, int a3)
                 case ped_ocupation_enum::swat:
                 case ped_ocupation_enum::fbi:
                 case ped_ocupation_enum::army_army:
-                case ped_ocupation_enum::unknown_14:
+                case ped_ocupation_enum::walking_guard_29:
                 case ped_ocupation_enum::unknown_15:
                 case ped_ocupation_enum::unknown_16:
                 case ped_ocupation_enum::tank_driver:

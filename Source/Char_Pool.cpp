@@ -233,7 +233,7 @@ LABEL_12:
                         ++byte_6787CE;
                         pPed->field_238 = 4;
                         pPed->field_240_occupation = ped_ocupation_enum::unknown_10;
-                        pPed->field_17C_pZone = pGang;
+                        pPed->field_17C_pGang = pGang;
                         v16 = pGang->field_101;
                         pPed->field_244_remap = v16;
                         if (v16 == 5)
@@ -243,7 +243,7 @@ LABEL_12:
                                 pPed->field_244_remap = 6;
                             }
                         }
-                        field_17C_pZone = pPed->field_17C_pZone;
+                        field_17C_pZone = pPed->field_17C_pGang;
                         pPed->field_26C_graphic_type = 1;
                         pPed->field_22C = 1;
                         GangCurrWeapon_4BF0C0 = field_17C_pZone->GetGangCurrWeapon_4BF0C0();
@@ -391,7 +391,7 @@ LABEL_12:
         } // End switch
 
         occupation_ = pPed->field_240_occupation;
-        if (occupation_ != ped_ocupation_enum::unknown_14 && occupation_ != ped_ocupation_enum::unknown_16)
+        if (occupation_ != ped_ocupation_enum::walking_guard_29 && occupation_ != ped_ocupation_enum::unknown_16)
         {
             pPed->AllocCharB4_45C830(xpos, ypos, zpos);
         }
@@ -408,7 +408,7 @@ LABEL_12:
         }
 
         gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
-        if (pPed->field_240_occupation != ped_ocupation_enum::unknown_14)
+        if (pPed->field_240_occupation != ped_ocupation_enum::walking_guard_29)
         {
             game_object = pPed->field_168_game_object;
             remap = pPed->field_244_remap;
@@ -871,7 +871,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 
     pCar->SetDriver(pNewPed);
 
-    pNewPed->field_17C_pZone = pGang;
+    pNewPed->field_17C_pGang = pGang;
     pNewPed->field_244_remap = pGang->field_101;
 
     if (pNewPed->field_244_remap == 5)
@@ -884,7 +884,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
     pNewPed->field_26C_graphic_type = 1;
     pNewPed->field_22C = 1;
 
-    pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pZone->GetGangCurrWeapon_4BF0C0());
+    pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
     pNewPed->GiveWeapon_46F650(weapon_type::pistol);
 
     pNewPed->field_270 = 0;
@@ -938,7 +938,7 @@ Ped* PedManager::SpawnRunAwayGuy_470D60()
     }
 
     pPed->field_238 = 6;
-    pPed->field_240_occupation = ped_ocupation_enum::driver_2;
+    pPed->field_240_occupation = ped_ocupation_enum::robbed_driver_10;
     pPed->field_168_game_object = 0;
     pPed->ChangeNextPedState1_45C500(10);
     pPed->ChangeNextPedState2_45C540(10);
