@@ -1774,7 +1774,7 @@ void Ped::Deallocate_45EB60()
         case ped_ocupation_enum::guard:
             --gNumberWalkingCopsSpawned_6787CD;
             break;
-        case ped_ocupation_enum::unknown_10:
+        case ped_ocupation_enum::armed_gang_member_19:
             --byte_6787CE;
             break;
         case ped_ocupation_enum::bus_customer_8:
@@ -2967,7 +2967,7 @@ void Ped::Occupation_AI_461F20()
         case ped_ocupation_enum::road_block_tank_man:
             Ped::RoadBlockTank_AI_4619F0();
             break;
-        case ped_ocupation_enum::unknown_18:
+        case ped_ocupation_enum::mad_mugger_40:
             if (!gPedManager_6787BC->field_7_make_all_muggers)
             {
                 field_240_occupation = ped_ocupation_enum::dummy;
@@ -2975,7 +2975,7 @@ void Ped::Occupation_AI_461F20()
                 Ped::ForceDoNothing_462590();
             }
             break;
-        case ped_ocupation_enum::unknown_10:
+        case ped_ocupation_enum::armed_gang_member_19:
             if (field_25C_internal_objective == 20 && field_17C_pGang != NULL && field_14C->field_15C_player != NULL)
             {
                 u8 idx = field_14C->field_15C_player->field_2E_idx;
@@ -3394,7 +3394,7 @@ char_type Ped::StateMachineTick_4626B0()
         case 6:
             occupation_ = this->field_240_occupation;
             this->field_212_electrocution_threshold = 100;
-            if (occupation_ == ped_ocupation_enum::unknown_10 && this->field_278_ped_state_1 == ped_state_1::dead_9)
+            if (occupation_ == ped_ocupation_enum::armed_gang_member_19 && this->field_278_ped_state_1 == ped_state_1::dead_9)
             {
                 --byte_6787CE;
                 this->field_240_occupation = ped_ocupation_enum::dummy;
@@ -3692,7 +3692,7 @@ bool Ped::PoolUpdate()
                         field_278_ped_state_1 = ped_state_1::dead_9;
                         field_27C_ped_state_2 = ped_state_2::Unknown_15;
                     }
-                    if (field_20e > 0xC8u && field_240_occupation != ped_ocupation_enum::unknown_13 && field_238 != 5)
+                    if (field_20e > 0xC8u && field_240_occupation != ped_ocupation_enum::paramedic_23 && field_238 != 5)
                     {
                         Ped::Deallocate_45EB60();
                     }
@@ -4668,7 +4668,7 @@ void Ped::Threat_Reaction_AI_465270()
 
         case threat_reaction_enum::react_as_emergency_1:
         case threat_reaction_enum::react_as_normal_2:
-            if (field_240_occupation == ped_ocupation_enum::unknown_13)
+            if (field_240_occupation == ped_ocupation_enum::paramedic_23)
             {
                 return;
             }
@@ -5018,7 +5018,7 @@ void Ped::sub_465B20()
                 {
                     if (field_28C_threat_reaction <= threat_reaction_enum::react_as_normal_2)
                     {
-                        if (this->field_240_occupation != ped_ocupation_enum::unknown_13)
+                        if (this->field_240_occupation != ped_ocupation_enum::paramedic_23)
                         {
                             if (this->field_168_game_object)
                             {
@@ -8521,7 +8521,7 @@ Weapon_30* Ped::sub_46F490()
             }
             return this->field_170_selected_weapon;
 
-        case ped_ocupation_enum::unknown_17:
+        case ped_ocupation_enum::roadblock_cop_37:
             if (!field_14C->IsField238_45EDE0(2) || this->field_14C->field_16C_car)
             {
                 this->field_21C_bf.b13 = 1;
@@ -8770,7 +8770,7 @@ void Ped::Kill_46F9D0()
 
         switch (this->field_240_occupation)
         {
-            case ped_ocupation_enum::unknown_13:
+            case ped_ocupation_enum::paramedic_23:
                 if (!gAmbulance_110_6F70A8->HandlePedDeath_4FA330(this))
                 {
                     goto LABEL_22;

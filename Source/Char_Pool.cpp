@@ -232,7 +232,7 @@ LABEL_12:
                     {
                         ++byte_6787CE;
                         pPed->field_238 = 4;
-                        pPed->field_240_occupation = ped_ocupation_enum::unknown_10;
+                        pPed->field_240_occupation = ped_ocupation_enum::armed_gang_member_19;
                         pPed->field_17C_pGang = pGang;
                         v16 = pGang->field_101;
                         pPed->field_244_remap = v16;
@@ -391,7 +391,7 @@ LABEL_12:
         } // End switch
 
         occupation_ = pPed->field_240_occupation;
-        if (occupation_ != ped_ocupation_enum::walking_guard_29 && occupation_ != ped_ocupation_enum::unknown_16)
+        if (occupation_ != ped_ocupation_enum::walking_guard_29 && occupation_ != ped_ocupation_enum::unknown_cop_occu_31)
         {
             pPed->AllocCharB4_45C830(xpos, ypos, zpos);
         }
@@ -425,13 +425,13 @@ LABEL_12:
         {
             if (!stru_6F6784.get_int_4F7AE0(2))
             {
-                if (pPed->field_240_occupation == ped_ocupation_enum::unknown_10)
+                if (pPed->field_240_occupation == ped_ocupation_enum::armed_gang_member_19)
                 {
                     --byte_6787CE;
                 }
                 pPed->field_22C = 2;
                 pPed->field_218_objective_timer = 40;
-                pPed->field_240_occupation = ped_ocupation_enum::unknown_18;
+                pPed->field_240_occupation = ped_ocupation_enum::mad_mugger_40;
                 pPed->field_238 = 4;
                 pPed->field_288_threat_search = threat_search_enum::area_2;
                 pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
@@ -857,7 +857,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
     Ped* pNewPed = gPedPool_6787B8->field_0_pool.Allocate();
 
     pNewPed->field_238 = 6;
-    pNewPed->field_240_occupation = ped_ocupation_enum::unknown_19;
+    pNewPed->field_240_occupation = ped_ocupation_enum::gang_driver_42;
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);

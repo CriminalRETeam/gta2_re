@@ -337,10 +337,10 @@ s8 sad_mirzakhani::sub_432240(int occupation, int a3)
                 case ped_ocupation_enum::fbi:
                 case ped_ocupation_enum::army_army:
                 case ped_ocupation_enum::walking_guard_29:
-                case ped_ocupation_enum::unknown_15:
-                case ped_ocupation_enum::unknown_16:
+                case ped_ocupation_enum::unknown_cop_occu_30:
+                case ped_ocupation_enum::unknown_cop_occu_31:
                 case ped_ocupation_enum::tank_driver:
-                case ped_ocupation_enum::unknown_17:
+                case ped_ocupation_enum::roadblock_cop_37:
                 case ped_ocupation_enum::road_block_tank_man:
                     return 1;
                 default:
@@ -349,16 +349,16 @@ s8 sad_mirzakhani::sub_432240(int occupation, int a3)
         case 47:
             switch (occupation)
             {
-                case ped_ocupation_enum::unknown_13:
+                case ped_ocupation_enum::paramedic_23:
                 case ped_ocupation_enum::police:
                 case ped_ocupation_enum::swat:
                 case ped_ocupation_enum::fbi:
                 case ped_ocupation_enum::army_army:
                 case ped_ocupation_enum::walking_guard_29:
-                case ped_ocupation_enum::unknown_15:
-                case ped_ocupation_enum::unknown_16:
+                case ped_ocupation_enum::unknown_cop_occu_30:
+                case ped_ocupation_enum::unknown_cop_occu_31:
                 case ped_ocupation_enum::tank_driver:
-                case ped_ocupation_enum::unknown_17:
+                case ped_ocupation_enum::roadblock_cop_37:
                 case ped_ocupation_enum::fireman:
                 case ped_ocupation_enum::road_block_tank_man:
                     return 1;
@@ -366,7 +366,7 @@ s8 sad_mirzakhani::sub_432240(int occupation, int a3)
                     return 0;
             }
         case 48:
-            if (occupation == ped_ocupation_enum::unknown_10 || occupation == ped_ocupation_enum::guard || occupation == ped_ocupation_enum::unknown_19)
+            if (occupation == ped_ocupation_enum::armed_gang_member_19 || occupation == ped_ocupation_enum::guard || occupation == ped_ocupation_enum::gang_driver_42)
             {
                 return 1;
             }
