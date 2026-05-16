@@ -63,7 +63,7 @@ char_type Hamburger_500::ArePedsCompatible_474850(Ped* pPed1, Ped* pPed2)
 {
     if (pPed1->field_240_occupation < 24 || pPed1->field_240_occupation > 27) // ped 1 is not police
     {
-        if (pPed2->field_17C_pZone == pPed1->field_17C_pZone) // they are from same gang (or both dont have any)
+        if (pPed2->field_17C_pGang == pPed1->field_17C_pGang) // they are from same gang (or both dont have any)
         {
             return 1;
         }

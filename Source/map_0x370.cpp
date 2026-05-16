@@ -211,7 +211,7 @@ gmp_block_info* Map_0x370::get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord)
 }
 
 MATCH_FUNC(0x4DEF40)
-s8 gmp_map_zone::sub_4DEF40()
+s8 gmp_map_zone::IsZoneVisibleToAnyPlayer_4DEF40()
 {
     Fix16_Rect zoneBounds(field_1_x, field_2_y, field_3_w, field_4_h);
     return gGame_0x40_67E008->IsRectVisibleToAnyPlayer_4B9B10(&zoneBounds);
@@ -223,7 +223,7 @@ gmp_map_zone* Map_0x370::zone_by_name_4DEFD0(const char_type* pZoneName)
     u32 name_len = strlen(pZoneName);
     if (field_328_pZoneData)
     {
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
             if (pZone->field_5_name_length == name_len && memcmp(pZone->field_6_name, pZoneName, name_len) == 0)
@@ -243,7 +243,7 @@ s32 Map_0x370::zone_idx_by_name_4DF050(const char_type* pZoneName, BYTE zone_nam
         return 0;
     }
 
-    for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+    for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
     {
         gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
         // note: esp/stack reorder due to s32 -> byte cast on zone_name_len wrong type
@@ -269,7 +269,7 @@ gmp_map_zone* Map_0x370::zone_by_type_bounded_4DF0F0(u8 zone_type)
         field_368_zone_type = zone_type;
         field_364_cur_zone_idx = 0;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             if (get_zone_4DFB30(field_364_cur_zone_idx)->field_0_zone_type == field_368_zone_type)
             {
@@ -304,7 +304,7 @@ gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
         field_368_zone_type = zone_type;
         field_364_cur_zone_idx = 0;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
             if (pZone->field_0_zone_type == field_368_zone_type)
@@ -334,13 +334,12 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
 
     s32 zone_idx;
 
-    // TODO: wrong field_32C_pZones type
-    for (zone_idx = 0; zone_idx < *(u16*)field_32C_pZones; ++zone_idx)
+    for (zone_idx = 0; zone_idx < field_32C_pZones->field_0_num_zones; ++zone_idx)
     {
         gmp_map_zone* pZone = Map_0x370::get_zone_4DFB30(zone_idx);
 
-        if (pZone->field_0_zone_type == zone_type //  zone type zone_type
-            && !pZone->sub_4DEF40())
+        if (pZone->field_0_zone_type == zone_type
+            && !pZone->IsZoneVisibleToAnyPlayer_4DEF40())
         {
             Fix16 v13 = Fix16::MaxAbsDistance_42A6B0(pZone->field_1_x, pZone->field_2_y, xpos, ypos);
 
@@ -376,8 +375,7 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
 
     if (!pOtherZone)
     {
-        // TODO: wrong field_32C_pZones type
-        for (zone_idx = 0; zone_idx < *(u16*)field_32C_pZones; zone_idx++)
+        for (zone_idx = 0; zone_idx < field_32C_pZones->field_0_num_zones; zone_idx++)
         {
             gmp_map_zone* v15 = Map_0x370::get_zone_4DFB30(zone_idx);
             if (v15->field_0_zone_type == zone_type)
@@ -406,7 +404,7 @@ gmp_map_zone* Map_0x370::zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zo
         field_36B_zone_y = zone_y;
         field_36C_bUnknown = 1;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
             if (pZone->field_0_zone_type == field_368_zone_type && Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
@@ -426,10 +424,12 @@ gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y)
         field_36A_zone_x = zone_x;
         field_36B_zone_y = zone_y;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
-            if ((pZone->field_0_zone_type == 10 || pZone->field_0_zone_type == 1 || pZone->field_0_zone_type == 15) &&
+            if ((pZone->field_0_zone_type == Information_10 
+                || pZone->field_0_zone_type == Navigation_1 
+                || pZone->field_0_zone_type == Local_Navigation_15) &&
                 Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
             {
                 return pZone;
@@ -450,7 +450,7 @@ gmp_map_zone* Map_0x370::sub_4DF6A0(u8 zone_x, u8 zone_y)
         this->field_36B_zone_y = zone_y;
         this->field_36C_bUnknown = 1;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)this->field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             pZone = Map_0x370::get_zone_4DFB30(this->field_364_cur_zone_idx);
             if (Overlaps(pZone, this->field_36A_zone_x, this->field_36B_zone_y))
@@ -469,11 +469,11 @@ gmp_map_zone* Map_0x370::next_zone_4DF770()
 
     if (this->field_328_pZoneData)
     {
-        for (++this->field_364_cur_zone_idx; field_364_cur_zone_idx < *(u16*)this->field_32C_pZones; ++this->field_364_cur_zone_idx)
+        for (++this->field_364_cur_zone_idx; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; ++this->field_364_cur_zone_idx)
         {
-            if (field_364_cur_zone_idx >= *(u16*)this->field_32C_pZones)
+            if (field_364_cur_zone_idx >= field_32C_pZones->field_0_num_zones)
             {
-                return 0;
+                return NULL;
             }
             pZoneIter = Map_0x370::get_zone_4DFB30(field_364_cur_zone_idx);
             if (pZoneIter->field_0_zone_type == this->field_368_zone_type &&
@@ -660,7 +660,7 @@ void Map_0x370::set_nav_unknown_f14_4DFB10(u16 a2, s16 a3)
 MATCH_FUNC(0x4DFB30)
 gmp_map_zone* Map_0x370::get_zone_4DFB30(u16 zone_idx)
 {
-    return field_32C_pZones[zone_idx + 1];
+    return field_32C_pZones->field_4_zone_array[zone_idx];
 }
 
 MATCH_FUNC(0x4DFB50)
@@ -3021,7 +3021,7 @@ void Map_0x370::do_process_loaded_zone_data_4E8E30()
 {
     WIP_IMPLEMENTED;
     u16 v16 = 0;
-    u16 zonesSize = field_328_pZoneData ? *(u16*)field_32C_pZones : 0;
+    u16 zonesSize = field_328_pZoneData ? field_32C_pZones->field_0_num_zones : 0;
     if (zonesSize)
     {
         field_330_pZoneArray = (u8*)Memory::malloc_4FE4D0(zonesSize);
@@ -3096,23 +3096,18 @@ void Map_0x370::sub_4E90E0(u32 chunk_size)
         in_use_size += zone_data_size;
         pZone = (gmp_map_zone*)((u8*)pZone + zone_data_size);
     }
-    gmp_map_zone** v7 = (gmp_map_zone**)Memory::malloc_4FE4D0(4 * num_zones + 4);
-    this->field_32C_pZones = v7;
+    field_32C_pZones = (gmp_zone_list*)Memory::malloc_4FE4D0(4 * num_zones + 4);
 
     in_use_size = 0;
-    *(u16*)v7 = num_zones; // TODO: fix this
+    field_32C_pZones->field_0_num_zones = num_zones;
 
     gmp_map_zone* local_pZoneData = this->field_328_pZoneData;
-    if (chunk_size > 0)
+    for (u32 zone_idx = 0; in_use_size < chunk_size; zone_idx++)
     {
-        u32 zone_idx = 1;
-        do
-        {
-            this->field_32C_pZones[zone_idx++] = local_pZoneData;
-            zone_data_size = local_pZoneData->field_5_name_length + 6;
-            in_use_size += zone_data_size;
-            local_pZoneData = (gmp_map_zone*)((char*)local_pZoneData + zone_data_size);
-        } while (in_use_size < chunk_size);
+        field_32C_pZones->field_4_zone_array[zone_idx] = local_pZoneData;
+        zone_data_size = local_pZoneData->field_5_name_length + 6;
+        in_use_size += zone_data_size;
+        local_pZoneData = (gmp_map_zone*)((BYTE*)local_pZoneData + zone_data_size);
     }
 }
 

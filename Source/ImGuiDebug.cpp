@@ -421,9 +421,9 @@ static char_type* GetOccupationStrFromPed(Ped* pPed)
                 return "Elvis";
             case ped_ocupation_enum::dummy:
                 return "Dummy";
-            case ped_ocupation_enum::driver_2:
+            case ped_ocupation_enum::robbed_driver_10:
                 return "Driver 2";
-            case ped_ocupation_enum::driver_3:
+            case ped_ocupation_enum::scared_driver_50:
                 return "Driv3r";
             case ped_ocupation_enum::no_occupation:
                 return "None";
@@ -613,6 +613,10 @@ static Camera_0xBC* GetPlayerCam()
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
         if (pPlayer)
         {
+            if (pPlayer->field_6C_bIn_debug_cam_mode)
+            {
+                return &pPlayer->field_14C_view_camera;
+            }
             if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
             {
                 return &pPlayer->field_208_aux_game_camera;
@@ -642,48 +646,9 @@ static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& scr
     screen_y = ((zCalc * yTmp) + Fix16(0x3C0000, 0));
 }
 
-// Draw Text with char_type
-static void DisplayTextAtSprite(char* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
-{
-    Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-    if (pPlayer && pPlayer->field_6C_bIn_debug_cam_mode)
-    {
-        return; // Do not draw if it's on debug cam mode
-    }
-    if (gHud_2B00_706620)
-    {
-        Camera_0xBC* pPlayerCam = GetPlayerCam();
-        if (pPlayerCam && pSprt)
-        {
-            Fix16 sprt_xpos = pSprt->field_14_xy.x;
-            Fix16 sprt_ypos = pSprt->field_14_xy.y;
-            Fix16 sprt_zpos = pSprt->field_1C_zpos;
-            if (pPlayerCam->IsCoordsPosVisible_435A70(sprt_xpos, sprt_ypos, sprt_zpos))
-            {
-                Fix16 screen_xpos_f16;
-                Fix16 screen_ypos_f16;
-                ProjectXYZ_intoScreen(sprt_xpos, sprt_ypos, sprt_zpos, screen_xpos_f16, screen_ypos_f16, pPlayerCam);
-
-                s16 screen_xpos = screen_xpos_f16.ToInt() + x_offset;
-                s16 screen_ypos = screen_ypos_f16.ToInt() + y_offset;
-
-                if (gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
-                {
-                    gHud_2B00_706620->field_650.DisplayText_5D1F50(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos, word_706600, 1);
-                }
-            }
-        }
-    }
-}
-
 // Draw Text with wchar_t
 static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
 {
-    Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-    if (pPlayer && pPlayer->field_6C_bIn_debug_cam_mode)
-    {
-        return; // Do not draw if it's on debug cam mode
-    }
     if (gHud_2B00_706620)
     {
         Camera_0xBC* pPlayerCam = GetPlayerCam();
@@ -708,6 +673,12 @@ static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, 
             }
         }
     }
+}
+
+// Draw Text with char_type
+static void DisplayTextAtSprite(char* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
+{
+    DisplayWideTextAtSprite(text_0x14::Ascii2Wide_5B5DF0(pStr), pSprt, x_offset, y_offset);
 }
 
 namespace HookManagement
@@ -936,6 +907,26 @@ void CC ImGuiDebugDraw()
         static char tmpBuffer[512];
         sprintf(tmpBuffer, "c%02d", model_num);
         ImGui::Text(gText_0x14_704DFC->Wide2PesudoAscii_5B5D10(gText_0x14_704DFC->Find_5B5F90(tmpBuffer)));
+
+        static int currentCharIndex = 0;
+        const char* char_lang_codes[] = {"e", "f", "i", "g", "s", "r", "j", "z"};
+        const char char_lang[] = {'e', 'f', 'i', 'g', 's', 'r', 'j', 'z'};
+
+        // Calculate the size of the char_lang_codes array
+        const int charCount = sizeof(char_lang_codes) / sizeof(char_lang_codes[0]);
+
+        // Combo box for car model selection
+        if (ImGui::Combo("Lang Code", &currentCharIndex, char_lang_codes, charCount))
+        {
+            // Lang Code selection changed
+        }
+
+        if (ImGui::Button("Apply Lang Code"))
+        {
+            gText_0x14_704DFC->field_10_lang_code = char_lang[currentCharIndex];
+            gText_0x14_704DFC->Load_5B5E90();
+        }
+        ImGui::Text("Curr Lang Code: %c", gText_0x14_704DFC->field_10_lang_code);
     }
 
     if (gGame_0x40_67E008)
@@ -1708,7 +1699,7 @@ void CC ImGuiDebugDraw()
                         ImGui::InputInt("F 238", &pPlayerPed->field_238, 1, 1);
                         ImGui::InputInt("Ped State 1", &pPlayerPed->field_278_ped_state_1, 1, 1);
                         ImGui::InputInt("Ped State 2", &pPlayerPed->field_27C_ped_state_2, 1, 1);
-                        ImGui::InputInt("Car State", &pPlayerPed->field_25C_car_state, 1, 1);
+                        ImGui::InputInt("Car State", &pPlayerPed->field_25C_internal_objective, 1, 1);
                         ShowPedBitMask(pPlayerPed);
                     }
 
@@ -1921,7 +1912,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("field_504_tick_timer", pHud_Brief_704->field_504_tick_timer);
                         ImGui::Value("field_506", pHud_Brief_704->field_506);
                         ImGui::Value("field_508_num_lines", pHud_Brief_704->field_508_num_lines);
-                        ImGui::Value("field_50C", pHud_Brief_704->field_50C);
+                        ImGui::Value("field_50C", pHud_Brief_704->field_50C_face_variant);
                         ImGui::Value("field_510_time_to_show", pHud_Brief_704->field_510_time_to_show);
                         ImGui::Value("field_514_upward_timer", pHud_Brief_704->field_514_upward_timer);
                         ImGui::Value("field_51C", pHud_Brief_704->field_51C);
@@ -2082,6 +2073,52 @@ void CC ImGuiDebugDraw()
 
                         ImGui::End();
                         ImGui::TreePop();
+                    }
+
+                    if (pPedIter->field_240_occupation == ped_ocupation_enum::mugger
+                        || pPedIter->field_240_occupation == ped_ocupation_enum::car_thief)
+                    {
+                        swprintf(tmpBuff_67BD9C, L"(%d, %d)", 
+                        pPedIter->field_21C_bf.b2,
+                        pPedIter->field_21C_bf.b11);
+                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::driver)
+                    {
+                        DisplayTextAtSprite("Driver", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::robbed_driver_10)
+                    {
+                        DisplayTextAtSprite("Robbed Drvr", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::scared_driver_50)
+                    {
+                        DisplayTextAtSprite("Scared Drvr", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    // objectives_enum
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::unknown_2) 
+                    {
+                        DisplayTextAtSprite("Occp 4", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::bus_customer_8) 
+                    {
+                        DisplayTextAtSprite("Bus Cst", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::train_customer_9) 
+                    {
+                        DisplayTextAtSprite("Train Cst", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::fleeing_robbed_driver_11) 
+                    {
+                        DisplayTextAtSprite("Flee Drvr", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::angry_armed_robbed_driver_12) 
+                    {
+                        DisplayTextAtSprite("Angry Drvr", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::very_angry_armed_robbed_driver_13) 
+                    {
+                        DisplayTextAtSprite("Furious Drvr", pPedIter->GetSprite_46DF50(), 0, 0);
                     }
                     pPedIter = pPedIter->mpNext;
                 }
