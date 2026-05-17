@@ -34,7 +34,7 @@ void Ang16::SnapToAng4_405640()
     }
 }
 
-WIP_FUNC(0x405680)
+MATCH_FUNC(0x405680)
 u8 Ang16::ToAng4_405680()
 {
     return rValue / 360;
