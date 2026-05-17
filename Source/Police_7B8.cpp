@@ -656,11 +656,64 @@ bool Police_7B8::sub_570790(PoliceCrew_38* a1, Police_7C* a2)
     return true;
 }
 
-STUB_FUNC(0x5707b0)
-char_type Police_7B8::sub_5707B0(Car_BC* a2, Ped* a3)
+// https://decomp.me/scratch/pfRaI
+WIP_FUNC(0x5707b0)
+bool Police_7B8::sub_5707B0(Car_BC* pCar, Ped* pCriminal)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (!pCriminal->is_player_41B0A0())
+    {
+        return false;
+    }
+
+    for (u8 i = 0; i < GTA2_COUNTOF(field_464); i++)
+    {
+        if (field_464[i].field_0_criminal_ped != pCriminal)
+        {
+            continue;
+        }
+
+        if (&field_464[i] == NULL)
+        {
+            return false;
+        }
+
+        Police_7C* p7C = &field_464[i];
+        for (u8 j = 0; j < GTA2_COUNTOF(field_4_cop_crew); j++)
+        {
+            PoliceCrew_38* pCrew = &field_4_cop_crew[j];
+            if (pCrew->field_1C_used && pCrew->field_10_subObj->field_0_car == pCar)
+            {
+                if (pCrew == NULL)
+                {
+                    return false;
+                }
+
+                if (pCrew->field_10_subObj->field_20_maybe_type != 6 && p7C->field_4 == 6)
+                {
+                    return false;
+                }
+
+                p7C->field_8 = 3;
+                pCrew->field_14_pObj = &field_464[i];
+                pCrew->field_24_state = 5;
+                pCrew->sub_570A10();
+
+                if (pCrew->field_10_subObj->field_20_maybe_type != 6)
+                {
+                    pCrew->field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
+                }
+
+                return true;
+            }
+        }
+
+        return false;
+
+    } // end for
+
+    return false;
 }
 
 MATCH_FUNC(0x5708c0)
