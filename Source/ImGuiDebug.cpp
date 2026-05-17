@@ -640,10 +640,10 @@ static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& scr
         (dword_7064E8 + (pCam->field_98_cam_pos2.field_8_z - zpos)); // dword_7064C4 ??
 
     Fix16 xTmp = pCam->field_60.x * (xpos - pCam->field_98_cam_pos2.field_0_x);
-    screen_x = ((zCalc * xTmp)) + Fix16(0x500000, 0);
+    screen_x = ((zCalc * xTmp)) + Fix16(320);
 
     Fix16 yTmp = (pCam->field_60.y * (ypos - pCam->field_98_cam_pos2.field_4_y));
-    screen_y = ((zCalc * yTmp) + Fix16(0x3C0000, 0));
+    screen_y = ((zCalc * yTmp) + Fix16(240));
 }
 
 // Draw Text with wchar_t

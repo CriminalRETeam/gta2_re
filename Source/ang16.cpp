@@ -34,6 +34,12 @@ void Ang16::SnapToAng4_405640()
     }
 }
 
+WIP_FUNC(0x405680)
+u8 Ang16::ToAng4_405680()
+{
+    return rValue / 360;
+}
+
 MATCH_FUNC(0x4056A0)
 u8 Ang16::GetOctant_4056A0()
 {

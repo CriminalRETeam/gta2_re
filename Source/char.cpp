@@ -123,6 +123,8 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FD904, Ang16(0x438), 0x6FD904);
 DEFINE_GLOBAL_INIT(Ang16, word_6FDA54, Ang16(0x18), 0x6FDA54); // TODO: Init via func 0x54A300
 DEFINE_GLOBAL_INIT(Ang16, word_6FD920, word_6FD936, 0x6FD920);
 DEFINE_GLOBAL_INIT(Ang16, dword_6FD9D8, Ang16(0x588), 0x6FD9D8); // TODO: Init via func 0x54A270
+DEFINE_GLOBAL_INIT(Ang16, word_6FD890, Ang16(96), 0x6FD890);
+DEFINE_GLOBAL_INIT(Ang16, word_6FD89C, Ang16(180), 0x6FD89C);
 
 DEFINE_GLOBAL(Fix16, dword_6FDAB0, 0x6FDAB0);
 
@@ -4411,11 +4413,133 @@ LABEL_65:
     Char_B4::sub_54DD70();
 }
 
-STUB_FUNC(0x550f60)
-Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 a3)
+// https://decomp.me/scratch/4eLOQ
+WIP_FUNC(0x550f60)
+Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    
+    u8 side_curr = field_40_rotation.ToAng4_405680();
+    u8 side_input_ang = inputAng.ToAng4_405680();
+
+    //Ang16 unused;
+    //unused.sub_4516B0(field_38_velocity * word_6FDB2E, 0);
+
+    if (field_10_char_state == 10)
+    {
+        return inputAng;
+    }
+
+    Ang16 v12;
+
+    if (field_38_velocity > k_dword_6FD7C0)
+    {
+        if (field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC)
+        {
+            v12 = k_dword_6FD892;
+        }
+        else
+        {
+            v12 = word_6FD890;
+        }
+    }
+    else
+    {
+        v12 = word_6FD89C;
+    }
+
+    switch (side_input_ang)
+    {
+        case 3: // west
+            if (side_curr <= 1)
+            {
+                if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > word_6FD936)
+                {
+                    return field_40_rotation + v12;
+                }
+                else
+                {
+                    return field_40_rotation - v12;
+                }
+            }
+            break;
+        case 2: // north
+            if (side_curr == 0)
+            {
+                if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > word_6FD936)
+                {
+                    return field_40_rotation + v12;
+                }
+                else
+                {
+                    return field_40_rotation - v12;
+                }
+            }
+            break;
+        case 1: // east
+            if (side_curr == 3)
+            {
+                if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) < word_6FD936)
+                {
+                    return field_40_rotation - v12;
+                }
+                else
+                {
+                    return field_40_rotation + v12;
+                }
+            }
+            break;
+        case 0: // south
+            if (side_curr == 2)
+            {
+                if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) < word_6FD936)
+                {
+                    return field_40_rotation - v12;
+                }
+                else
+                {
+                    return field_40_rotation + v12;
+                }
+            }
+            else
+            {
+                if (side_curr == 3)
+                {
+                    if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) < v12)
+                    {
+                        return inputAng;
+                    }
+                    else
+                    {
+                        return field_40_rotation + v12;
+                    }
+                }
+            }
+            break;
+    }
+
+    if (inputAng > field_40_rotation)
+    {
+        if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > v12)
+        {
+            return field_40_rotation + v12;
+        }
+        else
+        {
+            return field_40_rotation;
+        }
+    }
+    else
+    {
+        if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) > v12)
+        {
+            return field_40_rotation - v12;
+        }
+        else
+        {
+            return field_40_rotation;
+        }
+    }
 }
 
 MATCH_FUNC(0x551350)

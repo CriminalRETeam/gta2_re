@@ -293,6 +293,7 @@ class Ang16
 
     EXPORT static Fix16 __stdcall NormalizeAngleDeltaScaled_405B60(Ang16& a2, Ang16& a3, Ang16& a4);
     EXPORT u8 GetOctant_4056A0();
+    EXPORT u8 ToAng4_405680();
 
     // TODO: move with CarDoorAlignmentSolver_545AF0
     // https://decomp.me/scratch/6VBR0
