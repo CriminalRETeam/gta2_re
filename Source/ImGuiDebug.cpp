@@ -12,10 +12,12 @@
 #include "Gang.hpp"
 #include "Hamburger_500.hpp"
 #include "Hud.hpp"
+#include "Kfc_1E0.hpp"
 #include "MapRenderer.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
+#include "PedGroup.hpp"
 #include "Phi_8CA8.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
@@ -50,6 +52,8 @@ EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);
 EXTERN_GLOBAL(car_rng_list, dword_676DB4);
 EXTERN_GLOBAL(car_rng_list, dword_676988);
 EXTERN_GLOBAL(car_rng_list, dword_677384);
+
+EXTERN_GLOBAL(u8, byte_6FEB48);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -679,6 +683,20 @@ static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, 
 static void DisplayTextAtSprite(char* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
 {
     DisplayWideTextAtSprite(text_0x14::Ascii2Wide_5B5DF0(pStr), pSprt, x_offset, y_offset);
+}
+
+// Draw Text at fixed position in screen (like OG debug stuff)
+static void DisplayWideTextAtScreenCoords(wchar_t* pStr, s16 screen_xpos, s16 screen_ypos)
+{
+    if (gHud_2B00_706620 && gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
+    {
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+    }
+}
+
+static void DisplayTextAtScreenCoords(char* pStr, s16 screen_xpos, s16 screen_ypos)
+{
+    DisplayWideTextAtScreenCoords(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos);
 }
 
 namespace HookManagement
@@ -2277,6 +2295,43 @@ void CC ImGuiDebugDraw()
                     Ped* pGuard = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, ped_remap_enum::ped_remap_blue_police, Ang16(0));
 
                     gPolice_7B8_6FEE40->SpawnWalkingGuard_570320(pGuard, xpos, ypos, zpos, Ang16(0));
+                }
+
+                if (ImGui::TreeNode("Show debug stuff"))
+                {
+                    s16 ypos = 64;
+                    for (u32 idx = 0; idx < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_4_cop_crew); idx++)
+                    {
+                        PoliceCrew_38* pCrew = &gPolice_7B8_6FEE40->field_4_cop_crew[idx];
+                        if (pCrew && pCrew->field_1C_used)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"Crew %d state: %d", idx, pCrew->field_24_state);
+                            DisplayWideTextAtScreenCoords(tmpBuff_67BD9C, 0, ypos);
+                            
+                            // display on cop sprite
+                            if (pCrew->field_10_subObj && pCrew->field_10_subObj->field_8_group && pCrew->field_10_subObj->field_8_group->field_2C_ped_leader)
+                            {
+                                swprintf(tmpBuff_67BD9C, L"State %d", pCrew->field_24_state);
+                                DisplayWideTextAtSprite(tmpBuff_67BD9C, pCrew->field_10_subObj->field_8_group->field_2C_ped_leader->GetSprite_46DF50(), 0, 0);
+                            }
+                            ypos += 16;
+                        }
+                    }
+
+                    ypos += 16;
+                    
+                    for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464); idx2++)
+                    {
+                        Police_7C* p7C = &gPolice_7B8_6FEE40->field_464[idx2];
+                        if (p7C && p7C->field_18_z != kFP16Zero_6FE20C)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"P7C target coords (%.1f, %.1f, %.1f)", p7C->field_10_x.ToFloat(), p7C->field_14_y.ToFloat(), p7C->field_18_z.ToFloat());
+                            DisplayWideTextAtScreenCoords(tmpBuff_67BD9C, 0, ypos);
+                            ypos += 16;
+                        }
+                    }
+
+                    ImGui::TreePop();
                 }
                 ImGui::TreePop();
             }

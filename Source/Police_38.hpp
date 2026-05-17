@@ -10,6 +10,17 @@ class Object_2C;
 class Police_7C;
 class Fix16_Rect;
 
+namespace police_crew_state
+{
+enum
+{
+    patrol_1 = 1,
+    alerted_search_3 = 3,
+    pursue_or_chase_5 = 5,
+    shutdown_6 = 6,
+};
+} // namespace police_crew_state
+
 class PoliceCrew_38
 {
   public:
