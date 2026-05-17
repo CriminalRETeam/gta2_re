@@ -2083,42 +2083,45 @@ void CC ImGuiDebugDraw()
                         pPedIter->field_21C_bf.b11);
                         DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
                     }
-                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::driver)
+                    else if (pPedIter->field_258_objective == objectives_enum::objective_7)
                     {
-                        DisplayTextAtSprite("Driver", pPedIter->GetSprite_46DF50(), 0, 0);
+                        DisplayTextAtSprite("Obj 7", pPedIter->GetSprite_46DF50(), 0, 0);
                     }
-                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::robbed_driver_10)
+                    else if (pPedIter->field_258_objective == objectives_enum::objective_8)
                     {
-                        DisplayTextAtSprite("Robbed Drvr", pPedIter->GetSprite_46DF50(), 0, 0);
+                        DisplayTextAtSprite("Obj 8", pPedIter->GetSprite_46DF50(), 0, 0);
                     }
-                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::scared_driver_50)
+                    else if (pPedIter->field_258_objective == objectives_enum::objective_9)
                     {
-                        DisplayTextAtSprite("Scared Drvr", pPedIter->GetSprite_46DF50(), 0, 0);
+                        DisplayTextAtSprite("Obj 9", pPedIter->GetSprite_46DF50(), 0, 0);
                     }
-                    // objectives_enum
-                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::unknown_2) 
+                    else if (pPedIter->field_258_objective == objectives_enum::objective_10) 
                     {
-                        DisplayTextAtSprite("Occp 4", pPedIter->GetSprite_46DF50(), 0, 0);
+                        DisplayTextAtSprite("Obj 10", pPedIter->GetSprite_46DF50(), 0, 0);
                     }
-                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::bus_customer_8) 
+                    else if (pPedIter->field_258_objective == objectives_enum::objective_11) 
                     {
-                        DisplayTextAtSprite("Bus Cst", pPedIter->GetSprite_46DF50(), 0, 0);
+                        DisplayTextAtSprite("Obj 11", pPedIter->GetSprite_46DF50(), 0, 0);
                     }
-                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::train_customer_9) 
+                    else if (pPedIter->field_258_objective == objectives_enum::objective_15) 
                     {
-                        DisplayTextAtSprite("Train Cst", pPedIter->GetSprite_46DF50(), 0, 0);
+                        DisplayTextAtSprite("Obj 15", pPedIter->GetSprite_46DF50(), 0, 0);
                     }
-                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::fleeing_robbed_driver_11) 
+                    else if (pPedIter->field_258_objective == objectives_enum::objective_17) 
                     {
-                        DisplayTextAtSprite("Flee Drvr", pPedIter->GetSprite_46DF50(), 0, 0);
+                        DisplayTextAtSprite("Obj 17", pPedIter->GetSprite_46DF50(), 0, 0);
                     }
-                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::angry_armed_robbed_driver_12) 
+                    else if (pPedIter->field_258_objective == objectives_enum::objective_18) 
                     {
-                        DisplayTextAtSprite("Angry Drvr", pPedIter->GetSprite_46DF50(), 0, 0);
+                        DisplayTextAtSprite("Obj 18", pPedIter->GetSprite_46DF50(), 0, 0);
                     }
-                    else if (pPedIter->field_240_occupation == ped_ocupation_enum::very_angry_armed_robbed_driver_13) 
+                    else if (pPedIter->field_258_objective == objectives_enum::objective_28) 
                     {
-                        DisplayTextAtSprite("Furious Drvr", pPedIter->GetSprite_46DF50(), 0, 0);
+                        DisplayTextAtSprite("Obj 28", pPedIter->GetSprite_46DF50(), 0, 0);
+                    }
+                    else if (pPedIter->field_258_objective == objectives_enum::objective_43) 
+                    {
+                        DisplayTextAtSprite("Obj 43", pPedIter->GetSprite_46DF50(), 0, 0);
                     }
                     pPedIter = pPedIter->mpNext;
                 }
