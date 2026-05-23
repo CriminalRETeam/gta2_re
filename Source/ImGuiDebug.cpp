@@ -927,8 +927,8 @@ void CC ImGuiDebugDraw()
         ImGui::Text(gText_0x14_704DFC->Wide2PesudoAscii_5B5D10(gText_0x14_704DFC->Find_5B5F90(tmpBuffer)));
 
         static int currentCharIndex = 0;
-        const char* char_lang_codes[] = {"e", "f", "i", "g", "s", "r", "j", "z"};
-        const char char_lang[] = {'e', 'f', 'i', 'g', 's', 'r', 'j', 'z'};
+        const char* char_lang_codes[] = {"english", "french", "italian", "german", "spanish", "russian??", "japanese??"};
+        const char char_lang[] = {'e', 'f', 'i', 'g', 's', 'r', 'j'};
 
         // Calculate the size of the char_lang_codes array
         const int charCount = sizeof(char_lang_codes) / sizeof(char_lang_codes[0]);
@@ -939,10 +939,14 @@ void CC ImGuiDebugDraw()
             // Lang Code selection changed
         }
 
-        if (ImGui::Button("Apply Lang Code"))
+        if (ImGui::Button("Change language"))
         {
             gText_0x14_704DFC->field_10_lang_code = char_lang[currentCharIndex];
             gText_0x14_704DFC->Load_5B5E90();
+            if (gFrontend_67DC84)
+            {
+                gFrontend_67DC84->SetupMenuStringsOptionsElements_4B0220();
+            }
         }
         ImGui::Text("Curr Lang Code: %c", gText_0x14_704DFC->field_10_lang_code);
     }
@@ -1064,6 +1068,21 @@ void CC ImGuiDebugDraw()
         if (gCar_BC_Pool_67792C && ImGui::TreeNode("Car Pool"))
         {
             Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+
+            if (ImGui::TreeNode("All cars Field 88 "))
+            {
+                while (pCarIter)
+                {
+                    //ImGui::Value("Field 88", pCarIter->field_88);
+                    swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_88);
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->GetSprite_440840(), 0, 0);
+                    pCarIter = pCarIter->mpNext;
+                }
+                ImGui::TreePop();
+            }
+
+            pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+
             while (pCarIter)
             {
                 char buffer[128];
@@ -1307,9 +1326,9 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("gTango_54_67D4C0"))
+        if (gFirefighterPool_54_67D4C0 && ImGui::TreeNode("gTango_54_67D4C0"))
         {
-            if (gFirefighterPool_54_67D4C0)
+            //if (gFirefighterPool_54_67D4C0)
             {
                 if (ImGui::Button("sub_4A8820"))
                 {
@@ -1467,6 +1486,38 @@ void CC ImGuiDebugDraw()
                     ImGui::TreePop();
                 }
             }
+            ImGui::TreePop();
+        }
+
+        //if (gCarAI_78_Pool_677CF8 && ImGui::TreeNode("gCarAI_78_Pool_677CF8"))
+        if (ImGui::TreeNode("Car AI"))
+        {
+            // field_5C
+            s32 num_AI_count = 0;
+            Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+            //CarAI_78* pAI_Iter = &gCarAI_78_Pool_677CF8->field_0_pool.field_4_pool[0];
+            while (pCarIter)
+            {
+                CarAI_78* pAI_Iter = pCarIter->field_5C;
+                if (pAI_Iter && pCarIter->field_50_car_sprite)
+                {
+                    // field_44, field_4C and field_50
+                    swprintf(tmpBuff_67BD9C, L"44: %d\n4C: %d\n50: %d", 
+                            pAI_Iter->field_44,
+                            pAI_Iter->field_4C,
+                            pAI_Iter->field_50);
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
+
+                    if (pCarIter->field_60) // field_0->field_60->field_C
+                    {
+                        swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C);
+                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -5);
+                    }
+                    num_AI_count++;
+                }
+                pCarIter = pCarIter->mpNext;
+            }
+            ImGui::Value("Count", num_AI_count);
             ImGui::TreePop();
         }
 
@@ -2392,11 +2443,11 @@ void CC ImGuiDebugDraw()
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("Frontend"))
+    if (gFrontend_67DC84 && ImGui::TreeNode("Frontend"))
     {
         if (ImGui::TreeNode("MenuPage_0xBCA"))
         {
-            if (gFrontend_67DC84)
+            //if (gFrontend_67DC84)
             {
                 static s32 loving_id = 0;
                 ImGui::SliderInt("Loving ID", &loving_id, 0, 16);
@@ -2481,7 +2532,7 @@ void CC ImGuiDebugDraw()
 
         if (ImGui::TreeNode("admiring_euler_4"))
         {
-            if (gFrontend_67DC84)
+            //if (gFrontend_67DC84)
             {
                 static s32 euler_id = 0;
                 ImGui::SliderInt("Euler ID", &euler_id, 0, 7);
@@ -2498,7 +2549,7 @@ void CC ImGuiDebugDraw()
 
         if (ImGui::TreeNode("Debug Frontend"))
         {
-            if (gFrontend_67DC84)
+            //if (gFrontend_67DC84)
             {
                 if (ImGui::TreeNode("Player settings"))
                 {
@@ -2550,9 +2601,9 @@ void CC ImGuiDebugDraw()
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("gJolly_poitras_0x2BC0_6FEAC0"))
+    if (gJolly_poitras_0x2BC0_6FEAC0 && ImGui::TreeNode("gJolly_poitras_0x2BC0_6FEAC0"))
     {
-        if (gJolly_poitras_0x2BC0_6FEAC0)
+        //if (gJolly_poitras_0x2BC0_6FEAC0)
         {
             if (ImGui::TreeNode("struc_221"))
             {
