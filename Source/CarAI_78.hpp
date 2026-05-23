@@ -11,6 +11,17 @@ class Sprite;
 class Hamburger_40;
 struct gmp_block_info;
 
+namespace car_ai_direction
+{
+enum
+{
+    northwards_1 = 1,
+    southwards_2 = 2,
+    eastwards_3 = 3,
+    westwards_4 = 4,
+};
+} // namespace car_ai_direction
+
 class CarAI_78
 {
   public:
@@ -90,7 +101,7 @@ class CarAI_78
     s32 field_40;
     s32 field_44;
     s32 field_48;
-    s32 field_4C;
+    s32 field_4C_curr_direction;
     s32 field_50;
     s16 field_54;
     s16 field_56;

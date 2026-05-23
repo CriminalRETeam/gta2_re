@@ -1504,14 +1504,14 @@ void CC ImGuiDebugDraw()
                     // field_44, field_4C and field_50
                     swprintf(tmpBuff_67BD9C, L"44: %d\n4C: %d\n50: %d", 
                             pAI_Iter->field_44,
-                            pAI_Iter->field_4C,
+                            pAI_Iter->field_4C_curr_direction,
                             pAI_Iter->field_50);
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
 
                     if (pCarIter->field_60) // field_0->field_60->field_C
                     {
                         swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C);
-                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -5);
+                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -15);
                     }
                     num_AI_count++;
                 }
