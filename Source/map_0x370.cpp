@@ -983,14 +983,14 @@ char_type Map_0x370::sub_4E11E0(Fix16_Rect* pRect)
                     }
                    
 
-                    if (ComputeScanlineIntersectionY_4F76A0(&pRect->field_0_left, &pRect->field_4_right, &pRect->field_8_top, &p1, &p2)
-                             || ComputeScanlineIntersectionY_4F76A0(&pRect->field_0_left,
-                                                            &pRect->field_4_right,
-                                                            &pRect->field_C_bottom,
-                                                            &p1,
-                                                            &p2) ||
-                        ComputeScanlineIntersectionX_4F77D0(&pRect->field_8_top, &pRect->field_C_bottom, &pRect->field_0_left, &p1, &p2) ||
-                        ComputeScanlineIntersectionX_4F77D0(&pRect->field_8_top, &pRect->field_C_bottom, &pRect->field_4_right, &p1, &p2))
+                    if (ComputeScanlineIntersectionY_4F76A0(pRect->field_0_left, pRect->field_4_right, pRect->field_8_top, p1, p2)
+                             || ComputeScanlineIntersectionY_4F76A0(pRect->field_0_left,
+                                                            pRect->field_4_right,
+                                                            pRect->field_C_bottom,
+                                                            p1,
+                                                            p2) ||
+                        ComputeScanlineIntersectionX_4F77D0(pRect->field_8_top, pRect->field_C_bottom, pRect->field_0_left, p1, p2) ||
+                        ComputeScanlineIntersectionX_4F77D0(pRect->field_8_top, pRect->field_C_bottom, pRect->field_4_right, p1, p2))
                     {
                         return 1;
                     }

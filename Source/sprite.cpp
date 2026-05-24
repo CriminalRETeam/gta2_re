@@ -1167,32 +1167,32 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
 }
 
 WIP_FUNC(0x4F77D0)
-EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16* minX, Fix16* minY, Fix16* scanLineX, Fix16_Point* p0, Fix16_Point* p1)
+EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1)
 {
     WIP_IMPLEMENTED;
 
     Fix16_Point pd;
 
-    Fix16 p0_x = p0->x;
-    Fix16 p1_x = p1->x;
+    Fix16 p0_x = p0.x;
+    Fix16 p1_x = p1.x;
 
-    if (p0->x == p1->x)
+    if (p0.x == p1.x)
     {
         return 0;
     }
 
-    if (p0_x > *scanLineX)
+    if (p0_x > scanLineX)
     {
-        if (p1_x > *scanLineX)
+        if (p1_x > scanLineX)
         {
             return 0;
         }
     }
-    else if (p1_x >= *scanLineX)
+    else if (p1_x >= scanLineX)
     {
-        pd = (*p1 - *p0);
-        Fix16 p0_y = p0->y + (((*scanLineX - p0->x) * ((pd.y) / pd.x)));
-        if (p0_y >= *minX && p0_y <= *minY)
+        pd = (p1 - p0);
+        Fix16 p0_y = p0.y + (((scanLineX - p0.x) * ((pd.y) / pd.x)));
+        if (p0_y >= minX && p0_y <= minY)
         {
             gRozza_679188.field_18_mapy_t1 = p0_y;
             return 1;
@@ -1200,11 +1200,11 @@ EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16* minX, Fix16* mi
         return 0;
     }
 
-    if (p0_x >= *scanLineX)
+    if (p0_x >= scanLineX)
     {
-        pd = (*p0 - *p1);
-        Fix16 p1_y = p1->y + (((*scanLineX - p1->x) * ((pd.y) / pd.x)));
-        if (p1_y >= *minX && p1_y <= *minY)
+        pd = (p0 - p1);
+        Fix16 p1_y = p1.y + (((scanLineX - p1.x) * ((pd.y) / pd.x)));
+        if (p1_y >= minX && p1_y <= minY)
         {
             gRozza_679188.field_18_mapy_t1 = p1_y;
             return 1;
@@ -1214,32 +1214,32 @@ EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16* minX, Fix16* mi
 }
 
 WIP_FUNC(0x4F76A0)
-EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16* minX, Fix16* minY, Fix16* scanLineY, Fix16_Point* p0, Fix16_Point* p1)
+EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1)
 {
     WIP_IMPLEMENTED;
 
     Fix16_Point pd;
 
-    Fix16 p0_y = p0->y;
-    Fix16 p1_y = p1->y;
+    Fix16 p0_y = p0.y;
+    Fix16 p1_y = p1.y;
 
     if (p0_y == p1_y)
     {
         return 0;
     }
 
-    if (p0_y > *scanLineY)
+    if (p0_y > scanLineY)
     {
-        if (p1_y > *scanLineY)
+        if (p1_y > scanLineY)
         {
             return 0;
         }
     }
-    else if (p1_y >= *scanLineY)
+    else if (p1_y >= scanLineY)
     {
-        pd = (*p1 - *p0);
-        Fix16 p0_x = p0->x + (((*scanLineY - p0->y) * ((pd.x) / pd.y)));
-        if (p0_x >= *minX && p0_x <= *minY)
+        pd = (p1 - p0);
+        Fix16 p0_x = p0.x + (((scanLineY - p0.y) * ((pd.x) / pd.y)));
+        if (p0_x >= minX && p0_x <= minY)
         {
             gRozza_679188.field_14_mapx_t2 = p0_x;
             return 1;
@@ -1247,11 +1247,11 @@ EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16* minX, Fix1
         return 0;
     }
 
-    if (p0_y >= *scanLineY)
+    if (p0_y >= scanLineY)
     {
-        pd = (*p0 - *p1);
-        Fix16 p1_x = p1->x + (((*scanLineY - p1->y) * ((pd.x) / pd.y)));
-        if (p1_x >= *minX && p1_x <= *minY)
+        pd = (p0 - p1);
+        Fix16 p1_x = p1.x + (((scanLineY - p1.y) * ((pd.x) / pd.y)));
+        if (p1_x >= minX && p1_x <= minY)
         {
             gRozza_679188.field_14_mapx_t2 = p1_x;
             return 1;
@@ -1264,10 +1264,10 @@ MATCH_FUNC(0x5A0970)
 char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY)
 {
     Fix16_Point* pBBox = field_C_sprite_4c_ptr->field_C_renderingRect;
-    if (ComputeScanlineIntersectionY_4F76A0(&scanXMin, &scanXMax, &scanY, &pBBox[0], &pBBox[1]) ||
-        ComputeScanlineIntersectionY_4F76A0(&scanXMin, &scanXMax, &scanY, &pBBox[1], &pBBox[2]) ||
-        ComputeScanlineIntersectionY_4F76A0(&scanXMin, &scanXMax, &scanY, &pBBox[2], &pBBox[3]) ||
-        ComputeScanlineIntersectionY_4F76A0(&scanXMin, &scanXMax, &scanY, &pBBox[3], &pBBox[0]))
+    if (ComputeScanlineIntersectionY_4F76A0(scanXMin, scanXMax, scanY, pBBox[0], pBBox[1]) ||
+        ComputeScanlineIntersectionY_4F76A0(scanXMin, scanXMax, scanY, pBBox[1], pBBox[2]) ||
+        ComputeScanlineIntersectionY_4F76A0(scanXMin, scanXMax, scanY, pBBox[2], pBBox[3]) ||
+        ComputeScanlineIntersectionY_4F76A0(scanXMin, scanXMax, scanY, pBBox[3], pBBox[0]))
     {
         gRozza_679188.field_0_type = 1;
         gRozza_679188.field_4_mapx_t1 = scanXMin;
@@ -1371,10 +1371,10 @@ MATCH_FUNC(0x5A0EF0)
 char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     Fix16_Point* pBBox = this->field_C_sprite_4c_ptr->field_C_renderingRect;
-    if (ComputeScanlineIntersectionX_4F77D0(&a2, &a3, &a4, &pBBox[0], &pBBox[1]) ||
-        ComputeScanlineIntersectionX_4F77D0(&a2, &a3, &a4, &pBBox[1], &pBBox[2]) ||
-        ComputeScanlineIntersectionX_4F77D0(&a2, &a3, &a4, &pBBox[2], &pBBox[3]) ||
-        ComputeScanlineIntersectionX_4F77D0(&a2, &a3, &a4, &pBBox[3], &pBBox[0]))
+    if (ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[0], pBBox[1]) ||
+        ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[1], pBBox[2]) ||
+        ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[2], pBBox[3]) ||
+        ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[3], pBBox[0]))
     {
         gRozza_679188.field_C_mapy_t2 = a2;
         gRozza_679188.field_0_type = 2;
@@ -1478,11 +1478,64 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
     return true;
 }
 
-STUB_FUNC(0x5a1490)
-bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& a2, Fix16_Point& a3)
+// https://decomp.me/scratch/2RoLd
+WIP_FUNC(0x5a1490)
+bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& point2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point rotated_1;
+    Fix16_Point rotated_2;
+    Fix16 half_width;
+    Fix16 half_height;
+    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&half_width, &half_height);
+    Fix16 pRotTransX;
+    Fix16 pRotTransY;
+
+    // TODO: this is just "negate" but inlined
+    Ang16 negated_ang(-field_0.rValue);
+    Ang16 normalized_ang;
+    normalized_ang.sub_409300(negated_ang, 0);
+
+    RotateAndTranslatePoint_42A720(point1.x, point1.y, normalized_ang, field_14_xy.x, field_14_xy.y, pRotTransX, pRotTransY);
+
+    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    {
+        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        {
+            return true;
+        }
+    }
+
+    Fix16 pRotTransX_2;
+    Fix16 pRotTransY_2;
+
+    // TODO: this is just "negate" but inlined
+    Ang16 negated_ang2(-field_0.rValue);
+    Ang16 normalized_ang2;
+    normalized_ang2.sub_409300(negated_ang2, 0);
+
+    RotateAndTranslatePoint_42A720(point2.x, point2.y, normalized_ang2, field_14_xy.x, field_14_xy.y, pRotTransX_2, pRotTransY_2);
+
+    if (pRotTransX_2 >= -half_width && pRotTransX_2 <= half_width)
+    {
+        if (pRotTransY_2 >= -half_height && pRotTransY_2 <= half_height)
+        {
+            return true;
+        }
+    }
+
+    rotated_1 = Fix16_Point(pRotTransX, pRotTransY);
+    rotated_2 = Fix16_Point(pRotTransX_2, pRotTransY_2);
+
+    if (ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, -half_width, rotated_1, rotated_2) ||
+        ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, half_width, rotated_1, rotated_2) ||
+        ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, -half_height, rotated_1, rotated_2) ||
+        ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, half_height, rotated_1, rotated_2))
+    {
+        return true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x5a19c0)

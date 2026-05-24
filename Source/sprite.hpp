@@ -16,8 +16,8 @@ EXTERN_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8);
 
 EXTERN_GLOBAL(Fix16, gFix16_7035C0);
 
-EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16* minX, Fix16* minY, Fix16* scanLineX, Fix16_Point* p0, Fix16_Point* p1);
-EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16* minX, Fix16* minY, Fix16* scanLineY, Fix16_Point* p0, Fix16_Point* p1);
+EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1);
+EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1);
 
 class Car_BC;
 class Char_B4;
