@@ -304,6 +304,15 @@ class CarPhysics_B0
         field_95 = 0;
     }
 
+    // Unknown 9.6f inlined func
+    void Reverse_Unk()
+    {
+        field_94_is_backward_gas_on = 1;
+        field_91_is_foot_brake_on = 0;
+        field_93_is_forward_gas_on = 0;
+        field_95 = 0;
+    }
+
     // FUNCTION: 96f 0x42ABA0
     void TurnDirectionMinus_42ABA0()
     {

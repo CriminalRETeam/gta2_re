@@ -53,9 +53,9 @@ void Ang16::sub_406C20()
 }
 
 MATCH_FUNC(0x409300)
-Ang16* Ang16::sub_409300(Ang16* a2, s32 a3)
+Ang16* Ang16::sub_409300(Ang16& input, s32 a3)
 {
-    rValue = a2->rValue;
+    rValue = input.rValue;
     Normalize();
     return this;
 }

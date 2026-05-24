@@ -2232,11 +2232,15 @@ void Char_B4::ApplyRandomRotationJitter_54C6C0()
     }
 }
 
-STUB_FUNC(0x4056C0)
+MATCH_FUNC(0x4056C0)
 EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3)
 {
-    NOT_IMPLEMENTED;
-    return a2 - a3; // TODO: Buncha other math missing
+    Ang16 delta = a2 - a3;
+    if (delta > word_669156)
+    {
+        delta = -delta;
+    }
+    return delta;
 }
 
 MATCH_FUNC(0x54c900)

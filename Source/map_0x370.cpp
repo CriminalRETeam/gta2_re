@@ -17,6 +17,7 @@
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
 #include "sprite.hpp"
+#include "Rozza_C88.hpp"
 
 DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
 DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
@@ -50,6 +51,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F61D8, Fix16(0x3000, 0), 0x6F61D8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6218, Fix16(0x3800, 0), 0x6F6218);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F5B8C, Fix16(255), 0x6F5B8C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6184, Fix16(10), 0x6F6184);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F5FE0, Fix16(0.5f), 0x6F5FE0);
 
 DEFINE_GLOBAL(gmp_block_info*, dword_6F5F98, 0x6F5F98);
 DEFINE_GLOBAL(gmp_map_slope*, dword_6F6080, 0x6F6080);
@@ -981,14 +983,14 @@ char_type Map_0x370::sub_4E11E0(Fix16_Rect* pRect)
                     }
                    
 
-                    if (ComputeScanlineIntersectionY_4F76A0(&pRect->field_0_left, &pRect->field_4_right, &pRect->field_8_top, &p1, &p2)
-                             || ComputeScanlineIntersectionY_4F76A0(&pRect->field_0_left,
-                                                            &pRect->field_4_right,
-                                                            &pRect->field_C_bottom,
-                                                            &p1,
-                                                            &p2) ||
-                        ComputeScanlineIntersectionX_4F77D0(&pRect->field_8_top, &pRect->field_C_bottom, &pRect->field_0_left, &p1, &p2) ||
-                        ComputeScanlineIntersectionX_4F77D0(&pRect->field_8_top, &pRect->field_C_bottom, &pRect->field_4_right, &p1, &p2))
+                    if (ComputeScanlineIntersectionY_4F76A0(pRect->field_0_left, pRect->field_4_right, pRect->field_8_top, p1, p2)
+                             || ComputeScanlineIntersectionY_4F76A0(pRect->field_0_left,
+                                                            pRect->field_4_right,
+                                                            pRect->field_C_bottom,
+                                                            p1,
+                                                            p2) ||
+                        ComputeScanlineIntersectionX_4F77D0(pRect->field_8_top, pRect->field_C_bottom, pRect->field_0_left, p1, p2) ||
+                        ComputeScanlineIntersectionX_4F77D0(pRect->field_8_top, pRect->field_C_bottom, pRect->field_4_right, p1, p2))
                     {
                         return 1;
                     }
@@ -1002,12 +1004,50 @@ char_type Map_0x370::sub_4E11E0(Fix16_Rect* pRect)
     return 0;
 }
 
-
-STUB_FUNC(0x4E1520)
-char_type Map_0x370::sub_4E1520(s32 a2)
+// https://decomp.me/scratch/jaBFe
+WIP_FUNC(0x4E1520)
+bool Map_0x370::sub_4E1520(s32 z_pos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
+    {
+        Fix16 left = Fix16(gPurple_left_6F5FD4 + 1);
+        for (s32 x_pos = gPurple_left_6F5FD4; x_pos <= gPurple_right_6F5B80; x_pos++, left += Fix16(1))
+        {
+            Fix16_Point point;
+            Fix16_Point unk_point;
+            gmp_block_info* pBlock = Map_0x370::get_block_4DFE10(x_pos, y_pos, z_pos);
+
+            if (pBlock != NULL)
+            {
+                u8 slope_type = pBlock->field_B_slope_type & 0xFC;
+                if (slope_type >= 0xB4 && slope_type <= 0xD0)
+                {
+                    if (slope_type == DIAGONAL_WALL_UP_LEFT || slope_type == DIAGONAL_WALL_DOWN_RIGHT ||
+                        slope_type == TRIANGULAR_SIDES_DIAGONAL_UP_LEFT || slope_type == TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
+                    {
+                        point = Fix16_Point(Fix16(x_pos), Fix16(y_pos + 1));
+                        unk_point = Fix16_Point(Fix16(left), Fix16(y_pos));
+                    }
+                    else
+                    {
+                        point = Fix16_Point(Fix16(x_pos), Fix16(y_pos));
+                        unk_point = Fix16_Point(Fix16(left), Fix16(y_pos + 1));
+                    }
+
+                    if (gSprite_6F61E8->PointInsideRotatedBounds_5A1490(point, unk_point))
+                    {
+                        Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject_5298E0(slope_type)->field_4;
+                        pSprt->set_xyz_lazy_451950(Fix16(x_pos) + dword_6F5FE0, Fix16(y_pos) + dword_6F5FE0, Fix16(z_pos));
+                        pSprt->UpdateCollisionBoundsIfNeeded_59E9C0();
+                        gRozza_679188.sub_40FEE0(pSprt);
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x4E18A0)

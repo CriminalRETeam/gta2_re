@@ -62,6 +62,27 @@ enum gmp_zone_type
     Arrest_Restart_20 = 20,
 };
 
+enum MapSlopes
+{
+    DIAGONAL_WALL_UP_LEFT = 0xB4,
+    DIAGONAL_WALL_UP_RIGHT = 0xB8,
+    DIAGONAL_WALL_DOWN_LEFT = 0xBC,
+    DIAGONAL_WALL_DOWN_RIGHT = 0xC0,
+    TRIANGULAR_SIDES_DIAGONAL_UP_LEFT = 0xC4,
+    TRIANGULAR_SIDES_DIAGONAL_UP_RIGHT = 0xC8,
+    TRIANGULAR_SIDES_DIAGONAL_DOWN_LEFT = 0xCC,
+    TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT = 0xD0,
+    PARTIAL_BLOCK_LEFT = 0xD4,
+    PARTIAL_BLOCK_RIGHT = 0xD8,
+    PARTIAL_BLOCK_TOP = 0xDC,
+    PARTIAL_BLOCK_BOTTOM = 0xE0,
+    PARTIAL_TOP_LEFT_CORNER = 0xE4,
+    PARTIAL_TOP_RIGHT_CORNER = 0xE8,
+    PARTIAL_BOTTOM_RIGHT_CORNER = 0xEC,
+    PARTIAL_BOTTOM_LEFT_CORNER = 0xF0,
+    PARTIAL_CENTRE_BLOCK = 0xF4,
+};
+
 struct gmp_header
 {
     char_type field_0_file_type[4];
@@ -318,7 +339,7 @@ class Map_0x370
     EXPORT char_type sub_4E0120();
     EXPORT char_type CanMoveOntoSlopeTile_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7);
     EXPORT char_type sub_4E11E0(Fix16_Rect* a2);
-    EXPORT char_type sub_4E1520(s32 a2);
+    EXPORT bool sub_4E1520(s32 z_pos);
     EXPORT bool sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
     EXPORT char_type sub_4E1A30(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     EXPORT char_type CanSpriteEnterTile_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8);

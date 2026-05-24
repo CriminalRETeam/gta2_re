@@ -48,6 +48,12 @@ class Rozza_28
         return this->field_0_type == 3 && field_20_pSprite->AsCharB4_40FEA0();
     }
 
+    void sub_40FEE0(Sprite* pSprt)
+    {
+        field_0_type = 3;
+        field_20_pSprite = pSprt;
+    }
+
     s32 field_0_type; // sprite enum type ?
     Fix16 field_4_mapx_t1;
     Fix16 field_8;

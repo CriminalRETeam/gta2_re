@@ -215,7 +215,7 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
     else
     {
         bAllowFlameSegment_706D60 = 1;
-        pNewBullet->SetMovementVector_5224E0(&rPoint);
+        pNewBullet->SetMovementVector_5224E0(rPoint);
         return pNewBullet;
     }
 }
