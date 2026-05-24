@@ -172,6 +172,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE118, Fix16(0x200, 0), 0x6FE118);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE1A8, dword_6FDFD4, 0x6FE1A8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE098, k_dword_6FE210, 0x6FE098);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE0F4, k_dword_6FE210, 0x6FE0F4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE0D4, k_dword_6FE210, 0x6FE0D4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFB8, dword_6FDFD4, 0x6FDFB8);
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -2741,10 +2744,90 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     }
 }
 
-STUB_FUNC(0x5606c0)
-void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* a2, char_type a3)
+// https://decomp.me/scratch/tc7DX
+WIP_FUNC(0x5606c0)
+void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damage_area)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16_Point RelativeVelocity;
+    Fix16_Point Impulse;
+    Fix16_Point ObjPos = p2C->GetXY_52AE70();
+    Fix16_Point CoM = ComputeCombinedCenterOfMass_559EC0();
+    Fix16 CarMass = CalculateMass_559FF0();
+    stru_6FE1F0 = CoM - CollisionIntersectionPoint_6FE1A0;
+    if (p2C->sub_482C90())
+    {
+        Fix16 ObjMass = p2C->field_8->field_18;
+        RelativeVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0) - p2C->GetRot_52AE90();
+
+        Impulse = ComputeLineLineIntersection_55F3B0(CarMass,
+                                                     ObjMass,
+                                                     RelativeVelocity,
+                                                     stru_6FE1F0,
+                                                     CollisionIntersectionPoint_6FE1A0,
+                                                     CoM,
+                                                     ObjPos,
+                                                     GetEffectiveMomentOfInertia_55A050(),
+                                                     dword_6FE0F4,
+                                                     dword_6FE0D4);
+
+        // Obj Reaction impulse
+        p2C->SetMovementVectorWithRandomState_522640((-Impulse) / ObjMass);
+    }
+    else
+    {
+        // infinite mass
+        RelativeVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+        Impulse = ComputeLineLineIntersection_55F3B0(CarMass,
+                                                     dword_6FDF1C,
+                                                     RelativeVelocity,
+                                                     stru_6FE1F0,
+                                                     CollisionIntersectionPoint_6FE1A0,
+                                                     CoM,
+                                                     ObjPos,
+                                                     GetEffectiveMomentOfInertia_55A050(),
+                                                     dword_6FE0F4,
+                                                     dword_6FDFB8);
+    }
+
+    if (field_98_surface_type == 6 && p2C->field_4->field_1C_zpos == field_5C_pCar->field_50_car_sprite->field_1C_zpos)
+    {
+        field_68_z_pos = dword_6FDFF4 * (-field_68_z_pos);
+        if (Fix16::Abs(field_68_z_pos) < dword_6FE118)
+        {
+            field_68_z_pos = kFP16Zero_6FE20C;
+        }
+        Fix16_Point arg0a = (CoM - ObjPos).NormalizeSafe_442AD0() / 10;
+        AccumulateImpulse_55FC30(arg0a, 50);
+        if (p2C->sub_482C90())
+        {
+            p2C->SetMovementVectorWithRandomState_522640(-arg0a);
+        }
+        dword_6FE33C = (CarMass * Fix16::Abs(field_70)) * 50;
+    }
+    else
+    {
+        dword_6FE33C = Fix16(0);
+    }
+
+    dword_6FE33C += ApplyImpactForcesAndDamage_55FA60(CollisionIntersectionPoint_6FE1A0, Impulse, 15);
+    field_5C_pCar->ApplyImpactDamage_43D5D0(dword_6FE33C);
+    p2C->HandleImpact_528E50(field_5C_pCar->field_50_car_sprite);
+
+    if (dword_6FE33C > dword_6FDFE4)
+    {
+        if (!field_5C_pCar->IsMaxDamage_40F890())
+        {
+            Fix16_Point NegatedVelocity = -RelativeVelocity;
+            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x,
+                                                           CollisionIntersectionPoint_6FE1A0.y,
+                                                           field_6C_cp3,
+                                                           NegatedVelocity.x,
+                                                           NegatedVelocity.y);
+        }
+        field_5C_pCar->TryDamageArea_43D2C0(damage_area, dword_6FE33C.mValue);
+    }
 }
 
 MATCH_FUNC(0x560680)
