@@ -1489,26 +1489,27 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
-        //if (gCarAI_78_Pool_677CF8 && ImGui::TreeNode("gCarAI_78_Pool_677CF8"))
         if (ImGui::TreeNode("Car AI"))
         {
-            // field_5C
             s32 num_AI_count = 0;
             Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
-            //CarAI_78* pAI_Iter = &gCarAI_78_Pool_677CF8->field_0_pool.field_4_pool[0];
             while (pCarIter)
             {
                 CarAI_78* pAI_Iter = pCarIter->field_5C;
                 if (pAI_Iter && pCarIter->field_50_car_sprite)
                 {
-                    // field_44, field_4C and field_50
+                    /*
                     swprintf(tmpBuff_67BD9C, L"44: %d\n4C: %d\n50: %d", 
                             pAI_Iter->field_44_target_direction,
                             pAI_Iter->field_4C_curr_direction,
                             pAI_Iter->field_50);
+                    */
+                    swprintf(tmpBuff_67BD9C, L"10 ang: %d\n50: %d", 
+                            (s16)(pAI_Iter->field_10.rValue / 4),
+                            pAI_Iter->field_50);
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
 
-                    if (pCarIter->field_60) // field_0->field_60->field_C
+                    if (pCarIter->field_60)
                     {
                         swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C);
                         DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -15);
@@ -1682,6 +1683,7 @@ void CC ImGuiDebugDraw()
                                     ImGui::Value("Center of ??? y", pPhysics->field_38_cp1.y.ToFloat(), "%.2f");
                                     ImGui::Value("Physics fA0", pPhysics->field_A0);
                                     ImGui::SliderInt("Physics fA0", &pPhysics->field_A0, 0, 3);
+                                    ImGui::Value("Physics fAD", pPhysics->field_AD_turn_direction);
                                     //ImGui::SliderInt("Physics front skid", &pPhysics->field_84_front_skid.mValue, -3*16384, 3*16384);
                                     ImGui::TreePop();
                                 }

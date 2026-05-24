@@ -645,7 +645,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
 }
 
 MATCH_FUNC(0x448270)
-bool CarAI_78::sub_448270()
+bool CarAI_78::IsClockwiseTurning_448270()
 {
     switch (field_4C_curr_direction)
     {
@@ -957,7 +957,7 @@ void CarAI_78::sub_448770()
         }
     }
 
-    if (sub_448270())
+    if (IsClockwiseTurning_448270())
     {
         toUse = dword_6779C8;
     }
