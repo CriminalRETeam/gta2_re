@@ -1508,6 +1508,13 @@ void CC ImGuiDebugDraw()
                             pAI_Iter->field_54);
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
                     */
+                    if (pCarIter->field_58_physics)
+                    {
+                        swprintf(tmpBuff_67BD9C, L"%d", 
+                            pCarIter->field_58_physics->field_95);
+                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
+                        //pCarIter->field_58_physics->field_95 = 1;
+                    }
 
                     if (pCarIter->field_60)
                     {
@@ -1684,6 +1691,7 @@ void CC ImGuiDebugDraw()
                                     ImGui::Value("Physics fA0", pPhysics->field_A0);
                                     ImGui::SliderInt("Physics fA0", &pPhysics->field_A0, 0, 3);
                                     ImGui::Value("Physics fAD", pPhysics->field_AD_turn_direction);
+                                    //pPhysics->field_95 = 1;
                                     //ImGui::SliderInt("Physics front skid", &pPhysics->field_84_front_skid.mValue, -3*16384, 3*16384);
                                     ImGui::TreePop();
                                 }
