@@ -407,10 +407,160 @@ void Garox_4::sub_5CF6B0()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d63b0)
+// https://decomp.me/scratch/Uq97l
+WIP_FUNC(0x5d63b0)
 void Garox_12E4_sub::DrawPause_5D63B0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    u32 sprite_type;
+    u16 sprite_pal = 0;
+    if (gGame_0x40_67E008->field_0_game_state == 2 && !gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message)
+    {
+        sub_5D7670(6, 134, 227, 180, word_706610, 2, 0, 0, 0);
+        sub_5D7670(6, 136, 320, 180, word_706610, 2, 0, 0, 0);
+        sub_5D7670(6, 135, 413, 180, word_706610, 2, 0, 0, 0);
+
+        wchar_t* pWMessage = gText_0x14_704DFC->Find_5B5F90("pause");
+        s32 max_width = Frontend::GetMaxTextWidth_5D8990(pWMessage, word_7063F8);
+
+        s32 y_offset = (gText_0x14_704DFC->field_10_lang_code != 'j') ? 158 : 164;
+
+        DrawText_5D7720(pWMessage, (640 - max_width) / 2, y_offset, word_7063F8, 2, 0, 0, 0);
+
+        if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+        {
+            s32 value_1;
+            Gang_144* pGang;
+            switch (field_12E4)
+            {
+                case HudPauseSection::target_score_0:
+                    swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("pscore"), gfrosty_pasteur_6F8060->field_310_finish_score);
+                    break;
+
+                case HudPauseSection::gang_1_missions_done_1:
+                    pGang = gGangPool_CA8_67E274->sub_4BECA0();
+                    if (gfrosty_pasteur_6F8060->field_32C_1_passed_flag)
+                    {
+                        value_1 = *gfrosty_pasteur_6F8060->field_32C_1_passed_flag;
+                    }
+                    else
+                    {
+                        value_1 = 0;
+                    }
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("pgmiss"),
+                             pGang->sub_4BF340(),
+                             value_1,
+                             gfrosty_pasteur_6F8060->field_31C_gang_1_missions_total);
+                    sprite_type = 6;
+                    sprite_pal = pGang->field_138_arrow_colour + 63;
+                    break;
+
+                case HudPauseSection::gang_2_missions_done_2:
+                    gGangPool_CA8_67E274->sub_4BECA0();
+                    pGang = gGangPool_CA8_67E274->sub_4BECE0();
+                    if (gfrosty_pasteur_6F8060->field_330_2_passed_flag)
+                    {
+                        value_1 = *gfrosty_pasteur_6F8060->field_330_2_passed_flag;
+                    }
+                    else
+                    {
+                        value_1 = 0;
+                    }
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("pgmiss"),
+                             pGang->sub_4BF340(),
+                             value_1,
+                             gfrosty_pasteur_6F8060->field_320_gang_2_missions_total);
+                    sprite_type = 6;
+                    sprite_pal = pGang->field_138_arrow_colour + 63;
+                    break;
+
+                case HudPauseSection::gang_3_missions_done_3:
+                    gGangPool_CA8_67E274->sub_4BECA0();
+                    gGangPool_CA8_67E274->sub_4BECE0();
+                    pGang = gGangPool_CA8_67E274->sub_4BECE0();
+                    if (gfrosty_pasteur_6F8060->field_334_3_passed_flag)
+                    {
+                        value_1 = *gfrosty_pasteur_6F8060->field_334_3_passed_flag;
+                    }
+                    else
+                    {
+                        value_1 = 0;
+                    }
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("pgmiss"),
+                             pGang->sub_4BF340(),
+                             value_1,
+                             gfrosty_pasteur_6F8060->field_324_gang_3_missions_total);
+                    sprite_type = 6;
+                    sprite_pal = pGang->field_138_arrow_colour + 63;
+                    break;
+
+                case HudPauseSection::all_missions_done_4:
+                    if (gfrosty_pasteur_6F8060->field_328_passed_flag)
+                    {
+                        value_1 = *gfrosty_pasteur_6F8060->field_328_passed_flag;
+                    }
+                    else
+                    {
+                        value_1 = 0;
+                    }
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("pmiss"),
+                             value_1,
+                             gfrosty_pasteur_6F8060->field_314_total_missions);
+                    break;
+
+                case HudPauseSection::kill_frenzies_completed_5:
+                    if (gfrosty_pasteur_6F8060->field_338_secrets_passed)
+                    {
+                        value_1 = *gfrosty_pasteur_6F8060->field_338_secrets_passed;
+                    }
+                    else
+                    {
+                        value_1 = 0;
+                    }
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("psec"),
+                             value_1,
+                             gfrosty_pasteur_6F8060->field_318_total_secrets);
+                    sprite_type = 4;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(286)->field_1E;
+                    break;
+
+                case HudPauseSection::tokens_collected_6:
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("pbon"),
+                             gLucid_hamilton_67E8E0.field_574_secret_tokens_collected,
+                             50);
+                    sprite_type = 4;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(266)->field_1E;
+                    break;
+                default:
+                    break;
+            }
+
+            s32 max_width_2 = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, word_7064D8);
+            s32 v28;
+            s32 v27;
+            if (sprite_pal != 0)
+            {
+                u16 pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(sprite_type, sprite_pal);
+                s32 icon_width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(pal)->field_4_width + 10;
+                s32 xpos = (640 - icon_width - max_width_2) / 2;
+                sub_5D7670(sprite_type, sprite_pal, xpos + icon_width / 2, 235, word_706610, 2, 0, 0, 0);
+                v28 = icon_width + xpos;
+            }
+            else
+            {
+                v27 = 640 - max_width_2 - ((640 - max_width_2) >> 31);
+                v28 = (640 - max_width_2) / 2;
+            }
+            DrawText_5D7720(tmpBuff_67BD9C, v28, 220, word_7064D8, 8, 6, 0, 0);
+        }
+    }
 }
 
 // ----------------------------------------------------
