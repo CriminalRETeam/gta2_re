@@ -274,7 +274,7 @@ void CarPhysics_B0::EnforceTrailerControlLimits_559B50()
             }
             if (!this->field_93_is_forward_gas_on)
             {
-                this->field_AD_turn_direction = 0;
+                this->field_AD_turn_direction = car_turn_direction::none_0;
             }
         }
     }
@@ -363,13 +363,13 @@ void CarPhysics_B0::ApplyForcedSteering_559DD0()
         {
             this->field_95 = 0;
             this->field_93_is_forward_gas_on = 1;
-            this->field_AD_turn_direction = -1;
+            this->field_AD_turn_direction = car_turn_direction::clockwise_m1;
         }
         else if (field_A0 == 2)
         {
             this->field_95 = 0;
             this->field_93_is_forward_gas_on = 1;
-            this->field_AD_turn_direction = 1;
+            this->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
         }
     }
 }
@@ -753,16 +753,16 @@ void CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
     {
         if (!bLeftOn)
         {
-            this->field_AD_turn_direction = -1;
+            this->field_AD_turn_direction = car_turn_direction::clockwise_m1;
             return;
         }
     }
     else if (bLeftOn)
     {
-        this->field_AD_turn_direction = 1;
+        this->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
         return;
     }
-    this->field_AD_turn_direction = 0;
+    this->field_AD_turn_direction = car_turn_direction::none_0;
 }
 
 WIP_FUNC(0x55aa00)
@@ -3183,7 +3183,7 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
         Fix16 lodword_v5;
         Fix16 hidword_v5 = CarPhysics_B0::ComputeEngineTorque_561970() * gCarInfo_48_6FE258->field_8_front_drive_bias;
 
-        if (field_AD_turn_direction)
+        if (field_AD_turn_direction != car_turn_direction::none_0)
         {
             v6 = k_dword_6FE210 + gCarInfo_48_6FE258->field_14_turn_in;
         }
@@ -3262,7 +3262,7 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
     Fix16 v5 = gCarInfo_2C_6FE0E4->field_20_front_drive_bias * ComputeEngineTorque_561970();
     Fix16 v7 = k_dword_6FE210;
 
-    if (field_AD_turn_direction)
+    if (field_AD_turn_direction != car_turn_direction::none_0)
     {
         v7 = k_dword_6FE210 - gCarInfo_48_6FE258->field_14_turn_in;
     }
@@ -3902,7 +3902,7 @@ void CarPhysics_B0::Init_5637A0()
     field_93_is_forward_gas_on = 0;
     field_94_is_backward_gas_on = 0;
     field_95 = 0;
-    field_AD_turn_direction = 0;
+    field_AD_turn_direction = car_turn_direction::none_0;
     field_A9_car_model = -1;
     field_A8_hand_brake_force = 0;
     field_90_timer_since_last_move = 0;

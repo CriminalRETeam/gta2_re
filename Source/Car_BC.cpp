@@ -591,7 +591,7 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
                             pPhysics->field_94_is_backward_gas_on = 0;
                             pPhysics->field_95 = 0;
                             field_58_physics->field_92_is_hand_brake_on = 0;
-                            field_58_physics->field_AD_turn_direction = 0;
+                            field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
                         }
                         return 1;
                     }
@@ -4054,65 +4054,56 @@ void Car_BC::ShowCarName_4406B0(Ped* pPed)
     }
 }
 
-WIP_FUNC(0x4406e0)
+MATCH_FUNC(0x4406e0)
 void Car_BC::sub_4406E0(Ped* pPed)
 {
-    WIP_IMPLEMENTED;
-
-    Player* pPlayer; // ebp
-    s32 f_88; // eax
-    wchar_t* pCarName; // eax
-    CarPhysics_B0* pPhysics; // eax
-
-    pPlayer = pPed->field_15C_player;
+    Player* pPlayer = pPed->field_15C_player;
     SetDriver(pPed);
     InitCarAIControl_440590();
-    this->field_7C_uni_num = pPed->field_238;
-    this->field_76_last_seen_timer = 0;
+    field_7C_uni_num = pPed->field_238;
+    field_76_last_seen_timer = 0;
     if (pPed->IsField238_45EDE0(2))
     {
         DeAllocateAI_4446E0();
     }
 
-    f_88 = this->field_88;
-    if (f_88 == 2 || f_88 == 4 || f_88 == 3)
+    if (field_88 == 2 || field_88 == 4 || field_88 == 3)
     {
-        this->field_88 = 1;
+        field_88 = 1;
     }
 
-    if ((this->field_8D & 1) != 0)
+    if ((field_8D & 1) != 0)
     {
-        if (gfrosty_pasteur_6F8060->sub_512910(pPed->field_200_id, this->field_6C_maybe_id))
+        if (gfrosty_pasteur_6F8060->sub_512910(pPed->get_id(), field_6C_maybe_id))
         {
-            this->field_8D &= ~1u;
+            field_8D &= ~1u;
         }
     }
     if (pPlayer)
     {
         if (pPlayer->field_0_bIsUser)
         {
-            if (this->field_54_driver->field_240_occupation != ped_ocupation_enum::empty)
+            if (field_54_driver->field_240_occupation != ped_ocupation_enum::empty)
             {
-                pCarName = GetCarStr_439F80();
-                gHud_2B00_706620->sub_5D5240(pCarName);
+                gHud_2B00_706620->sub_5D5240(GetCarStr_439F80());
             }
         }
         sub_443E50();
         pPlayer->sub_5645B0(this);
-        if (this->field_54_driver->field_240_occupation != ped_ocupation_enum::empty)
+        if (field_54_driver->field_240_occupation != ped_ocupation_enum::empty)
         {
             pPlayer->sub_564AD0(this);
         }
-        pPhysics = this->field_58_physics;
-        if (pPhysics)
+
+        if (field_58_physics)
         {
-            pPhysics->field_8C_state = 2;
+            field_58_physics->field_8C_state = 2;
         }
-        this->field_95 = pPed->field_200_id;
+        field_95 = pPed->field_200_id;
     }
     else
     {
-        this->field_95 = 0; // TODO: field_95_ped_id rename
+        field_95 = 0; // TODO: field_95_ped_id rename
     }
 }
 
