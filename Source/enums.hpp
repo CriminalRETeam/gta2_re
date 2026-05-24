@@ -875,20 +875,6 @@ enum
 };
 } // namespace CarDamageAreasFlags
 
-namespace HudPauseSection
-{
-enum
-{
-    target_score_0 = 0,
-    gang_1_missions_done_1 = 1,
-    gang_2_missions_done_2 = 2,
-    gang_3_missions_done_3 = 3,
-    all_missions_done_4 = 4,
-    kill_frenzies_completed_5 = 5,
-    tokens_collected_6 = 6,
-};
-} // namespace HudPauseSection
-
 namespace Gta2Error
 {
 enum Gta2Error

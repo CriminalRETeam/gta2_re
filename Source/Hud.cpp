@@ -432,7 +432,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
         {
             s32 value_1;
             Gang_144* pGang;
-            switch (field_12E4)
+            switch (field_0_current_pause_section)
             {
                 case HudPauseSection::target_score_0:
                     swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("pscore"), gfrosty_pasteur_6F8060->field_310_finish_score);
@@ -2863,44 +2863,44 @@ void Hud_2B00::sub_5D69C0()
     Garox_12E4_sub* pSub = &this->field_12E4_sub;
     if (!gLucid_hamilton_67E8E0.sub_4C59A0())
     {
-        pSub->field_1--;
-        if (pSub->field_1 == 0)
+        pSub->field_1_timer--;
+        if (pSub->field_1_timer == 0)
         {
-            pSub->field_1 = 45;
-            pSub->field_12E4++;
+            pSub->field_1_timer = 45;
+            pSub->field_0_current_pause_section++;
 
-            if (pSub->field_12E4 > 6u)
+            if (pSub->field_0_current_pause_section > 6)
             {
-                pSub->field_12E4 = 0;
+                pSub->field_0_current_pause_section = 0;
             }
 
-            if (pSub->field_12E4 == 1)
+            if (pSub->field_0_current_pause_section == HudPauseSection::gang_1_missions_done_1)
             {
                 if (!gGangPool_CA8_67E274->sub_4BECA0())
                 {
-                    pSub->field_12E4 = 4;
+                    pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                 }
                 return;
             }
 
-            if (pSub->field_12E4 == 2)
+            if (pSub->field_0_current_pause_section == HudPauseSection::gang_2_missions_done_2)
             {
                 if (gGangPool_CA8_67E274->sub_4BECA0())
                 {
                     if (!gGangPool_CA8_67E274->sub_4BECE0())
                     {
-                        pSub->field_12E4 = 4;
+                        pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                     }
                     return;
                 }
-                pSub->field_12E4 = 4;
+                pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                 return;
             }
 
-            if (pSub->field_12E4 == 3 &&
+            if (pSub->field_0_current_pause_section == HudPauseSection::gang_3_missions_done_3 &&
                 (!gGangPool_CA8_67E274->sub_4BECA0() || !gGangPool_CA8_67E274->sub_4BECE0() || !gGangPool_CA8_67E274->sub_4BECE0()))
             {
-                pSub->field_12E4 = 4;
+                pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                 return;
             }
         }

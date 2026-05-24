@@ -71,18 +71,32 @@ class Garox_4
     s32 field_0_value;
 };
 
+namespace HudPauseSection
+{
+enum
+{
+    target_score_0 = 0,
+    gang_1_missions_done_1 = 1,
+    gang_2_missions_done_2 = 2,
+    gang_3_missions_done_3 = 3,
+    all_missions_done_4 = 4,
+    kill_frenzies_completed_5 = 5,
+    tokens_collected_6 = 6,
+};
+} // namespace HudPauseSection
+
 class Garox_12E4_sub
 {
   public:
     // inline 0x4C71A0
     Garox_12E4_sub()
     {
-        field_12E4 = 0;
-        field_1 = 45;
+        field_0_current_pause_section = 0;
+        field_1_timer = 45;
     }
     EXPORT void DrawPause_5D63B0();
-    u8 field_12E4;
-    char_type field_1;
+    u8 field_0_current_pause_section;
+    char_type field_1_timer;
 };
 
 class Hud_Message_1C8
