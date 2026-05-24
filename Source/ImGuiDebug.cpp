@@ -1503,7 +1503,7 @@ void CC ImGuiDebugDraw()
                 {
                     // field_44, field_4C and field_50
                     swprintf(tmpBuff_67BD9C, L"44: %d\n4C: %d\n50: %d", 
-                            pAI_Iter->field_44,
+                            pAI_Iter->field_44_target_direction,
                             pAI_Iter->field_4C_curr_direction,
                             pAI_Iter->field_50);
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);

@@ -15,12 +15,25 @@ namespace car_ai_direction
 {
 enum
 {
+    none_0 = 0,
+    north_1 = 1,
+    south_2 = 2,
+    east_3 = 3,
+    west_4 = 4,
+};
+} // namespace car_ai_direction
+
+namespace car_ai_target_direction
+{
+enum
+{
+    go_straight_0 = 0,
     northwards_1 = 1,
     southwards_2 = 2,
     eastwards_3 = 3,
     westwards_4 = 4,
 };
-} // namespace car_ai_direction
+} // namespace car_ai_target_direction
 
 class CarAI_78
 {
@@ -99,7 +112,7 @@ class CarAI_78
     s32 field_38;
     s32 field_3C;
     s32 field_40;
-    s32 field_44;
+    s32 field_44_target_direction;
     s32 field_48;
     s32 field_4C_curr_direction;
     s32 field_50;
