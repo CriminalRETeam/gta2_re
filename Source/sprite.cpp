@@ -1479,7 +1479,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
 }
 
 STUB_FUNC(0x5a1490)
-bool Sprite::PointInsideRotatedBounds_5A1490(s32 a2, s32 a3)
+bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& a2, Fix16_Point& a3)
 {
     NOT_IMPLEMENTED;
     return 0;
