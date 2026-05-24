@@ -591,7 +591,7 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
                             pPhysics->field_94_is_backward_gas_on = 0;
                             pPhysics->field_95 = 0;
                             field_58_physics->field_92_is_hand_brake_on = 0;
-                            field_58_physics->field_AD_turn_direction = 0;
+                            field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
                         }
                         return 1;
                     }

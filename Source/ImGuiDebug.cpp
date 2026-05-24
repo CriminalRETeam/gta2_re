@@ -347,9 +347,9 @@ static void ShowPedBitMask(Ped* pPed)
     }
 }
 
-static void ShowPedBitMaskSetting(Ped* pPed)
+static void ShowPedBitMaskSetting(BitSet32* flags)
 {
-    if (pPed)
+    if (flags)
     {
         if (ImGui::TreeNode("Ped BitMask Setting"))
         {
@@ -386,8 +386,6 @@ static void ShowPedBitMaskSetting(Ped* pPed)
             ImGui::Checkbox("b29", &bits[29]);
             ImGui::Checkbox("b30", &bits[30]);
             ImGui::Checkbox("b31", &bits[31]);
-            
-            static BitSet32* flags = (BitSet32*)&pPed->field_21C;
 
             for (u8 i = 0; i < 32; i++)
             {
@@ -1128,7 +1126,7 @@ void CC ImGuiDebugDraw()
                     {
                         ImGui::Text("Driver occupation: %s", GetOccupationStrFromPed(pCarIter->field_54_driver));
                         ShowPedBitMask(pCarIter->field_54_driver);
-                        ShowPedBitMaskSetting(pCarIter->field_54_driver);
+                        ShowPedBitMaskSetting((BitSet32*)&pCarIter->field_54_driver->field_21C);
                     }
 
                     static bool bits[32];
@@ -1504,10 +1502,12 @@ void CC ImGuiDebugDraw()
                             pAI_Iter->field_4C_curr_direction,
                             pAI_Iter->field_50);
                     */
-                    swprintf(tmpBuff_67BD9C, L"10 ang: %d\n50: %d", 
-                            (s16)(pAI_Iter->field_10.rValue / 4),
-                            pAI_Iter->field_50);
+                    /*
+                    swprintf(tmpBuff_67BD9C, L"48: %d\n54: %d", 
+                            pAI_Iter->field_48,
+                            pAI_Iter->field_54);
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
+                    */
 
                     if (pCarIter->field_60)
                     {
@@ -2140,7 +2140,7 @@ void CC ImGuiDebugDraw()
                         ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 32767);
                         ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
                         ShowPedBitMask(pPedIter);
-                        ShowPedBitMaskSetting(pPedIter);
+                        ShowPedBitMaskSetting((BitSet32*)&pPedIter->field_21C);
 
                         ImGui::End();
                         ImGui::TreePop();

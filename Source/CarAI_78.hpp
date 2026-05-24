@@ -38,7 +38,7 @@ enum
 class CarAI_78
 {
   public:
-    EXPORT void sub_4476F0();
+    EXPORT void MakeAgressiveSirensAndLights_4476F0();
     EXPORT void sub_447710();
     EXPORT void sub_447970();
     EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction);
@@ -83,7 +83,7 @@ class CarAI_78
     char_type field_A;
     char_type field_B;
     CarAI_78* mpNext;
-    Ang16 field_10;
+    Ang16 field_10_angle;
     s16 field_12;
     Fix16 field_14;
     Fix16 field_18;
