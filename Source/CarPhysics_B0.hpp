@@ -36,6 +36,16 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
                                                                 Fix16 a9,
                                                                 Fix16 a10,
                                                                 Fix16 a11);
+
+namespace car_turn_direction
+{
+enum
+{
+    clockwise_m1 = -1,
+    none_0 = 0,
+    anticlockwise_1 = 1,
+};
+} // namespace car_turn_direction
                                                                 
 class CarPhysics_B0
 {
