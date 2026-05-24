@@ -4364,9 +4364,9 @@ void CarAI_78::sub_451980()
     Fix16 v2 = dword_677B94;
     bool flag1 = false;
     u8 bUnknown = 0;
-    Car_BC* cBC = this->field_70->field_8_car_bc_ptr;
+    Car_BC* cBC = field_70->field_8_car_bc_ptr;
 
-    if (this->field_8)
+    if (field_8)
     {
         if (ComputeShortestAngleDelta_4056C0(cBC->field_50_car_sprite->field_0, field_0->field_50_car_sprite->field_0) > dword_6779E4)
         {
@@ -4389,7 +4389,7 @@ void CarAI_78::sub_451980()
         }
     }
 
-    Fix16 v8 = Fix16::MaxAbsDistance_42A6B0(dword_677C30,
+    Fix16 v8 = Fix16::MaxAbsDistance_42A6B0(dword_677C38,
                                             dword_677C30,
                                             cBC->field_50_car_sprite->field_14_xy.x,
                                             cBC->field_50_car_sprite->field_14_xy.y);
@@ -4397,7 +4397,7 @@ void CarAI_78::sub_451980()
 
     if (v8 > dword_677B98)
     {
-        if (byte_677BBC || (this->field_24_flags & 0x200000) != 0)
+        if (byte_677BBC || (field_24_flags & 0x200000) != 0)
         {
             flag1 = 1;
         }
@@ -4424,19 +4424,14 @@ void CarAI_78::sub_451980()
             {
                 if ((field_24_flags & 0x200000) != 0)
                 {
-                LABEL_20:
                     flag1 = 1;
-                    this->field_0->sub_4416D0(2);
                 }
                 else
                 {
                     byte_677B3C = 0;
-                    field_0->field_58_physics->field_91_is_foot_brake_on = 0;
-                    field_0->field_58_physics->field_93_is_forward_gas_on = 0;
-                    field_0->field_58_physics->field_94_is_backward_gas_on = 0;
-                    field_0->field_58_physics->field_95 = 0;
-                    this->field_0->sub_4416D0(2);
+                    field_0->field_58_physics->sub_42AC00();
                 }
+                field_0->sub_4416D0(2);
             }
             else if ((field_24_flags & 0x20000) != 0)
             {
@@ -4449,20 +4444,32 @@ void CarAI_78::sub_451980()
                 {
                     dword_677A8C = cBC->sub_43A240();
 
-                    if (this->field_0->field_60->field_8_maybe_path_type == 2 && dword_677A8C == dword_677B90)
+                    // line 1e7
+                    if (field_0->field_60->field_8_maybe_path_type == 2)
                     {
-                        field_0->sub_43A950();
-                    }
-                    else
-                    {
-                        if (dword_677B00 < dword_677A8C)
+                        if (dword_677A8C == dword_677B90)
                         {
-                            field_0->field_58_physics->sub_421210();
+                            field_0->sub_43A950();
                         }
                         else
                         {
-                            field_0->field_58_physics->sub_42ABC0();
+                            if (dword_677B00 >= dword_677B90)
+                            {
+                                field_0->field_58_physics->sub_42ABC0();
+                            }
+                            else
+                            {
+                                field_0->field_58_physics->sub_421210();
+                            }
                         }
+                    }
+                    else if (dword_677B00 >= dword_677A8C)
+                    {
+                        field_0->field_58_physics->sub_42ABC0();
+                    }
+                    else
+                    {
+                        field_0->field_58_physics->sub_421210();
                     }
                 }
                 else
@@ -4483,16 +4490,16 @@ void CarAI_78::sub_451980()
         }
         else if (cBC->field_7C_uni_num == 2)
         {
-            if ((this->field_24_flags & 0x200000) != 0)
+            if ((field_24_flags & 0x200000) != 0)
             {
                 flag1 = 1;
-                this->field_0->sub_4416D0(2);
+                field_0->sub_4416D0(2);
             }
             else
             {
                 byte_677B3C = 0;
                 field_0->field_58_physics->sub_42AC00();
-                this->field_0->sub_4416D0(2);
+                field_0->sub_4416D0(2);
             }
         }
         else
@@ -4502,14 +4509,14 @@ void CarAI_78::sub_451980()
                 flag1 = 1;
             }
 
-            if ((this->field_24_flags & 0x20000) == 0x20000)
+            if ((field_24_flags & 0x20000) == 0x20000)
             {
                 flag1 = 1;
             }
         }
     }
 
-    if ((field_24_flags & 0x100) == 0)
+    if ((field_24_flags & 0x100) != 0)
     {
         flag1 = true;
     }
@@ -4563,8 +4570,7 @@ void CarAI_78::sub_451980()
                                     }
                                 }
 
-                            LABEL_64:
-                                Ang16 v26 = this->field_10_angle;
+                                Ang16 v26 = field_10_angle;
                                 Ang16 v27;
 
                                 if (field_4C_curr_direction == car_ai_direction::south_2)
@@ -4603,14 +4609,14 @@ void CarAI_78::sub_451980()
         }
         else
         {
-            this->field_0->field_58_physics->sub_42AC00();
+            field_0->field_58_physics->sub_42AC00();
         }
         byte_677B3C = 0;
     }
     else
     {
         byte_677B3C = 0;
-        if ((this->field_24_flags & 0x1000) == 0 || this->field_68->field_7C_uni_num != 2)
+        if ((field_24_flags & 0x1000) == 0 || field_68->field_7C_uni_num != 2)
         {
             if (dword_677B00 > dword_6779C8)
             {
