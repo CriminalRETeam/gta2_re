@@ -2592,10 +2592,61 @@ s32 Map_0x370::sub_4E5FC0(gmp_block_info* pBlock, char_type bUnk)
     return result;
 }
 
-STUB_FUNC(0x4E6190)
+// https://decomp.me/scratch/RZ1Gp
+WIP_FUNC(0x4E6190)
 s16 Map_0x370::sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (!IsGradientSlopeAt_466CF0(x.ToInt(), y.ToInt(), z.ToInt()))
+    {
+        return 1;
+    }
+
+    gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+
+    dword_6F5EC8 = &byte_6F5BA8[gBlockInfo0_6F5EB0->field_B_slope_type >> 2];
+    switch (dword_6F5EC8->field_0_gradient_direction)
+    {
+        case 1:
+            switch (a5)
+            {
+                case 1:
+                    return a6 ? 2 : 3;
+                case 2:
+                    return a6 ? 3 : 2;
+            }
+            break;
+        case 2:
+            switch (a5)
+            {
+                case 1:
+                    return a6 ? 3 : 2;
+                case 2:
+                    return a6 ? 2 : 3;
+            }
+            break;
+        case 3:
+            switch (a5)
+            {
+                case 3:
+                    return a6 ? 3 : 2;
+                case 4:
+                    return a6 ? 2 : 3;
+            }
+            break;
+        case 4:
+            switch (a5)
+            {
+                case 3:
+                    return a6 ? 2 : 3;
+                case 4:
+                    return a6 ? 3 : 2;
+            }
+            break;
+        default:
+            break;
+    }
     return 0;
 }
 
