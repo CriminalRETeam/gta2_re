@@ -2845,51 +2845,51 @@ char_type Map_0x370::sub_4E5E90(gmp_block_info* pBlock, s32 direction, char_type
 }
 
 MATCH_FUNC(0x4E5FC0)
-s32 Map_0x370::sub_4E5FC0(gmp_block_info* pBlock, char_type bUnk)
+s32 Map_0x370::GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* pBlock, char_type bDontFlip)
 {
     s32 result = 0;
     if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, RIGHT_4))
     {
-        if (bUnk)
+        if (bDontFlip)
         {
-            result = LEFT_3;
+            result = road_direction::right_3;
         }
         else
         {
-            result = RIGHT_4;
+            result = road_direction::left_4;
         }
     }
     else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, DOWN_2))
     {
-        if (bUnk)
+        if (bDontFlip)
         {
-            result = DOWN_2;
+            result = road_direction::down_2;
         }
         else
         {
-            result = UP_1;
+            result = road_direction::up_1;
         }
     }
     else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, LEFT_3))
     {
-        if (bUnk)
+        if (bDontFlip)
         {
-            result = RIGHT_4;
+            result = road_direction::left_4;
         }
         else
         {
-            result = LEFT_3;
+            result = road_direction::right_3;
         }
     }
     else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, UP_1))
     {
-        if (bUnk)
+        if (bDontFlip)
         {
-            result = UP_1;
+            result = road_direction::up_1;
         }
         else
         {
-            result = DOWN_2;
+            result = road_direction::down_2;
         }
     }
     return result;
@@ -3073,7 +3073,7 @@ void Map_0x370::sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_ty
         *z_pos = *sub_4E62B0(&temp, *z_pos);
         block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (*z_pos - dword_6F6110).ToInt());
     }
-    s32 v11 = sub_4E5FC0(block_4DFE10, a5);
+    s32 v11 = GetArrowDirectionFromBlock_4E5FC0(block_4DFE10, a5);
 
     if (Map_0x370::sub_4E6190(x, y, *z_pos - dword_6F6110, v11, a6) != 3)
     {

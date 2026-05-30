@@ -1695,11 +1695,11 @@ void CarAI_78::sub_44A1F0()
                                                            (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
     }
 
-    s32 v9;
+    s32 road_direction;
     if (block_4DFE10)
     {
-        v9 = gMap_0x370_6F6268->sub_4E5FC0(block_4DFE10, 1);
-        if (v9)
+        road_direction = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(block_4DFE10, 1);
+        if (road_direction)
         {
             if (this->field_3C)
             {
@@ -1714,14 +1714,14 @@ void CarAI_78::sub_44A1F0()
     }
     else
     {
-        v9 = 0;
+        road_direction = 0;
     }
 
     this->field_24_flags &= ~400u;
 
-    switch (v9)
+    switch (road_direction)
     {
-        case 1:
+        case road_direction::up_1:
             switch (this->field_4C_curr_direction)
             {
                 case car_ai_direction::north_1:
@@ -1806,7 +1806,7 @@ void CarAI_78::sub_44A1F0()
             this->field_0->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
             return;
 
-        case 2:
+        case road_direction::down_2:
             switch (field_4C_curr_direction)
             {
                 case car_ai_direction::west_4:
@@ -1855,7 +1855,7 @@ void CarAI_78::sub_44A1F0()
             this->field_0->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
             return;
 
-        case 3:
+        case road_direction::right_3:
             switch (this->field_4C_curr_direction)
             {
                 case car_ai_direction::north_1:
@@ -1933,7 +1933,7 @@ void CarAI_78::sub_44A1F0()
             this->field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
             return;
 
-        case 4:
+        case road_direction::left_4:
             if (this->field_4C_curr_direction == car_ai_direction::north_1)
             {
                 if (this->field_10_angle <= word_677ADE)
@@ -2030,7 +2030,7 @@ void CarAI_78::sub_44A1F0()
                     {
                         v32 = gMap_0x370_6F6268->get_block_4DFE10((v25 + v42).ToInt(), (v40 + v43).ToInt(), t.ToInt() - 1);
                     }
-                    if (v32 && gMap_0x370_6F6268->sub_4E5FC0(v32, 1))
+                    if (v32 && gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(v32, 1))
                     {
                         break;
                     }
@@ -3054,7 +3054,7 @@ void CarAI_78::sub_44E0C0()
             maybe_z = dword_6779F8 - dword_677B94;
             pBlock = gMap_0x370_6F6268->get_block_4DFE10(dword_6779F0.ToInt(), dword_6779F4.ToInt(), (dword_6779F8 - dword_677B94).ToInt());
         }
-        if (pBlock && (u8)gMap_0x370_6F6268->sub_4E5FC0(pBlock, 1))
+        if (pBlock && (u8)gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock, 1))
         {
         LABEL_47:
             GoToBlock_447CA0(dword_6779F0.ToInt(), dword_6779F4.ToInt(), maybe_z.ToInt(), 3);
@@ -3080,7 +3080,7 @@ void CarAI_78::sub_44E0C0()
             }
             if (pBlock_)
             {
-                gMap_0x370_6F6268->sub_4E5FC0(pBlock_, 1);
+                gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock_, 1);
             }
             goto LABEL_47;
         }
@@ -5311,7 +5311,7 @@ void CarAI_78::sub_452DF0()
 
     if (pBlock)
     {
-        byte_677C06 = gMap_0x370_6F6268->sub_4E5FC0(pBlock, 1);
+        byte_677C06 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock, 1);
     }
     else
     {

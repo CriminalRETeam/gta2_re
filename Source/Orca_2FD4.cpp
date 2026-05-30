@@ -43,7 +43,7 @@ bool Orca_2FD4::CanMoveInDirection_554080(s32 path_direction)
     if (field_25_xpos > 1u && field_25_xpos < 254u && field_26_ypos > 1u && field_26_ypos < 254u)
     {
         bool result =
-            gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130((u8)field_25_xpos, (u8)field_26_ypos, (u8)field_27_zpos, path_direction, &byte_6FDEEC, 1) ==
+            gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(field_25_xpos, field_26_ypos, field_27_zpos, path_direction, &byte_6FDEEC, 1) ==
             0;
         return result;
     }

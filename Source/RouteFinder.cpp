@@ -525,7 +525,7 @@ void RouteFinder::sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos
         {
             s32 z;
             gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x_pos, y_pos, &z);
-            if (gMap_0x370_6F6268->sub_4E5FC0(block, 0))
+            if (gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(block, 0))
             {
                 *xpos = x_pos;
                 *ypos = y_pos;

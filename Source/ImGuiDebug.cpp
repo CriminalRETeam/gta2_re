@@ -2443,8 +2443,8 @@ void CC ImGuiDebugDraw()
             gmp_block_info* pPlayerBlock = gMap_0x370_6F6268->get_block_4DFE10(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt() - 1);
             if (pPlayerBlock)
             {
-                s32 value_1 = gMap_0x370_6F6268->sub_4E5FC0(pPlayerBlock, 0);
-                s32 value_2 = gMap_0x370_6F6268->sub_4E5FC0(pPlayerBlock, 1);
+                s32 value_1 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pPlayerBlock, 0);
+                s32 value_2 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pPlayerBlock, 1);
                 ImGui::Value("sub_4E5FC0 type 0", value_1);
                 ImGui::Value("sub_4E5FC0 type 1", value_2);
             }
