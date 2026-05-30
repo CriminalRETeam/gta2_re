@@ -774,7 +774,7 @@ gmp_block_info* Map_0x370::GetEffectiveBlock_4DFE60(s32 x, s32 y, s32 z)
 
             if (!is_partial_block(slope_type))
             {
-                if (is_diagonal_block(slope_type))
+                if (is_tridiagonal_block(slope_type))
                 {
                     return &gBlockInfo2_6F6028; // solid block
                 }
@@ -934,11 +934,262 @@ char_type Map_0x370::sub_4E0120()
     return result;
 }
 
+// https://decomp.me/scratch/RMgzo
 STUB_FUNC(0x4E0130)
-char_type Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7)
+bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* bByRefUnk, char_type bNotifyByRefRet)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    gmp_map_slope* pCurrent_XYZ_Slope;
+    gmp_block_info* pEffectiveBlock;
+    u8 slope_byte;
+    field_36E = 0;
+    gmp_block_info* pCurrBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y, z);
+    if (pCurrBlock)
+    {
+        pCurrent_XYZ_Slope = get_slope_struct(pCurrBlock->field_B_slope_type);
+    }
+    else if (z > 0)
+    {
+        gmp_block_info* pBelowCurrBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y, z - 1);
+        if (pBelowCurrBlock)
+        {
+            pCurrent_XYZ_Slope = get_slope_struct(pBelowCurrBlock->field_B_slope_type);
+        }
+    }
+    switch (path_direction)
+    {
+        case path_direction::up_1:
+
+            if (pCurrBlock)
+            {
+                if (y != 0)
+                {
+                    pCurrent_XYZ_Slope = get_slope_struct(pCurrBlock->field_B_slope_type);
+                    if (pCurrent_XYZ_Slope)
+                    {
+                        if (pCurrent_XYZ_Slope->field_0_gradient_direction != NORTH_1)
+                        {
+                            if (pCurrent_XYZ_Slope->field_0_gradient_direction > SOUTH_2 &&
+                                pCurrent_XYZ_Slope->field_0_gradient_direction <= EAST_4)
+                            {
+                                // Current block is a Gradient to the left or right
+                                if (y > 0)
+                                {
+                                    // now check effective block at north
+                                    pEffectiveBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z);
+                                    if (pEffectiveBlock)
+                                    {
+                                        slope_byte = pEffectiveBlock->field_B_slope_type;
+                                        if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
+                                        {
+                                            gmp_map_slope* north_block_slope = get_slope_struct(slope_byte);
+
+                                            if (north_block_slope->field_2_gradient_level != pCurrent_XYZ_Slope->field_2_gradient_level &&
+                                                pCurrent_XYZ_Slope->field_0_gradient_direction !=
+                                                    north_block_slope->field_0_gradient_direction)
+                                            {
+                                                field_36E = 1;
+                                                return true; // slope gradient at north doesnt match with current block slope -> cannot move
+                                            }
+                                        }
+
+                                        if ((pCurrBlock->field_4_top & 0x400) != 0)
+                                        {
+                                            return true; // current block has a wall on top side, cannot move
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // fall or no ground ?
+                                        field_36E = 1;
+                                        return true; // cannot move
+                                    }
+                                }
+                                else
+                                {
+                                    //y is not greater than 0
+                                    field_36E = 1;
+                                    return 1; // cannot move
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // the current block gradient direction is North
+                            if (pCurrent_XYZ_Slope->field_2_gradient_level != 0)
+                            {
+                                // it is not the highest slope, prob another higher slope ahead or flat block
+                                // LABEL_30
+
+                                if ((pCurrBlock->field_4_top & 0x400) != 0)
+                                {
+                                    return true; // current block has a wall on top side, cannot move
+                                }
+                                // collapse
+                            }
+                            else
+                            {
+                                // it is the highest slope: it's expected a flat block (in z+1) or another North gradient ahead
+                                gmp_block_info* pNorthUpperBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z + 1);
+                                if (pNorthUpperBlock && (pNorthUpperBlock->field_6_bottom & 0x400) != 0)
+                                {
+                                    return true; // a wall ahead, cannot walk
+                                }
+                                if (Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z + 1))
+                                {
+                                    if (bNotifyByRefRet)
+                                    {
+                                        *bByRefUnk = true;
+                                    }
+                                    return false; // can walk
+                                }
+                                gmp_block_info* pBlockU = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z);
+                                if (!pBlockU)
+                                {
+                                    field_36E = 1;
+                                    return true;
+                                }
+                                else if (!is_air_type(pBlockU->field_B_slope_type)) //((v19->field_B_slope_type & 3) != 0)
+                                {
+                                    if (bNotifyByRefRet)
+                                    {
+                                        *bByRefUnk = true;
+                                    }
+                                    return false; // can walk
+                                }
+                                else
+                                {
+                                    this->field_36E = 1;
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return true; // cannot move in y == 0
+                }
+                // nothing here
+            }
+
+            pEffectiveBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z);
+            
+            if (pEffectiveBlock)
+            {
+                // now check the north block bottom side
+                if ((pEffectiveBlock->field_6_bottom & 0x400) != 0)
+                {
+                    return true; // north block has a wall on bottom side, cannot move
+                }
+
+                slope_byte = pEffectiveBlock->field_B_slope_type;
+
+                if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
+                {
+                    gmp_map_slope* north_block_slope = get_slope_struct(slope_byte);
+                    switch (north_block_slope->field_0_gradient_direction)
+                    {
+                        case NORTH_1:
+                        case SOUTH_2:
+                            return false; // can move
+
+                        case WEST_3:
+                        case EAST_4:
+
+                            if (pCurrent_XYZ_Slope)
+                            {
+                                if (north_block_slope->field_2_gradient_level == pCurrent_XYZ_Slope->field_2_gradient_level ||
+                                    pCurrent_XYZ_Slope->field_0_gradient_direction == north_block_slope->field_0_gradient_direction)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    return true;
+                                }
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        default:
+                            return true; // no gradient or weird direction: cannot move
+                    }
+                }
+            }
+
+            if (z > 0)
+            {
+                // now check the block below the north block
+                gmp_block_info* pNorthBelowBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z - 1);
+                if (pNorthBelowBlock && !is_air_type(pNorthBelowBlock->field_B_slope_type))
+                {
+                    if (!is_gradient_slope(pNorthBelowBlock->field_B_slope_type))
+                    {
+                        return false; // can move
+                    }
+                    else
+                    {
+                        // is a gradient slope. Verify if it's on the right direction
+                        gmp_map_slope* north_block_below_slope = get_slope_struct(pNorthBelowBlock->field_B_slope_type);
+                        if (north_block_below_slope &&
+                            north_block_below_slope->field_0_gradient_direction <= 2) // NO_GRADIENT_SLOPE_0, NORTH_1 or SOUTH_2
+                        {
+                            *bByRefUnk = -1;
+                            return false; // gradient is north or south: can walk upon
+                        }
+                        else
+                        {
+                            if (pCurrent_XYZ_Slope && north_block_below_slope
+                                && pCurrent_XYZ_Slope->field_0_gradient_direction == north_block_below_slope->field_0_gradient_direction)
+                            {
+                                return false; // slope matches the direction with the current one: can walk
+                            }
+                            else
+                            {
+                                field_36E = 1;
+                                return true; // cannot walk: different directions
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // there is no block below the one at north
+                    // not sure about this part
+                    field_36E = 1;
+                    if (pEffectiveBlock && pEffectiveBlock->field_A_arrows)
+                    {
+                        field_36F = 1;
+                        return false; // can walk
+                    }
+                    return true; // cannot walk
+                }
+            }
+            return true;
+            break;
+
+        case path_direction::down_2:
+
+            return false;
+
+            break;
+
+        case path_direction::right_3:
+
+            return false;
+
+            break;
+
+        case path_direction::left_4:
+
+            return false;
+
+            break;
+        default:
+            return false;
+    }
 }
 
 WIP_FUNC(0x4E11E0)

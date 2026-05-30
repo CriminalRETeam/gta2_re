@@ -363,7 +363,7 @@ class Map_0x370
     EXPORT s32 GetBlockSpec_4E00A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type sub_4E0110();
     EXPORT char_type sub_4E0120();
-    EXPORT char_type CanMoveOntoSlopeTile_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7);
+    EXPORT bool CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* bByRefUnk, char_type bNotifyByRefRet);
     EXPORT char_type sub_4E11E0(Fix16_Rect* a2);
     EXPORT bool sub_4E1520(s32 z_pos);
     EXPORT bool sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
@@ -621,7 +621,12 @@ static inline bool is_partial_block(s32& slope)
     return slope >= 0xD4 && slope <= 0xF4;
 }
 
-static inline bool is_diagonal_block(s32& slope)
+static inline bool is_tridiagonal_block(s32& slope)
 {
     return slope >= 0xC4 && slope <= 0xD0;
+}
+
+static inline gmp_map_slope* get_slope_struct(u8& slope_byte)
+{
+    return &byte_6F5BA8[get_slope_idx(slope_byte)];
 }
