@@ -697,6 +697,42 @@ static void DisplayTextAtScreenCoords(char* pStr, s16 screen_xpos, s16 screen_yp
     DisplayWideTextAtScreenCoords(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos);
 }
 
+void BootMap(const char* mapName, const char* styName, const char* scrName)
+{
+    if (gFrontend_67DC84 && gFrontend_67DC84->field_110_state == FrontendState::Unknown_1)
+    {
+        char fullPath[256];
+
+        gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
+        strcpy(fullPath, "data\\");
+        strcat(fullPath, mapName);
+        gLucid_hamilton_67E8E0.SetMapName_4C5870(fullPath);
+        strcpy(fullPath, "data\\");
+        strcat(fullPath, styName);
+        gLucid_hamilton_67E8E0.SetStyleName_4C5890(fullPath);
+        strcpy(fullPath, "data\\");
+        strcat(fullPath, scrName);
+        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(fullPath);
+
+        gLucid_hamilton_67E8E0.sub_4C5AD0(0);
+        gFrontend_67DC84->field_EE08 = RedBar_16;
+        gFrontend_67DC84->field_110_state = FrontendState::Booting_Map_2;
+    }
+}
+
+void AddMenuOption(u32 page_idx, s16 xpos, s16 ypos, wchar_t* pLabelStr, s16 target_page)
+{
+    u16 num_options = gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_0_number_of_options;
+    gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_0_option_type = STRING_TEXT_1;
+    gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_2_x_pos = xpos;
+    gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_4_y_pos = ypos;
+    wcsncpy(gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_6_option_name_str,
+            pLabelStr,
+            0x32u);
+    gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_80_menu_page_target = target_page;
+    gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_0_number_of_options++;
+}
+
 namespace HookManagement
 {
 static TEnumerateFuncsFn GetEnumerateFuncsFn()
@@ -2578,6 +2614,20 @@ void CC ImGuiDebugDraw()
         {
             //if (gFrontend_67DC84)
             {
+                if (ImGui::TreeNode("Special settings"))
+                {
+                    if (ImGui::Button("Load external map (WIP)"))
+                    {
+                        BootMap("mp1-comp.gmp", "bil.sty", "mp1-6p.scr");
+                    }
+
+                    if (ImGui::Button("Add new menu option (WIP)"))
+                    {
+                        AddMenuOption(MENUPAGE_PLAY, 300, 415, L"TEST OPTION", 264);
+                    }
+                    ImGui::TreePop();
+                }
+
                 if (ImGui::TreeNode("Player settings"))
                 {
                     static s32 player_idx;
