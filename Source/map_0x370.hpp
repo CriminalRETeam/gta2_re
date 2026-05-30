@@ -237,6 +237,21 @@ enum gmp_gradient_slope_size
     SIZE_8 = 8,
 };
 
+enum gmp_arrow_direction
+{
+    UP_1 = 1,
+    DOWN_2 = 2,
+    LEFT_3 = 3,
+    RIGHT_4 = 4,
+};
+
+enum gmp_arrow_type
+{
+    GREEN_ONLY_1 = 1,
+    RED_ONLY_2 = 2,
+    GREEN_OR_RED_3 = 3,
+};
+
 EXTERN_GLOBAL_ARRAY(gmp_map_slope, byte_6F5BA8, 64);
 
 EXTERN_GLOBAL(Fix16, dword_6F5ED8);
@@ -364,7 +379,7 @@ class Map_0x370
     EXPORT char_type sub_4E5640(Fix16 a1, Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
     EXPORT Fix16 FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos);
-    EXPORT s32 sub_4E5FC0(gmp_block_info* a2, char_type a3);
+    EXPORT s32 sub_4E5FC0(gmp_block_info* a2, char_type bUnk);
     EXPORT s16 sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6);
     EXPORT Fix16* sub_4E62B0(Fix16* a2, Fix16 a3);
     EXPORT gmp_block_info* FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z);

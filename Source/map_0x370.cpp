@@ -2542,51 +2542,51 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_
 }
 
 MATCH_FUNC(0x4E5FC0)
-s32 Map_0x370::sub_4E5FC0(gmp_block_info* pBlock, char_type a2)
+s32 Map_0x370::sub_4E5FC0(gmp_block_info* pBlock, char_type bUnk)
 {
     s32 result = 0;
-    if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 4))
+    if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, RIGHT_4))
     {
-        if (a2 != 0)
+        if (bUnk)
         {
-            result = 3;
+            result = LEFT_3;
         }
         else
         {
-            result = 4;
+            result = RIGHT_4;
         }
     }
-    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 2))
+    else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, DOWN_2))
     {
-        if (a2 != 0)
+        if (bUnk)
         {
-            result = 2;
+            result = DOWN_2;
         }
         else
         {
-            result = 1;
+            result = UP_1;
         }
     }
-    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 3))
+    else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, LEFT_3))
     {
-        if (a2 != 0)
+        if (bUnk)
         {
-            result = 4;
+            result = RIGHT_4;
         }
         else
         {
-            result = 3;
+            result = LEFT_3;
         }
     }
-    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 1))
+    else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, UP_1))
     {
-        if (a2 != 0)
+        if (bUnk)
         {
-            result = 1;
+            result = UP_1;
         }
         else
         {
-            result = 2;
+            result = DOWN_2;
         }
     }
     return result;

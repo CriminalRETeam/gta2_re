@@ -2398,6 +2398,23 @@ void CC ImGuiDebugDraw()
             }
         }
 
+        if (gMap_0x370_6F6268 && ImGui::TreeNode("gMap_0x370_6F6268"))
+        {
+            Fix16 player_xpos;
+            Fix16 player_ypos;
+            Fix16 player_zpos;
+            GetPlayerPos(player_xpos, player_ypos, player_zpos);
+            gmp_block_info* pPlayerBlock = gMap_0x370_6F6268->get_block_4DFE10(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt() - 1);
+            if (pPlayerBlock)
+            {
+                s32 value_1 = gMap_0x370_6F6268->sub_4E5FC0(pPlayerBlock, 0);
+                s32 value_2 = gMap_0x370_6F6268->sub_4E5FC0(pPlayerBlock, 1);
+                ImGui::Value("sub_4E5FC0 type 0", value_1);
+                ImGui::Value("sub_4E5FC0 type 1", value_2);
+            }
+            ImGui::TreePop();
+        }
+
         // Put in-game debug stuff here
 
     } // end gGame_0x40_67E008 != NULL
