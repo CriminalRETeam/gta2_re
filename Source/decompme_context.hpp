@@ -78,6 +78,7 @@
 #include "nostalgic_ellis_0x28.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
+#include "RouteFinder.hpp"
 #include "sad_mirzakhani.hpp"
 #include "sharp_bose_0x54.hpp"
 #include "sharp_pare_0x15D8.hpp"

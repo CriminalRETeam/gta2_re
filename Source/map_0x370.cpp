@@ -2541,6 +2541,55 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_
     return 0;
 }
 
+// https://decomp.me/scratch/9rRLR
+WIP_FUNC(0x4E5E90)
+char_type Map_0x370::sub_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3)
+{
+    WIP_IMPLEMENTED;
+    switch (direction)
+    {
+        case 1:
+            if (a3)
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, UP_1);
+            }
+            else
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, DOWN_2);
+            }
+        case 2:
+            if (a3)
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, DOWN_2);
+            }
+            else
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, UP_1);
+            }
+        case 3:
+            if (a3)
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, RIGHT_4);
+            }
+            else
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, LEFT_3);
+            }
+        case 4:
+            if (a3)
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, LEFT_3);
+            }
+            else
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, RIGHT_4);
+            }
+            break;
+        default:
+            return a3;
+    }
+}
+
 MATCH_FUNC(0x4E5FC0)
 s32 Map_0x370::sub_4E5FC0(gmp_block_info* pBlock, char_type bUnk)
 {
