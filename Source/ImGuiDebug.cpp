@@ -2448,6 +2448,35 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("sub_4E5FC0 type 0", value_1);
                 ImGui::Value("sub_4E5FC0 type 1", value_2);
             }
+
+            u8 xpos = player_xpos.ToUInt8();
+            u8 ypos = player_ypos.ToUInt8();
+            u8 zpos = player_zpos.ToUInt8();
+            
+            if (gOrca_2FD4_6FDEF0)
+            {
+                gOrca_2FD4_6FDEF0->field_25_xpos = xpos;
+                gOrca_2FD4_6FDEF0->field_26_ypos = ypos;
+                gOrca_2FD4_6FDEF0->field_27_zpos = zpos;
+                ImGui::Value("Orca Direction 1", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(1));
+                ImGui::Value("Orca Direction 2", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(2));
+                ImGui::Value("Orca Direction 3", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(3));
+                ImGui::Value("Orca Direction 4", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(4));
+            }
+            
+            u8 bRet;
+            static bool bUnk;
+            //ImGui::Checkbox("Last arg", &bUnk);
+            ImGui::Value("Can Move Dir 1", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::up_1, &bRet, bUnk));
+            //ImGui::Value("bRet", bUnk);
+            ImGui::Value("Can Move Dir 2", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::down_2, &bRet, bUnk));
+            //ImGui::Value("bRet", bUnk);
+            ImGui::Value("Can Move Dir 3", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::right_3, &bRet, bUnk));
+            //ImGui::Value("bRet", bUnk);
+            ImGui::Value("Can Move Dir 4", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::left_4, &bRet, bUnk));
+            //ImGui::Value("bRet", bUnk);
+            //gMap_0x370_6F6268->sub_4E0130(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt())
+
             ImGui::TreePop();
         }
 

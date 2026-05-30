@@ -245,6 +245,17 @@ enum gmp_arrow_direction
     RIGHT_4 = 4,
 };
 
+namespace path_direction
+{
+enum
+{
+    up_1 = 1,
+    down_2 = 2,
+    right_3 = 3, // notice that right and left are swapped in comparison with gmp_arrow_direction
+    left_4 = 4, // notice that right and left are swapped in comparison with gmp_arrow_direction
+};
+} // namespace path_direction
+
 enum gmp_arrow_type
 {
     GREEN_ONLY_1 = 1,
