@@ -354,7 +354,7 @@ class Map_0x370
 
     EXPORT gmp_block_info* get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord);
 
-    EXPORT gmp_block_info* sub_4DFE60(s32 x, s32 y, s32 z);
+    EXPORT gmp_block_info* GetEffectiveBlock_4DFE60(s32 x, s32 y, s32 z);
     EXPORT gmp_block_info* sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord);
 
     EXPORT DWORD sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord);

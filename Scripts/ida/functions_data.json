@@ -7345,7 +7345,7 @@
         "v105_address": "0x4dfe10"
     },
     {
-        "name": "Map_0x370::sub_4DFE60",
+        "name": "Map_0x370::GetEffectiveBlock_4DFE60",
         "v96f_address": null,
         "v105_address": "0x4dfe60"
     },

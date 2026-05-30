@@ -759,8 +759,11 @@ gmp_block_info* Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coor
 }
 
 MATCH_FUNC(0x4DFE60)
-gmp_block_info* Map_0x370::sub_4DFE60(s32 x, s32 y, s32 z)
+gmp_block_info* Map_0x370::GetEffectiveBlock_4DFE60(s32 x, s32 y, s32 z)
 {
+    // If it's a partial block, get a null/empty block. 
+    // If it's a tridiagonal block (four-sided or tri-sided), replace it by a flat solid block
+    // Otherwise, return the original block. It's ideal for checking collisions
     gmp_col_info* v5 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
     if (z < v5->field_0_height)
     {
@@ -773,7 +776,7 @@ gmp_block_info* Map_0x370::sub_4DFE60(s32 x, s32 y, s32 z)
             {
                 if (is_diagonal_block(slope_type))
                 {
-                    return &gBlockInfo2_6F6028;
+                    return &gBlockInfo2_6F6028; // solid block
                 }
                 return v7_block;
             }
@@ -1061,7 +1064,7 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
         {
             if (x_pos < x_max)
             {
-                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos, z);
+                pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos, y_pos, z);
                 if (pBlock)
                 {
                     if ((pBlock->field_2_right & 0x400) != 0) // is wall tile
@@ -1069,7 +1072,7 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
                         return true;
                     }
                 }
-                pBlock = Map_0x370::sub_4DFE60(x_pos + 1, y_pos, z);
+                pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos + 1, y_pos, z);
                 if (pBlock)
                 {
                     if ((pBlock->field_0_left & 0x400) != 0) // is wall tile
@@ -1081,7 +1084,7 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
 
             if (y_pos < y_max)
             {
-                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos, z);
+                pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos, y_pos, z);
                 if (pBlock)
                 {
                     if ((pBlock->field_6_bottom & 0x400) != 0) // is wall tile
@@ -1089,7 +1092,7 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
                         return true;
                     }
                 }
-                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos + 1, z);
+                pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos, y_pos + 1, z);
                 if (pBlock)
                 {
                     if ((pBlock->field_4_top & 0x400) != 0) // is wall tile
@@ -1165,7 +1168,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
         }
     }
 
-    pBlock2 = sub_4DFE60(tileX, tileY, zLevel);
+    pBlock2 = GetEffectiveBlock_4DFE60(tileX, tileY, zLevel);
     gBlockInfo0_6F5EB0 = pBlock2;
     if (!pBlock2)
     {
@@ -1246,7 +1249,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
     }
 
 LABEL_32:
-    pBlock3 = sub_4DFE60(tileX, tileY - 1, dword_6F5FAC);
+    pBlock3 = GetEffectiveBlock_4DFE60(tileX, tileY - 1, dword_6F5FAC);
     dword_6F606C = pBlock3;
     if (pBlock3)
     {
@@ -1314,7 +1317,7 @@ LABEL_39:
     }
 
 LABEL_52:
-    pBlock4 = sub_4DFE60(tileX, tileY + 1, dword_6F6248);
+    pBlock4 = GetEffectiveBlock_4DFE60(tileX, tileY + 1, dword_6F6248);
     dword_6F6070 = pBlock4;
     if (pBlock4)
     {
@@ -1381,7 +1384,7 @@ LABEL_59:
     }
 
 LABEL_72:
-    pBlock5 = sub_4DFE60(tileX - 1, tileY, dword_6F5BA0);
+    pBlock5 = GetEffectiveBlock_4DFE60(tileX - 1, tileY, dword_6F5BA0);
     dword_6F6078 = pBlock5;
     if (pBlock5)
     {
@@ -1458,7 +1461,7 @@ LABEL_98:
     v32 = dword_6F5FAC; // = v30
 
 LABEL_99:
-    pBlock6 = sub_4DFE60(tileX - 1, tileY - 1, v32);
+    pBlock6 = GetEffectiveBlock_4DFE60(tileX - 1, tileY - 1, v32);
     dword_6F5F90 = pBlock6;
     if (pBlock6)
     {
@@ -1553,7 +1556,7 @@ LABEL_111:
     }
 
 LABEL_131:
-    pBlock7 = sub_4DFE60(tileX - 1, tileY + 1, v40);
+    pBlock7 = GetEffectiveBlock_4DFE60(tileX - 1, tileY + 1, v40);
     dword_6F5FB0 = pBlock7;
     if (pBlock7)
     {
@@ -1632,7 +1635,7 @@ LABEL_142:
 
 LABEL_155:
     v47 = tileX + 1;
-    pBlock8 = sub_4DFE60(tileX + 1, tileY, dword_6F620C);
+    pBlock8 = GetEffectiveBlock_4DFE60(tileX + 1, tileY, dword_6F620C);
     dword_6F6060 = pBlock8;
     if (pBlock8)
     {
@@ -1713,7 +1716,7 @@ LABEL_181:
     v55 = dword_6F5FAC; // = v53;
 
 LABEL_182:
-    pBlock9 = sub_4DFE60(tileX + 1, tileY - 1, v55);
+    pBlock9 = GetEffectiveBlock_4DFE60(tileX + 1, tileY - 1, v55);
     dword_6F5F54 = pBlock9;
 
     if (pBlock9)
@@ -1807,7 +1810,7 @@ LABEL_194:
 
 LABEL_214:
     //v65 = tileY + 1;
-    pBlock10 = sub_4DFE60(tileX + 1, tileY + 1, v64);
+    pBlock10 = GetEffectiveBlock_4DFE60(tileX + 1, tileY + 1, v64);
     dword_6F5F98 = pBlock10;
     if (pBlock10)
     {
