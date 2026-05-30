@@ -82,11 +82,11 @@ class RouteFinder
     EXPORT u16 IsPointInJunctionBounds_588AA0(u8 a2, u8 a3, u16 a4, u16 a5); // ret _BOOL2
     EXPORT void Load_RGEN_588B30();
     EXPORT void Reset_588C60();
-    EXPORT bool sub_588CA0(gmp_block_info* block, s32 a2, u8 a3);
-    EXPORT char_type sub_588DE0(gmp_block_info* a1, s32 a2, s32 a4);
-    EXPORT u16 sub_588E60(u8 x, u8 y, u8 z, char_type a5, s32 a6);
-    EXPORT u16 sub_588F30(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 a6);
-    EXPORT u16 sub_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 a6);
+    EXPORT bool HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 a2, u8 a3);
+    EXPORT char_type sub_588DE0(gmp_block_info* a1, s32 arrow_type, s32 a4);
+    EXPORT u16 sub_588E60(u8 x, u8 y, u8 z, char_type a5, s32 arrow_type);
+    EXPORT u16 sub_588F30(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 arrow_type);
+    EXPORT u16 sub_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 arrow_type);
     EXPORT void sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos);
     EXPORT s32 sub_589210(char_type a2, char_type a3, s32 a4, char_type a5, s32 a6, u16 a7);
     EXPORT RouteFinder_10* sub_5892F0(RouteFinder_10* a2, u16 a3, s16 a4);

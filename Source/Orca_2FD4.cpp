@@ -38,12 +38,12 @@ DEFINE_GLOBAL(u8, gOrca_idx1_6FDBF0, 0x6FDBF0);
 DEFINE_GLOBAL(u8, gOrca_idx2_6FDBF1, 0x6FDBF1);
 
 MATCH_FUNC(0x554080)
-bool Orca_2FD4::CanMoveInDirection_554080(s32 a2)
+bool Orca_2FD4::CanMoveInDirection_554080(s32 path_direction)
 {
     if (field_25_xpos > 1u && field_25_xpos < 254u && field_26_ypos > 1u && field_26_ypos < 254u)
     {
         bool result =
-            gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130((u8)field_25_xpos, (u8)field_26_ypos, (u8)field_27_zpos, a2, &byte_6FDEEC, 1) ==
+            gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(field_25_xpos, field_26_ypos, field_27_zpos, path_direction, &byte_6FDEEC, 1) ==
             0;
         return result;
     }
@@ -51,107 +51,111 @@ bool Orca_2FD4::CanMoveInDirection_554080(s32 a2)
 }
 
 MATCH_FUNC(0x5540e0)
-char_type Orca_2FD4::TestDiagonalMove_5540E0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6)
+char_type Orca_2FD4::TestDiagonalMove_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos)
 {
-    this->field_25_xpos = a2;
-    this->field_26_ypos = a3;
-    this->field_27_zpos = a4;
-    return Internel_CanMoveDiagonally_554110(a5, a6);
+    field_25_xpos = curr_xpos;
+    field_26_ypos = curr_ypos;
+    field_27_zpos = curr_zpos;
+    return Internel_CanMoveDiagonally_554110(desired_xpos, desired_ypos);
 }
 
 WIP_FUNC(0x554110)
-char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type xpos2, char_type ypos2)
+char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(u8 desired_xpos, u8 desired_ypos)
 {
     WIP_IMPLEMENTED;
 
     byte_6FDEEC = 0;
 
-    const char_type xd = xpos2 - field_25_xpos;
-    const char_type yd = ypos2 - field_26_ypos;
+    const char_type xd = desired_xpos - field_25_xpos;
+    const char_type yd = desired_ypos - field_26_ypos;
     char_type bCanMove;
 
-    if (!xd)
+    if (xd == 0)
     {
-        if (!yd)
+        if (yd == 0)
         {
-            return 1;
+            return true; // there is no moving: of course, it's allowed
         }
         if (yd == -1)
         {
-            return CanMoveInDirection_554080(1);
+            return CanMoveInDirection_554080(path_direction::up_1);
         }
-        return CanMoveInDirection_554080(2);
+        return CanMoveInDirection_554080(path_direction::down_2);
     }
 
     if (yd)
     {
-        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_25_xpos, field_26_ypos, this->field_27_zpos))
+        // here both xd and yd are different from zero
+
+        // can't move into any direction if it's currently on a slope? weird
+        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_25_xpos, field_26_ypos, field_27_zpos))
         {
-            return 0;
+            return false;
         }
 
         if (xd == 1)
         {
             if (yd == 1)
             {
+                // moving southeast
                 if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos))
                 {
-                    return 0;
+                    return false;
                 }
 
                 if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
                 {
-                    return 0;
+                    return false;
                 }
 
-                if (CanMoveInDirection_554080(2) && CanMoveInDirection_554080(3))
+                if (CanMoveInDirection_554080(path_direction::down_2) && CanMoveInDirection_554080(path_direction::right_3))
                 {
                     if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos + 1,
                                                                        this->field_26_ypos,
                                                                        this->field_27_zpos,
-                                                                       2,
+                                                                       path_direction::down_2,
                                                                        &byte_6FDEEC,
                                                                        1))
                     {
-                        return 0;
+                        return false;
                     }
                     bCanMove = gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos,
                                                                               this->field_26_ypos + 1,
                                                                               this->field_27_zpos,
-                                                                              3,
+                                                                              path_direction::right_3,
                                                                               &byte_6FDEEC,
                                                                               1);
                     return bCanMove == 0;
                 }
-                return 0;
+                return false;
             }
 
             if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos, this->field_26_ypos - 1, this->field_27_zpos))
             {
-                return 0;
+                return false;
             }
 
             if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
             {
-                return 0;
+                return false;
             }
 
-            if (!CanMoveInDirection_554080(1) || !CanMoveInDirection_554080(3))
+            if (!CanMoveInDirection_554080(path_direction::up_1) || !CanMoveInDirection_554080(path_direction::right_3))
             {
-                return 0;
+                return false;
             }
 
             if (gMap_0x370_6F6268
-                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos, 1, &byte_6FDEEC, 1))
+                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &byte_6FDEEC, 1))
             {
-                return 0;
+                return false;
             }
             //v29 = 3;
             //LABEL_73:
             bCanMove = gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos,
                                                                       this->field_26_ypos - 1,
                                                                       this->field_27_zpos,
-                                                                      3,
+                                                                      path_direction::right_3,
                                                                       &byte_6FDEEC,
                                                                       1);
             return bCanMove == 0;
@@ -161,26 +165,26 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type xpos2, char_typ
         {
             if (gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos, this->field_26_ypos - 1, this->field_27_zpos))
             {
-                return 0;
+                return false;
             }
 
             if (gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos))
             {
-                return 0;
+                return false;
             }
 
-            if (!CanMoveInDirection_554080(1) || !CanMoveInDirection_554080(4) ||
+            if (!CanMoveInDirection_554080(path_direction::up_1) || !CanMoveInDirection_554080(path_direction::left_4) ||
                 gMap_0x370_6F6268
-                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, 1, &byte_6FDEEC, 1))
+                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &byte_6FDEEC, 1))
             {
-                return 0;
+                return false;
             }
             //v29 = 4;
             //goto LABEL_73;
             bCanMove = gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos,
                                                                       this->field_26_ypos - 1,
                                                                       this->field_27_zpos,
-                                                                      4,
+                                                                      path_direction::left_4,
                                                                       &byte_6FDEEC,
                                                                       1);
             return bCanMove == 0;
@@ -188,32 +192,32 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(char_type xpos2, char_typ
 
         if (gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos))
         {
-            return 0;
+            return false;
         }
 
         if (gMap_0x370_6F6268->get_block_4DFE10(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos))
         {
-            return 0;
+            return false;
         }
 
-        if (!CanMoveInDirection_554080(2) || !CanMoveInDirection_554080(4))
+        if (!CanMoveInDirection_554080(path_direction::down_2) || !CanMoveInDirection_554080(path_direction::left_4))
         {
-            return 0;
+            return false;
         }
 
         return !gMap_0x370_6F6268
-                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, 2, &byte_6FDEEC, 1) &&
+                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::down_2, &byte_6FDEEC, 1) &&
             gMap_0x370_6F6268
-                ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos, 4, &byte_6FDEEC, 1) == 0;
+                ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos, path_direction::left_4, &byte_6FDEEC, 1) == 0;
     }
 
     else if (xd == -1)
     {
-        return CanMoveInDirection_554080(4);
+        return CanMoveInDirection_554080(path_direction::left_4);
     }
     else
     {
-        return CanMoveInDirection_554080(3);
+        return CanMoveInDirection_554080(path_direction::right_3);
     }
 }
 

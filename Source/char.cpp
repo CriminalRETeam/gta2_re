@@ -1917,104 +1917,71 @@ void Char_B4::sub_54C090()
     this->field_46_timer = 100;
 }
 
-WIP_FUNC(0x54c1a0)
-char_type Char_B4::CanMoveOntoSlope_54C1A0(s32 a2)
+MATCH_FUNC(0x54c1a0)
+char_type Char_B4::CanMoveOntoSlope_54C1A0(s32 path_direction)
 {
-    WIP_IMPLEMENTED;
-
-    Sprite* pSprite; // eax
-    Fix16 x_fp; // ebp
-    Fix16 y_fp; // edi
-    s32 y; // edi
-    s32 x; // ebp
-    gmp_block_info* pBlock1; // eax
-    gmp_block_info* pBlock3; // eax
-    gmp_block_info* block2; // eax
-    gmp_block_info* pBlock4; // eax
-    Fix16 zpos_frac; // ecx
-    char_type result; // al
-    char bUnknown; // [esp+12h] [ebp-Eh]
-    u8 v16; // [esp+13h] [ebp-Dh] BYREF
-    s32 tmpZ; // [esp+18h] [ebp-8h]
-    Fix16 zpos; // [esp+1Ch] [ebp-4h]
-
     u8 slope_type = 0;
-    pSprite = this->field_80_sprite_ptr;
-    bUnknown = 0;
-    x_fp = pSprite->field_14_xy.x;
-    y_fp = pSprite->field_14_xy.y;
-    zpos = pSprite->field_1C_zpos;
-    tmpZ = (zpos.ToInt()) - 1;
-    if (this->field_10_char_state == 15 || this->field_8_ped_state_1 == ped_state_1::dead_9 || field_7C_pPed->IsField238_45EDE0(2) ||
-        this->field_7C_pPed->field_240_occupation == ped_ocupation_enum::drone)
+    char_type bUnknown = 0;
+    Fix16 x_fp = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 y_fp = field_80_sprite_ptr->field_14_xy.y;
+    Fix16 zpos = field_80_sprite_ptr->field_1C_zpos;
+    s32 tmpZ = (zpos.ToInt()) - 1;
+    if (field_10_char_state == 15 || field_8_ped_state_1 == ped_state_1::dead_9 || field_7C_pPed->IsField238_45EDE0(2) ||
+        field_7C_pPed->get_occupation_403980() == ped_ocupation_enum::drone)
     {
         bUnknown = 1;
     }
-    if ((this->field_58_flags & 1) == 1)
+    if ((field_58_flags & 1) == 1)
     {
         tmpZ = zpos.ToInt();
     }
-    y = y_fp.ToInt();
-    x = x_fp.ToInt();
-    if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(x, y, zpos.ToInt(), a2, &v16, 0))
+
+    s32 x = x_fp.ToInt();
+    s32 y = y_fp.ToInt();
+    s32 z = zpos.ToInt();
+    u8 bUnknown_2;
+    if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(x, y, z, path_direction, &bUnknown_2, 0))
     {
         return 0;
     }
-    switch (a2)
+
+    gmp_block_info* pBlock;
+
+    switch (path_direction)
     {
-        case 1:
-            pBlock1 = gMap_0x370_6F6268->get_block_4DFE10(x, y - 1, tmpZ);
-            if (!pBlock1)
-            {
-                goto LABEL_18;
-            }
-            slope_type = pBlock1->field_B_slope_type & 3;
+        case path_direction::up_1:
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() - 1, tmpZ);
             break;
-        case 2:
-            block2 = gMap_0x370_6F6268->get_block_4DFE10(x, y + 1, tmpZ);
-            if (!block2)
-            {
-                goto LABEL_18;
-            }
-            slope_type = block2->field_B_slope_type & 3;
+        case path_direction::right_3:
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() + 1, y_fp.ToInt(), tmpZ);
             break;
-        case 3:
-            pBlock3 = gMap_0x370_6F6268->get_block_4DFE10(x + 1, y, tmpZ);
-            if (!pBlock3)
-            {
-                goto LABEL_18;
-            }
-            slope_type = pBlock3->field_B_slope_type & 3;
+        case path_direction::down_2:
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() + 1, tmpZ);
             break;
-        case 4:
-            pBlock4 = gMap_0x370_6F6268->get_block_4DFE10(x - 1, y, tmpZ);
-            if (pBlock4)
-            {
-                slope_type = pBlock4->field_B_slope_type & 3;
-            }
-            else
-            {
-            LABEL_18:
-                slope_type = 0;
-            }
+        case path_direction::left_4:
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() - 1, y_fp.ToInt(), tmpZ);
             break;
         default:
             break;
     }
 
+    Fix16 zpos_frac;
+    char_type result;
+
     switch (slope_type)
     {
-        case 0:
-            if ((this->field_58_flags & 1) != 1)
+        case AIR:
+            if ((field_58_flags & 1) != 1)
             {
                 return 0;
             }
             zpos_frac = zpos.GetFracValue();
+
             if (zpos_frac < k_dword_6FD8DC)
             {
-                this->field_58_flags &= ~1;
-                result = CanMoveOntoSlope_54C1A0(a2);
-                this->field_58_flags |= 1u;
+                field_58_flags &= ~1;
+                result = CanMoveOntoSlope_54C1A0(path_direction);
+                field_58_flags |= 1;
                 return result;
             }
 
@@ -2023,17 +1990,21 @@ char_type Char_B4::CanMoveOntoSlope_54C1A0(s32 a2)
                 return 0;
             }
 
-            this->field_58_flags &= ~1;
-            this->field_80_sprite_ptr->field_1C_zpos += Fix16(1);
-            result = CanMoveOntoSlope_54C1A0(a2);
-            this->field_80_sprite_ptr->field_1C_zpos -= Fix16(1);
-            this->field_58_flags |= 1u;
+            field_58_flags &= ~1;
+            field_80_sprite_ptr->field_1C_zpos += Fix16(1);
+            result = CanMoveOntoSlope_54C1A0(path_direction);
+            field_80_sprite_ptr->field_1C_zpos -= Fix16(1);
+            field_58_flags |= 1u;
             break;
-        case 1:
-        case 3:
-            return bUnknown != 0;
-        case 2:
-        case 4:
+        case ROAD:
+        case FIELD:
+            if (bUnknown)
+            {
+                return true;
+            }
+            return false;
+        case PAVEMENT:
+        case 4: // ???
             return 1;
         default:
             return 0;

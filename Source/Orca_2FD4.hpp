@@ -27,9 +27,9 @@ class Orca_2FD4
     {
         init_5545E0();
     }
-    EXPORT bool CanMoveInDirection_554080(s32 a2);
-    EXPORT char_type TestDiagonalMove_5540E0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6);
-    EXPORT char_type Internel_CanMoveDiagonally_554110(char_type a2, char_type a3);
+    EXPORT bool CanMoveInDirection_554080(s32 path_direction);
+    EXPORT char_type TestDiagonalMove_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos);
+    EXPORT char_type Internel_CanMoveDiagonally_554110(u8 desired_xpos, u8 desired_ypos);
     EXPORT void Internel_ClearGrid_5545C0();
     EXPORT void init_5545E0();
 
