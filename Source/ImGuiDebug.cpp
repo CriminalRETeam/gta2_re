@@ -14,6 +14,7 @@
 #include "Hud.hpp"
 #include "Kfc_1E0.hpp"
 #include "MapRenderer.hpp"
+#include "Network_20324.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
@@ -37,6 +38,7 @@
 #include "root_sound.hpp"
 #include "ExplodingScore_100.hpp"
 #include "CarAI_78.hpp"
+#include <direct.h>
 #include <stdarg.h>
 
 #include "HookLoader.hpp"
@@ -697,7 +699,7 @@ static void DisplayTextAtScreenCoords(char* pStr, s16 screen_xpos, s16 screen_yp
     DisplayWideTextAtScreenCoords(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos);
 }
 
-void BootMap(const char* mapName, const char* styName, const char* scrName)
+void BootMap(char* mapName, char* styName, char* scrName)
 {
     if (gFrontend_67DC84 && gFrontend_67DC84->field_110_state == FrontendState::Unknown_1)
     {
@@ -731,6 +733,120 @@ void AddMenuOption(u32 page_idx, s16 xpos, s16 ypos, wchar_t* pLabelStr, s16 tar
             0x32u);
     gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_80_menu_page_target = target_page;
     gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_0_number_of_options++;
+}
+
+Network_Enumerated_Map multiplayer_maps[100];
+char mmp_maps_description[100][256];
+bool bExtMapsLoaded = false;
+u16 total_num_maps_loaded = 0;
+
+void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
+{
+    CHAR FileName[260];
+    Network_Enumerated_Map enumerated_mmp_name[99];
+    Network_Enumerated_Map *pIter;
+    _WIN32_FIND_DATAA findFileData;
+    
+    memset(&findFileData, 0, sizeof(findFileData));
+    strcpy(FileName, "data\\");
+    strcat(FileName, "*.mmp");
+
+    u32 map_count = 0;
+    HANDLE hFindFile = FindFirstFileA(FileName, &findFileData);
+    if (hFindFile != (HANDLE)-1)
+    {
+        map_count = 1;
+        strcpy(enumerated_mmp_name[0].field_0_map_name, findFileData.cFileName);
+        for (; FindNextFileA(hFindFile, &findFileData); map_count += 1)
+        {
+            pIter = &enumerated_mmp_name[map_count];
+            if (map_count >= 100)
+            {
+                break;
+            }
+            pIter++;
+            strcpy(pIter->field_0_map_name, findFileData.cFileName);
+        }
+        FindClose(hFindFile);
+    }
+
+    u32 total_map_count = 0;
+    if (map_count > 0)
+    {
+        for (u32 i = 0; i < map_count; i++)
+        {
+            strcpy(FileName, "data\\");
+            strcat(FileName, (const char *)enumerated_mmp_name[i].field_0_map_name);
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "GMPFile",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_0_map_name),
+                0x103u,
+                FileName
+            );
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "STYFile",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_104_style_name),
+                0x103u,
+                FileName
+            );
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "SCRFile",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_208_script_name),
+                0x103u,
+                FileName
+            );
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "Description",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_310_maybe_description),
+                0x103u,
+                FileName
+            );
+            // Now check if the map exists
+            _chdir("data");
+            if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_0_map_name) != -1
+                && GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_104_style_name) != -1
+                && GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_208_script_name) != -1)
+            {
+                memcpy(&pOut[total_map_count], &enumerated_mmp_name[i], sizeof(Network_Enumerated_Map));
+                strcpy(&mmp_maps_description[total_map_count][0], (const char*)&enumerated_mmp_name[i].field_310_maybe_description);
+                total_map_count++;
+            }
+            _chdir("..");
+        }
+    }
+    num_maps_loaded = total_map_count;
+}
+
+// Transform char[][] into char* array
+char* flat_char_array(char* pArray, u16 num_itens)
+{
+    char flattened_arr[25600];
+    u16 flat_idx = 0;
+    for (u16 i = 0; i < num_itens; i++)
+    {
+        while (*pArray)
+        {
+            flattened_arr[flat_idx] = *pArray;
+            ++pArray;
+            ++flat_idx;
+        }
+        flattened_arr[flat_idx] = 0;
+        flat_idx++;
+
+        while (!*pArray)
+        {
+            pArray++;
+        }
+    }
+    return flattened_arr;
 }
 
 namespace HookManagement
@@ -2639,17 +2755,36 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
+        if (ImGui::Button("Load multiplayer maps"))
+        {
+            LoadMapsFromData(multiplayer_maps, total_num_maps_loaded);
+            bExtMapsLoaded = true;
+        }
+
+        if (bExtMapsLoaded)
+        {
+            ImGui::Value("Total loaded maps", total_num_maps_loaded);
+            static int currentMapIndex = 0;
+            if (ImGui::Combo("Map", &currentMapIndex, (const char*)flat_char_array((char*)mmp_maps_description, total_num_maps_loaded), total_num_maps_loaded))
+            {
+                // Map selection changed
+            }
+            if (ImGui::Button("Load external map"))
+            {
+                //BootMap("mp1-comp.gmp", "bil.sty", "mp1-6p.scr");
+                BootMap(multiplayer_maps[currentMapIndex].field_0_map_name,
+                    multiplayer_maps[currentMapIndex].field_104_style_name,
+                    multiplayer_maps[currentMapIndex].field_208_script_name
+                );
+            }
+        }
+
         if (ImGui::TreeNode("Debug Frontend"))
         {
             //if (gFrontend_67DC84)
             {
                 if (ImGui::TreeNode("Special settings"))
                 {
-                    if (ImGui::Button("Load external map (WIP)"))
-                    {
-                        BootMap("mp1-comp.gmp", "bil.sty", "mp1-6p.scr");
-                    }
-
                     if (ImGui::Button("Add new menu option (WIP)"))
                     {
                         AddMenuOption(MENUPAGE_PLAY, 300, 415, L"TEST OPTION", 264);
