@@ -4541,7 +4541,6 @@ bool Char_B4::CanStepInDirection_551350(Ang16 ang)
 MATCH_FUNC(0x551400)
 void Char_B4::ChooseNextMovementTile_551400()
 {
-    // OBS: CanReachTile_550090 has u8 arg type
     s32 saved_direction = dword_623F44;
     switch (dword_623F44)
     {
@@ -4673,11 +4672,125 @@ void Char_B4::ChooseNextMovementTile_551400()
     field_55 = 40;
 }
 
-STUB_FUNC(0x5516f0)
-char_type Char_B4::SelectNextTileFast_5516F0()
+MATCH_FUNC(0x5516f0)
+void Char_B4::SelectNextTileFast_5516F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 saved_direction = dword_623F44;
+    switch (dword_623F44)
+    {
+        case 1:
+        case 2:
+            if (field_7C_pPed->Get_F1C4_x_492CE0() >= dword_6FD7F8)
+            {
+                word_6FD808 = word_6FDA64;
+                if (Char_B4::CanReachTile_550090(byte_6FDAD8 + 1, byte_6FDAD9))
+                {
+                    field_72 = byte_6FDAD8 + 1;
+                    field_73 = byte_6FDAD9;
+                    return;
+                }
+                else
+                {
+                    word_6FD808 = word_6FD904;
+                    if (Char_B4::CanReachTile_550090(byte_6FDAD8 - 1, byte_6FDAD9))
+                    {
+                        field_72 = byte_6FDAD8 - 1;
+                        field_73 = byte_6FDAD9;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                word_6FD808 = word_6FD904;
+                if (Char_B4::CanReachTile_550090(byte_6FDAD8 - 1, byte_6FDAD9))
+                {
+                    field_72 = byte_6FDAD8 - 1;
+                    field_73 = byte_6FDAD9;
+                    return;
+                }
+                else
+                {
+                    word_6FD808 = word_6FDA64;
+                    if (Char_B4::CanReachTile_550090(byte_6FDAD8 + 1, byte_6FDAD9))
+                    {
+                        field_72 = byte_6FDAD8 + 1;
+                        field_73 = byte_6FDAD9;
+                        return;
+                    }
+                }
+            }
+
+            if (saved_direction == 1)
+            {
+                field_72 = byte_6FDAD8;
+                field_73 = byte_6FDAD9 + 1;
+            }
+            else
+            {
+                field_72 = byte_6FDAD8;
+                field_73 = byte_6FDAD9 - 1;
+            }
+            break;
+
+        case 3:
+        case 4:
+
+            if (field_7C_pPed->Get_F1C4_y_492CF0() >= dword_6FD800)
+            {
+                word_6FD808 = word_6FDB3C;
+                if (Char_B4::CanReachTile_550090(byte_6FDAD8, byte_6FDAD9 + 1))
+                {
+                    field_72 = byte_6FDAD8;
+                    field_73 = byte_6FDAD9 + 1;
+                    return;
+                }
+                else
+                {
+                    word_6FD808 = word_6FD8E8;
+                    if (Char_B4::CanReachTile_550090(byte_6FDAD8, byte_6FDAD9 - 1))
+                    {
+                        field_72 = byte_6FDAD8;
+                        field_73 = byte_6FDAD9 - 1;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                word_6FD808 = word_6FD8E8;
+                if (Char_B4::CanReachTile_550090(byte_6FDAD8, byte_6FDAD9 - 1))
+                {
+                    field_72 = byte_6FDAD8;
+                    field_73 = byte_6FDAD9 - 1;
+                    return;
+                }
+                else
+                {
+                    word_6FD808 = word_6FDB3C;
+                    if (Char_B4::CanReachTile_550090(byte_6FDAD8, byte_6FDAD9 + 1))
+                    {
+                        field_72 = byte_6FDAD8;
+                        field_73 = byte_6FDAD9 + 1;
+                        return;
+                    }
+                }
+            }
+
+            if (saved_direction == 3)
+            {
+                field_72 = byte_6FDAD8 - 1;
+                field_73 = byte_6FDAD9;
+            }
+            else
+            {
+                field_72 = byte_6FDAD8 + 1;
+                field_73 = byte_6FDAD9;
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 MATCH_FUNC(0x5519F0)

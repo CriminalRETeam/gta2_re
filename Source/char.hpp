@@ -278,7 +278,7 @@ class Char_B4
     EXPORT Ang16 GetNextRotationToward_550F60(Ang16 a3);
     EXPORT bool CanStepInDirection_551350(Ang16 angle);
     EXPORT void ChooseNextMovementTile_551400();
-    EXPORT char_type SelectNextTileFast_5516F0();
+    EXPORT void SelectNextTileFast_5516F0();
     //EXPORT void state_1_5504F0();
     EXPORT void state_1_5519F0();
     EXPORT void state_3_551A00();
