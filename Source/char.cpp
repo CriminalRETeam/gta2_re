@@ -4237,13 +4237,15 @@ LABEL_65:
             Ang16::PolarToCartesian_41FC20(field_1C_zpos, dword_6FD828, pMaybeX_FP16, pMaybeY_FP16);
         }
     LABEL_87:
+        pMaybeX_FP16 += dword_6FD7F8;
+        pMaybeY_FP16 += dword_6FD800;
         u8 x_u8 = pMaybeX_FP16.ToUInt8();
         u8 y_u8 = pMaybeY_FP16.ToUInt8();
         if (unk_xpos != x_u8 || unk_ypos != y_u8)
         {
             Char_B4::ManageZCoordAndSlopes_548590();
-            /*
-            if (!Char_B4::CanReachTile_550090(x_u8, y_u8)) // u8 type?
+            
+            if (!Char_B4::CanReachTile_550090(x_u8, y_u8))
             {
                 field_58_flags_bf.b7 = true;
                 if (field_C_ped_state_2 == ped_state_2::Unknown_3)
@@ -4257,7 +4259,7 @@ LABEL_65:
                 v73 = word_6FD808;
                 field_1C_zpos = word_6FD808;
             }
-            */
+            
         }
     }
 
