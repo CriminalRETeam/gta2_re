@@ -481,6 +481,16 @@ class Ped
         this->field_1CC_z = a2;
     }
 
+    Fix16 Get_F1C4_x_492CE0()
+    {
+        return field_1C4_x;
+    }
+
+    Fix16 Get_F1C4_y_492CF0()
+    {
+        return field_1C8_y;
+    }
+
     // TODO: to use this inline we need to fix a circular dependency issue
     inline s32 get_car_model();
 

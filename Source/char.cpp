@@ -3786,7 +3786,7 @@ bool Char_B4::CanStepForward_54FEC0(s32 direction)
 }
 
 MATCH_FUNC(0x550090)
-bool Char_B4::CanReachTile_550090(s32 xpos, s32 ypos)
+bool Char_B4::CanReachTile_550090(u8 xpos, u8 ypos)
 {
     bool bRes_1;
     bool bRes_2;
@@ -4538,11 +4538,139 @@ bool Char_B4::CanStepInDirection_551350(Ang16 ang)
     return Char_B4::CanReachTile_550090(x_pos.ToInt(), y_pos.ToInt());
 }
 
-STUB_FUNC(0x551400)
-char_type Char_B4::ChooseNextMovementTile_551400()
+MATCH_FUNC(0x551400)
+void Char_B4::ChooseNextMovementTile_551400()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // OBS: CanReachTile_550090 has u8 arg type
+    s32 saved_direction = dword_623F44;
+    switch (dword_623F44)
+    {
+        case 1:
+        case 2:
+            if (field_7C_pPed->Get_F1C4_x_492CE0() <= dword_6FD7F8)
+            {
+                word_6FD808 = word_6FDA64;
+                if (Char_B4::CanReachTile_550090(byte_6FDAD8 + 1, byte_6FDAD9))
+                {
+                    field_72 = byte_6FDAD8 + 1;
+                    field_73 = byte_6FDAD9;
+                    field_60 = 3;
+                    field_55 = 40;
+                    return;
+                }
+                else
+                {
+                    word_6FD808 = word_6FD904;
+                    if (Char_B4::CanReachTile_550090(byte_6FDAD8 - 1, byte_6FDAD9))
+                    {
+                        field_72 = byte_6FDAD8 - 1;
+                        field_73 = byte_6FDAD9;
+                        field_60 = 4;
+                        field_55 = 40;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                word_6FD808 = word_6FD904;
+                if (Char_B4::CanReachTile_550090(byte_6FDAD8 - 1, byte_6FDAD9))
+                {
+                    field_72 = byte_6FDAD8 - 1;
+                    field_73 = byte_6FDAD9;
+                    field_60 = 4;
+                    field_55 = 40;
+                    return;
+                }
+                else
+                {
+                    word_6FD808 = word_6FDA64;
+                    if (Char_B4::CanReachTile_550090(byte_6FDAD8 + 1, byte_6FDAD9))
+                    {
+                        field_72 = byte_6FDAD8 + 1;
+                        field_73 = byte_6FDAD9;
+                        field_60 = 3;
+                        field_55 = 40;
+                        return;
+                    }
+                }
+            }
+
+            if (saved_direction == 1)
+            {
+                field_72 = byte_6FDAD8;
+                field_73 = byte_6FDAD9 + 1;
+            }
+            else
+            {
+                field_72 = byte_6FDAD8;
+                field_73 = byte_6FDAD9 - 1;
+            }
+            break;
+
+        case 3:
+        case 4:
+
+            if (field_7C_pPed->Get_F1C4_y_492CF0() <= dword_6FD800)
+            {
+                word_6FD808 = word_6FDB3C;
+                if (Char_B4::CanReachTile_550090(byte_6FDAD8, byte_6FDAD9 + 1))
+                {
+                    field_72 = byte_6FDAD8;
+                    field_73 = byte_6FDAD9 + 1;
+                    field_55 = 40;
+                    return;
+                }
+                else
+                {
+                    word_6FD808 = word_6FD8E8;
+                    if (Char_B4::CanReachTile_550090(byte_6FDAD8, byte_6FDAD9 - 1))
+                    {
+                        field_72 = byte_6FDAD8;
+                        field_73 = byte_6FDAD9 - 1;
+                        field_55 = 40;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                word_6FD808 = word_6FD8E8;
+                if (Char_B4::CanReachTile_550090(byte_6FDAD8, byte_6FDAD9 - 1))
+                {
+                    field_72 = byte_6FDAD8;
+                    field_73 = byte_6FDAD9 - 1;
+                    field_55 = 40;
+                    return;
+                }
+                else
+                {
+                    word_6FD808 = word_6FDB3C;
+                    if (Char_B4::CanReachTile_550090(byte_6FDAD8, byte_6FDAD9 + 1))
+                    {
+                        field_72 = byte_6FDAD8;
+                        field_73 = byte_6FDAD9 + 1;
+                        field_55 = 40;
+                        return;
+                    }
+                }
+            }
+
+            if (saved_direction == 3)
+            {
+                field_72 = byte_6FDAD8 - 1;
+                field_73 = byte_6FDAD9;
+            }
+            else
+            {
+                field_72 = byte_6FDAD8 + 1;
+                field_73 = byte_6FDAD9;
+            }
+            break;
+        default:
+            break;
+    }
+    field_55 = 40;
 }
 
 STUB_FUNC(0x5516f0)
