@@ -2294,73 +2294,92 @@ void CC ImGuiDebugDraw()
                 }
 
                 Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
-                while (pPedIter)
+
+                if (ImGui::TreeNode("Show Objectives"))
                 {
-                    char buffer[128];
-                    sprintf(buffer, "Ped %d %s", pPedIter->field_200_id, GetOccupationStrFromPed(pPedIter));
-                    if (ImGui::TreeNode(buffer))
+                    while (pPedIter)
                     {
-                        ImGui::Begin(buffer);
+                        char buffer[128];
+                        sprintf(buffer, "Ped %d %s", pPedIter->field_200_id, GetOccupationStrFromPed(pPedIter));
+                        if (ImGui::TreeNode(buffer))
+                        {
+                            ImGui::Begin(buffer);
 
-                        ImGui::SliderS16("wanted points", &pPedIter->field_20A_wanted_points, 0, 12000);
-                        ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 32767);
-                        ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
-                        ShowPedBitMask(pPedIter);
-                        ShowPedBitMaskSetting((BitSet32*)&pPedIter->field_21C);
+                            ImGui::SliderS16("wanted points", &pPedIter->field_20A_wanted_points, 0, 12000);
+                            ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 32767);
+                            ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
+                            ShowPedBitMask(pPedIter);
+                            ShowPedBitMaskSetting((BitSet32*)&pPedIter->field_21C);
 
-                        ImGui::End();
-                        ImGui::TreePop();
-                    }
+                            ImGui::End();
+                            ImGui::TreePop();
+                        }
 
-                    if (pPedIter->field_240_occupation == ped_ocupation_enum::mugger
-                        || pPedIter->field_240_occupation == ped_ocupation_enum::car_thief)
-                    {
-                        swprintf(tmpBuff_67BD9C, L"(%d, %d)", 
-                        pPedIter->field_21C_bf.b2,
-                        pPedIter->field_21C_bf.b11);
-                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                        if (pPedIter->field_240_occupation == ped_ocupation_enum::mugger
+                            || pPedIter->field_240_occupation == ped_ocupation_enum::car_thief)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"(%d, %d)", 
+                            pPedIter->field_21C_bf.b2,
+                            pPedIter->field_21C_bf.b11);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_7)
+                        {
+                            DisplayTextAtSprite("Obj 7", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_8)
+                        {
+                            DisplayTextAtSprite("Obj 8", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_9)
+                        {
+                            DisplayTextAtSprite("Obj 9", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_10) 
+                        {
+                            DisplayTextAtSprite("Obj 10", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_11) 
+                        {
+                            DisplayTextAtSprite("Obj 11", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_15) 
+                        {
+                            DisplayTextAtSprite("Obj 15", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_17) 
+                        {
+                            DisplayTextAtSprite("Obj 17", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_18) 
+                        {
+                            DisplayTextAtSprite("Obj 18", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_28) 
+                        {
+                            DisplayTextAtSprite("Obj 28", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_43) 
+                        {
+                            DisplayTextAtSprite("Obj 43", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        pPedIter = pPedIter->mpNext;
                     }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_7)
+                    ImGui::TreePop();
+                }
+
+                if (ImGui::TreeNode("Show Fields"))
+                {
+                    while (pPedIter)
                     {
-                        DisplayTextAtSprite("Obj 7", pPedIter->GetSprite_46DF50(), 0, 0);
+                        if (pPedIter->field_168_game_object)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        pPedIter = pPedIter->mpNext;
                     }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_8)
-                    {
-                        DisplayTextAtSprite("Obj 8", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_9)
-                    {
-                        DisplayTextAtSprite("Obj 9", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_10) 
-                    {
-                        DisplayTextAtSprite("Obj 10", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_11) 
-                    {
-                        DisplayTextAtSprite("Obj 11", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_15) 
-                    {
-                        DisplayTextAtSprite("Obj 15", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_17) 
-                    {
-                        DisplayTextAtSprite("Obj 17", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_18) 
-                    {
-                        DisplayTextAtSprite("Obj 18", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_28) 
-                    {
-                        DisplayTextAtSprite("Obj 28", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_43) 
-                    {
-                        DisplayTextAtSprite("Obj 43", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    pPedIter = pPedIter->mpNext;
+                    ImGui::TreePop();
                 }
             }
             ImGui::TreePop();

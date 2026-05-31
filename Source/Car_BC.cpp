@@ -2195,91 +2195,63 @@ bool Car_BC::sub_43B540(u8 targetDoor)
     return false;
 }
 
+// https://decomp.me/scratch/2BtJU
 WIP_FUNC(0x43b5a0)
 void Car_BC::GetDoorWorldPosition_43B5A0(u8 target_door, Fix16* pOutX, Fix16* pOutY)
 {
     WIP_IMPLEMENTED;
 
-    s32 target_door_ = (u8)target_door;
-    Fix16 remap_0_val;
-    Fix16 remap_1_val;
+    Fix16 door_relative_xpos;
+    Fix16 door_relative_ypos;
 
-    u8* pRemap_0 = &gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx)[2 * target_door_ + 1];
+    u8* pRemap_0 = &gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx)[2 * target_door + 1];
 
-    u8 remap_0 = pRemap_0[0];
-    // TODO: Probably sub_41FE70 ??
-    if ((pRemap_0[0] & 0x80u) == 0)
+    door_relative_xpos = dword_6F6850.sub_41FE70(pRemap_0[0]);
+    door_relative_ypos = dword_6F6850.sub_41FE70(pRemap_0[1]);
+
+    if (door_relative_xpos >= dword_677908)
     {
-        remap_0_val = dword_6F6850.list[remap_0];
+        door_relative_xpos -= dword_677908;
     }
     else
     {
-        remap_0_val = -dword_6F6850.list[-remap_0];
-    }
-
-    u8 remap_1 = pRemap_0[1];
-    if (remap_1 >= 0)
-    {
-        remap_1_val = dword_6F6850.list[remap_1];
-    }
-    else
-    {
-        remap_1_val = -dword_6F6850.list[-remap_1];
-    }
-
-    Fix16 x_sin_mul = remap_1_val;
-    Fix16 y_sin_mul = remap_1_val;
-
-    if (remap_0_val < dword_677908)
-    {
-        if (remap_0_val <= -dword_677908)
+        if (door_relative_xpos <= -dword_677908)
         {
-            remap_0_val += dword_677908;
+            door_relative_xpos += dword_677908;
         }
     }
-    else
-    {
-        remap_0_val -= dword_677908;
-    }
 
-    switch (target_door_)
+    switch (target_door)
     {
         case 0:
-            goto LABEL_17;
-
+            door_relative_xpos += dword_6772BC;
+            break;
         case 1:
         case 3:
-            remap_0_val -= dword_6772BC;
+            door_relative_xpos -= dword_6772BC;
             break;
-
         case 2:
-            if (remap_0_val == gFix16_6777CC)
+            if (door_relative_xpos == gFix16_6777CC)
             {
-                x_sin_mul = remap_1_val - dword_6772BC;
-                y_sin_mul = remap_1_val - dword_6772BC;
+                door_relative_ypos -= dword_6772BC;
             }
-            else if (remap_0_val >= gFix16_6777CC)
+            else if (door_relative_xpos < gFix16_6777CC)
             {
-            LABEL_17:
-                remap_0_val += dword_6772BC;
+                door_relative_xpos -= dword_6772BC;
             }
             else
             {
-                remap_0_val -= dword_6772BC;
+                door_relative_xpos += dword_6772BC;
             }
             break;
-
         default:
             break;
     }
 
-    const s16 ang_v = field_50_car_sprite->field_0.rValue;
+    Ang16::RotateVector_41FC90(door_relative_xpos, door_relative_ypos, field_50_car_sprite->field_0);
 
-    Fix16 x_base = (remap_0_val * gCos_table_669260[ang_v]) + (x_sin_mul * gSin_table_667A80[ang_v]);
-    Fix16 y_base = (-remap_0_val * gSin_table_667A80[ang_v]) + (y_sin_mul * gCos_table_669260[ang_v]);
-
-    *pOutX = x_base + field_50_car_sprite->field_14_xy.x;
-    *pOutY = y_base + field_50_car_sprite->field_14_xy.y;
+    *pOutX = door_relative_xpos + field_50_car_sprite->field_14_xy.x;
+    *pOutY = door_relative_ypos + field_50_car_sprite->field_14_xy.y;
 }
 
 MATCH_FUNC(0x43b730)
