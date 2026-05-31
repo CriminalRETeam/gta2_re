@@ -4842,12 +4842,75 @@ bool Frontend::sub_4B74F0()
     return result;
 }
 
-STUB_FUNC(0x4B7360)
-char_type Frontend::sub_4B7360(char_type a2)
+// https://decomp.me/scratch/kyxJQ
+WIP_FUNC(0x4B7360)
+char_type Frontend::sub_4B7360(u8 a2)
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return 0;
+    WIP_IMPLEMENTED;
+
+    player_stats_0xA4* player_stats = GetCurrPlayerStats_4B43E0();
+
+    u8 main_stage_idx = a2 >> 4;
+    u8 bonus_stage_idx = a2 & 0xF;
+
+    u8 og_main_stage_idx = main_stage_idx;
+    u8 og_bonus_stage_idx = bonus_stage_idx;
+
+    u8 bFirstIteration = true;
+
+    while (!player_stats->field_0_plyr_stage_stats[main_stage_idx][bonus_stage_idx].field_0_is_stage_unlocked || bFirstIteration)
+    {
+        bFirstIteration = false;
+        if (bonus_stage_idx == field_1EB51_num_bonus_stages[main_stage_idx] - 1)
+        {
+            bonus_stage_idx = 1;
+            if (main_stage_idx != field_1EB50_num_main_stages - 1)
+            {
+                main_stage_idx++;
+            }
+            else if (bIsLeftRightLoopEnabled_67DA80)
+            {
+                main_stage_idx = 0;
+            }
+            else
+            {
+                main_stage_idx = og_main_stage_idx;
+                bonus_stage_idx = og_bonus_stage_idx;
+            }
+
+            u8 main_idx = main_stage_idx;
+            if (field_1EB51_num_bonus_stages[main_idx] == 1)
+            {
+                while (main_idx == field_1EB50_num_main_stages - 1)
+                {
+                    if (bIsLeftRightLoopEnabled_67DA80)
+                    {
+                        main_stage_idx = 0;
+                    }
+                    else
+                    {
+                        main_stage_idx = og_main_stage_idx;
+                        bonus_stage_idx = og_bonus_stage_idx;
+                    }
+
+                    main_idx = main_stage_idx;
+                    if (field_1EB51_num_bonus_stages[main_idx] != 1)
+                    {
+                        break;
+                    }
+                    main_stage_idx++;
+                }
+                // nothing here
+            }
+            // nothing here
+        }
+        else
+        {
+            bonus_stage_idx++;
+        }
+    }
+
+    return bonus_stage_idx | (main_stage_idx << 4);
 }
 
 MATCH_FUNC(0x4B7520)

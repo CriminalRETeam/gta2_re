@@ -468,7 +468,7 @@ struct Frontend
 
     EXPORT bool sub_4B74F0();
 
-    EXPORT char_type sub_4B7360(char_type a2);
+    EXPORT char_type sub_4B7360(u8 a2);
 
     EXPORT bool sub_4B7520();
 
