@@ -460,7 +460,7 @@ struct Frontend
 
     EXPORT void StripPlayerNameToCurrLength_4B42B0();
 
-    EXPORT char_type sub_4B7120(char_type a2);
+    EXPORT char_type sub_4B7120(u8 a2);
 
     EXPORT void UpdateBonusStageArrows_4B7610();
 
