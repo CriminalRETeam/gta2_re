@@ -33,7 +33,7 @@ DEFINE_GLOBAL(s8, byte_6FDB48, 0x6FDB48);
 DEFINE_GLOBAL(s8, byte_6FDB49, 0x6FDB49);
 DEFINE_GLOBAL(u32, gB4_id_6FDB4C, 0x6FDB4C);
 
-DEFINE_GLOBAL_INIT(s32, dword_623F44, 1, 0x623F44);
+DEFINE_GLOBAL_INIT(s32, dword_623F44, path_direction::up_1, 0x623F44);
 DEFINE_GLOBAL(Fix16, dword_6FD80C, 0x6FD80C);
 
 DEFINE_GLOBAL_INIT(Ang16, word_6FD936, Ang16(720), 0x6FD936);
@@ -155,7 +155,7 @@ void __stdcall sub_544F70()
     byte_6FDB53 = 0;
     byte_6FDB54 = 0;
     byte_6FDB55 = 0;
-    dword_623F44 = 1;
+    dword_623F44 = path_direction::up_1;
     byte_6FDB56 = 0;
     byte_623F48 = 1;
     byte_6FDAD8 = k_dword_6FD9E4.ToUInt8();
@@ -2359,7 +2359,7 @@ void Char_B4::ApplyMovement_54CC40()
 
     switch (dword_623F44)
     {
-        case 1:
+        case path_direction::up_1:
             switch (octant)
             {
                 case 0:
@@ -2427,7 +2427,7 @@ void Char_B4::ApplyMovement_54CC40()
             }
             break;
 
-        case 2:
+        case path_direction::down_2:
             switch (octant)
             {
                 case 0:
@@ -2496,7 +2496,7 @@ void Char_B4::ApplyMovement_54CC40()
             }
             break;
 
-        case 3:
+        case path_direction::right_3:
             switch (octant)
             {
                 case 0:
@@ -2536,7 +2536,7 @@ void Char_B4::ApplyMovement_54CC40()
             }
             break;
 
-        case 4:
+        case path_direction::left_4:
             switch (octant)
             {
                 case 0:
@@ -3249,7 +3249,7 @@ bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
     }
 }
 
-// https://decomp.me/scratch/r1IyX
+// https://decomp.me/scratch/adQYN
 WIP_FUNC(0x54ef60)
 bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 {
@@ -3346,9 +3346,9 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     {
                         pSprt_inlined_1->field_1C_zpos = sprite_zpos;
                     }
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(1) && !gMap_0x370_6F6268->sub_4E0110())
+                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
                     {
-                        dword_623F44 = 1;
+                        dword_623F44 = path_direction::up_1;
                         bUnk_1 = false;
                     }
                     field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
@@ -3365,9 +3365,9 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     {
                         pSprt_inlined_2->field_1C_zpos = sprite_zpos;
                     }
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110())
+                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
                     {
-                        dword_623F44 = 4;
+                        dword_623F44 = path_direction::left_4;
                         bUnk_1 = false;
                     }
                     field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
@@ -3377,11 +3377,11 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     {
                         dword_6FD8BC = dword_6FD800;
                         dword_6FD8B8 = dword_6FD7F8;
-                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110() ||
-                            (dword_623F44 = 1, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(1)) ||
+                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110() ||
+                            (dword_623F44 = path_direction::up_1, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1)) ||
                             gMap_0x370_6F6268->sub_4E0110())
                         {
-                            dword_623F44 = 4;
+                            dword_623F44 = path_direction::left_4;
                             field_45 = old_f45;
                             return bUnk_1;
                         }
@@ -3392,17 +3392,17 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                         }
                     }
 
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110())
+                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
                     {
                         bUnk_1 = false;
-                        dword_623F44 = 4;
+                        dword_623F44 = path_direction::left_4;
                     }
 
                     // goto LABEL_43;
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(1) && !gMap_0x370_6F6268->sub_4E0110())
+                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
                     {
                         bUnk_1 = false;
-                        dword_623F44 = 2;
+                        dword_623F44 = path_direction::down_2;
                     }
                     field_45 = old_f45;
                     return bUnk_1;
@@ -3422,9 +3422,9 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             {
                 pSprt_inlined_3->field_1C_zpos = sprite_zpos;
             }
-            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(2) && !gMap_0x370_6F6268->sub_4E0110())
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
             {
-                dword_623F44 = 2;
+                dword_623F44 = path_direction::down_2;
                 bUnk_1 = false;
             }
             field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
@@ -3442,9 +3442,9 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                 pSprt_inlined_4->field_1C_zpos = sprite_zpos;
             }
 
-            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110())
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
             {
-                dword_623F44 = 4;
+                dword_623F44 = path_direction::left_4;
                 bUnk_1 = false;
             }
             field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
@@ -3454,10 +3454,10 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             {
                 dword_6FD8BC = dword_6FD800;
                 dword_6FD8B8 = dword_6FD7F8;
-                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110() ||
-                    (dword_623F44 = 2, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(2)) || gMap_0x370_6F6268->sub_4E0110())
+                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110() ||
+                    (dword_623F44 = path_direction::down_2, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2)) || gMap_0x370_6F6268->sub_4E0110())
                 {
-                    dword_623F44 = 4;
+                    dword_623F44 = path_direction::left_4;
                     field_45 = old_f45;
                     return bUnk_1;
                 }
@@ -3468,15 +3468,15 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                 }
             }
 
-            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(4) && !gMap_0x370_6F6268->sub_4E0110())
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
             {
                 bUnk_1 = false;
-                dword_623F44 = 4;
+                dword_623F44 = path_direction::left_4;
             }
-            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(2) && !gMap_0x370_6F6268->sub_4E0110())
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
             {
                 bUnk_1 = false;
-                dword_623F44 = 2;
+                dword_623F44 = path_direction::down_2;
             }
             // label 46
             field_45 = old_f45;
@@ -3499,9 +3499,9 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             {
                 pSprt_inlined_5->field_1C_zpos = sprite_zpos;
             }
-            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(1) && !gMap_0x370_6F6268->sub_4E0110())
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
             {
-                dword_623F44 = 1;
+                dword_623F44 = path_direction::up_1;
                 bUnk_1 = false;
             }
             field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
@@ -3517,9 +3517,9 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             {
                 pSprt_inlined_6->field_1C_zpos = sprite_zpos;
             }
-            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110())
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
             {
-                dword_623F44 = 3;
+                dword_623F44 = path_direction::right_3;
                 bUnk_1 = false;
             }
             field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
@@ -3527,14 +3527,14 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
             if (bUnk_1)
             {
-                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110())
+                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
                 {
                     bUnk_1 = false;
-                    dword_623F44 = 3;
+                    dword_623F44 = path_direction::right_3;
                 }
-                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(1) && !gMap_0x370_6F6268->sub_4E0110())
+                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
                 {
-                    dword_623F44 = 1;
+                    dword_623F44 = path_direction::up_1;
                     field_45 = old_f45;
                     return false;
                 }
@@ -3546,10 +3546,10 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             }
             dword_6FD8BC = dword_6FD800;
             dword_6FD8B8 = dword_6FD7F8;
-            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110() ||
-                (dword_623F44 = 1, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(1)) || gMap_0x370_6F6268->sub_4E0110())
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110() ||
+                (dword_623F44 = path_direction::up_1, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1)) || gMap_0x370_6F6268->sub_4E0110())
             {
-                dword_623F44 = 3;
+                dword_623F44 = path_direction::right_3;
                 field_45 = old_f45;
                 return bUnk_1;
             }
@@ -3574,9 +3574,9 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             {
                 pSprt_inlined_7->field_1C_zpos = sprite_zpos;
             }
-            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(2) && !gMap_0x370_6F6268->sub_4E0110())
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
             {
-                dword_623F44 = 2;
+                dword_623F44 = path_direction::down_2;
                 bUnk_1 = false;
             }
             field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
@@ -3592,9 +3592,9 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             {
                 pSprt_inlined_8->field_1C_zpos = sprite_zpos;
             }
-            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110())
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
             {
-                dword_623F44 = 3;
+                dword_623F44 = path_direction::right_3;
                 bUnk_1 = false;
             }
             field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
@@ -3602,15 +3602,15 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
             if (bUnk_1)
             {
-                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110())
+                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
                 {
                     bUnk_1 = false;
-                    dword_623F44 = 3;
+                    dword_623F44 = path_direction::right_3;
                 }
-                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(2) && !gMap_0x370_6F6268->sub_4E0110())
+                if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
                 {
                     bUnk_1 = false;
-                    dword_623F44 = 2;
+                    dword_623F44 = path_direction::down_2;
                 }
                 field_45 = old_f45;
                 return bUnk_1;
@@ -3619,10 +3619,10 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 
             dword_6FD8BC = dword_6FD800;
             dword_6FD8B8 = dword_6FD7F8;
-            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(3) && !gMap_0x370_6F6268->sub_4E0110() ||
-                (dword_623F44 = 2, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(2)) || gMap_0x370_6F6268->sub_4E0110())
+            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110() ||
+                (dword_623F44 = path_direction::down_2, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2)) || gMap_0x370_6F6268->sub_4E0110())
             {
-                dword_623F44 = 3;
+                dword_623F44 = path_direction::right_3;
                 field_45 = old_f45;
                 return bUnk_1;
             }
@@ -3876,14 +3876,14 @@ bool Char_B4::CanReachTile_550090(u8 xpos, u8 ypos)
                     if (!Char_B4::CanReachTile_550090(xpos, ypos))
                     {
                         bRes_2 = false;
-                        dword_623F44 = 3;
+                        dword_623F44 = path_direction::right_3;
                     }
                     field_80_sprite_ptr->field_14_xy.x = original_x;
                     field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
                     if (!Char_B4::CanReachTile_550090(xpos, ypos))
                     {
                         bRes_2 = false;
-                        dword_623F44 = 1;
+                        dword_623F44 = path_direction::up_1;
                     }
                     field_80_sprite_ptr->field_14_xy.x = original_x;
                     field_80_sprite_ptr->field_14_xy.y = original_y;
@@ -3891,13 +3891,13 @@ bool Char_B4::CanReachTile_550090(u8 xpos, u8 ypos)
                                                       field_80_sprite_ptr->field_14_xy.y.ToInt()))
                     {
                         bRes_2 = false;
-                        dword_623F44 = 1;
+                        dword_623F44 = path_direction::up_1;
                     }
                     if (!Char_B4::CanReachTile_550090(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                       (field_80_sprite_ptr->field_14_xy.y - k_dword_6FD9E8).ToInt()))
                     {
                         bRes_2 = false;
-                        dword_623F44 = 3;
+                        dword_623F44 = path_direction::right_3;
                     }
                     return bRes_2;
                 }
@@ -3935,23 +3935,23 @@ bool Char_B4::CanReachTile_550090(u8 xpos, u8 ypos)
         {
             if (diff_x == -1)
             {
-                if (Char_B4::CanStepForward_54FEC0(4))
+                if (Char_B4::CanStepForward_54FEC0(path_direction::left_4))
                 {
                     return true;
                 }
                 else
                 {
-                    dword_623F44 = 4;
+                    dword_623F44 = path_direction::left_4;
                     return false;
                 }
             }
-            else if (Char_B4::CanStepForward_54FEC0(3))
+            else if (Char_B4::CanStepForward_54FEC0(path_direction::right_3))
             {
                 return true;
             }
             else
             {
-                dword_623F44 = 3;
+                dword_623F44 = path_direction::right_3;
                 return false;
             }
         }
@@ -3964,23 +3964,23 @@ bool Char_B4::CanReachTile_550090(u8 xpos, u8 ypos)
         }
         if (diff_y == -1)
         {
-            if (Char_B4::CanStepForward_54FEC0(1))
+            if (Char_B4::CanStepForward_54FEC0(path_direction::up_1))
             {
                 return true;
             }
             else
             {
-                dword_623F44 = 1;
+                dword_623F44 = path_direction::up_1;
                 return false;
             }
         }
-        else if (Char_B4::CanStepForward_54FEC0(2))
+        else if (Char_B4::CanStepForward_54FEC0(path_direction::down_2))
         {
             return true;
         }
         else
         {
-            dword_623F44 = 2;
+            dword_623F44 = path_direction::down_2;
             return false;
         }
     }
