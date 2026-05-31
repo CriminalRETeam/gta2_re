@@ -175,7 +175,7 @@ class Ped
     EXPORT void sub_46AB50();
     EXPORT char_type FollowTargetStateMachine_46AC20();
     EXPORT void ChaseTargetStateMachine_46B170();
-    EXPORT s32 PullDriverOutOfCarStateMachine_46B2F0();
+    EXPORT void PullDriverOutOfCarStateMachine_46B2F0();
     EXPORT void MeleeAttackStateMachine_46B670();
     EXPORT void sub_46BD30();
     EXPORT char_type sub_46BD50(Car_BC* pCar);
@@ -479,6 +479,16 @@ class Ped
     void Set_F1CC_z_433C70(Fix16 a2)
     {
         this->field_1CC_z = a2;
+    }
+
+    Fix16 Get_F1C4_x_492CE0()
+    {
+        return field_1C4_x;
+    }
+
+    Fix16 Get_F1C4_y_492CF0()
+    {
+        return field_1C8_y;
     }
 
     // TODO: to use this inline we need to fix a circular dependency issue

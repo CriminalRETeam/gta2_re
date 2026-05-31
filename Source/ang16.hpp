@@ -296,12 +296,12 @@ class Ang16
     EXPORT u8 ToAng4_405680();
 
     // TODO: move with CarDoorAlignmentSolver_545AF0
-    // https://decomp.me/scratch/6VBR0
+    // https://decomp.me/scratch/6VBR0  (matched)
     static inline void __stdcall RotateVector_41FC90(Fix16& xpos, Fix16& ypos, Ang16& rotation)
     {
         Fix16 old_xpos = xpos;
         xpos = xpos * Ang16::cosine_40F520(rotation) + ypos * Ang16::sine_40F500(rotation);
-        ypos = old_xpos * Ang16::sine_40F500(rotation) - ypos * Ang16::cosine_40F520(rotation);
+        ypos = (-old_xpos) * Ang16::sine_40F500(rotation) + ypos * Ang16::cosine_40F520(rotation);
     }
 
     s16 rValue;

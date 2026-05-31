@@ -14,6 +14,7 @@
 #include "Hud.hpp"
 #include "Kfc_1E0.hpp"
 #include "MapRenderer.hpp"
+#include "Network_20324.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
@@ -37,6 +38,7 @@
 #include "root_sound.hpp"
 #include "ExplodingScore_100.hpp"
 #include "CarAI_78.hpp"
+#include <direct.h>
 #include <stdarg.h>
 
 #include "HookLoader.hpp"
@@ -697,29 +699,6 @@ static void DisplayTextAtScreenCoords(char* pStr, s16 screen_xpos, s16 screen_yp
     DisplayWideTextAtScreenCoords(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos);
 }
 
-void BootMap(const char* mapName, const char* styName, const char* scrName)
-{
-    if (gFrontend_67DC84 && gFrontend_67DC84->field_110_state == FrontendState::Unknown_1)
-    {
-        char fullPath[256];
-
-        gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
-        strcpy(fullPath, "data\\");
-        strcat(fullPath, mapName);
-        gLucid_hamilton_67E8E0.SetMapName_4C5870(fullPath);
-        strcpy(fullPath, "data\\");
-        strcat(fullPath, styName);
-        gLucid_hamilton_67E8E0.SetStyleName_4C5890(fullPath);
-        strcpy(fullPath, "data\\");
-        strcat(fullPath, scrName);
-        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(fullPath);
-
-        gLucid_hamilton_67E8E0.sub_4C5AD0(0);
-        gFrontend_67DC84->field_EE08 = RedBar_16;
-        gFrontend_67DC84->field_110_state = FrontendState::Booting_Map_2;
-    }
-}
-
 void AddMenuOption(u32 page_idx, s16 xpos, s16 ypos, wchar_t* pLabelStr, s16 target_page)
 {
     u16 num_options = gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_0_number_of_options;
@@ -731,6 +710,120 @@ void AddMenuOption(u32 page_idx, s16 xpos, s16 ypos, wchar_t* pLabelStr, s16 tar
             0x32u);
     gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_80_menu_page_target = target_page;
     gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_0_number_of_options++;
+}
+
+Network_Enumerated_Map multiplayer_maps[100];
+char mmp_maps_description[100][256];
+bool bExtMapsLoaded = false;
+u16 total_num_maps_loaded = 0;
+
+void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
+{
+    CHAR FileName[260];
+    Network_Enumerated_Map enumerated_mmp_name[99];
+    Network_Enumerated_Map *pIter;
+    _WIN32_FIND_DATAA findFileData;
+    
+    memset(&findFileData, 0, sizeof(findFileData));
+    strcpy(FileName, "data\\");
+    strcat(FileName, "*.mmp");
+
+    u32 map_count = 0;
+    HANDLE hFindFile = FindFirstFileA(FileName, &findFileData);
+    if (hFindFile != (HANDLE)-1)
+    {
+        map_count = 1;
+        strcpy(enumerated_mmp_name[0].field_0_map_name, findFileData.cFileName);
+        for (; FindNextFileA(hFindFile, &findFileData); map_count += 1)
+        {
+            pIter = &enumerated_mmp_name[map_count];
+            if (map_count >= 100)
+            {
+                break;
+            }
+            pIter++;
+            strcpy(pIter->field_0_map_name, findFileData.cFileName);
+        }
+        FindClose(hFindFile);
+    }
+
+    u32 total_map_count = 0;
+    if (map_count > 0)
+    {
+        for (u32 i = 0; i < map_count; i++)
+        {
+            strcpy(FileName, "data\\");
+            strcat(FileName, (const char *)enumerated_mmp_name[i].field_0_map_name);
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "GMPFile",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_0_map_name),
+                0x103u,
+                FileName
+            );
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "STYFile",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_104_style_name),
+                0x103u,
+                FileName
+            );
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "SCRFile",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_208_script_name),
+                0x103u,
+                FileName
+            );
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "Description",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_310_maybe_description),
+                0x103u,
+                FileName
+            );
+            // Now check if the map exists
+            _chdir("data");
+            if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_0_map_name) != -1
+                && GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_104_style_name) != -1
+                && GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_208_script_name) != -1)
+            {
+                memcpy(&pOut[total_map_count], &enumerated_mmp_name[i], sizeof(Network_Enumerated_Map));
+                strcpy(&mmp_maps_description[total_map_count][0], (const char*)&enumerated_mmp_name[i].field_310_maybe_description);
+                total_map_count++;
+            }
+            _chdir("..");
+        }
+    }
+    num_maps_loaded = total_map_count;
+}
+
+// Transform char[][] into char* array
+char* flat_char_array(char* pArray, u16 num_itens)
+{
+    char flattened_arr[25600];
+    u16 flat_idx = 0;
+    for (u16 i = 0; i < num_itens; i++)
+    {
+        while (*pArray)
+        {
+            flattened_arr[flat_idx] = *pArray;
+            ++pArray;
+            ++flat_idx;
+        }
+        flattened_arr[flat_idx] = 0;
+        flat_idx++;
+
+        while (!*pArray)
+        {
+            pArray++;
+        }
+    }
+    return flattened_arr;
 }
 
 namespace HookManagement
@@ -873,6 +966,35 @@ static void HooksDebug()
         } 
     }
 }
+}
+
+void BootMap(char* mapName, char* styName, char* scrName)
+{
+    if (gFrontend_67DC84 && gFrontend_67DC84->field_110_state == FrontendState::Unknown_1)
+    {
+        char fullPath[256];
+
+        gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
+        strcpy(fullPath, "data\\");
+        strcat(fullPath, mapName);
+        gLucid_hamilton_67E8E0.SetMapName_4C5870(fullPath);
+        strcpy(fullPath, "data\\");
+        strcat(fullPath, styName);
+        gLucid_hamilton_67E8E0.SetStyleName_4C5890(fullPath);
+        strcpy(fullPath, "data\\");
+        strcat(fullPath, scrName);
+        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(fullPath);
+
+        gLucid_hamilton_67E8E0.sub_4C5AD0(0);
+
+        if (!HookManagement::GetEnumerateFuncsFn()) // if standalone version
+        {
+            EnableBoot2MapDebugOptions();
+        }
+
+        gFrontend_67DC84->field_EE08 = RedBar_16;
+        gFrontend_67DC84->field_110_state = FrontendState::Booting_Map_2;
+    }
 }
 
 void CC ImGuiDebugDraw()
@@ -2172,73 +2294,92 @@ void CC ImGuiDebugDraw()
                 }
 
                 Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
-                while (pPedIter)
+
+                if (ImGui::TreeNode("Show Objectives"))
                 {
-                    char buffer[128];
-                    sprintf(buffer, "Ped %d %s", pPedIter->field_200_id, GetOccupationStrFromPed(pPedIter));
-                    if (ImGui::TreeNode(buffer))
+                    while (pPedIter)
                     {
-                        ImGui::Begin(buffer);
+                        char buffer[128];
+                        sprintf(buffer, "Ped %d %s", pPedIter->field_200_id, GetOccupationStrFromPed(pPedIter));
+                        if (ImGui::TreeNode(buffer))
+                        {
+                            ImGui::Begin(buffer);
 
-                        ImGui::SliderS16("wanted points", &pPedIter->field_20A_wanted_points, 0, 12000);
-                        ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 32767);
-                        ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
-                        ShowPedBitMask(pPedIter);
-                        ShowPedBitMaskSetting((BitSet32*)&pPedIter->field_21C);
+                            ImGui::SliderS16("wanted points", &pPedIter->field_20A_wanted_points, 0, 12000);
+                            ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 32767);
+                            ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
+                            ShowPedBitMask(pPedIter);
+                            ShowPedBitMaskSetting((BitSet32*)&pPedIter->field_21C);
 
-                        ImGui::End();
-                        ImGui::TreePop();
-                    }
+                            ImGui::End();
+                            ImGui::TreePop();
+                        }
 
-                    if (pPedIter->field_240_occupation == ped_ocupation_enum::mugger
-                        || pPedIter->field_240_occupation == ped_ocupation_enum::car_thief)
-                    {
-                        swprintf(tmpBuff_67BD9C, L"(%d, %d)", 
-                        pPedIter->field_21C_bf.b2,
-                        pPedIter->field_21C_bf.b11);
-                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                        if (pPedIter->field_240_occupation == ped_ocupation_enum::mugger
+                            || pPedIter->field_240_occupation == ped_ocupation_enum::car_thief)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"(%d, %d)", 
+                            pPedIter->field_21C_bf.b2,
+                            pPedIter->field_21C_bf.b11);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_7)
+                        {
+                            DisplayTextAtSprite("Obj 7", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_8)
+                        {
+                            DisplayTextAtSprite("Obj 8", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_9)
+                        {
+                            DisplayTextAtSprite("Obj 9", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_10) 
+                        {
+                            DisplayTextAtSprite("Obj 10", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_11) 
+                        {
+                            DisplayTextAtSprite("Obj 11", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_15) 
+                        {
+                            DisplayTextAtSprite("Obj 15", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_17) 
+                        {
+                            DisplayTextAtSprite("Obj 17", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_18) 
+                        {
+                            DisplayTextAtSprite("Obj 18", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_28) 
+                        {
+                            DisplayTextAtSprite("Obj 28", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_43) 
+                        {
+                            DisplayTextAtSprite("Obj 43", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        pPedIter = pPedIter->mpNext;
                     }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_7)
+                    ImGui::TreePop();
+                }
+
+                if (ImGui::TreeNode("Show Fields"))
+                {
+                    while (pPedIter)
                     {
-                        DisplayTextAtSprite("Obj 7", pPedIter->GetSprite_46DF50(), 0, 0);
+                        if (pPedIter->field_168_game_object)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        pPedIter = pPedIter->mpNext;
                     }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_8)
-                    {
-                        DisplayTextAtSprite("Obj 8", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_9)
-                    {
-                        DisplayTextAtSprite("Obj 9", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_10) 
-                    {
-                        DisplayTextAtSprite("Obj 10", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_11) 
-                    {
-                        DisplayTextAtSprite("Obj 11", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_15) 
-                    {
-                        DisplayTextAtSprite("Obj 15", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_17) 
-                    {
-                        DisplayTextAtSprite("Obj 17", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_18) 
-                    {
-                        DisplayTextAtSprite("Obj 18", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_28) 
-                    {
-                        DisplayTextAtSprite("Obj 28", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    else if (pPedIter->field_258_objective == objectives_enum::objective_43) 
-                    {
-                        DisplayTextAtSprite("Obj 43", pPedIter->GetSprite_46DF50(), 0, 0);
-                    }
-                    pPedIter = pPedIter->mpNext;
+                    ImGui::TreePop();
                 }
             }
             ImGui::TreePop();
@@ -2638,24 +2779,45 @@ void CC ImGuiDebugDraw()
             }
             ImGui::TreePop();
         }
+        
+        if (ImGui::TreeNode("Special settings"))
+        {
+            if (ImGui::Button("Load multiplayer maps"))
+            {
+                LoadMapsFromData(multiplayer_maps, total_num_maps_loaded);
+                bExtMapsLoaded = true;
+            }
+
+            if (bExtMapsLoaded)
+            {
+                ImGui::Value("Total loaded maps", total_num_maps_loaded);
+                static int currentMapIndex = 0;
+                if (ImGui::Combo("Map", &currentMapIndex, (const char*)flat_char_array((char*)mmp_maps_description, total_num_maps_loaded), total_num_maps_loaded))
+                {
+                    // Map selection changed
+                }
+                if (ImGui::Button("Load external map"))
+                {
+                    //BootMap("mp1-comp.gmp", "bil.sty", "mp1-6p.scr");
+                    BootMap(multiplayer_maps[currentMapIndex].field_0_map_name,
+                        multiplayer_maps[currentMapIndex].field_104_style_name,
+                        multiplayer_maps[currentMapIndex].field_208_script_name
+                    );
+                }
+            }
+        }
 
         if (ImGui::TreeNode("Debug Frontend"))
         {
             //if (gFrontend_67DC84)
             {
-                if (ImGui::TreeNode("Special settings"))
+                
+                if (ImGui::Button("Add new menu option (WIP)"))
                 {
-                    if (ImGui::Button("Load external map (WIP)"))
-                    {
-                        BootMap("mp1-comp.gmp", "bil.sty", "mp1-6p.scr");
-                    }
-
-                    if (ImGui::Button("Add new menu option (WIP)"))
-                    {
-                        AddMenuOption(MENUPAGE_PLAY, 300, 415, L"TEST OPTION", 264);
-                    }
-                    ImGui::TreePop();
+                    AddMenuOption(MENUPAGE_PLAY, 300, 415, L"TEST OPTION", 264);
                 }
+                ImGui::TreePop();
+                
 
                 if (ImGui::TreeNode("Player settings"))
                 {
