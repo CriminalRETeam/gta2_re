@@ -7037,11 +7037,135 @@ void Ped::ChaseTargetStateMachine_46B170()
     }
 }
 
-STUB_FUNC(0x46b2f0)
-s32 Ped::PullDriverOutOfCarStateMachine_46B2F0()
+// https://decomp.me/scratch/1MwH3
+WIP_FUNC(0x46b2f0)
+void Ped::PullDriverOutOfCarStateMachine_46B2F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pCar = field_14C->field_16C_car;
+    field_24C_target_car_door = 0;
+    if (field_14C->field_168_game_object)
+    {
+        field_226 = 2;
+        Ped::ChangeNextPedState1_45C500(0);
+        Ped::ChangeNextPedState2_45C540(0);
+        return;
+    }
+    if (pCar->IsTrainModel_403BA0())
+    {
+        field_226 = 2;
+        Ped::ChangeNextPedState1_45C500(0);
+        Ped::ChangeNextPedState2_45C540(0);
+        return;
+    }
+
+    for (u8 door_num = 0; door_num < (u8)pCar->GetRemap(); door_num++)
+    {
+        if (pCar->IsDoorAccessible_43AFE0(door_num))
+        {
+            field_24C_target_car_door = door_num;
+            pCar->GetDoorWorldPosition_43B5A0(door_num, &field_1C4_x, &field_1C8_y);
+            field_1CC_z = field_14C->field_1AC_cam.z;
+            field_168_game_object->Set_F84_433900(pCar);
+
+            Fix16 d_x_abs = Fix16::Abs(field_1C4_x - field_1AC_cam.x);
+            Fix16 d_y_abs = Fix16::Abs(field_1C8_y - field_1AC_cam.y);
+            if (d_x_abs > d_y_abs)
+            {
+                gDistanceToTarget_678750 = d_x_abs;
+            }
+            else
+            {
+                gDistanceToTarget_678750 = d_y_abs;
+            }
+
+            if (field_14C->field_16C_car->field_84_car_info_idx == car_model_enum::BUS && field_27C_ped_state_2 == ped_state_2::Unknown_8)
+            {
+                gDistanceToTarget_678750 = dword_6784C4;
+            }
+            Fix16 v14 = dword_67856C;
+            if (Ped::sub_45B4E0())
+            {
+                v14 = dword_678428;
+            }
+            if (field_27C_ped_state_2 != ped_state_2::Unknown_9 &&
+                (gDistanceToTarget_678750 >= dword_678780 ||
+                 !abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, field_14C->field_1AC_cam.z) ||
+                 field_278_ped_state_1 == ped_state_1::immobilized_8))
+            {
+                field_168_game_object->field_38_velocity = dword_678448;
+                Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
+            }
+            else
+            {
+                switch (field_27C_ped_state_2)
+                {
+                    case ped_state_2::Unknown_8:
+                        if (pCar->GetVelocity_43A4C0() > v14)
+                        {
+                            field_226 = 2;
+                            Ped::ChangeNextPedState1_45C500(0);
+                            Ped::ChangeNextPedState2_45C540(0);
+                        }
+                        else
+                        {
+                            field_21C_bf.b27 = true;
+                            if (field_168_game_object->field_68_animation_frame == 4)
+                            {
+                                Ped::ChangeNextPedState2_45C540(9);
+                                field_168_game_object->field_68_animation_frame = 9;
+                            }
+                            field_168_game_object->field_10_char_state = 36;
+                            field_168_game_object->field_38_velocity = k_dword_678438;
+                        }
+                        break;
+
+                    case ped_state_2::Unknown_9:
+                        if (field_168_game_object->field_68_animation_frame == 13)
+                        {
+                            field_168_game_object->field_68_animation_frame = 4;
+                            Car_Door_10* Door = pCar->GetDoor(field_24C_target_car_door);
+                            Door->sub_439EA0();
+                            Door->field_8_pObj = 0;
+                            Ped::ChangeNextPedState2_45C540(14);
+                        }
+                        else
+                        {
+                            field_21C_bf.b27 = true;
+                        }
+                        field_168_game_object->SetCharState_433A60(36);
+                        field_168_game_object->field_38_velocity = k_dword_678438;
+                        break;
+
+                    default:
+                        if (pCar->GetVelocity_43A4C0() > v14)
+                        {
+                            field_226 = 2;
+                            Ped::ChangeNextPedState1_45C500(0);
+                            Ped::ChangeNextPedState2_45C540(0);
+                            return;
+                        }
+                        else
+                        {
+                            field_21C_bf.b27 = true;
+                            field_168_game_object->field_6C_animation_state = Char_Anim_state::Unknown_9;
+                            field_168_game_object->field_68_animation_frame = 0;
+                            Ped::ChangeNextPedState1_45C500(7);
+                            Ped::ChangeNextPedState2_45C540(8);
+                            field_168_game_object->SetCharState_433A60(36);
+                            field_168_game_object->SetMaxSpeed_433920(k_dword_678438);
+                        }
+                        break;
+                }
+            }
+            return;
+        }
+    }
+
+    Ped::ChangeNextPedState1_45C500(0);
+    Ped::ChangeNextPedState2_45C540(0);
+    field_226 = 2;
 }
 
 STUB_FUNC(0x46b670)

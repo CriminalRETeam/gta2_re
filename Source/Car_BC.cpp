@@ -2019,7 +2019,7 @@ void Car_BC::sub_43AF60()
 }
 
 MATCH_FUNC(0x43afe0)
-char_type Car_BC::IsDoorAccessible_43AFE0(s32 target_door)
+char_type Car_BC::IsDoorAccessible_43AFE0(u8 target_door)
 {
     Fix16 y;
     Fix16 x;

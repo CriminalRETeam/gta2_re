@@ -211,6 +211,16 @@ class Char_B4
         return field_10_char_state;
     }
 
+    inline void SetCharState_433A60(s32 char_state)
+    {
+        field_10_char_state = char_state;
+    }
+
+    inline void Set_F84_433900(Car_BC* pCar)
+    {
+        field_84 = pCar;
+    }
+
     inline void IncreaseSpeedIfAllowed_433940()
     {
         field_38_velocity += dword_6784BC;

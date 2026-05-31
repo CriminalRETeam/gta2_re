@@ -175,7 +175,7 @@ class Ped
     EXPORT void sub_46AB50();
     EXPORT char_type FollowTargetStateMachine_46AC20();
     EXPORT void ChaseTargetStateMachine_46B170();
-    EXPORT s32 PullDriverOutOfCarStateMachine_46B2F0();
+    EXPORT void PullDriverOutOfCarStateMachine_46B2F0();
     EXPORT void MeleeAttackStateMachine_46B670();
     EXPORT void sub_46BD30();
     EXPORT char_type sub_46BD50(Car_BC* pCar);
