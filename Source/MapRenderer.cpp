@@ -50,6 +50,11 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F6414, Ang16(540), 0x6F6414);
 DEFINE_GLOBAL_INIT(Ang16, word_6F637C, Ang16(180), 0x6F637C);
 DEFINE_GLOBAL_INIT(Ang16, word_6F63EC, Ang16(900), 0x6F63EC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6548, Fix16(0x100000, 0), 0x6F6548);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F64B4, Fix16(1, 0), 0x6F64B4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6578, dword_6F6548 - dword_6F64B4, 0x6F6578);
+DEFINE_GLOBAL(Fix16_Point, stru_6F6588, 0x6F6588);
+DEFINE_GLOBAL(Fix16_Point, stru_6F6598, 0x6F6598);
+DEFINE_GLOBAL(Fix16_Point, qword_6F6590, 0x6F6590);
 DEFINE_GLOBAL(Fix16_Point, stru_6F62A0, 0x6F62A0);
 DEFINE_GLOBAL(Fix16_Point, stru_6F62A8, 0x6F62A8);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6580, 0x6F6580);
@@ -2269,10 +2274,57 @@ void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& a2, Fix16& a3, Fix16& 
     }
 }
 
-STUB_FUNC(0x4F3FB0)
+MATCH_FUNC(0x4F3FB0)
 void __stdcall draw_4F3FB0(s32 arg)
 {
-    NOT_IMPLEMENTED;
+    Fix16_Point tmp;
+    switch (arg & 0x60)
+    {
+        case 32: // rotation code 0
+            stru_6F6580.SetXY_432860(stru_6F6484.x, dword_6F6578);
+            stru_6F6588.SetXY_432860(stru_6F6484.x, stru_6F6484.x);
+            qword_6F6590.SetXY_432860(dword_6F6578, stru_6F6484.x);
+            stru_6F6598.SetXY_432860(dword_6F6578, dword_6F6578);
+            break;
+        case 96: // rotation code 2
+            stru_6F6580.SetXY_432860(dword_6F6578, stru_6F6484.x);
+            stru_6F6588.SetXY_432860(dword_6F6578, dword_6F6578);
+            qword_6F6590.SetXY_432860(stru_6F6484.x, dword_6F6578);
+            stru_6F6598.SetXY_432860(stru_6F6484.x, stru_6F6484.x);
+            break;
+        case 64: // rotation code 1
+            arg ^= 0x18;
+        default: // rotation code 3
+            stru_6F6580.SetXY_432860(stru_6F6484.x, stru_6F6484.x);
+            stru_6F6588.SetXY_432860(dword_6F6578, stru_6F6484.x);
+            qword_6F6590.SetXY_432860(dword_6F6578, dword_6F6578);
+            stru_6F6598.SetXY_432860(stru_6F6484.x, dword_6F6578);
+            break;
+    }
+
+    if ((arg & 0x8) != 0) // maybe rotation code 1
+    {
+        tmp = stru_6F6580;
+        stru_6F6580 = stru_6F6588;
+        stru_6F6588 = tmp;
+
+        tmp = stru_6F6598;
+        stru_6F6598 = qword_6F6590;
+        qword_6F6590 = tmp;
+    }
+    if ((arg & 0x10) != 0) // flip
+    {
+        tmp = stru_6F6580;
+        stru_6F6580 = stru_6F6598;
+        stru_6F6598 = tmp;
+
+        tmp = stru_6F6588;
+        stru_6F6588 = qword_6F6590;
+        qword_6F6590 = tmp;
+    }
+
+    stru_6F62A8 = stru_6F6588 - stru_6F6580;
+    stru_6F62A0 = stru_6F6598 - stru_6F6580;
 }
 
 // https://decomp.me/scratch/NaMFS or https://decomp.me/scratch/hij63
@@ -2523,15 +2575,15 @@ void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
         gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_cam_pos2.field_0_x;
         gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_98_cam_pos2.field_4_y;
 
-        u8 v6 = pBlock->field_B_slope_type & 0xFC;
+        u8 slope = pBlock->field_B_slope_type & 0xFC;
 
-        if (v6 < 0xB4u || v6 > 0xC0u)
+        if (slope < DIAGONAL_WALL_UP_LEFT || slope > DIAGONAL_WALL_DOWN_RIGHT)
         {
-            if (v6 < 0xC4u || v6 > 0xD0u)
+            if (slope < TRIANGULAR_SIDES_DIAGONAL_UP_LEFT || slope > TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
             {
-                if (v6 < 0xD4u || v6 > 0xF4u)
+                if (slope < PARTIAL_BLOCK_LEFT || slope > PARTIAL_CENTRE_BLOCK)
                 {
-                    if (v6 > 0 && v6 < 0xB4u)
+                    if (slope > 0 && slope < DIAGONAL_WALL_UP_LEFT)
                     {
                         MapRenderer::DrawGradientSlope_4F6630();
                     }

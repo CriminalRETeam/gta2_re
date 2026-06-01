@@ -56,6 +56,7 @@ EXTERN_GLOBAL(car_rng_list, dword_676988);
 EXTERN_GLOBAL(car_rng_list, dword_677384);
 
 EXTERN_GLOBAL(u8, byte_6FEB48);
+EXTERN_GLOBAL(Fix16_Point, stru_6F6484);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -1381,6 +1382,30 @@ void CC ImGuiDebugDraw()
                     ImGui::Value("field 19", gpMapRenderer_6F66E4->field_19);
                     ImGui::Value("field 1A", gpMapRenderer_6F66E4->field_1A);
                     ImGui::Value("field 1B", gpMapRenderer_6F66E4->field_1B);
+                    ImGui::TreePop();
+                }
+                if (ImGui::TreeNode("Globals"))
+                {
+                    ImGui::SliderInt("stru_6F6484.x", &stru_6F6484.x.mValue, 0, 32768);
+                    ImGui::SliderInt("stru_6F6484.y", &stru_6F6484.y.mValue, 16, 32768);
+
+                    if (ImGui::Button("Return to default values"))
+                    {
+                        stru_6F6484.x = Fix16(0);
+                        stru_6F6484.y = Fix16(1);
+                    }
+
+                    if (ImGui::Button("Test 1,1"))
+                    {
+                        stru_6F6484.x = Fix16(1);
+                        stru_6F6484.y = Fix16(1);
+                    }
+
+                    if (ImGui::Button("Test 0,2"))
+                    {
+                        stru_6F6484.x = Fix16(0);
+                        stru_6F6484.y = Fix16(2);
+                    }
                     ImGui::TreePop();
                 }
                 ImGui::TreePop();
