@@ -619,8 +619,8 @@ void miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* a1, SCR_POINTER
     if (a1->field_C_rect.field_0_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        a1->field_C_rect.field_0_pos.field_8_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(a1->field_C_rect.field_0_pos.field_0_x,
-                                                                                                a1->field_C_rect.field_0_pos.field_4_y);
+        a1->field_C_rect.field_0_pos.field_8_z =
+            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
     }
     a2->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(139,
                                                               a1->field_C_rect.field_0_pos.field_0_x,
@@ -667,8 +667,8 @@ void miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* a1, SCR_POINTE
     if (a1->field_C_rect.field_0_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        a1->field_C_rect.field_0_pos.field_8_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(a1->field_C_rect.field_0_pos.field_0_x,
-                                                                                                a1->field_C_rect.field_0_pos.field_4_y);
+        a1->field_C_rect.field_0_pos.field_8_z =
+            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
     }
 
     a2->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(141,
@@ -2000,7 +2000,7 @@ void miss2_0x11C::sub_507F80()
     if (*z_coord == dword_6F7570)
     {
         *z_coord = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(*(Fix16*)&((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_4_cmd_next,
-                                                                  *(Fix16*)&((SCR_CMD_HEADER*)gBasePtr_6F8070)[2].field_0_cmd_this);
+                                                                 *(Fix16*)&((SCR_CMD_HEADER*)gBasePtr_6F8070)[2].field_0_cmd_this);
     }
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v3->field_8_car_idx);
     miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((SCR_CAR_DATA_DEC*)gBasePtr_6F8070, (SCR_POINTER*)pPointer);
@@ -3776,16 +3776,12 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
     }
     else
     {
-        pZone1 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(
-            pCmd->field_8_char->get_cam_x().ToInt(),
-            pCmd->field_8_char->get_cam_y().ToInt(),
-            16
-        );
-        pZone2 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(
-            pCmd->field_8_char->get_cam_x().ToInt(),
-            pCmd->field_8_char->get_cam_y().ToInt(),
-            1
-        );
+        pZone1 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(pCmd->field_8_char->get_cam_x().ToInt(),
+                                                                pCmd->field_8_char->get_cam_y().ToInt(),
+                                                                16);
+        pZone2 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(pCmd->field_8_char->get_cam_x().ToInt(),
+                                                                pCmd->field_8_char->get_cam_y().ToInt(),
+                                                                1);
     }
 
     if ((pZone1 && !_strnicmp(pZone1->field_6_name, (const char*)&pStrEntry[1], pZone1->field_5_name_length)) ||
@@ -4066,14 +4062,12 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
         {
             Ped* pChar = pPtr->field_8_char;
 
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(
-                pChar->field_1AC_cam.x,
-                pChar->field_1AC_cam.y,
-                pChar->field_1AC_cam.z,
-                dword_6F804C,
-                explosion_type,
-                0
-            );
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pChar->field_1AC_cam.x,
+                                                      pChar->field_1AC_cam.y,
+                                                      pChar->field_1AC_cam.z,
+                                                      dword_6F804C,
+                                                      explosion_type,
+                                                      0);
 
             break;
         }
@@ -4081,14 +4075,12 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
         {
             Sprite* pSprite = pPtr->field_8_obj->field_4;
 
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(
-                pSprite->field_14_xy.x,
-                pSprite->field_14_xy.y,
-                pSprite->field_1C_zpos,
-                dword_6F804C,
-                explosion_type,
-                0
-            );
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pSprite->field_14_xy.x,
+                                                      pSprite->field_14_xy.y,
+                                                      pSprite->field_1C_zpos,
+                                                      dword_6F804C,
+                                                      explosion_type,
+                                                      0);
 
             break;
         }
@@ -4099,14 +4091,10 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
             gObject_5C_6F8F84->CreateExplosion_52A3D0(
                 pCrane->field_10_pos.field_0_x,
                 pCrane->field_10_pos.field_4_y,
-                gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(
-                    pCrane->field_10_pos.field_0_x,
-                    pCrane->field_10_pos.field_4_y
-                ),
+                gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCrane->field_10_pos.field_0_x, pCrane->field_10_pos.field_4_y),
                 dword_6F804C,
                 explosion_type,
-                0
-            );
+                0);
 
             break;
         }
@@ -4498,10 +4486,164 @@ void miss2_0x11C::sub_50CE50(SCR_CMD_HEADER* pCmd, u16 cmd_idx)
     miss2_0x11C::JumpToCmd_503650(cmd_idx);
 }
 
-STUB_FUNC(0x50ce90)
+MATCH_FUNC(0x50ce90)
 void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
 {
-    NOT_IMPLEMENTED;
+    SCR_PHONE_TEMPLATE* pCmd = (SCR_PHONE_TEMPLATE*)gBasePtr_6F8070;
+
+    SCR_POINTER* pPassedFlag = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_counter1);
+    SCR_POINTER* pFailedFlag = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_counter2);
+    SCR_POINTER* pOnMission0 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_C_counter3b);
+    SCR_POINTER* pOnMission1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_counter3);
+    SCR_POINTER* pOnMission2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_14_counter4);
+    SCR_POINTER* pOnMission3 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_16_counter5);
+
+    str_table_entry* pGangNameEntry = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_18_gangname);
+    char_type* gang_name = (char_type*)&pGangNameEntry[1];
+    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_name);
+
+    s8 player_idx1;
+
+    // If passed previous mission.
+    if (pPassedFlag->field_8_counter >= 1 && pOnMission0->field_8_counter == 0 && pOnMission1->field_8_counter == 0 &&
+        pOnMission2->field_8_counter == 0 && pOnMission3->field_8_counter == 0)
+    {
+        // If enough respect.
+        if ((player_idx1 = gGame_0x40_67E008->field_38_orf1->field_2E_idx,
+             pGang->GetRespectForPlayer_4BEEF0(player_idx1) / 20 >= pCmd->field_1A_respect))
+        {
+            gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag = 0;
+            str_table_entry* mission2_str_table = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_E_mission2);
+            char_type* mission2_name = (char_type*)&mission2_str_table[1];
+            miss2_0x11C::launch_mission_5119A0(gBasePtr_6F8070, mission2_name);
+            return;
+        }
+
+        // Not enough respect.
+        s32 brief_id = pCmd->field_8_brief_id - 7;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+
+    s8 player_idx2;
+
+    // If failed previous mission.
+    if (pFailedFlag->field_8_counter >= 1 && pOnMission0->field_8_counter == 0 && pOnMission1->field_8_counter == 0 &&
+        pOnMission2->field_8_counter == 0 && pOnMission3->field_8_counter == 0)
+    {
+        // If enough respect.
+        if ((player_idx2 = gGame_0x40_67E008->field_38_orf1->field_2E_idx,
+             pGang->GetRespectForPlayer_4BEEF0(player_idx2) / 20 >= pCmd->field_1A_respect))
+        {
+            gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag = 0;
+            str_table_entry* mission2_str_table = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_E_mission2);
+            char_type* mission2_name = (char_type*)&mission2_str_table[1];
+            miss2_0x11C::launch_mission_5119A0(gBasePtr_6F8070, mission2_name);
+            return;
+        }
+
+        // Not enough respect.
+        s32 brief_id = pCmd->field_8_brief_id - 7;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+
+    // If on mission gang 1.
+    if (pOnMission1->field_8_counter >= 1)
+    {
+        s32 brief_id = pCmd->field_8_brief_id - 5;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+
+    // If on mission gang 2.
+    if (pOnMission2->field_8_counter == 1)
+    {
+        s32 brief_id = pCmd->field_8_brief_id - 2;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+
+    // If on mission gang 3.
+    if (pOnMission3->field_8_counter == 1)
+    {
+        s32 brief_id = pCmd->field_8_brief_id - 1;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+
+    // If already passed.
+    if (pPassedFlag->field_8_counter == 1)
+    {
+        s32 brief_id = pCmd->field_8_brief_id;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+
+    // If already failed.
+    if (pFailedFlag->field_8_counter == 1)
+    {
+        s32 brief_id = pCmd->field_8_brief_id + 1;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+
+    s8 player_idx3;
+
+    // Start mission 1 if enough respect.
+    if ((player_idx3 = gGame_0x40_67E008->field_38_orf1->field_2E_idx,
+         pGang->GetRespectForPlayer_4BEEF0(player_idx3) / 20 >= pCmd->field_1A_respect))
+    {
+        gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag = 0;
+        str_table_entry* mission1_str_table = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_1C_mission1);
+        char_type* mission1_name = (char_type*)&mission1_str_table[1];
+        miss2_0x11C::launch_mission_5119A0(gBasePtr_6F8070, mission1_name);
+        return;
+    }
+
+    s8 player_idx4;
+
+    // If zero respect.
+    if ((player_idx4 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, (pGang->GetRespectForPlayer_4BEEF0(player_idx4) / 20) == 0))
+    {
+        s32 brief_id = pCmd->field_8_brief_id - 6;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+
+    s8 player_idx5;
+
+    // If negative respect.
+    if ((player_idx5 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, pGang->GetRespectForPlayer_4BEEF0(player_idx5) / 20 < 0))
+    {
+        s32 brief_id = pCmd->field_8_brief_id - 4;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+    }
+    else // Positive respect, but not enough.
+    {
+        s32 brief_id = pCmd->field_8_brief_id - 7;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+    }
 }
 
 MATCH_FUNC(0x50d200)
