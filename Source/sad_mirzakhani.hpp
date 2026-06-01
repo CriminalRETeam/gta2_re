@@ -43,7 +43,7 @@ class sad_mirzakhani
     EXPORT void sub_431E30();
     EXPORT u16 next_free_idx_431E90();
     EXPORT u16 find_431EC0(u16 idx, s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone);
-    EXPORT u16 alloc_next_431FE0(s16 f_4,
+    EXPORT s16 alloc_next_431FE0(s16 f_4,
                                  s32 f_8,
                                  s32 f_c,
                                  s16 f_10,

@@ -4952,10 +4952,90 @@ void miss2_0x11C::SCRCMD_CHAR_SUNK_50DEB0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50df10)
+MATCH_FUNC(0x50df10)
 void miss2_0x11C::StartBonus_50DF10()
 {
-    NOT_IMPLEMENTED;
+    SCR_START_BONUS* pCmd = (SCR_START_BONUS*)gBasePtr_6F8070;
+
+    s32 car_model = car_model_enum::none;
+    s16 gang_idx = -1;
+    s32 alt_car_model = car_model;
+    s32 occupation = ped_ocupation_enum::no_occupation;
+
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_18_ptr);
+
+    s32 flag;
+
+    if (pCmd->field_A_subtype == 0 || pCmd->field_A_subtype == 2)
+    {
+        flag = true;
+    }
+    else
+    {
+        flag = false;
+    }
+
+    switch (pCmd->field_A_subtype)
+    {
+        case 2:
+        case 3:
+            gang_idx = gGangPool_CA8_67E274->get_gang_idx_by_name_4BF210(
+                gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_E_id)->get_name());
+            break;
+        case 0:
+            if (pCmd->field_E_id != 0xFFFF)
+            {
+                car_model = pCmd->field_E_id;
+
+                // French version neutralizes bonuses against law enforcement.
+                if (bIsFrench_67D53C &&
+                    (car_model == car_model_enum::COPCAR || car_model == car_model_enum::apc || car_model == car_model_enum::GUNJEEP ||
+                     car_model == car_model_enum::JEEP || car_model == car_model_enum::SWATVAN || car_model == car_model_enum::EDSELFBI))
+                {
+                    car_model = car_model_enum::none;
+                }
+            }
+
+            break;
+        case 1:
+            occupation = pCmd->field_E_id;
+
+            // French version neutralizes bonuses against law enforcement.
+            if (bIsFrench_67D53C && (occupation == ped_ocupation_enum::any_law_enforcement || occupation == ped_ocupation_enum::police))
+            {
+                occupation = ped_ocupation_enum::no_occupation;
+            }
+
+            break;
+    }
+
+    s8 f24 = pCmd->field_D != 1 ? 2 : 1;
+
+    if (pCmd->field_12 >= 0)
+    {
+        alt_car_model = pCmd->field_12;
+    }
+
+    // u16 > 0xFFFF is never true, left over dead code?
+    if (pCmd->field_8_zone_str_id > 0xFFFF)
+    {
+        gMap_0x370_6F6268->zone_by_name_4DEFD0(gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_zone_str_id)->get_name());
+    }
+
+    pPtr->field_8_counter = gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.alloc_next_431FE0(flag,
+                                                                                                               car_model,
+                                                                                                               occupation,
+                                                                                                               gang_idx,
+                                                                                                               pCmd->field_B,
+                                                                                                               pCmd->field_1A,
+                                                                                                               alt_car_model,
+                                                                                                               pCmd->field_10,
+                                                                                                               f24,
+                                                                                                               pCmd->field_C,
+                                                                                                               pCmd->field_14,
+                                                                                                               NULL);
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e0b0)

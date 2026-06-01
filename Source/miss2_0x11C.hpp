@@ -356,6 +356,23 @@ struct SCR_PHONE_TEMPLATE : SCR_CMD_HEADER
     u16 field_1E_padding;
 };
 
+struct SCR_START_BONUS : SCR_CMD_HEADER
+{
+    u16 field_8_zone_str_id;
+    u8 field_A_subtype;
+    s8 field_B;
+    s8 field_C;
+    u8 field_D;
+    u16 field_E_id;
+    u16 field_10;
+    s16 field_12;
+    u16 field_14;
+    u16 field_16;
+    u16 field_18_ptr;
+    u8 field_1A;
+    u8 field_1B;
+};
+
 struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
 {
     SCR_XY_uc field_8_min_pos;
