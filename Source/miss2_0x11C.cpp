@@ -4033,10 +4033,86 @@ void miss2_0x11C::SCRCMD_ADD_CHAR_TO_GANG_50C540()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c5a0)
-void miss2_0x11C::sub_50C5A0()
+WIP_FUNC(0x50c5a0)
+void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+
+    s32 explosion_type;
+
+    switch (gBasePtr_6F8070->field_2_type)
+    {
+        case SCRCMD_EXPLODE_LARGE1:
+            explosion_type = 20;
+            break;
+        case SCRCMD_EXPLODE_ITEM:
+            explosion_type = 19;
+            break;
+        case SCRCMD_EXPLODE_SMALL1:
+            explosion_type = 18;
+            break;
+        case SCRCMD_EXPLODE_NO_RING1:
+            explosion_type = 32;
+            break;
+    }
+
+    switch (miss2_0x11C::sub_503410(pPtr->field_2_type))
+    {
+        case 2:
+            pPtr->field_8_car->HandleCarExplosion_43D840(19);
+            break;
+        case 1:
+        {
+            Ped* pChar = pPtr->field_8_char;
+
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(
+                pChar->field_1AC_cam.x,
+                pChar->field_1AC_cam.y,
+                pChar->field_1AC_cam.z,
+                dword_6F804C,
+                explosion_type,
+                0
+            );
+
+            break;
+        }
+        case 3:
+        {
+            Sprite* pSprite = pPtr->field_8_obj->field_4;
+
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(
+                pSprite->field_14_xy.x,
+                pSprite->field_14_xy.y,
+                pSprite->field_1C_zpos,
+                dword_6F804C,
+                explosion_type,
+                0
+            );
+
+            break;
+        }
+        case 4:
+        {
+            SCR_CRANE_TARGET_DEC* pCrane = (SCR_CRANE_TARGET_DEC*)pPtr;
+
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(
+                pCrane->field_10_pos.field_0_x,
+                pCrane->field_10_pos.field_4_y,
+                gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(
+                    pCrane->field_10_pos.field_0_x,
+                    pCrane->field_10_pos.field_4_y
+                ),
+                dword_6F804C,
+                explosion_type,
+                0
+            );
+
+            break;
+        }
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c6f0)
@@ -6452,7 +6528,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case SCRCMD_EXPLODE_LARGE1:
             case SCRCMD_EXPLODE_SMALL1:
             case SCRCMD_EXPLODE_NO_RING1:
-                sub_50C5A0();
+                SCRCMD_EXPLODE_50C5A0();
                 break;
             case SCRCMD_PARK:
             case SCRCMD_PARK_NO_RESPAWN:
