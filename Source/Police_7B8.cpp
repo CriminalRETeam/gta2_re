@@ -152,7 +152,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
         case 3:
             pCop = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
             pCop->field_238 = 4;
-            pCop->field_240_occupation = ped_ocupation_enum::unknown_17;
+            pCop->field_240_occupation = ped_ocupation_enum::roadblock_cop_37;
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
             pCop->field_244_remap = 8;
             pCop->field_26C_graphic_type = 1;
@@ -164,7 +164,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
         case 1:
             pCop = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
             pCop->field_238 = 4;
-            pCop->field_240_occupation = ped_ocupation_enum::unknown_17;
+            pCop->field_240_occupation = ped_ocupation_enum::roadblock_cop_37;
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
             pCop->field_244_remap = 0;
             pCop->field_26C_graphic_type = 2;
@@ -481,13 +481,13 @@ void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix
 {
     if (field_65C == 6)
     {
-        pPed->set_occupation_403970(ped_ocupation_enum::unknown_16);
+        pPed->set_occupation_403970(ped_ocupation_enum::unknown_cop_occu_31);
         pPed->SetField238_403920(3);
         pPed->set_remap_433B90(4);
     }
     else
     {
-        pPed->set_occupation_403970(ped_ocupation_enum::unknown_14);
+        pPed->set_occupation_403970(ped_ocupation_enum::walking_guard_29);
         pPed->SetField238_403920(3);
         pPed->set_remap_433B90(0);
     }
@@ -656,11 +656,64 @@ bool Police_7B8::sub_570790(PoliceCrew_38* a1, Police_7C* a2)
     return true;
 }
 
-STUB_FUNC(0x5707b0)
-char_type Police_7B8::sub_5707B0(Car_BC* a2, Ped* a3)
+// https://decomp.me/scratch/pfRaI
+WIP_FUNC(0x5707b0)
+bool Police_7B8::sub_5707B0(Car_BC* pCar, Ped* pCriminal)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (!pCriminal->is_player_41B0A0())
+    {
+        return false;
+    }
+
+    for (u8 i = 0; i < GTA2_COUNTOF(field_464); i++)
+    {
+        if (field_464[i].field_0_criminal_ped != pCriminal)
+        {
+            continue;
+        }
+
+        if (&field_464[i] == NULL)
+        {
+            return false;
+        }
+
+        Police_7C* p7C = &field_464[i];
+        for (u8 j = 0; j < GTA2_COUNTOF(field_4_cop_crew); j++)
+        {
+            PoliceCrew_38* pCrew = &field_4_cop_crew[j];
+            if (pCrew->field_1C_used && pCrew->field_10_subObj->field_0_car == pCar)
+            {
+                if (pCrew == NULL)
+                {
+                    return false;
+                }
+
+                if (pCrew->field_10_subObj->field_20_maybe_type != 6 && p7C->field_4 == 6)
+                {
+                    return false;
+                }
+
+                p7C->field_8 = 3;
+                pCrew->field_14_pObj = &field_464[i];
+                pCrew->field_24_state = 5;
+                pCrew->sub_570A10();
+
+                if (pCrew->field_10_subObj->field_20_maybe_type != 6)
+                {
+                    pCrew->field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
+                }
+
+                return true;
+            }
+        }
+
+        return false;
+
+    } // end for
+
+    return false;
 }
 
 MATCH_FUNC(0x5708c0)

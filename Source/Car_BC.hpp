@@ -320,7 +320,7 @@ class Car_BC
     EXPORT bool CanExitCar_43AF10();
     EXPORT void sub_43AF40();
     EXPORT void sub_43AF60();
-    EXPORT char_type IsDoorAccessible_43AFE0(s32 target_door);
+    EXPORT char_type IsDoorAccessible_43AFE0(u8 target_door);
     EXPORT bool sub_43B140(s32 a2);
     EXPORT bool sub_43B2B0(Ped* a2);
     EXPORT Car_Door_10* GetDoor(u8 door_idx);

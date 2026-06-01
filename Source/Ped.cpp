@@ -511,7 +511,7 @@ char_type Ped::Reset_45AFC0()
     field_225_objective_status = 0;
     field_226 = 0;
     field_258_objective = objectives_enum::no_obj_0;
-    field_25C_car_state = 0;
+    field_25C_internal_objective = 0;
     field_218_objective_timer = 9999;
     field_21A_car_state_timer = 9999;
     field_1B8_target_x = Fix16(-1);
@@ -539,7 +539,7 @@ char_type Ped::Reset_45AFC0()
     field_21C_bf.b11 = 0;
     field_21C_bf.b12 = 0;
     field_21C_bf.b13 = 0;
-    field_17C_pZone = 0;
+    field_17C_pGang = 0;
     field_262 = 0;
     field_263 = 0;
     field_180 = 0;
@@ -884,7 +884,7 @@ void Ped::ManageBurning_45BEC0()
             {
                 if (field_168_game_object)
                 {
-                    if (field_25C_car_state != 1) // not in flee/running state?
+                    if (field_25C_internal_objective != 1) // not in flee/running state?
                     {
                         field_21C |= ped_bit_status_enum::k_ped_0x00000004;
 
@@ -1202,7 +1202,7 @@ void Ped::RestorePreviousPedState_45C5A0()
 MATCH_FUNC(0x45c5c0)
 void Ped::sub_45C5C0()
 {
-    if (!this->field_16C_car && this->field_258_objective == objectives_enum::enter_car_as_driver_35 && this->field_25C_car_state == 35 &&
+    if (!this->field_16C_car && this->field_258_objective == objectives_enum::enter_car_as_driver_35 && this->field_25C_internal_objective == 35 &&
         this->field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15 &&
         this->field_27C_ped_state_2 != ped_state_2::ped2_entering_a_car_6)
     {
@@ -1774,10 +1774,10 @@ void Ped::Deallocate_45EB60()
         case ped_ocupation_enum::guard:
             --gNumberWalkingCopsSpawned_6787CD;
             break;
-        case ped_ocupation_enum::unknown_10:
+        case ped_ocupation_enum::armed_gang_member_19:
             --byte_6787CE;
             break;
-        case ped_ocupation_enum::unknown_5:
+        case ped_ocupation_enum::bus_customer_8:
             if (--byte_6787D3 < 0)
             {
                 byte_6787D3 = 0;
@@ -1809,11 +1809,11 @@ void Ped::Deallocate_45EB60()
     gOrca_2FD4_6FDEF0->remove_ped_554620(field_200_id);
     gThreateningPedsList_678468.RemovePed_471240(this);
 
-    if (field_17C_pZone)
+    if (field_17C_pGang)
     {
-        if (field_17C_pZone->field_141)
+        if (field_17C_pGang->field_141)
         {
-            field_17C_pZone->field_141 = 0;
+            field_17C_pGang->field_141 = 0;
         }
     }
     field_164_ped_group = field_164_ped_group;
@@ -1909,19 +1909,19 @@ void Ped::sub_45EE00(u32 occupation)
             case ped_ocupation_enum::unknown_2:
             case ped_ocupation_enum::driver:
             case ped_ocupation_enum::unknown_3:
-            case ped_ocupation_enum::unknown_4:
-            case ped_ocupation_enum::unknown_6:
-            case ped_ocupation_enum::driver_2:
-            case ped_ocupation_enum::unknown_7:
-            case ped_ocupation_enum::unknown_8:
-            case ped_ocupation_enum::unknown_9:
+            case ped_ocupation_enum::taxi_customer_7:
+            case ped_ocupation_enum::train_customer_9:
+            case ped_ocupation_enum::robbed_driver_10:
+            case ped_ocupation_enum::fleeing_robbed_driver_11:
+            case ped_ocupation_enum::angry_armed_robbed_driver_12:
+            case ped_ocupation_enum::very_angry_armed_robbed_driver_13:
             case ped_ocupation_enum::psycho:
             case ped_ocupation_enum::mugger:
             case ped_ocupation_enum::car_thief:
             case ped_ocupation_enum::bank_robber:
                 field_240_occupation = occupation;
                 break;
-            case ped_ocupation_enum::unknown_5:
+            case ped_ocupation_enum::bus_customer_8:
                 if (--byte_6787D3 < 0)
                     byte_6787D3 = 0;
                 field_240_occupation = occupation;
@@ -1938,14 +1938,14 @@ void Ped::EnterPublicTransport_45EE70()
     for (gmp_map_zone* pZoneIter = gMap_0x370_6F6268->sub_4DF6A0(field_1AC_cam.x.ToInt(), field_1AC_cam.y.ToInt()); pZoneIter;
          pZoneIter = gMap_0x370_6F6268->next_zone_4DF770())
     {
-        if (bSkip_trains_67D550 || pZoneIter->field_0_zone_type != 6)
+        if (bSkip_trains_67D550 || pZoneIter->field_0_zone_type != Railway_Station_Platform_6)
         {
             if (!bSkip_buses_67D558)
             {
                 if (stru_6F6784.get_int_4F7AE0(100) > 90 && byte_6787D3 < 5 && pZoneIter->field_0_zone_type == 7 &&
                     !gPublicTransport_181C_6FF1D4->is_bus_full_579AF0())
                 {
-                    if (field_25C_car_state != 37 && field_25C_car_state != 38 && this->field_278_ped_state_1 == ped_state_1::walking_0)
+                    if (field_25C_internal_objective != 37 && field_25C_internal_objective != 38 && this->field_278_ped_state_1 == ped_state_1::walking_0)
                     {
                         sub_45EE00(8);
                         SetObjective2_463830(30, 9999);
@@ -1959,7 +1959,7 @@ void Ped::EnterPublicTransport_45EE70()
             TrainStation_34* pTrainStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(pZoneIter);
             if (stru_6F6784.get_int_4F7AE0(100) > 90 && byte_6787D3 < 5)
             {
-                if (field_25C_car_state != 37 && field_25C_car_state != 38 && field_25C_car_state != 12)
+                if (field_25C_internal_objective != 37 && field_25C_internal_objective != 38 && field_25C_internal_objective != 12)
                 {
                     Train_58* pTrain = pTrainStation->field_18;
                     if (pTrain)
@@ -1980,7 +1980,7 @@ void Ped::EnterPublicTransport_45EE70()
 MATCH_FUNC(0x45f360)
 void Ped::Mugger_AI_45F360()
 {
-    if (field_25C_car_state == 2 && field_226 == 1)
+    if (field_25C_internal_objective == 2 && field_226 == 1)
     {
         Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
     }
@@ -2079,7 +2079,7 @@ void Ped::CarThief_AI_45FF60()
     Fix16 xd;
     Fix16 yd;
 
-    if (this->field_25C_car_state == 2 && this->field_226 == 1)
+    if (this->field_25C_internal_objective == 2 && this->field_226 == 1)
     {
         SetObjective2_463830(objectives_enum::no_obj_0, 9999);
     }
@@ -2229,7 +2229,7 @@ void Ped::CarThief_AI_45FF60()
 }
 
 WIP_FUNC(0x460820)
-void Ped::sub_460820()
+void Ped::TaxiCustomer_AI_460820()
 {
     WIP_IMPLEMENTED;
 
@@ -2244,24 +2244,25 @@ void Ped::sub_460820()
     Car_BC* pTargetCar; // edi
     Sprite* pSprite; // eax
 
-    if (this->field_25C_car_state == 2 && this->field_226 == 1)
+    if (this->field_25C_internal_objective == objectives_enum::flee_char_on_foot_till_safe_2 && this->field_226 == 1)
     {
         SetObjective2_463830(objectives_enum::no_obj_0, 9999);
     }
 
     objective = this->field_258_objective;
-    if (objective)
+    if (objective) // any objective other than no_obj_0
     {
         if (objective == objectives_enum::time_waited_in_car_31)
         {
+            // It is in the taxi
             if (field_150_target_objective_car->GetVelocity_43A4C0() != k_dword_678660)
             {
-                this->field_218_objective_timer = 0;
+                field_218_objective_timer = 0; // taxi is moving, reset timer
             }
             target_objective_car = this->field_150_target_objective_car;
             if (target_objective_car->field_88 == 5)
             {
-                Kill_46F9D0();
+                Kill_46F9D0(); // taxi is wreck/destroyed, kill the passenger
             }
             else
             {
@@ -2271,6 +2272,7 @@ void Ped::sub_460820()
                 }
                 if (!target_objective_car->field_54_driver || (this->field_21C & 0x20000000) != 0)
                 {
+                    // taxi without driver -> exit
                     SetObjective(objectives_enum::leave_car_36, 9999);
                     sub_45EE00(3);
                     pCar_ = this->field_16C_car;
@@ -2279,6 +2281,7 @@ void Ped::sub_460820()
                 }
                 else if (this->field_218_objective_timer == 150)
                 {
+                    // taxi is stopped long enough, exit the car
                     SetObjective(objectives_enum::flee_char_always_once_car_stopped_6, 9999);
                     this->field_148_objective_target_ped = this->field_16C_car->field_54_driver;
                 }
@@ -2286,16 +2289,19 @@ void Ped::sub_460820()
         }
         else
         {
-            if (objective != objectives_enum::enter_car_as_driver_35)
+            // It is on foot
+            if (objective != objectives_enum::enter_car_as_driver_35) // TODO: shouldn't it be enter car as passenger?
             {
                 return;
             }
             objectiveStatus = this->field_225_objective_status;
-            if (objectiveStatus == 1)
+            if (objectiveStatus == objective_status::passed_1)
             {
+                // It entered the taxi
                 pTargetObjCar = this->field_150_target_objective_car;
                 if (pTargetObjCar->field_88 == 5)
                 {
+                    // Taxi is wreck, kill it
                     // kill_and_ret:
                     Kill_46F9D0();
                     return;
@@ -2310,20 +2316,22 @@ void Ped::sub_460820()
             }
             else
             {
-                if (objectiveStatus == 2)
+                // Its objective enter as passenger was not passed yet
+                if (objectiveStatus == objective_status::failed_2)
                 {
+                    // Ped failed to reach car
                     pTargetObjCar_ = this->field_150_target_objective_car;
                     if (pTargetObjCar_->field_88 != 5)
                     {
+                        // reinit taxi AI?
                         pTargetObjCar_->sub_43AF40();
                     }
                     SetObjective(objectives_enum::no_obj_0, 40);
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                    return;
                 }
-
-                if (this->field_278_ped_state_1 != ped_state_1::in_car_10)
+                else if (field_278_ped_state_1 != ped_state_1::in_car_10)
                 {
+                    // It not entered the taxi yet
                     Fix16 dx_ = this->field_1B8_target_x - this->field_1AC_cam.x;
                     Fix16 dy_ = this->field_1BC_target_y - this->field_1AC_cam.y;
 
@@ -2348,26 +2356,26 @@ void Ped::sub_460820()
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     this->field_240_occupation = ped_ocupation_enum::dummy;
                     this->field_238 = 3;
-                    return;
                 }
-
-                if (this->field_150_target_objective_car->field_88 == 5)
+                else if (this->field_150_target_objective_car->field_88 == 5)
                 {
                     //goto kill_and_ret;
                     Kill_46F9D0();
-                    return;
                 }
             }
         }
     }
-    else if (this->field_20e)
+    // It has no objective:
+    else if (field_20e)
     {
-        this->field_218_objective_timer = 40;
-        ChangeNextPedState1_45C500(0);
-        ChangeNextPedState2_45C540(0);
+        // Set a little timer before looking for a taxi
+        field_218_objective_timer = 40;
+        ChangeNextPedState1_45C500(ped_state_1::walking_0);
+        ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
     }
-    else if (!this->field_218_objective_timer)
+    else if (field_218_objective_timer == 0)
     {
+        // Look for a near taxi
         pNearestTaxi = gTaxi_4_704130->GetTaxiNear_457BF0(this->field_1AC_cam.x, this->field_1AC_cam.y);
         pTargetCar = pNearestTaxi;
         if (pNearestTaxi)
@@ -2395,7 +2403,7 @@ void Ped::sub_460820()
 }
 
 WIP_FUNC(0x461290)
-void Ped::sub_461290()
+void Ped::BusCustomer_AI_461290()
 {
     WIP_IMPLEMENTED;
 
@@ -2409,7 +2417,7 @@ void Ped::sub_461290()
     Char_B4* game_object;
     Car_BC* target_to_enter;
 
-    if (this->field_25C_car_state == 2 && this->field_226 == 1)
+    if (this->field_25C_internal_objective == 2 && this->field_226 == 1)
     {
         SetObjective2_463830(objectives_enum::no_obj_0, 9999);
     }
@@ -2421,7 +2429,7 @@ void Ped::sub_461290()
             goto LABEL_23;
 
         case objectives_enum::objective_34:
-            if (this->field_25C_car_state == 36 && this->field_226 == 1)
+            if (this->field_25C_internal_objective == 36 && this->field_226 == 1)
             {
                 goto LABEL_21;
             }
@@ -2512,14 +2520,14 @@ void Ped::sub_461290()
 }
 
 MATCH_FUNC(0x461530)
-void Ped::sub_461530()
+void Ped::TrainCustomer_AI_461530()
 {
-    if (this->field_25C_car_state == 2 && this->field_226 == 1)
+    if (this->field_25C_internal_objective == 2 && this->field_226 == 1)
     {
         SetObjective2_463830(objectives_enum::no_obj_0, 9999);
     }
 
-    switch (field_25C_car_state)
+    switch (field_25C_internal_objective)
     {
         case 37:
             if (field_154_target_to_enter->GetVelocity_43A4C0() != k_dword_678660)
@@ -2548,7 +2556,7 @@ void Ped::sub_461530()
 }
 
 WIP_FUNC(0x461630)
-void Ped::sub_461630()
+void Ped::RobbedDriver_AI_461630()
 {
     WIP_IMPLEMENTED;
 
@@ -2558,28 +2566,28 @@ void Ped::sub_461630()
     Ped* f180__; // ecx
     Car_BC* target_objective_car; // eax
 
-    if (this->field_25C_car_state == 2 && this->field_226 == 1)
+    if (field_25C_internal_objective == 2 && field_226 == 1)
     {
         SetObjective2_463830(objectives_enum::no_obj_0, 9999);
     }
 
-    switch (this->field_240_occupation)
+    switch (field_240_occupation)
     {
-        case ped_ocupation_enum::driver_2:
-            if (this->field_168_game_object)
+        case ped_ocupation_enum::robbed_driver_10:
+            if (field_168_game_object)
             {
-                if (this->field_278_ped_state_1 != ped_state_1::immobilized_8)
+                if (field_278_ped_state_1 != ped_state_1::immobilized_8)
                 {
                     rng_val = stru_6F6784.get_int_4F7AE0(40);
                     if (bDont_get_car_back_67D4F5)
                     {
                         rng_val = 6;
                     }
-                    if (this->field_180->field_20e)
+                    if (field_180->field_20e)
                     {
                         rng_val = 6;
                     }
-                    else if (this->field_17C_pZone)
+                    else if (field_17C_pGang)
                     {
                         rng_val = 19;
                     }
@@ -2587,8 +2595,9 @@ void Ped::sub_461630()
                     switch (rng_val)
                     {
                         case 19:
+                            // gang member or very angry driver (2.5% chance): shoot at the thief
                             this->field_238 = 6;
-                            this->field_240_occupation = ped_ocupation_enum::unknown_9;
+                            this->field_240_occupation = ped_ocupation_enum::very_angry_armed_robbed_driver_13;
                             if ((field_21C & 0x1000000) == 0)
                             {
                                 this->field_250 = 14;
@@ -2602,8 +2611,9 @@ void Ped::sub_461630()
                         case 7:
                         case 16:
                         case 32:
+                            // 3 over 40 = 7.5% of chance of being an armed and angry driver
                             this->field_238 = 6;
-                            this->field_240_occupation = ped_ocupation_enum::unknown_8;
+                            this->field_240_occupation = ped_ocupation_enum::angry_armed_robbed_driver_12;
                             if ((field_21C & 0x1000000) == 0)
                             {
                                 this->field_250 = 13;
@@ -2614,7 +2624,7 @@ void Ped::sub_461630()
                             if (field_140->field_88 == 5)
                             {
                                 this->field_238 = 3;
-                                this->field_240_occupation = ped_ocupation_enum::unknown_7;
+                                this->field_240_occupation = ped_ocupation_enum::fleeing_robbed_driver_11;
                                 ForceDoNothing_462590();
                                 SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
                                 f180_ = this->field_180;
@@ -2630,8 +2640,9 @@ void Ped::sub_461630()
                             break;
 
                         default:
+                            // normal behaviour: flee
                             this->field_238 = 3;
-                            this->field_240_occupation = ped_ocupation_enum::unknown_7;
+                            this->field_240_occupation = ped_ocupation_enum::fleeing_robbed_driver_11;
                             this->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                             ForceDoNothing_462590();
                             SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
@@ -2646,7 +2657,7 @@ void Ped::sub_461630()
                     if (this->field_140->field_88 == 5)
                     {
                         this->field_238 = 3;
-                        this->field_240_occupation = ped_ocupation_enum::unknown_7;
+                        this->field_240_occupation = ped_ocupation_enum::fleeing_robbed_driver_11;
                         ForceDoNothing_462590();
                         SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
                         f180__ = this->field_180;
@@ -2657,8 +2668,8 @@ void Ped::sub_461630()
             }
             return;
 
-        case ped_ocupation_enum::unknown_8:
-            if (field_225_objective_status != 1)
+        case ped_ocupation_enum::angry_armed_robbed_driver_12:
+            if (field_225_objective_status != objective_status::passed_1)
             {
                 goto LABEL_40;
             }
@@ -2685,11 +2696,11 @@ void Ped::sub_461630()
             }
             return;
 
-        case ped_ocupation_enum::unknown_9:
-            if (this->field_225_objective_status == 1)
+        case ped_ocupation_enum::very_angry_armed_robbed_driver_13:
+            if (this->field_225_objective_status == objective_status::passed_1)
             {
                 this->field_238 = 6;
-                this->field_240_occupation = ped_ocupation_enum::unknown_8;
+                this->field_240_occupation = ped_ocupation_enum::angry_armed_robbed_driver_12;
                 if (field_140 && field_140->field_88 != 5)
                 {
                     SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
@@ -2711,11 +2722,11 @@ void Ped::sub_461630()
 
             if (!this->field_140)
             {
-                this->field_225_objective_status = 0;
+                this->field_225_objective_status = objective_status::not_finished_0;
             }
 
         LABEL_40:
-            if (field_225_objective_status == 2)
+            if (field_225_objective_status == objective_status::failed_2)
             {
             LABEL_41:
                 this->field_240_occupation = ped_ocupation_enum::dummy;
@@ -2725,8 +2736,8 @@ void Ped::sub_461630()
             }
             return;
 
-        case ped_ocupation_enum::unknown_7:
-            if (this->field_225_objective_status == 1)
+        case ped_ocupation_enum::fleeing_robbed_driver_11:
+            if (this->field_225_objective_status == objective_status::passed_1)
             {
                 this->field_240_occupation = ped_ocupation_enum::dummy;
                 SetObjective(objectives_enum::no_obj_0, 9999);
@@ -2772,7 +2783,7 @@ void Ped::UpdateFacingAngle_461A60()
 
     if (this->field_258_objective)
     {
-        if (!this->field_25C_car_state)
+        if (!this->field_25C_internal_objective)
         {
             this->field_1C4_x = field_1B8_target_x;
             this->field_1C8_y = field_1BC_target_y;
@@ -2896,7 +2907,7 @@ void Ped::Occupation_AI_461F20()
                     }
                     else if (gTaxi_4_704130->field_0)
                     {
-                        field_240_occupation = ped_ocupation_enum::unknown_4;
+                        field_240_occupation = ped_ocupation_enum::taxi_customer_7;
                         if (field_238 == 3)
                         {
                             field_238 = 6;
@@ -2907,11 +2918,11 @@ void Ped::Occupation_AI_461F20()
                 }
             }
             break;
-        case ped_ocupation_enum::unknown_6:
-            Ped::sub_461530();
+        case ped_ocupation_enum::train_customer_9:
+            Ped::TrainCustomer_AI_461530();
             break;
-        case ped_ocupation_enum::unknown_5:
-            Ped::sub_461290();
+        case ped_ocupation_enum::bus_customer_8:
+            Ped::BusCustomer_AI_461290();
             break;
         case ped_ocupation_enum::unknown_2:
             byte_61A8A0 = 0;
@@ -2930,8 +2941,8 @@ void Ped::Occupation_AI_461F20()
                 field_240_occupation = ped_ocupation_enum::dummy;
             }
             break;
-        case ped_ocupation_enum::unknown_4:
-            Ped::sub_460820();
+        case ped_ocupation_enum::taxi_customer_7:
+            Ped::TaxiCustomer_AI_460820();
             break;
 
         case ped_ocupation_enum::mugger:
@@ -2940,12 +2951,12 @@ void Ped::Occupation_AI_461F20()
         case ped_ocupation_enum::car_thief:
             Ped::CarThief_AI_45FF60();
             break;
-        case ped_ocupation_enum::driver_2:
-        case ped_ocupation_enum::unknown_8:
-        case ped_ocupation_enum::unknown_9:
-            Ped::sub_461630();
+        case ped_ocupation_enum::robbed_driver_10:
+        case ped_ocupation_enum::angry_armed_robbed_driver_12:
+        case ped_ocupation_enum::very_angry_armed_robbed_driver_13:
+            Ped::RobbedDriver_AI_461630();
             break;
-        case ped_ocupation_enum::unknown_7:
+        case ped_ocupation_enum::fleeing_robbed_driver_11:
             if (field_225_objective_status)
             {
                 Ped::SetObjective(objectives_enum::no_obj_0, 9999);
@@ -2956,7 +2967,7 @@ void Ped::Occupation_AI_461F20()
         case ped_ocupation_enum::road_block_tank_man:
             Ped::RoadBlockTank_AI_4619F0();
             break;
-        case ped_ocupation_enum::unknown_18:
+        case ped_ocupation_enum::mad_mugger_40:
             if (!gPedManager_6787BC->field_7_make_all_muggers)
             {
                 field_240_occupation = ped_ocupation_enum::dummy;
@@ -2964,17 +2975,17 @@ void Ped::Occupation_AI_461F20()
                 Ped::ForceDoNothing_462590();
             }
             break;
-        case ped_ocupation_enum::unknown_10:
-            if (field_25C_car_state == 20 && field_17C_pZone != NULL && field_14C->field_15C_player != NULL)
+        case ped_ocupation_enum::armed_gang_member_19:
+            if (field_25C_internal_objective == 20 && field_17C_pGang != NULL && field_14C->field_15C_player != NULL)
             {
                 u8 idx = field_14C->field_15C_player->field_2E_idx;
-                if (!field_17C_pZone->IsRespectNegativeForPlayer_4BEF10(idx))
+                if (!field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(idx))
                 {
                     Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 }
             }
             break;
-        case ped_ocupation_enum::driver_3:
+        case ped_ocupation_enum::scared_driver_50:
             if (field_258_objective > objectives_enum::no_obj_0)
             {
                 if (field_258_objective > objectives_enum::flee_char_on_foot_till_safe_2)
@@ -3076,7 +3087,7 @@ void Ped::sub_462280()
             if (field_258_objective != objectives_enum::flee_char_on_foot_always_3 &&
                 field_258_objective != objectives_enum::flee_char_always_once_car_stopped_6)
             {
-                if (field_25C_car_state != 3 && field_25C_car_state != 7)
+                if (field_25C_internal_objective != 3 && field_25C_internal_objective != 7)
                 {
                     Ped::Threat_Reaction_AI_465270();
                     if (field_144)
@@ -3383,7 +3394,7 @@ char_type Ped::StateMachineTick_4626B0()
         case 6:
             occupation_ = this->field_240_occupation;
             this->field_212_electrocution_threshold = 100;
-            if (occupation_ == ped_ocupation_enum::unknown_10 && this->field_278_ped_state_1 == ped_state_1::dead_9)
+            if (occupation_ == ped_ocupation_enum::armed_gang_member_19 && this->field_278_ped_state_1 == ped_state_1::dead_9)
             {
                 --byte_6787CE;
                 this->field_240_occupation = ped_ocupation_enum::dummy;
@@ -3508,17 +3519,17 @@ void Ped::sub_462B80()
             else
             {
                 field_16C_car->ShowCarName_4406B0(this);
-                if (field_25C_car_state == 37 && field_238 == 3 ||
+                if (field_25C_internal_objective == 37 && field_238 == 3 ||
                     (field_16C_car->field_4_passengers_list.AddPed_471140(this), field_238 == 3))
                 {
-                    if (field_25C_car_state == 37)
+                    if (field_25C_internal_objective == 37)
                     {
                         Train_58* pTrain = gPublicTransport_181C_6FF1D4->GetTrainFromCarExcludingLeadCar_57B6A0(field_16C_car);
                         ++pTrain->field_56_passenger_count;
                     }
                 }
             }
-            if ((field_25C_car_state == 35 || field_25C_car_state == 37) && (field_226 = 1, field_25C_car_state == 37))
+            if ((field_25C_internal_objective == 35 || field_25C_internal_objective == 37) && (field_226 = 1, field_25C_internal_objective == 37))
             {
                 if (field_238 == 3)
                 {
@@ -3528,7 +3539,7 @@ void Ped::sub_462B80()
             else
             {
                 Car_Door_10* Door = field_16C_car->GetDoor(field_24C_target_car_door);
-                if (field_240_occupation != ped_ocupation_enum::unknown_5 && field_240_occupation != ped_ocupation_enum::unknown_6)
+                if (field_240_occupation != ped_ocupation_enum::bus_customer_8 && field_240_occupation != ped_ocupation_enum::train_customer_9)
                 {
                     Door->sub_439EA0();
                 }
@@ -3681,7 +3692,7 @@ bool Ped::PoolUpdate()
                         field_278_ped_state_1 = ped_state_1::dead_9;
                         field_27C_ped_state_2 = ped_state_2::Unknown_15;
                     }
-                    if (field_20e > 0xC8u && field_240_occupation != ped_ocupation_enum::unknown_13 && field_238 != 5)
+                    if (field_20e > 0xC8u && field_240_occupation != ped_ocupation_enum::paramedic_23 && field_238 != 5)
                     {
                         Ped::Deallocate_45EB60();
                     }
@@ -3689,7 +3700,7 @@ bool Ped::PoolUpdate()
                 else
                 {
                     Ped::Occupation_AI_461F20();
-                    if (field_258_objective != objectives_enum::no_obj_0 || field_25C_car_state)
+                    if (field_258_objective != objectives_enum::no_obj_0 || field_25C_internal_objective)
                     {
                         byte_61A8A3 = 0;
                         Ped::ProcessObjective_4632E0();
@@ -3812,7 +3823,7 @@ void Ped::sub_4633E0(char_type bMainObj)
     }
     else
     {
-        obj = this->field_25C_car_state;
+        obj = this->field_25C_internal_objective;
     }
     switch (obj)
     {
@@ -4063,7 +4074,7 @@ void Ped::SetObjective2_463830(s32 car_state, s16 a3)
         }
 
         this->field_21A_car_state_timer = a3;
-        this->field_25C_car_state = car_state;
+        this->field_25C_internal_objective = car_state;
         this->field_1C4_x = Fix16(-16384, 0);
         this->field_1C8_y = Fix16(-16384, 0);
         this->field_1CC_z = Fix16(-16384, 0);
@@ -4353,7 +4364,7 @@ void Ped::ProcessInCarObjective_463FB0()
         this->field_21C &= ~4u;
     }
 
-    if (field_25C_car_state && !field_226)
+    if (field_25C_internal_objective && !field_226)
     {
         Ped* v4 = this->field_14C;
         if (v4)
@@ -4361,7 +4372,7 @@ void Ped::ProcessInCarObjective_463FB0()
             this->field_1C4_x = v4->get_cam_x();
             this->field_1C8_y = v4->get_cam_y();
             this->field_1CC_z = v4->get_cam_z();
-            switch (field_25C_car_state)
+            switch (field_25C_internal_objective)
             {
                 case 11:
                 case 18:
@@ -4398,7 +4409,7 @@ void Ped::ProcessInCarObjective_463FB0()
                 this->field_24C_target_car_door = Remap - 1;
             }
 
-            if (field_25C_car_state == 18 || field_25C_car_state > 34 && field_25C_car_state <= 38)
+            if (field_25C_internal_objective == 18 || field_25C_internal_objective > 34 && field_25C_internal_objective <= 38)
             {
                 CarDoorAlignmentSolver_545AF0(0,
                                               this->field_154_target_to_enter,
@@ -4442,7 +4453,7 @@ void Ped::ProcessInCarObjective_463FB0()
 
         gDistanceToTarget_678750 = Fix16::Max(xd, yd);
 
-        switch (this->field_25C_car_state)
+        switch (this->field_25C_internal_objective)
         {
             case 1:
                 Ped::FleeOnFootTillSafe_46A8F0();
@@ -4589,7 +4600,7 @@ void Ped::Threat_Reaction_AI_465270()
             {
                 if (bHaveThreateningPeds_6787DA)
                 {
-                    if (field_25C_car_state != 2 && field_21C_bf.b27 == 0) // 0x8000000
+                    if (field_25C_internal_objective != 2 && field_21C_bf.b27 == 0) // 0x8000000
                     {
                         Ped* pDangerousPed =
                             gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(field_1AC_cam.x, field_1AC_cam.y);
@@ -4647,7 +4658,7 @@ void Ped::Threat_Reaction_AI_465270()
                 {
                     Ped::SetObjective(objectives_enum::no_obj_0, 9999);
                 }
-                if (field_25C_car_state == 2 && field_226 == 1)
+                if (field_25C_internal_objective == 2 && field_226 == 1)
                 {
                     Ped::SetObjective2_463830(0, 9999);
                     field_21C_bf.b2 = false;
@@ -4657,7 +4668,7 @@ void Ped::Threat_Reaction_AI_465270()
 
         case threat_reaction_enum::react_as_emergency_1:
         case threat_reaction_enum::react_as_normal_2:
-            if (field_240_occupation == ped_ocupation_enum::unknown_13)
+            if (field_240_occupation == ped_ocupation_enum::paramedic_23)
             {
                 return;
             }
@@ -4694,7 +4705,7 @@ void Ped::Threat_Reaction_AI_465270()
             {
                 // line 138 9.6f IDA
 
-                if (field_25C_car_state == 20 || field_25C_car_state == 23 || field_25C_car_state == 32)
+                if (field_25C_internal_objective == 20 || field_25C_internal_objective == 23 || field_25C_internal_objective == 32)
                 {
                     if (field_288_threat_search == threat_search_enum::line_of_sight_1 ||
                         field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
@@ -4745,7 +4756,7 @@ void Ped::Threat_Reaction_AI_465270()
                                 }
                             }
                         }
-                        if (field_25C_car_state == 32 && (BestTargetPed_Mode1_466B90 == field_14C || !BestTargetPed_Mode1_466B90))
+                        if (field_25C_internal_objective == 32 && (BestTargetPed_Mode1_466B90 == field_14C || !BestTargetPed_Mode1_466B90))
                         {
                             return;
                         }
@@ -4987,8 +4998,8 @@ void Ped::sub_465B20()
     }
     else if ((field_144->field_21C & 0x2000000) == 0 || !field_144->field_168_game_object)
     {
-        Gang_144* pZone = this->field_17C_pZone;
-        if (pZone && pZone == field_144->field_17C_pZone)
+        Gang_144* pZone = this->field_17C_pGang;
+        if (pZone && pZone == field_144->field_17C_pGang)
         {
             this->field_144 = 0;
             this->field_21C &= ~4;
@@ -5007,7 +5018,7 @@ void Ped::sub_465B20()
                 {
                     if (field_28C_threat_reaction <= threat_reaction_enum::react_as_normal_2)
                     {
-                        if (this->field_240_occupation != ped_ocupation_enum::unknown_13)
+                        if (this->field_240_occupation != ped_ocupation_enum::paramedic_23)
                         {
                             if (this->field_168_game_object)
                             {
@@ -5062,7 +5073,7 @@ bool Ped::sub_465CD0()
     {
         if (field_14C)
         {
-            if (field_25C_car_state == 20 || field_25C_car_state == 23)
+            if (field_25C_internal_objective == 20 || field_25C_internal_objective == 23)
             {
                 return true;
             }
@@ -5202,7 +5213,7 @@ char_type Ped::FindUsableCarDoor_467090()
             vel_to_check = dword_678428;
         }
         if ((pTargetToEnter->GetVelocity_43A4C0() <= vel_to_check // car going slow enough?
-             || this->field_25C_car_state == 36 || this->field_27C_ped_state_2 == ped_state_2::Unknown_17) &&
+             || this->field_25C_internal_objective == 36 || this->field_27C_ped_state_2 == ped_state_2::Unknown_17) &&
             pTargetToEnter->field_88 != 5 && pTargetToEnter->field_74_damage != 32001 &&
             (this->field_278_ped_state_1 == ped_state_1::exiting_car_4 || !pTargetToEnter->sub_43B2B0(this)) // can enter this car?
             && pTargetToEnter->field_88 != 7)
@@ -5393,7 +5404,7 @@ void Ped::sub_467AD0()
 {
     if (field_16C_car)
     {
-        if (field_16C_car->GetVelocity_43A4C0() == k_dword_678660 && field_25C_car_state != 36)
+        if (field_16C_car->GetVelocity_43A4C0() == k_dword_678660 && field_25C_internal_objective != 36)
         {
             Ped::SetObjective2_463830(36, 9999);
             field_154_target_to_enter = field_16C_car;
@@ -5412,7 +5423,7 @@ void Ped::sub_467BD0()
 {
     if (field_16C_car)
     {
-        if (field_16C_car->GetVelocity_43A4C0() == k_dword_678660 && field_25C_car_state != 36)
+        if (field_16C_car->GetVelocity_43A4C0() == k_dword_678660 && field_25C_internal_objective != 36)
         {
             Ped::SetObjective2_463830(36, 9999);
             field_154_target_to_enter = field_16C_car;
@@ -5467,7 +5478,7 @@ void Ped::sub_467CA0()
     // TODO: An inline?
     if ((field_148_objective_target_ped->field_21C & 0x2000000) != 0 && field_148_objective_target_ped->field_168_game_object)
     {
-        if (this->field_25C_car_state == 17)
+        if (this->field_25C_internal_objective == 17)
         {
             return;
         }
@@ -5480,7 +5491,7 @@ void Ped::sub_467CA0()
         return;
     }
 
-    switch (field_25C_car_state)
+    switch (field_25C_internal_objective)
     {
         case 0:
             Ped::SetObjective2_463830(20, 9999);
@@ -5592,7 +5603,7 @@ void Ped::KillCharAnyMeans_467E20()
                 field_1E4_objective_target_z = field_148_objective_target_ped->get_cam_z();
                 Ped::sub_469060();
             }
-            else if (field_25C_car_state != 20)
+            else if (field_25C_internal_objective != 20)
             {
                 Ped::SetObjective2_463830(20, 9999);
                 field_14C = field_148_objective_target_ped;
@@ -5629,9 +5640,9 @@ void Ped::sub_467FD0()
 
     if (byte_61A8A3)
     {
-        if (field_25C_car_state != 0)
+        if (field_25C_internal_objective != 0)
         {
-            if (field_25C_car_state == 23)
+            if (field_25C_internal_objective == 23)
             {
                 if (field_226 == 1)
                 {
@@ -5849,9 +5860,9 @@ void Ped::EnterTargetObjectiveCar_4686C0()
         field_168_game_object->field_84 = field_150_target_objective_car;
     }
 
-    if (field_25C_car_state)
+    if (field_25C_internal_objective)
     {
-        if (field_25C_car_state == 35)
+        if (field_25C_internal_objective == 35)
         {
             if (field_226 == 1)
             {
@@ -5922,9 +5933,9 @@ void Ped::LeaveTargetObjectiveCar_468820()
         }
     }
 
-    if (field_25C_car_state)
+    if (field_25C_internal_objective)
     {
-        if (field_25C_car_state == 36)
+        if (field_25C_internal_objective == 36)
         {
             if (field_226 == 1)
             {
@@ -5984,9 +5995,9 @@ void Ped::EnterTrain_468930()
             field_168_game_object->field_84 = field_150_target_objective_car;
         }
 
-        if (field_25C_car_state)
+        if (field_25C_internal_objective)
         {
-            if (field_25C_car_state == 37)
+            if (field_25C_internal_objective == 37)
             {
                 if (field_226 == 1)
                 {
@@ -6018,11 +6029,11 @@ void Ped::EnterTrain_468930()
 MATCH_FUNC(0x468a00)
 void Ped::LeaveTrain_468A00()
 {
-    if (field_25C_car_state)
+    if (field_25C_internal_objective)
     {
-        if (field_25C_car_state != 12)
+        if (field_25C_internal_objective != 12)
         {
-            if (field_25C_car_state == 38)
+            if (field_25C_internal_objective == 38)
             {
                 if (field_226 == 1)
                 {
@@ -6094,9 +6105,9 @@ void Ped::LeaveTrain_468A00()
 MATCH_FUNC(0x468bd0)
 void Ped::sub_468BD0()
 {
-    if (field_25C_car_state)
+    if (field_25C_internal_objective)
     {
-        if (field_25C_car_state == 36 && !field_16C_car)
+        if (field_25C_internal_objective == 36 && !field_16C_car)
         {
             field_168_game_object->field_16 = 1;
             field_278_ped_state_1 = ped_state_1::immobilized_8;
@@ -6120,7 +6131,7 @@ void Ped::PatrolOnFoot_468C70()
 {
     if (byte_61A8A3)
     {
-        if (field_25C_car_state == 12)
+        if (field_25C_internal_objective == 12)
         {
             if (field_21C_bf.b2 == false)
             {
@@ -6576,9 +6587,9 @@ void Ped::sub_46A1F0()
             return;
         }
 
-        if (field_25C_car_state)
+        if (field_25C_internal_objective)
         {
-            if (field_25C_car_state == 32)
+            if (field_25C_internal_objective == 32)
             {
                 if (field_226 == 1)
                 {
@@ -6640,9 +6651,9 @@ void Ped::FollowCarOnFootWithOffset_46A350()
 
         if (byte_61A8A3)
         {
-            if (field_25C_car_state)
+            if (field_25C_internal_objective)
             {
-                if (field_25C_car_state == objectives_enum::follow_car_on_foot_with_offset_56)
+                if (field_25C_internal_objective == objectives_enum::follow_car_on_foot_with_offset_56)
                 {
                     this->field_1D0 = sin_v + pCarSprite->field_14_xy.x;
                     this->field_1D4 = cos_v + field_150_target_objective_car->field_50_car_sprite->field_14_xy.y;
@@ -6782,7 +6793,7 @@ void Ped::DestroyTargetObject_46A7C0()
 {
     if (byte_61A8A3 && (field_21C & 4) == 0)
     {
-        switch (field_25C_car_state)
+        switch (field_25C_internal_objective)
         {
             case 0:
                 Ped::SetObjective2_463830(58, 9999);
@@ -6821,7 +6832,7 @@ void Ped::DestroyTargetCar_46A850()
     }
     if (byte_61A8A3 && (field_21C & 4) == 0)
     {
-        switch (field_25C_car_state)
+        switch (field_25C_internal_objective)
         {
             case 0:
                 Ped::SetObjective2_463830(59, 9999);
@@ -7026,11 +7037,135 @@ void Ped::ChaseTargetStateMachine_46B170()
     }
 }
 
-STUB_FUNC(0x46b2f0)
-s32 Ped::PullDriverOutOfCarStateMachine_46B2F0()
+// https://decomp.me/scratch/1MwH3
+WIP_FUNC(0x46b2f0)
+void Ped::PullDriverOutOfCarStateMachine_46B2F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pCar = field_14C->field_16C_car;
+    field_24C_target_car_door = 0;
+    if (field_14C->field_168_game_object)
+    {
+        field_226 = 2;
+        Ped::ChangeNextPedState1_45C500(0);
+        Ped::ChangeNextPedState2_45C540(0);
+        return;
+    }
+    if (pCar->IsTrainModel_403BA0())
+    {
+        field_226 = 2;
+        Ped::ChangeNextPedState1_45C500(0);
+        Ped::ChangeNextPedState2_45C540(0);
+        return;
+    }
+
+    for (u8 door_num = 0; door_num < (u8)pCar->GetRemap(); door_num++)
+    {
+        if (pCar->IsDoorAccessible_43AFE0(door_num))
+        {
+            field_24C_target_car_door = door_num;
+            pCar->GetDoorWorldPosition_43B5A0(door_num, &field_1C4_x, &field_1C8_y);
+            field_1CC_z = field_14C->field_1AC_cam.z;
+            field_168_game_object->Set_F84_433900(pCar);
+
+            Fix16 d_x_abs = Fix16::Abs(field_1C4_x - field_1AC_cam.x);
+            Fix16 d_y_abs = Fix16::Abs(field_1C8_y - field_1AC_cam.y);
+            if (d_x_abs > d_y_abs)
+            {
+                gDistanceToTarget_678750 = d_x_abs;
+            }
+            else
+            {
+                gDistanceToTarget_678750 = d_y_abs;
+            }
+
+            if (field_14C->field_16C_car->field_84_car_info_idx == car_model_enum::BUS && field_27C_ped_state_2 == ped_state_2::Unknown_8)
+            {
+                gDistanceToTarget_678750 = dword_6784C4;
+            }
+            Fix16 v14 = dword_67856C;
+            if (Ped::sub_45B4E0())
+            {
+                v14 = dword_678428;
+            }
+            if (field_27C_ped_state_2 != ped_state_2::Unknown_9 &&
+                (gDistanceToTarget_678750 >= dword_678780 ||
+                 !abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, field_14C->field_1AC_cam.z) ||
+                 field_278_ped_state_1 == ped_state_1::immobilized_8))
+            {
+                field_168_game_object->field_38_velocity = dword_678448;
+                Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
+            }
+            else
+            {
+                switch (field_27C_ped_state_2)
+                {
+                    case ped_state_2::Unknown_8:
+                        if (pCar->GetVelocity_43A4C0() > v14)
+                        {
+                            field_226 = 2;
+                            Ped::ChangeNextPedState1_45C500(0);
+                            Ped::ChangeNextPedState2_45C540(0);
+                        }
+                        else
+                        {
+                            field_21C_bf.b27 = true;
+                            if (field_168_game_object->field_68_animation_frame == 4)
+                            {
+                                Ped::ChangeNextPedState2_45C540(9);
+                                field_168_game_object->field_68_animation_frame = 9;
+                            }
+                            field_168_game_object->field_10_char_state = 36;
+                            field_168_game_object->field_38_velocity = k_dword_678438;
+                        }
+                        break;
+
+                    case ped_state_2::Unknown_9:
+                        if (field_168_game_object->field_68_animation_frame == 13)
+                        {
+                            field_168_game_object->field_68_animation_frame = 4;
+                            Car_Door_10* Door = pCar->GetDoor(field_24C_target_car_door);
+                            Door->sub_439EA0();
+                            Door->field_8_pObj = 0;
+                            Ped::ChangeNextPedState2_45C540(14);
+                        }
+                        else
+                        {
+                            field_21C_bf.b27 = true;
+                        }
+                        field_168_game_object->SetCharState_433A60(36);
+                        field_168_game_object->field_38_velocity = k_dword_678438;
+                        break;
+
+                    default:
+                        if (pCar->GetVelocity_43A4C0() > v14)
+                        {
+                            field_226 = 2;
+                            Ped::ChangeNextPedState1_45C500(0);
+                            Ped::ChangeNextPedState2_45C540(0);
+                            return;
+                        }
+                        else
+                        {
+                            field_21C_bf.b27 = true;
+                            field_168_game_object->field_6C_animation_state = Char_Anim_state::Unknown_9;
+                            field_168_game_object->field_68_animation_frame = 0;
+                            Ped::ChangeNextPedState1_45C500(7);
+                            Ped::ChangeNextPedState2_45C540(8);
+                            field_168_game_object->SetCharState_433A60(36);
+                            field_168_game_object->SetMaxSpeed_433920(k_dword_678438);
+                        }
+                        break;
+                }
+            }
+            return;
+        }
+    }
+
+    Ped::ChangeNextPedState1_45C500(0);
+    Ped::ChangeNextPedState2_45C540(0);
+    field_226 = 2;
 }
 
 STUB_FUNC(0x46b670)
@@ -7207,7 +7342,7 @@ LABEL_30:
         Car_Door_10* pDoor_ = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
         ChangeNextPedState2_45C540(6);
         ChangeNextPedState1_45C500(3);
-        if (this->field_25C_car_state != 37)
+        if (this->field_25C_internal_objective != 37)
         {
             pDoor_->field_8_pObj = this;
         }
@@ -7290,7 +7425,7 @@ void Ped::ExitCarStateMachine_46C250()
             {
                 bUnknown = 1;
                 Car_Door_10* pDoor = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
-                if (!pDoor->field_8_pObj || this->field_25C_car_state == 38)
+                if (!pDoor->field_8_pObj || this->field_25C_internal_objective == 38)
                 {
                     field_16C_car->field_4_passengers_list.RemovePed_471240(this);
                     Fix16 char_x;
@@ -7490,7 +7625,7 @@ void Ped::sub_46C7E0()
             {
                 field_226 = 1;
             }
-            if (field_240_occupation != ped_ocupation_enum::unknown_6 && field_258_objective != objectives_enum::patrol_on_foot_42)
+            if (field_240_occupation != ped_ocupation_enum::train_customer_9 && field_258_objective != objectives_enum::patrol_on_foot_42)
             {
                 field_168_game_object->SetMaxSpeed_433920(field_1F0_maybe_max_speed);
             }
@@ -8006,7 +8141,7 @@ void Ped::SetupFollower_46DF70(Ped* pToFollow, s32 weaponIdx)
     set_occupation_403970(ped_ocupation_enum::special_groups_member);
     field_288_threat_search = pToFollow->field_288_threat_search;
     field_28C_threat_reaction = pToFollow->field_28C_threat_reaction;
-    field_17C_pZone = pToFollow->field_17C_pZone;
+    field_17C_pGang = pToFollow->field_17C_pGang;
     sub_433BB0(1);
     sub_433BC0(1);
     SetField238_403920(4);
@@ -8133,7 +8268,7 @@ void Ped::SpawnPedGroupFollowers_46E200(u8 total)
             pNewPed->field_22C = this->field_22C;
             pNewPed->field_288_threat_search = this->field_288_threat_search;
             pNewPed->field_28C_threat_reaction = this->field_28C_threat_reaction;
-            pNewPed->field_17C_pZone = this->field_17C_pZone;
+            pNewPed->field_17C_pGang = this->field_17C_pGang;
             pGroup->add_ped_to_list_4C9B30(pNewPed, current);
 
             Weapon_30* pWeapon = this->field_170_selected_weapon;
@@ -8462,7 +8597,7 @@ Weapon_30* Ped::sub_46F490()
     switch (this->field_240_occupation)
     {
         case ped_ocupation_enum::police:
-        case ped_ocupation_enum::unknown_14:
+        case ped_ocupation_enum::walking_guard_29:
             if (!field_14C->IsField238_45EDE0(2))
             {
                 this->field_21C_bf.b13 = 1;
@@ -8510,7 +8645,7 @@ Weapon_30* Ped::sub_46F490()
             }
             return this->field_170_selected_weapon;
 
-        case ped_ocupation_enum::unknown_17:
+        case ped_ocupation_enum::roadblock_cop_37:
             if (!field_14C->IsField238_45EDE0(2) || this->field_14C->field_16C_car)
             {
                 this->field_21C_bf.b13 = 1;
@@ -8552,17 +8687,17 @@ void Ped::GiveWeapon_46F650(s32 weapon_kind)
 MATCH_FUNC(0x46f680)
 void Ped::sub_46F680(Ped* pPed)
 {
-    if (field_17C_pZone)
+    if (field_17C_pGang)
     {
-        if (field_17C_pZone->field_111)
+        if (field_17C_pGang->field_111)
         {
             if (field_290 != 3 && field_290 != 1)
             {
-                field_17C_pZone->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
+                field_17C_pGang->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
             }
             else
             {
-                field_17C_pZone->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
+                field_17C_pGang->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
             }
         }
     }
@@ -8608,7 +8743,7 @@ void Ped::UpdateStatsForKiller_46F720()
             {
                 if (gShooey_CC_67A4B8->sub_485140(this, this->field_1A8_ped_killer->field_15C_player))
                 {
-                    if (this->field_17C_pZone || this->field_19C)
+                    if (this->field_17C_pGang || this->field_19C)
                     {
                         field_1A8_ped_killer->add_wanted_points_470160(1); // gang guy killed
                     }
@@ -8759,7 +8894,7 @@ void Ped::Kill_46F9D0()
 
         switch (this->field_240_occupation)
         {
-            case ped_ocupation_enum::unknown_13:
+            case ped_ocupation_enum::paramedic_23:
                 if (!gAmbulance_110_6F70A8->HandlePedDeath_4FA330(this))
                 {
                     goto LABEL_22;

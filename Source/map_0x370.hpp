@@ -62,6 +62,27 @@ enum gmp_zone_type
     Arrest_Restart_20 = 20,
 };
 
+enum MapSlopes
+{
+    DIAGONAL_WALL_UP_LEFT = 0xB4,
+    DIAGONAL_WALL_UP_RIGHT = 0xB8,
+    DIAGONAL_WALL_DOWN_LEFT = 0xBC,
+    DIAGONAL_WALL_DOWN_RIGHT = 0xC0,
+    TRIANGULAR_SIDES_DIAGONAL_UP_LEFT = 0xC4,
+    TRIANGULAR_SIDES_DIAGONAL_UP_RIGHT = 0xC8,
+    TRIANGULAR_SIDES_DIAGONAL_DOWN_LEFT = 0xCC,
+    TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT = 0xD0,
+    PARTIAL_BLOCK_LEFT = 0xD4,
+    PARTIAL_BLOCK_RIGHT = 0xD8,
+    PARTIAL_BLOCK_TOP = 0xDC,
+    PARTIAL_BLOCK_BOTTOM = 0xE0,
+    PARTIAL_TOP_LEFT_CORNER = 0xE4,
+    PARTIAL_TOP_RIGHT_CORNER = 0xE8,
+    PARTIAL_BOTTOM_RIGHT_CORNER = 0xEC,
+    PARTIAL_BOTTOM_LEFT_CORNER = 0xF0,
+    PARTIAL_CENTRE_BLOCK = 0xF4,
+};
+
 struct gmp_header
 {
     char_type field_0_file_type[4];
@@ -133,7 +154,7 @@ class gmp_map_zone
     u8 field_5_name_length;
     char_type field_6_name[2];
 
-    EXPORT s8 sub_4DEF40();
+    EXPORT s8 IsZoneVisibleToAnyPlayer_4DEF40();
     EXPORT wchar_t* get_zone_str_4DEF00();
 };
 
@@ -216,6 +237,43 @@ enum gmp_gradient_slope_size
     SIZE_8 = 8,
 };
 
+enum gmp_arrow_direction
+{
+    UP_1 = 1,
+    DOWN_2 = 2,
+    LEFT_3 = 3,
+    RIGHT_4 = 4,
+};
+
+namespace path_direction
+{
+enum
+{
+    up_1 = 1,
+    down_2 = 2,
+    right_3 = 3, // notice that right and left are swapped in comparison with gmp_arrow_direction
+    left_4 = 4, // notice that right and left are swapped in comparison with gmp_arrow_direction
+};
+} // namespace path_direction
+
+namespace road_direction
+{
+enum
+{
+    up_1 = 1,
+    down_2 = 2,
+    right_3 = 3, // notice that right and left are swapped in comparison with gmp_arrow_direction
+    left_4 = 4, // notice that right and left are swapped in comparison with gmp_arrow_direction
+};
+} // namespace path_direction
+
+enum gmp_arrow_type
+{
+    GREEN_ONLY_1 = 1,
+    RED_ONLY_2 = 2,
+    GREEN_OR_RED_3 = 3,
+};
+
 EXTERN_GLOBAL_ARRAY(gmp_map_slope, byte_6F5BA8, 64);
 
 EXTERN_GLOBAL(Fix16, dword_6F5ED8);
@@ -225,6 +283,13 @@ EXTERN_GLOBAL(Fix16, dword_6F5FA8);
 EXTERN_GLOBAL(Fix16, dword_6F6214);
 
 EXTERN_GLOBAL(Fix16, dword_6F610C);
+
+struct gmp_zone_list
+{
+    u16 field_0_num_zones;
+    u16 field_2_pad;
+    gmp_map_zone* field_4_zone_array[2];
+};
 
 class Map_0x370
 {
@@ -300,7 +365,7 @@ class Map_0x370
 
     EXPORT gmp_block_info* get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord);
 
-    EXPORT gmp_block_info* sub_4DFE60(s32 x, s32 y, s32 z);
+    EXPORT gmp_block_info* GetEffectiveBlock_4DFE60(s32 x, s32 y, s32 z);
     EXPORT gmp_block_info* sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord);
 
     EXPORT DWORD sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord);
@@ -309,9 +374,9 @@ class Map_0x370
     EXPORT s32 GetBlockSpec_4E00A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type sub_4E0110();
     EXPORT char_type sub_4E0120();
-    EXPORT char_type CanMoveOntoSlopeTile_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7);
+    EXPORT bool CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* bByRefUnk, char_type bNotifyByRefRet);
     EXPORT char_type sub_4E11E0(Fix16_Rect* a2);
-    EXPORT char_type sub_4E1520(s32 a2);
+    EXPORT bool sub_4E1520(s32 z_pos);
     EXPORT bool sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
     EXPORT char_type sub_4E1A30(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     EXPORT char_type CanSpriteEnterTile_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8);
@@ -336,7 +401,8 @@ class Map_0x370
     EXPORT char_type sub_4E5640(Fix16 a1, Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
     EXPORT Fix16 FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos);
-    EXPORT s32 sub_4E5FC0(gmp_block_info* a2, char_type a3);
+    EXPORT char_type sub_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3);
+    EXPORT s32 GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* a2, char_type bDontFlip);
     EXPORT s16 sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6);
     EXPORT Fix16* sub_4E62B0(Fix16* a2, Fix16 a3);
     EXPORT gmp_block_info* FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z);
@@ -501,7 +567,7 @@ class Map_0x370
     gmp_compressed_map_32* field_0_pDmap;
     Map_sub field_4_obj;
     gmp_map_zone* field_328_pZoneData;
-    gmp_map_zone** field_32C_pZones;
+    gmp_zone_list* field_32C_pZones;
     BYTE* field_330_pZoneArray;
     gmp_zone_info* field_334_pUnknownZoneData;
     gmp_map_object* field_338_pMapObjects;
@@ -566,7 +632,12 @@ static inline bool is_partial_block(s32& slope)
     return slope >= 0xD4 && slope <= 0xF4;
 }
 
-static inline bool is_diagonal_block(s32& slope)
+static inline bool is_tridiagonal_block(s32& slope)
 {
     return slope >= 0xC4 && slope <= 0xD0;
+}
+
+static inline gmp_map_slope* get_slope_struct(u8& slope_byte)
+{
+    return &byte_6F5BA8[get_slope_idx(slope_byte)];
 }

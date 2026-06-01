@@ -5,9 +5,12 @@
 #include "registry.hpp"
 #include "text_0x14.hpp"
 #include <COMMCTRL.H>
+#include <direct.h>
 
 DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18, 0x6F8A18);
 DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256, 0x6F88A4);
+
+EXTERN_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256);
 
 Network_UI_Control_Data gUiControlDefinitions_621430[3][30];
 
@@ -638,10 +641,109 @@ void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3)
     Network_20324::AppendChatMessage_51B4F0(a3, String);
 }
 
-STUB_FUNC(0x51bfa0)
+// https://decomp.me/scratch/tQkqa
+WIP_FUNC(0x51bfa0)
 void Network_20324::sub_51BFA0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    CHAR FileName[260];
+    Network_Enumerated_Map enumerated_mmp_name[99];
+    Network_Enumerated_Map* pIter;
+    _WIN32_FIND_DATAA findFileData;
+
+    memset(&findFileData, 0, sizeof(findFileData));
+    strcpy(FileName, "data\\");
+    strcat(FileName, "*.mmp");
+
+    u32 map_count = 0;
+    HANDLE hFindFile = FindFirstFileA(FileName, &findFileData);
+    if (hFindFile != (HANDLE)-1)
+    {
+        map_count = 1;
+        strcpy(enumerated_mmp_name[0].field_0_map_name, findFileData.cFileName);
+        for (; FindNextFileA(hFindFile, &findFileData); map_count += 1)
+        {
+            //pIter = &enumerated_mmp_name[map_count];
+            if (map_count >= 100)
+            {
+                break;
+            }
+            //pIter++;
+            strcpy(enumerated_mmp_name[map_count + 1].field_0_map_name, findFileData.cFileName);
+        }
+        FindClose(hFindFile);
+    }
+
+    if (map_count > 0)
+    {
+        Network_Enumerated_Map* pEnumedMapEntryIter = field_4_maps;
+        for (u32 i = 0; i < map_count; i++)
+        {
+            //Network_Enumerated_Map* pTmpRecord = &enumerated_mmp_name[i];
+            strcpy(FileName, "data\\");
+            strcat(FileName, (const char*)enumerated_mmp_name[i].field_0_map_name); //  (pTmpRecord + 0x208)
+            GetPrivateProfileStringA("MapFiles", "GMPFile", "", (LPSTR)(enumerated_mmp_name[i].field_0_map_name), 0x103u, FileName);
+            GetPrivateProfileStringA("MapFiles", "STYFile", "", (LPSTR)(enumerated_mmp_name[i].field_104_style_name), 0x103u, FileName);
+            GetPrivateProfileStringA("MapFiles", "SCRFile", "", (LPSTR)(enumerated_mmp_name[i].field_208_script_name), 0x103u, FileName);
+            GetPrivateProfileStringA("MapFiles",
+                                     "Description",
+                                     "",
+                                     (LPSTR)(enumerated_mmp_name[i].field_310_maybe_description),
+                                     0x103u,
+                                     FileName);
+            GetPrivateProfileStringA("MapFiles", "PlayerCount", "", (LPSTR)(gTmpBuffer_67C598), 0x103u, FileName);
+            enumerated_mmp_name[i].field_514 = atoi(gTmpBuffer_67C598);
+
+            // Now check if the map exists
+            _chdir("data");
+            if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_0_map_name) == -1)
+            {
+                Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_0_map_name);
+            }
+            else if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_104_style_name) == -1)
+            {
+                Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_104_style_name);
+            }
+            else
+            {
+                if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_208_script_name) != -1)
+                {
+                    OutputDebugStringA(pEnumedMapEntryIter->field_0_map_name);
+                    memcpy(&field_4_maps[field_1FD64_total_map_count], &enumerated_mmp_name[i], sizeof(Network_Enumerated_Map));
+                    field_1FD64_total_map_count++;
+                }
+                else
+                {
+                    Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name,
+                                              enumerated_mmp_name[i].field_208_script_name);
+                }
+            }
+
+            _chdir("..");
+            //pTmpRecord++;
+        }
+    }
+
+    if (map_count > 0)
+    {
+        Network_Enumerated_Map TmpEnum;
+        bool bContinue;
+
+        do //for (u32 j = 0; j < map_count; j++)
+        {
+            bContinue = false;
+            for (u16 j = 0; j < map_count - 1; j++)
+            {
+                if (_strcmpi(field_4_maps[j].field_310_maybe_description, field_4_maps[j + 1].field_310_maybe_description) > 0)
+                {
+                    memcpy(&TmpEnum, &field_4_maps, sizeof(Network_Enumerated_Map));
+                    memcpy(&field_4_maps, &field_4_maps[j + 1], sizeof(Network_Enumerated_Map));
+                    memcpy(&field_4_maps[j + 1], &TmpEnum, sizeof(Network_Enumerated_Map));
+                    bContinue = true;
+                }
+            }
+        } while (bContinue == true);
+    }
 }
 
 MATCH_FUNC(0x51c630)

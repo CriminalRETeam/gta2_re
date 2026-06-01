@@ -820,16 +820,16 @@ void PoliceCrew_38::Service_575590()
     }
     switch (field_24_state)
     {
-        case 3:
+        case police_crew_state::alerted_search_3:
             PoliceCrew_38::sub_572340();
             break;
-        case 5:
+        case police_crew_state::pursue_or_chase_5:
             PoliceCrew_38::sub_572920();
             break;
-        case 6:
+        case police_crew_state::shutdown_6:
             PoliceCrew_38::sub_574720();
             break;
-        case 1:
+        case police_crew_state::patrol_1:
             PoliceCrew_38::sub_574F10();
             break;
         case 2:

@@ -16,8 +16,8 @@ EXTERN_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8);
 
 EXTERN_GLOBAL(Fix16, gFix16_7035C0);
 
-EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16* minX, Fix16* minY, Fix16* scanLineX, Fix16_Point* p0, Fix16_Point* p1);
-EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16* minX, Fix16* minY, Fix16* scanLineY, Fix16_Point* p0, Fix16_Point* p1);
+EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1);
+EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1);
 
 class Car_BC;
 class Char_B4;
@@ -214,7 +214,7 @@ class Sprite
     EXPORT bool GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& a3, u8& a4);
     EXPORT char_type HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT bool GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3, u8& a4);
-    EXPORT bool PointInsideRotatedBounds_5A1490(s32 a2, s32 a3);
+    EXPORT bool PointInsideRotatedBounds_5A1490(Fix16_Point& a2, Fix16_Point& a3);
     EXPORT char_type sub_5A19C0();
     EXPORT char sub_5A1A60();
     EXPORT void ResolveZOrder_5A1B30(Sprite* pOther);

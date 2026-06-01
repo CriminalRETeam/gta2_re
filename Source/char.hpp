@@ -211,6 +211,16 @@ class Char_B4
         return field_10_char_state;
     }
 
+    inline void SetCharState_433A60(s32 char_state)
+    {
+        field_10_char_state = char_state;
+    }
+
+    inline void Set_F84_433900(Car_BC* pCar)
+    {
+        field_84 = pCar;
+    }
+
     inline void IncreaseSpeedIfAllowed_433940()
     {
         field_38_velocity += dword_6784BC;
@@ -260,7 +270,7 @@ class Char_B4
     EXPORT void HandleGenericCollision_54A530(Car_BC* a2, Object_2C* a3, Object_2C* a4);
     EXPORT char_type ContinueMovementAfterCollision_54B8F0();
     EXPORT void sub_54C090();
-    EXPORT char_type CanMoveOntoSlope_54C1A0(s32 a2);
+    EXPORT char_type CanMoveOntoSlope_54C1A0(s32 path_direction);
     EXPORT void sub_54C3E0();
     EXPORT char_type CanMoveToTile_54C500(char_type a2, char_type a3);
     EXPORT void SelectRandomIdleBehavior_54C580();
@@ -273,12 +283,12 @@ class Char_B4
     EXPORT bool CanStepForwardWithRegionCheck_54ECB0(s32 direction);
     EXPORT bool CanStepDiagonal_54EF60(char_type a2, char_type a3);
     EXPORT bool CanStepForward_54FEC0(s32 direction);
-    EXPORT bool CanReachTile_550090(s32 xpos, s32 ypos);
+    EXPORT bool CanReachTile_550090(u8 xpos, u8 ypos);
     EXPORT void state_1_5504F0();
     EXPORT Ang16 GetNextRotationToward_550F60(Ang16 a3);
     EXPORT bool CanStepInDirection_551350(Ang16 angle);
-    EXPORT char_type ChooseNextMovementTile_551400();
-    EXPORT char_type SelectNextTileFast_5516F0();
+    EXPORT void ChooseNextMovementTile_551400();
+    EXPORT void SelectNextTileFast_5516F0();
     //EXPORT void state_1_5504F0();
     EXPORT void state_1_5519F0();
     EXPORT void state_3_551A00();

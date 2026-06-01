@@ -36,6 +36,16 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
                                                                 Fix16 a9,
                                                                 Fix16 a10,
                                                                 Fix16 a11);
+
+namespace car_turn_direction
+{
+enum
+{
+    clockwise_m1 = -1,
+    none_0 = 0,
+    anticlockwise_1 = 1,
+};
+} // namespace car_turn_direction
                                                                 
 class CarPhysics_B0
 {
@@ -291,6 +301,15 @@ class CarPhysics_B0
         field_91_is_foot_brake_on = 0;
         field_93_is_forward_gas_on = 0;
         field_94_is_backward_gas_on = 0;
+        field_95 = 0;
+    }
+
+    // Unknown 9.6f inlined func
+    void Reverse_Unk()
+    {
+        field_94_is_backward_gas_on = 1;
+        field_91_is_foot_brake_on = 0;
+        field_93_is_forward_gas_on = 0;
         field_95 = 0;
     }
 

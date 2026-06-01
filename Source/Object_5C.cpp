@@ -326,13 +326,13 @@ char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
 }
 
 WIP_FUNC(0x5224e0)
-void Object_2C::SetMovementVector_5224E0(Fix16_Point* a2)
+void Object_2C::SetMovementVector_5224E0(Fix16_Point& a2)
 {
     WIP_IMPLEMENTED;
 
     if (field_10_obj_3c)
     {
-        Fix16_Point v5 = (GetRot_52AE90() + *a2);
+        Fix16_Point v5 = (GetRot_52AE90() + a2);
         Fix16 v5_len = v5.GetLength_2(); // TODO: Should be using kFpZero_6F8E10
         this->field_10_obj_3c->field_C = v5_len;
         this->field_10_obj_3c->field_4 = v5.atan2_40F790();
@@ -345,7 +345,7 @@ void Object_2C::SetMovementVector_5224E0(Fix16_Point* a2)
 }
 
 MATCH_FUNC(0x522640)
-void Object_2C::SetMovementVectorWithRandomState_522640(Fix16_Point* a2)
+void Object_2C::SetMovementVectorWithRandomState_522640(Fix16_Point& a2)
 {
     SetMovementVector_5224E0(a2);
 
@@ -378,7 +378,7 @@ void Object_2C::sub_5226A0(char_type a2)
     }
     else
     {
-        NewObj3C_528130(&stru_6F8EF0);
+        NewObj3C_528130(stru_6F8EF0);
         field_10_obj_3c->field_38 = a2;
     }
 }
@@ -419,7 +419,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
         v28.x = v13.x;
         v28.y = v13.y;
         Fix16_Point v17 = (-v28 / a2->field_8->field_18);
-        a2->SetMovementVectorWithRandomState_522640(&v17);
+        a2->SetMovementVectorWithRandomState_522640(v17);
     }
     else
     {
@@ -451,7 +451,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
     }
 
     Fix16_Point v22 = (v28 / field_8->field_18);
-    SetMovementVectorWithRandomState_522640(&v22);
+    SetMovementVectorWithRandomState_522640(v22);
 
     if (byte_6F8F94)
     {
@@ -499,7 +499,7 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
     //LOBYTE(seh) = 4;
     Fix16_Point nrmHitPos = (lineHitPos / field_8->field_18); // TODO: sub_482C80
     //LOBYTE(seh) = 6;
-    SetMovementVectorWithRandomState_522640(&nrmHitPos);
+    SetMovementVectorWithRandomState_522640(nrmHitPos);
     //LOBYTE(seh) = 4;
     Fix16_Point v15 = (-lineHitPos);
     //LOBYTE(seh) = 7;
@@ -539,7 +539,7 @@ void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* 
                                             kFpZero_6F8E10,
                                             k_dword_6F8D3C);
     Fix16_Point v7 = (v9 / this->field_8->field_18);
-    SetMovementVectorWithRandomState_522640(&v7);
+    SetMovementVectorWithRandomState_522640(v7);
     HandleImpact_528E50(0);
 }
 
@@ -1950,7 +1950,7 @@ void Object_2C::sub_527F10()
 
 // 9.6f 0x4847D0
 WIP_FUNC(0x528130)
-void Object_2C::NewObj3C_528130(Fix16_Point* a2)
+void Object_2C::NewObj3C_528130(Fix16_Point& a2)
 {
     WIP_IMPLEMENTED;
 
@@ -1961,8 +1961,8 @@ void Object_2C::NewObj3C_528130(Fix16_Point* a2)
     this->field_10_obj_3c = pNewObj;
 
     this->field_10_obj_3c->field_C =
-        a2->GetLength_41E260(); // TODO: Uses wrong zero constants?? Artifact of func being inlined into each TU??
-    this->field_10_obj_3c->field_4 = Fix16::atan2_fixed_405320(a2->y, a2->x);
+        a2.GetLength_41E260(); // TODO: Uses wrong zero constants?? Artifact of func being inlined into each TU??
+    this->field_10_obj_3c->field_4 = Fix16::atan2_fixed_405320(a2.y, a2.x);
 }
 
 MATCH_FUNC(0x528240)

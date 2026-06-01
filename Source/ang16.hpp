@@ -189,7 +189,7 @@ class Ang16
     EXPORT static bool __stdcall IsAngleAhead_405C60(Ang16* a1, Ang16* a2);
 
     EXPORT void SnapToAng4_405640();
-    EXPORT Ang16* sub_409300(Ang16* a2, s32 a3);
+    EXPORT Ang16* sub_409300(Ang16& input, s32 a3);
     EXPORT Ang16* sub_409340(Ang16* pRet, Ang16* toSub);
     EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(Fix16& a2);
     EXPORT Ang16* sub_4516B0(Fix16* a2, s32 a3);
@@ -293,14 +293,15 @@ class Ang16
 
     EXPORT static Fix16 __stdcall NormalizeAngleDeltaScaled_405B60(Ang16& a2, Ang16& a3, Ang16& a4);
     EXPORT u8 GetOctant_4056A0();
+    EXPORT u8 ToAng4_405680();
 
     // TODO: move with CarDoorAlignmentSolver_545AF0
-    // https://decomp.me/scratch/6VBR0
+    // https://decomp.me/scratch/6VBR0  (matched)
     static inline void __stdcall RotateVector_41FC90(Fix16& xpos, Fix16& ypos, Ang16& rotation)
     {
         Fix16 old_xpos = xpos;
         xpos = xpos * Ang16::cosine_40F520(rotation) + ypos * Ang16::sine_40F500(rotation);
-        ypos = old_xpos * Ang16::sine_40F500(rotation) - ypos * Ang16::cosine_40F520(rotation);
+        ypos = (-old_xpos) * Ang16::sine_40F500(rotation) + ypos * Ang16::cosine_40F520(rotation);
     }
 
     s16 rValue;

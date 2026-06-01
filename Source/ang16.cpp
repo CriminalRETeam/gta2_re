@@ -34,6 +34,12 @@ void Ang16::SnapToAng4_405640()
     }
 }
 
+MATCH_FUNC(0x405680)
+u8 Ang16::ToAng4_405680()
+{
+    return rValue / 360;
+}
+
 MATCH_FUNC(0x4056A0)
 u8 Ang16::GetOctant_4056A0()
 {
@@ -47,9 +53,9 @@ void Ang16::sub_406C20()
 }
 
 MATCH_FUNC(0x409300)
-Ang16* Ang16::sub_409300(Ang16* a2, s32 a3)
+Ang16* Ang16::sub_409300(Ang16& input, s32 a3)
 {
-    rValue = a2->rValue;
+    rValue = input.rValue;
     Normalize();
     return this;
 }

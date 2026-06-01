@@ -16,6 +16,8 @@ Clone the repository with the `--recursive` flag:
 git clone --recursive https://github.com/CriminalRETeam/gta2_re.git
 ```
 
+Run `gta2_data_setup.py`, which is located at `/Scripts/`.
+
 ### Windows 
 
 ```

@@ -80,8 +80,8 @@ void RouteFinder::ShowJunctionIds_588620()
 MATCH_FUNC(0x588810)
 void RouteFinder::RoadOff_588810(u8 x, u8 y, u8 z)
 {
-    const u16 r1 = RouteFinder::sub_588E60(x, y, z, 0, 3);
-    const u16 r2 = RouteFinder::sub_588E60(x, y, z, 1, 3);
+    const u16 r1 = RouteFinder::sub_588E60(x, y, z, 0, GREEN_OR_RED_3);
+    const u16 r2 = RouteFinder::sub_588E60(x, y, z, 1, GREEN_OR_RED_3);
     if (r1 && r2)
     {
         Junction_10* j1 = &field_8[r1];
@@ -99,8 +99,8 @@ void RouteFinder::RoadOff_588810(u8 x, u8 y, u8 z)
     }
     else
     {
-        const u16 r3 = RouteFinder::sub_588F30(x, y, z, 0, 3);
-        const u16 r4 = RouteFinder::sub_588F30(x, y, z, 1, 3);
+        const u16 r3 = RouteFinder::sub_588F30(x, y, z, 0, GREEN_OR_RED_3);
+        const u16 r4 = RouteFinder::sub_588F30(x, y, z, 1, GREEN_OR_RED_3);
         if (r3 && r4)
         {
             Junction_10* j1 = &field_8[r3];
@@ -124,8 +124,8 @@ MATCH_FUNC(0x588950)
 void RouteFinder::RoadOn_588950(u8 x, u8 y, u8 z)
 {
     // Strangely not the exact inverse logic of RoadOff
-    const u16 r1 = RouteFinder::sub_588E60(x, y, z, 0, 3);
-    const u16 r2 = RouteFinder::sub_588E60(x, y, z, 1, 3);
+    const u16 r1 = RouteFinder::sub_588E60(x, y, z, 0, GREEN_OR_RED_3);
+    const u16 r2 = RouteFinder::sub_588E60(x, y, z, 1, GREEN_OR_RED_3);
     if (r1 && r2)
     {
         Junction_10* j1 = &field_8[r1];
@@ -142,8 +142,8 @@ void RouteFinder::RoadOn_588950(u8 x, u8 y, u8 z)
         }
     }
 
-    const u16 r3 = RouteFinder::sub_588F30(x, y, z, 0, 3);
-    const u16 r4 = RouteFinder::sub_588F30(x, y, z, 1, 3);
+    const u16 r3 = RouteFinder::sub_588F30(x, y, z, 0, GREEN_OR_RED_3);
+    const u16 r4 = RouteFinder::sub_588F30(x, y, z, 1, GREEN_OR_RED_3);
     if (r3 && r4)
     {
         Junction_10* j1 = &field_8[r3];
@@ -270,28 +270,28 @@ void RouteFinder::Reset_588C60()
 }
 
 MATCH_FUNC(0x588ca0)
-bool RouteFinder::sub_588CA0(gmp_block_info* block, s32 a2, u8 a3)
+bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_type, u8 direction)
 {
-    switch (a3)
+    switch (direction)
     {
-        case 1:
+        case UP_1:
 
-            switch (a2)
+            switch (arrow_type)
             {
-                case 1:
-                    if ((block->field_A_arrows & 4) != 0)
+                case GREEN_ONLY_1:
+                    if ((block->field_A_arrows & 4) != 0) // green up
                     {
                         return true;
                     }
                     break;
-                case 2:
-                    if ((block->field_A_arrows & 0x40) != 0)
+                case RED_ONLY_2:
+                    if ((block->field_A_arrows & 0x40) != 0) // red up
                     {
                         return true;
                     }
                     break;
-                case 3:
-                    if ((block->field_A_arrows & 0x44) != 0)
+                case GREEN_OR_RED_3:
+                    if ((block->field_A_arrows & 0x44) != 0) // green or red up
                     {
                         return true;
                     }
@@ -299,23 +299,23 @@ bool RouteFinder::sub_588CA0(gmp_block_info* block, s32 a2, u8 a3)
             }
             break;
 
-        case 2:
-            switch (a2)
+        case DOWN_2:
+            switch (arrow_type)
             {
-                case 1:
-                    if ((block->field_A_arrows & 8) != 0)
+                case GREEN_ONLY_1:
+                    if ((block->field_A_arrows & 8) != 0) // green down
                     {
                         return true;
                     }
                     break;
-                case 2:
-                    if ((block->field_A_arrows & 0x80) != 0)
+                case RED_ONLY_2:
+                    if ((block->field_A_arrows & 0x80) != 0) // red down
                     {
                         return true;
                     }
                     break;
-                case 3:
-                    if ((block->field_A_arrows & 0x88) != 0)
+                case GREEN_OR_RED_3:
+                    if ((block->field_A_arrows & 0x88) != 0) // green or red down
                     {
                         return true;
                     }
@@ -323,23 +323,23 @@ bool RouteFinder::sub_588CA0(gmp_block_info* block, s32 a2, u8 a3)
             }
             break;
 
-        case 3:
-            switch (a2)
+        case LEFT_3:
+            switch (arrow_type)
             {
-                case 1:
-                    if ((block->field_A_arrows & 1) != 0)
+                case GREEN_ONLY_1:
+                    if ((block->field_A_arrows & 1) != 0) // green left
                     {
                         return true;
                     }
                     break;
-                case 2:
-                    if ((block->field_A_arrows & 0x10) != 0)
+                case RED_ONLY_2:
+                    if ((block->field_A_arrows & 0x10) != 0) // red left
                     {
                         return true;
                     }
                     break;
-                case 3:
-                    if ((block->field_A_arrows & 0x11) != 0)
+                case GREEN_OR_RED_3:
+                    if ((block->field_A_arrows & 0x11) != 0) // green or red left
                     {
                         return true;
                     }
@@ -347,23 +347,23 @@ bool RouteFinder::sub_588CA0(gmp_block_info* block, s32 a2, u8 a3)
             }
             break;
 
-        case 4:
-            switch (a2)
+        case RIGHT_4:
+            switch (arrow_type)
             {
-                case 1:
-                    if ((block->field_A_arrows & 2) != 0)
+                case GREEN_ONLY_1:
+                    if ((block->field_A_arrows & 2) != 0) // green right
                     {
                         return true;
                     }
                     break;
-                case 2:
-                    if ((block->field_A_arrows & 0x20) != 0)
+                case RED_ONLY_2:
+                    if ((block->field_A_arrows & 0x20) != 0) // red right
                     {
                         return true;
                     }
                     break;
-                case 3:
-                    if ((block->field_A_arrows & 0x22) != 0)
+                case GREEN_OR_RED_3:
+                    if ((block->field_A_arrows & 0x22) != 0) // green or red right
                     {
                         return true;
                     }
@@ -375,7 +375,7 @@ bool RouteFinder::sub_588CA0(gmp_block_info* block, s32 a2, u8 a3)
 }
 
 WIP_FUNC(0x588de0)
-char_type RouteFinder::sub_588DE0(gmp_block_info* pBlock, s32 a2, s32 a4)
+char_type RouteFinder::sub_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 a4)
 {
     WIP_IMPLEMENTED;
 
@@ -383,16 +383,16 @@ char_type RouteFinder::sub_588DE0(gmp_block_info* pBlock, s32 a2, s32 a4)
     switch (a4)
     {
         case 1:
-            result = sub_588CA0(pBlock, a2, 1);
+            result = HasBlockDesiredArrow_588CA0(pBlock, arrow_type, UP_1);
             break;
         case 2:
-            result = sub_588CA0(pBlock, a2, 2);
+            result = HasBlockDesiredArrow_588CA0(pBlock, arrow_type, DOWN_2);
             break;
         case 3:
-            result = sub_588CA0(pBlock, a2, 4);
+            result = HasBlockDesiredArrow_588CA0(pBlock, arrow_type, RIGHT_4);
             break;
         case 4:
-            result = sub_588CA0(pBlock, a2, 3);
+            result = HasBlockDesiredArrow_588CA0(pBlock, arrow_type, LEFT_3);
             break;
         default:
             return result;
@@ -401,14 +401,14 @@ char_type RouteFinder::sub_588DE0(gmp_block_info* pBlock, s32 a2, s32 a4)
 }
 
 MATCH_FUNC(0x588e60)
-u16 RouteFinder::sub_588E60(u8 x, u8 y, u8 z, char_type a5, s32 a6)
+u16 RouteFinder::sub_588E60(u8 x, u8 y, u8 z, char_type a5, s32 arrow_type)
 {
     JunctionSegment_0x8* pSegment = field_A830;
     gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
 
     if (block_4DFE10 != NULL)
     {
-        s8 v9 = RouteFinder::sub_588CA0(block_4DFE10, a6, 3);
+        s8 v9 = RouteFinder::HasBlockDesiredArrow_588CA0(block_4DFE10, arrow_type, LEFT_3);
         for (s16 junc_idx = 0; junc_idx < field_CC62; pSegment++, junc_idx++)
         {
             if (pSegment->sub_40CF20(x, y))
@@ -442,14 +442,14 @@ u16 RouteFinder::sub_588E60(u8 x, u8 y, u8 z, char_type a5, s32 a6)
 }
 
 MATCH_FUNC(0x588f30)
-u16 RouteFinder::sub_588F30(u8 x, u8 y, u8 z, char_type a5, s32 a6)
+u16 RouteFinder::sub_588F30(u8 x, u8 y, u8 z, char_type a5, s32 arrow_type)
 {
     JunctionSegment_0x8* pSegment = field_B938;
     gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
 
     if (block_4DFE10 != NULL)
     {
-        s8 v9 = RouteFinder::sub_588CA0(block_4DFE10, a6, 1);
+        s8 v9 = RouteFinder::HasBlockDesiredArrow_588CA0(block_4DFE10, arrow_type, UP_1);
         for (s16 junc_idx = 0; junc_idx < field_CC64; pSegment++, junc_idx++)
         {
             if (pSegment->sub_40CF20(x, y))
@@ -483,19 +483,19 @@ u16 RouteFinder::sub_588F30(u8 x, u8 y, u8 z, char_type a5, s32 a6)
 }
 
 MATCH_FUNC(0x589000)
-u16 RouteFinder::sub_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 a6)
+u16 RouteFinder::sub_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 arrow_type)
 {
     gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x_coord, y_coord, z_coord);
 
     if (pBlock)
     {
-        if (RouteFinder::sub_588CA0(pBlock, a6, 1) || RouteFinder::sub_588CA0(pBlock, a6, 2))
+        if (RouteFinder::HasBlockDesiredArrow_588CA0(pBlock, arrow_type, UP_1) || RouteFinder::HasBlockDesiredArrow_588CA0(pBlock, arrow_type, DOWN_2))
         {
-            return RouteFinder::sub_588F30(x_coord, y_coord, z_coord, a5, a6);
+            return RouteFinder::sub_588F30(x_coord, y_coord, z_coord, a5, arrow_type);
         }
-        if (RouteFinder::sub_588CA0(pBlock, a6, 3) || RouteFinder::sub_588CA0(pBlock, a6, 4))
+        if (RouteFinder::HasBlockDesiredArrow_588CA0(pBlock, arrow_type, LEFT_3) || RouteFinder::HasBlockDesiredArrow_588CA0(pBlock, arrow_type, RIGHT_4))
         {
-            return RouteFinder::sub_588E60(x_coord, y_coord, z_coord, a5, a6);
+            return RouteFinder::sub_588E60(x_coord, y_coord, z_coord, a5, arrow_type);
         }
     }
     return 0;
@@ -525,7 +525,7 @@ void RouteFinder::sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos
         {
             s32 z;
             gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x_pos, y_pos, &z);
-            if (gMap_0x370_6F6268->sub_4E5FC0(block, 0))
+            if (gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(block, 0))
             {
                 *xpos = x_pos;
                 *ypos = y_pos;

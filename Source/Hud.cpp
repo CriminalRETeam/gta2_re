@@ -407,10 +407,160 @@ void Garox_4::sub_5CF6B0()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d63b0)
+// https://decomp.me/scratch/Uq97l
+WIP_FUNC(0x5d63b0)
 void Garox_12E4_sub::DrawPause_5D63B0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    u32 sprite_type;
+    u16 sprite_pal = 0;
+    if (gGame_0x40_67E008->field_0_game_state == 2 && !gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message)
+    {
+        sub_5D7670(6, 134, 227, 180, word_706610, 2, 0, 0, 0);
+        sub_5D7670(6, 136, 320, 180, word_706610, 2, 0, 0, 0);
+        sub_5D7670(6, 135, 413, 180, word_706610, 2, 0, 0, 0);
+
+        wchar_t* pWMessage = gText_0x14_704DFC->Find_5B5F90("pause");
+        s32 max_width = Frontend::GetMaxTextWidth_5D8990(pWMessage, word_7063F8);
+
+        s32 y_offset = (gText_0x14_704DFC->field_10_lang_code != 'j') ? 158 : 164;
+
+        DrawText_5D7720(pWMessage, (640 - max_width) / 2, y_offset, word_7063F8, 2, 0, 0, 0);
+
+        if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+        {
+            s32 value_1;
+            Gang_144* pGang;
+            switch (field_0_current_pause_section)
+            {
+                case HudPauseSection::target_score_0:
+                    swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("pscore"), gfrosty_pasteur_6F8060->field_310_finish_score);
+                    break;
+
+                case HudPauseSection::gang_1_missions_done_1:
+                    pGang = gGangPool_CA8_67E274->sub_4BECA0();
+                    if (gfrosty_pasteur_6F8060->field_32C_1_passed_flag)
+                    {
+                        value_1 = *gfrosty_pasteur_6F8060->field_32C_1_passed_flag;
+                    }
+                    else
+                    {
+                        value_1 = 0;
+                    }
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("pgmiss"),
+                             pGang->sub_4BF340(),
+                             value_1,
+                             gfrosty_pasteur_6F8060->field_31C_gang_1_missions_total);
+                    sprite_type = 6;
+                    sprite_pal = pGang->field_138_arrow_colour + 63;
+                    break;
+
+                case HudPauseSection::gang_2_missions_done_2:
+                    gGangPool_CA8_67E274->sub_4BECA0();
+                    pGang = gGangPool_CA8_67E274->sub_4BECE0();
+                    if (gfrosty_pasteur_6F8060->field_330_2_passed_flag)
+                    {
+                        value_1 = *gfrosty_pasteur_6F8060->field_330_2_passed_flag;
+                    }
+                    else
+                    {
+                        value_1 = 0;
+                    }
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("pgmiss"),
+                             pGang->sub_4BF340(),
+                             value_1,
+                             gfrosty_pasteur_6F8060->field_320_gang_2_missions_total);
+                    sprite_type = 6;
+                    sprite_pal = pGang->field_138_arrow_colour + 63;
+                    break;
+
+                case HudPauseSection::gang_3_missions_done_3:
+                    gGangPool_CA8_67E274->sub_4BECA0();
+                    gGangPool_CA8_67E274->sub_4BECE0();
+                    pGang = gGangPool_CA8_67E274->sub_4BECE0();
+                    if (gfrosty_pasteur_6F8060->field_334_3_passed_flag)
+                    {
+                        value_1 = *gfrosty_pasteur_6F8060->field_334_3_passed_flag;
+                    }
+                    else
+                    {
+                        value_1 = 0;
+                    }
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("pgmiss"),
+                             pGang->sub_4BF340(),
+                             value_1,
+                             gfrosty_pasteur_6F8060->field_324_gang_3_missions_total);
+                    sprite_type = 6;
+                    sprite_pal = pGang->field_138_arrow_colour + 63;
+                    break;
+
+                case HudPauseSection::all_missions_done_4:
+                    if (gfrosty_pasteur_6F8060->field_328_passed_flag)
+                    {
+                        value_1 = *gfrosty_pasteur_6F8060->field_328_passed_flag;
+                    }
+                    else
+                    {
+                        value_1 = 0;
+                    }
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("pmiss"),
+                             value_1,
+                             gfrosty_pasteur_6F8060->field_314_total_missions);
+                    break;
+
+                case HudPauseSection::kill_frenzies_completed_5:
+                    if (gfrosty_pasteur_6F8060->field_338_secrets_passed)
+                    {
+                        value_1 = *gfrosty_pasteur_6F8060->field_338_secrets_passed;
+                    }
+                    else
+                    {
+                        value_1 = 0;
+                    }
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("psec"),
+                             value_1,
+                             gfrosty_pasteur_6F8060->field_318_total_secrets);
+                    sprite_type = 4;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(286)->field_1E;
+                    break;
+
+                case HudPauseSection::tokens_collected_6:
+                    swprintf(tmpBuff_67BD9C,
+                             gText_0x14_704DFC->Find_5B5F90("pbon"),
+                             gLucid_hamilton_67E8E0.field_574_secret_tokens_collected,
+                             50);
+                    sprite_type = 4;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(266)->field_1E;
+                    break;
+                default:
+                    break;
+            }
+
+            s32 max_width_2 = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, word_7064D8);
+            s32 v28;
+            s32 v27;
+            if (sprite_pal != 0)
+            {
+                u16 pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(sprite_type, sprite_pal);
+                s32 icon_width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(pal)->field_4_width + 10;
+                s32 xpos = (640 - icon_width - max_width_2) / 2;
+                sub_5D7670(sprite_type, sprite_pal, xpos + icon_width / 2, 235, word_706610, 2, 0, 0, 0);
+                v28 = icon_width + xpos;
+            }
+            else
+            {
+                v27 = 640 - max_width_2 - ((640 - max_width_2) >> 31);
+                v28 = (640 - max_width_2) / 2;
+            }
+            DrawText_5D7720(tmpBuff_67BD9C, v28, 220, word_7064D8, 8, 6, 0, 0);
+        }
+    }
 }
 
 // ----------------------------------------------------
@@ -1931,7 +2081,7 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
 MATCH_FUNC(0x5d1110)
 void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 {
-    s32 phone_type = sub_5D1260(pPhoneInfo->field_18_model);
+    s32 phone_type = GetPhoneTypeFromObjModel_5D1260(pPhoneInfo->field_18_model);
     Gang_144* pZone = gMap_0x370_6F6268->GetGangAtCoords_4DFB50(pPhoneInfo->field_4->GetXPos(), pPhoneInfo->field_4->GetYPos());
 
     if (!pZone)
@@ -1976,9 +2126,9 @@ void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 }
 
 MATCH_FUNC(0x5D1260)
-s32 __stdcall sub_5D1260(s32 a1)
+s32 __stdcall GetPhoneTypeFromObjModel_5D1260(s32 phone_model_idx)
 {
-    switch (a1)
+    switch (phone_model_idx)
     {
         case 176:
         case 177:
@@ -2271,7 +2421,7 @@ void Hud_Brief_704::sub_5D39D0()
 {
     field_510_time_to_show = Hud_Brief_704::sub_5D3470();
     field_504_tick_timer = field_510_time_to_show * gHud_2B00_706620->field_13C4_text_speed;
-    field_50C = 0;
+    field_50C_face_variant = 0;
     field_514_upward_timer = 0;
     field_6F8_curr_brief->field_10 = 0;
 }
@@ -2282,10 +2432,10 @@ void Hud_Brief_704::DrawBrief_5D3B80()
 {
     WIP_IMPLEMENTED;
 
-    if (this->field_6F8_curr_brief)
+    if (field_6F8_curr_brief)
     {
         sub_5D7670(6, // type
-                   field_50C + 3 * field_502_face_idx + 16, // LOBYTE(v1->field_502_face_idx) pal
+                   field_50C_face_variant + 3 * field_502_face_idx + 16,
                    (32), // x
                    (443), // y
                    word_706610, // rot
@@ -2384,13 +2534,13 @@ void Hud_Brief_704::sub_5D44D0()
             }
 
             const s32 ary_val = field_0_str[field_514_upward_timer];
-            if (!(ary_val % 20))
+            if (!(ary_val % 20)) // (, <, P, d, x
             {
-                field_50C = 1;
+                field_50C_face_variant = 1; // blinking (closed eyes)
             }
             else
             {
-                field_50C = 2 * (ary_val % 2);
+                field_50C_face_variant = 2 * (ary_val % 2); // mouth open and closed, but with open eyes
             }
         }
 
@@ -2412,10 +2562,10 @@ void Hud_Brief_704::ShowBrief_5D4850()
 {
     if (field_700_prev_brief)
     {
-        Garox_18* prev_brief = field_6F8_curr_brief;
-        if (prev_brief)
+        Garox_18* curr_brief = field_6F8_curr_brief;
+        if (curr_brief)
         {
-            if (prev_brief->field_10)
+            if (curr_brief->field_10)
             {
                 Hud_Brief_704::sub_5D33A0();
             }
@@ -2437,7 +2587,7 @@ Hud_Brief_704::Hud_Brief_704()
 {
     field_6FC_p_start_q = (Garox_18*)&field_518_ary_19_start_q;
 
-    field_50C = 0;
+    field_50C_face_variant = 0;
     field_510_time_to_show = 0;
     field_514_upward_timer = 0;
     field_6F8_curr_brief = 0;
@@ -2713,44 +2863,44 @@ void Hud_2B00::sub_5D69C0()
     Garox_12E4_sub* pSub = &this->field_12E4_sub;
     if (!gLucid_hamilton_67E8E0.sub_4C59A0())
     {
-        pSub->field_1--;
-        if (pSub->field_1 == 0)
+        pSub->field_1_timer--;
+        if (pSub->field_1_timer == 0)
         {
-            pSub->field_1 = 45;
-            pSub->field_12E4++;
+            pSub->field_1_timer = 45;
+            pSub->field_0_current_pause_section++;
 
-            if (pSub->field_12E4 > 6u)
+            if (pSub->field_0_current_pause_section > 6)
             {
-                pSub->field_12E4 = 0;
+                pSub->field_0_current_pause_section = 0;
             }
 
-            if (pSub->field_12E4 == 1)
+            if (pSub->field_0_current_pause_section == HudPauseSection::gang_1_missions_done_1)
             {
                 if (!gGangPool_CA8_67E274->sub_4BECA0())
                 {
-                    pSub->field_12E4 = 4;
+                    pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                 }
                 return;
             }
 
-            if (pSub->field_12E4 == 2)
+            if (pSub->field_0_current_pause_section == HudPauseSection::gang_2_missions_done_2)
             {
                 if (gGangPool_CA8_67E274->sub_4BECA0())
                 {
                     if (!gGangPool_CA8_67E274->sub_4BECE0())
                     {
-                        pSub->field_12E4 = 4;
+                        pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                     }
                     return;
                 }
-                pSub->field_12E4 = 4;
+                pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                 return;
             }
 
-            if (pSub->field_12E4 == 3 &&
+            if (pSub->field_0_current_pause_section == HudPauseSection::gang_3_missions_done_3 &&
                 (!gGangPool_CA8_67E274->sub_4BECA0() || !gGangPool_CA8_67E274->sub_4BECE0() || !gGangPool_CA8_67E274->sub_4BECE0()))
             {
-                pSub->field_12E4 = 4;
+                pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                 return;
             }
         }

@@ -11,15 +11,39 @@ class Sprite;
 class Hamburger_40;
 struct gmp_block_info;
 
+namespace car_ai_direction
+{
+enum
+{
+    none_0 = 0,
+    north_1 = 1,
+    south_2 = 2,
+    east_3 = 3,
+    west_4 = 4,
+};
+} // namespace car_ai_direction
+
+namespace car_ai_target_direction
+{
+enum
+{
+    go_straight_0 = 0,
+    northwards_1 = 1,
+    southwards_2 = 2,
+    eastwards_3 = 3,
+    westwards_4 = 4,
+};
+} // namespace car_ai_target_direction
+
 class CarAI_78
 {
   public:
-    EXPORT void sub_4476F0();
+    EXPORT void MakeAgressiveSirensAndLights_4476F0();
     EXPORT void sub_447710();
     EXPORT void sub_447970();
     EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT char_type sub_447D40(gmp_block_info* a2);
-    EXPORT bool sub_448270();
+    EXPORT bool IsClockwiseTurning_448270();
     EXPORT void sub_4482C0();
     EXPORT void sub_448770();
     EXPORT void sub_448CE0();
@@ -59,7 +83,7 @@ class CarAI_78
     char_type field_A;
     char_type field_B;
     CarAI_78* mpNext;
-    Ang16 field_10;
+    Ang16 field_10_angle;
     s16 field_12;
     Fix16 field_14;
     Fix16 field_18;
@@ -88,9 +112,9 @@ class CarAI_78
     s32 field_38;
     s32 field_3C;
     s32 field_40;
-    s32 field_44;
+    s32 field_44_target_direction;
     s32 field_48;
-    s32 field_4C;
+    s32 field_4C_curr_direction;
     s32 field_50;
     s16 field_54;
     s16 field_56;

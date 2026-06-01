@@ -30,6 +30,7 @@ jobs:
       with:
         name: Windows_VC_Latest_main_exe
         path: build_vc_latest/Release/decomp_main.exe
+        retention-days: 7
 
     # ======================================
     #      Windows vc6
@@ -71,6 +72,7 @@ jobs:
       with:
         name: windows_vc6_main_exe
         path: build_vc6/decomp_main.exe
+        retention-days: 7
 
     - name: Restore progress.json from cache (Windows_VC6)
       if: github.event_name == 'push'
@@ -158,6 +160,7 @@ jobs:
           build_vc6/decomp_main.pdb
           reccmp-96f.html
           reccmp-105.html
+        retention-days: 7
 
     - name: Compare variables
       continue-on-error: true  # For initial PR. Remove once the reported diffs are solved.
@@ -207,3 +210,4 @@ jobs:
       with:
         name: linux_vc6_main_exe
         path: build_vc6/decomp_main.exe
+        retention-days: 7

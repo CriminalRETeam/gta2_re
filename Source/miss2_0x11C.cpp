@@ -4028,7 +4028,7 @@ void miss2_0x11C::SCRCMD_ADD_CHAR_TO_GANG_50C540()
 
     char* gang_zone_name = (char*)&StringById_503080[1];
 
-    pPointer->field_8_char->field_17C_pZone = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_zone_name);
+    pPointer->field_8_char->field_17C_pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_zone_name);
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

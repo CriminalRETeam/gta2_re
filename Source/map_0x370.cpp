@@ -17,6 +17,7 @@
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
 #include "sprite.hpp"
+#include "Rozza_C88.hpp"
 
 DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
 DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
@@ -50,6 +51,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F61D8, Fix16(0x3000, 0), 0x6F61D8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6218, Fix16(0x3800, 0), 0x6F6218);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F5B8C, Fix16(255), 0x6F5B8C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6184, Fix16(10), 0x6F6184);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F5FE0, Fix16(0.5f), 0x6F5FE0);
 
 DEFINE_GLOBAL(gmp_block_info*, dword_6F5F98, 0x6F5F98);
 DEFINE_GLOBAL(gmp_map_slope*, dword_6F6080, 0x6F6080);
@@ -211,7 +213,7 @@ gmp_block_info* Map_0x370::get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord)
 }
 
 MATCH_FUNC(0x4DEF40)
-s8 gmp_map_zone::sub_4DEF40()
+s8 gmp_map_zone::IsZoneVisibleToAnyPlayer_4DEF40()
 {
     Fix16_Rect zoneBounds(field_1_x, field_2_y, field_3_w, field_4_h);
     return gGame_0x40_67E008->IsRectVisibleToAnyPlayer_4B9B10(&zoneBounds);
@@ -223,7 +225,7 @@ gmp_map_zone* Map_0x370::zone_by_name_4DEFD0(const char_type* pZoneName)
     u32 name_len = strlen(pZoneName);
     if (field_328_pZoneData)
     {
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
             if (pZone->field_5_name_length == name_len && memcmp(pZone->field_6_name, pZoneName, name_len) == 0)
@@ -243,7 +245,7 @@ s32 Map_0x370::zone_idx_by_name_4DF050(const char_type* pZoneName, BYTE zone_nam
         return 0;
     }
 
-    for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+    for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
     {
         gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
         // note: esp/stack reorder due to s32 -> byte cast on zone_name_len wrong type
@@ -269,7 +271,7 @@ gmp_map_zone* Map_0x370::zone_by_type_bounded_4DF0F0(u8 zone_type)
         field_368_zone_type = zone_type;
         field_364_cur_zone_idx = 0;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             if (get_zone_4DFB30(field_364_cur_zone_idx)->field_0_zone_type == field_368_zone_type)
             {
@@ -304,7 +306,7 @@ gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
         field_368_zone_type = zone_type;
         field_364_cur_zone_idx = 0;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
             if (pZone->field_0_zone_type == field_368_zone_type)
@@ -334,13 +336,12 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
 
     s32 zone_idx;
 
-    // TODO: wrong field_32C_pZones type
-    for (zone_idx = 0; zone_idx < *(u16*)field_32C_pZones; ++zone_idx)
+    for (zone_idx = 0; zone_idx < field_32C_pZones->field_0_num_zones; ++zone_idx)
     {
         gmp_map_zone* pZone = Map_0x370::get_zone_4DFB30(zone_idx);
 
-        if (pZone->field_0_zone_type == zone_type //  zone type zone_type
-            && !pZone->sub_4DEF40())
+        if (pZone->field_0_zone_type == zone_type
+            && !pZone->IsZoneVisibleToAnyPlayer_4DEF40())
         {
             Fix16 v13 = Fix16::MaxAbsDistance_42A6B0(pZone->field_1_x, pZone->field_2_y, xpos, ypos);
 
@@ -376,8 +377,7 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
 
     if (!pOtherZone)
     {
-        // TODO: wrong field_32C_pZones type
-        for (zone_idx = 0; zone_idx < *(u16*)field_32C_pZones; zone_idx++)
+        for (zone_idx = 0; zone_idx < field_32C_pZones->field_0_num_zones; zone_idx++)
         {
             gmp_map_zone* v15 = Map_0x370::get_zone_4DFB30(zone_idx);
             if (v15->field_0_zone_type == zone_type)
@@ -406,7 +406,7 @@ gmp_map_zone* Map_0x370::zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zo
         field_36B_zone_y = zone_y;
         field_36C_bUnknown = 1;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
             if (pZone->field_0_zone_type == field_368_zone_type && Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
@@ -426,10 +426,12 @@ gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y)
         field_36A_zone_x = zone_x;
         field_36B_zone_y = zone_y;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
-            if ((pZone->field_0_zone_type == 10 || pZone->field_0_zone_type == 1 || pZone->field_0_zone_type == 15) &&
+            if ((pZone->field_0_zone_type == Information_10 
+                || pZone->field_0_zone_type == Navigation_1 
+                || pZone->field_0_zone_type == Local_Navigation_15) &&
                 Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
             {
                 return pZone;
@@ -450,7 +452,7 @@ gmp_map_zone* Map_0x370::sub_4DF6A0(u8 zone_x, u8 zone_y)
         this->field_36B_zone_y = zone_y;
         this->field_36C_bUnknown = 1;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)this->field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             pZone = Map_0x370::get_zone_4DFB30(this->field_364_cur_zone_idx);
             if (Overlaps(pZone, this->field_36A_zone_x, this->field_36B_zone_y))
@@ -469,11 +471,11 @@ gmp_map_zone* Map_0x370::next_zone_4DF770()
 
     if (this->field_328_pZoneData)
     {
-        for (++this->field_364_cur_zone_idx; field_364_cur_zone_idx < *(u16*)this->field_32C_pZones; ++this->field_364_cur_zone_idx)
+        for (++this->field_364_cur_zone_idx; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; ++this->field_364_cur_zone_idx)
         {
-            if (field_364_cur_zone_idx >= *(u16*)this->field_32C_pZones)
+            if (field_364_cur_zone_idx >= field_32C_pZones->field_0_num_zones)
             {
-                return 0;
+                return NULL;
             }
             pZoneIter = Map_0x370::get_zone_4DFB30(field_364_cur_zone_idx);
             if (pZoneIter->field_0_zone_type == this->field_368_zone_type &&
@@ -660,7 +662,7 @@ void Map_0x370::set_nav_unknown_f14_4DFB10(u16 a2, s16 a3)
 MATCH_FUNC(0x4DFB30)
 gmp_map_zone* Map_0x370::get_zone_4DFB30(u16 zone_idx)
 {
-    return field_32C_pZones[zone_idx + 1];
+    return field_32C_pZones->field_4_zone_array[zone_idx];
 }
 
 MATCH_FUNC(0x4DFB50)
@@ -757,8 +759,11 @@ gmp_block_info* Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coor
 }
 
 MATCH_FUNC(0x4DFE60)
-gmp_block_info* Map_0x370::sub_4DFE60(s32 x, s32 y, s32 z)
+gmp_block_info* Map_0x370::GetEffectiveBlock_4DFE60(s32 x, s32 y, s32 z)
 {
+    // If it's a partial block, get a null/empty block. 
+    // If it's a tridiagonal block (four-sided or tri-sided), replace it by a flat solid block
+    // Otherwise, return the original block. It's ideal for checking collisions
     gmp_col_info* v5 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
     if (z < v5->field_0_height)
     {
@@ -769,9 +774,9 @@ gmp_block_info* Map_0x370::sub_4DFE60(s32 x, s32 y, s32 z)
 
             if (!is_partial_block(slope_type))
             {
-                if (is_diagonal_block(slope_type))
+                if (is_tridiagonal_block(slope_type))
                 {
-                    return &gBlockInfo2_6F6028;
+                    return &gBlockInfo2_6F6028; // solid block
                 }
                 return v7_block;
             }
@@ -929,11 +934,262 @@ char_type Map_0x370::sub_4E0120()
     return result;
 }
 
+// https://decomp.me/scratch/RMgzo
 STUB_FUNC(0x4E0130)
-char_type Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7)
+bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* bByRefUnk, char_type bNotifyByRefRet)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    gmp_map_slope* pCurrent_XYZ_Slope;
+    gmp_block_info* pEffectiveBlock;
+    u8 slope_byte;
+    field_36E = 0;
+    gmp_block_info* pCurrBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y, z);
+    if (pCurrBlock)
+    {
+        pCurrent_XYZ_Slope = get_slope_struct(pCurrBlock->field_B_slope_type);
+    }
+    else if (z > 0)
+    {
+        gmp_block_info* pBelowCurrBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y, z - 1);
+        if (pBelowCurrBlock)
+        {
+            pCurrent_XYZ_Slope = get_slope_struct(pBelowCurrBlock->field_B_slope_type);
+        }
+    }
+    switch (path_direction)
+    {
+        case path_direction::up_1:
+
+            if (pCurrBlock)
+            {
+                if (y != 0)
+                {
+                    pCurrent_XYZ_Slope = get_slope_struct(pCurrBlock->field_B_slope_type);
+                    if (pCurrent_XYZ_Slope)
+                    {
+                        if (pCurrent_XYZ_Slope->field_0_gradient_direction != NORTH_1)
+                        {
+                            if (pCurrent_XYZ_Slope->field_0_gradient_direction > SOUTH_2 &&
+                                pCurrent_XYZ_Slope->field_0_gradient_direction <= EAST_4)
+                            {
+                                // Current block is a Gradient to the left or right
+                                if (y > 0)
+                                {
+                                    // now check effective block at north
+                                    pEffectiveBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z);
+                                    if (pEffectiveBlock)
+                                    {
+                                        slope_byte = pEffectiveBlock->field_B_slope_type;
+                                        if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
+                                        {
+                                            gmp_map_slope* north_block_slope = get_slope_struct(slope_byte);
+
+                                            if (north_block_slope->field_2_gradient_level != pCurrent_XYZ_Slope->field_2_gradient_level &&
+                                                pCurrent_XYZ_Slope->field_0_gradient_direction !=
+                                                    north_block_slope->field_0_gradient_direction)
+                                            {
+                                                field_36E = 1;
+                                                return true; // slope gradient at north doesnt match with current block slope -> cannot move
+                                            }
+                                        }
+
+                                        if ((pCurrBlock->field_4_top & 0x400) != 0)
+                                        {
+                                            return true; // current block has a wall on top side, cannot move
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // fall or no ground ?
+                                        field_36E = 1;
+                                        return true; // cannot move
+                                    }
+                                }
+                                else
+                                {
+                                    //y is not greater than 0
+                                    field_36E = 1;
+                                    return 1; // cannot move
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // the current block gradient direction is North
+                            if (pCurrent_XYZ_Slope->field_2_gradient_level != 0)
+                            {
+                                // it is not the highest slope, prob another higher slope ahead or flat block
+                                // LABEL_30
+
+                                if ((pCurrBlock->field_4_top & 0x400) != 0)
+                                {
+                                    return true; // current block has a wall on top side, cannot move
+                                }
+                                // collapse
+                            }
+                            else
+                            {
+                                // it is the highest slope: it's expected a flat block (in z+1) or another North gradient ahead
+                                gmp_block_info* pNorthUpperBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z + 1);
+                                if (pNorthUpperBlock && (pNorthUpperBlock->field_6_bottom & 0x400) != 0)
+                                {
+                                    return true; // a wall ahead, cannot walk
+                                }
+                                if (Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z + 1))
+                                {
+                                    if (bNotifyByRefRet)
+                                    {
+                                        *bByRefUnk = true;
+                                    }
+                                    return false; // can walk
+                                }
+                                gmp_block_info* pBlockU = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z);
+                                if (!pBlockU)
+                                {
+                                    field_36E = 1;
+                                    return true;
+                                }
+                                else if (!is_air_type(pBlockU->field_B_slope_type)) //((v19->field_B_slope_type & 3) != 0)
+                                {
+                                    if (bNotifyByRefRet)
+                                    {
+                                        *bByRefUnk = true;
+                                    }
+                                    return false; // can walk
+                                }
+                                else
+                                {
+                                    this->field_36E = 1;
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return true; // cannot move in y == 0
+                }
+                // nothing here
+            }
+
+            pEffectiveBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z);
+            
+            if (pEffectiveBlock)
+            {
+                // now check the north block bottom side
+                if ((pEffectiveBlock->field_6_bottom & 0x400) != 0)
+                {
+                    return true; // north block has a wall on bottom side, cannot move
+                }
+
+                slope_byte = pEffectiveBlock->field_B_slope_type;
+
+                if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
+                {
+                    gmp_map_slope* north_block_slope = get_slope_struct(slope_byte);
+                    switch (north_block_slope->field_0_gradient_direction)
+                    {
+                        case NORTH_1:
+                        case SOUTH_2:
+                            return false; // can move
+
+                        case WEST_3:
+                        case EAST_4:
+
+                            if (pCurrent_XYZ_Slope)
+                            {
+                                if (north_block_slope->field_2_gradient_level == pCurrent_XYZ_Slope->field_2_gradient_level ||
+                                    pCurrent_XYZ_Slope->field_0_gradient_direction == north_block_slope->field_0_gradient_direction)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    return true;
+                                }
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        default:
+                            return true; // no gradient or weird direction: cannot move
+                    }
+                }
+            }
+
+            if (z > 0)
+            {
+                // now check the block below the north block
+                gmp_block_info* pNorthBelowBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z - 1);
+                if (pNorthBelowBlock && !is_air_type(pNorthBelowBlock->field_B_slope_type))
+                {
+                    if (!is_gradient_slope(pNorthBelowBlock->field_B_slope_type))
+                    {
+                        return false; // can move
+                    }
+                    else
+                    {
+                        // is a gradient slope. Verify if it's on the right direction
+                        gmp_map_slope* north_block_below_slope = get_slope_struct(pNorthBelowBlock->field_B_slope_type);
+                        if (north_block_below_slope &&
+                            north_block_below_slope->field_0_gradient_direction <= 2) // NO_GRADIENT_SLOPE_0, NORTH_1 or SOUTH_2
+                        {
+                            *bByRefUnk = -1;
+                            return false; // gradient is north or south: can walk upon
+                        }
+                        else
+                        {
+                            if (pCurrent_XYZ_Slope && north_block_below_slope
+                                && pCurrent_XYZ_Slope->field_0_gradient_direction == north_block_below_slope->field_0_gradient_direction)
+                            {
+                                return false; // slope matches the direction with the current one: can walk
+                            }
+                            else
+                            {
+                                field_36E = 1;
+                                return true; // cannot walk: different directions
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // there is no block below the one at north
+                    // not sure about this part
+                    field_36E = 1;
+                    if (pEffectiveBlock && pEffectiveBlock->field_A_arrows)
+                    {
+                        field_36F = 1;
+                        return false; // can walk
+                    }
+                    return true; // cannot walk
+                }
+            }
+            return true;
+            break;
+
+        case path_direction::down_2:
+
+            return false;
+
+            break;
+
+        case path_direction::right_3:
+
+            return false;
+
+            break;
+
+        case path_direction::left_4:
+
+            return false;
+
+            break;
+        default:
+            return false;
+    }
 }
 
 WIP_FUNC(0x4E11E0)
@@ -981,14 +1237,14 @@ char_type Map_0x370::sub_4E11E0(Fix16_Rect* pRect)
                     }
                    
 
-                    if (ComputeScanlineIntersectionY_4F76A0(&pRect->field_0_left, &pRect->field_4_right, &pRect->field_8_top, &p1, &p2)
-                             || ComputeScanlineIntersectionY_4F76A0(&pRect->field_0_left,
-                                                            &pRect->field_4_right,
-                                                            &pRect->field_C_bottom,
-                                                            &p1,
-                                                            &p2) ||
-                        ComputeScanlineIntersectionX_4F77D0(&pRect->field_8_top, &pRect->field_C_bottom, &pRect->field_0_left, &p1, &p2) ||
-                        ComputeScanlineIntersectionX_4F77D0(&pRect->field_8_top, &pRect->field_C_bottom, &pRect->field_4_right, &p1, &p2))
+                    if (ComputeScanlineIntersectionY_4F76A0(pRect->field_0_left, pRect->field_4_right, pRect->field_8_top, p1, p2)
+                             || ComputeScanlineIntersectionY_4F76A0(pRect->field_0_left,
+                                                            pRect->field_4_right,
+                                                            pRect->field_C_bottom,
+                                                            p1,
+                                                            p2) ||
+                        ComputeScanlineIntersectionX_4F77D0(pRect->field_8_top, pRect->field_C_bottom, pRect->field_0_left, p1, p2) ||
+                        ComputeScanlineIntersectionX_4F77D0(pRect->field_8_top, pRect->field_C_bottom, pRect->field_4_right, p1, p2))
                     {
                         return 1;
                     }
@@ -1002,12 +1258,50 @@ char_type Map_0x370::sub_4E11E0(Fix16_Rect* pRect)
     return 0;
 }
 
-
-STUB_FUNC(0x4E1520)
-char_type Map_0x370::sub_4E1520(s32 a2)
+// https://decomp.me/scratch/jaBFe
+WIP_FUNC(0x4E1520)
+bool Map_0x370::sub_4E1520(s32 z_pos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
+    {
+        Fix16 left = Fix16(gPurple_left_6F5FD4 + 1);
+        for (s32 x_pos = gPurple_left_6F5FD4; x_pos <= gPurple_right_6F5B80; x_pos++, left += Fix16(1))
+        {
+            Fix16_Point point;
+            Fix16_Point unk_point;
+            gmp_block_info* pBlock = Map_0x370::get_block_4DFE10(x_pos, y_pos, z_pos);
+
+            if (pBlock != NULL)
+            {
+                u8 slope_type = pBlock->field_B_slope_type & 0xFC;
+                if (slope_type >= 0xB4 && slope_type <= 0xD0)
+                {
+                    if (slope_type == DIAGONAL_WALL_UP_LEFT || slope_type == DIAGONAL_WALL_DOWN_RIGHT ||
+                        slope_type == TRIANGULAR_SIDES_DIAGONAL_UP_LEFT || slope_type == TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
+                    {
+                        point = Fix16_Point(Fix16(x_pos), Fix16(y_pos + 1));
+                        unk_point = Fix16_Point(Fix16(left), Fix16(y_pos));
+                    }
+                    else
+                    {
+                        point = Fix16_Point(Fix16(x_pos), Fix16(y_pos));
+                        unk_point = Fix16_Point(Fix16(left), Fix16(y_pos + 1));
+                    }
+
+                    if (gSprite_6F61E8->PointInsideRotatedBounds_5A1490(point, unk_point))
+                    {
+                        Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject_5298E0(slope_type)->field_4;
+                        pSprt->set_xyz_lazy_451950(Fix16(x_pos) + dword_6F5FE0, Fix16(y_pos) + dword_6F5FE0, Fix16(z_pos));
+                        pSprt->UpdateCollisionBoundsIfNeeded_59E9C0();
+                        gRozza_679188.sub_40FEE0(pSprt);
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x4E18A0)
@@ -1021,7 +1315,7 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
         {
             if (x_pos < x_max)
             {
-                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos, z);
+                pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos, y_pos, z);
                 if (pBlock)
                 {
                     if ((pBlock->field_2_right & 0x400) != 0) // is wall tile
@@ -1029,7 +1323,7 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
                         return true;
                     }
                 }
-                pBlock = Map_0x370::sub_4DFE60(x_pos + 1, y_pos, z);
+                pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos + 1, y_pos, z);
                 if (pBlock)
                 {
                     if ((pBlock->field_0_left & 0x400) != 0) // is wall tile
@@ -1041,7 +1335,7 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
 
             if (y_pos < y_max)
             {
-                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos, z);
+                pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos, y_pos, z);
                 if (pBlock)
                 {
                     if ((pBlock->field_6_bottom & 0x400) != 0) // is wall tile
@@ -1049,7 +1343,7 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
                         return true;
                     }
                 }
-                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos + 1, z);
+                pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos, y_pos + 1, z);
                 if (pBlock)
                 {
                     if ((pBlock->field_4_top & 0x400) != 0) // is wall tile
@@ -1125,7 +1419,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
         }
     }
 
-    pBlock2 = sub_4DFE60(tileX, tileY, zLevel);
+    pBlock2 = GetEffectiveBlock_4DFE60(tileX, tileY, zLevel);
     gBlockInfo0_6F5EB0 = pBlock2;
     if (!pBlock2)
     {
@@ -1206,7 +1500,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
     }
 
 LABEL_32:
-    pBlock3 = sub_4DFE60(tileX, tileY - 1, dword_6F5FAC);
+    pBlock3 = GetEffectiveBlock_4DFE60(tileX, tileY - 1, dword_6F5FAC);
     dword_6F606C = pBlock3;
     if (pBlock3)
     {
@@ -1274,7 +1568,7 @@ LABEL_39:
     }
 
 LABEL_52:
-    pBlock4 = sub_4DFE60(tileX, tileY + 1, dword_6F6248);
+    pBlock4 = GetEffectiveBlock_4DFE60(tileX, tileY + 1, dword_6F6248);
     dword_6F6070 = pBlock4;
     if (pBlock4)
     {
@@ -1341,7 +1635,7 @@ LABEL_59:
     }
 
 LABEL_72:
-    pBlock5 = sub_4DFE60(tileX - 1, tileY, dword_6F5BA0);
+    pBlock5 = GetEffectiveBlock_4DFE60(tileX - 1, tileY, dword_6F5BA0);
     dword_6F6078 = pBlock5;
     if (pBlock5)
     {
@@ -1418,7 +1712,7 @@ LABEL_98:
     v32 = dword_6F5FAC; // = v30
 
 LABEL_99:
-    pBlock6 = sub_4DFE60(tileX - 1, tileY - 1, v32);
+    pBlock6 = GetEffectiveBlock_4DFE60(tileX - 1, tileY - 1, v32);
     dword_6F5F90 = pBlock6;
     if (pBlock6)
     {
@@ -1513,7 +1807,7 @@ LABEL_111:
     }
 
 LABEL_131:
-    pBlock7 = sub_4DFE60(tileX - 1, tileY + 1, v40);
+    pBlock7 = GetEffectiveBlock_4DFE60(tileX - 1, tileY + 1, v40);
     dword_6F5FB0 = pBlock7;
     if (pBlock7)
     {
@@ -1592,7 +1886,7 @@ LABEL_142:
 
 LABEL_155:
     v47 = tileX + 1;
-    pBlock8 = sub_4DFE60(tileX + 1, tileY, dword_6F620C);
+    pBlock8 = GetEffectiveBlock_4DFE60(tileX + 1, tileY, dword_6F620C);
     dword_6F6060 = pBlock8;
     if (pBlock8)
     {
@@ -1673,7 +1967,7 @@ LABEL_181:
     v55 = dword_6F5FAC; // = v53;
 
 LABEL_182:
-    pBlock9 = sub_4DFE60(tileX + 1, tileY - 1, v55);
+    pBlock9 = GetEffectiveBlock_4DFE60(tileX + 1, tileY - 1, v55);
     dword_6F5F54 = pBlock9;
 
     if (pBlock9)
@@ -1767,7 +2061,7 @@ LABEL_194:
 
 LABEL_214:
     //v65 = tileY + 1;
-    pBlock10 = sub_4DFE60(tileX + 1, tileY + 1, v64);
+    pBlock10 = GetEffectiveBlock_4DFE60(tileX + 1, tileY + 1, v64);
     dword_6F5F98 = pBlock10;
     if (pBlock10)
     {
@@ -2501,61 +2795,161 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_
     return 0;
 }
 
+// https://decomp.me/scratch/9rRLR
+WIP_FUNC(0x4E5E90)
+char_type Map_0x370::sub_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3)
+{
+    WIP_IMPLEMENTED;
+    switch (direction)
+    {
+        case 1:
+            if (a3)
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, UP_1);
+            }
+            else
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, DOWN_2);
+            }
+        case 2:
+            if (a3)
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, DOWN_2);
+            }
+            else
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, UP_1);
+            }
+        case 3:
+            if (a3)
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, RIGHT_4);
+            }
+            else
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, LEFT_3);
+            }
+        case 4:
+            if (a3)
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, LEFT_3);
+            }
+            else
+            {
+                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_ONLY_1, RIGHT_4);
+            }
+            break;
+        default:
+            return a3;
+    }
+}
+
 MATCH_FUNC(0x4E5FC0)
-s32 Map_0x370::sub_4E5FC0(gmp_block_info* pBlock, char_type a2)
+s32 Map_0x370::GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* pBlock, char_type bDontFlip)
 {
     s32 result = 0;
-    if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 4))
+    if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, RIGHT_4))
     {
-        if (a2 != 0)
+        if (bDontFlip)
         {
-            result = 3;
+            result = road_direction::right_3;
         }
         else
         {
-            result = 4;
+            result = road_direction::left_4;
         }
     }
-    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 2))
+    else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, DOWN_2))
     {
-        if (a2 != 0)
+        if (bDontFlip)
         {
-            result = 2;
+            result = road_direction::down_2;
         }
         else
         {
-            result = 1;
+            result = road_direction::up_1;
         }
     }
-    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 3))
+    else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, LEFT_3))
     {
-        if (a2 != 0)
+        if (bDontFlip)
         {
-            result = 4;
+            result = road_direction::left_4;
         }
         else
         {
-            result = 3;
+            result = road_direction::right_3;
         }
     }
-    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 1))
+    else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, GREEN_OR_RED_3, UP_1))
     {
-        if (a2 != 0)
+        if (bDontFlip)
         {
-            result = 1;
+            result = road_direction::up_1;
         }
         else
         {
-            result = 2;
+            result = road_direction::down_2;
         }
     }
     return result;
 }
 
-STUB_FUNC(0x4E6190)
+// https://decomp.me/scratch/RZ1Gp
+WIP_FUNC(0x4E6190)
 s16 Map_0x370::sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (!IsGradientSlopeAt_466CF0(x.ToInt(), y.ToInt(), z.ToInt()))
+    {
+        return 1;
+    }
+
+    gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+
+    dword_6F5EC8 = &byte_6F5BA8[gBlockInfo0_6F5EB0->field_B_slope_type >> 2];
+    switch (dword_6F5EC8->field_0_gradient_direction)
+    {
+        case 1:
+            switch (a5)
+            {
+                case 1:
+                    return a6 ? 2 : 3;
+                case 2:
+                    return a6 ? 3 : 2;
+            }
+            break;
+        case 2:
+            switch (a5)
+            {
+                case 1:
+                    return a6 ? 3 : 2;
+                case 2:
+                    return a6 ? 2 : 3;
+            }
+            break;
+        case 3:
+            switch (a5)
+            {
+                case 3:
+                    return a6 ? 3 : 2;
+                case 4:
+                    return a6 ? 2 : 3;
+            }
+            break;
+        case 4:
+            switch (a5)
+            {
+                case 3:
+                    return a6 ? 2 : 3;
+                case 4:
+                    return a6 ? 3 : 2;
+            }
+            break;
+        default:
+            break;
+    }
     return 0;
 }
 
@@ -2679,7 +3073,7 @@ void Map_0x370::sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_ty
         *z_pos = *sub_4E62B0(&temp, *z_pos);
         block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (*z_pos - dword_6F6110).ToInt());
     }
-    s32 v11 = sub_4E5FC0(block_4DFE10, a5);
+    s32 v11 = GetArrowDirectionFromBlock_4E5FC0(block_4DFE10, a5);
 
     if (Map_0x370::sub_4E6190(x, y, *z_pos - dword_6F6110, v11, a6) != 3)
     {
@@ -3021,7 +3415,7 @@ void Map_0x370::do_process_loaded_zone_data_4E8E30()
 {
     WIP_IMPLEMENTED;
     u16 v16 = 0;
-    u16 zonesSize = field_328_pZoneData ? *(u16*)field_32C_pZones : 0;
+    u16 zonesSize = field_328_pZoneData ? field_32C_pZones->field_0_num_zones : 0;
     if (zonesSize)
     {
         field_330_pZoneArray = (u8*)Memory::malloc_4FE4D0(zonesSize);
@@ -3096,23 +3490,18 @@ void Map_0x370::sub_4E90E0(u32 chunk_size)
         in_use_size += zone_data_size;
         pZone = (gmp_map_zone*)((u8*)pZone + zone_data_size);
     }
-    gmp_map_zone** v7 = (gmp_map_zone**)Memory::malloc_4FE4D0(4 * num_zones + 4);
-    this->field_32C_pZones = v7;
+    field_32C_pZones = (gmp_zone_list*)Memory::malloc_4FE4D0(4 * num_zones + 4);
 
     in_use_size = 0;
-    *(u16*)v7 = num_zones; // TODO: fix this
+    field_32C_pZones->field_0_num_zones = num_zones;
 
     gmp_map_zone* local_pZoneData = this->field_328_pZoneData;
-    if (chunk_size > 0)
+    for (u32 zone_idx = 0; in_use_size < chunk_size; zone_idx++)
     {
-        u32 zone_idx = 1;
-        do
-        {
-            this->field_32C_pZones[zone_idx++] = local_pZoneData;
-            zone_data_size = local_pZoneData->field_5_name_length + 6;
-            in_use_size += zone_data_size;
-            local_pZoneData = (gmp_map_zone*)((char*)local_pZoneData + zone_data_size);
-        } while (in_use_size < chunk_size);
+        field_32C_pZones->field_4_zone_array[zone_idx] = local_pZoneData;
+        zone_data_size = local_pZoneData->field_5_name_length + 6;
+        in_use_size += zone_data_size;
+        local_pZoneData = (gmp_map_zone*)((BYTE*)local_pZoneData + zone_data_size);
     }
 }
 

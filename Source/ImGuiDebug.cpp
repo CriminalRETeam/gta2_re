@@ -12,10 +12,13 @@
 #include "Gang.hpp"
 #include "Hamburger_500.hpp"
 #include "Hud.hpp"
+#include "Kfc_1E0.hpp"
 #include "MapRenderer.hpp"
+#include "Network_20324.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
+#include "PedGroup.hpp"
 #include "Phi_8CA8.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
@@ -35,6 +38,7 @@
 #include "root_sound.hpp"
 #include "ExplodingScore_100.hpp"
 #include "CarAI_78.hpp"
+#include <direct.h>
 #include <stdarg.h>
 
 #include "HookLoader.hpp"
@@ -50,6 +54,8 @@ EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);
 EXTERN_GLOBAL(car_rng_list, dword_676DB4);
 EXTERN_GLOBAL(car_rng_list, dword_676988);
 EXTERN_GLOBAL(car_rng_list, dword_677384);
+
+EXTERN_GLOBAL(u8, byte_6FEB48);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -343,9 +349,9 @@ static void ShowPedBitMask(Ped* pPed)
     }
 }
 
-static void ShowPedBitMaskSetting(Ped* pPed)
+static void ShowPedBitMaskSetting(BitSet32* flags)
 {
-    if (pPed)
+    if (flags)
     {
         if (ImGui::TreeNode("Ped BitMask Setting"))
         {
@@ -382,8 +388,6 @@ static void ShowPedBitMaskSetting(Ped* pPed)
             ImGui::Checkbox("b29", &bits[29]);
             ImGui::Checkbox("b30", &bits[30]);
             ImGui::Checkbox("b31", &bits[31]);
-            
-            static BitSet32* flags = (BitSet32*)&pPed->field_21C;
 
             for (u8 i = 0; i < 32; i++)
             {
@@ -421,9 +425,9 @@ static char_type* GetOccupationStrFromPed(Ped* pPed)
                 return "Elvis";
             case ped_ocupation_enum::dummy:
                 return "Dummy";
-            case ped_ocupation_enum::driver_2:
+            case ped_ocupation_enum::robbed_driver_10:
                 return "Driver 2";
-            case ped_ocupation_enum::driver_3:
+            case ped_ocupation_enum::scared_driver_50:
                 return "Driv3r";
             case ped_ocupation_enum::no_occupation:
                 return "None";
@@ -613,6 +617,10 @@ static Camera_0xBC* GetPlayerCam()
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
         if (pPlayer)
         {
+            if (pPlayer->field_6C_bIn_debug_cam_mode)
+            {
+                return &pPlayer->field_14C_view_camera;
+            }
             if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
             {
                 return &pPlayer->field_208_aux_game_camera;
@@ -636,54 +644,15 @@ static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& scr
         (dword_7064E8 + (pCam->field_98_cam_pos2.field_8_z - zpos)); // dword_7064C4 ??
 
     Fix16 xTmp = pCam->field_60.x * (xpos - pCam->field_98_cam_pos2.field_0_x);
-    screen_x = ((zCalc * xTmp)) + Fix16(0x500000, 0);
+    screen_x = ((zCalc * xTmp)) + Fix16(320);
 
     Fix16 yTmp = (pCam->field_60.y * (ypos - pCam->field_98_cam_pos2.field_4_y));
-    screen_y = ((zCalc * yTmp) + Fix16(0x3C0000, 0));
-}
-
-// Draw Text with char_type
-static void DisplayTextAtSprite(char* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
-{
-    Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-    if (pPlayer && pPlayer->field_6C_bIn_debug_cam_mode)
-    {
-        return; // Do not draw if it's on debug cam mode
-    }
-    if (gHud_2B00_706620)
-    {
-        Camera_0xBC* pPlayerCam = GetPlayerCam();
-        if (pPlayerCam && pSprt)
-        {
-            Fix16 sprt_xpos = pSprt->field_14_xy.x;
-            Fix16 sprt_ypos = pSprt->field_14_xy.y;
-            Fix16 sprt_zpos = pSprt->field_1C_zpos;
-            if (pPlayerCam->IsCoordsPosVisible_435A70(sprt_xpos, sprt_ypos, sprt_zpos))
-            {
-                Fix16 screen_xpos_f16;
-                Fix16 screen_ypos_f16;
-                ProjectXYZ_intoScreen(sprt_xpos, sprt_ypos, sprt_zpos, screen_xpos_f16, screen_ypos_f16, pPlayerCam);
-
-                s16 screen_xpos = screen_xpos_f16.ToInt() + x_offset;
-                s16 screen_ypos = screen_ypos_f16.ToInt() + y_offset;
-
-                if (gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
-                {
-                    gHud_2B00_706620->field_650.DisplayText_5D1F50(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos, word_706600, 1);
-                }
-            }
-        }
-    }
+    screen_y = ((zCalc * yTmp) + Fix16(240));
 }
 
 // Draw Text with wchar_t
 static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
 {
-    Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-    if (pPlayer && pPlayer->field_6C_bIn_debug_cam_mode)
-    {
-        return; // Do not draw if it's on debug cam mode
-    }
     if (gHud_2B00_706620)
     {
         Camera_0xBC* pPlayerCam = GetPlayerCam();
@@ -708,6 +677,153 @@ static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, 
             }
         }
     }
+}
+
+// Draw Text with char_type
+static void DisplayTextAtSprite(char* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
+{
+    DisplayWideTextAtSprite(text_0x14::Ascii2Wide_5B5DF0(pStr), pSprt, x_offset, y_offset);
+}
+
+// Draw Text at fixed position in screen (like OG debug stuff)
+static void DisplayWideTextAtScreenCoords(wchar_t* pStr, s16 screen_xpos, s16 screen_ypos)
+{
+    if (gHud_2B00_706620 && gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
+    {
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+    }
+}
+
+static void DisplayTextAtScreenCoords(char* pStr, s16 screen_xpos, s16 screen_ypos)
+{
+    DisplayWideTextAtScreenCoords(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos);
+}
+
+void AddMenuOption(u32 page_idx, s16 xpos, s16 ypos, wchar_t* pLabelStr, s16 target_page)
+{
+    u16 num_options = gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_0_number_of_options;
+    gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_0_option_type = STRING_TEXT_1;
+    gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_2_x_pos = xpos;
+    gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_4_y_pos = ypos;
+    wcsncpy(gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_6_option_name_str,
+            pLabelStr,
+            0x32u);
+    gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_80_menu_page_target = target_page;
+    gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_0_number_of_options++;
+}
+
+Network_Enumerated_Map multiplayer_maps[100];
+char mmp_maps_description[100][256];
+bool bExtMapsLoaded = false;
+u16 total_num_maps_loaded = 0;
+
+void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
+{
+    CHAR FileName[260];
+    Network_Enumerated_Map enumerated_mmp_name[99];
+    Network_Enumerated_Map *pIter;
+    _WIN32_FIND_DATAA findFileData;
+    
+    memset(&findFileData, 0, sizeof(findFileData));
+    strcpy(FileName, "data\\");
+    strcat(FileName, "*.mmp");
+
+    u32 map_count = 0;
+    HANDLE hFindFile = FindFirstFileA(FileName, &findFileData);
+    if (hFindFile != (HANDLE)-1)
+    {
+        map_count = 1;
+        strcpy(enumerated_mmp_name[0].field_0_map_name, findFileData.cFileName);
+        for (; FindNextFileA(hFindFile, &findFileData); map_count += 1)
+        {
+            pIter = &enumerated_mmp_name[map_count];
+            if (map_count >= 100)
+            {
+                break;
+            }
+            pIter++;
+            strcpy(pIter->field_0_map_name, findFileData.cFileName);
+        }
+        FindClose(hFindFile);
+    }
+
+    u32 total_map_count = 0;
+    if (map_count > 0)
+    {
+        for (u32 i = 0; i < map_count; i++)
+        {
+            strcpy(FileName, "data\\");
+            strcat(FileName, (const char *)enumerated_mmp_name[i].field_0_map_name);
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "GMPFile",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_0_map_name),
+                0x103u,
+                FileName
+            );
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "STYFile",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_104_style_name),
+                0x103u,
+                FileName
+            );
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "SCRFile",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_208_script_name),
+                0x103u,
+                FileName
+            );
+            GetPrivateProfileStringA(
+                "MapFiles",
+                "Description",
+                "",
+                (LPSTR)(enumerated_mmp_name[i].field_310_maybe_description),
+                0x103u,
+                FileName
+            );
+            // Now check if the map exists
+            _chdir("data");
+            if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_0_map_name) != -1
+                && GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_104_style_name) != -1
+                && GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_208_script_name) != -1)
+            {
+                memcpy(&pOut[total_map_count], &enumerated_mmp_name[i], sizeof(Network_Enumerated_Map));
+                strcpy(&mmp_maps_description[total_map_count][0], (const char*)&enumerated_mmp_name[i].field_310_maybe_description);
+                total_map_count++;
+            }
+            _chdir("..");
+        }
+    }
+    num_maps_loaded = total_map_count;
+}
+
+// Transform char[][] into char* array
+char* flat_char_array(char* pArray, u16 num_itens)
+{
+    char flattened_arr[25600];
+    u16 flat_idx = 0;
+    for (u16 i = 0; i < num_itens; i++)
+    {
+        while (*pArray)
+        {
+            flattened_arr[flat_idx] = *pArray;
+            ++pArray;
+            ++flat_idx;
+        }
+        flattened_arr[flat_idx] = 0;
+        flat_idx++;
+
+        while (!*pArray)
+        {
+            pArray++;
+        }
+    }
+    return flattened_arr;
 }
 
 namespace HookManagement
@@ -852,6 +968,35 @@ static void HooksDebug()
 }
 }
 
+void BootMap(char* mapName, char* styName, char* scrName)
+{
+    if (gFrontend_67DC84 && gFrontend_67DC84->field_110_state == FrontendState::Unknown_1)
+    {
+        char fullPath[256];
+
+        gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
+        strcpy(fullPath, "data\\");
+        strcat(fullPath, mapName);
+        gLucid_hamilton_67E8E0.SetMapName_4C5870(fullPath);
+        strcpy(fullPath, "data\\");
+        strcat(fullPath, styName);
+        gLucid_hamilton_67E8E0.SetStyleName_4C5890(fullPath);
+        strcpy(fullPath, "data\\");
+        strcat(fullPath, scrName);
+        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(fullPath);
+
+        gLucid_hamilton_67E8E0.sub_4C5AD0(0);
+
+        if (!HookManagement::GetEnumerateFuncsFn()) // if standalone version
+        {
+            EnableBoot2MapDebugOptions();
+        }
+
+        gFrontend_67DC84->field_EE08 = RedBar_16;
+        gFrontend_67DC84->field_110_state = FrontendState::Booting_Map_2;
+    }
+}
+
 void CC ImGuiDebugDraw()
 {
     HookManagement::HooksDebug();
@@ -936,6 +1081,30 @@ void CC ImGuiDebugDraw()
         static char tmpBuffer[512];
         sprintf(tmpBuffer, "c%02d", model_num);
         ImGui::Text(gText_0x14_704DFC->Wide2PesudoAscii_5B5D10(gText_0x14_704DFC->Find_5B5F90(tmpBuffer)));
+
+        static int currentCharIndex = 0;
+        const char* char_lang_codes[] = {"english", "french", "italian", "german", "spanish", "russian??", "japanese??"};
+        const char char_lang[] = {'e', 'f', 'i', 'g', 's', 'r', 'j'};
+
+        // Calculate the size of the char_lang_codes array
+        const int charCount = sizeof(char_lang_codes) / sizeof(char_lang_codes[0]);
+
+        // Combo box for car model selection
+        if (ImGui::Combo("Lang Code", &currentCharIndex, char_lang_codes, charCount))
+        {
+            // Lang Code selection changed
+        }
+
+        if (ImGui::Button("Change language"))
+        {
+            gText_0x14_704DFC->field_10_lang_code = char_lang[currentCharIndex];
+            gText_0x14_704DFC->Load_5B5E90();
+            if (gFrontend_67DC84)
+            {
+                gFrontend_67DC84->SetupMenuStringsOptionsElements_4B0220();
+            }
+        }
+        ImGui::Text("Curr Lang Code: %c", gText_0x14_704DFC->field_10_lang_code);
     }
 
     if (gGame_0x40_67E008)
@@ -1055,6 +1224,21 @@ void CC ImGuiDebugDraw()
         if (gCar_BC_Pool_67792C && ImGui::TreeNode("Car Pool"))
         {
             Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+
+            if (ImGui::TreeNode("All cars Field 88 "))
+            {
+                while (pCarIter)
+                {
+                    //ImGui::Value("Field 88", pCarIter->field_88);
+                    swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_88);
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->GetSprite_440840(), 0, 0);
+                    pCarIter = pCarIter->mpNext;
+                }
+                ImGui::TreePop();
+            }
+
+            pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+
             while (pCarIter)
             {
                 char buffer[128];
@@ -1100,7 +1284,7 @@ void CC ImGuiDebugDraw()
                     {
                         ImGui::Text("Driver occupation: %s", GetOccupationStrFromPed(pCarIter->field_54_driver));
                         ShowPedBitMask(pCarIter->field_54_driver);
-                        ShowPedBitMaskSetting(pCarIter->field_54_driver);
+                        ShowPedBitMaskSetting((BitSet32*)&pCarIter->field_54_driver->field_21C);
                     }
 
                     static bool bits[32];
@@ -1298,9 +1482,9 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("gTango_54_67D4C0"))
+        if (gFirefighterPool_54_67D4C0 && ImGui::TreeNode("gTango_54_67D4C0"))
         {
-            if (gFirefighterPool_54_67D4C0)
+            //if (gFirefighterPool_54_67D4C0)
             {
                 if (ImGui::Button("sub_4A8820"))
                 {
@@ -1458,6 +1642,48 @@ void CC ImGuiDebugDraw()
                     ImGui::TreePop();
                 }
             }
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("Car AI"))
+        {
+            s32 num_AI_count = 0;
+            Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+            while (pCarIter)
+            {
+                CarAI_78* pAI_Iter = pCarIter->field_5C;
+                if (pAI_Iter && pCarIter->field_50_car_sprite)
+                {
+                    /*
+                    swprintf(tmpBuff_67BD9C, L"44: %d\n4C: %d\n50: %d", 
+                            pAI_Iter->field_44_target_direction,
+                            pAI_Iter->field_4C_curr_direction,
+                            pAI_Iter->field_50);
+                    */
+                    /*
+                    swprintf(tmpBuff_67BD9C, L"48: %d\n54: %d", 
+                            pAI_Iter->field_48,
+                            pAI_Iter->field_54);
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
+                    */
+                    if (pCarIter->field_58_physics)
+                    {
+                        swprintf(tmpBuff_67BD9C, L"%d", 
+                            pCarIter->field_58_physics->field_95);
+                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
+                        //pCarIter->field_58_physics->field_95 = 1;
+                    }
+
+                    if (pCarIter->field_60)
+                    {
+                        swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C);
+                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -15);
+                    }
+                    num_AI_count++;
+                }
+                pCarIter = pCarIter->mpNext;
+            }
+            ImGui::Value("Count", num_AI_count);
             ImGui::TreePop();
         }
 
@@ -1622,6 +1848,8 @@ void CC ImGuiDebugDraw()
                                     ImGui::Value("Center of ??? y", pPhysics->field_38_cp1.y.ToFloat(), "%.2f");
                                     ImGui::Value("Physics fA0", pPhysics->field_A0);
                                     ImGui::SliderInt("Physics fA0", &pPhysics->field_A0, 0, 3);
+                                    ImGui::Value("Physics fAD", pPhysics->field_AD_turn_direction);
+                                    //pPhysics->field_95 = 1;
                                     //ImGui::SliderInt("Physics front skid", &pPhysics->field_84_front_skid.mValue, -3*16384, 3*16384);
                                     ImGui::TreePop();
                                 }
@@ -1708,7 +1936,7 @@ void CC ImGuiDebugDraw()
                         ImGui::InputInt("F 238", &pPlayerPed->field_238, 1, 1);
                         ImGui::InputInt("Ped State 1", &pPlayerPed->field_278_ped_state_1, 1, 1);
                         ImGui::InputInt("Ped State 2", &pPlayerPed->field_27C_ped_state_2, 1, 1);
-                        ImGui::InputInt("Car State", &pPlayerPed->field_25C_car_state, 1, 1);
+                        ImGui::InputInt("Car State", &pPlayerPed->field_25C_internal_objective, 1, 1);
                         ShowPedBitMask(pPlayerPed);
                     }
 
@@ -1921,7 +2149,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("field_504_tick_timer", pHud_Brief_704->field_504_tick_timer);
                         ImGui::Value("field_506", pHud_Brief_704->field_506);
                         ImGui::Value("field_508_num_lines", pHud_Brief_704->field_508_num_lines);
-                        ImGui::Value("field_50C", pHud_Brief_704->field_50C);
+                        ImGui::Value("field_50C", pHud_Brief_704->field_50C_face_variant);
                         ImGui::Value("field_510_time_to_show", pHud_Brief_704->field_510_time_to_show);
                         ImGui::Value("field_514_upward_timer", pHud_Brief_704->field_514_upward_timer);
                         ImGui::Value("field_51C", pHud_Brief_704->field_51C);
@@ -2066,24 +2294,92 @@ void CC ImGuiDebugDraw()
                 }
 
                 Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
-                while (pPedIter)
+
+                if (ImGui::TreeNode("Show Objectives"))
                 {
-                    char buffer[128];
-                    sprintf(buffer, "Ped %d %s", pPedIter->field_200_id, GetOccupationStrFromPed(pPedIter));
-                    if (ImGui::TreeNode(buffer))
+                    while (pPedIter)
                     {
-                        ImGui::Begin(buffer);
+                        char buffer[128];
+                        sprintf(buffer, "Ped %d %s", pPedIter->field_200_id, GetOccupationStrFromPed(pPedIter));
+                        if (ImGui::TreeNode(buffer))
+                        {
+                            ImGui::Begin(buffer);
 
-                        ImGui::SliderS16("wanted points", &pPedIter->field_20A_wanted_points, 0, 12000);
-                        ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 32767);
-                        ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
-                        ShowPedBitMask(pPedIter);
-                        ShowPedBitMaskSetting(pPedIter);
+                            ImGui::SliderS16("wanted points", &pPedIter->field_20A_wanted_points, 0, 12000);
+                            ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 32767);
+                            ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
+                            ShowPedBitMask(pPedIter);
+                            ShowPedBitMaskSetting((BitSet32*)&pPedIter->field_21C);
 
-                        ImGui::End();
-                        ImGui::TreePop();
+                            ImGui::End();
+                            ImGui::TreePop();
+                        }
+
+                        if (pPedIter->field_240_occupation == ped_ocupation_enum::mugger
+                            || pPedIter->field_240_occupation == ped_ocupation_enum::car_thief)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"(%d, %d)", 
+                            pPedIter->field_21C_bf.b2,
+                            pPedIter->field_21C_bf.b11);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_7)
+                        {
+                            DisplayTextAtSprite("Obj 7", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_8)
+                        {
+                            DisplayTextAtSprite("Obj 8", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_9)
+                        {
+                            DisplayTextAtSprite("Obj 9", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_10) 
+                        {
+                            DisplayTextAtSprite("Obj 10", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_11) 
+                        {
+                            DisplayTextAtSprite("Obj 11", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_15) 
+                        {
+                            DisplayTextAtSprite("Obj 15", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_17) 
+                        {
+                            DisplayTextAtSprite("Obj 17", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_18) 
+                        {
+                            DisplayTextAtSprite("Obj 18", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_28) 
+                        {
+                            DisplayTextAtSprite("Obj 28", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        else if (pPedIter->field_258_objective == objectives_enum::objective_43) 
+                        {
+                            DisplayTextAtSprite("Obj 43", pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        pPedIter = pPedIter->mpNext;
                     }
-                    pPedIter = pPedIter->mpNext;
+                    ImGui::TreePop();
+                }
+
+                if (ImGui::TreeNode("Show Fields"))
+                {
+                    while (pPedIter)
+                    {
+                        if (pPedIter->field_168_game_object)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        pPedIter = pPedIter->mpNext;
+                    }
+                    ImGui::TreePop();
                 }
             }
             ImGui::TreePop();
@@ -2238,8 +2534,91 @@ void CC ImGuiDebugDraw()
 
                     gPolice_7B8_6FEE40->SpawnWalkingGuard_570320(pGuard, xpos, ypos, zpos, Ang16(0));
                 }
+
+                if (ImGui::TreeNode("Show debug stuff"))
+                {
+                    s16 ypos = 64;
+                    for (u32 idx = 0; idx < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_4_cop_crew); idx++)
+                    {
+                        PoliceCrew_38* pCrew = &gPolice_7B8_6FEE40->field_4_cop_crew[idx];
+                        if (pCrew && pCrew->field_1C_used)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"Crew %d state: %d", idx, pCrew->field_24_state);
+                            DisplayWideTextAtScreenCoords(tmpBuff_67BD9C, 0, ypos);
+                            
+                            // display on cop sprite
+                            if (pCrew->field_10_subObj && pCrew->field_10_subObj->field_8_group && pCrew->field_10_subObj->field_8_group->field_2C_ped_leader)
+                            {
+                                swprintf(tmpBuff_67BD9C, L"State %d", pCrew->field_24_state);
+                                DisplayWideTextAtSprite(tmpBuff_67BD9C, pCrew->field_10_subObj->field_8_group->field_2C_ped_leader->GetSprite_46DF50(), 0, 0);
+                            }
+                            ypos += 16;
+                        }
+                    }
+
+                    ypos += 16;
+                    
+                    for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464); idx2++)
+                    {
+                        Police_7C* p7C = &gPolice_7B8_6FEE40->field_464[idx2];
+                        if (p7C && p7C->field_18_z != kFP16Zero_6FE20C)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"P7C target coords (%.1f, %.1f, %.1f)", p7C->field_10_x.ToFloat(), p7C->field_14_y.ToFloat(), p7C->field_18_z.ToFloat());
+                            DisplayWideTextAtScreenCoords(tmpBuff_67BD9C, 0, ypos);
+                            ypos += 16;
+                        }
+                    }
+
+                    ImGui::TreePop();
+                }
                 ImGui::TreePop();
             }
+        }
+
+        if (gMap_0x370_6F6268 && ImGui::TreeNode("gMap_0x370_6F6268"))
+        {
+            Fix16 player_xpos;
+            Fix16 player_ypos;
+            Fix16 player_zpos;
+            GetPlayerPos(player_xpos, player_ypos, player_zpos);
+            gmp_block_info* pPlayerBlock = gMap_0x370_6F6268->get_block_4DFE10(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt() - 1);
+            if (pPlayerBlock)
+            {
+                s32 value_1 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pPlayerBlock, 0);
+                s32 value_2 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pPlayerBlock, 1);
+                ImGui::Value("sub_4E5FC0 type 0", value_1);
+                ImGui::Value("sub_4E5FC0 type 1", value_2);
+            }
+
+            u8 xpos = player_xpos.ToUInt8();
+            u8 ypos = player_ypos.ToUInt8();
+            u8 zpos = player_zpos.ToUInt8();
+            
+            if (gOrca_2FD4_6FDEF0)
+            {
+                gOrca_2FD4_6FDEF0->field_25_xpos = xpos;
+                gOrca_2FD4_6FDEF0->field_26_ypos = ypos;
+                gOrca_2FD4_6FDEF0->field_27_zpos = zpos;
+                ImGui::Value("Orca Direction 1", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(1));
+                ImGui::Value("Orca Direction 2", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(2));
+                ImGui::Value("Orca Direction 3", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(3));
+                ImGui::Value("Orca Direction 4", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(4));
+            }
+            
+            u8 bRet;
+            static bool bUnk;
+            //ImGui::Checkbox("Last arg", &bUnk);
+            ImGui::Value("Can Move Dir 1", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::up_1, &bRet, bUnk));
+            //ImGui::Value("bRet", bUnk);
+            ImGui::Value("Can Move Dir 2", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::down_2, &bRet, bUnk));
+            //ImGui::Value("bRet", bUnk);
+            ImGui::Value("Can Move Dir 3", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::right_3, &bRet, bUnk));
+            //ImGui::Value("bRet", bUnk);
+            ImGui::Value("Can Move Dir 4", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::left_4, &bRet, bUnk));
+            //ImGui::Value("bRet", bUnk);
+            //gMap_0x370_6F6268->sub_4E0130(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt())
+
+            ImGui::TreePop();
         }
 
         // Put in-game debug stuff here
@@ -2297,11 +2676,11 @@ void CC ImGuiDebugDraw()
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("Frontend"))
+    if (gFrontend_67DC84 && ImGui::TreeNode("Frontend"))
     {
         if (ImGui::TreeNode("MenuPage_0xBCA"))
         {
-            if (gFrontend_67DC84)
+            //if (gFrontend_67DC84)
             {
                 static s32 loving_id = 0;
                 ImGui::SliderInt("Loving ID", &loving_id, 0, 16);
@@ -2386,7 +2765,7 @@ void CC ImGuiDebugDraw()
 
         if (ImGui::TreeNode("admiring_euler_4"))
         {
-            if (gFrontend_67DC84)
+            //if (gFrontend_67DC84)
             {
                 static s32 euler_id = 0;
                 ImGui::SliderInt("Euler ID", &euler_id, 0, 7);
@@ -2400,11 +2779,46 @@ void CC ImGuiDebugDraw()
             }
             ImGui::TreePop();
         }
+        
+        if (ImGui::TreeNode("Special settings"))
+        {
+            if (ImGui::Button("Load multiplayer maps"))
+            {
+                LoadMapsFromData(multiplayer_maps, total_num_maps_loaded);
+                bExtMapsLoaded = true;
+            }
+
+            if (bExtMapsLoaded)
+            {
+                ImGui::Value("Total loaded maps", total_num_maps_loaded);
+                static int currentMapIndex = 0;
+                if (ImGui::Combo("Map", &currentMapIndex, (const char*)flat_char_array((char*)mmp_maps_description, total_num_maps_loaded), total_num_maps_loaded))
+                {
+                    // Map selection changed
+                }
+                if (ImGui::Button("Load external map"))
+                {
+                    //BootMap("mp1-comp.gmp", "bil.sty", "mp1-6p.scr");
+                    BootMap(multiplayer_maps[currentMapIndex].field_0_map_name,
+                        multiplayer_maps[currentMapIndex].field_104_style_name,
+                        multiplayer_maps[currentMapIndex].field_208_script_name
+                    );
+                }
+            }
+        }
 
         if (ImGui::TreeNode("Debug Frontend"))
         {
-            if (gFrontend_67DC84)
+            //if (gFrontend_67DC84)
             {
+                
+                if (ImGui::Button("Add new menu option (WIP)"))
+                {
+                    AddMenuOption(MENUPAGE_PLAY, 300, 415, L"TEST OPTION", 264);
+                }
+                ImGui::TreePop();
+                
+
                 if (ImGui::TreeNode("Player settings"))
                 {
                     static s32 player_idx;
@@ -2455,9 +2869,9 @@ void CC ImGuiDebugDraw()
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("gJolly_poitras_0x2BC0_6FEAC0"))
+    if (gJolly_poitras_0x2BC0_6FEAC0 && ImGui::TreeNode("gJolly_poitras_0x2BC0_6FEAC0"))
     {
-        if (gJolly_poitras_0x2BC0_6FEAC0)
+        //if (gJolly_poitras_0x2BC0_6FEAC0)
         {
             if (ImGui::TreeNode("struc_221"))
             {

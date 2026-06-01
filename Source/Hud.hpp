@@ -71,18 +71,32 @@ class Garox_4
     s32 field_0_value;
 };
 
+namespace HudPauseSection
+{
+enum
+{
+    target_score_0 = 0,
+    gang_1_missions_done_1 = 1,
+    gang_2_missions_done_2 = 2,
+    gang_3_missions_done_3 = 3,
+    all_missions_done_4 = 4,
+    kill_frenzies_completed_5 = 5,
+    tokens_collected_6 = 6,
+};
+} // namespace HudPauseSection
+
 class Garox_12E4_sub
 {
   public:
     // inline 0x4C71A0
     Garox_12E4_sub()
     {
-        field_12E4 = 0;
-        field_1 = 45;
+        field_0_current_pause_section = 0;
+        field_1_timer = 45;
     }
     EXPORT void DrawPause_5D63B0();
-    u8 field_12E4;
-    char_type field_1;
+    u8 field_0_current_pause_section;
+    char_type field_1_timer;
 };
 
 class Hud_Message_1C8
@@ -524,7 +538,7 @@ class Hud_Brief_704 // size 0x704
     u16 field_504_tick_timer;
     u16 field_506;
     s32 field_508_num_lines;
-    s32 field_50C;
+    s32 field_50C_face_variant;
     s32 field_510_time_to_show;
     s32 field_514_upward_timer;
     Garox_18* field_518_ary_19_start_q;
@@ -638,7 +652,7 @@ EXTERN_GLOBAL(s16, word_706600);
 
 EXTERN_GLOBAL_ARRAY(char, byte_67CE50, 264);
 
-EXPORT s32 __stdcall sub_5D1260(s32 a1);
+EXPORT s32 __stdcall GetPhoneTypeFromObjModel_5D1260(s32 a1);
 EXPORT char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type);
 EXPORT u8 __stdcall sub_5D12E0(s32 phone_type);
 
