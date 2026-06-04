@@ -312,6 +312,19 @@ class Fix16
     EXPORT static Fix16 __stdcall Abs_436A50(Fix16& a2);
     EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
     EXPORT Fix16 operator+(const Fix16& rhs) const;
+    EXPORT Fix16 Multiply_408680(const Fix16& in) const;
+    EXPORT Fix16 Negate_4086A0() const;
+
+    // Needed this for a GetLength variant used by miss2_0x11C::GetSpeed_50E190.
+    inline static Fix16 __stdcall Abs_negate_out_of_line(Fix16& input)
+    {
+        if (input.mValue > 0)
+        {
+            return input;
+        }
+
+        return input.Negate_4086A0();
+    }
 
     //MATCH_FUNC(0x436A20)
     Fix16 operator/(const Fix16& in)

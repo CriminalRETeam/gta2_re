@@ -5089,10 +5089,69 @@ void miss2_0x11C::SCRCMD_MODEL_CHECK_50E150() // SCRCMD_MODEL_CHECK
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50e190)
+WIP_FUNC(0x50e190)
 void miss2_0x11C::GetSpeed_50E190()
 {
-    NOT_IMPLEMENTED;
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    Fix16 charCarSpeed;
+    Fix16 carSpeed;
+    Fix16 maxSpeed;
+
+    switch (gBasePtr_6F8070->field_2_type)
+    {
+        case SCRCMD_GET_MAX_SPEED:
+        {
+            maxSpeed = pPtr->field_8_car->GetMaxSpeed_439F30();
+            pParam2->field_8_counter = maxSpeed.GetRaw_40F4B0();
+
+            miss2_0x11C::Next_503620(gBasePtr_6F8070);
+            return;
+        }
+        case SCRCMD_GET_CHAR_CAR_SPEED:
+        {
+            Car_BC* pCar = pPtr->field_8_char->field_16C_car;
+
+            if (pCar)
+            {
+                if (pCar->field_58_physics)
+                {
+                    charCarSpeed = pCar->field_58_physics->field_0_vel_read_only.GetLength_all_out_of_line();
+                    pParam2->field_8_counter = charCarSpeed.GetRaw_40F4B0();
+                }
+                else
+                {
+                    pParam2->field_8_counter = dword_6F77C0.ToInt();
+                }
+
+                miss2_0x11C::Next_503620(gBasePtr_6F8070);
+                return;
+            }
+
+            break;
+        }
+        case SCRCMD_GET_CAR_SPEED:
+        {
+            Car_BC* pCar = pPtr->field_8_car;
+
+            if (pCar->field_58_physics)
+            {
+                carSpeed = pCar->field_58_physics->field_0_vel_read_only.GetLength_453590();
+                pParam2->field_8_counter = carSpeed.GetRaw_40F4B0();
+
+                miss2_0x11C::Next_503620(gBasePtr_6F8070);
+                return;
+            }
+
+            pParam2->field_8_counter = dword_6F77C0.ToInt();
+            break;
+        }
+        default:
+            break;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 WIP_FUNC(0x50e360)

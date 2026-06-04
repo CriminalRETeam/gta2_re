@@ -239,6 +239,23 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
+    // Force all but Abs(y) out of line.
+    inline Fix16 GetLength_all_out_of_line()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
     Fix16_Point operator+(Fix16_Point& in)
     {
         return Fix16_Point(x + in.x, y + in.y);
