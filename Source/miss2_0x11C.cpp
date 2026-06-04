@@ -2422,10 +2422,88 @@ void miss2_0x11C::SCRCMD_CHECK_HEALTH_509030()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509180)
+WIP_FUNC(0x509180)
 void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 {
-    NOT_IMPLEMENTED;
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_unsigned_2);
+    Ped* pChar = pPtr->field_8_char;
+
+    if (pChar != NULL)
+    {
+        Car_BC* pCar = pChar->field_16C_car;
+
+        if (pCar != NULL)
+        {
+            pParam2->field_8_car = pCar;
+
+            if (gStoredCar_6F7560 != NULL)
+            {
+                if (pCar != gStoredCar_6F7560 && pCar->field_6C_maybe_id != gStoredCar_6F7560->field_6C_maybe_id)
+                {
+                    s32 four = 4;
+
+                    if (gStoredCar_6F7560->field_6C_maybe_id == gStoredCarId_6F78B4)
+                    {
+                        if (gCar_6C_677930->CanAllocateOfType_446930(1))
+                        {
+                            gStoredCar_6F7560->sub_443EE0(1);
+                            gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
+                            gStoredCar_6F7560->sub_421560(3);
+
+                            if (gStoredCar_6F7560->field_88 != 7 && gStoredCar_6F7560->field_88 != 5 &&
+                                gStoredCar_6F7560->field_88 != 2 && gStoredCar_6F7560->field_88 != 3)
+                            {
+                                gStoredCar_6F7560->field_88 = four;
+                            }
+                        }
+                        else if (gCar_6C_677930->CanAlloc_446870(8))
+                        {
+                            gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
+                            gStoredCar_6F7560->sub_421560(3);
+
+                            if (gStoredCar_6F7560->field_88 != 7 && gStoredCar_6F7560->field_88 != 5 &&
+                                gStoredCar_6F7560->field_88 != 2 && gStoredCar_6F7560->field_88 != 3)
+                            {
+                                gStoredCar_6F7560->field_88 = four;
+                            }
+                        }
+                        else
+                        {
+                            gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
+                            gStoredCar_6F7560->sub_421560(3);
+
+                            if (gStoredCar_6F7560->field_88 != 5)
+                            {
+                                gStoredCar_6F7560->field_88 = 3;
+                            }
+                        }
+                    }
+
+                    gStoredCar_6F7560 = pParam2->field_8_car;
+                    gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_maybe_id;
+
+                    pParam2->field_8_car->sub_443EE0(8);
+
+                    if (!gPublicTransport_181C_6FF1D4->is_bus_579AA0(pParam2->field_8_car) && pParam2->field_8_car->field_98 != four)
+                    {
+                        pParam2->field_8_car->field_98 = 2;
+                        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                gStoredCar_6F7560 = pCar;
+                gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_maybe_id;
+                pCar->sub_443EE0(8);
+            }
+        }
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x5093c0)
