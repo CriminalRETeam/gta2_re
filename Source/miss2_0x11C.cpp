@@ -764,9 +764,9 @@ void miss2_0x11C::SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER
 }
 
 MATCH_FUNC(0x5045d0)
-void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2)
+void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* a1, s16* a2)
 {
-    SCR_THREAD* pCmd = (SCR_THREAD*)a1;
+    SCR_THREAD* pCmd = a1;
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12);
 
@@ -778,9 +778,9 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2)
 }
 
 MATCH_FUNC(0x504660)
-void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(s32 a2)
+void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* a2)
 {
-    SCR_THREAD* pCmd = (SCR_THREAD*)a2;
+    SCR_THREAD* pCmd = a2;
 
     if (((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx))->field_8_char)
     {
@@ -832,9 +832,9 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 }
 
 MATCH_FUNC(0x5047c0)
-void miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16* a2)
+void miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0(SCR_THREAD* a1, s16* a2)
 {
-    SCR_THREAD* pCmd = (SCR_THREAD*)a1;
+    SCR_THREAD* pCmd = a1;
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12);
 
@@ -1538,10 +1538,9 @@ void miss2_0x11C::SCRCMD_START_BASIC_KF_506140(u16* a1)
 }
 
 // https://decomp.me/scratch/fuDf2
-STUB_FUNC(0x5061c0)
+MATCH_FUNC(0x5061c0)
 void miss2_0x11C::ExecOpCode_5061C0()
 {
-    NOT_IMPLEMENTED;
     for (u16 i = 1; i < 6000u; ++i)
     {
         SCR_CMD_HEADER* pBasePtr = gfrosty_pasteur_6F8060->GetBasePointer_512770(i);
@@ -1598,24 +1597,44 @@ void miss2_0x11C::ExecOpCode_5061C0()
                     miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530((SCR_DESTRUCTOR*)pBasePtr, (SCR_POINTER*)pBasePtr);
                     break;
                 case SCRCMD_THREAD_DECLARE2:
-                    miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0((s32)pBasePtr,
-                                                               &pBasePtr->field_0_cmd_this); // TODO: correct type after matching this func
-                    break;
-                case SCRCMD_THREAD_DECLARE3:
-                    miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660((s32)pBasePtr); // TODO: correct type after matching this func
+                    miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0((SCR_THREAD*)pBasePtr, &pBasePtr->field_0_cmd_this);
                     break;
                 case SCRCMD_THREAD_DECLARE4:
-                    miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0((s32)pBasePtr,
-                                                               &pBasePtr->field_0_cmd_this); // TODO: correct type after matching this func
+                    miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0((SCR_THREAD*)pBasePtr, &pBasePtr->field_0_cmd_this);
+                    break;
+                case SCRCMD_THREAD_DECLARE3:
+                    miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660((SCR_THREAD*)pBasePtr);
                     break;
                 case SCRCMD_SET_GANG_INFO1:
-                    miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830((SCR_SET_GANG_INFO*)pBasePtr); // SCRCMD_SET_GANG_INFO1
+                    miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830((SCR_SET_GANG_INFO*)pBasePtr);
                     break;
-                case SCRCMD_SET_DOOR_INFO: // SCRCMD_SET_DOOR_INFO
+                case SCRCMD_SET_DOOR_INFO:
                     miss2_0x11C::SCRCMD_SET_DOOR_INFO_504950((SCR_FOUR_PARAMS*)pBasePtr);
                     break;
-                case SCRCMD_CRUSHER_BASIC: // SCRCMD_CRUSHER_BASIC ??
+                case SCRCMD_CRUSHER_BASIC:
                     miss2_0x11C::SCRCMD_CRUSHER_BASIC_5045A0((SCR_CRUSHER_BASIC*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    break;
+                case SCRCMD_CHAR_AREA_ANY_MEANS:
+                case SCRCMD_THREAD_DECLARE5:
+                    miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710((SCR_CHAR_AREA_ANY*)pBasePtr);
+                    break;
+                case SCRCMD_DOOR_DECLARE_S1:
+                case SCRCMD_DOOR_DECLARE_D1:
+                    miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970((SCR_DOOR_DATA_DEC*)pBasePtr);
+                    break;
+                case SCRCMD_DOOR_DECLARE_S2:
+                case SCRCMD_DOOR_DECLARE_D2:
+                    miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80((SCR_DOOR_DATA_DEC*)pBasePtr);
+                    break;
+                case SCRCMD_DEC_GANG_1_FLAG:
+                case SCRCMD_DEC_GANG_2_FLAG:
+                case SCRCMD_DEC_GANG_3_FLAG:
+                case SCRCMD_DECLARE_MISSION:
+                    miss2_0x11C::SCRCMD_DECLARE_MISSION_504DD0((SCR_TWO_PARAMS*)pBasePtr);
+                    break;
+                case SCRCMD_CREATE_LIGHT2:
+                case SCRCMD_LIGHT_DEC:
+                    miss2_0x11C::CreateLight_504EE0((SCR_CREATE_LIGHT*)pBasePtr, (SCR_POINTER*)pBasePtr);
                     break;
                 case SCRCMD_SET_STATION:
                 case SCRCMD_SET_EMPTY_STATION:
@@ -1629,10 +1648,6 @@ void miss2_0x11C::ExecOpCode_5061C0()
                 case SCRCMD_SET_STATION_2:
                 case SCRCMD_SET_STATION_1:
                     miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210((SCR_TWO_PARAMS*)pBasePtr);
-                    break;
-                case SCRCMD_CREATE_LIGHT2:
-                case SCRCMD_LIGHT_DEC:
-                    miss2_0x11C::CreateLight_504EE0((SCR_CREATE_LIGHT*)pBasePtr, (SCR_POINTER*)pBasePtr);
                     break;
                 case SCRCMD_DECLARE_POLICE:
                     miss2_0x11C::SCRCMD_DECLARE_POLICE_5052C0((SCR_DECLARE_POLICELEVEL*)pBasePtr);
@@ -1657,24 +1672,6 @@ void miss2_0x11C::ExecOpCode_5061C0()
                 case SCRCMD_SECRETS_PASSED:
                 case SCRCMD_SECRETS_FAILED:
                     miss2_0x11C::SCRCMD_PASSED_FAILED_FLAGS_505580((SCR_TWO_PARAMS*)pBasePtr);
-                    break;
-                case SCRCMD_DOOR_DECLARE_S1:
-                case SCRCMD_DOOR_DECLARE_D1:
-                    miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970((SCR_DOOR_DATA_DEC*)pBasePtr);
-                    break;
-                case SCRCMD_DOOR_DECLARE_S2:
-                case SCRCMD_DOOR_DECLARE_D2:
-                    miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80((SCR_DOOR_DATA_DEC*)pBasePtr);
-                    break;
-                case SCRCMD_DEC_GANG_1_FLAG:
-                case SCRCMD_DEC_GANG_2_FLAG:
-                case SCRCMD_DEC_GANG_3_FLAG:
-                case SCRCMD_DECLARE_MISSION:
-                    miss2_0x11C::SCRCMD_DECLARE_MISSION_504DD0((SCR_TWO_PARAMS*)pBasePtr);
-                    break;
-                case SCRCMD_CHAR_AREA_ANY_MEANS:
-                case SCRCMD_THREAD_DECLARE5:
-                    miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710((SCR_CHAR_AREA_ANY*)pBasePtr);
                     break;
                 case SCRCMD_DECLARE_CARLIST:
                     miss2_0x11C::SCRCMD_DECLARE_CARLIST_505750((SCR_TWO_PARAMS*)pBasePtr);
@@ -1701,6 +1698,17 @@ void miss2_0x11C::ExecOpCode_5061C0()
                     break;
                 case SCRCMD_START_BASIC_KF:
                     miss2_0x11C::SCRCMD_START_BASIC_KF_506140((u16*)&pBasePtr->field_0_cmd_this);
+                    break;
+                case SCRCMD_OBJ_DEC:
+                case SCRCMD_COUNTER:
+                case SCRCMD_COUNTER_SET:
+                case SCRCMD_CREATE_OBJ_3D_s32:
+                case SCRCMD_CREATE_OBJ_2D_STR:
+                case SCRCMD_LEVELSTART:
+                case SCRCMD_LEVELEND:
+                case SCRCMD_THREAD_DECLARE1:
+                case SCRCMD_COUNTER_SAVE:
+                case SCRCMD_COUNTER_SET_SAVE:
                     break;
 
                 default:
@@ -3157,7 +3165,7 @@ void miss2_0x11C::EnableThread_50A9E0(u16 idx)
     switch (pCmd->field_2_type)
     {
         case SCRCMD_THREAD_DECLARE2:
-            SCRCMD_THREAD_DECLARE2_5045D0((s32)pCmd, (s16*)pCmd);
+            SCRCMD_THREAD_DECLARE2_5045D0((SCR_THREAD*)pCmd, (s16*)pCmd);
             break;
         case SCRCMD_THREAD_DECLARE3:
         {
@@ -3169,13 +3177,13 @@ void miss2_0x11C::EnableThread_50A9E0(u16 idx)
             }
             else
             {
-                SCRCMD_THREAD_DECLARE3_504660((s32)pCmd);
+                SCRCMD_THREAD_DECLARE3_504660((SCR_THREAD*)pCmd);
             }
 
             break;
         }
         case SCRCMD_THREAD_DECLARE4:
-            SCRCMD_THREAD_DECLARE4_5047C0((s32)pCmd, (s16*)pCmd);
+            SCRCMD_THREAD_DECLARE4_5047C0((SCR_THREAD*)pCmd, (s16*)pCmd);
             break;
         case SCRCMD_THREAD_DECLARE5:
         case SCRCMD_CHAR_AREA_ANY_MEANS:
