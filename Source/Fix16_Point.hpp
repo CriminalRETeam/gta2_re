@@ -7,6 +7,7 @@
 EXTERN_GLOBAL(Fix16, gFix16_6777CC);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(Fix16, dword_6FE07C);
+EXTERN_GLOBAL(Fix16, dword_6F77C0);
 
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
 // but 9.6f leads me to believe both the POD and non-POD type are the same
@@ -239,8 +240,25 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
-    // Force all but Abs(y) out of line.
-    inline Fix16 GetLength_all_out_of_line()
+    // Needed for miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360.
+    inline Fix16 GetLength_no_sqrt_inline_abs_y_negate()
+    {
+        if (x == dword_6F77C0)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == dword_6F77C0)
+        {
+            return Fix16::Abs(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70(x * x + y * y);
+        }
+    }
+
+    // Needed for miss2_0x11C::GetSpeed_50E190.
+    inline Fix16 GetLength_all_out_of_line_abs_y_negate()
     {
         if (x == kFP16Zero_6FE20C)
         {

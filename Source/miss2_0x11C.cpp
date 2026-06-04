@@ -5117,7 +5117,7 @@ void miss2_0x11C::GetSpeed_50E190()
             {
                 if (pCar->field_58_physics)
                 {
-                    charCarSpeed = pCar->field_58_physics->field_0_vel_read_only.GetLength_all_out_of_line();
+                    charCarSpeed = pCar->field_58_physics->field_0_vel_read_only.GetLength_all_out_of_line_abs_y_negate();
                     pParam2->field_8_counter = charCarSpeed.GetRaw_40F4B0();
                 }
                 else
@@ -5160,18 +5160,15 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
     SCR_CHECK_CAR_SPEED* pCmd = (SCR_CHECK_CAR_SPEED*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
-    // Here there is 1 call to Fix16::SquareRoot which even though marked inline doesn't get inlined which is
-    // expected. But so far everywhere else ALL calls to it are supposed to get inlined which only seems to work
-    // using __forceinline
     if (pPointer->field_8_car->field_58_physics &&
-        pPointer->field_8_car->field_58_physics->get_car_velocity_4211C0().get_value_4754D0() > pCmd->field_A_value)
+        pPointer->field_8_car->field_58_physics->field_0_vel_read_only.GetLength_no_sqrt_inline_abs_y_negate().get_value_4754D0() > pCmd->field_A_value)
     {
         field_8 = true;
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
     }
-    else
-    {
-        field_8 = false;
-    }
+
+    field_8 = false;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
