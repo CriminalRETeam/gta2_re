@@ -1351,11 +1351,55 @@ void miss2_0x11C::SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* pCmd)
     gfrosty_pasteur_6F8060->field_340_car_list = &pCmd->field_8_u32;
 }
 
-STUB_FUNC(0x505790)
-s32 miss2_0x11C::DisableThread_505790(u16 a1)
+MATCH_FUNC(0x505790)
+void miss2_0x11C::DisableThread_505790(u16 idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    SCR_CMD_HEADER* pCmd = gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
+
+    switch (pCmd->field_2_type)
+    {
+        case SCRCMD_THREAD_DECLARE4:
+        {
+            SCR_THREAD* pThread = (SCR_THREAD*)pCmd;
+            SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pThread->field_10);
+            SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pThread->field_12);
+
+            if (pParam2->field_8_obj->sub_475A80() && pParam2->field_8_obj->field_24_bDoneThisFrame != 174)
+            {
+                pParam2->field_8_obj->sub_5291D0();
+            }
+
+            gfrosty_pasteur_6F8060->sub_512A70(pParam1->field_8_char->field_200_id, pParam2->field_8_obj->field_14_id);
+            break;
+        }
+        case SCRCMD_THREAD_DECLARE3:
+            gCar_214_705F20->field_0[(u8)((SCR_THREAD*)pCmd)->field_15].field_14 = 2;
+            break;
+        case SCRCMD_THREAD_DECLARE5:
+        case SCRCMD_CHAR_AREA_ANY_MEANS:
+            gCar_214_705F20->field_0[(u8)((SCR_CHAR_AREA_ANY*)pCmd)->field_26_result].field_14 = 2;
+            break;
+        case SCRCMD_THREAD_DECLARE2:
+        {
+            SCR_THREAD* pThread = (SCR_THREAD*)pCmd;
+            SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pThread->field_10);
+            SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pThread->field_12);
+
+            s32 charId = pParam1->field_8_char->field_200_id;
+            thread_C* pThreadC = gfrosty_pasteur_6F8060->sub_5128A0(charId, pParam2->field_8_car->field_6C_maybe_id);
+
+            if (pThreadC)
+            {
+                pThreadC->field_0_unk = 0;
+                pThreadC->field_4_obj_f14 = 0;
+                pThreadC->field_8_cmd_line = 0;
+                --gfrosty_pasteur_6F8060->field_0;
+            }
+
+            pParam2->field_8_car->field_8D &= ~1;
+            break;
+        }
+    }
 }
 
 MATCH_FUNC(0x505b10)
