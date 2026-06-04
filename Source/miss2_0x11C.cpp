@@ -66,10 +66,86 @@ static inline bool is_car_weapon(s32& weapon_idx)
     return weapon_idx >= 15 && weapon_idx <= 27;
 }
 
-STUB_FUNC(0x503200)
+WIP_FUNC(0x503200)
 void miss2_0x11C::sub_503200()
 {
-    NOT_IMPLEMENTED;
+    if (gfrosty_pasteur_6F8060->field_355 && gfrosty_pasteur_6F8060->field_344_mission_flag &&
+        *gfrosty_pasteur_6F8060->field_344_mission_flag == 1)
+    {
+        Player* player = gGame_0x40_67E008->field_38_orf1;
+        Ped* ped;
+
+        if (!(player->field_28 && player->field_2C == 2 &&
+              ((ped = player->field_2C4_player_ped) == NULL || ped->field_258_objective != 54)))
+        {
+            Player* player_b = gGame_0x40_67E008->field_38_orf1;
+            Ped* ped_b;
+
+            if (!(player_b->field_28 && player_b->field_2C == 2 &&
+                  (ped_b = player_b->field_2C4_player_ped) != NULL && ped_b->field_258_objective == 54))
+            {
+                return;
+            }
+        }
+
+        field_114->remove_5031E0(2);
+        sub_506B80();
+
+        s32 v;
+        Player* player2 = gGame_0x40_67E008->field_38_orf1;
+
+        if (player2->field_28 && player2->field_2C == 2)
+        {
+            Ped* ped2 = player2->field_2C4_player_ped;
+
+            if (ped2 && ped2->field_258_objective == 54)
+            {
+                v = 5;
+            }
+            else
+            {
+                v = 0;
+            }
+        }
+        else
+        {
+            v = 5;
+        }
+
+        u16 msg_id = stru_6F6784.get_uint8_4F7B70(5);
+
+        if (gfrosty_pasteur_6F8060->field_348_gang_1_mission_flag &&
+            *gfrosty_pasteur_6F8060->field_348_gang_1_mission_flag == 1)
+        {
+            msg_id += gfrosty_pasteur_6F8060->field_356 + v;
+        }
+        else if (gfrosty_pasteur_6F8060->field_34C_gang_2_mission_flag &&
+                 *gfrosty_pasteur_6F8060->field_34C_gang_2_mission_flag == 1)
+        {
+            msg_id += gfrosty_pasteur_6F8060->field_358 + v;
+        }
+        else if (gfrosty_pasteur_6F8060->field_350_gang_3_mission_flag &&
+                 *gfrosty_pasteur_6F8060->field_350_gang_3_mission_flag == 1)
+        {
+            msg_id += gfrosty_pasteur_6F8060->field_35A + v;
+        }
+        else
+        {
+            msg_id = 8001;
+        }
+
+        sprintf(gTmpBuffer_67C598, "%d", msg_id);
+
+        gHud_2B00_706620->field_DC.ClearAllBriefsWithPriority_5D4890(1);
+        gHud_2B00_706620->field_DC.ClearAllBriefsWithPriority_5D4890(3);
+        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("mfail"), 3);
+        gRoot_sound_66B038.PlayVoice_40F090(0x17);
+
+        *gfrosty_pasteur_6F8060->field_344_mission_flag = 0;
+        gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag = 1;
+        gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_26C_graphic_type = 1;
+    }
 }
 
 // https://decomp.me/scratch/o1VKh
