@@ -657,7 +657,7 @@ struct SCR_SET_CHAR_DRIVE_AGGR : SCR_CMD_HEADER
     u8 field_A_status;
 };
 
-struct SCR_OPERATE_COUNTER_AND_INT : SCR_CMD_HEADER
+struct SCR_OPERATE_COUNTER_AND_OPERAND_INT : SCR_CMD_HEADER
 {
     u16 field_8_destination_counter_idx;
     u16 field_A_operand_counter_idx;
@@ -789,6 +789,12 @@ struct SCR_OPERATE_COUNTER_AND_COUNTER_2 : SCR_CMD_HEADER
 {
     u16 field_8_left_counter_idx;
     u16 field_A_right_counter_idx;
+};
+
+struct SCR_OPERATE_COUNTER_AND_INT : SCR_CMD_HEADER
+{
+    u16 field_8_counter_idx;
+    s16 field_A_value;
 };
 
 struct SCR_OPERATE_INT_AND_COUNTER : SCR_CMD_HEADER

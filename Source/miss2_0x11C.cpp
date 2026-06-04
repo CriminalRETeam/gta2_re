@@ -1877,10 +1877,79 @@ u8 miss2_0x11C::sub_506BC0(u32 a1)
     }
 }
 
-STUB_FUNC(0x506d60)
+MATCH_FUNC(0x506d60)
 void miss2_0x11C::sub_506D60()
 {
-    NOT_IMPLEMENTED;
+    SCR_OPERATE_COUNTER_AND_INT* pCmd = (SCR_OPERATE_COUNTER_AND_INT*)gBasePtr_6F8070;
+    u8 operation_type = miss2_0x11C::sub_506BC0(pCmd->field_2_type);
+    SCR_POINTER* pLeftOperand = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_counter_idx);
+
+    switch (operation_type)
+    {
+        case 0:
+            this->field_8 = pLeftOperand->field_8_counter + pCmd->field_A_value;
+            break;
+        case 1:
+            this->field_8 = pLeftOperand->field_8_counter - pCmd->field_A_value;
+            break;
+        case 4:
+            if (pLeftOperand->field_8_counter < pCmd->field_A_value)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+
+            break;
+        case 5:
+            if (pLeftOperand->field_8_counter <= pCmd->field_A_value)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+
+            break;
+        case 2:
+            if (pLeftOperand->field_8_counter > pCmd->field_A_value)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+
+            break;
+        case 3:
+            if (pLeftOperand->field_8_counter >= pCmd->field_A_value)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+
+            break;
+        case 6:
+            if (pLeftOperand->field_8_counter == pCmd->field_A_value)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+
+            break;
+        default:
+            break;
+    }
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -5360,7 +5429,7 @@ void miss2_0x11C::sub_50E4F0()
 MATCH_FUNC(0x50e610)
 void miss2_0x11C::sub_50E610()
 {
-    SCR_OPERATE_COUNTER_AND_INT* pCmd = (SCR_OPERATE_COUNTER_AND_INT*)gBasePtr_6F8070;
+    SCR_OPERATE_COUNTER_AND_OPERAND_INT* pCmd = (SCR_OPERATE_COUNTER_AND_OPERAND_INT*)gBasePtr_6F8070;
     SCR_POINTER* pDestCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_destination_counter_idx);
     SCR_POINTER* pOperandCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_operand_counter_idx);
 
