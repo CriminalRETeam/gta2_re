@@ -356,6 +356,23 @@ struct SCR_PHONE_TEMPLATE : SCR_CMD_HEADER
     u16 field_1E_padding;
 };
 
+struct SCR_START_BONUS : SCR_CMD_HEADER
+{
+    u16 field_8_zone_str_id;
+    u8 field_A_subtype;
+    s8 field_B;
+    s8 field_C;
+    u8 field_D;
+    u16 field_E_id;
+    u16 field_10;
+    s16 field_12;
+    u16 field_14;
+    u16 field_16;
+    u16 field_18_ptr;
+    u8 field_1A;
+    u8 field_1B;
+};
+
 struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
 {
     SCR_XY_uc field_8_min_pos;
@@ -726,7 +743,7 @@ struct SCR_IS_POINT_ON_SCREEN : SCR_CMD_HEADER
 struct SCR_GET_NUM_LIVES_MULTIPLIERS : SCR_CMD_HEADER
 {
     u16 field_8_player_ped_idx;
-    u16 field_A_counter_idx;
+    s16 field_A_counter_idx;
 };
 
 struct SCR_REMOTE_CONTROL : SCR_CMD_HEADER
@@ -1011,7 +1028,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_IS_GROUP_IN_CAR_50C470();
     EXPORT void SCRCMD_PUNCHED_SOMEONE_50C4E0();
     EXPORT void SCRCMD_ADD_CHAR_TO_GANG_50C540();
-    EXPORT void sub_50C5A0();
+    EXPORT void SCRCMD_EXPLODE_50C5A0();
     EXPORT void sub_50C6F0();
     EXPORT void SCRCMD_BEEN_PUNCHED_BY_50C760();
     EXPORT void SCRCMD_UPDATE_DOOR_50C7D0();
@@ -1022,7 +1039,7 @@ class miss2_0x11C
     EXPORT void sub_50CA70();
     EXPORT void SCRCMD_ADD_NEW_BLOCK_50CAB0();
     EXPORT void SCRCMD_ROAD_ON_OFF_50CB20();
-    EXPORT void sub_50CB70();
+    EXPORT void SCRCMD_CHECK_CAR_DRIVER_50CB70();
     EXPORT void SCRCMD_SWITCH_GENERATOR1_50CCB0();
     EXPORT void SCRCMD_SWITCH_GENERATOR3_50CD30();
     EXPORT void SCRCMD_CAR_DAMAGE_POS_50CDB0();

@@ -297,7 +297,7 @@ void GangPool_CA8::alloc_gang_for_map_zone_4BF1E0(gmp_map_zone* pMapZone)
 }
 
 MATCH_FUNC(0x4BF210);
-u8 GangPool_CA8::get_gang_idx_by_name_4BF210(const char* gangName)
+s8 GangPool_CA8::get_gang_idx_by_name_4BF210(const char* gangName)
 {
     Gang_144* pZone = gang_by_name_4BF100(gangName);
     if (pZone)
