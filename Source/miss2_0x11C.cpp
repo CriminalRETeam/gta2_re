@@ -6447,10 +6447,55 @@ void miss2_0x11C::SCRCMD_MAKE_MUGGERS_50F770()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50f7b0)
+WIP_FUNC(0x50f7b0)
 void miss2_0x11C::LocSecChar_50F7B0()
 {
-    NOT_IMPLEMENTED;
+    SCR_LOC_SEC_CHAR* pCmd = (SCR_LOC_SEC_CHAR*)gBasePtr_6F8070;
+    SCR_POINTER* pChar1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_char1_idx);
+    SCR_POINTER* pChar2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_char2_idx);
+
+    Ped* pCenter = pChar2->field_8_char;
+    Fix16 centerX = pCenter->field_1AC_cam.x;
+    Fix16 centerY = pCenter->field_1AC_cam.y;
+    Fix16 centerZ = pCenter->field_1AC_cam.z;
+
+    Fix16 width = pCmd->field_C_x_range / dword_6F77C8;
+    Fix16 height = pCmd->field_10_y_range / dword_6F77C8;
+
+    Fix16 testX = pChar1->field_8_char->field_1AC_cam.x;
+    Fix16 testY = pChar1->field_8_char->field_1AC_cam.y;
+    Fix16 testZ = pChar1->field_8_char->field_1AC_cam.z;
+    field_8 = false;
+
+    if (testX >= centerX - width && testX <= centerX + width &&
+        testY >= centerY - height && testY <= centerY + height &&
+        testZ.ToUInt8() == centerZ.ToUInt8())
+    {
+        switch (gBasePtr_6F8070->field_2_type)
+        {
+            case SCRCMD_LOC_SECOND_char_type:
+                if (pChar1->field_8_char->field_168_game_object)
+                {
+                    field_8 = true;
+                }
+
+                break;
+            case SCRCMD_LOC_SEC_CHAR_CAR:
+                if (pChar1->field_8_char->field_16C_car)
+                {
+                    field_8 = true;
+                }
+
+                break;
+            case SCRCMD_LOC_SEC_CHAR_ANY:
+                field_8 = true;
+                break;
+            default:
+                break;
+        }
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50f900)

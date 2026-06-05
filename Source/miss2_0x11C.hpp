@@ -156,6 +156,14 @@ struct SCR_CMD_ALTER_WANTED_LEVEL : SCR_CMD_HEADER
     u8 field_C_wanted_level;
 };
 
+struct SCR_LOC_SEC_CHAR : SCR_CMD_HEADER
+{
+    u16 field_8_char1_idx;
+    u16 field_A_char2_idx;
+    Fix16 field_C_x_range;
+    Fix16 field_10_y_range;
+};
+
 struct SCR_THREAD : SCR_CMD_HEADER
 {
     miss2_0x11C* field_8_script_thread;
