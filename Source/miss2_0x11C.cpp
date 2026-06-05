@@ -3340,10 +3340,106 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_BOTH_50A6E0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50a760)
+MATCH_FUNC(0x50a760)
 void miss2_0x11C::IsOnScreen_50A760()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+
+    s8 onScreen;
+
+    switch (miss2_0x11C::sub_503410(pPtr->field_2_type))
+    {
+        case 2: // car
+        {
+            if (!pPtr->field_8_car)
+            {
+                FatalError_4A38C0(0x1376, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 1102, (u16)gBasePtr_6F8070->field_0_cmd_this);
+            }
+
+            Car_BC* pCar = pPtr->field_8_car;
+
+            if (pCar->field_88 == 6)
+            {
+                onScreen = false;
+                break;
+            }
+
+            if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
+            {
+                onScreen = gGame_0x40_67E008->sub_4B9890(pCar->field_50_car_sprite, 1);
+            }
+            else
+            {
+                onScreen = gGame_0x40_67E008->sub_4B9890(pCar->field_50_car_sprite, 0);
+            }
+
+            break;
+        }
+        case 1: // char
+            if (!pPtr->field_8_char)
+            {
+                FatalError_4A38C0(0x1383, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 1103, (u16)gBasePtr_6F8070->field_0_cmd_this);
+            }
+
+            if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
+            {
+                onScreen = gGame_0x40_67E008->sub_4B9890(pPtr->field_8_char->GetSprite_46DF50(), 1);
+            }
+            else
+            {
+                onScreen = gGame_0x40_67E008->sub_4B9890(pPtr->field_8_char->GetSprite_46DF50(), 0);
+            }
+
+            break;
+        case 3: // obj
+            if (!pPtr->field_8_obj)
+            {
+                FatalError_4A38C0(0x138E, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 1104, (u16)gBasePtr_6F8070->field_0_cmd_this);
+            }
+
+            if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
+            {
+                onScreen = gGame_0x40_67E008->sub_4B9890(pPtr->field_8_obj->field_4, 1);
+            }
+            else
+            {
+                onScreen = gGame_0x40_67E008->sub_4B9890(pPtr->field_8_obj->field_4, 0);
+            }
+
+            break;
+        case 4: // crane
+            if (!pPtr->field_8_crane)
+            {
+                FatalError_4A38C0(0x1399, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 1108, (u16)gBasePtr_6F8070->field_0_cmd_this);
+            }
+
+            if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
+            {
+                Sprite* pSprite = pPtr->field_8_crane->field_2C->field_4;
+                onScreen = gGame_0x40_67E008->sub_4B9890(pSprite, 1);
+            }
+            else
+            {
+                Sprite* pSprite = pPtr->field_8_crane->field_2C->field_4;
+                onScreen = gGame_0x40_67E008->sub_4B9890(pSprite, 0);
+            }
+
+            break;
+        default:
+            onScreen = false;
+            break;
+    }
+
+    if (onScreen)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50a940)
