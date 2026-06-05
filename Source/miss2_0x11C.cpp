@@ -3067,10 +3067,69 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509fd0)
+WIP_FUNC(0x509fd0)
 void miss2_0x11C::Locate_509FD0()
 {
-    NOT_IMPLEMENTED;
+    SCR_ONEVAR_RECT* pCmd = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+
+    if (pPtr->field_8_char)
+    {
+        Fix16 pedX = pPtr->field_8_char->field_1AC_cam.x;
+        Fix16 pedY = pPtr->field_8_char->field_1AC_cam.y;
+        Fix16 pedZ = pPtr->field_8_char->field_1AC_cam.z;
+        Fix16 width = pCmd->field_C_rect.field_C_size.field_0_x / dword_6F77C8;
+        Fix16 height = pCmd->field_C_rect.field_C_size.field_4_y / dword_6F77C8;
+        field_8 = false;
+
+        if (pedX >= pCmd->field_C_rect.field_0_pos.field_0_x - width &&
+            pedX <= pCmd->field_C_rect.field_0_pos.field_0_x + width &&
+            pedY >= pCmd->field_C_rect.field_0_pos.field_4_y - height &&
+            pedY <= pCmd->field_C_rect.field_0_pos.field_4_y + height &&
+            pedZ.ToUInt8() == pCmd->field_C_rect.field_0_pos.field_8_z.ToUInt8())
+        {
+            switch (gBasePtr_6F8070->field_2_type)
+            {
+                case 0x92:
+                    if (pPtr->field_8_char->field_168_game_object)
+                        field_8 = true;
+                    break;
+                case 0x93:
+                    if (pPtr->field_8_char->field_16C_car)
+                        field_8 = true;
+                    break;
+                case 0x94:
+                    if (pPtr->field_8_char->field_168_game_object)
+                    {
+                        if (pPtr->field_8_char->field_168_game_object->field_38_velocity == dword_6F77C0)
+                            field_8 = true;
+                    }
+                    else if (pPtr->field_8_char->field_16C_car)
+                    {
+                        if (pPtr->field_8_char->GetPedVelocity_45C920() == dword_6F77C0)
+                            field_8 = true;
+                    }
+                    break;
+                case 0x95:
+                    if (pPtr->field_8_char->field_168_game_object &&
+                        pPtr->field_8_char->field_168_game_object->field_38_velocity == dword_6F77C0)
+                        field_8 = true;
+                    break;
+                case 0x96:
+                    if (pPtr->field_8_char->field_16C_car &&
+                        pPtr->field_8_char->GetPedVelocity_45C920() == dword_6F77C0)
+                        field_8 = true;
+                    break;
+                case 0x91:
+                    field_8 = true;
+                    break;
+                default:
+                    FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 4622, gBasePtr_6F8070->field_2_type);
+                    break;
+            }
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50a200)
