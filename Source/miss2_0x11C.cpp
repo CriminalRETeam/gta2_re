@@ -3619,10 +3619,64 @@ void miss2_0x11C::sub_50ACF0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50aef0)
+MATCH_FUNC(0x50aef0)
 void miss2_0x11C::RespectOperator_50AEF0()
 {
-    NOT_IMPLEMENTED;
+    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_unsigned_1);
+    str_table_entry* pStr = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_C_unsigned_3);
+    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(pStr->get_name());
+
+    switch (pCmd->field_2_type)
+    {
+        case SCRCMD_CHECK_RESPECT_IS:
+        {
+            u8 idx = pPtr->field_8_char->field_15C_player->field_2E_idx;
+
+            if (pGang->GetRespectForPlayer_4BEEF0(idx) / 20 == pCmd->field_A_signed_2)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+
+            break;
+        }
+        case SCRCMD_CHECK_RESPECT_LESS:
+        {
+            u8 idx = pPtr->field_8_char->field_15C_player->field_2E_idx;
+
+            if (pGang->GetRespectForPlayer_4BEEF0(idx) / 20 < pCmd->field_A_signed_2)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+
+            break;
+        }
+        case SCRCMD_CHECK_RESPECT_GREATER:
+        {
+            u8 idx = pPtr->field_8_char->field_15C_player->field_2E_idx;
+
+            if (pGang->GetRespectForPlayer_4BEEF0(idx) / 20 > pCmd->field_A_signed_2)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+
+            break;
+        }
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50b0e0)
