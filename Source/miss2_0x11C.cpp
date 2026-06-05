@@ -82,8 +82,8 @@ void miss2_0x11C::sub_503200()
             Player* player_b = gGame_0x40_67E008->field_38_orf1;
             Ped* ped_b;
 
-            if (!(player_b->field_28 && player_b->field_2C == 2 &&
-                  (ped_b = player_b->field_2C4_player_ped) != NULL && ped_b->field_258_objective == 54))
+            if (!(player_b->field_28 && player_b->field_2C == 2 && (ped_b = player_b->field_2C4_player_ped) != NULL &&
+                  ped_b->field_258_objective == 54))
             {
                 return;
             }
@@ -115,18 +115,15 @@ void miss2_0x11C::sub_503200()
 
         u16 msg_id = stru_6F6784.get_uint8_4F7B70(5);
 
-        if (gfrosty_pasteur_6F8060->field_348_gang_1_mission_flag &&
-            *gfrosty_pasteur_6F8060->field_348_gang_1_mission_flag == 1)
+        if (gfrosty_pasteur_6F8060->field_348_gang_1_mission_flag && *gfrosty_pasteur_6F8060->field_348_gang_1_mission_flag == 1)
         {
             msg_id += gfrosty_pasteur_6F8060->field_356 + v;
         }
-        else if (gfrosty_pasteur_6F8060->field_34C_gang_2_mission_flag &&
-                 *gfrosty_pasteur_6F8060->field_34C_gang_2_mission_flag == 1)
+        else if (gfrosty_pasteur_6F8060->field_34C_gang_2_mission_flag && *gfrosty_pasteur_6F8060->field_34C_gang_2_mission_flag == 1)
         {
             msg_id += gfrosty_pasteur_6F8060->field_358 + v;
         }
-        else if (gfrosty_pasteur_6F8060->field_350_gang_3_mission_flag &&
-                 *gfrosty_pasteur_6F8060->field_350_gang_3_mission_flag == 1)
+        else if (gfrosty_pasteur_6F8060->field_350_gang_3_mission_flag && *gfrosty_pasteur_6F8060->field_350_gang_3_mission_flag == 1)
         {
             msg_id += gfrosty_pasteur_6F8060->field_35A + v;
         }
@@ -2453,8 +2450,8 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->sub_421560(3);
 
-                            if (gStoredCar_6F7560->field_88 != 7 && gStoredCar_6F7560->field_88 != 5 &&
-                                gStoredCar_6F7560->field_88 != 2 && gStoredCar_6F7560->field_88 != 3)
+                            if (gStoredCar_6F7560->field_88 != 7 && gStoredCar_6F7560->field_88 != 5 && gStoredCar_6F7560->field_88 != 2 &&
+                                gStoredCar_6F7560->field_88 != 3)
                             {
                                 gStoredCar_6F7560->field_88 = four;
                             }
@@ -2464,8 +2461,8 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->sub_421560(3);
 
-                            if (gStoredCar_6F7560->field_88 != 7 && gStoredCar_6F7560->field_88 != 5 &&
-                                gStoredCar_6F7560->field_88 != 2 && gStoredCar_6F7560->field_88 != 3)
+                            if (gStoredCar_6F7560->field_88 != 7 && gStoredCar_6F7560->field_88 != 5 && gStoredCar_6F7560->field_88 != 2 &&
+                                gStoredCar_6F7560->field_88 != 3)
                             {
                                 gStoredCar_6F7560->field_88 = four;
                             }
@@ -3082,10 +3079,8 @@ void miss2_0x11C::Locate_509FD0()
         Fix16 height = pCmd->field_C_rect.field_C_size.field_4_y / dword_6F77C8;
         field_8 = false;
 
-        if (pedX >= pCmd->field_C_rect.field_0_pos.field_0_x - width &&
-            pedX <= pCmd->field_C_rect.field_0_pos.field_0_x + width &&
-            pedY >= pCmd->field_C_rect.field_0_pos.field_4_y - height &&
-            pedY <= pCmd->field_C_rect.field_0_pos.field_4_y + height &&
+        if (pedX >= pCmd->field_C_rect.field_0_pos.field_0_x - width && pedX <= pCmd->field_C_rect.field_0_pos.field_0_x + width &&
+            pedY >= pCmd->field_C_rect.field_0_pos.field_4_y - height && pedY <= pCmd->field_C_rect.field_0_pos.field_4_y + height &&
             pedZ.ToUInt8() == pCmd->field_C_rect.field_0_pos.field_8_z.ToUInt8())
         {
             switch (gBasePtr_6F8070->field_2_type)
@@ -3116,15 +3111,17 @@ void miss2_0x11C::Locate_509FD0()
                         field_8 = true;
                     break;
                 case 0x96:
-                    if (pPtr->field_8_char->field_16C_car &&
-                        pPtr->field_8_char->GetPedVelocity_45C920() == dword_6F77C0)
+                    if (pPtr->field_8_char->field_16C_car && pPtr->field_8_char->GetPedVelocity_45C920() == dword_6F77C0)
                         field_8 = true;
                     break;
                 case 0x91:
                     field_8 = true;
                     break;
                 default:
-                    FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 4622, gBasePtr_6F8070->field_2_type);
+                    FatalError_4A38C0(Gta2Error::InvalidCase,
+                                      "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+                                      4622,
+                                      gBasePtr_6F8070->field_2_type);
                     break;
             }
         }
@@ -5675,7 +5672,8 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
     if (pPointer->field_8_car->field_58_physics &&
-        pPointer->field_8_car->field_58_physics->field_0_vel_read_only.GetLength_no_sqrt_inline_abs_y_negate().get_value_4754D0() > pCmd->field_A_value)
+        pPointer->field_8_car->field_58_physics->field_0_vel_read_only.GetLength_no_sqrt_inline_abs_y_negate().get_value_4754D0() >
+            pCmd->field_A_value)
     {
         field_8 = true;
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -6467,8 +6465,7 @@ void miss2_0x11C::LocSecChar_50F7B0()
     Fix16 testZ = pChar1->field_8_char->field_1AC_cam.z;
     field_8 = false;
 
-    if (testX >= centerX - width && testX <= centerX + width &&
-        testY >= centerY - height && testY <= centerY + height &&
+    if (testX >= centerX - width && testX <= centerX + width && testY >= centerY - height && testY <= centerY + height &&
         testZ.ToUInt8() == centerZ.ToUInt8())
     {
         switch (gBasePtr_6F8070->field_2_type)
