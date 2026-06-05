@@ -3085,36 +3085,52 @@ void miss2_0x11C::Locate_509FD0()
         {
             switch (gBasePtr_6F8070->field_2_type)
             {
-                case 0x92:
+                case SCRCMD_LOCATE_CHAR_ONFOOT:
                     if (pPtr->field_8_char->field_168_game_object)
+                    {
                         field_8 = true;
+                    }
+
                     break;
-                case 0x93:
+                case SCRCMD_LOCATE_CHAR_BY_CAR:
                     if (pPtr->field_8_char->field_16C_car)
+                    {
                         field_8 = true;
+                    }
+
                     break;
-                case 0x94:
+                case SCRCMD_STOP_LOCATE_CHAR_ANY:
                     if (pPtr->field_8_char->field_168_game_object)
                     {
                         if (pPtr->field_8_char->field_168_game_object->field_38_velocity == dword_6F77C0)
+                        {
                             field_8 = true;
+                        }
                     }
                     else if (pPtr->field_8_char->field_16C_car)
                     {
                         if (pPtr->field_8_char->GetPedVelocity_45C920() == dword_6F77C0)
+                        {
                             field_8 = true;
+                        }
                     }
                     break;
-                case 0x95:
+                case SCRCMD_STOP_LOCATE_CHAR_FOOT:
                     if (pPtr->field_8_char->field_168_game_object &&
                         pPtr->field_8_char->field_168_game_object->field_38_velocity == dword_6F77C0)
+                    {
                         field_8 = true;
+                    }
+
                     break;
-                case 0x96:
+                case SCRCMD_STOP_LOCATE_CHAR_CAR:
                     if (pPtr->field_8_char->field_16C_car && pPtr->field_8_char->GetPedVelocity_45C920() == dword_6F77C0)
+                    {
                         field_8 = true;
+                    }
+
                     break;
-                case 0x91:
+                case SCRCMD_LOCATE_CHAR_ANY:
                     field_8 = true;
                     break;
                 default:
@@ -3126,6 +3142,7 @@ void miss2_0x11C::Locate_509FD0()
             }
         }
     }
+
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
