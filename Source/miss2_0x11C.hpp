@@ -871,6 +871,7 @@ enum
 
 EXTERN_GLOBAL(Fix16, dword_6F77C0);
 EXTERN_GLOBAL(Fix16, dword_6F77C4);
+EXTERN_GLOBAL(Fix16, dword_6F77C8);
 
 class miss2_0x11C
 {

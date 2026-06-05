@@ -60,6 +60,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F8044, Ang16(0x4), 0x6F8044);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F7570, Fix16(0x3FC000, 0), 0x6F7570);
 EXTERN_GLOBAL(Ang16, dword_6F804C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F77C4, Fix16(0x4000, 0), 0x6F77C4);
+DEFINE_GLOBAL(Fix16, dword_6F77C8, 0x6F77C8);
 
 static inline bool is_car_weapon(s32& weapon_idx)
 {
@@ -2794,10 +2795,39 @@ void miss2_0x11C::sub_509990()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509a70)
+MATCH_FUNC(0x509a70)
 void miss2_0x11C::SCRCMD_CAR_IN_AREA_509A70()
 {
-    NOT_IMPLEMENTED;
+    SCR_ONEVAR_RECT* pCmd = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+
+    Fix16 height = pCmd->field_C_rect.field_C_size.field_4_y;
+    Fix16 width = pCmd->field_C_rect.field_C_size.field_0_x;
+    Fix16 top = pCmd->field_C_rect.field_0_pos.field_4_y - height / dword_6F77C8;
+    Fix16 left = pCmd->field_C_rect.field_0_pos.field_0_x - width / dword_6F77C8;
+
+    Fix16_Rect* pRect = &gfrosty_pasteur_6F8060->field_2F8_area_rect;
+    pRect->field_8_top = top;
+    pRect->field_0_left = left;
+    pRect->field_4_right = left + width;
+    pRect->field_C_bottom = top + height;
+
+    Fix16 hz = dword_6F75F0 + pCmd->field_C_rect.field_0_pos.field_8_z;
+    Fix16 lz = pCmd->field_C_rect.field_0_pos.field_8_z - dword_6F75F0;
+    gfrosty_pasteur_6F8060->field_2F8_area_rect.SetHiLowZ_41E370(lz, hz);
+
+    if (pPtr->field_8_car != NULL && pPtr->field_8_car->field_88 != 6 &&
+        (pPtr->field_8_car->field_50_car_sprite->IntersectsRectSAT_59FB10(&gfrosty_pasteur_6F8060->field_2F8_area_rect) ||
+         gfrosty_pasteur_6F8060->field_2F8_area_rect.IntersectsSpriteRenderingRect_59DDF0(pPtr->field_8_car->field_50_car_sprite)))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x509bb0)
