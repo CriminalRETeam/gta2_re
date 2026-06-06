@@ -6672,10 +6672,61 @@ void miss2_0x11C::sub_50FC20() // SCRCMD_SET_FAV_CAR
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50fc60)
+MATCH_FUNC(0x50fc60)
 void miss2_0x11C::GroupInArea_50FC60()
 {
-    NOT_IMPLEMENTED;
+    SCR_ONEVAR_RECT* pCmd = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+
+    Fix16 halfwidth = pCmd->field_C_rect.field_C_size.field_0_x / dword_6F77C8;
+    Fix16 halfheight = pCmd->field_C_rect.field_C_size.field_4_y / dword_6F77C8;
+
+    PedGroup* pGroup = pPtr->field_8_char->field_164_ped_group;
+
+    Ped* pMember = pGroup->field_4_ped_list[0];
+    Ped** ppMember = pGroup->field_4_ped_list;
+
+    if (pMember != NULL)
+    {
+        for (u16 i = 0; i < pGroup->field_34_count; i++)
+        {
+            Fix16 charX = pMember->field_1AC_cam.x;
+            Fix16 centerX = pCmd->field_C_rect.field_0_pos.field_0_x;
+            Fix16 centerY, charY;
+
+            if (charX >= centerX - halfwidth && charX <= centerX + halfwidth &&
+                (centerY = pCmd->field_C_rect.field_0_pos.field_4_y, charY = pMember->field_1AC_cam.y, charY >= centerY - halfheight) &&
+                charY <= centerY + halfheight)
+            {
+                field_8 = true;
+            }
+            else
+            {
+                field_8 = false;
+            }
+
+            ++ppMember;
+            pMember = *ppMember;
+        }
+    }
+
+    Ped* pLeader = pGroup->field_2C_ped_leader;
+    Fix16 leaderX = pLeader->field_1AC_cam.x;
+    Fix16 centerX = pCmd->field_C_rect.field_0_pos.field_0_x;
+    Fix16 centerY, leaderY;
+
+    if (leaderX >= centerX - halfwidth && leaderX <= centerX + halfwidth &&
+        (centerY = pCmd->field_C_rect.field_0_pos.field_4_y, leaderY = pLeader->field_1AC_cam.y, leaderY >= centerY - halfheight) &&
+        leaderY <= centerY + halfheight)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50fe00)
