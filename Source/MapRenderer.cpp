@@ -2337,6 +2337,7 @@ void MapRenderer::Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx)
     gTileVerts_6F65A8[pVertIdx].v = uv_coords.y.ToFloat();
 }
 
+// https://decomp.me/scratch/dGqKl
 WIP_FUNC(0x4f4250)
 void MapRenderer::sub_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
 {
@@ -2378,10 +2379,47 @@ void MapRenderer::sub_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
     }
 }
 
-STUB_FUNC(0x4f4600)
-void MapRenderer::sub_4F4600(u16* a2, s32 a3, Fix16_Point* a4, u32* a5)
+// Something is wrong here...
+// https://decomp.me/scratch/7xF8P
+WIP_FUNC(0x4f4600)
+void MapRenderer::sub_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    if (!bSkip_top_67D574)
+    {
+        sub_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[0]);
+        sub_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
+        if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
+        {
+            return;
+        }
+        sub_46BDF0(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[1]);
+        sub_46BD40(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
+
+        draw_4F3FB0(dword_620F64[side_word >> 13]);
+
+        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a2, 0);
+        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a3, 1);
+        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a3, 2);
+        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a2, 3);
+
+        dword_6F6560 = 16389;
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
+        if (texture_idx)
+        {
+            //BlockSideWord word = *(BlockSideWord*)&side_word;
+            //if (word.flat)
+            if ((*(((u8*)&side_word) + 1) & 0x10) != 0)
+            {
+                dword_6F6560 = dword_6F6560 | 0x80;
+            }
+            pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
+                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gTileVerts_6F65A8,
+                          field_F_colour_t3);
+            ++field_2F00_drawn_tile_count;
+        }
+    }
 }
 
 STUB_FUNC(0x4f49b0)
@@ -2527,7 +2565,7 @@ void MapRenderer::RenderFlatBlock_4F66C0()
         if ((gBlockBottom_6F6468 & 0x1000) != 0)
         {
             v6 = gBlockTop_6F62F4 | 0x1000;
-            MapRenderer::sub_4F4600(&v6, (s32)&stru_6F6484, (Fix16_Point*)&stru_6F6484.y, (u32*)&stru_6F6484.y.mValue);
+            MapRenderer::sub_4F4600(v6, stru_6F6484.x, stru_6F6484.y, stru_6F6484.y);
         }
         if ((gBlockTop_6F62F4 & 0x1000) != 0)
         {
