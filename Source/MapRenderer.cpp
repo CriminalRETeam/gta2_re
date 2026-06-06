@@ -2232,7 +2232,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
     }
 }
 
-// Not working properly yet https://decomp.me/scratch/zty5O
+// https://decomp.me/scratch/zty5O
 WIP_FUNC(0x4f3c00)
 void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
 {
@@ -2398,10 +2398,10 @@ void MapRenderer::sub_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
 
         draw_4F3FB0(dword_620F64[side_word >> 13]);
 
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a2, 0);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a3, 1);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a3, 2);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a2, 3);
+        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a2, 1);
+        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a3, 2);
+        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a3, 3);
+        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a2, 0);
 
         dword_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2441,10 +2441,10 @@ void MapRenderer::sub_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
 
         draw_4F3FB0(dword_620F84[side_word >> 13]);
 
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a2, 0);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a3, 1);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a3, 2);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a2, 3);
+        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a2, 1);
+        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a3, 2);
+        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a3, 3);
+        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a2, 0);
 
         dword_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
