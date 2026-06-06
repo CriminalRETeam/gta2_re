@@ -378,7 +378,7 @@ class Map_0x370
     EXPORT char_type sub_4E11E0(Fix16_Rect* a2);
     EXPORT bool sub_4E1520(s32 z_pos);
     EXPORT bool sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
-    EXPORT char_type sub_4E1A30(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    EXPORT bool sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tileY_max, s32 zLevel);
     EXPORT char_type CanSpriteEnterTile_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8);
     EXPORT char_type CanSpriteEnterMovementRegion_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6);
     EXPORT char_type sub_4E4630(Fix16 a2);
@@ -561,6 +561,28 @@ class Map_0x370
     inline void Clear_F36E_492130()
     {
         field_36E = 0;
+    }
+
+    bool IsNorthOrSouthGradSlope_4634B0(gmp_block_info* pBlock) 
+    {
+        gmp_map_slope* gradient_slope = &byte_6F5BA8[pBlock->field_B_slope_type >> 2];
+        if (gradient_slope->field_0_gradient_direction == NORTH_1 
+            || gradient_slope->field_0_gradient_direction == SOUTH_2)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool IsWestOrEastGradSlope_4634B0(gmp_block_info* pBlock) 
+    {
+        gmp_map_slope* gradient_slope = &byte_6F5BA8[pBlock->field_B_slope_type >> 2];
+        if (gradient_slope->field_0_gradient_direction == WEST_3 
+            || gradient_slope->field_0_gradient_direction == EAST_4)
+        {
+            return true;
+        }
+        return false;
     }
 
   public:
