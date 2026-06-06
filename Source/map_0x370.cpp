@@ -1357,7 +1357,7 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
     return false;
 }
 
-// Not working for some reason :(
+// It is not working for some reason :(
 // https://decomp.me/scratch/X2qgz
 WIP_FUNC(0x4E1A30)
 bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tileY_max, s32 zLevel)
