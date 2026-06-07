@@ -8,7 +8,7 @@ class Frismo_C;
 class miss2_8
 {
   public:
-    EXPORT miss2_8(); // 503120
+    EXPORT miss2_8() throw(); // 503120
     EXPORT ~miss2_8(); // 503130
 
     EXPORT void add_503160(Frismo_C* a2);

@@ -7928,7 +7928,7 @@ miss2_0x11C::~miss2_0x11C()
     mpNext = 0;
 }
 
-STUB_FUNC(0x5131C0)
+MATCH_FUNC(0x5131C0)
 miss2_0x11C_Pool::~miss2_0x11C_Pool()
 {
 }
