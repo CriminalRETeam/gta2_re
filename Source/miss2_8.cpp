@@ -6,7 +6,7 @@
 DEFINE_GLOBAL(Frismo_C_Pool*, gFrismo_C_Pool_6F8068, 0x6F8068);
 
 MATCH_FUNC(0x503120)
-miss2_8::miss2_8() // 503120
+miss2_8::miss2_8() throw() // 503120
 {
     field_0_current = 0;
     field_4_count = 0;

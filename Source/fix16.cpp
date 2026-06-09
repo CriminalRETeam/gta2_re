@@ -22,6 +22,19 @@ Fix16 Fix16::operator+(const Fix16& rhs) const
     return Fix16(value, 0);
 }
 
+MATCH_FUNC(0x408680)
+Fix16 Fix16::Multiply_408680(const Fix16& in) const
+{
+    s32 value = (s32)((mValue * (__int64)in.mValue) >> 14);
+    return Fix16(value, 0);
+}
+
+MATCH_FUNC(0x4086A0)
+Fix16 Fix16::Negate_4086A0() const
+{
+    return Fix16(-mValue, 0);
+}
+
 MATCH_FUNC(0x44E540)
 Fix16 __stdcall Fix16::Max_44E540(Fix16& pLhs, Fix16& pRhs)
 {

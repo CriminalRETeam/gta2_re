@@ -3,8 +3,6 @@
 # turn off intrinsic functions so we actually get a call to strcpy, enable stdcall calling convention
 # else static methods don't match (and I doubt they manually annotated them with __stdcall)
 set_source_files_properties(Source/Network_20324.cpp PROPERTIES COMPILE_FLAGS "/Gz")
-
-set_source_files_properties(Source/miss2_0x11C.cpp PROPERTIES COMPILE_FLAGS "/GX-")
 set_source_files_properties(Source/sharp_bose_0x54.cpp PROPERTIES COMPILE_FLAGS "/GX-")
 set_source_files_properties(Source/gbh_graphics.cpp PROPERTIES COMPILE_FLAGS "/Od /ZI")
 

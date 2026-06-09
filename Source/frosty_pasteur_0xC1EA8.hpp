@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Fix16_Rect.hpp"
 #include "miss2_0x11C.hpp"
 #include <windows.h>
 
@@ -635,12 +636,7 @@ class frosty_pasteur_0xC1EA8
     s16 field_27A;
     BYTE field_27C[120];
     s32 field_2F4;
-    s32 field_2F8;
-    s32 field_2FC;
-    s32 field_300;
-    s32 field_304;
-    s32 field_308;
-    s32 field_30C;
+    Fix16_Rect field_2F8_area_rect;
     s32 field_310_finish_score;
     s32 field_314_total_missions;
     u32 field_318_total_secrets;
