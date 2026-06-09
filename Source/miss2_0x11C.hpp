@@ -885,7 +885,7 @@ class miss2_0x11C
 {
   public:
     EXPORT void sub_503200();
-    EXPORT u8 sub_503410(u32 a1);
+    EXPORT u8 GetEntityTypeOfCommand_503410(u32 a1);
     EXPORT void sub_5035B0();
     EXPORT void Log_5035D0();
     EXPORT void sub_503610();

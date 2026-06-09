@@ -146,12 +146,9 @@ void miss2_0x11C::sub_503200()
     }
 }
 
-// https://decomp.me/scratch/o1VKh
-WIP_FUNC(0x503410)
-u8 miss2_0x11C::sub_503410(u32 a1)
+MATCH_FUNC(0x503410)
+u8 miss2_0x11C::GetEntityTypeOfCommand_503410(u32 a1)
 {
-    // fun stuff with switch cases and jump tables :-)
-    WIP_IMPLEMENTED;
     switch (a1)
     {
         case SCRCMD_CONVEYOR_DEC:
@@ -203,6 +200,9 @@ u8 miss2_0x11C::sub_503410(u32 a1)
             return 8;
 
         // 2
+        case SCRCMD_CAR_DEC:
+        case SCRCMD_CAR_DECSET_2D:
+        case SCRCMD_CAR_DECSET_3D:
         case SCRCMD_PARKED_CAR_DECSET_2D:
         case SCRCMD_PARKED_CAR_DECSET_3D:
         case SCRCMD_PARKED_CAR_DECSET_2D_STR:
@@ -1410,7 +1410,7 @@ void miss2_0x11C::DeallocOrDeleteItem_505B10(u16 idx)
     SCR_DELETE_SOUND* pSoundCmdPointer;
 
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
-    switch (miss2_0x11C::sub_503410(pPointer->field_2_type))
+    switch (miss2_0x11C::GetEntityTypeOfCommand_503410(pPointer->field_2_type))
     {
         case 2:
             pCarCmdPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
@@ -2314,7 +2314,7 @@ void miss2_0x11C::sub_5086F0() // SCRCMD_POINT_ARROW_AT
     //Ped* pPed;
     //Player* pPlayer;
 
-    switch (miss2_0x11C::sub_503410(pEntityPtr->field_2_type))
+    switch (miss2_0x11C::GetEntityTypeOfCommand_503410(pEntityPtr->field_2_type))
     {
         case 2: // car
             pArrowPtr->field_8_arrow->field_18.field_18_primary_target.field_4_car = pEntityPtr->field_8_car;
@@ -2748,7 +2748,7 @@ void miss2_0x11C::sub_5098E0()
     SCR_FOUR_PARAMS* v2 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
-    if (miss2_0x11C::sub_503410(pPointer->field_2_type) == 1)
+    if (miss2_0x11C::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 1)
     {
         if (gBasePtr_6F8070->field_2_type == SCRCMD_GIVE_WEAPON1)
         {
@@ -3361,7 +3361,7 @@ void miss2_0x11C::IsOnScreen_50A760()
 
     s8 onScreen;
 
-    switch (miss2_0x11C::sub_503410(pPtr->field_2_type))
+    switch (miss2_0x11C::GetEntityTypeOfCommand_503410(pPtr->field_2_type))
     {
         case 2: // car
         {
@@ -4575,7 +4575,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
             break;
     }
 
-    switch (miss2_0x11C::sub_503410(pPtr->field_2_type))
+    switch (miss2_0x11C::GetEntityTypeOfCommand_503410(pPtr->field_2_type))
     {
         case 2:
             pPtr->field_8_car->HandleCarExplosion_43D840(19);
@@ -6838,7 +6838,7 @@ void miss2_0x11C::sub_510100() // START_BASIC_KF_TEMPLATE
         gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfstart"), 3); // KILL FRENZY!
         gRoot_sound_66B038.PlayVoice_40F090(12); // KILL FRENZY voice
         SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_C_objname); // Skull icon?
-        if (miss2_0x11C::sub_503410(pPtr->field_2_type) == 3)
+        if (miss2_0x11C::GetEntityTypeOfCommand_503410(pPtr->field_2_type) == 3)
         {
             miss2_0x11C::DeallocOrDeleteItem_505B10(pCmd->field_C_objname); // Delete skull icon?
         }
@@ -7009,11 +7009,11 @@ void miss2_0x11C::sub_510660()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
-    if (miss2_0x11C::sub_503410(pPointer->field_2_type) == 3)
+    if (miss2_0x11C::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 3)
     {
         gMiss2_25C_6F805C->push_type_2_502FF0(pPointer->field_8_obj, 1);
     }
-    else if (miss2_0x11C::sub_503410(pPointer->field_2_type) == 10)
+    else if (miss2_0x11C::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 10)
     {
         gMiss2_25C_6F805C->push_type_2_503050(pPointer->field_8_obj);
     }
