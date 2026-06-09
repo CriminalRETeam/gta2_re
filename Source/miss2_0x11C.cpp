@@ -2296,14 +2296,13 @@ void miss2_0x11C::sub_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_AR
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-// https://decomp.me/scratch/nO0Vw
-WIP_FUNC(0x5086f0)
-void miss2_0x11C::sub_5086F0() // SCRCMD_POINT_ARROW_AT
+MATCH_FUNC(0x5086f0)
+void miss2_0x11C::SCRCMD_POINT_ARROW_AT_5086F0()
 {
-    WIP_IMPLEMENTED;
+    SCR_POINT_ARROW_AT* pParams = (SCR_POINT_ARROW_AT*)gBasePtr_6F8070;
     SCR_POINT_ARROW_AT* pCmd = (SCR_POINT_ARROW_AT*)gBasePtr_6F8070;
-    SCR_POINTER* pArrowPtr =
-        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_4_cmd_next);
+
+    SCR_POINTER* pArrowPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pParams->field_C_arrow_idx);
     SCR_ARROW_ENTITY* pEntityPtr = (SCR_ARROW_ENTITY*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_target_entity_idx);
 
     if (pArrowPtr->field_8_arrow == NULL)
@@ -2311,40 +2310,51 @@ void miss2_0x11C::sub_5086F0() // SCRCMD_POINT_ARROW_AT
         pArrowPtr->field_8_arrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
     }
 
-    //Ped* pPed;
-    //Player* pPlayer;
-
     switch (miss2_0x11C::GetEntityTypeOfCommand_503410(pEntityPtr->field_2_type))
     {
         case 2: // car
-            pArrowPtr->field_8_arrow->field_18.field_18_primary_target.field_4_car = pEntityPtr->field_8_car;
-            pArrowPtr->field_8_arrow->field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::Car_3;
+        {
+            ArrowTrace_24* pTarget = &pArrowPtr->field_8_arrow->field_18.field_18_primary_target;
+            pTarget->field_4_car = pEntityPtr->field_8_car;
+            pTarget->field_10_target_type = ArrowTargetType::Car_3;
             break;
+        }
+
         case 1: // ped
-            if (!pEntityPtr->field_8_char->is_player_41B0A0() ||
-                pEntityPtr->field_8_char->field_15C_player->get_idx_4219D0() != gGame_0x40_67E008->field_24_cur_idx)
+        {
+            Ped* pChar = pEntityPtr->field_8_char;
+            Player* pPlayer = pChar->field_15C_player;
+
+            if (!pPlayer || pPlayer->get_idx_4219D0() != gGame_0x40_67E008->field_24_cur_idx)
             {
-                pArrowPtr->field_8_arrow->field_18.field_18_primary_target.field_0_ped = pEntityPtr->field_8_char;
-                pArrowPtr->field_8_arrow->field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::Ped_2;
+                ArrowTrace_24* pTarget = &pArrowPtr->field_8_arrow->field_18.field_18_primary_target;
+                pTarget->field_0_ped = pChar;
+                pTarget->field_10_target_type = ArrowTargetType::Ped_2;
             }
+
             break;
+        }
 
         case 3: // object
-            pArrowPtr->field_8_arrow->field_18.field_18_primary_target.field_8_obj = pEntityPtr->field_8_obj;
-            pArrowPtr->field_8_arrow->field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::Object_4;
+        {
+            ArrowTrace_24* pTarget = &pArrowPtr->field_8_arrow->field_18.field_18_primary_target;
+            pTarget->field_8_obj = pEntityPtr->field_8_obj;
+            pTarget->field_10_target_type = ArrowTargetType::Object_4;
             break;
+        }
 
-        case 4: // 2D coords
-            pArrowPtr->field_8_arrow->SetArrowAim_476840(((SCR_ARROW_XYZ*)pEntityPtr)->field_8_coord.field_0_x,
-                                                         ((SCR_ARROW_XYZ*)pEntityPtr)->field_8_coord.field_4_y,
+        case 4: // crane
+            pArrowPtr->field_8_arrow->SetArrowAim_476840(((SCR_CRANE_TARGET_DEC*)pEntityPtr)->field_10_pos.field_0_x,
+                                                         ((SCR_CRANE_TARGET_DEC*)pEntityPtr)->field_10_pos.field_4_y,
                                                          dword_6F77C4);
             break;
 
-        case 5: // 3D coords
-            pArrowPtr->field_8_arrow->SetArrowAim_476840(((SCR_ARROW_XYZ*)pEntityPtr)->field_8_coord.field_0_x,
-                                                         ((SCR_ARROW_XYZ*)pEntityPtr)->field_8_coord.field_4_y,
-                                                         ((SCR_ARROW_XYZ*)pEntityPtr)->field_8_coord.field_8_z);
+        case 5: // conveyor
+            pArrowPtr->field_8_arrow->SetArrowAim_476840(((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.field_0_x,
+                                                         ((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.field_4_y,
+                                                         ((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.field_8_z);
             break;
+
         default:
             break;
     }
@@ -2353,6 +2363,7 @@ void miss2_0x11C::sub_5086F0() // SCRCMD_POINT_ARROW_AT
     {
         pArrowPtr->field_8_arrow->SetArrowColour_5D0510(5);
     }
+
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -7153,7 +7164,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 break;
             case SCRCMD_POINT_ARROW_AT:
             case SCRCMD_LEVEL_END_ARROW1:
-                sub_5086F0();
+                SCRCMD_POINT_ARROW_AT_5086F0();
                 break;
             case SCRCMD_REMOVE_ARROW:
                 SCRCMD_REMOVE_ARROW_508E80();
