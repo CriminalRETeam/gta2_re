@@ -4172,21 +4172,22 @@ void miss2_0x11C::SCRCMD_SET_CHAR_BRAVERY_50BBD0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-WIP_FUNC(0x50bc60)
+MATCH_FUNC(0x50bc60)
 void miss2_0x11C::SCRCMD_CHECK_NUM_ALIVE_50BC60()
 {
-    WIP_IMPLEMENTED;
     SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
-    SCR_POINTER* pScrPtr =
-        (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
+    SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
     PedGroup* pPedGroup = pScrPtr->field_8_char->field_164_ped_group;
+
     if (pPedGroup != NULL && (s16)pPedGroup->field_34_count >= pCmd->field_A_objective)
     {
-        field_8 = 1;
-        miss2_0x11C::Next_503620(gBasePtr_6F8070);
-        return;
+        field_8 = true;
     }
-    field_8 = 0;
+    else
+    {
+        field_8 = false;
+    }
+
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -4568,7 +4569,6 @@ void miss2_0x11C::SCRCMD_ADD_CHAR_TO_GANG_50C540()
 WIP_FUNC(0x50c5a0)
 void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
 {
-    WIP_IMPLEMENTED;
     SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
     s32 explosion_type;
@@ -5694,7 +5694,7 @@ void miss2_0x11C::GetSpeed_50E190()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-WIP_FUNC(0x50e360)
+MATCH_FUNC(0x50e360)
 void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
 {
     SCR_CHECK_CAR_SPEED* pCmd = (SCR_CHECK_CAR_SPEED*)gBasePtr_6F8070;
@@ -5705,11 +5705,12 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
             pCmd->field_A_value)
     {
         field_8 = true;
-        miss2_0x11C::Next_503620(gBasePtr_6F8070);
-        return;
+    }
+    else
+    {
+        field_8 = false;
     }
 
-    field_8 = false;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
