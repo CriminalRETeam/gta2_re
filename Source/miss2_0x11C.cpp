@@ -6475,7 +6475,7 @@ void miss2_0x11C::SCRCMD_MAKE_MUGGERS_50F770()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-WIP_FUNC(0x50f7b0)
+MATCH_FUNC(0x50f7b0)
 void miss2_0x11C::LocSecChar_50F7B0()
 {
     SCR_LOC_SEC_CHAR* pCmd = (SCR_LOC_SEC_CHAR*)gBasePtr_6F8070;
@@ -6493,10 +6493,11 @@ void miss2_0x11C::LocSecChar_50F7B0()
     Fix16 testX = pChar1->field_8_char->field_1AC_cam.x;
     Fix16 testY = pChar1->field_8_char->field_1AC_cam.y;
     Fix16 testZ = pChar1->field_8_char->field_1AC_cam.z;
+    Fix16 maxX;
     field_8 = false;
 
-    if (testX >= centerX - width && testX <= centerX + width && testY >= centerY - height && testY <= centerY + height &&
-        testZ.ToUInt8() == centerZ.ToUInt8())
+    if (testX >= centerX - width && (maxX = centerX + width, testX <= maxX) && testY >= centerY - height &&
+        (centerY = centerY + height, testY <= centerY) && testZ.ToUInt8() == centerZ.ToUInt8())
     {
         switch (gBasePtr_6F8070->field_2_type)
         {
