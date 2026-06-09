@@ -52,6 +52,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F63EC, Ang16(900), 0x6F63EC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6548, Fix16(0x100000, 0), 0x6F6548);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F64B4, Fix16(1, 0), 0x6F64B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6578, dword_6F6548 - dword_6F64B4, 0x6F6578);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6428, Fix16(0x1800, 0), 0x6F6428);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6588, 0x6F6588);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6598, 0x6F6598);
 DEFINE_GLOBAL(Fix16_Point, qword_6F6590, 0x6F6590);
@@ -2516,8 +2517,118 @@ void MapRenderer::DrawPartialBlockRight()
 {
 }
 
+// TODO: It's a function chunk from DrawPartialBlocks_4F6580
 void MapRenderer::DrawPartialBlockTop()
 {
+    u16 side_word;
+    //v47 = this;
+    //v11 = *(MapRenderer**)&gBlockLeft_6F62F6;
+    if (gBlockLeft_6F62F6)
+    {
+        //HIWORD(v13) = *(&gBlockRight_6F63C6 + 1);
+        if (gBlockRight_6F63C6)
+        {
+            if ((gBlockRight_6F63C6 & 0x1000) != 0)
+            {
+                //BYTE1(v11) = HIBYTE(gBlockLeft_6F62F6) | 0x10;
+                //v47 = v11;
+                side_word = gBlockLeft_6F62F6 | 0x1000;
+                MapRenderer::draw_left_4F3C00(side_word,
+                                                stru_6F6484.y,
+                                                stru_6F6484.x,
+                                                dword_6F6428);
+                //LOWORD(v11) = gBlockLeft_6F62F6;
+            }
+            if ((gBlockLeft_6F62F6 & 0x1000) != 0)
+            {
+                //LOWORD(v13) = gBlockRight_6F63C6 | 0x1000;
+                //v47 = v13;
+                side_word = gBlockRight_6F63C6 | 0x1000;
+                MapRenderer::sub_4F4250(side_word,
+                                        stru_6F6484.x,
+                                        stru_6F6484.x,
+                                        dword_6F6428);
+                //LOWORD(v11) = gBlockLeft_6F62F6;
+            }
+        }
+    }
+    //v14 = *(MapRenderer**)&gBlockTop_6F62F4;
+    if (gBlockTop_6F62F4)
+    {
+        if (gBlockBottom_6F6468)
+        {
+            if ((gBlockBottom_6F6468 & 0x1000) != 0)
+            {
+                //BYTE1(v14) = HIBYTE(gBlockTop_6F62F4) | 0x10;
+                //v47 = v14;
+                side_word = gBlockTop_6F62F4 | 0x1000;
+                MapRenderer::sub_4F4600(side_word,
+                                        stru_6F6484.x,
+                                        stru_6F6484.y,
+                                        dword_6F6428);
+                //LOWORD(v14) = gBlockTop_6F62F4;
+                //LOWORD(v11) = gBlockLeft_6F62F6;
+            }
+            if ((gBlockTop_6F62F4 & 0x1000) != 0)
+            {
+                //v15 = gBlockBottom_6F6468;
+                //BYTE1(v15) = BYTE1(gBlockBottom_6F6468) | 0x10;
+                //v47 = (MapRenderer*)v15;
+                side_word = gBlockBottom_6F6468 | 0x1000;
+                MapRenderer::sub_4F49B0(side_word,
+                                        stru_6F6484.x,
+                                        stru_6F6484.y,
+                                        stru_6F6484.x);
+                //LOWORD(v14) = gBlockTop_6F62F4;
+                //LOWORD(v11) = gBlockLeft_6F62F6;
+            }
+        }
+    }
+    if (gBlockLeft_6F62F6) // v11
+    {
+        if (!gBlockRight_6F63C6 || (gBlockRight_6F63C6 & 0x1000) == 0 || (gBlockLeft_6F62F6 & 0x1000) != 0)
+        {
+            MapRenderer::draw_left_4F3C00(gBlockLeft_6F62F6,
+                                            stru_6F6484.x,
+                                            stru_6F6484.x,
+                                            dword_6F6428);
+            //LOWORD(v14) = gBlockTop_6F62F4;
+            //LOWORD(v11) = gBlockLeft_6F62F6;
+        }
+    }
+    if (gBlockRight_6F63C6)
+    {
+        if (!gBlockLeft_6F62F6 || (gBlockLeft_6F62F6 & 0x1000) == 0 || (gBlockRight_6F63C6 & 0x1000) != 0)
+        {
+            MapRenderer::sub_4F4250(gBlockRight_6F63C6,
+                                    stru_6F6484.y,
+                                    stru_6F6484.x,
+                                    dword_6F6428);
+        }
+    }
+    if (gBlockTop_6F62F4) // v14
+    {
+        if (!gBlockBottom_6F6468 || (gBlockBottom_6F6468 & 0x1000) == 0 || (gBlockTop_6F62F4 & 0x1000) != 0)
+        {
+            MapRenderer::DrawTopSide_4EBA60(gBlockTop_6F62F4);
+        }
+    }
+    if (gBlockBottom_6F6468)
+    {
+        if (!gBlockTop_6F62F4 || (gBlockTop_6F62F4 & 0x1000) == 0 || (gBlockBottom_6F6468 & 0x1000) != 0)
+        {
+            MapRenderer::sub_4F49B0(gBlockBottom_6F6468,
+                                    stru_6F6484.x,
+                                    stru_6F6484.y,
+                                    dword_6F6428);
+        }
+    }
+
+    // TODO: draw_lid_4F4D60
+    if (gLidType_6F6274)
+    {
+        //MapRenderer::draw_lid_4F4D60(stru_6F6484, (Fix16_2*)&stru_6F6484.field_4_frac, (int)&stru_6F6484, dword_6F6428);
+    }
 }
 
 void MapRenderer::DrawPartialBlockBottom()
