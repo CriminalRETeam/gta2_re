@@ -52,6 +52,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F63EC, Ang16(900), 0x6F63EC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6548, Fix16(0x100000, 0), 0x6F6548);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F64B4, Fix16(1, 0), 0x6F64B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6578, dword_6F6548 - dword_6F64B4, 0x6F6578);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6428, Fix16(0x1800, 0), 0x6F6428);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6588, 0x6F6588);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6598, 0x6F6598);
 DEFINE_GLOBAL(Fix16_Point, qword_6F6590, 0x6F6590);
@@ -2250,10 +2251,10 @@ void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& a2, Fix16& a3, Fix16& 
 
         draw_4F3FB0(dword_620F24[side_word >> 13]);
 
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a3, 0);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a3, 1);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a4, 2);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a4, 3);
+        Set_UV_4F4190(stru_6F6484.x, a3, 0);
+        Set_UV_4F4190(stru_6F6484.y, a3, 1);
+        Set_UV_4F4190(stru_6F6484.y, a4, 2);
+        Set_UV_4F4190(stru_6F6484.x, a4, 3);
 
         dword_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2329,7 +2330,7 @@ void __stdcall draw_4F3FB0(s32 arg)
 
 // https://decomp.me/scratch/NaMFS or https://decomp.me/scratch/hij63
 WIP_FUNC(0x4f4190)
-void MapRenderer::Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx)
+void __stdcall Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx)
 {
     WIP_IMPLEMENTED;
     Fix16_Point uv_coords = ((stru_6F62A0 * a2) + (stru_6F62A8 * a1)) + stru_6F6580;
@@ -2355,10 +2356,10 @@ void MapRenderer::sub_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
 
         draw_4F3FB0(dword_620F44[side_word >> 13]);
 
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a3, 0);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a3, 1);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a4, 2);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a4, 3);
+        Set_UV_4F4190(stru_6F6484.x, a3, 0);
+        Set_UV_4F4190(stru_6F6484.y, a3, 1);
+        Set_UV_4F4190(stru_6F6484.y, a4, 2);
+        Set_UV_4F4190(stru_6F6484.x, a4, 3);
 
         dword_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2379,7 +2380,6 @@ void MapRenderer::sub_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
     }
 }
 
-// Something is wrong here...
 // https://decomp.me/scratch/7xF8P
 WIP_FUNC(0x4f4600)
 void MapRenderer::sub_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
@@ -2398,10 +2398,10 @@ void MapRenderer::sub_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
 
         draw_4F3FB0(dword_620F64[side_word >> 13]);
 
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a2, 1);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a3, 2);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a3, 3);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a2, 0);
+        Set_UV_4F4190(a2, stru_6F6484.x, 0);
+        Set_UV_4F4190(a3, stru_6F6484.x, 1);
+        Set_UV_4F4190(a3, stru_6F6484.y, 2);
+        Set_UV_4F4190(a2, stru_6F6484.y, 3);
 
         dword_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2414,7 +2414,7 @@ void MapRenderer::sub_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
                 dword_6F6560 = dword_6F6560 | 0x80;
             }
             pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_F_colour_t3);
             ++field_2F00_drawn_tile_count;
@@ -2422,7 +2422,6 @@ void MapRenderer::sub_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
     }
 }
 
-// Something is also wrong here...
 // https://decomp.me/scratch/QiYzx
 WIP_FUNC(0x4f49b0)
 void MapRenderer::sub_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
@@ -2441,10 +2440,10 @@ void MapRenderer::sub_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
 
         draw_4F3FB0(dword_620F84[side_word >> 13]);
 
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a2, 1);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.x, a3, 2);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a3, 3);
-        MapRenderer::Set_UV_4F4190(stru_6F6484.y, a2, 0);
+        Set_UV_4F4190(a2, stru_6F6484.x, 0);
+        Set_UV_4F4190(a3, stru_6F6484.x, 1);
+        Set_UV_4F4190(a3, stru_6F6484.y, 2);
+        Set_UV_4F4190(a2, stru_6F6484.y, 3);
 
         dword_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2457,7 +2456,7 @@ void MapRenderer::sub_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
                 dword_6F6560 = dword_6F6560 | 0x80;
             }
             pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_E_colour_t2);
             ++field_2F00_drawn_tile_count;
@@ -2518,8 +2517,118 @@ void MapRenderer::DrawPartialBlockRight()
 {
 }
 
+// TODO: It's a function chunk from DrawPartialBlocks_4F6580
 void MapRenderer::DrawPartialBlockTop()
 {
+    u16 side_word;
+    //v47 = this;
+    //v11 = *(MapRenderer**)&gBlockLeft_6F62F6;
+    if (gBlockLeft_6F62F6)
+    {
+        //HIWORD(v13) = *(&gBlockRight_6F63C6 + 1);
+        if (gBlockRight_6F63C6)
+        {
+            if ((gBlockRight_6F63C6 & 0x1000) != 0)
+            {
+                //BYTE1(v11) = HIBYTE(gBlockLeft_6F62F6) | 0x10;
+                //v47 = v11;
+                side_word = gBlockLeft_6F62F6 | 0x1000;
+                MapRenderer::draw_left_4F3C00(side_word,
+                                                stru_6F6484.y,
+                                                stru_6F6484.x,
+                                                dword_6F6428);
+                //LOWORD(v11) = gBlockLeft_6F62F6;
+            }
+            if ((gBlockLeft_6F62F6 & 0x1000) != 0)
+            {
+                //LOWORD(v13) = gBlockRight_6F63C6 | 0x1000;
+                //v47 = v13;
+                side_word = gBlockRight_6F63C6 | 0x1000;
+                MapRenderer::sub_4F4250(side_word,
+                                        stru_6F6484.x,
+                                        stru_6F6484.x,
+                                        dword_6F6428);
+                //LOWORD(v11) = gBlockLeft_6F62F6;
+            }
+        }
+    }
+    //v14 = *(MapRenderer**)&gBlockTop_6F62F4;
+    if (gBlockTop_6F62F4)
+    {
+        if (gBlockBottom_6F6468)
+        {
+            if ((gBlockBottom_6F6468 & 0x1000) != 0)
+            {
+                //BYTE1(v14) = HIBYTE(gBlockTop_6F62F4) | 0x10;
+                //v47 = v14;
+                side_word = gBlockTop_6F62F4 | 0x1000;
+                MapRenderer::sub_4F4600(side_word,
+                                        stru_6F6484.x,
+                                        stru_6F6484.y,
+                                        dword_6F6428);
+                //LOWORD(v14) = gBlockTop_6F62F4;
+                //LOWORD(v11) = gBlockLeft_6F62F6;
+            }
+            if ((gBlockTop_6F62F4 & 0x1000) != 0)
+            {
+                //v15 = gBlockBottom_6F6468;
+                //BYTE1(v15) = BYTE1(gBlockBottom_6F6468) | 0x10;
+                //v47 = (MapRenderer*)v15;
+                side_word = gBlockBottom_6F6468 | 0x1000;
+                MapRenderer::sub_4F49B0(side_word,
+                                        stru_6F6484.x,
+                                        stru_6F6484.y,
+                                        stru_6F6484.x);
+                //LOWORD(v14) = gBlockTop_6F62F4;
+                //LOWORD(v11) = gBlockLeft_6F62F6;
+            }
+        }
+    }
+    if (gBlockLeft_6F62F6) // v11
+    {
+        if (!gBlockRight_6F63C6 || (gBlockRight_6F63C6 & 0x1000) == 0 || (gBlockLeft_6F62F6 & 0x1000) != 0)
+        {
+            MapRenderer::draw_left_4F3C00(gBlockLeft_6F62F6,
+                                            stru_6F6484.x,
+                                            stru_6F6484.x,
+                                            dword_6F6428);
+            //LOWORD(v14) = gBlockTop_6F62F4;
+            //LOWORD(v11) = gBlockLeft_6F62F6;
+        }
+    }
+    if (gBlockRight_6F63C6)
+    {
+        if (!gBlockLeft_6F62F6 || (gBlockLeft_6F62F6 & 0x1000) == 0 || (gBlockRight_6F63C6 & 0x1000) != 0)
+        {
+            MapRenderer::sub_4F4250(gBlockRight_6F63C6,
+                                    stru_6F6484.y,
+                                    stru_6F6484.x,
+                                    dword_6F6428);
+        }
+    }
+    if (gBlockTop_6F62F4) // v14
+    {
+        if (!gBlockBottom_6F6468 || (gBlockBottom_6F6468 & 0x1000) == 0 || (gBlockTop_6F62F4 & 0x1000) != 0)
+        {
+            MapRenderer::DrawTopSide_4EBA60(gBlockTop_6F62F4);
+        }
+    }
+    if (gBlockBottom_6F6468)
+    {
+        if (!gBlockTop_6F62F4 || (gBlockTop_6F62F4 & 0x1000) == 0 || (gBlockBottom_6F6468 & 0x1000) != 0)
+        {
+            MapRenderer::sub_4F49B0(gBlockBottom_6F6468,
+                                    stru_6F6484.x,
+                                    stru_6F6484.y,
+                                    dword_6F6428);
+        }
+    }
+
+    // TODO: draw_lid_4F4D60
+    if (gLidType_6F6274)
+    {
+        //MapRenderer::draw_lid_4F4D60(stru_6F6484, (Fix16_2*)&stru_6F6484.field_4_frac, (int)&stru_6F6484, dword_6F6428);
+    }
 }
 
 void MapRenderer::DrawPartialBlockBottom()

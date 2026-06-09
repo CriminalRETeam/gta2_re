@@ -94,7 +94,6 @@ class MapRenderer
     EXPORT void DrawGradientSlopeWestwards_4F22F0();
     EXPORT void DrawGradientSlopeEastwards_4F33B0();
     EXPORT void draw_left_4F3C00(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
-    EXPORT void Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx);
     EXPORT void sub_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
     EXPORT void sub_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
     EXPORT void sub_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
@@ -189,6 +188,8 @@ EXPORT void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yC
 EXPORT void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert);
 
 EXPORT void __stdcall draw_4F3FB0(s32 arg);
+
+EXPORT void __stdcall Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx);
 
 EXTERN_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4);
 
