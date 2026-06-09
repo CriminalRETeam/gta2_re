@@ -2383,6 +2383,7 @@ void MapRenderer::sub_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
 WIP_FUNC(0x4f4600)
 void MapRenderer::sub_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
 {
+    WIP_IMPLEMENTED;
     if (!bSkip_top_67D574)
     {
         sub_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[0]);
@@ -2420,7 +2421,6 @@ void MapRenderer::sub_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
     }
 }
 
-// Something is also wrong here...
 // https://decomp.me/scratch/QiYzx
 WIP_FUNC(0x4f49b0)
 void MapRenderer::sub_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
@@ -2439,10 +2439,10 @@ void MapRenderer::sub_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
 
         draw_4F3FB0(dword_620F84[side_word >> 13]);
 
-        Set_UV_4F4190(stru_6F6484.x, a2, 1);
-        Set_UV_4F4190(stru_6F6484.x, a3, 2);
-        Set_UV_4F4190(stru_6F6484.y, a3, 3);
-        Set_UV_4F4190(stru_6F6484.y, a2, 0);
+        Set_UV_4F4190(a2, stru_6F6484.x, 0);
+        Set_UV_4F4190(a3, stru_6F6484.x, 1);
+        Set_UV_4F4190(a3, stru_6F6484.y, 2);
+        Set_UV_4F4190(a2, stru_6F6484.y, 3);
 
         dword_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2455,7 +2455,7 @@ void MapRenderer::sub_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
                 dword_6F6560 = dword_6F6560 | 0x80;
             }
             pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_E_colour_t2);
             ++field_2F00_drawn_tile_count;
