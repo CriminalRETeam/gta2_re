@@ -4566,7 +4566,7 @@ void miss2_0x11C::SCRCMD_ADD_CHAR_TO_GANG_50C540()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-WIP_FUNC(0x50c5a0)
+MATCH_FUNC(0x50c5a0)
 void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
 {
     SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
@@ -4598,9 +4598,9 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
         {
             Ped* pChar = pPtr->field_8_char;
 
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pChar->field_1AC_cam.x,
-                                                      pChar->field_1AC_cam.y,
-                                                      pChar->field_1AC_cam.z,
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pChar->get_cam_x(),
+                                                      pChar->get_cam_y(),
+                                                      pChar->get_cam_z(),
                                                       dword_6F804C,
                                                       explosion_type,
                                                       0);
@@ -4611,9 +4611,9 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
         {
             Sprite* pSprite = pPtr->field_8_obj->field_4;
 
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pSprite->field_14_xy.x,
-                                                      pSprite->field_14_xy.y,
-                                                      pSprite->field_1C_zpos,
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pSprite->GetXPos(),
+                                                      pSprite->GetYPos(),
+                                                      pSprite->GetZPos(),
                                                       dword_6F804C,
                                                       explosion_type,
                                                       0);
