@@ -884,7 +884,7 @@ EXTERN_GLOBAL(Fix16, dword_6F77C8);
 class miss2_0x11C
 {
   public:
-    EXPORT void sub_503200();
+    EXPORT void MissionFailOnArrest_503200();
     EXPORT u8 GetEntityTypeOfCommand_503410(u32 a1);
     EXPORT void sub_5035B0();
     EXPORT void Log_5035D0();

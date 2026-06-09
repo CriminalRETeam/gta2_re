@@ -67,8 +67,8 @@ static inline bool is_car_weapon(s32& weapon_idx)
     return weapon_idx >= 15 && weapon_idx <= 27;
 }
 
-WIP_FUNC(0x503200)
-void miss2_0x11C::sub_503200()
+MATCH_FUNC(0x503200)
+void miss2_0x11C::MissionFailOnArrest_503200()
 {
     if (gfrosty_pasteur_6F8060->field_355 && gfrosty_pasteur_6F8060->field_344_mission_flag &&
         *gfrosty_pasteur_6F8060->field_344_mission_flag == 1)
@@ -7822,7 +7822,7 @@ char_type miss2_0x11C::PoolUpdate()
         sprintf(gTmpBuffer_67C598, "Miss2: accessing nonexistant mission line. Current uid: %d", field_4_next_cmd);
     }
 
-    miss2_0x11C::sub_503200();
+    miss2_0x11C::MissionFailOnArrest_503200();
 
     if (BasePointer_512770->field_2_type == 0x3F) //  3F 00 = EXEC opcode
     {
