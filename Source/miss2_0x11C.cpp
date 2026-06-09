@@ -5413,8 +5413,7 @@ void miss2_0x11C::sub_50DD00() // GET_NUM_LIVES or GET_NUM_MULT
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-// matches on decompme: https://decomp.me/scratch/y8gtV
-WIP_FUNC(0x50dd90)
+MATCH_FUNC(0x50dd90)
 void miss2_0x11C::SCRCMD_SET_DIR_OF_TVVAN_50DD90()
 {
     SCR_SET_DIR_OF_TVVAN* pCmd = (SCR_SET_DIR_OF_TVVAN*)gBasePtr_6F8070;
