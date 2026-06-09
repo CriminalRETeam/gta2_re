@@ -4186,35 +4186,34 @@ void miss2_0x11C::SCRCMD_SET_MIN_ALIVE_50BCD0()
 }
 
 // 9.6f 0x47BAC0
-WIP_FUNC(0x50bd10)
-void miss2_0x11C::sub_50BD10()
+MATCH_FUNC(0x50bd10)
+void miss2_0x11C::SCRCMD_CHAR_GROUP_50BD10()
 {
-    WIP_IMPLEMENTED;
+    SCR_TWO_PARAMS* pParams = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
 
-    SCR_POINTER* pGlobal = gBasePtr_6F8070;
+    SCR_POINTER* pPtr1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pParams->field_8_unsigned_1);
+    SCR_POINTER* pPtr2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
 
-    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pNextCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pGlobal->field_8_index);
+    Ped* pChar = pPtr1->field_8_char;
+    PedGroup* pGroup = pChar->GetGroup_475AF0();
 
-    PedGroup* pGroup = pCmd->field_8_char->GetGroup_475AF0();
     switch (gBasePtr_6F8070->field_2_type)
     {
-        case SCRCMD_ADD_CHAR_TO_GROUP:
-            pGroup->add_ped_to_end_of_list_4C8F90(pNextCmd->field_8_char);
-
+        case SCRCMD_MAKE_LEADER:
+            pPtr2->field_8_char->sub_4702D0(pChar);
             break;
 
         case SCRCMD_REMOVE_char_type:
-            pGroup->RemovePed_4C9970(pNextCmd->field_8_char);
-            Next_503620(gBasePtr_6F8070);
-            return;
+            pGroup->RemovePed_4C9970(pPtr2->field_8_char);
+            break;
 
-        case SCRCMD_MAKE_LEADER:
-            pNextCmd->field_8_char->sub_4702D0(pCmd->field_8_char);
-            Next_503620(gBasePtr_6F8070);
-            return;
+        case SCRCMD_ADD_CHAR_TO_GROUP:
+            pGroup->add_ped_to_end_of_list_4C8F90(pPtr2->field_8_char);
+            break;
     }
-    Next_503620(gBasePtr_6F8070);
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50bdc0)
@@ -7362,7 +7361,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case SCRCMD_ADD_CHAR_TO_GROUP:
             case SCRCMD_REMOVE_char_type:
             case SCRCMD_MAKE_LEADER:
-                sub_50BD10();
+                SCRCMD_CHAR_GROUP_50BD10();
                 break;
             case SCRCMD_SET_COUNTER_s32:
                 sub_50BDC0();
