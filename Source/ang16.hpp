@@ -194,6 +194,12 @@ class Ang16
     EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(Fix16& a2);
     EXPORT Ang16* sub_4516B0(Fix16* a2, s32 a3);
 
+    // Needed by miss2_0x11C::SCRCMD_CRANE_5041C0.
+    Ang16(Fix16* a2, s32 a3)
+    {
+        sub_4516B0(a2, a3);
+    }
+
     inline static Fix16 __stdcall cosine_40F520(const Ang16& angle)
     {
         return gCos_table_669260[angle.rValue];

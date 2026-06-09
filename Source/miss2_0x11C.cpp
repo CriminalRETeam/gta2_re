@@ -639,19 +639,17 @@ void miss2_0x11C::SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* pCmd)
     pCmd->field_8_u32 = 0;
 }
 
-// https://decomp.me/scratch/m17JR
-WIP_FUNC(0x5041c0)
+MATCH_FUNC(0x5041c0)
 void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* a1, SCR_CRANE_BASIC_DEC* a2)
 {
-    WIP_IMPLEMENTED;
     a2->field_8_crane = gCranePool_D9C_679FD4->NewCrane_480EC0(a1->field_10_pos.field_0_x, a1->field_10_pos.field_4_y);
-    Ang16 rotation(NULL, NULL);
 
     if (a1->field_2_type == SCRCMD_CRANE_TARGET_DEC)
     {
         if (a1->field_1A_home_cranetype == 0)
         {
-            rotation = word_6F8044.sub_401CB0(Fix16(a1->field_24_target_rotation));
+            Fix16 fix_rot = Fix16(word_6F8044.rValue) * Fix16(a1->field_24_target_rotation);
+            Ang16 rotation(&fix_rot, 0);
 
             a1->field_8_crane->CraneTargetPickupCheck_480900(a1->field_1C_target_pos.field_0_x,
                                                              a1->field_1C_target_pos.field_4_y,
@@ -659,7 +657,8 @@ void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* a1, SCR_CRANE_BASIC_
         }
         else if (a1->field_1A_home_cranetype == 1)
         {
-            rotation = word_6F8044.sub_401CB0(Fix16(a1->field_24_target_rotation));
+            Fix16 fix_rot = Fix16(word_6F8044.rValue) * Fix16(a1->field_24_target_rotation);
+            Ang16 rotation(&fix_rot, 0);
 
             a1->field_8_crane->ComputePickupAlignment_480B60(a1->field_1C_target_pos.field_0_x,
                                                              a1->field_1C_target_pos.field_4_y,
@@ -668,18 +667,23 @@ void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* a1, SCR_CRANE_BASIC_
     }
     else if (a1->field_2_type == SCRCMD_CRANE_BASIC_DEC)
     {
-        // line e0
-        rotation = word_6F8044.sub_401CB0(Fix16(a2->field_24_target_rotation));
+        Ang16 rotation;
+        rotation.ConvertAndMultiply(&word_6F8044, (Ang16*)&a2->field_24_target_rotation);
+        rotation.sub_406C20();
         a2->field_8_crane->CraneTargetPickupCheck_480900(a2->field_1C_target_pos.field_0_x, a2->field_1C_target_pos.field_4_y, rotation);
 
-        // line 125
-
-        rotation = word_6F8044.sub_401CB0(Fix16(a2->field_26_second_rotation));
+        rotation.ConvertAndMultiply(&word_6F8044, (Ang16*)&a2->field_26_second_rotation);
+        rotation.sub_406C20();
         a2->field_8_crane->ComputePickupAlignment_480B60(a2->field_28_second_pos.field_0_x, a2->field_28_second_pos.field_4_y, rotation);
     }
 
-    rotation = word_6F8044.sub_401CB0(Fix16(a1->field_18_home_rotation));
-    a2->field_8_crane->sub_4768E0(rotation);
+    {
+        Ang16 rotation;
+        rotation.ConvertAndMultiply(&word_6F8044, (Ang16*)&a1->field_18_home_rotation);
+        rotation.sub_406C20();
+        a2->field_8_crane->sub_4768E0(rotation);
+    }
+
     if (a1->field_C_homecrane)
     {
         SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(a1->field_C_homecrane);
