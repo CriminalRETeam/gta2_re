@@ -3084,6 +3084,8 @@ void miss2_0x11C::Locate_509FD0()
 {
     SCR_ONEVAR_RECT* pCmd = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
     SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    Fix16 vel;
+    void* pObj;
 
     if (pPtr->field_8_char)
     {
@@ -3101,40 +3103,38 @@ void miss2_0x11C::Locate_509FD0()
             switch (gBasePtr_6F8070->field_2_type)
             {
                 case SCRCMD_LOCATE_CHAR_ONFOOT:
-                    if (pPtr->field_8_char->field_168_game_object)
-                    {
-                        field_8 = true;
-                    }
-
-                    break;
+                    pObj = pPtr->field_8_char->field_168_game_object;
+                    goto obj_test;
                 case SCRCMD_LOCATE_CHAR_BY_CAR:
-                    if (pPtr->field_8_char->field_16C_car)
+                    pObj = pPtr->field_8_char->field_16C_car;
+                obj_test:
+                    if (pObj)
                     {
                         field_8 = true;
                     }
 
                     break;
                 case SCRCMD_STOP_LOCATE_CHAR_ANY:
-                    if (pPtr->field_8_char->field_168_game_object)
+                    if (pPtr->field_8_char->field_168_game_object &&
+                        (vel = pPtr->field_8_char->field_168_game_object->field_38_velocity, vel == dword_6F77C0))
                     {
-                        if (pPtr->field_8_char->field_168_game_object->field_38_velocity == dword_6F77C0)
-                        {
-                            field_8 = true;
-                        }
+                        field_8 = true;
                     }
                     else if (pPtr->field_8_char->field_16C_car)
                     {
-                        if (pPtr->field_8_char->GetPedVelocity_45C920() == dword_6F77C0)
-                        {
-                            field_8 = true;
-                        }
+                        vel = pPtr->field_8_char->GetPedVelocity_45C920();
+                        goto vel_test;
                     }
                     break;
                 case SCRCMD_STOP_LOCATE_CHAR_FOOT:
-                    if (pPtr->field_8_char->field_168_game_object &&
-                        pPtr->field_8_char->field_168_game_object->field_38_velocity == dword_6F77C0)
+                    if (pPtr->field_8_char->field_168_game_object)
                     {
-                        field_8 = true;
+                        vel = pPtr->field_8_char->field_168_game_object->field_38_velocity;
+                    vel_test:
+                        if (vel == dword_6F77C0)
+                        {
+                            field_8 = true;
+                        }
                     }
 
                     break;
