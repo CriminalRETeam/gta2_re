@@ -3083,9 +3083,9 @@ WIP_FUNC(0x509fd0)
 void miss2_0x11C::Locate_509FD0()
 {
     SCR_ONEVAR_RECT* pCmd = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
-    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    Fix16 vel;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_varname);
     void* pObj;
+    Fix16 vel;
 
     if (pPtr->field_8_char)
     {
@@ -3103,16 +3103,21 @@ void miss2_0x11C::Locate_509FD0()
             switch (gBasePtr_6F8070->field_2_type)
             {
                 case SCRCMD_LOCATE_CHAR_ONFOOT:
-                    pObj = pPtr->field_8_char->field_168_game_object;
-                    goto obj_test;
-                case SCRCMD_LOCATE_CHAR_BY_CAR:
-                    pObj = pPtr->field_8_char->field_16C_car;
-                obj_test:
-                    if (pObj)
+                    if ((pObj = pPtr->field_8_char->field_168_game_object) != NULL)
                     {
                         field_8 = true;
                     }
 
+                    break;
+                case SCRCMD_LOCATE_CHAR_BY_CAR:
+                    if ((pObj = pPtr->field_8_char->field_16C_car) != NULL)
+                    {
+                        field_8 = true;
+                    }
+
+                    break;
+                case SCRCMD_LOCATE_CHAR_ANY:
+                    field_8 = true;
                     break;
                 case SCRCMD_STOP_LOCATE_CHAR_ANY:
                     if (pPtr->field_8_char->field_168_game_object &&
@@ -3125,6 +3130,7 @@ void miss2_0x11C::Locate_509FD0()
                         vel = pPtr->field_8_char->GetPedVelocity_45C920();
                         goto vel_test;
                     }
+
                     break;
                 case SCRCMD_STOP_LOCATE_CHAR_FOOT:
                     if (pPtr->field_8_char->field_168_game_object)
@@ -3144,9 +3150,6 @@ void miss2_0x11C::Locate_509FD0()
                         field_8 = true;
                     }
 
-                    break;
-                case SCRCMD_LOCATE_CHAR_ANY:
-                    field_8 = true;
                     break;
                 default:
                     FatalError_4A38C0(Gta2Error::InvalidCase,
