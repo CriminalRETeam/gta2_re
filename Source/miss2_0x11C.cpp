@@ -2453,7 +2453,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 
             if (gStoredCar_6F7560 != NULL)
             {
-                if (pCar != gStoredCar_6F7560 && pCar->field_6C_maybe_id != gStoredCar_6F7560->field_6C_maybe_id)
+                if (gStoredCar_6F7560 != pCar && gStoredCar_6F7560->field_6C_maybe_id != pCar->field_6C_maybe_id)
                 {
                     s32 four = 4;
 
