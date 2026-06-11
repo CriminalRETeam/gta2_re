@@ -131,6 +131,28 @@ struct delta_store_entry
     char_type field_3_data[1]; // variable � see field_2_len
 };
 
+struct sprite_delta
+{
+    delta_store_entry* field_0_pData;
+    u16 field_4_len;
+    u16 field_6_pad;
+};
+
+struct sprite_deltas
+{
+    u16 field_0;
+    u8 field_2_count;
+    u8 field_3_pad;
+    sprite_delta field_4_deltas[1];
+};
+
+struct delta_container
+{
+    u16 field_0_count;
+    u16 field_2_pad;
+    sprite_deltas* field_4_entries[1];
+};
+
 namespace tile_spec
 {
 enum
@@ -187,7 +209,7 @@ class gtx_0x106C
 
     EXPORT BYTE* get_car_remap_5AA3D0(u8 idx);
 
-    EXPORT s32 sub_5AA3F0(u16 a2, u8 a3);
+    EXPORT sprite_delta* get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx);
 
     EXPORT sprite_index* get_sprite_index_5AA440(u16 idx);
 
@@ -337,7 +359,7 @@ class gtx_0x106C
     delta_store_entry* field_48_delta_store;
     delta_entry* field_4C_delta_index;
     void* field_50_delta_buffer;
-    s32 field_54_del;
+    delta_container* field_54_del;
     car_info** field_58_car_info;
     car_info_container* field_5C_cari;
     s32 field_60_delta_len;

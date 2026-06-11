@@ -67,11 +67,31 @@ BYTE* gtx_0x106C::get_car_remap_5AA3D0(u8 idx)
     return &pCarInfo->remap[pCarInfo->num_remaps];
 }
 
-STUB_FUNC(0x5AA3F0)
-s32 sub_5AA3F0(u16 a2, u8 a3)
+MATCH_FUNC(0x5AA3F0)
+sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    delta_container* pDel = field_54_del;
+
+    if (sprite_idx >= pDel->field_0_count)
+    {
+        return 0;
+    }
+
+    sprite_deltas* pEntry = pDel->field_4_entries[sprite_idx];
+
+    if (!pEntry)
+    {
+        return 0;
+    }
+
+    if (delta_idx >= pEntry->field_2_count)
+    {
+        return 0;
+    }
+
+    sprite_delta* pDelta = &pEntry->field_4_deltas[delta_idx];
+
+    return pDelta->field_4_len != 0 ? pDelta : 0;
 }
 
 STUB_FUNC(0x5AA460)
