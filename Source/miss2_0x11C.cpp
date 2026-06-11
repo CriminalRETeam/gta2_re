@@ -5640,21 +5640,20 @@ void miss2_0x11C::GetSpeed_50E190()
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
     Fix16 charCarSpeed;
     Fix16 carSpeed;
-    Fix16 maxSpeed;
 
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_GET_MAX_SPEED:
         {
-            maxSpeed = pPtr->field_8_car->GetMaxSpeed_439F30();
-            pParam2->field_8_counter = maxSpeed.GetRaw_40F4B0();
+            pParam2->field_8_counter = pPtr->field_8_car->GetMaxSpeed_439F30().GetRaw_40F4B0();
 
             miss2_0x11C::Next_503620(gBasePtr_6F8070);
             return;
         }
         case SCRCMD_GET_CHAR_CAR_SPEED:
         {
-            Car_BC* pCar = pPtr->field_8_char->field_16C_car;
+            Ped* pChar = pPtr->field_8_char;
+            Car_BC* pCar = pChar->field_16C_car;
 
             if (pCar)
             {
@@ -5676,11 +5675,11 @@ void miss2_0x11C::GetSpeed_50E190()
         }
         case SCRCMD_GET_CAR_SPEED:
         {
-            Car_BC* pCar = pPtr->field_8_car;
+            CarPhysics_B0* pPhysics = pPtr->field_8_car->field_58_physics;
 
-            if (pCar->field_58_physics)
+            if (pPhysics)
             {
-                carSpeed = pCar->field_58_physics->field_0_vel_read_only.GetLength_453590();
+                carSpeed = pPhysics->field_0_vel_read_only.GetLength_453590_inline_wrap();
                 pParam2->field_8_counter = carSpeed.GetRaw_40F4B0();
 
                 miss2_0x11C::Next_503620(gBasePtr_6F8070);
