@@ -460,8 +460,11 @@ class Hud_Arrow_7C
 
     inline void SetArrowAim_476840(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
-        field_18.field_18_primary_target.set_arrow_aim_from_pos_4767C0(xpos, ypos, zpos);
-        field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::XYZ_Coord_1;
+        ArrowTrace_24* pTarget = &field_18.field_18_primary_target;
+        pTarget->field_14_aim_x = xpos;
+        pTarget->field_18_aim_y = ypos;
+        pTarget->field_1C_aim_z = zpos;
+        pTarget->field_10_target_type = ArrowTargetType::XYZ_Coord_1;
     }
 
     EXPORT Hud_Arrow_7C();

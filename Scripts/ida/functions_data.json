@@ -8315,7 +8315,7 @@
         "v105_address": "0x503fb0"
     },
     {
-        "name": "miss2_0x11C::sub_504110",
+        "name": "miss2_0x11C::SetCharObjective",
         "v96f_address": null,
         "v105_address": "0x504110"
     },
@@ -8515,12 +8515,12 @@
         "v105_address": "0x506af0"
     },
     {
-        "name": "miss2_0x11C::sub_506B30",
+        "name": "miss2_0x11C::SCRCMD_GOSUB",
         "v96f_address": null,
         "v105_address": "0x506b30"
     },
     {
-        "name": "miss2_0x11C::sub_506B80",
+        "name": "miss2_0x11C::SCRCMD_RETURN",
         "v96f_address": null,
         "v105_address": "0x506b80"
     },
@@ -8530,17 +8530,17 @@
         "v105_address": "0x506bc0"
     },
     {
-        "name": "miss2_0x11C::sub_506D60",
+        "name": "miss2_0x11C::SCRCMD_S_OP_I",
         "v96f_address": null,
         "v105_address": "0x506d60"
     },
     {
-        "name": "miss2_0x11C::sub_506ED0",
+        "name": "miss2_0x11C::SCRCMD_S_OP_S",
         "v96f_address": null,
         "v105_address": "0x506ed0"
     },
     {
-        "name": "miss2_0x11C::sub_507110",
+        "name": "miss2_0x11C::SCRCMD_I_OP_S",
         "v96f_address": null,
         "v105_address": "0x507110"
     },
@@ -8570,12 +8570,12 @@
         "v105_address": "0x507b50"
     },
     {
-        "name": "miss2_0x11C::sub_507CE0",
+        "name": "miss2_0x11C::SCRCMD_CREATE_OBJ",
         "v96f_address": null,
         "v105_address": "0x507ce0"
     },
     {
-        "name": "miss2_0x11C::sub_507F80",
+        "name": "miss2_0x11C::SCRCMD_CREATE_CAR",
         "v96f_address": null,
         "v105_address": "0x507f80"
     },
@@ -8585,12 +8585,12 @@
         "v105_address": "0x508220"
     },
     {
-        "name": "miss2_0x11C::sub_508280",
+        "name": "miss2_0x11C::SCRCMD_SET_DENSITY",
         "v96f_address": null,
         "v105_address": "0x508280"
     },
     {
-        "name": "miss2_0x11C::sub_508550",
+        "name": "miss2_0x11C::SCRCMD_POINT_ARROW_3D",
         "v96f_address": null,
         "v105_address": "0x508550"
     },
@@ -8625,7 +8625,7 @@
         "v105_address": "0x509180"
     },
     {
-        "name": "miss2_0x11C::sub_5093C0",
+        "name": "miss2_0x11C::SCRCMD_DISPLAY_MESSAGE",
         "v96f_address": null,
         "v105_address": "0x5093c0"
     },
@@ -8635,37 +8635,37 @@
         "v105_address": "0x5096e0"
     },
     {
-        "name": "miss2_0x11C::SCR_CMD_CREATE_CHAR",
+        "name": "miss2_0x11C::SCRCMD_CREATE_CHAR",
         "v96f_address": null,
         "v105_address": "0x509730"
     },
     {
-        "name": "miss2_0x11C::sub_509790",
+        "name": "miss2_0x11C::SCRCMD_SET_CHAR_OCCUPATION",
         "v96f_address": null,
         "v105_address": "0x509790"
     },
     {
-        "name": "miss2_0x11C::sub_5097D0",
+        "name": "miss2_0x11C::SCRCMD_SET_CHAR_OBJ1",
         "v96f_address": null,
         "v105_address": "0x5097d0"
     },
     {
-        "name": "miss2_0x11C::sub_509810",
+        "name": "miss2_0x11C::SCRCMD_IS_CHAR_OBJ_PASS",
         "v96f_address": null,
         "v105_address": "0x509810"
     },
     {
-        "name": "miss2_0x11C::sub_509880",
+        "name": "miss2_0x11C::SCRCMD_IS_CHAR_OBJ_FAIL",
         "v96f_address": null,
         "v105_address": "0x509880"
     },
     {
-        "name": "miss2_0x11C::sub_5098E0",
+        "name": "miss2_0x11C::SCRCMD_GIVE_WEAPON",
         "v96f_address": null,
         "v105_address": "0x5098e0"
     },
     {
-        "name": "miss2_0x11C::sub_509990",
+        "name": "miss2_0x11C::SCRCMD_IS_CAR_IN_BLOCK",
         "v96f_address": null,
         "v105_address": "0x509990"
     },
@@ -8680,27 +8680,27 @@
         "v105_address": "0x509bb0"
     },
     {
-        "name": "miss2_0x11C::sub_509C10",
+        "name": "miss2_0x11C::SCRCMD_IS_CHAR_IN_CAR",
         "v96f_address": null,
         "v105_address": "0x509c10"
     },
     {
-        "name": "miss2_0x11C::sub_509C90",
+        "name": "miss2_0x11C::SCRCMD_IS_CHAR_IN_MODEL",
         "v96f_address": null,
         "v105_address": "0x509c90"
     },
     {
-        "name": "miss2_0x11C::sub_509D00",
+        "name": "miss2_0x11C::SCRCMD_IS_CHAR_IN_ANY_CAR",
         "v96f_address": null,
         "v105_address": "0x509d00"
     },
     {
-        "name": "miss2_0x11C::sub_509D60",
+        "name": "miss2_0x11C::SCRCMD_DELETE_ITEM",
         "v96f_address": null,
         "v105_address": "0x509d60"
     },
     {
-        "name": "miss2_0x11C::sub_509D90",
+        "name": "miss2_0x11C::SCRCMD_ADD_SCORE",
         "v96f_address": null,
         "v105_address": "0x509d90"
     },
@@ -8710,12 +8710,12 @@
         "v105_address": "0x509e00"
     },
     {
-        "name": "miss2_0x11C::sub_509E70",
+        "name": "miss2_0x11C::SCRCMD_IS_CHAR_STOPPED",
         "v96f_address": null,
         "v105_address": "0x509e70"
     },
     {
-        "name": "miss2_0x11C::sub_509ED0",
+        "name": "miss2_0x11C::SCRCMD_EXPLODE",
         "v96f_address": null,
         "v105_address": "0x509ed0"
     },
@@ -8730,17 +8730,17 @@
         "v105_address": "0x509fd0"
     },
     {
-        "name": "miss2_0x11C::sub_50A200",
+        "name": "miss2_0x11C::SCRCMD_SET_CHAR_OBJ2",
         "v96f_address": null,
         "v105_address": "0x50a200"
     },
     {
-        "name": "miss2_0x11C::sub_50A3E0",
+        "name": "miss2_0x11C::SCRCMD_SET_CHAR_OBJ3",
         "v96f_address": null,
         "v105_address": "0x50a3e0"
     },
     {
-        "name": "miss2_0x11C::sub_50A460",
+        "name": "miss2_0x11C::SCRCMD_SET_CHAR_OBJ_FOLLOW",
         "v96f_address": null,
         "v105_address": "0x50a460"
     },
@@ -8780,7 +8780,7 @@
         "v105_address": "0x50a940"
     },
     {
-        "name": "miss2_0x11C::sub_50A980",
+        "name": "miss2_0x11C::SCRCMD_DELAY",
         "v96f_address": null,
         "v105_address": "0x50a980"
     },
@@ -8805,7 +8805,7 @@
         "v105_address": "0x50ac20"
     },
     {
-        "name": "miss2_0x11C::sub_50ACF0",
+        "name": "miss2_0x11C::SCRCMD_CHANGE_RESPECT",
         "v96f_address": "0x47AB80",
         "v105_address": "0x50acf0"
     },
@@ -8815,7 +8815,7 @@
         "v105_address": "0x50aef0"
     },
     {
-        "name": "miss2_0x11C::sub_50B0E0",
+        "name": "miss2_0x11C::SCRCMD_ADD_PATROL_POINT",
         "v96f_address": null,
         "v105_address": "0x50b0e0"
     },
@@ -8825,7 +8825,7 @@
         "v105_address": "0x50b150"
     },
     {
-        "name": "miss2_0x11C::sub_50B180",
+        "name": "miss2_0x11C::SCRCMD_ANSWER_PHONE",
         "v96f_address": null,
         "v105_address": "0x50b180"
     },
@@ -8845,7 +8845,7 @@
         "v105_address": "0x50b360"
     },
     {
-        "name": "miss2_0x11C::sub_50B3D0",
+        "name": "miss2_0x11C::SCRCMD_IS_CHAR_FIRE_ONSCREEN",
         "v96f_address": null,
         "v105_address": "0x50b3d0"
     },
@@ -8860,17 +8860,17 @@
         "v105_address": "0x50b470"
     },
     {
-        "name": "miss2_0x11C::sub_50B4F0",
+        "name": "miss2_0x11C::SCRCMD_CHAR_TO_DRIVE_CAR",
         "v96f_address": "0x47B1D0",
         "v105_address": "0x50b4f0"
     },
     {
-        "name": "miss2_0x11C::sub_50B5A0",
+        "name": "miss2_0x11C::SCRCMD_DRIVER_OUT_CAR",
         "v96f_address": null,
         "v105_address": "0x50b5a0"
     },
     {
-        "name": "miss2_0x11C::sub_50B600",
+        "name": "miss2_0x11C::SCRCMD_GIVE_DRIVER_BRAKE",
         "v96f_address": null,
         "v105_address": "0x50b600"
     },
@@ -8880,7 +8880,7 @@
         "v105_address": "0x50b670"
     },
     {
-        "name": "miss2_0x11C::sub_50B690",
+        "name": "miss2_0x11C::SCRCMD_CLEAR_TIMERS",
         "v96f_address": null,
         "v105_address": "0x50b690"
     },
@@ -8915,12 +8915,12 @@
         "v105_address": "0x50b9c0"
     },
     {
-        "name": "miss2_0x11C::sub_50BA30",
+        "name": "miss2_0x11C::SCRCMD_CLEAR_WANTED_LEVEL",
         "v96f_address": null,
         "v105_address": "0x50ba30"
     },
     {
-        "name": "miss2_0x11C::sub_50BA70",
+        "name": "miss2_0x11C::SCRCMD_ALT_WANTED_LEVEL",
         "v96f_address": null,
         "v105_address": "0x50ba70"
     },
@@ -8955,7 +8955,7 @@
         "v105_address": "0x50bd10"
     },
     {
-        "name": "miss2_0x11C::sub_50BDC0",
+        "name": "miss2_0x11C::SCRCMD_SET_COUNTER",
         "v96f_address": null,
         "v105_address": "0x50bdc0"
     },
@@ -9045,7 +9045,7 @@
         "v105_address": "0x50c5a0"
     },
     {
-        "name": "miss2_0x11C::sub_50C6F0",
+        "name": "miss2_0x11C::SCRCMD_PARK",
         "v96f_address": null,
         "v105_address": "0x50c6f0"
     },
@@ -9080,7 +9080,7 @@
         "v105_address": "0x50ca30"
     },
     {
-        "name": "miss2_0x11C::sub_50CA70",
+        "name": "miss2_0x11C::SCRCMD_CHANGE_BLOCK",
         "v96f_address": null,
         "v105_address": "0x50ca70"
     },
@@ -9120,7 +9120,7 @@
         "v105_address": "0x50ce10"
     },
     {
-        "name": "miss2_0x11C::sub_50CE50",
+        "name": "miss2_0x11C::Gosub",
         "v96f_address": null,
         "v105_address": "0x50ce50"
     },
@@ -9170,17 +9170,17 @@
         "v105_address": "0x50d9a0"
     },
     {
-        "name": "miss2_0x11C::sub_50DA50",
+        "name": "miss2_0x11C::SCRCMD_CREATE_LIGHT",
         "v96f_address": null,
         "v105_address": "0x50da50"
     },
     {
-        "name": "miss2_0x11C::GetSetLivesAndMultipler_50DB70",
+        "name": "miss2_0x11C::GetSetLivesAndMultiplier",
         "v96f_address": null,
         "v105_address": "0x50db70"
     },
     {
-        "name": "miss2_0x11C::sub_50DD00",
+        "name": "miss2_0x11C::SCRCMD_GET_LIVES_MULT",
         "v96f_address": null,
         "v105_address": "0x50dd00"
     },
@@ -9245,17 +9245,17 @@
         "v105_address": "0x50e4a0"
     },
     {
-        "name": "miss2_0x11C::sub_50E4F0",
+        "name": "miss2_0x11C::SCRCMD_S_IS_S_OP_S",
         "v96f_address": null,
         "v105_address": "0x50e4f0"
     },
     {
-        "name": "miss2_0x11C::sub_50E610",
+        "name": "miss2_0x11C::SCRCMD_S_IS_S_OP_I",
         "v96f_address": null,
         "v105_address": "0x50e610"
     },
     {
-        "name": "miss2_0x11C::sub_50E730",
+        "name": "miss2_0x11C::SCRCMD_CHAR_DRIVE_AGGR",
         "v96f_address": null,
         "v105_address": "0x50e730"
     },
@@ -9275,52 +9275,52 @@
         "v105_address": "0x50e820"
     },
     {
-        "name": "miss2_0x11C::sub_50E900",
+        "name": "miss2_0x11C::SCRCMD_PUT_CAR_ON_TRAILER",
         "v96f_address": null,
         "v105_address": "0x50e900"
     },
     {
-        "name": "miss2_0x11C::sub_50E9A0",
+        "name": "miss2_0x11C::SCRCMD_CLEAR_BRIEFS",
         "v96f_address": null,
         "v105_address": "0x50e9a0"
     },
     {
-        "name": "miss2_0x11C::sub_50E9E0",
+        "name": "miss2_0x11C::SCRCMD_CHECK_HEADS",
         "v96f_address": null,
         "v105_address": "0x50e9e0"
     },
     {
-        "name": "miss2_0x11C::sub_50EA40",
+        "name": "miss2_0x11C::SCRCMD_FINISH_LEVEL",
         "v96f_address": null,
         "v105_address": "0x50ea40"
     },
     {
-        "name": "miss2_0x11C::sub_50EB00",
+        "name": "miss2_0x11C::SCRCMD_CHECK_WEAPONHIT",
         "v96f_address": null,
         "v105_address": "0x50eb00"
     },
     {
-        "name": "miss2_0x11C::sub_50EBD0",
+        "name": "miss2_0x11C::SCRCMD_WEAP_HIT_CAR",
         "v96f_address": null,
         "v105_address": "0x50ebd0"
     },
     {
-        "name": "miss2_0x11C::sub_50ECE0",
+        "name": "miss2_0x11C::SCRCMD_IS_CHAR_ON_FIRE",
         "v96f_address": null,
         "v105_address": "0x50ece0"
     },
     {
-        "name": "miss2_0x11C::sub_50ED40",
+        "name": "miss2_0x11C::SCRCMD_BRIEF_ONSCREEN",
         "v96f_address": null,
         "v105_address": "0x50ed40"
     },
     {
-        "name": "miss2_0x11C::sub_50ED80",
+        "name": "miss2_0x11C::SCRCMD_CREATE_SOUND",
         "v96f_address": null,
         "v105_address": "0x50ed80"
     },
     {
-        "name": "miss2_0x11C::sub_50EDC0",
+        "name": "miss2_0x11C::SCRCMD_DO_EASY_PHONE",
         "v96f_address": null,
         "v105_address": "0x50edc0"
     },
@@ -9340,7 +9340,7 @@
         "v105_address": "0x50f220"
     },
     {
-        "name": "miss2_0x11C::sub_50F270",
+        "name": "miss2_0x11C::SCRCMD_WARP_CHAR",
         "v96f_address": "0x47DAD0",
         "v105_address": "0x50f270"
     },
@@ -9370,7 +9370,7 @@
         "v105_address": "0x50f550"
     },
     {
-        "name": "miss2_0x11C::sub_50F5E0",
+        "name": "miss2_0x11C::SCRCMD_SET_CHAR_FLAGS",
         "v96f_address": null,
         "v105_address": "0x50f5e0"
     },
@@ -9400,7 +9400,7 @@
         "v105_address": "0x50f9b0"
     },
     {
-        "name": "miss2_0x11C::sub_50FA00",
+        "name": "miss2_0x11C::SCRCMD_KILL_CHAR",
         "v96f_address": null,
         "v105_address": "0x50fa00"
     },
@@ -9420,17 +9420,17 @@
         "v105_address": "0x50fad0"
     },
     {
-        "name": "miss2_0x11C::sub_50FAF0",
+        "name": "miss2_0x11C::SCRCMD_STORE_BONUS",
         "v96f_address": null,
         "v105_address": "0x50faf0"
     },
     {
-        "name": "miss2_0x11C::sub_50FB60",
+        "name": "miss2_0x11C::SCRCMD_SET_ENTER_STATUS",
         "v96f_address": null,
         "v105_address": "0x50fb60"
     },
     {
-        "name": "miss2_0x11C::sub_50FC20",
+        "name": "miss2_0x11C::SCRCMD_SET_FAV_CAR",
         "v96f_address": null,
         "v105_address": "0x50fc20"
     },
@@ -9440,77 +9440,77 @@
         "v105_address": "0x50fc60"
     },
     {
-        "name": "miss2_0x11C::sub_50FE00",
+        "name": "miss2_0x11C::SCRCMD_SET_KF_WEAPON",
         "v96f_address": null,
         "v105_address": "0x50fe00"
     },
     {
-        "name": "miss2_0x11C::sub_50FED0",
+        "name": "miss2_0x11C::SCRCMD_CLEAR_KF_WEAPON",
         "v96f_address": null,
         "v105_address": "0x50fed0"
     },
     {
-        "name": "miss2_0x11C::sub_50FF50",
+        "name": "miss2_0x11C::SCRCMD_ADD_ONSCREEN_COUNTER",
         "v96f_address": null,
         "v105_address": "0x50ff50"
     },
     {
-        "name": "miss2_0x11C::sub_50FFB0",
+        "name": "miss2_0x11C::SCRCMD_CLEAR_COUNTER",
         "v96f_address": null,
         "v105_address": "0x50ffb0"
     },
     {
-        "name": "miss2_0x11C::sub_510030",
+        "name": "miss2_0x11C::SCRCMD_CHANGE_POLICE",
         "v96f_address": null,
         "v105_address": "0x510030"
     },
     {
-        "name": "miss2_0x11C::sub_510050",
+        "name": "miss2_0x11C::SCRCMD_DESTROY_GROUP",
         "v96f_address": null,
         "v105_address": "0x510050"
     },
     {
-        "name": "miss2_0x11C::sub_510090",
+        "name": "miss2_0x11C::SCRCMD_CHECK_CURRENT_WEAPON",
         "v96f_address": null,
         "v105_address": "0x510090"
     },
     {
-        "name": "miss2_0x11C::sub_510100",
+        "name": "miss2_0x11C::SCRCMD_START_BASIC_KF",
         "v96f_address": null,
         "v105_address": "0x510100"
     },
     {
-        "name": "miss2_0x11C::sub_510280",
+        "name": "miss2_0x11C::SCRCMD_DO_BASIC_KF",
         "v96f_address": null,
         "v105_address": "0x510280"
     },
     {
-        "name": "miss2_0x11C::sub_510530",
+        "name": "miss2_0x11C::SCRCMD_SET_BONUS_RATING",
         "v96f_address": null,
         "v105_address": "0x510530"
     },
     {
-        "name": "miss2_0x11C::sub_510560",
+        "name": "miss2_0x11C::SCRCMD_ADD_TIME",
         "v96f_address": null,
         "v105_address": "0x510560"
     },
     {
-        "name": "miss2_0x11C::sub_5105B0",
+        "name": "miss2_0x11C::SCRCMD_SET_MODEL_WANTED",
         "v96f_address": null,
         "v105_address": "0x5105b0"
     },
     {
-        "name": "miss2_0x11C::sub_510600",
+        "name": "miss2_0x11C::SCRCMD_CHECK_DEATH_ARR",
         "v96f_address": null,
         "v105_address": "0x510600"
     },
     {
-        "name": "miss2_0x11C::sub_510660",
+        "name": "miss2_0x11C::SCRCMD_FORCE_CLEANUP",
         "v96f_address": null,
         "v105_address": "0x510660"
     },
     {
-        "name": "miss2_0x11C::sub_510780",
+        "name": "miss2_0x11C::SCRCMD_SAVE_RESTORE_RESPECT",
         "v96f_address": null,
         "v105_address": "0x510780"
     },
@@ -9525,12 +9525,12 @@
         "v105_address": "0x511840"
     },
     {
-        "name": "miss2_0x11C::sub_511930",
+        "name": "miss2_0x11C::InitThread",
         "v96f_address": null,
         "v105_address": "0x511930"
     },
     {
-        "name": "miss2_0x11C::sub_511960",
+        "name": "miss2_0x11C::SpawnThread",
         "v96f_address": null,
         "v105_address": "0x511960"
     },
