@@ -207,7 +207,9 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
 
     gObject_5C_6F8F84->SaveObjects_52A500(&gGameSave_6F78C8.field_5E4_object_data);
 
-    memcpy(gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_bUnCollectedTokens, &gObject_5C_6F8F84->field_20_bUnCollectedTokens, 50u);
+    memcpy(gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_bUnCollectedTokens,
+           &gObject_5C_6F8F84->field_20_bUnCollectedTokens,
+           50u);
 
     gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected = gLucid_hamilton_67E8E0.field_574_secret_tokens_collected;
 
@@ -252,7 +254,7 @@ MATCH_FUNC(0x5120C0)
 miss2_0x11C* frosty_pasteur_0xC1EA8::sub_5120C0(s16 a1, char_type a2)
 {
     miss2_0x11C* pThread = miss2_0x11C_Pool_6F8064->sub_4767A0();
-    pThread->sub_511930(a2, a1);
+    pThread->InitThread_511930(a2, a1);
     return pThread;
 }
 
@@ -294,7 +296,7 @@ void frosty_pasteur_0xC1EA8::Update_512160()
             return;
         }
         pf_0->ExecOpCode_5061C0();
-        pf_0->sub_511930(0, pLevelStart->field_0_cmd_this);
+        pf_0->InitThread_511930(0, pLevelStart->field_0_cmd_this);
         gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     }
 }
