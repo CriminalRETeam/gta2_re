@@ -570,12 +570,53 @@ void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
     }
 }
 
-STUB_FUNC(0x5AAC70)
-void gtx_0x106C::sub_5AAC70()
+MATCH_FUNC(0x5AAC70)
+void gtx_0x106C::build_delta_container_5AAC70()
 {
-    NOT_IMPLEMENTED;
-    // TODO
-    UNIQUE_FUNC;
+    u32 off = 0;
+    sprite_deltas* pIter = (sprite_deltas*)field_50_delta_buffer;
+    u16 maxSprite = 0;
+
+    for (; off < (u32)field_60_delta_len;)
+    {
+        if (pIter->field_0 >= maxSprite)
+        {
+            maxSprite = pIter->field_0;
+        }
+
+        u32 size = 8 * pIter->field_2_count + 4;
+        off += size;
+        pIter = (sprite_deltas*)((u8*)pIter + size);
+    }
+
+    field_54_del = (delta_container*)Memory::malloc_4FE4D0(4 * maxSprite + 8);
+    field_54_del->field_0_count = maxSprite + 1;
+
+    for (u32 i = 0; i < field_54_del->field_0_count; i++)
+    {
+        field_54_del->field_4_entries[i] = 0;
+    }
+
+    pIter = (sprite_deltas*)field_50_delta_buffer;
+
+    for (u32 off2 = 0; off2 < (u32)field_60_delta_len;)
+    {
+        if (field_54_del->field_4_entries[pIter->field_0])
+        {
+            FatalError_4A38C0(Gta2Error::MultipleSpriteDeltas, "C:\\Splitting\\Gta2\\Source\\style.cpp", 996, pIter->field_0);
+        }
+
+        field_54_del->field_4_entries[pIter->field_0] = pIter;
+
+        if (pIter->field_0 >= maxSprite)
+        {
+            maxSprite = pIter->field_0;
+        }
+
+        u32 size = 8 * pIter->field_2_count + 4;
+        pIter = (sprite_deltas*)((u8*)pIter + size);
+        off2 += size;
+    }
 }
 
 MATCH_FUNC(0x5AAD50)
@@ -594,7 +635,7 @@ void gtx_0x106C::load_delta_index_5AAD80(u32 delx_chunk_size)
     File::Global_Read_4A71C0(field_4C_delta_index, delx_chunk_size);
 
     sub_5AAB30(delx_chunk_size);
-    sub_5AAC70();
+    build_delta_container_5AAC70();
 
     crt::free(this->field_4C_delta_index);
     this->field_4C_delta_index = 0;

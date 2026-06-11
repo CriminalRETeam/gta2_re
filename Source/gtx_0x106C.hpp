@@ -257,7 +257,7 @@ class gtx_0x106C
 
     EXPORT void SetSpriteIndexDataPtrs_5AAC40();
 
-    EXPORT void sub_5AAC70();
+    EXPORT void build_delta_container_5AAC70();
 
     EXPORT void load_car_info_5AAD50(u32 cari_chunk_size);
 
