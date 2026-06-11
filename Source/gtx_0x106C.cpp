@@ -94,10 +94,10 @@ sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx)
     return pDelta->field_4_len != 0 ? pDelta : 0;
 }
 
-STUB_FUNC(0x5AA460)
+WIP_FUNC(0x5AA460)
 u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     u16 result;
     switch (type)
     {
@@ -121,7 +121,8 @@ u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
             result = sprite_pal + field_14_sprite_base2->field_A_font;
             break;
         default:
-            return sprite_pal;
+            result = sprite_pal;
+            break;
     }
     return result;
 }
