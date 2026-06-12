@@ -523,12 +523,44 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
     field_5C_cari->field_400_count = idx;
 }
 
-STUB_FUNC(0x5AAB30)
-void gtx_0x106C::sub_5AAB30(u32 delx_chunk_size)
+MATCH_FUNC(0x5AAB30)
+void gtx_0x106C::load_delx_5AAB30(u32 delx_chunk_size)
 {
-    NOT_IMPLEMENTED;
-    // TODO
-    UNIQUE_FUNC;
+    delta_entry* pIter = field_4C_delta_index;
+    u32 off = 0;
+    u32 total = 0;
+
+    for (; off < delx_chunk_size;)
+    {
+        u32 size = 2 * pIter->field_2_delta_count + 4;
+        field_60_delta_len += 8 * pIter->field_2_delta_count + 4;
+        pIter = (delta_entry*)((u8*)pIter + size);
+        off += size;
+    }
+
+    field_50_delta_buffer = (sprite_deltas*)Memory::malloc_4FE4D0(field_60_delta_len);
+    delta_entry* pSrc = field_4C_delta_index;
+    u32 off2 = 0;
+    sprite_deltas* pDst = (sprite_deltas*)field_50_delta_buffer;
+
+    for (; off2 < delx_chunk_size;)
+    {
+        pDst->field_0 = pSrc->field_0_which_sprite;
+        pDst->field_2_count = pSrc->field_2_delta_count;
+        pDst->field_3_pad = 0;
+
+        for (u32 i = 0; i < pSrc->field_2_delta_count; i++)
+        {
+            pDst->field_4_deltas[i].field_4_len = pSrc->field_4_delta[i];
+            pDst->field_4_deltas[i].field_0_pData = (delta_store_entry*)total;
+            total += pDst->field_4_deltas[i].field_4_len;
+        }
+
+        u32 size = 2 * pSrc->field_2_delta_count + 4;
+        pDst = (sprite_deltas*)((u8*)pDst + 8 * pDst->field_2_count + 4);
+        off2 += size;
+        pSrc = (delta_entry*)((u8*)pSrc + size);
+    }
 }
 
 // note: param type matters
@@ -634,7 +666,7 @@ void gtx_0x106C::load_delta_index_5AAD80(u32 delx_chunk_size)
     this->field_4C_delta_index = (delta_entry*)Memory::malloc_4FE4D0(delx_chunk_size);
     File::Global_Read_4A71C0(field_4C_delta_index, delx_chunk_size);
 
-    sub_5AAB30(delx_chunk_size);
+    load_delx_5AAB30(delx_chunk_size);
     build_delta_container_5AAC70();
 
     crt::free(this->field_4C_delta_index);
