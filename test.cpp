@@ -61,10 +61,10 @@ void test_gtx_0x106C()
     c.SetTileRemap_5AA930(0, 0);
     c.InitTileMapping_5AA950();
     c.sub_5AA9A0(0);
-    c.sub_5AAB30(0);
+    c.load_delx_5AAB30(0);
     c.sub_5AABF0();
     c.SetSpriteIndexDataPtrs_5AAC40();
-    c.sub_5AAC70();
+    c.build_delta_container_5AAC70();
     c.load_car_info_5AAD50(0);
     c.load_delta_index_5AAD80(0);
     c.load_delta_store_5AADD0(0);
