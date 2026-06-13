@@ -2464,10 +2464,61 @@ void MapRenderer::sub_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
     }
 }
 
-STUB_FUNC(0x4f4d60)
-void MapRenderer::draw_lid_4F4D60(Fix16_Point* xpos, Fix16_Point* diffuse_colour, s32 arg_8, u32* a5)
+// https://decomp.me/scratch/sV2SV
+WIP_FUNC(0x4f4d60)
+void MapRenderer::draw_lid_4F4D60(Fix16& unk1, Fix16& unk2, Fix16& unk3, Fix16& unk4)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    if (!bSkip_lid_67D546)
+    {
+        sub_46BD40(gXCoord_6F63AC + unk1, gYCoord_6F63B8 + unk3, &gTileVerts_6F65A8[0]);
+        sub_46BD40(gXCoord_6F63AC + unk2, gYCoord_6F63B8 + unk3, &gTileVerts_6F65A8[1]);
+        sub_46BD40(gXCoord_6F63AC + unk2, gYCoord_6F63B8 + unk4, &gTileVerts_6F65A8[2]);
+        sub_46BD40(gXCoord_6F63AC + unk1, gYCoord_6F63B8 + unk4, &gTileVerts_6F65A8[3]);
+
+        draw_4F3FB0(dword_620FA4[(u16)gLidType_6F6274 >> 13]);
+
+        Set_UV_4F4190(unk1, unk3, 0);
+        Set_UV_4F4190(unk2, unk3, 1);
+        Set_UV_4F4190(unk2, unk4, 2);
+        Set_UV_4F4190(unk1, unk4, 3);
+
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(gLidType_6F6274 & 0x3FF);
+        if (texture_idx)
+        {
+            dword_6F6560 = 16389;
+            if ((gLidType_6F6274 & 0x1000) != 0)
+            {
+                dword_6F6560 = 16517;
+            }
+
+            u8 diffuse_color;
+
+            switch (((u16)gLidType_6F6274 >> 10) & 3)
+            {
+                case 0:
+                    diffuse_color = -1;
+                    break;
+                case 1:
+                    diffuse_color = field_C_colour_t1;
+                    break;
+                case 2:
+                    diffuse_color = field_E_colour_t2;
+                    break;
+                case 3:
+                    diffuse_color = field_F_colour_t3;
+                    break;
+                default:
+                    diffuse_color = 0;
+                    break;
+            }
+            pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
+                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTileVerts_6F65A8,
+                          diffuse_color);
+            ++field_2F00_drawn_tile_count;
+        }
+    }
 }
 
 WIP_FUNC(0x4f6580)
@@ -2624,10 +2675,9 @@ void MapRenderer::DrawPartialBlockTop()
         }
     }
 
-    // TODO: draw_lid_4F4D60
     if (gLidType_6F6274)
     {
-        //MapRenderer::draw_lid_4F4D60(stru_6F6484, (Fix16_2*)&stru_6F6484.field_4_frac, (int)&stru_6F6484, dword_6F6428);
+        MapRenderer::draw_lid_4F4D60(stru_6F6484.x, stru_6F6484.y, stru_6F6484.x, dword_6F6428);
     }
 }
 
