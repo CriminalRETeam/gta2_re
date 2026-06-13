@@ -154,6 +154,12 @@ EXTERN_GLOBAL(Fix16, dword_6FD9B0);
 EXTERN_GLOBAL(Ang16, word_6FD936);
 EXTERN_GLOBAL(Ang16, word_6FD854);
 
+// defined in Char_Pool.cpp
+EXTERN_GLOBAL(Ang16, gSpawnRotationLeft_6786E0);
+EXTERN_GLOBAL(Ang16, gSpawnRotationTop_6787B0);
+EXTERN_GLOBAL(Ang16, gSpawnRotationRight_678578);
+EXTERN_GLOBAL(Ang16, gSpawnRotationBottom_678540);
+
 // TODO: move
 // https://decomp.me/scratch/BzcQt
 WIP_FUNC(0x545AF0)
@@ -1740,10 +1746,84 @@ void Ped::SpawnWeaponOnDeath_45E080()
     }
 }
 
-STUB_FUNC(0x45e4a0)
+WIP_FUNC(0x45e4a0)
 void Ped::sub_45E4A0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (field_240_occupation != 3 || field_258_objective != 0 || field_25C_internal_objective != 0)
+    {
+        return;
+    }
+
+    u8 x = field_1AC_cam.x.ToInt();
+    u8 y = field_1AC_cam.y.ToInt();
+    u8 z = field_1AC_cam.z.ToInt() - 1;
+
+    s8 direction;
+
+    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y - 1, z))
+    {
+        direction = 0;
+        if (stru_6F6784.get_int_4F7AE0(2))
+        {
+            goto dispatch;
+        }
+    }
+    
+    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x + 1, y, z))
+    {
+        direction = 1;
+        if (stru_6F6784.get_int_4F7AE0(2))
+        {
+            goto dispatch;
+        }
+    }
+
+    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y + 1, z))
+    {
+        direction = 2;
+        if (stru_6F6784.get_int_4F7AE0(2))
+        {
+            goto dispatch;
+        }
+    }
+
+    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x - 1, y, z))
+    {
+        direction = 3;
+        if (stru_6F6784.get_int_4F7AE0(2))
+        {
+            goto dispatch;
+        }
+    }
+    
+    direction = 4;
+
+dispatch:
+    switch (direction)
+    {
+        case 0:
+            SetObjective2_463830(0x2C, 0x270F);
+            field_130 = gSpawnRotationBottom_678540;
+            ++word_6787D0;
+            break;
+        case 1:
+            SetObjective2_463830(0x2D, 0x270F);
+            field_130 = gSpawnRotationLeft_6786E0;
+            ++word_6787D0;
+            break;
+        case 2:
+            SetObjective2_463830(0x2E, 0x270F);
+            field_130 = gSpawnRotationTop_6787B0;
+            ++word_6787D0;
+            break;
+        case 3:
+            SetObjective2_463830(0x2F, 0x270F);
+            field_130 = gSpawnRotationRight_678578;
+            ++word_6787D0;
+            break;
+    }
 }
 
 MATCH_FUNC(0x45ea00)
