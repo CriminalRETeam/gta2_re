@@ -1746,10 +1746,84 @@ void Ped::sub_45E4A0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x45ea00)
-void Ped::sub_45EA00()
+MATCH_FUNC(0x45ea00)
+void Ped::DeallocateWithGroupCleanup_45EA00()
 {
-    NOT_IMPLEMENTED;
+    if (field_164_ped_group)
+    {
+        if (get_field_20e() <= 0x1E)
+        {
+            return;
+        }
+
+        if (field_23C == 99)
+        {
+            if (field_164_ped_group->IsAllMembersInSomeCar_4CAA20())
+            {
+                u8 i = 0;
+                Ped* member = field_164_ped_group->field_4_ped_list[0];
+
+                while (member)
+                {
+                    member->reset_ped_group();
+                    member->Deallocate_45EB60();
+                    ++i;
+                    member = field_164_ped_group->field_4_ped_list[i];
+                }
+
+                field_164_ped_group->ClearGroupData_4C8E90();
+            }
+            else
+            {
+                bool all_members_in_car = true;
+                u8 i = 0;
+                Ped* member = field_164_ped_group->field_4_ped_list[0];
+
+                while (member)
+                {
+                    if (member->get_field_20e() < 0x1E && member->field_168_game_object)
+                    {
+                        all_members_in_car = false;
+                    }
+
+                    ++i;
+                    member = field_164_ped_group->field_4_ped_list[i];
+                }
+
+                if (!all_members_in_car)
+                {
+                    return;
+                }
+
+                member = field_164_ped_group->field_4_ped_list[0];
+                i = 0;
+
+                while (member)
+                {
+                    member->reset_ped_group();
+                    member->Deallocate_45EB60();
+                    ++i;
+                    member = field_164_ped_group->field_4_ped_list[i];
+                }
+
+                field_164_ped_group->ClearGroupData_4C8E90();
+            }
+        }
+        else
+        {
+            field_164_ped_group->RemovePed_4C9970(this);
+        }
+    }
+    else
+    {
+        if (get_field_20e() <= 0x1E)
+        {
+            return;
+        }
+    }
+
+    Deallocate_45EB60();
+    field_21C_bf.b10 = 0;
 }
 
 // https://decomp.me/scratch/jJ6aF
@@ -3602,7 +3676,7 @@ bool Ped::PoolUpdate()
     }
     if (field_21C_bf.b10)
     {
-        Ped::sub_45EA00();
+        Ped::DeallocateWithGroupCleanup_45EA00();
     }
     Ped::sub_469030();
     Ped::ManageBurning_45BEC0();

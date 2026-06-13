@@ -81,7 +81,7 @@ class Ped
     EXPORT bool HandlePickupCollision_45DE80(Object_2C* pPickUp);
     EXPORT void SpawnWeaponOnDeath_45E080();
     EXPORT void sub_45E4A0();
-    EXPORT void sub_45EA00();
+    EXPORT void DeallocateWithGroupCleanup_45EA00();
     EXPORT void Deallocate_45EB60();
     EXPORT char_type sub_45EDC0();
     EXPORT bool IsField238_45EDE0(s32 a2);
