@@ -15165,7 +15165,7 @@
         "v105_address": "0x5aa3d0"
     },
     {
-        "name": "gtx_0x106C::sub_5AA3F0",
+        "name": "gtx_0x106C::get_delta_5AA3F0",
         "v96f_address": null,
         "v105_address": "0x5aa3f0"
     },
@@ -15270,7 +15270,7 @@
         "v105_address": "0x5aa9a0"
     },
     {
-        "name": "gtx_0x106C::sub_5AAB30",
+        "name": "gtx_0x106C::load_delx_5AAB30",
         "v96f_address": "0x4BF840",
         "v105_address": "0x5aab30"
     },
@@ -15285,7 +15285,7 @@
         "v105_address": "0x5aac40"
     },
     {
-        "name": "gtx_0x106C::sub_5AAC70",
+        "name": "gtx_0x106C::build_delta_container_5AAC70",
         "v96f_address": null,
         "v105_address": "0x5aac70"
     },
