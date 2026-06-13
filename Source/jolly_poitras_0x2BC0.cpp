@@ -22,7 +22,7 @@ DEFINE_GLOBAL_ARRAY_INIT(score_table_line, stru_6242B0, 10, 0x6242B0,
     { L"STEPHEN"  COMMA  6000 } COMMA
     { L"WILLIAM"  COMMA  5000 } COMMA
 );
-DEFINE_GLOBAL_ARRAY_INIT(score_table_line, stru_6243A0, 120, 0x6243A0,   //, , 3][4][10, 0xUNKNOWN);
+DEFINE_GLOBAL_ARRAY_INIT(score_table_line, structur_6243A0, 120, 0x6243A0,   //, , 3][4][10, 0xUNKNOWN);
     {L"ALISDAIR" COMMA 50000 } COMMA
     {L"BILLY"    COMMA 40000 } COMMA
     {L"BRIAN"    COMMA 30000 } COMMA
@@ -389,7 +389,7 @@ void jolly_poitras_0x2BC0::sub_56C1D0()
         ++p10StruIter;
     }
 
-    score_table_line* pSruIter = stru_6243A0;
+    score_table_line* pSruIter = structur_6243A0;
     for (s32 k3 = 0; k3 < 3; k3++)
     {
         for (s32 k4 = 0; k4 < 4; k4++)
