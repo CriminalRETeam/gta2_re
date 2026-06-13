@@ -460,25 +460,27 @@ void gtx_0x106C::InitTileMapping_5AA950()
     }
 */
 
+// Better score:
 // https://decomp.me/scratch/IKsR3
-STUB_FUNC(0x5AA9A0)
+// Current WIP (lower score, but more runtime correct?):
+// https://decomp.me/scratch/CqJJm
+WIP_FUNC(0x5AA9A0)
 void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
 {
-    NOT_IMPLEMENTED;
+    car_info* pCarInfoIter = (car_info*)field_58_car_info;
     u32 total_len = 0;
+    u32 idx = 0;
     u8 total_sprite = 0;
     u8 last_car_sprite = 0;
-    car_info* pCarInfoIter = (car_info*)field_58_car_info;
 
-    //car_info_container* pInfo =
-    field_5C_cari = new car_info_container(); // 257 "dynamic" array ??
-    if (!field_5C_cari)
+    field_5C_cari = new car_info_container();
+
+    if (field_5C_cari == 0)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
     }
 
-    u32 idx = 0;
-    for (; total_len < chunk_size; idx++)
+    while (total_len < chunk_size)
     {
         if (idx >= 256)
         {
@@ -490,8 +492,7 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
             FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 826, pCarInfoIter->model);
         }
 
-        u8 sprite = pCarInfoIter->sprite;
-        if (sprite != 0 && sprite != 1)
+        if (pCarInfoIter->sprite != 0 && pCarInfoIter->sprite != 1)
         {
             FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 827, pCarInfoIter->model);
         }
@@ -506,19 +507,22 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
 
         pCarInfoIter->sprite = total_sprite;
 
-        u8* doorCount = ((u8*)&pCarInfoIter->remap + pCarInfoIter->num_remaps);
-        if (*doorCount > 5u) // num_doors
+        u8* ptr = (u8*)pCarInfoIter;
+        u32 remap_count = pCarInfoIter->num_remaps;
+        ptr += remap_count;
+        u8 doorCount = *(ptr + 0xE);
+
+        if (doorCount > 5u)
         {
             FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
         }
 
         // 0xE = remap
-        u32 curr_item_len =
-            *doorCount * sizeof(door_info) + 0xE + pCarInfoIter->num_remaps + 1; //doorCount + 0xE + pCarInfoIter->num_remaps;
-
+        u32 curr_item_len = *(ptr + 0xE) * sizeof(door_info) + 1 + remap_count + 0xE;
         total_len += curr_item_len;
 
         pCarInfoIter = (car_info*)((u8*)pCarInfoIter + curr_item_len);
+        idx++;
     }
     field_5C_cari->field_400_count = idx;
 }

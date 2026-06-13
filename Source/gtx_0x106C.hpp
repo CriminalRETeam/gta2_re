@@ -249,7 +249,7 @@ class gtx_0x106C
 
     EXPORT void InitTileMapping_5AA950();
 
-    EXPORT void sub_5AA9A0(s32 a2);
+    EXPORT void sub_5AA9A0(s32 chunk_size);
 
     EXPORT void load_delx_5AAB30(u32 delx_chunk_size);
 
