@@ -1,5 +1,6 @@
 #include "Ped.hpp"
 #include "Ambulance_110.hpp"
+#include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -35,7 +36,6 @@
 #include "rng.hpp"
 #include "sprite.hpp"
 #include "youthful_einstein.hpp"
-#include "CarAI_78.hpp"
 
 // =================
 DEFINE_GLOBAL_INIT(s8, byte_61A8A3, 1, 0x61A8A3);
@@ -110,7 +110,7 @@ DEFINE_GLOBAL(u8, byte_6787CE, 0x6787CE);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A0, Fix16(0x3333, 0), 0x6784A0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784BC, dword_6784C4 / dword_678668, 0x6784BC);
-DEFINE_GLOBAL_INIT(Fix16, dword_678444, dword_67866C * dword_6784C4, 0x678444);
+DEFINE_GLOBAL_INIT(Fix16, dword_678444, dword_67866C* dword_6784C4, 0x678444);
 DEFINE_GLOBAL_INIT(Fix16, dword_678784, dword_6784C4 * 20, 0x678784);
 
 DEFINE_GLOBAL_INIT(Ang16, word_6784C8, Ang16(40), 0x6784C8);
@@ -1215,8 +1215,8 @@ void Ped::RestorePreviousPedState_45C5A0()
 MATCH_FUNC(0x45c5c0)
 void Ped::sub_45C5C0()
 {
-    if (!this->field_16C_car && this->field_258_objective == objectives_enum::enter_car_as_driver_35 && this->field_25C_internal_objective == 35 &&
-        this->field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15 &&
+    if (!this->field_16C_car && this->field_258_objective == objectives_enum::enter_car_as_driver_35 &&
+        this->field_25C_internal_objective == 35 && this->field_168_game_object->field_10_char_state != Char_B4_state::Jumping_15 &&
         this->field_27C_ped_state_2 != ped_state_2::ped2_entering_a_car_6)
     {
         ChangeNextPedState1_45C500(ped_state_1::walking_0);
@@ -1777,7 +1777,7 @@ void Ped::sub_45E4A0()
             goto dispatch;
         }
     }
-    
+
     if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x + 1, y, z))
     {
         direction = 1;
@@ -1804,7 +1804,7 @@ void Ped::sub_45E4A0()
             goto dispatch;
         }
     }
-    
+
     direction = 4;
 
 dispatch:
@@ -2106,7 +2106,8 @@ void Ped::EnterPublicTransport_45EE70()
                 if (stru_6F6784.get_int_4F7AE0(100) > 90 && byte_6787D3 < 5 && pZoneIter->field_0_zone_type == 7 &&
                     !gPublicTransport_181C_6FF1D4->is_bus_full_579AF0())
                 {
-                    if (field_25C_internal_objective != 37 && field_25C_internal_objective != 38 && this->field_278_ped_state_1 == ped_state_1::walking_0)
+                    if (field_25C_internal_objective != 37 && field_25C_internal_objective != 38 &&
+                        this->field_278_ped_state_1 == ped_state_1::walking_0)
                     {
                         sub_45EE00(8);
                         SetObjective2_463830(30, 9999);
@@ -3690,7 +3691,8 @@ void Ped::sub_462B80()
                     }
                 }
             }
-            if ((field_25C_internal_objective == 35 || field_25C_internal_objective == 37) && (field_226 = 1, field_25C_internal_objective == 37))
+            if ((field_25C_internal_objective == 35 || field_25C_internal_objective == 37) &&
+                (field_226 = 1, field_25C_internal_objective == 37))
             {
                 if (field_238 == 3)
                 {
@@ -3700,7 +3702,8 @@ void Ped::sub_462B80()
             else
             {
                 Car_Door_10* Door = field_16C_car->GetDoor(field_24C_target_car_door);
-                if (field_240_occupation != ped_ocupation_enum::bus_customer_8 && field_240_occupation != ped_ocupation_enum::train_customer_9)
+                if (field_240_occupation != ped_ocupation_enum::bus_customer_8 &&
+                    field_240_occupation != ped_ocupation_enum::train_customer_9)
                 {
                     Door->sub_439EA0();
                 }
@@ -5572,10 +5575,350 @@ bool Ped::sub_465CD0()
     return false;
 }
 
-STUB_FUNC(0x465d00)
+WIP_FUNC(0x465d00)
 char_type Ped::sub_465D00(Ped* a2)
 {
-    NOT_IMPLEMENTED;
+    char_type flag = 0;
+
+    if ((a2->field_21C & 0x2000000) != 0)
+    {
+        if (a2->field_168_game_object != 0)
+        {
+            goto ret_false;
+        }
+    }
+
+    if (this->field_288_threat_search == 3 || this->field_288_threat_search == 4)
+    {
+        if (!a2->IsField238_45EDE0(2))
+        {
+            goto ret_false;
+        }
+    }
+
+    if (this->field_288_threat_search == 5 || this->field_288_threat_search == 6)
+    {
+        if (a2->sub_45EDC0())
+        {
+            goto ret_true;
+        }
+    }
+
+    if (this->sub_45EDC0())
+    {
+        flag = 1;
+    }
+
+    if (this->field_164_ped_group == a2->field_164_ped_group && this->field_164_ped_group != 0)
+    {
+        goto ret_false;
+    }
+
+    if (this->field_240_occupation == 0x28)
+    {
+        Car_BC* pCar = a2->field_16C_car;
+
+        if (pCar == 0)
+        {
+            goto ret_true;
+        }
+
+        if (!pCar->IsPoliceCar_439EC0())
+        {
+            goto ret_true;
+        }
+
+        if (a2->field_238 == 4)
+        {
+            goto ret_false;
+        }
+
+        return 1;
+    }
+
+    {
+        Gang_144* pMyGang = this->field_17C_pGang;
+
+        if (pMyGang != 0)
+        {
+            Gang_144* pOtherGang = a2->field_17C_pGang;
+
+            if (pOtherGang != 0)
+            {
+                if (pOtherGang == pMyGang)
+                {
+                    goto merge_178;
+                }
+
+                if (!pMyGang->sub_4BEDF0(pOtherGang->field_1_gang_idx))
+                {
+                    goto ret_false;
+                }
+
+                if (this->field_238 == 4)
+                {
+                    goto check_threat_level;
+                }
+
+                if (this->field_238 != 6)
+                {
+                    goto ret_true;
+                }
+
+            check_threat_level:
+                if ((u8)a2->field_263 >= 4)
+                {
+                    goto ret_false;
+                }
+
+                if ((u8)a2->field_262 >= 4)
+                {
+                    goto ret_false;
+                }
+
+                return 1;
+            }
+
+            if (pMyGang->field_110 != 0)
+            {
+                switch (a2->field_240_occupation)
+                {
+                    case 0x18:
+                    case 0x19:
+                    case 0x1A:
+                    case 0x1B:
+                    case 0x1D:
+                    case 0x1E:
+                    case 0x1F:
+                    case 0x25:
+                        goto ret_true;
+                    default:
+                        break;
+                }
+            }
+
+            if (((BitSet32*)&a2->field_21C)->check_bit(0xB))
+            {
+                if (!a2->sub_45EDC0() && a2->field_240_occupation != 1)
+                {
+                    if (a2->field_28C_threat_reaction == 1)
+                    {
+                        goto merge_178;
+                    }
+
+                    if (this->field_170_selected_weapon != 0)
+                    {
+                        goto ret_true;
+                    }
+
+                    Fix16 dy = a2->field_1AC_cam.y - this->field_1AC_cam.y;
+                    Fix16 dx = a2->field_1AC_cam.x - this->field_1AC_cam.x;
+                    Fix16 dyabs = Fix16::Abs_negate_out_of_line(dy);
+                    Fix16 dxabs = Fix16::Abs_negate_out_of_line(dx);
+
+                    if (Fix16::Max_44E540(dxabs, dyabs) <= k_dword_678798)
+                    {
+                        goto ret_true;
+                    }
+
+                    goto merge_178;
+                }
+
+                {
+                    u8 player_idx = a2->field_15C_player->field_2E_idx;
+
+                    if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
+                    {
+                        if (gPolice_7B8_6FEE40->field_7B4 == 0)
+                        {
+                            goto ret_true;
+                        }
+
+                        return 0;
+                    }
+
+                    goto ret_false;
+                }
+            }
+
+        block_465F75:
+            if (a2->sub_45EDC0() || a2->field_240_occupation == 1)
+            {
+                u8 player_idx = a2->field_15C_player->field_2E_idx;
+
+                if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
+                {
+                    if (gPolice_7B8_6FEE40->field_7B4 == 0)
+                    {
+                        goto ret_true;
+                    }
+                    return 0;
+                }
+
+                goto ret_false;
+            }
+
+            goto merge_178;
+        }
+    }
+
+no_my_gang:
+    switch (this->field_240_occupation)
+    {
+        case 0x21:
+            if (a2->field_240_occupation == 0x21)
+            {
+                return 0;
+            }
+
+            goto merge_178;
+        case 0x22:
+            if (a2->field_240_occupation == 0x22)
+            {
+                return 0;
+            }
+
+            goto merge_178;
+        case 0x16:
+            if (a2->IsField238_45EDE0(2))
+            {
+                return 0;
+            }
+
+            goto merge_178;
+        case 0x18:
+        case 0x19:
+        case 0x1A:
+        case 0x1B:
+        case 0x1D:
+        case 0x1E:
+        case 0x1F:
+        case 0x25:
+            goto block_466022;
+        default:
+            goto block_46613E;
+    }
+
+block_466022:
+    if (a2->sub_45EDC0())
+    {
+        if (a2->field_168_game_object != 0 && a2->field_168_game_object->field_10_char_state == 0xF)
+        {
+            goto ret_false;
+        }
+
+        if (!((((BitSet32*)&a2->field_21C)->check_bit(0xB)) && a2->field_170_selected_weapon != 0 &&
+              a2->field_170_selected_weapon->sub_5DCEF0()))
+        {
+            if (a2->field_20A_wanted_points < 0x258 && this->field_144 != a2 && a2->field_26A <= 0u)
+            {
+                goto ret_false;
+            }
+        }
+
+        this->field_144 = 0;
+        gPolice_7B8_6FEE40->sub_5708C0(a2);
+
+        if (this->field_258_objective == 0x2B)
+        {
+            if (gPolice_7B8_6FEE40->sub_5707B0(this->field_16C_car, a2))
+            {
+                goto ret_true;
+            }
+
+            if (a2->field_20A_wanted_points < 0x258)
+            {
+                a2->field_20A_wanted_points = 0x258;
+            }
+
+            return 0;
+        }
+
+        if (a2->field_20A_wanted_points >= 0x258)
+        {
+            goto ret_true;
+        }
+
+        a2->field_20A_wanted_points = 0x258;
+        return 1;
+    }
+
+block_4660FB:
+{
+    s32 a2_state = a2->field_240_occupation;
+    switch (a2_state)
+    {
+        case 0x17:
+        case 0x18:
+        case 0x19:
+        case 0x1A:
+        case 0x1B:
+        case 0x1D:
+        case 0x1E:
+        case 0x1F:
+        case 0x25:
+        case 0x27:
+            goto merge_178;
+        default:
+            break;
+    }
+
+    if (a2_state == 1)
+    {
+        goto ret_true;
+    }
+
+    if (((BitSet32*)&a2->field_21C)->check_bit(0xB))
+    {
+        goto ret_true;
+    }
+
+    if (a2->field_25C_internal_objective != 0x14)
+    {
+        goto merge_178;
+    }
+
+    return 1;
+}
+
+block_46613E:
+    if (this->field_164_ped_group != 0)
+    {
+        if (this->field_164_ped_group->field_2C_ped_leader != a2->field_14C)
+        {
+            goto merge_178;
+        }
+
+        if (a2->field_25C_internal_objective == 0x14)
+        {
+            goto ret_true;
+        }
+
+        if (a2->field_25C_internal_objective != 0x17)
+        {
+            goto merge_178;
+        }
+
+        return 1;
+    }
+
+    if (((BitSet32*)&a2->field_21C)->check_bit(0xB))
+    {
+        goto ret_true;
+    }
+
+merge_178:
+    if (flag == 1)
+    {
+        goto ret_true;
+    }
+
+    goto ret_false;
+
+ret_true:
+    return 1;
+
+ret_false:
     return 0;
 }
 
