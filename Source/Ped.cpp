@@ -6579,10 +6579,161 @@ Ped* Ped::FindBestTargetPed_Mode5_466BD0(s32 max_x_check)
     return Ped::FindBestTargetPed_466BF0(max_x_check);
 }
 
-STUB_FUNC(0x466bf0)
+WIP_FUNC(0x466bf0)
 Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 {
-    NOT_IMPLEMENTED;
+    dword_6787DC = this;
+
+    Sprite* pNear = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(
+        sprite_types_enum::ped,
+        sprite_types_enum::car,
+        this->field_168_game_object != 0 ? this->field_168_game_object->field_80_sprite_ptr : this->field_16C_car->field_50_car_sprite,
+        a2,
+        0,
+        0);
+
+    if (pNear == 0)
+    {
+        Ped* pClosest;
+        if (this->field_164_ped_group != 0)
+        {
+            if (this->field_164_ped_group->field_2C_ped_leader->field_15C_player != 0)
+            {
+                pClosest = 0;
+            }
+            else
+            {
+                pClosest = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(this->field_1AC_cam.x, this->field_1AC_cam.y);
+            }
+        }
+        else
+        {
+            pClosest = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(this->field_1AC_cam.x, this->field_1AC_cam.y);
+        }
+
+        if ((u8)bStartNetworkGame_7081F0 != 0 && this->field_164_ped_group != 0)
+        {
+            s32 best = dword_678670.mValue;
+            Ped* bestPed = 0;
+
+            Player* p = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
+
+            if (p != 0)
+            {
+                do
+                {
+                    Ped* cand = p->field_2C4_player_ped;
+
+                    if (cand != 0 && this->field_164_ped_group != cand->field_164_ped_group)
+                    {
+                        Fix16 candY = cand->field_1AC_cam.y;
+                        Fix16 thisY = this->field_1AC_cam.y;
+                        Fix16 dx = cand->field_1AC_cam.x - this->field_1AC_cam.x;
+                        Fix16 dy = candY.Subtract_436A00(thisY);
+                        Fix16 adx = Fix16::Abs_436A50(dx);
+                        Fix16 ady = Fix16::Abs_436A50(dy);
+                        s32 m = Fix16::Max_44E540(adx, ady).mValue;
+
+                        if (m < best)
+                        {
+                            bestPed = cand;
+                            best = m;
+                        }
+                    }
+
+                    p = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
+                } while (p != 0);
+
+                if (bestPed != 0)
+                {
+                    return bestPed;
+                }
+            }
+        }
+
+        if (pClosest == 0)
+        {
+            return 0;
+        }
+
+        s32 zd = this->field_1AC_cam.z.mValue - pClosest->field_1AC_cam.z.mValue;
+
+        if (zd <= 0)
+        {
+            zd = -zd;
+        }
+
+        if (zd >= k_dword_678664.mValue)
+        {
+            return 0;
+        }
+
+        if (pClosest == dword_6787DC)
+        {
+            return 0;
+        }
+
+        {
+            Ped* pS = dword_6787DC;
+            Fix16 dx = pS->field_1AC_cam.x - pClosest->field_1AC_cam.x;
+            Fix16 dy = pS->field_1AC_cam.y - pClosest->field_1AC_cam.y;
+            Fix16 adx = Fix16::Abs_436A50(dx);
+            Fix16 ady = Fix16::Abs_436A50(dy);
+
+            if (Fix16::Max_44E540(adx, ady).mValue >= dword_678670.mValue)
+            {
+                return 0;
+            }
+        }
+
+        if (pClosest->IsField238_45EDE0(2))
+        {
+            Player* pPlayer = pClosest->field_15C_player;
+            Camera_0xBC* pCam;
+
+            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            {
+                pCam = &pPlayer->field_208_aux_game_camera;
+            }
+            else
+            {
+                pCam = &pPlayer->field_90_game_camera;
+            }
+
+            Char_B4* pObj = dword_6787DC->field_168_game_object;
+
+            if (pObj != 0)
+            {
+                if (!pCam->sub_435630(pObj->field_80_sprite_ptr, 1))
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                if (!pCam->sub_435630(dword_6787DC->field_16C_car->field_50_car_sprite, 1))
+                {
+                    return 0;
+                }
+            }
+        }
+
+        if (this->sub_465D00(pClosest))
+        {
+            return pClosest;
+        }
+
+        return 0;
+    }
+
+    switch (pNear->field_30_sprite_type_enum)
+    {
+        case sprite_types_enum::car:
+            return pNear->field_8_car_bc_ptr->field_54_driver;
+        case sprite_types_enum::ped:
+            return pNear->field_8_char_b4_ptr->field_7C_pPed;
+    }
+
     return 0;
 }
 
