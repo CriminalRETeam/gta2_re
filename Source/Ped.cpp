@@ -6520,12 +6520,12 @@ void Ped::sub_469FE0()
         u8 v17 = y.ToUInt8();
         u8 v16 = z.ToUInt8();
         gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &v18, &v17, &v16, 1);
-        if (gCar_6C_677930->CanAllocateOfType_446930(10))
+        if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::Unknown_10))
         {
             Car_BC* v6 = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, v18, v17, v16);
             if (v6)
             {
-                v6->IncrementCarStats_443D70(10);
+                v6->IncrementCarStats_443D70(car_kind::Unknown_10);
                 if (gPolice_7B8_6FEE40->FBI_Army_5703E0(v6))
                 {
                     Char_B4* field_168_game_object = this->field_168_game_object;
@@ -6539,12 +6539,12 @@ void Ped::sub_469FE0()
                 }
             }
         }
-        else if (gCar_6C_677930->CanAllocateOfType_446930(6))
+        else if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
         {
             Car_BC* v11 = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, v18, v17, v16);
             if (v11)
             {
-                v11->IncrementCarStats_443D70(6);
+                v11->IncrementCarStats_443D70(car_kind::police_6);
                 if (gPolice_7B8_6FEE40->FBI_Army_5703E0(v11))
                 {
                     Char_B4* v12 = this->field_168_game_object;

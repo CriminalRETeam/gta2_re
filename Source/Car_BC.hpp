@@ -36,6 +36,24 @@ EXTERN_GLOBAL(Fix16, dword_6777D0);
 
 EXPORT Ang16 __stdcall sub_4F7940(s32* a2);
 
+namespace car_kind
+{
+enum
+{
+    none_0 = 0,
+    recycled_1 = 1,
+    proto_recycled_2 = 2,
+    Unknown_3 = 3,
+    Unknown_4 = 4,
+    Unknown_5 = 5,
+    police_6 = 6,
+    Unknown_7 = 7,
+    mission_car_8 = 8,
+    Unknown_9 = 9,
+    Unknown_10 = 10,
+};
+} // namespace car_kind
+
 struct car_rng_list
 {
     car_rng_list(Fix16 unk)

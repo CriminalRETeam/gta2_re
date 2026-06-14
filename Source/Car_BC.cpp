@@ -5984,36 +5984,36 @@ void Car_BC::IncrementCarStats_443D70(s32 a2)
 }
 
 MATCH_FUNC(0x443da0)
-void Car_BC::IncrementAllocatedCarType_443DA0(s32 a2)
+void Car_BC::IncrementAllocatedCarType_443DA0(s32 car_kind)
 {
-    this->field_A0_car_kind = a2;
-    switch (a2)
+    this->field_A0_car_kind = car_kind;
+    switch (car_kind)
     {
-        case 1:
+        case car_kind::recycled_1:
             ++gCar_6C_677930->field_28_recycled_cars;
             break;
-        case 2:
+        case car_kind::proto_recycled_2:
             ++gCar_6C_677930->field_40_proto_recycled_cars;
             break;
-        case 5:
+        case car_kind::Unknown_5:
             ++gCar_6C_677930->field_30;
             break;
-        case 10:
+        case car_kind::Unknown_10:
             ++gCar_6C_677930->field_48;
             break;
-        case 4:
+        case car_kind::Unknown_4:
             ++gCar_6C_677930->field_2C;
             break;
-        case 6:
+        case car_kind::police_6:
             ++gCar_6C_677930->field_34_unit_cars;
             break;
-        case 7:
+        case car_kind::Unknown_7:
             ++gCar_6C_677930->field_38;
             break;
-        case 8:
+        case car_kind::mission_car_8:
             ++gCar_6C_677930->field_3C_mission_cars;
             break;
-        case 9:
+        case car_kind::Unknown_9:
             ++gCar_6C_677930->field_44;
             break;
         default:
@@ -6173,7 +6173,7 @@ void Car_BC::PoolAllocate()
     this->field_0_qq.DestroyAllSprites_5A7010();
 
     this->field_A7_horn = 0;
-    IncrementCarStats_443D70(0);
+    IncrementCarStats_443D70(car_kind::none_0);
     this->field_8D = 0;
     this->field_60 = 0;
     this->field_70_exploder_ped_id = 0;
@@ -7420,13 +7420,13 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                             if (car_model_idx == car_model_enum::SWATVAN || car_model_idx == car_model_enum::COPCAR ||
                                 car_model_idx == car_model_enum::JEEP || car_model_idx == car_model_enum::EDSELFBI)
                             {
-                                if (gCar_6C_677930->CanAllocateOfType_446930(6) && gPolice_7B8_6FEE40->FBI_Army_5703E0(pNewCar))
+                                if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6) && gPolice_7B8_6FEE40->FBI_Army_5703E0(pNewCar))
                                 {
-                                    pNewCar->IncrementCarStats_443D70(6);
+                                    pNewCar->IncrementCarStats_443D70(car_kind::police_6);
                                 }
                                 else
                                 {
-                                    pNewCar->IncrementCarStats_443D70(1);
+                                    pNewCar->IncrementCarStats_443D70(car_kind::recycled_1);
                                     if (pNewCar->field_88_despawn_status != 5)
                                     {
                                         pNewCar->field_88_despawn_status = 3;
@@ -7435,7 +7435,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                             }
                             else
                             {
-                                pNewCar->IncrementCarStats_443D70(1);
+                                pNewCar->IncrementCarStats_443D70(car_kind::recycled_1);
                                 if (v119 == 5)
                                 {
                                     pGang = gang_curr_location;

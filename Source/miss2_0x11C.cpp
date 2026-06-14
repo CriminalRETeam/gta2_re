@@ -502,7 +502,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
                                                                                       dword_6F77C0,
                                                                                       dword_6F77C0,
                                                                                       word_6F771E);
-            pTrailerCar->IncrementCarStats_443D70(8);
+            pTrailerCar->IncrementCarStats_443D70(car_kind::mission_car_8);
         }
         else
         {
@@ -540,7 +540,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         {
             pPointer->field_8_car->field_98 = 2;
         }
-        pPointer->field_8_car->IncrementCarStats_443D70(8);
+        pPointer->field_8_car->IncrementCarStats_443D70(car_kind::mission_car_8);
         pPointer->field_8_car->field_50_car_sprite->ResolveCollisionWithCarPedOrObject_5A2A30();
 
         if (pCmd->field_2_type >= (u32)SCRCMD_CREATE_GANG_CAR1 && pCmd->field_2_type <= (u32)SCRCMD_CREATE_GANG_CAR4)

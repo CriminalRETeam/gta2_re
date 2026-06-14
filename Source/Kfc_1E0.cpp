@@ -332,12 +332,12 @@ bool Kfc_30::Service_5CC480()
             if (this->field_0_car)
             {
                 this->field_2C = 1;
-                field_0_car->IncrementCarStats_443D70(4);
+                field_0_car->IncrementCarStats_443D70(car_kind::Unknown_4);
             }
             break;
 
         case 3:
-            if (gCar_6C_677930->CanAllocateOfType_446930(6))
+            if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
             {
                 this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR,
                                                                                    this->field_C_x,
@@ -351,12 +351,12 @@ bool Kfc_30::Service_5CC480()
             if (this->field_0_car)
             {
                 this->field_2C = 1;
-                field_0_car->IncrementCarStats_443D70(6);
+                field_0_car->IncrementCarStats_443D70(car_kind::police_6);
             }
             break;
 
         case 5:
-            if (gCar_6C_677930->CanAllocateOfType_446930(6))
+            if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
             {
                 this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::SWATVAN,
                                                                                    this->field_C_x,
@@ -371,7 +371,7 @@ bool Kfc_30::Service_5CC480()
             if (this->field_0_car)
             {
                 this->field_2C = 1;
-                field_0_car->IncrementCarStats_443D70(6);
+                field_0_car->IncrementCarStats_443D70(car_kind::police_6);
             }
             break;
 

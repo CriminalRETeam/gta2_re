@@ -1576,13 +1576,13 @@ void CC ImGuiDebugDraw()
 
                     pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
-                    pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
+                    pNewCar->IncrementCarStats_443D70(car_kind::recycled_1); // avoid crashes when entering the car
                 }
                 if (ImGui::Button("Spawn car with trailer"))
                 {
                     pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
-                    pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
+                    pNewCar->IncrementCarStats_443D70(car_kind::recycled_1); // avoid crashes when entering the car
 
                     // Spawns a cab and connected trailer, can spawn trains too apparently
                     gCar_6C_677930->SpawnCabAndTrailer_446530(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
@@ -1666,6 +1666,11 @@ void CC ImGuiDebugDraw()
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pNewCar->field_50_car_sprite, 0, 0);
                     ImGui::TreePop();
                 }
+            }
+
+            if (gCar_6C_677930)
+            {
+                ImGui::SliderInt("F1C", &gCar_6C_677930->field_1C, -30, 30);
             }
             ImGui::TreePop();
         }
