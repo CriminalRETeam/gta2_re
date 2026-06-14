@@ -36,6 +36,24 @@ EXTERN_GLOBAL(Fix16, dword_6777D0);
 
 EXPORT Ang16 __stdcall sub_4F7940(s32* a2);
 
+namespace car_kind
+{
+enum
+{
+    none_0 = 0,
+    recycled_1 = 1,
+    proto_recycled_2 = 2,
+    Unknown_3 = 3,
+    Unknown_4 = 4,
+    Unknown_5 = 5,
+    police_6 = 6,
+    Unknown_7 = 7,
+    mission_car_8 = 8,
+    Unknown_9 = 9,
+    Unknown_10 = 10,
+};
+} // namespace car_kind
+
 struct car_rng_list
 {
     car_rng_list(Fix16 unk)
@@ -398,7 +416,7 @@ class Car_BC
     EXPORT void sub_440F90(char_type a2);
     EXPORT void GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT void GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction);
-    EXPORT char_type CountConsecutiveArrowBlocks_4410D0(Ang16 ang, u8* pRet, Fix16 spritex, Fix16 spritey);
+    EXPORT char_type CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pRet, Fix16 spritex, Fix16 spritey);
     EXPORT Fix16 GetZPos_441330();
     EXPORT void CountDownToWreck_441360();
     EXPORT void TurnToWreck_4436A0();
@@ -431,12 +449,12 @@ class Car_BC
     EXPORT void sub_441C00();
     EXPORT void sub_441D40();
     EXPORT void sub_441E70();
-    EXPORT bool sub_442170();
+    EXPORT bool IsCarInConditionsToDespawn_442170();
     EXPORT void sub_442190();
     EXPORT char_type sub_4421B0();
     EXPORT bool sub_442200();
     EXPORT void sub_442310();
-    EXPORT char_type sub_4424C0();
+    EXPORT char_type UpdateCarDespawnStatus_4424C0();
     EXPORT Ang16 GetRadioTowerAngle_442520();
     EXPORT void ManageTVAntenna_4425D0();
     EXPORT void sub_4426D0();
@@ -748,31 +766,31 @@ class Car_BC
 
     bool sub_4214B0()
     {
-        return field_88 == 2 || field_88 == 4 || field_88 == 3;
+        return field_88_despawn_status == 2 || field_88_despawn_status == 4 || field_88_despawn_status == 3;
     }
 
     void sub_421470()
     {
-        if (field_88 != 5 && field_88 != 2 && field_88 != 3)
+        if (field_88_despawn_status != 5 && field_88_despawn_status != 2 && field_88_despawn_status != 3)
         {
-            field_88 = 4;
+            field_88_despawn_status = 4;
         }
     }
 
     bool sub_4214D0()
     {
-        return field_88 == 7;
+        return field_88_despawn_status == 7;
     }
 
     void SetF_88_4214E0()
     {
-        field_88 = 7;
+        field_88_despawn_status = 7;
     }
 
     // FUNCTION: 96f 0x447ea0
     void SetF_88_447ea0()
     {
-        field_88 = 1;
+        field_88_despawn_status = 1;
     }
 
     bool IsGunJeep_411910()
@@ -883,7 +901,7 @@ class Car_BC
     // FUNCTION: 96f 0x4215b0
     bool sub_4215B0()
     {
-        return this->field_88 == 5;
+        return this->field_88_despawn_status == 5;
     }
 
     bool sub_421620()
@@ -965,7 +983,7 @@ class Car_BC
     char_type field_82;
     char_type field_83;
     s32 field_84_car_info_idx;
-    s32 field_88;
+    s32 field_88_despawn_status;
     char_type field_8C;
     char_type field_8D;
     char_type field_8E;

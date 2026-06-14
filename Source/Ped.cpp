@@ -1267,9 +1267,9 @@ void Ped::SpawnPedInCar_45C730(Car_BC* pCar)
     pCar->field_76_last_seen_timer = 0;
 
     // TODO: inline ??
-    if (pCar->field_88 == 2 || pCar->field_88 == 4 || pCar->field_88 == 3)
+    if (pCar->field_88_despawn_status == 2 || pCar->field_88_despawn_status == 4 || pCar->field_88_despawn_status == 3)
     {
-        pCar->field_88 = 1;
+        pCar->field_88_despawn_status = 1;
     }
 }
 
@@ -2091,7 +2091,7 @@ void Ped::CarThief_AI_45FF60()
             {
                 if (field_150_target_objective_car)
                 {
-                    if (field_150_target_objective_car->field_88 == 5)
+                    if (field_150_target_objective_car->field_88_despawn_status == 5)
                     {
                         goto kill_and_ret;
                     }
@@ -2144,7 +2144,7 @@ void Ped::CarThief_AI_45FF60()
             pCar = this->field_16C_car;
             if (pCar)
             {
-                if (pCar->field_88 == 5)
+                if (pCar->field_88_despawn_status == 5)
                 {
                     goto kill_and_ret;
                 }
@@ -2164,7 +2164,7 @@ void Ped::CarThief_AI_45FF60()
         case objectives_enum::enter_car_as_driver_35:
             if (field_225_objective_status == 1)
             {
-                if (this->field_150_target_objective_car->field_88 != 5)
+                if (this->field_150_target_objective_car->field_88_despawn_status != 5)
                 {
                     if (this->field_27C_ped_state_2 == ped_state_2::Unknown_17)
                     {
@@ -2195,7 +2195,7 @@ void Ped::CarThief_AI_45FF60()
                 SetObjective(objectives_enum::no_obj_0, 40);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
             }
-            else if (this->field_16C_car && this->field_150_target_objective_car->field_88 == 5)
+            else if (this->field_16C_car && this->field_150_target_objective_car->field_88_despawn_status == 5)
             {
                 goto kill_and_ret;
             }
@@ -2260,7 +2260,7 @@ void Ped::TaxiCustomer_AI_460820()
                 field_218_objective_timer = 0; // taxi is moving, reset timer
             }
             target_objective_car = this->field_150_target_objective_car;
-            if (target_objective_car->field_88 == 5)
+            if (target_objective_car->field_88_despawn_status == 5)
             {
                 Kill_46F9D0(); // taxi is wreck/destroyed, kill the passenger
             }
@@ -2299,7 +2299,7 @@ void Ped::TaxiCustomer_AI_460820()
             {
                 // It entered the taxi
                 pTargetObjCar = this->field_150_target_objective_car;
-                if (pTargetObjCar->field_88 == 5)
+                if (pTargetObjCar->field_88_despawn_status == 5)
                 {
                     // Taxi is wreck, kill it
                     // kill_and_ret:
@@ -2321,7 +2321,7 @@ void Ped::TaxiCustomer_AI_460820()
                 {
                     // Ped failed to reach car
                     pTargetObjCar_ = this->field_150_target_objective_car;
-                    if (pTargetObjCar_->field_88 != 5)
+                    if (pTargetObjCar_->field_88_despawn_status != 5)
                     {
                         // reinit taxi AI?
                         pTargetObjCar_->sub_43AF40();
@@ -2346,7 +2346,7 @@ void Ped::TaxiCustomer_AI_460820()
                     else
                     {
                         pTargetObjCar__ = this->field_150_target_objective_car;
-                        if (!pTargetObjCar__->field_4_passengers_list.field_0_pFirstPed && pTargetObjCar__->field_88 != 5)
+                        if (!pTargetObjCar__->field_4_passengers_list.field_0_pFirstPed && pTargetObjCar__->field_88_despawn_status != 5)
                         {
                             return;
                         }
@@ -2357,7 +2357,7 @@ void Ped::TaxiCustomer_AI_460820()
                     this->field_240_occupation = ped_ocupation_enum::dummy;
                     this->field_238 = 3;
                 }
-                else if (this->field_150_target_objective_car->field_88 == 5)
+                else if (this->field_150_target_objective_car->field_88_despawn_status == 5)
                 {
                     //goto kill_and_ret;
                     Kill_46F9D0();
@@ -2438,7 +2438,7 @@ void Ped::BusCustomer_AI_461290()
             if (pCar_)
             {
             LABEL_23:
-                if (pCar_->field_88 == 5)
+                if (pCar_->field_88_despawn_status == 5)
                 {
                     pCar_->field_4_passengers_list.RemovePed_471240(this);
                     Kill_46F9D0();
@@ -2469,7 +2469,7 @@ void Ped::BusCustomer_AI_461290()
             else
             {
                 pTargetCar = this->field_150_target_objective_car;
-                if (pTargetCar->field_88 == 5)
+                if (pTargetCar->field_88_despawn_status == 5)
                 {
                     pTargetCar->sub_43AF40();
                     SetObjective(objectives_enum::no_obj_0, 9999);
@@ -2497,7 +2497,7 @@ void Ped::BusCustomer_AI_461290()
                 this->field_1B8_target_x = this->field_1AC_cam.x;
                 this->field_1BC_target_y = y;
             }
-            else if (this->field_150_target_objective_car->field_88 == 5)
+            else if (this->field_150_target_objective_car->field_88_despawn_status == 5)
             {
                 Kill_46F9D0();
             }
@@ -2621,7 +2621,7 @@ void Ped::RobbedDriver_AI_461630()
                             SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
                             this->field_24C_target_car_door = 0;
                             this->field_150_target_objective_car = field_140;
-                            if (field_140->field_88 == 5)
+                            if (field_140->field_88_despawn_status == 5)
                             {
                                 this->field_238 = 3;
                                 this->field_240_occupation = ped_ocupation_enum::fleeing_robbed_driver_11;
@@ -2654,7 +2654,7 @@ void Ped::RobbedDriver_AI_461630()
                 }
                 else
                 {
-                    if (this->field_140->field_88 == 5)
+                    if (this->field_140->field_88_despawn_status == 5)
                     {
                         this->field_238 = 3;
                         this->field_240_occupation = ped_ocupation_enum::fleeing_robbed_driver_11;
@@ -2675,7 +2675,7 @@ void Ped::RobbedDriver_AI_461630()
             }
 
             target_objective_car = this->field_150_target_objective_car;
-            if (target_objective_car->field_88 == 5)
+            if (target_objective_car->field_88_despawn_status == 5)
             {
                 Kill_46F9D0();
             }
@@ -2701,7 +2701,7 @@ void Ped::RobbedDriver_AI_461630()
             {
                 this->field_238 = 6;
                 this->field_240_occupation = ped_ocupation_enum::angry_armed_robbed_driver_12;
-                if (field_140 && field_140->field_88 != 5)
+                if (field_140 && field_140->field_88_despawn_status != 5)
                 {
                     SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
                     this->field_248_enter_car_as_passenger = 0;
@@ -2714,7 +2714,7 @@ void Ped::RobbedDriver_AI_461630()
 
             if (!field_140)
             {
-                if (field_140->field_88 == 5)
+                if (field_140->field_88_despawn_status == 5)
                 {
                     this->field_140 = 0;
                 }
@@ -2931,7 +2931,7 @@ void Ped::Occupation_AI_461F20()
             byte_61A8A0 = 0;
             if (field_16C_car)
             {
-                if (field_16C_car->field_88 == 5)
+                if (field_16C_car->field_88_despawn_status == 5)
                 {
                     Ped::Kill_46F9D0();
                 }
@@ -2992,7 +2992,7 @@ void Ped::Occupation_AI_461F20()
                 {
                     if (field_258_objective == objectives_enum::leave_car_36)
                     {
-                        if (field_150_target_objective_car->field_88 == 5)
+                        if (field_150_target_objective_car->field_88_despawn_status == 5)
                         {
                             Ped::Kill_46F9D0();
                         }
@@ -3381,7 +3381,7 @@ char_type Ped::StateMachineTick_4626B0()
             {
                 return 0;
             }
-            if (this->field_16C_car->field_88 == 5)
+            if (this->field_16C_car->field_88_despawn_status == 5)
             {
                 goto LABEL_77;
             }
@@ -3570,7 +3570,7 @@ bool Ped::PoolUpdate()
 
     if (field_158_unk_car)
     {
-        if (field_158_unk_car->field_88 == 5)
+        if (field_158_unk_car->field_88_despawn_status == 5)
         {
             field_158_unk_car = 0;
         }
@@ -4171,7 +4171,7 @@ void Ped::ProcessOnFootObjective_463AA0()
             {
                 field_24C_target_car_door = Remap - 1;
             }
-            if (field_150_target_objective_car->field_88 == 5)
+            if (field_150_target_objective_car->field_88_despawn_status == 5)
             {
                 field_1B8_target_x = field_1AC_cam.x;
                 field_1BC_target_y = field_1AC_cam.y;
@@ -4398,7 +4398,7 @@ void Ped::ProcessInCarObjective_463FB0()
         }
         if (field_154_target_to_enter)
         {
-            if (field_154_target_to_enter->field_88 == 6)
+            if (field_154_target_to_enter->field_88_despawn_status == 6)
             {
                 this->field_226 = 2;
                 return;
@@ -5214,9 +5214,9 @@ char_type Ped::FindUsableCarDoor_467090()
         }
         if ((pTargetToEnter->GetVelocity_43A4C0() <= vel_to_check // car going slow enough?
              || this->field_25C_internal_objective == 36 || this->field_27C_ped_state_2 == ped_state_2::Unknown_17) &&
-            pTargetToEnter->field_88 != 5 && pTargetToEnter->field_74_damage != 32001 &&
+            pTargetToEnter->field_88_despawn_status != 5 && pTargetToEnter->field_74_damage != 32001 &&
             (this->field_278_ped_state_1 == ped_state_1::exiting_car_4 || !pTargetToEnter->sub_43B2B0(this)) // can enter this car?
-            && pTargetToEnter->field_88 != 7)
+            && pTargetToEnter->field_88_despawn_status != 7)
         {
             enter_car_as_passenger = this->field_248_enter_car_as_passenger;
             target_car_door = this->field_24C_target_car_door;
@@ -5465,7 +5465,7 @@ void Ped::sub_467CA0()
 
     if (field_140)
     {
-        if (field_140->field_88 == 5)
+        if (field_140->field_88_despawn_status == 5)
         {
             this->field_140 = 0;
         }
@@ -5893,7 +5893,7 @@ void Ped::EnterTargetObjectiveCar_4686C0()
         Ped::SetObjective2_463830(35, 9999);
         field_154_target_to_enter = field_150_target_objective_car;
     }
-    if (field_150_target_objective_car->field_88 == 5 || field_150_target_objective_car->field_74_damage == 32001)
+    if (field_150_target_objective_car->field_88_despawn_status == 5 || field_150_target_objective_car->field_74_damage == 32001)
     {
         field_225_objective_status = objective_status::failed_2;
         Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
@@ -6018,7 +6018,7 @@ void Ped::EnterTrain_468930()
             Ped::SetObjective2_463830(37, 9999);
             field_154_target_to_enter = field_150_target_objective_car;
         }
-        if (field_150_target_objective_car->field_88 == 5 || field_150_target_objective_car->field_74_damage == 32001)
+        if (field_150_target_objective_car->field_88_despawn_status == 5 || field_150_target_objective_car->field_74_damage == 32001)
         {
             field_225_objective_status = objective_status::failed_2;
             Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
@@ -6520,12 +6520,12 @@ void Ped::sub_469FE0()
         u8 v17 = y.ToUInt8();
         u8 v16 = z.ToUInt8();
         gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &v18, &v17, &v16, 1);
-        if (gCar_6C_677930->CanAllocateOfType_446930(10))
+        if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::Unknown_10))
         {
             Car_BC* v6 = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, v18, v17, v16);
             if (v6)
             {
-                v6->IncrementCarStats_443D70(10);
+                v6->IncrementCarStats_443D70(car_kind::Unknown_10);
                 if (gPolice_7B8_6FEE40->FBI_Army_5703E0(v6))
                 {
                     Char_B4* field_168_game_object = this->field_168_game_object;
@@ -6539,12 +6539,12 @@ void Ped::sub_469FE0()
                 }
             }
         }
-        else if (gCar_6C_677930->CanAllocateOfType_446930(6))
+        else if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
         {
             Car_BC* v11 = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, v18, v17, v16);
             if (v11)
             {
-                v11->IncrementCarStats_443D70(6);
+                v11->IncrementCarStats_443D70(car_kind::police_6);
                 if (gPolice_7B8_6FEE40->FBI_Army_5703E0(v11))
                 {
                     Char_B4* v12 = this->field_168_game_object;
@@ -6638,7 +6638,7 @@ void Ped::FollowCarOnFootWithOffset_46A350()
 {
     WIP_IMPLEMENTED;
 
-    if (field_150_target_objective_car->field_88 == 5)
+    if (field_150_target_objective_car->field_88_despawn_status == 5)
     {
         this->field_225_objective_status = objective_status::failed_2;
     }
@@ -6755,7 +6755,7 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
 {
     WIP_IMPLEMENTED;
 
-    if (field_150_target_objective_car->field_88 == 5 || field_16C_car == 0)
+    if (field_150_target_objective_car->field_88_despawn_status == 5 || field_16C_car == 0)
     {
         field_225_objective_status = objective_status::failed_2;
     }
@@ -7556,10 +7556,10 @@ void Ped::ExitCarStateMachine_46C250()
 
     if (field_168_game_object)
     {
-        if (field_154_target_to_enter && field_154_target_to_enter->field_88 == 5 ||
-            (field_150_target_objective_car = this->field_150_target_objective_car) != 0 && field_150_target_objective_car->field_88 == 5 ||
-            (this->field_158_unk_car) != 0 && field_158_unk_car->field_88 == 5 ||
-            (field_168_game_object->field_84) != 0 && field_168_game_object->field_84->field_88 == 5)
+        if (field_154_target_to_enter && field_154_target_to_enter->field_88_despawn_status == 5 ||
+            (field_150_target_objective_car = this->field_150_target_objective_car) != 0 && field_150_target_objective_car->field_88_despawn_status == 5 ||
+            (this->field_158_unk_car) != 0 && field_158_unk_car->field_88_despawn_status == 5 ||
+            (field_168_game_object->field_84) != 0 && field_168_game_object->field_84->field_88_despawn_status == 5)
         {
             this->field_278_ped_state_1 = ped_state_1::standing_still_7;
             this->field_27C_ped_state_2 = ped_state_2::ped2_staying_14;

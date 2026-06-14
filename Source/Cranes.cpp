@@ -153,7 +153,7 @@ void Crane_15C::sub_47ECC0()
     pCar->sub_4435F0();
     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
-    pCar->field_88 = 1;
+    pCar->field_88_despawn_status = 1;
 
     if (field_150 != 3)
     {

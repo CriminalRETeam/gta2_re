@@ -560,12 +560,12 @@ static const char* ObjectIdToString(s32 id)
         case objects::moving_collect_40_136: return "moving_collect_40_136";
         case objects::moving_collect_41_137: return "moving_collect_41_137";
         case objects::moving_collect_42_138: return "moving_collect_42_138";
-        case objects::moving_collect_43_139: return "moving_collect_43_139";
+        case objects::conveyor_139: return "conveyor_139";
         case objects::moving_collect_44_140: return "moving_collect_44_140";
 
-        case objects::small_arrow_141: return "small_arrow_141";
+        case objects::destructor_141: return "destructor_141";
         case objects::object_142: return "object_142";
-        case objects::blood_spark_143: return "blood_spark_143";
+        case objects::crusher_central_spot_143: return "crusher_central_spot_143";
         case objects::object_144: return "object_144";
         case objects::particle_system_145: return "particle_system_145";
         case objects::firejet_146: return "firejet_146";
@@ -583,7 +583,7 @@ static const char* ObjectIdToString(s32 id)
         case objects::small_white_skid_158: return "small_white_skid_158";
         case objects::object_159: return "object_159";
         case objects::rocket_160: return "rocket_160";
-        case objects::bus_stop_marker_161: return "bus_stop_marker_161";
+        case objects::savepoint_161: return "savepoint_161";
         case objects::car_shop_162: return "car_shop_162";
         case objects::busy_car_shop_163: return "busy_car_shop_163";
         case objects::car_bomb_164: return "car_bomb_164";
@@ -1231,7 +1231,7 @@ void CC ImGuiDebugDraw()
                 while (pCarIter)
                 {
                     //ImGui::Value("Field 88", pCarIter->field_88);
-                    swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_88);
+                    swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_88_despawn_status);
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->GetSprite_440840(), 0, 0);
                     pCarIter = pCarIter->mpNext;
                 }
@@ -1257,7 +1257,7 @@ void CC ImGuiDebugDraw()
 
                     if (ImGui::Button("TurnToWreck_4436A0"))
                     {
-                        pCarIter->field_88 = 4;
+                        pCarIter->field_88_despawn_status = 4;
                         pCarIter->TurnToWreck_4436A0();
                     }
 
@@ -1576,13 +1576,13 @@ void CC ImGuiDebugDraw()
 
                     pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
-                    pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
+                    pNewCar->IncrementCarStats_443D70(car_kind::recycled_1); // avoid crashes when entering the car
                 }
                 if (ImGui::Button("Spawn car with trailer"))
                 {
                     pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
-                    pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
+                    pNewCar->IncrementCarStats_443D70(car_kind::recycled_1); // avoid crashes when entering the car
 
                     // Spawns a cab and connected trailer, can spawn trains too apparently
                     gCar_6C_677930->SpawnCabAndTrailer_446530(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
@@ -1655,7 +1655,7 @@ void CC ImGuiDebugDraw()
                     pNewCar->HandleCarExplosion_43D840(unknown_arg);
                 }
 
-                ImGui::InputInt("Car F_88", &pNewCar->field_88, 1, 1);
+                ImGui::InputInt("Car F_88", &pNewCar->field_88_despawn_status, 1, 1);
 
                 if (ImGui::TreeNode("Draw Testing") && pNewCar->field_50_car_sprite)
                 {
@@ -1666,6 +1666,11 @@ void CC ImGuiDebugDraw()
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pNewCar->field_50_car_sprite, 0, 0);
                     ImGui::TreePop();
                 }
+            }
+
+            if (gCar_6C_677930)
+            {
+                ImGui::SliderInt("F1C", &gCar_6C_677930->field_1C, -30, 30);
             }
             ImGui::TreePop();
         }
@@ -2067,10 +2072,10 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("f_36", pPlayer->field_2D4_scores.field_0_money.field_36_palette);
 
                         static char_type num_idx = 0;
-                        ImGui::SliderS8("Array Idx", &num_idx, 0, 8);
+                        ImGui::SliderS8("Array Idx", &num_idx, 0, 9);
 
-                        ImGui::Value("f_9", pPlayer->field_2D4_scores.field_0_money.field_9[num_idx]);
-                        ImGui::Value("f_13", pPlayer->field_2D4_scores.field_0_money.field_13[num_idx]);
+                        ImGui::Value("f_9", pPlayer->field_2D4_scores.field_0_money.field_9_str[num_idx]);
+                        ImGui::Value("f_13", pPlayer->field_2D4_scores.field_0_money.field_13_offset[num_idx]);
                         ImGui::Value("f_1D", pPlayer->field_2D4_scores.field_0_money.field_1D_buf[num_idx]);
 
                         ImGui::TreePop();
@@ -2643,6 +2648,24 @@ void CC ImGuiDebugDraw()
             //ImGui::Value("bRet", bUnk);
             //gMap_0x370_6F6268->sub_4E0130(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt())
 
+            ImGui::TreePop();
+        }
+
+        if (gParticle_4C_Pool_6FD5E4 && ImGui::TreeNode("gParticle_4C_Pool_6FD5E4"))
+        {
+            Particle_4C* pIter = gParticle_4C_Pool_6FD5E4->field_4_pPrev;
+            for (; pIter; pIter = pIter->mpNext)
+            {
+                swprintf(tmpBuff_67BD9C, L"%d", pIter->field_38_state);
+                if (pIter->field_28_pSprite)
+                {
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pIter->field_28_pSprite, 0, 0);
+                }
+                else if (pIter->field_30_pNext)
+                {
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pIter->field_30_pNext, 0, 0);
+                }
+            }
             ImGui::TreePop();
         }
 
