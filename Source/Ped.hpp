@@ -117,6 +117,7 @@ class Ped
     EXPORT void sub_465B20();
     EXPORT bool sub_465CD0();
     EXPORT char_type sub_465D00(Ped* a2);
+    EXPORT char_type sub_466B70();
     EXPORT char_type IsThreatToSearchingPed_4661F0();
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode4_466BB0(s32 max_x_check);

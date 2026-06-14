@@ -5922,10 +5922,639 @@ ret_false:
     return 0;
 }
 
-STUB_FUNC(0x4661F0)
+MATCH_FUNC(0x466B70)
+char_type Ped::sub_466B70()
+{
+    if ((field_21C & 0x2000000) != 0 && field_168_game_object != 0)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+WIP_FUNC(0x4614E0)
+Fix16* __stdcall sub_4614E0(Fix16* out, Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4)
+{
+    s32 d1 = a3->mValue - a1->mValue;
+    s32 d2 = a4->mValue - a2->mValue;
+
+    if (d2 <= 0)
+    {
+        d2 = -d2;
+    }
+
+    if (d1 <= 0)
+    {
+        d1 = -d1;
+    }
+
+    if (d1 > d2)
+    {
+        out->mValue = d1;
+    }
+    else
+    {
+        out->mValue = d2;
+    }
+
+    return out;
+}
+
+WIP_FUNC(0x4661F0)
 char_type Ped::IsThreatToSearchingPed_4661F0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ped* pSearcher;
+    char_type flag;
+
+    switch (byte_6787D7)
+    {
+        case 1:
+            if (field_238 == 3)
+            {
+                goto ret_false;
+            }
+
+            if (field_278_ped_state_1 == 9 || field_278_ped_state_1 == 8)
+            {
+                goto ret_false;
+            }
+
+            if ((field_21C & 1) == 0)
+            {
+                goto ret_false;
+            }
+
+            pSearcher = dword_6787DC;
+            flag = 0;
+
+            if (sub_466B70())
+            {
+                goto ret_false;
+            }
+
+            if (pSearcher->field_288_threat_search == 3 || pSearcher->field_288_threat_search == 4)
+            {
+                if (!this->IsField238_45EDE0(2))
+                {
+                    goto ret_false;
+                }
+            }
+
+            if (pSearcher->field_288_threat_search == 5 || pSearcher->field_288_threat_search == 6)
+            {
+                if (this->sub_45EDC0())
+                {
+                    goto ret_true;
+                }
+            }
+
+            if (pSearcher->sub_45EDC0())
+            {
+                flag = 1;
+            }
+
+            if (pSearcher->field_164_ped_group == this->field_164_ped_group && pSearcher->field_164_ped_group != 0)
+            {
+                goto ret_false;
+            }
+
+            if (pSearcher->field_240_occupation == 0x28)
+            {
+                Car_BC* pCar = this->field_16C_car;
+
+                if (pCar == 0)
+                {
+                    goto ret_true;
+                }
+
+                if (!pCar->IsPoliceCar_439EC0())
+                {
+                    goto ret_true;
+                }
+
+                if (this->field_238 == 4)
+                {
+                    goto ret_false;
+                }
+
+                return 1;
+            }
+
+            {
+                Gang_144* pMyGang = pSearcher->field_17C_pGang;
+
+                if (pMyGang != 0)
+                {
+                    Gang_144* pOtherGang = this->field_17C_pGang;
+
+                    if (pOtherGang != 0)
+                    {
+                        if (pOtherGang == pMyGang)
+                        {
+                            goto merge_178;
+                        }
+
+                        if (!pMyGang->sub_4BEDF0(pOtherGang->field_1_gang_idx))
+                        {
+                            goto ret_false;
+                        }
+
+                        if (pSearcher->field_238 == 4)
+                        {
+                            goto check_threat_level;
+                        }
+
+                        if (pSearcher->field_238 != 6)
+                        {
+                            goto ret_true;
+                        }
+
+                    check_threat_level:
+                        if ((u8)this->field_263 >= 4)
+                        {
+                            goto ret_false;
+                        }
+
+                        if ((u8)this->field_262 >= 4)
+                        {
+                            goto ret_false;
+                        }
+
+                        return 1;
+                    }
+
+                    if (pMyGang->field_110 != 0)
+                    {
+                        switch (this->field_240_occupation)
+                        {
+                            case 0x18:
+                            case 0x19:
+                            case 0x1A:
+                            case 0x1B:
+                            case 0x1D:
+                            case 0x1E:
+                            case 0x1F:
+                            case 0x25:
+                                goto ret_true;
+                            default:
+                                break;
+                        }
+                    }
+
+                    if (((BitSet32*)&this->field_21C)->check_bit(0xB))
+                    {
+                        if (!this->sub_45EDC0() && this->field_240_occupation != 1)
+                        {
+                            if (this->field_28C_threat_reaction == 1)
+                            {
+                                goto merge_178;
+                            }
+
+                            if (pSearcher->field_170_selected_weapon != 0)
+                            {
+                                goto ret_true;
+                            }
+
+                            Fix16 candY = this->field_1AC_cam.y;
+                            Fix16 candX = this->field_1AC_cam.x;
+                            Fix16 result;
+
+                            if (sub_4614E0(&result, &pSearcher->field_1AC_cam.x, &pSearcher->field_1AC_cam.y, &candX, &candY)->mValue <=
+                                k_dword_678798.mValue)
+                            {
+                                goto ret_true;
+                            }
+
+                            goto merge_178;
+                        }
+
+                        {
+                            u8 player_idx = this->field_15C_player->field_2E_idx;
+
+                            if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
+                            {
+                                if (gPolice_7B8_6FEE40->field_7B4 == 0)
+                                {
+                                    goto ret_true;
+                                }
+
+                                return 0;
+                            }
+
+                            goto ret_false;
+                        }
+                    }
+
+                    if (this->sub_45EDC0() || this->field_240_occupation == 1)
+                    {
+                        u8 player_idx = this->field_15C_player->field_2E_idx;
+
+                        if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
+                        {
+                            if (gPolice_7B8_6FEE40->field_7B4 == 0)
+                            {
+                                goto ret_true;
+                            }
+
+                            return 0;
+                        }
+
+                        goto ret_false;
+                    }
+
+                    goto merge_178;
+                }
+            }
+
+            switch (pSearcher->field_240_occupation)
+            {
+                case 0x21:
+                    if (this->field_240_occupation == 0x21)
+                    {
+                        goto ret_false;
+                    }
+
+                    goto merge_178;
+                case 0x22:
+                    if (this->field_240_occupation == 0x22)
+                    {
+                        goto ret_false;
+                    }
+
+                    goto merge_178;
+                case 0x16:
+                    if (this->IsField238_45EDE0(2))
+                    {
+                        goto ret_false;
+                    }
+
+                    goto merge_178;
+                case 0x18:
+                case 0x19:
+                case 0x1A:
+                case 0x1B:
+                case 0x1D:
+                case 0x1E:
+                case 0x1F:
+                case 0x25:
+                    goto block_466022;
+                default:
+                    goto block_46613E;
+            }
+
+        block_466022:
+            if (this->sub_45EDC0())
+            {
+                if (this->field_168_game_object != 0 && this->field_168_game_object->field_10_char_state == 0xF)
+                {
+                    goto ret_false;
+                }
+
+                if (!((((BitSet32*)&this->field_21C)->check_bit(0xB)) && this->field_170_selected_weapon != 0 &&
+                      this->field_170_selected_weapon->sub_5DCEF0()))
+                {
+                    if (this->field_20A_wanted_points < 0x258 && pSearcher->field_144 != this && this->field_26A <= 0u)
+                    {
+                        goto ret_false;
+                    }
+                }
+
+                pSearcher->field_144 = 0;
+                gPolice_7B8_6FEE40->sub_5708C0(this);
+
+                if (pSearcher->field_258_objective == 0x2B)
+                {
+                    if (gPolice_7B8_6FEE40->sub_5707B0(pSearcher->field_16C_car, this))
+                    {
+                        goto ret_true;
+                    }
+
+                    if (this->field_20A_wanted_points < 0x258)
+                    {
+                        this->field_20A_wanted_points = 0x258;
+                    }
+
+                    return 0;
+                }
+
+                if (this->field_20A_wanted_points >= 0x258)
+                {
+                    goto ret_true;
+                }
+
+                this->field_20A_wanted_points = 0x258;
+                return 1;
+            }
+
+            {
+                s32 a2_state = this->field_240_occupation;
+                switch (a2_state)
+                {
+                    case 0x17:
+                    case 0x18:
+                    case 0x19:
+                    case 0x1A:
+                    case 0x1B:
+                    case 0x1D:
+                    case 0x1E:
+                    case 0x1F:
+                    case 0x25:
+                    case 0x27:
+                        goto merge_178;
+                    default:
+                        break;
+                }
+
+                if (a2_state == 1)
+                {
+                    goto ret_true;
+                }
+
+                if (((BitSet32*)&this->field_21C)->check_bit(0xB))
+                {
+                    goto ret_true;
+                }
+
+                if (this->field_25C_internal_objective != 0x14)
+                {
+                    goto merge_178;
+                }
+
+                return 1;
+            }
+
+        block_46613E:
+            if (pSearcher->field_164_ped_group != 0)
+            {
+                if (pSearcher->field_164_ped_group->field_2C_ped_leader != this->field_14C)
+                {
+                    goto merge_178;
+                }
+
+                if (this->field_25C_internal_objective == 0x14)
+                {
+                    goto ret_true;
+                }
+
+                if (this->field_25C_internal_objective != 0x17)
+                {
+                    goto merge_178;
+                }
+
+                return 1;
+            }
+
+            if (((BitSet32*)&this->field_21C)->check_bit(0xB))
+            {
+                goto ret_true;
+            }
+
+        merge_178:
+            if (flag == 1)
+            {
+                goto ret_true;
+            }
+
+            goto ret_false;
+
+        case 2:
+            if (field_16C_car != 0)
+            {
+                goto ret_false;
+            }
+
+            if (field_278_ped_state_1 == 9 || field_278_ped_state_1 == 8)
+            {
+                goto ret_false;
+            }
+
+            if ((field_21C & 1) == 0)
+            {
+                goto ret_false;
+            }
+
+            if (dword_6787DC == this)
+            {
+                goto ret_false;
+            }
+
+            return 1;
+
+        case 3:
+            if (field_16C_car != 0)
+            {
+                goto ret_false;
+            }
+
+            if (field_278_ped_state_1 == 9 || field_278_ped_state_1 == 8)
+            {
+                goto ret_false;
+            }
+
+            if ((field_21C & 1) == 0)
+            {
+                goto ret_false;
+            }
+
+            {
+                Ped* pS = dword_6787DC;
+
+                if (pS == this)
+                {
+                    goto ret_false;
+                }
+
+                Fix16 dx = this->field_1AC_cam.x.Subtract_436A00(pS->field_1AC_cam.x);
+                Fix16 dy = this->field_1AC_cam.y.Subtract_436A00(pS->field_1AC_cam.y);
+                Fix16 adx = Fix16::Abs_436A50(dx);
+                Fix16 ady = Fix16::Abs_436A50(dy);
+
+                if (Fix16::Max_44E540(adx, ady).mValue > dword_678788.mValue)
+                {
+                    return 0;
+                }
+
+                return 1;
+            }
+
+        case 4:
+            if (field_16C_car != 0)
+            {
+                goto ret_false;
+            }
+
+            if (field_278_ped_state_1 == 9 || field_278_ped_state_1 == 8)
+            {
+                goto ret_false;
+            }
+
+            if ((field_21C & 1) == 0)
+            {
+                goto ret_false;
+            }
+
+            {
+                Ped* pS = dword_6787DC;
+
+                if (pS == this)
+                {
+                    goto ret_false;
+                }
+
+                Fix16 dx = this->field_1AC_cam.x - pS->field_1AC_cam.x;
+                Fix16 dy = this->field_1AC_cam.y - pS->field_1AC_cam.y;
+                Ang16 angleTo = Fix16::atan2_fixed_405320(dy, dx);
+                Ang16 myRot = pS->GetRotation();
+                Ang16 relIn = Ang16(angleTo.rValue - myRot.rValue);
+                Ang16 rel;
+                rel.sub_409300(relIn, 0);
+                Ang16 rangeIn = Ang16(gDummyPedAng_6787A8.rValue - word_6784F0.rValue);
+                Ang16 range;
+                range.sub_409300(rangeIn, 0);
+
+                if (rel < word_6784F0)
+                {
+                    return 1;
+                }
+
+                if (rel <= range)
+                {
+                    return 0;
+                }
+
+                return 1;
+            }
+
+        case 5:
+            if (field_278_ped_state_1 == 9 || field_278_ped_state_1 == 8)
+            {
+                goto ret_false;
+            }
+
+            if ((field_21C & 1) == 0)
+            {
+                goto ret_false;
+            }
+
+            if (field_238 != 2)
+            {
+                if (!dword_6787DC->sub_465D00(this))
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                Player* pPlayer = this->field_15C_player;
+                Camera_0xBC* pCam;
+
+                if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+                {
+                    pCam = &pPlayer->field_208_aux_game_camera;
+                }
+                else
+                {
+                    pCam = &pPlayer->field_90_game_camera;
+                }
+
+                Char_B4* pObj = dword_6787DC->field_168_game_object;
+
+                if (pObj != 0)
+                {
+                    if (!pCam->sub_435630(pObj->field_80_sprite_ptr, 1))
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    if (!pCam->sub_435630(dword_6787DC->field_16C_car->field_50_car_sprite, 1))
+                    {
+                        return 0;
+                    }
+                }
+            }
+
+            word_6784F0.rValue = *(s16*)&dword_6784B0;
+
+            {
+                Ped* pS = dword_6787DC;
+                Fix16 dx = this->field_1AC_cam.x - pS->field_1AC_cam.x;
+                Fix16 dy = this->field_1AC_cam.y - pS->field_1AC_cam.y;
+                Ang16 angleTo = Fix16::atan2_fixed_405320(dy, dx);
+                Ang16 myRot = dword_6787DC->GetRotation();
+                Ang16 relIn = Ang16(angleTo.rValue - myRot.rValue);
+                Ang16 rel;
+                rel.sub_409300(relIn, 0);
+                Ang16 rangeIn = Ang16(gDummyPedAng_6787A8.rValue - word_6784F0.rValue);
+                Ang16 range;
+                range.sub_409300(rangeIn, 0);
+
+                if (!(rel < word_6784F0))
+                {
+                    if (rel <= range)
+                    {
+                        goto ret_false;
+                    }
+                }
+            }
+
+            {
+                Ped* pS = dword_6787DC;
+
+                if (pS->field_164_ped_group != 0 && pS->field_164_ped_group->field_2C_ped_leader->field_15C_player != 0)
+                {
+                    Fix16 dz = pS->field_1AC_cam.z - this->field_1AC_cam.z;
+                    Fix16 adz;
+
+                    if (dz.mValue > 0)
+                    {
+                        adz = dz;
+                    }
+                    else
+                    {
+                        adz = dz.Negate_4086A0();
+                    }
+
+                    if (adz.mValue >= k_dword_678664.mValue)
+                    {
+                        goto ret_false;
+                    }
+                }
+
+                Fix16 sx = pS->field_1AC_cam.x;
+                Fix16 sy = pS->field_1AC_cam.y;
+                Fix16 sz = pS->field_1AC_cam.z;
+                Fix16 cx = this->field_1AC_cam.x;
+                Fix16 cy = this->field_1AC_cam.y;
+                Fix16 cz = this->field_1AC_cam.z;
+
+                if (field_238 == 2)
+                {
+                    if (gMap_0x370_6F6268->sub_4E5640(dword_678484, dword_678484, gSpawnJitterScale_678618, sx, sy, sz, cx, cy, cz))
+                    {
+                        dword_6787DC->field_21C |= 0x800000;
+                        return dword_6787DC->sub_465D00(this);
+                    }
+
+                    dword_6787DC->field_21C &= ~0x800000;
+                    return 0;
+                }
+
+                return gMap_0x370_6F6268
+                    ->sub_4E5640(gSpawnJitterScale_678618 * 2, dword_678484, gSpawnJitterScale_678618, sx, sy, sz, cx, cy, cz);
+            }
+    }
+
+    goto ret_false;
+
+ret_true:
+    return 1;
+
+ret_false:
     return 0;
 }
 
