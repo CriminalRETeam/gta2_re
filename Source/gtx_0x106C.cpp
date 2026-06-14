@@ -67,17 +67,37 @@ BYTE* gtx_0x106C::get_car_remap_5AA3D0(u8 idx)
     return &pCarInfo->remap[pCarInfo->num_remaps];
 }
 
-STUB_FUNC(0x5AA3F0)
-s32 sub_5AA3F0(u16 a2, u8 a3)
+MATCH_FUNC(0x5AA3F0)
+sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    delta_container* pDel = field_54_del;
+
+    if (sprite_idx >= pDel->field_0_count)
+    {
+        return 0;
+    }
+
+    sprite_deltas* pEntry = pDel->field_4_entries[sprite_idx];
+
+    if (!pEntry)
+    {
+        return 0;
+    }
+
+    if (delta_idx >= pEntry->field_2_count)
+    {
+        return 0;
+    }
+
+    sprite_delta* pDelta = &pEntry->field_4_deltas[delta_idx];
+
+    return pDelta->field_4_len != 0 ? pDelta : 0;
 }
 
-STUB_FUNC(0x5AA460)
+WIP_FUNC(0x5AA460)
 u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     u16 result;
     switch (type)
     {
@@ -101,7 +121,8 @@ u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
             result = sprite_pal + field_14_sprite_base2->field_A_font;
             break;
         default:
-            return sprite_pal;
+            result = sprite_pal;
+            break;
     }
     return result;
 }
@@ -439,25 +460,27 @@ void gtx_0x106C::InitTileMapping_5AA950()
     }
 */
 
+// Better score:
 // https://decomp.me/scratch/IKsR3
-STUB_FUNC(0x5AA9A0)
+// Current WIP (lower score, but more runtime correct?):
+// https://decomp.me/scratch/CqJJm
+WIP_FUNC(0x5AA9A0)
 void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
 {
-    NOT_IMPLEMENTED;
+    car_info* pCarInfoIter = (car_info*)field_58_car_info;
     u32 total_len = 0;
+    u32 idx = 0;
     u8 total_sprite = 0;
     u8 last_car_sprite = 0;
-    car_info* pCarInfoIter = (car_info*)field_58_car_info;
 
-    //car_info_container* pInfo =
-    field_5C_cari = new car_info_container(); // 257 "dynamic" array ??
-    if (!field_5C_cari)
+    field_5C_cari = new car_info_container();
+
+    if (field_5C_cari == 0)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
     }
 
-    u32 idx = 0;
-    for (; total_len < chunk_size; idx++)
+    while (total_len < chunk_size)
     {
         if (idx >= 256)
         {
@@ -469,8 +492,7 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
             FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 826, pCarInfoIter->model);
         }
 
-        u8 sprite = pCarInfoIter->sprite;
-        if (sprite != 0 && sprite != 1)
+        if (pCarInfoIter->sprite != 0 && pCarInfoIter->sprite != 1)
         {
             FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 827, pCarInfoIter->model);
         }
@@ -485,29 +507,64 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
 
         pCarInfoIter->sprite = total_sprite;
 
-        u8* doorCount = ((u8*)&pCarInfoIter->remap + pCarInfoIter->num_remaps);
-        if (*doorCount > 5u) // num_doors
+        u8* ptr = (u8*)pCarInfoIter;
+        u32 remap_count = pCarInfoIter->num_remaps;
+        ptr += remap_count;
+        u8 doorCount = *(ptr + 0xE);
+
+        if (doorCount > 5u)
         {
             FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
         }
 
         // 0xE = remap
-        u32 curr_item_len =
-            *doorCount * sizeof(door_info) + 0xE + pCarInfoIter->num_remaps + 1; //doorCount + 0xE + pCarInfoIter->num_remaps;
-
+        u32 curr_item_len = *(ptr + 0xE) * sizeof(door_info) + 1 + remap_count + 0xE;
         total_len += curr_item_len;
 
         pCarInfoIter = (car_info*)((u8*)pCarInfoIter + curr_item_len);
+        idx++;
     }
     field_5C_cari->field_400_count = idx;
 }
 
-STUB_FUNC(0x5AAB30)
-void gtx_0x106C::sub_5AAB30(u32 delx_chunk_size)
+MATCH_FUNC(0x5AAB30)
+void gtx_0x106C::load_delx_5AAB30(u32 delx_chunk_size)
 {
-    NOT_IMPLEMENTED;
-    // TODO
-    UNIQUE_FUNC;
+    delta_entry* pIter = field_4C_delta_index;
+    u32 off = 0;
+    u32 total = 0;
+
+    for (; off < delx_chunk_size;)
+    {
+        u32 size = 2 * pIter->field_2_delta_count + 4;
+        field_60_delta_len += 8 * pIter->field_2_delta_count + 4;
+        pIter = (delta_entry*)((u8*)pIter + size);
+        off += size;
+    }
+
+    field_50_delta_buffer = (sprite_deltas*)Memory::malloc_4FE4D0(field_60_delta_len);
+    delta_entry* pSrc = field_4C_delta_index;
+    u32 off2 = 0;
+    sprite_deltas* pDst = (sprite_deltas*)field_50_delta_buffer;
+
+    for (; off2 < delx_chunk_size;)
+    {
+        pDst->field_0 = pSrc->field_0_which_sprite;
+        pDst->field_2_count = pSrc->field_2_delta_count;
+        pDst->field_3_pad = 0;
+
+        for (u32 i = 0; i < pSrc->field_2_delta_count; i++)
+        {
+            pDst->field_4_deltas[i].field_4_len = pSrc->field_4_delta[i];
+            pDst->field_4_deltas[i].field_0_pData = (delta_store_entry*)total;
+            total += pDst->field_4_deltas[i].field_4_len;
+        }
+
+        u32 size = 2 * pSrc->field_2_delta_count + 4;
+        pDst = (sprite_deltas*)((u8*)pDst + 8 * pDst->field_2_count + 4);
+        off2 += size;
+        pSrc = (delta_entry*)((u8*)pSrc + size);
+    }
 }
 
 // note: param type matters
@@ -549,12 +606,53 @@ void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
     }
 }
 
-STUB_FUNC(0x5AAC70)
-void gtx_0x106C::sub_5AAC70()
+MATCH_FUNC(0x5AAC70)
+void gtx_0x106C::build_delta_container_5AAC70()
 {
-    NOT_IMPLEMENTED;
-    // TODO
-    UNIQUE_FUNC;
+    u32 off = 0;
+    sprite_deltas* pIter = (sprite_deltas*)field_50_delta_buffer;
+    u16 maxSprite = 0;
+
+    for (; off < (u32)field_60_delta_len;)
+    {
+        if (pIter->field_0 >= maxSprite)
+        {
+            maxSprite = pIter->field_0;
+        }
+
+        u32 size = 8 * pIter->field_2_count + 4;
+        off += size;
+        pIter = (sprite_deltas*)((u8*)pIter + size);
+    }
+
+    field_54_del = (delta_container*)Memory::malloc_4FE4D0(4 * maxSprite + 8);
+    field_54_del->field_0_count = maxSprite + 1;
+
+    for (u32 i = 0; i < field_54_del->field_0_count; i++)
+    {
+        field_54_del->field_4_entries[i] = 0;
+    }
+
+    pIter = (sprite_deltas*)field_50_delta_buffer;
+
+    for (u32 off2 = 0; off2 < (u32)field_60_delta_len;)
+    {
+        if (field_54_del->field_4_entries[pIter->field_0])
+        {
+            FatalError_4A38C0(Gta2Error::MultipleSpriteDeltas, "C:\\Splitting\\Gta2\\Source\\style.cpp", 996, pIter->field_0);
+        }
+
+        field_54_del->field_4_entries[pIter->field_0] = pIter;
+
+        if (pIter->field_0 >= maxSprite)
+        {
+            maxSprite = pIter->field_0;
+        }
+
+        u32 size = 8 * pIter->field_2_count + 4;
+        pIter = (sprite_deltas*)((u8*)pIter + size);
+        off2 += size;
+    }
 }
 
 MATCH_FUNC(0x5AAD50)
@@ -572,8 +670,8 @@ void gtx_0x106C::load_delta_index_5AAD80(u32 delx_chunk_size)
     this->field_4C_delta_index = (delta_entry*)Memory::malloc_4FE4D0(delx_chunk_size);
     File::Global_Read_4A71C0(field_4C_delta_index, delx_chunk_size);
 
-    sub_5AAB30(delx_chunk_size);
-    sub_5AAC70();
+    load_delx_5AAB30(delx_chunk_size);
+    build_delta_container_5AAC70();
 
     crt::free(this->field_4C_delta_index);
     this->field_4C_delta_index = 0;
