@@ -2651,6 +2651,24 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
+        if (gParticle_4C_Pool_6FD5E4 && ImGui::TreeNode("gParticle_4C_Pool_6FD5E4"))
+        {
+            Particle_4C* pIter = gParticle_4C_Pool_6FD5E4->field_4_pPrev;
+            for (; pIter; pIter = pIter->mpNext)
+            {
+                swprintf(tmpBuff_67BD9C, L"%d", pIter->field_38_state);
+                if (pIter->field_28_pSprite)
+                {
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pIter->field_28_pSprite, 0, 0);
+                }
+                else if (pIter->field_30_pNext)
+                {
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pIter->field_30_pNext, 0, 0);
+                }
+            }
+            ImGui::TreePop();
+        }
+
         // Put in-game debug stuff here
 
     } // end gGame_0x40_67E008 != NULL

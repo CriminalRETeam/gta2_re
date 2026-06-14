@@ -5,17 +5,20 @@
 
 EXTERN_GLOBAL(Fix16, dword_6FD49C);
 EXTERN_GLOBAL(Fix16, dword_6FD2F0);
+EXTERN_GLOBAL(Fix16, dword_6FD448);
+EXTERN_GLOBAL(Fix16, dword_6FD4C0);
 
-DEFINE_GLOBAL(Fix16, dword_6FD46C, 0x6FD46C);
-DEFINE_GLOBAL(Fix16, dword_6FD28C, 0x6FD28C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD46C, Fix16(0x333, 0), 0x6FD46C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD554, dword_6FD448, 0x6FD554);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD28C, dword_6FD4C0 - dword_6FD554, 0x6FD28C);
 //DEFINE_GLOBAL(Fix16_Point, stru_6FD388, 0x6FD388);
 
 DEFINE_GLOBAL(Fix16, stru_6FD388, 0x6FD388);
 DEFINE_GLOBAL(Fix16, stru_6FD38C, 0x6FD38C);
-DEFINE_GLOBAL(Fix16, dword_6FD2E8, 0x6FD2E8);
-DEFINE_GLOBAL(Fix16, dword_6FD4A0, 0x6FD4A0);
-DEFINE_GLOBAL(Fix16, dword_6FD39C, 0x6FD39C);
-DEFINE_GLOBAL(Fix16, dword_6FD4A4, 0x6FD4A4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD2E8, Fix16(0x666, 0), 0x6FD2E8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD4A0, Fix16(1), 0x6FD4A0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD39C, Fix16(0.5f), 0x6FD39C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD4A4, Fix16(2), 0x6FD4A4);
 
 STUB_FUNC(0x538060)
 char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
@@ -190,11 +193,64 @@ char_type Particle_4C::Empty_state_44_53B170()
     return 0;
 }
 
-STUB_FUNC(0x53b1a0)
-char_type Particle_4C::UpdateDebrisArc_state_7_53B1A0()
+// https://decomp.me/scratch/fW2BZ
+WIP_FUNC(0x53b1a0)
+bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Fix16 v1 = dword_6FD46C;
+    Fix16_Point point(dword_6FD49C, dword_6FD49C);
+    Fix16_Point point2(Fix16(0), Fix16(0));
+
+    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    if (!field_2C_counter)
+    {
+        return true;
+    }
+
+    Fix16 zpos;
+    if (field_2C_counter > (field_2E >> 1))
+    {
+        field_8_xpos = field_8_xpos + field_14;
+        field_C_ypos = field_C_ypos + field_18;
+        zpos = field_30_pNext->field_1C_zpos + v1;
+    }
+    else
+    {
+        field_8_xpos = field_8_xpos + field_14;
+        field_C_ypos = field_C_ypos + field_18;
+        zpos = field_30_pNext->field_1C_zpos - v1;
+    }
+    stru_6FD388 = point.x + field_8_xpos + field_30_pNext->field_14_xy.x;
+    stru_6FD38C = point.y + field_C_ypos + field_30_pNext->field_14_xy.y;
+
+    switch (field_2C_counter)
+    {
+        case 5:
+        case 6:
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 127);
+            break;
+        case 4:
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 128);
+            break;
+        case 2:
+        case 3:
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 129);
+            break;
+        case 0:
+        case 1:
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 130);
+            break;
+        default:
+            break;
+    }
+    if (zpos > dword_6FD28C)
+    {
+        zpos = dword_6FD28C;
+    }
+    field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    return false;
 }
 
 // 9.6f 0x48C790
