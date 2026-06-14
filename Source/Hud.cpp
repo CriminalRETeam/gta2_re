@@ -638,13 +638,13 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         sub_5D6060(ammo_idx, unk);
     }
 
-    s32 v2 = 639;
-    for (s32 i = 0; i < 17; i++)
+    s32 powerup_xpos = 639;
+    for (s32 powerup_idx = 0; powerup_idx < 17; powerup_idx++)
     {
-        u16 unknown = pPlayer->field_6F4_power_up_timers[i];
-        if (unknown)
+        u16 powerup_timer = pPlayer->field_6F4_power_up_timers[powerup_idx];
+        if (powerup_timer)
         {
-            v2 = sub_5D61A0(i, v2, unknown);
+            powerup_xpos = DrawPlayerStatsHelper_5D61A0(powerup_idx, powerup_xpos, powerup_timer);
         }
     }
 
@@ -754,11 +754,22 @@ void __stdcall sub_5D6060(s16 ammo_idx, u8 ammo_count)
     }
 }
 
-STUB_FUNC(0x5D61A0)
-s32 __stdcall sub_5D61A0(s32 a1, s32 a2, u16 a3)
+// https://decomp.me/scratch/1IbxU
+WIP_FUNC(0x5D61A0)
+s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 optional_number)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    u16 v5 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, powerup_idx + 141);
+    s32 width = gGtx_0x106C_703DD4->get_sprite_width_420220(v5);
+    sub_5D7670(6, powerup_idx + 141, base_xpos - (width / 2), 117, word_706610, 2, 0, 0, 0);
+
+    if (powerup_idx == power_up_indices::Armor_3)
+    {
+        swprintf(tmpBuff_67BD9C, L"%d", optional_number);
+        u32 x_offset = optional_number < 10 ? 18 : 22;
+        DrawText_5D7720(tmpBuff_67BD9C, (u32)(base_xpos - x_offset), 127, word_70646C, 8, 6, 0, 0);
+    }
+    return base_xpos - width;
 }
 
 MATCH_FUNC(0x5d6290)
