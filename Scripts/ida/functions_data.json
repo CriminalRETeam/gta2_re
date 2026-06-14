@@ -2105,7 +2105,7 @@
         "v105_address": "0x441e70"
     },
     {
-        "name": "Car_BC::sub_442170",
+        "name": "Car_BC::IsCarInConditionsToDespawn_442170",
         "v96f_address": null,
         "v105_address": "0x442170"
     },
@@ -2130,7 +2130,7 @@
         "v105_address": "0x442310"
     },
     {
-        "name": "Car_BC::sub_4424C0",
+        "name": "Car_BC::UpdateCarDespawnStatus_4424C0",
         "v96f_address": null,
         "v105_address": "0x4424c0"
     },

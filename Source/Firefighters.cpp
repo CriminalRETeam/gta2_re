@@ -53,7 +53,7 @@ char_type FirefighterPool_54::sub_4A8820(Car_BC* pCar)
     {
         return 0;
     }
-    const s32 f88 = pCar->field_88;
+    const s32 f88 = pCar->field_88_despawn_status;
     if (f88 == 6 || f88 == 7 || f88 == 5)
     {
         return 0;

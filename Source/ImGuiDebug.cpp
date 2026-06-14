@@ -1231,7 +1231,7 @@ void CC ImGuiDebugDraw()
                 while (pCarIter)
                 {
                     //ImGui::Value("Field 88", pCarIter->field_88);
-                    swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_88);
+                    swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_88_despawn_status);
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->GetSprite_440840(), 0, 0);
                     pCarIter = pCarIter->mpNext;
                 }
@@ -1257,7 +1257,7 @@ void CC ImGuiDebugDraw()
 
                     if (ImGui::Button("TurnToWreck_4436A0"))
                     {
-                        pCarIter->field_88 = 4;
+                        pCarIter->field_88_despawn_status = 4;
                         pCarIter->TurnToWreck_4436A0();
                     }
 
@@ -1655,7 +1655,7 @@ void CC ImGuiDebugDraw()
                     pNewCar->HandleCarExplosion_43D840(unknown_arg);
                 }
 
-                ImGui::InputInt("Car F_88", &pNewCar->field_88, 1, 1);
+                ImGui::InputInt("Car F_88", &pNewCar->field_88_despawn_status, 1, 1);
 
                 if (ImGui::TreeNode("Draw Testing") && pNewCar->field_50_car_sprite)
                 {

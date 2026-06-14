@@ -431,12 +431,12 @@ class Car_BC
     EXPORT void sub_441C00();
     EXPORT void sub_441D40();
     EXPORT void sub_441E70();
-    EXPORT bool sub_442170();
+    EXPORT bool IsCarInConditionsToDespawn_442170();
     EXPORT void sub_442190();
     EXPORT char_type sub_4421B0();
     EXPORT bool sub_442200();
     EXPORT void sub_442310();
-    EXPORT char_type sub_4424C0();
+    EXPORT char_type UpdateCarDespawnStatus_4424C0();
     EXPORT Ang16 GetRadioTowerAngle_442520();
     EXPORT void ManageTVAntenna_4425D0();
     EXPORT void sub_4426D0();
@@ -748,31 +748,31 @@ class Car_BC
 
     bool sub_4214B0()
     {
-        return field_88 == 2 || field_88 == 4 || field_88 == 3;
+        return field_88_despawn_status == 2 || field_88_despawn_status == 4 || field_88_despawn_status == 3;
     }
 
     void sub_421470()
     {
-        if (field_88 != 5 && field_88 != 2 && field_88 != 3)
+        if (field_88_despawn_status != 5 && field_88_despawn_status != 2 && field_88_despawn_status != 3)
         {
-            field_88 = 4;
+            field_88_despawn_status = 4;
         }
     }
 
     bool sub_4214D0()
     {
-        return field_88 == 7;
+        return field_88_despawn_status == 7;
     }
 
     void SetF_88_4214E0()
     {
-        field_88 = 7;
+        field_88_despawn_status = 7;
     }
 
     // FUNCTION: 96f 0x447ea0
     void SetF_88_447ea0()
     {
-        field_88 = 1;
+        field_88_despawn_status = 1;
     }
 
     bool IsGunJeep_411910()
@@ -883,7 +883,7 @@ class Car_BC
     // FUNCTION: 96f 0x4215b0
     bool sub_4215B0()
     {
-        return this->field_88 == 5;
+        return this->field_88_despawn_status == 5;
     }
 
     bool sub_421620()
@@ -965,7 +965,7 @@ class Car_BC
     char_type field_82;
     char_type field_83;
     s32 field_84_car_info_idx;
-    s32 field_88;
+    s32 field_88_despawn_status;
     char_type field_8C;
     char_type field_8D;
     char_type field_8E;

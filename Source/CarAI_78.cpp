@@ -5100,7 +5100,7 @@ void CarAI_78::sub_452A20()
     {
         // goto LABEL_41;
 
-        if (this->field_68->field_88 == 5)
+        if (this->field_68->field_88_despawn_status == 5)
         {
             return;
         }

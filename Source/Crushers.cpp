@@ -45,7 +45,7 @@ Crusher_30::~Crusher_30()
 MATCH_FUNC(0x488310)
 void Crusher_30::CrushCar_488310(Car_BC* pCar)
 {
-    if (field_2C_state == CrusherStates::Idle_0 && pCar->field_88 != 5 && !pCar->sub_43DC00() && pCar->field_9C != 7)
+    if (field_2C_state == CrusherStates::Idle_0 && pCar->field_88_despawn_status != 5 && !pCar->sub_43DC00() && pCar->field_9C != 7)
     {
         field_14_pCarBeingCrushed = pCar;
         field_2C_state = CrusherStates::CrushW_1;
@@ -58,9 +58,9 @@ void Crusher_30::Service_488350()
 {
     if (field_2C_state != CrusherStates::Idle_0)
     {
-        if (field_14_pCarBeingCrushed->field_88 == 2 || field_14_pCarBeingCrushed->field_88 == 4 || field_14_pCarBeingCrushed->field_88 == 3)
+        if (field_14_pCarBeingCrushed->field_88_despawn_status == 2 || field_14_pCarBeingCrushed->field_88_despawn_status == 4 || field_14_pCarBeingCrushed->field_88_despawn_status == 3)
         {
-            field_14_pCarBeingCrushed->field_88 = 1;
+            field_14_pCarBeingCrushed->field_88_despawn_status = 1;
         }
 
         switch (field_2C_state)
