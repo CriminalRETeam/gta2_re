@@ -649,21 +649,23 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     }
 
     thirsty_lamarr* v5 = pPlayer->field_2D4_scores.sub_592360();
-    s32 v8 = v5->sub_492260(639, 4);
+    s32 dolar_sign_xpos = v5->sub_492260(639, 4);
+
+    // Now draw $ symbol
 
     if (bStartNetworkGame_7081F0)
     {
-        sub_5D7670(6, 16, v8 - 8, 14, word_706610, pPlayer->field_78C, pPlayer->field_790, 0, 0);
+        sub_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, pPlayer->field_78C, pPlayer->field_790, 0, 0);
     }
     else
     {
         if (pPlayer->field_60_bFinshScoreReached == 0)
         {
-            sub_5D7670(6, 16, v8 - 8, 14, word_706610, 2, 0, 0, 0);
+            sub_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, 2, 0, 0, 0); // default color
         }
         else
         {
-            sub_5D7670(6, 16, v8 - 8, 14, word_706610, 7, 6, 0, 0);
+            sub_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, 7, 6, 0, 0); // red color
         }
     }
 

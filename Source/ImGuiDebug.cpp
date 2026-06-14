@@ -2072,10 +2072,10 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("f_36", pPlayer->field_2D4_scores.field_0_money.field_36_palette);
 
                         static char_type num_idx = 0;
-                        ImGui::SliderS8("Array Idx", &num_idx, 0, 8);
+                        ImGui::SliderS8("Array Idx", &num_idx, 0, 9);
 
-                        ImGui::Value("f_9", pPlayer->field_2D4_scores.field_0_money.field_9[num_idx]);
-                        ImGui::Value("f_13", pPlayer->field_2D4_scores.field_0_money.field_13[num_idx]);
+                        ImGui::Value("f_9", pPlayer->field_2D4_scores.field_0_money.field_9_str[num_idx]);
+                        ImGui::Value("f_13", pPlayer->field_2D4_scores.field_0_money.field_13_offset[num_idx]);
                         ImGui::Value("f_1D", pPlayer->field_2D4_scores.field_0_money.field_1D_buf[num_idx]);
 
                         ImGui::TreePop();
