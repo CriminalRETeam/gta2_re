@@ -125,6 +125,13 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678794, dword_6784C4 * 48, 0x678794);
 DEFINE_GLOBAL_INIT(Fix16, dword_678630, Fix16(0x147, 0), 0x678630);
 
 DEFINE_GLOBAL_INIT(Ang16, word_6785A6, Ang16(0x2D0), 0x6785A6); // TODO: Init via 0x45FCB0 func
+// Directional angle offsets used by Ped::CalcFollowOffset_4645B0
+DEFINE_GLOBAL(Ang16, word_678502, 0x678502);
+DEFINE_GLOBAL(Ang16, word_6785D0, 0x6785D0);
+DEFINE_GLOBAL(Ang16, word_6786B8, 0x6786B8);
+DEFINE_GLOBAL(Ang16, word_6784E2, 0x6784E2);
+DEFINE_GLOBAL(Ang16, word_6785A8, 0x6785A8);
+DEFINE_GLOBAL(Ang16, word_67844C, 0x67844C);
 DEFINE_GLOBAL_INIT(Fix16, dword_678780, dword_6784C4 * 12, 0x678780);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784B0, Fix16(0x168, 0), 0x6784B0); // TODO: Init via 0x45FAA0 func
 
@@ -4710,11 +4717,340 @@ void Ped::ProcessInCarObjective_463FB0()
     }
 }
 
-STUB_FUNC(0x4645b0)
-s16* Ped::sub_4645B0()
+WIP_FUNC(0x4645b0)
+void Ped::sub_4645B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Ang16 angle;
+    Fix16 radius;
+    bool bMark = false;
+
+    if (field_14C->GetPedVelocity_45C920() > k_dword_678660)
+    {
+        angle.rValue = word_6785A6.rValue + field_14C->field_168_game_object->field_40_rotation.rValue;
+        angle.sub_406C20();
+        radius = k_dword_67878C;
+    }
+    else
+    {
+        angle.rValue = gDummyPedAng_6787A8.rValue;
+        radius = dword_678790;
+    }
+
+    PedGroup* pGroup = field_164_ped_group;
+
+    if (pGroup)
+    {
+        Ped* pLeader = pGroup->field_2C_ped_leader;
+
+        if (field_204_killer_id == pLeader->field_200_id && pLeader->field_21C_bf.b11)
+        {
+            bMark = true;
+            field_264 = 0x32;
+        }
+    }
+
+    if (field_14C->GetPedVelocity_45C920() == k_dword_678660)
+    {
+        switch (field_23C)
+        {
+            case 0:
+            {
+                Fix16 component;
+                Fix16 x_offset;
+                Fix16 y_offset;
+                angle.rValue += word_678502.rValue;
+                angle.sub_406C20();
+
+                if (bMark)
+                {
+                    angle.rValue += word_6785A6.rValue;
+                    angle.sub_406C20();
+                    radius = dword_678794;
+                }
+
+                component = gSin_table_667A80[angle.rValue];
+                x_offset = component.Multiply_408680(radius);
+                component = gCos_table_669260[angle.rValue];
+                y_offset = component.Multiply_408680(radius);
+
+                field_1C4_x += x_offset;
+                field_1C8_y += y_offset;
+
+                break;
+            }
+            case 1:
+            {
+                Fix16 component;
+                Fix16 x_offset;
+                Fix16 y_offset;
+                angle.rValue += word_6785D0.rValue;
+                angle.sub_406C20();
+
+                if (bMark)
+                {
+                    angle.rValue += word_6785A6.rValue;
+                    angle.sub_406C20();
+                    radius = dword_678794;
+                }
+
+                component = gSin_table_667A80[angle.rValue];
+                x_offset = component.Multiply_408680(radius);
+                component = gCos_table_669260[angle.rValue];
+                y_offset = component.Multiply_408680(radius);
+
+                field_1C4_x += x_offset;
+                field_1C8_y += y_offset;
+
+                break;
+            }
+            case 2:
+            {
+                Fix16 component;
+                Fix16 x_offset;
+                Fix16 y_offset;
+                Ang16 sum;
+                sum.rValue = word_6785A6.rValue + angle.rValue;
+                Ang16 result;
+
+                result.sub_409300(sum, 0);
+                angle.rValue = result.rValue;
+
+                if (bMark)
+                {
+                    angle.rValue += word_6785A6.rValue;
+                    angle.sub_406C20();
+                    radius = dword_678794;
+                }
+
+                component = gSin_table_667A80[angle.rValue];
+                x_offset = component.Multiply_408680(radius);
+                component = gCos_table_669260[angle.rValue];
+                y_offset = component.Multiply_408680(radius);
+
+                field_1C4_x += x_offset;
+                field_1C8_y += y_offset;
+
+                break;
+            }
+            case 3:
+            {
+                Fix16 component;
+                Fix16 x_offset;
+                Fix16 y_offset;
+
+                component = gSin_table_667A80[angle.rValue];
+                x_offset = component.Multiply_408680(radius);
+                component = gCos_table_669260[angle.rValue];
+                y_offset = component.Multiply_408680(radius);
+
+                field_1C4_x += x_offset;
+                field_1C8_y += y_offset;
+
+                if (bMark)
+                {
+                    angle.rValue += word_6785A6.rValue;
+                    angle.sub_406C20();
+                    radius = dword_678794;
+                }
+
+                break;
+            }
+            case 4:
+            {
+                Fix16 component;
+                Fix16 x_offset;
+                Fix16 y_offset;
+
+                angle.rValue += word_6786B8.rValue;
+                angle.sub_406C20();
+
+                if (bMark)
+                {
+                    angle.rValue += word_6785A6.rValue;
+                    angle.sub_406C20();
+                    radius = dword_678794;
+                }
+                else
+                {
+                    radius = k_dword_67878C;
+                }
+
+                component = gSin_table_667A80[angle.rValue];
+                x_offset = component.Multiply_408680(radius);
+                component = gCos_table_669260[angle.rValue];
+                y_offset = component.Multiply_408680(radius);
+
+                field_1C4_x += x_offset;
+                field_1C8_y += y_offset;
+
+                break;
+            }
+            case 5:
+            {
+                Fix16 component;
+                Fix16 x_offset;
+                Fix16 y_offset;
+
+                angle.rValue += word_6784E2.rValue;
+                angle.sub_406C20();
+
+                if (bMark)
+                {
+                    angle.rValue += word_6785A6.rValue;
+                    angle.sub_406C20();
+                    radius = dword_678794;
+                }
+                else
+                {
+                    radius = k_dword_67878C;
+                }
+
+                component = gSin_table_667A80[angle.rValue];
+                x_offset = component.Multiply_408680(radius);
+                component = gCos_table_669260[angle.rValue];
+                y_offset = component.Multiply_408680(radius);
+
+                field_1C4_x += x_offset;
+                field_1C8_y += y_offset;
+
+                break;
+            }
+            case 6:
+            {
+                Fix16 component;
+                Fix16 x_offset;
+                Fix16 y_offset;
+                angle.rValue += word_6785A8.rValue;
+                angle.sub_406C20();
+
+                if (bMark)
+                {
+                    angle.rValue += word_6785A6.rValue;
+                    angle.sub_406C20();
+                    radius = dword_678794;
+                }
+                else
+                {
+                    radius = k_dword_67878C;
+                }
+
+                component = gSin_table_667A80[angle.rValue];
+                x_offset = component.Multiply_408680(radius);
+                component = gCos_table_669260[angle.rValue];
+                y_offset = component.Multiply_408680(radius);
+
+                field_1C4_x += x_offset;
+                field_1C8_y += y_offset;
+
+                break;
+            }
+            case 7:
+            {
+                Fix16 component;
+                Fix16 x_offset;
+                Fix16 y_offset;
+
+                angle.rValue += word_67844C.rValue;
+                angle.sub_406C20();
+
+                if (bMark)
+                {
+                    angle.rValue += word_6785A6.rValue;
+                    angle.sub_406C20();
+                    radius = dword_678794;
+                }
+                else
+                {
+                    radius = k_dword_67878C;
+                }
+
+                x_offset = gSin_table_667A80[angle.rValue] * radius;
+                component = gCos_table_669260[angle.rValue];
+                y_offset = component.Multiply_408680(radius);
+
+                field_1C4_x += x_offset;
+                field_1C8_y += y_offset;
+
+                break;
+            }
+            default:
+            {
+                Fix16 component;
+                Fix16 x_offset;
+                Fix16 y_offset;
+
+                angle.rValue += word_6786B8.rValue;
+                angle.Normalize();
+
+                if (bMark)
+                {
+                    angle.rValue += word_6785A6.rValue;
+                    angle.sub_406C20();
+                    radius = dword_678794;
+                }
+                else
+                {
+                    radius = k_dword_67878C;
+                }
+
+                x_offset = gSin_table_667A80[angle.rValue] * radius;
+                component = gCos_table_669260[angle.rValue];
+                y_offset = component.Multiply_408680(radius);
+
+                field_1C4_x += x_offset;
+                field_1C8_y += y_offset;
+
+                break;
+            }
+        }
+
+        {
+            Fix16 dx_diff = field_1AC_cam.x - field_14C->field_1AC_cam.x;
+            Fix16 dy_diff = field_1AC_cam.y - field_14C->field_1AC_cam.y;
+            field_130 = Fix16::atan2_fixed_405320(dy_diff, dx_diff);
+        }
+    }
+    else
+    {
+        radius = dword_678784;
+
+        switch (field_23C)
+        {
+            case 0:
+                angle.rValue -= word_6784FC.rValue;
+                angle.Normalize();
+                break;
+            case 1:
+                angle.rValue += word_6784FC.rValue;
+                angle.Normalize();
+                break;
+            case 2:
+                break;
+            case 6:
+                angle.rValue -= word_6784FC.rValue;
+                angle.Normalize();
+                radius = dword_678790;
+                break;
+            case 7:
+                angle.rValue += word_6784FC.rValue;
+                angle.Normalize();
+                radius = dword_678790;
+                break;
+        }
+
+        Fix16 component;
+        Fix16 x_offset;
+        Fix16 y_offset;
+
+        component = gSin_table_667A80[angle.rValue];
+        x_offset = component.Multiply_408680(radius);
+        component = gCos_table_669260[angle.rValue];
+        y_offset = component.Multiply_408680(radius);
+
+        field_1C4_x += x_offset;
+        field_1C8_y += y_offset;
+    }
 }
 
 // https://decomp.me/scratch/LvHfw
