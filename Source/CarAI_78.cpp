@@ -107,7 +107,7 @@ void CarAI_78::sub_447710()
 {
     WIP_IMPLEMENTED;
 
-    u8 v12 = 0;
+    s8 v12 = 0;
     if (field_28_junc_idx >= 0)
     {
         Junction_10* Junction_58A0B0 =
@@ -2071,7 +2071,7 @@ void CarAI_78::sub_44AF00()
 {
     WIP_IMPLEMENTED;
 
-    u8 v72 = 0;
+    s8 v72 = 0;
     if ((this->field_24_flags & 0x100) != 0)
     {
         byte_677A5D = 0;
@@ -2484,7 +2484,7 @@ void CarAI_78::sub_44D1D0()
     WIP_IMPLEMENTED;
 
     s32 v2 = 0;
-    u8 v109 = 0;
+    s8 v109 = 0;
 
     byte_677A94 = 0;
     if (this->field_0->field_84_car_info_idx == car_model_enum::BUS)

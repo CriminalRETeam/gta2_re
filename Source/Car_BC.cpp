@@ -4299,7 +4299,7 @@ void Car_BC::GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction)
 }
 
 WIP_FUNC(0x4410d0)
-char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, u8* pRet, Fix16 spritex, Fix16 spritey)
+char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pRet, Fix16 spritex, Fix16 spritey)
 {
     WIP_IMPLEMENTED;
 

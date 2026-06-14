@@ -17,7 +17,7 @@ class Firefighter_28
         field_4_bActive = 0;
         field_1C_car = 0;
         field_20_ped = 0;
-        field_24 = 0;
+        field_24_next_state_timer = 0;
     }
 
     EXPORT char_type sub_4A7FC0();
@@ -31,12 +31,12 @@ class Firefighter_28
     s32 field_4_bActive;
     s32 field_8_state;
     Car_BC* field_C_target_car;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
+    Fix16 field_10_xpos;
+    Fix16 field_14_ypos;
+    Fix16 field_18_zpos;
     Car_BC* field_1C_car;
     Ped* field_20_ped;
-    s16 field_24;
+    s16 field_24_next_state_timer;
     s16 field_26;
 };
 
@@ -64,7 +64,7 @@ class FirefighterPool_54
     EXPORT void sub_4A88D0();
 
     Firefighter_28 field_0[2];
-    s16 field_50;
+    s16 field_50_count;
     s16 field_52;
 };
 
