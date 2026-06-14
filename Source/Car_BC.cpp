@@ -3611,7 +3611,7 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
             gCranePool_D9C_679FD4->PickUpCar_480E00(this, pObj->field_26_varrok_idx);
             break;
 
-        case objects::blood_spark_143:
+        case objects::crusher_central_spot_143:
             gCrusherPool_94_67A830->CrushCarWithCrusher_4887D0(this, pObj->field_26_varrok_idx);
             break;
 
@@ -3619,14 +3619,14 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
         case objects::oil_9:
             field_58_physics->SpinOutOnOil_559BA0();
             break;
-        case objects::moving_collect_43_139:
-            field_58_physics->ApplyObjectImpact_559E20(pObj); // mine?
+        case objects::conveyor_139:
+            field_58_physics->ApplyObjectImpact_559E20(pObj); // push car into conveyor direction
             break;
-        case objects::bus_stop_marker_161:
+        case objects::savepoint_161:
             gCar_214_705F20->sub_5C8780(pObj->field_27, this->field_50_car_sprite);
             break;
 
-        case objects::small_arrow_141:
+        case objects::destructor_141:
             if (field_54_driver || field_88 == 5)
             {
                 return 0;

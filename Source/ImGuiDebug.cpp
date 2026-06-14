@@ -560,12 +560,12 @@ static const char* ObjectIdToString(s32 id)
         case objects::moving_collect_40_136: return "moving_collect_40_136";
         case objects::moving_collect_41_137: return "moving_collect_41_137";
         case objects::moving_collect_42_138: return "moving_collect_42_138";
-        case objects::moving_collect_43_139: return "moving_collect_43_139";
+        case objects::conveyor_139: return "conveyor_139";
         case objects::moving_collect_44_140: return "moving_collect_44_140";
 
-        case objects::small_arrow_141: return "small_arrow_141";
+        case objects::destructor_141: return "destructor_141";
         case objects::object_142: return "object_142";
-        case objects::blood_spark_143: return "blood_spark_143";
+        case objects::crusher_central_spot_143: return "crusher_central_spot_143";
         case objects::object_144: return "object_144";
         case objects::particle_system_145: return "particle_system_145";
         case objects::firejet_146: return "firejet_146";
@@ -583,7 +583,7 @@ static const char* ObjectIdToString(s32 id)
         case objects::small_white_skid_158: return "small_white_skid_158";
         case objects::object_159: return "object_159";
         case objects::rocket_160: return "rocket_160";
-        case objects::bus_stop_marker_161: return "bus_stop_marker_161";
+        case objects::savepoint_161: return "savepoint_161";
         case objects::car_shop_162: return "car_shop_162";
         case objects::busy_car_shop_163: return "busy_car_shop_163";
         case objects::car_bomb_164: return "car_bomb_164";
