@@ -218,6 +218,7 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/wfzEd
 WIP_FUNC(0x53FE40)
 void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv)
 {
@@ -225,40 +226,31 @@ void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sin
 
     Ang16 ang1;
     Ang16 ang2;
-    Fix16_Point t(sinv, cosv);
-    Ang16 tanAng = t.atan2_40F790();
-    
-    for (s32 i = 0; i < 6u; ++i)
-    {
-        Fix16 spawnX(0);
-        Fix16 spawnY = (dword_6FD4EC * (dword_6FD558 + Fix16(stru_6F6784.get_int_4F7AE0(100))));
-        if (i >= 4u)
-        {
-            ang1 = word_6FD5CC.sub_401CB0(stru_6F6784.get_int_4F7AE0(360));
-            ang2 = word_6FD5CC.sub_401CB0(Fix16(180));
+    Fix16_Point t(Fix16(0), Fix16(0));
+    Ang16 tanAng = Fix16::atan2_fixed_405320(cosv, sinv);
 
-            ang1 = ang1 + tanAng;
-            ang1 = ang1 - ang2;
-            t.RotateByAngle_40F6B0(ang1);
-        }
-        else
+    Fix16 k15_1(15, 0);
+    Fix16 k15_2(15, 0);
+
+    for (u32 i = 0; i < 6; ++i)
+    {
+        t.x = Fix16(0);
+        t.y = (dword_6FD4EC * (dword_6FD558 + Fix16(stru_6F6784.get_int_4F7AE0(100))));
+        if (i < 4)
         {
             ang1 = word_6FD5CC.sub_401CB0(stru_6F6784.get_int_4F7AE0(32));
             ang2 = word_6FD5CC.sub_401CB0(Fix16(16));
-
-            ang1 = ang1 + tanAng;
-            ang1 = ang1 - ang2;
-            t.RotateByAngle_40F6B0(ang1);
+        }
+        else
+        {
+            ang1 = word_6FD5CC.sub_401CB0(stru_6F6784.get_int_4F7AE0(360));
+            ang2 = word_6FD5CC.sub_401CB0(Fix16(180));
         }
 
-        Fix16 k15_1(15, 0);
-        Fix16 k15_2(15, 0);
+        ang1 = ang1 + tanAng - ang2;
+        t.RotateByAngle_40F6B0(ang1);
 
-        Fix16 v3(0);        
-        Fix16 v2 = -(spawnY / k15_1);
-        Fix16 v1 = -(spawnX / k15_2);
-
-        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(spawnX, spawnY, dword_6FD330, v1, v2, v3);
+        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(t.x, t.y, dword_6FD330, -(t.x / k15_2), -(t.y / k15_1), Fix16(0));
         if (pNew4C)
         {
             pNew4C->field_34 = 1;
