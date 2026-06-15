@@ -314,15 +314,15 @@ class CarPhysics_B0
     }
 
     // FUNCTION: 96f 0x42ABA0
-    void TurnDirectionMinus_42ABA0()
+    void TurnClockwise_42ABA0()
     {
-        field_AD_turn_direction = -1;
+        field_AD_turn_direction = car_turn_direction::clockwise_m1;
     }
 
     // FUNCTION: 96f 0x42AB90
-    void TurnDirectionPlus_42AB90()
+    void TurnAntiClockwise_42AB90()
     {
-        field_AD_turn_direction = 1;
+        field_AD_turn_direction = car_turn_direction::anticlockwise_1;
     }
 
     void SetGoStraight_42ABB0()

@@ -5273,7 +5273,7 @@ void Car_BC::sub_442810()
 
     field_50_car_sprite->set_num_40F7B0(15);
 
-    if (!sub_43A230() && !IsMaxDamage_40F890() && !sub_4214B0() && !sub_4215B0())
+    if (!sub_43A230() && !IsMaxDamage_40F890() && !sub_4214B0() && !IsDespawning_4215B0())
     {
         stru_67727C.PruneNonCollidingSprites_5A7240(field_50_car_sprite);
         Sprite* v4 =

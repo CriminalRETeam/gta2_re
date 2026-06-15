@@ -899,9 +899,9 @@ class Car_BC
     }
 
     // FUNCTION: 96f 0x4215b0
-    bool sub_4215B0()
+    bool IsDespawning_4215B0()
     {
-        return this->field_88_despawn_status == 5;
+        return field_88_despawn_status == 5;
     }
 
     bool sub_421620()
