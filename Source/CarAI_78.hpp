@@ -98,7 +98,7 @@ class CarAI_78
 
     char_type field_28_junc_idx;
     char_type field_29;
-    char_type field_2A;
+    char_type field_2A_stopped_timer;
     u8 field_2B;
     char_type field_2C;
     char_type field_2D;
