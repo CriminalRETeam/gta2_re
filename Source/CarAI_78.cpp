@@ -5275,15 +5275,15 @@ void CarAI_78::sub_452DF0()
     WIP_IMPLEMENTED;
 
     byte_677A5D = 1;
-    u8 v23 = 0;
-    gCurrCarAI_xpos_677C38 = this->field_0->field_50_car_sprite->field_14_xy.x;
-    gCurrCarAI_ypos_677C30 = this->field_0->field_50_car_sprite->field_14_xy.y;
-    Fix16 zpos = this->field_0->field_50_car_sprite->field_1C_zpos;
+    bool bUpdateStateMachine = false;
+    gCurrCarAI_xpos_677C38 = field_0->field_50_car_sprite->field_14_xy.x;
+    gCurrCarAI_ypos_677C30 = field_0->field_50_car_sprite->field_14_xy.y;
+    Fix16 zpos = field_0->field_50_car_sprite->field_1C_zpos;
     dword_6779B0 = 0;
     gCurrCarAI_zpos_677C48 = zpos;
     byte_677CA8 = 0;
 
-    if (!this->field_0->field_60 || this->field_3C)
+    if (!field_0->field_60 || field_3C)
     {
         byte_677BBC = 0;
     }
@@ -5293,20 +5293,20 @@ void CarAI_78::sub_452DF0()
         byte_677CA8 = 1;
     }
 
-    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(this->field_0->field_50_car_sprite->field_14_xy.x.ToInt(),
-                                                                 this->field_0->field_50_car_sprite->field_14_xy.y.ToInt(),
-                                                                 this->field_0->field_50_car_sprite->field_1C_zpos.ToInt());
+    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_0->field_50_car_sprite->field_14_xy.x.ToInt(),
+                                                                 field_0->field_50_car_sprite->field_14_xy.y.ToInt(),
+                                                                 field_0->field_50_car_sprite->field_1C_zpos.ToInt());
 
-    if (pBlock && (pBlock->field_B_slope_type & 0xFC) != 0 && (pBlock->field_B_slope_type & 0xFCu) < 0xB4 &&
+    if (pBlock && (pBlock->field_B_slope_type & 0xFC) > 0 && (pBlock->field_B_slope_type & 0xFCu) < 0xB4 &&
         (pBlock->field_B_slope_type & 3) != 0)
     {
         byte_677C90 = 1;
     }
     else
     {
-        pBlock = gMap_0x370_6F6268->get_block_4DFE10(this->field_0->field_50_car_sprite->field_14_xy.x.ToInt(),
-                                                     this->field_0->field_50_car_sprite->field_14_xy.y.ToInt(),
-                                                     (this->field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_0->field_50_car_sprite->field_14_xy.x.ToInt(),
+                                                     field_0->field_50_car_sprite->field_14_xy.y.ToInt(),
+                                                     (field_0->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
         byte_677C90 = 0;
     }
 
@@ -5319,70 +5319,69 @@ void CarAI_78::sub_452DF0()
         byte_677C06 = 0;
     }
 
-    this->field_24_flags |= 0x2000;
+    field_24_bf.b13 = true;
     byte_677A5C = 0;
 
-    this->field_4C_curr_direction = Ang16::GetAngleFace_4F78F0(this->field_10_angle);
+    field_4C_curr_direction = Ang16::GetAngleFace_4F78F0(field_10_angle);
     dword_677A8C = field_74;
-    dword_677C9C = dword_6F6850.list[gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_0->field_84_car_info_idx)->h];
+    dword_677C9C = dword_6F6850.list[gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_0->field_84_car_info_idx)->h];
 
-    Car_BC* v7 = this->field_0;
-    s32 v8 = this->field_24_flags & ~0x200000u | ((this->field_0->field_54_driver->field_21C & 8) << 18);
-    this->field_24_flags = v8;
+    field_24_flags = field_24_flags & ~0x200000u | ((field_0->field_54_driver->field_21C & 8) << 18);
 
     if (byte_677BBC)
     {
-        if (!v7->field_60->field_22)
+        if (!field_0->field_60->field_22)
         {
-            v23 = 1;
-            this->field_24_flags = v8 | 0x200000;
+            bUpdateStateMachine = true;
+            field_24_bf.b21 = true;
         }
     }
 
-    if (this->field_3C)
+    if (field_3C)
     {
-        ++this->field_58;
-        if (v7->field_7C_uni_num == 5)
+        ++field_58;
+        if (field_0->field_7C_uni_num != 5)
         {
-            this->field_58 = 0;
+            if (field_58 > 0xC8u)
+            {
+                field_0->field_80 = 1;
+            }
         }
-        else if (this->field_58 > 0xC8u)
+        else
         {
-            v7->field_80 = 1;
-        }
-        v23 = 0;
-        if ((this->field_24_flags & 0x40) != 0)
-        {
-            this->field_50 = 3;
+            field_58 = 0;
         }
 
-        switch (this->field_50)
+        bUpdateStateMachine = false;
+        if ((field_24_flags & 0x40) != 0)
+        {
+            field_50 = 3;
+        }
+
+        switch (field_50)
         {
             case 0:
-                this->field_24_flags &= ~0x20C0u;
+                field_24_flags &= ~0x20C0u;
                 field_0->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
                 field_0->field_58_physics->field_78_pointing_ang_rad = dword_677B90;
                 break;
 
             case 1:
-                this->field_24_flags &= ~0x2040u;
+                field_24_flags &= ~0x2040u;
                 field_0->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                this->field_24_flags |= 0x80;
+                field_24_flags |= 0x80;
                 break;
 
             case 2:
-                this->field_24_flags &= ~0x2040u;
-                this->field_0->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                this->field_24_flags |= 0x80;
+                field_24_flags &= ~0x2040u;
+                field_0->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
+                field_24_flags |= 0x80;
                 break;
 
             case 3:
-            {
-                s32 v11 = this->field_24_flags & ~0x2080u;
-                v11 = this->field_24_flags & ~0xC0 | 0x40;
-                this->field_24_flags = v11;
-            }
-            break;
+                field_24_flags = (field_24_flags & ~0x2080u) | 0x40;
+                break;
+
             default:
                 break;
         }
@@ -5393,64 +5392,60 @@ void CarAI_78::sub_452DF0()
     if (gCurrCarAI_Velocity_677B00 != dword_677B90)
     {
         // TODO: Use dword_677B90  as Kzero
-        Fix16 v14 = field_0->field_58_physics->field_0_vel_read_only.GetLength_2();
-        if (v14 == dword_677B90)
+        if (field_0->field_58_physics->field_0_vel_read_only.GetLength_2() == dword_677B90)
         {
-            //LABEL_41:
-            ++this->field_2A;
+            ++field_2A;
         }
         else
         {
-            this->field_2A = 0;
+            field_2A = 0;
         }
     }
     else
     {
-        // goto LABEL_41;
-        ++this->field_2A;
+        ++field_2A;
     }
 
     sub_452A20();
 
-    if (v23)
+    if (bUpdateStateMachine)
     {
         UpdateStateMachine_44E560();
     }
 
-    Hamburger_40* v15 = this->field_0->field_60;
-    if (v15 && v15->field_8_maybe_path_type == 2)
+    //Hamburger_40* v15 = field_0->field_60;
+    if (field_0->field_60 && field_0->field_60->field_8_maybe_path_type == 2)
     {
         byte_677BBC = 1;
     }
     else if (!byte_677BBC)
     {
-        if (field_70 && field_70->get_type_416B40() == sprite_types_enum::unknown_1 &&
-            field_70->field_8_object_2C_ptr->field_18_model == 122)
+        if (field_70 && field_70->get_type_416B40() == sprite_types_enum::unknown_1 && field_70->As2C_40FEC0()->field_18_model == 122)
         {
-            this->field_70 = 0;
-            this->field_24_flags |= 0x10;
+            field_70 = 0;
+            field_24_flags |= 0x10;
         }
         else
         {
-            this->field_24_flags &= 0xEF;
+            field_24_flags &= 0xEF;
         }
     }
 
-    if (this->field_28_junc_idx > 0 && (this->field_24_flags & 0x10) != 0)
+    if (field_28_junc_idx > 0 && (field_24_flags & 0x10) != 0)
     {
-        Hamburger_40* v19 = this->field_0->field_60;
-        if (v19)
+        //Hamburger_40* v19 = field_0->field_60;
+        if (field_0->field_60)
         {
-            if (v19->field_22 == 1)
+            if (field_0->field_60->field_22 == 1)
             {
                 sub_447970();
             }
         }
     }
 
-    if (!byte_677A5D || this->field_54)
+    if (!byte_677A5D || field_54)
     {
-        this->field_24_flags &= 0x2000u;
+        field_24_bf.b13 = false;
     }
     else
     {
@@ -5459,11 +5454,11 @@ void CarAI_78::sub_452DF0()
 
     if (byte_677A5C)
     {
-        this->field_24_flags |= 0x2000u;
+        field_24_bf.b13 = true;
     }
 
-    this->field_68 = 0;
-    this->field_24_flags &= ~0x1000u;
+    field_68 = 0;
+    field_24_bf.b12 = false;
 }
 
 MATCH_FUNC(0x453470)
