@@ -62,6 +62,7 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 Object_2C* spawned_obj = NULL;
 Car_BC* pNewCar = NULL;
+char TmpBitSetChar[50];
 
 void wchar_to_char(wchar_t* wchar, char* out, u8 size)
 {
@@ -998,6 +999,20 @@ void BootMap(char* mapName, char* styName, char* scrName)
     }
 }
 
+void ConvertBitSetIntoString(char* pOut, u8 max_width, s32 bitset, u8 max_num_bits)
+{
+    for (u8 i = 0; i < max_num_bits; i++, pOut++)
+    {
+        *pOut = ( (bitset >> i) & 1 ) ? '1' : '0';
+        if (i > 0 && ((i+1) % max_width) == 0)
+        {
+            pOut++;
+            *pOut = '\n';
+        }
+    }
+    *pOut = 0;
+}
+
 void CC ImGuiDebugDraw()
 {
     HookManagement::HooksDebug();
@@ -1696,6 +1711,7 @@ void CC ImGuiDebugDraw()
                             pAI_Iter->field_54);
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
                     */
+                    /*
                     if (pCarIter->field_58_physics)
                     {
                         swprintf(tmpBuff_67BD9C, L"%d", 
@@ -1708,6 +1724,19 @@ void CC ImGuiDebugDraw()
                     {
                         swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C);
                         DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -15);
+                    }
+                    */
+                    /*
+                    if (pCarIter)
+                    {
+                        ConvertBitSetIntoString(TmpBitSetChar, 8, pAI_Iter->field_24_flags, 8 * sizeof(pAI_Iter->field_24_flags)); // TODO: u8 bitset
+                        DisplayTextAtSprite(TmpBitSetChar, pCarIter->field_50_car_sprite, 0, 0);
+                    }
+                    */
+                    if (pAI_Iter)
+                    {
+                        swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_54);
+                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
                     }
                     num_AI_count++;
                 }

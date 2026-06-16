@@ -359,11 +359,11 @@ MATCH_FUNC(0x47f350)
 bool Crane_15C::sub_47F350()
 {
     Car_BC* pCar1 = field_70->AsCar_40FEB0();
-    if (!pCar1->sub_4215B0())
+    if (!pCar1->IsDespawning_4215B0())
     {
         Sprite *sp = field_6C;
         Car_BC* pCar2 = sp->AsCar_40FEB0();
-        if (!(pCar2->sub_4215B0() || field_FC != sp->field_14_xy.x || field_100 != sp->field_14_xy.y ||
+        if (!(pCar2->IsDespawning_4215B0() || field_FC != sp->field_14_xy.x || field_100 != sp->field_14_xy.y ||
             field_104 != sp->field_1C_zpos || field_108 != Ang16::Ang16_to_Fix16(sp->field_0)))
         {
             return true;
@@ -377,7 +377,7 @@ MATCH_FUNC(0x47f3d0)
 bool Crane_15C::sub_47F3D0()
 {
     Car_BC* v2 = field_68->AsCar_40FEB0();
-    if (!v2->sub_4215B0() && this->field_E0 == field_68->field_14_xy.x && this->field_E4 == field_68->field_14_xy.y &&
+    if (!v2->IsDespawning_4215B0() && this->field_E0 == field_68->field_14_xy.x && this->field_E4 == field_68->field_14_xy.y &&
         this->field_E8 == field_68->field_1C_zpos && this->field_EC == Ang16::Ang16_to_Fix16(field_68->field_0) && !v2->field_54_driver &&
         v2->sub_441A40())
     {
@@ -390,7 +390,7 @@ MATCH_FUNC(0x47f450)
 bool Crane_15C::sub_47F450()
 {
     Car_BC* pCar = field_64->AsCar_40FEB0();
-    if (!pCar->sub_4215B0() && this->field_C4.x == field_64->field_14_xy.x && this->field_C4.y == field_64->field_14_xy.y &&
+    if (!pCar->IsDespawning_4215B0() && this->field_C4.x == field_64->field_14_xy.x && this->field_C4.y == field_64->field_14_xy.y &&
         this->field_CC == field_64->field_1C_zpos && this->field_D0 == Ang16::Ang16_to_Fix16(field_64->field_0))
     {
         return pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car) ? false : true;
@@ -556,7 +556,7 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
 {
     WIP_IMPLEMENTED;
 
-    if (!pCar->sub_4215B0() && !field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite))
+    if (!pCar->IsDespawning_4215B0() && !field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite))
     {
         if (pCar->Is_TRUKTRNS_447EC0())
         {
