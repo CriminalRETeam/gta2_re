@@ -48,6 +48,7 @@ class Object_2C
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point a3, char_type a4, char_type a5);
     EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Point* a3, u8* a4, s32 a5);
     EXPORT char_type HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5);
+    EXPORT char_type HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, u8* a4, u8* a5, Fix16 a6);
     EXPORT void sub_524550();
     EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 a3);
     EXPORT void sub_525190(u8 varrok_idx);
@@ -219,6 +220,11 @@ class Object_2C
         }
 
         return 0;
+    }
+
+    void sub_482BE0()
+    {
+        field_4->set_num_40F7B0(field_8->field_2C);
     }
 
     Object_2C* mpNext;

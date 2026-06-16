@@ -84,6 +84,9 @@ DEFINE_GLOBAL(Fix16, k_dword_6F8BE8, 0x6F8BE8);
 DEFINE_GLOBAL(Fix16, k_dword_6F8F2C, 0x6F8F2C);
 DEFINE_GLOBAL(Fix16, k_dword_6F8D24, 0x6F8D24);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6F8C78, Fix16(0x2CCC, 0), 0x6F8C78);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F8DBC, dword_6F8C78, 0x6F8DBC);
+
 // TODO: From CarPhysics_B0
 EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
 
@@ -853,6 +856,157 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
     else
     {
         return 0;
+    }
+}
+
+// https://decomp.me/scratch/1RN5H
+WIP_FUNC(0x5238B0)
+char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, u8* a4, u8* a5, Fix16 a6)
+{
+    WIP_IMPLEMENTED;
+    Fix16 v18;
+    Object_3C* v22;
+    Fix16 v14;
+    bool v23 = false;
+
+    if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(a2->field_14_xy.x.ToInt(), a2->field_14_xy.y.ToInt(), a2->field_1C_zpos.ToInt()))
+    {
+        if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(a2->field_14_xy.x.ToInt(),
+                                                           a2->field_14_xy.y.ToInt(),
+                                                           a2->field_1C_zpos.ToInt()) != AIR)
+        {
+            v14 = gMap_0x370_6F6268->sub_4E5050(a2->field_14_xy.x, a2->field_14_xy.y, a2->field_1C_zpos, v23);
+            if (!v23)
+            {
+                if (a2->field_1C_zpos < v14)
+                {
+                    a2->field_1C_zpos = v14;
+                    a2->ResetZCollisionAndDebugBoxes_59E7B0();
+                    Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
+                    field_10_obj_3c->field_2A = 0;
+                }
+                else
+                {
+                    field_10_obj_3c->field_2A = 1;
+                    goto LABEL_29;
+                }
+            }
+            else
+            {
+                Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
+                field_10_obj_3c->field_2A = 0;
+            }
+
+        LABEL_10:
+            //v15 = field_8->field_50;
+            if (field_8->field_50 == 1)
+            {
+                *a5 = 1;
+                field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                field_10_obj_3c->field_C = kFpZero_6F8E10;
+            }
+            else
+            {
+                if (field_8->field_50 == 4)
+                {
+                    *a5 = true;
+                    return true;
+                }
+                *a5 = true;
+                field_10_obj_3c->field_10 = dword_6F8DBC * (-field_10_obj_3c->field_10);
+            }
+        }
+        else
+        {
+            field_10_obj_3c->field_2A = 1;
+        }
+    }
+    else
+    {
+        if (a2->field_1C_zpos < a6)
+        {
+            a2->field_1C_zpos = a6;
+            a2->ResetZCollisionAndDebugBoxes_59E7B0();
+            Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
+            field_10_obj_3c->field_2A = 0;
+
+            if (field_10_obj_3c->field_10 < dword_6F8DA8)
+            {
+
+                if (!dword_6F8F8C)
+                {
+                    if (field_10_obj_3c->field_10 >= -k_dword_6F8C58)
+                    {
+                        *a5 = true;
+                        field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                        field_10_obj_3c->field_C = kFpZero_6F8E10;
+                    }
+                    else
+                    {
+                        goto LABEL_10;
+                    }
+                }
+                else
+                {
+                    field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                    a2->set_xyz_lazy_420600(a2->field_14_xy.x, a2->field_14_xy.y, field_4->field_1C_zpos);
+                    *a5 = true;
+                }
+            }
+            else
+            {
+                if (field_10_obj_3c->field_C == kFpZero_6F8E10 && field_10_obj_3c->field_10 == dword_6F8DA8)
+                {
+                    field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                }
+            }
+        }
+        else
+        {
+            field_10_obj_3c->field_2A = 1;
+        }
+    }
+
+LABEL_29:
+    if (a2->CheckSpriteMovementRegion_5A2500())
+    {
+        field_10_obj_3c->field_14 = field_10_obj_3c->field_C;
+        field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        field_10_obj_3c->field_2A = 0;
+        *a3 = a2->get_x_y_443580();
+        *a4 = true;
+        Object_2C::sub_524550();
+        return true;
+    }
+    else if (Object_2C::SelectCollisionSprite_522460(a2))
+    {
+        *a5 = true;
+        if (field_8->field_50 == 4)
+        {
+            return true;
+        }
+        else if (byte_6F8F94)
+        {
+            field_10_obj_3c->field_14 = field_10_obj_3c->field_C.mValue;
+            *a3 = a2->get_x_y_443580();
+            *a4 = true;
+            return true;
+        }
+        else
+        {
+            v22 = field_10_obj_3c;
+            if (v22->field_34 == 2)
+            {
+                v22->field_34 = 1;
+                sub_482BE0();
+                field_10_obj_3c->field_10 = dword_6F8DBC * (-field_10_obj_3c->field_10);
+            }
+            return true;
+        }
+    }
+    else
+    {
+        return false;
     }
 }
 
