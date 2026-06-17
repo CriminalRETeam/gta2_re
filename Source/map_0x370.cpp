@@ -2552,11 +2552,10 @@ Fix16* Map_0x370::sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
 }
 
 MATCH_FUNC(0x4E5050)
-Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bFound)
+Fix16 Map_0x370::sub_4E5050(Fix16 x, Fix16 y, Fix16 z, bool& bFound)
 {
     Fix16 new_z;
     bFound = false;
-
     if (z.GetFracValue() != dword_6F610C)
     {
         gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
@@ -2568,8 +2567,7 @@ Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bF
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
                 if (new_z <= z)
                 {
-                    *found_z = new_z;
-                    return found_z;
+                    return new_z;
                 }
                 bFound = true;
             }
@@ -2579,8 +2577,7 @@ Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bF
     gBlockInfo0_6F5EB0 = Map_0x370::sub_4E4CB0(x.ToInt(), y.ToInt(), v14);
     if (!gBlockInfo0_6F5EB0)
     {
-        *found_z = dword_6F6110;
-        return found_z;
+        return dword_6F6110;
     }
     if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
     {
@@ -2591,8 +2588,7 @@ Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bF
     {
         new_z = Fix16(v14 + 1);
     }
-    *found_z = new_z;
-    return found_z;
+    return new_z;
 }
 
 MATCH_FUNC(0x4E5170)

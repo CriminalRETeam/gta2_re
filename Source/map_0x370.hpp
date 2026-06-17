@@ -393,7 +393,7 @@ class Map_0x370
     EXPORT Fix16* sub_4E4D40(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT Fix16* sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT Fix16* sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z);
-    EXPORT Fix16* sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bFound);
+    EXPORT Fix16 sub_4E5050(Fix16 x, Fix16 y, Fix16 z, bool& bFound);
     EXPORT bool sub_4E5170(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type sub_4E52A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT bool CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z);
