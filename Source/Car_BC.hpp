@@ -44,12 +44,12 @@ enum
     recycled_1 = 1,
     proto_recycled_2 = 2,
     Unknown_3 = 3,
-    Unknown_4 = 4,
-    Unknown_5 = 5,
+    paramedic_car_4 = 4,
+    firefighter_5 = 5,
     police_6 = 6,
-    Unknown_7 = 7,
+    roadblock_car_7 = 7,
     mission_car_8 = 8,
-    Unknown_9 = 9,
+    parked_car_9 = 9,
     Unknown_10 = 10,
 };
 } // namespace car_kind
@@ -220,13 +220,13 @@ class Car_6C
     s32 field_20;
     s32 field_24;
     s32 field_28_recycled_cars;
-    s32 field_2C;
-    s32 field_30;
+    s32 field_2C_paramedic_cars;
+    s32 field_30_firefighter_cars;
     s32 field_34_unit_cars;
-    s32 field_38;
+    s32 field_38_roadblock_cars;
     s32 field_3C_mission_cars;
     s32 field_40_proto_recycled_cars;
-    s32 field_44;
+    s32 field_44_parked_cars;
     s32 field_48;
     Fix16_Point field_4C_tv_van_dir;
     u8 field_54;

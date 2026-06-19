@@ -332,7 +332,7 @@ bool Kfc_30::Service_5CC480()
             if (this->field_0_car)
             {
                 this->field_2C = 1;
-                field_0_car->IncrementCarStats_443D70(car_kind::Unknown_4);
+                field_0_car->IncrementCarStats_443D70(car_kind::paramedic_car_4);
             }
             break;
 

@@ -954,11 +954,11 @@ void Car_6C::DecrementAllocatedCarType_4466C0(s32 car_kind)
             break;
 
         case 4:
-            --this->field_2C;
+            --this->field_2C_paramedic_cars;
             break;
 
         case 5:
-            --this->field_30;
+            --this->field_30_firefighter_cars;
             break;
 
         case 6:
@@ -966,14 +966,14 @@ void Car_6C::DecrementAllocatedCarType_4466C0(s32 car_kind)
             break;
 
         case 7:
-            --this->field_38;
+            --this->field_38_roadblock_cars;
             break;
 
         case 8:
             --this->field_3C_mission_cars;
             break;
         case 9:
-            --this->field_44;
+            --this->field_44_parked_cars;
             break;
         default:
             return;
@@ -1029,22 +1029,22 @@ bool Car_6C::CanAlloc_446870(s32 type)
             result = gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 15;
             break;
         case 4:
-            result = this->field_2C < 1;
+            result = this->field_2C_paramedic_cars < 1;
             break;
         case 5:
-            result = this->field_30 < 1;
+            result = this->field_30_firefighter_cars < 1;
             break;
         case 6:
             result = this->field_34_unit_cars < 5;
             break;
         case 7:
-            result = this->field_38 < 11;
+            result = this->field_38_roadblock_cars < 11;
             break;
         case 8:
             result = this->field_3C_mission_cars < 23;
             break;
         case 9:
-            result = this->field_44 < 200;
+            result = this->field_44_parked_cars < 200;
             break;
         case 10:
             result = this->field_48 < 11;
@@ -1069,22 +1069,22 @@ bool Car_6C::CanAllocateOfType_446930(s32 type)
             bCanAlloc = gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 16;
             break;
         case 4: // kfc ?
-            bCanAlloc = this->field_2C < 2;
+            bCanAlloc = this->field_2C_paramedic_cars < 2;
             break;
         case 5: // fire engines?
-            bCanAlloc = this->field_30 < 2;
+            bCanAlloc = this->field_30_firefighter_cars < 2;
             break;
         case 6: // police cars
             bCanAlloc = this->field_34_unit_cars < 6;
             break;
         case 7:
-            bCanAlloc = this->field_38 < 12;
+            bCanAlloc = this->field_38_roadblock_cars < 12;
             break;
         case 8:
             bCanAlloc = this->field_3C_mission_cars < 24;
             break;
         case 9:
-            bCanAlloc = this->field_44 < 200;
+            bCanAlloc = this->field_44_parked_cars < 200;
             break;
         case 10:
             bCanAlloc = this->field_48 < 12;
@@ -1159,12 +1159,12 @@ Car_6C::Car_6C()
     field_1C = 0;
     field_28_recycled_cars = 0;
     field_40_proto_recycled_cars = 0;
-    field_30 = 0;
-    field_2C = 0;
+    field_30_firefighter_cars = 0;
+    field_2C_paramedic_cars = 0;
     field_34_unit_cars = 0;
-    field_38 = 0;
+    field_38_roadblock_cars = 0;
     field_3C_mission_cars = 0;
-    field_44 = 0;
+    field_44_parked_cars = 0;
 
     stru_67727C.sub_4207E0();
     stru_67737C.sub_4207E0();
@@ -5040,7 +5040,7 @@ void Car_BC::sub_442190()
 MATCH_FUNC(0x4421b0)
 char_type Car_BC::sub_4421B0()
 {
-    if (field_A0_car_kind != 8 && field_7C_uni_num != 5 && !field_4_passengers_list.HasPassengerWith_F238_Is_5_471710())
+    if (field_A0_car_kind != car_kind::mission_car_8 && field_7C_uni_num != 5 && !field_4_passengers_list.HasPassengerWith_F238_Is_5_471710())
     {
         return 0;
     }
@@ -5051,7 +5051,7 @@ char_type Car_BC::sub_4421B0()
 MATCH_FUNC(0x442200)
 bool Car_BC::sub_442200()
 {
-    if (field_A0_car_kind == 9)
+    if (field_A0_car_kind == car_kind::parked_car_9)
     {
         return field_74_damage == 32001 ? true : false;
     }
@@ -5995,26 +5995,26 @@ void Car_BC::IncrementAllocatedCarType_443DA0(s32 car_kind)
         case car_kind::proto_recycled_2:
             ++gCar_6C_677930->field_40_proto_recycled_cars;
             break;
-        case car_kind::Unknown_5:
-            ++gCar_6C_677930->field_30;
+        case car_kind::firefighter_5:
+            ++gCar_6C_677930->field_30_firefighter_cars;
             break;
         case car_kind::Unknown_10:
             ++gCar_6C_677930->field_48;
             break;
-        case car_kind::Unknown_4:
-            ++gCar_6C_677930->field_2C;
+        case car_kind::paramedic_car_4:
+            ++gCar_6C_677930->field_2C_paramedic_cars;
             break;
         case car_kind::police_6:
             ++gCar_6C_677930->field_34_unit_cars;
             break;
-        case car_kind::Unknown_7:
-            ++gCar_6C_677930->field_38;
+        case car_kind::roadblock_car_7:
+            ++gCar_6C_677930->field_38_roadblock_cars;
             break;
         case car_kind::mission_car_8:
             ++gCar_6C_677930->field_3C_mission_cars;
             break;
-        case car_kind::Unknown_9:
-            ++gCar_6C_677930->field_44;
+        case car_kind::parked_car_9:
+            ++gCar_6C_677930->field_44_parked_cars;
             break;
         default:
             return;
@@ -6024,22 +6024,22 @@ void Car_BC::IncrementAllocatedCarType_443DA0(s32 car_kind)
 MATCH_FUNC(0x443e50)
 void Car_BC::sub_443E50()
 {
-    if (field_A0_car_kind == 1)
+    if (field_A0_car_kind == car_kind::recycled_1)
     {
         gCar_6C_677930->field_28_recycled_cars--;
         gCar_6C_677930->field_40_proto_recycled_cars++;
-        field_A0_car_kind = 2;
+        field_A0_car_kind = car_kind::proto_recycled_2;
     }
 }
 
 MATCH_FUNC(0x443e80)
 void Car_BC::sub_443E80()
 {
-    if (field_A0_car_kind == 2)
+    if (field_A0_car_kind == car_kind::proto_recycled_2)
     {
         gCar_6C_677930->field_28_recycled_cars++;
         gCar_6C_677930->field_40_proto_recycled_cars--;
-        field_A0_car_kind = 1;
+        field_A0_car_kind = car_kind::recycled_1;
     }
 }
 
