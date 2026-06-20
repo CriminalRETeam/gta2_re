@@ -1065,32 +1065,32 @@ bool Car_6C::CanAllocateOfType_446930(s32 type)
 
     switch (type)
     {
-        case 1:
+        case car_kind::recycled_1:
             bCanAlloc = gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 16;
             break;
-        case 4: // kfc ?
+        case car_kind::paramedic_car_4:
             bCanAlloc = this->field_2C_paramedic_cars < 2;
             break;
-        case 5: // fire engines?
+        case car_kind::firefighter_5:
             bCanAlloc = this->field_30_firefighter_cars < 2;
             break;
-        case 6: // police cars
+        case car_kind::police_6:
             bCanAlloc = this->field_34_unit_cars < 6;
             break;
-        case 7:
+        case car_kind::roadblock_car_7:
             bCanAlloc = this->field_38_roadblock_cars < 12;
             break;
-        case 8:
+        case car_kind::mission_car_8:
             bCanAlloc = this->field_3C_mission_cars < 24;
             break;
-        case 9:
+        case car_kind::parked_car_9:
             bCanAlloc = this->field_44_parked_cars < 200;
             break;
-        case 10:
+        case car_kind::Unknown_10:
             bCanAlloc = this->field_48 < 12;
             break;
         default:
-            bCanAlloc = 0; // LOBYTE =
+            bCanAlloc = false;
             break;
     }
     return bCanAlloc;

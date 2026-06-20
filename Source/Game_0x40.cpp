@@ -826,7 +826,7 @@ s8 Game_0x40::sub_4B9C10(Car_BC* a2)
     Player* pPlayer = IterateFirstPlayer_4B9CD0();
     while (pPlayer)
     {
-        if (pPlayer->PromoteCarInHistory_564610(a2, 1))
+        if (pPlayer->PromoteCarInHistory_564610(a2, true))
         {
             return 1;
         }
