@@ -1696,7 +1696,7 @@ void CC ImGuiDebugDraw()
                             Car_BC* pCarIter = &gCar_BC_Pool_67792C->field_0_pool.field_8_pool[i];
                             if (pCarIter && pCarIter->field_50_car_sprite)
                             {
-                                swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_A0_car_kind);
+                                swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_9C_engine_status);
                                 DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
                             }
                         }
@@ -1898,6 +1898,8 @@ void CC ImGuiDebugDraw()
                             char buffer[128];
                             get_car_name(pPlayerCar, buffer);
                             ImGui::Text("Car name: %s", buffer);
+
+                            ImGui::SliderInt("F9C", &pPlayerCar->field_9C_engine_status, 1, 7);
 
                             if (ImGui::TreeNode("Trailer"))
                             {

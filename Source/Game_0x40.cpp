@@ -821,12 +821,12 @@ Camera_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
 }
 
 MATCH_FUNC(0x4B9C10)
-s8 Game_0x40::sub_4B9C10(Car_BC* a2)
+s8 Game_0x40::IsCarInAnyPlayerHistory_4B9C10(Car_BC* pCar)
 {
     Player* pPlayer = IterateFirstPlayer_4B9CD0();
     while (pPlayer)
     {
-        if (pPlayer->PromoteCarInHistory_564610(a2, true))
+        if (pPlayer->PromoteCarInHistory_564610(pCar, true))
         {
             return 1;
         }

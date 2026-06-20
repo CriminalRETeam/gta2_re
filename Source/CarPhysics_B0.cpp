@@ -3178,7 +3178,7 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
 {
     WIP_IMPLEMENTED;
 
-    if (this->field_5C_pCar->field_9C == 3 && field_98_surface_type != 7 && field_98_surface_type != 8)
+    if (field_5C_pCar->field_9C_engine_status == car_engine_status::on_3 && field_98_surface_type != 7 && field_98_surface_type != 8)
     {
         if (this->field_8C_state == 2)
         {
