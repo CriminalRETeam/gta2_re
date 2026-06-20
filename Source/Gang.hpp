@@ -21,7 +21,7 @@ class Gang_144
     EXPORT char_type GetRespectForPlayer_4BEEF0(u8 player_idx);
     EXPORT bool IsRespectNegativeForPlayer_4BEF10(u8 player_idx);
     EXPORT void SetGangKillReaction_4BEF50(u8 gang_idx, char_type kill_reaction_value);
-    EXPORT char_type sub_4BEF70(u8 a2, u8 a3);
+    EXPORT void sub_4BEF70(u8 player_idx, u8 respect);
     EXPORT void ChangeRespectAndUpdate_4BF000(u8 player_idx, char_type respect);
     EXPORT s32 GetGangCurrWeapon_4BF0C0();
     EXPORT void set_name_4BF090(const char_type* pName, u8 nameLen);

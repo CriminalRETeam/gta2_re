@@ -2125,7 +2125,7 @@
         "v105_address": "0x442200"
     },
     {
-        "name": "Car_BC::sub_442310",
+        "name": "Car_BC::ManageDespawning_442310",
         "v96f_address": null,
         "v105_address": "0x442310"
     },
@@ -6000,7 +6000,7 @@
         "v105_address": "0x4b9bc0"
     },
     {
-        "name": "Game_0x40::sub_4B9C10",
+        "name": "Game_0x40::IsCarInAnyPlayerHistory_4B9C10",
         "v96f_address": null,
         "v105_address": "0x4b9c10"
     },

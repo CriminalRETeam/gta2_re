@@ -2627,7 +2627,7 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
         return 0;
     }
 
-    if (pCar->field_9C != 3)
+    if (pCar->field_9C_engine_status != car_engine_status::on_3)
     {
         return 0;
     }
@@ -3598,7 +3598,7 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
     Fix16 gear2_speed;
     Fix16 gear3_speed;
 
-    if (pCar->field_9C == 3 && CalculateDistance_419020(Fix16(0x90000, 0)))
+    if (pCar->field_9C_engine_status == car_engine_status::on_3 && CalculateDistance_419020(Fix16(0x90000, 0)))
     {
         Fix16 gas_pedal = pCar->sub_43A240();
         Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
@@ -3878,7 +3878,7 @@ void sound_obj::HandleCarDamageSound_4177D0(Sound_Params_8* a2)
     WIP_IMPLEMENTED;
 
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->field_9C == 3 && pCar->field_74_damage > 16000)
+    if (pCar->field_9C_engine_status == car_engine_status::on_3 && pCar->field_74_damage > 16000)
     {
         if (CalculateDistance_419020(Fix16(802816, 0)))
         {
@@ -4225,7 +4225,7 @@ void sound_obj::HandleSirenActivationSound_4178C0(Sound_Params_8* a2)
     if ((pCar->inline_info_flags_bit2() || pCar->is_FBI_car_411920()) && (pCar->field_A4 & 4))
     {
         Car_BC* pCar_ = a2->field_0_pObj->field_8_car_bc_ptr;
-        if (pCar_->field_9C == 3)
+        if (pCar_->field_9C_engine_status == car_engine_status::on_3)
         {
             if (pCar_->field_54_driver)
             {
@@ -4991,7 +4991,7 @@ void sound_obj::Tank_414A50(Sound_Params_8* a2)
     WIP_IMPLEMENTED;
 
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->field_9C == 3)
+    if (pCar->field_9C_engine_status == car_engine_status::on_3)
     {
         if (CalculateDistance_419020((Fix16(20) / Fix16(2)) * (Fix16(20) / Fix16(2))))
         {
@@ -5060,7 +5060,7 @@ void sound_obj::Tank_415190(Sound_Params_8* a2)
     WIP_IMPLEMENTED;
 
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->field_9C == 3 && (pCar->field_78_flags & 0x2000) != 0)
+    if (pCar->field_9C_engine_status == car_engine_status::on_3 && (pCar->field_78_flags & 0x2000) != 0)
     {
         if (CalculateDistance_419020(Fix16(921600, 0)))
         {
@@ -5631,7 +5631,7 @@ void sound_obj::UpdateCarEngineAudio_57E220()
 MATCH_FUNC(0x418610)
 void sound_obj::UpdateCarSurfaceAudio_418610(Sound_Params_8* a2)
 {
-    if (a2->field_0_pObj->field_8_car_bc_ptr->field_9C == 4)
+    if (a2->field_0_pObj->field_8_car_bc_ptr->field_9C_engine_status == car_engine_status::unknown_4)
     {
         if (CalculateDistance_419020(Fix16(409600, 0)))
         {

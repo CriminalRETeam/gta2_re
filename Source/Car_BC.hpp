@@ -44,15 +44,29 @@ enum
     recycled_1 = 1,
     proto_recycled_2 = 2,
     Unknown_3 = 3,
-    Unknown_4 = 4,
-    Unknown_5 = 5,
+    paramedic_car_4 = 4,
+    firefighter_5 = 5,
     police_6 = 6,
-    Unknown_7 = 7,
+    roadblock_car_7 = 7,
     mission_car_8 = 8,
-    Unknown_9 = 9,
+    parked_car_9 = 9,
     Unknown_10 = 10,
 };
 } // namespace car_kind
+
+namespace car_engine_status
+{
+enum
+{
+    off_1 = 1,
+    unknown_2 = 2,
+    on_3 = 3,
+    unknown_4 = 4,
+    unknown_5 = 5,
+    destroyed_6 = 6,
+    crushed_7 = 7,
+};
+} // namespace car_engine_status
 
 struct car_rng_list
 {
@@ -220,13 +234,13 @@ class Car_6C
     s32 field_20;
     s32 field_24;
     s32 field_28_recycled_cars;
-    s32 field_2C;
-    s32 field_30;
+    s32 field_2C_paramedic_cars;
+    s32 field_30_firefighter_cars;
     s32 field_34_unit_cars;
-    s32 field_38;
+    s32 field_38_roadblock_cars;
     s32 field_3C_mission_cars;
     s32 field_40_proto_recycled_cars;
-    s32 field_44;
+    s32 field_44_parked_cars;
     s32 field_48;
     Fix16_Point field_4C_tv_van_dir;
     u8 field_54;
@@ -453,7 +467,7 @@ class Car_BC
     EXPORT void sub_442190();
     EXPORT char_type sub_4421B0();
     EXPORT bool sub_442200();
-    EXPORT void sub_442310();
+    EXPORT void ManageDespawning_442310();
     EXPORT char_type UpdateCarDespawnStatus_4424C0();
     EXPORT Ang16 GetRadioTowerAngle_442520();
     EXPORT void ManageTVAntenna_4425D0();
@@ -852,7 +866,7 @@ class Car_BC
 
     bool Is_F9_Eq7_447EB0()
     {
-        return this->field_9C == 7;
+        return this->field_9C_engine_status == 7;
     }
 
     Fix16 sub_421910(Fix16 value)
@@ -994,7 +1008,7 @@ class Car_BC
     char_type field_96;
     char_type field_97;
     s32 field_98;
-    s32 field_9C;
+    s32 field_9C_engine_status;
     s32 field_A0_car_kind; // police car, fire engine, mission car etc
     char_type field_A4;
     char_type field_A5_flash_phase_counter;
