@@ -145,7 +145,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD830, Fix16(0x1333, 0), 0x6FD830);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_67878C, dword_6784C4 * 24, 0x67878C);
 
 // TODO: these are defined in char.cpp
-EXTERN_GLOBAL(Fix16, dword_6FD8D8);
+EXTERN_GLOBAL(Fix16, gCharB4_WorldCollisionOffset_6FD8D8);
 EXTERN_GLOBAL(Fix16, dword_6FDB20);
 EXTERN_GLOBAL(Fix16, k_dword_6FD9E4);
 EXTERN_GLOBAL(Fix16, dword_6FD82C);
@@ -162,7 +162,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 animPhase, Car_BC* pCar,
     WIP_IMPLEMENTED;
     // This func is really get_car_remap?? shouldnt be get_car_door_info?
     u8* car_door_info_array = gGtx_0x106C_703DD4->get_car_remap_5AA3D0(pCar->field_84_car_info_idx);
-    Fix16 offset = dword_6FD8D8;
+    Fix16 offset = gCharB4_WorldCollisionOffset_6FD8D8;
 
     s8 x_in_scale = car_door_info_array[2 * doorId + 1];
     Fix16 x_pos = dword_6F6850.sub_41FE70(x_in_scale);
@@ -7309,7 +7309,7 @@ void Ped::EnterCarStateMachine_46BDC0()
                 {
                 LABEL_40:
                     if ((gDistanceToTarget_678750 <= dword_678794 || (field_168_game_object->field_58_flags & 1) != 1) &&
-                        (gDistanceToTarget_678750 <= k_dword_678798 || field_168_game_object->field_69 == 1))
+                        (gDistanceToTarget_678750 <= k_dword_678798 || field_168_game_object->field_69_is_colliding_with_sprite == 1))
                     {
                         ChangeNextPedState1_45C500(ped_state_1::entering_car_3);
                         ChangeNextPedState2_45C540(ped_state_2::ped2_following_a_car_4);

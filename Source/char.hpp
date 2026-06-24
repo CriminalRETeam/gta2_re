@@ -13,9 +13,9 @@ class Car_BC;
 class Sprite;
 
 EXTERN_GLOBAL(Fix16, dword_678620);
-EXTERN_GLOBAL(Fix16, dword_6FD7F8);
-EXTERN_GLOBAL(Fix16, dword_6FD800);
-EXTERN_GLOBAL(Fix16, dword_6FD7FC);
+EXTERN_GLOBAL(Fix16, gCharB4_Saved_Xpos_6FD7F8);
+EXTERN_GLOBAL(Fix16, gCharB4_Saved_Ypos_6FD800);
+EXTERN_GLOBAL(Fix16, gCharB4_Saved_Zpos_6FD7FC);
 EXTERN_GLOBAL(Fix16, dword_6784BC);
 
 EXTERN_GLOBAL(Ang16, word_6FD940);
@@ -56,7 +56,7 @@ class Char_B4
     Ang16 field_40_rotation;
     Ang16 field_42;
     s8 field_44;
-    u8 field_45;
+    u8 field_45_slope_gradient_direction;
     u16 field_46_timer;
     s8 field_48;
     s8 field_49;
@@ -79,7 +79,7 @@ class Char_B4
     s32 field_60;
     s32 field_64;
     u8 field_68_animation_frame;
-    s8 field_69;
+    s8 field_69_is_colliding_with_sprite;
     u8 field_6A;
     s8 field_6b;
     s32 field_6C_animation_state;
