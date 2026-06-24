@@ -927,7 +927,7 @@ void Ped::SetVisible()
     Char_B4* pB4 = this->field_168_game_object;
     if (pB4)
     {
-        pB4->field_80_sprite_ptr->field_2C = 0; // make sprite opaque
+        pB4->field_80_sprite_ptr->field_2C_flags = 0; // make sprite opaque
     }
 }
 
@@ -939,7 +939,7 @@ void Ped::SetSpriteSemiTransIfInvisible()
         Char_B4* pB4 = this->field_168_game_object;
         if (pB4)
         {
-            pB4->field_80_sprite_ptr->field_2C = 0x41; // make sprite semi transparent
+            pB4->field_80_sprite_ptr->field_2C_flags = 0x41; // make sprite semi transparent
         }
     }
 }
@@ -958,7 +958,7 @@ void Ped::sub_45C050()
     Char_B4* pB4 = field_168_game_object;
     if (pB4)
     {
-        pB4->field_80_sprite_ptr->field_2C &= ~4u;
+        pB4->field_80_sprite_ptr->field_2C_flags &= ~4u;
     }
 }
 
@@ -970,7 +970,7 @@ void Ped::sub_45C070()
         Char_B4* pB4 = this->field_168_game_object;
         if (pB4)
         {
-            pB4->field_80_sprite_ptr->field_2C |= 4u;
+            pB4->field_80_sprite_ptr->field_2C_flags |= 4u;
         }
     }
 }

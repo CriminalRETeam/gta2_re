@@ -2042,7 +2042,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
 MATCH_FUNC(0x5a2cf0)
 void Sprite::PoolAllocate()
 {
-    this->field_2C = 0;
+    this->field_2C_flags = 0;
     this->field_28_num = 0;
     this->field_8_car_bc_ptr = 0;
     this->field_14_xy.x = gFix16_7035C0;
@@ -2143,7 +2143,7 @@ Sprite::Sprite() : field_0(gAng16_703804)
     field_22_sprite_id = 0;
     field_24_remap = 0;
     field_28_num = NULL;
-    field_2C = 0;
+    field_2C_flags = 0;
     field_30_sprite_type_enum = 0;
     field_34 = 0;
     field_38_zoom = 0;

@@ -20,6 +20,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD4A0, Fix16(1), 0x6FD4A0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD39C, Fix16(0.5f), 0x6FD39C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD4A4, Fix16(2), 0x6FD4A4);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD45C, Fix16(0xA3, 0), 0x6FD45C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD564, Fix16(0x51, 0), 0x6FD564);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD538, Fix16(0x31, 0), 0x6FD538);
+
 STUB_FUNC(0x538060)
 char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
 {
@@ -47,8 +51,8 @@ char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
 
     field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 103);
 
-    this->field_30_pNext->field_2C = 0xA2;
-    this->field_30_pNext->field_2C |= 4u;
+    this->field_30_pNext->field_2C_flags = 0xA2;
+    this->field_30_pNext->field_2C_flags |= 4u;
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
@@ -289,11 +293,52 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
     return 0;
 }
 
-STUB_FUNC(0x53b9f0)
+MATCH_FUNC(0x53b9f0)
 char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 scale_related;
+    u8 idx;
+
+    ++field_46_sub_state;
+    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    if (field_46_sub_state > 25)
+    {
+        return true;
+    }
+
+    if (field_46_sub_state < 20)
+    {
+        if (field_46_sub_state < 17)
+        {
+            if (field_46_sub_state < 12)
+            {
+                scale_related = dword_6FD45C;
+                idx = 0;
+            }
+            else
+            {
+                scale_related = dword_6FD564;
+                idx = 1;
+            }
+        }
+        else
+        {
+            scale_related = dword_6FD564;
+            idx = 2;
+        }
+    }
+    else
+    {
+        scale_related = dword_6FD538;
+        idx = 3;
+    }
+
+    field_30_pNext->field_22_sprite_id = idx + gPhi_8CA8_6FCF00->field_8CA4 + 37;
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    field_30_pNext->field_2C_flags = 0x52;
+    field_30_pNext->field_2C_flags |= 4;
+    field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A0 + scale_related * Fix16(field_46_sub_state), 0);
+    return false;
 }
 
 STUB_FUNC(0x53bac0)
@@ -374,9 +419,9 @@ bool Particle_4C::PoolUpdate()
                     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
                     if (this->field_46_sub_state == 2)
                     {
-                        this->field_30_pNext->field_2C = 0xA2; // sub_4337D0
+                        this->field_30_pNext->field_2C_flags = 0xA2; // sub_4337D0
                     }
-                    this->field_30_pNext->field_2C |= 4u;
+                    this->field_30_pNext->field_2C_flags |= 4u;
                     return false;
                 }
                 else
@@ -414,9 +459,9 @@ bool Particle_4C::PoolUpdate()
                     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
                     if (this->field_46_sub_state == 2)
                     {
-                        this->field_30_pNext->field_2C = 0xA2;
+                        this->field_30_pNext->field_2C_flags = 0xA2;
                     }
-                    field_30_pNext->field_2C |= 4u;
+                    field_30_pNext->field_2C_flags |= 4u;
                     field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A0 + dword_6FD39C, 0);
                     return false;
                 }
@@ -456,10 +501,10 @@ bool Particle_4C::PoolUpdate()
                     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
                     if (this->field_46_sub_state == 2)
                     {
-                        this->field_30_pNext->field_2C = -94;
+                        this->field_30_pNext->field_2C_flags = -94;
                     }
 
-                    field_30_pNext->field_2C |= 4u;
+                    field_30_pNext->field_2C_flags |= 4u;
                     field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A4, 0);
                     return false;
                 }
@@ -513,8 +558,8 @@ bool Particle_4C::PoolUpdate()
             }
 
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
-            field_30_pNext->field_2C = 82;
-            field_30_pNext->field_2C |= 4u;
+            field_30_pNext->field_2C_flags = 82;
+            field_30_pNext->field_2C_flags |= 4u;
             return false;
 
         case 25:
@@ -584,8 +629,8 @@ void Particle_4C::PoolDeallocate()
 {
     if (field_30_pNext)
     {
-        field_30_pNext->field_2C &= ~4u;
-        field_30_pNext->field_2C = 0;
+        field_30_pNext->field_2C_flags &= ~4u;
+        field_30_pNext->field_2C_flags = 0;
         gSprite_Pool_703818->remove(field_30_pNext);
         field_30_pNext = 0;
     }
