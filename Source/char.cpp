@@ -1854,11 +1854,105 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* a2, Object_2C* a3, Object_2C
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x54b8f0)
+// https://decomp.me/scratch/aRlEV
+WIP_FUNC(0x54b8f0)
 char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Fix16 x_vec;
+    Fix16 y_vec = k_dword_6FD9E4;
+    bool v26 = false;
+    if (field_10_char_state == Char_B4_state::Jumping_15)
+    {
+        return 1;
+    }
+    if (field_18)
+    {
+        field_40_rotation = field_28;
+        field_24 = 1;
+        Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, x_vec, y_vec);
+        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
+                                                 field_80_sprite_ptr->field_14_xy.y + y_vec,
+                                                 field_80_sprite_ptr->field_1C_zpos);
+        Char_B4::DispatchCollision_548670(byte_623F48);
+        if (field_18)
+        {
+            field_80_sprite_ptr->set_xy_lazy_447E20(dword_6FD7F8, dword_6FD800);
+            field_28 += field_2A;
+            Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, x_vec, y_vec);
+            field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
+                                                     field_80_sprite_ptr->field_14_xy.y + y_vec,
+                                                     field_80_sprite_ptr->field_1C_zpos);
+            Char_B4::DispatchCollision_548670(byte_623F48);
+            if (field_18)
+            {
+                field_80_sprite_ptr->set_xy_lazy_447E20(dword_6FD7F8, dword_6FD800);
+                return v26;
+            }
+        }
+    }
+    else
+    {
+        Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity * k_dword_6FD9EC, x_vec, y_vec);
+        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
+                                                 field_80_sprite_ptr->field_14_xy.y + y_vec,
+                                                 field_80_sprite_ptr->field_1C_zpos);
+        Char_B4::DispatchCollision_548670(byte_623F48);
+        if (field_18)
+        {
+            field_80_sprite_ptr->set_xy_lazy_447E20(dword_6FD7F8, dword_6FD800);
+            field_40_rotation = field_28;
+            Ang16::PolarToCartesian_41FC20((field_28 + field_2A) + word_6FD936, field_38_velocity * dword_6FD9F4, x_vec, y_vec);
+            field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
+                                                     field_80_sprite_ptr->field_14_xy.y + y_vec,
+                                                     field_80_sprite_ptr->field_1C_zpos);
+            Char_B4::DispatchCollision_548670(byte_623F48);
+            if (!field_18 && field_24 != 2)
+            {
+                field_80_sprite_ptr->set_xy_lazy_447E20(dword_6FD7F8, dword_6FD800);
+                field_28 += field_2A + word_6FD936;
+                Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity * k_dword_6FD9EC, x_vec, y_vec);
+                field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
+                                                         field_80_sprite_ptr->field_14_xy.y + y_vec,
+                                                         field_80_sprite_ptr->field_1C_zpos);
+                Char_B4::DispatchCollision_548670(byte_623F48);
+                if (field_18)
+                {
+                    field_80_sprite_ptr->set_xy_lazy_447E20(dword_6FD7F8, dword_6FD800);
+                    field_28 += field_2A;
+                    field_24 = 0;
+                    Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, x_vec, y_vec);
+                    field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
+                                                             field_80_sprite_ptr->field_14_xy.y + y_vec,
+                                                             field_80_sprite_ptr->field_1C_zpos);
+                    v26 = 1;
+                    Char_B4::DispatchCollision_548670(byte_623F48);
+                    if (field_18)
+                    {
+                        field_80_sprite_ptr->set_xy_lazy_447E20(dword_6FD7F8, dword_6FD800);
+                        return v26;
+                    }
+                }
+                return 1;
+            }
+        }
+        else
+        {
+            field_69 = 0;
+        }
+        field_80_sprite_ptr->set_xy_lazy_447E20(dword_6FD7F8, dword_6FD800);
+        Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, x_vec, y_vec);
+        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
+                                                 field_80_sprite_ptr->field_14_xy.y + y_vec,
+                                                 field_80_sprite_ptr->field_1C_zpos);
+        Char_B4::DispatchCollision_548670(byte_623F48);
+        if (field_18)
+        {
+            field_80_sprite_ptr->set_xy_lazy_447E20(dword_6FD7F8, dword_6FD800);
+            return v26;
+        }
+    }
+    return 1;
 }
 
 WIP_FUNC(0x54c090)
