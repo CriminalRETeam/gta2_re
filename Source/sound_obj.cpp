@@ -5695,6 +5695,38 @@ u32 sound_obj::UpdateVocalStream_57E510()
     return 0;
 }
 
+WIP_FUNC(0x57E960)
+void sound_obj::InitMusicAndCopRadio_57E960()
+{
+    WIP_IMPLEMENTED;
+    if (!gSoundVocalsInited_6FF538)
+    {
+        gSoundSwitchRadioCoolDown_6FF539 = 0;
+        gSoundVocalsInited_6FF538 = true;
+        for (s32 i = 0; i < 5; i++)
+        {
+            field_544C[i].field_0 = 0;
+            field_544C[i].field_8.field_8 = 0;
+            //field_544C[i].field_8.field_C_pAny = 0;
+            //...
+            //...
+        }
+        gSound_obj_66F680.field_54F2[2] = 0;
+        gSound_obj_66F680.field_54F7[1] = 1;
+        gSound_obj_66F680.field_54F7[0] = 1;
+        gSound_obj_66F680.field_5504_radio_station_change_mode = 0;
+        gSound_obj_66F680.field_551C = 0;
+        gSound_obj_66F680.DeclareRadioStation_57ECB0(1, 0, 0);
+        if (gSound_obj_66F680.field_5508_radio_entity_idx == 0)
+        {
+            gSound_obj_66F680.field_550C_radio_entity.field_C_pAny.pAny = NULL;
+            gSound_obj_66F680.field_550C_radio_entity.field_0_object_type = SoundObjectTypeEnum::Radio_3;
+            gSound_obj_66F680.field_550C_radio_entity.field_4_bStatus = false;
+            gSound_obj_66F680.field_5508_radio_entity_idx = gSound_obj_66F680.AddSoundObject_419FA0(&gSound_obj_66F680.field_550C_radio_entity);
+        }
+    }
+}
+
 MATCH_FUNC(0x4145E0)
 bool sound_obj::GetCar_4145E0(s32 idx, Car_BC** ppOut)
 {
