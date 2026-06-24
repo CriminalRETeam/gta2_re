@@ -5170,13 +5170,88 @@ Ang16 Car_BC::GetRadioTowerAngle_442520()
     return xy.atan2_40F790() - field_50_car_sprite->field_0;
 }
 
+
+// TODO: Move all of these together with sub_405CE0
+EXTERN_GLOBAL(Fix16, kFPZero_6691B0);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_66A8E4, Fix16(0x18F60, 0), 0x66A8E4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6691EC, Fix16(0xC7B0, 0), 0x6691EC);
+inline Fix16 __stdcall sub_40E790(Fix16& unk) // 9.6f inlined func
+{
+    Fix16 result = unk;
+    for (; result < kFPZero_6691B0; result += k_dword_66A8E4)
+    {
+        ;
+    }
+    for (; result >= k_dword_66A8E4; result -= k_dword_66A8E4)
+    {
+        ;
+    }
+    return result;
+}
+
 // 9.6f 0x40ECB0
 // TODO: Move
-STUB_FUNC(0x405CE0)
-EXPORT s32 __stdcall sub_405CE0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5)
+// https://decomp.me/scratch/GnD4O
+WIP_FUNC(0x405CE0)
+EXPORT void __stdcall sub_405CE0(Fix16& a1, Fix16& a2, Fix16& a3, Fix16& a4, Fix16& a5)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    if (a1 - a3 > dword_6691EC)
+    {
+        a3 += k_dword_66A8E4;
+    }
+    else
+    {
+        if (a1 - a3 < -dword_6691EC)
+        {
+            a3 -= k_dword_66A8E4;
+        }
+    }
+
+    Fix16 a1_m_a3 = a1 - a3;
+
+    if (a1_m_a3 > kFPZero_6691B0)
+    {
+        if (a2 >= kFPZero_6691B0)
+        {
+            if (a2 + a4 <= a1_m_a3)
+            {
+                a2 += a4;
+                if (a2 > a5)
+                {
+                    a2 = a5;
+                }
+            }
+            else
+            {
+                a2 = a1_m_a3;
+            }
+        }
+        else
+        {
+            a2 = kFPZero_6691B0;
+        }
+    }
+    else
+    {
+        if (a1_m_a3 >= kFPZero_6691B0 || a2 > kFPZero_6691B0)
+        {
+            a2 = kFPZero_6691B0;
+        }
+        else
+        {
+            if (a2 - a4 >= a1_m_a3)
+            {
+                a2 -= a4;
+                if (a2 < -a5)
+                {
+                    a2 = -a5;
+                }
+            }
+        }
+    }
+
+    a3 = sub_40E790(a3 + a2);
 }
 
 // 9.6f 0x424280
@@ -5194,7 +5269,7 @@ void Car_BC::ManageTVAntenna_4425D0()
             // TODO: The set up or call to the function is wrong, the parts after are OK
             Fix16 spriteAngFp = Ang16::Ang16_to_Fix16(pSprite->field_10);
             Fix16 towerAngFp = Ang16::Ang16_to_Fix16(towerAng);
-            sub_405CE0(&towerAngFp, &gFix16_6777CC, &spriteAngFp, &dword_677920, &dword_677920);
+            sub_405CE0(towerAngFp, gFix16_6777CC, spriteAngFp, dword_677920, dword_677920);
             pSprite->field_10 = Ang16::Fix16_To_Ang16_40F540(spriteAngFp);
         }
     }

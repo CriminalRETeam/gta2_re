@@ -277,7 +277,7 @@ void Wolfy_30::state_3_12_540D30(Fix16 a3, Ang16 a2)
 
         v19->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 96);
 
-        pParticle->field_30_pNext->field_2C |= 4u;
+        pParticle->field_30_pNext->field_2C_flags |= 4u;
         Sprite* v21 = pParticle->field_30_pNext;
         Sprite* v22 = this->field_14->field_4;
 
@@ -432,7 +432,7 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
                                                       field_14->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
             this->field_18 = stru_6F6784.get_int_4F7AE0(2);
-            pNew->field_30_pNext->field_2C = 0xA2;
+            pNew->field_30_pNext->field_2C_flags = 0xA2;
             pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
         }
     }

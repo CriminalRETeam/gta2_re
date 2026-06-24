@@ -535,10 +535,10 @@ void sound_obj::ServiceSoundEffects_41A3A0()
 }
 
 // https://decomp.me/scratch/i3zcW
-STUB_FUNC(0x41A730)
+WIP_FUNC(0x41A730)
 void sound_obj::InterrogateAudioEntities_41A730()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     Camera_0xBC* pTmp;
 
     if (field_1478_type5Idx != 0 && (pTmp = field_147C[field_1478_type5Idx].field_4_pObj->field_C_pAny.pCamera_0xBC) != NULL)
@@ -665,10 +665,10 @@ void sound_obj::AddReleasingSounds_41A9D0()
 }
 
 // https://decomp.me/scratch/uOtew matching this function will make sound works
-STUB_FUNC(0x41AB80)
+WIP_FUNC(0x41AB80)
 void sound_obj::ProcessActiveQueues_41AB80()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     serene_brattain position;
     for (u8 idx = 0; idx < field_10_nActiveSamples; idx++)
     {
@@ -5693,6 +5693,38 @@ u32 sound_obj::UpdateVocalStream_57E510()
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+WIP_FUNC(0x57E960)
+void sound_obj::InitMusicAndCopRadio_57E960()
+{
+    WIP_IMPLEMENTED;
+    if (!gSoundVocalsInited_6FF538)
+    {
+        gSoundSwitchRadioCoolDown_6FF539 = 0;
+        gSoundVocalsInited_6FF538 = true;
+        for (s32 i = 0; i < 5; i++)
+        {
+            field_544C[i].field_0 = 0;
+            field_544C[i].field_8.field_8 = 0;
+            //field_544C[i].field_8.field_C_pAny = 0;
+            //...
+            //...
+        }
+        gSound_obj_66F680.field_54F2[2] = 0;
+        gSound_obj_66F680.field_54F7[1] = 1;
+        gSound_obj_66F680.field_54F7[0] = 1;
+        gSound_obj_66F680.field_5504_radio_station_change_mode = 0;
+        gSound_obj_66F680.field_551C = 0;
+        gSound_obj_66F680.DeclareRadioStation_57ECB0(1, 0, 0);
+        if (gSound_obj_66F680.field_5508_radio_entity_idx == 0)
+        {
+            gSound_obj_66F680.field_550C_radio_entity.field_C_pAny.pAny = NULL;
+            gSound_obj_66F680.field_550C_radio_entity.field_0_object_type = SoundObjectTypeEnum::Radio_3;
+            gSound_obj_66F680.field_550C_radio_entity.field_4_bStatus = false;
+            gSound_obj_66F680.field_5508_radio_entity_idx = gSound_obj_66F680.AddSoundObject_419FA0(&gSound_obj_66F680.field_550C_radio_entity);
+        }
+    }
 }
 
 MATCH_FUNC(0x4145E0)
