@@ -12,7 +12,7 @@
 #include "sprite.hpp"
 
 // TODO: Move
-EXPORT s32 __stdcall sub_405CE0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5);
+EXPORT void __stdcall sub_405CE0(Fix16& a1, Fix16& a2, Fix16& a3, Fix16& a4, Fix16& a5);
 EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_679E58, Fix16(0x2000, 0), 0x679E58);
@@ -622,8 +622,8 @@ s32 Crane_15C::sub_47FBA0()
     if (this->field_84_hook_depth == dword_679E70)
     {
         SmoothApproach_4F7540(this->field_B0_hook_radius_target, this->field_94, this->field_90_hook_radius, dword_679C14, dword_679E6C);
-        sub_405CE0(&this->field_AC_crane_angle_target, &this->field_98, &this->field_8C_crane_angle, &dword_679F70, &dword_679DEC);
-        sub_405CE0(&this->field_B4_hook_angle_target, &this->field_A4, &this->field_A0_hook_axial_angle, &dword_679D70, &dword_679C40);
+        sub_405CE0(field_AC_crane_angle_target, field_98, field_8C_crane_angle, dword_679F70, dword_679DEC);
+        sub_405CE0(field_B4_hook_angle_target, field_A4, field_A0_hook_axial_angle, dword_679D70, dword_679C40);
         if (this->field_74)
         {
             this->field_10 = this->field_0;
