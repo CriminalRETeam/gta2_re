@@ -2352,6 +2352,21 @@ void CC ImGuiDebugDraw()
                         pIter = pIter->mpNext;
                     }
                 }
+                
+                if (ImGui::TreeNode("Show F69"))
+                {
+                    Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
+                    while (pPedIter)
+                    {
+                        if (pPedIter->field_168_game_object)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69_is_colliding_with_sprite);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        pPedIter = pPedIter->mpNext;
+                    }
+                    ImGui::TreePop();
+                }
 
                 Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
                 Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
@@ -2452,7 +2467,7 @@ void CC ImGuiDebugDraw()
                     {
                         if (pPedIter->field_168_game_object)
                         {
-                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69);
+                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69_is_colliding_with_sprite);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
                         }
                         pPedIter = pPedIter->mpNext;

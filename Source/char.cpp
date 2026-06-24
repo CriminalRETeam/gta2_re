@@ -199,7 +199,7 @@ Char_B4::Char_B4()
     field_7C_pPed = 0;
     field_80_sprite_ptr = 0;
     field_68_animation_frame = 0;
-    field_69 = 0;
+    field_69_is_colliding_with_sprite = 0;
     field_58_flags_bf.b0 = 0;
     field_74 = word_6FDB34;
     field_6A = 0;
@@ -269,7 +269,7 @@ void Char_B4::PoolAllocate()
     mpNext = 0;
     field_7C_pPed = 0;
     field_68_animation_frame = 0;
-    field_69 = 0;
+    field_69_is_colliding_with_sprite = 0;
     field_74 = word_6FDB34;
     field_6A = 0;
     field_84 = 0;
@@ -422,7 +422,7 @@ void Char_B4::sub_545600()
     field_1C = 0;
     field_20 = 0;
     field_2C_ang = word_6FDB34;
-    field_69 = 0;
+    field_69_is_colliding_with_sprite = 0;
     field_24 = 0;
     field_28 = word_6FDB34;
     field_2A = word_6FDB34;
@@ -1686,7 +1686,7 @@ MATCH_FUNC(0x548670)
 void Char_B4::DispatchCollision_548670(char_type a2)
 {
     u8 bUnknown; // bl
-    if (this->field_69 == 1 && this->field_20 && this->field_24 != 3)
+    if (this->field_69_is_colliding_with_sprite == 1 && this->field_20 && this->field_24 != 3)
     {
         bUnknown = 1;
     }
@@ -1772,7 +1772,7 @@ void Char_B4::DispatchCollision_548670(char_type a2)
         {
             this->field_1C = 0;
             this->field_20 = 0;
-            this->field_69 = 0;
+            this->field_69_is_colliding_with_sprite = 0;
             this->field_2A = word_6FDB34;
         }
     }
@@ -1938,7 +1938,7 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
         }
         else
         {
-            field_69 = 0;
+            field_69_is_colliding_with_sprite = 0;
         }
         field_80_sprite_ptr->set_xy_lazy_447E20(dword_6FD7F8, dword_6FD800);
         Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, x_vec, y_vec);
@@ -2995,7 +2995,7 @@ void Char_B4::state_0_54DDF0()
     }
     else
     {
-        if (this->field_69 || this->field_10_char_state == Char_B4_state::Jumping_15) // line 6b1
+        if (this->field_69_is_colliding_with_sprite || this->field_10_char_state == Char_B4_state::Jumping_15) // line 6b1
         {
             v89 = 0;
             field_7C_pPed->field_21C_bf.b11 = 0; // TODO: Check it
@@ -3167,7 +3167,7 @@ LABEL_152:
 
     if (!field_7C_pPed->IsField238_45EDE0(2))
     {
-        if (field_69)
+        if (field_69_is_colliding_with_sprite)
         {
             if (Char_B4::ContinueMovementAfterCollision_54B8F0() == 1)
             {
@@ -3192,7 +3192,7 @@ LABEL_152:
                     }
                     else
                     {
-                        field_69 = 0;
+                        field_69_is_colliding_with_sprite = 0;
                         field_5C = 10;
                     }
                 }
@@ -4272,7 +4272,7 @@ LABEL_65:
 
     if (field_38_velocity != k_dword_6FD7C0)
     {
-        if (field_69)
+        if (field_69_is_colliding_with_sprite)
         {
             v70 = 1;
             field_38_velocity = gRunOrJumpSpeed_6FD7D0;
@@ -4393,7 +4393,7 @@ LABEL_65:
                                              field_80_sprite_ptr->field_1C_zpos);
 
     field_80_sprite_ptr->set_ang_lazy_420690(field_40_rotation);
-    if (field_69)
+    if (field_69_is_colliding_with_sprite)
     {
         v71 = 1;
     }
@@ -4412,7 +4412,7 @@ LABEL_65:
     }
     Char_B4::DispatchCollision_548670(byte_6FDB56);
 
-    if (field_69)
+    if (field_69_is_colliding_with_sprite)
     {
         if (Char_B4::ContinueMovementAfterCollision_54B8F0() == 1)
         {
@@ -4426,7 +4426,7 @@ LABEL_65:
                 field_45 = dword_6FD7B0.ToUInt8();
                 if (!Char_B4::CanReachTile_550090(x.ToInt(), y.ToInt()))
                 {
-                    field_69 = 0;
+                    field_69_is_colliding_with_sprite = 0;
                     field_5C = 10;
                     if (byte_6FDB58)
                     {
@@ -4466,7 +4466,7 @@ LABEL_65:
         }
         else
         {
-            field_69 = 0;
+            field_69_is_colliding_with_sprite = 0;
             field_2A = word_6FDB34;
             field_5C = 10;
         }

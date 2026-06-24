@@ -79,7 +79,7 @@ class Char_B4
     s32 field_60;
     s32 field_64;
     u8 field_68_animation_frame;
-    s8 field_69;
+    s8 field_69_is_colliding_with_sprite;
     u8 field_6A;
     s8 field_6b;
     s32 field_6C_animation_state;

@@ -7309,7 +7309,7 @@ void Ped::EnterCarStateMachine_46BDC0()
                 {
                 LABEL_40:
                     if ((gDistanceToTarget_678750 <= dword_678794 || (field_168_game_object->field_58_flags & 1) != 1) &&
-                        (gDistanceToTarget_678750 <= k_dword_678798 || field_168_game_object->field_69 == 1))
+                        (gDistanceToTarget_678750 <= k_dword_678798 || field_168_game_object->field_69_is_colliding_with_sprite == 1))
                     {
                         ChangeNextPedState1_45C500(ped_state_1::entering_car_3);
                         ChangeNextPedState2_45C540(ped_state_2::ped2_following_a_car_4);
