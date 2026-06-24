@@ -535,10 +535,10 @@ void sound_obj::ServiceSoundEffects_41A3A0()
 }
 
 // https://decomp.me/scratch/i3zcW
-STUB_FUNC(0x41A730)
+WIP_FUNC(0x41A730)
 void sound_obj::InterrogateAudioEntities_41A730()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     Camera_0xBC* pTmp;
 
     if (field_1478_type5Idx != 0 && (pTmp = field_147C[field_1478_type5Idx].field_4_pObj->field_C_pAny.pCamera_0xBC) != NULL)
@@ -665,10 +665,10 @@ void sound_obj::AddReleasingSounds_41A9D0()
 }
 
 // https://decomp.me/scratch/uOtew matching this function will make sound works
-STUB_FUNC(0x41AB80)
+WIP_FUNC(0x41AB80)
 void sound_obj::ProcessActiveQueues_41AB80()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     serene_brattain position;
     for (u8 idx = 0; idx < field_10_nActiveSamples; idx++)
     {
