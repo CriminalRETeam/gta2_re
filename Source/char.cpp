@@ -191,7 +191,7 @@ Char_B4::Char_B4()
     field_40_rotation = word_6FDB34;
     field_42 = word_6FDB34;
     field_44 = 0;
-    field_45 = 0;
+    field_45_slope_gradient_direction = 0;
     field_5C = 0;
     field_46_timer = 0; // maybe field_46_shock_counter
     field_48 = 0;
@@ -261,7 +261,7 @@ void Char_B4::PoolAllocate()
     field_40_rotation = word_6FDB34;
     field_42 = word_6FDB34;
     field_44 = 0;
-    field_45 = 0;
+    field_45_slope_gradient_direction = 0;
     field_5C = 0;
     field_46_timer = 0;
     field_48 = 0;
@@ -481,7 +481,7 @@ void Char_B4::Update_545720(Fix16 a2)
     dword_6FD7F8 = field_80_sprite_ptr->field_14_xy.x;
     dword_6FD800 = field_80_sprite_ptr->field_14_xy.y;
     dword_6FD7FC = field_80_sprite_ptr->field_1C_zpos;
-    dword_6FD7B0 = Fix16(field_45);
+    dword_6FD7B0 = Fix16(field_45_slope_gradient_direction);
     byte_6FDB55 = 0;
     byte_6FDB58 = 0;
 
@@ -1656,7 +1656,7 @@ void Char_B4::ManageZCoordAndSlopes_548590()
 
     if (gradient_direction == NO_GRADIENT_SLOPE_0)
     {
-        if (field_45)
+        if (field_45_slope_gradient_direction)
         {
             Fix16 frac = zpos.GetFracValue();
             zpos = zpos.GetRoundValue();
@@ -1671,11 +1671,11 @@ void Char_B4::ManageZCoordAndSlopes_548590()
             field_58_flags_bf.b0 = false;
             zpos = Fix16(zpos.ToUInt8());
         }
-        field_45 = 0;
+        field_45_slope_gradient_direction = 0;
     }
     else
     {
-        field_45 = gradient_direction;
+        field_45_slope_gradient_direction = gradient_direction;
         field_58_flags_bf.b0 = true;
     }
     field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y, zpos);
@@ -3176,7 +3176,7 @@ LABEL_152:
                 {
                     field_80_sprite_ptr->set_xyz_lazy_420600(dword_6FD7F8, dword_6FD800, dword_6FD7FC);
 
-                    field_45 = dword_6FD7B0.ToInt(); //dword_6FD7B0 >> 14;
+                    field_45_slope_gradient_direction = dword_6FD7B0.ToInt(); //dword_6FD7B0 >> 14;
                     //////if (Char_B4::CanReachTile_550090(v85, v86))
                     if (Char_B4::CanReachTile_550090(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                      field_80_sprite_ptr->field_14_xy.y.ToInt()))
@@ -3353,7 +3353,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
     Fix16 sprite_ypos = field_80_sprite_ptr->field_14_xy.y;
     Fix16 sprite_zpos = field_80_sprite_ptr->field_1C_zpos;
 
-    u8 old_f45 = field_45;
+    u8 old_f45 = field_45_slope_gradient_direction;
 
     byte_6FDB57 = 1;
     Fix16 xpos, ypos;
@@ -3476,12 +3476,12 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                             gMap_0x370_6F6268->sub_4E0110())
                         {
                             dword_623F44 = path_direction::left_4;
-                            field_45 = old_f45;
+                            field_45_slope_gradient_direction = old_f45;
                             return bUnk_1;
                         }
                         else
                         {
-                            field_45 = old_f45;
+                            field_45_slope_gradient_direction = old_f45;
                             return false;
                         }
                     }
@@ -3498,7 +3498,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                         bUnk_1 = false;
                         dword_623F44 = path_direction::down_2;
                     }
-                    field_45 = old_f45;
+                    field_45_slope_gradient_direction = old_f45;
                     return bUnk_1;
                 }
             }
@@ -3552,12 +3552,12 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     (dword_623F44 = path_direction::down_2, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2)) || gMap_0x370_6F6268->sub_4E0110())
                 {
                     dword_623F44 = path_direction::left_4;
-                    field_45 = old_f45;
+                    field_45_slope_gradient_direction = old_f45;
                     return bUnk_1;
                 }
                 else
                 {
-                    field_45 = old_f45;
+                    field_45_slope_gradient_direction = old_f45;
                     return false;
                 }
             }
@@ -3573,7 +3573,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                 dword_623F44 = path_direction::down_2;
             }
             // label 46
-            field_45 = old_f45;
+            field_45_slope_gradient_direction = old_f45;
             return bUnk_1;
         } // must be x = 255
 
@@ -3629,12 +3629,12 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                 if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
                 {
                     dword_623F44 = path_direction::up_1;
-                    field_45 = old_f45;
+                    field_45_slope_gradient_direction = old_f45;
                     return false;
                 }
                 else
                 {
-                    field_45 = old_f45;
+                    field_45_slope_gradient_direction = old_f45;
                     return bUnk_1;
                 }
             }
@@ -3644,12 +3644,12 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                 (dword_623F44 = path_direction::up_1, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1)) || gMap_0x370_6F6268->sub_4E0110())
             {
                 dword_623F44 = path_direction::right_3;
-                field_45 = old_f45;
+                field_45_slope_gradient_direction = old_f45;
                 return bUnk_1;
             }
             else
             {
-                field_45 = old_f45;
+                field_45_slope_gradient_direction = old_f45;
                 return false;
             }
         }
@@ -3706,7 +3706,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     bUnk_1 = false;
                     dword_623F44 = path_direction::down_2;
                 }
-                field_45 = old_f45;
+                field_45_slope_gradient_direction = old_f45;
                 return bUnk_1;
             }
             // line 399 on 10.5 idb
@@ -3717,12 +3717,12 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                 (dword_623F44 = path_direction::down_2, bUnk_1 = true, Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2)) || gMap_0x370_6F6268->sub_4E0110())
             {
                 dword_623F44 = path_direction::right_3;
-                field_45 = old_f45;
+                field_45_slope_gradient_direction = old_f45;
                 return bUnk_1;
             }
             else
             {
-                field_45 = old_f45;
+                field_45_slope_gradient_direction = old_f45;
                 return false;
             }
         } // must be else of y = 255
@@ -4423,7 +4423,7 @@ LABEL_65:
             {
                 field_80_sprite_ptr->set_xyz_lazy_420600(dword_6FD7F8, dword_6FD800, dword_6FD7FC);
 
-                field_45 = dword_6FD7B0.ToUInt8();
+                field_45_slope_gradient_direction = dword_6FD7B0.ToUInt8();
                 if (!Char_B4::CanReachTile_550090(x.ToInt(), y.ToInt()))
                 {
                     field_69_is_colliding_with_sprite = 0;

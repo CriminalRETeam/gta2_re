@@ -56,7 +56,7 @@ class Char_B4
     Ang16 field_40_rotation;
     Ang16 field_42;
     s8 field_44;
-    u8 field_45;
+    u8 field_45_slope_gradient_direction;
     u16 field_46_timer;
     s8 field_48;
     s8 field_49;
