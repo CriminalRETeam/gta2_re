@@ -126,7 +126,7 @@ DEFINE_GLOBAL_INIT(Ang16, dword_6FD9D8, Ang16(0x588), 0x6FD9D8); // TODO: Init v
 DEFINE_GLOBAL_INIT(Ang16, word_6FD890, Ang16(96), 0x6FD890);
 DEFINE_GLOBAL_INIT(Ang16, word_6FD89C, Ang16(180), 0x6FD89C);
 
-DEFINE_GLOBAL(Fix16, dword_6FDAB0, 0x6FDAB0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDAB0, k_dword_6FD8E4, 0x6FDAB0);
 
 EXTERN_GLOBAL(Ang16, word_6FDB34);
 EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
@@ -3395,11 +3395,11 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
         LABEL_126:
             if (y_related = 0xFF)
             {
-                return Char_B4::CanStepForwardWithRegionCheck_54ECB0(1);
+                return Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1);
             }
             else
             {
-                return Char_B4::CanStepForwardWithRegionCheck_54ECB0(2);
+                return Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2);
             }
         }
     }
