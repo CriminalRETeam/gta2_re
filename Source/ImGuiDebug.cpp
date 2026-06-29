@@ -16,6 +16,7 @@
 #include "MapRenderer.hpp"
 #include "Network_20324.hpp"
 #include "Object_5C.hpp"
+#include "Object_2C_Pool.hpp"
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
 #include "PedGroup.hpp"
@@ -699,6 +700,32 @@ static void DisplayWideTextAtScreenCoords(wchar_t* pStr, s16 screen_xpos, s16 sc
 static void DisplayTextAtScreenCoords(char* pStr, s16 screen_xpos, s16 screen_ypos)
 {
     DisplayWideTextAtScreenCoords(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos);
+}
+
+// Draw Text with wchar_t
+static void DisplayWideTextAtXYZ(wchar_t* pStr, Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+    if (gHud_2B00_706620)
+    {
+        Camera_0xBC* pPlayerCam = GetPlayerCam();
+        if (pPlayerCam)
+        {
+            if (pPlayerCam->IsCoordsPosVisible_435A70(xpos, ypos, zpos))
+            {
+                Fix16 screen_xpos_f16;
+                Fix16 screen_ypos_f16;
+                ProjectXYZ_intoScreen(xpos, ypos, zpos, screen_xpos_f16, screen_ypos_f16, pPlayerCam);
+
+                s16 screen_xpos = screen_xpos_f16.ToInt();
+                s16 screen_ypos = screen_ypos_f16.ToInt();
+
+                if (gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
+                {
+                    gHud_2B00_706620->field_650.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+                }
+            }
+        }
+    }
 }
 
 void AddMenuOption(u32 page_idx, s16 xpos, s16 ypos, wchar_t* pLabelStr, s16 target_page)
@@ -1847,6 +1874,24 @@ void CC ImGuiDebugDraw()
                     ImGui::TreePop();
                 }
             }
+
+            if (gObject_2C_Pool_6F8F80 && ImGui::TreeNode("Show Object_2C model IDs"))
+            {
+                for (u32 i = 0;i < 3824; i++)
+                {
+                    Object_2C* pObjIter = &gObject_2C_Pool_6F8F80->field_8_pool[i];
+                    if (pObjIter && pObjIter->field_18_model != 0)
+                    {
+                        swprintf(tmpBuff_67BD9C, L"%d", pObjIter->field_18_model);
+                        if (pObjIter->field_4 != NULL)
+                        {
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pObjIter->field_4, 0, 0);
+                        }
+                    }
+                }
+                ImGui::TreePop();
+            }
+
             ImGui::TreePop();
         }
 
