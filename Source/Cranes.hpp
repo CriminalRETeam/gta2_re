@@ -62,7 +62,7 @@ class Crane_15C
     Fix16_Point_POD field_18;
     Fix16_Point_POD field_20;
     struct_4 field_28_strct4;
-    Object_2C* field_2C;
+    Object_2C* field_2C_rotor_obj;
     Object_2C* field_30;
     Object_2C* field_34;
     Object_2C* field_38;
@@ -72,9 +72,9 @@ class Crane_15C
     Object_2C* field_48;
     Object_2C* field_4C;
     Object_2C* field_50;
-    Object_2C* field_54;
-    Object_2C* field_58;
-    Object_2C* field_5C;
+    Object_2C* field_54_hook_obj;
+    Object_2C* field_58_crane_base_obj;
+    Object_2C* field_5C_counterweight_obj;
     Sprite* field_60;
     Sprite* field_64;
     Sprite* field_68;

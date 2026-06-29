@@ -1814,7 +1814,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
             pPhi = o2c->field_8;
             phi_type = pPhi->field_34_behavior_type;
             if (phi_type == 6 || phi_type == 7 || phi_type == 8 || phi_type == 9 || phi_type == 10 || phi_type == 1 || phi_type == 12 ||
-                (field_18_model = o2c->field_18_model, field_18_model == 182) || field_18_model == 183)
+                (field_18_model = o2c->field_18_model, field_18_model == objects::rocket_bullet_128) || field_18_model == objects::granade_obj_183)
             {
                 if (pPhi->field_40_collision_bucket_category == 3)
                 {
@@ -3599,15 +3599,15 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
     switch (pObj->field_18_model)
     {
 
-        case objects::moving_collect_33_129:
+        case objects::bus_stop_marker_129:
             gPublicTransport_181C_6FF1D4->sub_579A30(this);
             break;
 
-        case objects::moving_collect_34_130:
+        case objects::car_shop_130:
             GetCabOrSelf_43E8D0()->HandleShops_443C40(pObj);
             return 1;
 
-        case objects::moving_collect_41_137:
+        case objects::crane_base_137:
             gCranePool_D9C_679FD4->PickUpCar_480E00(this, pObj->field_26_varrok_idx);
             break;
 
@@ -3634,7 +3634,7 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
             field_88_despawn_status = 3;
             break;
 
-        case objects::molotov_moving_167: // try open door? for garage?
+        case objects::maybe_door_trigger_167: // try open door? for garage?
             gDoor_4D4_67BD2C->sub_49D340(this, pObj->field_26_varrok_idx);
             break;
 
@@ -3780,8 +3780,8 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             pFoundPed = 0;
         }
 
-        if (pObj->field_18_model == 154 || pObj->field_18_model == 193 || pObj->field_18_model == 195 || pObj->field_18_model == 159 ||
-            pObj->field_18_model == 199)
+        if (pObj->field_18_model == objects::flamethrower_fire_154 || pObj->field_18_model == 193 || pObj->field_18_model == objects::object_195 || pObj->field_18_model == objects::object_159 ||
+            pObj->field_18_model == objects::object_199)
         {
             return 1;
         }
@@ -4121,7 +4121,7 @@ MATCH_FUNC(0x440ac0)
 void Car_BC::PutWaterCannonOnRoof_440AC0()
 {
     Object_2C* p2C =
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::moving_collect_18_114, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::water_cannon_114, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
     field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4, gFix16_6777CC, dword_6771F0, word_677326);
 }
 
@@ -6016,10 +6016,10 @@ void Car_BC::HandleShops_443C40(Object_2C* pObj)
         Player* pPlayer = pDriver->field_15C_player;
         if (pPlayer)
         {
-            if (pDriver->field_240_occupation != 1 && pObj->field_18_model == objects::moving_collect_34_130)
+            if (pDriver->field_240_occupation != 1 && pObj->field_18_model == objects::car_shop_130)
             {
                 const u8 idx = pObj->field_26_varrok_idx;
-                if (idx >= objects::shop_car_smg_250 && (idx <= objects::shop_car_mines_252 || idx == objects::object_254))
+                if (idx >= objects::shop_car_smg_250 && (idx <= objects::shop_car_mines_252 || idx == objects::machine_gun_bullet_254))
                 {
                     Car_BC::BuyCarWeapon_4438C0(pPlayer->ObjectTypeToWeaponType_443CB0(idx));
                 }

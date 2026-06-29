@@ -2228,7 +2228,7 @@ void CarPhysics_B0::ApplyTurningForce_55F020()
     Object_2C* pObj = gRozza_679188.field_20_pSprite->As2C_40FEC0();
     Fix16 v4;
 
-    if (pObj && pObj->field_18_model == 166)
+    if (pObj && pObj->field_18_model == objects::diagonal_wall_collision_obj_166)
     {
         v4 = k_dword_6FDFA4;
         v17 = stru_6FDF80;

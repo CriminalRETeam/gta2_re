@@ -16,6 +16,7 @@
 #include "MapRenderer.hpp"
 #include "Network_20324.hpp"
 #include "Object_5C.hpp"
+#include "Object_2C_Pool.hpp"
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
 #include "PedGroup.hpp"
@@ -532,40 +533,40 @@ static const char* ObjectIdToString(s32 id)
         case objects::moving_collect_11_107: return "moving_collect_11_107";
         case objects::moving_collect_12_108: return "moving_collect_12_108";
         case objects::moving_collect_13_109: return "moving_collect_13_109";
-        case objects::moving_collect_14_110: return "moving_collect_14_110";
+        case objects::ped_pushed_110: return "ped_pushed_110";
         case objects::moving_collect_15_111: return "moving_collect_15_111";
         case objects::moving_collect_16_112: return "moving_collect_16_112";
-        case objects::moving_collect_17_113: return "moving_collect_17_113";
-        case objects::moving_collect_18_114: return "moving_collect_18_114";
+        case objects::explosion_113: return "explosion_113";
+        case objects::water_cannon_114: return "water_cannon_114";
         case objects::moving_collect_19_115: return "moving_collect_19_115";
         case objects::moving_collect_20_116: return "moving_collect_20_116";
         case objects::moving_collect_21_117: return "moving_collect_21_117";
         case objects::moving_collect_22_118: return "moving_collect_22_118";
         case objects::moving_collect_23_119: return "moving_collect_23_119";
-        case objects::moving_collect_24_120: return "moving_collect_24_120";
+        case objects::road_skidmark_120: return "road_skidmark_120";
         case objects::moving_collect_25_121: return "moving_collect_25_121";
-        case objects::moving_collect_26_122: return "moving_collect_26_122";
+        case objects::pedestrian_crossing_marker_122: return "pedestrian_crossing_marker_122";
         case objects::moving_collect_27_123: return "moving_collect_27_123";
         case objects::moving_collect_28_124: return "moving_collect_28_124";
         case objects::moving_collect_29_125: return "moving_collect_29_125";
         case objects::moving_collect_30_126: return "moving_collect_30_126";
-        case objects::moving_collect_31_127: return "moving_collect_31_127";
-        case objects::moving_collect_32_128: return "moving_collect_32_128";
-        case objects::moving_collect_33_129: return "moving_collect_33_129";
-        case objects::moving_collect_34_130: return "moving_collect_34_130";
-        case objects::moving_collect_35_131: return "moving_collect_35_131";
+        case objects::explosion_fragments_127: return "explosion_fragments_127";
+        case objects::rocket_bullet_128: return "rocket_bullet_128";
+        case objects::bus_stop_marker_129: return "bus_stop_marker_129";
+        case objects::car_shop_130: return "car_shop_130";
+        case objects::car_shop_busy_131: return "car_shop_busy_131";
         case objects::moving_collect_36_132: return "moving_collect_36_132";
         case objects::moving_collect_37_133: return "moving_collect_37_133";
-        case objects::moving_collect_38_134: return "moving_collect_38_134";
-        case objects::moving_collect_39_135: return "moving_collect_39_135";
-        case objects::moving_collect_40_136: return "moving_collect_40_136";
-        case objects::moving_collect_41_137: return "moving_collect_41_137";
-        case objects::moving_collect_42_138: return "moving_collect_42_138";
+        case objects::crane_unknown_134: return "crane_unknown_134";
+        case objects::crane_rotor_135: return "crane_rotor_135";
+        case objects::crane_hook_136: return "crane_hook_136";
+        case objects::crane_base_137: return "crane_base_137";
+        case objects::moving_molotov_138: return "moving_molotov_138";
         case objects::conveyor_139: return "conveyor_139";
-        case objects::moving_collect_44_140: return "moving_collect_44_140";
+        case objects::crane_counterweight_140: return "crane_counterweight_140";
 
         case objects::destructor_141: return "destructor_141";
-        case objects::object_142: return "object_142";
+        case objects::crusher_piston_142: return "crusher_piston_142";
         case objects::crusher_central_spot_143: return "crusher_central_spot_143";
         case objects::object_144: return "object_144";
         case objects::particle_system_145: return "particle_system_145";
@@ -573,11 +574,11 @@ static const char* ObjectIdToString(s32 id)
         case objects::object_147: return "object_147";
         case objects::small_brown_skid_148: return "small_brown_skid_148";
         case objects::small_grey_skid_149: return "small_grey_skid_149";
-        case objects::small_red_skid_150: return "small_red_skid_150";
+        case objects::crusher_piston_base_150: return "crusher_piston_base_150";
         case objects::medium_brown_skid_151: return "medium_brown_skid_151";
         case objects::medium_grey_skid_152: return "medium_grey_skid_152";
         case objects::medium_red_skid_153: return "medium_red_skid_153";
-        case objects::car_crossing_154: return "car_crossing_154";
+        case objects::flamethrower_fire_154: return "flamethrower_fire_154";
         case objects::car_stop_155: return "car_stop_155";
         case objects::big_white_skid_156: return "big_white_skid_156";
         case objects::medium_white_skid_157: return "medium_white_skid_157";
@@ -587,15 +588,15 @@ static const char* ObjectIdToString(s32 id)
         case objects::savepoint_161: return "savepoint_161";
         case objects::car_shop_162: return "car_shop_162";
         case objects::busy_car_shop_163: return "busy_car_shop_163";
-        case objects::car_bomb_164: return "car_bomb_164";
-        case objects::object_165: return "object_165";
-        case objects::object_166: return "object_166";
-        case objects::molotov_moving_167: return "molotov_moving_167";
+        case objects::blue_phone_164: return "blue_phone_164";
+        case objects::maybe_train_headlight_165: return "maybe_train_headlight_165";
+        case objects::diagonal_wall_collision_obj_166: return "diagonal_wall_collision_obj_166";
+        case objects::maybe_door_trigger_167: return "maybe_door_trigger_167";
 
         case objects::huge_red_skid_189: return "huge_red_skid_189";
         case objects::huge_white_skid_190: return "huge_white_skid_190";
         case objects::huge_brown_skid_191: return "huge_brown_skid_191";
-        case objects::huge_grey_skid_192: return "huge_grey_skid_192";
+        case objects::shotgun_bullet_192: return "shotgun_bullet_192";
         case objects::tanktop_193: return "tanktop_193";
         case objects::antenna_194: return "antenna_194";
         case objects::object_195: return "object_195";
@@ -699,6 +700,32 @@ static void DisplayWideTextAtScreenCoords(wchar_t* pStr, s16 screen_xpos, s16 sc
 static void DisplayTextAtScreenCoords(char* pStr, s16 screen_xpos, s16 screen_ypos)
 {
     DisplayWideTextAtScreenCoords(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos);
+}
+
+// Draw Text with wchar_t
+static void DisplayWideTextAtXYZ(wchar_t* pStr, Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+    if (gHud_2B00_706620)
+    {
+        Camera_0xBC* pPlayerCam = GetPlayerCam();
+        if (pPlayerCam)
+        {
+            if (pPlayerCam->IsCoordsPosVisible_435A70(xpos, ypos, zpos))
+            {
+                Fix16 screen_xpos_f16;
+                Fix16 screen_ypos_f16;
+                ProjectXYZ_intoScreen(xpos, ypos, zpos, screen_xpos_f16, screen_ypos_f16, pPlayerCam);
+
+                s16 screen_xpos = screen_xpos_f16.ToInt();
+                s16 screen_ypos = screen_ypos_f16.ToInt();
+
+                if (gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
+                {
+                    gHud_2B00_706620->field_650.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+                }
+            }
+        }
+    }
 }
 
 void AddMenuOption(u32 page_idx, s16 xpos, s16 ypos, wchar_t* pLabelStr, s16 target_page)
@@ -1847,6 +1874,24 @@ void CC ImGuiDebugDraw()
                     ImGui::TreePop();
                 }
             }
+
+            if (gObject_2C_Pool_6F8F80 && ImGui::TreeNode("Show Object_2C model IDs"))
+            {
+                for (u32 i = 0;i < 3824; i++)
+                {
+                    Object_2C* pObjIter = &gObject_2C_Pool_6F8F80->field_8_pool[i];
+                    if (pObjIter && pObjIter->field_18_model != 0)
+                    {
+                        swprintf(tmpBuff_67BD9C, L"%d", pObjIter->field_18_model);
+                        if (pObjIter->field_4 != NULL)
+                        {
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pObjIter->field_4, 0, 0);
+                        }
+                    }
+                }
+                ImGui::TreePop();
+            }
+
             ImGui::TreePop();
         }
 
@@ -2025,6 +2070,13 @@ void CC ImGuiDebugDraw()
                         ImGui::InputInt("B4 f_6C", &pPlayerPed->field_168_game_object->field_6C_animation_state, 1, 1);
                         ImGui::Input_char_type("B4 f_70", (char_type*)&pPlayerPed->field_168_game_object->field_70_frame_timer, 1, 1);
                         ImGui::Input_char_type("B4 f_71", (char_type*)&pPlayerPed->field_168_game_object->field_71, 1, 1);
+
+                        if (ImGui::TreeNode("Display CharB4 flags"))
+                        {
+                            ConvertBitSetIntoString(TmpBitSetChar, 8, pPlayerPed->field_168_game_object->field_58_flags, 8 * sizeof(pPlayerPed->field_168_game_object->field_58_flags)); // TODO: u8 bitset
+                            DisplayTextAtSprite(TmpBitSetChar, pPlayerPed->GetSprite_46DF50(), 0, 0);
+                            ImGui::TreePop();
+                        }
                     }
 
                     static int currentWeaponIndex = 0;

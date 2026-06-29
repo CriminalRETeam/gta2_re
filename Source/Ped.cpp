@@ -1536,7 +1536,7 @@ void Ped::TakeDamage(s16 damage)
 MATCH_FUNC(0x45cf20)
 void Ped::sub_45CF20(Object_2C* a2)
 {
-    if (field_278_ped_state_1 != ped_state_1::dead_9 && field_278_ped_state_1 != ped_state_1::immobilized_8 && a2->field_18_model == 258 &&
+    if (field_278_ped_state_1 != ped_state_1::dead_9 && field_278_ped_state_1 != ped_state_1::immobilized_8 && a2->field_18_model == objects::ped_crossing_trigger_258 &&
         word_6787D0 < 10)
     {
         sub_45E4A0();
