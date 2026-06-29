@@ -2,9 +2,16 @@
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Hamburger_500.hpp"
+#include "Orca_2FD4.hpp"
 #include "debug.hpp"
 
 DEFINE_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0, 0x67D4C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_67D1F0, Fix16(0.5f), 0x67D1F0);
+
+DEFINE_GLOBAL_INIT(Ang16, word_67D4B0, Ang16(0), 0x67D4B0);
+DEFINE_GLOBAL_INIT(Ang16, word_67D208, Ang16(360), 0x67D208);
+DEFINE_GLOBAL_INIT(Ang16, word_67D2D6, Ang16(720), 0x67D2D6);
+DEFINE_GLOBAL_INIT(Ang16, word_67D2FC, Ang16(1080), 0x67D2FC);
 
 MATCH_FUNC(0x4a85f0)
 void FirefighterPool_54::sub_4A85F0()
@@ -23,12 +30,49 @@ void FirefighterPool_54::sub_4A85F0()
     }
 }
 
-// https://decomp.me/scratch/UXYdo
-STUB_FUNC(0x4a8620)
-Firefighter_28* FirefighterPool_54::sub_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z)
+MATCH_FUNC(0x4a8620)
+Firefighter_28* FirefighterPool_54::sub_4A8620(Car_BC* pCar, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (bSkip_fire_engines_67D53A)
+    {
+        return NULL;
+    }
+    u8 xpos_int = xpos.ToUInt8();
+    u8 ypos_int = ypos.ToUInt8();
+    u8 zpos_int = (zpos + dword_67D1F0).ToUInt8();
+    if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos_int, &ypos_int, &zpos_int, 0) != 1)
+    {
+        return NULL;
+    }
+    s8 sUnk;
+    if (pCar->CountConsecutiveArrowBlocks_4410D0(word_67D4B0, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+    {
+        if (pCar->CountConsecutiveArrowBlocks_4410D0(word_67D208, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+        {
+            if (pCar->CountConsecutiveArrowBlocks_4410D0(word_67D2D6, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+            {
+                if (pCar->CountConsecutiveArrowBlocks_4410D0(word_67D2FC, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+                {
+                    return NULL;
+                }
+            }
+        }
+    }
+    Firefighter_28* pNewFireFighter = FirefighterPool_54::New28_4A8800();
+    if (!pNewFireFighter)
+    {
+        return NULL;
+    }
+    pNewFireFighter->field_0 = field_50_count;
+    ++field_50_count;
+    pNewFireFighter->field_10_xpos = dword_67D1F0 + Fix16(xpos_int);
+    pNewFireFighter->field_14_ypos = dword_67D1F0 + Fix16(ypos_int);
+    pNewFireFighter->field_18_zpos = Fix16(zpos_int);
+    pNewFireFighter->field_4_bActive = 1;
+    pNewFireFighter->field_8_state = 1;
+    pNewFireFighter->field_24_next_state_timer = 0;
+    pNewFireFighter->field_C_target_car = pCar;
+    return pNewFireFighter;
 }
 
 MATCH_FUNC(0x4a8800)
@@ -53,7 +97,7 @@ char_type FirefighterPool_54::sub_4A8820(Car_BC* pCar)
     {
         return 0;
     }
-    const s32 f88 = pCar->field_88;
+    const s32 f88 = pCar->field_88_despawn_status;
     if (f88 == 6 || f88 == 7 || f88 == 5)
     {
         return 0;
@@ -78,7 +122,7 @@ char_type FirefighterPool_54::sub_4A8820(Car_BC* pCar)
 MATCH_FUNC(0x4a88d0)
 void FirefighterPool_54::sub_4A88D0()
 {
-    field_50 = 0;
+    field_50_count = 0;
 }
 
 // https://decomp.me/scratch/X8G5z

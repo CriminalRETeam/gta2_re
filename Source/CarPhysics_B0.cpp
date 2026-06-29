@@ -2228,7 +2228,7 @@ void CarPhysics_B0::ApplyTurningForce_55F020()
     Object_2C* pObj = gRozza_679188.field_20_pSprite->As2C_40FEC0();
     Fix16 v4;
 
-    if (pObj && pObj->field_18_model == 166)
+    if (pObj && pObj->field_18_model == objects::diagonal_wall_collision_obj_166)
     {
         v4 = k_dword_6FDFA4;
         v17 = stru_6FDF80;
@@ -3178,7 +3178,7 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
 {
     WIP_IMPLEMENTED;
 
-    if (this->field_5C_pCar->field_9C == 3 && field_98_surface_type != 7 && field_98_surface_type != 8)
+    if (field_5C_pCar->field_9C_engine_status == car_engine_status::on_3 && field_98_surface_type != 7 && field_98_surface_type != 8)
     {
         if (this->field_8C_state == 2)
         {

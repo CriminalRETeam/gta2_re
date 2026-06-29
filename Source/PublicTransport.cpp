@@ -732,7 +732,7 @@ bool PublicTransport_181C::sub_579B90(Car_BC* pToFind, Fix16* pF16Unk)
             Car_BC* pCar = pTrain->field_C_carriages[0];
             if (pCar == pToFind)
             {
-                if (pCar->field_9C != 3)
+                if (pCar->field_9C_engine_status != car_engine_status::on_3)
                 {
                     *pF16Unk = dword_6FF078;
                     if (pTrain->field_50_state != 0 && pTrain->field_50_state != 1)

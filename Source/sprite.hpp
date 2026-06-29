@@ -317,18 +317,18 @@ class Sprite
 
     inline s32 sub_4BA200()
     {
-        return field_2C & 3;
+        return field_2C_flags & 3;
     }
 
     inline u32 sub_4BA210()
     {
         //return field_2C >> 3;
-        return field_2C & 0xFFFFFFF8;
+        return field_2C_flags & 0xFFFFFFF8;
     }
 
     inline s32 sub_4B9BA0()
     {
-        if ((field_2C & 4) == 0)
+        if ((field_2C_flags & 4) == 0)
         {
             return gLightingDrawFlag_7068F4;
         }
@@ -435,7 +435,7 @@ class Sprite
 
     void Set_2C_0x4_Flag_4337F0()
     {
-        this->field_2C |= 4u;
+        this->field_2C_flags |= 4u;
     }
 
     // 9.6f inline 0x420690
@@ -522,7 +522,7 @@ class Sprite
     char_type field_26_pad;
     char_type field_27_pad;
     s32 field_28_num;
-    u8 field_2C;
+    u8 field_2C_flags;
     char_type field_2D_pad;
     char_type field_2E_pad;
     char_type field_2F_pad;

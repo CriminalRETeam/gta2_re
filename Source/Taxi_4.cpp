@@ -68,7 +68,7 @@ Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
         if (current < smallest)
         {
             pCarRet = pIter->field_0;
-            if (pIter->field_0->field_88 != 5)
+            if (pIter->field_0->field_88_despawn_status != 5)
             {
                 smallest = current;
             }

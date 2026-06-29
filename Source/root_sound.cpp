@@ -37,12 +37,10 @@ char_type root_sound::LoadStyle_40EFF0(const char_type* pStyleName)
     return gSound_obj_66F680.LoadStyle_41A1B0(pStyleName);
 }
 
-STUB_FUNC(0x40F010)
+WIP_FUNC(0x40F010)
 void root_sound::sub_40F010()
 {
-    NOT_IMPLEMENTED;
-    // todo
-    //gSound_obj_66F680.sub_57E960(); // stub
+    gSound_obj_66F680.InitMusicAndCopRadio_57E960();
 }
 
 MATCH_FUNC(0x40F020)

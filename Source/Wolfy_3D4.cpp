@@ -17,15 +17,18 @@ DEFINE_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC, 0x6FD5EC);
 
 EXTERN_GLOBAL(u16, gParticleInstCount_6FD5F4);
 
-DEFINE_GLOBAL(Fix16, dword_6FD49C, 0x6FD49C);
-DEFINE_GLOBAL(Ang16, word_6FD5D4, 0x6FD5D4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD49C, Fix16(0), 0x6FD49C);
+DEFINE_GLOBAL_INIT(Ang16, word_6FD5D4, Ang16(0), 0x6FD5D4);
 
-DEFINE_GLOBAL(Ang16, word_6FD3EE, 0x6FD3EE);
-DEFINE_GLOBAL(Fix16, dword_6FD330, 0x6FD330);
+DEFINE_GLOBAL_INIT(Ang16, word_6FD3EE, Ang16(720), 0x6FD3EE);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD448, Fix16(0x100, 0), 0x6FD448);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD328, dword_6FD448, 0x6FD328);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD330, dword_6FD328 * 2, 0x6FD330);
 
 DEFINE_GLOBAL_INIT(s16, gWolfyId_40_pool_623F18, 1, 0x623F18);
 
-DEFINE_GLOBAL(Fix16, dword_6FD2F0, 0x6FD2F0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD2F0, Fix16(0xCCC, 0), 0x6FD2F0);
 
 EXTERN_GLOBAL(Fix16, dword_6FD39C);
 EXTERN_GLOBAL(Fix16, dword_6FD4A0);
@@ -34,23 +37,22 @@ EXTERN_GLOBAL(Fix16, dword_6FD4A4);
 EXTERN_GLOBAL(Fix16, stru_6FD388);
 EXTERN_GLOBAL(Fix16, stru_6FD38C);
 
-DEFINE_GLOBAL(Fix16, dword_6FD370, 0x6FD370);
-DEFINE_GLOBAL(Fix16, dword_6FD2EC, 0x6FD2EC);
-DEFINE_GLOBAL(Fix16, dword_6FD448, 0x6FD448);
-DEFINE_GLOBAL(Fix16, dword_6FD540, 0x6FD540);
-DEFINE_GLOBAL(Fix16, dword_6FD484, 0x6FD484);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD370, Fix16(0x3000, 0), 0x6FD370);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD2EC, Fix16(0x1000, 0), 0x6FD2EC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD540, Fix16(0x10, 0), 0x6FD540);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD484, Fix16(0x5C2, 0), 0x6FD484);
 DEFINE_GLOBAL(u8, unk_6FD5F6, 0x6FD5F6);
 
-DEFINE_GLOBAL(Fix16, dword_6FD548, 0x6FD548);
-DEFINE_GLOBAL(Fix16, dword_6FD4C0, 0x6FD4C0);
-DEFINE_GLOBAL(Ang16, dword_6FD350, 0x6FD350);
-DEFINE_GLOBAL(Ang16, dword_6FD40C, 0x6FD40C);
-DEFINE_GLOBAL(Ang16, dword_6FD418, 0x6FD418);
-DEFINE_GLOBAL(Ang16, dword_6FD3E0, 0x6FD3E0);
-DEFINE_GLOBAL(Ang16, dword_6FD35C, 0x6FD35C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD548, Fix16(0x20, 0), 0x6FD548);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD4C0, Fix16(8), 0x6FD4C0);
+DEFINE_GLOBAL_INIT(Ang16, dword_6FD350, Ang16(96), 0x6FD350);
+DEFINE_GLOBAL_INIT(Ang16, dword_6FD40C, Ang16(540), 0x6FD40C);
+DEFINE_GLOBAL_INIT(Ang16, dword_6FD418, Ang16(1260), 0x6FD418);
+DEFINE_GLOBAL_INIT(Ang16, dword_6FD3E0, Ang16(900), 0x6FD3E0);
+DEFINE_GLOBAL_INIT(Ang16, dword_6FD35C, Ang16(180), 0x6FD35C);
 
-DEFINE_GLOBAL(Fix16_Point, stru_6FD570, 0x6FD570);
-DEFINE_GLOBAL(Fix16, dword_6FD2F4, 0x6FD2F4);
+DEFINE_GLOBAL_INIT(Fix16_Point, stru_6FD570, Fix16_Point(Fix16(0), Fix16(0)), 0x6FD570);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD2F4, Fix16(0x1333, 0), 0x6FD2F4);
 
 EXTERN_GLOBAL(Fix16, dword_6FD2E8);
 EXTERN_GLOBAL(Fix16, dword_6FD46C);
@@ -275,7 +277,7 @@ void Wolfy_30::state_3_12_540D30(Fix16 a3, Ang16 a2)
 
         v19->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 96);
 
-        pParticle->field_30_pNext->field_2C |= 4u;
+        pParticle->field_30_pNext->field_2C_flags |= 4u;
         Sprite* v21 = pParticle->field_30_pNext;
         Sprite* v22 = this->field_14->field_4;
 
@@ -430,7 +432,7 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
                                                       field_14->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
             this->field_18 = stru_6F6784.get_int_4F7AE0(2);
-            pNew->field_30_pNext->field_2C = 0xA2;
+            pNew->field_30_pNext->field_2C_flags = 0xA2;
             pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
         }
     }

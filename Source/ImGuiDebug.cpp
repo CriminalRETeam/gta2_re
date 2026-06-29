@@ -16,6 +16,7 @@
 #include "MapRenderer.hpp"
 #include "Network_20324.hpp"
 #include "Object_5C.hpp"
+#include "Object_2C_Pool.hpp"
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
 #include "PedGroup.hpp"
@@ -62,6 +63,7 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 Object_2C* spawned_obj = NULL;
 Car_BC* pNewCar = NULL;
+char TmpBitSetChar[50];
 
 void wchar_to_char(wchar_t* wchar, char* out, u8 size)
 {
@@ -531,70 +533,70 @@ static const char* ObjectIdToString(s32 id)
         case objects::moving_collect_11_107: return "moving_collect_11_107";
         case objects::moving_collect_12_108: return "moving_collect_12_108";
         case objects::moving_collect_13_109: return "moving_collect_13_109";
-        case objects::moving_collect_14_110: return "moving_collect_14_110";
+        case objects::ped_pushed_110: return "ped_pushed_110";
         case objects::moving_collect_15_111: return "moving_collect_15_111";
         case objects::moving_collect_16_112: return "moving_collect_16_112";
-        case objects::moving_collect_17_113: return "moving_collect_17_113";
-        case objects::moving_collect_18_114: return "moving_collect_18_114";
+        case objects::explosion_113: return "explosion_113";
+        case objects::water_cannon_114: return "water_cannon_114";
         case objects::moving_collect_19_115: return "moving_collect_19_115";
         case objects::moving_collect_20_116: return "moving_collect_20_116";
         case objects::moving_collect_21_117: return "moving_collect_21_117";
         case objects::moving_collect_22_118: return "moving_collect_22_118";
         case objects::moving_collect_23_119: return "moving_collect_23_119";
-        case objects::moving_collect_24_120: return "moving_collect_24_120";
+        case objects::road_skidmark_120: return "road_skidmark_120";
         case objects::moving_collect_25_121: return "moving_collect_25_121";
-        case objects::moving_collect_26_122: return "moving_collect_26_122";
+        case objects::pedestrian_crossing_marker_122: return "pedestrian_crossing_marker_122";
         case objects::moving_collect_27_123: return "moving_collect_27_123";
         case objects::moving_collect_28_124: return "moving_collect_28_124";
         case objects::moving_collect_29_125: return "moving_collect_29_125";
         case objects::moving_collect_30_126: return "moving_collect_30_126";
-        case objects::moving_collect_31_127: return "moving_collect_31_127";
-        case objects::moving_collect_32_128: return "moving_collect_32_128";
-        case objects::moving_collect_33_129: return "moving_collect_33_129";
-        case objects::moving_collect_34_130: return "moving_collect_34_130";
-        case objects::moving_collect_35_131: return "moving_collect_35_131";
+        case objects::explosion_fragments_127: return "explosion_fragments_127";
+        case objects::rocket_bullet_128: return "rocket_bullet_128";
+        case objects::bus_stop_marker_129: return "bus_stop_marker_129";
+        case objects::car_shop_130: return "car_shop_130";
+        case objects::car_shop_busy_131: return "car_shop_busy_131";
         case objects::moving_collect_36_132: return "moving_collect_36_132";
         case objects::moving_collect_37_133: return "moving_collect_37_133";
-        case objects::moving_collect_38_134: return "moving_collect_38_134";
-        case objects::moving_collect_39_135: return "moving_collect_39_135";
-        case objects::moving_collect_40_136: return "moving_collect_40_136";
-        case objects::moving_collect_41_137: return "moving_collect_41_137";
-        case objects::moving_collect_42_138: return "moving_collect_42_138";
-        case objects::moving_collect_43_139: return "moving_collect_43_139";
-        case objects::moving_collect_44_140: return "moving_collect_44_140";
+        case objects::crane_unknown_134: return "crane_unknown_134";
+        case objects::crane_rotor_135: return "crane_rotor_135";
+        case objects::crane_hook_136: return "crane_hook_136";
+        case objects::crane_base_137: return "crane_base_137";
+        case objects::moving_molotov_138: return "moving_molotov_138";
+        case objects::conveyor_139: return "conveyor_139";
+        case objects::crane_counterweight_140: return "crane_counterweight_140";
 
-        case objects::small_arrow_141: return "small_arrow_141";
-        case objects::object_142: return "object_142";
-        case objects::blood_spark_143: return "blood_spark_143";
+        case objects::destructor_141: return "destructor_141";
+        case objects::crusher_piston_142: return "crusher_piston_142";
+        case objects::crusher_central_spot_143: return "crusher_central_spot_143";
         case objects::object_144: return "object_144";
         case objects::particle_system_145: return "particle_system_145";
         case objects::firejet_146: return "firejet_146";
         case objects::object_147: return "object_147";
         case objects::small_brown_skid_148: return "small_brown_skid_148";
         case objects::small_grey_skid_149: return "small_grey_skid_149";
-        case objects::small_red_skid_150: return "small_red_skid_150";
+        case objects::crusher_piston_base_150: return "crusher_piston_base_150";
         case objects::medium_brown_skid_151: return "medium_brown_skid_151";
         case objects::medium_grey_skid_152: return "medium_grey_skid_152";
         case objects::medium_red_skid_153: return "medium_red_skid_153";
-        case objects::car_crossing_154: return "car_crossing_154";
+        case objects::flamethrower_fire_154: return "flamethrower_fire_154";
         case objects::car_stop_155: return "car_stop_155";
         case objects::big_white_skid_156: return "big_white_skid_156";
         case objects::medium_white_skid_157: return "medium_white_skid_157";
         case objects::small_white_skid_158: return "small_white_skid_158";
         case objects::object_159: return "object_159";
         case objects::rocket_160: return "rocket_160";
-        case objects::bus_stop_marker_161: return "bus_stop_marker_161";
+        case objects::savepoint_161: return "savepoint_161";
         case objects::car_shop_162: return "car_shop_162";
         case objects::busy_car_shop_163: return "busy_car_shop_163";
-        case objects::car_bomb_164: return "car_bomb_164";
-        case objects::object_165: return "object_165";
-        case objects::object_166: return "object_166";
-        case objects::molotov_moving_167: return "molotov_moving_167";
+        case objects::blue_phone_164: return "blue_phone_164";
+        case objects::maybe_train_headlight_165: return "maybe_train_headlight_165";
+        case objects::diagonal_wall_collision_obj_166: return "diagonal_wall_collision_obj_166";
+        case objects::maybe_door_trigger_167: return "maybe_door_trigger_167";
 
         case objects::huge_red_skid_189: return "huge_red_skid_189";
         case objects::huge_white_skid_190: return "huge_white_skid_190";
         case objects::huge_brown_skid_191: return "huge_brown_skid_191";
-        case objects::huge_grey_skid_192: return "huge_grey_skid_192";
+        case objects::shotgun_bullet_192: return "shotgun_bullet_192";
         case objects::tanktop_193: return "tanktop_193";
         case objects::antenna_194: return "antenna_194";
         case objects::object_195: return "object_195";
@@ -698,6 +700,32 @@ static void DisplayWideTextAtScreenCoords(wchar_t* pStr, s16 screen_xpos, s16 sc
 static void DisplayTextAtScreenCoords(char* pStr, s16 screen_xpos, s16 screen_ypos)
 {
     DisplayWideTextAtScreenCoords(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos);
+}
+
+// Draw Text with wchar_t
+static void DisplayWideTextAtXYZ(wchar_t* pStr, Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+    if (gHud_2B00_706620)
+    {
+        Camera_0xBC* pPlayerCam = GetPlayerCam();
+        if (pPlayerCam)
+        {
+            if (pPlayerCam->IsCoordsPosVisible_435A70(xpos, ypos, zpos))
+            {
+                Fix16 screen_xpos_f16;
+                Fix16 screen_ypos_f16;
+                ProjectXYZ_intoScreen(xpos, ypos, zpos, screen_xpos_f16, screen_ypos_f16, pPlayerCam);
+
+                s16 screen_xpos = screen_xpos_f16.ToInt();
+                s16 screen_ypos = screen_ypos_f16.ToInt();
+
+                if (gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
+                {
+                    gHud_2B00_706620->field_650.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+                }
+            }
+        }
+    }
 }
 
 void AddMenuOption(u32 page_idx, s16 xpos, s16 ypos, wchar_t* pLabelStr, s16 target_page)
@@ -998,6 +1026,20 @@ void BootMap(char* mapName, char* styName, char* scrName)
     }
 }
 
+void ConvertBitSetIntoString(char* pOut, u8 max_width, s32 bitset, u8 max_num_bits)
+{
+    for (u8 i = 0; i < max_num_bits; i++, pOut++)
+    {
+        *pOut = ( (bitset >> i) & 1 ) ? '1' : '0';
+        if (i > 0 && ((i+1) % max_width) == 0)
+        {
+            pOut++;
+            *pOut = '\n';
+        }
+    }
+    *pOut = 0;
+}
+
 void CC ImGuiDebugDraw()
 {
     HookManagement::HooksDebug();
@@ -1231,7 +1273,7 @@ void CC ImGuiDebugDraw()
                 while (pCarIter)
                 {
                     //ImGui::Value("Field 88", pCarIter->field_88);
-                    swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_88);
+                    swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_88_despawn_status);
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->GetSprite_440840(), 0, 0);
                     pCarIter = pCarIter->mpNext;
                 }
@@ -1257,7 +1299,7 @@ void CC ImGuiDebugDraw()
 
                     if (ImGui::Button("TurnToWreck_4436A0"))
                     {
-                        pCarIter->field_88 = 4;
+                        pCarIter->field_88_despawn_status = 4;
                         pCarIter->TurnToWreck_4436A0();
                     }
 
@@ -1576,13 +1618,13 @@ void CC ImGuiDebugDraw()
 
                     pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
-                    pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
+                    pNewCar->IncrementCarStats_443D70(car_kind::recycled_1); // avoid crashes when entering the car
                 }
                 if (ImGui::Button("Spawn car with trailer"))
                 {
                     pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
-                    pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
+                    pNewCar->IncrementCarStats_443D70(car_kind::recycled_1); // avoid crashes when entering the car
 
                     // Spawns a cab and connected trailer, can spawn trains too apparently
                     gCar_6C_677930->SpawnCabAndTrailer_446530(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
@@ -1655,7 +1697,7 @@ void CC ImGuiDebugDraw()
                     pNewCar->HandleCarExplosion_43D840(unknown_arg);
                 }
 
-                ImGui::InputInt("Car F_88", &pNewCar->field_88, 1, 1);
+                ImGui::InputInt("Car F_88", &pNewCar->field_88_despawn_status, 1, 1);
 
                 if (ImGui::TreeNode("Draw Testing") && pNewCar->field_50_car_sprite)
                 {
@@ -1664,6 +1706,28 @@ void CC ImGuiDebugDraw()
                         pNewCar->field_50_car_sprite->field_14_xy.y.ToFloat(),
                         pNewCar->field_50_car_sprite->field_1C_zpos.ToFloat());
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pNewCar->field_50_car_sprite, 0, 0);
+                    ImGui::TreePop();
+                }
+            }
+
+            if (gCar_6C_677930)
+            {
+                ImGui::SliderInt("F1C", &gCar_6C_677930->field_1C, -30, 30);
+
+                if (ImGui::TreeNode("Draw debug stuff"))
+                {
+                    if (gCar_BC_Pool_67792C)
+                    {
+                        for (u32 i = 0; i < GTA2_COUNTOF(gCar_BC_Pool_67792C->field_0_pool.field_8_pool); i++)
+                        {
+                            Car_BC* pCarIter = &gCar_BC_Pool_67792C->field_0_pool.field_8_pool[i];
+                            if (pCarIter && pCarIter->field_50_car_sprite)
+                            {
+                                swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_9C_engine_status);
+                                DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
+                            }
+                        }
+                    }
                     ImGui::TreePop();
                 }
             }
@@ -1691,6 +1755,7 @@ void CC ImGuiDebugDraw()
                             pAI_Iter->field_54);
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
                     */
+                    /*
                     if (pCarIter->field_58_physics)
                     {
                         swprintf(tmpBuff_67BD9C, L"%d", 
@@ -1703,6 +1768,19 @@ void CC ImGuiDebugDraw()
                     {
                         swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C);
                         DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -15);
+                    }
+                    */
+                    /*
+                    if (pCarIter)
+                    {
+                        ConvertBitSetIntoString(TmpBitSetChar, 8, pAI_Iter->field_24_flags, 8 * sizeof(pAI_Iter->field_24_flags)); // TODO: u8 bitset
+                        DisplayTextAtSprite(TmpBitSetChar, pCarIter->field_50_car_sprite, 0, 0);
+                    }
+                    */
+                    if (pAI_Iter)
+                    {
+                        swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_54);
+                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
                     }
                     num_AI_count++;
                 }
@@ -1796,6 +1874,24 @@ void CC ImGuiDebugDraw()
                     ImGui::TreePop();
                 }
             }
+
+            if (gObject_2C_Pool_6F8F80 && ImGui::TreeNode("Show Object_2C model IDs"))
+            {
+                for (u32 i = 0;i < 3824; i++)
+                {
+                    Object_2C* pObjIter = &gObject_2C_Pool_6F8F80->field_8_pool[i];
+                    if (pObjIter && pObjIter->field_18_model != 0)
+                    {
+                        swprintf(tmpBuff_67BD9C, L"%d", pObjIter->field_18_model);
+                        if (pObjIter->field_4 != NULL)
+                        {
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pObjIter->field_4, 0, 0);
+                        }
+                    }
+                }
+                ImGui::TreePop();
+            }
+
             ImGui::TreePop();
         }
 
@@ -1847,6 +1943,8 @@ void CC ImGuiDebugDraw()
                             char buffer[128];
                             get_car_name(pPlayerCar, buffer);
                             ImGui::Text("Car name: %s", buffer);
+
+                            ImGui::SliderInt("F9C", &pPlayerCar->field_9C_engine_status, 1, 7);
 
                             if (ImGui::TreeNode("Trailer"))
                             {
@@ -1972,6 +2070,13 @@ void CC ImGuiDebugDraw()
                         ImGui::InputInt("B4 f_6C", &pPlayerPed->field_168_game_object->field_6C_animation_state, 1, 1);
                         ImGui::Input_char_type("B4 f_70", (char_type*)&pPlayerPed->field_168_game_object->field_70_frame_timer, 1, 1);
                         ImGui::Input_char_type("B4 f_71", (char_type*)&pPlayerPed->field_168_game_object->field_71, 1, 1);
+
+                        if (ImGui::TreeNode("Display CharB4 flags"))
+                        {
+                            ConvertBitSetIntoString(TmpBitSetChar, 8, pPlayerPed->field_168_game_object->field_58_flags, 8 * sizeof(pPlayerPed->field_168_game_object->field_58_flags)); // TODO: u8 bitset
+                            DisplayTextAtSprite(TmpBitSetChar, pPlayerPed->GetSprite_46DF50(), 0, 0);
+                            ImGui::TreePop();
+                        }
                     }
 
                     static int currentWeaponIndex = 0;
@@ -2067,10 +2172,10 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("f_36", pPlayer->field_2D4_scores.field_0_money.field_36_palette);
 
                         static char_type num_idx = 0;
-                        ImGui::SliderS8("Array Idx", &num_idx, 0, 8);
+                        ImGui::SliderS8("Array Idx", &num_idx, 0, 9);
 
-                        ImGui::Value("f_9", pPlayer->field_2D4_scores.field_0_money.field_9[num_idx]);
-                        ImGui::Value("f_13", pPlayer->field_2D4_scores.field_0_money.field_13[num_idx]);
+                        ImGui::Value("f_9", pPlayer->field_2D4_scores.field_0_money.field_9_str[num_idx]);
+                        ImGui::Value("f_13", pPlayer->field_2D4_scores.field_0_money.field_13_offset[num_idx]);
                         ImGui::Value("f_1D", pPlayer->field_2D4_scores.field_0_money.field_1D_buf[num_idx]);
 
                         ImGui::TreePop();
@@ -2299,6 +2404,21 @@ void CC ImGuiDebugDraw()
                         pIter = pIter->mpNext;
                     }
                 }
+                
+                if (ImGui::TreeNode("Show F69"))
+                {
+                    Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
+                    while (pPedIter)
+                    {
+                        if (pPedIter->field_168_game_object)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69_is_colliding_with_sprite);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                        }
+                        pPedIter = pPedIter->mpNext;
+                    }
+                    ImGui::TreePop();
+                }
 
                 Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
                 Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
@@ -2399,7 +2519,7 @@ void CC ImGuiDebugDraw()
                     {
                         if (pPedIter->field_168_game_object)
                         {
-                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69);
+                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69_is_colliding_with_sprite);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
                         }
                         pPedIter = pPedIter->mpNext;
@@ -2643,6 +2763,24 @@ void CC ImGuiDebugDraw()
             //ImGui::Value("bRet", bUnk);
             //gMap_0x370_6F6268->sub_4E0130(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt())
 
+            ImGui::TreePop();
+        }
+
+        if (gParticle_4C_Pool_6FD5E4 && ImGui::TreeNode("gParticle_4C_Pool_6FD5E4"))
+        {
+            Particle_4C* pIter = gParticle_4C_Pool_6FD5E4->field_4_pPrev;
+            for (; pIter; pIter = pIter->mpNext)
+            {
+                swprintf(tmpBuff_67BD9C, L"%d", pIter->field_38_state);
+                if (pIter->field_28_pSprite)
+                {
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pIter->field_28_pSprite, 0, 0);
+                }
+                else if (pIter->field_30_pNext)
+                {
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pIter->field_30_pNext, 0, 0);
+                }
+            }
             ImGui::TreePop();
         }
 

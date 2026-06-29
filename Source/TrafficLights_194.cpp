@@ -50,94 +50,94 @@ void TrafficLight_20::sub_5C1D00(u8 x, u8 y, u8 w, u8 h)
     if (gMap_0x370_6F6268->IsBlockRoadType_42A8C0(x - 1, h + y - 1, zTmp))
     {
         // OK
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(170, Fix16(x) - dword_7055E4, Fix16(y + (h / 2)), dword_7055E0 + zpos, word_705788);
-        field_8 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(255,
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x) - dword_7055E4, Fix16(y + (h / 2)), dword_7055E0 + zpos, word_705788);
+        field_8_west_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
                                                           Fix16(x) - dword_7055FC - dword_7055E4,
                                                           Fix16(y + (h / 2)),
                                                           zpos + dword_7055E0,
                                                           word_705788);
-        field_8->sub_5290C0(0);
-        field_18 = gLight_1D4CC_6F5520->Init_469010(Fix16(x) - dword_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, dword_705850, 200);
+        field_8_west_headlight_obj->sub_5290C0(0);
+        field_18_west_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x) - dword_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, dword_705850, 200);
     }
     else
     {
-        field_8 = 0;
+        field_8_west_headlight_obj = 0;
     }
 
     // East side
     if (gMap_0x370_6F6268->IsBlockRoadType_42A8C0(x + w, y, zTmp))
     {
         // OK
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(170, Fix16(x + w) + dword_7055E4, Fix16(y + (h / 2)), dword_7055E0 + zpos, word_705690);
-        field_C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(255,
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + w) + dword_7055E4, Fix16(y + (h / 2)), dword_7055E0 + zpos, word_705690);
+        field_C_east_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
                                                           Fix16(x + w) + dword_7055FC + dword_7055E4,
                                                           Fix16(y + (h / 2)),
                                                           zpos + dword_7055E0,
                                                           word_705690);
-        field_C->sub_5290C0(0);
-        field_1C = gLight_1D4CC_6F5520->Init_469010(Fix16(x + w) + dword_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, dword_705850, 200);
+        field_C_east_headlight_obj->sub_5290C0(0);
+        field_1C_east_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + w) + dword_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, dword_705850, 200);
     }
     else
     {
-        field_C = 0;
+        field_C_east_headlight_obj = 0;
     }
 
     // North side
     if (gMap_0x370_6F6268->IsBlockRoadType_42A8C0(x, y - 1, zTmp))
     {
         // OK
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(170, Fix16(x + (w / 2)), Fix16(y) - dword_7055E4, dword_7055E0 + zpos, word_705762);
-        field_0 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(255,
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + (w / 2)), Fix16(y) - dword_7055E4, dword_7055E0 + zpos, word_705762);
+        field_0_north_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
                                                           Fix16(x + (w / 2)) - dword_7055FC - dword_7055E4,
                                                           Fix16(y),
                                                           zpos + dword_7055E0,
                                                           word_705762);
-        field_0->sub_5290C0(0);
-        field_10 = gLight_1D4CC_6F5520->Init_469010(Fix16(x + (w / 2)), Fix16(y) - dword_7055E4, zpos, 0x00FF00, dword_705850, 200);
+        field_0_north_headlight_obj->sub_5290C0(0);
+        field_10_north_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + (w / 2)), Fix16(y) - dword_7055E4, zpos, 0x00FF00, dword_705850, 200);
     }
     else
     {
-        field_0 = 0;
+        field_0_north_headlight_obj = 0;
     }
 
     // South side
     if (gMap_0x370_6F6268->IsBlockRoadType_42A8C0(x + w - 1, y + h, zTmp))
     {
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(170, Fix16(x + (w / 2)), Fix16(y + h) + dword_7055E4, dword_7055E0 + zpos, word_705948);
-        field_4 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(255,
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + (w / 2)), Fix16(y + h) + dword_7055E4, dword_7055E0 + zpos, word_705948);
+        field_4_south_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
                                                           Fix16(x + (w / 2)),
                                                           Fix16(y + h) + dword_7055E4 + dword_7055FC,
                                                           zpos + dword_7055E0,
                                                           word_705948);
-        field_4->sub_5290C0(0);
-        field_14 = gLight_1D4CC_6F5520->Init_469010(Fix16(x + (w / 2)), Fix16(y + h) + dword_7055E4, zpos, 0x00FF00, dword_705850, 200);
+        field_4_south_headlight_obj->sub_5290C0(0);
+        field_14_south_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + (w / 2)), Fix16(y + h) + dword_7055E4, zpos, 0x00FF00, dword_705850, 200);
     }
     else
     {
-        field_4 = 0;
+        field_4_south_headlight_obj = 0;
     }
 
-    if ((field_8 || field_0) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x - 1, y - 1, zTmp))
+    if ((field_8_west_headlight_obj || field_0_north_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x - 1, y - 1, zTmp))
     {
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(258, Fix16(x) - dword_705714, Fix16(y) - dword_705714, zpos, word_705948);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::ped_crossing_trigger_258, Fix16(x) - dword_705714, Fix16(y) - dword_705714, zpos, word_705948);
     }
 
-    if ((field_C || field_0) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x + w, y - 1, zTmp))
+    if ((field_C_east_headlight_obj || field_0_north_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x + w, y - 1, zTmp))
     {
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(258, Fix16(w + x) + dword_705714, Fix16(y) - dword_705714, zpos, word_705948);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::ped_crossing_trigger_258, Fix16(w + x) + dword_705714, Fix16(y) - dword_705714, zpos, word_705948);
     }
 
-    if ((field_C || field_4) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x + w, h + y, zTmp))
+    if ((field_C_east_headlight_obj || field_4_south_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x + w, h + y, zTmp))
     {
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(258, Fix16(w + x) + dword_705714, Fix16(y + h) + dword_705714, zpos, word_705948);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::ped_crossing_trigger_258, Fix16(w + x) + dword_705714, Fix16(y + h) + dword_705714, zpos, word_705948);
     }
 
-    if ((field_8 || field_4) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x - 1, y + h, zTmp))
+    if ((field_8_west_headlight_obj || field_4_south_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x - 1, y + h, zTmp))
     {
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(258, Fix16(x) - dword_705714, Fix16(y + h) + dword_705714, zpos, word_705948);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::ped_crossing_trigger_258, Fix16(x) - dword_705714, Fix16(y + h) + dword_705714, zpos, word_705948);
     }
 
-    if (field_0)
+    if (field_0_north_headlight_obj)
     {
         Fix16 xIter1(x);
 
@@ -148,13 +148,13 @@ void TrafficLight_20::sub_5C1D00(u8 x, u8 y, u8 w, u8 h)
                                                                           (zpos - dword_70580C).ToInt());
             if (pBlock1 && (pBlock1->field_A_arrows & 8) != 0)
             {
-                gObject_5C_6F8F84->NewPhysicsObj_5299B0(122, xIter1 + dword_705714, Fix16(y) - dword_705660, zpos, word_705948);
+                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, xIter1 + dword_705714, Fix16(y) - dword_705660, zpos, word_705948);
             }
             xIter1 += Fix16(1);
         }
     }
 
-    if (field_4)
+    if (field_4_south_headlight_obj)
     {
         Fix16 xIter2(x);
         for (u8 i = 0; i < w; i++)
@@ -164,13 +164,13 @@ void TrafficLight_20::sub_5C1D00(u8 x, u8 y, u8 w, u8 h)
                                                                           (zpos - dword_70580C).ToInt());
             if (pBlock2 && (pBlock2->field_A_arrows & 4) != 0)
             {
-                gObject_5C_6F8F84->NewPhysicsObj_5299B0(122, xIter2 + dword_705714, Fix16(y + h) + dword_705660, zpos, word_705948);
+                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, xIter2 + dword_705714, Fix16(y + h) + dword_705660, zpos, word_705948);
             }
             xIter2 += Fix16(1);
         }
     }
 
-    if (field_C)
+    if (field_C_east_headlight_obj)
     {
         Fix16 yOff(y);
         for (u8 i = 0; i < h; h++)
@@ -180,13 +180,13 @@ void TrafficLight_20::sub_5C1D00(u8 x, u8 y, u8 w, u8 h)
                                                                           (zpos - dword_70580C).ToInt());
             if (pBlock3 && (pBlock3->field_A_arrows & 1) != 0)
             {
-                gObject_5C_6F8F84->NewPhysicsObj_5299B0(122, Fix16(x + w) + dword_705660, yOff + dword_705714, zpos, word_705690);
+                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x + w) + dword_705660, yOff + dword_705714, zpos, word_705690);
             }
             yOff += Fix16(1);
         }
     }
 
-    if (field_8)
+    if (field_8_west_headlight_obj)
     {
         Fix16 yOff(y);
         for (u8 i = 0; i < h; h++)
@@ -196,7 +196,7 @@ void TrafficLight_20::sub_5C1D00(u8 x, u8 y, u8 w, u8 h)
                                                                           (zpos - dword_70580C).ToInt());
             if (pBlock4 && (pBlock4->field_A_arrows & 2) != 0)
             {
-                gObject_5C_6F8F84->NewPhysicsObj_5299B0(122, Fix16(x) - dword_705660, yOff + dword_705714, zpos, word_705690);
+                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x) - dword_705660, yOff + dword_705714, zpos, word_705690);
             }
             yOff += Fix16(1);
         }
@@ -209,86 +209,86 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
     switch (phase)
     {
         case 1u:
-            if (field_0)
+            if (field_0_north_headlight_obj)
             {
-                field_0->sub_5290C0(1u);
-                field_10->field_10_argb = 0xFF00;
+                field_0_north_headlight_obj->sub_5290C0(1u);
+                field_10_north_light->field_10_argb = 0xFF00;
             }
 
-            if (field_4)
+            if (field_4_south_headlight_obj)
             {
-                field_4->sub_5290C0(1u);
-                field_14->field_10_argb = 0xFF00;
+                field_4_south_headlight_obj->sub_5290C0(1u);
+                field_14_south_light->field_10_argb = 0xFF00;
             }
             break;
 
         case 2u:
-            if (field_0)
+            if (field_0_north_headlight_obj)
             {
-                field_0->sub_5290C0(2u);
-                field_10->field_10_argb = 0xFF8000;
+                field_0_north_headlight_obj->sub_5290C0(2u);
+                field_10_north_light->field_10_argb = 0xFF8000;
             }
 
-            if (field_4)
+            if (field_4_south_headlight_obj)
             {
-                field_4->sub_5290C0(2u);
-                field_14->field_10_argb = 0xFF8000;
+                field_4_south_headlight_obj->sub_5290C0(2u);
+                field_14_south_light->field_10_argb = 0xFF8000;
             }
             break;
 
         case 3u:
-            if (field_0)
+            if (field_0_north_headlight_obj)
             {
-                field_0->sub_5290C0(0);
-                field_10->field_10_argb = 0xFF0000;
+                field_0_north_headlight_obj->sub_5290C0(0);
+                field_10_north_light->field_10_argb = 0xFF0000;
             }
 
-            if (field_4)
+            if (field_4_south_headlight_obj)
             {
-                field_4->sub_5290C0(0);
-                field_14->field_10_argb = 0xFF0000;
+                field_4_south_headlight_obj->sub_5290C0(0);
+                field_14_south_light->field_10_argb = 0xFF0000;
             }
             break;
 
         case 4u:
-            if (field_C)
+            if (field_C_east_headlight_obj)
             {
-                field_C->sub_5290C0(1u);
-                field_1C->field_10_argb = 0xFF00;
+                field_C_east_headlight_obj->sub_5290C0(1u);
+                field_1C_east_light->field_10_argb = 0xFF00;
             }
 
-            if (field_8)
+            if (field_8_west_headlight_obj)
             {
-                field_8->sub_5290C0(1u);
-                field_18->field_10_argb = 0xFF00;
+                field_8_west_headlight_obj->sub_5290C0(1u);
+                field_18_west_light->field_10_argb = 0xFF00;
             }
             break;
 
         case 5u:
-            if (field_C)
+            if (field_C_east_headlight_obj)
             {
-                field_C->sub_5290C0(2u);
-                field_1C->field_10_argb = 0xFF8000;
+                field_C_east_headlight_obj->sub_5290C0(2u);
+                field_1C_east_light->field_10_argb = 0xFF8000;
             }
 
-            if (field_8)
+            if (field_8_west_headlight_obj)
             {
-                field_8->sub_5290C0(2u);
-                field_18->field_10_argb = 0xFF8000;
+                field_8_west_headlight_obj->sub_5290C0(2u);
+                field_18_west_light->field_10_argb = 0xFF8000;
             }
             break;
 
         case 6u:
-            if (field_C)
+            if (field_C_east_headlight_obj)
             {
-                field_C->sub_5290C0(0);
-                field_1C->field_10_argb = 0xFF0000;
+                field_C_east_headlight_obj->sub_5290C0(0);
+                field_1C_east_light->field_10_argb = 0xFF0000;
             }
 
-            if (field_8)
+            if (field_8_west_headlight_obj)
             {
-                field_8->sub_5290C0(0);
-                field_18->field_10_argb = 0xFF0000;
+                field_8_west_headlight_obj->sub_5290C0(0);
+                field_18_west_light->field_10_argb = 0xFF0000;
             }
             break;
 

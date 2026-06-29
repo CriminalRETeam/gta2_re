@@ -23,12 +23,9 @@ class thirsty_lamarr
     s32 field_0_value;
     s32 field_4;
     char_type field_8;
-    s8 field_9[9];
-    u8 field_12;
-    s8 field_13[9];
-    char_type field_1C;
-    u8 field_1D_buf[9];
-    char_type field_26;
+    char_type field_9_str[10];
+    s8 field_13_offset[10];
+    u8 field_1D_buf[10];
     u8 field_27_sprite_w;
     u8 field_28_sprite_h_calc;
     char_type field_29;

@@ -535,10 +535,10 @@ void sound_obj::ServiceSoundEffects_41A3A0()
 }
 
 // https://decomp.me/scratch/i3zcW
-STUB_FUNC(0x41A730)
+WIP_FUNC(0x41A730)
 void sound_obj::InterrogateAudioEntities_41A730()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     Camera_0xBC* pTmp;
 
     if (field_1478_type5Idx != 0 && (pTmp = field_147C[field_1478_type5Idx].field_4_pObj->field_C_pAny.pCamera_0xBC) != NULL)
@@ -665,10 +665,10 @@ void sound_obj::AddReleasingSounds_41A9D0()
 }
 
 // https://decomp.me/scratch/uOtew matching this function will make sound works
-STUB_FUNC(0x41AB80)
+WIP_FUNC(0x41AB80)
 void sound_obj::ProcessActiveQueues_41AB80()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     serene_brattain position;
     for (u8 idx = 0; idx < field_10_nActiveSamples; idx++)
     {
@@ -2008,7 +2008,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
     pCrane_ = pCrane;
     if (pCrane)
     {
-        pSprite = pCrane->field_2C->field_4;
+        pSprite = pCrane->field_2C_rotor_obj->field_4;
         if (pSprite)
         {
             this->field_30_sQueueSample.field_8_obj.field_0 = pSprite->field_14_xy.x;
@@ -2627,7 +2627,7 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
         return 0;
     }
 
-    if (pCar->field_9C != 3)
+    if (pCar->field_9C_engine_status != car_engine_status::on_3)
     {
         return 0;
     }
@@ -3598,7 +3598,7 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
     Fix16 gear2_speed;
     Fix16 gear3_speed;
 
-    if (pCar->field_9C == 3 && CalculateDistance_419020(Fix16(0x90000, 0)))
+    if (pCar->field_9C_engine_status == car_engine_status::on_3 && CalculateDistance_419020(Fix16(0x90000, 0)))
     {
         Fix16 gas_pedal = pCar->sub_43A240();
         Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
@@ -3878,7 +3878,7 @@ void sound_obj::HandleCarDamageSound_4177D0(Sound_Params_8* a2)
     WIP_IMPLEMENTED;
 
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->field_9C == 3 && pCar->field_74_damage > 16000)
+    if (pCar->field_9C_engine_status == car_engine_status::on_3 && pCar->field_74_damage > 16000)
     {
         if (CalculateDistance_419020(Fix16(802816, 0)))
         {
@@ -4225,7 +4225,7 @@ void sound_obj::HandleSirenActivationSound_4178C0(Sound_Params_8* a2)
     if ((pCar->inline_info_flags_bit2() || pCar->is_FBI_car_411920()) && (pCar->field_A4 & 4))
     {
         Car_BC* pCar_ = a2->field_0_pObj->field_8_car_bc_ptr;
-        if (pCar_->field_9C == 3)
+        if (pCar_->field_9C_engine_status == car_engine_status::on_3)
         {
             if (pCar_->field_54_driver)
             {
@@ -4991,7 +4991,7 @@ void sound_obj::Tank_414A50(Sound_Params_8* a2)
     WIP_IMPLEMENTED;
 
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->field_9C == 3)
+    if (pCar->field_9C_engine_status == car_engine_status::on_3)
     {
         if (CalculateDistance_419020((Fix16(20) / Fix16(2)) * (Fix16(20) / Fix16(2))))
         {
@@ -5060,7 +5060,7 @@ void sound_obj::Tank_415190(Sound_Params_8* a2)
     WIP_IMPLEMENTED;
 
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->field_9C == 3 && (pCar->field_78_flags & 0x2000) != 0)
+    if (pCar->field_9C_engine_status == car_engine_status::on_3 && (pCar->field_78_flags & 0x2000) != 0)
     {
         if (CalculateDistance_419020(Fix16(921600, 0)))
         {
@@ -5631,7 +5631,7 @@ void sound_obj::UpdateCarEngineAudio_57E220()
 MATCH_FUNC(0x418610)
 void sound_obj::UpdateCarSurfaceAudio_418610(Sound_Params_8* a2)
 {
-    if (a2->field_0_pObj->field_8_car_bc_ptr->field_9C == 4)
+    if (a2->field_0_pObj->field_8_car_bc_ptr->field_9C_engine_status == car_engine_status::unknown_4)
     {
         if (CalculateDistance_419020(Fix16(409600, 0)))
         {
@@ -5693,6 +5693,38 @@ u32 sound_obj::UpdateVocalStream_57E510()
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+WIP_FUNC(0x57E960)
+void sound_obj::InitMusicAndCopRadio_57E960()
+{
+    WIP_IMPLEMENTED;
+    if (!gSoundVocalsInited_6FF538)
+    {
+        gSoundSwitchRadioCoolDown_6FF539 = 0;
+        gSoundVocalsInited_6FF538 = true;
+        for (s32 i = 0; i < 5; i++)
+        {
+            field_544C[i].field_0 = 0;
+            field_544C[i].field_8.field_8 = 0;
+            //field_544C[i].field_8.field_C_pAny = 0;
+            //...
+            //...
+        }
+        gSound_obj_66F680.field_54F2[2] = 0;
+        gSound_obj_66F680.field_54F7[1] = 1;
+        gSound_obj_66F680.field_54F7[0] = 1;
+        gSound_obj_66F680.field_5504_radio_station_change_mode = 0;
+        gSound_obj_66F680.field_551C = 0;
+        gSound_obj_66F680.DeclareRadioStation_57ECB0(1, 0, 0);
+        if (gSound_obj_66F680.field_5508_radio_entity_idx == 0)
+        {
+            gSound_obj_66F680.field_550C_radio_entity.field_C_pAny.pAny = NULL;
+            gSound_obj_66F680.field_550C_radio_entity.field_0_object_type = SoundObjectTypeEnum::Radio_3;
+            gSound_obj_66F680.field_550C_radio_entity.field_4_bStatus = false;
+            gSound_obj_66F680.field_5508_radio_entity_idx = gSound_obj_66F680.AddSoundObject_419FA0(&gSound_obj_66F680.field_550C_radio_entity);
+        }
+    }
 }
 
 MATCH_FUNC(0x4145E0)

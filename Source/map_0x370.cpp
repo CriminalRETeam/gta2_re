@@ -1357,11 +1357,84 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
     return false;
 }
 
-STUB_FUNC(0x4E1A30)
-char_type Map_0x370::sub_4E1A30(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6)
+// It is not working for some reason :(
+// https://decomp.me/scratch/X2qgz
+WIP_FUNC(0x4E1A30)
+bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tileY_max, s32 zLevel)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    for (s32 y = tileY_min; y <= tileY_max; y++)
+    {
+        for (s32 x = tileX_min; x <= tileX_max; x++)
+        {
+            if (x < tileX_max)
+            {
+                gmp_block_info* pBlock1 = Map_0x370::GetEffectiveBlock_4DFE60(x, y, zLevel);
+                if (pBlock1)
+                {
+                    if (((u16)word_6F6002 & pBlock1->field_2_right) != 0)
+                    {
+                        if (!IsNorthOrSouthGradSlope_4634B0(pBlock1))
+                        {
+                            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(y, y + 1, zLevel + 1))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                gmp_block_info* pBlock2 = Map_0x370::GetEffectiveBlock_4DFE60(x + 1, y, zLevel);
+                if (pBlock2)
+                {
+                    if (((u16)word_6F6002 & pBlock2->field_0_left) != 0)
+                    {
+                        if (!IsNorthOrSouthGradSlope_4634B0(pBlock2))
+                        {
+                            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(y, y + 1, zLevel))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (y < tileY_max)
+            {
+                gmp_block_info* pBlock3 = Map_0x370::GetEffectiveBlock_4DFE60(x, y, zLevel);
+                if (pBlock3)
+                {
+                    if (((u16)word_6F6002 & pBlock3->field_6_bottom) != 0)
+                    {
+                        if (!IsWestOrEastGradSlope_4634B0(pBlock3))
+                        {
+                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(x, x + 1, zLevel + 1))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                gmp_block_info* pBlock4 = Map_0x370::GetEffectiveBlock_4DFE60(x, y + 1, zLevel);
+                if (pBlock4)
+                {
+                    if (((u16)word_6F6002 & pBlock4->field_4_top) != 0)
+                    {
+                        if (!IsWestOrEastGradSlope_4634B0(pBlock4))
+                        {
+                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(x, x + 1, zLevel))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 WIP_FUNC(0x4E1E00)
@@ -2479,11 +2552,10 @@ Fix16* Map_0x370::sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
 }
 
 MATCH_FUNC(0x4E5050)
-Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bFound)
+Fix16 Map_0x370::sub_4E5050(Fix16 x, Fix16 y, Fix16 z, bool& bFound)
 {
     Fix16 new_z;
     bFound = false;
-
     if (z.GetFracValue() != dword_6F610C)
     {
         gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
@@ -2495,8 +2567,7 @@ Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bF
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
                 if (new_z <= z)
                 {
-                    *found_z = new_z;
-                    return found_z;
+                    return new_z;
                 }
                 bFound = true;
             }
@@ -2506,8 +2577,7 @@ Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bF
     gBlockInfo0_6F5EB0 = Map_0x370::sub_4E4CB0(x.ToInt(), y.ToInt(), v14);
     if (!gBlockInfo0_6F5EB0)
     {
-        *found_z = dword_6F6110;
-        return found_z;
+        return dword_6F6110;
     }
     if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
     {
@@ -2518,8 +2588,7 @@ Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bF
     {
         new_z = Fix16(v14 + 1);
     }
-    *found_z = new_z;
-    return found_z;
+    return new_z;
 }
 
 MATCH_FUNC(0x4E5170)

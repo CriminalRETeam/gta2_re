@@ -207,14 +207,8 @@ class sound_obj
     char_type field_5505;
     char_type field_5506;
     char_type field_5507;
-    s32 field_5508;
-    s32 field_550C;
-    char_type field_5510;
-    char_type field_5511;
-    char_type field_5512;
-    char_type field_5513;
-    s32 field_5514;
-    s32 field_5518;
+    s32 field_5508_radio_entity_idx;
+    infallible_turing field_550C_radio_entity;
     s32 field_551C;
     u8 field_5520_bCanPlay;
     u8 field_5521_radio_word;
@@ -382,6 +376,7 @@ class sound_obj
     EXPORT u32 UpdateVocalStream_57E510();
     EXPORT void Type3_CopRadioReport_57E680();
     EXPORT char_type ChooseRadioEmitterForVehicle_57E6C0();
+    EXPORT void InitMusicAndCopRadio_57E960();
     EXPORT void DeInitVocals_57EA10();
     EXPORT void UpdateActiveRadioEmitterVolume_57EA90();
     EXPORT char_type ComputeRadioEmitterVolume_57EB90(s32 emitterIndex, s32 bUseFarRadius);

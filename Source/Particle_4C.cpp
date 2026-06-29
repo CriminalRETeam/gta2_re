@@ -5,17 +5,24 @@
 
 EXTERN_GLOBAL(Fix16, dword_6FD49C);
 EXTERN_GLOBAL(Fix16, dword_6FD2F0);
+EXTERN_GLOBAL(Fix16, dword_6FD448);
+EXTERN_GLOBAL(Fix16, dword_6FD4C0);
 
-DEFINE_GLOBAL(Fix16, dword_6FD46C, 0x6FD46C);
-DEFINE_GLOBAL(Fix16, dword_6FD28C, 0x6FD28C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD46C, Fix16(0x333, 0), 0x6FD46C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD554, dword_6FD448, 0x6FD554);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD28C, dword_6FD4C0 - dword_6FD554, 0x6FD28C);
 //DEFINE_GLOBAL(Fix16_Point, stru_6FD388, 0x6FD388);
 
 DEFINE_GLOBAL(Fix16, stru_6FD388, 0x6FD388);
 DEFINE_GLOBAL(Fix16, stru_6FD38C, 0x6FD38C);
-DEFINE_GLOBAL(Fix16, dword_6FD2E8, 0x6FD2E8);
-DEFINE_GLOBAL(Fix16, dword_6FD4A0, 0x6FD4A0);
-DEFINE_GLOBAL(Fix16, dword_6FD39C, 0x6FD39C);
-DEFINE_GLOBAL(Fix16, dword_6FD4A4, 0x6FD4A4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD2E8, Fix16(0x666, 0), 0x6FD2E8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD4A0, Fix16(1), 0x6FD4A0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD39C, Fix16(0.5f), 0x6FD39C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD4A4, Fix16(2), 0x6FD4A4);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD45C, Fix16(0xA3, 0), 0x6FD45C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD564, Fix16(0x51, 0), 0x6FD564);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD538, Fix16(0x31, 0), 0x6FD538);
 
 STUB_FUNC(0x538060)
 char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
@@ -44,8 +51,8 @@ char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
 
     field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 103);
 
-    this->field_30_pNext->field_2C = 0xA2;
-    this->field_30_pNext->field_2C |= 4u;
+    this->field_30_pNext->field_2C_flags = 0xA2;
+    this->field_30_pNext->field_2C_flags |= 4u;
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
@@ -190,11 +197,64 @@ char_type Particle_4C::Empty_state_44_53B170()
     return 0;
 }
 
-STUB_FUNC(0x53b1a0)
-char_type Particle_4C::UpdateDebrisArc_state_7_53B1A0()
+// https://decomp.me/scratch/fW2BZ
+WIP_FUNC(0x53b1a0)
+bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Fix16 v1 = dword_6FD46C;
+    Fix16_Point point(dword_6FD49C, dword_6FD49C);
+    Fix16_Point point2(Fix16(0), Fix16(0));
+
+    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    if (!field_2C_counter)
+    {
+        return true;
+    }
+
+    Fix16 zpos;
+    if (field_2C_counter > (field_2E >> 1))
+    {
+        field_8_xpos = field_8_xpos + field_14;
+        field_C_ypos = field_C_ypos + field_18;
+        zpos = field_30_pNext->field_1C_zpos + v1;
+    }
+    else
+    {
+        field_8_xpos = field_8_xpos + field_14;
+        field_C_ypos = field_C_ypos + field_18;
+        zpos = field_30_pNext->field_1C_zpos - v1;
+    }
+    stru_6FD388 = point.x + field_8_xpos + field_30_pNext->field_14_xy.x;
+    stru_6FD38C = point.y + field_C_ypos + field_30_pNext->field_14_xy.y;
+
+    switch (field_2C_counter)
+    {
+        case 5:
+        case 6:
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 127);
+            break;
+        case 4:
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 128);
+            break;
+        case 2:
+        case 3:
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 129);
+            break;
+        case 0:
+        case 1:
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 130);
+            break;
+        default:
+            break;
+    }
+    if (zpos > dword_6FD28C)
+    {
+        zpos = dword_6FD28C;
+    }
+    field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    return false;
 }
 
 // 9.6f 0x48C790
@@ -233,11 +293,52 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
     return 0;
 }
 
-STUB_FUNC(0x53b9f0)
+MATCH_FUNC(0x53b9f0)
 char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 scale_related;
+    u8 idx;
+
+    ++field_46_sub_state;
+    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    if (field_46_sub_state > 25)
+    {
+        return true;
+    }
+
+    if (field_46_sub_state < 20)
+    {
+        if (field_46_sub_state < 17)
+        {
+            if (field_46_sub_state < 12)
+            {
+                scale_related = dword_6FD45C;
+                idx = 0;
+            }
+            else
+            {
+                scale_related = dword_6FD564;
+                idx = 1;
+            }
+        }
+        else
+        {
+            scale_related = dword_6FD564;
+            idx = 2;
+        }
+    }
+    else
+    {
+        scale_related = dword_6FD538;
+        idx = 3;
+    }
+
+    field_30_pNext->field_22_sprite_id = idx + gPhi_8CA8_6FCF00->field_8CA4 + 37;
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    field_30_pNext->field_2C_flags = 0x52;
+    field_30_pNext->field_2C_flags |= 4;
+    field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A0 + scale_related * Fix16(field_46_sub_state), 0);
+    return false;
 }
 
 STUB_FUNC(0x53bac0)
@@ -318,9 +419,9 @@ bool Particle_4C::PoolUpdate()
                     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
                     if (this->field_46_sub_state == 2)
                     {
-                        this->field_30_pNext->field_2C = 0xA2; // sub_4337D0
+                        this->field_30_pNext->field_2C_flags = 0xA2; // sub_4337D0
                     }
-                    this->field_30_pNext->field_2C |= 4u;
+                    this->field_30_pNext->field_2C_flags |= 4u;
                     return false;
                 }
                 else
@@ -358,9 +459,9 @@ bool Particle_4C::PoolUpdate()
                     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
                     if (this->field_46_sub_state == 2)
                     {
-                        this->field_30_pNext->field_2C = 0xA2;
+                        this->field_30_pNext->field_2C_flags = 0xA2;
                     }
-                    field_30_pNext->field_2C |= 4u;
+                    field_30_pNext->field_2C_flags |= 4u;
                     field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A0 + dword_6FD39C, 0);
                     return false;
                 }
@@ -400,10 +501,10 @@ bool Particle_4C::PoolUpdate()
                     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
                     if (this->field_46_sub_state == 2)
                     {
-                        this->field_30_pNext->field_2C = -94;
+                        this->field_30_pNext->field_2C_flags = -94;
                     }
 
-                    field_30_pNext->field_2C |= 4u;
+                    field_30_pNext->field_2C_flags |= 4u;
                     field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A4, 0);
                     return false;
                 }
@@ -457,8 +558,8 @@ bool Particle_4C::PoolUpdate()
             }
 
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
-            field_30_pNext->field_2C = 82;
-            field_30_pNext->field_2C |= 4u;
+            field_30_pNext->field_2C_flags = 82;
+            field_30_pNext->field_2C_flags |= 4u;
             return false;
 
         case 25:
@@ -528,8 +629,8 @@ void Particle_4C::PoolDeallocate()
 {
     if (field_30_pNext)
     {
-        field_30_pNext->field_2C &= ~4u;
-        field_30_pNext->field_2C = 0;
+        field_30_pNext->field_2C_flags &= ~4u;
+        field_30_pNext->field_2C_flags = 0;
         gSprite_Pool_703818->remove(field_30_pNext);
         field_30_pNext = 0;
     }

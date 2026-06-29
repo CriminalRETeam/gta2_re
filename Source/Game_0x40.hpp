@@ -65,7 +65,7 @@ class Game_0x40
     EXPORT bool is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp);
     EXPORT s8 IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds);
     EXPORT Camera_0xBC* IteratePlayerCamera_4B9BC0();
-    EXPORT s8 sub_4B9C10(Car_BC* a2);
+    EXPORT s8 IsCarInAnyPlayerHistory_4B9C10(Car_BC* a2);
     EXPORT Camera_0xBC* sub_4B9C50();
     EXPORT Player* IterateFirstPlayer_4B9CD0();
     EXPORT Player* IterateNextPlayer_4B9D10();

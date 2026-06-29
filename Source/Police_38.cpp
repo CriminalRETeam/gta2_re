@@ -434,10 +434,10 @@ void PoliceCrew_38::sub_572340()
             Car_BC* pCar = field_10_subObj->field_0_car;
             if (pCar)
             {
-                s32 v7 = pCar->field_88;
+                s32 v7 = pCar->field_88_despawn_status;
                 if (v7 != 5 && v7 != 2 && v7 != 3)
                 {
-                    pCar->field_88 = 4;
+                    pCar->field_88_despawn_status = 4;
                 }
                 field_10_subObj->field_0_car = 0;
                 field_24_state = 6;
@@ -1268,10 +1268,10 @@ void PoliceRoadblock_A4::sub_575CA0()
 {
     if (field_10_car_1)
     {
-        s32 v3 = field_10_car_1->field_88;
+        s32 v3 = field_10_car_1->field_88_despawn_status;
         if (v3 != 5 && v3 != 2 && v3 != 3)
         {
-            field_10_car_1->field_88 = 4;
+            field_10_car_1->field_88_despawn_status = 4;
         }
         Car_BC* v4 = field_10_car_1;
         v4->field_7C_uni_num = 3;
@@ -1281,10 +1281,10 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_14_car_2)
     {
-        s32 v6 = field_14_car_2->field_88;
+        s32 v6 = field_14_car_2->field_88_despawn_status;
         if (v6 != 5 && v6 != 2 && v6 != 3)
         {
-            field_14_car_2->field_88 = 4;
+            field_14_car_2->field_88_despawn_status = 4;
         }
         Car_BC* v7 = field_14_car_2;
         v7->field_7C_uni_num = 3;
@@ -1293,10 +1293,10 @@ void PoliceRoadblock_A4::sub_575CA0()
     }
     if (field_18_car_3)
     {
-        s32 v9 = field_18_car_3->field_88;
+        s32 v9 = field_18_car_3->field_88_despawn_status;
         if (v9 != 5 && v9 != 2 && v9 != 3)
         {
-            field_18_car_3->field_88 = 4;
+            field_18_car_3->field_88_despawn_status = 4;
         }
         Car_BC* v10 = field_18_car_3;
         v10->field_7C_uni_num = 3;
@@ -1306,10 +1306,10 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_1C_car_4)
     {
-        s32 v12 = field_1C_car_4->field_88;
+        s32 v12 = field_1C_car_4->field_88_despawn_status;
         if (v12 != 5 && v12 != 2 && v12 != 3)
         {
-            field_1C_car_4->field_88 = 4;
+            field_1C_car_4->field_88_despawn_status = 4;
         }
         Car_BC* v13 = field_1C_car_4;
         v13->field_7C_uni_num = 3;
@@ -1319,10 +1319,10 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_20_car_5)
     {
-        s32 v15 = field_20_car_5->field_88;
+        s32 v15 = field_20_car_5->field_88_despawn_status;
         if (v15 != 5 && v15 != 2 && v15 != 3)
         {
-            field_20_car_5->field_88 = 4;
+            field_20_car_5->field_88_despawn_status = 4;
         }
         Car_BC* v16 = field_20_car_5;
         v16->field_7C_uni_num = 3;
@@ -1332,10 +1332,10 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_24_car_6)
     {
-        s32 v18 = field_24_car_6->field_88;
+        s32 v18 = field_24_car_6->field_88_despawn_status;
         if (v18 != 5 && v18 != 2 && v18 != 3)
         {
-            field_24_car_6->field_88 = 4;
+            field_24_car_6->field_88_despawn_status = 4;
         }
         Car_BC* v19 = field_24_car_6;
         v19->field_7C_uni_num = 3;

@@ -12,7 +12,7 @@
 #include "sprite.hpp"
 
 // TODO: Move
-EXPORT s32 __stdcall sub_405CE0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5);
+EXPORT void __stdcall sub_405CE0(Fix16& a1, Fix16& a2, Fix16& a3, Fix16& a4, Fix16& a5);
 EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_679E58, Fix16(0x2000, 0), 0x679E58);
@@ -93,7 +93,7 @@ void Crane_15C::ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOut
     WIP_IMPLEMENTED;
     pOutPoint->SetXY_432860(dword_679E70, radius);
     pOutPoint->RotateByAngle_40F6B0(ang);
-    *pOutPoint += field_2C->field_4->get_x_y_443580();
+    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
 
 WIP_FUNC(0x47e730)
@@ -102,7 +102,7 @@ void Crane_15C::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOut
     WIP_IMPLEMENTED;
     pOutPoint->SetXY_432860(dword_679E70, ang);
     pOutPoint->RotateByAngle_40F6B0(radius);
-    *pOutPoint += field_2C->field_4->get_x_y_443580();
+    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
 
 // 9.6f 0x448030
@@ -113,7 +113,7 @@ void Crane_15C::ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint)
 
     pOutPoint->SetXY_432860(dword_679E70, -dword_679D64);
     pOutPoint->RotateByAngle_40F6B0(ang);
-    *pOutPoint += field_2C->field_4->get_x_y_443580();
+    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
 
 // 9.6f 0x448090
@@ -153,7 +153,7 @@ void Crane_15C::sub_47ECC0()
     pCar->sub_4435F0();
     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
-    pCar->field_88 = 1;
+    pCar->field_88_despawn_status = 1;
 
     if (field_150 != 3)
     {
@@ -204,7 +204,7 @@ void Crane_15C::sub_47EDF0()
     gPurpleDoom_3_679210->Remove_477B00(field_6C);
 
     this->field_74 = this->field_6C;
-    this->field_10 = field_74->get_x_y_443580() - field_54->field_4->get_x_y_443580();
+    this->field_10 = field_74->get_x_y_443580() - field_54_hook_obj->field_4->get_x_y_443580();
 
     field_60->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74->field_C_sprite_4c_ptr);
 
@@ -257,7 +257,7 @@ void Crane_15C::sub_47EF80()
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_68);
 
     this->field_74 = this->field_68;
-    this->field_10 = field_74->get_x_y_443580() - field_54->field_4->get_x_y_443580();
+    this->field_10 = field_74->get_x_y_443580() - field_54_hook_obj->field_4->get_x_y_443580();
 
     field_60->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74->field_C_sprite_4c_ptr);
 
@@ -359,11 +359,11 @@ MATCH_FUNC(0x47f350)
 bool Crane_15C::sub_47F350()
 {
     Car_BC* pCar1 = field_70->AsCar_40FEB0();
-    if (!pCar1->sub_4215B0())
+    if (!pCar1->IsDespawning_4215B0())
     {
         Sprite *sp = field_6C;
         Car_BC* pCar2 = sp->AsCar_40FEB0();
-        if (!(pCar2->sub_4215B0() || field_FC != sp->field_14_xy.x || field_100 != sp->field_14_xy.y ||
+        if (!(pCar2->IsDespawning_4215B0() || field_FC != sp->field_14_xy.x || field_100 != sp->field_14_xy.y ||
             field_104 != sp->field_1C_zpos || field_108 != Ang16::Ang16_to_Fix16(sp->field_0)))
         {
             return true;
@@ -377,7 +377,7 @@ MATCH_FUNC(0x47f3d0)
 bool Crane_15C::sub_47F3D0()
 {
     Car_BC* v2 = field_68->AsCar_40FEB0();
-    if (!v2->sub_4215B0() && this->field_E0 == field_68->field_14_xy.x && this->field_E4 == field_68->field_14_xy.y &&
+    if (!v2->IsDespawning_4215B0() && this->field_E0 == field_68->field_14_xy.x && this->field_E4 == field_68->field_14_xy.y &&
         this->field_E8 == field_68->field_1C_zpos && this->field_EC == Ang16::Ang16_to_Fix16(field_68->field_0) && !v2->field_54_driver &&
         v2->sub_441A40())
     {
@@ -390,7 +390,7 @@ MATCH_FUNC(0x47f450)
 bool Crane_15C::sub_47F450()
 {
     Car_BC* pCar = field_64->AsCar_40FEB0();
-    if (!pCar->sub_4215B0() && this->field_C4.x == field_64->field_14_xy.x && this->field_C4.y == field_64->field_14_xy.y &&
+    if (!pCar->IsDespawning_4215B0() && this->field_C4.x == field_64->field_14_xy.x && this->field_C4.y == field_64->field_14_xy.y &&
         this->field_CC == field_64->field_1C_zpos && this->field_D0 == Ang16::Ang16_to_Fix16(field_64->field_0))
     {
         return pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car) ? false : true;
@@ -496,7 +496,7 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
 MATCH_FUNC(0x47f6c0)
 bool Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
-    Fix16_Point v10 = (pPoint - field_2C->field_4->get_x_y_443580());
+    Fix16_Point v10 = (pPoint - field_2C_rotor_obj->field_4->get_x_y_443580());
     *pOutF16 = v10.GetLength_no_sqrt_inline(); // TODO: Uses dword_679E70 as Zero
 
     // TODO: 1st check is removed in 9.6f ??
@@ -556,7 +556,7 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
 {
     WIP_IMPLEMENTED;
 
-    if (!pCar->sub_4215B0() && !field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite))
+    if (!pCar->IsDespawning_4215B0() && !field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite))
     {
         if (pCar->Is_TRUKTRNS_447EC0())
         {
@@ -622,8 +622,8 @@ s32 Crane_15C::sub_47FBA0()
     if (this->field_84_hook_depth == dword_679E70)
     {
         SmoothApproach_4F7540(this->field_B0_hook_radius_target, this->field_94, this->field_90_hook_radius, dword_679C14, dword_679E6C);
-        sub_405CE0(&this->field_AC_crane_angle_target, &this->field_98, &this->field_8C_crane_angle, &dword_679F70, &dword_679DEC);
-        sub_405CE0(&this->field_B4_hook_angle_target, &this->field_A4, &this->field_A0_hook_axial_angle, &dword_679D70, &dword_679C40);
+        sub_405CE0(field_AC_crane_angle_target, field_98, field_8C_crane_angle, dword_679F70, dword_679DEC);
+        sub_405CE0(field_B4_hook_angle_target, field_A4, field_A0_hook_axial_angle, dword_679D70, dword_679C40);
         if (this->field_74)
         {
             this->field_10 = this->field_0;
@@ -723,7 +723,7 @@ void Crane_15C::UpdateCraneSprites_47FE10()
     field_48->RemoveFromCollisionBuckets_527D00();
     field_4C->RemoveFromCollisionBuckets_527D00();
     field_50->RemoveFromCollisionBuckets_527D00();
-    field_54->RemoveFromCollisionBuckets_527D00();
+    field_54_hook_obj->RemoveFromCollisionBuckets_527D00();
 
     ComputeHookPos_47E730(a2, dword_679D34, &a4);
     field_30->field_4->set_ang_lazy_420690(a2);
@@ -756,14 +756,14 @@ void Crane_15C::UpdateCraneSprites_47FE10()
     field_50->field_4->set_ang_lazy_420690(a2);
 
     ComputeHookOffset_47E840(a2, &a4);
-    field_5C->field_4->set_ang_lazy_420690(a2);
-    field_5C->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_5C_counterweight_obj->field_4->set_ang_lazy_420690(a2);
+    field_5C_counterweight_obj->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
     ComputeHookPos_47E620(field_90_hook_radius, a2, &a4);
     field_50->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
-    field_54->field_4->set_xyz_lazy_420600(a4.x, a4.y, field_80 - field_84_hook_depth);
-    field_54->field_4->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
+    field_54_hook_obj->field_4->set_xyz_lazy_420600(a4.x, a4.y, field_80 - field_84_hook_depth);
+    field_54_hook_obj->field_4->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
 
     if (field_74)
     {
@@ -781,7 +781,7 @@ void Crane_15C::UpdateCraneSprites_47FE10()
     field_48->AssignToBucket_527AE0();
     field_4C->AssignToBucket_527AE0();
     field_50->AssignToBucket_527AE0();
-    field_54->AssignToBucket_527AE0();
+    field_54_hook_obj->AssignToBucket_527AE0();
 }
 
 MATCH_FUNC(0x480310)
@@ -820,21 +820,21 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_148 = 0;
 
     field_80 = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x_pos, y_pos);
-    field_2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(135, x_pos, y_pos, field_80, word_679FC4);
-    field_30 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
-    field_34 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
-    field_38 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
-    field_3C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
+    field_2C_rotor_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_rotor_135, x_pos, y_pos, field_80, word_679FC4);
+    field_30 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80, word_679FC4);
+    field_34 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80, word_679FC4);
+    field_38 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80, word_679FC4);
+    field_3C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80, word_679FC4);
     field_40 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(252, x_pos, y_pos, field_80, word_679FC4);
     field_44 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(260, x_pos, y_pos, field_80, word_679FC4);
     field_48 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(261, x_pos, y_pos, field_80, word_679FC4);
     field_4C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(262, x_pos, y_pos, field_80, word_679FC4);
     field_50 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(263, x_pos, y_pos, field_80, word_679FC4);
-    field_5C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(140, x_pos, y_pos, field_80, word_679FC4);
-    field_54 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(136, x_pos, y_pos, field_80, word_679FC4);
+    field_5C_counterweight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_counterweight_140, x_pos, y_pos, field_80, word_679FC4);
+    field_54_hook_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_hook_136, x_pos, y_pos, field_80, word_679FC4);
 
-    field_58 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(137, x_pos, y_pos, field_80 - dword_679C78, word_679FC4);
-    field_58->field_26_varrok_idx = a4;
+    field_58_crane_base_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_base_137, x_pos, y_pos, field_80 - dword_679C78, word_679FC4);
+    field_58_crane_base_obj->field_26_varrok_idx = a4;
     field_78_maybe_homecrane = 0;
     field_94 = dword_679E70;
     field_98 = dword_679E70;
