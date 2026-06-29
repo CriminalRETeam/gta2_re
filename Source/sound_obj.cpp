@@ -2008,7 +2008,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
     pCrane_ = pCrane;
     if (pCrane)
     {
-        pSprite = pCrane->field_2C->field_4;
+        pSprite = pCrane->field_2C_rotor_obj->field_4;
         if (pSprite)
         {
             this->field_30_sQueueSample.field_8_obj.field_0 = pSprite->field_14_xy.x;
