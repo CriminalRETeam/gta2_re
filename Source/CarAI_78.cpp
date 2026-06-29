@@ -4649,7 +4649,7 @@ void CarAI_78::sub_451FA0()
     if (!byte_677BBC)
     {
         Object_2C* pObj = field_70->As2C_40FEC0();
-        if (pObj->field_18_model == 21 || pObj->field_18_model == 122)
+        if (pObj->field_18_model == objects::roadblock_21 || pObj->field_18_model == objects::pedestrian_crossing_marker_122)
         {
             field_0->sub_43A970();
             byte_677B3C = 0;
@@ -5407,7 +5407,7 @@ void CarAI_78::sub_452DF0()
     }
     else if (!byte_677BBC)
     {
-        if (field_70 && field_70->get_type_416B40() == sprite_types_enum::unknown_1 && field_70->As2C_40FEC0()->field_18_model == 122)
+        if (field_70 && field_70->get_type_416B40() == sprite_types_enum::unknown_1 && field_70->As2C_40FEC0()->field_18_model == objects::pedestrian_crossing_marker_122)
         {
             field_70 = 0;
             field_24_flags |= 0x10;

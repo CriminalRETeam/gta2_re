@@ -1814,7 +1814,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
             pPhi = o2c->field_8;
             phi_type = pPhi->field_34_behavior_type;
             if (phi_type == 6 || phi_type == 7 || phi_type == 8 || phi_type == 9 || phi_type == 10 || phi_type == 1 || phi_type == 12 ||
-                (field_18_model = o2c->field_18_model, field_18_model == 182) || field_18_model == 183)
+                (field_18_model = o2c->field_18_model, field_18_model == objects::rocket_bullet_128) || field_18_model == objects::granade_obj_183)
             {
                 if (pPhi->field_40_collision_bucket_category == 3)
                 {
@@ -3780,8 +3780,8 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             pFoundPed = 0;
         }
 
-        if (pObj->field_18_model == 154 || pObj->field_18_model == 193 || pObj->field_18_model == 195 || pObj->field_18_model == 159 ||
-            pObj->field_18_model == 199)
+        if (pObj->field_18_model == objects::flamethrower_fire_154 || pObj->field_18_model == 193 || pObj->field_18_model == objects::object_195 || pObj->field_18_model == objects::object_159 ||
+            pObj->field_18_model == objects::object_199)
         {
             return 1;
         }

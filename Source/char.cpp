@@ -6092,7 +6092,7 @@ bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
             return field_7C_pPed->HandlePickupCollision_45DE80(p2c);
 
         case 257:
-        case 258:
+        case objects::ped_crossing_trigger_258:
             if (field_8_ped_state_1 != ped_state_1::dead_9 && field_8_ped_state_1 != ped_state_1::immobilized_8)
             {
                 field_7C_pPed->sub_45CF20(p2c);
@@ -6103,21 +6103,21 @@ bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
             gCar_214_705F20->sub_5C8780(p2c->field_27, this->field_80_sprite_ptr);
             break;
 
-        case 164:
-        case 177:
-        case 179:
-        case 181:
+        case objects::blue_phone_164:
+        case objects::red_phone_177:
+        case objects::yellow_phone_179:
+        case objects::green_phone_181:
             return PhoneTouched_5535B0(p2c);
 
-        case 167:
+        case objects::maybe_door_trigger_167:
             gDoor_4D4_67BD2C->sub_49D370(field_7C_pPed, p2c->field_26_varrok_idx);
             break;
 
-        case 141:
+        case objects::destructor_141:
             field_7C_pPed->Kill_46F9D0();
             break;
 
-        case 139:
+        case objects::conveyor_139:
             sub_529050(p2c->field_26_varrok_idx, &v6, &v7); // TODO: Ang8 or something ???
             this->field_4C = k_dword_6FDA9C * v6;
             this->field_50 = k_dword_6FDA9C * v7;
@@ -6134,7 +6134,7 @@ char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
 {
     const u8 idx = p2c->get_field_26_420FF0();
     const s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(idx);
-    if (p2c->field_18_model == 128 || p2c->field_18_model == 138 || p2c->field_18_model == 10 && !byte_6FDB59)
+    if (p2c->field_18_model == objects::rocket_bullet_128 || p2c->field_18_model == objects::moving_molotov_138 || p2c->field_18_model == objects::mine_10 && !byte_6FDB59)
     {
         gObject_5C_6F8F84->CreateExplosion_52A3D0(field_80_sprite_ptr->field_14_xy.x,
                                                   field_80_sprite_ptr->field_14_xy.y,
@@ -6142,7 +6142,7 @@ char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
                                                   word_6FDB34,
                                                   18,
                                                   pedId);
-        if (p2c->field_18_model == 10)
+        if (p2c->field_18_model == objects::mine_10)
         {
             byte_6FDB59 = 1;
         }

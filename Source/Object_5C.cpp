@@ -325,7 +325,7 @@ char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
         return 0;
     }
 
-    if (pSprite->field_8_object_2C_ptr->field_18_model == 166 || pSprite->field_8_object_2C_ptr->field_18_model == 169)
+    if (pSprite->field_8_object_2C_ptr->field_18_model == objects::diagonal_wall_collision_obj_166 || pSprite->field_8_object_2C_ptr->field_18_model == objects::door_unknown_169)
     {
         byte_6F8F94 = 1;
     }

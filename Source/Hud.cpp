@@ -2144,13 +2144,13 @@ s32 __stdcall GetPhoneTypeFromObjModel_5D1260(s32 phone_model_idx)
     switch (phone_model_idx)
     {
         case 176:
-        case 177:
+        case objects::red_phone_177:
             return 2;
         case 180:
-        case 181:
+        case objects::green_phone_181:
             return 3;
         case 178:
-        case 179:
+        case objects::yellow_phone_179:
             return 1;
         default:
             return 0;
