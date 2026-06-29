@@ -43,7 +43,7 @@ class Orca_2FD4
     EXPORT bool Internal_ProcessBehaviorGrid_5548C0();
     EXPORT void RestoreSavedPosition_554920();
     EXPORT s32 IsFirstPassenger_554A90(Ped* a2);
-    EXPORT char_type ComputePath_554AB0(s32 a2, s32 a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a8, u8 a9, s32 a10, u8* a11);
+    EXPORT char_type ComputePath_554AB0(s32 a2, Ped* a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a8, u8 a9, s32 a10, u8* a11);
     EXPORT char_type FindNearbyTileMatchingSlopeType_5552B0(char_type a2, u8* xpos, u8* ypos, u8* zpos, char_type a6);
 
     s32 field_0_ped_id;

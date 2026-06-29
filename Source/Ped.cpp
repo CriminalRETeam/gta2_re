@@ -55,6 +55,7 @@ DEFINE_GLOBAL(u8, byte_6787E4, 0x6787E4);
 DEFINE_GLOBAL(u8, byte_6787D7, 0x6787D7);
 DEFINE_GLOBAL(u8, byte_6787D4, 0x6787D4);
 DEFINE_GLOBAL(u8, byte_678554, 0x678554);
+EXTERN_GLOBAL(u8, byte_61A8A1);
 DEFINE_GLOBAL(u8, byte_6787D8, 0x6787D8);
 DEFINE_GLOBAL(u8, byte_6787D9, 0x6787D9);
 DEFINE_GLOBAL_INIT(u8, byte_61A8A4, 1, 0x61A8A4);
@@ -6915,11 +6916,283 @@ Sprite* Ped::sub_467280()
     return gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 2);
 }
 
-STUB_FUNC(0x4672e0)
+WIP_FUNC(0x4672e0)
 char_type Ped::UpdateMovementTowardsTarget_4672E0(Fix16 a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type notAtTarget = 1;
+    char_type advancedNode = 0;
+    Ang16 angle;
+
+    this->field_21C &= ~0x20000;
+
+    Fix16 goalX;
+    Fix16 goalY;
+    Fix16 goalZ;
+
+    switch ((u8)a3)
+    {
+    case 0:
+    {
+        Ped* p = this->field_14C;
+        goalX = p->field_1AC_cam.x;
+        goalY = p->field_1AC_cam.y;
+        goalZ = p->field_1AC_cam.z;
+        break;
+    }
+    case 1:
+        goalX = this->field_1D0;
+        goalY = this->field_1D4;
+        goalZ = this->field_1D8;
+        break;
+    case 2:
+    {
+        Car_BC* c = this->field_154_target_to_enter;
+        goalX = this->field_1C4_x;
+        goalY = this->field_1C8_y;
+        goalZ = c->field_50_car_sprite->field_1C_zpos;
+        break;
+    }
+    case 3:
+    {
+        Ped* p = this->field_148_objective_target_ped;
+        goalX = p->field_1AC_cam.x;
+        goalY = p->field_1AC_cam.y;
+        goalZ = p->field_1AC_cam.z;
+        break;
+    }
+    case 4:
+        goalX = this->field_1DC_objective_target_x;
+        goalY = this->field_1E0_objective_target_y;
+        goalZ = this->field_1E4_objective_target_z;
+        break;
+    case 5:
+    {
+        Sprite* s = this->field_150_target_objective_car->field_50_car_sprite;
+        goalX = s->field_14_xy.x;
+        goalY = s->field_14_xy.y;
+        goalZ = s->field_1C_zpos;
+        break;
+    }
+    case 6:
+    {
+        Sprite* s = this->field_1A4->field_4;
+        goalX = s->field_14_xy.x;
+        goalY = s->field_14_xy.y;
+        goalZ = s->field_1C_zpos;
+        break;
+    }
+    case 7:
+    {
+        Sprite* s = this->field_1A0_objective_target_object->field_4;
+        goalX = s->field_14_xy.x;
+        goalY = s->field_14_xy.y;
+        goalZ = s->field_1C_zpos;
+        break;
+    }
+    default:
+        goalX = Fix16(*(volatile s32*)&a3, 0);
+        goalY = Fix16(*(volatile s32*)&a3, 0);
+        goalZ = Fix16(*(volatile s32*)&a3, 0);
+        break;
+    }
+
+    Fix16 dy;
+    {
+        Fix16 dx = goalX - this->field_1AC_cam.x;
+        Fix16 dyTmp = goalY - this->field_1AC_cam.y;
+        angle = Fix16::atan2_fixed_405320(dyTmp, dx);
+    }
+
+    this->field_21C |= 0x8000;
+    if ((this->field_21C & 0x8000) != 0x8000)
+    {
+        goto fail;
+    }
+
+    if (a2 < k_dword_678658)
+    {
+        if (a2 < k_dword_678798)
+        {
+            if (this->field_1AC_cam.z == goalZ
+                || (Fix16::Abs(this->field_1AC_cam.z - goalZ) <= k_dword_67853C
+                    && this->field_1AC_cam.x.ToUInt8() == goalX.ToUInt8()
+                    && this->field_1AC_cam.y.ToUInt8() == goalY.ToUInt8()))
+            {
+                notAtTarget = 0;
+                this->field_266 = 0;
+            }
+            else
+            {
+                notAtTarget = 1;
+            }
+        }
+        else
+        {
+            notAtTarget = 1;
+        }
+    }
+
+    {
+        Char_B4* pB4 = this->field_168_game_object;
+        Marz_3* pNode = this->field_18C;
+        if (pB4->field_69 != 0 && pNode != 0
+            && this->field_1AC_cam.x.ToUInt8() == pNode->field_0
+            && this->field_1AC_cam.y.ToUInt8() == pNode->field_1)
+        {
+            ++pNode;
+            this->field_18C = pNode;
+            advancedNode = 1;
+            this->field_1C4_x = k_dword_67853C + Fix16(pNode->field_0);
+            this->field_1C8_y = k_dword_67853C + Fix16(pNode->field_1);
+        }
+        else if (notAtTarget == 0)
+        {
+            goto fail;
+        }
+    }
+
+    byte_678554 = 1;
+    this->ChangeNextPedState1_45C500(2);
+    this->ChangeNextPedState2_45C540(0);
+    if ((this->field_21C & 0x4000) == 0)
+    {
+        gOrca_2FD4_6FDEF0->field_3C_ped_list.AddPedToBackIfMissing_471160(this);
+        this->field_21C |= 0x4000;
+    }
+
+    switch (gOrca_2FD4_6FDEF0->IsFirstPassenger_554A90(this))
+    {
+    case 0:
+        goto block_467673;
+    case 1:
+        break;
+    default:
+        goto block_46764C;
+    }
+
+    {
+        u8 posX_tile = this->field_1AC_cam.x.ToUInt8();
+        u8 posY_tile = this->field_1AC_cam.y.ToUInt8();
+        u8 posZ_tile = this->field_1AC_cam.z.ToUInt8();
+        s32 face = Ang16::GetAngleFace_4F78F0(angle);
+        if (!gOrca_2FD4_6FDEF0->ComputePath_554AB0(
+                this->field_200_id, this, posY_tile, posX_tile, posZ_tile,
+                goalX.ToInt(), goalY.ToInt(), goalZ.ToInt(), face, (u8*)&this->field_266))
+        {
+            goto block_467673;
+        }
+    }
+    gOrca_2FD4_6FDEF0->field_3C_ped_list.RemovePed_4711F0(this);
+    this->field_21C &= ~0x4000;
+    this->field_18C = (Marz_3*)this;
+    {
+        Marz_3* pNode = this->field_18C;
+        while (true)
+        {
+            if (pNode->field_0 == 0)
+            {
+                this->field_18C = (Marz_3*)this;
+                break;
+            }
+            if (pNode->field_0 == this->field_1AC_cam.x.ToUInt8()
+                && pNode->field_1 == this->field_1AC_cam.y.ToUInt8()
+                && pNode->field_2 == this->field_1AC_cam.z.ToUInt8())
+            {
+                break;
+            }
+            ++pNode;
+            this->field_18C = pNode;
+        }
+    }
+
+block_46764C:
+    {
+        Marz_3* pNode = this->field_18C;
+        if (pNode->field_0 != 0 || pNode->field_1 != 0)
+        {
+            this->field_1C4_x = k_dword_67853C + Fix16(pNode->field_0);
+            this->field_1C8_y = k_dword_67853C + Fix16(pNode->field_1);
+            this->field_1CC_z = Fix16(pNode->field_2);
+            this->field_21C |= 0x10000;
+            byte_61A8A1 = 0;
+            goto tail_skip;
+        }
+        this->field_21C |= 0x20000;
+        goto block_46768E;
+    }
+
+block_467673:
+    {
+        Marz_3* pNode = this->field_18C;
+        if (pNode == 0)
+        {
+            this->field_0_patrol_points[0].field_0 = 0;
+            this->field_0_patrol_points[0].field_1 = 0;
+            this->ChangeNextPedState1_45C500(1);
+            this->ChangeNextPedState2_45C540(2);
+            this->field_21C &= ~0x8000;
+            goto tail;
+        }
+        if (pNode->field_0 != 0 || pNode->field_1 != 0)
+        {
+            goto block_4676FC;
+        }
+    }
+
+block_46768E:
+    this->ChangeNextPedState1_45C500(1);
+    this->ChangeNextPedState2_45C540(2);
+    this->field_0_patrol_points[0].field_0 = 0;
+    this->field_0_patrol_points[0].field_1 = 0;
+    this->field_21C &= ~0x8000;
+
+tail:
+    if (advancedNode == 0)
+    {
+        goto epilogue;
+    }
+tail_skip:
+    {
+        u8 m = (u8)a3;
+        if (m >= 3 && (m <= 5 || m == 7))
+        {
+            this->field_1B8_target_x = this->field_1C4_x;
+            this->field_1BC_target_y = this->field_1C8_y;
+            this->field_1C0_target_z = this->field_1CC_z;
+        }
+    }
+epilogue:
+    return advancedNode;
+
+block_4676FC:
+    {
+        Marz_3* pNode = this->field_18C;
+        this->field_1C4_x = Fix16(pNode->field_0);
+        this->field_1C8_y = Fix16(pNode->field_1);
+        a2 = Fix16::Abs(Fix16(this->field_1C4_x.ToUInt8()) - this->field_1AC_cam.x + k_dword_67853C);
+        dy = Fix16::Abs(Fix16(this->field_1C8_y.ToUInt8()) - this->field_1AC_cam.y + k_dword_67853C);
+        if (((a2 > dy) ? a2 : dy) >= dword_678790
+            && (this->field_168_game_object->field_58_flags & 0x40) == 0)
+        {
+            this->field_1C4_x = k_dword_67853C + Fix16(pNode->field_0);
+            this->field_1C8_y = k_dword_67853C + Fix16(pNode->field_1);
+            this->field_1CC_z = Fix16(pNode->field_2);
+        }
+        else
+        {
+            ++pNode;
+            this->field_18C = pNode;
+            this->field_1C4_x = k_dword_67853C + Fix16(pNode->field_0);
+            this->field_1C8_y = k_dword_67853C + Fix16(pNode->field_1);
+            this->field_1CC_z = Fix16(pNode->field_2);
+        }
+        goto tail_skip;
+    }
+
+fail:
+    this->ChangeNextPedState1_45C500(1);
+    this->ChangeNextPedState2_45C540(2);
+    return (char_type)(this->field_21C &= ~0x18000);
 }
 
 MATCH_FUNC(0x4678e0)
