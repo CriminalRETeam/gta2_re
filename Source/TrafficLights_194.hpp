@@ -8,17 +8,17 @@ class Object_2C;
 class TrafficLight_20
 {
   public:
-    EXPORT void sub_5C1D00(u8 a2, u8 a3, u8 a4, u8 a5);
+    EXPORT void sub_5C1D00(u8 x, u8 y, u8 w, u8 h);
     EXPORT void UpdateLightsFromPhase_5C27A0(u8 phase);
 
-    Object_2C* field_0;
-    Object_2C* field_4;
-    Object_2C* field_8;
-    Object_2C* field_C;
-    nostalgic_ellis_0x28* field_10;
-    nostalgic_ellis_0x28* field_14;
-    nostalgic_ellis_0x28* field_18;
-    nostalgic_ellis_0x28* field_1C;
+    Object_2C* field_0_north_headlight_obj;
+    Object_2C* field_4_south_headlight_obj;
+    Object_2C* field_8_west_headlight_obj;
+    Object_2C* field_C_east_headlight_obj;
+    nostalgic_ellis_0x28* field_10_north_light;
+    nostalgic_ellis_0x28* field_14_south_light;
+    nostalgic_ellis_0x28* field_18_west_light;
+    nostalgic_ellis_0x28* field_1C_east_light;
 };
 
 class TrafficLights_194
