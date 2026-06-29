@@ -2486,7 +2486,7 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
         case 138:
         {
             s32 remapped;
-            if (pObj->field_18_model == objects::object_166)
+            if (pObj->field_18_model == objects::diagonal_wall_collision_obj_166)
             {
                 remapped = pObj->sub_529210();
             }
@@ -2541,7 +2541,7 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
         pPed = 0;
     }
 
-    if (pObj->field_18_model == objects::object_166)
+    if (pObj->field_18_model == objects::diagonal_wall_collision_obj_166)
     {
         if (pPed)
         {
@@ -3722,7 +3722,7 @@ Object_2C* Object_5C::New_52A2C0(s32 object_type,
 MATCH_FUNC(0x52a3d0)
 Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 pedId)
 {
-    Object_2C* pNew2C = NewPhysicsObj_5299B0(objects::moving_collect_17_113, x, y, z, rot);
+    Object_2C* pNew2C = NewPhysicsObj_5299B0(objects::explosion_113, x, y, z, rot);
     if (pNew2C)
     {
         pNew2C->field_1C = 1;
