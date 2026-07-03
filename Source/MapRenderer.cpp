@@ -52,8 +52,8 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F63EC, Ang16(900), 0x6F63EC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6548, Fix16(0x100000, 0), 0x6F6548);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F64B4, Fix16(1, 0), 0x6F64B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6578, dword_6F6548 - dword_6F64B4, 0x6F6578);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F6428, Fix16(0x1800, 0), 0x6F6428);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F6430, Fix16(0x2800, 0), 0x6F6430);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6428, Fix16(0x1800, 0), 0x6F6428); // gPartialBlockWidth_6F6428
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6430, Fix16(0x2800, 0), 0x6F6430); // gCornerAndCenterBlockWidth1_6F6430
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6434, Fix16(0x100, 0), 0x6F6434);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6588, 0x6F6588);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6598, 0x6F6598);
@@ -2992,7 +2992,7 @@ void MapRenderer::Draw_4F6A20()
             s32 x_semi_distance = (max_x - min_x + 1) / 2;
             if (x_semi_distance % 2 != 1)
             {
-                x_semi_distance += 1;
+                //x_semi_distance += 1; // in the current state, removing this line reduces map render glitches
             }
             
             // compute y boundary
@@ -3002,7 +3002,7 @@ void MapRenderer::Draw_4F6A20()
             s32 y_semi_distance = (max_y - min_y + 1) / 2;
             if (y_semi_distance % 2 != 1)
             {
-                y_semi_distance += 1;
+                //y_semi_distance += 1; // in the current state, removing this line reduces map render glitches
             }
             
             // update global Z coordinate
