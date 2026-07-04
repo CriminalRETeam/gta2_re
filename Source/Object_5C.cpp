@@ -3021,42 +3021,42 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
     u8 bUnk2 = 0;
     Fix16 v15;
     Sprite* pSprt = gObject_5C_6F8F84->field_58;
-    Fix16 f16_unk = mov_speed;
+    Fix16 mov_speed_copy = mov_speed;
     dword_6F8F90 = 0;
     sub_482BE0();
     if (Object_2C::sub_5233A0(mov_speed))
     {
-        f16_unk = field_10_obj_3c->field_C_speed;
+        mov_speed_copy = field_10_obj_3c->field_C_speed;
     }
-    if (f16_unk != kFpZero_6F8E10 || field_10_obj_3c->field_2A || field_10_obj_3c->field_10 != kFpZero_6F8E10)
+    if (mov_speed_copy != kFpZero_6F8E10 || field_10_obj_3c->field_2A || field_10_obj_3c->field_10 != kFpZero_6F8E10)
     {
         gRozza_679188.sub_4637B0();
         pSprt->set_xyz_lazy_420600(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
         pSprt->set_ang_lazy_420690(field_4->field_0);
         pSprt->AllocInternal_59F950(field_8->field_0, field_8->field_4, field_8->field_8);
-        pSprt->field_30_sprite_type_enum = field_4->field_30_sprite_type_enum;
-        pSprt->sub_59E960();
+        pSprt->SetType_4206F0(field_4->get_type_416B40());
         pSprt->SetObj2C_482A30(field_4->field_8_object_2C_ptr);
         field_10_obj_3c->field_2F = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pSprt->field_14_xy.x.ToInt(),
                                                                                 pSprt->field_14_xy.y.ToInt(),
                                                                                 pSprt->field_1C_zpos.ToInt());
         Fix16 radius;
         Fix16 unk_z;
-        if (f16_unk != kFpZero_6F8E10)
+        if (mov_speed_copy != kFpZero_6F8E10)
         {
-            v15 = f16_unk / field_8->field_C;
-            radius = f16_unk / v15;
+            v15 = mov_speed_copy / field_8->field_C;
+            radius = mov_speed_copy / v15;
             unk_z = field_10_obj_3c->field_10 / v15;
         }
         else
         {
+            v15 = kFpZero_6F8E10;
             radius = kFpZero_6F8E10;
         }
 
         if (v15 < dword_6F8E14)
         {
             v15 = dword_6F8E14;
-            radius = f16_unk;
+            radius = mov_speed_copy;
             unk_z = field_10_obj_3c->field_10;
         }
 
@@ -3064,7 +3064,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
         Fix16 unk_y;
         Ang16::PolarToCartesian_41FC20(angle, radius, unk_x, unk_y);
 
-        for (u8 i = 1; i < v15.ToInt(); i++)
+        for (u8 i = 1; i <= v15.ToInt(); i++)
         {
             unk_angle = pSprt->field_0;
             Fix16 found_z;
