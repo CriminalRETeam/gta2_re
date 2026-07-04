@@ -94,9 +94,9 @@ class nostalgic_ellis_0x28
     void sub_482D30(Fix16 x, Fix16 y, Fix16 z)
     {
         sub_4D6DC0();
-        this->field_8_light_y = y;
-        this->field_4_light_x = x;
-        this->field_C_light_z = z;
+        field_4_light_x = x;
+        field_8_light_y = y;
+        field_C_light_z = z;
         sub_4D6D70();
     }
 

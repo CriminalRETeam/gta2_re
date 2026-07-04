@@ -1876,6 +1876,7 @@ void Object_2C::sub_526B40(Sprite* pSprite)
     }
 }
 
+// https://decomp.me/scratch/zqssg
 WIP_FUNC(0x527070)
 bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 {
@@ -1888,14 +1889,14 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
         sub_526B40(pSprite);
     }
 
-    if (this->field_8->field_34_behavior_type != object_behavior_type::behavior_11)
+    if (field_8->field_34_behavior_type != object_behavior_type::behavior_11)
     {
         gPurpleDoom_3_679210->Remove_477B00(field_4);
     }
 
     PoolTake_522360();
 
-    if (field_25)
+    if (!field_25)
     {
         if (x == kFpZero_6F8E10 && y == kFpZero_6F8E10)
         {
@@ -1912,8 +1913,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
         field_4->set_xyz_lazy_420600(x, y, pSprite->field_1C_zpos);
         field_4->set_ang_lazy_420690(pSprite->field_0 + rot);
 
-        nostalgic_ellis_0x28* pLight;
-        switch (this->field_8->field_34_behavior_type)
+        switch (field_8->field_34_behavior_type)
         {
             case object_behavior_type::behavior_2:
                 UpdateAninmation_5257D0();
@@ -1921,19 +1921,18 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
 
             case object_behavior_type::behavior_5:
             {
-                Wolfy_30* w30 = this->field_C_pAny.pExplosion;
-                if (w30)
+                if (field_C_pAny.pExplosion)
                 {
                     switch (pSprite->field_30_sprite_type_enum)
                     {
                         case sprite_types_enum::car:
-                            if (w30->IsState_5435D0())
+                            if (field_C_pAny.pExplosion->IsState_5435D0())
                             {
                                 field_4->set_z_lazy_420660(pSprite->field_8_car_bc_ptr->GetZPos_441330());
                                 pSprite->field_8_car_bc_ptr->AccumulateDamage_43DA90(1, &gZeroVector_6F8EF0);
                             }
 
-                            this->field_C_pAny.pExplosion->field_1C = pSprite;
+                            field_C_pAny.pExplosion->field_1C = pSprite;
 
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
@@ -1942,10 +1941,10 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                             }
                             break;
 
-                        case 3:
-                        case 4:
-                        case 5:
-                            if (w30->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
+                        case sprite_types_enum::ped:
+                        case sprite_types_enum::code_obj1:
+                        case sprite_types_enum::map_obj:
+                            if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
                                 byte_6F8C68 = 0;
                                 return 1;
@@ -1960,8 +1959,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
             }
 
             case object_behavior_type::behavior_11:
-                pLight = this->field_C_pAny.pLight;
-                pLight->sub_482D30(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
+                field_C_pAny.pLight->sub_482D30(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
                 break;
 
             default:
@@ -1976,7 +1974,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
             }
         }
 
-        if (this->field_8->field_34_behavior_type != 11)
+        if (field_8->field_34_behavior_type != 11)
         {
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
         }
