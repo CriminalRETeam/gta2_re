@@ -375,21 +375,15 @@ void Object_2C::SetMovementVectorWithRandomState_522640(Fix16_Point& a2)
     }
 }
 
-WIP_FUNC(0x5226a0)
+MATCH_FUNC(0x5226a0)
 void Object_2C::sub_5226A0(char_type varrok_idx)
 {
-    // TODO: Missing SEH
-    WIP_IMPLEMENTED;
-
-    if (field_10_obj_3c)
-    {
-        field_10_obj_3c->field_38 = varrok_idx;
-    }
-    else
+    Fix16_Point point;
+    if (!field_10_obj_3c)
     {
         NewObj3C_528130(gZeroVector_6F8EF0);
-        field_10_obj_3c->field_38 = varrok_idx;
     }
+    field_10_obj_3c->field_38 = varrok_idx;
 }
 
 WIP_FUNC(0x522710)
