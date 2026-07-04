@@ -53,12 +53,11 @@ void nostalgic_ellis_0x28::sub_4D6D70()
     }
 }
 
-WIP_FUNC(0x4D6DC0)
+MATCH_FUNC(0x4D6DC0)
 nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
 {
-    WIP_IMPLEMENTED;
-    nostalgic_ellis_0x28* v1; // eax
-    nostalgic_ellis_0x28* result; // eax
+    nostalgic_ellis_0x28* v1;
+    nostalgic_ellis_0x28* result;
 
     v1 = field_24;
     if (v1)
@@ -67,7 +66,7 @@ nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
     }
     else
     {
-        *(&g4096_alloc_6F5400[64 * (field_8_light_y.ToInt())] + (field_4_light_x.ToInt())) = field_20;
+        *(&g4096_alloc_6F5400[64 * (field_8_light_y.ToInt() >> 2)] + (field_4_light_x.ToInt() >> 2)) = field_20;
     }
 
     result = field_20;
