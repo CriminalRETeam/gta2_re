@@ -35,7 +35,7 @@ class Object_2C
     EXPORT bool ShouldStopAtTrafficLight_525290(Sprite* pSprite);
     EXPORT bool ShouldCollideWithSprite_522430(Sprite* a2);
     EXPORT char_type SelectCollisionSprite_522460(Sprite* a2);
-    EXPORT void SetMovementVector_5224E0(Fix16_Point& a2);
+    EXPORT void SetMovementVector_5224E0(Fix16_Point& speed);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& a2);
     EXPORT void sub_5226A0(char_type a2);
     EXPORT void ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3);
@@ -71,7 +71,7 @@ class Object_2C
     EXPORT void AssignToBucket_527AE0();
     EXPORT void RemoveFromCollisionBuckets_527D00();
     EXPORT void sub_527F10();
-    EXPORT void NewObj3C_528130(Fix16_Point& a2);
+    EXPORT void NewObj3C_528130(Fix16_Point& speed);
     EXPORT char_type HandleRotationStateTransition_528240(s32 a2, s32 a3);
     EXPORT void TickObject_5283C0(s32 a2);
     EXPORT bool OnObjectTouched_5288B0(Sprite* a2);
@@ -85,7 +85,7 @@ class Object_2C
     EXPORT void HandleCollisionWithObject_529000(Object_2C* pObj);
     EXPORT void sub_529030(s8 speed_x, s8 speed_y);
     EXPORT void sub_529070(Object_2C* pObj);
-    EXPORT s32 sub_529210();
+    EXPORT s32 GetExplosionSideFromDiagonalWall_529210();
     EXPORT s32 sub_529240();
     EXPORT void get_weapon_default_ammo_5292D0();
     EXPORT void SetDamageOwner_529080(u8 a2);
@@ -247,7 +247,7 @@ class Object_2C
     s32 field_20;
     u8 field_24_bDoneThisFrame;
     u8 field_25;
-    u8 field_26_varrok_idx;
+    u8 field_26_varrok_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
     char_type field_27;
     char_type field_28;
     char_type field_29;

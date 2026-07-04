@@ -71,8 +71,8 @@ class Object_3C
     void PoolAllocate()
     {
         ++gObj3C_id_6F8E54;
-        field_C = 0;
-        field_4 = kZeroAng_6F8F68;
+        field_C_speed = 0;
+        field_4_angle = kZeroAng_6F8F68;
         field_18 = Fix16(0);
         field_28 = 0;
         field_38 = 0;
@@ -100,10 +100,10 @@ class Object_3C
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
     struct_4 field_0;
-    Ang16 field_4;
+    Ang16 field_4_angle;
     s16 field_6;
     Object_3C* mpNext;
-    Fix16 field_C;
+    Fix16 field_C_speed;
     Fix16 field_10;
     Fix16 field_14;
     Fix16 field_18;
