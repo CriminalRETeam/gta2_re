@@ -35,7 +35,7 @@ class Object_2C
     EXPORT bool ShouldStopAtTrafficLight_525290(Sprite* pSprite);
     EXPORT bool ShouldCollideWithSprite_522430(Sprite* a2);
     EXPORT char_type SelectCollisionSprite_522460(Sprite* a2);
-    EXPORT void SetMovementVector_5224E0(Fix16_Point& a2);
+    EXPORT void SetMovementVector_5224E0(Fix16_Point& speed);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& a2);
     EXPORT void sub_5226A0(char_type a2);
     EXPORT void ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3);
@@ -71,7 +71,7 @@ class Object_2C
     EXPORT void AssignToBucket_527AE0();
     EXPORT void RemoveFromCollisionBuckets_527D00();
     EXPORT void sub_527F10();
-    EXPORT void NewObj3C_528130(Fix16_Point& a2);
+    EXPORT void NewObj3C_528130(Fix16_Point& speed);
     EXPORT char_type HandleRotationStateTransition_528240(s32 a2, s32 a3);
     EXPORT void TickObject_5283C0(s32 a2);
     EXPORT bool OnObjectTouched_5288B0(Sprite* a2);

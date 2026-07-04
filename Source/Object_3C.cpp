@@ -18,13 +18,13 @@ EXTERN_GLOBAL(Fix16, dword_6F8ECC);
 MATCH_FUNC(0x52ad80)
 Object_3C::Object_3C()
 {
-    this->field_4 = 0;
+    this->field_4_angle = 0;
     this->mpNext = 0;
     this->field_1C = dword_6F8BF0;
     this->field_18 = dword_6F8BF0;
     this->field_10 = dword_6F8BF0;
-    this->field_C = dword_6F8BF0;
-    this->field_4 = kZeroAng_6F8F68;
+    this->field_C_speed = dword_6F8BF0;
+    this->field_4_angle = kZeroAng_6F8F68;
     this->field_28 = 0;
     this->field_20 = 0;
     this->field_2C = 0;
@@ -46,7 +46,7 @@ MATCH_FUNC(0x52adf0)
 Fix16_Point Object_3C::GetRot_52ADF0()
 {
     Fix16_Point p;
-    p.FromPolar_41E210(field_C, field_4);
+    p.FromPolar_41E210(field_C_speed, field_4_angle);
     return p;
 }
 
@@ -70,8 +70,8 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
     }
     else
     {
-        Speed = field_C;
-        Angle = field_4;
+        Speed = field_C_speed;
+        Angle = field_4_angle;
     }
 }
 
