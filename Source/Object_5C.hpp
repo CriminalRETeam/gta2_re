@@ -85,7 +85,7 @@ class Object_2C
     EXPORT void HandleCollisionWithObject_529000(Object_2C* pObj);
     EXPORT void sub_529030(s8 speed_x, s8 speed_y);
     EXPORT void sub_529070(Object_2C* pObj);
-    EXPORT s32 sub_529210();
+    EXPORT s32 GetExplosionSideFromDiagonalWall_529210();
     EXPORT s32 sub_529240();
     EXPORT void get_weapon_default_ammo_5292D0();
     EXPORT void SetDamageOwner_529080(u8 a2);
@@ -247,7 +247,7 @@ class Object_2C
     s32 field_20;
     u8 field_24_bDoneThisFrame;
     u8 field_25;
-    u8 field_26_varrok_idx;
+    u8 field_26_varrok_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
     char_type field_27;
     char_type field_28;
     char_type field_29;

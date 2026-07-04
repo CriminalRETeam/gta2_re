@@ -2488,7 +2488,7 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
             s32 remapped;
             if (pObj->field_18_model == objects::diagonal_wall_collision_obj_166)
             {
-                remapped = pObj->sub_529210();
+                remapped = pObj->GetExplosionSideFromDiagonalWall_529210();
             }
             else
             {
@@ -2801,15 +2801,15 @@ void Object_2C::sub_529070(Object_2C* pObj)
 
 // https://decomp.me/scratch/lXvKN
 MATCH_FUNC(0x529210)
-s32 Object_2C::sub_529210()
+s32 Object_2C::GetExplosionSideFromDiagonalWall_529210()
 {
     switch (field_26_varrok_idx)
     {
-        case 46:
-        case 48:
+        case 46: // diagonal up right
+        case 48: // diagonal down right
             return 22;
-        case 45:
-        case 47:
+        case 45: // diagonal up left
+        case 47: // diagonal down left
             return 23;
     }
     return 23;
