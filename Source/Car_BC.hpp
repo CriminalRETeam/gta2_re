@@ -1109,3 +1109,8 @@ EXTERN_GLOBAL(TrailerPool*, gTrailerPool_66AC80);
 EXTERN_GLOBAL(Car_14*, gCar_14_677934);
 
 EXTERN_GLOBAL(char_type, gbRngRemapTableDone_679C0A);
+
+// TODO: move
+EXPORT s32 __stdcall sub_45CF90(Ped* pPed);
+EXPORT s32 __stdcall sub_48E780(s32 model);
+EXPORT char_type __stdcall sub_48E720(s32 model);
