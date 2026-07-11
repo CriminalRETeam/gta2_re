@@ -625,7 +625,7 @@ class Ped
     Marz_3* field_18C;
     Marz_96* field_190;
     Marz_3* field_194;
-    s32 field_198;
+    Ped* field_198;
     Gang_144* field_19C;
     Object_2C* field_1A0_objective_target_object;
     Object_2C* field_1A4;

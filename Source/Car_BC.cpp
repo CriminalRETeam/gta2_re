@@ -3644,8 +3644,9 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
     return 0;
 }
 
+// TODO: move
 WIP_FUNC(0x48E720);
-EXPORT char_type __stdcall sub_48E720(s32 model)
+char_type __stdcall sub_48E720(s32 model)
 {
     WIP_IMPLEMENTED;
 
@@ -3666,8 +3667,9 @@ EXPORT char_type __stdcall sub_48E720(s32 model)
     return result;
 }
 
+// TODO: move
 WIP_FUNC(0x48E780);
-EXPORT s32 __stdcall sub_48E780(s32 model)
+s32 __stdcall sub_48E780(s32 model)
 {
     WIP_IMPLEMENTED;
 
@@ -3730,8 +3732,9 @@ EXPORT s32 __stdcall sub_48E780(s32 model)
     return result;
 }
 
+// TODO: move
 WIP_FUNC(0x45CF90)
-EXPORT s32 __stdcall sub_45CF90(Ped* pPed)
+s32 __stdcall sub_45CF90(Ped* pPed)
 {
     WIP_IMPLEMENTED;
 

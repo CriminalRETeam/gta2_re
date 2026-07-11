@@ -4,6 +4,7 @@
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
 #include "Garage_48.hpp"
@@ -126,7 +127,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678630, Fix16(0x147, 0), 0x678630);
 
 DEFINE_GLOBAL_INIT(Ang16, word_6785A6, Ang16(0x2D0), 0x6785A6); // TODO: Init via 0x45FCB0 func
 DEFINE_GLOBAL_INIT(Fix16, dword_678780, dword_6784C4 * 12, 0x678780);
-DEFINE_GLOBAL_INIT(Fix16, dword_6784B0, Fix16(0x168, 0), 0x6784B0); // TODO: Init via 0x45FAA0 func
+DEFINE_GLOBAL_INIT(Ang16, word_6784B0, Ang16(360), 0x6784B0); // TODO: Init via 0x45FAA0 func
 
 EXTERN_GLOBAL(u8, bHaveThreateningPeds_6787DA);
 
@@ -478,7 +479,7 @@ Ped::~Ped()
     this->field_290 = 0;
     this->field_264 = 0;
     this->field_268 = 0;
-    this->field_198 = 0;
+    this->field_198 = NULL;
     this->field_1A0_objective_target_object = 0;
     this->field_1A4 = 0;
 }
@@ -591,7 +592,7 @@ char_type Ped::Reset_45AFC0()
     field_1F4 = dword_678434;
     field_1F0_maybe_max_speed = dword_678448;
     field_268 = 0;
-    field_198 = 0;
+    field_198 = NULL;
     field_19C = 0;
     byte_6787C4 = 0;
     field_21C_bf.b3 = 0;
@@ -1543,11 +1544,219 @@ void Ped::sub_45CF20(Object_2C* a2)
     }
 }
 
-STUB_FUNC(0x45d000)
-char_type Ped::HandlePedHitByObject_45D000(Object_2C* a2)
+// https://decomp.me/scratch/Yg4cw
+WIP_FUNC(0x45d000)
+char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Ang16 angle; // default ctor here
+    Ped* pBlamedPed;
+
+    if ((field_278_ped_state_1 == ped_state_1::immobilized_8 ||
+         field_278_ped_state_1 == ped_state_1::dead_9 && pObj->field_18_model != objects::moving_cone_198) &&
+        field_27C_ped_state_2 != ped_state_2::lying_on_floor_22)
+    {
+        return false;
+    }
+
+    if (pObj->get_field_26_420FF0())
+    {
+        s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(pObj->get_field_26_420FF0());
+        if (ped_id)
+        {
+            pBlamedPed = gPedManager_6787BC->PedById(ped_id);
+            if (pBlamedPed)
+            {
+                if (pBlamedPed->IsPedAThreat_465D00(this) || pBlamedPed->field_14C)
+                {
+                    Weapon_30* pWeapon;
+                    if (field_21C_bf.b13)
+                    {
+                        pWeapon = pBlamedPed->field_174_pWeapon;
+                    }
+                    else
+                    {
+                        pWeapon = pBlamedPed->field_170_selected_weapon;
+                    }
+                    if (pWeapon)
+                    {
+                        pWeapon->field_4 = 0; // TODO: maybe inline 0x433810
+                    }
+
+                    if (pBlamedPed->IsField238_45EDE0(2))
+                    {
+                        pBlamedPed->field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(2, pObj->field_18_model, this);
+                    }
+                    field_144 = pBlamedPed;
+
+                    if (!sub_48E720(pObj->field_18_model))
+                    {
+                        field_204_killer_id = pBlamedPed->field_200_id;
+                        field_290 = sub_48E780(pObj->field_18_model);
+                        field_264 = 50;
+                    }
+                }
+                else
+                {
+                    if (pBlamedPed->IsField238_45EDE0(2))
+                    {
+                        Weapon_30* pWeapon;
+                        if (field_21C_bf.b13)
+                        {
+                            pWeapon = pBlamedPed->field_174_pWeapon;
+                        }
+                        else
+                        {
+                            pWeapon = pBlamedPed->field_170_selected_weapon;
+                        }
+                        if (pWeapon)
+                        {
+                            pWeapon->field_4 = 0; // TODO: maybe inline 0x433810
+                        }
+                        pBlamedPed->field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(2, pObj->field_18_model, this);
+                        field_144 = pBlamedPed;
+                        if (sub_48E720(pObj->field_18_model))
+                        {
+                            return true;
+                        }
+                        field_204_killer_id = pBlamedPed->field_200_id;
+                        field_290 = sub_48E780(pObj->field_18_model);
+                        field_264 = 50;
+                        return true;
+                    }
+
+                    //
+
+                    if (this->IsPedAThreat_465D00(pBlamedPed))
+                    {
+                        field_144 = pBlamedPed;
+                    }
+                    Weapon_30* pWeapon;
+                    if (field_21C_bf.b13)
+                    {
+                        pWeapon = pBlamedPed->field_174_pWeapon;
+                    }
+                    else
+                    {
+                        pWeapon = pBlamedPed->field_170_selected_weapon;
+                    }
+                    if (pWeapon)
+                    {
+                        pWeapon->field_4 = 1; // TODO: maybe inline 0x433810
+                    }
+                    if (field_144 != pBlamedPed)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    gfrosty_pasteur_6F8060->sub_512C00(field_200_id, pObj->field_18_model, 1);
+
+    switch (pObj->field_18_model)
+    {
+        case 128:
+        case 138:
+        case 192:
+        case 195:
+        case 254:
+        case 265:
+            if (ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pObj->field_4->field_0) <=
+                word_6784B0)
+            {
+                field_168_game_object->field_10_char_state = 34; // TODO: include and use Char_B4_state enum
+            }
+            else
+            {
+                field_168_game_object->field_10_char_state = 33; // TODO: include and use Char_B4_state enum
+            }
+            if (field_208_invulnerability)
+            {
+                return true;
+            }
+
+            u8 damage_amplifier;
+            if (pObj->field_18_model == objects::pistol_bullet_265)
+            {
+                damage_amplifier = 2;
+            }
+            else
+            {
+                damage_amplifier = 1;
+            }
+
+            if (field_238 != 2)
+            {
+                // Non-player ped
+                Ped::TakeDamage(25 * damage_amplifier * sub_45CF90(pBlamedPed)); // 5 * 5 ?
+            }
+            else
+            {
+                // Player ped
+                if (field_15C_player->field_6F4_power_up_timers[power_up_indices::Armor_3] > 0)
+                {
+                    --field_15C_player->field_6F4_power_up_timers[power_up_indices::Armor_3];
+                }
+                else
+                {
+                    Ped::TakeDamage(10 * damage_amplifier * sub_45CF90(pBlamedPed));
+                }
+            }
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pObj->field_4->field_0);
+            return true;
+
+        case 194:
+            Ped::SetOnFire();
+            return true;
+
+        case 198:
+            Ped::SetOnFire();
+            if (ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pObj->field_4->field_0) <=
+                word_6784B0)
+            {
+                field_168_game_object->field_10_char_state = 34; // TODO: include and use Char_B4_state enum
+            }
+            else
+            {
+                field_168_game_object->field_10_char_state = 33; // TODO: include and use Char_B4_state enum
+            }
+
+            if (field_208_invulnerability)
+            {
+                return true;
+            }
+
+            if (field_238 == 2)
+            {
+                // Player ped
+                if (field_15C_player->field_6F4_power_up_timers[power_up_indices::Armor_3] > 0)
+                {
+                    --field_15C_player->field_6F4_power_up_timers[power_up_indices::Armor_3];
+                }
+                else
+                {
+                    Ped::TakeDamage(2 * sub_45CF90(pBlamedPed));
+                }
+            }
+            else
+            {
+                Ped::TakeDamage(5 * sub_45CF90(pBlamedPed));
+            }
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pObj->field_4->field_0);
+            return true;
+
+        case 277:
+            if (pBlamedPed)
+            {
+                pBlamedPed->field_198 = this;
+                pBlamedPed->field_268 = 20;
+            }
+            return true;
+        default:
+            return true;
+    }
 }
 
 MATCH_FUNC(0x45dd30)
@@ -2817,7 +3026,7 @@ void Ped::UpdateFacingAngle_461A60()
             this->field_130 = Fix16::atan2_fixed_405320(v35, v34);
 
             if (!byte_6787C4 || !this->field_14C || gDistanceToTarget_678750 >= dword_678780 ||
-                ComputeShortestAngleDelta_4056C0(field_130, field_12C) <= dword_6784B0)
+                ComputeShortestAngleDelta_4056C0(field_130, field_12C) <= word_6784B0)
             {
                 if (byte_6787D4 == 1)
                 {
@@ -2825,14 +3034,14 @@ void Ped::UpdateFacingAngle_461A60()
                     if ((this->field_200_id & 1) != 0)
                     {
                         Ang16 v17 = Ang16::Fix16_To_Ang16_40F540(dword_6784C4 * Fix16(stru_6F6784.get_int_4F7AE0(45)));
-                        Ang16 v12 = field_130 + dword_6784B0;
+                        Ang16 v12 = field_130 + word_6784B0;
                         Ang16 v18 = v17 + v12;
                         this->field_168_game_object->field_74 = v18;
                     }
                     else
                     {
                         Ang16 v13 = Ang16::Fix16_To_Ang16_40F540(dword_6784C4 * Fix16(stru_6F6784.get_int_4F7AE0(45)));
-                        Ang16 v14 = field_130 - dword_6784B0;
+                        Ang16 v14 = field_130 - word_6784B0;
                         Ang16 v19 = v14 - v13;
                         this->field_168_game_object->field_74 = v19;
                     }
@@ -8983,7 +9192,7 @@ Weapon_30* Ped::sub_46F490()
             // TODO: Wrong here, check needs inverting maybe
             if (gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen < 2u)
             {
-                this->field_198 = 0;
+                this->field_198 = NULL;
                 this->field_21C_bf.b9 = 1;
                 return 0;
             }
@@ -8992,7 +9201,7 @@ Weapon_30* Ped::sub_46F490()
             {
                 return this->field_170_selected_weapon;
             }
-            this->field_198 = 0;
+            this->field_198 = NULL;
             this->field_21C_bf.b9 = 1;
             return 0;
 
