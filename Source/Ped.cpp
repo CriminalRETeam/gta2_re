@@ -1878,14 +1878,14 @@ void Ped::Deallocate_45EB60()
 MATCH_FUNC(0x45edc0)
 char_type Ped::sub_45EDC0()
 {
-    if (this->field_238 == 2)
+    if (field_238 == 2)
     {
-        if (this->field_240_occupation != ped_ocupation_enum::empty)
+        if (field_240_occupation != ped_ocupation_enum::empty)
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x45ede0)
@@ -5082,11 +5082,370 @@ bool Ped::sub_465CD0()
     return false;
 }
 
-STUB_FUNC(0x465d00)
-char_type Ped::sub_465D00(Ped* a2)
+// https://decomp.me/scratch/Fh1iq
+WIP_FUNC(0x465d00)
+bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    bool bUnk = false;
+    if (!Ped::sub_433DA0())
+    {
+        ;
+    }
+    else
+    {
+        return false;
+    }
+
+    if ((field_288_threat_search == threat_search_enum::area_player_threat_only_3 ||
+         field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
+        !pTargetPed->IsField238_45EDE0(2))
+    {
+        return false;
+    }
+
+    if ((field_288_threat_search == threat_search_enum::area_player_only_5 ||
+         field_288_threat_search == threat_search_enum::line_of_sight_player_only_6) &&
+        !pTargetPed->sub_45EDC0())
+    {
+        return true;
+    }
+
+    if (Ped::sub_45EDC0())
+    {
+        bUnk = true;
+    }
+
+    // if they are on the same group (if it exists)
+    //PedGroup* pOwnerPedGroup = field_164_ped_group;
+    if (field_164_ped_group == pTargetPed->field_164_ped_group && field_164_ped_group)
+    {
+        return false;
+    }
+
+    if (field_240_occupation == ped_ocupation_enum::mad_mugger_40)
+    {
+        if (!pTargetPed->field_16C_car || !pTargetPed->field_16C_car->IsPoliceCar_439EC0() || field_238 != 4)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    if (field_17C_pGang)
+    {
+        if (pTargetPed->field_17C_pGang)
+        {
+            if (pTargetPed->field_17C_pGang != field_17C_pGang)
+            {
+                if (field_17C_pGang->sub_4BEDF0(pTargetPed->field_17C_pGang->field_1_gang_idx))
+                {
+                    if (field_238 == 4 || field_238 == 6)
+                    {
+                        if (pTargetPed->field_263 < 4 && pTargetPed->field_262 < 4)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            if (bUnk == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        if (field_17C_pGang->field_110)
+        {
+            switch (pTargetPed->field_240_occupation)
+            {
+                case ped_ocupation_enum::police:
+                case ped_ocupation_enum::swat:
+                case ped_ocupation_enum::fbi:
+                case ped_ocupation_enum::army_army:
+                case ped_ocupation_enum::walking_guard_29:
+                case ped_ocupation_enum::unknown_cop_occu_30:
+                case ped_ocupation_enum::unknown_cop_occu_31:
+                case ped_ocupation_enum::roadblock_cop_37:
+                    return true;
+                default:
+                    break;
+            }
+        }
+
+        if (pTargetPed->GetBit11_433CA0()) // has weapon
+        {
+            if (!pTargetPed->sub_45EDC0() && pTargetPed->field_240_occupation != ped_ocupation_enum::empty)
+            {
+                if (pTargetPed->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1)
+                {
+                    if (field_170_selected_weapon)
+                    {
+                        return true;
+                    }
+
+                    if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pTargetPed->get_cam_x(), pTargetPed->get_cam_y()) <=
+                        k_dword_678798)
+                    {
+                        return true;
+                    }
+
+                    if (bUnk == true)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if (!field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(pTargetPed->field_15C_player->get_idx_4219D0()))
+            {
+                return false;
+            }
+            if (gPolice_7B8_6FEE40->field_7B4)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            // hasn't weapon
+            if (!pTargetPed->sub_45EDC0() && pTargetPed->field_240_occupation != ped_ocupation_enum::empty)
+            {
+                if (bUnk == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            if (!field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(pTargetPed->field_15C_player->get_idx_4219D0()))
+            {
+                return false;
+            }
+            if (gPolice_7B8_6FEE40->field_7B4)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    switch (field_240_occupation)
+    {
+        case ped_ocupation_enum::criminal_type_1:
+            if (pTargetPed->field_240_occupation == ped_ocupation_enum::criminal_type_1)
+            {
+                return false;
+            }
+            if (bUnk == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        case ped_ocupation_enum::criminal_type_2:
+            if (pTargetPed->field_240_occupation == ped_ocupation_enum::criminal_type_2)
+            {
+                return false;
+            }
+            if (bUnk == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        case ped_ocupation_enum::elvis:
+            if (pTargetPed->IsField238_45EDE0(2))
+            {
+                return false;
+            }
+            else
+            {
+                if (bUnk == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            break;
+        case ped_ocupation_enum::police:
+        case ped_ocupation_enum::swat:
+        case ped_ocupation_enum::fbi:
+        case ped_ocupation_enum::army_army:
+        case ped_ocupation_enum::walking_guard_29:
+        case ped_ocupation_enum::unknown_cop_occu_30:
+        case ped_ocupation_enum::unknown_cop_occu_31:
+        case ped_ocupation_enum::roadblock_cop_37:
+            if (pTargetPed->sub_45EDC0())
+            {
+                if (pTargetPed->field_168_game_object &&
+                    pTargetPed->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
+                {
+                    return false;
+                }
+
+                if ((!pTargetPed->GetBit11_433CA0() || pTargetPed->field_170_selected_weapon == NULL ||
+                     !pTargetPed->field_170_selected_weapon->sub_5DCEF0()) &&
+                    pTargetPed->get_wanted_points_433DC0() < 600 && field_144 != pTargetPed && pTargetPed->field_26A <= 0)
+                {
+                    return false;
+                }
+                field_144 = 0;
+                gPolice_7B8_6FEE40->sub_5708C0(pTargetPed);
+
+                if (field_258_objective == objectives_enum::objective_43)
+                {
+                    if (gPolice_7B8_6FEE40->sub_5707B0(field_16C_car, pTargetPed))
+                    {
+                        return true;
+                    }
+                    if (pTargetPed->field_20A_wanted_points < 600)
+                    {
+                        pTargetPed->field_20A_wanted_points = 600;
+                    }
+                    return false;
+                }
+                else
+                {
+                    if (pTargetPed->field_20A_wanted_points < 600)
+                    {
+                        pTargetPed->field_20A_wanted_points = 600;
+                    }
+                    return true;
+                }
+            }
+            else
+            {
+                switch (pTargetPed->field_240_occupation)
+                {
+                    case ped_ocupation_enum::paramedic_23:
+                    case ped_ocupation_enum::police:
+                    case ped_ocupation_enum::swat:
+                    case ped_ocupation_enum::fbi:
+                    case ped_ocupation_enum::army_army:
+                    case ped_ocupation_enum::walking_guard_29:
+                    case ped_ocupation_enum::unknown_cop_occu_30:
+                    case ped_ocupation_enum::unknown_cop_occu_31:
+                    case ped_ocupation_enum::roadblock_cop_37:
+                    case ped_ocupation_enum::road_block_tank_man:
+                        if (bUnk == true)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    default:
+                        if (pTargetPed->field_240_occupation == ped_ocupation_enum::empty || pTargetPed->GetBit11_433CA0())
+                        {
+                            return true;
+                        }
+                        if (pTargetPed->GetInternalObjective_403A90() == objectives_enum::kill_char_on_foot_20)
+                        {
+                            return true;
+                        }
+                        if (bUnk == true)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                }
+            }
+            break;
+
+        default:
+            if (field_164_ped_group)
+            {
+                if (field_164_ped_group->field_2C_ped_leader != pTargetPed->Get_F14C_403AF0())
+                {
+                    if (bUnk == true)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                s32 internal_objective = pTargetPed->GetInternalObjective_403A90();
+                if (internal_objective == objectives_enum::kill_char_on_foot_20)
+                {
+                    return true;
+                }
+                else if (internal_objective == objectives_enum::punch_char_23)
+                {
+                    return true;
+                }
+                else
+                {
+                    if (bUnk == true)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                if (!pTargetPed->GetBit11_433CA0())
+                {
+                    if (bUnk == true)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            break;
+    }
 }
 
 STUB_FUNC(0x4661F0)

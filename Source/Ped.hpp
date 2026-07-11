@@ -116,7 +116,7 @@ class Ped
     EXPORT void Threat_Reaction_AI_465270();
     EXPORT void sub_465B20();
     EXPORT bool sub_465CD0();
-    EXPORT char_type sub_465D00(Ped* a2);
+    EXPORT bool IsPedAThreat_465D00(Ped* pTargetPed);
     EXPORT char_type IsThreatToSearchingPed_4661F0();
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode4_466BB0(s32 max_x_check);
@@ -584,6 +584,16 @@ class Ped
         return this->field_164_ped_group;
     }
 
+    inline s32 GetInternalObjective_403A90()
+    {
+        return field_25C_internal_objective;
+    }
+
+    inline Ped* Get_F14C_403AF0()
+    {
+        return field_14C;
+    }
+
     Marz_3 field_0_patrol_points[100];
     Ang16 field_12C;
     Ang16 field_12E;
@@ -698,8 +708,8 @@ class Ped
     s32 field_25C_internal_objective;
     char_type field_260;
     char_type field_261;
-    char_type field_262;
-    char_type field_263;
+    u8 field_262;
+    u8 field_263;
     u8 field_264;
     u8 field_265;
     char_type field_266;

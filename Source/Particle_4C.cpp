@@ -78,6 +78,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
     return 0;
 }
 
+// https://decomp.me/scratch/2UJLM
 STUB_FUNC(0x539890)
 char_type Particle_4C::UpdateCircularBurst_state_5_539890()
 {
