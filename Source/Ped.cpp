@@ -9415,152 +9415,133 @@ void Ped::UpdateStatsForKiller_46F720()
     }
 }
 
-WIP_FUNC(0x46f9d0)
+MATCH_FUNC(0x46f9d0)
 void Ped::Kill_46F9D0()
 {
-    WIP_IMPLEMENTED;
-
-    Char_B4* pB4; // eax
-    PedGroup* pGroup; // ecx
-    Char_B4* field_168_game_object; // eax
-    s32 v5; // eax
-    PedGroup* field_164_ped_group; // ecx
-    PedGroup* v7; // ecx
-    PedGroup* v9; // ecx
-    s32 field_278_ped_state_1; // eax
-
-    if ((this->field_21C & ped_bit_status_enum::k_ped_in_flames) != 0)
+    if ((field_21C & ped_bit_status_enum::k_ped_in_flames) != 0)
     {
-        pB4 = this->field_168_game_object;
-        if (pB4)
+        if (field_168_game_object)
         {
-            pB4->field_6C_animation_state = 21;
+            field_168_game_object->field_6C_animation_state = 21;
         }
         PutOutFire();
     }
 
-    if (this->field_278_ped_state_1 != ped_state_1::dead_9)
+    if (field_278_ped_state_1 != ped_state_1::dead_9)
     {
         SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-        if (this->field_27C_ped_state_2 == ped_state_2::lying_on_floor_22)
+        if (field_27C_ped_state_2 == ped_state_2::lying_on_floor_22)
         {
-            this->field_278_ped_state_1 = ped_state_1::dead_9;
-            this->field_27C_ped_state_2 = ped_state_2::Unknown_15;
+            field_278_ped_state_1 = ped_state_1::dead_9;
+            field_27C_ped_state_2 = ped_state_2::Unknown_15;
         }
         else
         {
-            Ped::ChangeNextPedState1_45C500(9);
-            Ped::ChangeNextPedState2_45C540(15);
+            Ped::ChangeNextPedState1_45C500(ped_state_1::dead_9);
+            Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_15);
         }
 
-        if ((this->field_21C & ped_bit_status_enum::k_ped_in_flames) == 0)
+        if ((field_21C & ped_bit_status_enum::k_ped_in_flames) == 0)
         {
-            this->field_250 = 4;
+            field_250 = 4;
         }
 
         UpdateStatsForKiller_46F720();
 
-        switch (this->field_240_occupation)
+        switch (field_240_occupation)
         {
             case ped_ocupation_enum::paramedic_23:
-                if (!gAmbulance_110_6F70A8->HandlePedDeath_4FA330(this))
+                if (gAmbulance_110_6F70A8->HandlePedDeath_4FA330(this))
                 {
-                    goto LABEL_22;
+                    return;
                 }
-                return;
+                break;
 
             case ped_ocupation_enum::police:
             case ped_ocupation_enum::swat:
             case ped_ocupation_enum::fbi:
                 if (!IsField238_45EDE0(4) || !gPolice_7B8_6FEE40->sub_56F4D0(this))
                 {
-                    goto LABEL_22;
+                    break;
                 }
                 return;
-
-            case ped_ocupation_enum::elvis:
-            case ped_ocupation_enum::elvis_leader:
-                pGroup = this->field_164_ped_group;
-                if (pGroup)
-                {
-                    if (!this->field_1A8_ped_killer)
-                    {
-                        this->field_1A8_ped_killer = this;
-                    }
-                    pGroup->DisbandGroupDueToAttack_4C94E0(this->field_1A8_ped_killer);
-                }
-                goto LABEL_22;
 
             case ped_ocupation_enum::unknown_1:
                 Deallocate_45EB60();
                 return;
 
-            default:
-            LABEL_22:
-                field_168_game_object = this->field_168_game_object;
-                if (field_168_game_object)
+            case ped_ocupation_enum::elvis:
+            case ped_ocupation_enum::elvis_leader:
+                if (field_164_ped_group)
                 {
-                    field_168_game_object->field_16 = 1;
-                    v5 = this->field_238;
-                    field_164_ped_group = this->field_164_ped_group;
-                    if (v5 == 2)
+                    if (!field_1A8_ped_killer)
                     {
-                        if (field_164_ped_group)
-                        {
-                            field_164_ped_group->DestroyGroup_4C93A0();
-                        }
+                        field_1A8_ped_killer = this;
                     }
-                    else if (!field_164_ped_group && v5 != 5)
-                    {
-                        SetObjective(objectives_enum::objective_28, 9999);
-                    }
-                    this->field_168_game_object->field_80_sprite_ptr->field_28_num = 6;
-                }
-                else if (this->field_238 == 2)
-                {
-                    if (this->field_16C_car)
-                    {
-                        field_15C_player->sub_564C00();
-                    }
-                    v7 = this->field_164_ped_group;
-                    if (v7)
-                    {
-                        v7->DestroyGroup_4C93A0();
-                    }
-                    this->field_21C &= ~0x8;
-                }
-                else
-                {
-                    Deallocate_45EB60();
-                }
-
-                v9 = this->field_164_ped_group;
-                if (!v9 || this->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
-                {
-                    field_278_ped_state_1 = this->field_278_ped_state_1;
-                    this->field_216_health = 0;
-                    this->field_20A_wanted_points = 0;
-                    this->field_21C &= 0x800;
-                    if (field_278_ped_state_1 == ped_state_1::dead_9 && this->field_27C_ped_state_2 == ped_state_2::Unknown_15)
-                    {
-                        SpawnWeaponOnDeath_45E080();
-                    }
-
-                    gThreateningPedsList_678468.RemovePed_471240(this);
-
-                    if (bDo_blood_67D5C5)
-                    {
-                        if (!this->field_16C_car && this->field_168_game_object->field_6C_animation_state != 17)
-                        {
-                            gParticle_8_6FD5E8->SpawnBlood_53E880(this->field_1AC_cam.x, this->field_1AC_cam.y, this->field_1AC_cam.z);
-                        }
-                    }
-                }
-                else
-                {
-                    v9->RemovePed_4C9970(this);
+                    field_164_ped_group->DisbandGroupDueToAttack_4C94E0(field_1A8_ped_killer);
                 }
                 break;
+
+            default:
+                break;
+        }
+
+        if (field_168_game_object)
+        {
+            field_168_game_object->field_16 = 1;
+            if (field_238 == 2)
+            {
+                if (field_164_ped_group)
+                {
+                    field_164_ped_group->DestroyGroup_4C93A0();
+                }
+            }
+            else if (!field_164_ped_group && field_238 != 5)
+            {
+                SetObjective(objectives_enum::objective_28, 9999);
+            }
+            field_168_game_object->field_80_sprite_ptr->field_28_num = 6;
+        }
+        else if (field_238 == 2)
+        {
+            if (field_16C_car)
+            {
+                field_15C_player->sub_564C00();
+            }
+            if (field_164_ped_group)
+            {
+                field_164_ped_group->DestroyGroup_4C93A0();
+            }
+            field_21C_bf.b0 = false;
+        }
+        else
+        {
+            Deallocate_45EB60();
+        }
+
+        if (!field_164_ped_group || field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+        {
+            field_216_health = 0;
+            field_20A_wanted_points = 0;
+            field_21C_bf.b11 = false;
+            if (field_278_ped_state_1 == ped_state_1::dead_9 && field_27C_ped_state_2 == ped_state_2::Unknown_15)
+            {
+                SpawnWeaponOnDeath_45E080();
+            }
+
+            gThreateningPedsList_678468.RemovePed_471240(this);
+
+            if (bDo_blood_67D5C5)
+            {
+                if (!field_16C_car && field_168_game_object->field_6C_animation_state != 17)
+                {
+                    gParticle_8_6FD5E8->SpawnBlood_53E880(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z);
+                }
+            }
+        }
+        else
+        {
+            field_164_ped_group->RemovePed_4C9970(this);
         }
     }
 }
