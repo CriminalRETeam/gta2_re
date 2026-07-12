@@ -5658,11 +5658,220 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
     }
 }
 
-STUB_FUNC(0x4661F0)
+// https://decomp.me/scratch/0VTTk
+WIP_FUNC(0x4661F0)
 char_type Ped::IsThreatToSearchingPed_4661F0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    u8 bUnk;
+    Ang16 angle_1;
+    Ang16 angle_2;
+    switch (byte_6787D7)
+    {
+        case 1:
+            if (field_238 == 3)
+            {
+                return false;
+            }
+            if (field_278_ped_state_1 == ped_state_1::dead_9)
+            {
+                return false;
+            }
+            if (field_278_ped_state_1 == ped_state_1::immobilized_8)
+            {
+                return false;
+            }
+            if (!field_21C_bf.b0)
+            {
+                return false;
+            }
+            if (dword_6787DC->IsPedAThreat_465D00(this)) // OBS: inlined, :skull:
+            {
+                return true;
+            }
+            return false;
+
+        case 2:
+            if (field_16C_car)
+            {
+                return false;
+            }
+            if (field_278_ped_state_1 == ped_state_1::dead_9)
+            {
+                return false;
+            }
+            if (field_278_ped_state_1 == ped_state_1::immobilized_8)
+            {
+                return false;
+            }
+            if (!field_21C_bf.b0)
+            {
+                return false;
+            }
+            if (dword_6787DC == this)
+            {
+                return false;
+            }
+            return true;
+
+        case 3:
+            if (field_16C_car)
+            {
+                return false;
+            }
+            if (field_278_ped_state_1 == ped_state_1::dead_9)
+            {
+                return false;
+            }
+            if (field_278_ped_state_1 == ped_state_1::immobilized_8)
+            {
+                return false;
+            }
+            if (!field_21C_bf.b0)
+            {
+                return false;
+            }
+            if (dword_6787DC == this)
+            {
+                return false;
+            }
+            if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, dword_6787DC->get_cam_x(), dword_6787DC->get_cam_y()) <=
+                dword_678788)
+            {
+                return true;
+            }
+            return false;
+
+        case 4:
+            if (field_16C_car)
+            {
+                return false;
+            }
+            if (field_278_ped_state_1 == ped_state_1::dead_9)
+            {
+                return false;
+            }
+            if (field_278_ped_state_1 == ped_state_1::immobilized_8)
+            {
+                return false;
+            }
+            if (!field_21C_bf.b0)
+            {
+                return false;
+            }
+            if (dword_6787DC == this)
+            {
+                return false;
+            }
+            angle_1 = Fix16::atan2_fixed_405320(field_1AC_cam.y - dword_6787DC->get_cam_y(), field_1AC_cam.x - dword_6787DC->get_cam_x());
+
+            angle_1 = angle_1 - dword_6787DC->GetRotation();
+            angle_2 = gDummyPedAng_6787A8 - word_6784F0;
+            if (angle_1 < word_6784F0 || angle_1 > angle_2)
+            {
+                return true;
+            }
+            return false;
+
+        case 5:
+            if (field_278_ped_state_1 == ped_state_1::dead_9)
+            {
+                return false;
+            }
+            if (field_278_ped_state_1 == ped_state_1::immobilized_8)
+            {
+                return false;
+            }
+            if (!field_21C_bf.b0)
+            {
+                return false;
+            }
+            if (field_238 == 2)
+            {
+                Camera_0xBC* pCam = field_15C_player->get_camera_434900();
+                if (dword_6787DC->field_168_game_object)
+                {
+                    if (!pCam->sub_435630(dword_6787DC->field_168_game_object->field_80_sprite_ptr, 1))
+                    {
+                        return false;
+                    }
+                }
+                else if (!pCam->sub_435630(dword_6787DC->field_16C_car->field_50_car_sprite, 1))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (!dword_6787DC->IsPedAThreat_465D00(this))
+                {
+                    return false;
+                }
+            }
+            word_6784F0 = word_6784B0;
+            if (dword_6787DC == this)
+            {
+                return false;
+            }
+
+            angle_1 = Fix16::atan2_fixed_405320(field_1AC_cam.y - dword_6787DC->get_cam_y(), field_1AC_cam.x - dword_6787DC->get_cam_x());
+
+            angle_1 = angle_1 - dword_6787DC->GetRotation();
+            angle_2 = gDummyPedAng_6787A8 - word_6784F0;
+            if (!(angle_1 < word_6784F0 || angle_1 > angle_2))
+            {
+                return false;
+            }
+
+            if (dword_6787DC->field_164_ped_group)
+            {
+                if (dword_6787DC->field_164_ped_group->field_2C_ped_leader->is_player_41B0A0())
+                {
+                    if (Fix16::Abs(dword_6787DC->field_1AC_cam.z - field_1AC_cam.z) >= k_dword_678664)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if (field_238 != 2)
+            {
+                return gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618 * 2,
+                                                     dword_678484,
+                                                     gSpawnJitterScale_678618,
+                                                     dword_6787DC->get_cam_x(),
+                                                     dword_6787DC->get_cam_y(),
+                                                     dword_6787DC->get_cam_z(),
+                                                     field_1AC_cam.x,
+                                                     field_1AC_cam.y,
+                                                     field_1AC_cam.z);
+            }
+            else
+            {
+                if (gMap_0x370_6F6268->sub_4E5640(dword_678484,
+                                                  dword_678484,
+                                                  gSpawnJitterScale_678618,
+                                                  dword_6787DC->get_cam_x(),
+                                                  dword_6787DC->get_cam_y(),
+                                                  dword_6787DC->get_cam_z(),
+                                                  field_1AC_cam.x,
+                                                  field_1AC_cam.y,
+                                                  field_1AC_cam.z))
+                {
+                    dword_6787DC->field_21C_bf.b23 = true;
+                }
+                else
+                {
+                    dword_6787DC->field_21C_bf.b23 = false;
+                }
+                return dword_6787DC->IsPedAThreat_465D00(this);
+            }
+            break;
+
+        default:
+            return false;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x466b90)
