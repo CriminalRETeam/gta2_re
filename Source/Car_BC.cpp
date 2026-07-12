@@ -1814,7 +1814,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
             pPhi = o2c->field_8;
             phi_type = pPhi->field_34_behavior_type;
             if (phi_type == 6 || phi_type == 7 || phi_type == 8 || phi_type == 9 || phi_type == 10 || phi_type == 1 || phi_type == 12 ||
-                (field_18_model = o2c->field_18_model, field_18_model == objects::rocket_bullet_128) || field_18_model == objects::granade_obj_183)
+                (field_18_model = o2c->field_18_model, field_18_model == objects::rocket_bullet_128) || field_18_model == objects::grenade_obj_183)
             {
                 if (pPhi->field_40_collision_bucket_category == 3)
                 {
@@ -7141,21 +7141,21 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                         }
                         else
                         {
-                            switch (gPolice_7B8_6FEE40->field_65C)
+                            switch (gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service)
                             {
-                                case 3:
+                                case crew_type::police_3:
                                     car_model_idx = car_model_enum::COPCAR; //12;
                                     break;
-                                case 4:
+                                case crew_type::fbi_4:
                                     car_model_idx = car_model_enum::EDSELFBI; // 84;
                                     break;
-                                case 6:
+                                case crew_type::army_6:
                                     car_model_idx = car_model_enum::GUNJEEP; //22;
                                     break;
                             }
                         }
                     }
-                    else if (gPolice_7B8_6FEE40->field_65C == 6)
+                    else if (gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service == crew_type::army_6)
                     {
                         switch (stru_6F6784.get_int_4F7AE0(10))
                         {

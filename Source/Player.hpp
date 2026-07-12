@@ -232,6 +232,22 @@ class Player
         return field_2E_idx;
     }
 
+    inline Camera_0xBC* get_camera_434900()
+    {
+        if (field_68 == 2)
+        {
+            return &field_208_aux_game_camera;
+        }
+        else if (field_68 == 3)
+        {
+            return &field_208_aux_game_camera;
+        }
+        else
+        {
+            return &field_90_game_camera;
+        }
+    }
+
     u8 field_0_bIsUser;
     char_type field_1;
     char_type field_2;

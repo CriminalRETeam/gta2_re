@@ -230,6 +230,18 @@ enum
 // static_assert(sizeof(gmp_zone_type_enum) == 4);
 } // namespace gmp_zone_type_enum
 
+namespace crew_type // KFC type
+{
+enum
+{
+    paramedic_1 = 1,
+    police_3 = 3,
+    fbi_4 = 4,
+    swat_5 = 5,
+    army_6 = 6,
+};
+} // namespace crew_type
+
 namespace palette_types_enum
 {
 enum
@@ -372,7 +384,7 @@ enum
     ped_remap_green_police = 1,
     ped_remap_red_police = 2,
     ped_remap_yellow_police = 3,
-    ped_remap_khaki_police = 4,
+    ped_remap_army = 4,
     ped_remap_red_head_redneck = 5,
     ped_remap_blond_head_redneck = 6,
     ped_remap_yellow_scientist = 7,
@@ -711,17 +723,18 @@ enum
     red_phone_177 = 177,
     yellow_phone_179 = 179,
     green_phone_181 = 181,
-    granade_obj_183 = 183,
+    grenade_obj_183 = 183,
+    grenade_obj_on_ground_184 = 184,
     huge_red_skid_189 = 189,
     huge_white_skid_190 = 190,
     huge_brown_skid_191 = 191,
     shotgun_bullet_192 = 192,
     tanktop_193 = 193,
-    antenna_194 = 194,
+    fire_hitting_194 = 194,
     object_195 = 195,
     animating_rubbish_196 = 196,
     dead_rubbish_197 = 197,
-    moving_cone_198 = 198,
+    maybe_bullet_on_fire_198 = 198,
     object_199 = 199,
     remote_200 = 200,
 
@@ -746,6 +759,7 @@ enum
     pistol_bullet_265 = 265,
     secret_token_266 = 266,
 
+    electrobaton_bullet_277 = 277,
     unknown_maybe_map_slope_278 = 278,
     kill_frenzy_icon_286 = 286,
     loonies_icon_287 = 287,

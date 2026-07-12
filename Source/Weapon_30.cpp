@@ -201,7 +201,7 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
 
     pNewBullet->SetDamageOwner_529080(field_24_pPed->get_varrok_idx_420B50());
 
-    if (bullet_type == 254 || bullet_type == 265)
+    if (bullet_type == objects::machine_gun_bullet_254 || bullet_type == objects::pistol_bullet_265)
     {
         pNewBullet->sub_5290C0(field_24_pPed->sub_45BE30());
     }

@@ -312,7 +312,7 @@ LABEL_12:
                 break;
 
             case 5:
-                if (gNumberWalkingCopsSpawned_6787CD || bSkip_police_67D4F9 || gPolice_7B8_6FEE40->field_65C == 6)
+                if (gNumberWalkingCopsSpawned_6787CD || bSkip_police_67D4F9 || gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service == crew_type::army_6)
                 {
                 delloc_ret_2:
                     pPed->Deallocate_45EB60();
@@ -352,7 +352,7 @@ LABEL_12:
                 break;
 
             default:
-                if (gPolice_7B8_6FEE40->field_65C == 6)
+                if (gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service == crew_type::army_6)
                 {
                     gPolice_7B8_6FEE40->SpawnWalkingGuard_570320(pPed, xpos, ypos, zpos, rotation);
                     pPed->field_288_threat_search = threat_search_enum::line_of_sight_1;

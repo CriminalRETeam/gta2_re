@@ -236,6 +236,15 @@ class Char_B4
         field_40_rotation += ang;
     }
 
+    inline bool IsCollidingWithASprite_433AA0()
+    {
+        if (field_69_is_colliding_with_sprite)
+        {
+            return true;
+        }
+        return false;
+    }
+
     Char_B4();
     ~Char_B4();
 

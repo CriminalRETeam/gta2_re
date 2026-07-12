@@ -124,6 +124,15 @@ class Object_2C
         return t == 2 || t == 4 || t == 8 || t == 9;
     }
 
+    inline bool sub_434140()
+    {
+        if (field_18_model == 285 || field_18_model == 282)
+        {
+            return true;
+        }
+        return false;
+    }
+
     bool sub_482C90() // matched
     {
         s32 f34 = field_8->field_34_behavior_type;

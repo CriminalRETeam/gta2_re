@@ -65,6 +65,8 @@ Object_2C* spawned_obj = NULL;
 Car_BC* pNewCar = NULL;
 char TmpBitSetChar[50];
 
+Hud_Arrow_7C* gpArrow = NULL;
+
 void wchar_to_char(wchar_t* wchar, char* out, u8 size)
 {
     u16 i = 0;
@@ -598,11 +600,11 @@ static const char* ObjectIdToString(s32 id)
         case objects::huge_brown_skid_191: return "huge_brown_skid_191";
         case objects::shotgun_bullet_192: return "shotgun_bullet_192";
         case objects::tanktop_193: return "tanktop_193";
-        case objects::antenna_194: return "antenna_194";
+        case objects::fire_hitting_194: return "fire_hitting_194";
         case objects::object_195: return "object_195";
         case objects::animating_rubbish_196: return "animating_rubbish_196";
         case objects::dead_rubbish_197: return "dead_rubbish_197";
-        case objects::moving_cone_198: return "moving_cone_198";
+        case objects::maybe_bullet_on_fire_198: return "maybe_bullet_on_fire_198";
         case objects::object_199: return "object_199";
         case objects::remote_200: return "remote_200";
 
@@ -853,6 +855,45 @@ char* flat_char_array(char* pArray, u16 num_itens)
         }
     }
     return flattened_arr;
+}
+
+void PointArrowToEntity(Ped* pPed, Car_BC* pCar, Object_2C* pObj)
+{
+    if (gHud_2B00_706620)
+    {
+        if (!gpArrow)
+        {
+            gpArrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
+        }
+        if (gpArrow)
+        {
+            ArrowTrace_24* pTarget = &gpArrow->field_18.field_18_primary_target;
+            if (pPed)
+            {
+                pTarget->field_0_ped = pPed;
+                pTarget->field_10_target_type = ArrowTargetType::Ped_2;
+            }
+            else if (pCar)
+            {
+                pTarget->field_4_car = pCar;
+                pTarget->field_10_target_type = ArrowTargetType::Car_3;
+            }
+            else if (pObj)
+            {
+                pTarget->field_8_obj = pObj;
+                pTarget->field_10_target_type = ArrowTargetType::Object_4;
+            }
+        }
+    }
+}
+
+void ClearGlobalArrow()
+{
+    if (gpArrow)
+    {
+        gpArrow->field_18.field_18_primary_target.field_10_target_type = 0;
+        gpArrow->field_18.field_3C_secondary_target.field_10_target_type = 0;
+    }
 }
 
 namespace HookManagement
@@ -2099,9 +2140,9 @@ void CC ImGuiDebugDraw()
                     }
                     if (ImGui::Button("Add car weapon"))
                     {
-                        if (pPlayerCar)
+                        if (pPlayerPed->field_16C_car)
                         {
-                            gWeapon_8_707018->allocate_5E3D50(currentWeaponIndex, 20, pPlayerCar);
+                            gWeapon_8_707018->allocate_5E3D50(currentWeaponIndex, 20, pPlayerPed->field_16C_car);
                         }
                     }
                     if (ImGui::Button("Add player weapon"))
@@ -2109,7 +2150,8 @@ void CC ImGuiDebugDraw()
                         //gWeapon_8_707018->allocate_5E3C10(currentWeaponIndex, pPlayerPed, 20);
                         // pPlayerPed->AddWeaponWithAmmo_45DD30(currentWeaponIndex, 20);
 
-                        pPlayerPed->ForceWeapon_46F600(currentWeaponIndex);
+                        //pPlayerPed->ForceWeapon_46F600(currentWeaponIndex);
+                        pPlayerPed->AddWeaponWithAmmo_45DD30(currentWeaponIndex, 99);
 
                         /*
                         Char_B4* pB4 = pPlayerPed->field_168_game_object;
@@ -2120,6 +2162,19 @@ void CC ImGuiDebugDraw()
                         // pB4->field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, 0);
                         pB4->field_b0 = 100;
                         }*/
+                    }
+
+                    if (ImGui::Button("Shoot bullet 198"))
+                    {
+                        if (pPlayerPed->field_170_selected_weapon)
+                        {
+                            pPlayerPed->field_170_selected_weapon->spawn_bullet_5DCF60(198,
+                                pPlayerPed->get_cam_x(),
+                                pPlayerPed->get_cam_y(),
+                                pPlayerPed->get_cam_z(),
+                                pPlayerPed->Get_F12E_4CCA90(),
+                                pPlayerPed->sub_45B520());
+                        }
                     }
 
                     //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);
@@ -2670,16 +2725,6 @@ void CC ImGuiDebugDraw()
         {
             if (ImGui::TreeNode("gPolice_7B8_6FEE40"))
             {
-                if (ImGui::Button("Spawn Guard"))
-                {
-                    Fix16 xpos, ypos, zpos;
-                    GetPlayerPos(xpos, ypos, zpos);
-
-                    Ped* pGuard = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, ped_remap_enum::ped_remap_blue_police, Ang16(0));
-
-                    gPolice_7B8_6FEE40->SpawnWalkingGuard_570320(pGuard, xpos, ypos, zpos, Ang16(0));
-                }
-
                 if (ImGui::TreeNode("Show debug stuff"))
                 {
                     s16 ypos = 64;
@@ -2703,9 +2748,9 @@ void CC ImGuiDebugDraw()
 
                     ypos += 16;
                     
-                    for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464); idx2++)
+                    for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464_services); idx2++)
                     {
-                        Police_7C* p7C = &gPolice_7B8_6FEE40->field_464[idx2];
+                        Police_7C* p7C = &gPolice_7B8_6FEE40->field_464_services[idx2];
                         if (p7C && p7C->field_18_z != kFP16Zero_6FE20C)
                         {
                             swprintf(tmpBuff_67BD9C, L"P7C target coords (%.1f, %.1f, %.1f)", p7C->field_10_x.ToFloat(), p7C->field_14_y.ToFloat(), p7C->field_18_z.ToFloat());
