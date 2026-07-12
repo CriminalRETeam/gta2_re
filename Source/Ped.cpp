@@ -5534,11 +5534,11 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                     return false;
                 }
                 field_144 = 0;
-                gPolice_7B8_6FEE40->sub_5708C0(pTargetPed);
+                gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal_5708C0(pTargetPed);
 
                 if (field_258_objective == objectives_enum::objective_43)
                 {
-                    if (gPolice_7B8_6FEE40->sub_5707B0(field_16C_car, pTargetPed))
+                    if (gPolice_7B8_6FEE40->PromptCrewAtCarToPurseCriminal_5707B0(field_16C_car, pTargetPed))
                     {
                         return true;
                     }

@@ -1548,10 +1548,10 @@ void Char_B4::UpdateAnimState_546360()
                 field_7C_pPed->field_20A_wanted_points = 600;
             }
 
-            gPolice_7B8_6FEE40->sub_5708C0(field_7C_pPed);
+            gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal_5708C0(field_7C_pPed);
             if (pDriver->field_258_objective == objectives_enum::objective_43)
             {
-                gPolice_7B8_6FEE40->sub_5707B0(pDriver->field_16C_car, this->field_7C_pPed);
+                gPolice_7B8_6FEE40->PromptCrewAtCarToPurseCriminal_5707B0(pDriver->field_16C_car, this->field_7C_pPed);
             }
 
             pDriver->SetObjective(objectives_enum::no_obj_0, 9999);

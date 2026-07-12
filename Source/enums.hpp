@@ -230,6 +230,18 @@ enum
 // static_assert(sizeof(gmp_zone_type_enum) == 4);
 } // namespace gmp_zone_type_enum
 
+namespace crew_type // KFC type
+{
+enum
+{
+    paramedic_1 = 1,
+    police_3 = 3,
+    fbi_4 = 4,
+    swat_5 = 5,
+    army_6 = 6,
+};
+} // namespace crew_type
+
 namespace palette_types_enum
 {
 enum
@@ -372,7 +384,7 @@ enum
     ped_remap_green_police = 1,
     ped_remap_red_police = 2,
     ped_remap_yellow_police = 3,
-    ped_remap_khaki_police = 4,
+    ped_remap_army = 4,
     ped_remap_red_head_redneck = 5,
     ped_remap_blond_head_redneck = 6,
     ped_remap_yellow_scientist = 7,

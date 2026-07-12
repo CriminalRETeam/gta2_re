@@ -13180,12 +13180,12 @@
         "v105_address": "0x570790"
     },
     {
-        "name": "Police_7B8::sub_5707B0",
+        "name": "Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0",
         "v96f_address": null,
         "v105_address": "0x5707b0"
     },
     {
-        "name": "Police_7B8::sub_5708C0",
+        "name": "Police_7B8::UpdateLastSeenCoordsForCriminal_5708C0",
         "v96f_address": null,
         "v105_address": "0x5708c0"
     },

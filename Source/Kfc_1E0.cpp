@@ -314,9 +314,9 @@ bool Kfc_30::Service_5CC480()
             return 0;
     }
 
-    switch (this->field_20_maybe_type)
+    switch (field_20_maybe_type)
     {
-        case 1:
+        case crew_type::paramedic_1:
             if (gCar_6C_677930->CanAllocateOfType_446930(4))
             {
                 this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::MEDICAR,
@@ -336,7 +336,7 @@ bool Kfc_30::Service_5CC480()
             }
             break;
 
-        case 3:
+        case crew_type::police_3:
             if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
             {
                 this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR,
@@ -355,7 +355,7 @@ bool Kfc_30::Service_5CC480()
             }
             break;
 
-        case 5:
+        case crew_type::swat_5:
             if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
             {
                 this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::SWATVAN,
@@ -376,7 +376,7 @@ bool Kfc_30::Service_5CC480()
             break;
 
         default:
-            this->field_0_car = 0;
+            field_0_car = 0;
             break;
     }
 

@@ -83,9 +83,9 @@ class Police_7C
 {
   public:
     Ped* field_0_criminal_ped;
-    s32 field_4;
-    s32 field_8;
-    u16 field_C;
+    s32 field_4_wanted_level;
+    s32 field_8_state;
+    u16 field_C_timer;
     char_type field_E;
     char_type field_F;
     Fix16 field_10_x;

@@ -17,16 +17,6 @@ EXTERN_GLOBAL(Fix16, dword_6FECF8);
 EXTERN_GLOBAL(Fix16, dword_6FEB0C);
 EXTERN_GLOBAL(Fix16, dword_6FEB68);
 
-namespace police_patrol_level
-{
-enum
-{
-    low_3 = 3,
-    high_4 = 4,
-    very_high_6 = 6,
-};
-} // namespace police_crew_state
-
 class Police_7B8
 {
   public:
@@ -52,8 +42,8 @@ class Police_7B8
     EXPORT void SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT bool FBI_Army_5703E0(Car_BC* pCar);
     EXPORT bool sub_570790(PoliceCrew_38* a1, Police_7C* a2);
-    EXPORT bool sub_5707B0(Car_BC* a2, Ped* a3);
-    EXPORT void sub_5708C0(Ped* pPed);
+    EXPORT bool PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* a2, Ped* a3);
+    EXPORT void UpdateLastSeenCoordsForCriminal_5708C0(Ped* pPed);
     EXPORT void UpdateCriminalLatestPosition_570940(Ped* a3);
     EXPORT char_type sub_577320();
     EXPORT void TryCreateRoadblockAt_577370(u8 a2, s32 a3, s32 a4);
@@ -69,7 +59,7 @@ class Police_7B8
     char_type field_659;
     char_type field_65A;
     char_type field_65B;
-    s32 field_65C_threat_level;
+    s32 field_65C_highest_crew_type_on_service;
     u8 field_660_wanted_star_count;
     char_type field_661;
     char_type field_662;
