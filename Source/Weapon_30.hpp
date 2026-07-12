@@ -112,6 +112,16 @@ class Weapon_30
     {
         return field_1C_idx;
     }
+    
+    void Set_F4_433810(s32 value)
+    {
+        field_4 = value;
+    }
+
+    s32 Get_F4_41CC70()
+    {
+        return field_4;
+    }
 
     u16 field_0_ammo;
     u8 field_2_reload_speed;

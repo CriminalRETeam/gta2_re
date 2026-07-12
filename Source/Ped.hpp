@@ -197,7 +197,7 @@ class Ped
     EXPORT void sub_46D0D0();
     EXPORT void sub_46D240();
     EXPORT void sub_46D300();
-    EXPORT void AttackTargetStateMachine_46D460(char_type a2);
+    EXPORT void AttackTargetStateMachine_46D460(u8 targetType);
     EXPORT void AttackPed_46DB60();
     EXPORT void AttackCar_46DB70();
     EXPORT void AttackObject_46DB80();
@@ -594,6 +594,16 @@ class Ped
         return field_14C;
     }
 
+    inline void sub_433BF0(Ped* pPed)
+    {
+        field_144 = pPed;
+    }
+
+    inline void Increment_F262_433BD0()
+    {
+        ++field_262;
+    }
+
     Marz_3 field_0_patrol_points[100];
     Ang16 field_12C;
     Ang16 field_12E;
@@ -712,7 +722,7 @@ class Ped
     u8 field_263;
     u8 field_264;
     u8 field_265;
-    char_type field_266;
+    u8 field_266;
     u8 field_267_varrok_idx;
     char_type field_268;
     char_type field_269;

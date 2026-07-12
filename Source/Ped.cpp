@@ -144,6 +144,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD9B8, Fix16(0x28F, 0), 0x6FD9B8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD830, Fix16(0x1333, 0), 0x6FD830);
 
 DEFINE_GLOBAL_INIT(Fix16, k_dword_67878C, dword_6784C4 * 24, 0x67878C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6786C0, dword_6784C4 * 512, 0x6786C0);
 
 // TODO: these are defined in char.cpp
 EXTERN_GLOBAL(Fix16, gCharB4_WorldCollisionOffset_6FD8D8);
@@ -8660,10 +8661,310 @@ void Ped::sub_46D300()
     }
 }
 
-STUB_FUNC(0x46d460)
-void Ped::AttackTargetStateMachine_46D460(char_type a2)
+// https://decomp.me/scratch/5y8iN
+WIP_FUNC(0x46d460)
+void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    Fix16 v6;
+
+    u8 v3 = 0;
+    u8 v40 = 0;
+    u8 v41 = 0;
+    u8 v39 = 0;
+
+    field_21C_bf.b13 = false;
+    Weapon_30* pWeapon = Ped::sub_46F490();
+    Fix16 v5 = k_dword_678664;
+    Fix16 v42 = k_dword_678798 + dword_678788;
+    if (field_168_game_object)
+    {
+        if (pWeapon)
+        {
+            switch (pWeapon->field_1C_idx)
+            {
+                case weapon_type::flamethrower:
+                    v6 = k_dword_678658;
+                    v42 = k_dword_678798;
+                    break;
+
+                case weapon_type::molotov:
+                    v6 = k_dword_678658 * 2;
+                    v42 = k_dword_678798 + dword_678790;
+                    v40 = 1;
+                    break;
+
+                case weapon_type::grenade:
+                    v6 = dword_678790 + k_dword_678658;
+                    v42 = k_dword_678658;
+                    v40 = 1;
+                    break;
+
+                case weapon_type::electro_batton:
+                    v5 = k_dword_67853C;
+                    v6 = k_dword_678658;
+                    v41 = 1;
+                    break;
+
+                case weapon_type::shotgun:
+                    v5 = k_dword_67853C;
+                    v6 = k_dword_678798;
+                    v41 = 1;
+                    break;
+
+                default:
+                    v6 = k_dword_678680;
+                    break;
+            }
+        }
+        else
+        {
+            v6 = k_dword_678658; // no weapon
+        }
+    }
+    else
+    {
+        v6 = k_dword_678680; // probably in a car
+    }
+
+    field_21C_bf.b15 = false;
+    Fix16 zpos;
+
+    switch (targetType)
+    {
+        case 0: // target is a ped
+            zpos = field_14C->get_cam_z();
+            if (field_14C->isDead_403B60() || !field_14C->CheckBit0_433B40())
+            {
+                v3 = 1;
+            }
+            if (field_14C->get_car_416B60())
+            {
+                if (field_14C->field_16C_car->GetVelocity_43A4C0() <= dword_678630)
+                {
+                    v6 = dword_678668;
+                    v5 = dword_678668 + k_dword_67853C;
+                    v39 = 1;
+                }
+            }
+
+            break;
+
+        case 1: // target is a car
+            zpos = field_154_target_to_enter->get_z_41E450();
+            if (field_154_target_to_enter->IsMaxDamage_40F890())
+            {
+                v3 = 1;
+            }
+            v5 = dword_67866C;
+            v6 = dword_678668 + k_dword_67853C;
+            v39 = 1;
+            break;
+
+        case 2: // target is a object
+            zpos = field_1A4->get_z_4340F0();
+            if (field_1A4->sub_434140())
+            {
+                field_226 = 1;
+            }
+            if (field_240_occupation != ped_ocupation_enum::stand_still_bloke)
+            {
+                v5 = dword_67866C;
+                v6 = dword_678668 + k_dword_67853C;
+                v39 = 1;
+            }
+            break;
+    }
+
+    if (v3)
+    {
+        field_21C_bf.b11 = false;
+        field_226 = 1;
+        if (field_258_objective == objectives_enum::no_obj_0)
+        {
+            Ped::SetObjective2_463830(0, 9999);
+            field_21C_bf.b2 = false;
+        }
+        return;
+    }
+
+    if (field_278_ped_state_1 == ped_state_1::immobilized_8)
+    {
+        return;
+    }
+
+    if (targetType == 0) // target is a ped
+    {
+        field_14C->sub_433BF0(this);
+        field_14C->Increment_F262_433BD0();
+    }
+
+    if (field_198) // line 185
+    {
+        Ped::ChangeNextPedState1_45C500(7);
+        Ped::ChangeNextPedState2_45C540(11);
+        field_21C_bf.b11 = true;
+    }
+    else
+    {
+        if (field_240_occupation == ped_ocupation_enum::stand_still_bloke) // line 294
+        {
+            pWeapon->Set_F4_433810(0);
+        }
+
+        if (field_266 < 4 && gDistanceToTarget_678750 < v6 && abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, zpos) ||
+            field_21C_bf.b22 == true)
+        {
+            // correct
+            if (pWeapon) // correct
+            {
+                if (pWeapon->Get_F4_41CC70() == 1) // correct
+                {
+                    // weapon->field_4 == 1
+                    if (gDistanceToTarget_678750 < v5 && !field_168_game_object->IsCollidingWithASprite_433AA0())
+                    {
+                        Ped::ChangeNextPedState1_45C500(1);
+                        Ped::ChangeNextPedState2_45C540(2);
+                        field_21C_bf.b11 = true;
+                        byte_6787D4 = 1;
+                        field_168_game_object->RegulateVelocity_433970(field_1F0_maybe_max_speed);
+
+                        if ((field_168_game_object->field_58_flags & 0x80) != 0) // line 375
+                        {
+                            Ped::SetObjective2_463830(1, 9999); // line 462
+                            field_1C4_x = field_1AC_cam.x;
+                            field_1C8_y = field_1AC_cam.y;
+                        }
+                        return;
+                    }
+
+                    if (field_21C_bf.b22 == false)
+                    {
+                        Ped::ChangeNextPedState1_45C500(1);
+                        Ped::ChangeNextPedState2_45C540(2);
+                        field_21C_bf.b11 = true;
+                        field_168_game_object->RegulateVelocity_433970(field_1F0_maybe_max_speed);
+                        return;
+                    }
+                    else
+                    {
+                        //goto GetBlockTypeAtCoord_420420
+                    }
+                }
+                else
+                {
+                    if (pWeapon->IsExplosiveWeapon_5E3BD0() && gDistanceToTarget_678750 < v42)
+                    {
+                        if (field_174_pWeapon)
+                        {
+                            field_21C_bf.b11 = true;
+                            field_21C_bf.b13 = true;
+                        }
+                        else
+                        {
+                            field_21C_bf.b11 = false;
+                        }
+
+                        if (field_21C_bf.b22 == false)
+                        {
+                            if ((field_168_game_object->field_58_flags & 0x80) != 0) // line 45c
+                            {
+                                Ped::SetObjective2_463830(1, 9999); // line 384
+                                field_1C4_x = field_1AC_cam.x;
+                                field_1C8_y = field_1AC_cam.y;
+                            }
+                            else
+                            {
+                                if (field_12C == field_130)
+                                {
+                                    field_168_game_object->SetMaxSpeed_433920(-field_1F4);
+                                }
+                                Ped::ChangeNextPedState1_45C500(1);
+                                Ped::ChangeNextPedState2_45C540(2);
+                            }
+                        }
+                        return;
+                    }
+                    // no else here
+                }
+
+                // line 4c9 and 4d2
+
+                if (v40)
+                {
+                    if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(
+                            (field_168_game_object->field_80_sprite_ptr->field_14_xy.x).ToInt(),
+                            (field_168_game_object->field_80_sprite_ptr->field_14_xy.y).ToInt(),
+                            (field_168_game_object->field_80_sprite_ptr->field_1C_zpos + k_dword_678664).ToInt()) != AIR)
+                    {
+                        Ped::ChangeNextPedState1_45C500(1);
+                        Ped::ChangeNextPedState2_45C540(2);
+                        field_21C_bf.b11 = false;
+                        field_168_game_object->RegulateVelocity_433970(field_1F0_maybe_max_speed);
+                    }
+                }
+
+                if ((field_240_occupation == ped_ocupation_enum::fbi || field_23C == 99 || v41) &&
+                    field_240_occupation != ped_ocupation_enum::stand_still_bloke && !v39)
+                {
+                    if (gDistanceToTarget_678750 < k_dword_67853C)
+                    {
+                        if (field_168_game_object->GetCharState_433A80() != 15) // jumping
+                        {
+                            Ped::ChangeNextPedState1_45C500(7); // line 5b5
+                            Ped::ChangeNextPedState2_45C540(11);
+                            field_21C_bf.b11 = true;
+                        }
+                        else
+                        {
+                            field_21C_bf.b11 = false;
+                        }
+                    }
+                    else
+                    {
+                        field_21C_bf.b11 = true;
+                    }
+                }
+                else if (field_168_game_object->GetCharState_433A80() != 15) // line 5fe
+                {
+                    Ped::ChangeNextPedState1_45C500(7);
+                    Ped::ChangeNextPedState2_45C540(11);
+                    field_21C_bf.b11 = true;
+                    field_168_game_object->field_38_velocity = k_dword_678438;
+                }
+                else
+                {
+                    field_21C_bf.b11 = false; // something weird here
+                }
+            }
+            else
+            {
+                // no weapon
+                Ped::MeleeAttackStateMachine_46B670();
+            }
+        }
+        else
+        {
+            switch (targetType)
+            {
+                case 0:  // target is a ped
+                    Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
+                    break;
+                case 1:  // target is a car
+                    Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 2);
+                    break;
+                case 2:  // target is a object
+                    Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 6);
+                    break;
+            }
+
+            if (gDistanceToTarget_678750 > dword_6786C0)
+            {
+                field_21C_bf.b11 = false;
+            }
+            field_168_game_object->RegulateVelocity_433970(field_1F0_maybe_max_speed);
+        }
+    }
 }
 
 MATCH_FUNC(0x46db60)
