@@ -65,6 +65,8 @@ Object_2C* spawned_obj = NULL;
 Car_BC* pNewCar = NULL;
 char TmpBitSetChar[50];
 
+Hud_Arrow_7C* gpArrow = NULL;
+
 void wchar_to_char(wchar_t* wchar, char* out, u8 size)
 {
     u16 i = 0;
@@ -853,6 +855,45 @@ char* flat_char_array(char* pArray, u16 num_itens)
         }
     }
     return flattened_arr;
+}
+
+void PointArrowToEntity(Ped* pPed, Car_BC* pCar, Object_2C* pObj)
+{
+    if (gHud_2B00_706620)
+    {
+        if (!gpArrow)
+        {
+            gpArrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
+        }
+        if (gpArrow)
+        {
+            ArrowTrace_24* pTarget = &gpArrow->field_18.field_18_primary_target;
+            if (pPed)
+            {
+                pTarget->field_0_ped = pPed;
+                pTarget->field_10_target_type = ArrowTargetType::Ped_2;
+            }
+            else if (pCar)
+            {
+                pTarget->field_4_car = pCar;
+                pTarget->field_10_target_type = ArrowTargetType::Car_3;
+            }
+            else if (pObj)
+            {
+                pTarget->field_8_obj = pObj;
+                pTarget->field_10_target_type = ArrowTargetType::Object_4;
+            }
+        }
+    }
+}
+
+void ClearGlobalArrow()
+{
+    if (gpArrow)
+    {
+        gpArrow->field_18.field_18_primary_target.field_10_target_type = 0;
+        gpArrow->field_18.field_3C_secondary_target.field_10_target_type = 0;
+    }
 }
 
 namespace HookManagement
@@ -2684,16 +2725,6 @@ void CC ImGuiDebugDraw()
         {
             if (ImGui::TreeNode("gPolice_7B8_6FEE40"))
             {
-                if (ImGui::Button("Spawn Guard"))
-                {
-                    Fix16 xpos, ypos, zpos;
-                    GetPlayerPos(xpos, ypos, zpos);
-
-                    Ped* pGuard = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, ped_remap_enum::ped_remap_blue_police, Ang16(0));
-
-                    gPolice_7B8_6FEE40->SpawnWalkingGuard_570320(pGuard, xpos, ypos, zpos, Ang16(0));
-                }
-
                 if (ImGui::TreeNode("Show debug stuff"))
                 {
                     s16 ypos = 64;
@@ -2717,9 +2748,9 @@ void CC ImGuiDebugDraw()
 
                     ypos += 16;
                     
-                    for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464); idx2++)
+                    for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464_services); idx2++)
                     {
-                        Police_7C* p7C = &gPolice_7B8_6FEE40->field_464[idx2];
+                        Police_7C* p7C = &gPolice_7B8_6FEE40->field_464_services[idx2];
                         if (p7C && p7C->field_18_z != kFP16Zero_6FE20C)
                         {
                             swprintf(tmpBuff_67BD9C, L"P7C target coords (%.1f, %.1f, %.1f)", p7C->field_10_x.ToFloat(), p7C->field_14_y.ToFloat(), p7C->field_18_z.ToFloat());
