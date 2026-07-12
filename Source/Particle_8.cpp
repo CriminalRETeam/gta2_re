@@ -15,7 +15,7 @@ EXTERN_GLOBAL(Fix16, dword_6FD46C);
 //EXTERN_GLOBAL(Fix16_Point, stru_6FD388);
 EXTERN_GLOBAL(Fix16, stru_6FD388);
 EXTERN_GLOBAL(Fix16, stru_6FD38C);
-
+EXTERN_GLOBAL(Fix16, dword_6FD548);
 EXTERN_GLOBAL(Fix16, dword_6FD330);
 
 DEFINE_GLOBAL(T_Particle_4C_Pool*, gParticle_4C_Pool_6FD5E4, 0x6FD5E4);
@@ -57,10 +57,47 @@ void Particle_8::ParticlesService_53E320()
     gParticle_4C_Pool_6FD5E4->UpdatePool();
 }
 
-STUB_FUNC(0x53E450)
+// https://decomp.me/scratch/ohbD0
+WIP_FUNC(0x53E450)
 void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    Ang16 angle;
+    Fix16_Point vector(Fix16(0), Fix16(0));
+
+    if (!bSkip_particles_67D64D)
+    {
+        vector.x = Fix16(0);
+        vector.y = Fix16(stru_6F6784.get_int_4F7AE0(50)) * dword_6FD548;
+        vector.RotateByAngle_40F6B0(ang);
+
+        for (u8 i = 0; i < 6; i++)
+        {
+            vector.x = Fix16(0);
+            vector.y = (Fix16(stru_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
+
+            vector.RotateByAngle_40F6B0((word_6FD5CC.sub_401CB0(Fix16(stru_6F6784.get_int_4F7AE0(16))) + ang) -
+                                        word_6FD5CC.sub_401CB0(Fix16(8)));
+
+            Fix16 x_dir = vector.x / 15;
+            Fix16 y_dir = vector.y / 15;
+
+            Particle_4C* pBloodParticle = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, -x_dir, -y_dir, 0);
+
+            if (pBloodParticle)
+            {
+                pBloodParticle->field_34 = 1;
+                pBloodParticle->field_38_state = 1;
+                pBloodParticle->field_2C_counter = 15;
+                pBloodParticle->field_2E = 15;
+
+                pBloodParticle->field_30_pNext->SetType_4206F0(8);
+                pBloodParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 16);
+                pBloodParticle->field_30_pNext->set_xyz_lazy_420600(x, y, z);
+                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pBloodParticle->field_30_pNext);
+            }
+        }
+    }
 }
 
 // 9.6f 0x48CC50
