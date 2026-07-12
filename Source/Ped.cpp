@@ -1553,7 +1553,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
     Ped* pBlamedPed;
 
     if ((field_278_ped_state_1 == ped_state_1::immobilized_8 ||
-         field_278_ped_state_1 == ped_state_1::dead_9 && pObj->field_18_model != objects::moving_cone_198) &&
+         field_278_ped_state_1 == ped_state_1::dead_9 && pObj->field_18_model != objects::maybe_bullet_on_fire_198) &&
         field_27C_ped_state_2 != ped_state_2::lying_on_floor_22)
     {
         return false;
@@ -1657,12 +1657,12 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
 
     switch (pObj->field_18_model)
     {
-        case 128:
-        case 138:
-        case 192:
-        case 195:
-        case 254:
-        case 265:
+        case objects::rocket_bullet_128:
+        case objects::moving_molotov_138:
+        case objects::shotgun_bullet_192:
+        case objects::object_195:
+        case objects::machine_gun_bullet_254:
+        case objects::pistol_bullet_265:
             if (ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pObj->field_4->field_0) <=
                 word_6784B0)
             {
@@ -1707,11 +1707,11 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
             gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pObj->field_4->field_0);
             return true;
 
-        case 194:
+        case objects::fire_hitting_194:
             Ped::SetOnFire();
             return true;
 
-        case 198:
+        case objects::maybe_bullet_on_fire_198:
             Ped::SetOnFire();
             if (ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pObj->field_4->field_0) <=
                 word_6784B0)
@@ -1747,7 +1747,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
             gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pObj->field_4->field_0);
             return true;
 
-        case 277:
+        case objects::electrobaton_bullet_277:
             if (pBlamedPed)
             {
                 pBlamedPed->field_198 = this;

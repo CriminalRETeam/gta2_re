@@ -1814,7 +1814,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
             pPhi = o2c->field_8;
             phi_type = pPhi->field_34_behavior_type;
             if (phi_type == 6 || phi_type == 7 || phi_type == 8 || phi_type == 9 || phi_type == 10 || phi_type == 1 || phi_type == 12 ||
-                (field_18_model = o2c->field_18_model, field_18_model == objects::rocket_bullet_128) || field_18_model == objects::granade_obj_183)
+                (field_18_model = o2c->field_18_model, field_18_model == objects::rocket_bullet_128) || field_18_model == objects::grenade_obj_183)
             {
                 if (pPhi->field_40_collision_bucket_category == 3)
                 {

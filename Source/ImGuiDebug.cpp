@@ -598,11 +598,11 @@ static const char* ObjectIdToString(s32 id)
         case objects::huge_brown_skid_191: return "huge_brown_skid_191";
         case objects::shotgun_bullet_192: return "shotgun_bullet_192";
         case objects::tanktop_193: return "tanktop_193";
-        case objects::antenna_194: return "antenna_194";
+        case objects::fire_hitting_194: return "fire_hitting_194";
         case objects::object_195: return "object_195";
         case objects::animating_rubbish_196: return "animating_rubbish_196";
         case objects::dead_rubbish_197: return "dead_rubbish_197";
-        case objects::moving_cone_198: return "moving_cone_198";
+        case objects::maybe_bullet_on_fire_198: return "maybe_bullet_on_fire_198";
         case objects::object_199: return "object_199";
         case objects::remote_200: return "remote_200";
 
@@ -2099,9 +2099,9 @@ void CC ImGuiDebugDraw()
                     }
                     if (ImGui::Button("Add car weapon"))
                     {
-                        if (pPlayerCar)
+                        if (pPlayerPed->field_16C_car)
                         {
-                            gWeapon_8_707018->allocate_5E3D50(currentWeaponIndex, 20, pPlayerCar);
+                            gWeapon_8_707018->allocate_5E3D50(currentWeaponIndex, 20, pPlayerPed->field_16C_car);
                         }
                     }
                     if (ImGui::Button("Add player weapon"))
@@ -2109,7 +2109,8 @@ void CC ImGuiDebugDraw()
                         //gWeapon_8_707018->allocate_5E3C10(currentWeaponIndex, pPlayerPed, 20);
                         // pPlayerPed->AddWeaponWithAmmo_45DD30(currentWeaponIndex, 20);
 
-                        pPlayerPed->ForceWeapon_46F600(currentWeaponIndex);
+                        //pPlayerPed->ForceWeapon_46F600(currentWeaponIndex);
+                        pPlayerPed->AddWeaponWithAmmo_45DD30(currentWeaponIndex, 99);
 
                         /*
                         Char_B4* pB4 = pPlayerPed->field_168_game_object;
@@ -2120,6 +2121,19 @@ void CC ImGuiDebugDraw()
                         // pB4->field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, 0);
                         pB4->field_b0 = 100;
                         }*/
+                    }
+
+                    if (ImGui::Button("Shoot bullet 198"))
+                    {
+                        if (pPlayerPed->field_170_selected_weapon)
+                        {
+                            pPlayerPed->field_170_selected_weapon->spawn_bullet_5DCF60(198,
+                                pPlayerPed->get_cam_x(),
+                                pPlayerPed->get_cam_y(),
+                                pPlayerPed->get_cam_z(),
+                                pPlayerPed->Get_F12E_4CCA90(),
+                                pPlayerPed->sub_45B520());
+                        }
                     }
 
                     //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);
