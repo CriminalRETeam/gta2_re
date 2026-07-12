@@ -1397,9 +1397,8 @@ Ang16 Ped::ComputeAimAngle_45C9D0()
 
         if (best)
         {
-            Fix16 xd = best->field_1AC_cam.x - field_1AC_cam.x;
-            Fix16 yd = best->field_1AC_cam.y - field_1AC_cam.y;
-            field_130 = Fix16::atan2_fixed_405320(xd, yd);
+            field_130 = Fix16::atan2_fixed_405320(best->field_1AC_cam.y - field_1AC_cam.y, 
+                                                  best->field_1AC_cam.x - field_1AC_cam.x);
         }
         else
         {

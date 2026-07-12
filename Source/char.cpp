@@ -4410,7 +4410,7 @@ LABEL_65:
             }
             else
             {
-                v73 = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
+                v73 = Fix16::atan2_fixed_405320(pMaybeY_FP16, pMaybeX_FP16);
                 field_1C_zpos = v73;
             }
         }
