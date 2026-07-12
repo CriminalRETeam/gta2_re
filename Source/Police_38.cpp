@@ -19,6 +19,7 @@ DEFINE_GLOBAL(Fix16, dword_6FECE8, 0x6FECE8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FED54, Fix16(0x28000, 0), 0x6FED54);
 DEFINE_GLOBAL(Ped*, pPed_6FEDDC, 0x6FEDDC);
 DEFINE_GLOBAL(u8, byte_6FEB48, 0x6FEB48);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FED48, dword_6FEB88 * 512, 0x6FED48);
 
 MATCH_FUNC(0x4beb30)
 PoliceCrew_38::PoliceCrew_38()
@@ -391,11 +392,29 @@ void PoliceCrew_38::sub_5720C0()
     }
 }
 
-STUB_FUNC(0x572210)
+// https://decomp.me/scratch/p2NiN
+WIP_FUNC(0x572210)
 bool PoliceCrew_38::sub_572210()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    if (field_14_pObj->field_0_criminal_ped && !field_34 && field_14_pObj->field_C > 0)
+    {
+        if (!field_10_subObj->field_24)
+        {
+            return Fix16::MaxAbsDistance_42A6B0(pPed_6FEDDC->get_cam_x(),
+                                                pPed_6FEDDC->get_cam_y(),
+                                                field_14_pObj->field_0_criminal_ped->get_cam_x(),
+                                                field_14_pObj->field_0_criminal_ped->get_cam_y()) < dword_6FED48;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    else
+    {
+        return false;
+    }
 }
 
 MATCH_FUNC(0x572340)
