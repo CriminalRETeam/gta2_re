@@ -7141,21 +7141,21 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                         }
                         else
                         {
-                            switch (gPolice_7B8_6FEE40->field_65C)
+                            switch (gPolice_7B8_6FEE40->field_65C_threat_level)
                             {
-                                case 3:
+                                case police_patrol_level::low_3:
                                     car_model_idx = car_model_enum::COPCAR; //12;
                                     break;
-                                case 4:
+                                case police_patrol_level::high_4:
                                     car_model_idx = car_model_enum::EDSELFBI; // 84;
                                     break;
-                                case 6:
+                                case police_patrol_level::very_high_6:
                                     car_model_idx = car_model_enum::GUNJEEP; //22;
                                     break;
                             }
                         }
                     }
-                    else if (gPolice_7B8_6FEE40->field_65C == 6)
+                    else if (gPolice_7B8_6FEE40->field_65C_threat_level == police_patrol_level::very_high_6)
                     {
                         switch (stru_6F6784.get_int_4F7AE0(10))
                         {

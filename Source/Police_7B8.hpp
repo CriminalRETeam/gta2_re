@@ -17,6 +17,16 @@ EXTERN_GLOBAL(Fix16, dword_6FECF8);
 EXTERN_GLOBAL(Fix16, dword_6FEB0C);
 EXTERN_GLOBAL(Fix16, dword_6FEB68);
 
+namespace police_patrol_level
+{
+enum
+{
+    low_3 = 3,
+    high_4 = 4,
+    very_high_6 = 6,
+};
+} // namespace police_crew_state
+
 class Police_7B8
 {
   public:
@@ -59,7 +69,7 @@ class Police_7B8
     char_type field_659;
     char_type field_65A;
     char_type field_65B;
-    s32 field_65C;
+    s32 field_65C_threat_level;
     u8 field_660_wanted_star_count;
     char_type field_661;
     char_type field_662;

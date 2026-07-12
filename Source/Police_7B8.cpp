@@ -67,7 +67,7 @@ void Police_7B8::sub_56F400()
     field_654_wanted_level = 0;
     field_658_count = 0;
     field_659 = 1;
-    field_65C = 3;
+    field_65C_threat_level = police_patrol_level::low_3;
     byte_6FEE44 = 0;
     if (bStartNetworkGame_7081F0)
     {
@@ -479,7 +479,7 @@ void Police_7B8::Service_570270()
 MATCH_FUNC(0x570320)
 void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    if (field_65C == 6)
+    if (field_65C_threat_level == police_patrol_level::very_high_6)
     {
         pPed->set_occupation_403970(ped_ocupation_enum::unknown_cop_occu_31);
         pPed->SetField238_403920(3);
@@ -532,7 +532,7 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
     pNewCrew->field_24_state = 1;
     pNewCrew->field_29 = 1;
     pKfc->field_1E_is_used = 1;
-    pKfc->field_20_maybe_type = gPolice_7B8_6FEE40->field_65C;
+    pKfc->field_20_maybe_type = gPolice_7B8_6FEE40->field_65C_threat_level;
     pKfc->field_24 = 1;
     pKfc->field_0_car = pCar;
     PedGroup* pNewPedGroup = PedGroup::New_4CB0D0();
@@ -551,9 +551,9 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
     pNewPed2->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pNewPed2->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
 
-    switch (gPolice_7B8_6FEE40->field_65C)
+    switch (gPolice_7B8_6FEE40->field_65C_threat_level)
     {
-        case 4:
+        case police_patrol_level::high_4:
             // ok
             pNewPed1->set_health_4039A0(250);
             pNewPed1->ForceWeapon_46F600(weapon_type::shotgun);
@@ -569,7 +569,7 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
             pNewCrew->field_20 = 3;
             break;
 
-        case 3:
+        case police_patrol_level::low_3:
 
             switch (field_654_wanted_level)
             {
