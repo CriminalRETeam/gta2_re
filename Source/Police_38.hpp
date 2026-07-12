@@ -14,7 +14,9 @@ namespace police_crew_state
 {
 enum
 {
+    none_0 = 0,
     patrol_1 = 1,
+    unknown_2 = 2,
     alerted_search_3 = 3,
     pursue_or_chase_5 = 5,
     shutdown_6 = 6,
@@ -59,7 +61,7 @@ class PoliceCrew_38
     Fix16 field_8;
     Fix16 field_C;
     Kfc_30* field_10_subObj;
-    Police_7C* field_14_pObj;
+    Police_7C* field_14_pService; // Call For Service
     s16 field_18;
     char_type field_1A;
     char_type field_1B;
@@ -79,7 +81,7 @@ class PoliceCrew_38
     char_type field_37;
 };
 
-class Police_7C
+class Police_7C  // Call For Service
 {
   public:
     Ped* field_0_criminal_ped;
@@ -95,11 +97,7 @@ class Police_7C
     char_type field_1D;
     char_type field_1E;
     char_type field_1F;
-    PoliceCrew_38* field_20[2];
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
+    PoliceCrew_38* field_20_crews[6];
     s32 field_38;
     s32 field_3C;
     s32 field_40;
@@ -114,11 +112,11 @@ class Police_7C
     s32 field_64;
     s32 field_68;
     s32 field_6C;
-    char_type field_70;
-    char_type field_71;
-    char_type field_72;
-    char_type field_73;
-    char_type field_74;
+    char_type field_70_num_police_crews;
+    char_type field_71_num_unknown;
+    char_type field_72_num_swat_crews;
+    char_type field_73_num_fbi_crews;
+    char_type field_74_num_army_crews;
     u8 field_75_count;
     s16 field_76;
     char_type field_78;

@@ -2868,7 +2868,7 @@ Police_7B8::sub_56FBD0,0x56fbd0,0x16fbd0,0x65b
 Police_7B8::Service_570270,0x570270,0x170270,0xa7
 Police_7B8::SpawnWalkingGuard_570320,0x570320,0x170320,0xb6
 Police_7B8::FBI_Army_5703E0,0x5703e0,0x1703e0,0x3a1
-PoliceCrew_38::sub_570790,0x570790,0x170790,0x1c
+PoliceCrew_38::AssignCrewToService_570790,0x570790,0x170790,0x1c
 Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0,0x5707b0,0x1707b0,0x106
 Police_7B8::UpdateLastSeenCoordsForCriminal_5708C0,0x5708c0,0x1708c0,0x7f
 Police_7B8::UpdateCriminalLatestPosition_570940,0x570940,0x170940,0x76

@@ -41,7 +41,7 @@ class Police_7B8
     EXPORT void Service_570270();
     EXPORT void SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT bool FBI_Army_5703E0(Car_BC* pCar);
-    EXPORT bool sub_570790(PoliceCrew_38* a1, Police_7C* a2);
+    EXPORT bool AssignCrewToService_570790(PoliceCrew_38* a1, Police_7C* a2);
     EXPORT bool PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* a2, Ped* a3);
     EXPORT void UpdateLastSeenCoordsForCriminal_5708C0(Ped* pPed);
     EXPORT void UpdateCriminalLatestPosition_570940(Ped* a3);
@@ -53,7 +53,7 @@ class Police_7B8
     u8 field_2;
     u8 field_3;
     PoliceCrew_38 field_4_cop_crew[20];
-    Police_7C field_464[4];
+    Police_7C field_464_services[4]; // array of calls for service
     s32 field_654_wanted_level;
     u8 field_658_count;
     char_type field_659;
@@ -64,8 +64,8 @@ class Police_7B8
     char_type field_661;
     char_type field_662;
     char_type field_663;
-    PoliceRoadblock_A4 field_664_obj;
-    PoliceRoadblock_A4 field_708_obj;
+    PoliceRoadblock_A4 field_664_roadblock_1;
+    PoliceRoadblock_A4 field_708_roadblock_2;
     u8 field_7AC;
     char_type field_7AD_police_peds_in_range_screen;
     char_type field_7AE;
