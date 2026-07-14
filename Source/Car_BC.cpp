@@ -1519,7 +1519,7 @@ MATCH_FUNC(0x43a680)
 bool Car_BC::AllowResprayOrPlates()
 {
     return (!IsTrainModel_403BA0() && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 2) != 2 &&
-            !is_FBI_car_411920() && !field_0_qq.sub_5A71A0() && !IsArmyModel(field_84_car_info_idx));
+            !is_FBI_car_411920() && !field_0_qq.GetGangIdxFromSpriteIfAny_5A71A0() && !IsArmyModel(field_84_car_info_idx));
 }
 
 MATCH_FUNC(0x43a6f0)
@@ -5970,7 +5970,7 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
         if (remap != 0xFD) // respray
         {
             SetCarRemap(remap);
-            field_0_qq.sub_5A7110();
+            field_0_qq.ClearGangIconSprite_5A7110();
             this->field_B4_weapon_kind = 1;
         }
         else

@@ -130,6 +130,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678780, dword_6784C4 * 12, 0x678780);
 DEFINE_GLOBAL_INIT(Ang16, word_6784B0, Ang16(360), 0x6784B0); // TODO: Init via 0x45FAA0 func
 
 EXTERN_GLOBAL(u8, bHaveThreateningPeds_6787DA);
+EXTERN_GLOBAL(u8, byte_61A8A1);
 
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
@@ -6079,11 +6080,247 @@ Sprite* Ped::sub_467280()
     return gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 2);
 }
 
-STUB_FUNC(0x4672e0)
-char_type Ped::UpdateMovementTowardsTarget_4672E0(Fix16 a2, s32 a3)
+// https://decomp.me/scratch/ec0hn
+WIP_FUNC(0x4672e0)
+void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Ang16 angle;
+    Fix16 x;
+    Fix16 y;
+    Fix16 z;
+    u8 bUnk2 = false;
+    u8 bUnk1 = true;
+    field_21C_bf.b17 = false;
+
+    switch (type)
+    {
+        case 0:
+            x = field_14C->get_cam_x();
+            y = field_14C->get_cam_y();
+            z = field_14C->get_cam_z();
+            break;
+        case 1:
+            x = field_1D0;
+            y = field_1D4;
+            z = field_1D8;
+            break;
+        case 2:
+            x = field_1C4_x;
+            y = field_1C8_y;
+            z = field_154_target_to_enter->field_50_car_sprite->field_1C_zpos;
+            break;
+        case 3:
+            x = field_148_objective_target_ped->get_cam_x();
+            y = field_148_objective_target_ped->get_cam_y();
+            z = field_148_objective_target_ped->get_cam_z();
+            break;
+        case 4:
+            x = field_1DC_objective_target_x;
+            y = field_1E0_objective_target_y;
+            z = field_1E4_objective_target_z;
+            break;
+        case 5:
+            x = field_150_target_objective_car->field_50_car_sprite->field_14_xy.x;
+            y = field_150_target_objective_car->field_50_car_sprite->field_14_xy.y;
+            z = field_150_target_objective_car->field_50_car_sprite->field_1C_zpos;
+            break;
+        case 6:
+            x = field_1A4->field_4->field_14_xy.x;
+            y = field_1A4->field_4->field_14_xy.y;
+            z = field_1A4->field_4->field_1C_zpos;
+            break;
+        case 7:
+            x = field_1A0_objective_target_object->field_4->field_14_xy.x;
+            y = field_1A0_objective_target_object->field_4->field_14_xy.y;
+            z = field_1A0_objective_target_object->field_4->field_1C_zpos;
+            break;
+        default:
+            break;
+    }
+    angle = Fix16::atan2_fixed_405320(y - field_1AC_cam.y, x - field_1AC_cam.x);
+    field_21C_bf.b15 = true;
+    if (field_21C_bf.b15 == true)
+    {
+        if (distance < k_dword_678658)
+        {
+            if (distance < k_dword_678798 &&
+                (field_1AC_cam.z == z ||
+                 (Fix16::Abs(field_1AC_cam.z - z) <= k_dword_67853C && field_1AC_cam.x.ToUInt8() == x.ToUInt8() &&
+                  field_1AC_cam.y.ToUInt8() == y.ToUInt8())))
+            {
+                bUnk1 = false;
+                field_266 = 0;
+            }
+            else
+            {
+                bUnk1 = true;
+            }
+        }
+
+        if (field_168_game_object->field_69_is_colliding_with_sprite && field_18C != NULL &&
+            field_1AC_cam.x.ToUInt8() == field_18C->field_0 && field_1AC_cam.y.ToUInt8() == field_18C->field_1)
+        {
+            field_18C = field_18C + 1;
+            bUnk2 = true;
+            field_1C4_x = k_dword_67853C + Fix16(field_18C->field_0);
+            field_1C8_y = k_dword_67853C + Fix16(field_18C->field_1);
+        }
+        else if (!bUnk1)
+        {
+            Ped::ChangeNextPedState1_45C500(1);
+            Ped::ChangeNextPedState2_45C540(2);
+            field_21C_bf.b15 = false;
+            field_21C_bf.b16 = false;
+            return;
+        }
+        // line 22d
+        byte_678554 = 1;
+        Ped::ChangeNextPedState1_45C500(2);
+        Ped::ChangeNextPedState2_45C540(0);
+        if (!field_21C_bf.b14)
+        {
+            gOrca_2FD4_6FDEF0->field_3C_ped_list.AddPedToBackIfMissing_471160(this);
+            field_21C_bf.b14 = true;
+        }
+
+        switch (gOrca_2FD4_6FDEF0->IsFirstPassenger_554A90(this))
+        {
+            case 1:
+                if (gOrca_2FD4_6FDEF0->ComputePath_554AB0(field_200_id,
+                                                          this,
+                                                          field_1AC_cam.x.ToUInt8(),
+                                                          field_1AC_cam.y.ToUInt8(),
+                                                          field_1AC_cam.z.ToUInt8(),
+                                                          x.ToInt(),
+                                                          y.ToInt(),
+                                                          z.ToInt(),
+                                                          Ang16::GetAngleFace_4F78F0(angle),
+                                                          &this->field_266))
+                {
+                    gOrca_2FD4_6FDEF0->field_3C_ped_list.RemovePed_4711F0(this);
+                    field_18C = &field_0_patrol_points[0];
+                    field_21C_bf.b14 = false;
+
+                    while (1)
+                    {
+                        if (field_18C->field_0 == 0)
+                        {
+                            field_18C = &field_0_patrol_points[0];
+                            break;
+                        }
+                        if (field_18C->field_0 == field_1AC_cam.x.ToUInt8() && field_18C->field_1 == field_1AC_cam.y.ToUInt8() &&
+                            field_18C->field_2 == field_1AC_cam.z.ToUInt8())
+                        {
+                            break;
+                        }
+                        field_18C++;
+                    }
+
+                    // line 361
+                    if (field_18C->field_0 == 0 && field_18C->field_1 == 0)
+                    {
+                        field_21C_bf.b17 = true;
+                        // goto line 3a9
+                        goto LINE_3A9;
+                    }
+                    else
+                    {
+                        // goto line 54e
+                        //goto LINE_54E;
+                        field_1C4_x = k_dword_67853C + Fix16(field_18C->field_0);
+                        field_1C8_y = k_dword_67853C + Fix16(field_18C->field_1);
+                        field_1CC_z = Fix16(field_18C->field_2);
+                        field_21C_bf.b16 = true;
+                        byte_61A8A1 = 0;
+                        // goto line 3d9
+                        goto LINE_3D9;
+                    }
+                }
+                // line 38e  (else from ComputePath_554AB0 and case 0)
+                //break; // no break here?
+            case 0:
+                // line 38e
+                if (field_18C)
+                {
+                    if (field_18C->field_0 == 0 && field_18C->field_1 == 0)
+                    {
+                    // line 3a9
+                    LINE_3A9:
+                        Ped::ChangeNextPedState1_45C500(1);
+                        Ped::ChangeNextPedState2_45C540(2);
+                        field_0_patrol_points[0].field_0 = 0;
+                        field_0_patrol_points[0].field_1 = 0;
+                        field_21C_bf.b15 = false;
+                        // goto line 3d1
+                    }
+                    else
+                    {
+                        // OBS: THIS CODE BLOCK MUST BE IN line 417
+                        // line 216 in 10.5 idb, line 299 in 9.6f idb;
+                        field_1C4_x = Fix16(field_18C->field_0);
+                        field_1C8_y = Fix16(field_18C->field_1);
+
+                        Fix16 dist_1 = (k_dword_67853C + Fix16(field_1C4_x.ToUInt8())) - field_1AC_cam.x;
+                        Fix16 dist_2 = (k_dword_67853C + Fix16(field_1C8_y.ToUInt8())) - field_1AC_cam.y;
+
+                        Fix16* pGreater_abs = &dist_1;
+                        if (Fix16::Abs(dist_1) <= Fix16::Abs(dist_2))
+                        {
+                            pGreater_abs = &dist_2;
+                        }
+
+                        if (*pGreater_abs < dword_678790 || ((field_168_game_object->field_58_flags & 0x40) != 0))
+                        {
+                            field_18C++;
+                            field_1C4_x = k_dword_67853C + Fix16(field_18C->field_0);
+                            field_1C8_y = k_dword_67853C + Fix16(field_18C->field_1);
+                            field_1CC_z = Fix16(field_18C->field_2);
+                        }
+                        else
+                        {
+                            field_1C4_x = k_dword_67853C + Fix16(field_18C->field_0);
+                            field_1C8_y = k_dword_67853C + Fix16(field_18C->field_1);
+                            field_1CC_z = Fix16(field_18C->field_2);
+                        }
+                        goto LINE_3D9;
+                    }
+                    // line 3d1
+                    if (bUnk2)
+                    {
+                    // line 3d9
+                    LINE_3D9:
+                        if (type >= 3 && (type <= 5 || type == 7))
+                        {
+                            field_1B8_target_x = field_1C4_x;
+                            field_1BC_target_y = field_1C8_y;
+                            field_1C0_target_z = field_1CC_z;
+                            // return
+                        }
+                    }
+                }
+                else
+                {
+                    Ped::ChangeNextPedState1_45C500(1);
+                    Ped::ChangeNextPedState2_45C540(2);
+                    field_21C_bf.b15 = false;
+                    // goto 3d1
+                }
+                break;
+            default:
+                break;
+        }
+
+        // goto line 3d1
+    }
+    else
+    {
+        // 5a5
+        Ped::ChangeNextPedState1_45C500(1);
+        Ped::ChangeNextPedState2_45C540(2);
+        field_21C_bf.b15 = false;
+        field_21C_bf.b16 = false;
+    }
 }
 
 MATCH_FUNC(0x4678e0)

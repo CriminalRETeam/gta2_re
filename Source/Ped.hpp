@@ -128,7 +128,7 @@ class Ped
     EXPORT Ped* sub_467070();
     EXPORT char_type FindUsableCarDoor_467090();
     EXPORT Sprite* sub_467280();
-    EXPORT char_type UpdateMovementTowardsTarget_4672E0(Fix16 a2, s32 a3);
+    EXPORT void UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type);
     EXPORT void FleeOnFootTillSafe_4678E0();
     EXPORT void sub_467960();
     EXPORT void FleeFromCharOnFootAlways_467A20();

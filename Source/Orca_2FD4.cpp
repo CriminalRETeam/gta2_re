@@ -349,7 +349,7 @@ s32 Orca_2FD4::IsFirstPassenger_554A90(Ped* a2)
 }
 
 STUB_FUNC(0x554ab0)
-char_type Orca_2FD4::ComputePath_554AB0(s32 a2, s32 a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a8, u8 a9, s32 a10, u8* a11)
+char_type Orca_2FD4::ComputePath_554AB0(s32 a2, Ped* a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a8, u8 a9, s32 a10, u8* a11)
 {
     NOT_IMPLEMENTED;
     return 0;

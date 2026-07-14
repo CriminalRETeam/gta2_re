@@ -547,7 +547,7 @@ void struct_4::CleanupSpriteList_5A7080()
 }
 
 MATCH_FUNC(0x5a7110)
-void struct_4::sub_5A7110()
+void struct_4::ClearGangIconSprite_5A7110()
 {
     Sprite_18* pIter = this->field_0_p18;
     Sprite_18* pLast = 0;
@@ -562,9 +562,9 @@ void struct_4::sub_5A7110()
                 p5C = pIter->field_0->field_8_object_2C_ptr;
                 if (p5C)
                 {
-                    if (p5C->field_18_model >= 287 && p5C->field_18_model <= 293)
+                    // If it is car gang icon
+                    if (p5C->field_18_model >= objects::loonies_icon_287 && p5C->field_18_model <= objects::russian_mafia_icon_293)
                     {
-
                         break;
                     }
                 }
@@ -592,18 +592,19 @@ void struct_4::sub_5A7110()
 }
 
 MATCH_FUNC(0x5a71a0)
-s32 struct_4::sub_5A71A0()
+s32 struct_4::GetGangIdxFromSpriteIfAny_5A71A0()
 {
     Sprite_18* p18Iter = this->field_0_p18;
     while (p18Iter)
     {
         const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
-        if (type == 4 || type == 5 || type == 1)
+        if (type == sprite_types_enum::code_obj1 || type == sprite_types_enum::map_obj || type == sprite_types_enum::unknown_1)
         {
             Object_2C* o5c = p18Iter->field_0->field_8_object_2C_ptr;
             if (o5c)
             {
-                if (o5c->field_18_model >= 287 && o5c->field_18_model <= 293)
+                // If it is car gang icon
+                if (o5c->field_18_model >= objects::loonies_icon_287 && o5c->field_18_model <= objects::russian_mafia_icon_293)
                 {
                     return o5c->field_18_model - 286;
                 }
@@ -627,7 +628,7 @@ void struct_4::sub_5A71F0()
         if (type == 1 || type > 3 && type <= 5)
         {
             Object_2C* o2c = p18Iter->field_0->field_8_object_2C_ptr;
-            if (o2c->field_18_model == 197 || o2c->sub_525AC0())
+            if (o2c->field_18_model == objects::fire_197 || o2c->sub_525AC0())
             {
                 p18Iter->field_0->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A = 2;
             }
