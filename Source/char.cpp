@@ -338,7 +338,7 @@ MATCH_FUNC(0x545430)
 void Char_B4::sub_545430()
 {
     // Spawn fire
-    Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
+    Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(197, 0, 0, 0, word_6FDB34); // ped_like_fire_197 ?? but its actually fire
     field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, word_6FDB34);
     field_B0 = 10; // Start screaming timer
 }
@@ -6088,7 +6088,7 @@ bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
 
     switch (p2c->field_18_model)
     {
-        case 266:
+        case objects::secret_token_266: 
             return field_7C_pPed->HandlePickupCollision_45DE80(p2c);
 
         case 257:
@@ -6099,7 +6099,7 @@ bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
             }
             break;
 
-        case 161:
+        case objects::savepoint_161:
             gCar_214_705F20->sub_5C8780(p2c->field_27, this->field_80_sprite_ptr);
             break;
 

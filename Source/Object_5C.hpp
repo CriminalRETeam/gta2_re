@@ -56,7 +56,7 @@ class Object_2C
     EXPORT bool DispatchFrameAction_525910();
     EXPORT char ShouldCollideWithSprite_525370(Sprite* pSprite);
     EXPORT void CheckCollisionForModel_139_And_141_525AE0();
-    EXPORT void SpawnSpriteParticlesForModel128_525B40();
+    EXPORT void SpawnSpriteParticlesForRocketBullet_525B40();
     EXPORT char_type CheckWaterDeath_525B60();
     EXPORT void UpdatePhysicsAndMovement_525B80();
     EXPORT void UpdatePhysicsMovementAndAnimation_525D90();

@@ -733,7 +733,7 @@ enum
     fire_hitting_194 = 194,
     object_195 = 195,
     animating_rubbish_196 = 196,
-    dead_rubbish_197 = 197,
+    fire_197 = 197, // like the one in peds
     maybe_bullet_on_fire_198 = 198,
     object_199 = 199,
     remote_200 = 200,
@@ -761,6 +761,11 @@ enum
 
     electrobaton_bullet_277 = 277,
     unknown_maybe_map_slope_278 = 278,
+    power_generator_281 = 281,
+    destroyed_powergen_282 = 282,
+    invisible_powergen_283 = 283,
+    powergen_light_284 = 284,
+    destroyed_invisible_powergen_285 = 285,
     kill_frenzy_icon_286 = 286,
     loonies_icon_287 = 287,
     yakuza_icon_288 = 288,

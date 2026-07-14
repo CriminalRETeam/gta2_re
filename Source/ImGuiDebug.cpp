@@ -603,7 +603,7 @@ static const char* ObjectIdToString(s32 id)
         case objects::fire_hitting_194: return "fire_hitting_194";
         case objects::object_195: return "object_195";
         case objects::animating_rubbish_196: return "animating_rubbish_196";
-        case objects::dead_rubbish_197: return "dead_rubbish_197";
+        case objects::fire_197: return "ped_like_fire_197";
         case objects::maybe_bullet_on_fire_198: return "maybe_bullet_on_fire_198";
         case objects::object_199: return "object_199";
         case objects::remote_200: return "remote_200";
@@ -2163,7 +2163,7 @@ void CC ImGuiDebugDraw()
                         if ( pB4 )
                         {
                         //pB4->field_80_sprite_ptr->field_2C |= 4u;
-                        // Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(198, 0, 0, 0, 0); // dead_rubbish_197 ?? but its actually fire
+                        // Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(198, 0, 0, 0, 0); // ped_like_fire_197 ?? but its actually fire
                         // pB4->field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, 0);
                         pB4->field_b0 = 100;
                         }*/

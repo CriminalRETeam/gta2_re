@@ -2322,7 +2322,7 @@ Object_2C::DispatchFrameAction_525910,0x525910,0x125910,0x8c
 Object_2C::sub_525AC0,0x525ac0,0x125ac0,0x11
 Object_2C::CheckCollisionForModel_139_And_141_525AE0,0x525ae0,0x125ae0,0x32
 Object_2C::UpdateEffectPool_525B20,0x525b20,0x125b20,0x18
-Object_2C::SpawnSpriteParticlesForModel128_525B40,0x525b40,0x125b40,0x19
+Object_2C::SpawnSpriteParticlesForRocketBullet_525B40,0x525b40,0x125b40,0x19
 Object_2C::CheckWaterDeath_525B60,0x525b60,0x125b60,0x1e
 Object_2C::UpdatePhysicsAndMovement_525B80,0x525b80,0x125b80,0x1c3
 sub_525D50,0x525d50,0x125d50,0x35
@@ -3300,8 +3300,8 @@ Object_3C::TakeClosestSprite_5A6EA0,0x5a6ea0,0x1a6ea0,0xc5
 struct_4::PoolUpdate_5A6F70,0x5a6f70,0x1a6f70,0x91
 struct_4::DestroyAllSprites_5A7010,0x5a7010,0x1a7010,0x4d
 struct_4::CleanupSpriteList_5A7080,0x5a7080,0x1a7080,0x85
-Object_3C::sub_5A7110,0x5a7110,0x1a7110,0x81
-Object_3C::sub_5A71A0,0x5a71a0,0x1a71a0,0x47
+struct_4::ClearGangIconSprite_5A7110,0x5a7110,0x1a7110,0x81
+struct_4::GetGangIdxFromSpriteIfAny_5A71A0,0x5a71a0,0x1a71a0,0x47
 Object_3C::sub_5A71F0,0x5a71f0,0x1a71f0,0x47
 Object_3C::PruneNonCollidingSprites_5A7240,0x5a7240,0x1a7240,0x68
 Object_3C::PropagateMaxZLayer_5A72B0,0x5a72b0,0x1a72b0,0x57
