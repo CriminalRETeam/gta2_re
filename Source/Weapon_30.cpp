@@ -32,6 +32,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_706E7C, Fix16(0x1EB, 0), 0x706E7C);
 DEFINE_GLOBAL_INIT(Fix16, dword_706CF0, Fix16(0x666, 0), 0x706CF0);
 DEFINE_GLOBAL_INIT(Fix16, dword_706E80, Fix16(0x147, 0), 0x706E80);
 
+DEFINE_GLOBAL_INIT(Ang16, word_706D5E, Ang16(48), 0x706D5E);
+DEFINE_GLOBAL_INIT(Ang16, word_707002, Ang16(24), 0x707002);
+DEFINE_GLOBAL_INIT(Ang16, word_706D5C, Ang16(96), 0x706D5C);
+
 // TODO: move
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 
@@ -269,10 +273,59 @@ void Weapon_30::flamethrower_5DD0F0()
     }
 }
 
-STUB_FUNC(0x5dd290)
+// https://decomp.me/scratch/3qEdg
+WIP_FUNC(0x5dd290)
 void Weapon_30::shotgun_5DD290()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    Ang16 ped_rotation;
+    Fix16_Point vector;
+    Fix16 x;
+    Fix16 y;
+    Fix16 z;
+    if (field_2_reload_speed == 0)
+    {
+        x = field_24_pPed->get_cam_x();
+        y = field_24_pPed->get_cam_y();
+        z = field_24_pPed->get_cam_z();
+        ped_rotation = field_24_pPed->GetRotation();
+        vector = field_24_pPed->sub_45B520();
+        set_field_2C_4CCA80(1);
+        if (!field_4)
+        {
+            Object_2C* pBullet_1 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation + word_706D5E, vector);
+            Object_2C* pBullet_2 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation + word_707002, vector);
+            Object_2C* pBullet_3 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation, vector);
+            Object_2C* pBullet_4 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation - word_707002, vector);
+            Object_2C* pBullet_5 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation - word_706D5E, vector);
+            if ((pBullet_1 || pBullet_2 || pBullet_3 || pBullet_4 || pBullet_5) && field_24_pPed->IsField238_45EDE0(2))
+            {
+                decrement_ammo_4CCA30();
+            }
+            field_2_reload_speed = 40;
+            field_24_pPed->AddThreateningPedToList_46FC70();
+            gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
+
+            if (field_24_pPed->is_player_41B0A0())
+            {
+                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+            }
+        }
+        else
+        {
+            Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation + word_706D5C, vector);
+            Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation + word_706D5E, vector);
+            Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation, vector);
+            Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation - word_706D5E, vector);
+            Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation - word_706D5C, vector);
+            field_2_reload_speed = 5;
+        }
+        Weapon_30::TickReloadSpeed_5DCF40();
+    }
+    else
+    {
+        field_2_reload_speed--;
+    }
 }
 
 // 9.6f 0x4CE070
