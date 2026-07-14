@@ -1852,6 +1852,11 @@ void CC ImGuiDebugDraw()
                 static s32 spawnObjectType = 0;
                 ImGui::InputInt("Object type", &spawnObjectType, 1, 1);
                 ImGui::Text("Object name %s", ObjectIdToString(spawnObjectType));
+                Phi_74* pPhi_74 = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(spawnObjectType);
+                if (pPhi_74)
+                {
+                    ImGui::Value("Behaviour", pPhi_74->field_34_behavior_type);
+                }
 
                 if (ImGui::Button("Obj spawn"))
                 {

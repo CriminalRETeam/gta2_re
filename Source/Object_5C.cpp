@@ -1679,7 +1679,7 @@ void Object_2C::Update_525F30()
     {
         switch (this->field_8->field_34_behavior_type)
         {
-            case object_behavior_type::behavior_0:
+            case object_behavior_type::static_object_0:
                 if (!DispatchFrameAction_525910())
                 {
                     UpdateEffectPool_525B20();
@@ -1694,7 +1694,7 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case object_behavior_type::behavior_5:
+            case object_behavior_type::explosion_5:
                 pWolfy = this->field_C_pAny.pExplosion;
                 if (pWolfy)
                 {
@@ -1705,7 +1705,7 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case object_behavior_type::behavior_3:
+            case object_behavior_type::bullet_type_3:
             case object_behavior_type::behavior_7:
                 RemoveFromCollisionBuckets_527D00();
                 byte_6F8C4C = 1;
@@ -1717,7 +1717,7 @@ void Object_2C::Update_525F30()
                 return;
 
             case object_behavior_type::behavior_2:
-            case object_behavior_type::behavior_8:
+            case object_behavior_type::self_animated_8:
                 if (!DispatchFrameAction_525910())
                 {
                     UpdateEffectPool_525B20();
@@ -1725,7 +1725,7 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case object_behavior_type::behavior_4:
+            case object_behavior_type::maybe_moving_obj_4:
             case object_behavior_type::behavior_9:
                 RemoveFromCollisionBuckets_527D00();
                 byte_6F8C4C = 1;
@@ -1738,7 +1738,7 @@ void Object_2C::Update_525F30()
 
             case object_behavior_type::behavior_6:
             case object_behavior_type::behavior_10:
-            case object_behavior_type::behavior_11:
+            case object_behavior_type::light_type_11:
                 DispatchFrameAction_525910();
                 UpdateEffectPool_525B20();
                 return;
@@ -1889,7 +1889,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
         sub_526B40(pSprite);
     }
 
-    if (field_8->field_34_behavior_type != object_behavior_type::behavior_11)
+    if (field_8->field_34_behavior_type != object_behavior_type::light_type_11)
     {
         gPurpleDoom_3_679210->Remove_477B00(field_4);
     }
@@ -1919,7 +1919,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                 UpdateAninmation_5257D0();
                 break;
 
-            case object_behavior_type::behavior_5:
+            case object_behavior_type::explosion_5:
             {
                 if (field_C_pAny.pExplosion)
                 {
@@ -1958,7 +1958,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                 break;
             }
 
-            case object_behavior_type::behavior_11:
+            case object_behavior_type::light_type_11:
                 field_C_pAny.pLight->sub_482D30(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
                 break;
 
@@ -2068,7 +2068,7 @@ void Object_2C::sub_527F10()
 
     if (field_C_pAny.o8)
     {
-        if (this->field_8->field_34_behavior_type == object_behavior_type::behavior_11)
+        if (this->field_8->field_34_behavior_type == object_behavior_type::light_type_11)
         {
             gLight_1D4CC_6F5520->DeallocLight_47F4F0(field_C_pAny.pLight);
         }
@@ -2208,7 +2208,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
 
                     switch (pPhi->field_34_behavior_type)
                     {
-                        case object_behavior_type::behavior_0:
+                        case object_behavior_type::static_object_0:
                         case object_behavior_type::behavior_1:
                         case object_behavior_type::behavior_6:
                         case object_behavior_type::behavior_10:
@@ -2226,7 +2226,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             break;
 
                         case object_behavior_type::behavior_2:
-                        case object_behavior_type::behavior_8:
+                        case object_behavior_type::self_animated_8:
                         {
                             if (field_10_obj_3c)
                             {
@@ -2268,7 +2268,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             break;
                         }
 
-                        case object_behavior_type::behavior_3:
+                        case object_behavior_type::bullet_type_3:
                         case object_behavior_type::behavior_7:
                             if (!this->field_10_obj_3c)
                             {
@@ -2294,7 +2294,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                                                this->field_4->field_0);
                             break;
 
-                        case object_behavior_type::behavior_4:
+                        case object_behavior_type::maybe_moving_obj_4:
                         case object_behavior_type::behavior_9:
                         {
                             if (!this->field_10_obj_3c)
@@ -3520,7 +3520,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     switch (pPhi->field_34_behavior_type)
     {
 
-        case object_behavior_type::behavior_0:
+        case object_behavior_type::static_object_0:
         case object_behavior_type::behavior_1:
         case object_behavior_type::behavior_6:
         case object_behavior_type::behavior_10:
@@ -3529,7 +3529,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_10_obj_3c = 0;
             break;
 
-        case object_behavior_type::behavior_5:
+        case object_behavior_type::explosion_5:
         {
             Wolfy_30* pNew30; // eax
             pNew30 = gWolfy_7A8_6FD5F0->New_40_543800();
@@ -3547,7 +3547,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         }
 
         case object_behavior_type::behavior_2:
-        case object_behavior_type::behavior_8:
+        case object_behavior_type::self_animated_8:
         {
             Object_8* pNew8; // eax
             pNew8 = gObject_8_Pool_6F8F78->Allocate();
@@ -3558,7 +3558,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             break;
         }
 
-        case object_behavior_type::behavior_3:
+        case object_behavior_type::bullet_type_3:
         case object_behavior_type::behavior_7:
         {
             Object_3C* pNew3C; // eax
@@ -3574,7 +3574,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             break;
         }
 
-        case object_behavior_type::behavior_4:
+        case object_behavior_type::maybe_moving_obj_4:
         case object_behavior_type::behavior_9:
         {
             Object_3C* pNew3C; // eax
@@ -3597,7 +3597,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             break;
         }
 
-        case object_behavior_type::behavior_11:
+        case object_behavior_type::light_type_11:
             pNew2C->field_C_pAny.pLight = gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);
             break;
 

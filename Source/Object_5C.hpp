@@ -147,7 +147,7 @@ class Object_2C
     {
         s32 type = this->field_8->field_34_behavior_type;
         return type != object_behavior_type::behavior_6 && type != object_behavior_type::behavior_7 &&
-            type != object_behavior_type::behavior_8 && type != object_behavior_type::behavior_9 &&
+            type != object_behavior_type::self_animated_8 && type != object_behavior_type::behavior_9 &&
             type != object_behavior_type::behavior_10 && type != object_behavior_type::behavior_1 &&
             type != object_behavior_type::behavior_12;
     }
@@ -184,7 +184,7 @@ class Object_2C
     {
         return field_8->field_34_behavior_type == object_behavior_type::behavior_6 ||
             field_8->field_34_behavior_type == object_behavior_type::behavior_7 ||
-            field_8->field_34_behavior_type == object_behavior_type::behavior_8 ||
+            field_8->field_34_behavior_type == object_behavior_type::self_animated_8 ||
             field_8->field_34_behavior_type == object_behavior_type::behavior_9;
     }
 
