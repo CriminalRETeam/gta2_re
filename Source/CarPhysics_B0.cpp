@@ -2116,58 +2116,44 @@ char_type CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80()
     return bCollision;
 }
 
-WIP_FUNC(0x55ec30)
+MATCH_FUNC(0x55ec30)
 void CarPhysics_B0::ApplyForwardEngineForce_55EC30()
 {
-    WIP_IMPLEMENTED;
-
-    Ang16 theta = this->field_58_theta;
-    if (this->field_94_is_backward_gas_on)
+    Ang16 theta;
+    if (field_94_is_backward_gas_on)
     {
-        theta += k_word_6FE12A;
+        theta = field_58_theta + k_word_6FE12A;
+    }
+    else
+    {
+        theta = field_58_theta;
     }
 
-    Fix16 global_val;
-
-    if (stru_6FE1F0.x <= kFP16Zero_6FE20C)
+    if (stru_6FE1F0.x > kFP16Zero_6FE20C)
     {
-        if (theta >= word_6FE00C)
+        if (theta > word_6FE154)
         {
-            if (theta >= k_word_6FE12A)
-            {
-                goto LABEL_13;
-            }
-            global_val = k_dword_6FDFA4;
+            ApplyAngularImpulse_55F970(k_dword_6FDFA4);
         }
-        else
+        else if (theta > k_word_6FE12A)
         {
-            global_val = -k_dword_6FDFA4;
+            ApplyAngularImpulse_55F970(-k_dword_6FDFA4);
         }
-        goto LABEL_12;
+    }
+    else
+    {
+        if (theta < word_6FE00C)
+        {
+            ApplyAngularImpulse_55F970(-k_dword_6FDFA4);
+        }
+        else if (theta < k_word_6FE12A)
+        {
+            ApplyAngularImpulse_55F970(k_dword_6FDFA4);
+        }
     }
 
-    if (theta <= word_6FE154)
-    {
-        if (theta <= k_word_6FE12A)
-        {
-            goto LABEL_13;
-        }
-        global_val = -k_dword_6FDFA4;
-    LABEL_12:
-        ApplyAngularImpulse_55F970(global_val);
-        goto LABEL_13;
-    }
-
-    ApplyAngularImpulse_55F970(k_dword_6FDFA4);
-
-LABEL_13:
-    Fix16_Point v4 = stru_6FE1F0.NormalizeSafe_442AD0();
-    //v9 = 0;
-    Fix16_Point v5 = (v4 * stru_6FDF80);
-    //LOBYTE(v9) = 1;
-    ApplyForceScaledByMass_55F9A0(v5);
-
-    this->field_AA_sbw = 1;
+    ApplyForceScaledByMass_55F9A0(stru_6FE1F0.NormalizeSafe_442AD0() * stru_6FDF80);
+    field_AA_sbw = 1;
 }
 
 WIP_FUNC(0x55ef20)
