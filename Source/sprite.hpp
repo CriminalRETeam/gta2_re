@@ -152,6 +152,7 @@ class Sprite_4C
 
     EXPORT void SetCurrentRect_5A4D90();
     EXPORT void UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
+    EXPORT void DrawCollisionBox_5A4DA0(Fix16 zpos);
 
     EXPORT Sprite_4C();
     EXPORT ~Sprite_4C();

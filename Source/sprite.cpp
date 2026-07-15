@@ -723,11 +723,11 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
     }
 }
 
-// https://decomp.me/scratch/omhyc
-STUB_FUNC(0x59eff0)
+// https://decomp.me/scratch/EHeIY
+WIP_FUNC(0x59eff0)
 void Sprite::Draw_59EFF0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     sprite_index* pSpriteIndex;
     u16 converted_pal;
     sprite_index* pSpriteIndex2;
@@ -808,10 +808,21 @@ void Sprite::Draw_59EFF0()
             }
             pCar->field_8_damaged_areas.sub_4BA340();
         }
-        // TODO: stuff here
         u16 v25 = Sprite::sub_59EAA0();
-        // ....
-        pCar->field_8_damaged_areas.m_var = car_flags;
+        u8 bRet;
+        s16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, v25, false);
+        if (unkDeltaRelated != -1)
+        {
+            if (bRet)
+            {
+                gSharp_pare_0x15D8_705064->sub_5B96B0(unkDeltaRelated,
+                                                      pSpriteIndex->field_4_width,
+                                                      pSpriteIndex->field_5_height,
+                                                      Sprite::sub_59EAA0());
+            }
+            pTexture = gSharp_pare_0x15D8_705064->GetTexture2_5B95D0(unkDeltaRelated);
+        }
+        pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
     }
     else
     {
@@ -865,19 +876,34 @@ void Sprite::Draw_59EFF0()
 
     if (pCar && gLighting_626A09)
     {
+        u32 car_flags = pCar->field_8_damaged_areas.m_var;
         pCar->field_8_damaged_areas.sub_4BA330();
 
         u16 unk3 = Sprite::sub_59EAA0();
-        // TODO: missing code here
+        u8 bRet;
+        s16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, unk3, true);
+        if (unkDeltaRelated != -1)
+        {
+            if (bRet)
+            {
+                gSharp_pare_0x15D8_705064->sub_5B96B0(unkDeltaRelated,
+                                                      pSpriteIndex->field_4_width,
+                                                      pSpriteIndex->field_5_height,
+                                                      Sprite::sub_59EAA0());
+            }
+            pTexture = gSharp_pare_0x15D8_705064->GetTexture2_5B95D0(unkDeltaRelated);
+            SetUV_4B9BC0(u, v);
+            pgbh_DrawQuad(128, pTexture, gTileVerts_7036D0, 255);
+        }
+        pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
     }
-    // TODO: missing code here
 
     ++gSprite_8_703820->field_0;
     if (bDo_show_collision_box_67D6E5)
     {
         if (field_C_sprite_4c_ptr)
         {
-            //field_C_sprite_4c_ptr->DrawCollisionBox_5A4DA0(field_1C_zpos);
+            field_C_sprite_4c_ptr->DrawCollisionBox_5A4DA0(field_1C_zpos);
         }
     }
 
@@ -2527,6 +2553,12 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
     unk3.Rotate_562C20(rotation);
     unk4.Rotate_562C20(rotation);
     */
+}
+
+STUB_FUNC(0x5A4DA0)
+void Sprite_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
+{
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x5a5860)
