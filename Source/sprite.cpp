@@ -869,10 +869,7 @@ void Sprite::Draw_59EFF0()
         pgbh_DrawQuad(8576, pTexture, pShadowVerts, 255);
     }
 
-    //u32 render_flags = Sprite::sub_4BAC60();    // another inline...
     pgbh_DrawQuad(Sprite::sub_4BAC60(), pTexture, gTileVerts_7036D0, 255);
-
-    // this part seems to not be critical for peds
 
     if (pCar && gLighting_626A09)
     {
@@ -2293,7 +2290,7 @@ Sprite_14* Sprite_3CC::sub_48F600(u16& sprite_idx, u32* a3, u32* a4, u16* a5)
     for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
     {
         s32 sprite_idx_copy = sprite_idx;
-        if (pIter->field_4 == sprite_idx_copy && pIter->field_12 == *a5)
+        if (pIter->field_4_sprite_idx == sprite_idx_copy && pIter->field_12 == *a5)
         {
             if (pIter->field_8 == *a4)
             {
@@ -2339,12 +2336,12 @@ Sprite_14* Sprite_3CC::sub_48F690(u32* a2)
 }
 
 MATCH_FUNC(0x48f6e0)
-void Sprite_3CC::InvalidateMasksByType_48F6E0(u16* a2)
+void Sprite_3CC::InvalidateMasksByType_48F6E0(u16* sprite_idx)
 {
     s32 count = 0;
     for (Sprite_14* pIter = &this->field_0[0]; count < 48; count++, ++pIter)
     {
-        if (pIter->field_4 == *a2)
+        if (pIter->field_4_sprite_idx == *sprite_idx)
         {
             pIter->Invalidate_44AF70();
         }

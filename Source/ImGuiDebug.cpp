@@ -1906,7 +1906,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("Obj3C field_C", obj_3c->field_C_speed.mValue);
                         ImGui::Value("Obj3C field_10", obj_3c->field_10.mValue);
                         ImGui::Value("Obj3C field_14", obj_3c->field_14.mValue);
-                        ImGui::Value("Obj3C field_18", obj_3c->field_18.mValue);
+                        ImGui::Value("Obj3C field_18", obj_3c->field_18_friction.mValue);
                         ImGui::Value("Obj3C field_1C", obj_3c->field_1C.mValue);
 
                         ImGui::Value("Obj3C field_2E", obj_3c->field_2E);
@@ -2663,7 +2663,7 @@ void CC ImGuiDebugDraw()
                         ImGui::InputInt("field_C", &phi->field_C.mValue, 1, 1);
                         ImGui::InputInt("field_10", &phi->field_10.mValue, 1, 1);
                         ImGui::InputInt("field_14_friction", &phi->field_14_friction.mValue, 1, 1);
-                        ImGui::InputInt("field_18", &phi->field_18.mValue, 1, 1);
+                        ImGui::InputInt("field_18", &phi->field_18_mass.mValue, 1, 1);
                         ImGui::SliderS16("field_1C_remap", &phi->field_1C_remap, 0, 50);
                         ImGui::Input_char_type("field_20", &phi->field_20, 1, 1);
                         ImGui::Input_char_type("field_21", &phi->field_21, 1, 1);

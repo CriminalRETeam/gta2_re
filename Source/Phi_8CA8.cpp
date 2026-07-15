@@ -734,7 +734,7 @@ Phi_74::Phi_74()
     field_6C_sprite_anim_speed = 99;
     Fix16 v1 = dword_6FCE08;
     field_68 = 0;
-    field_18 = v1;
+    field_18_mass = v1;
     field_20 = 0;
     field_60 = 0;
     field_5C = 1;
@@ -796,7 +796,7 @@ void Phi_8CA8::sub_533360()
             pPVar2->field_4C = puVar3->field_28;
             pPVar2->field_64_next_frame_max = puVar3->field_30;
             pPVar2->field_58 = puVar3->field_34;
-            pPVar2->field_18 = puVar3->field_38;
+            pPVar2->field_18_mass = puVar3->field_38;
             pPVar2->field_20 = puVar3->field_40;
             pPVar2->field_2C = puVar3->field_3C;
             pPVar2->field_60 = 1;
@@ -1145,7 +1145,7 @@ void Phi_8CA8::sub_533B30()
             this_00->field_64_next_frame_max = puVar2->field_3C;
             this_00->field_54_react_to_collisions_with = CollisionReaction::Always_0;
             this_00->field_58 = puVar2->field_40;
-            this_00->field_18 = puVar2->field_44;
+            this_00->field_18_mass = puVar2->field_44;
             this_00->field_2C = puVar2->field_54;
             this_00->field_20 = puVar2->field_58;
             this_00->field_60 = puVar2->field_59;
@@ -1211,7 +1211,7 @@ void Phi_8CA8::sub_533C90()
     tmp->field_3C_next_definition_idx = 0x6e;
     tmp->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
     tmp->sub_533060(DAT_006fc578, DAT_006fc578, DAT_006f8fac);
-    tmp->field_18 = DAT_006fc584;
+    tmp->field_18_mass = DAT_006fc584;
     if (bDo_show_imaginary_67D588 == false)
     {
         tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
@@ -1229,7 +1229,7 @@ void Phi_8CA8::sub_533C90()
     tmp->field_3C_next_definition_idx = 0;
     tmp->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
     tmp->sub_533060((DAT_006fceb0 * 8), (DAT_006fceb0 * 8), DAT_006f8fac);
-    tmp->field_18 = DAT_006fc584;
+    tmp->field_18_mass = DAT_006fc584;
     if (bDo_show_imaginary_67D588 == '\0')
     {
         tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
@@ -1367,7 +1367,7 @@ void Phi_8CA8::sub_533C90()
         tmp->field_61 = '\x01';
         tmp->field_58 = 1;
         tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_2_region_bucket_3;
-        tmp->field_18 = DAT_006f8fd8;
+        tmp->field_18_mass = DAT_006f8fd8;
         tmp->field_10 = DAT_006fcde0;
     }
 

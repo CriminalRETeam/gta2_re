@@ -73,7 +73,7 @@ class Object_3C
         ++gObj3C_id_6F8E54;
         field_C_speed = 0;
         field_4_angle = kZeroAng_6F8F68;
-        field_18 = Fix16(0);
+        field_18_friction = Fix16(0);
         field_28 = 0;
         field_38 = 0;
         field_34 = 2;
@@ -95,7 +95,7 @@ class Object_3C
     }
 
     // ?? not sure if this is O3C either :skull:
-    EXPORT Fix16_Point GetRot_52ADF0();
+    EXPORT Fix16_Point GetSpeedVector_52ADF0();
 
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
@@ -106,7 +106,7 @@ class Object_3C
     Fix16 field_C_speed;
     Fix16 field_10;
     Fix16 field_14;
-    Fix16 field_18;
+    Fix16 field_18_friction;
     Fix16 field_1C;
     s32 field_20;
     s32 field_24;
