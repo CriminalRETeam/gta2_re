@@ -970,7 +970,7 @@ class Car_BC
 
     struct_4 field_0_qq;
     Ped_List_4 field_4_passengers_list;
-    BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
+    CarFlags field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];
     Car_BC* mpNext;
     Sprite* field_50_car_sprite;

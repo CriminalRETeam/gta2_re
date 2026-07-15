@@ -4424,7 +4424,7 @@ void Car_BC::TurnToWreck_4436A0()
     this->field_50_car_sprite->field_22_sprite_id = gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCarInfo->wreck + 72)->sprite;
     this->field_50_car_sprite->sub_59E2E0();
     this->field_50_car_sprite->field_34 = 2;
-    this->field_8_damaged_areas = 0;
+    this->field_8_damaged_areas.m_var = 0;
     PrepareForExplosion_43C1C0();
     this->field_A7_horn = 0;
     SpawnFire_43BBC0();

@@ -126,6 +126,81 @@ EXPORT void __stdcall ProjectOntoAxis_5A5AA0(Fix16& xpos1, Fix16& ypos1, Ang16& 
     outY = (Ang16::sine_40F500(angle) * (xpos2 - xpos1)) + (Ang16::cosine_40F520(angle) * (ypos1 - ypos2));
 }
 
+MATCH_FUNC(0x48F820)
+void CarFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& a3, u8& width)
+{
+    u32 unknown = a3;
+    u32 delta_idx = 0;
+    for (u32 i = 1; unknown; i = i << 1, delta_idx++)
+    {
+        if ((i & unknown) != 0)
+        {
+            if (delta_idx >= 22)
+            {
+                sprite_delta* pDelta = gGtx_0x106C_703DD4->get_delta_5AA3F0(sprite_idx, delta_idx - 17);
+                if (pDelta)
+                {
+                    pDelta->Delta_5ABA40(pArray, width);
+                }
+            }
+            else
+            {
+                sprite_delta* pDelta = gGtx_0x106C_703DD4->get_delta_5AA3F0(sprite_idx, delta_idx);
+                if (pDelta)
+                {
+                    pDelta->Delta_5ABA00(pArray);
+                }
+            }
+            unknown &= ~i;
+        }
+    }
+}
+
+MATCH_FUNC(0x48F8B0)
+s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, u16& a4, const u32& a5)
+{
+    if (!m_var)
+    {
+        return -1;
+    }
+    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
+    u32 bUnk = sprite_index_5AA440->field_5_height > 0x40u;
+    Sprite_14* pSprt14 = gSprite_3CC_67AF1C->sub_48F600(sprite_idx, &bUnk, &m_var, &a4);
+    if (pSprt14)
+    {
+        if (pSprt14->field_8 < m_var)
+        {
+            bRet = 1;
+            u32 sub = m_var - pSprt14->field_8;
+            Delta_48F820(sprite_idx, (u8*)pSprt14->field_0, sub, sprite_index_5AA440->field_4_width);
+            pSprt14->SetF4_F8_F12_44AF50(sprite_idx, m_var, a4);
+        }
+        else
+        {
+            bRet = 0;
+        }
+    }
+    else
+    {
+        bRet = 1;
+        pSprt14 = gSprite_3CC_67AF1C->sub_48F690(&bUnk);
+        if (!a5)
+        {
+            sprite_index_5AA440->sub_5ABB00(pSprt14->field_0);
+        }
+        else
+        {
+            pSprt14->sub_48F5C0(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height);
+        }
+        
+        Delta_48F820(sprite_idx, (u8*)pSprt14->field_0, m_var, sprite_index_5AA440->field_4_width);
+        pSprt14->SetF4_F8_F12_44AF50(sprite_idx, m_var, a4);
+    }
+    
+    pSprt14->sub_48F5A0();
+    return pSprt14->field_10;
+}
+
 MATCH_FUNC(0x562450)
 Fix16_Point Sprite::GetBoundingBoxCorner_562450(s32 idx)
 {
@@ -736,7 +811,7 @@ void Sprite::Draw_59EFF0()
         // TODO: stuff here
         u16 v25 = Sprite::sub_59EAA0();
         // ....
-        pCar->field_8_damaged_areas = car_flags;
+        pCar->field_8_damaged_areas.m_var = car_flags;
     }
     else
     {
@@ -2173,7 +2248,7 @@ EXPORT void Sprite_14::sub_48F5C0(u8 xCount, u8 yCount)
 }
 
 MATCH_FUNC(0x48f600)
-Sprite_14* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
+Sprite_14* Sprite_3CC::sub_48F600(u16& sprite_idx, u32* a3, u32* a4, u16* a5)
 {
     s32 final_idx;
     s32 start_idx = 0;
@@ -2191,8 +2266,8 @@ Sprite_14* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
     s32 count = start_idx;
     for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
     {
-        s32 unk = *a2;
-        if (pIter->field_4 == unk && pIter->field_12 == *a5)
+        s32 sprite_idx_copy = sprite_idx;
+        if (pIter->field_4 == sprite_idx_copy && pIter->field_12 == *a5)
         {
             if (pIter->field_8 == *a4)
             {

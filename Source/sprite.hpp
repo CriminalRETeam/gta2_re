@@ -556,6 +556,13 @@ class Sprite_14
         field_4 = -1;
     }
 
+    void SetF4_F8_F12_44AF50(u16 sprite_idx, u32 a2, u16 a3)
+    {
+        field_4 = sprite_idx;
+        field_8 = a2;
+        field_12 = a3;
+    }
+
     u8* field_0;
     s16 field_4;
     char_type field_6;
@@ -569,7 +576,7 @@ class Sprite_14
 class Sprite_3CC
 {
   public:
-    EXPORT Sprite_14* sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5);
+    EXPORT Sprite_14* sub_48F600(u16& sprite_idx, u32* a3, u32* a4, u16* a5);
     EXPORT Sprite_14* sub_48F690(u32* a2);
     EXPORT void InvalidateMasksByType_48F6E0(u16* a2);
     EXPORT void InvalidateAllMasks_48F710();

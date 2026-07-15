@@ -2788,7 +2788,7 @@ void Player::RestoreCarsFromSave_56A0F0()
                                                   gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_3C[i], // car_info_idx/model
                                                   dword_6FE614);
             sub_5645B0(pNewCar);
-            pNewCar->field_8_damaged_areas = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_30[i];
+            pNewCar->field_8_damaged_areas.m_var = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_30[i];
             pNewCar->field_74_damage = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_2A[i];
         }
     }
