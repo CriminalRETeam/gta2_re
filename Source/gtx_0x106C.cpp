@@ -21,6 +21,37 @@ DEFINE_GLOBAL(s16, word_703BAA, 0x703BAA);
 DEFINE_GLOBAL(s16, word_703D98, 0x703D98);
 DEFINE_GLOBAL(s16, word_703C9C, 0x703C9C);
 
+// TODO: move
+MATCH_FUNC(0x48F820)
+EXPORT void __stdcall Delta_48F820(u16& sprite_idx, u8* pArray, s32& a3, u8& width)
+{
+    s32 unknown = a3;
+    u32 delta_idx = 0;
+    for (u32 i = 1; unknown; i = i << 1, delta_idx++)
+    {
+        if ((i & unknown) != 0)
+        {
+            if (delta_idx >= 22)
+            {
+                sprite_delta* pDelta = gGtx_0x106C_703DD4->get_delta_5AA3F0(sprite_idx, delta_idx - 17);
+                if (pDelta)
+                {
+                    pDelta->Delta_5ABA40(pArray, width);
+                }
+            }
+            else
+            {
+                sprite_delta* pDelta = gGtx_0x106C_703DD4->get_delta_5AA3F0(sprite_idx, delta_idx);
+                if (pDelta)
+                {
+                    pDelta->Delta_5ABA00(pArray);
+                }
+            }
+            unknown &= ~i;
+        }
+    }
+}
+
 // https://decomp.me/scratch/CjuP1
 WIP_FUNC(0x5ABA00)
 void sprite_delta::Delta_5ABA00(u8* pArray)
