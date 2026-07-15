@@ -126,13 +126,16 @@ struct car_info_container
 
 struct delta_store_entry
 {
-    s16 field_0_offset;
-    char_type field_2_len;
-    char_type field_3_data[1]; // variable � see field_2_len
+    u16 field_0_offset;
+    u8 field_2_len;
+    u8 field_3_data[1]; // variable � see field_2_len
 };
 
 struct sprite_delta
 {
+    EXPORT void Delta_5ABA00(u8* pArray);
+    EXPORT void Delta_5ABA40(u8* pArray, u32 width);
+
     delta_store_entry* field_0_pData;
     u16 field_4_len;
     u16 field_6_pad;

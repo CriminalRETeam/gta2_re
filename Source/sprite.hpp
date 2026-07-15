@@ -152,6 +152,7 @@ class Sprite_4C
 
     EXPORT void SetCurrentRect_5A4D90();
     EXPORT void UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
+    EXPORT void DrawCollisionBox_5A4DA0(Fix16 zpos);
 
     EXPORT Sprite_4C();
     EXPORT ~Sprite_4C();
@@ -546,18 +547,25 @@ class Sprite_14
     {
         field_C = 0;
         field_8 = 0;
-        field_4 = -1;
+        field_4_sprite_idx = -1;
         field_12 = 0;
     }
 
     // 9.6f 0x44AF70
     void Invalidate_44AF70()
     {
-        field_4 = -1;
+        field_4_sprite_idx = -1;
+    }
+
+    void SetF4_F8_F12_44AF50(u16 sprite_idx, u32 a2, u16 a3)
+    {
+        field_4_sprite_idx = sprite_idx;
+        field_8 = a2;
+        field_12 = a3;
     }
 
     u8* field_0;
-    s16 field_4;
+    s16 field_4_sprite_idx;
     char_type field_6;
     char_type field_7;
     s32 field_8;
@@ -569,9 +577,9 @@ class Sprite_14
 class Sprite_3CC
 {
   public:
-    EXPORT Sprite_14* sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5);
+    EXPORT Sprite_14* sub_48F600(u16& sprite_idx, u32* a3, u32* a4, u16* a5);
     EXPORT Sprite_14* sub_48F690(u32* a2);
-    EXPORT void InvalidateMasksByType_48F6E0(u16* a2);
+    EXPORT void InvalidateMasksByType_48F6E0(u16* sprite_idx);
     EXPORT void InvalidateAllMasks_48F710();
     EXPORT Sprite_3CC();
     EXPORT ~Sprite_3CC();

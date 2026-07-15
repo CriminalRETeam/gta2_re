@@ -21,7 +21,7 @@ Object_3C::Object_3C()
     this->field_4_angle = 0;
     this->mpNext = 0;
     this->field_1C = dword_6F8BF0;
-    this->field_18 = dword_6F8BF0;
+    this->field_18_friction = dword_6F8BF0;
     this->field_10 = dword_6F8BF0;
     this->field_C_speed = dword_6F8BF0;
     this->field_4_angle = kZeroAng_6F8F68;
@@ -43,7 +43,7 @@ Object_3C::~Object_3C()
 
 // 9.6f 0x482BA0
 MATCH_FUNC(0x52adf0)
-Fix16_Point Object_3C::GetRot_52ADF0()
+Fix16_Point Object_3C::GetSpeedVector_52ADF0()
 {
     Fix16_Point p;
     p.FromPolar_41E210(field_C_speed, field_4_angle);
@@ -62,7 +62,7 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
     {
         sub_529050(field_38, &x_related, &y_related);
         Fix16_Point unk(dword_6F8ECC * x_related, dword_6F8ECC * y_related);
-        Fix16_Point point = unk + GetRot_52ADF0();
+        Fix16_Point point = unk + GetSpeedVector_52ADF0();
 
         Speed = point.GetLength_41E260();
         Angle = point.atan2_40F790();

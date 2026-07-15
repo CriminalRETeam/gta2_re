@@ -99,7 +99,7 @@ class Object_2C
     EXPORT void EnsureObject3C_52A650();
     EXPORT void ReactivateObjectAfterImpact_52A6D0(Sprite* a2);
     EXPORT Fix16_Point GetXY_52AE70();
-    EXPORT Fix16_Point GetRot_52AE90();
+    EXPORT Fix16_Point GetSpeedVector_52AE90();
 
     // TODO: ordering
     EXPORT void sub_5290C0(u8 id_base);

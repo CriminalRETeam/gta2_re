@@ -26,16 +26,16 @@ EXTERN_GLOBAL(Fix16_Point, stru_6FDF50);
 EXTERN_GLOBAL(Fix16, dword_6FE0B0);
 EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
 
-EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
-                                                                Fix16 a3,
-                                                                Fix16_Point& a4,
-                                                                Fix16_Point& a5,
-                                                                Fix16_Point& a6,
-                                                                Fix16_Point& a7,
+EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
+                                                                Fix16 TargetMass,
+                                                                Fix16_Point& RelativeVelocity,
+                                                                Fix16_Point& DistToCollision_ByRef,
+                                                                Fix16_Point& CollisionIntersectPoint,
+                                                                Fix16_Point& CoM_related,
                                                                 Fix16_Point& a8,
-                                                                Fix16 a9,
-                                                                Fix16 a10,
-                                                                Fix16 a11);
+                                                                Fix16 OwnerMomOfInertia,
+                                                                Fix16 TargetMomOfInertia,
+                                                                Fix16 offset);
 
 namespace car_turn_direction
 {

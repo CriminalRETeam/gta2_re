@@ -1825,7 +1825,7 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
             }
         }
 
-        if (pObj->field_8->field_18 < dword_6FDAB0)
+        if (pObj->field_8->field_18_mass < dword_6FDAB0)
         {
 
             field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);

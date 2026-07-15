@@ -1436,11 +1436,10 @@ char_type CarPhysics_B0::TestCollision_55C150()
     return 1;
 }
 
+// https://decomp.me/scratch/Mht60 stack size issue remaining
 WIP_FUNC(0x55c3b0)
 char_type CarPhysics_B0::SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* outNoHitStep)
 {
-    WIP_IMPLEMENTED;
-
     save_state_55A600();
 
     Fix16 movement = ComputeRequiredSweepSteps_55A6A0();
@@ -1448,70 +1447,43 @@ char_type CarPhysics_B0::SweepTestMovementForCollision_55C3B0(Fix16* outHitStep,
     *outHitStep = kFP16Zero_6FE20C;
     *outNoHitStep = kFP16Zero_6FE20C;
 
-    // Variables used in the sweep
-    Fix16 stepSize = kFP16Zero_6FE20C;
-    Fix16 accumulated = kFP16Zero_6FE20C;
-    s32 numSteps = 0;
-    s32 stepIndex = 0;
-
-    // TODO: Fix control flow
-
-    // Determine whether we need to sweep
     if (movement > k_dword_6FE210)
     {
-        stepSize = k_dword_6FE210 / movement;
-        numSteps = movement.ToInt();
-        stepIndex = 0;
-    }
+        Fix16 stepSize = k_dword_6FE210 / movement;
+        Fix16 accumulated = kFP16Zero_6FE20C;
+        s32 numSteps = movement.ToInt();
 
-    // If movement is tiny or numSteps <= 0 skip sweep
-    if (movement <= k_dword_6FE210 || numSteps <= 0)
-    {
-        restore_state_55A550();
-        UpdateCarAndTrailerSpriteFromPhysics_5636C0();
-
-        if (TestCollision_55C150())
+        for (s32 stepIndex = 0; stepIndex < numSteps; stepIndex++)
         {
-            *outHitStep = k_dword_6FE210;
-            return 1;
-        }
+            accumulated += stepSize;
 
-        *outNoHitStep = k_dword_6FE210;
-        return 0;
-    }
-
-    // Swept movement loop
-    while (true)
-    {
-        accumulated += stepSize;
-
-        restore_saved_physics_state_55A400();
-        ApplyMovementStep_560F20(accumulated);
-
-        if (TestCollision_55C150())
-        {
-            *outHitStep = accumulated;
-            return 1;
-        }
-
-        stepIndex++;
-        *outNoHitStep = accumulated;
-
-        if (stepIndex >= numSteps)
-        {
-            // No collision in sweep test final state
-            restore_state_55A550();
-            UpdateCarAndTrailerSpriteFromPhysics_5636C0();
+            restore_saved_physics_state_55A400();
+            ApplyMovementStep_560F20(accumulated);
 
             if (TestCollision_55C150())
             {
-                *outHitStep = k_dword_6FE210;
+                *outHitStep = accumulated;
                 return 1;
             }
-
-            *outNoHitStep = k_dword_6FE210;
-            return 0;
+            else
+            {
+                *outNoHitStep = accumulated;
+            }
         }
+    }
+
+    restore_state_55A550();
+    UpdateCarAndTrailerSpriteFromPhysics_5636C0();
+
+    if (TestCollision_55C150())
+    {
+        *outHitStep = k_dword_6FE210;
+        return 1;
+    }
+    else
+    {
+        *outNoHitStep = k_dword_6FE210;
+        return 0;
     }
 }
 
@@ -2116,60 +2088,47 @@ char_type CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80()
     return bCollision;
 }
 
-WIP_FUNC(0x55ec30)
+MATCH_FUNC(0x55ec30)
 void CarPhysics_B0::ApplyForwardEngineForce_55EC30()
 {
-    WIP_IMPLEMENTED;
-
-    Ang16 theta = this->field_58_theta;
-    if (this->field_94_is_backward_gas_on)
+    Ang16 theta;
+    if (field_94_is_backward_gas_on)
     {
-        theta += k_word_6FE12A;
+        theta = field_58_theta + k_word_6FE12A;
+    }
+    else
+    {
+        theta = field_58_theta;
     }
 
-    Fix16 global_val;
-
-    if (stru_6FE1F0.x <= kFP16Zero_6FE20C)
+    if (stru_6FE1F0.x > kFP16Zero_6FE20C)
     {
-        if (theta >= word_6FE00C)
+        if (theta > word_6FE154)
         {
-            if (theta >= k_word_6FE12A)
-            {
-                goto LABEL_13;
-            }
-            global_val = k_dword_6FDFA4;
+            ApplyAngularImpulse_55F970(k_dword_6FDFA4);
         }
-        else
+        else if (theta > k_word_6FE12A)
         {
-            global_val = -k_dword_6FDFA4;
+            ApplyAngularImpulse_55F970(-k_dword_6FDFA4);
         }
-        goto LABEL_12;
+    }
+    else
+    {
+        if (theta < word_6FE00C)
+        {
+            ApplyAngularImpulse_55F970(-k_dword_6FDFA4);
+        }
+        else if (theta < k_word_6FE12A)
+        {
+            ApplyAngularImpulse_55F970(k_dword_6FDFA4);
+        }
     }
 
-    if (theta <= word_6FE154)
-    {
-        if (theta <= k_word_6FE12A)
-        {
-            goto LABEL_13;
-        }
-        global_val = -k_dword_6FDFA4;
-    LABEL_12:
-        ApplyAngularImpulse_55F970(global_val);
-        goto LABEL_13;
-    }
-
-    ApplyAngularImpulse_55F970(k_dword_6FDFA4);
-
-LABEL_13:
-    Fix16_Point v4 = stru_6FE1F0.NormalizeSafe_442AD0();
-    //v9 = 0;
-    Fix16_Point v5 = (v4 * stru_6FDF80);
-    //LOBYTE(v9) = 1;
-    ApplyForceScaledByMass_55F9A0(v5);
-
-    this->field_AA_sbw = 1;
+    ApplyForceScaledByMass_55F9A0(stru_6FE1F0.NormalizeSafe_442AD0() * stru_6FDF80);
+    field_AA_sbw = 1;
 }
 
+// https://decomp.me/scratch/foNCl
 WIP_FUNC(0x55ef20)
 void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
 {
@@ -2758,8 +2717,8 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damag
     stru_6FE1F0 = CoM - CollisionIntersectionPoint_6FE1A0;
     if (p2C->sub_482C90())
     {
-        Fix16 ObjMass = p2C->field_8->field_18;
-        RelativeVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0) - p2C->GetRot_52AE90();
+        Fix16 ObjMass = p2C->field_8->field_18_mass;
+        RelativeVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0) - p2C->GetSpeedVector_52AE90();
 
         Impulse = ComputeLineLineIntersection_55F3B0(CarMass,
                                                      ObjMass,

@@ -279,7 +279,7 @@ class Phi_74
     Fix16 field_C;
     Fix16 field_10;
     Fix16 field_14_friction;
-    Fix16 field_18;
+    Fix16 field_18_mass;
     s16 field_1C_remap;
     s16 field_1E;
     char_type field_20;

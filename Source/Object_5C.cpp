@@ -194,12 +194,12 @@ void Object_2C::UpdatePhysics_5222D0()
     }
     else
     {
-        field_10_obj_3c->field_C_speed += field_10_obj_3c->field_18;
+        field_10_obj_3c->field_C_speed += field_10_obj_3c->field_18_friction;
 
         if (field_10_obj_3c->field_C_speed < kFpZero_6F8E10)
         {
             field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
-            field_10_obj_3c->field_18 = kFpZero_6F8E10;
+            field_10_obj_3c->field_18_friction = kFpZero_6F8E10;
         }
 
         if (field_10_obj_3c->field_10 < kFpZero_6F8E10)
@@ -341,11 +341,11 @@ void Object_2C::SetMovementVector_5224E0(Fix16_Point& speed)
 
     if (field_10_obj_3c)
     {
-        Fix16_Point v5 = (GetRot_52AE90() + speed);
+        Fix16_Point v5 = (GetSpeedVector_52AE90() + speed);
         Fix16 v5_len = v5.GetLength_2(); // TODO: Should be using kFpZero_6F8E10
         this->field_10_obj_3c->field_C_speed = v5_len;
         this->field_10_obj_3c->field_4_angle = v5.atan2_40F790();
-        this->field_10_obj_3c->field_18 = this->field_8->field_14_friction;
+        this->field_10_obj_3c->field_18_friction = this->field_8->field_14_friction;
     }
     else
     {
@@ -404,12 +404,12 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
     if (a2->field_8->field_34_behavior_type == 3 || a2->field_8->field_34_behavior_type == 4 ||
         a2->field_8->field_34_behavior_type <= 2 && a2->field_8->field_44 == 2)
     {
-        Fix16_Point v11 = (GetRot_52AE90() - a2->GetRot_52AE90());
+        Fix16_Point v11 = (GetSpeedVector_52AE90() - a2->GetSpeedVector_52AE90());
         Fix16_Point v27;
         v27.x = v11.x;
         v27.y = v11.y;
-        Fix16_Point v13 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
-                                                             a2->field_8->field_18,
+        Fix16_Point v13 = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
+                                                             a2->field_8->field_18_mass,
                                                              v27,
                                                              v26,
                                                              *a3,
@@ -421,12 +421,12 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
 
         v28.x = v13.x;
         v28.y = v13.y;
-        Fix16_Point v17 = (-v28 / a2->field_8->field_18);
+        Fix16_Point v17 = (-v28 / a2->field_8->field_18_mass);
         a2->SetMovementVectorWithRandomState_522640(v17);
     }
     else
     {
-        Fix16_Point v18 = GetRot_52AE90();
+        Fix16_Point v18 = GetSpeedVector_52AE90();
         Fix16_Point v27;
         v27.x = v18.x;
         v27.y = v18.y;
@@ -436,7 +436,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
             v26.y = v18.y;
         }
 
-        v28 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
+        v28 = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
                                                  k_dword_6F8BE8,
                                                  v27,
                                                  v26,
@@ -453,7 +453,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
         v25 = field_10_obj_3c->field_4_angle;
     }
 
-    Fix16_Point v22 = (v28 / field_8->field_18);
+    Fix16_Point v22 = (v28 / field_8->field_18_mass);
     SetMovementVectorWithRandomState_522640(v22);
 
     if (byte_6F8F94)
@@ -489,7 +489,7 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
     pB4->sub_545580(&tmp);
     //LOBYTE(seh) = 5;
 
-    Fix16_Point lineHitPos = ComputeLineLineIntersection_55F3B0(field_8->field_18,
+    Fix16_Point lineHitPos = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
                                                                 k_dword_6F8EE4,
                                                                 tmp,
                                                                 posDelta,
@@ -500,7 +500,7 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
                                                                 k_dword_6F8CE0,
                                                                 k_dword_6F8F74);
     //LOBYTE(seh) = 4;
-    Fix16_Point nrmHitPos = (lineHitPos / field_8->field_18); // TODO: sub_482C80
+    Fix16_Point nrmHitPos = (lineHitPos / field_8->field_18_mass); // TODO: sub_482C80
     //LOBYTE(seh) = 6;
     SetMovementVectorWithRandomState_522640(nrmHitPos);
     //LOBYTE(seh) = 4;
@@ -531,7 +531,7 @@ void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* 
     Fix16_Point t;
     Fix16_Point v9;
     Fix16_Point obj_xy = GetXY_52AE70();
-    v9 = ComputeLineLineIntersection_55F3B0(field_8->field_18,
+    v9 = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
                                             k_dword_6F8BE8,
                                             *a4,
                                             *a3,
@@ -541,7 +541,7 @@ void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* 
                                             k_dword_6F8D38,
                                             kFpZero_6F8E10,
                                             k_dword_6F8D3C);
-    Fix16_Point v7 = (v9 / this->field_8->field_18);
+    Fix16_Point v7 = (v9 / this->field_8->field_18_mass);
     SetMovementVectorWithRandomState_522640(v7);
     HandleImpact_528E50(0);
 }
@@ -551,7 +551,7 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
 {
     WIP_IMPLEMENTED;
 
-    Fix16_Point v13 = GetRot_52AE90();
+    Fix16_Point v13 = GetSpeedVector_52AE90();
     Fix16_Point v12;
     Fix16_Point t1;
     u8 v9;
@@ -671,7 +671,7 @@ char_type Object_2C::sub_5233A0(Fix16 a2)
             this->field_4->field_28_num = 6;
         }
         this->field_10_obj_3c->field_C_speed = k_dword_6F8C58;
-        this->field_10_obj_3c->field_18 = this->field_8->field_14_friction;
+        this->field_10_obj_3c->field_18_friction = this->field_8->field_14_friction;
         return 1;
     }
     this->field_10_obj_3c->field_34 = 2;
@@ -2283,7 +2283,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                 this->field_C_pAny.o8 = 0;
                             }
 
-                            this->field_10_obj_3c->field_18 = pPhi->field_14_friction;
+                            this->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
                             this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
                             this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
                             this->field_10_obj_3c->field_28 = pPhi->field_65;
@@ -2333,7 +2333,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                                                this->field_4->field_1C_zpos,
                                                                this->field_4->field_0);
                             field_4->set_id_lazy_4206C0(this->field_8->field_1E + this->field_C_pAny.o8->field_7_anim_speed_counter);
-                            this->field_10_obj_3c->field_18 = pPhi->field_14_friction;
+                            this->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
                             this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
                             this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
                             break;
@@ -2921,11 +2921,11 @@ Fix16_Point Object_2C::GetXY_52AE70()
 }
 
 MATCH_FUNC(0x52ae90)
-Fix16_Point Object_2C::GetRot_52AE90()
+Fix16_Point Object_2C::GetSpeedVector_52AE90()
 {
     if (field_10_obj_3c)
     {
-        return field_10_obj_3c->GetRot_52ADF0();
+        return field_10_obj_3c->GetSpeedVector_52ADF0();
     }
     return gZeroVector_6F8EF0;
 }
@@ -3566,7 +3566,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_10_obj_3c = pNew3C;
             pNew3C->field_20 = pNew2C->field_14_id;
             pNew2C->field_10_obj_3c->field_C_speed = pNew2C->field_8->field_10;
-            pNew2C->field_10_obj_3c->field_18 = pPhi->field_14_friction;
+            pNew2C->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
             pNew2C->field_10_obj_3c->field_4_angle = rotation;
             pNew2C->field_10_obj_3c->field_28 = pNew2C->field_8->field_65;
             pNew2C->field_10_obj_3c->field_10 = kFpZero_6F8E10;
@@ -3582,7 +3582,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_10_obj_3c = pNew3C;
             pNew3C->field_20 = pNew2C->field_14_id;
             pNew2C->field_10_obj_3c->field_C_speed = pNew2C->field_8->field_10;
-            pNew2C->field_10_obj_3c->field_18 = pPhi->field_14_friction;
+            pNew2C->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
             pNew2C->field_10_obj_3c->field_10 = kFpZero_6F8E10;
             pNew2C->field_10_obj_3c->field_1C = kFpZero_6F8E10;
             pNew2C->field_10_obj_3c->field_4_angle = rotation;
@@ -3699,7 +3699,7 @@ Object_2C* Object_5C::New_52A2C0(s32 object_type,
         pNewObj->field_10_obj_3c->field_10 = a10;
         pNewObj->field_10_obj_3c->field_14 = a8;
         pNewObj->field_10_obj_3c->field_1C = dword_6F8DA8;
-        pNewObj->field_10_obj_3c->field_18 = a9;
+        pNewObj->field_10_obj_3c->field_18_friction = a9;
         pNewObj->field_10_obj_3c->field_4_angle = unk_ang;
         pNewObj->field_10_obj_3c->field_28 = pPhi74->field_65;
         Object_3C* field_10_obj_3c = pNewObj->field_10_obj_3c;

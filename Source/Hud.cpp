@@ -1041,14 +1041,14 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 
         if (respect < -19)
         {
-            if (respect <= -100 && !bPlusSignDark)
+            if (respect <= -100 && !bPlusSignDark || respect > -100)
             {
                 sub_5D7670(6, 2 * arrow_colour + 50, 34, ypos + 1, word_706610, 2, 0, 0, 0);
             }
         }
         else
         {
-            if (respect >= 100 && !bPlusSignDark)
+            if (respect >= 100 && !bPlusSignDark || respect < 100)
             {
                 sub_5D7670(6, 2 * arrow_colour + 51, 93, ypos + 1, word_706610, 2, 0, 0, 0);
             }
