@@ -134,6 +134,7 @@ struct delta_store_entry
 struct sprite_delta
 {
     EXPORT void Delta_5ABA00(u8* pArray);
+    EXPORT void Delta_5ABA40(u8* pArray, u32 width);
 
     delta_store_entry* field_0_pData;
     u16 field_4_len;
