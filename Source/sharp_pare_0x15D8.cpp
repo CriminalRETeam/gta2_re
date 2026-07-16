@@ -131,32 +131,32 @@ void sharp_pare_0x15D8::sub_5B9350()
 }
 
 MATCH_FUNC(0x5B94F0)
-STexture* sharp_pare_0x15D8::sub_5B94F0(s32 type, u16 pal, s32 kind, s32 a5)
+STexture* sharp_pare_0x15D8::sub_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s32 remap)
 {
     STexture* result;
 
-    switch (kind)
+    switch (palette_type)
     {
-        case 2:
-            result = field_1548_unk.get_texture_5B90A0(type, pal);
+        case palette_types_enum::sprites_2:
+            result = field_1548_unk.get_texture_5B90A0(sprite_type, sprite_id);
             break;
-        case 3:
-            result = field_155C_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::car_remaps_3:
+            result = field_155C_unk.sub_5B90D0(sprite_id, remap);
             break;
-        case 4:
-            result = field_1570_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::ped_remaps_4:
+            result = field_1570_unk.sub_5B90D0(sprite_id, remap);
             break;
-        case 5:
-            result = field_1584_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::code_obj_remaps_5:
+            result = field_1584_unk.sub_5B90D0(sprite_id, remap);
             break;
-        case 6:
-            result = field_1598_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::map_obj_remaps_6:
+            result = field_1598_unk.sub_5B90D0(sprite_id, remap);
             break;
-        case 8:
-            result = field_15AC_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::font_remaps_8:
+            result = field_15AC_unk.sub_5B90D0(sprite_id, remap);
             break;
-        case 7:
-            result = field_15C0_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::user_remaps_7:
+            result = field_15C0_unk.sub_5B90D0(sprite_id, remap);
             break;
         default:
             result = 0;
@@ -317,9 +317,9 @@ void festive_hopper::LoadTextures_5B8F00()
 }
 
 MATCH_FUNC(0x5B90A0)
-STexture* festive_hopper::get_texture_5B90A0(s32 type, s16 sprite_pal)
+STexture* festive_hopper::get_texture_5B90A0(s32 sprite_type, s16 sprite_idx)
 {
-    return field_0_pAlloc[gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(type, sprite_pal)];
+    return field_0_pAlloc[gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(sprite_type, sprite_idx)];
 }
 
 MATCH_FUNC(0x5B90D0)

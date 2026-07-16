@@ -2555,7 +2555,7 @@ void Player::SetScoreTextColour_569C20()
             {
                 field_60_bFinshScoreReached = 1;
                 // Red when map "beaten"
-                field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps, 6);
+                field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps_7, 6);
             }
         }
         else
@@ -2564,7 +2564,7 @@ void Player::SetScoreTextColour_569C20()
             if (score < gfrosty_pasteur_6F8060->field_310_finish_score)
             {
                 field_60_bFinshScoreReached = 0;
-                field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::sprites, 0);
+                field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::sprites_2, 0);
             }
         }
     }

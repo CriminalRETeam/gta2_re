@@ -1565,7 +1565,7 @@ void Car_BC::AssignRandomRemap_43A7D0()
         const u32 remap_idx = gRngRemapTable_679320[gCar_6C_677930->field_10_remap_rng.field_0] % (pCarInfo->num_remaps + 1);
         if (remap_idx == pCarInfo->num_remaps)
         {
-            this->field_50_car_sprite->field_34 = 2;
+            field_50_car_sprite->field_34_palette_type = palette_types_enum::sprites_2;
         }
         else
         {
@@ -4420,13 +4420,13 @@ void Car_BC::TurnToWreck_4436A0()
 {
     WIP_IMPLEMENTED;
 
-    car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx);
-    this->field_50_car_sprite->field_22_sprite_id = gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCarInfo->wreck + 72)->sprite;
-    this->field_50_car_sprite->sub_59E2E0();
-    this->field_50_car_sprite->field_34 = 2;
-    this->field_8_damaged_areas.m_var = 0;
+    car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+    field_50_car_sprite->field_22_sprite_id = gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCarInfo->wreck + 72)->sprite;
+    field_50_car_sprite->sub_59E2E0();
+    field_50_car_sprite->field_34_palette_type = palette_types_enum::sprites_2;
+    field_8_damaged_areas.m_var = 0;
     PrepareForExplosion_43C1C0();
-    this->field_A7_horn = 0;
+    field_A7_horn = 0;
     SpawnFire_43BBC0();
 }
 
@@ -7520,7 +7520,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                     gang_car_remap = gang_curr_location->field_140_gang_car_remap;
                                     if (gang_car_remap == 0xFF)
                                     {
-                                        pNewCar->field_50_car_sprite->field_34 = 2;
+                                        pNewCar->field_50_car_sprite->field_34_palette_type = palette_types_enum::sprites_2;
                                     }
                                     else
                                     {

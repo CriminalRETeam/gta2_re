@@ -148,8 +148,8 @@ bool Crane_15C::sub_47EB00()
 MATCH_FUNC(0x47ecc0)
 void Crane_15C::sub_47ECC0()
 {
-    Car_BC* pCar = field_74->AsCar_40FEB0();
-    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74);
+    Car_BC* pCar = field_74_pSprite_on_hook->AsCar_40FEB0();
+    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74_pSprite_on_hook);
     pCar->sub_4435F0();
     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
@@ -166,15 +166,15 @@ void Crane_15C::sub_47ECC0()
             else
             {
                 field_155 = 1;
-                field_28_strct4.AddSprite_5A6CD0(field_74);
+                field_28_strct4.AddSprite_5A6CD0(field_74_pSprite_on_hook);
             }
         }
         else
         {
-            field_28_strct4.AddSprite_5A6CD0(field_74);
+            field_28_strct4.AddSprite_5A6CD0(field_74_pSprite_on_hook);
         }
     }
-    field_74 = 0;
+    field_74_pSprite_on_hook = 0;
     field_150 = 0;
     Crane_15C::sub_47F170();
 }
@@ -182,13 +182,13 @@ void Crane_15C::sub_47ECC0()
 MATCH_FUNC(0x47ed60)
 void Crane_15C::sub_47ED60()
 {
-    Car_BC* pCar = field_74->AsCar_40FEB0();
+    Car_BC* pCar = field_74_pSprite_on_hook->AsCar_40FEB0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
     pCar->SetF_88_447ea0();
-    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74);
-    field_64->DispatchCollisionEvent_5A3100(field_74, dword_679E70, dword_679E70, word_679FC4);
+    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74_pSprite_on_hook);
+    field_64->DispatchCollisionEvent_5A3100(field_74_pSprite_on_hook, dword_679E70, dword_679E70, word_679FC4);
     field_28_strct4.AddSprite_5A6CD0(field_64);
-    field_74 = 0;
+    field_74_pSprite_on_hook = 0;
     field_150 = 0;
     field_64 = 0;
     Crane_15C::sub_47F170();
@@ -203,10 +203,10 @@ void Crane_15C::sub_47EDF0()
     pCar->field_0_qq.RemoveSprite_5A6B10(field_6C);
     gPurpleDoom_3_679210->Remove_477B00(field_6C);
 
-    this->field_74 = this->field_6C;
-    this->field_10 = field_74->get_x_y_443580() - field_54_hook_obj->field_4->get_x_y_443580();
+    this->field_74_pSprite_on_hook = this->field_6C;
+    this->field_10 = field_74_pSprite_on_hook->get_x_y_443580() - field_54_hook_obj->field_4->get_x_y_443580();
 
-    field_60->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74->field_C_sprite_4c_ptr);
+    field_60->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74_pSprite_on_hook->field_C_sprite_4c_ptr);
 
     this->field_6C = 0;
 
@@ -256,10 +256,10 @@ void Crane_15C::sub_47EF80()
     pCar->DeAllocateCarPhysics_43BD00();
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_68);
 
-    this->field_74 = this->field_68;
-    this->field_10 = field_74->get_x_y_443580() - field_54_hook_obj->field_4->get_x_y_443580();
+    this->field_74_pSprite_on_hook = this->field_68;
+    this->field_10 = field_74_pSprite_on_hook->get_x_y_443580() - field_54_hook_obj->field_4->get_x_y_443580();
 
-    field_60->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74->field_C_sprite_4c_ptr);
+    field_60->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74_pSprite_on_hook->field_C_sprite_4c_ptr);
 
     this->field_68 = 0;
 
@@ -624,7 +624,7 @@ s32 Crane_15C::sub_47FBA0()
         SmoothApproach_4F7540(this->field_B0_hook_radius_target, this->field_94, this->field_90_hook_radius, dword_679C14, dword_679E6C);
         sub_405CE0(field_AC_crane_angle_target, field_98, field_8C_crane_angle, dword_679F70, dword_679DEC);
         sub_405CE0(field_B4_hook_angle_target, field_A4, field_A0_hook_axial_angle, dword_679D70, dword_679C40);
-        if (this->field_74)
+        if (this->field_74_pSprite_on_hook)
         {
             this->field_10 = this->field_0;
         }
@@ -765,11 +765,11 @@ void Crane_15C::UpdateCraneSprites_47FE10()
     field_54_hook_obj->field_4->set_xyz_lazy_420600(a4.x, a4.y, field_80 - field_84_hook_depth);
     field_54_hook_obj->field_4->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
 
-    if (field_74)
+    if (field_74_pSprite_on_hook)
     {
         a4 += field_10;
-        field_74->set_xyz_lazy_inlined_420600(a4.x, a4.y, field_80 - field_84_hook_depth); // INLINED_MODE required
-        field_74->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
+        field_74_pSprite_on_hook->set_xyz_lazy_inlined_420600(a4.x, a4.y, field_80 - field_84_hook_depth); // INLINED_MODE required
+        field_74_pSprite_on_hook->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
     }
 
     field_30->AssignToBucket_527AE0();
@@ -789,9 +789,9 @@ void Crane_15C::Service_480310()
 {
     field_159 = 0;
     field_28_strct4.RemoveByRngValue_5A6C40(rng_dword_67AB34->get_cur_rng_41CFE0() - 1);
-    if (field_74)
+    if (field_74_pSprite_on_hook)
     {
-        gPurpleDoom_3_679210->Remove_477B00(field_74);
+        gPurpleDoom_3_679210->Remove_477B00(field_74_pSprite_on_hook);
     }
     Crane_15C::UpdateCraneTargets_47F4C0();
     if (!field_148)
@@ -802,14 +802,14 @@ void Crane_15C::Service_480310()
         }
     }
 
-    if (field_74)
+    if (field_74_pSprite_on_hook)
     {
-        field_74->AsCar_40FEB0()->sub_443330();
+        field_74_pSprite_on_hook->AsCar_40FEB0()->sub_443330();
     }
 
-    if (field_74)
+    if (field_74_pSprite_on_hook)
     {
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_74);
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_74_pSprite_on_hook);
     }
 }
 
@@ -866,7 +866,7 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_104 = dword_679E70;
     field_108 = dword_679E70;
     field_10C = dword_679E70;
-    field_74 = 0;
+    field_74_pSprite_on_hook = 0;
     field_154 = 0;
     field_150 = 0;
     field_114 = dword_679E70;
@@ -968,9 +968,9 @@ void Crane_15C::ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang)
 MATCH_FUNC(0x480da0)
 Car_BC* Crane_15C::GetCarFromCrane_480DA0()
 {
-    if (field_74)
+    if (field_74_pSprite_on_hook)
     {
-        return field_74->AsCar_40FEB0();
+        return field_74_pSprite_on_hook->AsCar_40FEB0();
     }
     return 0;
 }

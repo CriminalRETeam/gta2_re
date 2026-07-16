@@ -685,7 +685,7 @@ void Char_B4::UpdateAnimState_546360()
     char_type remap = pPed->field_244_remap;
     if (remap <= -1)
     {
-        field_80_sprite_ptr->field_34 = 2;
+        field_80_sprite_ptr->field_34_palette_type = palette_types_enum::sprites_2;
     }
     else
     {
@@ -1374,7 +1374,7 @@ void Char_B4::UpdateAnimState_546360()
 
             if (field_68_animation_frame)
             {
-                field_80_sprite_ptr->field_34 = 2;
+                field_80_sprite_ptr->field_34_palette_type = palette_types_enum::sprites_2;
             }
             field_80_sprite_ptr->field_28_num = 6;
             newId_ = (u8)field_68_animation_frame + baseId + 151;

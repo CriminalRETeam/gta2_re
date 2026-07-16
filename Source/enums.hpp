@@ -246,15 +246,15 @@ namespace palette_types_enum
 {
 enum
 {
-    wrong_type = 0,
-    tiles = 1,
-    sprites = 2,
-    car_remaps = 3,
-    ped_remaps = 4,
-    code_obj_remaps = 5,
-    map_obj_remaps = 6,
-    user_remaps = 7,
-    font_remaps = 8,
+    wrong_type_0 = 0,
+    tiles_1 = 1,
+    sprites_2 = 2,
+    car_remaps_3 = 3,
+    ped_remaps_4 = 4,
+    code_obj_remaps_5 = 5,
+    map_obj_remaps_6 = 6,
+    user_remaps_7 = 7,
+    font_remaps_8 = 8,
 };
 // static_assert(sizeof(palette_types_enum) == 4);
 } // namespace palette_types_enum

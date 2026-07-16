@@ -1247,12 +1247,12 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Testing1"))
             {
-                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps, 6);
+                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps_7, 6);
             }
 
             if (ImGui::Button("Testing2"))
             {
-                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::sprites, 0);
+                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::sprites_2, 0);
             }
 
             if (ImGui::Button("Particle test"))
@@ -1892,10 +1892,19 @@ void CC ImGuiDebugDraw()
                 }
                 */
             }
-            if (spawned_obj != NULL)
+            if (spawned_obj != NULL && spawned_obj->field_4)
             {
                 ImGui::Text("Object spawned attributes:");
-                ImGui::SliderU8("field_26_varrok_idx", &spawned_obj->field_26_varrok_idx, 0, 25);
+                //ImGui::SliderU8("field_26_varrok_idx", &spawned_obj->field_26_varrok_idx, 0, 25);
+                static s32 sprt_lazy_idx = spawned_obj->field_4->field_22_sprite_id;
+                
+                if (ImGui::InputInt("Sprite Lazy Idx", &sprt_lazy_idx, 1, 1))
+                {
+                    if (spawned_obj->field_4)
+                    {
+                        spawned_obj->field_4->set_id_lazy_4206C0(sprt_lazy_idx);
+                    }
+                }
                 Object_3C* obj_3c = spawned_obj->field_10_obj_3c;
                 if (ImGui::TreeNode("Object_3C"))
                 {
@@ -1919,6 +1928,39 @@ void CC ImGuiDebugDraw()
                     }
                     ImGui::TreePop();
                 }
+            }
+            static bool bFound = false;
+            static s32 id = -1;
+            if (ImGui::Button("Search for Gore sprite"))
+            {
+                id++;
+                bFound = false;
+                //ClearGlobalArrow();
+                for (; id < 8000; id++)
+                {
+                    u16 true_idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(sprite_types_enum::code_obj1, id);
+                    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_idx);
+                    if (sprite_index_5AA440)
+                    {
+                        if (sprite_index_5AA440->field_4_width == 20
+                            && sprite_index_5AA440->field_5_height == 16)
+                        {
+                            bFound = true;
+                            if (spawned_obj != NULL && spawned_obj->field_4)
+                            {
+                                spawned_obj->field_4->field_30_sprite_type_enum = sprite_types_enum::code_obj1;
+                                spawned_obj->field_4->set_id_lazy_4206C0(id);
+                                //PointArrowToEntity(0, 0, spawned_obj);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (bFound)
+            {
+                ImGui::Value("ID found", id);
             }
 
             if (gObject_2C_Pool_6F8F80 && ImGui::TreeNode("Show Object_2C model IDs"))

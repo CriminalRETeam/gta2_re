@@ -143,33 +143,33 @@ sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx)
 }
 
 WIP_FUNC(0x5AA460)
-u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
+u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 sprite_type, s16 sprite_idx)
 {
     WIP_IMPLEMENTED;
     u16 result;
-    switch (type)
+    switch (sprite_type)
     {
-        case 2:
-            result = sprite_pal + field_14_sprite_base2->field_0_car;
+        case sprite_types_enum::car:
+            result = sprite_idx + field_14_sprite_base2->field_0_car;
             break;
-        case 3:
-            result = sprite_pal + field_14_sprite_base2->field_2_ped;
+        case sprite_types_enum::ped:
+            result = sprite_idx + field_14_sprite_base2->field_2_ped;
             break;
-        case 4:
-        case 8:
-            result = sprite_pal + field_14_sprite_base2->field_4_code_obj;
+        case sprite_types_enum::code_obj1:
+        case sprite_types_enum::code_obj2:
+            result = sprite_idx + field_14_sprite_base2->field_4_code_obj;
             break;
-        case 5:
-            result = sprite_pal + field_14_sprite_base2->field_6_map_obj;
+        case sprite_types_enum::map_obj:
+            result = sprite_idx + field_14_sprite_base2->field_6_map_obj;
             break;
-        case 6:
-            result = sprite_pal + field_14_sprite_base2->field_8_user;
+        case sprite_types_enum::user:
+            result = sprite_idx + field_14_sprite_base2->field_8_user;
             break;
-        case 7:
-            result = sprite_pal + field_14_sprite_base2->field_A_font;
+        case sprite_types_enum::font:
+            result = sprite_idx + field_14_sprite_base2->field_A_font;
             break;
         default:
-            result = sprite_pal;
+            result = sprite_idx;
             break;
     }
     return result;
@@ -225,34 +225,34 @@ s16 gtx_0x106C::sub_5AA560(s32 remap_type)
 }
 
 MATCH_FUNC(0x5AA5F0)
-s16 gtx_0x106C::convert_pal_type_5AA5F0(s32 type, s16 pal)
+s16 gtx_0x106C::convert_pal_type_5AA5F0(s32 palette_type, s16 pal)
 {
     s16 result; // ax
 
-    switch (type)
+    switch (palette_type)
     {
-        case 1:
+        case palette_types_enum::tiles_1:
             result = pal + field_C_palette_base2->field_0_tile;
             break;
-        case 2:
+        case palette_types_enum::sprites_2:
             result = pal + field_C_palette_base2->field_2_sprite;
             break;
-        case 3:
+        case palette_types_enum::car_remaps_3:
             result = pal + field_C_palette_base2->field_4_car_remap;
             break;
-        case 4:
+        case palette_types_enum::ped_remaps_4:
             result = pal + field_C_palette_base2->field_6_ped_remap;
             break;
-        case 5:
+        case palette_types_enum::code_obj_remaps_5:
             result = pal + field_C_palette_base2->field_8_code_obj_remap;
             break;
-        case 6:
+        case palette_types_enum::map_obj_remaps_6:
             result = pal + field_C_palette_base2->field_A_map_obj_remap;
             break;
-        case 7:
+        case palette_types_enum::user_remaps_7:
             result = pal + field_C_palette_base2->field_C_user_remap;
             break;
-        case 8:
+        case palette_types_enum::font_remaps_8:
             result = pal + field_C_palette_base2->field_E_font_remap;
             break;
         default:
