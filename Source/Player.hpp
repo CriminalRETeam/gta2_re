@@ -186,7 +186,7 @@ class Player
     EXPORT Car_BC* sub_5698E0();
     EXPORT void get_pos_569920(Fix16* a2, Fix16* a3, Fix16* a4);
     EXPORT void ChangeLifeCountByAmount_5699F0(s32 a2);
-    EXPORT void sub_569A10();
+    EXPORT void ColorScoreFromRemap_569A10();
     EXPORT void SetScoreTextColour_569C20();
     EXPORT void InitializePlayerState_569CB0();
     EXPORT void sub_569E70();
@@ -359,8 +359,8 @@ class Player
     s16 field_788_curr_weapon_idx;
     char_type field_78A_show_quit_message;
     char_type field_78B;
-    s32 field_78C;
-    u16 field_790;
+    s32 field_78C; // Usage: 2 = default, 7 = multiplayer if using gang remap
+    u16 field_790_hud_palette;
     s16 field_792;
     char_type field_794_is_chatting;
     char_type field_795;

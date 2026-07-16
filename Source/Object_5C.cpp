@@ -271,14 +271,14 @@ char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
             return true;
         case CollisionReaction::OnlyCars_1:
             // Only cars
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
             {
                 return false;
             }
             break;
         case CollisionReaction::OnlyPeds_2:
             // Only peds
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped)
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
             {
                 return false;
             }
@@ -286,7 +286,7 @@ char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
         case CollisionReaction::OnlyObjects_3:
             // Only objects?
             sprite_type = pSprite->field_30_sprite_type_enum;
-            if (sprite_type != sprite_types_enum::code_obj1 && sprite_type != sprite_types_enum::map_obj &&
+            if (sprite_type != sprite_types_enum::code_obj1_4 && sprite_type != sprite_types_enum::map_obj_5 &&
                 sprite_type != sprite_types_enum::unknown_1)
             {
                 return 1;
@@ -1288,7 +1288,7 @@ void Object_2C::UpdateAninmation_5257D0()
                 field_C_pAny.o8->field_4_timer--;
             }
         }
-        const s16 target_id = this->field_8->field_1E + this->field_C_pAny.o8->field_7_anim_speed_counter;
+        const s16 target_id = this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter;
 
         // TODO: Inline?
         Sprite* pSprite = this->field_4;
@@ -1432,7 +1432,7 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
 
             if (pSprite)
             {
-                if (pSprite->field_30_sprite_type_enum != sprite_types_enum::ped)
+                if (pSprite->field_30_sprite_type_enum != sprite_types_enum::ped_3)
                 {
                     if (field_8->field_4C == 3)
                     {
@@ -1853,7 +1853,7 @@ void Object_2C::sub_526B40(Sprite* pSprite)
             this->field_4->field_28_num = 27;
             break;
 
-        case sprite_types_enum::car: // 2
+        case sprite_types_enum::car_2: // 2
             this->field_10_obj_3c->field_C_speed = pSprite->field_8_car_bc_ptr->sub_43A240();
             this->field_10_obj_3c->field_4_angle = pSprite->field_8_car_bc_ptr->GetOrientationAngle_43A3E0();
             this->field_4->field_28_num = pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0();
@@ -1925,7 +1925,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                 {
                     switch (pSprite->field_30_sprite_type_enum)
                     {
-                        case sprite_types_enum::car:
+                        case sprite_types_enum::car_2:
                             if (field_C_pAny.pExplosion->IsState_5435D0())
                             {
                                 field_4->set_z_lazy_420660(pSprite->field_8_car_bc_ptr->GetZPos_441330());
@@ -1941,9 +1941,9 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                             }
                             break;
 
-                        case sprite_types_enum::ped:
-                        case sprite_types_enum::code_obj1:
-                        case sprite_types_enum::map_obj:
+                        case sprite_types_enum::ped_3:
+                        case sprite_types_enum::code_obj1_4:
+                        case sprite_types_enum::map_obj_5:
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
                                 byte_6F8C68 = 0;
@@ -2264,7 +2264,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                                                this->field_4->field_14_xy.y,
                                                                this->field_4->field_1C_zpos,
                                                                this->field_4->field_0);
-                            field_4->set_id_lazy_4206C0(this->field_8->field_1E + this->field_C_pAny.o8->field_7_anim_speed_counter);
+                            field_4->set_id_lazy_4206C0(this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter);
                             break;
                         }
 
@@ -2332,7 +2332,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                                                this->field_4->field_14_xy.y,
                                                                this->field_4->field_1C_zpos,
                                                                this->field_4->field_0);
-                            field_4->set_id_lazy_4206C0(this->field_8->field_1E + this->field_C_pAny.o8->field_7_anim_speed_counter);
+                            field_4->set_id_lazy_4206C0(this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter);
                             this->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
                             this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
                             this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
@@ -2933,7 +2933,7 @@ Fix16_Point Object_2C::GetSpeedVector_52AE90()
 MATCH_FUNC(0x5290C0)
 void Object_2C::sub_5290C0(u8 id_base)
 {
-    s16 new_id = id_base + field_8->field_1E;
+    s16 new_id = id_base + field_8->field_1E_sprite_palette;
     Sprite* pSprite = field_4;
     if (pSprite->field_22_sprite_id != new_id)
     {

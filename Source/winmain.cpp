@@ -209,7 +209,7 @@ void force_link()
     lewin.sub_5698E0();
     lewin.get_pos_569920(0, 0, 0);
     lewin.ChangeLifeCountByAmount_5699F0(0);
-    lewin.sub_569A10();
+    lewin.ColorScoreFromRemap_569A10();
     lewin.SetScoreTextColour_569C20();
     lewin.InitializePlayerState_569CB0();
     lewin.sub_569E70();

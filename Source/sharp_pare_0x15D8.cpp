@@ -36,11 +36,11 @@ MATCH_FUNC(0x5B9180)
 void sharp_pare_0x15D8::LoadTextures2_5B9180()
 {
     u16 width_height = 64;
-    if (gGtx_0x106C_703DD4->sub_5AA4F0(sprite_types_enum::car))
+    if (gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(sprite_types_enum::car_2))
     {
         field_1000_bFreeTextures2 = 1;
-        u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(2, 0);
-        u16 v4 = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v3);
+        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, 0);
+        u16 v4 = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(2, sprite_idx);
         u16 pal_idx = (u16)gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(v4);
 
         for (u32 idx = 0; idx < 48; idx++)
@@ -63,10 +63,10 @@ MATCH_FUNC(0x5B9220)
 s16 sharp_pare_0x15D8::RegisterDigits_5B9220(u16 num_of_digits, u16 palette)
 {
     const u16 og_idx = field_15D4_idx;
-    const s16 v4 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, palette);
-    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v4);
+    const s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, palette);
+    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     u8* field_0_pData = sprite_index_5AA440->field_0_pData;
-    const u16 phys_pal_5AA6F0 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v4));
+    const u16 phys_pal_5AA6F0 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(2, sprite_idx));
 
     field_15D4_idx += num_of_digits;
 
@@ -104,25 +104,25 @@ void sharp_pare_0x15D8::sub_5B9350()
     LoadPals_5B90F0();
     ReadTextures_5B92E0();
 
-    field_1548_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->sub_5AA560(2), 1, 0, 2);
+    field_1548_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(2), 1, 0, 2);
     field_1548_unk.LoadTextures_5B8F00();
 
-    field_155C_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->sub_5AA4F0(2), gGtx_0x106C_703DD4->sub_5AA560(3), 2, 3);
+    field_155C_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(2), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(3), 2, 3);
 
     field_155C_unk.sub_5B8F70();
-    field_1570_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->sub_5AA4F0(3), gGtx_0x106C_703DD4->sub_5AA560(4), 3, 4);
+    field_1570_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(3), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(4), 3, 4);
     field_1570_unk.sub_5B8F70();
 
-    field_1584_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->sub_5AA4F0(4), gGtx_0x106C_703DD4->sub_5AA560(5), 4, 5);
+    field_1584_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(4), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(5), 4, 5);
     field_1584_unk.sub_5B8F70();
 
-    field_1598_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->sub_5AA4F0(5), gGtx_0x106C_703DD4->sub_5AA560(6), 5, 6);
+    field_1598_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(5), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(6), 5, 6);
     field_1598_unk.sub_5B8F70();
 
-    field_15AC_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->sub_5AA4F0(7), gGtx_0x106C_703DD4->sub_5AA560(8), 7, 8);
+    field_15AC_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(7), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(8), 7, 8);
     field_15AC_unk.sub_5B8F70();
 
-    field_15C0_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->sub_5AA4F0(6), gGtx_0x106C_703DD4->sub_5AA560(7), 6, 7);
+    field_15C0_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(6), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(7), 6, 7);
     field_15C0_unk.sub_5B8F70();
 
     LoadTextures2_5B9180();
@@ -131,32 +131,32 @@ void sharp_pare_0x15D8::sub_5B9350()
 }
 
 MATCH_FUNC(0x5B94F0)
-STexture* sharp_pare_0x15D8::sub_5B94F0(s32 type, u16 pal, s32 kind, s32 a5)
+STexture* sharp_pare_0x15D8::GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s32 remap)
 {
     STexture* result;
 
-    switch (kind)
+    switch (palette_type)
     {
-        case 2:
-            result = field_1548_unk.get_texture_5B90A0(type, pal);
+        case palette_types_enum::sprites_2:
+            result = field_1548_unk.get_texture_5B90A0(sprite_type, sprite_id);
             break;
-        case 3:
-            result = field_155C_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::car_remaps_3:
+            result = field_155C_unk.sub_5B90D0(sprite_id, remap);
             break;
-        case 4:
-            result = field_1570_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::ped_remaps_4:
+            result = field_1570_unk.sub_5B90D0(sprite_id, remap);
             break;
-        case 5:
-            result = field_1584_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::code_obj_remaps_5:
+            result = field_1584_unk.sub_5B90D0(sprite_id, remap);
             break;
-        case 6:
-            result = field_1598_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::map_obj_remaps_6:
+            result = field_1598_unk.sub_5B90D0(sprite_id, remap);
             break;
-        case 8:
-            result = field_15AC_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::font_remaps_8:
+            result = field_15AC_unk.sub_5B90D0(sprite_id, remap);
             break;
-        case 7:
-            result = field_15C0_unk.sub_5B90D0(pal, a5);
+        case palette_types_enum::user_remaps_7:
+            result = field_15C0_unk.sub_5B90D0(sprite_id, remap);
             break;
         default:
             result = 0;
@@ -252,7 +252,7 @@ void festive_hopper::Alloc_5B8E90(s16 size, s16 count, s32 pal_type1, s32 pal_ty
             field_4_item_alloc_count = count * size;
             field_6_count = count;
             field_10_bDoFree = 1;
-            field_8_pal_type = pal_type1;
+            field_8_sprite_type = pal_type1;
             field_C_pal_type = pal_type2;
             field_0_pAlloc = (STexture**)Memory::malloc_4FE4D0(sizeof(STexture*) * field_4_item_alloc_count);
 
@@ -272,14 +272,14 @@ void festive_hopper::sub_5B8F70()
         const u32 palTotal = field_4_item_alloc_count / field_6_count;
         for (u32 pal_idx = 0; pal_idx < palTotal; pal_idx++)
         {
-            const u16 converted_pal_sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_8_pal_type, pal_idx);
-            sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal_sprite_pal);
+            const u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_8_sprite_type, pal_idx);
+            sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
 
             dword_704ED0++;
 
             for (u32 texture_idx = 0; texture_idx < field_6_count; texture_idx++)
             {
-                const s16 converted_pal_idx = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_C_pal_type, texture_idx);
+                const s16 converted_pal_idx = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(field_C_pal_type, texture_idx);
                 const u16 physPal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(converted_pal_idx);
                 field_0_pAlloc[texture_idx + (pal_idx * field_6_count)] =
                     pgbh_RegisterTexture(pSpriteIndex->field_4_width, pSpriteIndex->field_5_height, pSpriteIndex->field_0_pData, physPal, 1);
@@ -302,7 +302,7 @@ void festive_hopper::LoadTextures_5B8F00()
         while (i < field_4_item_alloc_count)
         {
             pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(i);
-            tmp = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, i);
+            tmp = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(2, i);
             t2 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(tmp);
 
             field_0_pAlloc[i++] = pgbh_RegisterTexture(
@@ -317,9 +317,9 @@ void festive_hopper::LoadTextures_5B8F00()
 }
 
 MATCH_FUNC(0x5B90A0)
-STexture* festive_hopper::get_texture_5B90A0(s32 type, s16 sprite_pal)
+STexture* festive_hopper::get_texture_5B90A0(s32 sprite_type, s16 sprite_idx)
 {
-    return field_0_pAlloc[gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(type, sprite_pal)];
+    return field_0_pAlloc[gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx)];
 }
 
 MATCH_FUNC(0x5B90D0)

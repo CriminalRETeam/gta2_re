@@ -1247,12 +1247,12 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Testing1"))
             {
-                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps, 6);
+                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 6);
             }
 
             if (ImGui::Button("Testing2"))
             {
-                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::sprites, 0);
+                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::sprites_2, 0);
             }
 
             if (ImGui::Button("Particle test"))
@@ -1892,10 +1892,19 @@ void CC ImGuiDebugDraw()
                 }
                 */
             }
-            if (spawned_obj != NULL)
+            if (spawned_obj != NULL && spawned_obj->field_4)
             {
                 ImGui::Text("Object spawned attributes:");
-                ImGui::SliderU8("field_26_varrok_idx", &spawned_obj->field_26_varrok_idx, 0, 25);
+                //ImGui::SliderU8("field_26_varrok_idx", &spawned_obj->field_26_varrok_idx, 0, 25);
+                static s32 sprt_lazy_idx = spawned_obj->field_4->field_22_sprite_id;
+                
+                if (ImGui::InputInt("Sprite Lazy Idx", &sprt_lazy_idx, 1, 1))
+                {
+                    if (spawned_obj->field_4)
+                    {
+                        spawned_obj->field_4->set_id_lazy_4206C0(sprt_lazy_idx);
+                    }
+                }
                 Object_3C* obj_3c = spawned_obj->field_10_obj_3c;
                 if (ImGui::TreeNode("Object_3C"))
                 {
@@ -1919,6 +1928,39 @@ void CC ImGuiDebugDraw()
                     }
                     ImGui::TreePop();
                 }
+            }
+            static bool bFound = false;
+            static s32 id = -1;
+            if (ImGui::Button("Search for Gore sprite"))
+            {
+                id++;
+                bFound = false;
+                //ClearGlobalArrow();
+                for (; id < 8000; id++)
+                {
+                    u16 true_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::code_obj1_4, id);
+                    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_idx);
+                    if (sprite_index_5AA440)
+                    {
+                        if (sprite_index_5AA440->field_4_width == 20
+                            && sprite_index_5AA440->field_5_height == 16)
+                        {
+                            bFound = true;
+                            if (spawned_obj != NULL && spawned_obj->field_4)
+                            {
+                                spawned_obj->field_4->field_30_sprite_type_enum = sprite_types_enum::code_obj1_4;
+                                spawned_obj->field_4->set_id_lazy_4206C0(id);
+                                //PointArrowToEntity(0, 0, spawned_obj);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (bFound)
+            {
+                ImGui::Value("ID found", id);
             }
 
             if (gObject_2C_Pool_6F8F80 && ImGui::TreeNode("Show Object_2C model IDs"))
@@ -2670,7 +2712,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Input_char_type("field_22", &phi->field_22, 1, 1);
                         ImGui::Input_char_type("field_23", &phi->field_23, 1, 1);
                         ImGui::InputInt("field_24_idx", &phi->field_24_idx, 1, 1);
-                        ImGui::InputInt("field_28", &phi->field_28, 1, 1);
+                        ImGui::InputInt("field_28", &phi->field_28_sprite_type, 1, 1);
 
                         if (ImGui::TreeNode("another vars"))
                         {
@@ -2900,7 +2942,7 @@ void CC ImGuiDebugDraw()
 
                 MenuPage_0xBCA* loving_borg = &gFrontend_67DC84->field_136_menu_pages_array[loving_id];
                 ImGui::Value("field_0_number_of_options", loving_borg->field_0_number_of_options);
-                ImGui::Value("field_2", loving_borg->field_2);
+                ImGui::Value("field_2", loving_borg->field_2_number_of_elements);
                 ImGui::Value("field_BC6_current_option_idx", loving_borg->field_BC6_current_option_idx);
                 ImGui::Value("field_BC8", loving_borg->field_BC8);
 
@@ -2921,8 +2963,8 @@ void CC ImGuiDebugDraw()
                     wchar_to_char(nifty_maxwell->field_6_option_name_str, str_buf, 50);
                     ImGui::Text(str_buf);
 
-                    ImGui::Value("field_6A", nifty_maxwell->field_6A);
-                    ImGui::Value("field_6C", nifty_maxwell->field_6C);
+                    ImGui::Value("field_6A", nifty_maxwell->field_6A_font_type);
+                    ImGui::Value("field_6C", nifty_maxwell->field_6C_palette);
                     ImGui::Value("field_6E_count", nifty_maxwell->field_6E_horizontal_selected_idx);
                     ImGui::Value("field_70", nifty_maxwell->field_70);
 
@@ -2952,7 +2994,7 @@ void CC ImGuiDebugDraw()
                     ImGui::Text(str_buf_2);
 
                     ImGui::InputU16("field_6A", &competent_noyce->field_6A_font_type, 1, 1);
-                    ImGui::InputU16("field_6C", &competent_noyce->field_6C_font_variant, 1, 1);
+                    ImGui::InputU16("field_6C", &competent_noyce->field_6C_font_palette, 1, 1);
 
                     ImGui::TreePop();
                 }

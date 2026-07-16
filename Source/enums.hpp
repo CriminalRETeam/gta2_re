@@ -246,15 +246,15 @@ namespace palette_types_enum
 {
 enum
 {
-    wrong_type = 0,
-    tiles = 1,
-    sprites = 2,
-    car_remaps = 3,
-    ped_remaps = 4,
-    code_obj_remaps = 5,
-    map_obj_remaps = 6,
-    user_remaps = 7,
-    font_remaps = 8,
+    wrong_type_0 = 0,
+    tiles_1 = 1,
+    sprites_2 = 2,
+    car_remaps_3 = 3,
+    ped_remaps_4 = 4,
+    code_obj_remaps_5 = 5,
+    map_obj_remaps_6 = 6,
+    user_remaps_7 = 7,
+    font_remaps_8 = 8,
 };
 // static_assert(sizeof(palette_types_enum) == 4);
 } // namespace palette_types_enum
@@ -552,13 +552,13 @@ enum
 {
     unknown_0 = 0, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
     unknown_1 = 1, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
-    car = 2,
-    ped = 3,
-    code_obj1 = 4,
-    map_obj = 5,
-    user = 6,
-    font = 7,
-    code_obj2 = 8,
+    car_2 = 2,
+    ped_3 = 3,
+    code_obj1_4 = 4,
+    map_obj_5 = 5,
+    user_6 = 6,
+    font_7 = 7,
+    code_obj2_8 = 8,
 };
 // static_assert(sizeof(sprite_types_enum) == 4);
 } // namespace sprite_types_enum

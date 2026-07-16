@@ -278,7 +278,7 @@ void eager_benz::sub_592330()
 }
 
 MATCH_FUNC(0x592360)
-thirsty_lamarr* eager_benz::sub_592360()
+thirsty_lamarr* eager_benz::GetScoreDigits_592360()
 {
     return &field_0_money;
 }
@@ -694,7 +694,7 @@ void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
         }
     }
 
-    if (model == 194 || model == 198 || model == 154 || model == 193 || model == 195 || model == 159 || model == 199 || a2 == 0 ||
+    if (model == objects::fire_hitting_194 || model == objects::maybe_bullet_on_fire_198 || model == objects::flamethrower_fire_154 || model == objects::tanktop_193 || model == objects::object_195 || model == objects::object_159 || model == objects::object_199 || a2 == 0 ||
         a2 == 1 || a2 == 3)
     {
         field_198_accuracy_count = 0;
@@ -706,7 +706,7 @@ void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
 }
 
 MATCH_FUNC(0x5935b0)
-thirsty_lamarr* eager_benz::sub_5935B0()
+thirsty_lamarr* eager_benz::GetMultiplayerFragDigits_5935B0()
 {
     return &field_38_multiplayer_frags;
 }

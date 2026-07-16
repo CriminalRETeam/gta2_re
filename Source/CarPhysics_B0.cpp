@@ -1046,7 +1046,7 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
         gCar_6C_677930->field_60 = 2;
         gCar_6C_677930->field_64_zpos = kFP16Zero_6FE20C;
 
-        gPurpleDoom_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, sprite_types_enum::car);
+        gPurpleDoom_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, sprite_types_enum::car_2);
 
         gCar_6C_677930->field_64_zpos += dword_6FDFD8;
         if (gCar_6C_677930->field_64_zpos > zpos)
@@ -1647,7 +1647,7 @@ void CarPhysics_B0::ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3)
 {
     WIP_IMPLEMENTED;
     Car_BC* pCar;
-    if (gRozza_679188.field_24->field_30_sprite_type_enum == sprite_types_enum::car)
+    if (gRozza_679188.field_24->field_30_sprite_type_enum == sprite_types_enum::car_2)
     {
         pCar = gRozza_679188.field_24->field_8_car_bc_ptr;
     }

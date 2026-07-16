@@ -216,19 +216,19 @@ class gtx_0x106C
 
     EXPORT sprite_index* get_sprite_index_5AA440(u16 idx);
 
-    EXPORT u16 convert_sprite_pal_5AA460(s32 type, s16 sprite_pal);
+    EXPORT u16 GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_pal);
 
-    EXPORT s16 sub_5AA4F0(s32 a2);
+    EXPORT s16 GetSpriteBaseOfType_5AA4F0(s32 a2);
 
-    EXPORT s16 sub_5AA560(s32 a2);
+    EXPORT s16 GetPaletteBaseOfType_5AA560(s32 palette_type);
 
-    EXPORT s16 convert_pal_type_5AA5F0(s32 type, s16 pal);
+    EXPORT s16 GetTruePalette_5AA5F0(s32 palette_type, s16 pal); // maybe "get virtual palette"?
 
     EXPORT BYTE* GetPalData_5AA6A0(u16 a2);
 
     EXPORT u16 get_phys_pal_5AA6F0(u16 palId);
 
-    EXPORT u16 sub_5AA710(u16 a2, s16 a3);
+    EXPORT u16 GetSpriteIdxFromFont_5AA710(u16 a2, s16 a3);
 
     EXPORT u16 GetFontWidth_5AA760(u16* a2, wchar_t* a3);
 

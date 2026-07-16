@@ -447,7 +447,7 @@ void Char_B4::InitSprite_5456A0()
     // TODO: maybe an inline here: temp var not needed
     Sprite* pFirst = gSprite_Pool_703818->get_new_sprite();
     field_80_sprite_ptr = pFirst;
-    pFirst->field_30_sprite_type_enum = sprite_types_enum::ped;
+    pFirst->field_30_sprite_type_enum = sprite_types_enum::ped_3;
     pFirst->sub_59E960();
     field_80_sprite_ptr->AllocInternal_59F950(gCharB4_WorldCollisionOffset_6FD8D8, gCharB4_WorldCollisionOffset_6FD8D8, dword_6FD7A4);
     field_80_sprite_ptr->field_8_char_b4_ptr = this;
@@ -685,7 +685,7 @@ void Char_B4::UpdateAnimState_546360()
     char_type remap = pPed->field_244_remap;
     if (remap <= -1)
     {
-        field_80_sprite_ptr->field_34 = 2;
+        field_80_sprite_ptr->field_34_palette_type = palette_types_enum::sprites_2;
     }
     else
     {
@@ -1374,7 +1374,7 @@ void Char_B4::UpdateAnimState_546360()
 
             if (field_68_animation_frame)
             {
-                field_80_sprite_ptr->field_34 = 2;
+                field_80_sprite_ptr->field_34_palette_type = palette_types_enum::sprites_2;
             }
             field_80_sprite_ptr->field_28_num = 6;
             newId_ = (u8)field_68_animation_frame + baseId + 151;
@@ -5046,7 +5046,7 @@ void Char_B4::state_3_551A00()
     {
         field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
         Sprite* nearestSprt = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_80_sprite_ptr, 0);
-        if (!nearestSprt || nearestSprt->field_30_sprite_type_enum != sprite_types_enum::car ||
+        if (!nearestSprt || nearestSprt->field_30_sprite_type_enum != sprite_types_enum::car_2 ||
             (nearestSprt->field_8_car_bc_ptr == field_7C_pPed->get_target_to_enter_403B10()) ||
             nearestSprt->field_8_car_bc_ptr->is_on_trailer_421720() || field_7C_pPed->sub_45BD20(nearestSprt->field_8_car_bc_ptr))
         {
@@ -5978,10 +5978,10 @@ bool Char_B4::ShouldCollideWithSprite_553340(Sprite* pSprite)
     {
         switch (pSprite->get_type_416B40())
         {
-            case sprite_types_enum::car:
+            case sprite_types_enum::car_2:
                 break;
 
-            case sprite_types_enum::ped:
+            case sprite_types_enum::ped_3:
                 break;
 
             default:

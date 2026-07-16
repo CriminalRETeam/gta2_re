@@ -124,7 +124,7 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                                         word_7062DC, // font
                                         gViewCamera_676978->field_A8_ui_scale, // scale
                                         pIter->field_78C != 7 ? 2 : 8,
-                                        pIter->field_790 - 1,
+                                        pIter->field_790_hud_palette - 1,
                                         0,
                                         0);
                     }
@@ -417,9 +417,9 @@ void Garox_12E4_sub::DrawPause_5D63B0()
     u16 sprite_pal = 0;
     if (gGame_0x40_67E008->field_0_game_state == 2 && !gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message)
     {
-        sub_5D7670(6, 134, 227, 180, word_706610, 2, 0, 0, 0);
-        sub_5D7670(6, 136, 320, 180, word_706610, 2, 0, 0, 0);
-        sub_5D7670(6, 135, 413, 180, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 134, 227, 180, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 136, 320, 180, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 135, 413, 180, word_706610, 2, 0, 0, 0);
 
         wchar_t* pWMessage = gText_0x14_704DFC->Find_5B5F90("pause");
         s32 max_width = Frontend::GetMaxTextWidth_5D8990(pWMessage, word_7063F8);
@@ -527,7 +527,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                              value_1,
                              gfrosty_pasteur_6F8060->field_318_total_secrets);
                     sprite_type = 4;
-                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(286)->field_1E;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(286)->field_1E_sprite_palette;
                     break;
 
                 case HudPauseSection::tokens_collected_6:
@@ -536,7 +536,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                              gLucid_hamilton_67E8E0.field_574_secret_tokens_collected,
                              50);
                     sprite_type = 4;
-                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(266)->field_1E;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(266)->field_1E_sprite_palette;
                     break;
                 default:
                     break;
@@ -547,10 +547,10 @@ void Garox_12E4_sub::DrawPause_5D63B0()
             s32 v27;
             if (sprite_pal != 0)
             {
-                u16 pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(sprite_type, sprite_pal);
-                s32 icon_width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(pal)->field_4_width + 10;
+                u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_pal);
+                s32 icon_width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width + 10;
                 s32 xpos = (640 - icon_width - max_width_2) / 2;
-                sub_5D7670(sprite_type, sprite_pal, xpos + icon_width / 2, 235, word_706610, 2, 0, 0, 0);
+                DrawFigureScaled_5D7670(sprite_type, sprite_pal, xpos + icon_width / 2, 235, word_706610, 2, 0, 0, 0);
                 v28 = icon_width + xpos;
             }
             else
@@ -648,24 +648,24 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         }
     }
 
-    thirsty_lamarr* v5 = pPlayer->field_2D4_scores.sub_592360();
+    thirsty_lamarr* v5 = pPlayer->field_2D4_scores.GetScoreDigits_592360();
     s32 dolar_sign_xpos = v5->sub_492260(639, 4);
 
     // Now draw $ symbol
 
     if (bStartNetworkGame_7081F0)
     {
-        sub_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, pPlayer->field_78C, pPlayer->field_790, 0, 0);
+        DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, pPlayer->field_78C, pPlayer->field_790_hud_palette, 0, 0);
     }
     else
     {
         if (pPlayer->field_60_bFinshScoreReached == 0)
         {
-            sub_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, 2, 0, 0, 0); // default color
+            DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, 2, 0, 0, 0); // default color
         }
         else
         {
-            sub_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, 7, 6, 0, 0); // red color
+            DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, 7, 6, 0, 0); // red color
         }
     }
 
@@ -681,11 +681,11 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                      gYouthful_einstein_6F8450.field_4_time[pPlayer->field_2E_idx] % 60);
 
             const s32 unknownn = (pPlayer->field_78C != 7) ? 2 : 8;
-            DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790 - 1, 0, 0);
+            DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790_hud_palette - 1, 0, 0);
         }
         else
         {
-            thirsty_lamarr* v16 = pPlayer->field_2D4_scores.sub_5935B0();
+            thirsty_lamarr* v16 = pPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
             v16->sub_492260(490, 4);
         }
 
@@ -695,10 +695,10 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         {
             if (pMultiPlayer->field_0_bIsUser == 0)
             {
-                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_scores.sub_592360();
+                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_scores.GetScoreDigits_592360();
                 s32 v21 = v19->sub_492430(16, ypos);
 
-                sub_5D7670(6, 16, 8, ypos + 10, word_706610, pMultiPlayer->field_78C, pMultiPlayer->field_790, 0, 0);
+                DrawFigureScaled_5D7670(6, 16, 8, ypos + 10, word_706610, pMultiPlayer->field_78C, pMultiPlayer->field_790_hud_palette, 0, 0);
 
                 if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3)
                 {
@@ -708,11 +708,11 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                              gYouthful_einstein_6F8450.field_4_time[pMultiPlayer->field_2E_idx] % 60);
 
                     const s32 very_unknown = (pMultiPlayer->field_78C != 7) ? 2 : 8;
-                    DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790 - 1, 0, 0);
+                    DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
                 }
                 else
                 {
-                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_scores.sub_5935B0();
+                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
                     v29->sub_492430(v21 + 20, ypos);
                 }
                 ypos += 27;
@@ -722,10 +722,10 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     else
     {
         s32 lives_xpos = pPlayer->field_684_lives.sub_492260(523, 28);
-        sub_5D7670(6, 17, lives_xpos - 7, 32, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 17, lives_xpos - 7, 32, word_706610, 2, 0, 0, 0);
 
         s32 multiplier_xpos = pPlayer->field_6BC_multpliers.sub_492260(523, 11);
-        sub_5D7670(6, 18, multiplier_xpos - 7, 18, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 18, multiplier_xpos - 7, 18, word_706610, 2, 0, 0, 0);
     }
 }
 
@@ -734,12 +734,12 @@ void __stdcall sub_5D6060(s16 ammo_idx, u8 ammo_count)
 {
     if (ammo_idx != -1)
     {
-        u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, ammo_idx + 85);
-        s32 width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3)->field_4_width;
-        u16 v5 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, ammo_idx + 85);
-        s32 height = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v5)->field_5_height;
+        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, ammo_idx + 85);
+        s32 width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width;
+        u16 sprite_idx_2 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, ammo_idx + 85);
+        s32 height = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx_2)->field_5_height;
 
-        sub_5D7670(6, ammo_idx + 85, 638 - width / 2, height / 2 + 44, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, ammo_idx + 85, 638 - width / 2, height / 2 + 44, word_706610, 2, 0, 0, 0);
 
         if (ammo_idx != 21 && ammo_idx != 20)
         {
@@ -761,9 +761,9 @@ WIP_FUNC(0x5D61A0)
 s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 optional_number)
 {
     WIP_IMPLEMENTED;
-    u16 v5 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, powerup_idx + 141);
-    s32 width = gGtx_0x106C_703DD4->get_sprite_width_420220(v5);
-    sub_5D7670(6, powerup_idx + 141, base_xpos - (width / 2), 117, word_706610, 2, 0, 0, 0);
+    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, powerup_idx + 141);
+    s32 width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
+    DrawFigureScaled_5D7670(6, powerup_idx + 141, base_xpos - (width / 2), 117, word_706610, 2, 0, 0, 0);
 
     if (powerup_idx == power_up_indices::Armor_3)
     {
@@ -780,9 +780,9 @@ void Garox_1118_sub::sub_5D6290()
     Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     while (pPlayerIter)
     {
-        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_scores.sub_592360();
+        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_scores.GetScoreDigits_592360();
         pLamarr1->sub_4925E0();
-        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_scores.sub_5935B0();
+        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
         pLamarr2->sub_4925E0();
         pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
     }
@@ -880,7 +880,7 @@ void Garox_1108_sub::DrawHealth_5D0260()
     // Draw complete hearts
     for (s32 complete_hearts = half_hearts / 2; complete_hearts > 0; complete_hearts--, xpos += 20)
     {
-        sub_5D7670(6, 113, xpos, (u32)34, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 113, xpos, (u32)34, word_706610, 2, 0, 0, 0);
     }
 
     // Draw half heart
@@ -890,7 +890,7 @@ void Garox_1108_sub::DrawHealth_5D0260()
         {
             xpos -= 2;
         }
-        sub_5D7670(6, 114, xpos, (u32)34, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 114, xpos, (u32)34, word_706610, 2, 0, 0, 0);
     }
 
     // Draw debug stuff
@@ -1017,17 +1017,17 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         s8 respect = pGang->GetRespectForPlayer_4BEEF0(PlayerIdx);
 
         s32 arrow_colour = pGang->field_138_arrow_colour - 1;
-        sub_5D7670(6, arrow_colour + 64, 16, ypos + 1, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 64, 16, ypos + 1, word_706610, 2, 0, 0, 0);
 
-        sub_5D7670(6, arrow_colour + 78, 64, ypos + 1, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 78, 64, ypos + 1, word_706610, 2, 0, 0, 0);
 
-        sub_5D7670(6, arrow_colour + 71, 64, ypos + 1, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 71, 64, ypos + 1, word_706610, 2, 0, 0, 0);
 
         // Draw positive respect
         s32 curr_bar_respect = 20;
         for (s32 i = 69; i <= 84 && respect >= curr_bar_respect; i += 5)
         {
-            sub_5D7670(6, arrow_colour + 71, i, ypos + 1, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, arrow_colour + 71, i, ypos + 1, word_706610, 2, 0, 0, 0);
             curr_bar_respect += 20;
         }
 
@@ -1035,7 +1035,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         curr_bar_respect = -20;
         for (s32 j = 59; j >= 44 && respect <= curr_bar_respect; j -= 5)
         {
-            sub_5D7670(6, arrow_colour + 71, j, ypos + 1, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, arrow_colour + 71, j, ypos + 1, word_706610, 2, 0, 0, 0);
             curr_bar_respect -= 20;
         }
 
@@ -1043,33 +1043,33 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         {
             if (respect <= -100 && !bPlusSignDark || respect > -100)
             {
-                sub_5D7670(6, 2 * arrow_colour + 50, 34, ypos + 1, word_706610, 2, 0, 0, 0);
+                DrawFigureScaled_5D7670(6, 2 * arrow_colour + 50, 34, ypos + 1, word_706610, 2, 0, 0, 0);
             }
         }
         else
         {
             if (respect >= 100 && !bPlusSignDark || respect < 100)
             {
-                sub_5D7670(6, 2 * arrow_colour + 51, 93, ypos + 1, word_706610, 2, 0, 0, 0);
+                DrawFigureScaled_5D7670(6, 2 * arrow_colour + 51, 93, ypos + 1, word_706610, 2, 0, 0, 0);
             }
         }
 
         // green mission respect
         if (respect >= -19)
         {
-            sub_5D7670(6, 46, 64, ypos + 8, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 46, 64, ypos + 8, word_706610, 2, 0, 0, 0);
         }
 
         // yellow mission respect
         if (respect >= 40)
         {
-            sub_5D7670(6, 47, 74, ypos + 8, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 47, 74, ypos + 8, word_706610, 2, 0, 0, 0);
         }
 
         // red mission respect
         if (respect >= 80)
         {
-            sub_5D7670(6, 48, 84, ypos + 8, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 48, 84, ypos + 8, word_706610, 2, 0, 0, 0);
         }
 
         // debug stuff
@@ -1169,8 +1169,8 @@ void Hud_CopHead_C_Array::DrawWantedLevel_5D0110()
 MATCH_FUNC(0x5d0210)
 void Hud_CopHead_C_Array::sub_5D0210()
 {
-    u16 converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 14);
-    sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
+    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, 14);
+    sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
 
     field_4C_w_fp.FromU8(sprite_index->field_4_width);
     field_50_h_fp.FromU8(sprite_index->field_5_height);
@@ -2447,12 +2447,12 @@ void Hud_Brief_704::DrawBrief_5D3B80()
 
     if (field_6F8_curr_brief)
     {
-        sub_5D7670(6, // type
+        DrawFigureScaled_5D7670(6, // type
                    field_50C_face_variant + 3 * field_502_face_idx + 16,
                    (32), // x
                    (443), // y
                    word_706610, // rot
-                   2, // drawkind
+                   palette_types_enum::sprites_2,
                    0,
                    0,
                    0);
@@ -2462,7 +2462,7 @@ void Hud_Brief_704::DrawBrief_5D3B80()
                         (64), // x
                         first_line_ypos, // y
                         word_7065C4, // fontType
-                        2,
+                        palette_types_enum::sprites_2,
                         0, // a6
                         0, // alpha
                         0); // alpha_flag
@@ -2624,16 +2624,16 @@ void Hud_MapZone_98::DrawZoneName_5D5900()
     if (field_0_timer)
     {
         sprite_index* sprite_index_5AA440 =
-            gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 159));
+            gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, 159));
         s32 width = sprite_index_5AA440->field_4_width;
 
-        sub_5D7670(6, 159, (u32)(320 - (width / 2) - width), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(6, 159, (u32)(320 - (width / 2) - width), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
 
-        sub_5D7670(6, 160, 320 - (width / 2), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(6, 160, 320 - (width / 2), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
 
-        sub_5D7670(6, 161, (width / 2) + 320, (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(6, 161, (width / 2) + 320, (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
 
-        sub_5D7670(6, 162, (u32)((width / 2) + width + 320), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(6, 162, (u32)((width / 2) + width + 320), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
 
         DrawText_5D7720(field_2_wstr,
                         (640 - field_84_xpos_offset) / 2,
@@ -2783,18 +2783,18 @@ void Hud_CarName_4C::sub_5D4A10()
 
     if (field_0_display_time)
     {
-        u16 v2 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 11);
-        s32 sprite_w = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v2)->field_4_width;
+        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, 11);
+        s32 sprite_w = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width;
         if (field_44_xpos_offset > (sprite_w * 2) - 10)
         {
-            sub_5D7670(6, 13, 320 + sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
-            sub_5D7670(6, 12, 320, field_48_ypos, word_706610, 2, 0, 0, 0);
-            sub_5D7670(6, 11, 320 - sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 13, 320 + sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 12, 320, field_48_ypos, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 11, 320 - sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
         }
         else
         {
-            sub_5D7670(6, 11, 320 - (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
-            sub_5D7670(6, 13, 320 + (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 11, 320 - (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 13, 320 + (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
         }
 
         sub_5D77A0(field_2_car_name, ((640 - field_44_xpos_offset) / 2), (field_48_ypos - GetLineSpacingFromFontType_5D7700(word_706508) / 2), word_706508);

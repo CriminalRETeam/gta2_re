@@ -13,7 +13,7 @@ class Particle_4C;
 class Particle_8
 {
   public:
-    EXPORT Particle_4C* New_53E3C0(Fix16 xpos, Fix16 ypos, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7);
+    EXPORT Particle_4C* New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 a4, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 a7);
 
     EXPORT void ParticlesService_53E320();
     EXPORT void EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);

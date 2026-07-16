@@ -286,14 +286,14 @@ class Hud_Pager_C_Array
 
     inline u8 __stdcall get_sprite_width_4C7220(s16 a3)
     {
-        s16 v1 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, a3);
-        return gGtx_0x106C_703DD4->get_sprite_width_420220(v1);
+        s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, a3);
+        return gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
     }
 
     inline u8 __stdcall get_sprite_height_4C7250(s16 a3)
     {
-        s16 v1 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, a3);
-        return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(v1);
+        s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, a3);
+        return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(sprite_idx);
     }
 
     Hud_Pager_C field_0_pagers_array[4];

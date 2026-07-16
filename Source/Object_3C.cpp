@@ -82,7 +82,7 @@ Sprite_18* struct_4::GetSpriteForModel_5A6A50(s32 obj_type)
     while (pIter)
     {
         const s32 sprite_type_enum = pIter->field_0->field_30_sprite_type_enum;
-        if (sprite_type_enum == sprite_types_enum::code_obj1 || sprite_type_enum == sprite_types_enum::map_obj ||
+        if (sprite_type_enum == sprite_types_enum::code_obj1_4 || sprite_type_enum == sprite_types_enum::map_obj_5 ||
             sprite_type_enum == sprite_types_enum::unknown_1)
         {
             Object_2C* o5c = pIter->field_0->field_8_object_2C_ptr;
@@ -106,7 +106,7 @@ Object_2C* struct_4::FindObject2CByModel_5A6A90(s32 obj_type)
     while (pIter)
     {
         const s32 sprite_type_enum = pIter->field_0->field_30_sprite_type_enum;
-        if (sprite_type_enum == sprite_types_enum::code_obj1 || sprite_type_enum == sprite_types_enum::map_obj ||
+        if (sprite_type_enum == sprite_types_enum::code_obj1_4 || sprite_type_enum == sprite_types_enum::map_obj_5 ||
             sprite_type_enum == sprite_types_enum::unknown_1)
         {
             Object_2C* p2C = pIter->field_0->field_8_object_2C_ptr;
@@ -494,12 +494,12 @@ void struct_4::DestroyAllSprites_5A7010()
         Sprite* pSprite = p18Iter->field_0;
         switch (p18Iter->field_0->field_30_sprite_type_enum)
         {
-            case sprite_types_enum::car:
+            case sprite_types_enum::car_2:
                 gCar_6C_677930->RemoveFromPoolAndCollision_446730(pSprite->field_8_car_bc_ptr);
                 break;
             case sprite_types_enum::unknown_1:
-            case sprite_types_enum::code_obj1:
-            case sprite_types_enum::map_obj:
+            case sprite_types_enum::code_obj1_4:
+            case sprite_types_enum::map_obj_5:
                 gObject_5C_6F8F84->RemoveAndFree_52A610(pSprite->field_8_object_2C_ptr);
                 break;
             default:
@@ -598,7 +598,7 @@ s32 struct_4::GetGangIdxFromSpriteIfAny_5A71A0()
     while (p18Iter)
     {
         const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
-        if (type == sprite_types_enum::code_obj1 || type == sprite_types_enum::map_obj || type == sprite_types_enum::unknown_1)
+        if (type == sprite_types_enum::code_obj1_4 || type == sprite_types_enum::map_obj_5 || type == sprite_types_enum::unknown_1)
         {
             Object_2C* o5c = p18Iter->field_0->field_8_object_2C_ptr;
             if (o5c)

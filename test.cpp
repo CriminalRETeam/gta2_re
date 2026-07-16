@@ -43,13 +43,13 @@ void test_gtx_0x106C()
     c.get_car_info_5AA3B0(0);
     c.get_car_remap_5AA3D0(0);
     c.get_sprite_index_5AA440(0);
-    c.convert_sprite_pal_5AA460(0, 0);
-    c.sub_5AA4F0(0);
-    c.sub_5AA560(0);
-    c.convert_pal_type_5AA5F0(0, 0);
+    c.GetSpriteTrueIndex_5AA460(0, 0);
+    c.GetSpriteBaseOfType_5AA4F0(0);
+    c.GetPaletteBaseOfType_5AA560(0);
+    c.GetTruePalette_5AA5F0(0, 0);
     c.GetPalData_5AA6A0(0);
     c.get_phys_pal_5AA6F0(0);
-    c.sub_5AA710(0, 0);
+    c.GetSpriteIdxFromFont_5AA710(0, 0);
     c.GetFontWidth_5AA760(0, 0);
     c.GetSpaceCharWidth_5AA7B0(0);
     c.GetLineSpacing_5AA800(0);

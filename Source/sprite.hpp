@@ -277,7 +277,7 @@ class Sprite
     // FUNCTION: 96f 0x40feb0
     Car_BC* AsCar_40FEB0()
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::car)
+        if (field_30_sprite_type_enum == sprite_types_enum::car_2)
         {
             return field_8_car_bc_ptr;
         }
@@ -289,7 +289,7 @@ class Sprite
 
     Char_B4* AsCharB4_40FEA0()
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::ped)
+        if (field_30_sprite_type_enum == sprite_types_enum::ped_3)
         {
             return field_8_char_b4_ptr;
         }
@@ -528,7 +528,7 @@ class Sprite
     char_type field_2E_pad;
     char_type field_2F_pad;
     s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
-    s32 field_34; // remap type?
+    s32 field_34_palette_type; // remap type?
     char_type field_38_zoom;
     char_type field_39_z_col;
     char_type field_3A;

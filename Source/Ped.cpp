@@ -5915,8 +5915,8 @@ MATCH_FUNC(0x466f60)
 Ped* Ped::FindNearestPed_466F60(u8 a2)
 {
     dword_6787DC = this;
-    Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped,
-                                                                                  sprite_types_enum::car,
+    Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
+                                                                                  sprite_types_enum::car_2,
                                                                                   field_168_game_object->field_80_sprite_ptr,
                                                                                   a2,
                                                                                   0,
@@ -5936,8 +5936,8 @@ Ped* Ped::FindNearbyPed_466FB0()
 
     byte_6787D7 = 3;
     dword_6787DC = this;
-    Sprite* pNearest = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped,
-                                                                                   sprite_types_enum::car,
+    Sprite* pNearest = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
+                                                                                   sprite_types_enum::car_2,
                                                                                    this->field_168_game_object->field_80_sprite_ptr,
                                                                                    3u,
                                                                                    1,
@@ -10714,7 +10714,7 @@ bool Ped::sub_4701D0()
     Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 0);
     if (pSprite)
     {
-        return (pSprite->field_30_sprite_type_enum != sprite_types_enum::car) ? false : true;
+        return (pSprite->field_30_sprite_type_enum != sprite_types_enum::car_2) ? false : true;
     }
     return false;
 }

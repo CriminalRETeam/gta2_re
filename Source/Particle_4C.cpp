@@ -160,19 +160,19 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 
     if (field_2C_counter > this->field_2E >> 1)
     {
-        this->field_8_xpos = this->field_14 + this->field_8_xpos;
-        this->field_C_ypos = this->field_18 + field_C_ypos;
+        this->field_8_speed_x = this->field_14_additional_speed_x + this->field_8_speed_x;
+        this->field_C_speed_y = this->field_18_additional_speed_y + field_C_speed_y;
         new_z = field_30_pNext->field_1C_zpos + v.z;
     }
     else
     {
-        this->field_8_xpos = this->field_14 + this->field_8_xpos;
-        this->field_C_ypos = this->field_18 + field_C_ypos;
+        this->field_8_speed_x = this->field_14_additional_speed_x + this->field_8_speed_x;
+        this->field_C_speed_y = this->field_18_additional_speed_y + field_C_speed_y;
         new_z = field_30_pNext->field_1C_zpos - v.z;
     }
 
-    stru_6FD388 = v.x + field_8_xpos + field_30_pNext->field_14_xy.x;
-    stru_6FD38C = v.y + field_C_ypos + field_30_pNext->field_14_xy.y;
+    stru_6FD388 = v.x + field_8_speed_x + field_30_pNext->field_14_xy.x;
+    stru_6FD38C = v.y + field_C_speed_y + field_30_pNext->field_14_xy.y;
     if (new_z > dword_6FD28C)
     {
         new_z = dword_6FD28C;
@@ -216,18 +216,18 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
     Fix16 zpos;
     if (field_2C_counter > (field_2E >> 1))
     {
-        field_8_xpos = field_8_xpos + field_14;
-        field_C_ypos = field_C_ypos + field_18;
+        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
+        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
         zpos = field_30_pNext->field_1C_zpos + v1;
     }
     else
     {
-        field_8_xpos = field_8_xpos + field_14;
-        field_C_ypos = field_C_ypos + field_18;
+        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
+        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
         zpos = field_30_pNext->field_1C_zpos - v1;
     }
-    stru_6FD388 = point.x + field_8_xpos + field_30_pNext->field_14_xy.x;
-    stru_6FD38C = point.y + field_C_ypos + field_30_pNext->field_14_xy.y;
+    stru_6FD388 = point.x + field_8_speed_x + field_30_pNext->field_14_xy.x;
+    stru_6FD38C = point.y + field_C_speed_y + field_30_pNext->field_14_xy.y;
 
     switch (field_2C_counter)
     {
@@ -618,8 +618,8 @@ bool Particle_4C::PoolUpdate()
 MATCH_FUNC(0x53e2c0)
 void Particle_4C::PoolAllocate()
 {
-    field_8_xpos = 0;
-    field_C_ypos = 0;
+    field_8_speed_x = 0;
+    field_C_speed_y = 0;
     field_10 = 0;
     field_40_pUnknown = 0;
     field_4_flags &= ~1;

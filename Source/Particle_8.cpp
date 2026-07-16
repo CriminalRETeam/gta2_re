@@ -32,17 +32,17 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FD5CC, Ang16(4), 0x6FD5CC);
 DEFINE_GLOBAL(u16, gParticleInstCount_6FD5F4, 0x6FD5F4);
 
 MATCH_FUNC(0x53E3C0)
-Particle_4C* Particle_8::New_53E3C0(Fix16 xpos, Fix16 ypos, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7)
+Particle_4C* Particle_8::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 a4, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 a7)
 {
     Particle_4C* pNew4C = 0;
     if (gParticle_4C_Pool_6FD5E4->field_0_pStart && gSprite_Pool_703818->field_0_pool.field_0_pHead)
     {
         pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-        pNew4C->field_8_xpos = xpos;
-        pNew4C->field_C_ypos = ypos;
+        pNew4C->field_8_speed_x = speed_x;
+        pNew4C->field_C_speed_y = speed_y;
         pNew4C->field_10 = a4;
-        pNew4C->field_14 = a5;
-        pNew4C->field_18 = a6;
+        pNew4C->field_14_additional_speed_x = additional_speed_x;
+        pNew4C->field_18_additional_speed_y = additional_speed_y;
         pNew4C->field_1C = a7;
         pNew4C->field_0_id = gParticleInstCount_6FD5F4;
         pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
