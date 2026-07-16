@@ -228,7 +228,7 @@ class gtx_0x106C
 
     EXPORT u16 get_phys_pal_5AA6F0(u16 palId);
 
-    EXPORT u16 sub_5AA710(u16 a2, s16 a3);
+    EXPORT u16 GetSpriteIdxFromFont_5AA710(u16 a2, s16 a3);
 
     EXPORT u16 GetFontWidth_5AA760(u16* a2, wchar_t* a3);
 

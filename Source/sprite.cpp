@@ -338,8 +338,8 @@ void Sprite::sub_59E300()
 MATCH_FUNC(0x59e320)
 void Sprite::sub_59E320(char_type a2)
 {
-    u16 v3 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
-    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
+    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     u32 field_5_height = sprite_index_5AA440->field_5_height;
     u32 field_4_width = sprite_index_5AA440->field_4_width;
 
@@ -644,8 +644,8 @@ s16 Sprite::sub_59EAA0()
 {
     if (field_34_palette_type == palette_types_enum::sprites_2)
     {
-        s16 v2 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
-        return gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(palette_types_enum::sprites_2, v2);
+        s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        return gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
     }
     return gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_34_palette_type, field_24_remap);
 }
@@ -929,8 +929,8 @@ void Sprite::Update_4C_59F990()
     {
         this->field_4_0x4C_len = gSprite_4C_Pool_70381C->Allocate();
 
-        const u16 sprite_pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
-        const sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_pal);
+        const u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        const sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
 
         Fix16 w;
         Fix16 h;

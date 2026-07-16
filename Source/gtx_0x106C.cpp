@@ -280,7 +280,7 @@ u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId)
 #define UNIQUE_FUNC printf(__FILE__ LINE_STRING "\n")
 
 MATCH_FUNC(0x5AA710)
-u16 gtx_0x106C::sub_5AA710(u16 font_type, s16 offset)
+u16 gtx_0x106C::GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset)
 {
     u16 result = field_1C_font_base->field_2_base[font_type] + offset;
     if (font_type == (u16)field_1C_font_base->field_0_font_count - 1)
@@ -312,7 +312,7 @@ u16 gtx_0x106C::GetFontWidth_5AA760(u16* font_type, wchar_t* pStr)
     else
     {
         // In this case letters have different widths
-        return this->field_20_sprite_index[(u16)this->field_14_sprite_base2->field_A_font + gtx_0x106C::sub_5AA710(*font_type, *pStr - 33)]
+        return this->field_20_sprite_index[(u16)this->field_14_sprite_base2->field_A_font + gtx_0x106C::GetSpriteIdxFromFont_5AA710(*font_type, *pStr - 33)]
             .field_4_width;
     }
 }

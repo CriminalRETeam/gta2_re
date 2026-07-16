@@ -91,7 +91,7 @@ struct sharp_pare_0x15D8
     EXPORT s16 RegisterDigits_5B9220(u16 a2, u16 a3);
     EXPORT void ReadTextures_5B92E0();
     EXPORT void sub_5B9350();
-    EXPORT STexture* GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s32 remap);
+    EXPORT STexture* GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s32 palette);
     EXPORT STexture* GetTexture2_5B95D0(u16 textureIdx);
     EXPORT STexture* sub_5B95F0(u16 a2, u16 a3, u16 a4);
     EXPORT void SetPal_5B9660(u16 texture_idx, u16 pal_idx);

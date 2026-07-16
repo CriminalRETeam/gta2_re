@@ -49,7 +49,7 @@ void test_gtx_0x106C()
     c.convert_pal_type_5AA5F0(0, 0);
     c.GetPalData_5AA6A0(0);
     c.get_phys_pal_5AA6F0(0);
-    c.sub_5AA710(0, 0);
+    c.GetSpriteIdxFromFont_5AA710(0, 0);
     c.GetFontWidth_5AA760(0, 0);
     c.GetSpaceCharWidth_5AA7B0(0);
     c.GetLineSpacing_5AA800(0);
