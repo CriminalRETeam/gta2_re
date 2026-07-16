@@ -39,7 +39,7 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
     if (gGtx_0x106C_703DD4->sub_5AA4F0(sprite_types_enum::car_2))
     {
         field_1000_bFreeTextures2 = 1;
-        u16 v3 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(2, 0);
+        u16 v3 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, 0);
         u16 v4 = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v3);
         u16 pal_idx = (u16)gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(v4);
 
@@ -63,7 +63,7 @@ MATCH_FUNC(0x5B9220)
 s16 sharp_pare_0x15D8::RegisterDigits_5B9220(u16 num_of_digits, u16 palette)
 {
     const u16 og_idx = field_15D4_idx;
-    const s16 v4 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(6, palette);
+    const s16 v4 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, palette);
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v4);
     u8* field_0_pData = sprite_index_5AA440->field_0_pData;
     const u16 phys_pal_5AA6F0 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v4));
@@ -252,7 +252,7 @@ void festive_hopper::Alloc_5B8E90(s16 size, s16 count, s32 pal_type1, s32 pal_ty
             field_4_item_alloc_count = count * size;
             field_6_count = count;
             field_10_bDoFree = 1;
-            field_8_pal_type = pal_type1;
+            field_8_sprite_type = pal_type1;
             field_C_pal_type = pal_type2;
             field_0_pAlloc = (STexture**)Memory::malloc_4FE4D0(sizeof(STexture*) * field_4_item_alloc_count);
 
@@ -272,7 +272,7 @@ void festive_hopper::sub_5B8F70()
         const u32 palTotal = field_4_item_alloc_count / field_6_count;
         for (u32 pal_idx = 0; pal_idx < palTotal; pal_idx++)
         {
-            const u16 converted_pal_sprite_pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_8_pal_type, pal_idx);
+            const u16 converted_pal_sprite_pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_8_sprite_type, pal_idx);
             sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal_sprite_pal);
 
             dword_704ED0++;

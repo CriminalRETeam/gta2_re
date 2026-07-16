@@ -527,7 +527,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                              value_1,
                              gfrosty_pasteur_6F8060->field_318_total_secrets);
                     sprite_type = 4;
-                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(286)->field_1E;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(286)->field_1E_sprite_palette;
                     break;
 
                 case HudPauseSection::tokens_collected_6:
@@ -536,7 +536,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                              gLucid_hamilton_67E8E0.field_574_secret_tokens_collected,
                              50);
                     sprite_type = 4;
-                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(266)->field_1E;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(266)->field_1E_sprite_palette;
                     break;
                 default:
                     break;
@@ -734,9 +734,9 @@ void __stdcall sub_5D6060(s16 ammo_idx, u8 ammo_count)
 {
     if (ammo_idx != -1)
     {
-        u16 v3 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(6, ammo_idx + 85);
+        u16 v3 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, ammo_idx + 85);
         s32 width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3)->field_4_width;
-        u16 v5 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(6, ammo_idx + 85);
+        u16 v5 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, ammo_idx + 85);
         s32 height = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v5)->field_5_height;
 
         sub_5D7670(6, ammo_idx + 85, 638 - width / 2, height / 2 + 44, word_706610, 2, 0, 0, 0);
@@ -761,7 +761,7 @@ WIP_FUNC(0x5D61A0)
 s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 optional_number)
 {
     WIP_IMPLEMENTED;
-    u16 v5 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(6, powerup_idx + 141);
+    u16 v5 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, powerup_idx + 141);
     s32 width = gGtx_0x106C_703DD4->get_sprite_width_420220(v5);
     sub_5D7670(6, powerup_idx + 141, base_xpos - (width / 2), 117, word_706610, 2, 0, 0, 0);
 
@@ -1169,7 +1169,7 @@ void Hud_CopHead_C_Array::DrawWantedLevel_5D0110()
 MATCH_FUNC(0x5d0210)
 void Hud_CopHead_C_Array::sub_5D0210()
 {
-    u16 converted_pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(6, 14);
+    u16 converted_pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, 14);
     sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
 
     field_4C_w_fp.FromU8(sprite_index->field_4_width);
@@ -2624,7 +2624,7 @@ void Hud_MapZone_98::DrawZoneName_5D5900()
     if (field_0_timer)
     {
         sprite_index* sprite_index_5AA440 =
-            gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(6, 159));
+            gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, 159));
         s32 width = sprite_index_5AA440->field_4_width;
 
         sub_5D7670(6, 159, (u32)(320 - (width / 2) - width), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
@@ -2783,7 +2783,7 @@ void Hud_CarName_4C::sub_5D4A10()
 
     if (field_0_display_time)
     {
-        u16 v2 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(6, 11);
+        u16 v2 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, 11);
         s32 sprite_w = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v2)->field_4_width;
         if (field_44_xpos_offset > (sprite_w * 2) - 10)
         {

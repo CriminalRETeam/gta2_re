@@ -609,9 +609,9 @@ void Phi_74::sub_533060(Fix16 a2, Fix16 a3, Fix16 a4)
 MATCH_FUNC(0x533090)
 void Phi_74::sub_533090()
 {
-    if (this->field_28 != sprite_types_enum::unknown_1)
+    if (field_28_sprite_type != sprite_types_enum::unknown_1)
     {
-        u16 sprite_id = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_28, field_1E);
+        u16 sprite_id = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_28_sprite_type, field_1E_sprite_palette);
         sprite_index * sprite = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_id);
         field_0 = Fix16(sprite->field_4_width) / 0x40;
         field_4 = Fix16(sprite->field_5_height) / 0x40;
@@ -637,7 +637,7 @@ void Phi_74::sub_533090()
 MATCH_FUNC(0x533110)
 void Phi_74::sub_533110(s16 remap)
 {
-    switch (field_28)
+    switch (field_28_sprite_type)
     {
         case 4:
             field_30 = 5;
@@ -652,7 +652,7 @@ void Phi_74::sub_533110(s16 remap)
 MATCH_FUNC(0x533150)
 void Phi_74::sub_533150(s16 a2, s16 a3)
 {
-    field_1E += a2;
+    field_1E_sprite_palette += a2;
     field_6C_sprite_anim_speed = a3;
 }
 
@@ -670,9 +670,9 @@ void Phi_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
     s16 f1E; // ax
     s32 f40; // eax
 
-    pSprite->field_30_sprite_type_enum = this->field_28;
+    pSprite->field_30_sprite_type_enum = this->field_28_sprite_type;
     pSprite->sub_59E960();
-    f1E = this->field_1E;
+    f1E = this->field_1E_sprite_palette;
 
     if (pSprite->field_22_sprite_id != f1E)
     {
@@ -710,7 +710,7 @@ Phi_74::Phi_74()
     field_4 = dword_6F8FA4;
     field_8 = dword_6F8FA4;
     field_24_idx = 0;
-    field_28 = 0;
+    field_28_sprite_type = 0;
     field_2C = 0;
     field_30 = 0;
     field_34_behavior_type = object_behavior_type::static_object_0;
@@ -730,7 +730,7 @@ Phi_74::Phi_74()
     field_61 = 0;
     field_64_next_frame_max = 99;
     field_65 = 99;
-    field_1E = 99;
+    field_1E_sprite_palette = 99;
     field_6C_sprite_anim_speed = 99;
     Fix16 v1 = dword_6FCE08;
     field_68 = 0;
@@ -750,8 +750,8 @@ MATCH_FUNC(0x5332d0)
 Phi_74* Phi_8CA8::sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5)
 {
     Phi_74* result = sub_5343C0(idx);
-    result->field_28 = a3;
-    result->field_1E = a4;
+    result->field_28_sprite_type = a3;
+    result->field_1E_sprite_palette = a4;
     result->field_6C_sprite_anim_speed = a5;
     result->field_30 = 2;
     return result;
@@ -1104,7 +1104,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_61 = '\x01';
     pAVar1->field_58 = 1;
     pAVar1 = GetObjectDefinition_534360(0x19);
-    pAVar1->field_28 = 1;
+    pAVar1->field_28_sprite_type = 1;
     pAVar1->field_8 = DAT_006fce10;
     return;
 }
@@ -1120,7 +1120,7 @@ void Phi_8CA8::sub_533B30()
         {
             Phi_74* this_00 = sub_5332D0(puVar2->field_0, 4, sprite_base, puVar2->field_4);
             sprite_base += puVar2->field_4;
-            this_00->field_28 = puVar2->field_38;
+            this_00->field_28_sprite_type = puVar2->field_38;
             if (puVar2->field_48 == DAT_006fce08 && puVar2->field_4C == DAT_006fce08 && puVar2->field_50 == DAT_006fce08)
             {
                 this_00->sub_533090();
@@ -1389,14 +1389,14 @@ void Phi_8CA8::sub_534270()
 MATCH_FUNC(0x5342d0)
 void Phi_8CA8::sub_5342D0()
 {
-    field_8CA4 = GetObjectDefinition_534360(112)->field_1E;
+    field_8CA4 = GetObjectDefinition_534360(112)->field_1E_sprite_palette;
 }
 
 MATCH_FUNC(0x5342f0)
 void Phi_8CA8::sub_5342F0(s32 idx)
 {
     Phi_74* v2 = GetObjectDefinition_534360(idx);
-    u16 v3 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(4, v2->field_1E);
+    u16 v3 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(4, v2->field_1E_sprite_palette);
     sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
     psprite_index->sub_5ABAA0(1);
 }

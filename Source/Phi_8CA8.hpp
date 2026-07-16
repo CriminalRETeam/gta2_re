@@ -281,13 +281,13 @@ class Phi_74
     Fix16 field_14_friction;
     Fix16 field_18_mass;
     s16 field_1C_remap;
-    s16 field_1E;
+    s16 field_1E_sprite_palette;
     char_type field_20;
     char_type field_21;
     char_type field_22;
     char_type field_23;
     s32 field_24_idx;
-    s32 field_28;
+    s32 field_28_sprite_type;
     s32 field_2C;
     s32 field_30;
     s32 field_34_behavior_type; // One of object_behavior_type

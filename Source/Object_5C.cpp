@@ -1288,7 +1288,7 @@ void Object_2C::UpdateAninmation_5257D0()
                 field_C_pAny.o8->field_4_timer--;
             }
         }
-        const s16 target_id = this->field_8->field_1E + this->field_C_pAny.o8->field_7_anim_speed_counter;
+        const s16 target_id = this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter;
 
         // TODO: Inline?
         Sprite* pSprite = this->field_4;
@@ -2264,7 +2264,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                                                this->field_4->field_14_xy.y,
                                                                this->field_4->field_1C_zpos,
                                                                this->field_4->field_0);
-                            field_4->set_id_lazy_4206C0(this->field_8->field_1E + this->field_C_pAny.o8->field_7_anim_speed_counter);
+                            field_4->set_id_lazy_4206C0(this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter);
                             break;
                         }
 
@@ -2332,7 +2332,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                                                this->field_4->field_14_xy.y,
                                                                this->field_4->field_1C_zpos,
                                                                this->field_4->field_0);
-                            field_4->set_id_lazy_4206C0(this->field_8->field_1E + this->field_C_pAny.o8->field_7_anim_speed_counter);
+                            field_4->set_id_lazy_4206C0(this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter);
                             this->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
                             this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
                             this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
@@ -2933,7 +2933,7 @@ Fix16_Point Object_2C::GetSpeedVector_52AE90()
 MATCH_FUNC(0x5290C0)
 void Object_2C::sub_5290C0(u8 id_base)
 {
-    s16 new_id = id_base + field_8->field_1E;
+    s16 new_id = id_base + field_8->field_1E_sprite_palette;
     Sprite* pSprite = field_4;
     if (pSprite->field_22_sprite_id != new_id)
     {

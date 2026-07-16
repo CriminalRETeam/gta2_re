@@ -2712,7 +2712,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Input_char_type("field_22", &phi->field_22, 1, 1);
                         ImGui::Input_char_type("field_23", &phi->field_23, 1, 1);
                         ImGui::InputInt("field_24_idx", &phi->field_24_idx, 1, 1);
-                        ImGui::InputInt("field_28", &phi->field_28, 1, 1);
+                        ImGui::InputInt("field_28", &phi->field_28_sprite_type, 1, 1);
 
                         if (ImGui::TreeNode("another vars"))
                         {

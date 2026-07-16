@@ -3394,7 +3394,7 @@ bool Car_BC::sub_43DC00()
         return false;
     }
 
-    u16 pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(2, pInfo->sprite);
+    u16 pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, pInfo->sprite);
     if (field_50_car_sprite->field_4_0x4C_len->field_0_width !=
         dword_6F6850.list[gGtx_0x106C_703DD4->get_sprite_index_5AA440(pal)->field_4_width])
     {
@@ -3411,7 +3411,7 @@ bool Car_BC::CarShrinkSprite_43DC80(s32 xoff, s32 yoff)
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     Fix16 w_fp(pCarInfo->w);
     Fix16 h_fp(pCarInfo->h);
-    u16 pal_converted = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(2, pCarInfo->sprite);
+    u16 pal_converted = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, pCarInfo->sprite);
     sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(pal_converted);
     return field_50_car_sprite->ShrinkSprite_59E390((dword_6F6850.list[pSpriteIndex->field_4_width] * xoff) / w_fp,
                                                     (dword_6F6850.list[pSpriteIndex->field_5_height] * yoff) / h_fp,

@@ -29,7 +29,7 @@ class festive_hopper
     STexture** field_0_pAlloc;
     u16 field_4_item_alloc_count;
     u16 field_6_count;
-    s32 field_8_pal_type;
+    s32 field_8_sprite_type;
     s32 field_C_pal_type;
     char_type field_10_bDoFree;
     char_type field_11;
@@ -42,7 +42,7 @@ class festive_hopper
         field_0_pAlloc = 0;
         field_4_item_alloc_count = 0;
         field_6_count = 0;
-        field_8_pal_type = 0;
+        field_8_sprite_type = 0;
         field_C_pal_type = 0;
         field_10_bDoFree = 0;
     }
