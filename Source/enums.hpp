@@ -552,13 +552,13 @@ enum
 {
     unknown_0 = 0, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
     unknown_1 = 1, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
-    car = 2,
-    ped = 3,
-    code_obj1 = 4,
-    map_obj = 5,
-    user = 6,
-    font = 7,
-    code_obj2 = 8,
+    car_2 = 2,
+    ped_3 = 3,
+    code_obj1_4 = 4,
+    map_obj_5 = 5,
+    user_6 = 6,
+    font_7 = 7,
+    code_obj2_8 = 8,
 };
 // static_assert(sizeof(sprite_types_enum) == 4);
 } // namespace sprite_types_enum

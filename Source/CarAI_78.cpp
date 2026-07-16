@@ -724,7 +724,7 @@ void CarAI_78::sub_4482C0()
 
             if (NearestSpriteOfType_477E60)
             {
-                if (NearestSpriteOfType_477E60->field_30_sprite_type_enum == sprite_types_enum::car)
+                if (NearestSpriteOfType_477E60->field_30_sprite_type_enum == sprite_types_enum::car_2)
                 {
                     CarAI_78* v17 = NearestSpriteOfType_477E60->field_8_car_bc_ptr->field_5C;
                     if (v17)
@@ -876,7 +876,7 @@ void CarAI_78::sub_4482C0()
             field_0->field_50_car_sprite->set_xyz_lazy_420600(v18, v32, field_0->field_50_car_sprite->field_1C_zpos);
 
             Sprite* v26 = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(v1, 0);
-            if (v26 && v26->field_30_sprite_type_enum == sprite_types_enum::car)
+            if (v26 && v26->field_30_sprite_type_enum == sprite_types_enum::car_2)
             {
                 CarAI_78* pAi = v26->field_8_car_bc_ptr->field_5C;
                 if (pAi)
@@ -1027,7 +1027,7 @@ void CarAI_78::sub_448770()
                 Sprite* pNearestSpriteOfType = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(obj_5C_f58, 0);
                 if (pNearestSpriteOfType)
                 {
-                    if (pNearestSpriteOfType->field_30_sprite_type_enum == sprite_types_enum::car)
+                    if (pNearestSpriteOfType->field_30_sprite_type_enum == sprite_types_enum::car_2)
                     {
                         this->field_0->sub_43A950();
                         this->field_8 = 0;
@@ -2557,7 +2557,7 @@ void CarAI_78::sub_44D1D0()
         return;
     }
 
-    if (v10->field_30_sprite_type_enum != sprite_types_enum::car)
+    if (v10->field_30_sprite_type_enum != sprite_types_enum::car_2)
     {
         return;
     }
@@ -4943,7 +4943,7 @@ LABEL_31:
                     sub_451FA0();
                     break;
 
-                case sprite_types_enum::car:
+                case sprite_types_enum::car_2:
                     sub_451980();
                     break;
 

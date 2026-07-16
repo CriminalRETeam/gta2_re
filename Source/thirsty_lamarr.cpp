@@ -59,7 +59,7 @@ void thirsty_lamarr::SetupDigitsParams_492110(s16 digit_transition_speed, s32 ma
 MATCH_FUNC(0x492150)
 void thirsty_lamarr::sub_492150()
 {
-    u16 sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, field_36_palette);
+    u16 sprite_pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(6, field_36_palette);
     sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_pal);
     field_27_sprite_w = sprite_index->field_4_width;
     field_28_sprite_h_calc = sprite_index->field_5_height / 11;
@@ -107,7 +107,7 @@ void thirsty_lamarr::sub_4921F0(s32 a2, s16 a3)
     u16 a;
     if (a2 == 2)
     {
-        u16 new_sprite = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, field_36_palette);
+        u16 new_sprite = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(6, field_36_palette);
         a = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, new_sprite);
     }
     else

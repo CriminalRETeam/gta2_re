@@ -393,7 +393,7 @@ bool Crane_15C::sub_47F450()
     if (!pCar->IsDespawning_4215B0() && this->field_C4.x == field_64->field_14_xy.x && this->field_C4.y == field_64->field_14_xy.y &&
         this->field_CC == field_64->field_1C_zpos && this->field_D0 == Ang16::Ang16_to_Fix16(field_64->field_0))
     {
-        return pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car) ? false : true;
+        return pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2) ? false : true;
     }
     return false;
 }
@@ -520,7 +520,7 @@ void Crane_15C::sub_47F7F0(Car_BC* pCar)
 
     Fix16 point;
     Fix16 t;
-    Sprite* pFoundSprite = pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car);
+    Sprite* pFoundSprite = pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2);
     if (pFoundSprite)
     {
         if (!field_150)

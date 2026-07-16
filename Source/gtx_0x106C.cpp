@@ -143,29 +143,29 @@ sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx)
 }
 
 WIP_FUNC(0x5AA460)
-u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 sprite_type, s16 sprite_idx)
+u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx)
 {
     WIP_IMPLEMENTED;
     u16 result;
     switch (sprite_type)
     {
-        case sprite_types_enum::car:
+        case sprite_types_enum::car_2:
             result = sprite_idx + field_14_sprite_base2->field_0_car;
             break;
-        case sprite_types_enum::ped:
+        case sprite_types_enum::ped_3:
             result = sprite_idx + field_14_sprite_base2->field_2_ped;
             break;
-        case sprite_types_enum::code_obj1:
-        case sprite_types_enum::code_obj2:
+        case sprite_types_enum::code_obj1_4:
+        case sprite_types_enum::code_obj2_8:
             result = sprite_idx + field_14_sprite_base2->field_4_code_obj;
             break;
-        case sprite_types_enum::map_obj:
+        case sprite_types_enum::map_obj_5:
             result = sprite_idx + field_14_sprite_base2->field_6_map_obj;
             break;
-        case sprite_types_enum::user:
+        case sprite_types_enum::user_6:
             result = sprite_idx + field_14_sprite_base2->field_8_user;
             break;
-        case sprite_types_enum::font:
+        case sprite_types_enum::font_7:
             result = sprite_idx + field_14_sprite_base2->field_A_font;
             break;
         default:
@@ -180,18 +180,18 @@ s16 gtx_0x106C::sub_5AA4F0(s32 sprite_type)
 {
     switch (sprite_type)
     {
-        case sprite_types_enum::car:
+        case sprite_types_enum::car_2:
             return field_18_sprite_base1->field_0_car;
-        case sprite_types_enum::ped:
+        case sprite_types_enum::ped_3:
             return field_18_sprite_base1->field_2_ped;
-        case sprite_types_enum::code_obj1:
-        case sprite_types_enum::code_obj2:
+        case sprite_types_enum::code_obj1_4:
+        case sprite_types_enum::code_obj2_8:
             return field_18_sprite_base1->field_4_code_obj;
-        case sprite_types_enum::map_obj:
+        case sprite_types_enum::map_obj_5:
             return field_18_sprite_base1->field_6_map_obj;
-        case sprite_types_enum::font:
+        case sprite_types_enum::font_7:
             return field_18_sprite_base1->field_A_font;
-        case sprite_types_enum::user:
+        case sprite_types_enum::user_6:
             return field_18_sprite_base1->field_8_user;
         default:
             return 0;

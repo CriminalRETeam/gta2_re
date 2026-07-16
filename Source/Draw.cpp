@@ -175,7 +175,7 @@ void __stdcall DrawFigure_5D7EC0(s32 type,
 {
     WIP_IMPLEMENTED;
 
-    u16 v11 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(type, pal);
+    u16 v11 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(type, pal);
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v11);
 
     Fix16 v12 = (Fix16(sprite_index_5AA440->field_4_width) / 2) * scale;
@@ -243,7 +243,7 @@ void __stdcall DrawFigure_5D7EC0(s32 type,
     gQuadVerts_706B88.field_0_verts[2].v = field_5_height - 0.000099999997f;
     gQuadVerts_706B88.field_0_verts[3].v = field_5_height - 0.000099999997f;
 
-    STexture* pTexture = gSharp_pare_0x15D8_705064->sub_5B94F0(type, pal, drawkind, a8);
+    STexture* pTexture = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(type, pal, drawkind, a8);
     s32 v44 = CalcQuadFlags_5D83E0(a9, a10);
     pgbh_DrawQuad(flags | v44, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
 }
@@ -457,9 +457,9 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                 {
                     // LOWORD(sprite_pal) =
                     u16 sprite_pal = gGtx_0x106C_703DD4->sub_5AA710(font_type, text_char - 33);
-                    u16 sprt_idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(7, sprite_pal);
+                    u16 sprt_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(7, sprite_pal);
                     pSprIdx = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprt_idx);
-                    pTextureToUse = gSharp_pare_0x15D8_705064->sub_5B94F0(7, sprite_pal, kind, unknown2);
+                    pTextureToUse = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(7, sprite_pal, kind, unknown2);
                 }
                 else
                 {

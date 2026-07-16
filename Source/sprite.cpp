@@ -243,7 +243,7 @@ bool Sprite::IsControlledByActivePlayer_59E170()
     Ped* pPed = GetPed_59E1B0();
     if (!pPed)
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::car && field_8_car_bc_ptr)
+        if (field_30_sprite_type_enum == sprite_types_enum::car_2 && field_8_car_bc_ptr)
         {
             pPed = field_8_car_bc_ptr->GetEffectiveDriver_43E990();
         }
@@ -266,7 +266,7 @@ bool Sprite::IsControlledByActivePlayer_59E170()
 MATCH_FUNC(0x59E1B0)
 Ped* Sprite::GetPed_59E1B0()
 {
-    if (this->field_30_sprite_type_enum == sprite_types_enum::ped && (this->field_8_char_b4_ptr) != 0)
+    if (this->field_30_sprite_type_enum == sprite_types_enum::ped_3 && (this->field_8_char_b4_ptr) != 0)
     {
         return field_8_char_b4_ptr->field_7C_pPed;
     }
@@ -338,7 +338,7 @@ void Sprite::sub_59E300()
 MATCH_FUNC(0x59e320)
 void Sprite::sub_59E320(char_type a2)
 {
-    u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+    u16 v3 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
     u32 field_5_height = sprite_index_5AA440->field_5_height;
     u32 field_4_width = sprite_index_5AA440->field_4_width;
@@ -540,11 +540,11 @@ MATCH_FUNC(0x59E8C0)
 void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
 {
     s32 sprite_type = this->field_30_sprite_type_enum;
-    if (sprite_type == sprite_types_enum::unknown_1 || sprite_type > sprite_types_enum::ped && sprite_type <= sprite_types_enum::map_obj)
+    if (sprite_type == sprite_types_enum::unknown_1 || sprite_type > sprite_types_enum::ped_3 && sprite_type <= sprite_types_enum::map_obj_5)
     {
         field_8_object_2C_ptr->HandleImpact_528E50(pSprite);
         s32 type = pSprite->field_30_sprite_type_enum;
-        if (type == sprite_types_enum::code_obj1 || type == sprite_types_enum::map_obj || type == sprite_types_enum::unknown_1)
+        if (type == sprite_types_enum::code_obj1_4 || type == sprite_types_enum::map_obj_5 || type == sprite_types_enum::unknown_1)
         {
             if (pSprite->field_8_object_2C_ptr)
             {
@@ -557,7 +557,7 @@ void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
 MATCH_FUNC(0x59E910)
 void Sprite::ProcessCarToCarImpactIfCar_59E910(Sprite* pSprite)
 {
-    if (field_30_sprite_type_enum == sprite_types_enum::car)
+    if (field_30_sprite_type_enum == sprite_types_enum::car_2)
     {
         field_8_car_bc_ptr->ProcessCarToCarImpact_43ADC0(pSprite);
     }
@@ -568,19 +568,19 @@ void Sprite::sub_59E960()
 {
     switch (this->field_30_sprite_type_enum)
     {
-        case sprite_types_enum::car:
+        case sprite_types_enum::car_2:
             this->field_28_num = 15;
             break;
-        case sprite_types_enum::ped:
+        case sprite_types_enum::ped_3:
             this->field_28_num = 23;
             break;
-        case sprite_types_enum::code_obj1:
+        case sprite_types_enum::code_obj1_4:
             this->field_28_num = 2;
             break;
-        case sprite_types_enum::map_obj:
+        case sprite_types_enum::map_obj_5:
             this->field_28_num = 2;
             break;
-        case sprite_types_enum::code_obj2:
+        case sprite_types_enum::code_obj2_8:
             this->field_28_num = 33;
             break;
         case sprite_types_enum::unknown_0:
@@ -615,23 +615,23 @@ void Sprite::SetRemap(s16 remap)
 {
     switch (field_30_sprite_type_enum)
     {
-        case sprite_types_enum::car:
+        case sprite_types_enum::car_2:
             field_34_palette_type = palette_types_enum::car_remaps_3;
             break;
-        case sprite_types_enum::ped:
+        case sprite_types_enum::ped_3:
             field_34_palette_type = palette_types_enum::ped_remaps_4;
             break;
-        case sprite_types_enum::code_obj1:
-        case sprite_types_enum::code_obj2:
+        case sprite_types_enum::code_obj1_4:
+        case sprite_types_enum::code_obj2_8:
             field_34_palette_type = palette_types_enum::code_obj_remaps_5;
             break;
-        case sprite_types_enum::map_obj:
+        case sprite_types_enum::map_obj_5:
             field_34_palette_type = palette_types_enum::map_obj_remaps_6;
             break;
-        case sprite_types_enum::user:
+        case sprite_types_enum::user_6:
             field_34_palette_type = palette_types_enum::user_remaps_7;
             break;
-        case sprite_types_enum::font:
+        case sprite_types_enum::font_7:
             field_34_palette_type = palette_types_enum::font_remaps_8;
         default:
             break;
@@ -644,7 +644,7 @@ s16 Sprite::sub_59EAA0()
 {
     if (field_34_palette_type == palette_types_enum::sprites_2)
     {
-        s16 v2 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        s16 v2 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         return gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(palette_types_enum::sprites_2, v2);
     }
     return gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_34_palette_type, field_24_remap);
@@ -741,7 +741,7 @@ void Sprite::Draw_59EFF0()
     {
         sprite_idx = gGtx_0x106C_703DD4->field_4_sprite_index_count - 1;
         pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-        converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        converted_pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         pSpriteIndex2 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
         pSpriteIndex->field_4_width = pSpriteIndex2->field_4_width - 2 * field_38_zoom;
         pSpriteIndex->field_5_height = pSpriteIndex2->field_5_height - 2 * field_38_zoom;
@@ -758,9 +758,9 @@ void Sprite::Draw_59EFF0()
     }
     else
     {
-        sprite_idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-        pTexture = gSharp_pare_0x15D8_705064->sub_5B94F0(field_30_sprite_type_enum, field_22_sprite_id, field_34_palette_type, field_24_remap);
+        pTexture = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(field_30_sprite_type_enum, field_22_sprite_id, field_34_palette_type, field_24_remap);
     }
 
     if (!field_4_0x4C_len->field_48_bBoxUpToDate)
@@ -929,13 +929,13 @@ void Sprite::Update_4C_59F990()
     {
         this->field_4_0x4C_len = gSprite_4C_Pool_70381C->Allocate();
 
-        const u16 sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        const u16 sprite_pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         const sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_pal);
 
         Fix16 w;
         Fix16 h;
 
-        if (this->field_30_sprite_type_enum == sprite_types_enum::code_obj2)
+        if (this->field_30_sprite_type_enum == sprite_types_enum::code_obj2_8)
         {
             w = dword_6F6850.list[sprite_index->field_4_width] / 2;
             h = dword_6F6850.list[sprite_index->field_5_height] / 2;
@@ -954,7 +954,7 @@ void Sprite::UpdateDimensionsFromSpriteIndex_59FA40()
 {
     if (field_4_0x4C_len)
     {
-        const u16 idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        const u16 idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         sprite_index* pSprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(idx);
 
         const Fix16 height = dword_6F6850.list[pSprite_index->field_5_height];
@@ -1706,7 +1706,7 @@ char_type Sprite::ComputeZLayer_5A1BD0()
 {
     if (this->field_39_z_col == -1)
     {
-        if (this->field_30_sprite_type_enum == sprite_types_enum::car && field_8_car_bc_ptr->IsTrainModel_403BA0())
+        if (this->field_30_sprite_type_enum == sprite_types_enum::car_2 && field_8_car_bc_ptr->IsTrainModel_403BA0())
         {
             this->field_39_z_col = (this->field_1C_zpos - dword_7035C4).ToInt();
         }
@@ -2105,10 +2105,10 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
     for (Sprite_18* pCollisionIter = collisions.field_0_p18; pCollisionIter; pCollisionIter = pCollisionIter->mpNext)
     {
         Sprite* pCurrent = pCollisionIter->field_0;
-        if (pCurrent->get_type_416B40() == sprite_types_enum::car)
+        if (pCurrent->get_type_416B40() == sprite_types_enum::car_2)
         {
             Car_BC* pIterCar = pCurrent->AsCar_40FEB0();
-            if (field_30_sprite_type_enum != sprite_types_enum::car ||
+            if (field_30_sprite_type_enum != sprite_types_enum::car_2 ||
                 (!pIterCar->IsCargoCarOf_4BA390(field_8_car_bc_ptr) && !pIterCar->HasOtherCarOnTrailer_475E60(field_8_car_bc_ptr)))
             {
                 u8 x = field_14_xy.x.ToInt();
@@ -2124,7 +2124,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
                 }
             }
         }
-        else if (pCurrent->get_type_416B40() == sprite_types_enum::ped)
+        else if (pCurrent->get_type_416B40() == sprite_types_enum::ped_3)
         {
             Char_B4* pB4 = pCurrent->AsCharB4_40FEA0();
             pB4->field_7C_pPed->Deallocate_45EB60();
@@ -2179,10 +2179,10 @@ void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, An
 
     switch (field_30_sprite_type_enum)
     {
-        case sprite_types_enum::ped:
+        case sprite_types_enum::ped_3:
             field_8_char_b4_ptr->field_88_obj_2c.PushImpactEvent_5A6D00(pSprite, x, y, ang);
             break;
-        case sprite_types_enum::car:
+        case sprite_types_enum::car_2:
             field_8_car_bc_ptr->field_0_qq.PushImpactEvent_5A6D00(pSprite, x, y, ang);
             break;
         case 1: // sprite_type_1_Object_5C
@@ -2201,7 +2201,7 @@ void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, An
 
     switch (pSprite->field_30_sprite_type_enum)
     {
-        case sprite_types_enum::car:
+        case sprite_types_enum::car_2:
             pSprite->field_8_car_bc_ptr->Deactivate_43AA60();
             break;
         case 1: // sprite_type_1_Object_5C

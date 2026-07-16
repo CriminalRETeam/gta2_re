@@ -726,7 +726,7 @@ Car_BC* Car_6C::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3)
     pSprite->set_xyz_lazy_420600(pSprite->field_14_xy.x + new_x, pSprite->field_14_xy.y + new_y, pSprite->field_1C_zpos);
 
     Sprite* pNearest =
-        gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::car, sprite_types_enum::car, pSprite, k3, 3, 1u);
+        gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::car_2, sprite_types_enum::car_2, pSprite, k3, 3, 1u);
 
     pSprite->set_xyz_lazy_420600(oldx, oldy, oldz);
 
@@ -805,7 +805,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
                                                       pCar->field_50_car_sprite->field_14_xy.y,
                                                       pCar->field_50_car_sprite->field_1C_zpos);
     pCar->field_50_car_sprite->set_ang_lazy_420690(rotation);
-    pCar->field_50_car_sprite->SetType_4206F0(sprite_types_enum::car);
+    pCar->field_50_car_sprite->SetType_4206F0(sprite_types_enum::car_2);
     pCar->field_50_car_sprite->set_id_lazy_4206C0(pCarInfo->sprite);
     pCar->field_50_car_sprite->Set_Car_420710(pCar);
     pCar->field_50_car_sprite->AllocInternal_59F950(dword_6F6850.list[pCarInfo->w], dword_6F6850.list[pCarInfo->h], dword_6771FC);
@@ -1807,7 +1807,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
     }
 
     sprite_type = pSprite->field_30_sprite_type_enum;
-    if (sprite_type != sprite_types_enum::car || (cBC = pSprite->field_8_car_bc_ptr) == 0)
+    if (sprite_type != sprite_types_enum::car_2 || (cBC = pSprite->field_8_car_bc_ptr) == 0)
     {
         if ((sprite_type == 4 || sprite_type == 5 || sprite_type == 1) && (o2c = pSprite->field_8_object_2C_ptr) != 0)
         {
@@ -1837,7 +1837,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                 }
             }
         }
-        else if (sprite_type == sprite_types_enum::ped)
+        else if (sprite_type == sprite_types_enum::ped_3)
         {
             pB4 = pSprite->field_8_char_b4_ptr;
             if (pB4)
@@ -1908,7 +1908,7 @@ MATCH_FUNC(0x43adc0)
 void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
 {
     s32 score_base_multi = 0;
-    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
+    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
     {
         Car_BC* pCar = pSprite->field_8_car_bc_ptr;
         if (pCar)
@@ -3394,7 +3394,7 @@ bool Car_BC::sub_43DC00()
         return false;
     }
 
-    u16 pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(2, pInfo->sprite);
+    u16 pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(2, pInfo->sprite);
     if (field_50_car_sprite->field_4_0x4C_len->field_0_width !=
         dword_6F6850.list[gGtx_0x106C_703DD4->get_sprite_index_5AA440(pal)->field_4_width])
     {
@@ -3411,7 +3411,7 @@ bool Car_BC::CarShrinkSprite_43DC80(s32 xoff, s32 yoff)
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     Fix16 w_fp(pCarInfo->w);
     Fix16 h_fp(pCarInfo->h);
-    u16 pal_converted = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(2, pCarInfo->sprite);
+    u16 pal_converted = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(2, pCarInfo->sprite);
     sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(pal_converted);
     return field_50_car_sprite->ShrinkSprite_59E390((dword_6F6850.list[pSpriteIndex->field_4_width] * xoff) / w_fp,
                                                     (dword_6F6850.list[pSpriteIndex->field_5_height] * yoff) / h_fp,
@@ -5732,13 +5732,13 @@ bool Car_BC::sub_443360(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 
     switch (pSprite->get_type_416B40())
     {
-        case sprite_types_enum::car:
+        case sprite_types_enum::car_2:
             field_50_car_sprite->set_num_40F7B0(18);
             break;
 
         case sprite_types_enum::unknown_1:
-        case sprite_types_enum::code_obj1:
-        case sprite_types_enum::map_obj:
+        case sprite_types_enum::code_obj1_4:
+        case sprite_types_enum::map_obj_5:
             field_50_car_sprite->set_num_40F7B0(17);
             break;
 

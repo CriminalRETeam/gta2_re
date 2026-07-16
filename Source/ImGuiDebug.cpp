@@ -1938,7 +1938,7 @@ void CC ImGuiDebugDraw()
                 //ClearGlobalArrow();
                 for (; id < 8000; id++)
                 {
-                    u16 true_idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(sprite_types_enum::code_obj1, id);
+                    u16 true_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::code_obj1_4, id);
                     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_idx);
                     if (sprite_index_5AA440)
                     {
@@ -1948,7 +1948,7 @@ void CC ImGuiDebugDraw()
                             bFound = true;
                             if (spawned_obj != NULL && spawned_obj->field_4)
                             {
-                                spawned_obj->field_4->field_30_sprite_type_enum = sprite_types_enum::code_obj1;
+                                spawned_obj->field_4->field_30_sprite_type_enum = sprite_types_enum::code_obj1_4;
                                 spawned_obj->field_4->set_id_lazy_4206C0(id);
                                 //PointArrowToEntity(0, 0, spawned_obj);
                             }

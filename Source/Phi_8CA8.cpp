@@ -611,7 +611,7 @@ void Phi_74::sub_533090()
 {
     if (this->field_28 != sprite_types_enum::unknown_1)
     {
-        u16 sprite_id = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_28, field_1E);
+        u16 sprite_id = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_28, field_1E);
         sprite_index * sprite = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_id);
         field_0 = Fix16(sprite->field_4_width) / 0x40;
         field_4 = Fix16(sprite->field_5_height) / 0x40;
@@ -1396,7 +1396,7 @@ MATCH_FUNC(0x5342f0)
 void Phi_8CA8::sub_5342F0(s32 idx)
 {
     Phi_74* v2 = GetObjectDefinition_534360(idx);
-    u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(4, v2->field_1E);
+    u16 v3 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(4, v2->field_1E);
     sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
     psprite_index->sub_5ABAA0(1);
 }

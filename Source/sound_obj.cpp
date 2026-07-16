@@ -1340,7 +1340,7 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
                     {
                         switch (v7->field_30_sprite_type_enum)
                         {
-                            case sprite_types_enum::car: // note: sub eax, 2 added via switch case instead of if
+                            case sprite_types_enum::car_2: // note: sub eax, 2 added via switch case instead of if
                                 sound_unknown_0xC* pNewObj = new sound_unknown_0xC();
                                 field_147C[idx].field_8_pAlloc = pNewObj;
                                 pNewObj->field_0 = dword_674CD8;
@@ -1391,7 +1391,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
                 Sprite* pAny = pTuring->field_C_pAny.pSprite;
                 switch (pAny->field_30_sprite_type_enum)
                 {
-                    case sprite_types_enum::car:
+                    case sprite_types_enum::car_2:
                         if (field_147C[idx].field_8_pAlloc)
                         {
                             delete field_147C[idx].field_8_pAlloc;

@@ -78,7 +78,7 @@ static inline Fix16 sub_41E130(Fix16 a1, Fix16 a2)
 MATCH_FUNC(0x4355D0)
 bool Camera_0xBC::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite)
 {
-    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car && pSprite->field_8_car_bc_ptr != 0)
+    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2 && pSprite->field_8_car_bc_ptr != 0)
     {
         if (field_38_car == pSprite->field_8_car_bc_ptr)
         {
@@ -89,7 +89,7 @@ bool Camera_0xBC::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite)
             return true;
         }
     }
-    else if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped)
+    else if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
     {
         Char_B4* pB4 = pSprite->field_8_char_b4_ptr;
         if (pB4)

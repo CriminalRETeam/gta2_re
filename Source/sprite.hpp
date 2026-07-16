@@ -277,7 +277,7 @@ class Sprite
     // FUNCTION: 96f 0x40feb0
     Car_BC* AsCar_40FEB0()
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::car)
+        if (field_30_sprite_type_enum == sprite_types_enum::car_2)
         {
             return field_8_car_bc_ptr;
         }
@@ -289,7 +289,7 @@ class Sprite
 
     Char_B4* AsCharB4_40FEA0()
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::ped)
+        if (field_30_sprite_type_enum == sprite_types_enum::ped_3)
         {
             return field_8_char_b4_ptr;
         }
