@@ -2942,7 +2942,7 @@ void CC ImGuiDebugDraw()
 
                 MenuPage_0xBCA* loving_borg = &gFrontend_67DC84->field_136_menu_pages_array[loving_id];
                 ImGui::Value("field_0_number_of_options", loving_borg->field_0_number_of_options);
-                ImGui::Value("field_2", loving_borg->field_2);
+                ImGui::Value("field_2", loving_borg->field_2_number_of_elements);
                 ImGui::Value("field_BC6_current_option_idx", loving_borg->field_BC6_current_option_idx);
                 ImGui::Value("field_BC8", loving_borg->field_BC8);
 
@@ -2963,8 +2963,8 @@ void CC ImGuiDebugDraw()
                     wchar_to_char(nifty_maxwell->field_6_option_name_str, str_buf, 50);
                     ImGui::Text(str_buf);
 
-                    ImGui::Value("field_6A", nifty_maxwell->field_6A);
-                    ImGui::Value("field_6C", nifty_maxwell->field_6C);
+                    ImGui::Value("field_6A", nifty_maxwell->field_6A_font_type);
+                    ImGui::Value("field_6C", nifty_maxwell->field_6C_palette);
                     ImGui::Value("field_6E_count", nifty_maxwell->field_6E_horizontal_selected_idx);
                     ImGui::Value("field_70", nifty_maxwell->field_70);
 
@@ -2994,7 +2994,7 @@ void CC ImGuiDebugDraw()
                     ImGui::Text(str_buf_2);
 
                     ImGui::InputU16("field_6A", &competent_noyce->field_6A_font_type, 1, 1);
-                    ImGui::InputU16("field_6C", &competent_noyce->field_6C_font_variant, 1, 1);
+                    ImGui::InputU16("field_6C", &competent_noyce->field_6C_font_palette, 1, 1);
 
                     ImGui::TreePop();
                 }

@@ -81,7 +81,7 @@ struct menu_element_0x6E
         {
             wchar_t field_6_element_name_str[50];
             u16 field_6A_font_type;
-            u16 field_6C_font_variant;  // actaully it's the font palette
+            u16 field_6C_font_palette;
         };
         u16 field_6_geometric_shape_type; // if field_0_element_type == GEOMETRIC_SHAPE_3
     };
@@ -106,8 +106,8 @@ struct menu_option_0x82
     s16 field_2_x_pos;
     s16 field_4_y_pos;
     wchar_t field_6_option_name_str[50];
-    u16 field_6A;
-    u16 field_6C;
+    u16 field_6A_font_type;
+    u16 field_6C_palette;
     u16 field_6E_horizontal_selected_idx;
     s16 field_70;
     char_type field_72[12];
@@ -142,7 +142,7 @@ struct MenuPage_0xBCA
     EXPORT bool sub_4B6200();
 
     u16 field_0_number_of_options;
-    s16 field_2;
+    s16 field_2_number_of_elements;
     menu_option_0x82 field_4_options_array[10];
     menu_element_0x6E field_518_elements_array[15];
     kind_beaver_6 field_B8A[10];
@@ -496,14 +496,14 @@ struct Frontend
 
     EXPORT void sub_4B57B0(u16 a3, u16 a5);
 
-    EXPORT void sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 arg_C, s32 a2, u16 a6, u16 a7, u8 pStr);
+    EXPORT void sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, s32 palette, u16 scale, u16 a7, u8 pStr);
 
     EXPORT void Frontend::sub_4B5430(score_table_line* pStrings,
                            u16 text_xpos,
                            u16 text_ypos,
                            u16 num_entries,
                            u16 arg_fontType,
-                           u16 draw_kind,
+                           u16 palette,
                            u8 spacing_type);
 };
 

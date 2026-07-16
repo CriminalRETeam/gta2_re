@@ -682,10 +682,10 @@ void Sprite::ShowId_59EB30(f32& a2, f32& a3)
 // 9.6f inline
 static inline void __stdcall sub_4BA2C0(const wchar_t* pStr, Fix16 x, Fix16 y, s32 font)
 {
-    s32 draw_kind = 2;
+    s32 palette_type = palette_types_enum::sprites_2;
     Fix16 scale_y = y * gViewCamera_676978->field_A8_ui_scale;
     Fix16 scale_x = x * gViewCamera_676978->field_A8_ui_scale;
-    DrawText_5D8A10(pStr, scale_x, scale_y, font, gViewCamera_676978->field_A8_ui_scale, draw_kind, 0, 0, 0);
+    DrawText_5D8A10(pStr, scale_x, scale_y, font, gViewCamera_676978->field_A8_ui_scale, palette_type, 0, 0, 0);
 }
 
 WIP_FUNC(0x59ee40)

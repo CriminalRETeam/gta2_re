@@ -993,7 +993,7 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
                           u16 text_ypos,
                           u16 num_entries,
                           u16 arg_fontType,
-                          u16 draw_kind,
+                          u16 palette,
                           u8 spacing_type)
 {
     WIP_IMPLEMENTED;
@@ -1019,13 +1019,13 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
             {
                 swprintf(tmpBuff_67BD9C, L"%s", pSmallStringIter->field_0_player_name);
             }
-            if (draw_kind == 0xFFFFu)
+            if (palette == 0xFFFFu)
             {
                 DrawText_4B87A0(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1);
             }
             else
             {
-                DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, 8, draw_kind, false, 0);
+                DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, 8, palette, false, 0);
             }
             if (spacing_type == 0)
             {
@@ -1038,13 +1038,13 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
             }
             swprintf(tmpBuff_67BD9C, L"%d", pSmallStringIter->field_14_score);
 
-            if (gText_0x14_704DFC->field_10_lang_code == 106)
+            if (gText_0x14_704DFC->field_10_lang_code == 'j')
             {
-                Frontend::sub_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, draw_kind, 1, 16, true);
+                Frontend::sub_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 16, true);
             }
             else
             {
-                Frontend::sub_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, draw_kind, 1, 13, true);
+                Frontend::sub_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 13, true);
             }
 
             ++pSmallStringIter;
@@ -1305,26 +1305,26 @@ void Frontend::DrawMenu_4AD140()
             }
             else
             {
-                if (pMenuOption->field_6A != 0xFFFF)
+                if (pMenuOption->field_6A_font_type != 0xFFFF)
                 {
-                    if (pMenuOption->field_6C == 0xFFFF)
+                    if (pMenuOption->field_6C_palette == 0xFFFF)
                     {
-                        DrawText_4B87A0(wstr_array, x_pos, y_pos, pMenuOption->field_6A, 1);
+                        DrawText_4B87A0(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, 1);
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, (s32)1, 8, pMenuOption->field_6C, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, (s32)1, 8, pMenuOption->field_6C_palette, false, 0);
                     }
                 }
                 else
                 {
-                    if (pMenuOption->field_6C == 0xFFFF)
+                    if (pMenuOption->field_6C_palette == 0xFFFF)
                     {
                         DrawText_4B87A0(wstr_array, x_pos, y_pos, field_11C, 1);
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, (s32)1, 8, pMenuOption->field_6C, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, (s32)1, 8, pMenuOption->field_6C_palette, false, 0);
                     }
                 }
             }
@@ -1353,9 +1353,9 @@ void Frontend::DrawMenu_4AD140()
                 x_pos = pMenuOption->field_2_x_pos;
                 y_pos = pMenuOption->field_4_y_pos;
 
-                if (pMenuOption->field_6A != 0xFFFF)
+                if (pMenuOption->field_6A_font_type != 0xFFFF)
                 {
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, 1, 8, 8, false, 0);
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, 1, 8, 8, false, 0);
                 }
                 else
                 {
@@ -1391,7 +1391,7 @@ void Frontend::DrawMenu_4AD140()
                              2);
     }
 
-    for (option_idx = 0; option_idx < pMenuPage->field_2; option_idx++)
+    for (option_idx = 0; option_idx < pMenuPage->field_2_number_of_elements; option_idx++)
     {
         menu_element_0x6E* pMenuElement = &pMenuPage->field_518_elements_array[option_idx];
 
@@ -1445,21 +1445,21 @@ void Frontend::DrawMenu_4AD140()
 
                     if (field_132_f136_idx == MENUPAGE_PLAY && (option_idx == 2 || option_idx == 3))
                     {
-                        Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_variant, 1, 0x15u, 1);
+                        Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_palette, 1, 0x15u, 1);
                     }
                     else if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE && option_idx == 1)
                     {
-                        Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_variant, 1, 0x15u, 1);
+                        Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_palette, 1, 0x15u, 1);
                     }
                     else
                     {
-                        if (pMenuElement->field_6C_font_variant == 0xFFFF)
+                        if (pMenuElement->field_6C_font_palette == 0xFFFF)
                         {
                             DrawText_4B87A0(wstr_array, x_pos, y_pos, font_type, 1);
                         }
                         else
                         {
-                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, 8, pMenuElement->field_6C_font_variant, false, 0);
+                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, 8, pMenuElement->field_6C_font_palette, false, 0);
                         }
                     }
                     break;
@@ -3527,7 +3527,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[1].field_B8A[4].field_2 = 358;
     field_136_menu_pages_array[1].field_BC6_current_option_idx = 3;
     field_136_menu_pages_array[1].field_BC8 = 3;
-    field_136_menu_pages_array[1].field_2 = 10;
+    field_136_menu_pages_array[1].field_2_number_of_elements = 10;
     field_136_menu_pages_array[1].field_518_elements_array[0].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[0].field_2_xpos = 420;
     field_136_menu_pages_array[1].field_518_elements_array[0].field_4_ypos = 310;
@@ -3575,13 +3575,13 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[1].field_518_elements_array[9].field_4_ypos = 222;
     field_136_menu_pages_array[1].field_518_elements_array[9].field_6_geometric_shape_type = 4;
     field_136_menu_pages_array[11].field_0_number_of_options = 3;
-    field_136_menu_pages_array[11].field_2 = 1;
+    field_136_menu_pages_array[11].field_2_number_of_elements = 1;
     field_136_menu_pages_array[11].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[11].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[11].field_518_elements_array[0].field_4_ypos = 11;
     wcscpy(field_136_menu_pages_array[11].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
     field_136_menu_pages_array[11].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[11].field_518_elements_array[0].field_6C_font_variant = 5;
+    field_136_menu_pages_array[11].field_518_elements_array[0].field_6C_font_palette = 5;
     field_136_menu_pages_array[11].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[11].field_4_options_array[0].field_4_y_pos = 392;
     wcsncpy(field_136_menu_pages_array[11].field_4_options_array[0].field_6_option_name_str,
@@ -3589,7 +3589,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[11].field_4_options_array[0].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[0].field_6_option_name_str,
-                             field_136_menu_pages_array[11].field_4_options_array[0].field_6A,
+                             field_136_menu_pages_array[11].field_4_options_array[0].field_6A_font_type,
                              320);
     field_136_menu_pages_array[11].field_4_options_array[0].field_80_menu_page_target = 260;
     field_136_menu_pages_array[11].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
@@ -3599,7 +3599,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[11].field_4_options_array[1].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[11].field_4_options_array[1].field_6A,
+                             field_136_menu_pages_array[11].field_4_options_array[1].field_6A_font_type,
                              320);
     field_136_menu_pages_array[11].field_4_options_array[1].field_80_menu_page_target = 259;
     field_136_menu_pages_array[11].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
@@ -3609,7 +3609,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[11].field_4_options_array[2].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[11].field_4_options_array[2].field_6A,
+                             field_136_menu_pages_array[11].field_4_options_array[2].field_6A_font_type,
                              320);
     field_136_menu_pages_array[11].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[11].field_B8A[0].field_0 = 150;
@@ -3621,7 +3621,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[11].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[11].field_BC8 = 0;
     field_136_menu_pages_array[2].field_0_number_of_options = 3;
-    field_136_menu_pages_array[2].field_2 = 1;
+    field_136_menu_pages_array[2].field_2_number_of_elements = 1;
     field_136_menu_pages_array[2].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[2].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[2].field_518_elements_array[0].field_4_ypos = 11;
@@ -3629,7 +3629,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("plr_ded"),
             0x32u);
     field_136_menu_pages_array[2].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[2].field_518_elements_array[0].field_6C_font_variant = 0;
+    field_136_menu_pages_array[2].field_518_elements_array[0].field_6C_font_palette = 0;
     field_136_menu_pages_array[2].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[2].field_4_options_array[0].field_4_y_pos = 392;
     wcsncpy(field_136_menu_pages_array[2].field_4_options_array[0].field_6_option_name_str,
@@ -3637,7 +3637,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[2].field_4_options_array[0].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[0].field_6_option_name_str,
-                             field_136_menu_pages_array[2].field_4_options_array[0].field_6A,
+                             field_136_menu_pages_array[2].field_4_options_array[0].field_6A_font_type,
                              320);
     field_136_menu_pages_array[2].field_4_options_array[0].field_80_menu_page_target = 260;
     field_136_menu_pages_array[2].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
@@ -3647,7 +3647,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[2].field_4_options_array[1].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[2].field_4_options_array[1].field_6A,
+                             field_136_menu_pages_array[2].field_4_options_array[1].field_6A_font_type,
                              320);
     field_136_menu_pages_array[2].field_4_options_array[1].field_80_menu_page_target = 259;
     field_136_menu_pages_array[2].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
@@ -3657,7 +3657,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[2].field_4_options_array[2].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[2].field_4_options_array[2].field_6A,
+                             field_136_menu_pages_array[2].field_4_options_array[2].field_6A_font_type,
                              320);
     field_136_menu_pages_array[2].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[2].field_B8A[0].field_0 = 150;
@@ -3669,7 +3669,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[2].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[2].field_BC8 = 0;
     field_136_menu_pages_array[3].field_0_number_of_options = 5;
-    field_136_menu_pages_array[3].field_2 = 1;
+    field_136_menu_pages_array[3].field_2_number_of_elements = 1;
     field_136_menu_pages_array[3].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[3].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[3].field_518_elements_array[0].field_4_ypos = 11;
@@ -3684,7 +3684,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[3].field_4_options_array[0].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[0].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[0].field_6A,
+                             field_136_menu_pages_array[3].field_4_options_array[0].field_6A_font_type,
                              320);
     field_136_menu_pages_array[3].field_4_options_array[0].field_80_menu_page_target = 261;
     field_136_menu_pages_array[3].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
@@ -3694,7 +3694,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[3].field_4_options_array[1].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[1].field_6A,
+                             field_136_menu_pages_array[3].field_4_options_array[1].field_6A_font_type,
                              320);
     field_136_menu_pages_array[3].field_4_options_array[1].field_80_menu_page_target = 260;
     field_136_menu_pages_array[3].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
@@ -3704,7 +3704,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[3].field_4_options_array[2].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[2].field_6A,
+                             field_136_menu_pages_array[3].field_4_options_array[2].field_6A_font_type,
                              320);
     field_136_menu_pages_array[3].field_4_options_array[2].field_80_menu_page_target = 259;
     field_136_menu_pages_array[3].field_4_options_array[3].field_0_option_type = STRING_TEXT_1;
@@ -3714,7 +3714,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[3].field_4_options_array[3].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[3].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[3].field_6A,
+                             field_136_menu_pages_array[3].field_4_options_array[3].field_6A_font_type,
                              320);
     field_136_menu_pages_array[3].field_4_options_array[3].field_80_menu_page_target = 266;
     field_136_menu_pages_array[3].field_4_options_array[4].field_0_option_type = STRING_TEXT_1;
@@ -3724,7 +3724,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[3].field_4_options_array[4].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[4].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[4].field_6A,
+                             field_136_menu_pages_array[3].field_4_options_array[4].field_6A_font_type,
                              320);
     field_136_menu_pages_array[3].field_4_options_array[4].field_80_menu_page_target = 0;
     field_136_menu_pages_array[3].field_B8A[0].field_0 = 150;
@@ -3740,7 +3740,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[3].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[3].field_BC8 = 0;
     field_136_menu_pages_array[4].field_0_number_of_options = 1;
-    field_136_menu_pages_array[4].field_2 = 1;
+    field_136_menu_pages_array[4].field_2_number_of_elements = 1;
     field_136_menu_pages_array[4].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[4].field_518_elements_array[0].field_4_ypos = 230;
     wcsncpy(field_136_menu_pages_array[4].field_518_elements_array[0].field_6_element_name_str,
@@ -3750,7 +3750,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[4].field_518_elements_array[0].field_6A_font_type = v30;
     field_136_menu_pages_array[4].field_518_elements_array[0].field_2_xpos =
         Frontend::sub_4B0190(field_136_menu_pages_array[4].field_518_elements_array[0].field_6_element_name_str, v30, 320);
-    field_136_menu_pages_array[4].field_518_elements_array[0].field_6C_font_variant = 4;
+    field_136_menu_pages_array[4].field_518_elements_array[0].field_6C_font_palette = 4;
     field_136_menu_pages_array[4].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[4].field_4_options_array[0].field_2_x_pos = 180;
     field_136_menu_pages_array[4].field_4_options_array[0].field_4_y_pos = 410;
@@ -3763,7 +3763,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[4].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[4].field_BC8 = 0;
     field_136_menu_pages_array[5].field_0_number_of_options = 1;
-    field_136_menu_pages_array[5].field_2 = 5;
+    field_136_menu_pages_array[5].field_2_number_of_elements = 5;
     field_136_menu_pages_array[5].field_4_options_array[0].field_0_option_type = STRING_TEXT_2;
     field_136_menu_pages_array[5].field_4_options_array[0].field_2_x_pos = 300;
     field_136_menu_pages_array[5].field_4_options_array[0].field_4_y_pos = 155;
@@ -3806,7 +3806,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[5].field_518_elements_array[4].field_6A_font_type = field_126;
     field_136_menu_pages_array[6].field_0_number_of_options = 3;
-    field_136_menu_pages_array[6].field_2 = 3;
+    field_136_menu_pages_array[6].field_2_number_of_elements = 3;
     field_136_menu_pages_array[6].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[6].field_518_elements_array[0].field_4_ypos = 11;
@@ -3814,7 +3814,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("bonslev"),
             0x32u);
     field_136_menu_pages_array[6].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[6].field_518_elements_array[0].field_6C_font_variant = 5;
+    field_136_menu_pages_array[6].field_518_elements_array[0].field_6C_font_palette = 5;
     field_136_menu_pages_array[6].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_518_elements_array[1].field_2_xpos = 170;
     field_136_menu_pages_array[6].field_518_elements_array[1].field_4_ypos = 250;
@@ -3841,7 +3841,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[6].field_4_options_array[1].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[6].field_4_options_array[1].field_6A,
+                             field_136_menu_pages_array[6].field_4_options_array[1].field_6A_font_type,
                              320);
     field_136_menu_pages_array[6].field_4_options_array[1].field_80_menu_page_target = 261;
     field_136_menu_pages_array[6].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
@@ -3851,7 +3851,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[6].field_4_options_array[2].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[6].field_4_options_array[2].field_6A,
+                             field_136_menu_pages_array[6].field_4_options_array[2].field_6A_font_type,
                              320);
     field_136_menu_pages_array[6].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[6].field_B8A[0].field_0 = 150;
@@ -3863,12 +3863,12 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[6].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[6].field_BC8 = 0;
     field_136_menu_pages_array[7].field_0_number_of_options = 1;
-    field_136_menu_pages_array[7].field_2 = 14;
+    field_136_menu_pages_array[7].field_2_number_of_elements = 14;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_4_ypos = 11;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[7].field_518_elements_array[0].field_6C_font_variant = 5;
+    field_136_menu_pages_array[7].field_518_elements_array[0].field_6C_font_palette = 5;
     field_136_menu_pages_array[7].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[1].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[1].field_4_ypos = 170;
@@ -3925,7 +3925,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     wcsncpy(field_136_menu_pages_array[7].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
     field_136_menu_pages_array[7].field_4_options_array[0].field_2_x_pos =
         sub_4B0190(field_136_menu_pages_array[7].field_4_options_array[0].field_6_option_name_str,
-                   field_136_menu_pages_array[7].field_4_options_array[0].field_6A,
+                   field_136_menu_pages_array[7].field_4_options_array[0].field_6A_font_type,
                    320);
     field_136_menu_pages_array[7].field_4_options_array[0].field_80_menu_page_target = 258;
     field_136_menu_pages_array[7].field_B8A[0].field_0 = 180;
@@ -3933,7 +3933,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[7].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[7].field_BC8 = 0;
     field_136_menu_pages_array[8].field_0_number_of_options = 1;
-    field_136_menu_pages_array[8].field_2 = 0;
+    field_136_menu_pages_array[8].field_2_number_of_elements = 0;
     field_136_menu_pages_array[8].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[8].field_4_options_array[0].field_2_x_pos = 200;
     field_136_menu_pages_array[8].field_4_options_array[0].field_4_y_pos = 280;
@@ -3946,7 +3946,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[8].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[8].field_BC8 = 0;
     field_136_menu_pages_array[10].field_0_number_of_options = 1;
-    field_136_menu_pages_array[10].field_2 = 1;
+    field_136_menu_pages_array[10].field_2_number_of_elements = 1;
     field_136_menu_pages_array[10].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[10].field_518_elements_array[0].field_4_ypos = 230;
     wcsncpy(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str,
@@ -3958,7 +3958,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
         sub_4B0190(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str,
                    field_130, //v46,
                    320);
-    field_136_menu_pages_array[10].field_518_elements_array[0].field_6C_font_variant = 4;
+    field_136_menu_pages_array[10].field_518_elements_array[0].field_6C_font_palette = 4;
     field_136_menu_pages_array[10].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[10].field_4_options_array[0].field_2_x_pos = 180;
     field_136_menu_pages_array[10].field_4_options_array[0].field_4_y_pos = 410;
@@ -3971,7 +3971,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[10].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[10].field_BC8 = 0;
     field_136_menu_pages_array[14].field_0_number_of_options = 1;
-    field_136_menu_pages_array[14].field_2 = 5;
+    field_136_menu_pages_array[14].field_2_number_of_elements = 5;
     field_136_menu_pages_array[14].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[14].field_4_options_array[0].field_2_x_pos = 170;
     field_136_menu_pages_array[14].field_4_options_array[0].field_4_y_pos = 340;
@@ -4406,7 +4406,7 @@ s32 __stdcall Frontend::GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type)
 }
 
 MATCH_FUNC(0x4B78B0)
-void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 arg_C, s32 a2, u16 a6, u16 a7, u8 pStr)
+void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, s32 palette, u16 scale, u16 a7, u8 pStr)
 {
     u16 text_xbase;
 
@@ -4429,15 +4429,15 @@ void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 ar
 
     for (chr[0] = pString[0]; chr[0]; chr[0] = pString[++text_xposa])
     {
-        u16 biggestLine = Frontend::GetMaxTextWidth_5D8990(chr, arg_C);
+        u16 biggestLine = Frontend::GetMaxTextWidth_5D8990(chr, font_type);
         u16 v16 = (a7 - biggestLine) / 2;
-        if ((u16)a2 == 0xFFFF)
+        if ((u16)palette == 0xFFFF)
         {
-            DrawText_4B87A0(chr, text_xbase + v16, text_ypos, arg_C, a6);
+            DrawText_4B87A0(chr, text_xbase + v16, text_ypos, font_type, scale);
         }
         else
         {
-            DrawText_5D8A10(chr, text_xbase + v16, text_ypos, arg_C, a6, 8, a2, false, false);
+            DrawText_5D8A10(chr, text_xbase + v16, text_ypos, font_type, scale, 8, palette, false, false);
         }
         text_xbase += a7;
     }
@@ -5005,7 +5005,7 @@ MATCH_FUNC(0x4B6070)
 MenuPage_0xBCA::MenuPage_0xBCA()
 {
     field_0_number_of_options = 0;
-    field_2 = 0;
+    field_2_number_of_elements = 0;
     field_BC6_current_option_idx = 0;
     field_BC8 = 0;
 }
@@ -5014,7 +5014,7 @@ MATCH_FUNC(0x4B6110)
 MenuPage_0xBCA::~MenuPage_0xBCA()
 {
     field_0_number_of_options = 0;
-    field_2 = 0;
+    field_2_number_of_elements = 0;
     field_BC6_current_option_idx = 0;
     field_BC8 = 0;
 }
@@ -5064,7 +5064,7 @@ menu_element_0x6E::menu_element_0x6E()
     field_1_is_it_displayed = 1;
     wcscpy(field_6_element_name_str, word_67DC8C);
     field_6A_font_type = -1;
-    field_6C_font_variant = -1;
+    field_6C_font_palette = -1;
 }
 
 MATCH_FUNC(0x4B6420)
@@ -5075,14 +5075,14 @@ menu_element_0x6E::~menu_element_0x6E()
     field_2_xpos = 0;
     field_4_ypos = 0;
     field_6A_font_type = -1;
-    field_6C_font_variant = -1;
+    field_6C_font_palette = -1;
 }
 
 MATCH_FUNC(0x4B6290)
 menu_option_0x82::menu_option_0x82()
 {
-    field_6A = -1;
-    field_6C = -1;
+    field_6A_font_type = -1;
+    field_6C_palette = -1;
     field_0_option_type = NULL_TYPE_0;
     field_1_is_unlocked = 1;
     field_2_x_pos = 0;
@@ -5107,8 +5107,8 @@ menu_option_0x82::~menu_option_0x82()
     field_1_is_unlocked = 1;
     field_2_x_pos = 0;
     field_4_y_pos = 0;
-    field_6A = -1;
-    field_6C = -1;
+    field_6A_font_type = -1;
+    field_6C_palette = -1;
     field_6E_horizontal_selected_idx = 0;
     field_70 = 0;
     field_7E_horizontal_max_idx = 0;
