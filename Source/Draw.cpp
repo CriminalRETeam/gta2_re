@@ -85,15 +85,15 @@ s32 __stdcall CountLineSpacing_5D8940(wchar_t* pStr, u16 font_type)
 }
 
 MATCH_FUNC(0x5D7720)
-void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& a5, u16 a6, s32 alpha, u8 alpha_flag)
+void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag)
 {
     DrawText_5D8A10(pStr,
                     xoff * gViewCamera_676978->field_A8_ui_scale,
                     yoff * gViewCamera_676978->field_A8_ui_scale,
                     fontType,
                     gViewCamera_676978->field_A8_ui_scale,
-                    a5,
-                    a6,
+                    palette_type,
+                    palette,
                     alpha,
                     alpha_flag);
 }

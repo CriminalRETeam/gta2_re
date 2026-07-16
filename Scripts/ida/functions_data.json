@@ -4825,7 +4825,7 @@
         "v105_address": "0x4921b0"
     },
     {
-        "name": "thirsty_lamarr::sub_4921F0",
+        "name": "thirsty_lamarr::ColorDigits_4921F0",
         "v96f_address": "0x44b300",
         "v105_address": "0x4921f0"
     },
@@ -12860,7 +12860,7 @@
         "v105_address": "0x5699f0"
     },
     {
-        "name": "Player::sub_569A10",
+        "name": "Player::ColorScoreFromRemap_569A10",
         "v96f_address": null,
         "v105_address": "0x569a10"
     },
@@ -14375,7 +14375,7 @@
         "v105_address": "0x592330"
     },
     {
-        "name": "eager_benz::sub_592360",
+        "name": "eager_benz::GetScoreDigits_592360",
         "v96f_address": null,
         "v105_address": "0x592360"
     },
@@ -14455,7 +14455,7 @@
         "v105_address": "0x5934f0"
     },
     {
-        "name": "eager_benz::sub_5935B0",
+        "name": "eager_benz::GetMultiplayerFragDigits_5935B0",
         "v96f_address": null,
         "v105_address": "0x5935b0"
     },
@@ -15180,17 +15180,17 @@
         "v105_address": "0x5aa460"
     },
     {
-        "name": "gtx_0x106C::sub_5AA4F0",
+        "name": "gtx_0x106C::GetSpriteBaseOfType_5AA4F0",
         "v96f_address": null,
         "v105_address": "0x5aa4f0"
     },
     {
-        "name": "gtx_0x106C::sub_5AA560",
+        "name": "gtx_0x106C::GetPaletteBaseOfType_5AA560",
         "v96f_address": null,
         "v105_address": "0x5aa560"
     },
     {
-        "name": "gtx_0x106C::convert_pal_type",
+        "name": "gtx_0x106C::GetTruePalette_5AA5F0",
         "v96f_address": null,
         "v105_address": "0x5aa5f0"
     },

@@ -15,7 +15,7 @@ class eager_benz
     EXPORT void sub_591C70();
     EXPORT void sub_5922F0(Player* a2, s16 a3, s32 a4, s16 a5, u16 a6);
     EXPORT void sub_592330();
-    EXPORT thirsty_lamarr* sub_592360();
+    EXPORT thirsty_lamarr* GetScoreDigits_592360();
     EXPORT s32 GetScore_592370();
     EXPORT void sub_592380(char_type bits);
     EXPORT void sub_592430(char_type bits);
@@ -31,7 +31,7 @@ class eager_benz
     EXPORT void sub_593370(Car_BC* pCar);
     EXPORT void sub_593410(Car_BC* pCar);
     EXPORT void UpdateAccuracyCount_5934F0(u32 a2, s32 a3, Ped* a4);
-    EXPORT thirsty_lamarr* sub_5935B0();
+    EXPORT thirsty_lamarr* GetMultiplayerFragDigits_5935B0();
     EXPORT s32 sub_5935C0();
     EXPORT void ChangeFragsByAmount_5935D0(s32 a2);
 

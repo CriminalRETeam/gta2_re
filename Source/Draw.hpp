@@ -16,7 +16,7 @@ EXPORT void __stdcall DrawFigureScaled_5D7670(s32 sprite_type, s16 sprite_idx, F
 
 EXPORT s32 __stdcall GetLineSpacingFromFontType_5D7700(u16 a1);
 
-EXPORT void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& a5, u16 a6, s32 alpha, u8 alpha_flag);
+EXPORT void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag);
 
 EXPORT void __stdcall sub_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type);
 

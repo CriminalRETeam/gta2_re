@@ -1247,12 +1247,12 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Testing1"))
             {
-                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps_7, 6);
+                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 6);
             }
 
             if (ImGui::Button("Testing2"))
             {
-                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::sprites_2, 0);
+                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::sprites_2, 0);
             }
 
             if (ImGui::Button("Particle test"))

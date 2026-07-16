@@ -176,7 +176,7 @@ u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx)
 }
 
 MATCH_FUNC(0x5AA4F0)
-s16 gtx_0x106C::sub_5AA4F0(s32 sprite_type)
+s16 gtx_0x106C::GetSpriteBaseOfType_5AA4F0(s32 sprite_type)
 {
     switch (sprite_type)
     {
@@ -199,25 +199,25 @@ s16 gtx_0x106C::sub_5AA4F0(s32 sprite_type)
 }
 
 MATCH_FUNC(0x5AA560)
-s16 gtx_0x106C::sub_5AA560(s32 remap_type)
+s16 gtx_0x106C::GetPaletteBaseOfType_5AA560(s32 palette_type)
 {
-    switch (remap_type)
+    switch (palette_type)
     {
-        case 1:
+        case palette_types_enum::tiles_1:
             return field_10_palette_base1->field_0_tile;
-        case 2:
+        case palette_types_enum::sprites_2:
             return field_10_palette_base1->field_2_sprite;
-        case 3:
+        case palette_types_enum::car_remaps_3:
             return field_10_palette_base1->field_4_car_remap;
-        case 4:
+        case palette_types_enum::ped_remaps_4:
             return field_10_palette_base1->field_6_ped_remap;
-        case 5:
+        case palette_types_enum::code_obj_remaps_5:
             return field_10_palette_base1->field_8_code_obj_remap;
-        case 6:
+        case palette_types_enum::map_obj_remaps_6:
             return field_10_palette_base1->field_A_map_obj_remap;
-        case 7:
+        case palette_types_enum::user_remaps_7:
             return field_10_palette_base1->field_C_user_remap;
-        case 8:
+        case palette_types_enum::font_remaps_8:
             return field_10_palette_base1->field_E_font_remap;
         default:
             return 0;
@@ -225,7 +225,7 @@ s16 gtx_0x106C::sub_5AA560(s32 remap_type)
 }
 
 MATCH_FUNC(0x5AA5F0)
-s16 gtx_0x106C::convert_pal_type_5AA5F0(s32 palette_type, s16 pal)
+s16 gtx_0x106C::GetTruePalette_5AA5F0(s32 palette_type, s16 pal)
 {
     s16 result; // ax
 

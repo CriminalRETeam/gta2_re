@@ -124,7 +124,7 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                                         word_7062DC, // font
                                         gViewCamera_676978->field_A8_ui_scale, // scale
                                         pIter->field_78C != 7 ? 2 : 8,
-                                        pIter->field_790 - 1,
+                                        pIter->field_790_hud_palette - 1,
                                         0,
                                         0);
                     }
@@ -648,14 +648,14 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         }
     }
 
-    thirsty_lamarr* v5 = pPlayer->field_2D4_scores.sub_592360();
+    thirsty_lamarr* v5 = pPlayer->field_2D4_scores.GetScoreDigits_592360();
     s32 dolar_sign_xpos = v5->sub_492260(639, 4);
 
     // Now draw $ symbol
 
     if (bStartNetworkGame_7081F0)
     {
-        DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, pPlayer->field_78C, pPlayer->field_790, 0, 0);
+        DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, pPlayer->field_78C, pPlayer->field_790_hud_palette, 0, 0);
     }
     else
     {
@@ -681,11 +681,11 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                      gYouthful_einstein_6F8450.field_4_time[pPlayer->field_2E_idx] % 60);
 
             const s32 unknownn = (pPlayer->field_78C != 7) ? 2 : 8;
-            DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790 - 1, 0, 0);
+            DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790_hud_palette - 1, 0, 0);
         }
         else
         {
-            thirsty_lamarr* v16 = pPlayer->field_2D4_scores.sub_5935B0();
+            thirsty_lamarr* v16 = pPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
             v16->sub_492260(490, 4);
         }
 
@@ -695,10 +695,10 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         {
             if (pMultiPlayer->field_0_bIsUser == 0)
             {
-                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_scores.sub_592360();
+                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_scores.GetScoreDigits_592360();
                 s32 v21 = v19->sub_492430(16, ypos);
 
-                DrawFigureScaled_5D7670(6, 16, 8, ypos + 10, word_706610, pMultiPlayer->field_78C, pMultiPlayer->field_790, 0, 0);
+                DrawFigureScaled_5D7670(6, 16, 8, ypos + 10, word_706610, pMultiPlayer->field_78C, pMultiPlayer->field_790_hud_palette, 0, 0);
 
                 if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3)
                 {
@@ -708,11 +708,11 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                              gYouthful_einstein_6F8450.field_4_time[pMultiPlayer->field_2E_idx] % 60);
 
                     const s32 very_unknown = (pMultiPlayer->field_78C != 7) ? 2 : 8;
-                    DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790 - 1, 0, 0);
+                    DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
                 }
                 else
                 {
-                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_scores.sub_5935B0();
+                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
                     v29->sub_492430(v21 + 20, ypos);
                 }
                 ypos += 27;
@@ -780,9 +780,9 @@ void Garox_1118_sub::sub_5D6290()
     Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     while (pPlayerIter)
     {
-        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_scores.sub_592360();
+        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_scores.GetScoreDigits_592360();
         pLamarr1->sub_4925E0();
-        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_scores.sub_5935B0();
+        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
         pLamarr2->sub_4925E0();
         pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
     }
@@ -2452,7 +2452,7 @@ void Hud_Brief_704::DrawBrief_5D3B80()
                    (32), // x
                    (443), // y
                    word_706610, // rot
-                   2, // drawkind
+                   palette_types_enum::sprites_2,
                    0,
                    0,
                    0);
@@ -2462,7 +2462,7 @@ void Hud_Brief_704::DrawBrief_5D3B80()
                         (64), // x
                         first_line_ypos, // y
                         word_7065C4, // fontType
-                        2,
+                        palette_types_enum::sprites_2,
                         0, // a6
                         0, // alpha
                         0); // alpha_flag

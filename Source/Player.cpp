@@ -2484,58 +2484,58 @@ void Player::ChangeLifeCountByAmount_5699F0(s32 amount)
 }
 
 MATCH_FUNC(0x569A10)
-void Player::sub_569A10()
+void Player::ColorScoreFromRemap_569A10()
 {
     switch (field_2C4_player_ped->field_244_remap)
     {
-        case 13:
-            field_2D4_scores.sub_592360()->sub_4921F0(7, 2);
-            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 2);
-            this->field_790 = 2;
-            this->field_78C = 7;
+        case ped_remap_enum::ped_remap_yakuza:
+            field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 2);
+            field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 2);
+            field_790_hud_palette = 2;
+            field_78C = 7;
             break;
 
-        case 11:
-            field_2D4_scores.sub_592360()->sub_4921F0(7, 3);
-            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 3);
-            this->field_790 = 3;
-            this->field_78C = 7;
+        case ped_remap_enum::ped_remap_lonny:
+            field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 3);
+            field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 3);
+            field_790_hud_palette = 3;
+            field_78C = 7;
             break;
 
-        case 10:
-            field_2D4_scores.sub_592360()->sub_4921F0(7, 6);
-            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 6);
-            this->field_790 = 6;
-            this->field_78C = 7;
+        case ped_remap_enum::ped_remap_russian:
+            field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 6);
+            field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 6);
+            field_790_hud_palette = 6;
+            field_78C = 7;
             break;
 
-        case 9:
-            field_2D4_scores.sub_592360()->sub_4921F0(7, 5);
-            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 5);
-            this->field_790 = 5;
-            this->field_78C = 7;
+        case ped_remap_enum::ped_remap_kristna:
+            field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 5);
+            field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 5);
+            field_790_hud_palette = 5;
+            field_78C = 7;
             break;
 
-        case 8:
-            field_2D4_scores.sub_592360()->sub_4921F0(7, 7);
-            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 7);
-            this->field_790 = 7;
-            this->field_78C = 7;
+        case ped_remap_enum::ped_remap_zaibatsu:
+            field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 7);
+            field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 7);
+            field_790_hud_palette = 7;
+            field_78C = 7;
             break;
 
-        case 7:
-            field_2D4_scores.sub_592360()->sub_4921F0(7, 8);
-            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 8);
-            this->field_790 = 8;
-            this->field_78C = 7;
+        case ped_remap_enum::ped_remap_yellow_scientist:
+            field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 8);
+            field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 8);
+            field_790_hud_palette = 8;
+            field_78C = 7;
             break;
 
-        case 5:
-        case 6:
-            field_2D4_scores.sub_592360()->sub_4921F0(7, 4);
-            field_2D4_scores.sub_5935B0()->sub_4921F0(7, 4);
-            this->field_790 = 4;
-            this->field_78C = 7;
+        case ped_remap_enum::ped_remap_red_head_redneck:
+        case ped_remap_enum::ped_remap_blond_head_redneck:
+            field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 4);
+            field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 4);
+            field_790_hud_palette = 4;
+            field_78C = 7;
             break;
 
         default:
@@ -2555,7 +2555,7 @@ void Player::SetScoreTextColour_569C20()
             {
                 field_60_bFinshScoreReached = 1;
                 // Red when map "beaten"
-                field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps_7, 6);
+                field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 6);
             }
         }
         else
@@ -2564,7 +2564,7 @@ void Player::SetScoreTextColour_569C20()
             if (score < gfrosty_pasteur_6F8060->field_310_finish_score)
             {
                 field_60_bFinshScoreReached = 0;
-                field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::sprites_2, 0);
+                field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::sprites_2, 0);
             }
         }
     }
@@ -2626,10 +2626,10 @@ void Player::InitializePlayerState_569CB0()
         }
     }
     field_78C = 2;
-    field_790 = 0;
+    field_790_hud_palette = 0;
     if (bStartNetworkGame_7081F0)
     {
-        Player::sub_569A10();
+        Player::ColorScoreFromRemap_569A10();
         gNetPlay_7071E8.GetPlayerName_521100(field_83C_player_name, field_2E_idx);
         gText_0x14_704DFC->sub_5B5910(field_83C_player_name);
         gLucid_hamilton_67E8E0.sub_4C5C30(field_2E_idx, field_83C_player_name);

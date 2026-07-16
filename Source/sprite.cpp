@@ -645,9 +645,9 @@ s16 Sprite::sub_59EAA0()
     if (field_34_palette_type == palette_types_enum::sprites_2)
     {
         s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
-        return gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
+        return gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
     }
-    return gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_34_palette_type, field_24_remap);
+    return gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(field_34_palette_type, field_24_remap);
 }
 
 MATCH_FUNC(0x59eae0)
