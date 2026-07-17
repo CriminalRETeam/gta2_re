@@ -43,7 +43,7 @@ Fix16_Point Fix16_Point::NormalizeSafe_442AD0()
     }
     else
     {
-        return *this / length;
+        return Fix16_Point(x, y) / length; // TODO: *this / length;
     }
 }
 

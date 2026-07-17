@@ -1380,17 +1380,17 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
 
     switch (this->field_18_model)
     {
-        case 122:
+        case objects::pedestrian_crossing_marker_122:
             if (!pSprite)
             {
                 return 0;
             }
             return ShouldStopAtTrafficLight_525290(pSprite);
 
-        case 139:
+        case objects::conveyor_139:
             return 0;
 
-        case 169:
+        case objects::door_unknown_169:
             if (pSprite)
             {
                 return gDoor_4D4_67BD2C->CheckDoorAccess_49D3C0(pSprite, this->field_26_varrok_idx);
@@ -1400,7 +1400,7 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
                 return byte_6F8EDC;
             }
 
-        case 294:
+        case objects::tunnel_blocker_294:
             if (pSprite)
             {
                 Car_BC* pCar = pSprite->AsCar_40FEB0();
@@ -1498,8 +1498,8 @@ EXPORT void Object_2C::CheckCollisionForModel_139_And_141_525AE0()
 {
     switch (field_18_model)
     {
-        case 139:
-        case 141:
+        case objects::conveyor_139:
+        case objects::destructor_141:
             gPurpleDoom_1_679208->CheckAndHandleCollisionInStrips_477BD0(field_4);
             gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_4);
             break;

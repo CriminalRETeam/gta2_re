@@ -37,6 +37,7 @@
 #include "text_0x14.hpp"
 #include "sound_obj.hpp"
 #include "root_sound.hpp"
+#include "Rozza_C88.hpp"
 #include "ExplodingScore_100.hpp"
 #include "CarAI_78.hpp"
 #include <direct.h>
@@ -60,6 +61,8 @@ EXTERN_GLOBAL(u8, byte_6FEB48);
 EXTERN_GLOBAL(Fix16_Point, stru_6F6484);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
+
+EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
 
 Object_2C* spawned_obj = NULL;
 Car_BC* pNewCar = NULL;
@@ -951,6 +954,7 @@ static void DrawHookList(char* filter, std::vector<FuncData>& funcs, TChangeHook
     u32 i;
 
     ImGui::InputText("Filter", filter, 256);
+    /*
     if (ImGui::Button("Toggle all"))
     {
         for (i = 0; i < funcs.size(); i++)
@@ -958,6 +962,20 @@ static void DrawHookList(char* filter, std::vector<FuncData>& funcs, TChangeHook
             FuncData& d = funcs[i];
             d.hooked = !d.hooked;
             pChangeHookFn(d.funcName, d.ogAddr, d.hooked);
+        }
+    }
+    */
+
+    if (ImGui::Button("Toggle all listed"))
+    {
+        for (i = 0; i < funcs.size(); i++)
+        {
+            FuncData& d = funcs[i];
+            if (filter[0] == 0 || StrStrIA(d.funcName, filter))
+            {
+                d.hooked = !d.hooked;
+                pChangeHookFn(d.funcName, d.ogAddr, d.hooked);
+            }
         }
     }
 
@@ -2875,6 +2893,48 @@ void CC ImGuiDebugDraw()
             }
             ImGui::TreePop();
         }
+
+        if (ImGui::TreeNode("Car Physics Debug"))
+        {
+            if (ImGui::TreeNode("Show collision point"))
+            {
+                if (CollisionIntersectionPoint_6FE1A0.x > Fix16(0)
+                    && CollisionIntersectionPoint_6FE1A0.y > Fix16(0))
+                {
+                    DisplayWideTextAtXYZ(L"E", 
+                        CollisionIntersectionPoint_6FE1A0.x,
+                        CollisionIntersectionPoint_6FE1A0.y,
+                        Fix16(3));
+                }
+                ImGui::TreePop();
+            }
+            
+            if (&gRozza_679188 && ImGui::TreeNode("Show rozza sprite"))
+            {
+                ImGui::Value("Type", gRozza_679188.field_0_type);
+                if (gRozza_679188.field_20_pSprite)
+                {
+                    if (gRozza_679188.field_20_pSprite->AsCharB4_40FEA0())
+                    {
+                        PointArrowToEntity(gRozza_679188.field_20_pSprite->field_8_char_b4_ptr->field_7C_pPed, 0, 0);
+                    }
+                    else if (gRozza_679188.field_20_pSprite->AsCar_40FEB0())
+                    {
+                        PointArrowToEntity(0, gRozza_679188.field_20_pSprite->field_8_car_bc_ptr, 0);
+                    }
+                    else if (gRozza_679188.field_20_pSprite->As2C_40FEC0())
+                    {
+                        PointArrowToEntity(0, 0, gRozza_679188.field_20_pSprite->field_8_object_2C_ptr);
+                    }
+                }
+            }
+            else
+            {
+                ClearGlobalArrow();
+            }
+            ImGui::TreePop();
+        }
+            
 
         // Put in-game debug stuff here
 
