@@ -9,6 +9,7 @@ class Fix16;
 class Sprite;
 class Sprite;
 class Particle_4C;
+class Object_2C;
 
 class Particle_8
 {
@@ -30,7 +31,7 @@ class Particle_8
     EXPORT void EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv);
     EXPORT void EmitFlameStreamSegment_53F4C0(Sprite* pSprite);
 
-    s32 field_0;
+    Object_2C* field_0;
     s32 field_4;
 };
 
