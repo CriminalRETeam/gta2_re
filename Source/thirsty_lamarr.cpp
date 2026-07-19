@@ -41,13 +41,13 @@ thirsty_lamarr::thirsty_lamarr()
     field_2E_non_used_digits = 0;
     field_30_max_value = 0;
     field_34_first_digit_texture_idx = 0;
-    field_36_palette = 0;
+    field_36_sprite_idx = 0;
 }
 
 MATCH_FUNC(0x492110)
 void thirsty_lamarr::SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette)
 {
-    field_36_palette = palette;
+    field_36_sprite_idx = palette;
     field_2C_digit_transition_speed = digit_transition_speed;
     field_30_max_value = max_value;
     field_2A_max_num_of_digits = GetMaxNumOfDigits_4F7660(field_30_max_value);
@@ -59,11 +59,11 @@ void thirsty_lamarr::SetupDigitsParams_492110(s16 digit_transition_speed, s32 ma
 MATCH_FUNC(0x492150)
 void thirsty_lamarr::sub_492150()
 {
-    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_palette);
+    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_sprite_idx);
     sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     field_27_sprite_w = sprite_index->field_4_width;
     field_28_sprite_h_calc = sprite_index->field_5_height / 11;
-    field_34_first_digit_texture_idx = gSharp_pare_0x15D8_705064->RegisterDigits_5B9220(field_2A_max_num_of_digits, field_36_palette);
+    field_34_first_digit_texture_idx = gSharp_pare_0x15D8_705064->RegisterDigits_5B9220(field_2A_max_num_of_digits, field_36_sprite_idx);
 }
 
 MATCH_FUNC(0x4921b0)
@@ -107,7 +107,7 @@ void thirsty_lamarr::ColorDigits_4921F0(s32 palette_type, s16 palette)
     u16 virtual_palette;
     if (palette_type == palette_types_enum::sprites_2)
     {
-        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_palette);
+        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_sprite_idx);
         virtual_palette = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
     }
     else
