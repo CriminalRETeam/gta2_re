@@ -2984,6 +2984,7 @@ void CC ImGuiDebugDraw()
             ImGui::Checkbox("Invulnerable", &bDo_invulnerable_67D4CB);
             ImGui::Checkbox("Get all weapons", &bGet_all_weapons_67D684);
             ImGui::Checkbox("Keep weapons after death", &bKeep_weapons_after_death_67D54D);
+            ImGui::Checkbox("Free Shopping", &bDo_free_shopping_67D6CD);
             ImGui::Checkbox("Do Blood", &bDo_blood_67D5C5);
             ImGui::TreePop();
         }
