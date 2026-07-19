@@ -1,5 +1,6 @@
 #include "Firefighters.hpp"
 #include "Car_BC.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Game_0x40.hpp"
 #include "Hamburger_500.hpp"
 #include "Orca_2FD4.hpp"
@@ -7,6 +8,7 @@
 
 DEFINE_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0, 0x67D4C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_67D1F0, Fix16(0.5f), 0x67D1F0);
+DEFINE_GLOBAL_INIT(Fix16, dword_67D378, Fix16(0), 0x67D378);
 
 DEFINE_GLOBAL_INIT(Ang16, word_67D4B0, Ang16(0), 0x67D4B0);
 DEFINE_GLOBAL_INIT(Ang16, word_67D208, Ang16(360), 0x67D208);
@@ -125,12 +127,95 @@ void FirefighterPool_54::sub_4A88D0()
     field_50_count = 0;
 }
 
-// https://decomp.me/scratch/X8G5z
-STUB_FUNC(0x4a7fc0)
-char_type Firefighter_28::sub_4A7FC0()
+// https://decomp.me/scratch/X8G5z mov 0x4(%esp) vs mov (%eax)
+WIP_FUNC(0x4a7fc0)
+bool Firefighter_28::sub_4A7FC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_1C_car->field_58_physics)
+    {
+        Firefighter_28::deinit_4A81A0();
+        return 0;
+    }
+
+    if (field_1C_car->field_58_physics->field_0_vel_read_only.GetLength_453590() == dword_67D378)
+    {
+        if (++field_24_next_state_timer >= 1000)
+        {
+            Firefighter_28::deinit_4A81A0();
+            return 0;
+        }
+    }
+    else
+    {
+        field_24_next_state_timer = 0;
+    }
+
+    if (field_1C_car && field_1C_car->field_76_last_seen_timer > 5000)
+    {
+        field_8_state = 6;
+    }
+    if (field_1C_car && field_1C_car->field_74_damage > 32000)
+    {
+        field_8_state = 6;
+    }
+
+    if (field_C_target_car)
+    {
+        if (field_C_target_car->field_88_despawn_status == 6 || field_C_target_car->field_88_despawn_status == 7 ||
+            field_C_target_car->IsDespawning_4215B0() || field_C_target_car->sub_4214B0())
+        {
+            if (field_20_ped)
+            {
+                field_20_ped->SetObjective(objectives_enum::no_obj_0, 9999);
+            }
+            field_8_state = 6;
+        }
+    }
+
+    if (field_20_ped && field_20_ped->bHasGameObject_403B70())
+    {
+        field_8_state = 6;
+    }
+
+    if (field_8_state != 2)
+    {
+        if (field_8_state > 2 && field_8_state <= 4)
+        {
+            if (field_C_target_car)
+            {
+                if (!field_C_target_car->field_0_qq.FindFirstActiveObject_5A6AD0())
+                {
+                    field_8_state = 5;
+                }
+            }
+        }
+    }
+    else
+    {
+        if (field_C_target_car)
+        {
+            if (field_C_target_car->field_88_despawn_status != 6 && !field_C_target_car->IsDespawning_4215B0())
+            {
+                if (field_20_ped)
+                {
+                    if (field_C_target_car->get_x_41E430().ToUInt8() != field_20_ped->field_1DC_objective_target_x.ToUInt8() ||
+                        field_C_target_car->get_y_41E440().ToUInt8() != field_20_ped->field_1E0_objective_target_y.ToUInt8())
+                    {
+                        field_20_ped->SetObjective(objectives_enum::goto_area_in_car_14, 9999);
+                        field_20_ped->field_1DC_objective_target_x = Fix16(field_C_target_car->get_x_41E430().ToUInt8());
+                        field_20_ped->field_1E0_objective_target_y = Fix16(field_C_target_car->get_y_41E440().ToUInt8());
+                        field_20_ped->field_1E4_objective_target_z = Fix16(field_C_target_car->get_z_41E450().ToUInt8());
+                    }
+                }
+            }
+        }
+    }
+
+    if (field_8_state == 6)
+    {
+        Firefighter_28::deinit_4A81A0();
+    }
+    return 1;
 }
 
 MATCH_FUNC(0x4a81a0)

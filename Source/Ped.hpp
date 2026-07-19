@@ -534,6 +534,11 @@ class Ped
         return field_21C_bf.b25 && field_168_game_object;
     }
 
+    bool bHasGameObject_403B70()
+    {
+        return field_168_game_object;
+    }
+
     inline u8 GetBit11_433CA0()
     {
         return field_21C_bf.b11;
