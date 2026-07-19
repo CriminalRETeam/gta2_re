@@ -20,7 +20,7 @@ class Firefighter_28
         field_24_next_state_timer = 0;
     }
 
-    EXPORT char_type sub_4A7FC0();
+    EXPORT bool sub_4A7FC0();
     EXPORT void deinit_4A81A0();
     EXPORT void sub_4A81F0();
     EXPORT void init_4A85C0();
@@ -36,7 +36,7 @@ class Firefighter_28
     Fix16 field_18_zpos;
     Car_BC* field_1C_car;
     Ped* field_20_ped;
-    s16 field_24_next_state_timer;
+    u16 field_24_next_state_timer;
     s16 field_26;
 };
 

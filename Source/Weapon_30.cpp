@@ -186,7 +186,7 @@ void Weapon_30::TickReloadSpeed_5DCF40()
 
 // 9.6f 0x4CDA90
 WIP_FUNC(0x5dcf60)
-Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot, Fix16_Point& rPoint)
+Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot, Fix16_Point& speed)
 {
     WIP_IMPLEMENTED;
 
@@ -219,7 +219,7 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
     else
     {
         bAllowFlameSegment_706D60 = 1;
-        pNewBullet->SetMovementVector_5224E0(rPoint);
+        pNewBullet->SetMovementVector_5224E0(speed);
         return pNewBullet;
     }
 }
@@ -634,15 +634,20 @@ void Weapon_30::car_mine_5E2550()
 }
 
 // 9.6f 0x4D0230
+// 10.5 https://decomp.me/scratch/odtu0
 WIP_FUNC(0x5e2940)
 void Weapon_30::car_smg_5E2940()
 {
     WIP_IMPLEMENTED;
+    Fix16_Point left;
+    Fix16_Point right;
+    Fix16_Point left_point_velocity;
+    Fix16_Point right_point_velocity;
 
     Ang16 sprite_ang;
     if (field_2_reload_speed == 0)
     {
-        field_24_pPed = field_14_car->field_54_driver;
+        field_24_pPed = field_14_car->get_driver_4118B0();
 
         Sprite* pCarSprite = field_14_car->field_50_car_sprite;
         sprite_ang = field_14_car->field_50_car_sprite->field_0;
@@ -650,23 +655,31 @@ void Weapon_30::car_smg_5E2940()
         Fix16 tmpx = dword_706DCC + field_14_car->get_car_width() / 2;
         Fix16 tmpy = dword_706FD0 + field_14_car->get_car_height() / 2;
 
-        Fix16_Point left;
         left.SetXY_432860(tmpx, tmpy);
         left.RotateByAngle_40F6B0(sprite_ang);
         left += pCarSprite->get_x_y_443580();
 
-        Fix16_Point right;
-        right.SetXY_432860(-left.x, left.y);
+        right.SetXY_432860(-tmpx, tmpy);
         right.RotateByAngle_40F6B0(sprite_ang);
         right += pCarSprite->get_x_y_443580();
 
-        Fix16_Point left_point = field_14_car->field_58_physics->GetPointVelocity_561350(&left);
-        Fix16_Point right_point = field_14_car->field_58_physics->GetPointVelocity_561350(&right);
+        left_point_velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&left);
+        right_point_velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&right);
 
         if (!field_4)
         {
-            Object_2C* pLeft = spawn_bullet_5DCF60(254, left.x, left.y, pCarSprite->field_1C_zpos, sprite_ang, left_point);
-            Object_2C* pRight = spawn_bullet_5DCF60(254, right.x, right.y, pCarSprite->field_1C_zpos, sprite_ang, right_point);
+            Object_2C* pLeft = spawn_bullet_5DCF60(objects::machine_gun_bullet_254,
+                                                   left.x,
+                                                   left.y,
+                                                   pCarSprite->field_1C_zpos,
+                                                   sprite_ang,
+                                                   left_point_velocity);
+            Object_2C* pRight = spawn_bullet_5DCF60(objects::machine_gun_bullet_254,
+                                                    right.x,
+                                                    right.y,
+                                                    pCarSprite->field_1C_zpos,
+                                                    sprite_ang,
+                                                    right_point_velocity);
             if ((pLeft || pRight) && field_24_pPed->IsField238_45EDE0(2) && !is_infinite_ammo_4A4FA0())
             {
                 field_0_ammo--;
@@ -679,13 +692,18 @@ void Weapon_30::car_smg_5E2940()
             field_24_pPed->AddThreateningPedToList_46FC70();
             if (field_24_pPed->is_player_41B0A0())
             {
-                gShooey_CC_67A4B8->ReportCrimeForPed(2u, field_24_pPed);
+                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
             }
         }
         else
         {
-            spawn_bullet_5DCF60(154, left.x, left.y, pCarSprite->field_1C_zpos, sprite_ang, left_point);
-            spawn_bullet_5DCF60(154, right.x, right.y, pCarSprite->field_1C_zpos, sprite_ang, right_point);
+            spawn_bullet_5DCF60(objects::flamethrower_fire_154, left.x, left.y, pCarSprite->field_1C_zpos, sprite_ang, left_point_velocity);
+            spawn_bullet_5DCF60(objects::flamethrower_fire_154,
+                                right.x,
+                                right.y,
+                                pCarSprite->field_1C_zpos,
+                                sprite_ang,
+                                right_point_velocity);
             field_2_reload_speed = 1;
         }
 

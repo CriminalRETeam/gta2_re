@@ -2289,7 +2289,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("f_2E", pPlayer->field_2D4_scores.field_0_money.field_2E_non_used_digits);
                         ImGui::Value("f_30", pPlayer->field_2D4_scores.field_0_money.field_30_max_value);
                         ImGui::Value("f_34", pPlayer->field_2D4_scores.field_0_money.field_34_first_digit_texture_idx);
-                        ImGui::Value("f_36", pPlayer->field_2D4_scores.field_0_money.field_36_palette);
+                        ImGui::Value("f_36", pPlayer->field_2D4_scores.field_0_money.field_36_sprite_idx);
 
                         static char_type num_idx = 0;
                         ImGui::SliderS8("Array Idx", &num_idx, 0, 9);
@@ -2984,6 +2984,7 @@ void CC ImGuiDebugDraw()
             ImGui::Checkbox("Invulnerable", &bDo_invulnerable_67D4CB);
             ImGui::Checkbox("Get all weapons", &bGet_all_weapons_67D684);
             ImGui::Checkbox("Keep weapons after death", &bKeep_weapons_after_death_67D54D);
+            ImGui::Checkbox("Free Shopping", &bDo_free_shopping_67D6CD);
             ImGui::Checkbox("Do Blood", &bDo_blood_67D5C5);
             ImGui::TreePop();
         }

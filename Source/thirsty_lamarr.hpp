@@ -34,5 +34,5 @@ class thirsty_lamarr
     u16 field_2E_non_used_digits;
     s32 field_30_max_value;
     s16 field_34_first_digit_texture_idx;
-    s16 field_36_palette;
+    s16 field_36_sprite_idx;
 };
