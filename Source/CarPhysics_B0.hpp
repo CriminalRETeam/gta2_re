@@ -381,7 +381,7 @@ class CarPhysics_B0
     char_type field_A9_car_model;
     char_type field_AA_sbw;
     char_type field_AB_tpa;
-    char_type field_AC_drive_wheels_locked_q;
+    u8 field_AC_drive_wheels_locked_q;
     char_type field_AD_turn_direction;
     char_type field_AE;
     char_type field_AF;
