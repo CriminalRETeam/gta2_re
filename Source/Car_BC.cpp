@@ -1425,7 +1425,7 @@ bool Car_BC::IsCarInAir_43A3C0()
     {
         return false;
     }
-    return field_58_physics->field_98_surface_type == 6; // 6 = air surface (or no surface)
+    return field_58_physics->field_98_surface_type == car_surface_type::air_surface_6;
 }
 
 // 9.6f 0x421E00

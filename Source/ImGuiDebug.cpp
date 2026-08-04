@@ -954,17 +954,6 @@ static void DrawHookList(char* filter, std::vector<FuncData>& funcs, TChangeHook
     u32 i;
 
     ImGui::InputText("Filter", filter, 256);
-    /*
-    if (ImGui::Button("Toggle all"))
-    {
-        for (i = 0; i < funcs.size(); i++)
-        {
-            FuncData& d = funcs[i];
-            d.hooked = !d.hooked;
-            pChangeHookFn(d.funcName, d.ogAddr, d.hooked);
-        }
-    }
-    */
 
     if (ImGui::Button("Toggle all listed"))
     {
@@ -1513,47 +1502,6 @@ void CC ImGuiDebugDraw()
             }
         }
 
-        if (ImGui::TreeNode("Player position"))
-        {
-            Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-            if (pPlayer)
-            {
-                Ped* pPed = pPlayer->field_2C4_player_ped;
-                if (pPed)
-                {
-                    static s32 xpos = pPed->field_1AC_cam.x.mValue;
-                    static s32 ypos = pPed->field_1AC_cam.y.mValue;
-                    static s32 zpos = pPed->field_1AC_cam.z.mValue;
-                    ImGui::SliderInt("X pos", &xpos, 0, 4177920);
-                    ImGui::SliderInt("Y pos", &ypos, 0, 4177920);
-                    ImGui::SliderInt("Z pos", &zpos, 0, 229376);
-
-                    pPed->field_1AC_cam.x = xpos;
-                    pPed->field_1AC_cam.y = ypos;
-                    pPed->field_1AC_cam.z = zpos;
-
-                    Camera_0xBC* game_camera = &pPlayer->field_90_game_camera;
-
-                    if (game_camera)
-                    {
-                        game_camera->field_98_cam_pos2.field_0_x = xpos;
-                        game_camera->field_98_cam_pos2.field_4_y = ypos;
-                        game_camera->field_98_cam_pos2.field_8_z = zpos;
-                    }
-
-                    if (pPlayerSprite)
-                    {
-                        pPlayerSprite->field_14_xy.x = xpos;
-                        pPlayerSprite->field_14_xy.y = ypos;
-                        pPlayerSprite->field_1C_zpos = zpos;
-                        pPlayerSprite->field_8_char_b4_ptr->field_A4_xpos = xpos;
-                        pPlayerSprite->field_8_char_b4_ptr->field_A8_ypos = ypos;
-                        pPlayerSprite->field_8_char_b4_ptr->field_AC_zpos = zpos;
-                    }
-                }
-            }
-        }
-
         if (ImGui::TreeNode("Camera"))
         {
             if (ImGui::TreeNode("gViewCamera_676978"))
@@ -2071,13 +2019,14 @@ void CC ImGuiDebugDraw()
                                 ImGui::SliderInt("Car Angle Velocity", &pPhysics->field_74_ang_vel_rad.mValue, -10 * 16384, 10 * 16384);
                                 if (ImGui::TreeNode("Car Physics"))
                                 {
-                                    ImGui::Value("Center of Mass x", pPhysics->field_30_cm1.x.ToFloat(), "%.2f");
-                                    ImGui::Value("Center of Mass y", pPhysics->field_30_cm1.y.ToFloat(), "%.2f");
-                                    ImGui::Value("Center of ??? x", pPhysics->field_38_cp1.x.ToFloat(), "%.2f");
-                                    ImGui::Value("Center of ??? y", pPhysics->field_38_cp1.y.ToFloat(), "%.2f");
+                                    //ImGui::Value("Center of Mass x", pPhysics->field_30_cm1.x.ToFloat(), "%.2f");
+                                    //ImGui::Value("Center of Mass y", pPhysics->field_30_cm1.y.ToFloat(), "%.2f");
+                                    //ImGui::Value("Center of ??? x", pPhysics->field_38_cp1.x.ToFloat(), "%.2f");
+                                    //ImGui::Value("Center of ??? y", pPhysics->field_38_cp1.y.ToFloat(), "%.2f");
                                     ImGui::Value("Physics fA0", pPhysics->field_A0);
                                     ImGui::SliderInt("Physics fA0", &pPhysics->field_A0, 0, 3);
                                     ImGui::Value("Physics fAD", pPhysics->field_AD_turn_direction);
+                                    ImGui::Value("Surface type", pPhysics->field_98_surface_type);
                                     //pPhysics->field_95 = 1;
                                     //ImGui::SliderInt("Physics front skid", &pPhysics->field_84_front_skid.mValue, -3*16384, 3*16384);
                                     ImGui::TreePop();
