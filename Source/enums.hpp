@@ -546,6 +546,22 @@ enum
 // static_assert(sizeof(spec_surface_type_enum) == 4);
 } // namespace spec_surface_type_enum
 
+namespace car_surface_type
+{
+enum
+{
+    flat_surface_0 = 0,
+    slope_northwards_1 = 1,
+    slope_southwards_2 = 2,
+    slope_westwards_3 = 3,
+    slope_eastwards_4 = 4,
+    air_surface_6 = 6,
+    unknown_surface_7 = 7,
+    water_surface_8 = 8,
+    unknown_surface_9 = 9,
+};
+} // namespace car_surface_type
+
 namespace sprite_types_enum
 {
 enum
