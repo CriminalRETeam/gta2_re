@@ -132,9 +132,11 @@ def main():
         sys.exit(returncode)
     
     if args.reccmp:
-        python = sys.executable # should be the python venv
-        subprocess.run(f"{python} reccmp/generate.py", cwd=CURRENT_DIRECTORY, shell=True)
-        sys.exit(0)
+        result = subprocess.run(
+            [sys.executable, "reccmp/generate.py"],
+            cwd=CURRENT_DIRECTORY,
+        )
+        sys.exit(result.returncode)
 
     if not args.single_cpp:
         ok = verify()

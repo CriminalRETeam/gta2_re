@@ -51,6 +51,24 @@ class PosixWineInvocationTests(unittest.TestCase):
         self.assertEqual(path.count(";"), 2)
         self.assertTrue(lib.startswith("Z:"))
 
+    @mock.patch.object(build, "check_duplicated_globals", return_value=True)
+    @mock.patch.object(build, "build_cmake", return_value=0)
+    @mock.patch.object(build.subprocess, "run")
+    def test_reccmp_generation_failure_is_returned_to_caller(
+        self, run, _build_cmake, _check_globals
+    ):
+        run.return_value = mock.Mock(returncode=7)
+
+        with mock.patch.object(build.sys, "argv", ["build.py", "--reccmp"]):
+            with self.assertRaises(SystemExit) as exit_context:
+                build.main()
+
+        self.assertEqual(exit_context.exception.code, 7)
+        run.assert_called_once_with(
+            [build.sys.executable, "reccmp/generate.py"],
+            cwd=build.CURRENT_DIRECTORY,
+        )
+
     @mock.patch.object(build.platform, "system", return_value="Linux")
     @mock.patch.object(build, "get_vc6_env")
     @mock.patch.object(build.subprocess, "Popen")
