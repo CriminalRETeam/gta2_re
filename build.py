@@ -189,9 +189,8 @@ def get_vc6_env():
         include2 = as_wine_path(include2)
         include3 = as_wine_path(include3)
 
-        # escape ";"
-        path = fr'{path1}\;{path2}\;{path3}'
-        include = fr'{include1}\;{include2}\;{include3};'
+        path = f'{path1};{path2};{path3}'
+        include = f'{include1};{include2};{include3};'
 
 
     vc6_cmds = list()
@@ -200,6 +199,16 @@ def get_vc6_env():
     vc6_cmds.append(path)
 
     return vc6_cmds
+
+def get_wine_env(lib: str, include: str, path: str):
+    env = os.environ.copy()
+    env.update({
+        "WINEDEBUG": "-all",
+        "WINEPATH": path,
+        "LIB": lib,
+        "INCLUDE": include,
+    })
+    return env
 
 def convert_path(strPath):
     if os.name == "posix":
@@ -236,21 +245,16 @@ def build_single_cpp(cpp_file: str):
     if linux_or_mac:
         cl_args = f"@{as_wine_path(rsp_path)}"
         build_dir = as_wine_path(BUILD_DIRECTORY)
-        command = (
-            f"WINEDEBUG=-all "
-            f"export WINEPATH={path} "
-            f"export LIB={lib} "
-            f"export INCLUDE={include} "
-            f"wine cmd /c \"cd {build_dir} && cl.exe {cl_args}\""
-        )
+        windows_command = f"cd {build_dir} && cl.exe {cl_args}"
+        command = ["wine", "cmd", "/c", windows_command]
         print(f"Running command: {command}")
         p1 = subprocess.Popen(
             command,
             cwd=BUILD_DIRECTORY,
+            env=get_wine_env(lib, include, path),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            text=True,
-            shell=True
+            text=True
         )
     else:  # Windows
         cl_args = f"@{rsp_path}"
@@ -285,20 +289,16 @@ def build_cmake(reccmp : bool, core_count_to_use : int):
 
     if platform.system() in ("Linux", "Darwin"):
         build_dir = as_wine_path(BUILD_DIRECTORY)
-        command = (
-            f"WINEDEBUG=-all "
-            f"export WINEPATH={path} "
-            f"export LIB={lib} "
-            f"export INCLUDE={include} "
-            f"wine cmd /c \"cd {build_dir} && {get_build_cmds(reccmp, core_count_to_use)[0]} && {get_build_cmds(reccmp, core_count_to_use)[1]}\""
-        )
+        build_commands = get_build_cmds(reccmp, core_count_to_use)
+        windows_command = f"cd {build_dir} && {build_commands[0]} && {build_commands[1]}"
+        command = ["wine", "cmd", "/c", windows_command]
         p1 = subprocess.Popen(
             command,
             cwd=BUILD_DIRECTORY,
+            env=get_wine_env(lib, include, path),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            text=True,
-            shell=True
+            text=True
         )
     else:  # Windows
         p1 = subprocess.Popen(
