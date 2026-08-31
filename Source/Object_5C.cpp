@@ -524,7 +524,7 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
 }
 
 WIP_FUNC(0x522b20)
-void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* a3, Fix16_Point* a4)
+void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* a3, Fix16_Point* speed)
 {
     WIP_IMPLEMENTED;
 
@@ -533,7 +533,7 @@ void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* 
     Fix16_Point obj_xy = GetXY_52AE70();
     v9 = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
                                             k_dword_6F8BE8,
-                                            *a4,
+                                            *speed,
                                             *a3,
                                             t,
                                             obj_xy,
@@ -551,7 +551,7 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
 {
     WIP_IMPLEMENTED;
 
-    Fix16_Point v13 = GetSpeedVector_52AE90();
+    Fix16_Point obj_speed = GetSpeedVector_52AE90();
     Fix16_Point v12;
     Fix16_Point t1;
     u8 v9;
@@ -583,16 +583,46 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
             t1.x = gRozza_679188.field_8;
         }
 
-        v12 = -v13;
+        v12 = -obj_speed;
     }
 
-    ResolveCollisionWithWorld_522B20(&t1, &v12, &v13);
+    ResolveCollisionWithWorld_522B20(&t1, &v12, &obj_speed);
 }
 
-STUB_FUNC(0x522d00)
-void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* a2)
+// https://decomp.me/scratch/PMCb4
+WIP_FUNC(0x522d00)
+void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    u8 v9;
+    Fix16_Point t2;
+    Fix16_Point v12;
+    Fix16_Point obj_speed = Object_2C::GetSpeedVector_52AE90();
+    if (field_4->GetNearestVerticalEdgeToCoordinate_5A1030(gRozza_679188.field_14_mapx_t2, t2, v9))
+    {
+        v12.SetXY_432860(field_4->field_14_xy.x - gRozza_679188.field_14_mapx_t2, Fix16(0));
+    }
+    else
+    {
+        t2.SetXY_432860(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_18_mapy_t1);
+        t2 -= *pPoint;
+        t2.y += field_4->field_14_xy.y;
+
+        Fix16 abs1 = Fix16::Abs(t2.y - gRozza_679188.field_10);
+        Fix16 abs2 = Fix16::Abs(t2.y - gRozza_679188.field_C_mapy_t2);
+
+        if (abs2 < abs1)
+        {
+            t2.y = gRozza_679188.field_C_mapy_t2;
+        }
+        else
+        {
+            t2.y = gRozza_679188.field_10;
+        }
+
+        v12 = -obj_speed;
+    }
+    Object_2C::ResolveCollisionWithWorld_522B20(&t2, &v12, &obj_speed);
 }
 
 WIP_FUNC(0x522e10)
