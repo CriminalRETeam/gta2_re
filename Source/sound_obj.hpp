@@ -55,6 +55,23 @@ struct sound_7
     s32 field_18;
 };
 
+struct sound_f16_pos_0x1C
+{
+    u8 field_0_bUsed;
+    u8 field_1;
+    u8 field_2;
+    u8 field_3;
+    
+    Fix16 field_4_xpos;
+    Fix16 field_8_ypos;
+
+    s32 field_C;
+    s16 field_10;
+    s16 field_12;
+    s32 field_14;
+    s32 field_18;
+};
+
 struct sound_0x68
 {
     s32 field_0_EntityIndex;
@@ -185,7 +202,7 @@ class sound_obj
     s32 field_5440;
     s32 field_5444;
     u32 field_5448_m_FrameCounter;
-    sound_7 field_544C[5];
+    sound_7 field_544C[5]; // sound_f16_pos_0x1C instead of sound_7 ?
     char_type field_54D8[5];
     char_type field_54DD;
     char_type field_54DE;
@@ -312,7 +329,7 @@ class sound_obj
     EXPORT void ProcessType11_HudPager_418B60(s32 a2);
     EXPORT void sub_418C20();
     EXPORT void sub_418C60();
-    EXPORT void sub_418C80(s32 a2);
+    EXPORT void PlayVocal_418C80(s32 a2);
     EXPORT void ProcessType10_Vocals_418CA0();
     EXPORT char_type CalculateDistance_419020(Fix16 new_dist);
     EXPORT bool VolCalc_419070(u8 a2, Fix16 a3, char_type a4);

@@ -1449,10 +1449,55 @@ u8 sound_obj::GetCDVol_41A280()
     return field_25_cdVol;
 }
 
-STUB_FUNC(0x57EA10)
+// TODO: need to rework field_544C or maybe using unions. https://decomp.me/scratch/zhKlS
+MATCH_FUNC(0x57EA10)
 void sound_obj::DeInitVocals_57EA10()
 {
-    NOT_IMPLEMENTED;
+    if (gSoundVocalsInited_6FF538)
+    {
+        gSoundVocalsInited_6FF538 = 0;
+
+        s32 idx = 0;
+        s32 k2 = 2;
+        do
+        {
+            gSampManager_6FFF00.CloseVocalStream_58E6A0(idx);
+            idx++;
+            --k2;
+        } while (k2);
+        
+        // TODO: use this loop instead of do..while (see decomp.me link):
+        /*
+        for (u32 j = 5; j; j--)
+        {
+            field_544C[j].field_0_bUsed = 0;
+            field_544C[j].field_10 = 0;
+            field_544C[j].field_12 = 0;
+            field_544C[j].field_14 = 0;
+            field_544C[j].field_18 = 0;
+        }
+        */
+
+        u8* pIter = (u8*)&field_54E8;
+        s32 k5 = 5;
+        do
+        {
+            *(u8*)((u8*)pIter - 0x10) = 0;
+            *(u16*)((u8*)pIter + 0) = 0;
+            *(u16*)((u8*)pIter + 2) = 0;
+            *(u32*)((u8*)pIter + 4) = 0;
+            *(u32*)((u8*)pIter + 8) = 0;
+            pIter -= 0x1C;
+            --k5;
+        } while (k5);
+
+        field_551C = 0;
+        if (field_5508_radio_entity_idx)
+        {
+            sound_obj::FreeSoundEntry_41A090(field_5508_radio_entity_idx);
+            field_5508_radio_entity_idx = 0;
+        }
+    }
 }
 
 STUB_FUNC(0x57EA90)
@@ -1468,6 +1513,7 @@ char_type sound_obj::ComputeRadioEmitterVolume_57EB90(s32 a2, s32 a3)
     return 0;
 }
 
+// Match here: https://decomp.me/scratch/qA1ae , but need to rework field_544C or maybe using unions
 STUB_FUNC(0x57EE30)
 void sound_obj::RemoveSound_57EE30(Fix16 a2, Fix16 a3)
 {
@@ -2179,13 +2225,13 @@ void sound_obj::ProcessType9_Crusher_412A60(s32 idx)
 }
 
 MATCH_FUNC(0x418C80)
-void sound_obj::sub_418C80(s32 a2)
+void sound_obj::PlayVocal_418C80(s32 vocal_idx)
 {
     if (field_544C[0].field_4_fp)
     {
-        if (a2 < 63)
+        if (vocal_idx < 63)
         {
-            field_544C[0].field_18 = a2;
+            field_544C[0].field_18 = vocal_idx;
         }
     }
 }
@@ -5137,6 +5183,7 @@ void sound_obj::TrainCab_414710(Sound_Params_8* a2)
     }
 }
 
+// Match here: https://decomp.me/scratch/9hxz1 , but need to rework field_544C or maybe using unions
 WIP_FUNC(0x57E680)
 void sound_obj::Type3_CopRadioReport_57E680()
 {
