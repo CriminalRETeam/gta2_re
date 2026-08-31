@@ -55,6 +55,23 @@ struct sound_7
     s32 field_18;
 };
 
+struct sound_f16_pos_0x1C
+{
+    u8 field_0_bUsed;
+    u8 field_1;
+    u8 field_2;
+    u8 field_3;
+    
+    Fix16 field_4_xpos;
+    Fix16 field_8_ypos;
+
+    s32 field_C;
+    s16 field_10;
+    s16 field_12;
+    s32 field_14;
+    s32 field_18;
+};
+
 struct sound_0x68
 {
     s32 field_0_EntityIndex;
@@ -185,7 +202,7 @@ class sound_obj
     s32 field_5440;
     s32 field_5444;
     u32 field_5448_m_FrameCounter;
-    sound_7 field_544C[5];
+    sound_7 field_544C[5]; // sound_f16_pos_0x1C instead of sound_7 ?
     char_type field_54D8[5];
     char_type field_54DD;
     char_type field_54DE;

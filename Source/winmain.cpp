@@ -2189,7 +2189,7 @@ EXPORT void __stdcall sub_4DA740()
 
         if (!bSkip_audio_67D6BE)
         {
-            gRoot_sound_66B038.unknown_inlined_function();
+            gRoot_sound_66B038.DeinitializeAudio();
         }
     }
 }

@@ -3442,7 +3442,7 @@ Object_2C* Object_5C::sub_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fi
     if (pNewObj)
     {
         pNewObj->field_26_varrok_idx = varrok_idx;
-        if (object_type == 279)
+        if (object_type == objects::sound_object_type_2_279)
         {
             pNewObj->sub_5290A0();
         }

@@ -70,7 +70,7 @@ void root_sound::CycleRadioStation_40F070(char_type a1)
 MATCH_FUNC(0x40F090)
 void root_sound::PlayVoice_40F090(s32 state)
 {
-    gSound_obj_66F680.sub_418C80(state);
+    gSound_obj_66F680.PlayVocal_418C80(state);
 }
 
 MATCH_FUNC(0x40F0B0)
@@ -160,7 +160,7 @@ root_sound::~root_sound()
 }
 
 // Somehow this function is inlined on sub_4DA740, but in assembly it's a standalone function
-void root_sound::unknown_inlined_function()
+void root_sound::DeinitializeAudio()
 {
     if (gSound_obj_66F680.field_0_bSoundInitialized)
     {

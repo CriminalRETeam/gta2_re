@@ -776,7 +776,8 @@ enum
     secret_token_266 = 266,
 
     electrobaton_bullet_277 = 277,
-    unknown_maybe_map_slope_278 = 278,
+    sound_object_type_1_278 = 278,
+    sound_object_type_2_279 = 279,
     power_generator_281 = 281,
     destroyed_powergen_282 = 282,
     invisible_powergen_283 = 283,
