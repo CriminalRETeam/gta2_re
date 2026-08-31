@@ -1449,10 +1449,55 @@ u8 sound_obj::GetCDVol_41A280()
     return field_25_cdVol;
 }
 
-STUB_FUNC(0x57EA10)
+// TODO: fix do...while offsets: https://decomp.me/scratch/zhKlS
+MATCH_FUNC(0x57EA10)
 void sound_obj::DeInitVocals_57EA10()
 {
-    NOT_IMPLEMENTED;
+    if (gSoundVocalsInited_6FF538)
+    {
+        gSoundVocalsInited_6FF538 = 0;
+
+        s32 idx = 0;
+        s32 k2 = 2;
+        do
+        {
+            gSampManager_6FFF00.CloseVocalStream_58E6A0(idx);
+            idx++;
+            --k2;
+        } while (k2);
+        
+        // TODO: the next do...while loop must be something like this (see decomp.me link):
+        /*
+        for (u32 j = 5; j; j--)
+        {
+            field_544C[j].field_0 = 0;
+            field_544C[j].field_8.field_4_bStatus = 0; //*(u16*)((u8*)pIter + 0) = 0;//*pIter = 0;
+            field_544C[j].field_8.field_6 = 0;//*(u16*)((u8*)pIter + 2) = 0;//pIter[1] = 0;
+            field_544C[j].field_8.field_8 = 0;//*(u32*)((u8*)pIter + 4) = 0;
+            field_544C[j].field_8.field_C_pAny.pAny = 0;//*(u32*)((u8*)pIter + 8) = 0;
+        }
+        */
+
+        u8* pIter = (u8*)&field_54E8;
+        s32 k5 = 5;
+        do
+        {
+            *(u8*)((u8*)pIter - 0x10) = 0;
+            *(u16*)((u8*)pIter + 0) = 0;
+            *(u16*)((u8*)pIter + 2) = 0;
+            *(u32*)((u8*)pIter + 4) = 0;
+            *(u32*)((u8*)pIter + 8) = 0;
+            pIter -= 0x1C;
+            --k5;
+        } while (k5);
+
+        field_551C = 0;
+        if (field_5508_radio_entity_idx)
+        {
+            sound_obj::FreeSoundEntry_41A090(field_5508_radio_entity_idx);
+            field_5508_radio_entity_idx = 0;
+        }
+    }
 }
 
 STUB_FUNC(0x57EA90)
