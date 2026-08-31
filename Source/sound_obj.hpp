@@ -329,7 +329,7 @@ class sound_obj
     EXPORT void ProcessType11_HudPager_418B60(s32 a2);
     EXPORT void sub_418C20();
     EXPORT void sub_418C60();
-    EXPORT void sub_418C80(s32 a2);
+    EXPORT void PlayVocal_418C80(s32 a2);
     EXPORT void ProcessType10_Vocals_418CA0();
     EXPORT char_type CalculateDistance_419020(Fix16 new_dist);
     EXPORT bool VolCalc_419070(u8 a2, Fix16 a3, char_type a4);
