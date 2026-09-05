@@ -585,6 +585,46 @@ class Map_0x370
         return false;
     }
 
+    bool IsNorthBlockRoadType_433470(s32 x, s32 y, s32 z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x, y - 1, z);
+        if (pBlock && (pBlock->field_B_slope_type & 3) == ROAD)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool IsEastBlockRoadType_4334A0(s32 x, s32 y, s32 z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x + 1, y, z);
+        if (pBlock && (pBlock->field_B_slope_type & 3) == ROAD)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool IsSouthBlockRoadType_4334D0(s32 x, s32 y, s32 z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x, y + 1, z);
+        if (pBlock && (pBlock->field_B_slope_type & 3) == ROAD)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool IsWestBlockRoadType_433500(s32 x, s32 y, s32 z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x - 1, y, z);
+        if (pBlock && (pBlock->field_B_slope_type & 3) == ROAD)
+        {
+            return true;
+        }
+        return false;
+    }
+
   public:
     gmp_compressed_map_32* field_0_pDmap;
     Map_sub field_4_obj;

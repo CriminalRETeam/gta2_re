@@ -428,10 +428,46 @@ void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
     }
 }
 
-STUB_FUNC(0x5125F0)
+MATCH_FUNC(0x5125F0)
 void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
 {
-    NOT_IMPLEMENTED;
+    u32 Buffer;
+    u16 Buffer_16;
+    u16 j = 0;
+    for (u16 i = 0; i < field_13350_pStringTbl->field_0_string_count; i++)
+    {
+        str_table_entry* pEntry = field_13350_pStringTbl->field_4[i];
+        if ((u8)pEntry->field_4_type == 21)
+        {
+            size_t length = strlen(pEntry->get_name());
+
+            ((char*)&pEntry->field_6)[length] = 'S';
+            ((char*)&pEntry->field_6)[length + 1] = 'C';
+            ((char*)&pEntry->field_6)[length + 2] = 'R';
+
+            if (field_2F4 == 1)
+            {
+                sprintf(gTmpBuffer_67C598, "data\\%s\\", field_45C_scr_file_name);
+                strncat(gTmpBuffer_67C598, pEntry->get_name(), pEntry->field_8_length);
+                File::Global_Open_4A7060(gTmpBuffer_67C598);
+
+                File::Global_Read_4A71C0(&Buffer_16, 2);
+                field_C1D72[j] = Buffer_16;
+                File::Global_Read_4A71C0(&Buffer_16, 2);
+                field_C1D34[j] = Buffer_16;
+                File::Global_Read_4A71C0(&Buffer, 4);
+                field_C1DB0[j] = Buffer;
+
+                File::Global_Read_4A71C0(&field_AA934[3072 * j], 3072);
+                File::GetRemainderSize_4A7250(&field_13354[20000 * j], &field_C1DB0[j]);
+
+                File::Global_Close_4A70C0();
+
+                pEntry->field_2_zone_idx = j;
+                j++;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x512770)
@@ -630,18 +666,73 @@ char_type* frosty_pasteur_0xC1EA8::sub_512BA0(s32 a2, char_type a3)
     return 0;
 }
 
-STUB_FUNC(0x512c00)
-s32 frosty_pasteur_0xC1EA8::sub_512C00(s32 a2, s32 a3, char_type a4)
+// https://decomp.me/scratch/r6LhX
+WIP_FUNC(0x512c00)
+void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, char_type bUnk)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
+
+    u8 projectile_type = sub_48E780(projectile_model);
+
+    for (u8 i = 0; i < 15; pTable++, i++)
+    {
+        if (pTable->field_0_entity_id == entity_id)
+        {
+            if (pTable->field_4_weapon_idx == weapon_type::weapon_0x17 || pTable->field_4_weapon_idx == projectile_type)
+            {
+                if (bUnk)
+                {
+                    if ((pTable->field_6 & 4) == 4)
+                    {
+                        pTable->field_5 = projectile_type;
+                        pTable->field_6 |= 1;
+                    }
+                }
+                else
+                {
+                    if ((pTable->field_6 & 2) == 2)
+                    {
+                        pTable->field_5 = projectile_type;
+                        pTable->field_6 |= 1;
+                    }
+                }
+
+                return;
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x512c70)
-bool frosty_pasteur_0xC1EA8::sub_512C70(s32 a2, char_type a3, char_type a4)
+MATCH_FUNC(0x512c70)
+bool frosty_pasteur_0xC1EA8::sub_512C70(s32 id, char_type weapon_idx, char_type bUnk)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
+
+    for (u8 i = 0; i < 15; pTable++, i++)
+    {
+        if (pTable->field_0_entity_id == id)
+        {
+            if (pTable->field_4_weapon_idx == weapon_idx || pTable->field_4_weapon_idx == weapon_type::weapon_0x17)
+            {
+                if (bUnk)
+                {
+                    if ((pTable->field_6 & 4) == 4)
+                    {
+                        return (pTable->field_6 & 1) == 1;
+                    }
+                }
+                else
+                {
+                    if ((pTable->field_6 & 2) == 2)
+                    {
+                        return (pTable->field_6 & 1) == 1;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 // https://decomp.me/scratch/qh4EW
@@ -668,7 +759,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     field_184_count = 0;
     memset(field_188_thrds_4, 0, sizeof(field_188_thrds_4));
     field_278 = 0;
-    memset(field_27C, 0, sizeof(field_27C));
+    memset(field_27C_weapon_check_table, 0, sizeof(field_27C_weapon_check_table));
     memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
 
     gMiss2_25C_6F805C = new Miss2_25C();
