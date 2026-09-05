@@ -24,7 +24,7 @@ struct str_table_entry
 
 struct str_table_normalized
 {
-    s16 field_0_string_count;
+    u16 field_0_string_count;
     s16 field_2; // pad ?
     str_table_entry* field_4[999];
 };
@@ -673,7 +673,7 @@ class frosty_pasteur_0xC1EA8
     BYTE field_AA934[95232];
     s16 field_C1D34[31];
     s16 field_C1D72[31];
-    s32 field_C1DB0[31];
+    u32 field_C1DB0[31];
     char_type field_C1E2C;
     char_type field_C1E2D;
     char_type field_C1E2E_death_arrest_flag;

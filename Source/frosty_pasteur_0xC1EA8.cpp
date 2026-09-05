@@ -428,10 +428,46 @@ void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
     }
 }
 
-STUB_FUNC(0x5125F0)
+MATCH_FUNC(0x5125F0)
 void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
 {
-    NOT_IMPLEMENTED;
+    u32 Buffer;
+    u16 Buffer_16;
+    u16 j = 0;
+    for (u16 i = 0; i < field_13350_pStringTbl->field_0_string_count; i++)
+    {
+        str_table_entry* pEntry = field_13350_pStringTbl->field_4[i];
+        if ((u8)pEntry->field_4_type == 21)
+        {
+            size_t length = strlen(pEntry->get_name());
+
+            ((char*)&pEntry->field_6)[length] = 'S';
+            ((char*)&pEntry->field_6)[length + 1] = 'C';
+            ((char*)&pEntry->field_6)[length + 2] = 'R';
+
+            if (field_2F4 == 1)
+            {
+                sprintf(gTmpBuffer_67C598, "data\\%s\\", field_45C_scr_file_name);
+                strncat(gTmpBuffer_67C598, pEntry->get_name(), pEntry->field_8_length);
+                File::Global_Open_4A7060(gTmpBuffer_67C598);
+
+                File::Global_Read_4A71C0(&Buffer_16, 2);
+                field_C1D72[j] = Buffer_16;
+                File::Global_Read_4A71C0(&Buffer_16, 2);
+                field_C1D34[j] = Buffer_16;
+                File::Global_Read_4A71C0(&Buffer, 4);
+                field_C1DB0[j] = Buffer;
+
+                File::Global_Read_4A71C0(&field_AA934[3072 * j], 3072);
+                File::GetRemainderSize_4A7250(&field_13354[20000 * j], &field_C1DB0[j]);
+
+                File::Global_Close_4A70C0();
+
+                pEntry->field_2_zone_idx = j;
+                j++;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x512770)
