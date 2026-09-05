@@ -666,11 +666,42 @@ char_type* frosty_pasteur_0xC1EA8::sub_512BA0(s32 a2, char_type a3)
     return 0;
 }
 
-STUB_FUNC(0x512c00)
-s32 frosty_pasteur_0xC1EA8::sub_512C00(s32 a2, s32 a3, char_type a4)
+// https://decomp.me/scratch/r6LhX
+WIP_FUNC(0x512c00)
+void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, char_type bUnk)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
+
+    u8 projectile_type = sub_48E780(projectile_model);
+
+    for (u8 i = 0; i < 15; pTable++, i++)
+    {
+        if (pTable->field_0_entity_id == entity_id)
+        {
+            if (pTable->field_4_weapon_idx == weapon_type::weapon_0x17 || pTable->field_4_weapon_idx == projectile_type)
+            {
+                if (bUnk)
+                {
+                    if ((pTable->field_6 & 4) == 4)
+                    {
+                        pTable->field_5 = projectile_type;
+                        pTable->field_6 |= 1;
+                    }
+                }
+                else
+                {
+                    if ((pTable->field_6 & 2) == 2)
+                    {
+                        pTable->field_5 = projectile_type;
+                        pTable->field_6 |= 1;
+                    }
+                }
+
+                return;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x512c70)

@@ -592,7 +592,7 @@ struct WeaponCheckTable
 {
     s32 field_0_entity_id;
     s8 field_4_weapon_idx;
-    s8 field_5_pad;
+    s8 field_5;
     s8 field_6;
     s8 field_7_pad;
 };
@@ -630,8 +630,8 @@ class frosty_pasteur_0xC1EA8
     EXPORT thread_C* sub_512AD0(s32 a2);
     EXPORT char_type sub_512AF0(s32 a2, char_type a3, char_type a4);
     EXPORT char_type* sub_512BA0(s32 a2, char_type a3);
-    EXPORT s32 sub_512C00(s32 a2, s32 a3, char_type a4);
-    EXPORT bool sub_512C70(s32 a2, char_type a3, char_type a4);
+    EXPORT void sub_512C00(s32 entity_id, s32 projectile_model, char_type bUnk);
+    EXPORT bool sub_512C70(s32 id, char_type weapon_idx, char_type bUnk);
     EXPORT frosty_pasteur_0xC1EA8();
     EXPORT ~frosty_pasteur_0xC1EA8();
 
