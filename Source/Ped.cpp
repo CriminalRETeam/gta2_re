@@ -8323,10 +8323,248 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
     field_226 = 2;
 }
 
-STUB_FUNC(0x46b670)
+// https://decomp.me/scratch/aE2Ac
+WIP_FUNC(0x46b670)
 void Ped::MeleeAttackStateMachine_46B670()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    if (field_14C->GetPedState_403990() == ped_state_1::dead_9 || !field_14C->CheckBit0_433B40())
+    {
+        if (field_25C_internal_objective == objectives_enum::punch_char_23)
+        {
+            field_226 = 2;
+        }
+        else
+        {
+            field_226 = 1;
+        }
+        return;
+    }
+
+    if (field_278_ped_state_1 == ped_state_1::immobilized_8 ||
+        !abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, field_14C->field_1AC_cam.z))
+    {
+        Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
+        return;
+    }
+
+    field_14C->sub_433BF0(this);
+
+    if (field_14C->field_16C_car)
+    {
+        Ped::PullDriverOutOfCarStateMachine_46B2F0();
+        return;
+    }
+
+    gDistanceToTarget_678750 =
+        Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C->get_cam_x(), field_14C->get_cam_y());
+
+    if (gDistanceToTarget_678750 <= dword_678788)
+    {
+        // Ped is close
+        field_21C_bf.b9 = true;
+        field_21C_bf.b11 = true;
+        if (field_27C_ped_state_2 == ped_state_2::Unknown_9)
+        {
+            Sprite* pNearestSprt = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_168_game_object->field_80_sprite_ptr, 2);
+            if (pNearestSprt && pNearestSprt->get_type_416B40() == sprite_types_enum::car_2)
+            {
+                field_278_ped_state_1 = ped_state_1::immobilized_8;
+                field_27C_ped_state_2 = ped_state_2::Unknown_17;
+                field_168_game_object->field_68_animation_frame = 3;
+            }
+            else
+            {
+                field_278_ped_state_1 = ped_state_1::standing_still_7;
+                field_27C_ped_state_2 = ped_state_2::ped2_staying_14;
+                field_168_game_object->field_6C_animation_state = 2;
+                field_168_game_object->field_68_animation_frame = 0;
+            }
+            return;
+        }
+        field_168_game_object->SetMaxSpeed_433920(field_14C->GetPedVelocity_45C920());
+        if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15 &&
+            field_168_game_object->field_38_velocity == k_dword_678660)
+        {
+            Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+            Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
+        }
+        ++field_14C->field_228;
+
+        if (field_25C_internal_objective != objectives_enum::punch_char_23 &&
+            field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1)
+        {
+            if (field_168_game_object->field_68_animation_frame == 0)
+            {
+                if (field_14C->IsField238_45EDE0(2) && field_240_occupation == ped_ocupation_enum::mugger)
+                {
+                    field_14C->field_15C_player->field_2D4_scores.AddCash_592620(
+                        -10 * field_14C->field_15C_player->field_6BC_multpliers.field_0_value);
+                    ++field_229;
+                    if (field_229 > 9)
+                    {
+                        field_226 = 1;
+                    }
+                }
+                else
+                {
+                    if (field_14C->field_240_occupation != ped_ocupation_enum::criminal_type_1)
+                    {
+                        field_14C->TakeDamage(10);
+                    }
+                }
+            }
+            return;
+        }
+
+        if (field_14C->get_health_433B70() < 20) // line 238
+        {
+            field_188_last_char_punched = field_14C;
+            if (field_14C == field_148_objective_target_ped)
+            {
+                if (field_258_objective != objectives_enum::punch_char_23 &&
+                    field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1)
+                {
+                    field_14C->field_204_killer_id = field_200_id;
+                    field_14C->field_290 = 10;
+                    field_14C->field_264 = 50;
+
+                    if (field_14C->IsField238_45EDE0(2) && field_240_occupation == ped_ocupation_enum::mugger)
+                    {
+                        field_14C->field_15C_player->field_2D4_scores.AddCash_592620(
+                            -10 * field_14C->field_15C_player->field_6BC_multpliers.field_0_value);
+                        ++field_229;
+                        if (field_229 > 9)
+                        {
+                            field_226 = 1;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (field_14C->field_240_occupation != ped_ocupation_enum::criminal_type_1)
+                        {
+                            field_14C->TakeDamage(10);
+                        }
+                    }
+                }
+                else
+                {
+                    field_14C->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
+                    field_14C->ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22);
+                    field_14C->Set_B4_F16_To_1_433B50();
+                    field_226 = 1;
+                    field_144 = 0;
+                    field_228 = 0;
+                    field_21C_bf.b2 = false;
+
+                    if (field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || !field_14C->IsField238_45EDE0(2))
+                    {
+                        return;
+                    }
+                    if (bStartNetworkGame_7081F0)
+                    {
+                        field_14C->Kill_46F9D0();
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                // the same here?
+
+                field_14C->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
+                field_14C->ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22);
+                field_14C->Set_B4_F16_To_1_433B50();
+                field_226 = 1;
+                field_144 = 0;
+                field_228 = 0;
+                field_21C_bf.b2 = false;
+
+                if (field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || !field_14C->IsField238_45EDE0(2))
+                {
+                    return;
+                }
+                if (bStartNetworkGame_7081F0)
+                {
+                    field_14C->Kill_46F9D0();
+                    return;
+                }
+            }
+
+            field_14C->field_21C_bf.b5 = true;
+            if (!field_21C_bf.b24)
+            {
+                field_250 = 18;
+            }
+            return;
+        }
+        else
+        {
+            if (!field_168_game_object->field_68_animation_frame || field_14C->GetPedState2_433B60() == ped_state_2::lying_on_floor_22)
+            {
+                field_14C->field_204_killer_id = field_200_id;
+                field_14C->field_290 = 10;
+                field_14C->field_264 = 50;
+
+                if (field_14C->IsField238_45EDE0(2))
+                {
+                    if (field_240_occupation == ped_ocupation_enum::mugger)
+                    {
+                        field_14C->field_15C_player->field_2D4_scores.AddCash_592620(
+                            -10 * field_14C->field_15C_player->field_6BC_multpliers.field_0_value);
+                        ++field_229;
+                        if (field_229 > 9)
+                        {
+                            field_226 = 1;
+                        }
+                        return;
+                    }
+                }
+
+                field_14C->sub_433E50();
+
+                if (field_14C->field_240_occupation != ped_ocupation_enum::criminal_type_1)
+                {
+                    field_14C->TakeDamage(10);
+                }
+            }
+        }
+    }
+    else
+    {
+        // Ped is too far
+        if (field_14C->GetPedVelocity_45C920() == k_dword_678660)
+        {
+            if (gDistanceToTarget_678750 < k_dword_67878C)
+            {
+                field_168_game_object->RegulateVelocity_433970(field_1F4);
+            }
+            else
+            {
+                field_168_game_object->RegulateVelocity_433970(field_1F0_maybe_max_speed);
+            }
+        }
+        else
+        {
+            if (field_14C->field_148_objective_target_ped == this || field_14C->field_14C == this)
+            {
+                field_168_game_object->field_38_velocity = field_1F4;
+            }
+            else
+            {
+                field_168_game_object->RegulateVelocity_433970(field_1F0_maybe_max_speed);
+            }
+        }
+
+        if (field_27C_ped_state_2 == ped_state_2::Unknown_9)
+        {
+            Car_Door_10* pDoor = field_168_game_object->field_84->GetDoor(field_24C_target_car_door);
+            pDoor->sub_439EA0();
+            pDoor->field_8_pObj = 0;
+        }
+        Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
+    }
 }
 
 MATCH_FUNC(0x46bd30)
@@ -9825,25 +10063,25 @@ void Ped::set_wanted_star_count_46F070(u8 star_count)
 {
     switch (star_count)
     {
-        case 0u:
+        case 0:
             field_20A_wanted_points = 0;
             break;
-        case 1u:
+        case 1:
             field_20A_wanted_points = 600;
             break;
-        case 2u:
+        case 2:
             field_20A_wanted_points = 1600;
             break;
-        case 3u:
+        case 3:
             field_20A_wanted_points = 3000;
             break;
-        case 4u:
+        case 4:
             field_20A_wanted_points = 5000;
             break;
-        case 5u:
+        case 5:
             field_20A_wanted_points = 8000;
             break;
-        case 6u:
+        case 6:
             field_20A_wanted_points = 12000;
             break;
         default:

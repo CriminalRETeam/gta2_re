@@ -9,6 +9,7 @@
 #include "enums.hpp"
 #include "fix16.hpp"
 #include "miss2_xyz.hpp"
+#include "rng.hpp"
 #include "sprite.hpp"
 #include <cstdio>
 
@@ -504,6 +505,15 @@ class Ped
         }
     }
 
+    inline void sub_433E50()
+    {
+        if (rng_dword_67AB34->get_cur_rng_41CFE0() - field_220 > 5)
+        {
+            Set_F250_IfBit_433DD0(25);
+            field_220 = rng_dword_67AB34->get_cur_rng_41CFE0();
+        }
+    }
+
     inline void sub_433BB0(s32 value)
     {
         field_230 = value;
@@ -690,7 +700,7 @@ class Ped
     char_type field_226;
     char_type field_227;
     char_type field_228;
-    char_type field_229;
+    u8 field_229;
     char_type field_22A;
     char_type field_22B;
     s32 field_22C;
