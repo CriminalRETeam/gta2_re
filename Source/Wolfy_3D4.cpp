@@ -236,16 +236,16 @@ Wolfy_30::~Wolfy_30()
 }
 
 WIP_FUNC(0x540d30)
-void Wolfy_30::state_3_12_540D30(Fix16 a3, Ang16 a2)
+void Wolfy_30::state_3_12_540D30(Fix16 speed, Ang16 a2)
 {
     WIP_IMPLEMENTED;
 
     Ang16 v6 = word_6FD3EE + a2;
 
-    Fix16 v32 = ((a3 * gCos_table_669260[v6.rValue]) + (a3 * gSin_table_667A80[v6.rValue]));
-    Fix16 v13 = ((-a3 * gSin_table_667A80[v6.rValue]) + (a3 * a3));
+    Fix16 v32 = ((speed * gCos_table_669260[v6.rValue]) + (speed * gSin_table_667A80[v6.rValue]));
+    Fix16 v13 = ((-speed * gSin_table_667A80[v6.rValue]) + (speed * speed));
 
-    this->field_8 = a3;
+    this->field_8 = speed;
     this->field_C = a2;
 
     if (field_18)
@@ -262,9 +262,9 @@ void Wolfy_30::state_3_12_540D30(Fix16 a3, Ang16 a2)
         }
         Sprite* pNext = pParticle->field_30_pNext;
         pParticle->field_40_pUnknown = this;
-        pParticle->field_20 = a3; // F16
+        pParticle->field_20 = speed; // F16
         pParticle->field_44 = field_6_id;
-        pParticle->field_24 = a2;
+        pParticle->field_24_angle = a2;
         pParticle->field_34 = 0;
         pParticle->field_46_sub_state = 0;
         pParticle->field_2C_counter = 32;
@@ -314,7 +314,7 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
 
         pNew->field_40_pUnknown = this;
         pNew->field_20 = pos;
-        pNew->field_24 = ang;
+        pNew->field_24_angle = ang;
         pNew->field_34 = 0;
         pNew->field_46_sub_state = 0;
         pNew->field_2C_counter = 32;
@@ -370,7 +370,7 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
         pNew->field_40_pUnknown = this;
         pNew->field_20 = pos;
         pNew->field_44 = this->field_6_id;
-        pNew->field_24 = ang;
+        pNew->field_24_angle = ang;
         pNew->field_34 = 0;
         pNew->field_46_sub_state = 0;
         pNew->field_2C_counter = 32;
@@ -419,7 +419,7 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
             pNew->field_40_pUnknown = this;
             pNew->field_20 = pos;
             pNew->field_44 = field_6_id;
-            pNew->field_24 = ang;
+            pNew->field_24_angle = ang;
             pNew->field_34 = 0;
             pNew->field_46_sub_state = 0;
             pNew->field_2C_counter = 32;
@@ -1083,7 +1083,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
         pNew4C->field_30_pNext->SetType_4206F0(8);
         pNew4C->field_48_timer = 0;
         pNew4C->field_46_sub_state = 0;
-        pNew4C->field_24 = this->field_22;
+        pNew4C->field_24_angle = this->field_22;
 
         if (this->field_1A <= 29u)
         {
@@ -1108,7 +1108,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
 }
 
 WIP_FUNC(0x5434a0)
-char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 ang)
+char_type Wolfy_30::Update_5434A0(Fix16 speed, Ang16 ang)
 {
     WIP_IMPLEMENTED;
 
@@ -1134,20 +1134,20 @@ char_type Wolfy_30::Update_5434A0(Fix16 a2, Ang16 ang)
             {
                 case 3:
                 case 12:
-                    Wolfy_30::state_3_12_540D30(a2, ang);
+                    Wolfy_30::state_3_12_540D30(speed, ang);
                     result = 0;
                     break;
                 case 4:
-                    Wolfy_30::state_4_540F90(ang, a2);
+                    Wolfy_30::state_4_540F90(ang, speed);
                     result = 0;
                     break;
                 case 5:
-                    Wolfy_30::state_5_541430(ang, a2);
+                    Wolfy_30::state_5_541430(ang, speed);
                     result = 0;
                     break;
                 case 13:
                 case 14:
-                    Wolfy_30::state_13_14_5411E0(ang, a2);
+                    Wolfy_30::state_13_14_5411E0(ang, speed);
                     result = 0;
                     break;
                 case 18:

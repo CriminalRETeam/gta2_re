@@ -536,8 +536,8 @@ bool Particle_4C::PoolUpdate()
 
             field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 147);
 
-            stru_6FD388 = (gSin_table_667A80[this->field_24.rValue] * this->field_20);
-            stru_6FD38C = (gCos_table_669260[this->field_24.rValue] * this->field_20);
+            stru_6FD388 = (gSin_table_667A80[this->field_24_angle.rValue] * this->field_20);
+            stru_6FD38C = (gCos_table_669260[this->field_24_angle.rValue] * this->field_20);
 
             stru_6FD388 = this->field_30_pNext->field_14_xy.x + stru_6FD388;
             stru_6FD38C = this->field_30_pNext->field_14_xy.y + stru_6FD38C;

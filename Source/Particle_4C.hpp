@@ -40,7 +40,7 @@ class Particle_4C
     Fix16 field_18_additional_speed_y;
     Fix16 field_1C;
     Fix16 field_20;
-    Ang16 field_24;
+    Ang16 field_24_angle;
     s16 field_26;
     Sprite* field_28_pSprite;
     u16 field_2C_counter;
