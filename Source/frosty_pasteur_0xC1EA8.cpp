@@ -673,11 +673,35 @@ s32 frosty_pasteur_0xC1EA8::sub_512C00(s32 a2, s32 a3, char_type a4)
     return 0;
 }
 
-STUB_FUNC(0x512c70)
-bool frosty_pasteur_0xC1EA8::sub_512C70(s32 a2, char_type a3, char_type a4)
+MATCH_FUNC(0x512c70)
+bool frosty_pasteur_0xC1EA8::sub_512C70(s32 id, char_type weapon_idx, char_type bUnk)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
+
+    for (u8 i = 0; i < 15; pTable++, i++)
+    {
+        if (pTable->field_0_entity_id == id)
+        {
+            if (pTable->field_4_weapon_idx == weapon_idx || pTable->field_4_weapon_idx == weapon_type::weapon_0x17)
+            {
+                if (bUnk)
+                {
+                    if ((pTable->field_6 & 4) == 4)
+                    {
+                        return (pTable->field_6 & 1) == 1;
+                    }
+                }
+                else
+                {
+                    if ((pTable->field_6 & 2) == 2)
+                    {
+                        return (pTable->field_6 & 1) == 1;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 // https://decomp.me/scratch/qh4EW
@@ -704,7 +728,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     field_184_count = 0;
     memset(field_188_thrds_4, 0, sizeof(field_188_thrds_4));
     field_278 = 0;
-    memset(field_27C, 0, sizeof(field_27C));
+    memset(field_27C_weapon_check_table, 0, sizeof(field_27C_weapon_check_table));
     memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
 
     gMiss2_25C_6F805C = new Miss2_25C();

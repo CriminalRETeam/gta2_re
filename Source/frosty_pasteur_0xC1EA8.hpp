@@ -588,6 +588,15 @@ class SaveData_748
 
 EXTERN_GLOBAL(SaveData_748, gGameSave_6F78C8);
 
+struct WeaponCheckTable
+{
+    s32 field_0_entity_id;
+    s8 field_4_weapon_idx;
+    s8 field_5_pad;
+    s8 field_6;
+    s8 field_7_pad;
+};
+
 class frosty_pasteur_0xC1EA8
 {
   public:
@@ -634,7 +643,7 @@ class frosty_pasteur_0xC1EA8
     thread_C field_188_thrds_4[20];
     s16 field_278;
     s16 field_27A;
-    BYTE field_27C[120];
+    WeaponCheckTable field_27C_weapon_check_table[15];
     s32 field_2F4;
     Fix16_Rect field_2F8_area_rect;
     s32 field_310_finish_score;
