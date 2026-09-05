@@ -159,6 +159,11 @@ EXTERN_GLOBAL(Fix16, dword_6FD9B0);
 EXTERN_GLOBAL(Ang16, word_6FD936);
 EXTERN_GLOBAL(Ang16, word_6FD854);
 
+EXTERN_GLOBAL(Ang16, gSpawnRotationLeft_6786E0);
+EXTERN_GLOBAL(Ang16, gSpawnRotationTop_6787B0);
+EXTERN_GLOBAL(Ang16, gSpawnRotationRight_678578);
+EXTERN_GLOBAL(Ang16, gSpawnRotationBottom_678540);
+
 // TODO: move
 // https://decomp.me/scratch/BzcQt
 WIP_FUNC(0x545AF0)
@@ -1952,10 +1957,59 @@ void Ped::SpawnWeaponOnDeath_45E080()
     }
 }
 
-STUB_FUNC(0x45e4a0)
+// https://decomp.me/scratch/PNiZo
+WIP_FUNC(0x45e4a0)
 void Ped::sub_45E4A0()
 {
-    NOT_IMPLEMENTED;
+    if (field_240_occupation == ped_ocupation_enum::dummy && field_258_objective == objectives_enum::no_obj_0 &&
+        !field_25C_internal_objective)
+    {
+        s32 xpos = field_1AC_cam.x.ToInt();
+        s32 ypos = field_1AC_cam.y.ToInt();
+        s32 zpos = field_1AC_cam.z.ToInt();
+
+        u8 direction;
+
+        if (!gMap_0x370_6F6268->IsNorthBlockRoadType_433470(xpos, ypos, zpos) || (direction = 0, !stru_6F6784.get_int_4F7AE0(2)))
+        {
+            if (!gMap_0x370_6F6268->IsEastBlockRoadType_4334A0(xpos, ypos, zpos) || (direction = 1, !stru_6F6784.get_int_4F7AE0(2)))
+            {
+                if (!gMap_0x370_6F6268->IsSouthBlockRoadType_4334D0(xpos, ypos, zpos) || (direction = 2, !stru_6F6784.get_int_4F7AE0(2)))
+                {
+                    if (!gMap_0x370_6F6268->IsWestBlockRoadType_433500(xpos, ypos, zpos) || (direction = 3, !stru_6F6784.get_int_4F7AE0(2)))
+                    {
+                        direction = 4;
+                    }
+                }
+            }
+        }
+
+        switch (direction)
+        {
+            case 0:
+                Ped::SetObjective2_463830(objectives_enum::objective_44, 9999);
+                field_130 = gSpawnRotationBottom_678540;
+                ++word_6787D0;
+                break;
+            case 1:
+                Ped::SetObjective2_463830(objectives_enum::objective_45, 9999);
+                field_130 = gSpawnRotationLeft_6786E0;
+                ++word_6787D0;
+                break;
+            case 2:
+                Ped::SetObjective2_463830(objectives_enum::objective_46, 9999);
+                field_130 = gSpawnRotationTop_6787B0;
+                ++word_6787D0;
+                break;
+            case 3:
+                Ped::SetObjective2_463830(objectives_enum::objective_47, 9999);
+                field_130 = gSpawnRotationRight_678578;
+                ++word_6787D0;
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 STUB_FUNC(0x45ea00)
