@@ -92,6 +92,11 @@ class Sprite_4C
         return field_4_height;
     }
 
+    Fix16 GetF8_492170()
+    {
+        return field_8;
+    }
+
     bool ReduceWidthBy_4BA120(Fix16 a2)
     {
         field_0_width -= a2;

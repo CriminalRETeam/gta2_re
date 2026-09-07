@@ -1531,13 +1531,13 @@ void sound_obj::CycleRadioStation_57EEE0(char_type bPrev)
             Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
             if (pPlayer)
             {
-                if (pPlayer->sub_5698E0())
+                if (pPlayer->GetPlayerCar_5698E0())
                 {
-                    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->sub_5698E0();
+                    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
                     // can't change their sucky radio station ;)
                     if (!IsPoliceOrServiceVehicle_57F090(pCar))
                     {
-                        Car_BC* pCarAgain = gGame_0x40_67E008->field_38_orf1->sub_5698E0();
+                        Car_BC* pCarAgain = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
                         // nor trains, which makes sense
                         if (!IsTrainOrBoxcar_57F120(pCarAgain))
                         {
@@ -4521,7 +4521,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
     pB4 = pType3Entity->field_0_pObj->field_8_char_b4_ptr;
     if (pB4->field_7C_pPed)
     {
-        if (!gGame_0x40_67E008->field_38_orf1->sub_5698E0() && pB4->field_38_velocity > dword_675220)
+        if (!gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0() && pB4->field_38_velocity > dword_675220)
         {
             animation_state = pB4->field_6C_animation_state;
             if (animation_state == 4 || animation_state <= 1)

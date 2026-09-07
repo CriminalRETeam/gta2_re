@@ -12845,7 +12845,7 @@
         "v105_address": "0x569840"
     },
     {
-        "name": "Player::sub_5698E0",
+        "name": "Player::GetPlayerCar_5698E0",
         "v96f_address": null,
         "v105_address": "0x5698e0"
     },
@@ -16165,7 +16165,7 @@
         "v105_address": "0x5d15e0"
     },
     {
-        "name": "Garox_2A25_sub::sub_5D16B0",
+        "name": "Garox_2A25_sub::DrawChatMessages_5D16B0",
         "v96f_address": null,
         "v105_address": "0x5d16b0"
     },

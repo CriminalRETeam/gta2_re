@@ -35,10 +35,10 @@ DEFINE_GLOBAL(u16, word_7062DC, 0x7062DC);
 DEFINE_GLOBAL(u16, word_70643E, 0x70643E);
 DEFINE_GLOBAL_ARRAY(char, byte_67CE50, 264, 0x67CE50); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
-DEFINE_GLOBAL_INIT(s32, dword_7064C0, 0, 0x7064C0);
-DEFINE_GLOBAL_INIT(s32, dword_7063B0, 0x400, 0x7063B0);
-DEFINE_GLOBAL_INIT(s32, dword_7065B4, 0x1C00, 0x7065B4);
-DEFINE_GLOBAL_INIT(s32, dword_706338, 0x100, 0x706338);
+DEFINE_GLOBAL_INIT(Fix16, dword_7064C0, 0, 0x7064C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_7063B0, Fix16(0x400, 0), 0x7063B0);
+DEFINE_GLOBAL_INIT(Fix16, dword_7065B4, Fix16(0x1C00, 0), 0x7065B4);
+DEFINE_GLOBAL_INIT(Fix16, dword_706338, Fix16(0x100, 0), 0x706338);
 
 DEFINE_GLOBAL(Fix16, phone_x_67CD14, 0x67CD14);
 DEFINE_GLOBAL(Fix16, phone_y_67CD0C, 0x67CD0C);
@@ -49,6 +49,9 @@ DEFINE_GLOBAL_INIT(Ang16, word_706610, Ang16(0), 0x706610);
 DEFINE_GLOBAL_INIT(Ang16, word_706412, Ang16(720), 0x706412);
 DEFINE_GLOBAL_INIT(Fix16, dword_7064C4, Fix16(1), 0x7064C4);
 DEFINE_GLOBAL_INIT(Fix16, dword_7064E8, Fix16(8), 0x7064E8);
+DEFINE_GLOBAL_INIT(Fix16, dword_706300, Fix16(0x1000, 0), 0x706300);
+DEFINE_GLOBAL_INIT(Fix16, dword_706298, Fix16(0xC00, 0), 0x706298);
+DEFINE_GLOBAL_INIT(Fix16, dword_7065A8, Fix16(0x100, 0), 0x7065A8);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67C7D8, 640);
 DEFINE_GLOBAL_INIT(s32, MaxLineWidth_62689C, 576, 0x62689C);
@@ -266,10 +269,43 @@ char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
     return 0;
 }
 
-STUB_FUNC(0x5d16b0)
-void Garox_2A25_sub::sub_5D16B0()
+// https://decomp.me/scratch/gMsUi
+WIP_FUNC(0x5d16b0)
+void Garox_2A25_sub::DrawChatMessages_5D16B0()
 {
-    NOT_IMPLEMENTED;
+    u16 font = word_70643E;
+    u16 line_spacing = gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font);
+    u16 text_ypos = 480 - line_spacing;
+    if (bStartNetworkGame_7081F0)
+    {
+        for (Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter != NULL;
+             pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
+        {
+            if (pPlayerIter->field_794_is_chatting)
+            {
+                if ((rng_dword_67AB34->get_cur_rng_41CFE0() & 7u) < 4)
+                {
+                    swprintf(tmpBuff_67BD9C, L"%s:%s_", pPlayerIter->field_83C_player_name, pPlayerIter->field_796_chat_text);
+                }
+                else
+                {
+                    swprintf(tmpBuff_67BD9C, L"%s:%s ", pPlayerIter->field_83C_player_name, pPlayerIter->field_796_chat_text);
+                }
+                s32 max_text_width = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, word_70643E);
+                s32 start_xpos;
+                if (max_text_width > 640)
+                {
+                    start_xpos = 640 - max_text_width;
+                }
+                else
+                {
+                    start_xpos = 0;
+                }
+                DrawText_5D7720(tmpBuff_67BD9C, start_xpos, text_ypos, word_70643E, palette_types_enum::font_remaps_8, 5, 0, 0);
+                text_ypos -= line_spacing;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5d17d0)
@@ -1714,11 +1750,95 @@ bool Hud_Arrow_7C::sub_5D0620()
     return false;
 }
 
-STUB_FUNC(0x5d0850)
-s32 Hud_Arrow_7C::sub_5D0850()
+// https://decomp.me/scratch/CoKn3
+WIP_FUNC(0x5d0850)
+void Hud_Arrow_7C::sub_5D0850()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Fix16_Point displacement;
+    Fix16 player_xpos;
+    Fix16 player_ypos;
+    Fix16 player_zpos;
+
+    gGame_0x40_67E008->field_38_orf1->get_pos_569920(&player_xpos, &player_ypos, &player_zpos);
+    displacement.SetXY_432860(player_xpos - field_18.field_60_curr_target->field_14_aim_x,
+                              player_ypos - field_18.field_60_curr_target->field_18_aim_y);
+
+    field_8_rotation = displacement.atan2_40F790();
+
+    Fix16 distance = displacement.GetLength_41E260();
+    Fix16 intended_radius;
+
+    if (field_18.field_60_curr_target->field_20_bIsTargetVisible)
+    {
+        intended_radius = distance - dword_706300;
+        if (intended_radius < dword_7064C0)
+        {
+            intended_radius = dword_7064C0;
+        }
+    }
+    else
+    {
+        intended_radius = field_C_min_radius_pos;
+        if (gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0())
+        {
+            intended_radius += dword_7065B4; // increment a little when in a car
+        }
+    }
+
+    if (field_10_radius_pos > intended_radius)
+    {
+        field_10_radius_pos -= field_14_reposition_speed;
+        if (field_10_radius_pos <= intended_radius)
+        {
+            field_10_radius_pos = intended_radius;
+        }
+        else if (field_14_reposition_speed < dword_706298) // below the maximum
+        {
+            field_14_reposition_speed += dword_7065A8;
+        }
+    }
+    else
+    {
+        if (field_10_radius_pos < intended_radius)
+        {
+            field_10_radius_pos += field_14_reposition_speed;
+            if (field_10_radius_pos >= intended_radius)
+            {
+                field_10_radius_pos = intended_radius;
+            }
+            else if (field_14_reposition_speed < dword_706298) // below the maximum
+            {
+                field_14_reposition_speed += dword_7065A8;
+            }
+        }
+        else
+        {
+            field_14_reposition_speed = dword_7063B0; // reset speed?
+        }
+    }
+
+    Camera_0xBC* pCamera = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
+
+    Fix16 factor = (dword_7064C4 / (dword_7064E8 + pCamera->field_98_cam_pos2.field_8_z - field_18.field_60_curr_target->field_1C_aim_z));
+    // line 217: multiply by 64
+    Fix16 projected_radius = ((field_10_radius_pos * 64) / (pCamera->field_60.x * factor)) * pCamera->field_A8_ui_scale;
+
+    Fix16 zpos_2;
+    if (distance == dword_7064C0 || field_18.field_60_curr_target->field_20_bIsTargetVisible)
+    {
+        zpos_2 = field_18.field_60_curr_target->field_1C_aim_z;
+    }
+    else
+    {
+        zpos_2 = field_18.field_60_curr_target->field_1C_aim_z +
+            ((field_10_radius_pos / distance) * (field_18.field_60_curr_target->field_1C_aim_z - player_zpos));
+    }
+    pCamera->ProjectWorldToScreen_4B90E0(player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
+                                         player_ypos - (Ang16::cosine_40F520(field_8_rotation) * projected_radius),
+                                         zpos_2,
+                                         &field_0_screen_pos_x,
+                                         &field_4_screen_pos_y);
 }
 
 MATCH_FUNC(0x5d0c60)
@@ -2588,11 +2708,47 @@ void Hud_Brief_704::ShowBrief_5D4850()
     }
 }
 
-STUB_FUNC(0x5d4890)
-s32 Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 a2)
+// https://decomp.me/scratch/N327U
+WIP_FUNC(0x5d4890)
+void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Garox_18* pLast = NULL;
+    Garox_18* pIter = field_6F8_curr_brief;
+    while (pIter)
+    {
+        if (pIter->field_8_brief_priority == priority)
+        {
+            if (pLast)
+            {
+                pLast->field_C = pIter->field_C;
+                pIter->field_C = field_6FC_p_start_q;
+                field_6FC_p_start_q = pIter;
+                pIter = pLast->field_C;
+            }
+            else
+            {
+                if (field_6F8_curr_brief->field_10)
+                {
+                    Hud_Brief_704::sub_5D3370();
+                }
+                else
+                {
+                    Hud_Brief_704::sub_5D3350();
+                }
+                pIter = field_6F8_curr_brief;
+                if (!pIter)
+                {
+                    return;
+                }
+                Hud_Brief_704::sub_5D39D0();
+            }
+        }
+        else
+        {
+            pLast = pIter;
+            pIter = pIter->field_C;
+        }
+    }
 }
 
 MATCH_FUNC(0x5d4930)
@@ -2861,7 +3017,7 @@ void Hud_2B00::DrawGui_5D6860()
         field_12F0.sub_5D56D0();
         field_111C.DrawMessage_5D1940();
         field_12E4_sub.DrawPause_5D63B0();
-        field_2A25_sub.sub_5D16B0();
+        field_2A25_sub.DrawChatMessages_5D16B0();
         field_12EC_sub.DrawQuitMessage_5D1430();
     }
 }
