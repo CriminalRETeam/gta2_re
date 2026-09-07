@@ -32,6 +32,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_706E7C, Fix16(0x1EB, 0), 0x706E7C);
 DEFINE_GLOBAL_INIT(Fix16, dword_706CF0, Fix16(0x666, 0), 0x706CF0);
 DEFINE_GLOBAL_INIT(Fix16, dword_706E80, Fix16(0x147, 0), 0x706E80);
 
+DEFINE_GLOBAL_INIT(Fix16, k_dword_706EB4, k_dword_706F70 * 24, 0x706EB4);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_706E6C, k_dword_706F70 * 10, 0x706E6C);
+
 DEFINE_GLOBAL_INIT(Ang16, word_706D5E, Ang16(48), 0x706D5E);
 DEFINE_GLOBAL_INIT(Ang16, word_707002, Ang16(24), 0x707002);
 DEFINE_GLOBAL_INIT(Ang16, word_706D5C, Ang16(96), 0x706D5C);
@@ -655,10 +658,41 @@ void Weapon_30::army_gun_jeep_5E13E0()
     }
 }
 
-STUB_FUNC(0x5e1dc0)
+// https://decomp.me/scratch/75934
+WIP_FUNC(0x5e1dc0)
 void Weapon_30::oil_stain_5E1DC0()
 {
-    NOT_IMPLEMENTED;
+    Fix16_Point vector;
+    Sprite* pSprt = field_14_car->GetSprite_440840();
+    vector.y = (-(pSprt->field_C_sprite_4c_ptr->GetH_447E10() + k_dword_706EB4)) / k_dword_706EC0;
+
+    if (get_ammo_4A4FB0() % 2 != 0)
+    {
+        vector.x = -k_dword_706E6C;
+    }
+    else
+    {
+        vector.x = k_dword_706E6C;
+    }
+
+    vector.RotateByAngle_40F6B0(pSprt->field_0);
+    vector += pSprt->get_x_y_443580();
+
+    Fix16 sprt_4c_f8 = pSprt->field_C_sprite_4c_ptr->GetF8_492170();
+    //Fix16 zpos_lower = pSprt->field_1C_zpos - sprt_4c_f8 / 2;
+    Fix16 zpos_upper = pSprt->field_1C_zpos + sprt_4c_f8 / 2;
+
+    if (zpos_upper >= k_dword_706EDC)
+    {
+        zpos_upper = k_dword_706EDC;
+    }
+    Fix16 found_z;
+    if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(vector.x, vector.y, pSprt->field_1C_zpos - sprt_4c_f8 / 2, zpos_upper, &found_z))
+    {
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(8, vector.x, vector.y, found_z, pSprt->field_0);
+        decrement_ammo_4CCA30();
+        set_field_2C_4CCA80(1);
+    }
 }
 
 WIP_FUNC(0x5e2550)
