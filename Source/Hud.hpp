@@ -421,7 +421,7 @@ class Hud_Arrow_7C
     EXPORT void SetArrowColour_5D0510(s32 a2);
     EXPORT bool CheckVisibility_5D0530();
     EXPORT bool sub_5D0620();
-    EXPORT s32 sub_5D0850();
+    EXPORT void sub_5D0850();
     EXPORT void Service_5D0C60();
     EXPORT void DrawArrow_5D0C90();
     EXPORT void SetPlayerArrowColour_5D0DC0(Ped* a2);
@@ -472,9 +472,9 @@ class Hud_Arrow_7C
     Fix16 field_4_screen_pos_y;
     Ang16 field_8_rotation;
     s16 field_A;
-    s32 field_C_min_radius_pos; // minimum radial distance from the player
+    Fix16 field_C_min_radius_pos; // minimum radial distance from the player
     Fix16 field_10_radius_pos; // radial distance from the player
-    s32 field_14_reposition_speed; // how slower/faster the arrow goes to the aim target, or "get back" to the player
+    Fix16 field_14_reposition_speed; // how slower/faster the arrow goes to the aim target, or "get back" to the player
     Garox_20_Sub field_18;
 };
 
