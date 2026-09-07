@@ -2,6 +2,7 @@
 #include "CarPhysics_B0.hpp"
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
+#include "Object_8.hpp"
 #include "Particle_8.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
@@ -31,6 +32,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_706EE8, Fix16(0xFFFFEE00, 0), 0x706EE8);
 DEFINE_GLOBAL_INIT(Fix16, dword_706E7C, Fix16(0x1EB, 0), 0x706E7C);
 DEFINE_GLOBAL_INIT(Fix16, dword_706CF0, Fix16(0x666, 0), 0x706CF0);
 DEFINE_GLOBAL_INIT(Fix16, dword_706E80, Fix16(0x147, 0), 0x706E80);
+DEFINE_GLOBAL_INIT(Fix16, dword_706DA8, Fix16(0.5), 0x706DA8);
+DEFINE_GLOBAL_INIT(Fix16, dword_706E74, Fix16(0xA3, 0), 0x706E74);
+DEFINE_GLOBAL_INIT(Fix16, dword_706F64, Fix16(0x20, 0), 0x706F64);
+DEFINE_GLOBAL_INIT(Fix16, dword_706C8C, Fix16(0x340, 0), 0x706C8C);
 
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706EB4, k_dword_706F70 * 24, 0x706EB4);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706E6C, k_dword_706F70 * 10, 0x706E6C);
@@ -38,6 +43,7 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_706E6C, k_dword_706F70 * 10, 0x706E6C);
 DEFINE_GLOBAL_INIT(Ang16, word_706D5E, Ang16(48), 0x706D5E);
 DEFINE_GLOBAL_INIT(Ang16, word_707002, Ang16(24), 0x707002);
 DEFINE_GLOBAL_INIT(Ang16, word_706D5C, Ang16(96), 0x706D5C);
+DEFINE_GLOBAL_INIT(Ang16, word_707006, Ang16(0), 0x707006);
 
 // TODO: move
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
@@ -522,10 +528,172 @@ void Weapon_30::smg_5DDD20()
     }
 }
 
-STUB_FUNC(0x5ddfc0)
-void Weapon_30::throwable_5DDFC0(s32 a2, s32 a3, s32 a4)
+// Something wrong with minimum force to throw https://decomp.me/scratch/OrmRn
+WIP_FUNC(0x5ddfc0)
+void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    Fix16_Point vector;
+    Fix16 unknown;
+    Fix16 unknown_2;
+
+    if (a3)
+    {
+        field_21 = 0;
+        if (field_2_reload_speed == 0)
+        {
+            set_field_2C_4CCA80(1);
+            if (!field_4)
+            {
+                if (!field_24_pPed->IsField238_45EDE0(2) && !field_20)
+                {
+                    spawn_bullet_5DCF60(objects::object_159,
+                                        field_24_pPed->get_cam_x(),
+                                        field_24_pPed->get_cam_y(),
+                                        field_24_pPed->get_cam_z(),
+                                        field_24_pPed->Get_F12E_4CCA90(),
+                                        field_24_pPed->sub_45B520());
+                    field_2_reload_speed = 5;
+                    field_20 = 1;
+                    if (field_24_pPed->is_player_41B0A0())
+                    {
+                        gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                    }
+                }
+                else
+                {
+                    if (obj_idx == objects::grenade_obj_183)
+                    {
+                        if (a4 == 96)
+                        {
+                            // maybe holding the grenade for too long
+                            gObject_5C_6F8F84->CreateExplosion_52A3D0(field_24_pPed->get_cam_x(),
+                                                                      field_24_pPed->get_cam_y(),
+                                                                      field_24_pPed->get_cam_z(),
+                                                                      field_24_pPed->Get_F12E_4CCA90(),
+                                                                      18,
+                                                                      field_24_pPed->field_200_id);
+                            if (field_24_pPed->IsField238_45EDE0(2))
+                            {
+                                decrement_ammo_4CCA30();
+                            }
+                            if (field_24_pPed->is_player_41B0A0())
+                            {
+                                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                            }
+
+                            // LABEL_36:
+                            if (field_24_pPed->field_15C_player)
+                            {
+                                field_2_reload_speed = 4;
+                            }
+                            else
+                            {
+                                field_2_reload_speed = 50;
+                            }
+                            field_24_pPed->field_21C_bf.b22 = true;
+                            field_21 = 1;
+                            Weapon_30::TickReloadSpeed_5DCF40();
+                            return;
+                        }
+                        unknown = (dword_706CF0 + dword_706E80) * (Fix16(a3) / Fix16(60));
+                        unknown_2 = dword_706E74;
+                    }
+                    else
+                    {
+                        unknown = dword_706CF0 * (Fix16(a3) / Fix16(60));
+                        unknown_2 = dword_706E80;
+                    }
+                    gObject_5C_6F8F84->sub_52A210(field_24_pPed->get_varrok_idx_420B50());
+
+                    // field_24_pPed->Get_F12E_4CCA90()
+                    Object_2C* pProjectile = gObject_5C_6F8F84->sub_52A280(obj_idx,
+                                                                           field_24_pPed->get_cam_x(),
+                                                                           field_24_pPed->get_cam_y(),
+                                                                           field_24_pPed->get_cam_z() + dword_706DA8,
+                                                                           field_24_pPed->field_12E,
+                                                                           field_24_pPed->field_12E,
+                                                                           unknown + unknown_2,
+                                                                           -dword_706F64,
+                                                                           dword_706CF0);
+                    if (pProjectile)
+                    {
+                        if ((field_24_pPed->field_168_game_object->field_58_flags & 8) == 0)
+                        {
+                            vector = field_24_pPed->sub_45B520();
+                            pProjectile->SetMovementVector_5224E0(vector);
+                            if (vector.IsNull_420360())
+                            {
+                                pProjectile->field_10_obj_3c->field_C_speed += dword_706C8C;
+                            }
+                        }
+                        if (obj_idx == objects::moving_molotov_138)
+                        {
+                            Object_2C* pLightObj = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
+                            pProjectile->field_4->DispatchCollisionEvent_5A3100(pLightObj->field_4, 0, 0, word_707006);
+                            Object_2C* pMaybeExplosionObj =
+                                gObject_5C_6F8F84->CreateExplosion_52A3D0(113, 145, 2, word_707006, 5, field_24_pPed->field_200_id);
+                            if (pMaybeExplosionObj)
+                            {
+                                pProjectile->field_4->DispatchCollisionEvent_5A3100(pMaybeExplosionObj->field_4, 0, 0, word_707006);
+                            }
+                        }
+                        else
+                        {
+                            // inline here: sub_434130
+                            pProjectile->field_C_pAny.o8->field_4_timer = (96 - a4) / 8;
+                        }
+
+                        if (field_24_pPed->IsField238_45EDE0(2))
+                        {
+                            decrement_ammo_4CCA30();
+                        }
+                        field_21 = 1;
+                        if (field_24_pPed->is_player_41B0A0())
+                        {
+                            gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                        }
+                        field_24_pPed->AddThreateningPedToList_46FC70();
+                    }
+
+                    // goto LABEL_36;
+                    if (field_24_pPed->field_15C_player)
+                    {
+                        field_2_reload_speed = 4;
+                    }
+                    else
+                    {
+                        field_2_reload_speed = 50;
+                    }
+                    field_24_pPed->field_21C_bf.b22 = true;
+                    field_21 = 1;
+                    Weapon_30::TickReloadSpeed_5DCF40();
+                }
+            }
+            else
+            {
+                spawn_bullet_5DCF60(objects::object_159,
+                                    field_24_pPed->get_cam_x(),
+                                    field_24_pPed->get_cam_y(),
+                                    field_24_pPed->get_cam_z(),
+                                    field_24_pPed->Get_F12E_4CCA90(),
+                                    field_24_pPed->sub_45B520());
+            }
+        }
+        else
+        {
+            if (field_20 == 0)
+            {
+                field_24_pPed->field_21C_bf.b22 = false;
+            }
+            --field_2_reload_speed;
+            if (field_2_reload_speed < 30 && field_21)
+            {
+                field_21 = 0;
+                field_24_pPed->field_21C_bf.b22 = false;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x5de4f0)
