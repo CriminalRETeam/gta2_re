@@ -3546,7 +3546,7 @@ Garox_12EC_sub::DrawQuitMessage_5D1430,0x5d1430,0x1d1430,0x168
 Garox_12EC_sub::sub_5D15A0,0x5d15a0,0x1d15a0,0x2d
 Garox_12EC_sub::sub_5D15D0,0x5d15d0,0x1d15d0,0xe
 Garox_2A25_sub::IsTypingOnChat_5D15E0,0x5d15e0,0x1d15e0,0xcb
-Garox_2A25_sub::DrawChatMessage_5D16B0,0x5d16b0,0x1d16b0,0x115
+Garox_2A25_sub::DrawChatMessages_5D16B0,0x5d16b0,0x1d16b0,0x115
 Garox_2A25_sub::sub_5D17D0,0x5d17d0,0x1d17d0,0x55
 Garox_2A25_sub::StartChatting_5D1830,0x5d1830,0x1d1830,0x1d
 Hud_Message_1C8::sub_5D1850,0x5d1850,0x1d1850,0x4

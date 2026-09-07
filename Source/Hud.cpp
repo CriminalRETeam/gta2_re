@@ -271,7 +271,7 @@ char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
 
 // https://decomp.me/scratch/gMsUi
 WIP_FUNC(0x5d16b0)
-void Garox_2A25_sub::sub_5D16B0()
+void Garox_2A25_sub::DrawChatMessages_5D16B0()
 {
     u16 font = word_70643E;
     u16 line_spacing = gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font);
@@ -2981,7 +2981,7 @@ void Hud_2B00::DrawGui_5D6860()
         field_12F0.sub_5D56D0();
         field_111C.DrawMessage_5D1940();
         field_12E4_sub.DrawPause_5D63B0();
-        field_2A25_sub.sub_5D16B0();
+        field_2A25_sub.DrawChatMessages_5D16B0();
         field_12EC_sub.DrawQuitMessage_5D1430();
     }
 }

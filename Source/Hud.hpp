@@ -42,7 +42,7 @@ class Garox_2A25_sub
 {
   public:
     EXPORT char_type IsTypingOnChat_5D15E0(s32 a1, Player* pPlayer);
-    EXPORT void sub_5D16B0();
+    EXPORT void DrawChatMessages_5D16B0();
     EXPORT bool sub_5D17D0(s32 a2);
     EXPORT void StartChatting_5D1830(Player* a1);
     char_type field_2A25;
