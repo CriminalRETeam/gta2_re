@@ -2708,11 +2708,47 @@ void Hud_Brief_704::ShowBrief_5D4850()
     }
 }
 
-STUB_FUNC(0x5d4890)
-s32 Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 a2)
+// https://decomp.me/scratch/N327U
+WIP_FUNC(0x5d4890)
+void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Garox_18* pLast = NULL;
+    Garox_18* pIter = field_6F8_curr_brief;
+    while (pIter)
+    {
+        if (pIter->field_8_brief_priority == priority)
+        {
+            if (pLast)
+            {
+                pLast->field_C = pIter->field_C;
+                pIter->field_C = field_6FC_p_start_q;
+                field_6FC_p_start_q = pIter;
+                pIter = pLast->field_C;
+            }
+            else
+            {
+                if (field_6F8_curr_brief->field_10)
+                {
+                    Hud_Brief_704::sub_5D3370();
+                }
+                else
+                {
+                    Hud_Brief_704::sub_5D3350();
+                }
+                pIter = field_6F8_curr_brief;
+                if (!pIter)
+                {
+                    return;
+                }
+                Hud_Brief_704::sub_5D39D0();
+            }
+        }
+        else
+        {
+            pLast = pIter;
+            pIter = pIter->field_C;
+        }
+    }
 }
 
 MATCH_FUNC(0x5d4930)

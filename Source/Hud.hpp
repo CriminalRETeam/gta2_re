@@ -531,7 +531,7 @@ class Hud_Brief_704 // size 0x704
     EXPORT void SetHudBrief_5D4400(s32 priority, const char_type* str);
     EXPORT void sub_5D44D0();
     EXPORT void ShowBrief_5D4850();
-    EXPORT s32 ClearAllBriefsWithPriority_5D4890(s32 priority);
+    EXPORT void ClearAllBriefsWithPriority_5D4890(s32 priority);
     EXPORT Hud_Brief_704();
 
     wchar_t field_0_str[640];
