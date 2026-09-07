@@ -12845,7 +12845,7 @@
         "v105_address": "0x569840"
     },
     {
-        "name": "Player::sub_5698E0",
+        "name": "Player::GetPlayerCar_5698E0",
         "v96f_address": null,
         "v105_address": "0x5698e0"
     },

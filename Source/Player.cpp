@@ -2421,7 +2421,7 @@ void Player::sub_569840(u8& x, u8& y, u8& z)
 }
 
 MATCH_FUNC(0x5698E0)
-Car_BC* Player::sub_5698E0()
+Car_BC* Player::GetPlayerCar_5698E0()
 {
     Ped* pPed;
     if (field_68 == 2 || field_68 == 3)

@@ -1747,7 +1747,7 @@ void Hud_Arrow_7C::sub_5D0850()
     else
     {
         intended_radius = field_C_min_radius_pos;
-        if (gGame_0x40_67E008->field_38_orf1->sub_5698E0())
+        if (gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0())
         {
             intended_radius += dword_7065B4; // increment a little when in a car
         }
