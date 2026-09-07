@@ -269,10 +269,43 @@ char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
     return 0;
 }
 
-STUB_FUNC(0x5d16b0)
+// https://decomp.me/scratch/gMsUi
+WIP_FUNC(0x5d16b0)
 void Garox_2A25_sub::sub_5D16B0()
 {
-    NOT_IMPLEMENTED;
+    u16 font = word_70643E;
+    u16 line_spacing = gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font);
+    u16 text_ypos = 480 - line_spacing;
+    if (bStartNetworkGame_7081F0)
+    {
+        for (Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter != NULL;
+             pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
+        {
+            if (pPlayerIter->field_794_is_chatting)
+            {
+                if ((rng_dword_67AB34->get_cur_rng_41CFE0() & 7u) < 4)
+                {
+                    swprintf(tmpBuff_67BD9C, L"%s:%s_", pPlayerIter->field_83C_player_name, pPlayerIter->field_796_chat_text);
+                }
+                else
+                {
+                    swprintf(tmpBuff_67BD9C, L"%s:%s ", pPlayerIter->field_83C_player_name, pPlayerIter->field_796_chat_text);
+                }
+                s32 max_text_width = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, word_70643E);
+                s32 start_xpos;
+                if (max_text_width > 640)
+                {
+                    start_xpos = 640 - max_text_width;
+                }
+                else
+                {
+                    start_xpos = 0;
+                }
+                DrawText_5D7720(tmpBuff_67BD9C, start_xpos, text_ypos, word_70643E, palette_types_enum::font_remaps_8, 5, 0, 0);
+                text_ypos -= line_spacing;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5d17d0)
