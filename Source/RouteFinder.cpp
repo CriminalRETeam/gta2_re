@@ -564,11 +564,20 @@ RouteFinder_10* RouteFinder::sub_5892F0(RouteFinder_10* a2, u16 idx, s16 a4)
     return pNew10;
 }
 
-STUB_FUNC(0x589390)
+MATCH_FUNC(0x589390)
 RouteFinder_10* RouteFinder::sub_589390(u16 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    RouteFinder_10* pNew10 = &field_861C[field_CC66_545_count++];
+    s32 distance = abs(field_8[a2].field_C_min_x - field_8[field_861A].field_C_min_x) +
+        abs(field_8[a2].field_D_min_y - field_8[field_861A].field_D_min_y);
+
+    pNew10->field_2 = distance;
+    pNew10->field_0_idx = a2;
+    pNew10->field_4 = 0;
+    // field_6 is preserved by the original function.
+    pNew10->field_8 = 0;
+    pNew10->field_C_pNext = 0;
+    return pNew10;
 }
 
 // https://decomp.me/scratch/uht0I regswap :)
