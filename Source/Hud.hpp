@@ -284,20 +284,20 @@ class Hud_Pager_C_Array
     EXPORT void AddTime_5D32F0(s32 a2, s32 a3);
     EXPORT void ClearCounterOnly_5D3310(s32 a2);
 
-    inline u8 __stdcall get_sprite_width_4C7220(s16 a3)
-    {
-        s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, a3);
-        return gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
-    }
-
-    inline u8 __stdcall get_sprite_height_4C7250(s16 a3)
-    {
-        s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, a3);
-        return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(sprite_idx);
-    }
-
     Hud_Pager_C field_0_pagers_array[4];
 };
+
+inline u8 __stdcall get_sprite_width_4C7220(s16 a3)
+{
+    s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, a3);
+    return gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
+}
+
+inline u8 __stdcall get_sprite_height_4C7250(s16 a3)
+{
+    s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, a3);
+    return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(sprite_idx);
+}
 
 class Garox_18
 {
