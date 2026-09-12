@@ -1422,17 +1422,66 @@ void Hud_Pager_C::sub_5D2380(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x5d2680)
-s32 Hud_Pager_C::sub_5D2680(s32 a2, s32 a3)
+void Hud_Pager_C::sub_5D2680(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
-STUB_FUNC(0x5d2ab0)
-s32 Hud_Pager_C::DrawPager_5D2AB0(s32 a2, s32 a3)
+// https://decomp.me/scratch/3IY3c
+WIP_FUNC(0x5d2ab0)
+void Hud_Pager_C::DrawPager_5D2AB0(s32 xpos, s32 ypos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    const s32 palette_type = palette_types_enum::sprites_2;
+    if (field_0_timer < 0)
+    {
+        if (!field_4_ptr_counter)
+        {
+            return;
+        }
+        if (field_0_timer < 0)
+        {
+            goto LABEL_8;
+        }
+    }
+    if (field_4_ptr_counter)
+    {
+        s32 v9 = get_sprite_height_4C7250(117);
+        s32 v45 = get_sprite_height_4C7250(118);
+        s32 v10 = get_sprite_height_4C7250(119);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v9 / 2 - (v10 >> 1), word_706610, palette_type, 0, 0, 0);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 119, xpos, ypos, word_706610, palette_type, 0, 0, 0);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + (v10 >> 1) + v45 / 2, word_706610, palette_type, 0, 0, 0);
+        Hud_Pager_C::sub_5D2380(xpos, ypos - 6);
+        Hud_Pager_C::sub_5D2680(xpos, ypos + 6);
+    }
+    else
+    {
+        if (field_0_timer < 0)
+        {
+        LABEL_8:
+            s32 v29 = get_sprite_height_4C7250(117);
+            s32 v31 = get_sprite_height_4C7250(118);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v29 / 2, word_706610, palette_type, 0, 0, 0);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v31 / 2, word_706610, palette_type, 0, 0, 0);
+            Hud_Pager_C::sub_5D2380(xpos, ypos);
+        }
+        else
+        {
+            s32 v20 = get_sprite_height_4C7250(117);
+            s32 v22 = get_sprite_height_4C7250(118);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v20 / 2, word_706610, palette_type, 0, 0, 0);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v22 / 2, word_706610, palette_type, 0, 0, 0);
+            Hud_Pager_C::sub_5D2680(xpos, ypos);
+        }
+    }
 }
 
 MATCH_FUNC(0x5d3040)
