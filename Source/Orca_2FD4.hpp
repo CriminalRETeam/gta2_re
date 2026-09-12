@@ -10,11 +10,11 @@ class Ped;
 class Orca_8
 {
   public:
-    char_type field_0;
-    char_type field_1;
-    u8 field_2;
-    char_type field_3;
-    char_type field_4;
+    char_type field_0_idx1;
+    char_type field_1_idx2;
+    u8 field_2_xpos;
+    u8 field_3_ypos;
+    u8 field_4_zpos;
     char_type field_5;
     s16 field_6;
 };
@@ -44,7 +44,7 @@ class Orca_2FD4
     EXPORT void RestoreSavedPosition_554920();
     EXPORT s32 IsFirstPassenger_554A90(Ped* a2);
     EXPORT char_type ComputePath_554AB0(s32 a2, Ped* a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a8, u8 a9, s32 a10, u8* a11);
-    EXPORT char_type FindNearbyTileMatchingSlopeType_5552B0(char_type a2, u8* xpos, u8* ypos, u8* zpos, char_type a6);
+    EXPORT bool FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, char_type maybe_timer);
 
     s32 field_0_ped_id;
     char_type field_4;
@@ -52,17 +52,16 @@ class Orca_2FD4
     char_type field_6;
     char_type field_7;
     Orca_8 * field_8;
-    s16 field_C;
-    char_type field_E_xStart;
-    char_type field_F_xStart;
-    char_type field_10_yStart;
-    char_type field_11_yStart;
-    char_type field_12_xEnd;
-    char_type field_13_xEnd;
-    char_type field_14_zEnd;
+    u16 field_C;
+    u8 field_E_xStart;
+    u8 field_F_xStart;
+    u8 field_10_yStart;
+    u8 field_11_yStart;
+    u8 field_12_xEnd;
+    u8 field_13_xEnd;
+    u8 field_14_zEnd;
     char_type field_15;
-    char_type field_16;
-    char_type field_17;
+    u16 field_16;
     char_type field_18;
     char_type field_19;
     char_type field_1A;
