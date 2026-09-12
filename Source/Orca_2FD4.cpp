@@ -14,6 +14,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FDD50, Fix16(0x100, 0), 0x6FDD50);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDC00, Fix16(0.25), 0x6FDC00);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDCA8, Fix16(0.5), 0x6FDCA8);
 
+DEFINE_GLOBAL(u8, gOrca_Idx1_6FDBF8, 0x6FDBF8);
+DEFINE_GLOBAL(u8, gOrca_idx2_6FDBF9, 0x6FDBF9);
+
 DEFINE_GLOBAL(s32, gOrca_AngleFace_6FDD38, 0x6FDD38);
 DEFINE_GLOBAL(u8, gOrca_XPos_1_6FDBE2, 0x6FDBE2);
 DEFINE_GLOBAL(u8, gOrca_YPos_1_6FDBE3, 0x6FDBE3);
@@ -262,11 +265,107 @@ char_type Orca_2FD4::Internel_EvaluateBehaviorGridCell_554640()
     return 0;
 }
 
-STUB_FUNC(0x554710)
-char_type Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
+// https://decomp.me/scratch/f8WDL
+WIP_FUNC(0x554710)
+void Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    u16 v12;
+    u8 zpos = field_22_zpos;
+    if (byte_6FDEEC)
+    {
+        zpos += byte_6FDEEC;
+    }
+
+    if (zpos != field_13_xEnd)
+    {
+        v12 = 2;
+    }
+    else
+    {
+        v12 = 1;
+    }
+
+    field_1C_f40_idx = field_23_f40_idx1 + 34 * field_24_f40_idx2;
+    Orca_8* p8 = &field_40[field_1C_f40_idx];
+    if (field_40[field_1C_f40_idx].field_0_idx1 == 1 && zpos == p8->field_2_xpos)
+    {
+        p8->field_0_idx1 = 0;
+    }
+    else
+    {
+        u16 v7;
+        if (field_4 == 0)
+        {
+            v7 = v12 *
+                ((field_20_xpos - field_11_yStart) * (field_20_xpos - field_11_yStart) +
+                 (field_21_ypos - field_12_xEnd) * (field_21_ypos - field_12_xEnd));
+        }
+        else
+        {
+            v7 = field_16;
+        }
+        field_8->field_0_idx1 = field_23_f40_idx1;
+        field_8->field_1_idx2 = field_24_f40_idx2;
+        field_8->field_2_xpos = field_20_xpos;
+        field_8->field_3_ypos = field_21_ypos;
+        field_8->field_4_zpos = zpos;
+        field_8->field_6 = v7;
+        ++field_C;
+        ++field_8;
+
+        if (p8->field_0_idx1 == 1)
+        {
+            p8->field_3_ypos = field_1B;
+            p8->field_4_zpos = zpos;
+        }
+        else
+        {
+            p8->field_1_idx2 = field_1B;
+            p8->field_2_xpos = zpos;
+        }
+        p8->field_6 = field_1E + 1;
+
+        if (field_24_f40_idx2)
+        {
+            if (field_24_f40_idx2 == 31)
+            {
+                gOrca_Idx1_6FDBF8 = field_23_f40_idx1;
+                gOrca_idx2_6FDBF9 = field_24_f40_idx2;
+                gOrca_XPos2_6FDBFA = field_20_xpos;
+                gOrca_YPos2_6FDBFB = field_21_ypos;
+                gOrca_ZPos2_6FDBFC = field_22_zpos;
+            }
+        }
+        else
+        {
+            gOrca_idx1_1_6FDBE0 = field_23_f40_idx1;
+            gOrca_idx2_1_6FDBE1 = field_24_f40_idx2;
+            gOrca_XPos_1_6FDBE2 = field_20_xpos;
+            gOrca_YPos_1_6FDBE3 = field_21_ypos;
+            gOrca_ZPos1_6FDBE4 = field_22_zpos;
+        }
+
+        if (field_23_f40_idx1)
+        {
+            if (field_23_f40_idx1 == 31)
+            {
+                gOrca_idx1_2_6FDB68 = 31;
+                gOrca_idx_2_2_6FDB69 = field_24_f40_idx2;
+                gOrca_XPos3_6FDB6A = field_20_xpos;
+                gOrca_YPos3_6FDB6B = field_21_ypos;
+                gOrca_ZPos3_6FDB6C = field_22_zpos;
+            }
+        }
+        else
+        {
+            gOrca_idx1_6FDBF0 = 0;
+            gOrca_idx2_6FDBF1 = field_24_f40_idx2;
+            gOrca_XPos4_6FDBF2 = field_20_xpos;
+            gOrca_YPos4_6FDBF3 = field_21_ypos;
+            gOrca_ZPos4_6FDBF4 = field_22_zpos;
+        }
+    }
 }
 
 MATCH_FUNC(0x5548c0)

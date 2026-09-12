@@ -39,7 +39,7 @@ class Orca_2FD4
     }
     EXPORT void remove_ped_554620(s32 a2);
     EXPORT char_type Internel_EvaluateBehaviorGridCell_554640();
-    EXPORT char_type Internel_UpdateBehaviorGrid_554710();
+    EXPORT void Internel_UpdateBehaviorGrid_554710();
     EXPORT bool Internal_ProcessBehaviorGrid_5548C0();
     EXPORT void RestoreSavedPosition_554920();
     EXPORT s32 IsFirstPassenger_554A90(Ped* a2);
@@ -71,8 +71,8 @@ class Orca_2FD4
     u8 field_20_xpos;
     u8 field_21_ypos;
     u8 field_22_zpos;
-    char_type field_23_f40_idx1;
-    char_type field_24_f40_idx2;
+    u8 field_23_f40_idx1;
+    u8 field_24_f40_idx2;
     u8 field_25_xpos;
     u8 field_26_ypos;
     u8 field_27_zpos;
