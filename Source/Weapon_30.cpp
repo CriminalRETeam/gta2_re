@@ -39,6 +39,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_706C8C, Fix16(0x340, 0), 0x706C8C);
 
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706EB4, k_dword_706F70 * 24, 0x706EB4);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706E6C, k_dword_706F70 * 10, 0x706E6C);
+DEFINE_GLOBAL_INIT(Fix16, gTankCannonLength_706E20, k_dword_706F70 * 30, 0x706E20);
+DEFINE_GLOBAL_INIT(Fix16, dword_706D88, k_dword_706F70 * 8, 0x706D88);
 
 DEFINE_GLOBAL_INIT(Ang16, word_706D5E, Ang16(48), 0x706D5E);
 DEFINE_GLOBAL_INIT(Ang16, word_707002, Ang16(24), 0x707002);
@@ -763,10 +765,76 @@ void Weapon_30::fire_truck_gun_5E0E70()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5e10e0)
+// https://decomp.me/scratch/QliaE
+WIP_FUNC(0x5e10e0)
 void Weapon_30::tank_main_gun_5E10E0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    Ang16 cannon_angle;
+    Fix16_Point cannon_pos;
+    Fix16_Point car_box_or_car_velocity;
+    Fix16_Point vector3;
+
+    if (field_2_reload_speed == 0)
+    {
+        field_24_pPed = field_14_car->get_driver_4118B0();
+        cannon_angle = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(148)
+                           ->field_0->field_0;
+        cannon_pos.SetXY_432860(Fix16(0), gTankCannonLength_706E20);
+        cannon_pos.RotateByAngle_40F6B0(cannon_angle);
+
+        car_box_or_car_velocity.SetXY_432860(Fix16(0), dword_706D88);
+        car_box_or_car_velocity.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
+
+        vector3 = field_14_car->field_50_car_sprite->get_x_y_443580() + car_box_or_car_velocity;
+        cannon_pos += vector3;
+
+        if (field_14_car->field_58_physics)
+        {
+            car_box_or_car_velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&vector3);
+        }
+        else
+        {
+            car_box_or_car_velocity.reset();
+        }
+        set_field_2C_4CCA80(1);
+        if (!field_4)
+        {
+            if (Weapon_30::spawn_bullet_5DCF60(objects::rocket_bullet_128,
+                                               cannon_pos.x,
+                                               cannon_pos.y,
+                                               field_14_car->field_50_car_sprite->field_1C_zpos,
+                                               cannon_angle,
+                                               car_box_or_car_velocity))
+            {
+                if (field_24_pPed->IsField238_45EDE0(2))
+                {
+                    decrement_ammo_4CCA30();
+                }
+            }
+            field_2_reload_speed = 50;
+            field_24_pPed->AddThreateningPedToList_46FC70();
+            if (field_24_pPed->is_player_41B0A0())
+            {
+                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+            }
+        }
+        else
+        {
+            Weapon_30::spawn_bullet_5DCF60(objects::object_159,
+                                           cannon_pos.x,
+                                           cannon_pos.y,
+                                           field_14_car->field_50_car_sprite->field_1C_zpos,
+                                           cannon_angle,
+                                           car_box_or_car_velocity);
+            field_2_reload_speed = 5;
+        }
+        Weapon_30::TickReloadSpeed_5DCF40();
+    }
+    else
+    {
+        --field_2_reload_speed;
+    }
 }
 
 WIP_FUNC(0x5e13e0)
