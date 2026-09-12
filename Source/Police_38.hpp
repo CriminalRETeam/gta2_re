@@ -41,7 +41,7 @@ class PoliceCrew_38
     EXPORT bool sub_572210();
     EXPORT void sub_572340();
     EXPORT void sub_572920();
-    EXPORT void sub_574720();
+    EXPORT void State6_ShutDown_574720();
     EXPORT void sub_574F10();
     EXPORT void sub_575200();
     EXPORT void sub_575210();
