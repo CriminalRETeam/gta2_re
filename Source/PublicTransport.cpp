@@ -14,7 +14,9 @@ DEFINE_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
 DEFINE_GLOBAL(TrainStationList, dword_6FEE68, 0x6FEE68);
 DEFINE_GLOBAL(u8, gStationCount_6FF1CC, 0x6FF1CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF078, 0, 0x6FF078);
+DEFINE_GLOBAL_INIT(Fix16_Point, stru_6FF150, Fix16_Point(Fix16(0), Fix16(0)), 0x6FF150);
 DEFINE_GLOBAL(u8, dword_6FF158, 0x6FF158);
+
 Fix16 dword_6FEEE0 = Fix16(0x1333, 0); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
 Fix16 dword_6FEED4 = Fix16(0x666, 0); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEED4, Fix16(0x666, 0), 0x6FEED4);
 Fix16 dword_6FEEDC = Fix16(0xCCC, 0); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
@@ -434,11 +436,77 @@ void Train_58::UpdatePassengerAI_578390()
     }
 }
 
-STUB_FUNC(0x578670)
-u8 Train_58::ProcessTrainExplosionChain_578670()
+MATCH_FUNC(0x578670)
+void Train_58::ProcessTrainExplosionChain_578670()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCars = field_C_carriages[1];
+    if (!bSkip_trains_67D550)
+    {
+        Car_BC* pFirst = field_C_carriages[0];
+        if (pFirst->field_74_damage >= 32000 && field_38[10] == -1)
+        {
+            field_38[10] = 10;
+        }
+        if (field_38[0] == 1 && pCars->field_74_damage >= 32000)
+        {
+            field_38[10] = 10;
+        }
+        if (field_38[10] > 0)
+        {
+            --field_38[10];
+            if (!field_38[10])
+            {
+                if (pFirst->field_74_damage >= 32000)
+                {
+                    pCars->AccumulateDamage_43DA90(32000, &stru_6FF150);
+                }
+                else
+                {
+                    pFirst->AccumulateDamage_43DA90(32000, &stru_6FF150);
+                }
+            }
+        }
+
+        for (u8 car_idx = 0; car_idx < field_43_idx; pCars++, car_idx++)
+        {
+            if (field_38[car_idx] == -1 && pCars->field_74_damage >= 32000)
+            {
+                if (car_idx > 0)
+                {
+                    *((u8*)&field_C_carriages[10] + car_idx + 3) = 10;
+                }
+                else if (car_idx < field_43_idx - 1)
+                {
+                    field_38[car_idx + 1] = 10;
+                }
+                else if (car_idx == 0)
+                {
+                    field_38[10] = 10;
+                }
+                field_38[car_idx] = 0;
+            }
+            if (field_38[car_idx] > 0)
+            {
+                --field_38[car_idx];
+                if (!field_38[car_idx])
+                {
+                    field_C_carriages[car_idx + 1]->AccumulateDamage_43DA90(32000, &stru_6FF150);
+                    if (car_idx > 0)
+                    {
+                        *((u8*)&field_C_carriages[10] + car_idx + 3) = 10;
+                    }
+                    if (car_idx < field_43_idx - 1)
+                    {
+                        field_38[car_idx + 1] = 10;
+                    }
+                    if (!car_idx)
+                    {
+                        field_38[10] = 10;
+                    }
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x577f80)
