@@ -564,11 +564,20 @@ RouteFinder_10* RouteFinder::sub_5892F0(RouteFinder_10* a2, u16 idx, s16 a4)
     return pNew10;
 }
 
-STUB_FUNC(0x589390)
+MATCH_FUNC(0x589390)
 RouteFinder_10* RouteFinder::sub_589390(u16 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    RouteFinder_10* pNew10 = &field_861C[field_CC66_545_count++];
+    s32 distance = abs(field_8[a2].field_C_min_x - field_8[field_861A].field_C_min_x) +
+        abs(field_8[a2].field_D_min_y - field_8[field_861A].field_D_min_y);
+
+    pNew10->field_2 = distance;
+    pNew10->field_0_idx = a2;
+    pNew10->field_4 = 0;
+    // field_6 is preserved by the original function.
+    pNew10->field_8 = 0;
+    pNew10->field_C_pNext = 0;
+    return pNew10;
 }
 
 // https://decomp.me/scratch/uht0I regswap :)
@@ -594,10 +603,40 @@ void RouteFinder::sub_589420(RouteFinder_10* p10)
     }
 }
 
-STUB_FUNC(0x589480)
+MATCH_FUNC(0x589480)
 char_type RouteFinder::sub_589480(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
 {
-    NOT_IMPLEMENTED;
+    field_CC66_545_count = 0;
+    memset(field_CA40, 0, sizeof(field_CA40));
+    memset(field_861C, 0, sizeof(field_861C));
+
+    field_8618_idx = sub_589000(a2, a3, a4, 0, a8);
+    if (field_8618_idx == 0)
+    {
+        field_8618_idx = sub_589000(a2, a3, a4, 1, a8);
+    }
+
+    u16 initialIdx = field_8618_idx;
+    Junction_10* pJunction = &field_8[initialIdx];
+    if (a2 < pJunction->field_C_min_x || a2 > pJunction->field_E_max_x || a3 < pJunction->field_D_min_y || a3 > pJunction->field_F_max_y)
+    {
+        field_8618_idx = sub_589000(a2, a3, a4, 1, a8);
+    }
+
+    field_861A = sub_589000(a5, a6, a7, 1, a8);
+    if (field_861A == field_8618_idx)
+    {
+        field_8618_idx = initialIdx;
+    }
+
+    if (field_8618_idx != 0 && field_861A != 0)
+    {
+        sub_589390(field_8618_idx);
+        field_CA40[0] = 1;
+        field_A82C = field_861C;
+        field_CA40[field_8618_idx] = 1;
+        return 1;
+    }
     return 0;
 }
 

@@ -3165,10 +3165,22 @@ s32 Map_0x370::sub_4E7190(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5)
     return 0;
 }
 
-STUB_FUNC(0x4E7E90)
+MATCH_FUNC(0x4E7E90)
 char_type Map_0x370::sub_4E7E90(u8* a2, char_type* a3)
 {
-    NOT_IMPLEMENTED;
+    for (u8 x = 1; x < 255; x++)
+    {
+        for (u8 y = 1; y < 255; y++)
+        {
+            s32 z;
+            if (FindPavementBlockForCoord_4E4BB0(x, y, z))
+            {
+                *a2 = x;
+                *a3 = y;
+                return 1;
+            }
+        }
+    }
     return 0;
 }
 

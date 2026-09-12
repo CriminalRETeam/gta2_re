@@ -526,10 +526,9 @@ void high_score_table_0xF0::Init_56B520()
     }
 }
 
-STUB_FUNC(0x56B550)
+MATCH_FUNC(0x56B550)
 char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findScore)
 {
-    NOT_IMPLEMENTED;
     u16 startIdx = 10;
     for (s16 i = 9; i != -1; --i)
     {
@@ -547,24 +546,13 @@ char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findSco
 
     if (startIdx != 10)
     {
-
         if (startIdx < 9u)
         {
-            // ??????
-            score_table_line* pIter = &field_0_score_table_line[8]; // .field_14_score;
-            //  int* pIter = &field_0[9 - 1].field_14_score;
-
-            s32 remainderCount = 9 - startIdx;
-            do
+            for (u16 k = 9; k > startIdx; --k)
             {
-                wcsncpy((pIter + 1)->field_0_player_name, (pIter)->field_0_player_name, 9u);
-                (pIter + 1)->field_14_score = (pIter)->field_14_score;
-
-                pIter--;
-
-                --remainderCount;
-            } while (remainderCount);
-            //newScore = findScore;
+                wcsncpy(field_0_score_table_line[k].field_0_player_name, field_0_score_table_line[k - 1].field_0_player_name, 9u);
+                field_0_score_table_line[k].field_14_score = field_0_score_table_line[k - 1].field_14_score;
+            }
         }
 
         wcsncpy(field_0_score_table_line[startIdx].field_0_player_name, pFindStr, 9u);
