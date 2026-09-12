@@ -258,10 +258,64 @@ void Orca_2FD4::remove_ped_554620(s32 a2)
     }
 }
 
-STUB_FUNC(0x554640)
+MATCH_FUNC(0x554640)
 char_type Orca_2FD4::Internel_EvaluateBehaviorGridCell_554640()
 {
-    NOT_IMPLEMENTED;
+    if (field_23_f40_idx1 <= 32)
+    {
+        if (field_24_f40_idx2 <= 32)
+        {
+            if (field_22_zpos <= 8)
+            {
+                field_1C_f40_idx = field_23_f40_idx1 + 34 * field_24_f40_idx2;
+                Orca_8* p8 = &field_40[field_1C_f40_idx]; // 1122 len
+                if (p8->field_1_idx2 == 0)
+                {
+                    return 1;
+                }
+                if (p8->field_0_idx1 != 1 && p8->field_2_xpos != field_22_zpos)
+                {
+                    if (abs(p8->field_2_xpos - field_22_zpos) >= 1)
+                    {
+                        p8->field_0_idx1 = 1;
+                        return 1;
+                    }
+                }
+                return 0;
+            }
+        }
+    }
+    if (field_10_yStart != field_13_xEnd)
+    {
+        return 0;
+    }
+    switch (gOrca_AngleFace_6FDD38)
+    {
+        case 1:
+            if (field_24_f40_idx2 < 1)
+            {
+                return 2;
+            }
+            break;
+        case 2:
+            if (field_24_f40_idx2 > 32)
+            {
+                return 2;
+            }
+            break;
+        case 3:
+            if (field_23_f40_idx1 > 32)
+            {
+                return 2;
+            }
+            break;
+        case 4:
+            if (field_23_f40_idx1 < 1)
+            {
+                return 2;
+            }
+            break;
+    }
     return 0;
 }
 
