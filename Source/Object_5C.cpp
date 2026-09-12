@@ -3096,7 +3096,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
         {
             unk_angle = pSprt->field_0;
             Fix16 found_z;
-            found_z = *gMap_0x370_6F6268->sub_4E4D40(&found_z, pSprt->field_14_xy.x, pSprt->field_14_xy.y, pSprt->field_1C_zpos);
+            found_z = gMap_0x370_6F6268->sub_4E4D40(pSprt->field_14_xy.x, pSprt->field_14_xy.y, pSprt->field_1C_zpos);
             pSprt->set_xyz_lazy_420600(pSprt->field_14_xy.x + unk_x, pSprt->field_14_xy.y + unk_y, pSprt->field_1C_zpos + unk_z);
             pSprt->set_ang_lazy_420690(angle);
             if (unk_z == kFpZero_6F8E10)

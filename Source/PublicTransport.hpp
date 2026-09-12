@@ -20,7 +20,7 @@ class Train_58
     EXPORT void sub_578330();
     EXPORT void sub_578360();
     EXPORT void UpdatePassengerAI_578390();
-    EXPORT u8 ProcessTrainExplosionChain_578670();
+    EXPORT void ProcessTrainExplosionChain_578670();
     char_type field_0;
     char_type field_1;
     char_type field_2;

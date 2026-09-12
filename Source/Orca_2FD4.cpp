@@ -5,8 +5,17 @@
 #include <string.h>
 
 DEFINE_GLOBAL(u8, byte_6FDEEC, 0x6FDEEC);
+DEFINE_GLOBAL(s16, word_6FDECE, 0x6FDECE);
 
 DEFINE_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0, 0x6FDEF0);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDD98, Fix16(0), 0x6FDD98);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDD50, Fix16(0x100, 0), 0x6FDD50);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDC00, Fix16(0.25), 0x6FDC00);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDCA8, Fix16(0.5), 0x6FDCA8);
+
+DEFINE_GLOBAL(u8, gOrca_Idx1_6FDBF8, 0x6FDBF8);
+DEFINE_GLOBAL(u8, gOrca_idx2_6FDBF9, 0x6FDBF9);
 
 DEFINE_GLOBAL(s32, gOrca_AngleFace_6FDD38, 0x6FDD38);
 DEFINE_GLOBAL(u8, gOrca_XPos_1_6FDBE2, 0x6FDBE2);
@@ -249,18 +258,168 @@ void Orca_2FD4::remove_ped_554620(s32 a2)
     }
 }
 
-STUB_FUNC(0x554640)
+MATCH_FUNC(0x554640)
 char_type Orca_2FD4::Internel_EvaluateBehaviorGridCell_554640()
 {
-    NOT_IMPLEMENTED;
+    if (field_23_f40_idx1 <= 32)
+    {
+        if (field_24_f40_idx2 <= 32)
+        {
+            if (field_22_zpos <= 8)
+            {
+                field_1C_f40_idx = field_23_f40_idx1 + 34 * field_24_f40_idx2;
+                Orca_8* p8 = &field_40[field_1C_f40_idx]; // 1122 len
+                if (p8->field_1_idx2 == 0)
+                {
+                    return 1;
+                }
+                if (p8->field_0_idx1 != 1 && p8->field_2_xpos != field_22_zpos)
+                {
+                    if (abs(p8->field_2_xpos - field_22_zpos) >= 1)
+                    {
+                        p8->field_0_idx1 = 1;
+                        return 1;
+                    }
+                }
+                return 0;
+            }
+        }
+    }
+    if (field_10_yStart != field_13_xEnd)
+    {
+        return 0;
+    }
+    switch (gOrca_AngleFace_6FDD38)
+    {
+        case 1:
+            if (field_24_f40_idx2 < 1)
+            {
+                return 2;
+            }
+            break;
+        case 2:
+            if (field_24_f40_idx2 > 32)
+            {
+                return 2;
+            }
+            break;
+        case 3:
+            if (field_23_f40_idx1 > 32)
+            {
+                return 2;
+            }
+            break;
+        case 4:
+            if (field_23_f40_idx1 < 1)
+            {
+                return 2;
+            }
+            break;
+    }
     return 0;
 }
 
-STUB_FUNC(0x554710)
-char_type Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
+// https://decomp.me/scratch/f8WDL
+WIP_FUNC(0x554710)
+void Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    u16 v12;
+    u8 zpos = field_22_zpos;
+    if (byte_6FDEEC)
+    {
+        zpos += byte_6FDEEC;
+    }
+
+    if (zpos != field_13_xEnd)
+    {
+        v12 = 2;
+    }
+    else
+    {
+        v12 = 1;
+    }
+
+    field_1C_f40_idx = field_23_f40_idx1 + 34 * field_24_f40_idx2;
+    Orca_8* p8 = &field_40[field_1C_f40_idx];
+    if (field_40[field_1C_f40_idx].field_0_idx1 == 1 && zpos == p8->field_2_xpos)
+    {
+        p8->field_0_idx1 = 0;
+    }
+    else
+    {
+        u16 v7;
+        if (field_4 == 0)
+        {
+            v7 = v12 *
+                ((field_20_xpos - field_11_yStart) * (field_20_xpos - field_11_yStart) +
+                 (field_21_ypos - field_12_xEnd) * (field_21_ypos - field_12_xEnd));
+        }
+        else
+        {
+            v7 = field_16;
+        }
+        field_8->field_0_idx1 = field_23_f40_idx1;
+        field_8->field_1_idx2 = field_24_f40_idx2;
+        field_8->field_2_xpos = field_20_xpos;
+        field_8->field_3_ypos = field_21_ypos;
+        field_8->field_4_zpos = zpos;
+        field_8->field_6 = v7;
+        ++field_C;
+        ++field_8;
+
+        if (p8->field_0_idx1 == 1)
+        {
+            p8->field_3_ypos = field_1B;
+            p8->field_4_zpos = zpos;
+        }
+        else
+        {
+            p8->field_1_idx2 = field_1B;
+            p8->field_2_xpos = zpos;
+        }
+        p8->field_6 = field_1E + 1;
+
+        if (field_24_f40_idx2)
+        {
+            if (field_24_f40_idx2 == 31)
+            {
+                gOrca_Idx1_6FDBF8 = field_23_f40_idx1;
+                gOrca_idx2_6FDBF9 = field_24_f40_idx2;
+                gOrca_XPos2_6FDBFA = field_20_xpos;
+                gOrca_YPos2_6FDBFB = field_21_ypos;
+                gOrca_ZPos2_6FDBFC = field_22_zpos;
+            }
+        }
+        else
+        {
+            gOrca_idx1_1_6FDBE0 = field_23_f40_idx1;
+            gOrca_idx2_1_6FDBE1 = field_24_f40_idx2;
+            gOrca_XPos_1_6FDBE2 = field_20_xpos;
+            gOrca_YPos_1_6FDBE3 = field_21_ypos;
+            gOrca_ZPos1_6FDBE4 = field_22_zpos;
+        }
+
+        if (field_23_f40_idx1)
+        {
+            if (field_23_f40_idx1 == 31)
+            {
+                gOrca_idx1_2_6FDB68 = 31;
+                gOrca_idx_2_2_6FDB69 = field_24_f40_idx2;
+                gOrca_XPos3_6FDB6A = field_20_xpos;
+                gOrca_YPos3_6FDB6B = field_21_ypos;
+                gOrca_ZPos3_6FDB6C = field_22_zpos;
+            }
+        }
+        else
+        {
+            gOrca_idx1_6FDBF0 = 0;
+            gOrca_idx2_6FDBF1 = field_24_f40_idx2;
+            gOrca_XPos4_6FDBF2 = field_20_xpos;
+            gOrca_YPos4_6FDBF3 = field_21_ypos;
+            gOrca_ZPos4_6FDBF4 = field_22_zpos;
+        }
+    }
 }
 
 MATCH_FUNC(0x5548c0)
@@ -276,9 +435,9 @@ bool Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0()
         else
         {
             Orca_8* pOrca = &field_40[field_1C_f40_idx];
-            if (pOrca->field_0 == 1 && pOrca->field_3 == 0)
+            if (pOrca->field_0_idx1 == 1 && pOrca->field_3_ypos == 0)
             {
-                pOrca->field_0 = 0;
+                pOrca->field_0_idx1 = 0;
             }
         }
     }
@@ -355,9 +514,180 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 a2, Ped* a3, u8 a4, u8 a5, u8 a6, u8
     return 0;
 }
 
-STUB_FUNC(0x5552b0)
-char_type Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(char_type a2, u8* xpos, u8* ypos, u8* zpos, char_type a6)
+// https://decomp.me/scratch/19LIh
+WIP_FUNC(0x5552b0)
+bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, char_type maybe_timer)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    u8 j = 0;
+    if (field_38 && !maybe_timer)
+    {
+        return 0;
+    }
+    if (*zpos > 6u || *zpos == 0)
+    {
+        return 0;
+    }
+    u8 default_pos = dword_6FDD98.ToUInt8();
+    field_27_zpos = default_pos;
+    field_26_ypos = default_pos;
+    field_25_xpos = default_pos;
+    field_28 = *xpos - 16;
+    field_29 = *ypos - 16;
+    Orca_2FD4::Internel_ClearGrid_5545C0();
+    field_E_xStart = *xpos;
+    field_F_xStart = *ypos;
+    field_10_yStart = *zpos;
+    field_4 = 1;
+
+    if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_E_xStart, field_F_xStart, field_10_yStart))
+    {
+        field_10_yStart = gMap_0x370_6F6268->sub_4E4D40(Fix16(field_E_xStart), Fix16(field_F_xStart), Fix16(field_10_yStart)).ToUInt8();
+    }
+    field_16 = 0;
+    field_11_yStart = 0;
+    field_12_xEnd = 0;
+    field_13_xEnd = 0;
+    byte_6FDEEC = 0;
+    field_C = 0;
+    field_8 = field_2350;
+    field_22_zpos = field_10_yStart;
+    field_24_f40_idx2 = 16;
+    field_23_f40_idx1 = 16;
+    field_20_xpos = field_E_xStart;
+    field_21_ypos = field_F_xStart;
+    field_1B = 66;
+    Orca_2FD4::Internel_UpdateBehaviorGrid_554710();
+    field_8 = field_2350;
+    field_1C_f40_idx = 560;
+    field_40[field_1C_f40_idx].field_6 = field_16;
+    field_1E = 0;
+    field_18 = 1;
+    while (field_C)
+    {
+        Orca_8* pIter = field_2350;
+        field_8 = field_2350;
+
+        for (u8 i = 0; i < field_C - 1; i++)
+        {
+            ++field_8;
+            if (field_8->field_6 < pIter->field_6)
+            {
+                pIter = field_8;
+            }
+        }
+        gOrca_idx1_any_6FDEC8 = pIter->field_0_idx1;
+        gOrca_idx2_any_6FDEC9 = pIter->field_1_idx2;
+        gOrca_XPosAny_6FDECA = pIter->field_2_xpos;
+        gOrca_YPosAny_6FDECB = pIter->field_3_ypos;
+        gOrca_ZPosAny_6FDECC = pIter->field_4_zpos;
+        word_6FDECE = pIter->field_6;
+        field_1C_f40_idx = gOrca_idx1_any_6FDEC8 + 34 * gOrca_idx2_any_6FDEC9;
+        field_1E = field_40[field_1C_f40_idx].field_6;
+        pIter->field_0_idx1 = field_8->field_0_idx1;
+        pIter->field_1_idx2 = field_8->field_1_idx2;
+        pIter->field_2_xpos = field_8->field_2_xpos;
+        pIter->field_3_ypos = field_8->field_3_ypos;
+        pIter->field_4_zpos = field_8->field_4_zpos;
+        pIter->field_6 = field_8->field_6;
+        --field_C;
+        field_25_xpos = gOrca_XPosAny_6FDECA;
+        field_26_ypos = gOrca_YPosAny_6FDECB;
+        field_27_zpos = gOrca_ZPosAny_6FDECC;
+
+        u8 block_below_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(field_25_xpos, field_26_ypos, field_27_zpos - 1);
+
+        if (block_type == 5)
+        {
+            if (!gMap_0x370_6F6268->sub_4E5640(dword_6FDD50,
+                                               dword_6FDC00,
+                                               dword_6FDD50,
+                                               Fix16(*xpos) + dword_6FDCA8,
+                                               Fix16(*ypos) + dword_6FDCA8,
+                                               Fix16(*zpos),
+                                               Fix16(field_25_xpos) + dword_6FDCA8,
+                                               Fix16(field_26_ypos) + dword_6FDCA8,
+                                               Fix16(field_27_zpos)))
+            {
+                field_18 = 0;
+                *xpos = field_25_xpos;
+                *ypos = field_26_ypos;
+                *zpos = field_27_zpos;
+            }
+        }
+        else if (block_below_type == block_type)
+        {
+            if (block_type == 1)
+            {
+                if ((gMap_0x370_6F6268->get_block_4DFE10(field_25_xpos, field_26_ypos, field_27_zpos - 1)->field_A_arrows & 0xF) != 0)
+                {
+                    field_18 = 0;
+                    *xpos = field_25_xpos;
+                    *ypos = field_26_ypos;
+                    *zpos = field_27_zpos;
+                    return 1;
+                }
+            }
+            else
+            {
+                field_18 = 0;
+                *xpos = field_25_xpos;
+                *ypos = field_26_ypos;
+                *zpos = field_27_zpos;
+            }
+        }
+        field_20_xpos = gOrca_XPosAny_6FDECA;
+        field_21_ypos = gOrca_YPosAny_6FDECB - 1;
+        field_22_zpos = gOrca_ZPosAny_6FDECC;
+        field_23_f40_idx1 = gOrca_idx1_any_6FDEC8;
+        field_24_f40_idx2 = gOrca_idx2_any_6FDEC9 - 1;
+        field_1B = 1;
+        if (!Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
+        {
+            field_20_xpos = gOrca_XPosAny_6FDECA + 1;
+            field_21_ypos = gOrca_YPosAny_6FDECB;
+            field_22_zpos = gOrca_ZPosAny_6FDECC;
+            field_23_f40_idx1 = gOrca_idx1_any_6FDEC8 + 1;
+            field_24_f40_idx2 = gOrca_idx2_any_6FDEC9;
+            field_1B = 2;
+            if (!Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
+            {
+                field_20_xpos = gOrca_XPosAny_6FDECA;
+                field_21_ypos = gOrca_YPosAny_6FDECB + 1;
+                field_22_zpos = gOrca_ZPosAny_6FDECC;
+                field_23_f40_idx1 = gOrca_idx1_any_6FDEC8;
+                field_24_f40_idx2 = gOrca_idx2_any_6FDEC9 + 1;
+                field_1B = 3;
+                if (!Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
+                {
+                    field_20_xpos = gOrca_XPosAny_6FDECA - 1;
+                    field_21_ypos = gOrca_YPosAny_6FDECB;
+                    field_22_zpos = gOrca_ZPosAny_6FDECC;
+                    field_23_f40_idx1 = gOrca_idx1_any_6FDEC8 - 1;
+                    field_24_f40_idx2 = gOrca_idx2_any_6FDEC9;
+                    field_1B = 4;
+                    if (!Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
+                    {
+                        ++field_16;
+                        if (++j <= 6 || maybe_timer != 0)
+                        {
+                            if (field_18) // line 486
+                            {
+                                if (field_C) // line 48f
+                                {
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                return 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    } // end while
+    return 1;
 }

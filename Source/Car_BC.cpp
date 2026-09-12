@@ -558,7 +558,7 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
 
                 if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pos_x, pos_y))
                 {
-                    gMap_0x370_6F6268->sub_4E4D40(&pos_z, pos_x, pos_y, Fix16(zTmpInt));
+                    pos_z = gMap_0x370_6F6268->sub_4E4D40(pos_x, pos_y, Fix16(zTmpInt));
                     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
                     Fix16 w_val = dword_6F6850.list[pInfo->w];
                     Fix16 h_val = dword_6F6850.list[pInfo->h];

@@ -1415,24 +1415,97 @@ void Hud_Pager_C::Service_5D2320()
     }
 }
 
-STUB_FUNC(0x5d2380)
-void Hud_Pager_C::sub_5D2380(s32 a2, s32 a3)
+MATCH_FUNC(0x5d2380)
+void Hud_Pager_C::sub_5D2380(s32 xpos, s32 ypos)
 {
-    NOT_IMPLEMENTED;
+    s32 counter = *field_4_ptr_counter;
+    s32 v4 = counter % 10;
+    s32 v5 = (counter % 100 - v4) / 10;
+    s32 v6 = (counter % 1000 - v5 - v4) / 100;
+    s32 v7 = (counter - v6 - v5 - v4) / 1000;
+
+    if (!v7)
+    {
+        v7 = -1;
+        if (!v6)
+        {
+            v6 = -1;
+            if (!v5)
+            {
+                v5 = -1;
+            }
+        }
+    }
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v4, xpos + 11, ypos + 2, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v5, xpos + 4, ypos + 2, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v6, xpos - 3, ypos + 2, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v7, xpos - 10, ypos + 2, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
 }
 
 STUB_FUNC(0x5d2680)
-s32 Hud_Pager_C::sub_5D2680(s32 a2, s32 a3)
+void Hud_Pager_C::sub_5D2680(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
-STUB_FUNC(0x5d2ab0)
-s32 Hud_Pager_C::DrawPager_5D2AB0(s32 a2, s32 a3)
+// https://decomp.me/scratch/3IY3c
+WIP_FUNC(0x5d2ab0)
+void Hud_Pager_C::DrawPager_5D2AB0(s32 xpos, s32 ypos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    const s32 palette_type = palette_types_enum::sprites_2;
+    if (field_0_timer < 0)
+    {
+        if (!field_4_ptr_counter)
+        {
+            return;
+        }
+        if (field_0_timer < 0)
+        {
+            goto LABEL_8;
+        }
+    }
+    if (field_4_ptr_counter)
+    {
+        s32 v9 = get_sprite_height_4C7250(117);
+        s32 v45 = get_sprite_height_4C7250(118);
+        s32 v10 = get_sprite_height_4C7250(119);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v9 / 2 - (v10 >> 1), word_706610, palette_type, 0, 0, 0);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 119, xpos, ypos, word_706610, palette_type, 0, 0, 0);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + (v10 >> 1) + v45 / 2, word_706610, palette_type, 0, 0, 0);
+        Hud_Pager_C::sub_5D2380(xpos, ypos - 6);
+        Hud_Pager_C::sub_5D2680(xpos, ypos + 6);
+    }
+    else
+    {
+        if (field_0_timer < 0)
+        {
+        LABEL_8:
+            s32 v29 = get_sprite_height_4C7250(117);
+            s32 v31 = get_sprite_height_4C7250(118);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v29 / 2, word_706610, palette_type, 0, 0, 0);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v31 / 2, word_706610, palette_type, 0, 0, 0);
+            Hud_Pager_C::sub_5D2380(xpos, ypos);
+        }
+        else
+        {
+            s32 v20 = get_sprite_height_4C7250(117);
+            s32 v22 = get_sprite_height_4C7250(118);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v20 / 2, word_706610, palette_type, 0, 0, 0);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v22 / 2, word_706610, palette_type, 0, 0, 0);
+            Hud_Pager_C::sub_5D2680(xpos, ypos);
+        }
+    }
 }
 
 MATCH_FUNC(0x5d3040)
