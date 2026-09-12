@@ -5581,7 +5581,7 @@ void Char_B4::state_8_5520A0()
                 }
                 break;
             case ped_state_2::falling_19:
-                v36 = *gMap_0x370_6F6268->sub_4E4D40(&temp, gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC); // TODO: fix Fix16 return
+                v36 = gMap_0x370_6F6268->sub_4E4D40(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC); // TODO: fix Fix16 return
                 if (gCharB4_Saved_Zpos_6FD7FC < v36 || gCharB4_Saved_Zpos_6FD7FC >= v36 + dword_6FDB04)
                 {
                     Ang16::PolarToCartesian_41FC20(field_40_rotation, field_90, v44, v45);

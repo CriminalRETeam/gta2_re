@@ -2439,7 +2439,7 @@ gmp_block_info* Map_0x370::sub_4E4CB0(s32 x, s32 y, s32& z)
 }
 
 MATCH_FUNC(0x4E4D40)
-Fix16* Map_0x370::sub_4E4D40(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
+Fix16 Map_0x370::sub_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
     gmp_block_info* block_4DFE10;
     u8 slope_byte;
@@ -2455,8 +2455,7 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
         gBlockInfo0_6F5EB0 = v11;
         if (v11 == NULL)
         {
-            *found_z = dword_6F6110;
-            return found_z;
+            return dword_6F6110;
         }
         slope_byte = v11->field_B_slope_type;
 
@@ -2470,8 +2469,7 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
             new_z = Fix16(v14) + 1;
         }
     }
-    *found_z = new_z;
-    return found_z;
+    return new_z;
 }
 
 MATCH_FUNC(0x4E4E50)
