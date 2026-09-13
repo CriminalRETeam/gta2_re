@@ -65,7 +65,7 @@ class Orca_2FD4
     char_type field_18;
     char_type field_19;
     char_type field_1A;
-    char_type field_1B;
+    u8 field_1B;
     u16 field_1C_f40_idx;
     s16 field_1E;
     u8 field_20_xpos;
@@ -81,7 +81,7 @@ class Orca_2FD4
     char_type field_2A;
     char_type field_2B;
     s16 field_2C;
-    s16 field_2E;
+    u16 field_2E;
     s32 field_30;
     s16 field_34;
     s16 field_36;
@@ -96,7 +96,7 @@ class Orca_2FD4
     s32 field_2FC8;
     s32 field_2FCC;
     char_type field_2FD0_bTimedOut;
-    char_type field_2FD1_time_out_counter;
+    u8 field_2FD1_time_out_counter;
     char_type field_2FD2;
     char_type field_2FD3;
 };
