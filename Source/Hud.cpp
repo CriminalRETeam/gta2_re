@@ -1445,10 +1445,73 @@ void Hud_Pager_C::sub_5D2380(s32 xpos, s32 ypos)
     DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v7, xpos - 10, ypos + 2, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
 }
 
-STUB_FUNC(0x5d2680)
-void Hud_Pager_C::sub_5D2680(s32 a2, s32 a3)
+MATCH_FUNC(0x5d2680)
+void Hud_Pager_C::DrawDigits_5D2680(s32 xpos, s32 ypos)
 {
-    NOT_IMPLEMENTED;
+    // (field_0_timer / 30 fps) = total time in seconds
+    s32 minutes = (field_0_timer / 30) / 60;
+    s32 seconds = (field_0_timer / 30) % 60;
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                            123 + minutes / 10,
+                            xpos - 13,
+                            ypos + 3,
+                            word_706610,
+                            palette_types_enum::sprites_2,
+                            0,
+                            0,
+                            0);
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                            123 + minutes % 10,
+                            xpos - 6,
+                            ypos + 3,
+                            word_706610,
+                            palette_types_enum::sprites_2,
+                            0,
+                            0,
+                            0);
+
+    if (field_0_timer % 15 <= 7)
+    {
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 121, xpos - 1, ypos + 3, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
+
+        if (field_0_timer < 300) // less than 10 seconds: draw flashing light
+        {
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                    133,
+                                    xpos + 20,
+                                    ypos + 14,
+                                    word_706610,
+                                    palette_types_enum::sprites_2,
+                                    0,
+                                    0,
+                                    0);
+        }
+    }
+    else
+    {
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 120, xpos - 1, ypos + 3, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
+    }
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                            123 + seconds / 10,
+                            xpos + 4,
+                            ypos + 3,
+                            word_706610,
+                            palette_types_enum::sprites_2,
+                            0,
+                            0,
+                            0);
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                            123 + seconds % 10,
+                            xpos + 11,
+                            ypos + 3,
+                            word_706610,
+                            palette_types_enum::sprites_2,
+                            0,
+                            0,
+                            0);
 }
 
 // https://decomp.me/scratch/3IY3c
@@ -1480,7 +1543,7 @@ void Hud_Pager_C::DrawPager_5D2AB0(s32 xpos, s32 ypos)
 
         DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + (v10 >> 1) + v45 / 2, word_706610, palette_type, 0, 0, 0);
         Hud_Pager_C::sub_5D2380(xpos, ypos - 6);
-        Hud_Pager_C::sub_5D2680(xpos, ypos + 6);
+        Hud_Pager_C::DrawDigits_5D2680(xpos, ypos + 6);
     }
     else
     {
@@ -1503,7 +1566,7 @@ void Hud_Pager_C::DrawPager_5D2AB0(s32 xpos, s32 ypos)
             DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v20 / 2, word_706610, palette_type, 0, 0, 0);
 
             DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v22 / 2, word_706610, palette_type, 0, 0, 0);
-            Hud_Pager_C::sub_5D2680(xpos, ypos);
+            Hud_Pager_C::DrawDigits_5D2680(xpos, ypos);
         }
     }
 }
