@@ -409,7 +409,7 @@ class Ped
         field_168_game_object->field_16 = 1;
     }
 
-    inline u8 get_remap_433BA0()
+    inline s8 get_remap_433BA0()
     {
         return field_244_remap;
     }

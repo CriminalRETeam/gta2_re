@@ -5,6 +5,8 @@
 
 DEFINE_GLOBAL(Ped_List_4, gThreateningPedsList_678468, 0x678468);
 
+DEFINE_GLOBAL_INIT(Ang16, word_678B40, Ang16(0), 0x678B40);
+
 MATCH_FUNC(0x471140)
 Char_8* Ped_List_4::AddPed_471140(Ped* pPed)
 {
@@ -221,11 +223,43 @@ Ped* Ped_List_4::GetFromListClosestPedToPoint_471340(Fix16 x, Fix16 y)
     return pNearest;
 }
 
-STUB_FUNC(0x4713C0)
+// https://decomp.me/scratch/GJ2JR
+WIP_FUNC(0x4713C0)
 Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, Ang16 ang2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Fix16 distance;
+    Ang16 ang_delta;
+    Ang16 v13;
+
+    Fix16 smallestValue = Fix16(99999);
+    Char_8* pIter = field_0_pFirstPed;
+    Ped* pLastPed = 0;
+
+    for (; pIter; pIter = pIter->mpNext)
+    {
+        Ped* pCurPed = pIter->field_0_char_ped;
+        if (pIter->field_0_char_ped->field_21C_bf.b0 == true)
+        {
+            bool withinCone = false;
+            distance = Fix16::MaxAbsDistance_42A6B0(x, y, pCurPed->get_cam_x(), pCurPed->get_cam_y());
+
+            ang_delta = Fix16::atan2_fixed_405320(pCurPed->get_cam_y() - y, pCurPed->get_cam_x() - x) - ang1;
+
+            v13 = word_678B40 - ang2;
+
+            if (ang_delta < ang2 || ang_delta > v13)
+            {
+                withinCone = true;
+            }
+            if (distance < smallestValue && withinCone)
+            {
+                smallestValue = distance;
+                pLastPed = pIter->field_0_char_ped;
+            }
+        }
+    }
+    return pLastPed;
 }
 
 MATCH_FUNC(0x4715a0)
