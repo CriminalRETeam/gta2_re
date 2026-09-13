@@ -3006,57 +3006,56 @@ Fix16_Point CarPhysics_B0::ComputePointVelocity_561380(Fix16_Point& point)
     return v13 - v12;
 }
 
+// https://decomp.me/scratch/5Hj13
 // 9.6f 0x4A0D40
 WIP_FUNC(0x5615d0)
-Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 a4, Fix16_Point& a5, Fix16 a6)
+Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 angle, Fix16_Point& a5, Fix16 a6)
 {
     WIP_IMPLEMENTED;
 
-    Fix16_Point a3_;
+    Fix16_Point force;
+    Fix16_Point v40;
+    Fix16 y_abs;
+    Fix16 x_abs;
 
     if (field_95)
     {
-        a3_.SetXY_432860(kFP16Zero_6FE20C, kFP16Zero_6FE20C);
+        force.SetXY_432860(kFP16Zero_6FE20C, kFP16Zero_6FE20C);
     }
     else
     {
-        Fix16_Point v10 = ComputePointVelocity_561380(a3);
+        v40 = ComputePointVelocity_561380(a3);
+        v40.RotateByAngle_40F6B0(-angle);
 
-        Fix16_Point v40;
-        v40.x = v10.x;
-        v40.y = v10.y;
-        v40.RotateByAngle_40F6B0(-a4); // ang16::negate_401C80
-
-        a3_.x = (v40.x * -a5.x);
-        a3_.y = (v40.y * -a5.y);
+        force.x = (v40.x * -a5.x);
+        force.y = (v40.y * -a5.y);
     }
 
-    Fix16 y_abs = Fix16::Abs(a3_.y);
-    Fix16 x_abs = Fix16::Abs(a3_.x);
+    y_abs = Fix16::Abs(v40.y);
+    x_abs = Fix16::Abs(force.x);
 
-    if (this->field_8C_state == 2 && this->field_5C_pCar->field_84_car_info_idx != car_model_enum::TANK)
+    if (field_8C_state == 2 && !field_5C_pCar->IsTank_411900())
     {
-        if (y_abs > dword_6FE15C || Fix16::Abs(a6) < dword_6FE3B4)
+        if ((y_abs > dword_6FE15C) || (Fix16::Abs(a6) < dword_6FE3B4))
         {
-            if (this->field_92_is_hand_brake_on)
+            if (field_92_is_hand_brake_on)
             {
-                char_type tmp = this->field_AC_drive_wheels_locked_q;
-                if ((tmp && y_abs > kFP16Zero_6FE20C || y_abs >= dword_6FE2F4) && (u8)tmp < 2u)
+                if ((field_AC_drive_wheels_locked_q && y_abs > kFP16Zero_6FE20C || y_abs >= dword_6FE2F4) &&
+                    field_AC_drive_wheels_locked_q < 2)
                 {
-                    this->field_AC_drive_wheels_locked_q = 2;
+                    field_AC_drive_wheels_locked_q = 2;
                 }
             }
         }
         else
         {
-            Fix16 v19 = Fix16::Abs(a6);
-            this->field_AC_drive_wheels_locked_q = (((v19) / dword_6FE3B4) * 8).ToInt();
+            field_AC_drive_wheels_locked_q = (((Fix16::Abs_negate_out_of_line(a6)) / dword_6FE3B4) * 8).ToInt();
         }
     }
 
-    a3_.y += a6;
-    a3_.RotateByAngle_40F6B0(a4);
-    ApplyForceAtPoint_55F800(&a3, &a3_, 1);
+    force.y += a6;
+    force.RotateByAngle_40F6B0(angle);
+    ApplyForceAtPoint_55F800(&a3, &force, 1);
 
     return x_abs;
 }
