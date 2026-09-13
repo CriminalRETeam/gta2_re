@@ -285,7 +285,7 @@ char_type Orca_2FD4::Internel_EvaluateBehaviorGridCell_554640()
             }
         }
     }
-    if (field_10_yStart != field_13_xEnd)
+    if (field_10_zStart != field_13_zEnd)
     {
         return 0;
     }
@@ -331,7 +331,7 @@ void Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
         zpos += byte_6FDEEC;
     }
 
-    if (zpos != field_13_xEnd)
+    if (zpos != field_13_zEnd)
     {
         v12 = 2;
     }
@@ -352,8 +352,8 @@ void Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
         if (field_4 == 0)
         {
             v7 = v12 *
-                ((field_20_xpos - field_11_yStart) * (field_20_xpos - field_11_yStart) +
-                 (field_21_ypos - field_12_xEnd) * (field_21_ypos - field_12_xEnd));
+                ((field_20_xpos - field_11_xEnd) * (field_20_xpos - field_11_xEnd) +
+                 (field_21_ypos - field_12_yEnd) * (field_21_ypos - field_12_yEnd));
         }
         else
         {
@@ -536,26 +536,26 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
     field_29 = *ypos - 16;
     Orca_2FD4::Internel_ClearGrid_5545C0();
     field_E_xStart = *xpos;
-    field_F_xStart = *ypos;
-    field_10_yStart = *zpos;
+    field_F_yStart = *ypos;
+    field_10_zStart = *zpos;
     field_4 = 1;
 
-    if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_E_xStart, field_F_xStart, field_10_yStart))
+    if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_E_xStart, field_F_yStart, field_10_zStart))
     {
-        field_10_yStart = gMap_0x370_6F6268->sub_4E4D40(Fix16(field_E_xStart), Fix16(field_F_xStart), Fix16(field_10_yStart)).ToUInt8();
+        field_10_zStart = gMap_0x370_6F6268->sub_4E4D40(Fix16(field_E_xStart), Fix16(field_F_yStart), Fix16(field_10_zStart)).ToUInt8();
     }
     field_16 = 0;
-    field_11_yStart = 0;
-    field_12_xEnd = 0;
-    field_13_xEnd = 0;
+    field_11_xEnd = 0;
+    field_12_yEnd = 0;
+    field_13_zEnd = 0;
     byte_6FDEEC = 0;
     field_C = 0;
     field_8 = field_2350;
-    field_22_zpos = field_10_yStart;
+    field_22_zpos = field_10_zStart;
     field_24_f40_idx2 = 16;
     field_23_f40_idx1 = 16;
     field_20_xpos = field_E_xStart;
-    field_21_ypos = field_F_xStart;
+    field_21_ypos = field_F_yStart;
     field_1B = 66;
     Orca_2FD4::Internel_UpdateBehaviorGrid_554710();
     field_8 = field_2350;

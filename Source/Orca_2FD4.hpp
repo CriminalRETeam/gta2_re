@@ -54,12 +54,12 @@ class Orca_2FD4
     Orca_8 * field_8;
     u16 field_C;
     u8 field_E_xStart;
-    u8 field_F_xStart;
-    u8 field_10_yStart;
-    u8 field_11_yStart;
-    u8 field_12_xEnd;
-    u8 field_13_xEnd;
-    u8 field_14_zEnd;
+    u8 field_F_yStart;
+    u8 field_10_zStart;
+    u8 field_11_xEnd;
+    u8 field_12_yEnd;
+    u8 field_13_zEnd;
+    u8 field_14;
     char_type field_15;
     u16 field_16;
     char_type field_18;
