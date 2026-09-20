@@ -326,7 +326,7 @@ class Car_BC
     EXPORT Fix16 get_anti_strngth_43A1D0();
     EXPORT bool is_bus_43A1F0();
     EXPORT bool sub_43A230();
-    EXPORT Fix16 sub_43A240();
+    EXPORT Fix16 GetCarLinearSpeed_43A240();
     EXPORT bool IsCarInAir_43A3C0();
     EXPORT Ang16 GetOrientationAngle_43A3E0();
     EXPORT Fix16_Point get_linvel_43A450();

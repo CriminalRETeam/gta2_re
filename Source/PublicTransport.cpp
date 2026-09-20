@@ -696,7 +696,7 @@ void PublicTransport_181C::sub_579A30(Car_BC* pToFind)
                         field_17C0_bus.field_4 = 10;
                     }
                 }
-                else if (field_17C0_bus.field_0 != 1 || pLeadCar->sub_43A240() == dword_6FF078)
+                else if (field_17C0_bus.field_0 != 1 || pLeadCar->GetCarLinearSpeed_43A240() == dword_6FF078)
                 {
                     field_17C0_bus.field_48 = 12;
                     field_17C0_bus.field_4 = 10;

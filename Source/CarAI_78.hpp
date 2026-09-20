@@ -40,23 +40,23 @@ class CarAI_78
   public:
     EXPORT void MakeAgressiveSirensAndLights_4476F0();
     EXPORT void sub_447710();
-    EXPORT void sub_447970();
+    EXPORT void DoShortcutsUsingJunctions_447970();
     EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT char_type sub_447D40(gmp_block_info* a2);
     EXPORT bool IsClockwiseTurning_448270();
     EXPORT void sub_4482C0();
     EXPORT void sub_448770();
-    EXPORT void sub_448CE0();
+    EXPORT void ManageTrafficCarDirection_448CE0();
     EXPORT void sub_44A1F0();
     EXPORT void sub_44AF00();
     EXPORT void sub_44D1D0();
-    EXPORT void sub_44E0C0();
+    EXPORT void Init_AI_Chase_44E0C0();
     EXPORT void UpdateStateMachine_44E560();
     EXPORT void sub_451980();
     EXPORT void sub_451FA0();
     EXPORT void sub_451FF0();
     EXPORT void sub_452060();
-    EXPORT void sub_452A20();
+    EXPORT void ManageCollisions_452A20();
     EXPORT void sub_452DF0();
     EXPORT void sub_453470();
     EXPORT void sub_4537D0();
@@ -65,7 +65,7 @@ class CarAI_78
     EXPORT void sub_4539B0();
     EXPORT void sub_4539D0();
     EXPORT void sub_453A40();
-    EXPORT void sub_453BB0();
+    EXPORT void AI_Service_453BB0();
     EXPORT void SetCar_453BF0(Car_BC* a2);
     EXPORT void sub_453C00();
     EXPORT void PoolAllocate();
@@ -73,10 +73,10 @@ class CarAI_78
 
     void PoolDeallocate()
     {
-        field_0 = 0;
+        field_0_car = 0;
     }
 
-    Car_BC* field_0;
+    Car_BC* field_0_car;
     s32 field_4;
     char_type field_8;
     char_type field_9;
@@ -123,9 +123,9 @@ class CarAI_78
     Fix16 field_5C;
     Fix16 field_60;
     Fix16 field_64;
-    Car_BC* field_68;
+    Car_BC* field_68_car_in_collision; // Car in front, or car collided
     Car_BC* field_6C;
-    Sprite* field_70;
+    Sprite* field_70_nearest_entity;
     Fix16 field_74;
 };
 

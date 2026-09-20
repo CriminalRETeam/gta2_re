@@ -2689,7 +2689,7 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
     {
         pPhysics->SetModelPhysicsGlobal_562EB0();
         Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
-        Fix16 gas_pedal = pCar->sub_43A240();
+        Fix16 gas_pedal = pCar->GetCarLinearSpeed_43A240();
 
         if (max_speed <= k_dword_66F3F0)
         {
@@ -3118,7 +3118,7 @@ char_type sound_obj::Type_10_HandleCarSkidSound_418940(sound_0x68* a2)
                 }
                 else
                 {
-                    v4 = pCar->sub_43A240() / gCarInfo_48_6FE258->field_28_max_speed;
+                    v4 = pCar->GetCarLinearSpeed_43A240() / gCarInfo_48_6FE258->field_28_max_speed;
                 LABEL_22:
                     new_rate = rate + Fix16::Round_To_Int_410BF0(Fix16(98304000, 0) * v4);
                     goto LABEL_23;
@@ -3646,7 +3646,7 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
 
     if (pCar->field_9C_engine_status == car_engine_status::on_3 && CalculateDistance_419020(Fix16(0x90000, 0)))
     {
-        Fix16 gas_pedal = pCar->sub_43A240();
+        Fix16 gas_pedal = pCar->GetCarLinearSpeed_43A240();
         Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
         u8 emitting_vol;
         if (max_speed <= k_dword_66F3F0)
@@ -4122,7 +4122,7 @@ void sound_obj::HandleCarTireScrubSound_418720(Sound_Params_8* a2)
                         }
                         return;
                     }
-                    emitVol = Fix16::Round_To_Int_410BF0(Fix16(983040, 0) * (pCar->sub_43A240() / gCarInfo_48_6FE258->field_28_max_speed)) + 10;
+                    emitVol = Fix16::Round_To_Int_410BF0(Fix16(983040, 0) * (pCar->GetCarLinearSpeed_43A240() / gCarInfo_48_6FE258->field_28_max_speed)) + 10;
                 }
                 else
                 {
@@ -4233,7 +4233,7 @@ void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params_8* a2, sound_unk
     WIP_IMPLEMENTED;
 
     Car_BC* cBC = a2->field_0_pObj->field_8_car_bc_ptr;
-    Fix16 v5 = cBC->sub_43A240();
+    Fix16 v5 = cBC->GetCarLinearSpeed_43A240();
     if (a3->field_0 > k_dword_66F3F0 && v5 == k_dword_66F3F0)
     {
         if (IsHeavyTruckOrBus_417F40(cBC->field_84_car_info_idx))
@@ -4307,7 +4307,7 @@ void sound_obj::HandleTrainCabRollingFrictionSound_4143A0(Sound_Params_8* a2)
 {
     WIP_IMPLEMENTED;
 
-    Fix16 v4 = a2->field_0_pObj->field_8_car_bc_ptr->sub_43A240();
+    Fix16 v4 = a2->field_0_pObj->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
     Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
     if (v4 > k_dword_66F3F0 && max_speed > k_dword_66F3F0)
     {
@@ -4338,7 +4338,7 @@ void sound_obj::HandleTrainEngineSound_4140C0(Sound_Params_8* a2)
 {
     WIP_IMPLEMENTED;
 
-    Fix16 v4 = a2->field_0_pObj->field_8_car_bc_ptr->sub_43A240();
+    Fix16 v4 = a2->field_0_pObj->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
     Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
 
     if (v4 > k_dword_66F3F0 && max_speed > k_dword_66F3F0)
@@ -5041,7 +5041,7 @@ void sound_obj::Tank_414A50(Sound_Params_8* a2)
     {
         if (CalculateDistance_419020((Fix16(20) / Fix16(2)) * (Fix16(20) / Fix16(2))))
         {
-            Fix16 vol_mult = pCar->sub_43A240();
+            Fix16 vol_mult = pCar->GetCarLinearSpeed_43A240();
             Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
             if (max_speed > k_dword_66F3F0)
             {
@@ -5110,7 +5110,7 @@ void sound_obj::Tank_415190(Sound_Params_8* a2)
     {
         if (CalculateDistance_419020(Fix16(921600, 0)))
         {
-            Fix16 vol_mult = pCar->sub_43A240();
+            Fix16 vol_mult = pCar->GetCarLinearSpeed_43A240();
             Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
             if (max_speed > k_dword_66F3F0)
             {
@@ -5355,7 +5355,7 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
                 {
                     goto LABEL_20;
                 }
-                pRozzA->field_24_car_physics_value = pRozzA->field_10->sub_43A240();
+                pRozzA->field_24_car_physics_value = pRozzA->field_10->GetCarLinearSpeed_43A240();
                 if (pRozzA->field_24_car_physics_value >= dword_66F3C0)
                 {
                     div_val = dword_66F24C;

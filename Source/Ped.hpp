@@ -251,7 +251,7 @@ class Ped
         this->field_23C = 0;
     }
 
-    inline s32 sub_420B70()
+    inline s32 GetPedType_420B70()
     {
         return field_238_ped_type;
     }

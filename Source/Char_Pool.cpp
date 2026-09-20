@@ -1070,7 +1070,7 @@ void PedManager::Dummies_470330()
             spawnSideLocked_6787D5 = 0;
             if (pCam->field_34_ped || pCam->field_38_car)
             {
-                if (pCam->sub_435A20() > k_dword_678438)
+                if (pCam->ReturnOwnerVelocity_435A20() > k_dword_678438)
                 {
                     // TODO: BL register is reused to set these to 1 instead
                     // of a constant value :)

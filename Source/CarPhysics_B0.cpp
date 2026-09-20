@@ -2630,13 +2630,13 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     if (field_5C_pCar->field_5C)
     {
         field_5C_pCar->field_5C->field_24_flags |= 0x1000u;
-        field_5C_pCar->field_5C->field_68 = pOtherCar;
+        field_5C_pCar->field_5C->field_68_car_in_collision = pOtherCar;
     }
 
     if (pOtherCar->field_5C)
     {
         pOtherCar->field_5C->field_24_flags |= 0x1000u;
-        pOtherCar->field_5C->field_68 = field_5C_pCar;
+        pOtherCar->field_5C->field_68_car_in_collision = field_5C_pCar;
     }
 }
 

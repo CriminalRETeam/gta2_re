@@ -220,7 +220,7 @@ class CarPhysics_B0
     EXPORT void SetCar_5638C0(Car_BC* pBC);
     EXPORT CarPhysics_B0();
 
-    inline Fix16 sub_4211A0()
+    inline Fix16 GetLinearSpeed_4211A0()
     {
         return field_40_linvel_1.GetLength_41E260();
     }
