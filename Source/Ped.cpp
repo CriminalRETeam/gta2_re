@@ -37,6 +37,7 @@
 #include "sprite.hpp"
 #include "youthful_einstein.hpp"
 #include "CarAI_78.hpp"
+#include "winmain.hpp"
 
 // =================
 DEFINE_GLOBAL_INIT(s8, byte_61A8A3, 1, 0x61A8A3);
@@ -5951,11 +5952,128 @@ Ped* Ped::FindBestTargetPed_Mode5_466BD0(s32 max_x_check)
     return Ped::FindBestTargetPed_466BF0(max_x_check);
 }
 
-STUB_FUNC(0x466bf0)
+// https://decomp.me/scratch/jl40w
+WIP_FUNC(0x466bf0)
 Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Sprite* pNearestSprite;
+    Ped* pNearestPed;
+    Fix16 curr_distance;
+    Ped* unk_ped;
+    Fix16 smallest;
+
+    dword_6787DC = this;
+    if (field_168_game_object)
+    {
+        pNearestSprite =
+            gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(3, 2, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
+    }
+    else
+    {
+        pNearestSprite = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(3, 2, field_16C_car->field_50_car_sprite, a2, 0, 0);
+    }
+
+    if (!pNearestSprite)
+    {
+        if (field_164_ped_group)
+        {
+            if (field_164_ped_group->field_2C_ped_leader->is_player_41B0A0())
+            {
+                pNearestPed = NULL;
+            }
+            else
+            {
+                pNearestPed = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(field_1AC_cam.x, field_1AC_cam.y);
+            }
+        }
+        else
+        {
+            pNearestPed = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(field_1AC_cam.x, field_1AC_cam.y);
+        }
+
+        unk_ped = NULL;
+        if (IsNetworkGame_434B10() && field_164_ped_group)
+        {
+            //unk_ped = NULL;
+            smallest = dword_678670;
+            for (Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter;
+                 pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
+            {
+                if (pPlayerIter->field_2C4_player_ped)
+                {
+                    if (field_164_ped_group != pPlayerIter->field_2C4_player_ped->field_164_ped_group)
+                    {
+                        curr_distance = Fix16::MaxAbsDistance_42A6B0(get_cam_x(),
+                                                                     get_cam_y(),
+                                                                     pPlayerIter->field_2C4_player_ped->get_cam_x(),
+                                                                     pPlayerIter->field_2C4_player_ped->get_cam_y());
+                        if (curr_distance < smallest)
+                        {
+                            unk_ped = pPlayerIter->field_2C4_player_ped;
+                            smallest = curr_distance;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!unk_ped)
+        {
+            if (!pNearestPed)
+            {
+                return NULL;
+            }
+
+            if (Fix16::Abs(field_1AC_cam.z - pNearestPed->field_1AC_cam.z) >= k_dword_678664)
+            {
+                return NULL;
+            }
+            if (pNearestPed == dword_6787DC)
+            {
+                return NULL;
+            }
+
+            if (Fix16::MaxAbsDistance_42A6B0(pNearestPed->get_cam_x(),
+                                             pNearestPed->get_cam_y(),
+                                             dword_6787DC->get_cam_x(),
+                                             dword_6787DC->get_cam_y()) >= dword_678670)
+            {
+                return NULL;
+            }
+
+            if (pNearestPed->IsField238_45EDE0(2))
+            {
+                Camera_0xBC* pCam = pNearestPed->field_15C_player->get_camera_434900();
+                if (dword_6787DC->field_168_game_object)
+                {
+                    if (!pCam->sub_435630(dword_6787DC->field_168_game_object->field_80_sprite_ptr, 1))
+                    {
+                        return NULL;
+                    }
+                }
+                else if (!pCam->sub_435630(dword_6787DC->field_16C_car->field_50_car_sprite, 1))
+                {
+                    return NULL;
+                }
+            }
+            if (IsPedAThreat_465D00(pNearestPed))
+            {
+                return pNearestPed;
+            }
+        }
+    }
+    else
+    {
+        switch (pNearestSprite->get_type_416B40())
+        {
+            case sprite_types_enum::car_2:
+                return pNearestSprite->AsCar_40FEB0()->get_driver_4118B0();
+            case sprite_types_enum::ped_3:
+                return pNearestSprite->AsCharB4_40FEA0()->field_7C_pPed;
+        }
+    }
+    return NULL;
 }
 
 MATCH_FUNC(0x466f40)

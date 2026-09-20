@@ -30,3 +30,8 @@ EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 EXTERN_GLOBAL(u32, gBufferMode_706B34);
 
 EXTERN_GLOBAL(char_type, gLighting_626A09);
+
+static inline u8 IsNetworkGame_434B10()
+{
+    return bStartNetworkGame_7081F0;
+}
