@@ -239,7 +239,7 @@ s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
     s32 current_width = 0;
     wchar_t* pPrevDestCheckpoint = NULL;
 
-    u16 space_width = gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
+    s32 space_width = gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
 
     const wchar_t* pPrevSrcCheckpoint = NULL;
 

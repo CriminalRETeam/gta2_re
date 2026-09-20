@@ -1638,7 +1638,7 @@ char_type Car_BC::GetCarModelForPhysics_43A850()
 }
 
 MATCH_FUNC(0x43a950)
-void Car_BC::sub_43A950()
+void Car_BC::DoBreak_43A950()
 {
     CarPhysics_B0* pCarPhysics = field_58_physics;
     pCarPhysics->field_91_is_foot_brake_on = 1;
@@ -1648,7 +1648,7 @@ void Car_BC::sub_43A950()
 }
 
 MATCH_FUNC(0x43a970)
-void Car_BC::sub_43A970()
+void Car_BC::DoBrakeAndHandbrake_43A970()
 {
     field_58_physics->field_92_is_hand_brake_on = 1;
     CarPhysics_B0* pCarPhysics = field_58_physics;

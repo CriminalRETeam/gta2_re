@@ -1525,12 +1525,12 @@
         "v105_address": "0x43a850"
     },
     {
-        "name": "Car_BC::sub_43A950",
+        "name": "Car_BC::DoBreak_43A950",
         "v96f_address": null,
         "v105_address": "0x43a950"
     },
     {
-        "name": "Car_BC::sub_43A970",
+        "name": "Car_BC::DoBrakeAndHandbrake_43A970",
         "v96f_address": null,
         "v105_address": "0x43a970"
     },

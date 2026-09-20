@@ -340,8 +340,8 @@ class Car_BC
     EXPORT void SetCarRemap(u8 remap);
     EXPORT void AssignRandomRemap_43A7D0();
     EXPORT char_type GetCarModelForPhysics_43A850();
-    EXPORT void sub_43A950();
-    EXPORT void sub_43A970();
+    EXPORT void DoBreak_43A950();
+    EXPORT void DoBrakeAndHandbrake_43A970();
     EXPORT void SetDriver(Ped* a2);
     EXPORT void ApplyVisualDamage_43A9F0();
     EXPORT void sub_43CAC0();

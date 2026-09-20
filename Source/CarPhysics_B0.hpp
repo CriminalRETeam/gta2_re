@@ -278,7 +278,7 @@ class CarPhysics_B0
     }
 
     // FUNCTION: 96f 0x421210
-    void sub_421210()
+    void Accelerate_421210()
     {
         field_93_is_forward_gas_on = 1;
         field_91_is_foot_brake_on = 0;
@@ -296,7 +296,7 @@ class CarPhysics_B0
     }
 
     // FUNCTION: 96f 0x42AC00
-    void sub_42AC00()
+    void Neutral_42AC00()
     {
         field_91_is_foot_brake_on = 0;
         field_93_is_forward_gas_on = 0;
