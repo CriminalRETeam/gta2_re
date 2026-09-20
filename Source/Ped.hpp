@@ -113,7 +113,7 @@ class Ped
     EXPORT void SetObjective2_463830(s32 a2, s16 a3);
     EXPORT void ProcessOnFootObjective_463AA0();
     EXPORT void ProcessInCarObjective_463FB0();
-    EXPORT s16* sub_4645B0();
+    EXPORT void sub_4645B0();
     EXPORT void Threat_Reaction_AI_465270();
     EXPORT void sub_465B20();
     EXPORT bool sub_465CD0();

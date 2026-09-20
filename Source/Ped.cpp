@@ -119,6 +119,13 @@ DEFINE_GLOBAL_INIT(Ang16, word_6784C8, Ang16(40), 0x6784C8);
 DEFINE_GLOBAL_INIT(Ang16, dword_6784E4, Ang16(64), 0x6784E4);
 DEFINE_GLOBAL_INIT(Ang16, word_6784F0, Ang16(0), 0x6784F0);
 
+DEFINE_GLOBAL_INIT(Ang16, word_678502, Ang16(360), 0x678502);
+DEFINE_GLOBAL_INIT(Ang16, word_6785D0, Ang16(1080), 0x6785D0);
+DEFINE_GLOBAL_INIT(Ang16, word_6786B8, Ang16(900), 0x6786B8);
+DEFINE_GLOBAL_INIT(Ang16, word_6784E2, Ang16(180), 0x6784E2);
+DEFINE_GLOBAL_INIT(Ang16, word_6785A8, Ang16(1260), 0x6785A8);
+DEFINE_GLOBAL_INIT(Ang16, word_67844C, Ang16(540), 0x67844C);
+
 DEFINE_GLOBAL_INIT(Fix16, dword_67856C, dword_678488, 0x67856C);
 DEFINE_GLOBAL_INIT(Fix16, dword_678428, dword_678480, 0x678428);
 
@@ -4823,11 +4830,174 @@ void Ped::ProcessInCarObjective_463FB0()
     }
 }
 
-STUB_FUNC(0x4645b0)
-s16* Ped::sub_4645B0()
+// https://decomp.me/scratch/cMSHI
+WIP_FUNC(0x4645b0)
+void Ped::sub_4645B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Ang16 angle;
+    Fix16 radius;
+    Fix16 vec_x;
+    Fix16 vec_y;
+
+    u8 bUnk = false;
+
+    if (field_14C->GetPedVelocity_45C920() > k_dword_678660)
+    {
+        angle = field_14C->field_168_game_object->get_rotation_433A40();
+        angle += word_6785A6;
+        radius = k_dword_67878C;
+    }
+    else
+    {
+        angle = gDummyPedAng_6787A8;
+        radius = dword_678790;
+    }
+
+    if (field_164_ped_group)
+    {
+        if (field_204_killer_id == field_164_ped_group->field_2C_ped_leader->get_id() &&
+            field_164_ped_group->field_2C_ped_leader->field_21C_bf.b11)
+        {
+            bUnk = true;
+            field_264 = 50;
+        }
+    }
+
+    if (field_14C->GetPedVelocity_45C920() == k_dword_678660)
+    {
+        switch (field_23C)
+        {
+            case 0:
+                angle += word_678502;
+                if (bUnk)
+                {
+                    angle += word_6785A6;
+                    radius = dword_678794;
+                }
+                break;
+            case 1:
+                angle += word_6785D0;
+                if (bUnk)
+                {
+                    angle += word_6785A6;
+                    radius = dword_678794;
+                }
+                break;
+            case 2:
+                angle = angle + word_6785A6;
+                if (bUnk)
+                {
+                    angle += word_6785A6;
+                    radius = dword_678794;
+                }
+                break;
+
+            case 3:
+                break;
+
+            case 4:
+                angle += word_6786B8;
+                if (bUnk)
+                {
+                    angle += word_6785A6;
+                    radius = dword_678794;
+                }
+                else
+                {
+                    radius = k_dword_67878C;
+                }
+                break;
+
+            case 5:
+                angle += word_6784E2;
+                if (bUnk)
+                {
+                    angle += word_6785A6;
+                    radius = dword_678794;
+                }
+                else
+                {
+                    radius = k_dword_67878C;
+                }
+                break;
+
+            case 6:
+                angle += word_6785A8;
+                if (bUnk)
+                {
+                    angle += word_6785A6;
+                    radius = dword_678794;
+                }
+                else
+                {
+                    radius = k_dword_67878C;
+                }
+                break;
+
+            case 7:
+                angle += word_67844C;
+                if (bUnk)
+                {
+                    angle += word_6785A6;
+                    radius = dword_678794;
+                }
+                else
+                {
+                    radius = k_dword_67878C;
+                }
+                break;
+
+            default:
+                angle += word_6786B8;
+                if (bUnk)
+                {
+                    angle += word_6785A6;
+                    radius = dword_678794;
+                }
+                else
+                {
+                    radius = k_dword_67878C;
+                }
+                break;
+        }
+
+        Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
+        field_1C4_x += vec_x;
+        field_1C8_y += vec_y;
+        field_130 = Fix16::atan2_fixed_405320(field_1AC_cam.y - field_14C->get_cam_y(), field_1AC_cam.x - field_14C->get_cam_x());
+    }
+    else
+    {
+        radius = dword_678784;
+        switch (field_23C)
+        {
+            case 0:
+                angle -= word_6784FC;
+                break;
+            case 1:
+                angle += word_6784FC;
+                break;
+            case 2:
+                break;
+                angle -= word_6784FC;
+                break;
+            case 6:
+                angle -= word_6784FC;
+                radius = dword_678790;
+                break;
+            case 7:
+                angle += word_6784FC;
+                radius = dword_678790;
+                break;
+            default:
+                radius = dword_678784;
+                break;
+        }
+        Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
+        field_1C4_x += vec_x;
+        field_1C8_y += vec_y;
+    }
 }
 
 // https://decomp.me/scratch/LvHfw
