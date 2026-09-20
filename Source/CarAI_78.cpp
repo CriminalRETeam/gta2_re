@@ -4370,7 +4370,7 @@ LABEL_190:
 
 // https://decomp.me/scratch/Auxlx
 WIP_FUNC(0x451980)
-void CarAI_78::sub_451980()
+void CarAI_78::ReactToNearbyCar_451980()
 {
     WIP_IMPLEMENTED;
     
@@ -4644,7 +4644,7 @@ void CarAI_78::sub_451980()
 }
 
 MATCH_FUNC(0x451fa0)
-void CarAI_78::sub_451FA0()
+void CarAI_78::ReactToNearbyObject_451FA0()
 {
     if (!byte_677BBC)
     {
@@ -4659,7 +4659,7 @@ void CarAI_78::sub_451FA0()
 }
 
 MATCH_FUNC(0x451ff0)
-void CarAI_78::sub_451FF0()
+void CarAI_78::ReactToNearbyPed_451FF0()
 {
     if (!field_24_bf.b21)
     {
@@ -4940,17 +4940,17 @@ LABEL_31:
                 case sprite_types_enum::unknown_1:
                 case sprite_types_enum::code_obj1_4:
                 case sprite_types_enum::map_obj_5:
-                    sub_451FA0();
+                    ReactToNearbyObject_451FA0();
                     break;
 
                 case sprite_types_enum::car_2:
-                    sub_451980();
+                    ReactToNearbyCar_451980();
                     break;
 
                 case sprite_types_enum::ped_3:
                     if (this->field_24_flags & 0x80)
                     {
-                        sub_451FF0();
+                        ReactToNearbyPed_451FF0();
                     }
                     break;
 

@@ -2610,17 +2610,17 @@
         "v105_address": "0x451950"
     },
     {
-        "name": "CarAI_78::sub_451980",
+        "name": "CarAI_78::ReactToNearbyCar_451980",
         "v96f_address": null,
         "v105_address": "0x451980"
     },
     {
-        "name": "CarAI_78::sub_451FA0",
+        "name": "CarAI_78::ReactToNearbyObject_451FA0",
         "v96f_address": null,
         "v105_address": "0x451fa0"
     },
     {
-        "name": "CarAI_78::sub_451FF0",
+        "name": "CarAI_78::ReactToNearbyPed_451FF0",
         "v96f_address": null,
         "v105_address": "0x451ff0"
     },

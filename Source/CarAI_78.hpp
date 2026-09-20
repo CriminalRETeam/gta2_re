@@ -52,9 +52,9 @@ class CarAI_78
     EXPORT void sub_44D1D0();
     EXPORT void Init_AI_Chase_44E0C0();
     EXPORT void UpdateStateMachine_44E560();
-    EXPORT void sub_451980();
-    EXPORT void sub_451FA0();
-    EXPORT void sub_451FF0();
+    EXPORT void ReactToNearbyCar_451980();
+    EXPORT void ReactToNearbyObject_451FA0();
+    EXPORT void ReactToNearbyPed_451FF0();
     EXPORT void sub_452060();
     EXPORT void ManageCollisions_452A20();
     EXPORT void sub_452DF0();
