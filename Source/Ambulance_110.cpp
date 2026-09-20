@@ -68,7 +68,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     {
         return false;
     }
-    pPed1->field_238 = 4;
+    pPed1->field_238_ped_type = ped_type::special_ped_4;
     pPed1->field_240_occupation = ped_ocupation_enum::paramedic_23;
     pPed1->field_230 = 2;
     pPed1->SpawnPedInCar_45C730(field_4_paramedics_crew->field_0_car);
@@ -89,7 +89,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     }
 
     pPed2->EnterCarAsPassenger_45C7F0(field_4_paramedics_crew->field_0_car);
-    pPed2->field_238 = 4;
+    pPed2->field_238_ped_type = ped_type::special_ped_4;
     pPed2->field_240_occupation = ped_ocupation_enum::paramedic_23;
     pPed2->field_230 = 2;
     pPed2->SetObjective(objectives_enum::no_obj_0, 9999);

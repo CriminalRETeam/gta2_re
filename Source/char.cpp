@@ -1709,7 +1709,7 @@ void Char_B4::DispatchCollision_548670(char_type a2)
                 }
                 else
                 {
-                    if (field_7C_pPed->field_238 >= 2 && field_7C_pPed->field_238 <= 6)
+                    if (field_7C_pPed->field_238_ped_type >= 2 && field_7C_pPed->field_238_ped_type <= 6)
                     {
                         Char_B4::HandlePedCollision_548BD0(pNearSprite->AsCharB4_40FEA0());
                         this->field_18 = 0;

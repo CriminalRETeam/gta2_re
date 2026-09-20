@@ -899,6 +899,18 @@ enum
 };
 } // namespace threat_search_enum
 
+namespace ped_type
+{
+enum
+{
+    player_2 = 2,
+    dummy_3 = 3,
+    special_ped_4 = 4,
+    script_created_5 = 5,
+    dummy_with_occupation_6 = 6,
+};
+} // namespace ped_type
+
 namespace ped_state_1
 {
 enum

@@ -3974,7 +3974,7 @@ void Car_BC::InitCarAIControl_440590()
     Ped* pDriver = this->field_54_driver;
     if (pDriver)
     {
-        if (pDriver->field_238 != 2)
+        if (pDriver->field_238_ped_type != ped_type::player_2)
         {
             if (this->field_5C == 0)
             {
@@ -4035,7 +4035,7 @@ void Car_BC::sub_4406E0(Ped* pPed)
     Player* pPlayer = pPed->field_15C_player;
     SetDriver(pPed);
     InitCarAIControl_440590();
-    field_7C_uni_num = pPed->field_238;
+    field_7C_uni_num = pPed->field_238_ped_type;
     field_76_last_seen_timer = 0;
     if (pPed->IsField238_45EDE0(2))
     {

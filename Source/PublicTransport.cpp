@@ -146,7 +146,7 @@ void Train_58::ReassignTrainHead_578030()
         pFirst->DeAllocateAI_4446E0();
 
         this->field_C_carriages[0]->field_76_last_seen_timer = 0;
-        this->field_C_carriages[0]->field_7C_uni_num = this->field_C_carriages[0]->field_54_driver->field_238;
+        this->field_C_carriages[0]->field_7C_uni_num = this->field_C_carriages[0]->field_54_driver->field_238_ped_type;
     }
 }
 

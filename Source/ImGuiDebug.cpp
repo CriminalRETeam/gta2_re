@@ -1749,7 +1749,7 @@ void CC ImGuiDebugDraw()
                     */
                     if (pAI_Iter)
                     {
-                        swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_54);
+                        swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_50);
                         DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
                     }
                     num_AI_count++;
@@ -2074,7 +2074,7 @@ void CC ImGuiDebugDraw()
 
                         ImGui::InputInt("258_objective", &pPlayerPed->field_258_objective, 1, 1);
 
-                        ImGui::InputInt("F 238", &pPlayerPed->field_238, 1, 1);
+                        ImGui::InputInt("F 238", &pPlayerPed->field_238_ped_type, 1, 1);
                         ImGui::InputInt("Ped State 1", &pPlayerPed->field_278_ped_state_1, 1, 1);
                         ImGui::InputInt("Ped State 2", &pPlayerPed->field_27C_ped_state_2, 1, 1);
                         ImGui::InputInt("Car State", &pPlayerPed->field_25C_internal_objective, 1, 1);
@@ -2437,14 +2437,14 @@ void CC ImGuiDebugDraw()
                     }
                 }
                 
-                if (ImGui::TreeNode("Show F69"))
+                if (ImGui::TreeNode("Show ped type"))
                 {
                     Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
                     while (pPedIter)
                     {
-                        if (pPedIter->field_168_game_object)
+                        if (1) // pPedIter->field_168_game_object
                         {
-                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69_is_colliding_with_sprite);
+                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_238_ped_type);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
                         }
                         pPedIter = pPedIter->mpNext;
