@@ -1245,7 +1245,7 @@
         "v105_address": "0x4358d0"
     },
     {
-        "name": "Camera_0xBC::sub_435A20",
+        "name": "Camera_0xBC::ReturnOwnerVelocity_435A20",
         "v96f_address": null,
         "v105_address": "0x435a20"
     },
@@ -1455,7 +1455,7 @@
         "v105_address": "0x43a230"
     },
     {
-        "name": "Car_BC::sub_43A240",
+        "name": "Car_BC::GetCarLinearSpeed_43A240",
         "v96f_address": null,
         "v105_address": "0x43a240"
     },
@@ -1525,12 +1525,12 @@
         "v105_address": "0x43a850"
     },
     {
-        "name": "Car_BC::sub_43A950",
+        "name": "Car_BC::DoBreak_43A950",
         "v96f_address": null,
         "v105_address": "0x43a950"
     },
     {
-        "name": "Car_BC::sub_43A970",
+        "name": "Car_BC::DoBrakeAndHandbrake_43A970",
         "v96f_address": null,
         "v105_address": "0x43a970"
     },
@@ -2500,7 +2500,7 @@
         "v105_address": "0x447640"
     },
     {
-        "name": "sub_447650",
+        "name": "InitAIvars_447650",
         "v96f_address": "0x42A510",
         "v105_address": "0x447650"
     },
@@ -2545,7 +2545,7 @@
         "v105_address": "0x448770"
     },
     {
-        "name": "CarAI_78::sub_448CE0",
+        "name": "CarAI_78::ManageTrafficCarDirection_448CE0",
         "v96f_address": null,
         "v105_address": "0x448ce0"
     },
@@ -2565,7 +2565,7 @@
         "v105_address": "0x44d1d0"
     },
     {
-        "name": "CarAI_78::sub_44E0C0",
+        "name": "CarAI_78::Init_AI_Chase_44E0C0",
         "v96f_address": "0x42D390",
         "v105_address": "0x44e0c0"
     },
@@ -2610,17 +2610,17 @@
         "v105_address": "0x451950"
     },
     {
-        "name": "CarAI_78::sub_451980",
+        "name": "CarAI_78::ReactToNearbyCar_451980",
         "v96f_address": null,
         "v105_address": "0x451980"
     },
     {
-        "name": "CarAI_78::sub_451FA0",
+        "name": "CarAI_78::ReactToNearbyObject_451FA0",
         "v96f_address": null,
         "v105_address": "0x451fa0"
     },
     {
-        "name": "CarAI_78::sub_451FF0",
+        "name": "CarAI_78::ReactToNearbyPed_451FF0",
         "v96f_address": null,
         "v105_address": "0x451ff0"
     },
@@ -2635,7 +2635,7 @@
         "v105_address": "0x4dfe10"
     },
     {
-        "name": "CarAI_78::sub_452A20",
+        "name": "CarAI_78::ManageCollisions_452A20",
         "v96f_address": null,
         "v105_address": "0x452a20"
     },
@@ -2685,7 +2685,7 @@
         "v105_address": "0x453a40"
     },
     {
-        "name": "CarAI_78::sub_453BB0",
+        "name": "CarAI_78::AI_Service_453BB0",
         "v96f_address": "0x4327A0",
         "v105_address": "0x453bb0"
     },

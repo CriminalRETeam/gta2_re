@@ -1884,7 +1884,7 @@ void Object_2C::sub_526B40(Sprite* pSprite)
             break;
 
         case sprite_types_enum::car_2: // 2
-            this->field_10_obj_3c->field_C_speed = pSprite->field_8_car_bc_ptr->sub_43A240();
+            this->field_10_obj_3c->field_C_speed = pSprite->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
             this->field_10_obj_3c->field_4_angle = pSprite->field_8_car_bc_ptr->GetOrientationAngle_43A3E0();
             this->field_4->field_28_num = pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0();
             break;

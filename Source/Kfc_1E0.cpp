@@ -46,7 +46,7 @@ void Kfc_30::RemovePed_5CBC40(Ped* a2)
 }
 
 // https://decomp.me/scratch/HmQPr
-STUB_FUNC(0x5cbc60)
+WIP_FUNC(0x5cbc60)
 bool Kfc_30::PedIsValid_5CBC60()
 {
     WIP_IMPLEMENTED;

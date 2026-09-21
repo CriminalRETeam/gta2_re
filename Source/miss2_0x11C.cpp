@@ -431,7 +431,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
 
         if (pPed != NULL)
         {
-            pPed->field_238 = 2;
+            pPed->field_238_ped_type = ped_type::player_2;
             if (!gfrosty_pasteur_6F8060->field_C1E2C)
             {
                 pPed->field_216_health = 100;
@@ -590,7 +590,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
 
     if (pPed)
     {
-        pPointer->field_8_char->field_238 = 5;
+        pPointer->field_8_char->field_238_ped_type = ped_type::script_created_5;
         pPointer->field_8_char->field_240_occupation = pCmd->field_1C_occupation;
         pPointer->field_8_char->field_26C_graphic_type = 1;
         pPointer->field_8_char->SetObjective(objectives_enum::wait_on_foot_26, 9999);
@@ -6202,7 +6202,7 @@ void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
 
     if (pNewPed)
     {
-        pNewPed->field_238 = 5;
+        pNewPed->field_238_ped_type = ped_type::script_created_5;
         pParam1->field_8_char->SpawnPedInCar_45C730(pParam2->field_8_car);
         pParam1->field_8_char->field_244_remap = pCmd->field_C_remap;
         pParam1->field_8_char->field_240_occupation = pCmd->field_E_occupation;
@@ -6222,12 +6222,12 @@ void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
 
         Car_BC* pCar = pParam2->field_8_car;
 
-        if (!pCar->field_5C)
+        if (!pCar->field_5C_AI)
         {
-            pCar->field_5C = gCarAI_78_Pool_677CF8->Allocate();
+            pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
         }
 
-        pParam2->field_8_car->field_5C->SetCar_453BF0(pParam2->field_8_car);
+        pParam2->field_8_car->field_5C_AI->SetCar_453BF0(pParam2->field_8_car);
         pParam2->field_8_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
     }
 

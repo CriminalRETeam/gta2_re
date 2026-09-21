@@ -45,7 +45,7 @@ class Camera_0xBC
     EXPORT void sub_435840();
     EXPORT void sub_435860(Camera_0xBC* a2);
     EXPORT Ang16 ComputeTargetFacingAngle_4358D0();
-    EXPORT Fix16 sub_435A20();
+    EXPORT Fix16 ReturnOwnerVelocity_435A20();
     EXPORT s32 IsCoordsPosVisible_435A70(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT void sub_435B90();
     EXPORT void sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7);

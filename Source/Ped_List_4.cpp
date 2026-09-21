@@ -348,7 +348,7 @@ char_type Ped_List_4::HasPassengerWith_F238_Is_5_471710()
     Char_8* pIter = field_0_pFirstPed;
     while (pIter)
     {
-        if (pIter->field_0_char_ped->field_238 == 5)
+        if (pIter->field_0_char_ped->field_238_ped_type == ped_type::script_created_5)
         {
             return 1;
         }

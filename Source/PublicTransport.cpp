@@ -136,17 +136,17 @@ void Train_58::ReassignTrainHead_578030()
         }
         pFirst->field_54_driver = 0;
 
-        if (!this->field_C_carriages[0]->field_5C)
+        if (!this->field_C_carriages[0]->field_5C_AI)
         {
-            gCarAI_78_Pool_677CF8->DeAllocate(this->field_C_carriages[0]->field_5C);
+            gCarAI_78_Pool_677CF8->DeAllocate(this->field_C_carriages[0]->field_5C_AI);
         }
 
-        this->field_C_carriages[0]->field_5C->SetCar_453BF0(this->field_C_carriages[0]);
+        this->field_C_carriages[0]->field_5C_AI->SetCar_453BF0(this->field_C_carriages[0]);
 
         pFirst->DeAllocateAI_4446E0();
 
         this->field_C_carriages[0]->field_76_last_seen_timer = 0;
-        this->field_C_carriages[0]->field_7C_uni_num = this->field_C_carriages[0]->field_54_driver->field_238;
+        this->field_C_carriages[0]->field_7C_uni_num = this->field_C_carriages[0]->field_54_driver->field_238_ped_type;
     }
 }
 
@@ -696,7 +696,7 @@ void PublicTransport_181C::sub_579A30(Car_BC* pToFind)
                         field_17C0_bus.field_4 = 10;
                     }
                 }
-                else if (field_17C0_bus.field_0 != 1 || pLeadCar->sub_43A240() == dword_6FF078)
+                else if (field_17C0_bus.field_0 != 1 || pLeadCar->GetCarLinearSpeed_43A240() == dword_6FF078)
                 {
                     field_17C0_bus.field_48 = 12;
                     field_17C0_bus.field_4 = 10;

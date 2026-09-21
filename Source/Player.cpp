@@ -2352,7 +2352,7 @@ MATCH_FUNC(0x569600)
 void Player::sub_569600(Car_BC* pCar)
 {
     field_2C8_unkq = gPedManager_6787BC->SpawnDriver_470B00(pCar);
-    field_2C8_unkq->field_238 = 2;
+    field_2C8_unkq->field_238_ped_type = ped_type::player_2;
     field_2C8_unkq->field_240_occupation = ped_ocupation_enum::empty;
     field_2C8_unkq->sub_45B560(this, 1);
     field_2C8_unkq->sub_45C4B0();

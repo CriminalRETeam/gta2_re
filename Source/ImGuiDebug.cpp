@@ -267,6 +267,25 @@ static Sprite* GetPlayerSprite()
     return GetPedSprite(pPed);
 }
 
+static Sprite* GetPlayerAssociatedSprite()
+{
+    Ped* pPed = GetPlayerPed();
+    if (!pPed)
+    {
+        return NULL;
+    }
+
+    if (!pPed->field_168_game_object)
+    {
+        if (pPed->field_16C_car)
+        {
+            return pPed->field_16C_car->GetSprite_440840();
+        }
+        return NULL;
+    }
+    return pPed->field_168_game_object->field_80_sprite_ptr;
+}
+
 static void GetPlayerPos(Fix16& xpos, Fix16& ypos, Fix16& zpos)
 {
     Ped* pPlayerPed = GetPlayerPed();
@@ -860,7 +879,7 @@ char* flat_char_array(char* pArray, u16 num_itens)
     return flattened_arr;
 }
 
-void PointArrowToEntity(Ped* pPed, Car_BC* pCar, Object_2C* pObj)
+bool PointArrowToEntity(Ped* pPed, Car_BC* pCar, Object_2C* pObj)
 {
     if (gHud_2B00_706620)
     {
@@ -886,16 +905,22 @@ void PointArrowToEntity(Ped* pPed, Car_BC* pCar, Object_2C* pObj)
                 pTarget->field_8_obj = pObj;
                 pTarget->field_10_target_type = ArrowTargetType::Object_4;
             }
+
+            if (pTarget->field_10_target_type != ArrowTargetType::Nothing_0)
+            {
+                return true;
+            }
         }
     }
+    return false;
 }
 
 void ClearGlobalArrow()
 {
     if (gpArrow)
     {
-        gpArrow->field_18.field_18_primary_target.field_10_target_type = 0;
-        gpArrow->field_18.field_3C_secondary_target.field_10_target_type = 0;
+        gpArrow->field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::Nothing_0;
+        gpArrow->field_18.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Nothing_0;
     }
 }
 
@@ -1600,12 +1625,12 @@ void CC ImGuiDebugDraw()
                     gCar_6C_677930->SpawnCabAndTrailer_446530(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
 
                     pNewCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                    if (!pNewCar->field_5C)
+                    if (!pNewCar->field_5C_AI)
                     {
                         printf("Alloc AI (?)\n");
-                        pNewCar->field_5C = gCarAI_78_Pool_677CF8->Allocate();
+                        pNewCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
                     }
-                    pNewCar->field_5C->SetCar_453BF0(pNewCar);
+                    pNewCar->field_5C_AI->SetCar_453BF0(pNewCar);
                     pNewCar->SpawnDriverPed();
 
                     pNewCar->field_7C_uni_num = 5;
@@ -1706,57 +1731,105 @@ void CC ImGuiDebugDraw()
 
         if (ImGui::TreeNode("Car AI"))
         {
-            s32 num_AI_count = 0;
-            Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
-            while (pCarIter)
+            if (ImGui::TreeNode("Show Car AI info"))
             {
-                CarAI_78* pAI_Iter = pCarIter->field_5C;
-                if (pAI_Iter && pCarIter->field_50_car_sprite)
+                s32 num_AI_count = 0;
+                Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+                while (pCarIter)
                 {
-                    /*
-                    swprintf(tmpBuff_67BD9C, L"44: %d\n4C: %d\n50: %d", 
-                            pAI_Iter->field_44_target_direction,
-                            pAI_Iter->field_4C_curr_direction,
-                            pAI_Iter->field_50);
-                    */
-                    /*
-                    swprintf(tmpBuff_67BD9C, L"48: %d\n54: %d", 
-                            pAI_Iter->field_48,
-                            pAI_Iter->field_54);
-                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
-                    */
-                    /*
-                    if (pCarIter->field_58_physics)
+                    CarAI_78* pAI_Iter = pCarIter->field_5C_AI;
+                    if (pAI_Iter && pCarIter->field_50_car_sprite)
                     {
-                        swprintf(tmpBuff_67BD9C, L"%d", 
-                            pCarIter->field_58_physics->field_95);
+                        /*
+                        swprintf(tmpBuff_67BD9C, L"44: %d\n4C: %d\n50: %d", 
+                                pAI_Iter->field_44_target_direction,
+                                pAI_Iter->field_4C_curr_direction,
+                                pAI_Iter->field_50);
+                        */
+                        /*
+                        swprintf(tmpBuff_67BD9C, L"48: %d\n54: %d", 
+                                pAI_Iter->field_48,
+                                pAI_Iter->field_54);
                         DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
-                        //pCarIter->field_58_physics->field_95 = 1;
-                    }
+                        */
+                        /*
+                        if (pCarIter->field_58_physics)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"%d", 
+                                pCarIter->field_58_physics->field_95);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
+                            //pCarIter->field_58_physics->field_95 = 1;
+                        }
 
-                    if (pCarIter->field_60)
-                    {
-                        swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C);
-                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -15);
+                        if (pCarIter->field_60)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -15);
+                        }
+                        */
+                        /*
+                        if (pCarIter)
+                        {
+                            ConvertBitSetIntoString(TmpBitSetChar, 8, pAI_Iter->field_24_flags, 8 * sizeof(pAI_Iter->field_24_flags)); // TODO: u8 bitset
+                            DisplayTextAtSprite(TmpBitSetChar, pCarIter->field_50_car_sprite, 0, 0);
+                        }
+                        */
+                        if (pAI_Iter)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_48);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
+                        }
+                        num_AI_count++;
                     }
-                    */
-                    /*
-                    if (pCarIter)
-                    {
-                        ConvertBitSetIntoString(TmpBitSetChar, 8, pAI_Iter->field_24_flags, 8 * sizeof(pAI_Iter->field_24_flags)); // TODO: u8 bitset
-                        DisplayTextAtSprite(TmpBitSetChar, pCarIter->field_50_car_sprite, 0, 0);
-                    }
-                    */
-                    if (pAI_Iter)
-                    {
-                        swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_54);
-                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
-                    }
-                    num_AI_count++;
+                    pCarIter = pCarIter->mpNext;
                 }
-                pCarIter = pCarIter->mpNext;
+                ImGui::Value("Count", num_AI_count);
+                ImGui::TreePop();
             }
-            ImGui::Value("Count", num_AI_count);
+
+            if (ImGui::TreeNode("Show Nearest AI info"))
+            {
+                Sprite* pPlayerSprt = GetPlayerAssociatedSprite();
+                if (pPlayerSprt)
+                {
+                    Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+                    CarAI_78* pNearestAI = NULL;
+                    Fix16 smallest = Fix16(99999);
+                    while (pCarIter)
+                    {
+                        CarAI_78* pAI_Iter = pCarIter->field_5C_AI;
+                        if (pAI_Iter && pCarIter->field_50_car_sprite)
+                        {
+                            Fix16 curr_dist = Fix16::MaxAbsDistance_42A6B0(pPlayerSprt->field_14_xy.x, pPlayerSprt->field_14_xy.y,
+                                                        pCarIter->field_50_car_sprite->field_14_xy.x, pCarIter->field_50_car_sprite->field_14_xy.y);
+                            if (curr_dist < smallest)
+                            {
+                                smallest = curr_dist;
+                                pNearestAI = pAI_Iter;
+                            }
+                        }
+                        pCarIter = pCarIter->mpNext;
+                    }
+                    
+                    if (pNearestAI)
+                    {
+                        char buffer[50];
+                        get_car_name(pNearestAI->field_0_car, buffer);
+                        ImGui::Text("AI Found! Car: %s", buffer);
+                        ImGui::Text("6C: %d", pNearestAI->field_6C != NULL);
+                        if (!PointArrowToEntity(0, pNearestAI->field_6C, 0))
+                        {
+                            //ClearGlobalArrow();
+                        }
+                    }
+                    else
+                    {
+                        //ClearGlobalArrow();
+                    }
+                }
+                
+                ImGui::TreePop();
+            }
             ImGui::TreePop();
         }
 
@@ -2074,7 +2147,7 @@ void CC ImGuiDebugDraw()
 
                         ImGui::InputInt("258_objective", &pPlayerPed->field_258_objective, 1, 1);
 
-                        ImGui::InputInt("F 238", &pPlayerPed->field_238, 1, 1);
+                        ImGui::InputInt("F 238", &pPlayerPed->field_238_ped_type, 1, 1);
                         ImGui::InputInt("Ped State 1", &pPlayerPed->field_278_ped_state_1, 1, 1);
                         ImGui::InputInt("Ped State 2", &pPlayerPed->field_27C_ped_state_2, 1, 1);
                         ImGui::InputInt("Car State", &pPlayerPed->field_25C_internal_objective, 1, 1);
@@ -2437,14 +2510,14 @@ void CC ImGuiDebugDraw()
                     }
                 }
                 
-                if (ImGui::TreeNode("Show F69"))
+                if (ImGui::TreeNode("Show ped type"))
                 {
                     Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
                     while (pPedIter)
                     {
-                        if (pPedIter->field_168_game_object)
+                        if (1) // pPedIter->field_168_game_object
                         {
-                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69_is_colliding_with_sprite);
+                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_238_ped_type);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
                         }
                         pPedIter = pPedIter->mpNext;

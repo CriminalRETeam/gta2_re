@@ -326,7 +326,7 @@ class Car_BC
     EXPORT Fix16 get_anti_strngth_43A1D0();
     EXPORT bool is_bus_43A1F0();
     EXPORT bool sub_43A230();
-    EXPORT Fix16 sub_43A240();
+    EXPORT Fix16 GetCarLinearSpeed_43A240();
     EXPORT bool IsCarInAir_43A3C0();
     EXPORT Ang16 GetOrientationAngle_43A3E0();
     EXPORT Fix16_Point get_linvel_43A450();
@@ -340,8 +340,8 @@ class Car_BC
     EXPORT void SetCarRemap(u8 remap);
     EXPORT void AssignRandomRemap_43A7D0();
     EXPORT char_type GetCarModelForPhysics_43A850();
-    EXPORT void sub_43A950();
-    EXPORT void sub_43A970();
+    EXPORT void DoBreak_43A950();
+    EXPORT void DoBrakeAndHandbrake_43A970();
     EXPORT void SetDriver(Ped* a2);
     EXPORT void ApplyVisualDamage_43A9F0();
     EXPORT void sub_43CAC0();
@@ -976,7 +976,7 @@ class Car_BC
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
     CarPhysics_B0* field_58_physics;
-    CarAI_78* field_5C;
+    CarAI_78* field_5C_AI;
     Hamburger_40* field_60;
     Trailer* field_64_pTrailer;
     Fix16 field_68;

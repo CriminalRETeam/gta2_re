@@ -113,7 +113,7 @@ class Ped
     EXPORT void SetObjective2_463830(s32 a2, s16 a3);
     EXPORT void ProcessOnFootObjective_463AA0();
     EXPORT void ProcessInCarObjective_463FB0();
-    EXPORT s16* sub_4645B0();
+    EXPORT void sub_4645B0();
     EXPORT void Threat_Reaction_AI_465270();
     EXPORT void sub_465B20();
     EXPORT bool sub_465CD0();
@@ -251,9 +251,9 @@ class Ped
         this->field_23C = 0;
     }
 
-    inline s32 sub_420B70()
+    inline s32 GetPedType_420B70()
     {
-        return field_238;
+        return field_238_ped_type;
     }
 
     void inline_clear_bit()
@@ -343,7 +343,7 @@ class Ped
 
     void set_ped_type(s32 param_1)
     {
-        field_238 = param_1;
+        field_238_ped_type = param_1;
     }
 
     inline Fix16 get_cam_x()
@@ -464,7 +464,7 @@ class Ped
 
     void SetField238_403920(s32 unk)
     {
-        field_238 = unk;
+        field_238_ped_type = unk;
     }
 
     void Set_F1C4_x_433C50(Fix16 a2)
@@ -709,7 +709,7 @@ class Ped
     char_type field_235;
     char_type field_236;
     char_type field_237;
-    s32 field_238;
+    s32 field_238_ped_type;
     u8 field_23C;
     char_type field_23D;
     char_type field_23E;

@@ -146,7 +146,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 {
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     Ped* pCopLeader = gPedManager_6787BC->sub_470F30();
-    pCopLeader->field_238 = 4;
+    pCopLeader->field_238_ped_type = ped_type::special_ped_4;
     pCopLeader->field_240_occupation = ped_ocupation_enum::police;
     pCopLeader->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
     pCopLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
@@ -183,7 +183,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 
     Ped* pCopSupporter = gPedManager_6787BC->sub_470F30();
     pCopSupporter->EnterCarAsPassenger_45C7F0(field_10_subObj->field_0_car);
-    pCopSupporter->field_238 = 4;
+    pCopSupporter->field_238_ped_type = ped_type::special_ped_4;
     pCopSupporter->field_240_occupation = ped_ocupation_enum::police;
     pCopSupporter->SetObjective(objectives_enum::no_obj_0, 9999);
     pCopSupporter->field_244_remap = 0;
@@ -229,7 +229,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
 {
     PedGroup* pSwatGroup = PedGroup::New_4CB0D0();
     Ped* pSwatLeader = gPedManager_6787BC->sub_470F30();
-    pSwatLeader->field_238 = 4;
+    pSwatLeader->field_238_ped_type = ped_type::special_ped_4;
     pSwatLeader->field_240_occupation = ped_ocupation_enum::swat;
     pSwatLeader->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
     pSwatLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
@@ -249,7 +249,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
     {
         Ped* pSwatMember = gPedManager_6787BC->sub_470F30();
         pSwatMember->EnterCarAsPassenger_45C7F0(field_10_subObj->field_0_car);
-        pSwatMember->field_238 = 4;
+        pSwatMember->field_238_ped_type = ped_type::special_ped_4;
         pSwatMember->field_240_occupation = ped_ocupation_enum::swat;
         pSwatMember->SetObjective(objectives_enum::no_obj_0, 9999);
         pSwatMember->field_244_remap = -1;
@@ -275,7 +275,7 @@ MATCH_FUNC(0x571150)
 void PoliceCrew_38::SpawnFBI_nonused_571150()
 {
     Ped* pFBI = gPedManager_6787BC->sub_470F30();
-    pFBI->field_238 = 4;
+    pFBI->field_238_ped_type = ped_type::special_ped_4;
     pFBI->field_240_occupation = ped_ocupation_enum::fbi;
     pFBI->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
     pFBI->SetObjective(objectives_enum::goto_area_in_car_14, 0);
@@ -640,12 +640,12 @@ void PoliceCrew_38::State6_ShutDown_574720()
         {
             if (field_10_subObj->field_0_car)
             {
-                if (field_10_subObj->field_0_car->field_5C)
+                if (field_10_subObj->field_0_car->field_5C_AI)
                 {
-                    if (field_10_subObj->field_0_car->field_5C->field_28_junc_idx > 0)
+                    if (field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx > 0)
                     {
-                        gRouteFinder_6FFDC8->CancelRoute_589930(field_10_subObj->field_0_car->field_5C->field_28_junc_idx);
-                        field_10_subObj->field_0_car->field_5C->field_28_junc_idx = -1;
+                        gRouteFinder_6FFDC8->CancelRoute_589930(field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx);
+                        field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx = -1;
                     }
                 }
             }
@@ -785,12 +785,12 @@ void PoliceCrew_38::State6_ShutDown_574720()
     {
         if (field_10_subObj->field_0_car)
         {
-            if (field_10_subObj->field_0_car->field_5C)
+            if (field_10_subObj->field_0_car->field_5C_AI)
             {
-                if (field_10_subObj->field_0_car->field_5C->field_28_junc_idx > 0)
+                if (field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx > 0)
                 {
-                    gRouteFinder_6FFDC8->CancelRoute_589930(field_10_subObj->field_0_car->field_5C->field_28_junc_idx);
-                    field_10_subObj->field_0_car->field_5C->field_28_junc_idx = -1;
+                    gRouteFinder_6FFDC8->CancelRoute_589930(field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx);
+                    field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx = -1;
                 }
             }
         }
@@ -833,14 +833,14 @@ void PoliceCrew_38::sub_574F10()
             Car_BC* pCar = field_10_subObj->field_0_car;
             if (pCar)
             {
-                CarAI_78* v7 = pCar->field_5C;
+                CarAI_78* v7 = pCar->field_5C_AI;
                 if (v7)
                 {
                     char field_28_junc_idx = v7->field_28_junc_idx;
                     if (field_28_junc_idx > 0)
                     {
                         gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
-                        field_10_subObj->field_0_car->field_5C->field_28_junc_idx = -1;
+                        field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx = -1;
                     }
                 }
             }
@@ -1674,7 +1674,7 @@ void PoliceRoadblock_A4::sub_575CA0()
         }
         else
         {
-            field_88_guard_1->field_238 = 3;
+            field_88_guard_1->field_238_ped_type = ped_type::dummy_3;
         }
         field_88_guard_1 = 0;
     }
@@ -1687,7 +1687,7 @@ void PoliceRoadblock_A4::sub_575CA0()
         }
         else
         {
-            field_8C_guard_2->field_238 = 3;
+            field_8C_guard_2->field_238_ped_type = ped_type::dummy_3;
         }
         field_8C_guard_2 = 0;
     }
@@ -1700,7 +1700,7 @@ void PoliceRoadblock_A4::sub_575CA0()
         }
         else
         {
-            field_90_guard_3->field_238 = 3;
+            field_90_guard_3->field_238_ped_type = ped_type::dummy_3;
         }
         field_90_guard_3 = 0;
     }
@@ -1713,7 +1713,7 @@ void PoliceRoadblock_A4::sub_575CA0()
         }
         else
         {
-            field_94_guard_4->field_238 = 3;
+            field_94_guard_4->field_238_ped_type = ped_type::dummy_3;
         }
         field_94_guard_4 = 0;
     }
@@ -1726,7 +1726,7 @@ void PoliceRoadblock_A4::sub_575CA0()
         }
         else
         {
-            field_98_guard_5->field_238 = 3;
+            field_98_guard_5->field_238_ped_type = ped_type::dummy_3;
         }
         field_98_guard_5 = 0;
     }
@@ -1740,7 +1740,7 @@ void PoliceRoadblock_A4::sub_575CA0()
             field_0 = 0;
             return;
         }
-        field_9C_guard_6->field_238 = 3;
+        field_9C_guard_6->field_238_ped_type = ped_type::dummy_3;
         field_9C_guard_6 = 0;
     }
     field_0 = 0;

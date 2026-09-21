@@ -275,7 +275,7 @@ Ang16 Camera_0xBC::ComputeTargetFacingAngle_4358D0()
 }
 
 MATCH_FUNC(0x435A20)
-Fix16 Camera_0xBC::sub_435A20()
+Fix16 Camera_0xBC::ReturnOwnerVelocity_435A20()
 {
     Ped* pPed = field_34_ped;
     if (pPed)
@@ -286,7 +286,7 @@ Fix16 Camera_0xBC::sub_435A20()
     Car_BC* pCar = field_38_car;
     if (pCar)
     {
-        return pCar->sub_43A240();
+        return pCar->GetCarLinearSpeed_43A240();
     }
     else
     {

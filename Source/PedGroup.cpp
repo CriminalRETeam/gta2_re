@@ -372,7 +372,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
                 this->field_4_ped_list[i]->field_228 = 0;
                 this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
                 this->field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
-                this->field_4_ped_list[i]->field_238 = 3;
+                this->field_4_ped_list[i]->field_238_ped_type = ped_type::dummy_3;
             }
         }
         PedGroup::ClearGroupData_4C8E90();

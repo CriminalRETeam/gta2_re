@@ -740,7 +740,7 @@ Car_BC* Car_6C::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3)
         if (pCar->field_84_car_info_idx == car_model_enum::TRAIN)
         {
             Car_BC* pLeadCar = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(pNearest->field_8_car_bc_ptr);
-            if (pLeadCar->sub_43A240() == gFix16_6777CC)
+            if (pLeadCar->GetCarLinearSpeed_43A240() == gFix16_6777CC)
             {
                 return pCar;
             }
@@ -821,7 +821,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
 
     pCar->sub_4435A0();
 
-    pCar->field_5C = 0;
+    pCar->field_5C_AI = 0;
     pCar->field_64_pTrailer = 0;
 
     if (pCar->inline_check_0x40_info_421680() && !pCar->IsGt24640_4217D0())
@@ -1395,7 +1395,7 @@ bool Car_BC::sub_43A230()
 }
 
 MATCH_FUNC(0x43a240)
-Fix16 Car_BC::sub_43A240()
+Fix16 Car_BC::GetCarLinearSpeed_43A240()
 {
     CarPhysics_B0* pPhysics;
     if (IsTrainModel_403BA0())
@@ -1405,7 +1405,7 @@ Fix16 Car_BC::sub_43A240()
         {
             return gFix16_6777CC;
         }
-        return pPhysics->sub_4211A0();
+        return pPhysics->GetLinearSpeed_4211A0();
     }
     else
     {
@@ -1414,7 +1414,7 @@ Fix16 Car_BC::sub_43A240()
         {
             return gFix16_6777CC;
         }
-        return pPhysics->sub_4211A0();
+        return pPhysics->GetLinearSpeed_4211A0();
     }
 }
 
@@ -1638,7 +1638,7 @@ char_type Car_BC::GetCarModelForPhysics_43A850()
 }
 
 MATCH_FUNC(0x43a950)
-void Car_BC::sub_43A950()
+void Car_BC::DoBreak_43A950()
 {
     CarPhysics_B0* pCarPhysics = field_58_physics;
     pCarPhysics->field_91_is_foot_brake_on = 1;
@@ -1648,7 +1648,7 @@ void Car_BC::sub_43A950()
 }
 
 MATCH_FUNC(0x43a970)
-void Car_BC::sub_43A970()
+void Car_BC::DoBrakeAndHandbrake_43A970()
 {
     field_58_physics->field_92_is_hand_brake_on = 1;
     CarPhysics_B0* pCarPhysics = field_58_physics;
@@ -2002,9 +2002,9 @@ bool Car_BC::CanExitCar_43AF10()
 MATCH_FUNC(0x43af40)
 void Car_BC::sub_43AF40()
 {
-    if (field_5C)
+    if (field_5C_AI)
     {
-        field_5C->field_18 = k_dword_6778E0;
+        field_5C_AI->field_18 = k_dword_6778E0;
         field_A6 &= ~0x20u;
     }
 }
@@ -2012,7 +2012,7 @@ void Car_BC::sub_43AF40()
 MATCH_FUNC(0x43af60)
 void Car_BC::sub_43AF60()
 {
-    if (field_5C)
+    if (field_5C_AI)
     {
         field_A6 |= 0x20u;
     }
@@ -2058,7 +2058,7 @@ bool Car_BC::sub_43B140(s32 target_car_door)
     Ang16 angToUse;
 
     u8 remap = GetRemap();
-    if (sub_43A240() > gFix16_6777CC)
+    if (GetCarLinearSpeed_43A240() > gFix16_6777CC)
     {
         return 0;
     }
@@ -3943,11 +3943,11 @@ Fix16 Car_BC::sub_440510()
 
     if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->h > 64u)
     {
-        return k_dword_676984 * sub_43A240();
+        return k_dword_676984 * GetCarLinearSpeed_43A240();
     }
     else
     {
-        return k_dword_6778B4 * sub_43A240();
+        return k_dword_6778B4 * GetCarLinearSpeed_43A240();
     }
 }
 
@@ -3974,13 +3974,13 @@ void Car_BC::InitCarAIControl_440590()
     Ped* pDriver = this->field_54_driver;
     if (pDriver)
     {
-        if (pDriver->field_238 != 2)
+        if (pDriver->field_238_ped_type != ped_type::player_2)
         {
-            if (this->field_5C == 0)
+            if (this->field_5C_AI == 0)
             {
-                this->field_5C = gCarAI_78_Pool_677CF8->Allocate();
+                this->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
             }
-            this->field_5C->SetCar_453BF0(this);
+            this->field_5C_AI->SetCar_453BF0(this);
             this->field_9C_engine_status = car_engine_status::on_3;
             sub_43BFE0();
         }
@@ -4035,7 +4035,7 @@ void Car_BC::sub_4406E0(Ped* pPed)
     Player* pPlayer = pPed->field_15C_player;
     SetDriver(pPed);
     InitCarAIControl_440590();
-    field_7C_uni_num = pPed->field_238;
+    field_7C_uni_num = pPed->field_238_ped_type;
     field_76_last_seen_timer = 0;
     if (pPed->IsField238_45EDE0(2))
     {
@@ -4282,23 +4282,23 @@ void Car_BC::sub_440F90(char_type instant_bomb)
 MATCH_FUNC(0x441030)
 void Car_BC::GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction)
 {
-    if (!field_5C)
+    if (!field_5C_AI)
     {
-        field_5C = gCarAI_78_Pool_677CF8->Allocate();
+        field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
     }
-    field_5C->SetCar_453BF0(this);
-    field_5C->GoToBlock_447CA0(x, y, z, maybe_direction);
+    field_5C_AI->SetCar_453BF0(this);
+    field_5C_AI->GoToBlock_447CA0(x, y, z, maybe_direction);
 }
 
 MATCH_FUNC(0x441080)
 void Car_BC::GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction)
 {
-    if (!field_5C)
+    if (!field_5C_AI)
     {
-        field_5C = gCarAI_78_Pool_677CF8->Allocate();
+        field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
     }
-    field_5C->SetCar_453BF0(this);
-    field_5C->GoToBlock_447CA0(x, y, z, maybe_direction);
+    field_5C_AI->SetCar_453BF0(this);
+    field_5C_AI->GoToBlock_447CA0(x, y, z, maybe_direction);
 }
 
 WIP_FUNC(0x4410d0)
@@ -5435,7 +5435,7 @@ char_type Car_BC::TrainUpdate_442D70()
     WIP_IMPLEMENTED;
 
     s32 train_car_idx_ = 0;
-    if (sub_43A240() > gFix16_6777CC)
+    if (GetCarLinearSpeed_43A240() > gFix16_6777CC)
     {
         Fix16 player_x;
         Fix16 player_y;
@@ -5535,15 +5535,15 @@ char_type Car_BC::TrainUpdate_442D70()
 
     if (field_58_physics)
     {
-        if (!field_5C)
+        if (!field_5C_AI)
         {
-            field_5C = gCarAI_78_Pool_677CF8->Allocate();
-            field_5C->SetCar_453BF0(this);
+            field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
+            field_5C_AI->SetCar_453BF0(this);
         }
 
-        if (field_5C)
+        if (field_5C_AI)
         {
-            field_5C->sub_453A40();
+            field_5C_AI->sub_453A40();
         }
         sub_442190();
     }
@@ -5630,19 +5630,19 @@ char_type Car_BC::PoolUpdate()
 
     if (this->field_58_physics)
     {
-        CarAI_78* pAi = this->field_5C;
+        CarAI_78* pAi = this->field_5C_AI;
         if (pAi)
         {
             Ped* pDriver = this->field_54_driver;
             if (pDriver)
             {
-                if (pDriver->sub_420B70() == 2 && this->field_84_car_info_idx == car_model_enum::TRAINCAB || pDriver->sub_420B70() != 2)
+                if (pDriver->GetPedType_420B70() == ped_type::player_2 && this->field_84_car_info_idx == car_model_enum::TRAINCAB || pDriver->GetPedType_420B70() != ped_type::player_2)
                 {
-                    pAi->sub_453BB0();
+                    pAi->AI_Service_453BB0();
                 }
             }
-            field_5C->field_68 = 0;
-            field_5C->field_24_flags &= ~0x1000u;
+            field_5C_AI->field_68_car_in_collision = 0;
+            field_5C_AI->field_24_flags &= ~0x1000u;
         }
         sub_442190();
     }
@@ -6272,15 +6272,15 @@ void Car_BC::PoolAllocate()
 MATCH_FUNC(0x4446e0)
 void Car_BC::DeAllocateAI_4446E0()
 {
-    if (field_5C)
+    if (field_5C_AI)
     {
-        if (field_5C->field_28_junc_idx > 0)
+        if (field_5C_AI->field_28_junc_idx > 0)
         {
-            gRouteFinder_6FFDC8->CancelRoute_589930(field_5C->field_28_junc_idx);
+            gRouteFinder_6FFDC8->CancelRoute_589930(field_5C_AI->field_28_junc_idx);
         }
 
-        gCarAI_78_Pool_677CF8->DeAllocate(field_5C);
-        field_5C = 0;
+        gCarAI_78_Pool_677CF8->DeAllocate(field_5C_AI);
+        field_5C_AI = 0;
     }
 }
 
@@ -6330,7 +6330,7 @@ Car_BC::Car_BC()
     field_84_car_info_idx = car_model_enum::none;
     field_50_car_sprite = 0;
     field_58_physics = 0;
-    field_5C = 0;
+    field_5C_AI = 0;
     field_88_despawn_status = 0;
     field_6C_maybe_id = 0xFFFF;
     field_64_pTrailer = 0;
@@ -6353,7 +6353,7 @@ Car_BC::~Car_BC()
 {
     mpNext = 0;
     field_50_car_sprite = 0;
-    field_5C = 0;
+    field_5C_AI = 0;
 }
 
 MATCH_FUNC(0x447360)
@@ -6661,7 +6661,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
         this->field_A = 1;
 
         u8 rng_int = stru_6F6784.get_uint8_4F7B70(5);
-        bool maybe_vel = field_0_cam->sub_435A20() > dword_6FF580;
+        bool maybe_vel = field_0_cam->ReturnOwnerVelocity_435A20() > dword_6FF580;
 
         switch (rng_int)
         {
@@ -7537,7 +7537,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                 pNewCar->InitCarAIControl_440590();
                                 pNewCar->field_9C_engine_status = car_engine_status::on_3;
                                 pNewCar->sub_43BFE0();
-                                pNewCar->field_5C->field_74 = DAT_006FF570;
+                                pNewCar->field_5C_AI->field_74_unk_speed = DAT_006FF570;
                             }
                             gGame_0x40_67E008->sub_4B9D60(pNewCar->field_50_car_sprite, this->field_C_player);
 

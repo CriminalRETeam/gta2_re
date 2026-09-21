@@ -234,11 +234,7 @@ class Player
 
     inline Camera_0xBC* get_camera_434900()
     {
-        if (field_68 == 2)
-        {
-            return &field_208_aux_game_camera;
-        }
-        else if (field_68 == 3)
+        if (field_68 == 2 || field_68 == 3)
         {
             return &field_208_aux_game_camera;
         }
