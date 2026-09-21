@@ -976,7 +976,7 @@ class Car_BC
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
     CarPhysics_B0* field_58_physics;
-    CarAI_78* field_5C;
+    CarAI_78* field_5C_AI;
     Hamburger_40* field_60;
     Trailer* field_64_pTrailer;
     Fix16 field_68;

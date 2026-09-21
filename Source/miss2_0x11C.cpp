@@ -6222,12 +6222,12 @@ void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
 
         Car_BC* pCar = pParam2->field_8_car;
 
-        if (!pCar->field_5C)
+        if (!pCar->field_5C_AI)
         {
-            pCar->field_5C = gCarAI_78_Pool_677CF8->Allocate();
+            pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
         }
 
-        pParam2->field_8_car->field_5C->SetCar_453BF0(pParam2->field_8_car);
+        pParam2->field_8_car->field_5C_AI->SetCar_453BF0(pParam2->field_8_car);
         pParam2->field_8_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
     }
 

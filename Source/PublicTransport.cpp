@@ -136,12 +136,12 @@ void Train_58::ReassignTrainHead_578030()
         }
         pFirst->field_54_driver = 0;
 
-        if (!this->field_C_carriages[0]->field_5C)
+        if (!this->field_C_carriages[0]->field_5C_AI)
         {
-            gCarAI_78_Pool_677CF8->DeAllocate(this->field_C_carriages[0]->field_5C);
+            gCarAI_78_Pool_677CF8->DeAllocate(this->field_C_carriages[0]->field_5C_AI);
         }
 
-        this->field_C_carriages[0]->field_5C->SetCar_453BF0(this->field_C_carriages[0]);
+        this->field_C_carriages[0]->field_5C_AI->SetCar_453BF0(this->field_C_carriages[0]);
 
         pFirst->DeAllocateAI_4446E0();
 

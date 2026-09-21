@@ -6190,9 +6190,9 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
     {
         if ((pCar->field_54_driver->field_21C & 8) == 0 && pCar->field_54_driver->IsField238_45EDE0(3))
         {
-            if (pCar->field_5C)
+            if (pCar->field_5C_AI)
             {
-                pCar->field_5C->field_30 = 100;
+                pCar->field_5C_AI->field_30 = 100;
             }
         }
     }

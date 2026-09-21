@@ -123,10 +123,10 @@ class CarAI_78
     Fix16 field_5C;
     Fix16 field_60;
     Fix16 field_64;
-    Car_BC* field_68_car_in_collision; // Car in front, or car collided
+    Car_BC* field_68_car_in_collision; // Car collided
     Car_BC* field_6C;
     Sprite* field_70_nearest_entity;
-    Fix16 field_74;
+    Fix16 field_74_unk_speed;
 };
 
 class CarAI_78_Pool

@@ -296,7 +296,7 @@ class CarPhysics_B0
     }
 
     // FUNCTION: 96f 0x42AC00
-    void Neutral_42AC00()
+    void NeutralGear_42AC00()
     {
         field_91_is_foot_brake_on = 0;
         field_93_is_forward_gas_on = 0;
