@@ -370,18 +370,6 @@ class Sprite
         }
     }
 
-    inline void __stdcall RotateAndTranslatePoint_42A720(Fix16& pInX,
-                                                         Fix16& pInY,
-                                                         Ang16& pRotAng,
-                                                         Fix16& pTransX,
-                                                         Fix16& pTransY,
-                                                         Fix16& pRotTransX,
-                                                         Fix16& pRotTransY)
-    {
-        pRotTransX = (((pInX - pTransX) * Ang16::cosine_40F520(pRotAng)) + ((pInY - pTransY) * Ang16::sine_40F500(pRotAng)));
-        pRotTransY = ((-(pInX - pTransX) * Ang16::sine_40F500(pRotAng)) + ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng)));
-    }
-
     Ang16 field_0;
     s8 field_2_pad;
     s8 field_3_pad;

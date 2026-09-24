@@ -38,8 +38,8 @@ class Char_B4
     Ang16 field_14;
     s8 field_16;
     s8 field_17;
-    s32 field_18;
-    s32 field_1C;
+    void* field_18;
+    void* field_1C;
     s32 field_20;
     s32 field_24;
     Ang16 field_28;
@@ -276,7 +276,7 @@ class Char_B4
     EXPORT void DispatchCollision_548670(char_type a2);
     EXPORT void HandleObjectCollision_548840(Object_2C* a2);
     EXPORT void HandlePedCollision_548BD0(Char_B4* a2);
-    EXPORT void HandleGenericCollision_54A530(Car_BC* a2, Object_2C* a3, Object_2C* a4);
+    EXPORT void HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_B4* pChar);
     EXPORT char_type ContinueMovementAfterCollision_54B8F0();
     EXPORT void sub_54C090();
     EXPORT char_type CanMoveOntoSlope_54C1A0(s32 path_direction);

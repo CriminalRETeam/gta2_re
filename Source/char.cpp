@@ -6,6 +6,7 @@
 #include "Door_4D4.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
+#include "Garage_48.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "Object_3C.hpp"
@@ -137,6 +138,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FDB08, k_dword_6FD868 * 12, 0x6FDB08);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD91C, Fix16(0x1333, 0), 0x6FD91C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDA08, Fix16(8), 0x6FDA08);
 DEFINE_GLOBAL_INIT(Fix16, gFP16_CollisionCheckRadius_6FDACC, Fix16(0x800, 0), 0x6FDACC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD790, Fix16(-1), 0x6FD790);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDA04, k_dword_6FD868 * 256, 0x6FDA04);
+
 
 //https://decomp.me/scratch/iQH9l
 MATCH_FUNC(0x544F70)
@@ -1848,10 +1852,404 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x54a530)
-void Char_B4::HandleGenericCollision_54A530(Car_BC* a2, Object_2C* a3, Object_2C* a4)
+// Some bugs but working https://decomp.me/scratch/ph2wn
+WIP_FUNC(0x54a530)
+void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_B4* pChar)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ang16 unk_ang;
+    bool bUnk;
+    bool bUnk51 = false;
+    bool bTmp;
+    Sprite* pSprt;
+    void* pAny;
+    Fix16 vec_x;
+    Fix16 vec_y;
+    Fix16 vec2_x;
+    Fix16 vec2_y;
+    Fix16 vec3_x;
+    Fix16 vec3_y;
+
+    Fix16 x_polar;
+    Fix16 y_polar;
+
+    u8 v131_unk = 0;
+
+    Fix16 og_xpos = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 og_ypos = field_80_sprite_ptr->field_14_xy.y;
+
+    if (field_10_char_state != Char_B4_state::Jumping_15)
+    {
+        field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+        field_45_slope_gradient_direction = gCharB4_Saved_SlopeGradDir_6FD7B0.ToInt();
+        field_10_char_state = Char_B4_state::Colliding_With_Car_27;
+    }
+
+    if (!field_69_is_colliding_with_sprite)
+    {
+        if (pCar)
+        {
+            unk_ang = pCar->sub_4403A0();
+            pSprt = pCar->field_50_car_sprite;
+            bUnk = gGarage_48_6FD26C->IsMaybeParkingCar_493540(pCar);
+            if (bUnk)
+            {
+                bUnk51 = true;
+                byte_6FDB58 = 1;
+            }
+        }
+        else
+        {
+            if (pObj)
+            {
+                pSprt = pObj->field_4;
+                unk_ang = Fix16::atan2_fixed_405320(pSprt->field_C_sprite_4c_ptr->GetH_447E10() / 2,
+                                                    pSprt->field_C_sprite_4c_ptr->GetW_420590() / 2);
+
+                if (pSprt->field_C_sprite_4c_ptr->GetF8_492170() > k_dword_6FD8E4)
+                {
+                    bUnk51 = true;
+                    byte_6FDB58 = 1;
+                }
+            }
+            else
+            {
+                unk_ang = word_6FD89C;
+                pSprt = pChar->field_80_sprite_ptr;
+                pSprt->field_0 = word_6FDB34;
+                bUnk = false;
+            }
+        }
+
+        //
+
+        if ((field_7C_pPed->field_230 == 2 || field_5C) && field_10_char_state != Char_B4_state::Jumping_15)
+        {
+            if (!bUnk51)
+            {
+                if (field_7C_pPed->IsField238_45EDE0(2))
+                {
+                    bTmp = field_8_ped_state_1 == ped_state_1::entering_car_3;
+                }
+                else
+                {
+                    bTmp = pChar == NULL;
+                }
+
+                if (bTmp)
+                {
+                    Char_B4::DoJump_5454D0();
+                }
+
+            //LABEL_23:
+            LABEL_23:
+                if (field_10_char_state == Char_B4_state::Jumping_15)
+                {
+                    if (field_68_animation_frame >= 5)
+                    {
+                        field_68_animation_frame = 5;
+                        field_71 = 2;
+                        field_70_frame_timer = 0;
+                    }
+                    field_69_is_colliding_with_sprite = 0;
+
+                    if (pCar)
+                    {
+                        //if ( Fix16::greater_than_or_equal_40CE70(&pCar->field_50_car_sprite->field_1C_zpos, &v21->field_1C_zpos) )
+                        if (pCar->field_50_car_sprite->field_1C_zpos >= field_80_sprite_ptr->field_1C_zpos)
+                        {
+                            field_A0 = 1;
+                            field_80_sprite_ptr->ResolveZOrder_5A1B30(pCar->field_50_car_sprite);
+                        }
+                    }
+                    return;
+                }
+                goto LABEL_53;
+            }
+        }
+        else if (!bUnk51)
+        {
+            goto LABEL_23;
+        }
+        field_2A = word_6FD854;
+        bTmp = !field_7C_pPed->IsField238_45EDE0(2);
+        if (bTmp)
+        {
+            if (field_10_char_state == Char_B4_state::Jumping_15 && field_68_animation_frame >= 5)
+            {
+                field_68_animation_frame = 5;
+                field_71 = 2;
+                field_70_frame_timer = 0;
+            }
+        }
+        else
+        {
+            if (field_10_char_state != Char_B4_state::Jumping_15 && field_8_ped_state_1 != ped_state_1::entering_car_3)
+            {
+                field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                field_10_char_state = Char_B4_state::Colliding_With_Car_27;
+                field_45_slope_gradient_direction = gCharB4_Saved_SlopeGradDir_6FD7B0.ToInt();
+                return;
+            }
+            // else if
+            if (field_20 == 1)
+            {
+                field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                field_40_rotation = field_80_sprite_ptr->field_0 + word_6FD936;
+                return;
+            }
+            // else
+            field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+            field_40_rotation = pSprt->field_0;
+            Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, vec_x, vec_y);
+            //field_80_sprite_ptr->field_14_xy.x += ;
+            field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + vec_x,
+                                                     field_80_sprite_ptr->field_14_xy.y + vec_y,
+                                                     field_80_sprite_ptr->field_1C_zpos);
+        }
+    // goto 9.6f_LABEL_34;
+    // or 10.5 LABEL_53:
+    LABEL_53:
+        RotateAndTranslatePoint_42A720(field_80_sprite_ptr->field_14_xy.x,
+                                       field_80_sprite_ptr->field_14_xy.y,
+                                       -pSprt->field_0,
+                                       pSprt->field_14_xy.x,
+                                       pSprt->field_14_xy.y,
+                                       vec2_x,
+                                       vec2_y);
+
+        Ang16 unk_ang2 = Fix16::atan2_fixed_405320(vec2_y, vec2_x);
+
+        vec3_x = field_7C_pPed->Get_F1C4_x_492CE0();
+        vec3_y = field_7C_pPed->Get_F1C4_y_492CF0();
+
+        if (vec3_x == dword_6FD790 || vec3_y == dword_6FD790)
+        {
+            Ang16::PolarToCartesian_41FC20(field_40_rotation, dword_6FDA04, vec3_x, vec3_y);
+            vec3_x += field_80_sprite_ptr->field_14_xy.x;
+            vec3_y += field_80_sprite_ptr->field_14_xy.y;
+        }
+
+        RotateAndTranslatePoint_42A720(vec3_x, vec3_y, -pSprt->field_0, pSprt->field_14_xy.x, pSprt->field_14_xy.y, vec2_x, vec2_y);
+        vec3_x = vec2_x + pSprt->field_14_xy.x;
+        vec3_y = vec2_y + pSprt->field_14_xy.y;
+        RotateAndTranslatePoint_42A720(og_xpos, og_ypos, -pSprt->field_0, pSprt->field_14_xy.x, pSprt->field_14_xy.y, vec2_x, vec2_y);
+
+        Fix16 new_xpos = vec2_x + pSprt->field_14_xy.x;
+        Fix16 new_ypos = vec2_y + pSprt->field_14_xy.y;
+        if (unk_ang2 < -unk_ang)
+        {
+            v131_unk = 3;
+            if (unk_ang2 < word_6FD854 + unk_ang)
+            {
+                //
+                //
+                if (vec3_y < new_ypos)
+                {
+                    if (field_2A != word_6FD8A2)
+                    {
+                        field_28 = pSprt->field_0;
+                        field_2A = word_6FD94C;
+                        //goto _96f_LABEL_52;
+                    }
+                }
+                else
+                {
+                    if (field_2A != word_6FD8A2)
+                    {
+                        field_28 = pSprt->field_0;
+                        field_2A = word_6FD94C;
+                        //goto _96f_LABEL_52;
+                    }
+                    else
+                    {
+                        field_28 = pSprt->field_0 + word_6FD936;
+                        field_2A = word_6FD8A2;
+                    }
+                }
+
+            LABEL_52_96F:
+                field_69_is_colliding_with_sprite = true;
+                field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+
+                // maybe not !
+                if (!field_7C_pPed->IsField238_45EDE0(2))
+                {
+                    if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::enter_car_as_driver_35 ||
+                        gGarage_48_6FD26C->IsMaybeParkingCar_493540(field_7C_pPed->get_target_to_enter_403B10()))
+                    {
+                        return;
+                    }
+                }
+                // TODO: line 239 on 9.6f IDA idb
+                // Ang16::table_mul_41FC20(v35, &this->field_38_velocity, &v63, &pToAdd);
+                Ang16::PolarToCartesian_41FC20(field_28, field_38_velocity, x_polar, y_polar);
+                field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_polar,
+                                                         field_80_sprite_ptr->field_14_xy.y + y_polar,
+                                                         field_80_sprite_ptr->field_1C_zpos);
+
+                Char_B4::DispatchCollision_548670(byte_623F48);
+
+                if (field_18)
+                {
+                    switch (v131_unk)
+                    {
+                        case 1:
+                            field_28 = pSprt->field_0 - word_6FD854;
+                            break;
+                        case 2:
+                            field_28 = pSprt->field_0;
+                            break;
+                        case 3:
+                            field_28 = pSprt->field_0 - word_6FD854;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (field_10_char_state != Char_B4_state::Jumping_15)
+                    {
+                        field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+                    }
+                    else
+                    {
+                        if (field_68_animation_frame >= 5)
+                        {
+                            field_68_animation_frame = 5;
+                            field_71 = 2;
+                            field_70_frame_timer = 0;
+                        }
+                    }
+                }
+
+            LABEL_136:
+                if (pCar)
+                {
+                    field_1C = pCar;
+                    field_18 = pCar;
+                }
+                else
+                {
+                    if (pObj)
+                    {
+                        field_1C = pObj;
+                        field_18 = pObj;
+                    }
+                    else
+                    {
+                        field_1C = pChar;
+                        field_18 = pChar;
+                    }
+                }
+                //return; // not needed
+            }
+            else
+            {
+                // TODO: check this mess
+                // line 282 on 9.6f ida idb
+                v131_unk = 2;
+                if (unk_ang2 < word_6FD854 - unk_ang) // TODO: check this word_xxxx
+                {
+                    v131_unk = 1;
+                    if (unk_ang2 < unk_ang)
+                    {
+                        v131_unk = 0;
+
+                        if (vec3_x < new_xpos)
+                        {
+                            field_28 = pSprt->field_0 - word_6FD854;
+                            field_2A = word_6FD8A2;
+                        }
+                        else
+                        {
+                            field_28 = pSprt->field_0 + word_6FD854;
+                            field_2A = word_6FD94C;
+                        }
+                    }
+                    else
+                    {
+                        if (vec3_y < new_ypos)
+                        {
+                            field_28 = pSprt->field_0 + word_6FD854;
+                            field_2A = word_6FD94C;
+                        }
+                        else
+                        {
+                            field_28 = pSprt->field_0;
+                            field_2A = word_6FD8A2;
+                        }
+                    }
+                }
+                else
+                {
+                    if (vec3_x < new_xpos)
+                    {
+                        field_28 = pSprt->field_0;
+                        field_2A = word_6FD8A2;
+                    }
+                    else
+                    {
+                        field_28 = pSprt->field_0 + word_6FD854;
+                        field_2A = word_6FD94C;
+                    }
+                }
+                goto LABEL_52_96F;
+            }
+        }
+    }
+    else
+    {
+        pAny = pCar;
+        if (!pCar)
+        {
+            pAny = pObj;
+            if (pObj)
+            {
+                if (pObj->field_4->field_C_sprite_4c_ptr->GetF8_492170() > k_dword_6FD8E4)
+                {
+                    bUnk51 = true;
+                }
+            }
+            else
+            {
+                pAny = pChar;
+            }
+        }
+
+        if (field_1C == pAny || !field_1C)
+        {
+            if (field_10_char_state != Char_B4_state::Jumping_15)
+            {
+                field_1C = pAny;
+                field_18 = pAny;
+            }
+            else
+            {
+                field_69_is_colliding_with_sprite = false;
+                field_2A = word_6FDB34;
+            }
+        }
+        else
+        {
+            if (field_20 != 2 && !bUnk51)
+            {
+                if (field_10_char_state != Char_B4_state::Jumping_15)
+                {
+                    Char_B4::DoJump_5454D0();
+                }
+                else
+                {
+                    if (field_68_animation_frame >= 5)
+                    {
+                        field_68_animation_frame = 5;
+                        field_71 = 2;
+                        field_70_frame_timer = 0;
+                    }
+                }
+            }
+        }
+    }
 }
 
 // https://decomp.me/scratch/aRlEV

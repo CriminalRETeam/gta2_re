@@ -27,6 +27,15 @@ class Garage_48
         return false;
     }
 
+    bool IsMaybeParkingCar_493540(Car_BC* pCar)
+    {
+        if (pCar == field_0)
+        {
+            return true;
+        }
+        return false;
+    }
+
     Car_BC* field_0;
     Car_BC* field_4;
     s32 field_8;
