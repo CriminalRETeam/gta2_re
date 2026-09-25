@@ -93,19 +93,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_677A38, Ang16(180), 0x677A38);
 EXTERN_GLOBAL(u16, word_677CFC);
 EXTERN_GLOBAL(u8, byte_6771DC);
 
-// TODO: move
-inline void __stdcall RotateAndTranslatePoint_42A720(Fix16& pInX,
-                                                         Fix16& pInY,
-                                                         Ang16& pRotAng,
-                                                         Fix16& pTransX,
-                                                         Fix16& pTransY,
-                                                         Fix16& pRotTransX,
-                                                         Fix16& pRotTransY)
-{
-    pRotTransX = (((pInX - pTransX) * Ang16::cosine_40F520(pRotAng)) + ((pInY - pTransY) * Ang16::sine_40F500(pRotAng)));
-    pRotTransY = ((-(pInX - pTransX) * Ang16::sine_40F500(pRotAng)) + ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng)));
-}
-
 MATCH_FUNC(0x4476f0)
 void CarAI_78::MakeAgressiveSirensAndLights_4476F0()
 {
