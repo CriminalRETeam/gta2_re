@@ -2831,7 +2831,7 @@ LABEL_90:
                         this->field_2D = 0;
                         this->field_2E = 0;
                         this->field_2F = v110 + 1;
-                        if (!(u8)(v110 + 1) <= (u8)(v109 - 1))
+                        if ((s32)!(u8)(v110 + 1) <= (u8)(v109 - 1))
                         {
                             this->field_2F = v109 - 1;
                         }
@@ -2865,7 +2865,7 @@ LABEL_90:
                         this->field_2D = 0;
                         this->field_2E = 0;
                         this->field_2F = v110 + 1;
-                        if (!(u8)(v110 + 1) <= (u8)(v109 - 1))
+                        if ((s32)!(u8)(v110 + 1) <= (u8)(v109 - 1))
                         {
                             this->field_2F = v109 - 1;
                         }
@@ -2898,7 +2898,7 @@ LABEL_90:
                         this->field_2D = 0;
                         this->field_2E = 0;
                         this->field_2F = v110 + 1;
-                        if (!(u8)(v110 + 1) <= (u8)(v109 - 1))
+                        if ((s32)!(u8)(v110 + 1) <= (u8)(v109 - 1))
                         {
                             this->field_2F = v109 - 1;
                         }
@@ -2928,7 +2928,7 @@ LABEL_90:
                         this->field_2D = 0;
                         this->field_2E = 0;
                         this->field_2F = v110 + 1;
-                        if (!(u8)(v110 + 1) <= (u8)(v109 - 1))
+                        if ((s32)!(u8)(v110 + 1) <= (u8)(v109 - 1))
                         {
                             this->field_2F = v109 - 1;
                         }
