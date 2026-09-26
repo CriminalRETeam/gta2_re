@@ -5891,7 +5891,6 @@ WIP_FUNC(0x4661F0)
 char_type Ped::IsThreatToSearchingPed_4661F0()
 {
     WIP_IMPLEMENTED;
-    u8 bUnk;
     Ang16 angle_1;
     Ang16 angle_2;
     switch (byte_6787D7)
