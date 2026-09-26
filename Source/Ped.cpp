@@ -1858,7 +1858,7 @@ bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
             }
             pPickUp->Dealloc_5291B0();
         }
-        return bCollected;
+        return bCollected != 0;
     }
 }
 
