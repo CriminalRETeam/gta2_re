@@ -203,7 +203,7 @@ char_type Car_214::sub_5C86C0(const s32& pType, const s32& f_C, SCR_THREAD* f_0,
             pIter->field_C = f_C;
             pIter->field_0 = (s32)f_0;
             pIter->field_14 = 1;
-            pIter->field_4_O2C = gObject_5C_6F8F84->NewTouchPoint_529950(161, // save point?
+            pIter->field_4_O2C = gObject_5C_6F8F84->NewTouchPoint_529950(objects::savepoint_161,
                                                                          xpos,
                                                                          ypos,
                                                                          zpos,
