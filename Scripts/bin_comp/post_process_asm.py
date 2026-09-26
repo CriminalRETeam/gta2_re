@@ -67,6 +67,9 @@ def is_x87_mem_op(s):
 
 def extract_constant(s):
     ret = []
+    if " " not in s:
+        # no operands, e.g. "pushaw" or "ret"
+        return ret
     if s.startswith("movw") or s.startswith("movl") or s.startswith("mov") or s.startswith("cmp") or s.startswith("imul") or s.startswith("add") or s.startswith("test"):
         ops = s.split(" ")[1].split(",")
         for op in ops:
@@ -200,6 +203,9 @@ class TestStringMethods(unittest.TestCase):
 
     def test_lea_hex2(self):
         self.assertEqual(extract_constant("cmp %bl,0x43D0F7"), ["0x43D0F7"])
+
+    def test_no_operands(self):
+        self.assertEqual(extract_constant("pushaw"), [])
 
     def test_fildl_hex(self):
         self.assertEqual(extract_constant("fildl 0x6F633C"), ["0x6F633C"])
