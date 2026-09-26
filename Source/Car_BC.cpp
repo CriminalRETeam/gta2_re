@@ -1061,7 +1061,7 @@ bool Car_6C::CanAllocateOfType_446930(s32 type)
 {
     WIP_IMPLEMENTED;
 
-    BOOL bCanAlloc; // eax
+    bool bCanAlloc; // eax
 
     switch (type)
     {
