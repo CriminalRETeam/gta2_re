@@ -538,10 +538,10 @@ EXPORT void __stdcall ShowCursor_5D9660()
 }
 
 // todo: move
-STUB_FUNC(0x5D9510)
+WIP_FUNC(0x5D9510)
 EXPORT char_type sub_5D9510()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     if (!sub_5D92C0())
     {

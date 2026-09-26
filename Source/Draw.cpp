@@ -113,10 +113,10 @@ void __stdcall sub_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
 }
 
 // https://decomp.me/scratch/zpWhI
-STUB_FUNC(0x5D7CB0)
+WIP_FUNC(0x5D7CB0)
 void __stdcall sub_5D7CB0()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     s32 colour = pgbh_SetColourDepth();
     if (gGtx_0x106C_703DD4 && gGtx_0x106C_703DD4->field_6A == 0)
     {
@@ -273,7 +273,7 @@ s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 }
 
 // https://decomp.me/scratch/SCz1D
-STUB_FUNC(0x5D8470);
+WIP_FUNC(0x5D8470);
 void __stdcall sub_5D8470(STexture* pTexture,
                                  Fix16 x_pos,
                                  Fix16 y_pos,
