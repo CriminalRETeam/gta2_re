@@ -19,21 +19,20 @@ bool __stdcall Ang16::IsAngleAhead_405C60(Ang16* a1, Ang16* a2)
     return false;
 }
 
-WIP_FUNC(0x405640)
+MATCH_FUNC(0x405640)
 void Ang16::SnapToAng4_405640()
 {
-    WIP_IMPLEMENTED;
     if (rValue < 180 || rValue > 1260)
     {
         rValue = 0;
     }
-    else if (rValue >= 540)
+    else if (rValue < 540)
     {
-        rValue = rValue >= 900 ? 1080 : 720;
+        rValue = 360;
     }
     else
     {
-        rValue = 360;
+        rValue = rValue < 900 ? 720 : 1080;
     }
 }
 
