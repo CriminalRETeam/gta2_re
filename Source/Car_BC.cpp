@@ -3934,18 +3934,16 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
     return 1;
 }
 
-WIP_FUNC(0x440510)
+MATCH_FUNC(0x440510)
 Fix16 Car_BC::sub_440510()
 {
-    WIP_IMPLEMENTED;
-
-    if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->h > 64u)
+    if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->h <= 64u)
     {
-        return k_dword_676984 * GetCarLinearSpeed_43A240();
+        return k_dword_6778B4 * GetCarLinearSpeed_43A240();
     }
     else
     {
-        return k_dword_6778B4 * GetCarLinearSpeed_43A240();
+        return k_dword_676984 * GetCarLinearSpeed_43A240();
     }
 }
 
