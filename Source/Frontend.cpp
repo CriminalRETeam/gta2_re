@@ -382,7 +382,6 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
     s16 playerSlotSetting; // ax
     s32 v15; // edi
     //s32 v16; // edx
-    s32 i; // eax
     wchar_t* v18; // eax
     s16 v19; // ax
     wchar_t* v20; // eax
@@ -397,12 +396,9 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
     blissful_ganguly_0x20* v29; // eax
     s32 v30; // edi
     s32 v31; // ebp
-    bool v32; // cf
     s32 v33; // eax
     s32 v34; // ebp
     s32 v35; // ebx
-    s32* v36; // ebp
-    s32* v37; // edx
     s32 v38; // eax
     s32 v39; // ecx
     s32 v40; // eax
@@ -423,9 +419,6 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
     u8 a2a; // [esp+14h] [ebp-104h]
     u8 a2b; // [esp+14h] [ebp-104h]
     player_stats_0xA4* v57; // [esp+18h] [ebp-100h]
-    s32* v58; // [esp+18h] [ebp-100h]
-    s32* v59; // [esp+18h] [ebp-100h]
-    s32* v60; // [esp+18h] [ebp-100h]
     char_type bonus_level_idx; // [esp+1Fh] [ebp-F9h]
     u8 a3; // [esp+20h] [ebp-F8h]
     u8 a3a; // [esp+20h] [ebp-F8h]
