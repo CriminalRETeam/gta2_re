@@ -3566,15 +3566,12 @@ Car_BC* Car_BC::GetCabOrSelf_43E8D0()
     return this;
 }
 
-WIP_FUNC(0x43e990)
+MATCH_FUNC(0x43e990)
 Ped* Car_BC::GetEffectiveDriver_43E990()
 {
-    WIP_IMPLEMENTED;
-
     if (is_on_trailer_421720())
     {
-        // TODO: Function chunk here
-        return field_64_pTrailer->field_8_truck_cab->field_54_driver;
+        return field_64_pTrailer->GetTruckCabDriver_407B80();
     }
     else
     {
@@ -6382,6 +6379,12 @@ bool Car_BC::sub_564300()
         return result;
     }
     return false;
+}
+
+WIP_FUNC(0x407B80)
+Ped* Trailer::GetTruckCabDriver_407B80()
+{
+    return field_8_truck_cab->field_54_driver;
 }
 
 MATCH_FUNC(0x407b90)

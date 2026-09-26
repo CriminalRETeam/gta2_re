@@ -265,6 +265,7 @@ EXTERN_GLOBAL(Car_6C*, gCar_6C_677930);
 class Trailer
 {
   public:
+    EXPORT Ped* GetTruckCabDriver_407B80();
     EXPORT Car_BC* GetCabOrLoadedCar_407B90(Car_BC* a2);
     EXPORT void SetTruckCabAndTrailerCar_407BB0(Car_BC* a2, Car_BC* a3);
     EXPORT s32* sub_407BD0(s32* a2);
