@@ -648,7 +648,6 @@ void Network_20324::sub_51BFA0()
     WIP_IMPLEMENTED;
     CHAR FileName[260];
     Network_Enumerated_Map enumerated_mmp_name[99];
-    Network_Enumerated_Map* pIter;
     _WIN32_FIND_DATAA findFileData;
 
     memset(&findFileData, 0, sizeof(findFileData));
