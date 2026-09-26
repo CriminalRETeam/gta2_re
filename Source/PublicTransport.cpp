@@ -9,6 +9,7 @@
 #include "rng.hpp"
 #include "CarAI_78.hpp"
 #include "CarPhysics_B0.hpp"
+#include "Object_5C.hpp"
 
 DEFINE_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
 DEFINE_GLOBAL(TrainStationList, dword_6FEE68, 0x6FEE68);
@@ -16,6 +17,11 @@ DEFINE_GLOBAL(u8, gStationCount_6FF1CC, 0x6FF1CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF078, 0, 0x6FF078);
 DEFINE_GLOBAL_INIT(Fix16_Point, stru_6FF150, Fix16_Point(Fix16(0), Fix16(0)), 0x6FF150);
 DEFINE_GLOBAL(u8, dword_6FF158, 0x6FF158);
+DEFINE_GLOBAL(u8, byte_6FF1CD, 0x6FF1CD);
+DEFINE_GLOBAL(s32, dword_6FF1D0, 0x6FF1D0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF07C, Fix16(1), 0x6FF07C);
+Fix16 dword_6FEEE8 = Fix16(0.5); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEEE8, Fix16(0.5), 0x6FEEE8);
+Ang16 word_6FF1BC = Ang16(0); //DEFINE_GLOBAL_INIT(Ang16, word_6FF1BC, Ang16(0), 0x6FF1BC);
 
 Fix16 dword_6FEEE0 = Fix16(0x1333, 0); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
 Fix16 dword_6FEED4 = Fix16(0x666, 0); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEED4, Fix16(0x666, 0), 0x6FEED4);
@@ -651,11 +657,168 @@ void PublicTransport_181C::InitTrainStations_579440()
     }
 }
 
-STUB_FUNC(0x5794b0)
-gmp_map_zone* PublicTransport_181C::SetupTrainAndBusStops_5794B0()
+// https://decomp.me/scratch/kgg76
+WIP_FUNC(0x5794b0)
+void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    char Buffer[8];
+    byte_6FF1CD = 0;
+    dword_6FF1D0 = 0;
+    if (!bSkip_trains_67D550)
+    {
+        for (u8 station_zone_kind = 0; station_zone_kind < 5; station_zone_kind++)
+        {
+            switch (station_zone_kind)
+            {
+                case 0:
+                    sprintf(Buffer, "trak0");
+                    break;
+                case 1:
+                    sprintf(Buffer, "trak1");
+                    break;
+                case 2:
+                    sprintf(Buffer, "trak2");
+                    break;
+                case 3:
+                    sprintf(Buffer, "trak3");
+                    break;
+                case 4:
+                    sprintf(Buffer, "trak4");
+                    break;
+                default:
+                    break;
+            }
+            dword_6FEE68.field_0_list[0] = NULL;
+            dword_6FEE68.field_0_list[1] = NULL;
+            dword_6FEE68.field_0_list[2] = NULL;
+            dword_6FEE68.field_0_list[3] = NULL;
+            dword_6FEE68.field_0_list[4] = NULL;
+            dword_6FEE68.field_194_count = 0;
+
+            gmp_map_zone* i;
+            for (i = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(gmp_zone_type_enum::railway_station_platform); i != NULL;
+                 i = gMap_0x370_6F6268->next_zone_4DF770())
+            {
+                *(u8*)&dword_6FF158 = 5; //LOBYTE(dword_6FF158) = 5; part of a object???????
+                if (sub_577E90(Buffer, i->field_6_name))
+                {
+                    TrainStation_34* pStation = gPublicTransport_181C_6FF1D4->AllocateTrainStation_5787E0();
+                    pStation->field_0_station_type = 2;
+                    pStation->field_14 = 1;
+                    pStation->field_1C = 1;
+                    pStation->field_10_pZone = i;
+                    pStation->field_18 = 0;
+                    pStation->field_2F = station_zone_kind;
+                    ++gStationCount_6FF1CC;
+                    switch (i->field_6_name[(u8)dword_6FF158])
+                    {
+                        case '0':
+                            dword_6FEE68.field_0_list[0] = pStation;
+                            break;
+                        case '1':
+                            dword_6FEE68.field_0_list[1] = pStation;
+                            break;
+                        case '2':
+                            dword_6FEE68.field_0_list[2] = pStation;
+                            break;
+                        case '3':
+                            dword_6FEE68.field_0_list[3] = pStation;
+                            break;
+                        case '4':
+                            dword_6FEE68.field_0_list[4] = pStation;
+                            break;
+                        default:
+                            break;
+                    }
+                    ++dword_6FEE68.field_194_count;
+                }
+            }
+            if (dword_6FEE68.field_194_count > 0)
+            {
+                PublicTransport_181C::InitStationsLinkedList_5793E0();
+            }
+        }
+    }
+
+    if (!bSkip_buses_67D558)
+    {
+        for (gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(gmp_zone_type_enum::bus_stop_pavement); pZone != NULL;)
+        {
+            TrainStation_34* pBusStop = gPublicTransport_181C_6FF1D4->AllocateTrainStation_5787E0();
+            pBusStop->field_0_station_type = 1;
+            pBusStop->field_14 = 1;
+            pBusStop->field_1C = 1;
+            pBusStop->field_10_pZone = pZone;
+            pBusStop->field_18 = 0;
+            ++gStationCount_6FF1CC;
+            pZone = gMap_0x370_6F6268->next_zone_4DF770();
+
+            s32 highest_zpos;
+
+            Fix16 xpos = Fix16(pBusStop->field_10_pZone->field_1_x);
+            Fix16 ypos = Fix16(pBusStop->field_10_pZone->field_2_y);
+
+            // called twice?
+            gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(
+                Fix16(pBusStop->field_10_pZone->field_1_x).ToInt(), //pBusStop->field_10_pZone->field_1_x << 14 >> 14,
+                Fix16(pBusStop->field_10_pZone->field_2_y).ToInt(), //pBusStop->field_10_pZone->field_2_y << 14 >> 14,
+                &highest_zpos);
+            gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(
+                Fix16(pBusStop->field_10_pZone->field_1_x).ToInt(), //pBusStop->field_10_pZone->field_1_x << 14 >> 14,
+                Fix16(pBusStop->field_10_pZone->field_2_y).ToInt(), //pBusStop->field_10_pZone->field_2_y << 14 >> 14,
+                &highest_zpos);
+
+            for (u8 j = 0; j < 4; j++)
+            {
+                switch (j)
+                {
+                    case 0:
+                        if (gMap_0x370_6F6268->IsNorthBlockRoadType_433470(xpos.ToInt(), ypos.ToInt(), highest_zpos))
+                        {
+                            ypos -= dword_6FF07C;
+                            j = 4;
+                        }
+                        break;
+
+                    case 1:
+                        if (gMap_0x370_6F6268->IsEastBlockRoadType_4334A0(xpos.ToInt(), ypos.ToInt(), highest_zpos))
+                        {
+                            xpos += dword_6FF07C;
+                            j = 4;
+                        }
+
+                        break;
+                    case 2:
+                        if (gMap_0x370_6F6268->IsSouthBlockRoadType_4334D0(xpos.ToInt(), ypos.ToInt(), highest_zpos))
+                        {
+                            ypos += dword_6FF07C;
+                            j = 4;
+                        }
+
+                        break;
+                    case 3:
+                        if (gMap_0x370_6F6268->IsWestBlockRoadType_433500(xpos.ToInt(), ypos.ToInt(), highest_zpos))
+                        {
+                            xpos -= dword_6FF07C;
+                            j = 4;
+                        }
+
+                        break;
+                    default:
+                        continue;
+                }
+            }
+
+            gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(xpos.ToInt(), ypos.ToInt(), &highest_zpos);
+            gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::bus_stop_marker_129,
+                                                    dword_6FEEE8 + xpos,
+                                                    dword_6FEEE8 + ypos,
+                                                    dword_6FF07C + Fix16(highest_zpos),
+                                                    word_6FF1BC);
+        }
+    }
+    PublicTransport_181C::InitTrainStations_579440();
 }
 
 MATCH_FUNC(0x5799b0)
