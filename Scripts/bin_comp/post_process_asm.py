@@ -93,6 +93,16 @@ def extract_constant(s):
             ret.append(tmp)
     elif s.startswith("lea"):
         ret = get_constant_from_deref_inst_generic(s, True)
+    elif s.startswith(("and", "or", "xor")):
+        # only absolute memory operands, never immediates ("andl $0xFFFFF000,0x67F8B4")
+        for op in get_operands(s):
+            if op.startswith("$"):
+                continue
+            tmp = get_constant_from_deref(op, True)
+            if tmp is None:
+                tmp = is_hex_constant(op, True) if op[:1] not in ("%", "(") else None
+            if tmp is not None:
+                ret.append(tmp)
     elif s.startswith("inc"):
         ret = get_constant_from_inst_generic(s, True)
     elif s.startswith("dec"):
@@ -203,6 +213,12 @@ class TestStringMethods(unittest.TestCase):
 
     def test_lea_hex2(self):
         self.assertEqual(extract_constant("cmp %bl,0x43D0F7"), ["0x43D0F7"])
+
+    def test_andl_mem_hex(self):
+        self.assertEqual(extract_constant("andl $0xFFFFF000,0x67F8B4"), ["0x67F8B4"])
+
+    def test_or_reg_imm(self):
+        self.assertEqual(extract_constant("or $0x80,%eax"), [])
 
     def test_no_operands(self):
         self.assertEqual(extract_constant("pushaw"), [])
