@@ -3645,11 +3645,9 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
 }
 
 // TODO: move
-WIP_FUNC(0x48E720);
+MATCH_FUNC(0x48E720)
 char_type __stdcall sub_48E720(s32 model)
 {
-    WIP_IMPLEMENTED;
-
     char_type result;
     switch (model)
     {
