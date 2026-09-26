@@ -60,7 +60,18 @@ python3 build.py --single_cpp Camera.cpp  # compile a single TU quickly
 `<func> FAIL!` for each mismatch and `[N/M] funcs OK`. **N is the match count to protect.**
 
 Compiler warnings show up as `...(line) : warning Cxxxx:` lines in the build output.
-Tee it to a file to grep them: `python3 build.py 2>&1 | tee build.log`.
+Tee it to a file to grep them: `python3 build.py 2>&1 | tee build.log`. Incremental
+builds only show warnings for the TUs they recompile, so `rm -rf build_vc6` first when
+you want a full list. `build.py` can drop the last few lines of compiler output, so judge
+a build by the absence of `error` lines and a fresh `build_vc6/decomp_main.exe`, not by
+the final "Built target" line.
+
+Some warnings are expected and should stay: `/GX-`, `/ZI` and other per-file flags in
+`cmake/vc6.cmake` exist to match the original codegen (hence the D4025/D4007/LNK4075
+noise), and the C4786 warnings come from the GTA2Hax submodule. When a warning comes from
+code that has to stay as it is to match (for example, an uninitialised variable the
+original also had), silence it with a scoped `#pragma warning(push)/(disable)/(pop)` and a
+comment. Don't change that code.
 
 ### Original executables
 
