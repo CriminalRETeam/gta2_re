@@ -2909,28 +2909,21 @@ s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrB
     return result;
 }
 
-WIP_FUNC(0x417AC0)
+MATCH_FUNC(0x417AC0)
 s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
 {
-    WIP_IMPLEMENTED;
-
     s32 result;
 
     switch (car_model)
     {
-        case car_model_enum::allard:
-        case car_model_enum::bmw:
-        case car_model_enum::COPCAR:
-        case car_model_enum::EDSEL:
-        case car_model_enum::JEFFREY:
-        case car_model_enum::STINGRAY:
-        case car_model_enum::STRIPETB:
-        case car_model_enum::T2000GT:
-        case car_model_enum::TBIRD:
-        case car_model_enum::WBTWIN:
-        case car_model_enum::ZCX5:
-        case car_model_enum::EDSELFBI:
-            result = 6;
+        case car_model_enum::bug:
+        case car_model_enum::DART:
+        case car_model_enum::FIAT:
+        case car_model_enum::ISETTA:
+        case car_model_enum::MESSER:
+        case car_model_enum::MORRIS:
+        case car_model_enum::STYPECAB:
+            result = 4;
             break;
 
         case car_model_enum::amdb4:
@@ -2948,17 +2941,19 @@ s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
             result = 5;
             break;
 
-        case car_model_enum::apc:
-        case car_model_enum::boxtruck:
-        case car_model_enum::BUS:
-        case car_model_enum::FIRETRUK:
-        case car_model_enum::GTRUCK:
-        case car_model_enum::MONSTER:
-        case car_model_enum::TANK:
-        case car_model_enum::TRUKCAB1:
-        case car_model_enum::TRUKCAB2:
-        case car_model_enum::KRSNABUS:
-            result = 8;
+        case car_model_enum::allard:
+        case car_model_enum::bmw:
+        case car_model_enum::COPCAR:
+        case car_model_enum::EDSEL:
+        case car_model_enum::JEFFREY:
+        case car_model_enum::STINGRAY:
+        case car_model_enum::STRIPETB:
+        case car_model_enum::T2000GT:
+        case car_model_enum::TBIRD:
+        case car_model_enum::WBTWIN:
+        case car_model_enum::ZCX5:
+        case car_model_enum::EDSELFBI:
+            result = 6;
             break;
 
         case car_model_enum::bank_van:
@@ -2976,14 +2971,17 @@ s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
             result = 7;
             break;
 
-        case car_model_enum::bug:
-        case car_model_enum::DART:
-        case car_model_enum::FIAT:
-        case car_model_enum::ISETTA:
-        case car_model_enum::MESSER:
-        case car_model_enum::MORRIS:
-        case car_model_enum::STYPECAB:
-            result = 4;
+        case car_model_enum::apc:
+        case car_model_enum::boxtruck:
+        case car_model_enum::BUS:
+        case car_model_enum::FIRETRUK:
+        case car_model_enum::GTRUCK:
+        case car_model_enum::MONSTER:
+        case car_model_enum::TANK:
+        case car_model_enum::TRUKCAB1:
+        case car_model_enum::TRUKCAB2:
+        case car_model_enum::KRSNABUS:
+            result = 8;
             break;
 
         default:
