@@ -2523,7 +2523,7 @@ void MapRenderer::draw_lid_4F4D60(Fix16& unk1, Fix16& unk2, Fix16& unk3, Fix16& 
     }
 }
 
-WIP_FUNC(0x4f6580)
+MATCH_FUNC(0x4f6580)
 void MapRenderer::DrawPartialBlocks_4F6580()
 {
     u8 slope_byte = gpBlock_6F6478->field_B_slope_type;
