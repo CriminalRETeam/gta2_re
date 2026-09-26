@@ -4841,7 +4841,6 @@ LABEL_65:
         {
             Ang16::PolarToCartesian_41FC20(field_1C_zpos, dword_6FD828, pMaybeX_FP16, pMaybeY_FP16);
         }
-    LABEL_87:
         pMaybeX_FP16 += gCharB4_Saved_Xpos_6FD7F8;
         pMaybeY_FP16 += gCharB4_Saved_Ypos_6FD800;
         u8 x_u8 = pMaybeX_FP16.ToUInt8();
