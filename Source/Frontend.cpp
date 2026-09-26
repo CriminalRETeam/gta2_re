@@ -1390,7 +1390,6 @@ void Frontend::DrawMenu_4AD140()
 
         if (pMenuElement->field_1_is_it_displayed)
         {
-            s32 two;
             u16 font_type;
             s32 shape_type;
 
