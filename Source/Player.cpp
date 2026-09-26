@@ -52,6 +52,7 @@ struct UnknownDebugClass
     EXPORT bool DoBrianTest_42D870(u16 action);
 };
 DEFINE_GLOBAL(UnknownDebugClass*, dword_7044A0, 0x7044A0);
+DEFINE_GLOBAL(UnknownDebugClass*, dword_675F74, 0x675F74);
 
 STUB_FUNC(0x5B2640)
 bool UnknownDebugClass::DoTest_5B2640(u16 action)
@@ -944,11 +945,9 @@ void Player::IncreaseWantedLevelFromDebugKeys_565860()
 
 // https://decomp.me/scratch/jvjpT
 // pre processor bugged, should match ??
-WIP_FUNC(0x565890)
+MATCH_FUNC(0x565890)
 void Player::Hud_Controls_565890(u16 action)
 {
-    WIP_IMPLEMENTED;
-
     s32 vol;
 
     if (!gHud_2B00_706620->IsBusy_5D6C20(action, this))
@@ -1219,7 +1218,7 @@ void Player::Hud_Controls_565890(u16 action)
                 }
                 if (bDo_brian_test_67D544)
                 {
-                    dword_7044A0->DoBrianTest_42D870(action);
+                    dword_675F74->DoBrianTest_42D870(action);
                 }
                 else if (bDo_iain_test_67D4E9)
                 {
