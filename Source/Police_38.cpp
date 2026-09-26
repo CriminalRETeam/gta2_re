@@ -408,7 +408,7 @@ bool PoliceCrew_38::sub_572210()
             return Fix16::MaxAbsDistance_42A6B0(pPed_6FEDDC->get_cam_x(),
                                                 pPed_6FEDDC->get_cam_y(),
                                                 field_14_pService->field_0_criminal_ped->get_cam_x(),
-                                                field_14_pService->field_0_criminal_ped->get_cam_y()) < dword_6FED48;
+                                                field_14_pService->field_0_criminal_ped->get_cam_y()) < dword_6FED48 ? true : false;
         }
         else
         {
