@@ -652,7 +652,6 @@ void Char_B4::UpdateAnimState_546360()
     s32 newId;
     Fix16 v102;
     Fix16 pNewZ;
-    Car_Door_10* pDoor_;
     Car_Door_10* pDoor;
 
     // Note: was if/else
