@@ -6359,11 +6359,9 @@ char_type Char_B4::IsThreatToSearchingPed_553330()
 }
 
 // 9.6f 0x497480
-WIP_FUNC(0x553340)
+MATCH_FUNC(0x553340)
 bool Char_B4::ShouldCollideWithSprite_553340(Sprite* pSprite)
 {
-    WIP_IMPLEMENTED;
-
     Ped* pPed; // eax
 
     if (pSprite)
@@ -6433,10 +6431,11 @@ bool Char_B4::ShouldCollideWithSprite_553340(Sprite* pSprite)
             {
                 switch (pSprite->get_type_416B40())
                 {
-                    //case 0:
-                    //case 1:
                     case 2:
-                    case 4: // 0xdb je is wrong its jne
+                        return 0;
+                    case 4:
+                        break;
+                    default:
                         return 0;
                 }
             }
