@@ -1587,6 +1587,9 @@ EXPORT void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
     }
 }
 
+// The original passes an uninitialised lParam to PostMessageA, keep it for matching
+#pragma warning(push)
+#pragma warning(disable : 4700)
 MATCH_FUNC(0x5E4DE0)
 EXPORT void Start_GTA2Manager_5E4DE0()
 {
@@ -1619,6 +1622,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
         }
     }
 }
+#pragma warning(pop)
 
 MATCH_FUNC(0x5E4EC0)
 EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
