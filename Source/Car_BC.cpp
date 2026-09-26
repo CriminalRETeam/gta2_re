@@ -6661,7 +6661,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
         this->field_A = 1;
 
         u8 rng_int = stru_6F6784.get_uint8_4F7B70(5);
-        bool maybe_vel = field_0_cam->ReturnOwnerVelocity_435A20() > dword_6FF580;
+        bool maybe_vel = !!(field_0_cam->ReturnOwnerVelocity_435A20() > dword_6FF580);
 
         switch (rng_int)
         {
