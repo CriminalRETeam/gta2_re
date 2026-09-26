@@ -3569,13 +3569,21 @@ u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone)
     return 0;
 }
 
-WIP_FUNC(0x417BA0)
+MATCH_FUNC(0x417BA0)
 s32 sound_obj::GetVehicleAudioClass_417BA0(s32 car_model)
 {
-    WIP_IMPLEMENTED;
     s32 result;
     switch (car_model)
     {
+        case car_model_enum::bug:
+        case car_model_enum::DART:
+        case car_model_enum::FIAT:
+        case car_model_enum::ISETTA:
+        case car_model_enum::MESSER:
+        case car_model_enum::MORRIS:
+            result = 17;
+            break;
+
         case car_model_enum::allard:
         case car_model_enum::amdb4:
         case car_model_enum::bmw:
@@ -3606,21 +3614,12 @@ s32 sound_obj::GetVehicleAudioClass_417BA0(s32 car_model)
             result = 19;
             break;
 
-        case car_model_enum::bug:
-        case car_model_enum::DART:
-        case car_model_enum::FIAT:
-        case car_model_enum::ISETTA:
-        case car_model_enum::MESSER:
-        case car_model_enum::MORRIS:
-            result = 17;
+        case car_model_enum::TRAINCAB:
+            result = 20;
             break;
 
         case car_model_enum::ICECREAM:
             result = 23;
-            break;
-
-        case car_model_enum::TRAINCAB:
-            result = 20;
             break;
 
         default:
