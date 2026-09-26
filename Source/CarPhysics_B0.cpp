@@ -3410,7 +3410,7 @@ MATCH_FUNC(0x5626a0)
 bool CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
 {
     Fix16 t = MinGasPedalPressure_5626C0();
-    return field_60_gas_pedal >= t;
+    return !!(field_60_gas_pedal >= t);
 }
 
 MATCH_FUNC(0x5626c0)
