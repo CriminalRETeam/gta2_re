@@ -3046,7 +3046,7 @@ void Player::ClearInputs_56A6D0()
 }
 
 // https://decomp.me/scratch/OMzHk early %ecx load
-WIP_FUNC(0x56A740)
+MATCH_FUNC(0x56A740)
 Player::Player(u8 player_idx)
 {
     field_794_is_chatting = 0;
