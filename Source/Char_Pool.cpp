@@ -950,11 +950,9 @@ Ped* PedManager::SpawnRunAwayGuy_470D60()
 }
 
 // 9.6f 0x43DEB0
-WIP_FUNC(0x470e30)
+MATCH_FUNC(0x470e30)
 Ped* PedManager::SpawnTrainLeaver_470E30()
 {
-    WIP_IMPLEMENTED;
-
     Ped* pPed = gPedPool_6787B8->Allocate();
 
     // TODO: Instruction swap here
