@@ -1053,11 +1053,9 @@ Ped* PedManager::PedById(s32 pedId)
     return NULL;
 }
 
-WIP_FUNC(0x470330)
+MATCH_FUNC(0x470330)
 void PedManager::Dummies_470330()
 {
-    WIP_IMPLEMENTED;
-
     s16 v1 = gPedManager_6787BC->field_0;
     if (gPolice_7B8_6FEE40->field_654_wanted_level > 3)
     {
