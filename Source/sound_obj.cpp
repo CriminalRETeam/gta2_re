@@ -2991,26 +2991,14 @@ s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
     return result;
 }
 
-WIP_FUNC(0x417B80)
+MATCH_FUNC(0x417B80)
 s32 sound_obj::sub_417B80(s32 car_model, bool bHornOn)
 {
-    WIP_IMPLEMENTED;
-
-    if (car_model == car_model_enum::FIRETRUK)
+    if (car_model != car_model_enum::FIRETRUK)
     {
-        return 14;
+        return (bHornOn != 0) + 14;
     }
-    else
-    {
-        if (bHornOn)
-        {
-            return 15;
-        }
-        else
-        {
-            return 14;
-        }
-    }
+    return 14;
 }
 
 MATCH_FUNC(0x417A00)
