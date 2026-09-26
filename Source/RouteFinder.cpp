@@ -580,8 +580,7 @@ RouteFinder_10* RouteFinder::sub_589390(u16 a2)
     return pNew10;
 }
 
-// https://decomp.me/scratch/uht0I regswap :)
-WIP_FUNC(0x589420)
+MATCH_FUNC(0x589420)
 void RouteFinder::sub_589420(RouteFinder_10* p10)
 {
     field_CA40[p10->field_0_idx] = 1;
@@ -593,10 +592,9 @@ void RouteFinder::sub_589420(RouteFinder_10* p10)
     }
     else
     {
-        RouteFinder_10* v3 = field_A82C;
-        for (RouteFinder_10* i = v3->field_C_pNext; i != NULL && i->field_2 < p10->field_2; i = v3->field_C_pNext)
+        RouteFinder_10* v3;
+        for (v3 = field_A82C; v3->field_C_pNext != NULL && v3->field_C_pNext->field_2 < p10->field_2; v3 = v3->field_C_pNext)
         {
-            v3 = i;
         }
         p10->field_C_pNext = v3->field_C_pNext;
         v3->field_C_pNext = p10;

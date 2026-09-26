@@ -60,7 +60,7 @@ class RouteFinder_10
   public:
     EXPORT RouteFinder_10();
     u16 field_0_idx;
-    s16 field_2;
+    u16 field_2;
     s16 field_4;
     s16 field_6;
     RouteFinder_10* field_8;
