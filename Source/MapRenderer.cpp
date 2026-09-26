@@ -313,7 +313,7 @@ void MapRenderer::ambient_light_tick_4E9EA0()
 }
 
 // this function matches, but some "fcomps" offsets are wrong
-WIP_FUNC(0x4EA190)
+MATCH_FUNC(0x4EA190)
 void MapRenderer::draw_4EA190(u16& rotation_and_flip) 
 {
     s32 vert_idx;
