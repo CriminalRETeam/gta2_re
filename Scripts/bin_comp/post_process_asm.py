@@ -58,6 +58,13 @@ def get_constant_from_deref_inst_generic(s, in_exe_range):
             r.append(ret) 
     return r
 
+X87_MEM_PREFIXES = ("fld", "fild", "fst", "fist", "fadd", "fiadd", "fsub", "fisub", "fmul", "fimul", "fdiv", "fidiv", "fcom", "ficom")
+
+def is_x87_mem_op(s):
+    # x87 ops with a single memory operand, e.g. "fildl 0x6F633C" or "fadds 0x5FE3C8(,%eax,4)"
+    parts = s.split(" ")
+    return len(parts) == 2 and parts[0].startswith(X87_MEM_PREFIXES) and "%st" not in parts[1]
+
 def extract_constant(s):
     ret = []
     if s.startswith("movw") or s.startswith("movl") or s.startswith("mov") or s.startswith("cmp") or s.startswith("imul") or s.startswith("add") or s.startswith("test"):
@@ -71,7 +78,7 @@ def extract_constant(s):
             ret = get_constant_from_inst_generic(s, True)
     elif s.startswith("call") or s.startswith("calll"):
         ret = get_constant_from_inst_generic(s, False)
-    elif s.startswith("jmpl") or s.startswith("sub") or s.startswith("fstps"):
+    elif s.startswith("jmpl") or s.startswith("sub") or s.startswith("fstps") or is_x87_mem_op(s):
         tmp = get_constant_from_deref(s.split(" ")[1], True)
         if tmp is None:
              ret = get_constant_from_inst_generic(s, True)
@@ -193,6 +200,15 @@ class TestStringMethods(unittest.TestCase):
 
     def test_lea_hex2(self):
         self.assertEqual(extract_constant("cmp %bl,0x43D0F7"), ["0x43D0F7"])
+
+    def test_fildl_hex(self):
+        self.assertEqual(extract_constant("fildl 0x6F633C"), ["0x6F633C"])
+
+    def test_flds_deref_hex(self):
+        self.assertEqual(extract_constant("flds 0x5FE3C8(,%eax,4)"), ["0x5FE3C8"])
+
+    def test_fadd_st_regs(self):
+        self.assertEqual(extract_constant("fadd %st(1),%st"), [])
 
     def test_fmull_hex(self):
         self.assertEqual(extract_constant("fmull 0x427F00"), ["0x427F00"])
