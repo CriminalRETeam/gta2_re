@@ -5720,7 +5720,6 @@ void Char_B4::state_8_5520A0()
     Fix16 v9;
     Object_2C* field_184_pObj2C;
     Object_2C* v16;
-    Sprite* v29;
     Sprite* v33;
     Fix16 v36;
 
