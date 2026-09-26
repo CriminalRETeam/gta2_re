@@ -2186,9 +2186,7 @@ void Frontend::sub_4B2F60()
     u8* field_8_keys;
     wchar_t Key_4D5F40;
     u16 v7;
-    u8 v8;
     s16 v9;
-    s32 v10;
     u16 v11;
     s16 v12;
 
