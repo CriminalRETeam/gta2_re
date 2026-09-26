@@ -4761,12 +4761,10 @@ void sound_obj::ProcessTrain_413BE0(Sound_Params_8* a2)
 }
 
 // TODO: Likely a method of sound_obj
-WIP_FUNC(0x4236C0)
+MATCH_FUNC(0x4236C0)
 EXPORT bool Cooldown_4236C0()
 {
-    WIP_IMPLEMENTED;
-
-    if (byte_67554D)
+    if (byte_67554D > 0)
     {
         --byte_67554D;
         return 0;
