@@ -3335,7 +3335,6 @@ void sound_obj::EnqueueRadioLocationPhrase_426E10(u8 xpos, u8 ypos)
     if (ypos < mid_y - h_half)
     {
         sound_obj::EnqueueRadioWord_4271B0(0x73u);
-    LABEL_8:
         bUnknown = 1;
         goto LABEL_9;
     }
