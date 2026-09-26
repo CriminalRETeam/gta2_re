@@ -5690,11 +5690,8 @@ void CarAI_78::sub_453C00()
     CarPhysics_B0* pPhysics = field_0_car->field_58_physics;
     Ang16 tanAng(pPhysics->field_40_linvel_1.atan2_40F790());
 
-    // TODO: fix this:
-    Ang16 v6(pPhysics->field_58_theta.rValue - tanAng.rValue);
+    Ang16 v6(tanAng.rValue - pPhysics->field_58_theta.rValue);
     v6.sub_406C20();
-
-    //Ang16 v6 = pPhysics->field_58_theta - tanAng;
 
     if (v6 <= dword_6779E4 || v6 >= word_677B08 || field_0_car->GetCarLinearSpeed_43A240() < dword_677A8C)
     {
