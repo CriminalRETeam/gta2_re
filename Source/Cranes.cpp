@@ -513,11 +513,9 @@ bool Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix
 
 // 9.6f 0x448980
 // 10.5 https://decomp.me/scratch/XYPfQ
-WIP_FUNC(0x47f7f0)
+MATCH_FUNC(0x47f7f0)
 void Crane_15C::sub_47F7F0(Car_BC* pCar)
 {
-    WIP_IMPLEMENTED;
-
     Fix16 point;
     Fix16 t;
     Sprite* pFoundSprite = pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2);
