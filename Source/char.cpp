@@ -5661,7 +5661,7 @@ void Char_B4::state_7_551CB0()
             field_6C_animation_state = 9;
             break;
         case ped_state_2::ped2_staying_14:
-            if (field_7C_pPed->GetBit11_433CA0() == true) // line 344
+            if (field_7C_pPed->GetBit11_433CA0() == 1) // line 344
             {
                 if (field_7C_pPed->field_21C_bf.b9)
                 {
