@@ -597,7 +597,7 @@ void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, F
 }
 
 // This function matches, but the offsets of dword_6F628C and dword_6F656C are wrong
-WIP_FUNC(0x4eae00)
+MATCH_FUNC(0x4eae00)
 void MapRenderer::sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, dword_6F62B0, pVert);
