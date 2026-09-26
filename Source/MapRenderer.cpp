@@ -265,7 +265,7 @@ void MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
 
 // this function matches, but some "fcomps" offsets are wrong
 MATCH_FUNC(0x4E9EE0)
-void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8& colour)
+void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8 colour)
 {
     u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(word_side & 0x3FF);
     if (texture_idx)
