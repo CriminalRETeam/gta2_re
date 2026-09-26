@@ -9,11 +9,14 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F67DC, Ang16(0x384), 0x6F67DC);
 
 EXTERN_GLOBAL(Ang16, word_669156);
 
-WIP_FUNC(0x405C60)
+MATCH_FUNC(0x405C60)
 bool __stdcall Ang16::IsAngleAhead_405C60(Ang16* a1, Ang16* a2)
 {
-    WIP_IMPLEMENTED;
-    return *a2 - *a1 <= word_669156;
+    if (*a2 - *a1 <= word_669156)
+    {
+        return true;
+    }
+    return false;
 }
 
 WIP_FUNC(0x405640)
