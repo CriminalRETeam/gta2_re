@@ -562,7 +562,7 @@ s8 Game_0x40::ExecuteGame_4B9640()
 }
 
 // TODO: Werid function chunk stuff
-WIP_FUNC(0x4B96B0)
+MATCH_FUNC(0x4B96B0)
 void Game_0x40::Pause_4B96B0()
 {
     // Singleplayer or playing alone on multiplayer?
@@ -572,7 +572,7 @@ void Game_0x40::Pause_4B96B0()
     }
 }
 
-WIP_FUNC(0x4B96C0)
+MATCH_FUNC(0x4B96C0)
 void Game_0x40::Unpause_4B96C0()
 {
     if (field_23_num_players == 1)
