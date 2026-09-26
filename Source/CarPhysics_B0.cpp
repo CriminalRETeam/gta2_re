@@ -1590,11 +1590,9 @@ void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang1
 }
 
 // 9.6f 0x4A4170
-WIP_FUNC(0x55ca70)
+MATCH_FUNC(0x55ca70)
 void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point arg0;
     u8 hitType;
     //v7 = 0;
