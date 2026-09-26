@@ -6372,7 +6372,7 @@ bool Car_BC::sub_564300()
     return false;
 }
 
-WIP_FUNC(0x407B80)
+MATCH_FUNC(0x407B80)
 Ped* Trailer::GetTruckCabDriver_407B80()
 {
     return field_8_truck_cab->field_54_driver;
