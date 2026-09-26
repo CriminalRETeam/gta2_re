@@ -5406,7 +5406,6 @@ void Ped::Threat_Reaction_AI_465270()
                             LABEL_82:
                                 field_21C_bf.b2 = false;
                             }
-                        LABEL_83:
                             if ((field_288_threat_search == threat_search_enum::line_of_sight_1 ||
                                  field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
                                  field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
