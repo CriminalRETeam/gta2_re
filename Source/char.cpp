@@ -2435,7 +2435,6 @@ char_type Char_B4::CanMoveOntoSlope_54C1A0(s32 path_direction)
         return 0;
     }
 
-    gmp_block_info* pBlock;
 
     switch (path_direction)
     {
