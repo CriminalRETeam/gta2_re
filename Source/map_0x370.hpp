@@ -398,7 +398,7 @@ class Map_0x370
     EXPORT char_type sub_4E52A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT bool CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z);
     EXPORT bool CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* found_z);
-    EXPORT char_type sub_4E5640(Fix16 a1, Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
+    EXPORT char_type sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_1, Fix16 y_1, Fix16 z_1, Fix16 x_2, Fix16 y_2, Fix16 z_2);
     EXPORT Fix16 FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos);
     EXPORT char_type sub_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3);

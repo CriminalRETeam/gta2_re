@@ -51,6 +51,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F61D8, Fix16(0x3000, 0), 0x6F61D8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6218, Fix16(0x3800, 0), 0x6F6218);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F5B8C, Fix16(255), 0x6F5B8C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6184, Fix16(10), 0x6F6184);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6128, Fix16(7), 0x6F6128);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F5FE0, Fix16(0.5f), 0x6F5FE0);
 
 DEFINE_GLOBAL(gmp_block_info*, dword_6F5F98, 0x6F5F98);
@@ -2778,11 +2779,140 @@ gmp_map_slope::gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradien
     field_8_zpos_higher = zpos_higher;
 }
 
-STUB_FUNC(0x4E5640)
-char_type Map_0x370::sub_4E5640(Fix16 a1, Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9)
+// https://decomp.me/scratch/zXDWw
+WIP_FUNC(0x4E5640)
+char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_1, Fix16 y_1, Fix16 z_1, Fix16 x_2, Fix16 y_2, Fix16 z_2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Sprite* pObjSprt = gObject_5C_6F8F84->field_58;
+    Fix16 z_diff = z_2 - z_1;
+    Ang16 angle;
+    Fix16_Point pos_diff(x_2 - x_1, y_2 - y_1);
+
+    gRozza_679188.sub_4637B0();
+
+    angle = Fix16::atan2_fixed_405320(y_2 - y_1, x_2 - x_1);
+
+    Fix16 distance = pos_diff.GetLength_2(); // GetLength_453590
+    pObjSprt->set_xyz_lazy_420600(x_1, y_1, z_1);
+    pObjSprt->set_ang_lazy_420690(angle);
+    pObjSprt->AllocInternal_59F950(width, height, depth);
+
+    Fix16 value_1;
+    Fix16 value_2;
+    Fix16 value_3;
+
+    if (distance != dword_6F610C)
+    {
+        value_1 = distance / height;
+        value_2 = distance / value_1;
+        value_3 = z_diff / value_1;
+    }
+    else
+    {
+        value_2 = dword_6F610C;
+        value_1 = dword_6F610C;
+    }
+
+    if (value_1 < dword_6F6110)
+    {
+        value_1 = dword_6F6110;
+        value_2 = distance;
+        value_3 = z_diff;
+    }
+
+    Fix16 vec_x;
+    Fix16 vec_y;
+
+    Ang16::PolarToCartesian_41FC20(angle, value_2, vec_x, vec_y);
+
+    for (u8 i = 1; i <= value_1.ToInt(); i++)
+    {
+        Fix16 unk_f16 = gMap_0x370_6F6268->sub_4E4D40(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, pObjSprt->field_1C_zpos);
+        if (value_3 == dword_6F610C)
+        {
+            pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x + vec_x,
+                                          pObjSprt->field_14_xy.y + vec_y,
+                                          pObjSprt->field_1C_zpos + value_3);
+
+            if (pObjSprt->CheckSpriteMovementRegion_5A2500())
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            if (value_3 > dword_6F610C)
+            {
+                // line 110 of 9.6f idb
+                pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x + vec_x,
+                                              pObjSprt->field_14_xy.y + vec_y,
+                                              pObjSprt->field_1C_zpos + value_3);
+                if (pObjSprt->field_1C_zpos > dword_6F6128)
+                {
+                    return 0;
+                }
+
+                if (pObjSprt->field_1C_zpos < dword_6F6128 &&
+                    gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(pObjSprt->field_14_xy.x.ToInt(),
+                                                                  pObjSprt->field_14_xy.y.ToInt(),
+                                                                  (pObjSprt->field_1C_zpos + dword_6F5FE0).ToInt()) != AIR)
+                {
+                    if (!IsGradientSlopeAt_466CF0(pObjSprt->field_14_xy.x.ToInt(),
+                                                  pObjSprt->field_14_xy.y.ToInt(),
+                                                  pObjSprt->field_1C_zpos.ToInt()))
+                    {
+                        return 0;
+                    }
+                }
+
+                pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, pObjSprt->field_1C_zpos);
+
+                if (pObjSprt->CheckSpriteMovementRegion_5A2500())
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                // line 139 of 9.6f idb
+                pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x + vec_x,
+                                              pObjSprt->field_14_xy.y + vec_y,
+                                              pObjSprt->field_1C_zpos + value_3);
+
+                if (IsGradientSlopeAt_466CF0(pObjSprt->field_14_xy.x.ToInt(),
+                                             pObjSprt->field_14_xy.y.ToInt(),
+                                             pObjSprt->field_1C_zpos.ToInt()))
+                {
+                    if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(pObjSprt->field_14_xy.x.ToInt(),
+                                                                      pObjSprt->field_14_xy.y.ToInt(),
+                                                                      pObjSprt->field_1C_zpos.ToInt()) != AIR)
+                    {
+                        Fix16 unk2_f16 =
+                            gMap_0x370_6F6268->sub_4E4D40(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, pObjSprt->field_1C_zpos);
+                        if (unk2_f16 > pObjSprt->field_1C_zpos)
+                        {
+                            return 0;
+                        }
+                    }
+                }
+                else
+                {
+                    if (unk_f16 > pObjSprt->field_1C_zpos)
+                    {
+                        pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, unk_f16);
+                        return 0;
+                    }
+                }
+            }
+
+            if (pObjSprt->CheckSpriteMovementRegion_5A2500())
+            {
+                return 0;
+            }
+        }
+    }
+    return 1;
 }
 
 MATCH_FUNC(0x4E5B60)
