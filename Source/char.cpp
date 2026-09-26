@@ -2122,7 +2122,6 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
                     }
                 }
 
-            LABEL_136:
                 if (pCar)
                 {
                     field_1C = pCar;
