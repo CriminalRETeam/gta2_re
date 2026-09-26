@@ -3728,26 +3728,14 @@ s32 __stdcall sub_48E780(s32 model)
 }
 
 // TODO: move
-WIP_FUNC(0x45CF90)
+MATCH_FUNC(0x45CF90)
 s32 __stdcall sub_45CF90(Ped* pPed)
 {
-    WIP_IMPLEMENTED;
-
-    if (!pPed)
+    if (pPed && pPed->field_15C_player && pPed->field_15C_player->field_6F4_power_up_timers[7] != 0)
     {
-        return 1;
+        return 2;
     }
-
-    if (!pPed->field_15C_player)
-    {
-        return 1;
-    }
-
-    if (pPed->field_15C_player->field_6F4_power_up_timers[7] == 0)
-    {
-        return 1;
-    }
-    return 2;
+    return 1;
 }
 
 WIP_FUNC(0x43f130)
