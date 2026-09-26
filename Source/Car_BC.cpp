@@ -1242,9 +1242,12 @@ bool Car_BC::sub_4451E0(Ped* pPed)
     WIP_IMPLEMENTED;
 
     Ped* pDriver = this->field_54_driver;
-    return (!pDriver || this->field_84_car_info_idx == car_model_enum::MEDICAR ||
-            pDriver->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1) &&
-        !sub_43B2B0(pPed);
+    if (pDriver && this->field_84_car_info_idx != car_model_enum::MEDICAR &&
+        pDriver->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+    {
+        return false;
+    }
+    return !sub_43B2B0(pPed);
 }
 
 WIP_FUNC(0x445360)
