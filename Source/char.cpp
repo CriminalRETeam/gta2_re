@@ -4256,7 +4256,6 @@ bool Char_B4::CanStepForward_54FEC0(s32 direction)
     WIP_IMPLEMENTED;
 
     bool result;
-    gmp_block_info* block_4DFE10;
 
     Fix16 v16;
     u8 block_type;
