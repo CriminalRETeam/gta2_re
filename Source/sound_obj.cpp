@@ -1596,18 +1596,20 @@ bool sound_obj::IsPoliceOrServiceVehicle_57F090(Car_BC* pCar)
     return false;
 }
 
-WIP_FUNC(0x57F120)
+MATCH_FUNC(0x57F120)
 bool sound_obj::IsTrainOrBoxcar_57F120(Car_BC* pCar)
 {
-    WIP_IMPLEMENTED;
-
     if (!pCar)
     {
         return 0;
     }
 
-    return pCar->field_84_car_info_idx == car_model_enum::boxcar ||
-        pCar->field_84_car_info_idx > car_model_enum::TOWTRUCK && pCar->field_84_car_info_idx <= car_model_enum::TRAINFB;
+    if (pCar->field_84_car_info_idx == car_model_enum::boxcar ||
+        (pCar->field_84_car_info_idx > car_model_enum::TOWTRUCK && pCar->field_84_car_info_idx <= car_model_enum::TRAINFB))
+    {
+        return true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x419EF0)
