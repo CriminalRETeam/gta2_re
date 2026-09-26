@@ -1018,11 +1018,9 @@ Ped* PedManager::sub_470F90(Ped* pSrc)
     return pDst;
 }
 
-WIP_FUNC(0x471060)
-void PedManager::DoIanTest_471060(s16 key)
+MATCH_FUNC(0x471060)
+void PedManager::DoIanTest_471060(u16 key)
 {
-    WIP_IMPLEMENTED;
-
     switch (key)
     {
         case DIK_9:
