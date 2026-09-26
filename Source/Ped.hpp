@@ -546,7 +546,7 @@ class Ped
 
     bool bHasGameObject_403B70()
     {
-        return field_168_game_object;
+        return field_168_game_object != NULL;
     }
 
     inline u8 GetBit11_433CA0()
