@@ -6459,10 +6459,9 @@ bool Char_B4::PhoneTouched_5535B0(Object_2C* p2c)
     }
 }
 
-WIP_FUNC(0x529050)
+MATCH_FUNC(0x529050)
 EXPORT void __stdcall sub_529050(u8 a1, s8* a2, s8* a3)
 {
-    WIP_IMPLEMENTED;
     *a2 = (a1 >> 4) - 7;
     *a3 = (a1 & 0xF) - 7;
 }
