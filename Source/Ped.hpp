@@ -209,6 +209,7 @@ class Ped
     EXPORT void SpawnPedGroupFollowers_46E200(u8 total);
     EXPORT u8 get_wanted_star_count_46EF00();
     EXPORT void set_wanted_level_46EF40(u16 wanted);
+    EXPORT void IncreaseWantedLevelFromDebugKeys_46EFD0();
     EXPORT void set_wanted_star_count_46F070(u8 star_count);
     EXPORT bool WantedStartCountLessThan_46F100(u8 a2);
     EXPORT Weapon_30* GetWeaponFromPed_46F110();

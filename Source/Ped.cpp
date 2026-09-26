@@ -10400,6 +10400,42 @@ void Ped::set_wanted_level_46EF40(u16 wanted)
     }
 }
 
+WIP_FUNC(0x46EFD0)
+void Ped::IncreaseWantedLevelFromDebugKeys_46EFD0()
+{
+    switch (get_wanted_star_count_46EF00())
+    {
+        case 0u:
+            set_wanted_level_46EF40(600u);
+            break;
+        case 1u:
+            set_wanted_level_46EF40(1600u);
+            break;
+        case 2u:
+            set_wanted_level_46EF40(3000u);
+            break;
+        case 3u:
+            set_wanted_level_46EF40(5000u);
+            break;
+        case 4u:
+            set_wanted_level_46EF40(8000u);
+            break;
+        case 5u:
+            set_wanted_level_46EF40(12000u);
+            break;
+        case 6u:
+            set_wanted_level_46EF40(0);
+            break;
+        default:
+            break;
+    }
+
+    if (get_wanted_star_count_46EF00() > gPolice_7B8_6FEE40->field_660_wanted_star_count)
+    {
+        set_wanted_star_count_46F070(gPolice_7B8_6FEE40->field_660_wanted_star_count);
+    }
+}
+
 MATCH_FUNC(0x46f070)
 void Ped::set_wanted_star_count_46F070(u8 star_count)
 {
