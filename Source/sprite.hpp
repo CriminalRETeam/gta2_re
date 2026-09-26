@@ -61,7 +61,7 @@ class Sprite_4C
         field_0_width = w;
         field_4_height = h;
 
-        field_8 = Fix16(0);
+        field_8_depth = Fix16(0);
     }
 
     void set_wh_4BA030(Fix16 w, Fix16 h)
@@ -79,7 +79,7 @@ class Sprite_4C
     {
         *pOut = this->field_0_width;
         *pOutH = this->field_4_height;
-        *pOutF8 = this->field_8;
+        *pOutF8 = this->field_8_depth;
     }
 
     Fix16 GetW_420590()
@@ -94,7 +94,7 @@ class Sprite_4C
 
     Fix16 GetF8_492170()
     {
-        return field_8;
+        return field_8_depth;
     }
 
     bool ReduceWidthBy_4BA120(Fix16 a2)
@@ -117,7 +117,7 @@ class Sprite_4C
     {
         this->field_0_width = a2->field_0_width;
         this->field_4_height = a2->field_4_height;
-        this->field_8 = a2->field_8;
+        this->field_8_depth = a2->field_8_depth;
     }
 
     bool ReduceHeightBy_4BA160(Fix16 a2)
@@ -164,7 +164,7 @@ class Sprite_4C
 
     Fix16 field_0_width;
     Fix16 field_4_height;
-    Fix16 field_8;
+    Fix16 field_8_depth;
     Fix16_Point field_C_renderingRect[4];
     Sprite_4C* mpNext;
     Fix16_Rect field_30_boundingBox;

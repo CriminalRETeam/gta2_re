@@ -919,7 +919,7 @@ void Sprite::AllocInternal_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
     Sprite_4C* pSprite4C = field_C_sprite_4c_ptr;
     pSprite4C->field_0_width = a2;
     pSprite4C->field_4_height = a3;
-    pSprite4C->field_8 = a4;
+    pSprite4C->field_8_depth = a4;
 }
 
 MATCH_FUNC(0x59f990)
@@ -1726,8 +1726,8 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
     Sprite_4C* p4C = field_C_sprite_4c_ptr;
-    Fix16 v6 = field_1C_zpos - (p4C->field_8 / 2);
-    Fix16 v7 = field_1C_zpos + (p4C->field_8 / 2);
+    Fix16 v6 = field_1C_zpos - (p4C->field_8_depth / 2);
+    Fix16 v7 = field_1C_zpos + (p4C->field_8_depth / 2);
 
     if (v7 > k_dword_7033C0)
     {
@@ -1870,7 +1870,7 @@ char_type Sprite::sub_5A21F0()
 {
     WIP_IMPLEMENTED;
 
-    Fix16 z_4c = this->field_C_sprite_4c_ptr->field_8; // which union type ??
+    Fix16 z_4c = this->field_C_sprite_4c_ptr->field_8_depth; // which union type ??
     Fix16 zToUse = this->field_1C_zpos + z_4c / 2;
     if (zToUse > k_dword_7033C0)
     {
@@ -2424,7 +2424,7 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
     WIP_IMPLEMENTED;
     Fix16 width_over_2 = field_0_width / 2;
     Fix16 height_over_2 = field_4_height / 2;
-    Fix16 unk_over_2 = field_8 / 2;
+    Fix16 unk_over_2 = field_8_depth / 2;
 
     Fix16_Point point = Fix16_Point(xpos, ypos);
 

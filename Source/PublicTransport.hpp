@@ -91,7 +91,7 @@ class PublicTransport_181C
     EXPORT void SpawnTrainsFromStations_578860();
     EXPORT void InitStationsLinkedList_5793E0();
     EXPORT void InitTrainStations_579440();
-    EXPORT gmp_map_zone* SetupTrainAndBusStops_5794B0();
+    EXPORT void SetupTrainAndBusStops_5794B0();
     EXPORT TrainStation_34* GetBusStopOnScreen_5799B0();
     EXPORT void sub_579A30(Car_BC* a2);
     EXPORT bool is_bus_579AA0(Car_BC* pCar);

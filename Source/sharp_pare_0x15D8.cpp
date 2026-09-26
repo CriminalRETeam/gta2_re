@@ -79,7 +79,7 @@ s16 sharp_pare_0x15D8::RegisterDigits_5B9220(u16 num_of_digits, u16 palette)
     return og_idx;
 }
 
-STUB_FUNC(0x5B92E0)
+WIP_FUNC(0x5B92E0)
 void sharp_pare_0x15D8::ReadTextures_5B92E0()
 {
     if (gGtx_0x106C_703DD4->has_tiles_4C2EE0())
@@ -88,7 +88,7 @@ void sharp_pare_0x15D8::ReadTextures_5B92E0()
         STexture** p = field_0_textures1;
         for (u16 i = 0; i < GTA2_COUNTOF(field_0_textures1); i++, p++)
         {
-            if (i > 992)
+            if (i > 992) // avoid original bug crashing standalone
             {
                 return;
             }

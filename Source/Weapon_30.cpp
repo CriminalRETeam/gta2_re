@@ -948,7 +948,7 @@ void Weapon_30::car_mine_5E2550()
 
     Fix16_Point x_y_443580 = Sprite_440840->get_x_y_443580() + p;
 
-    Fix16 v13 = Sprite_440840->field_C_sprite_4c_ptr->field_8;
+    Fix16 v13 = Sprite_440840->field_C_sprite_4c_ptr->field_8_depth;
     Fix16 v14 = Sprite_440840->field_1C_zpos + v13 / 2;
     if (v14 >= k_dword_706EDC)
     {

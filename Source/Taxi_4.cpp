@@ -28,49 +28,28 @@ void Taxi_4::PopAll_457BC0()
     this->field_0 = 0;
 }
 
-// https://decomp.me/scratch/7fYdj
-STUB_FUNC(0x457bf0)
+// https://decomp.me/scratch/tPr1q
+WIP_FUNC(0x457bf0)
 Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
 {
-    NOT_IMPLEMENTED;
-
-    Car_BC* pCarRet = 0;
+    WIP_IMPLEMENTED;
+    Taxi_8* pIter = field_0;
     Fix16 smallest(99999);
+    Car_BC* pCarRet;
 
-    for (Taxi_8* pIter = field_0; pIter; pIter = pIter->mpNext)
+    for (pCarRet = NULL; pIter; pIter = pIter->mpNext)
     {
-        Sprite* pCarSprite = pIter->field_0->field_50_car_sprite;
-
-        Fix16 yd = pCarSprite->field_14_xy.y - ypos;
-        Fix16 xd = pCarSprite->field_14_xy.x - xpos;
-
-        //v14 = xDelta;
-
-        if (yd <= 0)
+        Car_BC* pCurrCar = pIter->field_0;
+        Fix16 distance = Fix16::MaxAbsDistance_42A6B0(xpos,
+                                                      ypos,
+                                                      pIter->field_0->field_50_car_sprite->field_14_xy.x,
+                                                      pIter->field_0->field_50_car_sprite->field_14_xy.y);
+        if (distance < smallest)
         {
-            yd = -yd; //  Fix16::Negate_4086A0 inlined ?
-        }
-
-        // ypos = yDelta;
-        if (xd <= 0)
-        {
-            xd = -xd;
-        }
-        //else
-        {
-            //  xpos = xDelta;
-        }
-
-        //current = *Fix16::Max_44E540(&v15, &xpos, &ypos);
-
-        Fix16 current = Fix16::Max_44E540(xd, yd);
-
-        if (current < smallest)
-        {
-            pCarRet = pIter->field_0;
-            if (pIter->field_0->field_88_despawn_status != 5)
+            pCarRet = pCurrCar;
+            if (!pCurrCar->IsDespawning_4215B0())
             {
-                smallest = current;
+                smallest = distance;
             }
         }
     }

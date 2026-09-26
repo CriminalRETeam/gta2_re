@@ -196,7 +196,7 @@ void Montana::ResetAll_4954F0()
 
 // TODO: move
 // https://decomp.me/scratch/qe97a
-STUB_FUNC(0x5BEE90)
+WIP_FUNC(0x5BEE90)
 EXPORT unsigned __int64 get_rdtsc_5BEE90()
 {
     // NOTE: Actually is inline assembly, surprisingly

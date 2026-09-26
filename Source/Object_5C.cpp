@@ -3408,7 +3408,7 @@ Object_2C* Object_5C::GetDirectionalObject_5298E0(s32 maybe_slope)
 }
 
 MATCH_FUNC(0x529950)
-Object_2C* Object_5C::NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 a9)
+Object_2C* Object_5C::NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth)
 {
     Object_2C* pNewObj = New_529C00(object_type, x, y, z, rot, 0);
     if (pNewObj)
@@ -3417,7 +3417,7 @@ Object_2C* Object_5C::NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fi
         Sprite_4C* sprite_4c_ptr = pSprite->field_C_sprite_4c_ptr;
         sprite_4c_ptr->field_0_width = w;
         sprite_4c_ptr->field_4_height = h;
-        sprite_4c_ptr->field_8 = a9;
+        sprite_4c_ptr->field_8_depth = depth;
         pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
         pNewObj->AssignToBucket_527AE0();
     }
