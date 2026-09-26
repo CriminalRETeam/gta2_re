@@ -562,25 +562,21 @@ s8 Game_0x40::ExecuteGame_4B9640()
 }
 
 // TODO: Werid function chunk stuff
-WIP_FUNC(0x4B9700)
-void Game_0x40::TogglePause_4B9700()
+WIP_FUNC(0x4B96B0)
+void Game_0x40::Pause_4B96B0()
 {
-    WIP_IMPLEMENTED;
-
-    // Running?
-    if (field_0_game_state == GameState::Running_1)
+    // Singleplayer or playing alone on multiplayer?
+    if (field_23_num_players == 1)
     {
-        // Singleplayer or playing alone on multiplayer?
-        if (field_23_num_players == 1)
-        {
-            // Then pause
-            field_0_game_state = GameState::Paused_2;
-        }
+        field_0_game_state = GameState::Paused_2;
     }
-    // Not running and single player?
-    else if (field_23_num_players == 1)
+}
+
+WIP_FUNC(0x4B96C0)
+void Game_0x40::Unpause_4B96C0()
+{
+    if (field_23_num_players == 1)
     {
-        // Go pause
         field_0_game_state = GameState::Running_1;
 
         if (gBurgerKing_1_67B990)
@@ -595,6 +591,19 @@ void Game_0x40::TogglePause_4B9700()
             field_38_orf1->ClearInputs_56A6D0();
             gBurgerKing_67F8B0.field_4_input_bits &= ~0xFFFu;
         }
+    }
+}
+
+MATCH_FUNC(0x4B9700)
+void Game_0x40::TogglePause_4B9700()
+{
+    if (field_0_game_state == GameState::Running_1)
+    {
+        Pause_4B96B0();
+    }
+    else
+    {
+        Unpause_4B96C0();
     }
 }
 
