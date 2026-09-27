@@ -1055,11 +1055,48 @@ void PoliceCrew_38::Service_575590()
     }
 }
 
-STUB_FUNC(0x575650)
-s32 PoliceCrew_38::sub_575650()
+// TODO: logic matches, but the original keeps field_75_count in bl and i in cl
+WIP_FUNC(0x575650)
+void PoliceCrew_38::sub_575650()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Police_7C* pService = field_14_pService;
+    if (pService)
+    {
+        for (u8 i = 0; i < pService->field_75_count; i++)
+        {
+            if (this == pService->field_20_crews[i])
+            {
+                if (i == pService->field_75_count - 1)
+                {
+                    pService->field_20_crews[i] = NULL;
+                }
+                else
+                {
+                    pService->field_20_crews[i] = pService->field_20_crews[pService->field_75_count - 1];
+                }
+                pService->field_20_crews[pService->field_75_count - 1] = NULL;
+                pService->field_75_count--;
+
+                switch (field_10_subObj->field_20_maybe_type)
+                {
+                    case crew_type::police_3:
+                        --field_14_pService->field_70_num_police_crews;
+                        break;
+                    case crew_type::swat_5:
+                        --field_14_pService->field_72_num_swat_crews;
+                        break;
+                    case crew_type::fbi_4:
+                        --field_14_pService->field_73_num_fbi_crews;
+                        break;
+                    case crew_type::army_6:
+                        --field_14_pService->field_74_num_army_crews;
+                        break;
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x575710)
