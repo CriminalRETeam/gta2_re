@@ -2242,7 +2242,7 @@ MATCH_FUNC(0x4E4630)
 char_type Map_0x370::sub_4E4630(Fix16 zpos_f16)
 {
     s32 zpos = zpos_f16.ToInt();
-    bool bUnk = zpos_f16.GetFracValue() != dword_6F610C;
+    bool bUnk = !!(zpos_f16.GetFracValue() != dword_6F610C);
     char_type v12 = 0;
 
     for (s32 ypos = gPurple_top_6F6108; ypos <= gPurple_bottom_6F5F38; ypos++)

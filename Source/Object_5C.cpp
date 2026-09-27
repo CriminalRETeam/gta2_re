@@ -2572,11 +2572,9 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
     }
 }
 
-WIP_FUNC(0x528E00)
+MATCH_FUNC(0x528E00)
 s32 __stdcall Object_2C::sub_528E00(s32 a1)
 {
-    WIP_IMPLEMENTED;
-
     int result; // eax
 
     switch (a1)
@@ -2584,14 +2582,14 @@ s32 __stdcall Object_2C::sub_528E00(s32 a1)
         case 0:
             result = 18;
             break;
+        case 4:
+            result = 25;
+            break;
         case 1:
             result = 23;
             break;
         case 2:
             result = 22;
-            break;
-        case 4:
-            result = 25;
             break;
         default:
             result = 24;

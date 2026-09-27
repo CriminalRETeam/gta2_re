@@ -638,10 +638,9 @@ void NetPlay::Set3_Disconnect_520E80(s32 a2, s32 a3)
     this->field_4C_func_ptrs_and_params[1].field_8_fn_type = 1;
 }
 
-STUB_FUNC(0x520ea0)
+MATCH_FUNC(0x520ea0)
 void NetPlay::NoRefs_null_520EA0()
 {
-    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x520eb0)

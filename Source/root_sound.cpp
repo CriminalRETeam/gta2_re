@@ -37,7 +37,7 @@ char_type root_sound::LoadStyle_40EFF0(const char_type* pStyleName)
     return gSound_obj_66F680.LoadStyle_41A1B0(pStyleName);
 }
 
-WIP_FUNC(0x40F010)
+MATCH_FUNC(0x40F010)
 void root_sound::sub_40F010()
 {
     gSound_obj_66F680.InitMusicAndCopRadio_57E960();

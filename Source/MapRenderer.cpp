@@ -264,8 +264,8 @@ void MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
 }
 
 // this function matches, but some "fcomps" offsets are wrong
-WIP_FUNC(0x4E9EE0)
-void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8& colour)
+MATCH_FUNC(0x4E9EE0)
+void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8 colour)
 {
     u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(word_side & 0x3FF);
     if (texture_idx)
@@ -313,7 +313,7 @@ void MapRenderer::ambient_light_tick_4E9EA0()
 }
 
 // this function matches, but some "fcomps" offsets are wrong
-WIP_FUNC(0x4EA190)
+MATCH_FUNC(0x4EA190)
 void MapRenderer::draw_4EA190(u16& rotation_and_flip) 
 {
     s32 vert_idx;
@@ -597,7 +597,7 @@ void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, F
 }
 
 // This function matches, but the offsets of dword_6F628C and dword_6F656C are wrong
-WIP_FUNC(0x4eae00)
+MATCH_FUNC(0x4eae00)
 void MapRenderer::sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, dword_6F62B0, pVert);
@@ -607,8 +607,7 @@ void MapRenderer::sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
     pVert->z = dword_6F656C.ToFloat();
 }
 
-// This function matches, but the offsets of dword_6F633C and dword_6F6318 are wrong
-WIP_FUNC(0x4eaea0)
+MATCH_FUNC(0x4eaea0)
 void MapRenderer::sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xCoord, yCoord, gZCoord_6F63E0, pVert);
@@ -2523,7 +2522,7 @@ void MapRenderer::draw_lid_4F4D60(Fix16& unk1, Fix16& unk2, Fix16& unk3, Fix16& 
     }
 }
 
-WIP_FUNC(0x4f6580)
+MATCH_FUNC(0x4f6580)
 void MapRenderer::DrawPartialBlocks_4F6580()
 {
     u8 slope_byte = gpBlock_6F6478->field_B_slope_type;

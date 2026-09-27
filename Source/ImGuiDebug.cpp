@@ -858,7 +858,7 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
 // Transform char[][] into char* array
 char* flat_char_array(char* pArray, u16 num_itens)
 {
-    char flattened_arr[25600];
+    static char flattened_arr[25600];
     u16 flat_idx = 0;
     for (u16 i = 0; i < num_itens; i++)
     {

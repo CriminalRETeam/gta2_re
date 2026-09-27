@@ -1858,7 +1858,7 @@ bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
             }
             pPickUp->Dealloc_5291B0();
         }
-        return bCollected;
+        return bCollected != 0;
     }
 }
 
@@ -5406,7 +5406,6 @@ void Ped::Threat_Reaction_AI_465270()
                             LABEL_82:
                                 field_21C_bf.b2 = false;
                             }
-                        LABEL_83:
                             if ((field_288_threat_search == threat_search_enum::line_of_sight_1 ||
                                  field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
                                  field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
@@ -5893,7 +5892,6 @@ WIP_FUNC(0x4661F0)
 char_type Ped::IsThreatToSearchingPed_4661F0()
 {
     WIP_IMPLEMENTED;
-    u8 bUnk;
     Ang16 angle_1;
     Ang16 angle_2;
     switch (byte_6787D7)
@@ -10835,6 +10833,42 @@ void Ped::set_wanted_level_46EF40(u16 wanted)
         case 12000u:
             field_20A_wanted_points = 12000;
             break;
+    }
+}
+
+WIP_FUNC(0x46EFD0)
+void Ped::IncreaseWantedLevelFromDebugKeys_46EFD0()
+{
+    switch (get_wanted_star_count_46EF00())
+    {
+        case 0u:
+            set_wanted_level_46EF40(600u);
+            break;
+        case 1u:
+            set_wanted_level_46EF40(1600u);
+            break;
+        case 2u:
+            set_wanted_level_46EF40(3000u);
+            break;
+        case 3u:
+            set_wanted_level_46EF40(5000u);
+            break;
+        case 4u:
+            set_wanted_level_46EF40(8000u);
+            break;
+        case 5u:
+            set_wanted_level_46EF40(12000u);
+            break;
+        case 6u:
+            set_wanted_level_46EF40(0);
+            break;
+        default:
+            break;
+    }
+
+    if (get_wanted_star_count_46EF00() > gPolice_7B8_6FEE40->field_660_wanted_star_count)
+    {
+        set_wanted_star_count_46F070(gPolice_7B8_6FEE40->field_660_wanted_star_count);
     }
 }
 

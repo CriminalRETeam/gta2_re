@@ -1231,7 +1231,7 @@ bool Car_6C::CanAllocateOfType_446930(s32 type)
 {
     WIP_IMPLEMENTED;
 
-    BOOL bCanAlloc; // eax
+    bool bCanAlloc; // eax
 
     switch (type)
     {
@@ -1412,9 +1412,12 @@ bool Car_BC::sub_4451E0(Ped* pPed)
     WIP_IMPLEMENTED;
 
     Ped* pDriver = this->field_54_driver;
-    return (!pDriver || this->field_84_car_info_idx == car_model_enum::MEDICAR ||
-            pDriver->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1) &&
-        !sub_43B2B0(pPed);
+    if (pDriver && this->field_84_car_info_idx != car_model_enum::MEDICAR &&
+        pDriver->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+    {
+        return false;
+    }
+    return !sub_43B2B0(pPed);
 }
 
 WIP_FUNC(0x445360)
@@ -3736,15 +3739,12 @@ Car_BC* Car_BC::GetCabOrSelf_43E8D0()
     return this;
 }
 
-WIP_FUNC(0x43e990)
+MATCH_FUNC(0x43e990)
 Ped* Car_BC::GetEffectiveDriver_43E990()
 {
-    WIP_IMPLEMENTED;
-
     if (is_on_trailer_421720())
     {
-        // TODO: Function chunk here
-        return field_64_pTrailer->field_8_truck_cab->field_54_driver;
+        return field_64_pTrailer->GetTruckCabDriver_407B80();
     }
     else
     {
@@ -3815,11 +3815,9 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
 }
 
 // TODO: move
-WIP_FUNC(0x48E720);
+MATCH_FUNC(0x48E720)
 char_type __stdcall sub_48E720(s32 model)
 {
-    WIP_IMPLEMENTED;
-
     char_type result;
     switch (model)
     {
@@ -3903,26 +3901,14 @@ s32 __stdcall sub_48E780(s32 model)
 }
 
 // TODO: move
-WIP_FUNC(0x45CF90)
+MATCH_FUNC(0x45CF90)
 s32 __stdcall sub_45CF90(Ped* pPed)
 {
-    WIP_IMPLEMENTED;
-
-    if (!pPed)
+    if (pPed && pPed->field_15C_player && pPed->field_15C_player->field_6F4_power_up_timers[7] != 0)
     {
-        return 1;
+        return 2;
     }
-
-    if (!pPed->field_15C_player)
-    {
-        return 1;
-    }
-
-    if (pPed->field_15C_player->field_6F4_power_up_timers[7] == 0)
-    {
-        return 1;
-    }
-    return 2;
+    return 1;
 }
 
 WIP_FUNC(0x43f130)
@@ -4106,18 +4092,16 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
     return 1;
 }
 
-WIP_FUNC(0x440510)
+MATCH_FUNC(0x440510)
 Fix16 Car_BC::sub_440510()
 {
-    WIP_IMPLEMENTED;
-
-    if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->h > 64u)
+    if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->h <= 64u)
     {
-        return k_dword_676984 * GetCarLinearSpeed_43A240();
+        return k_dword_6778B4 * GetCarLinearSpeed_43A240();
     }
     else
     {
-        return k_dword_6778B4 * GetCarLinearSpeed_43A240();
+        return k_dword_676984 * GetCarLinearSpeed_43A240();
     }
 }
 
@@ -5468,13 +5452,11 @@ void Car_BC::sub_4426D0()
     }
 }
 
-WIP_FUNC(0x442760)
+MATCH_FUNC(0x442760)
 void Car_BC::DetachTrailer_442760()
 {
-    WIP_IMPLEMENTED;
-
     Trailer* p = field_64_pTrailer;
-    gCar_BC_Pool_67792C->field_0_pool.Remove_NoDeAllocate(field_64_pTrailer->field_C_pCarOnTrailer);
+    gCar_BC_Pool_67792C->field_0_pool.UpdateNextPrev(field_64_pTrailer->field_C_pCarOnTrailer);
     field_64_pTrailer->field_C_pCarOnTrailer->field_64_pTrailer = 0;
     field_64_pTrailer->field_8_truck_cab->field_64_pTrailer = 0;
     gTrailerPool_66AC80->field_0_pool.DeAllocate(p);
@@ -6560,6 +6542,12 @@ bool Car_BC::sub_564300()
     return false;
 }
 
+MATCH_FUNC(0x407B80)
+Ped* Trailer::GetTruckCabDriver_407B80()
+{
+    return field_8_truck_cab->field_54_driver;
+}
+
 MATCH_FUNC(0x407b90)
 Car_BC* Trailer::GetCabOrLoadedCar_407B90(Car_BC* a2)
 {
@@ -6831,7 +6819,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
         this->field_A = 1;
 
         u8 rng_int = stru_6F6784.get_uint8_4F7B70(5);
-        bool maybe_vel = field_0_cam->ReturnOwnerVelocity_435A20() > dword_6FF580;
+        bool maybe_vel = !!(field_0_cam->ReturnOwnerVelocity_435A20() > dword_6FF580);
 
         switch (rng_int)
         {

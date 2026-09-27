@@ -523,13 +523,9 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
     WIP_IMPLEMENTED;
 
     Orca_8* v23; // eax
-    Orca_8* v24; // edx
     Orca_8* v40; // ecx
     char field_2_xpos; // dl
     char field_4_zpos; // al
-    u8 v44; // al
-    u8 v45; // al
-    Orca_8* pNext; // edi
     u8 yCoorda;
 
     Marz_3* pPatrolPoint_2;

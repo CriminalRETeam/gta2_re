@@ -1596,18 +1596,20 @@ bool sound_obj::IsPoliceOrServiceVehicle_57F090(Car_BC* pCar)
     return false;
 }
 
-WIP_FUNC(0x57F120)
+MATCH_FUNC(0x57F120)
 bool sound_obj::IsTrainOrBoxcar_57F120(Car_BC* pCar)
 {
-    WIP_IMPLEMENTED;
-
     if (!pCar)
     {
         return 0;
     }
 
-    return pCar->field_84_car_info_idx == car_model_enum::boxcar ||
-        pCar->field_84_car_info_idx > car_model_enum::TOWTRUCK && pCar->field_84_car_info_idx <= car_model_enum::TRAINFB;
+    if (pCar->field_84_car_info_idx == car_model_enum::boxcar ||
+        (pCar->field_84_car_info_idx > car_model_enum::TOWTRUCK && pCar->field_84_car_info_idx <= car_model_enum::TRAINFB))
+    {
+        return true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x419EF0)
@@ -2907,28 +2909,21 @@ s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrB
     return result;
 }
 
-WIP_FUNC(0x417AC0)
+MATCH_FUNC(0x417AC0)
 s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
 {
-    WIP_IMPLEMENTED;
-
     s32 result;
 
     switch (car_model)
     {
-        case car_model_enum::allard:
-        case car_model_enum::bmw:
-        case car_model_enum::COPCAR:
-        case car_model_enum::EDSEL:
-        case car_model_enum::JEFFREY:
-        case car_model_enum::STINGRAY:
-        case car_model_enum::STRIPETB:
-        case car_model_enum::T2000GT:
-        case car_model_enum::TBIRD:
-        case car_model_enum::WBTWIN:
-        case car_model_enum::ZCX5:
-        case car_model_enum::EDSELFBI:
-            result = 6;
+        case car_model_enum::bug:
+        case car_model_enum::DART:
+        case car_model_enum::FIAT:
+        case car_model_enum::ISETTA:
+        case car_model_enum::MESSER:
+        case car_model_enum::MORRIS:
+        case car_model_enum::STYPECAB:
+            result = 4;
             break;
 
         case car_model_enum::amdb4:
@@ -2946,17 +2941,19 @@ s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
             result = 5;
             break;
 
-        case car_model_enum::apc:
-        case car_model_enum::boxtruck:
-        case car_model_enum::BUS:
-        case car_model_enum::FIRETRUK:
-        case car_model_enum::GTRUCK:
-        case car_model_enum::MONSTER:
-        case car_model_enum::TANK:
-        case car_model_enum::TRUKCAB1:
-        case car_model_enum::TRUKCAB2:
-        case car_model_enum::KRSNABUS:
-            result = 8;
+        case car_model_enum::allard:
+        case car_model_enum::bmw:
+        case car_model_enum::COPCAR:
+        case car_model_enum::EDSEL:
+        case car_model_enum::JEFFREY:
+        case car_model_enum::STINGRAY:
+        case car_model_enum::STRIPETB:
+        case car_model_enum::T2000GT:
+        case car_model_enum::TBIRD:
+        case car_model_enum::WBTWIN:
+        case car_model_enum::ZCX5:
+        case car_model_enum::EDSELFBI:
+            result = 6;
             break;
 
         case car_model_enum::bank_van:
@@ -2974,14 +2971,17 @@ s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
             result = 7;
             break;
 
-        case car_model_enum::bug:
-        case car_model_enum::DART:
-        case car_model_enum::FIAT:
-        case car_model_enum::ISETTA:
-        case car_model_enum::MESSER:
-        case car_model_enum::MORRIS:
-        case car_model_enum::STYPECAB:
-            result = 4;
+        case car_model_enum::apc:
+        case car_model_enum::boxtruck:
+        case car_model_enum::BUS:
+        case car_model_enum::FIRETRUK:
+        case car_model_enum::GTRUCK:
+        case car_model_enum::MONSTER:
+        case car_model_enum::TANK:
+        case car_model_enum::TRUKCAB1:
+        case car_model_enum::TRUKCAB2:
+        case car_model_enum::KRSNABUS:
+            result = 8;
             break;
 
         default:
@@ -2991,26 +2991,14 @@ s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
     return result;
 }
 
-WIP_FUNC(0x417B80)
+MATCH_FUNC(0x417B80)
 s32 sound_obj::sub_417B80(s32 car_model, bool bHornOn)
 {
-    WIP_IMPLEMENTED;
-
-    if (car_model == car_model_enum::FIRETRUK)
+    if (car_model != car_model_enum::FIRETRUK)
     {
-        return 14;
+        return (bHornOn != 0) + 14;
     }
-    else
-    {
-        if (bHornOn)
-        {
-            return 15;
-        }
-        else
-        {
-            return 14;
-        }
-    }
+    return 14;
 }
 
 MATCH_FUNC(0x417A00)
@@ -3335,7 +3323,6 @@ void sound_obj::EnqueueRadioLocationPhrase_426E10(u8 xpos, u8 ypos)
     if (ypos < mid_y - h_half)
     {
         sound_obj::EnqueueRadioWord_4271B0(0x73u);
-    LABEL_8:
         bUnknown = 1;
         goto LABEL_9;
     }
@@ -3385,11 +3372,9 @@ char_type sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
     return 0;
 }
 
-WIP_FUNC(0x426F20)
+MATCH_FUNC(0x426F20)
 void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* pCar)
 {
-    WIP_IMPLEMENTED;
-
     u32 car_name_word;
     u32 car_colour_word;
 
@@ -3413,7 +3398,6 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* pCar)
         const s32 car_info_idx = pCar->field_84_car_info_idx;
         if (this->field_5574_car_info_idx != car_info_idx || word_6757FC != (u16)pCar->field_50_car_sprite->field_24_remap)
         {
-            // TODO: Switch base is wrong, fix that and then this func matches
             this->field_5574_car_info_idx = car_info_idx;
             switch (car_info_idx)
             {
@@ -3464,6 +3448,10 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* pCar)
                 case car_model_enum::ZCX5:
                     car_name_word = 113;
                     break;
+                case car_model_enum::none:
+                    // Dead store, but it keeps 'none' as its own entry in the switch table as in the original
+                    car_name_word = 111;
+                    return;
                 default:
                     return;
             }
@@ -3570,13 +3558,21 @@ u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone)
     return 0;
 }
 
-WIP_FUNC(0x417BA0)
+MATCH_FUNC(0x417BA0)
 s32 sound_obj::GetVehicleAudioClass_417BA0(s32 car_model)
 {
-    WIP_IMPLEMENTED;
     s32 result;
     switch (car_model)
     {
+        case car_model_enum::bug:
+        case car_model_enum::DART:
+        case car_model_enum::FIAT:
+        case car_model_enum::ISETTA:
+        case car_model_enum::MESSER:
+        case car_model_enum::MORRIS:
+            result = 17;
+            break;
+
         case car_model_enum::allard:
         case car_model_enum::amdb4:
         case car_model_enum::bmw:
@@ -3607,21 +3603,12 @@ s32 sound_obj::GetVehicleAudioClass_417BA0(s32 car_model)
             result = 19;
             break;
 
-        case car_model_enum::bug:
-        case car_model_enum::DART:
-        case car_model_enum::FIAT:
-        case car_model_enum::ISETTA:
-        case car_model_enum::MESSER:
-        case car_model_enum::MORRIS:
-            result = 17;
+        case car_model_enum::TRAINCAB:
+            result = 20;
             break;
 
         case car_model_enum::ICECREAM:
             result = 23;
-            break;
-
-        case car_model_enum::TRAINCAB:
-            result = 20;
             break;
 
         default:
@@ -4762,12 +4749,10 @@ void sound_obj::ProcessTrain_413BE0(Sound_Params_8* a2)
 }
 
 // TODO: Likely a method of sound_obj
-WIP_FUNC(0x4236C0)
+MATCH_FUNC(0x4236C0)
 EXPORT bool Cooldown_4236C0()
 {
-    WIP_IMPLEMENTED;
-
-    if (byte_67554D)
+    if (byte_67554D > 0)
     {
         --byte_67554D;
         return 0;

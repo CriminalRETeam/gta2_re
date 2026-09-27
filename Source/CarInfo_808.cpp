@@ -156,7 +156,6 @@ s32 __stdcall sub_430C70(char_type* pStr)
     s32 v9;
     Fix16 fix16_num;
     s32 v11;
-    s16 v8s;
     s16 tmp;
 
     char_type* pCurr = pStr;

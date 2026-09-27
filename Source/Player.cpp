@@ -52,6 +52,7 @@ struct UnknownDebugClass
     EXPORT bool DoBrianTest_42D870(u16 action);
 };
 DEFINE_GLOBAL(UnknownDebugClass*, dword_7044A0, 0x7044A0);
+DEFINE_GLOBAL(UnknownDebugClass*, dword_675F74, 0x675F74);
 
 STUB_FUNC(0x5B2640)
 bool UnknownDebugClass::DoTest_5B2640(u16 action)
@@ -902,53 +903,17 @@ void Player::IncrementGangRespectFromDebugKeys_565770(u8 count)
     }
 }
 
-WIP_FUNC(0x565860)
+MATCH_FUNC(0x565860)
 void Player::IncreaseWantedLevelFromDebugKeys_565860()
 {
-    WIP_IMPLEMENTED;
-
-    // TODO: This function just calls another - split them
-    Ped* pPed = this->field_2C4_player_ped;
-    switch (pPed->get_wanted_star_count_46EF00())
-    {
-        case 0u:
-            pPed->set_wanted_level_46EF40(600u);
-            break;
-        case 1u:
-            pPed->set_wanted_level_46EF40(1600u);
-            break;
-        case 2u:
-            pPed->set_wanted_level_46EF40(3000u);
-            break;
-        case 3u:
-            pPed->set_wanted_level_46EF40(5000u);
-            break;
-        case 4u:
-            pPed->set_wanted_level_46EF40(8000u);
-            break;
-        case 5u:
-            pPed->set_wanted_level_46EF40(12000u);
-            break;
-        case 6u:
-            pPed->set_wanted_level_46EF40(0);
-            break;
-        default:
-            break;
-    }
-
-    if (pPed->get_wanted_star_count_46EF00() > gPolice_7B8_6FEE40->field_660_wanted_star_count)
-    {
-        pPed->set_wanted_star_count_46F070(gPolice_7B8_6FEE40->field_660_wanted_star_count);
-    }
+    field_2C4_player_ped->IncreaseWantedLevelFromDebugKeys_46EFD0();
 }
 
 // https://decomp.me/scratch/jvjpT
 // pre processor bugged, should match ??
-WIP_FUNC(0x565890)
+MATCH_FUNC(0x565890)
 void Player::Hud_Controls_565890(u16 action)
 {
-    WIP_IMPLEMENTED;
-
     s32 vol;
 
     if (!gHud_2B00_706620->IsBusy_5D6C20(action, this))
@@ -1219,7 +1184,7 @@ void Player::Hud_Controls_565890(u16 action)
                 }
                 if (bDo_brian_test_67D544)
                 {
-                    dword_7044A0->DoBrianTest_42D870(action);
+                    dword_675F74->DoBrianTest_42D870(action);
                 }
                 else if (bDo_iain_test_67D4E9)
                 {
@@ -3046,7 +3011,7 @@ void Player::ClearInputs_56A6D0()
 }
 
 // https://decomp.me/scratch/OMzHk early %ecx load
-WIP_FUNC(0x56A740)
+MATCH_FUNC(0x56A740)
 Player::Player(u8 player_idx)
 {
     field_794_is_chatting = 0;

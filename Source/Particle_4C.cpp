@@ -522,7 +522,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 }
 
 WIP_FUNC(0x53d260)
-bool Particle_4C::PoolUpdate()
+char_type Particle_4C::PoolUpdate()
 {
     WIP_IMPLEMENTED;
 

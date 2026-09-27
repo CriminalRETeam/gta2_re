@@ -117,12 +117,10 @@ static inline Fix16 __stdcall sub_4B9C20(s32& a2)
     }
 }
 
-WIP_FUNC(0x5A5AA0)
+MATCH_FUNC(0x5A5AA0)
 EXPORT void __stdcall ProjectOntoAxis_5A5AA0(Fix16& xpos1, Fix16& ypos1, Ang16& angle, Fix16& xpos2, Fix16& ypos2, Fix16& outX, Fix16& outY)
 {
-    WIP_IMPLEMENTED;
-
-    outX = (Ang16::sine_40F500(angle) * (ypos1 - ypos2)) + (Ang16::cosine_40F520(angle) * (xpos1 - xpos2));
+    outX = (Ang16::cosine_40F520(angle) * (xpos1 - xpos2)) + (Ang16::sine_40F500(angle) * (ypos1 - ypos2));
     outY = (Ang16::sine_40F500(angle) * (xpos2 - xpos1)) + (Ang16::cosine_40F520(angle) * (ypos1 - ypos2));
 }
 

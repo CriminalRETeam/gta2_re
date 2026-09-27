@@ -53,10 +53,9 @@ Ang16 Fix16_Point::atan2_40ACD0()
     return Fix16::atan2_fixed_405320(y, x);
 }
 
-WIP_FUNC(0x5605E0)
+MATCH_FUNC(0x5605E0)
 Fix16_Point Fix16_Point::Rotate90CCW_5605E0()
 {
-    WIP_IMPLEMENTED;
     // TODO: Mov instruction is encoded wrongly ??
     return Fix16_Point(-y, x);
 }

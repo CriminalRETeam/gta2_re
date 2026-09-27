@@ -1,3 +1,6 @@
+// Built with /GX- (see cmake/vc6.cmake) to match, the STL headers pulled in warn about that
+#pragma warning(disable : 4530)
+
 #include "sharp_bose_0x54.hpp"
 #include "Function.hpp"
 #include "Hud.hpp"

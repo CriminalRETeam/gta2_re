@@ -556,7 +556,6 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                         }
                                         else
                                         {
-                                        LABEL_51:
                                             bUnk_3 = true;
                                             if (bUnknown)
                                             {

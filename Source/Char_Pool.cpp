@@ -950,11 +950,9 @@ Ped* PedManager::SpawnRunAwayGuy_470D60()
 }
 
 // 9.6f 0x43DEB0
-WIP_FUNC(0x470e30)
+MATCH_FUNC(0x470e30)
 Ped* PedManager::SpawnTrainLeaver_470E30()
 {
-    WIP_IMPLEMENTED;
-
     Ped* pPed = gPedPool_6787B8->Allocate();
 
     // TODO: Instruction swap here
@@ -1020,11 +1018,9 @@ Ped* PedManager::sub_470F90(Ped* pSrc)
     return pDst;
 }
 
-WIP_FUNC(0x471060)
-void PedManager::DoIanTest_471060(s16 key)
+MATCH_FUNC(0x471060)
+void PedManager::DoIanTest_471060(u16 key)
 {
-    WIP_IMPLEMENTED;
-
     switch (key)
     {
         case DIK_9:
@@ -1053,11 +1049,9 @@ Ped* PedManager::PedById(s32 pedId)
     return NULL;
 }
 
-WIP_FUNC(0x470330)
+MATCH_FUNC(0x470330)
 void PedManager::Dummies_470330()
 {
-    WIP_IMPLEMENTED;
-
     s16 v1 = gPedManager_6787BC->field_0;
     if (gPolice_7B8_6FEE40->field_654_wanted_level > 3)
     {

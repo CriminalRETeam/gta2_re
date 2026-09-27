@@ -30,16 +30,15 @@ s32 Mike_A80::sDrawString_4FF910(s32 a1, s32 a2, const wchar_t* pStr, wchar_t Fo
     return 0;
 }
 
-STUB_FUNC(0x4ff970)
+MATCH_FUNC(0x4ff970)
 void Mike_A80::sub_4FF970(u32* a1)
 {
-    NOT_IMPLEMENTED;
+    *a1 = 0;
 }
 
-STUB_FUNC(0x4ff980)
+MATCH_FUNC(0x4ff980)
 void Mike_A80::sub_4FF980()
 {
-    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4ff990)

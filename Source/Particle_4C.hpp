@@ -27,7 +27,7 @@ class Particle_4C
     EXPORT char_type UpdateAttachedEmitter_state_9_10_53B670();
     EXPORT char_type UpdateBurstAnimation_state_29_30_53B9F0();
     EXPORT char_type UpdateCollisionBurst_state_31_34_53BAC0();
-    EXPORT bool PoolUpdate();
+    EXPORT char_type PoolUpdate();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
     

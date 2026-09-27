@@ -2500,10 +2500,9 @@ void Hud_Brief_704::sub_5D33A0()
 }
 
 // https://decomp.me/scratch/L1e5G reg swap
-WIP_FUNC(0x5d33f0)
+MATCH_FUNC(0x5d33f0)
 Garox_18* Hud_Brief_704::sub_5D33F0()
 {
-    WIP_IMPLEMENTED;
     Garox_18* result = field_6FC_p_start_q;
     if (result)
     {
@@ -2519,11 +2518,11 @@ Garox_18* Hud_Brief_704::sub_5D33F0()
             pIter = field_700_prev_brief->field_C;
             if (pIter) // line 29
             {
-                for (; pIter; pIter = pIter->field_C)
+                do
                 {
                     pPrev = result;
-                    result = pIter;
-                }
+                    result = result->field_C;
+                } while (result->field_C);
                 if (pPrev)
                 {
                     pPrev->field_C = NULL;
@@ -2548,11 +2547,11 @@ Garox_18* Hud_Brief_704::sub_5D33F0()
             }
             else
             {
-                for (; pIter; pIter = pIter->field_C)
+                do
                 {
                     pPrev = result;
-                    result = pIter;
-                }
+                    result = result->field_C;
+                } while (result->field_C);
                 if (pPrev)
                 {
                     pPrev->field_C = NULL;

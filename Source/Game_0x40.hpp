@@ -51,6 +51,8 @@ class Game_0x40
     EXPORT void sub_4B93C0();
     EXPORT void UpdateGame_4B9410();
     EXPORT s8 ExecuteGame_4B9640();
+    EXPORT void Pause_4B96B0();
+    EXPORT void Unpause_4B96C0();
     EXPORT void TogglePause_4B9700();
     EXPORT void SinglePlayerStepFrame_4B9710();
     EXPORT void sub_4B9720();

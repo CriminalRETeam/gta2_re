@@ -196,20 +196,24 @@ void Montana::ResetAll_4954F0()
 
 // TODO: move
 // https://decomp.me/scratch/qe97a
-WIP_FUNC(0x5BEE90)
-EXPORT unsigned __int64 get_rdtsc_5BEE90()
+MATCH_FUNC(0x5BEE90)
+EXPORT s32 get_rdtsc_5BEE90()
 {
     // NOTE: Actually is inline assembly, surprisingly
     unsigned __int64 t;
-    __asm 
-    { 
-        pushad 
-        rdtsc 
-        mov DWORD PTR t, eax 
-        mov DWORD PTR t+4, edx 
+    __asm
+    {
+        // The original has the 16-bit pushaw/popaw. Prefix pushad/popad with an operand-size
+        // override so the compiler still sees them and saves ebx/esi/edi.
+        _emit 0x66
+        pushad
+        rdtsc
+        mov DWORD PTR t, eax
+        mov DWORD PTR t+4, edx
+        _emit 0x66
         popad
     }
-    return static_cast<int>(t);
+    return static_cast<s32>(t);
 }
 
 MATCH_FUNC(0x495510)

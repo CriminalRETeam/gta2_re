@@ -1590,11 +1590,9 @@ void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang1
 }
 
 // 9.6f 0x4A4170
-WIP_FUNC(0x55ca70)
+MATCH_FUNC(0x55ca70)
 void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point arg0;
     u8 hitType;
     //v7 = 0;
@@ -2007,20 +2005,16 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
     return 1;
 }
 
-WIP_FUNC(0x55eb80)
+MATCH_FUNC(0x55eb80)
 char_type CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80()
 {
-    WIP_IMPLEMENTED;
-
     gCar_6C_677930->field_68 = 0;
 
-    const char_type bCollision = gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_5C_pCar->field_50_car_sprite);
+    char_type bCollision = gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_5C_pCar->field_50_car_sprite);
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
-        char_type bTrailerCollision =
-            gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(pTrailer->field_C_pCarOnTrailer->field_50_car_sprite);
-        return bTrailerCollision | bCollision;
+        bCollision |= gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(pTrailer->field_C_pCarOnTrailer->field_50_car_sprite);
     }
 
     return bCollision;
@@ -3410,7 +3404,7 @@ MATCH_FUNC(0x5626a0)
 bool CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
 {
     Fix16 t = MinGasPedalPressure_5626C0();
-    return field_60_gas_pedal >= t;
+    return !!(field_60_gas_pedal >= t);
 }
 
 MATCH_FUNC(0x5626c0)

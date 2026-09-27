@@ -79,7 +79,7 @@ class PedManager
     EXPORT Ped* SpawnTrainLeaver_470E30();
     EXPORT Ped* sub_470F30();
     EXPORT Ped* sub_470F90(Ped* pSrc);
-    EXPORT void DoIanTest_471060(s16 a1);
+    EXPORT void DoIanTest_471060(u16 a1);
     EXPORT Ped* PedById(s32 pedId);
 
     EXPORT void Dummies_470330();

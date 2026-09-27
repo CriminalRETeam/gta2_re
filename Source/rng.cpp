@@ -26,11 +26,10 @@ void rng::ShowCycle_48B920()
 
     if (gBurgerKing_67F8B0.inlined_check())
     {
-        // TODO: Access to field_3C_rec_buff is wrong
         swprintf(tmpBuff_67BD9C,
                  L"%d / %d",
                  this->field_0_rng,
-                 gBurgerKing_67F8B0.field_3C_rec_buff[gBurgerKing_67F8B0.field_7533C_used_recs_count].field_8_rng_rnd);
+                 gBurgerKing_67F8B0.field_3C_rec_buff[gBurgerKing_67F8B0.field_7533C_used_recs_count - 1].field_0_rng_idx);
 
     }
     else

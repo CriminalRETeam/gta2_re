@@ -944,8 +944,8 @@ Camera_0xBC::Camera_0xBC()
     sub_436830();
 }
 
-STUB_FUNC(0x4369E0)
-Camera_0xBC::~Camera_0xBC() // empty 4369E0    Why doesn't it match anymore?
+MATCH_FUNC(0x4369E0)
+Camera_0xBC::~Camera_0xBC()
 {
 }
 
