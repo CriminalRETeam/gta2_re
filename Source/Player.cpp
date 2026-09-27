@@ -68,21 +68,24 @@ bool UnknownDebugClass::DoBrianTest_42D870(u16 action)
     return false;
 }
 
-WIP_FUNC(0x443CB0)
+MATCH_FUNC(0x443CB0)
 EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 varrok_idx)
 {
-    WIP_IMPLEMENTED;
     s32 weapon_kind;
     switch (varrok_idx)
     {
-        case objects::shop_car_smg_250:
-            weapon_kind = weapon_type::car_smg;
+        case objects::shop_car_mines_252:
+            weapon_kind = weapon_type::car_mines;
             break;
         case objects::shop_car_oil_stain_251:
             weapon_kind = weapon_type::oil_stain;
             break;
-        case objects::shop_car_mines_252:
-            weapon_kind = weapon_type::car_mines;
+        case objects::shop_car_smg_250:
+            weapon_kind = weapon_type::car_smg;
+            break;
+        case 253:
+        case objects::machine_gun_bullet_254:
+            weapon_kind = weapon_type::car_bomb;
             break;
         default:
             weapon_kind = weapon_type::car_bomb;
