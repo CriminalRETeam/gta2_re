@@ -311,11 +311,38 @@ void jolly_poitras_0x2BC0::sub_56B990(u16 slotIdx)
     File::Global_Close_4A70C0();
 }
 
-STUB_FUNC(0x56BA60)
-void jolly_poitras_0x2BC0::sub_56BA60(s16 a2)
+// TODO: only the "len = 126" store and the outer loop counter init are swapped
+WIP_FUNC(0x56BA60)
+void jolly_poitras_0x2BC0::sub_56BA60(s16 slotIdx)
 {
-    NOT_IMPLEMENTED;
-    // todo
+    WIP_IMPLEMENTED;
+
+    char_type FileName[356];
+    size_t len;
+
+    GetPlySlotDatName_56B8A0(slotIdx, FileName);
+
+    // The start of this object is reused as the buffer for the player slot .dat file
+    memcpy(this,
+           field_26A0_plyr_stats[(u16)slotIdx].field_90_strPlayerName,
+           sizeof(field_26A0_plyr_stats[0].field_90_strPlayerName));
+    len = 126;
+
+    u8* pDst = reinterpret_cast<u8*>(this) + sizeof(field_26A0_plyr_stats[0].field_90_strPlayerName);
+    for (s32 k = 0; k < 3; k++)
+    {
+        for (s32 j = 0; j < 4; j++)
+        {
+            *pDst = field_26A0_plyr_stats[(u16)slotIdx].field_0_plyr_stage_stats[k][j].field_0_is_stage_unlocked;
+            pDst++;
+            *reinterpret_cast<u32*>(pDst) = field_26A0_plyr_stats[(u16)slotIdx].field_0_plyr_stage_stats[k][j].field_4_stage_best_score;
+            pDst += 4;
+            *reinterpret_cast<s32*>(pDst) = field_26A0_plyr_stats[(u16)slotIdx].field_0_plyr_stage_stats[k][j].field_8_stage_latest_score;
+            pDst += 4;
+        }
+    }
+
+    File::WriteBufferToFile_4A6E80(FileName, this, &len);
 }
 
 /*
