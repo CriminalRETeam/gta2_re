@@ -3079,22 +3079,16 @@ Player::Player(u8 player_idx)
     field_78A_show_quit_message = 0;
 }
 
-STUB_FUNC(0x56A940)
+MATCH_FUNC(0x56A940)
 Player::~Player()
 {
-    NOT_IMPLEMENTED;
-    Car_BC** local_field_54_unk; // ecx
-
-    local_field_54_unk = field_54_unk;
     field_2C4_player_ped = 0;
     field_2C8_unkq = 0;
     field_2CC = 0;
     field_34_gang_curr_location = 0;
     field_38_local_navigation_zone = 0;
     field_3C_navigation_zone = 0;
-    local_field_54_unk[0] = 0;
-    local_field_54_unk[1] = 0;
-    local_field_54_unk[2] = 0;
+    memset(field_54_unk, 0, sizeof(field_54_unk));
 
     if (field_4C_pUnk)
     {
