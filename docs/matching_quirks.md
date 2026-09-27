@@ -152,6 +152,21 @@ monotonic. If a function matches when compiled alone (copy it into a small .cpp 
 `build_vc6/` and use `build.py --single_cpp ../build_vc6/x.cpp`) but not in its TU, try
 moving includes and check `compare_builds.py` for regressions.
 
+**Tail merging across `case`s needs a shared statement.** VC6 merges the identical tails of
+the two branches of an `if` into one call, but not the tails of two different `case`s. If
+the original jumps from one case into the middle of another (`push $1; jmp <other case's
+call>`), end the first case with a `goto` to a label in front of the other case's shared
+code (`sub_430C70`).
+
+**Stack slot order isn't declaration order.** Two local arrays or a set of scalars can come out
+in a different order from the original whatever order they're declared in. If the
+original's slots look like one block, try one array. In `FatalError_4A07C0`, six route
+coordinates had to be one `s32[6]` with the second triple stored back to front.
+
+**Copy through a local to get a spill.** `mov (%edx),%eax; mov %eax,X(%esp); fildl X(%esp)`
+instead of `fildl (%edx)` comes from copying the value into a local object first
+(`Fix16 value = *va_arg(va, Fix16*); value.AsFloat()`, `FatalError_4A07C0`).
+
 **VC6 drops tests it can prove.** If the original tests a flag at the top of a loop that is
 known to be 0 on entry, VC6 won't reproduce it however you write the loop
 (`RouteFinder::sub_589E20`, unsolved).
@@ -175,6 +190,22 @@ callee ends in `ret $N` without reading `ecx`, declare it `static ... __stdcall`
 **Duplicate helper copies.** The original has two identical copies of some small functions,
 for example the `Fix16(int)` constructor at `0x4369F0` and `0x4926F0`. Our link has one, so a
 function that calls the "other" copy can't match (`Hud_CarName_4C::sub_5D4A10`).
+
+**EH state stores between member destructor calls.** If the original calls several member
+destructors in a row without the `movb $N,X(%esp)` state stores between them, VC6 knew
+those destructors can't throw. It only knows that if their (empty) bodies come earlier in
+the same TU, so define the destructor after them
+(`jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0` after `~high_score_table_0xF0`).
+
+**Array construction: inline loop vs `??_H`.** For an array of objects with a constructor,
+VC6 calls `vector constructor iterator` (`??_H`) when the constructor is out of line, and
+writes an inline loop when the constructor is an inline function whose body it can see
+(calling it, or inlining it when it's small enough). `Car_6C::ctor_4469F0` needs the inline
+loop for `CarAI_78`, see `match_attempts.md`.
+
+**Inline `memset` of 12 bytes.** `lea X(%esi),%ecx; xor %eax,%eax; mov %eax,(%ecx); mov %eax,4(%ecx);
+mov %eax,8(%ecx)` with a second zero register is `memset(arr, 0, sizeof(arr))`, not three
+stores (`Player::~Player`).
 
 **An EH frame missing from a destructor:** `<new>` declares `operator delete` as `throw()`,
 so don't include C++ std headers from widely used headers.
