@@ -197,3 +197,11 @@ tried are in the WIP status report.
 - `ebp` pushed only after an early null check (`Hud_Brief_704::ClearAllBriefsWithPriority_5D4890`).
 - x87 instruction scheduling around the inlined vertex helpers in the `MapRenderer::Draw*Sided*`
   functions.
+- A compare scheduled before a volatile load instead of after it (`cmp $0xF,%al` in
+  `sound_obj::ProcessPoliceRadioWordsPlayback_427220`).
+- A store scheduled before the `lea` of an out pointer rather than after it
+  (`sound_obj::InterrogateAudioEntities_41A730`, `Car_14::sub_583750`).
+- A `switch` that clobbers its value (`add $-39,%eax`) and reloads the parameter for
+  `default`, where ours uses `lea` into another register (`Object_2C::sub_526830`).
+- An `s16` parameter returned with a 32-bit `mov` in `default` (`gtx_0x106C::GetSpriteTrueIndex_5AA460`).
+- Global load register choice in a run of similar statements (`Camera_0xBC::sub_435B90`).
