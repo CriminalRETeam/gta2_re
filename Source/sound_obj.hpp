@@ -205,7 +205,7 @@ class sound_obj
     sound_7 field_544C[5]; // sound_f16_pos_0x1C instead of sound_7 ?
 
     // Radio emitters use indices 1..5
-    inline sound_f16_pos_0x1C& RadioEmitter(u8 idx)
+    inline sound_f16_pos_0x1C& RadioEmitter(s32 idx)
     {
         return ((sound_f16_pos_0x1C*)field_544C)[idx];
     }
@@ -224,7 +224,7 @@ class sound_obj
     char_type field_54E7;
     s16 field_54E8[5];
     u8 field_54F2[5];
-    char_type field_54F7[5];
+    u8 field_54F7[5];
     s32 field_54FC;
     s32 field_5500;
     char_type field_5504_radio_station_change_mode;
@@ -403,7 +403,7 @@ class sound_obj
     EXPORT void InitMusicAndCopRadio_57E960();
     EXPORT void DeInitVocals_57EA10();
     EXPORT void UpdateActiveRadioEmitterVolume_57EA90();
-    EXPORT char_type ComputeRadioEmitterVolume_57EB90(s32 emitterIndex, s32 bUseFarRadius);
+    EXPORT char_type ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseFarRadius);
     EXPORT void DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 ypos);
     EXPORT void sub_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type);
     EXPORT void RemoveSound_57EE30(Fix16 a2, Fix16 a3);
