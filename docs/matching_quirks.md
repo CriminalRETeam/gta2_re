@@ -62,6 +62,17 @@ index tables byte for byte.)
 **Identical case bodies in two switches get merged** into the one that falls through to the
 shared return (the last case of the later switch), so case order decides which copy survives.
 
+**Cases matching `default` still need their own `case`.** A case whose body is the same as
+`default` is dropped from the jump table unless it is written out. When the original table has
+an entry for it, keep the case and put it where the original lays it out
+(`ReturnAngleFromRoadDirection_4F7940`, `ObjectTypeToWeaponType_443CB0`). Register choice
+(`cx` vs `dx`) across case blocks also follows the source order of the cases.
+
+**A statement duplicated in both branches is hoisted after the test.** If the original
+schedules a store between `test` and `je` (`mov byte,%al; test %al,%al; mov ..; mov ..,(..); je`),
+write the store at the top of both the `if` and the `else` block rather than once before the
+`if` (`Object_2C::HandleSpriteGroundAndCollisionSimple_523770`).
+
 **`if/else` block order follows the condition.** The `then` block is usually laid out first.
 If the original has your `else` block first, invert the condition and swap the blocks
 (`Car_BC::sub_440510`, `sub_45CF90`, `Ang16::SnapToAng4_405640`). VC6 sometimes normalises
@@ -101,6 +112,13 @@ paths set all of `eax` is still unsolved (`Car_BC::sub_43B2B0`).
 **Adding a bool.** `setne al; add $0xE,%eax` comes from `(b != 0) + 14`, not `b + 14`
 (`sub_417B80`).
 
+**Returning a class adds a flag local.** A zeroed stack slot (`push %ecx` and `movl $0,..(%esp)`)
+in a function that returns a point means the return type has a destructor: return
+`Fix16_Point`, not `Fix16_Point_POD` (`Fix16_Point_POD::Multiply_438FE0`, `Divide_442CB0`).
+A function the decomp wrote as `Fix16_Point* f(Fix16_Point* out)` usually returned by value
+in the original. Return a local filled in place instead (`Char_B4::sub_545580` uses
+`FromPolar_41E210`).
+
 **Passing by value vs by reference.** `mov 0x19(%edi),%al; push %eax` passes the byte;
 `lea 0x19(%edi),%eax; push %eax` passes a pointer. The decomp had `gbh_DrawTriangle` and
 `MapRenderer::draw_4E9EE0` taking the colour as `u8&`, which also passed a pointer to the
@@ -115,6 +133,14 @@ reordering statements and using the existing inline accessors.
 register holds the result (`ProjectOntoAxis_5A5AA0`). Writing `x |= f()` instead of
 `return f() | x` keeps the result in the first value's register
 (`CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80`).
+
+**Declaration position moves a zero store.** A loop counter declared before an `if` gets its
+`= 0` store scheduled before the test, not inside the block (`Kfc_30::CleanupExpiredEntities_5CC1C0`).
+
+**A variable index blocks load hoisting.** VC6 moves a later load above a store with a
+constant array index, but not above one through a variable. Inside `case 6:`, writing
+`timers[power_up_idx] = 1200` instead of `timers[6] = 1200` keeps the following
+`field_2C4_player_ped` load after the store (`Player::CollectPowerUp_564D60`).
 
 **VC6 picks the call order in `a() + b()` itself.** Swapping the operands doesn't change it.
 A temporary (`s32 r = b(); r += a();`) forces the order, but the result register can still
@@ -138,6 +164,11 @@ inlined. Split the body into its own function at the jump target address and cal
 `Game_0x40::TogglePause_4B9700` calls `Pause_4B96B0`/`Unpause_4B96C0`,
 `Car_BC::GetEffectiveDriver_43E990` calls `Trailer::GetTruckCabDriver_407B80`. Add the new
 address to the csv (see the top of this file).
+
+**A "member" that doesn't use `this` may be static `__stdcall`.** If the caller overwrites
+`ecx` with the argument just before the call (`mov 0x3C(%eax),%ecx; push %ecx; call`) and the
+callee ends in `ret $N` without reading `ecx`, declare it `static ... __stdcall`
+(`Object_2C::sub_526830`, which fixed its caller `TriggerCarExplosionIfApplicable_526790`).
 
 **A variadic member is `__cdecl` with `this` on the stack.** A plain `ret` hints at `...`.
 
