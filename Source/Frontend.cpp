@@ -1590,20 +1590,50 @@ bool Frontend::pre_intro_bik_exists_4B6030()
     }
 }
 
-STUB_FUNC(0x4B5F20)
+// TODO: the contents of these strings aren't known, only their addresses
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDataDir_620454, 8, 0x620454, "data\\");
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDriveDataDir_62045C, 8, 0x62045C, ":\\data\\");
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gIntroBikName_5FE76C, 16, 0x5FE76C, "movie\\intro.bik");
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gPreIntroBikName_5FE77C, 20, 0x5FE77C, "movie\\preintro.bik");
+DEFINE_GLOBAL_ARRAY(char_type, gIntroBikPath_67DA84, 256, 0x67DA84);
+DEFINE_GLOBAL_ARRAY(char_type, gPreIntroBikPath_67DB84, 256, 0x67DB84);
+
+MATCH_FUNC(0x4B5F20)
 char_type* Frontend::pre_intro_bik_4B5F20()
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return "";
+    char_type drive[32];
+    drive[0] = gRoot_sound_66B038.GetAudioDriveLetter_40F150();
+    if (drive[0])
+    {
+        drive[1] = 0;
+        strcpy(gPreIntroBikPath_67DB84, drive);
+        strcat(gPreIntroBikPath_67DB84, gBikDriveDataDir_62045C);
+    }
+    else
+    {
+        strcpy(gPreIntroBikPath_67DB84, gBikDataDir_620454);
+    }
+    strcat(gPreIntroBikPath_67DB84, gPreIntroBikName_5FE77C);
+    return gPreIntroBikPath_67DB84;
 }
 
-STUB_FUNC(0x4B5E50)
+MATCH_FUNC(0x4B5E50)
 const char_type* Frontend::intro_bik_4B5E50()
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return "meh.dat";
+    char_type drive[32];
+    drive[0] = gRoot_sound_66B038.GetAudioDriveLetter_40F150();
+    if (drive[0])
+    {
+        drive[1] = 0;
+        strcpy(gIntroBikPath_67DA84, drive);
+        strcat(gIntroBikPath_67DA84, gBikDriveDataDir_62045C);
+    }
+    else
+    {
+        strcpy(gIntroBikPath_67DA84, gBikDataDir_620454);
+    }
+    strcat(gIntroBikPath_67DA84, gIntroBikName_5FE76C);
+    return gIntroBikPath_67DA84;
 }
 
 MATCH_FUNC(0x4B5FF0)
