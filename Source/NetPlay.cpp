@@ -4,6 +4,8 @@
 
 DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8, 0x7071E8);
 DEFINE_GLOBAL(GUID, kGta2_DP_Guid_5FE928, 0x5FE928);
+DEFINE_GLOBAL_ARRAY(s32, dword_6F8A4C, 6, 0x6F8A4C);
+DEFINE_GLOBAL_ARRAY(char_type, byte_6F8A64, 6, 0x6F8A64);
 
 STUB_FUNC(0x51d6b0)
 NetPlay* NetPlay::ctor_51D6B0()
@@ -854,11 +856,19 @@ u32 NetPlay::sub_521770(u32* a2, char_type* a3, u32* a4)
     return 0;
 }
 
-STUB_FUNC(0x521820)
-s32 NetPlay::sub_521820(s32** a2, s32 idx)
+MATCH_FUNC(0x521820)
+void NetPlay::sub_521820(s32** a2, s32 idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32* p = *a2;
+    if (*p == -1)
+    {
+        *p = dword_6F8A4C[idx];
+    }
+    else
+    {
+        dword_6F8A4C[idx] = *p;
+    }
+    byte_6F8A64[idx] = field_758_n2.field_8[idx];
 }
 
 MATCH_FUNC(0x521870)

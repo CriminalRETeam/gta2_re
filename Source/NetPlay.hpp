@@ -199,7 +199,7 @@ struct NetPlay
     EXPORT s32 Send_521630(s32 pData, s32 idx, char_type a4);
     EXPORT void Add_5216E0(s32 a2, s32** a3, s32 a4, char_type a5);
     EXPORT u32 sub_521770(u32* a2, char_type* a3, u32* a4);
-    EXPORT s32 sub_521820(s32** a2, s32 idx);
+    EXPORT void sub_521820(s32** a2, s32 idx);
     EXPORT void Remove_521870(s32 idx);
     EXPORT char_type sub_521890(s32** a3, s32* arg4, u32* a4);
     EXPORT void Send_521B20(s32* a2);
