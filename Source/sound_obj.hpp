@@ -203,6 +203,13 @@ class sound_obj
     s32 field_5444;
     u32 field_5448_m_FrameCounter;
     sound_7 field_544C[5]; // sound_f16_pos_0x1C instead of sound_7 ?
+
+    // Radio emitters use indices 1..5
+    inline sound_f16_pos_0x1C& RadioEmitter(u8 idx)
+    {
+        return ((sound_f16_pos_0x1C*)field_544C)[idx];
+    }
+
     char_type field_54D8[5];
     char_type field_54DD;
     char_type field_54DE;

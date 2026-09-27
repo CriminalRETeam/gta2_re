@@ -1513,11 +1513,24 @@ char_type sound_obj::ComputeRadioEmitterVolume_57EB90(s32 a2, s32 a3)
     return 0;
 }
 
-// Match here: https://decomp.me/scratch/qA1ae , but need to rework field_544C or maybe using unions
-STUB_FUNC(0x57EE30)
-void sound_obj::RemoveSound_57EE30(Fix16 a2, Fix16 a3)
+MATCH_FUNC(0x57EE30)
+void sound_obj::RemoveSound_57EE30(Fix16 xpos, Fix16 ypos)
 {
-    NOT_IMPLEMENTED;
+    s16 x = xpos.ToInt();
+    s16 y = ypos.ToInt();
+    for (u8 i = 5; i != 0; i--)
+    {
+        if (RadioEmitter(i).field_0_bUsed == 1 && (s16)RadioEmitter(i).field_4_xpos.ToInt() == x &&
+            (s16)RadioEmitter(i).field_8_ypos.ToInt() == y)
+        {
+            RadioEmitter(i).field_0_bUsed = 0;
+            RadioEmitter(i).field_10 = 0;
+            RadioEmitter(i).field_12 = 0;
+            RadioEmitter(i).field_14 = 0;
+            RadioEmitter(i).field_18 = 0;
+            return;
+        }
+    }
 }
 
 MATCH_FUNC(0x57EEE0)
