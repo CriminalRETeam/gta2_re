@@ -136,6 +136,14 @@ in the raw asm are relative to the function start (`addr + offset`), so look the
 - A variadic member is `__cdecl` with `this` on the stack. A plain `ret` hints at `...`.
 - Store and load order follows the source statement order and inline getters, so try
   reordering statements and using the existing inline accessors.
+- Include order can change codegen in a TU. In sound_obj.cpp, the order VC6 emits two calls
+  in `a() + b()` depended on where `cSampleManager.hpp` was included, and the effect isn't
+  monotonic. If a function matches when compiled alone (copy it into a small .cpp under
+  `build_vc6/` and use `build.py --single_cpp ../build_vc6/x.cpp`) but not in its TU, try
+  moving includes and check `compare_builds.py` for regressions.
+- Identical `case` bodies in two switches of one function get merged into the one that
+  falls through to the shared return (the last case of the later switch), so case order
+  decides which copy survives.
 
 ## Figuring out why a function doesn't match
 
