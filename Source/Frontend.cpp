@@ -295,13 +295,19 @@ DEFINE_GLOBAL_ARRAY_INIT(
         "data\\frontend\\Credits.tga" COMMA 614444 COMMA 0} COMMA {"data\\frontend\\Mask3.tga" COMMA 130427 COMMA 0} COMMA {
         "data\\frontend\\DemoInfo.tga" COMMA 614939 COMMA 0});
 
-STUB_FUNC(0x5D9910)
+MATCH_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
-    NOT_IMPLEMENTED;
-    // todo
-
-    return 0;
+    f32 gamma_f = gamma * 0.1;
+    if (gVidSys_7071D0)
+    {
+        s32 result = pVid_SetGamma(gVidSys_7071D0, gamma_f, gamma_f, gamma_f);
+        // TODO: format string at 0x626B34 not checked against the original
+        sprintf(gTmpBuffer_67C598, "SetGamma %d = %d", gamma, result);
+        gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
+        return result;
+    }
+    return gamma;
 }
 
 DEFINE_GLOBAL(infallible_turing, snd1_67D818, 0x67D818);
