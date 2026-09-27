@@ -162,34 +162,29 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
     File::Global_Read_4A71C0(field_0_data, size);
 }
 
-STUB_FUNC(0x5B5AD0)
+MATCH_FUNC(0x5B5AD0)
 u16 text_0x14::sub_5B5AD0(wchar_t a2)
 {
-    NOT_IMPLEMENTED;
-    u16 result; // ax
-
-    result = a2;
+    // Both tables are indexed with the raw char (0x80-0xFF), so the 'g'/'i'/'r'/'s' lookup reads
+    // past word_626490 into word_626590[0..127], and 'f' reads word_626590[128..255].
+    // TODO: the contents of these arrays are very wrong
     switch (field_10_lang_code)
     {
         case 'e':
-            if ((u32)a2 >= 'a' && (u32)a2 <= 'z')
+            if (a2 >= 'a' && a2 <= 'z')
             {
-                result = a2 - ' ';
+                return a2 - ' ';
             }
             break;
 
         case 'f':
-            if (a2 < 0x61u || a2 > 0x7Au)
+            if (a2 >= 'a' && a2 <= 'z')
             {
-                if (a2 >= 0x80u && a2 <= 0xFFu)
-                {
-                    // todo: these arrays are very wrong
-                    result = word_626590[a2];
-                }
+                return a2 - ' ';
             }
-            else
+            if (a2 >= 0x80 && a2 <= 0xFF)
             {
-                result = a2 - 32;
+                return word_626590[a2];
             }
             break;
 
@@ -197,24 +192,17 @@ u16 text_0x14::sub_5B5AD0(wchar_t a2)
         case 'i':
         case 'r':
         case 's':
-            if (a2 < 0x61u || a2 > 0x7Au)
+            if (a2 >= 'a' && a2 <= 'z')
             {
-                if (a2 >= 0x80u && a2 <= 0xFFu)
-                {
-                    result = word_626490[a2];
-                }
+                return a2 - ' ';
             }
-            else
+            if (a2 >= 0x80 && a2 <= 0xFF)
             {
-                result = a2 - 32;
+                return word_626490[a2];
             }
             break;
-
-        default:
-            return result;
     }
-
-    return result;
+    return a2;
 }
 
 MATCH_FUNC(0x5B5B80)
