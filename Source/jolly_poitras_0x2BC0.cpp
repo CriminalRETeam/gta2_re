@@ -184,14 +184,6 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
     sub_56BD20();
 }
 
-STUB_FUNC(0x56B810)
-jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
-{
-    NOT_IMPLEMENTED;
-
-    // Should match but doesn't
-}
-
 // https://decomp.me/scratch/oIJET
 MATCH_FUNC(0x56BB10)
 void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
@@ -626,6 +618,13 @@ high_score_table_0xF0::high_score_table_0xF0()
 
 MATCH_FUNC(0x56B510)
 high_score_table_0xF0::~high_score_table_0xF0()
+{
+}
+
+// Defined after ~high_score_table_0xF0 so VC6 knows that destructor can't throw and
+// drops the EH state updates between the calls to it.
+MATCH_FUNC(0x56B810)
+jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 {
 }
 
