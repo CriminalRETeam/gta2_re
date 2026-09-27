@@ -600,11 +600,9 @@ void Player::sub_564CF0()
     field_6F4_power_up_timers[power_up_indices::JailCard_4] = v2;
 }
 
-WIP_FUNC(0x564D60)
+MATCH_FUNC(0x564D60)
 char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
 {
-    WIP_IMPLEMENTED;
-
     switch (power_up_idx)
     {
         case power_up_indices::Unk_0:
@@ -652,7 +650,7 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[6] = 1200;
+            this->field_6F4_power_up_timers[power_up_idx] = 1200;
             field_2C4_player_ped->SetInvulnerable();
             break;
 
@@ -686,7 +684,7 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[11] = 1800;
+            this->field_6F4_power_up_timers[power_up_idx] = 1800;
             field_2C4_player_ped->SetInvisible();
             break;
 
