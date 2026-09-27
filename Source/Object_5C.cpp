@@ -834,11 +834,9 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Poi
 }
 
 // https://decomp.me/scratch/soZJL
-WIP_FUNC(0x523770)
+MATCH_FUNC(0x523770)
 char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5)
 {
-    WIP_IMPLEMENTED;
-
     field_10_obj_3c->field_2A = 1;
 
     if (pSprite->field_1C_zpos > k_dword_6F8BFC)
@@ -870,14 +868,15 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
     }
     else if (SelectCollisionSprite_522460(pSprite))
     {
-        field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
         if (byte_6F8F94 != 0)
         {
+            field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y_443580();
             *a4 = 1;
         }
         else
         {
+            field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y_443580();
         }
         return 1;
