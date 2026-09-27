@@ -368,10 +368,12 @@ u16 frosty_pasteur_0xC1EA8::sub_512400(const char_type* String1, u16* a3)
 }
 
 // https://decomp.me/scratch/W4gXh
-STUB_FUNC(0x5121E0)
+// See docs/match_attempts.md
+WIP_FUNC(0x5121E0)
 void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
     u32 total_str_length = 0;
     BYTE* pStringDataIter1 = (BYTE*)field_1334C_strings;
     while (total_str_length < tableSize)
@@ -391,7 +393,7 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
     {
         //offset = 4;
         u32 total_str_length_ = 0;
-        u16 str_count = 0;
+        s32 str_count = 0;
 
         do
         {
