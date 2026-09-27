@@ -1803,11 +1803,9 @@ bool Object_2C::PoolUpdate()
 }
 
 // 9.6f 0x4837F0
-WIP_FUNC(0x526790)
+MATCH_FUNC(0x526790)
 void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
 {
-    WIP_IMPLEMENTED;
-
     Phi_74* pPhi = this->field_8;
     if (sub_475A80())
     {
@@ -1840,7 +1838,7 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
 }
 
 WIP_FUNC(0x526830)
-s32 Object_2C::sub_526830(s32 a1)
+s32 __stdcall Object_2C::sub_526830(s32 a1)
 {
     WIP_IMPLEMENTED;
 
