@@ -459,10 +459,14 @@ s32 NetPlay::sub_520040(s32 toFind, Network_Unknown* pStru, s32 a3, u32* pOutIdx
     return 0;
 }
 
-STUB_FUNC(0x5201a0)
+MATCH_FUNC(0x5201a0)
 void NetPlay::sub_5201A0(s32 idx, Network_Unknown* pStru)
 {
-    NOT_IMPLEMENTED;
+    delete pStru->field_10[idx].field_1C;
+    delete (void*)pStru->field_10[idx].field_24;
+    memset(&pStru->field_10[idx], 0, sizeof(Nework_2C));
+    pStru->field_10[idx].field_0 = 0;
+    pStru->field_4_count--;
 }
 
 // TODO: Temp - should be integrated into the type array or something
@@ -659,42 +663,42 @@ void NetPlay::Set18_520F50(s32 a2, s32 a3)
 }
 
 // https://decomp.me/scratch/oYBrX
-STUB_FUNC(0x520f80)
+// Result local isn't kept on the stack as in the original, see docs/match_attempts.md
+WIP_FUNC(0x520f80)
 s32 NetPlay::RemovePlayerByName_520F80(wchar_t* pToRemove)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
-    for (u32 i = 0; i < this->field_758_n2.field_4_count; i++)
+    s32 bRemoved = 0;
+    u32 i = 0;
+    while (1)
     {
+        if (i >= this->field_758_n2.field_4_count)
+        {
+            break;
+        }
         if (wcscmp(field_758_n2.field_10[i].field_1C, pToRemove) == 0)
         {
+            bRemoved = 1;
             field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, field_758_n2.field_10[i].field_10);
-            return 1;
+            break;
         }
+        i++;
     }
-    return 0;
+    return bRemoved;
 }
 
-STUB_FUNC(0x521000)
+MATCH_FUNC(0x521000)
 s32 NetPlay::DeletePlayerFromGroup_521000(u32 idx)
 {
-    NOT_IMPLEMENTED;
-
-    if (idx >= 6)
+    if (idx < 6 && field_758_n2.field_10[idx].field_0)
     {
-        return 0;
+        s32 idPlayer = field_758_n2.field_10[idx].field_10;
+        sub_5201A0(idx, &field_758_n2);
+        field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, idPlayer);
+        return 1;
     }
-
-    char* v3 = &((char*)&field_2C_ptrs)[idx];
-    if (!*((u32*)v3 + 0x1DA))
-    {
-        return 0;
-    }
-
-    u32 idPlayer = *((u32*)v3 + 478);
-    sub_5201A0(idx, &this->field_758_n2);
-    field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, idPlayer);
-    return 1;
+    return 0;
 }
 
 MATCH_FUNC(0x521060)

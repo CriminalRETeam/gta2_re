@@ -692,10 +692,11 @@ void BurgerKing_67F8B0::SaveReplay_4CDED0()
 }
 
 // https://decomp.me/scratch/c6Gy5
-STUB_FUNC(0x4cdf30)
+// Register allocation differs, see docs/match_attempts.md
+WIP_FUNC(0x4cdf30)
 void BurgerKing_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     for (s32 i = 0; i < 12; i++)
     {
@@ -712,9 +713,10 @@ void BurgerKing_67F8B0::modify_inputs_4CDF30(s32 match_mask)
         }
     }
 
-    if ((match_mask & 0xFFFFF000) != 0)
+    s32 high_bits = match_mask & 0xFFFFF000;
+    if (high_bits != 0)
     {
-        this->field_4_input_bits |= match_mask & 0xFFFFF000;
+        this->field_4_input_bits |= high_bits;
     }
 }
 
