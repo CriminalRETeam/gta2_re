@@ -421,12 +421,8 @@ text_0x14::text_0x14()
     }
 }
 
-// https://decomp.me/scratch/ZNzsG
-// TODO: This should match but doesn't, maybe a problem in the comparison scripts ??
-// seems like the new func we dism is the wrong addr or something
-STUB_FUNC(0x5B6050)
+// Only gets its EH frame when <new> isn't included, see Globals.hpp
+MATCH_FUNC(0x5B6050)
 text_0x14::~text_0x14()
 {
-    NOT_IMPLEMENTED;
-
 }
