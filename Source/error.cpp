@@ -195,10 +195,9 @@ struct Coord2
 
 #define err_a1_int(msg, arg) sprintf(gTmpBuffer_67C598, msg, va_1);
 
-STUB_FUNC(0x4A07C0)
+MATCH_FUNC(0x4A07C0)
 EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, ...)
 {
-    NOT_IMPLEMENTED;
     va_list va; // [esp+94h] [ebp+34h] BYREF
 
     va_start(va, lineNo);
@@ -2227,43 +2226,41 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
         case 5001:
         {
-            Coord2 c;
-            c.x = *(s32*)va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Invalid fraction : %f", c.x.AsFloat());
+            Fix16 value = *va_arg(va, Fix16*);
+            sprintf(gTmpBuffer_67C598, "Invalid fraction : %f", value.AsFloat());
             break;
         }
 
         case 5002:
         {
-            Coord2 c;
-            c.x = *(s32*)va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Invalid ambient light value : %f", c.x.AsFloat());
+            Fix16 value = *va_arg(va, Fix16*);
+            sprintf(gTmpBuffer_67C598, "Invalid ambient light value : %f", value.AsFloat());
             break;
         }
         case 6001:
         {
-            // TODO: Stack access is wrong here
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
 
-            s32 coords[3];
-            s32 coords1[3];
+            // One array with the "to" half stored back to front: this gives the original's stack slots.
+            // Two arrays or six scalars get laid out differently whatever the declaration order.
+            s32 coords[6];
             coords[0] = *va_arg(va, s32*);
             coords[1] = *va_arg(va, s32*);
             coords[2] = *va_arg(va, s32*);
 
-            coords1[0] = *va_arg(va, s32*);
-            coords1[1] = *(s32*)va_arg(va, s32*);
-            coords1[2] = *va_arg(va, s32*);
+            coords[5] = *va_arg(va, s32*);
+            coords[4] = *va_arg(va, s32*);
+            coords[3] = *va_arg(va, s32*);
 
             sprintf(gTmpBuffer_67C598,
                     "Unable to find a route from (%.4f, %.4f, %.4f) to (%.4f, %.4f, %.4f) in car id: %d model: %d",
                     coords[0] / 16384.0f,
                     coords[1] / 16384.0f,
                     coords[2] / 16384.0f,
-                    coords1[0] / 16384.0f,
-                    coords1[1] / 16384.0f,
-                    coords1[2] / 16384.0f,
+                    coords[5] / 16384.0f,
+                    coords[4] / 16384.0f,
+                    coords[3] / 16384.0f,
                     va_1,
                     va_2);
         }
