@@ -652,28 +652,96 @@ thread_C* frosty_pasteur_0xC1EA8::sub_512AD0(s32 a2)
     return NULL;
 }
 
-STUB_FUNC(0x512af0)
-char_type frosty_pasteur_0xC1EA8::sub_512AF0(s32 a2, char_type a3, char_type a4)
+MATCH_FUNC(0x512af0)
+char_type frosty_pasteur_0xC1EA8::sub_512AF0(s32 id, char_type weapon_idx, char_type bUnk)
 {
-    NOT_IMPLEMENTED;
+    WeaponCheckTable* pFree = NULL;
+    WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
+
+    for (u8 i = 0; i < 15; pTable++, i++)
+    {
+        if (pTable->field_0_entity_id == 0 && pTable->field_4_weapon_idx == 0 && !pFree)
+        {
+            pFree = pTable;
+        }
+
+        if (pTable->field_0_entity_id == id)
+        {
+            if (pTable->field_4_weapon_idx == weapon_idx || pTable->field_4_weapon_idx == weapon_type::weapon_0x17)
+            {
+                if (bUnk)
+                {
+                    if ((pTable->field_6 & 4) == 4)
+                    {
+                        return 1;
+                    }
+                }
+                else
+                {
+                    if ((pTable->field_6 & 2) == 2)
+                    {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+
+    if (pFree)
+    {
+        pFree->field_0_entity_id = id;
+        pFree->field_4_weapon_idx = weapon_idx;
+        if (bUnk)
+        {
+            pFree->field_6 = 4;
+        }
+        else
+        {
+            pFree->field_6 = 2;
+        }
+        field_278++;
+    }
     return 0;
 }
 
-STUB_FUNC(0x512ba0)
-char_type* frosty_pasteur_0xC1EA8::sub_512BA0(s32 a2, char_type a3)
+MATCH_FUNC(0x512ba0)
+void frosty_pasteur_0xC1EA8::sub_512BA0(s32 id, char_type bUnk)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
+
+    for (u8 i = 0; i < 15; pTable++, i++)
+    {
+        if (pTable->field_0_entity_id == id)
+        {
+            if (bUnk)
+            {
+                if ((pTable->field_6 & 4) == 4)
+                {
+                    goto clear;
+                }
+                continue;
+            }
+            if ((pTable->field_6 & 2) != 2)
+            {
+                continue;
+            }
+        clear:
+            pTable->field_0_entity_id = 0;
+            pTable->field_4_weapon_idx = 0;
+            pTable->field_5 = 0;
+            pTable->field_6 = 0;
+            field_278--;
+        }
+    }
 }
 
 // https://decomp.me/scratch/r6LhX
-WIP_FUNC(0x512c00)
+MATCH_FUNC(0x512c00)
 void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, char_type bUnk)
 {
-    WIP_IMPLEMENTED;
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
-    u8 projectile_type = sub_48E780(projectile_model);
+    s8 projectile_type = sub_48E780(projectile_model);
 
     for (u8 i = 0; i < 15; pTable++, i++)
     {
@@ -685,19 +753,17 @@ void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, cha
                 {
                     if ((pTable->field_6 & 4) == 4)
                     {
-                        pTable->field_5 = projectile_type;
-                        pTable->field_6 |= 1;
+                        goto set;
                     }
+                    return;
                 }
-                else
+                if ((pTable->field_6 & 2) != 2)
                 {
-                    if ((pTable->field_6 & 2) == 2)
-                    {
-                        pTable->field_5 = projectile_type;
-                        pTable->field_6 |= 1;
-                    }
+                    return;
                 }
-
+            set:
+                pTable->field_6 |= 1;
+                pTable->field_5 = projectile_type;
                 return;
             }
         }
