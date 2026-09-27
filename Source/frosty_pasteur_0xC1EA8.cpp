@@ -57,11 +57,19 @@ str_table_entry* frosty_pasteur_0xC1EA8::StrEntryByString_5030B0(char_type* strT
     return 0;
 }
 
-STUB_FUNC(0x511b10)
+MATCH_FUNC(0x511b10)
 char_type frosty_pasteur_0xC1EA8::sub_511B10(s16 idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    SCR_DECLARE_CRANE_POWERUP* pCmd = (SCR_DECLARE_CRANE_POWERUP*)GetBasePointer_512770(idx);
+    SCR_POINTER* pGenerator = (SCR_POINTER*)GetBasePointer_512770(pCmd->field_A_generator);
+    return gCar_214_705F20->sub_5C86C0(1,
+                                       3,
+                                       (SCR_THREAD*)pGenerator->field_8_generator,
+                                       Fix16(pCmd->field_C_pos.field_0_x) + dword_6F75F0,
+                                       Fix16(pCmd->field_C_pos.field_1_y) + dword_6F75F0,
+                                       Fix16(pCmd->field_C_pos.field_2_z),
+                                       dword_6F75F0,
+                                       dword_6F75F0);
 }
 
 MATCH_FUNC(0x511b90)
