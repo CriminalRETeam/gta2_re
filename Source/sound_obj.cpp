@@ -1,4 +1,7 @@
 #include "sound_obj.hpp"
+// Keep cSampleManager.hpp early: the include order changes the order VC6 emits the
+// sampManager and sound_obj calls in e.g. Type_9_4186D0 and Type6_2_412D40
+#include "cSampleManager.hpp"
 #include "Camera.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
@@ -16,7 +19,6 @@
 #include "PublicTransport.hpp"
 #include "Rozza_C88.hpp"
 #include "Weapon_30.hpp"
-#include "cSampleManager.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
 #include <math.h>
@@ -1037,8 +1039,7 @@ char_type sound_obj::CalculateDistance_419020(Fix16 a2)
     return 0;
 }
 
-// TODO: Too many inlines issue
-WIP_FUNC(0x4186D0)
+MATCH_FUNC(0x4186D0)
 char_type sound_obj::Type_9_4186D0(sound_0x68* pObj)
 {
     pObj->field_3C = 600;
@@ -1096,12 +1097,9 @@ char_type sound_obj::IsHeavyTruckOrBus_417F40(s32 a1)
     }
 }
 
-// TODO: Another "too many inlines" issue (changing call ordering)
-WIP_FUNC(0x417EF0)
+MATCH_FUNC(0x417EF0)
 s32 sound_obj::Type_7_417EF0(sound_0x68* pObj)
 {
-    WIP_IMPLEMENTED;
-
     pObj->field_14_samp_idx = 29;
     pObj->field_3C = 400;
     pObj->field_20_rate = RandomDisplacement_41A650(29) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(29);
@@ -5365,8 +5363,7 @@ void sound_obj::Type3_CopRadioReport_57E680()
     }
 }
 
-// this func matches but compiler is misordering calls because of inline funcs count (?)
-WIP_FUNC(0x4136D0)
+MATCH_FUNC(0x4136D0)
 char_type sound_obj::Type6_12_4136D0(Rozza_A* a2)
 {
     s32 samp_idx;
@@ -5401,8 +5398,7 @@ char_type sound_obj::Type6_12_4136D0(Rozza_A* a2)
     return 1;
 }
 
-// this func matches but compiler is misordering calls because of inline funcs count (?)
-WIP_FUNC(0x412D40)
+MATCH_FUNC(0x412D40)
 char_type sound_obj::Type6_2_412D40(u8 a2)
 {
     s32 samp_idx;
@@ -5572,8 +5568,7 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
     return sample_base;
 }
 
-// this func matches but compiler is misordering calls because of inline funcs count (?)
-WIP_FUNC(0x413040)
+MATCH_FUNC(0x413040)
 char_type sound_obj::Type6_4_413040(u8 a2)
 {
     if (a2 < 15u)
@@ -5598,8 +5593,7 @@ char_type sound_obj::Type6_4_413040(u8 a2)
     return 1;
 }
 
-// this func matches but compiler is misordering calls because of inline funcs count (?)
-WIP_FUNC(0x413090)
+MATCH_FUNC(0x413090)
 char_type sound_obj::Type6_5_413090(u8 a2)
 {
     s32 idx_to_use;
