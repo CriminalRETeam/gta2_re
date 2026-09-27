@@ -193,12 +193,11 @@ jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 }
 
 // https://decomp.me/scratch/oIJET
-STUB_FUNC(0x56BB10)
+MATCH_FUNC(0x56BB10)
 void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
 {
-    NOT_IMPLEMENTED;
-
-    const s32 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    player_stats_0xA4* pPlayerStats = &field_26A0_plyr_stats[slot_idx];
     u8 map_num;
     u8 bonus_num;
     if (!gLucid_hamilton_67E8E0.sub_4C59A0())
@@ -213,7 +212,7 @@ void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
         bonus_num = map_and_bonus_nibbles & 0xF;
     }
 
-    stage_stats* pStageStats = &this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num];
+    stage_stats* pStageStats = &pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num];
     const u32 latest_score = pPlayer->field_2D4_scores.GetScore_592370();
     if (latest_score > pStageStats->field_4_stage_best_score)
     {
@@ -223,11 +222,66 @@ void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
     sub_56BA60(slot_idx);
 }
 
-STUB_FUNC(0x56C010)
+// TODO: logic matches, only register allocation differs
+WIP_FUNC(0x56C010)
 void jolly_poitras_0x2BC0::sub_56C010()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    WIP_IMPLEMENTED;
+
+    u8 map_num;
+    u8 bonus_num;
+    char_type bBestStatsChanged = 0;
+
+    if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+    {
+        map_num = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+        bonus_num = 0;
+    }
+    else
+    {
+        const u8 map_and_bonus_nibbles = gLucid_hamilton_67E8E0.GetStage_4C5990();
+        map_num = map_and_bonus_nibbles >> 4;
+        bonus_num = map_and_bonus_nibbles & 0xF;
+    }
+
+    player_stats_0xA4* pPlayerStats = &field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
+    const char_type bNewStageScore =
+        field_1890_stage_scores[map_num][bonus_num].sub_56B550(pPlayerStats->field_90_strPlayerName,
+                                                               pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num].field_8_stage_latest_score);
+    const char_type bNewTotalScore = field_23D0.sub_56B550(pPlayerStats->field_90_strPlayerName, pPlayerStats->sub_56B6B0());
+
+    if (!bonus_num)
+    {
+        u32* pBestStats = reinterpret_cast<u32*>(&field_1800_best_stats[map_num]);
+        for (u8 i = 0; i < 10; i++, pBestStats++)
+        {
+            const u32 value = gLucid_hamilton_67E8E0.sub_4C59F0(i);
+            if (value > *pBestStats)
+            {
+                *pBestStats = value;
+                bBestStatsChanged = 1;
+            }
+        }
+
+        const u32 value1 = gLucid_hamilton_67E8E0.sub_4C5A80();
+        if (value1 > (u32)field_1878[map_num])
+        {
+            field_1878[map_num] = value1;
+            bBestStatsChanged = 1;
+        }
+
+        const u32 value2 = gLucid_hamilton_67E8E0.sub_4C5AA0();
+        if (value2 > (u32)field_1884[map_num])
+        {
+            field_1884[map_num] = value2;
+            bBestStatsChanged = 1;
+        }
+    }
+
+    if (bNewStageScore || bNewTotalScore || bBestStatsChanged)
+    {
+        sub_56BF20();
+    }
 }
 
 MATCH_FUNC(0x56B8A0)
@@ -431,11 +485,43 @@ void jolly_poitras_0x2BC0::sub_56C1D0()
     }
 }
 
-STUB_FUNC(0x56BF20)
+MATCH_FUNC(0x56BF20)
 void jolly_poitras_0x2BC0::sub_56BF20()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    char_type FileName[256];
+    size_t len;
+
+    GetHiScoreHscFileName_56BCF0(FileName);
+
+    // The start of this object is reused as the buffer for the high score file
+    u8* pDst = reinterpret_cast<u8*>(this);
+    memcpy(pDst, &field_23D0, sizeof(high_score_table_0xF0));
+    pDst += sizeof(high_score_table_0xF0);
+    len = sizeof(high_score_table_0xF0);
+
+    for (s32 k = 0; k < 3; k++)
+    {
+        for (s32 j = 0; j < 4; j++)
+        {
+            memcpy(pDst, &field_1890_stage_scores[k][j], sizeof(high_score_table_0xF0));
+            pDst += sizeof(high_score_table_0xF0);
+            len += sizeof(high_score_table_0xF0);
+        }
+
+        memcpy(pDst, &field_1800_best_stats[k], sizeof(struc_221));
+        pDst += sizeof(struc_221);
+        len += sizeof(struc_221);
+
+        *reinterpret_cast<s32*>(pDst) = field_1878[k];
+        pDst += 4;
+        len += 4;
+
+        *reinterpret_cast<s32*>(pDst) = field_1884[k];
+        pDst += 4;
+        len += 4;
+    }
+
+    File::WriteBufferToFile_4A6E80(FileName, this, &len);
 }
 
 MATCH_FUNC(0x56BD20)
