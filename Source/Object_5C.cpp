@@ -3793,10 +3793,27 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
     return 0;
 }
 
-STUB_FUNC(0x52A500)
-void Object_5C::SaveObjects_52A500(TurkishDelight_164* pUnknownObj)
+MATCH_FUNC(0x52A500)
+void Object_5C::SaveObjects_52A500(TurkishDelight_164* pData)
 {
-    NOT_IMPLEMENTED;
+    u16 saved_count = 0;
+    Object_2C* pObj = gObject_2C_Pool_6F8F80->field_8_pool;
+    for (u16 i = 0; i < 3825; pObj++, i++)
+    {
+        if (pObj->field_18_model && pObj->check_is_shop_421060())
+        {
+            pData->field_0_obj_x[0][saved_count].field_0 = pObj->get_x_4340D0();
+            pData->field_0_obj_x[1][saved_count].field_0 = pObj->get_y_4340E0();
+            pData->field_0_obj_x[2][saved_count].field_0 = pObj->get_z_4340F0();
+            pData->field_F0_model[saved_count] = pObj->field_18_model;
+            pData->field_118_varrok_idx[saved_count] = pObj->field_26_varrok_idx;
+            saved_count++;
+            if (saved_count >= 20)
+            {
+                return;
+            }
+        }
+    }
 }
 
 // TODO: This is a mess, probably a fake match
