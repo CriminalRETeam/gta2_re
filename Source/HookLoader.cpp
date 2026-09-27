@@ -1,7 +1,7 @@
 #include "HookLoader.hpp"
 #include "3rdParty/Detours/include/detours.h"
 #include "3rdParty/Manual-DLL-Loader/Source/Manual Loader/Loader.h"
-#include "Globals.hpp"
+#include "GlobalsRegistry.hpp"
 #include <map>
 #include <string>
 #include <windows.h>

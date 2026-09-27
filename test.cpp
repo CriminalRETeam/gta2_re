@@ -7,6 +7,7 @@
 #include "source/lucid_hamilton.hpp"
 #include "Source/winmain.hpp"
 #include "Source/text_0x14.hpp"
+#include "Source/GlobalsRegistry.hpp"
 #include "Source/gbh_graphics.hpp"
 #include "Source/distracted_einstein_0xC.hpp"
 #include "Source/sharp_bose_0x54.hpp"
