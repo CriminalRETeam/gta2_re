@@ -348,12 +348,12 @@ void Char_B4::sub_545430()
 }
 
 // 9.6f 0x493780
-WIP_FUNC(0x545580)
-Fix16_Point* Char_B4::sub_545580(Fix16_Point* a2)
+MATCH_FUNC(0x545580)
+Fix16_Point Char_B4::sub_545580()
 {
-    WIP_IMPLEMENTED;
-    a2->FromPolar_41E210(-gRunOrJumpSpeed_6FD7D0, field_80_sprite_ptr->field_0);
-    return a2;
+    Fix16_Point p;
+    p.FromPolar_41E210(-gRunOrJumpSpeed_6FD7D0, field_80_sprite_ptr->field_0);
+    return p;
 }
 
 MATCH_FUNC(0x46DD50)

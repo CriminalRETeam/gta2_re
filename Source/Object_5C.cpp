@@ -485,8 +485,7 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
     //LOBYTE(seh) = 4;
     Fix16_Point posDelta = (spritePos - *pPoint);
 
-    Fix16_Point tmp;
-    pB4->sub_545580(&tmp);
+    Fix16_Point tmp = pB4->sub_545580();
     //LOBYTE(seh) = 5;
 
     Fix16_Point lineHitPos = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
