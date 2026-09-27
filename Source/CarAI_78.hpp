@@ -118,7 +118,7 @@ class CarAI_78
     s32 field_50;
     u16 field_54;
     s16 field_56;
-    s16 field_58;
+    u16 field_58;
     s16 field_5A;
     Fix16 field_5C;
     Fix16 field_60;
