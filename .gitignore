@@ -16,6 +16,8 @@ vscommondir.reg
 .vs
 __pycache__
 Scripts/bin_comp/new_data.json
+Scripts/bin_comp/target_asm.json
+Scripts/bin_comp/target_data.json
 Scripts/bin_comp/*og_asm.txt
 Scripts/bin_comp/*og_asm_post_processed.txt
 Scripts/bin_comp/*new_asm_post_processed.txt

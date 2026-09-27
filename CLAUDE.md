@@ -107,6 +107,36 @@ example, in `Source/Camera.cpp`, `Camera_0xBC::sub_4357F0`, change `<` to `<=`. 
 `build.py` (`FAIL!`) and `compare_builds.py` (`CHANGED: Camera_0xBC::sub_4357F0`) must
 report that function and only that one. Revert afterwards.
 
+## Implementing functions without the original exe
+
+The "Dump target asm" workflow (push to `claude/target-asm-request`) writes the original asm
+of every WIP/STUB function to the `claude/target-asm` branch: `target_asm.json` (raw and post
+processed asm), `target_data.json` (switch jump tables, float constants) and per-file `asm/`.
+`Scripts/bin_comp/compare_target_asm.py` compares the current build against it with the
+verifier's post processing, so a MATCH there passes `compare_all_functions.py` too:
+
+```bash
+cd Scripts/bin_comp
+git show origin/claude/target-asm:target_asm.json > target_asm.json
+git show origin/claude/target-asm:target_data.json > target_data.json
+python3 compare_target_asm.py --target 57ef60   # original asm + jump tables
+python3 compare_target_asm.py --raw 57ef60      # original vs build, side by side
+python3 compare_target_asm.py 57ef60            # MATCH or a diff
+```
+
+Remove `WIP_IMPLEMENTED`/`NOT_IMPLEMENTED` while comparing, since both add code. Call targets
+in the raw asm are relative to the function start (`addr + offset`), so look them up in
+`og_function_data_v105.csv`. Codegen patterns seen so far:
+
+- Merged `case` labels give a byte index table. The original often has one jump table
+  entry per case, so write each case out.
+- `je tail; jmp next` for an `if/else` whose branches share a tail comes from a `goto`.
+- An EH frame missing from a destructor: `<new>` declares `operator delete` as `throw()`,
+  so don't include C++ std headers from widely used headers.
+- A variadic member is `__cdecl` with `this` on the stack. A plain `ret` hints at `...`.
+- Store and load order follows the source statement order and inline getters, so try
+  reordering statements and using the existing inline accessors.
+
 ## Figuring out why a function doesn't match
 
 Prefer **objdiff** to the Python asm dumps. It diffs at the object level with relocations
