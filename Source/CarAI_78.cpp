@@ -5268,7 +5268,7 @@ void CarAI_78::sub_452DF0()
                                                                  field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
 
     if (pBlock && (pBlock->field_B_slope_type & 0xFC) > 0 && (pBlock->field_B_slope_type & 0xFCu) < 0xB4 &&
-        (pBlock->field_B_slope_type & 3) != 0)
+        (pBlock->field_B_slope_type & 3) != AIR)
     {
         bIsOnGradientSlope_677C90 = true;
     }
@@ -5312,7 +5312,7 @@ void CarAI_78::sub_452DF0()
         ++field_58;
         if (field_0_car->field_7C_uni_num != 5)
         {
-            if (field_58 > 0xC8u)
+            if (field_58 > 200)
             {
                 field_0_car->field_80 = 1;
             }
@@ -5331,25 +5331,24 @@ void CarAI_78::sub_452DF0()
         switch (field_50)
         {
             case 0:
-                field_24_flags &= ~0x20C0u;
-                field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
-                field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
+                field_24_flags &= ~0x20C0;
+                field_0_car->field_58_physics->SetGoStraight_42ABB0();
                 break;
 
             case 1:
-                field_24_flags &= ~0x2040u;
-                field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
+                field_24_flags &= ~0x2040;
+                field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                 field_24_flags |= 0x80;
                 break;
 
             case 2:
-                field_24_flags &= ~0x2040u;
-                field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
+                field_24_flags &= ~0x2040;
+                field_0_car->field_58_physics->TurnClockwise_42ABA0();
                 field_24_flags |= 0x80;
                 break;
 
             case 3:
-                field_24_flags = (field_24_flags & ~0x2080u) | 0x40;
+                field_24_flags = (field_24_flags & ~0x2080) | 0x40;
                 break;
 
             default:
@@ -5359,10 +5358,10 @@ void CarAI_78::sub_452DF0()
 
     sub_452060();
 
-    if (gCurrCarAI_Velocity_677B00 != kF16Zero_677B90)
+    // TODO: Use dword_677B90  as Kzero
+    if (gCurrCarAI_Velocity_677B00 != kFP16Zero_6FE20C)
     {
-        // TODO: Use dword_677B90  as Kzero
-        if (field_0_car->field_58_physics->field_0_vel_read_only.GetLength_2() == kF16Zero_677B90)
+        if (field_0_car->field_58_physics->field_0_vel_read_only.GetLength_2() == kFP16Zero_6FE20C)
         {
             ++field_2A_stopped_timer;
         }
@@ -5390,14 +5389,15 @@ void CarAI_78::sub_452DF0()
     }
     else if (!byte_677BBC)
     {
-        if (field_70_nearest_entity && field_70_nearest_entity->get_type_416B40() == sprite_types_enum::unknown_1 && field_70_nearest_entity->As2C_40FEC0()->field_18_model == objects::pedestrian_crossing_marker_122)
+        if (field_70_nearest_entity && field_70_nearest_entity->get_type_416B40() == sprite_types_enum::unknown_1 &&
+            field_70_nearest_entity->As2C_40FEC0()->field_18_model == objects::pedestrian_crossing_marker_122)
         {
-            field_70_nearest_entity = 0;
             field_24_flags |= 0x10;
+            field_70_nearest_entity = 0;
         }
         else
         {
-            field_24_flags &= 0xEF;
+            field_24_flags &= ~0x10;
         }
     }
 
