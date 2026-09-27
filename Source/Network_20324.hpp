@@ -58,7 +58,7 @@ class Network_20324
     EXPORT static void GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount);
     EXPORT Network_20324();
     EXPORT virtual ~Network_20324();
-    EXPORT s32 ShowNetworkUiBlocking_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance);
+    EXPORT s32 ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance);
     EXPORT static int __stdcall DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
     EXPORT static s32 __stdcall cb_sub_519D30(Network_20324* a1, s32 a2);
     EXPORT void SetDlgHwnd_519E10(HWND a2);

@@ -93,25 +93,23 @@ Network_20324::~Network_20324()
 }
 
 // TODO: Make a scratch
-STUB_FUNC(0x519bd0)
-s32 Network_20324::ShowNetworkUiBlocking_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance)
+MATCH_FUNC(0x519bd0)
+s32 Network_20324::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
 {
-    NOT_IMPLEMENTED;
-
-    dwInitParam->field_202E4_hInstance = hInstance;
-    gNetPlay_7071E8.Set15_51ECD0((int)Network_20324::cb_sub_519D30, dwInitParam);
-    gNetPlay_7071E8.Set6_520530((void*)Network_20324::cb_sub_519E30, (void*)dwInitParam);
-    gNetPlay_7071E8.Set9_520E60((int)Network_20324::cb_sub_51ACD0, (int)dwInitParam);
-    gNetPlay_7071E8.Set3_Disconnect_520E80((int)Network_20324::cb_Disconnect_51ADE0, (int)dwInitParam);
-    gNetPlay_7071E8.Set18_520F50((int)Network_20324::cb_sub_51AE50, (int)dwInitParam);
-    gNetPlay_7071E8.Set21_5210D0((int)Network_20324::cb_sub_51B2F0, (int)dwInitParam);
-    gNetPlay_7071E8.Set24_521140((int)Network_20324::cb_sub_51B7E0, (int)dwInitParam);
-    gNetPlay_7071E8.Set27SavePlayerName_5211F0((int)Network_20324::cb_SavePlayerName_51BC00, (int)dwInitParam);
-    return DialogBoxParamA(dwInitParam->field_202E4_hInstance,
+    this->field_202E4_hInstance = hInstance;
+    gNetPlay_7071E8.Set15_51ECD0((int)Network_20324::cb_sub_519D30, this);
+    gNetPlay_7071E8.Set6_520530((void*)Network_20324::cb_sub_519E30, (void*)this);
+    gNetPlay_7071E8.Set9_520E60((int)Network_20324::cb_sub_51ACD0, (int)this);
+    gNetPlay_7071E8.Set3_Disconnect_520E80((int)Network_20324::cb_Disconnect_51ADE0, (int)this);
+    gNetPlay_7071E8.Set18_520F50((int)Network_20324::cb_sub_51AE50, (int)this);
+    gNetPlay_7071E8.Set21_5210D0((int)Network_20324::cb_sub_51B2F0, (int)this);
+    gNetPlay_7071E8.Set24_521140((int)Network_20324::cb_sub_51B7E0, (int)this);
+    gNetPlay_7071E8.Set27SavePlayerName_5211F0((int)Network_20324::cb_SavePlayerName_51BC00, (int)this);
+    return DialogBoxParamA(this->field_202E4_hInstance,
                            (LPCSTR)103, // probably IDD_NETWORK_DIALOG
                            0,
                            Network_20324::DialogFunc,
-                           (LPARAM)dwInitParam) == 1;
+                           (LPARAM)this) == 1;
 }
 
 MATCH_FUNC(0x519c80)
