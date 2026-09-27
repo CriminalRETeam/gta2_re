@@ -177,12 +177,21 @@ Montana_4::Montana_4()
     Reset_5C5E50();
 }
 
-STUB_FUNC(0x5c5f10)
+// TODO: target loads gMontana_2EE4_705BBC into ecx and pushes esi inside the if
+WIP_FUNC(0x5c5f10)
 Montana_4::~Montana_4()
 {
-    NOT_IMPLEMENTED;
-    GTA2_DELETE_AND_NULL(gMontana_2EE4_705BBC);
-    GTA2_DELETE_AND_NULL(gMontana_FA4_705BC0);
+    WIP_IMPLEMENTED;
+
+    if (gMontana_2EE4_705BBC)
+    {
+        GTA2_DELETE_AND_NULL(gMontana_2EE4_705BBC);
+    }
+
+    if (gMontana_FA4_705BC0)
+    {
+        GTA2_DELETE_AND_NULL(gMontana_FA4_705BC0);
+    }
 }
 
 MATCH_FUNC(0x4954f0)
