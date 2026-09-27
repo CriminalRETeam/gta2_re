@@ -251,7 +251,7 @@ s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
             case '#':
                 break;
             default:
-                current_width += gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, (wchar_t*)pSrcStr);
+                current_width += gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, (wchar_t*)pDestStrCopy);
                 break;
         }
 
