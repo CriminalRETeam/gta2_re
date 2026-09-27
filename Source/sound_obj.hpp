@@ -398,7 +398,7 @@ class sound_obj
     EXPORT void UpdateActiveRadioEmitterVolume_57EA90();
     EXPORT char_type ComputeRadioEmitterVolume_57EB90(s32 emitterIndex, s32 bUseFarRadius);
     EXPORT void DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 ypos);
-    EXPORT void sub_57EDB0(s32 a1, s32 a2);
+    EXPORT void sub_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type);
     EXPORT void RemoveSound_57EE30(Fix16 a2, Fix16 a3);
     EXPORT void CycleRadioStation_57EEE0(char_type bPrev);
     EXPORT void SelectBestRadioEmitter_57EF60();

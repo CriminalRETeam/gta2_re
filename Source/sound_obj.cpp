@@ -3360,10 +3360,59 @@ void sound_obj::DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 yp
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x57EDB0)
-void sound_obj::sub_57EDB0(s32 a1, s32 a2)
+// Cases are written out separately so the jump table has one entry per case
+MATCH_FUNC(0x57EDB0)
+void sound_obj::sub_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type)
 {
-    NOT_IMPLEMENTED;
+    switch (type)
+    {
+        case 1:
+            pEmitter->field_10 = 0;
+            pEmitter->field_12 = 600;
+            pEmitter->field_4_xpos = 0;
+            pEmitter->field_8_ypos = 0;
+            break;
+        case 2:
+            pEmitter->field_10 = 0;
+            pEmitter->field_12 = 600;
+            break;
+        case 3:
+            pEmitter->field_10 = 0;
+            pEmitter->field_12 = 600;
+            break;
+        case 4:
+            pEmitter->field_10 = 0;
+            pEmitter->field_12 = 600;
+            break;
+        case 5:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 6:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 7:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 8:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 9:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 10:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 11:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+    }
 }
 STUB_FUNC(0x57E6C0)
 char_type sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
