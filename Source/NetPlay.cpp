@@ -1882,12 +1882,9 @@ void NetPlay::Add_5216E0(Network_8* pData, s32 id, char_type type)
     }
 }
 
-// Register allocation differs, see docs/match_attempts.md
-WIP_FUNC(0x521770)
+MATCH_FUNC(0x521770)
 u32 NetPlay::sub_521770(Network_8* pOut, char_type* pSeq, u32* pPlayerId)
 {
-    WIP_IMPLEMENTED;
-
 #pragma warning(push)
 #pragma warning(disable : 4700) // best_seq/best_idx are read uninitialised in the original too
     u8 best_seq;
@@ -1903,36 +1900,23 @@ u32 NetPlay::sub_521770(Network_8* pOut, char_type* pSeq, u32* pPlayerId)
                 best_idx = i;
                 bFound = 1;
             }
-            else
+            else if (SeqDiff(field_8F8_packets[i].field_11_type, best_seq) < 0)
             {
-                u8 seq = field_8F8_packets[i].field_11_type;
-                s32 diff = (u8)(seq - best_seq);
-                if (diff != 0)
-                {
-                    if (diff >= 0x80)
-                    {
-                        diff -= 0x100;
-                    }
-                    if (diff < 0)
-                    {
-                        best_seq = seq;
-                        best_idx = i;
-                    }
-                }
+                best_seq = field_8F8_packets[i].field_11_type;
+                best_idx = i;
             }
         }
     }
 
-    if (!bFound)
+    if (bFound)
     {
-        return -1;
+        pOut->field_4_len = field_8F8_packets[best_idx].field_C;
+        pOut->field_0 = &field_8F8_packets[best_idx];
+        *pPlayerId = field_8F8_packets[best_idx].field_8_id;
+        *pSeq = best_seq;
+        return best_idx;
     }
-
-    pOut->field_4_len = field_8F8_packets[best_idx].field_C;
-    pOut->field_0 = &field_8F8_packets[best_idx];
-    *pPlayerId = field_8F8_packets[best_idx].field_8_id;
-    *pSeq = best_seq;
-    return best_idx;
+    return -1;
 #pragma warning(pop)
 }
 

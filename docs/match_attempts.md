@@ -219,25 +219,6 @@ no source to write for them:
 
 The markers can't be checked either way: there's no function body to put after them.
 
-## NetPlay::sub_521770 (WIP)
-
-Finds the used packet slot with the oldest 8-bit sequence number (wrap-around difference
-`d = (u8)(a - b); if (d >= 0x80) d -= 0x100;`, the same code appears in `sub_521890`).
-
-The original's `mov 8(%esp),%al` / `mov 0x10(%esp),%ebp` in the prologue are **not** reads
-of the first argument: they are the uninitialised `best_seq`/`best_idx` locals. VC6 gives
-uninitialised variables a stack home that overlaps an argument slot and "loads" them from
-there. Our build does the same, from different slots.
-
-Ratio 0.175 (the frame differs, so everything shifts). The original keeps the found flag
-in `cl`, spills `this` into the `push %ecx` slot, and compares with immediates
-(`cmpb $1,-1(%esi)`, `mov $1,%cl`). Ours keeps a constant 1 in `al` for both the
-`field_10_used == 1` test and `bFound = 1`, spills `bFound` to the stack, and uses a
-second temp for the difference.
-
-Tried (no change): `bool` vs `char_type` flag; the difference as a static inline helper vs
-written out inline.
-
 ## NetPlay::CalcPacketLen_51F210 (WIP)
 
 Rewrites a received packet in place: copies it to a 64-byte local, writes a 5-byte header
@@ -285,14 +266,16 @@ Also tried: a `char_type` return type (no change). Not tried: a result variable.
 
 ## NetPlay::ReceiveGameMessage_521890 (WIP)
 
-The in-game message pump. It first drains buffered out-of-order packets (`sub_521770`),
+The in-game message pump. It first drains buffered out-of-order packets (`sub_521770`, which
+matches now),
 otherwise reads new ones with `Receive_51F010`. Game packets (type 3) are compared with
-the sender's and our own 8-bit sequence numbers (`SeqDiff`, see `sub_521770`): old ones
+the sender's and our own 8-bit sequence numbers (`SeqDiff`, an inline helper in NetPlay.cpp): old ones
 are dropped, the next one is accepted (`sub_521820`, sequence++), anything later is
 buffered (`Add_5216E0`). It stops on a message, `field_8F0` or after 500 ms, and stores
 the time taken in `field_8F4_time_diff`.
 
-Ratio 0.284. That's misleading: the logic lines up, but our frame is 0x1C bytes instead of
+Ratio 0.419 (0.284 before `SeqDiff` returned `diff - 0x100` directly). The logic lines up,
+but our frame is 0x1C bytes instead of
 0x18, so every stack offset differs. The original has six dwords: one holding the three
 byte locals (`bGotMessage` 0x11, `bCheckBuffered` 0x12, `seq` 0x13), then pData,
 senderId, the start time (also kept in `ebp`), recvId and the length. Ours keeps
