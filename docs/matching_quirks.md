@@ -53,6 +53,17 @@ two `push`es that branch to one `call` come from `if (x == 0) f(1); else f(0);`
 **Merged `case` labels give a byte index table.** The original often has one jump table
 entry per case, so write each case out.
 
+**VC6 copies a small shared tail into both branches.** If both branches of an `if/else` end
+with the same call and the original has that call twice, write it once after the `if/else`,
+not in each branch. VC6 duplicates it, and it pops the callee-saved registers the
+branches used before the copies (`Net_Send_Our_Inputs_4DACB0`: two `SendToAll_521B20`
+calls in the asm, one in the source).
+
+**A switch range that runs past the last real case.** If the index table covers values
+that all go to `default`, a case at the top of the range exists in the source but does
+nothing. An empty `case N: break;` is dropped, even with an explicit `default`. A dead
+store in it keeps the range (`sound_obj::HandleTruckCorneringAudio_417FD0`, case 86).
+
 **A case that only returns is dropped from the table.** VC6 removes a `case` whose body is
 identical to `default`, which shrinks the switch range (`cmp $0x53` instead of `cmp $0x57`).
 A dead store in that case keeps it in the table:
@@ -156,6 +167,18 @@ of `==` if they are the wrong way round (`NetPlay::InitializeConnection_51E5C0`)
 some fields to locals before calls, the statement order of those saves can leave the load
 schedule the same and still rotate the registers for the rest of the function. Try every
 order (`PedGroup::PromoteMemberToLeader_4C9680`: four saves, one order of 24 matched).
+
+**An out-parameter object with a zeroing constructor.** When the original passes the
+address of an uninitialised local to a function that fills it (`Ang16::sub_409340(Ang16*
+pRet, ...)`), a local `Ang16` gets zeroed by its default constructor first. Use raw storage
+of the same size as the original's slot and cast (`s32 slide_angle; ...((Ang16*)&slide_angle
+...)`, then compare `(s16)slide_angle`). The 4-byte slot also gives the original's 32-bit load
+(`sound_obj::HandleTruckCorneringAudio_417FD0`).
+
+**Nested member access instead of a local pointer.** `a2->field_0->field_8->Get()` written
+out in full can schedule its loads differently from a `Car_BC* pCar` local
+(`sound_obj::HandleAICarEngineSound_418190`: the local loaded the car before a global,
+unlike the original).
 
 **Getters vs direct field reads change register choice.** Reading `p->field_1AC_cam.x`
 directly instead of through an inline `get_cam_x()` that returns `Fix16` by value can give
