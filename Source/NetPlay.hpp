@@ -82,6 +82,12 @@ class EnumeratedConnection
     s32 field_18_connection_len;
 };
 
+struct Network_PlayerPing
+{
+    wchar_t field_0_name[260];
+    s32 field_208_avg_ping;
+};
+
 struct Network_4
 {
     wchar_t* field_0_allocated_str;
@@ -194,7 +200,7 @@ struct NetPlay
     EXPORT void Set9_520E60(s32 pFunc, s32 pParam);
     EXPORT void Set3_Disconnect_520E80(s32 a2, s32 a3);
     EXPORT void NoRefs_null_520EA0();
-    EXPORT s32 sub_520EB0(s32 a2, s32 a3, Network_Unknown* a4);
+    EXPORT void sub_520EB0(s32 player_id, s32 ping, Network_Unknown* pStru);
     EXPORT void Set18_520F50(s32 a2, s32 a3);
     EXPORT s32 RemovePlayerByName_520F80(wchar_t* String2);
     EXPORT s32 DeletePlayerFromGroup_521000(u32 idx);

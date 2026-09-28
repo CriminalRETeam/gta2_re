@@ -1053,11 +1053,21 @@ void NetPlay::NoRefs_null_520EA0()
 {
 }
 
-STUB_FUNC(0x520eb0)
-s32 NetPlay::sub_520EB0(s32 a2, s32 a3, Network_Unknown* a4)
+MATCH_FUNC(0x520eb0)
+void NetPlay::sub_520EB0(s32 player_id, s32 ping, Network_Unknown* pStru)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Network_PlayerPing info;
+
+    u32 idx = IndexOf_520E30(player_id, pStru);
+    if (idx != 0xEEEEEEEE)
+    {
+        pStru->field_10[idx].field_C += ping;
+        pStru->field_10[idx].field_4++;
+        pStru->field_10[idx].field_8 = (u32)pStru->field_10[idx].field_C / (u32)pStru->field_10[idx].field_4;
+        wcscpy(info.field_0_name, pStru->field_10[idx].field_1C);
+        info.field_208_avg_ping = pStru->field_10[idx].field_8;
+        ProcessIncomingPacket_520230(6, (u32)&info);
+    }
 }
 
 MATCH_FUNC(0x520f50)
