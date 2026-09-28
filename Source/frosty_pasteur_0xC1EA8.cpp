@@ -13,6 +13,7 @@
 #include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
+#include "miss2_0x11C.hpp"
 
 DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
 DEFINE_GLOBAL(SaveData_748, gGameSave_6F78C8, 0x6F78C8);
@@ -896,8 +897,44 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     gStoredCarId_6F78B4 = 0;
 }
 
-STUB_FUNC(0x5130e0)
+MATCH_FUNC(0x5130e0)
 frosty_pasteur_0xC1EA8::~frosty_pasteur_0xC1EA8()
 {
-    NOT_IMPLEMENTED;
+    if (miss2_0x11C_Pool_6F8064)
+    {
+        GTA2_DELETE_AND_NULL(miss2_0x11C_Pool_6F8064);
+    }
+
+    if (field_13350_pStringTbl)
+    {
+        memset(field_13350_pStringTbl->field_4, 0, sizeof(field_13350_pStringTbl->field_4));
+        free(field_13350_pStringTbl);
+        field_13350_pStringTbl = NULL;
+    }
+
+    if (field_1334C_strings)
+    {
+        free(field_1334C_strings);
+        field_1334C_strings = NULL;
+    }
+
+    memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
+
+    if (gMiss2_25C_6F805C)
+    {
+        GTA2_DELETE_AND_NULL(gMiss2_25C_6F805C);
+    }
+
+    field_328_passed_flag = NULL;
+    field_32C_1_passed_flag = NULL;
+    field_330_2_passed_flag = NULL;
+    field_334_3_passed_flag = NULL;
+    field_340_car_list = NULL;
+    field_338_secrets_passed = NULL;
+    field_33C_secrets_failed = NULL;
+    field_348_gang_1_mission_flag = NULL;
+    field_34C_gang_2_mission_flag = NULL;
+    field_350_gang_3_mission_flag = NULL;
+    gStoredCarId_6F78B4 = 0;
+    gStoredCar_6F7560 = NULL;
 }
