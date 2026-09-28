@@ -195,7 +195,7 @@ struct NetPlay
     EXPORT char_type Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId);
     EXPORT void SendOrReceivePacket_51F0D0(void* pPacket, s32 a3, s32 a4, s32 a5);
     EXPORT void ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s32 a5);
-    EXPORT s32 CalcPacketLen_51F210(u32 pPacket);
+    EXPORT s32 CalcPacketLen_51F210(s32 pPacket, u32 packetLen);
     EXPORT void MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen);
     EXPORT void OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 a5);
     EXPORT s32 MovePlayerToGroup_520040(s32 toFind, Network_Unknown* pStru, Network_Unknown* pDst, u32* pOutIdx);

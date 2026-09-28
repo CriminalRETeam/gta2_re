@@ -188,6 +188,18 @@ code the body of `if (hr != DP_OK) { failed: ...; return 0; }` and have earlier 
 `goto failed;`. A success label at the end doesn't work: VC6 moves it back up
 (`NetPlay::CreateModemAddress_51E2B0`).
 
+**Placing a shared failure block right after a loop.** When the original's loop ends with
+`je <loop top>` and falls straight into a `return 0` block that earlier checks also jump
+to, with the success code after it, put the label and the return at the end of a
+`while (1)` body: `if (!Receive(...)) continue; failed: return 0; }`, with `break` at the
+top for the success case. A `failed:` label after the success code, or a
+`goto success` from the loop, gets laid out the other way round (`NetPlay::Receive_51F010`).
+
+**Uninitialised locals are "loaded" from argument slots.** An uninitialised local can be
+given a stack home that overlaps an argument, so its first use shows up as
+`mov N(%esp),%reg` reading that argument. It isn't a real read of the parameter, so
+leave the local uninitialised (`NetPlay::sub_521770`).
+
 **Struct copies load through a pointer register.** `mov (%edx),%esi; mov (%esi),%ebp; ... mov 4(%esi),%esi`
 into consecutive fields is a struct assignment (`entry.inputs = *pData->p`), not two
 separate field copies (`NetPlay::Add_5216E0`).

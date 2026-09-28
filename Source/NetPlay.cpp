@@ -740,33 +740,41 @@ s32 NetPlay::SendPing_51EF60()
     return field_5E4_pDPlay3->Send(field_5D8_player_id, field_758_n2.field_0_group_id, 0, (void*)pData, dataLen);
 }
 
-WIP_FUNC(0x51f010)
+MATCH_FUNC(0x51f010)
 char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId)
 {
-    WIP_IMPLEMENTED;
-
     unsigned long readLen = 0x1800;
-    if (field_5E4_pDPlay3->Receive(senderId, recvId, 1, (void*)field_8E4_p0x1800_1, &readLen))
+    if (field_5E4_pDPlay3->Receive(senderId, recvId, DPRECEIVE_ALL, (void*)field_8E4_p0x1800_1, &readLen))
     {
-        return 0;
+        goto failed;
     }
 
-    while (!*senderId)
+    while (1)
     {
-        OnPacketReceived_51F870((char*)this->field_8E4_p0x1800_1, readLen, *recvId, 0);
-        if (!this->field_8F0)
+        if (*senderId)
         {
-            readLen = 0x1800;
-            if (!field_5E4_pDPlay3->Receive(senderId, recvId, 1, (void*)field_8E4_p0x1800_1, &readLen))
-            {
-                continue;
-            }
+            break;
         }
+
+        // A system message: handle it and read the next message
+        OnPacketReceived_51F870((char*)field_8E4_p0x1800_1, readLen, *recvId, 0);
+        if (field_8F0)
+        {
+            goto failed;
+        }
+
+        readLen = 0x1800;
+        if (!field_5E4_pDPlay3->Receive(senderId, recvId, DPRECEIVE_ALL, (void*)field_8E4_p0x1800_1, &readLen))
+        {
+            continue;
+        }
+
+    failed:
         return 0;
     }
 
-    s32 outDataLen = CalcPacketLen_51F210(this->field_8E4_p0x1800_1);
-    *pOutData = this->field_8E4_p0x1800_1;
+    s32 outDataLen = CalcPacketLen_51F210(field_8E4_p0x1800_1, readLen);
+    *pOutData = field_8E4_p0x1800_1;
     *pOutDataLen = outDataLen;
     return 1;
 }
@@ -827,7 +835,7 @@ void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s
 }
 
 STUB_FUNC(0x51f210)
-s32 NetPlay::CalcPacketLen_51F210(u32 pPacket)
+s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
 {
     NOT_IMPLEMENTED;
     return 0;
