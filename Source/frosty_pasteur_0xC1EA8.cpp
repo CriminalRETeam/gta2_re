@@ -727,6 +727,8 @@ void frosty_pasteur_0xC1EA8::sub_512BA0(s32 id, char_type bUnk)
             {
                 if ((pTable->field_6 & 4) == 4)
                 {
+                    // je clear; jmp next in the original: the shared tail needs a goto (duplicated
+                    // bodies, early continue/return and a combined condition all change the code)
                     goto clear;
                 }
                 continue;
@@ -763,6 +765,8 @@ void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, cha
                 {
                     if ((pTable->field_6 & 4) == 4)
                     {
+                        // je set; jmp next in the original: the shared tail needs a goto (duplicated
+                        // bodies, early continue/return and a combined condition all change the code)
                         goto set;
                     }
                     return;
