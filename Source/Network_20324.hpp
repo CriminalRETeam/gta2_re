@@ -85,7 +85,7 @@ class Network_20324
     EXPORT void SetPlayerNameText_51B7C0();
     EXPORT static void __stdcall cb_sub_51B7E0(Network_20324* a1, const char_type** a2);
     EXPORT void ApplyHostGameSettings_51B810(const char_type* a2);
-    EXPORT s32 SetSetting_51B9C0(s32 a2, char_type* Data);
+    EXPORT void SetSetting_51B9C0(s32 setting, s32 value);
     EXPORT void sub_51BBC0();
     EXPORT u32 GetCount_51BBD0();
     EXPORT void DecCount_51BBE0();

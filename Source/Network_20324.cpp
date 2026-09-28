@@ -735,12 +735,86 @@ void Network_20324::ApplyHostGameSettings_51B810(const char_type* a2)
 }
 #pragma warning(pop)
 
-STUB_FUNC(0x51b9c0)
-s32 Network_20324::SetSetting_51B9C0(s32 a2, char_type* Data)
+#pragma warning(push)
+#pragma warning(disable : 4701) // pSpeedText is used uninitialised for an unknown speed, as in the original
+MATCH_FUNC(0x51b9c0)
+void Network_20324::SetSetting_51B9C0(s32 setting, s32 value)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Network_8 data;
+    char_type* pSpeedText;
+
+    switch (setting)
+    {
+        case 1:
+            field_20088_game_settings.field_2018C_map_idx = value;
+            strcpy(field_20088_game_settings.field_20088_default_map, field_4_maps[value].field_410_maybe_display_name);
+            sub_51CB30(field_4_maps[value].field_514, field_202E0_dlg_hwnd);
+            gRegistry_6FF968.Set_Network_Setting_587730("map_index", value);
+            break;
+
+        case 2:
+            field_20088_game_settings.field_20194_frag_limit = value;
+            if (field_20088_game_settings.field_20198_game_type == 1)
+            {
+                gRegistry_6FF968.Set_Network_Setting_587730("f_limit", value);
+            }
+            else if (field_20088_game_settings.field_20198_game_type == 2)
+            {
+                gRegistry_6FF968.Set_Network_Setting_587730("s_limit", value);
+            }
+            break;
+
+        case 3:
+            field_20088_game_settings.field_20198_game_type = value;
+            gRegistry_6FF968.Set_Network_Setting_587730("game_type", value);
+            if (field_20088_game_settings.field_20198_game_type == 1)
+            {
+                field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Set_Network_Setting_587690("f_limit", 3);
+            }
+            else if (field_20088_game_settings.field_20198_game_type == 2)
+            {
+                field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Set_Network_Setting_587690("s_limit", 10000);
+            }
+            break;
+
+        case 4:
+            field_20088_game_settings.field_201A0_police_on = value;
+            gRegistry_6FF968.Set_Network_Setting_587730("police", value);
+            break;
+
+        case 6:
+            field_20088_game_settings.field_2019C_tick_count = value;
+            break;
+
+        case 5:
+            field_20088_game_settings.field_20190_game_speed = value;
+            switch (value)
+            {
+                case 2:
+                    pSpeedText = GetString_519A00("netui12");
+                    break;
+                case 1:
+                    pSpeedText = GetString_519A00("netui11");
+                    break;
+                case 0:
+                    pSpeedText = GetString_519A00("netui10");
+                    break;
+            }
+            SetDlgItemTextA(field_202E0_dlg_hwnd, LABEL_GAME_SPEED_TEXT_1032, pSpeedText);
+            gRegistry_6FF968.Set_Network_Setting_587730("game_speed", value);
+            break;
+
+        case 7:
+            field_20088_game_settings.field_201A4_game_time_limit = value;
+            gRegistry_6FF968.Set_Network_Setting_587730("game_time_limit", value);
+            break;
+    }
+
+    data.field_0 = &field_20088_game_settings;
+    data.field_4_len = sizeof(field_20088_game_settings);
+    gNetPlay_7071E8.sub_521170(&data);
 }
+#pragma warning(pop)
 
 MATCH_FUNC(0x51bbc0)
 void Network_20324::sub_51BBC0()
@@ -1011,7 +1085,7 @@ void __stdcall Network_20324::OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 
             case 7:
             {
                 const int pos2 = SendDlgItemMessageA(hWnd, 1031, TBM_GETPOS, 0, 0);
-                pThis->SetSetting_51B9C0(5, (char*)pos2); // set game speed
+                pThis->SetSetting_51B9C0(5, (s32)pos2); // set game speed
             }
             break;
 
