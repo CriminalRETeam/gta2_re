@@ -1047,6 +1047,7 @@ void Network_20324::ApplyHostGameSettings_51B810(const char_type* a2)
                 field_20088_game_settings = *pSettings;
                 field_20088_game_settings.field_2018C_map_idx = i;
                 SetDlgItemTextA(field_202E0_dlg_hwnd, UNKNOWN_PLAYER_COUNT_1054, field_4_maps[i].field_30C_description);
+                // A found flag, an i >= count check after the loop or a break all change the code
                 goto map_done;
             }
             i++;

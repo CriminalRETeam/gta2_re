@@ -456,6 +456,7 @@ s32 NetPlay::CreateModemAddress_51E2B0(wchar_t* pPhoneNumber, wchar_t* pModemNam
 
     if (field_5E0_pDPlayLobby2->CreateCompoundAddress(elements, 1, NULL, &addressLen) != DPERR_BUFFERTOOSMALL)
     {
+        // Shared cleanup block, likely a goto in the original too
         goto failed;
     }
 
@@ -894,6 +895,8 @@ MATCH_FUNC(0x51f010)
 char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId)
 {
     unsigned long readLen = 0x1800;
+    // The shared return 0 has to sit at the end of the loop body to get the original layout;
+    // early returns or a break out of the loop change the code
     if (field_5E4_pDPlay3->Receive(senderId, recvId, DPRECEIVE_ALL, (void*)field_8E4_p0x1800_1, &readLen))
     {
         goto failed;

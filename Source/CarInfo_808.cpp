@@ -239,6 +239,7 @@ s32 __stdcall sub_430C70(char_type* pStr)
                             }
                             error_ret = CarInfo_808::PushData_430E60(&tmp, sizeof(BYTE));
                         }
+                        // Shares the word case's tail; VC6 doesn't merge identical case tails by itself
                         goto check_push_result;
                     }
                     return error_ret;
