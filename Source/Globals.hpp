@@ -1,18 +1,16 @@
 #pragma once
 
 #include "types.hpp"
-#include <vector>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 class GlobalRef;
 
-class GlobalsRegistry
-{
-  public:
-    void Add(GlobalRef* pRef);
-    void CheckVars();
-  public:
-    std::vector<GlobalRef*> mGlobals;
-};
+// Defined in GlobalsRegistry.hpp. Not included here because <vector> pulls in <new>, whose
+// throw() operator delete makes VC6 drop the EH frames that the original has in destructors.
+class GlobalsRegistry;
 
 // Export as plain C function with no name mangling so that
 // the HookLoader can easily find and special case it.

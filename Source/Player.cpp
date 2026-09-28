@@ -68,21 +68,24 @@ bool UnknownDebugClass::DoBrianTest_42D870(u16 action)
     return false;
 }
 
-WIP_FUNC(0x443CB0)
+MATCH_FUNC(0x443CB0)
 EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 varrok_idx)
 {
-    WIP_IMPLEMENTED;
     s32 weapon_kind;
     switch (varrok_idx)
     {
-        case objects::shop_car_smg_250:
-            weapon_kind = weapon_type::car_smg;
+        case objects::shop_car_mines_252:
+            weapon_kind = weapon_type::car_mines;
             break;
         case objects::shop_car_oil_stain_251:
             weapon_kind = weapon_type::oil_stain;
             break;
-        case objects::shop_car_mines_252:
-            weapon_kind = weapon_type::car_mines;
+        case objects::shop_car_smg_250:
+            weapon_kind = weapon_type::car_smg;
+            break;
+        case 253:
+        case objects::machine_gun_bullet_254:
+            weapon_kind = weapon_type::car_bomb;
             break;
         default:
             weapon_kind = weapon_type::car_bomb;
@@ -597,11 +600,9 @@ void Player::sub_564CF0()
     field_6F4_power_up_timers[power_up_indices::JailCard_4] = v2;
 }
 
-WIP_FUNC(0x564D60)
+MATCH_FUNC(0x564D60)
 char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
 {
-    WIP_IMPLEMENTED;
-
     switch (power_up_idx)
     {
         case power_up_indices::Unk_0:
@@ -649,7 +650,7 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[6] = 1200;
+            this->field_6F4_power_up_timers[power_up_idx] = 1200;
             field_2C4_player_ped->SetInvulnerable();
             break;
 
@@ -683,7 +684,7 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[11] = 1800;
+            this->field_6F4_power_up_timers[power_up_idx] = 1800;
             field_2C4_player_ped->SetInvisible();
             break;
 

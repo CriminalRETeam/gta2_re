@@ -485,8 +485,7 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
     //LOBYTE(seh) = 4;
     Fix16_Point posDelta = (spritePos - *pPoint);
 
-    Fix16_Point tmp;
-    pB4->sub_545580(&tmp);
+    Fix16_Point tmp = pB4->sub_545580();
     //LOBYTE(seh) = 5;
 
     Fix16_Point lineHitPos = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
@@ -835,11 +834,9 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Poi
 }
 
 // https://decomp.me/scratch/soZJL
-WIP_FUNC(0x523770)
+MATCH_FUNC(0x523770)
 char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5)
 {
-    WIP_IMPLEMENTED;
-
     field_10_obj_3c->field_2A = 1;
 
     if (pSprite->field_1C_zpos > k_dword_6F8BFC)
@@ -871,14 +868,15 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
     }
     else if (SelectCollisionSprite_522460(pSprite))
     {
-        field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
         if (byte_6F8F94 != 0)
         {
+            field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y_443580();
             *a4 = 1;
         }
         else
         {
+            field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y_443580();
         }
         return 1;
@@ -1805,11 +1803,9 @@ bool Object_2C::PoolUpdate()
 }
 
 // 9.6f 0x4837F0
-WIP_FUNC(0x526790)
+MATCH_FUNC(0x526790)
 void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
 {
-    WIP_IMPLEMENTED;
-
     Phi_74* pPhi = this->field_8;
     if (sub_475A80())
     {
@@ -1842,7 +1838,7 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
 }
 
 WIP_FUNC(0x526830)
-s32 Object_2C::sub_526830(s32 a1)
+s32 __stdcall Object_2C::sub_526830(s32 a1)
 {
     WIP_IMPLEMENTED;
 
@@ -3793,10 +3789,27 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
     return 0;
 }
 
-STUB_FUNC(0x52A500)
-void Object_5C::SaveObjects_52A500(TurkishDelight_164* pUnknownObj)
+MATCH_FUNC(0x52A500)
+void Object_5C::SaveObjects_52A500(TurkishDelight_164* pData)
 {
-    NOT_IMPLEMENTED;
+    u16 saved_count = 0;
+    Object_2C* pObj = gObject_2C_Pool_6F8F80->field_8_pool;
+    for (u16 i = 0; i < 3825; pObj++, i++)
+    {
+        if (pObj->field_18_model && pObj->check_is_shop_421060())
+        {
+            pData->field_0_obj_x[0][saved_count].field_0 = pObj->get_x_4340D0();
+            pData->field_0_obj_x[1][saved_count].field_0 = pObj->get_y_4340E0();
+            pData->field_0_obj_x[2][saved_count].field_0 = pObj->get_z_4340F0();
+            pData->field_F0_model[saved_count] = pObj->field_18_model;
+            pData->field_118_varrok_idx[saved_count] = pObj->field_26_varrok_idx;
+            saved_count++;
+            if (saved_count >= 20)
+            {
+                return;
+            }
+        }
+    }
 }
 
 // TODO: This is a mess, probably a fake match

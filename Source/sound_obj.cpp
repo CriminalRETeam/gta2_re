@@ -1,4 +1,7 @@
 #include "sound_obj.hpp"
+// Keep cSampleManager.hpp early: the include order changes the order VC6 emits the
+// sampManager and sound_obj calls in e.g. Type_9_4186D0 and Type6_2_412D40
+#include "cSampleManager.hpp"
 #include "Camera.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
@@ -16,7 +19,6 @@
 #include "PublicTransport.hpp"
 #include "Rozza_C88.hpp"
 #include "Weapon_30.hpp"
-#include "cSampleManager.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
 #include <math.h>
@@ -1037,8 +1039,7 @@ char_type sound_obj::CalculateDistance_419020(Fix16 a2)
     return 0;
 }
 
-// TODO: Too many inlines issue
-WIP_FUNC(0x4186D0)
+MATCH_FUNC(0x4186D0)
 char_type sound_obj::Type_9_4186D0(sound_0x68* pObj)
 {
     pObj->field_3C = 600;
@@ -1096,12 +1097,9 @@ char_type sound_obj::IsHeavyTruckOrBus_417F40(s32 a1)
     }
 }
 
-// TODO: Another "too many inlines" issue (changing call ordering)
-WIP_FUNC(0x417EF0)
+MATCH_FUNC(0x417EF0)
 s32 sound_obj::Type_7_417EF0(sound_0x68* pObj)
 {
-    WIP_IMPLEMENTED;
-
     pObj->field_14_samp_idx = 29;
     pObj->field_3C = 400;
     pObj->field_20_rate = RandomDisplacement_41A650(29) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(29);
@@ -1500,24 +1498,109 @@ void sound_obj::DeInitVocals_57EA10()
     }
 }
 
-STUB_FUNC(0x57EA90)
-void sound_obj::UpdateActiveRadioEmitterVolume_57EA90() // sound_obj* a1 ??
+// field_54F7[0] is the active radio emitter and field_54F2[4] its volume
+MATCH_FUNC(0x57EA90)
+void sound_obj::UpdateActiveRadioEmitterVolume_57EA90()
 {
-    NOT_IMPLEMENTED;
+    if (field_54F7[0] == 101)
+    {
+        field_54F2[4] = 115;
+        return;
+    }
+
+    if (RadioEmitter(field_54F7[0] + 1).field_C && RadioEmitter(field_54F7[0] + 1).field_0_bUsed == 1)
+    {
+        if (!field_54FC)
+        {
+            u8 volume = ComputeRadioEmitterVolume_57EB90(field_54F7[0], 1);
+            if (volume > 110)
+            {
+                field_54FC = 1;
+                field_54F2[4] = volume;
+                field_5506 = field_1454_anRandomTable[0] % 10 + 16;
+            }
+            else
+            {
+                field_54F2[4] = ComputeRadioEmitterVolume_57EB90(field_54F7[0], 0);
+            }
+        }
+        else
+        {
+            if ((u8)ComputeRadioEmitterVolume_57EB90(field_54F7[0], 1) < 90)
+            {
+                field_54F2[4] = ComputeRadioEmitterVolume_57EB90(field_54F7[0], 0);
+                field_54FC = 0;
+                field_5506 = field_1454_anRandomTable[0] % 10 + 16;
+            }
+            else
+            {
+                field_54F2[4] = ComputeRadioEmitterVolume_57EB90(field_54F7[0], 1);
+                field_54FC = 1;
+            }
+        }
+    }
+    else
+    {
+        field_54F2[4] = 0;
+    }
 }
 
-STUB_FUNC(0x57EB90)
-char_type sound_obj::ComputeRadioEmitterVolume_57EB90(s32 a2, s32 a3)
+MATCH_FUNC(0x57EB90)
+char_type sound_obj::ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseFarRadius)
 {
-    NOT_IMPLEMENTED;
+    if (RadioEmitter(emitterIndex + 1).field_0_bUsed && RadioEmitter(emitterIndex + 1).field_C)
+    {
+        Fix16 xpos;
+        Fix16 ypos;
+        Fix16 zpos;
+        gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
+
+        u16 dist = abs((s16)(ypos.ToInt() - RadioEmitter(emitterIndex + 1).field_8_ypos.ToInt())) +
+            abs((s16)(xpos.ToInt() - RadioEmitter(emitterIndex + 1).field_4_xpos.ToInt()));
+
+        u16 radius;
+        if (!bUseFarRadius)
+        {
+            radius = RadioEmitter(emitterIndex + 1).field_10;
+        }
+        else
+        {
+            radius = RadioEmitter(emitterIndex + 1).field_12;
+        }
+
+        if (dist < radius)
+        {
+            u16 inner_radius = (radius * 7) / 8;
+            if (dist < inner_radius)
+            {
+                return 127;
+            }
+            char_type volume = 127;
+            volume -= (u16)(127 * dist - 127 * inner_radius) / (dist / 8);
+            return volume;
+        }
+    }
     return 0;
 }
 
-// Match here: https://decomp.me/scratch/qA1ae , but need to rework field_544C or maybe using unions
-STUB_FUNC(0x57EE30)
-void sound_obj::RemoveSound_57EE30(Fix16 a2, Fix16 a3)
+MATCH_FUNC(0x57EE30)
+void sound_obj::RemoveSound_57EE30(Fix16 xpos, Fix16 ypos)
 {
-    NOT_IMPLEMENTED;
+    s16 x = xpos.ToInt();
+    s16 y = ypos.ToInt();
+    for (u8 i = 5; i != 0; i--)
+    {
+        if (RadioEmitter(i).field_0_bUsed == 1 && (s16)RadioEmitter(i).field_4_xpos.ToInt() == x &&
+            (s16)RadioEmitter(i).field_8_ypos.ToInt() == y)
+        {
+            RadioEmitter(i).field_0_bUsed = 0;
+            RadioEmitter(i).field_10 = 0;
+            RadioEmitter(i).field_12 = 0;
+            RadioEmitter(i).field_14 = 0;
+            RadioEmitter(i).field_18 = 0;
+            return;
+        }
+    }
 }
 
 MATCH_FUNC(0x57EEE0)
@@ -1557,10 +1640,40 @@ void sound_obj::CycleRadioStation_57EEE0(char_type bPrev)
     }
 }
 
-STUB_FUNC(0x57EF60)
+MATCH_FUNC(0x57EF60)
 void sound_obj::SelectBestRadioEmitter_57EF60()
 {
-    NOT_IMPLEMENTED;
+    u8 candidate = field_54F7[0];
+    for (u8 i = 0; i < 5; i++)
+    {
+        if (field_5504_radio_station_change_mode == 1)
+        {
+            candidate = (candidate + 1) % 5;
+        }
+        else if (candidate == 0)
+        {
+            candidate = 4;
+        }
+        else
+        {
+            candidate--;
+        }
+
+        for (u8 bNear = 0; bNear < 2; bNear++)
+        {
+            u8 volume = ComputeRadioEmitterVolume_57EB90(candidate, 1 - bNear);
+            if (volume > 65)
+            {
+                field_54F7[0] = candidate;
+                field_54F2[4] = volume;
+                field_54FC = 1 - bNear;
+                field_5504_radio_station_change_mode = 0;
+                field_5506 = field_1454_anRandomTable[0] % 15 + 15;
+                return;
+            }
+        }
+    }
+    field_5504_radio_station_change_mode = 0;
 }
 
 MATCH_FUNC(0x57F050)
@@ -3354,16 +3467,78 @@ LABEL_9:
     sound_obj::EnqueueRadioWord_4271B0(word_zone_name);
 }
 
-STUB_FUNC(0x57ECB0)
+MATCH_FUNC(0x57ECB0)
 void sound_obj::DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 ypos)
 {
-    NOT_IMPLEMENTED;
+    for (u8 i = 0; i < 5; i++)
+    {
+        if (!RadioEmitter(i + 1).field_0_bUsed && !RadioEmitter(i + 1).field_10 && !RadioEmitter(i + 1).field_12)
+        {
+            RadioEmitter(i + 1).field_0_bUsed = 1;
+            RadioEmitter(i + 1).field_C = station_idx;
+            RadioEmitter(i + 1).field_4_xpos = Fix16((u16)xpos.ToInt());
+            RadioEmitter(i + 1).field_8_ypos = Fix16((u16)ypos.ToInt());
+            RadioEmitter(i + 1).field_14 = RadioEmitter(i + 1).field_18 =
+                field_1454_anRandomTable[(i + 1) % 5] * field_1454_anRandomTable[i % 5];
+            sub_57EDB0(&RadioEmitter(i + 1), station_idx);
+            return;
+        }
+    }
 }
 
-STUB_FUNC(0x57EDB0)
-void sound_obj::sub_57EDB0(s32 a1, s32 a2)
+// Cases are written out separately so the jump table has one entry per case
+MATCH_FUNC(0x57EDB0)
+void sound_obj::sub_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type)
 {
-    NOT_IMPLEMENTED;
+    switch (type)
+    {
+        case 1:
+            pEmitter->field_10 = 0;
+            pEmitter->field_12 = 600;
+            pEmitter->field_4_xpos = 0;
+            pEmitter->field_8_ypos = 0;
+            break;
+        case 2:
+            pEmitter->field_10 = 0;
+            pEmitter->field_12 = 600;
+            break;
+        case 3:
+            pEmitter->field_10 = 0;
+            pEmitter->field_12 = 600;
+            break;
+        case 4:
+            pEmitter->field_10 = 0;
+            pEmitter->field_12 = 600;
+            break;
+        case 5:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 6:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 7:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 8:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 9:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 10:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+        case 11:
+            pEmitter->field_10 = 600;
+            pEmitter->field_12 = 300;
+            break;
+    }
 }
 STUB_FUNC(0x57E6C0)
 char_type sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
@@ -5188,8 +5363,7 @@ void sound_obj::Type3_CopRadioReport_57E680()
     }
 }
 
-// this func matches but compiler is misordering calls because of inline funcs count (?)
-WIP_FUNC(0x4136D0)
+MATCH_FUNC(0x4136D0)
 char_type sound_obj::Type6_12_4136D0(Rozza_A* a2)
 {
     s32 samp_idx;
@@ -5224,8 +5398,7 @@ char_type sound_obj::Type6_12_4136D0(Rozza_A* a2)
     return 1;
 }
 
-// this func matches but compiler is misordering calls because of inline funcs count (?)
-WIP_FUNC(0x412D40)
+MATCH_FUNC(0x412D40)
 char_type sound_obj::Type6_2_412D40(u8 a2)
 {
     s32 samp_idx;
@@ -5395,8 +5568,7 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
     return sample_base;
 }
 
-// this func matches but compiler is misordering calls because of inline funcs count (?)
-WIP_FUNC(0x413040)
+MATCH_FUNC(0x413040)
 char_type sound_obj::Type6_4_413040(u8 a2)
 {
     if (a2 < 15u)
@@ -5421,8 +5593,7 @@ char_type sound_obj::Type6_4_413040(u8 a2)
     return 1;
 }
 
-// this func matches but compiler is misordering calls because of inline funcs count (?)
-WIP_FUNC(0x413090)
+MATCH_FUNC(0x413090)
 char_type sound_obj::Type6_5_413090(u8 a2)
 {
     s32 idx_to_use;

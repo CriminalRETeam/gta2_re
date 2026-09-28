@@ -3564,10 +3564,32 @@ void Map_0x370::RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type d
     }
 }
 
-STUB_FUNC(0x4E8A10)
-void Map_0x370::sub_4E8A10(s32 a2, s32 a3)
+MATCH_FUNC(0x4E8A10)
+void Map_0x370::sub_4E8A10(s32 x_pos, s32 y_pos)
 {
-    NOT_IMPLEMENTED;
+    u32 column_idx = field_0_pDmap->field_0_base[y_pos][x_pos];
+    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[column_idx]);
+    if (pColumn->field_1_offset == pColumn->field_0_height - 1 && pColumn->field_1_offset)
+    {
+        if (column_idx < field_358_column_words)
+        {
+            // Note: decrements the new column's height, not a copy of pColumn's
+            gmp_col_info* pNew = reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[field_360_column_words]);
+            pNew->field_1_offset = pColumn->field_1_offset - 1;
+            pNew->field_0_height--;
+            pNew->field_4_blockd[0] = pColumn->field_4_blockd[0];
+            field_360_column_words += 2;
+        }
+        else
+        {
+            pColumn->field_1_offset--;
+            pColumn->field_0_height--;
+        }
+    }
+    else
+    {
+        RemoveBlock_4E8940(x_pos, y_pos, pColumn->field_1_offset, 1);
+    }
 }
 
 MATCH_FUNC(0x4E8B70)

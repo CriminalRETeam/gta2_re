@@ -7,7 +7,7 @@
 #include <cstdio>
 
 DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8, 0x6FFDC8);
-DEFINE_GLOBAL(u8, DAT_6ffdcc, 0x6ffdcc);
+DEFINE_GLOBAL(u16, DAT_6ffdcc, 0x6ffdcc);
 
 MATCH_FUNC(0x588580)
 char_type Junction_10::sub_588580(s32 a2)
@@ -758,17 +758,47 @@ char_type RouteFinder::sub_589E70(s32 a2)
     return cVar1;
 }
 
-STUB_FUNC(0x589eb0)
+MATCH_FUNC(0x589eb0)
 s16 RouteFinder::sub_589EB0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u16 count = 0;
+    if (field_CC66_545_count == 0)
+    {
+        return -1;
+    }
+
+    RouteFinder_10* pjVar4 = &field_861C[field_CC66_545_count - 1];
+    s16 sVar2 = GetFreeRouteIdx_589960();
+    if (sVar2 == -1)
+    {
+        return -1;
+    }
+
+    while (pjVar4 != NULL)
+    {
+        pjVar4 = pjVar4->field_8;
+        count++;
+    }
+    DAT_6ffdcc = count;
+
+    pjVar4 = &field_861C[field_CC66_545_count - 1];
+
+    if (pjVar4 != NULL)
+    {
+        do
+        {
+            field_2218[sVar2].field_0[--count] = pjVar4->field_0_idx;
+            pjVar4 = pjVar4->field_8;
+        } while (pjVar4 != NULL);
+    }
+    field_2218[sVar2].field_0[DAT_6ffdcc] = 0;
+    field_0++;
+    return sVar2;
 }
 
-STUB_FUNC(0x589f70)
+MATCH_FUNC(0x589f70)
 s16 RouteFinder::sub_589F70()
 {
-    NOT_IMPLEMENTED;
     s16 sVar1 = 0;
     u8 uVar3 = 0;
     if (field_CC66_545_count == 0)
@@ -855,7 +885,7 @@ s16 RouteFinder::sub_58A130(u8 a1, s16 a2, u8 a3, u8* a4, s32 a5, s32 a6)
         if (sub_589E70(a5))
         {
             s16 ret = sub_589F70();
-            *a4 = DAT_6ffdcc;
+            *a4 = (u8)DAT_6ffdcc;
             return ret;
         }
     }

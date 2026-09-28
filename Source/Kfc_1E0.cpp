@@ -371,11 +371,9 @@ void Kfc_30::UpdateStateMachine_5CBD50()
 }
 
 // 9.6f 0x4C5A00
-WIP_FUNC(0x5cc1c0)
+MATCH_FUNC(0x5cc1c0)
 void Kfc_30::CleanupExpiredEntities_5CC1C0()
 {
-    WIP_IMPLEMENTED;
-
     bool bClearRouteAndTryClearOthers = 0;
     bool bClearPedAndGroup = 1;
     bool bClearCharB4F24 = 1;
@@ -469,15 +467,14 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
                     field_4_ped->Deallocate_45EB60();
                 }
 
+                u8 i = 0;
                 if (field_8_group)
                 {
-                    u8 i = 0;
                     for (Ped* pPedListIter = field_8_group->field_4_ped_list[0]; pPedListIter;)
                     {
                         pPedListIter->set_occupation_403970(ped_ocupation_enum::dummy);
                         pPedListIter->ClearGroupAndGroupIdx_403A30();
                         pPedListIter->Deallocate_45EB60();
-                        // TODO: Instruction swap
                         i++;
                         pPedListIter = field_8_group->field_4_ped_list[i];
                     }
@@ -527,15 +524,14 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
             field_4_ped->Deallocate_45EB60();
         }
 
+        u8 i = 0;
         if (field_8_group)
         {
-            u8 i = 0;
             Ped* pPedListIter = field_8_group->field_4_ped_list[0];
             while(pPedListIter)
             {
                 pPedListIter->ClearGroupAndGroupIdx_403A30();
                 pPedListIter->Deallocate_45EB60();
-                // TODO: Instruction swap
                 i++;
                 pPedListIter = field_8_group->field_4_ped_list[i];
             }

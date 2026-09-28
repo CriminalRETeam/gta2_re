@@ -3,6 +3,8 @@ Anyone who wishes to contribute is encouraged to join the project's [Discord](ht
 
 Also, you can find more info about the project (and how to effectively contribute) on [GTA2 RE Hub](https://valps.github.io/gta2-re-hub/).
 
+When a function won't match, check [docs/matching_quirks.md](docs/matching_quirks.md) for the MSVC 6 codegen patterns and verifier gotchas found so far.
+
 ## Building
 
 ### Prerequisites 

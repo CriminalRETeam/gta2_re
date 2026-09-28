@@ -4597,16 +4597,17 @@ void Car_BC::sub_441380()
     }
 }
 
-WIP_FUNC(0x4F7940)
+MATCH_FUNC(0x4F7940)
 EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32* road_direction)
 {
-    WIP_IMPLEMENTED;
     switch (*road_direction)
     {
         case road_direction::up_1:
             return word_6F67EA;
         case road_direction::right_3:
             return dword_6F6754;
+        case road_direction::down_2:
+            return word_6F6D3C;
         case road_direction::left_4:
             return word_6F6808;
         default:

@@ -63,7 +63,7 @@ class Object_2C
     EXPORT void Update_525F30();
     EXPORT bool PoolUpdate();
     EXPORT void TriggerCarExplosionIfApplicable_526790(Sprite* pSprite);
-    EXPORT s32 sub_526830(s32 a1);
+    EXPORT static s32 __stdcall sub_526830(s32 a1);
     EXPORT void sub_526B40(Sprite* pSprite);
     EXPORT bool UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
     EXPORT void InitializeObject_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);

@@ -63,10 +63,36 @@ void magical_germain_0x8EC::Load_kanji_dat_4D2090()
     File::Global_Close_4A70C0();
 }
 
-STUB_FUNC(0x4D2150)
-void magical_germain_0x8EC::sub_4D2150(s32 a2, u16 a3, u16 a4)
+// Outlines the pixels of colour field_8E8_v1 with colour field_8E9_v2 in a 256 wide sprite
+MATCH_FUNC(0x4D2150)
+void magical_germain_0x8EC::sub_4D2150(s32 a2, u16 width, u16 height)
 {
-    NOT_IMPLEMENTED;
+    u8(*pPixels)[256] = reinterpret_cast<u8(*)[256]>(a2);
+    for (s32 y = 0; y < height; y++)
+    {
+        for (s32 x = 0; x < width; x++)
+        {
+            if (pPixels[y][x] == field_8E8_v1)
+            {
+                if (x > 0 && pPixels[y][x - 1] != field_8E8_v1)
+                {
+                    pPixels[y][x - 1] = field_8E9_v2;
+                }
+                if (x < width - 1 && pPixels[y][x + 1] != field_8E8_v1)
+                {
+                    pPixels[y][x + 1] = field_8E9_v2;
+                }
+                if (y > 0 && pPixels[y - 1][x] != field_8E8_v1)
+                {
+                    pPixels[y - 1][x] = field_8E9_v2;
+                }
+                if (y < height - 1 && pPixels[y + 1][x] != field_8E8_v1)
+                {
+                    pPixels[y + 1][x] = field_8E9_v2;
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x4D2240)
@@ -236,90 +262,93 @@ void magical_germain_0x8EC::sub_4D28A0(u16 font_type)
     }
 }
 
-STUB_FUNC(0x4D29D0)
+MATCH_FUNC(0x4D29D0)
 void magical_germain_0x8EC::sub_4D29D0(u16 a2)
 {
-    NOT_IMPLEMENTED;
     if (gGame_0x40_67E008)
     {
         switch (a2)
         {
-            case 0u:
-                goto LABEL_3;
-            case 1u:
-                field_8E8_v1 = -103;
-                field_8E9_v2 = -99;
+            case 0:
+                field_8E8_v1 = 0x89;
+                field_8E9_v2 = 0x8D;
                 break;
-            case 2u:
-                goto LABEL_15;
-            case 3u:
-                field_8E8_v1 = 121;
-                field_8E9_v2 = 125;
+            case 1:
+                field_8E8_v1 = 0x99;
+                field_8E9_v2 = 0x9D;
                 break;
-            case 4u:
-                field_8E8_v1 = 53;
-                field_8E9_v2 = 58;
+            case 2:
+                field_8E8_v1 = 0x69;
+                field_8E9_v2 = 0x6D;
                 break;
-            case 5u:
-                goto LABEL_7;
-            case 6u:
-                field_8E8_v1 = 28;
-                field_8E9_v2 = 24;
+            case 3:
+                field_8E8_v1 = 0x79;
+                field_8E9_v2 = 0x7D;
                 break;
-            case 7u:
-                goto LABEL_9;
-            case 8u:
-                goto LABEL_10;
-            default:
-                return;
+            case 4:
+                field_8E8_v1 = 0x35;
+                field_8E9_v2 = 0x3A;
+                break;
+            case 5:
+                field_8E8_v1 = 0x27;
+                field_8E9_v2 = 0x2C;
+                break;
+            case 6:
+                field_8E8_v1 = 0x1C;
+                field_8E9_v2 = 0x18;
+                break;
+            case 7:
+                field_8E8_v1 = 0x48;
+                field_8E9_v2 = 0x4C;
+                break;
+            case 8:
+                field_8E8_v1 = 0xFC;
+                field_8E9_v2 = 0xFA;
+                break;
         }
     }
     else
     {
         switch (a2)
         {
-            case 0u:
-            case 1u:
-            case 2u:
-                field_8E8_v1 = -23;
-                field_8E9_v2 = -17;
+            case 0:
+            case 1:
+            case 2:
+                field_8E8_v1 = 0xE9;
+                field_8E9_v2 = 0xEF;
                 break;
-            case 3u:
-            case 0xDu:
-            LABEL_3:
-                field_8E8_v1 = -119;
-                field_8E9_v2 = -115;
+            case 3:
+                field_8E8_v1 = 0x89;
+                field_8E9_v2 = 0x8D;
                 break;
-            case 4u:
-            LABEL_7:
-                field_8E8_v1 = 39;
-                field_8E9_v2 = 44;
+            case 4:
+                field_8E8_v1 = 0x27;
+                field_8E9_v2 = 0x2C;
                 break;
-            case 5u:
-            LABEL_10:
-                field_8E8_v1 = -4;
-                field_8E9_v2 = -6;
+            case 5:
+                field_8E8_v1 = 0xFC;
+                field_8E9_v2 = 0xFA;
                 break;
-            case 8u:
-                field_8E8_v1 = -8;
-                field_8E9_v2 = -11;
+            case 8:
+                field_8E8_v1 = 0xF8;
+                field_8E9_v2 = 0xF5;
                 break;
-            case 0xAu:
-                field_8E8_v1 = 39;
-                field_8E9_v2 = 35;
+            case 10:
+                field_8E8_v1 = 0x27;
+                field_8E9_v2 = 0x23;
                 break;
-            case 0xEu:
-            LABEL_15:
-                field_8E8_v1 = 105;
-                field_8E9_v2 = 109;
+            case 13:
+                field_8E8_v1 = 0x89;
+                field_8E9_v2 = 0x8D;
                 break;
-            case 0xFu:
-            LABEL_9:
-                field_8E8_v1 = 72;
-                field_8E9_v2 = 76;
+            case 15:
+                field_8E8_v1 = 0x48;
+                field_8E9_v2 = 0x4C;
                 break;
-            default:
-                return;
+            case 14:
+                field_8E8_v1 = 0x69;
+                field_8E9_v2 = 0x6D;
+                break;
         }
     }
 }

@@ -877,6 +877,7 @@ enum
 };
 } // namespace SCR_BONUSES
 
+EXTERN_GLOBAL(Fix16, dword_6F75F0);
 EXTERN_GLOBAL(Fix16, dword_6F77C0);
 EXTERN_GLOBAL(Fix16, dword_6F77C4);
 EXTERN_GLOBAL(Fix16, dword_6F77C8);

@@ -11,6 +11,8 @@ EXTERN_GLOBAL(Fix16, dword_6F77C0);
 
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
 // but 9.6f leads me to believe both the POD and non-POD type are the same
+class Fix16_Point;
+
 struct Fix16_Point_POD
 {
     void SetXY_432860(Fix16& a2, Fix16& a3)
@@ -118,8 +120,8 @@ struct Fix16_Point_POD
         y = y * factor;
     }
 
-    EXPORT Fix16_Point_POD Multiply_438FE0(Fix16& a1);
-    EXPORT Fix16_Point_POD Divide_442CB0(Fix16& a1);
+    EXPORT Fix16_Point Multiply_438FE0(Fix16& a1);
+    EXPORT Fix16_Point Divide_442CB0(Fix16& a1);
 
     Fix16_Point_POD()
     {

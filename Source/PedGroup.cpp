@@ -5,6 +5,7 @@
 #include "enums.hpp"
 
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
+DEFINE_GLOBAL(Fix16, dword_67F60C, 0x67F60C);
 DEFINE_GLOBAL(Fix16, dword_67F610, 0x67F610);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_67EEE4, Fix16(0x500, 0), 0x67EEE4);
 DEFINE_GLOBAL_INIT(char_type, byte_620838, 1, 0x620838);
@@ -749,10 +750,42 @@ bool PedGroup::IsLeaderCloseToTargetCar_4CAD40()
     return false;
 }
 
-STUB_FUNC(0x4cae80)
+// TODO: close. The original loads pMember's x before pOther's, and an empty group
+// skips the final nearest_distance check.
+WIP_FUNC(0x4cae80)
 Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Fix16 x_abs;
+    Fix16 y_abs;
+    Fix16 nearest_distance = dword_67F60C;
+    u8 nearest_idx = 0;
+    Ped* pMember = field_4_ped_list[idx];
+    for (u8 i = 0; i < field_34_count; i++)
+    {
+        Ped* pOther = field_4_ped_list[i];
+        if (i != idx)
+        {
+            Fix16 x_diff = pMember->get_cam_x() - pOther->get_cam_x();
+            Fix16 y_diff = pMember->get_cam_y() - pOther->get_cam_y();
+
+            x_abs = Fix16::Abs(x_diff);
+            y_abs = Fix16::Abs(y_diff);
+
+            Fix16 distance = (x_abs > y_abs) ? x_abs : y_abs;
+            if (distance < nearest_distance && pOther->sub_465CD0())
+            {
+                nearest_distance = distance;
+                nearest_idx = i;
+            }
+        }
+    }
+
+    if (nearest_distance != dword_67F60C)
+    {
+        return field_4_ped_list[nearest_idx];
+    }
     return 0;
 }
 

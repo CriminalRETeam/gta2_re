@@ -1,4 +1,4 @@
-#include "Globals.hpp"
+#include "GlobalsRegistry.hpp"
 
 void GlobalsRegistry::Add(GlobalRef* pRef)
 {
