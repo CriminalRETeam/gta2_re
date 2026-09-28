@@ -769,10 +769,87 @@ void NetPlay::Set15_51ECD0(s32 pFunc, Network_20324* pParam)
     this->field_4C_func_ptrs_and_params[5].field_8_fn_type = 5;
 }
 
-STUB_FUNC(0x51ed00)
+MATCH_FUNC(0x51ed00)
 void NetPlay::NetworkTick_51ED00()
 {
-    NOT_IMPLEMENTED;
+    s32 pData;
+    s32 dataLen;
+    unsigned long recvId;
+    unsigned long senderId;
+
+    switch (field_48)
+    {
+        case 4:
+        {
+            if (timeGetTime() - field_8E8_time >= 1000)
+            {
+                SendPing_51EF60();
+                field_8E8_time = timeGetTime();
+            }
+
+            if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
+            {
+                SendOrReceivePacket_51F0D0((void*)pData, dataLen, recvId, senderId);
+            }
+            break;
+        }
+
+        case 3:
+        {
+            if (timeGetTime() - field_8E8_time >= 1000)
+            {
+                SendPing_51EF60();
+                field_8E8_time = timeGetTime();
+            }
+
+            if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
+            {
+                SendOrReceivePacket_51F0D0((void*)pData, dataLen, recvId, senderId);
+            }
+            break;
+        }
+
+        case 1:
+            // Browsing for sessions: re-enumerate them once a second
+            if (!field_4 && timeGetTime() - field_8E8_time >= 1000)
+            {
+                u32 i;
+                for (i = 0; i < field_C4_sessions.field_5C4_session_count; i++)
+                {
+                    operator delete(field_C4_sessions.field_C4_sessions[i].lpszSessionName);
+                }
+                memset(&field_C4_sessions, 0, sizeof(field_C4_sessions));
+
+                DPSESSIONDESC2 desc;
+                memset(&desc, 0, sizeof(desc));
+                desc.dwSize = sizeof(desc);
+                desc.guidApplication = kGta2_DP_Guid_5FE928;
+                if (field_5E4_pDPlay3->EnumSessions(&desc,
+                                                    1000,
+                                                    (LPDPENUMSESSIONSCALLBACK2)NetPlay::EnumSessions_cb_51EAE0,
+                                                    this,
+                                                    DPENUMSESSIONS_AVAILABLE | DPENUMSESSIONS_ASYNC) == DP_OK)
+                {
+                    Network_NameList names;
+                    names.field_40_count = field_C4_sessions.field_5C4_session_count;
+                    for (i = 0; i < field_C4_sessions.field_5C4_session_count; i++)
+                    {
+                        names.field_0_names[i] = (wchar_t*)operator new(2 * wcslen(field_C4_sessions.field_C4_sessions[i].lpszSessionName) + 2);
+                        wcscpy(names.field_0_names[i], field_C4_sessions.field_C4_sessions[i].lpszSessionName);
+                    }
+
+                    ProcessIncomingPacket_520230(5, (u32)&names);
+
+                    for (i = 0; i < names.field_40_count; i++)
+                    {
+                        operator delete(names.field_0_names[i]);
+                    }
+                    names.field_40_count = 0;
+                    field_8E8_time = timeGetTime();
+                }
+            }
+            break;
+    }
 }
 
 MATCH_FUNC(0x51ef60)
