@@ -163,7 +163,7 @@ struct NetPlay
     EXPORT static BOOL PASCAL sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext);
     EXPORT s32 PushConnection_51E0E0(wchar_t* Source);
     EXPORT s32 NoRefs_51E140(wchar_t* pIpAddress, s32* ppAddress, size_t* pAddressLen);
-    EXPORT s32 NoRefs_51E2B0(wchar_t* Source, wchar_t* a3, s32* a4, size_t* a5);
+    EXPORT s32 NoRefs_51E2B0(wchar_t* pPhoneNumber, wchar_t* pModemName, s32* ppAddress, size_t* pAddressLen);
     EXPORT s32 NoRefs_51E450(DPCOMPORTADDRESS* pComPort, u32* ppAddress, size_t* pAddressLen);
     EXPORT s32 sub_51E5C0();
     EXPORT s32 sub_51E650();

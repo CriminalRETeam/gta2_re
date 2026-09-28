@@ -408,11 +408,69 @@ s32 NetPlay::NoRefs_51E140(wchar_t* pIpAddress, s32* ppAddress, size_t* pAddress
     return 1;
 }
 
-STUB_FUNC(0x51e2b0)
-s32 NetPlay::NoRefs_51E2B0(wchar_t* Source, wchar_t* a3, s32* a4, size_t* a5)
+MATCH_FUNC(0x51e2b0)
+s32 NetPlay::NoRefs_51E2B0(wchar_t* pPhoneNumber, wchar_t* pModemName, s32* ppAddress, size_t* pAddressLen)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type phoneNumber[128];
+    char_type modemName[128];
+    DWORD addressLen;
+    DPCOMPOUNDADDRESSELEMENT elements[3];
+    void* pAddress;
+
+    wcstombs(phoneNumber, pPhoneNumber, sizeof(phoneNumber));
+    wcstombs(modemName, pModemName, sizeof(modemName));
+    memset(elements, 0, sizeof(elements));
+    addressLen = 0;
+    pAddress = NULL;
+
+    if (!field_5E0_pDPlayLobby2)
+    {
+        *ppAddress = 0;
+        *pAddressLen = 0;
+        return 0;
+    }
+
+    elements[0].guidDataType = DPAID_ServiceProvider;
+    elements[0].dwDataSize = sizeof(GUID);
+    elements[0].lpData = (LPVOID)&DPSPGUID_MODEM;
+
+    if (field_5E0_pDPlayLobby2->CreateCompoundAddress(elements, 1, NULL, &addressLen) != DPERR_BUFFERTOOSMALL)
+    {
+        goto failed;
+    }
+
+    pAddress = operator new(addressLen);
+    if (field_5E0_pDPlayLobby2->CreateCompoundAddress(elements, 1, pAddress, &addressLen) != DP_OK)
+    {
+    failed:
+        *ppAddress = 0;
+        *pAddressLen = 0;
+        if (elements[1].lpData)
+        {
+            operator delete(elements[1].lpData);
+        }
+        if (elements[2].lpData)
+        {
+            operator delete(elements[2].lpData);
+        }
+        if (pAddress)
+        {
+            operator delete(pAddress);
+        }
+        return 0;
+    }
+
+    if (elements[1].lpData)
+    {
+        operator delete(elements[1].lpData);
+    }
+    if (elements[2].lpData)
+    {
+        operator delete(elements[2].lpData);
+    }
+    *ppAddress = (s32)pAddress;
+    *pAddressLen = addressLen;
+    return 1;
 }
 
 MATCH_FUNC(0x51e450)
