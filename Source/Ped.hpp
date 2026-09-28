@@ -555,6 +555,11 @@ class Ped
         return field_168_game_object != NULL;
     }
 
+    inline u8 GetBit2()
+    {
+        return field_21C_bf.b2;
+    }
+
     inline u8 GetBit11_433CA0()
     {
         return field_21C_bf.b11;

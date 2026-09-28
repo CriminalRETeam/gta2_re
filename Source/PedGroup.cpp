@@ -4,6 +4,7 @@
 #include "Globals.hpp"
 #include "Ped.hpp"
 #include "enums.hpp"
+#include "rng.hpp"
 
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
 DEFINE_GLOBAL(Fix16, dword_67F60C, 0x67F60C);
@@ -561,12 +562,116 @@ void PedGroup::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
     ptr->set_ped_group_id(idx);
 }
 
-STUB_FUNC(0x4c9b60)
-char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* a2)
+// The original never sets a return value
+#pragma warning(push)
+#pragma warning(disable : 4716)
+WIP_FUNC(0x4c9b60)
+char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s8 i;
+    field_30 = 1;
+    if (!pPed->field_164_ped_group)
+    {
+        for (i = field_34_count - 1; i >= 0; i--)
+        {
+            Ped* pMember = field_4_ped_list[i];
+            if (!pMember->GetBit2() && !pMember->field_21C_bf.b27 && pMember->field_168_game_object)
+            {
+                if (IsMemberTooFarFromLeader_4CAC20(i))
+                {
+                    pMember->SetObjective2_463830(7, 9999);
+                    pMember->set_field_14C_403AE0(field_2C_ped_leader);
+                }
+                else
+                {
+                    if (field_2C_ped_leader->field_25C_internal_objective == 0x23 && !IsLeaderCloseToTargetCar_4CAD40())
+                    {
+                        continue;
+                    }
+                    pMember->SetObjective2_463830(20, 9999);
+                    pMember->set_field_14C_403AE0(pPed);
+                }
+                pMember->SetBit2_403950();
+            }
+        }
+
+        if (!field_2C_ped_leader->IsField238_45EDE0(2) && !field_2C_ped_leader->GetBit2() && !field_2C_ped_leader->field_16C_car &&
+            !field_2C_ped_leader->field_21C_bf.b27)
+        {
+            field_2C_ped_leader->SetObjective2_463830(20, 9999);
+            field_2C_ped_leader->set_field_14C_403AE0(pPed);
+            field_2C_ped_leader->SetBit2_403950();
+        }
+    }
+    else
+    {
+        PedGroup* pOther = pPed->field_164_ped_group;
+        for (i = field_34_count - 1; i >= 0; i--)
+        {
+            Ped* pMember = field_4_ped_list[i];
+            if (!pMember->GetBit2() && !pMember->field_21C_bf.b27 && pMember->field_168_game_object)
+            {
+                Ped* pTarget = pOther->sub_4C9ED0();
+                if (pTarget)
+                {
+                    pMember->SetObjective2_463830(20, 9999);
+                    pMember->set_field_14C_403AE0(pTarget);
+                    pMember->SetBit2_403950();
+                    if (!pTarget->field_16C_car)
+                    {
+                        pTarget->SetObjective2_463830(20, 9999);
+                        pTarget->set_field_14C_403AE0(pMember);
+                        pTarget->SetBit2_403950();
+                    }
+                }
+                else
+                {
+                    s16 max = pOther->field_34_count + 1;
+                    s16 rnd = stru_6F6784.get_int_4F7AE0(max);
+                    if (rnd == pOther->field_34_count)
+                    {
+                        if (!pOther->field_2C_ped_leader || pOther->field_2C_ped_leader->field_278_ped_state_1 == ped_state_1::dead_9)
+                        {
+                            continue;
+                        }
+                        pMember->SetObjective2_463830(20, 9999);
+                        pMember->set_field_14C_403AE0(pOther->field_2C_ped_leader);
+                    }
+                    else
+                    {
+                        if (!pOther->field_4_ped_list[rnd] || pOther->field_4_ped_list[rnd]->field_278_ped_state_1 == ped_state_1::dead_9)
+                        {
+                            continue;
+                        }
+                        pMember->SetObjective2_463830(20, 9999);
+                        pMember->set_field_14C_403AE0(pOther->field_4_ped_list[rnd]);
+                    }
+                    pMember->SetBit2_403950();
+                }
+            }
+        }
+
+        if (!field_2C_ped_leader->GetBit2() && !pOther->field_2C_ped_leader->GetBit2())
+        {
+            if (!field_2C_ped_leader->IsField238_45EDE0(2) && !field_2C_ped_leader->field_21C_bf.b27 &&
+                field_2C_ped_leader->field_168_game_object)
+            {
+                field_2C_ped_leader->SetObjective2_463830(20, 9999);
+                field_2C_ped_leader->set_field_14C_403AE0(pOther->field_2C_ped_leader);
+                field_2C_ped_leader->SetBit2_403950();
+            }
+
+            if (!pOther->field_2C_ped_leader->IsField238_45EDE0(2) && !pOther->field_2C_ped_leader->field_21C_bf.b27 &&
+                pOther->field_2C_ped_leader->field_168_game_object)
+            {
+                pOther->field_2C_ped_leader->SetObjective2_463830(20, 9999);
+                pOther->field_2C_ped_leader->set_field_14C_403AE0(field_2C_ped_leader);
+                pOther->field_2C_ped_leader->SetBit2_403950();
+            }
+        }
+    }
 }
+#pragma warning(pop)
 
 MATCH_FUNC(0x4c9ed0)
 Ped* PedGroup::sub_4C9ED0()

@@ -301,3 +301,20 @@ Ratio 0.891 (0.480 before). Left:
 
 Tried for the second point: `for (; FindNextFileA(...); map_count++)` (no change),
 `map_count++` before the `strcpy` (0.879), `strcpy((pIter++)->...)` (0.852).
+
+## PedGroup::MergeWithOtherGroup_4C9B60 (WIP)
+
+Makes the members of this group follow `pPed` (objective 20), or pair them up with the
+members of `pPed`'s group. The original never sets a return value (`char_type` return,
+C4716 silenced). The bit-2 tests are `mov/shr $2/test $1`, which comes from an inline
+returning the bit (`Ped::GetBit2()`), not from `field_21C_bf.b2` directly (`test $4`).
+The `or $4` and `field_14C` stores are `SetBit2_403950` and `set_field_14C_403AE0`.
+
+Ratio 0.724. Left: register allocation in the first loop. The original keeps `pPed` in
+`edi` and spills the list pointer the loop walks to `pPed`'s arg slot. Ours keeps the list
+pointer in `edi` and reads `pPed` from the stack.
+
+Tried: `pMember` at function scope (no change); reading `pPed->field_164_ped_group` in
+both branches instead of a shared `pOther` (no change); `s8 i` at function scope (no
+change); no `pMember` local in the first loop, just `field_4_ped_list[i]->` (0.758). That
+last one gives `pPed` `edi` but reloads the list entry every time.
