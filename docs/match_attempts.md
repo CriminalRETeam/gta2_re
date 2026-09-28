@@ -281,4 +281,4 @@ Tried (all 0.903 or the plain `sete` version):
 - A `while (1)` with the exit test inside and `failed: return false;` at the end of the
   body (the trick that fixed `Receive_51F010`).
 
-Not tried: a `char_type` or `BOOL` return type, or a result variable.
+Also tried: a `char_type` return type (no change). Not tried: a result variable.
