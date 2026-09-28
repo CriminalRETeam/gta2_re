@@ -4457,7 +4457,7 @@ void Ped::SetObjective2_463830(s32 car_state, s16 a3)
                 x_int = this->field_1AC_cam.x.ToUInt8();
                 y_int = this->field_1AC_cam.y.ToUInt8();
                 z_int = this->field_1AC_cam.z.ToUInt8();
-                gMap_0x370_6F6268->sub_4E4930(&x_int, &y_int, &z_int, 2);
+                gMap_0x370_6F6268->FindNearbyBlockOfType_4E4930(&x_int, &y_int, &z_int, 2);
                 this->field_1D0 = k_dword_67853C + Fix16(x_int);
                 this->field_1D4 = k_dword_67853C + Fix16(y_int);
                 this->field_1D8 = k_dword_678664 + Fix16(z_int);

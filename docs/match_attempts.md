@@ -439,3 +439,17 @@ Ratio 0.981. Left: in both branches the original loads `text_xpos` before the `p
 that reserves its argument slot, and we load it after.
 
 Tried: `text_xpos` as `s32` with a `(u16)` cast at the calls (no change).
+
+## Map_0x370::FindNearbyBlockOfType_4E4930 (WIP, was sub_4E4930)
+
+Spirals out from (x, y) through the search globals `dword_6F6164`/`6F6148`/`6F613C` until
+`IsSearchBlockOfType_4E4AC0` finds a block of the type, then writes the position back.
+Both are static `__stdcall` in the original (no `ecx` is set up for the call, and this
+function takes 4 stack args). The switch cases are in source order 3, 2, 4, 1.
+
+Ratio 0.816. Left: only the prologue. We load the `pY` argument into `edx` before the
+pushes and use `eax`/`ecx` for the zero-extended bytes. The original uses `ecx`/`edx` and
+loads `pY` from the stack after storing the first global.
+
+Tried: declaring `step`/`direction` first; setting `step = 1` between the global stores
+(no change either way).

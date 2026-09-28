@@ -2363,15 +2363,87 @@ char_type Map_0x370::sub_4E4820(Fix16_Rect* pRect, u8 slope_type)
     return true;
 }
 
-STUB_FUNC(0x4E4930)
-char_type Map_0x370::sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4)
+// Spirals out from (x, y) until it finds a block of the given type and writes its position back
+WIP_FUNC(0x4E4930)
+void __stdcall Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type block_type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    dword_6F6164 = *pX;
+    dword_6F6148 = *pY;
+    dword_6F613C = *pZ;
+
+    u16 step = 1;
+    s32 direction = 3;
+    u16 i;
+    while (1)
+    {
+        switch (direction)
+        {
+            case 3:
+                for (i = 0; i < step; i++)
+                {
+                    dword_6F6164++;
+                    if (IsSearchBlockOfType_4E4AC0(block_type))
+                    {
+                        *pX = dword_6F6164;
+                        *pY = dword_6F6148;
+                        *pZ = dword_6F613C;
+                        return;
+                    }
+                }
+                direction = 2;
+
+                break;
+            case 2:
+                for (i = 0; i < step; i++)
+                {
+                    dword_6F6148++;
+                    if (IsSearchBlockOfType_4E4AC0(block_type))
+                    {
+                        *pX = dword_6F6164;
+                        *pY = dword_6F6148;
+                        *pZ = dword_6F613C;
+                        return;
+                    }
+                }
+                direction = 4;
+                step++;
+                break;
+            case 4:
+                for (i = 0; i < step; i++)
+                {
+                    dword_6F6164--;
+                    if (IsSearchBlockOfType_4E4AC0(block_type))
+                    {
+                        *pX = dword_6F6164;
+                        *pY = dword_6F6148;
+                        *pZ = dword_6F613C;
+                        return;
+                    }
+                }
+                direction = 1;
+
+                break;
+            case 1:
+                for (i = 0; i < step; i++)
+                {
+                    dword_6F6148--;
+                    if (IsSearchBlockOfType_4E4AC0(block_type))
+                    {
+                        *pX = dword_6F6164;
+                        *pY = dword_6F6148;
+                        *pZ = dword_6F613C;
+                        return;
+                    }
+                }
+                direction = 3;
+                step++;
+                break;
+        }
+    }
 }
 
 MATCH_FUNC(0x4E4AC0)
-bool Map_0x370::sub_4E4AC0(char_type block_type) // __stdcall ?
+bool __stdcall Map_0x370::IsSearchBlockOfType_4E4AC0(char_type block_type)
 {
     if (dword_6F6164 >= 0 && dword_6F6148 >= 0 && dword_6F6164 <= 255 && dword_6F6148 <= 255)
     {

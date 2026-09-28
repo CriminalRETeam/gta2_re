@@ -384,8 +384,8 @@ class Map_0x370
     EXPORT char_type sub_4E4630(Fix16 a2);
     EXPORT bool sub_4E4770(Fix16 z_pos);
     EXPORT char_type sub_4E4820(Fix16_Rect* pRect, u8 slope_type);
-    EXPORT char_type sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4);
-    EXPORT bool sub_4E4AC0(char_type block_type);
+    EXPORT static void __stdcall FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type block_type);
+    EXPORT static bool __stdcall IsSearchBlockOfType_4E4AC0(char_type block_type);
     EXPORT bool CheckGreenArrowDirection_4E4B40(s32 direction, gmp_block_info* pBlock);
     EXPORT gmp_block_info* FindPavementBlockForCoord_4E4BB0(s32 x, s32 y, s32& z);
     EXPORT gmp_block_info* FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* found_z);
