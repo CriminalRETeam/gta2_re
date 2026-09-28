@@ -784,10 +784,46 @@ void NetPlay::SendOrReceivePacket_51F0D0(void* pPacket, s32 a3, s32 a4, s32 bSen
     }
 }
 
-STUB_FUNC(0x51f110)
+MATCH_FUNC(0x51f110)
 void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s32 a5)
 {
-    NOT_IMPLEMENTED;
+    u32 dataLen;
+    s32 pData;
+    Packet_SubType_3 pStru;
+
+    u8* pBytes = (u8*)pPacket;
+    if (pBytes[0] == 1)
+    {
+        switch (pBytes[3])
+        {
+            case 1:
+            {
+                Packet_Ping_C* pPing = (Packet_Ping_C*)(pBytes + 5);
+                if (field_5D8_player_id == pPing->field_0_player_id)
+                {
+                    UpdatePlayerPing_520EB0(pPing->field_4, timeGetTime() - pPing->field_8_time, &field_758_n2);
+                }
+                else
+                {
+                    pPing->field_4 = field_5D8_player_id;
+                    memset(&pStru, 0, sizeof(pStru));
+                    pStru.header.field_0_type = 1;
+                    pStru.header.field_4_sub_type = 1;
+                    pStru.field_9 = 1;
+                    pStru.field_8 = 0;
+                    pStru.field_D = (s32)pPing;
+                    pStru.field_11_len = sizeof(Packet_Ping_C);
+                    NetPlay::MakeSendData_51F420(&pStru, &pData, &dataLen);
+                    field_5E4_pDPlay3->Send(field_5D8_player_id, pPing->field_0_player_id, 0, (void*)pData, dataLen);
+                }
+                break;
+            }
+            case 4:
+                ProcessIncomingPacket_520230(9, 0);
+                field_48 = 2;
+                break;
+        }
+    }
 }
 
 STUB_FUNC(0x51f210)
