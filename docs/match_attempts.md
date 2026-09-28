@@ -123,26 +123,26 @@ Tried (0.690 unless noted):
 - `char_type keep_alive[1]` set before the `memset` (0.357).
 
 What fixed the similar `Send_521DB0` was declaring the payload struct first and filling it
-in before the `memset`. That doesn't work for a plain `char_type`. What fixed `Send_51EF60`
+in before the `memset`. That doesn't work for a plain `char_type`. What fixed `SendPing_51EF60`
 was putting the payload's `memset` after the header stores. The equivalent here,
 `keep_alive = 2` after the `field_D` store, gives 0.619.
 
-## NetPlay::sub_520040 (WIP)
+## NetPlay::MovePlayerToGroup_520040 (WIP)
 
-Ratio 0.692. Moves player `toFind` from `pStru` to `pDst` through `sub_51E9C0` and
-`sub_5201A0`. Branch layout matches with the nested form (the call inside the loop's found
+Ratio 0.692. Moves player `toFind` from `pStru` to `pDst` through `AddPlayer_51E9C0` and
+`FreePlayerSlot_5201A0`. Branch layout matches with the nested form (the call inside the loop's found
 branch, `break` on failure, one `return 0` at the end). The registers don't: the original
-has `this` in `ebx`, `pStru` in `ebp` and the result 1 in `edi` across the `sub_5201A0`
+has `this` in `ebx`, `pStru` in `ebp` and the result 1 in `edi` across the `FreePlayerSlot_5201A0`
 call (`mov $1,%edi` ... `mov %edi,%eax`). Ours has `this` in `edi`, `pStru` in `ebx`, and
 `mov $1,%eax` after the call.
 
 Tried:
 - Early `return 0`s with the call after the loop (the failure blocks get laid out
   inline).
-- `s32 bMoved = 1;` before the `sub_5201A0` call and `return bMoved;` (no change), and
+- `s32 bMoved = 1;` before the `FreePlayerSlot_5201A0` call and `return bMoved;` (no change), and
   the same with the call after the loop (0.615).
 
-## NetPlay::sub_51E030 (WIP)
+## NetPlay::EnumAddress_cb_51E030 (WIP)
 
 The `EnumAddress` callback. For `DPAID_INet` it walks the double-null-terminated ANSI
 address list, widens each entry with `MultiByteToWideChar` (IAT 0x5FE054; 0x5FE058 is
@@ -181,7 +181,7 @@ TU with `build.py --single_cpp ../build_vc6/scratch_t.cpp`:
   `(a1 & 0xFF) >> 7`, a `u32` bitfield.
 - `mov %al` + `test` + `setl`: `(char_type)a1 < 0`.
 
-## NetPlay::sub_51E650 (WIP)
+## NetPlay::EnumSessions_51E650 (WIP)
 
 Ratio 0.915. Enumerates sessions: with `field_4` set it loops on `DPERR_CONNECTING`
 (PeekMessage/Translate/Dispatch, `Sleep(500)`), then calls again with

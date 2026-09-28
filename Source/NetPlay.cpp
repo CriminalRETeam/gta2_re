@@ -306,7 +306,7 @@ s32 NetPlay::DirectPlayCreate_51DED0()
         {
             u8* pPlayerAddressBuf = new u8[playerAddressLen];
             if (pDirectPlay3->GetPlayerAddress(0, pPlayerAddressBuf, &playerAddressLen) >= 0 &&
-                FAILED(field_5E0_pDPlayLobby2->EnumAddress(NetPlay::sub_51E030, pPlayerAddressBuf, playerAddressLen, this)))
+                FAILED(field_5E0_pDPlayLobby2->EnumAddress(NetPlay::EnumAddress_cb_51E030, pPlayerAddressBuf, playerAddressLen, this)))
             {
                 return 0;
             }
@@ -320,7 +320,7 @@ s32 NetPlay::DirectPlayCreate_51DED0()
 
 // Callee-saved register pushes differ, see docs/match_attempts.md
 WIP_FUNC(0x51e030)
-BOOL NetPlay::sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext)
+BOOL NetPlay::EnumAddress_cb_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext)
 {
     WIP_IMPLEMENTED;
 
@@ -368,7 +368,7 @@ s32 NetPlay::PushConnection_51E0E0(wchar_t* Source)
 }
 
 MATCH_FUNC(0x51e140)
-s32 NetPlay::NoRefs_51E140(wchar_t* pIpAddress, s32* ppAddress, size_t* pAddressLen)
+s32 NetPlay::CreateTcpIpAddress_51E140(wchar_t* pIpAddress, s32* ppAddress, size_t* pAddressLen)
 {
     DWORD addressLen = 0;
     if (!field_5E0_pDPlayLobby2)
@@ -409,7 +409,7 @@ s32 NetPlay::NoRefs_51E140(wchar_t* pIpAddress, s32* ppAddress, size_t* pAddress
 }
 
 MATCH_FUNC(0x51e2b0)
-s32 NetPlay::NoRefs_51E2B0(wchar_t* pPhoneNumber, wchar_t* pModemName, s32* ppAddress, size_t* pAddressLen)
+s32 NetPlay::CreateModemAddress_51E2B0(wchar_t* pPhoneNumber, wchar_t* pModemName, s32* ppAddress, size_t* pAddressLen)
 {
     char_type phoneNumber[128];
     char_type modemName[128];
@@ -474,7 +474,7 @@ s32 NetPlay::NoRefs_51E2B0(wchar_t* pPhoneNumber, wchar_t* pModemName, s32* ppAd
 }
 
 MATCH_FUNC(0x51e450)
-s32 NetPlay::NoRefs_51E450(DPCOMPORTADDRESS* pComPort, u32* ppAddress, size_t* pAddressLen)
+s32 NetPlay::CreateSerialAddress_51E450(DPCOMPORTADDRESS* pComPort, u32* ppAddress, size_t* pAddressLen)
 {
     DWORD addressLen = 0;
     DPCOMPOUNDADDRESSELEMENT elements[2];
@@ -515,7 +515,7 @@ s32 NetPlay::NoRefs_51E450(DPCOMPORTADDRESS* pComPort, u32* ppAddress, size_t* p
 }
 
 MATCH_FUNC(0x51e5c0)
-s32 NetPlay::sub_51E5C0()
+s32 NetPlay::InitializeConnection_51E5C0()
 {
     if (field_5E4_pDPlay3 && field_5E0_pDPlayLobby2)
     {
@@ -530,7 +530,7 @@ s32 NetPlay::sub_51E5C0()
 
         if (field_5E4_pDPlay3->InitializeConnection(field_30_enumed_connections.field_0_enumed_connections[i].field_14_pConnection, 0) >= 0)
         {
-            if (field_4 || sub_51E650() != -1)
+            if (field_4 || EnumSessions_51E650() != -1)
             {
                 field_8E8_time = timeGetTime();
                 field_48 = 1;
@@ -543,7 +543,7 @@ s32 NetPlay::sub_51E5C0()
 
 // Return block layout differs, see docs/match_attempts.md
 WIP_FUNC(0x51e650)
-s32 NetPlay::sub_51E650()
+s32 NetPlay::EnumSessions_51E650()
 {
     WIP_IMPLEMENTED;
 
@@ -615,7 +615,7 @@ s32 NetPlay::sub_51E7A0(wchar_t* Source, wchar_t* a3, s32 a4, s32* a5)
 }
 
 MATCH_FUNC(0x51e9c0)
-u32 NetPlay::sub_51E9C0(Network_8* pData, s32 player_id, DPNAME name, Network_Unknown* pStru)
+u32 NetPlay::AddPlayer_51E9C0(Network_8* pData, s32 player_id, DPNAME name, Network_Unknown* pStru)
 {
     u32 i = 0;
     if (pStru->field_4_count != 6)
@@ -719,7 +719,7 @@ void NetPlay::NetworkTick_51ED00()
 }
 
 MATCH_FUNC(0x51ef60)
-s32 NetPlay::Send_51EF60()
+s32 NetPlay::SendPing_51EF60()
 {
     u32 dataLen;
     s32 pData;
@@ -811,7 +811,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
 
 // Register allocation differs, see docs/match_attempts.md
 WIP_FUNC(0x520040)
-s32 NetPlay::sub_520040(s32 toFind, Network_Unknown* pStru, Network_Unknown* pDst, u32* pOutIdx)
+s32 NetPlay::MovePlayerToGroup_520040(s32 toFind, Network_Unknown* pStru, Network_Unknown* pDst, u32* pOutIdx)
 {
     WIP_IMPLEMENTED;
 
@@ -826,14 +826,14 @@ s32 NetPlay::sub_520040(s32 toFind, Network_Unknown* pStru, Network_Unknown* pDs
         }
         if (pStru->field_10[i].field_0 && pStru->field_10[i].field_10 == toFind)
         {
-            u32 new_idx = sub_51E9C0((Network_8*)&pStru->field_10[i].field_24,
+            u32 new_idx = AddPlayer_51E9C0((Network_8*)&pStru->field_10[i].field_24,
                                      pStru->field_10[i].field_10,
                                      *(DPNAME*)&pStru->field_10[i].field_14,
                                      pDst);
             if (new_idx != 0xEEEEEEEE)
             {
                 *pOutIdx = new_idx;
-                sub_5201A0(i, pStru);
+                FreePlayerSlot_5201A0(i, pStru);
                 return 1;
             }
             break;
@@ -844,7 +844,7 @@ s32 NetPlay::sub_520040(s32 toFind, Network_Unknown* pStru, Network_Unknown* pDs
 }
 
 MATCH_FUNC(0x5201a0)
-void NetPlay::sub_5201A0(s32 idx, Network_Unknown* pStru)
+void NetPlay::FreePlayerSlot_5201A0(s32 idx, Network_Unknown* pStru)
 {
     delete pStru->field_10[idx].field_1C;
     delete (void*)pStru->field_10[idx].field_24;
@@ -949,19 +949,19 @@ s32 NetPlay::EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay*
 
     if (a2 == 1)
     {
-        return pContext->sub_520CA0(a1, (DPNAME*)a3);
+        return pContext->AddEnumeratedGroupPlayer_520CA0(a1, (DPNAME*)a3);
     }
 
     return 1;
 }
 
 MATCH_FUNC(0x520ca0)
-s32 NetPlay::sub_520CA0(s32 player_id, DPNAME* pName)
+s32 NetPlay::AddEnumeratedGroupPlayer_520CA0(s32 player_id, DPNAME* pName)
 {
     Network_8 data;
     data.field_0 = 0;
     data.field_4_len = 0;
-    return sub_51E9C0(&data, player_id, *pName, &field_758_n2) != 0xEEEEEEEE;
+    return AddPlayer_51E9C0(&data, player_id, *pName, &field_758_n2) != 0xEEEEEEEE;
 }
 
 MATCH_FUNC(0x520d00)
@@ -1002,7 +1002,7 @@ void NetPlay::sub_520DE0(Network_Unknown* pStru)
     u32 count = pStru->field_4_count;
     for (u32 i = 0; i < count; i++)
     {
-        sub_5201A0(i, pStru);
+        FreePlayerSlot_5201A0(i, pStru);
     }
 
     if (pStru->field_120_session_desc.lpszSessionName)
@@ -1054,7 +1054,7 @@ void NetPlay::NoRefs_null_520EA0()
 }
 
 MATCH_FUNC(0x520eb0)
-void NetPlay::sub_520EB0(s32 player_id, s32 ping, Network_Unknown* pStru)
+void NetPlay::UpdatePlayerPing_520EB0(s32 player_id, s32 ping, Network_Unknown* pStru)
 {
     Network_PlayerPing info;
 
@@ -1110,7 +1110,7 @@ s32 NetPlay::DeletePlayerFromGroup_521000(u32 idx)
     if (idx < 6 && field_758_n2.field_10[idx].field_0)
     {
         s32 idPlayer = field_758_n2.field_10[idx].field_10;
-        sub_5201A0(idx, &field_758_n2);
+        FreePlayerSlot_5201A0(idx, &field_758_n2);
         field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, idPlayer);
         return 1;
     }
@@ -1195,7 +1195,7 @@ void NetPlay::Set27SavePlayerName_5211F0(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x521220)
-void NetPlay::sub_521220()
+void NetPlay::DisableJoining_521220()
 {
     u32 dataLen;
     s32 pData;
@@ -1262,7 +1262,7 @@ bool NetPlay::sub_5213E0()
 }
 
 MATCH_FUNC(0x5215b0)
-s32 NetPlay::NoRefs_5215B0(u32 idx, u32* ppConnection, size_t* pLen)
+s32 NetPlay::CopyConnection_5215B0(u32 idx, u32* ppConnection, size_t* pLen)
 {
     *ppConnection = 0;
     *pLen = 0;
@@ -1280,7 +1280,7 @@ s32 NetPlay::NoRefs_5215B0(u32 idx, u32* ppConnection, size_t* pLen)
 }
 
 MATCH_FUNC(0x521630)
-s32 NetPlay::Send_521630(Network_8* pSendData, s32 idx, char_type a4)
+s32 NetPlay::SendToPlayer_521630(Network_8* pSendData, s32 idx, char_type a4)
 {
     u32 dataLen;
     s32 pData;
@@ -1361,7 +1361,7 @@ char_type NetPlay::sub_521890(s32** a3, s32* arg4, u32* a4)
 }
 
 MATCH_FUNC(0x521b20)
-void NetPlay::Send_521B20(Network_8* pSendData)
+void NetPlay::SendToAll_521B20(Network_8* pSendData)
 {
     u32 dataLen;
     s32 pData;

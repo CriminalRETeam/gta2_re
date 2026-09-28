@@ -131,7 +131,7 @@ reordering statements and using the existing inline accessors.
 
 **`memcmp`/`operator==` operand order picks `esi`/`edi`.** For an inlined 16-byte compare
 (`repe cmpsl`), the left operand goes in `esi` and the right in `edi`. Swap the sides
-of `==` if they are the wrong way round (`NetPlay::sub_51E5C0`).
+of `==` if they are the wrong way round (`NetPlay::InitializeConnection_51E5C0`).
 
 **Operand order matters.** `a + b` vs `b + a` changes which value is loaded first and which
 register holds the result (`ProjectOntoAxis_5A5AA0`). Writing `x |= f()` instead of
@@ -186,7 +186,7 @@ instead of `fildl (%edx)` comes from copying the value into a local object first
 cleanup/failure block after a check and jumps forward to the success code, make the failure
 code the body of `if (hr != DP_OK) { failed: ...; return 0; }` and have earlier checks
 `goto failed;`. A success label at the end doesn't work: VC6 moves it back up
-(`NetPlay::NoRefs_51E2B0`).
+(`NetPlay::CreateModemAddress_51E2B0`).
 
 **Struct copies load through a pointer register.** `mov (%edx),%esi; mov (%esi),%ebp; ... mov 4(%esi),%esi`
 into consecutive fields is a struct assignment (`entry.inputs = *pData->p`), not two
@@ -194,13 +194,13 @@ separate field copies (`NetPlay::Add_5216E0`).
 
 **`memset` position moves register choice.** Where a `memset` of a local sits relative to
 other stores decides which register holds the zero and which holds addresses. Try it
-before and after the neighbouring field stores (`NetPlay::Send_51EF60`: the payload
+before and after the neighbouring field stores (`NetPlay::SendPing_51EF60`: the payload
 `memset` goes after the header stores; `Send_521DB0`: the payload is filled in before the
 header `memset`).
 
 **A flag VC6 should have optimised away.** If the original zeroes a local, tests it once and
 sets it, without VC6 folding any of that, the flag may be a `volatile` alias of a dead
-parameter's slot: `volatile BOOL& bDone = *(volatile BOOL*)&lpData;` (`NetPlay::sub_51E030`,
+parameter's slot: `volatile BOOL& bDone = *(volatile BOOL*)&lpData;` (`NetPlay::EnumAddress_cb_51E030`,
 still WIP for other reasons). Might be worth trying on `RouteFinder::sub_589E20` below.
 
 **VC6 drops tests it can prove.** If the original tests a flag at the top of a loop that is

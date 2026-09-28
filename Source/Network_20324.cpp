@@ -15,7 +15,7 @@ EXTERN_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256);
 Network_UI_Control_Data gUiControlDefinitions_621430[3][30];
 
 MATCH_FUNC(0x519960)
-void __stdcall sub_519960(char_type* pDst, wchar_t* pSrc)
+void __stdcall WideToDbcs_519960(char_type* pDst, wchar_t* pSrc)
 {
     wchar_t c = *pSrc;
     if (c)
@@ -44,7 +44,7 @@ void __stdcall sub_519960(char_type* pDst, wchar_t* pSrc)
 }
 
 MATCH_FUNC(0x5199b0)
-void Network_20324::sub_5199B0(wchar_t* pDst, char_type* pSrc)
+void Network_20324::DbcsToWide_5199B0(wchar_t* pDst, char_type* pSrc)
 {
     char_type c = *pSrc;
     if (c)
@@ -79,7 +79,7 @@ char_type* __stdcall GetString_519A00(const char_type* pKey)
 
     if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
     {
-        sub_519960(Dest_6F88A4, pText);
+        WideToDbcs_519960(Dest_6F88A4, pText);
     }
     else
     {
@@ -93,7 +93,7 @@ void Network_20324::GetString_519A50(wchar_t* Dest, char_type* Source, size_t Ma
 {
     if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
     {
-        sub_5199B0(Dest, Source);
+        DbcsToWide_5199B0(Dest, Source);
     }
     else
     {
