@@ -109,6 +109,10 @@ comparison (`RouteFinder_10::field_2` is `u16`).
 32 bits. A function whose first path returns another call's `bool` unextended while other
 paths set all of `eax` is still unsolved (`Car_BC::sub_43B2B0`).
 
+**`sub $C` vs `add $-C`.** `x -= 0x100;` (or `x = x - 256;`, `x += -256;`) compiles to
+`sub $0x100`. `return x - 0x100;` from an inline helper gives `add $0xFFFFFF00`
+(`SeqDiff` in NetPlay.cpp, `NetPlay::MakeSendData_51F420`).
+
 **Adding a bool.** `setne al; add $0xE,%eax` comes from `(b != 0) + 14`, not `b + 14`
 (`sub_417B80`).
 

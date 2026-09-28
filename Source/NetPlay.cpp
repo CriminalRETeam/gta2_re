@@ -11,6 +11,22 @@ DEFINE_GLOBAL(GUID, kGta2_DP_Guid_5FE928, 0x5FE928);
 DEFINE_GLOBAL_ARRAY(s32, dword_6F8A4C, 6, 0x6F8A4C);
 DEFINE_GLOBAL_ARRAY(char_type, byte_6F8A64, 24, 0x6F8A64);
 
+// Signed difference between two 8-bit sequence numbers, allowing for wrap around
+static inline s32 SeqDiff(u8 a, u8 b)
+{
+    s32 diff = (u8)(a - b);
+    if (diff == 0)
+    {
+        return 0;
+    }
+    if (diff >= 0x80)
+    {
+        // Written as a return: "diff -= 0x100" gives sub instead of the original's add $-0x100
+        return diff - 0x100;
+    }
+    return diff;
+}
+
 MATCH_FUNC(0x51d6b0)
 NetPlay::NetPlay()
 {
@@ -1060,10 +1076,108 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
     return len;
 }
 
-STUB_FUNC(0x51f420)
+MATCH_FUNC(0x51f420)
 void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen)
 {
-    NOT_IMPLEMENTED;
+    u8* pBuffer = (u8*)field_8E0_p0x1800_2;
+    *pDataLen = 0;
+
+    switch (pPacket->header.field_0_type)
+    {
+        case 1:
+            if (pPacket->field_9)
+            {
+                switch (pPacket->header.field_4_sub_type)
+                {
+                    case 1:
+                        pBuffer[0] = 2;
+                        memcpy(pBuffer + 1, (u8*)pPacket->field_D, pPacket->field_11_len);
+                        *pDataLen = pPacket->field_11_len + 1;
+                        break;
+
+                    case 2:
+                        switch (*(u8*)pPacket->field_D)
+                        {
+                            case 1:
+                                pBuffer[0] = 6;
+                                memcpy(pBuffer + 1, (u8*)pPacket->field_D, 5);
+                                *pDataLen = 6;
+                                break;
+                            case 2:
+                                pBuffer[0] = 5;
+                                pBuffer[1] = *(u8*)pPacket->field_D;
+                                *pDataLen = 2;
+                                break;
+                            case 3:
+                                pBuffer[0] = 7;
+                                pBuffer[1] = *(u8*)pPacket->field_D;
+                                *pDataLen = 2;
+                                break;
+                            case 5:
+                                pBuffer[0] = 3;
+                                memcpy(pBuffer + 1, (u8*)pPacket->field_D, 0x1F);
+                                *pDataLen = 0x20;
+                                break;
+                            default:
+                                // TODO: the source file name is a guess
+                                FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\netplay.cpp", 2277, 0);
+                                break;
+                        }
+                        break;
+
+                    case 3:
+                    {
+                        s32 idx = field_5D4_player_idx;
+                        if (SeqDiff(pPacket->field_8, byte_6F8A64[idx]) == 1 && dword_6F8A4C[idx] == *(s32*)pPacket->field_D)
+                        {
+                            byte_6F8A64[idx] = pPacket->field_8;
+                            pBuffer[0] = 9;
+                            pBuffer[1] = pPacket->field_8;
+                            *pDataLen = 2;
+                            if (bDo_sync_check_67D6C1)
+                            {
+                                *(s32*)(pBuffer + 2) = ((s32*)pPacket->field_D)[1];
+                                *pDataLen += 4;
+                            }
+                        }
+                        else
+                        {
+                            pBuffer[0] = 1;
+                            pBuffer[1] = pPacket->field_8;
+                            memcpy(pBuffer + 2, (u8*)pPacket->field_D, pPacket->field_11_len);
+                            *pDataLen = pPacket->field_11_len + 2;
+                            idx = field_5D4_player_idx;
+                            if (SeqDiff(pPacket->field_8, byte_6F8A64[idx]) == 1)
+                            {
+                                dword_6F8A4C[idx] = *(s32*)pPacket->field_D;
+                                byte_6F8A64[field_5D4_player_idx] = pPacket->field_8;
+                            }
+                        }
+                        break;
+                    }
+
+                    case 4:
+                        pBuffer[0] = 8;
+                        *pDataLen = 1;
+                        break;
+
+                    default:
+                        FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\netplay.cpp", 2338, 0);
+                        break;
+                }
+            }
+            break;
+
+        case 2:
+            pBuffer[0] = 4;
+            *pDataLen = 1;
+            break;
+
+        default:
+            FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\netplay.cpp", 2356, 0);
+            break;
+    }
+    *pData = (s32)pBuffer;
 }
 
 STUB_FUNC(0x51f870)
@@ -1766,21 +1880,6 @@ void NetPlay::Add_5216E0(Network_8* pData, s32 id, char_type type)
             return;
         }
     }
-}
-
-// Signed difference between two 8-bit sequence numbers, allowing for wrap around
-static inline s32 SeqDiff(u8 a, u8 b)
-{
-    s32 diff = (u8)(a - b);
-    if (diff == 0)
-    {
-        return 0;
-    }
-    if (diff >= 0x80)
-    {
-        diff -= 0x100;
-    }
-    return diff;
 }
 
 // Register allocation differs, see docs/match_attempts.md
