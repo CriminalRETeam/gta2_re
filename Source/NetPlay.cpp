@@ -315,10 +315,30 @@ s32 NetPlay::NoRefs_51E450(s32 a2, u32* a3, size_t* a4)
     return 0;
 }
 
-STUB_FUNC(0x51e5c0)
+MATCH_FUNC(0x51e5c0)
 s32 NetPlay::sub_51E5C0()
 {
-    NOT_IMPLEMENTED;
+    if (field_5E4_pDPlay3 && field_5E0_pDPlayLobby2)
+    {
+        u32 i;
+        for (i = 0; i < 8; i++)
+        {
+            if (field_30_enumed_connections.field_0_enumed_connections[i].field_0_sp_guid == field_8_ip_or_ipx_guid)
+            {
+                break;
+            }
+        }
+
+        if (field_5E4_pDPlay3->InitializeConnection(field_30_enumed_connections.field_0_enumed_connections[i].field_14_pConnection, 0) >= 0)
+        {
+            if (field_4 || sub_51E650() != -1)
+            {
+                field_8E8_time = timeGetTime();
+                field_48 = 1;
+                return 1;
+            }
+        }
+    }
     return 0;
 }
 
@@ -955,11 +975,22 @@ bool NetPlay::sub_5213E0()
     return 0;
 }
 
-STUB_FUNC(0x5215b0)
-s32 NetPlay::NoRefs_5215B0(u32 a2, u32* a3, size_t* a4)
+MATCH_FUNC(0x5215b0)
+s32 NetPlay::NoRefs_5215B0(u32 idx, u32* ppConnection, size_t* pLen)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    *ppConnection = 0;
+    *pLen = 0;
+    if (idx >= field_30_enumed_connections.field_8_connections_count)
+    {
+        return 0;
+    }
+
+    size_t len = field_30_enumed_connections.field_0_enumed_connections[idx].field_18_connection_len;
+    void* pConnection = operator new(len);
+    memcpy(pConnection, field_30_enumed_connections.field_0_enumed_connections[idx].field_14_pConnection, len);
+    *ppConnection = (u32)pConnection;
+    *pLen = len;
+    return 1;
 }
 
 MATCH_FUNC(0x521630)
