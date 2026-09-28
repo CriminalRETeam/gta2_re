@@ -104,3 +104,23 @@ Tried:
   register assignment shifts.
 - Declaring `str_count` (and the total) before the `if` and storing `str_count` in the
   else branch: worse, `str_count` stops being kept in the 32-bit slot.
+
+## NetPlay::SendKeepAlive_521D20 (WIP)
+
+Ratio 0.690. Same shape as the matched `Send_521DB0`, `Send_521E40` and
+`NoRefs_Send_521C80`: `memset` a `Packet_SubType_3`, fill it in, `MakeSendData_51F420`, then
+`IDirectPlay3::Send`. The payload is a single byte, 2. The original keeps the 2 in `ecx` for
+both the `keep_alive` byte and `field_4_sub_type`, and does all the stores before the
+`lea`s and pushes for `MakeSendData_51F420`. Ours computes the `lea`s and pushes early and
+stores the 2 through `eax` after the first push.
+
+Tried (0.690 unless noted):
+- `keep_alive = 2` before or after `field_4_sub_type = 2`, both after the `memset`.
+- `char_type keep_alive = 2;` declared after the `memset`.
+- `keep_alive` declared before the other locals, assigned after the `memset`.
+- `keep_alive = 2` before the `memset` (0.357, the 2 goes into `eax` and the zero into
+  `ecx`).
+- `char_type keep_alive[1]` set before the `memset` (0.357).
+
+What fixed the similar `Send_521DB0` was declaring the payload struct first and filling it
+in before the `memset`. That doesn't work for a plain `char_type`.

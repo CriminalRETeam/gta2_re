@@ -18,6 +18,13 @@ class PacketHeader
     s32 field_4_sub_type;
 };
 
+class Packet_Byte_S32
+{
+  public:
+    char_type field_0;
+    s32 field_1;
+};
+
 class Packet_SubType_3
 {
   public:
@@ -203,11 +210,11 @@ struct NetPlay
     EXPORT void Remove_521870(s32 idx);
     EXPORT char_type sub_521890(s32** a3, s32* arg4, u32* a4);
     EXPORT void Send_521B20(s32* a2);
-    EXPORT s32 NoRefs_Send_521BE0(s32* a2, s32 a3);
-    EXPORT s32 NoRefs_Send_521C80(s32 a2);
+    EXPORT s32 NoRefs_Send_521BE0(Network_8* pSendData, s32 a3);
+    EXPORT s32 NoRefs_Send_521C80(s32 pSendData);
     EXPORT s32 SendKeepAlive_521D20();
-    EXPORT s32 Send_521DB0(s32 dataLen);
-    EXPORT s32 Send_521E40(s32 a2);
+    EXPORT s32 Send_521DB0(s32 value);
+    EXPORT s32 Send_521E40(s32 pSendData);
     EXPORT void static_dtor_5E4DD0();
 
     //s32 field_0_vtbl;
