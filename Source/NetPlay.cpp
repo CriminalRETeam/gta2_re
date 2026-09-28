@@ -311,11 +311,48 @@ s32 NetPlay::sub_51E7A0(wchar_t* Source, wchar_t* a3, s32 a4, s32* a5)
     return 0;
 }
 
-STUB_FUNC(0x51e9c0)
-u32 NetPlay::sub_51E9C0(s32 a1, s32 a2, s32 a3, s32 a4, wchar_t* Source, s32 a6, s32 a7)
+MATCH_FUNC(0x51e9c0)
+u32 NetPlay::sub_51E9C0(Network_8* pData, s32 player_id, DPNAME name, Network_Unknown* pStru)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u32 i = 0;
+    if (pStru->field_4_count != 6)
+    {
+        while (1)
+        {
+            if (i >= 6)
+            {
+                break;
+            }
+
+            if (!pStru->field_10[i].field_0)
+            {
+                memset(&pStru->field_10[i], 0, sizeof(Nework_2C));
+                pStru->field_10[i].field_10 = player_id;
+                memset(&pStru->field_10[i].field_14, 0, sizeof(DPNAME));
+
+                if (wcslen(name.lpszShortName) < 15)
+                {
+                    pStru->field_10[i].field_1C = (wchar_t*)operator new(2 * wcslen(name.lpszShortName) + 2);
+                    wcscpy(pStru->field_10[i].field_1C, name.lpszShortName);
+                }
+                else
+                {
+                    pStru->field_10[i].field_1C = (wchar_t*)operator new(0x20);
+                    wcsncpy(pStru->field_10[i].field_1C, name.lpszShortName, 15);
+                    pStru->field_10[i].field_1C[15] = 0;
+                }
+
+                pStru->field_10[i].field_24 = (s32)operator new(pData->field_4_len);
+                pStru->field_10[i].field_28 = pData->field_4_len;
+                memcpy((void*)pStru->field_10[i].field_24, pData->field_0, pData->field_4_len);
+                pStru->field_10[i].field_0 = 1;
+                pStru->field_4_count++;
+                return i;
+            }
+            i++;
+        }
+    }
+    return 0xEEEEEEEE;
 }
 
 MATCH_FUNC(0x51eae0)
@@ -567,17 +604,19 @@ s32 NetPlay::EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay*
 
     if (a2 == 1)
     {
-        return pContext->sub_520CA0(a1, a3);
+        return pContext->sub_520CA0(a1, (DPNAME*)a3);
     }
 
     return 1;
 }
 
-STUB_FUNC(0x520ca0)
-s32 NetPlay::sub_520CA0(s32 a2, s32 a3)
+MATCH_FUNC(0x520ca0)
+s32 NetPlay::sub_520CA0(s32 player_id, DPNAME* pName)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Network_8 data;
+    data.field_0 = 0;
+    data.field_4_len = 0;
+    return sub_51E9C0(&data, player_id, *pName, &field_758_n2) != 0xEEEEEEEE;
 }
 
 MATCH_FUNC(0x520d00)
