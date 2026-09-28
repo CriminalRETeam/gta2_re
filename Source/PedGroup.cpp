@@ -8,6 +8,7 @@
 
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
 DEFINE_GLOBAL(Fix16, dword_67F60C, 0x67F60C);
+DEFINE_GLOBAL(Fix16, dword_67F608, 0x67F608);
 DEFINE_GLOBAL(Fix16, dword_67F610, 0x67F610);
 DEFINE_GLOBAL(Fix16, dword_67F670, 0x67F670);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_67EEE4, Fix16(0x500, 0), 0x67EEE4);
@@ -688,10 +689,205 @@ Ped* PedGroup::sub_4C9ED0()
     return 0;
 }
 
-STUB_FUNC(0x4c9f00)
+WIP_FUNC(0x4c9f00)
 void PedGroup::CoordinateGroupCarEntry_4C9F00()
 {
-    NOT_IMPLEMENTED;
+    s8 i;
+    Fix16 distance;
+    Ped* pLeader = field_2C_ped_leader;
+    s32 state = pLeader->field_278_ped_state_1;
+    if (state == 3 || state == 10 || state == 5)
+    {
+        field_30 = 1;
+        if (pLeader->field_278_ped_state_1 == 10 || pLeader->FindUsableCarDoor_467090())
+        {
+            Car_BC* pCar;
+            if (field_2C_ped_leader->field_168_game_object)
+            {
+                pCar = field_2C_ped_leader->field_168_game_object->field_84;
+            }
+            else
+            {
+                pCar = field_2C_ped_leader->field_16C_car;
+            }
+            u8 passengers = pCar->GetPassengersCount_440570();
+
+            for (i = 0; i < passengers && i < field_34_count; i++)
+            {
+                Ped* pMember = field_4_ped_list[i];
+                if (pMember->field_16C_car || pMember->field_278_ped_state_1 == ped_state_1::dead_9 ||
+                    (pMember->field_240_occupation == 0x17 && pMember->field_258_objective != 0) || pMember->field_258_objective == 8)
+                {
+                    continue;
+                }
+
+                if (field_2C_ped_leader->field_16C_car && field_2C_ped_leader->field_16C_car->IsTrainModel_403BA0())
+                {
+                    pMember->SetObjective2_463830(0x25, 9999);
+                    pMember->field_154_target_to_enter = field_2C_ped_leader->field_16C_car;
+                    continue;
+                }
+
+                if (pMember->field_25C_internal_objective != 0x23)
+                {
+                    pMember->field_21C_bf.b2 = 0;
+                    if (field_2C_ped_leader->field_168_game_object)
+                    {
+                        pMember->SetObjective2_463830(0x12, 9999);
+                        pMember->field_248_enter_car_as_passenger = 1;
+                        pMember->field_154_target_to_enter = field_2C_ped_leader->field_168_game_object->field_84;
+                    }
+                    else
+                    {
+                        pMember->SetObjective(0, 9999);
+                        pMember->SetObjective2_463830(0x23, 9999);
+                        pMember->field_248_enter_car_as_passenger = 1;
+                        pMember->field_154_target_to_enter = field_2C_ped_leader->field_16C_car;
+                    }
+                    pMember->field_168_game_object->sub_545600();
+                }
+
+                Car_BC* pTargetCar = pMember->field_154_target_to_enter;
+                u8 tries = 0;
+                byte_620838 = i + 1;
+                u8 maxDoor = pTargetCar->GetRemap() - 1;
+                char_type searching;
+                if (pTargetCar->field_84_car_info_idx != car_model_enum::SWATVAN && pTargetCar->field_84_car_info_idx != car_model_enum::bank_van)
+                {
+                    do
+                    {
+                        searching = 1;
+                        do
+                        {
+                            if (byte_620838 > maxDoor)
+                            {
+                                byte_620838 -= maxDoor;
+                            }
+                        } while (byte_620838 > maxDoor);
+
+                        if (pTargetCar->IsDoorAccessible_43AFE0(byte_620838))
+                        {
+                            searching = 0;
+                        }
+                        else
+                        {
+                            byte_620838++;
+                        }
+
+                        if (++tries == maxDoor + 1)
+                        {
+                            byte_620838 = maxDoor;
+                            if (pTargetCar->IsDoorAccessible_43AFE0(0))
+                            {
+                                byte_620838 = 0;
+                            }
+                            break;
+                        }
+                    } while (searching);
+                }
+
+                else
+                {
+                    byte_620838 = i + 2;
+                    do
+                    {
+                        searching = 1;
+                        do
+                        {
+                            if (byte_620838 > maxDoor)
+                            {
+                                byte_620838 += 1 - maxDoor;
+                            }
+                        } while (byte_620838 > maxDoor);
+
+                        if (pTargetCar->IsDoorAccessible_43AFE0(byte_620838))
+                        {
+                            searching = 0;
+                        }
+                        else
+                        {
+                            byte_620838++;
+                        }
+
+                        if (++tries == maxDoor + 1)
+                        {
+                            byte_620838 = maxDoor;
+                            if (pTargetCar->IsDoorAccessible_43AFE0(0))
+                            {
+                                byte_620838 = 0;
+                            }
+                            else if (pTargetCar->IsDoorAccessible_43AFE0(1))
+                            {
+                                byte_620838 = 1;
+                            }
+                            break;
+                        }
+                    } while (searching);
+                }
+                for (s8 j = 0; j < field_34_count; j++)
+                {
+                    Ped* pOther = field_4_ped_list[j];
+                    if (pOther != pMember && pOther->field_25C_internal_objective == 0x12 &&
+                        pMember->field_24C_target_car_door == pOther->field_24C_target_car_door)
+                    {
+                        pMember->SetObjective2_463830(9, 9999);
+                        pMember->field_14C = pOther;
+                    }
+                }
+                pMember->field_24C_target_car_door = byte_620838;
+            }
+
+            for (; i < field_34_count; i++)
+            {
+                Ped* pMember = field_4_ped_list[i];
+                if (pMember->field_258_objective != 8)
+                {
+                    pMember->SetObjective(8, 9999);
+                    pMember->SetObjective2_463830(0, 9999);
+                }
+            }
+        }
+        return;
+    }
+
+    if (pLeader->field_168_game_object)
+    {
+        if (field_1)
+        {
+            Ped* pFarthest = FindFarthestMember_4CA3F0(&distance);
+            if (distance > dword_67F608 && !field_2C_ped_leader->IsField238_45EDE0(2))
+            {
+                if (field_2C_ped_leader->field_258_objective != 0xD && field_2C_ped_leader->field_25C_internal_objective != 0x24)
+                {
+                    field_2C_ped_leader->SetObjective2_463830(9, 9999);
+                    field_2C_ped_leader->field_14C = pFarthest;
+                    field_3C = 1;
+                }
+                goto check_members;
+            }
+            if (field_3C == 1)
+            {
+                field_2C_ped_leader->SetObjective2_463830(0, 9999);
+            }
+        }
+        field_3C = 0;
+    }
+
+check_members:
+    if (!(u8)sub_4CA3E0())
+    {
+        for (i = 0; i < field_34_count; i++)
+        {
+            if (field_4_ped_list[i]->GetBit2() == 1)
+            {
+                field_30 = 1;
+                return;
+            }
+        }
+        field_30 = 0;
+        return;
+    }
+    field_30 = 1;
 }
 
 MATCH_FUNC(0x4ca3e0)

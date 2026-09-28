@@ -318,3 +318,20 @@ Tried: `pMember` at function scope (no change); reading `pPed->field_164_ped_gro
 both branches instead of a shared `pOther` (no change); `s8 i` at function scope (no
 change); no `pMember` local in the first loop, just `field_4_ped_list[i]->` (0.758). That
 last one gives `pPed` `edi` but reloads the list entry every time.
+
+## PedGroup::CoordinateGroupCarEntry_4C9F00 (WIP)
+
+When the leader is getting into a car, sends up to passenger-count members to the car
+doors, picking a door with an inlined search over `byte_620838` (one variant for
+`SWATVAN`/`bank_van`, which starts one door further on and also tries door 1). The rest
+are told to wait (objective 8). Otherwise, handles the leader waiting for the farthest
+member and updates `field_30`. The rest of the code matches instruction for instruction.
+
+Ratio 0.861. Left: block order. The original lays out the van search (then-block) first,
+with its door-0/door-1 fallback right after it, then the other search. We get the other
+search first and the van's door-1 fallback at the very end.
+
+Tried: `if (van) {...} else {...}` and the inverted `if (!van) {...} else {...}` (VC6
+emits the same code for both); `switch` with the van cases first (0.837, `default` still
+first). `Fix16 distance` at function scope instead of in its block fixed the frame size (the
+original doesn't overlap it with the spilled `this`).
