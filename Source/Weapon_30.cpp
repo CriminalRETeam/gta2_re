@@ -727,10 +727,62 @@ void Weapon_30::shocker_5E06B0()
     }
 }
 
-STUB_FUNC(0x5e0740)
+MATCH_FUNC(0x5e0740)
 void Weapon_30::electro_batton_5E0740()
 {
-    NOT_IMPLEMENTED;
+    if (!field_24_pPed->field_198)
+    {
+        if (!field_2_reload_speed)
+        {
+            field_2C = 1;
+            if (!field_4)
+            {
+                Object_2C* pBullet = spawn_bullet_5DCF60(277,
+                                                         field_24_pPed->get_cam_x(),
+                                                         field_24_pPed->get_cam_y(),
+                                                         field_24_pPed->get_cam_z(),
+                                                         field_24_pPed->Get_F12E_4CCA90(),
+                                                         field_24_pPed->sub_45B520());
+                if (pBullet && field_24_pPed->IsField238_45EDE0(2))
+                {
+                    decrement_ammo_4CCA30();
+                }
+                field_2_reload_speed = 20;
+            }
+            else
+            {
+                spawn_bullet_5DCF60(154,
+                                    field_24_pPed->get_cam_x(),
+                                    field_24_pPed->get_cam_y(),
+                                    field_24_pPed->get_cam_z(),
+                                    field_24_pPed->Get_F12E_4CCA90(),
+                                    field_24_pPed->sub_45B520());
+                field_2_reload_speed = 5;
+            }
+            TickReloadSpeed_5DCF40();
+        }
+        else
+        {
+            field_2_reload_speed--;
+        }
+    }
+    else if (field_24_pPed->field_198->field_168_game_object)
+    {
+        if (field_24_pPed->IsField238_45EDE0(2))
+        {
+            s32 target_state = field_24_pPed->field_198->field_278_ped_state_1;
+            if (target_state >= 8 && target_state <= 9)
+            {
+                field_24_pPed->field_198 = 0;
+                return;
+            }
+        }
+        sub_5DE4F0();
+    }
+    else
+    {
+        field_24_pPed->field_198 = 0;
+    }
 }
 
 MATCH_FUNC(0x5e0ab0)
