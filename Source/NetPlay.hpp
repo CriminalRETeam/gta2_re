@@ -56,7 +56,7 @@ class Network_Unknown
 {
   public:
     s32 field_0_group_id;
-    s32 field_4_count;
+    u32 field_4_count;
     char_type field_8[4];
     s32 field_C;
     Nework_2C field_10[6];
@@ -173,7 +173,7 @@ struct NetPlay
     EXPORT s32 CalcPacketLen_51F210(u32 pPacket);
     EXPORT void MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen);
     EXPORT void OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 a5);
-    EXPORT s32 sub_520040(s32 toFind, Network_Unknown* pStru, s32 a3, u32* pOutIdx);
+    EXPORT s32 sub_520040(s32 toFind, Network_Unknown* pStru, Network_Unknown* pDst, u32* pOutIdx);
     EXPORT void sub_5201A0(s32 idx, Network_Unknown* pStru);
     EXPORT void ProcessIncomingPacket_520230(s32 idx, u32 pUnknown);
     EXPORT void Set6_520530(void* pFunc, void* pParam);

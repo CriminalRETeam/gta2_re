@@ -124,3 +124,18 @@ Tried (0.690 unless noted):
 
 What fixed the similar `Send_521DB0` was declaring the payload struct first and filling it
 in before the `memset`. That doesn't work for a plain `char_type`.
+
+## NetPlay::sub_520040 (WIP)
+
+Ratio 0.692. Moves player `toFind` from `pStru` to `pDst` through `sub_51E9C0` and
+`sub_5201A0`. Branch layout matches with the nested form (the call inside the loop's found
+branch, `break` on failure, one `return 0` at the end). The registers don't: the original
+has `this` in `ebx`, `pStru` in `ebp` and the result 1 in `edi` across the `sub_5201A0`
+call (`mov $1,%edi` ... `mov %edi,%eax`). Ours has `this` in `edi`, `pStru` in `ebx`, and
+`mov $1,%eax` after the call.
+
+Tried:
+- Early `return 0`s with the call after the loop (the failure blocks get laid out
+  inline).
+- `s32 bMoved = 1;` before the `sub_5201A0` call and `return bMoved;` (no change), and
+  the same with the call after the loop (0.615).

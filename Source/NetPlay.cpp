@@ -491,10 +491,37 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x520040)
-s32 NetPlay::sub_520040(s32 toFind, Network_Unknown* pStru, s32 a3, u32* pOutIdx)
+// Register allocation differs, see docs/match_attempts.md
+WIP_FUNC(0x520040)
+s32 NetPlay::sub_520040(s32 toFind, Network_Unknown* pStru, Network_Unknown* pDst, u32* pOutIdx)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    *pOutIdx = 0xEEEEEEEE;
+
+    u32 i = 0;
+    while (1)
+    {
+        if (i >= 6)
+        {
+            break;
+        }
+        if (pStru->field_10[i].field_0 && pStru->field_10[i].field_10 == toFind)
+        {
+            u32 new_idx = sub_51E9C0((Network_8*)&pStru->field_10[i].field_24,
+                                     pStru->field_10[i].field_10,
+                                     *(DPNAME*)&pStru->field_10[i].field_14,
+                                     pDst);
+            if (new_idx != 0xEEEEEEEE)
+            {
+                *pOutIdx = new_idx;
+                sub_5201A0(i, pStru);
+                return 1;
+            }
+            break;
+        }
+        i++;
+    }
     return 0;
 }
 
@@ -625,10 +652,30 @@ void NetPlay::sub_520D00(s32 a2)
     field_758_n2.field_0_group_id = a2;
 }
 
-STUB_FUNC(0x520d10)
+MATCH_FUNC(0x520d10)
 void NetPlay::Disconnect_520D10()
 {
-    NOT_IMPLEMENTED;
+    if (field_5CC)
+    {
+        for (u32 i = field_758_n2.field_4_count; i > 0; i--)
+        {
+            field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, field_758_n2.field_10[i].field_10);
+        }
+        field_5E4_pDPlay3->DestroyGroup(field_758_n2.field_0_group_id);
+    }
+    else if (field_758_n2.field_4_count > 1)
+    {
+        SendKeepAlive_521D20();
+    }
+
+    field_5E4_pDPlay3->DestroyPlayer(field_5D8_player_id);
+    field_5E4_pDPlay3->Close();
+    sub_520DE0(&field_758_n2);
+    sub_520DE0(&field_5E8_n1);
+    field_8E8_time = 0;
+    field_5D4_player_idx = 0xEEEEEEEE;
+    field_5D0 = 0xEEEEEEEE;
+    field_48 = 1;
 }
 
 MATCH_FUNC(0x520de0)
