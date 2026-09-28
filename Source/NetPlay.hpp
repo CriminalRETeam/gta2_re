@@ -74,18 +74,6 @@ class EnumeratedConnection
     s32 field_18_connection_len;
 };
 
-struct Network_14
-{
-    s32 field_0;
-    s32 field_4;
-    char field_8;
-    char field_9;
-    char field_A;
-    char field_B;
-    s32 field_C;
-    s32 field_10;
-};
-
 struct Network_4
 {
     wchar_t* field_0_allocated_str;
@@ -123,6 +111,17 @@ struct Network_InputData_0x8
 {
     u32 field_0_Inputs;
     u32 field_4_rng;
+};
+
+struct Network_14
+{
+    Network_InputData_0x8 field_0_inputs;
+    s32 field_8_id;
+    s32 field_C;
+    u8 field_10_used;
+    char_type field_11_type;
+    char field_12;
+    char field_13;
 };
 
 struct Network_Unknown_0x30
@@ -204,7 +203,7 @@ struct NetPlay
     EXPORT bool sub_5213E0();
     EXPORT s32 NoRefs_5215B0(u32 a2, u32* a3, size_t* a4);
     EXPORT s32 Send_521630(s32 pData, s32 idx, char_type a4);
-    EXPORT void Add_5216E0(s32 a2, s32** a3, s32 a4, char_type a5);
+    EXPORT void Add_5216E0(Network_8* pData, s32 id, char_type type);
     EXPORT u32 sub_521770(u32* a2, char_type* a3, u32* a4);
     EXPORT void sub_521820(s32** a2, s32 idx);
     EXPORT void Remove_521870(s32 idx);
@@ -253,12 +252,7 @@ struct NetPlay
     char field_8F2;
     char field_8F3;
     s32 field_8F4_time_diff;
-    s32 field_8F8;
-    s32 field_8FC;
-    Network_14 field_900_208_start[47];
-    s32 field_CAC;
-    s32 field_CB0;
-    s32 field_CB4;
+    Network_14 field_8F8_packets[48];
     s32 field_CB8_count;
 };
 

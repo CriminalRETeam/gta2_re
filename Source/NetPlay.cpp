@@ -929,10 +929,31 @@ s32 NetPlay::Send_521630(s32 pData, s32 idx, char_type a4)
     return 0;
 }
 
-STUB_FUNC(0x5216e0)
-void NetPlay::Add_5216E0(s32 a2, s32** a3, s32 a4, char_type a5)
+MATCH_FUNC(0x5216e0)
+void NetPlay::Add_5216E0(Network_8* pData, s32 id, char_type type)
 {
-    NOT_IMPLEMENTED;
+    for (u32 i = 0; i < 48; i++)
+    {
+        if (field_8F8_packets[i].field_10_used == 1 && field_8F8_packets[i].field_8_id == id &&
+            field_8F8_packets[i].field_11_type == type)
+        {
+            return;
+        }
+    }
+
+    for (u32 j = 0; j < 48; j++)
+    {
+        if (!field_8F8_packets[j].field_10_used)
+        {
+            field_8F8_packets[j].field_0_inputs = *(Network_InputData_0x8*)pData->field_0;
+            field_8F8_packets[j].field_C = pData->field_4_len;
+            field_8F8_packets[j].field_8_id = id;
+            field_8F8_packets[j].field_11_type = type;
+            field_8F8_packets[j].field_10_used = 1;
+            field_CB8_count++;
+            return;
+        }
+    }
 }
 
 STUB_FUNC(0x521770)
@@ -961,7 +982,7 @@ MATCH_FUNC(0x521870)
 void NetPlay::Remove_521870(s32 idx)
 {
     field_CB8_count--;
-    field_900_208_start[idx].field_8 = 0;
+    field_8F8_packets[idx].field_10_used = 0;
 }
 
 STUB_FUNC(0x521890)
