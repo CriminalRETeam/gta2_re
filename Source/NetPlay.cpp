@@ -1,6 +1,9 @@
 #include "NetPlay.hpp"
 #include "Globals.hpp"
 #include "crt_stubs.hpp"
+#include "debug.hpp"
+#include "enums.hpp"
+#include "error.hpp"
 
 DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8, 0x7071E8);
 DEFINE_GLOBAL(GUID, kGta2_DP_Guid_5FE928, 0x5FE928);
@@ -834,11 +837,96 @@ void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s
     }
 }
 
-STUB_FUNC(0x51f210)
+// Register allocation differs, see docs/match_attempts.md
+WIP_FUNC(0x51f210)
 s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    u8 copy[64];
+    u8* pBytes = (u8*)pPacket;
+    u8* pPayload = pBytes + 5;
+    s32 len = 0;
+
+    memcpy(copy, pBytes, packetLen);
+    switch (copy[0])
+    {
+        case 9:
+            pBytes[3] = 3;
+            if (bDo_sync_check_67D6C1)
+            {
+                pBytes[4] = 8;
+            }
+            else
+            {
+                pBytes[4] = 4;
+            }
+            pBytes[0] = 1;
+            pBytes[1] = copy[1];
+            pBytes[2] = pBytes[4] + 2;
+            *(s32*)pPayload = -1;
+            if (bDo_sync_check_67D6C1)
+            {
+                memcpy(pPayload + 4, &copy[2], packetLen - 2);
+            }
+            len = pBytes[4] + 5;
+            break;
+
+        case 1:
+            pBytes[3] = 3;
+            pBytes[4] = packetLen - 2;
+            pBytes[0] = 1;
+            pBytes[1] = copy[1];
+            pBytes[2] = pBytes[4] + 2;
+            memcpy(pPayload, &copy[2], packetLen - 2);
+            len = packetLen + 3;
+            break;
+
+        case 2:
+            pBytes[3] = 1;
+            pBytes[4] = packetLen - 1;
+            pBytes[0] = 1;
+            pBytes[1] = copy[1];
+            pBytes[2] = pBytes[4] + 2;
+            memcpy(pPayload, &copy[1], packetLen - 1);
+            len = packetLen + 4;
+            break;
+
+        case 4:
+            pBytes[0] = 2;
+            pBytes[1] = 0;
+            pBytes[2] = 0;
+            len = 3;
+            break;
+
+        case 3:
+        case 5:
+        case 6:
+        case 7:
+            pBytes[3] = 2;
+            pBytes[4] = packetLen - 1;
+            pBytes[0] = 1;
+            pBytes[1] = 0;
+            pBytes[2] = pBytes[4] + 2;
+            memcpy(pPayload, &copy[1], packetLen - 1);
+            len = packetLen + 4;
+            break;
+
+        case 8:
+            pBytes[3] = 4;
+            pBytes[4] = 0;
+            pBytes[0] = 1;
+            pBytes[1] = 0;
+            pBytes[2] = 2;
+            len = 5;
+            break;
+
+        default:
+            // TODO: the source file name is a guess
+            FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\netplay.cpp", 2192, 0);
+            break;
+    }
+    return len;
 }
 
 STUB_FUNC(0x51f420)

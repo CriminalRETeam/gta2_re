@@ -237,3 +237,25 @@ second temp for the difference.
 
 Tried (no change): `bool` vs `char_type` flag; the difference as a static inline helper vs
 written out inline.
+
+## NetPlay::CalcPacketLen_51F210 (WIP)
+
+Rewrites a received packet in place: copies it to a 64-byte local, writes a 5-byte header
+(bytes 0-4) chosen by the first byte (cases 1-9, unknown is `FatalError` 1073), copies
+the payload to offset 5 and returns the new length. The fatal error's source file name
+is a guess.
+
+Ratio 0.628 (both versions below). The logic is right, the registers aren't. The
+original keeps the constant 3 in `ebx` (for `and $3` after the `rep movs`, the type-3
+header byte and the case 4 length), the result length in `ebp` (zeroed at the top,
+`mov %ebp,%eax` at every exit), and spills `pPacket + 5` into `pPacket`'s own stack slot.
+It also reloads `pBytes[4]` from memory before computing `pBytes[2] = pBytes[4] + 2`.
+
+Tried:
+- `return` in each case (the default then gets its own epilogue after the fatal error).
+- A single `len` result with `break`s (VC6 still turns it into constants per case).
+- A packed 5-byte header struct instead of `u8*` indexing (0.628, the `pBytes[4]` reload
+  still doesn't appear, the header stores get reordered).
+
+Also: the original has no code after the `FatalError_4A38C0` call in the default case.
+Check whether the original declared it `__declspec(noreturn)` somewhere.
