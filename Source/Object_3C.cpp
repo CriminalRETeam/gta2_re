@@ -428,11 +428,45 @@ Sprite* struct_4::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
     return new_ret;
 }
 
-STUB_FUNC(0x5a6ea0)
+WIP_FUNC(0x5a6ea0)
 Sprite* struct_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_18* pPrev = 0;
+    Sprite_18* pClosest = 0;
+    Sprite_18* pBeforeClosest = 0;
+    Fix16 smallest(99999);
+    Fix16 distance;
+
+    for (Sprite_18* pIter = field_0_p18; pIter; pIter = pIter->mpNext)
+    {
+        Fix16 xd = pIter->field_0->field_14_xy.x - xpos;
+        Fix16 yd = pIter->field_0->field_14_xy.y - ypos;
+        distance = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(xd), Fix16::Abs(yd));
+        if (distance < smallest)
+        {
+            pClosest = pIter;
+            pBeforeClosest = pPrev;
+            smallest = distance;
+        }
+        pPrev = pIter;
+    }
+
+    if (!pClosest)
+    {
+        return 0;
+    }
+
+    Sprite* pSprite = pClosest->field_0;
+    if (pBeforeClosest)
+    {
+        pBeforeClosest->mpNext = pClosest->mpNext;
+    }
+    else
+    {
+        field_0_p18 = pClosest->mpNext;
+    }
+    gSprite_18_Pool_703B80->DeAllocate(pClosest);
+    return pSprite;
 }
 
 MATCH_FUNC(0x5a6f70)

@@ -349,3 +349,17 @@ the source has `dy` first and the two stores come out swapped.
 
 Tried: swapping the declaration order (no change either way); locals instead of the
 inline (same ratio).
+
+## struct_4::TakeClosestSprite_5A6EA0 (Object_3C.cpp, WIP)
+
+Removes the list entry nearest to (x, y) and returns its sprite. The distance is
+`Fix16::Max_44E540(Abs_negate_out_of_line(xd), Abs(yd))`: the original inlines the `y` abs
+but calls `Negate_4086A0` for `x`. The `Max_44E540` result goes into a `distance`
+declared before the loop, and `pPrev` is declared before `pClosest`/`pBeforeClosest` (both
+needed for the registers).
+
+Ratio 0.975. Left: `xd` is stored to its stack slot after the `y` load in the original,
+before it in ours.
+
+Tried: `yd` computed first (0.924); a `Sprite*` local for the entry (no change); `xd`/`yd`
+declared before the loop (0.855); `yd` or both passed as temporaries (0.975 / 0.861).
