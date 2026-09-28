@@ -142,6 +142,13 @@ register holds the result (`ProjectOntoAxis_5A5AA0`). Writing `x |= f()` instead
 `return f() | x` keeps the result in the first value's register
 (`CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80`).
 
+**Block-scoped locals share stack slots.** VC6 overlaps the stack slots of locals declared in
+different blocks (for example different `case`s). If the original reuses one slot for
+unrelated values, declare them inside their own blocks rather than at function scope. If
+instead two identical blocks use the same slots, declare the locals once at function
+scope (`NetPlay::OnPacketReceived_51F870` for the first, `NetPlay::NetworkTick_51ED00`
+for the second).
+
 **Declaration position moves a zero store.** A loop counter declared before an `if` gets its
 `= 0` store scheduled before the test, not inside the block (`Kfc_30::CleanupExpiredEntities_5CC1C0`).
 

@@ -1180,10 +1180,171 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
     *pData = (s32)pBuffer;
 }
 
-STUB_FUNC(0x51f870)
+MATCH_FUNC(0x51f870)
 void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 a5)
 {
-    NOT_IMPLEMENTED;
+    switch (field_48)
+    {
+        case 1:
+        case 3:
+        case 4:
+        {
+            DPMSG_GENERIC* pMsg = (DPMSG_GENERIC*)pPacket;
+            switch (pMsg->dwType)
+            {
+                case DPSYS_ADDPLAYERTOGROUP:
+                {
+                    DPMSG_ADDPLAYERTOGROUP* pAdd = (DPMSG_ADDPLAYERTOGROUP*)pMsg;
+                    s32 value;
+                    if (field_758_n2.field_0_group_id == pAdd->dpIdGroup &&
+                        MovePlayerToGroup_520040(pAdd->dpIdPlayer, &field_5E8_n1, &field_758_n2, (u32*)&value))
+                    {
+                        if (field_5D8_player_id == pAdd->dpIdPlayer)
+                        {
+                            field_5D4_player_idx = value;
+                        }
+                        ProcessIncomingPacket_520230(2, (u32)&field_758_n2.field_10[value]);
+                    }
+                    break;
+                }
+
+                case DPSYS_CREATEPLAYERORGROUP:
+                {
+                    DPMSG_CREATEPLAYERORGROUP* pCreate = (DPMSG_CREATEPLAYERORGROUP*)pMsg;
+                    if (pCreate->dwPlayerType != DPPLAYERTYPE_GROUP)
+                    {
+                        Network_8 data;
+                        data.field_0 = pCreate->lpData;
+                        data.field_4_len = pCreate->dwDataSize;
+                        AddPlayer_51E9C0(&data, pCreate->dpId, pCreate->dpnName, &field_5E8_n1);
+                    }
+                    break;
+                }
+
+                case DPSYS_DELETEPLAYERFROMGROUP:
+                {
+                    DPMSG_DELETEPLAYERFROMGROUP* pDelete = (DPMSG_DELETEPLAYERFROMGROUP*)pMsg;
+                    if (pDelete->dpIdGroup == field_758_n2.field_0_group_id)
+                    {
+                        if (field_5D8_player_id == pDelete->dpIdPlayer)
+                        {
+                            ProcessIncomingPacket_520230(1, 0);
+                        }
+                        else
+                        {
+                            u32 idx = IndexOf_520E30(pDelete->dpIdPlayer, &field_758_n2);
+                            if (idx != 0xEEEEEEEE)
+                            {
+                                ProcessIncomingPacket_520230(3, (u32)field_758_n2.field_10[idx].field_1C);
+                                FreePlayerSlot_5201A0(idx, &field_758_n2);
+                            }
+                        }
+                    }
+                    break;
+                }
+
+                case DPSYS_CHAT:
+                {
+                    DPMSG_CHAT* pChat = (DPMSG_CHAT*)pMsg;
+                    Network_ChatMessage chat;
+                    LPDPCHAT pChatData = pChat->lpChat;
+                    u32 idx = IndexOf_520E30(pChat->idFromPlayer, &field_758_n2);
+                    if (idx != 0xEEEEEEEE)
+                    {
+                        wcsncpy(chat.field_0_message, pChatData->lpszMessage, 128);
+                        wcsncpy(chat.field_100_name, field_758_n2.field_10[idx].field_1C, 16);
+                        ProcessIncomingPacket_520230(7, (u32)&chat);
+                    }
+                    break;
+                }
+
+                case DPSYS_SETPLAYERORGROUPDATA:
+                {
+                    DPMSG_SETPLAYERORGROUPDATA* pSetData = (DPMSG_SETPLAYERORGROUPDATA*)pMsg;
+                    if (pSetData->dwPlayerType == DPPLAYERTYPE_GROUP && pSetData->dpId == field_758_n2.field_0_group_id)
+                    {
+                        if (field_758_n2.field_118)
+                        {
+                            operator delete(field_758_n2.field_118);
+                            field_758_n2.field_11C = 0;
+                        }
+                        field_758_n2.field_118 = (u8*)operator new(pSetData->dwDataSize);
+                        field_758_n2.field_11C = pSetData->dwDataSize;
+                        memcpy(field_758_n2.field_118, pSetData->lpData, pSetData->dwDataSize);
+                        ProcessIncomingPacket_520230(8, (u32)&field_758_n2.field_118);
+                    }
+                    break;
+                }
+            }
+            break;
+        }
+
+        case 2:
+        {
+            DPMSG_GENERIC* pMsg = (DPMSG_GENERIC*)pPacket;
+            switch (pMsg->dwType)
+            {
+                case DPSYS_SESSIONLOST:
+                {
+                    s32 value = 0;
+                    ProcessIncomingPacket_520230(4, (u32)&value);
+                    field_8F0 = 1;
+                    break;
+                }
+
+                case DPSYS_DELETEPLAYERFROMGROUP:
+                {
+                    DPMSG_DELETEPLAYERFROMGROUP* pDelete = (DPMSG_DELETEPLAYERFROMGROUP*)pMsg;
+                    if (pDelete->dpIdGroup == field_758_n2.field_0_group_id)
+                    {
+                        if (field_5D8_player_id == pDelete->dpIdPlayer)
+                        {
+                            s32 value = 2;
+                            ProcessIncomingPacket_520230(4, (u32)&value);
+                            field_8F0 = 1;
+                        }
+                        else
+                        {
+                            u32 idx = IndexOf_520E30(pDelete->dpIdPlayer, &field_758_n2);
+                            if (idx != 0xEEEEEEEE)
+                            {
+                                ProcessIncomingPacket_520230(3, (u32)field_758_n2.field_10[idx].field_1C);
+                                FreePlayerSlot_5201A0(idx, &field_758_n2);
+                            }
+                        }
+                    }
+                    break;
+                }
+
+                case DPSYS_DESTROYPLAYERORGROUP:
+                {
+                    DPMSG_DESTROYPLAYERORGROUP* pDestroy = (DPMSG_DESTROYPLAYERORGROUP*)pMsg;
+                    switch (pDestroy->dwPlayerType)
+                    {
+                        case DPPLAYERTYPE_PLAYER:
+                            if (pDestroy->dpId == field_5D8_player_id)
+                            {
+                                s32 value = 2;
+                                ProcessIncomingPacket_520230(4, (u32)&value);
+                                field_8F0 = 1;
+                            }
+                            break;
+
+                        case DPPLAYERTYPE_GROUP:
+                            if (pDestroy->dpId == field_758_n2.field_0_group_id)
+                            {
+                                s32 value = 1;
+                                ProcessIncomingPacket_520230(4, (u32)&value);
+                                field_8F0 = 1;
+                            }
+                            break;
+                    }
+                    break;
+                }
+            }
+            break;
+        }
+    }
 }
 
 // Register allocation differs, see docs/match_attempts.md

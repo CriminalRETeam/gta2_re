@@ -91,7 +91,7 @@ struct Network_NameList
 struct Network_ChatMessage
 {
     wchar_t field_0_message[128];
-    wchar_t field_100_name[128];
+    wchar_t field_100_name[16];
 };
 
 struct Network_PlayerPing
