@@ -17,6 +17,7 @@
 #include "keybrd_0x204.hpp"
 #include "lucid_hamilton.hpp"
 #include "registry.hpp"
+#include "rng.hpp"
 #include "resource.h"
 #include "root_sound.hpp"
 #include "sharp_bose_0x54.hpp"
@@ -64,6 +65,7 @@ DEFINE_GLOBAL(u32, gMatchStartTime_6F5A28, 0x6F5A28); // TODO: move
 DEFINE_GLOBAL(u32, gNetworkFrameCounter_6F5868, 0x6F5868); // TODO: move
 DEFINE_GLOBAL(u8, bRecordStartTime_6F593C, 0x6F593C); // TODO: move
 DEFINE_GLOBAL(Network_Unknown_0x30, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO: move
+DEFINE_GLOBAL(Network_8, gInputSendData_6F5B18, 0x6F5B18); // TODO: move
 DEFINE_GLOBAL(Network_Unknown_0x30, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
 DEFINE_GLOBAL(Network_InputData_0x8*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: move
 DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
@@ -1047,10 +1049,26 @@ EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemot
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4DACB0)
+MATCH_FUNC(0x4DACB0)
 EXPORT void Net_Send_Our_Inputs_4DACB0()
 {
-    NOT_IMPLEMENTED;
+    if (gNetPlay_7071E8.field_758_n2.field_4_count > 1)
+    {
+        if (bDo_sync_check_67D6C1)
+        {
+            // Send the inputs plus an rng value the other players check against
+            s16 max = 100;
+            gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng = stru_6F6784.get_int_4F7AE0(max);
+            gInputSendData_6F5B18.field_0 = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
+            gInputSendData_6F5B18.field_4_len = sizeof(Network_InputData_0x8);
+        }
+        else
+        {
+            gInputSendData_6F5B18.field_0 = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
+            gInputSendData_6F5B18.field_4_len = sizeof(u32);
+        }
+        gNetPlay_7071E8.SendToAll_521B20(&gInputSendData_6F5B18);
+    }
 }
 
 MATCH_FUNC(0x4DAD50)
