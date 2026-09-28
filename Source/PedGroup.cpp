@@ -388,10 +388,74 @@ void PedGroup::PromoteMemberToLeader_4C9680(u8 a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4c9970)
-void PedGroup::RemovePed_4C9970(Ped* a2)
+MATCH_FUNC(0x4c9970)
+void PedGroup::RemovePed_4C9970(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
+    if (pPed == field_2C_ped_leader)
+    {
+        if (!field_2C_ped_leader->IsField238_45EDE0(2))
+        {
+            if (field_2C_ped_leader->field_278_ped_state_1 == ped_state_1::dead_9 && field_2C_ped_leader->field_238_ped_type == 5)
+            {
+                field_2C_ped_leader->field_21C |= 0x400;
+            }
+
+            Ped* pNewLeader = field_4_ped_list[0];
+            if (pNewLeader && pNewLeader->field_278_ped_state_1 != ped_state_1::dead_9)
+            {
+                PromoteMemberToLeader_4C9680(0);
+                if (field_2C_ped_leader->field_25C_internal_objective == 0)
+                {
+                    field_2C_ped_leader->sub_4633E0(1);
+                }
+                else
+                {
+                    field_2C_ped_leader->sub_4633E0(0);
+                }
+                if (pPed->field_240_occupation == 0x17)
+                {
+                    if (field_34_count > 0)
+                    {
+                        field_4_ped_list[field_34_count] = pNewLeader;
+                        field_4_ped_list[field_34_count]->field_23C = field_36_count - 1;
+                    }
+                }
+                else if (field_34_count > 0)
+                {
+                    field_4_ped_list[field_34_count] = 0;
+                }
+                UpdateFormation_4CA4B0();
+            }
+            else
+            {
+                ClearGroupData_4C8E90();
+            }
+        }
+    }
+    else
+    {
+        for (u8 i = 0; i < field_34_count; i++)
+        {
+            if (field_4_ped_list[i] == pPed)
+            {
+                field_4_ped_list[i] = field_4_ped_list[field_34_count - 1];
+                field_4_ped_list[i]->field_23C = i;
+                field_4_ped_list[field_34_count - 1] = pPed;
+                pPed->field_23C = field_34_count - 1;
+                if (pPed->field_240_occupation != 0x17)
+                {
+                    field_4_ped_list[field_34_count - 1]->reset_ped_group();
+                    field_4_ped_list[field_34_count - 1] = 0;
+                    if (pPed->field_238_ped_type == 5)
+                    {
+                        pPed->field_21C |= 0x400;
+                    }
+                }
+                field_34_count--;
+                return;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x4c9b10)
