@@ -836,7 +836,7 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
                 "MapFiles",
                 "Description",
                 "",
-                (LPSTR)(enumerated_mmp_name[i].field_310_maybe_description),
+                (LPSTR)(enumerated_mmp_name[i].field_30C_description),
                 0x103u,
                 FileName
             );
@@ -847,7 +847,7 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
                 && GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_208_script_name) != -1)
             {
                 memcpy(&pOut[total_map_count], &enumerated_mmp_name[i], sizeof(Network_Enumerated_Map));
-                strcpy(&mmp_maps_description[total_map_count][0], (const char*)&enumerated_mmp_name[i].field_310_maybe_description);
+                strcpy(&mmp_maps_description[total_map_count][0], (const char*)&enumerated_mmp_name[i].field_30C_description);
                 total_map_count++;
             }
             _chdir("..");

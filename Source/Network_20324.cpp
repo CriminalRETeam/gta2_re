@@ -124,7 +124,7 @@ Network_20324::Network_20324()
     gtext_0x14_6F87F0 = new text_0x14();
     gtext_0x14_6F87F0->Load_5B5E90();
     sub_51BC90();
-    sub_51BFA0();
+    EnumerateMaps_51BFA0();
 }
 
 MATCH_FUNC(0x519ba0)
@@ -573,7 +573,7 @@ void Network_20324::PopulateMainUI_51AFA0()
 
     for (u32 v5 = 0; v5 < field_1FD64_total_map_count; v5++)
     {
-        LRESULT v6 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)&field_4_maps[v5].field_30C_player_count);
+        LRESULT v6 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)field_4_maps[v5].field_30C_description);
         SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETITEMDATA, v6, v5);
     }
 
@@ -586,7 +586,7 @@ void Network_20324::PopulateMainUI_51AFA0()
     Network_20324::sub_51C830();
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
     SendDlgItemMessageA(field_202E0_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
-    Network_20324::sub_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514, field_202E0_dlg_hwnd);
+    Network_20324::sub_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_player_count, field_202E0_dlg_hwnd);
     Network_20324::SetPoliceEnabledCheckBox_51CCB0(field_20088_game_settings.field_201A0_police_on, field_202E0_dlg_hwnd);
     Network_20324::SetFragsNumberAndLabel_51CDC0(field_20088_game_settings.field_20198_game_type,
                                                  field_20088_game_settings.field_20194_frag_limit,
@@ -780,11 +780,11 @@ void Network_20324::ApplyHostGameSettings_51B810(const char_type* a2)
                 break;
             }
 
-            if (!strcmp(field_4_maps[i].field_410_maybe_display_name, pSettings->field_20088_default_map))
+            if (!strcmp(field_4_maps[i].field_410_mmp_name, pSettings->field_20088_default_map))
             {
                 field_20088_game_settings = *pSettings;
                 field_20088_game_settings.field_2018C_map_idx = i;
-                SetDlgItemTextA(field_202E0_dlg_hwnd, UNKNOWN_PLAYER_COUNT_1054, (LPCSTR)&field_4_maps[i].field_30C_player_count);
+                SetDlgItemTextA(field_202E0_dlg_hwnd, UNKNOWN_PLAYER_COUNT_1054, field_4_maps[i].field_30C_description);
                 goto map_done;
             }
             i++;
@@ -832,8 +832,8 @@ void Network_20324::SetSetting_51B9C0(s32 setting, s32 value)
     {
         case 1:
             field_20088_game_settings.field_2018C_map_idx = value;
-            strcpy(field_20088_game_settings.field_20088_default_map, field_4_maps[value].field_410_maybe_display_name);
-            sub_51CB30(field_4_maps[value].field_514, field_202E0_dlg_hwnd);
+            strcpy(field_20088_game_settings.field_20088_default_map, field_4_maps[value].field_410_mmp_name);
+            sub_51CB30(field_4_maps[value].field_514_player_count, field_202E0_dlg_hwnd);
             gRegistry_6FF968.Set_Network_Setting_587730("map_index", value);
             break;
 
@@ -1050,13 +1050,16 @@ void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3)
 }
 
 // https://decomp.me/scratch/tQkqa
+// Stack slot order differs, see docs/match_attempts.md
 WIP_FUNC(0x51bfa0)
-void Network_20324::sub_51BFA0()
+void Network_20324::EnumerateMaps_51BFA0()
 {
     WIP_IMPLEMENTED;
+
     CHAR FileName[260];
-    Network_Enumerated_Map enumerated_mmp_name[99];
     _WIN32_FIND_DATAA findFileData;
+    Network_Enumerated_Map tmp;
+    Network_Enumerated_Map maps[100];
 
     memset(&findFileData, 0, sizeof(findFileData));
     strcpy(FileName, "data\\");
@@ -1064,92 +1067,85 @@ void Network_20324::sub_51BFA0()
 
     u32 map_count = 0;
     HANDLE hFindFile = FindFirstFileA(FileName, &findFileData);
-    if (hFindFile != (HANDLE)-1)
+    if (hFindFile != INVALID_HANDLE_VALUE)
     {
         map_count = 1;
-        strcpy(enumerated_mmp_name[0].field_0_map_name, findFileData.cFileName);
-        for (; FindNextFileA(hFindFile, &findFileData); map_count += 1)
+        strcpy(maps[0].field_410_mmp_name, findFileData.cFileName);
+        Network_Enumerated_Map* pIter = &maps[1];
+        while (FindNextFileA(hFindFile, &findFileData))
         {
-            //pIter = &enumerated_mmp_name[map_count];
             if (map_count >= 100)
             {
                 break;
             }
-            //pIter++;
-            strcpy(enumerated_mmp_name[map_count + 1].field_0_map_name, findFileData.cFileName);
+            strcpy(pIter->field_410_mmp_name, findFileData.cFileName);
+            pIter++;
+            map_count++;
         }
         FindClose(hFindFile);
     }
 
-    if (map_count > 0)
+    Network_Enumerated_Map* pOutIter = field_4_maps;
+    for (u32 i = 0; i < map_count; i++)
     {
-        Network_Enumerated_Map* pEnumedMapEntryIter = field_4_maps;
-        for (u32 i = 0; i < map_count; i++)
-        {
-            //Network_Enumerated_Map* pTmpRecord = &enumerated_mmp_name[i];
-            strcpy(FileName, "data\\");
-            strcat(FileName, (const char*)enumerated_mmp_name[i].field_0_map_name); //  (pTmpRecord + 0x208)
-            GetPrivateProfileStringA("MapFiles", "GMPFile", "", (LPSTR)(enumerated_mmp_name[i].field_0_map_name), 0x103u, FileName);
-            GetPrivateProfileStringA("MapFiles", "STYFile", "", (LPSTR)(enumerated_mmp_name[i].field_104_style_name), 0x103u, FileName);
-            GetPrivateProfileStringA("MapFiles", "SCRFile", "", (LPSTR)(enumerated_mmp_name[i].field_208_script_name), 0x103u, FileName);
-            GetPrivateProfileStringA("MapFiles",
-                                     "Description",
-                                     "",
-                                     (LPSTR)(enumerated_mmp_name[i].field_310_maybe_description),
-                                     0x103u,
-                                     FileName);
-            GetPrivateProfileStringA("MapFiles", "PlayerCount", "", (LPSTR)(gTmpBuffer_67C598), 0x103u, FileName);
-            enumerated_mmp_name[i].field_514 = atoi(gTmpBuffer_67C598);
+        strcpy(FileName, "data\\");
+        strcat(FileName, maps[i].field_410_mmp_name);
+        GetPrivateProfileStringA("MapFiles", "GMPFile", "", maps[i].field_0_map_name, 0x103u, FileName);
+        GetPrivateProfileStringA("MapFiles", "STYFile", "", maps[i].field_104_style_name, 0x103u, FileName);
+        GetPrivateProfileStringA("MapFiles", "SCRFile", "", maps[i].field_208_script_name, 0x103u, FileName);
+        GetPrivateProfileStringA("MapFiles", "Description", "", maps[i].field_30C_description, 0x103u, FileName);
+        GetPrivateProfileStringA("MapFiles", "PlayerCount", "", gTmpBuffer_67C598, 2u, FileName);
+        maps[i].field_514_player_count = atoi(gTmpBuffer_67C598);
 
-            // Now check if the map exists
-            _chdir("data");
-            if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_0_map_name) == -1)
+        // Only keep maps whose files all exist
+        _chdir("data");
+        if (GetFileAttributesA(maps[i].field_0_map_name) != -1)
+        {
+            if (GetFileAttributesA(maps[i].field_104_style_name) != -1)
             {
-                Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_0_map_name);
-            }
-            else if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_104_style_name) == -1)
-            {
-                Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_104_style_name);
-            }
-            else
-            {
-                if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_208_script_name) != -1)
+                if (GetFileAttributesA(maps[i].field_208_script_name) != -1)
                 {
-                    OutputDebugStringA(pEnumedMapEntryIter->field_0_map_name);
-                    memcpy(&field_4_maps[field_1FD64_total_map_count], &enumerated_mmp_name[i], sizeof(Network_Enumerated_Map));
+                    OutputDebugStringA(pOutIter->field_0_map_name);
+                    memcpy(&field_4_maps[field_1FD64_total_map_count], &maps[i], sizeof(Network_Enumerated_Map));
                     field_1FD64_total_map_count++;
                 }
                 else
                 {
-                    Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name,
-                                              enumerated_mmp_name[i].field_208_script_name);
+                    Network_20324::sub_51CAD0(maps[i].field_410_mmp_name, maps[i].field_208_script_name);
                 }
             }
-
-            _chdir("..");
-            //pTmpRecord++;
+            else
+            {
+                Network_20324::sub_51CAD0(maps[i].field_410_mmp_name, maps[i].field_104_style_name);
+            }
         }
+        else
+        {
+            Network_20324::sub_51CAD0(maps[i].field_410_mmp_name, maps[i].field_0_map_name);
+        }
+        _chdir("..");
+        pOutIter++;
     }
 
+    // Bubble sort by description
     if (map_count > 0)
     {
-        Network_Enumerated_Map TmpEnum;
-        bool bContinue;
-
-        do //for (u32 j = 0; j < map_count; j++)
+        u32 last = map_count - 1;
+        s32 bSwapped;
+        do
         {
-            bContinue = false;
-            for (u16 j = 0; j < map_count - 1; j++)
+            bSwapped = 0;
+            for (u16 j = 0; j < last; j++)
             {
-                if (_strcmpi(field_4_maps[j].field_310_maybe_description, field_4_maps[j + 1].field_310_maybe_description) > 0)
+                if (_strcmpi(field_4_maps[j].field_30C_description, field_4_maps[j + 1].field_30C_description) > 0)
                 {
-                    memcpy(&TmpEnum, &field_4_maps, sizeof(Network_Enumerated_Map));
-                    memcpy(&field_4_maps, &field_4_maps[j + 1], sizeof(Network_Enumerated_Map));
-                    memcpy(&field_4_maps[j + 1], &TmpEnum, sizeof(Network_Enumerated_Map));
-                    bContinue = true;
+                    memcpy(&tmp, &field_4_maps[j], sizeof(Network_Enumerated_Map));
+                    memcpy(&field_4_maps[j], &field_4_maps[j + 1], sizeof(Network_Enumerated_Map));
+                    memcpy(&field_4_maps[j + 1], &tmp, sizeof(Network_Enumerated_Map));
+                    bSwapped = 1;
                 }
             }
-        } while (bContinue == true);
+        } while (bSwapped == 1);
     }
 }
 
@@ -1212,7 +1208,7 @@ void Network_20324::sub_51C830()
     }
 
     strcpy(field_20088_game_settings.field_20088_default_map,
-           field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_410_maybe_display_name);
+           field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_410_mmp_name);
 }
 
 MATCH_FUNC(0x51ca10)
@@ -1253,7 +1249,7 @@ void Network_20324::sub_51CB30(s32 a1, HWND hDlg)
 MATCH_FUNC(0x51cbc0)
 void Network_20324::sub_51CBC0()
 {
-    if (Network_20324::GetCount_51BBD0() == field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514)
+    if (Network_20324::GetCount_51BBD0() == field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_player_count)
     {
         EnableWindow(GetDlgItem(Network_20324::Get_202E0_HWND_519E20(), 1021), true);
     }

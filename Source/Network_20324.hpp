@@ -35,10 +35,9 @@ struct Network_Enumerated_Map
     char field_0_map_name[260];
     char field_104_style_name[260];
     char field_208_script_name[260];
-    u32 field_30C_player_count;
-    char field_310_maybe_description[256];
-    char field_410_maybe_display_name[260];
-    u32 field_514;
+    char field_30C_description[260];
+    char field_410_mmp_name[260];
+    u32 field_514_player_count;
 };
 
 struct NetworkGameSettings
@@ -97,7 +96,7 @@ class Network_20324
     EXPORT void SetPlayNameAndSaveToRegistry_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
     EXPORT static LRESULT __stdcall subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
     EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3);
-    EXPORT void sub_51BFA0();
+    EXPORT void EnumerateMaps_51BFA0();
     EXPORT static void __stdcall OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4);
     EXPORT void CopyGameSettings_51C7F0(NetworkGameSettings* pSettings);
     EXPORT void sub_51C830();

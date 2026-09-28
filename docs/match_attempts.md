@@ -284,3 +284,20 @@ senderId, the start time (also kept in `ebp`), recvId and the length. Ours keeps
 `pType` in `ebp` and gives the start time its own slot.
 
 Tried: declaring the byte locals together before the others (no change).
+
+## Network_20324::EnumerateMaps_51BFA0 (WIP)
+
+Finds `data\*.mmp`, reads each file's GMP/STY/SCR/description/player count, keeps
+the maps whose files exist, and bubble-sorts them by description. Rewriting it from the
+asm also fixed `Network_Enumerated_Map`: the description is a 260-char string at 0x30C
+(there is no player count there), 0x410 is the .mmp file name and 0x514 the player count.
+The old body's sort also swapped with element 0 instead of `[j]`.
+
+Ratio 0.891 (0.480 before). Left:
+- `this` is spilled to the slot at pre-push offset 8 in the original and 4 in ours: the
+  original has the second loop's down counter at 4.
+- The first loop's `map_count++` is a load before the `strcpy` plus `inc`/store after it
+  in the original, and a single `incl` at the end in ours.
+
+Tried for the second point: `for (; FindNextFileA(...); map_count++)` (no change),
+`map_count++` before the `strcpy` (0.879), `strcpy((pIter++)->...)` (0.852).
