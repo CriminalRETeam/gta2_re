@@ -148,6 +148,12 @@ Two things to try early when a function is close but won't match:
   the TU, such as include order and definition order (see the `cSampleManager.hpp` include
   order and inlining notes in `docs/matching_quirks.md`).
 
+**Avoid `goto` where possible.** VC6 block layout can often be forced with a `goto`, but
+the result reads badly and is rarely what the original source did. First try restructuring:
+invert or reorder conditions, `if/else` vs early `return`, a loop form, a `switch`, or an
+inline helper. Use `goto` only when it seems likely the original used one too, for example a
+shared cleanup or failure block that several checks jump to, and say why in a comment.
+
 ## Figuring out why a function doesn't match
 
 Prefer **objdiff** to the Python asm dumps. It diffs at the object level with relocations
