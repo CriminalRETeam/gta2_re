@@ -62,7 +62,7 @@ NetPlay::~NetPlay()
 
     if (field_30_enumed_connections.field_0_enumed_connections)
     {
-        for (u32 i = 0; i < field_30_enumed_connections.field_8_connections_count; i++)
+        for (u32 i = 0; i < (u32)field_30_enumed_connections.field_8_connections_count; i++)
         {
             operator delete(field_30_enumed_connections.field_0_enumed_connections[i].field_10_pConnectionName);
             operator delete(field_30_enumed_connections.field_0_enumed_connections[i].field_14_pConnection);
@@ -1266,7 +1266,7 @@ s32 NetPlay::NoRefs_5215B0(u32 idx, u32* ppConnection, size_t* pLen)
 {
     *ppConnection = 0;
     *pLen = 0;
-    if (idx >= field_30_enumed_connections.field_8_connections_count)
+    if (idx >= (u32)field_30_enumed_connections.field_8_connections_count)
     {
         return 0;
     }
