@@ -4,6 +4,7 @@
 #include <windows.h>
 
 struct Network_NameList;
+struct Network_PlayerPing;
 
 EXPORT char_type* __stdcall GetString_519A00(const char_type* Key);
 EXPORT void __stdcall WideToDbcs_519960(char_type* pDst, wchar_t* pSrc);
@@ -76,7 +77,7 @@ class Network_20324
     EXPORT static void __stdcall cb_sub_51ACD0(Network_20324* a1, wchar_t* Source);
     EXPORT static void _stdcall cb_Disconnect_51ADE0(Network_20324* a1);
     EXPORT void ClearTreeView_51AE20(s32 nIDDlgItem);
-    EXPORT static s32 __stdcall cb_sub_51AE50(s32 a1, wchar_t* Source);
+    EXPORT static s32 __stdcall cb_SetPlayerPing_51AE50(Network_20324* pNetUi, Network_PlayerPing* pPing);
     EXPORT void PopulateMainUI_51AFA0();
     EXPORT static LRESULT __stdcall cb_sub_51B2F0(Network_20324* a1, wchar_t* Source);
     EXPORT s32 AppendChatMessage_51B4F0(s32 a2, const char_type* a3);

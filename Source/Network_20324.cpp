@@ -145,7 +145,7 @@ s32 Network_20324::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
     gNetPlay_7071E8.Set6_520530((void*)Network_20324::cb_sub_519E30, (void*)this);
     gNetPlay_7071E8.Set9_520E60((int)Network_20324::cb_sub_51ACD0, (int)this);
     gNetPlay_7071E8.Set3_Disconnect_520E80((int)Network_20324::cb_Disconnect_51ADE0, (int)this);
-    gNetPlay_7071E8.Set18_520F50((int)Network_20324::cb_sub_51AE50, (int)this);
+    gNetPlay_7071E8.Set18_520F50((int)Network_20324::cb_SetPlayerPing_51AE50, (int)this);
     gNetPlay_7071E8.Set21_5210D0((int)Network_20324::cb_sub_51B2F0, (int)this);
     gNetPlay_7071E8.Set24_521140((int)Network_20324::cb_sub_51B7E0, (int)this);
     gNetPlay_7071E8.Set27SavePlayerName_5211F0((int)Network_20324::cb_SavePlayerName_51BC00, (int)this);
@@ -440,12 +440,49 @@ void Network_20324::ClearTreeView_51AE20(s32 nIDDlgItem)
     }
 }
 
-STUB_FUNC(0x51ae50)
-s32 Network_20324::cb_sub_51AE50(s32 a1, wchar_t* Source)
+#pragma warning(push)
+#pragma warning(disable : 4715) // not all control paths return a value
+MATCH_FUNC(0x51ae50)
+s32 Network_20324::cb_SetPlayerPing_51AE50(Network_20324* pNetUi, Network_PlayerPing* pPing)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    LVFINDINFOA findInfo;
+    LVITEMA item;
+    char_type pingText[260];
+    char_type name[260];
+
+    wcstombs(name, pPing->field_0_name, 260u);
+
+    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    {
+        case 1:
+        {
+            memset(&findInfo, 0, sizeof(findInfo));
+            sprintf(pingText, "%d", pPing->field_208_avg_ping);
+            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1024);
+            findInfo.flags = LVFI_STRING;
+            findInfo.psz = name;
+            LRESULT idx = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
+            item.iSubItem = 1;
+            item.pszText = pingText;
+            return SendMessageA(hItem, LVM_SETITEMTEXTA, idx, (LPARAM)&item);
+        }
+
+        case 2:
+        {
+            memset(&findInfo, 0, sizeof(findInfo));
+            sprintf(pingText, "%d", pPing->field_208_avg_ping);
+            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+            findInfo.flags = LVFI_STRING;
+            findInfo.psz = name;
+            LRESULT idx = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
+            item.iSubItem = 1;
+            item.pszText = pingText;
+            return SendMessageA(hItem, LVM_SETITEMTEXTA, idx, (LPARAM)&item);
+        }
+    }
+    // No return here in the original either
 }
+#pragma warning(pop)
 
 MATCH_FUNC(0x51afa0)
 void Network_20324::PopulateMainUI_51AFA0()
