@@ -245,11 +245,36 @@ s32 NetPlay::DirectPlayCreate_51DED0()
     return 1;
 }
 
-STUB_FUNC(0x51e030)
+// Callee-saved register pushes differ, see docs/match_attempts.md
+WIP_FUNC(0x51e030)
 BOOL NetPlay::sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    LPCSTR pAddress = (LPCSTR)lpData;
+    // The original keeps its "done" flag in lpData's stack slot and doesn't optimise it away
+    volatile BOOL& bDone = *(volatile BOOL*)&lpData;
+    bDone = FALSE;
+    if (guidDataType == DPAID_INet && dwDataSize && lstrlenA(pAddress))
+    {
+        NetPlay* pThis = (NetPlay*)lpContext;
+        if (!bDone)
+        {
+            do
+            {
+                wchar_t* pWide = new wchar_t[lstrlenA(pAddress) + 1];
+                MultiByteToWideChar(0, 0, pAddress, -1, pWide, 2 * lstrlenA(pAddress) + 2);
+                pThis->PushConnection_51E0E0(pWide);
+                delete[] pWide;
+                pAddress += lstrlenA(pAddress) + 1;
+                if (!lstrlenA(pAddress))
+                {
+                    bDone = TRUE;
+                }
+            } while (lstrlenA(pAddress));
+        }
+    }
+    return TRUE;
 }
 
 MATCH_FUNC(0x51e0e0)

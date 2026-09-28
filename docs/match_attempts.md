@@ -141,3 +141,27 @@ Tried:
   inline).
 - `s32 bMoved = 1;` before the `sub_5201A0` call and `return bMoved;` (no change), and
   the same with the call after the loop (0.615).
+
+## NetPlay::sub_51E030 (WIP)
+
+The `EnumAddress` callback. For `DPAID_INet` it walks the double-null-terminated ANSI
+address list, widens each entry with `MultiByteToWideChar` (IAT 0x5FE054; 0x5FE058 is
+`lstrlenA`) and passes it to `PushConnection_51E0E0`.
+
+The original keeps a "done" flag in `lpData`'s stack slot. It zeroes the flag at entry,
+tests it once before the loop and sets it when the list ends, but the loop condition is
+a second `lstrlenA` call. VC6 normally optimises such a flag away completely. What
+reproduces it: `volatile BOOL& bDone = *(volatile BOOL*)&lpData;` plus
+`if (!bDone) do { ... } while (lstrlenA(pAddress));`. This may also help with the
+"flag tested at the top of a loop" entry in `matching_quirks.md`
+(`RouteFinder::sub_589E20`).
+
+Still different: the original pushes `ebp` in the prologue and loads `lpContext` into it
+before the flag test. Ours delays `push %ebp` until after the flag test. `lstrlenA` and the
+new buffer also use `esi`/`edi` the other way round. Tried: moving
+`NetPlay* pThis = (NetPlay*)lpContext;` to the top of the function (no change).
+
+Tried before the volatile trick (the flag gets optimised away in all of these):
+- `while (!bDone) { ...; if (!lstrlenA(p)) bDone = TRUE; }` with a plain local.
+- `if (!bDone) do { ... } while (lstrlenA(p));` with a plain local.
+- Reusing `lpData` itself as the flag (`lpData = NULL;` ... `lpData = (LPCVOID)1;`).
