@@ -5958,11 +5958,47 @@ void sound_obj::UpdateRadioChatterLoop_41FCA0()
     }
 }
 
-STUB_FUNC(0x57E510)
-u32 sound_obj::UpdateVocalStream_57E510()
+MATCH_FUNC(0x57E510)
+void sound_obj::UpdateVocalStream_57E510()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_54F7[0] == 0x66 && field_54F7[1] != 0x66)
+    {
+        if (field_54F7[1] < 5)
+        {
+            // Radio emitters use indices 1..5
+            field_544C[field_54F7[1] + 1].field_18 = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
+        }
+        gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        gSampManager_6FFF00.PlayVocal_58E510(0, 12, 1);
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
+        u32 length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
+        if (length > 0)
+        {
+            gSampManager_6FFF00.SetVocalPosMs_58E750(0, field_1454_anRandomTable[2] % length);
+        }
+        field_551C = 60;
+    }
+    else if ((u32)field_551C > 0)
+    {
+        u32 volume = (3600 - 60 * (u32)field_551C) / 60;
+        if (!field_1_isPaused)
+        {
+            field_551C--;
+        }
+        else if (volume > 30)
+        {
+            volume = 30;
+        }
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, (field_24_sfx_vol * volume) / 127);
+    }
+    else if (field_1_isPaused)
+    {
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, (field_24_sfx_vol * 30) / 127);
+    }
+    else
+    {
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, (field_24_sfx_vol * 60) / 127);
+    }
 }
 
 WIP_FUNC(0x57E960)
