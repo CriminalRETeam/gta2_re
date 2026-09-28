@@ -165,3 +165,18 @@ Tried before the volatile trick (the flag gets optimised away in all of these):
 - `while (!bDone) { ...; if (!lstrlenA(p)) bDone = TRUE; }` with a plain local.
 - `if (!bDone) do { ... } while (lstrlenA(p));` with a plain local.
 - Reusing `lpData` itself as the flag (`lpData = NULL;` ... `lpData = (LPCVOID)1;`).
+
+## BurgerKing_1::sub_498CB0 (STUB)
+
+Target: `mov 4(%esp),%eax; shr $7,%al; mov %al,byte_67B80C; ret $4`. It loads the whole
+dword, then shifts only `al`. Every spelling below compiles to a byte load
+(`mov 4(%esp),%al; shr $7,%al`), or to a dword shift plus `and $1,%al`. Tested in a scratch
+TU with `build.py --single_cpp ../build_vc6/scratch_t.cpp`:
+
+- byte load: `(u8)a1 >> 7` with `a1` as `u32`, `s32`, `u8` or `char_type`;
+  `(u8)(a1 & 0x80) >> 7`; `((u8)a1 & 0x80) >> 7`; `(u8)a1 / 128`; `*(u8*)&a1 >> 7`;
+  a copy through a `u32` local; an inline `u8 HighBit(u8)`; a 4-byte struct/union
+  parameter (`S4.b0`, `U4.b[0]`, `(u8)S2.w0`); a `u8` bitfield.
+- dword shift + `and $1,%al`: `(a1 & 0x80) != 0`, `(u8)(a1 >> 7) & 1`,
+  `(a1 & 0xFF) >> 7`, a `u32` bitfield.
+- `mov %al` + `test` + `setl`: `(char_type)a1 < 0`.
