@@ -147,12 +147,12 @@ s32 __stdcall CarInfo_808::sub_430b10(char* pOut)
 }
 
 // https://decomp.me/scratch/YniJR
-STUB_FUNC(0x430C70)
+MATCH_FUNC(0x430C70)
 s32 __stdcall sub_430C70(char_type* pStr)
 {
-    NOT_IMPLEMENTED;
     s32 type;
     s32 error_ret;
+    s16 negated;
     s32 v9;
     Fix16 fix16_num;
     s32 v11;
@@ -211,48 +211,6 @@ s32 __stdcall sub_430C70(char_type* pStr)
             switch (type)
             {
                 case DataType::byte:
-                {
-
-                    if (bHex == 1)
-                    {
-                        error_ret = CarInfo_808::HexStr2Int_430F30(pCurr, (s16*)&tmp);
-                    }
-                    else
-                    {
-                        error_ret = CarInfo_808::StrToInt_431080(pCurr, (s16*)&tmp);
-                    }
-
-                    if (!error_ret)
-                    {
-                        if (bNegate)
-                        {
-                            s16 v8s = (char)(-(char)tmp);
-                            if ((s16)v8s < -127)
-                            {
-                                return -2;
-                            }
-                            error_ret = CarInfo_808::PushData_430E60(&v8s, sizeof(BYTE));
-                        }
-                        else
-                        {
-                            if ((s16)tmp > 0xFFu)
-                            {
-                                return -2;
-                            }
-                            error_ret = CarInfo_808::PushData_430E60(&tmp, sizeof(BYTE));
-                        }
-
-                        if (error_ret >= 0)
-                        {
-                            return 0;
-                        }
-                    }
-                    return error_ret;
-                }
-
-                case DataType::word:
-
-                {
                     if (bHex == 1)
                     {
                         error_ret = CarInfo_808::HexStr2Int_430F30(pCurr, &tmp);
@@ -261,33 +219,72 @@ s32 __stdcall sub_430C70(char_type* pStr)
                     {
                         error_ret = CarInfo_808::StrToInt_431080(pCurr, &tmp);
                     }
+
                     if (!error_ret)
                     {
                         if (bNegate)
                         {
-                            tmp = -tmp;
+                            negated = (char)(-(char)tmp);
+                            if (negated < -127)
+                            {
+                                return -2;
+                            }
+                            error_ret = CarInfo_808::PushData_430E60(&negated, sizeof(BYTE));
                         }
-                        error_ret = CarInfo_808::PushData_430E60(&tmp, sizeof(WORD));
+                        else
+                        {
+                            if ((u16)tmp > 0xFFu)
+                            {
+                                return -2;
+                            }
+                            error_ret = CarInfo_808::PushData_430E60(&tmp, sizeof(BYTE));
+                        }
+                        // Shares the word case's tail; VC6 doesn't merge identical case tails by itself
+                        goto check_push_result;
+                    }
+                    return error_ret;
 
+                case DataType::word:
+                    if (bHex == 1)
+                    {
+                        error_ret = CarInfo_808::HexStr2Int_430F30(pCurr, &tmp);
+                    }
+                    else
+                    {
+                        error_ret = CarInfo_808::StrToInt_431080(pCurr, &tmp);
+                    }
+
+                    if (!error_ret)
+                    {
+                        if (bNegate)
+                        {
+                            negated = -tmp;
+                            error_ret = CarInfo_808::PushData_430E60(&negated, sizeof(WORD));
+                        }
+                        else
+                        {
+                            error_ret = CarInfo_808::PushData_430E60(&tmp, sizeof(WORD));
+                        }
+
+                    check_push_result:
                         if (error_ret >= 0)
                         {
                             return 0;
                         }
                     }
                     return error_ret;
-                }
 
                 case DataType::dword:
                     if (bHex == 1)
                     {
-                        error_ret = CarInfo_808::HexStr2Int_430EC0(pCurr, (s32*)&v9);
+                        error_ret = CarInfo_808::HexStr2Int_430EC0(pCurr, &v9);
                     }
                     else
                     {
                         error_ret = CarInfo_808::StrToInt_430FA0(pCurr, &v9);
                     }
 
-                    if (error_ret == 0)
+                    if (!error_ret)
                     {
                         if (bNegate)
                         {
@@ -298,6 +295,7 @@ s32 __stdcall sub_430C70(char_type* pStr)
                         {
                             error_ret = CarInfo_808::PushData_430E60(&v9, sizeof(DWORD));
                         }
+
                         if (error_ret >= 0)
                         {
                             return 0;
@@ -314,6 +312,7 @@ s32 __stdcall sub_430C70(char_type* pStr)
                         {
                             fix16_num = -fix16_num;
                         }
+
                         error_ret = CarInfo_808::PushData_430E60(&fix16_num, sizeof(Fix16));
                         if (error_ret >= 0)
                         {
@@ -324,10 +323,8 @@ s32 __stdcall sub_430C70(char_type* pStr)
 
                 default:
                     return 0;
-
-            } // end switch
-
-        } // end if (*pCurr)
+            }
+        }
     }
     return 0;
 }

@@ -725,7 +725,7 @@ bool Ped::sub_45B590()
 }
 
 STUB_FUNC(0x45b5b0)
-s32 Ped::CopyStatsFromPed_45B5B0(s32 a2)
+s32 Ped::CopyStatsFromPed_45B5B0(Ped* pSrc)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2020,10 +2020,76 @@ void Ped::sub_45E4A0()
     }
 }
 
-STUB_FUNC(0x45ea00)
+WIP_FUNC(0x45ea00)
 void Ped::sub_45EA00()
 {
-    NOT_IMPLEMENTED;
+    if (field_164_ped_group)
+    {
+        if (get_field_20e() <= 30)
+        {
+            return;
+        }
+
+        if (field_23C == 99)
+        {
+            if (field_164_ped_group->IsAllMembersInSomeCar_4CAA20())
+            {
+                u8 i = 0;
+                Ped* pMember = field_164_ped_group->field_4_ped_list[0];
+                while (pMember)
+                {
+                    pMember->reset_ped_group();
+                    pMember->Deallocate_45EB60();
+                    i++;
+                    pMember = field_164_ped_group->field_4_ped_list[i];
+                }
+                field_164_ped_group->ClearGroupData_4C8E90();
+            }
+            else
+            {
+                u8 j = 0;
+                bool bAllGone = true;
+                Ped* pFirst = field_164_ped_group->field_4_ped_list[0];
+                Ped* pIter = pFirst;
+                while (pIter)
+                {
+                    if (pIter->get_field_20e() < 30 && pIter->field_168_game_object)
+                    {
+                        bAllGone = false;
+                    }
+                    j++;
+                    pIter = field_164_ped_group->field_4_ped_list[j];
+                }
+
+                if (!bAllGone)
+                {
+                    return;
+                }
+
+                u8 i = 0;
+                Ped* pMember = pFirst;
+                while (pMember)
+                {
+                    pMember->reset_ped_group();
+                    pMember->Deallocate_45EB60();
+                    i++;
+                    pMember = field_164_ped_group->field_4_ped_list[i];
+                }
+                field_164_ped_group->ClearGroupData_4C8E90();
+            }
+        }
+        else
+        {
+            field_164_ped_group->RemovePed_4C9970(this);
+        }
+    }
+    else if (get_field_20e() <= 30)
+    {
+        return;
+    }
+
+    Deallocate_45EB60();
+    field_21C_bf.b10 = 0;
 }
 
 // https://decomp.me/scratch/jJ6aF
@@ -4391,7 +4457,7 @@ void Ped::SetObjective2_463830(s32 car_state, s16 a3)
                 x_int = this->field_1AC_cam.x.ToUInt8();
                 y_int = this->field_1AC_cam.y.ToUInt8();
                 z_int = this->field_1AC_cam.z.ToUInt8();
-                gMap_0x370_6F6268->sub_4E4930(&x_int, &y_int, &z_int, 2);
+                gMap_0x370_6F6268->FindNearbyBlockOfType_4E4930(&x_int, &y_int, &z_int, 2);
                 this->field_1D0 = k_dword_67853C + Fix16(x_int);
                 this->field_1D4 = k_dword_67853C + Fix16(y_int);
                 this->field_1D8 = k_dword_678664 + Fix16(z_int);

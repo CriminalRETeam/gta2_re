@@ -759,8 +759,51 @@ char_type Police_7B8::sub_577320()
     return 1;
 }
 
-STUB_FUNC(0x577370)
-void Police_7B8::TryCreateRoadblockAt_577370(u8 a2, s32 a3, s32 a4)
+WIP_FUNC(0x577370)
+void Police_7B8::TryCreateRoadblockAt_577370(u8 x, u8 y, s32 roadblock_type)
 {
-    NOT_IMPLEMENTED;
+    bool bBothSides = false;
+    switch (field_654_wanted_level)
+    {
+        case 3:
+        case 4:
+            gRoadblockGuardType_6FEDB8 = 1;
+            break;
+        case 5:
+            gRoadblockGuardType_6FEDB8 = 3;
+            break;
+        case 6:
+            gRoadblockGuardType_6FEDB8 = 4;
+            break;
+    }
+
+    if (roadblock_type > 0 && roadblock_type <= 2)
+    {
+        bBothSides = true;
+    }
+
+    u8 z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(x), Fix16(y)).ToUInt8();
+
+    if (bBothSides)
+    {
+        if (!field_664_roadblock_1.field_0)
+        {
+            field_664_roadblock_1.CreateRoadblock_575FF0(x, y, z, 3);
+        }
+        else if (!field_708_roadblock_2.field_0)
+        {
+            field_708_roadblock_2.CreateRoadblock_575FF0(x, y, z, 3);
+        }
+    }
+    else
+    {
+        if (!field_664_roadblock_1.field_0)
+        {
+            field_664_roadblock_1.CreateRoadblock_575FF0(x, y, z, 2);
+        }
+        else if (!field_708_roadblock_2.field_0)
+        {
+            field_708_roadblock_2.CreateRoadblock_575FF0(x, y, z, 3);
+        }
+    }
 }

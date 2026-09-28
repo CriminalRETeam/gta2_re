@@ -17,6 +17,7 @@
 #include "keybrd_0x204.hpp"
 #include "lucid_hamilton.hpp"
 #include "registry.hpp"
+#include "rng.hpp"
 #include "resource.h"
 #include "root_sound.hpp"
 #include "sharp_bose_0x54.hpp"
@@ -64,9 +65,11 @@ DEFINE_GLOBAL(u32, gMatchStartTime_6F5A28, 0x6F5A28); // TODO: move
 DEFINE_GLOBAL(u32, gNetworkFrameCounter_6F5868, 0x6F5868); // TODO: move
 DEFINE_GLOBAL(u8, bRecordStartTime_6F593C, 0x6F593C); // TODO: move
 DEFINE_GLOBAL(Network_Unknown_0x30, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO: move
+DEFINE_GLOBAL(Network_8, gInputSendData_6F5B18, 0x6F5B18); // TODO: move
 DEFINE_GLOBAL(Network_Unknown_0x30, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
 DEFINE_GLOBAL(Network_InputData_0x8*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: move
 DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
+DEFINE_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20, 0x6F58E0); // TODO: move
 DEFINE_GLOBAL(u32, gTotalNetworkTime_6F5980, 0x6F5980); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F573C, 0x6F573C); // TODO: move
 DEFINE_GLOBAL(s32, gHudTimerIdx_6F5860, 0x6F5860); // TODO: move
@@ -144,7 +147,7 @@ void force_link()
     snooky.IsCarBeingCrushed_4887A0(0);
 
     Network_20324 network;
-    network.cb_sub_519D30(0, 0);
+    network.cb_FillSessionList_519D30(0, 0);
 
     nostalgic_ellis_0x28 nostalgic;
     nostalgic.sub_4D6D70();
@@ -1033,10 +1036,39 @@ EXPORT void Net_4DA9F0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4DACB0)
-EXPORT void Net_Send_Our_Inputs_4DACB0()
+// Fills in the sync check data that is compared between players at the start of a network game
+STUB_FUNC(0x4DB2E0)
+EXPORT void __stdcall sub_4DB2E0(u8* pSyncData)
 {
     NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4DB440)
+EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemoteSyncData)
+{
+    NOT_IMPLEMENTED;
+}
+
+MATCH_FUNC(0x4DACB0)
+EXPORT void Net_Send_Our_Inputs_4DACB0()
+{
+    if (gNetPlay_7071E8.field_758_n2.field_4_count > 1)
+    {
+        if (bDo_sync_check_67D6C1)
+        {
+            // Send the inputs plus an rng value the other players check against
+            s16 max = 100;
+            gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng = stru_6F6784.get_int_4F7AE0(max);
+            gInputSendData_6F5B18.field_0 = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
+            gInputSendData_6F5B18.field_4_len = sizeof(Network_InputData_0x8);
+        }
+        else
+        {
+            gInputSendData_6F5B18.field_0 = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
+            gInputSendData_6F5B18.field_4_len = sizeof(u32);
+        }
+        gNetPlay_7071E8.SendToAll_521B20(&gInputSendData_6F5B18);
+    }
 }
 
 MATCH_FUNC(0x4DAD50)
@@ -2030,7 +2062,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         else
         {
             InitializeGame_4DA4D0();
-            if (bStartNetworkGame_7081F0 && !gNetPlay_7071E8.sub_5213E0())
+            if (bStartNetworkGame_7081F0 && !gNetPlay_7071E8.WaitForPlayersSync_5213E0())
             {
                 CoUninitialize();
                 return 0;

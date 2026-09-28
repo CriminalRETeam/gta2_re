@@ -26,9 +26,14 @@
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
 DEFINE_GLOBAL(Fix16, dword_674CD8, 0x674CD8);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_66F3F0, Fix16(0), 0x66F3F0);
+DEFINE_GLOBAL(Ang16, kMinCorneringAngle_66F274, 0x66F274);
+DEFINE_GLOBAL(Ang16, kMaxCorneringAngle_66F370, 0x66F370);
+DEFINE_GLOBAL(Fix16, kMinCorneringSpeed_66F378, 0x66F378);
 DEFINE_GLOBAL_INIT(Fix16, dword_674DA8, Fix16(0x100000, 0), 0x674DA8);
 DEFINE_GLOBAL_ARRAY(u8, byte_61A688, 64, 0x61A688);
 DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
+DEFINE_GLOBAL(Car_BC*, gLastPlayerCar_6FF53C, 0x6FF53C);
+DEFINE_GLOBAL(Fix16, dword_6FF3F4, 0x6FF3F4);
 DEFINE_GLOBAL(bool, gSoundVocalsInited_6FF538, 0x6FF538);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_66F3F4, Fix16(0x4000, 0), 0x66F3F4);
 DEFINE_GLOBAL(u16, word_6757FC, 0x6757FC);
@@ -1818,10 +1823,90 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
     }
 }
 
-STUB_FUNC(0x57DD50)
+WIP_FUNC(0x57DD50)
 void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
 {
-    NOT_IMPLEMENTED;
+    if (gSoundSwitchRadioCoolDown_6FF539 > 0)
+    {
+        gSoundSwitchRadioCoolDown_6FF539--;
+    }
+
+    if (!gGame_0x40_67E008 || !gGame_0x40_67E008->field_38_orf1)
+    {
+        return;
+    }
+
+    if (!field_1_isPaused)
+    {
+        PoliceRadioMessageGeneration_426790();
+    }
+    else
+    {
+        gSampManager_6FFF00.sub_58E8A0();
+    }
+
+    if (!gSampManager_6FFF00.MusicFileExists_58E500())
+    {
+        return;
+    }
+
+    field_54F2[2] = field_54F2[3];
+    field_54F7[1] = field_54F7[0];
+    field_5500 = field_54FC;
+    Type3_CopRadioReport_57E680();
+
+    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+    if (pCar)
+    {
+        if (!IsTrainOrBoxcar_57F120(pCar) && !pCar->IsMaxDamage_40F890())
+        {
+            field_54F2[3] = 1;
+            if (!field_54F2[2])
+            {
+                ChooseRadioEmitterForVehicle_57E6C0();
+                UpdateActiveRadioEmitterVolume_57EA90();
+                field_5506 = 0;
+            }
+            else if (field_5504_radio_station_change_mode)
+            {
+                if (field_54F7[0] < 5)
+                {
+                    RadioEmitter(field_54F7[0] + 1).field_14 = 0;
+                }
+                SelectBestRadioEmitter_57EF60();
+            }
+            else
+            {
+                UpdateActiveRadioEmitterVolume_57EA90();
+            }
+
+            if (!field_54F2[4])
+            {
+                field_5504_radio_station_change_mode = 1;
+                SelectBestRadioEmitter_57EF60();
+                field_5506 = 0;
+            }
+
+            HandleVocalStreamSwitching_57DF10(pCar->field_68 != dword_6FF3F4);
+            gLastPlayerCar_6FF53C = pCar;
+            return;
+        }
+    }
+
+    field_54F2[3] = 0;
+    if (field_54F2[2] == 1)
+    {
+        if (gLastPlayerCar_6FF53C)
+        {
+            gLastPlayerCar_6FF53C->field_B0 = RadioEmitter(field_54F7[0] + 1).field_C;
+        }
+        if (field_54F7[1] < 5)
+        {
+            RadioEmitter(field_54F7[1] + 1).field_14 = 0;
+        }
+    }
+    field_54F7[0] = 0x66;
+    UpdateVocalStream_57E510();
 }
 
 MATCH_FUNC(0x412740)
@@ -3899,10 +3984,34 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
     }
 }
 
-STUB_FUNC(0x418190)
+MATCH_FUNC(0x418190)
 void sound_obj::HandleAICarEngineSound_418190(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    if (!a2->field_4_bDrivenByPlayer)
+    {
+        Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
+        Fix16 speed;
+        speed = a2->field_0_pObj->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
+        if (max_speed > k_dword_66F3F0 && speed > k_dword_66F3F0 && CalculateDistance_419020(Fix16(0x144000, 0)))
+        {
+            u8 emitting_vol = Fix16::Round_To_Int_410BF0((speed / max_speed) * Fix16(0x2C000, 0));
+            if (emitting_vol > 0)
+            {
+                if (VolCalc_419070(emitting_vol, Fix16(0x24000, 0), a2->field_5_bHasSolidAbove))
+                {
+                    this->field_30_sQueueSample.field_54 = Fix16(0x24000, 0);
+                    this->field_30_sQueueSample.field_60_nEmittingVolume = emitting_vol;
+                    this->field_30_sQueueSample.field_64_max_distance = 18;
+                    this->field_30_sQueueSample.field_58_type = 2;
+                    this->field_30_sQueueSample.field_4_SampleIndex = 2;
+                    this->field_30_sQueueSample.field_41 = 0;
+                    this->field_30_sQueueSample.field_18 = 0;
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 17;
+                    AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+    }
 }
 
 WIP_FUNC(0x413D10)
@@ -4528,10 +4637,49 @@ void sound_obj::HandleTrainEngineSound_4140C0(Sound_Params_8* a2)
     }
 }
 
-STUB_FUNC(0x417FD0)
+MATCH_FUNC(0x417FD0)
 void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    CarPhysics_B0* pPhysics = pCar->field_58_physics;
+
+    Ang16 slide_angle = pPhysics->field_40_linvel_1.atan2_40F790().sub_409340(pPhysics->field_58_theta);
+    if (slide_angle > kMinCorneringAngle_66F274 && slide_angle < kMaxCorneringAngle_66F370)
+    {
+        if (pCar->GetCarLinearSpeed_43A240() > kMinCorneringSpeed_66F378)
+        {
+            switch (a2->field_0_pObj->field_8_car_bc_ptr->field_84_car_info_idx)
+            {
+                case car_model_enum::boxtruck:
+                case car_model_enum::BUS:
+                case car_model_enum::FIRETRUK:
+                case car_model_enum::GTRUCK:
+                case car_model_enum::TOWTRUCK:
+                case car_model_enum::TRUKCAB1:
+                case car_model_enum::TRUKCAB2:
+                    if (CalculateDistance_419020(Fix16(0x64000, 0)))
+                    {
+                        if (VolCalc_419070(25, Fix16(0x14000, 0), a2->field_5_bHasSolidAbove))
+                        {
+                            this->field_30_sQueueSample.field_54 = Fix16(0x14000, 0);
+                            this->field_30_sQueueSample.field_60_nEmittingVolume = 25;
+                            this->field_30_sQueueSample.field_64_max_distance = 10;
+                            this->field_30_sQueueSample.field_58_type = 8;
+                            this->field_30_sQueueSample.field_4_SampleIndex = 11;
+                            this->field_30_sQueueSample.field_41 = 0;
+                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 7;
+                            this->field_30_sQueueSample.field_18 = 0;
+                            AddSampleToRequestedQueue_41A850();
+                        }
+                    }
+                    break;
+                case 86:
+                    // Dead store, but it keeps the switch range up to 86 as in the original
+                    slide_angle = 0;
+                    break;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x57DF10)
@@ -5891,11 +6039,47 @@ void sound_obj::UpdateRadioChatterLoop_41FCA0()
     }
 }
 
-STUB_FUNC(0x57E510)
-u32 sound_obj::UpdateVocalStream_57E510()
+MATCH_FUNC(0x57E510)
+void sound_obj::UpdateVocalStream_57E510()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_54F7[0] == 0x66 && field_54F7[1] != 0x66)
+    {
+        if (field_54F7[1] < 5)
+        {
+            // Radio emitters use indices 1..5
+            field_544C[field_54F7[1] + 1].field_18 = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
+        }
+        gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        gSampManager_6FFF00.PlayVocal_58E510(0, 12, 1);
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
+        u32 length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
+        if (length > 0)
+        {
+            gSampManager_6FFF00.SetVocalPosMs_58E750(0, field_1454_anRandomTable[2] % length);
+        }
+        field_551C = 60;
+    }
+    else if ((u32)field_551C > 0)
+    {
+        u32 volume = (3600 - 60 * (u32)field_551C) / 60;
+        if (!field_1_isPaused)
+        {
+            field_551C--;
+        }
+        else if (volume > 30)
+        {
+            volume = 30;
+        }
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, (field_24_sfx_vol * volume) / 127);
+    }
+    else if (field_1_isPaused)
+    {
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, (field_24_sfx_vol * 30) / 127);
+    }
+    else
+    {
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, (field_24_sfx_vol * 60) / 127);
+    }
 }
 
 WIP_FUNC(0x57E960)

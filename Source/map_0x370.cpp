@@ -2318,22 +2318,132 @@ bool Map_0x370::sub_4E4770(Fix16 z_pos)
     return false;
 }
 
-STUB_FUNC(0x4E4820)
-char_type Map_0x370::sub_4E4820(u32* a2, char_type a3)
+WIP_FUNC(0x4E4820)
+char_type Map_0x370::sub_4E4820(Fix16_Rect* pRect, u8 slope_type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 left = Fix16::Round_To_Int_410BF0(pRect->field_0_left);
+    s32 right = Fix16::Round_To_Int_410BF0(pRect->field_4_right);
+    s32 top = Fix16::Round_To_Int_410BF0(pRect->field_8_top);
+    s32 bottom = Fix16::Round_To_Int_410BF0(pRect->field_C_bottom);
+
+    for (s32 y = top; y <= bottom; y++)
+    {
+        for (s32 x = left; x <= right; x++)
+        {
+            gBlockInfo0_6F5EB0 = get_block_4DFE10(x, y, pRect->field_10_low_z.ToInt());
+            switch (slope_type)
+            {
+                case 0:
+                    if (gBlockInfo0_6F5EB0 && (gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 0)
+                    {
+                        return false;
+                    }
+                    break;
+                case 1:
+                    if (gBlockInfo0_6F5EB0 && (gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 1)
+                    {
+                        return false;
+                    }
+                    break;
+                case 2:
+                    if (gBlockInfo0_6F5EB0 && (gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 2)
+                    {
+                        return false;
+                    }
+                    break;
+                case 3:
+                    if (gBlockInfo0_6F5EB0 && (gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 3)
+                    {
+                        return false;
+                    }
+                    break;
+            }
+        }
+    }
+    return true;
 }
 
-STUB_FUNC(0x4E4930)
-char_type Map_0x370::sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4)
+// Spirals out from (x, y) until it finds a block of the given type and writes its position back
+WIP_FUNC(0x4E4930)
+void __stdcall Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type block_type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    dword_6F6164 = *pX;
+    dword_6F6148 = *pY;
+    dword_6F613C = *pZ;
+
+    u16 step = 1;
+    s32 direction = 3;
+    u16 i;
+    while (1)
+    {
+        switch (direction)
+        {
+            case 3:
+                for (i = 0; i < step; i++)
+                {
+                    dword_6F6164++;
+                    if (IsSearchBlockOfType_4E4AC0(block_type))
+                    {
+                        *pX = dword_6F6164;
+                        *pY = dword_6F6148;
+                        *pZ = dword_6F613C;
+                        return;
+                    }
+                }
+                direction = 2;
+
+                break;
+            case 2:
+                for (i = 0; i < step; i++)
+                {
+                    dword_6F6148++;
+                    if (IsSearchBlockOfType_4E4AC0(block_type))
+                    {
+                        *pX = dword_6F6164;
+                        *pY = dword_6F6148;
+                        *pZ = dword_6F613C;
+                        return;
+                    }
+                }
+                direction = 4;
+                step++;
+                break;
+            case 4:
+                for (i = 0; i < step; i++)
+                {
+                    dword_6F6164--;
+                    if (IsSearchBlockOfType_4E4AC0(block_type))
+                    {
+                        *pX = dword_6F6164;
+                        *pY = dword_6F6148;
+                        *pZ = dword_6F613C;
+                        return;
+                    }
+                }
+                direction = 1;
+
+                break;
+            case 1:
+                for (i = 0; i < step; i++)
+                {
+                    dword_6F6148--;
+                    if (IsSearchBlockOfType_4E4AC0(block_type))
+                    {
+                        *pX = dword_6F6164;
+                        *pY = dword_6F6148;
+                        *pZ = dword_6F613C;
+                        return;
+                    }
+                }
+                direction = 3;
+                step++;
+                break;
+        }
+    }
 }
 
 MATCH_FUNC(0x4E4AC0)
-bool Map_0x370::sub_4E4AC0(char_type block_type) // __stdcall ?
+bool __stdcall Map_0x370::IsSearchBlockOfType_4E4AC0(char_type block_type)
 {
     if (dword_6F6164 >= 0 && dword_6F6148 >= 0 && dword_6F6164 <= 255 && dword_6F6148 <= 255)
     {

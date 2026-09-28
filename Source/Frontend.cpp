@@ -1084,7 +1084,7 @@ void Frontend::DrawMenu_4AD140()
             pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
 
             // NOTE: field_124_font_type is u16
-            // NOTE: sub_4B7E10 is not static
+            // NOTE: sub_4B7E10 is a static __stdcall (no this)
 
             last_xpos = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
             last_xpos = sub_4B7E10(11, last_xpos + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
@@ -2863,11 +2863,66 @@ void Frontend::ContinueToNextStage_4B8020()
     }
 }
 
-STUB_FUNC(0x4B7E10)
-EXPORT int __stdcall Frontend::sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind)
+// TODO: the text keys are guesses, only code is compared
+WIP_FUNC(0x4B7E10)
+EXPORT int __stdcall Frontend::sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 palette)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (str_id_idx)
+    {
+        case 0:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey0"));
+            break;
+        case 1:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey1"));
+            break;
+        case 2:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey2"));
+            break;
+        case 3:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey3"));
+            break;
+        case 4:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey4"));
+            break;
+        case 5:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey5"));
+            break;
+        case 6:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey6"));
+            break;
+        case 7:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey7"));
+            break;
+        case 8:
+            swprintf(word_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey8"));
+            swprintf(tmpBuff_67BD9C, L": %s", word_67C7D8);
+            break;
+        case 9:
+            swprintf(word_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey9"));
+            swprintf(tmpBuff_67BD9C, L": %s", word_67C7D8);
+            break;
+        case 10:
+            swprintf(word_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey10"));
+            swprintf(tmpBuff_67BD9C, L": %s", word_67C7D8);
+            break;
+        case 11:
+            swprintf(word_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey11"));
+            swprintf(tmpBuff_67BD9C, L": %s", word_67C7D8);
+            break;
+        default:
+            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 8148);
+            break;
+    }
+
+    if ((u16)palette == 0xFFFF)
+    {
+        DrawText_4B87A0(tmpBuff_67BD9C, text_xpos, text_ypos, fontType, 1);
+    }
+    else
+    {
+        DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos, fontType, 1, 8, palette, 0, 0);
+    }
+    return GetMaxTextWidth_5D8990(tmpBuff_67BD9C, fontType);
 }
 
 MATCH_FUNC(0x4B7FB0)

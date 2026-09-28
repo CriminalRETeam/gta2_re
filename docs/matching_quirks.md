@@ -41,8 +41,28 @@ onto the pool's free list instead of the active list.
 in a different order from yours, reorder the `case` groups to match (`sub_417AC0`,
 `sub_417BA0`, `sub_528E00`).
 
+**A one-case `switch` gives `mov/dec/jne`.** `if (notify == 1)` compiles to `cmpl $1,mem`;
+`switch (notify) { case 1: ... }` loads the value and tests it with `dec %eax; jne`. Use
+the switch form when the original has the load and `dec`
+(`Network_20324::OnWmCommand_519FE0`).
+
+**`if/else` around a call vs a ternary argument.** `f(x == 0 ? 1 : 0)` gives `sete`, but
+two `push`es that branch to one `call` come from `if (x == 0) f(1); else f(0);`
+(`PedGroup::RemovePed_4C9970`).
+
 **Merged `case` labels give a byte index table.** The original often has one jump table
 entry per case, so write each case out.
+
+**VC6 copies a small shared tail into both branches.** If both branches of an `if/else` end
+with the same call and the original has that call twice, write it once after the `if/else`,
+not in each branch. VC6 duplicates it, and it pops the callee-saved registers the
+branches used before the copies (`Net_Send_Our_Inputs_4DACB0`: two `SendToAll_521B20`
+calls in the asm, one in the source).
+
+**A switch range that runs past the last real case.** If the index table covers values
+that all go to `default`, a case at the top of the range exists in the source but does
+nothing. An empty `case N: break;` is dropped, even with an explicit `default`. A dead
+store in it keeps the range (`sound_obj::HandleTruckCorneringAudio_417FD0`, case 86).
 
 **A case that only returns is dropped from the table.** VC6 removes a `case` whose body is
 identical to `default`, which shrinks the switch range (`cmp $0x53` instead of `cmp $0x57`).
@@ -79,6 +99,12 @@ If the original has your `else` block first, invert the condition and swap the b
 both spellings to the same code, in which case this won't help (`Ped::ProcessInCarObjective_463FB0`).
 
 **`je tail; jmp next`** for an `if/else` whose branches share a tail comes from a `goto`.
+In `frosty_pasteur_0xC1EA8::sub_512BA0`/`sub_512C00`, early `continue`/`return`, the body
+written in both branches, a ternary condition and an inline helper all failed to produce it.
+
+The `goto` entries in this file were only kept after `goto`-free forms had been tried (see the
+`goto` rule in `CLAUDE.md`). Try restructuring first. Plain returns or a flag sometimes give
+the same code (`NetPlay::WaitForPlayersSync_5213E0`, `PedGroup::CoordinateGroupCarEntry_4C9F00`).
 
 **`return a <= b` vs branches.** `return a <= b;` gives `xor eax,eax; cmp; setle al`. If the
 original has `setle al` without the `xor`, write it as `if (a <= b) return true; return false;`
@@ -109,6 +135,10 @@ comparison (`RouteFinder_10::field_2` is `u16`).
 32 bits. A function whose first path returns another call's `bool` unextended while other
 paths set all of `eax` is still unsolved (`Car_BC::sub_43B2B0`).
 
+**`sub $C` vs `add $-C`.** `x -= 0x100;` (or `x = x - 256;`, `x += -256;`) compiles to
+`sub $0x100`. `return x - 0x100;` from an inline helper gives `add $0xFFFFFF00`
+(`SeqDiff` in NetPlay.cpp, `NetPlay::MakeSendData_51F420`).
+
 **Adding a bool.** `setne al; add $0xE,%eax` comes from `(b != 0) + 14`, not `b + 14`
 (`sub_417B80`).
 
@@ -129,10 +159,52 @@ game's d3d dll where it expects the value.
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
+**`memcmp`/`operator==` operand order picks `esi`/`edi`.** For an inlined 16-byte compare
+(`repe cmpsl`), the left operand goes in `esi` and the right in `edi`. Swap the sides
+of `==` if they are the wrong way round (`NetPlay::InitializeConnection_51E5C0`).
+
+**The order of local saves decides register rotation later on.** When a function saves
+some fields to locals before calls, the statement order of those saves can leave the load
+schedule the same and still rotate the registers for the rest of the function. Try every
+order (`PedGroup::PromoteMemberToLeader_4C9680`: four saves, one order of 24 matched).
+
+**A hidden return pointer means a by-value return.** A class with a constructor (`Fix16_Rect`,
+`Ang16`, ...) is returned through a hidden pointer that the caller pushes after the other
+arguments. The function then returns that pointer in `eax`, and the caller uses the slot it
+passed. So a function that fills a pointer argument and returns it, with `ret $4` for one
+"argument", is really `T Func()`. Declare it that way. Build the object in the `return`
+statement (`return Fix16_Rect(...)`, adding an inline constructor if needed): VC6 has no
+named return value optimisation, so `T t; ...; return t;` adds a copy
+(`Car_BC::NoRefs_441600` went from 0.712 with a named local to a match;
+`Ang16::sub_409340` with `return Ang16(rValue - toSub.rValue, 0)`). On the caller's side
+this also removes the need for a raw buffer to get around a zeroing default constructor
+(`sound_obj::HandleTruckCorneringAudio_417FD0`).
+
+**Nested member access instead of a local pointer.** `a2->field_0->field_8->Get()` written
+out in full can schedule its loads differently from a `Car_BC* pCar` local
+(`sound_obj::HandleAICarEngineSound_418190`: the local loaded the car before a global,
+unlike the original).
+
+**Getters vs direct field reads change register choice.** Reading `p->field_1AC_cam.x`
+directly instead of through an inline `get_cam_x()` that returns `Fix16` by value can give
+the same instructions with different registers (`this` in `edi` rather than `ebx` in
+`PedGroup::UpdateMemberTightFollowState_4CA820`). Try both.
+
+**Bitfield reads through an inline getter.** `if (!p->field_21C_bf.b2)` gives `test $4,%al`.
+An inline that returns the bit (`u8 GetBit2() { return field_21C_bf.b2; }`) gives
+`mov %eax,%ecx; shr $2,%ecx; test $1,%cl` (`PedGroup::MergeWithOtherGroup_4C9B60`).
+
 **Operand order matters.** `a + b` vs `b + a` changes which value is loaded first and which
 register holds the result (`ProjectOntoAxis_5A5AA0`). Writing `x |= f()` instead of
 `return f() | x` keeps the result in the first value's register
 (`CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80`).
+
+**Block-scoped locals share stack slots.** VC6 overlaps the stack slots of locals declared in
+different blocks (for example different `case`s). If the original reuses one slot for
+unrelated values, declare them inside their own blocks rather than at function scope. If
+instead two identical blocks use the same slots, declare the locals once at function
+scope (`NetPlay::OnPacketReceived_51F870` for the first, `NetPlay::NetworkTick_51ED00`
+for the second).
 
 **Declaration position moves a zero store.** A loop counter declared before an `if` gets its
 `= 0` store scheduled before the test, not inside the block (`Kfc_30::CleanupExpiredEntities_5CC1C0`).
@@ -151,6 +223,65 @@ in `a() + b()` depended on where `cSampleManager.hpp` was included, and the effe
 monotonic. If a function matches when compiled alone (copy it into a small .cpp under
 `build_vc6/` and use `build.py --single_cpp ../build_vc6/x.cpp`) but not in its TU, try
 moving includes and check `compare_builds.py` for regressions.
+
+**Inline functions: often only the first call gets inlined.** When a function calls the same
+inline function several times, VC6 often inlines the first call and emits real `call`s for
+the rest. Since those calls need a body, an out-of-line copy of the "inline" function is
+emitted too. That copy is a function in the original binary as well, often a small `Fix16`
+helper with no obvious caller of its own. So a function whose first use of a helper is
+expanded and the later ones are calls isn't necessarily written differently: it can be
+the same inline method used several times. Before rewriting it by hand, try calling the
+existing inline method (or making the helper `inline`). Note that the out-of-line copy
+lives in whatever TU emits it, which is also why the duplicate helper copies mentioned
+under "Duplicate helper copies" exist.
+
+**Tail merging across `case`s needs a shared statement.** VC6 merges the identical tails of
+the two branches of an `if` into one call, but not the tails of two different `case`s. If
+the original jumps from one case into the middle of another (`push $1; jmp <other case's
+call>`), end the first case with a `goto` to a label in front of the other case's shared
+code (`sub_430C70`).
+
+**Stack slot order isn't declaration order.** Two local arrays or a set of scalars can come out
+in a different order from the original whatever order they're declared in. If the
+original's slots look like one block, try one array. In `FatalError_4A07C0`, six route
+coordinates had to be one `s32[6]` with the second triple stored back to front.
+
+**Copy through a local to get a spill.** `mov (%edx),%eax; mov %eax,X(%esp); fildl X(%esp)`
+instead of `fildl (%edx)` comes from copying the value into a local object first
+(`Fix16 value = *va_arg(va, Fix16*); value.AsFloat()`, `FatalError_4A07C0`).
+
+**Failure path laid out before the success path.** If the original falls through into the
+cleanup/failure block after a check and jumps forward to the success code, make the failure
+code the body of `if (hr != DP_OK) { failed: ...; return 0; }` and have earlier checks
+`goto failed;`. A success label at the end doesn't work: VC6 moves it back up
+(`NetPlay::CreateModemAddress_51E2B0`).
+
+**Placing a shared failure block right after a loop.** When the original's loop ends with
+`je <loop top>` and falls straight into a `return 0` block that earlier checks also jump
+to, with the success code after it, put the label and the return at the end of a
+`while (1)` body: `if (!Receive(...)) continue; failed: return 0; }`, with `break` at the
+top for the success case. A `failed:` label after the success code, or a
+`goto success` from the loop, gets laid out the other way round (`NetPlay::Receive_51F010`).
+
+**Uninitialised locals are "loaded" from argument slots.** An uninitialised local can be
+given a stack home that overlaps an argument, so its first use shows up as
+`mov N(%esp),%reg` reading that argument. It isn't a real read of the parameter, so
+leave the local uninitialised (`NetPlay::sub_521770`).
+
+**Struct copies load through a pointer register.** `mov (%edx),%esi; mov (%esi),%ebp; ... mov 4(%esi),%esi`
+into consecutive fields is a struct assignment (`entry.inputs = *pData->p`), not two
+separate field copies (`NetPlay::Add_5216E0`).
+
+**`memset` position moves register choice.** Where a `memset` of a local sits relative to
+other stores decides which register holds the zero and which holds addresses. Try it
+before and after the neighbouring field stores (`NetPlay::SendPing_51EF60`: the payload
+`memset` goes after the header stores; `Send_521DB0`: the payload is filled in before the
+header `memset`).
+
+**A flag VC6 should have optimised away.** If the original zeroes a local, tests it once and
+sets it, without VC6 folding any of that, the flag may be a `volatile` alias of a dead
+parameter's slot: `volatile BOOL& bDone = *(volatile BOOL*)&lpData;` (`NetPlay::EnumAddress_cb_51E030`,
+still WIP for other reasons). Might be worth trying on `RouteFinder::sub_589E20` below.
 
 **VC6 drops tests it can prove.** If the original tests a flag at the top of a loop that is
 known to be 0 on entry, VC6 won't reproduce it however you write the loop
@@ -175,6 +306,22 @@ callee ends in `ret $N` without reading `ecx`, declare it `static ... __stdcall`
 **Duplicate helper copies.** The original has two identical copies of some small functions,
 for example the `Fix16(int)` constructor at `0x4369F0` and `0x4926F0`. Our link has one, so a
 function that calls the "other" copy can't match (`Hud_CarName_4C::sub_5D4A10`).
+
+**EH state stores between member destructor calls.** If the original calls several member
+destructors in a row without the `movb $N,X(%esp)` state stores between them, VC6 knew
+those destructors can't throw. It only knows that if their (empty) bodies come earlier in
+the same TU, so define the destructor after them
+(`jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0` after `~high_score_table_0xF0`).
+
+**Array construction: inline loop vs `??_H`.** For an array of objects with a constructor,
+VC6 calls `vector constructor iterator` (`??_H`) when the constructor is out of line, and
+writes an inline loop when the constructor is an inline function whose body it can see
+(calling it, or inlining it when it's small enough). `Car_6C::ctor_4469F0` needs the inline
+loop for `CarAI_78`, see `match_attempts.md`.
+
+**Inline `memset` of 12 bytes.** `lea X(%esi),%ecx; xor %eax,%eax; mov %eax,(%ecx); mov %eax,4(%ecx);
+mov %eax,8(%ecx)` with a second zero register is `memset(arr, 0, sizeof(arr))`, not three
+stores (`Player::~Player`).
 
 **An EH frame missing from a destructor:** `<new>` declares `operator delete` as `throw()`,
 so don't include C++ std headers from widely used headers.

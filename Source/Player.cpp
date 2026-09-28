@@ -2,6 +2,9 @@
 #include "BurgerKing_67F8B0.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "RouteFinder.hpp"
+#include "Firefighters.hpp"
+#include "CarAI_78.hpp"
 #include "Char_Pool.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
@@ -48,24 +51,85 @@ DEFINE_GLOBAL_INIT(Fix16, k_instant_gang_radius_6FE634, Fix16(8), 0x6FE634);
 
 struct UnknownDebugClass
 {
-    EXPORT bool DoTest_5B2640(u16 action);
-    EXPORT bool DoBrianTest_42D870(u16 action);
+    EXPORT void DoTest_5B2640(u16 action);
+    EXPORT void DoBrianTest_42D870(u16 action);
 };
 DEFINE_GLOBAL(UnknownDebugClass*, dword_7044A0, 0x7044A0);
 DEFINE_GLOBAL(UnknownDebugClass*, dword_675F74, 0x675F74);
 
-STUB_FUNC(0x5B2640)
-bool UnknownDebugClass::DoTest_5B2640(u16 action)
+DEFINE_GLOBAL(Hud_Arrow_7C*, gTestArrow_70416C, 0x70416C);
+DEFINE_GLOBAL(Car_BC*, gTestArrowCar_7043F0, 0x7043F0);
+DEFINE_GLOBAL(s32, gTestTimer_7042D8, 0x7042D8);
+
+// TODO: the brief strings are guesses, only code is compared
+MATCH_FUNC(0x5B2640)
+void UnknownDebugClass::DoTest_5B2640(u16 action)
 {
-    NOT_IMPLEMENTED;
-    return false;
+    switch (action)
+    {
+        case 3:
+            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "test1");
+            break;
+        case 4:
+            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, "test2");
+            break;
+        case 5:
+            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, "test3");
+            break;
+        case 6:
+            gGame_0x40_67E008->field_38_orf1->field_6BC_multpliers.ChangeStatByAmount_4921B0(1);
+            break;
+        case 7:
+            gTestArrow_70416C = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
+            gTestArrow_70416C->field_18.field_18_primary_target.SetTargetCar(gTestArrowCar_7043F0);
+            gTestArrow_70416C->SetArrowColour_5D0510(5);
+            break;
+        case 8:
+            gGame_0x40_67E008->field_38_orf1->sub_569E70();
+            break;
+        case 10:
+            gTestTimer_7042D8 = gHud_2B00_706620->field_620.CreateTimer_5D31F0(40);
+            break;
+    }
 }
 
-STUB_FUNC(0x42D870)
-bool UnknownDebugClass::DoBrianTest_42D870(u16 action)
+DEFINE_GLOBAL(s16, gTestRouteIdx_675F14, 0x675F14);
+DEFINE_GLOBAL(Car_BC*, gTestFireCar_675C30, 0x675C30);
+
+MATCH_FUNC(0x42D870)
+void UnknownDebugClass::DoBrianTest_42D870(u16 action)
 {
-    NOT_IMPLEMENTED;
-    return false;
+    switch (action)
+    {
+        case 8:
+            gGame_0x40_67E008->ExitGame_4B8BD0(0, 4, 3);
+            break;
+        case 11:
+            gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, 3);
+            break;
+        case 9:
+            gfrosty_pasteur_6F8060->SaveGame_511E10(gLucid_hamilton_67E8E0.GetDebugStr_4C5970());
+            break;
+        case 6:
+            gTestRouteIdx_675F14 = gRouteFinder_6FFDC8->DoStartRoute_58A0D0(3, 3, 1, 0xD5, 0xAB, 1, 1);
+            gRouteFinder_6FFDC8->CancelRoute_589930(gTestRouteIdx_675F14);
+            gTestRouteIdx_675F14 = gRouteFinder_6FFDC8->DoStartRoute_58A0D0(0xD5, 0xF9, 1, 3, 3, 1, 1);
+            break;
+        case 7:
+        {
+            Ped* pPed = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0()->field_2C4_player_ped;
+            if (pPed->field_16C_car)
+            {
+                pPed->field_16C_car->GoToBlockTest_441030(3, 3, 1, 1);
+                pPed->field_16C_car->InitCarAIControl_440590();
+                gRouteFinder_6FFDC8->DebugPrintRoute_58A020(pPed->field_16C_car->field_5C_AI->field_28_junc_idx);
+            }
+            break;
+        }
+        case 10:
+            gFirefighterPool_54_67D4C0->sub_4A8820(gTestFireCar_675C30);
+            break;
+    }
 }
 
 MATCH_FUNC(0x443CB0)
@@ -3079,22 +3143,16 @@ Player::Player(u8 player_idx)
     field_78A_show_quit_message = 0;
 }
 
-STUB_FUNC(0x56A940)
+MATCH_FUNC(0x56A940)
 Player::~Player()
 {
-    NOT_IMPLEMENTED;
-    Car_BC** local_field_54_unk; // ecx
-
-    local_field_54_unk = field_54_unk;
     field_2C4_player_ped = 0;
     field_2C8_unkq = 0;
     field_2CC = 0;
     field_34_gang_curr_location = 0;
     field_38_local_navigation_zone = 0;
     field_3C_navigation_zone = 0;
-    local_field_54_unk[0] = 0;
-    local_field_54_unk[1] = 0;
-    local_field_54_unk[2] = 0;
+    memset(field_54_unk, 0, sizeof(field_54_unk));
 
     if (field_4C_pUnk)
     {

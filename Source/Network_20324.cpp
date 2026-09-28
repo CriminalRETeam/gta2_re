@@ -9,23 +9,68 @@
 
 DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18, 0x6F8A18);
 DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256, 0x6F88A4);
+DEFINE_GLOBAL(s32, gChatLineCount_6F8A2C, 0x6F8A2C);
 
 EXTERN_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256);
 
 Network_UI_Control_Data gUiControlDefinitions_621430[3][30];
 
-STUB_FUNC(0x519960)
-u16 __stdcall sub_519960(char_type* a1, wchar_t* a2)
+MATCH_FUNC(0x519960)
+void __stdcall WideToDbcs_519960(char_type* pDst, wchar_t* pSrc)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    wchar_t c = *pSrc;
+    if (c)
+    {
+        do
+        {
+            if (c > 0xFF)
+            {
+                *pDst = HIBYTE(c);
+                pDst += 2;
+                pDst[-1] = *(char_type*)pSrc;
+            }
+            else
+            {
+                *pDst = *(char_type*)pSrc;
+                pDst++;
+            }
+            c = *++pSrc;
+        } while (c);
+        *pDst = (char_type)c;
+    }
+    else
+    {
+        *pDst = 0;
+    }
 }
 
-STUB_FUNC(0x5199b0)
-char_type Network_20324::sub_5199B0(wchar_t* a1, char_type* a2)
+MATCH_FUNC(0x5199b0)
+void Network_20324::DbcsToWide_5199B0(wchar_t* pDst, char_type* pSrc)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type c = *pSrc;
+    if (c)
+    {
+        do
+        {
+            if (c & 0x80)
+            {
+                *pDst = MAKEWORD(pSrc[1], c);
+                pSrc += 2;
+            }
+            else
+            {
+                *pDst = (u8)c;
+                pSrc++;
+            }
+            c = *pSrc;
+            pDst++;
+        } while (c);
+        *pDst = 0;
+    }
+    else
+    {
+        *pDst = 0;
+    }
 }
 
 MATCH_FUNC(0x519a00)
@@ -35,7 +80,7 @@ char_type* __stdcall GetString_519A00(const char_type* pKey)
 
     if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
     {
-        sub_519960(Dest_6F88A4, pText);
+        WideToDbcs_519960(Dest_6F88A4, pText);
     }
     else
     {
@@ -49,7 +94,7 @@ void Network_20324::GetString_519A50(wchar_t* Dest, char_type* Source, size_t Ma
 {
     if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
     {
-        sub_5199B0(Dest, Source);
+        DbcsToWide_5199B0(Dest, Source);
     }
     else
     {
@@ -79,7 +124,7 @@ Network_20324::Network_20324()
     gtext_0x14_6F87F0 = new text_0x14();
     gtext_0x14_6F87F0->Load_5B5E90();
     sub_51BC90();
-    sub_51BFA0();
+    EnumerateMaps_51BFA0();
 }
 
 MATCH_FUNC(0x519ba0)
@@ -93,25 +138,23 @@ Network_20324::~Network_20324()
 }
 
 // TODO: Make a scratch
-STUB_FUNC(0x519bd0)
-s32 Network_20324::ShowNetworkUiBlocking_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance)
+MATCH_FUNC(0x519bd0)
+s32 Network_20324::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
 {
-    NOT_IMPLEMENTED;
-
-    dwInitParam->field_202E4_hInstance = hInstance;
-    gNetPlay_7071E8.Set15_51ECD0((int)Network_20324::cb_sub_519D30, dwInitParam);
-    gNetPlay_7071E8.Set6_520530((void*)Network_20324::cb_sub_519E30, (void*)dwInitParam);
-    gNetPlay_7071E8.Set9_520E60((int)Network_20324::cb_sub_51ACD0, (int)dwInitParam);
-    gNetPlay_7071E8.Set3_Disconnect_520E80((int)Network_20324::cb_Disconnect_51ADE0, (int)dwInitParam);
-    gNetPlay_7071E8.Set18_520F50((int)Network_20324::cb_sub_51AE50, (int)dwInitParam);
-    gNetPlay_7071E8.Set21_5210D0((int)Network_20324::cb_sub_51B2F0, (int)dwInitParam);
-    gNetPlay_7071E8.Set24_521140((int)Network_20324::cb_sub_51B7E0, (int)dwInitParam);
-    gNetPlay_7071E8.Set27SavePlayerName_5211F0((int)Network_20324::cb_SavePlayerName_51BC00, (int)dwInitParam);
-    return DialogBoxParamA(dwInitParam->field_202E4_hInstance,
+    this->field_202E4_hInstance = hInstance;
+    gNetPlay_7071E8.Set15_51ECD0((int)Network_20324::cb_FillSessionList_519D30, this);
+    gNetPlay_7071E8.Set6_520530((void*)Network_20324::cb_AddPlayerToList_519E30, (void*)this);
+    gNetPlay_7071E8.Set9_520E60((int)Network_20324::cb_sub_51ACD0, (int)this);
+    gNetPlay_7071E8.Set3_Disconnect_520E80((int)Network_20324::cb_Disconnect_51ADE0, (int)this);
+    gNetPlay_7071E8.Set18_520F50((int)Network_20324::cb_SetPlayerPing_51AE50, (int)this);
+    gNetPlay_7071E8.Set21_5210D0((int)Network_20324::cb_AddChatMessage_51B2F0, (int)this);
+    gNetPlay_7071E8.Set24_521140((int)Network_20324::cb_sub_51B7E0, (int)this);
+    gNetPlay_7071E8.Set27SavePlayerName_5211F0((int)Network_20324::cb_SavePlayerName_51BC00, (int)this);
+    return DialogBoxParamA(this->field_202E4_hInstance,
                            (LPCSTR)103, // probably IDD_NETWORK_DIALOG
                            0,
                            Network_20324::DialogFunc,
-                           (LPARAM)dwInitParam) == 1;
+                           (LPARAM)this) == 1;
 }
 
 MATCH_FUNC(0x519c80)
@@ -156,11 +199,27 @@ int __stdcall Network_20324::DialogFunc(HWND hDlg, UINT message, WPARAM wParam, 
     return 0;
 }
 
-STUB_FUNC(0x519d30)
-s32 Network_20324::cb_sub_519D30(Network_20324* a1, s32 a2)
+MATCH_FUNC(0x519d30)
+s32 Network_20324::cb_FillSessionList_519D30(Network_20324* pThis, Network_NameList* pSessions)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type name[260];
+
+    SendDlgItemMessageA(pThis->Get_202E0_HWND_519E20(), 1000, LB_RESETCONTENT, 0, 0);
+    for (u32 i = 0; i < pSessions->field_40_count; i++)
+    {
+        wcstombs(name, pSessions->field_0_names[i], sizeof(name));
+        LRESULT item = SendDlgItemMessageA(pThis->Get_202E0_HWND_519E20(), 1000, LB_ADDSTRING, 0, (LPARAM)name);
+        if (item != LB_ERR && item != LB_ERRSPACE)
+        {
+            SendDlgItemMessageA(pThis->Get_202E0_HWND_519E20(), 1000, LB_SETITEMDATA, item, i);
+        }
+    }
+
+    if (pSessions->field_40_count > 0 || gNetPlay_7071E8.field_4)
+    {
+        return EnableWindow(GetDlgItem(pThis->Get_202E0_HWND_519E20(), 1001), TRUE);
+    }
+    return EnableWindow(GetDlgItem(pThis->Get_202E0_HWND_519E20(), 1001), FALSE);
 }
 
 MATCH_FUNC(0x519e10)
@@ -175,11 +234,62 @@ HWND Network_20324::Get_202E0_HWND_519E20()
     return field_202E0_dlg_hwnd;
 }
 
-STUB_FUNC(0x519e30)
-LRESULT Network_20324::cb_sub_519E30(Network_20324* a1, wchar_t* Source, s32 a3)
+MATCH_FUNC(0x519e30)
+void Network_20324::cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pName, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    LVITEMA item;
+    char_type name[260];
+
+    if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
+    {
+        WideToDbcs_519960(name, pName);
+    }
+    else
+    {
+        wcstombs(name, pName, 260u);
+    }
+
+    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    {
+        case 2:
+        {
+            memset(&item, 0, sizeof(item));
+            HWND hList = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+            item.iItem = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
+            item.mask = LVIF_TEXT;
+            item.iSubItem = 0;
+            item.pszText = name;
+            SendMessageA(hList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+            break;
+        }
+
+        case 1:
+        {
+            memset(&item, 0, sizeof(item));
+            HWND hList = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1024);
+            s32 count = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
+            item.mask = LVIF_TEXT;
+            item.iItem = count;
+            item.iSubItem = 0;
+            item.pszText = name;
+            SendMessageA(hList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+            pNetUi->sub_51BBC0();
+            pNetUi->sub_51CBC0();
+            break;
+        }
+
+        case 0:
+        {
+            memset(&item, 0, sizeof(item));
+            HWND hList = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+            item.iItem = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
+            item.mask = LVIF_TEXT;
+            item.iSubItem = 0;
+            item.pszText = name;
+            SendMessageA(hList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+            break;
+        }
+    }
 }
 
 MATCH_FUNC(0x519fd0)
@@ -188,10 +298,272 @@ void __stdcall Network_20324::OnPaint_519FD0(HWND a1)
     // Empty
 }
 
-STUB_FUNC(0x519fe0)
-void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 a2, HWND a3, s32 a4)
+MATCH_FUNC(0x519fe0)
+void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notify)
 {
-    NOT_IMPLEMENTED;
+    Network_8 groupData;
+    Network_8 playerData;
+    s32 value;
+    char_type chatText[128];
+    char_type playerName[260];
+    wchar_t textW[260];
+    char_type sessionName[260];
+    wchar_t hostPlayerNameW[260];
+
+    switch (id)
+    {
+        case 1001:
+            if (gNetPlay_7071E8.field_4)
+            {
+                gNetPlay_7071E8.EnumSessions_51E650();
+                wchar_t playerNameW[260];
+                playerData.field_0 = 0;
+                playerData.field_4_len = 0;
+                groupData.field_0 = 0;
+                groupData.field_4_len = 0;
+                GetDlgItemTextA(hDlg, 1004, playerName, 259);
+                Network_20324::GetString_519A50(playerNameW, playerName, 260);
+                Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+                pThis->SetPlayNameAndSaveToRegistry_51BD40(playerNameW, playerName);
+                if (gNetPlay_7071E8.field_C4_sessions.field_5C4_session_count > 0)
+                {
+                    if (gNetPlay_7071E8.JoinSession_520570(0, playerNameW, &playerData, &groupData))
+                    {
+                        pThis->ApplyHostGameSettings_51B810((const char_type*)groupData.field_0);
+                        pThis->ShowSpecificWindow_51ABF0(2);
+                    }
+                }
+            }
+            else
+            {
+                wchar_t playerNameW[260];
+                playerData.field_0 = 0;
+                playerData.field_4_len = 0;
+                groupData.field_0 = 0;
+                groupData.field_4_len = 0;
+                GetDlgItemTextA(hDlg, 1004, playerName, 259);
+                Network_20324::GetString_519A50(playerNameW, playerName, 260);
+                Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+                pThis->SetPlayNameAndSaveToRegistry_51BD40(playerNameW, playerName);
+                LRESULT sel = SendDlgItemMessageA(hDlg, 1000, LB_GETCURSEL, 0, 0);
+                if (sel != -1)
+                {
+                    LRESULT idx = SendDlgItemMessageA(hDlg, 1000, LB_GETITEMDATA, sel, 0);
+                    if (gNetPlay_7071E8.JoinSession_520570(idx, playerNameW, &playerData, &groupData))
+                    {
+                        pThis->ApplyHostGameSettings_51B810((const char_type*)groupData.field_0);
+                        pThis->ShowSpecificWindow_51ABF0(2);
+                    }
+                }
+            }
+            break;
+
+        case 1000:
+            if (notify == LBN_DBLCLK)
+            {
+                wchar_t playerNameW[260];
+                playerData.field_0 = 0;
+                playerData.field_4_len = 0;
+                groupData.field_0 = 0;
+                groupData.field_4_len = 0;
+                GetDlgItemTextA(hDlg, 1004, playerName, 259);
+                Network_20324::GetString_519A50(playerNameW, playerName, 260);
+                Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+                pThis->SetPlayNameAndSaveToRegistry_51BD40(playerNameW, playerName);
+                LRESULT sel = SendDlgItemMessageA(hDlg, 1000, LB_GETCURSEL, 0, 0);
+                if (sel != -1)
+                {
+                    LRESULT idx = SendDlgItemMessageA(hDlg, 1000, LB_GETITEMDATA, sel, 0);
+                    if (gNetPlay_7071E8.JoinSession_520570(idx, playerNameW, &playerData, &groupData))
+                    {
+                        pThis->ShowSpecificWindow_51ABF0(2);
+                    }
+                }
+            }
+            break;
+
+        case IDCANCEL:
+        {
+            Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+            switch (pThis->Get_202D4_active_control_idx_51ACC0())
+            {
+                case 0:
+                    KillTimer(hDlg, gTimerId_6F8A18);
+                    EndDialog(hDlg, 0);
+                    break;
+                case 1:
+                    gNetPlay_7071E8.Disconnect_520D10();
+                    SendMessageA(GetDlgItem(hDlg, 1024), LVM_DELETEALLITEMS, 0, 0);
+                    SetDlgItemTextA(hDlg, 1025, "");
+                    SetDlgItemTextA(hDlg, 1022, "");
+                    pThis->sub_51BBF0();
+                    pThis->ShowSpecificWindow_51ABF0(0);
+                    break;
+                case 2:
+                    gNetPlay_7071E8.Disconnect_520D10();
+                    SendMessageA(GetDlgItem(hDlg, 1050), LVM_DELETEALLITEMS, 0, 0);
+                    SetDlgItemTextA(hDlg, 1053, "");
+                    SetDlgItemTextA(hDlg, 1051, "");
+                    pThis->sub_51BBF0();
+                    pThis->ShowSpecificWindow_51ABF0(0);
+                    break;
+            }
+            break;
+        }
+
+        case 1002:
+        {
+            Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+            NetworkGameSettings settings = pThis->field_20088_game_settings;
+            groupData.field_0 = &settings;
+            groupData.field_4_len = sizeof(NetworkGameSettings);
+            playerData.field_0 = 0;
+            playerData.field_4_len = 0;
+            GetDlgItemTextA(hDlg, 1004, playerName, 259);
+            sprintf(sessionName, "%s's game", playerName);
+            Network_20324::GetString_519A50(hostPlayerNameW, playerName, 260);
+            Network_20324::GetString_519A50(textW, sessionName, 260);
+            if (gNetPlay_7071E8.HostSession_51E7A0(textW, hostPlayerNameW, &groupData, &playerData))
+            {
+                pThis->SetPlayNameAndSaveToRegistry_51BD40(hostPlayerNameW, playerName);
+                pThis->ShowSpecificWindow_51ABF0(1);
+                pThis->SetFragsNumberAndLabel_51CDC0(pThis->field_20088_game_settings.field_20198_game_type,
+                                                     pThis->field_20088_game_settings.field_20194_frag_limit,
+                                                     hDlg);
+            }
+            break;
+        }
+
+        case 1023:
+        {
+            GetWindowLongA(hDlg, 8);
+            GetDlgItemTextA(hDlg, 1025, chatText, 127);
+            Network_20324::GetString_519A50(textW, chatText, 260);
+            gNetPlay_7071E8.SendChatMessage_521060(textW, -1);
+            SetDlgItemTextA(hDlg, 1025, "");
+            Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+            pThis->AppendChatMessage_51B4F0(1022, chatText);
+            break;
+        }
+
+        case 1021:
+        {
+            gNetPlay_7071E8.NetworkTick_51ED00();
+            Sleep(100);
+            GetDlgItemTextA(hDlg, 1004, playerName, 260);
+            Network_20324::GetString_519A50(textW, playerName, 260);
+            Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+            pThis->SetPlayNameAndSaveToRegistry_51BD40(textW, playerName);
+            gNetPlay_7071E8.DisableJoining_521220();
+            EndDialog(hDlg, 1);
+            break;
+        }
+
+        case 1020:
+        {
+            Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+            HWND hList = GetDlgItem(pThis->Get_202E0_HWND_519E20(), 1024);
+            LRESULT item = SendMessageA(hList, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
+            LVITEMA lvItem;
+            lvItem.iSubItem = 0;
+            lvItem.cchTextMax = 260;
+            lvItem.pszText = sessionName;
+            SendMessageA(hList, LVM_GETITEMTEXTA, item, (LPARAM)&lvItem);
+            Network_20324::GetString_519A50(textW, sessionName, 260);
+            if (gNetPlay_7071E8.RemovePlayerByName_520F80(textW))
+            {
+                SendMessageA(hList, LVM_DELETEITEM, item, 0);
+            }
+            break;
+        }
+
+        case 1026:
+            switch (notify)
+            {
+                case CBN_SELCHANGE:
+                {
+                    Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+                    LRESULT sel = SendDlgItemMessageA(hDlg, 1026, CB_GETCURSEL, 0, 0);
+                    pThis->SetSetting_51B9C0(1, SendDlgItemMessageA(hDlg, 1026, CB_GETITEMDATA, sel, 0));
+                    pThis->sub_51CBC0();
+                    break;
+                }
+            }
+            break;
+
+        case 1052:
+        {
+            Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+            GetDlgItemTextA(hDlg, 1053, chatText, 127);
+            Network_20324::GetString_519A50(textW, chatText, 260);
+            gNetPlay_7071E8.SendChatMessage_521060(textW, -1);
+            SetDlgItemTextA(hDlg, 1053, "");
+            pThis->AppendChatMessage_51B4F0(1051, chatText);
+            break;
+        }
+
+        case 1036:
+            switch (notify)
+            {
+                case CBN_SELCHANGE:
+                {
+                    Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+                    s32 gameType = SendDlgItemMessageA(hDlg, 1036, CB_GETCURSEL, 0, 0) + 1;
+                    pThis->SetSetting_51B9C0(3, gameType);
+                    pThis->SetFragsNumberAndLabel_51CDC0(gameType, pThis->field_20088_game_settings.field_20194_frag_limit, hDlg);
+                    break;
+                }
+            }
+            break;
+
+        case 1059:
+            if (notify == EN_CHANGE)
+            {
+                GetDlgItemTextA(hDlg, 1059, chatText, 127);
+                if (strlen(chatText))
+                {
+                    sscanf(chatText, "%d", &value);
+                    Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+                    pThis->SetSetting_51B9C0(2, value);
+                }
+            }
+            break;
+
+        case 1027:
+        {
+            LRESULT state = SendDlgItemMessageA(hDlg, 1027, BM_GETCHECK, 0, 0);
+            Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+            if ((state & 3) == BST_CHECKED)
+            {
+                pThis->SetSetting_51B9C0(6, 1);
+            }
+            else
+            {
+                pThis->SetSetting_51B9C0(6, 0);
+            }
+            break;
+        }
+
+        case 1031:
+            if (notify == 4)
+            {
+                MessageBoxA(0, "Not implemented", "", 0);
+            }
+            break;
+
+        case 1038:
+            if (notify == EN_CHANGE)
+            {
+                GetDlgItemTextA(hDlg, 1038, chatText, 127);
+                if (strlen(chatText))
+                {
+                    sscanf(chatText, "%d", &value);
+                    Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
+                    pThis->SetSetting_51B9C0(7, value);
+                }
+            }
+            break;
+    }
 }
 
 MATCH_FUNC(0x51a9d0)
@@ -382,12 +754,49 @@ void Network_20324::ClearTreeView_51AE20(s32 nIDDlgItem)
     }
 }
 
-STUB_FUNC(0x51ae50)
-s32 Network_20324::cb_sub_51AE50(s32 a1, wchar_t* Source)
+#pragma warning(push)
+#pragma warning(disable : 4715) // not all control paths return a value
+MATCH_FUNC(0x51ae50)
+s32 Network_20324::cb_SetPlayerPing_51AE50(Network_20324* pNetUi, Network_PlayerPing* pPing)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    LVFINDINFOA findInfo;
+    LVITEMA item;
+    char_type pingText[260];
+    char_type name[260];
+
+    wcstombs(name, pPing->field_0_name, 260u);
+
+    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    {
+        case 1:
+        {
+            memset(&findInfo, 0, sizeof(findInfo));
+            sprintf(pingText, "%d", pPing->field_208_avg_ping);
+            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1024);
+            findInfo.flags = LVFI_STRING;
+            findInfo.psz = name;
+            LRESULT idx = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
+            item.iSubItem = 1;
+            item.pszText = pingText;
+            return SendMessageA(hItem, LVM_SETITEMTEXTA, idx, (LPARAM)&item);
+        }
+
+        case 2:
+        {
+            memset(&findInfo, 0, sizeof(findInfo));
+            sprintf(pingText, "%d", pPing->field_208_avg_ping);
+            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+            findInfo.flags = LVFI_STRING;
+            findInfo.psz = name;
+            LRESULT idx = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
+            item.iSubItem = 1;
+            item.pszText = pingText;
+            return SendMessageA(hItem, LVM_SETITEMTEXTA, idx, (LPARAM)&item);
+        }
+    }
+    // No return here in the original either
 }
+#pragma warning(pop)
 
 MATCH_FUNC(0x51afa0)
 void Network_20324::PopulateMainUI_51AFA0()
@@ -426,7 +835,7 @@ void Network_20324::PopulateMainUI_51AFA0()
 
     for (u32 v5 = 0; v5 < field_1FD64_total_map_count; v5++)
     {
-        LRESULT v6 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)&field_4_maps[v5].field_30C_player_count);
+        LRESULT v6 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)field_4_maps[v5].field_30C_description);
         SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETITEMDATA, v6, v5);
     }
 
@@ -439,7 +848,7 @@ void Network_20324::PopulateMainUI_51AFA0()
     Network_20324::sub_51C830();
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
     SendDlgItemMessageA(field_202E0_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
-    Network_20324::sub_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514, field_202E0_dlg_hwnd);
+    Network_20324::sub_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_player_count, field_202E0_dlg_hwnd);
     Network_20324::SetPoliceEnabledCheckBox_51CCB0(field_20088_game_settings.field_201A0_police_on, field_202E0_dlg_hwnd);
     Network_20324::SetFragsNumberAndLabel_51CDC0(field_20088_game_settings.field_20198_game_type,
                                                  field_20088_game_settings.field_20194_frag_limit,
@@ -448,19 +857,150 @@ void Network_20324::PopulateMainUI_51AFA0()
     Network_20324::SetGameTimeLimitTextBox_51D3B0(field_20088_game_settings.field_201A4_game_time_limit, field_202E0_dlg_hwnd);
 }
 
-STUB_FUNC(0x51b2f0)
-LRESULT Network_20324::cb_sub_51B2F0(Network_20324* a1, wchar_t* Source)
+#pragma warning(push)
+#pragma warning(disable : 4715) // not all control paths return a value
+MATCH_FUNC(0x51b2f0)
+LRESULT Network_20324::cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_ChatMessage* pMsg)
 {
-    NOT_IMPLEMENTED;
-    return 0;
-}
+    char_type line[260];
+    char_type name[260];
+    char_type message[260];
+    char_type text[2048];
+    char_type newText[2048];
 
-STUB_FUNC(0x51b4f0)
-s32 Network_20324::AppendChatMessage_51B4F0(s32 a2, const char_type* a3)
-{
-    NOT_IMPLEMENTED;
-    return 0;
+    wcstombs(message, pMsg->field_0_message, 260u);
+    wcstombs(name, pMsg->field_100_name, 260u);
+    // TODO: the format strings are guesses (right sizes, contents unverified)
+    sprintf(line, "%s: %s", name, message);
+
+    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    {
+        case 1:
+        {
+            GetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1022, text, 0x7FF);
+            if (strlen(text))
+            {
+                sprintf(newText, "%s\r\n%s", text, line);
+            }
+            else
+            {
+                sprintf(newText, "%s", line);
+            }
+            SetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1022, newText);
+            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1022, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1022, EM_LINESCROLL, 0, lineCount);
+        }
+
+        case 2:
+        {
+            GetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1051, text, 0x7FF);
+            if (strlen(text))
+            {
+                sprintf(newText, "%s\r\n%s", text, line);
+            }
+            else
+            {
+                sprintf(newText, "%s", line);
+            }
+            SetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1051, newText);
+            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1051, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1051, EM_LINESCROLL, 0, lineCount);
+        }
+    }
+    // No return here in the original either
 }
+#pragma warning(pop)
+
+#pragma warning(push)
+#pragma warning(disable : 4715) // not all control paths return a value
+#pragma warning(disable : 4700) // name is never filled in, as in the original
+MATCH_FUNC(0x51b4f0)
+s32 Network_20324::AppendChatMessage_51B4F0(s32 a2, const char_type* pMsg)
+{
+    char_type line[260];
+    char_type name[260];
+    char_type newText[2048];
+    char_type text[2048];
+    wchar_t playerName[260];
+    char_type allText[10000];
+
+    // The original gets our name as a wide string but then formats with the (unset) narrow buffer
+    gNetPlay_7071E8.GetPlayerName_521100(playerName, 7);
+    // TODO: the format string is a guess, only code is compared
+    sprintf(line, "%s: %s", name, pMsg);
+    gChatLineCount_6F8A2C++;
+
+    switch (field_202D4_showing_specific_window_idx)
+    {
+        case 2:
+        {
+            if (gChatLineCount_6F8A2C >= 20)
+            {
+                // Keep only the last 10 lines
+                gChatLineCount_6F8A2C = 10;
+                s32 pos = GetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1051), allText, sizeof(allText));
+                s32 lines = 0;
+                while (pos > 0 && lines < 10)
+                {
+                    if (allText[pos] == '\n')
+                    {
+                        lines++;
+                    }
+                    pos--;
+                }
+                SetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1051), &allText[pos]);
+            }
+
+            GetDlgItemTextA(Get_202E0_HWND_519E20(), 1051, text, 0x7FF);
+            if (strlen(text))
+            {
+                sprintf(newText, "%s\r\n%s", text, line);
+            }
+            else
+            {
+                sprintf(newText, "%s", line);
+            }
+            SetDlgItemTextA(Get_202E0_HWND_519E20(), 1051, newText);
+            LRESULT lineCount = SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1051, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1051, EM_LINESCROLL, 0, lineCount);
+        }
+
+        case 1:
+        {
+            if (gChatLineCount_6F8A2C >= 20)
+            {
+                // Keep only the last 10 lines
+                gChatLineCount_6F8A2C = 10;
+                s32 pos = GetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1022), allText, sizeof(allText));
+                s32 lines = 0;
+                while (pos > 0 && lines < 10)
+                {
+                    if (allText[pos] == '\n')
+                    {
+                        lines++;
+                    }
+                    pos--;
+                }
+                SetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1022), &allText[pos]);
+            }
+
+            GetDlgItemTextA(Get_202E0_HWND_519E20(), 1022, text, 0x7FF);
+            if (strlen(text))
+            {
+                sprintf(newText, "%s\r\n%s", text, line);
+            }
+            else
+            {
+                sprintf(newText, "%s", line);
+            }
+            SetDlgItemTextA(Get_202E0_HWND_519E20(), 1022, newText);
+            LRESULT lineCount = SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1022, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1022, EM_LINESCROLL, 0, lineCount);
+        }
+    }
+    // No return here in the original either
+}
+#pragma warning(pop)
 
 MATCH_FUNC(0x51b7c0)
 void Network_20324::SetPlayerNameText_51B7C0()
@@ -476,22 +1016,153 @@ void Network_20324::cb_sub_51B7E0(Network_20324* a1, const char_type** a2)
     const char_type* v2 = *a2;
     if (a1->Get_202D4_active_control_idx_51ACC0() == 2)
     {
-        a1->sub_51B810(v2);
+        a1->ApplyHostGameSettings_51B810(v2);
     }
 }
 
-STUB_FUNC(0x51b810)
-void Network_20324::sub_51B810(const char_type* a2)
+#pragma warning(push)
+#pragma warning(disable : 4701) // pSpeedText is used uninitialised for an unknown speed, as in the original
+MATCH_FUNC(0x51b810)
+void Network_20324::ApplyHostGameSettings_51B810(const char_type* a2)
 {
-    NOT_IMPLEMENTED;
-}
+    char_type msg[520];
+    wchar_t wmsg[520];
+    char_type* pSpeedText;
 
-STUB_FUNC(0x51b9c0)
-s32 Network_20324::SetSetting_51B9C0(s32 a2, char_type* Data)
-{
-    NOT_IMPLEMENTED;
-    return 0;
+    const NetworkGameSettings* pSettings = (const NetworkGameSettings*)a2;
+    if (pSettings)
+    {
+        field_20088_game_settings = *pSettings;
+
+        u32 i = 0;
+        while (1)
+        {
+            if (i >= field_1FD64_total_map_count)
+            {
+                break;
+            }
+
+            if (!strcmp(field_4_maps[i].field_410_mmp_name, pSettings->field_20088_default_map))
+            {
+                field_20088_game_settings = *pSettings;
+                field_20088_game_settings.field_2018C_map_idx = i;
+                SetDlgItemTextA(field_202E0_dlg_hwnd, UNKNOWN_PLAYER_COUNT_1054, field_4_maps[i].field_30C_description);
+                // A found flag, an i >= count check after the loop or a break all change the code
+                goto map_done;
+            }
+            i++;
+        }
+
+        // TODO: the format string is a guess (probably a "map not found" message), only code is compared
+        sprintf(msg, "%s", pSettings->field_20088_default_map);
+        GetString_519A50(wmsg, msg, 260);
+        gNetPlay_7071E8.SendChatMessage_521060(wmsg, -1);
+        AppendChatMessage_51B4F0(1022, msg);
+
+    map_done:
+        switch (pSettings->field_20190_game_speed)
+        {
+            case 2:
+                pSpeedText = GetString_519A00("netui12");
+                break;
+            case 1:
+                pSpeedText = GetString_519A00("netui11");
+                break;
+            case 0:
+                pSpeedText = GetString_519A00("netui10");
+                break;
+        }
+        SetDlgItemTextA(field_202E0_dlg_hwnd, LABLE_GAME_SPEED_1055, pSpeedText);
+
+        SetJoinedGamePoliceEnabledText_51CD30(field_20088_game_settings.field_201A0_police_on, field_202E0_dlg_hwnd);
+        SetJoinedGameTypeAndFragLimitText_51D0C0(field_20088_game_settings.field_20198_game_type,
+                                                 field_20088_game_settings.field_20194_frag_limit,
+                                                 field_202E0_dlg_hwnd);
+        SetJoinedGameTimeLimitText_51D2F0(field_20088_game_settings.field_201A4_game_time_limit, field_202E0_dlg_hwnd);
+    }
 }
+#pragma warning(pop)
+
+#pragma warning(push)
+#pragma warning(disable : 4701) // pSpeedText is used uninitialised for an unknown speed, as in the original
+MATCH_FUNC(0x51b9c0)
+void Network_20324::SetSetting_51B9C0(s32 setting, s32 value)
+{
+    Network_8 data;
+    char_type* pSpeedText;
+
+    switch (setting)
+    {
+        case 1:
+            field_20088_game_settings.field_2018C_map_idx = value;
+            strcpy(field_20088_game_settings.field_20088_default_map, field_4_maps[value].field_410_mmp_name);
+            sub_51CB30(field_4_maps[value].field_514_player_count, field_202E0_dlg_hwnd);
+            gRegistry_6FF968.Set_Network_Setting_587730("map_index", value);
+            break;
+
+        case 2:
+            field_20088_game_settings.field_20194_frag_limit = value;
+            if (field_20088_game_settings.field_20198_game_type == 1)
+            {
+                gRegistry_6FF968.Set_Network_Setting_587730("f_limit", value);
+            }
+            else if (field_20088_game_settings.field_20198_game_type == 2)
+            {
+                gRegistry_6FF968.Set_Network_Setting_587730("s_limit", value);
+            }
+            break;
+
+        case 3:
+            field_20088_game_settings.field_20198_game_type = value;
+            gRegistry_6FF968.Set_Network_Setting_587730("game_type", value);
+            if (field_20088_game_settings.field_20198_game_type == 1)
+            {
+                field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Set_Network_Setting_587690("f_limit", 3);
+            }
+            else if (field_20088_game_settings.field_20198_game_type == 2)
+            {
+                field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Set_Network_Setting_587690("s_limit", 10000);
+            }
+            break;
+
+        case 4:
+            field_20088_game_settings.field_201A0_police_on = value;
+            gRegistry_6FF968.Set_Network_Setting_587730("police", value);
+            break;
+
+        case 6:
+            field_20088_game_settings.field_2019C_tick_count = value;
+            break;
+
+        case 5:
+            field_20088_game_settings.field_20190_game_speed = value;
+            switch (value)
+            {
+                case 2:
+                    pSpeedText = GetString_519A00("netui12");
+                    break;
+                case 1:
+                    pSpeedText = GetString_519A00("netui11");
+                    break;
+                case 0:
+                    pSpeedText = GetString_519A00("netui10");
+                    break;
+            }
+            SetDlgItemTextA(field_202E0_dlg_hwnd, LABEL_GAME_SPEED_TEXT_1032, pSpeedText);
+            gRegistry_6FF968.Set_Network_Setting_587730("game_speed", value);
+            break;
+
+        case 7:
+            field_20088_game_settings.field_201A4_game_time_limit = value;
+            gRegistry_6FF968.Set_Network_Setting_587730("game_time_limit", value);
+            break;
+    }
+
+    data.field_0 = &field_20088_game_settings;
+    data.field_4_len = sizeof(field_20088_game_settings);
+    gNetPlay_7071E8.sub_521170(&data);
+}
+#pragma warning(pop)
 
 MATCH_FUNC(0x51bbc0)
 void Network_20324::sub_51BBC0()
@@ -642,13 +1313,16 @@ void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3)
 }
 
 // https://decomp.me/scratch/tQkqa
+// Stack slot order differs, see docs/match_attempts.md
 WIP_FUNC(0x51bfa0)
-void Network_20324::sub_51BFA0()
+void Network_20324::EnumerateMaps_51BFA0()
 {
     WIP_IMPLEMENTED;
+
     CHAR FileName[260];
-    Network_Enumerated_Map enumerated_mmp_name[99];
     _WIN32_FIND_DATAA findFileData;
+    Network_Enumerated_Map tmp;
+    Network_Enumerated_Map maps[100];
 
     memset(&findFileData, 0, sizeof(findFileData));
     strcpy(FileName, "data\\");
@@ -656,92 +1330,85 @@ void Network_20324::sub_51BFA0()
 
     u32 map_count = 0;
     HANDLE hFindFile = FindFirstFileA(FileName, &findFileData);
-    if (hFindFile != (HANDLE)-1)
+    if (hFindFile != INVALID_HANDLE_VALUE)
     {
         map_count = 1;
-        strcpy(enumerated_mmp_name[0].field_0_map_name, findFileData.cFileName);
-        for (; FindNextFileA(hFindFile, &findFileData); map_count += 1)
+        strcpy(maps[0].field_410_mmp_name, findFileData.cFileName);
+        Network_Enumerated_Map* pIter = &maps[1];
+        while (FindNextFileA(hFindFile, &findFileData))
         {
-            //pIter = &enumerated_mmp_name[map_count];
             if (map_count >= 100)
             {
                 break;
             }
-            //pIter++;
-            strcpy(enumerated_mmp_name[map_count + 1].field_0_map_name, findFileData.cFileName);
+            strcpy(pIter->field_410_mmp_name, findFileData.cFileName);
+            pIter++;
+            map_count++;
         }
         FindClose(hFindFile);
     }
 
-    if (map_count > 0)
+    Network_Enumerated_Map* pOutIter = field_4_maps;
+    for (u32 i = 0; i < map_count; i++)
     {
-        Network_Enumerated_Map* pEnumedMapEntryIter = field_4_maps;
-        for (u32 i = 0; i < map_count; i++)
-        {
-            //Network_Enumerated_Map* pTmpRecord = &enumerated_mmp_name[i];
-            strcpy(FileName, "data\\");
-            strcat(FileName, (const char*)enumerated_mmp_name[i].field_0_map_name); //  (pTmpRecord + 0x208)
-            GetPrivateProfileStringA("MapFiles", "GMPFile", "", (LPSTR)(enumerated_mmp_name[i].field_0_map_name), 0x103u, FileName);
-            GetPrivateProfileStringA("MapFiles", "STYFile", "", (LPSTR)(enumerated_mmp_name[i].field_104_style_name), 0x103u, FileName);
-            GetPrivateProfileStringA("MapFiles", "SCRFile", "", (LPSTR)(enumerated_mmp_name[i].field_208_script_name), 0x103u, FileName);
-            GetPrivateProfileStringA("MapFiles",
-                                     "Description",
-                                     "",
-                                     (LPSTR)(enumerated_mmp_name[i].field_310_maybe_description),
-                                     0x103u,
-                                     FileName);
-            GetPrivateProfileStringA("MapFiles", "PlayerCount", "", (LPSTR)(gTmpBuffer_67C598), 0x103u, FileName);
-            enumerated_mmp_name[i].field_514 = atoi(gTmpBuffer_67C598);
+        strcpy(FileName, "data\\");
+        strcat(FileName, maps[i].field_410_mmp_name);
+        GetPrivateProfileStringA("MapFiles", "GMPFile", "", maps[i].field_0_map_name, 0x103u, FileName);
+        GetPrivateProfileStringA("MapFiles", "STYFile", "", maps[i].field_104_style_name, 0x103u, FileName);
+        GetPrivateProfileStringA("MapFiles", "SCRFile", "", maps[i].field_208_script_name, 0x103u, FileName);
+        GetPrivateProfileStringA("MapFiles", "Description", "", maps[i].field_30C_description, 0x103u, FileName);
+        GetPrivateProfileStringA("MapFiles", "PlayerCount", "", gTmpBuffer_67C598, 2u, FileName);
+        maps[i].field_514_player_count = atoi(gTmpBuffer_67C598);
 
-            // Now check if the map exists
-            _chdir("data");
-            if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_0_map_name) == -1)
+        // Only keep maps whose files all exist
+        _chdir("data");
+        if (GetFileAttributesA(maps[i].field_0_map_name) != -1)
+        {
+            if (GetFileAttributesA(maps[i].field_104_style_name) != -1)
             {
-                Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_0_map_name);
-            }
-            else if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_104_style_name) == -1)
-            {
-                Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_104_style_name);
-            }
-            else
-            {
-                if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_208_script_name) != -1)
+                if (GetFileAttributesA(maps[i].field_208_script_name) != -1)
                 {
-                    OutputDebugStringA(pEnumedMapEntryIter->field_0_map_name);
-                    memcpy(&field_4_maps[field_1FD64_total_map_count], &enumerated_mmp_name[i], sizeof(Network_Enumerated_Map));
+                    OutputDebugStringA(pOutIter->field_0_map_name);
+                    memcpy(&field_4_maps[field_1FD64_total_map_count], &maps[i], sizeof(Network_Enumerated_Map));
                     field_1FD64_total_map_count++;
                 }
                 else
                 {
-                    Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name,
-                                              enumerated_mmp_name[i].field_208_script_name);
+                    Network_20324::sub_51CAD0(maps[i].field_410_mmp_name, maps[i].field_208_script_name);
                 }
             }
-
-            _chdir("..");
-            //pTmpRecord++;
+            else
+            {
+                Network_20324::sub_51CAD0(maps[i].field_410_mmp_name, maps[i].field_104_style_name);
+            }
         }
+        else
+        {
+            Network_20324::sub_51CAD0(maps[i].field_410_mmp_name, maps[i].field_0_map_name);
+        }
+        _chdir("..");
+        pOutIter++;
     }
 
+    // Bubble sort by description
     if (map_count > 0)
     {
-        Network_Enumerated_Map TmpEnum;
-        bool bContinue;
-
-        do //for (u32 j = 0; j < map_count; j++)
+        u32 last = map_count - 1;
+        s32 bSwapped;
+        do
         {
-            bContinue = false;
-            for (u16 j = 0; j < map_count - 1; j++)
+            bSwapped = 0;
+            for (u16 j = 0; j < last; j++)
             {
-                if (_strcmpi(field_4_maps[j].field_310_maybe_description, field_4_maps[j + 1].field_310_maybe_description) > 0)
+                if (_strcmpi(field_4_maps[j].field_30C_description, field_4_maps[j + 1].field_30C_description) > 0)
                 {
-                    memcpy(&TmpEnum, &field_4_maps, sizeof(Network_Enumerated_Map));
-                    memcpy(&field_4_maps, &field_4_maps[j + 1], sizeof(Network_Enumerated_Map));
-                    memcpy(&field_4_maps[j + 1], &TmpEnum, sizeof(Network_Enumerated_Map));
-                    bContinue = true;
+                    memcpy(&tmp, &field_4_maps[j], sizeof(Network_Enumerated_Map));
+                    memcpy(&field_4_maps[j], &field_4_maps[j + 1], sizeof(Network_Enumerated_Map));
+                    memcpy(&field_4_maps[j + 1], &tmp, sizeof(Network_Enumerated_Map));
+                    bSwapped = 1;
                 }
             }
-        } while (bContinue == true);
+        } while (bSwapped == 1);
     }
 }
 
@@ -762,7 +1429,7 @@ void __stdcall Network_20324::OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 
             case 7:
             {
                 const int pos2 = SendDlgItemMessageA(hWnd, 1031, TBM_GETPOS, 0, 0);
-                pThis->SetSetting_51B9C0(5, (char*)pos2); // set game speed
+                pThis->SetSetting_51B9C0(5, (s32)pos2); // set game speed
             }
             break;
 
@@ -804,7 +1471,7 @@ void Network_20324::sub_51C830()
     }
 
     strcpy(field_20088_game_settings.field_20088_default_map,
-           field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_410_maybe_display_name);
+           field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_410_mmp_name);
 }
 
 MATCH_FUNC(0x51ca10)
@@ -845,7 +1512,7 @@ void Network_20324::sub_51CB30(s32 a1, HWND hDlg)
 MATCH_FUNC(0x51cbc0)
 void Network_20324::sub_51CBC0()
 {
-    if (Network_20324::GetCount_51BBD0() == field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514)
+    if (Network_20324::GetCount_51BBD0() == field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_player_count)
     {
         EnableWindow(GetDlgItem(Network_20324::Get_202E0_HWND_519E20(), 1021), true);
     }

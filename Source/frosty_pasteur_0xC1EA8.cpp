@@ -13,6 +13,7 @@
 #include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
+#include "miss2_0x11C.hpp"
 
 DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
 DEFINE_GLOBAL(SaveData_748, gGameSave_6F78C8, 0x6F78C8);
@@ -368,10 +369,12 @@ u16 frosty_pasteur_0xC1EA8::sub_512400(const char_type* String1, u16* a3)
 }
 
 // https://decomp.me/scratch/W4gXh
-STUB_FUNC(0x5121E0)
+// See docs/match_attempts.md
+WIP_FUNC(0x5121E0)
 void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
     u32 total_str_length = 0;
     BYTE* pStringDataIter1 = (BYTE*)field_1334C_strings;
     while (total_str_length < tableSize)
@@ -391,7 +394,7 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
     {
         //offset = 4;
         u32 total_str_length_ = 0;
-        u16 str_count = 0;
+        s32 str_count = 0;
 
         do
         {
@@ -725,6 +728,8 @@ void frosty_pasteur_0xC1EA8::sub_512BA0(s32 id, char_type bUnk)
             {
                 if ((pTable->field_6 & 4) == 4)
                 {
+                    // je clear; jmp next in the original: the shared tail needs a goto (duplicated
+                    // bodies, early continue/return and a combined condition all change the code)
                     goto clear;
                 }
                 continue;
@@ -761,6 +766,8 @@ void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, cha
                 {
                     if ((pTable->field_6 & 4) == 4)
                     {
+                        // je set; jmp next in the original: the shared tail needs a goto (duplicated
+                        // bodies, early continue/return and a combined condition all change the code)
                         goto set;
                     }
                     return;
@@ -890,8 +897,44 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     gStoredCarId_6F78B4 = 0;
 }
 
-STUB_FUNC(0x5130e0)
+MATCH_FUNC(0x5130e0)
 frosty_pasteur_0xC1EA8::~frosty_pasteur_0xC1EA8()
 {
-    NOT_IMPLEMENTED;
+    if (miss2_0x11C_Pool_6F8064)
+    {
+        GTA2_DELETE_AND_NULL(miss2_0x11C_Pool_6F8064);
+    }
+
+    if (field_13350_pStringTbl)
+    {
+        memset(field_13350_pStringTbl->field_4, 0, sizeof(field_13350_pStringTbl->field_4));
+        free(field_13350_pStringTbl);
+        field_13350_pStringTbl = NULL;
+    }
+
+    if (field_1334C_strings)
+    {
+        free(field_1334C_strings);
+        field_1334C_strings = NULL;
+    }
+
+    memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
+
+    if (gMiss2_25C_6F805C)
+    {
+        GTA2_DELETE_AND_NULL(gMiss2_25C_6F805C);
+    }
+
+    field_328_passed_flag = NULL;
+    field_32C_1_passed_flag = NULL;
+    field_330_2_passed_flag = NULL;
+    field_334_3_passed_flag = NULL;
+    field_340_car_list = NULL;
+    field_338_secrets_passed = NULL;
+    field_33C_secrets_failed = NULL;
+    field_348_gang_1_mission_flag = NULL;
+    field_34C_gang_2_mission_flag = NULL;
+    field_350_gang_3_mission_flag = NULL;
+    gStoredCarId_6F78B4 = 0;
+    gStoredCar_6F7560 = NULL;
 }

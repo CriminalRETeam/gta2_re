@@ -366,7 +366,7 @@ class Car_BC
     EXPORT char_type GetRemap();
     EXPORT void sub_43B380();
     EXPORT void sub_43B3D0();
-    EXPORT s32 sub_43B420(s32 a2, u32* a3, u32* a4);
+    EXPORT void GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos);
     EXPORT bool sub_43B540(u8 targetDoor);
     EXPORT void GetDoorWorldPosition_43B5A0(u8 targetDoor, Fix16* pOutX, Fix16* pOutY);
     EXPORT char_type IsOnScreenForAnyPlayer_43B730();
@@ -445,7 +445,7 @@ class Car_BC
     EXPORT void UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_441520();
     EXPORT void UpdateBrakeLights_4415C0();
-    EXPORT u32* sub_441600(u32* a2);
+    EXPORT Fix16_Rect NoRefs_441600();
     EXPORT void sub_4416D0(s32 a2);
     EXPORT void sub_4417D0();
     EXPORT void sub_4417F0();

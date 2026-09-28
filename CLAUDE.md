@@ -135,6 +135,25 @@ patterns found so far (case layout, branch order, signedness, thunks, inline asm
 verifier's blind spots, and which near misses are still unexplained, each with an example
 function. When you find a new pattern, add it there rather than here.
 
+Two things to try early when a function is close but won't match:
+
+- **Fix the structures.** Recover missing structs, or change existing field types and
+  layouts, when the asm says they're wrong: wrong offsets, a struct copy where there are
+  two field copies, unsigned compares on a signed field. Change them only if the result
+  still makes sense for the other users, and run `compare_builds.py` afterwards, since
+  a shared header change can move code in many functions.
+- **Suspect inlining.** Odd register use, a repeated address calculation or an extra
+  local often comes from an inline function or method in the original, not from how the
+  expression is written. Inlining decisions also depend on what VC6 has already seen in
+  the TU, such as include order and definition order (see the `cSampleManager.hpp` include
+  order and inlining notes in `docs/matching_quirks.md`).
+
+**Avoid `goto` where possible.** VC6 block layout can often be forced with a `goto`, but
+the result reads badly and is rarely what the original source did. First try restructuring:
+invert or reorder conditions, `if/else` vs early `return`, a loop form, a `switch`, or an
+inline helper. Use `goto` only when it seems likely the original used one too, for example a
+shared cleanup or failure block that several checks jump to, and say why in a comment.
+
 ## Figuring out why a function doesn't match
 
 Prefer **objdiff** to the Python asm dumps. It diffs at the object level with relocations

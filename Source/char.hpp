@@ -258,6 +258,16 @@ class Char_B4
     EXPORT Fix16_Point sub_545580();
     EXPORT void SetRemap_46DD50(u8 remap);
 
+    // Inlined copy of SetRemap_46DD50
+    inline void SetRemap_Inline(u8 remap)
+    {
+        this->field_5_remap = remap;
+        if (remap != 0xFF)
+        {
+            field_80_sprite_ptr->SetRemap(remap);
+        }
+    }
+
     EXPORT void RemoveFireSprites_5454B0();
     EXPORT void DoJump_5454D0();
     EXPORT void Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);

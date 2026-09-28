@@ -535,12 +535,43 @@ void RouteFinder::sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos
     }
 }
 
-STUB_FUNC(0x589210)
-s32 RouteFinder::sub_589210(char_type a2, char_type a3, s32 a4, char_type a5, s32 a6, u16 a7)
+// dx/dy are uninitialised for a direction that isn't 1, 2, 4 or 8, as in the original
+#pragma warning(push)
+#pragma warning(disable : 4701)
+WIP_FUNC(0x589210)
+s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Junction_10* pJunction = &field_8[junction_idx];
+    s32 dy;
+    s32 dx;
+    switch (direction)
+    {
+        case 1:
+            dy = -1;
+            dx = 0;
+            break;
+        case 2:
+            dy = 1;
+            dx = 0;
+            break;
+        case 8:
+            dy = 0;
+            dx = 1;
+            break;
+        case 4:
+            dy = 0;
+            dx = -1;
+            break;
+    }
+
+    s32 result = 0;
+    if (pJunction->ContainsPoint((u8)(x + dx), (u8)(y + dy)))
+    {
+        result = 1;
+    }
+    return result;
 }
+#pragma warning(pop)
 
 WIP_FUNC(0x5892f0)
 RouteFinder_10* RouteFinder::sub_5892F0(RouteFinder_10* a2, u16 idx, s16 a4)
@@ -680,11 +711,38 @@ u16 RouteFinder::sub_589990(RouteFinder_10* a2, u16 a3, s16 a4)
     return puVar1->field_0_idx;
 }
 
-STUB_FUNC(0x5899c0)
-bool RouteFinder::sub_5899C0(RouteFinder_10* a2, s32 a3)
+// Returns true if a neighbour of the node's junction that hasn't been visited yet completes the route
+MATCH_FUNC(0x5899c0)
+bool RouteFinder::sub_5899C0(RouteFinder_10* pNode, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Junction_10* pJunction = &field_8[pNode->field_0_idx];
+    u16 north = pJunction->field_0_n.GetIndex_0040CE90();
+    u16 west = pJunction->field_6_w.GetIndex_0040CE90();
+    u16 south = pJunction->field_2_s.GetIndex_0040CE90();
+    u16 east = pJunction->field_4_e.GetIndex_0040CE90();
+    pNode->field_4 = 1;
+
+    if (!field_CA40[north] && pJunction->field_0_n.IsEnabled() && field_8[north].sub_588580(a3) &&
+        sub_589990(pNode, north, pJunction->field_0_n.GetLength()) == field_861A)
+    {
+        return true;
+    }
+    if (!field_CA40[south] && pJunction->field_2_s.IsEnabled() && field_8[south].sub_588580(a3) &&
+        sub_589990(pNode, south, pJunction->field_2_s.GetLength()) == field_861A)
+    {
+        return true;
+    }
+    if (!field_CA40[west] && pJunction->field_6_w.IsEnabled() && field_8[west].sub_588580(a3) &&
+        sub_589990(pNode, west, pJunction->field_6_w.GetLength()) == field_861A)
+    {
+        return true;
+    }
+    if (!field_CA40[east] && pJunction->field_4_e.IsEnabled() && field_8[east].sub_588580(a3) &&
+        sub_589990(pNode, east, pJunction->field_4_e.GetLength()) == field_861A)
+    {
+        return true;
+    }
+    return false;
 }
 
 STUB_FUNC(0x589bb0)

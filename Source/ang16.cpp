@@ -63,11 +63,9 @@ Ang16* Ang16::sub_409300(Ang16& input, s32 a3)
 }
 
 MATCH_FUNC(0x409340)
-Ang16* Ang16::sub_409340(Ang16* pRet, Ang16* toSub)
+Ang16 Ang16::sub_409340(const Ang16& toSub)
 {
-    pRet->rValue = rValue - toSub->rValue;
-    pRet->Normalize();
-    return pRet;
+    return Ang16(rValue - toSub.rValue, (u8)0);
 }
 
 MATCH_FUNC(0x4516B0)

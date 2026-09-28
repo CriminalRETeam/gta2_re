@@ -38,7 +38,7 @@ class Ped
     EXPORT void sub_45B550();
     EXPORT void sub_45B560(Player* a2, char_type a3);
     EXPORT bool sub_45B590();
-    EXPORT s32 CopyStatsFromPed_45B5B0(s32 a2);
+    EXPORT s32 CopyStatsFromPed_45B5B0(Ped* pSrc);
     EXPORT Car_BC* GetCarBeingEnteredOrExited_45BBF0();
     EXPORT void TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos);
     EXPORT void ManageShocking_45BC70();
@@ -553,6 +553,11 @@ class Ped
     bool bHasGameObject_403B70()
     {
         return field_168_game_object != NULL;
+    }
+
+    inline u8 GetBit2()
+    {
+        return field_21C_bf.b2;
     }
 
     inline u8 GetBit11_433CA0()
