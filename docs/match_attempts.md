@@ -425,3 +425,17 @@ original).
 
 Tried: one `u8 i` shared by all three loops (no change); separate block-scoped counters
 declared counter first (no change).
+
+## Frontend::sub_4B7E10 (WIP)
+
+Draws one of 12 frontend key labels (`Find_5B5F90` keys, the last four prefixed with ": "),
+with `DrawText_4B87A0` or, if `palette != 0xFFFF`, the paletted `DrawText_5D8A10`, and
+returns `GetMaxTextWidth_5D8990`. It's a static `__stdcall` (5 args, no `this`), despite the
+old note in `Frontend.cpp` saying it isn't static. Writing each case out in full gives the
+original's shared `push key; jmp common` tails. The `Fix16` x/y arguments are built by the
+out-of-line `Fix16(u16)` constructor in both our build and the original.
+
+Ratio 0.981. Left: in both branches the original loads `text_xpos` before the `push ecx`
+that reserves its argument slot, and we load it after.
+
+Tried: `text_xpos` as `s32` with a `(u16)` cast at the calls (no change).
