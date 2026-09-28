@@ -123,7 +123,9 @@ Tried (0.690 unless noted):
 - `char_type keep_alive[1]` set before the `memset` (0.357).
 
 What fixed the similar `Send_521DB0` was declaring the payload struct first and filling it
-in before the `memset`. That doesn't work for a plain `char_type`.
+in before the `memset`. That doesn't work for a plain `char_type`. What fixed `Send_51EF60`
+was putting the payload's `memset` after the header stores. The equivalent here,
+`keep_alive = 2` after the `field_D` store, gives 0.619.
 
 ## NetPlay::sub_520040 (WIP)
 
