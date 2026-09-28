@@ -18,6 +18,14 @@ class PacketHeader
     s32 field_4_sub_type;
 };
 
+class Packet_Ping_C
+{
+  public:
+    s32 field_0_player_id;
+    s32 field_4;
+    s32 field_8_time;
+};
+
 class Packet_Byte_S32
 {
   public:

@@ -415,11 +415,26 @@ void NetPlay::NetworkTick_51ED00()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x51ef60)
+MATCH_FUNC(0x51ef60)
 s32 NetPlay::Send_51EF60()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u32 dataLen;
+    s32 pData;
+    Packet_Ping_C ping;
+    Packet_SubType_3 pStru;
+
+    memset(&pStru, 0, sizeof(pStru));
+    pStru.header.field_0_type = 1;
+    pStru.header.field_4_sub_type = 1;
+    pStru.field_9 = 1;
+    pStru.field_8 = 0;
+    pStru.field_D = (s32)&ping;
+    pStru.field_11_len = sizeof(ping);
+    memset(&ping, 0, sizeof(ping));
+    ping.field_0_player_id = field_5D8_player_id;
+    ping.field_8_time = timeGetTime();
+    NetPlay::MakeSendData_51F420(&pStru, &pData, &dataLen);
+    return field_5E4_pDPlay3->Send(field_5D8_player_id, field_758_n2.field_0_group_id, 0, (void*)pData, dataLen);
 }
 
 WIP_FUNC(0x51f010)
