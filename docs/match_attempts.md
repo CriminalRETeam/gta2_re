@@ -393,3 +393,19 @@ doesn't happen.
 
 Tried: splitting the `FindGroundZ` call and `.ToUInt8()` into two statements (0.367);
 `x` as `s32` so it uses `Fix16(s32)` (0.367).
+
+## Car_BC::GetDoorWorldPos_43B420 (WIP, was sub_43B420)
+
+World position of door `door_idx`: the door offset from `get_car_remap_5AA3D0` (+1 skips
+`num_doors`, then `door_info[]`), turned into `Fix16` with `dword_6F6850.sub_41FE70`,
+rotated by the sprite angle and added to the sprite position.
+
+Ratio 0.564. The first rotated coordinate uses the inline `Fix16 operator*` (`__allshr`) and
+computes `sin * door_y` first. The second calls the out-of-line `Multiply_408680` twice and
+the out-of-line `operator+` (0x408660). Tracing the arguments gives
+`(-door_x).Multiply(sin_copy) + door_y.Multiply(cos_copy)`, with the right-hand side done
+first and copies of sin/cos made into temporaries (cos into the `door_idx` arg slot).
+
+Tried: `sin`/`cos` locals (0.411/0.464, depending on the operand order of the first sum);
+`Ang16::sine_40F500`/`cosine_40F520` at every use (0.564); the traced operand order for the
+second sum (0.553).

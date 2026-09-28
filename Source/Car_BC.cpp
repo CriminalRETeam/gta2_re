@@ -2350,11 +2350,19 @@ void Car_BC::sub_43B3D0()
     }
 }
 
-STUB_FUNC(0x43b420)
-s32 Car_BC::sub_43B420(s32 a2, u32* a3, u32* a4)
+WIP_FUNC(0x43b420)
+void Car_BC::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    door_info* pDoor = (door_info*)(gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx) + 1) + door_idx;
+    Fix16 door_x = dword_6F6850.sub_41FE70(pDoor->rx);
+    Fix16 door_y = dword_6F6850.sub_41FE70(pDoor->ry);
+
+    Ang16 angle = field_50_car_sprite->field_0;
+    Fix16 x_off = Ang16::cosine_40F520(angle) * door_x + Ang16::sine_40F500(angle) * door_y;
+    Fix16 y_off = door_y.Multiply_408680(Ang16::cosine_40F520(angle)) + (-door_x).Multiply_408680(Ang16::sine_40F500(angle));
+
+    *pXPos = field_50_car_sprite->field_14_xy.x + x_off;
+    *pYPos = field_50_car_sprite->field_14_xy.y + y_off;
 }
 
 MATCH_FUNC(0x43B540)
