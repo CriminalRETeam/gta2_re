@@ -226,7 +226,7 @@ struct NetPlay
     EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
     EXPORT s32 GetMaxPlayers_521350();
     EXPORT void Send_521370();
-    EXPORT bool sub_5213E0();
+    EXPORT bool WaitForPlayersSync_5213E0();
     EXPORT s32 CopyConnection_5215B0(u32 a2, u32* a3, size_t* a4);
     EXPORT s32 SendToPlayer_521630(Network_8* pSendData, s32 idx, char_type a4);
     EXPORT void Add_5216E0(Network_8* pData, s32 id, char_type type);

@@ -67,6 +67,7 @@ DEFINE_GLOBAL(Network_Unknown_0x30, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO
 DEFINE_GLOBAL(Network_Unknown_0x30, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
 DEFINE_GLOBAL(Network_InputData_0x8*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: move
 DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
+DEFINE_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20, 0x6F58E0); // TODO: move
 DEFINE_GLOBAL(u32, gTotalNetworkTime_6F5980, 0x6F5980); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F573C, 0x6F573C); // TODO: move
 DEFINE_GLOBAL(s32, gHudTimerIdx_6F5860, 0x6F5860); // TODO: move
@@ -1029,6 +1030,19 @@ void __stdcall Draw_4DA7B0()
 
 STUB_FUNC(0x4DA9F0)
 EXPORT void Net_4DA9F0()
+{
+    NOT_IMPLEMENTED;
+}
+
+// Fills in the sync check data that is compared between players at the start of a network game
+STUB_FUNC(0x4DB2E0)
+EXPORT void __stdcall sub_4DB2E0(u8* pSyncData)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4DB440)
+EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemoteSyncData)
 {
     NOT_IMPLEMENTED;
 }
@@ -2030,7 +2044,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         else
         {
             InitializeGame_4DA4D0();
-            if (bStartNetworkGame_7081F0 && !gNetPlay_7071E8.sub_5213E0())
+            if (bStartNetworkGame_7081F0 && !gNetPlay_7071E8.WaitForPlayersSync_5213E0())
             {
                 CoUninitialize();
                 return 0;

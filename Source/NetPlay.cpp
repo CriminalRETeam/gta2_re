@@ -4,6 +4,7 @@
 #include "debug.hpp"
 #include "enums.hpp"
 #include "error.hpp"
+#include "winmain.hpp"
 
 DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8, 0x7071E8);
 DEFINE_GLOBAL(GUID, kGta2_DP_Guid_5FE928, 0x5FE928);
@@ -1550,11 +1551,81 @@ void NetPlay::Send_521370()
     field_5E4_pDPlay3->Send(field_5D8_player_id, 0, 0, (void*)pData, pDataLen);
 }
 
-STUB_FUNC(0x5213e0)
-bool NetPlay::sub_5213E0()
+// Return block order differs, see docs/match_attempts.md
+WIP_FUNC(0x5213e0)
+bool NetPlay::WaitForPlayersSync_5213E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    unsigned long senderId;
+    s32 pData;
+    DWORD startTime;
+    unsigned long recvId;
+    s32 dataLen;
+
+    startTime = timeGetTime();
+    bool bTimedOut = false;
+    sub_4DB2E0(gSyncCheckData_6F58E0);
+    Send_521E40((s32)gSyncCheckData_6F58E0);
+    Send_521370();
+
+    // One bit per other player: waiting for their ack and for their sync data
+    u32 waitingForAck = 0;
+    u32 waitingForSync = 0;
+    for (u32 i = 0; i < 6; i++)
+    {
+        if (field_758_n2.field_10[i].field_0 && i != field_5D4_player_idx)
+        {
+            waitingForAck |= 1 << i;
+            waitingForSync |= 1 << i;
+        }
+    }
+
+    while (1)
+    {
+        if (!waitingForSync && !waitingForAck)
+        {
+            if (!bTimedOut)
+            {
+                return true;
+            }
+            goto failed;
+        }
+
+        if (bTimedOut)
+        {
+            goto failed;
+        }
+
+        if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
+        {
+            u8* pPacket = (u8*)pData;
+            if (pPacket[0] == 2)
+            {
+                u32 idx = IndexOf_520E30(senderId, &field_758_n2);
+                if (idx == 0xEEEEEEEE)
+                {
+                    goto failed;
+                }
+                waitingForAck &= ~(1 << idx);
+            }
+            else if (pPacket[0] == 1 && pPacket[3] == 2 && pPacket[5] == 5)
+            {
+                CompareRemotePlayers_4DB440(gSyncCheckData_6F58E0, pPacket + 5);
+                u32 idx = IndexOf_520E30(senderId, &field_758_n2);
+                if (idx == 0xEEEEEEEE)
+                {
+                    goto failed;
+                }
+                waitingForSync &= ~(1 << idx);
+            }
+        }
+        bTimedOut = timeGetTime() - startTime > 20000;
+        continue;
+
+    failed:
+        return false;
+    }
 }
 
 MATCH_FUNC(0x5215b0)

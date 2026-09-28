@@ -259,3 +259,26 @@ Tried:
 
 Also: the original has no code after the `FatalError_4A38C0` call in the default case.
 Check whether the original declared it `__declspec(noreturn)` somewhere.
+
+## NetPlay::WaitForPlayersSync_5213E0 (WIP)
+
+Ratio 0.903. Fills the sync check data (`sub_4DB2E0`, a new stub), sends it
+(`Send_521E40`) plus a type-4 packet (`Send_521370`), then loops on `Receive_51F010` until
+every other player has acked (type 2) and sent their sync data (type 1/2/5, checked by
+`CompareRemotePlayers_4DB440`, also a new stub) or 20 s pass.
+
+Everything matches except where the two final return blocks go. The original: after the
+loop `test %bl,%bl; je <return true>`, then the `return false` block (which the
+timeout check and the two `IndexOf` failures also jump to), then `return true` last.
+Ours always puts `return true` first and the shared `return false` at the end.
+
+Tried (all 0.903 or the plain `sete` version):
+- `if (bTimedOut) return false; return true;` (VC6 turns it into `sete`).
+- `if (bTimedOut) { failed: return false; } return true;` with the inner failures as
+  `goto failed`.
+- `if (!bTimedOut) goto succeeded; failed: return false; succeeded: return true;`
+- `if (!bTimedOut) return true; failed: return false;`
+- A `while (1)` with the exit test inside and `failed: return false;` at the end of the
+  body (the trick that fixed `Receive_51F010`).
+
+Not tried: a `char_type` or `BOOL` return type, or a result variable.
