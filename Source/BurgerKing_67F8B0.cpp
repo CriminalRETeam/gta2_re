@@ -132,10 +132,80 @@ void BurgerKing_1::get_registry_controls_498C00()
     }
 }
 
-STUB_FUNC(0x4989C0)
+// TODO: the debug strings are guesses, only code is compared
+MATCH_FUNC(0x4989C0)
 void BurgerKing_1::set_game_pad_device_properties_4989C0()
 {
-    NOT_IMPLEMENTED;
+    DIPROPDWORD prop;
+    DIPROPRANGE range;
+    DIDEVICEINSTANCEA instance;
+
+    if (gGamePadDevice_67B6C0)
+    {
+        instance.dwSize = sizeof(DIDEVICEINSTANCEA);
+        gGamePadDevice_67B6C0->GetDeviceInfo(&instance);
+        gGamePadDevice_67B6C0->Unacquire();
+
+        prop.dwData = 10000;
+        prop.diph.dwSize = sizeof(DIPROPDWORD);
+        prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+        prop.diph.dwHow = DIPH_DEVICE;
+        prop.diph.dwObj = 0;
+        gGamePadDevice_67B6C0->SetProperty(DIPROP_SATURATION, &prop.diph);
+
+        prop.dwData = 10000;
+        prop.diph.dwSize = sizeof(DIPROPDWORD);
+        prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+        prop.diph.dwHow = DIPH_DEVICE;
+        prop.diph.dwObj = 0;
+        HRESULT hr = gGamePadDevice_67B6C0->SetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+        if (FAILED(hr))
+        {
+            FatalDXError_4A3CF0(hr, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 434);
+        }
+
+        prop.dwData = 0;
+        gGamePadDevice_67B6C0->GetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+
+        range.diph.dwSize = sizeof(DIPROPRANGE);
+        range.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+        range.diph.dwHow = DIPH_BYOFFSET;
+        range.lMin = -1000;
+        range.lMax = 1000;
+        range.diph.dwObj = DIJOFS_X;
+        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_RANGE, &range.diph)))
+        {
+            OutputDebugStringA("Failed to set the x axis range\n");
+            return;
+        }
+
+        range.diph.dwObj = DIJOFS_Y;
+        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_RANGE, &range.diph)))
+        {
+            OutputDebugStringA("Failed to set the y axis range\n");
+            return;
+        }
+
+        prop.diph.dwSize = sizeof(DIPROPDWORD);
+        prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+        prop.diph.dwHow = DIPH_BYOFFSET;
+        prop.dwData = 2500;
+        prop.diph.dwObj = DIJOFS_X;
+        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_DEADZONE, &prop.diph)))
+        {
+            OutputDebugStringA("Failed to set the x axis dead zone\n");
+            return;
+        }
+
+        prop.diph.dwObj = DIJOFS_Y;
+        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_DEADZONE, &prop.diph)))
+        {
+            OutputDebugStringA("Failed to set the y axis dead zone\n");
+            return;
+        }
+
+        gGamePadDevice_67B6C0->Acquire();
+    }
 }
 
 MATCH_FUNC(0x498BA0)
