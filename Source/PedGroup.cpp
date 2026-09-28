@@ -852,6 +852,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 
     if (pLeader->field_168_game_object)
     {
+        bool bWaiting = false;
         if (field_1)
         {
             Ped* pFarthest = FindFarthestMember_4CA3F0(&distance);
@@ -863,17 +864,19 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                     field_2C_ped_leader->field_14C = pFarthest;
                     field_3C = 1;
                 }
-                goto check_members;
+                bWaiting = true;
             }
-            if (field_3C == 1)
+            else if (field_3C == 1)
             {
                 field_2C_ped_leader->SetObjective2_463830(0, 9999);
             }
         }
-        field_3C = 0;
+        if (!bWaiting)
+        {
+            field_3C = 0;
+        }
     }
 
-check_members:
     if (!(u8)sub_4CA3E0())
     {
         for (i = 0; i < field_34_count; i++)
