@@ -9,6 +9,7 @@
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
 DEFINE_GLOBAL(Fix16, dword_67F60C, 0x67F60C);
 DEFINE_GLOBAL(Fix16, dword_67F610, 0x67F610);
+DEFINE_GLOBAL(Fix16, dword_67F670, 0x67F670);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_67EEE4, Fix16(0x500, 0), 0x67EEE4);
 DEFINE_GLOBAL_INIT(char_type, byte_620838, 1, 0x620838);
 DEFINE_GLOBAL_INIT(Fix16, dword_67F630, Fix16(4), 0x67F630);
@@ -885,10 +886,32 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
     }
 }
 
-STUB_FUNC(0x4ca820)
-void PedGroup::UpdateMemberTightFollowState_4CA820(u8 a2)
+MATCH_FUNC(0x4ca820)
+void PedGroup::UpdateMemberTightFollowState_4CA820(u8 idx)
 {
-    NOT_IMPLEMENTED;
+    Ped* pMember = field_4_ped_list[idx];
+    if (field_2C_ped_leader->field_168_game_object)
+    {
+        Fix16 x_diff = field_2C_ped_leader->field_1AC_cam.x - pMember->field_1AC_cam.x;
+        Fix16 y_diff = field_2C_ped_leader->field_1AC_cam.y - pMember->field_1AC_cam.y;
+        Fix16 x_abs = Fix16::Abs(x_diff);
+        Fix16 y_abs = Fix16::Abs(y_diff);
+        if (Fix16::Max(x_abs, y_abs) < dword_67F670)
+        {
+            pMember->SetObjective2_463830(9, 9999);
+            pMember->set_field_14C_403AE0(field_2C_ped_leader);
+            pMember->inline_clear_bit();
+            pMember->SetObjective(0, 9999);
+        }
+        else if (pMember->field_14C == field_2C_ped_leader && pMember->field_25C_internal_objective == 9)
+        {
+            pMember->SetObjective2_463830(0, 9999);
+        }
+    }
+    else if (pMember->field_14C == field_2C_ped_leader && pMember->field_25C_internal_objective == 9)
+    {
+        pMember->SetObjective2_463830(0, 9999);
+    }
 }
 
 MATCH_FUNC(0x4caa20)
