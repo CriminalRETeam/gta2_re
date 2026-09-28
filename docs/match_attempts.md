@@ -409,3 +409,19 @@ first and copies of sin/cos made into temporaries (cos into the `door_idx` arg s
 Tried: `sin`/`cos` locals (0.411/0.464, depending on the operand order of the first sum);
 `Ang16::sine_40F500`/`cosine_40F520` at every use (0.564); the traced operand order for the
 second sum (0.553).
+
+## Ped::sub_45EA00 (WIP)
+
+Removes a ped that has been off screen for a while (`get_field_20e() > 30`, compared
+unsigned). A group leader takes its whole group with it when all members are in cars or
+far away. Other members leave the group. Then the ped is deallocated and bit 10 of
+`field_21C` is cleared.
+
+Ratio 0.619. Left: in the "all far away" branch the original keeps the first member in
+`edi` across the counting loop (so it pushes `edi`) and keeps the counter in `cl` as well
+as storing it to its slot each time round. Ours re-reads the member and does `incb` on the
+slot. The locals also sit one dword lower (`bool` at 0xF and the counter at 0x10 in the
+original).
+
+Tried: one `u8 i` shared by all three loops (no change); separate block-scoped counters
+declared counter first (no change).
