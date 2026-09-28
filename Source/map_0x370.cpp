@@ -2318,11 +2318,49 @@ bool Map_0x370::sub_4E4770(Fix16 z_pos)
     return false;
 }
 
-STUB_FUNC(0x4E4820)
-char_type Map_0x370::sub_4E4820(u32* a2, char_type a3)
+WIP_FUNC(0x4E4820)
+char_type Map_0x370::sub_4E4820(Fix16_Rect* pRect, u8 slope_type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 left = Fix16::Round_To_Int_410BF0(pRect->field_0_left);
+    s32 right = Fix16::Round_To_Int_410BF0(pRect->field_4_right);
+    s32 top = Fix16::Round_To_Int_410BF0(pRect->field_8_top);
+    s32 bottom = Fix16::Round_To_Int_410BF0(pRect->field_C_bottom);
+
+    for (s32 y = top; y <= bottom; y++)
+    {
+        for (s32 x = left; x <= right; x++)
+        {
+            gBlockInfo0_6F5EB0 = get_block_4DFE10(x, y, pRect->field_10_low_z.ToInt());
+            switch (slope_type)
+            {
+                case 0:
+                    if (gBlockInfo0_6F5EB0 && (gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 0)
+                    {
+                        return false;
+                    }
+                    break;
+                case 1:
+                    if (gBlockInfo0_6F5EB0 && (gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 1)
+                    {
+                        return false;
+                    }
+                    break;
+                case 2:
+                    if (gBlockInfo0_6F5EB0 && (gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 2)
+                    {
+                        return false;
+                    }
+                    break;
+                case 3:
+                    if (gBlockInfo0_6F5EB0 && (gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 3)
+                    {
+                        return false;
+                    }
+                    break;
+            }
+        }
+    }
+    return true;
 }
 
 STUB_FUNC(0x4E4930)

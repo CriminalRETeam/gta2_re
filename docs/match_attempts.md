@@ -363,3 +363,17 @@ before it in ours.
 
 Tried: `yd` computed first (0.924); a `Sprite*` local for the entry (no change); `xd`/`yd`
 declared before the loop (0.855); `yd` or both passed as temporaries (0.975 / 0.861).
+
+## Map_0x370::sub_4E4820 (WIP)
+
+Returns false if any block in a `Fix16_Rect` (rounded with `Round_To_Int_410BF0`, z from
+`field_10_low_z.ToInt()`) has a slope type (`field_B & 3`) other than `slope_type`. Also
+stores each block in `gBlockInfo0_6F5EB0`. The code is the same as the original's
+apart from registers.
+
+Ratio 0.614, almost all of it register rotation: the original keeps `pRect` in `edi` and
+the inner `x` in `ebp`; ours has them the other way round. That also rotates the `al`/`cl`/`dl`
+temps in the four cases.
+
+Tried: 7 of the 24 orders of the four rounding statements (0.614 or 0.489); `x`/`y`
+declared at function scope (no change).
