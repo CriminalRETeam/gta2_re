@@ -142,7 +142,7 @@ s32 Network_20324::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
 {
     this->field_202E4_hInstance = hInstance;
     gNetPlay_7071E8.Set15_51ECD0((int)Network_20324::cb_FillSessionList_519D30, this);
-    gNetPlay_7071E8.Set6_520530((void*)Network_20324::cb_sub_519E30, (void*)this);
+    gNetPlay_7071E8.Set6_520530((void*)Network_20324::cb_AddPlayerToList_519E30, (void*)this);
     gNetPlay_7071E8.Set9_520E60((int)Network_20324::cb_sub_51ACD0, (int)this);
     gNetPlay_7071E8.Set3_Disconnect_520E80((int)Network_20324::cb_Disconnect_51ADE0, (int)this);
     gNetPlay_7071E8.Set18_520F50((int)Network_20324::cb_SetPlayerPing_51AE50, (int)this);
@@ -233,11 +233,62 @@ HWND Network_20324::Get_202E0_HWND_519E20()
     return field_202E0_dlg_hwnd;
 }
 
-STUB_FUNC(0x519e30)
-LRESULT Network_20324::cb_sub_519E30(Network_20324* a1, wchar_t* Source, s32 a3)
+MATCH_FUNC(0x519e30)
+void Network_20324::cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pName, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    LVITEMA item;
+    char_type name[260];
+
+    if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
+    {
+        WideToDbcs_519960(name, pName);
+    }
+    else
+    {
+        wcstombs(name, pName, 260u);
+    }
+
+    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    {
+        case 2:
+        {
+            memset(&item, 0, sizeof(item));
+            HWND hList = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+            item.iItem = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
+            item.mask = LVIF_TEXT;
+            item.iSubItem = 0;
+            item.pszText = name;
+            SendMessageA(hList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+            break;
+        }
+
+        case 1:
+        {
+            memset(&item, 0, sizeof(item));
+            HWND hList = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1024);
+            s32 count = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
+            item.mask = LVIF_TEXT;
+            item.iItem = count;
+            item.iSubItem = 0;
+            item.pszText = name;
+            SendMessageA(hList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+            pNetUi->sub_51BBC0();
+            pNetUi->sub_51CBC0();
+            break;
+        }
+
+        case 0:
+        {
+            memset(&item, 0, sizeof(item));
+            HWND hList = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+            item.iItem = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
+            item.mask = LVIF_TEXT;
+            item.iSubItem = 0;
+            item.pszText = name;
+            SendMessageA(hList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+            break;
+        }
+    }
 }
 
 MATCH_FUNC(0x519fd0)

@@ -66,7 +66,7 @@ class Network_20324
     EXPORT static s32 __stdcall cb_FillSessionList_519D30(Network_20324* pThis, Network_NameList* pSessions);
     EXPORT void SetDlgHwnd_519E10(HWND a2);
     EXPORT HWND Get_202E0_HWND_519E20();
-    EXPORT static LRESULT __stdcall cb_sub_519E30(Network_20324* a1, wchar_t* Source, s32 a3);
+    EXPORT static void __stdcall cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pName, s32 a3);
     EXPORT static void __stdcall OnPaint_519FD0(HWND a1);
     EXPORT static void __stdcall OnWmCommand_519FE0(HWND hDlg, s32 a2, HWND a3, s32 a4);
     EXPORT static void __stdcall OnTimer_51A9D0(HWND hWnd, s32 a2);
