@@ -141,7 +141,7 @@ MATCH_FUNC(0x519bd0)
 s32 Network_20324::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
 {
     this->field_202E4_hInstance = hInstance;
-    gNetPlay_7071E8.Set15_51ECD0((int)Network_20324::cb_sub_519D30, this);
+    gNetPlay_7071E8.Set15_51ECD0((int)Network_20324::cb_FillSessionList_519D30, this);
     gNetPlay_7071E8.Set6_520530((void*)Network_20324::cb_sub_519E30, (void*)this);
     gNetPlay_7071E8.Set9_520E60((int)Network_20324::cb_sub_51ACD0, (int)this);
     gNetPlay_7071E8.Set3_Disconnect_520E80((int)Network_20324::cb_Disconnect_51ADE0, (int)this);
@@ -198,11 +198,27 @@ int __stdcall Network_20324::DialogFunc(HWND hDlg, UINT message, WPARAM wParam, 
     return 0;
 }
 
-STUB_FUNC(0x519d30)
-s32 Network_20324::cb_sub_519D30(Network_20324* a1, s32 a2)
+MATCH_FUNC(0x519d30)
+s32 Network_20324::cb_FillSessionList_519D30(Network_20324* pThis, Network_NameList* pSessions)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type name[260];
+
+    SendDlgItemMessageA(pThis->Get_202E0_HWND_519E20(), 1000, LB_RESETCONTENT, 0, 0);
+    for (u32 i = 0; i < pSessions->field_40_count; i++)
+    {
+        wcstombs(name, pSessions->field_0_names[i], sizeof(name));
+        LRESULT item = SendDlgItemMessageA(pThis->Get_202E0_HWND_519E20(), 1000, LB_ADDSTRING, 0, (LPARAM)name);
+        if (item != LB_ERR && item != LB_ERRSPACE)
+        {
+            SendDlgItemMessageA(pThis->Get_202E0_HWND_519E20(), 1000, LB_SETITEMDATA, item, i);
+        }
+    }
+
+    if (pSessions->field_40_count > 0 || gNetPlay_7071E8.field_4)
+    {
+        return EnableWindow(GetDlgItem(pThis->Get_202E0_HWND_519E20(), 1001), TRUE);
+    }
+    return EnableWindow(GetDlgItem(pThis->Get_202E0_HWND_519E20(), 1001), FALSE);
 }
 
 MATCH_FUNC(0x519e10)

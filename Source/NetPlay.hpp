@@ -82,6 +82,12 @@ class EnumeratedConnection
     s32 field_18_connection_len;
 };
 
+struct Network_NameList
+{
+    wchar_t* field_0_names[16];
+    u32 field_40_count;
+};
+
 struct Network_PlayerPing
 {
     wchar_t field_0_name[260];

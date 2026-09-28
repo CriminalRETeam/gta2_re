@@ -144,7 +144,7 @@ void force_link()
     snooky.IsCarBeingCrushed_4887A0(0);
 
     Network_20324 network;
-    network.cb_sub_519D30(0, 0);
+    network.cb_FillSessionList_519D30(0, 0);
 
     nostalgic_ellis_0x28 nostalgic;
     nostalgic.sub_4D6D70();

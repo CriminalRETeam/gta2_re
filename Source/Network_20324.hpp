@@ -3,6 +3,8 @@
 #include "Function.hpp"
 #include <windows.h>
 
+struct Network_NameList;
+
 EXPORT char_type* __stdcall GetString_519A00(const char_type* Key);
 EXPORT void __stdcall WideToDbcs_519960(char_type* pDst, wchar_t* pSrc);
 
@@ -60,7 +62,7 @@ class Network_20324
     EXPORT virtual ~Network_20324();
     EXPORT s32 ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance);
     EXPORT static int __stdcall DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-    EXPORT static s32 __stdcall cb_sub_519D30(Network_20324* a1, s32 a2);
+    EXPORT static s32 __stdcall cb_FillSessionList_519D30(Network_20324* pThis, Network_NameList* pSessions);
     EXPORT void SetDlgHwnd_519E10(HWND a2);
     EXPORT HWND Get_202E0_HWND_519E20();
     EXPORT static LRESULT __stdcall cb_sub_519E30(Network_20324* a1, wchar_t* Source, s32 a3);
