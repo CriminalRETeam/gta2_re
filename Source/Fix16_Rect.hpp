@@ -64,6 +64,13 @@ class Fix16_Rect
         this->field_14_high_z = highZ;
     }
 
+    Fix16_Rect(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom, Fix16 z)
+    {
+        SetRect_41E350(left, right, top, bottom);
+        field_10_low_z = z - k_dword_6771E4;
+        field_14_high_z = z + k_dword_6771E4;
+    }
+
     // TODO: Get inline addr
     Fix16_Rect(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
     {

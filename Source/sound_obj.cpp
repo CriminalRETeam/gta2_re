@@ -4643,9 +4643,8 @@ void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params_8* a2)
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     CarPhysics_B0* pPhysics = pCar->field_58_physics;
 
-    s32 slide_angle; // filled in as an Ang16, which would otherwise be zeroed by its constructor first
-    pPhysics->field_40_linvel_1.atan2_40F790().sub_409340((Ang16*)&slide_angle, &pPhysics->field_58_theta);
-    if ((s16)slide_angle > kMinCorneringAngle_66F274.rValue && (s16)slide_angle < kMaxCorneringAngle_66F370.rValue)
+    Ang16 slide_angle = pPhysics->field_40_linvel_1.atan2_40F790().sub_409340(pPhysics->field_58_theta);
+    if (slide_angle > kMinCorneringAngle_66F274 && slide_angle < kMaxCorneringAngle_66F370)
     {
         if (pCar->GetCarLinearSpeed_43A240() > kMinCorneringSpeed_66F378)
         {

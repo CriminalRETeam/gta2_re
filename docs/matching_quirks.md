@@ -168,11 +168,16 @@ some fields to locals before calls, the statement order of those saves can leave
 schedule the same and still rotate the registers for the rest of the function. Try every
 order (`PedGroup::PromoteMemberToLeader_4C9680`: four saves, one order of 24 matched).
 
-**An out-parameter object with a zeroing constructor.** When the original passes the
-address of an uninitialised local to a function that fills it (`Ang16::sub_409340(Ang16*
-pRet, ...)`), a local `Ang16` gets zeroed by its default constructor first. Use raw storage
-of the same size as the original's slot and cast (`s32 slide_angle; ...((Ang16*)&slide_angle
-...)`, then compare `(s16)slide_angle`). The 4-byte slot also gives the original's 32-bit load
+**A hidden return pointer means a by-value return.** A class with a constructor (`Fix16_Rect`,
+`Ang16`, ...) is returned through a hidden pointer that the caller pushes after the other
+arguments. The function then returns that pointer in `eax`, and the caller uses the slot it
+passed. So a function that fills a pointer argument and returns it, with `ret $4` for one
+"argument", is really `T Func()`. Declare it that way. Build the object in the `return`
+statement (`return Fix16_Rect(...)`, adding an inline constructor if needed): VC6 has no
+named return value optimisation, so `T t; ...; return t;` adds a copy
+(`Car_BC::NoRefs_441600` went from 0.712 with a named local to a match;
+`Ang16::sub_409340` with `return Ang16(rValue - toSub.rValue, 0)`). On the caller's side
+this also removes the need for a raw buffer to get around a zeroing default constructor
 (`sound_obj::HandleTruckCorneringAudio_417FD0`).
 
 **Nested member access instead of a local pointer.** `a2->field_0->field_8->Get()` written
