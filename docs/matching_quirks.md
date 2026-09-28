@@ -41,6 +41,15 @@ onto the pool's free list instead of the active list.
 in a different order from yours, reorder the `case` groups to match (`sub_417AC0`,
 `sub_417BA0`, `sub_528E00`).
 
+**A one-case `switch` gives `mov/dec/jne`.** `if (notify == 1)` compiles to `cmpl $1,mem`;
+`switch (notify) { case 1: ... }` loads the value and tests it with `dec %eax; jne`. Use
+the switch form when the original has the load and `dec`
+(`Network_20324::OnWmCommand_519FE0`).
+
+**`if/else` around a call vs a ternary argument.** `f(x == 0 ? 1 : 0)` gives `sete`, but
+two `push`es that branch to one `call` come from `if (x == 0) f(1); else f(0);`
+(`PedGroup::RemovePed_4C9970`).
+
 **Merged `case` labels give a byte index table.** The original often has one jump table
 entry per case, so write each case out.
 
@@ -136,6 +145,15 @@ reordering statements and using the existing inline accessors.
 **`memcmp`/`operator==` operand order picks `esi`/`edi`.** For an inlined 16-byte compare
 (`repe cmpsl`), the left operand goes in `esi` and the right in `edi`. Swap the sides
 of `==` if they are the wrong way round (`NetPlay::InitializeConnection_51E5C0`).
+
+**The order of local saves decides register rotation later on.** When a function saves
+some fields to locals before calls, the statement order of those saves can leave the load
+schedule the same and still rotate the registers for the rest of the function. Try every
+order (`PedGroup::PromoteMemberToLeader_4C9680`: four saves, one order of 24 matched).
+
+**Bitfield reads through an inline getter.** `if (!p->field_21C_bf.b2)` gives `test $4,%al`.
+An inline that returns the bit (`u8 GetBit2() { return field_21C_bf.b2; }`) gives
+`mov %eax,%ecx; shr $2,%ecx; test $1,%cl` (`PedGroup::MergeWithOtherGroup_4C9B60`).
 
 **Operand order matters.** `a + b` vs `b + a` changes which value is loaded first and which
 register holds the result (`ProjectOntoAxis_5A5AA0`). Writing `x |= f()` instead of
