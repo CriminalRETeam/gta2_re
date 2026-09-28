@@ -95,11 +95,36 @@ void magical_germain_0x8EC::sub_4D2150(s32 a2, u16 width, u16 height)
     }
 }
 
-STUB_FUNC(0x4D2240)
-u8* magical_germain_0x8EC::sub_4D2240(char_type* a2)
+// Expands a 16x16 1bpp glyph into the 256 pixel wide 8bpp sprite data
+MATCH_FUNC(0x4D2240)
+u8* magical_germain_0x8EC::sub_4D2240(char_type* pGlyph)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u8* pDst = field_8D0_pSprtData;
+    u8* pBits = (u8*)pGlyph;
+    u8 bits;
+    for (s32 row = 0; row < 16; row++)
+    {
+        bits = *pBits++;
+        *pDst++ = (bits & 0x80) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x40) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x20) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x10) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x8) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x4) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x2) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x1) ? field_8E8_v1 : 0;
+        bits = *pBits++;
+        *pDst++ = (bits & 0x80) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x40) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x20) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x10) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x8) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x4) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x2) ? field_8E8_v1 : 0;
+        *pDst++ = (bits & 0x1) ? field_8E8_v1 : 0;
+        pDst += 256 - 16;
+    }
+    return pDst;
 }
 
 STUB_FUNC(0x4D23B0)
