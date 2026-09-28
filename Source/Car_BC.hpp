@@ -445,7 +445,7 @@ class Car_BC
     EXPORT void UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_441520();
     EXPORT void UpdateBrakeLights_4415C0();
-    EXPORT u32* sub_441600(u32* a2);
+    EXPORT Fix16_Rect* NoRefs_441600(Fix16_Rect* pRect);
     EXPORT void sub_4416D0(s32 a2);
     EXPORT void sub_4417D0();
     EXPORT void sub_4417F0();

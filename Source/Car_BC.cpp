@@ -4720,11 +4720,26 @@ void Car_BC::UpdateBrakeLights_4415C0()
     }
 }
 
-STUB_FUNC(0x441600)
-u32* Car_BC::sub_441600(u32* a2)
+MATCH_FUNC(0x441600)
+Fix16_Rect* Car_BC::NoRefs_441600(Fix16_Rect* pRect)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+    Fix16 half_w = dword_6F6850.list[pInfo->w] / k_dword_6777D4;
+    Fix16 half_h = dword_6F6850.list[pInfo->h] / k_dword_6777D4;
+
+    s32 face = Ang16::GetAngleFace_4F78F0(field_50_car_sprite->field_0);
+    if (face >= 3 && face <= 4)
+    {
+        Fix16 tmp = half_w;
+        half_w = half_h;
+        half_h = tmp;
+    }
+
+    Fix16 z = field_50_car_sprite->field_1C_zpos;
+    pRect->SetRect_41E350(-half_w, half_w, -half_h, half_h);
+    pRect->field_10_low_z = z - k_dword_6771E4;
+    pRect->field_14_high_z = z + k_dword_6771E4;
+    return pRect;
 }
 
 MATCH_FUNC(0x4416d0)
