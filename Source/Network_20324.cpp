@@ -146,7 +146,7 @@ s32 Network_20324::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
     gNetPlay_7071E8.Set9_520E60((int)Network_20324::cb_sub_51ACD0, (int)this);
     gNetPlay_7071E8.Set3_Disconnect_520E80((int)Network_20324::cb_Disconnect_51ADE0, (int)this);
     gNetPlay_7071E8.Set18_520F50((int)Network_20324::cb_SetPlayerPing_51AE50, (int)this);
-    gNetPlay_7071E8.Set21_5210D0((int)Network_20324::cb_sub_51B2F0, (int)this);
+    gNetPlay_7071E8.Set21_5210D0((int)Network_20324::cb_AddChatMessage_51B2F0, (int)this);
     gNetPlay_7071E8.Set24_521140((int)Network_20324::cb_sub_51B7E0, (int)this);
     gNetPlay_7071E8.Set27SavePlayerName_5211F0((int)Network_20324::cb_SavePlayerName_51BC00, (int)this);
     return DialogBoxParamA(this->field_202E4_hInstance,
@@ -594,12 +594,59 @@ void Network_20324::PopulateMainUI_51AFA0()
     Network_20324::SetGameTimeLimitTextBox_51D3B0(field_20088_game_settings.field_201A4_game_time_limit, field_202E0_dlg_hwnd);
 }
 
-STUB_FUNC(0x51b2f0)
-LRESULT Network_20324::cb_sub_51B2F0(Network_20324* a1, wchar_t* Source)
+#pragma warning(push)
+#pragma warning(disable : 4715) // not all control paths return a value
+MATCH_FUNC(0x51b2f0)
+LRESULT Network_20324::cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_ChatMessage* pMsg)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type line[260];
+    char_type name[260];
+    char_type message[260];
+    char_type text[2048];
+    char_type newText[2048];
+
+    wcstombs(message, pMsg->field_0_message, 260u);
+    wcstombs(name, pMsg->field_100_name, 260u);
+    // TODO: the format strings are guesses (right sizes, contents unverified)
+    sprintf(line, "%s: %s", name, message);
+
+    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    {
+        case 1:
+        {
+            GetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1022, text, 0x7FF);
+            if (strlen(text))
+            {
+                sprintf(newText, "%s\r\n%s", text, line);
+            }
+            else
+            {
+                sprintf(newText, "%s", line);
+            }
+            SetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1022, newText);
+            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1022, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1022, EM_LINESCROLL, 0, lineCount);
+        }
+
+        case 2:
+        {
+            GetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1051, text, 0x7FF);
+            if (strlen(text))
+            {
+                sprintf(newText, "%s\r\n%s", text, line);
+            }
+            else
+            {
+                sprintf(newText, "%s", line);
+            }
+            SetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1051, newText);
+            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1051, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1051, EM_LINESCROLL, 0, lineCount);
+        }
+    }
+    // No return here in the original either
 }
+#pragma warning(pop)
 
 STUB_FUNC(0x51b4f0)
 s32 Network_20324::AppendChatMessage_51B4F0(s32 a2, const char_type* a3)

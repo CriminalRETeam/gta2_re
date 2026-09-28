@@ -88,6 +88,12 @@ struct Network_NameList
     u32 field_40_count;
 };
 
+struct Network_ChatMessage
+{
+    wchar_t field_0_message[128];
+    wchar_t field_100_name[128];
+};
+
 struct Network_PlayerPing
 {
     wchar_t field_0_name[260];
