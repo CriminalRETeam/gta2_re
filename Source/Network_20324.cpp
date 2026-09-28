@@ -9,6 +9,7 @@
 
 DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18, 0x6F8A18);
 DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256, 0x6F88A4);
+DEFINE_GLOBAL(s32, gChatLineCount_6F8A2C, 0x6F8A2C);
 
 EXTERN_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256);
 
@@ -648,12 +649,96 @@ LRESULT Network_20324::cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_C
 }
 #pragma warning(pop)
 
-STUB_FUNC(0x51b4f0)
-s32 Network_20324::AppendChatMessage_51B4F0(s32 a2, const char_type* a3)
+#pragma warning(push)
+#pragma warning(disable : 4715) // not all control paths return a value
+#pragma warning(disable : 4700) // name is never filled in, as in the original
+MATCH_FUNC(0x51b4f0)
+s32 Network_20324::AppendChatMessage_51B4F0(s32 a2, const char_type* pMsg)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type line[260];
+    char_type name[260];
+    char_type newText[2048];
+    char_type text[2048];
+    wchar_t playerName[260];
+    char_type allText[10000];
+
+    // The original gets our name as a wide string but then formats with the (unset) narrow buffer
+    gNetPlay_7071E8.GetPlayerName_521100(playerName, 7);
+    // TODO: the format string is a guess, only code is compared
+    sprintf(line, "%s: %s", name, pMsg);
+    gChatLineCount_6F8A2C++;
+
+    switch (field_202D4_showing_specific_window_idx)
+    {
+        case 2:
+        {
+            if (gChatLineCount_6F8A2C >= 20)
+            {
+                // Keep only the last 10 lines
+                gChatLineCount_6F8A2C = 10;
+                s32 pos = GetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1051), allText, sizeof(allText));
+                s32 lines = 0;
+                while (pos > 0 && lines < 10)
+                {
+                    if (allText[pos] == '\n')
+                    {
+                        lines++;
+                    }
+                    pos--;
+                }
+                SetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1051), &allText[pos]);
+            }
+
+            GetDlgItemTextA(Get_202E0_HWND_519E20(), 1051, text, 0x7FF);
+            if (strlen(text))
+            {
+                sprintf(newText, "%s\r\n%s", text, line);
+            }
+            else
+            {
+                sprintf(newText, "%s", line);
+            }
+            SetDlgItemTextA(Get_202E0_HWND_519E20(), 1051, newText);
+            LRESULT lineCount = SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1051, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1051, EM_LINESCROLL, 0, lineCount);
+        }
+
+        case 1:
+        {
+            if (gChatLineCount_6F8A2C >= 20)
+            {
+                // Keep only the last 10 lines
+                gChatLineCount_6F8A2C = 10;
+                s32 pos = GetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1022), allText, sizeof(allText));
+                s32 lines = 0;
+                while (pos > 0 && lines < 10)
+                {
+                    if (allText[pos] == '\n')
+                    {
+                        lines++;
+                    }
+                    pos--;
+                }
+                SetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1022), &allText[pos]);
+            }
+
+            GetDlgItemTextA(Get_202E0_HWND_519E20(), 1022, text, 0x7FF);
+            if (strlen(text))
+            {
+                sprintf(newText, "%s\r\n%s", text, line);
+            }
+            else
+            {
+                sprintf(newText, "%s", line);
+            }
+            SetDlgItemTextA(Get_202E0_HWND_519E20(), 1022, newText);
+            LRESULT lineCount = SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1022, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1022, EM_LINESCROLL, 0, lineCount);
+        }
+    }
+    // No return here in the original either
 }
+#pragma warning(pop)
 
 MATCH_FUNC(0x51b7c0)
 void Network_20324::SetPlayerNameText_51B7C0()
