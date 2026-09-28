@@ -212,10 +212,48 @@ void Game_0x40::sub_4B8E50()
 // TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
-STUB_FUNC(0x46DD70)
-EXPORT void __stdcall sub_46DD70(char_type remap, s32 count)
+DEFINE_GLOBAL(Ped*, gLastTestPed_6787E8, 0x6787E8);
+
+// Gives the player a group of count peds with the given remap
+MATCH_FUNC(0x46DD70)
+EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
 {
-    NOT_IMPLEMENTED;
+    Ped* pPlayerPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+    PedGroup* pGroup = PedGroup::New_4CB0D0();
+    pGroup->add_ped_leader_4C9B10(pPlayerPed);
+    pGroup->field_36_count = 0;
+    pGroup->field_34_count = 0;
+    pGroup->field_38_group_type = 2;
+
+    gLastTestPed_6787E8 = gPedPool_6787B8->Allocate();
+    gLastTestPed_6787E8->field_240_occupation = 0x11;
+    gLastTestPed_6787E8->field_244_remap = remap;
+    gLastTestPed_6787E8->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
+    gLastTestPed_6787E8->field_238_ped_type = 5;
+    if (!gLastTestPed_6787E8->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z))
+    {
+        gLastTestPed_6787E8->field_168_game_object->SetRemap_46DD50(gLastTestPed_6787E8->field_244_remap);
+    }
+    gLastTestPed_6787E8->field_216_health = 100;
+    gLastTestPed_6787E8->field_22C = 1;
+    pGroup->add_ped_to_end_of_list_4C8F90(gLastTestPed_6787E8);
+    gLastTestPed_6787E8->ForceWeapon_46F600(0);
+
+    for (u8 i = 1; i < count; i++)
+    {
+        Ped* pPed = gPedPool_6787B8->Allocate();
+        pPed->field_240_occupation = 0x11;
+        pPed->field_244_remap = remap;
+        pPed->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
+        pPed->field_238_ped_type = 5;
+        pPed->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z);
+        Char_B4* pObj = pPed->field_168_game_object;
+        pObj->SetRemap_Inline(pPed->field_244_remap);
+        pPed->field_216_health = 100;
+        pPed->field_22C = 1;
+        pGroup->add_ped_to_end_of_list_4C8F90(pPed);
+        pPed->ForceWeapon_46F600(0);
+    }
 }
 
 // TODO: move
