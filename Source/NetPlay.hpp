@@ -218,7 +218,7 @@ struct NetPlay
     EXPORT s32 CopyConnection_5215B0(u32 a2, u32* a3, size_t* a4);
     EXPORT s32 SendToPlayer_521630(Network_8* pSendData, s32 idx, char_type a4);
     EXPORT void Add_5216E0(Network_8* pData, s32 id, char_type type);
-    EXPORT u32 sub_521770(u32* a2, char_type* a3, u32* a4);
+    EXPORT u32 sub_521770(Network_8* pOut, char_type* pSeq, u32* pPlayerId);
     EXPORT void sub_521820(s32** a2, s32 idx);
     EXPORT void Remove_521870(s32 idx);
     EXPORT char_type sub_521890(s32** a3, s32* arg4, u32* a4);

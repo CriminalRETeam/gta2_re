@@ -218,3 +218,22 @@ no source to write for them:
 - The `crt_stubs.cpp` functions (`malloc`, `free`, `fopen`, ...) are the static CRT.
 
 The markers can't be checked either way: there's no function body to put after them.
+
+## NetPlay::sub_521770 (WIP)
+
+Finds the used packet slot with the oldest 8-bit sequence number (wrap-around difference
+`d = (u8)(a - b); if (d >= 0x80) d -= 0x100;`, the same code appears in `sub_521890`).
+
+The original's `mov 8(%esp),%al` / `mov 0x10(%esp),%ebp` in the prologue are **not** reads
+of the first argument: they are the uninitialised `best_seq`/`best_idx` locals. VC6 gives
+uninitialised variables a stack home that overlaps an argument slot and "loads" them from
+there. Our build does the same, from different slots.
+
+Ratio 0.175 (the frame differs, so everything shifts). The original keeps the found flag
+in `cl`, spills `this` into the `push %ecx` slot, and compares with immediates
+(`cmpb $1,-1(%esi)`, `mov $1,%cl`). Ours keeps a constant 1 in `al` for both the
+`field_10_used == 1` test and `bFound = 1`, spills `bFound` to the stack, and uses a
+second temp for the difference.
+
+Tried (no change): `bool` vs `char_type` flag; the difference as a static inline helper vs
+written out inline.
