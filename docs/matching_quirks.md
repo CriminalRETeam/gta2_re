@@ -151,6 +151,11 @@ some fields to locals before calls, the statement order of those saves can leave
 schedule the same and still rotate the registers for the rest of the function. Try every
 order (`PedGroup::PromoteMemberToLeader_4C9680`: four saves, one order of 24 matched).
 
+**Getters vs direct field reads change register choice.** Reading `p->field_1AC_cam.x`
+directly instead of through an inline `get_cam_x()` that returns `Fix16` by value can give
+the same instructions with different registers (`this` in `edi` rather than `ebx` in
+`PedGroup::UpdateMemberTightFollowState_4CA820`). Try both.
+
 **Bitfield reads through an inline getter.** `if (!p->field_21C_bf.b2)` gives `test $4,%al`.
 An inline that returns the bit (`u8 GetBit2() { return field_21C_bf.b2; }`) gives
 `mov %eax,%ecx; shr $2,%ecx; test $1,%cl` (`PedGroup::MergeWithOtherGroup_4C9B60`).
