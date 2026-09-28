@@ -1,5 +1,6 @@
 #include "PedGroup.hpp"
 #include "Car_BC.hpp"
+#include "Char_Pool.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
 #include "enums.hpp"
@@ -382,10 +383,96 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
     }
 }
 
-STUB_FUNC(0x4c9680)
-void PedGroup::PromoteMemberToLeader_4C9680(u8 a2)
+MATCH_FUNC(0x4c9680)
+void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
 {
-    NOT_IMPLEMENTED;
+    Ped* pTmp = gPedPool_6787B8->field_0_pool.Allocate();
+
+    Weapon_30* leaderWeapon = field_2C_ped_leader->field_170_selected_weapon;
+    Weapon_30* memberWeapon = field_4_ped_list[idx]->field_170_selected_weapon;
+    Weapon_30* leaderWeapon2 = field_2C_ped_leader->field_174_pWeapon;
+    Weapon_30* memberWeapon2 = field_4_ped_list[idx]->field_174_pWeapon;
+
+    pTmp->CopyStatsFromPed_45B5B0(field_2C_ped_leader);
+    field_2C_ped_leader->CopyStatsFromPed_45B5B0(field_4_ped_list[idx]);
+    field_2C_ped_leader->field_170_selected_weapon = leaderWeapon;
+    field_2C_ped_leader->field_174_pWeapon = leaderWeapon2;
+
+    field_2C_ped_leader->SetObjective(pTmp->field_258_objective, pTmp->field_218_objective_timer);
+    field_2C_ped_leader->SetObjective2_463830(pTmp->field_25C_internal_objective, pTmp->field_21A_car_state_timer);
+    field_2C_ped_leader->field_225_objective_status = pTmp->field_225_objective_status;
+    field_2C_ped_leader->field_226 = pTmp->field_226;
+    field_2C_ped_leader->field_148_objective_target_ped = pTmp->field_148_objective_target_ped;
+    field_2C_ped_leader->field_150_target_objective_car = pTmp->field_150_target_objective_car;
+    field_2C_ped_leader->field_1A0_objective_target_object = pTmp->field_1A0_objective_target_object;
+    field_2C_ped_leader->field_1A4 = pTmp->field_1A4;
+    field_2C_ped_leader->field_1DC_objective_target_x = pTmp->field_1DC_objective_target_x;
+    field_2C_ped_leader->field_1E0_objective_target_y = pTmp->field_1E0_objective_target_y;
+    field_2C_ped_leader->field_1E4_objective_target_z = pTmp->field_1E4_objective_target_z;
+    field_2C_ped_leader->field_14C = pTmp->field_14C;
+    field_2C_ped_leader->field_154_target_to_enter = pTmp->field_154_target_to_enter;
+    field_2C_ped_leader->field_1D0 = pTmp->field_1D0;
+    field_2C_ped_leader->field_1D4 = pTmp->field_1D4;
+    field_2C_ped_leader->field_1D8 = pTmp->field_1D8;
+    field_2C_ped_leader->field_23C = 99;
+    field_2C_ped_leader->field_248_enter_car_as_passenger = pTmp->field_248_enter_car_as_passenger;
+    field_2C_ped_leader->field_24C_target_car_door = pTmp->field_24C_target_car_door;
+
+    Ped* pLeader = field_2C_ped_leader;
+    if (pLeader->field_168_game_object)
+    {
+        pLeader->field_168_game_object->field_7C_pPed = pLeader;
+    }
+    else if (!pLeader->field_248_enter_car_as_passenger && pLeader->field_16C_car->field_54_driver != pLeader)
+    {
+        pLeader->field_248_enter_car_as_passenger = 1;
+    }
+
+    field_4_ped_list[idx]->CopyStatsFromPed_45B5B0(pTmp);
+    field_4_ped_list[idx]->field_23C = idx;
+    field_4_ped_list[idx]->field_170_selected_weapon = memberWeapon;
+    field_4_ped_list[idx]->field_174_pWeapon = memberWeapon2;
+
+    Ped* pMember = field_4_ped_list[idx];
+    if (pMember->field_168_game_object && pMember->field_240_occupation == 0x17)
+    {
+        pMember->field_168_game_object->field_7C_pPed = pMember;
+        field_4_ped_list[idx]->field_248_enter_car_as_passenger = 1;
+    }
+    else
+    {
+        if (pMember->field_168_game_object)
+        {
+            pMember->field_168_game_object->field_7C_pPed = pMember;
+        }
+
+        if (idx < field_34_count - 1)
+        {
+            field_4_ped_list[idx]->reset_ped_group();
+            field_4_ped_list[idx] = field_4_ped_list[field_34_count - 1];
+            field_4_ped_list[idx]->field_23C = idx;
+        }
+        else
+        {
+            field_4_ped_list[idx]->field_164_ped_group = 0;
+            field_4_ped_list[idx] = 0;
+        }
+        field_34_count--;
+        field_2C_ped_leader->field_23C = 99;
+    }
+
+    if (pTmp->field_238_ped_type == 5)
+    {
+        pTmp->PoolAllocate();
+        pTmp->field_21C |= 0x400;
+    }
+    else
+    {
+        pTmp->PoolAllocate();
+    }
+    pTmp->field_216_health = 100;
+    pTmp->field_240_occupation = 2;
+    pTmp->Kill_46F9D0();
 }
 
 MATCH_FUNC(0x4c9970)

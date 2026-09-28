@@ -725,7 +725,7 @@ bool Ped::sub_45B590()
 }
 
 STUB_FUNC(0x45b5b0)
-s32 Ped::CopyStatsFromPed_45B5B0(s32 a2)
+s32 Ped::CopyStatsFromPed_45B5B0(Ped* pSrc)
 {
     NOT_IMPLEMENTED;
     return 0;
