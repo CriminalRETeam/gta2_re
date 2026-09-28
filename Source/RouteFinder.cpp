@@ -711,11 +711,38 @@ u16 RouteFinder::sub_589990(RouteFinder_10* a2, u16 a3, s16 a4)
     return puVar1->field_0_idx;
 }
 
-STUB_FUNC(0x5899c0)
-bool RouteFinder::sub_5899C0(RouteFinder_10* a2, s32 a3)
+// Returns true if a neighbour of the node's junction that hasn't been visited yet completes the route
+MATCH_FUNC(0x5899c0)
+bool RouteFinder::sub_5899C0(RouteFinder_10* pNode, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Junction_10* pJunction = &field_8[pNode->field_0_idx];
+    u16 north = pJunction->field_0_n.GetIndex_0040CE90();
+    u16 west = pJunction->field_6_w.GetIndex_0040CE90();
+    u16 south = pJunction->field_2_s.GetIndex_0040CE90();
+    u16 east = pJunction->field_4_e.GetIndex_0040CE90();
+    pNode->field_4 = 1;
+
+    if (!field_CA40[north] && pJunction->field_0_n.IsEnabled() && field_8[north].sub_588580(a3) &&
+        sub_589990(pNode, north, pJunction->field_0_n.GetLength()) == field_861A)
+    {
+        return true;
+    }
+    if (!field_CA40[south] && pJunction->field_2_s.IsEnabled() && field_8[south].sub_588580(a3) &&
+        sub_589990(pNode, south, pJunction->field_2_s.GetLength()) == field_861A)
+    {
+        return true;
+    }
+    if (!field_CA40[west] && pJunction->field_6_w.IsEnabled() && field_8[west].sub_588580(a3) &&
+        sub_589990(pNode, west, pJunction->field_6_w.GetLength()) == field_861A)
+    {
+        return true;
+    }
+    if (!field_CA40[east] && pJunction->field_4_e.IsEnabled() && field_8[east].sub_588580(a3) &&
+        sub_589990(pNode, east, pJunction->field_4_e.GetLength()) == field_861A)
+    {
+        return true;
+    }
+    return false;
 }
 
 STUB_FUNC(0x589bb0)

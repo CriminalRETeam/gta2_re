@@ -12,6 +12,16 @@ class Link_2
         return field_0 & 0x1ff;
     }
 
+    inline u8 IsEnabled()
+    {
+        return field_0 >> 15;
+    }
+
+    inline u16 GetLength()
+    {
+        return (field_0 >> 9) & 0x3F;
+    }
+
     inline void Disable_40CEC0()
     {
         field_0 &= ~0x8000u;
