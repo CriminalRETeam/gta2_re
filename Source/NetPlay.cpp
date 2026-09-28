@@ -5,13 +5,39 @@
 DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8, 0x7071E8);
 DEFINE_GLOBAL(GUID, kGta2_DP_Guid_5FE928, 0x5FE928);
 DEFINE_GLOBAL_ARRAY(s32, dword_6F8A4C, 6, 0x6F8A4C);
-DEFINE_GLOBAL_ARRAY(char_type, byte_6F8A64, 6, 0x6F8A64);
+DEFINE_GLOBAL_ARRAY(char_type, byte_6F8A64, 24, 0x6F8A64);
 
-STUB_FUNC(0x51d6b0)
-NetPlay* NetPlay::ctor_51D6B0()
+MATCH_FUNC(0x51d6b0)
+NetPlay::NetPlay()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_CB8_count = 0;
+    for (s32 i = 0; i < 48; i++)
+    {
+        field_8F8_packets[i].field_10_used = 0;
+    }
+
+    field_4 = 0;
+    field_5_modem_num = 0;
+    field_8F0 = 0;
+    field_8F4_time_diff = 0;
+    field_5E4_pDPlay3 = 0;
+    field_5E0_pDPlayLobby2 = 0;
+    field_8E4_p0x1800_1 = (s32)operator new(0x1800);
+    field_8E0_p0x1800_2 = (s32)operator new(0x1800);
+    memset(&field_C4_sessions, 0, sizeof(field_C4_sessions));
+    memset(field_4C_func_ptrs_and_params, 0, sizeof(field_4C_func_ptrs_and_params));
+    memset(&field_30_enumed_connections, 0, sizeof(field_30_enumed_connections));
+    memset(&field_758_n2, 0, sizeof(field_758_n2));
+    memset(dword_6F8A4C, 0xFF, sizeof(dword_6F8A4C));
+    memset(byte_6F8A64, 0, sizeof(byte_6F8A64));
+    field_5DC_handle = CreateEventA(NULL, FALSE, FALSE, NULL);
+    field_8EC = 0;
+    field_48 = 5;
+
+    for (s32 j = 0; j < 6; j++)
+    {
+        field_8C8[j] = (naughty_sinoussi_0x800*)operator new(0x800);
+    }
 }
 
 STUB_FUNC(0x51d7b0)
@@ -21,10 +47,57 @@ void* NetPlay::vdtor_51D7B0(char_type flags)
     return 0;
 }
 
-STUB_FUNC(0x51d7d0)
+MATCH_FUNC(0x51d7d0)
 NetPlay::~NetPlay()
 {
-    NOT_IMPLEMENTED;
+    if (field_5E4_pDPlay3)
+    {
+        field_5E4_pDPlay3->DestroyPlayer(field_5D8_player_id);
+        if (field_5CC)
+        {
+            field_5E4_pDPlay3->DestroyGroup(field_758_n2.field_0_group_id);
+        }
+        field_5E4_pDPlay3->Close();
+    }
+
+    if (field_30_enumed_connections.field_0_enumed_connections)
+    {
+        for (u32 i = 0; i < field_30_enumed_connections.field_8_connections_count; i++)
+        {
+            operator delete(field_30_enumed_connections.field_0_enumed_connections[i].field_10_pConnectionName);
+            operator delete(field_30_enumed_connections.field_0_enumed_connections[i].field_14_pConnection);
+        }
+        operator delete(field_30_enumed_connections.field_0_enumed_connections);
+        field_30_enumed_connections.field_0_enumed_connections = 0;
+    }
+
+    if (field_30_enumed_connections.field_4_d_array_8_entries)
+    {
+        for (u32 i = 0; i < field_30_enumed_connections.field_C_f4_d_array_count; i++)
+        {
+            operator delete(field_30_enumed_connections.field_4_d_array_8_entries[i].field_0_allocated_str);
+        }
+        operator delete(field_30_enumed_connections.field_4_d_array_8_entries);
+        field_30_enumed_connections.field_4_d_array_8_entries = 0;
+    }
+
+    for (s32 j = 0; j < 6; j++)
+    {
+        operator delete(field_8C8[j]);
+        operator delete(field_758_n2.field_10[j].field_1C);
+        operator delete((void*)field_758_n2.field_10[j].field_24);
+    }
+
+    operator delete(field_758_n2.field_118);
+    operator delete((void*)field_8E4_p0x1800_1);
+    operator delete((void*)field_8E0_p0x1800_2);
+    operator delete(field_758_n2.field_120_session_desc.lpszSessionName);
+    field_30_enumed_connections.field_8_connections_count = 0;
+    field_30_enumed_connections.field_C_f4_d_array_count = 0;
+    field_30_enumed_connections.field_10 = 0;
+    field_30_enumed_connections.field_14 = 0;
+    CloseHandle(field_5DC_handle);
+    DirectPlayDestroy_51DC90();
 }
 
 MATCH_FUNC(0x51d930)

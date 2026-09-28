@@ -146,7 +146,7 @@ struct PacketHandlerSlot
 
 struct NetPlay
 {
-    EXPORT NetPlay* ctor_51D6B0();
+    EXPORT NetPlay();
     EXPORT void* vdtor_51D7B0(char_type flags);
     EXPORT virtual ~NetPlay();
     EXPORT void AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionInfo);
