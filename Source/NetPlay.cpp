@@ -985,10 +985,28 @@ void NetPlay::Set27SavePlayerName_5211F0(s32 a2, s32 a3)
     this->field_4C_func_ptrs_and_params[9].field_8_fn_type = 9;
 }
 
-STUB_FUNC(0x521220)
+MATCH_FUNC(0x521220)
 void NetPlay::sub_521220()
 {
-    NOT_IMPLEMENTED;
+    u32 dataLen;
+    s32 pData;
+    Packet_SubType_3 pStru;
+
+    memset(&pStru, 0, sizeof(pStru));
+    pStru.field_8 = 0;
+    pStru.field_D = 0;
+    pStru.field_11_len = 0;
+    pStru.header.field_0_type = 1;
+    pStru.header.field_4_sub_type = 4;
+    pStru.field_9 = 1;
+    NetPlay::MakeSendData_51F420(&pStru, &pData, &dataLen);
+    field_5E4_pDPlay3->Send(field_5D8_player_id, field_758_n2.field_0_group_id, DPSEND_GUARANTEED, (void*)pData, dataLen);
+
+    field_758_n2.field_120_session_desc.dwFlags |= DPSESSION_JOINDISABLED;
+    if (field_5E4_pDPlay3->SetSessionDesc(&field_758_n2.field_120_session_desc, 0) >= 0)
+    {
+        field_48 = 2;
+    }
 }
 
 MATCH_FUNC(0x521330)
