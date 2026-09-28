@@ -367,11 +367,45 @@ s32 NetPlay::PushConnection_51E0E0(wchar_t* Source)
     return 0;
 }
 
-STUB_FUNC(0x51e140)
-s32 NetPlay::NoRefs_51E140(wchar_t* String, s32* a3, size_t* a4)
+MATCH_FUNC(0x51e140)
+s32 NetPlay::NoRefs_51E140(wchar_t* pIpAddress, s32* ppAddress, size_t* pAddressLen)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    DWORD addressLen = 0;
+    if (!field_5E0_pDPlayLobby2)
+    {
+        *ppAddress = 0;
+        *pAddressLen = 0;
+        return 0;
+    }
+
+    DPCOMPOUNDADDRESSELEMENT elements[2];
+    memset(elements, 0, sizeof(elements));
+    elements[0].guidDataType = DPAID_ServiceProvider;
+    elements[0].dwDataSize = sizeof(GUID);
+    elements[0].lpData = (LPVOID)&DPSPGUID_TCPIP;
+    elements[1].guidDataType = DPAID_INetW;
+    elements[1].dwDataSize = 2 * wcslen(pIpAddress) + 2;
+    elements[1].lpData = pIpAddress;
+
+    if (field_5E0_pDPlayLobby2->CreateCompoundAddress(elements, 2, NULL, &addressLen) != DPERR_BUFFERTOOSMALL)
+    {
+        *ppAddress = 0;
+        *pAddressLen = 0;
+        return 0;
+    }
+
+    void* pAddress = operator new(addressLen);
+    if (field_5E0_pDPlayLobby2->CreateCompoundAddress(elements, 2, pAddress, &addressLen) < 0)
+    {
+        operator delete(pAddress);
+        *ppAddress = 0;
+        *pAddressLen = 0;
+        return 0;
+    }
+
+    *ppAddress = (s32)pAddress;
+    *pAddressLen = addressLen;
+    return 1;
 }
 
 STUB_FUNC(0x51e2b0)
@@ -381,11 +415,45 @@ s32 NetPlay::NoRefs_51E2B0(wchar_t* Source, wchar_t* a3, s32* a4, size_t* a5)
     return 0;
 }
 
-STUB_FUNC(0x51e450)
-s32 NetPlay::NoRefs_51E450(s32 a2, u32* a3, size_t* a4)
+MATCH_FUNC(0x51e450)
+s32 NetPlay::NoRefs_51E450(DPCOMPORTADDRESS* pComPort, u32* ppAddress, size_t* pAddressLen)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    DWORD addressLen = 0;
+    DPCOMPOUNDADDRESSELEMENT elements[2];
+    memset(elements, 0, sizeof(elements));
+    if (!field_5E0_pDPlayLobby2)
+    {
+        *ppAddress = 0;
+        *pAddressLen = 0;
+        return 0;
+    }
+
+    elements[0].guidDataType = DPAID_ServiceProvider;
+    elements[0].dwDataSize = sizeof(GUID);
+    elements[0].lpData = (LPVOID)&DPSPGUID_SERIAL;
+    elements[1].guidDataType = DPAID_ComPort;
+    elements[1].dwDataSize = sizeof(DPCOMPORTADDRESS);
+    elements[1].lpData = pComPort;
+
+    if (field_5E0_pDPlayLobby2->CreateCompoundAddress(elements, 2, NULL, &addressLen) != DPERR_BUFFERTOOSMALL)
+    {
+        *ppAddress = 0;
+        *pAddressLen = 0;
+        return 0;
+    }
+
+    void* pAddress = operator new(addressLen);
+    if (field_5E0_pDPlayLobby2->CreateCompoundAddress(elements, 2, pAddress, &addressLen) != DP_OK)
+    {
+        operator delete(pAddress);
+        *ppAddress = 0;
+        *pAddressLen = 0;
+        return 0;
+    }
+
+    *ppAddress = (u32)pAddress;
+    *pAddressLen = addressLen;
+    return 1;
 }
 
 MATCH_FUNC(0x51e5c0)

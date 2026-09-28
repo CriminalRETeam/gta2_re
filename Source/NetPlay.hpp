@@ -162,9 +162,9 @@ struct NetPlay
     EXPORT s32 DirectPlayCreate_51DED0();
     EXPORT static BOOL PASCAL sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext);
     EXPORT s32 PushConnection_51E0E0(wchar_t* Source);
-    EXPORT s32 NoRefs_51E140(wchar_t* String, s32* a3, size_t* a4);
+    EXPORT s32 NoRefs_51E140(wchar_t* pIpAddress, s32* ppAddress, size_t* pAddressLen);
     EXPORT s32 NoRefs_51E2B0(wchar_t* Source, wchar_t* a3, s32* a4, size_t* a5);
-    EXPORT s32 NoRefs_51E450(s32 a2, u32* a3, size_t* a4);
+    EXPORT s32 NoRefs_51E450(DPCOMPORTADDRESS* pComPort, u32* ppAddress, size_t* pAddressLen);
     EXPORT s32 sub_51E5C0();
     EXPORT s32 sub_51E650();
     EXPORT s32 sub_51E7A0(wchar_t* Source, wchar_t* a3, s32 a4, s32* a5);
@@ -246,7 +246,7 @@ struct NetPlay
     s32 field_5D4_player_idx;
     s32 field_5D8_player_id;
     HANDLE field_5DC_handle;
-    IDirectPlayLobby* field_5E0_pDPlayLobby2;
+    IDirectPlayLobby2* field_5E0_pDPlayLobby2;
     IDirectPlay3* field_5E4_pDPlay3;
     Network_Unknown field_5E8_n1;
     Network_Unknown field_758_n2;
