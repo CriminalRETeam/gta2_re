@@ -26,6 +26,9 @@
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
 DEFINE_GLOBAL(Fix16, dword_674CD8, 0x674CD8);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_66F3F0, Fix16(0), 0x66F3F0);
+DEFINE_GLOBAL(Ang16, kMinCorneringAngle_66F274, 0x66F274);
+DEFINE_GLOBAL(Ang16, kMaxCorneringAngle_66F370, 0x66F370);
+DEFINE_GLOBAL(Fix16, kMinCorneringSpeed_66F378, 0x66F378);
 DEFINE_GLOBAL_INIT(Fix16, dword_674DA8, Fix16(0x100000, 0), 0x674DA8);
 DEFINE_GLOBAL_ARRAY(u8, byte_61A688, 64, 0x61A688);
 DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
@@ -4552,10 +4555,50 @@ void sound_obj::HandleTrainEngineSound_4140C0(Sound_Params_8* a2)
     }
 }
 
-STUB_FUNC(0x417FD0)
+MATCH_FUNC(0x417FD0)
 void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    CarPhysics_B0* pPhysics = pCar->field_58_physics;
+
+    s32 slide_angle; // filled in as an Ang16, which would otherwise be zeroed by its constructor first
+    pPhysics->field_40_linvel_1.atan2_40F790().sub_409340((Ang16*)&slide_angle, &pPhysics->field_58_theta);
+    if ((s16)slide_angle > kMinCorneringAngle_66F274.rValue && (s16)slide_angle < kMaxCorneringAngle_66F370.rValue)
+    {
+        if (pCar->GetCarLinearSpeed_43A240() > kMinCorneringSpeed_66F378)
+        {
+            switch (a2->field_0_pObj->field_8_car_bc_ptr->field_84_car_info_idx)
+            {
+                case car_model_enum::boxtruck:
+                case car_model_enum::BUS:
+                case car_model_enum::FIRETRUK:
+                case car_model_enum::GTRUCK:
+                case car_model_enum::TOWTRUCK:
+                case car_model_enum::TRUKCAB1:
+                case car_model_enum::TRUKCAB2:
+                    if (CalculateDistance_419020(Fix16(0x64000, 0)))
+                    {
+                        if (VolCalc_419070(25, Fix16(0x14000, 0), a2->field_5_bHasSolidAbove))
+                        {
+                            this->field_30_sQueueSample.field_54 = Fix16(0x14000, 0);
+                            this->field_30_sQueueSample.field_60_nEmittingVolume = 25;
+                            this->field_30_sQueueSample.field_64_max_distance = 10;
+                            this->field_30_sQueueSample.field_58_type = 8;
+                            this->field_30_sQueueSample.field_4_SampleIndex = 11;
+                            this->field_30_sQueueSample.field_41 = 0;
+                            this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 7;
+                            this->field_30_sQueueSample.field_18 = 0;
+                            AddSampleToRequestedQueue_41A850();
+                        }
+                    }
+                    break;
+                case 86:
+                    // Dead store, but it keeps the switch range up to 86 as in the original
+                    slide_angle = 0;
+                    break;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x57DF10)
