@@ -610,10 +610,63 @@ s32 NetPlay::EnumSessions_51E650()
     return field_C4_sessions.field_5C4_session_count;
 }
 
-STUB_FUNC(0x51e7a0)
-s32 NetPlay::sub_51E7A0(wchar_t* Source, wchar_t* a3, s32 a4, s32* a5)
+MATCH_FUNC(0x51e7a0)
+s32 NetPlay::HostSession_51E7A0(wchar_t* pSessionName, wchar_t* pPlayerName, Network_8* pGroupData, Network_8* pPlayerData)
 {
-    NOT_IMPLEMENTED;
+    DPNAME name;
+
+    if (field_5E4_pDPlay3 && field_5E0_pDPlayLobby2)
+    {
+        DPSESSIONDESC2* pDesc = &field_758_n2.field_120_session_desc;
+        memset(pDesc, 0, sizeof(DPSESSIONDESC2));
+        pDesc->dwSize = sizeof(DPSESSIONDESC2);
+        field_758_n2.field_120_session_desc.dwFlags = 0x8000; // DPSESSION_DIRECTPLAYPROTOCOL, not in this DPLAY.H
+        field_758_n2.field_120_session_desc.guidApplication = kGta2_DP_Guid_5FE928;
+        field_758_n2.field_120_session_desc.dwMaxPlayers = 6;
+        field_758_n2.field_120_session_desc.lpszSessionName = (LPWSTR)operator new(2 * wcslen(pSessionName) + 2);
+        wcscpy(field_758_n2.field_120_session_desc.lpszSessionName, pSessionName);
+
+        if (field_5E4_pDPlay3->Open(pDesc, DPOPEN_CREATE) >= 0)
+        {
+            memset(&name, 0, sizeof(name));
+            name.lpszShortName = pPlayerName;
+            name.lpszLongName = 0;
+            name.dwSize = sizeof(DPNAME);
+            field_5E4_pDPlay3->CreatePlayer((LPDPID)&field_5D8_player_id,
+                                            &name,
+                                            field_5DC_handle,
+                                            pPlayerData->field_0,
+                                            pPlayerData->field_4_len,
+                                            0);
+
+            field_5D0 = field_5D4_player_idx = AddPlayer_51E9C0(pPlayerData, field_5D8_player_id, name, &field_5E8_n1);
+
+            field_758_n2.field_11C = pGroupData->field_4_len;
+            field_758_n2.field_118 = (u8*)operator new(pGroupData->field_4_len);
+            if (field_758_n2.field_118)
+            {
+                memcpy(field_758_n2.field_118, pGroupData->field_0, pGroupData->field_4_len);
+
+                memset(&name, 0, sizeof(name));
+                name.dwSize = sizeof(DPNAME);
+                // TODO: the group name string is a guess, only code is compared
+                name.lpszShortName = L"GTA2";
+                name.lpszLongName = 0;
+                if (field_5E4_pDPlay3->CreateGroup((LPDPID)&field_758_n2.field_0_group_id,
+                                                   &name,
+                                                   field_758_n2.field_118,
+                                                   field_758_n2.field_11C,
+                                                   0) >= 0 &&
+                    field_5E4_pDPlay3->AddPlayerToGroup(field_758_n2.field_0_group_id, field_5D8_player_id) >= 0)
+                {
+                    field_48 = 3;
+                    field_5CC = 1;
+                    field_5C8 = 1;
+                    return 1;
+                }
+            }
+        }
+    }
     return 0;
 }
 
