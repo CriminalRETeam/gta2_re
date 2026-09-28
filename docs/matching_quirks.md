@@ -88,6 +88,12 @@ If the original has your `else` block first, invert the condition and swap the b
 both spellings to the same code, in which case this won't help (`Ped::ProcessInCarObjective_463FB0`).
 
 **`je tail; jmp next`** for an `if/else` whose branches share a tail comes from a `goto`.
+In `frosty_pasteur_0xC1EA8::sub_512BA0`/`sub_512C00`, early `continue`/`return`, the body
+written in both branches, a ternary condition and an inline helper all failed to produce it.
+
+The `goto` entries in this file were only kept after `goto`-free forms had been tried (see the
+`goto` rule in `CLAUDE.md`). Try restructuring first. Plain returns or a flag sometimes give
+the same code (`NetPlay::WaitForPlayersSync_5213E0`, `PedGroup::CoordinateGroupCarEntry_4C9F00`).
 
 **`return a <= b` vs branches.** `return a <= b;` gives `xor eax,eax; cmp; setle al`. If the
 original has `setle al` without the `xor`, write it as `if (a <= b) return true; return false;`
