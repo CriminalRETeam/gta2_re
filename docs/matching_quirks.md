@@ -156,6 +156,17 @@ monotonic. If a function matches when compiled alone (copy it into a small .cpp 
 `build_vc6/` and use `build.py --single_cpp ../build_vc6/x.cpp`) but not in its TU, try
 moving includes and check `compare_builds.py` for regressions.
 
+**Inline functions: often only the first call gets inlined.** When a function calls the same
+inline function several times, VC6 often inlines the first call and emits real `call`s for
+the rest. Since those calls need a body, an out-of-line copy of the "inline" function is
+emitted too. That copy is a function in the original binary as well, often a small `Fix16`
+helper with no obvious caller of its own. So a function whose first use of a helper is
+expanded and the later ones are calls isn't necessarily written differently: it can be
+the same inline method used several times. Before rewriting it by hand, try calling the
+existing inline method (or making the helper `inline`). Note that the out-of-line copy
+lives in whatever TU emits it, which is also why the duplicate helper copies mentioned
+under "Duplicate helper copies" exist.
+
 **Tail merging across `case`s needs a shared statement.** VC6 merges the identical tails of
 the two branches of an `if` into one call, but not the tails of two different `case`s. If
 the original jumps from one case into the middle of another (`push $1; jmp <other case's
