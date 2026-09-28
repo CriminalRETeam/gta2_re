@@ -453,3 +453,15 @@ loads `pY` from the stack after storing the first global.
 
 Tried: declaring `step`/`direction` first; setting `step = 1` between the global stores
 (no change either way).
+
+## thirsty_lamarr::sub_492430 (WIP)
+
+Left-to-right version of the WIP `sub_492260`: draws the counter digits, skipping
+leading zeros (a leading zero that is still rolling, `field_13_offset != 0`, is drawn at
+its offset height), and returns the x after the last digit. The x/y `Fix16` arguments
+go through the out-of-line constructor `FromInt_4926F0` that this file emits.
+
+Ratio 0.457. Structure and calls are the same, but registers differ throughout. The original keeps
+`field_27_sprite_w` in `cl` across iterations (reloaded after each draw for
+`curr_xpos +=`, then reused as the next width argument) and keeps `bFirst` at 0x13, not
+in an arg slot. Worth another try together with `sub_492260`.

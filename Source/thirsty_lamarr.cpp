@@ -201,11 +201,64 @@ s32 thirsty_lamarr::sub_492260(s32 base_xpos, s32 base_ypos)
     return curr_xpos - (field_27_sprite_w >> 1);
 }
 
-STUB_FUNC(0x492430)
-s32 thirsty_lamarr::sub_492430(s32 a3, s32 a4)
+// Draws the digits left to right, skipping leading zeros, and returns the x after the last digit
+WIP_FUNC(0x492430)
+s32 thirsty_lamarr::sub_492430(s32 base_xpos, s32 base_ypos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 curr_xpos = base_xpos + (field_27_sprite_w >> 1);
+    bool bFirst = true;
+    s32 ypos_default = base_ypos + (field_28_sprite_h_calc >> 1);
+
+    for (s32 idx = field_2E_non_used_digits; idx < 9; idx++)
+    {
+        s32 offset = field_13_offset[idx];
+        if (bFirst)
+        {
+            char_type curr_char = field_9_str[idx];
+            if (curr_char == '0' && idx != 8 && !field_13_offset[idx])
+            {
+                continue;
+            }
+
+            u8 height;
+            if (curr_char != '0' || idx == 8)
+            {
+                height = field_28_sprite_h_calc;
+            }
+            else
+            {
+                height = field_13_offset[idx];
+            }
+
+            u16 v = field_28_sprite_h_calc * (58 - curr_char) - offset;
+            sub_495470(gSharp_pare_0x15D8_705064->sub_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
+                       curr_xpos,
+                       base_ypos + (s8)height / 2,
+                       field_27_sprite_w,
+                       height,
+                       word_67B210,
+                       0,
+                       0);
+            bFirst = false;
+            curr_xpos += field_27_sprite_w;
+        }
+        else
+        {
+            u16 v = field_28_sprite_h_calc * (58 - field_9_str[idx]) - offset;
+            sub_495470(gSharp_pare_0x15D8_705064->sub_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
+                                                             v,
+                                                             field_28_sprite_h_calc),
+                       curr_xpos,
+                       ypos_default,
+                       field_27_sprite_w,
+                       field_28_sprite_h_calc,
+                       word_67B210,
+                       0,
+                       0);
+            curr_xpos += field_27_sprite_w;
+        }
+    }
+    return curr_xpos;
 }
 
 MATCH_FUNC(0x4925c0)
