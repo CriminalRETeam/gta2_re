@@ -669,15 +669,71 @@ void Network_20324::cb_sub_51B7E0(Network_20324* a1, const char_type** a2)
     const char_type* v2 = *a2;
     if (a1->Get_202D4_active_control_idx_51ACC0() == 2)
     {
-        a1->sub_51B810(v2);
+        a1->ApplyHostGameSettings_51B810(v2);
     }
 }
 
-STUB_FUNC(0x51b810)
-void Network_20324::sub_51B810(const char_type* a2)
+#pragma warning(push)
+#pragma warning(disable : 4701) // pSpeedText is used uninitialised for an unknown speed, as in the original
+MATCH_FUNC(0x51b810)
+void Network_20324::ApplyHostGameSettings_51B810(const char_type* a2)
 {
-    NOT_IMPLEMENTED;
+    char_type msg[520];
+    wchar_t wmsg[520];
+    char_type* pSpeedText;
+
+    const NetworkGameSettings* pSettings = (const NetworkGameSettings*)a2;
+    if (pSettings)
+    {
+        field_20088_game_settings = *pSettings;
+
+        u32 i = 0;
+        while (1)
+        {
+            if (i >= field_1FD64_total_map_count)
+            {
+                break;
+            }
+
+            if (!strcmp(field_4_maps[i].field_410_maybe_display_name, pSettings->field_20088_default_map))
+            {
+                field_20088_game_settings = *pSettings;
+                field_20088_game_settings.field_2018C_map_idx = i;
+                SetDlgItemTextA(field_202E0_dlg_hwnd, UNKNOWN_PLAYER_COUNT_1054, (LPCSTR)&field_4_maps[i].field_30C_player_count);
+                goto map_done;
+            }
+            i++;
+        }
+
+        // TODO: the format string is a guess (probably a "map not found" message), only code is compared
+        sprintf(msg, "%s", pSettings->field_20088_default_map);
+        GetString_519A50(wmsg, msg, 260);
+        gNetPlay_7071E8.SendChatMessage_521060(wmsg, -1);
+        AppendChatMessage_51B4F0(1022, msg);
+
+    map_done:
+        switch (pSettings->field_20190_game_speed)
+        {
+            case 2:
+                pSpeedText = GetString_519A00("netui12");
+                break;
+            case 1:
+                pSpeedText = GetString_519A00("netui11");
+                break;
+            case 0:
+                pSpeedText = GetString_519A00("netui10");
+                break;
+        }
+        SetDlgItemTextA(field_202E0_dlg_hwnd, LABLE_GAME_SPEED_1055, pSpeedText);
+
+        SetJoinedGamePoliceEnabledText_51CD30(field_20088_game_settings.field_201A0_police_on, field_202E0_dlg_hwnd);
+        SetJoinedGameTypeAndFragLimitText_51D0C0(field_20088_game_settings.field_20198_game_type,
+                                                 field_20088_game_settings.field_20194_frag_limit,
+                                                 field_202E0_dlg_hwnd);
+        SetJoinedGameTimeLimitText_51D2F0(field_20088_game_settings.field_201A4_game_time_limit, field_202E0_dlg_hwnd);
+    }
 }
+#pragma warning(pop)
 
 STUB_FUNC(0x51b9c0)
 s32 Network_20324::SetSetting_51B9C0(s32 a2, char_type* Data)
