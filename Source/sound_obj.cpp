@@ -32,6 +32,8 @@ DEFINE_GLOBAL(Fix16, kMinCorneringSpeed_66F378, 0x66F378);
 DEFINE_GLOBAL_INIT(Fix16, dword_674DA8, Fix16(0x100000, 0), 0x674DA8);
 DEFINE_GLOBAL_ARRAY(u8, byte_61A688, 64, 0x61A688);
 DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
+DEFINE_GLOBAL(Car_BC*, gLastPlayerCar_6FF53C, 0x6FF53C);
+DEFINE_GLOBAL(Fix16, dword_6FF3F4, 0x6FF3F4);
 DEFINE_GLOBAL(bool, gSoundVocalsInited_6FF538, 0x6FF538);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_66F3F4, Fix16(0x4000, 0), 0x66F3F4);
 DEFINE_GLOBAL(u16, word_6757FC, 0x6757FC);
@@ -1821,10 +1823,90 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
     }
 }
 
-STUB_FUNC(0x57DD50)
+WIP_FUNC(0x57DD50)
 void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
 {
-    NOT_IMPLEMENTED;
+    if (gSoundSwitchRadioCoolDown_6FF539 > 0)
+    {
+        gSoundSwitchRadioCoolDown_6FF539--;
+    }
+
+    if (!gGame_0x40_67E008 || !gGame_0x40_67E008->field_38_orf1)
+    {
+        return;
+    }
+
+    if (!field_1_isPaused)
+    {
+        PoliceRadioMessageGeneration_426790();
+    }
+    else
+    {
+        gSampManager_6FFF00.sub_58E8A0();
+    }
+
+    if (!gSampManager_6FFF00.MusicFileExists_58E500())
+    {
+        return;
+    }
+
+    field_54F2[2] = field_54F2[3];
+    field_54F7[1] = field_54F7[0];
+    field_5500 = field_54FC;
+    Type3_CopRadioReport_57E680();
+
+    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+    if (pCar)
+    {
+        if (!IsTrainOrBoxcar_57F120(pCar) && !pCar->IsMaxDamage_40F890())
+        {
+            field_54F2[3] = 1;
+            if (!field_54F2[2])
+            {
+                ChooseRadioEmitterForVehicle_57E6C0();
+                UpdateActiveRadioEmitterVolume_57EA90();
+                field_5506 = 0;
+            }
+            else if (field_5504_radio_station_change_mode)
+            {
+                if (field_54F7[0] < 5)
+                {
+                    RadioEmitter(field_54F7[0] + 1).field_14 = 0;
+                }
+                SelectBestRadioEmitter_57EF60();
+            }
+            else
+            {
+                UpdateActiveRadioEmitterVolume_57EA90();
+            }
+
+            if (!field_54F2[4])
+            {
+                field_5504_radio_station_change_mode = 1;
+                SelectBestRadioEmitter_57EF60();
+                field_5506 = 0;
+            }
+
+            HandleVocalStreamSwitching_57DF10(pCar->field_68 != dword_6FF3F4);
+            gLastPlayerCar_6FF53C = pCar;
+            return;
+        }
+    }
+
+    field_54F2[3] = 0;
+    if (field_54F2[2] == 1)
+    {
+        if (gLastPlayerCar_6FF53C)
+        {
+            gLastPlayerCar_6FF53C->field_B0 = RadioEmitter(field_54F7[0] + 1).field_C;
+        }
+        if (field_54F7[1] < 5)
+        {
+            RadioEmitter(field_54F7[1] + 1).field_14 = 0;
+        }
+    }
+    field_54F7[0] = 0x66;
+    UpdateVocalStream_57E510();
 }
 
 MATCH_FUNC(0x412740)

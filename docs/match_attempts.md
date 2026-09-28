@@ -465,3 +465,20 @@ Ratio 0.457. Structure and calls are the same, but registers differ throughout. 
 `field_27_sprite_w` in `cl` across iterations (reloaded after each draw for
 `curr_xpos +=`, then reused as the next width argument) and keeps `bFirst` at 0x13, not
 in an arg slot. Worth another try together with `sub_492260`.
+
+## sound_obj::ProcessType3_CopRadioAndMusic_57DD50 (WIP)
+
+Per-frame radio/music update: counts down the radio switch cooldown, runs police radio
+messages (when not paused), and, if the player is in a car that isn't a train or wrecked,
+picks or updates the radio emitter and switches the vocal stream. Otherwise it stores the
+emitter position in the last car, frees the old emitter and resets the vocal stream.
+`field_54F4`/`54F5`/`54F6` are `field_54F2[2..4]`.
+
+Ratio 0.854, and all that's left is the "train or wrecked" check. The original calls
+`IsTrainOrBoxcar_57F120`, then computes `field_74_damage == 32001` into `cl` with `sete`,
+and only then tests `al` and `cl`. We branch on each one straight away.
+
+Tried: `!a && !b`; `!(a || b)` and `a == false && b == false` with bool locals; `u8`
+locals; the damage compare written inline or with `!=`; `!(a | b)` (0.661); the damage
+check before the call (0.641); a file-local inline helper returning `a || b`. None
+of them produce the `sete`.
