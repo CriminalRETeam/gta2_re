@@ -347,6 +347,12 @@ class ArrowTrace_24
     EXPORT void PointToInfoPhone_5D03C0(Gang_144* pZone);
     EXPORT void UpdateAimCoordinates_5D03F0();
 
+    void SetTargetCar(Car_BC* pCar)
+    {
+        field_4_car = pCar;
+        field_10_target_type = ArrowTargetType::Car_3;
+    }
+
     // inline 0x4C6F00
     void init()
     {

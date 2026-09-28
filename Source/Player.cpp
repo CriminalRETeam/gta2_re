@@ -48,17 +48,46 @@ DEFINE_GLOBAL_INIT(Fix16, k_instant_gang_radius_6FE634, Fix16(8), 0x6FE634);
 
 struct UnknownDebugClass
 {
-    EXPORT bool DoTest_5B2640(u16 action);
+    EXPORT void DoTest_5B2640(u16 action);
     EXPORT bool DoBrianTest_42D870(u16 action);
 };
 DEFINE_GLOBAL(UnknownDebugClass*, dword_7044A0, 0x7044A0);
 DEFINE_GLOBAL(UnknownDebugClass*, dword_675F74, 0x675F74);
 
-STUB_FUNC(0x5B2640)
-bool UnknownDebugClass::DoTest_5B2640(u16 action)
+DEFINE_GLOBAL(Hud_Arrow_7C*, gTestArrow_70416C, 0x70416C);
+DEFINE_GLOBAL(Car_BC*, gTestArrowCar_7043F0, 0x7043F0);
+DEFINE_GLOBAL(s32, gTestTimer_7042D8, 0x7042D8);
+
+// TODO: the brief strings are guesses, only code is compared
+MATCH_FUNC(0x5B2640)
+void UnknownDebugClass::DoTest_5B2640(u16 action)
 {
-    NOT_IMPLEMENTED;
-    return false;
+    switch (action)
+    {
+        case 3:
+            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "test1");
+            break;
+        case 4:
+            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, "test2");
+            break;
+        case 5:
+            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, "test3");
+            break;
+        case 6:
+            gGame_0x40_67E008->field_38_orf1->field_6BC_multpliers.ChangeStatByAmount_4921B0(1);
+            break;
+        case 7:
+            gTestArrow_70416C = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
+            gTestArrow_70416C->field_18.field_18_primary_target.SetTargetCar(gTestArrowCar_7043F0);
+            gTestArrow_70416C->SetArrowColour_5D0510(5);
+            break;
+        case 8:
+            gGame_0x40_67E008->field_38_orf1->sub_569E70();
+            break;
+        case 10:
+            gTestTimer_7042D8 = gHud_2B00_706620->field_620.CreateTimer_5D31F0(40);
+            break;
+    }
 }
 
 STUB_FUNC(0x42D870)
