@@ -377,3 +377,19 @@ temps in the four cases.
 
 Tried: 7 of the 24 orders of the four rounding statements (0.614 or 0.489); `x`/`y`
 declared at function scope (no change).
+
+## Police_7B8::TryCreateRoadblockAt_577370 (WIP)
+
+Sets the roadblock guard type from the wanted level, finds the ground z at (x, y) and
+creates the roadblock in the first free slot (type 3 for road types 1 and 2, else 2; the
+second slot always uses 3).
+
+Ratio 0.376. The main difference: the original builds the `y` argument of
+`FindGroundZForCoord_4E5B60` inline (`and $0xFF; shl $0xE`) but `x` with a call to the
+out-of-line `Fix16` constructor at 0x45C4E0 (`FromInt_45C4E0`), constructing straight into
+the argument slot. Both constructors are inlined in our build, which moves every register
+after that point. It looks like the "only the first call gets inlined" quirk, but here it
+doesn't happen.
+
+Tried: splitting the `FindGroundZ` call and `.ToUInt8()` into two statements (0.367);
+`x` as `s32` so it uses `Fix16(s32)` (0.367).
