@@ -30,6 +30,12 @@ class Junction_10
   public:
     EXPORT char_type sub_588580(s32 a2);
     EXPORT u16 sub_5885C0(u16 a2);
+
+    inline bool ContainsPoint(s16 x, s16 y)
+    {
+        return x >= field_C_min_x && x <= field_E_max_x && y >= field_D_min_y && y <= field_F_max_y;
+    }
+
     Link_2 field_0_n;
     Link_2 field_2_s;
     Link_2 field_4_e;
@@ -88,7 +94,7 @@ class RouteFinder
     EXPORT u16 sub_588F30(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 arrow_type);
     EXPORT u16 sub_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 arrow_type);
     EXPORT void sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos);
-    EXPORT s32 sub_589210(char_type a2, char_type a3, s32 a4, char_type a5, s32 a6, u16 a7);
+    EXPORT s32 NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx);
     EXPORT RouteFinder_10* sub_5892F0(RouteFinder_10* a2, u16 a3, s16 a4);
     EXPORT RouteFinder_10* sub_589390(u16 a2);
     EXPORT void sub_589420(RouteFinder_10* a2);

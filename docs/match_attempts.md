@@ -335,3 +335,17 @@ Tried: `if (van) {...} else {...}` and the inverted `if (!van) {...} else {...}`
 emits the same code for both); `switch` with the van cases first (0.837, `default` still
 first). `Fix16 distance` at function scope instead of in its block fixed the frame size (the
 original doesn't overlap it with the spilled `this`).
+
+## RouteFinder::NoRefs_589210 (WIP)
+
+Checks whether the tile one step from (x, y) in `direction` (1, 2, 4 or 8) is inside a
+junction's bounds. For any other direction `dx`/`dy` stay uninitialised and the original
+"loads" them from the `y` arg slot (C4701 silenced). The bounds check is an inline
+`Junction_10::ContainsPoint(s16 x, s16 y)` (arguments evaluated right to left, so `y` first).
+
+Ratio 0.923. Left: inside each case the original sets `dx` (`edx`) before `dy` (`ecx`).
+Writing `dx = ...; dy = ...;` gives `dx` `ecx` and changes most of the function (0.385), so
+the source has `dy` first and the two stores come out swapped.
+
+Tried: swapping the declaration order (no change either way); locals instead of the
+inline (same ratio).

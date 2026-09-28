@@ -535,12 +535,43 @@ void RouteFinder::sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos
     }
 }
 
-STUB_FUNC(0x589210)
-s32 RouteFinder::sub_589210(char_type a2, char_type a3, s32 a4, char_type a5, s32 a6, u16 a7)
+// dx/dy are uninitialised for a direction that isn't 1, 2, 4 or 8, as in the original
+#pragma warning(push)
+#pragma warning(disable : 4701)
+WIP_FUNC(0x589210)
+s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Junction_10* pJunction = &field_8[junction_idx];
+    s32 dy;
+    s32 dx;
+    switch (direction)
+    {
+        case 1:
+            dy = -1;
+            dx = 0;
+            break;
+        case 2:
+            dy = 1;
+            dx = 0;
+            break;
+        case 8:
+            dy = 0;
+            dx = 1;
+            break;
+        case 4:
+            dy = 0;
+            dx = -1;
+            break;
+    }
+
+    s32 result = 0;
+    if (pJunction->ContainsPoint((u8)(x + dx), (u8)(y + dy)))
+    {
+        result = 1;
+    }
+    return result;
 }
+#pragma warning(pop)
 
 WIP_FUNC(0x5892f0)
 RouteFinder_10* RouteFinder::sub_5892F0(RouteFinder_10* a2, u16 idx, s16 a4)
