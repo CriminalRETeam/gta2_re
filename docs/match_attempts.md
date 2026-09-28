@@ -202,3 +202,19 @@ Tried:
   STOPASYNC call under `if (hr == DP_OK)` (0.901, the shared check goes to the end).
 - The shared check at the end of the `if` branch under a label, with the else branch
   doing `if (hr >= 0) goto check_result; return -1;` (0.894).
+
+## Stubs that aren't normal functions
+
+These have `STUB_FUNC` markers but are compiler-generated in the original, so there is
+no source to write for them:
+
+- `PedGroup::sub_4C8E60` (0x4C8E60): the static destructor for a global array of 20
+  `PedGroup`s (`eh vector destructor iterator` on 0x67EF20, size 0x44).
+- `NetPlay::static_dtor_5E4DD0`: the `atexit` destructor for `gNetPlay_7071E8`
+  (`mov $gNetPlay,%ecx; jmp ~NetPlay`). VC6 now generates it, since `NetPlay` has a real
+  constructor.
+- `NetPlay::vdtor_51D7B0`: NetPlay's scalar deleting destructor (`??_G`), generated from
+  the virtual destructor.
+- The `crt_stubs.cpp` functions (`malloc`, `free`, `fopen`, ...) are the static CRT.
+
+The markers can't be checked either way: there's no function body to put after them.
