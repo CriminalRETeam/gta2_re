@@ -202,6 +202,8 @@ Tried:
   STOPASYNC call under `if (hr == DP_OK)` (0.901, the shared check goes to the end).
 - The shared check at the end of the `if` branch under a label, with the else branch
   doing `if (hr >= 0) goto check_result; return -1;` (0.894).
+- The same with every "not DP_OK" check as `goto failed` and `failed: return -1;` at the
+  very end (0.894: VC6 copies the check into the else path instead of jumping back).
 
 ## Stubs that aren't normal functions
 
