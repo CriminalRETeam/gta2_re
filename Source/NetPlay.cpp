@@ -342,11 +342,70 @@ s32 NetPlay::sub_51E5C0()
     return 0;
 }
 
-STUB_FUNC(0x51e650)
+// Return block layout differs, see docs/match_attempts.md
+WIP_FUNC(0x51e650)
 s32 NetPlay::sub_51E650()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    MSG msg;
+    DPSESSIONDESC2 desc;
+
+    memset(&desc, 0, sizeof(desc));
+    desc.dwSize = sizeof(desc);
+    desc.guidApplication = kGta2_DP_Guid_5FE928;
+
+    HRESULT hr;
+    if (field_4)
+    {
+        hr = field_5E4_pDPlay3->EnumSessions(&desc, 0, (LPDPENUMSESSIONSCALLBACK2)NetPlay::EnumSessions_cb_51EAE0, this, 0);
+        while (hr == DPERR_CONNECTING)
+        {
+            if (PeekMessageA(&msg, 0, 0, 0, PM_REMOVE))
+            {
+                TranslateMessage(&msg);
+                DispatchMessageA(&msg);
+            }
+            Sleep(500);
+            hr = field_5E4_pDPlay3->EnumSessions(&desc, 0, (LPDPENUMSESSIONSCALLBACK2)NetPlay::EnumSessions_cb_51EAE0, this, 0);
+        }
+
+        if (hr == DPERR_USERCANCEL)
+        {
+            return 0;
+        }
+        if (hr != DP_OK)
+        {
+            return -1;
+        }
+
+        hr = field_5E4_pDPlay3->EnumSessions(&desc, 0, (LPDPENUMSESSIONSCALLBACK2)NetPlay::EnumSessions_cb_51EAE0, this, DPENUMSESSIONS_STOPASYNC);
+        if (hr == DPERR_USERCANCEL)
+        {
+            return 0;
+        }
+        if (hr != DP_OK)
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        hr = field_5E4_pDPlay3->EnumSessions(&desc,
+                                             0,
+                                             (LPDPENUMSESSIONSCALLBACK2)NetPlay::EnumSessions_cb_51EAE0,
+                                             this,
+                                             DPENUMSESSIONS_AVAILABLE | DPENUMSESSIONS_ASYNC);
+        if (hr < 0)
+        {
+            return -1;
+        }
+        if (hr != DP_OK)
+        {
+            return -1;
+        }
+    }
+    return field_C4_sessions.field_5C4_session_count;
 }
 
 STUB_FUNC(0x51e7a0)
@@ -401,7 +460,7 @@ u32 NetPlay::sub_51E9C0(Network_8* pData, s32 player_id, DPNAME name, Network_Un
 }
 
 MATCH_FUNC(0x51eae0)
-s32 NetPlay::EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, NetPlay* lpContext)
+s32 __stdcall NetPlay::EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, NetPlay* lpContext)
 {
     if ((dwFlags & 1) != 0)
     {

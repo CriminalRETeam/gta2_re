@@ -180,3 +180,25 @@ TU with `build.py --single_cpp ../build_vc6/scratch_t.cpp`:
 - dword shift + `and $1,%al`: `(a1 & 0x80) != 0`, `(u8)(a1 >> 7) & 1`,
   `(a1 & 0xFF) >> 7`, a `u32` bitfield.
 - `mov %al` + `test` + `setl`: `(char_type)a1 < 0`.
+
+## NetPlay::sub_51E650 (WIP)
+
+Ratio 0.915. Enumerates sessions: with `field_4` set it loops on `DPERR_CONNECTING`
+(PeekMessage/Translate/Dispatch, `Sleep(500)`), then calls again with
+`DPENUMSESSIONS_STOPASYNC`. Otherwise it calls once with `AVAILABLE | ASYNC`. Returns
+the session count, 0 on `DPERR_USERCANCEL`, -1 on failure. `EnumSessions_cb_51EAE0` had to
+become `static __stdcall` to be passed as the callback (it never used `this`, and it
+still matches).
+
+The code is right. Only the layout of the return blocks differs: the original has a
+single `or $-1,%eax` return block at the very end, which every "not DP_OK" check jumps
+to. The "`hr != DP_OK` -> -1, else return count" check sits right after the
+STOPASYNC call, and the else branch's `jge` jumps back up into it. Ours gives each
+failure its own return block.
+
+Tried:
+- Separate `if (hr != DP_OK) return -1;` in each branch (0.915, best).
+- One shared `if (hr != DP_OK) return -1; return count;` after the if/else, with the
+  STOPASYNC call under `if (hr == DP_OK)` (0.901, the shared check goes to the end).
+- The shared check at the end of the `if` branch under a label, with the else branch
+  doing `if (hr >= 0) goto check_result; return -1;` (0.894).
