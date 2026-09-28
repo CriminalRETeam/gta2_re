@@ -3899,10 +3899,34 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
     }
 }
 
-STUB_FUNC(0x418190)
+MATCH_FUNC(0x418190)
 void sound_obj::HandleAICarEngineSound_418190(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    if (!a2->field_4_bDrivenByPlayer)
+    {
+        Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
+        Fix16 speed;
+        speed = a2->field_0_pObj->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
+        if (max_speed > k_dword_66F3F0 && speed > k_dword_66F3F0 && CalculateDistance_419020(Fix16(0x144000, 0)))
+        {
+            u8 emitting_vol = Fix16::Round_To_Int_410BF0((speed / max_speed) * Fix16(0x2C000, 0));
+            if (emitting_vol > 0)
+            {
+                if (VolCalc_419070(emitting_vol, Fix16(0x24000, 0), a2->field_5_bHasSolidAbove))
+                {
+                    this->field_30_sQueueSample.field_54 = Fix16(0x24000, 0);
+                    this->field_30_sQueueSample.field_60_nEmittingVolume = emitting_vol;
+                    this->field_30_sQueueSample.field_64_max_distance = 18;
+                    this->field_30_sQueueSample.field_58_type = 2;
+                    this->field_30_sQueueSample.field_4_SampleIndex = 2;
+                    this->field_30_sQueueSample.field_41 = 0;
+                    this->field_30_sQueueSample.field_18 = 0;
+                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 17;
+                    AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+    }
 }
 
 WIP_FUNC(0x413D10)
