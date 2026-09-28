@@ -937,11 +937,22 @@ s32 NetPlay::NoRefs_5215B0(u32 a2, u32* a3, size_t* a4)
     return 0;
 }
 
-STUB_FUNC(0x521630)
-s32 NetPlay::Send_521630(s32 pData, s32 idx, char_type a4)
+MATCH_FUNC(0x521630)
+s32 NetPlay::Send_521630(Network_8* pSendData, s32 idx, char_type a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u32 dataLen;
+    s32 pData;
+    Packet_SubType_3 pStru;
+
+    memset(&pStru, 0, sizeof(pStru));
+    pStru.header.field_4_sub_type = 3;
+    pStru.header.field_0_type = 1;
+    pStru.field_9 = 1;
+    pStru.field_D = (s32)pSendData->field_0;
+    pStru.field_11_len = pSendData->field_4_len;
+    NetPlay::MakeSendData_51F420(&pStru, &pData, &dataLen);
+    ((char_type*)pData)[1] = field_758_n2.field_8[field_5D4_player_idx] - a4;
+    return field_5E4_pDPlay3->Send(field_5D8_player_id, field_758_n2.field_10[idx].field_10, 0, (void*)pData, dataLen);
 }
 
 MATCH_FUNC(0x5216e0)
@@ -1007,10 +1018,24 @@ char_type NetPlay::sub_521890(s32** a3, s32* arg4, u32* a4)
     return 0;
 }
 
-STUB_FUNC(0x521b20)
-void NetPlay::Send_521B20(s32* a2)
+MATCH_FUNC(0x521b20)
+void NetPlay::Send_521B20(Network_8* pSendData)
 {
-    NOT_IMPLEMENTED;
+    u32 dataLen;
+    s32 pData;
+    Packet_SubType_3 pStru;
+
+    memset(&pStru, 0, sizeof(pStru));
+    pStru.header.field_4_sub_type = 3;
+    pStru.header.field_0_type = 1;
+    pStru.field_8 = field_758_n2.field_8[field_5D4_player_idx];
+    pStru.field_9 = 1;
+    pStru.field_D = (s32)pSendData->field_0;
+    pStru.field_11_len = pSendData->field_4_len;
+    NetPlay::MakeSendData_51F420(&pStru, &pData, &dataLen);
+    field_5E4_pDPlay3->Send(field_5D8_player_id, 0, 0, (void*)pData, dataLen);
+    const s32 player_idx = field_5D4_player_idx;
+    field_758_n2.field_8[player_idx] = ((u8)field_758_n2.field_8[player_idx] + 1) % 256;
 }
 
 MATCH_FUNC(0x521be0)
