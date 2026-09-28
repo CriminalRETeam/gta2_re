@@ -202,8 +202,8 @@ struct NetPlay
     EXPORT void FreePlayerSlot_5201A0(s32 idx, Network_Unknown* pStru);
     EXPORT void ProcessIncomingPacket_520230(s32 idx, u32 pUnknown);
     EXPORT void Set6_520530(void* pFunc, void* pParam);
-    EXPORT s32 sub_520570(int session_idx, wchar_t* a3, s32* a4, s32* a5);
-    EXPORT s32 EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay* pContext);
+    EXPORT s32 JoinSession_520570(u32 session_idx, wchar_t* pPlayerName, Network_8* pPlayerData, Network_8* pOutGroupData);
+    EXPORT static s32 __stdcall EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay* pContext);
     EXPORT s32 AddEnumeratedGroupPlayer_520CA0(s32 player_id, DPNAME* pName);
     EXPORT void sub_520D00(s32 a2);
     EXPORT void Disconnect_520D10();

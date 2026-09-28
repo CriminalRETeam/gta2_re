@@ -1111,15 +1111,126 @@ void NetPlay::Set6_520530(void* pFunc, void* pParam)
     field_4C_func_ptrs_and_params[2].field_8_fn_type = 2;
 }
 
-STUB_FUNC(0x520570)
-s32 NetPlay::sub_520570(int session_idx, wchar_t* a3, int* a4, s32* a5)
+MATCH_FUNC(0x520570)
+s32 NetPlay::JoinSession_520570(u32 session_idx, wchar_t* pPlayerName, Network_8* pPlayerData, Network_8* pOutGroupData)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    DPNAME name;
+
+    if (!field_5E4_pDPlay3 || !pOutGroupData || !pPlayerName)
+    {
+        return 0;
+    }
+
+    memset(&field_5E8_n1.field_120_session_desc, 0, sizeof(DPSESSIONDESC2));
+    DPSESSIONDESC2* pDesc = &field_758_n2.field_120_session_desc;
+    memset(pDesc, 0, sizeof(DPSESSIONDESC2));
+    pDesc->dwSize = sizeof(DPSESSIONDESC2);
+
+    field_758_n2.field_120_session_desc.dwFlags = field_C4_sessions.field_C4_sessions[session_idx].dwFlags;
+    field_758_n2.field_120_session_desc.guidInstance = field_C4_sessions.field_C4_sessions[session_idx].guidInstance;
+    field_758_n2.field_120_session_desc.guidApplication = field_C4_sessions.field_C4_sessions[session_idx].guidApplication;
+    field_758_n2.field_120_session_desc.dwMaxPlayers = field_C4_sessions.field_C4_sessions[session_idx].dwMaxPlayers;
+    field_758_n2.field_120_session_desc.dwCurrentPlayers = field_C4_sessions.field_C4_sessions[session_idx].dwCurrentPlayers;
+    field_758_n2.field_120_session_desc.lpszSessionName = (LPWSTR)operator new(2 * wcslen(field_C4_sessions.field_C4_sessions[session_idx].lpszSessionName) + 2);
+    wcscpy(field_758_n2.field_120_session_desc.lpszSessionName, field_C4_sessions.field_C4_sessions[session_idx].lpszSessionName);
+
+    if (field_5E4_pDPlay3->Open(pDesc, DPOPEN_JOIN | DPOPEN_RETURNSTATUS))
+    {
+        return 0;
+    }
+
+    memset(&name, 0, sizeof(name));
+    name.lpszShortName = pPlayerName;
+    name.dwSize = sizeof(DPNAME);
+    name.lpszLongName = 0;
+    if (field_5E4_pDPlay3->CreatePlayer((LPDPID)&field_5D8_player_id,
+                                        &name,
+                                        field_5DC_handle,
+                                        pPlayerData->field_0,
+                                        pPlayerData->field_4_len,
+                                        0) < 0)
+    {
+        return 0;
+    }
+
+    if (field_5E4_pDPlay3->EnumGroups(&field_758_n2.field_120_session_desc.guidInstance,
+                                      (LPDPENUMPLAYERSCALLBACK2)NetPlay::EnumGroups_cb_520C20,
+                                      this,
+                                      0) < 0)
+    {
+        return 0;
+    }
+
+    if (field_5E4_pDPlay3->EnumGroupPlayers(field_758_n2.field_0_group_id,
+                                            &field_758_n2.field_120_session_desc.guidInstance,
+                                            (LPDPENUMPLAYERSCALLBACK2)NetPlay::EnumGroups_cb_520C20,
+                                            this,
+                                            0) < 0)
+    {
+        return 0;
+    }
+
+    u32 i;
+    for (i = 0; i < field_758_n2.field_4_count; i++)
+    {
+        if (field_5E4_pDPlay3->GetPlayerData(field_758_n2.field_10[i].field_10,
+                                             (void*)field_758_n2.field_10[i].field_24,
+                                             (LPDWORD)&field_758_n2.field_10[i].field_28,
+                                             0) == DPERR_BUFFERTOOSMALL)
+        {
+            field_758_n2.field_10[i].field_24 = (s32)operator new(field_758_n2.field_10[i].field_28);
+            field_5E4_pDPlay3->GetPlayerData(field_758_n2.field_10[i].field_10,
+                                             (void*)field_758_n2.field_10[i].field_24,
+                                             (LPDWORD)&field_758_n2.field_10[i].field_28,
+                                             0);
+        }
+    }
+
+    for (i = 0; i < field_758_n2.field_4_count; i++)
+    {
+        ProcessIncomingPacket_520230(2, (u32)&field_758_n2.field_10[i]);
+    }
+
+    if (field_5E4_pDPlay3->AddPlayerToGroup(field_758_n2.field_0_group_id, field_5D8_player_id) < 0)
+    {
+        return 0;
+    }
+
+    AddPlayer_51E9C0(pPlayerData, field_5D8_player_id, name, &field_5E8_n1);
+
+    HRESULT hr = field_5E4_pDPlay3->GetGroupData(field_758_n2.field_0_group_id,
+                                                  field_758_n2.field_118,
+                                                  (LPDWORD)&field_758_n2.field_11C,
+                                                  0);
+    if (hr == DPERR_BUFFERTOOSMALL)
+    {
+        field_758_n2.field_118 = (u8*)operator new(field_758_n2.field_11C);
+        if (field_5E4_pDPlay3->GetGroupData(field_758_n2.field_0_group_id,
+                                            field_758_n2.field_118,
+                                            (LPDWORD)&field_758_n2.field_11C,
+                                            0) < 0)
+        {
+            return 0;
+        }
+    }
+    else if (hr < 0)
+    {
+        return 0;
+    }
+
+    field_5CC = 0;
+    field_5C8 = 1;
+    field_48 = 4;
+    void* pGroupData = operator new(field_758_n2.field_11C);
+    pOutGroupData->field_0 = pGroupData;
+    pOutGroupData->field_4_len = field_758_n2.field_11C;
+    memcpy(pGroupData, field_758_n2.field_118, field_758_n2.field_11C);
+    ProcessIncomingPacket_520230(8, (u32)&field_758_n2.field_118);
+    return 1;
 }
 
 MATCH_FUNC(0x520c20)
-s32 NetPlay::EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay* pContext)
+s32 __stdcall NetPlay::EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay* pContext)
 {
     if ((a4 & 1) != 0)
     {
