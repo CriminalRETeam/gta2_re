@@ -1941,12 +1941,12 @@ bool NetPlay::WaitForPlayersSync_5213E0()
             {
                 return true;
             }
-            goto failed;
+            return false;
         }
 
         if (bTimedOut)
         {
-            goto failed;
+            return false;
         }
 
         if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
@@ -1957,7 +1957,7 @@ bool NetPlay::WaitForPlayersSync_5213E0()
                 u32 idx = IndexOf_520E30(senderId, &field_758_n2);
                 if (idx == 0xEEEEEEEE)
                 {
-                    goto failed;
+                    return false;
                 }
                 waitingForAck &= ~(1 << idx);
             }
@@ -1967,16 +1967,12 @@ bool NetPlay::WaitForPlayersSync_5213E0()
                 u32 idx = IndexOf_520E30(senderId, &field_758_n2);
                 if (idx == 0xEEEEEEEE)
                 {
-                    goto failed;
+                    return false;
                 }
                 waitingForSync &= ~(1 << idx);
             }
         }
         bTimedOut = timeGetTime() - startTime > 20000;
-        continue;
-
-    failed:
-        return false;
     }
 }
 
