@@ -1782,11 +1782,108 @@ void NetPlay::Remove_521870(s32 idx)
     field_8F8_packets[idx].field_10_used = 0;
 }
 
-STUB_FUNC(0x521890)
-char_type NetPlay::sub_521890(s32** a3, s32* arg4, u32* a4)
+// Stack frame and registers differ, see docs/match_attempts.md
+WIP_FUNC(0x521890)
+char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* pType)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    char_type bGotMessage;
+    char_type bCheckBuffered;
+    char_type seq;
+    s32 pData;
+    unsigned long senderId;
+    unsigned long recvId;
+    s32 dataLen;
+
+    bCheckBuffered = 1;
+    bGotMessage = 0;
+    bool bTimedOut = false;
+    DWORD startTime = timeGetTime();
+
+    while (1)
+    {
+        if (bTimedOut || field_8F0)
+        {
+            break;
+        }
+
+        if (bCheckBuffered)
+        {
+            // Take the oldest buffered (out of order) packet
+            u32 slot = sub_521770(pOut, &seq, (u32*)pPlayerIdx);
+            if (slot != -1)
+            {
+                *pType = 3;
+                bGotMessage = 1;
+                s32 diff = SeqDiff(seq, field_758_n2.field_8[*pPlayerIdx]);
+                s32 diffLocal = SeqDiff(seq, field_758_n2.field_8[field_5D4_player_idx]);
+                if (diff < 0)
+                {
+                    bGotMessage = 0;
+                    Remove_521870(slot);
+                }
+                else if (diff == 0 && diffLocal < 0)
+                {
+                    Remove_521870(slot);
+                    sub_521820((s32**)pOut, *pPlayerIdx);
+                    field_758_n2.field_8[*pPlayerIdx] = ((u8)field_758_n2.field_8[*pPlayerIdx] + 1) % 256;
+                }
+                else
+                {
+                    bGotMessage = 0;
+                    bCheckBuffered = 0;
+                }
+            }
+            else
+            {
+                bGotMessage = 0;
+                bCheckBuffered = 0;
+            }
+        }
+        else if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
+        {
+            u8* pPacket = (u8*)pData;
+            *pType = pPacket[3];
+            *pPlayerIdx = IndexOf_520E30(senderId, &field_758_n2);
+            if (*pPlayerIdx != 0xEEEEEEEE)
+            {
+                bGotMessage = 1;
+                pOut->field_4_len = pPacket[4];
+                pOut->field_0 = pPacket + 5;
+                if (*pType == 3)
+                {
+                    seq = pPacket[1];
+                    s32 diff = SeqDiff(seq, field_758_n2.field_8[*pPlayerIdx]);
+                    s32 diffLocal = SeqDiff(seq, field_758_n2.field_8[field_5D4_player_idx]);
+                    if (diff < 0)
+                    {
+                        bGotMessage = 0;
+                    }
+                    else if (diff == 0 && diffLocal < 0)
+                    {
+                        sub_521820((s32**)pOut, *pPlayerIdx);
+                        field_758_n2.field_8[*pPlayerIdx] = ((u8)field_758_n2.field_8[*pPlayerIdx] + 1) % 256;
+                    }
+                    else
+                    {
+                        // Not the next one in sequence yet: buffer it
+                        Add_5216E0(pOut, *pPlayerIdx, seq);
+                        bGotMessage = 0;
+                    }
+                }
+            }
+        }
+
+        bTimedOut = timeGetTime() - startTime > 500;
+        if (bGotMessage)
+        {
+            break;
+        }
+    }
+
+    field_8F4_time_diff = timeGetTime() - startTime;
+    return bGotMessage;
 }
 
 MATCH_FUNC(0x521b20)

@@ -282,3 +282,20 @@ Tried (all 0.903 or the plain `sete` version):
   body (the trick that fixed `Receive_51F010`).
 
 Also tried: a `char_type` return type (no change). Not tried: a result variable.
+
+## NetPlay::ReceiveGameMessage_521890 (WIP)
+
+The in-game message pump. It first drains buffered out-of-order packets (`sub_521770`),
+otherwise reads new ones with `Receive_51F010`. Game packets (type 3) are compared with
+the sender's and our own 8-bit sequence numbers (`SeqDiff`, see `sub_521770`): old ones
+are dropped, the next one is accepted (`sub_521820`, sequence++), anything later is
+buffered (`Add_5216E0`). It stops on a message, `field_8F0` or after 500 ms, and stores
+the time taken in `field_8F4_time_diff`.
+
+Ratio 0.284. That's misleading: the logic lines up, but our frame is 0x1C bytes instead of
+0x18, so every stack offset differs. The original has six dwords: one holding the three
+byte locals (`bGotMessage` 0x11, `bCheckBuffered` 0x12, `seq` 0x13), then pData,
+senderId, the start time (also kept in `ebp`), recvId and the length. Ours keeps
+`pType` in `ebp` and gives the start time its own slot.
+
+Tried: declaring the byte locals together before the others (no change).

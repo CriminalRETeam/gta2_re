@@ -233,7 +233,7 @@ struct NetPlay
     EXPORT u32 sub_521770(Network_8* pOut, char_type* pSeq, u32* pPlayerId);
     EXPORT void sub_521820(s32** a2, s32 idx);
     EXPORT void Remove_521870(s32 idx);
-    EXPORT char_type sub_521890(s32** a3, s32* arg4, u32* a4);
+    EXPORT char_type ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* pType);
     EXPORT void SendToAll_521B20(Network_8* pSendData);
     EXPORT s32 NoRefs_Send_521BE0(Network_8* pSendData, s32 a3);
     EXPORT s32 NoRefs_Send_521C80(s32 pSendData);
