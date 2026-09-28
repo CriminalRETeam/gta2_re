@@ -14,18 +14,62 @@ EXTERN_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256);
 
 Network_UI_Control_Data gUiControlDefinitions_621430[3][30];
 
-STUB_FUNC(0x519960)
-u16 __stdcall sub_519960(char_type* a1, wchar_t* a2)
+MATCH_FUNC(0x519960)
+void __stdcall sub_519960(char_type* pDst, wchar_t* pSrc)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    wchar_t c = *pSrc;
+    if (c)
+    {
+        do
+        {
+            if (c > 0xFF)
+            {
+                *pDst = HIBYTE(c);
+                pDst += 2;
+                pDst[-1] = *(char_type*)pSrc;
+            }
+            else
+            {
+                *pDst = *(char_type*)pSrc;
+                pDst++;
+            }
+            c = *++pSrc;
+        } while (c);
+        *pDst = (char_type)c;
+    }
+    else
+    {
+        *pDst = 0;
+    }
 }
 
-STUB_FUNC(0x5199b0)
-char_type Network_20324::sub_5199B0(wchar_t* a1, char_type* a2)
+MATCH_FUNC(0x5199b0)
+void Network_20324::sub_5199B0(wchar_t* pDst, char_type* pSrc)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type c = *pSrc;
+    if (c)
+    {
+        do
+        {
+            if (c & 0x80)
+            {
+                *pDst = MAKEWORD(pSrc[1], c);
+                pSrc += 2;
+            }
+            else
+            {
+                *pDst = (u8)c;
+                pSrc++;
+            }
+            c = *pSrc;
+            pDst++;
+        } while (c);
+        *pDst = 0;
+    }
+    else
+    {
+        *pDst = 0;
+    }
 }
 
 MATCH_FUNC(0x519a00)
