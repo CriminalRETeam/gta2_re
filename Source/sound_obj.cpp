@@ -3625,11 +3625,145 @@ void sound_obj::sub_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type)
             break;
     }
 }
-STUB_FUNC(0x57E6C0)
-char_type sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
+WIP_FUNC(0x57E6C0)
+void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+    if (IsPoliceOrServiceVehicle_57F090(pCar) == true)
+    {
+        field_54FC = 0;
+        field_54F7[0] = 101;
+        return;
+    }
+
+    if (pCar->field_B0)
+    {
+        field_54F7[0] = FindEmitterByStatus_57F050(pCar->field_B0);
+        return;
+    }
+
+    field_54FC = 1;
+
+    u8 emitter;
+    switch (pCar->field_84_car_info_idx)
+    {
+        case car_model_enum::VTYPE:
+            emitter = FindEmitterByStatus_57F050(5);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::ISETTA:
+            emitter = FindEmitterByStatus_57F050(7);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::MIURA:
+            emitter = FindEmitterByStatus_57F050(6);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::PICKUP:
+            emitter = FindEmitterByStatus_57F050(8);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::STRATOSB:
+            emitter = FindEmitterByStatus_57F050(9);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::BUICK:
+            emitter = FindEmitterByStatus_57F050(11);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::KRSNABUS:
+            emitter = FindEmitterByStatus_57F050(10);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        default:
+            break;
+    }
+
+    u8 volume = ComputeRadioEmitterVolume_57EB90(emitter, 0);
+    if (volume < 50)
+    {
+        u8 i;
+        switch ((u8)(field_1454_anRandomTable[0] % 5))
+        {
+            case 0:
+                for (i = 0; i < 5; i++)
+                {
+                    s32 status = *(u32*)&field_544C[i + 1].field_8.field_4_bStatus;
+                    if (status == 6 || (status > 8 && status <= 10))
+                    {
+                        field_54F7[0] = i;
+                        return;
+                    }
+                    if (i == 4)
+                    {
+                        field_54F7[0] = FindEmitterByStatus_57F050(1);
+                    }
+                }
+                break;
+            case 1:
+                for (i = 0; i < 5; i++)
+                {
+                    s32 status = *(u32*)&field_544C[i + 1].field_8.field_4_bStatus;
+                    if ((status >= 7 && status <= 8) || status == 11)
+                    {
+                        field_54F7[0] = i;
+                        return;
+                    }
+                    if (i == 4)
+                    {
+                        field_54F7[0] = FindEmitterByStatus_57F050(1);
+                    }
+                }
+                break;
+            case 2:
+                field_54F7[0] = FindEmitterByStatus_57F050(5);
+                if (field_54F7[0] == 127)
+                {
+                    field_54F7[0] = FindEmitterByStatus_57F050(1);
+                }
+                break;
+            case 3:
+                for (i = 0; i < 5; i++)
+                {
+                    if (*(u16*)&field_544C[i + 1].field_8.field_8 == 0 &&
+                        *(u32*)&field_544C[i + 1].field_8.field_4_bStatus != 1)
+                    {
+                        field_54F7[0] = i;
+                        return;
+                    }
+                }
+                break;
+            default:
+                field_54F7[0] = FindEmitterByStatus_57F050(1);
+                break;
+        }
+    }
+    else
+    {
+        field_54F7[0] = emitter;
+        field_54F2[4] = volume;
+    }
 }
 
 MATCH_FUNC(0x426F20)

@@ -641,3 +641,26 @@ so the next "Dump target asm" run will include them:
 
 - `sub_5BEED0` (Montana.cpp): converts a cycle count for `DebugDrawProfiling_4FF250`. The
   body is a guess.
+
+## sound_obj::ChooseRadioEmitterForVehicle_57E6C0 (WIP, was STUB)
+
+Picks the radio emitter for the player's car: service vehicles get none (101), cars with
+`field_B0` use that station, a few models have a fixed station (status 5..11 through
+`FindEmitterByStatus_57F050`), and if that one is too quiet a random rule picks another.
+Now `void` (the caller ignores the result). Ratio 0.724.
+
+Notes:
+- The model switch has no `default` code: the emitter local is left uninitialised and
+  still passed to `ComputeRadioEmitterVolume_57EB90`. The `127 -> 0` fix-up is inside each
+  case (VC6 merges the tails after the `push`).
+- `if (volume < 50) { switch } else { store }` puts the store block at the end like the
+  original (0.689 -> 0.724).
+- `field_544C[i + 1].field_8` is read as `u32` status and `u16` `field_8`, like
+  `FindEmitterByStatus_57F050`; the struct there is still wrong.
+
+Still different:
+- On the `default` path ours reloads the emitter byte from its stack slot (`jmp; mov
+  0xC(%esp),%bl`), the original just uses `bl`. A separate loop counter instead of reusing
+  the emitter variable made no difference.
+- The search loops end with `jb top` in ours; the original has `jae <shared return>;
+  jmp top` and the "found" block right after case 0's loop (case 1 jumps back to it).
