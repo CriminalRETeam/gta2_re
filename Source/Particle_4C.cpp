@@ -805,11 +805,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             break;
     }
 
-    Fix16 sin = Ang16::sine_40F500(field_24_angle);
-    Fix16 cos = Ang16::cosine_40F520(field_24_angle);
-    Fix16 old_x = dir.x;
-    dir.x = dir.x * cos + dir.y * sin;
-    dir.y = -old_x * sin + dir.y * cos;
+    dir.RotateByAngle_40F6B0(field_24_angle);
     field_14_additional_speed_x = dir.x;
     field_18_additional_speed_y = dir.y;
 
