@@ -460,7 +460,13 @@ tried are in the WIP status report.
   It may be from a library built with another compiler version (the loader macro also appears
   in gbh_graphics.cpp, which builds with `/Od /ZI`).
 - An empty `Fix16_Point()` / `Fix16_Point_POD()` default ctor called out of line
-  (`??0Fix16_Point_POD@@QAE@XZ`) for locals declared at the top of big `Particle_4C`
-  functions (`UpdateSkidOrScrapeSpark_state_40_41_53A280`, `UpdateObjectBeamLink_state_38_538AC0`).
-  The original constructs them with no code. The struct is not exported, and a
-  `Fix16_Point(Fix16(0), Fix16(0))` local in the same file is inlined.
+  (`??0Fix16_Point_POD@@QAE@XZ`) for locals declared at the top of big functions
+  (`Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280`,
+  `Particle_4C::UpdateObjectBeamLink_state_38_538AC0`, `sub_5DE910`). The original constructs
+  them with no code. Partly explained by an inline budget per function. In a test TU, 11
+  `Fix16_Point` locals inline, 12 leave one ctor call, and 14 leave five. It takes both a
+  destructor (EH) and `Fix16` members: the same struct with `int` members, or without the
+  dtor, never calls. The ctors seem to get whatever budget other inline expansions leave, and
+  the first-declared locals lose. In `sub_5DE910`, dropping a `static inline` length helper
+  took the calls from 6 to 2, and switching to inline `Fix16_Point` operators raised them
+  again. So the original spends less of the budget elsewhere, and it isn't known where.

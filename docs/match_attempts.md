@@ -1096,3 +1096,9 @@ Still different:
 
 ### Fix16_Point_POD::AddAssign_5E40C0 / DivAssign_5E40E0 / MaxAbs_5E4140: MATCH, first try
 - These are out-of-line copies emitted after Weapon_30.cpp's functions, used by `sub_5DE910`: `+=`, `/= Fix16` and max(|x|, |y|). The csv names them `Fix16::sub_...`, but they're `Fix16_Point` members (`this` is a point).
+
+### sub_5DE910 (0x5DE910): WIP 0.149
+- The electro-beam draw. It starts at `a1`, or at the muzzle offset rotated by `word_707004` plus `stru_706E58` when `byte_706C94` is clear. It first lays `dword_706CF4`-long segments, each with a random kink (`rng(rng(4)+1)*32`, scaled by `dword_706D34`, in `Ang16`). It then lays straight segments the rest of the way to `a2`, using max(|x|,|y|) for the count. Each segment's midpoint goes to `Particle_8::EmitElectricArcParticle`.
+- The call sequence is almost the target's. The distance is computed three times, the first `atan2` result is dead, and `rng(2)` is called and dropped.
+- The EH state is 0xA at entry and never changes. So 10 `Fix16_Point` locals are declared at the top, plus the by-value `a1`. That took it from 0.075 to 0.149.
+- What's left is VC6's inline budget. Our build calls `Fix16_Point_POD()` out of line for the first two locals. The original instead inlines the loop-1 `mid /= k; mid += cur` with `Fix16 /=` as calls (0x539F90), and calls the copies at 0x5E40E0/0x5E40C0 in loop 2. Using inline `Fix16_Point` operators for both loops gave the right loop-1 code but inlined loop 2 and left 6 ctor calls (0.072). Writing the length out by hand gave 2 calls (0.067). See the ctor note in matching_quirks.md.
