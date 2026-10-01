@@ -589,21 +589,21 @@ s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 jun
             dx = 0;
             break;
         case 2:
-            dy = 1;
             dx = 0;
+            dy = 1;
             break;
         case 8:
-            dy = 0;
             dx = 1;
+            dy = 0;
             break;
         case 4:
-            dy = 0;
             dx = -1;
+            dy = 0;
             break;
     }
 
     s32 result = 0;
-    if (pJunction->ContainsPoint((u8)(x + dx), (u8)(y + dy)))
+    if (pJunction->ContainsPoint((u8)(x + (s16)dx), (u8)(y + dy)))
     {
         result = 1;
     }
