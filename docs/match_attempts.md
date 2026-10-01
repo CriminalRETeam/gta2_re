@@ -1044,3 +1044,10 @@ Still different:
 - Both branches compute `Max(Abs(back_x), Abs(back_y))` and never use it. In the ped branch the y subtraction is the out-of-line `Fix16::Subtract_436A00`.
 - Changed the return type to `void` (nothing sets one). `shocker_5E06B0` ignores it.
 - **What's left:** the original frame is 0x1C bytes bigger.
+
+## Ped::CopyStatsFromPed_45B5B0 (MATCH, was STUB)
+
+- About 100 field copies in the original's order, plus single-bit copies of `field_21C_bf`. The bit copies on `field_224` (declared `char_type`, used as a byte of flags) are written as `((dst ^ src) & mask) ^ dst`. Then three `Ped` helper calls, and `field_0_patrol_points[0].field_0/1 = 0`.
+- Generated from the target asm, using a VC6 `offsetof` dump of `Ped` to get the field names.
+- `field_1AC_cam` has to be copied one component at a time: a struct assignment copies through pointers.
+- Changed the return type to `void`. The PedGroup callers ignore it.
