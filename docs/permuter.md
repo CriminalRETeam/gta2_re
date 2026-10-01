@@ -31,3 +31,11 @@ Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 --base-only   # just pr
 - Each improvement's `score_output.txt` has the unified diff of target vs candidate asm.
 - The submodule is on the `claude/named-op-cast-operand` branch of cpp_permuter. That branch adds
   `named_op`, `cast_operand` and `score_output.txt`.
+
+## Rejected candidates
+
+- **`PoliceCrew_38::sub_571A30`, score 129 → 72.** The candidate casts `(s8)pCar->field_76_last_seen_timer <= 200`, which is always true. VC6 then drops the compare and the score falls, but the original does `cmpw $0xC8`. With `(u8)` instead it scores 0.659 (base 0.748).
+- **`MapRenderer::sub_4ECE40`, exhaustive run.** `(s8)right_word >> 13` changes the result from 0–7 to 0 or -1. The random run's candidate (a `u32` temp) was used instead.
+- **`PedGroup::CoordinateGroupCarEntry_4C9F00` and `Ped::IncreaseWantedLevelFromDebugKeys_46EFD0`.** The permuter score went down but the real ratio got worse. Always re-check with the real ratio before committing.
+
+A cast that narrows a compared value into a range where the compare is always true or always false is a red flag: check the target asm's compare width.
