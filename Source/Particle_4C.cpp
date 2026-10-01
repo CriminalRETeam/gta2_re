@@ -219,108 +219,101 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 
     ++field_46_sub_state;
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
-    if (field_46_sub_state == 16)
+    if (field_46_sub_state != 16 && field_2C_counter != 0)
     {
-        return true;
-    }
-
-    if (field_2C_counter == 0)
-    {
-        return true;
-    }
-
-    if (field_40_pUnknown)
-    {
-        if (field_40_pUnknown->field_6_id != field_44)
+        if (field_40_pUnknown)
         {
-            field_40_pUnknown = NULL;
-            field_20 = dword_6FD49C;
-        }
-        else if (field_40_pUnknown->field_14)
-        {
-            if (field_40_pUnknown->field_14->field_4)
-            {
-                field_20 = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->sub_5290F0();
-                field_24_angle = field_40_pUnknown->field_14->field_10_obj_3c->field_4_angle;
-            }
-            if (field_40_pUnknown->field_1A == 1)
+            if (field_40_pUnknown->field_6_id != field_44)
             {
                 field_40_pUnknown = NULL;
+                field_20 = dword_6FD49C;
+            }
+            else if (field_40_pUnknown->field_14)
+            {
+                if (field_40_pUnknown->field_14->field_4)
+                {
+                    field_20 = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->sub_5290F0();
+                    field_24_angle = field_40_pUnknown->field_14->field_10_obj_3c->field_4_angle;
+                }
+                if (field_40_pUnknown->field_1A == 1)
+                {
+                    field_40_pUnknown = NULL;
+                }
+            }
+            else
+            {
+                field_40_pUnknown = NULL;
+                field_20 = dword_6FD49C;
             }
         }
         else
         {
-            field_40_pUnknown = NULL;
             field_20 = dword_6FD49C;
         }
-    }
-    else
-    {
-        field_20 = dword_6FD49C;
-    }
 
-    Fix16 zpos = field_30_pNext->field_1C_zpos + dword_6FD540;
-    if (zpos >= dword_6FD28C)
-    {
-        return true;
+        Fix16 zpos = field_30_pNext->field_1C_zpos + dword_6FD540;
+        if (zpos < dword_6FD28C)
+        {
+
+            Fix16 xpos = field_30_pNext->field_14_xy.x;
+            Fix16 ypos = field_30_pNext->field_14_xy.y;
+
+            if (field_20 < dword_6FD464)
+            {
+                off_x = 0;
+                off_y = -dword_6FD46C;
+            }
+
+            if (field_46_sub_state > 0 && field_46_sub_state <= 4)
+            {
+                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 147);
+                dir.x = 0;
+                dir.y = (dword_6FD4A0 - Fix16(field_46_sub_state) * dword_6FD2E8) * field_20;
+            }
+            else
+            {
+                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 147);
+                dir.x = 0;
+                dir.y = (field_20 * dword_6FD300) * Fix16(field_46_sub_state / 10);
+            }
+
+            Fix16 sin = Ang16::sine_40F500(field_24_angle);
+            Fix16 cos = Ang16::cosine_40F520(field_24_angle);
+            Fix16 old_x = dir.x;
+            dir.x = dir.x * cos + dir.y * sin;
+            dir.y = -old_x * sin + dir.y * cos;
+            field_14_additional_speed_x = dir.x;
+            field_18_additional_speed_y = dir.y;
+
+            Fix16 jitter_x = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 50;
+            Fix16 jitter_y = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 50;
+
+            field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
+            field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
+            stru_6FD388 = xpos + field_8_speed_x;
+            stru_6FD38C = ypos + field_C_speed_y;
+
+            if (stru_6FD388 > dword_6FD4A0 && stru_6FD388 < dword_6FD280 - dword_6FD4A0 && stru_6FD38C > dword_6FD4A0 &&
+                stru_6FD38C < dword_6FD280 - dword_6FD4A0)
+            {
+                field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+            }
+            else
+            {
+                field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, zpos);
+            }
+
+            field_30_pNext->field_2C_flags = 0x7A;
+            field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            if (field_40_pUnknown)
+            {
+                field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14->field_4);
+            }
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+            return 0;
+        }
     }
-
-    Fix16 xpos = field_30_pNext->field_14_xy.x;
-    Fix16 ypos = field_30_pNext->field_14_xy.y;
-
-    if (field_20 < dword_6FD464)
-    {
-        off_x = 0;
-        off_y = -dword_6FD46C;
-    }
-
-    if (field_46_sub_state > 0 && field_46_sub_state <= 4)
-    {
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 147);
-        dir.x = 0;
-        dir.y = (dword_6FD4A0 - Fix16(field_46_sub_state) * dword_6FD2E8) * field_20;
-    }
-    else
-    {
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 147);
-        dir.x = 0;
-        dir.y = (field_20 * dword_6FD300) * Fix16(field_46_sub_state / 10);
-    }
-
-    Fix16 sin = Ang16::sine_40F500(field_24_angle);
-    Fix16 cos = Ang16::cosine_40F520(field_24_angle);
-    Fix16 old_x = dir.x;
-    dir.x = dir.x * cos + dir.y * sin;
-    dir.y = -old_x * sin + dir.y * cos;
-    field_14_additional_speed_x = dir.x;
-    field_18_additional_speed_y = dir.y;
-
-    Fix16 jitter_x = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 50;
-    Fix16 jitter_y = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 50;
-
-    field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
-    field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-    stru_6FD388 = xpos + field_8_speed_x;
-    stru_6FD38C = ypos + field_C_speed_y;
-
-    if (stru_6FD388 > dword_6FD4A0 && stru_6FD388 < dword_6FD280 - dword_6FD4A0 && stru_6FD38C > dword_6FD4A0 &&
-        stru_6FD38C < dword_6FD280 - dword_6FD4A0)
-    {
-        field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
-    }
-    else
-    {
-        field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, zpos);
-    }
-
-    field_30_pNext->field_2C_flags = 0x7A;
-    field_30_pNext->Set_2C_0x4_Flag_4337F0();
-    if (field_40_pUnknown)
-    {
-        field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14->field_4);
-    }
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
-    return 0;
+    return true;
 }
 
 // https://decomp.me/scratch/2UJLM
