@@ -16,6 +16,12 @@
 #include "sprite.hpp"
 #include "Rozza_C88.hpp"
 #include "Police_7B8.hpp"
+#include "Car_BC.hpp"
+#include "eager_benz.hpp"
+#include "Fix16_Rect.hpp"
+#include "rng.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
+#include "PurpleDoom.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, dword_706CF4, Fix16(0x1000, 0), 0x706CF4);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706EC0, Fix16(0x8000, 0), 0x706EC0);
@@ -27,6 +33,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_706FEC, Fix16(0x1200, 0), 0x706FEC);
 DEFINE_GLOBAL(Fix16, dword_706EB8, 0x706EB8);
 DEFINE_GLOBAL(Fix16, dword_706EBC, 0x706EBC);
 DEFINE_GLOBAL(Fix16, dword_706EC4, 0x706EC4);
+DEFINE_GLOBAL(Ang16, word_706D6C, 0x706D6C);
+DEFINE_GLOBAL(Ang16, word_706E28, 0x706E28);
+DEFINE_GLOBAL(u8, byte_706C94, 0x706C94);
+DEFINE_GLOBAL(Ang16, word_707004, 0x707004);
+DEFINE_GLOBAL(Fix16_Point_POD, stru_706E58, 0x706E58);
+DEFINE_GLOBAL(Fix16_Point, stru_706F90, 0x706F90);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706EDC, Fix16(0x20000, 0), 0x706EDC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706F70, Fix16(0x100, 0), 0x706F70);
 DEFINE_GLOBAL_INIT(Fix16, dword_706DCC, Fix16(0xFFFFFD00, 0), 0x706DCC);
@@ -819,11 +831,165 @@ void __stdcall sub_5DE910(Fix16_Point a1, Fix16_Point& a2, Fix16 a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5dfb60)
-char_type Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
+WIP_FUNC(0x5dfb60)
+void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    struct_4 hits;
+    char_type bHit = 0;
+
+    Fix16_Rect rect;
+    if (!a2)
+    {
+        rect.SetRect_41E350(a3->field_14_xy.x - k_dword_706EC0,
+                            a3->field_14_xy.x + k_dword_706EC0,
+                            a3->field_14_xy.y - k_dword_706EC0,
+                            a3->field_14_xy.y + k_dword_706EC0);
+    }
+    else
+    {
+        rect.SetRect_41E350(a3->field_14_xy.x - dword_706EBC,
+                            a3->field_14_xy.x + dword_706EBC,
+                            a3->field_14_xy.y - dword_706EBC,
+                            a3->field_14_xy.y + dword_706EBC);
+    }
+    rect.SetHiLowZ_41E370(a3->field_1C_zpos - dword_706EBC, a3->field_1C_zpos + dword_706EBC);
+
+    word_707004 = field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0;
+    Fix16_Point vel = field_24_pPed->sub_45B520();
+    stru_706E58.x = vel.x;
+    stru_706E58.y = vel.y;
+
+    if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, a3, &hits) && hits.field_0_p18)
+    {
+        do
+        {
+            Sprite* pHit = hits.PopFrontSprite_5A6DA0();
+            switch (pHit->field_30_sprite_type_enum)
+            {
+                case sprite_types_enum::ped_3:
+                    if (pHit != a3 && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
+                    {
+                        Fix16 dx = pHit->field_14_xy.x - a3->field_14_xy.x;
+                        Fix16 dy = pHit->field_14_xy.y - a3->field_14_xy.y;
+                        Ang16 angle = Fix16::atan2_fixed_405320(dy, dx);
+                        Fix16 back_x = a3->field_14_xy.x - pHit->field_14_xy.x;
+                        Fix16 back_y = a3->field_14_xy.y - pHit->field_14_xy.y;
+                        Fix16 dist = Fix16::Max_44E540(Fix16::Abs_436A50(back_x), Fix16::Abs_436A50(back_y));
+
+                        Ang16 diff(angle.rValue - a4.rValue);
+                        diff.sub_406C20();
+                        if (diff < word_706D6C || diff > word_706E28)
+                        {
+                            if (gMap_0x370_6F6268->sub_4E5640(dword_706CF0,
+                                                              dword_706CF0,
+                                                              dword_706CF0,
+                                                              a3->field_14_xy.x,
+                                                              a3->field_14_xy.y,
+                                                              a3->field_1C_zpos,
+                                                              pHit->field_14_xy.x,
+                                                              pHit->field_14_xy.y,
+                                                              pHit->field_1C_zpos))
+                            {
+                                byte_706C94 = a2;
+                                Fix16 zpos = a3->field_1C_zpos;
+                                if (pHit->field_1C_zpos > zpos)
+                                {
+                                    zpos = pHit->field_1C_zpos;
+                                }
+                                sub_5DE910(a3->get_x_y_443580(), pHit->get_x_y_443580(), zpos);
+                                gWeapon_8_707018->field_0.PushSprite_5A6D40(pHit);
+                                if (a2 < 1)
+                                {
+                                    sub_5DFB60(a2 + 1, pHit, angle);
+                                }
+                                pHit->field_8_char_b4_ptr->field_7C_pPed->field_144 = field_24_pPed;
+                                pHit->field_8_char_b4_ptr->field_7C_pPed->field_204_killer_id = field_24_pPed->field_200_id;
+                                pHit->field_8_char_b4_ptr->field_7C_pPed->field_290 = 18;
+                                pHit->field_8_char_b4_ptr->field_7C_pPed->field_264 = 50;
+                                pHit->field_8_char_b4_ptr->field_7C_pPed->field_210_shock_counter += 5;
+                                if (field_24_pPed->field_15C_player)
+                                {
+                                    gShooey_CC_67A4B8->ReportCrimeForPed(2u, field_24_pPed);
+                                }
+                                field_24_pPed->AddThreateningPedToList_46FC70();
+                                gfrosty_pasteur_6F8060->sub_512C00(pHit->field_8_char_b4_ptr->field_7C_pPed->field_200_id, 160, 1);
+                            }
+                            bHit = 1;
+                        }
+                    }
+                    break;
+
+                case sprite_types_enum::car_2:
+                    if (pHit != a3 && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
+                    {
+                        Fix16 dx = pHit->field_14_xy.x - a3->field_14_xy.x;
+                        Fix16 dy = pHit->field_14_xy.y - a3->field_14_xy.y;
+                        Ang16 angle = Fix16::atan2_fixed_405320(dy, dx);
+                        Fix16 back_x = a3->field_14_xy.x - pHit->field_14_xy.x;
+                        Fix16 back_y = a3->field_14_xy.y - pHit->field_14_xy.y;
+                        Fix16 dist = Fix16::Max_44E540(Fix16::Abs_436A50(back_x), Fix16::Abs_436A50(back_y));
+
+                        Ang16 diff = angle - a4;
+                        if (diff < word_706D6C || diff > word_706E28)
+                        {
+                            if (gMap_0x370_6F6268->sub_4E5640(dword_706CF0,
+                                                              dword_706CF0,
+                                                              dword_706CF0,
+                                                              a3->field_14_xy.x,
+                                                              a3->field_14_xy.y,
+                                                              a3->field_1C_zpos,
+                                                              pHit->field_14_xy.x,
+                                                              pHit->field_14_xy.y,
+                                                              pHit->field_1C_zpos))
+                            {
+                                byte_706C94 = a2;
+                                Fix16 zpos = a3->field_1C_zpos;
+                                if (pHit->field_1C_zpos > zpos)
+                                {
+                                    zpos = pHit->field_1C_zpos;
+                                }
+                                sub_5DE910(a3->get_x_y_443580(), pHit->get_x_y_443580(), zpos);
+                                gWeapon_8_707018->field_0.PushSprite_5A6D40(pHit);
+                                if (a2 < 1)
+                                {
+                                    sub_5DFB60(a2 + 1, pHit, angle);
+                                }
+                                Car_BC* pCar = pHit->field_8_car_bc_ptr;
+                                if (!(pCar->field_78_flags & 0x400))
+                                {
+                                    pCar->field_70_exploder_ped_id = field_24_pPed->field_200_id;
+                                    pHit->field_8_car_bc_ptr->field_90 = 18;
+                                    pHit->field_8_car_bc_ptr->field_94 = 50;
+                                    s16 damage = pHit->field_8_car_bc_ptr->AccumulateDamage_43DA90(300, &stru_706F90);
+                                    pHit->field_8_car_bc_ptr->ApplyVisualDamage_43A9F0();
+                                    if (field_24_pPed->IsField238_45EDE0(2) && damage > 0)
+                                    {
+                                        field_24_pPed->field_15C_player->field_2D4_scores.sub_593150(pHit->field_8_car_bc_ptr, 1);
+                                    }
+                                }
+                                if (field_24_pPed->field_15C_player)
+                                {
+                                    gShooey_CC_67A4B8->ReportCrimeForPed(2u, field_24_pPed);
+                                }
+                                field_24_pPed->AddThreateningPedToList_46FC70();
+                            }
+                            bHit = 1;
+                            gfrosty_pasteur_6F8060->sub_512C00(pHit->field_8_car_bc_ptr->field_6C_maybe_id, 160, 0);
+                        }
+                    }
+                    break;
+            }
+        } while (hits.field_0_p18);
+
+        if (bHit && !a2)
+        {
+            field_2C = 1;
+            if (field_24_pPed->IsField238_45EDE0(2) && (rng_dword_67AB34->field_0_rng & 1))
+            {
+                DecreaseAmmo_4CCA60();
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5e06b0)

@@ -1033,3 +1033,14 @@ Still different:
   - Then it marks the target as shot by the owner and calls `sub_5DE910`.
 - `sub_5DE910` (0x772 bytes) was missing from the source entirely. It's now a `STUB_FUNC`: `void __stdcall (Fix16_Point by value, Fix16_Point&, Fix16 z)`, worked out from the call site. Both point arguments are `get_x_y_443580()` of the target's sprite. It still needs target asm (it was not in the dump).
 - Changed the return type to `void`, since nothing sets one. `electro_batton_5E0740` still matches.
+
+## Weapon_30::sub_5DFB60 (WIP, was STUB)
+
+- 0.146. This is the shocker's chain lightning:
+  - It collects the sprites in a box around `a3` (`gPurpleDoom_1_679208->CollectRectCollisions_477F30`). The box is `k_dword_706EC0` wide for the first link and `dword_706EBC` after that.
+  - For each ped or car within the angle window (`word_706D6C` / `word_706E28` around `a4`), that has map line of sight (`sub_4E5640`) and isn't already hit (`gWeapon_8_707018` list), it does three things. It draws the arc (`sub_5DE910`), recurses once (`a2 < 1`), and shocks the ped or damages the car. The car damage is `AccumulateDamage_43DA90(300)`, with scoring for the player.
+  - At the end it takes one ammo with a 1/2 chance.
+- The ped branch normalises the angle difference out of line (`sub_406C20`). The car branch normalises it inline (the `Ang16 operator-` normalising ctor). Written to match.
+- Both branches compute `Max(Abs(back_x), Abs(back_y))` and never use it. In the ped branch the y subtraction is the out-of-line `Fix16::Subtract_436A00`.
+- Changed the return type to `void` (nothing sets one). `shocker_5E06B0` ignores it.
+- **What's left:** the original frame is 0x1C bytes bigger.
