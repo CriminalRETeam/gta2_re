@@ -3762,8 +3762,8 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
     }
     else
     {
-        field_54F7[0] = emitter;
         field_54F2[4] = volume;
+        field_54F7[0] = emitter;
     }
 }
 
