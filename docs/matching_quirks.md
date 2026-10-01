@@ -46,6 +46,13 @@ globals per instruction catches this.
 in a different order from yours, reorder the `case` groups to match (`sub_417AC0`,
 `sub_417BA0`, `sub_528E00`).
 
+**One shared `return true` block comes from nesting, not early returns.** In an EH-frame
+function VC6 gives every `return` its own epilogue copy. If several failure checks in the
+original all `je` to one `mov $1,%al` epilogue, nest the success path and put one `return true`
+at the end. For example, `if (a && b) { ...; if (z < limit) { ...; return 0; } } return true;`
+(`Particle_4C::UpdateDirectedBurst_state_13_14_36_539480`, 0.420 -> 0.453). When the original
+repeats the epilogue after each check, early returns are right (`Particle_4C::UpdateCircularBurst_state_5_539890`).
+
 **A one-case `switch` gives `mov/dec/jne`.** `if (notify == 1)` compiles to `cmpl $1,mem`;
 `switch (notify) { case 1: ... }` loads the value and tests it with `dec %eax; jne`. Use
 the switch form when the original has the load and `dec`
