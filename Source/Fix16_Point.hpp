@@ -123,6 +123,11 @@ struct Fix16_Point_POD
     EXPORT Fix16_Point Multiply_438FE0(Fix16& a1);
     EXPORT Fix16_Point Divide_442CB0(Fix16& a1);
 
+    // Out-of-line copies emitted in Weapon_30.cpp (used by sub_5DE910).
+    EXPORT Fix16_Point_POD& AddAssign_5E40C0(const Fix16_Point_POD& other);
+    EXPORT Fix16_Point_POD& DivAssign_5E40E0(const Fix16& v);
+    EXPORT Fix16 MaxAbs_5E4140();
+
     Fix16_Point_POD()
     {
     }
@@ -273,6 +278,40 @@ class Fix16_Point : public Fix16_Point_POD
             return Fix16::Abs_negate_out_of_line(y);
         }
         else if (y == dword_6F77C0)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
+    // Needed for CarPhysics_B0::ShowSpeedRevsDamage_5597B0.
+    inline Fix16 GetLength_all_out_of_line_abs_negate()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_negate_out_of_line(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
+    // Needed for CarPhysics_B0::ShowSpeedRevsDamage_5597B0.
+    inline Fix16 GetLength_all_out_of_line_abs_y_negate_2()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
         {
             return Fix16::Abs_436A50(x);
         }

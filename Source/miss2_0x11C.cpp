@@ -3105,6 +3105,9 @@ void miss2_0x11C::Locate_509FD0()
         {
             switch (gBasePtr_6F8070->field_2_type)
             {
+                case SCRCMD_LOCATE_CHAR_ANY:
+                    field_8 = true;
+                    break;
                 case SCRCMD_LOCATE_CHAR_ONFOOT:
                     if ((pObj = pPointer->field_8_char->field_168_game_object) != NULL)
                     {
@@ -3118,9 +3121,6 @@ void miss2_0x11C::Locate_509FD0()
                         field_8 = true;
                     }
 
-                    break;
-                case SCRCMD_LOCATE_CHAR_ANY:
-                    field_8 = true;
                     break;
                 case SCRCMD_STOP_LOCATE_CHAR_ANY:
                     if (pPointer->field_8_char->field_168_game_object &&
@@ -5636,9 +5636,8 @@ void miss2_0x11C::GetSpeed_50E190()
     SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
-    Fix16 charCarSpeed;
-    Fix16 carSpeed;
 
+    Fix16 charCarSpeed;
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_GET_MAX_SPEED:
@@ -5651,13 +5650,12 @@ void miss2_0x11C::GetSpeed_50E190()
         case SCRCMD_GET_CHAR_CAR_SPEED:
         {
             Ped* pChar = pPointer->field_8_char;
-            Car_BC* pCar = pChar->field_16C_car;
 
-            if (pCar)
+            if (pChar->field_16C_car)
             {
-                if (pCar->field_58_physics)
+                if (pChar->field_16C_car->field_58_physics)
                 {
-                    charCarSpeed = pCar->field_58_physics->field_0_vel_read_only.GetLength_all_out_of_line_abs_y_negate();
+                    charCarSpeed = pChar->field_16C_car->field_58_physics->field_0_vel_read_only.GetLength_all_out_of_line_abs_y_negate();
                     pParam2->field_8_counter = charCarSpeed.GetRaw_40F4B0();
                 }
                 else
@@ -5673,11 +5671,11 @@ void miss2_0x11C::GetSpeed_50E190()
         }
         case SCRCMD_GET_CAR_SPEED:
         {
-            CarPhysics_B0* pPhysics = pPointer->field_8_car->field_58_physics;
 
-            if (pPhysics)
+            if (pPointer->field_8_car->field_58_physics)
             {
-                carSpeed = pPhysics->field_0_vel_read_only.GetLength_453590_inline_wrap();
+                Fix16 carSpeed;
+                carSpeed = pPointer->field_8_car->field_58_physics->field_0_vel_read_only.GetLength_453590_inline_wrap();
                 pParam2->field_8_counter = carSpeed.GetRaw_40F4B0();
 
                 miss2_0x11C::Next_503620(gBasePtr_6F8070);

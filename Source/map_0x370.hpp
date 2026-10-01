@@ -305,7 +305,7 @@ class Map_0x370
     EXPORT gmp_map_zone* first_zone_by_type_4DF1D0(u8 zone_type);
 
     EXPORT gmp_map_zone* GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_type);
-    EXPORT u8* sub_4DF3E0(u8 a2, u8 a3, char_type a4);
+    EXPORT gmp_map_zone* sub_4DF3E0(u8 xpos, u8 ypos, u8 zone_type);
 
     EXPORT gmp_map_zone* zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zone_type);
     EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y);
@@ -418,7 +418,7 @@ class Map_0x370
     EXPORT s32 sub_4E8180(u32 read_block_idx);
     EXPORT s32 sub_4E81D0(u32 column_idx);
     EXPORT s32 sub_4E8220(u32 column_idx, s32 z);
-    EXPORT u32 sub_4E8370(u32 a2, s32 a3, char_type a4);
+    EXPORT s32 sub_4E8370(u32 column_idx, s32 z, char_type do_drop);
     EXPORT void ChangeBlock_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, u16 info_value);
     EXPORT void AddNewBlock_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData);
     EXPORT void RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop);

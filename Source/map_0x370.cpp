@@ -390,11 +390,45 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
     return pOtherZone;
 }
 
-STUB_FUNC(0x4DF3E0)
-u8* Map_0x370::sub_4DF3E0(u8 a2, u8 a3, char_type a4)
+WIP_FUNC(0x4DF3E0)
+gmp_map_zone* Map_0x370::sub_4DF3E0(u8 xpos, u8 ypos, u8 zone_type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 best_dist = dword_6F5B8C;
+    gmp_map_zone* pBestZone = 0;
+
+    if (field_328_pZoneData == 0)
+    {
+        return 0;
+    }
+
+    for (s32 zone_idx = 0; zone_idx < field_32C_pZones->field_0_num_zones; zone_idx++)
+    {
+        gmp_map_zone* pZone = Map_0x370::get_zone_4DFB30(zone_idx);
+        if (pZone->field_0_zone_type == zone_type)
+        {
+            s32 diff_x = (xpos << 14) - ((pZone->field_1_x << 14) + ((pZone->field_3_w >> 1) << 14));
+            s32 diff_y = (ypos << 14) - ((pZone->field_2_y << 14) + ((pZone->field_4_h >> 1) << 14));
+            if (diff_y <= 0)
+            {
+                diff_y = -diff_y;
+            }
+            Fix16 dist(diff_y, 0);
+            if (diff_x <= 0)
+            {
+                diff_x = -diff_x;
+            }
+            if (diff_x > dist.mValue)
+            {
+                dist.mValue = diff_x;
+            }
+            if (dist < best_dist)
+            {
+                best_dist = dist;
+                pBestZone = pZone;
+            }
+        }
+    }
+    return pBestZone;
 }
 
 MATCH_FUNC(0x4DF4D0)
@@ -936,7 +970,7 @@ char_type Map_0x370::sub_4E0120()
 }
 
 // https://decomp.me/scratch/RMgzo
-STUB_FUNC(0x4E0130)
+WIP_FUNC(0x4E0130)
 bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* bByRefUnk, char_type bNotifyByRefRet)
 {
     WIP_IMPLEMENTED;
@@ -2364,15 +2398,14 @@ char_type Map_0x370::sub_4E4820(Fix16_Rect* pRect, u8 slope_type)
 }
 
 // Spirals out from (x, y) until it finds a block of the given type and writes its position back
-WIP_FUNC(0x4E4930)
+MATCH_FUNC(0x4E4930)
 void __stdcall Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type block_type)
 {
+    u16 step = 1;
+    s32 direction = 3;
     dword_6F6164 = *pX;
     dword_6F6148 = *pY;
     dword_6F613C = *pZ;
-
-    u16 step = 1;
-    s32 direction = 3;
     u16 i;
     while (1)
     {
@@ -3595,11 +3628,98 @@ s32 Map_0x370::sub_4E8220(u32 column_idx, s32 z)
     return local_column_words;
 }
 
-STUB_FUNC(0x4E8370)
-u32 Map_0x370::sub_4E8370(u32 a2, s32 a3, char_type a4)
+WIP_FUNC(0x4E8370)
+s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u16** pColumns = field_0_pDmap->field_40008_pColumn;
+    gmp_col_info* pColumn = (gmp_col_info*)&pColumns[column_idx];
+    if (z >= pColumn->field_0_height || z < pColumn->field_1_offset)
+    {
+        return -1;
+    }
+
+    if (column_idx < field_358_column_words)
+    {
+        s32 new_idx = field_360_column_words;
+        gmp_col_info* pNew = (gmp_col_info*)&pColumns[new_idx];
+        if (do_drop)
+        {
+            if (z == pColumn->field_0_height - 1)
+            {
+                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_1_offset = pColumn->field_1_offset;
+                for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
+                }
+            }
+            else
+            {
+                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_1_offset = pColumn->field_1_offset;
+                s32 i;
+                for (i = 0; i < z - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
+                }
+                for (i = z - pNew->field_1_offset; i < pNew->field_0_height - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i + 1];
+                }
+            }
+        }
+        else
+        {
+            if (z == pColumn->field_0_height - 1)
+            {
+                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_1_offset = pColumn->field_1_offset;
+                for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
+                }
+            }
+            else if (z == pColumn->field_1_offset)
+            {
+                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_1_offset = pColumn->field_1_offset + 1;
+                for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i + 1];
+                }
+            }
+            else
+            {
+                pNew->field_0_height = pColumn->field_0_height;
+                pNew->field_1_offset = pColumn->field_1_offset;
+                for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
+                }
+                pNew->field_4_blockd[z - pColumn->field_1_offset] = 0;
+            }
+        }
+        field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
+        return new_idx;
+    }
+
+    if (do_drop)
+    {
+        for (s32 i = z - pColumn->field_1_offset; i < pColumn->field_0_height - pColumn->field_1_offset - 1; i++)
+        {
+            pColumn->field_4_blockd[i] = pColumn->field_4_blockd[i + 1];
+        }
+        pColumn->field_0_height--;
+    }
+    else if (z == pColumn->field_0_height - 1)
+    {
+        pColumn->field_0_height--;
+    }
+    else
+    {
+        pColumn->field_4_blockd[z - pColumn->field_1_offset] = 0;
+    }
+    return column_idx;
 }
 
 MATCH_FUNC(0x4E8620)

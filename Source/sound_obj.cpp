@@ -14,6 +14,7 @@
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "Object_5C.hpp"
+#include "Wolfy_3D4.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "PublicTransport.hpp"
@@ -3625,11 +3626,145 @@ void sound_obj::sub_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type)
             break;
     }
 }
-STUB_FUNC(0x57E6C0)
-char_type sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
+WIP_FUNC(0x57E6C0)
+void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+    if (IsPoliceOrServiceVehicle_57F090(pCar) == true)
+    {
+        field_54FC = 0;
+        field_54F7[0] = 101;
+        return;
+    }
+
+    if (pCar->field_B0)
+    {
+        field_54F7[0] = FindEmitterByStatus_57F050(pCar->field_B0);
+        return;
+    }
+
+    field_54FC = 1;
+
+    u8 emitter;
+    switch (pCar->field_84_car_info_idx)
+    {
+        case car_model_enum::VTYPE:
+            emitter = FindEmitterByStatus_57F050(5);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::ISETTA:
+            emitter = FindEmitterByStatus_57F050(7);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::MIURA:
+            emitter = FindEmitterByStatus_57F050(6);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::PICKUP:
+            emitter = FindEmitterByStatus_57F050(8);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::STRATOSB:
+            emitter = FindEmitterByStatus_57F050(9);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::BUICK:
+            emitter = FindEmitterByStatus_57F050(11);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        case car_model_enum::KRSNABUS:
+            emitter = FindEmitterByStatus_57F050(10);
+            if (emitter == 127)
+            {
+                emitter = 0;
+            }
+            break;
+        default:
+            break;
+    }
+
+    u8 volume = ComputeRadioEmitterVolume_57EB90(emitter, 0);
+    if (volume < 50)
+    {
+        u8 i;
+        switch ((u8)(field_1454_anRandomTable[0] % 5))
+        {
+            case 0:
+                for (i = 0; i < 5; i++)
+                {
+                    s32 status = *(u32*)&field_544C[i + 1].field_8.field_4_bStatus;
+                    if (status == 6 || (status > 8 && status <= 10))
+                    {
+                        field_54F7[0] = i;
+                        return;
+                    }
+                    if (i == 4)
+                    {
+                        field_54F7[0] = FindEmitterByStatus_57F050(1);
+                    }
+                }
+                break;
+            case 1:
+                for (i = 0; i < 5; i++)
+                {
+                    s32 status = *(u32*)&field_544C[i + 1].field_8.field_4_bStatus;
+                    if ((status >= 7 && status <= 8) || status == 11)
+                    {
+                        field_54F7[0] = i;
+                        return;
+                    }
+                    if (i == 4)
+                    {
+                        field_54F7[0] = FindEmitterByStatus_57F050(1);
+                    }
+                }
+                break;
+            case 2:
+                field_54F7[0] = FindEmitterByStatus_57F050(5);
+                if (field_54F7[0] == 127)
+                {
+                    field_54F7[0] = FindEmitterByStatus_57F050(1);
+                }
+                break;
+            case 3:
+                for (i = 0; i < 5; i++)
+                {
+                    if (*(u16*)&field_544C[i + 1].field_8.field_8 == 0 &&
+                        *(u32*)&field_544C[i + 1].field_8.field_4_bStatus != 1)
+                    {
+                        field_54F7[0] = i;
+                        return;
+                    }
+                }
+                break;
+            default:
+                field_54F7[0] = FindEmitterByStatus_57F050(1);
+                break;
+        }
+    }
+    else
+    {
+        field_54F2[4] = volume;
+        field_54F7[0] = emitter;
+    }
 }
 
 MATCH_FUNC(0x426F20)
@@ -4682,10 +4817,130 @@ void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params_8* a2)
     }
 }
 
-STUB_FUNC(0x57DF10)
+WIP_FUNC(0x57DF10)
 void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
 {
-    NOT_IMPLEMENTED;
+    bool bFast = false;
+    bool bStationChanged = false;
+    u32 length;
+    u32 pos;
+
+    if (field_54F2[2] != field_54F2[3])
+    {
+        bFast = field_54FC == 1;
+        gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        if (field_54F7[0] != 101)
+        {
+            gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7[0] + 1).field_C, bFast);
+        }
+        else
+        {
+            gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
+        }
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
+        if (bFast)
+        {
+            gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
+        }
+
+        length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
+        if (length > 0)
+        {
+            pos = (u32)RadioEmitter(field_54F7[0] + 1).field_14 * 1000 / field_8 + RadioEmitter(field_54F7[0] + 1).field_18;
+            if (pos > length)
+            {
+                pos %= length;
+            }
+            gSampManager_6FFF00.SetVocalPosMs_58E750(0, pos);
+            UpdateCarEngineAudio_57E220();
+        }
+        else
+        {
+            gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        }
+        return;
+    }
+
+    if (field_54F7[1] != field_54F7[0])
+    {
+        bFast = true;
+        bStationChanged = true;
+    }
+
+    if (field_5500 != field_54FC && !bFast)
+    {
+        length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
+        if (length > 0)
+        {
+            pos = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
+            gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+            bFast = field_54FC == 1;
+            if (field_54F7[0] != 101)
+            {
+                gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7[0] + 1).field_C, bFast);
+            }
+            else
+            {
+                gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
+            }
+            if (bFast)
+            {
+                gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
+            }
+            if (pos >= (u32)gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0))
+            {
+                pos = 0;
+            }
+            gSampManager_6FFF00.SetVocalPosMs_58E750(0, pos);
+            UpdateCarEngineAudio_57E220();
+        }
+        else
+        {
+            gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        }
+    }
+    else if (bStationChanged)
+    {
+        if (field_54F7[1] < 5)
+        {
+            RadioEmitter(field_54F7[1] + 1).field_18 = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
+        }
+        gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        bFast = field_54FC == 1;
+        if (field_54F7[0] != 101)
+        {
+            gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7[0] + 1).field_C, bFast);
+        }
+        else
+        {
+            gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
+        }
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
+        if (bFast)
+        {
+            gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
+        }
+
+        length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
+        if (length > 0)
+        {
+            pos = (u32)RadioEmitter(field_54F7[0] + 1).field_14 * 1000 / field_8 + RadioEmitter(field_54F7[0] + 1).field_18;
+            if (pos > length)
+            {
+                pos %= length;
+            }
+            gSampManager_6FFF00.SetVocalPosMs_58E750(0, pos);
+            UpdateCarEngineAudio_57E220();
+        }
+        else
+        {
+            gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        }
+    }
+    else
+    {
+        UpdateCarEngineAudio_57E220();
+    }
 }
 
 STUB_FUNC(0x426790)
@@ -4789,10 +5044,254 @@ void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params_8* a2, sound_unknown_0x
     }
 }
 
-STUB_FUNC(0x41F520)
+DEFINE_GLOBAL(s32, dword_61A6CC, 0x61A6CC);
+DEFINE_GLOBAL(s32, dword_61A6D0, 0x61A6D0);
+
+WIP_FUNC(0x41F520)
 void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    s32 samp_idx = 321;
+    u8 max_distance = 10;
+    u8 release_mod = 20;
+    u8 sample_index = 0;
+    s32 rate_displacement = 0;
+    u8 volume = 0;
+    u8 bLoop = 1;
+    Fix16 emit_distance;
+    Fix16 calc_distance;
+
+    Object_2C* pObj = a2->field_0_pObj->field_8_object_2C_ptr;
+    switch (pObj->field_18_model)
+    {
+        case objects::rocket_bullet_128:
+            samp_idx = 191;
+            bLoop = 0;
+            volume = 127;
+            sample_index = 1;
+            emit_distance = Fix16(0x1C000, 0);
+            max_distance = 14;
+            calc_distance = Fix16(0xC4000, 0);
+            release_mod = 15;
+            break;
+
+        case objects::blue_phone_164:
+        case objects::red_phone_177:
+        case objects::yellow_phone_179:
+        case objects::green_phone_181:
+            if (field_5448_m_FrameCounter % 130)
+            {
+                return;
+            }
+            rate_displacement = ((u32)a2 * 8) % 760;
+            samp_idx = 30;
+            volume = 85;
+            emit_distance = Fix16(0x1E000, 0);
+            max_distance = 15;
+            calc_distance = Fix16(0xE1000, 0);
+            release_mod = 3;
+            bLoop = 1;
+            break;
+
+        case 185:
+        case 187:
+        case objects::huge_red_skid_189:
+        case objects::huge_brown_skid_191:
+            UpdateRadioChatterLoop_41FCA0();
+            return;
+
+        case objects::fire_197:
+            samp_idx = 189;
+            volume = 50;
+            bLoop = 0;
+            sample_index = 1;
+            emit_distance = Fix16(0x1C000, 0);
+            max_distance = 14;
+            calc_distance = Fix16(0xC4000, 0);
+            release_mod = 15;
+            break;
+
+        case objects::explosion_113:
+        {
+            Wolfy_30* pExplosion = pObj->field_C_pAny.pExplosion;
+            if (!pExplosion)
+            {
+                return;
+            }
+            switch (pExplosion->field_10_type_or_state)
+            {
+                case 4:
+                case 12:
+                    samp_idx = 190;
+                    volume = 50;
+                    bLoop = 0;
+                    sample_index = 1;
+                    emit_distance = Fix16(0x1C000, 0);
+                    max_distance = 14;
+                    calc_distance = Fix16(0xC4000, 0);
+                    release_mod = 15;
+                    break;
+
+                case 18:
+                case 33:
+                    if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 == 2)
+                    {
+                        samp_idx = 186;
+                        volume = 127;
+                        bLoop = 1;
+                        emit_distance = Fix16(0x46000, 0);
+                        max_distance = 35;
+                        calc_distance = Fix16(0x4C9000, 0);
+                        release_mod = 0;
+                        rate_displacement = RandomDisplacement_41A650(samp_idx);
+                    }
+                    else if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 > 2)
+                    {
+                        samp_idx = 190;
+                        bLoop = 0;
+                        volume = 50;
+                        sample_index = 1;
+                        emit_distance = Fix16(0x1C000, 0);
+                        max_distance = 14;
+                        calc_distance = Fix16(0xC4000, 0);
+                        release_mod = 15;
+                    }
+                    dword_61A6CC = 50;
+                    dword_61A6D0 = 321;
+                    break;
+
+                case 19:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 32:
+                    if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 == 2)
+                    {
+                        samp_idx = 187;
+                        volume = 127;
+                        bLoop = 1;
+                        emit_distance = Fix16(0x46000, 0);
+                        max_distance = 35;
+                        calc_distance = Fix16(0x4C9000, 0);
+                        release_mod = 0;
+                        rate_displacement = RandomDisplacement_41A650(samp_idx);
+                    }
+                    else if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 > 2)
+                    {
+                        samp_idx = 190;
+                        volume = 127;
+                        bLoop = 0;
+                        sample_index = 1;
+                        emit_distance = Fix16(0x1C000, 0);
+                        max_distance = 14;
+                        calc_distance = Fix16(0xC4000, 0);
+                        release_mod = 15;
+                    }
+                    dword_61A6CC = 50;
+                    dword_61A6D0 = 321;
+                    break;
+
+                case 20:
+                    if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 == 2)
+                    {
+                        samp_idx = 188;
+                        volume = 127;
+                        bLoop = 1;
+                        emit_distance = Fix16(0x46000, 0);
+                        max_distance = 35;
+                        calc_distance = Fix16(0x4C9000, 0);
+                        release_mod = 0;
+                        rate_displacement = RandomDisplacement_41A650(samp_idx);
+                    }
+                    else if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 > 2)
+                    {
+                        samp_idx = 190;
+                        volume = 127;
+                        bLoop = 0;
+                        sample_index = 1;
+                        emit_distance = Fix16(0x1C000, 0);
+                        max_distance = 14;
+                        calc_distance = Fix16(0xC4000, 0);
+                        release_mod = 15;
+                    }
+                    dword_61A6CC = 50;
+                    dword_61A6D0 = 321;
+                    break;
+
+                case 13:
+                case 14:
+                    samp_idx = 190;
+                    volume = 85;
+                    bLoop = 0;
+                    sample_index = 1;
+                    emit_distance = Fix16(0x1C000, 0);
+                    max_distance = 14;
+                    calc_distance = Fix16(0xC4000, 0);
+                    release_mod = 15;
+                    break;
+
+                default:
+                    return;
+            }
+            break;
+        }
+
+        case 5:
+            samp_idx = 145;
+            volume = 50;
+            bLoop = 0;
+            emit_distance = Fix16(0x18000, 0);
+            max_distance = 12;
+            calc_distance = Fix16(0x90000, 0);
+            release_mod = 7;
+            break;
+
+        case objects::conveyor_139:
+            samp_idx = 150;
+            bLoop = 0;
+            volume = 20;
+            emit_distance = Fix16(0x50000, 0);
+            max_distance = 40;
+            calc_distance = Fix16(0x640000, 0);
+            release_mod = 7;
+            break;
+
+        default:
+            return;
+    }
+
+    if (samp_idx != 321)
+    {
+        if (CalculateDistance_419020(calc_distance))
+        {
+            if (VolCalc_419070(volume, emit_distance, a2->field_5_bHasSolidAbove))
+            {
+                field_30_sQueueSample.field_60_nEmittingVolume = volume;
+                field_30_sQueueSample.field_14_samp_idx = samp_idx;
+                field_30_sQueueSample.field_54 = emit_distance;
+                field_30_sQueueSample.field_64_max_distance = max_distance;
+                field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx) + rate_displacement;
+                field_30_sQueueSample.field_4_SampleIndex = sample_index;
+                field_30_sQueueSample.field_58_type = 20;
+                field_30_sQueueSample.field_41 = bLoop;
+                field_30_sQueueSample.field_1C_ReleasingVolumeModificator = release_mod;
+                field_30_sQueueSample.field_18 = 0;
+                field_30_sQueueSample.field_3C = 400;
+                field_30_sQueueSample.field_34 = 0;
+                field_30_sQueueSample.field_38 = -1;
+                if (bLoop == 1)
+                {
+                    field_30_sQueueSample.field_30 = 1;
+                }
+                else
+                {
+                    field_30_sQueueSample.field_30 = 0;
+                    field_30_sQueueSample.field_4C = 20;
+                }
+                AddSampleToRequestedQueue_41A850();
+            }
+        }
+    }
 }
 
 WIP_FUNC(0x422B70)
@@ -5973,10 +6472,141 @@ void sound_obj::Type6_Play_412D90(s32 model)
     gSampManager_6FFF00.SetVocalVolume_58E6D0(1, 127 * field_24_sfx_vol / 127);
 }
 
-STUB_FUNC(0x57E220)
+DEFINE_GLOBAL(u8, gCarRadioStaticVolume_6FF540, 0x6FF540);
+DEFINE_GLOBAL(u16, gCarRadioStaticTimer_6FF542, 0x6FF542);
+DEFINE_GLOBAL(s32, gCarRadioStaticRate_625010, 0x625010);
+DEFINE_GLOBAL(s32, gCarRadioTuneRate_625014, 0x625014);
+
+WIP_FUNC(0x57E220)
 void sound_obj::UpdateCarEngineAudio_57E220()
 {
-    NOT_IMPLEMENTED;
+    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+    u32 rate;
+    if (!pCar)
+    {
+        return;
+    }
+    else
+    {
+        if (!field_54F2[2])
+        {
+            field_5506 = 0;
+        }
+
+        if (field_5506)
+        {
+            field_54F2[4] = 0;
+            field_5506--;
+        }
+        else if (gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pCar->field_50_car_sprite->field_14_xy.x,
+                                                                     pCar->field_50_car_sprite->field_14_xy.y,
+                                                                     pCar->field_50_car_sprite->field_1C_zpos))
+        {
+            field_54F2[4] -= field_54F2[4] >> 2;
+        }
+
+        u32 vocal_volume = (field_54F2[4] * field_25_cdVol) / 127;
+        u8 static_volume;
+        if (field_54F2[4] < 115)
+        {
+            if (!field_1_isPaused)
+            {
+                static_volume = 127 - field_54F2[4];
+                if (static_volume > 100)
+                {
+                    static_volume = 100;
+                }
+            }
+            else
+            {
+                static_volume = 0;
+            }
+
+            if (static_volume > gCarRadioStaticVolume_6FF540 + 5)
+            {
+                static_volume = gCarRadioStaticVolume_6FF540 + 5;
+            }
+            else if (static_volume < gCarRadioStaticVolume_6FF540 - 10)
+            {
+                static_volume = gCarRadioStaticVolume_6FF540 - 10;
+            }
+        }
+        else
+        {
+            static_volume = 0;
+        }
+
+        if (field_1_isPaused == 1)
+        {
+            static_volume = 0;
+            vocal_volume >>= 1;
+        }
+
+        gCarRadioStaticVolume_6FF540 = static_volume;
+        if (static_volume > 0)
+        {
+            if (gCarRadioStaticTimer_6FF542 > 0)
+            {
+                gCarRadioStaticTimer_6FF542--;
+                rate = gCarRadioStaticRate_625010;
+            }
+            else
+            {
+                gCarRadioStaticTimer_6FF542 = field_1454_anRandomTable[3] % 35;
+                rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(137);
+                rate += field_1454_anRandomTable[2] % (rate >> 2);
+            }
+            gCarRadioStaticRate_625010 = rate;
+
+            field_30_sQueueSample.field_18 = 1;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_14_samp_idx = 137;
+            u8 sample_volume = ((static_volume * field_25_cdVol) / 127) >> 2;
+            field_30_sQueueSample.field_0_EntityIndex = field_5508_radio_entity_idx;
+            field_30_sQueueSample.field_24_nVolume = sample_volume;
+            field_30_sQueueSample.field_20_rate = rate;
+            field_30_sQueueSample.field_34 = 0;
+            field_30_sQueueSample.field_38 = -1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 0;
+            field_30_sQueueSample.field_28_distance = 0;
+            field_30_sQueueSample.field_40_pan = 64;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 5;
+            field_30_sQueueSample.field_58_type = 20;
+            field_30_sQueueSample.field_60_nEmittingVolume = sample_volume;
+            field_30_sQueueSample.field_64_max_distance = 50;
+            AddSampleToRequestedQueue_41A850();
+
+            if (field_54FC == 0)
+            {
+                u32 tune_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(138);
+                tune_rate += (tune_rate >> 6) * *(u32*)&field_544C[field_54F7[0] + 1].field_8.field_4_bStatus;
+                if (tune_rate > gCarRadioTuneRate_625014 + 90)
+                {
+                    tune_rate = gCarRadioTuneRate_625014 + 90;
+                }
+                else if (tune_rate < gCarRadioTuneRate_625014 - 90)
+                {
+                    tune_rate = gCarRadioTuneRate_625014 - 90;
+                }
+                gCarRadioTuneRate_625014 = tune_rate;
+
+                field_30_sQueueSample.field_28_distance = 0;
+                field_30_sQueueSample.field_4_SampleIndex = 1;
+                field_30_sQueueSample.field_14_samp_idx = 138;
+                field_30_sQueueSample.field_18 = 1;
+                field_30_sQueueSample.field_40_pan = 64;
+                field_30_sQueueSample.field_58_type = 20;
+                field_30_sQueueSample.field_20_rate = tune_rate + field_1454_anRandomTable[1] % 140;
+                field_30_sQueueSample.field_24_nVolume =
+                    (u8)((u8)((static_volume * field_25_cdVol) / 254) + (u8)(field_1454_anRandomTable[2] % 3)) >> 2;
+                AddSampleToRequestedQueue_41A850();
+            }
+        }
+
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, vocal_volume);
+    }
 }
 
 MATCH_FUNC(0x418610)

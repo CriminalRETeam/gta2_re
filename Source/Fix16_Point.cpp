@@ -82,3 +82,32 @@ Fix16 Fix16_Point_POD::GetLength_453590()
         return Fix16::SquareRoot(x * x + y * y);
     }
 }
+
+MATCH_FUNC(0x5E40C0)
+Fix16_Point_POD& Fix16_Point_POD::AddAssign_5E40C0(const Fix16_Point_POD& other)
+{
+    x += other.x;
+    y += other.y;
+    return *this;
+}
+
+MATCH_FUNC(0x5E40E0)
+Fix16_Point_POD& Fix16_Point_POD::DivAssign_5E40E0(const Fix16& v)
+{
+    x /= v;
+    y /= v;
+    return *this;
+}
+
+// The larger of |x| and |y|, a cheap stand-in for the length.
+MATCH_FUNC(0x5E4140)
+Fix16 Fix16_Point_POD::MaxAbs_5E4140()
+{
+    Fix16 ax = Fix16::Abs(x);
+    Fix16 ay = Fix16::Abs(y);
+    if (ax > ay)
+    {
+        return ax;
+    }
+    return ay;
+}

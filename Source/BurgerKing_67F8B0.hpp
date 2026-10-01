@@ -49,6 +49,19 @@ struct BurgerKingBurger_0xC
     s32 field_8_rng_rnd;
 };
 
+// The text header at the start of a replay file
+struct ReplayHeader_10C
+{
+    char_type field_0_version[8];
+    char_type field_8_date[30];
+    char_type field_26_computer_name[30];
+    char_type field_44_map_name[40];
+    char_type field_6C_style_name[40];
+    char_type field_94_script_name[40];
+    char_type field_BC_debug_str[40];
+    char_type field_E4_flags[40];
+};
+
 class BurgerKing_67F8B0
 {
   public:
@@ -62,7 +75,7 @@ class BurgerKing_67F8B0
     EXPORT void SaveReplay_4CDED0();
     EXPORT void modify_inputs_4CDF30(s32 match_mask);
     EXPORT void AppendReplayHeader_4CDF70();
-    EXPORT char_type LoadReplayHeader_4CE380(char_type a1);
+    EXPORT void LoadReplayHeader_4CE380(char_type bLoadDebug);
     EXPORT void sub_4CE650();
     EXPORT void GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut);
     EXPORT void input_init_replay_4CE740(HINSTANCE a2);

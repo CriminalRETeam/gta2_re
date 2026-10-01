@@ -20,27 +20,9 @@ struct score_table_line;
 #pragma pack(1)
 struct svg_stru
 {
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    char_type field_48;
-    char_type field_49;
-    char_type field_4A;
+    char_type field_0_map_name[25];
+    char_type field_19_style_name[25];
+    char_type field_32_script_name[25];
     char_type field_4B;
     char_type field_4C;
     char_type field_4D;

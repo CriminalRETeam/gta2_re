@@ -110,7 +110,7 @@ void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
         {
             if (z_pos == a2_1)
             {
-                if (pSprite->field_28_num >= pLastNonNull->field_0_sprt->field_28_num)
+                if ((s16)pSprite->field_28_num >= pLastNonNull->field_0_sprt->field_28_num)
                 {
                     pLastNonNull->field_8 = pAllocated;
                 }
@@ -223,6 +223,14 @@ EXPORT s32 get_rdtsc_5BEE90()
         popad
     }
     return static_cast<s32>(t);
+}
+
+// TODO: guessed, the target asm for this 15 byte function hasn't been dumped yet.
+// Converts a cycle count from get_rdtsc_5BEE90 for the profiler display.
+STUB_FUNC(0x5BEED0)
+EXPORT s32 __stdcall sub_5BEED0(s32 cycles)
+{
+    return cycles;
 }
 
 MATCH_FUNC(0x495510)

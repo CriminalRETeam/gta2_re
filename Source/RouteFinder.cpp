@@ -4,10 +4,18 @@
 #include "error.hpp"
 #include "file.hpp"
 #include "map_0x370.hpp"
+#include "Game_0x40.hpp"
+#include "Player.hpp"
+#include "Camera.hpp"
+#include "Hud.hpp"
+#include "Frontend.hpp"
 #include <cstdio>
 
 DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8, 0x6FFDC8);
 DEFINE_GLOBAL(u16, DAT_6ffdcc, 0x6ffdcc);
+DEFINE_GLOBAL(Fix16, dword_6FFC7C, 0x6FFC7C);
+DEFINE_GLOBAL(Fix16, dword_6FFC9C, 0x6FFC9C);
+EXTERN_GLOBAL(s16, word_703BAA);
 
 MATCH_FUNC(0x588580)
 char_type Junction_10::sub_588580(s32 a2)
@@ -71,10 +79,40 @@ RouteFinder_10::RouteFinder_10()
     field_C_pNext = 0;
 }
 
-STUB_FUNC(0x588620)
+static inline Fix16_Point_POD ProjectToScreen(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z)
+{
+    Fix16_Point_POD tmp;
+    Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+    Fix16 t(dword_6FFC7C / Fix16(u.mValue + dword_6FFC9C.mValue, 0));
+
+    tmp.x = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
+    tmp.y = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
+    return tmp;
+}
+
+WIP_FUNC(0x588620)
 void RouteFinder::ShowJunctionIds_588620()
 {
-    NOT_IMPLEMENTED;
+    for (u16 i = 1; i < GTA2_COUNTOF(field_8); i++)
+    {
+        Junction_10* pJunction = &field_8[i];
+        if (pJunction->field_C_min_x)
+        {
+            if (gGame_0x40_67E008->field_38_orf1->field_14C_view_camera.sub_58CF10(Fix16(pJunction->field_C_min_x),
+                                                                                  Fix16(pJunction->field_D_min_y)))
+            {
+                u8 x = pJunction->field_C_min_x;
+                u8 y = pJunction->field_D_min_y;
+                Fix16 z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(x), Fix16(y));
+
+                Fix16_Point_POD screen =
+                    ProjectToScreen(&gGame_0x40_67E008->field_38_orf1->field_14C_view_camera, Fix16(x), Fix16(y), z);
+
+                swprintf(tmpBuff_67BD9C, L"%d", i);
+                gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, screen.x.ToInt(), screen.y.ToInt(), word_703BAA, 1);
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x588810)
@@ -538,34 +576,34 @@ void RouteFinder::sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos
 // dx/dy are uninitialised for a direction that isn't 1, 2, 4 or 8, as in the original
 #pragma warning(push)
 #pragma warning(disable : 4701)
-WIP_FUNC(0x589210)
+MATCH_FUNC(0x589210)
 s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx)
 {
     Junction_10* pJunction = &field_8[junction_idx];
     s32 dy;
-    s32 dx;
+    s16 dx;
     switch (direction)
     {
         case 1:
-            dy = -1;
             dx = 0;
+            dy = -1;
             break;
         case 2:
-            dy = 1;
             dx = 0;
+            dy = 1;
             break;
         case 8:
-            dy = 0;
             dx = 1;
+            dy = 0;
             break;
         case 4:
-            dy = 0;
             dx = -1;
+            dy = 0;
             break;
     }
 
     s32 result = 0;
-    if (pJunction->ContainsPoint((u8)(x + dx), (u8)(y + dy)))
+    if (pJunction->ContainsPoint((u8)(x + (s16)dx), (u8)(y + dy)))
     {
         result = 1;
     }
@@ -669,10 +707,133 @@ char_type RouteFinder::sub_589480(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 
     return 0;
 }
 
-STUB_FUNC(0x5895c0)
-char_type RouteFinder::sub_5895C0(u8 a2, s16 a3, u8 a4, s32 a5, s32 a6)
+MATCH_FUNC(0x5895c0)
+char_type RouteFinder::sub_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction)
 {
-    NOT_IMPLEMENTED;
+    field_CC66_545_count = 0;
+    memset(field_CA40, 0, sizeof(field_CA40));
+    RouteFinder_10* pStart = field_861C;
+    memset(pStart, 0, sizeof(field_861C));
+
+    field_8618_idx = sub_589000(x, y, z, 0, arrow_type);
+    if (field_8618_idx == 0)
+    {
+        field_8618_idx = sub_589000(x, y, z, 1, arrow_type);
+    }
+
+    if (field_8618_idx != 0)
+    {
+        Junction_10* pJunction = &field_8[field_8618_idx];
+        if (x < pJunction->field_C_min_x || x > pJunction->field_E_max_x || y < pJunction->field_D_min_y ||
+            y > pJunction->field_F_max_y)
+        {
+            field_8618_idx = sub_589000(x, y, z, 1, arrow_type);
+        }
+
+        if (field_8618_idx != 0)
+        {
+            sub_589390(field_8618_idx);
+            field_A82C = pStart;
+            field_CA40[0] = 1;
+            field_CA40[field_8618_idx] = 1;
+
+            pJunction = &field_8[field_8618_idx];
+            u16 north = pJunction->field_0_n.GetIndex_0040CE90();
+            u16 south = pJunction->field_2_s.GetIndex_0040CE90();
+            u16 east = pJunction->field_4_e.GetIndex_0040CE90();
+            u16 west = pJunction->field_6_w.GetIndex_0040CE90();
+            pStart->field_4 = 1;
+
+            switch (direction)
+            {
+                case 1:
+                    if (!pJunction->field_2_s.GetIndex_0040CE90())
+                    {
+                        if (east)
+                        {
+                            sub_589990(pStart, east, pJunction->field_4_e.GetLength());
+                        }
+                        else if (west)
+                        {
+                            sub_589990(pStart, west, pJunction->field_6_w.GetLength());
+                        }
+                        else
+                        {
+                            sub_589990(pStart, north, pJunction->field_0_n.GetLength());
+                        }
+                    }
+                    else
+                    {
+                        sub_589990(pStart, pJunction->field_2_s.GetIndex_0040CE90(), pJunction->field_2_s.GetLength());
+                    }
+                    break;
+                case 2:
+                    if (!pJunction->field_0_n.GetIndex_0040CE90())
+                    {
+                        if (east)
+                        {
+                            sub_589990(pStart, east, pJunction->field_4_e.GetLength());
+                        }
+                        else if (west)
+                        {
+                            sub_589990(pStart, west, pJunction->field_6_w.GetLength());
+                        }
+                        else
+                        {
+                            sub_589990(pStart, south, pJunction->field_2_s.GetLength());
+                        }
+                    }
+                    else
+                    {
+                        sub_589990(pStart, pJunction->field_0_n.GetIndex_0040CE90(), pJunction->field_0_n.GetLength());
+                    }
+                    break;
+                case 3:
+                    if (!pJunction->field_6_w.GetIndex_0040CE90())
+                    {
+                        if (south)
+                        {
+                            sub_589990(pStart, south, pJunction->field_2_s.GetLength());
+                        }
+                        else if (north)
+                        {
+                            sub_589990(pStart, north, pJunction->field_0_n.GetLength());
+                        }
+                        else
+                        {
+                            sub_589990(pStart, east, pJunction->field_4_e.GetLength());
+                        }
+                    }
+                    else
+                    {
+                        sub_589990(pStart, pJunction->field_6_w.GetIndex_0040CE90(), pJunction->field_6_w.GetLength());
+                    }
+                    break;
+                case 4:
+                    if (!pJunction->field_4_e.GetIndex_0040CE90())
+                    {
+                        if (south)
+                        {
+                            sub_589990(pStart, south, pJunction->field_2_s.GetLength());
+                        }
+                        else if (north)
+                        {
+                            sub_589990(pStart, north, pJunction->field_0_n.GetLength());
+                        }
+                        else
+                        {
+                            sub_589990(pStart, west, pJunction->field_6_w.GetLength());
+                        }
+                    }
+                    else
+                    {
+                        sub_589990(pStart, pJunction->field_4_e.GetIndex_0040CE90(), pJunction->field_4_e.GetLength());
+                    }
+                    break;
+            }
+            return 1;
+        }
+    }
     return 0;
 }
 
@@ -745,10 +906,40 @@ bool RouteFinder::sub_5899C0(RouteFinder_10* pNode, s32 a3)
     return false;
 }
 
-STUB_FUNC(0x589bb0)
+MATCH_FUNC(0x589bb0)
 char_type RouteFinder::sub_589BB0(RouteFinder_10* a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
+    Junction_10* pJunction = &field_8[a2->field_0_idx];
+    if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_C_min_x, pJunction->field_D_min_y) &&
+        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_E_max_x, pJunction->field_D_min_y) &&
+        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_C_min_x, pJunction->field_F_max_y) &&
+        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_E_max_x, pJunction->field_F_max_y))
+    {
+        return 1;
+    }
+
+    u16 north = pJunction->field_0_n.GetIndex_0040CE90();
+    u16 south = pJunction->field_2_s.GetIndex_0040CE90();
+    u16 west = pJunction->field_6_w.GetIndex_0040CE90();
+    u16 east = pJunction->field_4_e.GetIndex_0040CE90();
+    a2->field_4 = 1;
+
+    if (!field_CA40[north] && pJunction->field_0_n.IsEnabled() && field_8[north].sub_588580(a3))
+    {
+        sub_589990(a2, north, pJunction->field_0_n.GetLength());
+    }
+    if (!field_CA40[south] && pJunction->field_2_s.IsEnabled() && field_8[south].sub_588580(a3))
+    {
+        sub_589990(a2, south, pJunction->field_2_s.GetLength());
+    }
+    if (!field_CA40[west] && pJunction->field_6_w.IsEnabled() && field_8[west].sub_588580(a3))
+    {
+        sub_589990(a2, west, pJunction->field_6_w.GetLength());
+    }
+    if (!field_CA40[east] && pJunction->field_4_e.IsEnabled() && field_8[east].sub_588580(a3))
+    {
+        sub_589990(a2, east, pJunction->field_4_e.GetLength());
+    }
     return 0;
 }
 

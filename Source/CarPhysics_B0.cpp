@@ -2,6 +2,7 @@
 #include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
+#include "Frontend.hpp"
 #include "Hud.hpp"
 #include "Object_5C.hpp"
 #include "Particle_8.hpp"
@@ -206,17 +207,99 @@ CarPhysics_B0::~CarPhysics_B0()
 {
 }
 
+DEFINE_GLOBAL_ARRAY(wchar_t, gThetaText_66A8EC, 32, 0x66A8EC);
+
 // https://decomp.me/scratch/xqLh0
-STUB_FUNC(0x559430)
+WIP_FUNC(0x559430)
 void CarPhysics_B0::ShowPhysicsDebug_559430()
 {
-    NOT_IMPLEMENTED;
+    if (bDo_show_physics_67D54F)
+    {
+        Garox_C4* pText;
+        SetCurrentCarInfoAndModelPhysics_562EF0();
+
+        swprintf(tmpBuff_67BD9C,
+                 L"CM = (%3.3f,%3.3f) CP = (%3.3f,%3.3f,%3.3f)",
+                 field_30_cm1.x.AsDouble(),
+                 field_30_cm1.y.AsDouble(),
+                 field_38_cp1.x.AsDouble(),
+                 field_38_cp1.y.AsDouble(),
+                 field_6C_cp3.AsDouble());
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+
+        swprintf(tmpBuff_67BD9C,
+                 L"linvel = (%3.3f,%3.3f) angvelrad = %3.3f",
+                 field_40_linvel_1.x.AsDouble(),
+                 field_40_linvel_1.y.AsDouble(),
+                 field_74_ang_vel_rad.AsDouble());
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+
+        swprintf(gThetaText_66A8EC, L"%3.2f", field_58_theta.rValue * 0.25);
+        swprintf(tmpBuff_67BD9C, L"theta = %s", gThetaText_66A8EC);
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
+
+        // TODO: the format string at 0x623FFC is a guess
+        swprintf(tmpBuff_67BD9C, L"pointing ang = %3.3f", field_78_pointing_ang_rad.AsDouble());
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
+
+        swprintf(tmpBuff_67BD9C, L"mass = %3.3f", CalculateMass_559FF0().AsDouble());
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 128, word_706600, 1);
+
+        swprintf(tmpBuff_67BD9C, L"front skid = %3.3f", field_84_front_skid.AsDouble());
+        pText = gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 144, word_706600, 1);
+        if (field_84_front_skid >= gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1 ||
+            (field_AC_drive_wheels_locked_q > 0 && gCarInfo_48_6FE258->field_8_front_drive_bias > kFP16Zero_6FE20C))
+        {
+            pText->field_B0_drawKind = 8;
+            pText->field_B4 = 5;
+        }
+
+        swprintf(tmpBuff_67BD9C, L"rear skid = %3.3f", field_88_rear_skid.AsDouble());
+        pText = gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 160, word_706600, 1);
+        if (field_88_rear_skid >= gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2 ||
+            (field_AC_drive_wheels_locked_q > 0 && gCarInfo_2C_6FE0E4->field_20_front_drive_bias > kFP16Zero_6FE20C))
+        {
+            pText->field_B0_drawKind = 8;
+            pText->field_B4 = 5;
+        }
+
+        swprintf(tmpBuff_67BD9C,
+                 L"surface_mode = %d sbw = %d tpa = %d",
+                 field_98_surface_type,
+                 (u8)field_AA_sbw,
+                 (u8)field_AB_tpa);
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 176, word_706600, 1);
+    }
 }
 
-STUB_FUNC(0x5597b0)
+MATCH_FUNC(0x5597b0)
 void CarPhysics_B0::ShowSpeedRevsDamage_5597B0()
 {
-    NOT_IMPLEMENTED;
+    if (bDo_show_instruments_67D64C)
+    {
+        SetCurrentCarInfoAndModelPhysics_562EF0();
+
+        Fix16 speed = field_40_linvel_1.GetLength_all_out_of_line_abs_negate();
+        s32 gear;
+        if (speed > gCarInfo_48_6FE258->field_44_gear3_speed)
+        {
+            gear = 3;
+        }
+        else
+        {
+            gear = (speed > gCarInfo_48_6FE258->field_40_gear2_speed) + 1;
+        }
+
+        swprintf(tmpBuff_67BD9C, L"speed:%3.3f(%d)", field_40_linvel_1.GetLength_all_out_of_line_abs_y_negate_2().AsDouble(), gear);
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 16, word_706600, 1);
+
+        swprintf(tmpBuff_67BD9C, L"revs:%3.3f %c", field_60_gas_pedal.AsDouble(), get_revs_561940() ? 'T' : ' ');
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 32, word_706600, 1);
+
+        // TODO: the format string at 0x6240FC is a guess
+        swprintf(tmpBuff_67BD9C, L"damage:%d", field_5C_pCar->field_74_damage * 100 / 32000);
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 48, word_706600, 1);
+    }
 }
 
 MATCH_FUNC(0x5599d0)

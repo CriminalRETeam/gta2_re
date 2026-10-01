@@ -32,7 +32,7 @@ class Particle_8
     EXPORT void EmitFlameStreamSegment_53F4C0(Sprite* pSprite);
 
     Object_2C* field_0;
-    s32 field_4;
+    Object_2C* field_4;
 };
 
 EXTERN_GLOBAL(Particle_8*, gParticle_8_6FD5E8);

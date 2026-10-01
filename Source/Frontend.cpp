@@ -5076,11 +5076,68 @@ bool Frontend::ChangeMainStageToNext_4B7200()
     return result;
 }
 
-STUB_FUNC(0x4B4EC0)
+MATCH_FUNC(0x4B4EC0)
 void Frontend::sub_4B4EC0()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    char_type FileName[256];
+    {
+        u8 plySlotIdx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+        GetPlySlotSvgName_4B51D0(plySlotIdx, FileName);
+    }
+    File::Global_Open_4A7060(FileName);
+
+    svg_stru svg;
+    {
+        u32 len = sizeof(svg_stru);
+        File::Global_Read_4A71C0(&svg, len);
+    }
+
+    File::Global_Close_4A70C0();
+
+    u8 main_stage = svg.field_4B;
+    u8 codified_stages = svg.field_4C;
+    u8 bCodified = svg.field_4D;
+    u8 bonus_stage;
+
+    if (!bCodified)
+    {
+        bonus_stage = 0;
+    }
+    else
+    {
+        main_stage = codified_stages >> 4;
+        bonus_stage = codified_stages & 0xF;
+    }
+
+    char_type path[256];
+    strcpy(path, "data\\");
+    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_0);
+    if (strcmp(svg.field_0_map_name, path))
+    {
+        FatalError_4A38C0(Gta2Error::GmpFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5254);
+    }
+
+    strcpy(path, "data\\");
+    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_100);
+    if (strcmp(svg.field_19_style_name, path))
+    {
+        FatalError_4A38C0(Gta2Error::StyFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5262);
+    }
+
+    strcpy(path, "data\\");
+    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_200);
+    if (strcmp(svg.field_32_script_name, path))
+    {
+        FatalError_4A38C0(Gta2Error::ScrFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5270);
+    }
+
+    gLucid_hamilton_67E8E0.DebugStr_4C58D0(FileName);
+    gLucid_hamilton_67E8E0.SetMapName_4C5870(svg.field_0_map_name);
+    gLucid_hamilton_67E8E0.SetStyleName_4C5890(svg.field_19_style_name);
+    gLucid_hamilton_67E8E0.SetScriptName_4C58B0(svg.field_32_script_name);
+    gLucid_hamilton_67E8E0.sub_4C58F0(main_stage);
+    gLucid_hamilton_67E8E0.sub_4C5900(codified_stages);
+    gLucid_hamilton_67E8E0.sub_4C5910(bCodified);
 }
 
 MATCH_FUNC(0x4B6070)

@@ -99,6 +99,13 @@ class Fix16
         return Fix16(value, 0);
     }
 
+    // 10.5 non inline addr is 0x539F90
+    Fix16& operator/=(const Fix16& rhs)
+    {
+        mValue = (s32)(((__int64)mValue << 14) / rhs.mValue);
+        return *this;
+    }
+
     // 10.5 non inline addr is 0x562430
     Fix16& operator*=(const Fix16& rhs)
     {
@@ -430,6 +437,8 @@ EXPORT Ang16 __stdcall ArcTanLookup_405500(const Fix16& targetTan);
 
 EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix16& v1, const Fix16& v2, const Fix16& v3, const Fix16& v4);
 
+EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed);
+EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur);
 EXTERN_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440);
 EXTERN_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440);
 

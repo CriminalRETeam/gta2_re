@@ -13,7 +13,7 @@ class Garage_48
   public:
     EXPORT ~Garage_48();
     EXPORT void ValidateParkCommand_534650();
-    EXPORT void ParkCarAtDoor_534700(Car_BC* a2, void* a3);
+    EXPORT u8 ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor);
     EXPORT void GaragesService_5349D0();
     EXPORT Garage_48();
 
@@ -46,10 +46,9 @@ class Garage_48
     Fix16 field_1C;
     Fix16 field_20;
     Fix16 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
+    Fix16_Point_POD field_28_push_dir;
+    Fix16 field_30_target_x;
+    Fix16 field_34_target_y;
     s32 field_38;
     char_type field_3C;
     char_type field_3D;

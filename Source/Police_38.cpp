@@ -342,18 +342,248 @@ void PoliceCrew_38::sub_571350()
     }
 }
 
-STUB_FUNC(0x571540)
-char_type PoliceCrew_38::sub_571540()
+WIP_FUNC(0x571540)
+void PoliceCrew_38::sub_571540()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCar = field_10_subObj->field_0_car;
+    PedGroup* pGroup = field_10_subObj->field_8_group;
+    if (pCar)
+    {
+        if (pGroup)
+        {
+            if (pCar->field_76_last_seen_timer > 200 && pGroup->sub_4C9150())
+            {
+                u8 v7 = 0;
+                for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[v7++])
+                {
+                    pPedIter->field_164_ped_group = 0;
+                    pPedIter->field_23C = 0;
+                    pPedIter->Deallocate_45EB60();
+                    if (!field_10_subObj->field_8_group)
+                    {
+                        break;
+                    }
+                }
+                field_10_subObj->field_8_group->ClearGroupData_4C8E90();
+                field_10_subObj->field_0_car->sub_421470();
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+        }
+        else
+        {
+            Ped* pPed = field_10_subObj->field_4_ped;
+            if (pPed)
+            {
+                if (pPed->get_field_20e() > 30 && pCar->field_76_last_seen_timer > 200)
+                {
+                    pPed->Deallocate_45EB60();
+                    field_10_subObj->field_0_car->sub_421470();
+                    field_10_subObj->field_28 = 5;
+                    field_10_subObj->field_2C = 1;
+                }
+            }
+            else if (pCar->field_76_last_seen_timer > 200)
+            {
+                if (pCar->field_88_despawn_status != 5 && pCar->field_88_despawn_status != 2 && pCar->field_88_despawn_status != 3)
+                {
+                    pCar->field_88_despawn_status = 4;
+                    field_10_subObj->field_28 = 5;
+                }
+                field_10_subObj->field_2C = 1;
+                return;
+            }
+        }
+    }
+    else if (pGroup)
+    {
+        if (pGroup->sub_4C9150())
+        {
+            u8 v7 = 0;
+            for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[v7++])
+            {
+                pPedIter->field_164_ped_group = 0;
+                pPedIter->field_23C = 0;
+                pPedIter->Deallocate_45EB60();
+                if (!field_10_subObj->field_8_group)
+                {
+                    break;
+                }
+            }
+            field_10_subObj->field_8_group->ClearGroupData_4C8E90();
+            field_10_subObj->field_2C = 1;
+            field_10_subObj->field_28 = 5;
+        }
+    }
+    else
+    {
+        Ped* pPed = field_10_subObj->field_4_ped;
+        if (pPed)
+        {
+            if (pPed->get_field_20e() >= 30)
+            {
+                pPed->Deallocate_45EB60();
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+            else if (pPed->field_16C_car)
+            {
+                pPed->Deallocate_45EB60();
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+            else if (pPed->field_28C_threat_reaction != 1)
+            {
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+        }
+        else
+        {
+            field_10_subObj->field_2C = 1;
+            field_10_subObj->field_28 = 5;
+        }
+    }
 }
 
-STUB_FUNC(0x571a30)
-char_type PoliceCrew_38::sub_571A30()
+WIP_FUNC(0x571a30)
+void PoliceCrew_38::sub_571A30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pPlayerCar = pPed_6FEDDC->field_16C_car;
+    if (pPlayerCar && pPed_6FEDDC == pPlayerCar->field_54_driver)
+    {
+        PedGroup* pGroup = field_10_subObj->field_8_group;
+        Car_BC* pCar = field_10_subObj->field_0_car;
+        if (pGroup)
+        {
+            if (pCar->field_76_last_seen_timer <= 200)
+            {
+                return;
+            }
+
+            if (pGroup->IsAllMembersInSomeCar_4CAA20())
+            {
+                u8 i = 0;
+                for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[i++])
+                {
+                    pPedIter->field_238_ped_type = 3;
+                    pPedIter->field_164_ped_group = 0;
+                    pPedIter->field_23C = 0;
+                    if (!field_10_subObj->field_8_group)
+                    {
+                        break;
+                    }
+                }
+                field_10_subObj->field_8_group->ClearGroupData_4C8E90();
+                field_10_subObj->field_0_car->sub_421470();
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+            else
+            {
+                u8 bAllReady = 1;
+                field_10_subObj->field_0_car->sub_43AF60();
+
+                PedGroup* pGroup2 = field_10_subObj->field_8_group;
+                u8 j = 0;
+                for (Ped* pMember = pGroup2->field_4_ped_list[0]; pMember; pMember = pGroup2->field_4_ped_list[++j])
+                {
+                    if (pMember->field_168_game_object && pMember->get_field_20e() < 10)
+                    {
+                        bAllReady = 0;
+                    }
+                }
+
+                if (!bAllReady)
+                {
+                    return;
+                }
+
+                Ped* pLeader = field_10_subObj->field_4_ped;
+                pLeader->field_164_ped_group = 0;
+                pLeader->field_23C = 0;
+                field_10_subObj->field_0_car->sub_421470();
+
+                u8 k = 0;
+                for (Ped* pPed = field_10_subObj->field_8_group->field_4_ped_list[0]; pPed;
+                     pPed = field_10_subObj->field_8_group->field_4_ped_list[++k])
+                {
+                    if (pPed->field_168_game_object)
+                    {
+                        pPed->field_164_ped_group = 0;
+                        pPed->field_23C = 0;
+                        pPed->Deallocate_45EB60();
+                    }
+                }
+                field_10_subObj->field_8_group->ClearGroupData_4C8E90();
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+        }
+        else if (pCar->field_76_last_seen_timer > 80)
+        {
+            pCar->sub_421470();
+            field_10_subObj->field_28 = 5;
+            field_10_subObj->field_2C = 1;
+        }
+    }
+    else
+    {
+        PedGroup* pGroup = field_10_subObj->field_8_group;
+        if (pGroup)
+        {
+            if (!pGroup->sub_4C9150())
+            {
+                return;
+            }
+
+            Car_BC* pCar = field_10_subObj->field_0_car;
+            if (pCar->field_76_last_seen_timer <= 200 && pCar->field_7C_uni_num != 2)
+            {
+                return;
+            }
+
+            u8 i = 0;
+            for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[i++])
+            {
+                pPedIter->field_164_ped_group = 0;
+                pPedIter->field_23C = 0;
+                pPedIter->Deallocate_45EB60();
+                if (!field_10_subObj->field_8_group)
+                {
+                    break;
+                }
+            }
+            field_10_subObj->field_8_group->ClearGroupData_4C8E90();
+
+            pCar = field_10_subObj->field_0_car;
+            if (pCar->field_7C_uni_num != 2)
+            {
+                pCar->sub_421470();
+            }
+            field_10_subObj->field_28 = 5;
+            field_10_subObj->field_2C = 1;
+        }
+        else
+        {
+            Car_BC* pCar = field_10_subObj->field_0_car;
+            if (pCar->field_76_last_seen_timer <= 200 && pCar->field_7C_uni_num != 2)
+            {
+                return;
+            }
+            if (field_10_subObj->field_4_ped->get_field_20e() <= 30)
+            {
+                return;
+            }
+            if (pCar->field_7C_uni_num != 2)
+            {
+                pCar->sub_421470();
+            }
+            field_10_subObj->field_4_ped->Deallocate_45EB60();
+            field_10_subObj->field_28 = 5;
+            field_10_subObj->field_2C = 1;
+        }
+    }
 }
 
 MATCH_FUNC(0x5720c0)
@@ -998,10 +1228,93 @@ void PoliceCrew_38::sub_5752C0()
     byte_6FEB48 = 1;
 }
 
-STUB_FUNC(0x575310)
+DEFINE_GLOBAL(Fix16, dword_6FECF0, 0x6FECF0);
+DEFINE_GLOBAL(Fix16, dword_6FEBF4, 0x6FEBF4);
+DEFINE_GLOBAL(Fix16, dword_6FECF4, 0x6FECF4);
+DEFINE_GLOBAL(Fix16, dword_6FEDE0, 0x6FEDE0);
+
+WIP_FUNC(0x575310)
 void PoliceCrew_38::sub_575310()
 {
-    NOT_IMPLEMENTED;
+    byte_6FEB48 = 1;
+    pPed_6FEDDC->field_148_objective_target_ped = field_14_pService->field_0_criminal_ped;
+
+    Fix16 player_y = pPed_6FEDDC->field_1AC_cam.y;
+    Fix16 player_x = pPed_6FEDDC->field_1AC_cam.x;
+    Ped* pCriminal = field_14_pService->field_0_criminal_ped;
+    Char_B4* pB4 = pCriminal->field_168_game_object;
+    Fix16 criminal_y = pCriminal->field_1AC_cam.y;
+    Fix16 criminal_x = pCriminal->field_1AC_cam.x;
+
+    if (pB4)
+    {
+        Fix16 dy = criminal_y - player_y;
+        Fix16 dx = criminal_x - player_x;
+        Fix16 dist = Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy));
+        if (dist < dword_6FECF0 + dword_6FEBF4)
+        {
+            pPed_6FEDDC->SetObjective(27, 9999);
+            if (field_10_subObj && field_10_subObj->field_0_car && field_10_subObj->field_0_car->field_60)
+            {
+                gHamburger_500_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
+                field_10_subObj->field_0_car->field_60 = 0;
+            }
+        }
+        else
+        {
+            field_24_state = 3;
+        }
+        return;
+    }
+
+    Fix16 dy = criminal_y - player_y;
+    Fix16 dx = criminal_x - player_x;
+    Fix16 dist = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(dx), Fix16::Abs_negate_out_of_line(dy));
+
+    Car_BC* pCar = field_10_subObj->field_0_car;
+    Hamburger_40* pHamburger = pCar->field_60;
+    if (!pHamburger)
+    {
+        return;
+    }
+
+    switch (pHamburger->field_C)
+    {
+        case 15:
+            pCar->field_5C_AI->field_24_flags |= 0x100000;
+            pPed_6FEDDC->SetObjective(27, 9999);
+            field_14_pService->field_E += field_10_subObj->field_0_car->field_60->field_3C;
+            if (field_10_subObj->field_0_car->field_60)
+            {
+                gHamburger_500_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
+                field_10_subObj->field_0_car->field_60 = 0;
+            }
+            return;
+        case 0:
+        case 1:
+        case 2:
+        case 14:
+            break;
+        default:
+            field_14_pService->field_78 = 1;
+            break;
+    }
+
+    if ((u8)field_14_pService->field_E > 0)
+    {
+        field_10_subObj->field_0_car->field_60->field_3C = field_14_pService->field_E;
+    }
+
+    if (dist < dword_6FECF4 && field_10_subObj->field_0_car->GetVelocity_43A4C0() < dword_6FEDE0 &&
+        field_14_pService->field_0_criminal_ped->field_16C_car->GetVelocity_43A4C0() < dword_6FEDE0)
+    {
+        pPed_6FEDDC->SetObjective(27, 9999);
+        if (field_10_subObj->field_0_car->field_60)
+        {
+            gHamburger_500_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
+            field_10_subObj->field_0_car->field_60 = 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x575590)

@@ -71,11 +71,14 @@ DEFINE_GLOBAL(Network_InputData_0x8*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: 
 DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
 DEFINE_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20, 0x6F58E0); // TODO: move
 DEFINE_GLOBAL(u32, gTotalNetworkTime_6F5980, 0x6F5980); // TODO: move
-DEFINE_GLOBAL(u32, dword_6F573C, 0x6F573C); // TODO: move
+DEFINE_GLOBAL(s32, dword_6F573C, 0x6F573C); // TODO: move
 DEFINE_GLOBAL(s32, gHudTimerIdx_6F5860, 0x6F5860); // TODO: move
 EXTERN_GLOBAL(s32, dword_6F58A4); // TODO: move
-DEFINE_GLOBAL(u32, dword_6F58A0, 0x6F58A0); // TODO: move
-DEFINE_GLOBAL(u32, dword_6F5858, 0x6F5858); // TODO: move
+DEFINE_GLOBAL(s32, dword_6F58A0, 0x6F58A0); // TODO: move
+DEFINE_GLOBAL(s32, dword_6F5858, 0x6F5858); // TODO: move
+DEFINE_GLOBAL(s32, dword_6F5B74, 0x6F5B74);
+DEFINE_GLOBAL(s32, dword_6F5944, 0x6F5944);
+DEFINE_GLOBAL(s32, dword_67ED24, 0x67ED24);
 DEFINE_GLOBAL(u8, byte_6F59C0, 0x6F59C0); // TODO: move
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
@@ -1030,10 +1033,124 @@ void __stdcall Draw_4DA7B0()
     }
 }
 
-STUB_FUNC(0x4DA9F0)
-EXPORT void Net_4DA9F0()
+DEFINE_GLOBAL(Network_Unknown_0x30, gNetInputsHistory1_6F56E0, 0x6F56E0);
+DEFINE_GLOBAL(Network_Unknown_0x30, gNetInputsHistory2_6F5798, 0x6F5798);
+DEFINE_GLOBAL_ARRAY(u8, gNetPlayerDropped_6F8470, 6, 0x6F8470);
+
+// TODO: guessed, the target asm for this 64 byte function hasn't been dumped yet.
+// Re-sends our inputs of a previous frame to one player.
+STUB_FUNC(0x4DA9B0)
+EXPORT void __stdcall Net_4DA9B0(Network_InputData_0x8* pInputs, s32 type, u8 player_idx)
 {
     NOT_IMPLEMENTED;
+}
+
+MATCH_FUNC(0x4DA9F0)
+EXPORT void Net_4DA9F0()
+{
+    s32 retries = 0;
+    s32 max_retries = bRecordStartTime_6F593C ? 25 : 6;
+
+    memcpy(&gNetInputsHistory2_6F5798, &gNetInputsHistory1_6F56E0, sizeof(gNetInputsHistory2_6F5798));
+    memcpy(&gNetInputsHistory1_6F56E0, &gCurrentNetInputs_6F57D8, sizeof(gNetInputsHistory1_6F56E0));
+
+    u32 waiting_bits = 0;
+    for (u32 i = 0; i < GTA2_COUNTOF(gNetPlay_7071E8.field_758_n2.field_10); i++)
+    {
+        if (gNetPlay_7071E8.field_758_n2.field_10[i].field_0 && i != gNetworkPlayerIdx_6F56C8)
+        {
+            waiting_bits |= 1 << i;
+        }
+    }
+
+    u32 start_time = timeGetTime();
+    gTotalNetworkTime_6F5980 = 0;
+
+    while (waiting_bits)
+    {
+        if (gGame_0x40_67E008->sub_4B8C20())
+        {
+            return;
+        }
+
+        s32 player_idx;
+        u32 type;
+        if (gNetPlay_7071E8.ReceiveGameMessage_521890((Network_8*)&gpInputBuffer_6F58C0, &player_idx, &type))
+        {
+            switch (type)
+            {
+                case 2:
+                {
+                    switch (*(u8*)gpInputBuffer_6F58C0)
+                    {
+                        case 1:
+                            waiting_bits &= ~(1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1));
+                            gNetInUsePlayerBits_6F56B8 |= 1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1);
+                            break;
+                        case 2:
+                            waiting_bits &= ~(1 << player_idx);
+                            gNetInUsePlayerBits_6F56B8 |= 1 << player_idx;
+                            break;
+                        case 3:
+                            waiting_bits = 0;
+                            gPlayerQuit_6F5AEC = 1;
+                            break;
+                        default:
+                            FatalError_4A38C0(Gta2Error::InvalidLine, "C:\\Splitting\\Gta2\\Source\\main.cpp", 853, 0);
+                            break;
+                    }
+                    break;
+                }
+                case 3:
+                    memcpy(&gCurrentNetInputs_6F57D8.field_0_inputs[player_idx], gpInputBuffer_6F58C0, gCurrentInputsBufferSize_6F58C4);
+                    waiting_bits &= ~(1 << player_idx);
+                    if (bDo_sync_check_67D6C1 &&
+                        gCurrentNetInputs_6F57D8.field_0_inputs[player_idx].field_4_rng !=
+                            gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng)
+                    {
+                        FatalError_4A38C0(Gta2Error::SyncErrorRandom,
+                                          "C:\\Splitting\\Gta2\\Source\\main.cpp",
+                                          822,
+                                          gCurrentNetInputs_6F57D8.field_0_inputs[player_idx].field_4_rng,
+                                          gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng);
+                    }
+                    break;
+                default:
+                    FatalError_4A38C0(Gta2Error::InvalidLine, "C:\\Splitting\\Gta2\\Source\\main.cpp", 860, 0);
+                    break;
+            }
+        }
+
+        gTotalNetworkTime_6F5980 += gNetPlay_7071E8.field_8F4_time_diff;
+
+        if (timeGetTime() - start_time > 1000 && retries >= max_retries && waiting_bits)
+        {
+            // Give up on the players that didn't answer
+            for (u32 j = 0; j < 6 && waiting_bits; j++)
+            {
+                if (waiting_bits & (1 << j))
+                {
+                    waiting_bits &= ~(1 << j);
+                    gNetInUsePlayerBits_6F56B8 |= 1 << j;
+                    gNetPlay_7071E8.Send_521DB0(j);
+                    gNetPlayerDropped_6F8470[j] = 1;
+                }
+            }
+        }
+        else if (timeGetTime() - start_time > 1000 && waiting_bits)
+        {
+            start_time = timeGetTime();
+            retries++;
+            for (u8 k = 0; k < 6; k++)
+            {
+                if (waiting_bits & (1 << k))
+                {
+                    Net_4DA9B0(&gNetInputsHistory1_6F56E0.field_0_inputs[gNetworkPlayerIdx_6F56C8], 1, k);
+                    Net_4DA9B0(&gNetInputsHistory2_6F5798.field_0_inputs[gNetworkPlayerIdx_6F56C8], 2, k);
+                }
+            }
+        }
+    }
 }
 
 // Fills in the sync check data that is compared between players at the start of a network game
@@ -1085,10 +1202,69 @@ EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
     }
 }
 
-STUB_FUNC(0x4DADA0)
+WIP_FUNC(0x4DADA0)
 EXPORT void TagGameHudUpdate_4DADA0()
 {
-    NOT_IMPLEMENTED;
+    if (dword_6F58A4)
+    {
+        if (++dword_6F5858 >= 30)
+        {
+            dword_6F5858 = 0;
+            if (--dword_6F58A0 < 0)
+            {
+                dword_6F58A0 = 59;
+                if (--dword_6F573C < 0)
+                {
+                    dword_6F58A4 = 0;
+                    gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                    gGame_0x40_67E008->ExitGameNoBonus_4B8C00(2, 5);
+                }
+            }
+        }
+
+        s32 seconds = dword_6F58A0;
+        s32 minutes = dword_6F573C;
+        s32 rem = minutes % 5;
+        if (!(minutes == 0 || (rem == 4 && seconds >= 50) || (rem == 0 && seconds == 0) ||
+              (minutes == dword_67ED24 && seconds == 0) || (minutes == dword_67ED24 - 1 && seconds >= 50)))
+        {
+            byte_6F59C0 = 0;
+            dword_6F5B74 = 0;
+        }
+        else
+        {
+            bool bShow = true;
+            if (!byte_6F59C0)
+            {
+                byte_6F59C0 = 1;
+                dword_6F5B74 = 59;
+            }
+            if (dword_6F5B74 > 0)
+            {
+                if (((dword_6F5B74 / 5) & 1) == 0)
+                {
+                    bShow = false;
+                }
+                dword_6F5B74--;
+            }
+
+            if (bShow)
+            {
+                dword_6F5944 = minutes * 60 + seconds;
+                if (gHudTimerIdx_6F5860 == -1)
+                {
+                    gHudTimerIdx_6F5860 = gHud_2B00_706620->field_620.CreateTimer_5D31F0(dword_6F5944);
+                }
+                return;
+            }
+        }
+
+        if (gHudTimerIdx_6F5860 != -1)
+        {
+            gHud_2B00_706620->field_620.ClearPager_5D3280(gHudTimerIdx_6F5860);
+            gHudTimerIdx_6F5860 = -1;
+        }
+    }
 }
 
 MATCH_FUNC(0x4DAF30)
@@ -1688,10 +1864,9 @@ EXPORT void __stdcall sub_5D9250()
     gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", gStartMode_626A0C);
 }
 
-STUB_FUNC(0x5E4EE0)
+WIP_FUNC(0x5E4EE0)
 EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
-    NOT_IMPLEMENTED;
 
     switch (Msg)
     {
@@ -2230,11 +2405,96 @@ EXPORT void __stdcall sub_4DA740()
     }
 }
 
-STUB_FUNC(0x5E5A30)
+DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098, 0x707098);
+
+WIP_FUNC(0x5E5A30)
 EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
-    NOT_IMPLEMENTED;
-    return 1;
+    char_type bRet = 1;
+    gLucid_hamilton_67E8E0.init_4C5AF0();
+    if (bStartNetworkGame_7081F0)
+    {
+        HKEY hKey;
+        if (!gRegistry_6FF968.CreateNetworkRoot_587420(&hKey))
+        {
+            bRet = 0;
+        }
+
+        if (gRegistry_6FF968.Get_Int_5873E0(hKey, "UseProtocol") != sizeof(GUID))
+        {
+            RegCloseKey(hKey);
+            if (!gNetPlay_7071E8.SetProtoAndConnection_51DAE0(0, 0))
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            GUID protocolGuid;
+            if (!gRegistry_6FF968.sub_587340(hKey, "UseProtocol", sizeof(GUID), (LPBYTE)&protocolGuid))
+            {
+                RegCloseKey(hKey);
+                return 0;
+            }
+
+            Connection_Unknown connection;
+            connection.field_4_len = gRegistry_6FF968.Get_Int_5873E0(hKey, "UseConnection");
+            connection.field_0 = operator new(connection.field_4_len);
+            if (!gRegistry_6FF968.sub_587340(hKey, "UseConnection", connection.field_4_len, (LPBYTE)connection.field_0))
+            {
+                operator delete(connection.field_0);
+                RegCloseKey(hKey);
+                return 0;
+            }
+            RegCloseKey(hKey);
+
+            if (!gNetPlay_7071E8.SetProtoAndConnection_51DAE0(&protocolGuid, &connection))
+            {
+                operator delete(connection.field_0);
+                return 0;
+            }
+
+            if (gNetPlay_7071E8.field_4)
+            {
+                u16 len = gRegistry_6FF968.Get_Int_5873E0(hKey, "ModemNumber");
+                if (len >= 128)
+                {
+                    return 0;
+                }
+                wchar_t modemNumber[128];
+                gRegistry_6FF968.sub_587340(hKey, "ModemNumber", len, (LPBYTE)modemNumber);
+                gNetPlay_7071E8.field_5_modem_num = modemNumber[0] != 0;
+            }
+        }
+
+        Network_20324 networkUi;
+        if (!gNetPlay_7071E8.InitializeConnection_51E5C0())
+        {
+            return 0;
+        }
+
+        if (!networkUi.ShowNetworkUiBlocking_519BD0(hInstance))
+        {
+            return 0;
+        }
+
+        networkUi.CopyGameSettings_51C7F0(&gNetworkGameSettings_707098);
+
+        char_type path[256];
+        sprintf(path, "data\\%s", networkUi.GetMapName_51CA10());
+        gLucid_hamilton_67E8E0.SetMapName_4C5870(path);
+        sprintf(path, "data\\%s", networkUi.GetMapStyName_51CA50());
+        gLucid_hamilton_67E8E0.SetStyleName_4C5890(path);
+        sprintf(path, "data\\%s", networkUi.GetMapScrName_51CA90());
+        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(path);
+
+        gLucid_hamilton_67E8E0.SetMultiplayerParams_4C5B80(gNetworkGameSettings_707098.field_20198_game_type,
+                                                           gNetworkGameSettings_707098.field_20194_frag_limit,
+                                                           gNetPlay_7071E8.field_5D4_player_idx,
+                                                           gNetPlay_7071E8.GetMaxPlayers_521350(),
+                                                           gNetworkGameSettings_707098.field_201A4_game_time_limit);
+    }
+    return bRet;
 }
 
 #pragma comment(lib, "Version.lib")

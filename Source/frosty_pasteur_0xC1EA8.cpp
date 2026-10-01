@@ -58,6 +58,13 @@ str_table_entry* frosty_pasteur_0xC1EA8::StrEntryByString_5030B0(char_type* strT
     return 0;
 }
 
+// No target asm available for this one, signature from the call in Car_214::sub_5C8780
+STUB_FUNC(0x511A70)
+void frosty_pasteur_0xC1EA8::sub_511A70(s32 car_model, SCR_CMD_HEADER* pCmd)
+{
+    NOT_IMPLEMENTED;
+}
+
 MATCH_FUNC(0x511b10)
 char_type frosty_pasteur_0xC1EA8::sub_511B10(s16 idx)
 {

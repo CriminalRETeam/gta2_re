@@ -24,6 +24,8 @@ EXTERN_GLOBAL(Fix16, dword_6FD448);
 EXTERN_GLOBAL(Fix16, dword_6FD2E8);
 EXTERN_GLOBAL(Fix16, dword_6FD2EC);
 EXTERN_GLOBAL(Fix16, dword_6FD554);
+EXTERN_GLOBAL(Fix16, dword_6FD3C0);
+EXTERN_GLOBAL(Fix16, dword_6FD5A8);
 
 EXTERN_GLOBAL(Ang16, word_6FD5D4);
 EXTERN_GLOBAL(Ang16, word_6FD3EE);
@@ -138,10 +140,109 @@ void Particle_8::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     }
 }
 
-STUB_FUNC(0x53e970)
+WIP_FUNC(0x53e970)
 void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
 {
-    NOT_IMPLEMENTED;
+    Fix16_Point vel(Fix16(0), Fix16(0));
+    if (bSkip_particles_67D64D)
+    {
+        return;
+    }
+
+    Particle_4C* pParticle;
+    if (a2->field_30_sprite_type_enum == sprite_types_enum::car_2)
+    {
+        Car_BC* pCar = a2->field_8_car_bc_ptr;
+        pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
+        if (pParticle)
+        {
+            pParticle->field_4_flags |= 1;
+            pParticle->field_30_pNext->SetType_4206F0(8);
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 197);
+            pParticle->field_34 = 0;
+            pParticle->field_38_state = 40;
+            Fix16 unused = Ang16::sine_40F500(a2->field_0) * dword_6FD2E8;
+            unused = Ang16::cosine_40F520(a2->field_0) * dword_6FD2E8;
+            pParticle->field_46_sub_state = 0;
+            pParticle->field_48_timer = 0;
+
+            Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
+            Fix16_Point offset;
+            offset.x = pBox->field_0_width / 2 + dword_6FD3C0;
+            offset.y = pBox->field_4_height / 2 + dword_6FD5A8;
+            offset.RotateByAngle_40F6B0(a2->field_0);
+            Fix16_Point pos = a2->get_x_y_443580();
+            offset.x += pos.x;
+            offset.y += pos.y;
+
+            pParticle->field_28_pSprite = a2;
+            pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(offset.x, offset.y, a2->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pNext->field_2C_flags |= 4;
+        }
+
+        pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
+        if (!pParticle)
+        {
+            return;
+        }
+        pParticle->field_4_flags |= 1;
+        pParticle->field_30_pNext->SetType_4206F0(8);
+        pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 197);
+        pParticle->field_34 = 0;
+        pParticle->field_38_state = 41;
+        Fix16 unused = Ang16::sine_40F500(a2->field_0) * dword_6FD2E8;
+        unused = Ang16::cosine_40F520(a2->field_0) * dword_6FD2E8;
+        pParticle->field_46_sub_state = 0;
+        pParticle->field_48_timer = 0;
+
+        Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
+        Fix16_Point offset;
+        offset.x = -(pBox->field_0_width / 2 + dword_6FD3C0);
+        offset.y = pBox->field_4_height / 2 + dword_6FD5A8;
+        offset.RotateByAngle_40F6B0(a2->field_0);
+        Fix16_Point pos = a2->get_x_y_443580();
+        offset.x += pos.x;
+        offset.y += pos.y;
+
+        pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
+        pParticle->field_30_pNext->set_xyz_lazy_420600(offset.x, offset.y, a2->field_1C_zpos);
+        pParticle->field_28_pSprite = a2;
+    }
+    else
+    {
+        pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
+        if (!pParticle)
+        {
+            return;
+        }
+        pParticle->field_4_flags |= 1;
+        pParticle->field_30_pNext->SetType_4206F0(8);
+        pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 197);
+        pParticle->field_34 = 0;
+        pParticle->field_38_state = 40;
+        Fix16 dx = Ang16::sine_40F500(a2->field_0) * dword_6FD2E8;
+        Fix16 dy = Ang16::cosine_40F520(a2->field_0) * dword_6FD2E8;
+        pParticle->field_46_sub_state = 0;
+        pParticle->field_48_timer = 0;
+        stru_6FD388 = a2->field_14_xy.x + dx;
+        stru_6FD38C = a2->field_14_xy.y + dy;
+        Fix16 zpos = a2->field_1C_zpos;
+
+        Char_B4* pB4 = a2->AsCharB4_40FEA0();
+        Fix16_Point offset;
+        offset.x = -dword_6FD464;
+        offset.y = dword_6FD468 + dword_6FD2E8;
+        offset.RotateByAngle_40F6B0(a2->field_0);
+        offset = offset + *(Fix16_Point*)&pB4->field_98;
+
+        pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
+        pParticle->field_30_pNext->set_xyz_lazy_420600(a2->field_14_xy.x + offset.x, a2->field_14_xy.y + offset.y, zpos);
+        pParticle->field_28_pSprite = a2;
+    }
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+    pParticle->field_30_pNext->field_2C_flags |= 4;
 }
 
 // Something wrong with the velocities https://decomp.me/scratch/2Kz9I
@@ -223,10 +324,40 @@ void Particle_8::SpawnParticleSprite_5405D0(Sprite* pSprite)
     }
 }
 
-STUB_FUNC(0x540320)
+DEFINE_GLOBAL(Fix16, dword_6FD500, 0x6FD500);
+
+WIP_FUNC(0x540320)
 void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 ang)
 {
-    NOT_IMPLEMENTED;
+    Ang16 angle;
+    Fix16_Point vector(Fix16(0), Fix16(0));
+
+    if (!bSkip_particles_67D64D)
+    {
+        stru_6F6784.get_int_4F7AE0(3);
+        vector.x = Fix16(0);
+        vector.y = (Fix16(stru_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD500;
+
+        angle = word_6FD5CC.sub_401CB0(Fix16(stru_6F6784.get_int_4F7AE0(360)));
+        vector.RotateByAngle_40F6B0(angle);
+
+        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);
+        if (pNew4C)
+        {
+            pNew4C->field_34 = 0;
+            pNew4C->field_38_state = 37;
+            pNew4C->field_46_sub_state = 0;
+            pNew4C->field_2E = pNew4C->field_2C_counter;
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
+            pNew4C->field_30_pNext->set_ang_lazy_420690(ang);
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(stru_6F6784.get_int_4F7AE0(4) + gPhi_8CA8_6FCF00->field_8CA4 + 175);
+            pNew4C->field_30_pNext->field_2C_flags = 0xA2;
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+        }
+    }
 }
 
 // 9.6f 0x48E060
@@ -315,10 +446,65 @@ Particle_8::~Particle_8()
     field_4 = 0;
 }
 
-STUB_FUNC(0x53FAE0)
+MATCH_FUNC(0x53FAE0)
 void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    Ang16 angle;
+    Fix16_Point vector(Fix16(0), Fix16(0));
+    if (!bSkip_particles_67D64D)
+    {
+        if (!field_4)
+        {
+            field_4 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::maybe_bullet_on_fire_198, 0, 0, 0, word_6FD5D4);
+        }
+        vector.x = Fix16(0);
+        vector.y = Fix16(0);
+        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);
+        if (pParticle)
+        {
+            pParticle->field_4_flags |= 1;
+            pParticle->field_30_pNext->SetType_4206F0(8);
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 111);
+            pParticle->field_30_pNext->AllocInternal_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, dword_6FD2EC);
+            pParticle->field_34 = 0;
+            pParticle->field_38_state = 34;
+            Fix16 vec_x;
+            Fix16 vec_y;
+            Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD2E8, vec_x, vec_y);
+            pParticle->field_2C_counter = 100;
+            pParticle->field_46_sub_state = 0;
+            pParticle->field_48_timer = 0;
+            stru_6FD388 = pSprite->field_14_xy.x + vec_x;
+            stru_6FD38C = pSprite->field_14_xy.y + vec_y;
+            Fix16 zpos = pSprite->field_1C_zpos;
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            {
+                Car_BC* pCar = pSprite->field_8_car_bc_ptr;
+                Sprite_18* pGun = pCar->field_0_qq.GetSpriteForModel_5A6A50(114);
+                if (pGun)
+                {
+                    angle = pGun->field_0->field_0 + word_6FD3EE;
+                }
+                else
+                {
+                    angle = pCar->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+                }
+                pParticle->field_30_pNext->set_ang_lazy_420690(angle);
+            }
+            else
+            {
+                pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0);
+            }
+            pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+            pParticle->field_28_pSprite = pSprite;
+            if (pParticle->field_30_pNext->CheckSpriteMovementRegion_5A2500())
+            {
+                pParticle->field_2C_counter = 0;
+            }
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pNext->field_2C_flags |= 4;
+        }
+    }
 }
 
 // https://decomp.me/scratch/wfzEd

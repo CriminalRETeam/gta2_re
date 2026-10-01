@@ -35,11 +35,23 @@ this). Examples it would not catch on its own: `Player::Hud_Controls_565890` cal
 `DoBrianTest_42D870` on the wrong global object, and `Car_BC::DetachTrailer_442760` pushed
 onto the pool's free list instead of the active list.
 
+A case found this way: in `Particle_8::EmitFireTruckSprayParticle_53FAE0` the asm matched
+with `dword_6FD508 * dword_6FD554` while the original multiplies `dword_6FD554 * dword_6FD508`
+(the two globals were swapped, the instructions identical). Comparing the referenced
+globals per instruction catches this.
+
 ## Control flow and layout
 
 **Case bodies are laid out in source order.** If the original's `mov $N,%eax; ret` blocks come
 in a different order from yours, reorder the `case` groups to match (`sub_417AC0`,
 `sub_417BA0`, `sub_528E00`).
+
+**One shared `return true` block comes from nesting, not early returns.** In an EH-frame
+function VC6 gives every `return` its own epilogue copy. If several failure checks in the
+original all `je` to one `mov $1,%al` epilogue, nest the success path and put one `return true`
+at the end. For example, `if (a && b) { ...; if (z < limit) { ...; return 0; } } return true;`
+(`Particle_4C::UpdateDirectedBurst_state_13_14_36_539480`, 0.420 -> 0.453). When the original
+repeats the epilogue after each check, early returns are right (`Particle_4C::UpdateCircularBurst_state_5_539890`).
 
 **A one-case `switch` gives `mov/dec/jne`.** `if (notify == 1)` compiles to `cmpl $1,mem`;
 `switch (notify) { case 1: ... }` loads the value and tests it with `dec %eax; jne`. Use
@@ -121,6 +133,13 @@ for (v3 = head; v3->next && v3->next->key < k; v3 = v3->next) {}
 
 (`RouteFinder::sub_589420`, `Hud_Brief_704::sub_5D33F0`.)
 
+**A jump table whose default lands on a case block.** VC6 builds a table only from four
+explicit cases. `case 4: default:` counts as three cases plus a default, so you get a
+`dec`/`je` chain. If the table entry for one case equals the `ja` default target, write that
+case out with its own `return` and put the same `return` after the switch, so the two blocks
+tail-merge. Case order in the source still sets the `cx`/`dx` alternation between blocks, even
+when the case lands last in the layout. The permuter found `case 4` first (`sub_5345E0`).
+
 ## Types and signedness
 
 **`jae`/`jb` vs `jge`/`jl` means unsigned vs signed.** Fix the field or parameter type, not the
@@ -139,6 +158,10 @@ paths set all of `eax` is still unsolved (`Car_BC::sub_43B2B0`).
 `sub $0x100`. `return x - 0x100;` from an inline helper gives `add $0xFFFFFF00`
 (`SeqDiff` in NetPlay.cpp, `NetPlay::MakeSendData_51F420`).
 
+**`flag ? '1' : '0'` vs `(flag != 0) + '0'`.** Storing to a `char`, the ternary gives
+`setne %cl; add $0x30,%ecx` (32-bit add); the explicit bool sum gives a byte `add $0x30,%cl`
+(`BurgerKing_67F8B0::AppendReplayHeader_4CDF70`).
+
 **Adding a bool.** `setne al; add $0xE,%eax` comes from `(b != 0) + 14`, not `b + 14`
 (`sub_417B80`).
 
@@ -156,12 +179,25 @@ game's d3d dll where it expects the value.
 
 ## Evaluation order and registers
 
+**Read through the pointer, not a local copy.** `lea (%eax,%ecx)` where yours gives
+`lea (%ecx,%eax)`, with no other difference, can come from a local copy of `*p`
+(`Fix16 t = *pTarget; ... t + k`). Using `*pTarget` directly each time fixed the operand order
+in `sub_405E80`. The permuter found it.
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
 **`memcmp`/`operator==` operand order picks `esi`/`edi`.** For an inlined 16-byte compare
 (`repe cmpsl`), the left operand goes in `esi` and the right in `edi`. Swap the sides
 of `==` if they are the wrong way round (`NetPlay::InitializeConnection_51E5C0`).
+
+**Field-index locals: try every declaration order.** Four `u16` locals loaded from the same
+struct (the junction link indices) gave 0.930, 0.585 or a match depending only on their
+declaration order (`RouteFinder::sub_5895C0` needed north, south, east, west; its sibling
+`sub_589BB0` needed north, south, west, east). With 4 locals it's 24 builds, so script it.
+The same function also needed `RouteFinder_10* pStart = field_861C;` (used for the memset,
+`field_A82C` and the `field_4` store) for VC6 to reuse the `lea` register, and the
+"primary direction" test written as `if (!x) { fallbacks } else { primary }`.
 
 **The order of local saves decides register rotation later on.** When a function saves
 some fields to locals before calls, the statement order of those saves can leave the load
@@ -184,6 +220,12 @@ this also removes the need for a raw buffer to get around a zeroing default cons
 out in full can schedule its loads differently from a `Car_BC* pCar` local
 (`sound_obj::HandleAICarEngineSound_418190`: the local loaded the car before a global,
 unlike the original).
+
+**Read-then-reset through an inline method.** `s32 d = t.b - t.a; t.init();` written out
+lets VC6 hoist the next object's loads above the zero stores. The original had an inline
+method (`s32 TakeElapsed() { s32 e = field_4 - field_0; init(); return e; }`), which keeps
+each load pair before its own stores (`Mike_A80::sub_4FFA90`, 0.667 to a match). The same
+function also needed `wsprintfA` (an import, `calll *0x5FE1BC`) rather than `sprintf`.
 
 **Getters vs direct field reads change register choice.** Reading `p->field_1AC_cam.x`
 directly instead of through an inline `get_cam_x()` that returns `Fix16` by value can give
@@ -224,6 +266,14 @@ monotonic. If a function matches when compiled alone (copy it into a small .cpp 
 `build_vc6/` and use `build.py --single_cpp ../build_vc6/x.cpp`) but not in its TU, try
 moving includes and check `compare_builds.py` for regressions.
 
+**An inline helper changes what else gets inlined.** If the original inlines the first
+`Fix16` operator of a formula and calls the out-of-line copies (`Multiply_408680`,
+`Add_408660`, ...) for the rest, while yours inlines all of them, the formula was probably
+inside an inline helper in the original. Moving it into one (a `static inline` function
+or a class inline) made VC6 stop inlining after the first operator in
+`RouteFinder::ShowJunctionIds_588620`. The reverse also happens: adding an inline call
+before a formula can push the formula's operators out of line (`Trailer::sub_407BD0`).
+
 **Inline functions: often only the first call gets inlined.** When a function calls the same
 inline function several times, VC6 often inlines the first call and emits real `call`s for
 the rest. Since those calls need a body, an out-of-line copy of the "inline" function is
@@ -240,6 +290,13 @@ the two branches of an `if` into one call, but not the tails of two different `c
 the original jumps from one case into the middle of another (`push $1; jmp <other case's
 call>`), end the first case with a `goto` to a label in front of the other case's shared
 code (`sub_430C70`).
+
+**A "point" local that lives half in a register.** If the original keeps one coordinate of a
+constant pair in a register and the other in a stack slot, with no EH state for it, the pair
+was two plain `Fix16` locals, not a `Fix16_Point` (which has a destructor and adds an EH state
+and a slot). `Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60` went from 0.839
+(`Fix16_Point`) to 0.924 (`Fix16_Point_POD`) to a match (`Fix16 x, y`), keeping the zeroed
+`Fix16_Point point2(0, 0)` that the original also constructs and never uses.
 
 **Stack slot order isn't declaration order.** Two local arrays or a set of scalars can come out
 in a different order from the original whatever order they're declared in. If the
@@ -268,6 +325,12 @@ given a stack home that overlaps an argument, so its first use shows up as
 `mov N(%esp),%reg` reading that argument. It isn't a real read of the parameter, so
 leave the local uninitialised (`NetPlay::sub_521770`).
 
+**A dword read at an odd offset.** `mov 1(%ecx),%ecx` followed by a shift by `cl` is a 32-bit
+field at offset 1 of a packed message, not a byte (`Net_4DA9F0` reads the player index as
+`*(s32*)((u8*)p + 1)`). Reading it as `p[1]` gives `xor; mov 1(%eax),%cl`. In the same
+function, repeating the global (`*(u8*)gpInputBuffer_6F58C0`) instead of a `u8* pMsg` local
+put the pointer and the value in the original's registers.
+
 **Struct copies load through a pointer register.** `mov (%edx),%esi; mov (%esi),%ebp; ... mov 4(%esi),%esi`
 into consecutive fields is a struct assignment (`entry.inputs = *pData->p`), not two
 separate field copies (`NetPlay::Add_5216E0`).
@@ -287,7 +350,20 @@ still WIP for other reasons). Might be worth trying on `RouteFinder::sub_589E20`
 known to be 0 on entry, VC6 won't reproduce it however you write the loop
 (`RouteFinder::sub_589E20`, unsolved).
 
+**Stack slot sharing needs block scopes.** If the target puts two short-lived locals in the same stack
+slot, e.g. a `u8` index used once and a later `u32 len = sizeof(x)` read-size, and your frame is 4 bytes
+bigger, wrap each one in its own `{ }` block. VC6 only overlaps slots for variables in disjoint scopes; the
+original probably had them inside inline helpers. `Frontend::sub_4B4EC0` went 0.867 → 1.0 from this alone.
+
+**Try the permuter's depth 2 before hand-editing.** Two changes that are each worse alone can match
+together (`RouteFinder::NoRefs_589210`: a local's type and the order of two assignments). That's
+`Scripts/permute.sh ... -m exhaustive -p <passes> --depth 2`; see docs/permuter.md.
+
 ## Functions, thunks and calling conventions
+
+**`mov $1,%eax` in the callee but `test %al,%al` in the caller.** That's an `s32` (BOOL-style)
+return, cast to `u8` at the call: `if ((u8)sub_405E20(...) || (u8)sub_405E20(...))`. With a
+`bool` return, VC6 emits `mov $1,%al` in the callee instead (`sub_405E20`, `sub_405E80`).
 
 **Tail-call thunks.** A tiny original function that is just `mov ...,%ecx; jmp <addr>` or
 `if (x) jmp A; else jmp B` means the real code is a separate function the decomp had
@@ -326,6 +402,34 @@ stores (`Player::~Player`).
 **An EH frame missing from a destructor:** `<new>` declares `operator delete` as `throw()`,
 so don't include C++ std headers from widely used headers.
 
+### Per-file compiler flags are real
+
+Checked 2026-10-01: dropping either per-file flag in `cmake/vc6.cmake` breaks every matched
+function in that file.
+
+- **`sharp_bose_0x54.cpp` with `/GX-`.** The ctor builds five `distracted_einstein_0xC`
+  members that have real dtors, yet the original ctor has no EH frame. Under `/GX`, VC6 can't
+  drop that frame, so the file really was built without exception handling.
+- **`gbh_graphics.cpp` with `/Od /ZI`.** The DLL loader there is a debug / edit-and-continue
+  build. In contrast, the similar `DMA_Video_LoadDll_5EB970` in dma_video.cpp is optimised.
+
+When a whole file looks unoptimised, or lacks EH frames it should have, suspect a per-file
+flag before rewriting the code.
+
+### Use the existing inline helper, not its expansion
+
+Writing out what an inline helper does is not the same as calling it. The inliner counts the
+call, and that changes how later `*` / unary `-` calls get inlined and how registers are
+allocated. `x' = x*cos + y*sin; y' = -old_x*sin + y*cos` written by hand in the `Particle_4C`
+burst functions scored about 0.45. Replacing it with `Fix16_Point::RotateByAngle_40F6B0(angle)`
+gave about 0.70 (`UpdateDirectedBurst_state_13_14_36_539480`, `UpdateCircularBurst_state_5_539890`,
+`UpdateSkidOrScrapeSpark_state_40_41_53A280`). It is not always better:
+`UpdateDirectedProjectile_state_3_12_5384C0` dropped slightly. Before hand-writing maths,
+grep `Fix16_Point.hpp`, `fix16.hpp` and `ang16.hpp` for an inline that does it.
+
+Not checked yet: `CarAI_78.cpp` has many `sine_40F500(a) * r` / `cosine_40F520(a) * r` pairs
+that may be `FromPolar_41E210` or `Ang16::PolarToCartesian_41FC20`.
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
@@ -350,5 +454,28 @@ tried are in the WIP status report.
   (`sound_obj::InterrogateAudioEntities_41A730`, `Car_14::sub_583750`).
 - A `switch` that clobbers its value (`add $-39,%eax`) and reloads the parameter for
   `default`, where ours uses `lea` into another register (`Object_2C::sub_526830`).
+  Also `Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0`. There each case also repeats the whole
+  `SetDlgItemTextA` call where we share one tail. 200 permuter compiles found nothing.
 - An `s16` parameter returned with a 32-bit `mov` in `default` (`gtx_0x106C::GetSpriteTrueIndex_5AA460`).
 - Global load register choice in a run of similar statements (`Camera_0xBC::sub_435B90`).
+- Error blocks that cross-jump into each other's identical `ret` tail
+  (`DMA_Video_LoadDll_5EB970`: the `load_gbh_func` failure blocks). With `/O2` our VC6 keeps
+  every block separate. No compiler flag reproduces it:
+  - `/O1`, `/Os` and `/Ogs` add an ebp frame and merge every block into one path.
+  - The `/O2` variants change nothing (`/Ox`, `/Oy-`, `/Gy`, `/Gf`, `/GX-`, `/Ob0`, `/Zi`, `/Z7`).
+  - A debug or edit-and-continue build is ruled out: the target has no frame pointer and keeps
+    values in registers, and VC6 rejects `/O2` with `/ZI` (D2016).
+
+  It may be from a library built with another compiler version (the loader macro also appears
+  in gbh_graphics.cpp, which builds with `/Od /ZI`).
+- An empty `Fix16_Point()` / `Fix16_Point_POD()` default ctor called out of line
+  (`??0Fix16_Point_POD@@QAE@XZ`) for locals declared at the top of big functions
+  (`Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280`,
+  `Particle_4C::UpdateObjectBeamLink_state_38_538AC0`, `sub_5DE910`). The original constructs
+  them with no code. Partly explained by an inline budget per function. In a test TU, 11
+  `Fix16_Point` locals inline, 12 leave one ctor call, and 14 leave five. It takes both a
+  destructor (EH) and `Fix16` members: the same struct with `int` members, or without the
+  dtor, never calls. The ctors seem to get whatever budget other inline expansions leave, and
+  the first-declared locals lose. In `sub_5DE910`, dropping a `static inline` length helper
+  took the calls from 6 to 2, and switching to inline `Fix16_Point` operators raised them
+  again. So the original spends less of the budget elsewhere, and it isn't known where.

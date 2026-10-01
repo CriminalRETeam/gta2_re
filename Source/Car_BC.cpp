@@ -46,6 +46,10 @@ DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
 DEFINE_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C, 0x67792C);
 DEFINE_GLOBAL(TrailerPool*, gTrailerPool_66AC80, 0x66AC80);
+DEFINE_GLOBAL(Fix16_Point, gTrailerHitchOffset_66AAC8, 0x66AAC8);
+DEFINE_GLOBAL(Fix16_Point, gTrailerCabOffset_66AAE0, 0x66AAE0);
+DEFINE_GLOBAL(Ang16, word_66A9C8, 0x66A9C8);
+DEFINE_GLOBAL(Ang16, word_66AABC, 0x66AABC);
 DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
 DEFINE_GLOBAL_INIT(Fix16, dword_6772AC, Fix16(0x6000, 0), 0x6772AC);
 
@@ -114,6 +118,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FF5CC, Fix16(0xCCC, 0), 0x6FF5CC);
 DEFINE_GLOBAL_INIT(Fix16_Point, stru_6778A8, Fix16_Point(0, 0), 0x6778A8);
 DEFINE_GLOBAL_INIT(Fix16, dword_677908, Fix16(1), 0x677908);
 
+DEFINE_GLOBAL_INIT(Fix16, kZero_705DD8, Fix16(0), 0x705DD8);
 DEFINE_GLOBAL_INIT(Fix16, dword_705DDC, Fix16(0x4000, 0), 0x705DDC);
 DEFINE_GLOBAL_INIT(Ang16, word_705F10, Ang16(0), 0x705F10);
 
@@ -247,11 +252,233 @@ void Car_214::sub_5C8750()
     }
 }
 
-STUB_FUNC(0x5c8780)
-u16* Car_214::sub_5C8780(u8 a2, Sprite* pCarSprite)
+// Script command that a Car_18 touch point waits on (several command types share this layout)
+struct Car_18_Cmd : SCR_CMD_HEADER
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    union
+    {
+        u16 field_8_idx;
+        miss2_0x11C* field_8_thread;
+    };
+    u16 field_C;
+    s16 field_E;
+    u16 field_10_idx;
+    u8 field_12_pad[0x12];
+    u16 field_24_idx;
+};
+
+WIP_FUNC(0x5c8780)
+void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
+{
+    Car_18* pEntry = &field_0[idx];
+    if (pEntry->field_14 != 1 || !pEntry->field_4_O2C)
+    {
+        return;
+    }
+
+    Car_18_Cmd* pCmd;
+    Car_BC* pCar;
+    Ped* pPed;
+    SCR_POINTER* pPointer;
+
+    switch (pEntry->field_8_type)
+    {
+        case 1:
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            {
+                pEntry->field_14 = 0;
+                pCar = pSprite->AsCar_40FEB0();
+            }
+            break;
+
+        case 2:
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            {
+                pCar = pSprite->field_8_car_bc_ptr;
+                pCmd = (Car_18_Cmd*)pEntry->field_0;
+                pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                if (pCar->field_6C_maybe_id == pPointer->field_8_car->field_6C_maybe_id)
+                {
+                    pEntry->field_14 = 0;
+                }
+            }
+            break;
+
+        case 4:
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+            {
+                pPed = pSprite->field_8_char_b4_ptr->field_7C_pPed;
+                pCmd = (Car_18_Cmd*)pEntry->field_0;
+                if (pCmd->field_2_type == 0xD4)
+                {
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_idx);
+                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    {
+                        pEntry->field_14 = 0;
+                    }
+                }
+                else if (pCmd->field_2_type == 0xD6)
+                {
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
+                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    {
+                        pEntry->field_14 = 0;
+                    }
+                }
+                else
+                {
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    {
+                        pEntry->field_14 = 0;
+                    }
+                }
+            }
+            break;
+
+        case 3:
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+            {
+                pPed = pSprite->field_8_char_b4_ptr->field_7C_pPed;
+                if (pPed)
+                {
+                    pCmd = (Car_18_Cmd*)pEntry->field_0;
+                    if (pCmd->field_2_type == 0x1B2)
+                    {
+                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
+                    }
+                    else
+                    {
+                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    }
+                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    {
+                        pEntry->field_14 = 0;
+                    }
+                }
+            }
+            else if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            {
+                pCar = pSprite->field_8_car_bc_ptr;
+                pPed = pCar->field_54_driver;
+                if (pPed)
+                {
+                    pCmd = (Car_18_Cmd*)pEntry->field_0;
+                    if (pCmd->field_2_type == 0x1B2)
+                    {
+                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
+                    }
+                    else
+                    {
+                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    }
+                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    {
+                        pEntry->field_14 = 0;
+                    }
+                }
+            }
+            break;
+
+        case 5:
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            {
+                pCar = pSprite->field_8_car_bc_ptr;
+                pPed = pCar->field_54_driver;
+                if (pPed)
+                {
+                    pCmd = (Car_18_Cmd*)pEntry->field_0;
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    {
+                        pEntry->field_14 = 0;
+                    }
+                }
+            }
+            break;
+
+        case 7:
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+            {
+                pPed = pSprite->field_8_char_b4_ptr->field_7C_pPed;
+                if (pPed)
+                {
+                    pCmd = (Car_18_Cmd*)pEntry->field_0;
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    if (pPed->field_168_game_object->field_38_velocity == kZero_705DD8 &&
+                        pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    {
+                        pEntry->field_14 = 0;
+                    }
+                }
+            }
+            break;
+
+        case 6:
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+            {
+                pPed = pSprite->field_8_char_b4_ptr->field_7C_pPed;
+                if (pPed)
+                {
+                    pCmd = (Car_18_Cmd*)pEntry->field_0;
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    if (pPed->field_168_game_object->field_38_velocity == kZero_705DD8 &&
+                        pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    {
+                        pEntry->field_14 = 0;
+                    }
+                }
+            }
+            else if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            {
+                pCar = pSprite->field_8_car_bc_ptr;
+                pPed = pCar->field_54_driver;
+                if (pPed)
+                {
+                    pCmd = (Car_18_Cmd*)pEntry->field_0;
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
+                        pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    {
+                        pEntry->field_14 = 0;
+                    }
+                }
+            }
+            break;
+
+        case 8:
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            {
+                pCar = pSprite->field_8_car_bc_ptr;
+                pPed = pCar->field_54_driver;
+                if (pPed)
+                {
+                    pCmd = (Car_18_Cmd*)pEntry->field_0;
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
+                        pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    {
+                        pEntry->field_14 = 0;
+                    }
+                }
+            }
+            break;
+    }
+
+    if (pEntry->field_14 == 0)
+    {
+        switch (pEntry->field_C)
+        {
+            case 2:
+                pCmd = (Car_18_Cmd*)pEntry->field_0;
+                pCmd->field_8_thread = gfrosty_pasteur_6F8060->sub_5120C0(pCmd->field_E, 0);
+                break;
+            case 3:
+                gfrosty_pasteur_6F8060->sub_511A70(pCar->field_84_car_info_idx, (SCR_CMD_HEADER*)pEntry->field_0);
+                sub_5C8680(pEntry->field_10_remap_rng);
+                break;
+        }
+    }
 }
 
 MATCH_FUNC(0x47bd00)
@@ -1053,7 +1280,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
     return pCar;
 }
 
-STUB_FUNC(0x408370)
+WIP_FUNC(0x408370)
 EXPORT void __stdcall SpawnCabAndTrailerHelper_408370(
         Fix16 xpos,
         Fix16 ypos,
@@ -1065,7 +1292,23 @@ EXPORT void __stdcall SpawnCabAndTrailerHelper_408370(
         Fix16 *pOutZ,
         Ang16 *pOutRot)
 {
-    NOT_IMPLEMENTED;
+    Fix16_Point pos(xpos, ypos);
+    Fix16_Point hitch = gTrailerHitchOffset_66AAC8;
+    Fix16_Point trailer_offset = gTrailerCabOffset_66AAE0;
+
+    hitch.RotateByAngle_40F6B0(rot);
+    Fix16_Point hitch_pos = pos + hitch;
+
+    trailer_offset.RotateByAngle_40F6B0(rot);
+    trailer_offset = Fix16_Point(-trailer_offset.x, -trailer_offset.y);
+    trailer_offset.RotateByAngle_40F6B0(uknown_rot);
+    Fix16_Point trailer_pos = hitch_pos + trailer_offset;
+
+    *pOutZ = zpos;
+    *pOutX = trailer_pos.x;
+    *pOutY = trailer_pos.y;
+    Fix16_Point dir = -trailer_offset;
+    *pOutRot = Fix16::atan2_fixed_405320(dir.y, dir.x);
 }
 
 // 9.6f 0x428EC0
@@ -1266,12 +1509,11 @@ bool Car_6C::CanAllocateOfType_446930(s32 type)
     return bCanAlloc;
 }
 
-STUB_FUNC(0x4469f0)
+WIP_FUNC(0x4469f0)
 // There are still something missing here.
 // But the structure it seems to be complete
 Car_6C::Car_6C()
 {
-    NOT_IMPLEMENTED;
     if (!gCar_BC_Pool_67792C)
     {
         gCar_BC_Pool_67792C = new Car_BC_Pool();
@@ -6590,18 +6832,61 @@ void Trailer::SetTruckCabAndTrailerCar_407BB0(Car_BC* pTruckCab, Car_BC* pTraile
     this->field_0 = 0;
 }
 
-STUB_FUNC(0x407bd0)
-s32* Trailer::sub_407BD0(s32* a2)
+WIP_FUNC(0x407bd0)
+Fix16_Point Trailer::sub_407BD0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16_Point offset = gTrailerHitchOffset_66AAC8;
+    offset.RotateByAngle_40F6B0(field_8_truck_cab->field_58_physics->field_58_theta);
+    return offset + field_8_truck_cab->field_58_physics->get_cp1_40B560();
 }
 
-STUB_FUNC(0x407ce0)
-s32* Trailer::UpdateTrailerAlignment_407CE0()
+WIP_FUNC(0x407ce0)
+void Trailer::UpdateTrailerAlignment_407CE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    CarPhysics_B0* pTrailerPhys = field_C_pCarOnTrailer->field_58_physics;
+    CarPhysics_B0* pCabPhys = field_8_truck_cab->field_58_physics;
+    Fix16 trailer_theta = Ang16::Ang16_to_Fix16(pTrailerPhys->field_58_theta);
+
+    Fix16_Point rear = field_C_pCarOnTrailer->get_rear_wheel_offset_43A0E0();
+    rear.RotateByAngle_40F6B0(pTrailerPhys->field_58_theta);
+    Fix16_Point cp = pTrailerPhys->get_cp1_40B560();
+    rear.x += cp.x;
+    rear.y += cp.y;
+
+    Fix16_Point hitch = gTrailerHitchOffset_66AAC8;
+    Ang16 cab_theta(Ang16(Ang16::Ang16_to_Fix16(pCabPhys->field_58_theta).GetRaw_40F4B0() / 71), 0);
+    hitch.RotateByAngle_40F6B0(cab_theta);
+    cp = pCabPhys->get_cp1_40B560();
+    hitch.x += cp.x;
+    hitch.y += cp.y;
+
+    Fix16_Point delta = hitch - rear;
+    Ang16 target_angle = Fix16::atan2_fixed_405320(delta.y, delta.x);
+    Fix16 target_theta = Ang16::Ang16_to_Fix16(target_angle);
+    Fix16 new_theta = trailer_theta;
+    field_0 = sub_405E80(&target_theta, &new_theta);
+
+    if (new_theta != target_theta && new_theta == trailer_theta)
+    {
+        Ang16 drift = pCabPhys->field_40_linvel_1.atan2_40ACD0().sub_409340(pCabPhys->field_58_theta);
+        if ((drift <= word_66A9C8 || drift >= word_66AABC) && pCabPhys->IsGasPedalPressedEnough_5626A0())
+        {
+            Fix16 speed = field_8_truck_cab->sub_440510();
+            new_theta = sub_405DA0(new_theta, &target_theta, &speed);
+        }
+    }
+
+    Ang16 trailer_angle(Ang16(new_theta.GetRaw_40F4B0() / 71), 0);
+    pTrailerPhys->field_58_theta = trailer_angle;
+
+    Fix16_Point offset = gTrailerCabOffset_66AAE0;
+    Ang16 offset_angle(Ang16(new_theta.GetRaw_40F4B0() / 71), 0);
+    offset.RotateByAngle_40F6B0(offset_angle);
+    Fix16_Point pos = hitch - offset;
+    field_C_pCarOnTrailer->field_58_physics->field_38_cp1.x = pos.x;
+    field_C_pCarOnTrailer->field_58_physics->field_38_cp1.y = pos.y;
+    pTrailerPhys->field_6C_cp3 = field_8_truck_cab->field_58_physics->field_6C_cp3;
+    pTrailerPhys->UpdateCenterOfMassPoint_563350();
 }
 
 MATCH_FUNC(0x408140)

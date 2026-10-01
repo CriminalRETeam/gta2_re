@@ -571,9 +571,9 @@ WIP_FUNC(0x4c9b60)
 char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
 {
     s8 i;
-    field_30 = 1;
     if (!pPed->field_164_ped_group)
     {
+        field_30 = 1;
         for (i = field_34_count - 1; i >= 0; i--)
         {
             Ped* pMember = field_4_ped_list[i];
@@ -586,7 +586,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
                 }
                 else
                 {
-                    if (field_2C_ped_leader->field_25C_internal_objective == 0x23 && !IsLeaderCloseToTargetCar_4CAD40())
+                    if (0x23 == field_2C_ped_leader->field_25C_internal_objective && !IsLeaderCloseToTargetCar_4CAD40())
                     {
                         continue;
                     }
@@ -607,6 +607,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
     }
     else
     {
+        field_30 = 1;
         PedGroup* pOther = pPed->field_164_ped_group;
         for (i = field_34_count - 1; i >= 0; i--)
         {

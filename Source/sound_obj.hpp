@@ -399,7 +399,7 @@ class sound_obj
     EXPORT void UpdateCarEngineAudio_57E220();
     EXPORT void UpdateVocalStream_57E510();
     EXPORT void Type3_CopRadioReport_57E680();
-    EXPORT char_type ChooseRadioEmitterForVehicle_57E6C0();
+    EXPORT void ChooseRadioEmitterForVehicle_57E6C0();
     EXPORT void InitMusicAndCopRadio_57E960();
     EXPORT void DeInitVocals_57EA10();
     EXPORT void UpdateActiveRadioEmitterVolume_57EA90();
