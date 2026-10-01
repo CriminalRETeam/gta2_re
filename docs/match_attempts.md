@@ -482,3 +482,46 @@ Tried: `!a && !b`; `!(a || b)` and `a == false && b == false` with bool locals; 
 locals; the damage compare written inline or with `!=`; `!(a | b)` (0.661); the damage
 check before the call (0.641); a file-local inline helper returning `a || b`. None
 of them produce the `sete`.
+
+## Map_0x370::sub_4DF3E0 (WIP, was STUB)
+
+Returns the zone of `zone_type` whose centre is nearest (max-abs distance) to the block
+`(xpos, ypos)`, starting from `dword_6F5B8C` (255.0). Ratio 0.644.
+
+The distance is computed in plain registers: `(w & 0xFE) << 13` is `(w >> 1) << 14`
+folded into one shift, which VC6 only produces when the shifts are in one integer
+expression. Going through `Fix16(u8)`/`Fix16(s32)` (any cast, initializer list or `*
+16384` constructor) gives `shr $1; shl $0xE`, and `Fix16::MaxAbsDistance_42A6B0`/`Max`
+take references, so they spill to the stack (`lea`), unlike the original. So the body
+uses `s32` maths: `(xpos << 14) - ((w >> 1) << 14) - (x << 14)` (VC6 reassociates
+`a - (x + w/2)` to the same thing).
+
+Still different: the prologue loads the global before `mov %ecx,%edi` (original after),
+the loop counter is pushed from `edx` (original `eax`), the zone type byte is loaded
+after `mov %eax,%esi` (original before), and the x part uses `and $0xFFFFFFFE,%ecx`
+where the original copies to `eax` and uses `and $0xFE,%al` (the y part matches).
+The `cmp` for the max uses the `diff_y` register rather than a separate result register.
+
+Tried: `Fix16` locals + `Fix16::Abs` + ternary (0.533, spills), `dist = |dy|; if (|dx| >
+dist) dist = |dx|` (0.644, best), the `x + w/2` grouping (same code).
+
+## Trailer::sub_407BD0 (WIP, was STUB)
+
+Returns `gTrailerHitchOffset_66AAC8` rotated by the cab's `field_58_theta`, plus the
+cab's `get_cp1_40B560()`, as a `Fix16_Point` by value (hidden pointer, `ret $4`).
+`RotateByAngle_40F6B0` is right: the original inlines the x line (`imul`/`__allshr`, `add`)
+and calls `Multiply_408680`/`Negate_4086A0`/`Add_408660` for the y line.
+
+The tail is the problem. The original adds the returned point field by field through
+the pointer `get_cp1_40B560` returned (`mov (%eax),%edi; add`), with no calls. Ours:
+
+- `return offset + cp1;` calls `Fix16_Point::operator+` out of line (0.476, kept).
+- `offset += cp1; return offset;` (POD `operator+=`) inlines the tail but then the
+  rotation's first `Multiply`/`+` stop being inlined (0.319).
+- A named `cp1` local with `offset.x += cp1.x` (0.294), or with a static inline helper
+  that adds `mValue`s (0.319): same effect.
+- A named `cp1` local with `offset.x.mValue += cp1.x.mValue` (no inline call at all):
+  rotation inlined again, tail close (0.458).
+
+So every extra inline expansion in the tail pushes VC6 past an inlining limit for the
+rotation. The original probably spends one fewer inline expansion somewhere else.

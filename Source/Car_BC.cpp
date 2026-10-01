@@ -46,6 +46,7 @@ DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
 DEFINE_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C, 0x67792C);
 DEFINE_GLOBAL(TrailerPool*, gTrailerPool_66AC80, 0x66AC80);
+DEFINE_GLOBAL(Fix16_Point, gTrailerHitchOffset_66AAC8, 0x66AAC8);
 DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
 DEFINE_GLOBAL_INIT(Fix16, dword_6772AC, Fix16(0x6000, 0), 0x6772AC);
 
@@ -6590,11 +6591,12 @@ void Trailer::SetTruckCabAndTrailerCar_407BB0(Car_BC* pTruckCab, Car_BC* pTraile
     this->field_0 = 0;
 }
 
-STUB_FUNC(0x407bd0)
-s32* Trailer::sub_407BD0(s32* a2)
+WIP_FUNC(0x407bd0)
+Fix16_Point Trailer::sub_407BD0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16_Point offset = gTrailerHitchOffset_66AAC8;
+    offset.RotateByAngle_40F6B0(field_8_truck_cab->field_58_physics->field_58_theta);
+    return offset + field_8_truck_cab->field_58_physics->get_cp1_40B560();
 }
 
 STUB_FUNC(0x407ce0)

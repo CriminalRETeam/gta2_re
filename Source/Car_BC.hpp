@@ -274,7 +274,7 @@ class Trailer
     EXPORT Ped* GetTruckCabDriver_407B80();
     EXPORT Car_BC* GetCabOrLoadedCar_407B90(Car_BC* a2);
     EXPORT void SetTruckCabAndTrailerCar_407BB0(Car_BC* a2, Car_BC* a3);
-    EXPORT s32* sub_407BD0(s32* a2);
+    EXPORT Fix16_Point sub_407BD0();
     EXPORT s32* UpdateTrailerAlignment_407CE0();
     EXPORT char_type sub_408140();
     EXPORT void SetupCarPhysicsAndSpriteBinding_408190();
