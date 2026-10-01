@@ -20,7 +20,7 @@ shift 3
 
 PERMUTER_DIR="$ROOT/3rdParty/cpp_permuter"
 BIN="$ROOT/build_permuter/cpp_permuter"
-if [ ! -x "$BIN" ]; then
+if [ ! -x "$BIN" ] || [ -n "$(find "$PERMUTER_DIR/src" -newer "$BIN" -print -quit)" ]; then
     cmake -S "$PERMUTER_DIR" -B "$ROOT/build_permuter" -DCMAKE_BUILD_TYPE=Release >/dev/null
     cmake --build "$ROOT/build_permuter" -j 4 >/dev/null
 fi
@@ -43,4 +43,5 @@ NEEDLE="${FUNC##*::}"
 exec "$BIN" -s "$SRC" -f "$FUNC" \
     -c "$PERMUTER_DIR/examples/gta2/compile.sh {src} {obj}" \
     --score-cmd "$PY $ROOT/Scripts/bin_comp/permuter_score.py {obj} $ADDR $NEEDLE" \
+    --op-alias "*=Multiply_408680" --op-alias "neg=Negate_4086A0" \
     "$@"

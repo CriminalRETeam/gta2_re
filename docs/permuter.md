@@ -24,3 +24,10 @@ Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 --base-only   # just pr
   `function.cpp`, `diff.txt`, `asm_diff.txt`. Copy the function back, then run `build.py` and
   `compare_builds.py` as usual. The passes assume fields don't alias, so read the diff.
 - About 400 candidates a minute with `-j 8` on 4 cores.
+- `permute.sh` passes `--op-alias "*=Multiply_408680" --op-alias "neg=Negate_4086A0"`. The
+  `named_op` pass then tries the named out-of-line `Fix16` versions of `*` and unary `-`, for
+  the inline-budget problems (see matching_quirks.md). `cast_operand` tries integer casts on the
+  operands of `/ % >> < > + -`, for signedness problems.
+- Each improvement's `score_output.txt` has the unified diff of target vs candidate asm.
+- The submodule is on the `claude/named-op-cast-operand` branch of cpp_permuter. That branch adds
+  `named_op`, `cast_operand` and `score_output.txt`.
