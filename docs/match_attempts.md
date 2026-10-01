@@ -815,3 +815,14 @@ Still different:
   locals set in both branches.
 - The original stores the zeros and ones at the top from `eax`/`ebx`, ours uses
   immediates (it doesn't use `ebx` at all).
+
+## sound_obj::UpdateCarEngineAudio_57E220 (WIP, was STUB)
+
+- 0.856. Added globals 0x6FF540 (u8 static volume), 0x6FF542 (u16 timer), 0x625010 / 0x625014 (u32 rates).
+  `field_54F4` is `field_54F2[2]`.
+- The vocal volume and both rates must be unsigned (`shr`, not `sar`, on `>>`). The second sample's volume
+  needs `(u8)(a / 254) + (u8)(rand % 3)` to get the byte `add dl,cl`.
+- Remaining diff 1: block layout of `paused ? 0 : min(127 - v, 100)`. The target places the `0` branch after
+  the ±5/−10 smoothing code and tail-merges the store. `if (paused)` / `== 0` / ternaries were all the same or worse.
+- Remaining diff 2: target keeps 0 in ebx across the whole function, while ours re-materialises it in ebp
+  after the first sample. The register-allocation knock-on also covers the sample field stores.
