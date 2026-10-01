@@ -758,3 +758,17 @@ The structure is right; the difference is inlining. In the original both
 the first rotation's `-x_old` is folded (inline `Negate`, known 0); the second calls
 `Negate_4086A0`. Ours inlines the first rotation's x line like the other Weapon_30 car
 guns. Not tried yet: writing the rotations with explicit `Multiply_408680` calls.
+
+## Ambulance_110::ProcessPatientQueue_4FA500 (WIP, was STUB)
+
+Takes the next patient off the queue: dead/invalid ones are re-queued, then it finds a
+road tile near the patient and either hands the patient to an active ambulance that is
+close enough (`dword_6F6FC0`) or starts a new paramedic crew. Ratio 0.867.
+
+- `if (f28 != 6) { if (f28 == 5) ... }` as two tests, like the original.
+- The distance is `Max_44E540(Abs_negate_out_of_line(dx), Abs_negate_out_of_line(dy))`
+  (out-of-line `Negate_4086A0` and `Max_44E540`).
+
+Still different: the scheduling of the `dx`/`dy` loads (the original loads the ped's y before
+`field_1`, ours after) and of the `lea`s around the two `Negate_4086A0` calls; named
+`abs_dy`/`abs_dx` locals gave the same code. Ours is 1 byte longer.
