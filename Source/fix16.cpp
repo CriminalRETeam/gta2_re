@@ -158,6 +158,22 @@ EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart,
     }
 }
 
+// Called by Trailer::UpdateTrailerAlignment_407CE0. Signature from that call site.
+STUB_FUNC(0x405DA0)
+EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed)
+{
+    NOT_IMPLEMENTED;
+    return cur;
+}
+
+// Called by Trailer::UpdateTrailerAlignment_407CE0. Signature from that call site.
+STUB_FUNC(0x405E80)
+EXPORT u8 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 // TODO: A crt init func, needs adding to the CRT init table
 STUB_FUNC(0x4052D0)
 EXPORT void __stdcall arc_tan_table_init_4052D0()

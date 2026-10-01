@@ -1061,3 +1061,14 @@ Still different:
   - With `a4` set it uses `TakeDamage(3)`. Otherwise it adds 3 to the shock counter and stops after the first ped.
 - Moved from Ped.cpp to Weapon_30.cpp, where its address falls (between `sub_5DE910` and `sub_5DFB60`). It's declared in Weapon_30.hpp.
 - Now `void`, with `a6` typed as `Sprite*` (it's compared with the hit sprites). `ManageShocking_45BC70` still matches.
+
+## Trailer::UpdateTrailerAlignment_407CE0 (WIP, was STUB)
+
+- 0.155, with the right structure.
+  - It rotates the trailer's rear-wheel point by the trailer angle and the cab's hitch point (`gTrailerHitchOffset_66AAC8`) by the cab angle, and adds each body's `get_cp1_40B560()`.
+  - It takes the angle between the two points, then eases the trailer's angle toward it with `sub_405E80`. When the cab drives straight with the gas pressed, it uses `sub_405DA0` with the cab speed instead.
+  - Finally it puts the trailer at hitch minus the rotated `gTrailerCabOffset_66AAE0`.
+- Angles go through the `* 71` / `/ 71` `Fix16` radian conversions (`Ang16_to_Fix16`, `Ang16(Ang16(raw / 71), 0)` via `sub_409300`).
+- `sub_405DA0` (0x76) and `sub_405E80` (0x110) were missing from the source. They're now `STUB_FUNC`s in fix16.cpp, with signatures from this call site. They still need target asm.
+- **What's left:** the original's EH state is 3 at entry (three point locals constructed with no code), and `esi`/`edi` are swapped.
+- Changed the return type to `void`. Its caller, `CarPhysics_B0`, ignores it.
