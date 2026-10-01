@@ -576,17 +576,17 @@ void RouteFinder::sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos
 // dx/dy are uninitialised for a direction that isn't 1, 2, 4 or 8, as in the original
 #pragma warning(push)
 #pragma warning(disable : 4701)
-WIP_FUNC(0x589210)
+MATCH_FUNC(0x589210)
 s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx)
 {
     Junction_10* pJunction = &field_8[junction_idx];
     s32 dy;
-    s32 dx;
+    s16 dx;
     switch (direction)
     {
         case 1:
-            dy = -1;
             dx = 0;
+            dy = -1;
             break;
         case 2:
             dx = 0;

@@ -336,6 +336,10 @@ slot, e.g. a `u8` index used once and a later `u32 len = sizeof(x)` read-size, a
 bigger, wrap each one in its own `{ }` block. VC6 only overlaps slots for variables in disjoint scopes; the
 original probably had them inside inline helpers. `Frontend::sub_4B4EC0` went 0.867 → 1.0 from this alone.
 
+**Try the permuter's depth 2 before hand-editing.** Two changes that are each worse alone can match
+together (`RouteFinder::NoRefs_589210`: a local's type and the order of two assignments). That's
+`Scripts/permute.sh ... -m exhaustive -p <passes> --depth 2`; see docs/permuter.md.
+
 ## Functions, thunks and calling conventions
 
 **Tail-call thunks.** A tiny original function that is just `mov ...,%ecx; jmp <addr>` or

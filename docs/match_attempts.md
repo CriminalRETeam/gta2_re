@@ -910,3 +910,9 @@ Still different:
   from 0.24 → 0.75, and `cpp_permuter -m exhaustive -p reorder_cases` on the inner switch → 0.854.
 - A random permuter run got further by deleting `sample_index = 1;` from a branch (remove_stmt). That
   changes behaviour, so it was rejected.
+
+## RouteFinder::NoRefs_589210 (MATCH, was WIP)
+
+- Matched by cpp_permuter in two steps. A random run reordered the case assignments and cast
+  `(s16)dx` (0.923 → 0.981). Then `-m exhaustive -p reorder_saves,move_stmt,local_type,cast_operand --depth 2`
+  found `s16 dx` plus `dx = 0;` before `dy = -1;` in case 1. Either change alone was worse (0.385).
