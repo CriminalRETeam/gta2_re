@@ -935,3 +935,12 @@ Still different:
 - The logic and stores match. The diffs are in how the pool arrays get built:
   - **CarAI_78_Pool:** the original builds the array with an explicit loop that calls the `CarAI_78` ctor. That is VC6's form for an inline ctor it chose not to inline. We emit the `??_H` vector-constructor iterator, because our ctor (MATCH 0x453CB0) is an out-of-line `EXPORT`.
   - **TrailerPool:** the original inlines `Trailer()` into its array loop. We call it out of line, probably because the function has used up its inline budget.
+
+## DMA_Video_LoadDll_5EB970 (WIP, was STUB)
+
+- 0.198. The frame is 0xF8 = `Text[120]` + `Buffer[128]`, so both buffers are declared at function scope rather than inside the macro's error block. That fixed the stack size.
+- What's left: each `GetProcAddress` failure block in the original jumps (`jmp`) into the identical tail of another block. VC6 is cross-jumping tails that end in `ret`.
+  - With `/O2` our build keeps every block separate.
+  - `/O1`, `/Os` and `/Ogs` add an ebp frame and merge every block into one path, so they're no better.
+  - The other `/O2` variants we tried change nothing (`/Ox`, `/Oy-`, `/Gy`, `/GX-`, `/Ob0`).
+- It may come from a library shared with other tools (the level editor?) and built with a different compiler version. gbh_graphics.cpp has the same loader macro and builds with `/Od /ZI`.
