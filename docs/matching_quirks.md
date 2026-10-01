@@ -438,3 +438,8 @@ tried are in the WIP status report.
 
   It may be from a library built with another compiler version (the loader macro also appears
   in gbh_graphics.cpp, which builds with `/Od /ZI`).
+- An empty `Fix16_Point()` / `Fix16_Point_POD()` default ctor called out of line
+  (`??0Fix16_Point_POD@@QAE@XZ`) for locals declared at the top of big `Particle_4C`
+  functions (`UpdateSkidOrScrapeSpark_state_40_41_53A280`, `UpdateObjectBeamLink_state_38_538AC0`).
+  The original constructs them with no code. The struct is not exported, and a
+  `Fix16_Point(Fix16(0), Fix16(0))` local in the same file is inlined.

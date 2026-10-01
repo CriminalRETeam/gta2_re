@@ -994,3 +994,11 @@ Still different:
   - Our build calls `Fix16_Point()` out of line for two of them.
   - With `Fix16_Point_POD` locals instead it drops to 0.106. A first draft without the nesting scored 0.168.
 - Added `Fix16::operator/=` (out-of-line copy at 0x539F90) to fix16.hpp.
+
+## Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280 (WIP, was STUB)
+
+- 0.161. The spark sits on `field_28_pSprite`:
+  - **Car:** the spark goes at a corner of the car's box (half width/height plus constants, sub-states 1–4), rotated by the car's angle. State 40 and 41 use mirrored corners. The id is base + sub_state + 200.
+  - **Ped:** an offset rotated by the ped's angle plus `Char_B4::field_98`. The id is base + sub_state + 197.
+- Needed `#include "Car_BC.hpp"` (compare_builds is unchanged) and three new globals (`dword_6FD3C0`, `dword_6FD5A8`, `dword_6FD2F8`).
+- **Open question:** our build calls `Fix16_Point_POD::Fix16_Point_POD()` out of line for the `Fix16_Point offset` local. The original constructs it inline, as it does for all five points in `538AC0` (where we call it twice). The ctor is empty and the struct isn't exported. Unexplained so far.

@@ -9,6 +9,7 @@
 #include "char.hpp"
 #include "Ped.hpp"
 #include "Particle_8.hpp"
+#include "Car_BC.hpp"
 
 EXTERN_GLOBAL(Fix16, dword_6FD49C);
 EXTERN_GLOBAL(Fix16, dword_6FD2F0);
@@ -45,6 +46,9 @@ DEFINE_GLOBAL(Fix16, dword_6FD300, 0x6FD300);
 DEFINE_GLOBAL(Fix16, dword_6FD304, 0x6FD304);
 DEFINE_GLOBAL(Fix16, dword_6FD308, 0x6FD308);
 DEFINE_GLOBAL(Fix16, dword_6FD364, 0x6FD364);
+DEFINE_GLOBAL(Fix16, dword_6FD3C0, 0x6FD3C0);
+DEFINE_GLOBAL(Fix16, dword_6FD5A8, 0x6FD5A8);
+DEFINE_GLOBAL(Fix16, dword_6FD2F8, 0x6FD2F8);
 
 // https://decomp.me/scratch/nKSYL
 WIP_FUNC(0x538060)
@@ -871,11 +875,124 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
     return 0;
 }
 
-STUB_FUNC(0x53a280)
+WIP_FUNC(0x53a280)
 char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16_Point offset;
+
+    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    stru_6FD388 = field_30_pNext->field_14_xy.x;
+    stru_6FD38C = field_30_pNext->field_14_xy.y;
+
+    Sprite* pTarget = field_28_pSprite;
+    if (pTarget->field_30_sprite_type_enum == sprite_types_enum::car_2)
+    {
+        Car_BC* pCar = pTarget->AsCar_40FEB0();
+        if (!pCar || pCar->field_88_despawn_status == 5)
+        {
+            return true;
+        }
+
+        if (++field_46_sub_state == 5)
+        {
+            return true;
+        }
+
+        Ang16 angle = pTarget->field_0;
+        Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
+        Fix16 half_w;
+        Fix16 half_h;
+        if (field_46_sub_state < 4)
+        {
+            half_w = pBox->field_0_width / 2 + dword_6FD3C0;
+            half_h = pBox->field_4_height / 2 + dword_6FD5A8;
+        }
+        else
+        {
+            half_w = pBox->field_0_width / 2 + dword_6FD3C0;
+            half_h = pBox->field_4_height / 2 + dword_6FD2E8 + dword_6FD554;
+        }
+
+        Fix16 sin;
+        Fix16 cos;
+        Fix16 old_x;
+        if (field_38_state == 40)
+        {
+            offset.x = half_w;
+            offset.y = half_h;
+            sin = Ang16::sine_40F500(angle);
+            cos = Ang16::cosine_40F520(angle);
+            offset.x = offset.x * cos + offset.y * sin;
+            old_x = -half_w;
+            offset.y = old_x * sin + offset.y * cos;
+        }
+        else
+        {
+            offset.y = half_h;
+            offset.x = -half_w;
+            sin = Ang16::sine_40F500(angle);
+            cos = Ang16::cosine_40F520(angle);
+            offset.x = offset.x * cos + offset.y * sin;
+            old_x = half_w;
+            offset.y = old_x * sin + offset.y * cos;
+        }
+
+        Fix16_Point pos = pTarget->get_x_y_443580();
+        offset.x += pos.x;
+        offset.y += pos.y;
+
+        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 200);
+        field_30_pNext->field_2C_flags = 0xA2;
+        field_30_pNext->set_ang_lazy_420690(field_28_pSprite->field_0);
+        field_30_pNext->set_xyz_lazy_420600(offset.x, offset.y, field_28_pSprite->field_1C_zpos);
+        field_30_pNext->Set_2C_0x4_Flag_4337F0();
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+        return 0;
+    }
+    else if (pTarget->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+    {
+        Char_B4* pB4 = pTarget->field_8_char_b4_ptr;
+        if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->field_21C_bf.b0)
+        {
+            return true;
+        }
+
+        if (++field_46_sub_state == 4)
+        {
+            return true;
+        }
+
+        Fix16 dist;
+        Fix16 old_x;
+        if (!(pB4->field_58_flags & 8))
+        {
+            dist = dword_6FD2F4;
+            offset.x = -dword_6FD46C;
+        }
+        else
+        {
+            dist = dword_6FD2F8;
+            offset.x = -dword_6FD46C;
+        }
+        offset.y = dist;
+        old_x = offset.x;
+
+        Fix16 sin = Ang16::sine_40F500(pTarget->field_0);
+        Fix16 cos = Ang16::cosine_40F520(pTarget->field_0);
+        offset.x = offset.x * cos + offset.y * sin;
+        offset.y = -old_x * sin + offset.y * cos;
+        offset = offset + Fix16_Point(pB4->field_98.x, pB4->field_98.y);
+
+        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 197);
+        field_30_pNext->field_2C_flags = 0xA2;
+        field_30_pNext->set_xyz_lazy_420600(field_28_pSprite->field_14_xy.x + offset.x,
+                                            field_28_pSprite->field_14_xy.y + offset.y,
+                                            field_28_pSprite->field_1C_zpos);
+        field_30_pNext->Set_2C_0x4_Flag_4337F0();
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+        return 0;
+    }
+    return true;
 }
 
 MATCH_FUNC(0x53ab70)
