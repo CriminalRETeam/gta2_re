@@ -10,8 +10,9 @@ reference the same symbol, the same as in the full exe build.
 Usage:
     python permuter_score.py <obj> <og_addr> [symbol_substring]
 
-Prints the score as the last number: 0 is a match, otherwise the number of target and
-candidate lines that aren't part of a common run (difflib opcodes).
+Prints a unified diff of the post processed asm, then the score as the last number: 0 is a
+match, otherwise the number of target and candidate lines that aren't part of a common run
+(difflib opcodes).
 """
 
 import difflib
@@ -146,8 +147,8 @@ def main():
     for op, i1, i2, j1, j2 in difflib.SequenceMatcher(None, tl, ml, autojunk=False).get_opcodes():
         if op != "equal":
             score += max(i2 - i1, j2 - j1)
-    if "-v" in sys.argv:
-        print("\n".join(difflib.unified_diff(tl, ml, "target", "candidate", lineterm="", n=2)))
+    # cpp_permuter keeps this output as score_output.txt next to each improvement.
+    print("\n".join(difflib.unified_diff(tl, ml, "target", "candidate", lineterm="", n=2)))
     print(score)
 
 
