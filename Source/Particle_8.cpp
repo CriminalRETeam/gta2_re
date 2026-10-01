@@ -223,10 +223,40 @@ void Particle_8::SpawnParticleSprite_5405D0(Sprite* pSprite)
     }
 }
 
-STUB_FUNC(0x540320)
+DEFINE_GLOBAL(Fix16, dword_6FD500, 0x6FD500);
+
+WIP_FUNC(0x540320)
 void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 ang)
 {
-    NOT_IMPLEMENTED;
+    Ang16 angle;
+    Fix16_Point vector(Fix16(0), Fix16(0));
+
+    if (!bSkip_particles_67D64D)
+    {
+        stru_6F6784.get_int_4F7AE0(3);
+        vector.x = Fix16(0);
+        vector.y = (Fix16(stru_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD500;
+
+        angle = word_6FD5CC.sub_401CB0(Fix16(stru_6F6784.get_int_4F7AE0(360)));
+        vector.RotateByAngle_40F6B0(angle);
+
+        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);
+        if (pNew4C)
+        {
+            pNew4C->field_34 = 0;
+            pNew4C->field_38_state = 37;
+            pNew4C->field_46_sub_state = 0;
+            pNew4C->field_2E = pNew4C->field_2C_counter;
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
+            pNew4C->field_30_pNext->set_ang_lazy_420690(ang);
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(stru_6F6784.get_int_4F7AE0(4) + gPhi_8CA8_6FCF00->field_8CA4 + 175);
+            pNew4C->field_30_pNext->field_2C_flags = 0xA2;
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+        }
+    }
 }
 
 // 9.6f 0x48E060

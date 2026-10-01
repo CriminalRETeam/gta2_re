@@ -772,3 +772,14 @@ close enough (`dword_6F6FC0`) or starts a new paramedic crew. Ratio 0.867.
 Still different: the scheduling of the `dx`/`dy` loads (the original loads the ped's y before
 `field_1`, ours after) and of the `lea`s around the two `Negate_4086A0` calls; named
 `abs_dy`/`abs_dx` locals gave the same code. Ours is 1 byte longer.
+
+## Particle_8::EmitElectricArcParticle (0x540320, WIP, was STUB)
+
+Spawns one state 37 particle at a random angle (the first `get_int_4F7AE0(3)` result is
+unused in the original too). Ratio 0.456; everything up to the rotation matches.
+
+The rotation is where it differs: the original inlines `y * sin` in the x line, keeps a
+stack copy of `x_old`, and calls `Negate_4086A0`. Ours calls `Multiply_408680` for all four
+products and inlines the negate (and the frame is 4 bytes smaller). Same inlining-budget
+problem as `Trailer::sub_407BD0` and `Weapon_30::fire_truck_gun_5E0E70`; the matched
+`EmitBloodBurst`/`EmitWaterSplash` siblings are still WIP for probably the same reason.
