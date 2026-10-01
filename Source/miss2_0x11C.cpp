@@ -3105,6 +3105,9 @@ void miss2_0x11C::Locate_509FD0()
         {
             switch (gBasePtr_6F8070->field_2_type)
             {
+                case SCRCMD_LOCATE_CHAR_ANY:
+                    field_8 = true;
+                    break;
                 case SCRCMD_LOCATE_CHAR_ONFOOT:
                     if ((pObj = pPointer->field_8_char->field_168_game_object) != NULL)
                     {
@@ -3118,9 +3121,6 @@ void miss2_0x11C::Locate_509FD0()
                         field_8 = true;
                     }
 
-                    break;
-                case SCRCMD_LOCATE_CHAR_ANY:
-                    field_8 = true;
                     break;
                 case SCRCMD_STOP_LOCATE_CHAR_ANY:
                     if (pPointer->field_8_char->field_168_game_object &&
