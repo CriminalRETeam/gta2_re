@@ -295,7 +295,7 @@ void Garox_2A25_sub::DrawChatMessages_5D16B0()
                 s32 start_xpos;
                 if (max_text_width > 640)
                 {
-                    start_xpos = 640 - max_text_width;
+                    start_xpos = 640 - (u16)max_text_width;
                 }
                 else
                 {
