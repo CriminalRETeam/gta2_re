@@ -3629,11 +3629,98 @@ s32 Map_0x370::sub_4E8220(u32 column_idx, s32 z)
     return local_column_words;
 }
 
-STUB_FUNC(0x4E8370)
-u32 Map_0x370::sub_4E8370(u32 a2, s32 a3, char_type a4)
+WIP_FUNC(0x4E8370)
+s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u16** pColumns = field_0_pDmap->field_40008_pColumn;
+    gmp_col_info* pColumn = (gmp_col_info*)&pColumns[column_idx];
+    if (z >= pColumn->field_0_height || z < pColumn->field_1_offset)
+    {
+        return -1;
+    }
+
+    if (column_idx < field_358_column_words)
+    {
+        s32 new_idx = field_360_column_words;
+        gmp_col_info* pNew = (gmp_col_info*)&pColumns[new_idx];
+        if (do_drop)
+        {
+            if (z == pColumn->field_0_height - 1)
+            {
+                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_1_offset = pColumn->field_1_offset;
+                for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
+                }
+            }
+            else
+            {
+                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_1_offset = pColumn->field_1_offset;
+                s32 i;
+                for (i = 0; i < z - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
+                }
+                for (i = z - pNew->field_1_offset; i < pNew->field_0_height - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i + 1];
+                }
+            }
+        }
+        else
+        {
+            if (z == pColumn->field_0_height - 1)
+            {
+                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_1_offset = pColumn->field_1_offset;
+                for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
+                }
+            }
+            else if (z == pColumn->field_1_offset)
+            {
+                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_1_offset = pColumn->field_1_offset + 1;
+                for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i + 1];
+                }
+            }
+            else
+            {
+                pNew->field_0_height = pColumn->field_0_height;
+                pNew->field_1_offset = pColumn->field_1_offset;
+                for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
+                {
+                    pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
+                }
+                pNew->field_4_blockd[z - pColumn->field_1_offset] = 0;
+            }
+        }
+        field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
+        return new_idx;
+    }
+
+    if (do_drop)
+    {
+        for (s32 i = z - pColumn->field_1_offset; i < pColumn->field_0_height - pColumn->field_1_offset - 1; i++)
+        {
+            pColumn->field_4_blockd[i] = pColumn->field_4_blockd[i + 1];
+        }
+        pColumn->field_0_height--;
+    }
+    else if (z == pColumn->field_0_height - 1)
+    {
+        pColumn->field_0_height--;
+    }
+    else
+    {
+        pColumn->field_4_blockd[z - pColumn->field_1_offset] = 0;
+    }
+    return column_idx;
 }
 
 MATCH_FUNC(0x4E8620)

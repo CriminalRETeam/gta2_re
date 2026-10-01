@@ -783,3 +783,18 @@ stack copy of `x_old`, and calls `Negate_4086A0`. Ours calls `Multiply_408680` f
 products and inlines the negate (and the frame is 4 bytes smaller). Same inlining-budget
 problem as `Trailer::sub_407BD0` and `Weapon_30::fire_truck_gun_5E0E70`; the matched
 `EmitBloodBurst`/`EmitWaterSplash` siblings are still WIP for probably the same reason.
+
+## Map_0x370::sub_4E8370 (WIP, was STUB)
+
+Removes block `z` from a map column for `RemoveBlock_4E8940`: either into a new copy of
+the column (original map columns) or in place (columns added at run time), dropping the
+blocks above (`do_drop`) or leaving a hole. Returns the column index or -1. Ratio 0.342.
+
+- Using a `u16** pColumns = field_0_pDmap->field_40008_pColumn;` local for both the old and
+  the new column, and the column's `field_0_height` directly instead of a `u8 height`
+  local, keeps the column base in a register like the original (0.245 -> 0.342).
+
+Still different: the original keeps `column_idx` in `eax` and spills `this`, and reuses the
+`column_idx` argument slot for the offset and the `z` slot for the new index; ours does
+the reverse. Splitting the range check into two `if`s with an `offset` local was worse
+(0.274, separate return blocks).

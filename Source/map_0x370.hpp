@@ -418,7 +418,7 @@ class Map_0x370
     EXPORT s32 sub_4E8180(u32 read_block_idx);
     EXPORT s32 sub_4E81D0(u32 column_idx);
     EXPORT s32 sub_4E8220(u32 column_idx, s32 z);
-    EXPORT u32 sub_4E8370(u32 a2, s32 a3, char_type a4);
+    EXPORT s32 sub_4E8370(u32 column_idx, s32 z, char_type do_drop);
     EXPORT void ChangeBlock_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, u16 info_value);
     EXPORT void AddNewBlock_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData);
     EXPORT void RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop);
