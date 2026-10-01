@@ -71,11 +71,14 @@ DEFINE_GLOBAL(Network_InputData_0x8*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: 
 DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
 DEFINE_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20, 0x6F58E0); // TODO: move
 DEFINE_GLOBAL(u32, gTotalNetworkTime_6F5980, 0x6F5980); // TODO: move
-DEFINE_GLOBAL(u32, dword_6F573C, 0x6F573C); // TODO: move
+DEFINE_GLOBAL(s32, dword_6F573C, 0x6F573C); // TODO: move
 DEFINE_GLOBAL(s32, gHudTimerIdx_6F5860, 0x6F5860); // TODO: move
 EXTERN_GLOBAL(s32, dword_6F58A4); // TODO: move
-DEFINE_GLOBAL(u32, dword_6F58A0, 0x6F58A0); // TODO: move
-DEFINE_GLOBAL(u32, dword_6F5858, 0x6F5858); // TODO: move
+DEFINE_GLOBAL(s32, dword_6F58A0, 0x6F58A0); // TODO: move
+DEFINE_GLOBAL(s32, dword_6F5858, 0x6F5858); // TODO: move
+DEFINE_GLOBAL(s32, dword_6F5B74, 0x6F5B74);
+DEFINE_GLOBAL(s32, dword_6F5944, 0x6F5944);
+DEFINE_GLOBAL(s32, dword_67ED24, 0x67ED24);
 DEFINE_GLOBAL(u8, byte_6F59C0, 0x6F59C0); // TODO: move
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
@@ -1085,10 +1088,69 @@ EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
     }
 }
 
-STUB_FUNC(0x4DADA0)
+WIP_FUNC(0x4DADA0)
 EXPORT void TagGameHudUpdate_4DADA0()
 {
-    NOT_IMPLEMENTED;
+    if (dword_6F58A4)
+    {
+        if (++dword_6F5858 >= 30)
+        {
+            dword_6F5858 = 0;
+            if (--dword_6F58A0 < 0)
+            {
+                dword_6F58A0 = 59;
+                if (--dword_6F573C < 0)
+                {
+                    dword_6F58A4 = 0;
+                    gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                    gGame_0x40_67E008->ExitGameNoBonus_4B8C00(2, 5);
+                }
+            }
+        }
+
+        s32 seconds = dword_6F58A0;
+        s32 minutes = dword_6F573C;
+        s32 rem = minutes % 5;
+        if (!(minutes == 0 || (rem == 4 && seconds >= 50) || (rem == 0 && seconds == 0) ||
+              (minutes == dword_67ED24 && seconds == 0) || (minutes == dword_67ED24 - 1 && seconds >= 50)))
+        {
+            byte_6F59C0 = 0;
+            dword_6F5B74 = 0;
+        }
+        else
+        {
+            bool bShow = true;
+            if (!byte_6F59C0)
+            {
+                byte_6F59C0 = 1;
+                dword_6F5B74 = 59;
+            }
+            if (dword_6F5B74 > 0)
+            {
+                if (((dword_6F5B74 / 5) & 1) == 0)
+                {
+                    bShow = false;
+                }
+                dword_6F5B74--;
+            }
+
+            if (bShow)
+            {
+                dword_6F5944 = minutes * 60 + seconds;
+                if (gHudTimerIdx_6F5860 == -1)
+                {
+                    gHudTimerIdx_6F5860 = gHud_2B00_706620->field_620.CreateTimer_5D31F0(dword_6F5944);
+                }
+                return;
+            }
+        }
+
+        if (gHudTimerIdx_6F5860 != -1)
+        {
+            gHud_2B00_706620->field_620.ClearPager_5D3280(gHudTimerIdx_6F5860);
+            gHudTimerIdx_6F5860 = -1;
+        }
+    }
 }
 
 MATCH_FUNC(0x4DAF30)

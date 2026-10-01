@@ -552,3 +552,25 @@ Still different:
   A second named `Ang16` gets the right instructions but its own slot (0.667).
 - The `<= 40` block copies the `zpos` add instead of jumping into the 41..59 block's copy;
   ours schedules the `zpos` load before the flags store, so the tails differ.
+
+## TagGameHudUpdate_4DADA0 (WIP, was STUB)
+
+Network tag game clock: counts frames to seconds to minutes, ends the game with `g_over`
+when time runs out, and flashes the HUD timer (pager) in the last seconds of each 5 minute
+block and near the limit `dword_67ED24`. The minute/second globals had to become `s32`
+(`jns`, `idiv`), no other function changed. Ratio 0.710.
+
+What helped:
+- `s32 rem = minutes % 5;` before the condition: the original does the `idiv` before
+  testing `minutes == 0`.
+- `(rem == 4 && s >= 50) || (rem == 0 && s == 0)`: VC6 threads the `rem == 4` failure past
+  the `rem == 0` test itself, like the original. The ternary `rem == 4 ? s >= 50 : ...`
+  gives `setge` (0.612).
+- Negating the whole condition so the "not flashing" block comes first (0.647 -> 0.710).
+
+Still different: the original lays out the first-flash path (`if (!byte_6F59C0)`) right after
+the condition, then the "not flashing" block and the shared pager-clear return, then the
+rest of the flash code. Ours puts the whole flash block after the not-flashing one. Also
+`test $1,%dl` vs ours `test %dl,%bl` (VC6 reuses the `bShow = 1` register). Tried: the
+clear code written in both branches (0.518), the flash's tail moved after the if/else with an
+early `return` in the else (0.664), `% 2 == 0` (0.550).
