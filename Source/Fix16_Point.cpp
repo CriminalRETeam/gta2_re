@@ -90,3 +90,11 @@ Fix16_Point_POD& Fix16_Point_POD::AddAssign_5E40C0(const Fix16_Point_POD& other)
     y += other.y;
     return *this;
 }
+
+MATCH_FUNC(0x5E40E0)
+Fix16_Point_POD& Fix16_Point_POD::DivAssign_5E40E0(const Fix16& v)
+{
+    x /= v;
+    y /= v;
+    return *this;
+}
