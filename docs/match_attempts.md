@@ -896,3 +896,15 @@ Still different:
   `Ang16(Ang16&, s32)` ctor wrapper; `gun_ang = Ang16(a + b, 0)` gives the 32-bit temp store (0.21 → 0.53).
 - Remaining: the out-of-line `Ang16(const s16&, s32)` ctor from `operator+` is inlined in the target, and
   the EH state starts at 2 vs our 1.
+
+## sound_obj::ProcessOtherObjects_41F520 (WIP, was STUB)
+
+- 0.854. A switch on the object model (map obj 5, explosion 113 with a nested switch on its
+  `field_10_type_or_state`, rocket 128, conveyor 139, phones, skids 185..191, fire 197). It sets
+  sample idx / volume / distances / loop, then one shared `CalculateDistance` + `VolCalc` + sample fill.
+  Added `dword_61A6CC` / `dword_61A6D0` (stored by the explosion 18/19/20 cases).
+- The phone rate displacement is `((u32)a2 * 8) % 760`: it really uses the `Sound_Params_8` pointer.
+- Case bodies are laid out in source order. Ordering the outer cases as the target lays them out took it
+  from 0.24 → 0.75, and `cpp_permuter -m exhaustive -p reorder_cases` on the inner switch → 0.854.
+- A random permuter run got further by deleting `sample_index = 1;` from a branch (remove_stmt). That
+  changes behaviour, so it was rejected.

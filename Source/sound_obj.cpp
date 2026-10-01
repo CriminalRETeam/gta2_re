@@ -14,6 +14,7 @@
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "Object_5C.hpp"
+#include "Wolfy_3D4.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "PublicTransport.hpp"
@@ -5043,10 +5044,254 @@ void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params_8* a2, sound_unknown_0x
     }
 }
 
-STUB_FUNC(0x41F520)
+DEFINE_GLOBAL(s32, dword_61A6CC, 0x61A6CC);
+DEFINE_GLOBAL(s32, dword_61A6D0, 0x61A6D0);
+
+WIP_FUNC(0x41F520)
 void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    s32 samp_idx = 321;
+    u8 max_distance = 10;
+    u8 release_mod = 20;
+    u8 sample_index = 0;
+    s32 rate_displacement = 0;
+    u8 volume = 0;
+    u8 bLoop = 1;
+    Fix16 emit_distance;
+    Fix16 calc_distance;
+
+    Object_2C* pObj = a2->field_0_pObj->field_8_object_2C_ptr;
+    switch (pObj->field_18_model)
+    {
+        case objects::rocket_bullet_128:
+            samp_idx = 191;
+            bLoop = 0;
+            volume = 127;
+            sample_index = 1;
+            emit_distance = Fix16(0x1C000, 0);
+            max_distance = 14;
+            calc_distance = Fix16(0xC4000, 0);
+            release_mod = 15;
+            break;
+
+        case objects::blue_phone_164:
+        case objects::red_phone_177:
+        case objects::yellow_phone_179:
+        case objects::green_phone_181:
+            if (field_5448_m_FrameCounter % 130)
+            {
+                return;
+            }
+            rate_displacement = ((u32)a2 * 8) % 760;
+            samp_idx = 30;
+            volume = 85;
+            emit_distance = Fix16(0x1E000, 0);
+            max_distance = 15;
+            calc_distance = Fix16(0xE1000, 0);
+            release_mod = 3;
+            bLoop = 1;
+            break;
+
+        case 185:
+        case 187:
+        case objects::huge_red_skid_189:
+        case objects::huge_brown_skid_191:
+            UpdateRadioChatterLoop_41FCA0();
+            return;
+
+        case objects::fire_197:
+            samp_idx = 189;
+            volume = 50;
+            bLoop = 0;
+            sample_index = 1;
+            emit_distance = Fix16(0x1C000, 0);
+            max_distance = 14;
+            calc_distance = Fix16(0xC4000, 0);
+            release_mod = 15;
+            break;
+
+        case objects::explosion_113:
+        {
+            Wolfy_30* pExplosion = pObj->field_C_pAny.pExplosion;
+            if (!pExplosion)
+            {
+                return;
+            }
+            switch (pExplosion->field_10_type_or_state)
+            {
+                case 4:
+                case 12:
+                    samp_idx = 190;
+                    volume = 50;
+                    bLoop = 0;
+                    sample_index = 1;
+                    emit_distance = Fix16(0x1C000, 0);
+                    max_distance = 14;
+                    calc_distance = Fix16(0xC4000, 0);
+                    release_mod = 15;
+                    break;
+
+                case 18:
+                case 33:
+                    if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 == 2)
+                    {
+                        samp_idx = 186;
+                        volume = 127;
+                        bLoop = 1;
+                        emit_distance = Fix16(0x46000, 0);
+                        max_distance = 35;
+                        calc_distance = Fix16(0x4C9000, 0);
+                        release_mod = 0;
+                        rate_displacement = RandomDisplacement_41A650(samp_idx);
+                    }
+                    else if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 > 2)
+                    {
+                        samp_idx = 190;
+                        bLoop = 0;
+                        volume = 50;
+                        sample_index = 1;
+                        emit_distance = Fix16(0x1C000, 0);
+                        max_distance = 14;
+                        calc_distance = Fix16(0xC4000, 0);
+                        release_mod = 15;
+                    }
+                    dword_61A6CC = 50;
+                    dword_61A6D0 = 321;
+                    break;
+
+                case 19:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 32:
+                    if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 == 2)
+                    {
+                        samp_idx = 187;
+                        volume = 127;
+                        bLoop = 1;
+                        emit_distance = Fix16(0x46000, 0);
+                        max_distance = 35;
+                        calc_distance = Fix16(0x4C9000, 0);
+                        release_mod = 0;
+                        rate_displacement = RandomDisplacement_41A650(samp_idx);
+                    }
+                    else if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 > 2)
+                    {
+                        samp_idx = 190;
+                        volume = 127;
+                        bLoop = 0;
+                        sample_index = 1;
+                        emit_distance = Fix16(0x1C000, 0);
+                        max_distance = 14;
+                        calc_distance = Fix16(0xC4000, 0);
+                        release_mod = 15;
+                    }
+                    dword_61A6CC = 50;
+                    dword_61A6D0 = 321;
+                    break;
+
+                case 20:
+                    if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 == 2)
+                    {
+                        samp_idx = 188;
+                        volume = 127;
+                        bLoop = 1;
+                        emit_distance = Fix16(0x46000, 0);
+                        max_distance = 35;
+                        calc_distance = Fix16(0x4C9000, 0);
+                        release_mod = 0;
+                        rate_displacement = RandomDisplacement_41A650(samp_idx);
+                    }
+                    else if (field_147C[field_30_sQueueSample.field_0_EntityIndex].field_1 > 2)
+                    {
+                        samp_idx = 190;
+                        volume = 127;
+                        bLoop = 0;
+                        sample_index = 1;
+                        emit_distance = Fix16(0x1C000, 0);
+                        max_distance = 14;
+                        calc_distance = Fix16(0xC4000, 0);
+                        release_mod = 15;
+                    }
+                    dword_61A6CC = 50;
+                    dword_61A6D0 = 321;
+                    break;
+
+                case 13:
+                case 14:
+                    samp_idx = 190;
+                    volume = 85;
+                    bLoop = 0;
+                    sample_index = 1;
+                    emit_distance = Fix16(0x1C000, 0);
+                    max_distance = 14;
+                    calc_distance = Fix16(0xC4000, 0);
+                    release_mod = 15;
+                    break;
+
+                default:
+                    return;
+            }
+            break;
+        }
+
+        case 5:
+            samp_idx = 145;
+            volume = 50;
+            bLoop = 0;
+            emit_distance = Fix16(0x18000, 0);
+            max_distance = 12;
+            calc_distance = Fix16(0x90000, 0);
+            release_mod = 7;
+            break;
+
+        case objects::conveyor_139:
+            samp_idx = 150;
+            bLoop = 0;
+            volume = 20;
+            emit_distance = Fix16(0x50000, 0);
+            max_distance = 40;
+            calc_distance = Fix16(0x640000, 0);
+            release_mod = 7;
+            break;
+
+        default:
+            return;
+    }
+
+    if (samp_idx != 321)
+    {
+        if (CalculateDistance_419020(calc_distance))
+        {
+            if (VolCalc_419070(volume, emit_distance, a2->field_5_bHasSolidAbove))
+            {
+                field_30_sQueueSample.field_60_nEmittingVolume = volume;
+                field_30_sQueueSample.field_14_samp_idx = samp_idx;
+                field_30_sQueueSample.field_54 = emit_distance;
+                field_30_sQueueSample.field_64_max_distance = max_distance;
+                field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx) + rate_displacement;
+                field_30_sQueueSample.field_4_SampleIndex = sample_index;
+                field_30_sQueueSample.field_58_type = 20;
+                field_30_sQueueSample.field_41 = bLoop;
+                field_30_sQueueSample.field_1C_ReleasingVolumeModificator = release_mod;
+                field_30_sQueueSample.field_18 = 0;
+                field_30_sQueueSample.field_3C = 400;
+                field_30_sQueueSample.field_34 = 0;
+                field_30_sQueueSample.field_38 = -1;
+                if (bLoop == 1)
+                {
+                    field_30_sQueueSample.field_30 = 1;
+                }
+                else
+                {
+                    field_30_sQueueSample.field_30 = 0;
+                    field_30_sQueueSample.field_4C = 20;
+                }
+                AddSampleToRequestedQueue_41A850();
+            }
+        }
+    }
 }
 
 WIP_FUNC(0x422B70)
