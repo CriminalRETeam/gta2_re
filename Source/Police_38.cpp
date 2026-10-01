@@ -446,11 +446,144 @@ void PoliceCrew_38::sub_571540()
     }
 }
 
-STUB_FUNC(0x571a30)
-char_type PoliceCrew_38::sub_571A30()
+WIP_FUNC(0x571a30)
+void PoliceCrew_38::sub_571A30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pPlayerCar = pPed_6FEDDC->field_16C_car;
+    if (pPlayerCar && pPed_6FEDDC == pPlayerCar->field_54_driver)
+    {
+        PedGroup* pGroup = field_10_subObj->field_8_group;
+        Car_BC* pCar = field_10_subObj->field_0_car;
+        if (pGroup)
+        {
+            if (pCar->field_76_last_seen_timer <= 200)
+            {
+                return;
+            }
+
+            if (pGroup->IsAllMembersInSomeCar_4CAA20())
+            {
+                u8 i = 0;
+                for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[i++])
+                {
+                    pPedIter->field_238_ped_type = 3;
+                    pPedIter->field_164_ped_group = 0;
+                    pPedIter->field_23C = 0;
+                    if (!field_10_subObj->field_8_group)
+                    {
+                        break;
+                    }
+                }
+                field_10_subObj->field_8_group->ClearGroupData_4C8E90();
+                field_10_subObj->field_0_car->sub_421470();
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+            else
+            {
+                u8 bAllReady = 1;
+                field_10_subObj->field_0_car->sub_43AF60();
+
+                PedGroup* pGroup2 = field_10_subObj->field_8_group;
+                u8 j = 0;
+                for (Ped* pMember = pGroup2->field_4_ped_list[0]; pMember; pMember = pGroup2->field_4_ped_list[++j])
+                {
+                    if (pMember->field_168_game_object && pMember->get_field_20e() < 10)
+                    {
+                        bAllReady = 0;
+                    }
+                }
+
+                if (!bAllReady)
+                {
+                    return;
+                }
+
+                Ped* pLeader = field_10_subObj->field_4_ped;
+                pLeader->field_164_ped_group = 0;
+                pLeader->field_23C = 0;
+                field_10_subObj->field_0_car->sub_421470();
+
+                u8 k = 0;
+                for (Ped* pPed = field_10_subObj->field_8_group->field_4_ped_list[0]; pPed;
+                     pPed = field_10_subObj->field_8_group->field_4_ped_list[++k])
+                {
+                    if (pPed->field_168_game_object)
+                    {
+                        pPed->field_164_ped_group = 0;
+                        pPed->field_23C = 0;
+                        pPed->Deallocate_45EB60();
+                    }
+                }
+                field_10_subObj->field_8_group->ClearGroupData_4C8E90();
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+        }
+        else if (pCar->field_76_last_seen_timer > 80)
+        {
+            pCar->sub_421470();
+            field_10_subObj->field_28 = 5;
+            field_10_subObj->field_2C = 1;
+        }
+    }
+    else
+    {
+        PedGroup* pGroup = field_10_subObj->field_8_group;
+        if (pGroup)
+        {
+            if (!pGroup->sub_4C9150())
+            {
+                return;
+            }
+
+            Car_BC* pCar = field_10_subObj->field_0_car;
+            if (pCar->field_76_last_seen_timer <= 200 && pCar->field_7C_uni_num != 2)
+            {
+                return;
+            }
+
+            u8 i = 0;
+            for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[i++])
+            {
+                pPedIter->field_164_ped_group = 0;
+                pPedIter->field_23C = 0;
+                pPedIter->Deallocate_45EB60();
+                if (!field_10_subObj->field_8_group)
+                {
+                    break;
+                }
+            }
+            field_10_subObj->field_8_group->ClearGroupData_4C8E90();
+
+            pCar = field_10_subObj->field_0_car;
+            if (pCar->field_7C_uni_num != 2)
+            {
+                pCar->sub_421470();
+            }
+            field_10_subObj->field_28 = 5;
+            field_10_subObj->field_2C = 1;
+        }
+        else
+        {
+            Car_BC* pCar = field_10_subObj->field_0_car;
+            if (pCar->field_76_last_seen_timer <= 200 && pCar->field_7C_uni_num != 2)
+            {
+                return;
+            }
+            if (field_10_subObj->field_4_ped->get_field_20e() <= 30)
+            {
+                return;
+            }
+            if (pCar->field_7C_uni_num != 2)
+            {
+                pCar->sub_421470();
+            }
+            field_10_subObj->field_4_ped->Deallocate_45EB60();
+            field_10_subObj->field_28 = 5;
+            field_10_subObj->field_2C = 1;
+        }
+    }
 }
 
 MATCH_FUNC(0x5720c0)

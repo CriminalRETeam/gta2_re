@@ -36,7 +36,7 @@ class PoliceCrew_38
     EXPORT void SpawnFBI_nonused_571150();
     EXPORT void sub_571350();
     EXPORT void sub_571540();
-    EXPORT char_type sub_571A30();
+    EXPORT void sub_571A30();
     EXPORT void sub_5720C0();
     EXPORT bool sub_572210();
     EXPORT void sub_572340();

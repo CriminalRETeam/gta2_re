@@ -713,3 +713,20 @@ The code is identical apart from three `je`s in the "car, no ped" branch: the or
 to the `field_2C = 1` tail right after the `if`, ours to the identical tail of the last block
 in the function, which makes them near jumps (12 bytes longer). Tried: `field_2C = 1` in
 both branches (0.812), an explicit `return` after it (no change).
+
+## PoliceCrew_38::sub_571A30 (WIP, was STUB)
+
+Shut-down for the other crew kinds. If the player is driving, the crew either gets back
+into its car (group members flagged `field_238 = 3`) or, once everyone is ready, leaves
+and despawns; otherwise like `sub_571350`, with `field_7C_uni_num == 2` cars kept. Now
+`void`. Ratio 0.748.
+
+- `pPed_6FEDDC == pCar->field_54_driver` (the global on the left) gives the original's
+  `cmp 0x54(%eax),%ecx`.
+
+Still different:
+- The original keeps the `field_28 = 5; field_2C = 1` return block right after the first
+  group path and the other paths jump back to it; ours puts the shared copy elsewhere.
+- In the first member loop the original does `inc %dl` and the store before reading
+  `field_4_ped_list[i]` (same loop as `sub_571350` otherwise). Rewriting it as a `while`
+  with `u8 idx = i++` made it worse (0.655).
