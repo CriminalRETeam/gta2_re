@@ -1109,7 +1109,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
     switch (replay_state)
     {
         case Unkn_1:
-            if (rng_dword_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
+            if ((u16)rng_dword_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
             {
                 inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
                 field_75340_rec_buf_idx++;
