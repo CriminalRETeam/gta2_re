@@ -963,3 +963,11 @@ Still different:
   - `step` must be declared before `direction`, and both before the three coordinate stores.
   - That order makes VC6 put `mov $1,%esi` before `mov $3,%eax`.
 - The permuter's depth 2 run got it to 0.984 with `direction` first. Trying the other orders by hand found the rest.
+
+## Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0 (WIP, was STUB)
+
+- 0.556 on the first write-up. It has the same follow / rotate / jitter frame as `539480`, plus two switches:
+  - **`(u8)(field_2C_counter >> 2)`**, cases 2–7: sets the sprite id (base + 102 … 97) and the speed (`dword_6FD300` / `304` / `308`). Case 2 and `default` return early on `rng(2)`. Case 2 turns the jitter off.
+  - **`field_46_sub_state`**, cases 0–7: sets the sprite flags. Cases 0/1 and case 2 are separate bodies with the same value.
+- Its returns duplicate the epilogue, so early returns are right here.
+- `dword_6FD304` and `dword_6FD308` are new and set by a static init.

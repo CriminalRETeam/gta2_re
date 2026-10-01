@@ -40,6 +40,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD55C, Fix16(0x3000, 0), 0x6FD55C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD30C, Fix16(0x3999, 0), 0x6FD30C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD280, Fix16(255), 0x6FD280);
 DEFINE_GLOBAL(Fix16, dword_6FD300, 0x6FD300);
+DEFINE_GLOBAL(Fix16, dword_6FD304, 0x6FD304);
+DEFINE_GLOBAL(Fix16, dword_6FD308, 0x6FD308);
 
 // https://decomp.me/scratch/nKSYL
 WIP_FUNC(0x538060)
@@ -144,16 +146,177 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     return false;
 }
 
-STUB_FUNC(0x5384c0)
+WIP_FUNC(0x5384c0)
 char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 {
-    NOT_IMPLEMENTED;
+    Fix16 off_x = dword_6FD49C;
+    Fix16 off_y = dword_6FD49C;
+    char_type bJitter = 1;
+    Fix16_Point dir(Fix16(0), Fix16(0));
 
-    // provisional code
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
     if (field_2C_counter == 0)
     {
         return true;
+    }
+
+    if (field_40_pUnknown)
+    {
+        if (field_40_pUnknown->field_6_id != field_44)
+        {
+            field_40_pUnknown = NULL;
+            field_20 = dword_6FD49C;
+        }
+        else if (field_40_pUnknown->field_14)
+        {
+            if (field_40_pUnknown->field_14->field_4)
+            {
+                field_20 = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_24_angle = field_40_pUnknown->field_14->field_10_obj_3c->field_4_angle;
+            }
+            if (field_40_pUnknown->field_1A == 1)
+            {
+                field_40_pUnknown = NULL;
+            }
+        }
+        else
+        {
+            field_40_pUnknown = NULL;
+            field_20 = dword_6FD49C;
+        }
+    }
+    else
+    {
+        field_20 = dword_6FD49C;
+    }
+
+    Fix16 zpos = field_30_pNext->field_1C_zpos + dword_6FD540;
+    if (zpos > dword_6FD28C)
+    {
+        return true;
+    }
+
+    Fix16 xpos = field_30_pNext->field_14_xy.x;
+    Fix16 ypos = field_30_pNext->field_14_xy.y;
+
+    if (field_20 == dword_6FD49C)
+    {
+        off_x = 0;
+        off_y = -dword_6FD45C;
+    }
+
+    switch ((u8)(field_2C_counter >> 2))
+    {
+        case 2:
+            if (stru_6F6784.get_int_4F7AE0(2))
+            {
+                return true;
+            }
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 102);
+            dir.x = 0;
+            dir.y = field_20 * dword_6FD300;
+            bJitter = 0;
+            break;
+        case 3:
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 101);
+            dir.x = 0;
+            dir.y = field_20 * dword_6FD304;
+            break;
+        case 4:
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 100);
+            dir.x = 0;
+            dir.y = field_20 * dword_6FD308;
+            break;
+        case 5:
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 99);
+            dir.x = 0;
+            dir.y = field_20 * dword_6FD308;
+            break;
+        case 6:
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 98);
+            dir.x = 0;
+            dir.y = field_20 * dword_6FD308;
+            break;
+        case 7:
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 97);
+            dir.x = 0;
+            dir.y = field_20 * dword_6FD308;
+            break;
+        default:
+            if (stru_6F6784.get_int_4F7AE0(2))
+            {
+                return true;
+            }
+            break;
+    }
+
+    Fix16 sin = Ang16::sine_40F500(field_24_angle);
+    Fix16 cos = Ang16::cosine_40F520(field_24_angle);
+    Fix16 old_x = dir.x;
+    dir.x = dir.x * cos + dir.y * sin;
+    dir.y = -old_x * sin + dir.y * cos;
+    field_14_additional_speed_x = dir.x;
+    field_18_additional_speed_y = dir.y;
+
+    Fix16 jitter_x = 0;
+    Fix16 jitter_y = 0;
+    if (bJitter)
+    {
+        jitter_x = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        jitter_y = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 100;
+    }
+
+    field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
+    field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
+    stru_6FD388 = xpos + field_8_speed_x;
+    stru_6FD38C = ypos + field_C_speed_y;
+
+    if (stru_6FD388 > dword_6FD4A0 && stru_6FD388 < dword_6FD280 - dword_6FD4A0 && stru_6FD38C > dword_6FD4A0 &&
+        stru_6FD38C < dword_6FD280 - dword_6FD4A0)
+    {
+        field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+    }
+    else
+    {
+        field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, zpos);
+    }
+
+    switch (field_46_sub_state)
+    {
+        case 0:
+        case 1:
+            field_30_pNext->field_2C_flags = 0x51;
+            break;
+        case 2:
+            field_30_pNext->field_2C_flags = 0x51;
+            break;
+        case 3:
+            field_30_pNext->field_2C_flags = 0x52;
+            break;
+        case 4:
+            field_30_pNext->field_2C_flags = 0x7A;
+            break;
+        case 5:
+            field_30_pNext->field_2C_flags = 0xA2;
+            break;
+        case 6:
+            field_30_pNext->field_2C_flags = 0xCA;
+            break;
+        case 7:
+            field_30_pNext->field_2C_flags = 0xF2;
+            break;
+    }
+
+    field_30_pNext->Set_2C_0x4_Flag_4337F0();
+    if (field_40_pUnknown)
+    {
+        field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14->field_4);
+    }
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+
+    if (++field_46_sub_state > 8)
+    {
+        field_46_sub_state = 0;
     }
     return 0;
 }
