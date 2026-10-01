@@ -1037,8 +1037,9 @@ void MapRenderer::sub_4ECE40(u16& right_word)
         sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
         sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
         dword_6F6560 = dword_621004[right_word >> 13];
-        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & 1023);
-        if (texture_idx)
+        u32 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & 1023);
+        u16 tmp = texture_idx;
+        if (tmp)
         {
             pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
                           gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
