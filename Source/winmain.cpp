@@ -1033,10 +1033,124 @@ void __stdcall Draw_4DA7B0()
     }
 }
 
-STUB_FUNC(0x4DA9F0)
-EXPORT void Net_4DA9F0()
+DEFINE_GLOBAL(Network_Unknown_0x30, gNetInputsHistory1_6F56E0, 0x6F56E0);
+DEFINE_GLOBAL(Network_Unknown_0x30, gNetInputsHistory2_6F5798, 0x6F5798);
+DEFINE_GLOBAL_ARRAY(u8, gNetPlayerDropped_6F8470, 6, 0x6F8470);
+
+// TODO: guessed, the target asm for this 64 byte function hasn't been dumped yet.
+// Re-sends our inputs of a previous frame to one player.
+STUB_FUNC(0x4DA9B0)
+EXPORT void __stdcall Net_4DA9B0(Network_InputData_0x8* pInputs, s32 type, u8 player_idx)
 {
     NOT_IMPLEMENTED;
+}
+
+MATCH_FUNC(0x4DA9F0)
+EXPORT void Net_4DA9F0()
+{
+    s32 retries = 0;
+    s32 max_retries = bRecordStartTime_6F593C ? 25 : 6;
+
+    memcpy(&gNetInputsHistory2_6F5798, &gNetInputsHistory1_6F56E0, sizeof(gNetInputsHistory2_6F5798));
+    memcpy(&gNetInputsHistory1_6F56E0, &gCurrentNetInputs_6F57D8, sizeof(gNetInputsHistory1_6F56E0));
+
+    u32 waiting_bits = 0;
+    for (u32 i = 0; i < GTA2_COUNTOF(gNetPlay_7071E8.field_758_n2.field_10); i++)
+    {
+        if (gNetPlay_7071E8.field_758_n2.field_10[i].field_0 && i != gNetworkPlayerIdx_6F56C8)
+        {
+            waiting_bits |= 1 << i;
+        }
+    }
+
+    u32 start_time = timeGetTime();
+    gTotalNetworkTime_6F5980 = 0;
+
+    while (waiting_bits)
+    {
+        if (gGame_0x40_67E008->sub_4B8C20())
+        {
+            return;
+        }
+
+        s32 player_idx;
+        u32 type;
+        if (gNetPlay_7071E8.ReceiveGameMessage_521890((Network_8*)&gpInputBuffer_6F58C0, &player_idx, &type))
+        {
+            switch (type)
+            {
+                case 2:
+                {
+                    switch (*(u8*)gpInputBuffer_6F58C0)
+                    {
+                        case 1:
+                            waiting_bits &= ~(1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1));
+                            gNetInUsePlayerBits_6F56B8 |= 1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1);
+                            break;
+                        case 2:
+                            waiting_bits &= ~(1 << player_idx);
+                            gNetInUsePlayerBits_6F56B8 |= 1 << player_idx;
+                            break;
+                        case 3:
+                            waiting_bits = 0;
+                            gPlayerQuit_6F5AEC = 1;
+                            break;
+                        default:
+                            FatalError_4A38C0(Gta2Error::InvalidLine, "C:\\Splitting\\Gta2\\Source\\main.cpp", 853, 0);
+                            break;
+                    }
+                    break;
+                }
+                case 3:
+                    memcpy(&gCurrentNetInputs_6F57D8.field_0_inputs[player_idx], gpInputBuffer_6F58C0, gCurrentInputsBufferSize_6F58C4);
+                    waiting_bits &= ~(1 << player_idx);
+                    if (bDo_sync_check_67D6C1 &&
+                        gCurrentNetInputs_6F57D8.field_0_inputs[player_idx].field_4_rng !=
+                            gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng)
+                    {
+                        FatalError_4A38C0(Gta2Error::SyncErrorRandom,
+                                          "C:\\Splitting\\Gta2\\Source\\main.cpp",
+                                          822,
+                                          gCurrentNetInputs_6F57D8.field_0_inputs[player_idx].field_4_rng,
+                                          gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng);
+                    }
+                    break;
+                default:
+                    FatalError_4A38C0(Gta2Error::InvalidLine, "C:\\Splitting\\Gta2\\Source\\main.cpp", 860, 0);
+                    break;
+            }
+        }
+
+        gTotalNetworkTime_6F5980 += gNetPlay_7071E8.field_8F4_time_diff;
+
+        if (timeGetTime() - start_time > 1000 && retries >= max_retries && waiting_bits)
+        {
+            // Give up on the players that didn't answer
+            for (u32 j = 0; j < 6 && waiting_bits; j++)
+            {
+                if (waiting_bits & (1 << j))
+                {
+                    waiting_bits &= ~(1 << j);
+                    gNetInUsePlayerBits_6F56B8 |= 1 << j;
+                    gNetPlay_7071E8.Send_521DB0(j);
+                    gNetPlayerDropped_6F8470[j] = 1;
+                }
+            }
+        }
+        else if (timeGetTime() - start_time > 1000 && waiting_bits)
+        {
+            start_time = timeGetTime();
+            retries++;
+            for (u8 k = 0; k < 6; k++)
+            {
+                if (waiting_bits & (1 << k))
+                {
+                    Net_4DA9B0(&gNetInputsHistory1_6F56E0.field_0_inputs[gNetworkPlayerIdx_6F56C8], 1, k);
+                    Net_4DA9B0(&gNetInputsHistory2_6F5798.field_0_inputs[gNetworkPlayerIdx_6F56C8], 2, k);
+                }
+            }
+        }
+    }
 }
 
 // Fills in the sync check data that is compared between players at the start of a network game

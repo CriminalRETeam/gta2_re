@@ -297,6 +297,12 @@ given a stack home that overlaps an argument, so its first use shows up as
 `mov N(%esp),%reg` reading that argument. It isn't a real read of the parameter, so
 leave the local uninitialised (`NetPlay::sub_521770`).
 
+**A dword read at an odd offset.** `mov 1(%ecx),%ecx` followed by a shift by `cl` is a 32-bit
+field at offset 1 of a packed message, not a byte (`Net_4DA9F0` reads the player index as
+`*(s32*)((u8*)p + 1)`). Reading it as `p[1]` gives `xor; mov 1(%eax),%cl`. In the same
+function, repeating the global (`*(u8*)gpInputBuffer_6F58C0`) instead of a `u8* pMsg` local
+put the pointer and the value in the original's registers.
+
 **Struct copies load through a pointer register.** `mov (%edx),%esi; mov (%esi),%ebp; ... mov 4(%esi),%esi`
 into consecutive fields is a struct assignment (`entry.inputs = *pData->p`), not two
 separate field copies (`NetPlay::Add_5216E0`).

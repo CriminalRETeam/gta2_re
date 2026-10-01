@@ -641,6 +641,8 @@ so the next "Dump target asm" run will include them:
 
 - `sub_5BEED0` (Montana.cpp): converts a cycle count for `DebugDrawProfiling_4FF250`. The
   body is a guess.
+- `Net_4DA9B0` (winmain.cpp, 64 bytes, `__stdcall` with 3 arguments): called by the matched
+  `Net_4DA9F0` to re-send an earlier frame's inputs to one player. Empty for now.
 
 ## sound_obj::ChooseRadioEmitterForVehicle_57E6C0 (WIP, was STUB)
 
