@@ -109,7 +109,7 @@ class RouteFinder
     EXPORT RouteFinder_10* sub_589390(u16 a2);
     EXPORT void sub_589420(RouteFinder_10* a2);
     EXPORT char_type sub_589480(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8);
-    EXPORT char_type sub_5895C0(u8 a2, s16 a3, u8 a4, s32 a5, s32 a6);
+    EXPORT char_type sub_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction);
     EXPORT void CancelRoute_589930(s16 idx);
     EXPORT s16 GetFreeRouteIdx_589960();
     EXPORT u16 sub_589990(RouteFinder_10* a2, u16 a3, s16 a4);

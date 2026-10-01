@@ -163,6 +163,14 @@ reordering statements and using the existing inline accessors.
 (`repe cmpsl`), the left operand goes in `esi` and the right in `edi`. Swap the sides
 of `==` if they are the wrong way round (`NetPlay::InitializeConnection_51E5C0`).
 
+**Field-index locals: try every declaration order.** Four `u16` locals loaded from the same
+struct (the junction link indices) gave 0.930, 0.585 or a match depending only on their
+declaration order (`RouteFinder::sub_5895C0` needed north, south, east, west; its sibling
+`sub_589BB0` needed north, south, west, east). With 4 locals it's 24 builds, so script it.
+The same function also needed `RouteFinder_10* pStart = field_861C;` (used for the memset,
+`field_A82C` and the `field_4` store) for VC6 to reuse the `lea` register, and the
+"primary direction" test written as `if (!x) { fallbacks } else { primary }`.
+
 **The order of local saves decides register rotation later on.** When a function saves
 some fields to locals before calls, the statement order of those saves can leave the load
 schedule the same and still rotate the registers for the rest of the function. Try every
