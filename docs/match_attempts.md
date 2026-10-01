@@ -1012,3 +1012,14 @@ Still different:
   - **On a hit:** it moves `Particle_8`'s `field_0` (state 31) or `field_4` (state 34) to the hit. It also sets the damage owner from the shooter's `field_267_varrok_idx`. On a ped hit it calls `HandleGenericImpact_553E00` and `frosty_pasteur::sub_512C00(id, 194/198, 1)`.
 - **Return block:** every failure check in the original jumps to one shared `return true` block. Ours uses early returns, so the next step is the nested form.
 - Uses `Fix16_Point::RotateByAngle_40F6B0` for the rotations. The other `Particle_4C` WIPs write the same rotation out by hand.
+
+## Particle_8::GunMuzzelFlash_53E970 (WIP, was STUB)
+
+- 0.120, with the right structure. It spawns the corner sparks that `Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280` then updates:
+  - **Car:** two sparks (states 40 and 41) at the mirrored corners of the car box.
+  - **Ped:** one spark (state 40) at the `Char_B4::field_98`-relative offset.
+  - It does nothing when `bSkip_particles_67D64D` is set.
+- The original computes `sin * dword_6FD2E8` and `cos * dword_6FD2E8` into a temporary and never uses them in the car branch. That is kept as `unused`.
+- **What's left:**
+  - The original's EH state is 4 before the first branch and 7 inside the car branch, so there are more destructible locals declared at the top than ours.
+  - Register choice for the zero registers (ebp/ebx swapped).
