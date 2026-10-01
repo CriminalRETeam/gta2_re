@@ -2,6 +2,7 @@
 #include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
+#include "Frontend.hpp"
 #include "Hud.hpp"
 #include "Object_5C.hpp"
 #include "Particle_8.hpp"
@@ -213,10 +214,34 @@ void CarPhysics_B0::ShowPhysicsDebug_559430()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5597b0)
+MATCH_FUNC(0x5597b0)
 void CarPhysics_B0::ShowSpeedRevsDamage_5597B0()
 {
-    NOT_IMPLEMENTED;
+    if (bDo_show_instruments_67D64C)
+    {
+        SetCurrentCarInfoAndModelPhysics_562EF0();
+
+        Fix16 speed = field_40_linvel_1.GetLength_all_out_of_line_abs_negate();
+        s32 gear;
+        if (speed > gCarInfo_48_6FE258->field_44_gear3_speed)
+        {
+            gear = 3;
+        }
+        else
+        {
+            gear = (speed > gCarInfo_48_6FE258->field_40_gear2_speed) + 1;
+        }
+
+        swprintf(tmpBuff_67BD9C, L"speed:%3.3f(%d)", field_40_linvel_1.GetLength_all_out_of_line_abs_y_negate_2().AsDouble(), gear);
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 16, word_706600, 1);
+
+        swprintf(tmpBuff_67BD9C, L"revs:%3.3f %c", field_60_gas_pedal.AsDouble(), get_revs_561940() ? 'T' : ' ');
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 32, word_706600, 1);
+
+        // TODO: the format string at 0x6240FC is a guess
+        swprintf(tmpBuff_67BD9C, L"damage:%d", field_5C_pCar->field_74_damage * 100 / 32000);
+        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 48, word_706600, 1);
+    }
 }
 
 MATCH_FUNC(0x5599d0)
