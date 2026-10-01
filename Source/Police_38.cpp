@@ -342,11 +342,108 @@ void PoliceCrew_38::sub_571350()
     }
 }
 
-STUB_FUNC(0x571540)
-char_type PoliceCrew_38::sub_571540()
+WIP_FUNC(0x571540)
+void PoliceCrew_38::sub_571540()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCar = field_10_subObj->field_0_car;
+    PedGroup* pGroup = field_10_subObj->field_8_group;
+    if (pCar)
+    {
+        if (pGroup)
+        {
+            if (pCar->field_76_last_seen_timer > 200 && pGroup->sub_4C9150())
+            {
+                u8 v7 = 0;
+                for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[v7++])
+                {
+                    pPedIter->field_164_ped_group = 0;
+                    pPedIter->field_23C = 0;
+                    pPedIter->Deallocate_45EB60();
+                    if (!field_10_subObj->field_8_group)
+                    {
+                        break;
+                    }
+                }
+                field_10_subObj->field_8_group->ClearGroupData_4C8E90();
+                field_10_subObj->field_0_car->sub_421470();
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+        }
+        else
+        {
+            Ped* pPed = field_10_subObj->field_4_ped;
+            if (pPed)
+            {
+                if (pPed->get_field_20e() > 30 && pCar->field_76_last_seen_timer > 200)
+                {
+                    pPed->Deallocate_45EB60();
+                    field_10_subObj->field_0_car->sub_421470();
+                    field_10_subObj->field_28 = 5;
+                    field_10_subObj->field_2C = 1;
+                }
+            }
+            else if (pCar->field_76_last_seen_timer > 200)
+            {
+                if (pCar->field_88_despawn_status != 5 && pCar->field_88_despawn_status != 2 && pCar->field_88_despawn_status != 3)
+                {
+                    pCar->field_88_despawn_status = 4;
+                    field_10_subObj->field_28 = 5;
+                }
+                field_10_subObj->field_2C = 1;
+                return;
+            }
+        }
+    }
+    else if (pGroup)
+    {
+        if (pGroup->sub_4C9150())
+        {
+            u8 v7 = 0;
+            for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[v7++])
+            {
+                pPedIter->field_164_ped_group = 0;
+                pPedIter->field_23C = 0;
+                pPedIter->Deallocate_45EB60();
+                if (!field_10_subObj->field_8_group)
+                {
+                    break;
+                }
+            }
+            field_10_subObj->field_8_group->ClearGroupData_4C8E90();
+            field_10_subObj->field_28 = 5;
+            field_10_subObj->field_2C = 1;
+        }
+    }
+    else
+    {
+        Ped* pPed = field_10_subObj->field_4_ped;
+        if (pPed)
+        {
+            if (pPed->get_field_20e() >= 30)
+            {
+                pPed->Deallocate_45EB60();
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+            else if (pPed->field_16C_car)
+            {
+                pPed->Deallocate_45EB60();
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+            else if (pPed->field_28C_threat_reaction != 1)
+            {
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+        }
+        else
+        {
+            field_10_subObj->field_28 = 5;
+            field_10_subObj->field_2C = 1;
+        }
+    }
 }
 
 STUB_FUNC(0x571a30)

@@ -702,3 +702,14 @@ Still different: the original keeps the object pointer in `ebx` and a zero in `e
 does the `<< 14` right after each `__ftol`. Ours keeps a zero in `ebx` for the whole
 function, reloads the car pointer from `this`, and delays the shifts. The three
 `DrawText_5D8A10` calls also get tail merged in ours.
+
+## PoliceCrew_38::sub_571540 (WIP, was STUB)
+
+Shut-down for a crew with a car (`Kfc_30::field_24 == 2`): same shape as the matched
+`sub_571350`, with the car's `field_76_last_seen_timer > 200` checks and the despawn state
+set to 4. Returns nothing (now `void`). Ratio 0.867.
+
+The code is identical apart from three `je`s in the "car, no ped" branch: the original jumps
+to the `field_2C = 1` tail right after the `if`, ours to the identical tail of the last block
+in the function, which makes them near jumps (12 bytes longer). Tried: `field_2C = 1` in
+both branches (0.812), an explicit `return` after it (no change).
