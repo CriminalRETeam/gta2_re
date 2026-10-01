@@ -36,3 +36,4 @@ Scripts/asm/*.obj
 Scripts/asm/make_objs.sh
 Scripts/output.asm
 Source/*.obj
+Scripts/bin_comp/target_extra.json

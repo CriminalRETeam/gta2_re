@@ -390,11 +390,45 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
     return pOtherZone;
 }
 
-STUB_FUNC(0x4DF3E0)
-u8* Map_0x370::sub_4DF3E0(u8 a2, u8 a3, char_type a4)
+WIP_FUNC(0x4DF3E0)
+gmp_map_zone* Map_0x370::sub_4DF3E0(u8 xpos, u8 ypos, u8 zone_type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 best_dist = dword_6F5B8C;
+    gmp_map_zone* pBestZone = 0;
+
+    if (field_328_pZoneData == 0)
+    {
+        return 0;
+    }
+
+    for (s32 zone_idx = 0; zone_idx < field_32C_pZones->field_0_num_zones; zone_idx++)
+    {
+        gmp_map_zone* pZone = Map_0x370::get_zone_4DFB30(zone_idx);
+        if (pZone->field_0_zone_type == zone_type)
+        {
+            s32 diff_x = (xpos << 14) - ((pZone->field_1_x << 14) + ((pZone->field_3_w >> 1) << 14));
+            s32 diff_y = (ypos << 14) - ((pZone->field_2_y << 14) + ((pZone->field_4_h >> 1) << 14));
+            if (diff_y <= 0)
+            {
+                diff_y = -diff_y;
+            }
+            Fix16 dist(diff_y, 0);
+            if (diff_x <= 0)
+            {
+                diff_x = -diff_x;
+            }
+            if (diff_x > dist.mValue)
+            {
+                dist.mValue = diff_x;
+            }
+            if (dist < best_dist)
+            {
+                best_dist = dist;
+                pBestZone = pZone;
+            }
+        }
+    }
+    return pBestZone;
 }
 
 MATCH_FUNC(0x4DF4D0)

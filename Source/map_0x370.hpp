@@ -305,7 +305,7 @@ class Map_0x370
     EXPORT gmp_map_zone* first_zone_by_type_4DF1D0(u8 zone_type);
 
     EXPORT gmp_map_zone* GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_type);
-    EXPORT u8* sub_4DF3E0(u8 a2, u8 a3, char_type a4);
+    EXPORT gmp_map_zone* sub_4DF3E0(u8 xpos, u8 ypos, u8 zone_type);
 
     EXPORT gmp_map_zone* zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zone_type);
     EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y);
