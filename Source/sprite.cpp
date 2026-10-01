@@ -2,6 +2,10 @@
 #include "CarInfo_808.hpp" // TODO: only because of dword_6F6850
 #include "Car_BC.hpp"
 #include "Globals.hpp"
+#include "Ped.hpp"
+#include "Frontend.hpp"
+#include "Camera.hpp"
+#include "Draw.hpp"
 #include "Object_2C_Pool.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
@@ -671,20 +675,79 @@ char_type Sprite::has_shadows_59EAE0()
     return 0;
 }
 
-STUB_FUNC(0x59eb30)
-void Sprite::ShowId_59EB30(f32& a2, f32& a3)
-{
-    NOT_IMPLEMENTED;
-}
-
-// 9.6f inline
-static inline void __stdcall sub_4BA2C0(const wchar_t* pStr, Fix16 x, Fix16 y, s32 font)
+static inline void __stdcall sub_4BA2C0(const wchar_t* pStr, Fix16 x, Fix16 y, u16 font)
 {
     s32 palette_type = palette_types_enum::sprites_2;
     Fix16 scale_y = y * gViewCamera_676978->field_A8_ui_scale;
-    Fix16 scale_x = x * gViewCamera_676978->field_A8_ui_scale;
-    DrawText_5D8A10(pStr, scale_x, scale_y, font, gViewCamera_676978->field_A8_ui_scale, palette_type, 0, 0, 0);
+    DrawText_5D8A10(pStr, x * gViewCamera_676978->field_A8_ui_scale, scale_y, font, gViewCamera_676978->field_A8_ui_scale, palette_type, 0, 0, 0);
 }
+
+WIP_FUNC(0x59eb30)
+void Sprite::ShowId_59EB30(f32& x, f32& y)
+{
+    s32 palette_type;
+    if (bDo_show_ids_67D559)
+    {
+        if (field_30_sprite_type_enum == sprite_types_enum::car_2)
+        {
+            Car_BC* pCar = field_8_car_bc_ptr;
+            if (pCar)
+            {
+                Fix16 xpos((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+                Fix16 ypos((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+                swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_maybe_id);
+                sub_4BA2C0(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
+            }
+        }
+        else if (field_30_sprite_type_enum == sprite_types_enum::ped_3)
+        {
+            Char_B4* pB4 = field_8_char_b4_ptr;
+            if (pB4)
+            {
+                Fix16 xpos((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+                Fix16 ypos((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+                swprintf(tmpBuff_67BD9C, L"%d", pB4->field_7C_pPed->field_200_id);
+                palette_type = 2;
+                DrawText_5D8A10(tmpBuff_67BD9C,
+                                xpos * gViewCamera_676978->field_A8_ui_scale,
+                                ypos * gViewCamera_676978->field_A8_ui_scale,
+                                word_703BAA,
+                                gViewCamera_676978->field_A8_ui_scale,
+                                palette_type,
+                                0,
+                                0,
+                                0);
+            }
+        }
+    }
+
+    if (bDo_show_object_ids_67D6CA)
+    {
+        if (field_30_sprite_type_enum == sprite_types_enum::code_obj1_4 || field_30_sprite_type_enum == sprite_types_enum::map_obj_5 ||
+            field_30_sprite_type_enum == sprite_types_enum::unknown_1)
+        {
+            Object_2C* pObj = field_8_object_2C_ptr;
+            if (pObj)
+            {
+                Fix16 xpos((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+                Fix16 ypos((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+                swprintf(tmpBuff_67BD9C, L"%d:%d", pObj->field_18_model, pObj->field_14_id);
+                palette_type = 2;
+                DrawText_5D8A10(tmpBuff_67BD9C,
+                                xpos * gViewCamera_676978->field_A8_ui_scale,
+                                ypos * gViewCamera_676978->field_A8_ui_scale,
+                                word_703BAA,
+                                gViewCamera_676978->field_A8_ui_scale,
+                                palette_type,
+                                0,
+                                0,
+                                0);
+            }
+        }
+    }
+}
+
+// 9.6f inline
 
 WIP_FUNC(0x59ee40)
 void Sprite::ShowHorn_59EE40(f32& x, f32& y)

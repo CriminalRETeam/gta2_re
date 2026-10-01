@@ -680,3 +680,25 @@ Still different: where VC6 puts `lea 0x818(%eax),%ecx` (the `field_650` this poi
 of the `DisplayText_5D1F50` calls: before the pushes for the "theta" line in the original
 (ours after), after them for the "front skid" line (ours before). Declaring `pText` at
 the top didn't change it. The format string at 0x623FFC is not in `widechar.csv`, guessed.
+
+## Sprite::ShowId_59EB30 (WIP, was STUB)
+
+Debug ids drawn at a sprite's screen position: car ids, ped ids and `model:id` for objects.
+Ratio 0.333 (low because of register allocation; the instruction sequence is mostly
+right).
+
+- The car block uses the inline helper `sub_4BA2C0` (moved above this function). Its font
+  parameter must be `u16` (stored with `mov %dx`), and it computes `scale_y` first and
+  `x * scale` inside the `DrawText_5D8A10` argument list: then VC6 inlines the y multiply
+  (`imull (%esi)`) and calls `Multiply_408680` for x after pushing the other arguments,
+  like the original.
+- The ped and object blocks call `DrawText_5D8A10` directly with `xpos * scale`; the
+  original uses `__allmul` there (both operands widened), which is what VC6 produces
+  for this form.
+- The screen size globals are converted as unsigned (`fildll` with a zero high dword):
+  `(f32)(u32)window_width_706630`.
+
+Still different: the original keeps the object pointer in `ebx` and a zero in `ebp`, and
+does the `<< 14` right after each `__ftol`. Ours keeps a zero in `ebx` for the whole
+function, reloads the car pointer from `this`, and delays the shifts. The three
+`DrawText_5D8A10` calls also get tail merged in ours.
