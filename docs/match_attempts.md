@@ -730,3 +730,19 @@ Still different:
 - In the first member loop the original does `inc %dl` and the store before reading
   `field_4_ped_list[i]` (same loop as `sub_571350` otherwise). Rewriting it as a `while`
   with `u8 idx = i++` made it worse (0.655).
+
+## PoliceCrew_38::sub_575310 (WIP, was STUB)
+
+Crew state handler when it has caught up with the criminal: on foot the player ped gets
+objective 27 once close enough, in a car it depends on the car's `Hamburger_40` path
+kind (`field_C`: 15 ends the chase, 0/1/2/14 keep going, others set `field_78`). Ratio 0.382
+(mostly stack slot and register differences).
+
+- The four positions are loaded before the `field_168_game_object` test in the original,
+  so they are locals (player y/x first, then the criminal's).
+- The distance uses the out-of-line `Abs_436A50`/`Max_44E540` in the on-foot branch and
+  `Abs_negate_out_of_line` + `Max_44E540` in the car branch.
+
+Still different: the frame is 0x20 vs 0x14 (the original keeps the max result in `eax`
+and never stores `dist`), and the criminal's x/y go to the other registers. Writing the
+`Max` call inside the `if` made VC6 evaluate the threshold first (0.345).
