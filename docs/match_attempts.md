@@ -1002,3 +1002,13 @@ Still different:
   - **Ped:** an offset rotated by the ped's angle plus `Char_B4::field_98`. The id is base + sub_state + 197.
 - Needed `#include "Car_BC.hpp"` (compare_builds is unchanged) and three new globals (`dword_6FD3C0`, `dword_6FD5A8`, `dword_6FD2F8`).
 - **Open question:** our build calls `Fix16_Point_POD::Fix16_Point_POD()` out of line for the `Fix16_Point offset` local. The original constructs it inline, as it does for all five points in `538AC0` (where we call it twice). The ctor is empty and the struct isn't exported. Unexplained so far.
+
+## Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0 (WIP, was STUB)
+
+- 0.313 on the first write-up. An impact burst attached to a car or ped (`field_28_pSprite`):
+  - **Ped:** the source velocity is the ped's `sub_45B520`.
+  - **Car:** the velocity is `GetPointVelocity_561350` at the gun-model (114) or fallback-model (248) attachment point. That is the same attachment code as `Particle_8::EmitImpactParticles_53FE40`.
+  - The burst moves along a random spread angle (`/ 71`, `sub_406C20`).
+  - **On a hit:** it moves `Particle_8`'s `field_0` (state 31) or `field_4` (state 34) to the hit. It also sets the damage owner from the shooter's `field_267_varrok_idx`. On a ped hit it calls `HandleGenericImpact_553E00` and `frosty_pasteur::sub_512C00(id, 194/198, 1)`.
+- **Return block:** every failure check in the original jumps to one shared `return true` block. Ours uses early returns, so the next step is the nested form.
+- Uses `Fix16_Point::RotateByAngle_40F6B0` for the rotations. The other `Particle_4C` WIPs write the same rotation out by hand.

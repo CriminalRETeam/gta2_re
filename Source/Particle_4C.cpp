@@ -10,6 +10,9 @@
 #include "Ped.hpp"
 #include "Particle_8.hpp"
 #include "Car_BC.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
+#include "Object_3C.hpp"
+#include "CarPhysics_B0.hpp"
 
 EXTERN_GLOBAL(Fix16, dword_6FD49C);
 EXTERN_GLOBAL(Fix16, dword_6FD2F0);
@@ -20,6 +23,11 @@ EXTERN_GLOBAL(Fix16, dword_6FD464);
 EXTERN_GLOBAL(Fix16, dword_6FD2F4);
 EXTERN_GLOBAL(Ang16, word_6FD5CC);
 EXTERN_GLOBAL(Ang16, word_6FD3EE);
+EXTERN_GLOBAL(Fix16, dword_6FD2D4);
+EXTERN_GLOBAL(Fix16, dword_6FD2D0);
+EXTERN_GLOBAL(Fix16, dword_6FD48C);
+EXTERN_GLOBAL(Fix16, dword_6FD4CC);
+EXTERN_GLOBAL(Fix16, dword_6FD328);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD46C, Fix16(0x333, 0), 0x6FD46C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD554, dword_6FD448, 0x6FD554);
@@ -49,6 +57,7 @@ DEFINE_GLOBAL(Fix16, dword_6FD364, 0x6FD364);
 DEFINE_GLOBAL(Fix16, dword_6FD3C0, 0x6FD3C0);
 DEFINE_GLOBAL(Fix16, dword_6FD5A8, 0x6FD5A8);
 DEFINE_GLOBAL(Fix16, dword_6FD2F8, 0x6FD2F8);
+DEFINE_GLOBAL(Fix16, dword_6FD4AC, 0x6FD4AC);
 
 // https://decomp.me/scratch/nKSYL
 WIP_FUNC(0x538060)
@@ -1330,17 +1339,240 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
     return false;
 }
 
-STUB_FUNC(0x53bac0)
+WIP_FUNC(0x53bac0)
 char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 {
-    NOT_IMPLEMENTED;
+    Char_B4* pB4 = NULL;
+    Car_BC* pCar = NULL;
+    Fix16_Point vel(Fix16(0), Fix16(0));
+    Ang16 angle = 0;
 
-    // provisional code
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
     if (field_2C_counter == 0)
     {
         return true;
     }
+
+    Fix16 xpos = stru_6FD388 = field_30_pNext->field_14_xy.x;
+    Fix16 ypos = stru_6FD38C = field_30_pNext->field_14_xy.y;
+    Fix16 zpos = field_30_pNext->field_1C_zpos;
+
+    Sprite* pTarget = field_28_pSprite;
+    switch (pTarget->field_30_sprite_type_enum)
+    {
+        case sprite_types_enum::ped_3:
+            pB4 = pTarget->field_8_char_b4_ptr;
+            if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->field_21C_bf.b0)
+            {
+                return true;
+            }
+            if (!pB4->field_7C_pPed->field_21C_bf.b11)
+            {
+                field_4_flags &= ~1;
+            }
+            angle = pTarget->field_0;
+            break;
+
+        case sprite_types_enum::car_2:
+            pCar = pTarget->field_8_car_bc_ptr;
+            if (!pCar || !pCar->field_54_driver)
+            {
+                return true;
+            }
+            if (!pCar->field_54_driver->field_21C_bf.b11)
+            {
+                field_4_flags &= ~1;
+            }
+            if (!pCar->field_58_physics)
+            {
+                return true;
+            }
+            break;
+
+        default:
+            return true;
+    }
+
+    if (field_48_timer > 0)
+    {
+        field_48_timer--;
+    }
+    else
+    {
+        if (++field_46_sub_state > 15)
+        {
+            return true;
+        }
+        if (field_46_sub_state > 3)
+        {
+            field_48_timer = 1;
+        }
+    }
+
+    Fix16 spread_val = (Fix16(stru_6F6784.get_int_4F7AE0(field_46_sub_state)) + Fix16(field_46_sub_state) - dword_6FD4AC) * dword_6FD328;
+    Ang16 spread(spread_val.GetRaw_40F4B0() / 71);
+    spread.sub_406C20();
+
+    if (pB4)
+    {
+        vel = pB4->field_7C_pPed->sub_45B520();
+    }
+    else
+    {
+        Fix16_Point attach;
+        Fix16_Point offset;
+        Sprite_18* pGun = pCar->field_0_qq.GetSpriteForModel_5A6A50(114);
+        if (pGun)
+        {
+            Ang16 gun_angle = pGun->field_0->field_0 + word_6FD3EE;
+            gun_angle.sub_406C20();
+            angle = gun_angle;
+            attach.x = 0;
+            attach.y = dword_6FD2D4;
+            attach.RotateByAngle_40F6B0(angle);
+            offset.x = 0;
+            offset.y = dword_6FD2D0;
+        }
+        else
+        {
+            angle = pCar->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+            attach.x = 0;
+            attach.y = dword_6FD48C;
+            attach.RotateByAngle_40F6B0(angle);
+            offset.x = 0;
+            offset.y = dword_6FD4CC;
+        }
+        offset.RotateByAngle_40F6B0(pCar->field_50_car_sprite->field_0);
+        Fix16_Point world = offset + pCar->field_50_car_sprite->get_x_y_443580();
+        attach.x += world.x;
+        attach.y += world.y;
+        vel = pCar->field_58_physics->GetPointVelocity_561350(&attach);
+    }
+
+    Fix16 speed;
+    if (vel.x == dword_6FD49C)
+    {
+        speed = Fix16::Abs(vel.y);
+    }
+    else if (vel.y == dword_6FD49C)
+    {
+        speed = Fix16::Abs_436A50(vel.x);
+    }
+    else
+    {
+        speed = Fix16::SquareRoot_436A70(vel.x * vel.x + vel.y * vel.y);
+    }
+
+    u8 max_sub_state = 12;
+    Fix16 dx;
+    Fix16 dy;
+    if ((field_4_flags & 1) && field_46_sub_state <= max_sub_state)
+    {
+        Ang16 dir(spread + angle);
+        dir.sub_406C20();
+        dx = Ang16::sine_40F500(dir) * dword_6FD2E8;
+        dy = Ang16::cosine_40F520(dir) * dword_6FD2E8;
+    }
+    else
+    {
+        dx = Ang16::sine_40F500(field_30_pNext->field_0) * dword_6FD2E8;
+        dy = Ang16::cosine_40F520(field_30_pNext->field_0) * dword_6FD2E8;
+    }
+    stru_6FD388 = stru_6FD388 + (vel.x + dx);
+    stru_6FD38C = stru_6FD38C + (vel.y + dy);
+
+    if (field_38_state == 31)
+    {
+        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 73);
+        max_sub_state = 14;
+    }
+    else
+    {
+        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 111);
+    }
+    field_30_pNext->field_2C_flags = 0xA2;
+    field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+
+    if (field_46_sub_state > 1 && field_46_sub_state < max_sub_state)
+    {
+        Sprite* pHit = field_30_pNext->QuerySpriteCollision_59E7D0(2);
+        if (pHit && pHit != field_28_pSprite)
+        {
+            if (field_38_state == 31)
+            {
+                field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos + dword_6FD45C);
+                if (field_46_sub_state < 10)
+                {
+                    field_46_sub_state = 10;
+                }
+                gParticle_8_6FD5E8->field_0->field_4->set_xyz_lazy_420600(xpos, ypos, zpos);
+                if (pB4)
+                {
+                    gParticle_8_6FD5E8->field_0->SetDamageOwner_529080(pB4->field_7C_pPed->field_267_varrok_idx);
+                }
+                else if (pCar)
+                {
+                    gParticle_8_6FD5E8->field_0->SetDamageOwner_529080(pCar->field_54_driver->field_267_varrok_idx);
+                }
+                if (pHit->field_30_sprite_type_enum != sprite_types_enum::code_obj1_4 &&
+                    pHit->field_30_sprite_type_enum != sprite_types_enum::map_obj_5 &&
+                    pHit->field_30_sprite_type_enum != sprite_types_enum::unknown_1)
+                {
+                    gParticle_8_6FD5E8->field_0->HandleObjectHit_528990(pHit);
+                }
+            }
+            else
+            {
+                field_46_sub_state = max_sub_state;
+                field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos + dword_6FD45C);
+                if (!(rng_dword_67AB34->field_0_rng & 1))
+                {
+                    gParticle_8_6FD5E8->EmitWaterSplash_53F060(xpos, ypos, zpos, angle, 0);
+                }
+                gParticle_8_6FD5E8->field_4->field_4->set_xyz_lazy_420600(xpos, ypos, zpos);
+                if (pB4)
+                {
+                    gParticle_8_6FD5E8->field_4->SetDamageOwner_529080(pB4->field_7C_pPed->field_267_varrok_idx);
+                }
+                else if (pCar)
+                {
+                    gParticle_8_6FD5E8->field_4->SetDamageOwner_529080(pCar->field_54_driver->field_267_varrok_idx);
+                }
+                if (pHit->field_30_sprite_type_enum != sprite_types_enum::code_obj1_4 &&
+                    pHit->field_30_sprite_type_enum != sprite_types_enum::map_obj_5 &&
+                    pHit->field_30_sprite_type_enum != sprite_types_enum::unknown_1)
+                {
+                    gParticle_8_6FD5E8->field_4->HandleObjectHit_528990(pHit);
+                }
+                if (pHit->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+                {
+                    pHit->field_8_char_b4_ptr->HandleGenericImpact_553E00(angle, dword_6FD46C + dword_6FD2E8, dword_6FD49C, 0);
+                    Ped* pHitPed = pHit->field_8_char_b4_ptr->field_7C_pPed;
+                    if (pHitPed)
+                    {
+                        if (field_38_state == 31)
+                        {
+                            gfrosty_pasteur_6F8060->sub_512C00(pHitPed->field_200_id, 194, 1);
+                        }
+                        else
+                        {
+                            gfrosty_pasteur_6F8060->sub_512C00(pHitPed->field_200_id, 198, 1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (field_30_pNext->CheckSpriteMovementRegion_5A2500())
+    {
+        field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos + dword_6FD45C);
+        if (field_46_sub_state < 10)
+        {
+            field_46_sub_state = 10;
+        }
+    }
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     return 0;
 }
 
