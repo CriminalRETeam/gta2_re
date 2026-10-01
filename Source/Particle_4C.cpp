@@ -17,6 +17,8 @@ EXTERN_GLOBAL(Fix16, dword_6FD4C0);
 EXTERN_GLOBAL(Fix16, dword_6FD540);
 EXTERN_GLOBAL(Fix16, dword_6FD464);
 EXTERN_GLOBAL(Fix16, dword_6FD2F4);
+EXTERN_GLOBAL(Ang16, word_6FD5CC);
+EXTERN_GLOBAL(Ang16, word_6FD3EE);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD46C, Fix16(0x333, 0), 0x6FD46C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD554, dword_6FD448, 0x6FD554);
@@ -42,6 +44,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD280, Fix16(255), 0x6FD280);
 DEFINE_GLOBAL(Fix16, dword_6FD300, 0x6FD300);
 DEFINE_GLOBAL(Fix16, dword_6FD304, 0x6FD304);
 DEFINE_GLOBAL(Fix16, dword_6FD308, 0x6FD308);
+DEFINE_GLOBAL(Fix16, dword_6FD364, 0x6FD364);
 
 // https://decomp.me/scratch/nKSYL
 WIP_FUNC(0x538060)
@@ -340,19 +343,106 @@ char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
     return 0;
 }
 
-STUB_FUNC(0x538ac0)
+WIP_FUNC(0x538ac0)
 char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 {
-    NOT_IMPLEMENTED;
+    Fix16_Point src;
+    Fix16_Point dst;
+    Fix16_Point delta;
+    Fix16_Point cur;
+    Fix16_Point prev;
 
-    // provisional code
     ++field_46_sub_state;
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
-    if (field_46_sub_state == 6)
+    if (field_46_sub_state != 6 && field_28_pSprite->field_30_sprite_type_enum == sprite_types_enum::code_obj1_4)
     {
-        return true;
+        src.x = field_30_pNext->field_14_xy.x;
+        src.y = field_30_pNext->field_14_xy.y;
+        dst.x = field_28_pSprite->field_14_xy.x;
+        dst.y = field_28_pSprite->field_14_xy.y;
+        delta = dst - src;
+        Ang16 beam_angle = Fix16::atan2_fixed_405320(delta.y, delta.x);
+        Fix16 abs_x = Fix16::Abs_436A50(delta.x);
+        Fix16 abs_y = Fix16::Abs_436A50(delta.y);
+        Fix16 segments = (abs_x > abs_y ? abs_x : abs_y) / dword_6FD364;
+
+        if (segments != dword_6FD49C)
+        {
+            delta.x /= segments;
+            delta.y /= segments;
+            prev = src;
+            cur = src;
+            for (s32 i = 1; i <= segments.ToInt(); i++)
+            {
+                cur.x = prev.x + delta.x;
+                cur.y = prev.y + delta.y;
+                Fix16_Point mid = cur - prev;
+                mid.x /= dword_6FD4A4;
+                mid.y /= dword_6FD4A4;
+                mid.x += prev.x;
+                mid.y += prev.y;
+
+                Particle_4C* pSegment = gParticle_8_6FD5E8->New_53E3C0(0, 0, 0, 0, 0, 0);
+                if (pSegment)
+                {
+                    pSegment->field_34 = 0;
+                    pSegment->field_38_state = 43;
+                    pSegment->field_2C_counter = 50;
+                    pSegment->field_46_sub_state = 0;
+                    pSegment->field_2E = 50;
+                    pSegment->field_30_pNext->SetType_4206F0(8);
+                    pSegment->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 104);
+                    pSegment->field_30_pNext->set_xyz_lazy_420600(mid.x, mid.y, field_30_pNext->field_1C_zpos);
+                    pSegment->field_30_pNext->field_2C_flags = 0xA2;
+                    pSegment->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+                    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pSegment->field_30_pNext);
+                }
+                prev = cur;
+            }
+        }
+
+        Fix16 target_x = field_28_pSprite->field_14_xy.x;
+        Fix16 target_y = field_28_pSprite->field_14_xy.y;
+        Ang16 jitter(&(Fix16(word_6FD5CC.rValue) * Fix16(stru_6F6784.get_int_4F7AE0(16) - 8)), 0);
+
+        switch (field_46_sub_state)
+        {
+            case 1:
+            case 2:
+            case 3:
+            {
+                Ang16 ang(field_28_pSprite->field_0 + word_6FD3EE, 0);
+                Fix16 radius = Fix16(field_46_sub_state) * dword_6FD46C;
+                src.x = radius * Ang16::sine_40F500(ang);
+                src.y = radius * Ang16::cosine_40F520(ang);
+                break;
+            }
+            case 4:
+            case 5:
+            {
+                Ang16 base(field_28_pSprite->field_0 + word_6FD3EE, 0);
+                Ang16 ang(base + jitter, 0);
+                Fix16 radius = Fix16(field_46_sub_state) * dword_6FD46C + dword_6FD45C;
+                src.x = radius * Ang16::sine_40F500(ang);
+                src.y = radius * Ang16::cosine_40F520(ang);
+                break;
+            }
+        }
+
+        dst.x = src.x + target_x;
+        dst.y = src.y + target_y;
+
+        if (field_28_pSprite->field_30_sprite_type_enum == sprite_types_enum::code_obj1_4)
+        {
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 163);
+            field_30_pNext->field_2C_flags = 0xA2;
+            field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            field_30_pNext->set_xyz_lazy_420600(dst.x, dst.y, field_30_pNext->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+            return 0;
+        }
     }
-    return 0;
+    return true;
 }
 
 WIP_FUNC(0x539040)

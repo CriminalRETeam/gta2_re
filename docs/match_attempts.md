@@ -980,3 +980,17 @@ Still different:
   - Cases 6 and 7 take x/y/z from the followed sprite.
   - `default` uses `field_20 / dword_6FD4A4` (inline `__allshl` / `__alldiv`). On `rng(7) == 4` it spawns a smoke particle through `Particle_8::New_53E3C0(0, ...)` with `SetType_4206F0(8)`.
 - The original keeps the jitter flag in `bl` and returns `bl` (still 1) from the first early return. Writing `return bJitter;` there made no difference.
+
+## Particle_4C::UpdateObjectBeamLink_state_38_538AC0 (WIP, was STUB)
+
+- 0.147, but the structure is right:
+  - Draws a beam from this sprite to `field_28_pSprite` (it must be a `code_obj1_4` sprite).
+  - Splits the delta into `max(|dx|, |dy|) / dword_6FD364` steps and spawns a state-43 beam segment particle at each step's midpoint.
+  - Then puts this sprite on a circle around the target. The angle is the target angle + `word_6FD3EE`, plus rng jitter in sub-states 4/5.
+- **Shared returns:** all three `return true` paths share one block, so it uses the nested form.
+- **Point slots:** the original reuses the `src` slot for the circle offset and `dst` for the final position.
+- **What's left:**
+  - The original sets EH state 5 before anything else, so five `Fix16_Point`-like locals are constructed with no code.
+  - Our build calls `Fix16_Point()` out of line for two of them.
+  - With `Fix16_Point_POD` locals instead it drops to 0.106. A first draft without the nesting scored 0.168.
+- Added `Fix16::operator/=` (out-of-line copy at 0x539F90) to fix16.hpp.
