@@ -632,11 +632,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
                 dir.y = (field_20 * dword_6FD300) * Fix16(field_46_sub_state / 10);
             }
 
-            Fix16 sin = Ang16::sine_40F500(field_24_angle);
-            Fix16 cos = Ang16::cosine_40F520(field_24_angle);
-            Fix16 old_x = dir.x;
-            dir.x = dir.x * cos + dir.y * sin;
-            dir.y = -old_x * sin + dir.y * cos;
+            dir.RotateByAngle_40F6B0(field_24_angle);
             field_14_additional_speed_x = dir.x;
             field_18_additional_speed_y = dir.y;
 
