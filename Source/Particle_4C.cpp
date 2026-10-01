@@ -335,18 +335,45 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
     return 0;
 }
 
-STUB_FUNC(0x53ae60)
+MATCH_FUNC(0x53ae60)
 char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
 {
-    NOT_IMPLEMENTED;
+    Fix16 v1 = dword_6FD2E8;
+    Fix16 x = dword_6FD49C;
+    Fix16 y = dword_6FD49C;
+    Fix16_Point point2(Fix16(0), Fix16(0));
 
-    // provisional code
     ++field_46_sub_state;
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
     if (field_46_sub_state == 15)
     {
         return true;
     }
+
+    Fix16 zpos;
+    if (field_2C_counter > (field_2E >> 1))
+    {
+        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
+        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
+        zpos = field_30_pNext->field_1C_zpos + v1;
+    }
+    else
+    {
+        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
+        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
+        zpos = field_30_pNext->field_1C_zpos - v1;
+    }
+    stru_6FD388 = field_30_pNext->field_14_xy.x + field_8_speed_x + x;
+    stru_6FD38C = field_30_pNext->field_14_xy.y + field_C_speed_y + y;
+
+    if (zpos > dword_6FD28C)
+    {
+        zpos = dword_6FD28C;
+    }
+    field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 131);
+    field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    field_30_pNext->field_2C_flags = 0xA2;
     return 0;
 }
 

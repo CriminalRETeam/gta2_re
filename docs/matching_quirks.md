@@ -241,6 +241,13 @@ the original jumps from one case into the middle of another (`push $1; jmp <othe
 call>`), end the first case with a `goto` to a label in front of the other case's shared
 code (`sub_430C70`).
 
+**A "point" local that lives half in a register.** If the original keeps one coordinate of a
+constant pair in a register and the other in a stack slot, with no EH state for it, the pair
+was two plain `Fix16` locals, not a `Fix16_Point` (which has a destructor and adds an EH state
+and a slot). `Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60` went from 0.839
+(`Fix16_Point`) to 0.924 (`Fix16_Point_POD`) to a match (`Fix16 x, y`), keeping the zeroed
+`Fix16_Point point2(0, 0)` that the original also constructs and never uses.
+
 **Stack slot order isn't declaration order.** Two local arrays or a set of scalars can come out
 in a different order from the original whatever order they're declared in. If the
 original's slots look like one block, try one array. In `FatalError_4A07C0`, six route
