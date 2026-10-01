@@ -1599,7 +1599,7 @@ void Network_20324::SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, H
 }
 
 // https://decomp.me/scratch/gzeUC
-STUB_FUNC(0x51cfc0)
+WIP_FUNC(0x51cfc0)
 void Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0(LPARAM game_speed, HWND hDlg)
 {
     SendDlgItemMessageA(hDlg, 1031, 0x405, 1u, game_speed); // 0x405 = TBM_SETPOS
