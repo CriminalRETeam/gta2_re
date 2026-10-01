@@ -851,3 +851,10 @@ Still different:
 - Remaining: target block layout is [equal → test cl → update | station block] then [test al → station | mode
   block]. Tried `if (changed) … else if (!=) …`, `(== && changed) || (!= && fast)`, and a nested form; all ≤ 0.543.
   Target also keeps `bFast` spilled to the stack (reloads it before `push`), while ours keeps it in bl.
+
+## Frontend::sub_4B4EC0 (MATCH, was STUB)
+
+- Reads the plyslot svg header and checks its map/sty/scr names against `"data\\" + field_C9E8_blocks[main][bonus]`.
+  Then it passes them to gLucid_hamilton. Retyped `svg_stru` 0..0x4A as three `char[25]` names.
+- Every instruction matched at 0.867 except the frame size. The block-scoped `plySlotIdx` and `len` made it 1.0
+  (see matching_quirks.md, "Stack slot sharing needs block scopes").

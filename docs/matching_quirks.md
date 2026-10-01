@@ -331,6 +331,11 @@ still WIP for other reasons). Might be worth trying on `RouteFinder::sub_589E20`
 known to be 0 on entry, VC6 won't reproduce it however you write the loop
 (`RouteFinder::sub_589E20`, unsolved).
 
+**Stack slot sharing needs block scopes.** If the target puts two short-lived locals in the same stack
+slot, e.g. a `u8` index used once and a later `u32 len = sizeof(x)` read-size, and your frame is 4 bytes
+bigger, wrap each one in its own `{ }` block. VC6 only overlaps slots for variables in disjoint scopes; the
+original probably had them inside inline helpers. `Frontend::sub_4B4EC0` went 0.867 → 1.0 from this alone.
+
 ## Functions, thunks and calling conventions
 
 **Tail-call thunks.** A tiny original function that is just `mov ...,%ecx; jmp <addr>` or
