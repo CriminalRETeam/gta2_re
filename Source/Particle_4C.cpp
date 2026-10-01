@@ -526,10 +526,12 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
             {
                 Ang16 angle(Fix16((stru_6F6784.get_int_4F7AE0(8) - 4) / 2).GetRaw_40F4B0() / 71);
                 angle.sub_406C20();
-                Fix16 radius = dword_6FD540 * dword_6FD4A8;
-                angle.rValue = field_28_pSprite->field_0.rValue + angle.rValue;
-                angle.sub_406C20();
-                offset.FromPolar_41E210(radius, angle);
+                {
+                    Fix16 radius = dword_6FD540 * dword_6FD4A8;
+                    angle.rValue = field_28_pSprite->field_0.rValue + angle.rValue;
+                    angle.sub_406C20();
+                    offset.FromPolar_41E210(radius, angle);
+                }
                 field_30_pNext->field_2C_flags = 0x51;
                 field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 17);
                 zpos += dword_6FD470;
