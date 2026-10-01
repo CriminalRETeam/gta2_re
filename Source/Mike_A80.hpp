@@ -27,6 +27,18 @@ struct Mike_80
         field_A0_count = 0;
         field_0.Clear();
     }
+
+    // Keeps a running sum of the last 30 samples
+    void AddSample(s32 value)
+    {
+        field_7C += value - field_0.field_0[field_A0_count];
+        field_0.field_0[field_A0_count] = value;
+        if (++field_A0_count >= 30)
+        {
+            field_A0_count = 0;
+        }
+    }
+
     Mike_78 field_0;
     s32 field_A0_count;
     s32 field_7C;
@@ -44,6 +56,13 @@ struct Mike_8
         field_0 = 0;
         field_4 = 0;
     }
+    s32 TakeElapsed()
+    {
+        s32 elapsed = field_4 - field_0;
+        init();
+        return elapsed;
+    }
+
     int field_0;
     int field_4;
 };
@@ -65,7 +84,7 @@ class Mike_A80
     EXPORT void sub_4FF990(u32 idx);
     EXPORT void sub_4FF9F0(u32 idx);
     EXPORT void sub_4FFA50(const char_type* pFormat, ...);
-    EXPORT s32 sub_4FFA90();
+    EXPORT void sub_4FFA90();
     EXPORT void sub_4FFD90();
 
     inline void DrawProfileBar(s32 x, s32 value, s32 colour)

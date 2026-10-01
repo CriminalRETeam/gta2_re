@@ -1,6 +1,7 @@
 #include "Mike_A80.hpp"
 #include "Globals.hpp"
 #include "Draw.hpp"
+#include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include <stdio.h>
 #include <stdarg.h>
@@ -112,11 +113,91 @@ void Mike_A80::sub_4FFA50(const char_type* pFormat, ...)
     OutputDebugStringA(buffer);
 }
 
-STUB_FUNC(0x4ffa90)
-s32 Mike_A80::sub_4FFA90()
+MATCH_FUNC(0x4ffa90)
+void Mike_A80::sub_4FFA90()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 process_time = m81.TakeElapsed();
+    s32 draw_time = m82.TakeElapsed();
+    s32 input_time = m84.TakeElapsed();
+    s32 audio_time = m85.TakeElapsed();
+
+    if (process_time == 0 && draw_time == 0 && input_time == 0 && audio_time == 0)
+    {
+        return;
+    }
+
+    s32 flip_time = pgbh_GetGlobals()[3];
+    process_time -= audio_time;
+    if (draw_time > 0)
+    {
+        draw_time -= flip_time;
+    }
+
+    field_2A8_ary[field_A78_ary_idx] = process_time;
+    field_438_ary[field_A78_ary_idx] = draw_time;
+    field_5C8_ary[field_A78_ary_idx] = flip_time;
+    field_758_ary[field_A78_ary_idx] = input_time;
+    field_8E8_ary[field_A78_ary_idx] = audio_time;
+
+    char_type buffer[240];
+    if (process_time)
+    {
+        field_28_m80_1.AddSample(process_time);
+    }
+    if (process_time > 15)
+    {
+        wsprintfA(buffer, "LARGE PROCESS %d\n", process_time);
+        OutputDebugStringA(buffer);
+    }
+
+    if (draw_time)
+    {
+        field_28_m80_2.AddSample(draw_time);
+    }
+    if (draw_time > 15)
+    {
+        wsprintfA(buffer, "LARGE DRAW %d\n", draw_time);
+        OutputDebugStringA(buffer);
+    }
+
+    if (flip_time)
+    {
+        field_28_m80_3.AddSample(flip_time);
+    }
+
+    if (input_time)
+    {
+        field_28_m80_4.AddSample(input_time);
+    }
+    if (input_time > 10)
+    {
+        wsprintfA(buffer, "LARGE INPUT %d\n", input_time);
+        OutputDebugStringA(buffer);
+    }
+
+    if (audio_time)
+    {
+        field_28_m80_5.AddSample(audio_time);
+    }
+    // Checks input_time rather than audio_time
+    if (input_time > 10)
+    {
+        wsprintfA(buffer, "LARGE AUDIO %d\n", audio_time);
+        OutputDebugStringA(buffer);
+    }
+
+    s32 total = input_time + audio_time + draw_time + process_time;
+    if (total > 30)
+    {
+        wsprintfA(buffer, "LARGE EVERYTHING %d\n", total);
+        OutputDebugStringA(buffer);
+    }
+
+    if (++field_A78_ary_idx >= 100)
+    {
+        field_A78_ary_idx = 0;
+    }
+    field_A7C_count++;
 }
 
 WIP_FUNC(0x4ffd90)

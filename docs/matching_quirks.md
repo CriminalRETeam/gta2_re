@@ -185,6 +185,12 @@ out in full can schedule its loads differently from a `Car_BC* pCar` local
 (`sound_obj::HandleAICarEngineSound_418190`: the local loaded the car before a global,
 unlike the original).
 
+**Read-then-reset through an inline method.** `s32 d = t.b - t.a; t.init();` written out
+lets VC6 hoist the next object's loads above the zero stores. The original had an inline
+method (`s32 TakeElapsed() { s32 e = field_4 - field_0; init(); return e; }`), which keeps
+each load pair before its own stores (`Mike_A80::sub_4FFA90`, 0.667 to a match). The same
+function also needed `wsprintfA` (an import, `calll *0x5FE1BC`) rather than `sprintf`.
+
 **Getters vs direct field reads change register choice.** Reading `p->field_1AC_cam.x`
 directly instead of through an inline `get_cam_x()` that returns `Fix16` by value can give
 the same instructions with different registers (`this` in `edi` rather than `ebx` in
