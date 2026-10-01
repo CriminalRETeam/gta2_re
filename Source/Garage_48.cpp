@@ -45,10 +45,118 @@ void Garage_48::ValidateParkCommand_534650()
     }
 }
 
-STUB_FUNC(0x534700)
-void Garage_48::ParkCarAtDoor_534700(Car_BC* a2, void* a3)
+DEFINE_GLOBAL(Fix16, dword_6FD124, 0x6FD124);
+DEFINE_GLOBAL(Fix16, dword_6FCF98, 0x6FCF98);
+DEFINE_GLOBAL(Fix16, dword_6FD218, 0x6FD218);
+
+WIP_FUNC(0x534700)
+u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
 {
-    NOT_IMPLEMENTED;
+    field_44 = 0;
+    field_14 = 0;
+    field_3D = 0;
+    field_0 = pCar;
+    field_10 = pDoor;
+    field_C = 1;
+    field_3C = 30;
+    if (field_3E == 255)
+    {
+        field_3E = 1;
+    }
+    else
+    {
+        field_3E++;
+    }
+
+    field_40 = pCar->field_50_car_sprite->field_C_sprite_4c_ptr->field_4_height > dword_6FD124;
+
+    u8 x;
+    u8 y;
+    u8 z;
+    field_10->get_door_xyz_face_49CEE0(&x, &y, &z, (u32*)&field_38);
+
+    Fix16 w1;
+    Fix16 w2;
+    if (field_40)
+    {
+        w1 = dword_6FD128;
+        w2 = w1;
+    }
+    else
+    {
+        w1 = dword_6FD124;
+        w2 = w1;
+    }
+
+    switch (field_38)
+    {
+        case 1:
+            if (field_10->field_0_primary_door_data && field_10->field_4_secondary_door_data)
+            {
+                field_1C = Fix16(y) - dword_6FD124 - w1;
+                field_18 = Fix16(x);
+            }
+            else
+            {
+                field_18 = Fix16(x);
+                field_1C = Fix16(y) - w1;
+            }
+            field_24 = Fix16(y) + dword_6FD124 + w1;
+            field_20 = Fix16(x) + dword_6FD124 + w2;
+            field_34_target_y = Fix16(y) + dword_6FCF98;
+            field_30_target_x = Fix16(x) - dword_6FD218;
+            break;
+        case 2:
+            field_18 = Fix16(x) - w2;
+            field_1C = Fix16(y) - w1;
+            if (field_10->field_0_primary_door_data && field_10->field_4_secondary_door_data)
+            {
+                field_20 = dword_6FD124 + Fix16(x);
+                field_24 = dword_6FD128 + Fix16(y) + w1;
+            }
+            else
+            {
+                field_20 = Fix16(x) + dword_6FD124;
+                field_24 = Fix16(y) + dword_6FD124 + w1;
+            }
+            field_34_target_y = dword_6FCF98 + Fix16(y);
+            field_30_target_x = Fix16(x) + dword_6FD218 + dword_6FD124;
+            break;
+        case 3:
+            field_18 = Fix16(x) - w1;
+            field_1C = Fix16(y);
+            if (field_10->field_0_primary_door_data && field_10->field_4_secondary_door_data)
+            {
+                field_24 = dword_6FD124 + Fix16(y) + w2;
+                field_20 = dword_6FD128 + Fix16(x) + w1;
+            }
+            else
+            {
+                field_24 = Fix16(y) + dword_6FD124 + w2;
+                field_20 = dword_6FD124 + Fix16(x) + w1;
+            }
+            field_34_target_y = Fix16(y) - dword_6FD218;
+            field_30_target_x = Fix16(x) + dword_6FCF98;
+            break;
+        case 4:
+            if (field_10->field_0_primary_door_data && field_10->field_4_secondary_door_data)
+            {
+                field_18 = Fix16(x) - dword_6FD124 - w1;
+            }
+            else
+            {
+                field_18 = Fix16(x) - w1;
+            }
+            field_1C = Fix16(y) - w2;
+            field_24 = Fix16(y) + dword_6FD124;
+            field_20 = dword_6FD124 + Fix16(x) + w1;
+            field_34_target_y = dword_6FD218 + Fix16(y) + dword_6FD124;
+            field_30_target_x = Fix16(x) + dword_6FCF98;
+            break;
+    }
+
+    ValidateParkCommand_534650();
+    return field_3E;
 }
 
 STUB_FUNC(0x5349d0)
@@ -71,8 +179,8 @@ Garage_48::Garage_48()
     field_20 = 0;
     field_24 = 0;
     field_38 = 0;
-    field_30 = 0;
-    field_34 = 0;
+    field_30_target_x = 0;
+    field_34_target_y = 0;
     field_3C = 30;
     field_3D = 0;
     field_3E = 0;

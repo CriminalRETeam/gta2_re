@@ -798,3 +798,18 @@ Still different: the original keeps `column_idx` in `eax` and spills `this`, and
 `column_idx` argument slot for the offset and the `z` slot for the new index; ours does
 the reverse. Splitting the range check into two `if`s with an `offset` local was worse
 (0.274, separate return blocks).
+
+## Garage_48::ParkCarAtDoor_534700 (WIP, was STUB)
+
+Sets up a PARK command: stores the car and door, picks a half size from the car sprite's
+height, and builds the parking rectangle (`field_18..field_24`) and target point
+(`field_30`/`field_34`, now `Fix16`) for the door's face (1..4), with an extra
+`dword_6FD124` margin for double doors. Returns `field_3E` (the caller ignores it).
+Ratio 0.239; the arithmetic in each case matches, the rest is register allocation.
+
+Still different:
+- The original keeps the half size in two registers (`eax` and `ebp`) and `dword_6FD124`
+  in `edx`; ours merges the two half sizes and keeps the constant in `ebp`. Written as two
+  locals set in both branches.
+- The original stores the zeros and ones at the top from `eax`/`ebx`, ours uses
+  immediates (it doesn't use `ebx` at all).
