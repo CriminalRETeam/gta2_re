@@ -168,13 +168,27 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
 DEFINE_GLOBAL(Fix16, dword_6FD120, 0x6FD120);
 DEFINE_GLOBAL(Fix16, dword_6FCF10, 0x6FCF10);
 
-// The heading for a ped leaving through a door facing `face`. Missing until now; signature from its
-// callers in GaragesService_5349D0.
-STUB_FUNC(0x5345E0)
+DEFINE_GLOBAL(Ang16, word_6FCFB0, 0x6FCFB0);
+DEFINE_GLOBAL(Ang16, word_6FD07E, 0x6FD07E);
+DEFINE_GLOBAL(Ang16, word_6FD0A4, 0x6FD0A4);
+DEFINE_GLOBAL(Ang16, word_6FD25C, 0x6FD25C);
+
+// The heading for a ped leaving through a door facing `face`.
+MATCH_FUNC(0x5345E0)
 EXPORT Ang16 __stdcall sub_5345E0(s32 face)
 {
-    NOT_IMPLEMENTED;
-    return Ang16(0);
+    switch (face)
+    {
+        case 4:
+            return word_6FD25C;
+        case 2:
+            return word_6FCFB0;
+        case 3:
+            return word_6FD07E;
+        case 1:
+            return word_6FD0A4;
+    }
+    return word_6FD25C;
 }
 
 WIP_FUNC(0x5349d0)

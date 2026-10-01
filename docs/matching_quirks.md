@@ -133,6 +133,13 @@ for (v3 = head; v3->next && v3->next->key < k; v3 = v3->next) {}
 
 (`RouteFinder::sub_589420`, `Hud_Brief_704::sub_5D33F0`.)
 
+**A jump table whose default lands on a case block.** VC6 builds a table only from four
+explicit cases. `case 4: default:` counts as three cases plus a default, so you get a
+`dec`/`je` chain. If the table entry for one case equals the `ja` default target, write that
+case out with its own `return` and put the same `return` after the switch, so the two blocks
+tail-merge. Case order in the source still sets the `cx`/`dx` alternation between blocks, even
+when the case lands last in the layout. The permuter found `case 4` first (`sub_5345E0`).
+
 ## Types and signedness
 
 **`jae`/`jb` vs `jge`/`jl` means unsigned vs signed.** Fix the field or parameter type, not the

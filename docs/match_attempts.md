@@ -1081,3 +1081,7 @@ Still different:
   - **3, parked:** close the doors, kill the passengers, walk the driver (or `field_14`) out to the target, and reset the garage.
 - `field_28` / `field_2C` were two `s32`s, but the code uses them as the push vector. They're now `Fix16_Point_POD field_28_push_dir`. The ctor (MATCH 0x534E80) still matches with `.x` / `.y`.
 - `sub_5345E0` (0x55: door face to ped heading, an `Ang16` returned through a hidden pointer) was missing. It's now a `STUB_FUNC`.
+
+### sub_5345E0 (0x5345E0): MATCH
+- Door face to `Ang16` heading: a 4-entry jump table over four `Ang16` globals, with the default sharing case 4's block.
+- `case 4: default:` gave an if chain (0.57). A separate `case 4` plus `return` after the switch gave the table (0.62). The permuter then moved `case 4` to the top to fix the register alternation (1.0).
