@@ -605,3 +605,39 @@ as a helper). The remaining diff is in the x87 code for `left = 630.0f - x`: the
 does `fildl x; flds 630.0; fsub %st(1),%st` and later pops the unused `x` with
 `fstp %st(0)`, ours folds it into `fsubrs`. Tried: an `f32` parameter (0.812),
 `630.0f - x` written twice with no `left` local (0.812).
+
+## Mike_A80::DebugDrawProfiling_4FF250 (WIP, was STUB)
+
+The profiler overlay: per texture-size cache stats, totals, polys/texture swaps, memory,
+the 30 frame averages, a "LARGE" flash, the Montana display timings, then
+`sub_4FFD90` for the history bars. Ratio 0.992.
+
+What it needed:
+- `DrawText_4B87A0(buf, 0, ypos, word_703BAA, 1)` with plain ints: the implicit
+  conversion builds each `Fix16` argument in place through the out-of-line `Fix16(s32)`
+  (`0x4369F0`) like the original. `Fix16(0)` written out is constructed and pushed instead.
+- The row loop runs on `ypos` (20..260), with a separate row counter. VC6 then tests
+  `ypos < 140` for the size shift.
+- The averages are recomputed for each print (no named locals, 0.171 with them); the total
+  is one sum of the five.
+- `large_timer = total > 30 ? 15 : g; if (large_timer) { g = large_timer - 1; print; }`:
+  the original never stores the 15.
+- `Mike_A80::sub_4FF970` is a static `__stdcall` (the caller doesn't set `ecx`). It still
+  matches.
+
+Still different: only the load order of the five averages in the total. Ours loads
+m80_1, m80_5, m80_4, m80_2, m80_3 whatever the source order or grouping (tried 8
+orderings and groupings and an inline `Average()`); the original loads 1, 2, 3, 5, 4.
+
+Two things are guessed: the wide format strings at 0x621100 and 0x6210DC (not in
+`reccmp/widechar.csv`), and `sub_5BEED0` (15 bytes, near `get_rdtsc_5BEE90`, never dumped,
+see "Functions without target asm" below).
+
+## Functions without target asm
+
+These are called by stubs worked on above but have no entry in the target asm dump,
+because they weren't in the source when it was made. They now have `STUB_FUNC` markers,
+so the next "Dump target asm" run will include them:
+
+- `sub_5BEED0` (Montana.cpp): converts a cycle count for `DebugDrawProfiling_4FF250`. The
+  body is a guess.

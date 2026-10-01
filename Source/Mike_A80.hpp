@@ -28,6 +28,11 @@ struct Mike_80
         field_0.Clear();
     }
 
+    s32 Average()
+    {
+        return field_7C / 30;
+    }
+
     // Keeps a running sum of the last 30 samples
     void AddSample(s32 value)
     {
@@ -79,7 +84,7 @@ class Mike_A80
     EXPORT s32 sDrawFlatRect_4FF1C0(f32 left, f32 top, f32 right, f32 bottom, s32 colour);
     EXPORT void DebugDrawProfiling_4FF250();
     EXPORT static void sDrawString_4FF910(s32 xpos, s32 ypos, const wchar_t* pFormat, ...);
-    EXPORT void sub_4FF970(u32* a1);
+    EXPORT static void __stdcall sub_4FF970(u32* a1);
     EXPORT void sub_4FF980();
     EXPORT void sub_4FF990(u32 idx);
     EXPORT void sub_4FF9F0(u32 idx);
