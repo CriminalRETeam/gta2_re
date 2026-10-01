@@ -1051,3 +1051,13 @@ Still different:
 - Generated from the target asm, using a VC6 `offsetof` dump of `Ped` to get the field names.
 - `field_1AC_cam` has to be copied one component at a time: a struct assignment copies through pointers.
 - Changed the return type to `void`. The PedGroup callers ignore it.
+
+## sub_5DF270 (WIP, was STUB)
+
+- 0.135. This is the shocking hit search, called by `Ped::ManageShocking_45BC70`:
+  - It collects the sprites in a box of width `a2` around sprite `a1` and walks them nearest first (`TakeClosestSprite_5A6EA0`).
+  - With `a6` set, every hit nearer than `a6` must be inside the angle window. Otherwise it gives up and sets the weapon's `field_4`.
+  - Then it shocks the peds outside the window (or every ped when `a3 == 0`) that have line of sight, and draws the arc with `sub_5DE910`.
+  - With `a4` set it uses `TakeDamage(3)`. Otherwise it adds 3 to the shock counter and stops after the first ped.
+- Moved from Ped.cpp to Weapon_30.cpp, where its address falls (between `sub_5DE910` and `sub_5DFB60`). It's declared in Weapon_30.hpp.
+- Now `void`, with `a6` typed as `Sprite*` (it's compared with the hit sprites). `ManageShocking_45BC70` still matches.

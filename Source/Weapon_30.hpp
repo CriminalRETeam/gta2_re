@@ -13,6 +13,8 @@ class Fix16_Point;
 
 class infallible_turing;
 
+EXPORT void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, Sprite* a6);
+
 class Weapon_30
 {
   public:

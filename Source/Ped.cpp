@@ -865,14 +865,6 @@ void Ped::TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos)
     }
 }
 
-STUB_FUNC(0x5DF270);
-EXPORT int __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, s32* a6)
-{
-    // TODO: Is this actually a class method ?? also location is wrong in respect to address ordering
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
 MATCH_FUNC(0x45bc70)
 void Ped::ManageShocking_45BC70()
 {

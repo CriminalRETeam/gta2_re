@@ -39,6 +39,7 @@ DEFINE_GLOBAL(u8, byte_706C94, 0x706C94);
 DEFINE_GLOBAL(Ang16, word_707004, 0x707004);
 DEFINE_GLOBAL(Fix16_Point_POD, stru_706E58, 0x706E58);
 DEFINE_GLOBAL(Fix16_Point, stru_706F90, 0x706F90);
+DEFINE_GLOBAL(Fix16, dword_706CC8, 0x706CC8);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706EDC, Fix16(0x20000, 0), 0x706EDC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706F70, Fix16(0x100, 0), 0x706F70);
 DEFINE_GLOBAL_INIT(Fix16, dword_706DCC, Fix16(0xFFFFFD00, 0), 0x706DCC);
@@ -829,6 +830,140 @@ STUB_FUNC(0x5de910)
 void __stdcall sub_5DE910(Fix16_Point a1, Fix16_Point& a2, Fix16 a3)
 {
     NOT_IMPLEMENTED;
+}
+
+WIP_FUNC(0x5DF270)
+void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, Sprite* a6)
+{
+    Fix16 zpos = a1->field_1C_zpos;
+    a2 = a2 / 2;
+    Fix16 xpos = a1->field_14_xy.x;
+    Fix16 ypos = a1->field_14_xy.y;
+    Ang16 angle = a1->field_0;
+    struct_4 hits;
+
+    Fix16_Rect rect;
+    rect.field_0_left = xpos - a2;
+    rect.field_4_right = xpos + a2;
+    rect.field_8_top = ypos - a2;
+    rect.field_C_bottom = ypos + a2;
+    rect.field_10_low_z = zpos - dword_706CC8;
+    rect.field_14_high_z = zpos + dword_706CC8;
+
+    if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, a1, &hits))
+    {
+        Sprite* pHit;
+        if (a6)
+        {
+            pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
+            while (pHit)
+            {
+                if (pHit->field_30_sprite_type_enum == sprite_types_enum::ped_3 && pHit->field_8_char_b4_ptr && pHit == a6)
+                {
+                    break;
+                }
+                Fix16 dx = pHit->field_14_xy.x - xpos;
+                Fix16 dy = pHit->field_14_xy.y - ypos;
+                Ang16 diff(Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue);
+                diff.sub_406C20();
+                if (diff < word_706D6C || diff > word_706E28)
+                {
+                    hits.ClearList_5A6E10();
+                    if (a5->field_170_selected_weapon)
+                    {
+                        a5->field_170_selected_weapon->field_4 = 1;
+                    }
+                    return;
+                }
+                pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
+            }
+        }
+        else
+        {
+            pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
+        }
+
+        while (pHit)
+        {
+            Char_B4* pB4;
+            if (pHit->field_30_sprite_type_enum == sprite_types_enum::ped_3 && (pB4 = pHit->field_8_char_b4_ptr) != NULL)
+            {
+                char_type bOutside;
+                if (a3)
+                {
+                    Fix16 dx = pHit->field_14_xy.x - xpos;
+                    Fix16 dy = pHit->field_14_xy.y - ypos;
+                    Ang16 diff(Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue);
+                    diff.sub_406C20();
+                    bOutside = diff < word_706D6C || diff > word_706E28;
+                }
+                else
+                {
+                    bOutside = 1;
+                }
+
+                Fix16 back_x = pB4->field_80_sprite_ptr->field_14_xy.x - a5->field_1AC_cam.x;
+                Fix16 back_y = pB4->field_80_sprite_ptr->field_14_xy.y - a5->field_1AC_cam.y;
+                Fix16 dist = Fix16::Max_44E540(Fix16::Abs_436A50(back_x), Fix16::Abs_436A50(back_y));
+
+                if (bOutside)
+                {
+                    if (gMap_0x370_6F6268->sub_4E5640(dword_706CF0,
+                                                      dword_706CF0,
+                                                      dword_706CF0,
+                                                      xpos,
+                                                      ypos,
+                                                      zpos,
+                                                      pHit->field_14_xy.x,
+                                                      pHit->field_14_xy.y,
+                                                      pHit->field_1C_zpos))
+                    {
+                        pB4->field_7C_pPed->field_144 = a5;
+                        pB4->field_7C_pPed->field_204_killer_id = a5->field_200_id;
+                        pB4->field_7C_pPed->field_290 = 18;
+                        pB4->field_7C_pPed->field_264 = 50;
+                        if (a4)
+                        {
+                            Fix16 z = pHit->field_1C_zpos;
+                            if (zpos > z)
+                            {
+                                z = zpos;
+                            }
+                            sub_5DE910(a1->get_x_y_443580(), pHit->get_x_y_443580(), z);
+                            pB4->field_7C_pPed->TakeDamage(3);
+                        }
+                        else
+                        {
+                            Fix16 z = pHit->field_1C_zpos;
+                            if (zpos > z)
+                            {
+                                z = zpos;
+                            }
+                            sub_5DE910(a1->get_x_y_443580(), pHit->get_x_y_443580(), z);
+                            pB4->field_7C_pPed->field_210_shock_counter += 3;
+                            if (a5->field_170_selected_weapon)
+                            {
+                                a5->field_170_selected_weapon->field_4 = 0;
+                            }
+                            hits.ClearList_5A6E10();
+                            return;
+                        }
+                    }
+                }
+                else if (a5->field_198)
+                {
+                    a5->field_198 = 0;
+                }
+            }
+            pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
+        }
+    }
+
+    a5->field_198 = 0;
+    if (a5->field_170_selected_weapon)
+    {
+        a5->field_170_selected_weapon->field_4 = 1;
+    }
 }
 
 WIP_FUNC(0x5dfb60)
