@@ -944,3 +944,9 @@ Still different:
   - `/O1`, `/Os` and `/Ogs` add an ebp frame and merge every block into one path, so they're no better.
   - The other `/O2` variants we tried change nothing (`/Ox`, `/Oy-`, `/Gy`, `/GX-`, `/Ob0`).
 - It may come from a library shared with other tools (the level editor?) and built with a different compiler version. gbh_graphics.cpp has the same loader macro and builds with `/Od /ZI`.
+
+## Particle_4C::UpdateDirectedBurst_state_13_14_36_539480 (WIP, was STUB)
+
+- 0.420 on the first write-up. It follows `field_40_pUnknown`'s object for speed and angle, rotates `(0, speed)` by `field_24_angle` and adds rng jitter (`Fix16(get_int(3) - 1) / 50`). It moves only inside the map bounds.
+- In the original, all three `return true` paths share one return block; ours duplicates it each time. The original frame is also 16 bytes bigger.
+- Its `x` multiply and the `-old_x` negate call `Multiply_408680` / `Negate_4086A0`, while the `y * sin` multiply is inline. That looks like the inline budget running out.
