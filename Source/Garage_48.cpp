@@ -4,6 +4,12 @@
 #include "Door_4D4.hpp"
 #include "error.hpp"
 #include "map_0x370.hpp"
+#include "sprite.hpp"
+#include "char.hpp"
+#include "Player.hpp"
+#include "Ped.hpp"
+#include "CarPhysics_B0.hpp"
+#include "Car_BC.hpp"
 
 DEFINE_GLOBAL(Garage_48*, gGarage_48_6FD26C, 0x6FD26C);
 
@@ -159,10 +165,205 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
     return field_3E;
 }
 
-STUB_FUNC(0x5349d0)
-void Garage_48::GaragesService_5349D0()
+DEFINE_GLOBAL(Fix16, dword_6FD120, 0x6FD120);
+DEFINE_GLOBAL(Fix16, dword_6FCF10, 0x6FCF10);
+
+// The heading for a ped leaving through a door facing `face`. Missing until now; signature from its
+// callers in GaragesService_5349D0.
+STUB_FUNC(0x5345E0)
+EXPORT Ang16 __stdcall sub_5345E0(s32 face)
 {
     NOT_IMPLEMENTED;
+    return Ang16(0);
+}
+
+WIP_FUNC(0x5349d0)
+void Garage_48::GaragesService_5349D0()
+{
+    switch (field_C)
+    {
+        case 1:
+        {
+            if (!field_0->field_50_car_sprite)
+            {
+                field_C = 3;
+                return;
+            }
+            if (field_0->field_54_driver && field_0->field_54_driver != field_14)
+            {
+                field_14 = field_0->field_54_driver;
+            }
+
+            u8 idx1;
+            u8 idx2;
+            char_type collision = field_0->field_50_car_sprite->CollisionCheck_5A0320(&field_18, &field_20, &idx1, &idx2);
+            if (collision == 2)
+            {
+                if (idx1 == 0)
+                {
+                    if (idx2 != 1)
+                    {
+                        return;
+                    }
+                }
+                else if (idx1 != 2 || idx2 != 3)
+                {
+                    return;
+                }
+            }
+            else if (collision < 2)
+            {
+                return;
+            }
+            else if (collision >= 4)
+            {
+                field_C = 2;
+                return;
+            }
+
+            field_0->field_78_flags |= 2;
+            field_0->field_78_flags |= 8;
+            if (field_0->field_54_driver && field_0->field_54_driver->field_15C_player)
+            {
+                field_0->field_54_driver->field_15C_player->DisableAllControls_569FF0();
+            }
+            if (field_0->field_98 != 4)
+            {
+                field_0->field_98 = 1;
+            }
+            field_0->field_58_physics->field_74_ang_vel_rad = dword_6FD120;
+            field_0->field_58_physics->field_40_linvel_1.x = 0;
+            field_0->field_58_physics->field_40_linvel_1.y = 0;
+
+            Fix16_Point car_pos(field_0->field_50_car_sprite->field_14_xy.x, field_0->field_50_car_sprite->field_14_xy.y);
+            Sprite_4C* pBox = field_0->field_50_car_sprite->field_C_sprite_4c_ptr;
+            Fix16_Point dir = (pBox->field_C_renderingRect[idx1] + pBox->field_C_renderingRect[idx2]).Divide_442CB0(dword_6FD128) - car_pos;
+            field_28_push_dir.x = dir.x;
+            field_28_push_dir.y = dir.y;
+            if (field_28_push_dir.x == dword_6FD120 && field_28_push_dir.y == dword_6FD120)
+            {
+                field_3D = 1;
+                field_C = 2;
+            }
+            else
+            {
+                Fix16_Point push = ((Fix16_Point*)&field_28_push_dir)->NormalizeSafe_442AD0().Multiply_438FE0(dword_6FCF10);
+                field_28_push_dir.x = push.x;
+                field_28_push_dir.y = push.y;
+            }
+            field_0->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
+            field_C = 2;
+            break;
+        }
+
+        case 2:
+        {
+            if (!field_0->field_58_physics)
+            {
+                field_0->SetupCarPhysicsAndSpriteBinding_43BCA0();
+            }
+            if (++field_44 >= 300)
+            {
+                field_C = 3;
+                return;
+            }
+            if (field_0->field_54_driver && !field_0->field_54_driver->field_15C_player)
+            {
+                field_0->field_54_driver->SetObjective(27, 9999);
+            }
+
+            u8 idx1;
+            u8 idx2;
+            if (field_0->field_50_car_sprite->CollisionCheck_5A0320(&field_18, &field_20, &idx1, &idx2) != 4 && !field_3D)
+            {
+                field_0->field_58_physics->field_74_ang_vel_rad = dword_6FD120;
+                field_0->field_58_physics->field_40_linvel_1.x = 0;
+                field_0->field_58_physics->field_40_linvel_1.y = 0;
+                field_0->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
+                return;
+            }
+
+            field_3D = 1;
+            --field_3C;
+            field_0->field_58_physics->field_74_ang_vel_rad = dword_6FD120;
+            field_0->field_58_physics->field_40_linvel_1.x = 0;
+            field_0->field_58_physics->field_40_linvel_1.y = 0;
+            if (field_3C == 0)
+            {
+                field_C = 3;
+                field_0->field_58_physics->field_74_ang_vel_rad = dword_6FD120;
+                field_0->field_58_physics->field_40_linvel_1.x = 0;
+                field_0->field_58_physics->field_40_linvel_1.y = 0;
+            }
+            break;
+        }
+
+        case 3:
+        {
+            Car_BC* pCar = field_0;
+            if (pCar->field_50_car_sprite)
+            {
+                pCar->field_78_flags &= ~2;
+                field_0->field_78_flags &= ~8;
+                if (field_10->field_28)
+                {
+                    if (field_10->field_0_primary_door_data)
+                    {
+                        field_10->field_0_primary_door_data->sub_49C590(0);
+                    }
+                    if (field_10->field_4_secondary_door_data)
+                    {
+                        field_10->field_4_secondary_door_data->sub_49C590(field_10->field_2A_bDoFlip);
+                    }
+                }
+                field_10->field_2C = 0;
+                field_0->field_98 = 4;
+                field_0->PrepareForExplosion_43C1C0();
+                field_0->field_4_passengers_list.KillAllPedsFromList_4715A0();
+                if (field_0->field_54_driver && field_0->field_54_driver->field_15C_player)
+                {
+                    field_0->field_54_driver->field_15C_player->EnableAllControls_56A000();
+                }
+                if (!field_3F_no_respawn)
+                {
+                    Ped* pDriver = field_0->field_54_driver;
+                    if (pDriver)
+                    {
+                        pDriver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0->field_50_car_sprite->field_1C_zpos);
+                        field_0->ClearDriver_4407F0();
+                        pDriver->field_168_game_object->field_40_rotation = sub_5345E0(field_38);
+                        field_0->field_54_driver = NULL;
+                        pDriver->field_168_game_object->field_5C = 20;
+                    }
+                    else if (field_14 && field_14->field_1AC_cam.x >= field_18 && field_14->field_1AC_cam.x <= field_20 &&
+                             field_14->field_1AC_cam.y >= field_1C && field_14->field_1AC_cam.y <= field_24)
+                    {
+                        field_14->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0->field_50_car_sprite->field_1C_zpos);
+                        field_14->field_168_game_object->field_40_rotation = sub_5345E0(field_38);
+                    }
+                }
+                if (field_0->field_88_despawn_status != 5)
+                {
+                    field_0->field_88_despawn_status = 3;
+                }
+                pCar = field_0;
+            }
+            field_4 = pCar;
+            field_8 = pCar->field_6C_maybe_id;
+            field_0 = NULL;
+            field_10 = NULL;
+            field_C = 0;
+            field_28_push_dir.x = 0;
+            field_28_push_dir.y = 0;
+            field_18 = 0;
+            field_1C = 0;
+            field_20 = 0;
+            field_24 = 0;
+            field_30_target_x = 0;
+            field_34_target_y = 0;
+            break;
+        }
+    }
 }
 
 MATCH_FUNC(0x534e80)
@@ -172,8 +373,8 @@ Garage_48::Garage_48()
     field_10 = 0;
     field_14 = 0;
     field_C = 0;
-    field_28 = 0;
-    field_2C = 0;
+    field_28_push_dir.x = 0;
+    field_28_push_dir.y = 0;
     field_18 = 0;
     field_1C = 0;
     field_20 = 0;

@@ -46,8 +46,7 @@ class Garage_48
     Fix16 field_1C;
     Fix16 field_20;
     Fix16 field_24;
-    s32 field_28;
-    s32 field_2C;
+    Fix16_Point_POD field_28_push_dir;
     Fix16 field_30_target_x;
     Fix16 field_34_target_y;
     s32 field_38;
