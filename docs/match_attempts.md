@@ -819,7 +819,8 @@ Still different:
 
 ## sound_obj::UpdateCarEngineAudio_57E220 (WIP, was STUB)
 
-- 0.856. Added globals 0x6FF540 (u8 static volume), 0x6FF542 (u16 timer), 0x625010 / 0x625014 (u32 rates).
+- 0.884 after one cpp_permuter run (400 random candidates). It wrapped everything after the `!pCar`
+  return in an `else` (early_return pass) and hoisted `u32 rate` to the top. Before that it was 0.856. Added globals 0x6FF540 (u8 static volume), 0x6FF542 (u16 timer), 0x625010 / 0x625014 (u32 rates).
   `field_54F4` is `field_54F2[2]`.
 - The vocal volume and both rates must be unsigned (`shr`, not `sar`, on `>>`). The second sample's volume
   needs `(u8)(a / 254) + (u8)(rand % 3)` to get the byte `add dl,cl`.
