@@ -411,8 +411,8 @@ void PoliceCrew_38::sub_571540()
                 }
             }
             field_10_subObj->field_8_group->ClearGroupData_4C8E90();
-            field_10_subObj->field_28 = 5;
             field_10_subObj->field_2C = 1;
+            field_10_subObj->field_28 = 5;
         }
     }
     else
@@ -440,8 +440,8 @@ void PoliceCrew_38::sub_571540()
         }
         else
         {
-            field_10_subObj->field_28 = 5;
             field_10_subObj->field_2C = 1;
+            field_10_subObj->field_28 = 5;
         }
     }
 }
