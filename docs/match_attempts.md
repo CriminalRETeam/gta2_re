@@ -593,3 +593,15 @@ Still different:
 - VC6 adds a count-down register for the loop (`movl $0x220`), the original only has the
   `u16` index compared with `0x221`.
 - Stack slots for the saved x/y bytes and the frame size (0x40 vs 0x3C).
+
+## Mike_A80::sub_4FFD90 (WIP, was STUB)
+
+Draws the profiler history as 1 pixel wide bars (5 per sample) at the bottom right of
+the screen. The 5th bar reads `field_758_ary` again, not `field_8E8_ary` (a bug in the
+original). Now `void`, nothing reads a result. Ratio 0.831.
+
+The bar is an inline helper `DrawProfileBar(x, value, colour)` (0.708 written out, 0.831
+as a helper). The remaining diff is in the x87 code for `left = 630.0f - x`: the original
+does `fildl x; flds 630.0; fsub %st(1),%st` and later pops the unused `x` with
+`fstp %st(0)`, ours folds it into `fsubrs`. Tried: an `f32` parameter (0.812),
+`630.0f - x` written twice with no `left` local (0.812).

@@ -119,9 +119,28 @@ s32 Mike_A80::sub_4FFA90()
     return 0;
 }
 
-STUB_FUNC(0x4ffd90)
-s32 Mike_A80::sub_4FFD90()
+WIP_FUNC(0x4ffd90)
+void Mike_A80::sub_4FFD90()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 count = field_A7C_count;
+    if (count >= 100)
+    {
+        count = 100;
+    }
+
+    for (s32 i = 0; i < count; i++)
+    {
+        s32 idx = field_A78_ary_idx - i - 1;
+        if (idx < 0)
+        {
+            idx += 100;
+        }
+
+        DrawProfileBar(6 * i, field_2A8_ary[idx], 0xFF00);
+        DrawProfileBar(6 * i + 1, field_438_ary[idx], 0xFF0000);
+        DrawProfileBar(6 * i + 2, field_5C8_ary[idx], 0xFF);
+        DrawProfileBar(6 * i + 3, field_758_ary[idx], 0);
+        // Draws field_758_ary again rather than field_8E8_ary
+        DrawProfileBar(6 * i + 4, field_758_ary[idx], 0xFFFFFF);
+    }
 }

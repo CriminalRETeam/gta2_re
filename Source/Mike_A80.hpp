@@ -66,7 +66,14 @@ class Mike_A80
     EXPORT void sub_4FF9F0(u32 idx);
     EXPORT void sub_4FFA50(const char_type* pFormat, ...);
     EXPORT s32 sub_4FFA90();
-    EXPORT s32 sub_4FFD90();
+    EXPORT void sub_4FFD90();
+
+    inline void DrawProfileBar(s32 x, s32 value, s32 colour)
+    {
+        f32 fx = (f32)x;
+        f32 left = 630.0f - fx;
+        sDrawFlatRect_4FF1C0(left, 478.0f - (value * 4), left + 1.0f, 478.0f, colour);
+    }
 
     Mike_8 m81;
     Mike_8 m82;
