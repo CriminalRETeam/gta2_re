@@ -403,5 +403,17 @@ tried are in the WIP status report.
   (`sound_obj::InterrogateAudioEntities_41A730`, `Car_14::sub_583750`).
 - A `switch` that clobbers its value (`add $-39,%eax`) and reloads the parameter for
   `default`, where ours uses `lea` into another register (`Object_2C::sub_526830`).
+  Also `Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0`. There each case also repeats the whole
+  `SetDlgItemTextA` call where we share one tail. 200 permuter compiles found nothing.
 - An `s16` parameter returned with a 32-bit `mov` in `default` (`gtx_0x106C::GetSpriteTrueIndex_5AA460`).
 - Global load register choice in a run of similar statements (`Camera_0xBC::sub_435B90`).
+- Error blocks that cross-jump into each other's identical `ret` tail
+  (`DMA_Video_LoadDll_5EB970`: the `load_gbh_func` failure blocks). With `/O2` our VC6 keeps
+  every block separate. No compiler flag reproduces it:
+  - `/O1`, `/Os` and `/Ogs` add an ebp frame and merge every block into one path.
+  - The `/O2` variants change nothing (`/Ox`, `/Oy-`, `/Gy`, `/Gf`, `/GX-`, `/Ob0`, `/Zi`, `/Z7`).
+  - A debug or edit-and-continue build is ruled out: the target has no frame pointer and keeps
+    values in registers, and VC6 rejects `/O2` with `/ZI` (D2016).
+
+  It may be from a library built with another compiler version (the loader macro also appears
+  in gbh_graphics.cpp, which builds with `/Od /ZI`).
