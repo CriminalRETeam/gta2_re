@@ -643,6 +643,7 @@ so the next "Dump target asm" run will include them:
   body is a guess.
 - `Net_4DA9B0` (winmain.cpp, 64 bytes, `__stdcall` with 3 arguments): called by the matched
   `Net_4DA9F0` to re-send an earlier frame's inputs to one player. Empty for now.
+- `frosty_pasteur_0xC1EA8::sub_511A70(s32 car_model, SCR_CMD_HEADER*)`: a guessed STUB, called from `Car_214::sub_5C8780`.
 
 ## sound_obj::ChooseRadioEmitterForVehicle_57E6C0 (WIP, was STUB)
 
@@ -871,3 +872,16 @@ Still different:
   `static inline` helper did not change it.
 - Remaining 2: target frame is 4 bytes bigger. There is an unused dword between the GUID (0x10) and the
   `data\%s` path buffer (0x24).
+
+## Car_214::sub_5C8780 (WIP, was STUB)
+
+- 0.431. Now `void` (callers ignore the result). `Car_18::field_C` is now `s32` (it's a 2/3 action code).
+  Added `kZero_705DD8`, a local `Car_18_Cmd` struct (the idx fields at 8/0x10/0x24) and the
+  `sub_511A70` stub.
+- It is an 8-case switch on the touch-point type (car / ped / driver / stopped ped id checks). Then
+  `field_C` 2 starts a thread (`sub_5120C0`) and 3 calls `sub_511A70` + `sub_5C8680`.
+- In case 4 (cmd types 0xD4/0xD6/else) each branch must have its own full `GetBasePointer` + id compare.
+  VC6 then tail-merges the compare into the case 6/7 code as the target does (0.36 → 0.43).
+- Remaining: register/scheduling differences in most cases. Our case 3 car branch is tail-merged into case 5,
+  and the target keeps them separate. The target also sets edi = pSprite on the "no match" paths, an
+  uninitialised `pCar` coalesced with the param.

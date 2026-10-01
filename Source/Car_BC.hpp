@@ -85,7 +85,7 @@ class Car_18
     s32 field_0;
     Object_2C* field_4_O2C;
     s32 field_8_type;
-    Fix16 field_C;
+    s32 field_C;
     u8 field_10_remap_rng;
     u8 field_11_pad[3];
     s32 field_14;
@@ -97,7 +97,7 @@ class Car_214
     EXPORT void sub_5C8680(u8 idx);
     EXPORT char_type sub_5C86C0(const s32& pType, const s32& f_C, SCR_THREAD* f_0, Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 a8, Fix16 a9);
     EXPORT void sub_5C8750();
-    EXPORT u16* sub_5C8780(u8 a2, Sprite* pCarSprite);
+    EXPORT void sub_5C8780(u8 idx, Sprite* pSprite);
     Car_18 field_0[22];
     s16 field_210_count;
     s16 field_212;
