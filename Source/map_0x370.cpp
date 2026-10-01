@@ -970,7 +970,7 @@ char_type Map_0x370::sub_4E0120()
 }
 
 // https://decomp.me/scratch/RMgzo
-STUB_FUNC(0x4E0130)
+WIP_FUNC(0x4E0130)
 bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* bByRefUnk, char_type bNotifyByRefRet)
 {
     WIP_IMPLEMENTED;
