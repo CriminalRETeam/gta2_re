@@ -4,10 +4,18 @@
 #include "error.hpp"
 #include "file.hpp"
 #include "map_0x370.hpp"
+#include "Game_0x40.hpp"
+#include "Player.hpp"
+#include "Camera.hpp"
+#include "Hud.hpp"
+#include "Frontend.hpp"
 #include <cstdio>
 
 DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8, 0x6FFDC8);
 DEFINE_GLOBAL(u16, DAT_6ffdcc, 0x6ffdcc);
+DEFINE_GLOBAL(Fix16, dword_6FFC7C, 0x6FFC7C);
+DEFINE_GLOBAL(Fix16, dword_6FFC9C, 0x6FFC9C);
+EXTERN_GLOBAL(s16, word_703BAA);
 
 MATCH_FUNC(0x588580)
 char_type Junction_10::sub_588580(s32 a2)
@@ -71,10 +79,40 @@ RouteFinder_10::RouteFinder_10()
     field_C_pNext = 0;
 }
 
-STUB_FUNC(0x588620)
+static inline Fix16_Point_POD ProjectToScreen(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z)
+{
+    Fix16_Point_POD tmp;
+    Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+    Fix16 t(dword_6FFC7C / Fix16(u.mValue + dword_6FFC9C.mValue, 0));
+
+    tmp.x = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
+    tmp.y = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
+    return tmp;
+}
+
+WIP_FUNC(0x588620)
 void RouteFinder::ShowJunctionIds_588620()
 {
-    NOT_IMPLEMENTED;
+    for (u16 i = 1; i < GTA2_COUNTOF(field_8); i++)
+    {
+        Junction_10* pJunction = &field_8[i];
+        if (pJunction->field_C_min_x)
+        {
+            if (gGame_0x40_67E008->field_38_orf1->field_14C_view_camera.sub_58CF10(Fix16(pJunction->field_C_min_x),
+                                                                                  Fix16(pJunction->field_D_min_y)))
+            {
+                u8 x = pJunction->field_C_min_x;
+                u8 y = pJunction->field_D_min_y;
+                Fix16 z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(x), Fix16(y));
+
+                Fix16_Point_POD screen =
+                    ProjectToScreen(&gGame_0x40_67E008->field_38_orf1->field_14C_view_camera, Fix16(x), Fix16(y), z);
+
+                swprintf(tmpBuff_67BD9C, L"%d", i);
+                gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, screen.x.ToInt(), screen.y.ToInt(), word_703BAA, 1);
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x588810)

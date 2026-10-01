@@ -224,6 +224,14 @@ monotonic. If a function matches when compiled alone (copy it into a small .cpp 
 `build_vc6/` and use `build.py --single_cpp ../build_vc6/x.cpp`) but not in its TU, try
 moving includes and check `compare_builds.py` for regressions.
 
+**An inline helper changes what else gets inlined.** If the original inlines the first
+`Fix16` operator of a formula and calls the out-of-line copies (`Multiply_408680`,
+`Add_408660`, ...) for the rest, while yours inlines all of them, the formula was probably
+inside an inline helper in the original. Moving it into one (a `static inline` function
+or a class inline) made VC6 stop inlining after the first operator in
+`RouteFinder::ShowJunctionIds_588620`. The reverse also happens: adding an inline call
+before a formula can push the formula's operators out of line (`Trailer::sub_407BD0`).
+
 **Inline functions: often only the first call gets inlined.** When a function calls the same
 inline function several times, VC6 often inlines the first call and emits real `call`s for
 the rest. Since those calls need a body, an out-of-line copy of the "inline" function is

@@ -574,3 +574,22 @@ rest of the flash code. Ours puts the whole flash block after the not-flashing o
 `test $1,%dl` vs ours `test %dl,%bl` (VC6 reuses the `bShow = 1` register). Tried: the
 clear code written in both branches (0.518), the flash's tail moved after the if/else with an
 early `return` in the else (0.664), `% 2 == 0` (0.550).
+
+## RouteFinder::ShowJunctionIds_588620 (WIP, was STUB)
+
+Debug overlay: for each junction (1..544) with a non-zero `field_C_min_x` that the view
+camera can see, projects its corner to the screen and draws its index with `%d`. Ratio 0.349.
+
+The projection is the `Camera_0xBC::sub_40CFC0` formula with this TU's copies of the
+constants (`dword_6FFC7C / (u + dword_6FFC9C)`). Written out in the function, VC6
+inlines every `Fix16` operator (0.259). Moved into a `static inline` helper, VC6 inlines
+only the first multiply and calls `Multiply_408680`/`Add_408660`/`Subtract_436A00` for the
+rest, as the original does (0.349). So the original most likely called an inline
+projection helper (see `matching_quirks.md`).
+
+Still different:
+- The original calls an out-of-line `Fix16(u8)` (`0x45C4E0`) for the x argument of
+  `sub_58CF10`, ours inlines both.
+- VC6 adds a count-down register for the loop (`movl $0x220`), the original only has the
+  `u16` index compared with `0x221`.
+- Stack slots for the saved x/y bytes and the frame size (0x40 vs 0x3C).
