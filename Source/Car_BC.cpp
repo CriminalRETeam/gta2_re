@@ -1507,12 +1507,11 @@ bool Car_6C::CanAllocateOfType_446930(s32 type)
     return bCanAlloc;
 }
 
-STUB_FUNC(0x4469f0)
+WIP_FUNC(0x4469f0)
 // There are still something missing here.
 // But the structure it seems to be complete
 Car_6C::Car_6C()
 {
-    NOT_IMPLEMENTED;
     if (!gCar_BC_Pool_67792C)
     {
         gCar_BC_Pool_67792C = new Car_BC_Pool();

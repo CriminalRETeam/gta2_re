@@ -928,3 +928,10 @@ Still different:
 - Uses the `sub_421560`, `IsDespawning_4215B0` and `sub_4214B0` inline helpers instead of raw field writes.
 - `dword_67D384` (Fix16) is the arrival distance.
 - Not tuned yet. Next step: run the permuter, and check the case 2 `Max_44E540(Abs...)` distance test against the target.
+
+## Car_6C::ctor_4469F0 (WIP, was STUB)
+
+- The body was already written; it was only marked STUB. Now 0.589.
+- The logic and stores match. The diffs are in how the pool arrays get built:
+  - **CarAI_78_Pool:** the original builds the array with an explicit loop that calls the `CarAI_78` ctor. That is VC6's form for an inline ctor it chose not to inline. We emit the `??_H` vector-constructor iterator, because our ctor (MATCH 0x453CB0) is an out-of-line `EXPORT`.
+  - **TrailerPool:** the original inlines `Trailer()` into its array loop. We call it out of line, probably because the function has used up its inline budget.
