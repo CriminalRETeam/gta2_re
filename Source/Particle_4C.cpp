@@ -910,28 +910,17 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             half_h = pBox->field_4_height / 2 + dword_6FD2E8 + dword_6FD554;
         }
 
-        Fix16 sin;
-        Fix16 cos;
-        Fix16 old_x;
         if (field_38_state == 40)
         {
             offset.x = half_w;
             offset.y = half_h;
-            sin = Ang16::sine_40F500(angle);
-            cos = Ang16::cosine_40F520(angle);
-            offset.x = offset.x * cos + offset.y * sin;
-            old_x = -half_w;
-            offset.y = old_x * sin + offset.y * cos;
+            offset.RotateByAngle_40F6B0(angle);
         }
         else
         {
             offset.y = half_h;
             offset.x = -half_w;
-            sin = Ang16::sine_40F500(angle);
-            cos = Ang16::cosine_40F520(angle);
-            offset.x = offset.x * cos + offset.y * sin;
-            old_x = half_w;
-            offset.y = old_x * sin + offset.y * cos;
+            offset.RotateByAngle_40F6B0(angle);
         }
 
         Fix16_Point pos = pTarget->get_x_y_443580();
@@ -960,7 +949,6 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         }
 
         Fix16 dist;
-        Fix16 old_x;
         if (!(pB4->field_58_flags & 8))
         {
             dist = dword_6FD2F4;
@@ -972,12 +960,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             offset.x = -dword_6FD46C;
         }
         offset.y = dist;
-        old_x = offset.x;
-
-        Fix16 sin = Ang16::sine_40F500(pTarget->field_0);
-        Fix16 cos = Ang16::cosine_40F520(pTarget->field_0);
-        offset.x = offset.x * cos + offset.y * sin;
-        offset.y = -old_x * sin + offset.y * cos;
+        offset.RotateByAngle_40F6B0(pTarget->field_0);
         offset = offset + Fix16_Point(pB4->field_98.x, pB4->field_98.y);
 
         field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 197);
