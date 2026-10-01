@@ -826,3 +826,16 @@ Still different:
   the ±5/−10 smoothing code and tail-merges the store. `if (paused)` / `== 0` / ternaries were all the same or worse.
 - Remaining diff 2: target keeps 0 in ebx across the whole function, while ours re-materialises it in ebp
   after the first sample. The register-allocation knock-on also covers the sample field stores.
+
+## SpawnCabAndTrailerHelper_408370 (WIP, was STUB)
+
+- 0.226. Added global `gTrailerCabOffset_66AAE0` (Fix16_Point). The logic is three `RotateByAngle_40F6B0`
+  rotations (hitch by rot, the cab offset by rot, negate it, then by uknown_rot), two `Fix16_Point +` and an
+  `atan2_fixed_405320(-off.y, -off.x)`.
+- Our out-of-line call sequence matches the target except:
+  - Target inlines the first `Fix16 +` (the x of rotation 1). That keeps the first product in edi, so there is
+    an extra `push edi` and the frame is 0x3C instead of 0x40. We never inline any `+` inside RotateByAngle.
+  - Target calls `Negate_4086A0` twice for the offset negation. Ours inlines `-x`/`-y` when written at
+    function level. `= -offset` (Point operator-) gives a call to 40ACB0 instead, and
+    `= Fix16_Point(-x, -y)` calls the POD ctor.
+- Writing rotation 1 by hand inlines everything (0.04).

@@ -47,6 +47,7 @@ DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
 DEFINE_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C, 0x67792C);
 DEFINE_GLOBAL(TrailerPool*, gTrailerPool_66AC80, 0x66AC80);
 DEFINE_GLOBAL(Fix16_Point, gTrailerHitchOffset_66AAC8, 0x66AAC8);
+DEFINE_GLOBAL(Fix16_Point, gTrailerCabOffset_66AAE0, 0x66AAE0);
 DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
 DEFINE_GLOBAL_INIT(Fix16, dword_6772AC, Fix16(0x6000, 0), 0x6772AC);
 
@@ -1054,7 +1055,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
     return pCar;
 }
 
-STUB_FUNC(0x408370)
+WIP_FUNC(0x408370)
 EXPORT void __stdcall SpawnCabAndTrailerHelper_408370(
         Fix16 xpos,
         Fix16 ypos,
@@ -1066,7 +1067,23 @@ EXPORT void __stdcall SpawnCabAndTrailerHelper_408370(
         Fix16 *pOutZ,
         Ang16 *pOutRot)
 {
-    NOT_IMPLEMENTED;
+    Fix16_Point pos(xpos, ypos);
+    Fix16_Point hitch = gTrailerHitchOffset_66AAC8;
+    Fix16_Point trailer_offset = gTrailerCabOffset_66AAE0;
+
+    hitch.RotateByAngle_40F6B0(rot);
+    Fix16_Point hitch_pos = pos + hitch;
+
+    trailer_offset.RotateByAngle_40F6B0(rot);
+    trailer_offset = Fix16_Point(-trailer_offset.x, -trailer_offset.y);
+    trailer_offset.RotateByAngle_40F6B0(uknown_rot);
+    Fix16_Point trailer_pos = hitch_pos + trailer_offset;
+
+    *pOutZ = zpos;
+    *pOutX = trailer_pos.x;
+    *pOutY = trailer_pos.y;
+    Fix16_Point dir = -trailer_offset;
+    *pOutRot = Fix16::atan2_fixed_405320(dir.y, dir.x);
 }
 
 // 9.6f 0x428EC0
