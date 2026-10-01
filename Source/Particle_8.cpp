@@ -345,10 +345,65 @@ Particle_8::~Particle_8()
     field_4 = 0;
 }
 
-STUB_FUNC(0x53FAE0)
+MATCH_FUNC(0x53FAE0)
 void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    Ang16 angle;
+    Fix16_Point vector(Fix16(0), Fix16(0));
+    if (!bSkip_particles_67D64D)
+    {
+        if (!field_4)
+        {
+            field_4 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::maybe_bullet_on_fire_198, 0, 0, 0, word_6FD5D4);
+        }
+        vector.x = Fix16(0);
+        vector.y = Fix16(0);
+        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);
+        if (pParticle)
+        {
+            pParticle->field_4_flags |= 1;
+            pParticle->field_30_pNext->SetType_4206F0(8);
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 111);
+            pParticle->field_30_pNext->AllocInternal_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, dword_6FD2EC);
+            pParticle->field_34 = 0;
+            pParticle->field_38_state = 34;
+            Fix16 vec_x;
+            Fix16 vec_y;
+            Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD2E8, vec_x, vec_y);
+            pParticle->field_2C_counter = 100;
+            pParticle->field_46_sub_state = 0;
+            pParticle->field_48_timer = 0;
+            stru_6FD388 = pSprite->field_14_xy.x + vec_x;
+            stru_6FD38C = pSprite->field_14_xy.y + vec_y;
+            Fix16 zpos = pSprite->field_1C_zpos;
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            {
+                Car_BC* pCar = pSprite->field_8_car_bc_ptr;
+                Sprite_18* pGun = pCar->field_0_qq.GetSpriteForModel_5A6A50(114);
+                if (pGun)
+                {
+                    angle = pGun->field_0->field_0 + word_6FD3EE;
+                }
+                else
+                {
+                    angle = pCar->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+                }
+                pParticle->field_30_pNext->set_ang_lazy_420690(angle);
+            }
+            else
+            {
+                pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0);
+            }
+            pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+            pParticle->field_28_pSprite = pSprite;
+            if (pParticle->field_30_pNext->CheckSpriteMovementRegion_5A2500())
+            {
+                pParticle->field_2C_counter = 0;
+            }
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pNext->field_2C_flags |= 4;
+        }
+    }
 }
 
 // https://decomp.me/scratch/wfzEd

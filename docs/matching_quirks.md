@@ -35,6 +35,11 @@ this). Examples it would not catch on its own: `Player::Hud_Controls_565890` cal
 `DoBrianTest_42D870` on the wrong global object, and `Car_BC::DetachTrailer_442760` pushed
 onto the pool's free list instead of the active list.
 
+A case found this way: in `Particle_8::EmitFireTruckSprayParticle_53FAE0` the asm matched
+with `dword_6FD508 * dword_6FD554` while the original multiplies `dword_6FD554 * dword_6FD508`
+(the two globals were swapped, the instructions identical). Comparing the referenced
+globals per instruction catches this.
+
 ## Control flow and layout
 
 **Case bodies are laid out in source order.** If the original's `mov $N,%eax; ret` blocks come
