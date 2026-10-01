@@ -1023,3 +1023,13 @@ Still different:
 - **What's left:**
   - The original's EH state is 4 before the first branch and 7 inside the car branch, so there are more destructible locals declared at the top than ours.
   - Register choice for the zero registers (ebp/ebx swapped).
+
+## Weapon_30::sub_5DE4F0 (WIP, was STUB)
+
+- 0.262. This is the electro-baton beam: it aims `gObject_5C_6F8F84->field_58` from the owner ped to `field_198`, its target.
+  - If the distance is more than `dword_706EC4`, it drops the target.
+  - Otherwise it steps the beam along the line (`dist / dword_706CF0` steps, at least `dword_706EBC`), stopping at map walls (`sub_5A2440`).
+  - On a car hit, or a hit on a ped not in states 8–9, it sets the weapon's `field_4`.
+  - Then it marks the target as shot by the owner and calls `sub_5DE910`.
+- `sub_5DE910` (0x772 bytes) was missing from the source entirely. It's now a `STUB_FUNC`: `void __stdcall (Fix16_Point by value, Fix16_Point&, Fix16 z)`, worked out from the call site. Both point arguments are `get_x_y_443580()` of the target's sprite. It still needs target asm (it was not in the dump).
+- Changed the return type to `void`, since nothing sets one. `electro_batton_5E0740` still matches.

@@ -14,6 +14,8 @@
 #include "map_0x370.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
+#include "Rozza_C88.hpp"
+#include "Police_7B8.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, dword_706CF4, Fix16(0x1000, 0), 0x706CF4);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706EC0, Fix16(0x8000, 0), 0x706EC0);
@@ -23,6 +25,8 @@ DEFINE_GLOBAL(bool, bAllowFlameSegment_706D60, 0x706D60);
 DEFINE_GLOBAL_INIT(Fix16, dword_706FF4, Fix16(0x100, 0), 0x706FF4);
 DEFINE_GLOBAL_INIT(Fix16, dword_706FEC, Fix16(0x1200, 0), 0x706FEC);
 DEFINE_GLOBAL(Fix16, dword_706EB8, 0x706EB8);
+DEFINE_GLOBAL(Fix16, dword_706EBC, 0x706EBC);
+DEFINE_GLOBAL(Fix16, dword_706EC4, 0x706EC4);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706EDC, Fix16(0x20000, 0), 0x706EDC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_706F70, Fix16(0x100, 0), 0x706F70);
 DEFINE_GLOBAL_INIT(Fix16, dword_706DCC, Fix16(0xFFFFFD00, 0), 0x706DCC);
@@ -698,11 +702,121 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
     }
 }
 
-STUB_FUNC(0x5de4f0)
-s32 Weapon_30::sub_5DE4F0()
+EXPORT void __stdcall sub_5DE910(Fix16_Point a1, Fix16_Point& a2, Fix16 a3);
+
+WIP_FUNC(0x5de4f0)
+void Weapon_30::sub_5DE4F0()
+{
+    Sprite* pBeam = gObject_5C_6F8F84->field_58;
+    Fix16_Point delta;
+    delta.x = field_24_pPed->field_198->field_1AC_cam.x - field_24_pPed->field_1AC_cam.x;
+    delta.y = field_24_pPed->field_198->field_1AC_cam.y - field_24_pPed->field_1AC_cam.y;
+    gRozza_679188.sub_4637B0();
+
+    Fix16 dx = field_24_pPed->field_198->field_1AC_cam.x - field_24_pPed->field_1AC_cam.x;
+    Fix16 dy = field_24_pPed->field_198->field_1AC_cam.y - field_24_pPed->field_1AC_cam.y;
+    Ang16 angle = Fix16::atan2_fixed_405320(dy, dx);
+
+    Fix16 dist;
+    if (delta.x == dword_706EB8)
+    {
+        dist = Fix16::Abs_436A50(delta.y);
+    }
+    else if (delta.y == dword_706EB8)
+    {
+        dist = Fix16::Abs_436A50(delta.x);
+    }
+    else
+    {
+        dist = Fix16::SquareRoot_436A70(delta.x * delta.x + delta.y * delta.y);
+    }
+
+    if (dist > dword_706EC4)
+    {
+        field_24_pPed->field_198 = NULL;
+        return;
+    }
+
+    pBeam->set_xyz_lazy_420600(field_24_pPed->field_1AC_cam.x, field_24_pPed->field_1AC_cam.y, field_24_pPed->field_1AC_cam.z);
+    pBeam->set_ang_lazy_420690(angle);
+    pBeam->AllocInternal_59F950(dword_706CF0, dword_706CF0, dword_706CF0);
+
+    Fix16 steps;
+    Fix16 step_len;
+    if (dist != dword_706EB8)
+    {
+        steps = dist / dword_706CF0;
+        step_len = dist / steps;
+    }
+    else
+    {
+        steps = dword_706EB8;
+        step_len = dword_706EB8;
+    }
+
+    if (steps < dword_706EBC)
+    {
+        steps = dword_706EBC;
+        step_len = dist;
+    }
+
+    Fix16 step_x = Ang16::sine_40F500(angle) * step_len;
+    Fix16 step_y = Ang16::cosine_40F520(angle) * step_len;
+    s32 count = steps.ToInt();
+    for (u8 i = 1; i <= count; i++)
+    {
+        gMap_0x370_6F6268->sub_4E4D40(pBeam->field_14_xy.x, pBeam->field_14_xy.y, pBeam->field_1C_zpos);
+        pBeam->set_xy_lazy_447E20(pBeam->field_14_xy.x + step_x, pBeam->field_14_xy.y + step_y);
+        if (pBeam->sub_5A2440())
+        {
+            break;
+        }
+
+        Sprite* pHit = pBeam->QuerySpriteCollision_59E7D0(2);
+        if (pHit)
+        {
+            switch (pHit->field_30_sprite_type_enum)
+            {
+                case sprite_types_enum::car_2:
+                    field_24_pPed->field_170_selected_weapon->field_4 = 1;
+                    field_24_pPed->field_198 = 0;
+                    return;
+
+                case sprite_types_enum::ped_3:
+                {
+                    Ped* pHitPed = pHit->field_8_char_b4_ptr->field_7C_pPed;
+                    if (pHitPed != field_24_pPed->field_198 && pHitPed != field_24_pPed)
+                    {
+                        s32 state = pHitPed->field_278_ped_state_1;
+                        if (state < 8 || state > 9)
+                        {
+                            field_24_pPed->field_170_selected_weapon->field_4 = 1;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    field_24_pPed->field_198->field_144 = field_24_pPed;
+    field_24_pPed->field_198->field_204_killer_id = field_24_pPed->field_200_id;
+    field_24_pPed->field_198->field_21C_bf.b8 = 1;
+    if (field_24_pPed->field_28C_threat_reaction == 1)
+    {
+        gPolice_7B8_6FEE40->field_7B0 = field_24_pPed;
+    }
+
+    Fix16 zpos = field_24_pPed->field_1AC_cam.z;
+    sub_5DE910(field_24_pPed->field_198->field_168_game_object->field_80_sprite_ptr->get_x_y_443580(),
+               field_24_pPed->field_198->field_168_game_object->field_80_sprite_ptr->get_x_y_443580(),
+               zpos);
+}
+
+STUB_FUNC(0x5de910)
+void __stdcall sub_5DE910(Fix16_Point a1, Fix16_Point& a2, Fix16 a3)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x5dfb60)
