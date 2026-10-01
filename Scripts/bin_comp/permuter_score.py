@@ -11,8 +11,7 @@ Usage:
     python permuter_score.py <obj> <og_addr> [symbol_substring]
 
 Prints a unified diff of the post processed asm, then the score as the last number: 0 is a
-match, otherwise the number of target and candidate lines that aren't part of a common run
-(difflib opcodes).
+match (see score_lines for how the rest is counted).
 """
 
 import difflib
@@ -135,6 +134,31 @@ def function_lines(coff, symidx):
     return lines
 
 
+STABLE = re.compile(r"stable_name_\d+")
+
+
+def score_lines(tl, ml):
+    """0 for identical asm. Lines are aligned with the symbol names masked, so a symbol that
+    only differs in its stable_name number (they are numbered by first use, so one early
+    difference renumbers everything after it) doesn't cascade. Each unaligned line costs 2,
+    and each aligned line whose symbols break a consistent target<->candidate mapping costs 1."""
+    tmask = [STABLE.sub("SYM", l) for l in tl]
+    mmask = [STABLE.sub("SYM", l) for l in ml]
+    score = 0
+    fwd, rev = {}, {}
+    for op, i1, i2, j1, j2 in difflib.SequenceMatcher(None, tmask, mmask, autojunk=False).get_opcodes():
+        if op != "equal":
+            score += 2 * max(i2 - i1, j2 - j1)
+            continue
+        for k in range(i2 - i1):
+            bad = False
+            for a, b in zip(STABLE.findall(tl[i1 + k]), STABLE.findall(ml[j1 + k])):
+                if fwd.setdefault(a, b) != b or rev.setdefault(b, a) != a:
+                    bad = True
+            score += bad
+    return score
+
+
 def main():
     obj, addr = sys.argv[1], int(sys.argv[2], 16)
     here = os.path.dirname(os.path.abspath(__file__))
@@ -143,10 +167,7 @@ def main():
     coff = Coff(open(obj, "rb").read())
     ml = function_lines(coff, find_function(coff, needle))
     tl = target["pp"].split("\n")
-    score = 0
-    for op, i1, i2, j1, j2 in difflib.SequenceMatcher(None, tl, ml, autojunk=False).get_opcodes():
-        if op != "equal":
-            score += max(i2 - i1, j2 - j1)
+    score = score_lines(tl, ml)
     # cpp_permuter keeps this output as score_output.txt next to each improvement.
     print("\n".join(difflib.unified_diff(tl, ml, "target", "candidate", lineterm="", n=2)))
     print(score)
