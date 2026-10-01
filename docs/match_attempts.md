@@ -956,3 +956,10 @@ Still different:
 - 0.455. This is `539480` with different constants: z offset `dword_6FD45C`, speed `dword_6FD2F4`, jitter `/ 30`. It also has an extra `ApplyScaleToDimensions_59E4C0(1 + sub_state * dword_6FD2E8, 0)`.
 - Both functions got their shared `return true` block by nesting the success path under `if (sub_state != 16 && counter != 0) { ... if (zpos < limit) { ...; return 0; } } return true;`. With early returns, each failure check got its own epilogue.
 - What's left in both: ebp vs edi as the zero register, and the original frame is 0x10 bytes bigger.
+
+## Map_0x370::FindNearbyBlockOfType_4E4930 (MATCH, was WIP)
+
+- Found by moving declarations around:
+  - `step` must be declared before `direction`, and both before the three coordinate stores.
+  - That order makes VC6 put `mov $1,%esi` before `mov $3,%eax`.
+- The permuter's depth 2 run got it to 0.984 with `direction` first. Trying the other orders by hand found the rest.
