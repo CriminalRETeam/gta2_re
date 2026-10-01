@@ -885,3 +885,13 @@ Still different:
 - Remaining: register/scheduling differences in most cases. Our case 3 car branch is tail-merged into case 5,
   and the target keeps them separate. The target also sets edi = pSprite on the "no match" paths, an
   uninitialised `pCar` coalesced with the param.
+
+## Weapon_30::fire_truck_flamethrower_5E0B10 (WIP, was STUB)
+
+- 0.526. Same shape as `fire_truck_gun_5E0E70`, with a fallback to the army-jeep gun sprite (model 248,
+  offsets `dword_706EA4` / `dword_706EE8`) when the model 114 turret isn't there. It emits
+  `EmitFlameStreamSegment_53F4C0` or spawns bullet 195.
+- Turret angle: target calls `Ang16::sub_409300` (a normalising "ctor") on the `operator+` result. Added an inline
+  `Ang16(Ang16&, s32)` ctor wrapper; `gun_ang = Ang16(a + b, 0)` gives the 32-bit temp store (0.21 → 0.53).
+- Remaining: the out-of-line `Ang16(const s16&, s32)` ctor from `operator+` is inlined in the target, and
+  the EH state starts at 2 vs our 1.
