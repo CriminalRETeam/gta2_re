@@ -777,8 +777,11 @@ void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     set_vert_xyz_relative_to_cam_inlined(xpos, ypos, zpos, pVert);
 
     pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-    pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-    pVert->y = ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+    {
+        u32 tmp = (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + tmp;
+    }
+    pVert->y = ((ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat()) * pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
 
 // https://decomp.me/scratch/a6z18
