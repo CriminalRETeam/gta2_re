@@ -783,10 +783,40 @@ bool RouteFinder::sub_5899C0(RouteFinder_10* pNode, s32 a3)
     return false;
 }
 
-STUB_FUNC(0x589bb0)
+MATCH_FUNC(0x589bb0)
 char_type RouteFinder::sub_589BB0(RouteFinder_10* a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
+    Junction_10* pJunction = &field_8[a2->field_0_idx];
+    if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_C_min_x, pJunction->field_D_min_y) &&
+        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_E_max_x, pJunction->field_D_min_y) &&
+        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_C_min_x, pJunction->field_F_max_y) &&
+        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_E_max_x, pJunction->field_F_max_y))
+    {
+        return 1;
+    }
+
+    u16 north = pJunction->field_0_n.GetIndex_0040CE90();
+    u16 south = pJunction->field_2_s.GetIndex_0040CE90();
+    u16 west = pJunction->field_6_w.GetIndex_0040CE90();
+    u16 east = pJunction->field_4_e.GetIndex_0040CE90();
+    a2->field_4 = 1;
+
+    if (!field_CA40[north] && pJunction->field_0_n.IsEnabled() && field_8[north].sub_588580(a3))
+    {
+        sub_589990(a2, north, pJunction->field_0_n.GetLength());
+    }
+    if (!field_CA40[south] && pJunction->field_2_s.IsEnabled() && field_8[south].sub_588580(a3))
+    {
+        sub_589990(a2, south, pJunction->field_2_s.GetLength());
+    }
+    if (!field_CA40[west] && pJunction->field_6_w.IsEnabled() && field_8[west].sub_588580(a3))
+    {
+        sub_589990(a2, west, pJunction->field_6_w.GetLength());
+    }
+    if (!field_CA40[east] && pJunction->field_4_e.IsEnabled() && field_8[east].sub_588580(a3))
+    {
+        sub_589990(a2, east, pJunction->field_4_e.GetLength());
+    }
     return 0;
 }
 
