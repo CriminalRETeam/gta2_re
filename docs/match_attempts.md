@@ -916,3 +916,15 @@ Still different:
 - Matched by cpp_permuter in two steps. A random run reordered the case assignments and cast
   `(s16)dx` (0.923 → 0.981). Then `-m exhaustive -p reorder_saves,move_stmt,local_type,cast_operand --depth 2`
   found `s16 dx` plus `dx = 0;` before `dy = -1;` in case 1. Either change alone was worse (0.385).
+
+## Firefighter_28::Service_4A81F0 (WIP, was STUB)
+
+- 0.750. A five-state switch:
+  1. Spawn the fire truck, its CarAI and its fireman driver.
+  2. Drive to the burning car.
+  3. Set the put-out-fire objective.
+  4. Wait for the objective result.
+  5. Despawn.
+- Uses the `sub_421560`, `IsDespawning_4215B0` and `sub_4214B0` inline helpers instead of raw field writes.
+- `dword_67D384` (Fix16) is the arrival distance.
+- Not tuned yet. Next step: run the permuter, and check the case 2 `Max_44E540(Abs...)` distance test against the target.
