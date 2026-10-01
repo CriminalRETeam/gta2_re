@@ -746,3 +746,15 @@ kind (`field_C`: 15 ends the chase, 0/1/2/14 keep going, others set `field_78`).
 Still different: the frame is 0x20 vs 0x14 (the original keeps the max result in `eax`
 and never stores `dist`), and the criminal's x/y go to the other registers. Writing the
 `Max` call inside the `if` made VC6 evaluate the threshold first (0.345).
+
+## Weapon_30::fire_truck_gun_5E0E70 (WIP, was STUB)
+
+Fire truck water cannon: gun sprite (model 114) angle plus `word_706DFA`, muzzle offset
+`dword_706CDC` rotated by it plus the car offset `dword_706CD8` rotated by the car angle,
+then the spray particle (`field_4 == 0`) or bullet 199. Ratio 0.375.
+
+The structure is right; the difference is inlining. In the original both
+`RotateByAngle_40F6B0` expansions call `Multiply_408680`/`Add_408660` out of line, and only
+the first rotation's `-x_old` is folded (inline `Negate`, known 0); the second calls
+`Negate_4086A0`. Ours inlines the first rotation's x line like the other Weapon_30 car
+guns. Not tried yet: writing the rotations with explicit `Multiply_408680` calls.

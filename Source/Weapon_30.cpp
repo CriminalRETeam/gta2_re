@@ -811,10 +811,39 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5e0e70)
+DEFINE_GLOBAL(Ang16, word_706DFA, 0x706DFA);
+DEFINE_GLOBAL(Fix16, dword_706CDC, 0x706CDC);
+DEFINE_GLOBAL(Fix16, dword_706CD8, 0x706CD8);
+
+WIP_FUNC(0x5e0e70)
 void Weapon_30::fire_truck_gun_5E0E70()
 {
-    NOT_IMPLEMENTED;
+    field_24_pPed = field_14_car->field_54_driver;
+
+    Ang16 gun_ang = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114)->field_0->field_0 + word_706DFA;
+
+    Fix16_Point bullet_pos;
+    bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);
+    bullet_pos.RotateByAngle_40F6B0(gun_ang);
+
+    Fix16_Point offset;
+    offset.SetXY_432860(Fix16(0), dword_706CD8);
+    offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
+
+    bullet_pos += (offset + field_14_car->field_50_car_sprite->get_x_y_443580());
+
+    Fix16_Point velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&offset);
+
+    set_field_2C_4CCA80(1);
+
+    if (!field_4)
+    {
+        gParticle_8_6FD5E8->EmitFireTruckSprayParticle_53FAE0(field_14_car->field_50_car_sprite);
+    }
+    else
+    {
+        spawn_bullet_5DCF60(199, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, velocity);
+    }
 }
 
 // https://decomp.me/scratch/QliaE
