@@ -400,6 +400,20 @@ function in that file.
 When a whole file looks unoptimised, or lacks EH frames it should have, suspect a per-file
 flag before rewriting the code.
 
+### Use the existing inline helper, not its expansion
+
+Writing out what an inline helper does is not the same as calling it. The inliner counts the
+call, and that changes how later `*` / unary `-` calls get inlined and how registers are
+allocated. `x' = x*cos + y*sin; y' = -old_x*sin + y*cos` written by hand in the `Particle_4C`
+burst functions scored about 0.45. Replacing it with `Fix16_Point::RotateByAngle_40F6B0(angle)`
+gave about 0.70 (`UpdateDirectedBurst_state_13_14_36_539480`, `UpdateCircularBurst_state_5_539890`,
+`UpdateSkidOrScrapeSpark_state_40_41_53A280`). It is not always better:
+`UpdateDirectedProjectile_state_3_12_5384C0` dropped slightly. Before hand-writing maths,
+grep `Fix16_Point.hpp`, `fix16.hpp` and `ang16.hpp` for an inline that does it.
+
+Not checked yet: `CarAI_78.cpp` has many `sine_40F500(a) * r` / `cosine_40F520(a) * r` pairs
+that may be `FromPolar_41E210` or `Ang16::PolarToCartesian_41FC20`.
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
