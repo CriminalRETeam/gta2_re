@@ -764,6 +764,8 @@ guns. Not tried yet: writing the rotations with explicit `Multiply_408680` calls
 
 ## Ambulance_110::ProcessPatientQueue_4FA500 (WIP, was STUB)
 
+- 0.986 after cpp_permuter (scope_block): everything from the `x/y/z` locals to the new-task code went into its own `{ }` block, and `1 == field_18` / `get_cam_y()` were applied.
+
 Takes the next patient off the queue: dead/invalid ones are re-queued, then it finds a
 road tile near the patient and either hands the patient to an active ambulance that is
 close enough (`dword_6F6FC0`) or starts a new paramedic crew. Ratio 0.867.
