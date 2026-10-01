@@ -158,12 +158,50 @@ EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart,
     }
 }
 
-// Called by Trailer::UpdateTrailerAlignment_407CE0. Signature from that call site.
-STUB_FUNC(0x405DA0)
+EXTERN_GLOBAL(Fix16, kFPZero_6691B0);
+EXTERN_GLOBAL(Fix16, k_dword_66A8E4);
+EXTERN_GLOBAL(Fix16, dword_6691EC);
+
+// Turns the angle `cur` toward `*pTarget` by at most `*pSpeed`, the short way round, and wraps the
+// result into [0, 2pi). Called by Trailer::UpdateTrailerAlignment_407CE0.
+MATCH_FUNC(0x405DA0)
 EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed)
 {
-    NOT_IMPLEMENTED;
-    return cur;
+    if (*pTarget - cur > dword_6691EC)
+    {
+        cur += k_dword_66A8E4;
+    }
+    else if (*pTarget - cur < -dword_6691EC)
+    {
+        cur -= k_dword_66A8E4;
+    }
+
+    Fix16 diff = *pTarget - cur;
+    if (diff > kFPZero_6691B0)
+    {
+        if (diff > *pSpeed)
+        {
+            diff = *pSpeed;
+        }
+    }
+    else if (diff < kFPZero_6691B0)
+    {
+        if (diff < -*pSpeed)
+        {
+            diff = -*pSpeed;
+        }
+    }
+
+    Fix16 result = diff + cur;
+    for (; result < kFPZero_6691B0; result += k_dword_66A8E4)
+    {
+        ;
+    }
+    for (; result >= k_dword_66A8E4; result -= k_dword_66A8E4)
+    {
+        ;
+    }
+    return result;
 }
 
 // Called by Trailer::UpdateTrailerAlignment_407CE0. Signature from that call site.

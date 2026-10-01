@@ -1085,3 +1085,6 @@ Still different:
 ### sub_5345E0 (0x5345E0): MATCH
 - Door face to `Ang16` heading: a 4-entry jump table over four `Ang16` globals, with the default sharing case 4's block.
 - `case 4: default:` gave an if chain (0.57). A separate `case 4` plus `return` after the switch gave the table (0.62). The permuter then moved `case 4` to the top to fix the register alternation (1.0).
+
+### sub_405DA0 (0x405DA0): MATCH, first try
+- Turns an angle toward a target by at most `*pSpeed`, the short way round, then wraps it into [0, 2pi). It's the same shape as `sub_405CE0`, written with the same `Fix16` globals and the same two wrap loops that `sub_40E790` uses.
