@@ -1088,3 +1088,11 @@ Still different:
 
 ### sub_405DA0 (0x405DA0): MATCH, first try
 - Turns an angle toward a target by at most `*pSpeed`, the short way round, then wraps it into [0, 2pi). It's the same shape as `sub_405CE0`, written with the same `Fix16` globals and the same two wrap loops that `sub_40E790` uses.
+
+### sub_405E20, sub_405E80 (0x405E20, 0x405E80): MATCH
+- `sub_405E80` clamps an angle into a +-`dword_669140` window around a target, allowing for the wrap. It then returns whether the angle sits on either edge, tested with `sub_405E20`.
+- `sub_405E20` (unmarked until now) only matched with an `s32` return (`mov $1,%eax`). The caller still tests `%al`, so the calls are cast to `(u8)`. `sub_405E80` returns `s32` too.
+- The permuter did the rest of 405E80: assign `lo` before `hi` in every case so the shared `*pCur = lo` block tail-merges (0.63 to 0.93), and read `*pTarget` directly instead of through a local `t`, which fixes the `lea` operand order (to 1.0).
+
+### Fix16_Point_POD::AddAssign_5E40C0 / DivAssign_5E40E0 / MaxAbs_5E4140: MATCH, first try
+- These are out-of-line copies emitted after Weapon_30.cpp's functions, used by `sub_5DE910`: `+=`, `/= Fix16` and max(|x|, |y|). The csv names them `Fix16::sub_...`, but they're `Fix16_Point` members (`this` is a point).

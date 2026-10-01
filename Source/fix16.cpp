@@ -221,11 +221,71 @@ EXPORT s32 __stdcall sub_405E20(Fix16* a, Fix16* b)
     return 0;
 }
 
-// Called by Trailer::UpdateTrailerAlignment_407CE0. Signature from that call site.
-STUB_FUNC(0x405E80)
-EXPORT u8 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
+// Clamps the angle `*pCur` into the window of +-dword_669140 around `*pTarget`, allowing for the
+// wrap at 0 / 2pi, and returns whether it ends up on either edge. Called by
+// Trailer::UpdateTrailerAlignment_407CE0.
+MATCH_FUNC(0x405E80)
+EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
 {
-    NOT_IMPLEMENTED;
+    Fix16 lo;
+    Fix16 hi;
+    if (*pTarget < dword_669140)
+    {
+        lo = dword_6691FC + *pTarget;
+        hi = *pTarget + dword_669140;
+        if (*pCur > lo - dword_669140 && *pCur < lo)
+        {
+            *pCur = lo;
+        }
+        else if (*pCur > hi && *pCur < lo)
+        {
+            *pCur = hi;
+        }
+    }
+    else if (*pTarget < dword_6691EC)
+    {
+        lo = *pTarget - dword_669140;
+        hi = *pTarget + dword_669140;
+        if (*pCur < lo || *pCur > hi + dword_669140)
+        {
+            *pCur = lo;
+        }
+        else if (*pCur > hi)
+        {
+            *pCur = hi;
+        }
+    }
+    else if (*pTarget < dword_6691FC)
+    {
+        lo = *pTarget - dword_669140;
+        hi = *pTarget + dword_669140;
+        if (*pCur < hi - dword_6691FC || *pCur > hi)
+        {
+            *pCur = hi;
+        }
+        else if (*pCur < lo)
+        {
+            *pCur = lo;
+        }
+    }
+    else
+    {
+        lo = *pTarget - dword_669140;
+        hi = *pTarget - dword_6691FC;
+        if (*pCur > hi && *pCur < hi + dword_669140)
+        {
+            *pCur = hi;
+        }
+        else if (*pCur < lo && *pCur > hi)
+        {
+            *pCur = lo;
+        }
+    }
+
+    if ((u8)sub_405E20(pCur, &lo) || (u8)sub_405E20(pCur, &hi))
+    {
+        return 1;
+    }
     return 0;
 }
 
