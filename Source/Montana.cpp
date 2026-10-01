@@ -110,7 +110,7 @@ void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
         {
             if (z_pos == a2_1)
             {
-                if (pSprite->field_28_num >= pLastNonNull->field_0_sprt->field_28_num)
+                if ((s16)pSprite->field_28_num >= pLastNonNull->field_0_sprt->field_28_num)
                 {
                     pLastNonNull->field_8 = pAllocated;
                 }
