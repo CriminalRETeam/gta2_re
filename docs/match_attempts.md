@@ -839,3 +839,15 @@ Still different:
     function level. `= -offset` (Point operator-) gives a call to 40ACB0 instead, and
     `= Fix16_Point(-x, -y)` calls the POD ctor.
 - Writing rotation 1 by hand inlines everything (0.04).
+
+## sound_obj::HandleVocalStreamSwitching_57DF10 (WIP, was STUB)
+
+- 0.543. The `a2` param is unused. The station voc index ternary must be written as an if/else of two
+  `PlayVocal_58E510` calls. VC6 then tail-merges the call and pushes `bFast` / the immediate `101` directly
+  (0.28 → 0.48). The `field_14 * 1000 / field_8` needs a `(u32)` cast for `div`.
+- Two bools are zeroed at entry (al/cl): `bFast` (reused for `field_54FC == 1`) and `bStationChanged`, both
+  set to true when `field_54F7[1] != field_54F7[0]`. The target then jump-threads: on `field_5500 != field_54FC`
+  it tests al and jumps straight to the station-restart block.
+- Remaining: target block layout is [equal → test cl → update | station block] then [test al → station | mode
+  block]. Tried `if (changed) … else if (!=) …`, `(== && changed) || (!= && fast)`, and a nested form; all ≤ 0.543.
+  Target also keeps `bFast` spilled to the stack (reloads it before `push`), while ours keeps it in bl.

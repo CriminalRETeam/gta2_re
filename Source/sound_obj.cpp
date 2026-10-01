@@ -4816,10 +4816,130 @@ void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params_8* a2)
     }
 }
 
-STUB_FUNC(0x57DF10)
+WIP_FUNC(0x57DF10)
 void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
 {
-    NOT_IMPLEMENTED;
+    bool bFast = false;
+    bool bStationChanged = false;
+    u32 length;
+    u32 pos;
+
+    if (field_54F2[2] != field_54F2[3])
+    {
+        bFast = field_54FC == 1;
+        gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        if (field_54F7[0] != 101)
+        {
+            gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7[0] + 1).field_C, bFast);
+        }
+        else
+        {
+            gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
+        }
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
+        if (bFast)
+        {
+            gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
+        }
+
+        length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
+        if (length > 0)
+        {
+            pos = (u32)RadioEmitter(field_54F7[0] + 1).field_14 * 1000 / field_8 + RadioEmitter(field_54F7[0] + 1).field_18;
+            if (pos > length)
+            {
+                pos %= length;
+            }
+            gSampManager_6FFF00.SetVocalPosMs_58E750(0, pos);
+            UpdateCarEngineAudio_57E220();
+        }
+        else
+        {
+            gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        }
+        return;
+    }
+
+    if (field_54F7[1] != field_54F7[0])
+    {
+        bFast = true;
+        bStationChanged = true;
+    }
+
+    if (field_5500 != field_54FC && !bFast)
+    {
+        length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
+        if (length > 0)
+        {
+            pos = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
+            gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+            bFast = field_54FC == 1;
+            if (field_54F7[0] != 101)
+            {
+                gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7[0] + 1).field_C, bFast);
+            }
+            else
+            {
+                gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
+            }
+            if (bFast)
+            {
+                gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
+            }
+            if (pos >= (u32)gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0))
+            {
+                pos = 0;
+            }
+            gSampManager_6FFF00.SetVocalPosMs_58E750(0, pos);
+            UpdateCarEngineAudio_57E220();
+        }
+        else
+        {
+            gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        }
+    }
+    else if (bStationChanged)
+    {
+        if (field_54F7[1] < 5)
+        {
+            RadioEmitter(field_54F7[1] + 1).field_18 = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
+        }
+        gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        bFast = field_54FC == 1;
+        if (field_54F7[0] != 101)
+        {
+            gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7[0] + 1).field_C, bFast);
+        }
+        else
+        {
+            gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
+        }
+        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
+        if (bFast)
+        {
+            gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
+        }
+
+        length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
+        if (length > 0)
+        {
+            pos = (u32)RadioEmitter(field_54F7[0] + 1).field_14 * 1000 / field_8 + RadioEmitter(field_54F7[0] + 1).field_18;
+            if (pos > length)
+            {
+                pos %= length;
+            }
+            gSampManager_6FFF00.SetVocalPosMs_58E750(0, pos);
+            UpdateCarEngineAudio_57E220();
+        }
+        else
+        {
+            gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+        }
+    }
+    else
+    {
+        UpdateCarEngineAudio_57E220();
+    }
 }
 
 STUB_FUNC(0x426790)
