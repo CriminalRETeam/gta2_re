@@ -147,6 +147,13 @@ Two things to try early when a function is close but won't match:
   expression is written. Inlining decisions also depend on what VC6 has already seen in
   the TU, such as include order and definition order (see the `cSampleManager.hpp` include
   order and inlining notes in `docs/matching_quirks.md`).
+- **Look at the 9.6f build.** `9.6f.exe` is an earlier build made with a different
+  compiler version that has inlining mostly turned off, so many helpers that are inlined
+  in 10.5 are real functions there (`og_function_data_v96f.csv` lists them). That makes it
+  the best place to recover missing inline methods and their bodies. Comments such as
+  `// 9.6f inlined` or `// Inlined in ... 9.6f -> 0x...` in `Source/` mark the ones found
+  so far. Planned follow-up: add the missing inlines to the matched functions first, then
+  to the WIPs, in the hope of extra matches.
 
 **Avoid `goto` where possible.** VC6 block layout can often be forced with a `goto`, but
 the result reads badly and is rarely what the original source did. First try restructuring:
