@@ -971,3 +971,12 @@ Still different:
   - **`field_46_sub_state`**, cases 0–7: sets the sprite flags. Cases 0/1 and case 2 are separate bodies with the same value.
 - Its returns duplicate the epilogue, so early returns are right here.
 - `dword_6FD304` and `dword_6FD308` are new and set by a static init.
+
+## Particle_4C::UpdateCircularBurst_state_5_539890 (WIP, was STUB)
+
+- 0.381 on the first write-up. Same frame as `5384C0`, with these differences:
+  - `field_20` is reset to `dword_6FD49C` after the follow block on every path.
+  - There is no x offset; `off_y = -dword_6FD45C` always.
+  - Cases 6 and 7 take x/y/z from the followed sprite.
+  - `default` uses `field_20 / dword_6FD4A4` (inline `__allshl` / `__alldiv`). On `rng(7) == 4` it spawns a smoke particle through `Particle_8::New_53E3C0(0, ...)` with `SetType_4206F0(8)`.
+- The original keeps the jitter flag in `bl` and returns `bl` (still 1) from the first early return. Writing `return bJitter;` there made no difference.
