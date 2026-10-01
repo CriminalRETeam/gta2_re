@@ -858,3 +858,16 @@ Still different:
   Then it passes them to gLucid_hamilton. Retyped `svg_stru` 0..0x4A as three `char[25]` names.
 - Every instruction matched at 0.867 except the frame size. The block-scoped `plySlotIdx` and `len` made it 1.0
   (see matching_quirks.md, "Stack slot sharing needs block scopes").
+
+## Start_NetworkGame_5E5A30 (WIP, was STUB)
+
+- 0.429. Added `gNetworkGameSettings_707098` (NetworkGameSettings). It overlaps the existing `dword_7071A0` /
+  `dword_7071B0` in Game_0x40.cpp (game_speed / police_on fields).
+- The registry part reads `UseProtocol` (GUID) and `UseConnection` (a `Connection_Unknown` buffer via
+  `operator new`), and `ModemNumber` when `gNetPlay.field_4` is set. Then it runs `Network_20324` UI →
+  `CopyGameSettings`, the map/sty/scr names, and `SetMultiplayerParams`.
+- Remaining 1: every `return 0` in the target is `xor al,al; jmp <shared epilogue>`, while ours duplicates the
+  EH epilogue at each return. Wrapping in `if (bStartNetworkGame)` or moving the registry part into a
+  `static inline` helper did not change it.
+- Remaining 2: target frame is 4 bytes bigger. There is an unused dword between the GUID (0x10) and the
+  `data\%s` path buffer (0x24).

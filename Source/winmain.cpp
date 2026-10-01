@@ -2406,11 +2406,96 @@ EXPORT void __stdcall sub_4DA740()
     }
 }
 
-STUB_FUNC(0x5E5A30)
+DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098, 0x707098);
+
+WIP_FUNC(0x5E5A30)
 EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
-    NOT_IMPLEMENTED;
-    return 1;
+    char_type bRet = 1;
+    gLucid_hamilton_67E8E0.init_4C5AF0();
+    if (bStartNetworkGame_7081F0)
+    {
+        HKEY hKey;
+        if (!gRegistry_6FF968.CreateNetworkRoot_587420(&hKey))
+        {
+            bRet = 0;
+        }
+
+        if (gRegistry_6FF968.Get_Int_5873E0(hKey, "UseProtocol") != sizeof(GUID))
+        {
+            RegCloseKey(hKey);
+            if (!gNetPlay_7071E8.SetProtoAndConnection_51DAE0(0, 0))
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            GUID protocolGuid;
+            if (!gRegistry_6FF968.sub_587340(hKey, "UseProtocol", sizeof(GUID), (LPBYTE)&protocolGuid))
+            {
+                RegCloseKey(hKey);
+                return 0;
+            }
+
+            Connection_Unknown connection;
+            connection.field_4_len = gRegistry_6FF968.Get_Int_5873E0(hKey, "UseConnection");
+            connection.field_0 = operator new(connection.field_4_len);
+            if (!gRegistry_6FF968.sub_587340(hKey, "UseConnection", connection.field_4_len, (LPBYTE)connection.field_0))
+            {
+                operator delete(connection.field_0);
+                RegCloseKey(hKey);
+                return 0;
+            }
+            RegCloseKey(hKey);
+
+            if (!gNetPlay_7071E8.SetProtoAndConnection_51DAE0(&protocolGuid, &connection))
+            {
+                operator delete(connection.field_0);
+                return 0;
+            }
+
+            if (gNetPlay_7071E8.field_4)
+            {
+                u16 len = gRegistry_6FF968.Get_Int_5873E0(hKey, "ModemNumber");
+                if (len >= 128)
+                {
+                    return 0;
+                }
+                wchar_t modemNumber[128];
+                gRegistry_6FF968.sub_587340(hKey, "ModemNumber", len, (LPBYTE)modemNumber);
+                gNetPlay_7071E8.field_5_modem_num = modemNumber[0] != 0;
+            }
+        }
+
+        Network_20324 networkUi;
+        if (!gNetPlay_7071E8.InitializeConnection_51E5C0())
+        {
+            return 0;
+        }
+
+        if (!networkUi.ShowNetworkUiBlocking_519BD0(hInstance))
+        {
+            return 0;
+        }
+
+        networkUi.CopyGameSettings_51C7F0(&gNetworkGameSettings_707098);
+
+        char_type path[256];
+        sprintf(path, "data\\%s", networkUi.GetMapName_51CA10());
+        gLucid_hamilton_67E8E0.SetMapName_4C5870(path);
+        sprintf(path, "data\\%s", networkUi.GetMapStyName_51CA50());
+        gLucid_hamilton_67E8E0.SetStyleName_4C5890(path);
+        sprintf(path, "data\\%s", networkUi.GetMapScrName_51CA90());
+        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(path);
+
+        gLucid_hamilton_67E8E0.SetMultiplayerParams_4C5B80(gNetworkGameSettings_707098.field_20198_game_type,
+                                                           gNetworkGameSettings_707098.field_20194_frag_limit,
+                                                           gNetPlay_7071E8.field_5D4_player_idx,
+                                                           gNetPlay_7071E8.GetMaxPlayers_521350(),
+                                                           gNetworkGameSettings_707098.field_201A4_game_time_limit);
+    }
+    return bRet;
 }
 
 #pragma comment(lib, "Version.lib")
