@@ -139,6 +139,10 @@ paths set all of `eax` is still unsolved (`Car_BC::sub_43B2B0`).
 `sub $0x100`. `return x - 0x100;` from an inline helper gives `add $0xFFFFFF00`
 (`SeqDiff` in NetPlay.cpp, `NetPlay::MakeSendData_51F420`).
 
+**`flag ? '1' : '0'` vs `(flag != 0) + '0'`.** Storing to a `char`, the ternary gives
+`setne %cl; add $0x30,%ecx` (32-bit add); the explicit bool sum gives a byte `add $0x30,%cl`
+(`BurgerKing_67F8B0::AppendReplayHeader_4CDF70`).
+
 **Adding a bool.** `setne al; add $0xE,%eax` comes from `(b != 0) + 14`, not `b + 14`
 (`sub_417B80`).
 

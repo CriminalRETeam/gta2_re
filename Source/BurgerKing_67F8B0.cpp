@@ -796,10 +796,71 @@ void BurgerKing_67F8B0::modify_inputs_4CDF30(s32 match_mask)
     }
 }
 
-STUB_FUNC(0x4cdf70)
+MATCH_FUNC(0x4cdf70)
 void BurgerKing_67F8B0::AppendReplayHeader_4CDF70()
 {
-    NOT_IMPLEMENTED;
+    ReplayHeader_10C header;
+    DWORD computer_name_size;
+    size_t header_size;
+
+    memset(&header, 0, sizeof(header));
+    computer_name_size = 29;
+    sprintf(header.field_0_version, "v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
+
+    time_t now = time(NULL);
+    char_type* pDate = ctime(&now);
+    pDate[strlen(pDate) - 1] = 0;
+    sprintf(header.field_8_date, pDate);
+
+    GetComputerNameA(header.field_26_computer_name, &computer_name_size);
+    strcpy(header.field_44_map_name, gLucid_hamilton_67E8E0.GetMapName_4C5940());
+    strcpy(header.field_6C_style_name, gLucid_hamilton_67E8E0.GetStyleName_4C5950());
+    strcpy(header.field_94_script_name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+    strcpy(header.field_BC_debug_str, gLucid_hamilton_67E8E0.GetDebugStr_4C5970());
+
+    header.field_0_version[7] = '\n';
+    header.field_8_date[29] = '\n';
+    header.field_26_computer_name[29] = '\n';
+    header.field_44_map_name[39] = '\n';
+    header.field_6C_style_name[39] = '\n';
+    header.field_94_script_name[39] = '\n';
+    header.field_BC_debug_str[39] = '\n';
+    header.field_E4_flags[39] = '\n';
+
+    header.field_E4_flags[0] = bSkip_dummies_67D4EF ? '1' : '0';
+    header.field_E4_flags[1] = bDo_test_67D4F8 ? '1' : '0';
+    header.field_E4_flags[2] = bSkip_mission_67D4E5 ? '1' : '0';
+    header.field_E4_flags[3] = bDo_brian_test_67D544 ? '1' : '0';
+    header.field_E4_flags[4] = bDo_iain_test_67D4E9 ? '1' : '0';
+    header.field_E4_flags[5] = bSkip_traffic_lights_67D4EC ? '1' : '0';
+    header.field_E4_flags[6] = bSkip_recycling_67D575 ? '1' : '0';
+    header.field_E4_flags[7] = bLimit_recycling_67D4CA ? '1' : '0';
+    header.field_E4_flags[8] = bNo_annoying_chars_67D586 ? '1' : '0';
+    header.field_E4_flags[9] = bDo_mike_67D5CC ? '1' : '0';
+    header.field_E4_flags[10] = bDo_kill_phones_on_answer_67D6E8 ? '1' : '0';
+    header.field_E4_flags[11] = bGet_all_weapons_67D684 ? '1' : '0';
+    header.field_E4_flags[12] = bDont_get_car_back_67D4F5 ? '1' : '0';
+    header.field_E4_flags[13] = bSkip_ambulance_67D6C9 ? '1' : '0';
+    header.field_E4_flags[14] = bSkip_police_67D4F9 ? '1' : '0';
+    header.field_E4_flags[15] = bDo_invulnerable_67D4CB ? '1' : '0';
+    header.field_E4_flags[16] = bDo_free_shopping_67D6CD ? '1' : '0';
+    header.field_E4_flags[17] = bKeep_weapons_after_death_67D54D ? '1' : '0';
+    header.field_E4_flags[18] = bSkip_skidmarks_67D585 ? '1' : '0';
+    header.field_E4_flags[19] = bExplodingScoresOff_67D4FB ? '1' : '0';
+    header.field_E4_flags[20] = gDo_infinite_lives_67D4C9 ? '1' : '0';
+    header.field_E4_flags[21] = bDo_blood_67D5C5 ? '1' : '0';
+    header.field_E4_flags[22] = bDo_load_savegame_67D4F0 ? '1' : '0';
+    header.field_E4_flags[23] = bSkip_audio_67D6BE ? '1' : '0';
+    header.field_E4_flags[24] = bDo_debug_keys_67D6CF ? '1' : '0';
+    header.field_E4_flags[25] = bSkip_trains_67D550 ? '1' : '0';
+    header.field_E4_flags[26] = bSkip_buses_67D558 ? '1' : '0';
+    header.field_E4_flags[27] = bSkip_fire_engines_67D53A ? '1' : '0';
+    header.field_E4_flags[28] = bDo_police_1_67D568 ? '1' : '0';
+    header.field_E4_flags[29] = bDo_police_2_67D569 ? '1' : '0';
+    header.field_E4_flags[30] = bDo_police_3_67D56A ? '1' : '0';
+
+    header_size = sizeof(header);
+    File::AppendBufferToFile_4A6F50("test\\replay.rep", &header, &header_size);
 }
 
 MATCH_FUNC(0x4ce380)
