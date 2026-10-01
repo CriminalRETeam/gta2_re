@@ -204,6 +204,23 @@ EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed)
     return result;
 }
 
+DEFINE_GLOBAL(Fix16, dword_66A924, 0x66A924);
+DEFINE_GLOBAL(Fix16, dword_669140, 0x669140);
+DEFINE_GLOBAL(Fix16, dword_6691FC, 0x6691FC);
+
+// Is `*a` within dword_66A924 of `*b`, directly or one turn (k_dword_66A8E4) either way.
+MATCH_FUNC(0x405E20)
+EXPORT s32 __stdcall sub_405E20(Fix16* a, Fix16* b)
+{
+    if ((*a > *b - dword_66A924 && *a < *b + dword_66A924) ||
+        (*a > *b - k_dword_66A8E4 - dword_66A924 && *a < *b - k_dword_66A8E4 + dword_66A924) ||
+        (*a > *b - dword_66A924 + k_dword_66A8E4 && *a < *b + k_dword_66A8E4 + dword_66A924))
+    {
+        return 1;
+    }
+    return 0;
+}
+
 // Called by Trailer::UpdateTrailerAlignment_407CE0. Signature from that call site.
 STUB_FUNC(0x405E80)
 EXPORT u8 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
