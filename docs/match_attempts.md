@@ -525,3 +525,30 @@ the pointer `get_cp1_40B560` returned (`mov (%eax),%edi; add`), with no calls. O
 
 So every extra inline expansion in the tail pushes VC6 past an inlining limit for the
 rotation. The original probably spends one fewer inline expansion somewhere else.
+
+## Particle_4C::UpdateAttachedEmitter_state_9_10_53B670 (WIP, was STUB)
+
+Smoke/flame particle attached to a ped sprite (`field_28_pSprite`, type `ped_3`). State 9
+sets sprite id `+3` and spawns a cigarette puff; otherwise it offsets the particle by a
+polar vector (`FromPolar_41E210`) chosen by `field_2C_counter` (>= 60, 41..59 with a
+random jitter, <= 40). Ratio 0.817.
+
+What got it there:
+- No null check on `field_8_char_b4_ptr`: test the sprite type and read the pointer, not
+  `AsCharB4_40FEA0()`.
+- The original calls `Ang16::sub_406C20` for both normalisations: build the angle with
+  `Ang16(s32)` (no inline `Normalize`) and call `sub_406C20()` explicitly.
+- `dword_6FD540 * dword_6FD4A8` (operand order picks the load order), and
+  `dword_6FD4A0 * dword_6FD540` in the `<= 40` case.
+- `zpos += dword_6FD470` written in both the 41..59 and the `<= 40` blocks (0.695 -> 0.817);
+  written once after them VC6 lays the tail out differently.
+
+Still different:
+- Stack slots: the original has the angle at `0x12(%esp)` (upper half of a dword) and
+  `zpos` at `0x14`, ours has `zpos` at `0x10` and the angle at `0x14`. Moving the
+  `zpos`/`offset` declarations didn't change it.
+- `angle = sprite->field_0 + angle` is `add mem,%dx; mov %dx,mem` in the original, ours
+  folds it into `add %dx,mem` (tried `rValue +=`, `rValue = a + b`, `angle = Ang16(a + b)`).
+  A second named `Ang16` gets the right instructions but its own slot (0.667).
+- The `<= 40` block copies the `zpos` add instead of jumping into the 41..59 block's copy;
+  ours schedules the `zpos` load before the flags store, so the tails differ.
