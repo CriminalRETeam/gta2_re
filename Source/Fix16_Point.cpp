@@ -82,3 +82,11 @@ Fix16 Fix16_Point_POD::GetLength_453590()
         return Fix16::SquareRoot(x * x + y * y);
     }
 }
+
+MATCH_FUNC(0x5E40C0)
+Fix16_Point_POD& Fix16_Point_POD::AddAssign_5E40C0(const Fix16_Point_POD& other)
+{
+    x += other.x;
+    y += other.y;
+    return *this;
+}

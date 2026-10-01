@@ -123,6 +123,11 @@ struct Fix16_Point_POD
     EXPORT Fix16_Point Multiply_438FE0(Fix16& a1);
     EXPORT Fix16_Point Divide_442CB0(Fix16& a1);
 
+    // Out-of-line copies emitted in Weapon_30.cpp (used by sub_5DE910).
+    EXPORT Fix16_Point_POD& AddAssign_5E40C0(const Fix16_Point_POD& other);
+    EXPORT Fix16_Point_POD& DivAssign_5E40E0(const Fix16& v);
+    EXPORT Fix16 MaxAbs_5E4140();
+
     Fix16_Point_POD()
     {
     }
