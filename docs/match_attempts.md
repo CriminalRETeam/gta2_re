@@ -950,3 +950,9 @@ Still different:
 - 0.420 on the first write-up. It follows `field_40_pUnknown`'s object for speed and angle, rotates `(0, speed)` by `field_24_angle` and adds rng jitter (`Fix16(get_int(3) - 1) / 50`). It moves only inside the map bounds.
 - In the original, all three `return true` paths share one return block; ours duplicates it each time. The original frame is also 16 bytes bigger.
 - Its `x` multiply and the `-old_x` negate call `Multiply_408680` / `Negate_4086A0`, while the `y * sin` multiply is inline. That looks like the inline budget running out.
+
+## Particle_4C::UpdateDirectedBurstSweep_state_4_539040 (WIP, was STUB)
+
+- 0.455. This is `539480` with different constants: z offset `dword_6FD45C`, speed `dword_6FD2F4`, jitter `/ 30`. It also has an extra `ApplyScaleToDimensions_59E4C0(1 + sub_state * dword_6FD2E8, 0)`.
+- Both functions got their shared `return true` block by nesting the success path under `if (sub_state != 16 && counter != 0) { ... if (zpos < limit) { ...; return 0; } } return true;`. With early returns, each failure check got its own epilogue.
+- What's left in both: ebp vs edi as the zero register, and the original frame is 0x10 bytes bigger.
