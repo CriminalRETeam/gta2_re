@@ -110,6 +110,12 @@ class Player
         return field_684_lives.get_value();
     }
 
+    // 9.6f 0x421990
+    inline void AddCash_421990(s32 cash)
+    {
+        field_2D4_scores.AddCash_592620(cash);
+    }
+
     // 9.6f 0x421980
     inline s32 GetScore_421980()
     {

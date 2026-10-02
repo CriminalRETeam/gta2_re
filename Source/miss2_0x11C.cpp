@@ -2908,7 +2908,7 @@ void miss2_0x11C::SCRCMD_ADD_SCORE_509D90()
             }
             else
             {
-                pPlayer->field_2D4_scores.AddCash_592620(pCmd->field_C_s32); //  no multiplier
+                pPlayer->AddCash_421990(pCmd->field_C_s32); //  no multiplier
             }
         }
     }
