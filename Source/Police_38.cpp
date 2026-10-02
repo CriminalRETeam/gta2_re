@@ -1597,11 +1597,11 @@ void PoliceCrew_38::sub_575310()
     pPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pService->field_0_criminal_ped);
 
     Fix16 player_y = pPed_6FEDDC->field_1AC_cam.y;
-    Fix16 player_x = pPed_6FEDDC->field_1AC_cam.x;
+    Fix16 player_x = pPed_6FEDDC->get_cam_x();
     Ped* pCriminal = field_14_pService->field_0_criminal_ped;
     Char_B4* pB4 = pCriminal->field_168_game_object;
     Fix16 criminal_y = pCriminal->field_1AC_cam.y;
-    Fix16 criminal_x = pCriminal->field_1AC_cam.x;
+    Fix16 criminal_x = pCriminal->get_cam_x();
 
     if (pB4)
     {
