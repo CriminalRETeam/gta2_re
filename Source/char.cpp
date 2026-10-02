@@ -1526,7 +1526,7 @@ void Char_B4::UpdateAnimState_546360()
 
             if (pDriver->field_240_occupation == ped_ocupation_enum::driver)
             {
-                pDriver->field_240_occupation = ped_ocupation_enum::robbed_driver_10;
+                pDriver->set_occupation_403970(ped_ocupation_enum::robbed_driver_10);
                 pDriver->field_140 = field_84;
                 pDriver->field_180 = field_7C_pPed;
                 goto LABEL_115;
@@ -1552,7 +1552,7 @@ void Char_B4::UpdateAnimState_546360()
             }
 
             gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal_5708C0(field_7C_pPed);
-            if (pDriver->field_258_objective == objectives_enum::objective_43)
+            if (pDriver->get_objective_403A80() == objectives_enum::objective_43)
             {
                 gPolice_7B8_6FEE40->PromptCrewAtCarToPurseCriminal_5707B0(pDriver->field_16C_car, this->field_7C_pPed);
             }
@@ -1560,7 +1560,7 @@ void Char_B4::UpdateAnimState_546360()
             pDriver->SetObjective(objectives_enum::no_obj_0, 9999);
 
         LABEL_115:
-            if (field_7C_pPed->field_25C_internal_objective == 35 && field_7C_pPed->field_226 == 1)
+            if (field_7C_pPed->GetInternalObjective_403A90() == 35 && field_7C_pPed->field_226 == 1)
             {
                 field_7C_pPed->field_226 = 0;
             }
@@ -5707,7 +5707,7 @@ void Char_B4::state_4_551B30()
     {
         field_6C_animation_state = Char_Anim_state::Exiting_Car_7;
         field_68_animation_frame = 0;
-        s8 target_door = field_7C_pPed->field_24C_target_car_door;
+        s8 target_door = field_7C_pPed->get_target_car_door_403A60();
         if (field_84->sub_43B540(target_door))
         {
             field_58_flags_bf.b4 = true;
