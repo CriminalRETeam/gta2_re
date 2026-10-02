@@ -425,32 +425,22 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
     memset(field_13350_pStringTbl, 0, sizeof(str_table_normalized));
 
     str_table_entry* pStringDataIter2 = field_1334C_strings;
-
-    // s32 offset; // ebp
+    s32 str_count = 0;
     if (tableSize)
     {
-        //offset = 4;
         u32 total_str_length_ = 0;
-        s32 str_count = 0;
-
         do
         {
             pStringDataIter2->field_2_zone_idx = gMap_0x370_6F6268->zone_idx_by_name_4DF050((char_type*)&pStringDataIter2[1],
                                                                                             strlen((const char_type*)&pStringDataIter2[1]));
-            //offset += 4;
             field_13350_pStringTbl->field_4[str_count] = pStringDataIter2;
             s32 str_length_ = pStringDataIter2->field_8_length + 9;
             total_str_length_ += str_length_;
             pStringDataIter2 = (str_table_entry*)((char_type*)pStringDataIter2 + str_length_);
             ++str_count;
         } while (total_str_length_ < tableSize);
-
-        field_13350_pStringTbl->field_0_string_count = str_count;
     }
-    else
-    {
-        field_13350_pStringTbl->field_0_string_count = 0;
-    }
+    field_13350_pStringTbl->field_0_string_count = str_count;
 }
 
 MATCH_FUNC(0x5122D0)
