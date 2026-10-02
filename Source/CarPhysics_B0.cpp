@@ -478,11 +478,7 @@ void CarPhysics_B0::ApplyObjectImpact_559E20(Object_2C* pObj)
     sub_529050(pObj->field_26_varrok_idx, &v1, &v2);
     stru_6FDF50.x += dword_6FE2E0 * v1;
     stru_6FDF50.y += dword_6FE2E0 * v2;
-    u32 rng = rng_dword_67AB34->field_0_rng + 15;
-    if (rng > this->field_8_total_damage_q)
-    {
-        this->field_8_total_damage_q = rng;
-    }
+    AddDamage_49EF50(15);
 }
 
 WIP_FUNC(0x559ec0)
