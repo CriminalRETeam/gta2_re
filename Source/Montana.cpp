@@ -156,7 +156,7 @@ void Montana_4::Draw_5C5DF0()
 MATCH_FUNC(0x5c5e50)
 void Montana_4::Reset_5C5E50()
 {
-    gMontana_2EE4_705BBC->field_2EE0_free_indx = 0;
+    gMontana_2EE4_705BBC->Reset_4C4B70();
     field_0_pFirst = 0;
 }
 

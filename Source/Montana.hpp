@@ -74,6 +74,12 @@ class Montana_2EE4
         }
     }
 
+    // 9.6f 0x4C4B70
+    inline void Reset_4C4B70()
+    {
+        field_2EE0_free_indx = 0;
+    }
+
     EXPORT Montana_2EE4();
     EXPORT ~Montana_2EE4();
     Montana_C field_0_entries[1000];
