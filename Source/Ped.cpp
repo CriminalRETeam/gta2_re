@@ -8470,7 +8470,7 @@ void Ped::sub_469FE0()
 MATCH_FUNC(0x46a1f0)
 void Ped::sub_46A1F0()
 {
-    if (field_148_objective_target_ped->field_21C_bf.b0 == false ||
+    if (!field_148_objective_target_ped->CheckBit0_433B40() ||
         field_148_objective_target_ped->GetPedState_403990() == ped_state_1::dead_9)
     {
         field_225_objective_status = objective_status::failed_2;
