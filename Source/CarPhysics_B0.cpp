@@ -736,12 +736,21 @@ void CarPhysics_B0::save_state_55A600()
     }
 }
 
-WIP_FUNC(0x55a6a0)
+// Like Fix16::Max, but by value and keeping the larger value in b. Fix16::Max picks the address of
+// the larger operand and reads it through memory, which the original doesn't do here.
+static inline Fix16 MaxByValue_55A6A0(Fix16 a, Fix16 b)
+{
+    if (a > b)
+    {
+        b = a;
+    }
+    return b;
+}
+
+MATCH_FUNC(0x55a6a0)
 Fix16 CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0()
 {
-    WIP_IMPLEMENTED;
-
-    Fix16 v9 = Fix16::Max((Fix16::ClampToRangeFlexible_55EEE0(Fix16::Abs(gSaved_cm1_6FE3C8.x - g_cm1_6FDF10.x),
+    Fix16 v9 = MaxByValue_55A6A0((Fix16::ClampToRangeFlexible_55EEE0(Fix16::Abs(gSaved_cm1_6FE3C8.x - g_cm1_6FDF10.x),
                                                               Fix16::Abs(gSaved_cm1_6FE3C8.y - g_cm1_6FDF10.y),
                                                               Fix16::Abs(gSaved_cp3_6FDF84 - g_cp3_6FDF08))) /
                               field_5C_pCar->GetMinDimension_43A5B0(),
