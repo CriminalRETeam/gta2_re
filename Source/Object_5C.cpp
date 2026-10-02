@@ -161,8 +161,7 @@ void Object_2C::PoolDeallocate()
 MATCH_FUNC(0x522250)
 bool Object_2C::CanCollideWithSpriteByVarrok_522250(Sprite* pSprite)
 {
-    const u32 phi_type = this->field_8->field_34_behavior_type;
-    if (phi_type != 6 && phi_type != 7 && phi_type != 8 && phi_type != 9 && phi_type != 10 && phi_type != 1 && phi_type != 12)
+    if (is_not_type6_to_12_421080())
     {
         u8 varrok_idx = this->get_field_26_420FF0();
         if (varrok_idx > 0)
