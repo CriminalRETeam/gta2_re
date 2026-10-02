@@ -2351,11 +2351,9 @@ void CarPhysics_B0::ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce)
     field_48 += pForce.Multiply_438FE0(CarPhysics_B0::CalculateMass_559FF0());
 }
 
-WIP_FUNC(0x55fa10)
+MATCH_FUNC(0x55fa10)
 void CarPhysics_B0::ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2)
 {
-    WIP_IMPLEMENTED;
-
     if (field_5C_pCar->is_on_trailer_421720())
     {
         // We are on the trailer so apply impulse to the truck cab instead
