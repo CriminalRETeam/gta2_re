@@ -2997,44 +2997,44 @@ char_type sound_obj::Type_3_HandleCarImpactSound_4174C0(sound_0x68* a2)
     {
         s32 car_field = pCar->field_84_car_info_idx;
         // ??? makes no sense on car model
-        s32 rate;
-        s32 new_rate;
         s32 new_rate_base;
+        s32 new_rate;
 
-        if ((car_field & 3) != 0)
+        // Remaining diff: cases 1 and 0 keep the multiply in ecx, the original uses edx
+        switch (car_field & 3)
         {
-            if ((car_field & 3) != 1)
-            {
-                if ((car_field & 3) != 2)
-                {
-                    a2->field_14_samp_idx = 13;
-                    a2->field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(13) + 30 * car_field;
-                LABEL_11:
-                    a2->field_3C_speed_multiplier = 800;
-                    a2->field_4C_releasing_volume_divider = 3;
-                    a2->field_30_loop_count = 0;
-                    a2->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(a2->field_14_samp_idx);
-                    a2->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(a2->field_14_samp_idx);
-                    return 1;
-                }
+            default:
+                a2->field_14_samp_idx = 13;
+                a2->field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(13) + 30 * car_field;
+                goto set_loop;
+
+            case 2:
                 a2->field_14_samp_idx = 12;
                 new_rate = 29 * car_field + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(12);
-            LABEL_10:
-                a2->field_20_rate = new_rate;
-                goto LABEL_11;
-            }
-            a2->field_14_samp_idx = 13;
-            rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(13);
-            new_rate_base = 0x7FFFFFE3 * car_field;
+                goto set_rate;
+
+            case 1:
+                a2->field_14_samp_idx = 13;
+                new_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(13);
+                new_rate_base = car_field * 0x7FFFFFE3;
+                break;
+
+            case 0:
+                a2->field_14_samp_idx = 12;
+                new_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(12);
+                new_rate_base = car_field * 0x7FFFFFE7;
+                break;
         }
-        else
-        {
-            a2->field_14_samp_idx = 12;
-            rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(12);
-            new_rate_base = 0x7FFFFFE7 * car_field;
-        }
-        new_rate = 2 * (new_rate_base + rate);
-        goto LABEL_10;
+        new_rate = 2 * (new_rate + new_rate_base);
+    set_rate:
+        a2->field_20_rate = new_rate;
+    set_loop:
+        a2->field_3C_speed_multiplier = 800;
+        a2->field_4C_releasing_volume_divider = 3;
+        a2->field_30_loop_count = 0;
+        a2->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(a2->field_14_samp_idx);
+        a2->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(a2->field_14_samp_idx);
+        return 1;
     }
     return 0;
 }
