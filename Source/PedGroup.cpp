@@ -1026,7 +1026,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
     Ped* pLeader = field_2C_ped_leader;
     if (pLeader->bHasGameObject_403B70())
     {
-        if (pMember->field_168_game_object)
+        if (pMember->bHasGameObject_403B70())
         {
             if (!(pLeader->field_21C & 0x8000000))
             {
