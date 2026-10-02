@@ -6554,7 +6554,7 @@ void Car_BC::ResprayOrCleanPlates(u8 remap)
             ResprayOrChangePlates(0xFD); // change plates
         }
     }
-    else if (field_54_driver->field_15C_player->IsUser_41DC70())
+    else if (GetDriverPlayer_421870()->IsUser_41DC70())
     {
         // I ain't touching that get outta here!
         gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "nespray");
