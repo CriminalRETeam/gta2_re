@@ -3301,7 +3301,7 @@ WIP_FUNC(0x4AF2A0)
 Frontend::Frontend()
 {
     WIP_IMPLEMENTED;
-    field_10D = 1;
+    SetField10D_453A30(1);
 
     gText_0x14_704DFC = new text_0x14();
     if (!gText_0x14_704DFC)

@@ -312,6 +312,12 @@ struct Frontend
     u8 field_1EB50_num_main_stages;
     u8 field_1EB51_num_bonus_stages[3];
 
+    // 9.6f 0x453A30
+    inline void SetField10D_453A30(const char_type& value)
+    {
+        field_10D = value;
+    }
+
     // todo: ordering
     EXPORT void LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
     EXPORT void sub_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName);
