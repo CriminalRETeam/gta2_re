@@ -351,7 +351,7 @@ MATCH_FUNC(0x4C5CD0)
 void lucid_hamilton::UpdateFrags_4C5CD0(u8 player_killer_idx, u8 player_victim_idx)
 {
     field_448[player_killer_idx].field_0[player_victim_idx]++;
-    Player* pPlayer = gGame_0x40_67E008->field_4_players[player_killer_idx];
+    Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(player_killer_idx);
     if (player_killer_idx == player_victim_idx)
     {
         // player killed himself
