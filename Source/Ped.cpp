@@ -8798,8 +8798,8 @@ void Ped::FleeOnFootTillSafe_46A8F0()
 MATCH_FUNC(0x46a9c0)
 void Ped::FleeFromPedTillSafe_46A9C0()
 {
-    field_14C->field_144 = 0;
-    if (field_14C->isDead_403B60() || field_14C->field_21C_bf.b0 == false)
+    field_14C->ClearF144_433BE0();
+    if (field_14C->isDead_403B60() || !field_14C->CheckBit0_433B40())
     {
         Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
         Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -8810,7 +8810,7 @@ void Ped::FleeFromPedTillSafe_46A9C0()
     {
         if (gDistanceToTarget_678750 > dword_678520)
         {
-            if (field_168_game_object->field_44 == 2)
+            if (field_168_game_object->Get_F44_433A90() == 2)
             {
                 Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -8822,7 +8822,7 @@ void Ped::FleeFromPedTillSafe_46A9C0()
         {
             Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
             Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_3);
-            field_168_game_object->SetMaxSpeed_433920(field_168_game_object->field_3C_run_or_jump_speed);
+            field_168_game_object->UseRunOrJumpSpeed_433930();
         }
     }
 }

@@ -673,6 +673,12 @@ class Ped
         field_22C = value;
     }
 
+    // 9.6f 0x433BE0
+    inline void ClearF144_433BE0()
+    {
+        field_144 = 0;
+    }
+
     // 9.6f 0x433C00
     inline void SetRotation_433C00(Ang16 rotation)
     {
