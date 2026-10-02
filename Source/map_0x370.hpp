@@ -283,6 +283,9 @@ EXTERN_GLOBAL(Fix16, dword_6F5FA8);
 EXTERN_GLOBAL(Fix16, dword_6F6214);
 
 EXTERN_GLOBAL(Fix16, dword_6F610C);
+extern Fix16 dword_6F6110;
+EXTERN_GLOBAL(Ang16, word_6F603E);
+EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32* road_direction);
 
 struct gmp_zone_list
 {
@@ -414,7 +417,44 @@ class Map_0x370
     EXPORT Fix16* sub_4E5D70(Fix16* pOut, Fix16 x, Fix16 y, Ang16 angle);
     EXPORT Fix16* sub_4E5E00(Fix16* pOut, Fix16 x, Fix16 y, Ang16 angle);
 
-    EXPORT s32 sub_4E6660(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5);
+    // The block under (x, y, z), or the one at z when the one under is a lid-less "air" block
+    inline gmp_block_info* GetRoadBlockAt_4E6660(Fix16& x, Fix16& y, Fix16& z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        {
+            pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        }
+        return pBlock;
+    }
+
+    // As GetRoadBlockAt_4E6660, writing straight into pBlock (the original keeps pBlock in a register
+    // through both lookups, which a returned temporary doesn't give)
+    inline void SetRoadBlockAt_4E6660(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
+    {
+        pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        {
+            pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        }
+    }
+
+    // Move up to one block along direction, using up dist
+    inline void StepOneBlock_4E6660(Fix16* pX, Fix16* pY, Fix16& dist, s32 direction)
+    {
+        if (dist >= dword_6F6110)
+        {
+            sub_4E5D10(pX, pY, dword_6F6110, direction);
+            dist -= dword_6F6110;
+        }
+        else
+        {
+            sub_4E5D10(pX, pY, dist, direction);
+            dist = dword_6F610C;
+        }
+    }
+
+    EXPORT s32 sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist);
     EXPORT s32 sub_4E7190(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5);
     EXPORT char_type sub_4E7E90(u8* a2, char_type* a3);
     EXPORT char_type CheckColumnHasSolidAbove_4E7FC0(Fix16 a2, Fix16 a3, Fix16 a4);
