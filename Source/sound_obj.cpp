@@ -995,26 +995,21 @@ char_type sound_obj::CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3)
 {
     WIP_IMPLEMENTED;
 
-    u8 v3;
     if (a2 == dword_674CD8)
     {
-        v3 = 0;
+        return 0;
     }
-    else
+
+    Fix16 v4 = (a2 - a3) / a2;
+    a3 = Fix16(a1); // 9.6f also reuses the a3 slot here
+    s32 v3 = Fix16::Round_To_Int_410BF0(v4 * v4 * a3);
+    if (v3 > 127)
     {
-        Fix16 v4 = (a2 - a3) / a2;
-        v3 = (Fix16(a1) * v4 * v4 + Fix16(0x2000, 0)).ToInt();
-        if (v3 <= 127)
-        {
-            if (v3 < 0)
-            {
-                v3 = 0;
-            }
-        }
-        else
-        {
-            v3 = 127;
-        }
+        v3 = 127;
+    }
+    else if (v3 < 0)
+    {
+        v3 = 0;
     }
     return v3;
 }
