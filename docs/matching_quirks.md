@@ -566,6 +566,17 @@ assignment for now.
 WIP's register choice is close, the set of inline functions VC6 has seen in the TU is a
 suspect too, not just the ones it uses.
 
+**A by-reference inline helper changes the load order.** When 9.6f calls a helper that takes
+its operands by reference (`MaxAbsDistance_42A6B0(Fix16&, ...)`), VC6 10.5 inlines it but still
+loads all the operands before computing, where the open-coded form interleaves loads and
+subtractions. Returning the result by value adds a temporary copy; writing it through an out
+parameter does not. `struct_4::TakeClosestSprite_5A6EA0` matched with a file-local
+`MaxAbsDistance_5A6EA0(Fix16& out, Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)`.
+
+**Search loops: put the unlink inside the loop body.** `Car_BC::AttachTrailer_4427A0` matched
+once the search-then-unlink was one `for (p = head; p; p = p->mpNext)` loop with the unlink and
+the `return` in its body, which gives the original's `pLast = 0` before the null test.
+
 **Even a global's name can change code.** Renaming `word_70643E` to `gChatFont_70643E`, with
 every token of `Hud.cpp` and its headers otherwise the same, makes
 `Garox_2A25_sub::DrawChatMessages_5D16B0` load the `u16` global with a 32-bit `mov` (`%eax`
