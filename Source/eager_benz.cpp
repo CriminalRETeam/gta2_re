@@ -884,7 +884,7 @@ void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
 {
     if (!pCar->IsMaxDamage_40F890())
     {
-        const s32 multipler = field_368_player->field_6BC_multpliers.field_0_value;
+        const s32 multipler = field_368_player->get_multiplier_4766A0();
         u32 t = a3;
         if (t > 0)
         {
@@ -899,11 +899,11 @@ void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
             }
             if (!bIsFrench_67D53C || !pCar->IsPoliceCar_439EC0())
             {
-                field_368_player->field_2D4_scores.AddCash_592620(base_score * field_368_player->field_6BC_multpliers.field_0_value);
+                field_368_player->Add_2D4(base_score);
             }
             field_368_player->field_644_unk.sub_484FA0(multipler * base_score);
 
-            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_player->Get_Field_68_Ped());
+            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_player->GetPlayerPed_4A5130());
         }
     }
 }
