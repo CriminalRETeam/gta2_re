@@ -6595,12 +6595,9 @@ void Car_BC::IncrementCarStats_443D70(s32 a2)
 {
     IncrementAllocatedCarType_443DA0(a2);
 
-    if (field_64_pTrailer)
+    if (is_trailer_cab_41E460())
     {
-        if (field_64_pTrailer->field_8_truck_cab == this)
-        {
-            field_64_pTrailer->field_C_pCarOnTrailer->IncrementAllocatedCarType_443DA0(a2);
-        }
+        field_64_pTrailer->field_C_pCarOnTrailer->IncrementAllocatedCarType_443DA0(a2);
     }
 }
 
