@@ -235,7 +235,7 @@ void miss2_0x11C::Log_5035D0()
 {
     if (gDo_miss_logging_67D6BC)
     {
-        sprintf(gTmpBuffer_67C598, "%d:\t\t%d ", rng_dword_67AB34->field_0_rng, (s16)field_4_next_cmd);
+        sprintf(gTmpBuffer_67C598, "%d:\t\t%d ", rng_dword_67AB34->get_cur_rng_41CFE0(), (s16)field_4_next_cmd);
         gMiss2Log_6F7698.Write_Log_4D9650(gTmpBuffer_67C598);
     }
 }
@@ -431,10 +431,10 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
 
         if (pPed != NULL)
         {
-            pPed->field_238_ped_type = ped_type::player_2;
+            pPed->SetField238_403920(ped_type::player_2);
             if (!gfrosty_pasteur_6F8060->field_C1E2C)
             {
-                pPed->field_216_health = 100;
+                pPed->set_health_4039A0(100);
             }
 
             pPlayer->InitPlayerPed_565490(pPed);
@@ -590,11 +590,11 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
 
     if (pPed)
     {
-        pPointer->field_8_char->field_238_ped_type = ped_type::script_created_5;
-        pPointer->field_8_char->field_240_occupation = pCmd->field_1C_occupation;
+        pPointer->field_8_char->SetField238_403920(ped_type::script_created_5);
+        pPointer->field_8_char->set_occupation_403970(pCmd->field_1C_occupation);
         pPointer->field_8_char->field_26C_graphic_type = 1;
         pPointer->field_8_char->SetObjective(objectives_enum::wait_on_foot_26, 9999);
-        pPointer->field_8_char->field_216_health = 100;
+        pPointer->field_8_char->set_health_4039A0(100);
         Sprite* pSprite = pPointer->field_8_char->GetSprite_46DF50();
         pSprite->ResolveCollisionWithCarPedOrObject_5A2A30();
     }
@@ -2875,7 +2875,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_CAR_509C10()
     Car_BC* pCarTarget;
     Car_BC* pCarCurrent;
 
-    if (pPed != NULL && (pCarTarget = pParam2->field_8_car) != NULL && (pCarCurrent = pPed->field_16C_car) != NULL &&
+    if (pPed != NULL && (pCarTarget = pParam2->field_8_car) != NULL && (pCarCurrent = pPed->get_car_416B60()) != NULL &&
         pCarCurrent == pCarTarget)
     {
         field_8 = true;
@@ -2896,7 +2896,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_MODEL_509C90()
     Ped* pPed = pParam1->field_8_char;
     Car_BC* pCarCurrent;
 
-    if (pPed != NULL && (pCarCurrent = pPed->field_16C_car) != NULL && pCarCurrent->field_84_car_info_idx == pCmd->field_A_signed_2)
+    if (pPed != NULL && (pCarCurrent = pPed->get_car_416B60()) != NULL && pCarCurrent->field_84_car_info_idx == pCmd->field_A_signed_2)
     {
         field_8 = true;
     }
@@ -3191,7 +3191,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ2_50A200()
             break;
         case objectives_enum::enter_car_as_driver_35:
             pParam = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx);
-            pPointer->field_8_char->field_150_target_objective_car = pParam->field_8_car;
+            pPointer->field_8_char->set_field_150_target_objective_car(pParam->field_8_car);
             if (pCmd->field_E_variant == 1)
             {
                 pPointer->field_8_char->field_248_enter_car_as_passenger = true;
@@ -3207,7 +3207,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ2_50A200()
         case objectives_enum::follow_car_in_car_55:
         case objectives_enum::destroy_car_59:
             pParam = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx);
-            pPointer->field_8_char->field_150_target_objective_car = pParam->field_8_car;
+            pPointer->field_8_char->set_field_150_target_objective_car(pParam->field_8_car);
             break;
         case objectives_enum::fire_at_object_from_vehicle_57:
         case objectives_enum::destroy_object_58:
@@ -3260,7 +3260,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460()
 
     if (pPointer->field_8_char)
     {
-        (pPointer->field_8_char)->field_150_target_objective_car = pCarPointer->field_8_car;
+        (pPointer->field_8_char)->set_field_150_target_objective_car(pCarPointer->field_8_car);
 
         Ang16 CmdRotation;
         CmdRotation.rValue = pCmd->field_E_rotation;
@@ -3635,21 +3635,21 @@ void miss2_0x11C::SCRCMD_CHANGE_RESPECT_50ACF0()
     {
         case SCRCMD_SET_CHAR_RESPECT:
 
-            pGang->SetRespect_4BEE30(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * ((u8)pCmd->field_A_signed_2));
+            pGang->SetRespect_4BEE30(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * ((u8)pCmd->field_A_signed_2));
             pGang->field_111 = 1;
             break;
         case SCRCMD_CHANGE_RESPECT:
             if (pCmd->field_A_signed_2 > 0)
             {
-                pGang->IncrementRespect_4BEE50(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * (pCmd->field_A_signed_2));
+                pGang->IncrementRespect_4BEE50(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * (pCmd->field_A_signed_2));
             }
             else
             {
-                pGang->DecrementRespect_4BEEA0(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * abs(pCmd->field_A_signed_2));
+                pGang->DecrementRespect_4BEEA0(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * abs(pCmd->field_A_signed_2));
             }
             break;
         case SCRCMD_CHANGE_GANG_RESP:
-            pGang->ChangeRespectAndUpdate_4BF000(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * ((u8)pCmd->field_A_signed_2));
+            pGang->ChangeRespectAndUpdate_4BF000(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * ((u8)pCmd->field_A_signed_2));
             break;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -3667,7 +3667,7 @@ void miss2_0x11C::RespectOperator_50AEF0()
     {
         case SCRCMD_CHECK_RESPECT_IS:
         {
-            u8 idx = pPointer->field_8_char->field_15C_player->field_2E_idx;
+            u8 idx = pPointer->field_8_char->field_15C_player->get_idx_4219D0();
 
             if (pGang->GetRespectForPlayer_4BEEF0(idx) / 20 == pCmd->field_A_signed_2)
             {
@@ -3682,7 +3682,7 @@ void miss2_0x11C::RespectOperator_50AEF0()
         }
         case SCRCMD_CHECK_RESPECT_LESS:
         {
-            u8 idx = pPointer->field_8_char->field_15C_player->field_2E_idx;
+            u8 idx = pPointer->field_8_char->field_15C_player->get_idx_4219D0();
 
             if (pGang->GetRespectForPlayer_4BEEF0(idx) / 20 < pCmd->field_A_signed_2)
             {
@@ -3697,7 +3697,7 @@ void miss2_0x11C::RespectOperator_50AEF0()
         }
         case SCRCMD_CHECK_RESPECT_GREATER:
         {
-            u8 idx = pPointer->field_8_char->field_15C_player->field_2E_idx;
+            u8 idx = pPointer->field_8_char->field_15C_player->get_idx_4219D0();
 
             if (pGang->GetRespectForPlayer_4BEEF0(idx) / 20 > pCmd->field_A_signed_2)
             {
@@ -3723,7 +3723,7 @@ void miss2_0x11C::SCRCMD_ADD_PATROL_POINT_50B0E0()
     Ped* pPed = pPointer->field_8_char;
     if (pPed)
     {
-        if (pPed->field_258_objective != objectives_enum::patrol_on_foot_42)
+        if (pPed->get_objective_403A80() != objectives_enum::patrol_on_foot_42)
         {
             pPed->SetObjective(objectives_enum::patrol_on_foot_42, 9999);
         }
@@ -3898,7 +3898,7 @@ void miss2_0x11C::SCRCMD_CHAR_TO_DRIVE_CAR_50B4F0()
         {
             pPtrPed->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
             pPtrPed->field_8_char->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-            pPtrPed->field_8_char->field_150_target_objective_car = pPtrCar->field_8_car;
+            pPtrPed->field_8_char->set_field_150_target_objective_car(pPtrCar->field_8_car);
             pPtrPed->field_8_char->field_248_enter_car_as_passenger = false;
         }
         else
@@ -4289,7 +4289,7 @@ void miss2_0x11C::SCRCMD_CHECK_MAX_PASS_50BED0()
 {
     SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    Car_BC* pCar = pPointer->field_8_char->field_16C_car;
+    Car_BC* pCar = pPointer->field_8_char->get_car_416B60();
 
     if (pCar && (u8)pCar->GetPassengersCount_440570() >= pCmd->field_A_signed_2)
     {
@@ -5218,7 +5218,7 @@ void miss2_0x11C::SCRCMD_DO_SAVE_GAME_50D3C0()
         SCR_DO_SAVE_GAME* pCmd = (SCR_DO_SAVE_GAME*)gBasePtr_6F8070;
         miss2_0x11C::DisableThread_505790(pCmd->field_8_triggername);
 
-        if ((u32)rng_dword_67AB34->field_0_rng > 0)
+        if ((u32)rng_dword_67AB34->get_cur_rng_41CFE0() > 0)
         {
             u32* mission_flag = (u32*)gfrosty_pasteur_6F8060->field_344_mission_flag;
             if (!mission_flag || *mission_flag)
@@ -6151,7 +6151,7 @@ void miss2_0x11C::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     }
     s8 idx1;
     //  Check if the player has respect enough to launch the mission
-    if ((idx1 = gGame_0x40_67E008->field_38_orf1->field_2E_idx,
+    if ((idx1 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(),
          pGang_zone->GetRespectForPlayer_4BEEF0(idx1) / 20 >= pCmd->field_1A_respect))
     {
         str_table_entry* mission1_str_table = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_1C_mission1);
@@ -6161,7 +6161,7 @@ void miss2_0x11C::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     }
     s8 idx2;
     //  Check if the player has respect = 0
-    if ((idx2 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, (pGang_zone->GetRespectForPlayer_4BEEF0(idx2) / 20) == 0))
+    if ((idx2 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(), (pGang_zone->GetRespectForPlayer_4BEEF0(idx2) / 20) == 0))
     {
         s32 briefId = pCmd->field_8_brief_id - 6;
         sprintf(gTmpBuffer_67C598, "%d", briefId);
@@ -6171,7 +6171,7 @@ void miss2_0x11C::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     }
     s8 idx3;
     //  Check if the player has negative respect
-    if ((idx3 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, pGang_zone->GetRespectForPlayer_4BEEF0(idx3) / 20 < 0))
+    if ((idx3 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(), pGang_zone->GetRespectForPlayer_4BEEF0(idx3) / 20 < 0))
     {
         s32 briefId = pCmd->field_8_brief_id - 4;
         sprintf(gTmpBuffer_67C598, "%d", briefId);
@@ -6299,7 +6299,7 @@ void miss2_0x11C::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
     SCR_WARP_FROM_CAR* pCmd = (SCR_WARP_FROM_CAR*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     Ped* pPed = pPointer->field_8_char;
-    Car_BC* pCar = pPed->field_16C_car;
+    Car_BC* pCar = pPed->get_car_416B60();
 
     if (pPed != NULL)
     {
@@ -6877,7 +6877,7 @@ void miss2_0x11C::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
         else
         {
             // Car weapons
-            pPlayerPedPtr->field_8_char->field_15C_player->SetKFCarWeapon_564710(pPlayerPedPtr->field_8_char->field_16C_car,
+            pPlayerPedPtr->field_8_char->field_15C_player->SetKFCarWeapon_564710(pPlayerPedPtr->field_8_char->get_car_416B60(),
                                                                                  (u8)pCmd->field_10_weapon);
         }
 
@@ -6923,7 +6923,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
 
             Ped* pPed = pPlayerPedCmdPointer->field_8_char;
 
-            if (pPed->field_278_ped_state_1 == ped_state_1::dead_9 || pPed->field_21C_bf.b5 != 0)
+            if (pPed->GetPedState_403990() == ped_state_1::dead_9 || pPed->field_21C_bf.b5 != 0)
             {
                 gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.field_0[pBonusType->field_8_index].sub_431DB0();
                 pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
