@@ -166,14 +166,12 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
             pParticle->field_46_sub_state = 0;
             pParticle->field_48_timer = 0;
 
-            Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
+            Fix16 w = pCar->get_car_width() / 2 + dword_6FD3C0;
+            Fix16 h = pCar->get_car_height() / 2 + dword_6FD5A8;
             Fix16_Point offset;
-            offset.x = pBox->field_0_width / 2 + dword_6FD3C0;
-            offset.y = pBox->field_4_height / 2 + dword_6FD5A8;
+            offset.SetXY_432860(w, h);
             offset.RotateByAngle_40F6B0(a2->field_0);
-            Fix16_Point pos = a2->get_x_y_443580();
-            offset.x += pos.x;
-            offset.y += pos.y;
+            offset += a2->get_x_y_443580();
 
             pParticle->field_28_pSprite = a2;
             pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
@@ -197,14 +195,12 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         pParticle->field_46_sub_state = 0;
         pParticle->field_48_timer = 0;
 
-        Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
+        Fix16 w = -(pCar->get_car_width() / 2 + dword_6FD3C0);
+        Fix16 h = pCar->get_car_height() / 2 + dword_6FD5A8;
         Fix16_Point offset;
-        offset.x = -(pBox->field_0_width / 2 + dword_6FD3C0);
-        offset.y = pBox->field_4_height / 2 + dword_6FD5A8;
+        offset.SetXY_432860(w, h);
         offset.RotateByAngle_40F6B0(a2->field_0);
-        Fix16_Point pos = a2->get_x_y_443580();
-        offset.x += pos.x;
-        offset.y += pos.y;
+        offset += a2->get_x_y_443580();
 
         pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
         pParticle->field_30_pNext->set_xyz_lazy_420600(offset.x, offset.y, a2->field_1C_zpos);
@@ -222,8 +218,9 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 197);
         pParticle->field_34 = 0;
         pParticle->field_38_state = 40;
-        Fix16 dx = Ang16::sine_40F500(a2->field_0) * dword_6FD2E8;
-        Fix16 dy = Ang16::cosine_40F520(a2->field_0) * dword_6FD2E8;
+        Fix16 dx;
+        Fix16 dy;
+        Ang16::PolarToCartesian_41FC20(a2->field_0, dword_6FD2E8, dx, dy);
         pParticle->field_46_sub_state = 0;
         pParticle->field_48_timer = 0;
         stru_6FD388 = a2->field_14_xy.x + dx;
@@ -242,6 +239,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         pParticle->field_28_pSprite = a2;
     }
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+    // 9.6f: Sprite::Set_2C_0x4_Flag_4337F0 here and above (inlined, using it in both places makes the diff worse)
     pParticle->field_30_pNext->field_2C_flags |= 4;
 }
 
