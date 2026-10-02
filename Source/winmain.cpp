@@ -903,7 +903,7 @@ void __stdcall ClearDebugFlags_4DB170()
 MATCH_FUNC(0x4DB070)
 EXPORT void __stdcall ShowPlayerLeftMessage_4DB070(u8 idx)
 {
-    Player* pPlayer = gGame_0x40_67E008->field_4_players[idx];
+    Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(idx);
     pPlayer->Disconnect_568730();
     swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("comms1"), pPlayer->field_83C_player_name);
     gHud_2B00_706620->field_12F0_mp_message.ShowText_5D5730(tmpBuff_67BD9C);
