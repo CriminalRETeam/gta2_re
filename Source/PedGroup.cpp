@@ -284,40 +284,40 @@ void PedGroup::DestroyGroup_4C93A0()
     }
 
     Ped* ppVar2 = field_2C_ped_leader;
-    if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) && (ppVar2->field_280_stored_ped_state_1 != ped_state1_enum::ped_wasted))
+    if ((ppVar2->GetPedState_403990() != ped_state1_enum::ped_wasted) && (ppVar2->field_280_stored_ped_state_1 != ped_state1_enum::ped_wasted))
     {
         ppVar2->SetObjective(objectives_enum::no_obj_0, 9999);
         field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
     }
 
-    field_2C_ped_leader->reset_ped_group();
+    field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
     if (field_4_ped_list[0] != NULL)
     {
         for (u8 bVar5 = 0; bVar5 < field_34_count; bVar5++)
         {
             ppVar2 = field_4_ped_list[bVar5];
             Ped** pppVar1 = field_4_ped_list + bVar5;
-            if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) ||
+            if ((ppVar2->GetPedState_403990() == ped_state1_enum::ped_wasted) ||
                 (ppVar2->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
             {
-                ppVar2->reset_ped_group();
+                ppVar2->ClearGroupAndGroupIdx_403A30();
             }
             else
             {
-                if (ppVar2->has_field_16C_car() == true)
+                if (ppVar2->has_car_403B80() == true)
                 {
                     ppVar2->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     (*pppVar1)->SetObjective(objectives_enum::objective_34, 9999);
                     (*pppVar1)->set_field_150_target_objective_car((*pppVar1)->field_16C_car);
-                    (*pppVar1)->reset_ped_group();
-                    (*pppVar1)->set_ped_type(ped_type_enum::New_Name_2);
+                    (*pppVar1)->ClearGroupAndGroupIdx_403A30();
+                    (*pppVar1)->SetField238_403920(ped_type_enum::New_Name_2);
                 }
                 else
                 {
                     ppVar2->SetObjective(objectives_enum::no_obj_0, 9999);
                     (*pppVar1)->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                    (*pppVar1)->reset_ped_group();
-                    (*pppVar1)->set_ped_type(ped_type_enum::New_Name_2);
+                    (*pppVar1)->ClearGroupAndGroupIdx_403A30();
+                    (*pppVar1)->SetField238_403920(ped_type_enum::New_Name_2);
                 }
             }
         }
