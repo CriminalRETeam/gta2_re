@@ -2713,7 +2713,7 @@ void Hud_Brief_704::DrawBrief_5D3B80()
                    0,
                    0);
 
-        u16 first_line_ypos = 480 - gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&gBriefFont_7065C4) * field_508_num_lines;
+        s32 first_line_ypos = 480 - GetLineSpacingFromFontType_5D7700_inlined(gBriefFont_7065C4) * field_508_num_lines;
         DrawText_5D7720(field_0_str, // str
                         (64), // x
                         first_line_ypos, // y
