@@ -825,8 +825,10 @@ that may be `FromPolar_41E210` or `Ang16::PolarToCartesian_41FC20`.
 Before blaming the budget, check whether the out-of-line calls look written by name. In
 `Trailer::sub_407BD0` the rotation's y line calls `Negate_4086A0`, `Multiply_408680` and the
 out-of-line `operator+` (0x408660) while the x line is inlined; writing those calls explicitly
-kept the rest inlined (0.476 -> 0.843). `GetDoorWorldPos_43B420` has the same shape, and the
-same held for `Crane_15C::ComputeHookPos_47E620` and `_47E730` (both matched), and may hold for `fire_truck_gun_5E0E70` and the `EmitBloodBurst`/`EmitWaterSplash` siblings.
+kept the rest inlined (0.476 -> 0.843). It matched `Crane_15C::ComputeHookPos_47E620` and
+`_47E730`. `GetDoorWorldPos_43B420` has the same shape, and it may help `fire_truck_gun_5E0E70`
+and the `EmitBloodBurst`/`EmitWaterSplash` siblings.
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
