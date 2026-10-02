@@ -994,7 +994,7 @@ void Sprite::Update_4C_59F990()
     {
         this->field_4_0x4C_len = gSprite_4C_Pool_70381C->Allocate();
 
-        const u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        const u16 sprite_idx = GetTrueSpriteIdx_4BA230();
         const sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
 
         Fix16 w;
