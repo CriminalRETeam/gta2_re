@@ -12,7 +12,7 @@
 DEFINE_GLOBAL(Miss2_25C*, gMiss2_25C_6F805C, 0x6F805C);
 
 MATCH_FUNC(0x502d90)
-Miss2_25C::Miss2_25C()
+Miss2_25C::Miss2_25C() throw()
 {
     field_258_count = 0;
     for (s32 i = 0; i < 50; i++)

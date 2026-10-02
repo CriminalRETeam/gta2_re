@@ -844,10 +844,9 @@ bool frosty_pasteur_0xC1EA8::IsWeaponHitRecorded_512C70(s32 id, char_type weapon
 }
 
 // https://decomp.me/scratch/qh4EW
-WIP_FUNC(0x512ce0)
+MATCH_FUNC(0x512ce0)
 frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
 {
-    WIP_IMPLEMENTED;
     field_13350_pStringTbl = 0;
     if (!bSkip_mission_67D4E5)
     {
@@ -870,8 +869,9 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     memset(field_27C_weapon_check_table, 0, sizeof(field_27C_weapon_check_table));
     memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
 
-    gMiss2_25C_6F805C = new Miss2_25C();
-    if (!gMiss2_25C_6F805C)
+    Miss2_25C* pMiss2_25C = new Miss2_25C();
+    gMiss2_25C_6F805C = pMiss2_25C;
+    if (!pMiss2_25C)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 13630);
     }
