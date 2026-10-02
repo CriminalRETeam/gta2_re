@@ -8238,7 +8238,7 @@ void Ped::GuardSpot_469BF0()
 {
     WIP_IMPLEMENTED;
 
-    s32 bUnknown = 1;
+    u8 bUnknown = 1;
 
     this->field_21C |= 0x400000;
 
@@ -8259,34 +8259,26 @@ void Ped::GuardSpot_469BF0()
             gDistanceToTarget_678750 <= dword_678780 &&
                 abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, this->field_1E4_objective_target_z))
         {
-            if (this->field_168_game_object->GetCharState_433A80() == 15)
+            if (this->field_168_game_object->GetCharState_433A80() != 15)
             {
-                this->field_224 |= 0x10;
-            }
-            else if ((field_224 & 0x10) != 0)
-            {
-                Ped::ChangeNextPedState1_45C500(7);
-                Ped::ChangeNextPedState2_45C540(14);
-                if (field_168_game_object->field_38_velocity >= k_dword_678438)
+                if ((field_224 & 0x10) != 0)
                 {
-                    if (field_168_game_object->field_38_velocity > k_dword_678438)
-                    {
-                        field_168_game_object->field_38_velocity -= dword_678620;
-                    }
+                    Ped::ChangeNextPedState1_45C500(7);
+                    Ped::ChangeNextPedState2_45C540(14);
+                    field_168_game_object->RegulateVelocityByRef_433970(k_dword_678438);
+                    ++this->field_260;
+                    this->field_130 = this->field_134_rotation;
                 }
                 else
                 {
-                    field_168_game_object->field_38_velocity += dword_678620;
+                    Ped::ChangeNextPedState1_45C500(7);
+                    Ped::ChangeNextPedState2_45C540(14);
+                    this->field_130 = this->field_134_rotation;
                 }
-
-                ++this->field_260;
-                this->field_130 = this->field_134_rotation;
             }
             else
             {
-                Ped::ChangeNextPedState1_45C500(7);
-                Ped::ChangeNextPedState2_45C540(14);
-                this->field_130 = this->field_134_rotation;
+                this->field_224 |= 0x10;
             }
         }
         else
