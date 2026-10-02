@@ -2655,7 +2655,7 @@
         "v105_address": "0x453590"
     },
     {
-        "name": "CarAI_78::sub_4537D0",
+        "name": "CarAI_78::ChooseRandomTurn_4537D0",
         "v96f_address": null,
         "v105_address": "0x4537d0"
     },
@@ -2665,7 +2665,7 @@
         "v105_address": "0x4538b0"
     },
     {
-        "name": "CarAI_78::sub_453990",
+        "name": "CarAI_78::RaiseSpeedTo_453990",
         "v96f_address": null,
         "v105_address": "0x453990"
     },
@@ -2675,12 +2675,12 @@
         "v105_address": "0x4539b0"
     },
     {
-        "name": "CarAI_78::sub_4539D0",
+        "name": "CarAI_78::UpdateSpeedTowardTarget_4539D0",
         "v96f_address": null,
         "v105_address": "0x4539d0"
     },
     {
-        "name": "CarAI_78::sub_453A40",
+        "name": "CarAI_78::UpdateTrainMovement_453A40",
         "v96f_address": null,
         "v105_address": "0x453a40"
     },

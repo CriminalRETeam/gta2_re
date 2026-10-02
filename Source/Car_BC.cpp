@@ -2004,7 +2004,7 @@ void Car_BC::sub_43AF40()
 {
     if (field_5C_AI)
     {
-        field_5C_AI->field_18 = k_dword_6778E0;
+        field_5C_AI->field_18_target_speed = k_dword_6778E0;
         field_A6 &= ~0x20u;
     }
 }
@@ -5543,7 +5543,7 @@ char_type Car_BC::TrainUpdate_442D70()
 
         if (field_5C_AI)
         {
-            field_5C_AI->sub_453A40();
+            field_5C_AI->UpdateTrainMovement_453A40();
         }
         sub_442190();
     }
