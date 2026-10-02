@@ -2807,8 +2807,8 @@ char_type Char_B4::CanMoveToTile_54C500(char_type x, char_type y)
     WIP_IMPLEMENTED;
 
     Fix16 tx = field_80_sprite_ptr->field_14_xy.x;
-    char_type dx = x - tx.ToInt();
     Fix16 ty = field_80_sprite_ptr->field_14_xy.y;
+    char_type dx = x - tx.ToInt();
     char_type dy = y - ty.ToInt();
 
     // No movement
