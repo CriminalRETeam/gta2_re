@@ -94,7 +94,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
         }
         pIter++;
     }
-    gfrosty_pasteur_6F8060->field_C1E70 = 87;
+    gfrosty_pasteur_6F8060->field_C1E70_wanted_car_model = 87;
 }
 
 MATCH_FUNC(0x502f60)

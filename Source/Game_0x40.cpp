@@ -66,8 +66,8 @@
 
 DEFINE_GLOBAL_INIT(Fix16, dword_67DECC, Fix16(5), 0x67DECC);
 DEFINE_GLOBAL_INIT(Fix16, dword_67DFB4, dword_67DECC, 0x67DFB4);
-DEFINE_GLOBAL(s32, dword_7071A0, 0x7071A0);
-DEFINE_GLOBAL(s32, dword_7071B0, 0x7071B0);
+DEFINE_GLOBAL(s32, gNetworkGameSpeed_7071A0, 0x7071A0);
+DEFINE_GLOBAL(s32, gNetworkPolice_7071B0, 0x7071B0);
 DEFINE_GLOBAL(s32, dword_706C58, 0x706C58);
 
 // TODO
@@ -80,13 +80,13 @@ DEFINE_GLOBAL(Game_0x40*, gGame_0x40_67E008, 0x67E008);
 void sub_SetGamma();
 
 MATCH_FUNC(0x4B8BB0)
-s32 Game_0x40::sub_4B8BB0()
+s32 Game_0x40::GetFrameDurationMs_4B8BB0()
 {
     if (bStartNetworkGame_7081F0 == false)
     {
         return field_30_bLimitFramerate == false ? 33 : 11;
     }
-    return field_34;
+    return field_34_network_frame_ms;
 }
 
 MATCH_FUNC(0x4B8BD0)
@@ -108,7 +108,7 @@ void Game_0x40::ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type)
 }
 
 MATCH_FUNC(0x4B8C20)
-s8 Game_0x40::sub_4B8C20()
+s8 Game_0x40::UpdateExitTimer_4B8C20()
 {
     if (field_28_timer == 0)
     {
@@ -180,33 +180,33 @@ void Game_0x40::LoadGameFiles_4B8C40()
 }
 
 MATCH_FUNC(0x4B8E00)
-void Game_0x40::sub_4B8E00(u32 a1, u32 a2)
+void Game_0x40::SetScreenSize_4B8E00(u32 a1, u32 a2)
 {
-    field_38_orf1->field_90_game_camera.sub_4361B0(a1, a2);
-    field_38_orf1->field_208_aux_game_camera.sub_4361B0(a1, a2);
-    field_38_orf1->field_14C_view_camera.sub_4361B0(a1, a2);
+    field_38_orf1->field_90_game_camera.SetScreenSize_4361B0(a1, a2);
+    field_38_orf1->field_208_aux_game_camera.SetScreenSize_4361B0(a1, a2);
+    field_38_orf1->field_14C_view_camera.SetScreenSize_4361B0(a1, a2);
     gHud_2B00_706620->sub_5D6AB0();
 }
 
 MATCH_FUNC(0x4B8E50)
-void Game_0x40::sub_4B8E50()
+void Game_0x40::ApplyNetworkGameSettings_4B8E50()
 {
-    switch (dword_7071A0)
+    switch (gNetworkGameSpeed_7071A0)
     {
         case 0:
-            field_34 = 50;
+            field_34_network_frame_ms = 50;
             break;
 
         case 1:
-            field_34 = 40;
+            field_34_network_frame_ms = 40;
             break;
 
         case 2:
-            field_34 = 33;
+            field_34_network_frame_ms = 33;
             break;
     }
 
-    bSkip_police_67D4F9 = dword_7071B0 == 0;
+    bSkip_police_67D4F9 = gNetworkPolice_7071B0 == 0;
 }
 
 // TODO: move
@@ -239,7 +239,7 @@ void Game_0x40::BootGame_4B8EB0()
     gLucid_hamilton_67E8E0.SetBonusRatingTextIdx_4C5AB0(0);
     if (bStartNetworkGame_7081F0)
     {
-        sub_4B8E50();
+        ApplyNetworkGameSettings_4B8E50();
     }
 
     sub_5D8DF0();
@@ -341,7 +341,7 @@ void Game_0x40::DebugShowCarStatsAndFrameSkip_4B9270()
 MATCH_FUNC(0x4B92D0)
 void Game_0x40::Draw_4B92D0()
 {
-    gViewCamera_676978 = &field_1C_unk->field_14C_view_camera;
+    gViewCamera_676978 = &field_1C_view_player->field_14C_view_camera;
 
     gpMapRenderer_6F66E4->ClearDrawnTileCount_4F6A10();
     gSprite_8_703820->sub_5A5860();
@@ -407,7 +407,7 @@ static void SetGamma_5D9970() // TODO Function chunk of 0x4AEC00, 0x4B93C0 and 0
 }
 
 MATCH_FUNC(0x4B93C0)
-void Game_0x40::sub_4B93C0()
+void Game_0x40::UpdatePaused_4B93C0()
 {
     Player** pIter = field_4_players;
     u32 i = 0;
@@ -415,7 +415,7 @@ void Game_0x40::sub_4B93C0()
     {
         if ((*pIter)->field_8E_bInUse)
         {
-            (*pIter)->sub_569410();
+            (*pIter)->UpdatePaused_569410();
         }
         ++i;
         ++pIter;
@@ -548,7 +548,7 @@ s8 Game_0x40::ExecuteGame_4B9640()
             break;
 
         case GameState::Paused_2:
-            sub_4B93C0();
+            UpdatePaused_4B93C0();
             if (!bSkip_audio_67D6BE)
             {
                 gRoot_sound_66B038.Service_40EFA0();
@@ -558,7 +558,7 @@ s8 Game_0x40::ExecuteGame_4B9640()
         default:
             break;
     }
-    return sub_4B8C20();
+    return UpdateExitTimer_4B8C20();
 }
 
 // TODO: Werid function chunk stuff
@@ -637,7 +637,7 @@ Player* Game_0x40::GetFirstPlayerWithoutPed_4B9750()
 }
 
 MATCH_FUNC(0x4B9790)
-void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
+void Game_0x40::ShakeCamerasAtPos_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     Camera_0xBC* pCam = IteratePlayerCamera_4B9BC0();
     while (pCam)
@@ -645,9 +645,9 @@ void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
         if (a3 >= pCam->field_78_boundaries_non_neg.field_0_left && a3 <= pCam->field_78_boundaries_non_neg.field_4_right &&
             a4 >= pCam->field_78_boundaries_non_neg.field_8_top && a4 <= pCam->field_78_boundaries_non_neg.field_C_bottom)
         {
-            pCam->sub_436120(a2);
+            pCam->SetShake_436120(a2);
         }
-        pCam = sub_4B9C50();
+        pCam = IterateNextPlayerCamera_4B9C50();
     }
 }
 
@@ -678,11 +678,11 @@ s8 Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin
 }
 
 MATCH_FUNC(0x4B9890)
-s8 Game_0x40::sub_4B9890(Sprite* a2, s32 a3)
+s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* a2, s32 a3)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (sub_4B98E0(a2, i, a3))
+        if (IsSpriteInPlayerView_4B98E0(a2, i, a3))
         {
             return 1;
         }
@@ -691,15 +691,15 @@ s8 Game_0x40::sub_4B9890(Sprite* a2, s32 a3)
 }
 
 MATCH_FUNC(0x4B98E0)
-bool Game_0x40::sub_4B98E0(Sprite* a2, u8 playerIdx, s32 a4)
+bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* a2, u8 playerIdx, s32 a4)
 {
     if (field_4_players[playerIdx]->field_8E_bInUse)
     {
-        if (field_4_players[playerIdx]->field_90_game_camera.sub_435630(a2, a4))
+        if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteInView_435630(a2, a4))
         {
             return true;
         }
-        return field_4_players[playerIdx]->field_2D0 && field_4_players[playerIdx]->field_208_aux_game_camera.sub_435630(a2, a4) ? true :
+        return field_4_players[playerIdx]->field_2D0_bAuxCamActive && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteInView_435630(a2, a4) ? true :
                                                                                                                                    false;
     }
     return false;
@@ -726,7 +726,7 @@ s8 Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 ma
         }
     }
 
-    if (pPlayer->field_2D0 && pCarSprite->field_14_xy.x >= pPlayer->field_208_aux_game_camera.field_20_boundaries.field_0_left - margin &&
+    if (pPlayer->field_2D0_bAuxCamActive && pCarSprite->field_14_xy.x >= pPlayer->field_208_aux_game_camera.field_20_boundaries.field_0_left - margin &&
         pCarSprite->field_14_xy.x <= margin + pPlayer->field_208_aux_game_camera.field_20_boundaries.field_4_right)
 
     {
@@ -749,7 +749,7 @@ bool Game_0x40::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player
         {
             return true;
         }
-        return field_4_players[playerIdx]->field_2D0 && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite) ? true : false;
+        return field_4_players[playerIdx]->field_2D0_bAuxCamActive && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite) ? true : false;
     }
     return false;
 }
@@ -768,7 +768,7 @@ bool Game_0x40::is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp)
             {
                 return true;
             }
-            if (pPlayer->field_2D0 && pPlayer->field_208_aux_game_camera.check_camera(a2_fp, a3_fp))
+            if (pPlayer->field_2D0_bAuxCamActive && pPlayer->field_208_aux_game_camera.check_camera(a2_fp, a3_fp))
             {
                 return true;
             }
@@ -794,7 +794,7 @@ s8 Game_0x40::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
             {
                 return 1;
             }
-            if (pCurPlayer->field_2D0 && pBounds->field_8_top <= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_C_bottom &&
+            if (pCurPlayer->field_2D0_bAuxCamActive && pBounds->field_8_top <= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_C_bottom &&
                 pBounds->field_C_bottom >= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_8_top &&
                 pBounds->field_0_left <= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_4_right &&
                 pBounds->field_4_right >= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_0_left)
@@ -813,7 +813,7 @@ Camera_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
     {
         if (field_4_players[field_21_player_camera_idx]->field_8E_bInUse)
         {
-            field_22 = 0;
+            field_22_bAuxCamIterated = 0;
             return &field_4_players[field_21_player_camera_idx]->field_90_game_camera;
         }
     }
@@ -836,15 +836,15 @@ s8 Game_0x40::IsCarInAnyPlayerHistory_4B9C10(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x4B9C50)
-Camera_0xBC* Game_0x40::sub_4B9C50()
+Camera_0xBC* Game_0x40::IterateNextPlayerCamera_4B9C50()
 {
-    if (!field_4_players[field_21_player_camera_idx]->field_2D0 || field_22)
+    if (!field_4_players[field_21_player_camera_idx]->field_2D0_bAuxCamActive || field_22_bAuxCamIterated)
     {
         while (++field_21_player_camera_idx < field_23_num_players)
         {
             if (field_4_players[field_21_player_camera_idx]->field_8E_bInUse)
             {
-                field_22 = 0;
+                field_22_bAuxCamIterated = 0;
                 return &field_4_players[field_21_player_camera_idx]->field_90_game_camera;
             }
         }
@@ -852,7 +852,7 @@ Camera_0xBC* Game_0x40::sub_4B9C50()
     }
     else
     {
-        field_22 = 1;
+        field_22_bAuxCamIterated = 1;
         return &field_4_players[field_21_player_camera_idx]->field_208_aux_game_camera;
     }
 }
@@ -933,7 +933,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     Player* pPlayer = field_4_players[field_24_cur_idx];
     field_38_orf1 = pPlayer;
     pPlayer->field_0_bIsUser = 1;
-    field_1C_unk = field_38_orf1;
+    field_1C_view_player = field_38_orf1;
 
     rng_dword_67AB34 = new rng(); // inline
     if (!rng_dword_67AB34)
@@ -1230,14 +1230,14 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     }
 
     field_21_player_camera_idx = 0;
-    field_22 = 0;
+    field_22_bAuxCamIterated = 0;
     field_0_game_state = GameState::Running_1;
     gbRngRemapTableDone_679C0A = 0;
     field_20_idx = 0;
     field_28_timer = -1;
     field_30_bLimitFramerate = 0;
     field_2C_game_exit_type = GameExitType::None;
-    field_34 = 0;
+    field_34_network_frame_ms = 0;
     if (!bSkip_audio_67D6BE)
     {
         gRoot_sound_66B038.InitMusicAndCopRadio_40F010();
@@ -1329,6 +1329,6 @@ Game_0x40::~Game_0x40()
         GTA2_DELETE_AND_NULL(gMagical_germain_0x8EC_6F5168);
     }
 
-    field_1C_unk = 0;
+    field_1C_view_player = 0;
     field_38_orf1 = 0;
 }

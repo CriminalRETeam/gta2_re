@@ -9,7 +9,7 @@ DEFINE_GLOBAL(lucid_hamilton, gLucid_hamilton_67E8E0, 0x67E8E0);
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
 
 MATCH_FUNC(0x4C53D0)
-void lucid_hamilton::sub_4C53D0()
+void lucid_hamilton::LoadDebugSettings_4C53D0()
 {
     char path[256];
     char tmp[256];
@@ -56,7 +56,7 @@ void lucid_hamilton::sub_4C53D0()
     gLucid_hamilton_67E8E0.DebugStr_4C58D0(path);
     gLucid_hamilton_67E8E0.SetMainStageIdx_4C58F0(0);
     gLucid_hamilton_67E8E0.SetStage_4C5900(0);
-    gLucid_hamilton_67E8E0.SetIsBonusStage_4C5910(0);
+    gLucid_hamilton_67E8E0.SetBonusStage_4C5910(0);
     gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(0);
     gLucid_hamilton_67E8E0.SetLevelFinishBonusType_4C5930(0);
 
@@ -65,8 +65,8 @@ void lucid_hamilton::sub_4C53D0()
         field_408_statistics[i] = 0;
     }
 
-    field_430_auto_damage_cost = 0;
-    field_434_fugitive_factor = 0;
+    field_430_car_damage_cost = 0;
+    field_434_evasion_rating = 0;
     field_438_bonus_rating_text_idx = 0;
     field_43A = 0;
 
@@ -110,9 +110,9 @@ void lucid_hamilton::SetStage_4C5900(char_type a2)
 }
 
 MATCH_FUNC(0x4C5910)
-void lucid_hamilton::SetIsBonusStage_4C5910(char_type a2)
+void lucid_hamilton::SetBonusStage_4C5910(char_type a2)
 {
-    field_402_is_bonus_stage = a2;
+    field_402_bonus_stage = a2;
 }
 
 MATCH_FUNC(0x4C5920)
@@ -166,7 +166,7 @@ char_type lucid_hamilton::GetStage_4C5990()
 MATCH_FUNC(0x4C59A0)
 char_type lucid_hamilton::IsBonusStage_4C59A0()
 {
-    return field_402_is_bonus_stage;
+    return field_402_bonus_stage;
 }
 
 MATCH_FUNC(0x4C59B0)
@@ -194,39 +194,39 @@ s32 lucid_hamilton::GetStatistic_4C59F0(u8 idx)
 }
 
 MATCH_FUNC(0x4C5A10)
-void lucid_hamilton::SetStatisticsFromPlayer_4C5A10(Player* pPlayer)
+void lucid_hamilton::StoreCrimeStats_4C5A10(Player* pPlayer)
 {
     for (u8 i = 0; i < 10; i++)
     {
-        SetStatistic_4C59D0(i, pPlayer->field_644_unk.field_0_crime_count_list[i]);
+        SetStatistic_4C59D0(i, pPlayer->field_644_crime_stats.field_0_crime_count_list[i]);
     }
 
-    SetAutoDamageCost_4C5A70(pPlayer->field_644_unk.field_34_auto_damage_cost);
-    SetFugitiveFactor_4C5A90(pPlayer->field_644_unk.field_38_fugitive_factor);
+    SetCarDamageCost_4C5A70(pPlayer->field_644_crime_stats.field_34_car_damage_cost);
+    SetEvasionRating_4C5A90(pPlayer->field_644_crime_stats.field_38_evasion_rating);
 }
 
 MATCH_FUNC(0x4C5A70)
-void lucid_hamilton::SetAutoDamageCost_4C5A70(s32 a2)
+void lucid_hamilton::SetCarDamageCost_4C5A70(s32 a2)
 {
-    field_430_auto_damage_cost = a2;
+    field_430_car_damage_cost = a2;
 }
 
 MATCH_FUNC(0x4C5A80)
-s32 lucid_hamilton::GetAutoDamageCost_4C5A80()
+s32 lucid_hamilton::GetCarDamageCost_4C5A80()
 {
-    return field_430_auto_damage_cost;
+    return field_430_car_damage_cost;
 }
 
 MATCH_FUNC(0x4C5A90)
-void lucid_hamilton::SetFugitiveFactor_4C5A90(s32 a2)
+void lucid_hamilton::SetEvasionRating_4C5A90(s32 a2)
 {
-    field_434_fugitive_factor = a2;
+    field_434_evasion_rating = a2;
 }
 
 MATCH_FUNC(0x4C5AA0)
-s32 lucid_hamilton::GetFugitiveFactor_4C5AA0()
+s32 lucid_hamilton::GetEvasionRating_4C5AA0()
 {
-    return field_434_fugitive_factor;
+    return field_434_evasion_rating;
 }
 
 MATCH_FUNC(0x4C5AB0)
@@ -260,13 +260,13 @@ void lucid_hamilton::init_4C5AF0()
     field_43C_points_limit = 0;
     field_440_user_player_idx = 0;
     field_441_max_players = 0;
-    field_442 = 6;
+    field_442_winner_player_idx = 6;
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_490_frags_list); i++)
     {
         for (s32 j = 0; j < 6; j++)
         {
-            field_448_kills_matrix[i].field_0[j] = 0;
+            field_448_frags_by_victim[i].field_0[j] = 0;
         }
         field_490_frags_list[i] = 0;
         field_49C_points_list[i] = 0;
@@ -309,30 +309,30 @@ char_type lucid_hamilton::GetMaxPlayers_4C5BF0()
 }
 
 MATCH_FUNC(0x4C5C00)
-void lucid_hamilton::sub_4C5C00(char_type player_idx)
+void lucid_hamilton::SetWinnerIdx_4C5C00(char_type player_idx)
 {
-    if (field_442 == 6)
+    if (field_442_winner_player_idx == 6)
     {
-        field_442 = player_idx;
+        field_442_winner_player_idx = player_idx;
     }
 }
 
 MATCH_FUNC(0x4C5C20)
-char_type lucid_hamilton::sub_4C5C20()
+char_type lucid_hamilton::GetWinnerIdx_4C5C20()
 {
-    return field_442;
+    return field_442_winner_player_idx;
 }
 
 MATCH_FUNC(0x4C5C30)
-void lucid_hamilton::SetPlayerName_4C5C30(u16 player_idx, wchar_t* pName)
+void lucid_hamilton::SetPlayerName_4C5C30(u16 a2, wchar_t* Source)
 {
-    wcsncpy(field_4B4_player_names[player_idx].field_0_str, pName, 16u);
+    wcsncpy(field_4B4_player_names[a2].field_0_str, Source, 16u);
 }
 
 MATCH_FUNC(0x4C5C60)
-blissful_ganguly_0x20* lucid_hamilton::GetPlayerName_4C5C60(u16 player_idx)
+blissful_ganguly_0x20* lucid_hamilton::GetPlayerName_4C5C60(u16 a2)
 {
-    return &field_4B4_player_names[player_idx];
+    return &field_4B4_player_names[a2];
 }
 
 MATCH_FUNC(0x4C5C80)
@@ -350,7 +350,7 @@ s32 lucid_hamilton::GetPointsForPlayerIdx_4C5CB0(u8 player_idx)
 MATCH_FUNC(0x4C5CD0)
 void lucid_hamilton::UpdateFrags_4C5CD0(u8 player_killer_idx, u8 player_victim_idx)
 {
-    field_448_kills_matrix[player_killer_idx].field_0[player_victim_idx]++;
+    field_448_frags_by_victim[player_killer_idx].field_0[player_victim_idx]++;
     Player* pPlayer = gGame_0x40_67E008->field_4_players[player_killer_idx];
     if (player_killer_idx == player_victim_idx)
     {
@@ -375,7 +375,7 @@ u16 lucid_hamilton::GetFragsForPlayerIdx_4C5D60(u8 player_idx)
 }
 
 MATCH_FUNC(0x4C5D80)
-s16 lucid_hamilton::GetKillsOfVictimByKiller_4C5D80(u8 killer_idx, u8 victim_idx)
+s16 lucid_hamilton::GetFragsOnPlayer_4C5D80(u8 a2, u8 a3)
 {
-    return field_448_kills_matrix[killer_idx].field_0[victim_idx];
+    return field_448_frags_by_victim[a2].field_0[a3];
 }

@@ -2564,7 +2564,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
         Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
         if (pDriver && pDriver->is_player_41B0A0())
         {
-            pDriver->field_15C_player->field_2D4_scores.sub_593030(field_5C_pCar, damage);
+            pDriver->field_15C_player->field_2D4_scores.AwardCarDamageScore_593030(field_5C_pCar, damage);
         }
     }
 
@@ -2586,7 +2586,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
             Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
             if (pDriver && pDriver->is_player_41B0A0())
             {
-                pDriver->field_15C_player->field_2D4_scores.sub_593030(field_5C_pCar, damage_2);
+                pDriver->field_15C_player->field_2D4_scores.AwardCarDamageScore_593030(field_5C_pCar, damage_2);
             }
         }
         else
@@ -2601,7 +2601,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
                 Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
                 if (pDriver && pDriver->is_player_41B0A0())
                 {
-                    pDriver->field_15C_player->field_2D4_scores.sub_593030(field_5C_pCar, damage_2);
+                    pDriver->field_15C_player->field_2D4_scores.AwardCarDamageScore_593030(field_5C_pCar, damage_2);
                 }
             }
         }

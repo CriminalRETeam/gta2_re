@@ -126,7 +126,7 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                                         (yCalc * gViewCamera_676978->field_A8_ui_scale), // y
                                         word_7062DC, // font
                                         gViewCamera_676978->field_A8_ui_scale, // scale
-                                        pIter->field_78C != 7 ? 2 : 8,
+                                        pIter->field_78C_hud_palette_type != 7 ? 2 : 8,
                                         pIter->field_790_hud_palette - 1,
                                         0,
                                         0);
@@ -691,7 +691,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
 
     if (bStartNetworkGame_7081F0)
     {
-        DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, pPlayer->field_78C, pPlayer->field_790_hud_palette, 0, 0);
+        DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, pPlayer->field_78C_hud_palette_type, pPlayer->field_790_hud_palette, 0, 0);
     }
     else
     {
@@ -716,7 +716,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                      gYouthful_einstein_6F8450.field_4_time[pPlayer->field_2E_idx] / 60,
                      gYouthful_einstein_6F8450.field_4_time[pPlayer->field_2E_idx] % 60);
 
-            const s32 unknownn = (pPlayer->field_78C != 7) ? 2 : 8;
+            const s32 unknownn = (pPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
             DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790_hud_palette - 1, 0, 0);
         }
         else
@@ -734,7 +734,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                 thirsty_lamarr* v19 = pMultiPlayer->field_2D4_scores.GetScoreDigits_592360();
                 s32 v21 = v19->sub_492430(16, ypos);
 
-                DrawFigureScaled_5D7670(6, 16, 8, ypos + 10, word_706610, pMultiPlayer->field_78C, pMultiPlayer->field_790_hud_palette, 0, 0);
+                DrawFigureScaled_5D7670(6, 16, 8, ypos + 10, word_706610, pMultiPlayer->field_78C_hud_palette_type, pMultiPlayer->field_790_hud_palette, 0, 0);
 
                 if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3)
                 {
@@ -743,7 +743,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                              gYouthful_einstein_6F8450.field_4_time[pMultiPlayer->field_2E_idx] / 60,
                              gYouthful_einstein_6F8450.field_4_time[pMultiPlayer->field_2E_idx] % 60);
 
-                    const s32 very_unknown = (pMultiPlayer->field_78C != 7) ? 2 : 8;
+                    const s32 very_unknown = (pMultiPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
                     DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
                 }
                 else
@@ -994,7 +994,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
         Ped* pPed;
         if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
         {
-            pPed = pPlayer->field_2C8_unkq;
+            pPed = pPlayer->field_2C8_aux_ped;
         }
         else
         {
@@ -2992,7 +2992,7 @@ void Hud_MapZone_98::sub_5D5B60()
     u8 y;
     u8 z;
 
-    gGame_0x40_67E008->field_38_orf1->sub_569840(x, y, z);
+    gGame_0x40_67E008->field_38_orf1->GetPosU8_569840(x, y, z);
     gmp_map_zone* navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, Navigation_1);
     gmp_map_zone* local_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, Local_Navigation_15);
 

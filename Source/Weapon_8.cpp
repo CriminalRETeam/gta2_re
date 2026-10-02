@@ -95,7 +95,7 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
     {
         if (pCar->is_driven_by_player())
         {
-            pCar->field_54_driver->field_15C_player->sub_564910(pWeapon);
+            pCar->field_54_driver->field_15C_player->SetWeapon_564910(pWeapon);
             return bAddedAmmo;
         }
     }

@@ -1085,13 +1085,13 @@ void Weapon_30::ChuckThrowable_5E34B0()
                 if (field_1C_idx == weapon_type::molotov || field_1C_idx == weapon_type::grenade)
                 {
                     s32 obj_type = (field_1C_idx != weapon_type::molotov ? 183 : 138);
-                    if (field_24_pPed->field_15C_player->sub_4CCB00())
+                    if (field_24_pPed->field_15C_player->IsThrowCharging_4CCB00())
                     {
-                        s32 v1 = field_24_pPed->field_15C_player->sub_4CCAD0();
+                        s32 v1 = field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0();
                         s32 v2 = field_24_pPed->field_15C_player->Get_Field_50();
                         throwable_5DDFC0(obj_type, v1, v2);
                     }
-                    field_24_pPed->field_15C_player->sub_4A5180();
+                    field_24_pPed->field_15C_player->ResetThrowCharge_4A5180();
                 }
             }
         }
@@ -1147,7 +1147,7 @@ void Weapon_30::pull_trigger_5E3670()
         case weapon_type::molotov:
             if (field_24_pPed && (field_24_pPed->field_15C_player) != 0)
             {
-                field_24_pPed->field_15C_player->sub_4CCAB0();
+                field_24_pPed->field_15C_player->IncrementThrowCharge_4CCAB0();
             }
             else
             {
@@ -1159,15 +1159,15 @@ void Weapon_30::pull_trigger_5E3670()
             if (field_24_pPed && (field_24_pPed->field_15C_player) != 0)
             {
                 Player* p = field_24_pPed->field_15C_player;
-                p->sub_4CCAB0();
+                p->IncrementThrowCharge_4CCAB0();
 
                 // This is really whacky, using p results in most of these inlines being optimized out
                 Player* pp = field_24_pPed->field_15C_player;
 
                 if (pp->Get_Field_50() == 0x60)
                 {
-                    throwable_5DDFC0(183, field_24_pPed->field_15C_player->sub_4CCAD0(), pp->Get_Field_50());
-                    this->field_24_pPed->field_15C_player->field_50 = -1;
+                    throwable_5DDFC0(183, field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0(), pp->Get_Field_50());
+                    this->field_24_pPed->field_15C_player->field_50_throw_charge = -1;
                 }
             }
             else

@@ -33,9 +33,9 @@ void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
     }
     field_0_fugitive = pNewFugitive;
     gHud_2B00_706620->field_1F18.sub_5D10B0();
-    field_0_fugitive->sub_564C00();
+    field_0_fugitive->UnloadCarWeapons_564C00();
     field_0_fugitive->RemovePlayerWeapons_564C50();
-    field_0_fugitive->sub_564CC0();
+    field_0_fugitive->ClearPowerUps_564CC0();
 
     if (field_0_fugitive->GetPlayerPed_41D020() != NULL)
     {

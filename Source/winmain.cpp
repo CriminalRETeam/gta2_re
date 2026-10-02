@@ -155,64 +155,64 @@ void force_link()
     Player lewin(1);
     u8 zero_u8 = 0;
     lewin.GetIdx_4881E0();
-    lewin.sub_5645B0(0);
+    lewin.AddCarToHistory_5645B0(0);
     lewin.PromoteCarInHistory_564610(0, 0);
     lewin.PushCarInfo_564680(0);
     lewin.SetKFCarWeapon_564710(0, 0);
     lewin.SetKFWeapon_564790(0);
     lewin.ClearKFWeapon_5647D0();
     lewin.GetCurrPlayerWeapon_5648F0();
-    lewin.sub_564910(0);
+    lewin.SetWeapon_564910(0);
     lewin.HasAnyAmmo_564940();
     lewin.AddWeaponWithAmmo_564960(0, 0);
     lewin.SelectNextOrPrevWeapon_5649D0(0, 0);
-    lewin.sub_564AD0(0);
+    lewin.LoadCarWeapons_564AD0(0);
     lewin.ClearCarWeapons_564B60();
     lewin.CleanupEmptyAmmoWeapons_564B80();
-    lewin.sub_564C00();
+    lewin.UnloadCarWeapons_564C00();
     lewin.RemovePlayerWeapons_564C50();
-    lewin.sub_564CC0();
-    lewin.sub_564CF0();
+    lewin.ClearPowerUps_564CC0();
+    lewin.ClearPowerUpsExceptJailCard_564CF0();
     lewin.CollectPowerUp_564D60(0);
     lewin.tick_down_powerups_565070();
     lewin.RestorePowerUpsFromSave_5651F0(0);
     lewin.TeleportToDebugCam_565310();
-    lewin.sub_5653E0();
+    lewin.DebugWatchNearestCar_5653E0();
     lewin.InitPlayerPed_565490(0);
     lewin.SetInputs_565740(0);
     lewin.IncrementGangRespectFromDebugKeys_565770(0);
     lewin.IncreaseWantedLevelFromDebugKeys_565860();
     lewin.Hud_Controls_565890(0);
-    lewin.sub_566380(0);
+    lewin.HandleKeyRelease_566380(0);
     lewin.CharacterControls_566520();
     lewin.ControlInputs_566820();
     lewin.HandleControls_5668D0(0);
     lewin.DoCarControlInputs_566C30(0);
     lewin.DoPedControlInputs_566C80(0);
-    lewin.sub_566EE0(0);
+    lewin.ShowDebugInfo_566EE0(0);
     lewin.RespawnPlayer_5670B0();
     lewin.Wasted_567130();
-    lewin.sub_567850();
+    lewin.UpdateAuxPedDeath_567850();
     lewin.Busted_5679E0();
     lewin.UpdateCurrentZones_568520();
-    lewin.sub_568630();
-    lewin.sub_568670();
+    lewin.UpdateSoundListener_568630();
+    lewin.HandleDebugZoom_568670();
     lewin.UpdateCamera_5686D0(0);
-    lewin.sub_568730();
+    lewin.Disconnect_568730();
     lewin.Service_5687F0();
-    lewin.sub_569410();
-    lewin.sub_569530();
-    lewin.sub_5695A0();
-    lewin.sub_569600(0);
-    lewin.sub_5696D0(0);
-    lewin.sub_569840(zero_u8, zero_u8, zero_u8);
+    lewin.UpdatePaused_569410();
+    lewin.EndRemoteControl_569530();
+    lewin.ResetAuxCamera_5695A0();
+    lewin.StartRemoteControl_569600(0);
+    lewin.WatchCar_5696D0(0);
+    lewin.GetPosU8_569840(zero_u8, zero_u8, zero_u8);
     lewin.GetPlayerCar_5698E0();
     lewin.get_pos_569920(0, 0, 0);
     lewin.ChangeLifeCountByAmount_5699F0(0);
     lewin.ColorScoreFromRemap_569A10();
     lewin.SetScoreTextColour_569C20();
     lewin.InitializePlayerState_569CB0();
-    lewin.sub_569E70();
+    lewin.DebugToggleRemoteControl_569E70();
     lewin.GetDeathText_569F00();
     lewin.DisableInputs_569F40();
     lewin.DisableAllControls_569FF0();
@@ -228,19 +228,19 @@ void force_link()
     lewin.ClearInputs_56A6D0();
 
     Camera_0xBC drawUnk;
-    drawUnk.sub_4357B0();
-    drawUnk.IncreaseTargetElevation_4357F0();
-    drawUnk.DecreaseTargetElevation_435810();
+    drawUnk.SavePrevCamPos_4357B0();
+    drawUnk.IncreaseElevation_4357F0();
+    drawUnk.DecreaseElevation_435810();
     drawUnk.ReturnToDefaultZoom_435830();
-    drawUnk.sub_435840();
-    drawUnk.sub_435860(0);
-    drawUnk.sub_435D20(1, 1, 1, 1, 1, 1);
+    drawUnk.ClampTargetZ_435840();
+    drawUnk.ApplyMovementDeltaFrom_435860(0);
+    drawUnk.MoveTarget_435D20(1, 1, 1, 1, 1, 1);
     drawUnk.ResetCameraSmoothing_435DD0();
-    drawUnk.sub_436110();
-    drawUnk.sub_436120(1);
-    drawUnk.sub_436830();
-    drawUnk.sub_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
-    drawUnk.IsInBoundaries_58CF10(1, 1);
+    drawUnk.RefreshBoundaries_436110();
+    drawUnk.SetShake_436120(1);
+    drawUnk.ResetPanning_436830();
+    drawUnk.SetTarget_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
+    drawUnk.IsPointInBoundaries_58CF10(1, 1);
 
     Ped cn;
     cn.sub_45B550();
@@ -373,7 +373,7 @@ void sub_5D8E00()
         {
             if (dword_706C58 != window_width_706630)
             {
-                gGame_0x40_67E008->sub_4B8E00(window_width_706630, window_height_706B50);
+                gGame_0x40_67E008->SetScreenSize_4B8E00(window_width_706630, window_height_706B50);
             }
             dword_706C58 = window_width_706630;
         }
@@ -381,7 +381,7 @@ void sub_5D8E00()
         {
             if (dword_706C58 != gVidSys_7071D0->field_4C_rect_bottom)
             {
-                gGame_0x40_67E008->sub_4B8E00(gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+                gGame_0x40_67E008->SetScreenSize_4B8E00(gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
             }
             dword_706C58 = gVidSys_7071D0->field_4C_rect_bottom;
         }
@@ -894,7 +894,7 @@ MATCH_FUNC(0x4DB070)
 EXPORT void __stdcall ShowPlayerLeftMessage_4DB070(u8 idx)
 {
     Player* pPlayer = gGame_0x40_67E008->field_4_players[idx];
-    pPlayer->sub_568730();
+    pPlayer->Disconnect_568730();
     swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("comms1"), pPlayer->field_83C_player_name);
     gHud_2B00_706620->field_12F0.sub_5D5730(tmpBuff_67BD9C);
 }
@@ -1067,7 +1067,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
         TagGameHudUpdate_4DADA0();
         gYouthful_einstein_6F8450.ExecuteGamemodeTick_516660();
 
-        if (!gGame_0x40_67E008->sub_4B8C20())
+        if (!gGame_0x40_67E008->UpdateExitTimer_4B8C20())
         {
             if (gNetInUsePlayerBits_6F56B8)
             {
@@ -1141,7 +1141,7 @@ EXPORT u8 RunGameFrame_4DA850()
         {
             bContinue = ExecuteGame_4DA780();
             do_network_and_local_inputs_4DAF30();
-            gMatchStartTime_6F5A28 = Time + gGame_0x40_67E008->sub_4B8BB0();
+            gMatchStartTime_6F5A28 = Time + gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
         }
     }
     else
@@ -1174,7 +1174,7 @@ EXPORT u8 RunGameFrame_4DA850()
                 bInputsPending_6F5760 = 0;
             }
             bContinue = ExecuteGame_4DA780();
-            s32 v2 = gGame_0x40_67E008->sub_4B8BB0();
+            s32 v2 = gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
             bForceGameUpdate_6F5880 = 0;
             gMatchStartTime_6F5A28 += v2;
             ++gFramesSinceDraw_6F58D8;
@@ -1922,7 +1922,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     }
 
     gDebug_67D52C.Init_4ABBD0();
-    gLucid_hamilton_67E8E0.sub_4C53D0();
+    gLucid_hamilton_67E8E0.LoadDebugSettings_4C53D0();
     bDoFrontEnd_626B68 = bSkip_frontend_67D53B == 0;
 
     WNDCLASSA WndClass;
@@ -2117,8 +2117,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         break;
 
                                     case GameExitType::PlayerQuit_2:
-                                        gLucid_hamilton_67E8E0.SetStatisticsFromPlayer_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
 
                                         state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
@@ -2127,8 +2127,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         break;
 
                                     case GameExitType::GameOverRIP_3:
-                                        gLucid_hamilton_67E8E0.SetStatisticsFromPlayer_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
                                         state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
                                         CleanUpInputAndOthers_4DA700();
@@ -2136,8 +2136,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         break;
 
                                     case GameExitType::AreaCompleted_4:
-                                        gLucid_hamilton_67E8E0.SetStatisticsFromPlayer_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
                                         state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
                                         CleanUpInputAndOthers_4DA700();

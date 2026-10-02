@@ -488,7 +488,7 @@ EXTERN_GLOBAL(s32, gStoredCarId_6F78B4);
 class thread_C
 {
   public:
-    s32 field_0_unk;
+    s32 field_0_ped_id;
     s32 field_4_obj_f14;
     u16 field_8_cmd_line;
     u16 field_A;
@@ -506,16 +506,16 @@ struct save_stats_0x90
     s32 field_14_multipliers;
     s16 field_18_health;
     u16 field_1A_power_ups[17];
-    s32 field_3C_crime_unk[10];
+    s32 field_3C_crime_counts[10];
     u16 field_64_pad;
     u8 field_66_weapon_ammo[15];
-    u8 field_75_gang_unk[10];
+    u8 field_75_gang_respect[10];
     u8 field_7F_player_ped_remap;
     u8 field_80_lives;
     u8 field_81_pad;
     u16 field_82_curr_weapon_idx;
-    s32 field_84_auto_damage_cost;
-    s32 field_88_fugitive_factor;
+    s32 field_84_car_damage_cost;
+    s32 field_88_evasion_rating;
     u16 field_8C_wanted_level;
     u16 field_8E_pad;
 };
@@ -544,9 +544,9 @@ struct SavedCarInfo
     TurkishDelight_4 field_C_y[3];
     TurkishDelight_4 field_18_z[3];
     Ang16 field_24_ang[3];
-    s16 field_2A[3];
-    s32 field_30[3];
-    s16 field_3C[3];
+    s16 field_2A_damage[3];
+    s32 field_30_damaged_areas[3];
+    s16 field_3C_car_model[3];
     s16 field_42_maybe_pad;
 };
 
@@ -592,8 +592,8 @@ struct WeaponCheckTable
 {
     s32 field_0_entity_id;
     s8 field_4_weapon_idx;
-    s8 field_5;
-    s8 field_6;
+    s8 field_5_hit_projectile_type;
+    s8 field_6_flags;
     s8 field_7_pad;
 };
 
@@ -609,33 +609,33 @@ class frosty_pasteur_0xC1EA8
     EXPORT void SaveMapInfo_511D40();
     EXPORT void SaveGame_511E10(char_type* FileName);
     EXPORT void LoadSave_511F80(char_type* FileName);
-    EXPORT miss2_0x11C* sub_5120C0(s16 a1, char_type a2);
-    EXPORT SCR_CMD_HEADER* sub_512100(u16 toFind, u16 startOff);
+    EXPORT miss2_0x11C* SpawnThread_5120C0(s16 a1, char_type a2);
+    EXPORT SCR_CMD_HEADER* FindCommandByType_512100(u16 toFind, u16 startOff);
     EXPORT void Update_512160();
     EXPORT void LoadStringTbl_5121E0(u16 tableSize);
     EXPORT void GetScrFileName_5122D0();
     EXPORT void Load_512330(const char_type* pScrName);
-    EXPORT u16 sub_512400(const char_type* String1, u16* a3);
+    EXPORT u16 LoadMissionScript_512400(const char_type* String1, u16* a3);
     EXPORT void LoadSubScripts_5125F0();
     EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
     EXPORT void ExecuteScriptThreads_5127A0();
-    EXPORT thread_C* sub_5128A0(s32 a2, s32 a3);
-    EXPORT void sub_5128D0(s32 a2, s32 a3, u16 a4);
-    EXPORT bool sub_512910(s32 a2, s32 a3);
-    EXPORT thread_C* sub_512980(s32 a2, s32 a3);
-    EXPORT void sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line);
+    EXPORT thread_C* FindCarThread_5128A0(s32 a2, s32 a3);
+    EXPORT void AddCarThread_5128D0(s32 a2, s32 a3, u16 a4);
+    EXPORT bool TriggerCarThread_512910(s32 a2, s32 a3);
+    EXPORT thread_C* FindPhoneThread_512980(s32 a2, s32 a3);
+    EXPORT void AddPhoneThread_5129B0(s32 a2, s32 obj_f14, u16 cmd_line);
     EXPORT bool AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx);
-    EXPORT thread_C* sub_512A70(s32 a2, s32 a3);
-    EXPORT thread_C* sub_512AA0(s32 a2);
-    EXPORT thread_C* sub_512AD0(s32 a2);
+    EXPORT thread_C* RemovePhoneThread_512A70(s32 a2, s32 a3);
+    EXPORT thread_C* RemovePhoneThreadByObjId_512AA0(s32 a2);
+    EXPORT thread_C* FindPhoneThreadByObjId_512AD0(s32 a2);
     EXPORT char_type sub_512AF0(s32 a2, char_type a3, char_type a4);
     EXPORT char_type* sub_512BA0(s32 a2, char_type a3);
-    EXPORT void sub_512C00(s32 entity_id, s32 projectile_model, char_type bUnk);
-    EXPORT bool sub_512C70(s32 id, char_type weapon_idx, char_type bUnk);
+    EXPORT void RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bUnk);
+    EXPORT bool IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bUnk);
     EXPORT frosty_pasteur_0xC1EA8();
     EXPORT ~frosty_pasteur_0xC1EA8();
 
-    s16 field_0;
+    s16 field_0_car_thread_count;
     s16 field_2;
     thread_C field_4_thrds_2[32];
     s16 field_184_count;
@@ -644,7 +644,7 @@ class frosty_pasteur_0xC1EA8
     s16 field_278;
     s16 field_27A;
     WeaponCheckTable field_27C_weapon_check_table[15];
-    s32 field_2F4;
+    s32 field_2F4_bPreloadMissionScripts;
     Fix16_Rect field_2F8_area_rect;
     s32 field_310_finish_score;
     s32 field_314_total_missions;
@@ -663,8 +663,8 @@ class frosty_pasteur_0xC1EA8
     s32* field_348_gang_1_mission_flag;
     s32* field_34C_gang_2_mission_flag;
     s32* field_350_gang_3_mission_flag;
-    char_type field_354;
-    char_type field_355;
+    char_type field_354_next_gang_idx;
+    char_type field_355_death_arr_state;
     s16 field_356;
     s16 field_358;
     s16 field_35A;
@@ -678,17 +678,17 @@ class frosty_pasteur_0xC1EA8
     BYTE field_334C_script_data[65536];
     str_table_entry* field_1334C_strings;
     str_table_normalized* field_13350_pStringTbl;
-    BYTE field_13354[620000];
-    BYTE field_AA934[95232];
+    BYTE field_13354_mission_script_data[620000];
+    BYTE field_AA934_mission_base_pointers[95232];
     s16 field_C1D34[31];
-    s16 field_C1D72[31];
-    u32 field_C1DB0[31];
-    char_type field_C1E2C;
-    char_type field_C1E2D;
+    s16 field_C1D72_mission_base_ptr_idx[31];
+    u32 field_C1DB0_mission_script_data_len[31];
+    char_type field_C1E2C_bLoadedFromSave;
+    char_type field_C1E2D_bKillFrenzyActive;
     char_type field_C1E2E_death_arrest_flag;
     char_type field_C1E2F[3];
     u16 field_C1E32_phone_ids[31];
-    u32 field_C1E70;
+    u32 field_C1E70_wanted_car_model;
     u16 field_C1E74_basic_kf[25];
     s16 field_C1EA6;
 };

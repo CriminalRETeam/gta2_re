@@ -473,7 +473,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             {
                 if (v4 < field_1EB51_num_bonus_stages[a2])
                 {
-                    gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2, a3);
+                    gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(a2, a3);
                 }
                 ++v4;
             }
@@ -484,7 +484,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             }
             else
             {
-                gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2 + 1, 0);
+                gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(a2 + 1, 0);
                 field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 1;
                 field_136_menu_pages_array[3].field_B8A[0].field_4_is_option_unlocked = 1;
             }
@@ -590,7 +590,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             }
             else
             {
-                gLucid_hamilton_67E8E0.sub_4C5C20();
+                gLucid_hamilton_67E8E0.GetWinnerIdx_4C5C20();
             }
 
             v65 = (unsigned __int8)gLucid_hamilton_67E8E0.GetUserPlayerIdx_4C5BE0();
@@ -2495,7 +2495,7 @@ MATCH_FUNC(0x4B4410)
 void Frontend::sub_4B4410()
 {
     GetCurrPlayerStats_4B43E0()->ResetPlayerSlot_56B630();
-    gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx);
+    gJolly_poitras_0x2BC0_6FEAC0->SavePlySlotDat_56BA60(field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx);
     UpdateMenuForCurrPlayer_4B42E0();
 }
 
@@ -2558,7 +2558,7 @@ void Frontend::SaveAndUpdatePlayerName_4B4230()
     wchar_t* pPlayerName = gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[player_slot_idx].field_90_strPlayerName;
     wcsncpy(pPlayerName, field_C9A0_curr_plyr_name, 9u);
     HandleCheatCode_4B3DD0(pPlayerName);
-    gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(player_slot_idx);
+    gJolly_poitras_0x2BC0_6FEAC0->SavePlySlotDat_56BA60(player_slot_idx);
 }
 
 MATCH_FUNC(0x4B3CC0)
@@ -2711,22 +2711,22 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
     else if (cheat_str_hash == 0x45B2C)
     { // UKGAMER Unlock three main levels
         gCheatUnlockThreeLevels_67D6CB = gCheatUnlockThreeLevels_67D6CB == 0;
-        gJolly_poitras_0x2BC0_6FEAC0->sub_56BC40();
+        gJolly_poitras_0x2BC0_6FEAC0->UnlockAllStages_56BC40();
         UpdateMenuForCurrPlayer_4B42E0();
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x49C76)
     { // GINGERRR Unlock levels one and two
         gCheatUnlockLevelsOneAndTwo_67D584 = gCheatUnlockLevelsOneAndTwo_67D584 == 0;
-        gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(1u, 0);
+        gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(1u, 0);
         UpdateMenuForCurrPlayer_4B42E0();
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x5073D)
     { // TUMYFROG unlock all levels
         gCheatUnlockAllLevels_67D538 = gCheatUnlockAllLevels_67D538 == 0;
-        gJolly_poitras_0x2BC0_6FEAC0->sub_56BC40();
-        gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(2u, 2u);
+        gJolly_poitras_0x2BC0_6FEAC0->UnlockAllStages_56BC40();
+        gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(2u, 2u);
         UpdateMenuForCurrPlayer_4B42E0();
         snd1_67D818.field_0_object_type = 9;
     }
@@ -2888,12 +2888,12 @@ void Frontend::LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
     if (!bonusBlockIdx)
     {
         gLucid_hamilton_67E8E0.SetMainStageIdx_4C58F0(mainBlockIdx);
-        gLucid_hamilton_67E8E0.SetIsBonusStage_4C5910(0);
+        gLucid_hamilton_67E8E0.SetBonusStage_4C5910(0);
     }
     else
     {
         gLucid_hamilton_67E8E0.SetStage_4C5900(bonusBlockIdx | (0x10 * mainBlockIdx));
-        gLucid_hamilton_67E8E0.SetIsBonusStage_4C5910(1);
+        gLucid_hamilton_67E8E0.SetBonusStage_4C5910(1);
     }
 }
 
@@ -4482,7 +4482,7 @@ void Frontend::sub_4B55F0()
 
         DrawText_4B87A0(Buffer, x_pos, y_pos, field_11C, 1);
 
-        s32 v11 = gLucid_hamilton_67E8E0.GetKillsOfVictimByKiller_4C5D80(user_idx, curr_plyr_idx);
+        s32 v11 = gLucid_hamilton_67E8E0.GetFragsOnPlayer_4C5D80(user_idx, curr_plyr_idx);
         _itow(v11, Buffer, 10);
 
         if (game_mode != TAG_GAME_3 && curr_plyr_idx != user_idx)
@@ -4547,7 +4547,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     y_pos = a5 + 20;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("car_cst"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"$%d", gLucid_hamilton_67E8E0.GetAutoDamageCost_4C5A80());
+    swprintf(tmpBuff_67BD9C, L"$%d", gLucid_hamilton_67E8E0.GetCarDamageCost_4C5A80());
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
     swprintf(tmpBuff_67BD9C, L"$%d", gJolly_poitras_0x2BC0_6FEAC0->field_1878[v39]);
@@ -4610,7 +4610,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     y_pos = a5 + 120;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("evsnrtg"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.GetFugitiveFactor_4C5AA0());
+    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.GetEvasionRating_4C5AA0());
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", gJolly_poitras_0x2BC0_6FEAC0->field_1884[v39]);
