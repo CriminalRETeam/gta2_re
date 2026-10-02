@@ -820,42 +820,27 @@ void Player::tick_down_powerups_565070()
     }
 }
 
-WIP_FUNC(0x5651F0)
+MATCH_FUNC(0x5651F0)
 void Player::RestorePowerUpsFromSave_5651F0(save_stats_0x90* pSaveStats)
 {
-    //WIP_IMPLEMENTED;
-
-    s32 idx; // esi
-    u16* pPowerUpTimerIter; // edi
-    u16* pCheatIter; // ebx
-    s32 k17; // [esp+14h] [ebp+4h]
-
-    idx = 0;
-    pPowerUpTimerIter = this->field_6F4_power_up_timers;
-    pCheatIter = pSaveStats->field_1A_power_ups;
-    k17 = 17;
-    while (k17 > 0)
+    for (u8 idx = 0; idx < 17; idx++)
     {
-        if (*pCheatIter > 0)
+        if (pSaveStats->field_1A_power_ups[idx] > 0)
         {
-            *pPowerUpTimerIter = *pCheatIter;
+            field_6F4_power_up_timers[idx] = pSaveStats->field_1A_power_ups[idx];
             switch (idx)
             {
                 case power_up_indices::Invulnerability_6:
                     field_2C4_player_ped->SetInvulnerable();
                     break;
                 case power_up_indices::Electrofingers_9:
-                    this->field_2C4_player_ped->field_21C |= 0x4000000u;
+                    field_2C4_player_ped->set_bit_26_4A5060();
                     break;
                 case power_up_indices::Invisibility_11:
                     field_2C4_player_ped->SetInvisible();
                     break;
             }
         }
-        ++idx;
-        ++pCheatIter;
-        ++pPowerUpTimerIter;
-        --k17;
     }
 }
 
