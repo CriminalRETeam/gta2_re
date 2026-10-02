@@ -179,9 +179,9 @@ void Garox_1_v2::sub_5D5760()
 MATCH_FUNC(0x5d5770)
 void Garox_1_v2::AnnounceKill_5D5770(Player* killer, Player* victim)
 {
-    if (killer->field_0_bIsUser)
+    if (killer->IsUser_41DC70())
     {
-        if (victim->field_0_bIsUser)
+        if (victim->IsUser_41DC70())
         {
             swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("mpkill1"));
             this->sub_5D5730(tmpBuff_67BD9C);
@@ -192,7 +192,7 @@ void Garox_1_v2::AnnounceKill_5D5770(Player* killer, Player* victim)
 
         gRoot_sound_66B038.PlayVoice_40F090(32);
     }
-    else if (victim->field_0_bIsUser)
+    else if (victim->IsUser_41DC70())
     {
         swprintf(tmpBuff_67BD9C, L"%s %s", killer->field_83C_player_name, gText_0x14_704DFC->Find_5B5F90("mpkill3"));
     }
@@ -346,14 +346,14 @@ char_type Garox_12EC_sub::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
         if (action == DIK_RETURN)
         {
             pPlayer->field_78A_show_quit_message = false;
-            if (pPlayer->field_0_bIsUser)
+            if (pPlayer->IsUser_41DC70())
             {
                 gGame_0x40_67E008->ExitGameNoBonus_4B8C00(1, GameExitType::PlayerQuit_2);
             }
 
             if ((u8)bStartNetworkGame_7081F0)
             {
-                gYouthful_einstein_6F8450.field_20[pPlayer->field_2E_idx] = 1;
+                gYouthful_einstein_6F8450.field_20[pPlayer->get_idx_4219D0()] = 1;
             }
 
             return true;
@@ -728,7 +728,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         for (Player* pMultiPlayer = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pMultiPlayer != NULL;
              pMultiPlayer = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
         {
-            if (pMultiPlayer->field_0_bIsUser == 0)
+            if (pMultiPlayer->IsUser_41DC70() == 0)
             {
                 thirsty_lamarr* v19 = pMultiPlayer->field_2D4_scores.GetScoreDigits_592360();
                 s32 v21 = v19->sub_492430(16, ypos);
@@ -1041,8 +1041,8 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
 WIP_FUNC(0x5cfa70)
 void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 {
-    u32 random_num = rng_dword_67AB34->field_0_rng & 0xF;
-    u8 PlayerIdx = gGame_0x40_67E008->field_38_orf1->field_2E_idx;
+    u32 random_num = rng_dword_67AB34->get_cur_rng_41CFE0() & 0xF;
+    u8 PlayerIdx = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0();
     bool bPlusSignDark = random_num > 7u;
 
     s32 ypos = 11;
@@ -1823,7 +1823,7 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
                 {
                     return false;
                 }
-                u8 player_idx = pPlayer->field_2E_idx;
+                u8 player_idx = pPlayer->get_idx_4219D0();
                 if (pThisGang->GetRespectForPlayer_4BEEF0(player_idx) < field_18.field_10.field_34_min_respect)
                 {
                     return false;
@@ -2002,7 +2002,7 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
     {
         if (field_18.field_10.field_5_is_visible)
         {
-            if (field_18.field_28_arrow_colour != 5 || ((u32)rng_dword_67AB34->field_0_rng % 6 >= 3))
+            if (field_18.field_28_arrow_colour != 5 || ((u32)rng_dword_67AB34->get_cur_rng_41CFE0() % 6 >= 3))
             {
                 drawKind_ = 2;
             }
