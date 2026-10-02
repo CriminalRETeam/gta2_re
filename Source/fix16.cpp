@@ -55,6 +55,13 @@ s32 Fix16::IsGreater_451690(const Fix16& other) const
     return mValue > other.mValue;
 }
 
+MATCH_FUNC(0x539F90)
+Fix16& Fix16::DivideAssign_539F90(const Fix16& rhs)
+{
+    mValue = (s32)(((__int64)mValue << 14) / rhs.mValue);
+    return *this;
+}
+
 MATCH_FUNC(0x4086A0)
 Fix16 Fix16::Negate_4086A0() const
 {
