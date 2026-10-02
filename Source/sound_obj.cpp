@@ -2093,9 +2093,6 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
     Weapon_30* pWeapon; // ecx
     char weapon_f2C; // al
     s32 samp_idx; // edi
-    Fix16 zpos; // eax
-    Fix16 ypos; // ecx
-    Fix16 xpos; // edx
     int rate; // edi
     int displacement; // eax
     char bSetF30; // al
@@ -2108,15 +2105,14 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
     rate_adjust = 0;
     pWeapon = field_147C[idx].field_4_pObj->field_C_pAny.pWeapon_30;
     this->field_30_sQueueSample.field_41 = 2;
-    weapon_f2C = pWeapon->field_2C;
-    pWeapon->field_2C = 0;
+    weapon_f2C = pWeapon->TakeF2C_41CC80();
     if (weapon_f2C)
     {
         if (pWeapon)
         {
-            if (!pWeapon->field_4) // bSuppressSound ?
+            if (!pWeapon->Get_F4_41CC70()) // bSuppressSound ?
             {
-                switch (pWeapon->field_1C_idx)
+                switch (pWeapon->GetWeaponType_41CC90())
                 {
                     case weapon_type::pistol:
                     case weapon_type::dual_pistol:
@@ -2172,13 +2168,11 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
                 pWeapon->GetSoundPos_5E3F90(&this->field_30_sQueueSample.field_8_obj.field_0,
                                             &this->field_30_sQueueSample.field_8_obj.field_4,
                                             &this->field_30_sQueueSample.field_8_obj.field_8);
-                zpos = this->field_30_sQueueSample.field_8_obj.field_8;
-                ypos = this->field_30_sQueueSample.field_8_obj.field_4;
-                xpos = this->field_30_sQueueSample.field_8_obj.field_0;
-
                 this->field_30_sQueueSample.field_0_EntityIndex = idx;
                 this->field_30_sQueueSample.field_5C = 0;
-                bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(xpos, ypos, zpos);
+                bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0,
+                                                                                    field_30_sQueueSample.field_8_obj.field_4,
+                                                                                    field_30_sQueueSample.field_8_obj.field_8);
                 this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
                 this->field_2C_distCalculated = 0;
                 if (CalculateDistance_419020(1638400))

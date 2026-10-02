@@ -124,6 +124,14 @@ class Weapon_30
         field_2C = new_value;
     }
 
+    // 9.6f 0x41CC80
+    inline s8 TakeF2C_41CC80()
+    {
+        s8 ret = field_2C;
+        field_2C = 0;
+        return ret;
+    }
+
     inline bool HasAmmo_4A4F80()
     {
         return field_0_ammo != 0;
