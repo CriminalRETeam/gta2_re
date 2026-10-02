@@ -3920,36 +3920,33 @@ s16 Car_BC::AccumulateDamage_43DA90(s16 damage, Fix16_Point* pVec)
     }
 
     this->field_74_damage += damage_1;
-    if (field_74_damage >= 0) // TODO: Wrong jump target
+    if (this->field_74_damage < 0 || this->field_74_damage > 32000)
     {
+        this->field_74_damage = 32000;
+    }
 
-        if (this->field_74_damage > 32000)
+    if (this->field_74_damage >= 16000)
+    {
+        if (this->field_8C_damage_level < 3)
         {
-            this->field_74_damage = 32000;
+            Car_BC::SpawnDamageFireEffect_43B870(1, pVec);
+            this->field_8C_damage_level = 3;
         }
-        if (this->field_74_damage >= 16000)
+        if (this->field_74_damage >= 25000)
         {
-            if (this->field_8C_damage_level < 3)
+            if (this->field_8C_damage_level < 4)
             {
-                Car_BC::SpawnDamageFireEffect_43B870(1, pVec);
-                this->field_8C_damage_level = 3;
+                field_0_qq.sub_5A71F0();
+                Car_BC::SpawnDamageFireEffect_43B870(2, pVec);
+                this->field_8C_damage_level = 4;
             }
-            if (this->field_74_damage >= 25000)
+            if (this->field_74_damage >= 31500)
             {
-                if (this->field_8C_damage_level < 4)
-                {
-                    field_0_qq.sub_5A71F0();
-                    Car_BC::SpawnDamageFireEffect_43B870(2, pVec);
-                    this->field_8C_damage_level = 4;
-                }
-                if (this->field_74_damage >= 31500)
-                {
-                    Car_BC::PrepareForExplosion_43C1C0();
-                }
-                if (this->field_74_damage == 32000)
-                {
-                    Car_BC::HandleCarExplosion_43D840(19);
-                }
+                Car_BC::PrepareForExplosion_43C1C0();
+            }
+            if (this->field_74_damage == 32000)
+            {
+                Car_BC::HandleCarExplosion_43D840(19);
             }
         }
     }
