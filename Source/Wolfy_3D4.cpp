@@ -698,7 +698,7 @@ void Wolfy_30::state_18_33_541D60()
 {
     WIP_IMPLEMENTED;
 
-    if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
+    if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
         if ((u16)field_1A > 0x52u)
         {
@@ -723,7 +723,7 @@ void Wolfy_30::state_18_33_541D60()
             {
                 Fix16 radius = (this->field_24 * Fix16(stru_6F6784.get_int_4F7AE0(8)));
 
-                this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
+                this->field_22 = Ang16::Fix16_To_Ang16_40F540(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
 
                 Ang16::PolarToCartesian_41FC20(field_22, radius, stru_6FD388, stru_6FD38C);
                 //stru_6FD388 = (radius * gSin_table_667A80[field_22.rValue]);
