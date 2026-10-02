@@ -2508,76 +2508,69 @@ MATCH_FUNC(0x43adc0)
 void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
 {
     s32 score_base_multi = 0;
-    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+    Car_BC* pCar = pSprite->AsCar_40FEB0();
+    if (pCar)
     {
-        Car_BC* pCar = pSprite->field_8_car_bc_ptr;
-        if (pCar)
+        switch (gCar_6C_677930->field_60)
         {
-            switch (gCar_6C_677930->field_60)
+            case 1:
             {
-                case 1:
+                if (!this->IsMaxDamage_40F890())
                 {
-                    if (!this->IsMaxDamage_40F890())
+                    if (!Car_BC::IsAreaDamaged_43D1C0(3))
                     {
-                        if (!Car_BC::IsAreaDamaged_43D1C0(3))
-                        {
-                            Car_BC::DamageArea_43CF30(3);
-                            score_base_multi = 1;
-                        }
-                        if (!Car_BC::IsAreaDamaged_43D1C0(2))
-                        {
-                            Car_BC::DamageArea_43CF30(2);
-                            ++score_base_multi;
-                        }
-                        if (!Car_BC::IsAreaDamaged_43D1C0(0))
-                        {
-                            Car_BC::DamageArea_43CF30(0);
-                            ++score_base_multi;
-                        }
-                        if (!Car_BC::IsAreaDamaged_43D1C0(1))
-                        {
-                            Car_BC::DamageArea_43CF30(1);
-                            ++score_base_multi;
-                        }
+                        Car_BC::DamageArea_43CF30(3);
+                        score_base_multi = 1;
                     }
-
-                    s32 score = 1000 * score_base_multi;
-
-                    if (pCar->IsTank_411900())
+                    if (!Car_BC::IsAreaDamaged_43D1C0(2))
                     {
-                        score += Car_BC::ApplyImpactDamage_43D5D0(k_dword_677918);
+                        Car_BC::DamageArea_43CF30(2);
+                        ++score_base_multi;
                     }
-
-                    if (score > 200)
+                    if (!Car_BC::IsAreaDamaged_43D1C0(0))
                     {
-                        Ped* pDriver = pCar->get_driver_4118B0();
-                        if (pDriver)
-                        {
-                            Player* pPlayer = pDriver->field_15C_player;
-                            if (pPlayer)
-                            {
-                                pPlayer->field_2D4_scores.sub_593030(this, score);
-                            }
-                        }
+                        Car_BC::DamageArea_43CF30(0);
+                        ++score_base_multi;
                     }
-
-                    field_0_qq.CleanupSpriteList_5A7080();
-                    if (field_58_physics)
+                    if (!Car_BC::IsAreaDamaged_43D1C0(1))
                     {
-                        field_58_physics->field_40_linvel_1 = stru_6778A8;
+                        Car_BC::DamageArea_43CF30(1);
+                        ++score_base_multi;
                     }
-                    stru_67737C.AddSprite_5A6CD0(field_50_car_sprite);
-                    break;
                 }
 
-                case 2:
-                    if (field_50_car_sprite->field_1C_zpos > gCar_6C_677930->field_64_zpos)
+                s32 score = 1000 * score_base_multi;
+
+                if (pCar->IsTank_411900())
+                {
+                    score += Car_BC::ApplyImpactDamage_43D5D0(k_dword_677918);
+                }
+
+                if (score > 200)
+                {
+                    Ped* pDriver = pCar->get_driver_4118B0();
+                    if (pDriver && pDriver->is_player_41B0A0())
                     {
-                        gCar_6C_677930->field_64_zpos = field_50_car_sprite->field_1C_zpos;
-                        // NOTE: returned here originally
+                        pDriver->field_15C_player->field_2D4_scores.sub_593030(this, score);
                     }
-                    break;
+                }
+
+                field_0_qq.CleanupSpriteList_5A7080();
+                if (field_58_physics)
+                {
+                    field_58_physics->set_linvel_421170(stru_6778A8);
+                }
+                stru_67737C.AddSprite_5A6CD0(field_50_car_sprite);
+                break;
             }
+
+            case 2:
+                if (field_50_car_sprite->field_1C_zpos > gCar_6C_677930->field_64_zpos)
+                {
+                    gCar_6C_677930->field_64_zpos = field_50_car_sprite->field_1C_zpos;
+                    // NOTE: returned here originally
+                }
+                break;
         }
     }
     field_0_qq.DispatchCarImpactEvents_5A6BF0(pSprite);

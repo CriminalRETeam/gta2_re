@@ -82,6 +82,13 @@ class CarPhysics_B0
         field_38_cp1.y = v.y;
     }
 
+    // 9.6f 0x421170
+    inline void set_linvel_421170(const Fix16_Point& v)
+    {
+        field_40_linvel_1.x = v.x;
+        field_40_linvel_1.y = v.y;
+    }
+
     // 9.6f 0x4211E0
     inline Ang16 GetLinvelAngle_4211E0()
     {
