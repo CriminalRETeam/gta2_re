@@ -30,6 +30,12 @@ class youthful_einstein
         return field_20[player_idx];
     }
 
+    // 9.6f 0x461DD0
+    inline void SetQuit_461DD0(s32 player_idx)
+    {
+        field_20[player_idx] = 1;
+    }
+
     // 9.6f 0x453AA0
     inline s32 GetTime_453AA0(s32 player_idx)
     {

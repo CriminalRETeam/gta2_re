@@ -356,7 +356,7 @@ char_type Garox_12EC_sub::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
 
             if (IsNetworkGame_434B10())
             {
-                gYouthful_einstein_6F8450.field_20[pPlayer->get_idx_4219D0()] = 1;
+                gYouthful_einstein_6F8450.SetQuit_461DD0(pPlayer->get_idx_4219D0());
             }
 
             return true;
