@@ -9912,7 +9912,7 @@ void Ped::sub_46C910()
         {
             Ped::ChangeNextPedState1_45C500(ped_state_1::findind_path_2);
             Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
-            field_168_game_object->field_38_velocity = dword_678448;
+            field_168_game_object->SetMaxSpeedByRef_433920(dword_678448);
         }
     }
 }
