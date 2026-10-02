@@ -1611,43 +1611,30 @@ void Car_6C::CarsService_446790()
     }
 }
 
-WIP_FUNC(0x446870)
+MATCH_FUNC(0x446870)
 bool Car_6C::CanAlloc_446870(s32 type)
 {
-    WIP_IMPLEMENTED;
-
-    bool result;
     switch (type)
     {
-        case 1:
-            result = gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 15;
-            break;
-        case 4:
-            result = this->field_2C_paramedic_cars < 1;
-            break;
         case 5:
-            result = this->field_30_firefighter_cars < 1;
-            break;
+            return this->field_30_firefighter_cars < 1;
+        case 4:
+            return this->field_2C_paramedic_cars < 1;
         case 6:
-            result = this->field_34_unit_cars < 5;
-            break;
+            return this->field_34_unit_cars < 5;
         case 7:
-            result = this->field_38_roadblock_cars < 11;
-            break;
-        case 8:
-            result = this->field_3C_mission_cars < 23;
-            break;
-        case 9:
-            result = this->field_44_parked_cars < 200;
-            break;
+            return this->field_38_roadblock_cars < 11;
         case 10:
-            result = this->field_48 < 11;
-            break;
+            return this->field_48 < 11;
+        case 9:
+            return this->field_44_parked_cars < 200;
+        case 1:
+            return gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 15;
+        case 8:
+            return this->field_3C_mission_cars < 23;
         default:
-            result = 0;
-            break;
+            return false;
     }
-    return result;
 }
 
 MATCH_FUNC(0x446930)
