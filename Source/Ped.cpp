@@ -9941,17 +9941,17 @@ void Ped::sub_46C9B0()
             }
             if (gTrafficLights_194_705958->field_192_phase == 7)
             {
-                field_168_game_object->field_38_velocity = dword_678434;
+                field_168_game_object->SetMaxSpeedByRef_433920(dword_678434);
             }
             else
             {
-                if (field_168_game_object->field_44 == 1)
+                if (field_168_game_object->Get_F44_433A90() == 1)
                 {
-                    field_168_game_object->field_38_velocity = dword_678448;
+                    field_168_game_object->SetMaxSpeedByRef_433920(dword_678448);
                 }
                 else
                 {
-                    field_168_game_object->field_38_velocity = dword_678434;
+                    field_168_game_object->SetMaxSpeedByRef_433920(dword_678434);
                 }
             }
         }
