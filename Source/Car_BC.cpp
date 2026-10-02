@@ -975,7 +975,7 @@ Car_BC* Car_6C::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3)
         // Extract the car pointer first
         Car_BC* pCar = pNearest->field_8_car_bc_ptr;
 
-        if (pCar->field_84_car_info_idx == car_model_enum::TRAIN)
+        if (pCar->IsTrain_421610())
         {
             Car_BC* pLeadCar = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(pNearest->field_8_car_bc_ptr);
             if (pLeadCar->GetCarLinearSpeed_43A240() == gFix16_6777CC)
@@ -5909,7 +5909,7 @@ void Car_BC::sub_4426D0()
 
     sub_4417D0();
 
-    if (IsTvVan_4217E0() && field_9C_engine_status == car_engine_status::on_3)
+    if (IsTvVan_4217E0() && Is_engine_status_on_3_4118C0())
     {
         ManageTVAntenna_4425D0();
     }
