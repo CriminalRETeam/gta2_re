@@ -788,13 +788,14 @@ bool Game_0x40::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player
 }
 
 // https://decomp.me/scratch/PO0RU wip - prob needs Fix16 operators ??
-WIP_FUNC(0x4B9A80)
+MATCH_FUNC(0x4B9A80)
 bool Game_0x40::is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp)
 {
-    WIP_IMPLEMENTED;
-    for (s32 i = 0; i < field_23_num_players; i++)
+    s32 i;
+    Player** ppPlayer = field_4_players;
+    for (i = 0; i < field_23_num_players; i++, ppPlayer++)
     {
-        Player* pPlayer = field_4_players[i];
+        Player* pPlayer = *ppPlayer;
         if (pPlayer->field_8E_bInUse)
         {
             if (pPlayer->field_90_game_camera.check_camera(a2_fp, a3_fp))
