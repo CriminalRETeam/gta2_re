@@ -4086,13 +4086,40 @@ void Car_BC::sub_43DD60()
     }
 }
 
-WIP_FUNC(0x43e560)
+// The original's copy of CarPhysics_B0::IsDrowning_421100 calls the out of line Fix16 helpers
+// (Negate_4086A0, Multiply_408680, operator+, SquareRoot_436A70) for the speed
+static inline Fix16 GetSpeed_43E560(Fix16_Point& v)
+{
+    if (v.x == gFix16_6777CC)
+    {
+        return Fix16::Abs_negate_out_of_line(v.y);
+    }
+    else if (v.y == gFix16_6777CC)
+    {
+        return Fix16::Abs_negate_out_of_line(v.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)v.x.Multiply_408680(v.x) + v.y.Multiply_408680(v.y));
+    }
+}
+
+static inline bool IsDrowning_43E560(CarPhysics_B0* pPhysics)
+{
+    if (pPhysics->field_98_surface_type == 8)
+    {
+        if (GetSpeed_43E560(pPhysics->field_40_linvel_1) <= kDrowningMaxSpeed_677794)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+MATCH_FUNC(0x43e560)
 char_type Car_BC::ManageDrowning_43E560()
 {
-    WIP_IMPLEMENTED;
-
-    // TODO: Fails due to __Forceinline, else matches
-    char_type ret = field_58_physics->IsDrowning_421100();
+    char_type ret = IsDrowning_43E560(field_58_physics);
     if (ret)
     {
         if (this->field_94_exploder_timer > 0)
