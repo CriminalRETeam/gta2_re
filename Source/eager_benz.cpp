@@ -65,12 +65,11 @@ void eager_benz::sub_591C70()
     if (field_18C >= 1000)
     {
         field_18C -= 1000;
-        Car_BC* field_16C_car = player_ped->field_16C_car;
+        Car_BC* field_16C_car = player_ped->get_car_416B60();
 
         if (field_16C_car)
         {
-            if (player_ped->field_248_enter_car_as_passenger != 1 &&
-                (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_16C_car->field_84_car_info_idx)->info_flags & 0x20) == 0x20)
+            if (player_ped->not_enter_car_as_passenger_4A5040() && field_16C_car->inline_check_0x20_info_4216C0())
             {
                 if (field_16C_car->field_4_passengers_list.field_0_pFirstPed)
                 {
@@ -78,7 +77,7 @@ void eager_benz::sub_591C70()
                 }
             }
         }
-        if (player_ped->field_20A_wanted_points >= 5000)
+        if (player_ped->get_wanted_points_433DC0() >= 5000)
         {
             field_368_player->Add_2D4(1);
         }
