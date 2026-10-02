@@ -106,24 +106,30 @@ class Fix16_Rect
             false;
     }
 
-    Fix16& get_top_45ADD0()
+    Fix16 get_top_45ADD0()
     {
         return field_8_top;
     }
 
-    Fix16& get_left_45ADB0()
+    Fix16 get_left_45ADB0()
     {
         return field_0_left;
     }
 
-    Fix16& get_right_45ADA0()
+    Fix16 get_right_45ADA0()
     {
         return field_4_right;
     }
 
-    Fix16& get_bottom_45ADC0()
+    Fix16 get_bottom_45ADC0()
     {
         return field_C_bottom;
+    }
+
+    // 9.6f 0x4637A0
+    Fix16 get_low_z_4637A0()
+    {
+        return field_10_low_z;
     }
 
     Fix16 field_0_left;

@@ -60,11 +60,16 @@ NetPlay::NetPlay()
     }
 }
 
-STUB_FUNC(0x51d7b0)
+// The scalar deleting destructor VC6 generates for the virtual ~NetPlay, written out
+MATCH_FUNC(0x51d7b0)
 void* NetPlay::vdtor_51D7B0(char_type flags)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    this->NetPlay::~NetPlay();
+    if (flags & 1)
+    {
+        operator delete(this);
+    }
+    return this;
 }
 
 MATCH_FUNC(0x51d7d0)
@@ -2322,8 +2327,9 @@ s32 NetPlay::Send_521E40(s32 pSendData)
     return field_5E4_pDPlay3->Send(field_5D8_player_id, 0, 0, (void*)pData, dataLen);
 }
 
-STUB_FUNC(0x5e4dd0)
+// The atexit destructor VC6 generates for gNetPlay_7071E8, written out
+MATCH_FUNC(0x5e4dd0)
 void NetPlay::static_dtor_5E4DD0()
 {
-    NOT_IMPLEMENTED;
+    gNetPlay_7071E8.NetPlay::~NetPlay();
 }

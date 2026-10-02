@@ -221,6 +221,13 @@ class Garox_C4
     EXPORT void sub_5D1D00();
     EXPORT bool sub_5D1DB0();
     EXPORT bool operator_equals_5D1E10(Garox_C4* pOther);
+
+    // 9.6f 0x45AFD0
+    void SetDrawKind8_45AFD0(s16 a2)
+    {
+        field_B0_drawKind = 8;
+        field_B4 = a2;
+    }
     wchar_t field_0_str_buf[82];
     s32 field_A4_display_time;
     s16 field_A8_x;

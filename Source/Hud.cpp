@@ -270,12 +270,11 @@ char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
 }
 
 // https://decomp.me/scratch/gMsUi
-WIP_FUNC(0x5d16b0)
+MATCH_FUNC(0x5d16b0)
 void Garox_2A25_sub::DrawChatMessages_5D16B0()
 {
-    u16 font = word_70643E;
-    u16 line_spacing = gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font);
-    u16 text_ypos = 480 - line_spacing;
+    s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(word_70643E);
+    s32 text_ypos = 480 - line_spacing;
     if (bStartNetworkGame_7081F0)
     {
         for (Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter != NULL;
@@ -295,7 +294,7 @@ void Garox_2A25_sub::DrawChatMessages_5D16B0()
                 s32 start_xpos;
                 if (max_text_width > 640)
                 {
-                    start_xpos = 640 - (u16)max_text_width;
+                    start_xpos = 640 - max_text_width;
                 }
                 else
                 {

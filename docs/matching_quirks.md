@@ -525,6 +525,34 @@ gave about 0.70 (`UpdateDirectedBurst_state_13_14_36_539480`, `UpdateCircularBur
 `UpdateDirectedProjectile_state_3_12_5384C0` dropped slightly. Before hand-writing maths,
 grep `Fix16_Point.hpp`, `fix16.hpp` and `ang16.hpp` for an inline that does it.
 
+### Let the 9.6f version show the structure and the inlines
+
+`docs/inlines_96f.md` lists, per function, the 9.6f calls that 10.5 inlined. The 9.6f code is
+not the same compiler and never has to match, but it is often the same source, so it shows
+which helper was called and in which order things happened:
+
+- `PoliceCrew_38::sub_571540`: one branch open-coded the despawn check that 9.6f calls as
+  `Car_BC::sub_421470`, and every path stored `field_28` before `field_2C`.
+- `Firefighter_28::sub_4A7FC0`: 9.6f compares `get_car_velocity_4211C0()`, which is
+  `GetLength_41E260`, not the `GetLength_453590` the source used.
+- `Garox_2A25_sub::DrawChatMessages_5D16B0`: 9.6f calls the line spacing wrapper (0x4539B0),
+  which 10.5 inlines (`GetLineSpacingFromFontType_5D7700_inlined`).
+
+**A getter that returns a copy is not a reference getter.** The 9.6f `Fix16_Rect` getters
+(0x45ADA0-0x45ADD0) return a `Fix16` by value. Returning `Fix16&` gave different scheduling of
+the four rect reads in `Map_0x370::sub_4E4820`; by value, read in the original order (left,
+right, top, bottom), it matched. Check the 9.6f getter's `ret $4` and hidden return pointer.
+
+**A missing EH state store can mean the wrong callee.** `ApplyTurningForce_55F020` lacked the
+`movb $1,N(%esp)` before multiplying the `NormalizeSafe_442AD0()` temporary. The source used the
+inline `Fix16_Point::operator*(Fix16&)` (called out of line, but its body is visible, so VC6
+knows it can't throw); the original calls the exported `Multiply_438FE0`. Check the call target
+address against the csv before chasing the state store.
+
+**Two different callees for the same constructor mean two types.** If the original calls one
+`Fix16` constructor twice and you call two, an argument has the wrong type (a `u16` position
+that went through `Fix16(u16)` instead of `Fix16(s32)`, `DrawChatMessages_5D16B0`).
+
 ### Big functions run out of inline expansions
 
 VC6 stops inlining once a function has made a certain number of inline expansions. The calls

@@ -2215,13 +2215,13 @@ void Frontend::SetWinMainStateToBootMap_4AE990()
 
 // It matches, but we need to get rid of goto's
 // https://decomp.me/scratch/LYZij
-WIP_FUNC(0x4B2F60)
+MATCH_FUNC(0x4B2F60)
 void Frontend::sub_4B2F60()
 {
     //NOT_IMPLEMENTED;
     s16 v1;
     s16 input;
-    u8* field_8_keys;
+    u8* pKeys;
     wchar_t Key_4D5F40;
     u16 v7;
     s16 v9;
@@ -2230,15 +2230,15 @@ void Frontend::sub_4B2F60()
 
     v1 = 0;
     input = 256;
-    field_8_keys = (u8*)&field_8_keys;
+    pKeys = (u8*)field_8_keys;
     do
     {
-        if ((*field_8_keys & 0x80u) != 0 && v1 != 54 && v1 != 42)
+        if ((*pKeys & 0x80u) != 0 && v1 != 54 && v1 != 42)
         {
             input = v1;
         }
         ++v1;
-        ++field_8_keys;
+        ++pKeys;
     } while ((u16)v1 < 0x100u);
 
     if (field_C9B4 != input)

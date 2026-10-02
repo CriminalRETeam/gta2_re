@@ -152,8 +152,9 @@ Two things to try early when a function is close but won't match:
   in 10.5 are real functions there (`og_function_data_v96f.csv` lists them). That makes it
   the best place to recover missing inline methods and their bodies. Comments such as
   `// 9.6f inlined` or `// Inlined in ... 9.6f -> 0x...` in `Source/` mark the ones found
-  so far. Planned follow-up: add the missing inlines to the matched functions first, then
-  to the WIPs, in the hope of extra matches.
+  so far. `docs/inlines_96f.md` pairs each function with its 9.6f version and tracks, per
+  WIP and matched function, which 9.6f calls became inlines and which ones `Source/` still
+  lacks. Work through the WIPs first, in the hope of extra matches.
 
 **Avoid `goto` where possible.** VC6 block layout can often be forced with a `goto`, but
 the result reads badly and is rarely what the original source did. First try restructuring:

@@ -240,7 +240,7 @@ struct NetPlay
     EXPORT s32 SendKeepAlive_521D20();
     EXPORT s32 Send_521DB0(s32 value);
     EXPORT s32 Send_521E40(s32 pSendData);
-    EXPORT void static_dtor_5E4DD0();
+    EXPORT static void static_dtor_5E4DD0();
 
     //s32 field_0_vtbl;
     char field_4;

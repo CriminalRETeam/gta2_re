@@ -207,19 +207,26 @@ Tried:
 
 ## Stubs that aren't normal functions
 
-These have `STUB_FUNC` markers but are compiler-generated in the original, so there is
-no source to write for them:
+These had `STUB_FUNC` markers but are compiler-generated in the original:
 
-- `PedGroup::sub_4C8E60` (0x4C8E60): the static destructor for a global array of 20
-  `PedGroup`s (`eh vector destructor iterator` on 0x67EF20, size 0x44).
-- `NetPlay::static_dtor_5E4DD0`: the `atexit` destructor for `gNetPlay_7071E8`
-  (`mov $gNetPlay,%ecx; jmp ~NetPlay`). VC6 now generates it, since `NetPlay` has a real
-  constructor.
-- `NetPlay::vdtor_51D7B0`: NetPlay's scalar deleting destructor (`??_G`), generated from
-  the virtual destructor.
+- `NetPlay::vdtor_51D7B0` (NetPlay's scalar deleting destructor) and
+  `NetPlay::static_dtor_5E4DD0` (the `atexit` destructor for `gNetPlay_7071E8`) now match,
+  written out by hand: `this->NetPlay::~NetPlay(); if (flags & 1) operator delete(this); return this;`
+  and `gNetPlay_7071E8.NetPlay::~NetPlay();`. The qualified call stops a virtual dispatch,
+  and VC6 turns the second into `mov $gNetPlay,%ecx; jmp ~NetPlay`.
+- `PedGroup::sub_4C8E60` (0x4C8E60): the static destructor for the global array of 20
+  `PedGroup`s (`push ~PedGroup; push 0x14; push 0x44; push pedGroups_67EF20; call ??_M`).
+  Our build generates the same code as `_$E5` for `DEFINE_GLOBAL_ARRAY(PedGroup, ...)`, but there
+  is no way to put a marker on it: a `MATCH_FUNC` before the array definition is followed by
+  `_$E7` (the init wrapper), and the verifier skips `$E` symbols ("not in the build"). Plain
+  C++ can't name `??_M` or take a destructor's address, so it would need a linker
+  `/alternatename` hack. Left as a stub.
+- `cSampleManager`'s marker was on 0x58D400, which is the static init thunk for
+  `gSampManager_6FFF00` (`mov ecx; jmp ctor`; 0x58D410 registers the `atexit` destructor and
+  0x58D420 jumps to `~cSampleManager`). The constructor is at 0x58D430, which had no csv row.
+  With the row and the marker moved, it matched once its three handle arrays were cleared with
+  loops instead of `memset`. The `memset`s picked other zero registers and instruction order.
 - The `crt_stubs.cpp` functions (`malloc`, `free`, `fopen`, ...) are the static CRT.
-
-The markers can't be checked either way: there's no function body to put after them.
 
 ## NetPlay::CalcPacketLen_51F210 (WIP)
 
