@@ -127,14 +127,14 @@ class Weapon_30
 
     void set_field_2C_4CCA80(char_type new_value)
     {
-        field_2C = new_value;
+        field_2C_shot_fired = new_value;
     }
 
     // 9.6f 0x41CC80
     inline s8 TakeF2C_41CC80()
     {
-        s8 ret = field_2C;
-        field_2C = 0;
+        s8 ret = field_2C_shot_fired;
+        field_2C_shot_fired = 0;
         return ret;
     }
 
@@ -180,7 +180,7 @@ class Weapon_30
     s8 field_23;
     Ped* field_24_pPed;
     infallible_turing* field_28_pSound;
-    s8 field_2C;
+    s8 field_2C_shot_fired;
     s8 field_2D;
     s8 field_2E;
     s8 field_2F;

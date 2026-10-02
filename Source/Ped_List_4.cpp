@@ -5,7 +5,7 @@
 
 DEFINE_GLOBAL(Ped_List_4, gThreateningPedsList_678468, 0x678468);
 
-DEFINE_GLOBAL_INIT(Ang16, word_678B40, Ang16(0), 0x678B40);
+DEFINE_GLOBAL_INIT(Ang16, kAng0_678B40, Ang16(0), 0x678B40);
 
 MATCH_FUNC(0x471140)
 Char_8* Ped_List_4::AddPed_471140(Ped* pPed)
@@ -246,7 +246,7 @@ Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, A
 
             ang_delta = Fix16::atan2_fixed_405320(pCurPed->get_cam_y() - y, pCurPed->get_cam_x() - x) - ang1;
 
-            v13 = word_678B40 - ang2;
+            v13 = kAng0_678B40 - ang2;
 
             if (ang_delta < ang2 || ang_delta > v13)
             {
@@ -338,7 +338,7 @@ void Ped_List_4::SyncPassengersWithCarState_4716D0(Car_BC* pCar)
     {
         pIter->field_0_char_ped->field_204_killer_id = pCar->field_70_exploder_ped_id;
         pIter->field_0_char_ped->field_290 = pCar->field_90;
-        pIter->field_0_char_ped->field_264 = 50;
+        pIter->field_0_char_ped->field_264_killer_id_timer = 50;
     }
 }
 

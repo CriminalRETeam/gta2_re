@@ -17,11 +17,11 @@ struct Fix16_Point_POD;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(ModelPhysics_48*, gCarInfo_48_6FE258);
-EXTERN_GLOBAL(Ang16, word_6FE00C);
-EXTERN_GLOBAL(Ang16, word_6FE154);
+EXTERN_GLOBAL(Ang16, kAng90_6FE00C);
+EXTERN_GLOBAL(Ang16, kAng270_6FE154);
 EXTERN_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4);
-EXTERN_GLOBAL(Fix16, dword_6FE348);
-EXTERN_GLOBAL(Fix16, dword_677794);
+EXTERN_GLOBAL(Fix16, gDamageSpeedFactor_6FE348);
+EXTERN_GLOBAL(Fix16, kDrowningMaxSpeed_677794);
 EXTERN_GLOBAL(Fix16_Point, stru_6FDF50);
 EXTERN_GLOBAL(Fix16, dword_6FE0B0);
 EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
@@ -98,7 +98,7 @@ class CarPhysics_B0
     // 9.6f 0x421130
     inline bool IsRngBelowDamage_421130()
     {
-        return (u32)rng_dword_67AB34->get_cur_rng_41CFE0() < field_8_total_damage_q;
+        return (u32)gpRng_67AB34->get_cur_rng_41CFE0() < field_8_total_damage_q;
     }
 
     // 9.6f 0x421260
@@ -210,7 +210,7 @@ class CarPhysics_B0
     bool IsVelocityAlignedWithHeading_40F840()
     {
         Ang16 v14 = (field_40_linvel_1.atan2_40ACD0() - field_58_theta);
-        return v14 <= word_6FE00C || v14 >= word_6FE154;
+        return v14 <= kAng90_6FE00C || v14 >= kAng270_6FE154;
     }
 
     Fix16 inline_ComputeTorqueFromThrottle_561DD0()
@@ -218,12 +218,12 @@ class CarPhysics_B0
         if (get_revs_561940() != 0)
         {
             return gCarInfo_2C_6FE0E4->field_14_half_thrust +
-                ((field_60_gas_pedal * ((dword_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust)))) * 2;
+                ((field_60_gas_pedal * ((gDamageSpeedFactor_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust)))) * 2;
         }
         else
         {
             return gCarInfo_2C_6FE0E4->field_14_half_thrust +
-                ((field_60_gas_pedal * ((dword_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust))));
+                ((field_60_gas_pedal * ((gDamageSpeedFactor_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust))));
         }
     }
 
@@ -239,11 +239,11 @@ class CarPhysics_B0
         }
     }
 
-    bool CarPhysics_B0::sub_421100()
+    bool CarPhysics_B0::IsDrowning_421100()
     {
         if (field_98_surface_type == 8)
         {
-            if (field_40_linvel_1.GetLength_41E260() <= dword_677794)
+            if (field_40_linvel_1.GetLength_41E260() <= kDrowningMaxSpeed_677794)
             {
                 return 1;
             }
@@ -333,7 +333,7 @@ class CarPhysics_B0
         field_8C_state = 2;
     }
 
-    inline bool sub_49EF80()
+    inline bool IsStationary_49EF80()
     {
         return field_40_linvel_1.x == kFP16Zero_6FE20C && field_40_linvel_1.y == kFP16Zero_6FE20C &&
             field_74_ang_vel_rad == kFP16Zero_6FE20C;
@@ -373,7 +373,7 @@ class CarPhysics_B0
     }
 
     // FUNCTION: 96f 0x42ABC0
-    void sub_42ABC0()
+    void ForceNeutralInput_42ABC0()
     {
         field_95 = 1;
         field_91_is_foot_brake_on = 0;
@@ -427,24 +427,24 @@ class CarPhysics_B0
     Fix16_Point field_0_vel_read_only;
     u32 field_8_total_damage_q;
     CarPhysics_B0* mpNext;
-    Fix16_Point field_10[4];
+    Fix16_Point field_10_last_skid_pos[4];
     Fix16_Point field_30_cm1;
     Fix16_Point field_38_cp1;
     Fix16_Point field_40_linvel_1;
-    Fix16_Point_POD field_48;
-    Fix16_Point_POD field_50;
+    Fix16_Point_POD field_48_force_accum;
+    Fix16_Point_POD field_50_linear_accel;
     Ang16 field_58_theta;
     s16 field_5A;
     Car_BC* field_5C_pCar;
     Fix16 field_60_gas_pedal;
-    Fix16 field_64;
+    Fix16 field_64_brake_pressure;
     Fix16 field_68_z_pos;
     Fix16 field_6C_cp3;
-    Fix16 field_70;
+    Fix16 field_70_z_vel;
     Fix16 field_74_ang_vel_rad;
     Fix16 field_78_pointing_ang_rad;
-    Fix16 field_7C;
-    Fix16 field_80;
+    Fix16 field_7C_torque_accum;
+    Fix16 field_80_angular_accel;
     Fix16 field_84_front_skid;
     Fix16 field_88_rear_skid;
     s32 field_8C_state;
@@ -457,9 +457,9 @@ class CarPhysics_B0
     char_type field_96;
     char_type field_97;
     s32 field_98_surface_type;
-    s32 field_9C;
-    s32 field_A0;
-    char_type field_A4;
+    s32 field_9C_block_spec;
+    s32 field_A0_oil_spin_dir;
+    char_type field_A4_oil_spin_timer;
     char_type field_A5_current_slope_length;
     char_type field_A6_current_slope_left_tiles;
     char_type field_A7_current_tile_z;

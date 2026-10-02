@@ -15,7 +15,7 @@ EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
 EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 MATCH_FUNC(0x4D9470)
-void ErrorLog::sub_4D9470(const char_type* path, s32 a3)
+void ErrorLog::Open_4D9470(const char_type* path, s32 a3)
 {
     u8* fileNameLen = new u8;
     if (fileNameLen)
@@ -56,7 +56,7 @@ WIP_FUNC(0x4D94E0)
 ErrorLog::ErrorLog(const char* FileName, int a3)
 {
     NOT_IMPLEMENTED;
-    sub_4D9470(FileName, a3);
+    Open_4D9470(FileName, a3);
 }
 
 // This func matches but for some reason it's crashing the patched version
@@ -123,7 +123,7 @@ ErrorLog gFile_67C530; //DEFINE_GLOBAL(ErrorLog, gFile_67C530, 0x67C530);
 
 DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256, 0x67C598); // TODO: Check
 DEFINE_GLOBAL_ARRAY(char_type, gErrStr_67C29C, 256, 0x67C29C);
-DEFINE_GLOBAL_ARRAY(char_type, byte_67C3A8, 256, 0x67C3A8);
+DEFINE_GLOBAL_ARRAY(char_type, gErrStr2_67C3A8, 256, 0x67C3A8);
 DEFINE_GLOBAL_ARRAY(char_type, gGlobalFileName_67C6AC, 256, 0x67C6AC);
 
 const char_type* gListTypes_61AB70[30] = {"objects",
@@ -1839,7 +1839,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         }
 
         case 2014:
-            sprintf(gTmpBuffer_67C598, "%s binmake error : %s", SourceFileNameFromPath_4A07A0(gErrStr_67C29C), byte_67C3A8);
+            sprintf(gTmpBuffer_67C598, "%s binmake error : %s", SourceFileNameFromPath_4A07A0(gErrStr_67C29C), gErrStr2_67C3A8);
             break;
 
         case 2018:
@@ -2201,7 +2201,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         }
 
         case 8001:
-            sprintf(gTmpBuffer_67C598, "Too many %s phones for %s gang", gErrStr_67C29C, byte_67C3A8);
+            sprintf(gTmpBuffer_67C598, "Too many %s phones for %s gang", gErrStr_67C29C, gErrStr2_67C3A8);
             break;
         case 7004:
 
@@ -2287,7 +2287,7 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
         const char_type destroyed = bDestroyed_6F5B70;
         if (!destroyed)
         {
-            sub_4DA740();
+            Shutdown_4DA740();
             GBH_Graphis_DMA_Video_Free_5D9830();
             // 16 was using esi instead of push 10h without the 0x6F5B70 bool
             // being cached in both branches of the if/else
@@ -2301,7 +2301,7 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
         const char_type destroyed = bDestroyed_6F5B70;
         if (!destroyed)
         {
-            sub_4DA740();
+            Shutdown_4DA740();
             GBH_Graphis_DMA_Video_Free_5D9830();
 
             va_list va;

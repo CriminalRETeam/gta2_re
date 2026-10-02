@@ -92,20 +92,20 @@ class PedManager
     EXPORT Ped* SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation);
     EXPORT Ped* SpawnDriver_470B00(Car_BC* pCar);
     EXPORT Ped* SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang);
-    EXPORT Ped* sub_470CC0(Car_BC* pCar);
+    EXPORT Ped* CreateDummyDriver_470CC0(Car_BC* pCar);
     EXPORT Ped* SpawnRunAwayGuy_470D60();
     EXPORT Ped* SpawnTrainLeaver_470E30();
-    EXPORT Ped* sub_470F30();
-    EXPORT Ped* sub_470F90(Ped* pSrc);
+    EXPORT Ped* AllocatePed_470F30();
+    EXPORT Ped* ClonePed_470F90(Ped* pSrc);
     EXPORT void DoIanTest_471060(u16 a1);
     EXPORT Ped* PedById(s32 pedId);
 
     EXPORT void Dummies_470330();
 
-    s16 field_0;
-    char_type field_2;
-    char_type field_3;
-    char_type field_4;
+    s16 field_0_max_dummy_chars;
+    char_type field_2_num_dummy_chars;
+    char_type field_3_num_peds_updated;
+    char_type field_4_num_script_created_peds;
     u8 field_5_fbi_army_count;
     char_type field_6_num_peds_on_screen;
     char_type field_7_make_all_muggers;
@@ -140,6 +140,6 @@ EXTERN_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44);
 
 EXTERN_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50);
 
-EXTERN_GLOBAL(u8, unk_6787EE);
+EXTERN_GLOBAL(u8, gNumPolicePedsInRangeScreen_6787EE);
 
 EXTERN_GLOBAL(u8, byte_61A8A2);

@@ -48,10 +48,10 @@ class Garage_48
     s32 field_C;
     Door_38* field_10;
     Ped* field_14;
-    Fix16 field_18;
-    Fix16 field_1C;
-    Fix16 field_20;
-    Fix16 field_24;
+    Fix16 field_18_park_x_min;
+    Fix16 field_1C_park_y_min;
+    Fix16 field_20_park_x_max;
+    Fix16 field_24_park_y_max;
     Fix16_Point_POD field_28_push_dir;
     Fix16 field_30_target_x;
     Fix16 field_34_target_y;

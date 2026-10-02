@@ -11,9 +11,9 @@ DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440, 0x669260);
 DEFINE_GLOBAL_ARRAY(Fix16, gTanTable_6663C8, 1440, 0x6663C8);
 DEFINE_GLOBAL_INIT(Fix16, kFPZero_6691B0, Fix16(0), 0x6691B0);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_66A920, Ang16(0), 0x66A920);
-DEFINE_GLOBAL_INIT(Ang16, word_669156, Ang16(720), 0x669156);
-DEFINE_GLOBAL_INIT(Ang16, word_667A7C, Ang16(360), 0x667A7C);
-DEFINE_GLOBAL_INIT(Ang16, word_66916C, Ang16(1080), 0x66916C);
+DEFINE_GLOBAL_INIT(Ang16, kAng180_669156, Ang16(720), 0x669156);
+DEFINE_GLOBAL_INIT(Ang16, kAng90_667A7C, Ang16(360), 0x667A7C);
+DEFINE_GLOBAL_INIT(Ang16, kAng270_66916C, Ang16(1080), 0x66916C);
 
 MATCH_FUNC(0x408660)
 Fix16 Fix16::operator+(const Fix16& rhs) const
@@ -139,18 +139,18 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
         }
         else
         {
-            return word_669156;
+            return kAng180_669156;
         }
     }
     else if (x == kFPZero_6691B0)
     {
         if (y > kFPZero_6691B0)
         {
-            return word_667A7C;
+            return kAng90_667A7C;
         }
         else
         {
-            return word_66916C;
+            return kAng270_66916C;
         }
     }
     else
@@ -161,17 +161,17 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
         {
             if (y > kFPZero_6691B0)
             {
-                return word_667A7C - v9;
+                return kAng90_667A7C - v9;
             }
             else
             {
-                if (v9 == word_667A7C)
+                if (v9 == kAng90_667A7C)
                 {
                     return kAngZero_66A920;
                 }
                 else
                 {
-                    return word_66916C + v9;
+                    return kAng270_66916C + v9;
                 }
             }
         }
@@ -179,11 +179,11 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
         {
             if (y > kFPZero_6691B0)
             {
-                return word_667A7C + v9;
+                return kAng90_667A7C + v9;
             }
             else
             {
-                return word_66916C - v9;
+                return kAng270_66916C - v9;
             }
         }
     }
@@ -206,21 +206,21 @@ EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart,
 }
 
 EXTERN_GLOBAL(Fix16, kFPZero_6691B0);
-EXTERN_GLOBAL(Fix16, k_dword_66A8E4);
-EXTERN_GLOBAL(Fix16, dword_6691EC);
+EXTERN_GLOBAL(Fix16, kAngFix16FullCircle_66A8E4);
+EXTERN_GLOBAL(Fix16, kAngFix16HalfCircle_6691EC);
 
 // Turns the angle `cur` toward `*pTarget` by at most `*pSpeed`, the short way round, and wraps the
 // result into [0, 2pi). Called by Trailer::UpdateTrailerAlignment_407CE0.
 MATCH_FUNC(0x405DA0)
 EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed)
 {
-    if (*pTarget - cur > dword_6691EC)
+    if (*pTarget - cur > kAngFix16HalfCircle_6691EC)
     {
-        cur += k_dword_66A8E4;
+        cur += kAngFix16FullCircle_66A8E4;
     }
-    else if (*pTarget - cur < -dword_6691EC)
+    else if (*pTarget - cur < -kAngFix16HalfCircle_6691EC)
     {
-        cur -= k_dword_66A8E4;
+        cur -= kAngFix16FullCircle_66A8E4;
     }
 
     Fix16 diff = *pTarget - cur;
@@ -240,11 +240,11 @@ EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed)
     }
 
     Fix16 result = diff + cur;
-    for (; result < kFPZero_6691B0; result += k_dword_66A8E4)
+    for (; result < kFPZero_6691B0; result += kAngFix16FullCircle_66A8E4)
     {
         ;
     }
-    for (; result >= k_dword_66A8E4; result -= k_dword_66A8E4)
+    for (; result >= kAngFix16FullCircle_66A8E4; result -= kAngFix16FullCircle_66A8E4)
     {
         ;
     }
@@ -255,13 +255,13 @@ DEFINE_GLOBAL(Fix16, dword_66A924, 0x66A924);
 DEFINE_GLOBAL(Fix16, dword_669140, 0x669140);
 DEFINE_GLOBAL(Fix16, dword_6691FC, 0x6691FC);
 
-// Is `*a` within dword_66A924 of `*b`, directly or one turn (k_dword_66A8E4) either way.
+// Is `*a` within dword_66A924 of `*b`, directly or one turn (kAngFix16FullCircle_66A8E4) either way.
 MATCH_FUNC(0x405E20)
 EXPORT s32 __stdcall sub_405E20(Fix16* a, Fix16* b)
 {
     if ((*a > *b - dword_66A924 && *a < *b + dword_66A924) ||
-        (*a > *b - k_dword_66A8E4 - dword_66A924 && *a < *b - k_dword_66A8E4 + dword_66A924) ||
-        (*a > *b - dword_66A924 + k_dword_66A8E4 && *a < *b + k_dword_66A8E4 + dword_66A924))
+        (*a > *b - kAngFix16FullCircle_66A8E4 - dword_66A924 && *a < *b - kAngFix16FullCircle_66A8E4 + dword_66A924) ||
+        (*a > *b - dword_66A924 + kAngFix16FullCircle_66A8E4 && *a < *b + kAngFix16FullCircle_66A8E4 + dword_66A924))
     {
         return 1;
     }
@@ -289,7 +289,7 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
             *pCur = hi;
         }
     }
-    else if (*pTarget < dword_6691EC)
+    else if (*pTarget < kAngFix16HalfCircle_6691EC)
     {
         lo = *pTarget - dword_669140;
         hi = *pTarget + dword_669140;

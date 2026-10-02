@@ -8,8 +8,8 @@
 #include "memory.hpp"
 
 DEFINE_GLOBAL(sharp_pare_0x15D8*, gSharp_pare_0x15D8_705064, 0x705064);
-DEFINE_GLOBAL(u32, dword_704ED0, 0x704ED0);
-DEFINE_GLOBAL(u32, dword_704F28, 0x704F28);
+DEFINE_GLOBAL(u32, gRemappedSpriteCounter_704ED0, 0x704ED0);
+DEFINE_GLOBAL(u32, gRemappedTextureCounter_704F28, 0x704F28);
 
 MATCH_FUNC(0x5B90F0)
 void sharp_pare_0x15D8::LoadPals_5B90F0()
@@ -72,9 +72,9 @@ s16 sharp_pare_0x15D8::RegisterDigits_5B9220(u16 num_of_digits, u16 palette)
 
     for (s32 i = 0; i < num_of_digits; i++)
     {
-        field_10C4[og_idx + i].field_4_pTexture =
+        field_10C4_digit_textures[og_idx + i].field_4_pTexture =
             pgbh_RegisterTexture(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height, field_0_pData, phys_pal_5AA6F0, 0);
-        field_10C4[og_idx + i].field_0_pPixelData = field_0_pData;
+        field_10C4_digit_textures[og_idx + i].field_0_pPixelData = field_0_pData;
     }
     return og_idx;
 }
@@ -99,31 +99,31 @@ void sharp_pare_0x15D8::ReadTextures_5B92E0()
 }
 
 MATCH_FUNC(0x5B9350)
-void sharp_pare_0x15D8::sub_5B9350()
+void sharp_pare_0x15D8::LoadStyleTextures_5B9350()
 {
     LoadPals_5B90F0();
     ReadTextures_5B92E0();
 
-    field_1548_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(2), 1, 0, 2);
-    field_1548_unk.LoadTextures_5B8F00();
+    field_1548_sprite_textures.Alloc_5B8E90(gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(2), 1, 0, 2);
+    field_1548_sprite_textures.LoadTextures_5B8F00();
 
-    field_155C_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(2), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(3), 2, 3);
+    field_155C_car_remap_textures.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(2), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(3), 2, 3);
 
-    field_155C_unk.sub_5B8F70();
-    field_1570_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(3), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(4), 3, 4);
-    field_1570_unk.sub_5B8F70();
+    field_155C_car_remap_textures.LoadRemappedTextures_5B8F70();
+    field_1570_ped_remap_textures.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(3), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(4), 3, 4);
+    field_1570_ped_remap_textures.LoadRemappedTextures_5B8F70();
 
-    field_1584_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(4), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(5), 4, 5);
-    field_1584_unk.sub_5B8F70();
+    field_1584_code_obj_remap_textures.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(4), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(5), 4, 5);
+    field_1584_code_obj_remap_textures.LoadRemappedTextures_5B8F70();
 
-    field_1598_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(5), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(6), 5, 6);
-    field_1598_unk.sub_5B8F70();
+    field_1598_map_obj_remap_textures.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(5), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(6), 5, 6);
+    field_1598_map_obj_remap_textures.LoadRemappedTextures_5B8F70();
 
-    field_15AC_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(7), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(8), 7, 8);
-    field_15AC_unk.sub_5B8F70();
+    field_15AC_font_remap_textures.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(7), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(8), 7, 8);
+    field_15AC_font_remap_textures.LoadRemappedTextures_5B8F70();
 
-    field_15C0_unk.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(6), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(7), 6, 7);
-    field_15C0_unk.sub_5B8F70();
+    field_15C0_user_remap_textures.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(6), gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(7), 6, 7);
+    field_15C0_user_remap_textures.LoadRemappedTextures_5B8F70();
 
     LoadTextures2_5B9180();
 
@@ -138,25 +138,25 @@ STexture* sharp_pare_0x15D8::GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite
     switch (palette_type)
     {
         case palette_types_enum::sprites_2:
-            result = field_1548_unk.get_texture_5B90A0(sprite_type, sprite_id);
+            result = field_1548_sprite_textures.get_texture_5B90A0(sprite_type, sprite_id);
             break;
         case palette_types_enum::car_remaps_3:
-            result = field_155C_unk.sub_5B90D0(sprite_id, remap);
+            result = field_155C_car_remap_textures.GetRemappedTexture_5B90D0(sprite_id, remap);
             break;
         case palette_types_enum::ped_remaps_4:
-            result = field_1570_unk.sub_5B90D0(sprite_id, remap);
+            result = field_1570_ped_remap_textures.GetRemappedTexture_5B90D0(sprite_id, remap);
             break;
         case palette_types_enum::code_obj_remaps_5:
-            result = field_1584_unk.sub_5B90D0(sprite_id, remap);
+            result = field_1584_code_obj_remap_textures.GetRemappedTexture_5B90D0(sprite_id, remap);
             break;
         case palette_types_enum::map_obj_remaps_6:
-            result = field_1598_unk.sub_5B90D0(sprite_id, remap);
+            result = field_1598_map_obj_remap_textures.GetRemappedTexture_5B90D0(sprite_id, remap);
             break;
         case palette_types_enum::font_remaps_8:
-            result = field_15AC_unk.sub_5B90D0(sprite_id, remap);
+            result = field_15AC_font_remap_textures.GetRemappedTexture_5B90D0(sprite_id, remap);
             break;
         case palette_types_enum::user_remaps_7:
-            result = field_15C0_unk.sub_5B90D0(sprite_id, remap);
+            result = field_15C0_user_remap_textures.GetRemappedTexture_5B90D0(sprite_id, remap);
             break;
         default:
             result = 0;
@@ -172,9 +172,9 @@ STexture* sharp_pare_0x15D8::GetTexture2_5B95D0(u16 textureIdx)
 }
 
 MATCH_FUNC(0x5B95F0)
-STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, u16 height)
+STexture* sharp_pare_0x15D8::GetDigitTexture_5B95F0(u16 idx, u16 width, u16 height)
 {
-    optimistic_moser* pMoser = &field_10C4[idx];
+    optimistic_moser* pMoser = &field_10C4_digit_textures[idx];
     STexture* pTexture = pMoser->field_4_pTexture;
 
     if (height != pMoser->field_8_w || width != pMoser->field_A_h)
@@ -193,7 +193,7 @@ STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, u16 height)
 MATCH_FUNC(0x5B9660)
 void sharp_pare_0x15D8::SetPal_5B9660(u16 texture_idx, u16 pal_idx)
 {
-    STexture* pTexture = field_10C4[texture_idx].field_4_pTexture;
+    STexture* pTexture = field_10C4_digit_textures[texture_idx].field_4_pTexture;
     u16 pal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal_idx);
     pgbh_LockTexture(pTexture);
     pgbh_AssignPalette(pTexture, pal);
@@ -201,7 +201,7 @@ void sharp_pare_0x15D8::SetPal_5B9660(u16 texture_idx, u16 pal_idx)
 }
 
 MATCH_FUNC(0x5B96B0)
-void sharp_pare_0x15D8::sub_5B96B0(u16 a4, u16 new_width, u16 new_height, u16 pal)
+void sharp_pare_0x15D8::SetTexture2SizeAndPalette_5B96B0(u16 a4, u16 new_width, u16 new_height, u16 pal)
 {
     u16 pal_idx = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal);
     STexture* pTexture = field_1004_textures2[a4];
@@ -213,7 +213,7 @@ void sharp_pare_0x15D8::sub_5B96B0(u16 a4, u16 new_width, u16 new_height, u16 pa
 }
 
 MATCH_FUNC(0x5B9710)
-STexture* sharp_pare_0x15D8::sub_5B9710(s16 a2, s16 a4, u8* a3, u16 a5)
+STexture* sharp_pare_0x15D8::SetSharedTextureData_5B9710(s16 a2, s16 a4, u8* a3, u16 a5)
 {
     u16 phys_pal_5AA6F0; // di
 
@@ -265,7 +265,7 @@ void festive_hopper::Alloc_5B8E90(s16 size, s16 count, s32 pal_type1, s32 pal_ty
 }
 
 MATCH_FUNC(0x5B8F70)
-void festive_hopper::sub_5B8F70()
+void festive_hopper::LoadRemappedTextures_5B8F70()
 {
     if (field_10_bDoFree)
     {
@@ -275,7 +275,7 @@ void festive_hopper::sub_5B8F70()
             const u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_8_sprite_type, pal_idx);
             sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
 
-            dword_704ED0++;
+            gRemappedSpriteCounter_704ED0++;
 
             for (u32 texture_idx = 0; texture_idx < field_6_count; texture_idx++)
             {
@@ -284,7 +284,7 @@ void festive_hopper::sub_5B8F70()
                 field_0_pAlloc[texture_idx + (pal_idx * field_6_count)] =
                     pgbh_RegisterTexture(pSpriteIndex->field_4_width, pSpriteIndex->field_5_height, pSpriteIndex->field_0_pData, physPal, 1);
 
-                dword_704F28++;
+                gRemappedTextureCounter_704F28++;
             }
         }
     }
@@ -323,9 +323,9 @@ STexture* festive_hopper::get_texture_5B90A0(s32 sprite_type, s16 sprite_idx)
 }
 
 MATCH_FUNC(0x5B90D0)
-STexture* festive_hopper::sub_5B90D0(s16 pal, s16 a3)
+STexture* festive_hopper::GetRemappedTexture_5B90D0(s16 sprite_idx, s16 remap)
 {
-    return field_0_pAlloc[(u16)(a3 + (pal * field_6_count))];
+    return field_0_pAlloc[(u16)(remap + (sprite_idx * field_6_count))];
 }
 
 MATCH_FUNC(0x5B9790)
@@ -377,12 +377,12 @@ sharp_pare_0x15D8::~sharp_pare_0x15D8()
         }
     }
 
-    for (s32 i = 0; i < GTA2_COUNTOF(field_10C4); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_10C4_digit_textures); i++)
     {
-        if (field_10C4[i].field_4_pTexture)
+        if (field_10C4_digit_textures[i].field_4_pTexture)
         {
-            pgbh_FreeTexture(field_10C4[i].field_4_pTexture);
-            field_10C4[i].field_4_pTexture = 0;
+            pgbh_FreeTexture(field_10C4_digit_textures[i].field_4_pTexture);
+            field_10C4_digit_textures[i].field_4_pTexture = 0;
         }
     }
 

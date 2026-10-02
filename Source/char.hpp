@@ -12,16 +12,16 @@ class Ped;
 class Car_BC;
 class Sprite;
 
-EXTERN_GLOBAL(Fix16, dword_678620);
+EXTERN_GLOBAL(Fix16, kFpOne256th_678620);
 EXTERN_GLOBAL(Fix16, gCharB4_Saved_Xpos_6FD7F8);
 EXTERN_GLOBAL(Fix16, gCharB4_Saved_Ypos_6FD800);
 EXTERN_GLOBAL(Fix16, gCharB4_Saved_Zpos_6FD7FC);
-EXTERN_GLOBAL(Fix16, dword_6784BC);
+EXTERN_GLOBAL(Fix16, kFpOne128th_6784BC);
 
 EXTERN_GLOBAL(Ang16, word_6FD940);
 EXTERN_GLOBAL(Ang16, word_6FD8F8);
 
-EXPORT void __stdcall sub_529050(u8 a1, s8* a2, s8* a3);
+EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3);
 EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3);
 
 class Char_B4
@@ -71,11 +71,11 @@ class Char_B4
     s32 field_8_ped_state_1;
     s32 field_C_ped_state_2;
     s32 field_10_char_state;
-    Ang16 field_14;
-    s8 field_16;
+    Ang16 field_14_target_rotation;
+    s8 field_16_state_init_pending;
     s8 field_17;
-    void* field_18;
-    void* field_1C;
+    void* field_18_collided_entity;
+    void* field_1C_prev_collided_entity;
     s32 field_20;
     s32 field_24;
     Ang16 field_28;
@@ -90,16 +90,16 @@ class Char_B4
     Fix16 field_38_velocity;
     Fix16 field_3C_run_or_jump_speed;
     Ang16 field_40_rotation;
-    Ang16 field_42;
-    s8 field_44;
+    Ang16 field_42_rotation_jitter;
+    s8 field_44_block_type;
     u8 field_45_slope_gradient_direction;
     u16 field_46_timer;
-    s8 field_48;
+    s8 field_48_lying_on_floor_timer;
     s8 field_49;
     u16 field_4A;
-    Fix16 field_4C;
-    Fix16 field_50;
-    s8 field_54;
+    Fix16 field_4C_conveyor_dx;
+    Fix16 field_50_conveyor_dy;
+    s8 field_54_jump_scale_counter;
     u8 field_55;
     s8 field_56;
     s8 field_57;
@@ -120,21 +120,21 @@ class Char_B4
     s8 field_6b;
     s32 field_6C_animation_state;
     s8 field_70_frame_timer;
-    s8 field_71;
-    u8 field_72;
-    u8 field_73;
+    s8 field_71_frame_delay;
+    u8 field_72_next_tile_x;
+    u8 field_73_next_tile_y;
     Ang16 field_74;
     s8 field_76;
     s8 field_77;
     Char_B4* mpNext;
     Ped* field_7C_pPed;
     Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
-    Car_BC* field_84;
+    Car_BC* field_84_target_car;
     struct_4 field_88_obj_2c;
-    Fix16 field_8C;
-    Fix16 field_90;
-    Fix16 field_94;
-    Fix16_Point_POD field_98;
+    Fix16 field_8C_jump_base_z;
+    Fix16 field_90_fall_speed;
+    Fix16 field_94_fall_z_speed;
+    Fix16_Point_POD field_98_velocity_vector;
     //Fix16 field_9C;
     s8 field_A0;
     s8 field_A1;
@@ -143,7 +143,7 @@ class Char_B4
     Fix16 field_A4_xpos;
     Fix16 field_A8_ypos;
     Fix16 field_AC_zpos;
-    s32 field_B0;
+    s32 field_B0_scream_timer;
 
     // 9.6f 0x48A4C0
     inline s32 get_ped_state_1_48A4C0()
@@ -189,11 +189,11 @@ class Char_B4
     {
         if (field_38_velocity < threshold)
         {
-            field_38_velocity += dword_678620;
+            field_38_velocity += kFpOne256th_678620;
         }
         else if (field_38_velocity > threshold)
         {
-            field_38_velocity -= dword_678620;
+            field_38_velocity -= kFpOne256th_678620;
         }
     }
 
@@ -202,11 +202,11 @@ class Char_B4
     {
         if (field_38_velocity < threshold)
         {
-            field_38_velocity += dword_678620;
+            field_38_velocity += kFpOne256th_678620;
         }
         else if (field_38_velocity > threshold)
         {
-            field_38_velocity -= dword_678620;
+            field_38_velocity -= kFpOne256th_678620;
         }
     }
 
@@ -265,23 +265,23 @@ class Char_B4
     // 9.6f 0x433A90
     inline s8 Get_F44_433A90()
     {
-        return field_44;
+        return field_44_block_type;
     }
 
     // 9.6f 0x403900
     inline Car_BC* Get_F84_403900()
     {
-        return field_84;
+        return field_84_target_car;
     }
 
     inline void Set_F84_433900(Car_BC* pCar)
     {
-        field_84 = pCar;
+        field_84_target_car = pCar;
     }
 
     inline void IncreaseSpeedIfAllowed_433940()
     {
-        field_38_velocity += dword_6784BC;
+        field_38_velocity += kFpOne128th_6784BC;
         
         if (field_38_velocity > field_3C_run_or_jump_speed)
         {
@@ -310,8 +310,8 @@ class Char_B4
     EXPORT void PoolDeallocate();
 
     // Function chunk
-    EXPORT void sub_545430();
-    EXPORT bool sub_5451C0();
+    EXPORT void DrawFlamesAndStartScreamTimer_545430();
+    EXPORT bool HasShadows_5451C0();
 
     EXPORT Fix16_Point sub_545580();
     EXPORT void SetRemap_46DD50(u8 remap);
@@ -330,14 +330,14 @@ class Char_B4
     EXPORT void DoJump_5454D0();
     EXPORT void Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 IsOnWater_545570();
-    EXPORT void sub_5455F0();
-    EXPORT void sub_545600();
-    EXPORT void sub_545640(Fix16 a1, s16* output);
-    EXPORT void sub_545670(Fix16 a1, s16* output);
+    EXPORT void KillPed_5455F0();
+    EXPORT void ClearCollisionState_545600();
+    EXPORT void GetTileFracX64_545640(Fix16 a1, s16* output);
+    EXPORT void GetTileFracY64_545670(Fix16 a1, s16* output);
     EXPORT void InitSprite_5456A0();
     EXPORT bool IsOnScreen_545700();
     EXPORT void Update_545720(Fix16 a2);
-    EXPORT void sub_5459C0();
+    EXPORT void CheckAndHandleCollisions_5459C0();
     EXPORT void DrownPed_5459E0();
     EXPORT void UpdateAnimState_546360();
     EXPORT void ManageZCoordAndSlopes_548590();
@@ -375,7 +375,7 @@ class Char_B4
     EXPORT void state_8_5520A0();
     EXPORT void state_9_552E90();
 
-    EXPORT bool sub_5532C0();
+    EXPORT bool IsNearTileCentre_5532C0();
     EXPORT char_type IsThreatToSearchingPed_553330();
     EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite);
     EXPORT bool PhoneTouched_5535B0(Object_2C* p2c);
@@ -387,9 +387,9 @@ class Char_B4
     EXPORT void nullsub_28();
 };
 
-EXPORT void __stdcall sub_544F70();
-EXPORT void __stdcall sub_553F90();
+EXPORT void __stdcall ResetCharUpdateGlobals_544F70();
+EXPORT void __stdcall ResetCharStatics_553F90();
 
-EXTERN_GLOBAL(u8, unk_6787EF);
+EXTERN_GLOBAL(u8, bThreateningPedAdded_6787EF);
 
 EXTERN_GLOBAL(u16, gNumPedsOnScreen_6787EC);

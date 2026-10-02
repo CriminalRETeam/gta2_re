@@ -20,7 +20,7 @@ DEFINE_GLOBAL(PurpleDoom*, gPurpleDoom_3_679210, 0x679210);
 
 DEFINE_GLOBAL(s32, gPurple_bottom_6F5F38, 0x6F5F38);
 DEFINE_GLOBAL(s32, gPurple_top_6F6108, 0x6F6108);
-DEFINE_GLOBAL(s32, dword_678FA8, 0x678FA8);
+DEFINE_GLOBAL(s32, gPurpleDoom_sprite_type_filter_678FA8, 0x678FA8);
 DEFINE_GLOBAL(s32, gPurpleDoom_exclude_type_678F60, 0x678F60);
 DEFINE_GLOBAL(Sprite*, gPurpleDoom_smallestDistSprite_678E40, 0x678E40);
 DEFINE_GLOBAL(u8, bDoCollisionCheck_679006, 0x679006);
@@ -32,7 +32,7 @@ EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204);
 EXTERN_GLOBAL(Collide_8_Pool*, gCollide_8_Pool_679200);
 DEFINE_GLOBAL(Sprite*, gPurpleDoom_exclusion_sprite_678F84, 0x678F84);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_678F74, Fix16(0x2000, 0), 0x678F74);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_678F74, Fix16(0x2000, 0), 0x678F74);
 DEFINE_GLOBAL(s32, gPurpleDoom_sprite_type1_678FE8, 0x678FE8);
 DEFINE_GLOBAL(s32, gPurpleDoom_sprite_type2_678FEC, 0x678FEC);
 DEFINE_GLOBAL(Sprite*, gPurpleDoom_exclude_sprite_678F40, 0x678F40);
@@ -42,8 +42,8 @@ DEFINE_GLOBAL(Fix16, gPurpleDoom_zpos_max_678F38, 0x678F38);
 DEFINE_GLOBAL(Fix16, gPurpleDoom_zpos_min_678F3C, 0x678F3C);
 DEFINE_GLOBAL(s32, gPurpleDoom_search_mode_678FD0, 0x678FD0);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_678F80, Fix16(0x6000, 0), 0x678F80);
-DEFINE_GLOBAL_INIT(Fix16, dword_679084, Fix16(1), 0x679084);
+DEFINE_GLOBAL_INIT(Fix16, kFpOneAndHalf_678F80, Fix16(0x6000, 0), 0x678F80);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne_679084, Fix16(1), 0x679084);
 
 // TODO: might be used elsewhere too or have been a macro
 static inline s32 Clamp(s32 value, s32 min, s32 max)
@@ -62,10 +62,10 @@ static inline s32 Clamp(s32 value, s32 min, s32 max)
 MATCH_FUNC(0x477a40)
 void PurpleDoom::DrawSpritesClipped_477A40()
 {
-    const s32 left = Clamp((gViewCamera_676978->field_78_boundaries_non_neg.field_0_left - dword_679084).ToInt(), 0, 255);
-    const s32 right_val = Clamp((dword_678F80 + gViewCamera_676978->field_78_boundaries_non_neg.field_4_right).ToInt(), 0, 255);
-    const s32 top_val = Clamp((gViewCamera_676978->field_78_boundaries_non_neg.field_8_top - dword_679084).ToInt(), 0, 255);
-    const s32 bottom_val = Clamp((dword_678F80 + gViewCamera_676978->field_78_boundaries_non_neg.field_C_bottom).ToInt(), 0, 255);
+    const s32 left = Clamp((gViewCamera_676978->field_78_boundaries_non_neg.field_0_left - kFpOne_679084).ToInt(), 0, 255);
+    const s32 right_val = Clamp((kFpOneAndHalf_678F80 + gViewCamera_676978->field_78_boundaries_non_neg.field_4_right).ToInt(), 0, 255);
+    const s32 top_val = Clamp((gViewCamera_676978->field_78_boundaries_non_neg.field_8_top - kFpOne_679084).ToInt(), 0, 255);
+    const s32 bottom_val = Clamp((kFpOneAndHalf_678F80 + gViewCamera_676978->field_78_boundaries_non_neg.field_C_bottom).ToInt(), 0, 255);
 
     AddToDrawList_478240(left, right_val, top_val, bottom_val);
 }
@@ -136,7 +136,7 @@ char_type PurpleDoom::CheckAndHandleCollisionInStrips_477BD0(Sprite* pSprite)
 MATCH_FUNC(0x477c30)
 bool PurpleDoom::CheckAndHandleAllCollisionsForSprite_477C30(Sprite* pSprt, s32 a3)
 {
-    dword_678FA8 = a3;
+    gPurpleDoom_sprite_type_filter_678FA8 = a3;
     bool v3 = 0;
     ++gCollide_C_6791FC->field_4_count;
     pSprt->UpdateCollisionBoundsIfNeeded_59E9C0();
@@ -168,8 +168,8 @@ Sprite* PurpleDoom::FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1,
 
     if (bUseSpriteZ == 1)
     {
-        gPurpleDoom_zpos_max_678F38 = pExclude->field_1C_zpos - k_dword_678F74;
-        gPurpleDoom_zpos_min_678F3C = pExclude->field_1C_zpos + k_dword_678F74;
+        gPurpleDoom_zpos_max_678F38 = pExclude->field_1C_zpos - kFpHalf_678F74;
+        gPurpleDoom_zpos_min_678F3C = pExclude->field_1C_zpos + kFpHalf_678F74;
     }
     else
     {
@@ -336,10 +336,10 @@ void PurpleDoom::SearchTileColumnForClosestSprite_478160(u8 height)
     if (gPurpleDoom_start_y_679098 < gPurpleDoom_start_y_679098 + (u32)height)
     {
         // Won't match without this redundant iter
-        PurpleDoom_C** pXItemIter = &this->field_0[gPurpleDoom_start_y_679098];
+        PurpleDoom_C** pXItemIter = &this->field_0_rows[gPurpleDoom_start_y_679098];
         while (y_pos < gPurpleDoom_start_y_679098 + (u32)height)
         {
-            CheckTileSpritesForClosestMatch_478060(sub_446820(gPurpleDoom_start_x_679090, y_pos));
+            CheckTileSpritesForClosestMatch_478060(GetCollideListAt_446820(gPurpleDoom_start_x_679090, y_pos));
             ++y_pos;
             ++pXItemIter;
         }
@@ -367,7 +367,7 @@ void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* pStart)
                     {
                         if (pColIter->field_0_sprt->get_type_416B40() == sprite_types_enum::car_2)
                         {
-                            if (pColIter->field_0_sprt->field_8_car_bc_ptr->sub_445360())
+                            if (pColIter->field_0_sprt->field_8_car_bc_ptr->IsEnterable_445360())
                             {
                                 gPurpleDoom_smallestDistance_678E5C = dist;
                                 gPurpleDoom_smallestDistSprite_678E40 = pColIter->field_0_sprt;
@@ -419,7 +419,7 @@ void PurpleDoom::SearchTileStripForClosestSprite_4781E0(u8 width)
 MATCH_FUNC(0x478240)
 void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
 {
-    PurpleDoom_C** pYItem = &this->field_0[top]; // y_start?
+    PurpleDoom_C** pYItem = &this->field_0_rows[top]; // y_start?
     if (top <= bottom)
     {
         s32 y_total = bottom - top + 1;
@@ -455,7 +455,7 @@ void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
     PurpleDoom_C* pFound = 0;
     Collide_8* pFoundCollideForX = 0;
 
-    for (PurpleDoom_C* pXIter = this->field_0[y_pos]; pXIter; pXIter = pXIter->mpNext)
+    for (PurpleDoom_C* pXIter = this->field_0_rows[y_pos]; pXIter; pXIter = pXIter->mpNext)
     {
         if (pXIter->field_0_x_len == x_pos)
         {
@@ -479,7 +479,7 @@ void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
                     {
                         if (!pFound)
                         {
-                            this->field_0[y_pos] = pXIter->mpNext;
+                            this->field_0_rows[y_pos] = pXIter->mpNext;
                         }
                         else
                         {
@@ -503,7 +503,7 @@ void PurpleDoom::AddToColumnBuckets_478370(s32 y_pos, Sprite* pSprite)
 {
     s32 x_pos = gPurple_left_6F5FD4;
     PurpleDoom_C* pLastXIter = 0;
-    for (PurpleDoom_C* pXItemIter = this->field_0[y_pos]; pXItemIter; pXItemIter = pXItemIter->mpNext)
+    for (PurpleDoom_C* pXItemIter = this->field_0_rows[y_pos]; pXItemIter; pXItemIter = pXItemIter->mpNext)
     {
         if (pXItemIter->field_0_x_len == x_pos)
         {
@@ -529,7 +529,7 @@ void PurpleDoom::AddToColumnBuckets_478370(s32 y_pos, Sprite* pSprite)
                         PurpleDoom_C* pNext = pXItemIter->mpNext;
                         if (!pLastXIter)
                         {
-                            this->field_0[y_pos] = pNext;
+                            this->field_0_rows[y_pos] = pNext;
                         }
                         else
                         {
@@ -571,7 +571,7 @@ void PurpleDoom::AddToSingleBucket_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 
     PurpleDoom_C* pAddedTo = 0;
     PurpleDoom_C* pIter;
-    for (pIter = this->field_0[ypos]; pIter; pIter = pIter->mpNext)
+    for (pIter = this->field_0_rows[ypos]; pIter; pIter = pIter->mpNext)
     {
         const s32 x_len = pIter->field_0_x_len;
         if (x_len > xpos)
@@ -591,7 +591,7 @@ void PurpleDoom::AddToSingleBucket_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 
     if (!pAddedTo)
     {
-        this->field_0[ypos] = pNewItem;
+        this->field_0_rows[ypos] = pNewItem;
     }
     else
     {
@@ -608,7 +608,7 @@ MATCH_FUNC(0x4784d0)
 void PurpleDoom::AddToRowBuckets_4784D0(s32 y_pos, Sprite* pSprite)
 {
     s32 purple_left = gPurple_left_6F5FD4;
-    PurpleDoom_C* pNewNext = this->field_0[y_pos];
+    PurpleDoom_C* pNewNext = this->field_0_rows[y_pos];
     PurpleDoom_C* purple_x = 0;
     while (purple_left <= gPurple_right_6F5B80)
     {
@@ -640,7 +640,7 @@ void PurpleDoom::AddToRowBuckets_4784D0(s32 y_pos, Sprite* pSprite)
 
         if (!purple_x)
         {
-            this->field_0[y_pos] = pCIter;
+            this->field_0_rows[y_pos] = pCIter;
         }
         else
         {
@@ -667,7 +667,7 @@ PurpleDoom_C* PurpleDoom::GetFirstXCellInRow_478590(s32 start_idx)
     {
         return 0;
     }
-    for (pIter = this->field_0[start_idx]; pIter; pIter = pIter->mpNext)
+    for (pIter = this->field_0_rows[start_idx]; pIter; pIter = pIter->mpNext)
     {
         f0 = (u8)pIter->field_0_x_len;
         if (f0 >= gPurple_left_6F5FD4)
@@ -778,7 +778,7 @@ bool PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0(u32 y_pos, Sprite* 
 
         for (Collide_8* p8Iter = pXItemIter->field_4_p8; p8Iter; p8Iter = p8Iter->mpNext)
         {
-            if (p8Iter->field_0_sprt->TypeIs_446940(dword_678FA8) &&
+            if (p8Iter->field_0_sprt->TypeIs_446940(gPurpleDoom_sprite_type_filter_678FA8) &&
                 !p8Iter->field_0_sprt->field_C_sprite_4c_ptr->CollisionIdIs_446930(gCollide_C_6791FC->field_4_count))
             {
                 gCollide_C_6791FC->field_0_count++;
@@ -842,7 +842,7 @@ Sprite* PurpleDoom::FindNearestSpriteInRow_478880(u32 y_pos, Sprite* pSprite)
 MATCH_FUNC(0x478950)
 void PurpleDoom::DebugLog_478950(s32 xpos, s32 ypos)
 {
-    for (PurpleDoom_C* i = field_0[ypos]; i; i = i->mpNext)
+    for (PurpleDoom_C* i = field_0_rows[ypos]; i; i = i->mpNext)
     {
         const s32 x_len = i->field_0_x_len;
         if (x_len > xpos)
@@ -870,9 +870,9 @@ void PurpleDoom::DebugLog_478950(s32 xpos, s32 ypos)
 MATCH_FUNC(0x4789f0)
 PurpleDoom_C** PurpleDoom::Clear_4789F0()
 {
-    for (u32 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    for (u32 i = 0; i < GTA2_COUNTOF(field_0_rows); i++)
     {
-        field_0[i] = 0;
+        field_0_rows[i] = 0;
     }
-    return field_0;
+    return field_0_rows;
 }

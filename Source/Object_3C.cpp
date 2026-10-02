@@ -20,19 +20,19 @@ Object_3C::Object_3C()
 {
     this->field_4_angle = 0;
     this->mpNext = 0;
-    this->field_1C = dword_6F8BF0;
+    this->field_1C_z_accel = dword_6F8BF0;
     this->field_18_friction = dword_6F8BF0;
-    this->field_10 = dword_6F8BF0;
+    this->field_10_z_speed = dword_6F8BF0;
     this->field_C_speed = dword_6F8BF0;
     this->field_4_angle = kZeroAng_6F8F68;
-    this->field_28 = 0;
-    this->field_20 = 0;
+    this->field_28_next_definition_timer = 0;
+    this->field_20_obj2c_id = 0;
     this->field_2C = 0;
-    this->field_2A = 0;
-    this->field_38 = 0;
+    this->field_2A_bAirborne = 0;
+    this->field_38_conveyor_speed = 0;
     this->field_34 = 2;
     this->field_2E = 0;
-    this->field_2F = 0;
+    this->field_2F_bOnSlope = 0;
 }
 
 MATCH_FUNC(0x52ade0)
@@ -58,9 +58,9 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
     WIP_IMPLEMENTED;
     s8 x_related;
     s8 y_related;
-    if (field_38)
+    if (field_38_conveyor_speed)
     {
-        sub_529050(field_38, &x_related, &y_related);
+        UnpackSignedNibbles_529050(field_38_conveyor_speed, &x_related, &y_related);
         Fix16_Point unk(dword_6F8ECC * x_related, dword_6F8ECC * y_related);
         Fix16_Point point = unk + GetSpeedVector_482BA0();
 
@@ -229,7 +229,7 @@ char_type struct_4::TagSpriteWithRng_5A6C10(Sprite* toFind)
         {
             if (pNext->field_0 == toFind)
             {
-                pNext->field_14_rng = rng_dword_67AB34->field_0_rng;
+                pNext->field_14_rng = gpRng_67AB34->field_0_rng;
                 return 1;
             }
         }
@@ -304,7 +304,7 @@ void struct_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 
     p18->mpNext = field_0_p18;
     p18->field_6_x = x;
     p18->field_8_y = y;
-    p18->field_10 = angle;
+    p18->field_10_rot = angle;
     field_0_p18 = p18;
 }
 
@@ -657,7 +657,7 @@ void struct_4::sub_5A71F0()
             Object_2C* o2c = p18Iter->field_0->field_8_object_2C_ptr;
             if (o2c->sub_4BE830())
             {
-                p18Iter->field_0->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A = 2;
+                p18Iter->field_0->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A_timer = 2;
             }
         }
     }

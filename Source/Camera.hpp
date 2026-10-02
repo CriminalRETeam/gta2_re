@@ -10,9 +10,9 @@ class Ped;
 
 EXTERN_GLOBAL(Fix16, dword_676840);
 
-EXTERN_GLOBAL(Fix16, dword_676818);
+EXTERN_GLOBAL(Fix16, kZero_676818);
 
-EXTERN_GLOBAL(Fix16, dword_67681C);
+EXTERN_GLOBAL(Fix16, kOne_67681C);
 
 EXTERN_GLOBAL(Fix16, dword_702E04);
 EXTERN_GLOBAL(Fix16, dword_702DE4);
@@ -43,35 +43,35 @@ class Camera_0xBC
     }
 
     EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite);
-    EXPORT char_type sub_435630(Sprite* pSprite, s32 bUnknown);
-    EXPORT void sub_4357B0();
-    EXPORT void sub_4357F0();
-    EXPORT void sub_435810();
+    EXPORT char_type IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown);
+    EXPORT void SavePrevCamPos_4357B0();
+    EXPORT void IncreaseElevation_4357F0();
+    EXPORT void DecreaseElevation_435810();
     EXPORT void ReturnToDefaultZoom_435830();
-    EXPORT void sub_435840();
-    EXPORT void sub_435860(Camera_0xBC* a2);
+    EXPORT void ClampTargetZ_435840();
+    EXPORT void ApplyMovementDeltaFrom_435860(Camera_0xBC* a2);
     EXPORT Ang16 ComputeTargetFacingAngle_4358D0();
     EXPORT Fix16 ReturnOwnerVelocity_435A20();
     EXPORT s32 IsCoordsPosVisible_435A70(Fix16 a2, Fix16 a3, Fix16 a4);
-    EXPORT void sub_435B90();
-    EXPORT void sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7);
+    EXPORT void UpdateBoundaries_435B90();
+    EXPORT void MoveTarget_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7);
     EXPORT void ResetCameraSmoothing_435DD0();
     EXPORT void AccumulateSuspicionOnDriver_435F90(Car_BC* a2);
-    EXPORT void sub_435FF0();
-    EXPORT void sub_436110();
-    EXPORT void sub_436120(Fix16 a2);
-    EXPORT void sub_436140();
-    EXPORT void sub_4361B0(u32 a2, u32 a3);
+    EXPORT void Update_435FF0();
+    EXPORT void RefreshBoundaries_436110();
+    EXPORT void SetShake_436120(Fix16 a2);
+    EXPORT void ApplyShake_436140();
+    EXPORT void SetScreenSize_4361B0(u32 a2, u32 a3);
     EXPORT void ApplyCarVelocityCameraOffset_436200(Car_BC* a2, Fix16* a3, Fix16* a4, Fix16* a5);
-    EXPORT void sub_4364A0(Car_BC* pCar);
+    EXPORT void UpdateFollowCarCamera_4364A0(Car_BC* pCar);
     EXPORT void UpdateFollowPedCamera_436540(Ped* a2);
     EXPORT void HandlePanning_436710(char_type a2, char_type a3, char_type a4, char_type a5);
-    EXPORT void sub_436830();
+    EXPORT void ResetPanning_436830();
     EXPORT void ApplyZOffsetToScreenPosition_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
     EXPORT Camera_0xBC(); // 4368E0
     EXPORT ~Camera_0xBC(); // empty 4369E0
-    EXPORT void sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
-    EXPORT bool sub_58CF10(Fix16 a2, Fix16 a3);
+    EXPORT void SetTarget_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
+    EXPORT bool IsPointInBoundaries_58CF10(Fix16 a2, Fix16 a3);
 
     void ProjectWorldToScreen_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
     {
@@ -96,11 +96,11 @@ class Camera_0xBC
     }
 
     // FUNCTION: 96f 0x40cfc0
-    inline Fix16_Point_POD sub_40CFC0(Fix16 x, Fix16 y, Fix16 z)
+    inline Fix16_Point_POD WorldToScreen_40CFC0(Fix16 x, Fix16 y, Fix16 z)
     {
         Fix16_Point_POD tmp;
         Fix16 u = field_98_cam_pos2.field_8_z - z;
-        Fix16 t(dword_67681C / Fix16(u.mValue + dword_676840.mValue, 0));
+        Fix16 t(kOne_67681C / Fix16(u.mValue + dword_676840.mValue, 0));
 
         tmp.x = (((x - field_98_cam_pos2.field_0_x) * field_60.y) * t) + Fix16(320);
         tmp.y = (((y - field_98_cam_pos2.field_4_y) * field_60.y) * t) + Fix16(240);
@@ -148,15 +148,15 @@ class Camera_0xBC
         CommitCameraTarget_41E410();
         field_60.x = Fix16(-1);
         field_60.y = Fix16(-1);
-        field_AC_cam_velocity.field_0_x = dword_676818;
-        field_AC_cam_velocity.field_4_y = dword_676818;
-        field_AC_cam_velocity.field_8_z = dword_676818;
+        field_AC_cam_velocity.field_0_x = kZero_676818;
+        field_AC_cam_velocity.field_4_y = kZero_676818;
+        field_AC_cam_velocity.field_8_z = kZero_676818;
 
         field_3C_followed_ped_id = 0;
-        field_30 = dword_676818;
+        field_30_shake = kZero_676818;
         field_34_ped = NULL;
 
-        sub_4361B0(x, y);
+        SetScreenSize_4361B0(x, y);
     }
 
     // 9.6f inline 0x433E90
@@ -173,12 +173,12 @@ class Camera_0xBC
         field_10_cam_pos_tgt2.field_C_zoom = zoom;
     }
 
-    Fix16 sub_4B3110()
+    Fix16 GetBoundariesWidth_4B3110()
     {
         return field_20_boundaries.field_4_right - field_20_boundaries.field_0_left;
     }
 
-    Fix16 sub_4B3130()
+    Fix16 GetBoundariesHeight_4B3130()
     {
         return field_20_boundaries.field_C_bottom - field_20_boundaries.field_8_top;
     }
@@ -186,21 +186,21 @@ class Camera_0xBC
     CameraPos field_0_cam_pos_tgt1;
     CameraPos field_10_cam_pos_tgt2;
     WorldRect field_20_boundaries;
-    Fix16 field_30;
+    Fix16 field_30_shake;
     Ped* field_34_ped;
     Car_BC* field_38_car;
     s32 field_3C_followed_ped_id;
     Fix16 field_40_tgt_elevation;
-    u8 field_44;
+    u8 field_44_suspicion;
     char_type field_45;
     char_type field_46;
     char_type field_47;
-    Fix16 field_48;
-    Fix16 field_4C;
-    Fix16 field_50;
-    Fix16 field_54;
-    Fix16 field_58;
-    Fix16 field_5C;
+    Fix16 field_48_pan_x;
+    Fix16 field_4C_pan_y;
+    Fix16 field_50_pan_speed_up;
+    Fix16 field_54_pan_speed_down;
+    Fix16 field_58_pan_speed_left;
+    Fix16 field_5C_pan_speed_right;
     Fix16_Point field_60;
     s32 field_68_screen_px_width;
     s32 field_6C_screen_px_height;
@@ -216,4 +216,4 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Camera_0xBC, 0xBC)
 
 EXTERN_GLOBAL(Camera_0xBC*, gViewCamera_676978);
 
-extern inline Fix16 sub_41E130(Fix16 a1, Fix16 a2);
+extern inline Fix16 Max_41E130(Fix16 a1, Fix16 a2);

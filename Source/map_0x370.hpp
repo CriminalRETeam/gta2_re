@@ -105,7 +105,7 @@ struct Map_sub;
 
 struct gmp_compressed_map_32
 {
-    EXPORT void sub_4E80A0(Map_sub* a2);
+    EXPORT void ApplyDmapInfos_4E80A0(Map_sub* a2);
 
     gmp_compressed_map_32()
     {
@@ -149,9 +149,9 @@ struct gmp_dmap_info
 
 struct Map_sub
 {
-    EXPORT void sub_4E80E0(u8 x, u8 y, u32 column_idx);
+    EXPORT void AddOrUpdateDmapInfo_4E80E0(u8 x, u8 y, u32 column_idx);
 
-    gmp_dmap_info field_0[100];
+    gmp_dmap_info field_0_dmap_infos[100];
     s32 field_320_max_idx;
 };
 
@@ -286,16 +286,16 @@ enum gmp_arrow_type
     green_or_red_3 = 3,
 };
 
-EXTERN_GLOBAL_ARRAY(gmp_map_slope, byte_6F5BA8, 64);
+EXTERN_GLOBAL_ARRAY(gmp_map_slope, gGmpSlopes_6F5BA8, 64);
 
-EXTERN_GLOBAL(Fix16, dword_6F5ED8);
+EXTERN_GLOBAL(Fix16, kGradientScaleSize1_6F5ED8);
 
-EXTERN_GLOBAL(Fix16, dword_6F5FA8);
+EXTERN_GLOBAL(Fix16, kGradientScaleSize2_6F5FA8);
 
-EXTERN_GLOBAL(Fix16, dword_6F6214);
+EXTERN_GLOBAL(Fix16, kGradientScaleSize8_6F6214);
 
-EXTERN_GLOBAL(Fix16, dword_6F610C);
-extern Fix16 dword_6F6110;
+EXTERN_GLOBAL(Fix16, kFpZero_6F610C);
+extern Fix16 kFpOne_6F6110;
 EXTERN_GLOBAL(Ang16, word_6F603E);
 EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32* road_direction);
 
@@ -325,7 +325,7 @@ class Map_0x370
     EXPORT gmp_map_zone* zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zone_type);
     EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y);
 
-    EXPORT gmp_map_zone* sub_4DF6A0(u8 zone_x, u8 zone_y);
+    EXPORT gmp_map_zone* first_zone_by_pos_4DF6A0(u8 zone_x, u8 zone_y);
 
     EXPORT gmp_map_zone* next_zone_4DF770();
 
@@ -381,18 +381,18 @@ class Map_0x370
     EXPORT gmp_block_info* get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord);
 
     EXPORT gmp_block_info* GetEffectiveBlock_4DFE60(s32 x, s32 y, s32 z);
-    EXPORT gmp_block_info* sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord);
+    EXPORT gmp_block_info* GetBlockClamped_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord);
 
-    EXPORT DWORD sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord);
+    EXPORT DWORD GetLeftEdgeSpec_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord);
 
-    EXPORT s32 sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
+    EXPORT s32 GetTopEdgeSpec_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT s32 GetBlockSpec_4E00A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type sub_4E0110();
     EXPORT char_type sub_4E0120();
     EXPORT bool CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* bByRefUnk, char_type bNotifyByRefRet);
-    EXPORT char_type sub_4E11E0(Fix16_Rect* a2);
-    EXPORT bool sub_4E1520(s32 z_pos);
-    EXPORT bool sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
+    EXPORT char_type RectHitsDiagonalWall_4E11E0(Fix16_Rect* a2);
+    EXPORT bool SpriteHitsDiagonalWall_4E1520(s32 z_pos);
+    EXPORT bool HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
     EXPORT bool sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tileY_max, s32 zLevel);
     EXPORT char_type CanSpriteEnterTile_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8);
     EXPORT char_type CanSpriteEnterMovementRegion_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6);
@@ -404,25 +404,25 @@ class Map_0x370
     EXPORT bool CheckGreenArrowDirection_4E4B40(s32 direction, gmp_block_info* pBlock);
     EXPORT gmp_block_info* FindPavementBlockForCoord_4E4BB0(s32 x, s32 y, s32& z);
     EXPORT gmp_block_info* FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* found_z);
-    EXPORT gmp_block_info* sub_4E4CB0(s32 x, s32 y, s32& z);
-    EXPORT Fix16 sub_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
+    EXPORT gmp_block_info* FindNonAirBlockAtOrBelowZ_4E4CB0(s32 x, s32 y, s32& z);
+    EXPORT Fix16 FindGroundZBelowCoord_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT Fix16* sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
-    EXPORT Fix16* sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z);
+    EXPORT Fix16* GetGroundZBelowCoord_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z);
     EXPORT Fix16 sub_4E5050(Fix16 x, Fix16 y, Fix16 z, bool& bFound);
-    EXPORT bool sub_4E5170(Fix16 x, Fix16 y, Fix16 z);
+    EXPORT bool IsZOnGround_4E5170(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type sub_4E52A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT bool CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z);
     EXPORT bool CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* found_z);
     EXPORT char_type sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_1, Fix16 y_1, Fix16 z_1, Fix16 x_2, Fix16 y_2, Fix16 z_2);
     EXPORT Fix16 FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos);
-    EXPORT char_type sub_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3);
+    EXPORT char_type HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3);
     EXPORT s32 GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* a2, char_type bDontFlip);
     EXPORT s16 sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6);
-    EXPORT Fix16* sub_4E62B0(Fix16* a2, Fix16 a3);
+    EXPORT Fix16* FloorPlusOne_4E62B0(Fix16* a2, Fix16 a3);
     EXPORT gmp_block_info* FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z);
     EXPORT gmp_block_info* FindRailwayBelowZAtCoord_4E6360(s32 x, s32 y, s32& z);
-    EXPORT Fix16* sub_4E6400(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
+    EXPORT Fix16* GetRailwayZBelowCoord_4E6400(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT Fix16* GetRailwayZCoordAtXY_4E6510(Fix16* found_z, Fix16 x, Fix16 y);
     EXPORT void sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_type a6);
     EXPORT void sub_4E5D10(Fix16* pX, Fix16* pY, Fix16 dist, s32 direction);
@@ -432,7 +432,7 @@ class Map_0x370
     // The block under (x, y, z), or the one at z when the one under is a lid-less "air" block
     inline gmp_block_info* GetRoadBlockAt_4E6660(Fix16& x, Fix16& y, Fix16& z)
     {
-        gmp_block_info* pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        gmp_block_info* pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
         if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
         {
             pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
@@ -444,7 +444,7 @@ class Map_0x370
     // through both lookups, which a returned temporary doesn't give)
     inline void SetRoadBlockAt_4E6660(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
     {
-        pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
         if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
         {
             pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
@@ -454,7 +454,7 @@ class Map_0x370
     // As SetRoadBlockAt_4E6660, but copes with no block under (x, y, z)
     inline void SetRoadBlockAtOrNull_4E7190(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
     {
-        pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
         if (pBlock && (pBlock->field_B_slope_type & 0xFC) == 0xFC)
         {
             pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
@@ -464,7 +464,7 @@ class Map_0x370
     // As GetRoadBlockAt_4E6660, but copes with no block under (x, y, z)
     inline gmp_block_info* GetRoadBlockAtOrNull_4E7190(Fix16& x, Fix16& y, Fix16& z)
     {
-        gmp_block_info* pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        gmp_block_info* pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
         if (pBlock && (pBlock->field_B_slope_type & 0xFC) == 0xFC)
         {
             pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
@@ -475,34 +475,34 @@ class Map_0x370
     // Move up to one block along direction, using up dist
     inline void StepOneBlock_4E6660(Fix16* pX, Fix16* pY, Fix16& dist, s32 direction)
     {
-        if (dist >= dword_6F6110)
+        if (dist >= kFpOne_6F6110)
         {
-            sub_4E5D10(pX, pY, dword_6F6110, direction);
-            dist -= dword_6F6110;
+            sub_4E5D10(pX, pY, kFpOne_6F6110, direction);
+            dist -= kFpOne_6F6110;
         }
         else
         {
             sub_4E5D10(pX, pY, dist, direction);
-            dist = dword_6F610C;
+            dist = kFpZero_6F610C;
         }
     }
 
     EXPORT s32 sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist);
     EXPORT s32 sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist);
-    EXPORT char_type sub_4E7E90(u8* a2, char_type* a3);
+    EXPORT char_type FindFirstPavementCoord_4E7E90(u8* a2, char_type* a3);
     EXPORT char_type CheckColumnHasSolidAbove_4E7FC0(Fix16 a2, Fix16 a3, Fix16 a4);
-    EXPORT s32 sub_4E8140(gmp_block_info* pBlockInfo);
-    EXPORT s32 sub_4E8180(u32 read_block_idx);
-    EXPORT s32 sub_4E81D0(u32 column_idx);
-    EXPORT s32 sub_4E8220(u32 column_idx, s32 z);
+    EXPORT s32 AddBlock_4E8140(gmp_block_info* pBlockInfo);
+    EXPORT s32 CloneOriginalBlock_4E8180(u32 read_block_idx);
+    EXPORT s32 CloneOriginalColumn_4E81D0(u32 column_idx);
+    EXPORT s32 CloneColumnExtendedToZ_4E8220(u32 column_idx, s32 z);
     EXPORT s32 sub_4E8370(u32 column_idx, s32 z, char_type do_drop);
     EXPORT void ChangeBlock_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, u16 info_value);
     EXPORT void AddNewBlock_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData);
     EXPORT void RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop);
-    EXPORT void sub_4E8A10(s32 a2, s32 a3);
+    EXPORT void LowerColumn_4E8A10(s32 a2, s32 a3);
     EXPORT void LowerLevel_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max);
-    EXPORT void sub_4E8C00(u32 a2, u32 a3, u32 a4);
-    EXPORT void sub_4E8CF0(u16*** outColumnPtr,
+    EXPORT void OnModifiedMapDataLoaded_4E8C00(u32 a2, u32 a3, u32 a4);
+    EXPORT void GetModifiedMapData_4E8CF0(u16*** outColumnPtr,
                            u32* outColumnBytes,
                            gmp_block_info** outBlockPtr,
                            u32* outBlockBytes,
@@ -511,9 +511,9 @@ class Map_0x370
 
     EXPORT void do_process_loaded_zone_data_4E8E30();
 
-    EXPORT void sub_4E90E0(u32 a2);
+    EXPORT void build_zone_list_4E90E0(u32 a2);
 
-    EXPORT void sub_4E9160(s32 size);
+    EXPORT void AddTileAnimations_4E9160(s32 size);
 
     EXPORT void load_mobj_4E91A0(size_t len);
 
@@ -537,10 +537,10 @@ class Map_0x370
 
     EXPORT ~Map_0x370();
 
-    inline bool sub_4B9F40(s32 x, s32 y, s32 z)
+    inline bool IsWaterBlockAt_4B9F40(s32 x, s32 y, s32 z)
     {
         gmp_block_info* pBlock = get_block_4DFE10(x, y, z);
-        return pBlock && gGtx_0x106C_703DD4->sub_49E540(pBlock->field_8_lid & 0x3FF);
+        return pBlock && gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->field_8_lid & 0x3FF);
     }
 
     // 9.6f inline 0x4634E0
@@ -549,16 +549,16 @@ class Map_0x370
         switch (gradient_size)
         {
             case SIZE_1:
-                scale = dword_6F5ED8; //  16384
+                scale = kGradientScaleSize1_6F5ED8; //  16384
                 break;
             case SIZE_2:
-                scale = dword_6F5FA8; //  8168
+                scale = kGradientScaleSize2_6F5FA8; //  8168
                 break;
             case SIZE_8:
-                scale = dword_6F6214; //  2084
+                scale = kGradientScaleSize8_6F6214; //  2084
                 break;
             default:
-                scale = dword_6F610C; //  0
+                scale = kFpZero_6F610C; //  0
                 break;
         }
         return scale;
@@ -657,7 +657,7 @@ class Map_0x370
 
     bool IsNorthOrSouthGradSlope_4634B0(gmp_block_info* pBlock) 
     {
-        gmp_map_slope* gradient_slope = &byte_6F5BA8[pBlock->field_B_slope_type >> 2];
+        gmp_map_slope* gradient_slope = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
         if (gradient_slope->field_0_gradient_direction == NORTH_1 
             || gradient_slope->field_0_gradient_direction == SOUTH_2)
         {
@@ -668,7 +668,7 @@ class Map_0x370
 
     bool IsWestOrEastGradSlope_4634B0(gmp_block_info* pBlock) 
     {
-        gmp_map_slope* gradient_slope = &byte_6F5BA8[pBlock->field_B_slope_type >> 2];
+        gmp_map_slope* gradient_slope = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
         if (gradient_slope->field_0_gradient_direction == WEST_3 
             || gradient_slope->field_0_gradient_direction == EAST_4)
         {
@@ -751,7 +751,7 @@ class Map_0x370
     u8 field_369;
     u8 field_36A_zone_x;
     u8 field_36B_zone_y;
-    char_type field_36C_bUnknown;
+    char_type field_36C_bMatchPos;
     char_type field_36D;
     char_type field_36E;
     char_type field_36F;
@@ -803,5 +803,5 @@ static inline bool is_tridiagonal_block(s32& slope)
 
 static inline gmp_map_slope* get_slope_struct(u8& slope_byte)
 {
-    return &byte_6F5BA8[get_slope_idx(slope_byte)];
+    return &gGmpSlopes_6F5BA8[get_slope_idx(slope_byte)];
 }

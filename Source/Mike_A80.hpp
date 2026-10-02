@@ -77,10 +77,10 @@ class Mike_A80
   public:
     Mike_A80()
     {
-        sub_4FF1B0();
+        Init_4FF1B0();
     }
 
-    EXPORT void sub_4FF1B0();
+    EXPORT void Init_4FF1B0();
     EXPORT s32 sDrawFlatRect_4FF1C0(f32 left, f32 top, f32 right, f32 bottom, s32 colour);
     EXPORT void DebugDrawProfiling_4FF250();
     EXPORT static void sDrawString_4FF910(s32 xpos, s32 ypos, const wchar_t* pFormat, ...);

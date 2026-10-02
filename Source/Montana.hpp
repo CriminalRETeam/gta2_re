@@ -10,7 +10,7 @@ class Montana_C
   public:
     Sprite* field_0_sprt;
     Montana_C* mpNext;
-    Montana_C* field_8;
+    Montana_C* field_8_pRight;
 };
 
 EXTERN_GLOBAL(class Montana_FA4*, gMontana_FA4_705BC0);
@@ -23,7 +23,7 @@ class Montana_FA4
   public:
     Montana_FA4() // inlined 4C4BD0
     {
-        field_FA0 = field_0;
+        field_FA0_pTop = field_0_stack;
     }
 
     ~Montana_FA4()
@@ -33,26 +33,26 @@ class Montana_FA4
     // 9.6f inline
     void Push_4C4B80(Montana_C* pToPush)
     {
-        Montana_C*** pOld = &this->field_FA0;
+        Montana_C*** pOld = &this->field_FA0_pTop;
         *(*pOld)++ = pToPush;
     }
 
     // 9.6f inline
     bool IsEnd_4C4BC0() const
     {
-        return this->field_FA0 == field_0;
+        return this->field_FA0_pTop == field_0_stack;
     }
 
     // 9.6f inline
     Montana_C* Pop_4C4BA0()
     {
-        Montana_C*** pOld = &gMontana_FA4_705BC0->field_FA0;
+        Montana_C*** pOld = &gMontana_FA4_705BC0->field_FA0_pTop;
         (*pOld)--;
-        return *this->field_FA0;
+        return *this->field_FA0_pTop;
     }
 
-    Montana_C* field_0[1000];
-    Montana_C** field_FA0;
+    Montana_C* field_0_stack[1000];
+    Montana_C** field_FA0_pTop;
 };
 
 // SpriteList ?
@@ -60,7 +60,7 @@ class Montana_2EE4
 {
   public:
 
-    inline Montana_C* sub_4C4B40()
+    inline Montana_C* Alloc_4C4B40()
     {
         if (field_2EE0_free_indx >= 1000)
         {
@@ -68,7 +68,7 @@ class Montana_2EE4
         }
         else
         {
-            Montana_C* pReturn = &field_0[field_2EE0_free_indx];
+            Montana_C* pReturn = &field_0_entries[field_2EE0_free_indx];
             field_2EE0_free_indx++;
             return pReturn;
         }
@@ -76,7 +76,7 @@ class Montana_2EE4
 
     EXPORT Montana_2EE4();
     EXPORT ~Montana_2EE4();
-    Montana_C field_0[1000];
+    Montana_C field_0_entries[1000];
     s32 field_2EE0_free_indx;
 };
 

@@ -22,11 +22,11 @@ void Kfc_30::Init_5CBC00()
 {
     field_1A = 150;
     field_1E_is_used = 0;
-    field_20_maybe_type = 0;
+    field_20_crew_type = 0;
     field_24 = 0;
     field_0_car = 0;
     field_4_ped = 0;
-    field_28 = 0;
+    field_28_state = 0;
     field_8_group = 0;
     field_2C = 0;
     field_1C = 0;
@@ -57,7 +57,7 @@ bool Kfc_30::PedIsValid_5CBC60()
     // TODO: Something strange going on here:
     // 10.5: mov 0x28(%ecx),%ecx
     // 9.6f: mov 0x28(%esi),%esi
-    s32 v4 = field_28;
+    s32 v4 = field_28_state;
     return true;
 }
 
@@ -131,7 +131,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
             {
                 v36 = 1;
             }
-            if (field_0_car->sub_43A230())
+            if (field_0_car->HasSpriteZoom_43A230())
             {
                 v36 = 1;
             }
@@ -167,7 +167,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                     {
                         if (field_0_car)
                         {
-                            field_0_car->sub_421560(3);
+                            field_0_car->SetUniNum_421560(3);
                             field_0_car->field_76_last_seen_timer = -200;
                         }
                     }
@@ -252,7 +252,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                 {
                     j->set_occupation_403970(ped_ocupation_enum::dummy);
                     j->field_164_ped_group = 0;
-                    j->field_23C = 0;
+                    j->field_23C_group_idx = 0;
                     j->Deallocate_45EB60();
                     ++v42;
                 }
@@ -392,7 +392,7 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
         {
             if (field_0_car->Get_F76_4A9AD0() > this->field_1A)
             {
-                field_0_car->sub_421470();
+                field_0_car->MarkForDespawn_421470();
                 bClearRouteAndTryClearOthers = 1;
             }
         }
@@ -554,7 +554,7 @@ bool Kfc_30::Service_5CC480()
         this->field_18--;
     }
 
-    switch (this->field_28)
+    switch (this->field_28_state)
     {
         case 5:
             CleanupExpiredEntities_5CC1C0();
@@ -572,7 +572,7 @@ bool Kfc_30::Service_5CC480()
             return 0;
     }
 
-    switch (field_20_maybe_type)
+    switch (field_20_crew_type)
     {
         case crew_type::paramedic_1:
             if (gCar_6C_677930->CanAllocateOfType_446930(4))
@@ -654,11 +654,11 @@ void Kfc_1E0::init_5CBB70()
 MATCH_FUNC(0x5cbb80)
 Kfc_30* Kfc_1E0::New_5CBB80()
 {
-    for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    for (u8 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
     {
-        if (!field_0[i].field_1E_is_used)
+        if (!field_0_entries[i].field_1E_is_used)
         {
-            return &field_0[i];
+            return &field_0_entries[i];
         }
     }
     return 0;
@@ -669,11 +669,11 @@ void Kfc_1E0::Service_5CBBD0()
 {
     for (s32 i = 0; i < 10; i++)
     {
-        if (field_0[i].field_1E_is_used)
+        if (field_0_entries[i].field_1E_is_used)
         {
-            if (field_0[i].Service_5CC480())
+            if (field_0_entries[i].Service_5CC480())
             {
-                field_0[i].field_1E_is_used = 0;
+                field_0_entries[i].field_1E_is_used = 0;
             }
         }
     }

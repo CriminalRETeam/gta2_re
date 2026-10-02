@@ -23,7 +23,7 @@ class rng
         return field_4_rnd;
     }
 
-    EXPORT void sub_48B900();
+    EXPORT void AdvanceCycle_48B900();
     EXPORT void ShowCycle_48B920();
 
     EXPORT void srand_4F7A40();
@@ -35,6 +35,6 @@ class rng
     s32 field_4_rnd;
 };
 
-EXTERN_GLOBAL(rng*, rng_dword_67AB34);
+EXTERN_GLOBAL(rng*, gpRng_67AB34);
 
-EXTERN_GLOBAL(rng, stru_6F6784);
+EXTERN_GLOBAL(rng, gRng_6F6784);

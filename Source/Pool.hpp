@@ -257,7 +257,7 @@ class Pool
         }
     }
 
-    PoolType* unknown_func(PoolType* pToFind)
+    PoolType* FindAndDeAllocate(PoolType* pToFind)
     {
         PoolType* pLast = 0;
 
@@ -284,7 +284,7 @@ class Pool
         return pToFind;
     }
 
-    void sub_420F30(PoolType* toFind)
+    void UnlinkFromActiveList_420F30(PoolType* toFind)
     {
         PoolType* pIter = this->field_4_pPrev;
         PoolType* pLast = 0;

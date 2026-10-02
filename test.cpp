@@ -61,9 +61,9 @@ void test_gtx_0x106C()
     c.get_map_object_info_5AA910(0);
     c.SetTileRemap_5AA930(0, 0);
     c.InitTileMapping_5AA950();
-    c.sub_5AA9A0(0);
+    c.BuildCarInfoContainer_5AA9A0(0);
     c.load_delx_5AAB30(0);
-    c.sub_5AABF0();
+    c.SetDeltaDataPtrs_5AABF0();
     c.SetSpriteIndexDataPtrs_5AAC40();
     c.build_delta_container_5AAC70();
     c.load_car_info_5AAD50(0);
@@ -77,7 +77,7 @@ void test_gtx_0x106C()
     c.load_palette_index_5AAEA0(0);
     c.load_map_object_info_5AAF00(0);
     c.load_sprite_index_5AAF80(0);
-    c.sub_5AAFE0(0);
+    c.InitFontTypes_5AAFE0(0);
     c.load_font_base_5AB0F0(0);
     c.ConvertToVirtualOffsets_5AB1A0(0, 0);
     c.ConvertToVirtualOffsets_5AB1C0(0, 0);
@@ -88,7 +88,7 @@ void test_gtx_0x106C()
     c.read_spec_5AB3F0(0);
     c.load_spec_5AB450();
     c.LoadChunk_5AB4B0(0, 0);
-    c.sub_5AB720();
+    c.SetDataPtrs_5AB720();
     c.LoadSty_5AB750(0);
 }
 
@@ -124,13 +124,13 @@ void test_gbh_graphics()
 void test_distracted_einstein_0xC()
 {
     distracted_einstein_0xC t;
-    t.sub_5BEBF0();
+    t.AccumulateElapsed_5BEBF0();
 }
 
 void test_sharp_bose_0x54()
 {
     sharp_bose_0x54 t;
-    t.sub_5BECF0(0, 0);
+    t.UpdateFpsCounters_5BECF0(0, 0);
 }
 
 void test_wizardly_margulis()

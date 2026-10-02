@@ -9,9 +9,9 @@
 
 DEFINE_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8, 0x67A4B8);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_67A370, Fix16(0), 0x67A370);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_67A370, Fix16(0), 0x67A370);
 
-EXTERN_GLOBAL(u8, byte_6FDB59);
+EXTERN_GLOBAL(u8, gCharB4_HitByMine_6FDB59);
 
 
 MATCH_FUNC(0x484cb0)
@@ -19,9 +19,9 @@ Shooey_14::Shooey_14()
 {
     field_0_crime_type = 0;
     field_4_ped_id = 0;
-    field_8_pos.x = dword_67A370;
-    field_8_pos.y = dword_67A370;
-    field_8_pos.z = dword_67A370;
+    field_8_pos.x = kFP16Zero_67A370;
+    field_8_pos.y = kFP16Zero_67A370;
+    field_8_pos.z = kFP16Zero_67A370;
 }
 
 MATCH_FUNC(0x484ce0)
@@ -36,9 +36,9 @@ void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
     field_4_ped_id = ped_id;
     if (!ped_id)
     {
-        field_8_pos.x = dword_67A370;
-        field_8_pos.y = dword_67A370;
-        field_8_pos.z = dword_67A370;
+        field_8_pos.x = kFP16Zero_67A370;
+        field_8_pos.y = kFP16Zero_67A370;
+        field_8_pos.z = kFP16Zero_67A370;
     }
     else
     {
@@ -175,7 +175,7 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
                     break;
 
                 default:
-                    pPed->sub_45B550();
+                    pPed->SetRecentCrimeTimer_45B550();
                     ReportCrime(crime_type, pPed->field_200_id);
                     if (pPed->field_15C_player)
                     {
@@ -195,7 +195,7 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
             Player* pPlayer = pPed->field_15C_player;
             if (pPlayer)
             {
-                pPlayer->field_644_unk.IncrementCrimeCount_484F50(crime_type);
+                pPlayer->field_644_crime_stats.IncrementCrimeCount_484F50(crime_type);
             }
 
             break;
@@ -205,7 +205,7 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 
 // https://decomp.me/scratch/xN2BK
 MATCH_FUNC(0x485090)
-bool Shooey_CC::sub_485090(Car_BC* pCar, Player* pPlayer)
+bool Shooey_CC::ShouldReportCarCrime_485090(Car_BC* pCar, Player* pPlayer)
 {
     bool bInRange = true;
     if (gCar_6C_677930->field_68)
@@ -226,10 +226,10 @@ bool Shooey_CC::sub_485090(Car_BC* pCar, Player* pPlayer)
 
 // https://decomp.me/scratch/KvTvv
 MATCH_FUNC(0x4850f0)
-char_type Shooey_CC::sub_4850F0(Char_B4* pB4, Player* pPlayer)
+char_type Shooey_CC::ShouldReportCharCrime_4850F0(Char_B4* pB4, Player* pPlayer)
 {
     bool result = true;
-    if (byte_6FDB59)
+    if (gCharB4_HitByMine_6FDB59)
     {
         if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(pB4->field_80_sprite_ptr, pPlayer->GetIdx_4881E0(), 0) == 0)
         {
@@ -240,15 +240,15 @@ char_type Shooey_CC::sub_4850F0(Char_B4* pB4, Player* pPlayer)
 }
 
 MATCH_FUNC(0x485140)
-char_type Shooey_CC::sub_485140(Ped* pPed, Player* pPlayer)
+char_type Shooey_CC::ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer)
 {
     Char_B4* pB4 = pPed->field_168_game_object;
     if (pB4)
     {
-        return sub_4850F0(pB4, pPlayer);
+        return ShouldReportCharCrime_4850F0(pB4, pPlayer);
     }
     else
     {
-        return sub_485090(pPed->field_16C_car, pPlayer);
+        return ShouldReportCarCrime_485090(pPed->field_16C_car, pPlayer);
     }
 }

@@ -13,12 +13,12 @@
 
 DEFINE_GLOBAL(Garage_48*, gGarage_48_6FD26C, 0x6FD26C);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD128, Fix16(0x8000, 0), 0x6FD128);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FCF88, Fix16(0x1000, 0), 0x6FCF88);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD04C, dword_6FCF88, 0x6FD04C);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FCF60, dword_6FD04C / dword_6FD128, 0x6FCF60);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD0D8, Fix16(0x100, 0), 0x6FD0D8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD1D8, dword_6FD0D8, 0x6FD1D8);
+DEFINE_GLOBAL_INIT(Fix16, kFpTwo_6FD128, Fix16(0x8000, 0), 0x6FD128);
+DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FCF88, Fix16(0x1000, 0), 0x6FCF88);
+DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FD04C, kFpQuarter_6FCF88, 0x6FD04C);
+DEFINE_GLOBAL_INIT(Fix16, kFpEighth_6FCF60, kFpQuarter_6FD04C / kFpTwo_6FD128, 0x6FCF60);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD0D8, Fix16(0x100, 0), 0x6FD0D8);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD1D8, kFpOne64th_6FD0D8, 0x6FD1D8);
 
 MATCH_FUNC(0x4bbc60)
 Garage_48::~Garage_48()
@@ -34,12 +34,12 @@ void Garage_48::ValidateParkCommand_534650()
     // TODO: Gets optimized out, also needs to call operator+
     // without that being inlined too, hmm
     Fix16 v4(this->field_10->field_0_primary_door_data->field_6_z);
-    v4 = v4 + dword_6FCF60;
+    v4 = v4 + kFpEighth_6FCF60;
 
-    if (gMap_0x370_6F6268->sub_4E18A0(field_18.ToInt(),
-                                      (field_20 - dword_6FD1D8).ToInt(),
-                                      field_1C.ToInt(),
-                                      (field_24 - dword_6FD1D8).ToInt(),
+    if (gMap_0x370_6F6268->HasWallInArea_4E18A0(field_18_park_x_min.ToInt(),
+                                      (field_20_park_x_max - kFpOne64th_6FD1D8).ToInt(),
+                                      field_1C_park_y_min.ToInt(),
+                                      (field_24_park_y_max - kFpOne64th_6FD1D8).ToInt(),
                                       field_10->field_0_primary_door_data->get_z_489640()))
     {
         FatalError_4A38C0(Gta2Error::ErrorInSetupOfParkCommand,
@@ -74,7 +74,7 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
         field_3E++;
     }
 
-    // 9.6f: Car_BC::sub_447ED0 (inlined, but here with dword_6FD124 where Car_BC.hpp uses dword_679E74)
+    // 9.6f: Car_BC::IsLongerThanOneBlock_447ED0 (inlined, but here with dword_6FD124 where Car_BC.hpp uses kFpOne_679E74)
     field_40 = pCar->field_50_car_sprite->GetH_447E70() > dword_6FD124;
 
     u8 x;
@@ -86,7 +86,7 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
     Fix16 w2;
     if (field_40)
     {
-        w1 = dword_6FD128;
+        w1 = kFpTwo_6FD128;
         w2 = w1;
     }
     else
@@ -95,53 +95,53 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
         w2 = w1;
     }
 
-    // 9.6f: the field_18/1C and field_20/24 pairs are set with a two Fix16 setter (0x432860), so they may be a struct
+    // 9.6f: the field_18_park_x_min/1C and field_20_park_x_max/24 pairs are set with a two Fix16 setter (0x432860), so they may be a struct
     switch (field_38)
     {
         case 1:
             if (field_10->IsDoubleDoor_489600())
             {
-                field_1C = Fix16(y) - dword_6FD124 - w1;
-                field_18 = Fix16(x);
+                field_1C_park_y_min = Fix16(y) - dword_6FD124 - w1;
+                field_18_park_x_min = Fix16(x);
             }
             else
             {
-                field_18 = Fix16(x);
-                field_1C = Fix16(y) - w1;
+                field_18_park_x_min = Fix16(x);
+                field_1C_park_y_min = Fix16(y) - w1;
             }
-            field_24 = Fix16(y) + dword_6FD124 + w1;
-            field_20 = Fix16(x) + dword_6FD124 + w2;
+            field_24_park_y_max = Fix16(y) + dword_6FD124 + w1;
+            field_20_park_x_max = Fix16(x) + dword_6FD124 + w2;
             field_34_target_y = Fix16(y) + dword_6FCF98;
             field_30_target_x = Fix16(x) - dword_6FD218;
             break;
         case 2:
-            field_18 = Fix16(x) - w2;
-            field_1C = Fix16(y) - w1;
+            field_18_park_x_min = Fix16(x) - w2;
+            field_1C_park_y_min = Fix16(y) - w1;
             if (field_10->IsDoubleDoor_489600())
             {
-                field_20 = dword_6FD124 + Fix16(x);
-                field_24 = dword_6FD128 + Fix16(y) + w1;
+                field_20_park_x_max = dword_6FD124 + Fix16(x);
+                field_24_park_y_max = kFpTwo_6FD128 + Fix16(y) + w1;
             }
             else
             {
-                field_20 = Fix16(x) + dword_6FD124;
-                field_24 = Fix16(y) + dword_6FD124 + w1;
+                field_20_park_x_max = Fix16(x) + dword_6FD124;
+                field_24_park_y_max = Fix16(y) + dword_6FD124 + w1;
             }
             field_34_target_y = dword_6FCF98 + Fix16(y);
             field_30_target_x = Fix16(x) + dword_6FD218 + dword_6FD124;
             break;
         case 3:
-            field_18 = Fix16(x) - w1;
-            field_1C = Fix16(y);
+            field_18_park_x_min = Fix16(x) - w1;
+            field_1C_park_y_min = Fix16(y);
             if (field_10->IsDoubleDoor_489600())
             {
-                field_24 = dword_6FD124 + Fix16(y) + w2;
-                field_20 = dword_6FD128 + Fix16(x) + w1;
+                field_24_park_y_max = dword_6FD124 + Fix16(y) + w2;
+                field_20_park_x_max = kFpTwo_6FD128 + Fix16(x) + w1;
             }
             else
             {
-                field_24 = Fix16(y) + dword_6FD124 + w2;
-                field_20 = dword_6FD124 + Fix16(x) + w1;
+                field_24_park_y_max = Fix16(y) + dword_6FD124 + w2;
+                field_20_park_x_max = dword_6FD124 + Fix16(x) + w1;
             }
             field_34_target_y = Fix16(y) - dword_6FD218;
             field_30_target_x = Fix16(x) + dword_6FCF98;
@@ -149,15 +149,15 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
         case 4:
             if (field_10->IsDoubleDoor_489600())
             {
-                field_18 = Fix16(x) - dword_6FD124 - w1;
+                field_18_park_x_min = Fix16(x) - dword_6FD124 - w1;
             }
             else
             {
-                field_18 = Fix16(x) - w1;
+                field_18_park_x_min = Fix16(x) - w1;
             }
-            field_1C = Fix16(y) - w2;
-            field_24 = Fix16(y) + dword_6FD124;
-            field_20 = dword_6FD124 + Fix16(x) + w1;
+            field_1C_park_y_min = Fix16(y) - w2;
+            field_24_park_y_max = Fix16(y) + dword_6FD124;
+            field_20_park_x_max = dword_6FD124 + Fix16(x) + w1;
             field_34_target_y = dword_6FD218 + Fix16(y) + dword_6FD124;
             field_30_target_x = Fix16(x) + dword_6FCF98;
             break;
@@ -212,7 +212,7 @@ void Garage_48::GaragesService_5349D0()
 
             u8 idx1;
             u8 idx2;
-            char_type collision = field_0->field_50_car_sprite->CollisionCheck_5A0320(&field_18, &field_20, &idx1, &idx2);
+            char_type collision = field_0->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &idx1, &idx2);
             if (collision == 2)
             {
                 if (idx1 == 0)
@@ -250,7 +250,7 @@ void Garage_48::GaragesService_5349D0()
 
             Fix16_Point car_pos(field_0->get_x_41E430(), field_0->get_y_41E440());
             Sprite_4C* pBox = field_0->field_50_car_sprite->field_C_sprite_4c_ptr;
-            Fix16_Point dir = (pBox->field_C_renderingRect[idx1] + pBox->field_C_renderingRect[idx2]).Divide_442CB0(dword_6FD128) - car_pos;
+            Fix16_Point dir = (pBox->field_C_renderingRect[idx1] + pBox->field_C_renderingRect[idx2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
             field_28_push_dir.x = dir.x;
             field_28_push_dir.y = dir.y;
             if (field_28_push_dir.x == dword_6FD120 && field_28_push_dir.y == dword_6FD120)
@@ -287,7 +287,7 @@ void Garage_48::GaragesService_5349D0()
 
             u8 idx1;
             u8 idx2;
-            if (field_0->field_50_car_sprite->CollisionCheck_5A0320(&field_18, &field_20, &idx1, &idx2) != 4 && !field_3D)
+            if (field_0->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &idx1, &idx2) != 4 && !field_3D)
             {
                 field_0->field_58_physics->field_74_ang_vel_rad = dword_6FD120;
                 field_0->field_58_physics->field_40_linvel_1.x = 0;
@@ -323,11 +323,11 @@ void Garage_48::GaragesService_5349D0()
                 {
                     if (field_10->field_0_primary_door_data)
                     {
-                        field_10->field_0_primary_door_data->sub_49C590(0);
+                        field_10->field_0_primary_door_data->Close_49C590(0);
                     }
                     if (field_10->field_4_secondary_door_data)
                     {
-                        field_10->field_4_secondary_door_data->sub_49C590(field_10->field_2A_bDoFlip);
+                        field_10->field_4_secondary_door_data->Close_49C590(field_10->field_2A_bDoFlip);
                     }
                 }
                 field_10->ClearF2C_4895F0();
@@ -349,8 +349,8 @@ void Garage_48::GaragesService_5349D0()
                         field_0->field_54_driver = NULL;
                         pDriver->field_168_game_object->field_5C = 20;
                     }
-                    else if (field_14 && field_14->get_cam_x() >= field_18 && field_14->get_cam_x() <= field_20 &&
-                             field_14->get_cam_y() >= field_1C && field_14->get_cam_y() <= field_24)
+                    else if (field_14 && field_14->get_cam_x() >= field_18_park_x_min && field_14->get_cam_x() <= field_20_park_x_max &&
+                             field_14->get_cam_y() >= field_1C_park_y_min && field_14->get_cam_y() <= field_24_park_y_max)
                     {
                         field_14->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0->get_z_41E450());
                         field_14->SetRotation_433C00(sub_5345E0(field_38));
@@ -366,10 +366,10 @@ void Garage_48::GaragesService_5349D0()
             field_C = 0;
             field_28_push_dir.x = 0;
             field_28_push_dir.y = 0;
-            field_18 = 0;
-            field_1C = 0;
-            field_20 = 0;
-            field_24 = 0;
+            field_18_park_x_min = 0;
+            field_1C_park_y_min = 0;
+            field_20_park_x_max = 0;
+            field_24_park_y_max = 0;
             field_30_target_x = 0;
             field_34_target_y = 0;
             break;
@@ -386,10 +386,10 @@ Garage_48::Garage_48()
     field_C = 0;
     field_28_push_dir.x = 0;
     field_28_push_dir.y = 0;
-    field_18 = 0;
-    field_1C = 0;
-    field_20 = 0;
-    field_24 = 0;
+    field_18_park_x_min = 0;
+    field_1C_park_y_min = 0;
+    field_20_park_x_max = 0;
+    field_24_park_y_max = 0;
     field_38 = 0;
     field_30_target_x = 0;
     field_34_target_y = 0;

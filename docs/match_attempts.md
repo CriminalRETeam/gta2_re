@@ -166,9 +166,9 @@ Tried before the volatile trick (the flag gets optimised away in all of these):
 - `if (!bDone) do { ... } while (lstrlenA(p));` with a plain local.
 - Reusing `lpData` itself as the flag (`lpData = NULL;` ... `lpData = (LPCVOID)1;`).
 
-## BurgerKing_1::sub_498CB0 (STUB)
+## BurgerKing_1::SetAltKeyState_498CB0 (STUB)
 
-Target: `mov 4(%esp),%eax; shr $7,%al; mov %al,byte_67B80C; ret $4`. It loads the whole
+Target: `mov 4(%esp),%eax; shr $7,%al; mov %al,gAltKeyDown_67B80C; ret $4`. It loads the whole
 dword, then shifts only `al`. Every spelling below compiles to a byte load
 (`mov 4(%esp),%al; shr $7,%al`), or to a dword shift plus `and $1,%al`. Tested in a scratch
 TU with `build.py --single_cpp ../build_vc6/scratch_t.cpp`:
@@ -404,7 +404,7 @@ Tried: splitting the `FindGroundZ` call and `.ToUInt8()` into two statements (0.
 ## Car_BC::GetDoorWorldPos_43B420 (WIP, was sub_43B420)
 
 World position of door `door_idx`: the door offset from `get_car_remap_5AA3D0` (+1 skips
-`num_doors`, then `door_info[]`), turned into `Fix16` with `dword_6F6850.sub_41FE70`,
+`num_doors`, then `door_info[]`), turned into `Fix16` with `gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70`,
 rotated by the sprite angle and added to the sprite position.
 
 Ratio 0.564. The first rotated coordinate uses the inline `Fix16 operator*` (`__allshr`) and
@@ -463,7 +463,7 @@ Tried: declaring `step`/`direction` first; setting `step = 1` between the global
 
 ## thirsty_lamarr::sub_492430 (WIP)
 
-Left-to-right version of the WIP `sub_492260`: draws the counter digits, skipping
+Left-to-right version of the WIP `DrawDigits_492260`: draws the counter digits, skipping
 leading zeros (a leading zero that is still rolling, `field_13_offset != 0`, is drawn at
 its offset height), and returns the x after the last digit. The x/y `Fix16` arguments
 go through the out-of-line constructor `FromInt_4926F0` that this file emits.
@@ -471,7 +471,7 @@ go through the out-of-line constructor `FromInt_4926F0` that this file emits.
 Ratio 0.457. Structure and calls are the same, but registers differ throughout. The original keeps
 `field_27_sprite_w` in `cl` across iterations (reloaded after each draw for
 `curr_xpos +=`, then reused as the next width argument) and keeps `bFirst` at 0x13, not
-in an arg slot. Worth another try together with `sub_492260`.
+in an arg slot. Worth another try together with `DrawDigits_492260`.
 
 ## sound_obj::ProcessType3_CopRadioAndMusic_57DD50 (WIP)
 
@@ -493,7 +493,7 @@ of them produce the `sete`.
 ## Map_0x370::sub_4DF3E0 (WIP, was STUB)
 
 Returns the zone of `zone_type` whose centre is nearest (max-abs distance) to the block
-`(xpos, ypos)`, starting from `dword_6F5B8C` (255.0). Ratio 0.644.
+`(xpos, ypos)`, starting from `kFp255_6F5B8C` (255.0). Ratio 0.644.
 
 The distance is computed in plain registers: `(w & 0xFE) << 13` is `(w >> 1) << 14`
 folded into one shift, which VC6 only produces when the shifts are in one integer
@@ -543,10 +543,10 @@ random jitter, <= 40). Ratio 0.817.
 What got it there:
 - No null check on `field_8_char_b4_ptr`: test the sprite type and read the pointer, not
   `AsCharB4_40FEA0()`.
-- The original calls `Ang16::sub_406C20` for both normalisations: build the angle with
-  `Ang16(s32)` (no inline `Normalize`) and call `sub_406C20()` explicitly.
+- The original calls `Ang16::Normalize_406C20` for both normalisations: build the angle with
+  `Ang16(s32)` (no inline `Normalize`) and call `Normalize_406C20()` explicitly.
 - `dword_6FD540 * dword_6FD4A8` (operand order picks the load order), and
-  `dword_6FD4A0 * dword_6FD540` in the `<= 40` case.
+  `kFP16One_6FD4A0 * dword_6FD540` in the `<= 40` case.
 - `zpos += dword_6FD470` written in both the 41..59 and the `<= 40` blocks (0.695 -> 0.817);
   written once after them VC6 lays the tail out differently.
 
@@ -587,7 +587,7 @@ early `return` in the else (0.664), `% 2 == 0` (0.550).
 Debug overlay: for each junction (1..544) with a non-zero `field_C_min_x` that the view
 camera can see, projects its corner to the screen and draws its index with `%d`. Ratio 0.349.
 
-The projection is the `Camera_0xBC::sub_40CFC0` formula with this TU's copies of the
+The projection is the `Camera_0xBC::WorldToScreen_40CFC0` formula with this TU's copies of the
 constants (`dword_6FFC7C / (u + dword_6FFC9C)`). Written out in the function, VC6
 inlines every `Fix16` operator (0.259). Moved into a `static inline` helper, VC6 inlines
 only the first multiply and calls `Multiply_408680`/`Add_408660`/`Subtract_436A00` for the
@@ -596,7 +596,7 @@ projection helper (see `matching_quirks.md`).
 
 Still different:
 - The original calls an out-of-line `Fix16(u8)` (`0x45C4E0`) for the x argument of
-  `sub_58CF10`, ours inlines both.
+  `IsPointInBoundaries_58CF10`, ours inlines both.
 - VC6 adds a count-down register for the loop (`movl $0x220`), the original only has the
   `u16` index compared with `0x221`.
 - Stack slots for the saved x/y bytes and the frame size (0x40 vs 0x3C).
@@ -697,7 +697,7 @@ Debug ids drawn at a sprite's screen position: car ids, ped ids and `model:id` f
 Ratio 0.333 (low because of register allocation; the instruction sequence is mostly
 right).
 
-- The car block uses the inline helper `sub_4BA2C0` (moved above this function). Its font
+- The car block uses the inline helper `DrawTextScaled_4BA2C0` (moved above this function). Its font
   parameter must be `u16` (stored with `mov %dx`), and it computes `scale_y` first and
   `x * scale` inside the `DrawText_5D8A10` argument list: then VC6 inlines the y multiply
   (`imull (%esi)`) and calls `Multiply_408680` for x after pushing the other arguments,
@@ -716,7 +716,7 @@ function, reloads the car pointer from `this`, and delays the shifts. The three
 ## PoliceCrew_38::sub_571540 (WIP, was STUB)
 
 Shut-down for a crew with a car (`Kfc_30::field_24 == 2`): same shape as the matched
-`sub_571350`, with the car's `field_76_last_seen_timer > 200` checks and the despawn state
+`TryDespawnOffscreenCrew_571350`, with the car's `field_76_last_seen_timer > 200` checks and the despawn state
 set to 4. Returns nothing (now `void`). Ratio 0.867.
 
 The code is identical apart from three `je`s in the "car, no ped" branch: the original jumps
@@ -728,17 +728,17 @@ both branches (0.812), an explicit `return` after it (no change).
 
 Shut-down for the other crew kinds. If the player is driving, the crew either gets back
 into its car (group members flagged `field_238 = 3`) or, once everyone is ready, leaves
-and despawns; otherwise like `sub_571350`, with `field_7C_uni_num == 2` cars kept. Now
+and despawns; otherwise like `TryDespawnOffscreenCrew_571350`, with `field_7C_uni_num == 2` cars kept. Now
 `void`. Ratio 0.748.
 
-- `pPed_6FEDDC == pCar->field_54_driver` (the global on the left) gives the original's
+- `gCurrentCrewPed_6FEDDC == pCar->field_54_driver` (the global on the left) gives the original's
   `cmp 0x54(%eax),%ecx`.
 
 Still different:
 - The original keeps the `field_28 = 5; field_2C = 1` return block right after the first
   group path and the other paths jump back to it; ours puts the shared copy elsewhere.
 - In the first member loop the original does `inc %dl` and the store before reading
-  `field_4_ped_list[i]` (same loop as `sub_571350` otherwise). Rewriting it as a `while`
+  `field_4_ped_list[i]` (same loop as `TryDespawnOffscreenCrew_571350` otherwise). Rewriting it as a `while`
   with `u8 idx = i++` made it worse (0.655).
 
 ## PoliceCrew_38::sub_575310 (WIP, was STUB)
@@ -872,8 +872,8 @@ Still different:
 
 ## Start_NetworkGame_5E5A30 (WIP, was STUB)
 
-- 0.429. Added `gNetworkGameSettings_707098` (NetworkGameSettings). It overlaps the existing `dword_7071A0` /
-  `dword_7071B0` in Game_0x40.cpp (game_speed / police_on fields).
+- 0.429. Added `gNetworkGameSettings_707098` (NetworkGameSettings). It overlaps the existing `gNetworkGameSpeed_7071A0` /
+  `gNetworkPolice_7071B0` in Game_0x40.cpp (game_speed / police_on fields).
 - The registry part reads `UseProtocol` (GUID) and `UseConnection` (a `Connection_Unknown` buffer via
   `operator new`), and `ModemNumber` when `gNetPlay.field_4` is set. Then it runs `Network_20324` UI →
   `CopyGameSettings`, the map/sty/scr names, and `SetMultiplayerParams`.
@@ -889,7 +889,7 @@ Still different:
   Added `kZero_705DD8`, a local `Car_18_Cmd` struct (the idx fields at 8/0x10/0x24) and the
   `sub_511A70` stub.
 - It is an 8-case switch on the touch-point type (car / ped / driver / stopped ped id checks). Then
-  `field_C` 2 starts a thread (`sub_5120C0`) and 3 calls `sub_511A70` + `sub_5C8680`.
+  `field_C` 2 starts a thread (`SpawnThread_5120C0`) and 3 calls `sub_511A70` + `FreeTrigger_5C8680`.
 - In case 4 (cmd types 0xD4/0xD6/else) each branch must have its own full `GetBasePointer` + id compare.
   VC6 then tail-merges the compare into the case 6/7 code as the target does (0.36 → 0.43).
 - Remaining: register/scheduling differences in most cases. Our case 3 car branch is tail-merged into case 5,
@@ -901,7 +901,7 @@ Still different:
 - 0.526. Same shape as `fire_truck_gun_5E0E70`, with a fallback to the army-jeep gun sprite (model 248,
   offsets `dword_706EA4` / `dword_706EE8`) when the model 114 turret isn't there. It emits
   `EmitFlameStreamSegment_53F4C0` or spawns bullet 195.
-- Turret angle: target calls `Ang16::sub_409300` (a normalising "ctor") on the `operator+` result. Added an inline
+- Turret angle: target calls `Ang16::AssignNormalized_409300` (a normalising "ctor") on the `operator+` result. Added an inline
   `Ang16(Ang16&, s32)` ctor wrapper; `gun_ang = Ang16(a + b, 0)` gives the 32-bit temp store (0.21 → 0.53).
 - Remaining: the out-of-line `Ang16(const s16&, s32)` ctor from `operator+` is inlined in the target, and
   the EH state starts at 2 vs our 1.
@@ -932,7 +932,7 @@ Still different:
   3. Set the put-out-fire objective.
   4. Wait for the objective result.
   5. Despawn.
-- Uses the `sub_421560`, `IsDespawning_4215B0` and `sub_4214B0` inline helpers instead of raw field writes.
+- Uses the `SetUniNum_421560`, `IsDespawning_4215B0` and `IsMarkedForDespawn_4214B0` inline helpers instead of raw field writes.
 - `dword_67D384` (Fix16) is the arrival distance.
 - Not tuned yet. Next step: run the permuter, and check the case 2 `Max_44E540(Abs...)` distance test against the target.
 
@@ -982,10 +982,10 @@ Still different:
 ## Particle_4C::UpdateCircularBurst_state_5_539890 (WIP, was STUB)
 
 - 0.381 on the first write-up. Same frame as `5384C0`, with these differences:
-  - `field_20` is reset to `dword_6FD49C` after the follow block on every path.
+  - `field_20` is reset to `kFP16Zero_6FD49C` after the follow block on every path.
   - There is no x offset; `off_y = -dword_6FD45C` always.
   - Cases 6 and 7 take x/y/z from the followed sprite.
-  - `default` uses `field_20 / dword_6FD4A4` (inline `__allshl` / `__alldiv`). On `rng(7) == 4` it spawns a smoke particle through `Particle_8::New_53E3C0(0, ...)` with `SetType_4206F0(8)`.
+  - `default` uses `field_20 / kFP16Two_6FD4A4` (inline `__allshl` / `__alldiv`). On `rng(7) == 4` it spawns a smoke particle through `Particle_8::New_53E3C0(0, ...)` with `SetType_4206F0(8)`.
 - The original keeps the jitter flag in `bl` and returns `bl` (still 1) from the first early return. Writing `return bJitter;` there made no difference.
 
 ## Particle_4C::UpdateObjectBeamLink_state_38_538AC0 (WIP, was STUB)
@@ -993,7 +993,7 @@ Still different:
 - 0.147, but the structure is right:
   - Draws a beam from this sprite to `field_28_pSprite` (it must be a `code_obj1_4` sprite).
   - Splits the delta into `max(|dx|, |dy|) / dword_6FD364` steps and spawns a state-43 beam segment particle at each step's midpoint.
-  - Then puts this sprite on a circle around the target. The angle is the target angle + `word_6FD3EE`, plus rng jitter in sub-states 4/5.
+  - Then puts this sprite on a circle around the target. The angle is the target angle + `kAng180_6FD3EE`, plus rng jitter in sub-states 4/5.
 - **Shared returns:** all three `return true` paths share one block, so it uses the nested form.
 - **Point slots:** the original reuses the `src` slot for the circle offset and `dst` for the final position.
 - **What's left:**
@@ -1013,10 +1013,10 @@ Still different:
 ## Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0 (WIP, was STUB)
 
 - 0.313 on the first write-up. An impact burst attached to a car or ped (`field_28_pSprite`):
-  - **Ped:** the source velocity is the ped's `sub_45B520`.
+  - **Ped:** the source velocity is the ped's `GetVelocityVector_45B520`.
   - **Car:** the velocity is `GetPointVelocity_561350` at the gun-model (114) or fallback-model (248) attachment point. That is the same attachment code as `Particle_8::EmitImpactParticles_53FE40`.
-  - The burst moves along a random spread angle (`/ 71`, `sub_406C20`).
-  - **On a hit:** it moves `Particle_8`'s `field_0` (state 31) or `field_4` (state 34) to the hit. It also sets the damage owner from the shooter's `field_267_varrok_idx`. On a ped hit it calls `HandleGenericImpact_553E00` and `frosty_pasteur::sub_512C00(id, 194/198, 1)`.
+  - The burst moves along a random spread angle (`/ 71`, `Normalize_406C20`).
+  - **On a hit:** it moves `Particle_8`'s `field_0` (state 31) or `field_4` (state 34) to the hit. It also sets the damage owner from the shooter's `field_267_varrok_idx`. On a ped hit it calls `HandleGenericImpact_553E00` and `frosty_pasteur::RecordWeaponHit_512C00(id, 194/198, 1)`.
 - **Return block:** every failure check in the original jumps to one shared `return true` block. Ours uses early returns, so the next step is the nested form.
 - Uses `Fix16_Point::RotateByAngle_40F6B0` for the rotations. The other `Particle_4C` WIPs write the same rotation out by hand.
 
@@ -1044,10 +1044,10 @@ Still different:
 ## Weapon_30::sub_5DFB60 (WIP, was STUB)
 
 - 0.146. This is the shocker's chain lightning:
-  - It collects the sprites in a box around `a3` (`gPurpleDoom_1_679208->CollectRectCollisions_477F30`). The box is `k_dword_706EC0` wide for the first link and `dword_706EBC` after that.
+  - It collects the sprites in a box around `a3` (`gPurpleDoom_1_679208->CollectRectCollisions_477F30`). The box is `kFP16Two_706EC0` wide for the first link and `dword_706EBC` after that.
   - For each ped or car within the angle window (`word_706D6C` / `word_706E28` around `a4`), that has map line of sight (`sub_4E5640`) and isn't already hit (`gWeapon_8_707018` list), it does three things. It draws the arc (`sub_5DE910`), recurses once (`a2 < 1`), and shocks the ped or damages the car. The car damage is `AccumulateDamage_43DA90(300)`, with scoring for the player.
   - At the end it takes one ammo with a 1/2 chance.
-- The ped branch normalises the angle difference out of line (`sub_406C20`). The car branch normalises it inline (the `Ang16 operator-` normalising ctor). Written to match.
+- The ped branch normalises the angle difference out of line (`Normalize_406C20`). The car branch normalises it inline (the `Ang16 operator-` normalising ctor). Written to match.
 - Both branches compute `Max(Abs(back_x), Abs(back_y))` and never use it. In the ped branch the y subtraction is the out-of-line `Fix16::Subtract_436A00`.
 - Changed the return type to `void` (nothing sets one). `shocker_5E06B0` ignores it.
 - **What's left:** the original frame is 0x1C bytes bigger.
@@ -1075,7 +1075,7 @@ Still different:
   - It rotates the trailer's rear-wheel point by the trailer angle and the cab's hitch point (`gTrailerHitchOffset_66AAC8`) by the cab angle, and adds each body's `get_cp1_40B560()`.
   - It takes the angle between the two points, then eases the trailer's angle toward it with `sub_405E80`. When the cab drives straight with the gas pressed, it uses `sub_405DA0` with the cab speed instead.
   - Finally it puts the trailer at hitch minus the rotated `gTrailerCabOffset_66AAE0`.
-- Angles go through the `* 71` / `/ 71` `Fix16` radian conversions (`Ang16_to_Fix16`, `Ang16(Ang16(raw / 71), 0)` via `sub_409300`).
+- Angles go through the `* 71` / `/ 71` `Fix16` radian conversions (`Ang16_to_Fix16`, `Ang16(Ang16(raw / 71), 0)` via `AssignNormalized_409300`).
 - `sub_405DA0` (0x76) and `sub_405E80` (0x110) were missing from the source. They're now `STUB_FUNC`s in fix16.cpp, with signatures from this call site. They still need target asm.
 - **What's left:** the original's EH state is 3 at entry (three point locals constructed with no code), and `esi`/`edi` are swapped.
 - Changed the return type to `void`. Its caller, `CarPhysics_B0`, ignores it.
@@ -1094,7 +1094,7 @@ Still different:
 - `case 4: default:` gave an if chain (0.57). A separate `case 4` plus `return` after the switch gave the table (0.62). The permuter then moved `case 4` to the top to fix the register alternation (1.0).
 
 ### sub_405DA0 (0x405DA0): MATCH, first try
-- Turns an angle toward a target by at most `*pSpeed`, the short way round, then wraps it into [0, 2pi). It's the same shape as `sub_405CE0`, written with the same `Fix16` globals and the same two wrap loops that `sub_40E790` uses.
+- Turns an angle toward a target by at most `*pSpeed`, the short way round, then wraps it into [0, 2pi). It's the same shape as `SmoothApproachAngle_405CE0`, written with the same `Fix16` globals and the same two wrap loops that `WrapAngle_40E790` uses.
 
 ### sub_405E20, sub_405E80 (0x405E20, 0x405E80): MATCH
 - `sub_405E80` clamps an angle into a +-`dword_669140` window around a target, allowing for the wrap. It then returns whether the angle sits on either edge, tested with `sub_405E20`.
@@ -1105,7 +1105,7 @@ Still different:
 - These are out-of-line copies emitted after Weapon_30.cpp's functions, used by `sub_5DE910`: `+=`, `/= Fix16` and max(|x|, |y|). The csv names them `Fix16::sub_...`, but they're `Fix16_Point` members (`this` is a point).
 
 ### sub_5DE910 (0x5DE910): WIP 0.149
-- The electro-beam draw. It starts at `a1`, or at the muzzle offset rotated by `word_707004` plus `stru_706E58` when `byte_706C94` is clear. It first lays `dword_706CF4`-long segments, each with a random kink (`rng(rng(4)+1)*32`, scaled by `dword_706D34`, in `Ang16`). It then lays straight segments the rest of the way to `a2`, using max(|x|,|y|) for the count. Each segment's midpoint goes to `Particle_8::EmitElectricArcParticle`.
+- The electro-beam draw. It starts at `a1`, or at the muzzle offset rotated by `word_707004` plus `stru_706E58` when `byte_706C94` is clear. It first lays `kFP16Quarter_706CF4`-long segments, each with a random kink (`rng(rng(4)+1)*32`, scaled by `dword_706D34`, in `Ang16`). It then lays straight segments the rest of the way to `a2`, using max(|x|,|y|) for the count. Each segment's midpoint goes to `Particle_8::EmitElectricArcParticle`.
 - The call sequence is almost the target's. The distance is computed three times, the first `atan2` result is dead, and `rng(2)` is called and dropped.
 - The EH state is 0xA at entry and never changes. So 10 `Fix16_Point` locals are declared at the top, plus the by-value `a1`. That took it from 0.075 to 0.149.
 - What's left is VC6's inline budget. Our build calls `Fix16_Point_POD()` out of line for the first two locals. The original instead inlines the loop-1 `mid /= k; mid += cur` with `Fix16 /=` as calls (0x539F90), and calls the copies at 0x5E40E0/0x5E40C0 in loop 2. Using inline `Fix16_Point` operators for both loops gave the right loop-1 code but inlined loop 2 and left 6 ctor calls (0.072). Writing the length out by hand gave 2 calls (0.067). See the ctor note in matching_quirks.md.
@@ -1118,7 +1118,7 @@ Still different:
 
 ### frosty_pasteur_0xC1EA8::sub_511A70 (0x511A70): MATCH
 - Looks a car model up in the script's car list (`field_340_car_list`, read as bytes) and sets
-  the generator's type from `byte_6212F0` (0x41 when it isn't in the list). The second argument
+  the generator's type from `kDecidePowerupGenTypes_6212F0` (0x41 when it isn't in the list). The second argument
   is a `Generator_2C`, not a `SCR_CMD_HEADER`.
 - It uses `gfrosty_pasteur_6F8060` instead of `this`. 0.957 to match by writing the compare as
   `car_model == *pList` and the increments as `pList++, i++`.
@@ -1145,7 +1145,7 @@ Still different:
 ### sound_obj::HandlePedVoiceEvent_423080 (0x423080): WIP 0.992
 - Picks a ped's voice sample by voice event (`Ped::field_250`), with cooldown bytes
   `byte_67554A/B/C` and `word_675548` for repeated shouts (Elvis gets his own), then queues it.
-  `bTank` (tank driver, or `Ped::sub_45B4E0`) is uninitialised on the player path, as in the
+  `bTank` (tank driver, or `Ped::IsLawEnforcement_45B4E0`) is uninitialised on the player path, as in the
   original.
 - 0.809 -> 0.974: the entity index is used unsigned (`(u32)... % 5`). 0.974 -> 0.987: split the
   rate sum so `field_14` is reloaded. 0.987 -> 0.992: the permuter's ternary for the volume and
@@ -1173,8 +1173,8 @@ Still different:
   0.690: state 5 before state 4. 0.802: case 0's inverted `if`. 0.924: the distance check
   written out. Match: `if (!(dx > dy)) dx = dy;` instead of the ternary.
 
-### eager_benz::sub_592660 (0x592660): WIP 0.343
-- Scores a ped kill, the ped counterpart of `sub_592DD0`. Points depend on the victim's
+### eager_benz::OnPedKilled_592660 (0x592660): WIP 0.343
+- Scores a ped kill, the ped counterpart of `OnCarDestroyed_592DD0`. Points depend on the victim's
   occupation (cop, army, SWAT, FBI, gang members, Elvis with his own counter) and the kill type
   (`field_290`); network kills of players use a separate table. Then the exploding score, cash
   and the crime report (6/7/8/9).
@@ -1184,7 +1184,7 @@ Still different:
 
 ### Char_B4::HandlePedCollision_548BD0 (0x548BD0): WIP 0.592
 - A 5x5 switch on both peds' `field_238` types. It covers Elvis followers, pushing the other ped
-  away (`atan2` + 180 degrees, with `sub_406C20` or the inline `Normalize`), slowing down,
+  away (`atan2` + 180 degrees, with `Normalize_406C20` or the inline `Normalize`), slowing down,
   turning 30 degrees, stepping back to the saved position, and cops arresting a wanted ped.
 - 0.457 -> 0.592: case order from the jump tables, the `occ != 43` branch first, and the
   differences passed straight to `atan2`. The frame-size difference is under "Still
@@ -1220,7 +1220,7 @@ Still different:
   cases in address order and an unsigned sample index. One register difference is left.
 
 ### Ambulance_20::HandleObjectiveState_4FAAC0 (0x4FAAC0): WIP 0.961
-- The paramedic crew loop. Each ped of the crew, through `dword_6F6D60`, walks to a patient in
+- The paramedic crew loop. Each ped of the crew, through `gParamedicCrewPed_6F6D60`, walks to a patient in
   `field_10`, revives them (cops come back as cops), then gets back in and leaves.
 - 0.485 -> 0.724: case order 14, 0, 28, 36, 16, 35. 0.835: the `field_225 == 1` branch of
   case 14 first, with an explicit `else` for the no-car path. 0.892: one `field_8 = pPatient`
@@ -1229,8 +1229,8 @@ Still different:
   original loads `y` first) and the copy of the objective target. A `Fix16_Vec` struct copy made
   that worse.
 
-### PoliceCrew_38::sub_572920 (0x572920): WIP 0.396
-- The chasing crew, built on the matched `sub_572340`. Members follow the criminal on foot, or
+### PoliceCrew_38::State5_PursueOrChase_572920 (0x572920): WIP 0.396
+- The chasing crew, built on the matched `State3_AlertedSearch_572340`. Members follow the criminal on foot, or
   get back in the car when the criminal is far away or fast. The crew-state check goes in the
   sibling's order (`!= 3` first). Left: the original puts the two "timer ran out" blocks at
   the end of the function, and the case tails merge differently.

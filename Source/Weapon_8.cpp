@@ -93,7 +93,7 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
     {
         if (pCar->is_driven_by_player())
         {
-            pCar->field_54_driver->field_15C_player->sub_564910(pWeapon);
+            pCar->field_54_driver->field_15C_player->SetWeapon_564910(pWeapon);
             return bAddedAmmo;
         }
     }
@@ -102,8 +102,8 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
     {
         if (pCar->field_54_driver)
         {
-            pCar->field_54_driver->field_178 = gWeapon_8_707018->allocate_5E3C10(weapon_kind, pCar->field_54_driver, 99u);
-            pCar->field_54_driver->field_178->field_14_car = pCar;
+            pCar->field_54_driver->field_178_car_weapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, pCar->field_54_driver, 99u);
+            pCar->field_54_driver->field_178_car_weapon->field_14_car = pCar;
         }
     }
 
@@ -120,7 +120,7 @@ void Weapon_8::dealloc_car_weapon_5E3DF0(Car_BC* pCar)
         {
           Weapon_30* pOldIter = pIter;
           pIter = pIter->mpNext;
-          gWeapon_30_Pool_707014->sub_4A4F20(pOldIter);
+          gWeapon_30_Pool_707014->DeAllocate_4A4F20(pOldIter);
         }
         else
         {
@@ -153,7 +153,7 @@ Weapon_8::Weapon_8()
         }
     }
     field_4_ref_count = 0;
-    field_0.sub_4207E0();
+    field_0.ResetHead_4207E0();
 }
 
 MATCH_FUNC(0x5e3f60)
