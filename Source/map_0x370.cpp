@@ -3555,20 +3555,20 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 1);
                 if (dist >= dword_6F5F18)
                 {
-            pPrev = pBlock;
-            sub_4E5D10(&x, &y, dword_6F5F18, direction);
-            dist -= dword_6F5F18;
-            gmp_block_info* pNext = GetRoadBlockAt_4E6660(x, y, z);
-            if (!pNext || !sub_4E5E90(pNext, direction, 1))
-            {
-                StepOneBlock_4E6660(&x, &y, dist, direction);
-            }
-            SetRoadBlockAt_4E6660(pBlock, x, y, z);
-            if (pBlock != pPrev)
-            {
-                sub_4E65A0(x, y, &z, 1, 0);
-                SetRoadBlockAt_4E6660(pBlock, x, y, z);
-            }
+                    pPrev = pBlock;
+                    sub_4E5D10(&x, &y, dword_6F5F18, direction);
+                    dist -= dword_6F5F18;
+                    gmp_block_info* pNext = GetRoadBlockAt_4E6660(x, y, z);
+                    if (!pNext || !sub_4E5E90(pNext, direction, 1))
+                    {
+                        StepOneBlock_4E6660(&x, &y, dist, direction);
+                    }
+                    SetRoadBlockAt_4E6660(pBlock, x, y, z);
+                    if (pBlock != pPrev)
+                    {
+                        sub_4E65A0(x, y, &z, 1, 0);
+                        SetRoadBlockAt_4E6660(pBlock, x, y, z);
+                    }
                 }
                 else
                 {
@@ -3591,7 +3591,11 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
         {
             sub_4E65A0(x, y, &z, 1, 1);
             pPrev = pBlock;
-            sub_4E5D10(&x, &y, dword_6F6110 - to_edge, Ang16::GetAngleFace_4F78F0(Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+            sub_4E5D10(&x,
+                       &y,
+                       dword_6F6110 - to_edge,
+                       Ang16::GetAngleFace_4F78F0(
+                           Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
             dist += dword_6F6110 - to_edge;
             gmp_block_info* pNext = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
             if (pNext && (pNext->field_B_slope_type & 0xFC) == 0xFC)
@@ -3631,7 +3635,11 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             {
                 pPrev = pBlock;
                 Fix16 to_edge = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
-                sub_4E5D10(&x, &y, dword_6F6110 - to_edge, Ang16::GetAngleFace_4F78F0(Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+                sub_4E5D10(&x,
+                           &y,
+                           dword_6F6110 - to_edge,
+                           Ang16::GetAngleFace_4F78F0(
+                               Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
                 dist += dword_6F6110 - to_edge;
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 if (pBlock != pPrev)
@@ -3780,7 +3788,11 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
         {
             sub_4E65A0(x, y, &z, 0, 1);
             pPrev = pBlock;
-            sub_4E5D10(&x, &y, dword_6F6110 - to_edge, Ang16::GetAngleFace_4F78F0(Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+            sub_4E5D10(&x,
+                       &y,
+                       dword_6F6110 - to_edge,
+                       Ang16::GetAngleFace_4F78F0(
+                           Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
             dist.mValue += dword_6F6110.mValue - to_edge.mValue;
             gmp_block_info* pNext = GetRoadBlockAtOrNull_4E7190(x, y, z);
             if (!pNext || !sub_4E5E90(pNext, direction, 0))
@@ -3819,8 +3831,16 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             {
                 gmp_block_info* pBefore = pBlock;
                 Fix16 to_edge = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
-                sub_4E5D10(&x, &y, dword_6F6110, Ang16::GetAngleFace_4F78F0(Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
-                sub_4E5D10(&x, &y, dword_6F6110 - to_edge, Ang16::GetAngleFace_4F78F0(Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+                sub_4E5D10(&x,
+                           &y,
+                           dword_6F6110,
+                           Ang16::GetAngleFace_4F78F0(
+                               Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+                sub_4E5D10(&x,
+                           &y,
+                           dword_6F6110 - to_edge,
+                           Ang16::GetAngleFace_4F78F0(
+                               Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
                 dist += dword_6F6110 + dword_6F6110 - to_edge;
                 z = last_z;
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);
@@ -3846,7 +3866,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                     if (pBlock)
                     {
                         new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
-                        if (new_direction != road_direction::right_3) new_direction = 0;
+                        if (new_direction != road_direction::right_3)
+                            new_direction = 0;
                     }
                     if (!new_direction)
                     {
@@ -3864,7 +3885,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                     if (pBlock)
                     {
                         new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
-                        if (new_direction != road_direction::down_2) new_direction = 0;
+                        if (new_direction != road_direction::down_2)
+                            new_direction = 0;
                     }
                     if (!new_direction)
                     {
