@@ -29,7 +29,7 @@ void rng::ShowCycle_48B920()
         swprintf(tmpBuff_67BD9C,
                  L"%d / %d",
                  this->field_0_rng,
-                 gBurgerKing_67F8B0.field_3C_rec_buff[gBurgerKing_67F8B0.field_7533C_used_recs_count - 1].field_0_rng_idx);
+                 gBurgerKing_67F8B0.GetLastRecRngIdx_44AA80());
 
     }
     else
