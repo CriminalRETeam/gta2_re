@@ -1751,6 +1751,7 @@ MapRenderer::draw_bottom_4ED290,0x4ed290,0xed290,0x9f6
 MapRenderer::draw_lid_4EE130,0x4ee130,0xee130,0x4d3
 MapRenderer::DrawDiagonalWallUpLeft_4EE7D0,0x4ee7d0,0xee7d0,0x64
 MapRenderer::DrawDiagonalWallUpRight_4EE8A0,0x4ee8a0,0xee8a0,0x64
+MapRenderer::DrawDiagonalWallDownLeft_4EE970,0x4ee970,0xee970,0x64
 MapRenderer::Draw3SidedDiagonalUpLeft_4EEAF0,0x4eeaf0,0xeeaf0,0x281
 MapRenderer::Draw3SidedDiagonalUpRight_4EEE60,0x4eee60,0xeee60,0x277
 MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0,0x4ef1c0,0xef1c0,0x277
