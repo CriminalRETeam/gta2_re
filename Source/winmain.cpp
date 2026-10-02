@@ -1011,7 +1011,7 @@ EXPORT char ExecuteGame_4DA780()
     char v0 = gGame_0x40_67E008->ExecuteGame_4B9640();
     if (gsharp_bose_0x54_7055D4)
     {
-        gsharp_bose_0x54_7055D4->field_18.sub_5BEBF0();
+        gsharp_bose_0x54_7055D4->field_18.AccumulateElapsed_5BEBF0();
     }
     return v0;
 }
@@ -1195,7 +1195,7 @@ EXPORT u8 sub_4DA850()
 
     if (gsharp_bose_0x54_7055D4)
     {
-        gsharp_bose_0x54_7055D4->sub_5BECF0(a2, unk_0xc);
+        gsharp_bose_0x54_7055D4->UpdateFpsCounters_5BECF0(a2, unk_0xc);
     }
     return bContinue;
 }

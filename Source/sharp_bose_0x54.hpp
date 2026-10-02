@@ -11,14 +11,14 @@ class sharp_bose_0x54
     EXPORT void ShowFps_5BEC30();
     EXPORT sharp_bose_0x54();
     EXPORT ~sharp_bose_0x54();
-    EXPORT void sub_5BECF0(char_type a2, char_type a3);
+    EXPORT void UpdateFpsCounters_5BECF0(char_type a2, char_type a3);
 
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
+    s32 field_0_update_count;
+    s32 field_4_update_start_time;
+    s32 field_8_update_rate;
+    s32 field_C_draw_count;
+    s32 field_10_draw_start_time;
+    s32 field_14_draw_fps;
     distracted_einstein_0xC field_18;
     distracted_einstein_0xC field_24;
     distracted_einstein_0xC field_30;

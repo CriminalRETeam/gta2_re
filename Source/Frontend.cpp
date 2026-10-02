@@ -338,7 +338,7 @@ void __stdcall Frontend::create_4ACFA0()
         snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::infallible_turing_2;
         snd2_67D6F8.field_C_pAny.pInfallible_turing = &snd1_67D818;
         snd2_67D6F8.field_4_bStatus = 0;
-        snd2_67D6F8.field_8 = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
+        snd2_67D6F8.field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
         gRoot_sound_66B038.LoadStyle_40EFF0("data\\fstyle.sty");
         gRoot_sound_66B038.Set3DSound_40F160(0);
     }
@@ -349,10 +349,10 @@ void __stdcall Frontend::create_4ACFA0()
 MATCH_FUNC(0x4AD070)
 void __stdcall Frontend::destroy_4AD070()
 {
-    if (!bSkip_audio_67D6BE && snd2_67D6F8.field_8)
+    if (!bSkip_audio_67D6BE && snd2_67D6F8.field_8_sound_entry)
     {
-        gRoot_sound_66B038.FreeSoundEntry_40EFD0(snd2_67D6F8.field_8);
-        snd2_67D6F8.field_8 = 0;
+        gRoot_sound_66B038.FreeSoundEntry_40EFD0(snd2_67D6F8.field_8_sound_entry);
+        snd2_67D6F8.field_8_sound_entry = 0;
     }
 
     if (gFrontend_67DC84)
@@ -875,7 +875,7 @@ void Frontend::sub_4B8680()
         snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::infallible_turing_2;
         snd2_67D6F8.field_C_pAny.pInfallible_turing = &snd1_67D818;
         snd2_67D6F8.field_4_bStatus = 0;
-        snd2_67D6F8.field_8 = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
+        snd2_67D6F8.field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
     }
 }
 
@@ -1568,10 +1568,10 @@ void Frontend::sub_4B8650()
 {
     if (!bSkip_audio_67D6BE)
     {
-        if (snd2_67D6F8.field_8)
+        if (snd2_67D6F8.field_8_sound_entry)
         {
-            gRoot_sound_66B038.FreeSoundEntry_40EFD0(snd2_67D6F8.field_8);
-            snd2_67D6F8.field_8 = 0;
+            gRoot_sound_66B038.FreeSoundEntry_40EFD0(snd2_67D6F8.field_8_sound_entry);
+            snd2_67D6F8.field_8_sound_entry = 0;
         }
     }
 }

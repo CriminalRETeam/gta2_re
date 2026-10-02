@@ -5753,7 +5753,7 @@ void sound_obj::InitMusicAndCopRadio_57E960()
         for (s32 i = 0; i < 5; i++)
         {
             field_544C[i].field_0 = 0;
-            field_544C[i].field_8.field_8 = 0;
+            field_544C[i].field_8.field_8_sound_entry = 0;
             //field_544C[i].field_8.field_C_pAny = 0;
             //...
             //...
