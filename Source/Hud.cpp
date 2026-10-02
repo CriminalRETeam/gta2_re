@@ -1979,9 +1979,9 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
     Camera_0xBC* pCam;
     s32 drawKind_;
 
-    if (field_18.field_18_primary_target.field_10_target_type || field_18.field_3C_secondary_target.field_10_target_type)
+    if (!IsType0_4C6F80())
     {
-        if (field_18.field_10.field_5_is_visible)
+        if (IsVisible_4C7050())
         {
             if (field_18.field_28_arrow_colour != 5 || ((u32)gpRng_67AB34->get_cur_rng_41CFE0() % 6 >= 3))
             {
