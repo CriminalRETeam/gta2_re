@@ -675,7 +675,7 @@ Player* Game_0x40::GetFirstPlayerWithoutPed_4B9750()
 {
     for (s32 i = 0; i < field_23_num_players; i++)
     {
-        if (field_4_players[i]->field_8E_bInUse && !field_4_players[i]->field_2C4_player_ped)
+        if (field_4_players[i]->field_8E_bInUse && !field_4_players[i]->has_player_ped_45B0C0())
         {
             return field_4_players[i];
         }
