@@ -9824,7 +9824,7 @@ void Ped::sub_46C770()
 {
     if (field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
-        if (field_168_game_object->field_44 == 2 || field_258_objective == objectives_enum::enter_car_as_driver_35 ||
+        if (field_168_game_object->Get_F44_433A90() == 2 || field_258_objective == objectives_enum::enter_car_as_driver_35 ||
             gDistanceToTarget_678750 < dword_678790)
         {
             Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
@@ -9833,7 +9833,7 @@ void Ped::sub_46C770()
         else
         {
             Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 1);
-            field_168_game_object->field_38_velocity = dword_678448; // inline doesn't match
+            field_168_game_object->SetMaxSpeedByRef_433920(dword_678448);
         }
     }
 }
