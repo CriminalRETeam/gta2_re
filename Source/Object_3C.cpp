@@ -706,7 +706,7 @@ void struct_4::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
     Sprite_18* p18Iter;
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        if (p18Iter->field_0->field_30_sprite_type_enum > 1) // object_5c type
+        if (p18Iter->field_0->IsTypeAbove1_446950()) // object_5c type
         {
             const char_type cur_val = p18Iter->field_0->ComputeZLayer_5A1BD0();
             if (cur_val > max_val)

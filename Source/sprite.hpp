@@ -326,6 +326,12 @@ class Sprite
         }
     }
 
+    // 9.6f 0x446950
+    bool IsTypeAbove1_446950()
+    {
+        return field_30_sprite_type_enum > 1;
+    }
+
     bool Is2C_40FE80()
     {
         return field_30_sprite_type_enum == 4 || field_30_sprite_type_enum == 5 || field_30_sprite_type_enum == 1;
