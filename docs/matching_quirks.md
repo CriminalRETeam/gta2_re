@@ -315,6 +315,16 @@ indexed addressing, and hand-written pointers merge into one pointer and a diffe
 (`Fix16 t = *pTarget; ... t + k`). Using `*pTarget` directly each time fixed the operand order
 in `sub_405E80`. The permuter found it.
 
+**Both calls run, first result kept: `b = f(); b |= g();`.** When the original calls both
+helpers and keeps the first result in a byte register, `f() || g()` short-circuits and a single
+`f() | g()` defers the first compare. Two statements match (`Sprite::ShrinkSprite_59E390`).
+
+**`Fix16(u8)` delays the shift.** With the `Fix16(u8)` constructor VC6 keeps the u8 around and
+shifts at the use; `Fix16(v << 14, 0)` shifts at once like the original (`Car_BC::CarShrinkSprite_43DC80`).
+
+**Declaration order of `Fix16` locals picks which product goes first.** In `Trailer::sub_407BD0`
+swapping the operands of `+` didn't change the multiply order, declaring `cos` before `sin` did.
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
@@ -795,6 +805,12 @@ gets the zero folded, and VC6 then keeps 0 in a register for the other zero test
 Not checked yet: `CarAI_78.cpp` has many `sine_40F500(a) * r` / `cosine_40F520(a) * r` pairs
 that may be `FromPolar_41E210` or `Ang16::PolarToCartesian_41FC20`.
 
+
+Before blaming the budget, check whether the out-of-line calls look written by name. In
+`Trailer::sub_407BD0` the rotation's y line calls `Negate_4086A0`, `Multiply_408680` and the
+out-of-line `operator+` (0x408660) while the x line is inlined; writing those calls explicitly
+kept the rest inlined (0.476 -> 0.843). `GetDoorWorldPos_43B420` has the same shape, and the
+same may hold for `fire_truck_gun_5E0E70` and the `EmitBloodBurst`/`EmitWaterSplash` siblings.
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before

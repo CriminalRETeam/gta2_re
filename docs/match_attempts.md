@@ -1419,3 +1419,14 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `MapRenderer::draw_left_4F3C00`, `sub_4F4600`: closer 31->16 with the u8 `T_gbh_DrawTile` colour. Left: the ProjectVertTop_46BD40 scheduling (Still unexplained)
 - `MapRenderer::sub_4F66C0` (0x4F66C0): no change. original loads gBlockRight 16-bit in the draw_right branch and reloads Left/Top in another order after the calls. The `*(u32*)&gBlockBottom` hack there has no effect
 - `sub_4DADA0` (0x4DADA0): no change. original puts the clear block and pager-clear tail in the middle of the show path; inverted if, early returns, bShow at outer scope: same or worse
+
+### Near-miss pass, batch J (2026-10-02)
+
+- `Sprite::ShrinkSprite_59E390` matched with `b = ReduceWidthBy(x); b |= ReduceHeightBy(y);`
+- `Car_BC::CarShrinkSprite_43DC80` matched with `Fix16(w << 14, 0)` and the sprite w/h read into locals (w first)
+- `ConvertColourBanks_5D7CB0`: closer 0.146->0.638. Only a 10-byte `jmp +8; nop...` gap after the `pgbh_SetColourDepth` call is left; looks like a binary patch in the exe, likely unmatchable
+- `MapRenderer::set_shading_lev_4E9DB0`: closer 0.442->0.755. Shared values as locals up front. Left: v6 and `v6 + v2` stack slots swapped
+- `Trailer::sub_407BD0`: closer 0.476->0.843. Explicit out-of-line y line (see "Big functions run out of inline expansions"). Left: eax/edi swap for offset.x/y and multiply order
+- `GetDoorWorldPos_43B420`: no change. The `(const Fix16&)` cast reaches 0x408660 and sin/cos locals fix part 1, but then the arg copies are lost; best 0.55 < 0.564
+- `Particle_4C` 0x53B670: no change (known stack slot / add-to-memory issue)
+- `SCRCMD_STORE_CAR_INFO` 0x509180: no change. eax/ecx swap for pCar vs gStoredCar; four restructurings didn't move it
