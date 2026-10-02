@@ -61,7 +61,7 @@ Hamburger_40* Hamburger_500::AllocateEntry_474810()
 MATCH_FUNC(0x474850)
 char_type Hamburger_500::ArePedsCompatible_474850(Ped* pPed1, Ped* pPed2)
 {
-    if (pPed1->field_240_occupation < 24 || pPed1->field_240_occupation > 27) // ped 1 is not police
+    if (pPed1->get_occupation_403980() < 24 || pPed1->get_occupation_403980() > 27) // ped 1 is not police
     {
         if (pPed2->field_17C_pGang == pPed1->field_17C_pGang) // they are from same gang (or both dont have any)
         {
@@ -70,7 +70,7 @@ char_type Hamburger_500::ArePedsCompatible_474850(Ped* pPed1, Ped* pPed2)
     }
     else
     {
-        if (pPed2->field_240_occupation >= 24 && pPed2->field_240_occupation <= 27) // both ped 1 and ped 2 are police feds
+        if (pPed2->get_occupation_403980() >= 24 && pPed2->field_240_occupation <= 27) // both ped 1 and ped 2 are police feds
         {
             return 1;
         }
