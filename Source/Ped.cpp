@@ -9876,7 +9876,7 @@ void Ped::sub_46C8A0()
 {
     if (field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
-        field_168_game_object->field_38_velocity = dword_678448;
+        field_168_game_object->SetMaxSpeedByRef_433920(dword_678448);
         if (gDistanceToTarget_678750 < dword_678790)
         {
             Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
@@ -9887,7 +9887,7 @@ void Ped::sub_46C8A0()
         {
             field_230 = 2;
             Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 2);
-            field_168_game_object->field_38_velocity = dword_678448;
+            field_168_game_object->SetMaxSpeedByRef_433920(dword_678448);
         }
     }
 }
