@@ -6703,7 +6703,7 @@ EXPORT void __stdcall sub_529050(u8 a1, s8* a2, s8* a3)
 }
 
 MATCH_FUNC(0x553640)
-bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
+char_type Char_B4::OnObjectTouched_553640(Object_2C* p2c)
 {
     s8 v6;
     s8 v7;

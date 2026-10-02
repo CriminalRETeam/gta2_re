@@ -2359,6 +2359,22 @@ void Car_BC::sub_43CAC0()
     }
 }
 
+// NOTE: function chunk at 0x43AA20, tail called from Ped::sub_470300
+void Car_BC::sub_43AA20()
+{
+    const s32 info_idx = field_84_car_info_idx;
+    if (info_idx != car_model_enum::TRAIN && info_idx != car_model_enum::TRAINCAB && info_idx != car_model_enum::TRAINFB &&
+        info_idx != car_model_enum::boxcar)
+    {
+        sub_421560(3);
+        CarPhysics_B0* pCarPhysics = field_58_physics;
+        if (pCarPhysics)
+        {
+            pCarPhysics->SetField8C_to_1();
+        }
+    }
+}
+
 MATCH_FUNC(0x43aa60)
 void Car_BC::Deactivate_43AA60()
 {
@@ -2666,7 +2682,7 @@ char_type Car_BC::IsDoorAccessible_43AFE0(u8 target_door)
 
 // 9.6f 0x425B60
 WIP_FUNC(0x43b140)
-bool Car_BC::sub_43B140(s32 target_car_door)
+bool Car_BC::sub_43B140(u8 target_car_door)
 {
     WIP_IMPLEMENTED;
 
@@ -4203,7 +4219,7 @@ Ped* Car_BC::GetEffectiveDriver_43E990()
 }
 
 MATCH_FUNC(0x43ea60)
-bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
+char_type Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
 {
     if (pObj->check_is_shop_421060() || pObj->field_18_model == objects::secret_token_266)
     {

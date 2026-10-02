@@ -496,11 +496,11 @@ void PedGroup::RemovePed_4C9970(Ped* pPed)
                 PromoteMemberToLeader_4C9680(0);
                 if (field_2C_ped_leader->field_25C_internal_objective == 0)
                 {
-                    field_2C_ped_leader->sub_4633E0(1);
+                    field_2C_ped_leader->SetStateForObjective_4633E0(1);
                 }
                 else
                 {
-                    field_2C_ped_leader->sub_4633E0(0);
+                    field_2C_ped_leader->SetStateForObjective_4633E0(0);
                 }
                 if (pPed->field_240_occupation == 0x17)
                 {

@@ -2407,7 +2407,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
 }
 
 MATCH_FUNC(0x5288B0)
-bool Object_2C::OnObjectTouched_5288B0(Sprite* a2)
+char_type Object_2C::OnObjectTouched_5288B0(Sprite* a2)
 {
     if (!a2)
     {
