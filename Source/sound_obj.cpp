@@ -7577,14 +7577,14 @@ void sound_obj::UpdateCarEngineAudio_57E220()
             if (!field_1_isPaused)
             {
                 static_volume = 127 - field_54F2[4];
-                if (static_volume > 100)
-                {
-                    static_volume = 100;
-                }
             }
             else
             {
                 static_volume = 0;
+            }
+            if (static_volume > 100)
+            {
+                static_volume = 100;
             }
 
             if (static_volume > gCarRadioStaticVolume_6FF540 + 5)
@@ -7623,11 +7623,11 @@ void sound_obj::UpdateCarEngineAudio_57E220()
             }
             gCarRadioStaticRate_625010 = rate;
 
-            field_30_sQueueSample.field_18_bIs2D = 1;
+            u8 sample_volume = (u8)((static_volume * field_25_cdVol) / 127) >> 2;
+            field_30_sQueueSample.field_0_EntityIndex = field_5508_radio_entity_idx;
             field_30_sQueueSample.field_4_SampleIndex = 0;
             field_30_sQueueSample.field_14_samp_idx = 137;
-            u8 sample_volume = ((static_volume * field_25_cdVol) / 127) >> 2;
-            field_30_sQueueSample.field_0_EntityIndex = field_5508_radio_entity_idx;
+            field_30_sQueueSample.field_18_bIs2D = 1;
             field_30_sQueueSample.field_24_nVolume = sample_volume;
             field_30_sQueueSample.field_20_rate = rate;
             field_30_sQueueSample.field_34_loop_start = 0;
@@ -7657,13 +7657,14 @@ void sound_obj::UpdateCarEngineAudio_57E220()
                 }
                 gCarRadioTuneRate_625014 = tune_rate;
 
-                field_30_sQueueSample.field_28_distance = 0;
+                u32 rnd = field_1454_anRandomTable[1] % 140;
                 field_30_sQueueSample.field_4_SampleIndex = 1;
                 field_30_sQueueSample.field_14_samp_idx = 138;
                 field_30_sQueueSample.field_18_bIs2D = 1;
+                field_30_sQueueSample.field_28_distance = 0;
                 field_30_sQueueSample.field_40_pan = 64;
                 field_30_sQueueSample.field_58_type = 20;
-                field_30_sQueueSample.field_20_rate = tune_rate + field_1454_anRandomTable[1] % 140;
+                field_30_sQueueSample.field_20_rate = tune_rate + rnd;
                 field_30_sQueueSample.field_24_nVolume =
                     (u8)((u8)((static_volume * field_25_cdVol) / 254) + (u8)(field_1454_anRandomTable[2] % 3)) >> 2;
                 AddSampleToRequestedQueue_41A850();
