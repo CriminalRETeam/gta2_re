@@ -1762,7 +1762,7 @@ void Ped::sub_45E4A0()
     }
 
     u8 x = field_1AC_cam.x.ToInt();
-    u8 y = field_1AC_cam.y.ToInt();
+    s32 y = field_1AC_cam.y.ToInt();
     u8 z = field_1AC_cam.z.ToInt() - 1;
 
     s8 direction;
