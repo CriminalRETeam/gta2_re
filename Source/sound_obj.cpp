@@ -2086,7 +2086,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
                     switch (new_counter)
                     {
                         case 0:
-                            if (pCrane->field_156)
+                            if (pCrane->field_156_is_rotating)
                             {
                                 samp_idx = 60;
                                 rate = 9000;
@@ -2098,7 +2098,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
                             break;
 
                         case 1:
-                            if (pCrane->field_157)
+                            if (pCrane->field_157_is_radius_changing)
                             {
                                 samp_idx = 60;
                                 rate = 13000;
@@ -2110,7 +2110,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
                             break;
 
                         case 2:
-                            if (pCrane->field_158)
+                            if (pCrane->field_158_is_hook_depth_changing)
                             {
                                 samp_idx = 60;
                                 rate = 8000;
@@ -2122,7 +2122,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
                             break;
 
                         case 3:
-                            if (pCrane->field_159)
+                            if (pCrane->field_159_hooked_car_this_frame)
                             {
                                 samp_idx = 37;
                                 rate = 22050;

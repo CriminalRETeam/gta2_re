@@ -684,7 +684,7 @@ void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRAN
         Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, (Ang16*)&pTargetCmd->field_18_home_rotation);
         rotation.sub_406C20();
-        pBasicCmd->field_8_crane->sub_4768E0(rotation);
+        pBasicCmd->field_8_crane->SetHomeRotation_4768E0(rotation);
     }
 
     if (pTargetCmd->field_C_homecrane)
@@ -1527,7 +1527,7 @@ MATCH_FUNC(0x5060d0)
 void miss2_0x11C::SCRCMD_DO_CRANE_POWERUP_5060D0(SCR_DECLARE_CRANE_POWERUP* pCmd)
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_crane_idx);
-    pPointer->field_8_crane->field_140 = pCmd->field_0_cmd_this;
+    pPointer->field_8_crane->field_140_powerup_cmd = pCmd->field_0_cmd_this;
 }
 
 MATCH_FUNC(0x506140)
@@ -4435,11 +4435,11 @@ void miss2_0x11C::SCRCMD_ENABLE_DISABLE_CRANE_50C230()
 
     if (type == SCRCMD_ENABLE_CRANE)
     {
-        pPointer->field_8_crane->field_148 = 0;
+        pPointer->field_8_crane->field_148_disabled = 0;
     }
     else if (type == SCRCMD_DISABLE_CRANE)
     {
-        pPointer->field_8_crane->field_148 = 1;
+        pPointer->field_8_crane->field_148_disabled = 1;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

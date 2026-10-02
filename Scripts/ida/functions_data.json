@@ -140,7 +140,7 @@
         "v105_address": "0x405c60"
     },
     {
-        "name": "sub_405CE0",
+        "name": "SmoothApproachAngle_405CE0",
         "v96f_address": "0x40ECB0",
         "v105_address": "0x405ce0"
     },
@@ -4370,32 +4370,32 @@
         "v105_address": "0x47e840"
     },
     {
-        "name": "Crane_15C::sub_47E920",
+        "name": "Crane_15C::IsDropPositionClear_47E920",
         "v96f_address": "0x448090",
         "v105_address": "0x47e920"
     },
     {
-        "name": "Crane_15C::sub_47EB00",
+        "name": "Crane_15C::IsTarget1PositionClear_47EB00",
         "v96f_address": null,
         "v105_address": "0x47eb00"
     },
     {
-        "name": "Crane_15C::sub_47ECC0",
+        "name": "Crane_15C::DropHookedCar_47ECC0",
         "v96f_address": "0x4481f0",
         "v105_address": "0x47ecc0"
     },
     {
-        "name": "Crane_15C::sub_47ED60",
+        "name": "Crane_15C::DropHookedCarOnTransporter_47ED60",
         "v96f_address": "0x448290",
         "v105_address": "0x47ed60"
     },
     {
-        "name": "Crane_15C::sub_47EDF0",
+        "name": "Crane_15C::HookTransporterCargo_47EDF0",
         "v96f_address": "0x448300",
         "v105_address": "0x47edf0"
     },
     {
-        "name": "Crane_15C::sub_47EF80",
+        "name": "Crane_15C::HookPickupCar_47EF80",
         "v96f_address": "0x448450",
         "v105_address": "0x47ef80"
     },
@@ -4405,32 +4405,32 @@
         "v105_address": "0x47f170"
     },
     {
-        "name": "Crane_15C::sub_47F220",
+        "name": "Crane_15C::SetTransporterCargoTarget_47F220",
         "v96f_address": "0x4485d0",
         "v105_address": "0x47f220"
     },
     {
-        "name": "Crane_15C::sub_47F290",
+        "name": "Crane_15C::SetDropTransporterTarget_47F290",
         "v96f_address": "0x448650",
         "v105_address": "0x47f290"
     },
     {
-        "name": "Crane_15C::sub_47F2F0",
+        "name": "Crane_15C::SetPickupCarTarget_47F2F0",
         "v96f_address": "0x4486c0",
         "v105_address": "0x47f2f0"
     },
     {
-        "name": "Crane_15C::sub_47F350",
+        "name": "Crane_15C::IsTransporterCargoTargetValid_47F350",
         "v96f_address": "0x448730",
         "v105_address": "0x47f350"
     },
     {
-        "name": "Crane_15C::sub_47F3D0",
+        "name": "Crane_15C::IsPickupCarTargetValid_47F3D0",
         "v96f_address": "0x4487d0",
         "v105_address": "0x47f3d0"
     },
     {
-        "name": "Crane_15C::sub_47F450",
+        "name": "Crane_15C::IsDropTransporterTargetValid_47F450",
         "v96f_address": "0x448870",
         "v105_address": "0x47f450"
     },
@@ -4445,7 +4445,7 @@
         "v105_address": "0x47f6c0"
     },
     {
-        "name": "Crane_15C::sub_47F7F0",
+        "name": "Crane_15C::TargetTransporter_47F7F0",
         "v96f_address": null,
         "v105_address": "0x47f7f0"
     },
@@ -4455,17 +4455,17 @@
         "v105_address": "0x47f930"
     },
     {
-        "name": "Crane_15C::sub_47FB40",
+        "name": "Crane_15C::TryNextDropPosition_47FB40",
         "v96f_address": "0x448c00",
         "v105_address": "0x47fb40"
     },
     {
-        "name": "Crane_15C::sub_47FBA0",
+        "name": "Crane_15C::MoveTowardsTargets_47FBA0",
         "v96f_address": "0x448C60",
         "v105_address": "0x47fba0"
     },
     {
-        "name": "Crane_15C::sub_47FD10",
+        "name": "Crane_15C::ReleaseHookedCar_47FD10",
         "v96f_address": "0x448df0",
         "v105_address": "0x47fd10"
     },
