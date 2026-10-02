@@ -1326,7 +1326,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                                         pPed_6FEDDC->SetObjective2_463830(0, 9999);
                                         pPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
                                         pPed_6FEDDC->set_field_150_target_objective_car(field_10_subObj->field_0_car);
-                                        pPed_6FEDDC->field_21C_bf.b2 = false;
+                                        pPed_6FEDDC->unset_bitset_0x04();
                                     }
                                 }
                                 break;
