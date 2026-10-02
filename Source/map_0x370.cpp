@@ -920,12 +920,7 @@ s32 Map_0x370::GetBlockSpec_4E00A0(Fix16 x, Fix16 y, Fix16 z)
                 u16 lid = pBlock->field_8_lid;
                 if (lid)
                 {
-                    s32 spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(lid)];
-                    if (spec == tile_spec::road_junction_special)
-                    {
-                        return 1;
-                    }
-                    return spec;
+                    return gGtx_0x106C_703DD4->sub_462FD0(get_tile_idx(lid));
                 }
             }
         }
