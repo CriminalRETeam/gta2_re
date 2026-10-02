@@ -9693,15 +9693,11 @@ void Ped::ExitCarStateMachine_46C250()
                                                             this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
 
                     AllocCharB4_45C830(char_x, char_y, char_z);
-                    field_168_game_object->field_5_remap = field_244_remap;
-                    if (field_244_remap != 0xFF)
-                    {
-                        field_168_game_object->field_80_sprite_ptr->SetRemap(field_244_remap);
-                    }
+                    SetRemap_433C10(field_244_remap);
                     ChangeNextPedState2_45C540(7);
                     ChangeNextPedState1_45C500(4);
                     this->field_16C_car = 0;
-                    field_168_game_object->field_84 = field_154_target_to_enter;
+                    field_168_game_object->Set_F84_433900(field_154_target_to_enter);
                     this->field_154_target_to_enter = 0;
                     pDoor->set_ped_421380(this);
                 }
@@ -9725,11 +9721,7 @@ void Ped::ExitCarStateMachine_46C250()
                 AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
                                    field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
                                    zpos);
-                field_168_game_object->field_5_remap = field_244_remap;
-                if (field_244_remap != 0xFF)
-                {
-                    field_168_game_object->field_80_sprite_ptr->SetRemap(field_244_remap);
-                }
+                SetRemap_433C10(field_244_remap);
                 ChangeNextPedState2_45C540(0);
                 ChangeNextPedState1_45C500(0);
                 field_168_game_object->DoJump_5454D0();
@@ -9737,7 +9729,7 @@ void Ped::ExitCarStateMachine_46C250()
                 this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0);
                 this->field_168_game_object->field_5C = 10;
                 this->field_16C_car = 0;
-                field_168_game_object->field_84 = field_154_target_to_enter;
+                field_168_game_object->Set_F84_433900(field_154_target_to_enter);
                 this->field_154_target_to_enter = 0;
                 this->field_226 = 1;
             }
@@ -9761,17 +9753,13 @@ void Ped::ExitCarStateMachine_46C250()
                                                       this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
                 AllocCharB4_45C830(char_x, char_y, zTmp);
 
-                field_168_game_object->field_5_remap = field_244_remap;
-                if (field_244_remap != 0xFF)
-                {
-                    field_168_game_object->field_80_sprite_ptr->SetRemap(field_244_remap);
-                }
+                SetRemap_433C10(field_244_remap);
 
                 ChangeNextPedState2_45C540(7);
                 ChangeNextPedState1_45C500(4);
 
                 this->field_16C_car = 0;
-                field_168_game_object->field_84 = field_154_target_to_enter;
+                field_168_game_object->Set_F84_433900(field_154_target_to_enter);
                 this->field_154_target_to_enter = 0;
                 return;
             }
@@ -9788,11 +9776,7 @@ void Ped::ExitCarStateMachine_46C250()
                 FatalError_4A38C0(1, "C:\\Splitting\\Gta2\\Source\\char.cpp", 11894);
             }
 
-            field_168_game_object->field_5_remap = field_244_remap;
-            if (field_244_remap != 0xFF)
-            {
-                field_168_game_object->field_80_sprite_ptr->SetRemap(field_244_remap);
-            }
+            SetRemap_433C10(field_244_remap);
 
             ChangeNextPedState2_45C540(0);
             ChangeNextPedState1_45C500(0);
@@ -9803,7 +9787,7 @@ void Ped::ExitCarStateMachine_46C250()
             this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0);
             this->field_16C_car = 0;
             this->field_226 = 1;
-            field_168_game_object->field_84 = field_154_target_to_enter;
+            field_168_game_object->Set_F84_433900(field_154_target_to_enter);
             this->field_154_target_to_enter = 0;
         }
     }
@@ -9822,10 +9806,7 @@ void Ped::ExitCarStateMachine_46C250()
         }
         else if (!FindUsableCarDoor_467090() && !bUnknown)
         {
-            if (field_168_game_object)
-            {
-                field_168_game_object->DoJump_5454D0();
-            }
+            DoJump_433C40();
         }
 
         if (this->field_27C_ped_state_2 != ped_state_2::ped2_getting_out_a_car_7 &&
@@ -10314,6 +10295,7 @@ void Ped::sub_46D300()
         UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 1);
     }
 }
+
 
 // https://decomp.me/scratch/5y8iN
 WIP_FUNC(0x46d460)
