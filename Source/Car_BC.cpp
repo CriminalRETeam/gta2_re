@@ -7334,6 +7334,10 @@ Fix16* __stdcall Car_14::GetRandomTrafficSpeed_583750(Fix16* pRetF16, Fix16 max_
 {
     WIP_IMPLEMENTED;
 
+    Fix16 v7;
+    Fix16 lo;
+    Fix16 hi;
+
     if (max_speed >= dword_6FF70C)
     {
         *pOut = 2;
@@ -7342,24 +7346,26 @@ Fix16* __stdcall Car_14::GetRandomTrafficSpeed_583750(Fix16* pRetF16, Fix16 max_
     if (max_speed >= dword_6FF85C)
     {
         *pOut = 2;
-        Fix16 v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
-        *pRetF16 = dword_6FF85C + ((v7 * (dword_6FF70C - dword_6FF85C)));
-        return pRetF16;
+        v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
+        lo = dword_6FF85C;
+        hi = dword_6FF70C;
     }
     else if (max_speed >= dword_6FF724)
     {
         *pOut = 1;
-        Fix16 v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
-        *pRetF16 = dword_6FF724 + ((v7 * (dword_6FF85C - dword_6FF724)));
-        return pRetF16;
+        v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
+        lo = dword_6FF724;
+        hi = dword_6FF85C;
     }
     else
     {
         *pOut = 0;
-        Fix16 v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(0x190000, 0);
-        *pRetF16 = dword_6FF6A4 + ((v7 * (dword_6FF724 - dword_6FF6A4)));
-        return pRetF16;
+        v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(0x190000, 0);
+        lo = dword_6FF6A4;
+        hi = dword_6FF724;
     }
+    *pRetF16 = lo + v7 * (hi - lo);
+    return pRetF16;
 }
 
 // TODO: Broken in patched, many cars spawn in wrong directions :)
