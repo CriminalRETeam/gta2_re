@@ -9013,26 +9013,32 @@ void Ped::FireAtPlayer_46A5E0()
     field_21C &= ~0x800;
 }
 
-WIP_FUNC(0x46a6d0)
+MATCH_FUNC(0x46a6d0)
 void Ped::AimVehicleTurretStateMachine_46A6D0()
 {
-    WIP_IMPLEMENTED;
-
-    if (field_150_target_objective_car->field_88_despawn_status == 5 || field_16C_car == 0)
+    if (field_150_target_objective_car->field_88_despawn_status == 5 || !field_16C_car)
     {
         field_225_objective_status = objective_status::failed_2;
     }
     else
     {
-        Sprite_18* p18 = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(114);
+        Sprite_18* pTurret = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(114);
         field_21C |= 0x80;
 
-        Fix16 dx = field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - p18->field_0->field_14_xy.x;
-        Fix16 dy = field_150_target_objective_car->field_50_car_sprite->field_14_xy.y - p18->field_0->field_14_xy.y;
+        Sprite* pTurretSprite = pTurret->field_0;
 
-        if (field_16C_car->RotateRoofObjectTowardTarget_440C10(Fix16::atan2_fixed_405320(dy, dx)))
+        Ang16 aim_angle;
         {
-            field_21C |= 8;
+            Fix16 turret_x = pTurretSprite->field_14_xy.x;
+            Fix16 turret_y = pTurretSprite->field_14_xy.y;
+            Fix16 xd = field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - turret_x;
+            Fix16 yd = field_150_target_objective_car->field_50_car_sprite->field_14_xy.y - turret_y;
+            aim_angle = Fix16::atan2_fixed_405320(yd, xd);
+        }
+
+        if (field_16C_car->RotateRoofObjectTowardTarget_440C10(aim_angle))
+        {
+            field_21C |= 0x800;
 
             if (field_218_objective_timer == 9999)
             {
@@ -9041,7 +9047,7 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
         }
         else
         {
-            field_21C &= ~8u;
+            field_21C &= ~0x800;
         }
 
         if (field_218_objective_timer == 0)
