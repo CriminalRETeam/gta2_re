@@ -801,7 +801,7 @@ gmp_block_info* Map_0x370::GetEffectiveBlock_4DFE60(s32 x, s32 y, s32 z)
     // If it's a partial block, get a null/empty block. 
     // If it's a tridiagonal block (four-sided or tri-sided), replace it by a flat solid block
     // Otherwise, return the original block. It's ideal for checking collisions
-    gmp_col_info* v5 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
+    gmp_col_info* v5 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[*field_0_pDmap->get_base_42A830(y, x)];
     if (z < v5->field_0_height)
     {
         if (z >= v5->field_1_offset)
