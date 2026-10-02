@@ -242,6 +242,12 @@ struct NetPlay
     EXPORT s32 Send_521E40(s32 pSendData);
     EXPORT static void static_dtor_5E4DD0();
 
+    // 9.6f 0x461DA0
+    inline u32 GetPlayerCount_461DA0()
+    {
+        return field_758_n2.field_4_count;
+    }
+
     // 9.6f 0x409C40
     inline s32 GetPlayerIdx_409C40()
     {

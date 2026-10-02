@@ -1299,7 +1299,7 @@ EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemot
 MATCH_FUNC(0x4DACB0)
 EXPORT void Net_Send_Our_Inputs_4DACB0()
 {
-    if (gNetPlay_7071E8.field_758_n2.field_4_count > 1)
+    if (gNetPlay_7071E8.GetPlayerCount_461DA0() > 1)
     {
         if (bDo_sync_check_67D6C1)
         {
