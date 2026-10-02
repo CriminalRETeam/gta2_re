@@ -952,7 +952,7 @@ void Wolfy_30::state_18_19_20_32_33_542790()
     if (this->field_1A == 99)
     {
         // TODO: Arg order correct?
-        gGame_0x40_67E008->sub_4B9790(8, this->field_14->field_4->field_14_xy.x, this->field_14->field_4->field_14_xy.y);
+        gGame_0x40_67E008->ShakeCamerasAtPos_4B9790(8, this->field_14->field_4->field_14_xy.x, this->field_14->field_4->field_14_xy.y);
     }
 
     if (this->field_1A != 9999)
@@ -984,7 +984,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             {
                 if (this->field_1A == 99)
                 {
-                    gGame_0x40_67E008->sub_4B9790(8, field_14->field_4->field_14_xy.x, field_14->field_4->field_14_xy.y);
+                    gGame_0x40_67E008->ShakeCamerasAtPos_4B9790(8, field_14->field_4->field_14_xy.x, field_14->field_4->field_14_xy.y);
                 }
 
                 if (this->field_1A > 50u)

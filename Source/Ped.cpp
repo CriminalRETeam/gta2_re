@@ -1669,7 +1669,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
         }
     }
 
-    gfrosty_pasteur_6F8060->sub_512C00(field_200_id, pObj->field_18_model, 1);
+    gfrosty_pasteur_6F8060->RecordWeaponHit_512C00(field_200_id, pObj->field_18_model, 1);
 
     switch (pObj->field_18_model)
     {
@@ -6020,12 +6020,12 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 Camera_0xBC* pCam = field_15C_player->get_camera_434900();
                 if (dword_6787DC->field_168_game_object)
                 {
-                    if (!pCam->sub_435630(dword_6787DC->field_168_game_object->field_80_sprite_ptr, 1))
+                    if (!pCam->IsSpriteInView_435630(dword_6787DC->field_168_game_object->field_80_sprite_ptr, 1))
                     {
                         return false;
                     }
                 }
-                else if (!pCam->sub_435630(dword_6787DC->field_16C_car->field_50_car_sprite, 1))
+                else if (!pCam->IsSpriteInView_435630(dword_6787DC->field_16C_car->field_50_car_sprite, 1))
                 {
                     return false;
                 }
@@ -6219,12 +6219,12 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
                 Camera_0xBC* pCam = pNearestPed->field_15C_player->get_camera_434900();
                 if (dword_6787DC->field_168_game_object)
                 {
-                    if (!pCam->sub_435630(dword_6787DC->field_168_game_object->field_80_sprite_ptr, 1))
+                    if (!pCam->IsSpriteInView_435630(dword_6787DC->field_168_game_object->field_80_sprite_ptr, 1))
                     {
                         return NULL;
                     }
                 }
-                else if (!pCam->sub_435630(dword_6787DC->field_16C_car->field_50_car_sprite, 1))
+                else if (!pCam->IsSpriteInView_435630(dword_6787DC->field_16C_car->field_50_car_sprite, 1))
                 {
                     return NULL;
                 }
@@ -9121,7 +9121,7 @@ LABEL_49:
                         if (field_15C_player)
                         {
                             // Get score/report stolen etc
-                            field_15C_player->field_2D4_scores.sub_593240(field_154_target_to_enter);
+                            field_15C_player->field_2D4_scores.OnCarHijacked_593240(field_154_target_to_enter);
 
                             // Is it gang car?
                             const s8 gang_car_model =
@@ -10851,7 +10851,7 @@ void Ped::UpdateStatsForKiller_46F720()
             {
                 if (pPedKiller->IsField238_45EDE0(2))
                 {
-                    field_1A8_ped_killer->field_15C_player->field_2D4_scores.sub_592660(this, this->field_1A8_ped_killer);
+                    field_1A8_ped_killer->field_15C_player->field_2D4_scores.OnPedKilled_592660(this, this->field_1A8_ped_killer);
                     sub_46F680(this->field_1A8_ped_killer);
                 }
                 else
@@ -10975,7 +10975,7 @@ void Ped::Kill_46F9D0()
         {
             if (field_16C_car)
             {
-                field_15C_player->sub_564C00();
+                field_15C_player->UnloadCarWeapons_564C00();
             }
             if (field_164_ped_group)
             {

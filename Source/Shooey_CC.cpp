@@ -195,7 +195,7 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
             Player* pPlayer = pPed->field_15C_player;
             if (pPlayer)
             {
-                pPlayer->field_644_unk.IncrementCrimeCount_484F50(crime_type);
+                pPlayer->field_644_crime_stats.IncrementCrimeCount_484F50(crime_type);
             }
 
             break;

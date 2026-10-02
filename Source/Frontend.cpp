@@ -473,7 +473,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             {
                 if (v4 < field_1EB51_num_bonus_stages[a2])
                 {
-                    gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2, a3);
+                    gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(a2, a3);
                 }
                 ++v4;
             }
@@ -484,7 +484,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             }
             else
             {
-                gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2 + 1, 0);
+                gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(a2 + 1, 0);
                 field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 1;
                 field_136_menu_pages_array[3].field_B8A[0].field_4_is_option_unlocked = 1;
             }
@@ -530,7 +530,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             v66 = *((BYTE*)v9 + 60905);
             v52 = *((BYTE*)v9 + 60906);
             v67 = *((BYTE*)v9 + 60907);
-            if (gLucid_hamilton_67E8E0.sub_4C59A0())
+            if (gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
             {
                 v11 = gLucid_hamilton_67E8E0.GetStage_4C5990();
                 main_level_idx = v11 >> 4;
@@ -590,7 +590,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             }
             else
             {
-                gLucid_hamilton_67E8E0.sub_4C5C20();
+                gLucid_hamilton_67E8E0.GetWinnerIdx_4C5C20();
             }
 
             v65 = (unsigned __int8)gLucid_hamilton_67E8E0.GetUserPlayerIdx_4C5BE0();
@@ -658,13 +658,13 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                     if (gYouthful_einstein_6F8450.field_20[v26] != 0)
                     {
                         v48 = gText_0x14_704DFC->Find_5B5F90("mult_q"); //  quit
-                        v28 = gLucid_hamilton_67E8E0.sub_4C5C60(v25);
+                        v28 = gLucid_hamilton_67E8E0.GetPlayerName_4C5C60(v25);
                         swprintf(Buffer, L"%s (%s)", v28->field_0_str, v48);
                         wcscpy(Destination, Buffer);
                     }
                     else
                     {
-                        v29 = gLucid_hamilton_67E8E0.sub_4C5C60(v25);
+                        v29 = gLucid_hamilton_67E8E0.GetPlayerName_4C5C60(v25);
                         wcsncpy(Destination, v29->field_0_str, 0x32u);
                     }
                     gText_0x14_704DFC->sub_5B5B80(Destination);
@@ -1166,7 +1166,7 @@ void Frontend::DrawMenu_4AD140()
     if (field_132_f136_idx == MENUPAGE_DEAD || field_132_f136_idx == MENUPAGE_AREA_COMPLETE || field_132_f136_idx == MENUPAGE_BONUS_AREA ||
         field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
     {
-        if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+        if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
         {
             main_level_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
             bonus_stage_idx = 0;
@@ -1931,7 +1931,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
                     goto LABEL_28;
                 case MENUPAGE_PLAY_NEXT_AREA: // 261
-                    if (gLucid_hamilton_67E8E0.sub_4C59A0())
+                    if (gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
                     {
                         main_stage_idx = (u8)gLucid_hamilton_67E8E0.GetStage_4C5990() >> 4;
                     }
@@ -2495,7 +2495,7 @@ MATCH_FUNC(0x4B4410)
 void Frontend::sub_4B4410()
 {
     GetCurrPlayerStats_4B43E0()->ResetPlayerSlot_56B630();
-    gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx);
+    gJolly_poitras_0x2BC0_6FEAC0->SavePlySlotDat_56BA60(field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx);
     UpdateMenuForCurrPlayer_4B42E0();
 }
 
@@ -2520,21 +2520,21 @@ void Frontend::UpdateMenuForCurrPlayer_4B42E0()
     if (v4 < field_1EB3A[PlySlotIdx_4C59B0])
     {
         field_1EB3A[PlySlotIdx_4C59B0] = v4;
-        gLucid_hamilton_67E8E0.sub_4C58F0(v4);
+        gLucid_hamilton_67E8E0.SetMainStageIdx_4C58F0(v4);
     }
     else
     {
-        gLucid_hamilton_67E8E0.sub_4C58F0(field_1EB3A[PlySlotIdx_4C59B0]);
+        gLucid_hamilton_67E8E0.SetMainStageIdx_4C58F0(field_1EB3A[PlySlotIdx_4C59B0]);
     }
 
     if (v8 < field_1EB42[PlySlotIdx_4C59B0] || v8 == 0xFF)
     {
         field_1EB42[PlySlotIdx_4C59B0] = v8;
-        gLucid_hamilton_67E8E0.sub_4C5900(v8);
+        gLucid_hamilton_67E8E0.SetStage_4C5900(v8);
     }
     else
     {
-        gLucid_hamilton_67E8E0.sub_4C5900(field_1EB42[PlySlotIdx_4C59B0]);
+        gLucid_hamilton_67E8E0.SetStage_4C5900(field_1EB42[PlySlotIdx_4C59B0]);
     }
 
     Frontend::UpdateBonusStageArrows_4B7610();
@@ -2558,7 +2558,7 @@ void Frontend::SaveAndUpdatePlayerName_4B4230()
     wchar_t* pPlayerName = gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[player_slot_idx].field_90_strPlayerName;
     wcsncpy(pPlayerName, field_C9A0_curr_plyr_name, 9u);
     HandleCheatCode_4B3DD0(pPlayerName);
-    gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(player_slot_idx);
+    gJolly_poitras_0x2BC0_6FEAC0->SavePlySlotDat_56BA60(player_slot_idx);
 }
 
 MATCH_FUNC(0x4B3CC0)
@@ -2711,22 +2711,22 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
     else if (cheat_str_hash == 0x45B2C)
     { // UKGAMER Unlock three main levels
         gCheatUnlockThreeLevels_67D6CB = gCheatUnlockThreeLevels_67D6CB == 0;
-        gJolly_poitras_0x2BC0_6FEAC0->sub_56BC40();
+        gJolly_poitras_0x2BC0_6FEAC0->UnlockAllStages_56BC40();
         UpdateMenuForCurrPlayer_4B42E0();
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x49C76)
     { // GINGERRR Unlock levels one and two
         gCheatUnlockLevelsOneAndTwo_67D584 = gCheatUnlockLevelsOneAndTwo_67D584 == 0;
-        gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(1u, 0);
+        gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(1u, 0);
         UpdateMenuForCurrPlayer_4B42E0();
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x5073D)
     { // TUMYFROG unlock all levels
         gCheatUnlockAllLevels_67D538 = gCheatUnlockAllLevels_67D538 == 0;
-        gJolly_poitras_0x2BC0_6FEAC0->sub_56BC40();
-        gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(2u, 2u);
+        gJolly_poitras_0x2BC0_6FEAC0->UnlockAllStages_56BC40();
+        gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(2u, 2u);
         UpdateMenuForCurrPlayer_4B42E0();
         snd1_67D818.field_0_object_type = 9;
     }
@@ -2887,13 +2887,13 @@ void Frontend::LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
     gLucid_hamilton_67E8E0.SetScriptName_4C58B0(fullPath);
     if (!bonusBlockIdx)
     {
-        gLucid_hamilton_67E8E0.sub_4C58F0(mainBlockIdx);
-        gLucid_hamilton_67E8E0.sub_4C5910(0);
+        gLucid_hamilton_67E8E0.SetMainStageIdx_4C58F0(mainBlockIdx);
+        gLucid_hamilton_67E8E0.SetBonusStage_4C5910(0);
     }
     else
     {
-        gLucid_hamilton_67E8E0.sub_4C5900(bonusBlockIdx | (0x10 * mainBlockIdx));
-        gLucid_hamilton_67E8E0.sub_4C5910(1);
+        gLucid_hamilton_67E8E0.SetStage_4C5900(bonusBlockIdx | (0x10 * mainBlockIdx));
+        gLucid_hamilton_67E8E0.SetBonusStage_4C5910(1);
     }
 }
 
@@ -4482,7 +4482,7 @@ void Frontend::sub_4B55F0()
 
         DrawText_4B87A0(Buffer, x_pos, y_pos, field_11C, 1);
 
-        s32 v11 = gLucid_hamilton_67E8E0.sub_4C5D80(user_idx, curr_plyr_idx);
+        s32 v11 = gLucid_hamilton_67E8E0.GetFragsOnPlayer_4C5D80(user_idx, curr_plyr_idx);
         _itow(v11, Buffer, 10);
 
         if (game_mode != TAG_GAME_3 && curr_plyr_idx != user_idx)
@@ -4533,7 +4533,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     y_pos = a5;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("carjack"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(5));
+    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.GetStatistic_4C59F0(5));
     u16 x_pos_last = a3 + 480;
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, a5, font_type, 10, 1, v4, 1);
 
@@ -4547,7 +4547,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     y_pos = a5 + 20;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("car_cst"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"$%d", gLucid_hamilton_67E8E0.sub_4C5A80());
+    swprintf(tmpBuff_67BD9C, L"$%d", gLucid_hamilton_67E8E0.GetCarDamageCost_4C5A80());
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
     swprintf(tmpBuff_67BD9C, L"$%d", gJolly_poitras_0x2BC0_6FEAC0->field_1878[v39]);
@@ -4559,7 +4559,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     y_pos = a5 + 40;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("run_ovr"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(6u));
+    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.GetStatistic_4C59F0(6u));
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[v39].field_0[24]);
@@ -4571,7 +4571,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     y_pos = a5 + 60;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("murder"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(7u));
+    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.GetStatistic_4C59F0(7u));
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[v39].field_0[28]);
@@ -4585,7 +4585,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
         y_pos = a5 + 80;
         DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("cop_kl"), x_pos, y_pos, font_type, 1);
 
-        swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(8u));
+        swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.GetStatistic_4C59F0(8u));
         Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
         swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[v39].field_0[32]);
@@ -4598,7 +4598,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     y_pos = a5 + 100;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("gng_kl"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(9u));
+    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.GetStatistic_4C59F0(9u));
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[v39].field_0[36]);
@@ -4610,7 +4610,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     y_pos = a5 + 120;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("evsnrtg"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C5AA0());
+    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.GetEvasionRating_4C5AA0());
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", gJolly_poitras_0x2BC0_6FEAC0->field_1884[v39]);
@@ -4745,7 +4745,7 @@ bool Frontend::ChangeMainStageToPrevious_4B6FF0()
     u8 main_stage_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
     u8 old_main_stage_idx = main_stage_idx;
     main_stage_idx = GetPreviousUnlockedMainStage_4B7060(main_stage_idx);
-    gLucid_hamilton_67E8E0.sub_4C58F0(main_stage_idx);
+    gLucid_hamilton_67E8E0.SetMainStageIdx_4C58F0(main_stage_idx);
     field_1EB3A[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()] = main_stage_idx;
     UpdateMainStageArrows_4B7550();
     bool result = (old_main_stage_idx != main_stage_idx);
@@ -4874,7 +4874,7 @@ bool Frontend::sub_4B70B0()
     s8 v3 = gLucid_hamilton_67E8E0.GetStage_4C5990();
     s8 v4 = v3;
     v3 = sub_4B7120(v3);
-    gLucid_hamilton_67E8E0.sub_4C5900(v3);
+    gLucid_hamilton_67E8E0.SetStage_4C5900(v3);
     field_1EB42[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()] = v3;
     UpdateBonusStageArrows_4B7610();
     bool result = v4 != v3;
@@ -4974,7 +4974,7 @@ bool Frontend::sub_4B72F0()
     char_type v3 = gLucid_hamilton_67E8E0.GetStage_4C5990();
     char_type v4 = v3;
     v3 = sub_4B7360(v3);
-    gLucid_hamilton_67E8E0.sub_4C5900(v3);
+    gLucid_hamilton_67E8E0.SetStage_4C5900(v3);
     field_1EB42[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()] = v3;
     UpdateBonusStageArrows_4B7610();
     bool result = v4 != v3;
@@ -4987,7 +4987,7 @@ bool Frontend::ChangeMainStageToNext_4B7200()
     char_type main_stage_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
     char_type old_main_stage_idx = main_stage_idx;
     main_stage_idx = GetNextUnlockedMainStage_4B7270(main_stage_idx);
-    gLucid_hamilton_67E8E0.sub_4C58F0(main_stage_idx);
+    gLucid_hamilton_67E8E0.SetMainStageIdx_4C58F0(main_stage_idx);
     field_1EB3A[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()] = main_stage_idx;
     UpdateMainStageArrows_4B7550();
     bool result = old_main_stage_idx != main_stage_idx;

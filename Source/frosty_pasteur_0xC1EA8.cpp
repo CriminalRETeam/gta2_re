@@ -117,7 +117,7 @@ void frosty_pasteur_0xC1EA8::sub_511C60()
         {
             SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(field_C1E32_phone_ids[bit]);
             pPointer->field_8_obj->sub_5291E0(174);
-            gfrosty_pasteur_6F8060->sub_512AA0(pPointer->field_8_obj->field_14_id);
+            gfrosty_pasteur_6F8060->RemovePhoneThreadByObjId_512AA0(pPointer->field_8_obj->field_14_id);
         }
     }
 }
@@ -133,7 +133,7 @@ void frosty_pasteur_0xC1EA8::SaveMapInfo_511D40()
     gGameSave_6F78C8.field_32_script_name[24] = '\n';
     gGameSave_6F78C8.field_4B_main_stage = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
     gGameSave_6F78C8.field_4C_lhv = gLucid_hamilton_67E8E0.GetStage_4C5990();
-    gGameSave_6F78C8.field_4D_bonus_stage = gLucid_hamilton_67E8E0.sub_4C59A0();
+    gGameSave_6F78C8.field_4D_bonus_stage = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0();
 }
 
 MATCH_FUNC(0x511f80)
@@ -180,7 +180,7 @@ void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
            sizeof(gObject_5C_6F8F84->field_20_bUnCollectedTokens));
 
     gLucid_hamilton_67E8E0.field_574_secret_tokens_collected = gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected;
-    field_C1E2C = true;
+    field_C1E2C_bLoadedFromSave = true;
 }
 
 MATCH_FUNC(0x511e10)
@@ -251,7 +251,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
 }
 
 MATCH_FUNC(0x5120C0)
-miss2_0x11C* frosty_pasteur_0xC1EA8::sub_5120C0(s16 a1, char_type a2)
+miss2_0x11C* frosty_pasteur_0xC1EA8::SpawnThread_5120C0(s16 a1, char_type a2)
 {
     miss2_0x11C* pThread = miss2_0x11C_Pool_6F8064->sub_4767A0();
     pThread->InitThread_511930(a2, a1);
@@ -259,7 +259,7 @@ miss2_0x11C* frosty_pasteur_0xC1EA8::sub_5120C0(s16 a1, char_type a2)
 }
 
 MATCH_FUNC(0x512100)
-SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::sub_512100(u16 toFind, u16 startOff)
+SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::FindCommandByType_512100(u16 toFind, u16 startOff)
 {
     u16 idx;
     SCR_CMD_HEADER* header;
@@ -287,7 +287,7 @@ void frosty_pasteur_0xC1EA8::Update_512160()
     if (!bSkip_mission_67D4E5)
     {
         miss2_0x11C* pf_0 = miss2_0x11C_Pool_6F8064->sub_4767A0();
-        SCR_CMD_HEADER* pLevelStart = sub_512100(59, 0);
+        SCR_CMD_HEADER* pLevelStart = FindCommandByType_512100(59, 0);
         if (!pLevelStart)
         {
             FatalError_4A38C0(Gta2Error::ScriptfileNo_LEVELSTART_Declaration,
@@ -326,10 +326,10 @@ void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
 }
 
 MATCH_FUNC(0x512400)
-u16 frosty_pasteur_0xC1EA8::sub_512400(const char_type* String1, u16* a3)
+u16 frosty_pasteur_0xC1EA8::LoadMissionScript_512400(const char_type* String1, u16* a3)
 {
     u16 Buffer = 0;
-    if (gfrosty_pasteur_6F8060->field_2F4 == 0)
+    if (gfrosty_pasteur_6F8060->field_2F4_bPreloadMissionScripts == 0)
     {
         u32 v8;
         strcpy(gTmpBuffer_67C598, "data\\");
@@ -347,14 +347,14 @@ u16 frosty_pasteur_0xC1EA8::sub_512400(const char_type* String1, u16* a3)
     {
         str_table_entry* pStrEntry = gfrosty_pasteur_6F8060->StrEntryByString_5030B0((char_type*)String1);
         u16 field_2_zone_idx = pStrEntry->field_2_zone_idx;
-        Buffer = gfrosty_pasteur_6F8060->field_C1D72[field_2_zone_idx];
+        Buffer = gfrosty_pasteur_6F8060->field_C1D72_mission_base_ptr_idx[field_2_zone_idx];
         *a3 = gfrosty_pasteur_6F8060->field_C1D34[field_2_zone_idx];
         memcpy(&gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer],
-               &gfrosty_pasteur_6F8060->field_AA934[3072 * field_2_zone_idx],
+               &gfrosty_pasteur_6F8060->field_AA934_mission_base_pointers[3072 * field_2_zone_idx],
                0xC00u);
         memcpy(&gfrosty_pasteur_6F8060->field_334C_script_data[gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer]],
-               &gfrosty_pasteur_6F8060->field_13354[20000 * pStrEntry->field_2_zone_idx],
-               gfrosty_pasteur_6F8060->field_C1DB0[pStrEntry->field_2_zone_idx]);
+               &gfrosty_pasteur_6F8060->field_13354_mission_script_data[20000 * pStrEntry->field_2_zone_idx],
+               gfrosty_pasteur_6F8060->field_C1DB0_mission_script_data_len[pStrEntry->field_2_zone_idx]);
     }
     return Buffer;
 }
@@ -445,21 +445,21 @@ void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
             ((char*)&pEntry->field_6)[length + 1] = 'C';
             ((char*)&pEntry->field_6)[length + 2] = 'R';
 
-            if (field_2F4 == 1)
+            if (field_2F4_bPreloadMissionScripts == 1)
             {
                 sprintf(gTmpBuffer_67C598, "data\\%s\\", field_45C_scr_file_name);
                 strncat(gTmpBuffer_67C598, pEntry->get_name(), pEntry->field_8_length);
                 File::Global_Open_4A7060(gTmpBuffer_67C598);
 
                 File::Global_Read_4A71C0(&Buffer_16, 2);
-                field_C1D72[j] = Buffer_16;
+                field_C1D72_mission_base_ptr_idx[j] = Buffer_16;
                 File::Global_Read_4A71C0(&Buffer_16, 2);
                 field_C1D34[j] = Buffer_16;
                 File::Global_Read_4A71C0(&Buffer, 4);
-                field_C1DB0[j] = Buffer;
+                field_C1DB0_mission_script_data_len[j] = Buffer;
 
-                File::Global_Read_4A71C0(&field_AA934[3072 * j], 3072);
-                File::GetRemainderSize_4A7250(&field_13354[20000 * j], &field_C1DB0[j]);
+                File::Global_Read_4A71C0(&field_AA934_mission_base_pointers[3072 * j], 3072);
+                File::GetRemainderSize_4A7250(&field_13354_mission_script_data[20000 * j], &field_C1DB0_mission_script_data_len[j]);
 
                 File::Global_Close_4A70C0();
 
@@ -499,12 +499,12 @@ void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
 }
 
 MATCH_FUNC(0x5128a0)
-thread_C* frosty_pasteur_0xC1EA8::sub_5128A0(s32 a2, s32 a3)
+thread_C* frosty_pasteur_0xC1EA8::FindCarThread_5128A0(s32 a2, s32 a3)
 {
     thread_C* pThread = &field_4_thrds_2[0];
     for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_4_thrds_2); thread_idx++)
     {
-        if (pThread->field_0_unk == a2 && pThread->field_4_obj_f14 == a3)
+        if (pThread->field_0_ped_id == a2 && pThread->field_4_obj_f14 == a3)
         {
             return pThread;
         }
@@ -514,7 +514,7 @@ thread_C* frosty_pasteur_0xC1EA8::sub_5128A0(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x5128d0)
-void frosty_pasteur_0xC1EA8::sub_5128D0(s32 a2, s32 a3, u16 a4)
+void frosty_pasteur_0xC1EA8::AddCarThread_5128D0(s32 a2, s32 a3, u16 a4)
 {
     thread_C* pHeader = &field_4_thrds_2[0];
     for (u16 i = 0; i < GTA2_COUNTOF(field_4_thrds_2); i++)
@@ -526,28 +526,28 @@ void frosty_pasteur_0xC1EA8::sub_5128D0(s32 a2, s32 a3, u16 a4)
         pHeader++;
     }
 
-    pHeader->field_0_unk = a2;
+    pHeader->field_0_ped_id = a2;
     pHeader->field_4_obj_f14 = a3;
     pHeader->field_8_cmd_line = a4;
-    ++field_0;
+    ++field_0_car_thread_count;
 }
 
 MATCH_FUNC(0x512910)
-bool frosty_pasteur_0xC1EA8::sub_512910(s32 a2, s32 a3)
+bool frosty_pasteur_0xC1EA8::TriggerCarThread_512910(s32 a2, s32 a3)
 {
-    thread_C* pThread = frosty_pasteur_0xC1EA8::sub_5128A0(a2, a3);
+    thread_C* pThread = frosty_pasteur_0xC1EA8::FindCarThread_5128A0(a2, a3);
     if (pThread)
     {
         SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThread->field_8_cmd_line);
-        pPtr->field_8_script_thread = sub_5120C0(pPtr->field_E, 0);
+        pPtr->field_8_script_thread = SpawnThread_5120C0(pPtr->field_E, 0);
 
         if (pPtr->field_8_script_thread)
         {
             pPtr->field_C_unknown = pPtr->field_8_script_thread->field_11A;
-            pThread->field_0_unk = 0;
+            pThread->field_0_ped_id = 0;
             pThread->field_4_obj_f14 = 0;
             pThread->field_8_cmd_line = 0;
-            --field_0;
+            --field_0_car_thread_count;
             return true;
         }
     }
@@ -555,12 +555,12 @@ bool frosty_pasteur_0xC1EA8::sub_512910(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x512980)
-thread_C* frosty_pasteur_0xC1EA8::sub_512980(s32 a2, s32 a3)
+thread_C* frosty_pasteur_0xC1EA8::FindPhoneThread_512980(s32 a2, s32 a3)
 {
     thread_C* pHeader = &field_188_thrds_4[0];
     for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_188_thrds_4); thread_idx++)
     {
-        if (pHeader->field_0_unk == a2 && pHeader->field_4_obj_f14 == a3)
+        if (pHeader->field_0_ped_id == a2 && pHeader->field_4_obj_f14 == a3)
         {
             return pHeader;
         }
@@ -570,14 +570,14 @@ thread_C* frosty_pasteur_0xC1EA8::sub_512980(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x5129b0)
-void frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
+void frosty_pasteur_0xC1EA8::AddPhoneThread_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
 {
     thread_C* thread = &field_188_thrds_4[0];
     for (u16 i = 0; i < GTA2_COUNTOF(field_188_thrds_4) && thread->field_8_cmd_line != 0; i++)
     {
         thread++;
     }
-    thread->field_0_unk = a2;
+    thread->field_0_ped_id = a2;
     thread->field_4_obj_f14 = obj_f14;
     thread->field_8_cmd_line = cmd_line;
     field_184_count++;
@@ -586,7 +586,7 @@ void frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
 MATCH_FUNC(0x5129f0)
 bool frosty_pasteur_0xC1EA8::AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx)
 {
-    thread_C* pThrdHeader = frosty_pasteur_0xC1EA8::sub_512980(ped_idx, phone_idx);
+    thread_C* pThrdHeader = frosty_pasteur_0xC1EA8::FindPhoneThread_512980(ped_idx, phone_idx);
     if (pThrdHeader)
     {
         SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThrdHeader->field_8_cmd_line);
@@ -599,7 +599,7 @@ bool frosty_pasteur_0xC1EA8::AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx)
                 pTriggerCmd->field_12 = 1;
                 return 1;
             case SCRCMD_THREAD_DECLARE4:
-                pPtr->field_8_script_thread = sub_5120C0(pPtr->field_E, 0);
+                pPtr->field_8_script_thread = SpawnThread_5120C0(pPtr->field_E, 0);
                 if (pPtr->field_8_script_thread)
                 {
                     pPtr->field_C_unknown = pPtr->field_8_script_thread->field_11A;
@@ -613,12 +613,12 @@ bool frosty_pasteur_0xC1EA8::AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx)
 }
 
 MATCH_FUNC(0x512a70)
-thread_C* frosty_pasteur_0xC1EA8::sub_512A70(s32 a2, s32 a3)
+thread_C* frosty_pasteur_0xC1EA8::RemovePhoneThread_512A70(s32 a2, s32 a3)
 {
-    thread_C* pHeader = frosty_pasteur_0xC1EA8::sub_512980(a2, a3);
+    thread_C* pHeader = frosty_pasteur_0xC1EA8::FindPhoneThread_512980(a2, a3);
     if (pHeader)
     {
-        pHeader->field_0_unk = 0;
+        pHeader->field_0_ped_id = 0;
         pHeader->field_4_obj_f14 = 0;
         pHeader->field_8_cmd_line = 0;
         --field_184_count;
@@ -627,18 +627,18 @@ thread_C* frosty_pasteur_0xC1EA8::sub_512A70(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x512aa0)
-thread_C* frosty_pasteur_0xC1EA8::sub_512AA0(s32 a2)
+thread_C* frosty_pasteur_0xC1EA8::RemovePhoneThreadByObjId_512AA0(s32 a2)
 {
-    thread_C* pThrHeader = frosty_pasteur_0xC1EA8::sub_512AD0(a2);
+    thread_C* pThrHeader = frosty_pasteur_0xC1EA8::FindPhoneThreadByObjId_512AD0(a2);
     if (pThrHeader)
     {
-        pThrHeader = frosty_pasteur_0xC1EA8::sub_512A70(pThrHeader->field_0_unk, a2);
+        pThrHeader = frosty_pasteur_0xC1EA8::RemovePhoneThread_512A70(pThrHeader->field_0_ped_id, a2);
     }
     return pThrHeader;
 }
 
 MATCH_FUNC(0x512ad0)
-thread_C* frosty_pasteur_0xC1EA8::sub_512AD0(s32 a2)
+thread_C* frosty_pasteur_0xC1EA8::FindPhoneThreadByObjId_512AD0(s32 a2)
 {
     thread_C* pHeader = &field_188_thrds_4[0];
     for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_188_thrds_4); thread_idx++)
@@ -668,7 +668,7 @@ char_type* frosty_pasteur_0xC1EA8::sub_512BA0(s32 a2, char_type a3)
 
 // https://decomp.me/scratch/r6LhX
 WIP_FUNC(0x512c00)
-void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, char_type bUnk)
+void frosty_pasteur_0xC1EA8::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bUnk)
 {
     WIP_IMPLEMENTED;
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
@@ -683,18 +683,18 @@ void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, cha
             {
                 if (bUnk)
                 {
-                    if ((pTable->field_6 & 4) == 4)
+                    if ((pTable->field_6_flags & 4) == 4)
                     {
-                        pTable->field_5 = projectile_type;
-                        pTable->field_6 |= 1;
+                        pTable->field_5_hit_projectile_type = projectile_type;
+                        pTable->field_6_flags |= 1;
                     }
                 }
                 else
                 {
-                    if ((pTable->field_6 & 2) == 2)
+                    if ((pTable->field_6_flags & 2) == 2)
                     {
-                        pTable->field_5 = projectile_type;
-                        pTable->field_6 |= 1;
+                        pTable->field_5_hit_projectile_type = projectile_type;
+                        pTable->field_6_flags |= 1;
                     }
                 }
 
@@ -705,7 +705,7 @@ void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, cha
 }
 
 MATCH_FUNC(0x512c70)
-bool frosty_pasteur_0xC1EA8::sub_512C70(s32 id, char_type weapon_idx, char_type bUnk)
+bool frosty_pasteur_0xC1EA8::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bUnk)
 {
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
@@ -717,16 +717,16 @@ bool frosty_pasteur_0xC1EA8::sub_512C70(s32 id, char_type weapon_idx, char_type 
             {
                 if (bUnk)
                 {
-                    if ((pTable->field_6 & 4) == 4)
+                    if ((pTable->field_6_flags & 4) == 4)
                     {
-                        return (pTable->field_6 & 1) == 1;
+                        return (pTable->field_6_flags & 1) == 1;
                     }
                 }
                 else
                 {
-                    if ((pTable->field_6 & 2) == 2)
+                    if ((pTable->field_6_flags & 2) == 2)
                     {
-                        return (pTable->field_6 & 1) == 1;
+                        return (pTable->field_6_flags & 1) == 1;
                     }
                 }
             }
@@ -754,7 +754,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     memset(field_334C_script_data, 0, sizeof(field_334C_script_data));
     memset(field_46C_base_pointers, 0, sizeof(field_46C_base_pointers));
     memset(field_1334C_strings, 0, 0x1400u);
-    field_0 = 0;
+    field_0_car_thread_count = 0;
     memset(field_4_thrds_2, 0, sizeof(field_4_thrds_2));
     field_184_count = 0;
     memset(field_188_thrds_4, 0, sizeof(field_188_thrds_4));
@@ -768,14 +768,14 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 13630);
     }
 
-    memset(field_13354, 0, sizeof(field_13354));
-    memset(field_AA934, 0, sizeof(field_AA934));
+    memset(field_13354_mission_script_data, 0, sizeof(field_13354_mission_script_data));
+    memset(field_AA934_mission_base_pointers, 0, sizeof(field_AA934_mission_base_pointers));
     memset(field_C1D34, 0, sizeof(field_C1D34));
-    memset(field_C1D72, 0, sizeof(field_C1D72));
-    memset(field_C1DB0, 0, sizeof(field_C1DB0));
+    memset(field_C1D72_mission_base_ptr_idx, 0, sizeof(field_C1D72_mission_base_ptr_idx));
+    memset(field_C1DB0_mission_script_data_len, 0, sizeof(field_C1DB0_mission_script_data_len));
     field_344_mission_flag = 0;
-    field_2F4 = 1;
-    field_C1E2C = 0;
+    field_2F4_bPreloadMissionScripts = 1;
+    field_C1E2C_bLoadedFromSave = 0;
     field_310_finish_score = 0;
     field_314_total_missions = 0;
     field_318_total_secrets = 0;
@@ -792,14 +792,14 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     field_348_gang_1_mission_flag = 0;
     field_34C_gang_2_mission_flag = 0;
     field_350_gang_3_mission_flag = 0;
-    field_354 = 0;
-    field_C1E70 = 87;
+    field_354_next_gang_idx = 0;
+    field_C1E70_wanted_car_model = 87;
     field_356 = 0;
     field_358 = 0;
     field_35A = 0;
-    field_355 = 0;
+    field_355_death_arr_state = 0;
     field_C1E2E_death_arrest_flag = 0;
-    field_C1E2D = 0;
+    field_C1E2D_bKillFrenzyActive = 0;
     field_468 = 0;
 
     if (gDo_miss_logging_67D6BC)

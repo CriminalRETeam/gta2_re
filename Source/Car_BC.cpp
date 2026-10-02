@@ -1956,7 +1956,7 @@ void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
                             Player* pPlayer = pDriver->field_15C_player;
                             if (pPlayer)
                             {
-                                pPlayer->field_2D4_scores.sub_593030(this, score);
+                                pPlayer->field_2D4_scores.AwardCarDamageScore_593030(this, score);
                             }
                         }
                     }
@@ -3246,11 +3246,11 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
                     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this) &&
                         gPublicTransport_181C_6FF1D4->field_17C0_bus.field_56_passenger_count >= 10)
                     {
-                        pExploder->field_15C_player->field_2D4_scores.sub_593410(this);
+                        pExploder->field_15C_player->field_2D4_scores.OnFullBusDestroyed_593410(this);
                     }
                     else
                     {
-                        pExploder->field_15C_player->field_2D4_scores.sub_592DD0(this, pExploder);
+                        pExploder->field_15C_player->field_2D4_scores.OnCarDestroyed_592DD0(this, pExploder);
                         if (bOcc2)
                         {
                             pExploder->field_15C_player->field_2D4_scores.sub_593220();
@@ -3465,11 +3465,11 @@ void Car_BC::sub_43DD60()
                     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this) &&
                         gPublicTransport_181C_6FF1D4->field_17C0_bus.field_56_passenger_count >= 10)
                     {
-                        pPed->field_15C_player->field_2D4_scores.sub_593410(this);
+                        pPed->field_15C_player->field_2D4_scores.OnFullBusDestroyed_593410(this);
                     }
                     else
                     {
-                        pPed->field_15C_player->field_2D4_scores.sub_592DD0(this, pPed);
+                        pPed->field_15C_player->field_2D4_scores.OnCarDestroyed_592DD0(this, pPed);
                         if (bUnknown)
                         {
                             pPed->field_15C_player->field_2D4_scores.sub_593220();
@@ -3805,7 +3805,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
         }
     }
 
-    gfrosty_pasteur_6F8060->sub_512C00(field_6C_maybe_id, pObj->field_18_model, 0);
+    gfrosty_pasteur_6F8060->RecordWeaponHit_512C00(field_6C_maybe_id, pObj->field_18_model, 0);
 
     s32 model = pObj->field_18_model;
 
@@ -4049,7 +4049,7 @@ void Car_BC::sub_4406E0(Ped* pPed)
 
     if ((field_8D & 1) != 0)
     {
-        if (gfrosty_pasteur_6F8060->sub_512910(pPed->get_id(), field_6C_maybe_id))
+        if (gfrosty_pasteur_6F8060->TriggerCarThread_512910(pPed->get_id(), field_6C_maybe_id))
         {
             field_8D &= ~1u;
         }
@@ -4064,10 +4064,10 @@ void Car_BC::sub_4406E0(Ped* pPed)
             }
         }
         sub_443E50();
-        pPlayer->sub_5645B0(this);
+        pPlayer->AddCarToHistory_5645B0(this);
         if (field_54_driver->field_240_occupation != ped_ocupation_enum::empty)
         {
-            pPlayer->sub_564AD0(this);
+            pPlayer->LoadCarWeapons_564AD0(this);
         }
 
         if (field_58_physics)
@@ -4094,7 +4094,7 @@ void Car_BC::ClearDriver_4407F0()
             {
                 gHud_2B00_706620->field_0.field_0_display_time = 0;
             }
-            pPlayer->sub_564C00();
+            pPlayer->UnloadCarWeapons_564C00();
         }
 
         if (field_58_physics)
@@ -6653,7 +6653,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
                 break;
         }
 
-        Fix16 t = (field_0_cam->sub_4B3110()) * (field_0_cam->sub_4B3130());
+        Fix16 t = (field_0_cam->GetBoundariesWidth_4B3110()) * (field_0_cam->GetBoundariesHeight_4B3130());
         t = t / Fix16(86);
         dword_6FF7E8 = (t)*wanted_related;
 
@@ -6757,12 +6757,12 @@ void Car_14::GenerateTraffic_583670()
             {
                 Car_14::MakeTrafficForCurrCamera_5832C0();
             }
-            field_0_cam = gGame_0x40_67E008->sub_4B9C50();
+            field_0_cam = gGame_0x40_67E008->IterateNextPlayerCamera_4B9C50();
 
             Ped* pPed;
             if (field_0_cam == &field_C_player->field_208_aux_game_camera)
             {
-                pPed = field_C_player->field_2C8_unkq;
+                pPed = field_C_player->field_2C8_aux_ped;
             }
             else
             {

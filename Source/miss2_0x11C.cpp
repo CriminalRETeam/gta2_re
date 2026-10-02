@@ -70,19 +70,19 @@ static inline bool is_car_weapon(s32& weapon_idx)
 MATCH_FUNC(0x503200)
 void miss2_0x11C::MissionFailOnArrest_503200()
 {
-    if (gfrosty_pasteur_6F8060->field_355 && gfrosty_pasteur_6F8060->field_344_mission_flag &&
+    if (gfrosty_pasteur_6F8060->field_355_death_arr_state && gfrosty_pasteur_6F8060->field_344_mission_flag &&
         *gfrosty_pasteur_6F8060->field_344_mission_flag == 1)
     {
         Player* player = gGame_0x40_67E008->field_38_orf1;
         Ped* ped;
 
-        if (!(player->field_28 && player->field_2C == 2 &&
+        if (!(player->field_28_bWastedOrBusted && player->field_2C_death_countdown == 2 &&
               ((ped = player->field_2C4_player_ped) == NULL || ped->field_258_objective != 54)))
         {
             Player* player_b = gGame_0x40_67E008->field_38_orf1;
             Ped* ped_b;
 
-            if (!(player_b->field_28 && player_b->field_2C == 2 && (ped_b = player_b->field_2C4_player_ped) != NULL &&
+            if (!(player_b->field_28_bWastedOrBusted && player_b->field_2C_death_countdown == 2 && (ped_b = player_b->field_2C4_player_ped) != NULL &&
                   ped_b->field_258_objective == 54))
             {
                 return;
@@ -95,7 +95,7 @@ void miss2_0x11C::MissionFailOnArrest_503200()
         s32 v;
         Player* player2 = gGame_0x40_67E008->field_38_orf1;
 
-        if (player2->field_28 && player2->field_2C == 2)
+        if (player2->field_28_bWastedOrBusted && player2->field_2C_death_countdown == 2)
         {
             Ped* ped2 = player2->field_2C4_player_ped;
 
@@ -398,7 +398,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
     if (pPlayer)
     {
         Ped* pPed;
-        if (gfrosty_pasteur_6F8060->field_C1E2C)
+        if (gfrosty_pasteur_6F8060->field_C1E2C_bLoadedFromSave)
         {
             Fix16 weird_y = dword_6F76DC + gGameSave_6F78C8.field_54_player_and_world_stats.field_4_y.GetRoundValue();
             Fix16 weird_x = dword_6F75F0 + gGameSave_6F78C8.field_54_player_and_world_stats.field_0_x.GetRoundValue();
@@ -432,7 +432,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         if (pPed != NULL)
         {
             pPed->field_238_ped_type = ped_type::player_2;
-            if (!gfrosty_pasteur_6F8060->field_C1E2C)
+            if (!gfrosty_pasteur_6F8060->field_C1E2C_bLoadedFromSave)
             {
                 pPed->field_216_health = 100;
             }
@@ -777,7 +777,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pThread, s16* pThrea
 
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
-        gfrosty_pasteur_6F8060->sub_5128D0(pParam1->field_8_char->field_200_id, pParam2->field_8_car->field_6C_maybe_id, *pThreadIdx);
+        gfrosty_pasteur_6F8060->AddCarThread_5128D0(pParam1->field_8_char->field_200_id, pParam2->field_8_car->field_6C_maybe_id, *pThreadIdx);
         pParam2->field_8_car->field_8D |= 1;
     }
 }
@@ -846,7 +846,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0(SCR_THREAD* pThread, s16* pThrea
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
         pParam2->field_8_obj->sub_5291D0();
-        gfrosty_pasteur_6F8060->sub_5129B0(pParam1->field_8_char->field_200_id, pParam2->field_8_obj->field_14_id, *pThreadIdx);
+        gfrosty_pasteur_6F8060->AddPhoneThread_5129B0(pParam1->field_8_char->field_200_id, pParam2->field_8_obj->field_14_id, *pThreadIdx);
     }
 }
 
@@ -884,8 +884,8 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     pZone->field_134_info_phone_z = z;
 
     pZone->field_139_kill_respect_change = pCmd->field_F_kill_respect_change;
-    gGangPool_CA8_67E274->sub_4BF230(pZone, gfrosty_pasteur_6F8060->field_354);
-    ++gfrosty_pasteur_6F8060->field_354;
+    gGangPool_CA8_67E274->sub_4BF230(pZone, gfrosty_pasteur_6F8060->field_354_next_gang_idx);
+    ++gfrosty_pasteur_6F8060->field_354_next_gang_idx;
     Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100((char*)&string_entry[1]);
 
     if ((u8)pCmd->field_F_kill_respect_change > 0)
@@ -1375,7 +1375,7 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
                 pParam2->field_8_obj->sub_5291D0();
             }
 
-            gfrosty_pasteur_6F8060->sub_512A70(pParam1->field_8_char->field_200_id, pParam2->field_8_obj->field_14_id);
+            gfrosty_pasteur_6F8060->RemovePhoneThread_512A70(pParam1->field_8_char->field_200_id, pParam2->field_8_obj->field_14_id);
             break;
         }
         case SCRCMD_THREAD_DECLARE3:
@@ -1392,14 +1392,14 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
             SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pThread->field_12);
 
             s32 charId = pParam1->field_8_char->field_200_id;
-            thread_C* pThreadC = gfrosty_pasteur_6F8060->sub_5128A0(charId, pParam2->field_8_car->field_6C_maybe_id);
+            thread_C* pThreadC = gfrosty_pasteur_6F8060->FindCarThread_5128A0(charId, pParam2->field_8_car->field_6C_maybe_id);
 
             if (pThreadC)
             {
-                pThreadC->field_0_unk = 0;
+                pThreadC->field_0_ped_id = 0;
                 pThreadC->field_4_obj_f14 = 0;
                 pThreadC->field_8_cmd_line = 0;
-                --gfrosty_pasteur_6F8060->field_0;
+                --gfrosty_pasteur_6F8060->field_0_car_thread_count;
             }
 
             pParam2->field_8_car->field_8D &= ~1;
@@ -1481,7 +1481,7 @@ s16 miss2_0x11C::sub_505EA0(u16 idx)
     s16 result = pPointer->field_8_counter;
     if (result != -3 && result != -4)
     {
-        result = gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.sub_432080(result);
+        result = gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.GetBonusResult_432080(result);
         if (result == -3 || result == -4)
         {
             pPointer->field_8_counter = result;
@@ -3402,11 +3402,11 @@ void miss2_0x11C::IsOnScreen_50A760()
 
             if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
             {
-                onScreen = gGame_0x40_67E008->sub_4B9890(pCar->field_50_car_sprite, 1);
+                onScreen = gGame_0x40_67E008->IsSpriteInAnyPlayerView_4B9890(pCar->field_50_car_sprite, 1);
             }
             else
             {
-                onScreen = gGame_0x40_67E008->sub_4B9890(pCar->field_50_car_sprite, 0);
+                onScreen = gGame_0x40_67E008->IsSpriteInAnyPlayerView_4B9890(pCar->field_50_car_sprite, 0);
             }
 
             break;
@@ -3419,11 +3419,11 @@ void miss2_0x11C::IsOnScreen_50A760()
 
             if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
             {
-                onScreen = gGame_0x40_67E008->sub_4B9890(pPointer->field_8_char->GetSprite_46DF50(), 1);
+                onScreen = gGame_0x40_67E008->IsSpriteInAnyPlayerView_4B9890(pPointer->field_8_char->GetSprite_46DF50(), 1);
             }
             else
             {
-                onScreen = gGame_0x40_67E008->sub_4B9890(pPointer->field_8_char->GetSprite_46DF50(), 0);
+                onScreen = gGame_0x40_67E008->IsSpriteInAnyPlayerView_4B9890(pPointer->field_8_char->GetSprite_46DF50(), 0);
             }
 
             break;
@@ -3435,11 +3435,11 @@ void miss2_0x11C::IsOnScreen_50A760()
 
             if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
             {
-                onScreen = gGame_0x40_67E008->sub_4B9890(pPointer->field_8_obj->field_4, 1);
+                onScreen = gGame_0x40_67E008->IsSpriteInAnyPlayerView_4B9890(pPointer->field_8_obj->field_4, 1);
             }
             else
             {
-                onScreen = gGame_0x40_67E008->sub_4B9890(pPointer->field_8_obj->field_4, 0);
+                onScreen = gGame_0x40_67E008->IsSpriteInAnyPlayerView_4B9890(pPointer->field_8_obj->field_4, 0);
             }
 
             break;
@@ -3452,12 +3452,12 @@ void miss2_0x11C::IsOnScreen_50A760()
             if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
             {
                 Sprite* pSprite = pPointer->field_8_crane->field_2C_rotor_obj->field_4;
-                onScreen = gGame_0x40_67E008->sub_4B9890(pSprite, 1);
+                onScreen = gGame_0x40_67E008->IsSpriteInAnyPlayerView_4B9890(pSprite, 1);
             }
             else
             {
                 Sprite* pSprite = pPointer->field_8_crane->field_2C_rotor_obj->field_4;
-                onScreen = gGame_0x40_67E008->sub_4B9890(pSprite, 0);
+                onScreen = gGame_0x40_67E008->IsSpriteInAnyPlayerView_4B9890(pSprite, 0);
             }
 
             break;
@@ -3752,7 +3752,7 @@ void miss2_0x11C::SCRCMD_ANSWER_PHONE_50B180()
     if (pPhoneObj && pPtrPed->field_8_char)
     {
         pPhoneObj->sub_5291D0();
-        gfrosty_pasteur_6F8060->sub_5129B0(pPtrPed->field_8_char->field_200_id,
+        gfrosty_pasteur_6F8060->AddPhoneThread_5129B0(pPtrPed->field_8_char->field_200_id,
                                            pPtrObj->field_8_obj->field_14_id,
                                            gBasePtr_6F8070->field_0_cmd_this);
         field_8 = false;
@@ -3773,11 +3773,11 @@ MATCH_FUNC(0x50b230)
 void miss2_0x11C::SCRCMD_CHECK_PHONE_50B230()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    thread_C* pHeader = gfrosty_pasteur_6F8060->sub_512AD0(pPointer->field_8_obj->field_14_id);
+    thread_C* pHeader = gfrosty_pasteur_6F8060->FindPhoneThreadByObjId_512AD0(pPointer->field_8_obj->field_14_id);
     SCR_ANSWER_PHONE* pThreadPtr = (SCR_ANSWER_PHONE*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pHeader->field_8_cmd_line);
     if (pThreadPtr->field_12 == 1)
     {
-        gfrosty_pasteur_6F8060->sub_512A70(pHeader->field_0_unk, pHeader->field_4_obj_f14);
+        gfrosty_pasteur_6F8060->RemovePhoneThread_512A70(pHeader->field_0_ped_id, pHeader->field_4_obj_f14);
         field_8 = true;
     }
     else
@@ -3791,7 +3791,7 @@ MATCH_FUNC(0x50b2c0)
 void miss2_0x11C::SCRCMD_CHECK_PHONETIMER_50B2C0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    thread_C* pHeader = gfrosty_pasteur_6F8060->sub_512AD0(pPointer->field_8_obj->field_14_id);
+    thread_C* pHeader = gfrosty_pasteur_6F8060->FindPhoneThreadByObjId_512AD0(pPointer->field_8_obj->field_14_id);
     if (pHeader)
     {
         SCR_ANSWER_PHONE* pAnswer = (SCR_ANSWER_PHONE*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pHeader->field_8_cmd_line);
@@ -3823,10 +3823,10 @@ void miss2_0x11C::SCRCMD_STOP_PHONE_RING_50B360()
     Object_2C* pObj = pPointer->field_8_obj;
     if (pObj)
     {
-        thread_C* pHeader = gfrosty_pasteur_6F8060->sub_512AD0(pObj->field_14_id);
+        thread_C* pHeader = gfrosty_pasteur_6F8060->FindPhoneThreadByObjId_512AD0(pObj->field_14_id);
         if (pHeader)
         {
-            gfrosty_pasteur_6F8060->sub_512A70(pHeader->field_0_unk, pHeader->field_4_obj_f14);
+            gfrosty_pasteur_6F8060->RemovePhoneThread_512A70(pHeader->field_0_ped_id, pHeader->field_4_obj_f14);
         }
         pPointer->field_8_obj->sub_5291E0(163);
     }
@@ -4348,7 +4348,7 @@ void miss2_0x11C::SCRCMD_SET_PHONE_DEAD_50C040()
     SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(*pIndex);
 
     pScrPtr->field_8_obj->sub_5291E0(174);
-    gfrosty_pasteur_6F8060->sub_512AA0(pScrPtr->field_8_obj->field_14_id);
+    gfrosty_pasteur_6F8060->RemovePhoneThreadByObjId_512AA0(pScrPtr->field_8_obj->field_14_id);
     u16* pPhoneIds = &gfrosty_pasteur_6F8060->field_C1E32_phone_ids[0];
 
     for (u8 i = 0; i < 31; i++)
@@ -5190,8 +5190,8 @@ void miss2_0x11C::SCRCMD_REMOTE_CONTROL_50D200()
     SCR_POINTER* pPlayerPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     SCR_POINTER* pCarPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_car_idx);
     pPlayerPtr->field_8_char->field_15C_player->DisableInputs_569F40();
-    pPlayerPtr->field_8_char->field_15C_player->sub_5695A0();
-    pPlayerPtr->field_8_char->field_15C_player->sub_569600(pCarPtr->field_8_car);
+    pPlayerPtr->field_8_char->field_15C_player->ResetAuxCamera_5695A0();
+    pPlayerPtr->field_8_char->field_15C_player->StartRemoteControl_569600(pCarPtr->field_8_car);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -5563,7 +5563,7 @@ void miss2_0x11C::StartBonus_50DF10()
         gMap_0x370_6F6268->zone_by_name_4DEFD0(gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_zone_str_id)->get_name());
     }
 
-    pPointer->field_8_counter = gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.alloc_next_431FE0(flag,
+    pPointer->field_8_counter = gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.alloc_next_431FE0(flag,
                                                                                                                    car_model,
                                                                                                                    occupation,
                                                                                                                    gang_idx,
@@ -5992,7 +5992,7 @@ void miss2_0x11C::SCRCMD_CHECK_WEAPONHIT_50EB00()
     }
     else
     {
-        if (gfrosty_pasteur_6F8060->sub_512C70(pPointer->field_8_char->get_id(), pCmd->field_C_weapon, 1))
+        if (gfrosty_pasteur_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_char->get_id(), pCmd->field_C_weapon, 1))
         {
             field_8 = true;
             gfrosty_pasteur_6F8060->sub_512BA0(pPointer->field_8_char->get_id(), 1);
@@ -6023,7 +6023,7 @@ void miss2_0x11C::SCRCMD_WEAP_HIT_CAR_50EBD0()
         {
             hit = gfrosty_pasteur_6F8060->sub_512AF0(pPointer->field_8_car->field_6C_maybe_id, 23, 0);
         }
-        if (hit && gfrosty_pasteur_6F8060->sub_512C70(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0))
+        if (hit && gfrosty_pasteur_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0))
         {
             field_8 = true;
             pCmd->field_A_status = 0;
@@ -6036,7 +6036,7 @@ void miss2_0x11C::SCRCMD_WEAP_HIT_CAR_50EBD0()
     }
     else
     {
-        if (gfrosty_pasteur_6F8060->sub_512C70(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0))
+        if (gfrosty_pasteur_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0))
         {
             field_8 = true;
             pCmd->field_A_status = 0;
@@ -6453,7 +6453,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_FLAGS_50F5E0()
 
                 break;
             case SCRCMD_DEATH_ARR_STATE:
-                gfrosty_pasteur_6F8060->field_355 = pCmd->field_A_status;
+                gfrosty_pasteur_6F8060->field_355_death_arr_state = pCmd->field_A_status;
                 break;
         }
     }
@@ -6636,7 +6636,7 @@ void miss2_0x11C::SCRCMD_STORE_BONUS_50FAF0()
     if (bonus_unk != -3 && bonus_unk != -4)
     {
         pPointerCounter->field_8_counter =
-            gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.field_0[pPointerBonus->field_8_index].field_26;
+            gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pPointerBonus->field_8_index].field_26_count;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -6848,14 +6848,14 @@ MATCH_FUNC(0x510100)
 void miss2_0x11C::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
 {
     SCR_START_BASIC_KF_TEMPLATE* pCmd = (SCR_START_BASIC_KF_TEMPLATE*)gBasePtr_6F8070;
-    if (gfrosty_pasteur_6F8060->field_C1E2D)
+    if (gfrosty_pasteur_6F8060->field_C1E2D_bKillFrenzyActive)
     {
         miss2_0x11C::EnableThread_50A9E0(pCmd->field_8_triggername);
         miss2_0x11C::SCRCMD_RETURN_506B80();
     }
     else
     {
-        gfrosty_pasteur_6F8060->field_C1E2D = 1;
+        gfrosty_pasteur_6F8060->field_C1E2D_bKillFrenzyActive = 1;
         miss2_0x11C::DisableThread_505790(pCmd->field_8_triggername);
         gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfstart"), 3); // KILL FRENZY!
         gRoot_sound_66B038.PlayVoice_40F090(12); // KILL FRENZY voice
@@ -6921,13 +6921,13 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
             SCR_POINTER* pBonusType = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname);
             SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
             pCounter->field_8_counter = pCmd->field_14_target_total -
-                (u8)gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.field_0[pBonusType->field_8_index].field_26;
+                (u8)gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pBonusType->field_8_index].field_26_count;
 
             Ped* pPed = pPlayerPedCmdPointer->field_8_char;
 
             if (pPed->field_278_ped_state_1 == ped_state_1::dead_9 || pPed->field_21C_bf.b5 != 0)
             {
-                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.field_0[pBonusType->field_8_index].sub_431DB0();
+                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pBonusType->field_8_index].Deactivate_431DB0();
                 pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
             }
         }
@@ -6940,7 +6940,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
             }
             pTimerIDPointer->field_8_index = 0;
             pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
-            gfrosty_pasteur_6F8060->field_C1E2D = 0;
+            gfrosty_pasteur_6F8060->field_C1E2D_bKillFrenzyActive = 0;
             if (miss2_0x11C::sub_505EA0(pCmd->field_8_bonusname) == -3)
             {
                 gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfpass"), 3);
@@ -7003,11 +7003,11 @@ void miss2_0x11C::SCRCMD_SET_MODEL_WANTED_5105B0()
 
     if (model_idx == -1)
     {
-        gfrosty_pasteur_6F8060->field_C1E70 = car_model_enum::none;
+        gfrosty_pasteur_6F8060->field_C1E70_wanted_car_model = car_model_enum::none;
     }
     else
     {
-        gfrosty_pasteur_6F8060->field_C1E70 = model_idx;
+        gfrosty_pasteur_6F8060->field_C1E70_wanted_car_model = model_idx;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -7893,7 +7893,7 @@ MATCH_FUNC(0x5119a0)
 void miss2_0x11C::launch_mission_5119A0(SCR_CMD_HEADER* BasePointer, char_type* string)
 {
     u16 cmd_next;
-    gfrosty_pasteur_6F8060->sub_512400(string, &cmd_next);
+    gfrosty_pasteur_6F8060->LoadMissionScript_512400(string, &cmd_next);
     strcpy(field_14_str, string);
     miss2_0x11C::Gosub_50CE50(BasePointer, cmd_next);
 }

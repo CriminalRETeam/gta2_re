@@ -10,7 +10,7 @@
 
 DEFINE_GLOBAL(jolly_poitras_0x2BC0*, gJolly_poitras_0x2BC0_6FEAC0, 0x6FEAC0);
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
-DEFINE_GLOBAL_ARRAY_INIT(score_table_line, stru_6242B0, 10, 0x6242B0,
+DEFINE_GLOBAL_ARRAY_INIT(score_table_line, gDefaultHiScores_6242B0, 10, 0x6242B0,
     { L"ALISDAIR" COMMA 50000 } COMMA
     { L"BILLY"    COMMA 40000 } COMMA
     { L"BRIAN"    COMMA 30000 } COMMA
@@ -163,22 +163,22 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
     {
         if (PlySlotDatExists_56B940(j))
         {
-            sub_56B990(j);
+            LoadPlySlotDat_56B990(j);
         }
         else
         {
-            sub_56BA60(j);
+            SavePlySlotDat_56BA60(j);
         }
     }
 
     if (HiScoreHscExists_56BCA0())
     {
-        sub_56BE50();
+        LoadHiScores_56BE50();
     }
     else
     {
-        sub_56C1D0();
-        sub_56BF20();
+        InitDefaultHiScores_56C1D0();
+        SaveHiScores_56BF20();
     }
 
     sub_56BD20();
@@ -194,14 +194,14 @@ jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 
 // https://decomp.me/scratch/oIJET
 STUB_FUNC(0x56BB10)
-void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
+void jolly_poitras_0x2BC0::UpdateStageScore_56BB10(Player* pPlayer)
 {
     NOT_IMPLEMENTED;
 
     const s32 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
     u8 map_num;
     u8 bonus_num;
-    if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+    if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
     {
         map_num = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
         bonus_num = 0;
@@ -220,7 +220,7 @@ void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
         pStageStats->field_4_stage_best_score = latest_score;
     }
     pStageStats->field_8_stage_latest_score = latest_score;
-    sub_56BA60(slot_idx);
+    SavePlySlotDat_56BA60(slot_idx);
 }
 
 STUB_FUNC(0x56C010)
@@ -279,7 +279,7 @@ char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
 }
 
 MATCH_FUNC(0x56B990)
-void jolly_poitras_0x2BC0::sub_56B990(u16 slotIdx)
+void jolly_poitras_0x2BC0::LoadPlySlotDat_56B990(u16 slotIdx)
 {
     char_type FileName[356];
 
@@ -312,7 +312,7 @@ void jolly_poitras_0x2BC0::sub_56B990(u16 slotIdx)
 }
 
 STUB_FUNC(0x56BA60)
-void jolly_poitras_0x2BC0::sub_56BA60(s16 a2)
+void jolly_poitras_0x2BC0::SavePlySlotDat_56BA60(s16 a2)
 {
     NOT_IMPLEMENTED;
     // todo
@@ -353,7 +353,7 @@ s32 len;
 */
 
 MATCH_FUNC(0x56BE50)
-void jolly_poitras_0x2BC0::sub_56BE50()
+void jolly_poitras_0x2BC0::LoadHiScores_56BE50()
 {
     char_type FileName[256];
     GetHiScoreHscFileName_56BCF0(FileName);
@@ -379,13 +379,13 @@ void jolly_poitras_0x2BC0::sub_56BE50()
 }
 
 MATCH_FUNC(0x56C1D0)
-void jolly_poitras_0x2BC0::sub_56C1D0()
+void jolly_poitras_0x2BC0::InitDefaultHiScores_56C1D0()
 {
     field_23D0.Init_56B520();
-    score_table_line* p10StruIter = stru_6242B0;
+    score_table_line* p10StruIter = gDefaultHiScores_6242B0;
     for (s32 k10 = 0; k10 < 10; k10++)
     {
-        field_23D0.sub_56B550(p10StruIter->field_0_player_name, p10StruIter->field_14_score);
+        field_23D0.InsertScore_56B550(p10StruIter->field_0_player_name, p10StruIter->field_14_score);
         ++p10StruIter;
     }
 
@@ -397,7 +397,7 @@ void jolly_poitras_0x2BC0::sub_56C1D0()
             field_1890_stage_scores[k3][k4].Init_56B520();
             for (s32 k10 = 0; k10 < 10; k10++)
             {
-                field_1890_stage_scores[k3][k4].sub_56B550(pSruIter->field_0_player_name, pSruIter->field_14_score);
+                field_1890_stage_scores[k3][k4].InsertScore_56B550(pSruIter->field_0_player_name, pSruIter->field_14_score);
                 ++pSruIter;
             }
         }
@@ -405,7 +405,7 @@ void jolly_poitras_0x2BC0::sub_56C1D0()
 }
 
 STUB_FUNC(0x56BF20)
-void jolly_poitras_0x2BC0::sub_56BF20()
+void jolly_poitras_0x2BC0::SaveHiScores_56BF20()
 {
     NOT_IMPLEMENTED;
     // todo
@@ -437,7 +437,7 @@ void jolly_poitras_0x2BC0::sub_56BD20()
 }
 
 MATCH_FUNC(0x56BC40)
-void jolly_poitras_0x2BC0::sub_56BC40()
+void jolly_poitras_0x2BC0::UnlockAllStages_56BC40()
 {
     const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
     player_stats_0xA4* pStats = &this->field_26A0_plyr_stats[slot_idx];
@@ -451,18 +451,18 @@ void jolly_poitras_0x2BC0::sub_56BC40()
 
     if (!bStartNetworkGame_7081F0)
     {
-        sub_56BA60(slot_idx);
+        SavePlySlotDat_56BA60(slot_idx);
     }
 }
 
 MATCH_FUNC(0x56BBD0)
-void jolly_poitras_0x2BC0::sub_56BBD0(u8 map_num, u8 bonus_num)
+void jolly_poitras_0x2BC0::UnlockStage_56BBD0(u8 map_num, u8 bonus_num)
 {
     const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
     this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num].field_0_is_stage_unlocked = 1;
     if (!bStartNetworkGame_7081F0)
     {
-        sub_56BA60(slot_idx);
+        SavePlySlotDat_56BA60(slot_idx);
     }
 }
 
@@ -527,7 +527,7 @@ void high_score_table_0xF0::Init_56B520()
 }
 
 MATCH_FUNC(0x56B550)
-char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findScore)
+char_type high_score_table_0xF0::InsertScore_56B550(const wchar_t* pFindStr, s32 findScore)
 {
     u16 startIdx = 10;
     for (s16 i = 9; i != -1; --i)
@@ -595,7 +595,7 @@ void player_stats_0xA4::ResetPlayerSlot_56B630()
 }
 
 MATCH_FUNC(0x56B680)
-s32 player_stats_0xA4::sub_56B680()
+s32 player_stats_0xA4::GetTotalLatestScore_56B680()
 {
     s32 result = 0;
 
@@ -610,7 +610,7 @@ s32 player_stats_0xA4::sub_56B680()
 }
 
 MATCH_FUNC(0x56B6B0)
-s32 player_stats_0xA4::sub_56B6B0()
+s32 player_stats_0xA4::GetTotalBestScore_56B6B0()
 {
     s32 result = 0;
 

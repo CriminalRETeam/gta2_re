@@ -1651,7 +1651,7 @@ void CC ImGuiDebugDraw()
 
                     pNewCar->sub_4435F0();
 
-                    pPlayer->sub_5645B0(pNewCar);
+                    pPlayer->AddCarToHistory_5645B0(pNewCar);
 
                     // gGame_0x40_67E008->sub_4B9D60(pNewCar->field_50_car_sprite, pPlayer);
 
@@ -2229,7 +2229,7 @@ void CC ImGuiDebugDraw()
 
                     //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);
 
-                    Car_BC** field_54_car_array = pPlayer->field_54_unk;
+                    Car_BC** field_54_car_array = pPlayer->field_54_car_history;
                     if (field_54_car_array)
                     {
                         for (u32 car_idx = 0; car_idx < 3; car_idx++)
@@ -2239,7 +2239,7 @@ void CC ImGuiDebugDraw()
                             {
                                 static char car_name[33];
                                 get_car_name(pCar, car_name);
-                                ImGui::Text("field_54_unk car %d name: %s", car_idx, car_name);
+                                ImGui::Text("field_54_car_history car %d name: %s", car_idx, car_name);
                             }
                         }
                     }
@@ -2292,9 +2292,9 @@ void CC ImGuiDebugDraw()
 
         if (ImGui::TreeNode("gGame_0x40_67E008"))
         {
-            if (ImGui::Button("sub_569E70"))
+            if (ImGui::Button("DebugToggleRemoteControl_569E70"))
             {
-                gGame_0x40_67E008->field_38_orf1->sub_569E70();
+                gGame_0x40_67E008->field_38_orf1->DebugToggleRemoteControl_569E70();
             }
             ImGui::InputInt("Game State", &gGame_0x40_67E008->field_0_game_state, 1, 1);
 
