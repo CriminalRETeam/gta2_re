@@ -419,22 +419,18 @@ char_type Registry::CreateNetworkRoot_587420(PHKEY phkResult)
     return 1;
 }
 
-WIP_FUNC(0x5874E0)
+MATCH_FUNC(0x5874E0)
 DWORD Registry::Get_Int_Setting_5874E0(HKEY hKey, const char_type* lpValueName)
 {
-    WIP_IMPLEMENTED;
-
-    // First 13 instructions match.
-    // WIP because I can't solve the last bit,
-    // this function always ends up branchless unlike the original.
     DWORD cbData = 4;
 
-    if (RegQueryValueExA(hKey, lpValueName, 0, (LPDWORD)&hKey, (LPBYTE)&lpValueName, &cbData) == ERROR_SUCCESS)
+    if (RegQueryValueExA(hKey, lpValueName, 0, (LPDWORD)&hKey, (LPBYTE)&lpValueName, &cbData) != ERROR_SUCCESS)
     {
-        return (DWORD)lpValueName;
+        // Zeroing the value instead of returning 0 keeps VC6 from going branchless
+        lpValueName = 0;
     }
 
-    return 0;
+    return (DWORD)lpValueName;
 }
 
 MATCH_FUNC(0x587690)
