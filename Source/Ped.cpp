@@ -6760,33 +6760,30 @@ Ped* Ped::FindNearestPed_466F60(u8 a2)
     return 0;
 }
 
-WIP_FUNC(0x466fb0)
+MATCH_FUNC(0x466fb0)
 Ped* Ped::FindNearbyPed_466FB0()
 {
-    WIP_IMPLEMENTED;
-
     byte_6787D7 = 3;
     dword_6787DC = this;
     Sprite* pNearest = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped,
                                                                                    sprite_types_enum::car,
-                                                                                   this->field_168_game_object->field_80_sprite_ptr,
+                                                                                   field_168_game_object->field_80_sprite_ptr,
                                                                                    3u,
                                                                                    1,
                                                                                    0);
-    if (!pNearest)
+    if (pNearest)
     {
-        return 0;
+        Fix16 xd = pNearest->field_14_xy.x - field_1AC_cam.x;
+        Fix16 abs_yd = Fix16::Abs(pNearest->field_14_xy.y - field_1AC_cam.y);
+        Fix16 abs_xd = Fix16::Abs_negate_out_of_line(xd);
+        if (Fix16::Max_44E540(abs_xd, abs_yd) < dword_678788)
+        {
+            // @OG_BUG: Null de-ref
+            return pNearest->AsCharB4_40FEA0()->field_7C_pPed;
+        }
     }
 
-    Fix16 xd = Fix16::Abs(pNearest->field_14_xy.x - field_1AC_cam.x);
-    Fix16 yd = Fix16::Abs(pNearest->field_14_xy.y - field_1AC_cam.y);
-    if (Fix16::Max_44E540(xd, yd) >= dword_678788)
-    {
-        return 0;
-    }
-
-    // @OG_BUG: Null de-ref
-    return pNearest->AsCharB4_40FEA0()->field_7C_pPed;
+    return 0;
 }
 
 MATCH_FUNC(0x467070)
