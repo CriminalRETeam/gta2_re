@@ -8664,11 +8664,9 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
 
         Fix16 x = p18->field_0->field_14_xy.x;
         Fix16 y = p18->field_0->field_14_xy.y;
-        Fix16 dx = field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - x;
-        Fix16 dy = field_150_target_objective_car->field_50_car_sprite->field_14_xy.y - y;
-
         Ang16 angle;
-        angle = Fix16::atan2_fixed_405320(dy, dx);
+        angle = Fix16::atan2_fixed_405320(field_150_target_objective_car->field_50_car_sprite->field_14_xy.y - y,
+                                          field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - x);
         if (field_16C_car->RotateRoofObjectTowardTarget_440C10(angle))
         {
             field_21C |= 0x800;
