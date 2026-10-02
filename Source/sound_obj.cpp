@@ -4664,10 +4664,251 @@ void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params_8* a2, sound_unk
     a3->field_0 = v5;
 }
 
-STUB_FUNC(0x423080)
+DEFINE_GLOBAL(s16, word_675548, 0x675548);
+DEFINE_GLOBAL(u8, byte_67554A, 0x67554A);
+DEFINE_GLOBAL(u8, byte_67554B, 0x67554B);
+DEFINE_GLOBAL(u8, byte_67554C, 0x67554C);
+
+EXPORT bool Cooldown_4236C0();
+
+// Plays what a ped says for the voice event in Ped::field_250 (shouts, screams, ...)
+WIP_FUNC(0x423080)
 void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    Char_B4* pB4 = a2->field_0_pObj->field_8_char_b4_ptr;
+    Ped* pPed = pB4->field_7C_pPed;
+    s32 voice = pPed->field_250;
+    pPed->field_250 = 0;
+    s32 samp = 321;
+    char_type bTank;
+
+    if (!pPed->field_15C_player)
+    {
+        bTank = pPed->sub_45B4E0() || pPed->field_240_occupation == ped_ocupation_enum::tank_driver ||
+            pPed->field_240_occupation == ped_ocupation_enum::road_block_tank_man;
+        switch (voice)
+        {
+            case 1:
+                if (!bTank)
+                {
+                    if (!byte_67554B)
+                    {
+                        byte_67554B = 3;
+                        samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 11 + 210;
+                    }
+                    else
+                    {
+                        byte_67554B--;
+                    }
+                }
+                break;
+            case 2:
+                if (!bTank && Cooldown_4236C0())
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 3 + 221;
+                }
+                break;
+            case 3:
+                if (!bTank && Cooldown_4236C0())
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 7 + 221;
+                }
+                break;
+            case 4:
+                samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 5 + 228;
+                break;
+            case 5:
+                if (!bTank)
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 6 + 239;
+                }
+                break;
+            case 7:
+                if (!bTank && !(field_5448_m_FrameCounter & 1))
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 5 + 245;
+                }
+                break;
+            case 8:
+                if (!bTank && (char_type)(field_5448_m_FrameCounter % 2) == 1)
+                {
+                    samp = (u32)field_30_sQueueSample.field_0_EntityIndex % 7 + 250;
+                }
+                break;
+            case 9:
+            case 10:
+                if (!bTank && Cooldown_4236C0())
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 8 + 257;
+                }
+                break;
+            case 11:
+                if (!bTank && Cooldown_4236C0())
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 7 + 265;
+                }
+                break;
+            case 12:
+                if (!bTank)
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 5 + 272;
+                }
+                break;
+            case 13:
+                if (!bTank)
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 3 + 277;
+                }
+                break;
+            case 14:
+                if (!bTank)
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 3 + 280;
+                }
+                break;
+            case 15:
+                if (!bTank)
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 2 + 283;
+                }
+                break;
+            case 17:
+                if (bTank)
+                {
+                    if (!byte_67554A)
+                    {
+                        samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 14 + 285;
+                        byte_67554A = 3;
+                    }
+                    else
+                    {
+                        byte_67554A--;
+                    }
+                }
+                break;
+            case 22:
+                if (!bTank)
+                {
+                    if (!byte_67554C)
+                    {
+                        byte_67554C = 3;
+                        samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 4 + 299;
+                    }
+                    else
+                    {
+                        byte_67554C--;
+                    }
+                }
+                break;
+            case 25:
+                samp = 59;
+                break;
+        }
+
+        s32 occupation = pPed->field_240_occupation;
+        if (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader)
+        {
+            if (!word_675548)
+            {
+                samp = field_1454_anRandomTable[0] % 6 + 303;
+                word_675548 = 275;
+            }
+            word_675548--;
+        }
+    }
+    else if (voice == 20)
+    {
+        samp = field_1454_anRandomTable[0] % 2 + 309;
+    }
+    else if (voice == 25)
+    {
+        samp = 59;
+    }
+
+    if (voice == 26)
+    {
+        switch (pB4->field_7C_pPed->field_254)
+        {
+            case 2:
+            case 10:
+                samp = 202;
+                break;
+            case 7:
+                samp = 206;
+                break;
+            case 5:
+            case 6:
+            case 8:
+            case 9:
+                samp = 194;
+                break;
+            case 4:
+                field_30_sQueueSample.field_14_samp_idx = 68;
+                break;
+            case 1:
+            case 3:
+                samp = 198;
+                break;
+        }
+    }
+    else if (voice == 28)
+    {
+        samp = 68;
+    }
+    else if (voice == 27)
+    {
+        samp = 41;
+    }
+
+    if (samp != 321 && CalculateDistance_419020(Fix16(0x144000, 0)))
+    {
+        u8 vol;
+        if (samp == 309 || samp == 310)
+        {
+            vol = 25;
+        }
+        else if (voice == 27)
+        {
+            vol = 50;
+        }
+        else if (voice == 26)
+        {
+            vol = 50;
+        }
+        else if (voice == 28)
+        {
+            vol = 35;
+        }
+        else if (voice == 4)
+        {
+            vol = 35;
+        }
+        else
+        {
+            vol = bTank ? 62 : 40;
+        }
+
+        if (VolCalc_419070(vol, Fix16(0x24000, 0), a2->field_5_bHasSolidAbove))
+        {
+            field_30_sQueueSample.field_14_samp_idx = samp;
+            field_30_sQueueSample.field_54 = Fix16(0x24000, 0);
+            field_30_sQueueSample.field_60_nEmittingVolume = vol;
+            field_30_sQueueSample.field_64_max_distance = 18;
+            s32 rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp);
+            rate += RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+            field_30_sQueueSample.field_20_rate = rate;
+            field_30_sQueueSample.field_58_type = 20;
+            field_30_sQueueSample.field_3C = 0;
+            field_30_sQueueSample.field_4_SampleIndex = 2;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 7;
+            field_30_sQueueSample.field_18 = 0;
+            field_30_sQueueSample.field_34 = 0;
+            field_30_sQueueSample.field_38 = -1;
+            field_30_sQueueSample.field_30 = 1;
+            AddSampleToRequestedQueue_41A850();
+        }
+    }
 }
 
 MATCH_FUNC(0x4178C0)
