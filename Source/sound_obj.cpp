@@ -4679,8 +4679,8 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
     Ped* pPed = pB4->field_7C_pPed;
     s32 voice = pPed->field_250;
     pPed->field_250 = 0;
-    s32 samp = 321;
     char_type bTank;
+    s32 samp = 321;
 
     if (!pPed->field_15C_player)
     {
@@ -4730,7 +4730,7 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
                 }
                 break;
             case 8:
-                if (!bTank && (char_type)(field_5448_m_FrameCounter % 2) == 1)
+                if (!bTank && (field_5448_m_FrameCounter & 1) == 1)
                 {
                     samp = (u32)field_30_sQueueSample.field_0_EntityIndex % 7 + 250;
                 }
@@ -4879,13 +4879,9 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
         {
             vol = 35;
         }
-        else if (voice == 4)
-        {
-            vol = 35;
-        }
         else
         {
-            vol = bTank ? 62 : 40;
+            vol = voice == 4 ? 35 : bTank ? 62 : 40;
         }
 
         if (VolCalc_419070(vol, Fix16(0x24000, 0), a2->field_5_bHasSolidAbove))
