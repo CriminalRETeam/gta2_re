@@ -190,6 +190,24 @@ case out with its own `return` and put the same `return` after the switch, so th
 tail-merge. Case order in the source still sets the `cx`/`dx` alternation between blocks, even
 when the case lands last in the layout. The permuter found `case 4` first (`sub_5345E0`).
 
+**A `switch` whose cases all return the same value still loads the operand.** A stray
+`mov 0x28(%ecx),%ecx` with no compare after it comes from `switch (field_28_state)` where every case
+does `return true`: VC6 drops the compares and keeps the load (`Kfc_30::PedIsValid_5CBC60`; the case
+values are a guess).
+
+**Two returns can turn branchless.** `if (ok) return x; return 0;` came out as `neg/sbb/not/and`. The
+original's `test/je` with two epilogues came from setting `x = 0` on the failure path and returning `x`
+once (`Registry::Get_Int_Setting_5874E0`).
+
+**`if (a > b) {...} else if (a < b) {...}`, not nested `<=`/`<`.** Same compares, different block order
+(`CarPhysics_B0::SyncZWithTrailer_55B3F0`).
+
+**A function can tail call a chunk that isn't in the function list.** `Ped::BecomeDummyOnPlayerDisconnect_470300`
+ends in a jump into code at 0x43AA20 that IDA counts as a chunk of another function. It is written as its own
+method (`Car_BC::sub_43AA20`, no marker since 0x43AA20 isn't in `og_function_data_v105.csv`), called in tail
+position. `Hud_2B00::UpdatePauseSection_5D69C0` is the thunk form of the same thing (`add $0x2A1C,%ecx; jmp
+0x5D6300`): the body moved to `Garox_12E4_sub::UpdatePauseSection_5D6300`, which is unverified for the same reason.
+
 ## Types and signedness
 
 **`jae`/`jb` vs `jge`/`jl` means unsigned vs signed.** Fix the field or parameter type, not the
@@ -235,6 +253,16 @@ in the original. Return a local filled in place instead (`Char_B4::sub_545580` u
 `lea 0x19(%edi),%eax; push %eax` passes a pointer. The decomp had `gbh_DrawTriangle` and
 `MapRenderer::draw_4E9EE0` taking the colour as `u8&`, which also passed a pointer to the
 game's d3d dll where it expects the value.
+
+**A u8 parameter type shows up as a missing `xor`.** Passing a `u8` field to an `s32`
+parameter gives `xor %eax,%eax; mov 0x24C(%esi),%al; push %eax`, with the `xor` scheduled early. With the
+parameter declared `u8` the `xor` goes and the load moves next to the push (`Ped::ExitTrainStateMachine_46D240`
+calling `Car_BC::IsStoppedWithPavementAtDoor_43B140(u8)`). A shared prototype's parameter type moves code in every
+caller, so check `compare_builds` after changing one.
+
+**A u8 stored to a stack slot and then pushed as a dword is a `u8` local.** (`sound_obj::Tank_414A50`,
+`Ped::IncreaseWantedLevelFromDebugKeys_46EFD0`, where the current and maximum star counts are read into u8 locals,
+in that order.)
 
 ## Evaluation order and registers
 
@@ -433,6 +461,9 @@ known to be 0 on entry, VC6 won't reproduce it however you write the loop
 slot, e.g. a `u8` index used once and a later `u32 len = sizeof(x)` read-size, and your frame is 4 bytes
 bigger, wrap each one in its own `{ }` block. VC6 only overlaps slots for variables in disjoint scopes; the
 original probably had them inside inline helpers. `Frontend::sub_4B4EC0` went 0.867 → 1.0 from this alone.
+A `static inline bool` helper does the same job and reads better: `CarAI_78::sub_453C00` matched once its
+Ang16 angle test moved into one, so the test's temporaries got their own scope and a later speed temporary
+reuses their slot.
 
 **A local can live in a parameter's slot.** Once VC6 has a parameter in a register (here
 `hInstance` in `esi`), it may put an address-taken local in that parameter's stack slot
@@ -444,6 +475,18 @@ local twice, and try both declaration orders: one of them goes in the parameter 
 **Try the permuter's depth 2 before hand-editing.** Two changes that are each worse alone can match
 together (`RouteFinder::NoRefs_589210`: a local's type and the order of two assignments). That's
 `Scripts/permute.sh ... -m exhaustive -p <passes> --depth 2`; see docs/permuter.md.
+
+**`T x; x = f();` vs `T x = f();` for a by-value return.** The assignment form returns into a
+temporary and keeps the value in a register; the initialiser form has the call write straight into the
+local's stack slot (`sound_obj::Tank_414A50`, with a `Fix16`).
+
+**A `volatile` local keeps a flag in its stack slot.** When the original stores a flag to the stack and
+reads it back where VC6 would keep it in a register, `volatile bool found = 0;` reproduces that
+(`Ped::ExitTrainStateMachine_46D240`, from upstream).
+
+**A by-value max helper instead of `Fix16::Max`.** `Fix16::Max` reads through memory. A file-local
+by-value `if (a > b) b = a; return b;` gives the original's register use and keeps the call nesting
+(`CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0`).
 
 ## Functions, thunks and calling conventions
 
@@ -648,6 +691,7 @@ that may be `FromPolar_41E210` or `Ang16::PolarToCartesian_41FC20`.
 `pushad`/`popad`: the compiler still sees `pushad` and saves `ebx`/`esi`/`edi` as the original
 does (`get_rdtsc_5BEE90`). Emitting the whole instruction as bytes loses those saves.
 
+
 ## Still unexplained
 
 These came up more than once and nothing tried so far reproduces them. Notes on what was
@@ -656,7 +700,9 @@ tried are in the WIP status report.
 - A `u16` field loaded whole and then tested on its high byte (`mov 0x78(%ecx),%cx; test $6,%ch`)
   where we get `testb $6,0x79(%ecx)` (`Car_BC::sub_43B850`).
 - A dword load followed by a byte shift (`mov 4(%esp),%eax; shr $7,%al`) (`bk_1::SetAltKeyState_498CB0`).
-- A stack slot reused for a later temporary (`CarAI_78::sub_453C00`).
+- What looks like an inlined scalar deleting destructor: the pointer is tested in `ecx` and
+  `push %esi; mov %ecx,%esi` happen inside the `if`, where ours keeps the pointer in `esi` from the
+  start (0x446DC0, `0x5C5F10`).
 - `ebp` pushed only after an early null check (`Hud_Brief_704::ClearAllBriefsWithPriority_5D4890`).
 - x87 instruction scheduling around the inlined vertex helpers in the `MapRenderer::Draw*Sided*`
   functions.
