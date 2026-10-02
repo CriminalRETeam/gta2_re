@@ -620,7 +620,7 @@ u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneIn
                 gangcar_ratio = 0;
             }
 
-            u16 value = gRngRemapTable_679320[this->field_0.field_0];
+            u16 value = field_0.GetRngValue_4212D0();
 
             field_0.IncNextRngRemapIdx_47BD90();
 
