@@ -1455,7 +1455,6 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
 {
     WIP_IMPLEMENTED;
 
-    gmp_block_info* pBlock1;
     gmp_block_info* pBlock2;
     gmp_block_info* pBlock3;
     gmp_block_info* pBlock4;
@@ -1483,16 +1482,9 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
     {
         if (!IsZOnGround_4E5170(gSprite_6F61E8->field_14_xy.x, gSprite_6F61E8->field_14_xy.y, gSprite_6F61E8->field_1C_zpos))
         {
-            pBlock1 = get_block_4DFE10(gSprite_6F61E8->field_14_xy.x.ToInt(),
-                                                       gSprite_6F61E8->field_14_xy.y.ToInt(),
-                                                       gSprite_6F61E8->field_1C_zpos.ToInt());
-            if (!pBlock1)
-            {
-                return sub_4E1A30(regionLeft, regionRight, regionTop, regionBottom, zLevel);
-            }
-
-            if ((pBlock1->field_B_slope_type & 0xFC) == 0 || (pBlock1->field_B_slope_type & 0xFCu) >= 0xB4 ||
-                (pBlock1->field_B_slope_type & 3) == 0)
+            if (!IsGradientSlopeAt_466CF0(gSprite_6F61E8->field_14_xy.x.ToInt(),
+                                          gSprite_6F61E8->field_14_xy.y.ToInt(),
+                                          gSprite_6F61E8->field_1C_zpos.ToInt()))
             {
                 return sub_4E1A30(regionLeft, regionRight, regionTop, regionBottom, zLevel);
             }
