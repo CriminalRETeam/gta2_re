@@ -954,8 +954,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
     switch (pCmd->field_12_close_type)
     {
         case SCR_DOOR_CLOSETYPES::close_never:
-            // pCmd->field_8->set_field_24(3);
-            pCmd->field_8->field_24 = door_close_type::close_never;
+            pCmd->field_8->set_field_24(door_close_type::close_never);
             tmp = pCmd->field_8;
             tmp1 = pCmd->field_13_delay;
             tmp->field_1C = tmp1;
@@ -963,8 +962,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
             return;
             break;
         case SCR_DOOR_CLOSETYPES::close_time_delay:
-            // pCmd->field_8->set_field_24(1);
-            pCmd->field_8->field_24 = door_close_type::close_time_delay;
+            pCmd->field_8->set_field_24(door_close_type::close_time_delay);
             tmp = pCmd->field_8;
             tmp1 = pCmd->field_13_delay;
             tmp->field_1C = tmp1;
@@ -972,8 +970,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
             return;
             break;
         case SCR_DOOR_CLOSETYPES::close_when_clear:
-            // pCmd->field_8->set_field_24(2);
-            pCmd->field_8->field_24 = door_close_type::close_when_clear;
+            pCmd->field_8->set_field_24(door_close_type::close_when_clear);
             tmp = pCmd->field_8;
             tmp1 = pCmd->field_13_delay;
             tmp->field_1C = tmp1;
@@ -981,8 +978,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
             return;
             break;
         case SCR_DOOR_CLOSETYPES::close_when_open_rule_fails:
-            // pCmd->field_8->set_field_24(4);
-            pCmd->field_8->field_24 = door_close_type::close_when_open_rule_fails;
+            pCmd->field_8->set_field_24(door_close_type::close_when_open_rule_fails);
             tmp = pCmd->field_8;
             tmp1 = pCmd->field_13_delay;
             tmp->field_1C = tmp1;
@@ -994,7 +990,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
     tmp1 = pCmd->field_13_delay;
     tmp->field_1C = tmp1;
     tmp->field_1E = tmp1;
-    // pCmd->field_8->set_field_1c_1e(pCmd->field_13_delay);
+    // 9.6f: Door_38::set_field_1c_1e (0x476A20, inlined, using it changes the code)
 }
 
 MATCH_FUNC(0x504b80)
@@ -1121,7 +1117,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
     tmp1 = pCmd->field_13_delay;
     tmp->field_1C = tmp1;
     tmp->field_1E = tmp1;
-    // pCmd->field_8->set_field_1c_1e(pCmd->field_13_delay);
+    // 9.6f: Door_38::set_field_1c_1e (0x476A20, inlined, using it changes the code)
 }
 
 MATCH_FUNC(0x504dd0)
