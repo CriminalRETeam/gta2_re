@@ -2940,47 +2940,19 @@ void Player::ApplyCheats_56A490()
 {
     if (gCheatGetPlayerPoints_67D4C8)
     {
-        if (-field_2D4_scores.field_0_money.field_30_max_value > 200000)
-        {
-            field_2D4_scores.field_0_money.field_0_value = -field_2D4_scores.field_0_money.field_30_max_value;
-        }
-        else
-        {
-            if (field_2D4_scores.field_0_money.field_30_max_value < 200000)
-            {
-                field_2D4_scores.field_0_money.field_0_value = field_2D4_scores.field_0_money.field_30_max_value;
-            }
-            else
-            {
-                field_2D4_scores.field_0_money.field_0_value = 200000;
-            }
-        }
+        field_2D4_scores.SetMoney_4A50E0(200000);
     }
     if (gCheatGet10MillionMoney_67D6CE)
     {
-        if (-field_2D4_scores.field_0_money.field_30_max_value > 9999999)
-        {
-            field_2D4_scores.field_0_money.field_0_value = -field_2D4_scores.field_0_money.field_30_max_value;
-        }
-        else
-        {
-            if (field_2D4_scores.field_0_money.field_30_max_value < 9999999)
-            {
-                field_2D4_scores.field_0_money.field_0_value = field_2D4_scores.field_0_money.field_30_max_value;
-            }
-            else
-            {
-                field_2D4_scores.field_0_money.field_0_value = 9999999;
-            }
-        }
+        field_2D4_scores.SetMoney_4A50E0(9999999);
     }
     if (gCheatUnlimitedElectroGun_67D4F7)
     {
-        field_718_weapons[weapon_type::shocker]->field_0_ammo = -1;
+        field_718_weapons[weapon_type::shocker]->set_infinite_ammo_4A4F90();
     }
     if (gCheatUnlimitedFlameThrower_67D6CC)
     {
-        field_718_weapons[weapon_type::flamethrower]->field_0_ammo = -1;
+        field_718_weapons[weapon_type::flamethrower]->set_infinite_ammo_4A4F90();
     }
     if (gCheatAllGangMaxRespect_67D587)
     {

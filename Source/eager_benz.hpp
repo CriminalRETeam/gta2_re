@@ -11,6 +11,12 @@ class Ped;
 class eager_benz
 {
   public:
+    // 9.6f 0x4A50E0
+    inline void SetMoney_4A50E0(s32 money)
+    {
+        field_0_money.SetValueClamped_4A50B0(money);
+    }
+
     // 9.6f 0x45B0A0
     inline u8 get_accuracy_count_45B0A0()
     {

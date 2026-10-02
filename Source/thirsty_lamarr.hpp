@@ -15,6 +15,23 @@ class thirsty_lamarr
     EXPORT char_type sub_4925C0();
     EXPORT void sub_4925E0();
 
+    // 9.6f 0x4A50B0
+    inline void SetValueClamped_4A50B0(s32 value)
+    {
+        if (value < -field_30_max_value)
+        {
+            field_0_value = -field_30_max_value;
+        }
+        else if (value > field_30_max_value)
+        {
+            field_0_value = field_30_max_value;
+        }
+        else
+        {
+            field_0_value = value;
+        }
+    }
+
     // 9.6f 0x41DC30
     inline s32 get_value()
     {
