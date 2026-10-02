@@ -6292,8 +6292,7 @@ void miss2_0x11C::SCRCMD_EMERG_LIGHTS_50F450()
     SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
-    Car_BC* pCar = pPointer->field_8_car;
-    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCar->field_84_car_info_idx)->info_flags & 2) == 2 || pCar->field_84_car_info_idx == 84)
+    if (pPointer->field_8_car->HasEmergencyLights_414F20())
     {
         if ((u8)pCmd->field_A_unsigned_2 == 1)
         {
