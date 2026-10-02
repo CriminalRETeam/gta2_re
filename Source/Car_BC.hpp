@@ -209,6 +209,13 @@ class Car_6C
         return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, kFpOne_6F77C4);
     }
 
+    // SpawnCar_426E10 with the scale passed in: 10.5 loads a different Fix16(1) global per TU
+    // (kFpOne_6F77C4 in miss2_0x11C, kOne_6FE614 in Player)
+    inline Car_BC* SpawnCar_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, const Fix16& scale)
+    {
+        return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, scale);
+    }
+
     // 9.6f inlined
     inline Car_BC* SpawnCar_4764A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {

@@ -2744,21 +2744,20 @@ void Player::EnableEnterVehicles_56A040()
     field_30_disable_enter_vehicles = 0;
 }
 
-WIP_FUNC(0x56A0F0)
+MATCH_FUNC(0x56a0f0)
 void Player::RestoreCarsFromSave_56A0F0()
 {
-    for (s32 i = 0; i < 3; i++)
+    for (u8 i = 0; i < 3; i++)
     {
         if (gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0 > kZero_6FE610 &&
             gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0 > kZero_6FE610)
         {
-            Car_BC* pNewCar =
-                gCar_6C_677930->SpawnCarAt_446230(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0,
-                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0,
-                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_18_z[i].field_0,
-                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_24_ang[i], // rot
-                                                  gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_3C_car_model[i], // car_info_idx/model
-                                                  kOne_6FE614);
+            Car_BC* pNewCar = gCar_6C_677930->SpawnCar_426E10(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0,
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0,
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_18_z[i].field_0,
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_24_ang[i],
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_3C_car_model[i],
+                                                                kOne_6FE614);
             AddCarToHistory_5645B0(pNewCar);
             pNewCar->field_8_damaged_areas.m_var = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_30_damaged_areas[i];
             pNewCar->set_damage_4A51B0(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_2A_damage[i]);

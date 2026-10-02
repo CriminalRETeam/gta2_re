@@ -547,8 +547,8 @@ struct SavedCarInfo
     TurkishDelight_4 field_18_z[3];
     Ang16 field_24_ang[3];
     s16 field_2A_damage[3];
-    s32 field_30_damaged_areas[3];
-    s16 field_3C_car_model[3];
+    u32 field_30_damaged_areas[3];
+    u16 field_3C_car_model[3];
     s16 field_42_maybe_pad;
 };
 
