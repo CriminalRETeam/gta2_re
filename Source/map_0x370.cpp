@@ -3897,6 +3897,7 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
         *pZ = *GetRailwayZBelowCoord_4E6400(&found_z, x, y, z);
     }
 
+    // 9.6f: sub_42A660 reverses the direction (inlined, using it as a helper changes the code: 103 -> 301)
     switch (direction)
     {
         case road_direction::up_1:
