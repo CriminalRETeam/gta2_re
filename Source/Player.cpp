@@ -306,7 +306,7 @@ void Player::SetKFWeapon_564790(s32 idx)
     this->field_18_pre_kf_weapon_kind = this->field_788_curr_weapon_idx;
     this->field_1C_kf_weapon_kind = idx;
     this->field_1A_pre_kf_ammo = this->field_718_weapons[idx]->get_ammo_4A4FE0();
-    this->field_718_weapons[idx]->field_0_ammo = -1;
+    this->field_718_weapons[idx]->set_infinite_ammo_4A4F90();
     this->field_788_curr_weapon_idx = this->field_1C_kf_weapon_kind;
     EnableKFMode_56A010();
 }
