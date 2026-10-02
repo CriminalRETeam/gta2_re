@@ -103,6 +103,13 @@ def extract_constant(s):
                 tmp = is_hex_constant(op, True) if op[:1] not in ("%", "(") else None
             if tmp is not None:
                 ret.append(tmp)
+    elif s.startswith(("div", "idiv", "mul", "neg", "not")):
+        # single memory operand, e.g. "divl 0x705334"
+        tmp = get_constant_from_deref(s.split(" ")[1], True)
+        if tmp is None:
+            ret = get_constant_from_inst_generic(s, True)
+        else:
+            ret.append(tmp)
     elif s.startswith("inc"):
         ret = get_constant_from_inst_generic(s, True)
     elif s.startswith("dec"):
@@ -234,6 +241,12 @@ class TestStringMethods(unittest.TestCase):
 
     def test_fmull_hex(self):
         self.assertEqual(extract_constant("fmull 0x427F00"), ["0x427F00"])
+
+    def test_divl_hex(self):
+        self.assertEqual(extract_constant("divl 0x705334"), ["0x705334"])
+
+    def test_divl_reg(self):
+        self.assertEqual(extract_constant("div %ecx"), [])
 
     def test_fmuls_hex(self):
         self.assertEqual(extract_constant("fmuls 0x5FE3C8"), ["0x5FE3C8"])
