@@ -602,6 +602,24 @@ struct WeaponCheckTable
 class frosty_pasteur_0xC1EA8
 {
   public:
+    // 9.6f 0x475980
+    inline bool HasCheckFlag1_475980(WeaponCheckTable* pTable)
+    {
+        return (pTable->field_6 & 1) == 1;
+    }
+
+    // 9.6f 0x4759A0
+    inline bool HasCheckFlag2_4759A0(WeaponCheckTable* pTable)
+    {
+        return (pTable->field_6 & 2) == 2;
+    }
+
+    // 9.6f 0x4759C0
+    inline bool HasCheckFlag4_4759C0(WeaponCheckTable* pTable)
+    {
+        return (pTable->field_6 & 4) == 4;
+    }
+
     // 9.6f 0x475A20
     inline char_type get_field_C1E2C_475A20()
     {
