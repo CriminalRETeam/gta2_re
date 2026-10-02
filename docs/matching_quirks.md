@@ -264,6 +264,11 @@ caller, so check `compare_builds` after changing one.
 `Ped::IncreaseWantedLevelFromDebugKeys_46EFD0`, where the current and maximum star counts are read into u8 locals,
 in that order.)
 
+**A u8 loop index can give separate pointers and a count-down counter.** `for (u8 i = 0; i < 17; i++)`
+over two `u16` arrays gives the original's two pointers plus a counter in a stack slot. An `s32` index gives
+indexed addressing, and hand-written pointers merge into one pointer and a difference register
+(`Player::RestorePowerUpsFromSave_5651F0`).
+
 ## Evaluation order and registers
 
 **Read through the pointer, not a local copy.** `lea (%eax,%ecx)` where yours gives
@@ -488,6 +493,15 @@ reads it back where VC6 would keep it in a register, `volatile bool found = 0;` 
 by-value `if (a > b) b = a; return b;` gives the original's register use and keeps the call nesting
 (`CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0`).
 
+**`new T()` without an EH state: declare T's constructor `throw()`.** When the original calls T's
+constructor out of line with no EH state around `new`, `T() throw();` removes the frame. Write
+`T* p = new T(); g = p; if (!p)`: assigning straight to the global let VC6 jump past the store
+(`frosty_pasteur_0xC1EA8` ctor 0x512CE0 with `Miss2_25C`).
+
+**Operand order inside a shared inline helper matters, and 9.6f shows it.** `Ang16::PolarToCartesian_41FC20`
+computing `sine(angle) * radius` (the 9.6f order) instead of `radius * sine(angle)` fixed
+`Car_BC::IsStoppedWithPavementAtDoor_43B140`. The helper has 76 call sites, so run `compare_builds` after such a change.
+
 ## Functions, thunks and calling conventions
 
 **`mov $1,%eax` in the callee but `test %al,%al` in the caller.** That's an `s32` (BOOL-style)
@@ -697,6 +711,9 @@ does (`get_rdtsc_5BEE90`). Emitting the whole instruction as bytes loses those s
 These came up more than once and nothing tried so far reproduces them. Notes on what was
 tried are in the WIP status report.
 
+- Identical code merged across `switch` cases, with one case jumping into another's block (`push $2; jmp`)
+  where ours duplicates it (`Map_0x370` 0x4E6190 and 0x4E5E90; case order, default, ternaries, if chains and
+  `/Os /O1 /Ob0 /Ob2 /Oy- /Gy` didn't help).
 - A `u16` field loaded whole and then tested on its high byte (`mov 0x78(%ecx),%cx; test $6,%ch`)
   where we get `testb $6,0x79(%ecx)` (`Car_BC::sub_43B850`).
 - A dword load followed by a byte shift (`mov 4(%esp),%eax; shr $7,%al`) (`bk_1::SetAltKeyState_498CB0`).
