@@ -32,7 +32,7 @@ class eager_benz
     EXPORT void sub_593410(Car_BC* pCar);
     EXPORT void UpdateAccuracyCount_5934F0(u32 a2, s32 a3, Ped* a4);
     EXPORT thirsty_lamarr* GetMultiplayerFragDigits_5935B0();
-    EXPORT s32 sub_5935C0();
+    EXPORT s32 GetFrags_5935C0();
     EXPORT void ChangeFragsByAmount_5935D0(s32 a2);
 
     thirsty_lamarr field_0_money;

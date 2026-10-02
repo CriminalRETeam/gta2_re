@@ -175,7 +175,7 @@ void Camera_0xBC::sub_4357B0()
 }
 
 MATCH_FUNC(0x4357F0)
-void Camera_0xBC::sub_4357F0()
+void Camera_0xBC::IncreaseTargetElevation_4357F0()
 {
     if (field_40_tgt_elevation < dword_676894)
     {
@@ -184,7 +184,7 @@ void Camera_0xBC::sub_4357F0()
 }
 
 MATCH_FUNC(0x435810)
-void Camera_0xBC::sub_435810()
+void Camera_0xBC::DecreaseTargetElevation_435810()
 {
     if (field_40_tgt_elevation > dword_676818)
     {
@@ -960,7 +960,7 @@ void Camera_0xBC::sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
 }
 
 MATCH_FUNC(0x58CF10)
-bool Camera_0xBC::sub_58CF10(Fix16 a2, Fix16 a3)
+bool Camera_0xBC::IsInBoundaries_58CF10(Fix16 a2, Fix16 a3)
 {
     return a2 >= field_78_boundaries_non_neg.field_0_left && a2 <= field_78_boundaries_non_neg.field_4_right &&
         a3 >= field_78_boundaries_non_neg.field_8_top && a3 <= field_78_boundaries_non_neg.field_C_bottom;

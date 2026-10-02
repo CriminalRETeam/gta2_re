@@ -47,7 +47,7 @@ u8 Ang16::GetOctant_4056A0()
 }
 
 MATCH_FUNC(0x406C20)
-void Ang16::sub_406C20()
+void Ang16::Normalize_406C20()
 {
     Normalize();
 }

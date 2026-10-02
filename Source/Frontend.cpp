@@ -2898,7 +2898,7 @@ void Frontend::LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 }
 
 MATCH_FUNC(0x4AD0D0)
-void Frontend::sub_4AD0D0()
+void Frontend::DrawLoadingText_4AD0D0()
 {
     const u16 x = sub_4B0190(gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
 
@@ -2965,7 +2965,7 @@ void Frontend::sub_4ADF50()
             break;
 
         case 2:
-            sub_4AD0D0();
+            DrawLoadingText_4AD0D0();
             break;
 
         default:

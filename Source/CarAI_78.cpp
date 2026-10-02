@@ -5692,7 +5692,7 @@ void CarAI_78::sub_453C00()
 
     // TODO: fix this:
     Ang16 v6(pPhysics->field_58_theta.rValue - tanAng.rValue);
-    v6.sub_406C20();
+    v6.Normalize_406C20();
 
     //Ang16 v6 = pPhysics->field_58_theta - tanAng;
 

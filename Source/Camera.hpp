@@ -39,8 +39,8 @@ class Camera_0xBC
     EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite);
     EXPORT char_type sub_435630(Sprite* pSprite, s32 bUnknown);
     EXPORT void sub_4357B0();
-    EXPORT void sub_4357F0();
-    EXPORT void sub_435810();
+    EXPORT void IncreaseTargetElevation_4357F0();
+    EXPORT void DecreaseTargetElevation_435810();
     EXPORT void ReturnToDefaultZoom_435830();
     EXPORT void sub_435840();
     EXPORT void sub_435860(Camera_0xBC* a2);
@@ -65,7 +65,7 @@ class Camera_0xBC
     EXPORT Camera_0xBC(); // 4368E0
     EXPORT ~Camera_0xBC(); // empty 4369E0
     EXPORT void sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
-    EXPORT bool sub_58CF10(Fix16 a2, Fix16 a3);
+    EXPORT bool IsInBoundaries_58CF10(Fix16 a2, Fix16 a3);
 
     void ProjectWorldToScreen_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
     {

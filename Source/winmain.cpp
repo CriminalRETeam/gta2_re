@@ -167,7 +167,7 @@ void force_link()
     lewin.AddWeaponWithAmmo_564960(0, 0);
     lewin.SelectNextOrPrevWeapon_5649D0(0, 0);
     lewin.sub_564AD0(0);
-    lewin.sub_564B60();
+    lewin.ClearCarWeapons_564B60();
     lewin.CleanupEmptyAmmoWeapons_564B80();
     lewin.sub_564C00();
     lewin.RemovePlayerWeapons_564C50();
@@ -229,8 +229,8 @@ void force_link()
 
     Camera_0xBC drawUnk;
     drawUnk.sub_4357B0();
-    drawUnk.sub_4357F0();
-    drawUnk.sub_435810();
+    drawUnk.IncreaseTargetElevation_4357F0();
+    drawUnk.DecreaseTargetElevation_435810();
     drawUnk.ReturnToDefaultZoom_435830();
     drawUnk.sub_435840();
     drawUnk.sub_435860(0);
@@ -240,7 +240,7 @@ void force_link()
     drawUnk.sub_436120(1);
     drawUnk.sub_436830();
     drawUnk.sub_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
-    drawUnk.sub_58CF10(1, 1);
+    drawUnk.IsInBoundaries_58CF10(1, 1);
 
     Ped cn;
     cn.sub_45B550();

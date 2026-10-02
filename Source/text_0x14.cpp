@@ -400,7 +400,7 @@ wchar_t* text_0x14::Find_5B5F90(const char_type* pIdStr)
 }
 
 MATCH_FUNC(0x5B5FA0)
-bool text_0x14::sub_5B5FA0(const char_type* pIdStr)
+bool text_0x14::TKeyExists_5B5FA0(const char_type* pIdStr)
 {
     return TKeyFind_5B59E0(pIdStr);
 }

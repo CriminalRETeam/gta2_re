@@ -414,7 +414,7 @@ s32 Char_B4::IsOnWater_545570()
 }
 
 MATCH_FUNC(0x5455f0)
-void Char_B4::sub_5455F0()
+void Char_B4::KillPed_5455F0()
 {
     field_7C_pPed->Kill_46F9D0();
 }

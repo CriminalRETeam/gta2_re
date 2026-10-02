@@ -3399,7 +3399,7 @@ void Map_sub::sub_4E80E0(u8 x, u8 y, u32 column_idx)
 }
 
 MATCH_FUNC(0x4E8140)
-s32 Map_0x370::sub_4E8140(gmp_block_info* pBlockInfo)
+s32 Map_0x370::AddBlock_4E8140(gmp_block_info* pBlockInfo)
 {
     s32 num_blocks = this->field_354_num_blocks;
     this->field_354_num_blocks = num_blocks + 1;
@@ -3545,7 +3545,7 @@ void Map_0x370::AddNewBlock_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockDa
 
     if (block_id < field_34C_num_blocks)
     {
-        pColumn->field_4_blockd[z - pColumn->field_1_offset] = Map_0x370::sub_4E8140(pBlockData);
+        pColumn->field_4_blockd[z - pColumn->field_1_offset] = Map_0x370::AddBlock_4E8140(pBlockData);
     }
     else
     {

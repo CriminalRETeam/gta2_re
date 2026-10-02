@@ -160,7 +160,7 @@
         "v105_address": "0x405e80"
     },
     {
-        "name": "Fix16::sub_406C20",
+        "name": "Fix16::Normalize_406C20",
         "v96f_address": null,
         "v105_address": "0x406c20"
     },
@@ -1215,12 +1215,12 @@
         "v105_address": "0x4357b0"
     },
     {
-        "name": "Camera_0xBC::sub_4357F0",
+        "name": "Camera_0xBC::IncreaseTargetElevation_4357F0",
         "v96f_address": null,
         "v105_address": "0x4357f0"
     },
     {
-        "name": "Camera_0xBC::sub_435810",
+        "name": "Camera_0xBC::DecreaseTargetElevation_435810",
         "v96f_address": null,
         "v105_address": "0x435810"
     },
@@ -7615,7 +7615,7 @@
         "v105_address": "0x4e80e0"
     },
     {
-        "name": "Map_0x370::sub_4E8140",
+        "name": "Map_0x370::AddBlock_4E8140",
         "v96f_address": null,
         "v105_address": "0x4e8140"
     },
@@ -10055,7 +10055,7 @@
         "v105_address": "0x51ca90"
     },
     {
-        "name": "Network_20324::sub_51CAD0",
+        "name": "Network_20324::ShowUnableToOpenFileError_51CAD0",
         "v96f_address": null,
         "v105_address": "0x51cad0"
     },
@@ -11595,7 +11595,7 @@
         "v105_address": "0x545580"
     },
     {
-        "name": "sub_5455F0",
+        "name": "KillPed_5455F0",
         "v96f_address": null,
         "v105_address": "0x5455f0"
     },
@@ -12645,7 +12645,7 @@
         "v105_address": "0x564ad0"
     },
     {
-        "name": "Player::sub_564B60",
+        "name": "Player::ClearCarWeapons_564B60",
         "v96f_address": null,
         "v105_address": "0x564b60"
     },
@@ -14045,7 +14045,7 @@
         "v105_address": "0x58a1c0"
     },
     {
-        "name": "Camera_0xBC::sub_58CF10",
+        "name": "Camera_0xBC::IsInBoundaries_58CF10",
         "v96f_address": null,
         "v105_address": "0x58cf10"
     },
@@ -14460,7 +14460,7 @@
         "v105_address": "0x5935b0"
     },
     {
-        "name": "eager_benz::sub_5935C0",
+        "name": "eager_benz::GetFrags_5935C0",
         "v96f_address": null,
         "v105_address": "0x5935c0"
     },
@@ -15555,7 +15555,7 @@
         "v105_address": "0x5b5f90"
     },
     {
-        "name": "text_0x14::sub_5B5FA0",
+        "name": "text_0x14::TKeyExists_5B5FA0",
         "v96f_address": null,
         "v105_address": "0x5b5fa0"
     },

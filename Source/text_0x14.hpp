@@ -94,7 +94,7 @@ class text_0x14
 
     EXPORT wchar_t* Find_5B5F90(const char_type* pIdStr);
 
-    EXPORT bool sub_5B5FA0(const char_type* pIdStr);
+    EXPORT bool TKeyExists_5B5FA0(const char_type* pIdStr);
 
     // 0x5B5FB0
     EXPORT text_0x14();

@@ -698,11 +698,11 @@ void Network_20324::sub_51BFA0()
             _chdir("data");
             if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_0_map_name) == -1)
             {
-                Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_0_map_name);
+                Network_20324::ShowUnableToOpenFileError_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_0_map_name);
             }
             else if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_104_style_name) == -1)
             {
-                Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_104_style_name);
+                Network_20324::ShowUnableToOpenFileError_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_104_style_name);
             }
             else
             {
@@ -714,7 +714,7 @@ void Network_20324::sub_51BFA0()
                 }
                 else
                 {
-                    Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name,
+                    Network_20324::ShowUnableToOpenFileError_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name,
                                               enumerated_mmp_name[i].field_208_script_name);
                 }
             }
@@ -827,10 +827,10 @@ char_type* Network_20324::GetMapScrName_51CA90()
 }
 
 MATCH_FUNC(0x51cad0)
-void Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
+void Network_20324::ShowUnableToOpenFileError_51CAD0(const char_type* pMmpName, const char_type* pFileName)
 {
     char Text[256];
-    sprintf(Text, "Unable to open file: %s in mmpfile: %s", a2, a1);
+    sprintf(Text, "Unable to open file: %s in mmpfile: %s", pFileName, pMmpName);
     MessageBoxA(0, Text, "", MB_ICONEXCLAMATION); // TODO: blank str is byte_67DC88 ?
 }
 

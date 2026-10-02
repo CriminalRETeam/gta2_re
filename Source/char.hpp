@@ -262,7 +262,7 @@ class Char_B4
     EXPORT void DoJump_5454D0();
     EXPORT void Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 IsOnWater_545570();
-    EXPORT void sub_5455F0();
+    EXPORT void KillPed_5455F0();
     EXPORT void sub_545600();
     EXPORT void sub_545640(Fix16 a1, s16* output);
     EXPORT void sub_545670(Fix16 a1, s16* output);

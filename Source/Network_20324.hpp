@@ -100,7 +100,7 @@ class Network_20324
     EXPORT char_type* GetMapName_51CA10();
     EXPORT char_type* GetMapStyName_51CA50();
     EXPORT char_type* GetMapScrName_51CA90();
-    EXPORT void sub_51CAD0(const char_type* a1, const char_type* a2);
+    EXPORT void ShowUnableToOpenFileError_51CAD0(const char_type* pMmpName, const char_type* pFileName);
     EXPORT void sub_51CB30(s32 a1, HWND hDlg);
     EXPORT void sub_51CBC0();
     EXPORT void SetPoliceEnabledCheckBox_51CCB0(s32 bPoliceOn, HWND hDlg);

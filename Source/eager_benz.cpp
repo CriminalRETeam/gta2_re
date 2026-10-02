@@ -224,7 +224,7 @@ void eager_benz::sub_591C70()
         {
             s16 t = gLucid_hamilton_67E8E0.GetFragsForPlayerIdx_4C5D60(player_idx);
             v30 = t;
-            sub_5935C0();
+            GetFrags_5935C0();
         }
         else if (v29 == 2)
         {
@@ -712,7 +712,7 @@ thirsty_lamarr* eager_benz::GetMultiplayerFragDigits_5935B0()
 }
 
 MATCH_FUNC(0x5935c0)
-s32 eager_benz::sub_5935C0()
+s32 eager_benz::GetFrags_5935C0()
 {
     return field_38_multiplayer_frags.field_0_value;
 }

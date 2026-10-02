@@ -414,7 +414,7 @@ class Map_0x370
     EXPORT s32 sub_4E7190(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5);
     EXPORT char_type sub_4E7E90(u8* a2, char_type* a3);
     EXPORT char_type CheckColumnHasSolidAbove_4E7FC0(Fix16 a2, Fix16 a3, Fix16 a4);
-    EXPORT s32 sub_4E8140(gmp_block_info* pBlockInfo);
+    EXPORT s32 AddBlock_4E8140(gmp_block_info* pBlockInfo);
     EXPORT s32 sub_4E8180(u32 read_block_idx);
     EXPORT s32 sub_4E81D0(u32 column_idx);
     EXPORT s32 sub_4E8220(u32 column_idx, s32 z);

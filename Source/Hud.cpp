@@ -418,7 +418,7 @@ void Garox_4::sub_5CF620()
             field_0_value = 0;
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
-    } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
+    } while (!gText_0x14_704DFC->TKeyExists_5B5FA0(gTmpBuffer_67C598));
     gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gHud_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
@@ -435,7 +435,7 @@ void Garox_4::sub_5CF6B0()
             field_0_value = 9999;
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
-    } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
+    } while (!gText_0x14_704DFC->TKeyExists_5B5FA0(gTmpBuffer_67C598));
     gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gHud_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);

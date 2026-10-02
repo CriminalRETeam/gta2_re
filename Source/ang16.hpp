@@ -170,7 +170,7 @@ class Ang16
         rValue = fix_3.ToInt();
     }
 
-    EXPORT void sub_406C20();
+    EXPORT void Normalize_406C20();
 
     // 9.6f 0x401C10
     // https://decomp.me/scratch/bB2VJ

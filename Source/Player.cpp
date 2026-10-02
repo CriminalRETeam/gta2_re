@@ -482,7 +482,7 @@ void Player::sub_564AD0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x564B60)
-void Player::sub_564B60()
+void Player::ClearCarWeapons_564B60()
 {
     for (u32 i = 15; i < GTA2_COUNTOF(field_718_weapons); i++)
     {
@@ -867,7 +867,7 @@ void Player::InitPlayerPed_565490(Ped* pPed)
         field_718_weapons[weapon_idx] = gWeapon_8_707018->allocate_5E3C10(weapon_idx, pPed, ammo);
     }
 
-    Player::sub_564B60();
+    Player::ClearCarWeapons_564B60();
     field_788_curr_weapon_idx = -1;
     field_14 = -1;
     field_16 = 27;
@@ -2001,14 +2001,14 @@ void Player::sub_568670()
 {
     if (this->field_76)
     {
-        field_90_game_camera.sub_435810();
-        field_208_aux_game_camera.sub_435810();
+        field_90_game_camera.DecreaseTargetElevation_435810();
+        field_208_aux_game_camera.DecreaseTargetElevation_435810();
     }
 
     if (this->field_77)
     {
-        field_90_game_camera.sub_4357F0();
-        field_208_aux_game_camera.sub_4357F0();
+        field_90_game_camera.IncreaseTargetElevation_4357F0();
+        field_208_aux_game_camera.IncreaseTargetElevation_4357F0();
     }
 }
 
