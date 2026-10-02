@@ -149,7 +149,7 @@ Shooey_CC_Sub::~Shooey_CC_Sub()
 MATCH_FUNC(0x484fe0)
 void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 {
-    switch (pPed->field_240_occupation)
+    switch (pPed->get_occupation_403980())
     {
         case ped_ocupation_enum::police:
         case ped_ocupation_enum::swat:
