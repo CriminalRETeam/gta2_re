@@ -63,6 +63,25 @@ class CarPhysics_B0
         field_6C_cp3 = v;
     }
 
+    // 9.6f 0x40F820
+    inline Ang16 get_theta_40F820()
+    {
+        return field_58_theta;
+    }
+
+    // 9.6f 0x40F830
+    inline void set_theta_40F830(Ang16 v)
+    {
+        field_58_theta = v;
+    }
+
+    // 9.6f 0x40F7E0
+    inline void set_cp1_40F7E0(const Fix16_Point& v)
+    {
+        field_38_cp1.x = v.x;
+        field_38_cp1.y = v.y;
+    }
+
     // 9.6f 0x421270
     inline char_type get_is_hand_brake_on_421270()
     {
