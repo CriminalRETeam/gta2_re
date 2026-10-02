@@ -4286,8 +4286,8 @@ void Map_0x370::ChangeBlock_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u1
 MATCH_FUNC(0x4E87C0)
 void Map_0x370::AddNewBlock_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData)
 {
-    s32 column_idx = Map_0x370::CloneColumnExtendedToZ_4E8220(field_0_pDmap->field_0_base[y][x], z);
-    field_0_pDmap->field_0_base[y][x] = column_idx;
+    s32 column_idx = Map_0x370::CloneColumnExtendedToZ_4E8220(*field_0_pDmap->get_base_42A830(y, x), z);
+    *field_0_pDmap->get_base_42A830(y, x) = column_idx;
     field_4_obj.AddOrUpdateDmapInfo_4E80E0(x, y, column_idx);
     gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[column_idx];
     u32 block_id = pColumn->field_4_blockd[z - pColumn->field_1_offset];
