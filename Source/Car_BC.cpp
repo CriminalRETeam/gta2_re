@@ -6564,24 +6564,16 @@ void Car_BC::ResprayOrCleanPlates(u8 remap)
 MATCH_FUNC(0x443c40)
 void Car_BC::HandleShops_443C40(Object_2C* pObj)
 {
-    Ped* pDriver = this->field_54_driver;
-    if (pDriver)
+    if (sub_4215C0() && pObj->field_18_model == objects::car_shop_130)
     {
-        Player* pPlayer = pDriver->field_15C_player;
-        if (pPlayer)
+        const u8 idx = pObj->get_field_26_420FF0();
+        if (idx >= objects::shop_car_smg_250 && (idx <= objects::shop_car_mines_252 || idx == objects::machine_gun_bullet_254))
         {
-            if (pDriver->field_240_occupation != 1 && pObj->field_18_model == objects::car_shop_130)
-            {
-                const u8 idx = pObj->get_field_26_420FF0();
-                if (idx >= objects::shop_car_smg_250 && (idx <= objects::shop_car_mines_252 || idx == objects::machine_gun_bullet_254))
-                {
-                    Car_BC::BuyCarWeapon_4438C0(pPlayer->ObjectTypeToWeaponType_443CB0(idx));
-                }
-                else
-                {
-                    Car_BC::ResprayOrCleanPlates(idx);
-                }
-            }
+            Car_BC::BuyCarWeapon_4438C0(GetDriverPlayer_421870()->ObjectTypeToWeaponType_443CB0(idx));
+        }
+        else
+        {
+            Car_BC::ResprayOrCleanPlates(idx);
         }
     }
 }
