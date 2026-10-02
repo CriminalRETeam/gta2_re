@@ -518,6 +518,31 @@ gave about 0.70 (`UpdateDirectedBurst_state_13_14_36_539480`, `UpdateCircularBur
 `UpdateDirectedProjectile_state_3_12_5384C0` dropped slightly. Before hand-writing maths,
 grep `Fix16_Point.hpp`, `fix16.hpp` and `ang16.hpp` for an inline that does it.
 
+### Big functions run out of inline expansions
+
+VC6 stops inlining once a function has made a certain number of inline expansions. The calls
+past the limit stay as real calls, for example `call ??GFix16@@QBE?AV0@ABV0@@Z`
+(`Fix16::operator-`) where the original has `sub %ecx,%eax`. Which calls lose out isn't source
+order, and removing one expansion doesn't always free exactly one: test each change. In
+`Map_0x370::sub_4E7190` three `operator-` calls were left out of line until two helper inlines
+were written out by hand (score 825 -> 196). If a big function calls an inline that its
+smaller sibling inlines fine, count the inline helpers you added that the original may not have
+had. Check by grepping the object's relocations for inline member names.
+
+**An inline that writes through a reference keeps the target in a register.**
+`p = GetBlock(x, y, z)` with an inline that returns its own local spilled `pBlock` to the stack
+in `Map_0x370::sub_4E6660`. `SetBlock(pBlock, x, y, z)`, which assigns `pBlock` in both lookups,
+gave the original's `mov %eax,%edi` after each `get_block_4DFE10` and fixed the whole register
+allocation (0.56 -> 0.99). The opposite holds for a value that must not be constant-propagated:
+`if (d != want) d = 0; if (!d)` folds into one `cmp`, but the original's
+`cmp; je; xor; test; jne` comes from an inline that returns `d`.
+
+**Temporaries share slots, named locals don't.** A named `Ang16 back(...)` and a named
+`Fix16 found_z` each got their own stack slot, so the frame was 4-8 bytes too big. The original
+puts both in slots it reuses, including the dead `dist` parameter's slot. A temporary
+(`GetAngleFace_4F78F0(Ang16(...).Normalized_406C20())`, an inline that returns `*this`) and a
+block-scoped `{ Fix16 found_z; ... }` gave the original's frame (`Map_0x370::sub_4E6660`).
+
 Not checked yet: `CarAI_78.cpp` has many `sine_40F500(a) * r` / `cosine_40F520(a) * r` pairs
 that may be `FromPolar_41E210` or `Ang16::PolarToCartesian_41FC20`.
 

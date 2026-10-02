@@ -1227,3 +1227,31 @@ Still different:
   get back in the car when the criminal is far away or fast. The crew-state check goes in the
   sibling's order (`!= 3` first). Left: the original puts the two "timer ran out" blocks at
   the end of the function, and the case tails merge differently.
+
+### Map_0x370::sub_4E5D10, sub_4E5D70, sub_4E5E00: match
+- Small road helpers of the two road followers below: move x or y along a road direction, and
+  the distance to the block edge across or along an angle's face. Their bytes came from the
+  dump's extra address list. They take `this` but don't use it, so they're members. Their csv
+  rows got the `Map_0x370::` prefix.
+
+### Map_0x370::sub_4E6660 (0x4E6660): WIP, one instruction pair off
+- Moves a point `dist` along the road, following the arrows, and returns the final direction.
+- 0.56 -> 0.99 (registers counted): the "block under or at z" lookup as an inline that writes
+  through a `gmp_block_info*&`. Then the frame: the reversed angle as a temporary through
+  `Ang16::Normalized_406C20()`, the final z in a block scope, and `bTurned` declared before
+  `x`. The early exits jump straight to the shared exit, so they're `goto done` (the
+  original's tail code is shared, not duplicated).
+- Left: in the `side == 0.5` branch, `sub_4E65A0(x, y, &z, 1, 1)` pushes `%ebx`, which still
+  holds the 1 loaded at the top, where the original pushes `$1` twice. Literal type (`true`,
+  `TRUE`, casts), an inline wrapper, a variable for the first 1 and declaration order made no
+  difference. Moving `pPrev = pBlock` before the call fixes the pushes but moves the `mov`.
+  The permuter's best results only shuffled jump offsets.
+
+### Map_0x370::sub_4E7190 (0x4E7190): WIP
+- The reverse road follower. When it runs off the road it looks for a turn in the neighbouring
+  blocks, via `gMap_0x370_6F6268` rather than `this`, and returns the opposite direction.
+- Same helpers as sub_4E6660, plus the null-checking lookup. The function runs out of inline
+  expansions (see matching_quirks.md), so the neighbour z offsets use raw `mValue` arithmetic
+  and the arrow check and `dist` update are written out. Left: `dist` and `pPrev` swap `%ebx`
+  and `%ebp`, the constant cached in `%ebp` before the first switch, and the neighbour arrow
+  check's `xor`/`test`, which needs an inline the budget can't afford.
