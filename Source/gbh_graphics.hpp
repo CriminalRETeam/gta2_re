@@ -28,7 +28,7 @@ typedef u32 (CC* T_gbh_ConvertColour)(u8 a1, u8 a2, u8 a3);
 typedef s32 (CC* T_gbh_DrawFlatRect)(Vert* pVerts, s32 colour);
 typedef void (CC* T_gbh_DrawQuad)(s32 flags, STexture* pTexture, Vert* pVerts, s32 baseColour);
 typedef void (CC* T_gbh_DrawQuadClipped)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
-typedef int(CC* T_gbh_DrawTile)(u32 flags, STexture* pTexture, Vert* pData, s32 diffuseColour);
+typedef int(CC* T_gbh_DrawTile)(u32 flags, STexture* pTexture, Vert* pData, u8 diffuseColour);
 typedef s32 (CC* T_gbh_DrawTilePart)(u32 flags, STexture* pTexture, Vert* pData, s32 diffuseColour);
 typedef void (CC* T_gbh_DrawTriangle)(s32 triFlags, STexture* pTexture, Vert* pVerts, u8 diffuseColour);
 typedef void (CC* T_gbh_EndLevel)();
