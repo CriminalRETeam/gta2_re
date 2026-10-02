@@ -367,7 +367,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x5CBD50 | `Kfc_30::UpdateStateMachine_5CBD50` | 0x4C55D0 | `sub_4215B0`, `IsMaxDamage_40F890`, `sub_421D80`, `cool_nash_0x294::get_cam_x_403A00`, ✓ `MaxAbsDistance_42A6B0`, `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403A30`, `cool_nash_0x294::sub_403B60`, `Car_BC::sub_421560` | todo |  |
 | 0x5CFA70 | `Garox_107C_sub::DrawGangRespectBars_5CFA70` | 0x4C74F0 | `angry_lewin_0x85C::sub_4219D0`, `rng::get_cur_rng_41CFE0` | todo |  |
 | 0x5D0620 | `Hud_Arrow_7C::sub_5D0620` | 0x4C7E60 | ✓ `sub_4C6F20`, ✓ `sub_4C7060`, ✓ `sub_4C6FB0`, `sub_432860` | todo |  |
-| 0x5D16B0 | `Garox_2A25_sub::DrawChatMessages_5D16B0` | 0x4C8910 | `gtx_0x106C::sub_4539B0` (10.5 0x5D7700), ✓ `rng::get_cur_rng_41CFE0` | todo |  |
+| 0x5D16B0 | `Garox_2A25_sub::DrawChatMessages_5D16B0` | 0x4C8910 | `gtx_0x106C::sub_4539B0` (10.5 0x5D7700), ✓ `rng::get_cur_rng_41CFE0` | matched | GetLineSpacingFromFontType_5D7700_inlined (9.6f 0x4539B0), s32 positions so both go through Fix16(s32) |
 | 0x5D1B10 | `Garox_C4::FormatAndSetupText_5D1B10` | 0x4C8AA0 | `Garox_C4::sub_4C70E0` | todo |  |
 | 0x5D2AB0 | `Hud_Pager_C::DrawPager_5D2AB0` | 0x4C9040 | ✓ `sub_4C7250`, `sub_4C8CA0` | todo |  |
 | 0x5D3B80 | `Hud_Brief_704::DrawBrief_5D3B80` | 0x4C9430 | `gtx_0x106C::sub_4539B0` (10.5 0x5D7700) | todo |  |
