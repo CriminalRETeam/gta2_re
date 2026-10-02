@@ -2175,15 +2175,33 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
 
     if (obj_type)
     {
-        if (obj_type < 39 || obj_type > 42) // sub_482400
+        if (IsDefinitionIdx39To42_482400(obj_type))
+        {
+            s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx);
+            s32 type_or_state = sub_526830(obj_type);
+            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_4->field_14_xy.x,
+                                                                              field_4->field_14_xy.y,
+                                                                              field_4->field_1C_zpos,
+                                                                              kZeroAng_6F8F68,
+                                                                              type_or_state,
+                                                                              ped_id);
+            if (pExplosion)
+            {
+                pExplosion->SetDamageOwner_529080(this->field_26_varrok_idx);
+            }
+            Object_2C::sub_5290A0();
+        }
+        else
         {
             if (obj_type == 259)
             {
+                Fix16_Point dir;
+                dir.sub_41E210(k_dword_6F8C9C, field_4->field_0);
                 gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
                                                                field_4->field_14_xy.y,
                                                                field_4->field_1C_zpos,
-                                                               (gSin_table_667A80[field_4->field_0.rValue] * k_dword_6F8C9C),
-                                                               (gCos_table_669260[field_4->field_0.rValue] * k_dword_6F8C9C));
+                                                               dir.x,
+                                                               dir.y);
                 Object_2C::sub_5290A0();
             }
             else
@@ -2348,22 +2366,6 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                     //break;
                 }
             }
-        }
-        else
-        {
-            s32 ped_id = gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id;
-            s32 type_or_state = sub_526830(obj_type);
-            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_4->field_14_xy.x,
-                                                                              field_4->field_14_xy.y,
-                                                                              field_4->field_1C_zpos,
-                                                                              kZeroAng_6F8F68,
-                                                                              type_or_state,
-                                                                              ped_id);
-            if (pExplosion)
-            {
-                pExplosion->SetDamageOwner_529080(this->field_26_varrok_idx);
-            }
-            Object_2C::sub_5290A0();
         }
     }
     else
