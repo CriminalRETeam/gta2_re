@@ -4293,18 +4293,16 @@ void sound_obj::HandleCarBurningSound_414F90(Sound_Params_8* a2)
     }
 }
 
-WIP_FUNC(0x4177D0)
+MATCH_FUNC(0x4177D0)
 void sound_obj::HandleCarDamageSound_4177D0(Sound_Params_8* a2)
 {
-    WIP_IMPLEMENTED;
-
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     if (pCar->Is_engine_status_on_3_4118C0() && pCar->field_74_damage > 16000)
     {
         if (CalculateDistance_419020(Fix16(802816, 0)))
         {
-            s32 vol = 60 * (a2->field_0_pObj->field_8_car_bc_ptr->field_74_damage - 16000) / 16000;
-            if (VolCalc_419070((char)(60 * (a2->field_0_pObj->field_8_car_bc_ptr->field_74_damage + 128)) / -128,
+            u8 vol = 60 * (a2->field_0_pObj->field_8_car_bc_ptr->field_74_damage - 16000) / 16000;
+            if (VolCalc_419070(vol,
                                Fix16(0x1C000, 0),
                                a2->field_5_bHasSolidAbove))
             {
