@@ -5850,36 +5850,29 @@ void Car_BC::DetachTrailer_442760()
     gTrailerPool_66AC80->Remove_425580(p);
 }
 
-WIP_FUNC(0x4427a0)
+MATCH_FUNC(0x4427a0)
 void Car_BC::AttachTrailer_4427A0(Car_BC* pToFind)
 {
-    WIP_IMPLEMENTED;
-
     field_64_pTrailer = gTrailerPool_66AC80->field_0_pool.Allocate();
     field_64_pTrailer->SetTruckCabAndTrailerCar_407BB0(this, pToFind);
 
     Car_BC* pLast = 0;
-    Car_BC* pIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
-    if (pIter)
+    for (Car_BC* pIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev; pIter; pIter = pIter->mpNext)
     {
-        while (pIter != pToFind)
+        if (pIter == pToFind)
         {
-            pLast = pIter;
-            pIter = pIter->mpNext;
-            if (!pIter)
+            if (pLast)
             {
-                return;
+                pLast->mpNext = pIter->mpNext;
             }
+            else
+            {
+                gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev = pIter->mpNext;
+            }
+            pIter->mpNext = 0;
+            return;
         }
-        if (pLast)
-        {
-            pLast->mpNext = pIter->mpNext;
-        }
-        else
-        {
-            gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev = pIter->mpNext;
-        }
-        pIter->mpNext = 0;
+        pLast = pIter;
     }
 }
 
