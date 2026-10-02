@@ -602,7 +602,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                             }
 
                             // LABEL_36:
-                            if (field_24_pPed->field_15C_player)
+                            if (field_24_pPed->is_player_41B0A0())
                             {
                                 field_2_reload_speed = 4;
                             }
@@ -630,8 +630,8 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                                                            field_24_pPed->get_cam_x(),
                                                                            field_24_pPed->get_cam_y(),
                                                                            field_24_pPed->get_cam_z() + dword_706DA8,
-                                                                           field_24_pPed->field_12E,
-                                                                           field_24_pPed->field_12E,
+                                                                           field_24_pPed->Get_F12E_4CCA90(),
+                                                                           field_24_pPed->Get_F12E_4CCA90(),
                                                                            unknown + unknown_2,
                                                                            -dword_706F64,
                                                                            dword_706CF0);
@@ -660,7 +660,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                         else
                         {
                             // inline here: sub_434130
-                            pProjectile->field_C_pAny.o8->field_4_timer = (96 - a4) / 8;
+                            pProjectile->SetO8Timer_434130((96 - a4) / 8);
                         }
 
                         if (field_24_pPed->IsField238_45EDE0(2))
@@ -676,7 +676,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                     }
 
                     // goto LABEL_36;
-                    if (field_24_pPed->field_15C_player)
+                    if (field_24_pPed->is_player_41B0A0())
                     {
                         field_2_reload_speed = 4;
                     }
