@@ -2797,11 +2797,9 @@ void Char_B4::sub_54C3E0()
 }
 
 // 9.6f 0x495540
-WIP_FUNC(0x54c500)
+MATCH_FUNC(0x54c500)
 char_type Char_B4::CanMoveToTile_54C500(char_type x, char_type y)
 {
-    WIP_IMPLEMENTED;
-
     Fix16 tx = field_80_sprite_ptr->field_14_xy.x;
     Fix16 ty = field_80_sprite_ptr->field_14_xy.y;
     char_type dx = x - tx.ToInt();
