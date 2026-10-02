@@ -10695,44 +10695,89 @@ void Ped::sub_46F1E0(Weapon_30* a2)
 {
     WIP_IMPLEMENTED;
 
-    char_type rng_val = 0;
-    if (a2->field_1C_idx <= (u32)weapon_type::smg)
+    u8 rng_val = 0;
+    if (a2->field_1C_idx >= weapon_type::pistol && a2->field_1C_idx <= weapon_type::smg)
     {
-        if (field_270)
+        if (field_270 == 0)
         {
-            if (field_270 == 2)
+            if (GetPedVelocity_45C920() == k_dword_678660)
             {
-                rng_val = 0;
+                rng_val = stru_6F6784.get_int_4F7AE0(3);
             }
-        }
-        else if (GetPedVelocity_45C920() == k_dword_678660)
-        {
-            rng_val = stru_6F6784.get_int_4F7AE0(3);
-        }
-        else
-        {
-            rng_val = stru_6F6784.get_int_4F7AE0(5);
-            if (rng_val == 0)
+            else
             {
                 rng_val = stru_6F6784.get_int_4F7AE0(5);
+                if (rng_val == 0)
+                {
+                    rng_val = stru_6F6784.get_int_4F7AE0(5);
+                }
             }
+        }
+        else if (field_270 == 2)
+        {
+            rng_val = 0;
         }
 
         switch (rng_val)
         {
             case 1:
-                field_12E -= word_6784C8;
+            {
+                s16 ang = field_12E.rValue - word_6784C8.rValue;
+                if (ang < 0)
+                {
+                    ang += 1440 * ((1439 - ang) / 0x5A0u);
+                }
+                if (ang >= 1440)
+                {
+                    ang -= 1440 * (ang / 0x5A0u);
+                }
+                field_12E.rValue = ang;
+                break;
+            }
             case 2:
-                field_12E += word_6784C8;
+            {
+                s16 ang = field_12E.rValue + word_6784C8.rValue;
+                if (ang < 0)
+                {
+                    ang += 1440 * ((1439 - ang) / 0x5A0u);
+                }
+                if (ang >= 1440)
+                {
+                    ang -= 1440 * (ang / 0x5A0u);
+                }
+                field_12E.rValue = ang;
                 break;
+            }
             case 3:
-                field_12E -= dword_6784E4;
+            {
+                s16 ang = field_12E.rValue - dword_6784E4.rValue;
+                if (ang < 0)
+                {
+                    ang += 1440 * ((1439 - ang) / 0x5A0u);
+                }
+                if (ang >= 1440)
+                {
+                    ang -= 1440 * (ang / 0x5A0u);
+                }
+                field_12E.rValue = ang;
                 break;
+            }
             case 4:
-                field_12E += dword_6784E4;
+            {
+                s16 ang = field_12E.rValue + dword_6784E4.rValue;
+                if (ang < 0)
+                {
+                    ang += 1440 * ((1439 - ang) / 0x5A0u);
+                }
+                if (ang >= 1440)
+                {
+                    ang -= 1440 * (ang / 0x5A0u);
+                }
+                field_12E.rValue = ang;
                 break;
+            }
             default:
-                return;
+                break;
         }
     }
 }
