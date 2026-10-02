@@ -157,7 +157,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
             pCop->set_remap_433B90(8);
             pCop->field_26C_graphic_type = 1;
             pCop->ForceWeapon_46F600(weapon_type::silence_smg);
-            pCop->field_216_health = 200;
+            pCop->set_health_4039A0(200);
             pCop->field_288_threat_search = threat_search_enum::area_2;
             pCop->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
             break;
@@ -170,7 +170,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
             pCop->field_26C_graphic_type = 2;
             pCop->field_170_selected_weapon = 0;
             pCop->GiveWeapon_46F650(weapon_type::pistol);
-            pCop->field_216_health = 200;
+            pCop->set_health_4039A0(200);
             pCop->field_288_threat_search = threat_search_enum::area_2;
             pCop->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
             break;
