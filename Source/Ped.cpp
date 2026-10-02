@@ -6605,14 +6605,14 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
             z = field_150_target_objective_car->field_50_car_sprite->field_1C_zpos;
             break;
         case 6:
-            x = field_1A4->field_4->field_14_xy.x;
-            y = field_1A4->field_4->field_14_xy.y;
-            z = field_1A4->field_4->field_1C_zpos;
+            x = field_1A4->get_x_4340D0();
+            y = field_1A4->get_y_4340E0();
+            z = field_1A4->get_z_4340F0();
             break;
         case 7:
-            x = field_1A0_objective_target_object->field_4->field_14_xy.x;
-            y = field_1A0_objective_target_object->field_4->field_14_xy.y;
-            z = field_1A0_objective_target_object->field_4->field_1C_zpos;
+            x = field_1A0_objective_target_object->get_x_4340D0();
+            y = field_1A0_objective_target_object->get_y_4340E0();
+            z = field_1A0_objective_target_object->get_z_4340F0();
             break;
         default:
             break;
