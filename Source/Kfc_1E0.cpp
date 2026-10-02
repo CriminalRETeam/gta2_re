@@ -167,8 +167,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                     {
                         if (field_0_car)
                         {
-                            field_0_car->field_7C_uni_num = 3;
-                            field_0_car->field_76_last_seen_timer = 0;
+                            field_0_car->sub_421560(3);
                             field_0_car->field_76_last_seen_timer = -200;
                         }
                     }
