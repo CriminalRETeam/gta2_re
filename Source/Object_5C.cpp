@@ -3213,7 +3213,7 @@ void Object_5C::sub_529300()
                                                   pSprite->field_1C_zpos,
                                                   kZeroAng_6F8F68,
                                                   18,
-                                                  gVarrok_7F8_703398->field_0[o2c->get_field_26_420FF0()].field_0_ped_id);
+                                                  gVarrok_7F8_703398->GetPedId_420F10(o2c->get_field_26_420FF0()));
             }
         }
         o2c->Dealloc_5291B0();
