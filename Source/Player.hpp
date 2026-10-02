@@ -90,6 +90,20 @@ class Player
         field_6BC_multpliers.ChangeStatByAmount_4921B0(amount);
     }
 
+    // 9.6f 0x476700
+    inline bool IsBustedNotObjective54_476700()
+    {
+        Ped* pPed;
+        return field_28 && field_2C == 2 && ((pPed = field_2C4_player_ped) == NULL || pPed->get_objective_403A80() != 54);
+    }
+
+    // 9.6f 0x476730
+    inline bool IsBustedObjective54_476730()
+    {
+        Ped* pPed;
+        return field_28 && field_2C == 2 && (pPed = field_2C4_player_ped) != NULL && pPed->get_objective_403A80() == 54;
+    }
+
     // 9.6f 0x4766C0
     inline s32 get_lives_4766C0()
     {

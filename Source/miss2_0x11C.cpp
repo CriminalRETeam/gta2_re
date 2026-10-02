@@ -73,40 +73,19 @@ void miss2_0x11C::MissionFailOnArrest_503200()
     if (gfrosty_pasteur_6F8060->field_355 && gfrosty_pasteur_6F8060->field_344_mission_flag &&
         *gfrosty_pasteur_6F8060->field_344_mission_flag == 1)
     {
-        Player* player = gGame_0x40_67E008->field_38_orf1;
-        Ped* ped;
-
-        if (!(player->field_28 && player->field_2C == 2 &&
-              ((ped = player->field_2C4_player_ped) == NULL || ped->field_258_objective != 54)))
+        if (!gGame_0x40_67E008->field_38_orf1->IsBustedNotObjective54_476700() &&
+            !gGame_0x40_67E008->field_38_orf1->IsBustedObjective54_476730())
         {
-            Player* player_b = gGame_0x40_67E008->field_38_orf1;
-            Ped* ped_b;
-
-            if (!(player_b->field_28 && player_b->field_2C == 2 && (ped_b = player_b->field_2C4_player_ped) != NULL &&
-                  ped_b->field_258_objective == 54))
-            {
-                return;
-            }
+            return;
         }
 
         field_114->remove_5031E0(2);
         SCRCMD_RETURN_506B80();
 
         s32 v;
-        Player* player2 = gGame_0x40_67E008->field_38_orf1;
-
-        if (player2->field_28 && player2->field_2C == 2)
+        if (gGame_0x40_67E008->field_38_orf1->IsBustedNotObjective54_476700())
         {
-            Ped* ped2 = player2->field_2C4_player_ped;
-
-            if (ped2 && ped2->field_258_objective == 54)
-            {
-                v = 5;
-            }
-            else
-            {
-                v = 0;
-            }
+            v = 0;
         }
         else
         {
