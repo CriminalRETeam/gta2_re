@@ -902,8 +902,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
             {
                 if (a2->field_1C_zpos < v14)
                 {
-                    a2->field_1C_zpos = v14;
-                    a2->ResetZCollisionAndDebugBoxes_59E7B0();
+                    a2->set_xyz_lazy_420600(a2->field_14_xy.x, a2->field_14_xy.y, v14);
                     Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
                     field_10_obj_3c->field_2A = 0;
                 }
@@ -947,8 +946,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
     {
         if (a2->field_1C_zpos < a6)
         {
-            a2->field_1C_zpos = a6;
-            a2->ResetZCollisionAndDebugBoxes_59E7B0();
+            a2->set_xyz_lazy_420600(a2->field_14_xy.x, a2->field_14_xy.y, a6);
             Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
             field_10_obj_3c->field_2A = 0;
 
