@@ -7528,83 +7528,72 @@ void Ped::sub_467FD0()
     }
 }
 
-WIP_FUNC(0x468040)
+MATCH_FUNC(0x468040)
 void Ped::ProcessAirborneMovement_468040()
 {
-    WIP_IMPLEMENTED;
-
-    s32 bUnknown = 1;
-    if (this->field_240_occupation == ped_ocupation_enum::drone)
+    u8 bProcessMovement = 1;
+    if (field_240_occupation == ped_ocupation_enum::drone)
     {
         gDistanceToTarget_678750 = k_dword_678660;
-        this->field_1E4_objective_target_z = this->field_1AC_cam.z;
+        field_1E4_objective_target_z = field_1AC_cam.z;
     }
 
     if (!byte_61A8A3)
     {
-        bUnknown = this->field_168_game_object->field_10_char_state == 15 && (this->field_21C & 4) == 0;
+        bProcessMovement = field_168_game_object->field_10_char_state == 15 && (field_21C & 4) == 0;
     }
 
-    if ((field_224 & 0x10) != 0 && (this->field_21C & 4) != 0)
+    u8 flags = field_224;
+    if ((flags & 0x10) != 0 && (field_21C & 4) != 0)
     {
-        this->field_260 = 0;
-        this->field_224 &= ~0x10;
+        flags &= ~0x10;
+        field_260 = 0;
+        field_224 = flags;
     }
 
-    if (bUnknown)
+    if (bProcessMovement)
     {
-        if ((this->field_224 & 0x10) != 0 ||
-            gDistanceToTarget_678750 <= dword_678780 &&
-                abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, this->field_1E4_objective_target_z))
+        if ((field_224 & 0x10) == 0 &&
+            (gDistanceToTarget_678750 > dword_678780 || !abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, field_1E4_objective_target_z)))
         {
-            if (field_168_game_object->field_10_char_state == 15)
+            if (field_168_game_object->field_10_char_state != 15)
             {
-                this->field_224 |= 0x10u;
-            }
-            else
-            {
-                if ((this->field_224 & 0x10) != 0)
+                if (gDistanceToTarget_678750 > k_dword_67878C)
                 {
-                    Fix16 vel = field_168_game_object->field_38_velocity;
-                    if (vel >= k_dword_678438)
-                    {
-                        if (vel > k_dword_678438)
-                        {
-                            field_168_game_object->field_38_velocity -= dword_678620;
-                        }
-                    }
-                    else
-                    {
-                        field_168_game_object->field_38_velocity += dword_678620;
-                    }
+                    field_168_game_object->SetMaxSpeed_433920(field_1F0_maybe_max_speed);
+                    UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 4);
                 }
-
-                ChangeNextPedState1_45C500(7);
-                ChangeNextPedState2_45C540(14);
+                else
+                {
+                    field_168_game_object->SetMaxSpeed_433920(field_1F4);
+                    UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 4);
+                }
             }
         }
         else
         {
             if (field_168_game_object->field_10_char_state != 15)
             {
-                if (gDistanceToTarget_678750 <= k_dword_67878C)
+                if ((field_224 & 0x10) != 0)
                 {
-                    field_168_game_object->field_38_velocity = this->field_1F4;
+                    field_168_game_object->RegulateVelocityByRef_433970(k_dword_678438);
                 }
-                else
-                {
-                    field_168_game_object->field_38_velocity = this->field_1F0_maybe_max_speed;
-                }
-                UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 4);
+
+                ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
+            }
+            else
+            {
+                field_224 |= 0x10u;
             }
         }
     }
 
-    this->field_130 = this->field_134_rotation;
+    field_130 = field_134_rotation;
 
     if (field_218_objective_timer == 0)
     {
-        this->field_225_objective_status = 1;
+        field_225_objective_status = objective_status::passed_1;
     }
 }
 
