@@ -43,6 +43,12 @@ Fix16 Fix16::Divide_436A20(const Fix16& in) const
     return Fix16(value, 0);
 }
 
+MATCH_FUNC(0x451670)
+s32 Fix16::IsLess_451670(const Fix16& other) const
+{
+    return mValue < other.mValue;
+}
+
 MATCH_FUNC(0x4086A0)
 Fix16 Fix16::Negate_4086A0() const
 {
