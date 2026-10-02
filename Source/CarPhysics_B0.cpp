@@ -2092,31 +2092,29 @@ void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
 {
     WIP_IMPLEMENTED;
 
-    Ang16 theta = this->field_58_theta;
+    // Only diff left: the original keeps t at 6(%esp), ours at 4(%esp)
+    Ang16 theta;
     if (field_94_is_backward_gas_on)
     {
-        theta += kAng180_6FE12A;
+        Ang16 t = field_58_theta;
+        t.rValue += kAng180_6FE12A.rValue;
+        t.Normalize_406C20();
+        theta = t;
+    }
+    else
+    {
+        theta = field_58_theta;
     }
 
     if (stru_6FE1F0.y > kFP16Zero_6FE20C)
     {
-        if (theta > kAng90_6FE00C && theta >= kAng180_6FE12A)
+        if (theta > kAng90_6FE00C && theta < kAng180_6FE12A)
         {
-            if (theta < kAng180_6FE12A)
-            {
-                ApplyAngularImpulse_55F970(k_dword_6FDFA4);
-            }
-            else if (theta > kAng180_6FE12A && theta < kAng270_6FE154)
-            {
-                ApplyAngularImpulse_55F970(-k_dword_6FDFA4);
-            }
+            ApplyAngularImpulse_55F970(-k_dword_6FDFA4);
         }
-        else
+        else if (theta > kAng180_6FE12A && theta < kAng270_6FE154)
         {
-            if (theta > kAng180_6FE12A && theta < kAng270_6FE154)
-            {
-                ApplyAngularImpulse_55F970(k_dword_6FDFA4);
-            }
+            ApplyAngularImpulse_55F970(k_dword_6FDFA4);
         }
     }
     else
