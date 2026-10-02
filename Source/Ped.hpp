@@ -527,6 +527,15 @@ class Ped
         return field_15C_player != 0;
     }
 
+    // 9.6f 0x433C40
+    inline void DoJump_433C40()
+    {
+        if (field_168_game_object)
+        {
+            field_168_game_object->DoJump_5454D0();
+        }
+    }
+
     // 9.6f 0x41B0B0
     inline s32 TakeF250_41B0B0()
     {

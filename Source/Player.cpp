@@ -1567,7 +1567,6 @@ void Player::DoCarControlInputs_566C30(Car_BC* pCar)
 WIP_FUNC(0x566C80)
 void Player::DoPedControlInputs_566C80(Ped* pPed)
 {
-    Char_B4* pB4 = NULL;
     Ang16 f_A = field_A;
 
     // clear flag
@@ -1656,22 +1655,19 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     // --- Jump / handbrake ---
     if (field_7E_bNowHandBrakeOrJumpPressed == 1 && field_8A_bWasHandBrakeOrJumpPressed)
     {
-        pB4 = pPed->field_168_game_object;
-        if (pB4)
+        if (pPed->field_168_game_object && pPed->field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15 &&
+            pPed->field_21C_bf.b27 == 0)
         {
-            if (pB4->GetCharState_433A80() != Char_B4_state::Jumping_15 && pPed->field_21C_bf.b27 == 0)
-            {
-                pB4->DoJump_5454D0(); // jump?
-            }
+            pPed->DoJump_433C40();
         }
     }
 
     // --- Special action ---
     if (pPed->field_168_game_object)
     {
-        if (field_81_bNowSpecial_1_Pressed && field_84_bWasSpecial_1_Pressed && !field_7C_bNowAttackPressed && pPed->field_21C_bf.b24 == 0)
+        if (field_81_bNowSpecial_1_Pressed && field_84_bWasSpecial_1_Pressed && !field_7C_bNowAttackPressed)
         {
-            pPed->field_250 = 20;
+            pPed->Set_F250_IfBit_433DD0(20);
         }
     }
 }
