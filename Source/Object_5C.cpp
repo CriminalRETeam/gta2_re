@@ -1249,26 +1249,23 @@ void Object_2C::sub_525190(u8 varrok_idx)
 {
     WIP_IMPLEMENTED;
 
-    if (field_8->field_3C_next_definition_idx < 39 || field_8->field_3C_next_definition_idx > 42)
-    {
-        if (field_8->field_48 == 13)
-        {
-            sub_5291D0();
-            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xy.x,
-                                                                              this->field_4->field_14_xy.y,
-                                                                              this->field_4->field_1C_zpos,
-                                                                              kZeroAng_6F8F68,
-                                                                              19,
-                                                                              gVarrok_7F8_703398->field_0[varrok_idx].field_0_ped_id);
-            if (pExplosion)
-            {
-                pExplosion->SetDamageOwner_529080(varrok_idx);
-            }
-        }
-    }
-    else
+    if (IsDefinitionIdx39To42_482400(field_8->field_3C_next_definition_idx))
     {
         sub_5291E0(field_8->field_3C_next_definition_idx);
+    }
+    else if (field_8->field_48 == 13)
+    {
+        sub_5291D0();
+        Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xy.x,
+                                                                          this->field_4->field_14_xy.y,
+                                                                          this->field_4->field_1C_zpos,
+                                                                          kZeroAng_6F8F68,
+                                                                          19,
+                                                                          gVarrok_7F8_703398->GetPedId_420F10(varrok_idx));
+        if (pExplosion)
+        {
+            pExplosion->SetDamageOwner_529080(varrok_idx);
+        }
     }
 }
 

@@ -238,6 +238,12 @@ class Object_2C
         return 0;
     }
 
+    // 9.6f 0x482400
+    static inline bool IsDefinitionIdx39To42_482400(s32 idx)
+    {
+        return idx >= 39 && idx <= 42;
+    }
+
     // 9.6f 0x482C80
     inline Fix16 GetMass_482C80()
     {
