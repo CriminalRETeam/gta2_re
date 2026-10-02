@@ -164,7 +164,7 @@ class Object_2C
         return field_8->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3;
     }
 
-    // Inlined on version 9.6f 0x447e90
+    // Inlined on version 9.6f 0x447e90 (also 9.6f copies 0x45E0A0 and 0x482C00)
     inline void set_field_26(u8 v)
     {
         field_26_varrok_idx = v;
