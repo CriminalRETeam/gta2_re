@@ -62,6 +62,12 @@ class Pool
         return field_0_pStart != NULL;
     }
 
+    // 9.6f 0x4B8FD0 (CokeZero_FC, 10.5 copy 0x5935C0): first used item
+    inline PoolType* GetFirstUsed_4B8FD0()
+    {
+        return field_4_pPrev;
+    }
+
     Pool()
     {
         PoolType* pIter = field_8_pool;

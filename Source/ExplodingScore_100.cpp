@@ -427,7 +427,7 @@ void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u3
 {
     if (this->field_2_free_scores == 0)
     {
-        ExplodingScore_50* pIter = field_4_pool.field_4_pPrev; // TODO: Inline here 0x4B8FD0 pool template 9.6f
+        ExplodingScore_50* pIter = field_4_pool.GetFirstUsed_4B8FD0();
         while (pIter)
         {
             if (pIter->field_4C_score >= score)
