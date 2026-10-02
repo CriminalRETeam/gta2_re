@@ -25,6 +25,7 @@ EXTERN_GLOBAL(Fix16, dword_677794);
 EXTERN_GLOBAL(Fix16_Point, stru_6FDF50);
 EXTERN_GLOBAL(Fix16, dword_6FE0B0);
 EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
+EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
 
 EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
                                                                 Fix16 TargetMass,
@@ -215,6 +216,14 @@ class CarPhysics_B0
     EXPORT void SetModelPhysicsGlobal_562EB0();
     EXPORT void SetCarInfoGlobal_562ED0();
     EXPORT void SetCurrentCarInfoAndModelPhysics_562EF0();
+
+    // 9.6f 0x482CC0
+    inline void HandleObjectCollisionAt_482CC0(Object_2C* pObj, Fix16_Point& point, char_type a3)
+    {
+        SetCurrentCarInfoAndModelPhysics_562EF0();
+        CollisionIntersectionPoint_6FE1A0 = point;
+        HandleObjectCollision_5606C0(pObj, a3);
+    }
     EXPORT void ApplyInputsAndIntegratePhysics_562F30();
     EXPORT char_type UpdateLastMovementTimer_562FA0();
     EXPORT bool ProcessCarPhysicsStateMachine_562FE0();
