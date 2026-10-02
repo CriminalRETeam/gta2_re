@@ -136,7 +136,7 @@ bool Door_38::sub_49C7F0(Ped* a2)
     switch (field_20_state)
     {
         case 1:
-            if (a2->field_15C_player != 0)
+            if (a2->is_player_41B0A0())
             {
                 ret = true;
             }
