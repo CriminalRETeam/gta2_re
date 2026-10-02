@@ -47,6 +47,12 @@ enum
 class Player
 {
   public:
+    // 9.6f 0x45B0C0
+    inline bool has_player_ped_45B0C0()
+    {
+        return field_2C4_player_ped != NULL;
+    }
+
     // 9.6f 0x4766D0
     inline Gang_144* get_gang_curr_location_4766D0()
     {

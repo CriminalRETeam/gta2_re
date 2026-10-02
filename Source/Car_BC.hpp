@@ -332,6 +332,18 @@ static inline bool IsArmyModel(s32 idx1)
 class Car_BC
 {
   public:
+    // 9.6f 0x4118C0
+    inline bool Is_engine_status_on_3_4118C0()
+    {
+        return field_9C_engine_status == car_engine_status::on_3;
+    }
+
+    // 9.6f 0x421610
+    inline bool IsTrain_421610()
+    {
+        return field_84_car_info_idx == car_model_enum::TRAIN;
+    }
+
     // 9.6f 0x421950
     inline void set_weapon_kind_421950(s32 v)
     {

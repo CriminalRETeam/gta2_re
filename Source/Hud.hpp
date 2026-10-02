@@ -260,6 +260,12 @@ class Garox_1700_L
 class Hud_Pager_C
 {
   public:
+    // 9.6f 0x4C7160
+    inline bool no_ptr_counter_4C7160()
+    {
+        return field_4_ptr_counter == NULL;
+    }
+
     EXPORT ~Hud_Pager_C();
     EXPORT void Service_5D2320();
     EXPORT void sub_5D2380(s32 a2, s32 a3);
@@ -431,6 +437,12 @@ class Garox_20_Sub
 class Hud_Arrow_7C
 {
   public:
+    // 9.6f 0x4C6F20
+    inline bool Is_radius_pos_0_4C6F20()
+    {
+        return field_10_radius_pos == 0;
+    }
+
     EXPORT void SetArrowColour_5D0510(s32 a2);
     EXPORT bool CheckVisibility_5D0530();
     EXPORT bool sub_5D0620();

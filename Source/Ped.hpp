@@ -29,6 +29,12 @@ class TrainStation_34;
 class Ped
 {
   public:
+    // 9.6f 0x433C90
+    inline bool Is_occupation_elvis_433C90()
+    {
+        return field_240_occupation == ped_ocupation_enum::elvis;
+    }
+
     // 9.6f 0x4039B0
     inline void set_enter_car_as_passenger_4039B0(s32 v)
     {

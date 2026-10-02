@@ -36,6 +36,18 @@ enum GameExitType
 class Game_0x40
 {
   public:
+    // 9.6f 0x416BC0
+    inline bool Is_game_state_Paused_2_416BC0()
+    {
+        return field_0_game_state == GameState::Paused_2;
+    }
+
+    // 9.6f 0x4B7590
+    inline bool Is_timer_not_minus1_4B7590()
+    {
+        return field_28_timer != -1;
+    }
+
     // 9.6f 0x476790
     inline u8 get_cur_idx_476790()
     {

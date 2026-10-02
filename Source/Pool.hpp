@@ -56,6 +56,12 @@ template<typename PoolType, s32 PoolSize>
 class Pool
 {
   public:
+    // 9.6f 0x48A8F0
+    inline bool has_pStart_48A8F0()
+    {
+        return field_0_pStart != NULL;
+    }
+
     Pool()
     {
         PoolType* pIter = field_8_pool;

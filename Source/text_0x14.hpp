@@ -57,6 +57,12 @@ public:
 class text_0x14
 {
   public:
+    // 9.6f 0x452E60
+    inline bool LangIsJapanese_452E60()
+    {
+        return field_10_lang_code == 106;
+    }
+
     text_tkey field_0_tKey;
     text_tdat field_8_tDat;
     char_type field_10_lang_code;
