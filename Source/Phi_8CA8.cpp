@@ -667,18 +667,10 @@ Sprite* Phi_74::CreateSpriteFromDefinition_533170()
 MATCH_FUNC(0x5331a0)
 void Phi_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
 {
-    s16 f1E; // ax
     s32 f40; // eax
 
-    pSprite->field_30_sprite_type_enum = this->field_28_sprite_type;
-    pSprite->SetDefaultNumBySpriteType_59E960();
-    f1E = this->field_1E_sprite_palette;
-
-    if (pSprite->field_22_sprite_id != f1E)
-    {
-        pSprite->field_22_sprite_id = f1E;
-        pSprite->UpdateDimensionsFromSpriteIndex_59FA40();
-    }
+    pSprite->SetType_4206F0(this->field_28_sprite_type);
+    pSprite->set_id_lazy_4206C0(this->field_1E_sprite_palette);
 
     pSprite->set_num_40F7B0(this->field_2C);
     pSprite->field_2C_flags = this->field_20_sprite_flags;
