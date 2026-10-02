@@ -451,8 +451,7 @@ void Char_B4::InitSprite_5456A0()
     // TODO: maybe an inline here: temp var not needed
     Sprite* pFirst = gSprite_Pool_703818->get_new_sprite();
     field_80_sprite_ptr = pFirst;
-    pFirst->field_30_sprite_type_enum = sprite_types_enum::ped_3;
-    pFirst->sub_59E960();
+    pFirst->SetType_4206F0(sprite_types_enum::ped_3);
     field_80_sprite_ptr->AllocInternal_59F950(gCharB4_WorldCollisionOffset_6FD8D8, gCharB4_WorldCollisionOffset_6FD8D8, dword_6FD7A4);
     field_80_sprite_ptr->field_8_char_b4_ptr = this;
     field_80_sprite_ptr->CreateSoundObj_5A29D0();
