@@ -1520,7 +1520,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
 
     if (pPedCar)
     {
-        if (pPed->field_248_enter_car_as_passenger != 1)
+        if (pPed->not_enter_car_as_passenger_4A5040())
         {
             if (pPedCar->IsTrainModel_403BA0())
             {
@@ -2744,7 +2744,7 @@ void Player::DisableInputs_569F40()
         Car_BC* pCar = pPed->get_car_416B60();
         if (pCar)
         {
-            if (pPed->field_248_enter_car_as_passenger != 1)
+            if (pPed->not_enter_car_as_passenger_4A5040())
             {
                 if (pCar->IsTrainModel_403BA0())
                 {
