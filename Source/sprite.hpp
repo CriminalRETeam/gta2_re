@@ -748,6 +748,12 @@ class Sprite_Pool
         field_0_pool.DeAllocate(pSprite);
     }
 
+    // 9.6f 0x48A8D0
+    inline bool has_free_48A8D0()
+    {
+        return field_0_pool.field_0_pHead != NULL;
+    }
+
     PoolBasic<Sprite, 5031> field_0_pool;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Sprite_Pool, 0x49B28)

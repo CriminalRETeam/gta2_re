@@ -54,7 +54,7 @@ MATCH_FUNC(0x53E3C0)
 Particle_4C* Particle_8::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 a4, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 a7)
 {
     Particle_4C* pNew4C = 0;
-    if (gParticle_4C_Pool_6FD5E4->field_0_pStart && gSprite_Pool_703818->field_0_pool.field_0_pHead)
+    if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0() && gSprite_Pool_703818->has_free_48A8D0())
     {
         pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
         pNew4C->field_8_speed_x = speed_x;
