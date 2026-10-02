@@ -835,16 +835,16 @@ bool frosty_pasteur_0xC1EA8::sub_512C70(s32 id, char_type weapon_idx, char_type 
             {
                 if (bUnk)
                 {
-                    if ((pTable->field_6 & 4) == 4)
+                    if (HasCheckFlag4_4759C0(pTable))
                     {
-                        return (pTable->field_6 & 1) == 1;
+                        return HasCheckFlag1_475980(pTable);
                     }
                 }
                 else
                 {
-                    if ((pTable->field_6 & 2) == 2)
+                    if (HasCheckFlag2_4759A0(pTable))
                     {
-                        return (pTable->field_6 & 1) == 1;
+                        return HasCheckFlag1_475980(pTable);
                     }
                 }
             }
