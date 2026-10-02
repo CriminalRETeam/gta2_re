@@ -203,9 +203,9 @@ void Garage_48::GaragesService_5349D0()
                 field_C = 3;
                 return;
             }
-            if (field_0->field_54_driver && field_0->field_54_driver != field_14)
+            if (field_0->get_driver_4118B0() && field_0->field_54_driver != field_14)
             {
-                field_14 = field_0->field_54_driver;
+                field_14 = field_0->get_driver_4118B0();
             }
 
             u8 idx1;
@@ -237,9 +237,9 @@ void Garage_48::GaragesService_5349D0()
 
             field_0->field_78_flags |= 2;
             field_0->field_78_flags |= 8;
-            if (field_0->field_54_driver && field_0->field_54_driver->field_15C_player)
+            if (field_0->get_driver_4118B0() && field_0->field_54_driver->field_15C_player)
             {
-                field_0->field_54_driver->field_15C_player->DisableAllControls_569FF0();
+                field_0->get_driver_4118B0()->field_15C_player->DisableAllControls_569FF0();
             }
             if (field_0->field_98 != 4)
             {
@@ -281,9 +281,9 @@ void Garage_48::GaragesService_5349D0()
                 field_C = 3;
                 return;
             }
-            if (field_0->field_54_driver && !field_0->field_54_driver->field_15C_player)
+            if (field_0->get_driver_4118B0() && !field_0->get_driver_4118B0()->field_15C_player)
             {
-                field_0->field_54_driver->SetObjective(27, 9999);
+                field_0->get_driver_4118B0()->SetObjective(27, 9999);
             }
 
             u8 idx1;
@@ -334,13 +334,13 @@ void Garage_48::GaragesService_5349D0()
                 field_0->field_98 = 4;
                 field_0->PrepareForExplosion_43C1C0();
                 field_0->field_4_passengers_list.KillAllPedsFromList_4715A0();
-                if (field_0->field_54_driver && field_0->field_54_driver->field_15C_player)
+                if (field_0->get_driver_4118B0() && field_0->field_54_driver->field_15C_player)
                 {
-                    field_0->field_54_driver->field_15C_player->EnableAllControls_56A000();
+                    field_0->get_driver_4118B0()->field_15C_player->EnableAllControls_56A000();
                 }
                 if (!field_3F_no_respawn)
                 {
-                    Ped* pDriver = field_0->field_54_driver;
+                    Ped* pDriver = field_0->get_driver_4118B0();
                     if (pDriver)
                     {
                         pDriver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0->field_50_car_sprite->field_1C_zpos);
