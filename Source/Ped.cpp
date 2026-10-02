@@ -11438,51 +11438,51 @@ void Ped::HandleWeaponFireEnd_46FFF0(s32 model)
     }
 }
 
-WIP_FUNC(0x470050)
+MATCH_FUNC(0x470050)
 void Ped::AimRoofGun_470050()
 {
-    WIP_IMPLEMENTED;
-
-    Sprite_18* pHit = 0;
+    Sprite_18* pRoofGun = 0;
     if (field_16C_car->field_84_car_info_idx == car_model_enum::FIRETRUK)
     {
-        pHit = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(114);
+        pRoofGun = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(114);
     }
     else if (field_16C_car->field_84_car_info_idx == car_model_enum::TANK)
     {
-        pHit = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(148);
+        pRoofGun = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(148);
     }
     else if (field_16C_car->field_84_car_info_idx == car_model_enum::GUNJEEP)
     {
-        pHit = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(248);
+        pRoofGun = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(248);
     }
 
-    Sprite* pHitSprite = pHit->field_0;
+    Sprite* pGunSprite = pRoofGun->field_0;
 
-    Ped* objective_target_ped = this->field_148_objective_target_ped;
-    Ang16 tan_v = Fix16::atan2_fixed_405320(objective_target_ped->field_1AC_cam.x - pHitSprite->field_14_xy.x,
-                                            objective_target_ped->field_1AC_cam.y - pHitSprite->field_14_xy.y);
+    Ped* pTargetPed = field_148_objective_target_ped;
+    Fix16 gun_x = pGunSprite->field_14_xy.x;
+    Fix16 gun_y = pGunSprite->field_14_xy.y;
+    Ang16 aim_angle;
+    aim_angle = Fix16::atan2_fixed_405320(pTargetPed->get_cam_y() - gun_y, pTargetPed->get_cam_x() - gun_x);
 
-    this->field_21C &= ~0x800;
-    this->field_21C |= 0x80;
+    field_21C &= ~0x800;
+    field_21C |= 0x80;
 
-    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(tan_v))
+    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(aim_angle))
     {
         if (field_148_objective_target_ped->IsField238_45EDE0(2))
         {
-            if (!this->field_16C_car->field_76_last_seen_timer)
+            if (!field_16C_car->field_76_last_seen_timer)
             {
-                this->field_21C |= 0x800;
+                field_21C |= 0x800;
             }
         }
         else if (gDistanceToTarget_678750 < k_dword_678680)
         {
-            this->field_21C |= 0x800;
+            field_21C |= 0x800;
         }
     }
     else
     {
-        this->field_21C &= ~0x800;
+        field_21C &= ~0x800;
     }
 }
 
