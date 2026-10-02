@@ -594,7 +594,7 @@ void Player::RemovePlayerWeapons_564C50()
         if ((!gCheatUnlimitedElectroGun_67D4F7 || pWeapon->field_1C_idx != weapon_type::shocker) &&
             (!gCheatUnlimitedFlameThrower_67D6CC || pWeapon->field_1C_idx != weapon_type::flamethrower))
         {
-            if (pWeapon->field_0_ammo)
+            if (pWeapon->HasAmmo_4A4F80())
             {
                 pWeapon->add_ammo_5DCE20(0);
             }
