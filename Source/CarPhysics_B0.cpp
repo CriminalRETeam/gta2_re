@@ -1161,10 +1161,9 @@ void CarPhysics_B0::SyncZWithTrailer_55B3F0(Fix16 a2)
     }
 }
 
-WIP_FUNC(0x55b4f0)
+MATCH_FUNC(0x55b4f0)
 void CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
 {
-    WIP_IMPLEMENTED;
 
     Fix16 zCoord;
     Fix16* pZCoord = gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&zCoord, this->field_38_cp1.x, this->field_38_cp1.y);
@@ -1183,20 +1182,21 @@ void CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
         }
     }
 
-    Fix16 a2_ = a2;
+    Fix16 a2_;
     if (zCoordTmp <= field_6C_cp3 - kFP16Half_6FE0C0)
     {
+        a2_ = a2;
         Fix16 v14;
-        Fix16 new_z = *ComputeSlopeCorrection_55AB50(&a2, &v14);
-        this->field_68_z_pos = new_z;
-        zCoordTmp = new_z + field_6C_cp3;
+        this->field_68_z_pos = *ComputeSlopeCorrection_55AB50(&a2, &v14);
+        zCoordTmp = field_6C_cp3 + field_68_z_pos;
         if (a2_ != kFP16Zero_6FE20C)
         {
-            field_68_z_pos = field_68_z_pos / a2_;
+            field_68_z_pos /= a2_;
         }
     }
     else
     {
+        a2_ = a2;
         if (zCoordTmp < field_6C_cp3)
         {
             UpdateSpriteFromPhysics_563670();
