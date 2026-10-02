@@ -2889,11 +2889,9 @@ static inline bool IsPlayerPedId_420C30(u32 ped_id)
     return ped_id <= 12;
 }
 
-WIP_FUNC(0x43b7b0)
+MATCH_FUNC(0x43b7b0)
 void Car_BC::AssignDriverBlameForExplosion_43B7B0(Car_BC* pCar)
 {
-    WIP_IMPLEMENTED;
-
     char_type bBlameUs = 0;
     char_type bBlameThem = 0;
     u32 our_id = GetEffectiveDriverPedId_444090();
