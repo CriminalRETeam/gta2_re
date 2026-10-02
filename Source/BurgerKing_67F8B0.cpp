@@ -1195,7 +1195,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
         case Live_0:
             if (field_75344_bInputEnabled)
             {
-                if (gGame_0x40_67E008->field_0_game_state != GameState::Paused_2)
+                if (!gGame_0x40_67E008->Is_game_state_Paused_2_416BC0())
                 {
                     gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 1);
                     BurgerKing_67F8B0::save_replay_inputs_4CED00(*control_status, saved_input);
