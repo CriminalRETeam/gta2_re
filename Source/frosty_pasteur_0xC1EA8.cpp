@@ -801,7 +801,7 @@ void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, cha
             {
                 if (bUnk)
                 {
-                    if ((pTable->field_6 & 4) == 4)
+                    if (HasCheckFlag4_4759C0(pTable))
                     {
                         // je set; jmp next in the original: the shared tail needs a goto (duplicated
                         // bodies, early continue/return and a combined condition all change the code)
@@ -809,7 +809,7 @@ void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, cha
                     }
                     return;
                 }
-                if ((pTable->field_6 & 2) != 2)
+                if (!HasCheckFlag2_4759A0(pTable))
                 {
                     return;
                 }
