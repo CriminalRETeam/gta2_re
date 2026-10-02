@@ -3877,7 +3877,7 @@ void miss2_0x11C::SCRCMD_GIVE_DRIVER_BRAKE_50B600()
             pPointer->field_8_car->SpawnDriverPed();
         }
         pPointer->field_8_car->InitCarAIControl_440590();
-        pPointer->field_8_car->field_A6 |= 0x20;
+        pPointer->field_8_car->SetA6Bit5_421540();
         pPointer->field_8_car->SetUniNum_421560(5);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
