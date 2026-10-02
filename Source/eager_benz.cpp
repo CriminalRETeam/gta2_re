@@ -74,13 +74,13 @@ void eager_benz::sub_591C70()
             {
                 if (field_16C_car->field_4_passengers_list.field_0_pFirstPed)
                 {
-                    field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multpliers.field_0_value);
+                    field_368_player->Add_2D4(1);
                 }
             }
         }
         if (player_ped->field_20A_wanted_points >= 5000)
         {
-            field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multpliers.field_0_value);
+            field_368_player->Add_2D4(1);
         }
 
         field_368_player->field_644_unk.sub_484FB0(player_ped->get_wanted_star_count_46EF00());
@@ -89,7 +89,7 @@ void eager_benz::sub_591C70()
     if (field_7C_e_execution_count >= 20u)
     {
         field_7C_e_execution_count = 0;
-        field_368_player->field_2D4_scores.AddCash_592620(100000 * field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(100000);
 
         if (field_368_player->IsUser_41DC70())
         {
@@ -101,7 +101,7 @@ void eager_benz::sub_591C70()
     if (field_84_num_elvis_killed >= 6u)
     {
         field_84_num_elvis_killed = 0;
-        field_368_player->field_2D4_scores.AddCash_592620(30000 * field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(30000);
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("elvis_d"), 1);
@@ -112,7 +112,7 @@ void eager_benz::sub_591C70()
     if (field_1A4_killed_cars_flags == 7)
     {
         field_1A4_killed_cars_flags = 0;
-        field_368_player->field_2D4_scores.AddCash_592620(10000 * field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(10000);
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("em_dest"), 1);
@@ -123,7 +123,7 @@ void eager_benz::sub_591C70()
     if (field_86_total_kills >= 1000)
     {
         field_86_total_kills = 0;
-        field_368_player->field_2D4_scores.AddCash_592620(30000 * field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(30000);
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("gencide"), 1);
@@ -134,7 +134,7 @@ void eager_benz::sub_591C70()
     if (field_88_killed_cops >= 20u)
     {
         field_88_killed_cops = 0;
-        field_368_player->field_2D4_scores.AddCash_592620(5000 * field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(5000);
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("copkill"), 1);
@@ -145,7 +145,7 @@ void eager_benz::sub_591C70()
     if (field_8A_cars_stolen_count >= 100)
     {
         field_8A_cars_stolen_count = 0;
-        field_368_player->field_2D4_scores.AddCash_592620(10000 * field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(10000);
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("carjaka"), 1);
@@ -156,7 +156,7 @@ void eager_benz::sub_591C70()
     if (field_198_accuracy_count >= 25)
     {
         field_198_accuracy_count = 0;
-        field_368_player->field_2D4_scores.AddCash_592620(5000 * field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(5000);
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("accurcy"), 1);
@@ -182,7 +182,7 @@ void eager_benz::sub_591C70()
     if (field_19C_reverse_count >= 60000u)
     {
         field_19C_reverse_count = 0;
-        field_368_player->field_2D4_scores.AddCash_592620(1000 * field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(1000);
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("wrngway"), 1);
@@ -204,7 +204,7 @@ void eager_benz::sub_591C70()
 
     if (field_190_fly_car_count >= 1250 && field_190_fly_car_count < 2250)
     {
-        field_368_player->field_2D4_scores.AddCash_592620(1000 * field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(1000);
         field_190_fly_car_count = 2250;
         if (field_368_player->IsUser_41DC70())
         {
