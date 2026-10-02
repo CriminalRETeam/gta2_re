@@ -20,6 +20,18 @@ struct gmp_col_info
 
 struct gmp_block_info
 {
+    // 9.6f 0x44C840
+    inline void init_44C840()
+    {
+        field_0_left = 0;
+        field_2_right = 0;
+        field_4_top = 0;
+        field_6_bottom = 0;
+        field_8_lid = 0;
+        field_A_arrows = 0;
+        field_B_slope_type = 0;
+    }
+
     u16 field_0_left;
     u16 field_2_right;
     u16 field_4_top;

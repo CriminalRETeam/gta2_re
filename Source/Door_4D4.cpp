@@ -344,15 +344,7 @@ void DoorData_10::sub_49c340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
     }
     else
     {
-        // memset(&blockData, 0, sizeof(blockData));
-
-        blockData.field_0_left = 0;
-        blockData.field_2_right = 0;
-        blockData.field_4_top = 0;
-        blockData.field_6_bottom = 0;
-        blockData.field_8_lid = 0;
-        blockData.field_A_arrows = 0;
-        blockData.field_B_slope_type = 0;
+        blockData.init_44C840();
 
         switch (field_8_face)
         {
