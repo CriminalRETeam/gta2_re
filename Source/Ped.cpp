@@ -7681,8 +7681,8 @@ void Ped::UpdateFollowPedObjective_468E80()
 {
     WIP_IMPLEMENTED;
 
-    s32 bUnknown1 = 0;
-    s32 bUnknown2 = 1;
+    u8 bUnknown1 = 0;
+    u8 bUnknown2 = 1;
 
     Ped* objective_target_ped = this->field_148_objective_target_ped;
     if (objective_target_ped->GetPedState_403990() == ped_state_1::dead_9)
@@ -7690,7 +7690,7 @@ void Ped::UpdateFollowPedObjective_468E80()
         bUnknown1 = objective_target_ped->get_objective_403A80() != objectives_enum::objective_28;
     }
 
-    if ((objective_target_ped->field_21C & 1) == 0 || bUnknown1)
+    if (!objective_target_ped->CheckBit0_433B40() || bUnknown1)
     {
         this->field_225_objective_status = 2;
     }
@@ -7711,7 +7711,7 @@ void Ped::UpdateFollowPedObjective_468E80()
         {
             if ((this->field_224 & 0x10) != 0 ||
                 gDistanceToTarget_678750 <= dword_678780 &&
-                    abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, objective_target_ped->field_1AC_cam.z))
+                    abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, objective_target_ped->get_cam_z()))
             {
                 if (field_168_game_object->GetCharState_433A80() == 15)
                 {
@@ -7721,18 +7721,7 @@ void Ped::UpdateFollowPedObjective_468E80()
                 {
                     if ((this->field_224 & 0x10) != 0)
                     {
-                        Fix16 vel = field_168_game_object->field_38_velocity;
-                        if (vel >= k_dword_678438)
-                        {
-                            if (vel > k_dword_678438)
-                            {
-                                field_168_game_object->field_38_velocity -= dword_678620;
-                            }
-                        }
-                        else
-                        {
-                            field_168_game_object->field_38_velocity += dword_678620;
-                        }
+                        field_168_game_object->RegulateVelocityByRef_433970(k_dword_678438);
                         ++this->field_260;
                     }
                     Ped::ChangeNextPedState1_45C500(7);
