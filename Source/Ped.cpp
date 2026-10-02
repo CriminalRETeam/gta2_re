@@ -1968,8 +1968,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
-                            // TODO: Prob setting the timer of Object_8 actually?
-                            v2->field_C_pAny.pExplosion->field_4_idx = 9;
+                            v2->SetO8Timer_434130(9);
                         }
                         break;
 
@@ -1977,7 +1976,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(201, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
-                            v2->field_C_pAny.pExplosion->field_4_idx = 9;
+                            v2->SetO8Timer_434130(9);
                         }
                         break;
 
@@ -1985,7 +1984,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(202, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
-                            v2->field_C_pAny.pExplosion->field_4_idx = 9;
+                            v2->SetO8Timer_434130(9);
                         }
                         break;
 
@@ -1993,7 +1992,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(203, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
-                            v2->field_C_pAny.pExplosion->field_4_idx = 9;
+                            v2->SetO8Timer_434130(9);
                         }
                         break;
 
@@ -2001,7 +2000,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(204, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
-                            v2->field_C_pAny.pExplosion->field_4_idx = 9;
+                            v2->SetO8Timer_434130(9);
                         }
                         break;
 
@@ -2009,7 +2008,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(205, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
-                            v2->field_C_pAny.pExplosion->field_4_idx = 9;
+                            v2->SetO8Timer_434130(9);
                         }
                         break;
 
@@ -2017,7 +2016,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(206, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
-                            v2->field_C_pAny.pExplosion->field_4_idx = 9;
+                            v2->SetO8Timer_434130(9);
                         }
                         break;
 
@@ -2025,7 +2024,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(208, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
-                            v2->field_C_pAny.pExplosion->field_4_idx = 9;
+                            v2->SetO8Timer_434130(9);
                         }
                         break;
 
@@ -2033,7 +2032,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(209, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
-                            v2->field_C_pAny.pExplosion->field_4_idx = 9;
+                            v2->SetO8Timer_434130(9);
                         }
                         break;
 
@@ -2041,7 +2040,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(210, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
                         if (v2)
                         {
-                            v2->field_C_pAny.pExplosion->field_4_idx = 9;
+                            v2->SetO8Timer_434130(9);
                         }
                         break;
                     default:

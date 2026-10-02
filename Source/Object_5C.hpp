@@ -3,6 +3,7 @@
 #include "Fix16_Point.hpp"
 #include "Function.hpp"
 #include "Object_3C.hpp"
+#include "Object_8.hpp"
 #include "Phi_8CA8.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
@@ -173,6 +174,12 @@ class Object_2C
     inline u8 get_field_26_420FF0()
     {
         return field_26_varrok_idx;
+    }
+
+    // 9.6f 0x434130
+    inline void SetO8Timer_434130(s16 timer)
+    {
+        field_C_pAny.o8->field_4_timer = timer;
     }
 
     s32 get_model_40FEF0()
