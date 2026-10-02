@@ -505,6 +505,8 @@ Ped::~Ped()
 WIP_FUNC(0x45afc0)
 char_type Ped::Reset_45AFC0()
 {
+    WIP_IMPLEMENTED;
+
     field_21C_bf.b2 = 0;
     field_234_timer = 0;
     field_238_ped_type = ped_type::dummy_3;
@@ -5900,6 +5902,8 @@ char_type Ped::sub_466B70()
 WIP_FUNC(0x4614e0)
 Fix16* __stdcall sub_4614E0(Fix16* out, Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4)
 {
+    WIP_IMPLEMENTED;
+
     s32 d1 = a3->mValue - a1->mValue;
     s32 d2 = a4->mValue - a2->mValue;
 
@@ -5929,6 +5933,8 @@ Fix16* __stdcall sub_4614E0(Fix16* out, Fix16* a1, Fix16* a2, Fix16* a3, Fix16* 
 WIP_FUNC(0x465d00)
 char_type Ped::IsPedAThreat_465D00(Ped* a2)
 {
+    WIP_IMPLEMENTED;
+
     char_type flag = 0;
 
     if ((a2->field_21C & 0x2000000) != 0)
@@ -6896,6 +6902,8 @@ Ped* Ped::FindBestTargetPed_Mode5_466BD0(s32 max_x_check)
 WIP_FUNC(0x466bf0)
 Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 {
+    WIP_IMPLEMENTED;
+
     dword_6787DC = this;
 
     Sprite* pNear = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(
@@ -7900,7 +7908,7 @@ void Ped::sub_4682A0()
 WIP_FUNC(0x468310)
 void Ped::sub_468310()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     Ped* pDriver;
     Car_BC* pCar;
@@ -11550,6 +11558,8 @@ void Ped::set_wanted_level_46EF40(u16 wanted)
 WIP_FUNC(0x46EFD0)
 void Ped::IncreaseWantedLevelFromDebugKeys_46EFD0()
 {
+    WIP_IMPLEMENTED;
+
     switch (get_wanted_star_count_46EF00())
     {
         case 0u:
