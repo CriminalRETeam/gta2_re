@@ -199,9 +199,7 @@ void jolly_poitras_0x2BC0::UpdateStageScore_56BB10(Player* pPlayer)
     }
     else
     {
-        const u8 map_and_bonus_nibbles = gLucid_hamilton_67E8E0.GetStage_4C5990();
-        map_num = map_and_bonus_nibbles >> 4;
-        bonus_num = map_and_bonus_nibbles & 0xF;
+        gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &map_num, &bonus_num);
     }
 
     stage_stats* pStageStats = &pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num];
