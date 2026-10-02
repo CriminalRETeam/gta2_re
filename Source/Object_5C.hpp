@@ -255,6 +255,9 @@ class Object_2C
         field_4->set_num_40F7B0(field_8->field_2C);
     }
 
+    // 9.6f 0x482C10, defined in Object_5C.cpp (needs Object_8)
+    inline bool IsAnimFinished_482C10();
+
     // 9.6f 0x482BF0
     void sub_482BF0()
     {

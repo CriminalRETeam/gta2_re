@@ -96,6 +96,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F8DBC, dword_6F8C78, 0x6F8DBC);
 // TODO: From CarPhysics_B0
 EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
 
+// 9.6f 0x482C10
+inline bool Object_2C::IsAnimFinished_482C10()
+{
+    return !field_C_pAny.o8->field_4_timer && !field_C_pAny.o8->field_7_anim_speed_counter;
+}
+
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
 {
@@ -1280,15 +1286,9 @@ void Object_2C::UpdateAninmation_5257D0()
         }
         const s16 target_id = this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter;
 
-        // TODO: Inline?
-        Sprite* pSprite = this->field_4;
-        if (pSprite->field_22_sprite_id != target_id)
-        {
-            pSprite->field_22_sprite_id = target_id;
-            pSprite->UpdateDimensionsFromSpriteIndex_59FA40();
-        }
+        field_4->set_id_lazy_4206C0(target_id);
 
-        if (!field_C_pAny.o8->field_4_timer && !field_C_pAny.o8->field_7_anim_speed_counter)
+        if (IsAnimFinished_482C10())
         {
             Object_2C::TickObject_5283C0(this->field_8->field_3C_next_definition_idx);
         }
