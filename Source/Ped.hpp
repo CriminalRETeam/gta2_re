@@ -673,6 +673,12 @@ class Ped
         field_22C = value;
     }
 
+    // 9.6f 0x403A20
+    inline void ClearF228_403A20()
+    {
+        field_228 = 0;
+    }
+
     // 9.6f 0x433BE0
     inline void ClearF144_433BE0()
     {

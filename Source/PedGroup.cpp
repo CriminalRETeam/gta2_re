@@ -329,7 +329,8 @@ void PedGroup::DestroyGroup_4C93A0()
 MATCH_FUNC(0x4c94e0)
 void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
 {
-    // TODO: Bunch of missing getter/setter inlines here
+    // 9.6f: Ped 0x403A50 sets field_168_game_object->field_3C_run_or_jump_speed (inlined, a Ped helper for it
+    // changes the code)
     if (!pAttacker)
     {
         PedGroup::DestroyGroup_4C93A0();
@@ -341,9 +342,9 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
             this->field_2C_ped_leader->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
             this->field_2C_ped_leader->set_objective_target_ped_403AC0(pAttacker);
             this->field_2C_ped_leader->SetObjective2_463830(3, 9999);
-            this->field_2C_ped_leader->field_14C = pAttacker;
-            this->field_2C_ped_leader->field_21C |= 4u;
-            this->field_2C_ped_leader->field_228 = 0;
+            this->field_2C_ped_leader->set_field_14C_403AE0(pAttacker);
+            this->field_2C_ped_leader->SetBit2_403950();
+            this->field_2C_ped_leader->ClearF228_403A20();
             this->field_2C_ped_leader->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
         }
 
@@ -352,12 +353,12 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
         for (char_type i_ = 0; i_ < (s32)this->field_34_count; i_++)
         {
             s32 i = i_;
-            if (field_4_ped_list[i]->field_16C_car)
+            if (field_4_ped_list[i]->has_car_403B80())
             {
                 this->field_4_ped_list[i]->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_always_once_car_stopped_6, 9999);
                 this->field_4_ped_list[i]->set_objective_target_ped_403AC0(pAttacker);
-                this->field_4_ped_list[i]->field_228 = 0;
+                this->field_4_ped_list[i]->ClearF228_403A20();
                 this->field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
             }
             else
@@ -365,9 +366,9 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
                 this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
                 this->field_4_ped_list[i]->set_objective_target_ped_403AC0(pAttacker);
                 this->field_4_ped_list[i]->SetObjective2_463830(3, 9999);
-                this->field_4_ped_list[i]->field_14C = pAttacker;
-                this->field_4_ped_list[i]->field_21C |= 4u;
-                this->field_4_ped_list[i]->field_228 = 0;
+                this->field_4_ped_list[i]->set_field_14C_403AE0(pAttacker);
+                this->field_4_ped_list[i]->SetBit2_403950();
+                this->field_4_ped_list[i]->ClearF228_403A20();
                 this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
                 this->field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
                 this->field_4_ped_list[i]->SetField238_403920(ped_type::dummy_3);
