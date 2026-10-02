@@ -172,7 +172,7 @@ LABEL_12:
         pPed->ChangeNextPedState2_45C540(0);
         pPed->SetField238_403920(ped_type::dummy_3);
         pPed->set_field_20e_433B80(1);
-        pPed->field_244_remap = 3;
+        pPed->set_remap_433B90(3);
 
         switch (kind)
         {
@@ -186,7 +186,7 @@ LABEL_12:
                 pPed->field_22C = 2;
                 pPed->set_objective_timer_433C80(40);
                 pPed->SetField238_403920(ped_type::special_ped_4);
-                pPed->field_244_remap = 17;
+                pPed->set_remap_433B90(17);
                 pPed->field_288_threat_search = threat_search_enum::area_2;
                 pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                 pPed->field_26C_graphic_type = 0;
@@ -205,7 +205,7 @@ LABEL_12:
                 //LOBYTE(v13) = v13 | 8;
                 pPed->set_occupation_403970(ped_ocupation_enum::car_thief);
                 pPed->SetField238_403920(ped_type::dummy_with_occupation_6);
-                pPed->field_244_remap = 15;
+                pPed->set_remap_433B90(15);
                 pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                 pPed->field_26C_graphic_type = 0;
                 //pPed->field_21C = v13;
@@ -235,12 +235,12 @@ LABEL_12:
                         pPed->set_occupation_403970(ped_ocupation_enum::armed_gang_member_19);
                         pPed->field_17C_pGang = pGang;
                         v16 = pGang->field_101;
-                        pPed->field_244_remap = v16;
+                        pPed->set_remap_433B90(v16);
                         if (v16 == 5)
                         {
                             if (!stru_6F6784.get_int_4F7AE0(2))
                             {
-                                pPed->field_244_remap = 6;
+                                pPed->set_remap_433B90(6);
                             }
                         }
                         field_17C_pZone = pPed->field_17C_pGang;
@@ -272,12 +272,12 @@ LABEL_12:
                         pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                         v21 = pGang->field_101;
                         pPed->field_26C_graphic_type = 1;
-                        pPed->field_244_remap = v21;
+                        pPed->set_remap_433B90(v21);
                         if (v21 == 5)
                         {
                             if (!stru_6F6784.get_int_4F7AE0(2))
                             {
-                                pPed->field_244_remap = 6;
+                                pPed->set_remap_433B90(6);
                             }
                         }
                     }
@@ -293,19 +293,19 @@ LABEL_12:
                     switch (stru_6F6784.get_int_4F7AE0(4))
                     {
                         case 0:
-                            pPed->field_244_remap = 18;
+                            pPed->set_remap_433B90(18);
                             break;
 
                         case 1:
-                            pPed->field_244_remap = 19;
+                            pPed->set_remap_433B90(19);
                             break;
 
                         case 2:
-                            pPed->field_244_remap = 20;
+                            pPed->set_remap_433B90(20);
                             break;
 
                         default:
-                            pPed->field_244_remap = 21;
+                            pPed->set_remap_433B90(21);
                             break;
                     }
                 }
@@ -371,7 +371,7 @@ LABEL_12:
 
                     if (gCheatNakedPeds_67D5E8)
                     {
-                        pPed->field_244_remap = 26;
+                        pPed->set_remap_433B90(26);
                     }
                     else
                     {
@@ -384,7 +384,7 @@ LABEL_12:
                         {
                             v26 = v25 + 27;
                         }
-                        pPed->field_244_remap = v26;
+                        pPed->set_remap_433B90(v26);
                     }
                 }
                 break;
@@ -923,17 +923,17 @@ Ped* PedManager::SpawnRunAwayGuy_470D60()
     switch (rng_val)
     {
         default:
-            pPed->field_244_remap = 21;
+            pPed->set_remap_433B90(21);
             break;
         case 1:
-            pPed->field_244_remap = 19;
+            pPed->set_remap_433B90(19);
             break;
         case 0:
-            pPed->field_244_remap = 18;
+            pPed->set_remap_433B90(18);
             break;
 
         case 2:
-            pPed->field_244_remap = 20;
+            pPed->set_remap_433B90(20);
             break;
     }
 
@@ -961,16 +961,16 @@ Ped* PedManager::SpawnTrainLeaver_470E30()
     switch (stru_6F6784.get_int_4F7AE0(4))
     {
         case 0:
-            pPed->field_244_remap = 18;
+            pPed->set_remap_433B90(18);
             break;
         case 1:
-            pPed->field_244_remap = 19;
+            pPed->set_remap_433B90(19);
             break;
         case 2:
-            pPed->field_244_remap = 20;
+            pPed->set_remap_433B90(20);
             break;
         default:
-            pPed->field_244_remap = 21;
+            pPed->set_remap_433B90(21);
             break;
     }
 
