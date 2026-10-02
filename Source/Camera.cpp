@@ -793,11 +793,7 @@ void Camera_0xBC::UpdateFollowPedCamera_436540(Ped* pPed)
         {
             xpos = pPed->get_cam_x();
             ypos = pPed->get_cam_y();
-            zpos = pPed->get_cam_z() - dword_676820;
-            if (zpos <= dword_67681C)
-            {
-                zpos = dword_67681C;
-            }
+            zpos = sub_41E130(pPed->get_cam_z() - dword_676820, dword_67681C);
             zposToUse = zpos;
             if (pCar)
             {
@@ -815,7 +811,7 @@ void Camera_0xBC::UpdateFollowPedCamera_436540(Ped* pPed)
             Camera_0xBC::ApplyCarVelocityCameraOffset_436200(pCar_2, &xpos, &ypos, &zposToUse);
         }
         Fix16 zoom = dword_6767B4;
-        if (pPed->get_ped_state1() != 9)
+        if (pPed->GetPedState_403990() != 9)
         {
             zoom = dword_6766D4;
         }
