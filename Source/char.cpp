@@ -537,7 +537,7 @@ void Char_B4::Update_545720(Fix16 a2)
         {
             if (field_8_ped_state_1 != ped_state_1::dead_9)
             {
-                field_80_sprite_ptr->field_28_num = 34;
+                field_80_sprite_ptr->set_num_40F7B0(34);
             }
         }
         if (field_10_char_state == Char_B4_state::Jumping_15)
@@ -1040,7 +1040,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(7, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 3;
-                        this->field_80_sprite_ptr->field_28_num = 9;
+                        this->field_80_sprite_ptr->set_num_40F7B0(9);
                         newId_ = baseId + 36;
                     }
                     goto LABEL_162;
@@ -1056,7 +1056,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(6, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 3;
-                        this->field_80_sprite_ptr->field_28_num = 9;
+                        this->field_80_sprite_ptr->set_num_40F7B0(9);
                         newId_ = baseId + 35;
                     }
                     goto LABEL_162;
@@ -1072,7 +1072,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(5, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 3;
-                        this->field_80_sprite_ptr->field_28_num = 9;
+                        this->field_80_sprite_ptr->set_num_40F7B0(9);
                         newId_ = baseId + 34;
                     }
                     goto LABEL_162;
@@ -1088,7 +1088,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(4, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 3;
-                        this->field_80_sprite_ptr->field_28_num = 9;
+                        this->field_80_sprite_ptr->set_num_40F7B0(9);
                         newId_ = baseId + 33;
                     }
                     goto LABEL_162;
@@ -1115,7 +1115,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(1, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 1;
-                        this->field_80_sprite_ptr->field_28_num = 23;
+                        this->field_80_sprite_ptr->set_num_40F7B0(23);
                         newId_ = (u8)this->field_68_animation_frame + baseId + 24;
                     }
                     goto LABEL_162;
@@ -1130,7 +1130,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(2, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                         v124 = 1;
-                        this->field_80_sprite_ptr->field_28_num = 23;
+                        this->field_80_sprite_ptr->set_num_40F7B0(23);
                         newId_ = (u8)this->field_68_animation_frame + baseId + 24;
                     }
                     goto LABEL_162;
@@ -1146,7 +1146,7 @@ void Char_B4::UpdateAnimState_546360()
                         CarDoorAlignmentSolver_545AF0(3, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
                     LABEL_191:
                         v124 = 1;
-                        this->field_80_sprite_ptr->field_28_num = 23;
+                        this->field_80_sprite_ptr->set_num_40F7B0(23);
                         newId_ = (u8)this->field_68_animation_frame + baseId + 24;
                     }
                 LABEL_162:
@@ -1170,7 +1170,7 @@ void Char_B4::UpdateAnimState_546360()
                     goto LABEL_277;
 
                 case 8u:
-                    field_80_sprite_ptr->field_28_num = 23;
+                    field_80_sprite_ptr->set_num_40F7B0(23);
                     field_7C_pPed->ChangeNextPedState2_45C540(0);
                     field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::walking_0);
                     this->field_C_ped_state_2 = 0;
@@ -1232,7 +1232,7 @@ void Char_B4::UpdateAnimState_546360()
 
             field_80_sprite_ptr->set_xyz_lazy_420600(newx, newy, field_84->field_50_car_sprite->field_1C_zpos);
 
-            this->field_80_sprite_ptr->field_28_num = 6;
+            this->field_80_sprite_ptr->set_num_40F7B0(6);
 
             pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                           field_80_sprite_ptr->field_14_xy.y.ToInt(),
@@ -1379,7 +1379,7 @@ void Char_B4::UpdateAnimState_546360()
             {
                 field_80_sprite_ptr->field_34_palette_type = palette_types_enum::sprites_2;
             }
-            field_80_sprite_ptr->field_28_num = 6;
+            field_80_sprite_ptr->set_num_40F7B0(6);
             newId_ = (u8)field_68_animation_frame + baseId + 151;
             goto LABEL_277;
         case 19:
@@ -1442,7 +1442,7 @@ void Char_B4::UpdateAnimState_546360()
                                               newx,
                                               newy,
                                               field_40_rotation);
-                field_80_sprite_ptr->field_28_num = 9;
+                field_80_sprite_ptr->set_num_40F7B0(9);
                 newId_ = baseId + (u8)field_68_animation_frame;
             }
             else
@@ -1472,7 +1472,7 @@ void Char_B4::UpdateAnimState_546360()
                                               newy,
                                               field_40_rotation);
                 newId_ = baseId + (u8)field_68_animation_frame;
-                field_80_sprite_ptr->field_28_num = 9;
+                field_80_sprite_ptr->set_num_40F7B0(9);
             }
             else
             {
@@ -1483,7 +1483,7 @@ void Char_B4::UpdateAnimState_546360()
                                               newy,
                                               field_40_rotation);
                 v124 = 1;
-                field_80_sprite_ptr->field_28_num = 9;
+                field_80_sprite_ptr->set_num_40F7B0(9);
                 newId_ = (u8)field_68_animation_frame + baseId + 28;
             }
             goto LABEL_125;
@@ -1495,7 +1495,7 @@ void Char_B4::UpdateAnimState_546360()
                                           newx,
                                           newy,
                                           field_40_rotation);
-            field_80_sprite_ptr->field_28_num = 9;
+            field_80_sprite_ptr->set_num_40F7B0(9);
             field_7C_pPed->ChangeNextPedState2_45C540(10);
             field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
             field_C_ped_state_2 = 10;
@@ -1519,7 +1519,7 @@ void Char_B4::UpdateAnimState_546360()
                     field_84->field_84_car_info_idx == car_model_enum::TANK)
                 {
                     pDriver->field_26C_graphic_type = 2;
-                    pDriver->field_244_remap = 4;
+                    pDriver->set_remap_433B90(4);
                 }
                 goto LABEL_114;
             }
@@ -1572,10 +1572,10 @@ void Char_B4::UpdateAnimState_546360()
             pDriver->AllocCharB4_45C830(newx, newy, v44);
             pDriver->field_168_game_object->set_rotation_433A30(field_84->field_50_car_sprite->field_0);
             pDriver->field_168_game_object->Set_F8_ped_state_1_433910(8);
-            pDriver->field_24C_target_car_door = field_7C_pPed->get_target_car_door_403A60();
+            pDriver->set_target_car_door_403A70(field_7C_pPed->get_target_car_door_403A60());
             pDriver->field_168_game_object->field_C_ped_state_2 = 17;
             pDriver->field_168_game_object->field_84 = field_84;
-            pDriver->field_168_game_object->field_80_sprite_ptr->field_28_num = 6;
+            pDriver->field_168_game_object->field_80_sprite_ptr->set_num_40F7B0(6);
 
             pB4 = pDriver->field_168_game_object;
             remap_ = pDriver->get_remap_433BA0();
@@ -1712,7 +1712,7 @@ void Char_B4::DispatchCollision_548670(char_type a2)
                 }
                 else
                 {
-                    if (field_7C_pPed->field_238_ped_type >= 2 && field_7C_pPed->field_238_ped_type <= 6)
+                    if (field_7C_pPed->GetPedType_420B70() >= 2 && field_7C_pPed->field_238_ped_type <= 6)
                     {
                         Char_B4::HandlePedCollision_548BD0(pNearSprite->AsCharB4_40FEA0());
                         this->field_18 = 0;
@@ -1801,7 +1801,7 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
     s32 phi_type = pObj->field_8->field_34_behavior_type;
 
     if (phi_type == 6 || phi_type == 7 || phi_type == 8 || phi_type == 9 || phi_type == 10 || phi_type == 1 || phi_type == 12 ||
-        (pObj->field_26_varrok_idx) == 0 || pObj->field_26_varrok_idx != this->field_7C_pPed->field_267_varrok_idx)
+        (pObj->get_field_26_420FF0()) == 0 || pObj->get_field_26_420FF0() != this->field_7C_pPed->field_267_varrok_idx)
     {
         if (phi_type != 3 && phi_type != 4 && (phi_type > 2 || pObj->field_8->field_44 != 2))
         {
@@ -5676,7 +5676,7 @@ void Char_B4::state_3_551A00()
     {
         field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
         Sprite* nearestSprt = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_80_sprite_ptr, 0);
-        if (!nearestSprt || nearestSprt->field_30_sprite_type_enum != sprite_types_enum::car_2 ||
+        if (!nearestSprt || nearestSprt->get_type_416B40() != sprite_types_enum::car_2 ||
             (nearestSprt->field_8_car_bc_ptr == field_7C_pPed->get_target_to_enter_403B10()) ||
             nearestSprt->field_8_car_bc_ptr->is_on_trailer_421720() || field_7C_pPed->sub_45BD20(nearestSprt->field_8_car_bc_ptr))
         {
@@ -6687,7 +6687,7 @@ bool Char_B4::PhoneTouched_5535B0(Object_2C* p2c)
     Ped* pPed = field_7C_pPed;
     if (pPed->field_15C_player)
     {
-        return gfrosty_pasteur_6F8060->AnswerPhone_5129F0(pPed->field_200_id, p2c->field_14_id);
+        return gfrosty_pasteur_6F8060->AnswerPhone_5129F0(pPed->get_id(), p2c->field_14_id);
     }
     else
     {
