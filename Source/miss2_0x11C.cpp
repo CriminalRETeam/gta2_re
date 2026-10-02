@@ -3485,7 +3485,7 @@ void miss2_0x11C::EnableThread_50A9E0(u16 idx)
 
             if (pThread->field_16_flag)
             {
-                gCar_214_705F20->field_0_triggers[(u8)pThread->field_15_trigger_idx].field_14_enable_state = 1;
+                gCar_214_705F20->SetTriggerEnableState_4768C0(pThread->field_15_trigger_idx, 1);
             }
             else
             {
@@ -3504,7 +3504,7 @@ void miss2_0x11C::EnableThread_50A9E0(u16 idx)
 
             if (pAny->field_27_flag)
             {
-                gCar_214_705F20->field_0_triggers[(u8)pAny->field_26_result].field_14_enable_state = 1;
+                gCar_214_705F20->SetTriggerEnableState_4768C0(pAny->field_26_result, 1);
             }
             else
             {

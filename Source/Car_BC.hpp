@@ -98,6 +98,13 @@ class Car_214
     EXPORT char_type AddThreadTrigger_5C86C0(const s32& pType, const s32& f_C, SCR_THREAD* f_0, Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 a8, Fix16 a9);
     EXPORT void Reset_5C8750();
     EXPORT void sub_5C8780(u8 idx, Sprite* pSprite);
+
+    // 9.6f 0x4768C0
+    inline void SetTriggerEnableState_4768C0(u8 idx, s32 state)
+    {
+        field_0_triggers[idx].field_14_enable_state = state;
+    }
+
     Car_18 field_0_triggers[22];
     s16 field_210_count;
     s16 field_212;
