@@ -2358,10 +2358,7 @@ void Player::sub_569600(Car_BC* pCar)
     field_2C8_unkq->sub_45B560(this, 1);
     field_2C8_unkq->sub_45C4B0();
     pCar->sub_4406E0(field_2C8_unkq);
-    if (pCar->field_98 != 4)
-    {
-        pCar->field_98 = 1;
-    }
+    pCar->SetF98To1IfNot4_475C10();
     field_68 = 2;
     field_208_aux_game_camera.UpdateFollowPedCamera_436540(field_2C8_unkq);
     field_208_aux_game_camera.CommitCameraTarget_41E410();
