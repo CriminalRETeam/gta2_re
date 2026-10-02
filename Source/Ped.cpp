@@ -10241,11 +10241,9 @@ void Ped::sub_46D240()
     }
 }
 
-WIP_FUNC(0x46d300)
+MATCH_FUNC(0x46d300)
 void Ped::sub_46D300()
 {
-    WIP_IMPLEMENTED;
-
     if (this->field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
         if (gDistanceToTarget_678750 <= dword_678788)
