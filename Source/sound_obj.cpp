@@ -323,26 +323,23 @@ s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, F
 
     if (zpos != 0)
     {
-
         if (ypos - xpos == kFpZero_674CD8)
         {
             return snd_rate;
         }
 
-        s32 v5 = (((zpos / dword_674E18) * (ypos - xpos)) / Fix16(field_C)).ToInt();
-        if (v5 <= 0)
+        // zpos is converted from an integer (shl $0xE) and field_C is already fixed point
+        s32 v5 = (((ypos - xpos) * (Fix16(zpos.mValue) / dword_674E18)) / Fix16(field_C, 0)).mValue;
+        s32 a = v5;
+        if (a <= 0)
         {
-            v5 = -v5;
+            a = -a;
         }
-
-        if (v5 >= field_4_speed_of_sound)
+        if (a >= field_4_speed_of_sound)
         {
             return snd_rate;
         }
-        else
-        {
-            return Fix16::Round_To_Int_410BF0((Fix16(snd_rate) * Fix16(field_4_speed_of_sound)) / (Fix16(field_4_speed_of_sound) + Fix16(v5)));
-        }
+        return Fix16::Round_To_Int_410BF0(Fix16(snd_rate) * (Fix16(field_4_speed_of_sound) / Fix16(v5 + field_4_speed_of_sound, 0)));
     }
 
     return snd_rate;
