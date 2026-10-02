@@ -117,22 +117,22 @@ void TrafficLight_20::sub_5C1D00(u8 x, u8 y, u8 w, u8 h)
         field_4_south_headlight_obj = 0;
     }
 
-    if ((field_8_west_headlight_obj || field_0_north_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x - 1, y - 1, zTmp))
+    if ((field_8_west_headlight_obj || field_0_north_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementTypeInlined_433530(x - 1, y - 1, zTmp))
     {
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::ped_crossing_trigger_258, Fix16(x) - dword_705714, Fix16(y) - dword_705714, zpos, word_705948);
     }
 
-    if ((field_C_east_headlight_obj || field_0_north_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x + w, y - 1, zTmp))
+    if ((field_C_east_headlight_obj || field_0_north_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementTypeInlined_433530(x + w, y - 1, zTmp))
     {
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::ped_crossing_trigger_258, Fix16(w + x) + dword_705714, Fix16(y) - dword_705714, zpos, word_705948);
     }
 
-    if ((field_C_east_headlight_obj || field_4_south_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x + w, h + y, zTmp))
+    if ((field_C_east_headlight_obj || field_4_south_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementTypeInlined_433530(x + w, h + y, zTmp))
     {
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::ped_crossing_trigger_258, Fix16(w + x) + dword_705714, Fix16(y + h) + dword_705714, zpos, word_705948);
     }
 
-    if ((field_8_west_headlight_obj || field_4_south_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementType_42A8C0(x - 1, y + h, zTmp))
+    if ((field_8_west_headlight_obj || field_4_south_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementTypeInlined_433530(x - 1, y + h, zTmp))
     {
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::ped_crossing_trigger_258, Fix16(x) - dword_705714, Fix16(y + h) + dword_705714, zpos, word_705948);
     }
