@@ -1021,7 +1021,7 @@ class Car_BC
         return field_84_car_info_idx == car_model_enum::FIRETRUK;
     }
 
-    // TODO: Get 9.6f addr
+    // 9.6f 0x421780
     bool IsMediCar()
     {
         return field_84_car_info_idx == car_model_enum::MEDICAR;

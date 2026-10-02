@@ -1859,7 +1859,7 @@ bool Car_BC::sub_4451E0(Ped* pPed)
     {
         return false;
     }
-    return !sub_43B2B0(pPed);
+    return sub_43B2B0(pPed) ? false : true;
 }
 
 WIP_FUNC(0x445360)
