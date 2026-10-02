@@ -106,7 +106,7 @@ u16 sad_mirzakhani::next_free_idx_431E90()
     return GTA2_COUNTOF(field_0_bonuses);
 }
 
-WIP_FUNC(0x431EC0);
+MATCH_FUNC(0x431EC0);
 u16 sad_mirzakhani::find_431EC0(u16 idx,
                                 s16 f_4,
                                 s32 car_info_idx,
@@ -117,8 +117,6 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
                                 s32 f_18,
                                 gmp_map_zone* pZone)
 {
-    WIP_IMPLEMENTED;
-
     u16 local_idx; // bp
     silly_saha_0x2C* pItem; // esi
     s16 l_4; // ax
@@ -129,26 +127,21 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
     s32 l_14; // eax
     s32 l_18; // eax
 
-    local_idx = idx;
-    if (idx >= 10u)
-    {
-        return 10;
-    }
-    while (1)
+    for (local_idx = idx; local_idx < 10u; local_idx++)
     {
         pItem = &this->field_0_bonuses[local_idx];
         if (!pItem->field_2A_bUsed)
         {
-            goto inc_idx;
+            continue;
         }
         if (!pItem->field_2B_bActive)
         {
-            goto inc_idx;
+            continue;
         }
         l_4 = pItem->field_4_event_type;
         if (l_4 != f_4 && l_4 != -1)
         {
-            goto inc_idx;
+            continue;
         }
         l_c = pItem->field_C_occupation;
         if (l_c == occupation || l_c == 51 || IsOccupationInGroup_432240(occupation, pItem->field_C_occupation))
@@ -165,7 +158,7 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
                         l_14 = pItem->field_14;
                         if (l_14 == f_14 || l_14 == 23 || sub_432170(f_14, pItem->field_14))
                         {
-                            l_18 = pItem->field_8_car_model;
+                            l_18 = pItem->field_18_alt_car_model;
                             if ((l_18 == f_18 || l_18 == 87) && (pItem->field_0_pZone == pZone || !pItem->field_0_pZone))
                             {
                                 return local_idx;
@@ -179,12 +172,8 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
         {
             field_0_bonuses[local_idx].Deactivate_431DB0();
         }
-    inc_idx:
-        if (++local_idx >= 10u)
-        {
-            return 10;
-        }
     }
+    return 10;
 }
 
 MATCH_FUNC(0x431FE0);
