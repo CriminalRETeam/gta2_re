@@ -587,9 +587,10 @@ void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint
 {
     WIP_IMPLEMENTED;
     u8 v9;
-    Fix16_Point t2;
     Fix16_Point v12;
-    Fix16_Point obj_speed = Object_2C::GetSpeedVector_52AE90();
+    Fix16_Point t2;
+    Fix16_Point obj_speed;
+    obj_speed = Object_2C::GetSpeedVector_52AE90();
     if (field_4->GetNearestVerticalEdgeToCoordinate_5A1030(gRozza_679188.field_14_mapx_t2, t2, v9))
     {
         v12.SetXY_432860(field_4->field_14_xy.x - gRozza_679188.field_14_mapx_t2, Fix16(0));
@@ -599,6 +600,7 @@ void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint
         t2.SetXY_432860(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_18_mapy_t1);
         t2 -= *pPoint;
         t2.y += field_4->field_14_xy.y;
+        t2.x = gRozza_679188.field_14_mapx_t2;
 
         Fix16 abs1 = Fix16::Abs(t2.y - gRozza_679188.field_10);
         Fix16 abs2 = Fix16::Abs(t2.y - gRozza_679188.field_C_mapy_t2);
