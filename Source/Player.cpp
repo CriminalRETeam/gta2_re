@@ -2696,7 +2696,7 @@ void Player::DisableInputs_569F40()
 
     if (pPed)
     {
-        pPed->field_21C_bf.b11 = false;
+        pPed->ClearBit11_403A40();
 
         Car_BC* pCar = pPed->get_car_416B60();
         if (pCar)
