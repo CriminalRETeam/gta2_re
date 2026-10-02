@@ -84,6 +84,12 @@ class Player
         field_6F4_power_up_timers[idx]--;
     }
 
+    // 9.6f 0x4766B0
+    inline void ChangeMultipliers_4766B0(s32 amount)
+    {
+        field_6BC_multpliers.ChangeStatByAmount_4921B0(amount);
+    }
+
     // 9.6f 0x4766A0
     inline s32 get_multiplier_4766A0()
     {

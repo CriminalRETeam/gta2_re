@@ -660,15 +660,15 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
     switch (power_up_idx)
     {
         case power_up_indices::Unk_0:
-            if (field_6BC_multpliers.field_0_value == 99)
+            if (field_6BC_multpliers.get_value() == 99)
             {
                 return 0;
             }
-            field_6BC_multpliers.ChangeStatByAmount_4921B0(1);
+            ChangeMultipliers_4766B0(1);
             break;
 
         case power_up_indices::Unk_1:
-            if (this->field_684_lives.field_0_value == 99)
+            if (this->field_684_lives.get_value() == 99)
             {
                 return 0;
             }
@@ -676,11 +676,11 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
             break;
 
         case power_up_indices::Unk_2:
-            if (field_2C4_player_ped->field_216_health >= 100)
+            if (field_2C4_player_ped->get_health_433B70() >= 100)
             {
                 return 0;
             }
-            field_2C4_player_ped->field_216_health = 100;
+            field_2C4_player_ped->SetFullHealth_4A5050();
             break;
 
         case power_up_indices::Armor_3:
@@ -696,7 +696,7 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
             {
                 return 0;
             }
-            field_2C4_player_ped->field_20A_wanted_points = 0;
+            field_2C4_player_ped->ClearWantedPoints_420B80();
             break;
 
         case power_up_indices::Invulnerability_6:
@@ -730,7 +730,7 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
                 return 0;
             }
             this->field_6F4_power_up_timers[9] = 2100;
-            this->field_2C4_player_ped->field_21C |= 0x4000000u;
+            this->field_2C4_player_ped->set_bit_26_4A5060();
             break;
 
         case power_up_indices::Invisibility_11:

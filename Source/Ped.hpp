@@ -374,6 +374,18 @@ class Ped
         field_21C_bf.b11 = 0;
     }
 
+    // 9.6f 0x4A5060
+    inline void set_bit_26_4A5060()
+    {
+        field_21C |= 0x4000000u;
+    }
+
+    // 9.6f 0x4A5050
+    inline void SetFullHealth_4A5050()
+    {
+        set_health_4039A0(100);
+    }
+
     inline void clear_bit_26_482080()
     {
         field_21C_bf.b26 = false;
