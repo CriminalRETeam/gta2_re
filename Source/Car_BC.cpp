@@ -800,18 +800,10 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
                     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
                     Fix16 w_val = dword_6F6850.list[pInfo->w];
                     Fix16 h_val = dword_6F6850.list[pInfo->h];
-                    if (maybe_direction >= 3 && maybe_direction <= 4)
-                    {
-                        w_val = dword_6F6850.list[pInfo->h];
-                        h_val = dword_6F6850.list[pInfo->w];
-                    }
+                    SwapIf3or4_41FE40(maybe_direction, w_val, h_val);
                     Fix16_Rect rect;
-                    rect.field_8_top = pos_y - h_val;
-                    rect.field_0_left = pos_x - w_val;
-                    rect.field_14_high_z = dword_6777D0 + pos_z;
-                    rect.field_4_right = w_val + pos_x;
-                    rect.field_C_bottom = h_val + pos_y;
-                    rect.field_10_low_z = pos_z - dword_6777D0;
+                    rect.SetRect_41E350(pos_x - w_val, w_val + pos_x, pos_y - h_val, h_val + pos_y);
+                    rect.SetHiLowZ_41E370(pos_z - dword_6777D0, dword_6777D0 + pos_z);
                     if (!gPurpleDoom_1_679208->CheckRectForCollisions_477F60(&rect, 0, 0, 0) && !rect.CanRectEnterMovementRegion_59DE80())
                     {
                         field_50_car_sprite->set_xyz_lazy_420600(pos_x, pos_y, pos_z);
@@ -822,12 +814,7 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
                         if (field_58_physics)
                         {
                             field_58_physics->SnapVelocityToSpriteDirection_563590(field_50_car_sprite);
-                            // TODO: Inline
-                            CarPhysics_B0* pPhysics = field_58_physics;
-                            pPhysics->field_93_is_forward_gas_on = 1;
-                            pPhysics->field_91_is_foot_brake_on = 0;
-                            pPhysics->field_94_is_backward_gas_on = 0;
-                            pPhysics->field_95 = 0;
+                            field_58_physics->Accelerate_421210();
                             field_58_physics->field_92_is_hand_brake_on = 0;
                             field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
                         }
