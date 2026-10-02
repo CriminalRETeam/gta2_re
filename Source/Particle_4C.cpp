@@ -351,8 +351,8 @@ char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
 
     field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 103);
 
-    this->field_30_pNext->field_2C_flags = 0xA2;
-    this->field_30_pNext->field_2C_flags |= 4u;
+    this->field_30_pNext->SetFlags_4337D0(2, 20);
+    this->field_30_pNext->Set_2C_0x4_Flag_4337F0();
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
