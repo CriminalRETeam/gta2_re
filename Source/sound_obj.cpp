@@ -7245,7 +7245,7 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
             }
             else
             {
-                if (pRozzA->field_10)
+                if (!pRozzA->field_10)
                 {
                     goto LABEL_20;
                 }
