@@ -3600,7 +3600,7 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
     {
 
         case objects::bus_stop_marker_129:
-            gPublicTransport_181C_6FF1D4->sub_579A30(this);
+            gPublicTransport_181C_6FF1D4->OnBusStopMarkerHit_579A30(this);
             break;
 
         case objects::car_shop_130:
@@ -4478,7 +4478,7 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
     Fix16 newz;
 
     Fix16 car_angle;
-    bool bUnknown = gPublicTransport_181C_6FF1D4->sub_579B90(this, &car_angle);
+    bool bUnknown = gPublicTransport_181C_6FF1D4->GetTrainSpeed_579B90(this, &car_angle);
 
     for (Car_BC* pTrainCarIter = *pTrainCars; pTrainCarIter; pTrainCarIter = pTrainCars[idx])
     {

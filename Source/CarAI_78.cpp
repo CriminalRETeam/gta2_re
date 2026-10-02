@@ -5585,7 +5585,7 @@ void CarAI_78::sub_453A40()
     zpos = v2->field_50_car_sprite->field_1C_zpos;
 
     s32 v4;
-    if (gPublicTransport_181C_6FF1D4->sub_579B90(v2, &this->field_18))
+    if (gPublicTransport_181C_6FF1D4->GetTrainSpeed_579B90(v2, &this->field_18))
     {
         v4 = gMap_0x370_6F6268->sub_4E6660(&xpos, &ypos, &zpos, this->field_14);
     }
