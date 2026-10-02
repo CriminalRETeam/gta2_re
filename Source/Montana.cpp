@@ -225,12 +225,14 @@ EXPORT s32 get_rdtsc_5BEE90()
     return static_cast<s32>(t);
 }
 
-// TODO: guessed, the target asm for this 15 byte function hasn't been dumped yet.
-// Converts a cycle count from get_rdtsc_5BEE90 for the profiler display.
-STUB_FUNC(0x5BEED0)
+DEFINE_GLOBAL(u32, dword_705334, 0x705334);
+
+// Converts a cycle count from get_rdtsc_5BEE90 for the profiler display (dword_705334 is the
+// number of cycles per unit)
+MATCH_FUNC(0x5BEED0)
 EXPORT s32 __stdcall sub_5BEED0(s32 cycles)
 {
-    return cycles;
+    return (u32)cycles / dword_705334;
 }
 
 MATCH_FUNC(0x495510)

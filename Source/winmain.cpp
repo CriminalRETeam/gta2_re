@@ -16,6 +16,7 @@
 #include "jolly_poitras_0x2BC0.hpp"
 #include "keybrd_0x204.hpp"
 #include "lucid_hamilton.hpp"
+#include "crt_stubs.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include "resource.h"
@@ -24,6 +25,8 @@
 #include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <windows.h>
 //#include <dmusics.h>
 
@@ -1037,12 +1040,13 @@ DEFINE_GLOBAL(Network_Unknown_0x30, gNetInputsHistory1_6F56E0, 0x6F56E0);
 DEFINE_GLOBAL(Network_Unknown_0x30, gNetInputsHistory2_6F5798, 0x6F5798);
 DEFINE_GLOBAL_ARRAY(u8, gNetPlayerDropped_6F8470, 6, 0x6F8470);
 
-// TODO: guessed, the target asm for this 64 byte function hasn't been dumped yet.
 // Re-sends our inputs of a previous frame to one player.
-STUB_FUNC(0x4DA9B0)
+MATCH_FUNC(0x4DA9B0)
 EXPORT void __stdcall Net_4DA9B0(Network_InputData_0x8* pInputs, s32 type, u8 player_idx)
 {
-    NOT_IMPLEMENTED;
+    gInputSendData_6F5B18.field_0 = pInputs;
+    gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(Network_InputData_0x8) : sizeof(u32);
+    gNetPlay_7071E8.SendToPlayer_521630(&gInputSendData_6F5B18, player_idx, type);
 }
 
 MATCH_FUNC(0x4DA9F0)
@@ -1153,17 +1157,142 @@ EXPORT void Net_4DA9F0()
     }
 }
 
-// Fills in the sync check data that is compared between players at the start of a network game
-STUB_FUNC(0x4DB2E0)
-EXPORT void __stdcall sub_4DB2E0(u8* pSyncData)
+#pragma pack(push, 1)
+// What each player sends at the start of a network game, so everyone can check they run the same
+// game, data files and settings
+struct SyncCheckData_1F
 {
-    NOT_IMPLEMENTED;
+    u8 field_0_type; // 5
+    u32 field_1_flags; // 1: log random extra, 2: sync check, 4: log random
+    s32 field_5_map_size;
+    s32 field_9;
+    s32 field_D_script_sum;
+    s32 field_11_exe_a;
+    s32 field_15_exe_b;
+    s32 field_19_gci_sum;
+    u8 field_1D_bFrench;
+    u8 field_1E_player_idx;
+};
+#pragma pack(pop)
+
+// Sum of all the bytes of a file
+MATCH_FUNC(0x4DB120)
+EXPORT s32 __stdcall FileByteSum_4DB120(FILE* hFile)
+{
+    s32 sum = 0;
+    u8 c;
+    while (crt::fread(&c, 1, 1, hFile) > 0)
+    {
+        sum += c;
+    }
+    return sum;
 }
 
-STUB_FUNC(0x4DB440)
+// Fills in the sync check data that is compared between players at the start of a network game
+MATCH_FUNC(0x4DB2E0)
+EXPORT void __stdcall sub_4DB2E0(u8* pSyncData)
+{
+    SyncCheckData_1F* pData = (SyncCheckData_1F*)pSyncData;
+    struct _stat st;
+
+    memset(pData, 0, sizeof(SyncCheckData_1F));
+    pData->field_0_type = 5;
+    if (gCar_6C_677930)
+    {
+        gCar_6C_677930->field_69_do_free_shopping = bDo_free_shopping_67D6CD;
+    }
+
+    pData->field_1_flags = 0;
+    pData->field_1_flags = bLog_random_extra_67D5BC != 0;
+    pData->field_1_flags |= bDo_sync_check_67D6C1 ? 2 : 0;
+    pData->field_1_flags |= bLog_random_67D5FC ? 4 : 0;
+    pData->field_11_exe_a = -1;
+    pData->field_15_exe_b = 0;
+
+    if (_stat(gLucid_hamilton_67E8E0.GetMapName_4C5940(), &st) == 0)
+    {
+        pData->field_5_map_size = st.st_size;
+    }
+
+    FILE* hFile = crt::fopen(gLucid_hamilton_67E8E0.GetScriptName_4C5960(), "rb");
+    if (hFile)
+    {
+        pData->field_D_script_sum = FileByteSum_4DB120(hFile);
+        crt::fclose(hFile);
+    }
+
+    hFile = crt::fopen("data\\nyc.gci", "rb");
+    if (hFile)
+    {
+        pData->field_19_gci_sum = FileByteSum_4DB120(hFile);
+        crt::fclose(hFile);
+    }
+
+    if (bIsFrench_67D53C)
+    {
+        pData->field_1D_bFrench = 1;
+    }
+    else
+    {
+        pData->field_1D_bFrench = 0;
+    }
+    pData->field_1E_player_idx = gNetworkPlayerIdx_6F56C8;
+}
+
+MATCH_FUNC(0x4DB410)
+EXPORT void __stdcall FatalErrorMsg_4DB410(const char_type* pMsg)
+{
+    sub_4DA740();
+    GBH_Graphis_DMA_Video_Free_5D9830();
+    ErrorMsgBox_5E4EC0(pMsg);
+    DestroyWindow(gHwnd_707F04);
+    exit(1);
+}
+
+// Quits with an error when another player's sync check data differs from ours
+MATCH_FUNC(0x4DB440)
 EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemoteSyncData)
 {
-    NOT_IMPLEMENTED;
+    SyncCheckData_1F* pLocal = (SyncCheckData_1F*)pLocalSyncData;
+    SyncCheckData_1F* pRemote = (SyncCheckData_1F*)pRemoteSyncData;
+    char_type msg[260];
+    char_type name[260];
+    wchar_t wname[260];
+
+    gNetPlay_7071E8.GetPlayerName_521100(wname, pRemote->field_1E_player_idx);
+    WideCharToMultiByte(CP_ACP, 0, wname, -1, name, sizeof(name), NULL, NULL);
+
+    if (pLocal->field_1D_bFrench != pRemote->field_1D_bFrench)
+    {
+        sprintf(msg, "Player %s: Language version is different", name);
+        FatalErrorMsg_4DB410(msg);
+    }
+    if (pLocal->field_1_flags != pRemote->field_1_flags)
+    {
+        sprintf(msg, "Player %s: Debug flags are different", name);
+        FatalErrorMsg_4DB410(msg);
+    }
+    if (pLocal->field_5_map_size != pRemote->field_5_map_size)
+    {
+        sprintf(msg, "Player %s: Level file '%s' is different", name, gLucid_hamilton_67E8E0.GetMapName_4C5940());
+        FatalErrorMsg_4DB410(msg);
+    }
+    if (pLocal->field_D_script_sum != pRemote->field_D_script_sum)
+    {
+        sprintf(msg, "Player %s: Script file '%s' is different", name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+        FatalErrorMsg_4DB410(msg);
+    }
+    if (pLocal->field_11_exe_a != pRemote->field_11_exe_a || pLocal->field_15_exe_b != pRemote->field_15_exe_b)
+    {
+        sprintf(msg, "Player %s: Game file 'GTA2.EXE' is different", name);
+        FatalErrorMsg_4DB410(msg);
+    }
+    if (pLocal->field_19_gci_sum != pRemote->field_19_gci_sum)
+    {
+        // The original passes the script name too, which the format doesn't use
+        sprintf(msg, "Player %s: Car handling file 'nyc.gci' is different", name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+        FatalErrorMsg_4DB410(msg);
+    }
 }
 
 MATCH_FUNC(0x4DACB0)

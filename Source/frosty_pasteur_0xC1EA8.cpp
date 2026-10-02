@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
+#include "Generators.hpp"
 #include "Globals.hpp"
 #include "Miss2_25C.hpp"
 #include "Object_5C.hpp"
@@ -58,11 +59,40 @@ str_table_entry* frosty_pasteur_0xC1EA8::StrEntryByString_5030B0(char_type* strT
     return 0;
 }
 
-// No target asm available for this one, signature from the call in Car_214::sub_5C8780
-STUB_FUNC(0x511A70)
-void frosty_pasteur_0xC1EA8::sub_511A70(s32 car_model, SCR_CMD_HEADER* pCmd)
+EXTERN_GLOBAL_ARRAY(u8, byte_6212F0, 19);
+
+// Sets the generator type for `car_model` from the script's car list, or type 0x41 when it isn't
+// in the list. Reads the global rather than `this`.
+MATCH_FUNC(0x511A70)
+void frosty_pasteur_0xC1EA8::sub_511A70(s32 car_model, Generator_2C* pGen)
 {
-    NOT_IMPLEMENTED;
+    u8* pList = (u8*)gfrosty_pasteur_6F8060->field_340_car_list;
+    u8 i;
+    for (i = 0; i < 19; pList++, i++)
+    {
+        if (car_model == *pList)
+        {
+            pGen->field_0_gen_type = byte_6212F0[i];
+            if (byte_6212F0[i] < 0x5B)
+            {
+                pGen->sub_4C1A70();
+                pGen->field_1E_kill_timer = 3;
+            }
+            else
+            {
+                pGen->sub_4C1A70();
+                pGen->field_1E_kill_timer = 1;
+            }
+            break;
+        }
+    }
+
+    if (i == 19)
+    {
+        pGen->sub_4C1A70();
+        pGen->field_1E_kill_timer = 3;
+        pGen->field_0_gen_type = 0x41;
+    }
 }
 
 MATCH_FUNC(0x511b10)

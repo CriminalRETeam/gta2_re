@@ -1845,10 +1845,239 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
     }
 }
 
-STUB_FUNC(0x548bd0)
-void Char_B4::HandlePedCollision_548BD0(Char_B4* a2)
+DEFINE_GLOBAL(Ang16, word_6FD888, 0x6FD888);
+DEFINE_GLOBAL(Fix16, dword_6FD860, 0x6FD860);
+
+// The angle from pOther to pMe
+static inline Ang16 AngleFromPed_548BD0(Char_B4* pMe, Char_B4* pOther)
 {
-    NOT_IMPLEMENTED;
+    return Fix16::atan2_fixed_405320(pMe->field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                                     pMe->field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x);
+}
+
+// What happens when this ped walks into pOther, by the types of both peds (field_238)
+WIP_FUNC(0x548bd0)
+void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
+{
+    s32 my_type = field_7C_pPed->field_238_ped_type;
+    s32 other_type = pOther->field_7C_pPed->field_238_ped_type;
+    if (pOther->field_8_ped_state_1 == 9 || pOther->field_8_ped_state_1 == 8 || (field_58_flags & 0x80) || field_10_char_state == 15)
+    {
+        return;
+    }
+
+    Ped* pMyPed = field_7C_pPed;
+    Ped* pOtherPed = pOther->field_7C_pPed;
+    if (pMyPed->field_15C_player && pOtherPed->field_240_occupation == ped_ocupation_enum::elvis)
+    {
+        if (pOtherPed->field_138 != (s32)pMyPed->field_168_game_object)
+        {
+            pOtherPed->field_138 = (s32)pMyPed->field_168_game_object;
+            pOtherPed->field_224 &= ~4;
+            pMyPed->field_168_game_object->field_7C_pPed->field_138 = (s32)pOtherPed->field_168_game_object;
+            if (!(pOtherPed->field_21C & 0x1000000))
+            {
+                pOtherPed->field_250 = ped_ocupation_enum::elvis;
+            }
+        }
+    }
+    else if (pMyPed->field_15C_player || !(pMyPed->field_200_id & 3))
+    {
+        if (!pOtherPed->field_15C_player && (s32)pOther != pMyPed->field_138)
+        {
+            pMyPed->field_224 |= 4;
+            pMyPed->field_138 = (s32)pOther;
+            pOther->field_7C_pPed->field_138 = (s32)pMyPed->field_168_game_object;
+        }
+    }
+
+    switch (my_type)
+    {
+        case 2:
+            switch (other_type)
+            {
+                case 5:
+                    if (field_7C_pPed->field_164_ped_group && pOther->field_7C_pPed->field_164_ped_group == field_7C_pPed->field_164_ped_group)
+                    {
+                        break;
+                    }
+                    if (pOther->field_7C_pPed->field_240_occupation != 43)
+                    {
+                        pOther->field_6A = 4;
+                        Ang16 angle = AngleFromPed_548BD0(this, pOther);
+                        angle.rValue += word_6FD936.rValue;
+                        angle.sub_406C20();
+                        pOther->field_74 = angle;
+                    }
+                    else
+                    {
+                        field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                    }
+                    break;
+                case 2:
+                    field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                    break;
+                case 3:
+                case 4:
+                case 6:
+                    field_10_char_state = 1;
+                    if (field_38_velocity == k_dword_6FD7C0)
+                    {
+                        break;
+                    }
+                    if (field_7C_pPed->field_164_ped_group && pOther->field_7C_pPed->field_164_ped_group == field_7C_pPed->field_164_ped_group)
+                    {
+                        break;
+                    }
+                    pOther->field_6A = 4;
+                    {
+                        Ang16 angle = AngleFromPed_548BD0(this, pOther);
+                        angle.rValue += word_6FD936.rValue;
+                        angle.sub_406C20();
+                        pOther->field_74 = angle;
+                    }
+                    break;
+            }
+            break;
+
+        case 5:
+            switch (other_type)
+            {
+                case 5:
+                    if (field_10_char_state == 10)
+                    {
+                        field_10_char_state = 1;
+                    }
+                    else if (field_7C_pPed->field_200_id >= pOther->field_7C_pPed->field_200_id)
+                    {
+                        field_10_char_state = 1;
+                    }
+                    else if (!field_7C_pPed->field_164_ped_group || field_7C_pPed->field_164_ped_group->field_30)
+                    {
+                        if (field_8_ped_state_1 == 3)
+                        {
+                            field_38_velocity = k_dword_6FD7C0;
+                        }
+                        else if (field_7C_pPed->field_25C_internal_objective == 11)
+                        {
+                            field_10_char_state = 10;
+                        }
+                        else
+                        {
+                            field_40_rotation += word_6FD888;
+                            field_10_char_state = 10;
+                        }
+                    }
+                    break;
+                case 3:
+                case 4:
+                case 6:
+                {
+                    pOther->field_6A = 4;
+                    Ang16 angle = AngleFromPed_548BD0(this, pOther);
+                    angle.rValue = word_6FD936.rValue + angle.rValue;
+                    angle.sub_406C20();
+                    pOther->field_74 = angle;
+                    break;
+                }
+            }
+            break;
+
+        case 4:
+        case 6:
+            switch (other_type)
+            {
+                case 4:
+                case 6:
+                    if (field_10_char_state == 10)
+                    {
+                        field_10_char_state = 1;
+                    }
+                    else if (field_7C_pPed->field_200_id >= pOther->field_7C_pPed->field_200_id)
+                    {
+                        field_10_char_state = 1;
+                    }
+                    else if (!field_7C_pPed->field_164_ped_group || field_7C_pPed->field_164_ped_group->field_30)
+                    {
+                        if (field_8_ped_state_1 != 3)
+                        {
+                            if (field_7C_pPed->field_25C_internal_objective == 11)
+                            {
+                                field_10_char_state = 10;
+                            }
+                            else
+                            {
+                                field_40_rotation += word_6FD888;
+                                field_10_char_state = 10;
+                            }
+                        }
+                    }
+                    break;
+                case 2:
+                    if (pOther->field_7C_pPed->field_20A_wanted_points >= 1)
+                    {
+                        field_7C_pPed->sub_45B4E0();
+                    }
+                    break;
+                case 3:
+                {
+                    pOther->field_6A = 4;
+                    pOther->field_74 = AngleFromPed_548BD0(this, pOther) + word_6FD936;
+                    break;
+                }
+            }
+            break;
+
+        case 3:
+        {
+            s32 objective = field_7C_pPed->field_25C_internal_objective;
+            if (objective == 48 || objective == 37 || objective == 38 || objective == 12)
+            {
+                field_38_velocity = k_dword_6FD7CC;
+                break;
+            }
+            switch (other_type)
+            {
+                case 2:
+                    if (pOther->field_7C_pPed->field_20A_wanted_points >= 1 && field_7C_pPed->sub_45B4E0())
+                    {
+                        break;
+                    }
+                    if (pOther->field_38_velocity != k_dword_6FD7C0)
+                    {
+                        field_38_velocity = dword_6FD860;
+                    }
+                    else
+                    {
+                        field_40_rotation = AngleFromPed_548BD0(this, pOther);
+                    }
+                    break;
+                case 5:
+                    if (pOther->field_38_velocity != k_dword_6FD7C0)
+                    {
+                        field_38_velocity = dword_6FD860;
+                    }
+                    else
+                    {
+                        field_40_rotation = AngleFromPed_548BD0(this, pOther);
+                    }
+                    break;
+                case 4:
+                case 6:
+                    field_38_velocity = dword_6FD860;
+                    break;
+                case 3:
+                    if (!field_20)
+                    {
+                        pOther->field_6A = 4;
+                        Ang16 angle = AngleFromPed_548BD0(this, pOther) + word_6FD936;
+                        pOther->field_74 = angle + word_6FD888;
+                    }
+                    break;
+            }
+            break;
+        }
+    }
 }
 
 // Some bugs but working https://decomp.me/scratch/ph2wn

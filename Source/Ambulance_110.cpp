@@ -7,6 +7,9 @@
 #include "Globals.hpp"
 #include "error.hpp"
 #include "Orca_2FD4.hpp"
+#include "CarAI_78.hpp"
+#include "Hamburger_500.hpp"
+#include "RouteFinder.hpp"
 #include <stdio.h>
 
 DEFINE_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8, 0x6F70A8);
@@ -177,10 +180,367 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
     }
 }
 
-STUB_FUNC(0x4faac0)
+EXTERN_GLOBAL(Fix16, dword_6F6FC0);
+
+// Runs the paramedic crew (the leader, then each group member, in dword_6F6D60): pick up the
+// patients in field_10 one by one, revive them, then drive off. Sets field_1C when nobody had
+// anything left to do.
+WIP_FUNC(0x4faac0)
 void Ambulance_20::HandleObjectiveState_4FAAC0()
 {
-    NOT_IMPLEMENTED;
+    u8 bBusy = 0;
+    u8 bCop = 0;
+    u8 i = 0;
+    dword_6F6D60 = field_4_paramedics_crew->field_4_ped;
+    u8 bNoCar = field_4_paramedics_crew->field_24 == 0;
+    Ped* pTarget = field_8;
+
+    while (dword_6F6D60)
+    {
+        if (pTarget)
+        {
+            if (!(pTarget->field_21C & 1))
+            {
+                if (dword_6F6D60->field_278_ped_state_1 != 9)
+                {
+                    dword_6F6D60->SetObjective(0, 9999);
+                }
+                if (pTarget == field_8)
+                {
+                    field_8 = 0;
+                }
+                else
+                {
+                    field_C = 0;
+                }
+            }
+            else if (dword_6F6D60->field_168_game_object && pTarget->sub_4701D0())
+            {
+                gAmbulance_110_6F70A8->TryAddPatient_4FA470(pTarget);
+                if (dword_6F6D60->field_278_ped_state_1 != 9)
+                {
+                    dword_6F6D60->SetObjective(0, 9999);
+                }
+                if (pTarget == field_8)
+                {
+                    field_8 = 0;
+                }
+                else
+                {
+                    field_C = 0;
+                }
+            }
+        }
+
+        Ped* pPatient;
+        switch (dword_6F6D60->field_258_objective)
+        {
+            case 14:
+                bBusy = 1;
+                if (dword_6F6D60->field_16C_car)
+                {
+                    Car_BC* pCar = field_4_paramedics_crew->field_0_car;
+                    if (pCar->field_76_last_seen_timer > 1000)
+                    {
+                        bBusy = 0;
+                    }
+                    if (dword_6F6D60->field_225_objective_status == 1)
+                    {
+                        pCar->sub_43AF60();
+                        field_4_paramedics_crew->field_28 = 6;
+                        dword_6F6D60->SetObjective(0, 9999);
+                    }
+                    else
+                    {
+                        Fix16 dx = Fix16((u8)field_0) - dword_6F6D60->field_1AC_cam.x;
+                        Fix16 dy = Fix16((u8)field_1) - dword_6F6D60->field_1AC_cam.y;
+                        if (Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy)) >= dword_6F6FC0)
+                        {
+                            break;
+                        }
+                        if (!field_10.GetPedsCount_4716B0())
+                        {
+                            bBusy = 0;
+                            break;
+                        }
+                        if (dword_6F6D60->field_218_objective_timer <= 50)
+                        {
+                            break;
+                        }
+                        field_4_paramedics_crew->field_0_car->sub_43AF60();
+                        field_4_paramedics_crew->field_28 = 6;
+                        dword_6F6D60->SetObjective(0, 9999);
+                    }
+                }
+                else
+                {
+                    field_4_paramedics_crew->field_28 = 6;
+                    dword_6F6D60->SetObjective(0, 9999);
+                }
+                break;
+
+            case 0:
+                if (dword_6F6D60->field_23C == 99)
+                {
+                    pPatient = field_10.RemoveFirstPed_471320();
+                    if (!pPatient)
+                    {
+                        if (dword_6F6D60->field_16C_car)
+                        {
+                            dword_6F6D60->SetObjective(0, 9999);
+                            dword_6F6D60->ChangeNextPedState1_45C500(10);
+                            dword_6F6D60->ChangeNextPedState2_45C540(10);
+                            if (field_4_paramedics_crew->field_0_car)
+                            {
+                                CarAI_78* pAI = field_4_paramedics_crew->field_0_car->field_5C_AI;
+                                if (pAI && pAI->field_28_junc_idx > 0)
+                                {
+                                    gRouteFinder_6FFDC8->CancelRoute_589930(pAI->field_28_junc_idx);
+                                    field_4_paramedics_crew->field_0_car->field_5C_AI->field_28_junc_idx = -1;
+                                }
+                                if (field_4_paramedics_crew->field_0_car->field_60)
+                                {
+                                    gHamburger_500_678E30->FreeEntry_474CC0(field_4_paramedics_crew->field_0_car->field_60);
+                                    field_4_paramedics_crew->field_0_car->field_60 = 0;
+                                }
+                                if (field_4_paramedics_crew->field_8_group->IsAllMembersInSomeCar_4CAA20())
+                                {
+                                    field_4_paramedics_crew->field_0_car->sub_43AF40();
+                                    bBusy = 0;
+                                }
+                                else
+                                {
+                                    field_4_paramedics_crew->field_0_car->sub_43AF60();
+                                }
+                            }
+                        }
+                        else if (bNoCar || (dword_6F6D60->field_21C & 0x8000000))
+                        {
+                            bBusy = 0;
+                        }
+                        else
+                        {
+                            dword_6F6D60->SetObjective2_463830(0, 9999);
+                            dword_6F6D60->SetObjective(35, 9999);
+                            dword_6F6D60->field_150_target_objective_car = field_4_paramedics_crew->field_0_car;
+                            dword_6F6D60->field_248_enter_car_as_passenger = 0;
+                            dword_6F6D60->field_24C_target_car_door = 0;
+                        }
+                    }
+                    else if (pPatient->sub_4701D0())
+                    {
+                        if (dword_6F6D60->field_16C_car)
+                        {
+                            dword_6F6D60->SetObjective(0, 9999);
+                            dword_6F6D60->ChangeNextPedState1_45C500(10);
+                            dword_6F6D60->ChangeNextPedState2_45C540(10);
+                        }
+                        else if (!bNoCar && !(dword_6F6D60->field_21C & 0x8000000))
+                        {
+                            dword_6F6D60->SetObjective2_463830(0, 9999);
+                            dword_6F6D60->SetObjective(35, 9999);
+                            dword_6F6D60->field_150_target_objective_car = field_4_paramedics_crew->field_0_car;
+                            dword_6F6D60->field_248_enter_car_as_passenger = 0;
+                            dword_6F6D60->field_24C_target_car_door = 0;
+                        }
+                        bBusy = 1;
+                        field_14_count--;
+                    }
+                    else if (dword_6F6D60->field_16C_car && !(dword_6F6D60->field_21C & 0x8000000))
+                    {
+                        dword_6F6D60->SetObjective(36, 9999);
+                        bBusy = 1;
+                        dword_6F6D60->field_150_target_objective_car = field_4_paramedics_crew->field_0_car;
+                        dword_6F6D60->field_238_ped_type = 4;
+                    }
+                    else
+                    {
+                        dword_6F6D60->SetObjective2_463830(0, 9999);
+                        dword_6F6D60->SetObjective(16, 9999);
+                        bBusy = 1;
+                        dword_6F6D60->field_148_objective_target_ped = pPatient;
+                    }
+                    field_8 = pPatient;
+                }
+                else if (dword_6F6D60->field_25C_internal_objective == 9)
+                {
+                    pPatient = field_10.RemoveFirstPed_471320();
+                    if (pPatient)
+                    {
+                        dword_6F6D60->SetObjective2_463830(0, 9999);
+                        dword_6F6D60->SetObjective(16, 9999);
+                        dword_6F6D60->field_148_objective_target_ped = pPatient;
+                        field_14_count--;
+                        field_4_paramedics_crew->field_8_group->field_30 = 1;
+                    }
+                    field_C = pPatient;
+                }
+                break;
+
+            case 28:
+                if (dword_6F6D60->field_225_objective_status)
+                {
+                    dword_6F6D60->field_278_ped_state_1 = 0;
+                    dword_6F6D60->field_27C_ped_state_2 = 0;
+                    dword_6F6D60->SetObjective(0, 9999);
+                    dword_6F6D60->SetObjective2_463830(0, 9999);
+                    Ped* pLeader = field_4_paramedics_crew->field_4_ped;
+                    if (dword_6F6D60 != pLeader && pLeader->field_278_ped_state_1 == 9)
+                    {
+                        field_4_paramedics_crew->field_8_group->PromoteMemberToLeader_4C9680(0);
+                        field_4_paramedics_crew->field_4_ped = field_4_paramedics_crew->field_8_group->field_2C_ped_leader;
+                        field_4_paramedics_crew->field_4_ped->SetObjective(0, 9999);
+                        field_4_paramedics_crew->field_4_ped->SetObjective2_463830(0, 9999);
+                    }
+                    field_4_paramedics_crew->field_28 = 6;
+                }
+                break;
+
+            case 36:
+                if (dword_6F6D60->field_225_objective_status)
+                {
+                    dword_6F6D60->SetObjective2_463830(0, 9999);
+                    dword_6F6D60->SetObjective(16, 9999);
+                    dword_6F6D60->field_148_objective_target_ped = field_8;
+                }
+                bBusy = 1;
+                break;
+
+            case 16:
+            {
+                Ped* pVictim = dword_6F6D60->field_148_objective_target_ped;
+                if (dword_6F6D60->field_225_objective_status)
+                {
+                    if (++field_1D == 50)
+                    {
+                        if (pVictim->field_28C_threat_reaction == 1)
+                        {
+                            bCop = pVictim->field_240_occupation == 23;
+                        }
+                        pVictim->SetObjective2_463830(0, 9999);
+                        if (!bCop)
+                        {
+                            pVictim->SetObjective2_463830(0, 9999);
+                            pVictim->field_278_ped_state_1 = 0;
+                            pVictim->field_27C_ped_state_2 = 0;
+                            pVictim->SetObjective(1, 9999);
+                            pVictim->field_1DC_objective_target_x = pVictim->field_1AC_cam.x;
+                            pVictim->field_1E0_objective_target_y = pVictim->field_1AC_cam.y;
+                            pVictim->field_1E4_objective_target_z = pVictim->field_1AC_cam.z;
+                            pVictim->field_238_ped_type = 3;
+                            pVictim->field_240_occupation = 3;
+                            pVictim->field_28C_threat_reaction = 3;
+                        }
+                        else
+                        {
+                            pVictim->field_225_objective_status = 1;
+                        }
+                        pVictim->field_216_health = 100;
+                        pVictim->field_21C &= ~4;
+                        if (pVictim == field_8)
+                        {
+                            field_8 = 0;
+                        }
+                        else
+                        {
+                            field_C = 0;
+                        }
+                        dword_6F6D60->SetObjective(0, 9999);
+                        field_1D = 0;
+                    }
+                }
+                bBusy = 1;
+                if (field_4_paramedics_crew->field_8_group)
+                {
+                    field_4_paramedics_crew->field_8_group->field_1 = 0;
+                }
+                break;
+            }
+
+            case 35:
+                if (dword_6F6D60->field_23C != 99)
+                {
+                    dword_6F6D60->SetObjective(0, 9999);
+                    dword_6F6D60->SetObjective2_463830(0, 9999);
+                    break;
+                }
+                if (dword_6F6D60->field_16C_car)
+                {
+                    dword_6F6D60->SetObjective(0, 9999);
+                    dword_6F6D60->SetObjective2_463830(0, 9999);
+                    dword_6F6D60->ChangeNextPedState1_45C500(10);
+                    dword_6F6D60->ChangeNextPedState2_45C540(10);
+                }
+                else
+                {
+                    pPatient = field_10.RemoveFirstPed_471320();
+                    if (!pPatient)
+                    {
+                        if (field_4_paramedics_crew->field_24 == 1)
+                        {
+                            if (field_4_paramedics_crew->field_8_group)
+                            {
+                                field_4_paramedics_crew->field_8_group->field_1 = 1;
+                            }
+                        }
+                        else
+                        {
+                            dword_6F6D60->SetObjective(0, 9999);
+                            dword_6F6D60->SetObjective2_463830(0, 9999);
+                        }
+                    }
+                    else if (pPatient->sub_4701D0())
+                    {
+                        gAmbulance_110_6F70A8->TryAddPatient_4FA470(pTarget);
+                        if (field_4_paramedics_crew->field_24 == 1)
+                        {
+                            if (field_4_paramedics_crew->field_8_group)
+                            {
+                                field_4_paramedics_crew->field_8_group->field_1 = 1;
+                            }
+                        }
+                        else
+                        {
+                            dword_6F6D60->SetObjective(0, 9999);
+                            dword_6F6D60->SetObjective2_463830(0, 9999);
+                        }
+                    }
+                    else
+                    {
+                        dword_6F6D60->SetObjective2_463830(0, 9999);
+                        dword_6F6D60->SetObjective(16, 9999);
+                        dword_6F6D60->field_148_objective_target_ped = pPatient;
+                        field_14_count--;
+                        if (dword_6F6D60->field_23C == 99)
+                        {
+                            field_8 = pPatient;
+                        }
+                        else
+                        {
+                            field_C = pPatient;
+                        }
+                    }
+                }
+                bBusy = 1;
+                break;
+        }
+
+        if (field_4_paramedics_crew->field_8_group)
+        {
+            dword_6F6D60 = field_4_paramedics_crew->field_8_group->field_4_ped_list[i];
+            pTarget = field_C;
+        }
+        else
+        {
+            dword_6F6D60 = NULL;
+        }
+        i++;
+    }
+
+    if (!bBusy)
+    {
+        field_1C = 1;
+    }
 }
 
 // near match https://decomp.me/scratch/cxgie

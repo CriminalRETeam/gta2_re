@@ -22,6 +22,7 @@
 #include "Weapon_30.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
+#include "Shooey_CC.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -4664,10 +4665,247 @@ void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params_8* a2, sound_unk
     a3->field_0 = v5;
 }
 
-STUB_FUNC(0x423080)
+DEFINE_GLOBAL(s16, word_675548, 0x675548);
+DEFINE_GLOBAL(u8, byte_67554A, 0x67554A);
+DEFINE_GLOBAL(u8, byte_67554B, 0x67554B);
+DEFINE_GLOBAL(u8, byte_67554C, 0x67554C);
+
+EXPORT bool Cooldown_4236C0();
+
+// Plays what a ped says for the voice event in Ped::field_250 (shouts, screams, ...)
+WIP_FUNC(0x423080)
 void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    Char_B4* pB4 = a2->field_0_pObj->field_8_char_b4_ptr;
+    Ped* pPed = pB4->field_7C_pPed;
+    s32 voice = pPed->field_250;
+    pPed->field_250 = 0;
+    char_type bTank;
+    s32 samp = 321;
+
+    if (!pPed->field_15C_player)
+    {
+        bTank = pPed->sub_45B4E0() || pPed->field_240_occupation == ped_ocupation_enum::tank_driver ||
+            pPed->field_240_occupation == ped_ocupation_enum::road_block_tank_man;
+        switch (voice)
+        {
+            case 1:
+                if (!bTank)
+                {
+                    if (!byte_67554B)
+                    {
+                        byte_67554B = 3;
+                        samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 11 + 210;
+                    }
+                    else
+                    {
+                        byte_67554B--;
+                    }
+                }
+                break;
+            case 2:
+                if (!bTank && Cooldown_4236C0())
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 3 + 221;
+                }
+                break;
+            case 3:
+                if (!bTank && Cooldown_4236C0())
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 7 + 221;
+                }
+                break;
+            case 4:
+                samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 5 + 228;
+                break;
+            case 5:
+                if (!bTank)
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 6 + 239;
+                }
+                break;
+            case 7:
+                if (!bTank && !(field_5448_m_FrameCounter & 1))
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 5 + 245;
+                }
+                break;
+            case 8:
+                if (!bTank && (field_5448_m_FrameCounter & 1) == 1)
+                {
+                    samp = (u32)field_30_sQueueSample.field_0_EntityIndex % 7 + 250;
+                }
+                break;
+            case 9:
+            case 10:
+                if (!bTank && Cooldown_4236C0())
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 8 + 257;
+                }
+                break;
+            case 11:
+                if (!bTank && Cooldown_4236C0())
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 7 + 265;
+                }
+                break;
+            case 12:
+                if (!bTank)
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 5 + 272;
+                }
+                break;
+            case 13:
+                if (!bTank)
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 3 + 277;
+                }
+                break;
+            case 14:
+                if (!bTank)
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 3 + 280;
+                }
+                break;
+            case 15:
+                if (!bTank)
+                {
+                    samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 2 + 283;
+                }
+                break;
+            case 17:
+                if (bTank)
+                {
+                    if (!byte_67554A)
+                    {
+                        samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 14 + 285;
+                        byte_67554A = 3;
+                    }
+                    else
+                    {
+                        byte_67554A--;
+                    }
+                }
+                break;
+            case 22:
+                if (!bTank)
+                {
+                    if (!byte_67554C)
+                    {
+                        byte_67554C = 3;
+                        samp = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 4 + 299;
+                    }
+                    else
+                    {
+                        byte_67554C--;
+                    }
+                }
+                break;
+            case 25:
+                samp = 59;
+                break;
+        }
+
+        s32 occupation = pPed->field_240_occupation;
+        if (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader)
+        {
+            if (!word_675548)
+            {
+                samp = field_1454_anRandomTable[0] % 6 + 303;
+                word_675548 = 275;
+            }
+            word_675548--;
+        }
+    }
+    else if (voice == 20)
+    {
+        samp = field_1454_anRandomTable[0] % 2 + 309;
+    }
+    else if (voice == 25)
+    {
+        samp = 59;
+    }
+
+    if (voice == 26)
+    {
+        switch (pB4->field_7C_pPed->field_254)
+        {
+            case 2:
+            case 10:
+                samp = 202;
+                break;
+            case 7:
+                samp = 206;
+                break;
+            case 5:
+            case 6:
+            case 8:
+            case 9:
+                samp = 194;
+                break;
+            case 4:
+                field_30_sQueueSample.field_14_samp_idx = 68;
+                break;
+            case 1:
+            case 3:
+                samp = 198;
+                break;
+        }
+    }
+    else if (voice == 28)
+    {
+        samp = 68;
+    }
+    else if (voice == 27)
+    {
+        samp = 41;
+    }
+
+    if (samp != 321 && CalculateDistance_419020(Fix16(0x144000, 0)))
+    {
+        u8 vol;
+        if (samp == 309 || samp == 310)
+        {
+            vol = 25;
+        }
+        else if (voice == 27)
+        {
+            vol = 50;
+        }
+        else if (voice == 26)
+        {
+            vol = 50;
+        }
+        else if (voice == 28)
+        {
+            vol = 35;
+        }
+        else
+        {
+            vol = voice == 4 ? 35 : bTank ? 62 : 40;
+        }
+
+        if (VolCalc_419070(vol, Fix16(0x24000, 0), a2->field_5_bHasSolidAbove))
+        {
+            field_30_sQueueSample.field_14_samp_idx = samp;
+            field_30_sQueueSample.field_54 = Fix16(0x24000, 0);
+            field_30_sQueueSample.field_60_nEmittingVolume = vol;
+            field_30_sQueueSample.field_64_max_distance = 18;
+            s32 rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp);
+            rate += RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+            field_30_sQueueSample.field_20_rate = rate;
+            field_30_sQueueSample.field_58_type = 20;
+            field_30_sQueueSample.field_3C = 0;
+            field_30_sQueueSample.field_4_SampleIndex = 2;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 7;
+            field_30_sQueueSample.field_18 = 0;
+            field_30_sQueueSample.field_34 = 0;
+            field_30_sQueueSample.field_38 = -1;
+            field_30_sQueueSample.field_30 = 1;
+            AddSampleToRequestedQueue_41A850();
+        }
+    }
 }
 
 MATCH_FUNC(0x4178C0)
@@ -4943,10 +5181,254 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
     }
 }
 
-STUB_FUNC(0x426790)
+DEFINE_GLOBAL(u16, word_6758A8, 0x6758A8);
+
+// Builds the police radio messages for the player's wanted level and the crimes reported nearby
+MATCH_FUNC(0x426790)
 void sound_obj::PoliceRadioMessageGeneration_426790()
 {
-    NOT_IMPLEMENTED;
+    Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetPlayerPed_41D020();
+    s32 crime_type;
+    Fix16 crime_x;
+    Fix16 crime_y;
+    Fix16 crime_z;
+    s32 best_crime = 0;
+    u8 xpos = 0;
+    u8 ypos = 0;
+
+    while (gShooey_CC_67A4B8->GetLatestReportedCrime(&crime_type, &crime_x, &crime_y, &crime_z) == 1)
+    {
+        if (crime_type)
+        {
+            if (crime_type == 9)
+            {
+                if (best_crime)
+                {
+                    continue;
+                }
+                best_crime = crime_type;
+            }
+            else
+            {
+                if (best_crime >= crime_type)
+                {
+                    continue;
+                }
+                best_crime = crime_type;
+            }
+            xpos = crime_x.ToInt();
+            ypos = crime_y.ToInt();
+        }
+    }
+
+    s16 stars = pPed->get_wanted_star_count_46EF00();
+    if (word_6758A8 > 0)
+    {
+        word_6758A8--;
+    }
+
+    if (stars > 0)
+    {
+        if (field_556A_erv_en_route_timer)
+        {
+            if (--field_556A_erv_en_route_timer == 0)
+            {
+                AppendRadioMessageSuffix_4273B0();
+            }
+        }
+        if (field_556E_timer)
+        {
+            field_556E_timer--;
+        }
+        if (field_5570_timer)
+        {
+            field_5570_timer--;
+        }
+        if (field_556C_timer)
+        {
+            field_556C_timer--;
+        }
+
+        if (best_crime)
+        {
+            if (best_crime == 8 && !field_556A_erv_en_route_timer)
+            {
+                field_5569_crime_ypos = ypos;
+                field_5568_crime_xpos = xpos;
+                field_556A_erv_en_route_timer = (field_1454_anRandomTable[0] % 10 + 15) * 100;
+            }
+
+            if (stars > field_5522_wanted_star_count)
+            {
+                nullsub_4();
+                field_5570_timer = field_1454_anRandomTable[2] % 1067 + 150;
+                field_556C_timer = field_1454_anRandomTable[2] % 1530 + 600;
+                word_6758A8 = field_1454_anRandomTable[3] % 50 + 889;
+                switch (stars)
+                {
+                    case 1:
+                        EnqueueRadioWord_4271B0(120);
+                        EnqueueRadioWord_4271B0(93);
+                        EnqueueRadioWord_4271B0(field_5521_radio_word + 74);
+                        EnqueueRadioCrimeCallout_427340(best_crime, xpos, ypos);
+                        break;
+                    case 2:
+                        if (GetQueuedRadioWordCount_427310() >= 9)
+                        {
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(93);
+                            EnqueueRadioWord_4271B0(field_5521_radio_word + 74);
+                            EnqueueRadioWord_4271B0(72);
+                            EnqueueRadioWord_4271B0(73);
+                            EnqueueRadioWord_4271B0(field_5524_radio_word + 73);
+                            EnqueueRadioLocationPhrase_426E10(xpos, ypos);
+                        }
+                        break;
+                    case 3:
+                        if (GetQueuedRadioWordCount_427310() >= 9)
+                        {
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(92);
+                            if (!(field_1454_anRandomTable[2] & 1))
+                            {
+                                EnqueueRadioWord_4271B0(89);
+                                EnqueueRadioLocationPhrase_426E10(xpos, ypos);
+                                EnqueueRadioWord_4271B0(71);
+                                EnqueueRadioWord_4271B0(73);
+                                EnqueueRadioWord_4271B0(field_5524_radio_word + 73);
+                            }
+                            else
+                            {
+                                EnqueueRadioWord_4271B0(71);
+                                EnqueueRadioWord_4271B0(73);
+                                EnqueueRadioWord_4271B0(field_5524_radio_word + 73);
+                                EnqueueRadioWord_4271B0(88);
+                                EnqueueRadioLocationPhrase_426E10(xpos, ypos);
+                            }
+                        }
+                        break;
+                    case 4:
+                        if (GetQueuedRadioWordCount_427310() >= 6)
+                        {
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(92);
+                            EnqueueRadioWord_4271B0(90);
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(97);
+                            EnqueueRadioWord_4271B0(91);
+                        }
+                        break;
+                    case 5:
+                        if (GetQueuedRadioWordCount_427310() >= 6)
+                        {
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(92);
+                            EnqueueRadioWord_4271B0(90);
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(96);
+                            EnqueueRadioWord_4271B0(91);
+                        }
+                        break;
+                    case 6:
+                        if (GetQueuedRadioWordCount_427310() >= 6)
+                        {
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(92);
+                            EnqueueRadioWord_4271B0(90);
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(94);
+                            EnqueueRadioWord_4271B0(91);
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+                nullsub_4();
+                switch (field_1454_anRandomTable[3] % 10)
+                {
+                    case 0:
+                        if (!field_556E_timer)
+                        {
+                            GenerateRadioVehicleDescription_426F20(pCar);
+                            field_556E_timer = field_1454_anRandomTable[2] % 1000 + 300;
+                        }
+                        break;
+                    case 1:
+                        if (!word_6758A8)
+                        {
+                            EnqueueRadioCrimeCallout_427340(best_crime, xpos, ypos);
+                            word_6758A8 = field_1454_anRandomTable[3] % 50 + 889;
+                        }
+                        break;
+                    case 2:
+                        if (best_crime == 2 && !field_556C_timer)
+                        {
+                            if (GetQueuedRadioWordCount_427310() > 3)
+                            {
+                                EnqueueRadioWord_4271B0(121);
+                                EnqueueRadioWord_4271B0(98);
+                                EnqueueRadioWord_4271B0(99);
+                                EnqueueRadioWord_4271B0(103);
+                            }
+                            field_556C_timer = field_1454_anRandomTable[2] % 1530 + 600;
+                        }
+                        break;
+                    case 3:
+                        if (!field_5570_timer)
+                        {
+                            if (GetQueuedRadioWordCount_427310() > 6)
+                            {
+                                EnqueueRadioWord_4271B0(121);
+                                EnqueueRadioWord_4271B0(98);
+                                EnqueueRadioWord_4271B0(102);
+                                EnqueueRadioWord_4271B0(88);
+                                EnqueueRadioLocationPhrase_426E10(xpos, ypos);
+                            }
+                            field_5570_timer = field_1454_anRandomTable[2] % 1067 + 150;
+                        }
+                        break;
+                    case 7:
+                        if (!word_6758A8)
+                        {
+                            EnqueueRadioCrimeCallout_427340(best_crime, xpos, ypos);
+                            word_6758A8 = field_1454_anRandomTable[3] % 680 + 628;
+                            field_5570_timer = field_1454_anRandomTable[2] % 1067 + 150;
+                        }
+                        break;
+                }
+            }
+        }
+    }
+    else if (field_5522_wanted_star_count > stars)
+    {
+        ResetRadioMessageState_426750();
+    }
+    else if (best_crime > 0 && !(field_1454_anRandomTable[4] % 15) && !word_6758A8)
+    {
+        EnqueueRadioCrimeCallout_427340(best_crime, xpos, ypos);
+        word_6758A8 = field_1454_anRandomTable[3] % 80 + 228;
+    }
+
+    field_5522_wanted_star_count = stars;
+    if (best_crime > field_5524_radio_word)
+    {
+        if (best_crime != 9)
+        {
+            field_5524_radio_word = best_crime;
+        }
+        else if (!field_5524_radio_word)
+        {
+            field_5524_radio_word = 9;
+        }
+    }
+    ProcessPoliceRadioWordsPlayback_427220();
+}
+
+void sound_obj::nullsub_4()
+{
+    ;
 }
 
 MATCH_FUNC(0x412B80)
@@ -5004,10 +5486,629 @@ void sound_obj::ProcessObject_41E820(Sound_Params_8* pEntity)
     }
 }
 
-STUB_FUNC(0x41E850)
+DEFINE_GLOBAL(u16, word_6751D0, 0x6751D0);
+DEFINE_GLOBAL(u16, word_6751D2, 0x6751D2);
+DEFINE_GLOBAL(u16, word_6751D4, 0x6751D4);
+DEFINE_GLOBAL(u16, word_6751D6, 0x6751D6);
+DEFINE_GLOBAL(u16, word_6751D8, 0x6751D8);
+DEFINE_GLOBAL(u16, word_6751DA, 0x6751DA);
+DEFINE_GLOBAL(u16, word_6751DC, 0x6751DC);
+DEFINE_GLOBAL(u16, word_6751DE, 0x6751DE);
+DEFINE_GLOBAL(u16, word_6751E0, 0x6751E0);
+DEFINE_GLOBAL(u16, word_6751E2, 0x6751E2);
+DEFINE_GLOBAL(u8, byte_6751E4, 0x6751E4);
+
+// The looping or one-shot sound of a map object, by its object kind. Some kinds only play now and
+// then (word_6751D0..E2 count down between plays) and pick a random sample when they do.
+WIP_FUNC(0x41E850)
 void sound_obj::ProcessObject_Type12_41E850(Sound_Params_8* a2)
 {
-    NOT_IMPLEMENTED;
+    u32 kind = a2->field_0_pObj->field_8_object_2C_ptr->field_26_varrok_idx;
+    Fix16 dist;
+    u8 vol;
+    switch (kind)
+    {
+        case 3:
+            field_30_sQueueSample.field_14_samp_idx = 141;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x32000, 0);
+            field_30_sQueueSample.field_64_max_distance = 25;
+            dist = Fix16(0x271000, 0);
+            vol = 90;
+            break;
+        case 4:
+            field_30_sQueueSample.field_14_samp_idx = 142;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x32000, 0);
+            field_30_sQueueSample.field_64_max_distance = 25;
+            dist = Fix16(0x271000, 0);
+            vol = 70;
+            break;
+        case 5:
+            field_30_sQueueSample.field_14_samp_idx = 192;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
+            field_30_sQueueSample.field_54 = Fix16(0x24000, 0);
+            field_30_sQueueSample.field_64_max_distance = 18;
+            dist = Fix16(0x144000, 0);
+            vol = 50;
+            break;
+        case 8:
+            field_30_sQueueSample.field_14_samp_idx = 143;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 3;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 60;
+            break;
+        case 9:
+            field_30_sQueueSample.field_14_samp_idx = 144;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x32000, 0);
+            field_30_sQueueSample.field_64_max_distance = 25;
+            dist = Fix16(0x271000, 0);
+            vol = 60;
+            break;
+        case 13:
+            field_30_sQueueSample.field_14_samp_idx = 146;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 3;
+            field_30_sQueueSample.field_54 = Fix16(0x2e000, 0);
+            field_30_sQueueSample.field_64_max_distance = 23;
+            dist = Fix16(0x211000, 0);
+            vol = 50;
+            break;
+        case 19:
+            field_30_sQueueSample.field_14_samp_idx = 147;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 3;
+            field_30_sQueueSample.field_54 = Fix16(0x5a000, 0);
+            field_30_sQueueSample.field_64_max_distance = 45;
+            dist = Fix16(0x7e9000, 0);
+            vol = 70;
+            break;
+        case 16:
+            field_30_sQueueSample.field_14_samp_idx = 185;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 6;
+            field_30_sQueueSample.field_54 = Fix16(0x1e000, 0);
+            field_30_sQueueSample.field_64_max_distance = 15;
+            dist = Fix16(0xe1000, 0);
+            vol = 50;
+            break;
+        case 10:
+        case 14:
+            field_30_sQueueSample.field_14_samp_idx = 149;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
+            field_30_sQueueSample.field_54 = Fix16(0x32000, 0);
+            field_30_sQueueSample.field_64_max_distance = 25;
+            dist = Fix16(0x271000, 0);
+            vol = 50;
+            break;
+        case 33:
+            field_30_sQueueSample.field_14_samp_idx = 57;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 7;
+            field_30_sQueueSample.field_54 = Fix16(0x14000, 0);
+            field_30_sQueueSample.field_64_max_distance = 10;
+            dist = Fix16(0x64000, 0);
+            vol = 40;
+            break;
+        case 23:
+            field_30_sQueueSample.field_14_samp_idx = 161;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 0;
+            field_30_sQueueSample.field_54 = Fix16(0x46000, 0);
+            field_30_sQueueSample.field_64_max_distance = 35;
+            dist = Fix16(0x4c9000, 0);
+            vol = 90;
+            break;
+        case 43:
+            field_30_sQueueSample.field_14_samp_idx = 162;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
+            field_30_sQueueSample.field_54 = Fix16(0x32000, 0);
+            field_30_sQueueSample.field_64_max_distance = 25;
+            dist = Fix16(0x271000, 0);
+            vol = 70;
+            break;
+        case 26:
+            field_30_sQueueSample.field_14_samp_idx = 163;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 14;
+            field_30_sQueueSample.field_54 = Fix16(0x14000, 0);
+            field_30_sQueueSample.field_64_max_distance = 10;
+            dist = Fix16(0x64000, 0);
+            vol = 40;
+            break;
+        case 36:
+            field_30_sQueueSample.field_14_samp_idx = 169;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x14000, 0);
+            field_30_sQueueSample.field_64_max_distance = 10;
+            dist = Fix16(0x64000, 0);
+            vol = 60;
+            break;
+        case 30:
+            field_30_sQueueSample.field_14_samp_idx = 166;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 12;
+            field_30_sQueueSample.field_54 = Fix16(0xa000, 0);
+            field_30_sQueueSample.field_64_max_distance = 5;
+            dist = Fix16(0x19000, 0);
+            vol = 50;
+            break;
+        case 15:
+            field_30_sQueueSample.field_14_samp_idx = 174;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 12;
+            field_30_sQueueSample.field_54 = Fix16(0xa000, 0);
+            field_30_sQueueSample.field_64_max_distance = 5;
+            dist = Fix16(0x19000, 0);
+            vol = 40;
+            break;
+        case 41:
+            field_30_sQueueSample.field_14_samp_idx = 175;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 70;
+            break;
+        case 42:
+            field_30_sQueueSample.field_14_samp_idx = 176;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
+            field_30_sQueueSample.field_54 = Fix16(0x14000, 0);
+            field_30_sQueueSample.field_64_max_distance = 10;
+            dist = Fix16(0x64000, 0);
+            vol = 40;
+            break;
+        case 44:
+            field_30_sQueueSample.field_14_samp_idx = 177;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x32000, 0);
+            field_30_sQueueSample.field_64_max_distance = 25;
+            dist = Fix16(0x271000, 0);
+            vol = 70;
+            break;
+        case 47:
+            field_30_sQueueSample.field_14_samp_idx = 178;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x32000, 0);
+            field_30_sQueueSample.field_64_max_distance = 25;
+            dist = Fix16(0x271000, 0);
+            vol = 70;
+            break;
+        case 48:
+            field_30_sQueueSample.field_14_samp_idx = 179;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x32000, 0);
+            field_30_sQueueSample.field_64_max_distance = 25;
+            dist = Fix16(0x271000, 0);
+            vol = 90;
+            break;
+        case 49:
+            field_30_sQueueSample.field_14_samp_idx = 180;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x32000, 0);
+            field_30_sQueueSample.field_64_max_distance = 25;
+            dist = Fix16(0x271000, 0);
+            vol = 60;
+            break;
+        case 45:
+            field_30_sQueueSample.field_14_samp_idx = 192;
+            field_30_sQueueSample.field_30 = 0;
+            field_30_sQueueSample.field_4C = 3;
+            field_30_sQueueSample.field_4_SampleIndex = 0;
+            field_30_sQueueSample.field_41 = 0;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 3;
+            field_30_sQueueSample.field_54 = Fix16(0xa000, 0);
+            field_30_sQueueSample.field_64_max_distance = 5;
+            dist = Fix16(0x19000, 0);
+            vol = 40;
+            break;
+        case 50:
+        case 51:
+            field_30_sQueueSample.field_14_samp_idx = 173;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 3;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 75;
+            break;
+        case 40:
+            field_30_sQueueSample.field_14_samp_idx = 172;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 60;
+            break;
+        case 37:
+            field_30_sQueueSample.field_14_samp_idx = 170;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 60;
+            break;
+        case 38:
+            field_30_sQueueSample.field_14_samp_idx = 171;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 60;
+            break;
+        case 39:
+            field_30_sQueueSample.field_14_samp_idx = (field_1454_anRandomTable[0] & 3) + 181;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 2;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 60;
+            break;
+        case 32:
+            field_30_sQueueSample.field_14_samp_idx = field_1454_anRandomTable[(u32)field_30_sQueueSample.field_0_EntityIndex % 5] % 6 + 233;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 3;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 80;
+            break;
+        case 27:
+            field_30_sQueueSample.field_14_samp_idx = 164;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 2;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 100;
+            break;
+        case 34:
+            field_30_sQueueSample.field_14_samp_idx = 167;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 50;
+            break;
+        case 35:
+            field_30_sQueueSample.field_14_samp_idx = 168;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 1;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 50;
+            break;
+        case 17:
+            field_30_sQueueSample.field_14_samp_idx = 151;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 7;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 50;
+            break;
+        case 7:
+            field_30_sQueueSample.field_14_samp_idx = 148;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 20;
+            field_30_sQueueSample.field_54 = Fix16(0x14000, 0);
+            field_30_sQueueSample.field_64_max_distance = 10;
+            dist = Fix16(0x64000, 0);
+            vol = 30;
+            break;
+        case 28:
+            field_30_sQueueSample.field_14_samp_idx = 165;
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 10;
+            field_30_sQueueSample.field_54 = Fix16(0x32000, 0);
+            field_30_sQueueSample.field_64_max_distance = 25;
+            dist = Fix16(0x271000, 0);
+            vol = 105;
+            break;
+        case 11:
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 20;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 50;
+            break;
+        case 12:
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 20;
+            field_30_sQueueSample.field_54 = Fix16(0x1e000, 0);
+            field_30_sQueueSample.field_64_max_distance = 15;
+            dist = Fix16(0xe1000, 0);
+            vol = 40;
+            break;
+        case 20:
+        case 24:
+        case 52:
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
+            field_30_sQueueSample.field_54 = Fix16(0x1e000, 0);
+            field_30_sQueueSample.field_64_max_distance = 15;
+            dist = Fix16(0xe1000, 0);
+            vol = 90;
+            break;
+        case 46:
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
+            field_30_sQueueSample.field_54 = Fix16(0x32000, 0);
+            field_30_sQueueSample.field_64_max_distance = 25;
+            dist = Fix16(0x271000, 0);
+            vol = 60;
+            break;
+        case 21:
+            field_30_sQueueSample.field_30 = 1;
+            field_30_sQueueSample.field_41 = 1;
+            field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
+            field_30_sQueueSample.field_54 = Fix16(0x28000, 0);
+            field_30_sQueueSample.field_64_max_distance = 20;
+            dist = Fix16(0x190000, 0);
+            vol = 50;
+            break;
+        default:
+            return;
+    }
+
+    if (!CalculateDistance_419020(dist))
+    {
+        return;
+    }
+    if (!VolCalc_419070(vol, field_30_sQueueSample.field_54, 0))
+    {
+        return;
+    }
+
+    switch (kind)
+    {
+        case 17:
+            if (!word_6751D0)
+            {
+                word_6751D0 = (u8)(field_1454_anRandomTable[0] % 20 + 20);
+            }
+            else
+            {
+                word_6751D0--;
+                return;
+            }
+            break;
+        case 7:
+            if (!word_6751D2)
+            {
+                word_6751D2 = (u8)(field_1454_anRandomTable[1] % 12 + 10);
+            }
+            else
+            {
+                word_6751D2--;
+                return;
+            }
+            break;
+        case 28:
+            if (!word_6751D4)
+            {
+                word_6751D4 = (u8)(field_1454_anRandomTable[2] % 90 - 46);
+            }
+            else
+            {
+                word_6751D4--;
+                return;
+            }
+            break;
+        case 11:
+            if (!word_6751D6)
+            {
+                field_30_sQueueSample.field_14_samp_idx = field_1454_anRandomTable[3] % 11 + 228;
+                word_6751D6 = (u8)(field_1454_anRandomTable[2] % 10 + 40);
+            }
+            else
+            {
+                word_6751D6--;
+                return;
+            }
+            break;
+        case 12:
+            if (!word_6751D8)
+            {
+                field_30_sQueueSample.field_14_samp_idx = (field_1454_anRandomTable[2] & 3) + 181;
+                word_6751D8 = (u8)(field_1454_anRandomTable[3] % 90 + 30);
+            }
+            else
+            {
+                word_6751D8--;
+                return;
+            }
+            break;
+        case 20:
+            if (!word_6751DA)
+            {
+                field_30_sQueueSample.field_14_samp_idx = field_1454_anRandomTable[1] % 5 + 152;
+                word_6751DA = (u8)(field_1454_anRandomTable[4] % 10 + 4);
+            }
+            else
+            {
+                word_6751DA--;
+                return;
+            }
+            break;
+        case 24:
+            if (!word_6751DC)
+            {
+                field_30_sQueueSample.field_14_samp_idx = field_1454_anRandomTable[1] % 5 + 152;
+                word_6751DC = (u8)((field_1454_anRandomTable[2] & 7) + 5);
+            }
+            else
+            {
+                word_6751DC--;
+                return;
+            }
+            break;
+        case 52:
+            if (!word_6751E2)
+            {
+                field_30_sQueueSample.field_14_samp_idx = field_1454_anRandomTable[1] % 3 + 154;
+                word_6751E2 = (u8)(field_1454_anRandomTable[2] % 30 + 45);
+            }
+            else
+            {
+                word_6751E2--;
+                return;
+            }
+            break;
+        case 46:
+            if (!word_6751DE)
+            {
+                field_30_sQueueSample.field_14_samp_idx = field_1454_anRandomTable[4] % 6 + 303;
+                word_6751DE = (u8)(field_1454_anRandomTable[2] % 90 + 30);
+            }
+            else
+            {
+                word_6751DE--;
+                return;
+            }
+            break;
+        case 21:
+            if (!word_6751E0)
+            {
+                field_30_sQueueSample.field_14_samp_idx = (field_1454_anRandomTable[2] & 3) + 157;
+                word_6751E0 = (u8)(field_1454_anRandomTable[3] % 40 + 90);
+            }
+            else
+            {
+                word_6751E0--;
+                return;
+            }
+            break;
+    }
+
+    if ((u32)field_30_sQueueSample.field_30 > 0)
+    {
+        if (++byte_6751E4 == 255)
+        {
+            byte_6751E4 = 0;
+        }
+        field_30_sQueueSample.field_4_SampleIndex = byte_6751E4;
+    }
+
+    u32 samp = field_30_sQueueSample.field_14_samp_idx;
+    field_30_sQueueSample.field_60_nEmittingVolume = vol;
+    s32 rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp) + RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+    field_30_sQueueSample.field_20_rate = rate + (samp % 10) * 40;
+    if (kind == 45)
+    {
+        field_30_sQueueSample.field_20_rate += field_30_sQueueSample.field_20_rate;
+    }
+    field_30_sQueueSample.field_58_type = 20;
+    field_30_sQueueSample.field_18 = 0;
+    field_30_sQueueSample.field_34 = gSampManager_6FFF00.sub_58DC30(samp);
+    field_30_sQueueSample.field_38 = gSampManager_6FFF00.sub_58DC50(field_30_sQueueSample.field_14_samp_idx);
+    AddSampleToRequestedQueue_41A850();
 }
 
 MATCH_FUNC(0x413C50)

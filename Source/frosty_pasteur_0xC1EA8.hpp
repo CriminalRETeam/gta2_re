@@ -5,6 +5,8 @@
 #include "miss2_0x11C.hpp"
 #include <windows.h>
 
+class Generator_2C;
+
 #pragma pack(push)
 #pragma pack(1)
 struct str_table_entry
@@ -602,7 +604,7 @@ class frosty_pasteur_0xC1EA8
   public:
     EXPORT str_table_entry* FindStringById_503080(s16 stringId);
     EXPORT str_table_entry* StrEntryByString_5030B0(char_type* strToFind);
-    EXPORT void sub_511A70(s32 car_model, SCR_CMD_HEADER* pCmd);
+    EXPORT void sub_511A70(s32 car_model, Generator_2C* pGen);
     EXPORT char_type sub_511B10(s16 idx);
     EXPORT void SaveScriptCounters_511B90();
     EXPORT void LoadScriptCounters_511C30();

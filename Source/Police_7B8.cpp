@@ -421,10 +421,350 @@ char_type Police_7B8::sub_56FAA0(Police_7C* p7C)
     return 0;
 }
 
-STUB_FUNC(0x56fbd0)
+DEFINE_GLOBAL(Fix16, dword_6FECFC, 0x6FECFC);
+
+// Updates every call for service: its wanted level from the criminal's stars, then its state
+// (send crews, escalate, give up, clean up when the criminal is gone).
+MATCH_FUNC(0x56fbd0)
 void Police_7B8::sub_56FBD0()
 {
-    NOT_IMPLEMENTED;
+    u8 count;
+    u8 j;
+    u8 i = 0;
+    Police_7C* pService = &field_464_services[0];
+    while (pService->field_0_criminal_ped && i < 4)
+    {
+        pService->field_78 = 0;
+        Ped* pCriminal = pService->field_0_criminal_ped;
+        if (pCriminal->field_238_ped_type == 2 && (pCriminal->field_21C & 0x20) == 0x20)
+        {
+            pCriminal->field_15C_player->field_640_busted = 1;
+        }
+
+        switch (pService->field_0_criminal_ped->get_wanted_star_count_46EF00())
+        {
+            case 0:
+                if (pService->field_8_state)
+                {
+                    pService->field_8_state = 4;
+                    field_659 = 2;
+                    pService->field_4_wanted_level = 0;
+                    pService->field_71_num_unknown = 0;
+                }
+                break;
+            case 1:
+                pService->field_71_num_unknown = 1;
+                pService->field_4_wanted_level = 1;
+                if (pService->field_70_num_police_crews < 1)
+                {
+                    field_659 = 1;
+                }
+                else
+                {
+                    field_659 = 0;
+                }
+                break;
+            case 2:
+                if (pService->field_71_num_unknown == 1)
+                {
+                    pService->field_E = 1;
+                }
+                pService->field_71_num_unknown = 2;
+                pService->field_4_wanted_level = 2;
+                if (pService->field_70_num_police_crews <= 1)
+                {
+                    field_659 = 2;
+                }
+                else
+                {
+                    field_659 = 0;
+                }
+                break;
+            case 3:
+                pService->field_71_num_unknown = 2;
+                pService->field_4_wanted_level = 3;
+                if (pService->field_70_num_police_crews <= 1)
+                {
+                    field_659 = 2;
+                }
+                else
+                {
+                    field_659 = 0;
+                }
+                break;
+            case 4:
+                pService->field_71_num_unknown = 2;
+                pService->field_4_wanted_level = 4;
+                if (pService->field_70_num_police_crews <= 1)
+                {
+                    field_659 = 2;
+                }
+                else
+                {
+                    field_659 = 0;
+                }
+                break;
+            case 5:
+                pService->field_4_wanted_level = 5;
+                gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 4;
+                if (!pService->field_70_num_police_crews && !pService->field_72_num_swat_crews && pService->field_73_num_fbi_crews <= 1)
+                {
+                    field_659 = 2;
+                }
+                else
+                {
+                    field_659 = 0;
+                }
+                break;
+            case 6:
+                pService->field_71_num_unknown = 0;
+                pService->field_4_wanted_level = 6;
+                gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 6;
+                break;
+        }
+
+        if (pService->field_4_wanted_level > field_654_wanted_level)
+        {
+            field_654_wanted_level = pService->field_4_wanted_level;
+        }
+
+        pCriminal = pService->field_0_criminal_ped;
+        if (!(pCriminal->field_21C & 1) || pCriminal->field_278_ped_state_1 == 9)
+        {
+            pService->field_8_state = 4;
+        }
+
+        if (pService->field_4_wanted_level == 1)
+        {
+            if (!HasCriminalBeenFound_56F800(pService->field_0_criminal_ped))
+            {
+                if ((u16)pService->field_7A_wanted_timer >= 900)
+                {
+                    pService->field_0_criminal_ped->field_20A_wanted_points = 0;
+                    pService->field_0_criminal_ped->field_20A_wanted_points = 0;
+                    pService->field_7A_wanted_timer = 0;
+                    return;
+                }
+                pService->field_7A_wanted_timer++;
+            }
+            else
+            {
+                pService->field_7A_wanted_timer = 0;
+            }
+        }
+
+        switch (pService->field_8_state)
+        {
+            case 0:
+                if (pService->field_4_wanted_level > 0)
+                {
+                    if (!pService->field_70_num_police_crews)
+                    {
+                        if (!field_658_count)
+                        {
+                            word_6FEAC8 = 200;
+                            dword_6FEE18 = 3;
+                            dword_6FEDCC = 3;
+                            gRoadblockGuardType_6FEDB8 = 1;
+                            if (gPolice_7B8_6FEE40->sub_56FAA0(pService))
+                            {
+                                pService->field_8_state = 1;
+                                field_659 = 0;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        pService->field_8_state = 3;
+                    }
+                }
+                break;
+
+            case 1:
+                field_659 = 0;
+                if (pService->field_C_timer == 250)
+                {
+                    pService->field_8_state = 3;
+                    for (j = 0; j < pService->field_75_count; j++)
+                    {
+                        pService->field_20_crews[j]->field_24_state = 5;
+                    }
+                }
+                break;
+
+            case 3:
+                pService->field_1C = 0;
+                switch (pService->field_4_wanted_level)
+                {
+                    case 3:
+                        field_659 = 0;
+                        if (pService->field_70_num_police_crews < pService->field_71_num_unknown)
+                        {
+                            dword_6FEE18 = 3;
+                            word_6FEAC8 = 50;
+                            dword_6FEDCC = 5;
+                            gRoadblockGuardType_6FEDB8 = 1;
+                            gPolice_7B8_6FEE40->sub_56FAA0(pService);
+                        }
+                        break;
+                    case 4:
+                        if (pService->field_70_num_police_crews < pService->field_71_num_unknown)
+                        {
+                            dword_6FEE18 = 3;
+                            word_6FEAC8 = 50;
+                            dword_6FEDCC = 5;
+                            gRoadblockGuardType_6FEDB8 = 1;
+                            gPolice_7B8_6FEE40->sub_56FAA0(pService);
+                        }
+                        if (!pService->field_72_num_swat_crews)
+                        {
+                            word_6FEAC8 = 50;
+                            dword_6FEE18 = 5;
+                            dword_6FEDCC = 5;
+                            gRoadblockGuardType_6FEDB8 = 2;
+                            if (gPolice_7B8_6FEE40->sub_56FAA0(pService))
+                            {
+                                pService->field_72_num_swat_crews = 1;
+                            }
+                        }
+                        break;
+                    case 5:
+                        if (pService->field_70_num_police_crews > 0)
+                        {
+                            count = pService->field_75_count;
+                            for (j = 0; j < count; j++)
+                            {
+                                pService->field_20_crews[0]->field_34 = 1;
+                                pService->field_20_crews[0]->sub_570AB0();
+                            }
+                            pService->field_70_num_police_crews = 0;
+                            pService->field_71_num_unknown = 0;
+                            pService->field_72_num_swat_crews = 0;
+                            gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 4;
+                        }
+                        break;
+                    case 6:
+                        if (pService->field_70_num_police_crews > 0 || pService->field_72_num_swat_crews || pService->field_73_num_fbi_crews)
+                        {
+                            count = pService->field_75_count;
+                            for (j = 0; j < count; j++)
+                            {
+                                pService->field_20_crews[0]->sub_570AB0();
+                            }
+                            pService->field_70_num_police_crews = 0;
+                            pService->field_71_num_unknown = 0;
+                            byte_6FEE44--;
+                            gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 6;
+                        }
+                        break;
+                }
+
+                if (pService->field_70_num_police_crews > pService->field_71_num_unknown)
+                {
+                    count = pService->field_75_count;
+                    for (j = 0; j < count; j++)
+                    {
+                        PoliceCrew_38* pCrew = pService->field_20_crews[j];
+                        if (pCrew && pCrew->field_1C_used == 1 && pCrew->field_20 == 1 && pCrew->field_10_subObj->field_0_car)
+                        {
+                            pService->field_20_crews[j]->field_34 = 1;
+                            pService->field_20_crews[j]->sub_570AB0();
+                            break;
+                        }
+                    }
+                }
+                break;
+
+            case 5:
+                if (pService->field_C_timer > 0)
+                {
+                    pService->field_8_state = 3;
+                }
+                else if (pService->field_4_wanted_level == 5)
+                {
+                    pService->field_8_state = 3;
+                }
+                else if (!pService->field_1C)
+                {
+                    u8 bNoneSearching = 1;
+                    count = pService->field_75_count;
+                    for (j = 0; j < count; j++)
+                    {
+                        PoliceCrew_38* pCrew = pService->field_20_crews[j];
+                        if (pCrew && pCrew->field_24_state == 3)
+                        {
+                            pCriminal = pService->field_0_criminal_ped;
+                            if (pCriminal)
+                            {
+                                Fix16 dy = pCriminal->field_1AC_cam.y - pService->field_14_y;
+                                Fix16 dx = pCriminal->field_1AC_cam.x - pService->field_10_x;
+                                dy = Fix16::Abs(dy);
+                                dx = Fix16::Abs(dx);
+                                if (!(dx > dy))
+                                {
+                                    dx = dy;
+                                }
+                                if (dx > dword_6FECFC)
+                                {
+                                    pCrew->sub_570AB0();
+                                    pService->field_1C = 1;
+                                }
+                            }
+                            bNoneSearching = 0;
+                        }
+                    }
+                    if (bNoneSearching && !field_658_count)
+                    {
+                        word_6FEAC8 = 200;
+                        dword_6FEE18 = 3;
+                        dword_6FEDCC = 3;
+                        gRoadblockGuardType_6FEDB8 = 1;
+                        gPolice_7B8_6FEE40->sub_56FAA0(pService);
+                    }
+                }
+                break;
+
+            case 4:
+            {
+                count = pService->field_75_count;
+                for (j = 0; j < count; j++)
+                {
+                    PoliceCrew_38* pCrew = pService->field_20_crews[0];
+                    if (!pCrew->field_1C_used)
+                    {
+                        if (pService->field_75_count > 0)
+                        {
+                            pService->field_20_crews[0] = pService->field_20_crews[pService->field_75_count - 1];
+                            pService->field_20_crews[pService->field_75_count - 1] = NULL;
+                            pService->field_75_count--;
+                        }
+                        else
+                        {
+                            pService->field_20_crews[0] = NULL;
+                        }
+                    }
+                    else
+                    {
+                        pCrew->sub_570AB0();
+                    }
+                }
+                pService->field_0_criminal_ped = NULL;
+                pService->field_70_num_police_crews = 0;
+                pService->field_71_num_unknown = 0;
+                pService->field_75_count = 0;
+                pService->field_76 = 0;
+                pService->field_E = 0;
+                byte_6FEE44--;
+                gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 3;
+                break;
+            }
+        }
+
+        if (++i < 4)
+        {
+            pService = &field_464_services[i];
+        }
+    }
 }
 
 MATCH_FUNC(0x570270)

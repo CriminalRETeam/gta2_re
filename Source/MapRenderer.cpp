@@ -1285,7 +1285,7 @@ void MapRenderer::draw_lid_4EE130()
     }
 }
 
-//STUB_FUNC(0x4EE7D0)
+MATCH_FUNC(0x4EE7D0)
 void MapRenderer::DrawDiagonalWallUpLeft_4EE7D0()
 {
     if (gBlockRight_6F63C6)
@@ -1308,7 +1308,7 @@ void MapRenderer::DrawDiagonalWallUpLeft_4EE7D0()
     }
 }
 
-//STUB_FUNC(0x4EE8A0)
+MATCH_FUNC(0x4EE8A0)
 void MapRenderer::DrawDiagonalWallUpRight_4EE8A0()
 {
     if (gBlockLeft_6F62F6)
@@ -1331,7 +1331,7 @@ void MapRenderer::DrawDiagonalWallUpRight_4EE8A0()
     }
 }
 
-//STUB_FUNC(0x4EE970)
+MATCH_FUNC(0x4EE970)
 void MapRenderer::DrawDiagonalWallDownLeft_4EE970()
 {
     if (gBlockLeft_6F62F6)
@@ -1354,7 +1354,7 @@ void MapRenderer::DrawDiagonalWallDownLeft_4EE970()
     }
 }
 
-//STUB_FUNC(0x4EEA40)
+MATCH_FUNC(0x4EEA40)
 void MapRenderer::DrawDiagonalWallDownRight_4EEA40()
 {
     if (gBlockLeft_6F62F6)
