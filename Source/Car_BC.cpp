@@ -4586,23 +4586,19 @@ void Car_BC::sub_4406E0(Ped* pPed)
     Player* pPlayer = pPed->field_15C_player;
     SetDriver(pPed);
     InitCarAIControl_440590();
-    field_7C_uni_num = pPed->GetPedType_420B70();
-    field_76_last_seen_timer = 0;
+    sub_421560(pPed->GetPedType_420B70());
     if (pPed->IsField238_45EDE0(2))
     {
         DeAllocateAI_4446E0();
     }
 
-    if (field_88_despawn_status == 2 || field_88_despawn_status == 4 || field_88_despawn_status == 3)
-    {
-        field_88_despawn_status = 1;
-    }
+    sub_4215F0();
 
-    if ((field_8D & 1) != 0)
+    if (GetField8DBit0_4218F0())
     {
         if (gfrosty_pasteur_6F8060->sub_512910(pPed->get_id(), field_6C_maybe_id))
         {
-            field_8D &= ~1u;
+            ClearField8DBit0_4218E0();
         }
     }
     if (pPlayer)
@@ -4623,7 +4619,7 @@ void Car_BC::sub_4406E0(Ped* pPed)
 
         if (field_58_physics)
         {
-            field_58_physics->field_8C_state = 2;
+            field_58_physics->SetField8C_to_2();
         }
         field_95 = pPed->field_200_id;
     }

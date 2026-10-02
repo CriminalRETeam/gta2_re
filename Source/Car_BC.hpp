@@ -977,6 +977,27 @@ class Car_BC
         return field_88_despawn_status == 2 || field_88_despawn_status == 4 || field_88_despawn_status == 3;
     }
 
+    // 9.6f 0x4215F0
+    inline void sub_4215F0()
+    {
+        if (field_88_despawn_status == 2 || field_88_despawn_status == 4 || field_88_despawn_status == 3)
+        {
+            field_88_despawn_status = 1;
+        }
+    }
+
+    // 9.6f 0x4218F0
+    inline s32 GetField8DBit0_4218F0()
+    {
+        return field_8D & 1;
+    }
+
+    // 9.6f 0x4218E0
+    inline void ClearField8DBit0_4218E0()
+    {
+        field_8D &= ~1u;
+    }
+
     // 9.6f 0x421570
     inline void sub_421570()
     {
