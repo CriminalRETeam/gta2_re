@@ -5680,18 +5680,20 @@ void CarAI_78::SetCar_453BF0(Car_BC* a2)
 }
 
 // https://decomp.me/scratch/kidaG
-WIP_FUNC(0x453c00)
-void CarAI_78::sub_453C00()
+// Keeps the angle temporaries in their own scope, so the speed temporary below can reuse
+// their stack slot (as in the original)
+static inline bool IsMovingBackwards_453C00(CarPhysics_B0* pPhysics)
 {
-    WIP_IMPLEMENTED;
-
-    CarPhysics_B0* pPhysics = field_0_car->field_58_physics;
     Ang16 tanAng(pPhysics->field_40_linvel_1.atan2_40F790());
-
     Ang16 v6(tanAng.rValue - pPhysics->field_58_theta.rValue);
     v6.Normalize_406C20();
+    return v6 <= kAng90_6779E4 || v6 >= kAng270_677B08;
+}
 
-    if (v6 <= kAng90_6779E4 || v6 >= kAng270_677B08 || field_0_car->GetCarLinearSpeed_43A240() < dword_677A8C)
+MATCH_FUNC(0x453c00)
+void CarAI_78::sub_453C00()
+{
+    if (IsMovingBackwards_453C00(field_0_car->field_58_physics) || field_0_car->GetCarLinearSpeed_43A240() < dword_677A8C)
     {
         field_0_car->field_58_physics->Reverse_Unk();
     }
