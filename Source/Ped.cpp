@@ -2546,7 +2546,7 @@ void Ped::CarThief_AI_45FF60()
                     if (pNearestSteal->field_7C_uni_num != 2)
                     {
                         if (!pNearestSteal->IsTrainModel_403BA0() && !pNearestSteal_->IsPoliceCar_439EC0() &&
-                            !pNearestSteal_->is_bus_43A1F0() && !pNearestSteal_->field_4_passengers_list.field_0_pFirstPed &&
+                            !pNearestSteal_->is_bus_43A1F0() && pNearestSteal_->field_4_passengers_list.IsEmpty_420EA0() &&
                             pNearestSteal_->field_7C_uni_num == 3)
                         {
                             SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
@@ -2599,10 +2599,7 @@ void Ped::CarThief_AI_45FF60()
                     }
                     else
                     {
-                        if ((this->field_21C & 0x1000000) == 0)
-                        {
-                            this->field_250 = 15;
-                        }
+                        Set_F250_IfBit_433DD0(15);
                         SetObjective(objectives_enum::time_waited_in_car_31, 0);
                         pCar_ = this->field_16C_car;
                         this->field_150_target_objective_car = pCar_;
