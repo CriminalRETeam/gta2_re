@@ -8773,7 +8773,7 @@ void Ped::FleeOnFootTillSafe_46A8F0()
         Char_B4* pB4 = field_168_game_object;
         if (pB4)
         {
-            if (field_258_objective || pB4->field_44 == 2)
+            if (field_258_objective || pB4->Get_F44_433A90() == 2)
             {
                 Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);

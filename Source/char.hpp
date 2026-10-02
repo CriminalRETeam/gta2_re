@@ -262,6 +262,12 @@ class Char_B4
         field_10_char_state = char_state;
     }
 
+    // 9.6f 0x433A90
+    inline s8 Get_F44_433A90()
+    {
+        return field_44;
+    }
+
     // 9.6f 0x403900
     inline Car_BC* Get_F84_403900()
     {
