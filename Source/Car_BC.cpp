@@ -6733,34 +6733,33 @@ MATCH_FUNC(0x4441b0)
 void Car_BC::SetSirens_4441B0()
 {
     // car sirens?
-    s32 idx = this->field_84_car_info_idx;
-    if (idx == car_model_enum::MEDICAR)
+    if (IsMediCar())
     {
         Car_BC::sub_443F30(165, 0xFF2010, 10, 16);
         Car_BC::sub_443F30(171, 0xFF2010, -10, 16);
         Car_BC::sub_443F30(172, 0xFF2010, 10, -32);
         Car_BC::sub_443F30(173, 0xFF2010, -10, -32);
     }
-    else if (idx == car_model_enum::COPCAR)
+    else if (IsCopCar_421790())
     {
         Car_BC::sub_443F30(165, 0xFF2010, 10, -16);
         Car_BC::sub_443F30(171, 255, -10, -16);
     }
-    else if (idx == car_model_enum::SWATVAN)
+    else if (IsSwatVan_4217A0())
     {
         Car_BC::sub_443F30(165, 0xFF2010, 10, 32);
         Car_BC::sub_443F30(171, 255, -10, 32);
         Car_BC::sub_443F30(172, 0xFF2010, 10, -32);
         Car_BC::sub_443F30(173, 255, -10, -32);
     }
-    else if (idx == car_model_enum::FIRETRUK)
+    else if (IsFireTruck_4118F0())
     {
         Car_BC::sub_443F30(165, 0xFF2010, 16, 48);
         Car_BC::sub_443F30(171, 0xFF2010, -16, 48);
         Car_BC::sub_443F30(172, 0xFF2010, 16, -16);
         Car_BC::sub_443F30(173, 0xFF2010, -16, -26);
     }
-    else if (idx == car_model_enum::EDSELFBI)
+    else if (is_FBI_car_411920())
     {
         Car_BC::sub_443F30(165, 0xFF2010, 0, 16);
     }
