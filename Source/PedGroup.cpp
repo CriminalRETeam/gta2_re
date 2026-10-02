@@ -223,25 +223,16 @@ void PedGroup::KillEntireGroup_4C9240()
 {
     WIP_IMPLEMENTED;
 
-    Ped* p2CPed = this->field_2C_ped_leader;
-    p2CPed->field_164_ped_group = 0;
-    p2CPed->field_23C = 0;
-    p2CPed->Kill_46F9D0();
-    char_type i = 0;
-    if (this->field_34_count)
+    field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
+    field_2C_ped_leader->Kill_46F9D0();
+    for (char_type i = 0; i < field_34_count; i++)
     {
-        s32 last_i = 0;
-        do
-        {
-            Ped* pPed = this->field_4_ped_list[last_i];
-            pPed->field_164_ped_group = 0;
-            pPed->field_23C = 0;
-            pPed->Kill_46F9D0();
-            last_i = ++i;
-        } while (i < (s32)this->field_34_count);
+        field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
+        field_4_ped_list[i]->Kill_46F9D0();
     }
     this->field_40_in_use = 0;
 }
+
 
 MATCH_FUNC(0x4c92a0)
 void PedGroup::DisbandGroup_4C92A0()
