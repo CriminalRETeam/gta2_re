@@ -3912,8 +3912,7 @@ void miss2_0x11C::SCRCMD_CHECK_SCORE_50B6F0()
 
     if (pPed != NULL)
     {
-        Player* pPlayer = pPed->field_15C_player;
-        if (pPlayer != NULL && pPlayer->field_2D4_scores.GetScore_592370() > pCmd->field_C_target_score)
+        if (pPed->is_player_41B0A0() && pPed->field_15C_player->GetScore_421980() > pCmd->field_C_target_score)
         {
             field_8_cond_result = true;
         }
