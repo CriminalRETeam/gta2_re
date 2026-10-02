@@ -3635,7 +3635,7 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
             break;
 
         case objects::maybe_door_trigger_167: // try open door? for garage?
-            gDoor_4D4_67BD2C->sub_49D340(this, pObj->field_26_varrok_idx);
+            gDoor_4D4_67BD2C->TryOpenDoorForCar_49D340(this, pObj->field_26_varrok_idx);
             break;
 
         default:

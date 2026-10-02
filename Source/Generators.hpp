@@ -9,11 +9,11 @@ class Object_2C;
 class Generator_2C
 {
   public:
-    EXPORT void sub_4C1A70();
+    EXPORT void Activate_4C1A70();
     EXPORT s32 next_cycle_4C1AB0();
-    EXPORT void sub_4C1B10();
+    EXPORT void SpawnObject_4C1B10();
     EXPORT void Service_4C1C50();
-    EXPORT void sub_4C1C70(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
+    EXPORT void Init_4C1C70(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
 
     s32 field_0_gen_type;
     Fix16 field_4_x;

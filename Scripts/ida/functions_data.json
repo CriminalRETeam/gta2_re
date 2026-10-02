@@ -4970,17 +4970,17 @@
         "v105_address": "0x49c320"
     },
     {
-        "name": "DoorData_10::sub_49C340",
+        "name": "DoorData_10::Init_49C340",
         "v96f_address": null,
         "v105_address": "0x49c340"
     },
     {
-        "name": "DoorData_10::sub_49C4E0",
+        "name": "DoorData_10::Open_49C4E0",
         "v96f_address": "0x44c560",
         "v105_address": "0x49c4e0"
     },
     {
-        "name": "DoorData_10::sub_49C590",
+        "name": "DoorData_10::Close_49C590",
         "v96f_address": null,
         "v105_address": "0x49c590"
     },
@@ -5005,47 +5005,47 @@
         "v105_address": "0x49c6d0"
     },
     {
-        "name": "Door_38::sub_49C7F0",
+        "name": "Door_38::CanOpenForPed_49C7F0",
         "v96f_address": null,
         "v105_address": "0x49c7f0"
     },
     {
-        "name": "Door_38::sub_49C840",
+        "name": "Door_38::Open_49C840",
         "v96f_address": null,
         "v105_address": "0x49c840"
     },
     {
-        "name": "Door_38::sub_49C870",
+        "name": "Door_38::TryOpenForCar_49C870",
         "v96f_address": "0x44cbd0",
         "v105_address": "0x49c870"
     },
     {
-        "name": "Door_38::sub_49C8A0",
+        "name": "Door_38::TryOpenForPed_49C8A0",
         "v96f_address": null,
         "v105_address": "0x49c8a0"
     },
     {
-        "name": "Door_38::sub_49C8D0",
+        "name": "Door_38::InitSingleNoCheck_49C8D0",
         "v96f_address": null,
         "v105_address": "0x49c8d0"
     },
     {
-        "name": "Door_38::sub_49CA50",
+        "name": "Door_38::AddDoorData_49CA50",
         "v96f_address": null,
         "v105_address": "0x49ca50"
     },
     {
-        "name": "Door_38::sub_49CAC0",
+        "name": "Door_38::InitSingle_49CAC0",
         "v96f_address": null,
         "v105_address": "0x49cac0"
     },
     {
-        "name": "Door_38::sub_49CC00",
+        "name": "Door_38::InitDouble_49CC00",
         "v96f_address": null,
         "v105_address": "0x49cc00"
     },
     {
-        "name": "Door_38::sub_49CD90",
+        "name": "Door_38::UpdateAutoClose_49CD90",
         "v96f_address": "0x44cff0",
         "v105_address": "0x49cd90"
     },
@@ -5060,7 +5060,7 @@
         "v105_address": "0x49cee0"
     },
     {
-        "name": "Door_4D4::sub_49CF10",
+        "name": "Door_4D4::AllocDoorData_49CF10",
         "v96f_address": "0x44d140",
         "v105_address": "0x49cf10"
     },
@@ -5090,17 +5090,17 @@
         "v105_address": "0x49d2d0"
     },
     {
-        "name": "Door_4D4::sub_49D340",
+        "name": "Door_4D4::TryOpenDoorForCar_49D340",
         "v96f_address": "0x44d180",
         "v105_address": "0x49d340"
     },
     {
-        "name": "Door_4D4::sub_49D370",
+        "name": "Door_4D4::TryOpenDoorForPed_49D370",
         "v96f_address": null,
         "v105_address": "0x49d370"
     },
     {
-        "name": "Door_4D4::sub_49D3A0",
+        "name": "Door_4D4::GetNextFreeDoor_49D3A0",
         "v96f_address": null,
         "v105_address": "0x49d3a0"
     },
@@ -6285,7 +6285,7 @@
         "v105_address": "0x4bf340"
     },
     {
-        "name": "sub_4C1A70",
+        "name": "Activate_4C1A70",
         "v96f_address": null,
         "v105_address": "0x4c1a70"
     },
@@ -6300,7 +6300,7 @@
         "v105_address": "0x4c1c50"
     },
     {
-        "name": "Generator_2C::sub_4C1C70",
+        "name": "Generator_2C::Init_4C1C70",
         "v96f_address": null,
         "v105_address": "0x4c1c70"
     },
@@ -7175,7 +7175,7 @@
         "v105_address": "0x4db440"
     },
     {
-        "name": "sub_4DEEB0",
+        "name": "GetOppositeFace_4DEEB0",
         "v96f_address": "0x462b90",
         "v105_address": "0x4deeb0"
     },

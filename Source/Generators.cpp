@@ -7,7 +7,7 @@ DEFINE_GLOBAL(GeneratorPool_14AC*, gGeneratorPool_14AC_67E5D0, 0x67E5D0);
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 MATCH_FUNC(0x4C1A70)
-void Generator_2C::sub_4C1A70()
+void Generator_2C::Activate_4C1A70()
 {
     field_1E_kill_timer = -1;
 
@@ -40,7 +40,7 @@ s32 Generator_2C::next_cycle_4C1AB0()
 }
 
 MATCH_FUNC(0x4C1B10)
-EXPORT void Generator_2C::sub_4C1B10()
+EXPORT void Generator_2C::SpawnObject_4C1B10()
 {
     if (field_21 == 2)
     {
@@ -118,13 +118,13 @@ void Generator_2C::Service_4C1C50()
     {
         if (field_1E_kill_timer > 0)
         {
-            sub_4C1B10();
+            SpawnObject_4C1B10();
         }
     }
 }
 
 MATCH_FUNC(0x4c1c70)
-void Generator_2C::sub_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay)
+void Generator_2C::Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay)
 {
     field_4_x = x.mValue;
     field_8_y = y.mValue;
@@ -196,7 +196,7 @@ MATCH_FUNC(0x4c1dc0)
 Generator_2C* GeneratorPool_14AC::CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
 {
     Generator_2C* pMaccies = &field_0_pool[field_14A0_count];
-    pMaccies->sub_4C1C70(x, y, z, rot, type, min_delay, max_delay);
+    pMaccies->Init_4C1C70(x, y, z, rot, type, min_delay, max_delay);
     field_14A0_count++;
     return pMaccies;
 }
