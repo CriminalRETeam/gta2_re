@@ -4196,11 +4196,10 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
             break;
 
         case objects::destructor_141:
-            if (field_54_driver || field_88_despawn_status == 5)
+            if (!field_54_driver)
             {
-                return 0;
+                sub_421490();
             }
-            field_88_despawn_status = 3;
             break;
 
         case objects::maybe_door_trigger_167: // try open door? for garage?
