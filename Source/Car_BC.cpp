@@ -4045,11 +4045,8 @@ void Car_BC::sub_43DD60()
     s32 exploder_ped_id; // eax
     Ped* pExploderPed; // eax
     Ped* pPed; // edi
-    u8 gang_idx; // al
     Gang_144* pGang; // eax
     s32 f58; // eax
-    Sprite* pSprite; // ecx
-    s32 f88; // eax
 
     bUnknown = 0;
 
@@ -4062,7 +4059,10 @@ void Car_BC::sub_43DD60()
         field_54_driver = this->field_54_driver;
         if (field_54_driver)
         {
-            bUnknown = field_54_driver->get_occupation_403980() == ped_ocupation_enum::unknown_2;
+            if (field_54_driver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
+            {
+                bUnknown = 1;
+            }
         }
         exploder_ped_id = this->field_70_exploder_ped_id;
         if (exploder_ped_id)
@@ -4086,23 +4086,23 @@ void Car_BC::sub_43DD60()
                             pPed->field_15C_player->field_2D4_scores.sub_593220();
                         }
                     }
-                    gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
+                    s16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
                     if (gang_idx != -1)
                     {
                         pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
                         pGang->sub_4BEF70(pPed->field_15C_player->get_idx_4219D0(), 1u);
                     }
-                    if (pPed->field_15C_player)
+                    if (pPed->is_player_41B0A0())
                     {
                         if (gShooey_CC_67A4B8->sub_485090(this, pPed->field_15C_player))
                         {
-                            if (pPed->field_20A_wanted_points >= 600)
+                            if (pPed->field_20A_wanted_points < 600)
                             {
-                                pPed->add_wanted_points_470160(200);
+                                pPed->field_20A_wanted_points = 600;
                             }
                             else
                             {
-                                pPed->field_20A_wanted_points = 600;
+                                pPed->add_wanted_points_470160(200);
                             }
                         }
                     }
@@ -4119,25 +4119,11 @@ void Car_BC::sub_43DD60()
         sub_43B770();
         KillContainedPeds_43DB80();
 
-        if (this->field_9C_engine_status != car_engine_status::destroyed_6)
-        {
-            this->field_9C_engine_status = car_engine_status::unknown_5;
-        }
+        sub_421590();
         PrepareForExplosion_43C1C0();
         field_0_qq.DestroyAllSprites_5A7010();
-
-        pSprite = this->field_50_car_sprite;
-        if (pSprite->field_1C_zpos != gFix16_6777CC)
-        {
-            pSprite->field_1C_zpos = gFix16_6777CC;
-            pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
-        }
-
-        f88 = this->field_88_despawn_status;
-        if (f88 != 5 && f88 != 2 && f88 != 3)
-        {
-            this->field_88_despawn_status = 4;
-        }
+        field_50_car_sprite->set_z_lazy_420660(gFix16_6777CC);
+        sub_421470();
         DeAllocateCarPhysics_43BD00();
     }
 }
