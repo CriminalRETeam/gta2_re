@@ -297,10 +297,10 @@ struct Frontend
     u8 field_EE0C_dialog_type;
     u8 field_EE0D_hiscore_table_idx;
     xenodochial_morse field_EE0E_unk;
-    s16 field_1EB30_credits_scroll_timer;
+    u16 field_1EB30_credits_scroll_timer;
     s16 field_1EB32;
     Fix16 field_1EB34_credits_ypos;
-    s16 field_1EB38_credits_line_idx;
+    u16 field_1EB38_credits_line_idx;
     u8 field_1EB3A_selected_main_stage[8];
     u8 field_1EB42_selected_bonus_stage[8];
     char_type field_1EB4A_has_prev_player_slot;

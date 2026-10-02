@@ -1854,10 +1854,9 @@ void Frontend::UpdateMenuScreen_4B6780()
 }
 
 // https://decomp.me/scratch/3NE2J
-WIP_FUNC(0x4B7A10)
+MATCH_FUNC(0x4B7A10)
 void Frontend::ManageCredits_4B7A10()
 {
-    WIP_IMPLEMENTED;
     timeGetTime();
     Frontend::read_menu_input_4AFEB0();
     bool bKeyPressed = false;
@@ -1891,22 +1890,20 @@ void Frontend::ManageCredits_4B7A10()
 
         if (field_1EB34_credits_ypos <= 262124)
         {
-            while (++field_1EB38_credits_line_idx != 600)
+            while (1)
             {
-                field_1EB34_credits_ypos = Fix16(field_EE0E_unk.field_2_lines[field_1EB38_credits_line_idx].field_4_y_gap) + field_1EB34_credits_ypos;
-
-                if (field_1EB34_credits_ypos > 262124)
+                if (++field_1EB38_credits_line_idx == 600)
                 {
-                    field_1EB34_credits_ypos -= kFpOne_67D9FC;
+                    field_108_winmain_next_state = Quit_1;
                     return;
                 }
+                if ((field_1EB34_credits_ypos += Fix16(field_EE0E_unk.field_2_lines[field_1EB38_credits_line_idx].field_4_y_gap)) > 262124)
+                {
+                    break;
+                }
             }
-            field_108_winmain_next_state = Quit_1;
         }
-        else
-        {
-            field_1EB34_credits_ypos -= kFpOne_67D9FC;
-        }
+        field_1EB34_credits_ypos -= kFpOne_67D9FC;
     }
 }
 
