@@ -1530,7 +1530,7 @@ void Weapon_30::army_gun_jeep_5E13E0()
 }
 
 // https://decomp.me/scratch/75934
-WIP_FUNC(0x5e1dc0)
+MATCH_FUNC(0x5e1dc0)
 void Weapon_30::oil_stain_5E1DC0()
 {
     Fix16_Point vector;
@@ -1549,16 +1549,16 @@ void Weapon_30::oil_stain_5E1DC0()
     vector.RotateByAngle_40F6B0(pSprt->field_0);
     vector += pSprt->get_x_y_443580();
 
-    Fix16 sprt_4c_f8 = pSprt->field_C_sprite_4c_ptr->GetF8_492170();
-    //Fix16 zpos_lower = pSprt->field_1C_zpos - sprt_4c_f8 / 2;
-    Fix16 zpos_upper = pSprt->field_1C_zpos + sprt_4c_f8 / 2;
+    Fix16 half_depth = pSprt->field_C_sprite_4c_ptr->GetF8_492170() / 2;
+    Fix16 zpos_lower = pSprt->field_1C_zpos - half_depth;
+    Fix16 zpos_upper = pSprt->field_1C_zpos + half_depth;
 
     if (zpos_upper >= k_dword_706EDC)
     {
-        zpos_upper = k_dword_706EDC;
+        zpos_upper = k_dword_706EDC - k_dword_706F70;
     }
     Fix16 found_z;
-    if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(vector.x, vector.y, pSprt->field_1C_zpos - sprt_4c_f8 / 2, zpos_upper, &found_z))
+    if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(vector.x, vector.y, zpos_lower, zpos_upper, &found_z))
     {
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(8, vector.x, vector.y, found_z, pSprt->field_0);
         decrement_ammo_4CCA30();
