@@ -7155,11 +7155,9 @@ void Ped::sub_467FD0()
     }
 }
 
-WIP_FUNC(0x468040)
+MATCH_FUNC(0x468040)
 void Ped::ProcessAirborneMovement_468040()
 {
-    WIP_IMPLEMENTED;
-
     u8 bUnknown = 1;
     if (this->field_240_occupation == ped_ocupation_enum::drone)
     {
