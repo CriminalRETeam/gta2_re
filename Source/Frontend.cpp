@@ -5025,8 +5025,9 @@ char_type Frontend::sub_4B7360(u8 a2)
 
     player_stats_0xA4* player_stats = GetCurrPlayerStats_4B43E0();
 
-    u8 main_stage_idx = a2 >> 4;
-    u8 bonus_stage_idx = a2 & 0xF;
+    u8 main_stage_idx;
+    u8 bonus_stage_idx;
+    gLucid_hamilton_67E8E0.DecodeStage_453A60(a2, &main_stage_idx, &bonus_stage_idx);
 
     u8 og_main_stage_idx = main_stage_idx;
     u8 og_bonus_stage_idx = bonus_stage_idx;
@@ -5085,7 +5086,7 @@ char_type Frontend::sub_4B7360(u8 a2)
         }
     }
 
-    return bonus_stage_idx | (main_stage_idx << 4);
+    return gLucid_hamilton_67E8E0.EncodeStage_453A40(main_stage_idx, bonus_stage_idx);
 }
 
 MATCH_FUNC(0x4B7520)
