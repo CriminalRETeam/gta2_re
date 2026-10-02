@@ -117,7 +117,7 @@ void UnknownDebugClass::DoBrianTest_42D870(u16 action)
             break;
         case 7:
         {
-            Ped* pPed = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0()->field_2C4_player_ped;
+            Ped* pPed = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0()->GetPlayerPed_41D020();
             if (pPed->field_16C_car)
             {
                 pPed->field_16C_car->GoToBlockTest_441030(3, 3, 1, 1);
@@ -275,7 +275,7 @@ void Player::SetKFCarWeapon_564710(Car_BC* pCar, s32 weapon_kind)
     Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
     if (pWeapon)
     {
-        this->field_1A_pre_kf_ammo = pWeapon->field_0_ammo;
+        this->field_1A_pre_kf_ammo = pWeapon->get_ammo_4A4FE0();
     }
     else
     {
@@ -305,7 +305,7 @@ void Player::SetKFWeapon_564790(s32 idx)
 {
     this->field_18_pre_kf_weapon_kind = this->field_788_curr_weapon_idx;
     this->field_1C_kf_weapon_kind = idx;
-    this->field_1A_pre_kf_ammo = this->field_718_weapons[idx]->field_0_ammo;
+    this->field_1A_pre_kf_ammo = this->field_718_weapons[idx]->get_ammo_4A4FE0();
     this->field_718_weapons[idx]->field_0_ammo = -1;
     this->field_788_curr_weapon_idx = this->field_1C_kf_weapon_kind;
     EnableKFMode_56A010();
@@ -765,7 +765,7 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
             break;
 
         case power_up_indices::InstantGang_12:
-            if (!field_2C4_player_ped->field_168_game_object)
+            if (!field_2C4_player_ped->get_game_object_4A5020())
             {
                 return 0;
             }
@@ -1438,8 +1438,8 @@ void Player::HandleControls_5668D0(Ped* pPed)
                     }
 
                     pPed->set_field_150_target_objective_car(pCar);
-                    pPed->field_248_enter_car_as_passenger = 0;
-                    pPed->field_24C_target_car_door = 0;
+                    pPed->set_enter_car_as_passenger_4039B0(0);
+                    pPed->set_target_car_door_403A70(0);
                 }
             }
         }
@@ -1807,7 +1807,7 @@ void Player::Wasted_567130()
                 gRoot_sound_66B038.PlayVoice_40F090(21);
             }
         }
-        field_44_death_type = 0;
+        SetDeathType_434950(0);
         if (field_2D0)
         {
             Player::sub_5695A0();
@@ -1895,12 +1895,12 @@ void Player::Busted_5679E0()
     if (!field_28)
     {
         gRoot_sound_66B038.PlayVoice_40F090(17);
-        field_44_death_type = 3;
+        SetDeathType_434950(3);
         if (IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(Player::GetDeathText_569F00()), 1);
         }
-        field_44_death_type = 0;
+        SetDeathType_434950(0);
         field_28 = 1;
         field_2C = 70;
         if (field_2D0)
@@ -2078,7 +2078,7 @@ void Player::sub_568730()
     {
         pPed->sub_470300();
     }
-    field_8E_bInUse = 0;
+    set_bInUse_4A5170(0);
 }
 
 MATCH_FUNC(0x5687F0)
@@ -2619,7 +2619,7 @@ void Player::InitializePlayerState_569CB0()
     field_6BC_multpliers.sub_492150();
     field_64 = 0;
     field_18_pre_kf_weapon_kind = -2;
-    if (gfrosty_pasteur_6F8060->field_C1E2C)
+    if (gfrosty_pasteur_6F8060->get_field_C1E2C_475A20())
     {
         Player::UpdateGameFromSave_56A310(&gGameSave_6F78C8.field_54_player_and_world_stats);
     }
@@ -2819,7 +2819,7 @@ void Player::RestoreCarsFromSave_56A0F0()
                                                   dword_6FE614);
             sub_5645B0(pNewCar);
             pNewCar->field_8_damaged_areas.m_var = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_30[i];
-            pNewCar->field_74_damage = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_2A[i];
+            pNewCar->set_damage_4A51B0(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_2A[i]);
         }
     }
     memset(&gGameSave_6F78C8.field_E4_car_and_script_data.field_0, 0, 68u);
