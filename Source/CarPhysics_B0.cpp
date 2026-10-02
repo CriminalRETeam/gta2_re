@@ -2410,14 +2410,13 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
     return ImpulseIntensity;
 }
 
-WIP_FUNC(0x55fc30)
+MATCH_FUNC(0x55fc30)
 void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& arg0, s32 base_dmg)
 {
-    WIP_IMPLEMENTED;
 
+    Fix16_Point a2;
     if (!field_5C_pCar->IsTrainModel_403BA0())
     {
-        Fix16_Point a2;
         if (this->field_92_is_hand_brake_on)
         {
             a2 = (arg0 / kFP16Two_6FE214);
@@ -2435,8 +2434,7 @@ void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& arg0, s32 base_dmg)
             this->field_8_total_damage_q = rng_damage;
         }
 
-        Ped* pDriver = this->field_5C_pCar->field_54_driver;
-        if (!pDriver || !pDriver->field_15C_player)
+        if (!field_5C_pCar->is_driven_by_player())
         {
             this->field_92_is_hand_brake_on = 0;
         }
