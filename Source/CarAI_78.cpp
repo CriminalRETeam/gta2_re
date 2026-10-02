@@ -1117,6 +1117,8 @@ void CarAI_78::sub_448770()
 }
 
 // https://decomp.me/scratch/NIiIz
+// 9.6f: sub_4538B0 (0x42FE40) is called once and inlined three times in 10.5; an inline copy
+// for the last three calls makes the code worse (1295 -> 1346)
 WIP_FUNC(0x448ce0)
 void CarAI_78::ManageTrafficCarDirection_448CE0()
 {
