@@ -7,16 +7,19 @@ struct gmp_block_info;
 class Link_2
 {
   public:
+    // 9.6f 0x40CE90
     inline u16 GetIndex_0040CE90()
     {
         return field_0 & 0x1ff;
     }
 
+    // 9.6f 0x40CED0
     inline u8 IsEnabled()
     {
         return field_0 >> 15;
     }
 
+    // 9.6f 0x40CEA0
     inline u16 GetLength()
     {
         return (field_0 >> 9) & 0x3F;
