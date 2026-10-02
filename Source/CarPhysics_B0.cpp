@@ -892,7 +892,7 @@ Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
     WIP_IMPLEMENTED;
 
     Fix16_Point point_to_sub;
-    if (field_5C_pCar->field_64_pTrailer && field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer == field_5C_pCar)
+    if (field_5C_pCar->is_on_trailer_421720())
     {
         point_to_sub = gTrailer_cp1_6FE3A8;
     }
