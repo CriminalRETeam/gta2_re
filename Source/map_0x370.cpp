@@ -2638,11 +2638,9 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
 MATCH_FUNC(0x4E4F40)
 Fix16* Map_0x370::GetGroundZBelowCoord_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
 {
-    gmp_block_info* block_4DFE10;
     Fix16 new_z;
 
-    if (z.GetFracValue() == kFpZero_6F610C || (block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt())) == NULL ||
-        !is_gradient_slope(block_4DFE10->field_B_slope_type) || is_air_type(block_4DFE10->field_B_slope_type) ||
+    if (z.GetFracValue() == kFpZero_6F610C || !IsGradientSlopeAt_466CF0(x.ToInt(), y.ToInt(), z.ToInt()) ||
         (new_z = z.GetRoundValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z), new_z > z))
     {
         s32 int_z = z.ToInt() - 1;
