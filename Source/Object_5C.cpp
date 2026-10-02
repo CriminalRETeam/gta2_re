@@ -1770,11 +1770,9 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
     Phi_74* pPhi = this->field_8;
     if (sub_475A80())
     {
-        Object_8* o8 = this->field_C_pAny.o8;
-        if (!o8->field_4_timer && !o8->field_7_anim_speed_counter)
+        if (IsAnimFinished_482C10())
         {
-            s32 phi_idx = pPhi->field_3C_next_definition_idx;
-            if (phi_idx >= 39 && phi_idx <= 42) // car
+            if (IsDefinitionIdx39To42_482400(pPhi->field_3C_next_definition_idx)) // car
             {
                 Car_BC* pCar = pSprite->AsCar_40FEB0();
                 if (pCar)
