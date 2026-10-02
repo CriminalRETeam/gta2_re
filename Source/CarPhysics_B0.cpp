@@ -2384,12 +2384,10 @@ void CarPhysics_B0::ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2)
 {
     WIP_IMPLEMENTED;
 
-    Car_BC* pCar = this->field_5C_pCar;
-    Trailer* pTrailer = pCar->field_64_pTrailer;
-    if (pTrailer && pTrailer->field_C_pCarOnTrailer == pCar)
+    if (field_5C_pCar->is_on_trailer_421720())
     {
         // We are on the trailer so apply impulse to the truck cab instead
-        CarPhysics_B0* pPhysics = pTrailer->field_8_truck_cab->field_58_physics;
+        CarPhysics_B0* pPhysics = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics;
         pPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
         pPhysics->AccumulateImpulse_55F930(a2);
         SetCurrentCarInfoAndModelPhysics_562EF0();
