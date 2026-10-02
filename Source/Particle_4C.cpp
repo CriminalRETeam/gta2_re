@@ -1829,8 +1829,8 @@ void Particle_4C::PoolDeallocate()
 {
     if (field_30_pNext)
     {
-        field_30_pNext->field_2C_flags &= ~4u;
-        field_30_pNext->field_2C_flags = 0;
+        field_30_pNext->Clear_2C_0x4_Flag_433800();
+        field_30_pNext->SetFlags_4337D0(0, 0);
         gSprite_Pool_703818->remove(field_30_pNext);
         field_30_pNext = 0;
     }
