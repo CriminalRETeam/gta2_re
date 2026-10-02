@@ -95,7 +95,7 @@ class Weapon_30
 
     void set_field_2C_4CCA80(char_type new_value)
     {
-        field_2C = new_value;
+        field_2C_shot_fired = new_value;
     }
 
     inline bool HasAmmo_4A4F80()
@@ -140,7 +140,7 @@ class Weapon_30
     s8 field_23;
     Ped* field_24_pPed;
     infallible_turing* field_28_pSound;
-    s8 field_2C;
+    s8 field_2C_shot_fired;
     s8 field_2D;
     s8 field_2E;
     s8 field_2F;

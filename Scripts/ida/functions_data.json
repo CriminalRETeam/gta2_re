@@ -4665,17 +4665,17 @@
         "v105_address": "0x484fe0"
     },
     {
-        "name": "Shooey_CC::sub_485090",
+        "name": "Shooey_CC::ShouldReportCarCrime_485090",
         "v96f_address": null,
         "v105_address": "0x485090"
     },
     {
-        "name": "Shooey_CC::sub_4850F0",
+        "name": "Shooey_CC::ShouldReportCharCrime_4850F0",
         "v96f_address": null,
         "v105_address": "0x4850f0"
     },
     {
-        "name": "Shooey_CC::sub_485140",
+        "name": "Shooey_CC::ShouldReportPedCrime_485140",
         "v96f_address": null,
         "v105_address": "0x485140"
     },
@@ -4755,22 +4755,22 @@
         "v105_address": "0x48e780"
     },
     {
-        "name": "sub_48F5A0",
+        "name": "MarkUsed_48F5A0",
         "v96f_address": null,
         "v105_address": "0x48f5a0"
     },
     {
-        "name": "sub_48F5C0",
+        "name": "ClearMask_48F5C0",
         "v96f_address": null,
         "v105_address": "0x48f5c0"
     },
     {
-        "name": "Sprite_3CC::sub_48F600",
+        "name": "Sprite_3CC::FindCachedMask_48F600",
         "v96f_address": null,
         "v105_address": "0x48f600"
     },
     {
-        "name": "Sprite_3CC::sub_48F690",
+        "name": "Sprite_3CC::FindLeastRecentlyUsed_48F690",
         "v96f_address": null,
         "v105_address": "0x48f690"
     },
@@ -10530,7 +10530,7 @@
         "v105_address": "0x522640"
     },
     {
-        "name": "Object_2C::sub_5226A0",
+        "name": "Object_2C::SetConveyorPush_5226A0",
         "v96f_address": null,
         "v105_address": "0x5226a0"
     },
@@ -10735,7 +10735,7 @@
         "v105_address": "0x527d00"
     },
     {
-        "name": "Object_2C::sub_527F10",
+        "name": "Object_2C::ReleaseSubObjects_527F10",
         "v96f_address": null,
         "v105_address": "0x527f10"
     },
@@ -10800,17 +10800,17 @@
         "v105_address": "0x529000"
     },
     {
-        "name": "sub_529030",
+        "name": "SetConveyorSpeed_529030",
         "v96f_address": null,
         "v105_address": "0x529030"
     },
     {
-        "name": "sub_529050",
+        "name": "UnpackSignedNibbles_529050",
         "v96f_address": null,
         "v105_address": "0x529050"
     },
     {
-        "name": "Object_2C::sub_529070",
+        "name": "Object_2C::ApplyConveyorSpeedFrom_529070",
         "v96f_address": null,
         "v105_address": "0x529070"
     },
@@ -10820,17 +10820,17 @@
         "v105_address": "0x529080"
     },
     {
-        "name": "Object_2C::sub_5290A0",
+        "name": "Object_2C::RequestRemoval_5290A0",
         "v96f_address": null,
         "v105_address": "0x5290a0"
     },
     {
-        "name": "sub_5290B0",
+        "name": "RequestRemovalWhenOffScreen_5290B0",
         "v96f_address": null,
         "v105_address": "0x5290b0"
     },
     {
-        "name": "sub_5290C0",
+        "name": "SetSpriteIdOffset_5290C0",
         "v96f_address": null,
         "v105_address": "0x5290c0"
     },
@@ -10875,7 +10875,7 @@
         "v105_address": "0x5292d0"
     },
     {
-        "name": "Object_5C::sub_529300",
+        "name": "Object_5C::TrimSpriteList_529300",
         "v96f_address": null,
         "v105_address": "0x529300"
     },
@@ -10895,7 +10895,7 @@
         "v105_address": "0x529750"
     },
     {
-        "name": "Object_5C::sub_5297F0",
+        "name": "Object_5C::CreateDiagonalWallObjects_5297F0",
         "v96f_address": null,
         "v105_address": "0x5297f0"
     },
@@ -10915,7 +10915,7 @@
         "v105_address": "0x5299b0"
     },
     {
-        "name": "Object_5C::sub_5299F0",
+        "name": "Object_5C::NewWithVarrokIdx_5299F0",
         "v96f_address": null,
         "v105_address": "0x5299f0"
     },
@@ -11545,7 +11545,7 @@
         "v105_address": "0x544bf0"
     },
     {
-        "name": "sub_544F70",
+        "name": "ResetCharUpdateGlobals_544F70",
         "v96f_address": null,
         "v105_address": "0x544f70"
     },
@@ -11600,17 +11600,17 @@
         "v105_address": "0x5455f0"
     },
     {
-        "name": "sub_545600",
+        "name": "ClearCollisionState_545600",
         "v96f_address": null,
         "v105_address": "0x545600"
     },
     {
-        "name": "sub_545640",
+        "name": "GetTileFracX64_545640",
         "v96f_address": null,
         "v105_address": "0x545640"
     },
     {
-        "name": "sub_545670",
+        "name": "GetTileFracY64_545670",
         "v96f_address": null,
         "v105_address": "0x545670"
     },
@@ -11630,7 +11630,7 @@
         "v105_address": "0x545720"
     },
     {
-        "name": "sub_5459C0",
+        "name": "CheckAndHandleCollisions_5459C0",
         "v96f_address": null,
         "v105_address": "0x5459c0"
     },
@@ -11825,7 +11825,7 @@
         "v105_address": "0x552e90"
     },
     {
-        "name": "sub_5532C0",
+        "name": "IsNearTileCentre_5532C0",
         "v96f_address": null,
         "v105_address": "0x5532c0"
     },
@@ -11860,7 +11860,7 @@
         "v105_address": "0x553e00"
     },
     {
-        "name": "sub_553F90",
+        "name": "ResetCharStatics_553F90",
         "v96f_address": null,
         "v105_address": "0x553f90"
     },
@@ -14480,12 +14480,12 @@
         "v105_address": "0x596840"
     },
     {
-        "name": "ExplodingScore_100::sub_596860",
+        "name": "ExplodingScore_100::NextPalette_596860",
         "v96f_address": null,
         "v105_address": "0x596860"
     },
     {
-        "name": "ExplodingScore_100::sub_596880",
+        "name": "ExplodingScore_100::IncrementFreeScores_596880",
         "v96f_address": null,
         "v105_address": "0x596880"
     },
@@ -14495,7 +14495,7 @@
         "v105_address": "0x596890"
     },
     {
-        "name": "ExplodingScore_100::sub_596940",
+        "name": "ExplodingScore_100::Update_596940",
         "v96f_address": null,
         "v105_address": "0x596940"
     },
@@ -14635,7 +14635,7 @@
         "v105_address": "0x59e300"
     },
     {
-        "name": "Sprite::sub_59E320",
+        "name": "Sprite::IncreaseZoom_59E320",
         "v96f_address": null,
         "v105_address": "0x59e320"
     },
@@ -14695,7 +14695,7 @@
         "v105_address": "0x59e930"
     },
     {
-        "name": "Sprite::sub_59E960",
+        "name": "Sprite::SetDefaultNumBySpriteType_59E960",
         "v96f_address": null,
         "v105_address": "0x59e960"
     },
@@ -14710,7 +14710,7 @@
         "v105_address": "0x59ea00"
     },
     {
-        "name": "Sprite::sub_59EAA0",
+        "name": "Sprite::GetTruePalette_59EAA0",
         "v96f_address": null,
         "v105_address": "0x59eaa0"
     },
@@ -14830,7 +14830,7 @@
         "v105_address": "0x5a1eb0"
     },
     {
-        "name": "sub_5A21F0",
+        "name": "CheckMapZCollision_5A21F0",
         "v96f_address": null,
         "v105_address": "0x5a21f0"
     },
@@ -14850,7 +14850,7 @@
         "v105_address": "0x5a2500"
     },
     {
-        "name": "sub_5A26E0",
+        "name": "GetNegatedAngle_5A26E0",
         "v96f_address": null,
         "v105_address": "0x5a26e0"
     },

@@ -22,17 +22,17 @@ EXTERN_GLOBAL(Fix16, dword_6FD548);
 EXTERN_GLOBAL(Fix16, dword_6FD330);
 EXTERN_GLOBAL(Fix16, dword_6FD448);
 EXTERN_GLOBAL(Fix16, dword_6FD2E8);
-EXTERN_GLOBAL(Fix16, dword_6FD2EC);
+EXTERN_GLOBAL(Fix16, kFP16Quarter_6FD2EC);
 EXTERN_GLOBAL(Fix16, dword_6FD554);
 
-EXTERN_GLOBAL(Ang16, word_6FD5D4);
-EXTERN_GLOBAL(Ang16, word_6FD3EE);
+EXTERN_GLOBAL(Ang16, kAngZero_6FD5D4);
+EXTERN_GLOBAL(Ang16, kAng180_6FD3EE);
 
 DEFINE_GLOBAL(T_Particle_4C_Pool*, gParticle_4C_Pool_6FD5E4, 0x6FD5E4);
 DEFINE_GLOBAL(Particle_8*, gParticle_8_6FD5E8, 0x6FD5E8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD474, Fix16(0x47A, 0), 0x6FD474);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD468, Fix16(0x147, 0), 0x6FD468);
-DEFINE_GLOBAL_INIT(Ang16, dword_6FD314, Ang16(360), 0x6FD314);
+DEFINE_GLOBAL_INIT(Ang16, kAng90_6FD314, Ang16(360), 0x6FD314);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD4EC, Fix16(0xB, 0), 0x6FD4EC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD558, Fix16(50), 0x6FD558);
@@ -41,7 +41,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD508, Fix16(10), 0x6FD508);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD2D4, Fix16(0xE00, 0), 0x6FD2D4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD4CC, Fix16(0xFFFFEE00, 0), 0x6FD4CC);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD2D0, Fix16(0x800, 0), 0x6FD2D0);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Eighth_6FD2D0, Fix16(0x800, 0), 0x6FD2D0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD48C, Fix16(0x600, 0), 0x6FD48C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD464, Fix16(0x1EB, 0), 0x6FD464);
 
@@ -271,7 +271,7 @@ void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnkn
 
             Fix16 v16;
             Fix16 v17;
-            Ang16::PolarToCartesian_41FC20(pSprite->field_0 - dword_6FD314, dword_6FD468, v16, v17);
+            Ang16::PolarToCartesian_41FC20(pSprite->field_0 - kAng90_6FD314, dword_6FD468, v16, v17);
 
             stru_6FD388 += v16 + pSprite->field_14_xy.x;
             stru_6FD38C += v17 + pSprite->field_14_xy.y;
@@ -384,7 +384,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
     {
         if (!field_0)
         {
-            field_0 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_hitting_194, 0, 0, 0, word_6FD5D4);
+            field_0 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_hitting_194, 0, 0, 0, kAngZero_6FD5D4);
         }
         Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(Fix16(0), Fix16(0), dword_6FD330, 0, 0, Fix16(0));
         if (pParticle)
@@ -392,7 +392,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
             pParticle->field_4_flags |= 1;
             pParticle->field_30_pNext->SetType_4206F0(8);
             pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 73);
-            pParticle->field_30_pNext->AllocInternal_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, dword_6FD2EC);
+            pParticle->field_30_pNext->AllocInternal_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, kFP16Quarter_6FD2EC);
             pParticle->field_34 = 0;
             pParticle->field_38_state = 31;
             Fix16 vec_x;
@@ -409,11 +409,11 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 Sprite_18* pSprt18 = pSprt->field_8_car_bc_ptr->field_0_qq.GetSpriteForModel_5A6A50(114);
                 if (pSprt18)
                 {
-                    angle = pSprt18->field_0->field_0 + word_6FD3EE;
+                    angle = pSprt18->field_0->field_0 + kAng180_6FD3EE;
                     vector.SetXY_432860(Fix16(0), dword_6FD2D4);
                     vector.RotateByAngle_40F6B0(angle);
                     zero = Fix16(0);
-                    unknown = dword_6FD2D0;
+                    unknown = kFP16Eighth_6FD2D0;
                 }
                 else
                 {

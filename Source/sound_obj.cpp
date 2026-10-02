@@ -1913,8 +1913,8 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
     rate_adjust = 0;
     pWeapon = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pWeapon_30;
     this->field_30_sQueueSample.field_41 = 2;
-    weapon_f2C = pWeapon->field_2C;
-    pWeapon->field_2C = 0;
+    weapon_f2C = pWeapon->field_2C_shot_fired;
+    pWeapon->field_2C_shot_fired = 0;
     if (weapon_f2C)
     {
         if (pWeapon)
@@ -4605,7 +4605,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
             }
         }
 
-        f_B0 = pB4->field_B0;
+        f_B0 = pB4->field_B0_scream_timer;
         if (f_B0 > -1)
         {
             if (f_B0 <= 0)
@@ -4634,11 +4634,11 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
                         sound_obj::AddSampleToRequestedQueue_41A850();
                     }
                 }
-                pB4->field_B0 = this->field_1454_anRandomTable[3] % 0x1Eu + 20;
+                pB4->field_B0_scream_timer = this->field_1454_anRandomTable[3] % 0x1Eu + 20;
             }
             else
             {
-                pB4->field_B0 = f_B0 - 1;
+                pB4->field_B0_scream_timer = f_B0 - 1;
             }
         }
         if (pB4->field_C_ped_state_2 != ped_state_2::Unknown_26)

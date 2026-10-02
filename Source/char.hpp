@@ -21,7 +21,7 @@ EXTERN_GLOBAL(Fix16, dword_6784BC);
 EXTERN_GLOBAL(Ang16, word_6FD940);
 EXTERN_GLOBAL(Ang16, word_6FD8F8);
 
-EXPORT void __stdcall sub_529050(u8 a1, s8* a2, s8* a3);
+EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3);
 EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3);
 
 class Char_B4
@@ -36,10 +36,10 @@ class Char_B4
     s32 field_C_ped_state_2;
     s32 field_10_char_state;
     Ang16 field_14;
-    s8 field_16;
+    s8 field_16_state_init_pending;
     s8 field_17;
-    void* field_18;
-    void* field_1C;
+    void* field_18_collided_entity;
+    void* field_1C_prev_collided_entity;
     s32 field_20;
     s32 field_24;
     Ang16 field_28;
@@ -61,8 +61,8 @@ class Char_B4
     s8 field_48;
     s8 field_49;
     u16 field_4A;
-    Fix16 field_4C;
-    Fix16 field_50;
+    Fix16 field_4C_conveyor_dx;
+    Fix16 field_50_conveyor_dy;
     s8 field_54;
     u8 field_55;
     s8 field_56;
@@ -85,15 +85,15 @@ class Char_B4
     s32 field_6C_animation_state;
     s8 field_70_frame_timer;
     s8 field_71;
-    u8 field_72;
-    u8 field_73;
+    u8 field_72_next_tile_x;
+    u8 field_73_next_tile_y;
     Ang16 field_74;
     s8 field_76;
     s8 field_77;
     Char_B4* mpNext;
     Ped* field_7C_pPed;
     Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
-    Car_BC* field_84;
+    Car_BC* field_84_target_car;
     struct_4 field_88_obj_2c;
     Fix16 field_8C;
     Fix16 field_90;
@@ -107,7 +107,7 @@ class Char_B4
     Fix16 field_A4_xpos;
     Fix16 field_A8_ypos;
     Fix16 field_AC_zpos;
-    s32 field_B0;
+    s32 field_B0_scream_timer;
 
     inline void Set_F8_ped_state_1_433910(s32 a2)
     {
@@ -218,7 +218,7 @@ class Char_B4
 
     inline void Set_F84_433900(Car_BC* pCar)
     {
-        field_84 = pCar;
+        field_84_target_car = pCar;
     }
 
     inline void IncreaseSpeedIfAllowed_433940()
@@ -252,8 +252,8 @@ class Char_B4
     EXPORT void PoolDeallocate();
 
     // Function chunk
-    EXPORT void sub_545430();
-    EXPORT bool sub_5451C0();
+    EXPORT void DrawFlamesAndStartScreamTimer_545430();
+    EXPORT bool HasShadows_5451C0();
 
     EXPORT Fix16_Point* sub_545580(Fix16_Point* a2);
     EXPORT void SetRemap_46DD50(u8 remap);
@@ -263,13 +263,13 @@ class Char_B4
     EXPORT void Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 IsOnWater_545570();
     EXPORT void KillPed_5455F0();
-    EXPORT void sub_545600();
-    EXPORT void sub_545640(Fix16 a1, s16* output);
-    EXPORT void sub_545670(Fix16 a1, s16* output);
+    EXPORT void ClearCollisionState_545600();
+    EXPORT void GetTileFracX64_545640(Fix16 a1, s16* output);
+    EXPORT void GetTileFracY64_545670(Fix16 a1, s16* output);
     EXPORT void InitSprite_5456A0();
     EXPORT bool IsOnScreen_545700();
     EXPORT void Update_545720(Fix16 a2);
-    EXPORT void sub_5459C0();
+    EXPORT void CheckAndHandleCollisions_5459C0();
     EXPORT void DrownPed_5459E0();
     EXPORT void UpdateAnimState_546360();
     EXPORT void ManageZCoordAndSlopes_548590();
@@ -307,7 +307,7 @@ class Char_B4
     EXPORT void state_8_5520A0();
     EXPORT void state_9_552E90();
 
-    EXPORT bool sub_5532C0();
+    EXPORT bool IsNearTileCentre_5532C0();
     EXPORT char_type IsThreatToSearchingPed_553330();
     EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite);
     EXPORT bool PhoneTouched_5535B0(Object_2C* p2c);
@@ -319,8 +319,8 @@ class Char_B4
     EXPORT void nullsub_28();
 };
 
-EXPORT void __stdcall sub_544F70();
-EXPORT void __stdcall sub_553F90();
+EXPORT void __stdcall ResetCharUpdateGlobals_544F70();
+EXPORT void __stdcall ResetCharStatics_553F90();
 
 EXTERN_GLOBAL(u8, bThreateningPedAdded_6787EF);
 

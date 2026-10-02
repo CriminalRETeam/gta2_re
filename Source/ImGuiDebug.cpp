@@ -1147,7 +1147,7 @@ void CC ImGuiDebugDraw()
                 test.field_28_x = pPlayerSprite->GetXPos();
                 test.field_2C_y = pPlayerSprite->GetYPos();
                 test.field_30_z = pPlayerSprite->GetZPos();
-                test.field_34 = 9; // 9-13
+                test.field_34_palette = 9; // 9-13
                 test.field_36 = 25;
                 test.field_38 = 2;
                 test.field_3C = 1;
@@ -1923,7 +1923,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("Obj3C field_2E", obj_3c->field_2E);
                         ImGui::Value("Obj3C field_2F", obj_3c->field_2F);
 
-                        ImGui::Value("Obj3C field_38", obj_3c->field_38);
+                        ImGui::Value("Obj3C field_38", obj_3c->field_38_conveyor_speed);
                         ImGui::Value("Obj3C field_39", obj_3c->field_39);
                         ImGui::Value("Obj3C field_3A", obj_3c->field_3A);
                         ImGui::Value("Obj3C field_3B", obj_3c->field_3B);

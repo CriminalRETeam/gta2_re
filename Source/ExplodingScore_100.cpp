@@ -31,7 +31,7 @@ ExplodingScore_50::ExplodingScore_50()
     field_4C_score = 0;
     field_48 = 0;
     mpNext = 0;
-    field_34 = 9;
+    field_34_palette = 9;
 }
 
 MATCH_FUNC(0x596a40)
@@ -159,7 +159,7 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
     this->field_2C_y = ypos;
     this->field_30_z = zpos;
 
-    this->field_34 = gExplodingScorePool->sub_596860();
+    this->field_34_palette = gExplodingScorePool->NextPalette_596860();
 
     this->field_36 = 25;
     this->field_38 = 2;
@@ -313,7 +313,7 @@ char_type ExplodingScore_50::PoolUpdate()
         else
         {
             field_36 = 0;
-            gExplodingScorePool->sub_596880();
+            gExplodingScorePool->IncrementFreeScores_596880();
             return 1;
         }
     }
@@ -383,7 +383,7 @@ void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub
                                       word_702F24, // rot
                                       finalScale, // scale
                                       drawKind, // drawkind
-                                      this->field_34,
+                                      this->field_34_palette,
                                       1,
                                       this->field_36,
                                       1);
@@ -396,7 +396,7 @@ void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub
 MATCH_FUNC(0x5967e0)
 ExplodingScorePool::ExplodingScorePool()
 {
-    field_0 = 9;
+    field_0_last_palette = 9;
     field_2_free_scores = 3;
 }
 
@@ -406,18 +406,18 @@ ExplodingScorePool::~ExplodingScorePool()
 }
 
 MATCH_FUNC(0x596860)
-s16 ExplodingScorePool::sub_596860()
+s16 ExplodingScorePool::NextPalette_596860()
 {
-    field_0++;
-    if (field_0 > 13u)
+    field_0_last_palette++;
+    if (field_0_last_palette > 13u)
     {
-        field_0 = 9;
+        field_0_last_palette = 9;
     }
-    return field_0;
+    return field_0_last_palette;
 }
 
 MATCH_FUNC(0x596880)
-void ExplodingScorePool::sub_596880()
+void ExplodingScorePool::IncrementFreeScores_596880()
 {
     field_2_free_scores++;
 }
@@ -455,7 +455,7 @@ void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u3
 }
 
 MATCH_FUNC(0x596940)
-void ExplodingScorePool::sub_596940()
+void ExplodingScorePool::Update_596940()
 {
     field_4_pool.UpdatePool();
 }

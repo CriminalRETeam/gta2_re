@@ -507,7 +507,7 @@ void eager_benz::OnCarDestroyed_592DD0(Car_BC* pCar, Ped* pPed)
         field_74_car_kill_combo++;
     }
 
-    if (gShooey_CC_67A4B8->sub_485090(pCar, this->field_368_player))
+    if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(pCar, this->field_368_player))
     {
         gShooey_CC_67A4B8->ReportCrimeForPed(3u, field_368_player->Get_Field_68_Ped());
     }
@@ -562,7 +562,7 @@ void eager_benz::AwardCarDamageScore_593030(Car_BC* pCar, s16 score_default)
         }
 
         field_368_player->field_644_crime_stats.AddCarDamageCost_484FA0(mutipler * base_score);
-        if (gShooey_CC_67A4B8->sub_485090(pCar, field_368_player))
+        if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(pCar, field_368_player))
         {
             gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_player->Get_Field_68_Ped());
         }
@@ -663,7 +663,7 @@ void eager_benz::OnFullBusDestroyed_593410(Car_BC* pCar)
     field_368_player->Add_2D4(100);
     field_368_player->field_644_crime_stats.AddCarDamageCost_484FA0(100 * multpliers);
 
-    if (gShooey_CC_67A4B8->sub_485090(pCar, field_368_player))
+    if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(pCar, field_368_player))
     {
         gShooey_CC_67A4B8->ReportCrimeForPed(3u, field_368_player->Get_Field_68_Ped());
     }

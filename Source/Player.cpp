@@ -256,7 +256,7 @@ void Player::ClearKFWeapon_5647D0()
                 pWeapon->SetAmmo_4A4FF0(this->field_1A_pre_kf_ammo);
                 if (!this->field_1A_pre_kf_ammo)
                 {
-                    gWeapon_30_Pool_707014->sub_4A4F20(pWeapon);
+                    gWeapon_30_Pool_707014->DeAllocate_4A4F20(pWeapon);
                     Ped* pDriver = this->field_20_kf_car->field_54_driver;
                     if (pDriver)
                     {
@@ -499,7 +499,7 @@ void Player::CleanupEmptyAmmoWeapons_564B80()
         {
             if (!field_718_weapons[i]->field_0_ammo)
             {
-                gWeapon_30_Pool_707014->sub_4A4F20(field_718_weapons[i]);
+                gWeapon_30_Pool_707014->DeAllocate_4A4F20(field_718_weapons[i]);
             }
         }
         field_718_weapons[i] = 0;

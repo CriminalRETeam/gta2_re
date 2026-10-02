@@ -39,9 +39,9 @@ class Wolfy_30
     Ang16 field_C;
     s16 field_E;
     s32 field_10_type_or_state;
-    Object_2C* field_14;
+    Object_2C* field_14_pObj2C;
     s16 field_18;
-    u16 field_1A;
+    u16 field_1A_timer;
     Sprite* field_1C;
     Ang16 field_20;
     Ang16 field_22;

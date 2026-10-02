@@ -15,8 +15,8 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 
-DEFINE_GLOBAL_INIT(Fix16, dword_706CF4, Fix16(0x1000, 0), 0x706CF4);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_706EC0, Fix16(0x8000, 0), 0x706EC0);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_706CF4, Fix16(0x1000, 0), 0x706CF4);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Two_706EC0, Fix16(0x8000, 0), 0x706EC0);
 DEFINE_GLOBAL(bool, bAllowFlameSegment_706D60, 0x706D60);
 
 // TODO: Check these for inits
@@ -32,7 +32,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_706EE8, Fix16(0xFFFFEE00, 0), 0x706EE8);
 DEFINE_GLOBAL_INIT(Fix16, dword_706E7C, Fix16(0x1EB, 0), 0x706E7C);
 DEFINE_GLOBAL_INIT(Fix16, dword_706CF0, Fix16(0x666, 0), 0x706CF0);
 DEFINE_GLOBAL_INIT(Fix16, dword_706E80, Fix16(0x147, 0), 0x706E80);
-DEFINE_GLOBAL_INIT(Fix16, dword_706DA8, Fix16(0.5), 0x706DA8);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Half_706DA8, Fix16(0.5), 0x706DA8);
 DEFINE_GLOBAL_INIT(Fix16, dword_706E74, Fix16(0xA3, 0), 0x706E74);
 DEFINE_GLOBAL_INIT(Fix16, dword_706F64, Fix16(0x20, 0), 0x706F64);
 DEFINE_GLOBAL_INIT(Fix16, dword_706C8C, Fix16(0x340, 0), 0x706C8C);
@@ -45,7 +45,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_706D88, k_dword_706F70 * 8, 0x706D88);
 DEFINE_GLOBAL_INIT(Ang16, word_706D5E, Ang16(48), 0x706D5E);
 DEFINE_GLOBAL_INIT(Ang16, word_707002, Ang16(24), 0x707002);
 DEFINE_GLOBAL_INIT(Ang16, word_706D5C, Ang16(96), 0x706D5C);
-DEFINE_GLOBAL_INIT(Ang16, word_707006, Ang16(0), 0x707006);
+DEFINE_GLOBAL_INIT(Ang16, kAngZero_707006, Ang16(0), 0x707006);
 
 // TODO: move
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
@@ -65,7 +65,7 @@ Weapon_30::Weapon_30()
     field_C = -1;
     field_20 = 0;
     field_21 = 0;
-    field_2C = 0;
+    field_2C_shot_fired = 0;
     field_28_pSound = 0;
 }
 
@@ -96,7 +96,7 @@ void Weapon_30::init_5DCD90()
     field_8 = 0;
     field_C = -1;
     field_20 = 0;
-    field_2C = 0;
+    field_2C_shot_fired = 0;
     if (!field_28_pSound && !bSkip_audio_67D6BE)
     {
         field_28_pSound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Weapon_30_7);
@@ -204,13 +204,13 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
     Sprite* p5CSprite = gObject_5C_6F8F84->field_58;
     Object_2C* pNewBullet = gObject_5C_6F8F84->NewPhysicsObj_5299B0(bullet_type, xpos, ypos, zpos, rot);
 
-    p5CSprite->set_xyz_lazy_420600(field_24_pPed->get_cam_x() + (xpos - field_24_pPed->get_cam_x()) / k_dword_706EC0,
-                                   field_24_pPed->get_cam_y() + (ypos - field_24_pPed->get_cam_y()) / k_dword_706EC0,
+    p5CSprite->set_xyz_lazy_420600(field_24_pPed->get_cam_x() + (xpos - field_24_pPed->get_cam_x()) / kFP16Two_706EC0,
+                                   field_24_pPed->get_cam_y() + (ypos - field_24_pPed->get_cam_y()) / kFP16Two_706EC0,
                                    zpos);
 
     p5CSprite->set_ang_lazy_420690(pNewBullet->field_4->field_0);
 
-    p5CSprite->AllocInternal_59F950(pNewBullet->field_8->field_0, dword_706CF4, pNewBullet->field_8->field_8);
+    p5CSprite->AllocInternal_59F950(pNewBullet->field_8->field_0, kFP16Quarter_706CF4, pNewBullet->field_8->field_8);
     p5CSprite->SetType_4206F0(pNewBullet->field_4->get_type_416B40());
     p5CSprite->SetObj2C_482A30(pNewBullet->field_4->field_8_object_2C_ptr);
 
@@ -218,12 +218,12 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
 
     if (bullet_type == objects::machine_gun_bullet_254 || bullet_type == objects::pistol_bullet_265)
     {
-        pNewBullet->sub_5290C0(field_24_pPed->sub_45BE30());
+        pNewBullet->SetSpriteIdOffset_5290C0(field_24_pPed->sub_45BE30());
     }
 
     if (p5CSprite->CheckSpriteMovementRegion_5A2500())
     {
-        pNewBullet->sub_5290A0();
+        pNewBullet->RequestRemoval_5290A0();
         bAllowFlameSegment_706D60 = 0;
         return NULL;
     }
@@ -253,14 +253,14 @@ void Weapon_30::flamethrower_5DD0F0()
 
     ped_pos_maybe = field_24_pPed->GetVelocityVector_45B520();
 
-    cartesian_offset.FromPolar_41E210(dword_706CF4, ped_rot);
+    cartesian_offset.FromPolar_41E210(kFP16Quarter_706CF4, ped_rot);
 
     Fix16 xpos = cam_x + cartesian_offset.x;
     Fix16 ypos = cam_y + cartesian_offset.y;
 
     if (!field_4)
     {
-        field_2C = 1;
+        field_2C_shot_fired = 1;
         bAllowFlameSegment_706D60 = 0;
         Weapon_30::spawn_bullet_5DCF60(154, xpos, ypos, cam_z, ped_rot, ped_pos_maybe);
         if (bAllowFlameSegment_706D60)
@@ -360,7 +360,7 @@ void Weapon_30::pistol_5DD860()
             Fix16 z = field_24_pPed->get_cam_z();
             pedRot = field_24_pPed->GetRotation();
             charPos = field_24_pPed->GetVelocityVector_45B520();
-            charPos.FromPolar_41E210(dword_706CF4, pedRot);
+            charPos.FromPolar_41E210(kFP16Quarter_706CF4, pedRot);
             Fix16 xx = charPos.x + x;
             Fix16 yy = charPos.y + y;
             if (spawn_bullet_5DCF60(bullet_type, xx, yy, z, pedRot, charPos))
@@ -420,7 +420,7 @@ void Weapon_30::dual_pistol_5DDA70()
         ped_rotation = field_24_pPed->GetRotation();
         vector3 = field_24_pPed->GetVelocityVector_45B520(); // vector isnt used, but required to match
 
-        vector2.FromPolar_41E210(dword_706CF4, ped_rotation);
+        vector2.FromPolar_41E210(kFP16Quarter_706CF4, ped_rotation);
         Fix16 point_x = x + vector2.x;
         Fix16 point_y = y + vector2.y;
 
@@ -612,7 +612,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                     Object_2C* pProjectile = gObject_5C_6F8F84->sub_52A280(obj_idx,
                                                                            field_24_pPed->get_cam_x(),
                                                                            field_24_pPed->get_cam_y(),
-                                                                           field_24_pPed->get_cam_z() + dword_706DA8,
+                                                                           field_24_pPed->get_cam_z() + kFP16Half_706DA8,
                                                                            field_24_pPed->field_12E_aim_angle,
                                                                            field_24_pPed->field_12E_aim_angle,
                                                                            unknown + unknown_2,
@@ -632,12 +632,12 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                         if (obj_idx == objects::moving_molotov_138)
                         {
                             Object_2C* pLightObj = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
-                            pProjectile->field_4->DispatchCollisionEvent_5A3100(pLightObj->field_4, 0, 0, word_707006);
+                            pProjectile->field_4->DispatchCollisionEvent_5A3100(pLightObj->field_4, 0, 0, kAngZero_707006);
                             Object_2C* pMaybeExplosionObj =
-                                gObject_5C_6F8F84->CreateExplosion_52A3D0(113, 145, 2, word_707006, 5, field_24_pPed->field_200_id);
+                                gObject_5C_6F8F84->CreateExplosion_52A3D0(113, 145, 2, kAngZero_707006, 5, field_24_pPed->field_200_id);
                             if (pMaybeExplosionObj)
                             {
-                                pProjectile->field_4->DispatchCollisionEvent_5A3100(pMaybeExplosionObj->field_4, 0, 0, word_707006);
+                                pProjectile->field_4->DispatchCollisionEvent_5A3100(pMaybeExplosionObj->field_4, 0, 0, kAngZero_707006);
                             }
                         }
                         else
@@ -900,7 +900,7 @@ void Weapon_30::oil_stain_5E1DC0()
 {
     Fix16_Point vector;
     Sprite* pSprt = field_14_car->GetSprite_440840();
-    vector.y = (-(pSprt->field_C_sprite_4c_ptr->GetH_447E10() + k_dword_706EB4)) / k_dword_706EC0;
+    vector.y = (-(pSprt->field_C_sprite_4c_ptr->GetH_447E10() + k_dword_706EB4)) / kFP16Two_706EC0;
 
     if (get_ammo_4A4FB0() % 2 != 0)
     {
@@ -941,7 +941,7 @@ void Weapon_30::car_mine_5E2550()
     Sprite* Sprite_440840 = field_14_car->GetSprite_440840();
 
     Fix16_Point p;
-    p.y = -(dword_706FF4 + ((dword_706FEC + Sprite_440840->field_C_sprite_4c_ptr->field_4_height)) / k_dword_706EC0);
+    p.y = -(dword_706FF4 + ((dword_706FEC + Sprite_440840->field_C_sprite_4c_ptr->field_4_height)) / kFP16Two_706EC0);
     p.x = dword_706EB8;
 
     p.RotateByAngle_40F6B0(Sprite_440840->field_0);

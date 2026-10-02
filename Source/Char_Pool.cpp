@@ -770,7 +770,7 @@ PedManager::PedManager()
     gNumPedsOnScreen_6787EC = 0;
     bThreateningPedAdded_6787EF = 0;
     */
-    sub_553F90();
+    ResetCharStatics_553F90();
     gThreateningPedsList_678468.ClearList_420E90();
 }
 
@@ -1014,8 +1014,8 @@ Ped* PedManager::ClonePed_470F90(Ped* pSrc)
             pCharObj->field_80_sprite_ptr->SetRemap(remap);
         }
         pDst->field_168_game_object->set_rotation_433A30(pSrc->GetRotation());
-        pDst->field_168_game_object->field_16 = 1;
-        pDst->field_168_game_object->field_84 = pSrc->field_168_game_object->field_84;
+        pDst->field_168_game_object->field_16_state_init_pending = 1;
+        pDst->field_168_game_object->field_84_target_car = pSrc->field_168_game_object->field_84_target_car;
     }
     return pDst;
 }
