@@ -6502,7 +6502,7 @@ void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 MATCH_FUNC(0x443ae0)
 void Car_BC::ResprayOrChangePlates(u8 remap)
 {
-    Player* pPlayer = this->field_54_driver->field_15C_player;
+    Player* pPlayer = GetDriverPlayer_421870();
     const s32 cost = gCar_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
     if (cost <= pPlayer->field_2D4_scores.GetScore_592370())
     {
