@@ -245,9 +245,10 @@ bool Sprite::IsControlledByActivePlayer_59E170()
     Ped* pPed = GetPed_59E1B0();
     if (!pPed)
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::car_2 && field_8_car_bc_ptr)
+        Car_BC* pCar = AsCar_40FEB0();
+        if (pCar)
         {
-            pPed = field_8_car_bc_ptr->GetEffectiveDriver_43E990();
+            pPed = pCar->GetEffectiveDriver_43E990();
         }
     }
 
