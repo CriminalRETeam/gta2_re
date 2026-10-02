@@ -1593,7 +1593,7 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
     // TODO: this is just "negate" but inlined
     Ang16 negated_ang(-field_0.rValue);
     Ang16 normalized_ang;
-    normalized_ang.sub_409300(negated_ang, 0);
+    normalized_ang.AssignNormalized_409300(negated_ang, 0);
 
     RotateAndTranslatePoint_42A720(point1.x, point1.y, normalized_ang, field_14_xy.x, field_14_xy.y, pRotTransX, pRotTransY);
 
@@ -1611,7 +1611,7 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
     // TODO: this is just "negate" but inlined
     Ang16 negated_ang2(-field_0.rValue);
     Ang16 normalized_ang2;
-    normalized_ang2.sub_409300(negated_ang2, 0);
+    normalized_ang2.AssignNormalized_409300(negated_ang2, 0);
 
     RotateAndTranslatePoint_42A720(point2.x, point2.y, normalized_ang2, field_14_xy.x, field_14_xy.y, pRotTransX_2, pRotTransY_2);
 

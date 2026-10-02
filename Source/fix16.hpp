@@ -256,7 +256,7 @@ class Fix16
         }
     }
 
-    inline Fix16 sub_482730()
+    inline Fix16 ZeroIfNegligible_482730()
     {
         if (Fix16::Abs(*this) < dword_6F8CF0)
         {

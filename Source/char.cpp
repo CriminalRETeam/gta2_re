@@ -558,12 +558,12 @@ void Char_B4::Update_545720(Fix16 a2)
         if (field_58_flags_bf.b3)
         {
             // clockwise?
-            field_98.sub_41E210(-field_38_velocity, field_40_rotation);
+            field_98.SetFromPolar_41E210(-field_38_velocity, field_40_rotation);
         }
         else
         {
             // anti-clockwise?
-            field_98.sub_41E210(field_38_velocity, field_40_rotation);
+            field_98.SetFromPolar_41E210(field_38_velocity, field_40_rotation);
         }
     }
     gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_80_sprite_ptr);
@@ -2699,7 +2699,7 @@ MATCH_FUNC(0x4056C0)
 EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3)
 {
     Ang16 delta = a2 - a3;
-    if (delta > word_669156)
+    if (delta > kAng180_669156)
     {
         delta = -delta;
     }
@@ -5009,7 +5009,7 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
     u8 side_input_ang = inputAng.ToAng4_405680();
 
     //Ang16 unused;
-    //unused.sub_4516B0(field_38_velocity * word_6FDB2E, 0);
+    //unused.FromFix16_4516B0(field_38_velocity * word_6FDB2E, 0);
 
     if (field_10_char_state == 10)
     {

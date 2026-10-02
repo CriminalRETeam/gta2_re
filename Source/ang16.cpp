@@ -2,18 +2,18 @@
 #include "Function.hpp"
 #include <cmath>
 
-DEFINE_GLOBAL_INIT(Ang16, dword_6F677C, Ang16(0xB4), 0x6F677C);
-DEFINE_GLOBAL_INIT(Ang16, word_6F680C, Ang16(0x4EC), 0x6F680C);
-DEFINE_GLOBAL_INIT(Ang16, dword_6F6800, Ang16(0x21C), 0x6F6800);
-DEFINE_GLOBAL_INIT(Ang16, word_6F67DC, Ang16(0x384), 0x6F67DC);
+DEFINE_GLOBAL_INIT(Ang16, kAng45_6F677C, Ang16(0xB4), 0x6F677C);
+DEFINE_GLOBAL_INIT(Ang16, kAng315_6F680C, Ang16(0x4EC), 0x6F680C);
+DEFINE_GLOBAL_INIT(Ang16, kAng135_6F6800, Ang16(0x21C), 0x6F6800);
+DEFINE_GLOBAL_INIT(Ang16, kAng225_6F67DC, Ang16(0x384), 0x6F67DC);
 
-EXTERN_GLOBAL(Ang16, word_669156);
+EXTERN_GLOBAL(Ang16, kAng180_669156);
 
 WIP_FUNC(0x405C60)
 bool __stdcall Ang16::IsAngleAhead_405C60(Ang16* a1, Ang16* a2)
 {
     WIP_IMPLEMENTED;
-    return *a2 - *a1 <= word_669156;
+    return *a2 - *a1 <= kAng180_669156;
 }
 
 WIP_FUNC(0x405640)
@@ -47,13 +47,13 @@ u8 Ang16::GetOctant_4056A0()
 }
 
 MATCH_FUNC(0x406C20)
-void Ang16::sub_406C20()
+void Ang16::Normalize_406C20()
 {
     Normalize();
 }
 
 MATCH_FUNC(0x409300)
-Ang16* Ang16::sub_409300(Ang16& input, s32 a3)
+Ang16* Ang16::AssignNormalized_409300(Ang16& input, s32 a3)
 {
     rValue = input.rValue;
     Normalize();
@@ -61,7 +61,7 @@ Ang16* Ang16::sub_409300(Ang16& input, s32 a3)
 }
 
 MATCH_FUNC(0x409340)
-Ang16* Ang16::sub_409340(Ang16* pRet, Ang16* toSub)
+Ang16* Ang16::SubtractNormalized_409340(Ang16* pRet, Ang16* toSub)
 {
     pRet->rValue = rValue - toSub->rValue;
     pRet->Normalize();
@@ -69,7 +69,7 @@ Ang16* Ang16::sub_409340(Ang16* pRet, Ang16* toSub)
 }
 
 MATCH_FUNC(0x4516B0)
-Ang16* Ang16::sub_4516B0(Fix16* a2, s32 a3)
+Ang16* Ang16::FromFix16_4516B0(Fix16* a2, s32 a3)
 {
     rValue = a2->ToInt();
     Normalize();
@@ -85,22 +85,22 @@ Ang16 Ang16::Fix16_To_Ang16_482740(Fix16& a2)
 MATCH_FUNC(0x4F78F0)
 s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& a1)
 {
-    if (a1 <= dword_6F677C || a1 > word_6F680C) //  45° and 315°
+    if (a1 <= kAng45_6F677C || a1 > kAng315_6F680C) //  45° and 315°
     {
         return 2; //  North
     }
-    if (a1 < dword_6F6800) // dword_6F6800 = 135°
+    if (a1 < kAng135_6F6800) // kAng135_6F6800 = 135°
     {
         return 3; //  East
     }
-    return a1 < word_6F67DC ? 1 : 4; // word_6F67DC = 225°  ,  1 = South, 4 = West
+    return a1 < kAng225_6F67DC ? 1 : 4; // kAng225_6F67DC = 225°  ,  1 = South, 4 = West
 }
 
 MATCH_FUNC(0x405B60)
 Fix16 __stdcall Ang16::NormalizeAngleDeltaScaled_405B60(Ang16& a2, Ang16& a3, Ang16& a4)
 {
     Ang16 d = a3 - a2;
-    if (d > word_669156)
+    if (d > kAng180_669156)
     {
         d = -d;
         return d.divideBy_40E640(a4);

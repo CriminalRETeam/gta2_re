@@ -347,7 +347,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPoi
     {
         Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
-        rotation.sub_406C20();
+        rotation.Normalize_406C20();
 
         pPointer->field_8_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(pCmd->field_18_obj_id,
                                                                         pCmd->field_C_pos.field_0_x,
@@ -359,7 +359,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPoi
     {
         Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
-        rotation.sub_406C20();
+        rotation.Normalize_406C20();
 
         pPointer->field_8_obj = gObject_5C_6F8F84->sub_529BC0(pCmd->field_18_obj_id,
                                                               pCmd->field_C_pos.field_0_x,
@@ -460,7 +460,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
     {
         Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
-        rotation.sub_406C20();
+        rotation.Normalize_406C20();
         pPointer->field_8_car = gCar_6C_677930->SpawnCar_426E10(pCmd->field_C_pos.field_0_x,
                                                                 pCmd->field_C_pos.field_4_y,
                                                                 pCmd->field_C_pos.field_8_z,
@@ -471,7 +471,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
     {
         Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
-        rotation.sub_406C20();
+        rotation.Normalize_406C20();
         pPointer->field_8_car = gCar_6C_677930->SpawnCar_4764A0(pCmd->field_C_pos.field_0_x,
                                                                 pCmd->field_C_pos.field_4_y,
                                                                 pCmd->field_C_pos.field_8_z,
@@ -668,13 +668,13 @@ void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRAN
     {
         Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, (Ang16*)&pBasicCmd->field_24_target_rotation);
-        rotation.sub_406C20();
+        rotation.Normalize_406C20();
         pBasicCmd->field_8_crane->CraneTargetPickupCheck_480900(pBasicCmd->field_1C_target_pos.field_0_x,
                                                                 pBasicCmd->field_1C_target_pos.field_4_y,
                                                                 rotation);
 
         rotation.ConvertAndMultiply(&word_6F8044, (Ang16*)&pBasicCmd->field_26_second_rotation);
-        rotation.sub_406C20();
+        rotation.Normalize_406C20();
         pBasicCmd->field_8_crane->ComputePickupAlignment_480B60(pBasicCmd->field_28_second_pos.field_0_x,
                                                                 pBasicCmd->field_28_second_pos.field_4_y,
                                                                 rotation);
@@ -683,7 +683,7 @@ void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRAN
     {
         Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, (Ang16*)&pTargetCmd->field_18_home_rotation);
-        rotation.sub_406C20();
+        rotation.Normalize_406C20();
         pBasicCmd->field_8_crane->sub_4768E0(rotation);
     }
 

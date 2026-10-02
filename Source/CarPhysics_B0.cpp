@@ -146,9 +146,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE2F8, dword_6FE0C0, 0x6FE2F8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE070, k_dword_6FE210, 0x6FE070);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE3DC, k_dword_6FE210, 0x6FE3DC);
 
-DEFINE_GLOBAL_INIT(Ang16, word_6FE3B8, Ang16(4), 0x6FE3B8); // Only exists so that sub_401CB0 can be called
+DEFINE_GLOBAL_INIT(Ang16, word_6FE3B8, Ang16(4), 0x6FE3B8); // Only exists so that MultiplyByFix16_401CB0 can be called
 
-DEFINE_GLOBAL_INIT(Ang16, word_6FE058, word_6FE3B8.sub_401CB0(Fix16(45)), 0x6FE058);
+DEFINE_GLOBAL_INIT(Ang16, word_6FE058, word_6FE3B8.MultiplyByFix16_401CB0(Fix16(45)), 0x6FE058);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE37C, dword_6FE1C4, 0x6FE37C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE004, Fix16(0x1C00, 0), 0x6FE004);
 
@@ -3834,7 +3834,7 @@ void CarPhysics_B0::SetSprite_563560(Sprite* a2)
 MATCH_FUNC(0x563590)
 void CarPhysics_B0::SnapVelocityToSpriteDirection_563590(Sprite* pSprt)
 {
-    field_40_linvel_1.sub_41E210(field_40_linvel_1.GetLength_2(), pSprt->field_0);
+    field_40_linvel_1.SetFromPolar_41E210(field_40_linvel_1.GetLength_2(), pSprt->field_0);
     CarPhysics_B0::SetSprite_563560(pSprt);
 }
 
