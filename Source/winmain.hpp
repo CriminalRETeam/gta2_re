@@ -11,6 +11,8 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
 EXPORT void __stdcall laughing_blackwell_0x1EB54_sub_5E53C0(BYTE* a1);
 
+void LoadBeginSceneCBPtr();
+
 int __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
 
 EXPORT char __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance);
