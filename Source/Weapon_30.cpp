@@ -65,7 +65,7 @@ Weapon_30::Weapon_30()
     field_C = -1;
     field_20 = 0;
     field_21 = 0;
-    field_2C = 0;
+    field_2C_shot_fired = 0;
     field_28_pSound = 0;
 }
 
@@ -96,7 +96,7 @@ void Weapon_30::init_5DCD90()
     field_8 = 0;
     field_C = -1;
     field_20 = 0;
-    field_2C = 0;
+    field_2C_shot_fired = 0;
     if (!field_28_pSound && !bSkip_audio_67D6BE)
     {
         field_28_pSound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Weapon_30_7);
@@ -218,12 +218,12 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
 
     if (bullet_type == objects::machine_gun_bullet_254 || bullet_type == objects::pistol_bullet_265)
     {
-        pNewBullet->sub_5290C0(field_24_pPed->sub_45BE30());
+        pNewBullet->SetSpriteIdOffset_5290C0(field_24_pPed->sub_45BE30());
     }
 
     if (p5CSprite->CheckSpriteMovementRegion_5A2500())
     {
-        pNewBullet->sub_5290A0();
+        pNewBullet->RequestRemoval_5290A0();
         bAllowFlameSegment_706D60 = 0;
         return NULL;
     }
@@ -260,7 +260,7 @@ void Weapon_30::flamethrower_5DD0F0()
 
     if (!field_4)
     {
-        field_2C = 1;
+        field_2C_shot_fired = 1;
         bAllowFlameSegment_706D60 = 0;
         Weapon_30::spawn_bullet_5DCF60(154, xpos, ypos, cam_z, ped_rot, ped_pos_maybe);
         if (bAllowFlameSegment_706D60)

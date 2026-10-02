@@ -29,7 +29,7 @@ Object_3C::Object_3C()
     this->field_20 = 0;
     this->field_2C = 0;
     this->field_2A = 0;
-    this->field_38 = 0;
+    this->field_38_conveyor_speed = 0;
     this->field_34 = 2;
     this->field_2E = 0;
     this->field_2F = 0;
@@ -58,9 +58,9 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
     WIP_IMPLEMENTED;
     s8 x_related;
     s8 y_related;
-    if (field_38)
+    if (field_38_conveyor_speed)
     {
-        sub_529050(field_38, &x_related, &y_related);
+        UnpackSignedNibbles_529050(field_38_conveyor_speed, &x_related, &y_related);
         Fix16_Point unk(dword_6F8ECC * x_related, dword_6F8ECC * y_related);
         Fix16_Point point = unk + GetSpeedVector_52ADF0();
 

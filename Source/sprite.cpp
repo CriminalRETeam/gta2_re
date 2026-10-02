@@ -656,7 +656,7 @@ char_type Sprite::has_shadows_59EAE0()
     switch (field_30_sprite_type_enum)
     {
         case 3:
-            return field_8_char_b4_ptr->sub_5451C0();
+            return field_8_char_b4_ptr->HasShadows_5451C0();
         case 2:
             return 1;
         case 1:

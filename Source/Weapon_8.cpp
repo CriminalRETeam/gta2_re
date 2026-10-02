@@ -122,7 +122,7 @@ void Weapon_8::dealloc_car_weapon_5E3DF0(Car_BC* pCar)
         {
           Weapon_30* pOldIter = pIter;
           pIter = pIter->mpNext;
-          gWeapon_30_Pool_707014->sub_4A4F20(pOldIter);
+          gWeapon_30_Pool_707014->DeAllocate_4A4F20(pOldIter);
         }
         else
         {
@@ -155,7 +155,7 @@ Weapon_8::Weapon_8()
         }
     }
     field_4_ref_count = 0;
-    field_0.sub_4207E0();
+    field_0.ResetHead_4207E0();
 }
 
 MATCH_FUNC(0x5e3f60)

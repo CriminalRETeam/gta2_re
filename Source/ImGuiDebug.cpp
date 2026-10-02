@@ -1923,7 +1923,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("Obj3C field_2E", obj_3c->field_2E);
                         ImGui::Value("Obj3C field_2F", obj_3c->field_2F);
 
-                        ImGui::Value("Obj3C field_38", obj_3c->field_38);
+                        ImGui::Value("Obj3C field_38", obj_3c->field_38_conveyor_speed);
                         ImGui::Value("Obj3C field_39", obj_3c->field_39);
                         ImGui::Value("Obj3C field_3A", obj_3c->field_3A);
                         ImGui::Value("Obj3C field_3B", obj_3c->field_3B);

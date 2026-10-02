@@ -1166,8 +1166,8 @@ Car_6C::Car_6C()
     field_3C_mission_cars = 0;
     field_44_parked_cars = 0;
 
-    stru_67727C.sub_4207E0();
-    stru_67737C.sub_4207E0();
+    stru_67727C.ResetHead_4207E0();
+    stru_67737C.ResetHead_4207E0();
 
     sub_5639C0();
     sub_447640();
@@ -3264,7 +3264,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
                     }
                     if (pExploder->field_15C_player)
                     {
-                        if (gShooey_CC_67A4B8->sub_485090(this, pExploder->field_15C_player))
+                        if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(this, pExploder->field_15C_player))
                         {
                             if (pExploder->field_20A_wanted_points < 600)
                             {
@@ -3483,7 +3483,7 @@ void Car_BC::sub_43DD60()
                     }
                     if (pPed->field_15C_player)
                     {
-                        if (gShooey_CC_67A4B8->sub_485090(this, pPed->field_15C_player))
+                        if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(this, pPed->field_15C_player))
                         {
                             if (pPed->field_20A_wanted_points >= 600)
                             {

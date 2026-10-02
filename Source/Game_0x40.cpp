@@ -248,7 +248,7 @@ void Game_0x40::BootGame_4B8EB0()
     gSprite_8_703820->sub_5A5870();
     gTileAnim_2_7052C4->Empty_5BC300();
     gPublicTransport_181C_6FF1D4->SetupTrainAndBusStops_5794B0();
-    gObject_5C_6F8F84->sub_5297F0();
+    gObject_5C_6F8F84->CreateDiagonalWallObjects_5297F0();
     PedGroup::ResetAllGroups_4CB080();
     if (bDo_mike_67D5CC)
     {
@@ -508,7 +508,7 @@ void Game_0x40::UpdateGame_4B9410()
 
     if (!bExplodingScoresOff_67D4FB)
     {
-        gExplodingScorePool->sub_596940();
+        gExplodingScorePool->Update_596940();
     }
 
     if (bDo_show_junc_ids_67D5B0)

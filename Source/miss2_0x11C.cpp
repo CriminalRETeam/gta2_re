@@ -712,7 +712,7 @@ void miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* pCmd, SCR_POINT
                                                                     pCmd->field_C_rect.field_C_size.field_4_y,
                                                                     dword_6F77C4);
 
-    pPointer->field_8_obj->sub_529030(pCmd->field_18_speed.field_0_x, pCmd->field_18_speed.field_1_y);
+    pPointer->field_8_obj->SetConveyorSpeed_529030(pCmd->field_18_speed.field_0_x, pCmd->field_18_speed.field_1_y);
 }
 
 MATCH_FUNC(0x504420)
@@ -1274,7 +1274,7 @@ void miss2_0x11C::SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* pCmd, SCR_POINTER
 {
     if (!pCmd->field_19_play_type)
     {
-        pPointer->field_8_obj = gObject_5C_6F8F84->sub_5299F0(objects::sound_object_type_1_278,
+        pPointer->field_8_obj = gObject_5C_6F8F84->NewWithVarrokIdx_5299F0(objects::sound_object_type_1_278,
                                                               pCmd->field_18_sound_id,
                                                               pCmd->field_C_pos.field_0_x,
                                                               pCmd->field_C_pos.field_4_y,
@@ -1282,7 +1282,7 @@ void miss2_0x11C::SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* pCmd, SCR_POINTER
     }
     else
     {
-        pPointer->field_8_obj = gObject_5C_6F8F84->sub_5299F0(objects::sound_object_type_2_279,
+        pPointer->field_8_obj = gObject_5C_6F8F84->NewWithVarrokIdx_5299F0(objects::sound_object_type_2_279,
                                                               pCmd->field_18_sound_id,
                                                               pCmd->field_C_pos.field_0_x,
                                                               pCmd->field_C_pos.field_4_y,

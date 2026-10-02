@@ -37,7 +37,7 @@ class Object_2C
     EXPORT char_type SelectCollisionSprite_522460(Sprite* a2);
     EXPORT void SetMovementVector_5224E0(Fix16_Point& speed);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& a2);
-    EXPORT void sub_5226A0(char_type a2);
+    EXPORT void SetConveyorPush_5226A0(char_type a2);
     EXPORT void ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3);
     EXPORT void ResolveCollisionWithPed_5229B0(Char_B4* a2, Fix16_Point* a3, s32 a4);
     EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* a2, Fix16_Point* a3, Fix16_Point* speed);
@@ -70,7 +70,7 @@ class Object_2C
     EXPORT void Light_527990();
     EXPORT void AssignToBucket_527AE0();
     EXPORT void RemoveFromCollisionBuckets_527D00();
-    EXPORT void sub_527F10();
+    EXPORT void ReleaseSubObjects_527F10();
     EXPORT void NewObj3C_528130(Fix16_Point& speed);
     EXPORT char_type HandleRotationStateTransition_528240(s32 a2, s32 a3);
     EXPORT void TickObject_5283C0(s32 a2);
@@ -83,14 +83,14 @@ class Object_2C
     EXPORT void HandleImpactNoSprite_528BA0();
     EXPORT void HandleImpact_528E50(Sprite* a3);
     EXPORT void HandleCollisionWithObject_529000(Object_2C* pObj);
-    EXPORT void sub_529030(s8 speed_x, s8 speed_y);
-    EXPORT void sub_529070(Object_2C* pObj);
+    EXPORT void SetConveyorSpeed_529030(s8 speed_x, s8 speed_y);
+    EXPORT void ApplyConveyorSpeedFrom_529070(Object_2C* pObj);
     EXPORT s32 GetExplosionSideFromDiagonalWall_529210();
     EXPORT s32 sub_529240();
     EXPORT void get_weapon_default_ammo_5292D0();
     EXPORT void SetDamageOwner_529080(u8 a2);
-    EXPORT void sub_5290A0();
-    EXPORT void sub_5290B0();
+    EXPORT void RequestRemoval_5290A0();
+    EXPORT void RequestRemovalWhenOffScreen_5290B0();
     EXPORT void Dealloc_5291B0();
     EXPORT void sub_5291D0();
     EXPORT void sub_5291E0(u8 a2);
@@ -102,7 +102,7 @@ class Object_2C
     EXPORT Fix16_Point GetSpeedVector_52AE90();
 
     // TODO: ordering
-    EXPORT void sub_5290C0(u8 id_base);
+    EXPORT void SetSpriteIdOffset_5290C0(u8 id_base);
     EXPORT Fix16 sub_5290F0();
     EXPORT char sub_525AC0();
     EXPORT void UpdateEffectPool_525B20();
@@ -192,7 +192,7 @@ class Object_2C
     inline void PoolAllocate()
     {
         field_14_id = gObj2C_id_623EC0++;
-        field_25 = 0;
+        field_25_removal_state = 0;
         field_26_varrok_idx = 99;
         field_10_obj_3c = 0;
         field_C_pAny.o8 = 0;
@@ -255,7 +255,7 @@ class Object_2C
     char_type field_1F;
     s32 field_20;
     u8 field_24_bDoneThisFrame;
-    u8 field_25;
+    u8 field_25_removal_state;
     u8 field_26_varrok_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
     char_type field_27;
     char_type field_28;
@@ -269,15 +269,15 @@ struct TurkishDelight_164;
 class Object_5C
 {
   public:
-    EXPORT void sub_529300();
+    EXPORT void TrimSpriteList_529300();
     EXPORT void ObjectsService_5293A0();
     EXPORT Object_5C();
     EXPORT ~Object_5C();
-    EXPORT void sub_5297F0();
+    EXPORT void CreateDiagonalWallObjects_5297F0();
     EXPORT Object_2C* GetDirectionalObject_5298E0(s32 a2);
     EXPORT Object_2C* NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth);
     EXPORT Object_2C* NewPhysicsObj_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
-    EXPORT Object_2C* sub_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6);
+    EXPORT Object_2C* NewWithVarrokIdx_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6);
     EXPORT Object_2C* NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
     EXPORT Object_2C* NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
     EXPORT Object_2C* sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);

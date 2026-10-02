@@ -56,7 +56,7 @@ void TrafficLight_20::sub_5C1D00(u8 x, u8 y, u8 w, u8 h)
                                                           Fix16(y + (h / 2)),
                                                           zpos + dword_7055E0,
                                                           word_705788);
-        field_8_west_headlight_obj->sub_5290C0(0);
+        field_8_west_headlight_obj->SetSpriteIdOffset_5290C0(0);
         field_18_west_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x) - dword_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, dword_705850, 200);
     }
     else
@@ -74,7 +74,7 @@ void TrafficLight_20::sub_5C1D00(u8 x, u8 y, u8 w, u8 h)
                                                           Fix16(y + (h / 2)),
                                                           zpos + dword_7055E0,
                                                           word_705690);
-        field_C_east_headlight_obj->sub_5290C0(0);
+        field_C_east_headlight_obj->SetSpriteIdOffset_5290C0(0);
         field_1C_east_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + w) + dword_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, dword_705850, 200);
     }
     else
@@ -92,7 +92,7 @@ void TrafficLight_20::sub_5C1D00(u8 x, u8 y, u8 w, u8 h)
                                                           Fix16(y),
                                                           zpos + dword_7055E0,
                                                           word_705762);
-        field_0_north_headlight_obj->sub_5290C0(0);
+        field_0_north_headlight_obj->SetSpriteIdOffset_5290C0(0);
         field_10_north_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + (w / 2)), Fix16(y) - dword_7055E4, zpos, 0x00FF00, dword_705850, 200);
     }
     else
@@ -109,7 +109,7 @@ void TrafficLight_20::sub_5C1D00(u8 x, u8 y, u8 w, u8 h)
                                                           Fix16(y + h) + dword_7055E4 + dword_7055FC,
                                                           zpos + dword_7055E0,
                                                           word_705948);
-        field_4_south_headlight_obj->sub_5290C0(0);
+        field_4_south_headlight_obj->SetSpriteIdOffset_5290C0(0);
         field_14_south_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + (w / 2)), Fix16(y + h) + dword_7055E4, zpos, 0x00FF00, dword_705850, 200);
     }
     else
@@ -211,13 +211,13 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
         case 1u:
             if (field_0_north_headlight_obj)
             {
-                field_0_north_headlight_obj->sub_5290C0(1u);
+                field_0_north_headlight_obj->SetSpriteIdOffset_5290C0(1u);
                 field_10_north_light->field_10_argb = 0xFF00;
             }
 
             if (field_4_south_headlight_obj)
             {
-                field_4_south_headlight_obj->sub_5290C0(1u);
+                field_4_south_headlight_obj->SetSpriteIdOffset_5290C0(1u);
                 field_14_south_light->field_10_argb = 0xFF00;
             }
             break;
@@ -225,13 +225,13 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
         case 2u:
             if (field_0_north_headlight_obj)
             {
-                field_0_north_headlight_obj->sub_5290C0(2u);
+                field_0_north_headlight_obj->SetSpriteIdOffset_5290C0(2u);
                 field_10_north_light->field_10_argb = 0xFF8000;
             }
 
             if (field_4_south_headlight_obj)
             {
-                field_4_south_headlight_obj->sub_5290C0(2u);
+                field_4_south_headlight_obj->SetSpriteIdOffset_5290C0(2u);
                 field_14_south_light->field_10_argb = 0xFF8000;
             }
             break;
@@ -239,13 +239,13 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
         case 3u:
             if (field_0_north_headlight_obj)
             {
-                field_0_north_headlight_obj->sub_5290C0(0);
+                field_0_north_headlight_obj->SetSpriteIdOffset_5290C0(0);
                 field_10_north_light->field_10_argb = 0xFF0000;
             }
 
             if (field_4_south_headlight_obj)
             {
-                field_4_south_headlight_obj->sub_5290C0(0);
+                field_4_south_headlight_obj->SetSpriteIdOffset_5290C0(0);
                 field_14_south_light->field_10_argb = 0xFF0000;
             }
             break;
@@ -253,13 +253,13 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
         case 4u:
             if (field_C_east_headlight_obj)
             {
-                field_C_east_headlight_obj->sub_5290C0(1u);
+                field_C_east_headlight_obj->SetSpriteIdOffset_5290C0(1u);
                 field_1C_east_light->field_10_argb = 0xFF00;
             }
 
             if (field_8_west_headlight_obj)
             {
-                field_8_west_headlight_obj->sub_5290C0(1u);
+                field_8_west_headlight_obj->SetSpriteIdOffset_5290C0(1u);
                 field_18_west_light->field_10_argb = 0xFF00;
             }
             break;
@@ -267,13 +267,13 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
         case 5u:
             if (field_C_east_headlight_obj)
             {
-                field_C_east_headlight_obj->sub_5290C0(2u);
+                field_C_east_headlight_obj->SetSpriteIdOffset_5290C0(2u);
                 field_1C_east_light->field_10_argb = 0xFF8000;
             }
 
             if (field_8_west_headlight_obj)
             {
-                field_8_west_headlight_obj->sub_5290C0(2u);
+                field_8_west_headlight_obj->SetSpriteIdOffset_5290C0(2u);
                 field_18_west_light->field_10_argb = 0xFF8000;
             }
             break;
@@ -281,13 +281,13 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
         case 6u:
             if (field_C_east_headlight_obj)
             {
-                field_C_east_headlight_obj->sub_5290C0(0);
+                field_C_east_headlight_obj->SetSpriteIdOffset_5290C0(0);
                 field_1C_east_light->field_10_argb = 0xFF0000;
             }
 
             if (field_8_west_headlight_obj)
             {
-                field_8_west_headlight_obj->sub_5290C0(0);
+                field_8_west_headlight_obj->SetSpriteIdOffset_5290C0(0);
                 field_18_west_light->field_10_argb = 0xFF0000;
             }
             break;

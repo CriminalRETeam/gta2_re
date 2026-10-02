@@ -58,7 +58,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
                     if (pIter->field_0_obj->field_14_id == pIter->field_8_uni2)
                     {
                         pIter->field_0_obj->Dealloc_5291B0();
-                        pIter->field_0_obj->sub_5290B0();
+                        pIter->field_0_obj->RequestRemovalWhenOffScreen_5290B0();
                     }
                     break;
                 case 3:

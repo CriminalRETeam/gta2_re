@@ -406,7 +406,7 @@ class Ped
 
     inline void Set_B4_F16_To_1_433B50()
     {
-        field_168_game_object->field_16 = 1;
+        field_168_game_object->field_16_state_init_pending = 1;
     }
 
     inline s8 get_remap_433BA0()
