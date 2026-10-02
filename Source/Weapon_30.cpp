@@ -1101,7 +1101,7 @@ void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
         do
         {
             Sprite* pHit = hits.PopFrontSprite_5A6DA0();
-            switch (pHit->field_30_sprite_type_enum)
+            switch (pHit->get_type_416B40())
             {
                 case sprite_types_enum::ped_3:
                     if (pHit != a3 && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
