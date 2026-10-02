@@ -2221,13 +2221,13 @@ void NetPlay::SendToAll_521B20(Network_8* pSendData)
     memset(&pStru, 0, sizeof(pStru));
     pStru.header.field_4_sub_type = 3;
     pStru.header.field_0_type = 1;
-    pStru.field_8 = field_758_n2.field_8[field_5D4_player_idx];
+    pStru.field_8 = field_758_n2.field_8[GetPlayerIdx_409C40()];
     pStru.field_9 = 1;
     pStru.field_D = (s32)pSendData->field_0;
     pStru.field_11_len = pSendData->field_4_len;
     NetPlay::MakeSendData_51F420(&pStru, &pData, &dataLen);
     field_5E4_pDPlay3->Send(field_5D8_player_id, 0, 0, (void*)pData, dataLen);
-    const s32 player_idx = field_5D4_player_idx;
+    const s32 player_idx = GetPlayerIdx_409C40();
     field_758_n2.field_8[player_idx] = ((u8)field_758_n2.field_8[player_idx] + 1) % 256;
 }
 
