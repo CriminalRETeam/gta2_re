@@ -2875,7 +2875,7 @@ void MapRenderer::RenderFlatBlock_4F66C0()
 MATCH_FUNC(0x4f6880)
 void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
 {
-    gmp_block_info* pBlock = gMap_0x370_6F6268->sub_4DFEE0(pXCoord, pYCoord, gZCoord_6F63E0);
+    gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlockClamped_4DFEE0(pXCoord, pYCoord, gZCoord_6F63E0);
     gpBlock_6F6478 = pBlock;
     if (pBlock)
     {

@@ -107,9 +107,9 @@ class MapRenderer
 
     inline u32 update_and_get_gradient_direction(u32 idx)
     {
-        dword_6F6480 = byte_6F5BA8[idx].field_1_gradient_size;
-        dword_6F647C = byte_6F5BA8[idx].field_2_gradient_level;
-        dword_6F646C.field_0_gradient_direction = byte_6F5BA8[idx].field_0_gradient_direction;
+        dword_6F6480 = gGmpSlopes_6F5BA8[idx].field_1_gradient_size;
+        dword_6F647C = gGmpSlopes_6F5BA8[idx].field_2_gradient_level;
+        dword_6F646C.field_0_gradient_direction = gGmpSlopes_6F5BA8[idx].field_0_gradient_direction;
         return dword_6F646C.field_0_gradient_direction;
     }
 

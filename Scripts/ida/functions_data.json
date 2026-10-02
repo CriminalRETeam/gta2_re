@@ -7230,7 +7230,7 @@
         "v105_address": "0x4df5c0"
     },
     {
-        "name": "Map_0x370::sub_4DF6A0",
+        "name": "Map_0x370::first_zone_by_pos_4DF6A0",
         "v96f_address": null,
         "v105_address": "0x4df6a0"
     },
@@ -7350,17 +7350,17 @@
         "v105_address": "0x4dfe60"
     },
     {
-        "name": "Map_0x370::sub_4DFEE0",
+        "name": "Map_0x370::GetBlockClamped_4DFEE0",
         "v96f_address": null,
         "v105_address": "0x4dfee0"
     },
     {
-        "name": "Map_0x370::sub_4DFF60",
+        "name": "Map_0x370::GetLeftEdgeSpec_4DFF60",
         "v96f_address": null,
         "v105_address": "0x4dff60"
     },
     {
-        "name": "Map_0x370::sub_4E0000",
+        "name": "Map_0x370::GetTopEdgeSpec_4E0000",
         "v96f_address": null,
         "v105_address": "0x4e0000"
     },
@@ -7385,17 +7385,17 @@
         "v105_address": "0x4e0130"
     },
     {
-        "name": "Map_0x370::sub_4E11E0",
+        "name": "Map_0x370::RectHitsDiagonalWall_4E11E0",
         "v96f_address": null,
         "v105_address": "0x4e11e0"
     },
     {
-        "name": "Map_0x370::sub_4E1520",
+        "name": "Map_0x370::SpriteHitsDiagonalWall_4E1520",
         "v96f_address": null,
         "v105_address": "0x4e1520"
     },
     {
-        "name": "Map_0x370::sub_4E18A0",
+        "name": "Map_0x370::HasWallInArea_4E18A0",
         "v96f_address": "0x466380",
         "v105_address": "0x4e18a0"
     },
@@ -7455,7 +7455,7 @@
         "v105_address": "0x4e4c30"
     },
     {
-        "name": "Map_0x370::sub_4E4CB0",
+        "name": "Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0",
         "v96f_address": null,
         "v105_address": "0x4e4cb0"
     },
@@ -7480,7 +7480,7 @@
         "v105_address": "0x4e5050"
     },
     {
-        "name": "Map_0x370::sub_4E5170",
+        "name": "Map_0x370::IsZOnGround_4E5170",
         "v96f_address": null,
         "v105_address": "0x4e5170"
     },
@@ -7535,7 +7535,7 @@
         "v105_address": "0x4e5e00"
     },
     {
-        "name": "gmp_block_info::sub_4E5E90",
+        "name": "gmp_block_info::HasGreenArrowForPathDirection_4E5E90",
         "v96f_address": null,
         "v105_address": "0x4e5e90"
     },
@@ -7555,7 +7555,7 @@
         "v105_address": "0x4e6280"
     },
     {
-        "name": "Fix16::sub_4E62B0",
+        "name": "Fix16::FloorPlusOne_4E62B0",
         "v96f_address": null,
         "v105_address": "0x4e62b0"
     },
@@ -7570,7 +7570,7 @@
         "v105_address": "0x4e6360"
     },
     {
-        "name": "Map_0x370::sub_4E6400",
+        "name": "Map_0x370::GetRailwayZBelowCoord_4E6400",
         "v96f_address": null,
         "v105_address": "0x4e6400"
     },
@@ -7595,7 +7595,7 @@
         "v105_address": "0x4e7190"
     },
     {
-        "name": "Map_0x370::sub_4E7E90",
+        "name": "Map_0x370::FindFirstPavementCoord_4E7E90",
         "v96f_address": null,
         "v105_address": "0x4e7e90"
     },
@@ -7605,32 +7605,32 @@
         "v105_address": "0x4e7fc0"
     },
     {
-        "name": "gmp_compressed_map_32::sub_4E80A0",
+        "name": "gmp_compressed_map_32::ApplyDmapInfos_4E80A0",
         "v96f_address": "0x463940",
         "v105_address": "0x4e80a0"
     },
     {
-        "name": "Map_sub::sub_4E80E0",
+        "name": "Map_sub::AddOrUpdateDmapInfo_4E80E0",
         "v96f_address": "0x463990",
         "v105_address": "0x4e80e0"
     },
     {
-        "name": "Map_0x370::sub_4E8140",
+        "name": "Map_0x370::AddBlock_4E8140",
         "v96f_address": null,
         "v105_address": "0x4e8140"
     },
     {
-        "name": "Map_0x370::sub_4E8180",
+        "name": "Map_0x370::CloneOriginalBlock_4E8180",
         "v96f_address": null,
         "v105_address": "0x4e8180"
     },
     {
-        "name": "Map_0x370::sub_4E81D0",
+        "name": "Map_0x370::CloneOriginalColumn_4E81D0",
         "v96f_address": "0x463A90",
         "v105_address": "0x4e81d0"
     },
     {
-        "name": "Map_0x370::sub_4E8220",
+        "name": "Map_0x370::CloneColumnExtendedToZ_4E8220",
         "v96f_address": "0x463AE0",
         "v105_address": "0x4e8220"
     },
@@ -7665,12 +7665,12 @@
         "v105_address": "0x4e8b70"
     },
     {
-        "name": "Map_0x370::sub_4E8C00",
+        "name": "Map_0x370::OnModifiedMapDataLoaded_4E8C00",
         "v96f_address": "0x464250",
         "v105_address": "0x4e8c00"
     },
     {
-        "name": "Map_0x370::sub_4E8CF0",
+        "name": "Map_0x370::GetModifiedMapData_4E8CF0",
         "v96f_address": null,
         "v105_address": "0x4e8cf0"
     },
@@ -7680,12 +7680,12 @@
         "v105_address": "0x4e8e30"
     },
     {
-        "name": "Map_0x370::sub_4E90E0",
+        "name": "Map_0x370::build_zone_list_4E90E0",
         "v96f_address": "0x4644e0",
         "v105_address": "0x4e90e0"
     },
     {
-        "name": "Map_0x370::sub_4E9160",
+        "name": "Map_0x370::AddTileAnimations_4E9160",
         "v96f_address": null,
         "v105_address": "0x4e9160"
     },

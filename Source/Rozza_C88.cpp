@@ -45,13 +45,13 @@ void Rozza_A::sub_40B890(Car_BC* pCar)
         case 1:
             field_0 = 5;
             field_20_map_block_spec =
-                gMap_0x370_6F6268->sub_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
+                gMap_0x370_6F6268->GetTopEdgeSpec_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
             break;
 
         case 2:
             field_0 = 5;
             field_20_map_block_spec =
-                gMap_0x370_6F6268->sub_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
+                gMap_0x370_6F6268->GetLeftEdgeSpec_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
             break;
 
         case 3:
@@ -94,13 +94,13 @@ void Rozza_A::sub_40B980()
         case 1:
             field_0 = 8;
             field_20_map_block_spec =
-                gMap_0x370_6F6268->sub_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
+                gMap_0x370_6F6268->GetTopEdgeSpec_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
             break;
 
         case 2:
             field_0 = 8;
             field_20_map_block_spec =
-                gMap_0x370_6F6268->sub_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
+                gMap_0x370_6F6268->GetLeftEdgeSpec_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
             break;
 
         case 3:
@@ -149,14 +149,14 @@ bool Rozza_A::sub_40BA60(Object_2C* pObj)
         case 1:
             field_0 = 10;
             field_20_map_block_spec =
-                gMap_0x370_6F6268->sub_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
+                gMap_0x370_6F6268->GetTopEdgeSpec_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
 
             break;
 
         case 2:
             field_0 = 10;
             field_20_map_block_spec =
-                gMap_0x370_6F6268->sub_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
+                gMap_0x370_6F6268->GetLeftEdgeSpec_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
 
             break;
 

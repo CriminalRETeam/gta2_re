@@ -30,7 +30,7 @@ void Garage_48::ValidateParkCommand_534650()
     Fix16 v4(this->field_10->field_0_primary_door_data->field_6_z);
     v4 = v4 + dword_6FCF60;
 
-    if (gMap_0x370_6F6268->sub_4E18A0(field_18.ToInt(),
+    if (gMap_0x370_6F6268->HasWallInArea_4E18A0(field_18.ToInt(),
                                       (field_20 - dword_6FD1D8).ToInt(),
                                       field_1C.ToInt(),
                                       (field_24 - dword_6FD1D8).ToInt(),
