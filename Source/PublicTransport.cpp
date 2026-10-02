@@ -106,11 +106,18 @@ gmp_map_zone* __stdcall FindStationZoneByName_577EE0(char_type* pChar, u8 case_v
     return pZone;
 }
 
-WIP_FUNC(0x578030)
+// 9.6f 0x421510 (Car_BC member there), inlined
+static inline void EnsureAI_421510(Car_BC* pCar)
+{
+    if (!pCar->field_5C_AI)
+    {
+        pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
+    }
+}
+
+MATCH_FUNC(0x578030)
 void Train_58::ReassignTrainHead_578030()
 {
-    WIP_IMPLEMENTED;
-
     if (!bSkip_trains_67D550)
     {
         Car_BC* pFirst = this->field_C_carriages[0];
@@ -152,11 +159,7 @@ void Train_58::ReassignTrainHead_578030()
         }
         pFirst->field_54_driver = 0;
 
-        // 9.6f: Car_BC::sub_421510
-        if (!this->field_C_carriages[0]->field_5C_AI)
-        {
-            this->field_C_carriages[0]->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-        }
+        EnsureAI_421510(this->field_C_carriages[0]);
 
         this->field_C_carriages[0]->field_5C_AI->SetCar_453BF0(this->field_C_carriages[0]);
 
