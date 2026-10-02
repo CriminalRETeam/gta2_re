@@ -11699,11 +11699,9 @@ void Ped::HandleWeaponFireEnd_46FFF0(s32 model)
     }
 }
 
-WIP_FUNC(0x470050)
+MATCH_FUNC(0x470050)
 void Ped::AimRoofGun_470050()
 {
-    WIP_IMPLEMENTED;
-
     Sprite_18* pHit = 0;
     if (field_16C_car->IsFireTruck_4118F0())
     {
