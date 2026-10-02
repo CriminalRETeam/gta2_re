@@ -580,10 +580,9 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
 }
 
 // https://decomp.me/scratch/PMCb4
-WIP_FUNC(0x522d00)
+MATCH_FUNC(0x522d00)
 void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint)
 {
-    WIP_IMPLEMENTED;
     u8 v9;
     Fix16_Point v12;
     Fix16_Point t2;
