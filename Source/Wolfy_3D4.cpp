@@ -644,7 +644,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                             }
                         }
                     }
-                    else if (pCar->field_74_damage != 32001)
+                    else if (!pCar->IsMaxDamage_40F890())
                     {
                         if (!pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type_or_state))
                         {
