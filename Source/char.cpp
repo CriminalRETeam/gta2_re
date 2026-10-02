@@ -6969,19 +6969,13 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
     }
 }
 
-WIP_FUNC(0x553E00)
+MATCH_FUNC(0x553E00)
 void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5)
 {
-    WIP_IMPLEMENTED;
 
-    u16 damageToUse;
     if (field_7C_pPed->field_208_invulnerability > 0)
     {
-        damageToUse = 0;
-    }
-    else
-    {
-        damageToUse = a5;
+        a5 = 0;
     }
 
     if (field_7C_pPed->GetPedState_403990() != ped_state_1::dead_9)
@@ -7003,7 +6997,7 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_typ
         field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(field_7C_pPed->field_267_varrok_idx);
         field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
 
-        switch (damageToUse)
+        switch (a5)
         {
             case 0:
                 field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
