@@ -266,6 +266,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
             break;
     }
 
+    // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined, using it makes the diff worse)
     Fix16 sin = Ang16::sine_40F500(field_24_angle);
     Fix16 cos = Ang16::cosine_40F520(field_24_angle);
     Fix16 old_x = dir.x;
@@ -301,25 +302,25 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     {
         case 0:
         case 1:
-            field_30_pNext->field_2C_flags = 0x51;
+            field_30_pNext->SetFlags_4337D0(1, 10);
             break;
         case 2:
-            field_30_pNext->field_2C_flags = 0x51;
+            field_30_pNext->SetFlags_4337D0(1, 10);
             break;
         case 3:
-            field_30_pNext->field_2C_flags = 0x52;
+            field_30_pNext->SetFlags_4337D0(2, 10);
             break;
         case 4:
-            field_30_pNext->field_2C_flags = 0x7A;
+            field_30_pNext->SetFlags_4337D0(2, 15);
             break;
         case 5:
-            field_30_pNext->field_2C_flags = 0xA2;
+            field_30_pNext->SetFlags_4337D0(2, 20);
             break;
         case 6:
-            field_30_pNext->field_2C_flags = 0xCA;
+            field_30_pNext->SetFlags_4337D0(2, 25);
             break;
         case 7:
-            field_30_pNext->field_2C_flags = 0xF2;
+            field_30_pNext->SetFlags_4337D0(2, 30);
             break;
     }
 

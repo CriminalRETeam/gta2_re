@@ -446,6 +446,12 @@ class Sprite
         this->field_2C_flags |= 4u;
     }
 
+    // 9.6f 0x4337D0
+    void SetFlags_4337D0(u8 low_bits, u8 high_bits)
+    {
+        this->field_2C_flags = (high_bits << 3) | low_bits;
+    }
+
     // 9.6f inline 0x420690
     inline void set_ang_lazy_420690(Ang16 a1)
     {
