@@ -1071,16 +1071,13 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     {
         return;
     }
-    gRozza_679188.field_0_type = 0;
-    gRozza_679188.field_20_pSprite = 0;
-    gRozza_679188.field_24 = 0;
+    gRozza_679188.sub_4637B0();
 
     v5->set_xyz_lazy_420600(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
     v5->set_ang_lazy_420690(field_4->field_0);
     v5->AllocInternal_59F950(this->field_8->field_0, this->field_8->field_4, this->field_8->field_8);
-    v5->field_30_sprite_type_enum = this->field_4->field_30_sprite_type_enum;
-    v5->sub_59E960();
-    v5->field_8_pSprite = this->field_4->field_8_pSprite;
+    v5->SetType_4206F0(this->field_4->get_type_416B40());
+    v5->SetObj2C_482A30(this->field_4->field_8_object_2C_ptr);
 
     Fix16 v11;
     Fix16 v52;
@@ -1101,8 +1098,9 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         v52 = a2;
     }
 
-    Fix16 v53 = (v52 * gSin_table_667A80[a3.rValue]);
-    Fix16 v13 = (v52 * gCos_table_669260[a3.rValue]);
+    Fix16 v53;
+    Fix16 v13;
+    Ang16::PolarToCartesian_41FC20(a3, v52, v53, v13);
 
     u8 a2_ = 1;
     //v59.x = v13;
@@ -1122,10 +1120,6 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     Fix16 v57;
     Fix16 v61;
 
-    gmp_block_info* block_4DFE10;
-    gmp_block_info* v23;
-    gmp_block_info* v25;
-
     while (1)
     {
         v61 = v5->field_14_xy.x;
@@ -1133,42 +1127,28 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         v57 = v5->field_14_xy.y;
         field_10_obj_3c->field_2A = 0;
 
-        block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
-        if (block_4DFE10)
+        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt()))
         {
-            if ((block_4DFE10->field_B_slope_type & 0xFC) != 0 && (block_4DFE10->field_B_slope_type & 0xFCu) < 0xB4 &&
-                (block_4DFE10->field_B_slope_type & 3) != 0)
-            {
-                v50 = 1;
-            }
+            v50 = 1;
         }
 
         v5->set_xy_lazy_447E20(v5->field_14_xy.x + v53, v5->field_14_xy.y + v13);
         v5->set_ang_lazy_420690(a3);
 
-        v23 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
-        if (v23)
+        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt()))
         {
-            if ((v23->field_B_slope_type & 0xFC) != 0 && (v23->field_B_slope_type & 0xFCu) < 0xB4 && (v23->field_B_slope_type & 3) != 0)
-            {
-                Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
-            }
+            Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
         }
 
-        v25 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(),
-                                                  v5->field_14_xy.y.ToInt(),
-                                                  (v5->field_1C_zpos - dword_6F8E14).ToInt());
-        if (!v25 || (v25->field_B_slope_type & 3) == 0)
+        if (!gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(v5->field_14_xy.x.ToInt(),
+                                                           v5->field_14_xy.y.ToInt(),
+                                                           (v5->field_1C_zpos - dword_6F8E14).ToInt()))
         {
-            gmp_block_info* v26 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(),
-                                                                      v5->field_14_xy.y.ToInt(),
-                                                                      (v5->field_1C_zpos - dword_6F8E14).ToInt());
-            if (v26)
+            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(),
+                                                            v5->field_14_xy.y.ToInt(),
+                                                            (v5->field_1C_zpos - dword_6F8E14).ToInt()))
             {
-                if ((v26->field_B_slope_type & 0xFC) != 0 && (v26->field_B_slope_type & 0xFCu) < 0xB4 && (v26->field_B_slope_type & 3) != 0)
-                {
-                    Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
-                }
+                Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
             }
         }
 
@@ -1185,7 +1165,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         v5->field_1C_zpos = v5->field_1C_zpos.GetRoundValue();
         if (v5->field_1C_zpos > dword_6F8D10)
         {
-            v5->field_1C_zpos = v5->field_1C_zpos + Fix16(0x4000, 0);
+            v5->field_1C_zpos++;
         }
 
         if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
