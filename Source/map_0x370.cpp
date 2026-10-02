@@ -873,23 +873,13 @@ DWORD Map_0x370::GetLeftEdgeSpec_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_co
     gmp_block_info* pBlock1 = get_block_4DFE10((x_coord - kFpOne_6F6110).ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock1 && pBlock1->field_2_right != 0)
     {
-        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock1->field_2_right)];
-        if (spec == tile_spec::road_junction_special)
-        {
-            return 1;
-        }
-        return spec;
+        return gGtx_0x106C_703DD4->sub_462FD0(get_tile_idx(pBlock1->field_2_right));
     }
 
     gmp_block_info* pBlock2 = get_block_4DFE10(x_coord.ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock2 && pBlock2->field_0_left != 0)
     {
-        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock2->field_0_left)];
-        if (spec == tile_spec::road_junction_special)
-        {
-            return 1;
-        }
-        return spec;
+        return gGtx_0x106C_703DD4->sub_462FD0(get_tile_idx(pBlock2->field_0_left));
     }
 
     return 0;
