@@ -217,7 +217,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4E1520 | `Map_0x370::sub_4E1520` | 0x466170 | `sub_432860`, `sub_4BB9C0`, `sub_4828F0`, `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `sub_40FEE0` | todo |  |
 | 0x4E1A30 | `Map_0x370::sub_4E1A30` | 0x466430 | ✓ `sub_4634B0`, `sub_463480` | todo |  |
 | 0x4E1E00 | `Map_0x370::CanSpriteEnterTile_4E1E00` | 0x46A570 | `sub_466CF0` | todo |  |
-| 0x4E4820 | `Map_0x370::sub_4E4820` | 0x4667E0 | `sub_45ADB0`, ✓ `sub_410BF0`, `sub_45ADA0`, `sub_45ADC0`, `sub_45ADD0`, `sub_4637A0` | todo |  |
+| 0x4E4820 | `Map_0x370::sub_4E4820` | 0x4667E0 | `sub_45ADB0`, ✓ `sub_410BF0`, `sub_45ADA0`, `sub_45ADC0`, `sub_45ADD0`, `sub_4637A0` | matched | Fix16_Rect getters return a copy like 9.6f (0x45ADA0-0x45ADD0), + get_low_z_4637A0; order left,right,top,bottom |
 | 0x4E5640 | `Map_0x370::sub_4E5640` | 0x469F90 | ✓ `sub_4637B0`, `sub_40E8D0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `PolarToCartesian_41FC20`, ✓ `sub_420420`, ✓ `sub_466CF0`, `sub_4BD670` | todo |  |
 | 0x4E6190 | `Map_0x370::sub_4E6190` | 0x466D30 | ✓ `sub_466CF0` | todo |  |
 | 0x4E7190 | `Map_0x370::sub_4E7190` | 0x467F80 | `sub_463150`, `sub_463210`, `ProcessObjective_4632E0`, `sub_42A660` | todo |  |
@@ -342,7 +342,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x579CA0 | `PublicTransport_181C::BusesService_579CA0` | 0x4B0F20 | ✓ `sub_433470`, ✓ `sub_4334A0`, ✓ `sub_4334D0`, ✓ `sub_433500`, ✓ `sub_421510`, ✓ `Car_BC::sub_421560`, ✓ `sub_426E00`, `sub_4118D0`, ✓ `cool_nash_0x294::get_occupation_403980`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403920`, `Car_BC::sub_421D90`, ✓ `sub_4A9AD0`, ✓ `sub_421470`, ✓ `sub_4215B0` | todo |  |
 | 0x57A7A0 | `PublicTransport_181C::PublicTransportService_57A7A0` | 0x4B1560 | `sub_4118D0`, ✓ `Car_BC::sub_421560`, `ApplyCarVelocityCameraOffset_436200`, `sub_4AF290`, `sub_4AF860`, `sub_4AF880` | todo |  |
 | 0x57DD50 | `sound_obj::ProcessType3_CopRadioAndMusic_57DD50` | 0x4B2D50 | `sub_4A65E0`, `sub_4B25A0`, ✓ `IsMaxDamage_40F890`, `sub_4B25D0` | todo |  |
-| 0x57E220 | `sound_obj::sub_57E220` | 0x4B1E40 | `sub_4A65E0`, `Car_BC::sub_41E450`, `Car_BC::sub_41E440`, `Car_BC::sub_41E430` | todo |  |
+| 0x57E220 | `sound_obj::sub_57E220` | 0x4B1E40 | `sub_4A65E0`, `Car_BC::sub_41E450`, `Car_BC::sub_41E440`, `Car_BC::sub_41E430` | checked | paused/static-volume block layout differs (else placed later in 10.5); more diffs further down |
 | 0x57E6C0 | `sound_obj::sub_57E6C0` | 0x4B2830 | `sub_4A65E0`, `sub_411940` | todo |  |
 | 0x582480 | `Car_14::SpawnTrafficCar_582480` | 0x4B34E0 | ✓ `sub_41FE40`, `angry_lewin_0x85C::sub_4766D0`, `Zone_144::sub_45DD50`, `sub_4B3230`, `sub_4B33F0`, `sub_4B30A0`, `sub_42A620`, `sub_426E40`, `sub_420700`, `sub_426E00`, `sub_421490` | todo |  |
 | 0x5832C0 | `Car_14::MakeTrafficForCurrCamera_5832C0` | 0x4B4A60 | ✓ `sub_4B3110`, ✓ `sub_4B3130` | todo |  |

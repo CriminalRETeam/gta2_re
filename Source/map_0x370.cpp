@@ -2354,19 +2354,19 @@ bool Map_0x370::sub_4E4770(Fix16 z_pos)
     return false;
 }
 
-WIP_FUNC(0x4E4820)
+MATCH_FUNC(0x4E4820)
 char_type Map_0x370::sub_4E4820(Fix16_Rect* pRect, u8 slope_type)
 {
-    s32 left = Fix16::Round_To_Int_410BF0(pRect->field_0_left);
-    s32 right = Fix16::Round_To_Int_410BF0(pRect->field_4_right);
-    s32 top = Fix16::Round_To_Int_410BF0(pRect->field_8_top);
-    s32 bottom = Fix16::Round_To_Int_410BF0(pRect->field_C_bottom);
+    s32 left = Fix16::Round_To_Int_410BF0(pRect->get_left_45ADB0());
+    s32 right = Fix16::Round_To_Int_410BF0(pRect->get_right_45ADA0());
+    s32 top = Fix16::Round_To_Int_410BF0(pRect->get_top_45ADD0());
+    s32 bottom = Fix16::Round_To_Int_410BF0(pRect->get_bottom_45ADC0());
 
     for (s32 y = top; y <= bottom; y++)
     {
         for (s32 x = left; x <= right; x++)
         {
-            gBlockInfo0_6F5EB0 = get_block_4DFE10(x, y, pRect->field_10_low_z.ToInt());
+            gBlockInfo0_6F5EB0 = get_block_4DFE10(x, y, pRect->get_low_z_4637A0().ToInt());
             switch (slope_type)
             {
                 case 0:
