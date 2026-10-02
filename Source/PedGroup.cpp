@@ -526,7 +526,7 @@ void PedGroup::RemovePed_4C9970(Ped* pPed)
                 pPed->field_23C = field_34_count - 1;
                 if (pPed->get_occupation_403980() != 0x17)
                 {
-                    field_4_ped_list[field_34_count - 1]->reset_ped_group();
+                    field_4_ped_list[field_34_count - 1]->ClearGroupAndGroupIdx_403A30();
                     field_4_ped_list[field_34_count - 1] = 0;
                     if (pPed->field_238_ped_type == 5)
                     {
