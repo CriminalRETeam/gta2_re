@@ -1989,7 +1989,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
             }
 
             case object_behavior_type::light_type_11:
-                field_C_pAny.pLight->sub_482D30(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
+                field_C_pAny.pLight->SetPosition_482D30(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
                 break;
 
             default:
@@ -3033,7 +3033,7 @@ void Object_2C::UpdateEffectPool_525B20()
 MATCH_FUNC(0x527A30)
 void Object_2C::UpdateLight_527A30()
 {
-    field_C_pAny.pLight->sub_45B2D0(field_C_pAny.pLight->field_18_intensity);
+    field_C_pAny.pLight->SetCurrentIntensity_45B2D0(field_C_pAny.pLight->field_18_intensity);
 }
 
 // Not fully working yet https://decomp.me/scratch/2X4Bq
@@ -3456,7 +3456,7 @@ Object_2C* Object_5C::NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 ar
     Object_2C* pNewObj = New_529C00(165, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
-        pNewObj->field_C_pAny.pLight->sub_482D60(argb, radius, intensity);
+        pNewObj->field_C_pAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);
     }
     return pNewObj;
 }
@@ -3467,7 +3467,7 @@ Object_2C* Object_5C::NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fi
     Object_2C* pNewObj = Object_5C::New_529C00(light_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
-        pNewObj->field_C_pAny.pLight->sub_482D60(argb, radius, intensity);
+        pNewObj->field_C_pAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);
     }
     return pNewObj;
 }
@@ -3628,7 +3628,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         }
 
         case object_behavior_type::light_type_11:
-            pNew2C->field_C_pAny.pLight = gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);
+            pNew2C->field_C_pAny.pLight = gLight_1D4CC_6F5520->CreateLight_52B2A0(xpos, ypos, zpos, 0, 0, 0);
             break;
 
         default:

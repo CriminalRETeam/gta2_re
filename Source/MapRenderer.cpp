@@ -3047,7 +3047,7 @@ void MapRenderer::Draw_4F6A20()
             {
                 pgbh_ResetLights();
                 pgbh_SetCamera((f32)min_x, (f32)min_y, (f32)max_x, (f32)max_y);
-                Light::sub_4D6E50(min_x, min_y, max_x, max_y);
+                Light::SubmitLightsInArea_4D6E50(min_x, min_y, max_x, max_y);
             }
 
             // Reset the size of draw layer size

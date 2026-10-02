@@ -147,7 +147,7 @@ void force_link()
     network.cb_sub_519D30(0, 0);
 
     nostalgic_ellis_0x28 nostalgic;
-    nostalgic.sub_4D6D70();
+    nostalgic.AddToGrid_4D6D70();
 
     PedManager PedManager;
     PedManager.DoIanTest_471060(0);

@@ -449,7 +449,7 @@ void Game_0x40::UpdateGame_4B9410()
 
     if (gLighting_626A09)
     {
-        gLight_1D4CC_6F5520->sub_45C1E0();
+        gLight_1D4CC_6F5520->Service_45C1E0();
     }
 
     gCranePool_D9C_679FD4->CranesService_480E50();

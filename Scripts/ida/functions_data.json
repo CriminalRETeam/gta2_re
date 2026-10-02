@@ -6985,27 +6985,27 @@
         "v105_address": "0x4d6d60"
     },
     {
-        "name": "nostalgic_ellis_0x28::sub_4D6D70",
+        "name": "nostalgic_ellis_0x28::AddToGrid_4D6D70",
         "v96f_address": "0x461360",
         "v105_address": "0x4d6d70"
     },
     {
-        "name": "nostalgic_ellis_0x28::sub_4D6DC0",
+        "name": "nostalgic_ellis_0x28::RemoveFromGrid_4D6DC0",
         "v96f_address": null,
         "v105_address": "0x4d6dc0"
     },
     {
-        "name": "Light::sub_4D6E00",
+        "name": "Light::AllocGrid_4D6E00",
         "v96f_address": null,
         "v105_address": "0x4d6e00"
     },
     {
-        "name": "Light::sub_4D6E30",
+        "name": "Light::FreeGrid_4D6E30",
         "v96f_address": null,
         "v105_address": "0x4d6e30"
     },
     {
-        "name": "Light::sub_4D6E50",
+        "name": "Light::SubmitLightsInArea_4D6E50",
         "v96f_address": null,
         "v105_address": "0x4d6e50"
     },
@@ -11050,7 +11050,7 @@
         "v105_address": "0x52ae90"
     },
     {
-        "name": "sub_52B2A0",
+        "name": "CreateLight_52B2A0",
         "v96f_address": null,
         "v105_address": "0x52b2a0"
     },
@@ -15675,17 +15675,17 @@
         "v105_address": "0x5bc130"
     },
     {
-        "name": "TileAnim_18::sub_5BC150",
+        "name": "TileAnim_18::ApplyCurrentFrame_5BC150",
         "v96f_address": "0x4c3260",
         "v105_address": "0x5bc150"
     },
     {
-        "name": "TileAnim_18::sub_5BC190",
+        "name": "TileAnim_18::InitFromGmpAnim_5BC190",
         "v96f_address": "0x4c32a0",
         "v105_address": "0x5bc190"
     },
     {
-        "name": "TileAnim_18::sub_5BC1D0",
+        "name": "TileAnim_18::Start_5BC1D0",
         "v96f_address": "0x4c32e0",
         "v105_address": "0x5bc1d0"
     },
@@ -15695,12 +15695,12 @@
         "v105_address": "0x5bc1f0"
     },
     {
-        "name": "TileAnim_2::sub_5BC260",
+        "name": "TileAnim_2::AddAnim_5BC260",
         "v96f_address": null,
         "v105_address": "0x5bc260"
     },
     {
-        "name": "TileAnim_2::sub_5BC2C0",
+        "name": "TileAnim_2::AddGmpAnim_5BC2C0",
         "v96f_address": "0x4c3470",
         "v105_address": "0x5bc2c0"
     },
@@ -15825,7 +15825,7 @@
         "v105_address": "0x5c2b30"
     },
     {
-        "name": "Light_1D4CC::sub_5C2B70",
+        "name": "Light_1D4CC::Alloc_5C2B70",
         "v96f_address": null,
         "v105_address": "0x5c2b70"
     },

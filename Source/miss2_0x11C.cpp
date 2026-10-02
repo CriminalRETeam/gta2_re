@@ -1193,7 +1193,7 @@ void miss2_0x11C::CreateLight_504EE0(SCR_CREATE_LIGHT* pCmd, SCR_POINTER* pPoint
     pPointer->field_8_light = pNewLight;
     if (pCmd->field_21_on_time > 0)
     {
-        gLight_1D4CC_6F5520->sub_469070(pNewLight, pCmd->field_21_on_time, pCmd->field_22_off_time, pCmd->field_23_shape);
+        gLight_1D4CC_6F5520->SetFlashing_469070(pNewLight, pCmd->field_21_on_time, pCmd->field_22_off_time, pCmd->field_23_shape);
     }
 }
 

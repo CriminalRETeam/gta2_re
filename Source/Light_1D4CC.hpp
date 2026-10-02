@@ -13,14 +13,14 @@ class LightBase
 
     }
 
-    void sub_45BF50()
+    void UpdatePool_45BF50()
     {
         field_0_pool.UpdatePool();
     }
 
-    void sub_45C1E0()
+    void Service_45C1E0()
     {
-        sub_45BF50();
+        UpdatePool_45BF50();
     }
 
     Pool<nostalgic_ellis_0x28, 3000> field_0_pool;
@@ -31,16 +31,16 @@ class Light_1D4CC : public LightBase
   public:
     Light_1D4CC()
     {
-        Light::sub_4D6E00();
+        Light::AllocGrid_4D6E00();
     }
 
-    inline void sub_464C60(nostalgic_ellis_0x28* pLight)
+    inline void AddToUpdateList_464C60(nostalgic_ellis_0x28* pLight)
     {
         pLight->mpNext = field_0_pool.field_4_pPrev;
         field_0_pool.field_4_pPrev = pLight;
     }
 
-    inline nostalgic_ellis_0x28* sub_464C40()
+    inline nostalgic_ellis_0x28* Alloc_464C40()
     {
         nostalgic_ellis_0x28* pFirst = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = field_0_pool.field_0_pStart->mpNext;
@@ -49,32 +49,32 @@ class Light_1D4CC : public LightBase
         return pFirst;
     }
 
-    inline void sub_469070(nostalgic_ellis_0x28* pLight, u8 on_time, u8 off_time, u8 shape)
+    inline void SetFlashing_469070(nostalgic_ellis_0x28* pLight, u8 on_time, u8 off_time, u8 shape)
     {
         pLight->field_16_shape = shape;
         pLight->field_14_on_time = on_time;
         pLight->field_15_off_time = off_time;
         pLight->field_17_off_time = off_time;
-        pLight->sub_45B2D0(0);
-        sub_464C60(pLight);
+        pLight->SetCurrentIntensity_45B2D0(0);
+        AddToUpdateList_464C60(pLight);
     }
     
     inline nostalgic_ellis_0x28* Init_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
     {
-        nostalgic_ellis_0x28* pLight = sub_464C40();
+        nostalgic_ellis_0x28* pLight = Alloc_464C40();
         pLight->field_4_light_x = xpos;
         pLight->field_8_light_y = ypos;
         pLight->field_C_light_z = zpos;
         pLight->field_10_argb = argb;
         pLight->field_0.flag = 0x10000;
         pLight->field_0.SetRadius_463F10(radius);
-        pLight->sub_45B2D0(intensity);
+        pLight->SetCurrentIntensity_45B2D0(intensity);
         pLight->field_18_intensity = intensity;
-        pLight->sub_4D6D70();
+        pLight->AddToGrid_4D6D70();
         return pLight;
     }
 
-    inline void sub_47F4B0(nostalgic_ellis_0x28* pLight)
+    inline void Free_47F4B0(nostalgic_ellis_0x28* pLight)
     {
         pLight->PoolDeallocate();
         pLight->mpNext = field_0_pool.field_0_pStart;
@@ -82,7 +82,7 @@ class Light_1D4CC : public LightBase
     }
 
     // matched https://decomp.me/scratch/cZQwK
-    inline void sub_47F450(nostalgic_ellis_0x28* pLight)
+    inline void RemoveFromUpdateListAndFree_47F450(nostalgic_ellis_0x28* pLight)
     {
         nostalgic_ellis_0x28* pPrevious = NULL;
 
@@ -108,22 +108,22 @@ class Light_1D4CC : public LightBase
 
     inline void DeallocLight_47F4F0(nostalgic_ellis_0x28* pLight)
     {
-        pLight->sub_4D6DC0();
+        pLight->RemoveFromGrid_4D6DC0();
         if (pLight->field_14_on_time)
         {
-            //sub_47F450(pLight);
+            //RemoveFromUpdateListAndFree_47F450(pLight);
             field_0_pool.unknown_func(pLight);
         }
         else
         {
             field_0_pool.DeAllocate(pLight);
-            //sub_47F4B0(pLight);
+            //Free_47F4B0(pLight);
         }
     }
 
     EXPORT ~Light_1D4CC();
-    EXPORT nostalgic_ellis_0x28* sub_5C2B70();
-    EXPORT nostalgic_ellis_0x28* sub_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
+    EXPORT nostalgic_ellis_0x28* Alloc_5C2B70();
+    EXPORT nostalgic_ellis_0x28* CreateLight_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
 };
 
 EXTERN_GLOBAL(Light_1D4CC*, gLight_1D4CC_6F5520);

@@ -738,7 +738,7 @@ void Map_0x370::update_lights_4DFCD0()
 
         if (pMapLight->field_E_on_time)
         {
-            gLight_1D4CC_6F5520->sub_469070(pLight, pMapLight->field_E_on_time, pMapLight->field_F_off_time, pMapLight->field_D_shape);
+            gLight_1D4CC_6F5520->SetFlashing_469070(pLight, pMapLight->field_E_on_time, pMapLight->field_F_off_time, pMapLight->field_D_shape);
         }
     }
 }
@@ -3721,7 +3721,7 @@ void Map_0x370::sub_4E9160(s32 size)
     while (pTileAnimDataIter != (u8*)this->field_340_pTileAnimData + size)
     {
         const gmp_tile_animation* pAnim = (const gmp_tile_animation*)pTileAnimDataIter;
-        gTileAnim_2_7052C4->sub_5BC2C0(pAnim);
+        gTileAnim_2_7052C4->AddGmpAnim_5BC2C0(pAnim);
         pTileAnimDataIter += (sizeof(u16) * pAnim->field_4_anim_length) +
             (sizeof(gmp_tile_animation) -
              sizeof(u16)); // field_4 is animation_length, 6 is the length of a record, each array entry is a u16
