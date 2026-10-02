@@ -1265,6 +1265,31 @@ void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
     gRozza_C88_66AFE0->Type4_40BC40(pCarSprite);
 }
 
+// 9.6f 0x49EBE0
+static inline u8 GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel)
+{
+    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
+    if (pBlock)
+    {
+        if (gGtx_0x106C_703DD4->sub_49E540(pBlock->field_8_lid & 0x3FF))
+        {
+            return 7;
+        }
+
+        if ((pBlock->field_B_slope_type & 3) != 0)
+        {
+            if (gGtx_0x106C_703DD4->sub_49E570(pBlock->field_8_lid & 0x3FF))
+            {
+                return 9;
+            }
+            *pGradientSize = byte_6F5BA8[pBlock->field_B_slope_type >> 2].field_1_gradient_size;
+            *pGradientLevel = byte_6F5BA8[pBlock->field_B_slope_type >> 2].field_2_gradient_level;
+            return byte_6F5BA8[pBlock->field_B_slope_type >> 2].field_0_gradient_direction;
+        }
+    }
+    return 5;
+}
+
 WIP_FUNC(0x55b970)
 char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* check_mask)
 {
@@ -1344,59 +1369,9 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
     }
 
     s32 cp3_int = cp3.ToInt();
-    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3.ToInt());
-    gmp_block_info* pBlock_ = pBlock;
-
-    u8 v28;
     u8 gradient_level;
     u8 graident_size;
-
-    if (!pBlock)
-    {
-        //LABEL_36:
-        v28 = 5;
-        //goto LABEL_37;
-    }
-    else
-    {
-        s32 lid_idx = pBlock->field_8_lid & 0x3FF;
-        if (gGtx_0x106C_703DD4->field_6C_spec[pBlock_->field_8_lid & 0x3FF] != 4 || !gGtx_0x106C_703DD4->IsTileRemapped_5AA850(lid_idx))
-        {
-            //LABEL_31:
-            if ((pBlock_->field_B_slope_type & 3) != 0)
-            {
-                s32 lid_idx_ = pBlock_->field_8_lid & 0x3FF;
-                if (gGtx_0x106C_703DD4->field_6C_spec[lid_idx_] != 4 || gGtx_0x106C_703DD4->IsTileRemapped_5AA850(lid_idx_))
-                {
-                    graident_size = byte_6F5BA8[pBlock_->field_B_slope_type >> 2].field_1_gradient_size;
-                    gradient_level = byte_6F5BA8[pBlock_->field_B_slope_type >> 2].field_2_gradient_level;
-                    v28 = byte_6F5BA8[pBlock_->field_B_slope_type >> 2].field_0_gradient_direction;
-                }
-                else
-                {
-                    v28 = 9;
-                }
-                //goto LABEL_37;
-            }
-            else
-            {
-                v28 = 5;
-                //goto LABEL_36;
-            }
-        }
-        else
-        {
-            /*
-            if (!gGtx_0x106C_703DD4->IsTileRemapped_5AA850(lid_idx))
-            {
-                goto LABEL_31;
-            }
-            else*/
-            {
-                v28 = 7;
-            }
-        }
-    }
+    u8 v28 = GetBlockSurfaceType_49EBE0(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3.ToInt(), &graident_size, &gradient_level);
 
     //LABEL_37:
     if (v28 != 5)

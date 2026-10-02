@@ -186,6 +186,16 @@ class gtx_0x106C
         return false;
     }
 
+    // 9.6f 0x49E570
+    inline bool sub_49E570(u16 spec_idx)
+    {
+        if (field_6C_spec[spec_idx] == 4 && !IsTileRemapped_5AA850(spec_idx))
+        {
+            return true;
+        }
+        return false;
+    }
+
     // inline
     bool has_tiles_4C2EE0() const
     {
