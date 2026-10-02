@@ -3205,8 +3205,8 @@ char_type sound_obj::Type_4_417A00(sound_0x68* a2)
     Car_BC* pCar;
     if (GetCar_4145E0(a2->field_0_EntityIndex, &pCar))
     {
-        s32 model = pCar->field_84_car_info_idx;
-        a2->field_14_samp_idx = sub_417B80(pCar->field_84_car_info_idx, pCar->IsEmittingHorn_411970());
+        s32 model = pCar->GetCarInfoIdx_411940();
+        a2->field_14_samp_idx = sub_417B80(pCar->GetCarInfoIdx_411940(), pCar->IsEmittingHorn_411970());
         a2->field_3C = 800;
         a2->field_4C = 2;
 
@@ -3789,7 +3789,7 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* pCar)
     }
     else
     {
-        const s32 car_info_idx = pCar->field_84_car_info_idx;
+        const s32 car_info_idx = pCar->GetCarInfoIdx_411940();
         if (this->field_5574_car_info_idx != car_info_idx || word_6757FC != (u16)pCar->field_50_car_sprite->get_remap_41C1F0())
         {
             this->field_5574_car_info_idx = car_info_idx;
@@ -4683,8 +4683,8 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
 
     if (!pPed->field_15C_player)
     {
-        bTank = pPed->sub_45B4E0() || pPed->field_240_occupation == ped_ocupation_enum::tank_driver ||
-            pPed->field_240_occupation == ped_ocupation_enum::road_block_tank_man;
+        bTank = pPed->sub_45B4E0() || pPed->get_occupation_403980() == ped_ocupation_enum::tank_driver ||
+            pPed->get_occupation_403980() == ped_ocupation_enum::road_block_tank_man;
         switch (voice)
         {
             case 1:
@@ -4804,7 +4804,7 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
                 break;
         }
 
-        s32 occupation = pPed->field_240_occupation;
+        s32 occupation = pPed->get_occupation_403980();
         if (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader)
         {
             if (!word_675548)
@@ -6549,9 +6549,9 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
                 pB4->field_B0 = f_B0 - 1;
             }
         }
-        if (pB4->field_C_ped_state_2 != ped_state_2::Unknown_26)
+        if (pB4->get_ped_state_2_41B090() != ped_state_2::Unknown_26)
         {
-            if (pB4->field_C_ped_state_2 == ped_state_2::electrocuted_27)
+            if (pB4->get_ped_state_2_41B090() == ped_state_2::electrocuted_27)
             {
                 samp_idx_ = 58;
                 this->field_30_sQueueSample.field_41 = 0;
