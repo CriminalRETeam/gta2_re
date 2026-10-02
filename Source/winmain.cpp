@@ -1239,6 +1239,16 @@ EXPORT void __stdcall sub_4DB2E0(u8* pSyncData)
     pData->field_1E_player_idx = gNetworkPlayerIdx_6F56C8;
 }
 
+MATCH_FUNC(0x4DB410)
+EXPORT void __stdcall FatalErrorMsg_4DB410(const char_type* pMsg)
+{
+    sub_4DA740();
+    GBH_Graphis_DMA_Video_Free_5D9830();
+    ErrorMsgBox_5E4EC0(pMsg);
+    DestroyWindow(gHwnd_707F04);
+    exit(1);
+}
+
 STUB_FUNC(0x4DB440)
 EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemoteSyncData)
 {
