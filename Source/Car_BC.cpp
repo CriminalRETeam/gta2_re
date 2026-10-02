@@ -4794,7 +4794,7 @@ void Car_BC::sub_440F90(char_type instant_bomb)
 {
     if (instant_bomb)
     {
-        s32 ped_id = gVarrok_7F8_703398->field_0[field_54_driver->get_varrok_idx_420B50()].field_0_ped_id;
+        s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(field_54_driver->get_varrok_idx_420B50());
         if (ped_id)
         {
             this->field_70_exploder_ped_id = ped_id;
