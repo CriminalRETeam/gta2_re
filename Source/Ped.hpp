@@ -673,6 +673,12 @@ class Ped
         field_22C = value;
     }
 
+    // 9.6f 0x433C00
+    inline void SetRotation_433C00(Ang16 rotation)
+    {
+        field_168_game_object->set_rotation_433A30(rotation);
+    }
+
     // 9.6f 0x433C40
     inline void DoJump_433C40()
     {

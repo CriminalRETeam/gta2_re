@@ -94,8 +94,6 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     s32 wanted_level_; // eax
     u8 v25; // al
     char_type v26; // al
-    Char_B4* game_object; // ecx
-    u8 remap; // al
     u8 kind; // [esp+10h] [ebp-18h]
     s32 y_int; // [esp+20h] [ebp-8h] BYREF
     s32 x_int; // [esp+24h] [ebp-4h] BYREF
@@ -183,7 +181,7 @@ LABEL_12:
                 }
                 gNumberMuggersSpawned_6787CA = 1;
                 pPed->set_occupation_403970(ped_ocupation_enum::mugger);
-                pPed->field_22C = 2;
+                pPed->sub_433BC0(2);
                 pPed->set_objective_timer_433C80(40);
                 pPed->SetField238_403920(ped_type::special_ped_4);
                 pPed->set_remap_433B90(17);
@@ -198,7 +196,7 @@ LABEL_12:
                     goto delloc_ret_2;
                 }
                 gNumberCarThiefsSpawned_6787CB = 1;
-                pPed->field_22C = 2;
+                pPed->sub_433BC0(2);
                 pPed->field_288_threat_search = threat_search_enum::area_2;
                 //v13 = pPed->field_21C;
                 pPed->set_objective_timer_433C80(40);
@@ -245,7 +243,7 @@ LABEL_12:
                         }
                         field_17C_pZone = pPed->field_17C_pGang;
                         pPed->field_26C_graphic_type = 1;
-                        pPed->field_22C = 1;
+                        pPed->sub_433BC0(1);
                         GangCurrWeapon_4BF0C0 = field_17C_pZone->GetGangCurrWeapon_4BF0C0();
                         pPed->ForceWeapon_46F600(GangCurrWeapon_4BF0C0);
                         field_170_selected_weapon = pPed->field_170_selected_weapon;
@@ -266,7 +264,7 @@ LABEL_12:
                     {
                         pPed->field_19C = pGang;
                         pPed->set_occupation_403970(ped_ocupation_enum::dummy);
-                        pPed->field_22C = 0;
+                        pPed->sub_433BC0(0);
                         pPed->SetField238_403920(ped_type::dummy_3);
                         pPed->field_288_threat_search = threat_search_enum::area_2;
                         pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
@@ -285,7 +283,7 @@ LABEL_12:
                 else
                 {
                     pPed->set_occupation_403970(ped_ocupation_enum::dummy);
-                    pPed->field_22C = 0;
+                    pPed->sub_433BC0(0);
                     pPed->SetField238_403920(ped_type::dummy_3);
                     pPed->field_288_threat_search = threat_search_enum::area_2;
                     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
@@ -363,7 +361,7 @@ LABEL_12:
                 else
                 {
                     pPed->set_occupation_403970(ped_ocupation_enum::dummy);
-                    pPed->field_22C = 0;
+                    pPed->sub_433BC0(0);
                     pPed->SetField238_403920(ped_type::dummy_3);
                     pPed->field_288_threat_search = threat_search_enum::area_2;
                     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
@@ -410,14 +408,15 @@ LABEL_12:
         gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
         if (pPed->get_occupation_403980() != ped_ocupation_enum::walking_guard_29)
         {
-            game_object = pPed->field_168_game_object;
-            remap = pPed->field_244_remap;
+            // 9.6f: Ped::SetRemap_433C10(get_remap_433BA0()) (inlined, using it makes the diff worse)
+            Char_B4* game_object = pPed->field_168_game_object;
+            u8 remap = pPed->field_244_remap;
             game_object->field_5_remap = remap;
             if (remap != 0xFF)
             {
                 game_object->field_80_sprite_ptr->SetRemap(remap);
             }
-            pPed->field_168_game_object->field_40_rotation = rotation;
+            pPed->SetRotation_433C00(rotation);
             pPed->sub_467280();
         }
 
@@ -429,7 +428,7 @@ LABEL_12:
                 {
                     --byte_6787CE;
                 }
-                pPed->field_22C = 2;
+                pPed->sub_433BC0(2);
                 pPed->set_objective_timer_433C80(40);
                 pPed->set_occupation_403970(ped_ocupation_enum::mad_mugger_40);
                 pPed->SetField238_403920(ped_type::special_ped_4);
