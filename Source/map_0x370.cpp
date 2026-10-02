@@ -2751,7 +2751,7 @@ char_type Map_0x370::sub_4E52A0(Fix16 x, Fix16 y, Fix16 z)
 
     if (gBlockInfo0_6F5EB0)
     {
-        if (gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(gBlockInfo0_6F5EB0->field_8_lid)] == tile_spec::water)
+        if (gGtx_0x106C_703DD4->IsWaterTile_462FB0(get_tile_idx(gBlockInfo0_6F5EB0->field_8_lid)))
         {
             return 7;
         }

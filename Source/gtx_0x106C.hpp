@@ -186,6 +186,12 @@ class gtx_0x106C
         return false;
     }
 
+    // 9.6f 0x462FB0
+    inline bool IsWaterTile_462FB0(u16 spec_idx)
+    {
+        return field_6C_spec[spec_idx] == 4;
+    }
+
     // 9.6f 0x462FD0
     inline s32 sub_462FD0(u16 spec_idx)
     {
