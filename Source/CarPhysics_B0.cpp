@@ -1685,15 +1685,7 @@ WIP_FUNC(0x55cbb0)
 void CarPhysics_B0::ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3)
 {
     WIP_IMPLEMENTED;
-    Car_BC* pCar;
-    if (gRozza_679188.field_24->field_30_sprite_type_enum == sprite_types_enum::car_2)
-    {
-        pCar = gRozza_679188.field_24->field_8_car_bc_ptr;
-    }
-    else
-    {
-        pCar = NULL;
-    }
+    Car_BC* pCar = gRozza_679188.field_24->AsCar_40FEB0();
 
     CarPhysics_B0* pPhysics = pCar->field_58_physics;
     CarPhysics_B0::restore_saved_physics_state_55A400();
