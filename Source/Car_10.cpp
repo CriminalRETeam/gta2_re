@@ -3,6 +3,7 @@
 
 const u8 byte_61A808[] = {7, 24, 11, 28};
 
+// 9.6f: the bit ops are BitSet32::clear_bit/set_bit (0x420DE0/0x420DC0) on a maybe_flags, here a u32*
 MATCH_FUNC(0x439CD0)
 void Car_Door_10::sub_439CD0(u32* pRet)
 {
@@ -30,6 +31,7 @@ void Car_Door_10::sub_439CD0(u32* pRet)
     }
 }
 
+// 9.6f: the bit ops are BitSet32::clear_bit/set_bit (0x420DE0/0x420DC0) on a maybe_flags, here a u32*
 MATCH_FUNC(0x439D40)
 void Car_Door_10::sub_439D40(u32* a3)
 {
