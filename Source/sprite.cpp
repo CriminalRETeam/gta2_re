@@ -1706,20 +1706,9 @@ char_type Sprite::sub_5A19C0()
     return gMap_0x370_6F6268->sub_4E4770(field_1C_zpos);
 }
 
-MATCH_FUNC(0x5a1a60)
-char Sprite::sub_5A1A60()
+// 9.6f 0x4B9F80: clamp the current rect to the map
+static inline void ClampPurpleRectToMap_4B9F80()
 {
-    Update_4C_59F990();
-
-    Sprite_4C* p4C = this->field_4_0x4C_len;
-
-    if (!p4C->field_48_bBoxUpToDate)
-    {
-        p4C->UpdateRotatedBoundingBox_5A3550(this->field_14_xy.x, this->field_14_xy.y, this->field_1C_zpos, this->field_0);
-    }
-
-    field_4_0x4C_len->SetCurrentRect_5A4D90();
-
     if (gPurple_left_6F5FD4 < 0)
     {
         gPurple_left_6F5FD4 = 0;
@@ -1739,6 +1728,23 @@ char Sprite::sub_5A1A60()
     {
         gPurple_bottom_6F5F38 = 255;
     }
+}
+
+MATCH_FUNC(0x5a1a60)
+char Sprite::sub_5A1A60()
+{
+    Update_4C_59F990();
+
+    Sprite_4C* p4C = this->field_4_0x4C_len;
+
+    if (!p4C->field_48_bBoxUpToDate)
+    {
+        p4C->UpdateRotatedBoundingBox_5A3550(this->field_14_xy.x, this->field_14_xy.y, this->field_1C_zpos, this->field_0);
+    }
+
+    field_4_0x4C_len->SetCurrentRect_5A4D90();
+
+    ClampPurpleRectToMap_4B9F80();
 
     return gMap_0x370_6F6268->sub_4E4630(field_1C_zpos);
 }
