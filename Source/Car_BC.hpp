@@ -305,6 +305,12 @@ class Trailer
     {
     }
 
+    // 9.6f 0x49EFB0
+    inline char_type get_field_0_49EFB0()
+    {
+        return field_0;
+    }
+
     //Inlined in Car_6C constructor 9.6f -> 0x4212d0
     Trailer()
     {
