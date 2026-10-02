@@ -1407,7 +1407,7 @@ MATCH_FUNC(0x5668D0)
 void Player::HandleControls_5668D0(Ped* pPed)
 {
     bool bNoPed = (pPed == NULL);
-    Car_BC* pPedCar = pPed->field_16C_car;
+    Car_BC* pPedCar = pPed->get_car_416B60();
 
     if (bNoPed)
     {
@@ -1421,7 +1421,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
     {
         if (!pPedCar)
         {
-            if (pPed->field_258_objective != objectives_enum::leave_car_36)
+            if (pPed->get_objective_403A80() != objectives_enum::leave_car_36)
             {
                 Car_BC* pCar = gCar_6C_677930->GetNearestFrontVehicle_445210(pPed->field_168_game_object->field_80_sprite_ptr, 3u);
                 if (pCar)
@@ -1448,7 +1448,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
             if (pPedCar->CanExitCar_43AF10())
             {
                 pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                if (pPed->field_16C_car->field_84_car_info_idx == car_model_enum::TRAIN)
+                if (pPed->get_car_416B60()->field_84_car_info_idx == car_model_enum::TRAIN)
                 {
                     pPed->SetObjective(objectives_enum::leave_train_38, 9999);
                 }
@@ -1456,13 +1456,13 @@ void Player::HandleControls_5668D0(Ped* pPed)
                 {
                     pPed->SetObjective(objectives_enum::leave_car_36, 9999);
                 }
-                pPed->set_field_150_target_objective_car(pPed->field_16C_car);
+                pPed->set_field_150_target_objective_car(pPed->get_car_416B60());
             }
         }
     }
     else
     {
-        s32 objective = pPed->field_258_objective;
+        s32 objective = pPed->get_objective_403A80();
         if (objective == objectives_enum::enter_car_as_driver_35 || objective == objectives_enum::enter_train_37)
         {
             if (pPed->GetPedState_403990() != ped_state_1::in_car_10)
@@ -2332,7 +2332,7 @@ void Player::sub_569410()
 MATCH_FUNC(0x569530)
 void Player::sub_569530()
 {
-    Car_BC* pCar = field_2C8_unkq->field_16C_car;
+    Car_BC* pCar = field_2C8_unkq->get_car_416B60();
     if (pCar->field_54_driver)
     {
         pCar->ClearDriver_4407F0();
@@ -2348,9 +2348,9 @@ void Player::sub_569530()
 
     sub_564C00();
 
-    if (field_2C4_player_ped->field_16C_car)
+    if (field_2C4_player_ped->get_car_416B60())
     {
-        sub_564AD0(field_2C4_player_ped->field_16C_car);
+        sub_564AD0(field_2C4_player_ped->get_car_416B60());
     }
 }
 
