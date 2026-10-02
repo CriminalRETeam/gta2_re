@@ -2565,51 +2565,50 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
     return 1;
 }
 
-WIP_FUNC(0x54c090)
+MATCH_FUNC(0x54c090)
 void Char_B4::sub_54C090()
 {
-    WIP_IMPLEMENTED;
 
     s32 AngleFace_4F78F0 = Ang16::GetAngleFace_4F78F0(field_40_rotation);
     if (!CanMoveOntoSlope_54C1A0(AngleFace_4F78F0))
     {
+        u8 bPastHalf;
+        s32 new_dir;
         switch (AngleFace_4F78F0)
         {
             case 1:
-                AngleFace_4F78F0 = field_40_rotation > kAng180_6FD8E8;
-                break;
-            case 2:
-                AngleFace_4F78F0 = field_40_rotation > word_6FDB3C;
+                bPastHalf = field_40_rotation > kAng180_6FD8E8;
                 break;
             case 3:
-                AngleFace_4F78F0 = field_40_rotation > kAng90_6FDA64;
+                bPastHalf = field_40_rotation > word_6FDB3C;
+                break;
+            case 2:
+                bPastHalf = field_40_rotation > kAng90_6FDA64;
                 break;
             case 4:
-                AngleFace_4F78F0 = field_40_rotation > kAng270_6FD904;
-                break;
-            default:
-                //v3 = v7;
+                bPastHalf = field_40_rotation > kAng270_6FD904;
                 break;
         }
 
         switch (AngleFace_4F78F0)
         {
             case 1:
-                AngleFace_4F78F0 = AngleFace_4F78F0 + 3;
-                break;
-            case 2:
-                AngleFace_4F78F0 = AngleFace_4F78F0 - 4;
+                new_dir = bPastHalf ? 4 : 3;
                 break;
             case 3:
-                AngleFace_4F78F0 = AngleFace_4F78F0 - 2;
+                new_dir = bPastHalf ? 1 : 2;
+                break;
+            case 2:
+                new_dir = bPastHalf ? 3 : 4;
                 break;
             case 4:
-                AngleFace_4F78F0 = AngleFace_4F78F0 + 1;
+                new_dir = bPastHalf ? 2 : 1;
                 break;
             default:
-                AngleFace_4F78F0 = 2;
+                new_dir = 2;
                 break;
         }
+        AngleFace_4F78F0 = new_dir;
     }
 
     field_40_rotation = ReturnAngleFromRoadDirection_4F7940(&AngleFace_4F78F0);
