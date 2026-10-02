@@ -881,14 +881,7 @@ void Garox_110C_sub::Draw_5CF910()
         const s32 drawtype = 2;
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
         Camera_0xBC* pCam;
-        if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-        {
-            pCam = &pPlayer->field_208_aux_game_camera;
-        }
-        else
-        {
-            pCam = &pPlayer->field_90_game_camera;
-        }
+        pCam = pPlayer->get_camera_434900();
 
         DrawFigure_5D7EC0(6, 0, field_110C_screen_x, field_1110_screen_y, field_1114_rotation, pCam->field_A8_ui_scale, drawtype, 0, 1, 14, 1);
     }
