@@ -5588,11 +5588,9 @@ void Ped::Threat_Reaction_AI_465270()
     }
 }
 
-WIP_FUNC(0x465b20)
+MATCH_FUNC(0x465b20)
 void Ped::ReactToAttacker_465B20()
 {
-    WIP_IMPLEMENTED;
-
     if (field_144_attacker->isDead_403B60() || !field_144_attacker->CheckBit0_433B40())
     {
         this->field_144_attacker = 0;
@@ -5618,48 +5616,54 @@ void Ped::ReactToAttacker_465B20()
             {
                 if (field_28C_threat_reaction > threat_reaction_enum::no_reaction_0)
                 {
-                    if (field_28C_threat_reaction <= threat_reaction_enum::react_as_normal_2)
+                    if (field_28C_threat_reaction > threat_reaction_enum::react_as_normal_2)
                     {
-                        if (this->field_240_occupation != ped_ocupation_enum::paramedic_23)
+                        if (field_28C_threat_reaction == threat_reaction_enum::run_away_3)
                         {
                             if (this->field_168_game_object)
                             {
-                                if (pGroup)
+                                SetObjective2_463830(2, 9999);
+                                this->field_14C_internal_target_ped = this->field_144_attacker;
+                            }
+                        }
+                    }
+                    else if (this->field_240_occupation != ped_ocupation_enum::paramedic_23)
+                    {
+                        if (this->field_168_game_object)
+                        {
+                            if (!pGroup)
+                            {
+                                this->field_218_objective_timer = 0;
+                                if (field_170_selected_weapon)
                                 {
-                                    if (pGroup->field_2C_ped_leader->is_player_41B0A0() &&
-                                        (field_144_attacker->field_20e_offscreen_counter || this->field_20C >= 5u ||
-                                         Fix16::Abs(field_144_attacker->get_cam_z() - field_1AC_cam.z) >= kFpOne_678664))
+                                    Ped::SetObjective2_463830(20, 9999);
+                                }
+                                else
+                                {
+                                    Ped::SetObjective2_463830(23, 9999);
+                                }
+                                this->field_14C_internal_target_ped = this->field_144_attacker;
+                                this->field_21C |= 4;
+                            }
+                            else
+                            {
+                                if (pGroup->field_2C_ped_leader->is_player_41B0A0())
+                                {
+                                    if (!field_144_attacker->field_20e_offscreen_counter && this->field_20C < 5u &&
+                                        Fix16::Abs(field_144_attacker->get_cam_z() - field_1AC_cam.z) < kFpOne_678664)
                                     {
-                                        this->field_144_attacker = 0;
+                                        pGroup->MergeWithOtherGroup_4C9B60(field_144_attacker);
                                     }
                                     else
                                     {
-                                        pGroup->MergeWithOtherGroup_4C9B60(field_144_attacker);
+                                        this->field_144_attacker = 0;
                                     }
                                 }
                                 else
                                 {
-                                    this->field_218_objective_timer = 0;
-                                    if (field_170_selected_weapon)
-                                    {
-                                        Ped::SetObjective2_463830(20, 9999);
-                                    }
-                                    else
-                                    {
-                                        Ped::SetObjective2_463830(23, 9999);
-                                    }
-                                    this->field_14C_internal_target_ped = this->field_144_attacker;
-                                    this->field_21C |= 4;
+                                    pGroup->MergeWithOtherGroup_4C9B60(field_144_attacker);
                                 }
                             }
-                        }
-                    }
-                    else if (field_28C_threat_reaction == threat_reaction_enum::run_away_3)
-                    {
-                        if (this->field_168_game_object)
-                        {
-                            SetObjective2_463830(2, 9999);
-                            this->field_14C_internal_target_ped = this->field_144_attacker;
                         }
                     }
                 }
