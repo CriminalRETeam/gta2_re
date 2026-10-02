@@ -1535,7 +1535,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
     pNearPed = FindNearbyPed_466FB0();
     if (pNearPed)
     {
-        if (abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, pNearPed->field_1AC_cam.z))
+        if (abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, pNearPed->get_cam_z()))
         {
             this->field_188_last_char_punched = pNearPed_;
             pNearPedGroup = pNearPed_->field_164_ped_group;
@@ -1548,35 +1548,24 @@ void Ped::HandleClosePedInteraction_45CAA0()
                 }
                 if (this->field_240_occupation == ped_ocupation_enum::mugger)
                 {
-                    if ((this->field_21C & 0x1000000) == 0)
-                    {
-                        this->field_250 = 8;
-                    }
-                    if ((pNearPed_->field_21C & 0x1000000) == 0)
-                    {
-                        pNearPed_->field_250 = 7;
-                    }
+                    Set_F250_IfBit_433DD0(8);
+                    pNearPed_->Set_F250_IfBit_433DD0(7);
                 }
-                else if ((u32)(rng_dword_67AB34->field_0_rng - pNearPed_->field_220) > 5)
+                else
                 {
-                    if ((pNearPed_->field_21C & 0x1000000) == 0)
-                    {
-                        pNearPed_->field_250 = 25;
-                    }
-                    pNearPed_->field_220 = rng_dword_67AB34->field_0_rng;
+                    pNearPed_->sub_433E50();
                 }
                 pNearPed_->field_204_killer_id = this->field_200_id;
                 pNearPed_->field_290 = 10;
                 pNearPed_->field_264 = 50;
                 rng = stru_6F6784.get_int_4F7AE0(20);
-                if (pNearPed_->field_216_health > 30)
+                if (pNearPed_->get_health_433B70() > 30)
                 {
                     if (pNearPed_->IsField238_45EDE0(2))
                     {
                         if (this->field_240_occupation == ped_ocupation_enum::mugger)
                         {
-                            pNearPed_->field_15C_player->field_2D4_scores.AddCash_592620(
-                                -10 * pNearPed_->field_15C_player->field_6BC_multpliers.field_0_value);
+                            pNearPed_->field_15C_player->Add_2D4(-10);
                             this->field_229++;
                             if ((u8)field_229 > 9u)
                             {
@@ -1602,7 +1591,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
                 {
                     pNearPed_->ChangeNextPedState2_45C540(22);
                     pNearPed_->ChangeNextPedState1_45C500(8);
-                    pNearPed_->field_168_game_object->field_16 = 1;
+                    pNearPed_->Set_B4_F16_To_1_433B50();
                     pNearPed_->field_168_game_object->SetCharState_433A60(33);
                 }
                 else
@@ -1611,7 +1600,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
                     if (pNearPed_->field_28C_threat_reaction == threat_reaction_enum::run_away_3)
                     {
                         pNearPed_->SetObjective2_463830(2, 9999);
-                        pNearPed_->field_14C = this;
+                        pNearPed_->set_field_14C_403AE0(this);
                         this->field_21C |= 4;
                     }
                 }

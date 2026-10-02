@@ -71,6 +71,7 @@ class Player
         return field_40_arrow_blocker_zone;
     }
 
+    // 9.6f 0x41DC40
     inline void Add_2D4(s32 score)
     {
         field_2D4_scores.AddCash_592620(score * field_6BC_multpliers.field_0_value);
