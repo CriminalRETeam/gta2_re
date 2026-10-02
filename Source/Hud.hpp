@@ -230,6 +230,13 @@ class Garox_C4
     EXPORT bool DecrementDisplayTime_5D1DB0();
     EXPORT bool operator_equals_5D1E10(Garox_C4* pOther);
 
+    // 9.6f 0x4C70E0
+    inline void ClearAlpha_4C70E0()
+    {
+        field_B8_alpha = 0;
+        *(u8*)&field_BC_alpha_flag = 0; // byte store in both 9.6f and 10.5, the field is read as s32 elsewhere
+    }
+
     // 9.6f 0x45AFD0
     void SetDrawKind8_45AFD0(s16 a2)
     {

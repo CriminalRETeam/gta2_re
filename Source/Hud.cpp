@@ -1259,8 +1259,7 @@ void Garox_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos
     }
     this->field_A4_display_time = calcDisplayTime;
 
-    this->field_B8_alpha = 0;
-    this->field_BC_alpha_flag = 0; // LOBYTE() = read as s32 else where, hmm
+    ClearAlpha_4C70E0();
 }
 
 MATCH_FUNC(0x5d1d00)
