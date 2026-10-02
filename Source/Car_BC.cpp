@@ -4732,30 +4732,23 @@ WIP_FUNC(0x440c10)
 char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
 {
     WIP_IMPLEMENTED;
-    s32 info_idx; // eax
-    Sprite_18* pFound; // esi
-    Ang16 tmpAng; // di
-    Ang16 f10_nrm; // cx
-    Ang16 ang; // [esp+Ch] [ebp-4h] BYREF
+    Sprite_18* pFound = 0;
+    Ang16 ang = 0;
 
-    info_idx = this->field_84_car_info_idx;
-    pFound = 0;
-    ang = 0;
-    switch (info_idx)
+    if (IsFireTruck_4118F0())
     {
-        case car_model_enum::FIRETRUK:
-            pFound = field_0_qq.GetSpriteForModel_5A6A50(114);
-            tmpAng = word_677326 + pFound->field_0->field_0;
-            ang = tmpAng;
-            break;
-        case car_model_enum::TANK:
-            pFound = field_0_qq.GetSpriteForModel_5A6A50(148);
-            ang = pFound->field_0->field_0;
-            break;
-        case car_model_enum::GUNJEEP:
-            pFound = field_0_qq.GetSpriteForModel_5A6A50(248);
-            ang = pFound->field_0->field_0;
-            break;
+        pFound = field_0_qq.GetSpriteForModel_5A6A50(114);
+        ang = pFound->field_0->field_0 + word_677326;
+    }
+    else if (IsTank_411900())
+    {
+        pFound = field_0_qq.GetSpriteForModel_5A6A50(148);
+        ang = pFound->field_0->field_0;
+    }
+    else if (IsGunJeep_411910())
+    {
+        pFound = field_0_qq.GetSpriteForModel_5A6A50(248);
+        ang = pFound->field_0->field_0;
     }
 
     if (ComputeShortestAngleDelta_4056C0(ang, targetAngle) <= word_677910)
@@ -4763,13 +4756,13 @@ char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
         return 1;
     }
 
-    if (!Ang16::IsAngleAhead_405C60(&ang, &targetAngle))
+    if (Ang16::IsAngleAhead_405C60(&ang, &targetAngle))
     {
-        pFound->field_10 -= word_677910;
+        pFound->field_10 += word_677910;
         return 0;
     }
 
-    pFound->field_10 += word_677910;
+    pFound->field_10 -= word_677910;
     return 0;
 }
 
