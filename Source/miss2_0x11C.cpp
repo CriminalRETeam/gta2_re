@@ -297,8 +297,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER
 
     if (pPointer->field_8_obj != NULL)
     {
-        s32 model = pPointer->field_8_obj->field_18_model;
-        if (model == 176 || model == 177 || model == 178 || model == 179 || model == 180 || model == 181)
+        if (pPointer->field_8_obj->IsModel176To181_475AA0())
         {
             gHud_2B00_706620->field_1F18.place_gang_phone_5D1110(pPointer->field_8_obj);
             for (u8 i = 0; i < 0x1Fu; i++)

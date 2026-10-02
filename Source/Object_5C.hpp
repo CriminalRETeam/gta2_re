@@ -195,6 +195,13 @@ class Object_2C
         return field_18_model;
     }
 
+    // 9.6f 0x475AA0
+    inline bool IsModel176To181_475AA0()
+    {
+        s32 model = field_18_model;
+        return model == 176 || model == 177 || model == 178 || model == 179 || model == 180 || model == 181;
+    }
+
     bool check_is_shop_421060()
     {
         return field_8->field_34_behavior_type == object_behavior_type::behavior_6 ||
