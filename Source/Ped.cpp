@@ -6427,15 +6427,12 @@ Ped* Ped::FindNearbyPed_466FB0()
         return 0;
     }
 
-    Fix16 xd = Fix16::Abs(pNearest->field_14_xy.x - field_1AC_cam.x);
-    Fix16 yd = Fix16::Abs(pNearest->field_14_xy.y - field_1AC_cam.y);
-    if (Fix16::Max_44E540(xd, yd) >= dword_678788)
+    if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pNearest->field_14_xy.x, pNearest->field_14_xy.y) < dword_678788)
     {
-        return 0;
+        // @OG_BUG: Null de-ref
+        return pNearest->AsCharB4_40FEA0()->field_7C_pPed;
     }
-
-    // @OG_BUG: Null de-ref
-    return pNearest->AsCharB4_40FEA0()->field_7C_pPed;
+    return 0;
 }
 
 MATCH_FUNC(0x467070)
