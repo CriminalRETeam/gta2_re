@@ -6919,9 +6919,17 @@ void Trailer::SetTruckCabAndTrailerCar_407BB0(Car_BC* pTruckCab, Car_BC* pTraile
 WIP_FUNC(0x407bd0)
 Fix16_Point Trailer::sub_407BD0()
 {
+    // The y line calls the out-of-line Negate/Multiply/operator+ in the original, as if it
+    // were written with them; with the inline RotateByAngle_40F6B0 the tail stops inlining.
     Fix16_Point offset = gTrailerHitchOffset_66AAC8;
-    offset.RotateByAngle_40F6B0(field_8_truck_cab->field_58_physics->field_58_theta);
-    return offset + field_8_truck_cab->field_58_physics->get_cp1_40B560();
+    Ang16 angle = field_8_truck_cab->field_58_physics->field_58_theta;
+    Fix16 cos = Ang16::cosine_40F520(angle);
+    Fix16 sin = Ang16::sine_40F500(angle);
+    Fix16 x_old = offset.x;
+    offset.x = (offset.x * cos) + (offset.y * sin);
+    offset.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + offset.y.Multiply_408680(cos);
+    offset += field_8_truck_cab->field_58_physics->get_cp1_40B560();
+    return offset;
 }
 
 WIP_FUNC(0x407ce0)
