@@ -143,7 +143,7 @@ void Miss2_25C::push_type_3_ped_502FB0(Ped* pPed)
 MATCH_FUNC(0x502ff0)
 void Miss2_25C::push_type_2_502FF0(Object_2C* pObj, char_type bUnknown)
 {
-    if (bUnknown || pObj && ((pObj->field_18_model < 64) || pObj->field_18_model > 108) && (pObj->field_18_model < 200 || pObj->field_18_model > 244))
+    if (bUnknown || pObj && ((pObj->get_model_40FEF0() < 64) || pObj->get_model_40FEF0() > 108) && (pObj->get_model_40FEF0() < 200 || pObj->get_model_40FEF0() > 244))
     {
         Miss2_C* pC = allocate_next_502F60();
         if (pC)
