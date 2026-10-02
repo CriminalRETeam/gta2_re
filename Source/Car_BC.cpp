@@ -3973,20 +3973,12 @@ bool Car_BC::IsSpriteShrunk_43DC00()
     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     if (field_74_damage == 32001)
     {
-        if (field_50_car_sprite->field_4_0x4C_len->field_0_width != field_50_car_sprite->field_C_sprite_4c_ptr->field_0_width)
-        {
-            return true;
-        }
-        return false;
+        return field_50_car_sprite->field_4_0x4C_len->field_0_width != field_50_car_sprite->field_C_sprite_4c_ptr->field_0_width;
     }
 
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, pInfo->sprite);
-    if (field_50_car_sprite->field_4_0x4C_len->field_0_width !=
-        gPixelsToFix16_6F6850.list[gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width])
-    {
-        return true;
-    }
-    return false;
+    return field_50_car_sprite->field_4_0x4C_len->field_0_width.mValue !=
+        gPixelsToFix16_6F6850.list[gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width].mValue;
 }
 
 WIP_FUNC(0x43dc80)
