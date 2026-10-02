@@ -144,7 +144,7 @@ MATCH_FUNC(0x5dce40)
 char_type Weapon_30::add_ammo_capped_5DCE40(u8 to_add)
 {
     s32 cap_total = max_ammo_capacity_5FF75C[field_1C_idx] * 10;
-    if (field_0_ammo == 0xFFFF)
+    if (is_infinite_ammo_4A4FA0())
     {
         return 0;
     }
