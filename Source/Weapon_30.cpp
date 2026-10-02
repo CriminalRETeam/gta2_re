@@ -1139,12 +1139,12 @@ void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
                                 {
                                     sub_5DFB60(a2 + 1, pHit, angle);
                                 }
-                                pHit->field_8_char_b4_ptr->field_7C_pPed->field_144 = field_24_pPed;
+                                pHit->field_8_char_b4_ptr->field_7C_pPed->sub_433BF0(field_24_pPed);
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_204_killer_id = field_24_pPed->field_200_id;
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_290 = 18;
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_264 = 50;
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_210_shock_counter += 5;
-                                if (field_24_pPed->field_15C_player)
+                                if (field_24_pPed->is_player_41B0A0())
                                 {
                                     gShooey_CC_67A4B8->ReportCrimeForPed(2u, field_24_pPed);
                                 }
@@ -1204,7 +1204,7 @@ void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
                                         field_24_pPed->field_15C_player->field_2D4_scores.sub_593150(pHit->field_8_car_bc_ptr, 1);
                                     }
                                 }
-                                if (field_24_pPed->field_15C_player)
+                                if (field_24_pPed->is_player_41B0A0())
                                 {
                                     gShooey_CC_67A4B8->ReportCrimeForPed(2u, field_24_pPed);
                                 }
@@ -1220,7 +1220,7 @@ void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
 
         if (bHit && !a2)
         {
-            field_2C = 1;
+            set_field_2C_4CCA80(1);
             if (field_24_pPed->IsField238_45EDE0(2) && (rng_dword_67AB34->get_cur_rng_41CFE0() & 1))
             {
                 DecreaseAmmo_4CCA60();
