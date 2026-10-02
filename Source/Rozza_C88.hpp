@@ -25,20 +25,20 @@ class Rozza_28
         this->field_1C_mapz = a2;
     }
 
-    void sub_4BA280(Fix16 a2, Fix16 a3, Fix16 a4)
+    void SetVerticalSegment_4BA280(Fix16 a2, Fix16 a3, Fix16 a4)
     {
         this->field_C_mapy_t2 = a2;
         this->field_0_type = 2;
-        this->field_10 = a3;
+        this->field_10_mapy_max_t2 = a3;
         this->field_14_mapx_t2 = a4;
         this->field_20_pSprite = 0;
     }
 
-    void sub_4BA250(Fix16 a2, Fix16 a3, Fix16 a4)
+    void SetHorizontalSegment_4BA250(Fix16 a2, Fix16 a3, Fix16 a4)
     {
         this->field_4_mapx_t1 = a2;
         this->field_0_type = 1;
-        this->field_8 = a3;
+        this->field_8_mapx_max_t1 = a3;
         this->field_18_mapy_t1 = a4;
         this->field_20_pSprite = 0;
     }
@@ -56,9 +56,9 @@ class Rozza_28
 
     s32 field_0_type; // sprite enum type ?
     Fix16 field_4_mapx_t1;
-    Fix16 field_8;
+    Fix16 field_8_mapx_max_t1;
     Fix16 field_C_mapy_t2;
-    Fix16 field_10;
+    Fix16 field_10_mapy_max_t2;
     Fix16 field_14_mapx_t2;
     Fix16 field_18_mapy_t1;
     Fix16 field_1C_mapz;
@@ -86,7 +86,7 @@ class Rozza_A
     Car_BC* field_10_car;
     Car_BC* field_14_other_car;
     s32 field_18_model_copy;
-    s32 field_1C; // also model_copy
+    s32 field_1C_other_model_copy; // model of the other object collided with
     s32 field_20_map_block_spec;
     Fix16 field_24_car_physics_value;
 };

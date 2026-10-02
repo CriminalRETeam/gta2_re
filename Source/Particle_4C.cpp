@@ -160,7 +160,7 @@ char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
         return 1;
     }
 
-    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 103);
+    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 103);
 
     this->field_30_pNext->field_2C_flags = 0xA2;
     this->field_30_pNext->field_2C_flags |= 4u;
@@ -260,7 +260,7 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
         }
     }
 
-    field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + this->field_46_sub_state + 191);
+    field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + this->field_46_sub_state + 191);
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
@@ -391,18 +391,18 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
     {
         case 5:
         case 6:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 127);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 127);
             break;
         case 4:
-            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 128);
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 128);
             break;
         case 2:
         case 3:
-            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 129);
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 129);
             break;
         case 0:
         case 1:
-            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 130);
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 130);
             break;
         default:
             break;
@@ -499,7 +499,7 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
         idx = 3;
     }
 
-    field_30_pNext->field_22_sprite_id = idx + gPhi_8CA8_6FCF00->field_8CA4 + 37;
+    field_30_pNext->field_22_sprite_id = idx + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 37;
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     field_30_pNext->field_2C_flags = 0x52;
     field_30_pNext->field_2C_flags |= 4;
@@ -581,7 +581,7 @@ bool Particle_4C::PoolUpdate()
                 gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
                 if (field_46_sub_state <= 15u)
                 {
-                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 20);
+                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
                     if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
                     {
                         field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x,
@@ -622,7 +622,7 @@ bool Particle_4C::PoolUpdate()
                 gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
                 if (field_46_sub_state <= 15u)
                 {
-                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 20);
+                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
 
                     if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
                     {
@@ -662,7 +662,7 @@ bool Particle_4C::PoolUpdate()
                 gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
                 if (field_46_sub_state <= 0xFu)
                 {
-                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 56);
+                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 56);
 
                     if (field_30_pNext->field_1C_zpos + dword_6FD2E8 + dword_6FD2F0 < dword_6FD28C)
                     {
@@ -706,7 +706,7 @@ bool Particle_4C::PoolUpdate()
                 return true;
             }
 
-            field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 147);
+            field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 147);
 
             stru_6FD388 = (gSin_table_667A80[this->field_24_angle.rValue] * this->field_20);
             stru_6FD38C = (gCos_table_669260[this->field_24_angle.rValue] * this->field_20);
@@ -739,7 +739,7 @@ bool Particle_4C::PoolUpdate()
             gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
             if (this->field_2C_counter)
             {
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4);
+                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
                 gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
                 return false;
             }

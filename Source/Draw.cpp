@@ -387,11 +387,11 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
     {
         if (curr_palette_type == palette_types_enum::font_remaps_8)
         {
-            gMagical_germain_0x8EC_6F5168->sub_4D29D0(og_palette);
+            gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromRemap_4D29D0(og_palette);
         }
         else
         {
-            gMagical_germain_0x8EC_6F5168->sub_4D28A0(font_type);
+            gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
         }
     }
 
@@ -430,11 +430,11 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             {
                 if (curr_palette_type == palette_types_enum::font_remaps_8)
                 {
-                    gMagical_germain_0x8EC_6F5168->sub_4D29D0(curr_palette);
+                    gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromRemap_4D29D0(curr_palette);
                 }
                 else
                 {
-                    gMagical_germain_0x8EC_6F5168->sub_4D28A0(font_type);
+                    gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
                 }
             }
         }

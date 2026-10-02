@@ -1763,7 +1763,7 @@ void CC ImGuiDebugDraw()
 
                         if (pCarIter->field_60)
                         {
-                            swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C);
+                            swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C_relationship_code);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -15);
                         }
                         */
@@ -2690,7 +2690,7 @@ void CC ImGuiDebugDraw()
             {
                 ImGui::Value("field_0_next_idx", gPhi_8CA8_6FCF00->field_0_next_idx);
                 ImGui::Value("field_2", gPhi_8CA8_6FCF00->field_2);
-                ImGui::Value("field_8CA4", gPhi_8CA8_6FCF00->field_8CA4);
+                ImGui::Value("field_8CA4_def112_sprite_palette", gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
                 ImGui::Value("field_8CA6", gPhi_8CA8_6FCF00->field_8CA6);
 
                 //static s32 phi_74_id = 0;
@@ -2962,7 +2962,7 @@ void CC ImGuiDebugDraw()
                     pParticle->field_2E = f_2E;
 
                     pParticle->field_30_pNext->SetType_4206F0(8);
-                    pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 132);
+                    pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 132);
                     pParticle->field_46_sub_state = 0; // TODO
                     pParticle->field_48_timer = timer;
                     pParticle->field_30_pNext->set_xyz_lazy_420600(pPlayerSprite->field_14_xy.x, pPlayerSprite->field_14_xy.y, pPlayerSprite->field_1C_zpos);

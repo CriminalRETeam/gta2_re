@@ -5476,7 +5476,7 @@ char_type sound_obj::Type6_7_4130E0(Rozza_A* a2)
 MATCH_FUNC(0x413540)
 char_type sound_obj::Type6_9_413540(Rozza_A* a2)
 {
-    switch (a2->field_1C)
+    switch (a2->field_1C_other_model_copy)
     {
         case 169:
         case 182:

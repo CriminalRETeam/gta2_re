@@ -773,7 +773,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pThread, s16* pThrea
 {
     SCR_THREAD* pCmd = pThread;
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10);
-    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_car_or_phone_idx);
 
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
@@ -789,7 +789,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pThread)
 
     if (((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx))->field_8_char)
     {
-        pCmd->field_15 = gCar_214_705F20->AddThreadTrigger_5C86C0(4,
+        pCmd->field_15_trigger_idx = gCar_214_705F20->AddThreadTrigger_5C86C0(4,
                                                      2,
                                                      pCmd,
                                                      Fix16(pCmd->field_12_x) + kFpHalf_6F75F0,
@@ -841,7 +841,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0(SCR_THREAD* pThread, s16* pThrea
 {
     SCR_THREAD* pCmd = pThread;
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10);
-    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_car_or_phone_idx);
 
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
@@ -1368,7 +1368,7 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
         {
             SCR_THREAD* pThread = (SCR_THREAD*)pCmd;
             SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pThread->field_10);
-            SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pThread->field_12);
+            SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx);
 
             if (pParam2->field_8_obj->sub_475A80() && pParam2->field_8_obj->field_24_bDoneThisFrame != 174)
             {
@@ -1379,7 +1379,7 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
             break;
         }
         case SCRCMD_THREAD_DECLARE3:
-            gCar_214_705F20->field_0_triggers[(u8)((SCR_THREAD*)pCmd)->field_15].field_14_enable_state = 2;
+            gCar_214_705F20->field_0_triggers[(u8)((SCR_THREAD*)pCmd)->field_15_trigger_idx].field_14_enable_state = 2;
             break;
         case SCRCMD_THREAD_DECLARE5:
         case SCRCMD_CHAR_AREA_ANY_MEANS:
@@ -1389,7 +1389,7 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
         {
             SCR_THREAD* pThread = (SCR_THREAD*)pCmd;
             SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pThread->field_10);
-            SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pThread->field_12);
+            SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx);
 
             s32 charId = pParam1->field_8_char->field_200_id;
             thread_C* pThreadC = gfrosty_pasteur_6F8060->FindCarThread_5128A0(charId, pParam2->field_8_car->field_6C_maybe_id);
@@ -1475,7 +1475,7 @@ void miss2_0x11C::DeallocOrDeleteItem_505B10(u16 idx)
 }
 
 MATCH_FUNC(0x505ea0)
-s16 miss2_0x11C::sub_505EA0(u16 idx)
+s16 miss2_0x11C::GetBonusResult_505EA0(u16 idx)
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
     s16 result = pPointer->field_8_counter;
@@ -3541,7 +3541,7 @@ void miss2_0x11C::EnableThread_50A9E0(u16 idx)
 
             if (pThread->field_16_flag)
             {
-                gCar_214_705F20->field_0_triggers[(u8)pThread->field_15].field_14_enable_state = 1;
+                gCar_214_705F20->field_0_triggers[(u8)pThread->field_15_trigger_idx].field_14_enable_state = 1;
             }
             else
             {
@@ -5552,9 +5552,9 @@ void miss2_0x11C::StartBonus_50DF10()
 
     s8 f24 = pCmd->field_D != 1 ? 2 : 1;
 
-    if (pCmd->field_12 >= 0)
+    if (pCmd->field_12_alt_car_model >= 0)
     {
-        alt_car_model = pCmd->field_12;
+        alt_car_model = pCmd->field_12_alt_car_model;
     }
 
     // u16 > 0xFFFF is never true, left over dead code?
@@ -5567,13 +5567,13 @@ void miss2_0x11C::StartBonus_50DF10()
                                                                                                                    car_model,
                                                                                                                    occupation,
                                                                                                                    gang_idx,
-                                                                                                                   pCmd->field_B,
+                                                                                                                   pCmd->field_B_remap,
                                                                                                                    pCmd->field_1A,
                                                                                                                    alt_car_model,
-                                                                                                                   pCmd->field_10,
+                                                                                                                   pCmd->field_10_time_limit,
                                                                                                                    f24,
-                                                                                                                   pCmd->field_C,
-                                                                                                                   pCmd->field_14,
+                                                                                                                   pCmd->field_C_target_count,
+                                                                                                                   pCmd->field_14_reward,
                                                                                                                    NULL);
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -5582,7 +5582,7 @@ void miss2_0x11C::StartBonus_50DF10()
 MATCH_FUNC(0x50e0b0)
 void miss2_0x11C::SCRCMD_CHECK_BONUS_50E0B0()
 {
-    s16 result = miss2_0x11C::sub_505EA0(gBasePtr_6F8070->field_8_index);
+    s16 result = miss2_0x11C::GetBonusResult_505EA0(gBasePtr_6F8070->field_8_index);
     field_8_cond_result = false;
 
     switch (gBasePtr_6F8070->field_2_type)
@@ -6916,7 +6916,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
     }
     else
     {
-        if (miss2_0x11C::sub_505EA0(pCmd->field_8_bonusname) == -2)
+        if (miss2_0x11C::GetBonusResult_505EA0(pCmd->field_8_bonusname) == -2)
         {
             SCR_POINTER* pBonusType = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname);
             SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
@@ -6941,7 +6941,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
             pTimerIDPointer->field_8_index = 0;
             pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
             gfrosty_pasteur_6F8060->field_C1E2D_bKillFrenzyActive = 0;
-            if (miss2_0x11C::sub_505EA0(pCmd->field_8_bonusname) == -3)
+            if (miss2_0x11C::GetBonusResult_505EA0(pCmd->field_8_bonusname) == -3)
             {
                 gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfpass"), 3);
                 pPlayerPedCmdPointer->field_8_char->field_20A_wanted_points = 0;

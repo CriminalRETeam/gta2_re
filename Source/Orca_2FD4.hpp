@@ -85,7 +85,7 @@ class Orca_2FD4
     s32 field_30;
     s16 field_34;
     s16 field_36;
-    char_type field_38;
+    char_type field_38_bComputePathInProgress;
     char_type field_39;
     s16 field_3A;
     Ped_List_4 field_3C_ped_list;

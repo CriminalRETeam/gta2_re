@@ -182,8 +182,8 @@ bool Rozza_A::SetupForObject_40BA60(Object_2C* pObj)
                     return 0;
                 }
 
-                field_1C = o2c->get_model_40FEF0();
-                if (field_1C == objects::diagonal_wall_collision_obj_166)
+                field_1C_other_model_copy = o2c->get_model_40FEF0();
+                if (field_1C_other_model_copy == objects::diagonal_wall_collision_obj_166)
                 {
                     field_0_type = 10;
                     field_20_map_block_spec = o2c->sub_529240();

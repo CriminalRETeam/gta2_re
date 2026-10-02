@@ -267,7 +267,7 @@ class Phi_74
     EXPORT void SetDimensions_533060(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT void SetDimensionsFromSprite_533090();
     EXPORT void SetRemap_533110(s16 remap);
-    EXPORT void sub_533150(s16 a2, s16 a3);
+    EXPORT void AddSpritePaletteAndSetAnimSpeed_533150(s16 a2, s16 a3);
     EXPORT Sprite* CreateSpriteFromDefinition_533170();
     EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* a2);
     EXPORT Phi_74();
@@ -323,13 +323,13 @@ class Phi_8CA8
     EXPORT ~Phi_8CA8();
     EXPORT Phi_74* AllocDefinitionWithSprite_5332D0(s32 idx, s32 a3, s16 a4, u8 a5);
     EXPORT void CreateMapObjectDefinitions_533300();
-    EXPORT void sub_533360();
+    EXPORT void ApplyPhi54Definitions_533360();
     EXPORT void sub_533420();
     EXPORT void CreateCodeObjectDefinitions_533B30();
     EXPORT void sub_533C90();
-    EXPORT void sub_534270();
-    EXPORT void sub_5342D0();
-    EXPORT void sub_5342F0(s32 idx);
+    EXPORT void ClearColour1PixelsOfDefinitions287To293_534270();
+    EXPORT void CacheDef112SpritePalette_5342D0();
+    EXPORT void ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx);
     EXPORT void InitDefinitions_534330();
     EXPORT Phi_74* GetObjectDefinition_534360(s32 idx);
     EXPORT Phi_74* CloneDefinition_534370(s32 dst_idx, s32 src_idx);
@@ -340,7 +340,7 @@ class Phi_8CA8
     s16 field_2;
     Phi_74 field_4_definitions[300];
     Phi_74* field_87F4_definition_by_idx[300];
-    s16 field_8CA4;
+    s16 field_8CA4_def112_sprite_palette;
     s16 field_8CA6;
 };
 

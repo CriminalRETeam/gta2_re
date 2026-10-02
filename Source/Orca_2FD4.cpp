@@ -240,7 +240,7 @@ MATCH_FUNC(0x5545e0)
 void Orca_2FD4::init_5545E0()
 {
     memset(this->field_40_grid, 0, sizeof(this->field_40_grid));
-    field_38 = 0;
+    field_38_bComputePathInProgress = 0;
     field_34 = 1;
     field_36 = 0;
     field_3A = 0;
@@ -598,7 +598,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
     if (field_2FD1_time_out_counter > 200)
     {
         field_2FD0_bTimedOut = 1;
-        field_38 = 0;
+        field_38_bComputePathInProgress = 0;
         return 1;
     }
     if (!field_C_node_count)
@@ -706,7 +706,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
                     pPatrolPoint_2->field_2_z = 0;
                     *a11 = field_C_node_count;
                     field_2FD0_bTimedOut = 1;
-                    field_38 = 0;
+                    field_38_bComputePathInProgress = 0;
                     field_2FD1_time_out_counter = 0;
                     return 1;
                 default:
@@ -717,7 +717,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
     while (1)
     {
         j = 0;
-        field_38 = 1;
+        field_38_bComputePathInProgress = 1;
         field_8_pNode = field_2350_nodes;
         v23 = field_2350_nodes;
 
@@ -877,7 +877,7 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
 {
     WIP_IMPLEMENTED;
     u8 j = 0;
-    if (field_38 && !maybe_timer)
+    if (field_38_bComputePathInProgress && !maybe_timer)
     {
         return 0;
     }

@@ -565,10 +565,10 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
         Fix16 xt1d = field_4->field_14_xy.x + (gRozza_679188.field_14_mapx_t2 - a2->x);
         Fix16 ttt = (gRozza_679188.field_18_mapy_t1 - a2->y); // not used, from an inline ??
 
-        Fix16 v7 = xt1d - gRozza_679188.field_8;
+        Fix16 v7 = xt1d - gRozza_679188.field_8_mapx_max_t1;
         if (v7 <= 0)
         {
-            v7 = gRozza_679188.field_8 - xt1d;
+            v7 = gRozza_679188.field_8_mapx_max_t1 - xt1d;
         }
 
         Fix16 v8 = xt1d - gRozza_679188.field_4_mapx_t1;
@@ -580,7 +580,7 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
         t1.x = gRozza_679188.field_4_mapx_t1;
         if (v8 >= v7)
         {
-            t1.x = gRozza_679188.field_8;
+            t1.x = gRozza_679188.field_8_mapx_max_t1;
         }
 
         v12 = -obj_speed;
@@ -608,7 +608,7 @@ void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint
         t2 -= *pPoint;
         t2.y += field_4->field_14_xy.y;
 
-        Fix16 abs1 = Fix16::Abs(t2.y - gRozza_679188.field_10);
+        Fix16 abs1 = Fix16::Abs(t2.y - gRozza_679188.field_10_mapy_max_t2);
         Fix16 abs2 = Fix16::Abs(t2.y - gRozza_679188.field_C_mapy_t2);
 
         if (abs2 < abs1)
@@ -617,7 +617,7 @@ void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint
         }
         else
         {
-            t2.y = gRozza_679188.field_10;
+            t2.y = gRozza_679188.field_10_mapy_max_t2;
         }
 
         v12 = -obj_speed;

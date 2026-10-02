@@ -1524,13 +1524,13 @@ void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang1
         CollisionIntersectionPoint_6FE1A0.x += field_38_cp1.x;
         CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_18_mapy_t1;
         
-        if (Fix16::Abs(CollisionIntersectionPoint_6FE1A0.x - gRozza_679188.field_4_mapx_t1) < Fix16::Abs(CollisionIntersectionPoint_6FE1A0.x - gRozza_679188.field_8))
+        if (Fix16::Abs(CollisionIntersectionPoint_6FE1A0.x - gRozza_679188.field_4_mapx_t1) < Fix16::Abs(CollisionIntersectionPoint_6FE1A0.x - gRozza_679188.field_8_mapx_max_t1))
         {
             CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_4_mapx_t1;
         }
         else
         {
-            CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_8;
+            CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_8_mapx_max_t1;
         }
         Fix16_Point RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
         if (field_38_cp1.y < CollisionIntersectionPoint_6FE1A0.y)
@@ -1568,13 +1568,13 @@ void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang1
         CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_14_mapx_t2;
 
         if (Fix16::Abs(CollisionIntersectionPoint_6FE1A0.y - gRozza_679188.field_C_mapy_t2) <
-            Fix16::Abs(CollisionIntersectionPoint_6FE1A0.y - gRozza_679188.field_10))
+            Fix16::Abs(CollisionIntersectionPoint_6FE1A0.y - gRozza_679188.field_10_mapy_max_t2))
         {
             CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_C_mapy_t2;
         }
         else
         {
-            CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_10;
+            CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_10_mapy_max_t2;
         }
         Fix16_Point RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
         if (field_38_cp1.x < CollisionIntersectionPoint_6FE1A0.x)

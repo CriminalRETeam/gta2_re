@@ -45,7 +45,7 @@ class Hamburger_40
     char_type field_3;
     Ped* field_4_ped_owner; // owner/thing going to the target
     s32 field_8_maybe_path_type;
-    s32 field_C;
+    s32 field_C_relationship_code; // One of PedRelationship
     char_type field_10;
     char_type field_11;
     char_type field_12;
