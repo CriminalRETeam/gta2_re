@@ -7318,98 +7318,83 @@ void Ped::sub_467BD0()
     }
 }
 
-WIP_FUNC(0x467ca0)
+MATCH_FUNC(0x467ca0)
 void Ped::KillCharOnFoot_467CA0()
 {
-    WIP_IMPLEMENTED;
-
-    // TODO: Move this code down somehow
-    if (field_148_objective_target_ped->check_bit_0())
+    if (!field_148_objective_target_ped->CheckBit0_433B40() || field_148_objective_target_ped->GetPedState_403990() == ped_state_1::dead_9)
     {
-        if (field_148_objective_target_ped->field_278_ped_state_1 != ped_state_1::dead_9)
+        if (field_148_objective_target_ped->GetPedState_403990() == ped_state_1::dead_9)
         {
-            this->field_225_objective_status = objective_status::failed_2;
-            return;
-        }
-        // LABEL_25:
-        // this->field_225 = 1;
-        // return;
-    }
-
-    if (field_148_objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9)
-    {
-        this->field_225_objective_status = objective_status::passed_1;
-        return;
-    }
-
-    if (field_140)
-    {
-        if (field_140->field_88_despawn_status == 5)
-        {
-            this->field_140 = 0;
+            field_225_objective_status = objective_status::passed_1;
         }
         else
         {
-            field_140->field_76_last_seen_timer = 0;
+            field_225_objective_status = objective_status::failed_2;
         }
     }
-
-    // TODO: An inline?
-    if ((field_148_objective_target_ped->field_21C & 0x2000000) != 0 && field_148_objective_target_ped->field_168_game_object)
+    else
     {
-        if (this->field_25C_internal_objective == 17)
+        if (field_140)
+        {
+            if (field_140->field_88_despawn_status == 5)
+            {
+                field_140 = 0;
+            }
+            else
+            {
+                field_140->field_76_last_seen_timer = 0;
+            }
+        }
+
+        if (field_148_objective_target_ped->sub_433DA0())
+        {
+            if (field_25C_internal_objective == objectives_enum::objective_17)
+            {
+                return;
+            }
+            Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+            return;
+        }
+
+        if (!byte_61A8A3 || field_21C_bf.b2)
         {
             return;
         }
-        Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-        return;
-    }
 
-    if (!byte_61A8A3 || (this->field_21C_bf.b2))
-    {
-        return;
-    }
-
-    switch (field_25C_internal_objective)
-    {
-        case 0:
-            Ped::SetObjective2_463830(20, 9999);
-            this->field_14C = this->field_148_objective_target_ped;
-            return;
-
-        case 1:
-            if (this->field_226 != 1)
-            {
-                return;
-            }
-            Ped::SetObjective2_463830(20, 9999);
-            this->field_14C = this->field_148_objective_target_ped;
-            return;
-
-        case 20:
-            if (this->field_226 == 1)
-            {
-                if (this->field_14C != field_148_objective_target_ped)
+        switch (field_25C_internal_objective)
+        {
+            case objectives_enum::kill_char_on_foot_20:
+                if (field_226 == 1)
                 {
-                    // LABEL_10
-                    Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    if (field_14C != field_148_objective_target_ped)
+                    {
+                        Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                        return;
+                    }
+                    field_225_objective_status = objective_status::passed_1;
                     return;
                 }
-                this->field_225_objective_status = objective_status::passed_1;
+                if (field_226 == 2)
+                {
+                    Ped::SetObjective2_463830(objectives_enum::kill_char_on_foot_20, 9999);
+                    field_14C = field_148_objective_target_ped;
+                    field_21C_bf.b2 = 0;
+                }
                 return;
-            }
 
-            if (this->field_226 == 2)
-            {
-                Ped::SetObjective2_463830(20, 9999);
-                this->field_14C = this->field_148_objective_target_ped;
-                field_21C_bf.b2 = 0;
+            case objectives_enum::flee_on_foot_till_safe_1:
+                if (field_226 == 1)
+                {
+                    Ped::SetObjective2_463830(objectives_enum::kill_char_on_foot_20, 9999);
+                    field_14C = field_148_objective_target_ped;
+                }
                 return;
-            }
-            return;
 
-        default:
-            return;
+            case objectives_enum::no_obj_0:
+                Ped::SetObjective2_463830(objectives_enum::kill_char_on_foot_20, 9999);
+                field_14C = field_148_objective_target_ped;
+                return;
+        }
     }
 }
 
