@@ -6789,7 +6789,7 @@ void Car_BC::PoolAllocate()
 
     this->field_0_qq.DestroyAllSprites_5A7010();
 
-    this->field_A7_horn = 0;
+    ClearHorn_421460();
     IncrementCarStats_443D70(car_kind::none_0);
     this->field_8D = 0;
     this->field_60 = 0;
