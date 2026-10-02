@@ -40,7 +40,7 @@ void Ped_List_4::AddPedToBackIfMissing_471160(Ped* pPed)
         }
     }
 
-    Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
+    Char_8* pNew = gChar_8_Pool_678b50->Allocate_445EF0();
     pNew->field_0_char_ped = pPed;
 
     if (pLast)
