@@ -685,6 +685,12 @@ class Ped
         field_20A_wanted_points = 0;
     }
 
+    // 9.6f 0x472FD0
+    inline bool IsGroupLeader_472FD0()
+    {
+        return field_23C == 99;
+    }
+
     // 9.6f 0x433BE0
     inline void ClearF144_433BE0()
     {

@@ -674,11 +674,7 @@ void PoliceCrew_38::sub_572340()
             Car_BC* pCar = field_10_subObj->field_0_car;
             if (pCar)
             {
-                s32 v7 = pCar->field_88_despawn_status;
-                if (v7 != 5 && v7 != 2 && v7 != 3)
-                {
-                    pCar->field_88_despawn_status = 4;
-                }
+                pCar->sub_421470();
                 field_10_subObj->field_0_car = 0;
                 field_24_state = police_crew_state::shutdown_6;
                 PoliceCrew_38::sub_575650();
@@ -743,7 +739,7 @@ void PoliceCrew_38::sub_572340()
                                 field_28 = 1;
                                 break;
                             case objectives_enum::no_obj_0:
-                                if (pPed->field_23C == 99)
+                                if (pPed->IsGroupLeader_472FD0())
                                 {
                                     if (pPed->field_16C_car)
                                     {
