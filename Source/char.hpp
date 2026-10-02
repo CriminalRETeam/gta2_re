@@ -35,7 +35,7 @@ class Char_B4
     s32 field_8_ped_state_1;
     s32 field_C_ped_state_2;
     s32 field_10_char_state;
-    Ang16 field_14;
+    Ang16 field_14_target_rotation;
     s8 field_16_state_init_pending;
     s8 field_17;
     void* field_18_collided_entity;
@@ -54,16 +54,16 @@ class Char_B4
     Fix16 field_38_velocity;
     Fix16 field_3C_run_or_jump_speed;
     Ang16 field_40_rotation;
-    Ang16 field_42;
-    s8 field_44;
+    Ang16 field_42_rotation_jitter;
+    s8 field_44_block_type;
     u8 field_45_slope_gradient_direction;
     u16 field_46_timer;
-    s8 field_48;
+    s8 field_48_lying_on_floor_timer;
     s8 field_49;
     u16 field_4A;
     Fix16 field_4C_conveyor_dx;
     Fix16 field_50_conveyor_dy;
-    s8 field_54;
+    s8 field_54_jump_scale_counter;
     u8 field_55;
     s8 field_56;
     s8 field_57;
@@ -84,7 +84,7 @@ class Char_B4
     s8 field_6b;
     s32 field_6C_animation_state;
     s8 field_70_frame_timer;
-    s8 field_71;
+    s8 field_71_frame_delay;
     u8 field_72_next_tile_x;
     u8 field_73_next_tile_y;
     Ang16 field_74;
@@ -95,10 +95,10 @@ class Char_B4
     Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
     Car_BC* field_84_target_car;
     struct_4 field_88_obj_2c;
-    Fix16 field_8C;
-    Fix16 field_90;
-    Fix16 field_94;
-    Fix16_Point_POD field_98;
+    Fix16 field_8C_jump_base_z;
+    Fix16 field_90_fall_speed;
+    Fix16 field_94_fall_z_speed;
+    Fix16_Point_POD field_98_velocity_vector;
     //Fix16 field_9C;
     s8 field_A0;
     s8 field_A1;

@@ -49,7 +49,7 @@ class Object_2C
     EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Point* a3, u8* a4, Fix16 a5);
     EXPORT char_type HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5);
     EXPORT char_type HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, u8* a4, u8* a5, Fix16 a6);
-    EXPORT void sub_524550();
+    EXPORT void ComputeWallHitSide_524550();
     EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 a3);
     EXPORT void sub_525190(u8 varrok_idx);
     EXPORT void UpdateAninmation_5257D0();
@@ -76,7 +76,7 @@ class Object_2C
     EXPORT void TickObject_5283C0(s32 a2);
     EXPORT bool OnObjectTouched_5288B0(Sprite* a2);
     EXPORT void HandleWaterDeath_528900();
-    EXPORT static s32 __stdcall sub_528E00(s32 a1); // TODO: Check if thiscall
+    EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 a1); // TODO: Check if thiscall
     EXPORT char_type HandleObjectHitIfExplosive_528960(Object_2C* pOther);
     EXPORT char_type HandleObjectHit_528990(Sprite* a2);
     EXPORT void ProcessObjectExplosionImpact_528A20(Object_2C* pObj);
@@ -92,8 +92,8 @@ class Object_2C
     EXPORT void RequestRemoval_5290A0();
     EXPORT void RequestRemovalWhenOffScreen_5290B0();
     EXPORT void Dealloc_5291B0();
-    EXPORT void sub_5291D0();
-    EXPORT void sub_5291E0(u8 a2);
+    EXPORT void PoolGiveAndMarkDone_5291D0();
+    EXPORT void PoolGiveAndSetDone_5291E0(u8 a2);
     EXPORT bool IsNotModel_174_529200();
     EXPORT ~Object_2C();
     EXPORT void EnsureObject3C_52A650();
@@ -124,7 +124,7 @@ class Object_2C
         return t == 2 || t == 4 || t == 8 || t == 9;
     }
 
-    inline bool sub_434140()
+    inline bool IsDestroyedPowergen_434140()
     {
         if (field_18_model == 285 || field_18_model == 282)
         {
@@ -253,7 +253,7 @@ class Object_2C
     char_type field_1D;
     char_type field_1E;
     char_type field_1F;
-    s32 field_20;
+    s32 field_20_pool_list_state;
     u8 field_24_bDoneThisFrame;
     u8 field_25_removal_state;
     u8 field_26_varrok_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
@@ -282,7 +282,7 @@ class Object_5C
     EXPORT Object_2C* NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
     EXPORT Object_2C* sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
     EXPORT Object_2C* New_529C00(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6, char_type a7);
-    EXPORT char_type sub_52A210(char_type a2);
+    EXPORT char_type SetPendingDamageOwner_52A210(char_type a2);
     EXPORT Object_2C* NewUnknown_52A240(s32 object_type,
                                         Fix16 maybe_x,
                                         Fix16 maybe_y,
@@ -317,20 +317,20 @@ class Object_5C
     EXPORT void RestoreObjects_52A590(TurkishDelight_164* pUnknownObj);
     EXPORT void RemoveAndFree_52A610(Object_2C* p2C);
 
-    Object_2C* field_0; // Object_2C* ?
-    Object_2C* field_4;
-    Object_2C* field_8;
-    Object_2C* field_C;
+    Object_2C* field_0_diagonal_wall_ang315; // Object_2C* ?
+    Object_2C* field_4_diagonal_wall_ang135;
+    Object_2C* field_8_diagonal_wall_ang225;
+    Object_2C* field_C_diagonal_wall_ang45;
     s32 field_10_rotation_counter;
     s32 field_14_sprites_in_list;
-    u8 field_18;
+    u8 field_18_pending_damage_owner;
     u8 field_19;
     u16 field_1A;
-    struct_4 field_1C;
+    struct_4 field_1C_sprite_list;
     u8 field_20_bUnCollectedTokens[50];
     u16 field_52; // pad?
     s32 field_54_uncollected_token_index;
-    Sprite* field_58;
+    Sprite* field_58_collision_probe_sprite;
 };
 
 EXTERN_GLOBAL(Object_5C*, gObject_5C_6F8F84);

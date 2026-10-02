@@ -179,9 +179,9 @@ EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 // crt_init_own_libname_21 or sub_4F7530
 void Init_Unk_Width_Height_F16_array()
 {
-    for (u32 i = 0; i < GTA2_COUNTOF(dword_6F6850.list); i++)
+    for (u32 i = 0; i < GTA2_COUNTOF(gPixelsToFix16_6F6850.list); i++)
     {
-        dword_6F6850.list[i] = Fix16(i) / 64;
+        gPixelsToFix16_6F6850.list[i] = Fix16(i) / 64;
     }
 }
 
@@ -1915,13 +1915,13 @@ void CC ImGuiDebugDraw()
                         ImGui::SliderS16("Obj3C angle", &obj_3c->field_4_angle.rValue, 0, 1439);
                         ImGui::InputS16("Obj3C field_6", &obj_3c->field_6, 0, 1439);
                         ImGui::Value("Obj3C field_C", obj_3c->field_C_speed.mValue);
-                        ImGui::Value("Obj3C field_10", obj_3c->field_10.mValue);
+                        ImGui::Value("Obj3C field_10", obj_3c->field_10_z_speed.mValue);
                         ImGui::Value("Obj3C field_14", obj_3c->field_14.mValue);
                         ImGui::Value("Obj3C field_18", obj_3c->field_18_friction.mValue);
-                        ImGui::Value("Obj3C field_1C", obj_3c->field_1C.mValue);
+                        ImGui::Value("Obj3C field_1C", obj_3c->field_1C_z_accel.mValue);
 
                         ImGui::Value("Obj3C field_2E", obj_3c->field_2E);
-                        ImGui::Value("Obj3C field_2F", obj_3c->field_2F);
+                        ImGui::Value("Obj3C field_2F", obj_3c->field_2F_bOnSlope);
 
                         ImGui::Value("Obj3C field_38", obj_3c->field_38_conveyor_speed);
                         ImGui::Value("Obj3C field_39", obj_3c->field_39);
@@ -2160,7 +2160,7 @@ void CC ImGuiDebugDraw()
                         ImGui::InputU8("B4 f_68", &pPlayerPed->field_168_game_object->field_68_animation_frame, 1, 1);
                         ImGui::InputInt("B4 f_6C", &pPlayerPed->field_168_game_object->field_6C_animation_state, 1, 1);
                         ImGui::Input_char_type("B4 f_70", (char_type*)&pPlayerPed->field_168_game_object->field_70_frame_timer, 1, 1);
-                        ImGui::Input_char_type("B4 f_71", (char_type*)&pPlayerPed->field_168_game_object->field_71, 1, 1);
+                        ImGui::Input_char_type("B4 f_71", (char_type*)&pPlayerPed->field_168_game_object->field_71_frame_delay, 1, 1);
 
                         if (ImGui::TreeNode("Display CharB4 flags"))
                         {

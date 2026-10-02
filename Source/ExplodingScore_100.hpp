@@ -18,7 +18,7 @@ class ExplodingScore_50
     EXPORT void DrawSingleNumber_597100(s32 a2, s32 a3);
 
     s32 field_0_numbers_count;
-    s32 field_4[9]; // Number components
+    s32 field_4_digits[9]; // Number components
     Fix16 field_28_x;
     Fix16 field_2C_y;
     Fix16 field_30_z;

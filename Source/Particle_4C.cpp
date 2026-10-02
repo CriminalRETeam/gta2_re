@@ -73,7 +73,7 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
             field_40_pUnknown->field_14_pObj2C;
             if (field_40_pUnknown->field_14_pObj2C->field_4)
             {
-                field_20 = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
                 field_24_angle = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
             if (field_40_pUnknown->field_1A_timer == 1)
@@ -84,10 +84,10 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     }
     else
     {
-        field_20 = kFP16Zero_6FD49C;
+        field_20_speed = kFP16Zero_6FD49C;
     }
 
-    if (field_20 == kFP16Zero_6FD49C)
+    if (field_20_speed == kFP16Zero_6FD49C)
     {
         stru_6FD388 = field_30_pNext->field_14_xy.x + rng_1;
         stru_6FD38C = field_30_pNext->field_14_xy.y + rng_2;
@@ -103,12 +103,12 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     }
     else
     {
-        field_20 = field_20 * dword_6FD30C;
-        if (field_20 < kFP16Zero_6FD49C)
+        field_20_speed = field_20_speed * dword_6FD30C;
+        if (field_20_speed < kFP16Zero_6FD49C)
         {
-            field_20 = kFP16Zero_6FD49C;
+            field_20_speed = kFP16Zero_6FD49C;
         }
-        vector.x = field_20;
+        vector.x = field_20_speed;
         vector.y = kFP16Zero_6FD49C;
         vector.RotateByAngle_40F6B0(field_24_angle);
 
@@ -708,8 +708,8 @@ bool Particle_4C::PoolUpdate()
 
             field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 147);
 
-            stru_6FD388 = (gSin_table_667A80[this->field_24_angle.rValue] * this->field_20);
-            stru_6FD38C = (gCos_table_669260[this->field_24_angle.rValue] * this->field_20);
+            stru_6FD388 = (gSin_table_667A80[this->field_24_angle.rValue] * this->field_20_speed);
+            stru_6FD38C = (gCos_table_669260[this->field_24_angle.rValue] * this->field_20_speed);
 
             stru_6FD388 = this->field_30_pNext->field_14_xy.x + stru_6FD388;
             stru_6FD38C = this->field_30_pNext->field_14_xy.y + stru_6FD38C;

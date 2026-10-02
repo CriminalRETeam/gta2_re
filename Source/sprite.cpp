@@ -1,5 +1,5 @@
 #include "sprite.hpp"
-#include "CarInfo_808.hpp" // TODO: only because of dword_6F6850
+#include "CarInfo_808.hpp" // TODO: only because of gPixelsToFix16_6F6850
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "Object_2C_Pool.hpp"
@@ -32,7 +32,7 @@ DEFINE_GLOBAL(Sprite*, gSprite_6F61E8, 0x6F61E8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_7035C4, Fix16(1), 0x7035C4);
 DEFINE_GLOBAL_INIT(Fix16, gFix16_7035C0, Fix16(0), 0x7035C0);
 DEFINE_GLOBAL_INIT(Ang16, gAng16_703804, Ang16(0), 0x703804);
-DEFINE_GLOBAL(UnknownList, dword_6F6850, 0x6F6850);
+DEFINE_GLOBAL(UnknownList, gPixelsToFix16_6F6850, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Eight_7035E4, Fix16(8), 0x7035E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_703578, Fix16(256, 0), 0x703578);
@@ -168,11 +168,11 @@ s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, u16& a4, const u32& a5)
     Sprite_14* pSprt14 = gSprite_3CC_67AF1C->FindCachedMask_48F600(sprite_idx, &bUnk, &m_var, &a4);
     if (pSprt14)
     {
-        if (pSprt14->field_8 < m_var)
+        if (pSprt14->field_8_delta_mask < m_var)
         {
             bRet = 1;
-            u32 sub = m_var - pSprt14->field_8;
-            Delta_48F820(sprite_idx, (u8*)pSprt14->field_0, sub, sprite_index_5AA440->field_4_width);
+            u32 sub = m_var - pSprt14->field_8_delta_mask;
+            Delta_48F820(sprite_idx, (u8*)pSprt14->field_0_pixels, sub, sprite_index_5AA440->field_4_width);
             pSprt14->SetF4_F8_F12_44AF50(sprite_idx, m_var, a4);
         }
         else
@@ -186,19 +186,19 @@ s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, u16& a4, const u32& a5)
         pSprt14 = gSprite_3CC_67AF1C->FindLeastRecentlyUsed_48F690(&bUnk);
         if (!a5)
         {
-            sprite_index_5AA440->CopyPixels_5ABB00(pSprt14->field_0);
+            sprite_index_5AA440->CopyPixels_5ABB00(pSprt14->field_0_pixels);
         }
         else
         {
             pSprt14->ClearMask_48F5C0(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height);
         }
         
-        Delta_48F820(sprite_idx, (u8*)pSprt14->field_0, m_var, sprite_index_5AA440->field_4_width);
+        Delta_48F820(sprite_idx, (u8*)pSprt14->field_0_pixels, m_var, sprite_index_5AA440->field_4_width);
         pSprt14->SetF4_F8_F12_44AF50(sprite_idx, m_var, a4);
     }
     
     pSprt14->MarkUsed_48F5A0();
-    return pSprt14->field_10;
+    return pSprt14->field_10_idx;
 }
 
 MATCH_FUNC(0x562450)
@@ -895,7 +895,7 @@ void Sprite::Draw_59EFF0()
         pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
     }
 
-    ++gSprite_8_703820->field_0;
+    ++gSprite_8_703820->field_0_drawn_sprite_count;
     if (bDo_show_collision_box_67D6E5)
     {
         if (field_C_sprite_4c_ptr)
@@ -937,13 +937,13 @@ void Sprite::Update_4C_59F990()
 
         if (this->field_30_sprite_type_enum == sprite_types_enum::code_obj2_8)
         {
-            w = dword_6F6850.list[sprite_index->field_4_width] / 2;
-            h = dword_6F6850.list[sprite_index->field_5_height] / 2;
+            w = gPixelsToFix16_6F6850.list[sprite_index->field_4_width] / 2;
+            h = gPixelsToFix16_6F6850.list[sprite_index->field_5_height] / 2;
         }
         else
         {
-            w = dword_6F6850.list[sprite_index->field_4_width];
-            h = dword_6F6850.list[sprite_index->field_5_height];
+            w = gPixelsToFix16_6F6850.list[sprite_index->field_4_width];
+            h = gPixelsToFix16_6F6850.list[sprite_index->field_5_height];
         }
         field_4_0x4C_len->SetWidthHeight_4BA070(w, h);
     }
@@ -957,8 +957,8 @@ void Sprite::UpdateDimensionsFromSpriteIndex_59FA40()
         const u16 idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         sprite_index* pSprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(idx);
 
-        const Fix16 height = dword_6F6850.list[pSprite_index->field_5_height];
-        const Fix16 width = dword_6F6850.list[pSprite_index->field_4_width];
+        const Fix16 height = gPixelsToFix16_6F6850.list[pSprite_index->field_5_height];
+        const Fix16 width = gPixelsToFix16_6F6850.list[pSprite_index->field_4_width];
 
         field_4_0x4C_len->set_wh_4BA030(width, height);
     }
@@ -2262,7 +2262,7 @@ void Sprite_14::MarkUsed_48F5A0()
 MATCH_FUNC(0x48F5C0)
 EXPORT void Sprite_14::ClearMask_48F5C0(u8 xCount, u8 yCount)
 {
-    u8* pData = this->field_0;
+    u8* pData = this->field_0_pixels;
     for (s32 y = 0; y < yCount; y++)
     {
         memset(pData, 0, xCount);
@@ -2292,11 +2292,11 @@ Sprite_14* Sprite_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, 
         s32 sprite_idx_copy = sprite_idx;
         if (pIter->field_4_sprite_idx == sprite_idx_copy && pIter->field_12 == *a5)
         {
-            if (pIter->field_8 == *a4)
+            if (pIter->field_8_delta_mask == *a4)
             {
                 return pIter;
             }
-            if (pIter->field_8 < *a4 && (pIter->field_8 | (*a4 - pIter->field_8)) == *a4)
+            if (pIter->field_8_delta_mask < *a4 && (pIter->field_8_delta_mask | (*a4 - pIter->field_8_delta_mask)) == *a4)
             {
                 pSprt = pIter;
             }
@@ -2366,21 +2366,21 @@ Sprite_3CC::Sprite_3CC()
 {
     u32 iVar4;
     field_3C0_use_counter = 0;
-    field_3C4 = NULL;
-    field_3C8 = NULL;
+    field_3C4_aligned_buffer = NULL;
+    field_3C8_unaligned_alloc = NULL;
 
     // By the way this is later used, it seems to be an array of a structure of size 0x40.
     // For now, it's a s32* as it make the code to match.
-    u8* pvVar2 = (u8*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8));
-    field_3C4 = pvVar2;
+    u8* pvVar2 = (u8*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8_unaligned_alloc));
+    field_3C4_aligned_buffer = pvVar2;
 
     Sprite_14* tmp = field_0;
     for (iVar4 = 8; iVar4 != 0; iVar4--, pvVar2 += 0x4000, tmp += 4)
     {
-        tmp[0].field_0 = pvVar2;
-        tmp[1].field_0 = (pvVar2 + 0x40);
-        tmp[2].field_0 = (pvVar2 + 0x80);
-        tmp[3].field_0 = (pvVar2 + 0xC0);
+        tmp[0].field_0_pixels = pvVar2;
+        tmp[1].field_0_pixels = (pvVar2 + 0x40);
+        tmp[2].field_0_pixels = (pvVar2 + 0x80);
+        tmp[3].field_0_pixels = (pvVar2 + 0xC0);
     }
 
     tmp = field_0 + 33;
@@ -2388,27 +2388,27 @@ Sprite_3CC::Sprite_3CC()
     {
         // I don't know why this one starts at -1...
         // Maybe an artifact of the decompilation
-        tmp[-1].field_0 = pvVar2;
-        tmp[0].field_0 = (pvVar2 + 0x40);
-        tmp[1].field_0 = (pvVar2 + 0x80);
-        tmp[2].field_0 = (pvVar2 + 0xC0);
+        tmp[-1].field_0_pixels = pvVar2;
+        tmp[0].field_0_pixels = (pvVar2 + 0x40);
+        tmp[1].field_0_pixels = (pvVar2 + 0x80);
+        tmp[2].field_0_pixels = (pvVar2 + 0xC0);
     }
 
     for (u16 uVar1 = 0; uVar1 < 48; uVar1++)
     {
-        field_0[uVar1].field_10 = uVar1;
+        field_0[uVar1].field_10_idx = uVar1;
     }
 }
 
 MATCH_FUNC(0x48F7F0)
 Sprite_3CC::~Sprite_3CC()
 {
-    if (this->field_3C8)
+    if (this->field_3C8_unaligned_alloc)
     {
-        crt::free(this->field_3C8);
+        crt::free(this->field_3C8_unaligned_alloc);
     }
-    this->field_3C4 = 0;
-    this->field_3C8 = 0;
+    this->field_3C4_aligned_buffer = 0;
+    this->field_3C8_unaligned_alloc = 0;
 }
 
 MATCH_FUNC(0x5A4D90)
@@ -2559,9 +2559,9 @@ void Sprite_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
 }
 
 MATCH_FUNC(0x5a5860)
-void Sprite_8::sub_5A5860()
+void Sprite_8::ResetDrawnSpriteCount_5A5860()
 {
-    field_0 = 0;
+    field_0_drawn_sprite_count = 0;
 }
 
 MATCH_FUNC(0x5a5870)
@@ -2598,7 +2598,7 @@ Sprite_8::Sprite_8()
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5046);
     }
 
-    field_0 = 0;
+    field_0_drawn_sprite_count = 0;
     field_4_id_base = 1;
 }
 
@@ -2620,7 +2620,7 @@ Sprite_18::~Sprite_18()
 MATCH_FUNC(0x5a5c50)
 Sprite_18::Sprite_18()
 {
-    field_10 = 0;
+    field_10_rot = 0;
 }
 
 MATCH_FUNC(0x5a5c20)
@@ -2698,7 +2698,7 @@ bool Sprite_18::PoolUpdate_5A6910(Sprite* a2)
     Object_2C* o2c = field_0->As2C_40FEC0();
     if (o2c)
     {
-        bRet = o2c->UpdateMovementAndEffects_527070(a2, field_6_x, field_8_y, field_10);
+        bRet = o2c->UpdateMovementAndEffects_527070(a2, field_6_x, field_8_y, field_10_rot);
         if (bRet)
         {
             gObject_2C_Pool_6F8F80->DeAllocate(o2c);
@@ -2710,7 +2710,7 @@ bool Sprite_18::PoolUpdate_5A6910(Sprite* a2)
         Car_BC* cBC = field_0->AsCar_40FEB0();
         if (cBC)
         {
-            bRet = cBC->UpdateAttachedToSprite_443360(a2, field_6_x, field_8_y, field_10);
+            bRet = cBC->UpdateAttachedToSprite_443360(a2, field_6_x, field_8_y, field_10_rot);
             if (bRet)
             {
                 gCar_BC_Pool_67792C->Remove(cBC);

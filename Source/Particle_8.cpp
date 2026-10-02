@@ -300,7 +300,7 @@ Particle_8::Particle_8()
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\particle.cpp", 4167);
         }
     }
-    field_0 = 0;
+    field_0_fire_hit_obj = 0;
     field_4 = 0;
 }
 
@@ -311,7 +311,7 @@ Particle_8::~Particle_8()
     {
         GTA2_DELETE_AND_NULL(gParticle_4C_Pool_6FD5E4);
     }
-    field_0 = 0;
+    field_0_fire_hit_obj = 0;
     field_4 = 0;
 }
 
@@ -382,9 +382,9 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
     Fix16 unknown;
     if (!bSkip_particles_67D64D)
     {
-        if (!field_0)
+        if (!field_0_fire_hit_obj)
         {
-            field_0 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_hitting_194, 0, 0, 0, kAngZero_6FD5D4);
+            field_0_fire_hit_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_hitting_194, 0, 0, 0, kAngZero_6FD5D4);
         }
         Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(Fix16(0), Fix16(0), dword_6FD330, 0, 0, Fix16(0));
         if (pParticle)
@@ -435,7 +435,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 vector_2.x = -dword_6FD464;
                 vector_2.y = dword_6FD468 + dword_6FD2E8;
                 vector_2.RotateByAngle_40F6B0(pSprt->field_0);
-                vector = vector + *(Fix16_Point*)&pSprt->field_8_char_b4_ptr->field_98;
+                vector = vector + *(Fix16_Point*)&pSprt->field_8_char_b4_ptr->field_98_velocity_vector;
                 pParticle->field_30_pNext->set_ang_lazy_420690(pSprt->field_0);
                 vector.x = pSprt->field_14_xy.x + vector.x;
                 vector.y = pSprt->field_14_xy.y + vector.y;

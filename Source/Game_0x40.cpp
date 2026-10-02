@@ -344,7 +344,7 @@ void Game_0x40::Draw_4B92D0()
     gViewCamera_676978 = &field_1C_view_player->field_14C_view_camera;
 
     gpMapRenderer_6F66E4->ClearDrawnTileCount_4F6A10();
-    gSprite_8_703820->sub_5A5860();
+    gSprite_8_703820->ResetDrawnSpriteCount_5A5860();
     gMontana_67B580->ResetAll_4954F0();
 
     gPurpleDoom_3_679210->DrawSpritesClipped_477A40();

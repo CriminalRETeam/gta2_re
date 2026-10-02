@@ -201,7 +201,7 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
 {
     WIP_IMPLEMENTED;
 
-    Sprite* p5CSprite = gObject_5C_6F8F84->field_58;
+    Sprite* p5CSprite = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Object_2C* pNewBullet = gObject_5C_6F8F84->NewPhysicsObj_5299B0(bullet_type, xpos, ypos, zpos, rot);
 
     p5CSprite->set_xyz_lazy_420600(field_24_pPed->get_cam_x() + (xpos - field_24_pPed->get_cam_x()) / kFP16Two_706EC0,
@@ -606,7 +606,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                         unknown = dword_706CF0 * (Fix16(a3) / Fix16(60));
                         unknown_2 = dword_706E80;
                     }
-                    gObject_5C_6F8F84->sub_52A210(field_24_pPed->get_varrok_idx_420B50());
+                    gObject_5C_6F8F84->SetPendingDamageOwner_52A210(field_24_pPed->get_varrok_idx_420B50());
 
                     // field_24_pPed->Get_F12E_4CCA90()
                     Object_2C* pProjectile = gObject_5C_6F8F84->sub_52A280(obj_idx,
