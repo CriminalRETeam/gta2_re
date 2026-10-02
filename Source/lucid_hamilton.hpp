@@ -29,6 +29,19 @@ struct lucid_hamilton
         field_574_secret_tokens_collected++;
     }
 
+    // 9.6f 0x453A40
+    inline u8 EncodeStage_453A40(u8 main_stage_idx, u8 bonus_stage_idx)
+    {
+        return (main_stage_idx << 4) | bonus_stage_idx;
+    }
+
+    // 9.6f 0x453A60
+    inline void DecodeStage_453A60(u8 stage, u8* pMainStageIdx, u8* pBonusStageIdx)
+    {
+        *pMainStageIdx = stage >> 4;
+        *pBonusStageIdx = stage & 0xF;
+    }
+
     char_type field_0_map_name[256];
     char_type field_100_style_name[256];
     char_type field_200_script_name[256];
