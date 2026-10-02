@@ -1523,20 +1523,17 @@ Ang16 Ped::ComputeAimAngle_45C9D0()
     return field_130;
 }
 
-WIP_FUNC(0x45caa0)
+MATCH_FUNC(0x45caa0)
 void Ped::HandleClosePedInteraction_45CAA0()
 {
-    WIP_IMPLEMENTED;
 
-    Ped* pNearPed; // eax
-    Ped* pNearPed_; // esi
     PedGroup* pNearPedGroup; // eax
     s16 rng; // bp
 
-    pNearPed = FindNearbyPed_466FB0();
-    if (pNearPed)
+    Ped* pNearPed_ = FindNearbyPed_466FB0();
+    if (pNearPed_)
     {
-        if (abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, pNearPed->get_cam_z()))
+        if (abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, pNearPed_->get_cam_z()))
         {
             this->field_188_last_char_punched = pNearPed_;
             pNearPedGroup = pNearPed_->field_164_ped_group;
