@@ -4701,10 +4701,9 @@ void Car_BC::PutTV_Antenna_440BB0()
     field_50_car_sprite->DispatchCollisionEvent_5A3100(pNewObj->field_4, gFix16_6777CC, kTvAntennaOffsetY_6778A0, GetRadioTowerAngle_442520());
 }
 
-WIP_FUNC(0x440c10)
+MATCH_FUNC(0x440c10)
 char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
 {
-    WIP_IMPLEMENTED;
     Sprite_18* pFound = 0;
     Ang16 ang = 0;
 
@@ -4732,10 +4731,11 @@ char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
     if (Ang16::IsAngleAhead_405C60(&ang, &targetAngle))
     {
         pFound->field_10_rot += kRoofTurretAutoRotSpeed_677910;
-        return 0;
     }
-
-    pFound->field_10_rot -= kRoofTurretAutoRotSpeed_677910;
+    else
+    {
+        pFound->field_10_rot -= kRoofTurretAutoRotSpeed_677910;
+    }
     return 0;
 }
 
