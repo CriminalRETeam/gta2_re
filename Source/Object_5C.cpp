@@ -720,14 +720,12 @@ void Object_2C::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnkn
             {
                 if (bUnknown2 && gRozza_679188.field_0_type != 3)
                 {
-                    gRozza_679188.field_0_type = 5;
-                    gRozza_679188.field_20_pSprite = 0;
+                    gRozza_679188.SetType5_482A80();
                 }
             }
             else
             {
-                gRozza_679188.field_0_type = 4;
-                gRozza_679188.field_20_pSprite = 0;
+                gRozza_679188.SetType4_482A70();
             }
 
             HandleImpact_528E50(gRozza_679188.field_20_pSprite);
@@ -737,13 +735,11 @@ void Object_2C::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnkn
         case 1:
             if (bUnknown1)
             {
-                gRozza_679188.field_0_type = 4;
-                gRozza_679188.field_20_pSprite = 0;
+                gRozza_679188.SetType4_482A70();
             }
             else if (bUnknown2)
             {
-                gRozza_679188.field_0_type = 5;
-                gRozza_679188.field_20_pSprite = 0;
+                gRozza_679188.SetType5_482A80();
             }
             HandleImpact_528E50(gRozza_679188.field_20_pSprite);
             return;

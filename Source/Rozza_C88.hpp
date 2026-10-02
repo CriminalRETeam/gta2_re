@@ -20,6 +20,20 @@ class Rozza_28
         this->field_24 = 0;
     }
 
+    // 9.6f 0x482A70
+    void SetType4_482A70()
+    {
+        this->field_0_type = 4;
+        this->field_20_pSprite = 0;
+    }
+
+    // 9.6f 0x482A80
+    void SetType5_482A80()
+    {
+        this->field_0_type = 5;
+        this->field_20_pSprite = 0;
+    }
+
     void SetMapZ_4BA2B0(Fix16 a2)
     {
         this->field_1C_mapz = a2;
