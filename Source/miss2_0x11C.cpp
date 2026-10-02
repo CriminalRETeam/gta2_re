@@ -849,13 +849,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_10_pos.field_0_x, pCmd->field_10_pos.field_4_y);
     }
 
-    Fix16 z = pCmd->field_10_pos.field_8_z;
-    Fix16 y = pCmd->field_10_pos.field_4_y;
-    Fix16 x = pCmd->field_10_pos.field_0_x;
-
-    pZone->field_130_info_phone_y = y;
-    pZone->field_12C_info_phone_x = x;
-    pZone->field_134_info_phone_z = z;
+    pZone->set_info_phone_pos_475910(pCmd->field_10_pos.field_0_x, pCmd->field_10_pos.field_4_y, pCmd->field_10_pos.field_8_z);
 
     pZone->set_kill_respect_change_475950(pCmd->field_F_kill_respect_change);
     gGangPool_CA8_67E274->sub_4BF230(pZone, gfrosty_pasteur_6F8060->field_354);

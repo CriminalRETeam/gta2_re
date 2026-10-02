@@ -63,6 +63,14 @@ class Gang_144
         field_111 = v;
     }
 
+    // 9.6f 0x475910
+    inline void set_info_phone_pos_475910(Fix16 x, Fix16 y, Fix16 z)
+    {
+        field_12C_info_phone_x = x;
+        field_130_info_phone_y = y;
+        field_134_info_phone_z = z;
+    }
+
     // 9.6f 0x475940
     inline void set_arrow_colour_475940(u8 v)
     {
