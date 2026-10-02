@@ -526,7 +526,7 @@ void struct_4::DestroyAllSprites_5A7010()
     while (p18Iter)
     {
         Sprite* pSprite = p18Iter->field_0;
-        switch (p18Iter->field_0->field_30_sprite_type_enum)
+        switch (p18Iter->field_0->get_type_416B40())
         {
             case sprite_types_enum::car_2:
                 gCar_6C_677930->RemoveFromPoolAndCollision_446730(pSprite->field_8_car_bc_ptr);
@@ -658,7 +658,7 @@ void struct_4::sub_5A71F0()
 {
     for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
+        const s32 type = p18Iter->field_0->get_type_416B40();
         if (type == 1 || type > 3 && type <= 5)
         {
             Object_2C* o2c = p18Iter->field_0->field_8_object_2C_ptr;
@@ -722,12 +722,12 @@ void struct_4::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
 
     if (bUnknown)
     {
-        pSprite->field_39_z_col = max_val;
+        pSprite->set_z_col_4BA220(max_val);
     }
 
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        p18Iter->field_0->field_39_z_col = max_val;
+        p18Iter->field_0->set_z_col_4BA220(max_val);
     }
 }
 
