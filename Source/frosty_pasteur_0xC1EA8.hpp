@@ -602,6 +602,12 @@ struct WeaponCheckTable
 class frosty_pasteur_0xC1EA8
 {
   public:
+    // 9.6f 0x4C7350
+    inline bool IsOnMission_4C7350()
+    {
+        return field_344_mission_flag && *field_344_mission_flag;
+    }
+
     // 9.6f 0x475980
     inline bool HasCheckFlag1_475980(WeaponCheckTable* pTable)
     {

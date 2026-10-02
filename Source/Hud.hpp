@@ -586,6 +586,12 @@ class Hud_Arrow_7C
 class Hud_Arrow_7C_Array
 {
   public:
+    // 9.6f 0x4C70B0
+    inline char_type ShowGangArrows_4C70B0()
+    {
+        return field_83C_show_gang_arrows;
+    }
+
     // inline 0x4C7080
     Hud_Arrow_7C_Array()
     {

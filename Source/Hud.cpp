@@ -1771,14 +1771,13 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
 
     if (pThisGang)
     {
-        if (!gHud_2B00_706620->field_1F18_arrows.field_83C_show_gang_arrows)
+        if (!gHud_2B00_706620->field_1F18_arrows.ShowGangArrows_4C70B0())
         {
             return false;
         }
         if (!bShow_all_arrows_67D6E7)
         {
-            s32* pMission_flag = gfrosty_pasteur_6F8060->field_344_mission_flag;
-            if (pMission_flag && *pMission_flag)
+            if (gfrosty_pasteur_6F8060->IsOnMission_4C7350())
             {
                 return false; // player is on mission, so do not display gang phone arrows
             }
