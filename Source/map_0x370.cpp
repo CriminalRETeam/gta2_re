@@ -4316,7 +4316,7 @@ void Map_0x370::RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type d
 MATCH_FUNC(0x4E8A10)
 void Map_0x370::LowerColumn_4E8A10(s32 x_pos, s32 y_pos)
 {
-    u32 column_idx = field_0_pDmap->field_0_base[y_pos][x_pos];
+    u32 column_idx = *field_0_pDmap->get_base_42A830(y_pos, x_pos);
     gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[column_idx]);
     if (pColumn->field_1_offset == pColumn->field_0_height - 1 && pColumn->field_1_offset)
     {
