@@ -8231,11 +8231,9 @@ void Ped::sub_469BD0()
     }
 }
 
-WIP_FUNC(0x469bf0)
+MATCH_FUNC(0x469bf0)
 void Ped::GuardSpot_469BF0()
 {
-    WIP_IMPLEMENTED;
-
     u8 bUnknown = 1;
 
     this->field_21C |= 0x400000;
