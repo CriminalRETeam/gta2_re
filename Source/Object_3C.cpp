@@ -439,6 +439,7 @@ Sprite* struct_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 
     for (Sprite_18* pIter = field_0_p18; pIter; pIter = pIter->mpNext)
     {
+        // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined, using it makes the diff worse)
         Fix16 xd = pIter->field_0->field_14_xy.x - xpos;
         Fix16 yd = pIter->field_0->field_14_xy.y - ypos;
         distance = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(xd), Fix16::Abs(yd));
