@@ -834,7 +834,7 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_54_hook_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_hook_136, x_pos, y_pos, field_80, word_679FC4);
 
     field_58_crane_base_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_base_137, x_pos, y_pos, field_80 - dword_679C78, word_679FC4);
-    field_58_crane_base_obj->field_26_varrok_idx = a4;
+    field_58_crane_base_obj->set_field_26(a4);
     field_78_maybe_homecrane = 0;
     field_94 = dword_679E70;
     field_98 = dword_679E70;
