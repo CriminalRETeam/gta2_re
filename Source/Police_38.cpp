@@ -187,7 +187,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
     pCopSupporter->SetField238_403920(ped_type::special_ped_4);
     pCopSupporter->set_occupation_403970(ped_ocupation_enum::police);
     pCopSupporter->SetObjective(objectives_enum::no_obj_0, 9999);
-    pCopSupporter->field_244_remap = 0;
+    pCopSupporter->set_remap_433B90(0);
 
     switch (field_14_pService->field_4_wanted_level)
     {
@@ -212,8 +212,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
     pCopSupporter->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pCopSupporter->field_26C_graphic_type = 2;
     pGroup->add_ped_leader_4C9B10(pCopLeader);
-    pGroup->field_36_count = 1;
-    pGroup->field_34_count = 1;
+    pGroup->SetCounts_433360(1);
     pGroup->add_ped_to_list_4C9B30(pCopSupporter, 0);
     pGroup->field_0 = 0;
     field_10_subObj->field_4_ped = pCopLeader;
