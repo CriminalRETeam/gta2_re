@@ -2357,12 +2357,12 @@ void sound_obj::ProcessType9_Crusher_412A60(s32 idx)
     Crusher_30* pCrusher = field_147C[idx].field_4_pObj->field_C_pAny.pCrusher_30;
     if (pCrusher)
     {
-        if (pCrusher->field_2C_state)
+        if (pCrusher->get_state_411A10())
         {
             Fix16 x = pCrusher->get_xpos_411A20();
             this->field_30_sQueueSample.field_8_obj.field_0 = x;
 
-            Fix16 y = pCrusher->field_28_ypos;
+            Fix16 y = pCrusher->get_ypos_411A30();
             this->field_30_sQueueSample.field_8_obj.field_4 = y;
 
             Fix16 z = this->field_1470_v3;

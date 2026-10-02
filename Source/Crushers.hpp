@@ -16,6 +16,18 @@ class Crusher_30
         return field_24_xpos;
     }
 
+    // 9.6f 0x411A30
+    inline Fix16 get_ypos_411A30()
+    {
+        return field_28_ypos;
+    }
+
+    // 9.6f 0x411A10
+    inline s32 get_state_411A10()
+    {
+        return field_2C_state;
+    }
+
     enum CrusherStates
     {
         Idle_0 = 0,
