@@ -2419,7 +2419,7 @@ void Ped::Mugger_AI_45F360()
                 if (field_218_objective_timer == 0)
                 {
                     Ped* pTarget = sub_467070();
-                    if (!pTarget || pTarget->field_20e)
+                    if (!pTarget || pTarget->Get_F20E_4039F0())
                     {
                         Ped::SetObjective(objectives_enum::no_obj_0, 9999);
                     }
@@ -2441,7 +2441,7 @@ void Ped::Mugger_AI_45F360()
 
             break;
         case objectives_enum::punch_char_23:
-            if (field_148_objective_target_ped && field_148_objective_target_ped->field_16C_car)
+            if (field_148_objective_target_ped && field_148_objective_target_ped->has_car_403B80())
             {
                 Ped::SetObjective(objectives_enum::no_obj_0, 9999);
                 Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
