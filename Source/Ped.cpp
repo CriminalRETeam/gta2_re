@@ -3016,10 +3016,7 @@ void Ped::RobbedDriver_AI_461630()
                             // gang member or very angry driver (2.5% chance): shoot at the thief
                             this->SetField238_403920(ped_type::dummy_with_occupation_6);
                             this->field_240_occupation = ped_ocupation_enum::very_angry_armed_robbed_driver_13;
-                            if ((field_21C & 0x1000000) == 0)
-                            {
-                                this->field_250 = 14;
-                            }
+                            Set_F250_IfBit_433DD0(14);
                             ForceDoNothing_462590();
                             SetObjective(objectives_enum::kill_char_on_foot_20, 9999);
                             this->field_148_objective_target_ped = this->field_180;
@@ -3032,10 +3029,7 @@ void Ped::RobbedDriver_AI_461630()
                             // 3 over 40 = 7.5% of chance of being an armed and angry driver
                             this->SetField238_403920(ped_type::dummy_with_occupation_6);
                             this->field_240_occupation = ped_ocupation_enum::angry_armed_robbed_driver_12;
-                            if ((field_21C & 0x1000000) == 0)
-                            {
-                                this->field_250 = 13;
-                            }
+                            Set_F250_IfBit_433DD0(13);
                             SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
                             this->field_24C_target_car_door = 0;
                             this->field_150_target_objective_car = field_140;
@@ -3103,8 +3097,7 @@ void Ped::RobbedDriver_AI_461630()
                 this->SetField238_403920(ped_type::dummy_3);
                 if (target_objective_car)
                 {
-                    target_objective_car->field_7C_uni_num = 3;
-                    target_objective_car->field_76_last_seen_timer = 0;
+                    target_objective_car->sub_421560(3);
                     SetObjective(objectives_enum::no_obj_0, 9999);
                 }
                 else
