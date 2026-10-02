@@ -3633,7 +3633,7 @@ void Ped::sub_462620()
             byte_61A8A4 = field_278_ped_state_1 == ped_state_1::entering_car_3;
         }
         field_21C_bf.b11 = false;
-        field_168_game_object->field_80_sprite_ptr->field_28_num = 24;
+        field_168_game_object->SetSpriteNum_4338F0(24);
     }
     if (field_168_game_object->IsOnScreen_545700() == true)
     {
