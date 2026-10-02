@@ -167,7 +167,7 @@ bool Object_2C::CanCollideWithSpriteByVarrok_522250(Sprite* pSprite)
                 Char_B4* cB4 = pSprite->AsCharB4_40FEA0();
                 if (cB4)
                 {
-                    if (cB4->field_7C_pPed->field_267_varrok_idx == varrok_idx)
+                    if (cB4->field_7C_pPed->get_varrok_idx_420B50() == varrok_idx)
                     {
                         return true;
                     }
@@ -1421,7 +1421,7 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
         case objects::door_unknown_169:
             if (pSprite)
             {
-                return gDoor_4D4_67BD2C->CheckDoorAccess_49D3C0(pSprite, this->field_26_varrok_idx);
+                return gDoor_4D4_67BD2C->CheckDoorAccess_49D3C0(pSprite, this->get_field_26_420FF0());
             }
             else
             {
@@ -1460,7 +1460,7 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
 
             if (pSprite)
             {
-                if (pSprite->field_30_sprite_type_enum != sprite_types_enum::ped_3)
+                if (pSprite->get_type_416B40() != sprite_types_enum::ped_3)
                 {
                     if (field_8->field_4C == 3)
                     {
@@ -1864,25 +1864,23 @@ s32 __stdcall Object_2C::sub_526830(s32 a1)
     return result;
 }
 
-WIP_FUNC(0x526b40)
+MATCH_FUNC(0x526b40)
 void Object_2C::sub_526B40(Sprite* pSprite)
 {
-    WIP_IMPLEMENTED;
-
     Object_3C* p3C; // eax
 
-    switch (pSprite->field_30_sprite_type_enum)
+    switch (pSprite->get_type_416B40())
     {
         case 3: //sprite_type_3_Char_B4:
-            this->field_10_obj_3c->field_C_speed = (pSprite->field_8_char_b4_ptr->field_38_velocity * k_dword_6F8C9C);
+            this->field_10_obj_3c->field_C_speed = (pSprite->field_8_char_b4_ptr->get_velocity_41B080() * k_dword_6F8C9C);
             this->field_10_obj_3c->field_4_angle = pSprite->field_0;
-            this->field_4->field_28_num = 27;
+            this->field_4->set_num_40F7B0(27);
             break;
 
         case sprite_types_enum::car_2: // 2
             this->field_10_obj_3c->field_C_speed = pSprite->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
             this->field_10_obj_3c->field_4_angle = pSprite->field_8_car_bc_ptr->GetOrientationAngle_43A3E0();
-            this->field_4->field_28_num = pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0();
+            this->field_4->set_num_40F7B0(pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0());
             break;
 
         case 4: //sprite_type_4_Object_5C:
@@ -1894,7 +1892,7 @@ void Object_2C::sub_526B40(Sprite* pSprite)
                 this->field_10_obj_3c->field_4_angle = pSprite->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
                 this->field_10_obj_3c->field_10 = pSprite->field_8_object_2C_ptr->field_10_obj_3c->field_10;
             }
-            this->field_4->field_28_num = 12;
+            this->field_4->set_num_40F7B0(12);
             break;
 
         default:
@@ -1949,7 +1947,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
             {
                 if (field_C_pAny.pExplosion)
                 {
-                    switch (pSprite->field_30_sprite_type_enum)
+                    switch (pSprite->get_type_416B40())
                     {
                         case sprite_types_enum::car_2:
                             if (field_C_pAny.pExplosion->IsState_5435D0())
@@ -2837,7 +2835,7 @@ s32 Object_2C::sub_529240()
     s32 result;
     gmp_block_info* pBlockInfo =
         gMap_0x370_6F6268->get_block_4DFE10(field_4->field_14_xy.x.ToInt(), field_4->field_14_xy.y.ToInt(), field_4->field_1C_zpos.ToInt());
-    switch (field_26_varrok_idx)
+    switch (get_field_26_420FF0())
     {
         case 45u:
         case 47u:
@@ -2879,7 +2877,7 @@ void Object_2C::get_weapon_default_ammo_5292D0()
 
     if (wepon_kind <= 27)
     {
-        field_26_varrok_idx = gWeapon_8_707018->get_defalt_ammo_5E3E80(wepon_kind);
+        set_field_26(gWeapon_8_707018->get_defalt_ammo_5E3E80(wepon_kind));
     }
 }
 
@@ -3256,7 +3254,7 @@ void Object_5C::sub_529300()
                                                   pSprite->field_1C_zpos,
                                                   kZeroAng_6F8F68,
                                                   18,
-                                                  gVarrok_7F8_703398->field_0[o2c->field_26_varrok_idx].field_0_ped_id);
+                                                  gVarrok_7F8_703398->field_0[o2c->get_field_26_420FF0()].field_0_ped_id);
             }
         }
         o2c->Dealloc_5291B0();
@@ -3360,16 +3358,16 @@ MATCH_FUNC(0x5297f0)
 void Object_5C::sub_5297F0()
 {
     field_0 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, word_6F8D8C);
-    field_0->field_26_varrok_idx = 45;
+    field_0->set_field_26(45);
 
     field_4 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, dword_6F8D80);
-    field_4->field_26_varrok_idx = 48;
+    field_4->set_field_26(48);
 
     field_8 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, word_6F8D54);
-    field_8->field_26_varrok_idx = 46;
+    field_8->set_field_26(46);
 
     field_C = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, dword_6F8CD0);
-    field_C->field_26_varrok_idx = 47;
+    field_C->set_field_26(47);
 }
 
 MATCH_FUNC(0x5298e0)
@@ -3435,7 +3433,7 @@ Object_2C* Object_5C::sub_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fi
     Object_2C* pNewObj = New_529C00(object_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
-        pNewObj->field_26_varrok_idx = varrok_idx;
+        pNewObj->set_field_26(varrok_idx);
         if (object_type == objects::sound_object_type_2_279)
         {
             pNewObj->sub_5290A0();
@@ -3882,6 +3880,6 @@ void Object_2C::ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite)
     Car_BC* pObj = pSprite->AsCar_40FEB0();
     if (pObj)
     {
-        field_4->field_28_num = pObj->GetCrashSoundCategory_4435B0();
+        field_4->set_num_40F7B0(pObj->GetCrashSoundCategory_4435B0());
     }
 }
