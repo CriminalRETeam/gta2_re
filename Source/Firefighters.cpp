@@ -287,7 +287,7 @@ void Firefighter_28::sub_4A81F0()
                     field_20_ped->field_21C_bf.b7 = 1;
                     field_1C_car->ActivateEmergencyLights_43C920();
                     field_1C_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                    field_20_ped = field_1C_car->field_54_driver;
+                    field_20_ped = field_1C_car->get_driver_4118B0();
                     field_24_next_state_timer = 0;
                     field_8_state = 2;
                     break;
@@ -361,19 +361,19 @@ void Firefighter_28::sub_4A81F0()
             if (field_1C_car && field_1C_car->field_88_despawn_status != 6 && !field_1C_car->IsDespawning_4215B0() &&
                 !field_1C_car->sub_4214B0())
             {
-                if (field_1C_car->field_54_driver)
+                if (field_1C_car->get_driver_4118B0())
                 {
-                    field_1C_car->field_54_driver->field_21C_bf.b3 = 1;
+                    field_1C_car->get_driver_4118B0()->field_21C_bf.b3 = 1;
                 }
                 field_1C_car->sub_421560(3);
                 field_1C_car->InitCarAIControl_440590();
                 field_1C_car->sub_43AF40();
                 field_1C_car->DeactivateEmergencyLights_43C9D0();
-                if (field_1C_car->field_54_driver)
+                if (field_1C_car->get_driver_4118B0())
                 {
-                    field_1C_car->field_54_driver->set_field_150_target_objective_car(0);
-                    field_1C_car->field_54_driver->SetObjective(objectives_enum::no_obj_0, 9999);
-                    field_1C_car->field_54_driver->field_21C_bf.b11 = 0;
+                    field_1C_car->get_driver_4118B0()->set_field_150_target_objective_car(0);
+                    field_1C_car->get_driver_4118B0()->SetObjective(objectives_enum::no_obj_0, 9999);
+                    field_1C_car->get_driver_4118B0()->field_21C_bf.b11 = 0;
                 }
             }
             Reset_4A85E0();
