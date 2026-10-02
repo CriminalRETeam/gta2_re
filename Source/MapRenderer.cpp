@@ -2231,7 +2231,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
             colour = field_17_slope_east_colour;
         }
         pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                      gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                      gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
         ++field_2F00_drawn_tile_count;
