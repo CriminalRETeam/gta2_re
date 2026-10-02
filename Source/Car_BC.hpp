@@ -860,6 +860,21 @@ class Car_BC
         }
     }
 
+    // 9.6f 0x475C40
+    inline void SetF98To2IfNot4_475C40()
+    {
+        if (field_98 != 4)
+        {
+            field_98 = 2;
+        }
+    }
+
+    // 9.6f 0x476270
+    inline void set_f78_0x10_476270()
+    {
+        Car_BC::add_f78_bits_421890(0x10);
+    }
+
     // 9.6f 0x475C80
     inline void SetF98To3IfNot4_475C80()
     {

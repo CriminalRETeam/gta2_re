@@ -457,8 +457,8 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
                                                                 pCmd->field_1C_car_id);
         if (pPointer->field_8_car != NULL)
         {
-            pPointer->field_8_car->field_98 = 4;
-            pPointer->field_8_car->field_78_flags |= 0x10u;
+            pPointer->field_8_car->SetF98To4_475C30();
+            pPointer->field_8_car->set_f78_0x10_476270();
             pPointer->field_8_car->sub_4435F0();
         }
     }
@@ -511,13 +511,9 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         }
 
         Car_BC* pCar = pPointer->field_8_car;
-        pCar->field_7C_uni_num = 5;
-        pCar->field_76_last_seen_timer = 0;
+        pCar->sub_421560(5);
 
-        if (pPointer->field_8_car->field_98 != 4)
-        {
-            pPointer->field_8_car->field_98 = 2;
-        }
+        pPointer->field_8_car->SetF98To2IfNot4_475C40();
         pPointer->field_8_car->IncrementCarStats_443D70(car_kind::mission_car_8);
         pPointer->field_8_car->field_50_car_sprite->ResolveCollisionWithCarPedOrObject_5A2A30();
 
