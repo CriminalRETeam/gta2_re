@@ -1260,12 +1260,335 @@ void PublicTransport_181C::BusesService_579CA0()
     }
 }
 
-STUB_FUNC(0x57a7a0)
+// Is the lead carriage on the block of `pZone`?
+static inline bool IsTrainAtZone(Train_58* pTrain, gmp_map_zone* pZone)
+{
+    return (u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.x.ToInt() == pZone->field_1_x &&
+        (u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.y.ToInt() == pZone->field_2_y;
+}
+
+// Tells the player driving the train which station it is heading for
+static inline void SetDriverStation(Train_58* pTrain, TrainStation_34* pStation)
+{
+    Car_BC* pCar = pTrain->field_C_carriages[0];
+    if (pCar)
+    {
+        Ped* pDriver = pCar->field_54_driver;
+        if (pDriver && pTrain->field_43_idx > 0 && pDriver->field_13C_pTrainStation != pStation)
+        {
+            pDriver->field_13C_pTrainStation = pStation;
+        }
+    }
+}
+
+WIP_FUNC(0x57a7a0)
 void PublicTransport_181C::PublicTransportService_57A7A0()
 {
-    NOT_IMPLEMENTED;
-    PublicTransport_181C::BusesService_579CA0();
-    // TODO: the rest
+    u8 bStopped = 0;
+    BusesService_579CA0();
+    if (!bSkip_trains_67D550)
+    {
+        for (u16 i = 0; i < 10; i++)
+        {
+            Train_58* pTrain = &field_1450_train_array[i];
+            if (!pTrain->field_C_carriages[0])
+            {
+                continue;
+            }
+
+            pTrain->ProcessTrainExplosionChain_578670();
+            Car_BC* pCar = pTrain->field_C_carriages[0];
+            if (pCar->is_driven_by_player())
+            {
+                if (!pTrain->field_C_carriages[0]->field_54_driver)
+                {
+                    pCar->sub_421560(1);
+                    pTrain->field_0 = 0;
+                }
+                else
+                {
+                    pTrain->field_0 = 1;
+                    if (pCar->field_54_driver->get_fieldC_45C9B0() > dword_6FF078)
+                    {
+                        if (pTrain->field_C_carriages[0]->field_54_driver->field_15C_player->field_8B_bWasForwardPressed)
+                        {
+                            pTrain->sub_578180();
+                        }
+                    }
+                    else if (pTrain->field_C_carriages[0]->field_54_driver->get_fieldC_45C9B0() < dword_6FF078)
+                    {
+                        if (pTrain->field_C_carriages[0]->field_54_driver->field_15C_player->field_8C_bWasDownPressed)
+                        {
+                            pTrain->sub_5781F0();
+                        }
+                    }
+                }
+            }
+
+            switch (pTrain->field_50_state)
+            {
+                case 0:
+                case 1:
+                    bStopped = 1;
+                    break;
+                case 2:
+                    bStopped = 0;
+                    break;
+                case 3:
+                case 4:
+                case 5:
+                    bStopped = 1;
+                    break;
+            }
+
+            TrainStation_34* pStation;
+            switch (pTrain->field_48)
+            {
+                case 10:
+                    pTrain->sub_578330();
+                    pStation = pTrain->field_4C_maybe_train_station;
+                    if (!pTrain->field_0)
+                    {
+                        pTrain->sub_5782D0();
+                    }
+                    else if (!bStopped)
+                    {
+                        if (IsTrainAtZone(pTrain, pStation->field_C_stop_point))
+                        {
+                            pTrain->field_48 = 4;
+                            break;
+                        }
+                        pTrain->field_48 = 11;
+                    }
+                    if (IsTrainAtZone(pTrain, pStation->field_8_exit_point))
+                    {
+                        pTrain->field_48 = 0;
+                        pTrain->sub_578180();
+                        pStation = pTrain->field_4C_maybe_train_station;
+                        pStation->field_18 = 0;
+                        pStation = pStation->field_20_next_station;
+                        pTrain->field_4C_maybe_train_station = pStation;
+                        pStation->field_1C = 1;
+                    }
+                    break;
+
+                case 11:
+                    if (bStopped)
+                    {
+                        pTrain->field_48 = 10;
+                    }
+                    break;
+
+                case 0:
+                    pStation = pTrain->field_4C_maybe_train_station;
+                    if (!pTrain->field_0)
+                    {
+                        if (pStation->field_18)
+                        {
+                            pTrain->sub_578300();
+                            pTrain->field_48 = 1;
+                        }
+                    }
+                    else if (!bStopped)
+                    {
+                        pTrain->field_48 = 1;
+                    }
+                    if (!pTrain->field_0)
+                    {
+                        if (IsTrainAtZone(pTrain, pStation->field_4_entry_point))
+                        {
+                            SetDriverStation(pTrain, pStation);
+                            pTrain->field_48 = 2;
+                            pTrain->sub_5781F0();
+                        }
+                        else if (pTrain->field_50_state != 2 && bStopped)
+                        {
+                            pTrain->sub_578180();
+                        }
+                    }
+                    break;
+
+                case 1:
+                    if (!pTrain->field_0)
+                    {
+                        if (!pTrain->field_4C_maybe_train_station->field_18)
+                        {
+                            pTrain->sub_5782D0();
+                            pTrain->field_48 = 0;
+                            pTrain->sub_578180();
+                        }
+                    }
+                    else if (bStopped)
+                    {
+                        pTrain->field_48 = 0;
+                    }
+                    break;
+
+                case 2:
+                    pStation = pTrain->field_4C_maybe_train_station;
+                    pStation->field_18 = pTrain;
+                    if (IsTrainAtZone(pTrain, pStation->field_C_stop_point))
+                    {
+                        pTrain->field_48 = 4;
+                    }
+                    else if (pTrain->field_0 == 1 && !bStopped)
+                    {
+                        pTrain->field_48 = 3;
+                    }
+                    break;
+
+                case 3:
+                    if (pTrain->field_0 == 1 && bStopped)
+                    {
+                        pTrain->field_48 = 2;
+                    }
+                    break;
+
+                case 4:
+                    if (!pTrain->field_0)
+                    {
+                        pTrain->sub_578300();
+                        pTrain->field_48 = 5;
+                        pTrain->field_4 = 10;
+                        pTrain->sub_578360();
+                    }
+                    else if (bStopped)
+                    {
+                        pTrain->field_48 = 10;
+                    }
+                    else
+                    {
+                        pTrain->field_48 = 5;
+                        pTrain->sub_578360();
+                        pTrain->field_4 = 10;
+                    }
+                    break;
+
+                case 5:
+                    pTrain->field_4--;
+                    pTrain->sub_578360();
+                    if (pTrain->field_0 == 1 && bStopped)
+                    {
+                        pTrain->field_48 = 10;
+                    }
+                    else if (pTrain->field_4 == 0)
+                    {
+                        pTrain->field_48 = 6;
+                        pTrain->field_4 = 10;
+                        pTrain->field_4C_maybe_train_station->field_18 = pTrain;
+                        pTrain->field_4C_maybe_train_station->field_1C = 4;
+                    }
+                    break;
+
+                case 6:
+                    if (pTrain->field_0 == 1)
+                    {
+                        if (bStopped)
+                        {
+                            pTrain->field_48 = 10;
+                            break;
+                        }
+                        pTrain->field_4--;
+                        if (pTrain->field_4 == 0)
+                        {
+                            pTrain->field_4 = 50;
+                            pTrain->field_48 = 7;
+                            pTrain->field_4C_maybe_train_station->field_1C = 2;
+                        }
+                    }
+                    else
+                    {
+                        pTrain->field_4--;
+                        if (pTrain->field_4 == 0)
+                        {
+                            pTrain->field_4 = 50;
+                            pTrain->field_48 = 7;
+                            pTrain->field_4C_maybe_train_station->field_1C = 2;
+                        }
+                    }
+                    break;
+
+                case 7:
+                    if (pTrain->field_0 == 1)
+                    {
+                        if (bStopped)
+                        {
+                            pTrain->field_48 = 10;
+                            break;
+                        }
+                        pTrain->UpdatePassengerAI_578390();
+                        pTrain->field_4--;
+                        if (pTrain->field_4 == 0)
+                        {
+                            pTrain->field_48 = 8;
+                            pTrain->field_4 = 50;
+                            pTrain->field_4C_maybe_train_station->field_1C = 2;
+                        }
+                    }
+                    else
+                    {
+                        pTrain->UpdatePassengerAI_578390();
+                        pTrain->field_4--;
+                        if (pTrain->field_4 == 0)
+                        {
+                            pTrain->field_48 = 8;
+                            pTrain->field_4 = 50;
+                            pTrain->field_4C_maybe_train_station->field_1C = 2;
+                        }
+                    }
+                    break;
+
+                case 8:
+                    if (pTrain->field_0 == 1)
+                    {
+                        if (bStopped)
+                        {
+                            pTrain->field_48 = 10;
+                            break;
+                        }
+                        pTrain->field_4--;
+                        if (pTrain->field_4 == 0)
+                        {
+                            pTrain->field_48 = 9;
+                            pTrain->field_4 = 10;
+                            pTrain->field_4C_maybe_train_station->field_1C = 3;
+                        }
+                    }
+                    else
+                    {
+                        pTrain->field_4--;
+                        if (pTrain->field_4 == 0)
+                        {
+                            SetDriverStation(pTrain, pTrain->field_4C_maybe_train_station);
+                            pTrain->field_48 = 9;
+                            pTrain->field_4 = 10;
+                            pTrain->field_4C_maybe_train_station->field_1C = 3;
+                        }
+                    }
+                    break;
+
+                case 9:
+                    pTrain->sub_578330();
+                    if (pTrain->field_0 == 1)
+                    {
+                        if (bStopped)
+                        {
+                            pTrain->field_48 = 10;
+                        }
+                    }
+                    else
+                    {
+                        pTrain->field_4--;
+                        if (pTrain->field_4 == 0)
+                        {
+                            pTrain->field_48 = 10;
+                            pTrain->field_4C_maybe_train_station->field_1C = 1;
+                        }
+                    }
+                    break;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x57b4b0)
