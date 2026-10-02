@@ -8597,10 +8597,9 @@ void Ped::FireAtObject_46A530()
     Sprite* pSprite_18 = pSprite_148->field_0;
     Fix16 x_v = pSprite_18->field_14_xy.x;
     Fix16 y_v = pSprite_18->field_14_xy.y;
-    Fix16 xd = field_1A0_objective_target_object->field_4->field_14_xy.x - x_v;
-    Fix16 yd = field_1A0_objective_target_object->field_4->field_14_xy.y - y_v;
     Ang16 v7;
-    v7 = Fix16::atan2_fixed_405320(yd, xd);
+    v7 = Fix16::atan2_fixed_405320(field_1A0_objective_target_object->field_4->field_14_xy.y - y_v,
+                                   field_1A0_objective_target_object->field_4->field_14_xy.x - x_v);
 
     field_21C |= 0x80;
 
