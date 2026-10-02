@@ -983,11 +983,11 @@ void Ped::ManageBurning_45BEC0()
         }
         else
         {
-            const bool HasDiedBefore = field_278_ped_state_1 == ped_state_1::dead_9;
+            const bool HasDiedBefore = isDead_403B60();
             TakeDamage(1);
             field_264 = 50;
 
-            if (field_278_ped_state_1 == ped_state_1::dead_9 && !HasDiedBefore)
+            if (isDead_403B60() && !HasDiedBefore)
             {
                 Player* pWeapons = field_15C_player;
                 if (pWeapons)
@@ -3992,7 +3992,7 @@ void Ped::sub_462B80()
 MATCH_FUNC(0x462e70)
 bool Ped::PoolUpdate()
 {
-    if (field_240_occupation == ped_ocupation_enum::elvis)
+    if (Is_occupation_elvis_433C90())
     {
         if (word_6787F2 > 0)
         {
@@ -5593,7 +5593,7 @@ void Ped::sub_465B20()
 {
     WIP_IMPLEMENTED;
 
-    if (field_144->field_278_ped_state_1 == ped_state_1::dead_9 || (field_144->field_21C & 1) == 0)
+    if (field_144->isDead_403B60() || (field_144->field_21C & 1) == 0)
     {
         this->field_144 = 0;
         this->field_21C &= ~4;
@@ -8854,7 +8854,7 @@ MATCH_FUNC(0x46a9c0)
 void Ped::FleeFromPedTillSafe_46A9C0()
 {
     field_14C->field_144 = 0;
-    if (field_14C->field_278_ped_state_1 == ped_state_1::dead_9 || field_14C->field_21C_bf.b0 == false)
+    if (field_14C->isDead_403B60() || field_14C->field_21C_bf.b0 == false)
     {
         Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
         Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -8885,7 +8885,7 @@ void Ped::FleeFromPedTillSafe_46A9C0()
 MATCH_FUNC(0x46aae0)
 void Ped::sub_46AAE0()
 {
-    if (field_14C->field_278_ped_state_1 == ped_state_1::dead_9 || field_14C->field_21C_bf.b0 == false)
+    if (field_14C->isDead_403B60() || field_14C->field_21C_bf.b0 == false)
     {
         Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
         Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -8903,7 +8903,7 @@ void Ped::sub_46AAE0()
 MATCH_FUNC(0x46ab50)
 void Ped::sub_46AB50()
 {
-    if (field_14C->field_278_ped_state_1 == ped_state_1::dead_9 || field_14C->field_21C_bf.b0 == false)
+    if (field_14C->isDead_403B60() || field_14C->field_21C_bf.b0 == false)
     {
         Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
         Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
