@@ -53,6 +53,13 @@ class PedGroup
     EXPORT PedGroup();
     EXPORT ~PedGroup();
 
+    // 9.6f 0x433360
+    inline void SetCounts_433360(u8 count)
+    {
+        field_36_count = count;
+        field_34_count = count;
+    }
+
     inline s32 Get_F3C_433370()
     {
         return field_3C;

@@ -10743,15 +10743,14 @@ void Ped::SpawnPedGroupFollowers_46E200(u8 total)
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     pGroup->add_ped_leader_4C9B10(this);
     u8 current = 0;
-    pGroup->field_36_count = total;
-    pGroup->field_34_count = total;
+    pGroup->SetCounts_433360(total);
     if (total > 0)
     {
         s32 i = 0;
         do
         {
 
-            Ped* pNewPed = gPedPool_6787B8->field_0_pool.Allocate();
+            Ped* pNewPed = gPedPool_6787B8->Allocate();
 
             pNewPed->set_occupation_403970(this->field_240_occupation);
             pNewPed->set_remap_433B90(this->field_244_remap);
@@ -10767,8 +10766,8 @@ void Ped::SpawnPedGroupFollowers_46E200(u8 total)
                 pB4->field_80_sprite_ptr->SetRemap(remap);
             }
             pNewPed->set_health_4039A0(this->field_216_health);
-            pNewPed->field_230 = this->field_230;
-            pNewPed->field_22C = this->field_22C;
+            pNewPed->sub_433BB0(this->field_230);
+            pNewPed->sub_433BC0(this->field_22C);
             pNewPed->field_288_threat_search = this->field_288_threat_search;
             pNewPed->field_28C_threat_reaction = this->field_28C_threat_reaction;
             pNewPed->field_17C_pGang = this->field_17C_pGang;
