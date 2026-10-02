@@ -3395,12 +3395,12 @@ void miss2_0x11C::IsOnScreen_50A760()
 
             if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
             {
-                Sprite* pSprite = pPointer->field_8_crane->field_2C_rotor_obj->field_4;
+                Sprite* pSprite = pPointer->field_8_crane->GetRotorSprite_411A00();
                 onScreen = gGame_0x40_67E008->IsSpriteInAnyPlayerView_4B9890(pSprite, 1);
             }
             else
             {
-                Sprite* pSprite = pPointer->field_8_crane->field_2C_rotor_obj->field_4;
+                Sprite* pSprite = pPointer->field_8_crane->GetRotorSprite_411A00();
                 onScreen = gGame_0x40_67E008->IsSpriteInAnyPlayerView_4B9890(pSprite, 0);
             }
 
