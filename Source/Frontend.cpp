@@ -5148,8 +5148,7 @@ void Frontend::sub_4B4EC0()
     }
     else
     {
-        main_stage = codified_stages >> 4;
-        bonus_stage = codified_stages & 0xF;
+        gLucid_hamilton_67E8E0.DecodeStage_453A60(codified_stages, &main_stage, &bonus_stage);
     }
 
     char_type path[256];
