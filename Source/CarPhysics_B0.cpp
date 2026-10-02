@@ -476,7 +476,7 @@ void CarPhysics_B0::ApplyObjectImpact_559E20(Object_2C* pObj)
 {
     s8 v1;
     s8 v2;
-    sub_529050(pObj->field_26_varrok_idx, &v1, &v2);
+    pObj->GetConveyorDirection_493090(&v1, &v2);
     stru_6FDF50.x += dword_6FE2E0 * v1;
     stru_6FDF50.y += dword_6FE2E0 * v2;
     AddDamage_49EF50(15);
