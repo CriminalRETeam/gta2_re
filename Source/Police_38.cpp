@@ -451,7 +451,7 @@ void PoliceCrew_38::sub_571A30()
         Car_BC* pCar = field_10_subObj->field_0_car;
         if (pGroup)
         {
-            if (pCar->field_76_last_seen_timer <= 200)
+            if (pCar->Get_F76_4A9AD0() <= 200)
             {
                 return;
             }
@@ -461,9 +461,8 @@ void PoliceCrew_38::sub_571A30()
                 u8 i = 0;
                 for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[i++])
                 {
-                    pPedIter->field_238_ped_type = 3;
-                    pPedIter->field_164_ped_group = 0;
-                    pPedIter->field_23C = 0;
+                    pPedIter->SetField238_403920(3);
+                    pPedIter->ClearGroupAndGroupIdx_403A30();
                     if (!field_10_subObj->field_8_group)
                     {
                         break;
@@ -483,7 +482,7 @@ void PoliceCrew_38::sub_571A30()
                 u8 j = 0;
                 for (Ped* pMember = pGroup2->field_4_ped_list[0]; pMember; pMember = pGroup2->field_4_ped_list[++j])
                 {
-                    if (pMember->field_168_game_object && pMember->get_field_20e() < 10)
+                    if (pMember->field_168_game_object && pMember->Get_F20E_4039F0() < 10)
                     {
                         bAllReady = 0;
                     }
@@ -494,9 +493,7 @@ void PoliceCrew_38::sub_571A30()
                     return;
                 }
 
-                Ped* pLeader = field_10_subObj->field_4_ped;
-                pLeader->field_164_ped_group = 0;
-                pLeader->field_23C = 0;
+                field_10_subObj->field_4_ped->ClearGroupAndGroupIdx_403A30();
                 field_10_subObj->field_0_car->sub_421470();
 
                 u8 k = 0;
@@ -505,8 +502,7 @@ void PoliceCrew_38::sub_571A30()
                 {
                     if (pPed->field_168_game_object)
                     {
-                        pPed->field_164_ped_group = 0;
-                        pPed->field_23C = 0;
+                        pPed->ClearGroupAndGroupIdx_403A30();
                         pPed->Deallocate_45EB60();
                     }
                 }
@@ -515,7 +511,7 @@ void PoliceCrew_38::sub_571A30()
                 field_10_subObj->field_2C = 1;
             }
         }
-        else if (pCar->field_76_last_seen_timer > 80)
+        else if (pCar->Get_F76_4A9AD0() > 80)
         {
             pCar->sub_421470();
             field_10_subObj->field_28 = 5;
@@ -533,7 +529,7 @@ void PoliceCrew_38::sub_571A30()
             }
 
             Car_BC* pCar = field_10_subObj->field_0_car;
-            if (pCar->field_76_last_seen_timer <= 200 && pCar->field_7C_uni_num != 2)
+            if (pCar->Get_F76_4A9AD0() <= 200 && pCar->field_7C_uni_num != 2)
             {
                 return;
             }
@@ -541,8 +537,7 @@ void PoliceCrew_38::sub_571A30()
             u8 i = 0;
             for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[i++])
             {
-                pPedIter->field_164_ped_group = 0;
-                pPedIter->field_23C = 0;
+                pPedIter->ClearGroupAndGroupIdx_403A30();
                 pPedIter->Deallocate_45EB60();
                 if (!field_10_subObj->field_8_group)
                 {
@@ -562,11 +557,11 @@ void PoliceCrew_38::sub_571A30()
         else
         {
             Car_BC* pCar = field_10_subObj->field_0_car;
-            if (pCar->field_76_last_seen_timer <= 200 && pCar->field_7C_uni_num != 2)
+            if (pCar->Get_F76_4A9AD0() <= 200 && pCar->field_7C_uni_num != 2)
             {
                 return;
             }
-            if (field_10_subObj->field_4_ped->get_field_20e() <= 30)
+            if (field_10_subObj->field_4_ped->Get_F20E_4039F0() <= 30)
             {
                 return;
             }
