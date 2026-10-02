@@ -3583,7 +3583,7 @@ void Ped::sub_462550()
 {
     if (field_174_pWeapon)
     {
-        field_21C_bf.b11 = 0;
+        ClearBit11_403A40();
         gWeapon_8_707018->deallocate_5E3CB0(field_174_pWeapon);
         field_174_pWeapon = 0;
     }
