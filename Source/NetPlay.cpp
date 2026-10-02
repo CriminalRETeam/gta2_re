@@ -60,11 +60,16 @@ NetPlay::NetPlay()
     }
 }
 
-STUB_FUNC(0x51d7b0)
+// The scalar deleting destructor VC6 generates for the virtual ~NetPlay, written out
+MATCH_FUNC(0x51d7b0)
 void* NetPlay::vdtor_51D7B0(char_type flags)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    this->NetPlay::~NetPlay();
+    if (flags & 1)
+    {
+        operator delete(this);
+    }
+    return this;
 }
 
 MATCH_FUNC(0x51d7d0)
