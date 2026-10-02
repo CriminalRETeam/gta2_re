@@ -79,6 +79,8 @@ RouteFinder_10::RouteFinder_10()
     field_C_pNext = 0;
 }
 
+// 9.6f 0x40CFC0: Camera_0xBC::WorldToScreen_40CFC0, but the original reads this file's copies
+// of the constants (0x6FFC7C, 0x6FFC9C), so the Camera.hpp inline can't be used here
 static inline Fix16_Point_POD ProjectToScreen(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z)
 {
     Fix16_Point_POD tmp;
