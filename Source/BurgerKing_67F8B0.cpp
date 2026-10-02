@@ -742,7 +742,7 @@ void BurgerKing_67F8B0::save_replay_record_4CDE20(u32 inputs)
         {
             field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs = inputs;
             field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx = rng_dword_67AB34->get_cur_rng_41CFE0();
-            field_3C_rec_buff[field_75340_rec_buf_idx].field_8_rng_rnd = rng_dword_67AB34->field_4_rnd;
+            field_3C_rec_buff[field_75340_rec_buf_idx].field_8_rng_rnd = rng_dword_67AB34->get_rnd_45F9E0();
 
             if (bConstant_replay_save_67D5C4 == 1)
             {

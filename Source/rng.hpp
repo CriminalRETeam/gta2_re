@@ -17,6 +17,12 @@ class rng
         return field_0_rng;
     }
 
+    // 9.6f 0x45F9E0
+    inline s32 get_rnd_45F9E0()
+    {
+        return field_4_rnd;
+    }
+
     EXPORT void sub_48B900();
     EXPORT void ShowCycle_48B920();
 
