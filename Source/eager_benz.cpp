@@ -943,16 +943,16 @@ void eager_benz::sub_593240(Car_BC* pCar)
 MATCH_FUNC(0x593370)
 void eager_benz::sub_593370(Car_BC* pCar)
 {
-    if (!bExplodingScoresOff_67D4FB && field_368_player->field_0_bIsUser)
+    if (!bExplodingScoresOff_67D4FB && field_368_player->IsUser_41DC70())
     {
-        gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
-                                               pCar->field_50_car_sprite->GetYPos(),
-                                               pCar->field_50_car_sprite->GetZPos(),
+        gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
+                                               pCar->get_y_41E440(),
+                                               pCar->get_z_41E450(),
                                                field_368_player->field_6BC_multpliers.field_0_value * 10);
     }
 
     field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multpliers.field_0_value * 10);
-    gShooey_CC_67A4B8->ReportCrimeForPed(4u, field_368_player->Get_Field_68_Ped());
+    gShooey_CC_67A4B8->ReportCrimeForPed(4u, field_368_player->GetPlayerPed_4A5130());
 }
 
 MATCH_FUNC(0x593410)
