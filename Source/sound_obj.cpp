@@ -4164,7 +4164,7 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
 
     pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     fAC = pCar->field_AC;
-    bMaxDmg = pCar->field_74_damage == 32001;
+    bMaxDmg = pCar->IsMaxDamage_40F890();
     pCar->field_AC = 0;
     if (!bMaxDmg && pCar->field_54_driver && a2->field_4_bDrivenByPlayer != 1)
     {
