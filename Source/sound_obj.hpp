@@ -37,7 +37,7 @@ struct sound_unknown_0xC
 struct vigilant_maxwell
 {
     char_type field_0_bUsed;
-    char_type field_1;
+    char_type field_1_age;
     char_type field_2;
     char_type field_3;
     infallible_turing* field_4_pObj;
@@ -348,7 +348,7 @@ class sound_obj
     EXPORT s32 AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 RandomDisplacement_41A650(u32 seed);
     EXPORT void ResetEntry_41A6C0(s32 idx);
-    EXPORT void sub_41A6F0();
+    EXPORT void IncrementAudioEntitiesAge_41A6F0();
     EXPORT void InterrogateAudioEntities_41A730();
     EXPORT void AddSampleToRequestedQueue_41A850();
     EXPORT void AddDetailsToRequestedOrderList_41A910(u8 a2);

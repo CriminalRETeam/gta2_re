@@ -530,7 +530,7 @@ void sound_obj::ServiceSoundEffects_41A3A0()
         AddReleasingSounds_41A9D0();
         AdjustSamplesVolume_41B540();
         ProcessActiveQueues_41AB80();
-        sub_41A6F0();
+        IncrementAudioEntitiesAge_41A6F0();
     }
 }
 
@@ -970,13 +970,13 @@ void sound_obj::ProcessActiveQueues_41AB80()
 }
 
 MATCH_FUNC(0x41A6F0)
-void sound_obj::sub_41A6F0()
+void sound_obj::IncrementAudioEntitiesAge_41A6F0()
 {
     for (u32 idx = 0; idx < field_543C_444C_nAudioEntitiesCount; idx++)
     {
-        if (field_147C_audio_entities[field_444C_AudioEntityOrderList[idx]].field_1 < 10u)
+        if (field_147C_audio_entities[field_444C_AudioEntityOrderList[idx]].field_1_age < 10u)
         {
-            field_147C_audio_entities[field_444C_AudioEntityOrderList[idx]].field_1++;
+            field_147C_audio_entities[field_444C_AudioEntityOrderList[idx]].field_1_age++;
         }
     }
 }
@@ -1200,7 +1200,7 @@ MATCH_FUNC(0x41A6C0)
 void sound_obj::ResetEntry_41A6C0(s32 idx)
 {
     field_147C_audio_entities[idx].field_0_bUsed = 0;
-    field_147C_audio_entities[idx].field_1 = 0;
+    field_147C_audio_entities[idx].field_1_age = 0;
     field_147C_audio_entities[idx].field_4_pObj = 0;
     field_147C_audio_entities[idx].field_8_pAlloc = 0;
 }
@@ -1328,7 +1328,7 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
 
             field_147C_audio_entities[idx].field_4_pObj = pTuring;
             field_147C_audio_entities[idx].field_0_bUsed = 1;
-            field_147C_audio_entities[idx].field_1 = 1;
+            field_147C_audio_entities[idx].field_1_age = 1;
             field_444C_AudioEntityOrderList[field_543C_444C_nAudioEntitiesCount++] = idx;
 
             switch (pTuring->field_0_object_type)
@@ -1410,7 +1410,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
 
     field_147C_audio_entities[idx].field_0_bUsed = 0;
     field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pAny = 0;
-    field_147C_audio_entities[idx].field_1 = 0;
+    field_147C_audio_entities[idx].field_1_age = 0;
 
     if (field_147C_audio_entities[idx].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Camera_0xBC_5)
     {
