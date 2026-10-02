@@ -53,7 +53,7 @@ class PurpleDoom_C_Pool : public PoolBasic<PurpleDoom_C, 6000>
 class Collide_C
 {
   public:
-    EXPORT void sub_478A20();
+    EXPORT void ResetCount_478A20();
     EXPORT Collide_C();
     EXPORT ~Collide_C();
     s32 field_0_count;

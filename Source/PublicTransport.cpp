@@ -109,7 +109,7 @@ void Train_58::ReassignTrainHead_578030()
         //pFirst_->field_4C_next = gCar_BC_Pool_67792C->field_4_firstCar;
         //gCar_BC_Pool_67792C->field_4_firstCar = pFirst_;
 
-        gCar_BC_Pool_67792C->field_0_pool.sub_420F30(this->field_C_carriages[this->field_43_idx]);
+        gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(this->field_C_carriages[this->field_43_idx]);
 
         Car_BC* pTrainCar = this->field_C_carriages[this->field_43_idx];
         if (pTrainCar->field_58_physics) // BUG?

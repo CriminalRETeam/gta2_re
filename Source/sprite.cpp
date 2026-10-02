@@ -806,7 +806,7 @@ void Sprite::Draw_59EFF0()
                     pCar->field_8_damaged_areas.SetGlobal2_4BA350();
                 }
             }
-            pCar->field_8_damaged_areas.sub_4BA340();
+            pCar->field_8_damaged_areas.ClearGlobalFlags_4BA340();
         }
         u16 v25 = Sprite::sub_59EAA0();
         u8 bRet;
@@ -874,7 +874,7 @@ void Sprite::Draw_59EFF0()
     if (pCar && gLighting_626A09)
     {
         u32 car_flags = pCar->field_8_damaged_areas.m_var;
-        pCar->field_8_damaged_areas.sub_4BA330();
+        pCar->field_8_damaged_areas.MaskWithGlobalFlags_4BA330();
 
         u16 unk3 = Sprite::sub_59EAA0();
         u8 bRet;

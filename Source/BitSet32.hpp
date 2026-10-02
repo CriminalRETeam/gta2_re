@@ -103,12 +103,12 @@ class BitSet32
         gFlags_67ACF8 = kGlobalMask2_61A9A4;
     }
 
-    inline void sub_4BA330()
+    inline void MaskWithGlobalFlags_4BA330()
     {
         m_var &= gFlags_67ACF8;
     }
 
-    inline void sub_4BA340()
+    inline void ClearGlobalFlags_4BA340()
     {
         m_var &= ~gFlags_67ACF8;
     }

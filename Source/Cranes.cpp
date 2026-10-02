@@ -250,7 +250,7 @@ void Crane_15C::sub_47EF80()
         }
     }
 
-    gCar_BC_Pool_67792C->field_0_pool.sub_420F30(pCar);
+    gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(pCar);
 
     pCar->SetF_88_4214E0();
     pCar->DeAllocateCarPhysics_43BD00();

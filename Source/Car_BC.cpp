@@ -921,7 +921,7 @@ Trailer* Car_6C::SpawnCabAndTrailer_446530(Fix16 xpos, Fix16 ypos, Ang16 rotatio
 
     
     Car_BC* pTrailer = SpawnCarAtCorrectZ_426E40(xpos, ypos, out_rot, trailer_model);
-    gCar_BC_Pool_67792C->field_0_pool.sub_420F30(pTrailer);
+    gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(pTrailer);
 
     Trailer* pNewTrailer = gTrailerPool_66AC80->field_0_pool.Allocate();
     pNewTrailer->SetTruckCabAndTrailerCar_407BB0(pCab, pTrailer);
@@ -1749,7 +1749,7 @@ void Car_BC::Deactivate_43AA60()
 {
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_50_car_sprite);
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_50_car_sprite);
-    gCar_BC_Pool_67792C->field_0_pool.sub_420F30(this);
+    gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(this);
     SetF_88_4214E0();
 }
 
@@ -5463,8 +5463,8 @@ char_type Car_BC::TrainUpdate_442D70()
                     rect.field_0_left = sprite_x - Fix16(0x4000, 0);
                     rect.field_4_right = sprite_x + Fix16(0x4000, 0);
                     rect.field_8_top = sprite_y - Fix16(0x28000, 0);
-                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
-                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
+                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
                     break;
                 case 2:
                     sprite_y = field_50_car_sprite->field_14_xy.y;
@@ -5474,8 +5474,8 @@ char_type Car_BC::TrainUpdate_442D70()
                     rect.field_0_left = sprite_x - Fix16(0x4000, 0);
                     rect.field_4_right = sprite_x + Fix16(0x4000, 0);
                     rect.field_C_bottom = sprite_y + Fix16(0x28000, 0);
-                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
-                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
+                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
                     break;
 
                 case 3:
@@ -5483,11 +5483,11 @@ char_type Car_BC::TrainUpdate_442D70()
                     sprite_z = field_50_car_sprite->field_1C_zpos;
                     sprite_x = field_50_car_sprite->field_14_xy.x.mValue;
                     rect.field_C_bottom = sprite_y + Fix16(0x4000, 0);
-                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
+                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
                     rect.field_0_left = sprite_x;
                     rect.field_4_right = sprite_x + Fix16(0x28000, 0);
                     rect.field_8_top = sprite_y - Fix16(0x4000, 0);
-                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
                     break;
 
                 case 4:
@@ -5497,8 +5497,8 @@ char_type Car_BC::TrainUpdate_442D70()
                     rect.field_8_top = sprite_y - Fix16(0x4000, 0);
                     rect.field_0_left = rect.field_4_right - Fix16(0x28000, 0);
                     rect.field_C_bottom = sprite_y + Fix16(0x4000, 0);
-                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
-                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
+                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
                     break;
 
                 default:

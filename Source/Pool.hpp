@@ -278,7 +278,7 @@ class Pool
         return pToFind;
     }
 
-    void sub_420F30(PoolType* toFind)
+    void UnlinkFromActiveList_420F30(PoolType* toFind)
     {
         PoolType* pIter = this->field_4_pPrev;
         PoolType* pLast = 0;

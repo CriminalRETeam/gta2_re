@@ -445,7 +445,7 @@ void Game_0x40::UpdateGame_4B9410()
     }
 
     gRozza_C88_66AFE0->Reset_40BB90();
-    gCollide_C_6791FC->sub_478A20();
+    gCollide_C_6791FC->ResetCount_478A20();
 
     if (gLighting_626A09)
     {
