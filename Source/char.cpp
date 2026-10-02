@@ -6407,17 +6407,24 @@ void Char_B4::state_8_5520A0()
 }
 
 // https://decomp.me/scratch/4c8aU
-WIP_FUNC(0x552DE0)
+MATCH_FUNC(0x552DE0)
 Fix16 CarPhysics_B0::vec_len_552DE0() // Weird location, I'm putting this here to preserve ordering
 {
-    WIP_IMPLEMENTED;
     if (field_40_linvel_1.x == kFP16Zero_6FD9E4)
     {
-        return Fix16::Abs(field_40_linvel_1.y);
+        if (field_40_linvel_1.y.mValue > 0)
+        {
+            return field_40_linvel_1.y;
+        }
+        return -field_40_linvel_1.y;
     }
     else if (field_40_linvel_1.y == kFP16Zero_6FD9E4)
     {
-        return Fix16::Abs(field_40_linvel_1.x);
+        if (field_40_linvel_1.x.mValue > 0)
+        {
+            return field_40_linvel_1.x;
+        }
+        return -field_40_linvel_1.x;
     }
     else
     {
