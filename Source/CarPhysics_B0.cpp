@@ -1412,44 +1412,34 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
     return is_air_surface;
 }
 
-WIP_FUNC(0x55bfe0)
+MATCH_FUNC(0x55bfe0)
 void CarPhysics_B0::ProcessGroundCollisionAndEmitImpactParticles_55BFE0()
 {
-    WIP_IMPLEMENTED;
-
-    char b1;
-    CarPhysics_B0* pPhysics;
-    char b2;
-    char b1_;
-    u8 corner_bits1[4];
-    u8 corner_bits2[4];
-
-    b1 = ProcessGroundCollisionAndSurfaceType_55B970((char*)corner_bits1);
-    b1_ = b1;
+    u8 corner_bits1;
+    u8 corner_bits2;
+    char b1 = ProcessGroundCollisionAndSurfaceType_55B970((char*)&corner_bits1);
     Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
-    if (!pTrailer)
+    if (pTrailer)
     {
-        if (!b1)
+        CarPhysics_B0* pPhysics = pTrailer->field_C_pCarOnTrailer->field_58_physics;
+        pPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
+        char b2 = pPhysics->ProcessGroundCollisionAndSurfaceType_55B970((char*)&corner_bits2);
+        if (b2)
         {
-            return;
+            if (b1 || field_98_surface_type == car_surface_type::air_surface_6)
+            {
+                pPhysics->EmitImpactParticles_55B7E0(corner_bits2);
+            }
         }
-        goto LABEL_11;
-    }
-    pPhysics = pTrailer->field_C_pCarOnTrailer->field_58_physics;
-    pPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
-    b2 = pPhysics->ProcessGroundCollisionAndSurfaceType_55B970((char*)corner_bits2);
-    if (b2)
-    {
-        if (b1_ || field_98_surface_type == car_surface_type::air_surface_6)
+        SetCurrentCarInfoAndModelPhysics_562EF0();
+        if ((b2 || pPhysics->field_98_surface_type == car_surface_type::air_surface_6) && b1)
         {
-            pPhysics->EmitImpactParticles_55B7E0(corner_bits2[0]);
+            EmitImpactParticles_55B7E0(corner_bits1);
         }
     }
-    SetCurrentCarInfoAndModelPhysics_562EF0();
-    if ((b2 || pPhysics->field_98_surface_type == car_surface_type::air_surface_6) && b1_)
+    else if (b1)
     {
-    LABEL_11:
-        EmitImpactParticles_55B7E0(corner_bits1[0]);
+        EmitImpactParticles_55B7E0(corner_bits1);
     }
 }
 
