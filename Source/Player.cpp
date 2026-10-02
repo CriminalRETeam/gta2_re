@@ -1564,7 +1564,7 @@ void Player::DoCarControlInputs_566C30(Car_BC* pCar)
 }
 
 // https://decomp.me/scratch/mQMMn TODO: try to match without Ang16 operator=()
-WIP_FUNC(0x566C80)
+MATCH_FUNC(0x566C80)
 void Player::DoPedControlInputs_566C80(Ped* pPed)
 {
     Ang16 f_A = field_A;
@@ -2799,8 +2799,6 @@ void Player::EnableEnterVehicles_56A040()
 WIP_FUNC(0x56A0F0)
 void Player::RestoreCarsFromSave_56A0F0()
 {
-    WIP_IMPLEMENTED;
-
     for (s32 i = 0; i < 3; i++)
     {
         if (gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0 > dword_6FE610 &&
