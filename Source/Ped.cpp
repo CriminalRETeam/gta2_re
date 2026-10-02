@@ -9138,7 +9138,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                  !abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, field_14C->field_1AC_cam.z) ||
                  field_278_ped_state_1 == ped_state_1::immobilized_8))
             {
-                field_168_game_object->field_38_velocity = dword_678448;
+                field_168_game_object->SetMaxSpeed_433920(dword_678448);
                 Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
             }
             else
@@ -9160,8 +9160,8 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                                 Ped::ChangeNextPedState2_45C540(9);
                                 field_168_game_object->field_68_animation_frame = 9;
                             }
-                            field_168_game_object->field_10_char_state = 36;
-                            field_168_game_object->field_38_velocity = k_dword_678438;
+                            field_168_game_object->SetCharState_433A60(36);
+                            field_168_game_object->SetMaxSpeed_433920(k_dword_678438);
                         }
                         break;
 
@@ -9179,7 +9179,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                             field_21C_bf.b27 = true;
                         }
                         field_168_game_object->SetCharState_433A60(36);
-                        field_168_game_object->field_38_velocity = k_dword_678438;
+                        field_168_game_object->SetMaxSpeed_433920(k_dword_678438);
                         break;
 
                     default:
