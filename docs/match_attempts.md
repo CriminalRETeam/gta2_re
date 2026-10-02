@@ -1388,3 +1388,21 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `0x4CDF30`: ebx/edi swap, nothing moved it
 - `0x5D4A10`: calls the duplicate Fix16(s32) ctor copy (documented)
 - `0x5213E0`: return block order; while(cond) loop and a result variable also tried, both failed
+
+### Near-miss pass, batches D2 and E2 (2026-10-02)
+
+- `CarPhysics_B0::ApplyReverseEngineForce_55EF20` (0x55EF20): closer 46->2, logic fix (y > 0 branch: negative impulse for 90..180, positive for 180..270; reversed angle through a temporary and Normalize_406C20). Left: the temporary is at 6(%esp) in the original, 4(%esp) in ours
+- `sound_obj::UpdateCarEngineAudio_57E220` (0x57E220): closer 21->6. clamp to 100 after the paused if/else fixes the block layout. Left: scheduling only
+- `DrawPlayerStatsHelper_5D61A0` (0x5D61A0): closer 23->16. no x_offset local fixes registers; any local for the 18/22 ternary swaps ebx/ebp back
+- `Door_4D4::dtor_49D570` (0x49D570): closer 21->20. ~DoorData_10_Pool clears the pool head (9.6f 0x44C7F0). Left: missing EH frame, see the `<new>` quirk
+- `Char_B4::HandleObjectCollision_548840` (0x548840): no change. original EH state is 4 at entry (ours 1): three more destructible locals. Three dummy Fix16_Point locals get it to 11 diff lines (not kept, a guess). Success path also shares the epilogue in the original
+- `sharp_pare_0x15D8::ReadTextures_5B92E0` (0x5B92E0): matches exactly without the standalone guard `if (i > 992) return;`. Not committed: removing it brings back the original's out-of-range read
+- `UpdateStatsForKiller_46F720`: closer 14->4. test the loop pointer after the loop instead of a flag. Left: one register in the group-respect branch
+- `HandleCollision_522E10`: closer 17->16. ResolveCollisionWithPed_5229B0's third param is u8. Left: the original sends both arms of the inlined As2C check into one shared call
+- `AdjustPlaybackRate_41A580`: closer 43->39. fixed-point maths follows the asm now. Left: this/difference register swap throughout
+- `ResolveCollisionWithWorld_522B20`: closer 48->41. bug fix: the collision point is *f18 (was an uninitialised local); Divide_442CB0. Left: EH state numbering
+- `EnumAddress_cb_51E030`: no change. late ebp push
+- `sub_4DF3E0`: no change. by-value abs/max helpers didn't help
+- `sub_575650`: no change. switch value clobber (add $-3) vs our lea
+- `PushCarInfo_564680`: no change. original shifts with rep movsl alone; ours movsl + movsb
+- `EnumerateMaps_51BFA0`: no change. one `if (map_count > 0)` around the rest: 15 -> 51, reverted

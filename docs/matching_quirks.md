@@ -234,6 +234,11 @@ operand through an inline getter (`get_cam_x()`) and the other directly also set
 **A goto loop that returns the same value from several places is a `for` with `continue`.** That gave the
 shared `return 10` in `sad_mirzakhani::find_431EC0` (which also read the wrong field before).
 
+**Search loops that return a pointer or NULL were inline helpers.** When the original tests `&array[i] == NULL`
+and gives every `return false` its own epilogue, write each search as a file-local inline that returns the
+found item or NULL. Open-coded loops make VC6 send all the returns to one shared block
+(`Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0`).
+
 ## Types and signedness
 
 **`jae`/`jb` vs `jge`/`jl` means unsigned vs signed.** Fix the field or parameter type, not the
@@ -555,6 +560,28 @@ atan2 returns into, straight into the hidden return slot; a named local copies f
 **A temporary that only gets an `init` call is raw storage.** `GangPool_CA8::SwapGangSlots_4BF230` calls
 only `init_4BED70` on its swap temporary, with no Gang_144 ctor or dtor: a `u8` buffer plus a reference to
 it, with the init called explicitly.
+
+**Explicit `Fix16(113)` vs an implicit `113` argument.** In a big function the explicit form is built out of
+line into a reused stack temporary and copied; the implicit conversion is built straight in the argument slot.
+One call can mix both (`Wolfy_30::state_18_19_20_32_33_542790`: explicit x and y, implicit z).
+
+**Which value you pass can decide the whole function's registers.** Passing the stored field
+(`pCar->field_68_scale`) instead of the parameter it was just set from fixed `Car_6C::SpawnCarAt_446230`.
+A trivial getter instead of a direct field read does the same (`GetCarInfoIdx_411940()` in
+`sound_obj::HandleHeavyVehicleStopSound_417E30`).
+
+**A private copy of an inline that calls the out-of-line Fix16 helpers.** When a function's Fix16 operators are
+calls in the original but the shared inline expands them, a file-local copy of the inline written with
+`Negate_4086A0`, `Multiply_408680`, `operator+` and `SquareRoot_436A70` matched `Car_BC::ManageDrowning_43E560`.
+
+**Original inline asm.** `sprite_delta::Delta_5ABA00` and `Delta_5ABA40` use `lodsw`/`rep movsb`/`loop`,
+which VC6 never emits from C: they are `__asm` blocks.
+
+**`<new>` pulled in through `sprite.hpp` can drop destructor EH frames.** `sprite.hpp` includes
+`gbh_graphics.hpp`, which includes GTA2Hax's `DmaVideo.hpp`, which includes `<set>`/`<vector>` and so `<new>`
+with its `throw()` `operator delete`. That is why `Door_4D4::dtor_49D570` lacks the original's EH frame, and it
+can affect destructors in every TU that includes `sprite.hpp`. `sprite.hpp` only needs `Vert` from it, so
+keeping `DmaVideo.hpp` out is the fix to try (it touches many TUs; check compare_builds).
 
 ## Functions, thunks and calling conventions
 
