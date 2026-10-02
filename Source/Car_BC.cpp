@@ -3873,19 +3873,18 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
 }
 
 // 9.6f 0x427180
-WIP_FUNC(0x43da90)
+MATCH_FUNC(0x43da90)
 s16 Car_BC::AccumulateDamage_43DA90(s16 damage, Fix16_Point* pVec)
 {
-    WIP_IMPLEMENTED;
-
     if (IsMaxDamage_40F890())
     {
         return 0;
     }
 
-    Fix16 anti_s = get_anti_strngth_43A1D0();
+    Fix16 anti_s;
+    anti_s = get_anti_strngth_43A1D0();
     Fix16 t = (anti_s * Fix16(damage));
-    s16 damage_1 = t.ToInt(); // TODO: Shifting from stack instead of [eax]
+    s16 damage_1 = t.ToInt();
 
     if (damage_1 == 0)
     {
