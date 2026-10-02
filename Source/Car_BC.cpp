@@ -5855,9 +5855,9 @@ void Car_BC::ManageTVAntenna_4425D0()
         if (pSprite->field_10 != towerAng)
         {
             // TODO: The set up or call to the function is wrong, the parts after are OK
+            Fix16 zero = gFix16_6777CC;
             Fix16 spriteAngFp = Ang16::Ang16_to_Fix16(pSprite->field_10);
-            Fix16 towerAngFp = Ang16::Ang16_to_Fix16(towerAng);
-            sub_405CE0(towerAngFp, gFix16_6777CC, spriteAngFp, dword_677920, dword_677920);
+            sub_405CE0(Ang16::Ang16_to_Fix16(towerAng), zero, spriteAngFp, dword_677920, dword_677920);
             pSprite->field_10 = Ang16::Fix16_To_Ang16_40F540(spriteAngFp);
         }
     }
