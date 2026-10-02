@@ -695,15 +695,15 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
                     for (i = 0; i < field_C_node_count; i++)
                     {
                         Marz_3* pPatrolPoint = &pPed->field_0_patrol_points[i];
-                        pPatrolPoint->field_0 = field_8_pNode->field_2_xpos;
-                        pPatrolPoint->field_1 = field_8_pNode->field_3_ypos;
-                        pPatrolPoint->field_2 = field_8_pNode->field_4_zpos;
+                        pPatrolPoint->field_0_x = field_8_pNode->field_2_xpos;
+                        pPatrolPoint->field_1_y = field_8_pNode->field_3_ypos;
+                        pPatrolPoint->field_2_z = field_8_pNode->field_4_zpos;
                         --field_8_pNode;
                     }
                     pPatrolPoint_2 = &pPed->field_0_patrol_points[i];
-                    pPatrolPoint_2->field_0 = 0;
-                    pPatrolPoint_2->field_1 = 0;
-                    pPatrolPoint_2->field_2 = 0;
+                    pPatrolPoint_2->field_0_x = 0;
+                    pPatrolPoint_2->field_1_y = 0;
+                    pPatrolPoint_2->field_2_z = 0;
                     *a11 = field_C_node_count;
                     field_2FD0_bTimedOut = 1;
                     field_38 = 0;

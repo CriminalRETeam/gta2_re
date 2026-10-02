@@ -252,7 +252,7 @@ void Game_0x40::BootGame_4B8EB0()
     PedGroup::ResetAllGroups_4CB080();
     if (bDo_mike_67D5CC)
     {
-        gMike_A80_6F7328->sub_4FF1B0();
+        gMike_A80_6F7328->Init_4FF1B0();
     }
     gCar_214_705F20->sub_5C8750();
     gMap_0x370_6F6268->alloc_zones_4DFCA0();
