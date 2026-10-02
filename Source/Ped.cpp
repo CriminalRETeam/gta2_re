@@ -1906,8 +1906,8 @@ bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
         return 0;
     }
 
-    if ((u8)bStartNetworkGame_7081F0 && gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3 &&
-        gYouthful_einstein_6F8450.field_0_fugitive && gYouthful_einstein_6F8450.field_0_fugitive->field_2C4_player_ped == this)
+    if (IsNetworkGame_434B10() && gYouthful_einstein_6F8450.IsTagGame_434B20() &&
+        gYouthful_einstein_6F8450.IsFugitivePed_434B60(this))
     {
         return 0; // prevent pick ups if we are "it" in multiplayer?
     }
@@ -1916,7 +1916,7 @@ bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
     if (model == objects::secret_token_266)
     {
         // inc counter and remove pick up
-        gLucid_hamilton_67E8E0.field_574_secret_tokens_collected++;
+        gLucid_hamilton_67E8E0.IncSecretTokensCollected_434A10();
         gObject_5C_6F8F84->field_20_bUnCollectedTokens[pPickUp->get_field_26_420FF0()] = 0;
         pPickUp->Dealloc_5291B0();
         return 1;

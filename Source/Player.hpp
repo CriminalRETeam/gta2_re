@@ -7,6 +7,7 @@
 #include "eager_benz.hpp"
 #include "fix16.hpp"
 #include "sad_mirzakhani.hpp"
+#include "youthful_einstein.hpp"
 #include "zealous_borg.hpp"
 #include <windows.h>
 
@@ -390,3 +391,9 @@ class Player
     s32 field_838_f796_idx;
     wchar_t field_83C_player_name[16];
 };
+
+// 9.6f 0x434B60
+inline bool youthful_einstein::IsFugitivePed_434B60(Ped* pPed)
+{
+    return field_0_fugitive && field_0_fugitive->GetPlayerPed_41D020() == pPed;
+}
