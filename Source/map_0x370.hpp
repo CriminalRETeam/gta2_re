@@ -439,6 +439,27 @@ class Map_0x370
         }
     }
 
+    // As SetRoadBlockAt_4E6660, but copes with no block under (x, y, z)
+    inline void SetRoadBlockAtOrNull_4E7190(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
+    {
+        pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        if (pBlock && (pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        {
+            pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        }
+    }
+
+    // As GetRoadBlockAt_4E6660, but copes with no block under (x, y, z)
+    inline gmp_block_info* GetRoadBlockAtOrNull_4E7190(Fix16& x, Fix16& y, Fix16& z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        if (pBlock && (pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        {
+            pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        }
+        return pBlock;
+    }
+
     // Move up to one block along direction, using up dist
     inline void StepOneBlock_4E6660(Fix16* pX, Fix16* pY, Fix16& dist, s32 direction)
     {
@@ -455,7 +476,7 @@ class Map_0x370
     }
 
     EXPORT s32 sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist);
-    EXPORT s32 sub_4E7190(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5);
+    EXPORT s32 sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist);
     EXPORT char_type sub_4E7E90(u8* a2, char_type* a3);
     EXPORT char_type CheckColumnHasSolidAbove_4E7FC0(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT s32 sub_4E8140(gmp_block_info* pBlockInfo);

@@ -3689,10 +3689,247 @@ done:
     return direction;
 }
 
-STUB_FUNC(0x4E7190)
-s32 Map_0x370::sub_4E7190(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5)
+WIP_FUNC(0x4E7190)
+s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
 {
-    NOT_IMPLEMENTED;
+    char_type bTurned = 0;
+    Fix16 x = *pX;
+    Fix16 y = *pY;
+    Fix16 z = *pZ;
+    Fix16 last_x = x;
+    Fix16 last_y = y;
+    Fix16 last_z = z;
+
+    sub_4E65A0(x, y, &z, 0, 0);
+    gmp_block_info* pBlock;
+    SetRoadBlockAt_4E6660(pBlock, x, y, z);
+    s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+
+    Fix16 tmp;
+    Fix16 side = *sub_4E5D70(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+    if (side > dword_6F5F18)
+    {
+        switch (direction)
+        {
+            case road_direction::up_1:
+                direction = road_direction::right_3;
+                break;
+            case road_direction::down_2:
+                direction = road_direction::left_4;
+                break;
+            case road_direction::left_4:
+                direction = road_direction::up_1;
+                break;
+            case road_direction::right_3:
+                direction = road_direction::down_2;
+                break;
+        }
+    }
+    else if (side < dword_6F5F18)
+    {
+        switch (direction)
+        {
+            case road_direction::up_1:
+                direction = road_direction::left_4;
+                break;
+            case road_direction::down_2:
+                direction = road_direction::right_3;
+                break;
+            case road_direction::left_4:
+                direction = road_direction::down_2;
+                break;
+            case road_direction::right_3:
+                direction = road_direction::up_1;
+                break;
+        }
+    }
+
+    gmp_block_info* pPrev;
+    if (side != dword_6F5F18)
+    {
+        pPrev = pBlock;
+        Fix16 to_centre = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+        if (to_centre > dword_6F610C)
+        {
+            if (dist >= to_centre)
+            {
+                sub_4E5D10(&x, &y, to_centre, direction);
+                dist -= to_centre;
+            }
+            else
+            {
+                sub_4E5D10(&x, &y, dist, direction);
+                dist = dword_6F610C;
+            }
+        }
+        if (!sub_4E5E90(GetRoadBlockAt_4E6660(x, y, z), direction, 0))
+        {
+            StepOneBlock_4E6660(&x, &y, dist, direction);
+        }
+        SetRoadBlockAt_4E6660(pBlock, x, y, z);
+        if (pBlock != pPrev)
+        {
+            sub_4E65A0(x, y, &z, 0, 0);
+            SetRoadBlockAt_4E6660(pBlock, x, y, z);
+        }
+    }
+    else
+    {
+        Fix16 to_edge = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+        if (to_edge > dword_6F610C)
+        {
+            sub_4E65A0(x, y, &z, 0, 1);
+            pPrev = pBlock;
+            sub_4E5D10(&x, &y, dword_6F6110 - to_edge, Ang16::GetAngleFace_4F78F0(Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+            dist.mValue += dword_6F6110.mValue - to_edge.mValue;
+            gmp_block_info* pNext = GetRoadBlockAtOrNull_4E7190(x, y, z);
+            if (!pNext || !sub_4E5E90(pNext, direction, 0))
+            {
+                StepOneBlock_4E6660(&x, &y, dist, direction);
+            }
+            SetRoadBlockAt_4E6660(pBlock, x, y, z);
+            if (pBlock != pPrev)
+            {
+                sub_4E65A0(x, y, &z, 0, 0);
+                SetRoadBlockAt_4E6660(pBlock, x, y, z);
+            }
+            else
+            {
+                sub_4E65A0(x, y, &z, 0, 0);
+            }
+        }
+    }
+
+    while (dist != dword_6F610C)
+    {
+        if (sub_4E5E90(pBlock, direction, 0) && !bTurned)
+        {
+            last_x = x;
+            last_y = y;
+            last_z = z;
+            pPrev = pBlock;
+            StepOneBlock_4E6660(&x, &y, dist, direction);
+            SetRoadBlockAtOrNull_4E7190(pBlock, x, y, z);
+            if (pBlock != pPrev)
+            {
+                sub_4E65A0(x, y, &z, 0, 0);
+                SetRoadBlockAtOrNull_4E7190(pBlock, x, y, z);
+            }
+            if (!pBlock || !sub_4E5E90(pBlock, direction, 0))
+            {
+                gmp_block_info* pBefore = pBlock;
+                Fix16 to_edge = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+                sub_4E5D10(&x, &y, dword_6F6110, Ang16::GetAngleFace_4F78F0(Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+                sub_4E5D10(&x, &y, dword_6F6110 - to_edge, Ang16::GetAngleFace_4F78F0(Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+                dist += dword_6F6110 + dword_6F6110 - to_edge;
+                z = last_z;
+                SetRoadBlockAt_4E6660(pBlock, x, y, z);
+                if (pBlock != pBefore)
+                {
+                    sub_4E65A0(x, y, &z, 0, 0);
+                    SetRoadBlockAt_4E6660(pBlock, x, y, z);
+                }
+                bTurned = 1;
+            }
+        }
+        else
+        {
+            s32 new_direction = 0;
+            bTurned = 0;
+            switch (direction)
+            {
+                case road_direction::up_1:
+                case road_direction::down_2:
+                    pBlock = gMap_0x370_6F6268->get_block_4DFE10((last_x + dword_6F6110).ToInt(),
+                                                                 last_y.ToInt(),
+                                                                 (last_z - dword_6F6110).ToInt());
+                    if (pBlock)
+                    {
+                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        if (new_direction != road_direction::right_3) new_direction = 0;
+                    }
+                    if (!new_direction)
+                    {
+                        pBlock = gMap_0x370_6F6268->get_block_4DFE10((last_x - dword_6F6110).ToInt(),
+                                                                     last_y.ToInt(),
+                                                                     (last_z - dword_6F6110).ToInt());
+                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                    }
+                    break;
+                case road_direction::right_3:
+                case road_direction::left_4:
+                    pBlock = gMap_0x370_6F6268->get_block_4DFE10(last_x.ToInt(),
+                                                                 (last_y + dword_6F6110).ToInt(),
+                                                                 (last_z - dword_6F6110).ToInt());
+                    if (pBlock)
+                    {
+                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        if (new_direction != road_direction::down_2) new_direction = 0;
+                    }
+                    if (!new_direction)
+                    {
+                        pBlock = gMap_0x370_6F6268->get_block_4DFE10(last_x.ToInt(),
+                                                                     (last_y - dword_6F6110).ToInt(),
+                                                                     (last_z - dword_6F6110).ToInt());
+                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                    }
+                    break;
+            }
+
+            pPrev = pBlock;
+            if (dist >= dword_6F6110)
+            {
+                sub_4E5D10(&x, &y, dword_6F5F18, direction);
+                GetRoadBlockAt_4E6660(x, y, z);
+                direction = new_direction;
+                sub_4E5D10(&x, &y, dword_6F5F18, direction);
+                dist -= dword_6F6110;
+                StepOneBlock_4E6660(&x, &y, dist, direction);
+                SetRoadBlockAt_4E6660(pBlock, x, y, z);
+                if (pBlock != pPrev)
+                {
+                    sub_4E65A0(x, y, &z, 0, 0);
+                    SetRoadBlockAt_4E6660(pBlock, x, y, z);
+                }
+            }
+            else
+            {
+                if (dist > dword_6F5F18)
+                {
+                    sub_4E5D10(&x, &y, dword_6F5F18, direction);
+                    SetRoadBlockAt_4E6660(pBlock, x, y, z);
+                    direction = new_direction;
+                    dist -= dword_6F5F18;
+                }
+                sub_4E5D10(&x, &y, dist, direction);
+                dist = 0;
+                if (pBlock != pPrev)
+                {
+                    sub_4E65A0(x, y, &z, 0, 0);
+                    SetRoadBlockAt_4E6660(pBlock, x, y, z);
+                }
+            }
+        }
+    }
+
+    *pX = x;
+    *pY = y;
+    {
+        Fix16 found_z;
+        *pZ = *sub_4E6400(&found_z, x, y, z);
+    }
+
+    switch (direction)
+    {
+        case road_direction::up_1:
+            return road_direction::down_2;
+        case road_direction::down_2:
+            return road_direction::up_1;
+        case road_direction::left_4:
+            return road_direction::right_3;
+        case road_direction::right_3:
+            return road_direction::left_4;
+    }
     return 0;
 }
 
