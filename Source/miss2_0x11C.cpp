@@ -5165,11 +5165,11 @@ void miss2_0x11C::SCRCMD_DO_SAVE_GAME_50D3C0()
             {
                 Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
 
-                if (pPlayer->field_2D4_scores.GetScore_592370() >= 50000)
+                if (pPlayer->GetScore_421980() >= 50000)
                 {
                     // Hallelluya! Another soul saved!
                     gRoot_sound_66B038.PlayVoice_40F090(61);
-                    gGame_0x40_67E008->field_38_orf1->field_2D4_scores.AddCash_592620(-50000);
+                    gGame_0x40_67E008->field_38_orf1->AddCash_421990(-50000);
                     gfrosty_pasteur_6F8060->SaveGame_511E10(gLucid_hamilton_67E8E0.GetDebugStr_4C5970());
                     sprintf(gTmpBuffer_67C598, "svdone");
                 }
