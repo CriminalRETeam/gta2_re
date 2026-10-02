@@ -22,9 +22,7 @@ u8 byte_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10u, 0u, 0
 MATCH_FUNC(0x5e3c10)
 Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 {
-    Weapon_30* pNewWeap = gWeapon_30_Pool_707014->field_0_pool.field_0_pStart;
-    gWeapon_30_Pool_707014->field_0_pool.field_0_pStart = gWeapon_30_Pool_707014->field_0_pool.field_0_pStart->mpNext;
-    pNewWeap->mpNext = 0;
+    Weapon_30* pNewWeap = gWeapon_30_Pool_707014->AllocateUnlinked_4CC9E0();
     pNewWeap->init_5DCD90();
     field_4_ref_count++;
     pNewWeap->set_idx_4CCA00(weapon_kind);
