@@ -404,6 +404,12 @@ class Car_BC
         field_A6 &= ~2u;
     }
 
+    // 9.6f 0x42AC60
+    inline bool IsA6Bit5Set_42AC60()
+    {
+        return (field_A6 & 0x20) == 0x20;
+    }
+
     // 9.6f 0x42AC20
     inline bool IsA6Bit0Set_42AC20()
     {

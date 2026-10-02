@@ -5440,13 +5440,13 @@ void CarAI_78::sub_452DF0()
 MATCH_FUNC(0x453470)
 void CarAI_78::sub_453470()
 {
-    this->field_0_car->field_58_physics->field_92_is_hand_brake_on = 0;
+    this->field_0_car->field_58_physics->SetHandBrakeOff_421260();
     Fix16 t = field_0_car->field_58_physics->field_40_linvel_1.GetLength_453590();
     gCurrCarAI_Velocity_677B00 = t;
 
     if (this->field_0_car->field_80)
     {
-        this->field_0_car->field_A6 |= 0x20u; // stop the vehicle
+        this->field_0_car->SetA6Bit5_421540(); // stop the vehicle
     }
 
     if (this->field_30 > 0)
@@ -5455,15 +5455,15 @@ void CarAI_78::sub_453470()
 
         if (this->field_30)
         {
-            this->field_0_car->field_A6 |= 0x20; // stop the vehicle
+            this->field_0_car->SetA6Bit5_421540(); // stop the vehicle
         }
         else
         {
-            this->field_0_car->field_A6 &= ~0x20;
+            this->field_0_car->ClearA6Bit5_421550();
         }
     }
 
-    if ((this->field_0_car->field_A6 & 0x20) == 0x20) // if the vehicle is forced to stop
+    if (this->field_0_car->IsA6Bit5Set_42AC60()) // if the vehicle is forced to stop
     {
         if (this->field_24_bf.b20)
         {
@@ -5486,11 +5486,7 @@ void CarAI_78::sub_453470()
             }
             else
             {
-                CarPhysics_B0* pPhysics = field_0_car->field_58_physics;
-                pPhysics->field_91_is_foot_brake_on = 0;
-                pPhysics->field_93_is_forward_gas_on = 0;
-                pPhysics->field_94_is_backward_gas_on = 0;
-                pPhysics->field_95 = 0;
+                field_0_car->field_58_physics->NeutralGear_42AC00();
             }
             this->field_68_car_in_collision = 0;
             this->field_24_bf.b12 = 0;
