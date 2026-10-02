@@ -152,7 +152,7 @@ void Gang_144::ApplyKillRespectChange_4BEF70(u8 player_idx, u8 respect)
     for (u8 i = 0; i < 10; ++i)
     {
         Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(i);
-        if (field_1_gang_idx != pGang->field_1_gang_idx)
+        if (pGang->field_1_gang_idx != field_1_gang_idx)
         {
             s8 diff = (respect * field_122_gang_kill_reaction[i]) + pGang->field_11C_respect[player_idx];
             if (diff < pGang->field_11C_respect[player_idx] || diff > 100)
