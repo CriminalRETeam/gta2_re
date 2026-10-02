@@ -673,6 +673,12 @@ class Ped
         field_22C = value;
     }
 
+    // 9.6f 0x433C20
+    inline Fix16 GetCharVelocity_433C20()
+    {
+        return field_168_game_object->get_velocity_41B080();
+    }
+
     inline bool CheckBit0_433B40()
     {
         return field_21C_bf.b0;

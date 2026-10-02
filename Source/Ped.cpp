@@ -3676,7 +3676,7 @@ char_type Ped::StateMachineTick_4626B0()
 
             if (pWeapon)
             {
-                pWeapon->field_4 = 0;
+                pWeapon->Set_F4_433810(0);
             }
 
             occupation = this->field_240_occupation;
@@ -3723,7 +3723,7 @@ char_type Ped::StateMachineTick_4626B0()
             }
             else
             {
-                this->field_168_game_object->field_80_sprite_ptr->field_28_num = 25;
+                this->field_168_game_object->SetSpriteNum_4338F0(25);
             }
             if (field_168_game_object->IsOnScreen_545700())
             {
@@ -3731,7 +3731,7 @@ char_type Ped::StateMachineTick_4626B0()
             }
             if (Ped::get_fieldC_45C9B0() == k_dword_678660 && Ped::get_field8_45C900() == gDummyPedAng_6787A8)
             {
-                if (field_278_ped_state_1 == ped_state_1::walking_0 && this->field_168_game_object->field_38_velocity == k_dword_678660)
+                if (field_278_ped_state_1 == ped_state_1::walking_0 && GetCharVelocity_433C20() == k_dword_678660)
                 {
                     Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                     Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
