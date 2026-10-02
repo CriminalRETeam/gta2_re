@@ -74,7 +74,7 @@ char_type Kfc_30::ReplaceLeaderIfNeeded_5CBC90()
     Ped* pPedAtIdx = pGroup->field_4_ped_list[idx];
     while (pPedAtIdx)
     {
-        if (pPedAtIdx->field_278_ped_state_1 != ped_state_1::dead_9 && !pPedAtIdx->field_16C_car)
+        if (pPedAtIdx->GetPedState_403990() != ped_state_1::dead_9 && !pPedAtIdx->field_16C_car)
         {
             Ped* pKfcPed = this->field_4_ped;
             if (pKfcPed->field_16C_car)
@@ -87,10 +87,10 @@ char_type Kfc_30::ReplaceLeaderIfNeeded_5CBC90()
                 Ped* pLeader = this->field_8_group->field_2C_ped_leader;
                 this->field_4_ped = pLeader;
                 pLeader->SetObjective(objectives_enum::no_obj_0, 9999);
-                const s32 occupation = pPedAtIdx->field_240_occupation;
-                pPedAtIdx->field_240_occupation = ped_ocupation_enum::dummy;
+                const s32 occupation = pPedAtIdx->get_occupation_403980();
+                pPedAtIdx->set_occupation_403970(ped_ocupation_enum::dummy);
                 pPedAtIdx->Kill_46F9D0();
-                pPedAtIdx->field_240_occupation = occupation;
+                pPedAtIdx->set_occupation_403970(occupation);
                 pPedAtIdx->SetObjective(objectives_enum::objective_28, 9999);
             }
             return 1;
@@ -242,7 +242,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
         {
             if (field_4_ped)
             {
-                field_4_ped->field_240_occupation = ped_ocupation_enum::dummy;
+                field_4_ped->set_occupation_403970(ped_ocupation_enum::dummy);
                 field_4_ped->ClearGroupAndGroupIdx_403A30();
                 field_4_ped->Deallocate_45EB60();
             }
@@ -251,7 +251,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
             {
                 for (Ped* j = field_8_group->field_4_ped_list[0]; j; j = field_8_group->field_4_ped_list[v42])
                 {
-                    j->field_240_occupation = ped_ocupation_enum::dummy;
+                    j->set_occupation_403970(ped_ocupation_enum::dummy);
                     j->field_164_ped_group = 0;
                     j->field_23C = 0;
                     j->Deallocate_45EB60();
