@@ -1249,10 +1249,50 @@ EXPORT void __stdcall FatalErrorMsg_4DB410(const char_type* pMsg)
     exit(1);
 }
 
-STUB_FUNC(0x4DB440)
+// Quits with an error when another player's sync check data differs from ours
+MATCH_FUNC(0x4DB440)
 EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemoteSyncData)
 {
-    NOT_IMPLEMENTED;
+    SyncCheckData_1F* pLocal = (SyncCheckData_1F*)pLocalSyncData;
+    SyncCheckData_1F* pRemote = (SyncCheckData_1F*)pRemoteSyncData;
+    char_type msg[260];
+    char_type name[260];
+    wchar_t wname[260];
+
+    gNetPlay_7071E8.GetPlayerName_521100(wname, pRemote->field_1E_player_idx);
+    WideCharToMultiByte(CP_ACP, 0, wname, -1, name, sizeof(name), NULL, NULL);
+
+    if (pLocal->field_1D_bFrench != pRemote->field_1D_bFrench)
+    {
+        sprintf(msg, "Player %s: Language version is different", name);
+        FatalErrorMsg_4DB410(msg);
+    }
+    if (pLocal->field_1_flags != pRemote->field_1_flags)
+    {
+        sprintf(msg, "Player %s: Debug flags are different", name);
+        FatalErrorMsg_4DB410(msg);
+    }
+    if (pLocal->field_5_map_size != pRemote->field_5_map_size)
+    {
+        sprintf(msg, "Player %s: Level file '%s' is different", name, gLucid_hamilton_67E8E0.GetMapName_4C5940());
+        FatalErrorMsg_4DB410(msg);
+    }
+    if (pLocal->field_D_script_sum != pRemote->field_D_script_sum)
+    {
+        sprintf(msg, "Player %s: Script file '%s' is different", name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+        FatalErrorMsg_4DB410(msg);
+    }
+    if (pLocal->field_11_exe_a != pRemote->field_11_exe_a || pLocal->field_15_exe_b != pRemote->field_15_exe_b)
+    {
+        sprintf(msg, "Player %s: Game file 'GTA2.EXE' is different", name);
+        FatalErrorMsg_4DB410(msg);
+    }
+    if (pLocal->field_19_gci_sum != pRemote->field_19_gci_sum)
+    {
+        // The original passes the script name too, which the format doesn't use
+        sprintf(msg, "Player %s: Car handling file 'nyc.gci' is different", name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+        FatalErrorMsg_4DB410(msg);
+    }
 }
 
 MATCH_FUNC(0x4DACB0)
