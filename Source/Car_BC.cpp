@@ -2655,11 +2655,9 @@ char_type Car_BC::IsDoorAccessible_43AFE0(u8 target_door)
 }
 
 // 9.6f 0x425B60
-WIP_FUNC(0x43b140)
+MATCH_FUNC(0x43b140)
 bool Car_BC::IsStoppedWithPavementAtDoor_43B140(u8 target_car_door)
 {
-    WIP_IMPLEMENTED;
-
     Ang16 angToUse;
 
     u8 remap = GetRemap();
@@ -2693,14 +2691,13 @@ bool Car_BC::IsStoppedWithPavementAtDoor_43B140(u8 target_car_door)
         angToUse = field_50_car_sprite->field_0 - kAng90_677234;
     }
 
-    // TODO: This inline seems to not match
     Fix16 t1;
     Fix16 t2;
     Ang16::PolarToCartesian_41FC20(angToUse, kFpHalf_6778FC, t1, t2);
 
-    if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420((v14 + t1).ToInt(),
-                                                      (v13 + t2).ToInt(),
-                                                      field_50_car_sprite->field_1C_zpos.ToInt() - 1) != 2)
+    t1 += v14;
+    t2 += v13;
+    if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(t1.ToInt(), t2.ToInt(), field_50_car_sprite->field_1C_zpos.ToInt() - 1) != 2)
     {
         return false;
     }

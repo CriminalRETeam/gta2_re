@@ -222,11 +222,11 @@ class Ang16
         return gSin_table_667A80[angle.rValue];
     }
 
-    // TODO: Create a scratch and check this matches
+    // 9.6f 0x41FC20: the table value is the left operand (this) of the multiply
     inline static void __stdcall PolarToCartesian_41FC20(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
     {
-        ret1 = radius * Ang16::sine_40F500(angle);
-        ret2 = radius * Ang16::cosine_40F520(angle);
+        ret1 = Ang16::sine_40F500(angle) * radius;
+        ret2 = Ang16::cosine_40F520(angle) * radius;
     }
 
     // Non-inlined version of above function
