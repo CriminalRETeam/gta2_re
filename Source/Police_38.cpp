@@ -2183,78 +2183,42 @@ void PoliceRoadblock_A4::sub_575CA0()
 {
     if (field_10_car_1)
     {
-        s32 v3 = field_10_car_1->field_88_despawn_status;
-        if (v3 != 5 && v3 != 2 && v3 != 3)
-        {
-            field_10_car_1->field_88_despawn_status = 4;
-        }
-        Car_BC* v4 = field_10_car_1;
-        v4->field_7C_uni_num = 3;
-        v4->field_76_last_seen_timer = 0;
+        field_10_car_1->sub_421470();
+        field_10_car_1->sub_421560(3);
         field_10_car_1 = 0;
     }
 
     if (field_14_car_2)
     {
-        s32 v6 = field_14_car_2->field_88_despawn_status;
-        if (v6 != 5 && v6 != 2 && v6 != 3)
-        {
-            field_14_car_2->field_88_despawn_status = 4;
-        }
-        Car_BC* v7 = field_14_car_2;
-        v7->field_7C_uni_num = 3;
-        v7->field_76_last_seen_timer = 0;
+        field_14_car_2->sub_421470();
+        field_14_car_2->sub_421560(3);
         field_14_car_2 = 0;
     }
     if (field_18_car_3)
     {
-        s32 v9 = field_18_car_3->field_88_despawn_status;
-        if (v9 != 5 && v9 != 2 && v9 != 3)
-        {
-            field_18_car_3->field_88_despawn_status = 4;
-        }
-        Car_BC* v10 = field_18_car_3;
-        v10->field_7C_uni_num = 3;
-        v10->field_76_last_seen_timer = 0;
+        field_18_car_3->sub_421470();
+        field_18_car_3->sub_421560(3);
         field_18_car_3 = 0;
     }
 
     if (field_1C_car_4)
     {
-        s32 v12 = field_1C_car_4->field_88_despawn_status;
-        if (v12 != 5 && v12 != 2 && v12 != 3)
-        {
-            field_1C_car_4->field_88_despawn_status = 4;
-        }
-        Car_BC* v13 = field_1C_car_4;
-        v13->field_7C_uni_num = 3;
-        v13->field_76_last_seen_timer = 0;
+        field_1C_car_4->sub_421470();
+        field_1C_car_4->sub_421560(3);
         field_1C_car_4 = 0;
     }
 
     if (field_20_car_5)
     {
-        s32 v15 = field_20_car_5->field_88_despawn_status;
-        if (v15 != 5 && v15 != 2 && v15 != 3)
-        {
-            field_20_car_5->field_88_despawn_status = 4;
-        }
-        Car_BC* v16 = field_20_car_5;
-        v16->field_7C_uni_num = 3;
-        v16->field_76_last_seen_timer = 0;
+        field_20_car_5->sub_421470();
+        field_20_car_5->sub_421560(3);
         field_20_car_5 = 0;
     }
 
     if (field_24_car_6)
     {
-        s32 v18 = field_24_car_6->field_88_despawn_status;
-        if (v18 != 5 && v18 != 2 && v18 != 3)
-        {
-            field_24_car_6->field_88_despawn_status = 4;
-        }
-        Car_BC* v19 = field_24_car_6;
-        v19->field_7C_uni_num = 3;
-        v19->field_76_last_seen_timer = 0;
+        field_24_car_6->sub_421470();
+        field_24_car_6->sub_421560(3);
         field_24_car_6 = 0;
     }
 
