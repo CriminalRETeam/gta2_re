@@ -10843,11 +10843,9 @@ void Ped::ManageWeapon_46F390()
 }
 
 // 9.6f 0x434E60
-WIP_FUNC(0x46f490)
+MATCH_FUNC(0x46f490)
 Weapon_30* Ped::SelectAttackWeapon_46F490()
 {
-    WIP_IMPLEMENTED;
-
     Car_BC* pCar;
 
     switch (this->field_240_occupation)
@@ -10877,11 +10875,10 @@ Weapon_30* Ped::SelectAttackWeapon_46F490()
                 ++unk_6787EE; // police peds in range screen
             }
 
-            // TODO: Wrong here, check needs inverting maybe
             if (gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen < 2u)
             {
-                this->field_198 = 0;
                 this->field_21C_bf.b9 = 1;
+                this->field_198 = 0;
                 return 0;
             }
 
