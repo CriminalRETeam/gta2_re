@@ -8601,17 +8601,18 @@ void Ped::FireAtObject_46A530()
     Fix16 y_v = pSprite_18->field_14_xy.y;
     Fix16 xd = field_1A0_objective_target_object->field_4->field_14_xy.x - x_v;
     Fix16 yd = field_1A0_objective_target_object->field_4->field_14_xy.y - y_v;
-    Ang16 v7 = Fix16::atan2_fixed_405320(yd, xd);
+    Ang16 v7;
+    v7 = Fix16::atan2_fixed_405320(yd, xd);
 
     field_21C |= 0x80;
 
-    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(v7) == 0)
+    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(v7))
     {
-        field_21C &= ~0x80; // TODO: check values
+        field_21C |= 0x800;
     }
     else
     {
-        field_21C |= 0x80;
+        field_21C &= ~0x800;
     }
 }
 
