@@ -243,8 +243,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
     pSwatLeader->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pSwatLeader->field_26C_graphic_type = 2;
     pSwatGroup->add_ped_leader_4C9B10(pSwatLeader);
-    pSwatGroup->field_36_count = 3;
-    pSwatGroup->field_34_count = 3;
+    pSwatGroup->SetCounts_433360(3);
     for (u8 i = 0; i < 3; ++i)
     {
         Ped* pSwatMember = gPedManager_6787BC->sub_470F30();
