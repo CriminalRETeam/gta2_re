@@ -3974,10 +3974,7 @@ bool Ped::PoolUpdate()
         }
         else
         {
-            if (field_21C_bf.b24 == 0)
-            {
-                field_250 = 23;
-            }
+            Set_F250_IfBit_433DD0(23);
             word_6787F2 = stru_6F6784.get_int_4F7AE0(300) + 450;
         }
     }
@@ -4043,7 +4040,7 @@ bool Ped::PoolUpdate()
         // Ped busted
         Ped::ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
         Ped::ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22); // BUSTED!
-        field_168_game_object->field_16 = 1;
+        Set_B4_F16_To_1_433B50();
     }
 
     if ((u32)field_210_shock_counter > field_212_electrocution_threshold)
@@ -4056,7 +4053,7 @@ bool Ped::PoolUpdate()
         // Ped electrocuted
         Ped::ChangeNextPedState1_45C500(ped_state_1::immobilized_8); // immobilize it
         Ped::ChangeNextPedState2_45C540(ped_state_2::electrocuted_27); // electrocute ped
-        field_168_game_object->field_16 = 1;
+        Set_B4_F16_To_1_433B50();
     }
     if (byte_6787D8 == 1)
     {
