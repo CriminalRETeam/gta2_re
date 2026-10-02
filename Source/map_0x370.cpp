@@ -4305,10 +4305,10 @@ void Map_0x370::AddNewBlock_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockDa
 MATCH_FUNC(0x4E8940)
 void Map_0x370::RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop)
 {
-    const s32 column_idx = sub_4E8370(field_0_pDmap->field_0_base[y_pos][x_pos], offset, do_drop);
+    const s32 column_idx = sub_4E8370(*field_0_pDmap->get_base_42A830(y_pos, x_pos), offset, do_drop);
     if (column_idx != -1)
     {
-        field_0_pDmap->field_0_base[y_pos][x_pos] = column_idx;
+        *field_0_pDmap->get_base_42A830(y_pos, x_pos) = column_idx;
         field_4_obj.AddOrUpdateDmapInfo_4E80E0(x_pos, y_pos, column_idx);
     }
 }
