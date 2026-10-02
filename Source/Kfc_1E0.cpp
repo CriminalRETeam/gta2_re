@@ -22,11 +22,11 @@ void Kfc_30::Init_5CBC00()
 {
     field_1A = 150;
     field_1E_is_used = 0;
-    field_20_maybe_type = 0;
+    field_20_crew_type = 0;
     field_24 = 0;
     field_0_car = 0;
     field_4_ped = 0;
-    field_28 = 0;
+    field_28_state = 0;
     field_8_group = 0;
     field_2C = 0;
     field_1C = 0;
@@ -57,7 +57,7 @@ bool Kfc_30::PedIsValid_5CBC60()
     // TODO: Something strange going on here:
     // 10.5: mov 0x28(%ecx),%ecx
     // 9.6f: mov 0x28(%esi),%esi
-    s32 v4 = field_28;
+    s32 v4 = field_28_state;
     return true;
 }
 
@@ -559,7 +559,7 @@ bool Kfc_30::Service_5CC480()
         this->field_18--;
     }
 
-    switch (this->field_28)
+    switch (this->field_28_state)
     {
         case 5:
             CleanupExpiredEntities_5CC1C0();
@@ -577,7 +577,7 @@ bool Kfc_30::Service_5CC480()
             return 0;
     }
 
-    switch (field_20_maybe_type)
+    switch (field_20_crew_type)
     {
         case crew_type::paramedic_1:
             if (gCar_6C_677930->CanAllocateOfType_446930(4))
@@ -659,11 +659,11 @@ void Kfc_1E0::init_5CBB70()
 MATCH_FUNC(0x5cbb80)
 Kfc_30* Kfc_1E0::New_5CBB80()
 {
-    for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    for (u8 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
     {
-        if (!field_0[i].field_1E_is_used)
+        if (!field_0_entries[i].field_1E_is_used)
         {
-            return &field_0[i];
+            return &field_0_entries[i];
         }
     }
     return 0;
@@ -674,11 +674,11 @@ void Kfc_1E0::Service_5CBBD0()
 {
     for (s32 i = 0; i < 10; i++)
     {
-        if (field_0[i].field_1E_is_used)
+        if (field_0_entries[i].field_1E_is_used)
         {
-            if (field_0[i].Service_5CC480())
+            if (field_0_entries[i].Service_5CC480())
             {
-                field_0[i].field_1E_is_used = 0;
+                field_0_entries[i].field_1E_is_used = 0;
             }
         }
     }

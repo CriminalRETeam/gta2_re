@@ -104,7 +104,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     pGroup->field_0 = 0;
     
     field_4_paramedics_crew->field_4_ped = pPed1;
-    field_4_paramedics_crew->field_28 = 6;
+    field_4_paramedics_crew->field_28_state = 6;
     field_4_paramedics_crew->field_0_car->sub_421560(4);
     field_4_paramedics_crew->field_0_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
     field_4_paramedics_crew->field_0_car->InitCarAIControl_440590();
@@ -122,7 +122,7 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
         bUnk = true;
         if (!field_4_paramedics_crew->field_4_ped || field_4_paramedics_crew->field_4_ped->isDead_403B60())
         {
-            field_4_paramedics_crew->field_28 = 5;
+            field_4_paramedics_crew->field_28_state = 5;
             field_4_paramedics_crew->field_2C = 0;
             dword_6F6D60 = 0;
             return;
@@ -153,7 +153,7 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
     {
         if (!field_4_paramedics_crew->field_24)
         {
-            field_4_paramedics_crew->field_28 = 5;
+            field_4_paramedics_crew->field_28_state = 5;
             field_4_paramedics_crew->field_2C = 0;
         }
         else if (dword_6F6D60->field_16C_car && dword_6F6D60 == dword_6F6D60->field_16C_car->field_54_driver)
@@ -163,7 +163,7 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
                 if (field_4_paramedics_crew->field_8_group->IsAllMembersInSomeCar_4CAA20())
                 {
                     field_4_paramedics_crew->field_0_car->sub_43AF40();
-                    field_4_paramedics_crew->field_28 = 5;
+                    field_4_paramedics_crew->field_28_state = 5;
                     field_4_paramedics_crew->field_2C = 0;
                     dword_6F6D60 = 0;
                 }
@@ -187,7 +187,7 @@ WIP_FUNC(0x4fb330)
 void Ambulance_20::UpdateState_4FB330()
 {
     field_10.RemovePedsInSpecificState_471290();
-    switch (field_4_paramedics_crew->field_28)
+    switch (field_4_paramedics_crew->field_28_state)
     {
         case 3:
         {
@@ -222,7 +222,7 @@ void Ambulance_20::UpdateState_4FB330()
                 ++field_4_paramedics_crew->field_1C;
                 if (field_4_paramedics_crew->field_1C > 500)
                 {
-                    field_4_paramedics_crew->field_28 = 5;
+                    field_4_paramedics_crew->field_28_state = 5;
                 }
             }
             break;
@@ -237,7 +237,7 @@ void Ambulance_20::UpdateState_4FB330()
 
             if (field_4_paramedics_crew->field_2C)
             {
-                field_4_paramedics_crew->field_28 = 0;
+                field_4_paramedics_crew->field_28_state = 0;
                 field_4_paramedics_crew->ReInit_5CBC30();
                 ClearTask_4FA7D0();
                 break;

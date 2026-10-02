@@ -254,7 +254,7 @@ void Police_7B8::sub_56F6D0(Car_BC* pCar)
                 {
                     pCrewCar->field_88_despawn_status = 4;
                 }
-                pCrew->field_10_subObj->field_28 = 5;
+                pCrew->field_10_subObj->field_28_state = 5;
                 pCrew->field_10_subObj->field_2C = 1;
                 pCrew->field_24_state = police_crew_state::shutdown_6;
                 return;
@@ -408,9 +408,9 @@ char_type Police_7B8::sub_56FAA0(Police_7C* p7C)
         pNewPoliceCrew->field_24_state = dword_6FEDCC;
         pNewPoliceCrew->field_20 = gRoadblockGuardType_6FEDB8;
         pKfc->field_1E_is_used = 1;
-        pKfc->field_20_maybe_type = dword_6FEE18; // field_20_maybe_type
+        pKfc->field_20_crew_type = dword_6FEE18; // field_20_crew_type
         pKfc->field_24 = 1;
-        pKfc->field_28 = 3;
+        pKfc->field_28_state = 3;
         pKfc->field_18 = word_6FEAC8;
         pKfc->field_C_x = Fix16(xval);
         pKfc->field_10_y = Fix16(yval);
@@ -532,7 +532,7 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
     pNewCrew->field_24_state = police_crew_state::patrol_1;
     pNewCrew->field_29 = 1;
     pKfc->field_1E_is_used = 1;
-    pKfc->field_20_maybe_type = gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service;
+    pKfc->field_20_crew_type = gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service;
     pKfc->field_24 = 1;
     pKfc->field_0_car = pCar;
     PedGroup* pNewPedGroup = PedGroup::New_4CB0D0();
@@ -639,7 +639,7 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
     pNewPedGroup->field_0 = 0;
     pKfc->field_4_ped = pNewPed1;
     pKfc->field_18 = 0;
-    pKfc->field_28 = 6;
+    pKfc->field_28_state = 6;
     pKfc->field_0_car->sub_421560(5);
     pKfc->field_0_car->InitCarAIControl_440590();
     pKfc->field_0_car->sub_43AF40();
@@ -691,7 +691,7 @@ bool Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCrimi
                     return false;
                 }
 
-                if (pCrew->field_10_subObj->field_20_maybe_type != crew_type::army_6 && p7C->field_4_wanted_level == 6)
+                if (pCrew->field_10_subObj->field_20_crew_type != crew_type::army_6 && p7C->field_4_wanted_level == 6)
                 {
                     return false;
                 }
@@ -701,7 +701,7 @@ bool Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCrimi
                 pCrew->field_24_state = police_crew_state::pursue_or_chase_5;
                 pCrew->sub_570A10();
 
-                if (pCrew->field_10_subObj->field_20_maybe_type != crew_type::army_6)
+                if (pCrew->field_10_subObj->field_20_crew_type != crew_type::army_6)
                 {
                     pCrew->field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
                 }
