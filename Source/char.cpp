@@ -1640,7 +1640,7 @@ void Char_B4::ManageZCoordAndSlopes_548590()
 
     if (byte_6FDB54 == 1)
     {
-        zpos -= Fix16(1);
+        zpos--;
     }
     u8 gradient_direction =
         gMap_0x370_6F6268->UpdateZFromSlopeAtCoord_4E5BF0(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y, zpos);
@@ -1654,7 +1654,7 @@ void Char_B4::ManageZCoordAndSlopes_548590()
 
             if (frac > dword_6FDB28)
             {
-                zpos += Fix16(1);
+                zpos++;
             }
         }
         else

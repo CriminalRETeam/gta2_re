@@ -437,6 +437,13 @@ class Fix16
         return Fix16(mValue - 0x4000, 0);
     }
 
+    // 9.6f 0x482510
+    inline Fix16 operator--(int)
+    {
+        mValue -= 0x4000;
+        return Fix16(mValue + 0x4000, 0);
+    }
+
     EXPORT static class Ang16 __stdcall atan2_fixed_405320(Fix16& y, Fix16& x);
 
   public:
