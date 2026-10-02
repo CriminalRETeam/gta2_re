@@ -2772,11 +2772,7 @@ void miss2_0x11C::SCRCMD_CAR_IN_AREA_509A70()
     Fix16 top = pCmd->field_C_rect.field_0_pos.field_4_y - height / dword_6F77C8;
     Fix16 left = pCmd->field_C_rect.field_0_pos.field_0_x - width / dword_6F77C8;
 
-    Fix16_Rect* pRect = &gfrosty_pasteur_6F8060->field_2F8_area_rect;
-    pRect->field_8_top = top;
-    pRect->field_0_left = left;
-    pRect->field_4_right = left + width;
-    pRect->field_C_bottom = top + height;
+    gfrosty_pasteur_6F8060->field_2F8_area_rect.SetFromPosSize_463710(left, top, width, height);
 
     Fix16 hz = dword_6F75F0 + pCmd->field_C_rect.field_0_pos.field_8_z;
     Fix16 lz = pCmd->field_C_rect.field_0_pos.field_8_z - dword_6F75F0;

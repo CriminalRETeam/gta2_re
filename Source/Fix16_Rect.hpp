@@ -65,6 +65,15 @@ class Fix16_Rect
         return IntervalsOverlap_41E160(field_10_low_z, field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z);
     }
 
+    // 9.6f 0x463710
+    inline void SetFromPosSize_463710(Fix16 left, Fix16 top, Fix16 width, Fix16 height)
+    {
+        field_0_left = left;
+        field_8_top = top;
+        field_4_right = left + width;
+        field_C_bottom = top + height;
+    }
+
     void SetHiLowZ_41E370(Fix16 lowZ, Fix16 highZ)
     {
         this->field_10_low_z = lowZ;
