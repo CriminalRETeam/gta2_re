@@ -1725,7 +1725,7 @@ void ArrowTrace_24::UpdateAimCoordinates_5D03F0()
             break;
         case ArrowTargetType::Car_3:
             pCar = field_4_car;
-            if (pCar->field_88_despawn_status == 5)
+            if (pCar->IsDespawning_4215B0())
             {
                 field_10_target_type = ArrowTargetType::Nothing_0;
             }
