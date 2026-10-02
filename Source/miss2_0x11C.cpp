@@ -374,17 +374,17 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPoi
 
         if (pPointer->field_8_obj->field_8->field_34_behavior_type == object_behavior_type::behavior_1)
         {
-            pPointer->field_8_obj->field_26_varrok_idx = pCmd->field_1C_value_shop_type;
+            pPointer->field_8_obj->set_field_26(pCmd->field_1C_value_shop_type);
         }
         else if (pObj = pPointer->field_8_obj, pObj->check_is_shop_421060())
         {
-            pObj->field_26_varrok_idx = pCmd->field_1C_value_shop_type;
+            pObj->set_field_26(pCmd->field_1C_value_shop_type);
         }
         else
         {
             if (pPointer->field_8_obj->check_is_busy_shop())
             {
-                pPointer->field_8_obj->field_26_varrok_idx = pCmd->field_1C_value_shop_type;
+                pPointer->field_8_obj->set_field_26(pCmd->field_1C_value_shop_type);
             }
         }
     }
@@ -2913,7 +2913,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_ANY_CAR_509D00()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     Ped* pPed = pPointer->field_8_char;
 
-    if (pPed != NULL && pPed->field_16C_car != NULL)
+    if (pPed != NULL && pPed->has_car_403B80())
     {
         field_8 = true;
     }
@@ -5046,7 +5046,7 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
         pOnMission2->field_8_counter == 0 && pOnMission3->field_8_counter == 0)
     {
         // If enough respect.
-        if ((player_idx1 = gGame_0x40_67E008->field_38_orf1->field_2E_idx,
+        if ((player_idx1 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(),
              pGang->GetRespectForPlayer_4BEEF0(player_idx1) / 20 >= pCmd->field_1A_respect))
         {
             gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag = 0;
@@ -5071,7 +5071,7 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
         pOnMission2->field_8_counter == 0 && pOnMission3->field_8_counter == 0)
     {
         // If enough respect.
-        if ((player_idx2 = gGame_0x40_67E008->field_38_orf1->field_2E_idx,
+        if ((player_idx2 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(),
              pGang->GetRespectForPlayer_4BEEF0(player_idx2) / 20 >= pCmd->field_1A_respect))
         {
             gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag = 0;
@@ -5142,7 +5142,7 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
     s8 player_idx3;
 
     // Start mission 1 if enough respect.
-    if ((player_idx3 = gGame_0x40_67E008->field_38_orf1->field_2E_idx,
+    if ((player_idx3 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(),
          pGang->GetRespectForPlayer_4BEEF0(player_idx3) / 20 >= pCmd->field_1A_respect))
     {
         gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag = 0;
@@ -5155,7 +5155,7 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
     s8 player_idx4;
 
     // If zero respect.
-    if ((player_idx4 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, (pGang->GetRespectForPlayer_4BEEF0(player_idx4) / 20) == 0))
+    if ((player_idx4 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(), (pGang->GetRespectForPlayer_4BEEF0(player_idx4) / 20) == 0))
     {
         s32 brief_id = pCmd->field_8_brief_id - 6;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
@@ -5167,7 +5167,7 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
     s8 player_idx5;
 
     // If negative respect.
-    if ((player_idx5 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, pGang->GetRespectForPlayer_4BEEF0(player_idx5) / 20 < 0))
+    if ((player_idx5 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(), pGang->GetRespectForPlayer_4BEEF0(player_idx5) / 20 < 0))
     {
         s32 brief_id = pCmd->field_8_brief_id - 4;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
