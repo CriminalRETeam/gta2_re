@@ -1871,7 +1871,7 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
         ammo = gWeapon_8_707018->get_defalt_ammo_5E3E80(weapon_kind);
     }
 
-    if (weapon_kind >= 0xf) // car_bomb
+    if (gWeapon_8_707018->is_car_weapon_433820(weapon_kind)) // car_bomb
     {
         if (field_16C_car)
         {
