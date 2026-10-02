@@ -125,7 +125,7 @@ void Ped_List_4::RemovePed_471240(Ped* pPed)
             {
                 field_0_pFirstPed = pIter->mpNext;
             }
-            gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+            gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
             break;
         }
         pLast = pIter;
