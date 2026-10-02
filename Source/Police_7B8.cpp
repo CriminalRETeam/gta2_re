@@ -798,11 +798,11 @@ void Police_7B8::Service_570270()
 
     if (field_7B0 != NULL)
     {
-        if (field_7B0->get_ped_state1() == 9)
+        if (field_7B0->GetPedState_403990() == 9)
         {
             field_7B0 = NULL;
         }
-        else if (!field_7B0->check_bit_0())
+        else if (!field_7B0->CheckBit0_433B40())
         {
             field_7B0 = NULL;
         }
