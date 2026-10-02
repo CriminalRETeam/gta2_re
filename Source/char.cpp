@@ -6508,7 +6508,7 @@ bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
             return PhoneTouched_5535B0(p2c);
 
         case objects::maybe_door_trigger_167:
-            gDoor_4D4_67BD2C->sub_49D370(field_7C_pPed, p2c->field_26_varrok_idx);
+            gDoor_4D4_67BD2C->TryOpenDoorForPed_49D370(field_7C_pPed, p2c->field_26_varrok_idx);
             break;
 
         case objects::destructor_141:
@@ -6590,7 +6590,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
         {
             if (pCar->field_5C_AI)
             {
-                pCar->field_5C_AI->field_30 = 100;
+                pCar->field_5C_AI->field_30_forced_stop_timer = 100;
             }
         }
     }

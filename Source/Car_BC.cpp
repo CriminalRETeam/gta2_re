@@ -526,7 +526,7 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
     s32 zTmpInt = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos).ToInt();
     while (1)
     {
-        gmp_block_info* pBlock = gMap_0x370_6F6268->sub_4E4CB0(pos_x.ToInt(), pos_y.ToInt(), zTmpInt);
+        gmp_block_info* pBlock = gMap_0x370_6F6268->FindNonAirBlockAtOrBelowZ_4E4CB0(pos_x.ToInt(), pos_y.ToInt(), zTmpInt);
         ++zTmpInt;
         if (pBlock)
         {
@@ -2004,7 +2004,7 @@ void Car_BC::sub_43AF40()
 {
     if (field_5C_AI)
     {
-        field_5C_AI->field_18 = k_dword_6778E0;
+        field_5C_AI->field_18_target_speed = k_dword_6778E0;
         field_A6 &= ~0x20u;
     }
 }
@@ -2037,7 +2037,7 @@ char_type Car_BC::IsDoorAccessible_43AFE0(u8 target_door)
         fr.ExpandToIncludePoint_59DEE0(field_50_car_sprite->field_14_xy.x, field_50_car_sprite->field_14_xy.y);
         gCollide_C_6791FC->field_8_bUnknown = 1;
         if (!fr.CanRectEnterMovementRegion_59DE80() &&
-            !gPurpleDoom_1_679208->CheckRectForCollisions_477F60(&fr, 1, 3, field_50_car_sprite) && !gMap_0x370_6F6268->sub_4E11E0(&fr))
+            !gPurpleDoom_1_679208->CheckRectForCollisions_477F60(&fr, 1, 3, field_50_car_sprite) && !gMap_0x370_6F6268->RectHitsDiagonalWall_4E11E0(&fr))
         {
             gCollide_C_6791FC->field_8_bUnknown = 0;
             byte_6F8EDC = 0;
@@ -3260,7 +3260,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
                     if (zone_idx != -1)
                     {
                         pZone = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
-                        pZone->sub_4BEF70(pExploder->field_15C_player->field_2E_idx, 1u);
+                        pZone->ApplyKillRespectChange_4BEF70(pExploder->field_15C_player->field_2E_idx, 1u);
                     }
                     if (pExploder->field_15C_player)
                     {
@@ -3479,7 +3479,7 @@ void Car_BC::sub_43DD60()
                     if (gang_idx != -1)
                     {
                         pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
-                        pGang->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1u);
+                        pGang->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->field_2E_idx, 1u);
                     }
                     if (pPed->field_15C_player)
                     {
@@ -3600,7 +3600,7 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
     {
 
         case objects::bus_stop_marker_129:
-            gPublicTransport_181C_6FF1D4->sub_579A30(this);
+            gPublicTransport_181C_6FF1D4->OnBusStopMarkerHit_579A30(this);
             break;
 
         case objects::car_shop_130:
@@ -3635,7 +3635,7 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
             break;
 
         case objects::maybe_door_trigger_167: // try open door? for garage?
-            gDoor_4D4_67BD2C->sub_49D340(this, pObj->field_26_varrok_idx);
+            gDoor_4D4_67BD2C->TryOpenDoorForCar_49D340(this, pObj->field_26_varrok_idx);
             break;
 
         default:
@@ -4478,7 +4478,7 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
     Fix16 newz;
 
     Fix16 car_angle;
-    bool bUnknown = gPublicTransport_181C_6FF1D4->sub_579B90(this, &car_angle);
+    bool bUnknown = gPublicTransport_181C_6FF1D4->GetTrainSpeed_579B90(this, &car_angle);
 
     for (Car_BC* pTrainCarIter = *pTrainCars; pTrainCarIter; pTrainCarIter = pTrainCars[idx])
     {
@@ -5543,7 +5543,7 @@ char_type Car_BC::TrainUpdate_442D70()
 
         if (field_5C_AI)
         {
-            field_5C_AI->sub_453A40();
+            field_5C_AI->UpdateTrainMovement_453A40();
         }
         sub_442190();
     }

@@ -2209,7 +2209,7 @@ void Ped::sub_45EE00(u32 occupation)
 MATCH_FUNC(0x45ee70)
 void Ped::EnterPublicTransport_45EE70()
 {
-    for (gmp_map_zone* pZoneIter = gMap_0x370_6F6268->sub_4DF6A0(field_1AC_cam.x.ToInt(), field_1AC_cam.y.ToInt()); pZoneIter;
+    for (gmp_map_zone* pZoneIter = gMap_0x370_6F6268->first_zone_by_pos_4DF6A0(field_1AC_cam.x.ToInt(), field_1AC_cam.y.ToInt()); pZoneIter;
          pZoneIter = gMap_0x370_6F6268->next_zone_4DF770())
     {
         if (bSkip_trains_67D550 || pZoneIter->field_0_zone_type != Railway_Station_Platform_6)
@@ -9130,7 +9130,7 @@ LABEL_49:
                             {
                                 // Well now they hate you a bit
                                 Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_car_model);
-                                pGang->sub_4BEF70(this->field_15C_player->field_2E_idx, 1u);
+                                pGang->ApplyKillRespectChange_4BEF70(this->field_15C_player->field_2E_idx, 1u);
                             }
                         }
                     }
@@ -10730,11 +10730,11 @@ void Ped::sub_46F680(Ped* pPed)
         {
             if (field_290 != 3 && field_290 != 1)
             {
-                field_17C_pGang->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
+                field_17C_pGang->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
             }
             else
             {
-                field_17C_pGang->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
+                field_17C_pGang->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
             }
         }
     }
@@ -10744,11 +10744,11 @@ void Ped::sub_46F680(Ped* pPed)
         {
             if (field_290 != 3 && field_290 != 1)
             {
-                field_19C->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
+                field_19C->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
             }
             else
             {
-                field_19C->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
+                field_19C->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
             }
         }
     }

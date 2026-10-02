@@ -21,11 +21,11 @@ class Gang_144
     EXPORT char_type GetRespectForPlayer_4BEEF0(u8 player_idx);
     EXPORT bool IsRespectNegativeForPlayer_4BEF10(u8 player_idx);
     EXPORT void SetGangKillReaction_4BEF50(u8 gang_idx, char_type kill_reaction_value);
-    EXPORT void sub_4BEF70(u8 player_idx, u8 respect);
+    EXPORT void ApplyKillRespectChange_4BEF70(u8 player_idx, u8 respect);
     EXPORT void ChangeRespectAndUpdate_4BF000(u8 player_idx, char_type respect);
     EXPORT s32 GetGangCurrWeapon_4BF0C0();
     EXPORT void set_name_4BF090(const char_type* pName, u8 nameLen);
-    EXPORT wchar_t* sub_4BF340();
+    EXPORT wchar_t* GetArrowColourText_4BF340();
 
     u8 field_0_used;
     u8 field_1_gang_idx;
@@ -95,7 +95,7 @@ class Gang_144
     u32 field_F8;
     u32 field_FC;
     char field_100;
-    char field_101;
+    char field_101_remap;
     char field_102;
     char field_103;
     u32 field_104_basic_weapon;
@@ -128,14 +128,14 @@ class GangPool_CA8
     }
 
     EXPORT ~GangPool_CA8();
-    EXPORT Gang_144* sub_4BECA0();
-    EXPORT Gang_144* sub_4BECE0();
+    EXPORT Gang_144* FirstGang_4BECA0();
+    EXPORT Gang_144* NextGang_4BECE0();
     EXPORT Gang_144* gang_by_name_4BF100(const char* pGangName);
     EXPORT Gang_144* next_free_gang_slot_4BF170();
     EXPORT Gang_144* GangByIdx_4BF1C0(u8 zone_idx);
     EXPORT void alloc_gang_for_map_zone_4BF1E0(gmp_map_zone* pMapZone);
     EXPORT s8 get_gang_idx_by_name_4BF210(const char* gangName);
-    EXPORT void sub_4BF230(Gang_144* pGang, u8 gang_idx);
+    EXPORT void SwapGangSlots_4BF230(Gang_144* pGang, u8 gang_idx);
     EXPORT s8 FindGangByCarModel_4BF2F0(s32 car_model);
 
     Gang_144 field_0_gang_list[10];

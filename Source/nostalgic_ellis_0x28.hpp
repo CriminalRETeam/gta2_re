@@ -6,7 +6,7 @@
 
 struct LightIntensityRadius
 {
-    inline void sub_463EF0(u8 unknown)
+    inline void SetRadiusByte_463EF0(u8 unknown)
     {
         flag = (flag & ~0x0000FF00) | (unknown << 8);
     }
@@ -14,7 +14,7 @@ struct LightIntensityRadius
     inline void SetRadius_463F10(Fix16 radius)
     {
         u8 unknown = (radius * 32).ToInt();
-        sub_463EF0(unknown);
+        SetRadiusByte_463EF0(unknown);
     }
     s32 flag;
 };
@@ -26,9 +26,9 @@ class nostalgic_ellis_0x28
 
     EXPORT ~nostalgic_ellis_0x28();
 
-    EXPORT void sub_4D6D70();
+    EXPORT void AddToGrid_4D6D70();
 
-    EXPORT nostalgic_ellis_0x28* sub_4D6DC0();
+    EXPORT nostalgic_ellis_0x28* RemoveFromGrid_4D6DC0();
 
     // 0x45B330
     s32 PoolUpdate()
@@ -72,32 +72,32 @@ class nostalgic_ellis_0x28
         field_14_on_time = 0;
     }
 
-    void sub_45B2D0(u8 intensity)
+    void SetCurrentIntensity_45B2D0(u8 intensity)
     {
         field_0.flag = intensity | (field_0.flag & ~0xFF);
     }
 
-    inline void sub_482D60(s32 argb, Fix16 flags, u8 intensity)
+    inline void SetColourRadiusIntensity_482D60(s32 argb, Fix16 flags, u8 intensity)
     {
         field_10_argb = argb;
         field_0.SetRadius_463F10(flags);
-        sub_45B2D0(intensity);
+        SetCurrentIntensity_45B2D0(intensity);
         field_18_intensity = intensity;
     }
 
     inline void SetIntensity_476AE0(u8 intensity)
     {
-        sub_45B2D0(intensity);
+        SetCurrentIntensity_45B2D0(intensity);
         field_18_intensity = intensity;
     }
 
-    void sub_482D30(Fix16 x, Fix16 y, Fix16 z)
+    void SetPosition_482D30(Fix16 x, Fix16 y, Fix16 z)
     {
-        sub_4D6DC0();
+        RemoveFromGrid_4D6DC0();
         field_4_light_x = x;
         field_8_light_y = y;
         field_C_light_z = z;
-        sub_4D6D70();
+        AddToGrid_4D6D70();
     }
 
     LightIntensityRadius field_0; // todo ??
@@ -113,16 +113,16 @@ class nostalgic_ellis_0x28
     char_type field_19;
     s16 field_1A;
     nostalgic_ellis_0x28* mpNext;
-    nostalgic_ellis_0x28* field_20;
-    nostalgic_ellis_0x28* field_24;
+    nostalgic_ellis_0x28* field_20_pGridNext;
+    nostalgic_ellis_0x28* field_24_pGridPrev;
 };
 
 class Light
 {
   public:
-    EXPORT static void __stdcall sub_4D6E00();
+    EXPORT static void __stdcall AllocGrid_4D6E00();
 
-    EXPORT static void sub_4D6E30();
+    EXPORT static void FreeGrid_4D6E30();
 
-    EXPORT static void __stdcall sub_4D6E50(s32 a1, s32 a2, s32 a3, s32 a4);
+    EXPORT static void __stdcall SubmitLightsInArea_4D6E50(s32 a1, s32 a2, s32 a3, s32 a4);
 };

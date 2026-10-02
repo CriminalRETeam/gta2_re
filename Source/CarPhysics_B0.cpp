@@ -1108,7 +1108,7 @@ void CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
 
     if (zCoordTmp >= field_6C_cp3 + dword_6FE0C0)
     {
-        zCoordTmp = *gMap_0x370_6F6268->sub_4E6400(&zCoord, field_38_cp1.x, field_38_cp1.y, zCoordTmp - k_dword_6FE210);
+        zCoordTmp = *gMap_0x370_6F6268->GetRailwayZBelowCoord_4E6400(&zCoord, field_38_cp1.x, field_38_cp1.y, zCoordTmp - k_dword_6FE210);
         if (zCoordTmp >= field_6C_cp3 + k_dword_6FE210)
         {
             zCoordTmp = this->field_6C_cp3;
@@ -1214,7 +1214,7 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
         }
     }
 
-    if (gMap_0x370_6F6268->sub_4E5170(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3))
+    if (gMap_0x370_6F6268->IsZOnGround_4E5170(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3))
     {
         *check_mask = 0;
         this->field_9C =
@@ -1300,9 +1300,9 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
                 s32 lid_idx_ = pBlock_->field_8_lid & 0x3FF;
                 if (gGtx_0x106C_703DD4->field_6C_spec[lid_idx_] != 4 || gGtx_0x106C_703DD4->IsTileRemapped_5AA850(lid_idx_))
                 {
-                    graident_size = byte_6F5BA8[pBlock_->field_B_slope_type >> 2].field_1_gradient_size;
-                    gradient_level = byte_6F5BA8[pBlock_->field_B_slope_type >> 2].field_2_gradient_level;
-                    v28 = byte_6F5BA8[pBlock_->field_B_slope_type >> 2].field_0_gradient_direction;
+                    graident_size = gGmpSlopes_6F5BA8[pBlock_->field_B_slope_type >> 2].field_1_gradient_size;
+                    gradient_level = gGmpSlopes_6F5BA8[pBlock_->field_B_slope_type >> 2].field_2_gradient_level;
+                    v28 = gGmpSlopes_6F5BA8[pBlock_->field_B_slope_type >> 2].field_0_gradient_direction;
                 }
                 else
                 {

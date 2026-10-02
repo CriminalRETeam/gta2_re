@@ -146,7 +146,7 @@ void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
     gmp_block_info* pBlockInfo;
     Map_sub* pMapSub;
 
-    gMap_0x370_6F6268->sub_4E8CF0(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, (s32*)&mapSubLen);
+    gMap_0x370_6F6268->GetModifiedMapData_4E8CF0(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, (s32*)&mapSubLen);
     File::Global_Open_4A7060(pFileName);
 
     File::Global_Read_4A71C0(&gGameSave_6F78C8, 0x748);
@@ -168,7 +168,7 @@ void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
     {
         File::Global_Read_4A71C0(pMapSub, mapSubLen);
     }
-    gMap_0x370_6F6268->sub_4E8C00(colDataLen, blockInfoLen, mapSubLen);
+    gMap_0x370_6F6268->OnModifiedMapDataLoaded_4E8C00(colDataLen, blockInfoLen, mapSubLen);
     File::Global_Close_4A70C0();
 
     frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30();
@@ -213,7 +213,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
 
     gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected = gLucid_hamilton_67E8E0.field_574_secret_tokens_collected;
 
-    gMap_0x370_6F6268->sub_4E8CF0(&pColData, &colBytes, &pBlockInfo, &blockInfoBytes, &pMapSub, &mapSubBytes);
+    gMap_0x370_6F6268->GetModifiedMapData_4E8CF0(&pColData, &colBytes, &pBlockInfo, &blockInfoBytes, &pMapSub, &mapSubBytes);
 
     frosty_pasteur_0xC1EA8::SaveMapInfo_511D40();
 

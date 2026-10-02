@@ -858,7 +858,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     string_entry = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_gangname);
 
     Gang_144* pZone = gGangPool_CA8_67E274->gang_by_name_4BF100((char*)&string_entry[1]);
-    pZone->field_101 = pCmd->field_A_remap;
+    pZone->field_101_remap = pCmd->field_A_remap;
 
     pZone->field_104_basic_weapon = pCmd->field_B_weapon1;
     pZone->field_108_angry_weapon = pCmd->field_C_weapon2;
@@ -884,7 +884,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     pZone->field_134_info_phone_z = z;
 
     pZone->field_139_kill_respect_change = pCmd->field_F_kill_respect_change;
-    gGangPool_CA8_67E274->sub_4BF230(pZone, gfrosty_pasteur_6F8060->field_354_next_gang_idx);
+    gGangPool_CA8_67E274->SwapGangSlots_4BF230(pZone, gfrosty_pasteur_6F8060->field_354_next_gang_idx);
     ++gfrosty_pasteur_6F8060->field_354_next_gang_idx;
     Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100((char*)&string_entry[1]);
 
@@ -986,47 +986,47 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
     switch (pCmd->field_12_close_type)
     {
         case SCR_DOOR_CLOSETYPES::close_never:
-            // pCmd->field_8->set_field_24(3);
-            pCmd->field_8->field_24 = door_close_type::close_never;
+            // pCmd->field_8->set_close_type(3);
+            pCmd->field_8->field_24_close_type = door_close_type::close_never;
             tmp = pCmd->field_8;
             tmp1 = pCmd->field_13_delay;
-            tmp->field_1C = tmp1;
-            tmp->field_1E = tmp1;
+            tmp->field_1C_close_delay = tmp1;
+            tmp->field_1E_close_timer = tmp1;
             return;
             break;
         case SCR_DOOR_CLOSETYPES::close_time_delay:
-            // pCmd->field_8->set_field_24(1);
-            pCmd->field_8->field_24 = door_close_type::close_time_delay;
+            // pCmd->field_8->set_close_type(1);
+            pCmd->field_8->field_24_close_type = door_close_type::close_time_delay;
             tmp = pCmd->field_8;
             tmp1 = pCmd->field_13_delay;
-            tmp->field_1C = tmp1;
-            tmp->field_1E = tmp1;
+            tmp->field_1C_close_delay = tmp1;
+            tmp->field_1E_close_timer = tmp1;
             return;
             break;
         case SCR_DOOR_CLOSETYPES::close_when_clear:
-            // pCmd->field_8->set_field_24(2);
-            pCmd->field_8->field_24 = door_close_type::close_when_clear;
+            // pCmd->field_8->set_close_type(2);
+            pCmd->field_8->field_24_close_type = door_close_type::close_when_clear;
             tmp = pCmd->field_8;
             tmp1 = pCmd->field_13_delay;
-            tmp->field_1C = tmp1;
-            tmp->field_1E = tmp1;
+            tmp->field_1C_close_delay = tmp1;
+            tmp->field_1E_close_timer = tmp1;
             return;
             break;
         case SCR_DOOR_CLOSETYPES::close_when_open_rule_fails:
-            // pCmd->field_8->set_field_24(4);
-            pCmd->field_8->field_24 = door_close_type::close_when_open_rule_fails;
+            // pCmd->field_8->set_close_type(4);
+            pCmd->field_8->field_24_close_type = door_close_type::close_when_open_rule_fails;
             tmp = pCmd->field_8;
             tmp1 = pCmd->field_13_delay;
-            tmp->field_1C = tmp1;
-            tmp->field_1E = tmp1;
+            tmp->field_1C_close_delay = tmp1;
+            tmp->field_1E_close_timer = tmp1;
             return;
             break;
     }
     tmp = pCmd->field_8;
     tmp1 = pCmd->field_13_delay;
-    tmp->field_1C = tmp1;
-    tmp->field_1E = tmp1;
-    // pCmd->field_8->set_field_1c_1e(pCmd->field_13_delay);
+    tmp->field_1C_close_delay = tmp1;
+    tmp->field_1E_close_timer = tmp1;
+    // pCmd->field_8->set_close_delay(pCmd->field_13_delay);
 }
 
 MATCH_FUNC(0x504b80)
@@ -1107,7 +1107,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
             if (ped_ptr != NULL)
             {
                 pCmd->field_8->set_open_details_car_bc(door_open_type::one_car, ped_ptr);
-                pCmd->field_8->set_field_14_id(tmp->field_8_car->field_6C_maybe_id);
+                pCmd->field_8->set_target_id(tmp->field_8_car->field_6C_maybe_id);
             }
             break;
         }
@@ -1123,7 +1123,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
             if (ped_ptr != NULL)
             {
                 pCmd->field_8->set_open_details_ped(door_open_type::one_char_on_foot, ped_ptr);
-                pCmd->field_8->set_field_14_id(tmp->field_8_char->field_200_id);
+                pCmd->field_8->set_target_id(tmp->field_8_char->field_200_id);
             }
         }
         break;
@@ -1135,25 +1135,25 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
     switch (pCmd->field_12_close_type)
     {
         case SCR_DOOR_CLOSETYPES::close_never:
-            pCmd->field_8->set_field_24(door_close_type::close_never);
+            pCmd->field_8->set_close_type(door_close_type::close_never);
             break;
         case SCR_DOOR_CLOSETYPES::close_time_delay:
-            pCmd->field_8->set_field_24(door_close_type::close_time_delay);
+            pCmd->field_8->set_close_type(door_close_type::close_time_delay);
             break;
         case SCR_DOOR_CLOSETYPES::close_when_clear:
-            pCmd->field_8->set_field_24(door_close_type::close_when_clear);
+            pCmd->field_8->set_close_type(door_close_type::close_when_clear);
             break;
         case SCR_DOOR_CLOSETYPES::close_when_open_rule_fails:
-            pCmd->field_8->set_field_24(door_close_type::close_when_open_rule_fails);
+            pCmd->field_8->set_close_type(door_close_type::close_when_open_rule_fails);
             break;
     }
     Door_38* tmp;
     u16 tmp1;
     tmp = pCmd->field_8;
     tmp1 = pCmd->field_13_delay;
-    tmp->field_1C = tmp1;
-    tmp->field_1E = tmp1;
-    // pCmd->field_8->set_field_1c_1e(pCmd->field_13_delay);
+    tmp->field_1C_close_delay = tmp1;
+    tmp->field_1E_close_timer = tmp1;
+    // pCmd->field_8->set_close_delay(pCmd->field_13_delay);
 }
 
 MATCH_FUNC(0x504dd0)
@@ -1193,7 +1193,7 @@ void miss2_0x11C::CreateLight_504EE0(SCR_CREATE_LIGHT* pCmd, SCR_POINTER* pPoint
     pPointer->field_8_light = pNewLight;
     if (pCmd->field_21_on_time > 0)
     {
-        gLight_1D4CC_6F5520->sub_469070(pNewLight, pCmd->field_21_on_time, pCmd->field_22_off_time, pCmd->field_23_shape);
+        gLight_1D4CC_6F5520->SetFlashing_469070(pNewLight, pCmd->field_21_on_time, pCmd->field_22_off_time, pCmd->field_23_shape);
     }
 }
 
@@ -4687,19 +4687,19 @@ void miss2_0x11C::SCRCMD_UPDATE_DOOR_50C7D0()
             pTarget = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
 
             pDoorPointer->field_8_door->set_open_details_ped(5, pTarget->field_8_char);
-            pDoorPointer->field_8_door->set_field_14_id(pTarget->field_8_char->field_200_id);
+            pDoorPointer->field_8_door->set_target_id(pTarget->field_8_char->field_200_id);
             break;
         case 3:
             pTarget = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
 
             pDoorPointer->field_8_door->set_open_details_car_bc(3, pTarget->field_8_car);
-            pDoorPointer->field_8_door->set_field_14_id(pTarget->field_8_car->field_6C_maybe_id);
+            pDoorPointer->field_8_door->set_target_id(pTarget->field_8_car->field_6C_maybe_id);
             break;
         case 6:
             pTarget = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
 
             pDoorPointer->field_8_door->set_open_details_car_bc(6, pTarget->field_8_car);
-            pDoorPointer->field_8_door->set_field_14_id(pTarget->field_8_car->field_6C_maybe_id);
+            pDoorPointer->field_8_door->set_target_id(pTarget->field_8_car->field_6C_maybe_id);
             break;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -4718,12 +4718,12 @@ void miss2_0x11C::SCRCMD_DOOR_50C8A0()
 
             if (door->field_0_primary_door_data)
             {
-                door->field_0_primary_door_data->sub_49C4E0(0);
+                door->field_0_primary_door_data->Open_49C4E0(0);
             }
 
             if (door->field_4_secondary_door_data)
             {
-                door->field_4_secondary_door_data->sub_49C4E0(door->field_2A_bDoFlip);
+                door->field_4_secondary_door_data->Open_49C4E0(door->field_2A_bDoFlip);
             }
 
             break;
@@ -4739,21 +4739,21 @@ void miss2_0x11C::SCRCMD_DOOR_50C8A0()
 
             if (door->field_0_primary_door_data)
             {
-                door->field_0_primary_door_data->sub_49C590(0);
+                door->field_0_primary_door_data->Close_49C590(0);
             }
 
             if (door->field_4_secondary_door_data)
             {
-                door->field_4_secondary_door_data->sub_49C590(door->field_2A_bDoFlip);
+                door->field_4_secondary_door_data->Close_49C590(door->field_2A_bDoFlip);
             }
 
             break;
         }
         case SCRCMD_SET_DOOR_AUTO:
-            pPointer->field_8_door->field_29 = true;
+            pPointer->field_8_door->field_29_bAuto = true;
             break;
         case SCRCMD_SET_DOOR_MANUAL:
-            pPointer->field_8_door->field_29 = false;
+            pPointer->field_8_door->field_29_bAuto = false;
             break;
     }
 
@@ -4936,7 +4936,7 @@ void miss2_0x11C::SCRCMD_SWITCH_GENERATOR1_50CCB0()
 
     u16 killTimer = pCmd->field_A_unsigned_2;
     Generator_2C* pGen = pPointer->field_8_generator;
-    pGen->sub_4C1A70();
+    pGen->Activate_4C1A70();
     pGen->field_1E_kill_timer = killTimer;
 
     s32 type = pPointer->field_8_generator->field_0_gen_type;
@@ -4962,7 +4962,7 @@ void miss2_0x11C::SCRCMD_SWITCH_GENERATOR3_50CD30()
 
     Generator_2C* pGen = pPointer->field_8_generator;
     u16 killTimer = pCmd->field_A_unsigned_2;
-    pGen->sub_4C1A70();
+    pGen->Activate_4C1A70();
     pGen->field_1E_kill_timer = killTimer;
 
     s16 type = pCmd->field_C_signed_3;
@@ -6255,12 +6255,12 @@ void miss2_0x11C::SCRCMD_DECIDE_POWERUP_50F150()
 
             if (byte_6212F0[i] < 91)
             {
-                pGen->sub_4C1A70();
+                pGen->Activate_4C1A70();
                 pGen->field_1E_kill_timer = 3;
             }
             else
             {
-                pGen->sub_4C1A70();
+                pGen->Activate_4C1A70();
                 pGen->field_1E_kill_timer = 1;
             }
 
@@ -6273,7 +6273,7 @@ void miss2_0x11C::SCRCMD_DECIDE_POWERUP_50F150()
     if (i == 19)
     {
         Generator_2C* pGen = pParam2->field_8_generator;
-        pGen->sub_4C1A70();
+        pGen->Activate_4C1A70();
         pGen->field_1E_kill_timer = 3;
         pParam2->field_8_generator->field_0_gen_type = 65;
     }
@@ -7046,18 +7046,18 @@ MATCH_FUNC(0x510780)
 void miss2_0x11C::SCRCMD_SAVE_RESTORE_RESPECT_510780()
 {
     u8 idx = 0;
-    Gang_144* pGang = gGangPool_CA8_67E274->sub_4BECA0();
+    Gang_144* pGang = gGangPool_CA8_67E274->FirstGang_4BECA0();
 
     if (gBasePtr_6F8070->field_2_type == SCRCMD_SAVE_RESPECT)
     {
-        for (; pGang != NULL; pGang = gGangPool_CA8_67E274->sub_4BECE0())
+        for (; pGang != NULL; pGang = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
             gfrosty_pasteur_6F8060->field_C1E2F[idx++] = pGang->GetRespectForPlayer_4BEEF0(0);
         }
     }
     else
     {
-        for (; pGang != NULL; pGang = gGangPool_CA8_67E274->sub_4BECE0())
+        for (; pGang != NULL; pGang = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
             pGang->SetRespect_4BEE30(0, gfrosty_pasteur_6F8060->field_C1E2F[idx++]);
         }

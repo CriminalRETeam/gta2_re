@@ -2875,7 +2875,7 @@ void MapRenderer::RenderFlatBlock_4F66C0()
 MATCH_FUNC(0x4f6880)
 void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
 {
-    gmp_block_info* pBlock = gMap_0x370_6F6268->sub_4DFEE0(pXCoord, pYCoord, gZCoord_6F63E0);
+    gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlockClamped_4DFEE0(pXCoord, pYCoord, gZCoord_6F63E0);
     gpBlock_6F6478 = pBlock;
     if (pBlock)
     {
@@ -3047,7 +3047,7 @@ void MapRenderer::Draw_4F6A20()
             {
                 pgbh_ResetLights();
                 pgbh_SetCamera((f32)min_x, (f32)min_y, (f32)max_x, (f32)max_y);
-                Light::sub_4D6E50(min_x, min_y, max_x, max_y);
+                Light::SubmitLightsInArea_4D6E50(min_x, min_y, max_x, max_y);
             }
 
             // Reset the size of draw layer size

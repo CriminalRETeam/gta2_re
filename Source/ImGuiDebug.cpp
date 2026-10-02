@@ -3363,7 +3363,7 @@ void CC ImGuiDebugDraw()
         {
             static u8 slope_idx = 0;
             ImGui::SliderU8("slope_idx", &slope_idx, 0, 63);
-            gmp_map_slope* slope_struct = &byte_6F5BA8[slope_idx];
+            gmp_map_slope* slope_struct = &gGmpSlopes_6F5BA8[slope_idx];
             if (slope_struct)
             {
                 ImGui::Value("field_0", slope_struct->field_0_gradient_direction);

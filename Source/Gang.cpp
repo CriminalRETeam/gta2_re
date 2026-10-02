@@ -39,7 +39,7 @@ void Gang_144::init_4BED70()
 {
     field_1_gang_idx = 0;
     field_0_used = 0;
-    field_101 = 1;
+    field_101_remap = 1;
     field_110 = 0;
     field_111 = 0;
     field_104_basic_weapon = 0;
@@ -144,7 +144,7 @@ void Gang_144::SetGangKillReaction_4BEF50(u8 gang_idx, char_type kill_reaction_v
 
 // https://decomp.me/scratch/lPPny
 WIP_FUNC(0x4BEF70)
-void Gang_144::sub_4BEF70(u8 player_idx, u8 respect)
+void Gang_144::ApplyKillRespectChange_4BEF70(u8 player_idx, u8 respect)
 {
     WIP_IMPLEMENTED;
     Gang_144::DecrementRespect_4BEEA0(player_idx, respect * field_139_kill_respect_change);
@@ -230,7 +230,7 @@ void Gang_144::set_name_4BF090(const char_type* pName, u8 nameLen)
 }
 
 MATCH_FUNC(0x4BF340)
-wchar_t* Gang_144::sub_4BF340()
+wchar_t* Gang_144::GetArrowColourText_4BF340()
 {
     sprintf(gTmpBuffer_67C598, "ganga%d", field_138_arrow_colour);
     return gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598);
@@ -244,7 +244,7 @@ GangPool_CA8::~GangPool_CA8()
 }
 
 MATCH_FUNC(0x4beca0)
-Gang_144* GangPool_CA8::sub_4BECA0()
+Gang_144* GangPool_CA8::FirstGang_4BECA0()
 {
     for (gGangIdx_6206B8 = 0; gGangIdx_6206B8 < GTA2_COUNTOF_S(field_0_gang_list); gGangIdx_6206B8++)
     {
@@ -257,7 +257,7 @@ Gang_144* GangPool_CA8::sub_4BECA0()
 }
 
 MATCH_FUNC(0x4bece0)
-Gang_144* GangPool_CA8::sub_4BECE0()
+Gang_144* GangPool_CA8::NextGang_4BECE0()
 {
     while (++gGangIdx_6206B8 < GTA2_COUNTOF_S(field_0_gang_list))
     {
@@ -329,7 +329,7 @@ s8 GangPool_CA8::get_gang_idx_by_name_4BF210(const char* gangName)
 }
 
 WIP_FUNC(0x4BF230);
-void GangPool_CA8::sub_4BF230(Gang_144* pGang, u8 gang_idx)
+void GangPool_CA8::SwapGangSlots_4BF230(Gang_144* pGang, u8 gang_idx)
 {
     WIP_IMPLEMENTED;
     Gang_144 zone;
