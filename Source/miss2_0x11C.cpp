@@ -5825,8 +5825,7 @@ void miss2_0x11C::SCRCMD_PUT_CAR_ON_TRAILER_50E900()
     Car_BC* pDstCar = pDstCarPointer->field_8_car;
     if (pDstCar->field_88_despawn_status != 6)
     {
-        Trailer* pTrailer = pDstCar->field_64_pTrailer;
-        if (pTrailer != NULL && pTrailer->field_8_truck_cab == pDstCar)
+        if (pDstCar->is_trailer_cab_41E460())
         {
             // put car on the trailer attached to the truck cab
             pDstCar->GetSprite_440840()->DispatchCollisionEvent_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
