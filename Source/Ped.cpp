@@ -901,7 +901,7 @@ void Ped::ManageShocking_45BC70()
         {
             if ((field_21C & 0x4000000) != 0)
             {
-                sub_5DF270(field_168_game_object->field_80_sprite_ptr, k_dword_67853C, 0, 1, this, 0);
+                sub_5DF270(field_168_game_object->get_sprite_ptr_4338D0(), k_dword_67853C, 0, 1, this, 0);
             }
         }
     }
@@ -992,7 +992,7 @@ void Ped::ManageBurning_45BEC0()
                 Player* pWeapons = field_15C_player;
                 if (pWeapons)
                 {
-                    pWeapons->field_44_death_type = 2;
+                    pWeapons->SetDeathType_434950(2);
                 }
             }
 
@@ -1427,7 +1427,7 @@ char_type Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     pChar->field_80_sprite_ptr->AllocInternal_59F950(gDummyW_678530, gDummyW_678530, gDummyZ_67841C);
 
     gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pChar->field_80_sprite_ptr);
-    field_168_game_object->field_7C_pPed = this;
+    field_168_game_object->set_pPed_4338E0(this);
 
     field_1AC_cam.y = ypos;
     field_1AC_cam.x = xpos;
@@ -1451,7 +1451,7 @@ Fix16 Ped::GetPedVelocity_45C920()
 {
     if (field_168_game_object)
     {
-        return field_168_game_object->field_38_velocity; // velocity ??
+        return field_168_game_object->get_velocity_41B080(); // velocity ??
     }
     else
     {
@@ -1603,7 +1603,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
                     pNearPed_->ChangeNextPedState2_45C540(22);
                     pNearPed_->ChangeNextPedState1_45C500(8);
                     pNearPed_->field_168_game_object->field_16 = 1;
-                    pNearPed_->field_168_game_object->field_10_char_state = 33;
+                    pNearPed_->field_168_game_object->SetCharState_433A60(33);
                 }
                 else
                 {
@@ -2402,7 +2402,7 @@ void Ped::EnterPublicTransport_45EE70()
                     Train_58* pTrain = pTrainStation->field_18;
                     if (pTrain)
                     {
-                        if (pTrain->field_C_carriages[1]->field_84_car_info_idx == car_model_enum::TRAIN)
+                        if (pTrain->field_C_carriages[1]->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
                         {
                             sub_45EE00(9);
                             SetObjective2_463830(29, 9999);
@@ -3439,7 +3439,7 @@ void Ped::Occupation_AI_461F20()
                             if (field_180)
                             {
                                 Ped::SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
-                                field_148_objective_target_ped = field_180;
+                                set_objective_target_ped_403AC0(field_180);
                             }
                             else
                             {
@@ -3931,8 +3931,8 @@ char_type Ped::StateMachineTick_4626B0()
 MATCH_FUNC(0x462b80)
 void Ped::sub_462B80()
 {
-    field_168_game_object->field_8_ped_state_1 = field_278_ped_state_1;
-    field_168_game_object->field_C_ped_state_2 = field_27C_ped_state_2;
+    field_168_game_object->Set_F8_ped_state_1_433910(field_278_ped_state_1);
+    field_168_game_object->SetPedState2_433A50(field_27C_ped_state_2);
     field_168_game_object->Update_545720(gDistanceToTarget_678750);
     if (field_168_game_object)
     {
@@ -5291,7 +5291,7 @@ void Ped::Threat_Reaction_AI_465270()
                                     Ped::SetObjective2_463830(36, 9999);
                                     field_16C_car = field_16C_car;
                                     field_218_objective_timer = 0;
-                                    field_154_target_to_enter = field_16C_car;
+                                    set_target_to_enter_403B00(field_16C_car);
                                 }
                             }
                         }
@@ -7635,8 +7635,8 @@ void Ped::sub_468BD0()
             field_168_game_object->field_16 = 1;
             field_278_ped_state_1 = ped_state_1::immobilized_8;
             field_27C_ped_state_2 = ped_state_2::Unknown_17;
-            field_168_game_object->field_8_ped_state_1 = 8;
-            field_168_game_object->field_C_ped_state_2 = 17;
+            field_168_game_object->Set_F8_ped_state_1_433910(8);
+            field_168_game_object->SetPedState2_433A50(17);
             field_16C_car = 0;
             Ped::SetObjective(objectives_enum::no_obj_0, 9999);
             Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
@@ -7645,7 +7645,7 @@ void Ped::sub_468BD0()
     else
     {
         Ped::SetObjective2_463830(36, 9999);
-        field_154_target_to_enter = field_150_target_objective_car;
+        set_target_to_enter_403B00(field_150_target_objective_car);
     }
 }
 
@@ -9535,7 +9535,7 @@ char_type Ped::sub_46BD50(Car_BC* pCar)
         Car_Door_10* pDoor = pCar->GetDoor(door_idx);
         if (pDoor)
         {
-            Ped* f_8 = pDoor->field_8_pObj;
+            Ped* f_8 = pDoor->get_pObj_4341B0();
             if (f_8)
             {
                 if (!f_8->field_248_enter_car_as_passenger && f_8 != this)
@@ -9701,7 +9701,7 @@ LABEL_49:
             return;
         }
 
-        if (field_154_target_to_enter->field_54_driver)
+        if (field_154_target_to_enter->get_driver_4118B0())
         {
             if (field_168_game_object->field_6C_animation_state == 6)
             {
@@ -9760,7 +9760,7 @@ void Ped::ExitCarStateMachine_46C250()
             {
                 bUnknown = 1;
                 Car_Door_10* pDoor = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
-                if (!pDoor->field_8_pObj || this->field_25C_internal_objective == 38)
+                if (!pDoor->get_pObj_4341B0() || this->field_25C_internal_objective == 38)
                 {
                     field_16C_car->field_4_passengers_list.RemovePed_471240(this);
                     Fix16 char_x;
@@ -9815,7 +9815,7 @@ void Ped::ExitCarStateMachine_46C250()
                 ChangeNextPedState1_45C500(0);
                 field_168_game_object->DoJump_5454D0();
                 this->field_168_game_object->field_80_sprite_ptr->field_0 = this->field_154_target_to_enter->field_50_car_sprite->field_0;
-                this->field_168_game_object->field_40_rotation = this->field_154_target_to_enter->field_50_car_sprite->field_0;
+                this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0);
                 this->field_168_game_object->field_5C = 10;
                 this->field_16C_car = 0;
                 field_168_game_object->field_84 = field_154_target_to_enter;
@@ -9881,7 +9881,7 @@ void Ped::ExitCarStateMachine_46C250()
             this->field_168_game_object->SetMaxSpeed_433920(k_dword_678438);
             field_168_game_object->DoJump_5454D0();
             field_168_game_object->field_80_sprite_ptr->field_0 = field_154_target_to_enter->field_50_car_sprite->field_0;
-            this->field_168_game_object->field_40_rotation = this->field_154_target_to_enter->field_50_car_sprite->field_0;
+            this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0);
             this->field_16C_car = 0;
             this->field_226 = 1;
             field_168_game_object->field_84 = field_154_target_to_enter;
@@ -10834,7 +10834,7 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
 
                 if (pB4)
                 {
-                    pPed = pB4->field_7C_pPed;
+                    pPed = pB4->get_ped_433A20();
                     if (pPed->sub_46E020(this->field_164_ped_group))
                     {
                         pGroup = pPed->field_164_ped_group;
@@ -10886,7 +10886,7 @@ void Ped::SpawnPedGroupFollowers_46E200(u8 total)
             Ped* pNewPed = gPedPool_6787B8->field_0_pool.Allocate();
 
             pNewPed->set_occupation_403970(this->field_240_occupation);
-            pNewPed->field_244_remap = this->field_244_remap;
+            pNewPed->set_remap_433B90(this->field_244_remap);
             pNewPed->field_26C_graphic_type = this->field_26C_graphic_type;
             pNewPed->SetField238_403920(this->field_238_ped_type);
             Fix16 xy_off = k_dword_678504 * Fix16(i);
@@ -11930,7 +11930,7 @@ bool Ped::sub_4701D0()
     Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 0);
     if (pSprite)
     {
-        return (pSprite->field_30_sprite_type_enum != sprite_types_enum::car_2) ? false : true;
+        return (pSprite->get_type_416B40() != sprite_types_enum::car_2) ? false : true;
     }
     return false;
 }
