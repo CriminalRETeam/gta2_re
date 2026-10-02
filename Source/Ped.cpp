@@ -1706,7 +1706,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
             if (field_238_ped_type != ped_type::player_2)
             {
                 // Non-player ped
-                Ped::TakeDamage(25 * damage_amplifier * sub_45CF90(pBlamedPed)); // 5 * 5 ?
+                Ped::TakeDamage(25 * damage_amplifier * GetDamageMultiplier_45CF90(pBlamedPed)); // 5 * 5 ?
             }
             else
             {
@@ -1717,7 +1717,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
                 }
                 else
                 {
-                    Ped::TakeDamage(10 * damage_amplifier * sub_45CF90(pBlamedPed));
+                    Ped::TakeDamage(10 * damage_amplifier * GetDamageMultiplier_45CF90(pBlamedPed));
                 }
             }
             gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pObj->field_4->field_0);
@@ -1753,12 +1753,12 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
                 }
                 else
                 {
-                    Ped::TakeDamage(2 * sub_45CF90(pBlamedPed));
+                    Ped::TakeDamage(2 * GetDamageMultiplier_45CF90(pBlamedPed));
                 }
             }
             else
             {
-                Ped::TakeDamage(5 * sub_45CF90(pBlamedPed));
+                Ped::TakeDamage(5 * GetDamageMultiplier_45CF90(pBlamedPed));
             }
             gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pObj->field_4->field_0);
             return true;
@@ -9108,7 +9108,7 @@ LABEL_49:
             if (field_168_game_object->field_6C_animation_state == 6)
             {
                 if (field_168_game_object->field_68_animation_frame == 2 && this->field_15C_player &&
-                    !field_154_target_to_enter->sub_4451E0(this))
+                    !field_154_target_to_enter->CanBeEnteredByPed_4451E0(this))
                 {
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     SetObjective(objectives_enum::no_obj_0, 9999);
@@ -9734,7 +9734,7 @@ void Ped::ExitTrainStateMachine_46D240()
         v7 = 0;
         for (u8 i = 0; i < 5; i++)
         {
-            if (field_154_target_to_enter->sub_43B140(field_24C_target_car_door))
+            if (field_154_target_to_enter->IsStoppedWithPavementAtDoor_43B140(field_24C_target_car_door))
             {
                 v7 = 1;
                 break;

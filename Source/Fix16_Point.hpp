@@ -6,7 +6,7 @@
 
 EXTERN_GLOBAL(Fix16, gFix16_6777CC);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
-EXTERN_GLOBAL(Fix16, dword_6FE07C);
+EXTERN_GLOBAL(Fix16, kFP16One256th_6FE07C);
 EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
 
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
@@ -33,7 +33,7 @@ struct Fix16_Point_POD
     void ApplyDeadZone_49E3C0()
     {
         Fix16 total = (Fix16::Abs(x) + Fix16::Abs(y));
-        if (total < dword_6FE07C)
+        if (total < kFP16One256th_6FE07C)
         {
             x = kFP16Zero_6FE20C;
             y = kFP16Zero_6FE20C;

@@ -640,7 +640,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                             if (Fix16::Max_44E540(v56, v55) <= this->field_28)
                             {
                                 Fix16_Point tmp = this->field_14_pObj2C->field_4->get_x_y_443580();
-                                pCar->sub_443710(&tmp);
+                                pCar->ApplyExplosionImpulse_443710(&tmp);
                             }
                         }
                     }

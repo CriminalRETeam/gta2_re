@@ -367,7 +367,7 @@ void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* pStart)
                     {
                         if (pColIter->field_0_sprt->field_30_sprite_type_enum == sprite_types_enum::car_2)
                         {
-                            if (pColIter->field_0_sprt->field_8_car_bc_ptr->sub_445360())
+                            if (pColIter->field_0_sprt->field_8_car_bc_ptr->IsEnterable_445360())
                             {
                                 gPurpleDoom_smallestDistance_678E5C = dist;
                                 gPurpleDoom_smallestDistSprite_678E40 = pColIter->field_0_sprt;
