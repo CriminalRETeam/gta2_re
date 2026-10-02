@@ -2926,10 +2926,9 @@ void miss2_0x11C::SCRCMD_ADD_SCORE2_509E00()
 
     if (pPed != NULL)
     {
-        Player* pPlayer = pPed->field_15C_player;
-        if (pPlayer != NULL)
+        if (pPed->is_player_41B0A0())
         {
-            pPlayer->field_2D4_scores.AddCash_592620(pCounter->field_8_counter * pPlayer->field_6BC_multpliers.field_0_value);
+            pPed->field_15C_player->Add_2D4(pCounter->field_8_counter);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
