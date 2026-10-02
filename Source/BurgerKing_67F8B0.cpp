@@ -1093,7 +1093,7 @@ void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
 }
 
 // https://decomp.me/scratch/t5tNu
-WIP_FUNC(0x4ceac0)
+MATCH_FUNC(0x4ceac0)
 u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
 {
     s32 inputs;
@@ -1143,8 +1143,8 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
             if (field_75344_bInputEnabled)
             {
                 saved_input = *control_status;
-                // Problem here:
-                if ((*control_status & 0x1FF000) == 0)
+                // saved_input equals *control_status here; the original tests both (je/jne pair in the asm)
+                if ((saved_input & 0x1FF000) == 0 || (*control_status & 0x1FF000) == 0)
                 {
                     *control_status = 0;
                     gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 0);
@@ -1177,8 +1177,8 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
             if (field_75344_bInputEnabled)
             {
                 saved_input = *control_status;
-                // Problem also is here:
-                if ((*control_status & 0x1FF000) == 0)
+                // Same double test as above
+                if ((saved_input & 0x1FF000) == 0 || (*control_status & 0x1FF000) == 0)
                 {
                     *control_status = 0;
                     gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 0);
