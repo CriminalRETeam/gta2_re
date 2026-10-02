@@ -2856,7 +2856,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
         pCharB4->field_7C_pPed->field_264_killer_id_timer = 50;
 
         Ped* pPed = pCharB4->field_7C_pPed;
-        if (pPed->field_140 == this->field_5C_pCar)
+        if (pPed->field_140_stolen_car == this->field_5C_pCar)
         {
             pPed->field_290 = 3;
         }
@@ -2887,7 +2887,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
                             pCharB4->field_7C_pPed->field_264_killer_id_timer = 50;
 
                             Ped* pPed = pCharB4->field_7C_pPed;
-                            if (pPed->field_140 == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)
+                            if (pPed->field_140_stolen_car == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)
                             {
                                 pPed->field_290 = 3;
                             }

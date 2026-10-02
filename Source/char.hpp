@@ -12,11 +12,11 @@ class Ped;
 class Car_BC;
 class Sprite;
 
-EXTERN_GLOBAL(Fix16, dword_678620);
+EXTERN_GLOBAL(Fix16, kFpOne256th_678620);
 EXTERN_GLOBAL(Fix16, gCharB4_Saved_Xpos_6FD7F8);
 EXTERN_GLOBAL(Fix16, gCharB4_Saved_Ypos_6FD800);
 EXTERN_GLOBAL(Fix16, gCharB4_Saved_Zpos_6FD7FC);
-EXTERN_GLOBAL(Fix16, dword_6784BC);
+EXTERN_GLOBAL(Fix16, kFpOne128th_6784BC);
 
 EXTERN_GLOBAL(Ang16, word_6FD940);
 EXTERN_GLOBAL(Ang16, word_6FD8F8);
@@ -143,11 +143,11 @@ class Char_B4
     {
         if (field_38_velocity < threshold)
         {
-            field_38_velocity += dword_678620;
+            field_38_velocity += kFpOne256th_678620;
         }
         else if (field_38_velocity > threshold)
         {
-            field_38_velocity -= dword_678620;
+            field_38_velocity -= kFpOne256th_678620;
         }
     }
 
@@ -156,11 +156,11 @@ class Char_B4
     {
         if (field_38_velocity < threshold)
         {
-            field_38_velocity += dword_678620;
+            field_38_velocity += kFpOne256th_678620;
         }
         else if (field_38_velocity > threshold)
         {
-            field_38_velocity -= dword_678620;
+            field_38_velocity -= kFpOne256th_678620;
         }
     }
 
@@ -223,7 +223,7 @@ class Char_B4
 
     inline void IncreaseSpeedIfAllowed_433940()
     {
-        field_38_velocity += dword_6784BC;
+        field_38_velocity += kFpOne128th_6784BC;
         
         if (field_38_velocity > field_3C_run_or_jump_speed)
         {

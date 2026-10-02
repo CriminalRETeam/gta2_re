@@ -10,7 +10,7 @@
 
 DEFINE_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8, 0x6F70A8);
 
-DEFINE_GLOBAL(class Ped*, dword_6F6D60, 0x6F6D60);
+DEFINE_GLOBAL(class Ped*, gParamedicCrewPed_6F6D60, 0x6F6D60);
 DEFINE_GLOBAL_INIT(Fix16, gParamedicRunSpeed_6F6DD4, Fix16(0x1999, 0), 0x6F6DD4);
 
 MATCH_FUNC(0x4beab0)
@@ -124,7 +124,7 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
         {
             field_4_paramedics_crew->field_28_state = 5;
             field_4_paramedics_crew->field_2C = 0;
-            dword_6F6D60 = 0;
+            gParamedicCrewPed_6F6D60 = 0;
             return;
         }
     }
@@ -144,8 +144,8 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
         }
     }
 
-    dword_6F6D60 = field_4_paramedics_crew->field_4_ped;
-    if (!dword_6F6D60)
+    gParamedicCrewPed_6F6D60 = field_4_paramedics_crew->field_4_ped;
+    if (!gParamedicCrewPed_6F6D60)
     {
         field_4_paramedics_crew->field_24 = 2;
     }
@@ -156,7 +156,7 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
             field_4_paramedics_crew->field_28_state = 5;
             field_4_paramedics_crew->field_2C = 0;
         }
-        else if (dword_6F6D60->field_16C_car && dword_6F6D60 == dword_6F6D60->field_16C_car->field_54_driver)
+        else if (gParamedicCrewPed_6F6D60->field_16C_car && gParamedicCrewPed_6F6D60 == gParamedicCrewPed_6F6D60->field_16C_car->field_54_driver)
         {
             if (field_4_paramedics_crew->field_8_group)
             {
@@ -165,7 +165,7 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
                     field_4_paramedics_crew->field_0_car->sub_43AF40();
                     field_4_paramedics_crew->field_28_state = 5;
                     field_4_paramedics_crew->field_2C = 0;
-                    dword_6F6D60 = 0;
+                    gParamedicCrewPed_6F6D60 = 0;
                 }
                 else
                 {
@@ -205,7 +205,7 @@ void Ambulance_20::UpdateState_4FB330()
                 }
                 else
                 {
-                    dword_6F6D60 = field_4_paramedics_crew->field_4_ped;
+                    gParamedicCrewPed_6F6D60 = field_4_paramedics_crew->field_4_ped;
                     this->field_1C = 0;
                     if (field_4_paramedics_crew->field_0_car)
                     {

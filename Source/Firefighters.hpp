@@ -22,7 +22,7 @@ class Firefighter_28
 
     EXPORT bool sub_4A7FC0();
     EXPORT void deinit_4A81A0();
-    EXPORT void sub_4A81F0();
+    EXPORT void Update_4A81F0();
     EXPORT void init_4A85C0();
     EXPORT void Reset_4A85E0();
 

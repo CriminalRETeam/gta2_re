@@ -7,13 +7,13 @@
 #include "debug.hpp"
 
 DEFINE_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0, 0x67D4C0);
-DEFINE_GLOBAL_INIT(Fix16, dword_67D1F0, Fix16(0.5f), 0x67D1F0);
-DEFINE_GLOBAL_INIT(Fix16, dword_67D378, Fix16(0), 0x67D378);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_67D1F0, Fix16(0.5f), 0x67D1F0);
+DEFINE_GLOBAL_INIT(Fix16, kFpZero_67D378, Fix16(0), 0x67D378);
 
-DEFINE_GLOBAL_INIT(Ang16, word_67D4B0, Ang16(0), 0x67D4B0);
-DEFINE_GLOBAL_INIT(Ang16, word_67D208, Ang16(360), 0x67D208);
-DEFINE_GLOBAL_INIT(Ang16, word_67D2D6, Ang16(720), 0x67D2D6);
-DEFINE_GLOBAL_INIT(Ang16, word_67D2FC, Ang16(1080), 0x67D2FC);
+DEFINE_GLOBAL_INIT(Ang16, kAng0_67D4B0, Ang16(0), 0x67D4B0);
+DEFINE_GLOBAL_INIT(Ang16, kAng90_67D208, Ang16(360), 0x67D208);
+DEFINE_GLOBAL_INIT(Ang16, kAng180_67D2D6, Ang16(720), 0x67D2D6);
+DEFINE_GLOBAL_INIT(Ang16, kAng270_67D2FC, Ang16(1080), 0x67D2FC);
 
 MATCH_FUNC(0x4a85f0)
 void FirefighterPool_54::FireEnginesService_4A85F0()
@@ -25,7 +25,7 @@ void FirefighterPool_54::FireEnginesService_4A85F0()
         {
             if (p->field_4_bActive)
             {
-                p->sub_4A81F0();
+                p->Update_4A81F0();
             }
             p++;
         }
@@ -41,19 +41,19 @@ Firefighter_28* FirefighterPool_54::DispatchFirefighters_4A8620(Car_BC* pCar, Fi
     }
     u8 xpos_int = xpos.ToUInt8();
     u8 ypos_int = ypos.ToUInt8();
-    u8 zpos_int = (zpos + dword_67D1F0).ToUInt8();
+    u8 zpos_int = (zpos + kFpHalf_67D1F0).ToUInt8();
     if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos_int, &ypos_int, &zpos_int, 0) != 1)
     {
         return NULL;
     }
     s8 sUnk;
-    if (pCar->CountConsecutiveArrowBlocks_4410D0(word_67D4B0, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+    if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng0_67D4B0, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
     {
-        if (pCar->CountConsecutiveArrowBlocks_4410D0(word_67D208, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+        if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng90_67D208, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
         {
-            if (pCar->CountConsecutiveArrowBlocks_4410D0(word_67D2D6, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+            if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng180_67D2D6, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
             {
-                if (pCar->CountConsecutiveArrowBlocks_4410D0(word_67D2FC, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+                if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng270_67D2FC, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
                 {
                     return NULL;
                 }
@@ -67,8 +67,8 @@ Firefighter_28* FirefighterPool_54::DispatchFirefighters_4A8620(Car_BC* pCar, Fi
     }
     pNewFireFighter->field_0_id = field_50_count;
     ++field_50_count;
-    pNewFireFighter->field_10_xpos = dword_67D1F0 + Fix16(xpos_int);
-    pNewFireFighter->field_14_ypos = dword_67D1F0 + Fix16(ypos_int);
+    pNewFireFighter->field_10_xpos = kFpHalf_67D1F0 + Fix16(xpos_int);
+    pNewFireFighter->field_14_ypos = kFpHalf_67D1F0 + Fix16(ypos_int);
     pNewFireFighter->field_18_zpos = Fix16(zpos_int);
     pNewFireFighter->field_4_bActive = 1;
     pNewFireFighter->field_8_state = 1;
@@ -137,7 +137,7 @@ bool Firefighter_28::sub_4A7FC0()
         return 0;
     }
 
-    if (field_1C_car->field_58_physics->field_0_vel_read_only.GetLength_453590() == dword_67D378)
+    if (field_1C_car->field_58_physics->field_0_vel_read_only.GetLength_453590() == kFpZero_67D378)
     {
         if (++field_24_next_state_timer >= 1000)
         {
@@ -247,7 +247,7 @@ void Firefighter_28::deinit_4A81A0()
 
 // https://decomp.me/scratch/ZcdAk
 STUB_FUNC(0x4a81f0)
-void Firefighter_28::sub_4A81F0()
+void Firefighter_28::Update_4A81F0()
 {
     NOT_IMPLEMENTED;
 }

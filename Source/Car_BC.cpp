@@ -7116,7 +7116,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     v119 = 4;
                 }
 
-                if (gPolice_7B8_6FEE40->sub_577320())
+                if (gPolice_7B8_6FEE40->ShouldCreateRoadblock_577320())
                 {
                     v108 = 1;
                     car_model_idx = car_model_enum::bank_van; // 4;

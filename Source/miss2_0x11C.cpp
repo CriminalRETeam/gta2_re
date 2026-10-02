@@ -3276,8 +3276,8 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460()
         rotation.rValue = fix_3.ToInt();
         rotation.Normalize();
 
-        (pPointer->field_8_char)->field_132 = rotation.rValue;
-        (pPointer->field_8_char)->field_1FC = pCmd->field_12_offset;
+        (pPointer->field_8_char)->field_132_follow_car_offset_angle = rotation.rValue;
+        (pPointer->field_8_char)->field_1FC_follow_car_offset_distance = pCmd->field_12_offset;
         (pPointer->field_8_char)->field_21C &= ~0x400u; // TODO: Maybe BitSet32
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);

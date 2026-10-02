@@ -18,11 +18,11 @@ DEFINE_GLOBAL(u16, id_counter_6FEE46, 0x6FEE46);
 DEFINE_GLOBAL(s32, dword_6FEDCC, 0x6FEDCC);
 DEFINE_GLOBAL(u32, dword_6FEE18, 0x6FEE18);
 DEFINE_GLOBAL(s16, word_6FEAC8, 0x6FEAC8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEB68, Fix16(13107, 0), 0x6FEB68);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FECA0, Fix16(256, 0), 0x6FECA0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEB88, dword_6FECA0, 0x6FEB88);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FECF8, Fix16(4), 0x6FECF8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEB0C, dword_6FECF8* dword_6FEB88, 0x6FEB0C);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6FEB68, Fix16(13107, 0), 0x6FEB68);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FECA0, Fix16(256, 0), 0x6FECA0);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FEB88, kFpOne64th_6FECA0, 0x6FEB88);
+DEFINE_GLOBAL_INIT(Fix16, kFpFour_6FECF8, Fix16(4), 0x6FECF8);
+DEFINE_GLOBAL_INIT(Fix16, kFpOneSixteenth_6FEB0C, kFpFour_6FECF8* kFpOne64th_6FEB88, 0x6FEB0C);
 
 EXTERN_GLOBAL(Fix16, dword_6FECE8);
 
@@ -77,7 +77,7 @@ void Police_7B8::Init_56F400()
     {
         field_660_wanted_star_count = 6;
     }
-    field_7AC = 100;
+    field_7AC_roadblock_cooldown = 100;
     field_7AD_police_peds_in_range_screen = 0;
     field_7B0 = 0;
     field_7B4 = 0;
@@ -454,9 +454,9 @@ void Police_7B8::Service_570270()
     field_664_roadblock_1.Update_5757B0();
     field_708_roadblock_2.Update_5757B0();
 
-    if (field_7AC > 0)
+    if (field_7AC_roadblock_cooldown > 0)
     {
-        field_7AC--;
+        field_7AC_roadblock_cooldown--;
     }
 
     if (field_7B0 != NULL)
@@ -578,11 +578,11 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
                     pNewPed1->field_170_selected_weapon = 0;
                     pNewPed1->GiveWeapon_46F650(weapon_type::pistol);
                     pNewPed1->set_health_4039A0(50);
-                    pNewPed1->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+                    pNewPed1->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
                     pNewPed2->field_170_selected_weapon = 0;
                     pNewPed2->GiveWeapon_46F650(weapon_type::pistol);
                     pNewPed2->set_health_4039A0(50);
-                    pNewPed2->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+                    pNewPed2->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
 
                     break;
 
@@ -590,11 +590,11 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
                     // line 231
                     pNewPed1->GiveWeapon_46F650(weapon_type::pistol);
                     pNewPed1->set_health_4039A0(100);
-                    pNewPed1->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+                    pNewPed1->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
                     pNewPed2->GiveWeapon_46F650(weapon_type::pistol);
                     pNewPed2->set_health_4039A0(100);
 
-                    pNewPed2->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+                    pNewPed2->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
 
                     break;
 
@@ -749,13 +749,13 @@ void Police_7B8::UpdateCriminalLatestPosition_570940(Ped* pPed)
 }
 
 MATCH_FUNC(0x577320)
-char_type Police_7B8::sub_577320()
+char_type Police_7B8::ShouldCreateRoadblock_577320()
 {
-    if (this->field_654_wanted_level < 3 || this->field_664_roadblock_1.field_0_bActive || this->field_7AC)
+    if (this->field_654_wanted_level < 3 || this->field_664_roadblock_1.field_0_bActive || this->field_7AC_roadblock_cooldown)
     {
         return 0;
     }
-    this->field_7AC = 40;
+    this->field_7AC_roadblock_cooldown = 40;
     return 1;
 }
 

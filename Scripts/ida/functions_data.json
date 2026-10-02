@@ -2850,7 +2850,7 @@
         "v105_address": "0x45b440"
     },
     {
-        "name": "Ped::sub_45B4E0",
+        "name": "Ped::IsLawEnforcement_45B4E0",
         "v96f_address": null,
         "v105_address": "0x45b4e0"
     },
@@ -2900,7 +2900,7 @@
         "v105_address": "0x45bd20"
     },
     {
-        "name": "Ped::sub_45BE30",
+        "name": "Ped::GetBulletSpriteOffset_45BE30",
         "v96f_address": null,
         "v105_address": "0x45be30"
     },
@@ -3285,7 +3285,7 @@
         "v105_address": "0x465270"
     },
     {
-        "name": "Ped::sub_465B20",
+        "name": "Ped::ReactToAttacker_465B20",
         "v96f_address": null,
         "v105_address": "0x465b20"
     },
@@ -3510,7 +3510,7 @@
         "v105_address": "0x469e50"
     },
     {
-        "name": "Ped::sub_469F30",
+        "name": "Ped::FollowPedInCar_469F30",
         "v96f_address": null,
         "v105_address": "0x469f30"
     },
@@ -3525,7 +3525,7 @@
         "v105_address": "0x469fe0"
     },
     {
-        "name": "Ped::sub_46A1F0",
+        "name": "Ped::PullDriverOutOfCar_46A1F0",
         "v96f_address": null,
         "v105_address": "0x46a1f0"
     },
@@ -3610,7 +3610,7 @@
         "v105_address": "0x46bd30"
     },
     {
-        "name": "Ped::sub_46BD50",
+        "name": "Ped::IsOtherPedEnteringAsDriver_46BD50",
         "v96f_address": null,
         "v105_address": "0x46bd50"
     },
@@ -3815,7 +3815,7 @@
         "v105_address": "0x46f390"
     },
     {
-        "name": "Ped::sub_46F490",
+        "name": "Ped::ChooseAttackWeapon_46F490",
         "v96f_address": null,
         "v105_address": "0x46f490"
     },
@@ -3830,7 +3830,7 @@
         "v105_address": "0x46f650"
     },
     {
-        "name": "Ped::sub_46F680",
+        "name": "Ped::ApplyGangRespectForKill_46F680",
         "v96f_address": null,
         "v105_address": "0x46f680"
     },
@@ -3880,7 +3880,7 @@
         "v105_address": "0x470160"
     },
     {
-        "name": "Ped::sub_4701D0",
+        "name": "Ped::IsNearestSpriteACar_4701D0",
         "v96f_address": null,
         "v105_address": "0x4701d0"
     },
@@ -3900,7 +3900,7 @@
         "v105_address": "0x4702d0"
     },
     {
-        "name": "Ped::sub_470300",
+        "name": "Ped::BecomeDummyOnPlayerDisconnect_470300",
         "v96f_address": null,
         "v105_address": "0x470300"
     },
@@ -5280,7 +5280,7 @@
         "v105_address": "0x4a81a0"
     },
     {
-        "name": "Firefighter_28::sub_4A81F0",
+        "name": "Firefighter_28::Update_4A81F0",
         "v96f_address": "0x450F10",
         "v105_address": "0x4a81f0"
     },
@@ -13225,7 +13225,7 @@
         "v105_address": "0x571150"
     },
     {
-        "name": "PoliceCrew_38::sub_571350",
+        "name": "PoliceCrew_38::TryDespawnOffscreenCrew_571350",
         "v96f_address": null,
         "v105_address": "0x571350"
     },
@@ -13325,7 +13325,7 @@
         "v105_address": "0x575ff0"
     },
     {
-        "name": "Police_7B8::sub_577320",
+        "name": "Police_7B8::ShouldCreateRoadblock_577320",
         "v96f_address": null,
         "v105_address": "0x577320"
     },
