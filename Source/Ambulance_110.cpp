@@ -74,7 +74,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     }
     pPed1->SetField238_403920(ped_type::special_ped_4);
     pPed1->set_occupation_403970(ped_ocupation_enum::paramedic_23);
-    pPed1->field_230 = 2;
+    pPed1->sub_433BB0(2);
     pPed1->SpawnPedInCar_45C730(field_4_paramedics_crew->field_0_car);
     pPed1->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pPed1->field_1DC_objective_target_x = (unsigned __int8)this->field_0 << 14;
@@ -95,15 +95,14 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     pPed2->EnterCarAsPassenger_45C7F0(field_4_paramedics_crew->field_0_car);
     pPed2->SetField238_403920(ped_type::special_ped_4);
     pPed2->set_occupation_403970(ped_ocupation_enum::paramedic_23);
-    pPed2->field_230 = 2;
+    pPed2->sub_433BB0(2);
     pPed2->SetObjective(objectives_enum::no_obj_0, 9999);
     pPed2->set_remap_433B90(16);
     pPed2->field_26C_graphic_type = 0;
     pPed2->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pPed2->field_288_threat_search = threat_search_enum::no_threats_0;
     pGroup->add_ped_leader_4C9B10(pPed1);
-    pGroup->field_36_count = 1;
-    pGroup->field_34_count = 1;
+    pGroup->SetCounts_433360(1);
     pGroup->add_ped_to_list_4C9B30(pPed2, 0);
     pGroup->field_0 = 0;
     
