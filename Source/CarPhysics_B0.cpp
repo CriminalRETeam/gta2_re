@@ -331,20 +331,15 @@ bool CarPhysics_B0::IsNotMoving_5599D0()
     }
 }
 
-// 89%
-WIP_FUNC(0x559a40)
+MATCH_FUNC(0x559a40)
 void CarPhysics_B0::UpdateTrailerPhysicsFromTowingCar_559A40()
 {
-    WIP_IMPLEMENTED;
-
     if (field_5C_pCar->field_64_pTrailer)
     {
         Fix16 v6 = (k_dword_6FE210) / gRemainingTimeStep_6FE198;
         CarPhysics_B0* pPhysics = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->field_58_physics;
-        Fix16_Point tmp = pPhysics->field_38_cp1 - gTrailer_cp1_6FE3A8;
-        pPhysics->field_40_linvel_1 = (tmp)*v6;
-        Ang16 v4 = ComputeShortestAngleDelta_4056C0(gTrailer_theta_6FE018, pPhysics->field_58_theta);
-        pPhysics->field_74_ang_vel_rad = v6 * Ang16::Ang16_to_Fix16(v4);
+        pPhysics->field_40_linvel_1 = (pPhysics->field_38_cp1 - gTrailer_cp1_6FE3A8) * v6;
+        pPhysics->field_74_ang_vel_rad = v6 * Ang16::Ang16_to_Fix16(ComputeShortestAngleDelta_4056C0(gTrailer_theta_6FE018, pPhysics->field_58_theta));
         pPhysics->field_70_z_vel = (v6 * (pPhysics->field_6C_cp3 - gTrailer_cp3_6FE1B4));
     }
 }
