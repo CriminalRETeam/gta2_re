@@ -287,7 +287,7 @@ void Player::SetKFCarWeapon_564710(Car_BC* pCar, s32 weapon_kind)
     this->field_20_kf_car = pCar;
     this->field_24_kf_car_id = pCar->field_6C_maybe_id;
 
-    pWeapon->field_0_ammo = -1;
+    pWeapon->set_infinite_ammo_4A4F90();
 
     Ped* pDriver = pCar->field_54_driver;
     if (pDriver)

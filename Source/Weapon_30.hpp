@@ -24,6 +24,12 @@ class Weapon_30
         return field_0_ammo;
     }
 
+    // 9.6f 0x4A4F90
+    inline void set_infinite_ammo_4A4F90()
+    {
+        field_0_ammo = 0xFFFF;
+    }
+
     // 9.6f 0x4CCA00
     inline void set_idx_4CCA00(s32 v)
     {
