@@ -721,8 +721,8 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         {
             swprintf(Buffer,
                      L"%2d:%02d",
-                     gYouthful_einstein_6F8450.field_4_time[pPlayer->field_2E_idx] / 60,
-                     gYouthful_einstein_6F8450.field_4_time[pPlayer->field_2E_idx] % 60);
+                     gYouthful_einstein_6F8450.GetPlayerTime_4C7380(pPlayer) / 60,
+                     gYouthful_einstein_6F8450.GetPlayerTime_4C7380(pPlayer) % 60);
 
             const s32 unknownn = (pPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
             DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790_hud_palette - 1, 0, 0);
@@ -748,8 +748,8 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                 {
                     swprintf(Buffer,
                              L"%2d:%02d",
-                             gYouthful_einstein_6F8450.field_4_time[pMultiPlayer->field_2E_idx] / 60,
-                             gYouthful_einstein_6F8450.field_4_time[pMultiPlayer->field_2E_idx] % 60);
+                             gYouthful_einstein_6F8450.GetPlayerTime_4C7380(pMultiPlayer) / 60,
+                             gYouthful_einstein_6F8450.GetPlayerTime_4C7380(pMultiPlayer) % 60);
 
                     const s32 very_unknown = (pMultiPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
                     DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790_hud_palette - 1, 0, 0);

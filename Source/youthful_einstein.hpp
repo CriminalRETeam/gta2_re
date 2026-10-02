@@ -30,6 +30,9 @@ class youthful_einstein
         return field_20[player_idx];
     }
 
+    // 9.6f 0x4C7380, defined in Hud.cpp (needs Player)
+    inline s32 GetPlayerTime_4C7380(Player* pPlayer);
+
     // 9.6f 0x461DD0
     inline void SetQuit_461DD0(s32 player_idx)
     {
