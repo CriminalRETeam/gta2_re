@@ -255,7 +255,7 @@ bool Sprite::IsControlledByActivePlayer_59E170()
     {
         if (pPed->field_15C_player)
         {
-            if (!pPed->field_15C_player->field_0_bIsUser)
+            if (!pPed->field_15C_player->IsUser_41DC70())
             {
                 return true;
             }
