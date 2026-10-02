@@ -6395,7 +6395,6 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
     Fix16 f_54; // ebp
     Fix16 v19; // eax
     Fix16 zpos; // eax
-    Fix16 v21; // eax
     s32 rate; // edi
     s32 rate_; // eax
     char_type v24; // al
@@ -6408,7 +6407,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
     pB4 = pType3Entity->field_0_pObj->field_8_char_b4_ptr;
     if (pB4->field_7C_pPed)
     {
-        if (!gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0() && pB4->field_38_velocity > dword_675220)
+        if (!gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0() && pB4->get_velocity_41B080() > dword_675220)
         {
             animation_state = pB4->field_6C_animation_state;
             if (animation_state == 4 || animation_state <= 1)
@@ -6575,7 +6574,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
             goto LABEL_48;
         }
 
-        if (pB4->field_7C_pPed->field_15C_player || (this->field_30_sQueueSample.field_0_EntityIndex & 1) == 0)
+        if (pB4->field_7C_pPed->is_player_41B0A0() || (this->field_30_sQueueSample.field_0_EntityIndex & 1) == 0)
         {
             zpos = pType3Entity->field_0_pObj->field_1C_zpos;
             if (zpos > dword_675418)
@@ -6584,14 +6583,13 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
             }
             if (zpos > dword_675414)
             {
-                v21 = ((Fix16(655360, 0) * (zpos - dword_675414))) + Fix16(0x2000, 0);
-                if (v21.GetRoundValue() <= Fix16(0x1FC000, 0))
+                if (Fix16::Round_To_Int_410BF0(Fix16(655360, 0) * (zpos - dword_675414)) > 127)
                 {
-                    vol = v21.ToInt();
+                    vol = 127;
                 }
                 else
                 {
-                    vol = 127;
+                    vol = Fix16::Round_To_Int_410BF0(Fix16(655360, 0) * (zpos - dword_675414));
                 }
                 releasingMod_ = 5;
                 f_54 = Fix16(81920, 0);
@@ -6599,7 +6597,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
                 max_dist = 10;
                 rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(193);
                 this->field_30_sQueueSample.field_20_rate = rate;
-                rate_ = rate + ((dword_6751F4 * pType3Entity->field_0_pObj->field_1C_zpos) + Fix16(0x2000, 0)).ToInt();
+                rate_ = rate + Fix16::Round_To_Int_410BF0(pType3Entity->field_0_pObj->field_1C_zpos * dword_6751F4);
                 samp_idx_ = 193;
                 this->field_30_sQueueSample.field_20_rate = rate_;
                 v19 = Fix16(409600, 0);
