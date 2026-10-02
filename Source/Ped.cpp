@@ -7473,7 +7473,7 @@ void Ped::EnterTrain_468930()
     {
         if (field_168_game_object)
         {
-            field_168_game_object->field_84 = field_150_target_objective_car;
+            field_168_game_object->Set_F84_433900(field_150_target_objective_car);
         }
 
         if (field_25C_internal_objective)
