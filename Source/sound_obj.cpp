@@ -3066,11 +3066,9 @@ char_type sound_obj::Type_3_HandleCarImpactSound_4174C0(sound_0x68* a2)
     return 0;
 }
 
-WIP_FUNC(0x417D70)
+MATCH_FUNC(0x417D70)
 s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrBus)
 {
-    WIP_IMPLEMENTED;
-
     // TODO: a2 = door opening or closing?
     s32 result;
 
@@ -3079,7 +3077,7 @@ s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrB
         return 31;
     }
 
-    switch (pCar->field_84_car_info_idx)
+    switch (pCar->GetCarInfoIdx_411940())
     {
         case car_model_enum::apc:
         case car_model_enum::boxtruck:
@@ -3091,7 +3089,7 @@ s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrB
         case car_model_enum::TRUKCAB1:
         case car_model_enum::TRUKCAB2:
         case car_model_enum::KRSNABUS:
-            result = 28 - (a2 != 0);
+            result = a2 ? 27 : 28;
             break;
 
         case car_model_enum::boxcar:
@@ -3103,7 +3101,7 @@ s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrB
             break;
 
         default:
-            result = 26 - (a2 != 0);
+            result = a2 ? 25 : 26;
             break;
     }
     return result;

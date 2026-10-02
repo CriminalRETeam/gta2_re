@@ -88,7 +88,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 307
 | 0x413A10 | `sound_obj::sub_413A10` | 0x4121F0 | `Car_BC::sub_421D90`, ✓ `sub_410BF0` | todo |  |
 | 0x413D10 | `sound_obj::sub_413D10` | 0x4123C0 | `sub_411950`, `IsMaxDamage_40F890`, `sub_411940` | todo |  |
 | 0x4177D0 | `sound_obj::sub_4177D0` | 0x413BD0 | `Car_BC::sub_4118C0` | todo |  |
-| 0x417D70 | `sub_417D70` | 0x413DF0 | `sub_411940` | todo |  |
+| 0x417D70 | `sub_417D70` | 0x413DF0 | `sub_411940` | matched | Use GetCarInfoIdx_411940; 'a2 ? 27 : 28' gives the neg/sbb/add |
 | 0x41A3F0 | `sound_obj::CalcVolume_41A3F0` | 0x416DA0 | `sub_410BF0` | todo |  |
 | 0x41A730 | `sound_obj::InterrogateAudioEntities_41A730` | 0x417030 | `sub_416B70`, `cool_nash_0x294::get_car_416B60`, `Car_BC::sub_416B80`, `sub_416BB0`, `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::sub_416B50` | todo |  |
 | 0x41AB80 | `sound_obj::ProcessActiveQueues_41AB80` | 0x417410 | `sub_414FA0`, `sub_4B6320`, `sub_4B62B0`, `sub_4B6150`, `sub_4B6110`, `sub_4B6130`, `sub_416F20`, `sub_4168E0`, `sub_416940`, `sub_4B62D0`, `sub_416E50`, `sub_4B6200`, `sub_4B6360`, `sub_4B6340`, `sub_4B63B0`, `sub_4B6190`, `sub_4B6170`, `sub_4B61E0` | todo |  |
