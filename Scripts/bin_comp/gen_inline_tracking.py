@@ -183,12 +183,12 @@ if "--json" in sys.argv:
 
 if "--addrs" in sys.argv:
     # the list the workflow dumps the 9.6f asm for (copy it to the claude/target-asm-request branch)
-    want = {pairs[a] for a, st in status.items() if st in ("WIP", "STUB") and a in pairs}
+    want = {pairs[a] for a, st in status.items() if st in ("WIP", "STUB", "MATCH") and a in pairs}
     for a, cs in m["per_func"].items():
         if int(a, 16) < LIB105:
             want.update(c for c in cs if not is_lib96(c))
     with open("dump_96f_addrs.txt", "w") as f:
-        f.write("# 9.6f functions to dump: the 9.6f versions of WIP/STUB functions and the 9.6f callees\n"
+        f.write("# 9.6f functions to dump: the 9.6f versions of marked functions and the 9.6f callees\n"
                 "# inlined in 10.5 (gen_inline_tracking.py --addrs)\n")
         f.write("\n".join(sorted(want, key=lambda x: int(x, 16))) + "\n")
     print(f"dump_96f_addrs.txt: {len(want)} functions")

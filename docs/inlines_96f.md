@@ -75,12 +75,12 @@ anything worth keeping in Notes. Mention the 9.6f address in a comment next to t
 
 <!-- generated -->
 
-Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313, STUB 0, MATCH 783. Distinct inlined 9.6f functions: 1373. WIPs without a 9.6f partner: 171.
+Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 307, STUB 0, MATCH 789. Distinct inlined 9.6f functions: 1373. WIPs without a 9.6f partner: 171.
 
 <!-- table WIP -->
 | 10.5 | Function | 9.6f | Inlined 9.6f callees | Status | Notes |
 |---|---|---|---|---|---|
-| 0x405CE0 | `sub_405CE0` | 0x40ECB0 | ✓ `sub_40E790` | todo |  |
+| 0x405CE0 | `sub_405CE0` | 0x40ECB0 | ✓ `sub_40E790` | done | all 9.6f inlines used |
 | 0x407CE0 | `Car_A4_10::UpdateTrailerAlignment_407CE0` | 0x40F900 | `sub_40F820`, `sub_40F580`, `sub_421CB0`, ✓ `sub_40F6B0`, `sub_40F7C0`, `sub_40F680`, `sub_40F540`, `sub_40F600`, `sub_40F790`, `sub_40F0A0`, `sub_40F840`, `sub_40EE60`, `sub_40F830`, `sub_40F7E0`, `sub_40F800`, `sub_40F810` | todo |  |
 | 0x412820 | `sound_obj::ProcessType8_Crane_412820` | 0x411D20 | `sub_411A00`, `sub_4117B0`, `sub_411730` | todo |  |
 | 0x413120 | `sound_obj::sub_413120` | 0x4150E0 | `sub_414F60` | todo |  |
@@ -96,12 +96,12 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x423080 | `sound_obj::sub_423080` | 0x41B0D0 | `sub_41B0B0`, `sub_41B0A0`, `cool_nash_0x294::get_occupation_403980` | todo |  |
 | 0x42A500 | `sound_obj::ProcessType7_Weapon_42A500` | 0x41CCA0 | `sub_41CC80`, `sub_41CC70`, `sub_41CC90`, `sub_4CD8C0`, `sub_411730` | todo |  |
 | 0x4320D0 | `sad_mirzakhani::sub_4320D0` | 0x41DEE0 | `sub_41DC40` | todo |  |
-| 0x4358D0 | `Camera_0xBC::ComputeTargetFacingAngle_4358D0` | 0x41E620 | ✓ `cool_nash_0x294::get_car_416B60`, ✓ `sub_416BB0`, ✓ `CarPhysics_B0::is_backward_gas_on_411810` | todo |  |
+| 0x4358D0 | `Camera_0xBC::ComputeTargetFacingAngle_4358D0` | 0x41E620 | ✓ `cool_nash_0x294::get_car_416B60`, ✓ `sub_416BB0`, ✓ `CarPhysics_B0::is_backward_gas_on_411810` | done | all 9.6f inlines used |
 | 0x436200 | `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` | 0x41EBF0 | ✓ `Car_BC::sub_403BA0`, ✓ `Car_BC::sub_411900`, `sub_40F790`, `Car_BC::has_trailer_41E460`, `sub_41E210` | todo |  |
 | 0x4364A0 | `Camera_0xBC::sub_4364A0` | 0x41EE30 | `Car_BC::sub_41E430`, `Car_BC::sub_41E440`, `Car_BC::sub_41E450`, `sub_41E130`, `sub_41E3D0` | todo |  |
 | 0x43B140 | `Car_BC::sub_43B140` | 0x425B60 | `Car_BC::sub_421D90`, ✓ `PolarToCartesian_41FC20`, ✓ `sub_420420` | todo |  |
 | 0x43B2B0 | `Car_BC::sub_43B2B0` | 0x422360 | `cool_nash_0x294::get_car_state_403A90`, `cool_nash_0x294::get_target_to_enter_403B10` | todo |  |
-| 0x43B5A0 | `Car_BC::GetDoorWorldPosition_43B5A0` | 0x422500 | ✓ `sub_41FE70`, ✓ `RotateVector_41FC90` | todo |  |
+| 0x43B5A0 | `Car_BC::GetDoorWorldPosition_43B5A0` | 0x422500 | ✓ `sub_41FE70`, ✓ `RotateVector_41FC90` | done | all 9.6f inlines used |
 | 0x43B7B0 | `Car_BC::AssignDriverBlameForExplosion_43B7B0` | 0x425CA0 | `sub_420C30` | todo |  |
 | 0x43D690 | `Car_BC::EmitExplosion_43D690` | 0x425FD0 | `Object_5C::sub_4852E0` (10.5 0x5299B0), `sub_424220` | todo |  |
 | 0x43D7B0 | `Car_BC::TriggerExplosion_43D7B0` | 0x429370 | `IsMaxDamage_40F890`, `sub_423230` | todo |  |
@@ -131,16 +131,16 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x44E0C0 | `CarAI_78::Init_AI_Chase_44E0C0` | 0x42D390 | `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::sub_416B50`, `MaxAbsDistance_42A6B0` | todo |  |
 | 0x44E560 | `CarAI_78::UpdateStateMachine_44E560` | 0x42D820 | `sub_4463C0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `PolarToCartesian_41FC20`, `MaxAbsDistance_42A6B0`, `sub_40E8D0`, `sub_42A5B0`, `sub_421C00`, `sub_446690`, `sub_446550`, `sub_446480`, `sub_4221A0`, `sub_40EC80`, `sub_42AB90`, `sub_42ABA0`, `sub_40EAB0`, `sub_421250`, `sub_421540`, `sub_42A660`, `sub_42ABB0`, `sub_42A620`, `sub_4BD670`, `Car_BC::sub_421D90`, `sub_421210`, `sub_446410`, `sub_446620`, `sub_4464E0`, `sub_4465B0` | todo |  |
 | 0x451980 | `CarAI_78::ReactToNearbyCar_451980` | 0x431770 | `sub_40EAB0`, ✓ `MaxAbsDistance_42A6B0`, `sub_42C8B0`, `sub_4221A0`, ✓ `sub_42AC00` (10.5 0x453F90), `sub_423940`, `Car_BC::sub_421D90`, ✓ `sub_42ABC0` (10.5 0x453F50), ✓ `sub_421210`, ✓ `sub_421470`, `sub_40E8D0`, ✓ `sub_42ABA0`, ✓ `sub_42AB90`, `sub_430090`, `sub_4221B0` | todo |  |
-| 0x452A20 | `CarAI_78::ManageCollisions_452A20` | 0x42FB80 | ✓ `sub_4215B0`, ✓ `sub_41E210`, ✓ `sub_42A720`, ✓ `sub_42AC00` (10.5 0x453F90), ✓ `sub_42AB90`, ✓ `sub_42ABA0`, ✓ `sub_421210` | todo |  |
+| 0x452A20 | `CarAI_78::ManageCollisions_452A20` | 0x42FB80 | ✓ `sub_4215B0`, ✓ `sub_41E210`, ✓ `sub_42A720`, ✓ `sub_42AC00` (10.5 0x453F90), ✓ `sub_42AB90`, ✓ `sub_42ABA0`, ✓ `sub_421210` | done | all 9.6f inlines used |
 | 0x452DF0 | `CarAI_78::sub_452DF0` | 0x432370 | ✓ `sub_42ABB0`, ✓ `sub_42AB90`, ✓ `sub_42ABA0`, `sub_431C10`, ✓ `sub_416B40`, ✓ `sub_40FEC0` | todo |  |
-| 0x457BF0 | `Taxi_4::GetTaxiNear_457BF0` | 0x4330A0 | ✓ `MaxAbsDistance_42A6B0`, ✓ `sub_4215B0` | todo |  |
+| 0x457BF0 | `Taxi_4::GetTaxiNear_457BF0` | 0x4330A0 | ✓ `MaxAbsDistance_42A6B0`, ✓ `sub_4215B0` | done | all 9.6f inlines used |
 | 0x45C9D0 | `Ped::ComputeAimAngle_45C9D0` | 0x43E3A0 | `sub_445CC0`, `sub_43BEC0`, `sub_437EB0`, `sub_40E8D0` | todo |  |
 | 0x45CAA0 | `Ped::HandleClosePedInteraction_45CAA0` | 0x444B50 | `cool_nash_0x294::sub_416B50`, `sub_435610`, `cool_nash_0x294::sub_433DD0`, `sub_433E50`, `sub_433B70`, `sub_41DC40`, `cool_nash_0x294::sub_433B50`, `sub_433A60`, `cool_nash_0x294::sub_403AE0` | todo |  |
 | 0x45DE80 | `Ped::HandlePickupCollision_45DE80` | 0x43E550 | `sub_434B10`, `sub_434B20`, `sub_434B60`, `sub_434A10`, `sub_421050`, `sub_4340A0`, `angry_lewin_0x85C::sub_41DC70` | todo |  |
 | 0x45E080 | `Ped::SpawnWeaponOnDeath_45E080` | 0x436250 | `sub_434130` | todo |  |
-| 0x45E4A0 | `Ped::sub_45E4A0` | 0x43B7C0 | ✓ `sub_433470`, ✓ `sub_4334A0`, ✓ `sub_4334D0`, ✓ `sub_433500` | todo |  |
+| 0x45E4A0 | `Ped::sub_45E4A0` | 0x43B7C0 | ✓ `sub_433470`, ✓ `sub_4334A0`, ✓ `sub_4334D0`, ✓ `sub_433500` | done | all 9.6f inlines used |
 | 0x45EA00 | `Ped::sub_45EA00` | 0x441F10 | `cool_nash_0x294::sub_403A30` | checked | Target keeps the 'all gone' loop index in cl and pFirst in edi; ours keeps the index in memory |
-| 0x45EB60 | `Ped::Deallocate_45EB60` | 0x43E650 | ✓ `sub_434070`, ✓ `Car_BC::sub_4343B0` | todo |  |
+| 0x45EB60 | `Ped::Deallocate_45EB60` | 0x43E650 | ✓ `sub_434070`, ✓ `Car_BC::sub_4343B0` | done | all 9.6f inlines used |
 | 0x45FF60 | `Ped::CarThief_AI_45FF60` | 0x442050 | `sub_4215B0`, ✓ `Car_BC::sub_403BA0`, `Char_8::sub_420EA0`, `cool_nash_0x294::sub_433DD0` | todo |  |
 | 0x460820 | `Ped::TaxiCustomer_AI_460820` | 0x442420 | `sub_4215B0`, `cool_nash_0x294::sub_433DD0`, `Char_8::sub_420EA0`, `cool_nash_0x294::set_occupation_403970`, `cool_nash_0x294::sub_403920`, `Car_BC::sub_421EC0`, `MaxAbsDistance_42A6B0` | todo |  |
 | 0x461630 | `Ped::RobbedDriver_AI_461630` | 0x442A40 | `cool_nash_0x294::sub_433DD0`, `sub_4215B0`, `cool_nash_0x294::sub_403920`, `Car_BC::sub_421560` | todo |  |
@@ -164,7 +164,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x46A530 | `Ped::FireAtObject_46A530` | 0x434470 | `sub_40E8D0` | todo |  |
 | 0x46A5E0 | `Ped::FireAtPlayer_46A5E0` | 0x434530 | `cool_nash_0x294::sub_433DA0`, `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `sub_40E8D0` | todo |  |
 | 0x46A6D0 | `Ped::AimVehicleTurretStateMachine_46A6D0` | 0x434640 | `sub_4215B0`, `sub_40E8D0` | todo |  |
-| 0x46AC20 | `Ped::FollowTargetStateMachine_46AC20` | 0x439970 | ✓ `cool_nash_0x294::sub_403B60`, ✓ `cool_nash_0x294::sub_433B40`, ✓ `Char_B4::sub_433A80`, ✓ `sub_433940`, ✓ `sub_433970` | todo |  |
+| 0x46AC20 | `Ped::FollowTargetStateMachine_46AC20` | 0x439970 | ✓ `cool_nash_0x294::sub_403B60`, ✓ `cool_nash_0x294::sub_433B40`, ✓ `Char_B4::sub_433A80`, ✓ `sub_433940`, ✓ `sub_433970` | done | all 9.6f inlines used |
 | 0x46B2F0 | `Ped::PullDriverOutOfCarStateMachine_46B2F0` | 0x439E60 | ✓ `Car_BC::sub_403BA0`, ✓ `sub_433900`, `sub_435610`, ✓ `Char_B4::sub_433920`, `Car_BC::sub_421EC0`, ✓ `sub_433A60`, `Car_10::set_obj_421380` | todo |  |
 | 0x46B670 | `Ped::MeleeAttackStateMachine_46B670` | 0x4436A0 | ✓ `cool_nash_0x294::sub_403990`, ✓ `cool_nash_0x294::sub_433B40`, `sub_435610`, ✓ `sub_433BF0`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::get_cam_x_403A00`, ✓ `MaxAbsDistance_42A6B0`, ✓ `sub_416B40`, ✓ `Char_B4::sub_433920`, ✓ `Char_B4::sub_433A80`, `sub_41B080` (10.5 0x41B480), `sub_41DC40`, ✓ `sub_433B70`, ✓ `sub_433B60`, ✓ `sub_433E50`, ✓ `cool_nash_0x294::sub_433B50`, `cool_nash_0x294::sub_433DD0`, ✓ `sub_433970`, `Car_10::set_obj_421380` | todo |  |
 | 0x46BD50 | `Ped::sub_46BD50` | 0x4349A0 | `sub_4341B0` | todo |  |
@@ -185,7 +185,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4703F0 | `Char_C::PedsService_4703F0` | 0x445A20 | `sub_445960`, `Ped_Unknown_4::sub_4460D0` | todo |  |
 | 0x470650 | `Char_C::ctor_470650` | 0x4416B0 | `PedPool::ctor_43E0E0`, `Char_B4_Pool::ctor_435550`, `Char_8_Pool::ctor_4355E0`, `Sprite_Pool::sub_421000`, `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), `Car_3C::set_ang_lazy_420690`, ✓ `Ped_Unknown_4::ClearList_420E90` | todo |  |
 | 0x471340 | `Ped_List_4::GetFromListClosestPedToPoint_471340` | 0x445C30 | ✓ `cool_nash_0x294::sub_433B40`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::get_cam_x_403A00`, ✓ `MaxAbsDistance_42A6B0` | todo |  |
-| 0x47E5B0 | `Crane_15C::dtor_47E5B0` | 0x447F70 | ✓ `root_sound::DestroySoundObj_40FE60` | todo |  |
+| 0x47E5B0 | `Crane_15C::dtor_47E5B0` | 0x447F70 | ✓ `root_sound::DestroySoundObj_40FE60` | done | all 9.6f inlines used |
 | 0x47E730 | `Crane_15C::ComputeHookPos_47E730` | 0x447FE0 | ✓ `sub_432860`, ✓ `sub_40F6B0`, `sub_4207B0`, `sub_40F680` | todo |  |
 | 0x47F930 | `Crane_15C::PickUpCar_47F930` | 0x448A80 | ✓ `sub_4215B0`, `sub_4BEA60` (10.5 0x5A6AD0), ✓ `sub_447EC0`, ✓ `sub_447EB0`, `sub_423A70`, ✓ `sub_447F00`, `sub_4207B0`, `sub_448900`, `Zheal_15C::sub_448150`, `sub_4BED60` | todo |  |
 | 0x48B920 | `rng::ShowCycle_48B920` | 0x44AA90 | `sub_44AA60`, `sub_44AA80` | todo |  |
@@ -195,13 +195,11 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x49C340 | `DoorData_10::sub_49C340` | 0x44C8A0 | `gmp_block_info::init_44C840` | todo |  |
 | 0x49CFA0 | `Door_4D4::RegisterDoubleDoorNoCheck_49CFA0` | 0x44D430 | `sub_44CDD0` | todo |  |
 | 0x49D570 | `Door_4D4::dtor_49D570` | 0x44D7D0 | `Door_10_Pool::gdtor_44D3A0` | todo |  |
-| 0x4A7FC0 | `Firefighter_28::sub_4A7FC0` | 0x450CD0 | `sub_4211C0`, ✓ `sub_4215B0`, ✓ `sub_4214B0`, ✓ `sub_403B70`, `sub_450CC0`, ✓ `Car_BC::sub_41E430`, ✓ `Car_BC::sub_41E440`, ✓ `Car_BC::sub_41E450` | matched | 9.6f compares get_car_velocity_4211C0() (GetLength_41E260, not 453590) and has no (u8) cast |
 | 0x4A81F0 | `Firefighter_28::Service_4A81F0` | 0x450F10 | ✓ `sub_4215B0`, ✓ `Car_BC::sub_421560`, `sub_421510`, `sub_43DF60`, `cool_nash_0x294::sub_403920`, `cool_nash_0x294::set_occupation_403970`, ✓ `Car_BC::sub_41E430`, ✓ `Car_BC::sub_41E440`, ✓ `Car_BC::sub_41E450`, `sub_4118B0`, `MaxAbsDistance_42A6B0`, `sub_450CB0`, `cool_nash_0x294::set_target_objective_car_403AA0`, ✓ `sub_4214B0`, `cool_nash_0x294::sub_403A40` | inlines added | Case 1 now shares the state=6 block like 9.6f/10.5 (jump layout matches); left: ebx vs ebp for 0, and the MaxAbsDistance part of case 2 (10.5 partly out of line) |
 | 0x4AD140 | `Frontend::DrawMenu_4AD140` | 0x457920 | `sub_453A60` | todo |  |
 | 0x4AE2D0 | `Frontend::UpdatePageFromUserInput_4AE2D0` | 0x4597C0 | `sub_453A60` | todo |  |
 | 0x4AF2A0 | `Frontend::ctor_4AF2A0` | 0x456A60 | `laughing_blackwell_0x1EB54::sub_453A30`, `sub_453D40` | todo |  |
 | 0x4B0220 | `Frontend::SetupMenuStringsOptionsElements_4B0220` | 0x453E20 | `?do_always_noconv@codecvt_base@std@@MBE_NXZ` | todo |  |
-| 0x4B2F60 | `Frontend::sub_4B2F60` | 0x459E30 | `sub_4539D0` | matched | The key loop read a local that shadowed field_8_keys; 9.6f's GetFontWidth wrapper (0x4539D0) isn't needed |
 | 0x4B3170 | `Frontend::sub_4B3170` | 0x4587B0 | `lucid_hamilton::sub_453A80`, `sub_453A60`, `sub_453AB0`, `sub_434B20`, `sub_453A90`, `sub_453AA0`, `sub_4529C0`, `sub_452990` | todo |  |
 | 0x4B4440 | `Frontend::GetMainAndBonusStagesFromSeqFile_4B4440` | 0x455340 | `sub_4527A0` | todo |  |
 | 0x4B7120 | `Frontend::sub_4B7120` | 0x456180 | `sub_453A60`, `sub_453A40` | todo |  |
@@ -216,7 +214,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4C9B60 | `PedGroup::MergeWithOtherGroup_4C9B60` | 0x404EF0 | `sub_403B90` (10.5 0x4CA3E0), `sub_404900`, `cool_nash_0x294::get_car_state_403A90`, ✓ `cool_nash_0x294::sub_403AE0`, ✓ `sub_403950`, `cool_nash_0x294::has_car_403B80`, `sub_404450`, `cool_nash_0x294::sub_403990` | todo |  |
 | 0x4C9F00 | `PedGroup::CoordinateGroupCarEntry_4C9F00` | 0x405240 | `cool_nash_0x294::sub_403990`, `sub_403B70`, `sub_404490`, `cool_nash_0x294::get_objective_403A80`, `cool_nash_0x294::get_car_state_403A90`, `cool_nash_0x294::sub_403AE0`, `sub_404480`, `cool_nash_0x294::has_car_403B80`, `cool_nash_0x294::sub_403B60`, `cool_nash_0x294::get_occupation_403980`, ✓ `Car_BC::sub_403BA0`, `cool_nash_0x294::set_target_to_enter_403B00`, `sub_403960`, `cool_nash_0x294::set_enter_car_as_passenger_4039B0`, `sub_403900`, `cool_nash_0x294::get_target_to_enter_403B10`, `sub_403BC0`, `cool_nash_0x294::get_target_car_door_403A60`, `cool_nash_0x294::set_target_car_door_403A70` | checked | Main diff: 10.5 places the SWATVAN/bank_van door search before the normal one; swapping the if/else in source gives identical code |
 | 0x4CAE80 | `PedGroup::FindNearestOtherMember_4CAE80` | 0x4045D0 | `cool_nash_0x294::get_car_state_403A90`, `cool_nash_0x294::sub_436920` (10.5 0x463830), `cool_nash_0x294::sub_403B60`, `sub_436160` (10.5 0x45C920), `cool_nash_0x294::sub_403AE0`, `cool_nash_0x294::sub_403A40` | todo |  |
-| 0x4CEAC0 | `BurgerKing_67F8B0::get_input_bits_4CEAC0` | 0x45FD10 | `sub_45ED00`, `rng::get_cur_rng_41CFE0`, `IsField238_45EDE0`, `sub_416BC0` | inlines added | get_cur_rng_41CFE0 (no u16 cast) fixes the rng compare; left: 10.5 has a redundant je-to-next before the jne on the 0x1FF000 tests (not in 9.6f), unexplained |
+| 0x4CEAC0 | `BurgerKing_67F8B0::get_input_bits_4CEAC0` | 0x45FD10 | `sub_45ED00`, ✓ `rng::get_cur_rng_41CFE0`, `IsField238_45EDE0`, `sub_416BC0` | inlines added | get_cur_rng_41CFE0 (no u16 cast) fixes the rng compare; left: 10.5 has a redundant je-to-next before the jne on the 0x1FF000 tests (not in 9.6f), unexplained |
 | 0x4DA4D0 | `InitializeGame_4DA4D0` | 0x461DE0 | `unknown_libname_18` (10.5 0x40EF10), `sub_409C40`, `sub_409F90`, `Game_0x40::sub_45A8D0` (10.5 0x4B9CD0), `lucid_hamilton::sub_45E770` (10.5 0x4C5C30), `Game_0x40::sub_45A910` (10.5 0x4B9D10), ✓ `sub_461DC0` | todo |  |
 | 0x4DADA0 | `sub_4DADA0` | 0x462530 | `sub_461DC0`, `sub_4C93B0` | todo |  |
 | 0x4DF240 | `Map_0x370::GetNearestZoneOfType_4DF240` | 0x469110 | `Map_0x370::sub_462E40`, ✓ `MaxAbsDistance_42A6B0` | todo |  |
@@ -224,9 +222,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4E1520 | `Map_0x370::sub_4E1520` | 0x466170 | `sub_432860`, `sub_4BB9C0`, `sub_4828F0`, `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `sub_40FEE0` | todo |  |
 | 0x4E1A30 | `Map_0x370::sub_4E1A30` | 0x466430 | ✓ `sub_4634B0`, `sub_463480` | todo |  |
 | 0x4E1E00 | `Map_0x370::CanSpriteEnterTile_4E1E00` | 0x46A570 | `sub_466CF0` | todo |  |
-| 0x4E4820 | `Map_0x370::sub_4E4820` | 0x4667E0 | `sub_45ADB0`, ✓ `sub_410BF0`, `sub_45ADA0`, `sub_45ADC0`, `sub_45ADD0`, `sub_4637A0` | matched | Fix16_Rect getters return a copy like 9.6f (0x45ADA0-0x45ADD0), + get_low_z_4637A0; order left,right,top,bottom |
 | 0x4E5640 | `Map_0x370::sub_4E5640` | 0x469F90 | ✓ `sub_4637B0`, `sub_40E8D0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `PolarToCartesian_41FC20`, ✓ `sub_420420`, ✓ `sub_466CF0`, `sub_4BD670` | todo |  |
-| 0x4E6190 | `Map_0x370::sub_4E6190` | 0x466D30 | ✓ `sub_466CF0` | todo |  |
+| 0x4E6190 | `Map_0x370::sub_4E6190` | 0x466D30 | ✓ `sub_466CF0` | done | all 9.6f inlines used |
 | 0x4E7190 | `Map_0x370::sub_4E7190` | 0x467F80 | `sub_463150`, `sub_463210`, `ProcessObjective_4632E0`, `sub_42A660` | todo |  |
 | 0x4E8E30 | `Map_0x370::do_process_loaded_zone_data_4E8E30` | 0x464330 | `Map_0x370::sub_462E40` | todo |  |
 | 0x4EAF40 | `MapRenderer::DrawRightSide_4EAF40` | 0x470250 | `sub_46BEA0` (10.5 0x4F3FB0), `Nanobotz::Set_UV_46C0C0` (10.5 0x4F4190), `sharp_pare_0x15D8::sub_46BB50` | todo |  |
@@ -235,7 +232,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4F66C0 | `MapRenderer::sub_4F66C0` | 0x471D60 | `Nanobotz::sub_470060`, `Nanobotz::sub_470440`, `Nanobotz::sub_470620`, `Nanobotz::sub_46C2C0`, `Nanobotz::sub_46C7F0`, `Nanobotz::sub_46CE30`, `Nanobotz::sub_46DFE0` | todo |  |
 | 0x4FA500 | `Ambulance_110::ProcessPatientQueue_4FA500` | 0x473E00 | `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::sub_416B50`, `Kfc_30::sub_4C54F0`, `MaxAbsDistance_42A6B0` | checked | get_cam_x/y/z (9.6f calls) give no change; diff is load/store scheduling of x/y/z |
 | 0x4FAAC0 | `Ambulance_20::HandleObjectiveState_4FAAC0` | 0x473410 | `cool_nash_0x294::sub_433B40`, `cool_nash_0x294::sub_403990`, `cool_nash_0x294::get_objective_403A80`, `cool_nash_0x294::sub_4039E0`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::get_cam_x_403A00`, `MaxAbsDistance_42A6B0`, `cool_nash_0x294::get_objective_timer_403B30`, `sub_472FD0`, `cool_nash_0x294::set_target_objective_car_403AA0`, `cool_nash_0x294::set_enter_car_as_passenger_4039B0`, `cool_nash_0x294::set_target_car_door_403A70`, `cool_nash_0x294::sub_403920`, `cool_nash_0x294::set_objective_target_ped_403AC0`, `cool_nash_0x294::get_car_state_403A90`, `sub_450CB0`, `cool_nash_0x294::sub_403B60`, `cool_nash_0x294::get_objective_target_ped_403AD0`, `cool_nash_0x294::get_occupation_403980`, `cool_nash_0x294::sub_416B50`, `cool_nash_0x294::set_occupation_403970`, `cool_nash_0x294::sub_403B40`, `cool_nash_0x294::set_health_4039A0`, `sub_403960` | inlines added | get_cam_x/y/z for the objective target copy (score 64->48); MaxAbsDistance spot: 10.5 calls Abs_436A50/Max_44E540 out of line, load order still differs |
-| 0x4FB330 | `Ambulance_20::UpdateState_4FB330` | 0x473CE0 | `Char_8::sub_420EA0`, ✓ `sub_421470` | inlines added | IsEmpty_420EA0 added, no codegen change; case 3 else should share the default case's epilogue |
+| 0x4FB330 | `Ambulance_20::UpdateState_4FB330` | 0x473CE0 | ✓ `Char_8::sub_420EA0`, ✓ `sub_421470` | inlines added | IsEmpty_420EA0 added, no codegen change; case 3 else should share the default case's epilogue |
 | 0x4FF250 | `Mike_A80::DebugDrawProfiling_4FF250` | 0x474530 | `sub_4744C0`, `sub_4740F0`, `sub_474490`, `unknown_libname_28`, `sub_4741F0` | checked | Load order of the 5 averages in total (m2,m3,m5,m4 in 10.5); all 120 term orders and groupings give the same code |
 | 0x512CE0 | `frosty_pasteur_0xC1EA8::ctor_512CE0` | 0x481960 | `miss2_0x11C_Pool::ctor_481310` | todo |  |
 | 0x513240 | `Bink::sub_513240` | 0x481E00 | `sub_481DF0`, `sub_481D30` (10.5 0x513390) | todo |  |
@@ -261,7 +258,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x527F10 | `Object_2C::sub_527F10` | 0x484760 | ✓ `sub_47F4F0`, `sub_483FC0`, `sub_484000` | todo |  |
 | 0x5283C0 | `Object_2C::TickObject_5283C0` | 0x485760 | ✓ `sub_482400`, `sub_420F10`, `sub_482790`, `sub_41E210`, `Object_2C::sub_4826A0` (10.5 0x525AE0), `Object_3C_Pool::sub_483FE0`, `sub_483FC0`, `sub_484000`, `Object_8_Pool::sub_483FA0`, ✓ `sub_4206C0`, `sub_482F80` | todo |  |
 | 0x528E50 | `Object_2C::HandleImpact_528E50` | 0x486410 | `sub_482F60`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `check_is_shop_421060`, `sub_410480`, `sub_410460` | todo |  |
-| 0x534650 | `Garage_48::ValidateParkCommand_534650` | 0x489B10 | ✓ `sub_489640`, ✓ `sub_489630`, ✓ `sub_489620` | todo |  |
+| 0x534650 | `Garage_48::ValidateParkCommand_534650` | 0x489B10 | ✓ `sub_489640`, ✓ `sub_489630`, ✓ `sub_489620` | done | all 9.6f inlines used |
 | 0x534700 | `Garage_48::ParkCarAtDoor_534700` | 0x489BC0 | `sub_447ED0`, `sub_489600`, `sub_432860` | todo |  |
 | 0x5349D0 | `Garage_48::GaragesService_5349D0` | 0x489680 | `sub_476230`, `sub_4895E0`, `sub_476A30`, `sub_4895F0`, `sub_475C30`, `sub_4118D0`, `sub_421870`, `sub_4118B0`, `Car_BC::sub_41E450`, `sub_433C00`, `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `sub_421490`, `sub_489650`, `sub_4BB4D0`, `sub_4895D0`, `sub_44A3E0`, `sub_4218A0`, `Car_BC::sub_475C10`, `Car_BC::sub_41E440`, `Car_BC::sub_41E430`, `sub_432860`, `sub_40F600`, `sub_420390` | todo |  |
 | 0x5384C0 | `Particle_4C::sub_5384C0` | 0x48AE70 | ✓ `sub_4206C0`, `sub_40F6B0`, `sub_4337D0`, ✓ `sub_4337F0` | todo |  |
@@ -269,10 +266,10 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x539480 | `Particle_4C::sub_539480` | 0x48B9F0 | ✓ `sub_4206C0`, ✓ `sub_40F6B0`, `sub_4337D0`, ✓ `sub_4337F0` | todo |  |
 | 0x539890 | `Particle_4C::sub_539890` | 0x48F650 | ✓ `sub_4206C0`, `sub_4337D0`, `sub_433800`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_40F6B0`, ✓ `sub_4337F0` | todo |  |
 | 0x53B670 | `Particle_4C::sub_53B670` | 0x48FE90 | `sub_416B40`, `cool_nash_0x294::sub_433B40`, ✓ `sub_4206C0`, `sub_40F540`, `PolarToCartesian_41FC20`, `sub_4337D0` | todo |  |
-| 0x53E450 | `Particle_8::sub_53E450` | 0x48C9C0 | ✓ `sub_40F6B0`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0` | todo |  |
+| 0x53E450 | `Particle_8::sub_53E450` | 0x48C9C0 | ✓ `sub_40F6B0`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0` | done | all 9.6f inlines used |
 | 0x53E970 | `Particle_8::GunMuzzelFlash_53E970` | 0x48CD10 | `sub_416B40`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0`, `sub_48A930`, `sub_48A950`, `sub_432860`, ✓ `sub_40F6B0`, `sub_4207B0`, `sub_40F680`, ✓ `Car_3C::set_ang_lazy_420690`, `sub_4337F0`, `PolarToCartesian_41FC20`, ✓ `sub_40FEA0` | todo |  |
 | 0x53FE40 | `sub_53FE40` | 0x48DB00 | `sub_40F790`, ✓ `sub_40F6B0`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0`, ✓ `sub_4337F0` | todo |  |
-| 0x5406B0 | `Particle_8::SpawnCigaretteSmokePuff_5406B0` | 0x48E060 | ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0`, ✓ `PolarToCartesian_41FC20`, ✓ `sub_4337F0` | todo |  |
+| 0x5406B0 | `Particle_8::SpawnCigaretteSmokePuff_5406B0` | 0x48E060 | ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0`, ✓ `PolarToCartesian_41FC20`, ✓ `sub_4337F0` | done | all 9.6f inlines used |
 | 0x541430 | `Wolfy_30::state_5_541430` | 0x48E8B0 | `sub_40F6B0`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0`, `sub_4337D0`, ✓ `sub_4337F0` | todo |  |
 | 0x541850 | `Wolfy_30::TimerAfter50Handler_541850` | 0x490D60 | `struct_4::ctor_424620`, `sub_48A420`, `sub_48A390`, `sub_48EA50`, `sub_4BEE10`, ✓ `sub_40FEA0`, `sub_48A4C0`, `sub_420F10`, `sub_40E8D0`, `MaxAbsDistance_42A6B0`, ✓ `sub_40FEB0`, `IsMaxDamage_40F890`, ✓ `Car_BC::sub_403BA0`, `sub_425D60`, `sub_426F00`, `sub_4207B0`, ✓ `sub_40FEC0` | todo |  |
 | 0x541D60 | `Wolfy_30::state_18_33_541D60` | 0x48EB00 | `sub_48A8F0`, `sub_40F540`, ✓ `PolarToCartesian_41FC20`, `sub_48A900`, `Sprite_Pool::sub_421000`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4337F0`, ✓ `sub_4206C0`, `sub_4BDEF0` | todo |  |
@@ -294,10 +291,10 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x5520A0 | `Char_B4::state_8_5520A0` | 0x496880 | `cool_nash_0x294::sub_403A40`, ✓ `sub_40F7B0`, `sub_4937D0`, `sub_493810`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), `sub_48D1F0`, `sub_4BDDD0`, ✓ `sub_420660`, `sub_433B70`, `sub_4211A0`, ✓ `cool_nash_0x294::sub_403990`, ✓ `sub_433B60`, ✓ `cool_nash_0x294::sub_433DD0`, `cool_nash_0x294::sub_433B50`, ✓ `sub_433910`, ✓ `sub_433A50`, ✓ `PolarToCartesian_41FC20`, ✓ `Car_3C::set_ang_lazy_420690`, `sub_4105B0`, ✓ `sub_434950` | todo |  |
 | 0x5538A0 | `Char_B4::HandleCarImpact_5538A0` | 0x497570 | ✓ `sub_40F790`, `sub_482790` | todo |  |
 | 0x553E00 | `Char_B4::HandleGenericImpact_553E00` | 0x493390 | ✓ `cool_nash_0x294::sub_403990`, `sub_482790` | todo |  |
-| 0x554110 | `Orca_2FD4::Internel_CanMoveDiagonally_554110` | 0x49CB60 | ✓ `sub_466CF0` | todo |  |
-| 0x554AB0 | `Orca_2FD4::save_find_554AB0` | 0x49CF70 | ✓ `sub_466CF0` | todo |  |
-| 0x5552B0 | `Orca_2FD4::maybe_find_5552B0` | 0x49D7A0 | ✓ `sub_466CF0`, ✓ `sub_420420` | todo |  |
-| 0x559430 | `CarPhysics_B0::ShowPhysicsDebug_559430` | 0x4A1DA0 | `sub_49E240`, `Garox_C4::sub_45AFD0` | inlines added | ThetaText_49E240 + Garox_C4::SetDrawKind8_45AFD0 (no change); left: the lea of the DisplayText this is scheduled early in the theta call and late in the rear-skid call |
+| 0x554110 | `Orca_2FD4::Internel_CanMoveDiagonally_554110` | 0x49CB60 | ✓ `sub_466CF0` | done | all 9.6f inlines used |
+| 0x554AB0 | `Orca_2FD4::save_find_554AB0` | 0x49CF70 | ✓ `sub_466CF0` | done | all 9.6f inlines used |
+| 0x5552B0 | `Orca_2FD4::maybe_find_5552B0` | 0x49D7A0 | ✓ `sub_466CF0`, ✓ `sub_420420` | done | all 9.6f inlines used |
+| 0x559430 | `CarPhysics_B0::ShowPhysicsDebug_559430` | 0x4A1DA0 | ✓ `sub_49E240`, ✓ `Garox_C4::sub_45AFD0` | inlines added | ThetaText_49E240 + Garox_C4::SetDrawKind8_45AFD0 (no change); left: the lea of the DisplayText this is scheduled early in the theta call and late in the rear-skid call |
 | 0x559A40 | `CarPhysics_B0::UpdateTrailerPhysicsFromTowingCar_559A40` | 0x49F1B0 | `sub_40F600`, `sub_40EAB0`, `sub_40F580` | todo |  |
 | 0x559C30 | `CarPhysics_B0::ScarePedsOnDrivingFast_559C30` | 0x49F350 | ✓ `sub_466CF0`, ✓ `Car_BC::sub_403BA0`, `sub_4211A0`, ✓ `sub_411970` | todo |  |
 | 0x55A1D0 | `CarPhysics_B0::SetVelocityTowardTarget_55A1D0` | 0x49F760 | ✓ `sub_40F6B0`, `sub_40F600`, `sub_40F580` | todo |  |
@@ -313,7 +310,6 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x55CBB0 | `CarPhysics_B0::ReplayAndDispatchCollision_55CBB0` | 0x4A4270 | `sub_40FEB0` | todo |  |
 | 0x55E470 | `CarPhysics_B0::StepMovementAndCollisions_55E470` | 0x4A4310 | ✓ `sub_4637B0`, ✓ `Car_BC::sub_403BA0`, `sub_49E450`, ✓ `IsCharB4_49EF20`, `sub_446AA0` | todo |  |
 | 0x55EF20 | `CarPhysics_B0::ApplyReverseEngineForce_55EF20` | 0x4A2B40 | `sub_49E330`, `sub_420390` | todo |  |
-| 0x55F020 | `CarPhysics_B0::ApplyTurningForce_55F020` | 0x4A2C70 | ✓ `sub_40FEC0`, `sub_4118D0`, `sub_40F600`, ✓ `sub_40F6B0`, `sub_49E330`, `sub_420390` | matched | Force goes through the exported Multiply_438FE0, not the inline operator* (whose visible body dropped an EH state store) |
 | 0x55F3B0 | `sub_55F3B0` | 0x4A05C0 | ✓ `sub_420360`, `sub_40F600`, `sub_49E420`, `sub_420390`, ✓ `sub_49E500`, `sub_49E0E0` | todo |  |
 | 0x55F740 | `CarPhysics_B0::ApplyForceWithTrailerRedirect_55F740` | 0x4A3140 | `is_on_trailer_421720`, `sub_4A2E00` | todo |  |
 | 0x55F800 | `CarPhysics_B0::ApplyForceAtPoint_55F800` | 0x4A0850 | ✓ `sub_40F6B0`, `sub_40F680` | todo |  |
@@ -326,17 +322,16 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x560F20 | `CarPhysics_B0::ApplyMovementStep_560F20` | 0x4A2E30 | ✓ `sub_40F540`, `sub_40F680`, `sub_49ED00`, ✓ `Car_BC::sub_403BA0`, `sub_49FF70` | todo |  |
 | 0x561E50 | `CarPhysics_B0::CalculateFrontWheelForce_561E50` | 0x4A1130 | `sub_4A0F30`, `sub_432860`, ✓ `sub_40F540`, `sub_4A0D40` | todo |  |
 | 0x5620D0 | `CarPhysics_B0::CalculateRearWheelForce_5620D0` | 0x4A1360 | `sub_4A0F30`, `sub_432860`, `sub_49E3A0`, ✓ `sub_40F540`, `sub_4A0D40` | todo |  |
-| 0x562910 | `CarPhysics_B0::StabilizeVelocityAtSpeed_562910` | 0x49EA70 | ✓ `sub_49E3A0`, ✓ `sub_40F6B0` | todo |  |
-| 0x562D00 | `CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00` | 0x4A1B20 | ✓ `sub_40F840`, ✓ `sub_40F790`, ✓ `sub_41E210`, ✓ `sub_49E480` | todo |  |
-| 0x563350 | `CarPhysics_B0::UpdateCenterOfMassPoint_563350` | 0x49ED60 | ✓ `sub_40F6B0` | todo |  |
-| 0x563460 | `CarPhysics_B0::UpdateReferencePoint_563460` | 0x49EDC0 | ✓ `sub_40F6B0` | todo |  |
+| 0x562910 | `CarPhysics_B0::StabilizeVelocityAtSpeed_562910` | 0x49EA70 | ✓ `sub_49E3A0`, ✓ `sub_40F6B0` | done | all 9.6f inlines used |
+| 0x562D00 | `CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00` | 0x4A1B20 | ✓ `sub_40F840`, ✓ `sub_40F790`, ✓ `sub_41E210`, ✓ `sub_49E480` | done | all 9.6f inlines used |
+| 0x563350 | `CarPhysics_B0::UpdateCenterOfMassPoint_563350` | 0x49ED60 | ✓ `sub_40F6B0` | done | all 9.6f inlines used |
+| 0x563460 | `CarPhysics_B0::UpdateReferencePoint_563460` | 0x49EDC0 | ✓ `sub_40F6B0` | done | all 9.6f inlines used |
 | 0x5651F0 | `Player::RestorePowerUpsFromSave_5651F0` | 0x4A5A50 | `sub_4A5060` | checked | VC6 turns the two pointers into base+difference addressing; the target keeps both (same in 9.6f). Loop forms tried: while/for/indexed |
 | 0x566C80 | `Player::DoPedControlInputs_566C80` | 0x4A5C50 | `sub_43E1E0`, `Char_B4::sub_433A80`, `sub_433C40`, `cool_nash_0x294::sub_433DD0` | todo |  |
 | 0x56A0F0 | `Player::RestoreCarsFromSave_56A0F0` | 0x4A6A80 | `EnqueueRadioLocationPhrase_426E10`, `GetRaw_4A5190`, `sub_4A51B0` | todo |  |
 | 0x56C010 | `jolly_poitras_0x2BC0::sub_56C010` | 0x4A90A0 | `sub_453A60` | todo |  |
-| 0x5707B0 | `Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0` | 0x4AABB0 | ✓ `sub_41B0A0` | todo |  |
-| 0x571540 | `PoliceCrew_38::sub_571540` | 0x4AB400 | `sub_4A9AD0`, `cool_nash_0x294::sub_403A30`, ✓ `sub_421470`, `cool_nash_0x294::sub_4039F0` | matched | Third car branch is `sub_421470()` + the shared 28/2C tail; Get_F76/Get_F20E/ClearGroupAndGroupIdx inlines |
-| 0x571A30 | `PoliceCrew_38::sub_571A30` | 0x4AB610 | `sub_4A9AD0`, `cool_nash_0x294::sub_403920`, `cool_nash_0x294::sub_403A30`, ✓ `sub_421470`, `cool_nash_0x294::sub_4039F0` | inlines added | No codegen change; rest is block layout/tail merging of the 28/2C tails |
+| 0x5707B0 | `Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0` | 0x4AABB0 | ✓ `sub_41B0A0` | done | all 9.6f inlines used |
+| 0x571A30 | `PoliceCrew_38::sub_571A30` | 0x4AB610 | ✓ `sub_4A9AD0`, ✓ `cool_nash_0x294::sub_403920`, ✓ `cool_nash_0x294::sub_403A30`, ✓ `sub_421470`, ✓ `cool_nash_0x294::sub_4039F0` | inlines added | No codegen change; rest is block layout/tail merging of the 28/2C tails |
 | 0x572210 | `PoliceCrew_38::sub_572210` | 0x4AB930 | `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::get_cam_x_403A00`, ✓ `MaxAbsDistance_42A6B0` | todo |  |
 | 0x572920 | `PoliceCrew_38::State5_Searching_572920` | 0x4AC580 | `sub_421470`, `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::sub_416B50`, `cool_nash_0x294::get_objective_403A80`, `cool_nash_0x294::set_objective_target_ped_403AC0`, `sub_4048A0`, `cool_nash_0x294::set_target_objective_car_403AA0`, `sub_403960`, `cool_nash_0x294::sub_403AF0`, `cool_nash_0x294::sub_403AE0`, `cool_nash_0x294::get_objective_target_ped_403AD0`, `sub_450CB0`, `MaxAbsDistance_42A6B0`, `Car_BC::sub_421D90`, `cool_nash_0x294::sub_403990` | todo |  |
 | 0x574720 | `PoliceCrew_38::State6_ShutDown_574720` | 0x4ACE80 | ✓ `sub_414F20`, ✓ `cool_nash_0x294::get_objective_403A80`, `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::sub_416B50`, ✓ `cool_nash_0x294::sub_403A40`, `cool_nash_0x294::set_target_objective_car_403AA0`, `sub_403960`, `sub_450CB0` | todo |  |
@@ -345,41 +340,40 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x578030 | `Train_58::ReassignTrainHead_578030` | 0x4AF8A0 | `Car_BC_Pool::sub_420F20`, ✓ `sub_420F30`, `Car_BC::sub_423A50`, `CarPhysics_B0::sub_49EE10` (10.5 0x563670), `sub_4118D0`, `sub_4212B0`, `sub_4212A0`, `sub_421510`, `sub_420B70`, `Car_BC::sub_421560` | todo |  |
 | 0x578390 | `Train_58::UpdatePassengerAI_578390` | 0x4AFB30 | `sub_411940`, `cool_nash_0x294::set_target_objective_car_403AA0`, `cool_nash_0x294::set_target_car_door_403A70`, `Char_8::sub_420EA0`, `cool_nash_0x294::set_occupation_403970` | todo |  |
 | 0x578860 | `PublicTransport_181C::SpawnTrainsFromStations_578860` | 0x4AFE20 | `sub_426E40`, ✓ `sub_420F30`, `sub_421510`, ✓ `Car_BC::sub_421560`, `sub_475C30`, ✓ `sub_426E00` | todo |  |
-| 0x5794B0 | `PublicTransport_181C::SetupTrainAndBusStops_5794B0` | 0x4B08A0 | ✓ `sub_433470`, ✓ `sub_4334A0`, ✓ `sub_4334D0`, ✓ `sub_433500` | todo |  |
+| 0x5794B0 | `PublicTransport_181C::SetupTrainAndBusStops_5794B0` | 0x4B08A0 | ✓ `sub_433470`, ✓ `sub_4334A0`, ✓ `sub_4334D0`, ✓ `sub_433500` | done | all 9.6f inlines used |
 | 0x579CA0 | `PublicTransport_181C::BusesService_579CA0` | 0x4B0F20 | ✓ `sub_433470`, ✓ `sub_4334A0`, ✓ `sub_4334D0`, ✓ `sub_433500`, ✓ `sub_421510`, ✓ `Car_BC::sub_421560`, ✓ `sub_426E00`, `sub_4118D0`, ✓ `cool_nash_0x294::get_occupation_403980`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403920`, `Car_BC::sub_421D90`, ✓ `sub_4A9AD0`, ✓ `sub_421470`, ✓ `sub_4215B0` | todo |  |
 | 0x57A7A0 | `PublicTransport_181C::PublicTransportService_57A7A0` | 0x4B1560 | `sub_4118D0`, ✓ `Car_BC::sub_421560`, `ApplyCarVelocityCameraOffset_436200`, `sub_4AF290`, `sub_4AF860`, `sub_4AF880` | todo |  |
 | 0x57DD50 | `sound_obj::ProcessType3_CopRadioAndMusic_57DD50` | 0x4B2D50 | `sub_4A65E0`, `sub_4B25A0`, ✓ `IsMaxDamage_40F890`, `sub_4B25D0` | todo |  |
 | 0x57E220 | `sound_obj::sub_57E220` | 0x4B1E40 | `sub_4A65E0`, `Car_BC::sub_41E450`, `Car_BC::sub_41E440`, `Car_BC::sub_41E430` | checked | paused/static-volume block layout differs (else placed later in 10.5); more diffs further down |
 | 0x57E6C0 | `sound_obj::sub_57E6C0` | 0x4B2830 | `sub_4A65E0`, `sub_411940` | todo |  |
 | 0x582480 | `Car_14::SpawnTrafficCar_582480` | 0x4B34E0 | ✓ `sub_41FE40`, `angry_lewin_0x85C::sub_4766D0`, `Zone_144::sub_45DD50`, `sub_4B3230`, `sub_4B33F0`, `sub_4B30A0`, `sub_42A620`, `sub_426E40`, `sub_420700`, `sub_426E00`, `sub_421490` | todo |  |
-| 0x5832C0 | `Car_14::MakeTrafficForCurrCamera_5832C0` | 0x4B4A60 | ✓ `sub_4B3110`, ✓ `sub_4B3130` | todo |  |
+| 0x5832C0 | `Car_14::MakeTrafficForCurrCamera_5832C0` | 0x4B4A60 | ✓ `sub_4B3110`, ✓ `sub_4B3130` | done | all 9.6f inlines used |
 | 0x588620 | `RouteFinder::ShowJunctionIds_588620` | 0x40D120 | `DrawUnk_0xBC::sub_40CF60`, `DrawUnk_0xBC::sub_40CFC0` | todo |  |
 | 0x592660 | `eager_benz::sub_592660` | 0x4B7EB0 | `angry_lewin_0x85C::sub_4766A0`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_car_416B60`, `cool_nash_0x294::get_remap_433BA0`, `cool_nash_0x294::get_occupation_403980`, `rng::get_cur_rng_41CFE0`, `angry_lewin_0x85C::sub_41DC70`, `cool_nash_0x294::sub_416B50`, `sub_41DC40`, `Shooey_CC::sub_44A370`, `angry_lewin_0x85C::Get_Field_68_Ped_4A5130` | todo |  |
 | 0x596C90 | `ExplodingScore_50::DrawNumbers_596C90` | 0x4B94B0 | ✓ `DrawUnk_0xBC::sub_4B90E0`, `CokeZero_50::sub_4B92B0` | todo |  |
 | 0x59DE80 | `Fix16_Rect::CanRectEnterMovementRegion_59DE80` | 0x4BA720 | `sub_4BA5E0` | todo |  |
-| 0x59FB10 | `Sprite::IntersectsRectSAT_59FB10` | 0x4BB020 | ✓ `sub_4BA0A0`, ✓ `sub_45ADD0`, ✓ `sub_45ADB0`, ✓ `sub_42A720`, ✓ `sub_45ADA0`, ✓ `sub_45ADC0` | todo |  |
-| 0x5A0380 | `Sprite::RotatedRectCollisionSAT_5A0380` | 0x4BB560 | ✓ `sub_41E390`, ✓ `sub_4BA0A0`, ✓ `sub_42A720` | todo |  |
+| 0x59FB10 | `Sprite::IntersectsRectSAT_59FB10` | 0x4BB020 | ✓ `sub_4BA0A0`, ✓ `sub_45ADD0`, ✓ `sub_45ADB0`, ✓ `sub_42A720`, ✓ `sub_45ADA0`, ✓ `sub_45ADC0` | done | all 9.6f inlines used |
+| 0x5A0380 | `Sprite::RotatedRectCollisionSAT_5A0380` | 0x4BB560 | ✓ `sub_41E390`, ✓ `sub_4BA0A0`, ✓ `sub_42A720` | done | all 9.6f inlines used |
 | 0x5A2710 | `Sprite::FindCollisionIntersectionPoint_5A2710` | 0x4BD8A0 | `sub_4207B0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, `sub_4BB3C0`, `sub_49E360` | todo |  |
 | 0x5A3550 | `Sprite_4C::UpdateRotatedBoundingBox_5A3550` | 0x4BBD40 | `sub_432860`, ✓ `sub_40F6B0`, `sub_45ADB0`, `sub_45ADA0`, `sub_45ADD0`, `sub_45ADC0`, `sub_4B9E60` | todo |  |
 | 0x5A6EA0 | `Object_3C::TakeClosestSprite_5A6EA0` | 0x4BEEB0 | `MaxAbsDistance_42A6B0`, `Sprite_18_Pool::sub_4BEC50` | todo |  |
 | 0x5A7080 | `struct_4::CleanupSpriteList_5A7080` | 0x4BF070 | ✓ `sub_416B40`, ✓ `sub_4BE830`, `sub_485260`, `Sprite_18_Pool::sub_4BEC50` | todo |  |
 | 0x5AA9A0 | `gtx_0x106C::load_car_info_5AA9A0` | 0x4C0410 | `sub_4C03F0` | checked | Door count/offset arithmetic: 10.5 keeps num_remaps in edi then adds 0xE after the first read; not reproduced yet |
 | 0x5B5BC0 | `text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0` | 0x4C2450 | `sub_4C23D0`, `sub_4539D0` | todo |  |
-| 0x5B92E0 | `sharp_pare_0x15D8::ReadTextures_5B92E0` | 0x4C3040 | ✓ `gtx_0x106C::has_tiles_4C2EE0`, ✓ `gtx_0x106C::get_tile_4C2EB0` | todo |  |
+| 0x5B92E0 | `sharp_pare_0x15D8::ReadTextures_5B92E0` | 0x4C3040 | ✓ `gtx_0x106C::has_tiles_4C2EE0`, ✓ `gtx_0x106C::get_tile_4C2EB0` | done | all 9.6f inlines used |
 | 0x5C1D00 | `TrafficLight_20::sub_5C1D00` | 0x4C3C70 | ✓ `sub_42A8C0`, `sub_483C20`, ✓ `sub_469010` (10.5 0x52B2A0), `sub_433530` | todo |  |
-| 0x5C5CF0 | `Montana_4::AddSprite_5C5CF0` | 0x4C4BF0 | ✓ `sub_4C4B40` | todo |  |
+| 0x5C5CF0 | `Montana_4::AddSprite_5C5CF0` | 0x4C4BF0 | ✓ `sub_4C4B40` | done | all 9.6f inlines used |
 | 0x5C5E70 | `Montana_4::ctor_5C5E70` | 0x4C4DF0 | `Montana_FA4::ctor_4C4BD0` | todo |  |
 | 0x5C5F10 | `Montana_4::dtor_5C5F10` | 0x4C4E60 | `Montana_2EE4::gdtor_4C4D80`, `Montana_FA4::gdtor_4C4DA0` | todo |  |
 | 0x5C8780 | `Car_214::sub_5C8780` | 0x4C4FE0 | `sub_416B40`, ✓ `sub_40FEB0`, `sub_40FEA0`, `sub_433A20`, `sub_4C4F20`, `sub_4118B0`, `sub_433C20`, `sub_47ED20` | todo |  |
 | 0x5CBD50 | `Kfc_30::UpdateStateMachine_5CBD50` | 0x4C55D0 | `sub_4215B0`, `IsMaxDamage_40F890`, `sub_421D80`, `cool_nash_0x294::get_cam_x_403A00`, ✓ `MaxAbsDistance_42A6B0`, `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403A30`, `cool_nash_0x294::sub_403B60`, `Car_BC::sub_421560` | todo |  |
 | 0x5CFA70 | `Garox_107C_sub::DrawGangRespectBars_5CFA70` | 0x4C74F0 | `angry_lewin_0x85C::sub_4219D0`, `rng::get_cur_rng_41CFE0` | todo |  |
 | 0x5D0620 | `Hud_Arrow_7C::sub_5D0620` | 0x4C7E60 | ✓ `sub_4C6F20`, ✓ `sub_4C7060`, ✓ `sub_4C6FB0`, `sub_432860` | todo |  |
-| 0x5D16B0 | `Garox_2A25_sub::DrawChatMessages_5D16B0` | 0x4C8910 | `gtx_0x106C::sub_4539B0` (10.5 0x5D7700), ✓ `rng::get_cur_rng_41CFE0` | matched | GetLineSpacingFromFontType_5D7700_inlined (9.6f 0x4539B0), s32 positions so both go through Fix16(s32) |
 | 0x5D1B10 | `Garox_C4::FormatAndSetupText_5D1B10` | 0x4C8AA0 | `Garox_C4::sub_4C70E0` | todo |  |
 | 0x5D2AB0 | `Hud_Pager_C::DrawPager_5D2AB0` | 0x4C9040 | ✓ `sub_4C7250`, `sub_4C8CA0` | todo |  |
 | 0x5D3B80 | `Hud_Brief_704::DrawBrief_5D3B80` | 0x4C9430 | `gtx_0x106C::sub_4539B0` (10.5 0x5D7700) | todo |  |
 | 0x5D4A10 | `Hud_CarName_4C::sub_5D4A10` | 0x4C94F0 | `sub_4C7220` | todo |  |
-| 0x5D61A0 | `DrawPlayerStatsHelper_5D61A0` | 0x4C9B40 | ✓ `sub_420220` | todo |  |
+| 0x5D61A0 | `DrawPlayerStatsHelper_5D61A0` | 0x4C9B40 | ✓ `sub_420220` | done | all 9.6f inlines used |
 | 0x5D63B0 | `Garox_12E4_sub::DrawPause_5D63B0` | 0x4C9FA0 | `sub_416BC0`, `sub_420220`, `sub_4C6E30`, `lucid_hamilton::sub_453A80` | todo |  |
 | 0x5D6CD0 | `Hud_2B00::ctor_5D6CD0` | 0x4CAC60 | `Garox_C_Array::ctor_4CA660`, `Garox_7C_Array::ctor_4C7080`, `Garox_Sub_C_Array::ctor_4C6EE0`, `Garox_27B5_sub::ctor_4C6E70`, `Garox_110C_sub::ctor_4C6E50`, `Garox_12E4_sub::ctor_4C71A0` | todo |  |
 | 0x5D7EC0 | `DrawFigure_5D7EC0` | 0x4CBA50 | `sub_432860`, ✓ `sub_40F6B0` | todo |  |
@@ -404,14 +398,14 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x408140 | `Car_A4_10::sub_408140` | 0x40FB20 | `sub_427450` | todo |  |
 | 0x4081B0 | `Car_A4_10::DeAllocateCarPhysics_4081B0` | 0x40F470 | `sub_426120` | todo |  |
 | 0x408220 | `Car_A4_10::sub_408220` | 0x40FBE0 | `sub_40F490`, `sub_40F7B0`, `sub_40FB70` | todo |  |
-| 0x40B890 | `Rozza_A::sub_40B890` | 0x40FF20 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | todo |  |
-| 0x40B980 | `Rozza_A::sub_40B980` | 0x410010 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | todo |  |
+| 0x40B890 | `Rozza_A::sub_40B890` | 0x40FF20 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
+| 0x40B980 | `Rozza_A::sub_40B980` | 0x410010 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
 | 0x40BA60 | `Rozza_A::sub_40BA60` | 0x4100F0 | `sub_40FF00`, ✓ `sub_40FEF0`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0` | todo |  |
-| 0x40BBA0 | `Rozza_C88::OtherType_40BBA0` | 0x410210 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FF10` | todo |  |
-| 0x40BC40 | `Rozza_C88::Type4_40BC40` | 0x410370 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | todo |  |
-| 0x40BD10 | `Rozza_C88::Type5_40BD10` | 0x4102A0 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | todo |  |
+| 0x40BBA0 | `Rozza_C88::OtherType_40BBA0` | 0x410210 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FF10` | done | all 9.6f inlines used |
+| 0x40BC40 | `Rozza_C88::Type4_40BC40` | 0x410370 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
+| 0x40BD10 | `Rozza_C88::Type5_40BD10` | 0x4102A0 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
 | 0x40BE00 | `Rozza_C88::ctor_40BE00` | 0x4104B0 | `array_constuctor_401CF0` | todo |  |
-| 0x40BE40 | `Rozza_C88::dtor_40BE40` | 0x410440 | ✓ `root_sound::DestroySoundObj_40FE60` | todo |  |
+| 0x40BE40 | `Rozza_C88::dtor_40BE40` | 0x410440 | ✓ `root_sound::DestroySoundObj_40FE60` | done | all 9.6f inlines used |
 | 0x40EF40 | `root_sound::CreateSoundObject_40EF40` | 0x410750 | `root_sound::sub_410730` | todo |  |
 | 0x40F010 | `root_sound::sub_40F010` | 0x410560 | `sound_obj::sub_4B2F20` | todo |  |
 | 0x412490 | `sound_obj::ProcessType2_412490` | 0x411A50 | `sub_4B6700` | todo |  |
@@ -422,7 +416,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x413BE0 | `sound_obj::sub_413BE0` | 0x4143B0 | `sub_411940`, `sub_4BF210` (10.5 0x5AA3D0), `Car_BC::sub_41F880` (10.5 0x43B360), `sub_411870`, `sub_4116B0` (10.5 0x419020), `sub_4116F0` (10.5 0x419070), `sub_413DF0` (10.5 0x417D70), `sub_4166E0` (10.5 0x41A650), `sub_4B6020` (10.5 0x58DBF0), `sub_4171A0` (10.5 0x41A850), `sub_411890` | todo |  |
 | 0x413BF0 | `sound_obj::sub_413BF0` | 0x415CC0 | `sub_412BD0`, `sub_413160`, `sub_4156C0`, `sub_412D80`, `sub_4143B0` (10.5 0x413BE0) | todo |  |
 | 0x413C50 | `sound_obj::sub_413C50` | 0x415D20 | `sub_413160`, `sub_414030`, `sub_414200`, `sub_4148D0`, `sub_4143B0` (10.5 0x413BE0), `sub_415A90`, `sub_4139A0`, `sub_414780`, `sub_413EB0`, `sub_412EB0` | todo |  |
-| 0x4145E0 | `sound_obj::GetCar_4145E0` | 0x4129D0 | ✓ `sub_40FEB0` | todo |  |
+| 0x4145E0 | `sound_obj::GetCar_4145E0` | 0x4129D0 | ✓ `sub_40FEB0` | done | all 9.6f inlines used |
 | 0x415480 | `sound_obj::sub_415480` | 0x412FE0 | `sub_4119D0` | todo |  |
 | 0x415570 | `sound_obj::sub_415570` | 0x415880 | ✓ `sub_4118F0`, ✓ `sub_414F20`, ✓ `sub_414F80`, ✓ `Car_BC::sub_411900`, ✓ `Car_BC::sub_411910`, `?_GetResult@?$_Task_impl@_N@details@Concurrency@@QAE_NXZ`, ✓ `sub_411970`, ✓ `sub_411940`, ✓ `sub_411990` | todo |  |
 | 0x417A00 | `sound_obj::Type_4_417A00` | 0x413D40 | `sub_411940`, ✓ `sub_411970` | todo |  |
@@ -438,7 +432,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x431FE0 | `sad_mirzakhani::alloc_next_431FE0` | 0x41DE40 | `rng::get_cur_rng_41CFE0` | todo |  |
 | 0x4355D0 | `Camera_0xBC::IsSpriteTheCameraSubject_4355D0` | 0x41E480 | `sub_40FEB0`, `cool_nash_0x294::get_car_416B60`, `sub_40FEA0` | todo |  |
 | 0x435A20 | `Camera_0xBC::ReturnOwnerVelocity_435A20` | 0x41DFC0 | `Car_BC::sub_421D90` | todo |  |
-| 0x435A70 | `Camera_0xBC::IsCoordsPosVisible_435A70` | 0x41E710 | ✓ `DrawUnk_0xBC::sub_40CFC0` | todo |  |
+| 0x435A70 | `Camera_0xBC::IsCoordsPosVisible_435A70` | 0x41E710 | ✓ `DrawUnk_0xBC::sub_40CFC0` | done | all 9.6f inlines used |
 | 0x435D20 | `Camera_0xBC::sub_435D20` | 0x41EA10 | `sub_41E540` | todo |  |
 | 0x435FF0 | `Camera_0xBC::sub_435FF0` | 0x41F2F0 | `sub_4727E0`, `sub_41EB00` | todo |  |
 | 0x436540 | `Camera_0xBC::UpdateFollowPedCamera_436540` | 0x41F410 | `cool_nash_0x294::get_car_416B60`, ✓ `Car_BC::sub_41E430`, ✓ `Car_BC::sub_41E440`, ✓ `Car_BC::sub_41E450`, ✓ `sub_41E130`, `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::sub_416B50`, `cool_nash_0x294::sub_403990`, ✓ `sub_41E3D0` | todo |  |
@@ -447,7 +441,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x439CD0 | `Car_Door_10::sub_439CD0` | 0x421A00 | `maybe_flags::clear_420DE0`, `maybe_flags::set_420DC0` | todo |  |
 | 0x439D40 | `Car_Door_10::sub_439D40` | 0x421A80 | `maybe_flags::clear_420DE0`, `maybe_flags::set_420DC0` | todo |  |
 | 0x439DA0 | `Car_Door_10::sub_439DA0` | 0x421AF0 | `cool_nash_0x294::sub_403B60` | todo |  |
-| 0x43A120 | `Car_BC::get_mass_43A120` | 0x421CF0 | ✓ `sub_4215C0`, ✓ `sub_421910` | todo |  |
+| 0x43A120 | `Car_BC::get_mass_43A120` | 0x421CF0 | ✓ `sub_4215C0`, ✓ `sub_421910` | done | all 9.6f inlines used |
 | 0x43A3E0 | `Car_BC::GetOrientationAngle_43A3E0` | 0x421E00 | `sub_4211E0` | todo |  |
 | 0x43A450 | `Car_BC::get_linvel_43A450` | 0x421E70 | ✓ `Car_BC::sub_403BA0`, `sub_421150` | todo |  |
 | 0x43A6F0 | `Car_BC::IsNotCurrentRemap` | 0x421F40 | `sub_41C1F0` | todo |  |
@@ -459,7 +453,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x43AF40 | `Car_BC::sub_43AF40` | 0x4222D0 | `sub_421550` | todo |  |
 | 0x43AF60 | `Car_BC::sub_43AF60` | 0x4222F0 | `sub_421540` | todo |  |
 | 0x43AFE0 | `Car_BC::IsDoorAccessible_43AFE0` | 0x425A40 | ✓ `sub_4204D0`, `sub_4BA7E0` | todo |  |
-| 0x43B540 | `Car_BC::sub_43B540` | 0x4224A0 | ✓ `sub_41FE70` | todo |  |
+| 0x43B540 | `Car_BC::sub_43B540` | 0x4224A0 | ✓ `sub_41FE70` | done | all 9.6f inlines used |
 | 0x43B770 | `Car_BC::sub_43B770` | 0x422670 | `cool_nash_0x294::get_occupation_403980` | todo |  |
 | 0x43BC30 | `Car_BC::SetupCarPhysicsAndSpriteBinding_43BC30` | 0x425D90 | `Car_BC::sub_423A50`, `sub_4A1D30`, `CarPhysics_B0::sub_49EE10` (10.5 0x563670), ✓ `Car_BC::sub_403BA0` | todo |  |
 | 0x43BD00 | `Car_BC::DeAllocateCarPhysics_43BD00` | 0x426F40 | `sub_426120` | todo |  |
@@ -487,7 +481,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x441E70 | `Car_BC::sub_441E70` | 0x426140 | `sub_423B80`, `sub_425ED0`, ✓ `sub_425590`, ✓ `sub_4213D0`, ✓ `sub_425650`, ✓ `sub_421430`, ✓ `inline_check_0x2_info_421700`, `sub_423C30`, ✓ `Car_BC::inline_check_0x20_info_4216C0`, `sub_423B50`, `sub_411920` | todo |  |
 | 0x4421B0 | `Car_BC::sub_4421B0` | 0x420450 | `TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0` (10.5 0x445EC0) | todo |  |
 | 0x442200 | `Car_BC::sub_442200` | 0x424030 | `IsMaxDamage_40F890`, ✓ `Car_BC::sub_403BA0` | todo |  |
-| 0x442310 | `Car_BC::ManageDespawning_442310` | 0x424090 | ✓ `Car_BC::sub_403BA0`, ✓ `Game_0x40::get_player_4219E0`, ✓ `sub_421790`, ✓ `sub_4118F0`, ✓ `sub_4217A0`, ✓ `Car_BC::sub_411900`, ✓ `Car_BC::sub_411910`, ✓ `sub_411920`, ✓ `sub_4214B0`, ✓ `sub_421470` | todo |  |
+| 0x442310 | `Car_BC::ManageDespawning_442310` | 0x424090 | ✓ `Car_BC::sub_403BA0`, ✓ `Game_0x40::get_player_4219E0`, ✓ `sub_421790`, ✓ `sub_4118F0`, ✓ `sub_4217A0`, ✓ `Car_BC::sub_411900`, ✓ `Car_BC::sub_411910`, ✓ `sub_411920`, ✓ `sub_4214B0`, ✓ `sub_421470` | done | all 9.6f inlines used |
 | 0x4424C0 | `Car_BC::UpdateCarDespawnStatus_4424C0` | 0x4241C0 | `sub_424010` | todo |  |
 | 0x4426D0 | `Car_BC::sub_4426D0` | 0x426220 | `IsMaxDamage_40F890`, `sub_423850`, ✓ `sub_4217E0`, `Car_BC::sub_4118C0` | todo |  |
 | 0x442760 | `Car_BC::DetachTrailer_442760` | 0x426270 | `Car_BC_Pool::sub_420F20`, `TrailerPool::sub_425580` | todo |  |
@@ -527,7 +521,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x45BC10 | `Ped::TeleportToCoord_45BC10` | 0x435C80 | `cool_nash_0x294::get_car_416B60` | todo |  |
 | 0x45BC70 | `Ped::ManageShocking_45BC70` | 0x435CE0 | `Char_B4::sub_433A80`, `cool_nash_0x294::sub_433B50`, `sub_4338D0`, `sub_4CEF40` | todo |  |
 | 0x45BD20 | `Ped::sub_45BD20` | 0x435D90 | `Car_BC::sub_421EC0` | todo |  |
-| 0x45BE30 | `Ped::sub_45BE30` | 0x435E40 | ✓ `angry_lewin_0x85C::sub_41DC70` | todo |  |
+| 0x45BE30 | `Ped::sub_45BE30` | 0x435E40 | ✓ `angry_lewin_0x85C::sub_41DC70` | done | all 9.6f inlines used |
 | 0x45BEC0 | `Ped::ManageBurning_45BEC0` | 0x444A70 | `cool_nash_0x294::sub_403B60`, `sub_434950`, `sub_41B0A0` | todo |  |
 | 0x45C350 | `Ped::RespawnPed_45C350` | 0x43E140 | `Char_B4_Pool::DeAllocate`, `sub_433C10`, `cool_nash_0x294::set_health_4039A0` | todo |  |
 | 0x45C410 | `Ped::sub_45C410` | 0x435FA0 | `cool_nash_0x294::set_health_4039A0`, `cool_nash_0x294::sub_403920` | todo |  |
@@ -540,7 +534,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x461530 | `Ped::TrainCustomer_AI_461530` | 0x43EAF0 | `cool_nash_0x294::sub_403920`, `Car_BC::sub_421EC0` | todo |  |
 | 0x4619F0 | `Ped::RoadBlockTank_AI_4619F0` | 0x43EBC0 | `sub_421540` | todo |  |
 | 0x461F20 | `Ped::Occupation_AI_461F20` | 0x442DE0 | `sub_434970`, `sub_4427E0`, `sub_4215B0`, `cool_nash_0x294::set_occupation_403970`, `sub_403960`, `cool_nash_0x294::sub_403920`, `sub_41B0A0`, `angry_lewin_0x85C::sub_4219D0`, `cool_nash_0x294::set_objective_target_ped_403AC0` | todo |  |
-| 0x462280 | `Ped::sub_462280` | 0x445330 | ✓ `Get_F3C_433370` | todo |  |
+| 0x462280 | `Ped::sub_462280` | 0x445330 | ✓ `Get_F3C_433370` | done | all 9.6f inlines used |
 | 0x462510 | `Ped::RemovePedWeapons_462510` | 0x436830 | `cool_nash_0x294::sub_403A40`, `Weapon_8::sub_4D06E0` | todo |  |
 | 0x462550 | `Ped::sub_462550` | 0x436860 | `cool_nash_0x294::sub_403A40`, `Weapon_8::sub_4D06E0` | todo |  |
 | 0x462620 | `Ped::sub_462620` | 0x436890 | `Char_B4::sub_433A80`, `sub_4338F0`, `sub_491EA0` | todo |  |
@@ -551,9 +545,9 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x467FD0 | `Ped::sub_467FD0` | 0x438A30 | `cool_nash_0x294::sub_433B40`, `cool_nash_0x294::sub_403990` | todo |  |
 | 0x4686C0 | `Ped::EnterTargetObjectiveCar_4686C0` | 0x43C010 | `sub_433900`, `sub_4215B0`, `IsMaxDamage_40F890` | todo |  |
 | 0x468930 | `Ped::EnterTrain_468930` | 0x438E80 | `sub_433900`, `sub_4215B0`, `IsMaxDamage_40F890` | todo |  |
-| 0x468A00 | `Ped::LeaveTrain_468A00` | 0x43C220 | ✓ `Car_BC::sub_403BA0` | todo |  |
+| 0x468A00 | `Ped::LeaveTrain_468A00` | 0x43C220 | ✓ `Car_BC::sub_403BA0` | done | all 9.6f inlines used |
 | 0x468BD0 | `Ped::sub_468BD0` | 0x43C3E0 | `cool_nash_0x294::sub_433B50`, `sub_433910`, `sub_433A50`, `cool_nash_0x294::set_target_to_enter_403B00` | todo |  |
-| 0x468C70 | `Ped::PatrolOnFoot_468C70` | 0x438F60 | ✓ `sub_433970` | todo |  |
+| 0x468C70 | `Ped::PatrolOnFoot_468C70` | 0x438F60 | ✓ `sub_433970` | done | all 9.6f inlines used |
 | 0x468DE0 | `Ped::GotoAreaOnFoot_468DE0` | 0x4390F0 | `Char_B4::sub_433A80`, ✓ `Char_B4::sub_433920` | todo |  |
 | 0x469BD0 | `Ped::sub_469BD0` | 0x4341D0 | `sub_4046F0` | todo |  |
 | 0x469D60 | `Ped::sub_469D60` | 0x4394C0 | `Char_B4::sub_433A80`, ✓ `Char_B4::sub_433920` | todo |  |
@@ -572,10 +566,10 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x46C910 | `Ped::sub_46C910` | 0x43A3C0 | `Char_B4::sub_433920` | todo |  |
 | 0x46C9B0 | `Ped::sub_46C9B0` | 0x43A490 | `sub_434960`, `Char_B4::sub_433920`, `Char_B4::sub_433A90` | todo |  |
 | 0x46CA70 | `Ped::sub_46CA70` | 0x434A30 | `Car_BC::sub_421560`, `sub_421550` | todo |  |
-| 0x46CB30 | `Ped::StartPedCrossingAtTrafficLight_Y_Backward_46CB30` | 0x43A550 | ✓ `sub_434960`, ✓ `sub_433530`, ✓ `sub_433C50`, ✓ `sub_433C60`, ✓ `sub_433C70` | todo |  |
-| 0x46CC70 | `Ped::StartPedCrossingAtTrafficLight_X_Forwards_46CC70` | 0x43A660 | ✓ `sub_434960`, ✓ `sub_433530`, ✓ `sub_433C50`, ✓ `sub_433C60`, ✓ `sub_433C70` | todo |  |
-| 0x46CDB0 | `Ped::StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0` | 0x43A770 | ✓ `sub_434960`, ✓ `sub_433530`, ✓ `sub_433C50`, ✓ `sub_433C60`, ✓ `sub_433C70` | todo |  |
-| 0x46CEF0 | `Ped::StartPedCrossingAtTrafficLight_X_Backwards_46CEF0` | 0x43A880 | ✓ `sub_434960`, ✓ `sub_433530`, ✓ `sub_433C50`, ✓ `sub_433C60`, ✓ `sub_433C70` | todo |  |
+| 0x46CB30 | `Ped::StartPedCrossingAtTrafficLight_Y_Backward_46CB30` | 0x43A550 | ✓ `sub_434960`, ✓ `sub_433530`, ✓ `sub_433C50`, ✓ `sub_433C60`, ✓ `sub_433C70` | done | all 9.6f inlines used |
+| 0x46CC70 | `Ped::StartPedCrossingAtTrafficLight_X_Forwards_46CC70` | 0x43A660 | ✓ `sub_434960`, ✓ `sub_433530`, ✓ `sub_433C50`, ✓ `sub_433C60`, ✓ `sub_433C70` | done | all 9.6f inlines used |
+| 0x46CDB0 | `Ped::StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0` | 0x43A770 | ✓ `sub_434960`, ✓ `sub_433530`, ✓ `sub_433C50`, ✓ `sub_433C60`, ✓ `sub_433C70` | done | all 9.6f inlines used |
+| 0x46CEF0 | `Ped::StartPedCrossingAtTrafficLight_X_Backwards_46CEF0` | 0x43A880 | ✓ `sub_434960`, ✓ `sub_433530`, ✓ `sub_433C50`, ✓ `sub_433C60`, ✓ `sub_433C70` | done | all 9.6f inlines used |
 | 0x46D030 | `Ped::sub_46D030` | 0x43A990 | `sub_411940`, `cool_nash_0x294::set_target_to_enter_403B00`, `sub_433900`, `Char_B4::sub_433920` | todo |  |
 | 0x46DD70 | `sub_46DD70` | 0x4400A0 | `sub_41D020`, `sub_404400`, `sub_433360`, `PedPool::sub_403890`, `cool_nash_0x294::set_occupation_403970`, `sub_433B90`, `cool_nash_0x294::sub_403920`, `cool_nash_0x294::sub_416B50`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_remap_433BA0`, `sub_433C10`, `cool_nash_0x294::set_health_4039A0`, `sub_433BC0` | todo |  |
 | 0x46E200 | `Ped::SpawnPedGroupFollowers_46E200` | 0x440350 | `sub_404400`, `sub_433360`, `PedPool::sub_403890`, `cool_nash_0x294::set_occupation_403970`, `sub_433B90`, `cool_nash_0x294::sub_403920`, `sub_433C10`, `cool_nash_0x294::set_health_4039A0`, `sub_433BB0`, `sub_433BC0`, `sub_404420` | todo |  |
@@ -610,14 +604,14 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x477C90 | `PurpleDoom::FindNearestSprite_SpiralSearch_477C90` | 0x447540 | `sub_4BAA70` | todo |  |
 | 0x477F60 | `PurpleDoom::CheckRectForCollisions_477F60` | 0x4477B0 | `sub_4BA5E0` | todo |  |
 | 0x478060 | `PurpleDoom::CheckTileSpritesForClosestMatch_478060` | 0x446B80 | `sub_446940`, `sub_4BBC80`, `sub_416B40`, `sub_446960` | todo |  |
-| 0x478160 | `PurpleDoom::SearchTileColumnForClosestSprite_478160` | 0x446CB0 | ✓ `PurpleDoom::sub_446820` | todo |  |
+| 0x478160 | `PurpleDoom::SearchTileColumnForClosestSprite_478160` | 0x446CB0 | ✓ `PurpleDoom::sub_446820` | done | all 9.6f inlines used |
 | 0x478240 | `PurpleDoom::AddToDrawList_478240` | 0x446D60 | `sub_446950` | todo |  |
 | 0x4782C0 | `PurpleDoom::DoRemove_4782C0` | 0x447850 | `sub_447360`, `sub_447380` | todo |  |
 | 0x478370 | `PurpleDoom::AddToColumnBuckets_478370` | 0x447900 | `sub_447360`, `sub_447380` | todo |  |
 | 0x478440 | `PurpleDoom::AddToSingleBucket_478440` | 0x4479D0 | `sub_447350`, `sub_447370` | todo |  |
 | 0x4784D0 | `PurpleDoom::AddToRowBuckets_4784D0` | 0x447A60 | `sub_447350`, `sub_447370` | todo |  |
 | 0x4785D0 | `PurpleDoom::CheckRowForRectCollisions_4785D0` | 0x446DE0 | ✓ `sub_446940`, ✓ `CanAllocateOfType_446930`, `sub_4B9A30`, ✓ `sub_41E390`, `sub_4BED60`, ✓ `sub_446920` | todo |  |
-| 0x478750 | `PurpleDoom::CheckAndHandleCollisionsInStrip_478750` | 0x446F30 | ✓ `CanAllocateOfType_446930`, ✓ `sub_446920` | todo |  |
+| 0x478750 | `PurpleDoom::CheckAndHandleCollisionsInStrip_478750` | 0x446F30 | ✓ `CanAllocateOfType_446930`, ✓ `sub_446920` | done | all 9.6f inlines used |
 | 0x4787E0 | `PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0` | 0x446FD0 | ✓ `sub_446940`, ✓ `CanAllocateOfType_446930`, `sub_4B9A80`, ✓ `sub_446920` | todo |  |
 | 0x478880 | `PurpleDoom::FindNearestSpriteInRow_478880` | 0x4470B0 | ✓ `sub_446940`, ✓ `CanAllocateOfType_446930`, `sub_4B9A30`, ✓ `sub_446920` | todo |  |
 | 0x478A30 | `Collide_C::ctor_478A30` | 0x4471B0 | `Collide_8_Pool::ctor_4468C0`, `PurpleDoom_C_Pool::ctor_4468F0` | todo |  |
@@ -634,9 +628,9 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x47F3D0 | `Crane_15C::sub_47F3D0` | 0x4487D0 | ✓ `sub_40FEB0`, ✓ `sub_4215B0`, `sub_40F580`, `sub_423A70` | todo |  |
 | 0x47F450 | `Crane_15C::sub_47F450` | 0x448870 | ✓ `sub_40FEB0`, ✓ `sub_4215B0`, `sub_40F580`, `sub_4BEA90` | todo |  |
 | 0x47F7F0 | `Crane_15C::sub_47F7F0` | 0x448980 | `sub_4BEA90`, `sub_4207B0`, `sub_448900` | todo |  |
-| 0x47FB40 | `Crane_15C::sub_47FB40` | 0x448C00 | ✓ `sub_40E790` | todo |  |
+| 0x47FB40 | `Crane_15C::sub_47FB40` | 0x448C00 | ✓ `sub_40E790` | done | all 9.6f inlines used |
 | 0x47FE10 | `Crane_15C::UpdateCraneSprites_47FE10` | 0x448E30 | ✓ `sub_40F540`, `Object_2C::sub_4826A0` (10.5 0x525AE0), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `set_xy_lazy_447E20`, `Zheal_15C::sub_448030`, `sub_447F90`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), `sub_40F680` | todo |  |
-| 0x480310 | `Crane_15C::Service_480310` | 0x449BA0 | ✓ `rng::get_cur_rng_41CFE0`, ✓ `sub_447F40`, ✓ `sub_40FEB0` | todo |  |
+| 0x480310 | `Crane_15C::Service_480310` | 0x449BA0 | ✓ `rng::get_cur_rng_41CFE0`, ✓ `sub_447F40`, ✓ `sub_40FEB0` | done | all 9.6f inlines used |
 | 0x4803B0 | `Crane_15C::InitCrane_4803B0` | 0x449130 | `Zheal_15C::sub_447F60`, `sub_447E90`, `Sprite_Pool::sub_421000`, `struct_4::sub_4207E0` | todo |  |
 | 0x484CF0 | `Shooey_14::ReportCrimeForPedAtLocation` | 0x44A060 | `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::sub_416B50` | todo |  |
 | 0x484FE0 | `Shooey_CC::ReportCrimeForPed` | 0x44A200 | `cool_nash_0x294::get_occupation_403980`, `sub_41B0A0` | todo |  |
@@ -644,12 +638,12 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x488310 | `Crusher_30::sub_488310` | 0x44A420 | `sub_4215B0`, `sub_423310`, `sub_447EB0`, `sub_44A3E0` | todo |  |
 | 0x4887F0 | `CrusherPool_94::CrushersService_4887F0` | 0x44A990 | `sub_44A470` | todo |  |
 | 0x488820 | `CrusherPool_94::CreateCrusher_488820` | 0x44A9C0 | `sub_44A720` | todo |  |
-| 0x48F710 | `Sprite_3CC::InvalidateAllMasks_48F710` | 0x44AFE0 | ✓ `sub_44AF70` | todo |  |
+| 0x48F710 | `Sprite_3CC::InvalidateAllMasks_48F710` | 0x44AFE0 | ✓ `sub_44AF70` | done | all 9.6f inlines used |
 | 0x48F730 | `Sprite_3CC::ctor_48F730` | 0x44B000 | `array_constuctor_401CF0` | todo |  |
 | 0x48F8B0 | `sub_48F8B0` | 0x44B0C0 | `sub_44AF90` | todo |  |
 | 0x495470 | `sub_495470` | 0x495470 | `sub_472C00` (10.5 0x4F78F0), `sub_495220` (10.5 0x54C1A0), `sub_491F10`, `sub_4725B0` (10.5 0x4F7940), `sub_492400` | todo |  |
 | 0x495630 | `Montana::dtor_495630` | 0x44B9E0 | `Montana_4::gdtor_44B970` | todo |  |
-| 0x498D20 | `bk_1::game_pad_read_498D20` | 0x44C070 | ✓ `rng::get_cur_rng_41CFE0` | todo |  |
+| 0x498D20 | `bk_1::game_pad_read_498D20` | 0x44C070 | ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
 | 0x49C6D0 | `Door_38::CanOpen_49C6D0` | 0x44CA70 | `sub_4118D0`, ✓ `sub_44C870` | todo |  |
 | 0x49C7F0 | `Door_38::sub_49C7F0` | 0x44CB80 | `sub_41B0A0` | todo |  |
 | 0x49CC00 | `Door_38::sub_49CC00` | 0x44CC30 | `sub_447E90`, `Object_5C::sub_4852E0` (10.5 0x5299B0) | todo |  |
@@ -659,9 +653,11 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x49D1F0 | `Door_4D4::RegisterDoubleDoor_49D1F0` | 0x44D6F0 | `sub_44CDD0` | todo |  |
 | 0x49D3C0 | `Door_4D4::CheckDoorAccess_49D3C0` | 0x44D1E0 | ✓ `sub_40FEB0`, `sub_44C860`, ✓ `sub_40FEA0`, `sub_433A20` | todo |  |
 | 0x49D4A0 | `Door_4D4::ctor_49D4A0` | 0x44D2E0 | `Door_10_Pool::ctor_44C800` | todo |  |
+| 0x4A7FC0 | `Firefighter_28::sub_4A7FC0` | 0x450CD0 | ✓ `sub_4211C0`, ✓ `sub_4215B0`, ✓ `sub_4214B0`, ✓ `sub_403B70`, `sub_450CC0`, ✓ `Car_BC::sub_41E430`, ✓ `Car_BC::sub_41E440`, ✓ `Car_BC::sub_41E450` | matched | 9.6f compares get_car_velocity_4211C0() (GetLength_41E260, not 453590) and has no (u8) cast |
 | 0x4ABBD0 | `Debug::Init_4ABBD0` | 0x451930 | `Registry::Get_Debug_Setting_4B53B0` (10.5 0x586E90) | todo |  |
 | 0x4ACFA0 | `Frontend::create_4ACFA0` | 0x457830 | `sub_410550`, `unknown_libname_18` (10.5 0x40EF10), `sub_481D10` | todo |  |
 | 0x4AEC00 | `Frontend::sub_4AEC00` | 0x45A250 | `sub_453480` | todo |  |
+| 0x4B2F60 | `Frontend::sub_4B2F60` | 0x459E30 | `sub_4539D0` | matched | The key loop read a local that shadowed field_8_keys; 9.6f's GetFontWidth wrapper (0x4539D0) isn't needed |
 | 0x4B4D00 | `Frontend::LoadMapFilenames_4B4D00` | 0x4556A0 | `sub_453A40` | todo |  |
 | 0x4B4EC0 | `Frontend::sub_4B4EC0` | 0x455850 | `sub_453A60` | todo |  |
 | 0x4B5270 | `Frontend::sub_4B5270` | 0x455B20 | `sub_453A60` | todo |  |
@@ -716,7 +712,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4DA740 | `sub_4DA740` | 0x4620A0 | `sub_4A9270` | todo |  |
 | 0x4DA9F0 | `Net_4DA9F0` | 0x462140 | `sub_461DD0` | todo |  |
 | 0x4DACB0 | `Net_4DACB0` | 0x462440 | `sub_461DA0` | todo |  |
-| 0x4DAD50 | `Net_Set_Local_Player_Inputs_4DAD50` | 0x4624E0 | ✓ `Game_0x40::get_player_4219E0`, ✓ `sub_461DB0` | todo |  |
+| 0x4DAD50 | `Net_Set_Local_Player_Inputs_4DAD50` | 0x4624E0 | ✓ `Game_0x40::get_player_4219E0`, ✓ `sub_461DB0` | done | all 9.6f inlines used |
 | 0x4DAF30 | `do_network_and_local_inputs_4DAF30` | 0x4626D0 | `Game_0x40::get_player_4219E0`, `sub_461DB0` | todo |  |
 | 0x4DB070 | `sub_4DB070` | 0x4620E0 | `Game_0x40::get_player_4219E0` | todo |  |
 | 0x4DB2E0 | `sub_4DB2E0` | 0x461C60 | `lucid_hamilton::sub_45E4F0` (10.5 0x4C5950) | todo |  |
@@ -738,7 +734,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4E0000 | `Map_0x370::sub_4E0000` | 0x4655B0 | `gtx_0x106C::sub_462FD0` | todo |  |
 | 0x4E00A0 | `Map_0x370::GetBlockSpec_4E00A0` | 0x465650 | `gtx_0x106C::sub_462FD0` | todo |  |
 | 0x4E4630 | `Map_0x370::sub_4E4630` | 0x466620 | `sub_42A630` | todo |  |
-| 0x4E4AC0 | `Map_0x370::sub_4E4AC0` | 0x4693A0 | ✓ `sub_420420` | todo |  |
+| 0x4E4820 | `Map_0x370::sub_4E4820` | 0x4667E0 | ✓ `sub_45ADB0`, ✓ `sub_410BF0`, ✓ `sub_45ADA0`, ✓ `sub_45ADC0`, ✓ `sub_45ADD0`, ✓ `sub_4637A0` | matched | Fix16_Rect getters return a copy like 9.6f (0x45ADA0-0x45ADD0), + get_low_z_4637A0; order left,right,top,bottom |
+| 0x4E4AC0 | `Map_0x370::sub_4E4AC0` | 0x4693A0 | ✓ `sub_420420` | done | all 9.6f inlines used |
 | 0x4E4BB0 | `Map_0x370::FindPavementBlockForCoord_4E4BB0` | 0x466910 | `gmp_compressed_map_32::sub_42A830` | todo |  |
 | 0x4E4C30 | `Map_0x370::FindHighestBlockForCoord_4E4C30` | 0x466990 | `gmp_compressed_map_32::sub_42A830` | todo |  |
 | 0x4E4CB0 | `Map_0x370::sub_4E4CB0` | 0x466A00 | `gmp_compressed_map_32::sub_42A830` | todo |  |
@@ -756,7 +753,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4E65A0 | `Map_0x370::sub_4E65A0` | 0x467020 | `sub_463530` | todo |  |
 | 0x4E7FC0 | `Map_0x370::CheckColumnHasSolidAbove_4E7FC0` | 0x463850 | `gmp_compressed_map_32::sub_42A830` | todo |  |
 | 0x4E80A0 | `gmp_compressed_map_32::sub_4E80A0` | 0x463940 | `gmp_compressed_map_32::sub_42A830` | todo |  |
-| 0x4E80E0 | `Map_sub::sub_4E80E0` | 0x463990 | ✓ `sub_463080` | todo |  |
+| 0x4E80E0 | `Map_sub::sub_4E80E0` | 0x463990 | ✓ `sub_463080` | done | all 9.6f inlines used |
 | 0x4E8620 | `Map_0x370::ChangeBlock_4E8620` | 0x463F60 | `gmp_compressed_map_32::sub_42A830` | todo |  |
 | 0x4E87C0 | `Map_0x370::AddNewBlock_4E87C0` | 0x464060 | `gmp_compressed_map_32::sub_42A830` | todo |  |
 | 0x4E8940 | `Map_0x370::RemoveBlock_4E8940` | 0x464110 | `gmp_compressed_map_32::sub_42A830` | todo |  |
@@ -769,11 +766,11 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4F7AE0 | `rng::get_int_4F7AE0` | 0x472E00 | `rng::get_cur_rng_41CFE0` | todo |  |
 | 0x4F7B70 | `rng::get_uint8_4F7B70` | 0x472E90 | `rng::get_cur_rng_41CFE0` | todo |  |
 | 0x4FA330 | `Ambulance_110::HandlePedDeath_4FA330` | 0x473010 | `cool_nash_0x294::sub_403990` | todo |  |
-| 0x4FA7D0 | `Ambulance_20::ClearTask_4FA7D0` | 0x473140 | ✓ `Ped_Unknown_4::ClearList_420E90` | todo |  |
+| 0x4FA7D0 | `Ambulance_20::ClearTask_4FA7D0` | 0x473140 | ✓ `Ped_Unknown_4::ClearList_420E90` | done | all 9.6f inlines used |
 | 0x4FA820 | `Ambulance_20::SpawnParamedicCrew_4FA820` | 0x473170 | `sub_43DF60`, `cool_nash_0x294::sub_403920`, `cool_nash_0x294::set_occupation_403970`, `sub_433BB0`, `sub_433B90`, `sub_404400`, `sub_433360`, `sub_404420`, ✓ `Car_BC::sub_421560` | todo |  |
-| 0x4FA9D0 | `Ambulance_20::EvaluatePickupState_4FA9D0` | 0x473320 | ✓ `cool_nash_0x294::sub_403B60`, ✓ `IsMaxDamage_40F890` | todo |  |
+| 0x4FA9D0 | `Ambulance_20::EvaluatePickupState_4FA9D0` | 0x473320 | ✓ `cool_nash_0x294::sub_403B60`, ✓ `IsMaxDamage_40F890` | done | all 9.6f inlines used |
 | 0x4FFA90 | `Mike_A80::sub_4FFA90` | 0x474C60 | `sub_474430`, `sub_474450` | todo |  |
-| 0x502DC0 | `Miss2_25C::MissionCleanUp_502DC0` | 0x476BC0 | ✓ `Car_BC::sub_421560`, ✓ `sub_4214D0`, ✓ `sub_421470` | todo |  |
+| 0x502DC0 | `Miss2_25C::MissionCleanUp_502DC0` | 0x476BC0 | ✓ `Car_BC::sub_421560`, ✓ `sub_4214D0`, ✓ `sub_421470` | done | all 9.6f inlines used |
 | 0x502FF0 | `Miss2_25C::push_type_2_502FF0` | 0x476D50 | `sub_40FEF0` | todo |  |
 | 0x503130 | `miss2_8::dtor_503130` | 0x476DC0 | `Frismo_C_Pool::sub_476780` | todo |  |
 | 0x503200 | `miss2_0x11C::sub_503200` | 0x47F550 | `sub_476700`, `sub_476730`, `sub_4105B0` | todo |  |
@@ -790,7 +787,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x504830 | `miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830` | 0x477BD0 | `sub_4758A0`, `sub_4758B0`, `sub_4758C0`, `sub_4758D0`, `sub_475940`, `sub_4758E0`, `sub_4758F0`, `sub_475910`, `sub_475950` | todo |  |
 | 0x504970 | `miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970` | 0x477D20 | `sub_476990`, `sub_476A10`, `sub_476A20` | todo |  |
 | 0x504B80 | `miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80` | 0x477EE0 | `sub_4769E0`, `sub_476A00`, `sub_4769A0`, `sub_4769C0`, `sub_476990`, `sub_476A10`, `sub_476A20` | todo |  |
-| 0x504EE0 | `miss2_0x11C::CreateLight_504EE0` | 0x47F710 | ✓ `sub_469010` (10.5 0x52B2A0), ✓ `Light_1D4CC::sub_469070` | todo |  |
+| 0x504EE0 | `miss2_0x11C::CreateLight_504EE0` | 0x47F710 | ✓ `sub_469010` (10.5 0x52B2A0), ✓ `Light_1D4CC::sub_469070` | done | all 9.6f inlines used |
 | 0x5051D0 | `miss2_0x11C::SCRCMD_RADIOSTATION_DEC_5051D0` | 0x4753B0 | `unknown_libname_9` | todo |  |
 | 0x505790 | `miss2_0x11C::DisableThread_505790` | 0x478240 | ✓ `sub_475A80`, `sub_420B60`, `sub_4768C0`, `sub_4218E0` | todo |  |
 | 0x505B10 | `miss2_0x11C::DeallocOrDeleteItem_505B10` | 0x47F760 | ✓ `sub_421470`, ✓ `sub_47F4F0`, `unknown_libname_10` | todo |  |
@@ -824,7 +821,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x50BA30 | `miss2_0x11C::SCRCMD_CLEAR_WANTED_LEVEL_50BA30` | 0x47BA80 | `sub_475AF0`, `sub_475AE0` | todo |  |
 | 0x50BA70 | `miss2_0x11C::SCRCMD_ALT_WANTED_LEVEL_50BA70` | 0x47B7B0 | `cool_nash_0x294::sub_434D60` | todo |  |
 | 0x50BC60 | `miss2_0x11C::SCRCMD_CHECK_NUM_ALIVE_50BC60` | 0x47C050 | `sub_433B60`, `sub_433B70` | todo |  |
-| 0x50BD10 | `miss2_0x11C::sub_50BD10` | 0x47BAC0 | ✓ `sub_475AF0` | todo |  |
+| 0x50BD10 | `miss2_0x11C::sub_50BD10` | 0x47BAC0 | ✓ `sub_475AF0` | done | all 9.6f inlines used |
 | 0x50BE00 | `miss2_0x11C::SCRCMD_HAS_CAR_WEAPON_50BE00` | 0x47BBE0 | `cool_nash_0x294::has_car_403B80`, `cool_nash_0x294::get_car_416B60`, `sub_411970` | todo |  |
 | 0x50BED0 | `miss2_0x11C::SCRCMD_CHECK_MAX_PASS_50BED0` | 0x47BC50 | `cool_nash_0x294::has_car_403B80`, `cool_nash_0x294::get_car_416B60` | todo |  |
 | 0x50C350 | `miss2_0x11C::SCRCMD_GET_LAST_PUNCHED_50C350` | 0x47C000 | `sub_475B10`, `sub_475B40` | todo |  |
@@ -857,8 +854,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x5108D0 | `miss2_0x11C::PreExecOpCode_5108D0` | 0x4805B0 | `sub_479850`, `sub_479F10`, `sub_47B5E0`, `sub_47B810`, `sub_47BCD0`, `sub_47BE00`, `sub_47D070`, `sub_47DE70`, `sub_47E360` | todo |  |
 | 0x511E10 | `frosty_pasteur_0xC1EA8::SaveGame_511E10` | 0x47EF40 | `sub_483D90`, `lucid_hamilton::sub_453A80`, `sub_475CA0` | todo |  |
 | 0x511F80 | `frosty_pasteur_0xC1EA8::LoadSave_511F80` | 0x47F0B0 | `sub_47EF10`, `sub_476B10` | todo |  |
-| 0x5120C0 | `sub_5120C0` | 0x47F200 | ✓ `miss2_0x11C_Pool::sub_4767A0` | todo |  |
-| 0x512160 | `frosty_pasteur_0xC1EA8::Update_512160` | 0x481890 | ✓ `miss2_0x11C_Pool::sub_4767A0` | todo |  |
+| 0x5120C0 | `sub_5120C0` | 0x47F200 | ✓ `miss2_0x11C_Pool::sub_4767A0` | done | all 9.6f inlines used |
+| 0x512160 | `frosty_pasteur_0xC1EA8::Update_512160` | 0x481890 | ✓ `miss2_0x11C_Pool::sub_4767A0` | done | all 9.6f inlines used |
 | 0x512AF0 | `frosty_pasteur_0xC1EA8::sub_512AF0` | 0x476400 | `sub_4759C0`, `sub_4759A0` | todo |  |
 | 0x512BA0 | `frosty_pasteur_0xC1EA8::sub_512BA0` | 0x4764D0 | `sub_4759C0`, `sub_4759A0` | todo |  |
 | 0x512C00 | `frosty_pasteur_0xC1EA8::sub_512C00` | 0x476530 | `sub_4759C0`, `sub_4759A0` | todo |  |
@@ -896,13 +893,13 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x5235B0 | `Object_2C::HandleSpriteGroundAndCollision_5235B0` | 0x484090 | ✓ `sub_466CF0`, `sub_4699A0` (10.5 0x4E4F40), `sub_483100`, ✓ `sub_420420`, `sub_4BD670`, `sub_4207B0`, `sub_483500` | todo |  |
 | 0x5257D0 | `Object_2C::UpdateAninmation_5257D0` | 0x485FD0 | `sub_4206C0`, `sub_482C10` | todo |  |
 | 0x525AE0 | `Object_2C::CheckCollisionForModel_139_And_141_525AE0` | 0x4826A0 | `sub_447BD0` (10.5 0x477B00), `PurpleDoom::sub_447C40` (10.5 0x477B60) | todo |  |
-| 0x525B80 | `Object_2C::UpdatePhysicsAndMovement_525B80` | 0x487A30 | ✓ `sub_482730`, ✓ `sub_421080`, ✓ `sub_420FF0`, ✓ `sub_420F10` | todo |  |
+| 0x525B80 | `Object_2C::UpdatePhysicsAndMovement_525B80` | 0x487A30 | ✓ `sub_482730`, ✓ `sub_421080`, ✓ `sub_420FF0`, ✓ `sub_420F10` | done | all 9.6f inlines used |
 | 0x525D90 | `Object_2C::UpdatePhysicsMovementAndAnimation_525D90` | 0x487BC0 | ✓ `sub_482730`, ✓ `sub_421080`, `sub_420FF0` | todo |  |
 | 0x5263D0 | `Object_2C::Service_5263D0` | 0x487E80 | `Object_2C::sub_4826A0` (10.5 0x525AE0) | todo |  |
 | 0x526790 | `Object_2C::TriggerCarExplosionIfApplicable_526790` | 0x4837F0 | ✓ `sub_475A80`, `sub_482C10`, `sub_482400`, ✓ `sub_40FEB0`, ✓ `sub_420FF0`, ✓ `sub_420F10` | todo |  |
 | 0x527630 | `Object_2C::InitializeObject_527630` | 0x483990 | `Phi_74::sub_488EF0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, `sub_482A30` | todo |  |
 | 0x528240 | `Object_2C::HandleRotationStateTransition_528240` | 0x483A20 | `sub_4BED60` | todo |  |
-| 0x5288B0 | `Object_2C::OnObjectTouched_5288B0` | 0x483B50 | ✓ `sub_40FEA0`, ✓ `sub_40FEB0` | todo |  |
+| 0x5288B0 | `Object_2C::OnObjectTouched_5288B0` | 0x483B50 | ✓ `sub_40FEA0`, ✓ `sub_40FEB0` | done | all 9.6f inlines used |
 | 0x528900 | `Object_2C::HandleWaterDeath_528900` | 0x483BA0 | `rng::get_cur_rng_41CFE0`, `sub_4BDDD0`, `sub_420660` | todo |  |
 | 0x528990 | `Object_2C::HandleObjectHit_528990` | 0x486390 | ✓ `sub_40FEA0`, `sub_4932D0` (10.5 0x545430), ✓ `sub_40FEB0`, `sub_4274C0`, ✓ `sub_40FEC0`, `sub_420FF0`, `sub_420F10` | todo |  |
 | 0x528A20 | `Object_2C::ProcessObjectExplosionImpact_528A20` | 0x485B00 | `sub_483C80`, ✓ `sub_420F10`, `sub_482790`, `sub_420FF0` | todo |  |
@@ -918,8 +915,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x5297F0 | `Object_5C::sub_5297F0` | 0x485ED0 | `sub_447E90` | todo |  |
 | 0x529950 | `Object_5C::NewTouchPoint_529950` | 0x485290 | `sub_482A40` | todo |  |
 | 0x5299F0 | `Object_5C::sub_5299F0` | 0x485320 | `sub_482C00` | todo |  |
-| 0x529A40 | `Object_5C::NewLight_529A40` | 0x485370 | ✓ `sub_482D60` | todo |  |
-| 0x529AB0 | `Object_5C::NewLight_529AB0` | 0x4853C0 | ✓ `sub_482D60` | todo |  |
+| 0x529A40 | `Object_5C::NewLight_529A40` | 0x485370 | ✓ `sub_482D60` | done | all 9.6f inlines used |
+| 0x529AB0 | `Object_5C::NewLight_529AB0` | 0x4853C0 | ✓ `sub_482D60` | done | all 9.6f inlines used |
 | 0x529C00 | `Object_5C::New_529C00` | 0x484E00 | `Object_2C_Pool::sub_4829A0`, `Object_2C_Pool::sub_4829C0`, `sub_482790`, `Object_2C_Pool::sub_484D60`, `Object_2C_Pool::sub_484DB0`, `sub_4BED60`, `Object_8_Pool::sub_483FA0`, `Object_3C_Pool::sub_483FE0`, ✓ `check_is_shop_421060`, `sub_447E90` | todo |  |
 | 0x52A2C0 | `Object_5C::New_52A2C0` | 0x485180 | `Object_3C_Pool::sub_483FE0` | todo |  |
 | 0x52A3D0 | `Object_5C::CreateExplosion_52A3D0` | 0x485540 | `sub_482A90`, `Object_3C_Pool::sub_483FE0` | todo |  |
@@ -930,12 +927,12 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x52B2A0 | `Light_1D4CC::sub_52B2A0` | 0x469010 | `sub_464C40`, `sub_463F10`, `nostalgic_ellis_0x28::sub_45B2D0` | todo |  |
 | 0x5331A0 | `Phi_74::ApplyDefinitionToSprite_5331A0` | 0x4883A0 | `Car_3C::SetType_4206F0`, `sub_4206C0`, `sub_40F7B0`, `sub_488200` | todo |  |
 | 0x538A40 | `Particle_4C::sub_538A40` | 0x48B4D0 | ✓ `sub_4206C0`, `sub_4337D0`, `sub_4337F0` | todo |  |
-| 0x53A180 | `Particle_4C::sub_53A180` | 0x48BE60 | ✓ `sub_4206C0` | todo |  |
-| 0x53B580 | `Particle_4C::sub_53B580` | 0x48C790 | ✓ `sub_4206E0`, ✓ `sub_4206C0`, ✓ `sub_4337F0` | todo |  |
+| 0x53A180 | `Particle_4C::sub_53A180` | 0x48BE60 | ✓ `sub_4206C0` | done | all 9.6f inlines used |
+| 0x53B580 | `Particle_4C::sub_53B580` | 0x48C790 | ✓ `sub_4206E0`, ✓ `sub_4206C0`, ✓ `sub_4337F0` | done | all 9.6f inlines used |
 | 0x53B9F0 | `Particle_4C::sub_53B9F0` | 0x48C800 | `sub_4206E0`, `sub_4337D0`, `sub_4337F0`, `sub_4BDEF0` | todo |  |
 | 0x53E2E0 | `Particle_4C::sub_53E2E0` | 0x48C8F0 | `sub_433800`, `sub_4337D0`, `Sprite_Pool::sub_421030` | todo |  |
 | 0x53E3C0 | `Particle_8::sub_53E3C0` | 0x48C930 | `sub_48A8F0`, `sub_48A8D0`, `sub_48A900`, `Sprite_Pool::sub_421000` | todo |  |
-| 0x53E880 | `Particle_8::SpawnBlood_53E880` | 0x48CC50 | ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0`, ✓ `sub_40F7B0` | todo |  |
+| 0x53E880 | `Particle_8::SpawnBlood_53E880` | 0x48CC50 | ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0`, ✓ `sub_40F7B0` | done | all 9.6f inlines used |
 | 0x5405D0 | `sub_5405D0` | 0x48DFC0 | `sub_48A8F0`, `sub_48A900`, `Sprite_Pool::sub_421000`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0`, ✓ `sub_4337F0` | todo |  |
 | 0x5439D0 | `Particle_8::ctor_5439D0` | 0x491B90 | `Particle_4C_Pool::ctor_48F1E0` | todo |  |
 | 0x543A60 | `Particle_8::dtor_543A60` | 0x491C20 | `Particle_4C_Pool::gdtor_48F1C0` | todo |  |
@@ -950,11 +947,11 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x54C900 | `Char_B4::TickMovementStateMachine_54C900` | 0x495700 | `sub_4955F0`, `sub_4920A0`, `sub_40EAB0` | todo |  |
 | 0x54DD70 | `Char_B4::sub_54DD70` | 0x4958E0 | `sub_433CA0` | todo |  |
 | 0x550090 | `Char_B4::CanReachTile_550090` | 0x492420 | `sub_491EE0`, ✓ `sub_491F00`, ✓ `sub_491EF0`, `sub_492190` | todo |  |
-| 0x551400 | `Char_B4::ChooseNextMovementTile_551400` | 0x492D00 | ✓ `sub_492CE0`, ✓ `sub_492CF0` | todo |  |
+| 0x551400 | `Char_B4::ChooseNextMovementTile_551400` | 0x492D00 | ✓ `sub_492CE0`, ✓ `sub_492CF0` | done | all 9.6f inlines used |
 | 0x551A00 | `Char_B4::state_3_551A00` | 0x49BAD0 | ✓ `sub_433CA0`, `sub_416B40`, ✓ `cool_nash_0x294::get_target_to_enter_403B10`, ✓ `is_on_trailer_421720`, ✓ `cool_nash_0x294::get_target_car_door_403A60` | todo |  |
 | 0x551B30 | `Char_B4::state_4_551B30` | 0x496800 | `cool_nash_0x294::get_target_car_door_403A60` | todo |  |
-| 0x551BB0 | `Char_B4::state_5_551BB0` | 0x49BC20 | ✓ `sub_433CA0`, ✓ `cool_nash_0x294::get_target_car_door_403A60` | todo |  |
-| 0x552E90 | `Char_B4::state_9_552E90` | 0x49C120 | ✓ `cool_nash_0x294::sub_403A40`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `sub_40F7B0` | todo |  |
+| 0x551BB0 | `Char_B4::state_5_551BB0` | 0x49BC20 | ✓ `sub_433CA0`, ✓ `cool_nash_0x294::get_target_car_door_403A60` | done | all 9.6f inlines used |
+| 0x552E90 | `Char_B4::state_9_552E90` | 0x49C120 | ✓ `cool_nash_0x294::sub_403A40`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `sub_40F7B0` | done | all 9.6f inlines used |
 | 0x5532C0 | `Char_B4::sub_5532C0` | 0x497410 | `sub_4937D0`, `sub_493810` | todo |  |
 | 0x5535B0 | `Char_B4::PhoneTouched_5535B0` | 0x4930C0 | `sub_420B60` | todo |  |
 | 0x553640 | `Char_B4::OnObjectTouched_553640` | 0x4930F0 | ✓ `check_is_shop_421060`, `sub_421050`, `sub_433A20`, `sub_493090` | todo |  |
@@ -965,9 +962,10 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x559E20 | `CarPhysics_B0::ApplyObjectImpact_559E20` | 0x49F460 | `sub_493090`, `sub_49EF50` | todo |  |
 | 0x55A100 | `CarPhysics_B0::GetTrailerAwareTurnRatio_55A100` | 0x49F720 | `Car_BC::has_trailer_41E460` | todo |  |
 | 0x55C150 | `CarPhysics_B0::TestCollision_55C150` | 0x4A0020 | `sub_4BD670`, `sub_49EF10` | todo |  |
-| 0x55CA70 | `CarPhysics_B0::DispatchCollision_55CA70` | 0x4A4170 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0` | todo |  |
+| 0x55CA70 | `CarPhysics_B0::DispatchCollision_55CA70` | 0x4A4170 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0` | done | all 9.6f inlines used |
 | 0x55E260 | `CarPhysics_B0::DoSkidmarks_55E260` | 0x4A0560 | `sub_4A0290` | todo |  |
 | 0x55EC30 | `CarPhysics_B0::ApplyForwardEngineForce_55EC30` | 0x4A2A30 | `sub_49E330`, `sub_420390` | todo |  |
+| 0x55F020 | `CarPhysics_B0::ApplyTurningForce_55F020` | 0x4A2C70 | ✓ `sub_40FEC0`, `sub_4118D0`, `sub_40F600`, ✓ `sub_40F6B0`, `sub_49E330`, `sub_420390` | matched | Force goes through the exported Multiply_438FE0, not the inline operator* (whose visible body dropped an EH state store) |
 | 0x55F360 | `CarPhysics_B0::CheckPendingCollision_55F360` | 0x4A2DB0 | `sub_414F70`, `sub_49EFD0` | todo |  |
 | 0x55F9A0 | `CarPhysics_B0::ApplyForceScaledByMass_55F9A0` | 0x4A0930 | `sub_40F680` | todo |  |
 | 0x5610B0 | `CarPhysics_B0::IntegrateAndClampVelocities_5610B0` | 0x4A0CC0 | `sub_40F680`, ✓ `ApplyDeadZone_49E3C0`, ✓ `sub_482730` | todo |  |
@@ -979,15 +977,15 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x563900 | `CarPhysics_B0::ctor_563900` | 0x4A1D60 | `CarPhysics_B0::sub_4A1CF0` | todo |  |
 | 0x564710 | `Player::SetKFCarWeapon_564710` | 0x4A5220 | `sub_4A4FE0`, `sub_4A4F90` | todo |  |
 | 0x564790 | `Player::SetKFWeapon_564790` | 0x4A52B0 | `sub_4A4FE0`, `sub_4A4F90` | todo |  |
-| 0x5647D0 | `Player::ClearKFWeapon_5647D0` | 0x4A5300 | ✓ `sub_433820`, ✓ `sub_4A4FF0`, ✓ `Weapon_30_Pool::sub_4A4F20` | todo |  |
+| 0x5647D0 | `Player::ClearKFWeapon_5647D0` | 0x4A5300 | ✓ `sub_433820`, ✓ `sub_4A4FF0`, ✓ `Weapon_30_Pool::sub_4A4F20` | done | all 9.6f inlines used |
 | 0x564960 | `Player::AddWeaponWithAmmo_564960` | 0x4A5400 | `angry_lewin_0x85C::Get_Field_68_Ped_4A5130`, `cool_nash_0x294::get_car_416B60`, `sub_4A53D0` | todo |  |
-| 0x5649D0 | `Player::SelectNextOrPrevWeapon_5649D0` | 0x4A5460 | ✓ `angry_lewin_0x85C::Get_Field_68_Ped_4A5130`, ✓ `cool_nash_0x294::get_car_416B60`, ✓ `keen_bhaskara_0x30::sub_4A4F80` | todo |  |
+| 0x5649D0 | `Player::SelectNextOrPrevWeapon_5649D0` | 0x4A5460 | ✓ `angry_lewin_0x85C::Get_Field_68_Ped_4A5130`, ✓ `cool_nash_0x294::get_car_416B60`, ✓ `keen_bhaskara_0x30::sub_4A4F80` | done | all 9.6f inlines used |
 | 0x564C00 | `Player::sub_564C00` | 0x4A5640 | `angry_lewin_0x85C::sub_4A5600` | todo |  |
 | 0x564C50 | `Player::RemovePlayerWeapons_564C50` | 0x4A5690 | `keen_bhaskara_0x30::sub_4A4F80` | todo |  |
 | 0x564CF0 | `Player::sub_564CF0` | 0x4A5710 | `cool_nash_0x294::sub_435F00`, `sub_482080` | todo |  |
 | 0x564D60 | `Player::CollectPowerUp_564D60` | 0x4A5780 | `thirsty_lamarr::sub_41DC30`, `sub_4766B0`, `sub_4A4D50`, `sub_433B70`, `sub_4A5050`, `cool_nash_0x294::get_wanted_points_433DC0` (10.5 0x592370), `cool_nash_0x294::sub_420B80`, `sub_4A5060`, `sub_4A5020` | todo |  |
 | 0x565070 | `Player::sub_565070` | 0x4A59A0 | `cool_nash_0x294::sub_435F00`, `sub_482080` | todo |  |
-| 0x565310 | `Player::TeleportToDebugCam_565310` | 0x4A5AD0 | ✓ `DrawUnk_0xBC::sub_475B60` | todo |  |
+| 0x565310 | `Player::TeleportToDebugCam_565310` | 0x4A5AD0 | ✓ `DrawUnk_0xBC::sub_475B60` | done | all 9.6f inlines used |
 | 0x565490 | `Player::InitPlayerPed_565490` | 0x4A5B40 | `cool_nash_0x294::sub_435C40` | todo |  |
 | 0x565890 | `Player::Hud_Controls_565890` | 0x4A7010 | `angry_lewin_0x85C::sub_41DC70`, `sub_4A4770`, `sub_4C8A20`, `DrawUnk_0xBC::sub_475B60`, `sub_4A5070`, `sub_4A4750`, `cool_nash_0x294::sub_435F40`, `angry_lewin_0x85C::sub_4A6FD0`, `sub_4A4760`, `sub_4A4940`, `angry_lewin_0x85C::sub_4A49B0`, `cool_nash_0x294::sub_420B80` | todo |  |
 | 0x5668D0 | `Player::HandleControls_5668D0` | 0x4A76D0 | `cool_nash_0x294::get_car_416B60`, `cool_nash_0x294::sub_403990`, `cool_nash_0x294::has_car_403B80`, `cool_nash_0x294::get_objective_403A80`, ✓ `Car_BC::sub_403BA0`, `cool_nash_0x294::set_target_objective_car_403AA0`, `cool_nash_0x294::set_enter_car_as_passenger_4039B0`, `cool_nash_0x294::set_target_car_door_403A70`, `cool_nash_0x294::sub_4039E0`, `cool_nash_0x294::get_target_objective_car_403AB0`, `sub_4A5030`, `cool_nash_0x294::sub_4A5010`, `cool_nash_0x294::sub_403A40`, `cool_nash_0x294::not_enter_car_as_passenger_4A5040` | todo |  |
@@ -1002,10 +1000,10 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x569530 | `Player::sub_569530` | 0x4A62B0 | `cool_nash_0x294::get_car_416B60`, `sub_475C80` | todo |  |
 | 0x5695A0 | `Player::sub_5695A0` | 0x4A6310 | `angry_lewin_0x85C::sub_4A5100`, `DrawUnk_0xBC::sub_475B60` | todo |  |
 | 0x569600 | `Player::sub_569600` | 0x4A6350 | `cool_nash_0x294::sub_403920`, `cool_nash_0x294::set_occupation_403970`, `cool_nash_0x294::sub_435C40`, `cool_nash_0x294::sub_436040`, `Car_BC::sub_475C10`, ✓ `DrawUnk_0xBC::CommitCameraTarget_41E410` | todo |  |
-| 0x5696D0 | `Player::sub_5696D0` | 0x4A6400 | ✓ `DrawUnk_0xBC::CommitCameraTarget_41E410` | todo |  |
+| 0x5696D0 | `Player::sub_5696D0` | 0x4A6400 | ✓ `DrawUnk_0xBC::CommitCameraTarget_41E410` | done | all 9.6f inlines used |
 | 0x569920 | `Player::get_pos_569920` | 0x4A6610 | `sub_4A5150`, `Car_BC::sub_41E430`, `Car_BC::sub_41E440`, `Car_BC::sub_41E450`, `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::sub_416B50`, `angry_lewin_0x85C::get_camera_434900`, `sub_4A5090` | todo |  |
 | 0x569CB0 | `Player::DoRestartZone_569CB0` | 0x4A81E0 | `sub_475A20`, ✓ `DrawUnk_0xBC::sub_475B60`, ✓ `DrawUnk_0xBC::CommitCameraTarget_41E410`, `angry_lewin_0x85C::sub_41DC70` | todo |  |
-| 0x569E70 | `Player::sub_569E70` | 0x4A8340 | ✓ `angry_lewin_0x85C::sub_4A5100` | todo |  |
+| 0x569E70 | `Player::sub_569E70` | 0x4A8340 | ✓ `angry_lewin_0x85C::sub_4A5100` | done | all 9.6f inlines used |
 | 0x569F40 | `Player::DisableInputs_569F40` | 0x4A6900 | `cool_nash_0x294::sub_403A40`, `cool_nash_0x294::get_car_416B60`, `cool_nash_0x294::not_enter_car_as_passenger_4A5040`, ✓ `Car_BC::sub_403BA0` | todo |  |
 | 0x56A1A0 | `Player::CopyPlayerDataToSave_56A1A0` | 0x4A6B20 | `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::sub_416B50`, `sub_421980`, `angry_lewin_0x85C::sub_4766A0`, `sub_433B70`, `cool_nash_0x294::get_remap_433BA0`, `sub_4766C0`, ✓ `sub_4A4FB0` | todo |  |
 | 0x56A310 | `Player::UpdateGameFromSave_56A310` | 0x4A6C80 | `sub_4A50B0`, `sub_4A50E0`, `cool_nash_0x294::set_health_4039A0`, `cool_nash_0x294::sub_420B80` | todo |  |
@@ -1029,10 +1027,11 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x570E30 | `PoliceCrew_38::SpawnSWAT_570E30` | 0x4AB060 | `sub_43DF60`, `cool_nash_0x294::sub_403920`, `cool_nash_0x294::set_occupation_403970`, `sub_433B90`, `cool_nash_0x294::set_health_4039A0`, `sub_404400`, `sub_433360`, `sub_404420`, ✓ `Car_BC::sub_421560` | todo |  |
 | 0x571150 | `PoliceCrew_38::SpawnFBI_nonused_571150` | 0x4AB220 | `sub_43DF60`, `cool_nash_0x294::sub_403920`, `cool_nash_0x294::set_occupation_403970`, `sub_433B90`, `cool_nash_0x294::set_health_4039A0`, ✓ `Car_BC::sub_421560` | todo |  |
 | 0x571350 | `PoliceCrew_38::sub_571350` | 0x4AB330 | `cool_nash_0x294::sub_403A30`, `cool_nash_0x294::sub_4039F0` | todo |  |
+| 0x571540 | `PoliceCrew_38::sub_571540` | 0x4AB400 | ✓ `sub_4A9AD0`, ✓ `cool_nash_0x294::sub_403A30`, ✓ `sub_421470`, ✓ `cool_nash_0x294::sub_4039F0` | matched | Third car branch is `sub_421470()` + the shared 28/2C tail; Get_F76/Get_F20E/ClearGroupAndGroupIdx inlines |
 | 0x572340 | `PoliceCrew_38::State3_Arrest_572340` | 0x4AC080 | `sub_421470`, `cool_nash_0x294::get_objective_403A80`, `sub_472FD0`, `cool_nash_0x294::set_target_objective_car_403AA0`, `sub_450CB0` | todo |  |
 | 0x574F10 | `PoliceCrew_38::State1_574F10` | 0x4AD310 | `sub_421550`, `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::sub_416B50`, `cool_nash_0x294::sub_403A40`, `cool_nash_0x294::get_objective_403A80`, `cool_nash_0x294::set_target_objective_car_403AA0`, `sub_403960`, `sub_450CB0` | todo |  |
 | 0x575210 | `PoliceCrew_38::sub_575210` | 0x4AB9D0 | ✓ `sub_450CB0`, `sub_421540` | todo |  |
-| 0x575270 | `PoliceCrew_38::sub_575270` | 0x4ABA30 | ✓ `sub_450CB0` | todo |  |
+| 0x575270 | `PoliceCrew_38::sub_575270` | 0x4ABA30 | ✓ `sub_450CB0` | done | all 9.6f inlines used |
 | 0x5752C0 | `PoliceCrew_38::sub_5752C0` | 0x4ABA90 | `sub_450CB0` | todo |  |
 | 0x575590 | `PoliceCrew_38::Service_575590` | 0x4AD600 | `cool_nash_0x294::sub_403990`, `cool_nash_0x294::sub_433B40`, `sub_404400` | todo |  |
 | 0x5757B0 | `PoliceRoadblock_A4::sub_5757B0` | 0x4AD6C0 | `cool_nash_0x294::sub_433B40`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::get_cam_x_403A00`, `MaxAbsDistance_42A6B0` | todo |  |
@@ -1041,7 +1040,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x578360 | `Train_58::sub_578360` | 0x4AFAF0 | `sub_411940` | todo |  |
 | 0x579A30 | `PublicTransport_181C::sub_579A30` | 0x4B0D70 | `Car_BC::sub_421D90` | todo |  |
 | 0x579B90 | `PublicTransport_181C::sub_579B90` | 0x4B0DF0 | `Car_BC::sub_4118C0` | todo |  |
-| 0x57B540 | `PublicTransport_181C::GetLeadTrainCar_57B540` | 0x4B1B40 | ✓ `Car_BC::sub_403BA0` | todo |  |
+| 0x57B540 | `PublicTransport_181C::GetLeadTrainCar_57B540` | 0x4B1B40 | ✓ `Car_BC::sub_403BA0` | done | all 9.6f inlines used |
 | 0x57F090 | `sound_obj::IsPoliceOrServiceVehicle_57F090` | 0x4B2510 | `sub_411940` | todo |  |
 | 0x582310 | `Car_14::ctor_582310` | 0x4B3490 | `Car_14_18::ctor_41D070` | todo |  |
 | 0x583670 | `Car_14::GenerateTraffic_583670` | 0x4B4E60 | `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `sub_433E90` | todo |  |
@@ -1049,8 +1048,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x588810 | `RouteFinder::RoadOff_588810` | 0x40E1B0 | `sub_40CE90`, ✓ `Disable_40CEC0` | todo |  |
 | 0x588950 | `RouteFinder::RoadOn_588950` | 0x40E2F0 | `sub_40CE90`, ✓ `Enable_40CEB0` | todo |  |
 | 0x588B30 | `RouteFinder::Load_RGEN_588B30` | 0x40D250 | `sub_40CE90` | todo |  |
-| 0x588E60 | `RouteFinder::sub_588E60` | 0x40D390 | ✓ `sub_40CF20` | todo |  |
-| 0x588F30 | `RouteFinder::sub_588F30` | 0x40D450 | ✓ `sub_40CF20` | todo |  |
+| 0x588E60 | `RouteFinder::sub_588E60` | 0x40D390 | ✓ `sub_40CF20` | done | all 9.6f inlines used |
+| 0x588F30 | `RouteFinder::sub_588F30` | 0x40D450 | ✓ `sub_40CF20` | done | all 9.6f inlines used |
 | 0x5895C0 | `RouteFinder::sub_5895C0` | 0x40D7D0 | `sub_40CE90`, `sub_40CEA0` | todo |  |
 | 0x5899C0 | `RouteFinder::sub_5899C0` | 0x40DB70 | `sub_40CE90`, `sub_40CED0`, `sub_40CEA0` | todo |  |
 | 0x589BB0 | `RouteFinder::sub_589BB0` | 0x40DD50 | `sub_40CE90`, `sub_40CED0`, `sub_40CEA0` | todo |  |
@@ -1070,15 +1069,15 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x5935D0 | `eager_benz::ChangeFragsByAmount_5935D0` | 0x4B8A60 | `sub_41DC40` | todo |  |
 | 0x596890 | `ExplodingScore_100::PushScore_596890` | 0x4B91F0 | `CokeZero_FC::sub_4B8FD0` (10.5 0x5935C0), `CokeZero_FC::sub_4B9000`, `CokeZero_FC::sub_4B8FE0` | todo |  |
 | 0x5969E0 | `ExplodingScore_100::DrawExploding_5969E0` | 0x4B98B0 | `CokeZero_FC::sub_4B8FD0` (10.5 0x5935C0) | todo |  |
-| 0x59DDF0 | `Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0` | 0x4BA6C0 | ✓ `sub_4B9FD0` | todo |  |
+| 0x59DDF0 | `Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0` | 0x4BA6C0 | ✓ `sub_4B9FD0` | done | all 9.6f inlines used |
 | 0x59E170 | `Sprite::IsControlledByActivePlayer_59E170` | 0x4BCA80 | `sub_4BAA70`, `sub_40FEB0`, `sub_423480`, `angry_lewin_0x85C::sub_41DC70` | todo |  |
 | 0x59E1D0 | `Sprite::IsOnWater_59E1D0` | 0x4BAA90 | `sub_49E540` | todo |  |
-| 0x59E250 | `Sprite::GetWaterCornerMask_59E250` | 0x4BDD40 | ✓ `sub_4B9F40` | todo |  |
+| 0x59E250 | `Sprite::GetWaterCornerMask_59E250` | 0x4BDD40 | ✓ `sub_4B9F40` | done | all 9.6f inlines used |
 | 0x59E320 | `Sprite::sub_59E320` | 0x4BAB10 | `sub_4BA230` | todo |  |
-| 0x59E590 | `Sprite::CollisionCheck_59E590` | 0x4BCAC0 | ✓ `sub_41E390` | todo |  |
+| 0x59E590 | `Sprite::CollisionCheck_59E590` | 0x4BCAC0 | ✓ `sub_41E390` | done | all 9.6f inlines used |
 | 0x59E7D0 | `Sprite::QuerySpriteCollision_59E7D0` | 0x4BDFE0 | `sub_4B9F30`, `sub_40FEE0` | todo |  |
 | 0x59E8C0 | `Sprite::HandleObjectCollision_59E8C0` | 0x4BAB70 | `sub_40FEC0`, `sub_484DD0` | todo |  |
-| 0x59E9C0 | `Sprite::UpdateCollisionBoundsIfNeeded_59E9C0` | 0x4BCB40 | ✓ `sub_41E390` | todo |  |
+| 0x59E9C0 | `Sprite::UpdateCollisionBoundsIfNeeded_59E9C0` | 0x4BCB40 | ✓ `sub_41E390` | done | all 9.6f inlines used |
 | 0x59F950 | `Sprite::AllocInternal_59F950` | 0x4BCB90 | `Sprite_4C_Pool::sub_4BC9F0`, `Sprite_4C::sub_482980` | todo |  |
 | 0x59F990 | `Sprite::Update_4C_59F990` | 0x4BCBD0 | `Sprite_4C_Pool::sub_4BC9F0`, ✓ `sub_4BA070` | todo |  |
 | 0x59FA40 | `Sprite::UpdateDimensionsFromSpriteIndex_59FA40` | 0x420600 | `Car_3C::sub_4B99F0` | todo |  |
@@ -1142,17 +1141,17 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x5C5F60 | `Montana_2EE4::ctor_5C5F60` | 0x4C4DC0 | `Montana_2EE4::sub_4C4B70` | todo |  |
 | 0x5C86C0 | `Car_214::sub_5C86C0` | 0x4C4F30 | `sub_4C4F10` | todo |  |
 | 0x5CBC90 | `Kfc_30::ReplaceLeaderIfNeeded_5CBC90` | 0x4C5510 | `cool_nash_0x294::sub_403990`, `cool_nash_0x294::get_occupation_403980`, `cool_nash_0x294::set_occupation_403970` | todo |  |
-| 0x5CC1C0 | `Kfc_30::CleanupExpiredEntities_5CC1C0` | 0x4C5A00 | ✓ `sub_4215B0`, ✓ `IsMaxDamage_40F890`, ✓ `sub_4A9AD0`, ✓ `sub_421470`, ✓ `cool_nash_0x294::sub_4039F0`, ✓ `cool_nash_0x294::sub_403B60`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403A30` | todo |  |
+| 0x5CC1C0 | `Kfc_30::CleanupExpiredEntities_5CC1C0` | 0x4C5A00 | ✓ `sub_4215B0`, ✓ `IsMaxDamage_40F890`, ✓ `sub_4A9AD0`, ✓ `sub_421470`, ✓ `cool_nash_0x294::sub_4039F0`, ✓ `cool_nash_0x294::sub_403B60`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403A30` | done | all 9.6f inlines used |
 | 0x5CF910 | `Garox_110C_sub::Draw_5CF910` | 0x4C74A0 | `angry_lewin_0x85C::get_camera_434900` | todo |  |
 | 0x5CF970 | `Garox_27B5_sub::sub_5CF970` | 0x4CA680 | `sub_4A5150`, `angry_lewin_0x85C::sub_4766D0`, `cool_nash_0x294::sub_416B50`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::get_cam_x_403A00`, `Garox_C4::sub_45AFD0` | todo |  |
 | 0x5D00B0 | `Hud_CopHead_C_Array::UpdateWantedLevel_5D00B0` | 0x4C79D0 | `sub_41D020` | todo |  |
-| 0x5D0260 | `Garox_1108_sub::DrawHealth_5D0260` | 0x4C7B70 | ✓ `sub_41D020`, ✓ `sub_433B70` | todo |  |
-| 0x5D03C0 | `ArrowTrace_24::PointToInfoPhone_5D03C0` | 0x4C7CC0 | ✓ `sub_4767C0` | todo |  |
+| 0x5D0260 | `Garox_1108_sub::DrawHealth_5D0260` | 0x4C7B70 | ✓ `sub_41D020`, ✓ `sub_433B70` | done | all 9.6f inlines used |
+| 0x5D03C0 | `ArrowTrace_24::PointToInfoPhone_5D03C0` | 0x4C7CC0 | ✓ `sub_4767C0` | done | all 9.6f inlines used |
 | 0x5D03F0 | `ArrowTrace_24::UpdateAimCoordinates_5D03F0` | 0x4C7CF0 | `sub_461DB0`, `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::sub_416B50`, `cool_nash_0x294::sub_433B40`, `sub_4215B0`, `sub_476830`, `sub_4117B0`, `angry_lewin_0x85C::get_camera_434900` | todo |  |
 | 0x5D0530 | `Hud_Arrow_7C::CheckVisibility_5D0530` | 0x4CA770 | `sub_4C70B0`, `sub_4C7350`, `angry_lewin_0x85C::sub_4766D0`, `sub_4C7340`, `angry_lewin_0x85C::sub_4219D0` | todo |  |
 | 0x5D0C60 | `Hud_Arrow_7C::Service_5D0C60` | 0x4CA860 | `sub_4C7FC0` | todo |  |
 | 0x5D0C90 | `Hud_Arrow_7C::sub_5D0C90` | 0x4C82C0 | `sub_4C6F80`, `sub_4C7050`, `rng::get_cur_rng_41CFE0`, `angry_lewin_0x85C::get_camera_434900` | todo |  |
-| 0x5D0E40 | `Hud_Arrow_7C_Array::IsThereAnyOtherArrowsInSameGang_5D0E40` | 0x4C8470 | ✓ `sub_4C6F80`, ✓ `sub_4C7050` | todo |  |
+| 0x5D0E40 | `Hud_Arrow_7C_Array::IsThereAnyOtherArrowsInSameGang_5D0E40` | 0x4C8470 | ✓ `sub_4C6F80`, ✓ `sub_4C7050` | done | all 9.6f inlines used |
 | 0x5D0E90 | `Hud_Arrow_7C_Array::sub_5D0E90` | 0x4C84C0 | `sub_434B10`, `sub_4C6F30`, `sub_41D020` | todo |  |
 | 0x5D0EF0 | `Hud_Arrow_7C_Array::sub_5D0EF0` | 0x4C8540 | `sub_4C6F80` | todo |  |
 | 0x5D0F40 | `Hud_Arrow_7C_Array::IsThereAnyMissionPhoneArrowForGang_5D0F40` | 0x4C8590 | `sub_4C6F80` | todo |  |
@@ -1160,8 +1159,9 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x5D0FD0 | `Hud_Arrow_7C_Array::UpdateArrows_5D0FD0` | 0x4CA890 | `sub_4C6F80` | todo |  |
 | 0x5D1050 | `Hud_Arrow_7C_Array::AllocArrow_5D1050` | 0x4CA8E0 | `sub_4CA610`, `sub_4C6FF0` | todo |  |
 | 0x5D13C0 | `Garox_12EC_sub::IsOnQuitMessage_5D13C0` | 0x4C8690 | `angry_lewin_0x85C::sub_41DC70`, `sub_434B10`, `angry_lewin_0x85C::sub_4219D0`, `sub_461DD0` | todo |  |
+| 0x5D16B0 | `Garox_2A25_sub::DrawChatMessages_5D16B0` | 0x4C8910 | ✓ `gtx_0x106C::sub_4539B0` (10.5 0x5D7700), ✓ `rng::get_cur_rng_41CFE0` | matched | GetLineSpacingFromFontType_5D7700_inlined (9.6f 0x4539B0), s32 positions so both go through Fix16(s32) |
 | 0x5D1EB0 | `Garox_1700_L::sub_5D1EB0` | 0x4C8BE0 | `Garox_C4::sub_4C70F0` | todo |  |
-| 0x5D3040 | `Hud_Pager_C_Array::DrawPagers_5D3040` | 0x4C92A0 | ✓ `sub_4C7250`, ✓ `sub_4C7220` | todo |  |
+| 0x5D3040 | `Hud_Pager_C_Array::DrawPagers_5D3040` | 0x4C92A0 | ✓ `sub_4C7250`, ✓ `sub_4C7220` | done | all 9.6f inlines used |
 | 0x5D31F0 | `Hud_Pager_C::CreateTimer_5D31F0` | 0x4C9310 | `sub_4C7170`, `sub_4C7160`, `sub_4C7120` | todo |  |
 | 0x5D3220 | `Hud_Pager_C_Array::AddOnScreenCounter_5D3220` | 0x4C9360 | `sub_4C7160`, `sub_4C7170`, `sub_4C7130` | todo |  |
 | 0x5D5770 | `Garox_1_v2::AnnounceKill_5D5770` | 0x4C9750 | `angry_lewin_0x85C::sub_41DC70`, `sub_4105B0` | todo |  |
@@ -1174,9 +1174,9 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x5D6B00 | `Hud_2B00::sub_5D6B00` | 0x4CA520 | `LangIsJapanese_452E60` | todo |  |
 | 0x5D6C20 | `Hud_2B00::IsBusy_5D6C20` | 0x4CA5D0 | `sub_4C8880` | todo |  |
 | 0x5D6CB0 | `Hud_2B00::sub_5D6CB0` | 0x4CA650 | `sub_4C7CC0` (10.5 0x5D03C0) | todo |  |
-| 0x5D8940 | `CountLineSpacing_5D8940` | 0x4CC0C0 | ✓ `gtx_0x106C::sub_4539B0` (10.5 0x5D7700) | todo |  |
+| 0x5D8940 | `CountLineSpacing_5D8940` | 0x4CC0C0 | ✓ `gtx_0x106C::sub_4539B0` (10.5 0x5D7700) | done | all 9.6f inlines used |
 | 0x5D8E70 | `UpdateWinXY_5D8E70` | 0x4CC580 | `sub_4CB520` | todo |  |
-| 0x5DCD50 | `Weapon_30::dtor_5DCD50` | 0x4CCB10 | ✓ `root_sound::DestroySoundObj_40FE60` | todo |  |
+| 0x5DCD50 | `Weapon_30::dtor_5DCD50` | 0x4CCB10 | ✓ `root_sound::DestroySoundObj_40FE60` | done | all 9.6f inlines used |
 | 0x5DCE40 | `Weapon_30::add_ammo_capped_5DCE40` | 0x4CCB70 | `Weapon_30::sub_4A4FA0` | todo |  |
 | 0x5E3C10 | `Weapon_8::allocate_5E3C10` | 0x4CD770 | `sub_4CC9E0`, `sub_4CCA00`, `sub_4CCA10` | todo |  |
 | 0x5E3CE0 | `Weapon_8::allocate_5E3CE0` | 0x4CD7B0 | `sub_4CC9C0`, `sub_4CCA00`, `sub_4CCA20` | todo |  |
@@ -1190,22 +1190,22 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 |---|---|---|---|---|---|---|---|
 | 0x403A00 | `cool_nash_0x294::get_cam_x_403A00` | 15 |  |  | 25/26 | todo |  |
 | 0x42A6B0 | `MaxAbsDistance_42A6B0` | 103 |  | Source/fix16.hpp:386 | 23/3 | todo |  |
-| 0x40F6B0 | `sub_40F6B0` | 166 |  | Source/Fix16_Point.hpp:77 | 21/0 | todo |  |
 | 0x420600 | `Car_3C::set_xyz_lazy_420600` | 89 | 0x59FA40 MATCH | Source/sprite.hpp:447, Source/sprite.hpp:459 | 21/9 | todo |  |
 | 0x403A10 | `cool_nash_0x294::get_cam_y_403A10` | 15 | 0x4086A0 MATCH |  | 20/26 | todo |  |
+| 0x40F6B0 | `sub_40F6B0` | 166 |  | Source/Fix16_Point.hpp:77 | 20/1 | todo |  |
 | 0x416B50 | `cool_nash_0x294::sub_416B50` | 15 |  |  | 19/17 | todo |  |
 | 0x41FC20 | `PolarToCartesian_41FC20` | 79 |  | Source/ang16.hpp:226 | 19/1 | todo |  |
 | 0x40F890 | `IsMaxDamage_40F890` | 10 |  | Source/Car_BC.hpp:624 | 16/11 | todo |  |
 | 0x41B0A0 | `sub_41B0A0` | 12 |  | Source/Ped.hpp:423 | 16/13 | todo |  |
 | 0x4206C0 | `sub_4206C0` | 23 |  | Source/sprite.hpp:418 | 16/7 | todo |  |
-| 0x4215B0 | `sub_4215B0` | 11 |  | Source/Car_BC.hpp:937 | 16/11 | todo |  |
 | 0x40E8D0 | `sub_40E8D0` | 406 |  |  | 15/0 | todo |  |
 | 0x416B40 | `sub_416B40` | 4 |  | Source/sprite.hpp:279 | 15/11 | todo |  |
 | 0x420690 | `Car_3C::set_ang_lazy_420690` | 36 |  | Source/sprite.hpp:437 | 15/5 | todo |  |
+| 0x4215B0 | `sub_4215B0` | 11 |  | Source/Car_BC.hpp:937 | 15/12 | todo |  |
 | 0x432860 | `sub_432860` | 20 |  | Source/Fix16_Point.hpp:18 | 15/1 | todo |  |
-| 0x40F600 | `sub_40F600` | 60 |  |  | 14/3 | todo |  |
 | 0x466CF0 | `sub_466CF0` | 53 |  | Source/map_0x370.hpp:608 | 14/4 | todo |  |
 | 0x403BA0 | `Car_BC::sub_403BA0` | 32 |  | Source/Car_BC.hpp:605, Source/Car_BC.hpp:956 | 13/12 | todo |  |
+| 0x40F600 | `sub_40F600` | 60 |  |  | 13/4 | todo |  |
 | 0x4206F0 | `Car_3C::SetType_4206F0` | 15 |  | Source/sprite.hpp:402 | 13/4 | todo |  |
 | 0x4207B0 | `sub_4207B0` | 26 |  | Source/sprite.cpp:212 | 12/4 | todo |  |
 | 0x40F540 | `sub_40F540` | 59 |  | Source/ang16.hpp:247, Source/ang16.hpp:252 | 11/2 | todo |  |
@@ -1222,7 +1222,6 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x403990 | `cool_nash_0x294::sub_403990` | 7 |  | Source/Ped.hpp:538 | 8/17 | todo |  |
 | 0x403AE0 | `cool_nash_0x294::sub_403AE0` | 13 |  | Source/Ped.hpp:318 | 8/4 | todo |  |
 | 0x40FEB0 | `sub_40FEB0` | 13 |  | Source/sprite.hpp:284 | 8/27 | todo |  |
-| 0x420390 | `sub_420390` | 135 |  |  | 8/1 | todo |  |
 | 0x421D90 | `Car_BC::sub_421D90` | 86 |  |  | 8/4 | todo |  |
 | 0x433970 | `sub_433970` | 68 |  | Source/char.hpp:142, Source/char.hpp:155 | 8/1 | todo |  |
 | 0x433B40 | `cool_nash_0x294::sub_433B40` | 10 |  | Source/Ped.hpp:533 | 8/13 | todo |  |
@@ -1232,31 +1231,28 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x40EAB0 | `sub_40EAB0` | 81 |  |  | 7/1 | todo |  |
 | 0x40F790 | `sub_40F790` | 22 |  | Source/Fix16_Point.hpp:46 | 7/0 | todo |  |
 | 0x40FEA0 | `sub_40FEA0` | 13 |  | Source/Rozza_C88.hpp:48, Source/sprite.hpp:297 | 7/16 | todo |  |
-| 0x41CFE0 | `rng::get_cur_rng_41CFE0` | 3 |  | Source/rng.hpp:14 | 7/17 | todo |  |
 | 0x41E210 | `sub_41E210` | 76 |  | Source/Fix16_Point.hpp:70, Source/Fix16_Point.hpp:88 | 7/2 | todo |  |
+| 0x420390 | `sub_420390` | 135 |  |  | 7/2 | todo |  |
 | 0x421380 | `Car_10::set_obj_421380` | 10 |  | Source/Car_10.hpp:19 | 7/2 | todo |  |
-| 0x421470 | `sub_421470` | 32 |  | Source/Car_BC.hpp:808 | 7/7 | todo |  |
 | 0x435610 | `sub_435610` | 76 |  |  | 7/0 | todo |  |
 | 0x4BD670 | `sub_4BD670` | 545 |  |  | 7/3 | todo |  |
 | 0x403AA0 | `cool_nash_0x294::set_target_objective_car_403AA0` | 13 |  |  | 6/11 | todo |  |
-| 0x4118D0 | `sub_4118D0` | 23 |  | Source/Car_BC.hpp:537 | 6/3 | todo |  |
-| 0x41E450 | `Car_BC::sub_41E450` | 15 |  | Source/Car_BC.hpp:916 | 6/7 | todo |  |
+| 0x41CFE0 | `rng::get_cur_rng_41CFE0` | 3 |  | Source/rng.hpp:14 | 6/18 | todo |  |
+| 0x421470 | `sub_421470` | 32 |  | Source/Car_BC.hpp:808 | 6/8 | todo |  |
 | 0x421510 | `sub_421510` | 26 |  |  | 6/3 | todo |  |
 | 0x42A630 | `sub_42A630` | 33 |  | Source/fix16.hpp:281 | 6/7 | todo |  |
 | 0x42AB90 | `sub_42AB90` | 8 |  | Source/CarPhysics_B0.hpp:322 | 6/0 | todo |  |
 | 0x4337D0 | `sub_4337D0` | 19 |  |  | 6/3 | todo |  |
 | 0x453A60 | `sub_453A60` | 26 |  |  | 6/5 | todo |  |
 | 0x4CCA80 | `Weapon_30::sub_4CCA80` | 10 |  | Source/Weapon_30.hpp:98 | 6/0 | todo |  |
-| 0x403A30 | `cool_nash_0x294::sub_403A30` | 15 |  | Source/Ped.hpp:249 | 5/8 | todo |  |
 | 0x403A40 | `cool_nash_0x294::sub_403A40` | 16 |  | Source/Ped.hpp:583 | 5/8 | todo |  |
 | 0x40F580 | `sub_40F580` | 36 |  | Source/ang16.hpp:237 | 5/8 | todo |  |
 | 0x40F680 | `sub_40F680` | 33 |  |  | 5/4 | todo |  |
-| 0x40FEC0 | `sub_40FEC0` | 21 |  | Source/sprite.hpp:314 | 5/16 | todo |  |
+| 0x4118D0 | `sub_4118D0` | 23 |  | Source/Car_BC.hpp:537 | 5/4 | todo |  |
 | 0x411900 | `Car_BC::sub_411900` | 11 |  | Source/Car_BC.hpp:837, Source/Car_BC.hpp:983 | 5/3 | todo |  |
 | 0x411940 | `sub_411940` | 7 |  | Source/Car_BC.hpp:634 | 5/11 | todo |  |
 | 0x416B60 | `cool_nash_0x294::get_car_416B60` | 7 |  | Source/Ped.hpp:398 | 5/19 | todo |  |
-| 0x41E430 | `Car_BC::sub_41E430` | 15 |  | Source/Car_BC.hpp:906 | 5/7 | todo |  |
-| 0x41E440 | `Car_BC::sub_41E440` | 15 |  | Source/Car_BC.hpp:911 | 5/7 | todo |  |
+| 0x41E450 | `Car_BC::sub_41E450` | 15 |  | Source/Car_BC.hpp:916 | 5/8 | todo |  |
 | 0x421000 | `Sprite_Pool::sub_421000` | 19 |  | Source/sprite.hpp:694 | 5/6 | todo |  |
 | 0x4219D0 | `angry_lewin_0x85C::sub_4219D0` | 4 |  | Source/Player.hpp:230 | 5/14 | todo |  |
 | 0x42ABA0 | `sub_42ABA0` | 8 |  | Source/CarPhysics_B0.hpp:316 | 5/0 | todo |  |
@@ -1264,17 +1260,20 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x49E5A0 | `sub_49E5A0` | 161 |  |  | 5/0 | todo |  |
 | 0x4BDEF0 | `sub_4BDEF0` | 43 |  |  | 5/1 | todo |  |
 | 0x403960 | `sub_403960` | 15 |  |  | 4/3 | todo |  |
+| 0x403A30 | `cool_nash_0x294::sub_403A30` | 15 |  | Source/Ped.hpp:249 | 4/9 | todo |  |
 | 0x403A70 | `cool_nash_0x294::set_target_car_door_403A70` | 13 |  |  | 4/5 | todo |  |
 | 0x409C40 | `sub_409C40` | 7 |  |  | 4/5 | todo |  |
 | 0x40F640 | `sub_40F640` | 53 | 0x43D5D0 MATCH |  | 4/0 | todo |  |
 | 0x40F7B0 | `sub_40F7B0` | 10 |  | Source/Object_5C.hpp:236, Source/sprite.hpp:508 | 4/8 | todo |  |
-| 0x410BF0 | `sub_410BF0` | 17 |  | Source/fix16.hpp:23 | 4/0 | todo |  |
+| 0x40FEC0 | `sub_40FEC0` | 21 |  | Source/sprite.hpp:314 | 4/17 | todo |  |
 | 0x4118B0 | `sub_4118B0` | 4 |  | Source/Car_BC.hpp:554 | 4/3 | todo |  |
 | 0x4118F0 | `sub_4118F0` | 11 |  | Source/Car_BC.hpp:847 | 4/5 | todo |  |
 | 0x411910 | `Car_BC::sub_411910` | 11 |  | Source/Car_BC.hpp:832 | 4/2 | todo |  |
 | 0x41DC40 | `sub_41DC40` | 35 |  |  | 4/12 | todo |  |
+| 0x41E430 | `Car_BC::sub_41E430` | 15 |  | Source/Car_BC.hpp:906 | 4/8 | todo |  |
+| 0x41E440 | `Car_BC::sub_41E440` | 15 |  | Source/Car_BC.hpp:911 | 4/8 | todo |  |
 | 0x420360 | `sub_420360` | 45 |  | Source/Fix16_Point.hpp:24 | 4/1 | todo |  |
-| 0x420EA0 | `Char_8::sub_420EA0` | 7 |  |  | 4/1 | todo |  |
+| 0x420EA0 | `Char_8::sub_420EA0` | 7 |  | Source/Ped_List_4.hpp:46 | 4/1 | todo |  |
 | 0x4214D0 | `sub_4214D0` | 11 |  | Source/Car_BC.hpp:816 | 4/1 | todo |  |
 | 0x421D80 | `sub_421D80` | 8 |  |  | 4/1 | todo |  |
 | 0x4221A0 | `sub_4221A0` | 8 |  |  | 4/1 | todo |  |
@@ -1296,6 +1295,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x403AC0 | `cool_nash_0x294::set_objective_target_ped_403AC0` | 13 |  |  | 3/5 | todo |  |
 | 0x403B10 | `cool_nash_0x294::get_target_to_enter_403B10` | 7 |  | Source/Ped.hpp:578 | 3/4 | todo |  |
 | 0x40F840 | `sub_40F840` | 80 |  | Source/CarPhysics_B0.hpp:140 | 3/1 | todo |  |
+| 0x410BF0 | `sub_410BF0` | 17 |  | Source/fix16.hpp:23 | 3/1 | todo |  |
 | 0x411730 | `sub_411730` | 118 |  |  | 3/2 | todo |  |
 | 0x41B080 | `sub_41B080` | 12 | 0x41B480 unmarked |  | 3/1 | todo |  |
 | 0x41CFF0 | `angle::angle_not_equal_41CFF0` | 20 |  |  | 3/0 | todo |  |
@@ -1305,7 +1305,6 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x420F30 | `sub_420F30` | 69 |  | Source/Pool.hpp:281 | 3/1 | todo |  |
 | 0x4211A0 | `sub_4211A0` | 20 |  | Source/CarPhysics_B0.hpp:223 | 3/2 | todo |  |
 | 0x421210 | `sub_421210` | 28 |  | Source/CarPhysics_B0.hpp:280 | 3/0 | todo |  |
-| 0x4214B0 | `sub_4214B0` | 27 |  | Source/Car_BC.hpp:803 | 3/1 | todo |  |
 | 0x421720 | `is_on_trailer_421720` | 18 |  | Source/Car_BC.hpp:548 | 3/1 | todo |  |
 | 0x4292F0 | `sub_4292F0` | 118 |  |  | 3/1 | todo |  |
 | 0x42ABB0 | `sub_42ABB0` | 16 |  | Source/CarPhysics_B0.hpp:328 | 3/0 | todo |  |
@@ -1327,12 +1326,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4340F0 | `sub_4340F0` | 15 |  | Source/Object_5C.hpp:214 | 3/2 | todo |  |
 | 0x436140 | `sub_436140` | 23 |  | Source/Camera.hpp:57 | 3/0 | todo |  |
 | 0x436200 | `ApplyCarVelocityCameraOffset_436200` | 23 |  | Source/Camera.hpp:59 | 3/0 | todo |  |
-| 0x4539D0 | `sub_4539D0` | 29 |  | Source/CarAI_78.hpp:66 | 3/0 | todo |  |
 | 0x453A40 | `sub_453A40` | 21 |  | Source/CarAI_78.hpp:67 | 3/1 | todo |  |
-| 0x45ADA0 | `sub_45ADA0` | 12 |  | Source/Fix16_Rect.hpp:119 | 3/0 | todo |  |
-| 0x45ADB0 | `sub_45ADB0` | 11 |  | Source/Fix16_Rect.hpp:114 | 3/0 | todo |  |
-| 0x45ADC0 | `sub_45ADC0` | 12 |  | Source/Fix16_Rect.hpp:124 | 3/0 | todo |  |
-| 0x45ADD0 | `sub_45ADD0` | 12 |  | Source/Fix16_Rect.hpp:109 | 3/0 | todo |  |
 | 0x46BB50 | `sharp_pare_0x15D8::sub_46BB50` | 15 |  | Source/sharp_pare_0x15D8.hpp:83 | 3/0 | todo |  |
 | 0x482A30 | `sub_482A30` | 10 |  | Source/sprite.hpp:408 | 3/1 | todo |  |
 | 0x482C30 | `sub_482C30` | 20 |  |  | 3/0 | todo |  |
@@ -1341,18 +1335,15 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x48A900 | `sub_48A900` | 28 |  |  | 3/2 | todo |  |
 | 0x491F80 | `sub_491F80` | 20 |  | Source/gtx_0x106C.hpp:331 | 3/0 | todo |  |
 | 0x49E360 | `sub_49E360` | 57 |  |  | 3/0 | todo |  |
-| 0x4A9AD0 | `sub_4A9AD0` | 5 |  | Source/Car_BC.hpp:932 | 3/1 | todo |  |
 | 0x4CCA30 | `Weapon_30::sub_4CCA30` | 33 |  | Source/Weapon_30.hpp:76 | 3/0 | todo |  |
 | 0x4CCA60 | `sub_4CCA60` | 17 |  | Source/Weapon_30.hpp:90 | 3/0 | todo |  |
 | 0x4CCA90 | `sub_4CCA90` | 17 |  | Source/Ped.hpp:593 | 3/0 | todo |  |
 | 0x403950 | `sub_403950` | 15 |  | Source/Ped.hpp:324 | 2/2 | todo |  |
 | 0x4039A0 | `cool_nash_0x294::set_health_4039A0` | 15 |  | Source/Ped.hpp:449 | 2/20 | todo |  |
 | 0x4039B0 | `cool_nash_0x294::set_enter_car_as_passenger_4039B0` | 13 |  |  | 2/6 | todo |  |
-| 0x4039F0 | `cool_nash_0x294::sub_4039F0` | 8 |  | Source/Ped.hpp:603 | 2/5 | todo |  |
 | 0x403A60 | `cool_nash_0x294::get_target_car_door_403A60` | 7 |  | Source/Ped.hpp:438 | 2/4 | todo |  |
 | 0x403AD0 | `cool_nash_0x294::get_objective_target_ped_403AD0` | 7 |  |  | 2/1 | todo |  |
 | 0x403B00 | `cool_nash_0x294::set_target_to_enter_403B00` | 13 |  |  | 2/4 | todo |  |
-| 0x403B70 | `sub_403B70` | 12 |  | Source/Ped.hpp:553 | 2/1 | todo |  |
 | 0x403B80 | `cool_nash_0x294::has_car_403B80` | 12 |  | Source/Ped.hpp:388 | 2/13 | todo |  |
 | 0x404900 | `sub_404900` | 226 |  |  | 2/0 | todo |  |
 | 0x409F90 | `sub_409F90` | 73 |  |  | 2/0 | todo |  |
@@ -1367,14 +1358,14 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x41CC90 | `sub_41CC90` | 4 |  | Source/Weapon_30.hpp:113 | 2/0 | todo |  |
 | 0x41FC90 | `RotateVector_41FC90` | 177 |  | Source/ang16.hpp:318 | 2/0 | todo |  |
 | 0x41FE40 | `sub_41FE40` | 35 |  |  | 2/1 | todo |  |
-| 0x420220 | `sub_420220` | 16 |  | Source/Hud.hpp:293, Source/gtx_0x106C.hpp:201 | 2/0 | todo |  |
+| 0x420220 | `sub_420220` | 16 |  | Source/Hud.hpp:300, Source/gtx_0x106C.hpp:201 | 2/0 | todo |  |
 | 0x420700 | `sub_420700` | 8 |  |  | 2/1 | todo |  |
 | 0x420B50 | `sub_420B50` | 7 |  | Source/Ped.hpp:244 | 2/3 | todo |  |
 | 0x420B70 | `sub_420B70` | 7 |  | Source/Ped.hpp:255 | 2/5 | todo |  |
 | 0x421050 | `sub_421050` | 4 |  |  | 2/3 | todo |  |
 | 0x421060 | `check_is_shop_421060` | 32 |  | Source/Object_5C.hpp:183 | 2/4 | todo |  |
-| 0x4211C0 | `sub_4211C0` | 17 |  | Source/CarPhysics_B0.hpp:233 | 2/1 | todo |  |
 | 0x421490 | `sub_421490` | 20 |  |  | 2/1 | todo |  |
+| 0x4214B0 | `sub_4214B0` | 27 |  | Source/Car_BC.hpp:803 | 2/2 | todo |  |
 | 0x421540 | `sub_421540` | 8 |  |  | 2/6 | todo |  |
 | 0x421640 | `sub_421640` | 25 |  | Source/Car_BC.hpp:657, Source/Car_BC.hpp:956 | 2/1 | todo |  |
 | 0x4218A0 | `sub_4218A0` | 8 |  | Source/Car_BC.hpp:700 | 2/0 | todo |  |
@@ -1403,8 +1394,12 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x435C20 | `sub_435C20` | 30 | 0x408680 MATCH |  | 2/0 | todo |  |
 | 0x44A370 | `Shooey_CC::sub_44A370` | 38 |  |  | 2/0 | todo |  |
 | 0x44B490 | `sub_44B490` | 97 |  |  | 2/0 | todo |  |
-| 0x4539B0 | `gtx_0x106C::sub_4539B0` | 24 | 0x5D7700 MATCH |  | 2/1 | todo |  |
+| 0x4539D0 | `sub_4539D0` | 29 |  | Source/CarAI_78.hpp:66 | 2/1 | todo |  |
 | 0x453A80 | `lucid_hamilton::sub_453A80` | 7 |  |  | 2/1 | todo |  |
+| 0x45ADA0 | `sub_45ADA0` | 12 |  | Source/Fix16_Rect.hpp:119 | 2/1 | todo |  |
+| 0x45ADB0 | `sub_45ADB0` | 11 |  | Source/Fix16_Rect.hpp:114 | 2/1 | todo |  |
+| 0x45ADC0 | `sub_45ADC0` | 12 |  | Source/Fix16_Rect.hpp:124 | 2/1 | todo |  |
+| 0x45ADD0 | `sub_45ADD0` | 12 |  | Source/Fix16_Rect.hpp:109 | 2/1 | todo |  |
 | 0x461DC0 | `sub_461DC0` | 7 |  | Source/lucid_hamilton.hpp:64 | 2/0 | todo |  |
 | 0x462E40 | `Map_0x370::sub_462E40` | 22 |  |  | 2/7 | todo |  |
 | 0x4634E0 | `sub_4634E0` | 76 |  | Source/map_0x370.hpp:534 | 2/0 | todo |  |
@@ -1423,11 +1418,11 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x492CC0 | `sub_492CC0` | 17 |  |  | 2/0 | todo |  |
 | 0x493940 | `sub_493940` | 1706 |  |  | 2/1 | todo |  |
 | 0x49A080 | `sub_49A080` | 1244 |  |  | 2/0 | todo |  |
-| 0x49E330 | `sub_49E330` | 38 |  |  | 2/1 | todo |  |
 | 0x49E3A0 | `sub_49E3A0` | 30 |  | Source/Fix16_Point.hpp:117 | 2/0 | todo |  |
 | 0x4A09B0 | `sub_4A09B0` | 116 |  |  | 2/0 | todo |  |
-| 0x4A0D40 | `sub_4A0D40` | 482 |  | Source/CarPhysics_B0.cpp:3087 | 2/0 | todo |  |
-| 0x4A0F30 | `sub_4A0F30` | 509 |  | Source/CarPhysics_B0.cpp:3147 | 2/0 | todo |  |
+| 0x4A0D40 | `sub_4A0D40` | 482 |  | Source/CarPhysics_B0.cpp:3091 | 2/0 | todo |  |
+| 0x4A0F30 | `sub_4A0F30` | 509 |  | Source/CarPhysics_B0.cpp:3151 | 2/0 | todo |  |
+| 0x4A9AD0 | `sub_4A9AD0` | 5 |  | Source/Car_BC.hpp:932 | 2/2 | todo |  |
 | 0x4B8A60 | `sub_4B8A60` | 14 | 0x5935D0 MATCH |  | 2/0 | todo |  |
 | 0x4BA0A0 | `sub_4BA0A0` | 80 |  | Source/sprite.hpp:136 | 2/0 | todo |  |
 | 0x4BA5E0 | `sub_4BA5E0` | 54 |  |  | 2/2 | todo |  |
@@ -1439,10 +1434,12 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x403900 | `sub_403900` | 7 |  |  | 1/1 | todo |  |
 | 0x4039D0 | `cool_nash_0x294::sub_4039D0` | 7 |  |  | 1/1 | todo |  |
 | 0x4039E0 | `cool_nash_0x294::sub_4039E0` | 7 |  |  | 1/2 | todo |  |
+| 0x4039F0 | `cool_nash_0x294::sub_4039F0` | 8 |  | Source/Ped.hpp:603 | 1/6 | todo |  |
 | 0x403AF0 | `cool_nash_0x294::sub_403AF0` | 7 |  | Source/Ped.hpp:618 | 1/2 | todo |  |
 | 0x403B30 | `cool_nash_0x294::get_objective_timer_403B30` | 8 |  |  | 1/1 | todo |  |
 | 0x403B40 | `cool_nash_0x294::sub_403B40` | 13 |  |  | 1/1 | todo |  |
 | 0x403B50 | `cool_nash_0x294::sub_403B50` | 13 |  |  | 1/1 | todo |  |
+| 0x403B70 | `sub_403B70` | 12 |  | Source/Ped.hpp:553 | 1/2 | todo |  |
 | 0x403B90 | `sub_403B90` | 13 | 0x4CA3E0 MATCH |  | 1/0 | todo |  |
 | 0x403BC0 | `sub_403BC0` | 22 |  |  | 1/0 | todo |  |
 | 0x403D10 | `Mouze_44::sub_403D10` | 8 |  |  | 1/0 | todo |  |
@@ -1513,6 +1510,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x420FF0 | `sub_420FF0` | 4 |  | Source/Object_5C.hpp:172 | 1/9 | todo |  |
 | 0x421080 | `sub_421080` | 47 |  | Source/Object_5C.hpp:146, Source/Object_5C.hpp:158 | 1/4 | todo |  |
 | 0x421130 | `sub_421130` | 24 |  |  | 1/0 | todo |  |
+| 0x4211C0 | `sub_4211C0` | 17 |  | Source/CarPhysics_B0.hpp:233 | 1/2 | todo |  |
 | 0x421250 | `sub_421250` | 8 |  |  | 1/0 | todo |  |
 | 0x421260 | `sub_421260` | 8 |  |  | 1/2 | todo |  |
 | 0x4212A0 | `sub_4212A0` | 11 |  | Source/CarPhysics_B0.hpp:238 | 1/3 | todo |  |
@@ -1650,11 +1648,11 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x44C840 | `gmp_block_info::init_44C840` | 28 |  |  | 1/3 | todo |  |
 | 0x44CDD0 | `sub_44CDD0` | 525 |  |  | 1/1 | todo |  |
 | 0x44D3A0 | `Door_10_Pool::gdtor_44D3A0` | 30 |  |  | 1/0 | todo |  |
-| 0x450CC0 | `sub_450CC0` | 11 |  |  | 1/0 | todo |  |
 | 0x4527A0 | `sub_4527A0` | 106 |  |  | 1/0 | todo |  |
 | 0x452990 | `sub_452990` | 35 |  |  | 1/1 | todo |  |
 | 0x4529C0 | `sub_4529C0` | 66 |  |  | 1/0 | todo |  |
 | 0x4538E0 | `?do_always_noconv@codecvt_base@std@@MBE_NXZ` | 3 |  |  | 1/0 | todo |  |
+| 0x4539B0 | `gtx_0x106C::sub_4539B0` | 24 | 0x5D7700 MATCH | Source/Draw.hpp:66 | 1/2 | todo |  |
 | 0x453A30 | `laughing_blackwell_0x1EB54::sub_453A30` | 15 |  |  | 1/0 | todo |  |
 | 0x453A90 | `sub_453A90` | 11 |  |  | 1/0 | todo |  |
 | 0x453AA0 | `sub_453AA0` | 11 |  |  | 1/1 | todo |  |
@@ -1664,7 +1662,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x45A910 | `Game_0x40::sub_45A910` | 67 | 0x4B9D10 MATCH |  | 1/0 | todo |  |
 | 0x45AEA0 | `DrawUnk_0xBC::sub_45AEA0` | 160 |  |  | 1/0 | todo |  |
 | 0x45AF40 | `DrawUnk_0xBC::sub_45AF40` | 139 |  |  | 1/0 | todo |  |
-| 0x45AFD0 | `Garox_C4::sub_45AFD0` | 25 |  |  | 1/2 | todo |  |
+| 0x45AFD0 | `Garox_C4::sub_45AFD0` | 25 |  | Source/Hud.hpp:225 | 1/2 | todo |  |
 | 0x45DD50 | `Zone_144::sub_45DD50` | 12 |  |  | 1/2 | todo |  |
 | 0x45E770 | `lucid_hamilton::sub_45E770` | 39 | 0x4C5C30 MATCH |  | 1/0 | todo |  |
 | 0x45ED00 | `sub_45ED00` | 8 |  |  | 1/0 | todo |  |
@@ -1679,7 +1677,6 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4634B0 | `sub_4634B0` | 42 |  | Source/map_0x370.hpp:631, Source/map_0x370.hpp:642 | 1/0 | todo |  |
 | 0x463690 | `sub_463690` | 124 |  |  | 1/0 | todo |  |
 | 0x463760 | `sub_463760` | 56 |  |  | 1/0 | todo |  |
-| 0x4637A0 | `sub_4637A0` | 12 |  |  | 1/0 | todo |  |
 | 0x467110 | `sub_467110` | 3660 |  |  | 1/1 | todo |  |
 | 0x469010 | `sub_469010` | 84 | 0x52B2A0 MATCH |  | 1/1 | todo |  |
 | 0x4699A0 | `sub_4699A0` | 346 | 0x4E4F40 MATCH |  | 1/1 | todo |  |
@@ -1714,7 +1711,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x481DA0 | `sub_481DA0` | 21 |  |  | 1/0 | todo |  |
 | 0x481DC0 | `sub_481DC0` | 11 |  |  | 1/0 | todo |  |
 | 0x482080 | `sub_482080` | 11 |  | Source/Ped.hpp:266 | 1/2 | todo |  |
-| 0x4820A0 | `sub_4820A0` | 17 |  | Source/Hud.hpp:380 | 1/0 | todo |  |
+| 0x4820A0 | `sub_4820A0` | 17 |  | Source/Hud.hpp:387 | 1/0 | todo |  |
 | 0x4824E0 | `sub_4824E0` | 39 |  |  | 1/2 | todo |  |
 | 0x4826A0 | `Object_2C::sub_4826A0` | 79 | 0x525AE0 MATCH |  | 1/3 | todo |  |
 | 0x4828F0 | `sub_4828F0` | 57 |  |  | 1/0 | todo |  |
@@ -1777,7 +1774,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4994D0 | `sub_4994D0` | 190 |  |  | 1/0 | todo |  |
 | 0x4995A0 | `sub_4995A0` | 2313 |  |  | 1/0 | todo |  |
 | 0x49E0E0 | `sub_49E0E0` | 22 |  |  | 1/0 | todo |  |
-| 0x49E240 | `sub_49E240` | 48 |  |  | 1/0 | todo |  |
+| 0x49E240 | `sub_49E240` | 48 |  | Source/CarPhysics_B0.cpp:213 | 1/0 | todo |  |
+| 0x49E330 | `sub_49E330` | 38 |  |  | 1/2 | todo |  |
 | 0x49E420 | `sub_49E420` | 35 |  |  | 1/0 | todo |  |
 | 0x49E450 | `sub_49E450` | 42 |  |  | 1/0 | todo |  |
 | 0x49E480 | `sub_49E480` | 114 |  | Source/Fix16_Point.hpp:180 | 1/0 | todo |  |
@@ -1850,14 +1848,14 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4C6E50 | `Garox_110C_sub::ctor_4C6E50` | 19 |  |  | 1/0 | todo |  |
 | 0x4C6E70 | `Garox_27B5_sub::ctor_4C6E70` | 6 |  |  | 1/0 | todo |  |
 | 0x4C6EE0 | `Garox_Sub_C_Array::ctor_4C6EE0` | 29 |  |  | 1/0 | todo |  |
-| 0x4C6F20 | `sub_4C6F20` | 9 |  | Source/Hud.hpp:374 | 1/0 | todo |  |
-| 0x4C6FB0 | `sub_4C6FB0` | 35 |  | Source/Hud.hpp:405 | 1/0 | todo |  |
-| 0x4C7060 | `sub_4C7060` | 17 |  | Source/Hud.hpp:455 | 1/0 | todo |  |
+| 0x4C6F20 | `sub_4C6F20` | 9 |  | Source/Hud.hpp:381 | 1/0 | todo |  |
+| 0x4C6FB0 | `sub_4C6FB0` | 35 |  | Source/Hud.hpp:412 | 1/0 | todo |  |
+| 0x4C7060 | `sub_4C7060` | 17 |  | Source/Hud.hpp:462 | 1/0 | todo |  |
 | 0x4C7080 | `Garox_7C_Array::ctor_4C7080` | 43 |  |  | 1/0 | todo |  |
 | 0x4C70E0 | `Garox_C4::sub_4C70E0` | 15 |  |  | 1/0 | todo |  |
 | 0x4C71A0 | `Garox_12E4_sub::ctor_4C71A0` | 10 |  |  | 1/0 | todo |  |
-| 0x4C7220 | `sub_4C7220` | 38 |  | Source/Hud.hpp:290 | 1/3 | todo |  |
-| 0x4C7250 | `sub_4C7250` | 38 |  | Source/Hud.hpp:296 | 1/2 | todo |  |
+| 0x4C7220 | `sub_4C7220` | 38 |  | Source/Hud.hpp:297 | 1/3 | todo |  |
+| 0x4C7250 | `sub_4C7250` | 38 |  | Source/Hud.hpp:303 | 1/2 | todo |  |
 | 0x4C83D0 | `sub_4C83D0` | 121 |  |  | 1/0 | todo |  |
 | 0x4C8620 | `sub_4C8620` | 35 |  |  | 1/0 | todo |  |
 | 0x4C8CA0 | `sub_4C8CA0` | 400 |  |  | 1/0 | todo |  |
@@ -2131,6 +2129,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x44D840 | `sub_44D840` | 687 |  |  | 0/1 | todo |  |
 | 0x44DBF0 | `sub_44DBF0` | 19 |  |  | 0/0 | todo |  |
 | 0x450530 | `FatalError_450530` | 435 | 0x4A38C0 MATCH |  | 0/2 | todo |  |
+| 0x450CC0 | `sub_450CC0` | 11 |  |  | 0/1 | todo |  |
 | 0x451510 | `sub_451510` | 141 |  |  | 0/1 | todo |  |
 | 0x451F70 | `sharp_pare_0x15D8::gdtor_451F70` | 30 |  |  | 0/1 | todo |  |
 | 0x451F90 | `gtx_0x106C::gdtor_451F90` | 30 |  |  | 0/1 | todo |  |
@@ -2219,6 +2218,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4630B0 | `sub_4630B0` | 29 |  |  | 0/1 | todo |  |
 | 0x463530 | `sub_463530` | 53 |  |  | 0/1 | todo |  |
 | 0x463710 | `sub_463710` | 70 |  |  | 0/2 | todo |  |
+| 0x4637A0 | `sub_4637A0` | 12 |  | Source/Fix16_Rect.hpp:129 | 0/1 | todo |  |
 | 0x463F10 | `sub_463F10` | 55 |  | Source/Light_1D4CC.hpp:70, Source/nostalgic_ellis_0x28.hpp:14 | 0/1 | todo |  |
 | 0x464C40 | `sub_464C40` | 26 |  | Source/Light_1D4CC.hpp:43, Source/Light_1D4CC.hpp:64 | 0/1 | todo |  |
 | 0x465090 | `Map_0x370::sub_465090` | 151 |  |  | 0/1 | todo |  |
@@ -2293,9 +2293,9 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x476780 | `Frismo_C_Pool::sub_476780` | 14 |  |  | 0/1 | todo |  |
 | 0x476790 | `sub_476790` | 4 |  |  | 0/1 | todo |  |
 | 0x4767A0 | `miss2_0x11C_Pool::sub_4767A0` | 24 |  | Source/miss2_0x11C.hpp:1176 | 0/2 | todo |  |
-| 0x4767C0 | `sub_4767C0` | 31 |  | Source/Hud.hpp:367 | 0/1 | todo |  |
+| 0x4767C0 | `sub_4767C0` | 31 |  | Source/Hud.hpp:374 | 0/1 | todo |  |
 | 0x476830 | `sub_476830` | 8 |  |  | 0/1 | todo |  |
-| 0x476840 | `sub_476840` | 8 |  | Source/Hud.hpp:467 | 0/2 | todo |  |
+| 0x476840 | `sub_476840` | 8 |  | Source/Hud.hpp:474 | 0/2 | todo |  |
 | 0x476850 | `sub_476850` | 8 |  |  | 0/1 | todo |  |
 | 0x476860 | `sub_476860` | 8 |  |  | 0/2 | todo |  |
 | 0x476870 | `sub_476870` | 8 |  |  | 0/1 | todo |  |
@@ -2526,9 +2526,9 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4C62B0 | `sub_4C62B0` | 17 |  |  | 0/1 | todo |  |
 | 0x4C6E20 | `sub_4C6E20` | 11 |  |  | 0/1 | todo |  |
 | 0x4C6F30 | `sub_4C6F30` | 4 |  |  | 0/1 | todo |  |
-| 0x4C6F80 | `sub_4C6F80` | 35 |  | Source/Hud.hpp:435 | 0/6 | todo |  |
+| 0x4C6F80 | `sub_4C6F80` | 35 |  | Source/Hud.hpp:442 | 0/6 | todo |  |
 | 0x4C6FF0 | `sub_4C6FF0` | 50 |  |  | 0/1 | todo |  |
-| 0x4C7050 | `sub_4C7050` | 4 |  | Source/Hud.hpp:445 | 0/2 | todo |  |
+| 0x4C7050 | `sub_4C7050` | 4 |  | Source/Hud.hpp:452 | 0/2 | todo |  |
 | 0x4C70B0 | `sub_4C70B0` | 7 |  |  | 0/1 | todo |  |
 | 0x4C70F0 | `Garox_C4::sub_4C70F0` | 11 |  |  | 0/1 | todo |  |
 | 0x4C7120 | `sub_4C7120` | 9 |  |  | 0/1 | todo |  |
