@@ -296,6 +296,12 @@ class Sprite
         *a4 = this->field_1C_zpos;
     }
 
+    // 9.6f 0x420700
+    inline void SetPaletteSprites_420700()
+    {
+        field_34_palette_type = palette_types_enum::sprites_2;
+    }
+
     s32 get_type_416B40()
     {
         return field_30_sprite_type_enum;

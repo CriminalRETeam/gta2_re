@@ -9,6 +9,12 @@ class gmp_map_zone;
 class Gang_144
 {
   public:
+    // 9.6f 0x45DD50
+    inline bool HasKillRespectChange_45DD50()
+    {
+        return field_139_kill_respect_change > 0;
+    }
+
     // 9.6f 0x433B30
     inline char get_field_111_433B30()
     {

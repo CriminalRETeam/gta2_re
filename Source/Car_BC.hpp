@@ -959,6 +959,15 @@ class Car_BC
         return field_88_despawn_status == 2 || field_88_despawn_status == 4 || field_88_despawn_status == 3;
     }
 
+    // 9.6f 0x421490
+    inline void sub_421490()
+    {
+        if (field_88_despawn_status != 5)
+        {
+            field_88_despawn_status = 3;
+        }
+    }
+
     void sub_421470()
     {
         if (field_88_despawn_status != 5 && field_88_despawn_status != 2 && field_88_despawn_status != 3)

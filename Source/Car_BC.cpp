@@ -7837,7 +7837,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     if (v119 == 5)
                     {
                         gang_curr_location = this->field_C_player->get_gang_curr_location_4766D0();
-                        if (gang_curr_location && gang_curr_location->field_139_kill_respect_change > 0)
+                        if (gang_curr_location && gang_curr_location->HasKillRespectChange_45DD50())
                         {
                             car_model_idx = gang_curr_location->field_13C_gang_car_model;
                         }
@@ -8139,6 +8139,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                         if (!v108)
                         {
                             v88 = ReturnAngleFromRoadDirection_4F7940(&arrow_direction);
+                            // 9.6f: SpawnCarAtCorrectZ_426E40 (Car_6C::SpawnCarAtCorrectZ_Scaled here), using it changes the code (893 -> 907)
                             //car_model_1 = car_model_idx; // = rng_max_
                             //v128 = *v88; // LOWORD =
                             if (car_model_idx == car_model_enum::TRAIN || car_model_idx == car_model_enum::TRAINCAB ||
@@ -8163,10 +8164,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                 else
                                 {
                                     pNewCar->IncrementCarStats_443D70(car_kind::recycled_1);
-                                    if (pNewCar->field_88_despawn_status != 5)
-                                    {
-                                        pNewCar->field_88_despawn_status = 3;
-                                    }
+                                    pNewCar->sub_421490();
                                 }
                             }
                             else
@@ -8178,7 +8176,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                     gang_car_remap = gang_curr_location->field_140_gang_car_remap;
                                     if (gang_car_remap == 0xFF)
                                     {
-                                        pNewCar->field_50_car_sprite->field_34_palette_type = palette_types_enum::sprites_2;
+                                        pNewCar->field_50_car_sprite->SetPaletteSprites_420700();
                                     }
                                     else
                                     {
@@ -8193,8 +8191,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                     pNewCar->SpawnDriverPed();
                                 }
                                 pNewCar->InitCarAIControl_440590();
-                                pNewCar->field_9C_engine_status = car_engine_status::on_3;
-                                pNewCar->sub_43BFE0();
+                                pNewCar->sub_426E00();
                                 pNewCar->field_5C_AI->field_74_unk_speed = DAT_006FF570;
                             }
                             gGame_0x40_67E008->sub_4B9D60(pNewCar->field_50_car_sprite, this->field_C_player);
