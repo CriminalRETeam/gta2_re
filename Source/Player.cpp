@@ -2308,10 +2308,7 @@ void Player::sub_569530()
         pCar->ClearDriver_4407F0();
     }
 
-    if (pCar->field_98 != 4)
-    {
-        pCar->field_98 = 3;
-    }
+    pCar->SetF98To3IfNot4_475C80();
 
     field_2C8_unkq->Kill_46F9D0();
     field_2C8_unkq = 0;

@@ -860,6 +860,15 @@ class Car_BC
         }
     }
 
+    // 9.6f 0x475C80
+    inline void SetF98To3IfNot4_475C80()
+    {
+        if (field_98 != 4)
+        {
+            field_98 = 3;
+        }
+    }
+
     // 9.6f 0x475C30
     inline void SetF98To4_475C30()
     {
