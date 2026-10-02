@@ -347,7 +347,7 @@ void eager_benz::sub_592430(char_type bits)
             }
         }
 
-        field_368_player->field_2D4_scores.AddCash_592620(30000 * field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(30000);
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("stl_all"), 1);
@@ -365,7 +365,7 @@ void eager_benz::sub_592430(char_type bits)
             }
         }
 
-        field_368_player->field_2D4_scores.AddCash_592620(50000 * field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(50000);
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("dst_all"), 1);
