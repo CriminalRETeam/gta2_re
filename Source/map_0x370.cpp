@@ -3155,6 +3155,29 @@ void Map_0x370::sub_4E5D10(Fix16* pX, Fix16* pY, Fix16 dist, s32 direction)
     }
 }
 
+MATCH_FUNC(0x4E5D70)
+Fix16* Map_0x370::sub_4E5D70(Fix16* pOut, Fix16 x, Fix16 y, Ang16 angle)
+{
+    Fix16 result = dword_6F610C;
+    switch (Ang16::GetAngleFace_4F78F0(angle))
+    {
+        case 1:
+            result = x.GetFracValue();
+            break;
+        case 2:
+            result = dword_6F6110 - x.GetFracValue();
+            break;
+        case 3:
+            result = y.GetFracValue();
+            break;
+        case 4:
+            result = dword_6F6110 - y.GetFracValue();
+            break;
+    }
+    *pOut = result;
+    return pOut;
+}
+
 // https://decomp.me/scratch/9rRLR
 WIP_FUNC(0x4E5E90)
 char_type Map_0x370::sub_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3)
