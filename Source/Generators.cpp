@@ -18,7 +18,7 @@ void Generator_2C::sub_4C1A70()
     }
     else
     {
-        field_18_cycle = rng_dword_67AB34->field_0_rng + 1;
+        field_18_cycle = rng_dword_67AB34->get_cur_rng_41CFE0() + 1;
         gGeneratorPool_14AC_67E5D0->field_14A4_kill_count++;
     }
 }
@@ -32,11 +32,11 @@ s32 Generator_2C::next_cycle_4C1AB0()
     const s16 max = field_14_max_delay;
     if (min == max)
     {
-        return min + rng_dword_67AB34->field_0_rng;
+        return min + rng_dword_67AB34->get_cur_rng_41CFE0();
     }
     s16 mix_max_delta_m4 = 4 * (max - min);
     s16 rng = stru_6F6784.get_int_4F7AE0(mix_max_delta_m4);
-    return rng + 4 * min + rng_dword_67AB34->field_0_rng;
+    return rng + 4 * min + rng_dword_67AB34->get_cur_rng_41CFE0();
 }
 
 MATCH_FUNC(0x4C1B10)
@@ -133,7 +133,7 @@ void Generator_2C::sub_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generato
     field_0_gen_type = generator_type;
     field_12_min_delay = min_delay;
     field_14_max_delay = max_delay;
-    field_18_cycle = rng_dword_67AB34->field_0_rng + 1;
+    field_18_cycle = rng_dword_67AB34->get_cur_rng_41CFE0() + 1;
     field_20 = 1;
     field_1E_kill_timer = 0;
     field_1C_ammo = 0;
@@ -177,7 +177,7 @@ void GeneratorPool_14AC::sub_4C1CD0()
 MATCH_FUNC(0x4c1d70)
 void GeneratorPool_14AC::GeneratorsService_4C1D70()
 {
-    s32 start_idx = field_14A8_count_d3 * (rng_dword_67AB34->field_0_rng & 3);
+    s32 start_idx = field_14A8_count_d3 * (rng_dword_67AB34->get_cur_rng_41CFE0() & 3);
     s32 end_idx = start_idx + field_14A8_count_d3;
     if (end_idx > field_14A0_count)
     {
