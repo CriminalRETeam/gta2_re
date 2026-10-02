@@ -1540,9 +1540,9 @@ void CC ImGuiDebugDraw()
         {
             //if (gFirefighterPool_54_67D4C0)
             {
-                if (ImGui::Button("sub_4A8820"))
+                if (ImGui::Button("TryDispatchFirefightersToCar_4A8820"))
                 {
-                    gFirefighterPool_54_67D4C0->sub_4A8820(0);
+                    gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(0);
                 }
             }
             ImGui::TreePop();
@@ -1665,7 +1665,7 @@ void CC ImGuiDebugDraw()
     */
                     //gPedManager_6787BC->SpawnTrainLeaver_470E30();
 
-                    //gFirefighterPool_54_67D4C0->sub_4A8820(pNewCar);
+                    //gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(pNewCar);
 
                     //pNewPed->SpawnDriverRunAway_45C650(pNewCar, 0);
                 }
@@ -2650,7 +2650,7 @@ void CC ImGuiDebugDraw()
 
                 for (i = 0; i < 2; i++)
                 {
-                    Ambulance_20& a20 = gAmbulance_110_6F70A8->field_D0[i];
+                    Ambulance_20& a20 = gAmbulance_110_6F70A8->field_D0_tasks[i];
                 }
 
                 /*

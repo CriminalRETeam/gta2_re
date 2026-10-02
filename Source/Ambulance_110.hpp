@@ -25,18 +25,18 @@ class Ambulance_20
     EXPORT void HandleObjectiveState_4FAAC0();
     EXPORT void UpdateState_4FB330();
 
-    char_type field_0;
-    char_type field_1;
-    char_type field_2;
+    char_type field_0_target_x;
+    char_type field_1_target_y;
+    char_type field_2_target_z;
     char_type field_3;
     Kfc_30* field_4_paramedics_crew;
     Ped* field_8;
     Ped* field_C;
-    Ped_List_4 field_10;
+    Ped_List_4 field_10_patients;
     char_type field_14_count;
     char_type field_15;
     s16 field_16;
-    s32 field_18;
+    s32 field_18_in_use;
     char_type field_1C;
     char_type field_1D;
     char_type field_1E;
@@ -63,9 +63,9 @@ class Ambulance_110
     u8 field_1_f8_idx;
     char_type field_2;
     char_type field_3;
-    Ped_List_4 field_4;
+    Ped_List_4 field_4_patient_queue;
     jawwie_8 field_8[25];
-    Ambulance_20 field_D0[2];
+    Ambulance_20 field_D0_tasks[2];
 };
 
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);

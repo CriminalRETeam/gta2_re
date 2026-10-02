@@ -291,7 +291,7 @@ void force_link()
     Shooey_CC shooey_CC;
 
     Firefighter_28 tango_28;
-    tango_28.sub_450C10();
+    tango_28.Clear_450C10();
 
     FirefighterPool_54 tango_54;
 

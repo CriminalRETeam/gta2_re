@@ -504,7 +504,7 @@ void Game_0x40::UpdateGame_4B9410()
     gHud_2B00_706620->UpdateHUD_5D69D0();
     rng_dword_67AB34->sub_48B900(); // rng
     gDoor_4D4_67BD2C->DoorsService_49D460();
-    gFirefighterPool_54_67D4C0->sub_4A85F0(); // fire engines
+    gFirefighterPool_54_67D4C0->FireEnginesService_4A85F0(); // fire engines
 
     if (!bExplodingScoresOff_67D4FB)
     {

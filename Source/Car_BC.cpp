@@ -2463,7 +2463,7 @@ void Car_BC::SpawnFire_43BBC0()
 {
     WIP_IMPLEMENTED;
 
-    if (gFirefighterPool_54_67D4C0->sub_4A8820(this))
+    if (gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(this))
     {
         Sprite* pCarSprite = this->field_50_car_sprite;
         s32 pedId = this->field_70_exploder_ped_id;

@@ -3179,7 +3179,7 @@ void Ped::Occupation_AI_461F20()
                     {
                         Ped::EnterPublicTransport_45EE70();
                     }
-                    else if (gTaxi_4_704130->field_0)
+                    else if (gTaxi_4_704130->field_0_pFirst)
                     {
                         field_240_occupation = ped_ocupation_enum::taxi_customer_7;
                         if (field_238_ped_type == ped_type::dummy_3)
