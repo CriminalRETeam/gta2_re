@@ -353,8 +353,8 @@ void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* pStart)
     for (Collide_8* pColIter = pStart; pColIter; pColIter = pColIter->mpNext)
     {
         Sprite* pSprt = pColIter->field_0_sprt;
-        if ((pColIter->field_0_sprt->get_type_416B40() == gPurpleDoom_sprite_type1_678FE8 ||
-             pColIter->field_0_sprt->get_type_416B40() == gPurpleDoom_sprite_type2_678FEC) &&
+        if ((pColIter->field_0_sprt->TypeIs_446940(gPurpleDoom_sprite_type1_678FE8) ||
+             pColIter->field_0_sprt->TypeIs_446940(gPurpleDoom_sprite_type2_678FEC)) &&
             pSprt != gPurpleDoom_exclude_sprite_678F40)
         {
 
