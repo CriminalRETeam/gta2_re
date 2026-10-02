@@ -218,6 +218,13 @@ with the blocks in the original's order (empty list, insert by priority, replace
 pointer as in 9.6f, and the tests reading the field directly: a function-scope iterator local swapped
 `eax`/`ecx` everywhere.
 
+**`Fix16::Abs` can merge two epilogues the original keeps.** The inline let VC6 merge the two sign cases
+into one store; `if (v.mValue > 0) return v; return -v;` written out keeps one epilogue per case, as the
+original has (`CarPhysics_B0::vec_len_552DE0`).
+
+**Using the result of `+=` in a compare gives copy-then-compare.** `if ((ypos += gap) > X) break;` reproduced
+the original's loop shape in `Frontend::ManageCredits_4B7A10` (with the `u16` timer/index fields).
+
 ## Types and signedness
 
 **`jae`/`jb` vs `jge`/`jl` means unsigned vs signed.** Fix the field or parameter type, not the
@@ -528,6 +535,10 @@ through the hidden pointer. Assigning one local in each case and `break`ing to a
 the same register in every case block; a `return` per case alternated `ecx`/`edx`. Leaving the local
 unset in `default` reproduces the original reading the argument slot.
 
+**A `const Fix16` picks the out-of-line `operator+`.** On a non-const `Fix16` the inline operator is used;
+the original called the exported const one at 0x408660. `Garage_48::ValidateParkCommand_534650` matched with
+the unused sum on a `const Fix16` in its own block, so a later `u8` temporary reuses its stack slot.
+
 ## Functions, thunks and calling conventions
 
 **`mov $1,%eax` in the callee but `test %al,%al` in the caller.** That's an `s32` (BOOL-style)
@@ -736,6 +747,10 @@ does (`get_rdtsc_5BEE90`). Emitting the whole instruction as bytes loses those s
 
 These came up more than once and nothing tried so far reproduces them. Notes on what was
 tried are in the WIP status report.
+
+**VC6 merges identical tails the original keeps separate.** The reverse of the cross-case tail merging:
+in `Frontend::DrawBackground_4B6E10` the two final retry blits share one tail in ours, but the original has
+both copies. Only a meaningless cast changed it.
 
 - Identical code merged across `switch` cases, with one case jumping into another's block (`push $2; jmp`)
   where ours duplicates it (`Map_0x370` 0x4E6190 and 0x4E5E90; case order, default, ternaries, if chains and

@@ -1367,3 +1367,13 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `0x5D1B10`: no change. original loads its s16 params with a 16-bit mov (9.6f too) and keeps 0 in ebx for three stores
 - `0x541430`: no change. Ang16 sum is a 16-bit add placed before the point ctor, plus an epilogue-sharing difference
 - `0x5DCF60`: no change. ped pointer kept in ebx with y loaded later; failure path does `xor eax,eax; mov %al,global`
+
+### Near-miss pass, batch G (2026-10-02)
+
+- `Montana_4::AddSprite_5C5CF0` (0x5C5CF0): closer. `field_2EE0_free_indx` is u32 (jb), dropped an (s16) cast (movswl). Left: ebx/ebp swap; a (u8) cast on the first compare gets the permuter to 4 but is wrong
+- `Crane_15C` dtor (0x47E5B0): matches if field_0..field_20 become Fix16_Point, but then the matched ctor 0x47E610 calls the Fix16_Point_POD ctor out of line. One-for-one trade, not taken
+- `Frontend` ctor (0x4AF2A0): no change. original zeroes the name/password/bonus-stage arrays with direct disp(%esi) stores; ours shares 0 in ebx or uses a lea base. Permuter segfaults on it
+- `Frontend::DrawBackground_4B6E10` (0x4B6E10): no change. VC6 merges the two final retry blits into one tail (see Still unexplained)
+- `Ped::HandlePickupCollision_45DE80` (0x45DE80): no change. ebx/edi pushed only after the early returns (late push quirk)
+- `Frontend::GetNextUnlockedMainStage_4B7270` (0x4B7270): no change. ours goes branchless and doesn't hoist the loop flag load; 1800 permuter iterations, 54 -> 44 at best
+- `Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0`: skipped, on the Still unexplained list
