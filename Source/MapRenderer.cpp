@@ -953,7 +953,7 @@ void MapRenderer::DrawDiagonalUpLeftFace_4EC450(u16& left_word)
         if (texture_idx)
         {
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_10_diag_up_left_colour);
             ++field_2F00_drawn_tile_count;
