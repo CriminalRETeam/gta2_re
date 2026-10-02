@@ -6591,6 +6591,7 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
     if (pNear == 0)
     {
         Ped* pClosest;
+        s32 zd;
         if (this->field_164_ped_group != 0)
         {
             if (this->field_164_ped_group->field_2C_ped_leader->field_15C_player != 0)
@@ -6649,10 +6650,10 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 
         if (pClosest == 0)
         {
-            return 0;
+            goto ret_zero;
         }
 
-        s32 zd = this->field_1AC_cam.z.mValue - pClosest->field_1AC_cam.z.mValue;
+        zd = this->field_1AC_cam.z.mValue - pClosest->field_1AC_cam.z.mValue;
 
         if (zd <= 0)
         {
@@ -6661,12 +6662,12 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 
         if (zd >= k_dword_678664.mValue)
         {
-            return 0;
+            goto ret_zero;
         }
 
         if (pClosest == dword_6787DC)
         {
-            return 0;
+            goto ret_zero;
         }
 
         {
@@ -6678,7 +6679,7 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 
             if (Fix16::Max_44E540(adx, ady).mValue >= dword_678670.mValue)
             {
-                return 0;
+                goto ret_zero;
             }
         }
 
@@ -6702,14 +6703,14 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
             {
                 if (!pCam->sub_435630(pObj->field_80_sprite_ptr, 1))
                 {
-                    return 0;
+                    goto ret_zero;
                 }
             }
             else
             {
                 if (!pCam->sub_435630(dword_6787DC->field_16C_car->field_50_car_sprite, 1))
                 {
-                    return 0;
+                    goto ret_zero;
                 }
             }
         }
@@ -6719,6 +6720,7 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
             return pClosest;
         }
 
+    ret_zero:
         return 0;
     }
 
