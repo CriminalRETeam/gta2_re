@@ -1403,15 +1403,14 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
                 Car_BC* pCar = pSprite->AsCar_40FEB0();
                 if (pCar)
                 {
-                    return !pSprite->field_8_car_bc_ptr->IsTrainModel_403BA0();
+                    return !pCar->IsTrainModel_403BA0();
                 }
             }
             // Fall through
         default:
             if (gCollide_C_6791FC->field_8_bUnknown == 1)
             {
-                if (field_8->field_34_behavior_type == 3 || field_8->field_34_behavior_type == 4 ||
-                    field_8->field_34_behavior_type <= 2 && field_8->field_44 == 2)
+                if (sub_482C90())
                 {
                     return 0;
                 }
