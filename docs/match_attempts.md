@@ -1353,3 +1353,17 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `Mike_A80::sub_4FFD90` (0x4FFD90): no change. x87 'fildl x; flds 630; fsub %st(1),%st ... fstp %st(0)' (x kept and popped) vs our fsubrs; double/f64 x, dead right/top locals, casts: no change (already in match_attempts)
 - `Car_BC::ManageTVAntenna_4425D0` (0x4425D0): closer 39->11. Ang16 towerAng; declared at top (9.6f), towerAng = Get...() (T x; x = f()). Left: sprite rot is loaded into cx and reused for the conversion, orig compares against memory and reloads; operand order, s32 NotEqual (9.6f 0x41CFF0 returns s32), towerFp local: no change
 - `Car_BC::EmitExplosion_43D690` (0x43D690): no change. original has an EH frame around building the implicit Fix16(2) z argument (out-of-line Fix16 ctor 0x4369F0 treated as throwing, arg address saved for cleanup); ours has none because the inline Fix16(s32) body is visible. Same family as the 'Fix16(s32) ctor copies can't be written' note
+
+### Near-miss pass, batch F (2026-10-02)
+
+- `Type_3_HandleCarImpactSound_4174C0` (0x4174C0): closer 0.822->0.915. if chain -> switch gives the original's `sub $0`/`dec`. Left: cases 0 and 1 compute the 0x7FFFFFE3/0x7FFFFFE7 multiply in ecx, original in edx
+- `TrainCab_414710` (0x414710): closer 0.684->0.961. zone read through `pTrainStation->field_10_pZone` each time, not a local. Left: original's failure jumps go to the success path's epilogue, ours to the shared one after the else
+- `0x5D3B80` (DrawBrief): no change. identical except the y Fix16 ctor calls the duplicate copy FromInt_4926F0 instead of 4369F0 (duplicate-helper-copies quirk)
+- `0x57DD50`: skipped, the known sete issue above
+- `0x4D94E0`: no change. needs field_0 as a real ofstream member, which crashes the standalone build (see the source note)
+- `0x554710`: no change. original pushes/pops ebp inside one branch (late-ebp-push quirk)
+- `0x5552B0`: no change. layout only: original puts the shared `return 0` epilogue right after the loop's bottom test
+- `0x4C1AB0`: no change. u16 fields right, eax/ecx roles swapped throughout
+- `0x5D1B10`: no change. original loads its s16 params with a 16-bit mov (9.6f too) and keeps 0 in ebx for three stores
+- `0x541430`: no change. Ang16 sum is a 16-bit add placed before the point ctor, plus an epilogue-sharing difference
+- `0x5DCF60`: no change. ped pointer kept in ebx with y loaded later; failure path does `xor eax,eax; mov %al,global`

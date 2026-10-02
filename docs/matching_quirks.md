@@ -208,6 +208,16 @@ method (`Car_BC::sub_43AA20`, no marker since 0x43AA20 isn't in `og_function_dat
 position. `Hud_2B00::UpdatePauseSection_5D69C0` is the thunk form of the same thing (`add $0x2A1C,%ecx; jmp
 0x5D6300`): the body moved to `Garox_12E4_sub::UpdatePauseSection_5D6300`, which is unverified for the same reason.
 
+**`test; je L; jne end; L:` comes from `(a & m) == 0 || (b & m) == 0` with `a == b`.** When both
+operands are the same value in one register, VC6 merges the two tests but keeps both branches, so the `je`
+lands right after the following `jne`. In `BurgerKing_67F8B0::get_input_bits_4CEAC0`, `a` is `saved_input`,
+which equals `*control_status` there. `&&`, a one-case `switch` or an inline helper all fold it away.
+
+**Insert-into-list blocks follow the source order of the cases.** `Hud_Brief_704::SetHudBrief_5D3F10` matched
+with the blocks in the original's order (empty list, insert by priority, replace current), a single walking
+pointer as in 9.6f, and the tests reading the field directly: a function-scope iterator local swapped
+`eax`/`ecx` everywhere.
+
 ## Types and signedness
 
 **`jae`/`jb` vs `jge`/`jl` means unsigned vs signed.** Fix the field or parameter type, not the
@@ -512,6 +522,11 @@ A POD parameter matched the caller but lost the callee's EH frame.
 **A result flag with one return after the loop.** `result = 0` at the top, `result = 1` on the
 found path and one `return result` after the loop fixed every register in
 `NetPlay::MovePlayerToGroup_520040`, where returning from inside the loop didn't.
+
+**A by-value return from one local keeps one register across cases.** `Wolfy_30::sub_541680` returns `Fix16`
+through the hidden pointer. Assigning one local in each case and `break`ing to a single `return k` keeps
+the same register in every case block; a `return` per case alternated `ecx`/`edx`. Leaving the local
+unset in `default` reproduces the original reading the argument slot.
 
 ## Functions, thunks and calling conventions
 
