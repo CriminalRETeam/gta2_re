@@ -1356,7 +1356,8 @@ EXPORT void TagGameHudUpdate_4DADA0()
         s32 minutes = gNetTimeLimit_6F573C;
         s32 rem = minutes % 5;
         if (!(minutes == 0 || (rem == 4 && seconds >= 50) || (rem == 0 && seconds == 0) ||
-              (minutes == dword_67ED24 && seconds == 0) || (minutes == dword_67ED24 - 1 && seconds >= 50)))
+              (minutes == gLucid_hamilton_67E8E0.GetTimeLimit_461DC0() && seconds == 0) ||
+              (minutes == gLucid_hamilton_67E8E0.GetTimeLimit_461DC0() - 1 && seconds >= 50)))
         {
             byte_6F59C0 = 0;
             dword_6F5B74 = 0;
