@@ -8607,11 +8607,9 @@ void Ped::FireAtObject_46A530()
     }
 }
 
-WIP_FUNC(0x46a5e0)
+MATCH_FUNC(0x46a5e0)
 void Ped::FireAtPlayer_46A5E0()
 {
-    WIP_IMPLEMENTED;
-
     if (!field_16C_car)
     {
         this->field_225_objective_status = 0;
