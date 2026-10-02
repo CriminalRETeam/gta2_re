@@ -2563,7 +2563,7 @@ gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* fo
 MATCH_FUNC(0x4E4CB0)
 gmp_block_info* Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(s32 x, s32 y, s32& z)
 {
-    gmp_col_info* pColumn = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[y][x]];
+    gmp_col_info* pColumn = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[*this->field_0_pDmap->get_base_42A830(y, x)];
 
     if (z < pColumn->field_1_offset)
     {
