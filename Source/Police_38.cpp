@@ -1675,8 +1675,8 @@ void PoliceCrew_38::Service_575590()
         Ped* pPed = field_10_subObj->field_4_ped;
         if (pPed)
         {
-            if (!pPed->field_20e && pPed->field_278_ped_state_1 != ped_state_1::dead_9 
-                && (pPed->field_21C & 1) != 0)
+            if (!pPed->field_20e && pPed->GetPedState_403990() != ped_state_1::dead_9 
+                && pPed->CheckBit0_433B40())
             {
                 gPolice_7B8_6FEE40->field_7B4 = 1;
             }
