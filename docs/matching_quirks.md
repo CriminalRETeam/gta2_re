@@ -325,6 +325,22 @@ shifts at the use; `Fix16(v << 14, 0)` shifts at once like the original (`Car_BC
 **Declaration order of `Fix16` locals picks which product goes first.** In `Trailer::sub_407BD0`
 swapping the operands of `+` didn't change the multiply order, declaring `cos` before `sin` did.
 
+**Ctor EH frame missing when the member ctors come first in the TU.** If the member
+constructors are defined earlier in the same .cpp, VC6 infers they can't throw and drops the
+ctor's EH frame. Moving the ctor above them restored it (`Hud_2B00::ctor_5D6CD0`).
+
+**`A && (B || C || D) ? x : y` gets normalised.** Only a nested `if` with `y` repeated in the
+outer `else` (VC6 tail-merges the copies) gave the original block order (`Ped::ReactToAttacker_465B20`).
+
+**Ternaries into one local stored after a switch.** One store after the switch instead of one per
+case, with `b ? 4 : 3` as setne/add and `b ? 1 : 2` as neg/sbb/add (`Char_B4::sub_54C090`).
+
+**A switch default that sets a value then shares a fix-up.** `default: v = 127;` plus one fix-up
+after the switch lets VC6 jump-thread the default (`ChooseRadioEmitterForVehicle_57E6C0`, closer).
+
+**Fix16 constant parameter by `const Fix16&` in an inline helper.** A per-TU `Fix16(1)` passed by
+value reorders the loads; a const reference matches (`Player::RestoreCarsFromSave_56A0F0`).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
@@ -810,7 +826,7 @@ Before blaming the budget, check whether the out-of-line calls look written by n
 `Trailer::sub_407BD0` the rotation's y line calls `Negate_4086A0`, `Multiply_408680` and the
 out-of-line `operator+` (0x408660) while the x line is inlined; writing those calls explicitly
 kept the rest inlined (0.476 -> 0.843). `GetDoorWorldPos_43B420` has the same shape, and the
-same may hold for `fire_truck_gun_5E0E70` and the `EmitBloodBurst`/`EmitWaterSplash` siblings.
+same held for `Crane_15C::ComputeHookPos_47E620` and `_47E730` (both matched), and may hold for `fire_truck_gun_5E0E70` and the `EmitBloodBurst`/`EmitWaterSplash` siblings.
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
