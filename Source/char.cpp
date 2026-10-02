@@ -3291,7 +3291,7 @@ void Char_B4::sub_54DD70()
     {
         sub_5459C0();
 
-        if (field_7C_pPed->check_bit_11() && field_7C_pPed->field_21C_bf.b9)
+        if (field_7C_pPed->GetBit11_433CA0() && field_7C_pPed->field_21C_bf.b9)
         {
             if (this->field_6C_animation_state != 4)
             {
