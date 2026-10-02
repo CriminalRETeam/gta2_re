@@ -354,7 +354,7 @@ char_type Garox_12EC_sub::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
                 gGame_0x40_67E008->ExitGameNoBonus_4B8C00(1, GameExitType::PlayerQuit_2);
             }
 
-            if ((u8)bStartNetworkGame_7081F0)
+            if (IsNetworkGame_434B10())
             {
                 gYouthful_einstein_6F8450.field_20[pPlayer->get_idx_4219D0()] = 1;
             }
