@@ -436,7 +436,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                     {
                         sprintf(gTmpBuffer_67C598,
                                 "%d: input num_items = %d dwOfs = %d; data = %d",
-                                rng_dword_67AB34->field_0_rng,
+                                rng_dword_67AB34->get_cur_rng_41CFE0(),
                                 status,
                                 dword_67B5B0.dwOfs,
                                 dword_67B5B0.dwData);
@@ -532,7 +532,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                             bUnk_3 = true;
                                             if (bUnknown)
                                             {
-                                                if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
+                                                if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
                                                 {
                                                     gBurgerKing_67F8B0.clear_input_4CDD10(input);
                                                     v5_edi = dword_67B5B0.dwOfs;
@@ -563,7 +563,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                             bUnk_3 = true;
                                             if (bUnknown)
                                             {
-                                                if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
+                                                if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
                                                 {
                                                     gBurgerKing_67F8B0.clear_input_4CDD10(input);
                                                     v5_edi = dword_67B5B0.dwOfs;
@@ -604,7 +604,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                                 bUnk_3 = 1;
                                                 if (bUnknown)
                                                 {
-                                                    if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
+                                                    if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
                                                     {
                                                         gBurgerKing_67F8B0.clear_input_4CDD10(input);
                                                         v5_edi = dword_67B5B0.dwOfs;
@@ -635,7 +635,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                             bUnk_3 = true;
                                             if (bUnknown)
                                             {
-                                                if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
+                                                if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
                                                 {
                                                     gBurgerKing_67F8B0.clear_input_4CDD10(input);
                                                     v5_edi = dword_67B5B0.dwOfs;
@@ -664,7 +664,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                     bUnk_1 = false;
                     if (bLog_directinput_67D6C0)
                     {
-                        field_0_rng = rng_dword_67AB34->field_0_rng;
+                        field_0_rng = rng_dword_67AB34->get_cur_rng_41CFE0();
                         if ((stru_67B610.dwData & 0x80) != 0)
                         {
                             sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", field_0_rng, stru_67B610.dwOfs);

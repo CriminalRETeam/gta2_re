@@ -98,6 +98,12 @@ class BurgerKing_67F8B0
         return false;
     }
 
+    // 9.6f 0x44C050
+    inline bool IsInputSet_44C050(s32 mask_idx)
+    {
+        return (field_4_input_bits & field_8_input_masks[mask_idx]) != 0;
+    }
+
     // 9.6f 0x44AA80
     inline s32 GetLastRecRngIdx_44AA80()
     {
