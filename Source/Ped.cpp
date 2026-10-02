@@ -7590,7 +7590,7 @@ void Ped::sub_468BD0()
     {
         if (field_25C_internal_objective == 36 && !field_16C_car)
         {
-            field_168_game_object->field_16 = 1;
+            Set_B4_F16_To_1_433B50();
             field_278_ped_state_1 = ped_state_1::immobilized_8;
             field_27C_ped_state_2 = ped_state_2::Unknown_17;
             field_168_game_object->Set_F8_ped_state_1_433910(8);
