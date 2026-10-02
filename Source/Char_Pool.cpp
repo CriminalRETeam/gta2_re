@@ -24,11 +24,11 @@ DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
 DEFINE_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
 DEFINE_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50, 0x678b50);
 
-DEFINE_GLOBAL(u16, word_6787F0, 0x6787F0);
+DEFINE_GLOBAL(u16, gPedsServiceTickCount_6787F0, 0x6787F0);
 DEFINE_GLOBAL_INIT(u8, byte_61A8A1, 1, 0x61A8A1);
 DEFINE_GLOBAL_INIT(u8, byte_61A8A2, 1, 0x61A8A2);
-DEFINE_GLOBAL(u8, unk_6787EE, 0x6787EE);
-DEFINE_GLOBAL(u8, unk_6787EF, 0x6787EF);
+DEFINE_GLOBAL(u8, gNumPolicePedsInRangeScreen_6787EE, 0x6787EE);
+DEFINE_GLOBAL(u8, bThreateningPedAdded_6787EF, 0x6787EF);
 DEFINE_GLOBAL(u8, bHaveThreateningPeds_6787DA, 0x6787DA);
 
 DEFINE_GLOBAL(u8, spawnSideLocked_6787D5, 0x6787D5);
@@ -43,10 +43,10 @@ EXTERN_GLOBAL(Fix16, gDummyZ_67841C);
 DEFINE_GLOBAL_INIT(Fix16, gDummyH_678584, gDummyW_678530, 0x678584);
 DEFINE_GLOBAL_INIT(Fix16, dword_678414, Fix16(255), 0x678414);
 
-EXTERN_GLOBAL(u16, word_6787E0);
-EXTERN_GLOBAL(u8, byte_6787E2);
-EXTERN_GLOBAL(u8, byte_6787E4);
-EXTERN_GLOBAL(u8, byte_6787E3);
+EXTERN_GLOBAL(u16, gNumPedsUpdated_6787E0);
+EXTERN_GLOBAL(u8, gNumDummyChars_6787E2);
+EXTERN_GLOBAL(u8, gNumEmergencyPeds_6787E4);
+EXTERN_GLOBAL(u8, gNumScriptCreatedPeds_6787E3);
 EXTERN_GLOBAL(u8, byte_6787D8);
 EXTERN_GLOBAL(u8, byte_6787D9);
 EXTERN_GLOBAL(u8, byte_6787D2);
@@ -68,7 +68,7 @@ DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationTop_6787B0, Ang16(0), 0x6787B0);
 DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationRight_678578, Ang16(1080), 0x678578);
 DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationBottom_678540, Ang16(720), 0x678540);
 DEFINE_GLOBAL_INIT(s16, gSpawnCounter_6787C6, 0, 0x6787C6);
-EXTERN_GLOBAL(u8, byte_6787CE);
+EXTERN_GLOBAL(u8, gNumberArmedGangMembers_6787CE);
 
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
@@ -140,7 +140,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                  (u16)pZone->field_10_elvis_ratio)
     {
         // Gang member, limited to 8
-        kind = (u8)byte_6787CE < 8u ? 4 : 0;
+        kind = (u8)gNumberArmedGangMembers_6787CE < 8u ? 4 : 0;
     }
     else if (rng_val >= (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio +
                  (u16)pZone->field_12_gangchar_ratio + (u16)pZone->field_14_policeped_ratio)
@@ -228,9 +228,9 @@ LABEL_12:
                 if (v14)
                 {
                     pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(v14->field_6_name);
-                    if ((u8)byte_6787CE < 4u)
+                    if ((u8)gNumberArmedGangMembers_6787CE < 4u)
                     {
-                        ++byte_6787CE;
+                        ++gNumberArmedGangMembers_6787CE;
                         pPed->field_238_ped_type = ped_type::special_ped_4;
                         pPed->field_240_occupation = ped_ocupation_enum::armed_gang_member_19;
                         pPed->field_17C_pGang = pGang;
@@ -427,7 +427,7 @@ LABEL_12:
             {
                 if (pPed->field_240_occupation == ped_ocupation_enum::armed_gang_member_19)
                 {
-                    --byte_6787CE;
+                    --gNumberArmedGangMembers_6787CE;
                 }
                 pPed->field_22C = 2;
                 pPed->field_218_objective_timer = 40;
@@ -634,20 +634,20 @@ void PedManager::PedsService_4703F0()
 {
     WIP_IMPLEMENTED;
 
-    ++word_6787F0;
-    word_6787E0 = 0;
-    byte_6787E2 = 0;
-    byte_6787E4 = 0;
-    byte_6787E3 = 0;
+    ++gPedsServiceTickCount_6787F0;
+    gNumPedsUpdated_6787E0 = 0;
+    gNumDummyChars_6787E2 = 0;
+    gNumEmergencyPeds_6787E4 = 0;
+    gNumScriptCreatedPeds_6787E3 = 0;
     gNumPedsOnScreen_6787EC = 0;
     byte_61A8A1 = 1;
     byte_61A8A2 = 1;
     byte_6787D2 = 0;
-    unk_6787EE = 0;
+    gNumPolicePedsInRangeScreen_6787EE = 0;
 
     gPedPool_6787B8->field_0_pool.UpdatePool();
 
-    if (unk_6787EF) // 11d: je 128
+    if (bThreateningPedAdded_6787EF) // 11d: je 128
     {
         bHaveThreateningPeds_6787DA = 1;
     }
@@ -664,16 +664,16 @@ void PedManager::PedsService_4703F0()
     {
         Dummies_470330();
     }
-    field_3 = word_6787E0;
-    field_2 = byte_6787E2;
-    field_4 = byte_6787E3;
-    field_5_fbi_army_count = byte_6787E4;
+    field_3_num_peds_updated = gNumPedsUpdated_6787E0;
+    field_2_num_dummy_chars = gNumDummyChars_6787E2;
+    field_4_num_script_created_peds = gNumScriptCreatedPeds_6787E3;
+    field_5_fbi_army_count = gNumEmergencyPeds_6787E4;
     field_6_num_peds_on_screen = gNumPedsOnScreen_6787EC;
     if (gPolice_7B8_6FEE40)
     {
-        gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen = unk_6787EE;
+        gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen = gNumPolicePedsInRangeScreen_6787EE;
     }
-    unk_6787EF = 0;
+    bThreateningPedAdded_6787EF = 0;
     if (bDo_iain_test_67D4E9)
     {
         u16 num_peds = *(u32*)&gNumPedsOnScreen_6787EC; //  TODO: fix me
@@ -725,15 +725,15 @@ PedManager::PedManager()
 
     field_8 = gSprite_Pool_703818->get_new_sprite();
 
-    field_2 = 0;
-    field_3 = 0;
-    field_4 = 0;
+    field_2_num_dummy_chars = 0;
+    field_3_num_peds_updated = 0;
+    field_4_num_script_created_peds = 0;
     field_6_num_peds_on_screen = 0;
-    field_0 = 50;
+    field_0_max_dummy_chars = 50;
     field_7_make_all_muggers = false;
     /*
     gPedId_61A89C = 7;
-    dword_6787C0 = 0;
+    gLastProcessedPed_6787C0 = 0;
     word_6787C6 = 0;
     byte_6787C8 = 0;
     byte_6787C9 = 0;
@@ -741,13 +741,13 @@ PedManager::PedManager()
     gNumberCarThiefsSpawned_6787CB = 0;
     gNumberElvisLeadersSpawned_6787CC = 0;
     gNumberWalkingCopsSpawned_6787CD = 0;
-    byte_6787CE = 0;
+    gNumberArmedGangMembers_6787CE = 0;
     word_6787D0 = 0;
     this->field_5_fbi_army_count = 0;
     HIWORD(dword_678654) = word_61A898;
-    word_6787F0 = 0;
+    gPedsServiceTickCount_6787F0 = 0;
     byte_6787D2 = 0;
-    byte_6787D3 = 0;
+    gNumberBusCustomers_6787D3 = 0;
     HIWORD(dword_6784EE) = gDummyPedAng_6787A8;
     byte_6787D4 = 0;
     spawnSideLocked_6787D5 = 0;
@@ -764,11 +764,11 @@ PedManager::PedManager()
     cameraFacingAng_678760 = gDummyPedAng_6787A8;
     byte_61A8A3 = 1;
     byte_61A8A4 = 1;
-    word_6787E0 = 0;
-    byte_6787E2 = 0;
-    byte_6787E3 = 0;
+    gNumPedsUpdated_6787E0 = 0;
+    gNumDummyChars_6787E2 = 0;
+    gNumScriptCreatedPeds_6787E3 = 0;
     gNumPedsOnScreen_6787EC = 0;
-    unk_6787EF = 0;
+    bThreateningPedAdded_6787EF = 0;
     */
     sub_553F90();
     gThreateningPedsList_678468.ClearList_420E90();
@@ -895,7 +895,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 }
 
 MATCH_FUNC(0x470cc0)
-Ped* PedManager::sub_470CC0(Car_BC* pCar)
+Ped* PedManager::CreateDummyDriver_470CC0(Car_BC* pCar)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->field_244_remap = -1;
@@ -988,7 +988,7 @@ Ped* PedManager::SpawnTrainLeaver_470E30()
 }
 
 MATCH_FUNC(0x470f30)
-Ped* PedManager::sub_470F30()
+Ped* PedManager::AllocatePed_470F30()
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->field_216_health = 100;
@@ -996,7 +996,7 @@ Ped* PedManager::sub_470F30()
 }
 
 MATCH_FUNC(0x470f90)
-Ped* PedManager::sub_470F90(Ped* pSrc)
+Ped* PedManager::ClonePed_470F90(Ped* pSrc)
 {
     Ped* pDst = gPedPool_6787B8->Allocate();
     Ped* pNext = pDst->mpNext;
@@ -1058,12 +1058,12 @@ void PedManager::Dummies_470330()
 {
     WIP_IMPLEMENTED;
 
-    s16 v1 = gPedManager_6787BC->field_0;
+    s16 v1 = gPedManager_6787BC->field_0_max_dummy_chars;
     if (gPolice_7B8_6FEE40->field_654_wanted_level > 3)
     {
         v1 = (u16)v1 >> 1;
     }
-    if (byte_6787E2 < v1)
+    if (gNumDummyChars_6787E2 < v1)
     {
         for (Camera_0xBC* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->sub_4B9C50())
         {

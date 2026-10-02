@@ -6197,7 +6197,7 @@ void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_car_idx);
 
-    Ped* pNewPed = gPedManager_6787BC->sub_470F30();
+    Ped* pNewPed = gPedManager_6787BC->AllocatePed_470F30();
     pParam1->field_8_char = pNewPed;
 
     if (pNewPed)

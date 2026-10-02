@@ -299,7 +299,7 @@ void Game_0x40::ShowCounters_4B8FF0()
     swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_BC_Pool_67792C->field_0_pool.field_X_count);
     gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gPedManager_6787BC->field_2);
+    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gPedManager_6787BC->field_2_num_dummy_chars);
     gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
 
     Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;

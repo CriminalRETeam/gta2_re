@@ -3993,7 +3993,7 @@ void Car_BC::SpawnDriverPed()
     Ped* pNextPed = gCar_6C_677930->field_4;
     if (!pNextPed)
     {
-        pNextPed = gPedManager_6787BC->sub_470CC0(this);
+        pNextPed = gPedManager_6787BC->CreateDummyDriver_470CC0(this);
         gCar_6C_677930->field_4 = pNextPed;
     }
     SetDriver(pNextPed);

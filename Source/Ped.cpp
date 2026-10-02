@@ -51,9 +51,9 @@ DEFINE_GLOBAL_INIT(u8, gNumberElvisLeadersSpawned_6787CC, 0, 0x6787CC);
 DEFINE_GLOBAL_INIT(u8, gNumberWalkingCopsSpawned_6787CD, 0, 0x6787CD);
 DEFINE_GLOBAL(u8, byte_6787D2, 0x6787D2);
 DEFINE_GLOBAL_INIT(u8, byte_61A8A0, 1, 0x61A8A0);
-DEFINE_GLOBAL(u8, byte_6787E2, 0x6787E2);
-DEFINE_GLOBAL(u8, byte_6787E3, 0x6787E3);
-DEFINE_GLOBAL(u8, byte_6787E4, 0x6787E4);
+DEFINE_GLOBAL(u8, gNumDummyChars_6787E2, 0x6787E2);
+DEFINE_GLOBAL(u8, gNumScriptCreatedPeds_6787E3, 0x6787E3);
+DEFINE_GLOBAL(u8, gNumEmergencyPeds_6787E4, 0x6787E4);
 DEFINE_GLOBAL(u8, byte_6787D7, 0x6787D7);
 DEFINE_GLOBAL(u8, byte_6787D4, 0x6787D4);
 DEFINE_GLOBAL(u8, byte_678554, 0x678554);
@@ -63,7 +63,7 @@ DEFINE_GLOBAL_INIT(u8, byte_61A8A4, 1, 0x61A8A4);
 DEFINE_GLOBAL(u8, byte_6787C4, 0x6787C4);
 DEFINE_GLOBAL(s16, word_6787D0, 0x6787D0);
 DEFINE_GLOBAL(s16, word_6787F2, 0x6787F2);
-DEFINE_GLOBAL(u16, word_6787E0, 0x6787E0);
+DEFINE_GLOBAL(u16, gNumPedsUpdated_6787E0, 0x6787E0);
 DEFINE_GLOBAL(Ped*, dword_6787DC, 0x6787DC);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678660, Fix16(0), 0x678660);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678438, k_dword_678660, 0x678438);
@@ -93,11 +93,11 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678668, Fix16(2), 0x678668);
 DEFINE_GLOBAL_INIT(Fix16, gSpawnJitterScale_678618, Fix16(256, 0), 0x678618);
 DEFINE_GLOBAL_INIT(Fix16, dword_678484, Fix16(0x1000, 0), 0x678484);
 DEFINE_GLOBAL_INIT(Fix16, dword_678488, Fix16(0xCCC, 0), 0x678488);
-DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
+DEFINE_GLOBAL(Ped*, gLastProcessedPed_6787C0, 0x6787C0);
 DEFINE_GLOBAL_INIT(Fix16, gDummyW_678530, dword_678488, 0x678530);
 DEFINE_GLOBAL_INIT(Fix16, gDummyZ_67841C, dword_678484, 0x67841C);
 DEFINE_GLOBAL(Object_2C*, dword_678558, 0x678558);
-DEFINE_GLOBAL(char_type, byte_6787D3, 0x6787D3);
+DEFINE_GLOBAL(char_type, gNumberBusCustomers_6787D3, 0x6787D3);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678504, Fix16(0xAAA, 0), 0x678504);
 DEFINE_GLOBAL_INIT(Fix16, dword_678574, dword_678484, 0x678574);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_67845C, dword_678574 / dword_678668, 0x67845C);
@@ -108,7 +108,7 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_678430, dword_6784C4, 0x678430);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_678524, Fix16(0x9C3C000, 0), 0x678524);
 
 DEFINE_GLOBAL_INIT(s16, k_word_678656, 40, 0x678656);
-DEFINE_GLOBAL(u8, byte_6787CE, 0x6787CE);
+DEFINE_GLOBAL(u8, gNumberArmedGangMembers_6787CE, 0x6787CE);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6784A0, Fix16(0x3333, 0), 0x6784A0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784BC, dword_6784C4 / dword_678668, 0x6784BC);
@@ -2049,12 +2049,12 @@ void Ped::Deallocate_45EB60()
             --gNumberWalkingCopsSpawned_6787CD;
             break;
         case ped_ocupation_enum::armed_gang_member_19:
-            --byte_6787CE;
+            --gNumberArmedGangMembers_6787CE;
             break;
         case ped_ocupation_enum::bus_customer_8:
-            if (--byte_6787D3 < 0)
+            if (--gNumberBusCustomers_6787D3 < 0)
             {
-                byte_6787D3 = 0;
+                gNumberBusCustomers_6787D3 = 0;
             }
             break;
         default:
@@ -2170,7 +2170,7 @@ bool Ped::IsField238_45EDE0(s32 ped_type)
 
 // https://decomp.me/scratch/pXF8g
 MATCH_FUNC(0x45ee00)
-void Ped::sub_45EE00(u32 occupation)
+void Ped::SetOccupation_45EE00(u32 occupation)
 {
     if (field_240_occupation <= (u32)ped_ocupation_enum::bank_robber)
     {
@@ -2196,8 +2196,8 @@ void Ped::sub_45EE00(u32 occupation)
                 field_240_occupation = occupation;
                 break;
             case ped_ocupation_enum::bus_customer_8:
-                if (--byte_6787D3 < 0)
-                    byte_6787D3 = 0;
+                if (--gNumberBusCustomers_6787D3 < 0)
+                    gNumberBusCustomers_6787D3 = 0;
                 field_240_occupation = occupation;
                 break;
         }
@@ -2216,14 +2216,14 @@ void Ped::EnterPublicTransport_45EE70()
         {
             if (!bSkip_buses_67D558)
             {
-                if (stru_6F6784.get_int_4F7AE0(100) > 90 && byte_6787D3 < 5 && pZoneIter->field_0_zone_type == 7 &&
+                if (stru_6F6784.get_int_4F7AE0(100) > 90 && gNumberBusCustomers_6787D3 < 5 && pZoneIter->field_0_zone_type == 7 &&
                     !gPublicTransport_181C_6FF1D4->is_bus_full_579AF0())
                 {
                     if (field_25C_internal_objective != 37 && field_25C_internal_objective != 38 && this->field_278_ped_state_1 == ped_state_1::walking_0)
                     {
-                        sub_45EE00(8);
+                        SetOccupation_45EE00(8);
                         SetObjective2_463830(30, 9999);
-                        ++byte_6787D3;
+                        ++gNumberBusCustomers_6787D3;
                     }
                 }
             }
@@ -2231,7 +2231,7 @@ void Ped::EnterPublicTransport_45EE70()
         else
         {
             TrainStation_34* pTrainStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(pZoneIter);
-            if (stru_6F6784.get_int_4F7AE0(100) > 90 && byte_6787D3 < 5)
+            if (stru_6F6784.get_int_4F7AE0(100) > 90 && gNumberBusCustomers_6787D3 < 5)
             {
                 if (field_25C_internal_objective != 37 && field_25C_internal_objective != 38 && field_25C_internal_objective != 12)
                 {
@@ -2240,7 +2240,7 @@ void Ped::EnterPublicTransport_45EE70()
                     {
                         if (pTrain->field_C_carriages[1]->field_84_car_info_idx == car_model_enum::TRAIN)
                         {
-                            sub_45EE00(9);
+                            SetOccupation_45EE00(9);
                             SetObjective2_463830(29, 9999);
                             this->field_154_target_to_enter = pTrainStation->field_18->field_C_carriages[1];
                         }
@@ -2265,7 +2265,7 @@ void Ped::Mugger_AI_45F360()
             {
                 if (field_218_objective_timer == 0)
                 {
-                    Ped* pTarget = sub_467070();
+                    Ped* pTarget = GetLastProcessedPedOnFoot_467070();
                     if (!pTarget || pTarget->field_20e)
                     {
                         Ped::SetObjective(objectives_enum::no_obj_0, 9999);
@@ -2324,7 +2324,7 @@ void Ped::Mugger_AI_45F360()
                 field_278_ped_state_1 = ped_state_1::walking_0;
                 field_27C_ped_state_2 = ped_state_2::ped2_walking_0;
                 Ped::SetObjective(objectives_enum::no_obj_0, 9999);
-                Ped::sub_45EE00(3);
+                Ped::SetOccupation_45EE00(3);
                 --gNumberMuggersSpawned_6787CA;
             }
             break;
@@ -2548,7 +2548,7 @@ void Ped::TaxiCustomer_AI_460820()
                 {
                     // taxi without driver -> exit
                     SetObjective(objectives_enum::leave_car_36, 9999);
-                    sub_45EE00(3);
+                    SetOccupation_45EE00(3);
                     pCar_ = this->field_16C_car;
                     this->field_238_ped_type = ped_type::dummy_3;
                     this->field_150_target_objective_car = pCar_;
@@ -2723,9 +2723,9 @@ void Ped::BusCustomer_AI_461290()
         case objectives_enum::enter_car_as_driver_35:
             if (this->field_225_objective_status == objective_status::passed_1)
             {
-                if (--byte_6787D3 < 0)
+                if (--gNumberBusCustomers_6787D3 < 0)
                 {
-                    byte_6787D3 = 0;
+                    gNumberBusCustomers_6787D3 = 0;
                 }
                 pCar = this->field_16C_car;
                 field_54_driver = pCar->field_54_driver;
@@ -2764,7 +2764,7 @@ void Ped::BusCustomer_AI_461290()
             {
             LABEL_21:
                 this->field_238_ped_type = ped_type::dummy_3;
-                sub_45EE00(3);
+                SetOccupation_45EE00(3);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
                 y = this->field_1AC_cam.y;
@@ -2807,7 +2807,7 @@ void Ped::TrainCustomer_AI_461530()
             if (field_154_target_to_enter->GetVelocity_43A4C0() != k_dword_678660)
             {
                 this->field_238_ped_type = ped_type::dummy_3;
-                sub_45EE00(3);
+                SetOccupation_45EE00(3);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::no_obj_0, 9999);
                 this->field_1B8_target_x = this->field_1AC_cam.x;
@@ -2819,7 +2819,7 @@ void Ped::TrainCustomer_AI_461530()
             if (this->field_226)
             {
                 this->field_238_ped_type = ped_type::dummy_3;
-                sub_45EE00(3);
+                SetOccupation_45EE00(3);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
                 this->field_1B8_target_x = this->field_1AC_cam.x;
@@ -3672,7 +3672,7 @@ char_type Ped::StateMachineTick_4626B0()
             this->field_212_electrocution_threshold = 100;
             if (occupation_ == ped_ocupation_enum::armed_gang_member_19 && this->field_278_ped_state_1 == ped_state_1::dead_9)
             {
-                --byte_6787CE;
+                --gNumberArmedGangMembers_6787CE;
                 this->field_240_occupation = ped_ocupation_enum::dummy;
             }
             if (this->field_168_game_object)
@@ -3855,7 +3855,7 @@ bool Ped::PoolUpdate()
     switch (field_238_ped_type)
     {
         case ped_type::dummy_3:
-            ++byte_6787E2;
+            ++gNumDummyChars_6787E2;
             break;
         case ped_type::special_ped_4:
         case ped_type::dummy_with_occupation_6:
@@ -3863,15 +3863,15 @@ bool Ped::PoolUpdate()
             if (field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
             {
                 field_230 = 1;
-                ++byte_6787E4;
+                ++gNumEmergencyPeds_6787E4;
             }
             else
             {
-                ++byte_6787E2;
+                ++gNumDummyChars_6787E2;
             }
             break;
         case ped_type::script_created_5:
-            ++byte_6787E3;
+            ++gNumScriptCreatedPeds_6787E3;
             break;
         default:
             break;
@@ -3892,7 +3892,7 @@ bool Ped::PoolUpdate()
     {
         field_26A--;
     }
-    ++word_6787E0;
+    ++gNumPedsUpdated_6787E0;
     byte_6787D7 = 0;
     dword_6787DC = 0;
     byte_6787D4 = 0;
@@ -3936,7 +3936,7 @@ bool Ped::PoolUpdate()
             if (byte_61A8A4)
             {
                 Ped::sub_462280();
-                dword_6787C0 = this;
+                gLastProcessedPed_6787C0 = this;
                 Ped::ManageWeapon_46F390();
                 if (field_20A_wanted_points)
                 {
@@ -6303,9 +6303,9 @@ Ped* Ped::FindNearbyPed_466FB0()
 }
 
 MATCH_FUNC(0x467070)
-Ped* Ped::sub_467070()
+Ped* Ped::GetLastProcessedPedOnFoot_467070()
 {
-    return dword_6787C0->field_168_game_object != 0 ? dword_6787C0 : 0;
+    return gLastProcessedPed_6787C0->field_168_game_object != 0 ? gLastProcessedPed_6787C0 : 0;
 }
 
 WIP_FUNC(0x467090)
@@ -10655,7 +10655,7 @@ Weapon_30* Ped::sub_46F490()
 
             if (gDistanceToTarget_678750 < k_dword_678658 + k_dword_678798)
             {
-                ++unk_6787EE; // police peds in range screen
+                ++gNumPolicePedsInRangeScreen_6787EE; // police peds in range screen
             }
 
             // TODO: Wrong here, check needs inverting maybe
@@ -11018,7 +11018,7 @@ void Ped::Kill_46F9D0()
 MATCH_FUNC(0x46fc70)
 void Ped::AddThreateningPedToList_46FC70()
 {
-    unk_6787EF = 1;
+    bThreateningPedAdded_6787EF = 1;
     gThreateningPedsList_678468.AddPedToFrontIfMissing_4711B0(this);
 }
 

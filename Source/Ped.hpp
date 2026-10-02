@@ -86,7 +86,7 @@ class Ped
     EXPORT void Deallocate_45EB60();
     EXPORT char_type sub_45EDC0();
     EXPORT bool IsField238_45EDE0(s32 a2);
-    EXPORT void sub_45EE00(u32 occupation);
+    EXPORT void SetOccupation_45EE00(u32 occupation);
     EXPORT void EnterPublicTransport_45EE70();
     EXPORT void Mugger_AI_45F360();
     EXPORT void CarThief_AI_45FF60();
@@ -126,7 +126,7 @@ class Ped
     EXPORT Ped* sub_466F40(u8 a2);
     EXPORT Ped* FindNearestPed_466F60(u8 a2);
     EXPORT Ped* FindNearbyPed_466FB0();
-    EXPORT Ped* sub_467070();
+    EXPORT Ped* GetLastProcessedPedOnFoot_467070();
     EXPORT char_type FindUsableCarDoor_467090();
     EXPORT Sprite* sub_467280();
     EXPORT void UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type);
@@ -768,7 +768,7 @@ EXTERN_GLOBAL(u8, gNumberElvisLeadersSpawned_6787CC);
 
 EXTERN_GLOBAL(u8, gNumberWalkingCopsSpawned_6787CD);
 
-EXTERN_GLOBAL(u8, byte_6787EF);
+EXTERN_GLOBAL(u8, bThreateningPedAdded_6787EF);
 
 EXTERN_GLOBAL(Fix16, dword_678620);
 EXTERN_GLOBAL(Fix16, dword_678670);
