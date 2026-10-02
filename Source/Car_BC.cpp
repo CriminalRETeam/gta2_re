@@ -5232,7 +5232,7 @@ void Car_BC::DetachTrailerAndUpdateDamage_4418B0()
 {
     sub_43BD40();
     DetachTrailer_442760();
-    field_78_flags |= 1;
+    add_f78_bits_421890(1);
 }
 
 // https://decomp.me/scratch/KU02C
