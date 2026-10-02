@@ -703,15 +703,6 @@ class Ped
         field_168_game_object->set_rotation_433A30(rotation);
     }
 
-    // 9.6f 0x433C40
-    inline void DoJump_433C40()
-    {
-        if (field_168_game_object)
-        {
-            field_168_game_object->DoJump_5454D0();
-        }
-    }
-
     // 9.6f 0x433C20
     inline Fix16 GetCharVelocity_433C20()
     {
