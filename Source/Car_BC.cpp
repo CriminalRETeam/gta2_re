@@ -2180,7 +2180,7 @@ void Car_BC::AssignRandomRemap_43A7D0()
 MATCH_FUNC(0x43a850)
 char_type Car_BC::GetCarModelForPhysics_43A850()
 {
-    if (field_54_driver && !field_54_driver->IsField238_45EDE0(2))
+    if (sub_4214F0())
     {
         if (!IsTrainModel_403BA0())
         {
