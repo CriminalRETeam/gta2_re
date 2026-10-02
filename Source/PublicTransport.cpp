@@ -164,7 +164,7 @@ void Train_58::ReassignTrainHead_578030()
         pFirst->DeAllocateAI_4446E0();
 
         this->field_C_carriages[0]->field_76_last_seen_timer = 0;
-        this->field_C_carriages[0]->field_7C_uni_num = this->field_C_carriages[0]->field_54_driver->field_238_ped_type;
+        this->field_C_carriages[0]->field_7C_uni_num = this->field_C_carriages[0]->field_54_driver->GetPedType_420B70();
     }
 }
 
@@ -308,7 +308,7 @@ void Train_58::sub_578330()
         {
             if (field_C_carriages[i + 1])
             {
-                if (field_C_carriages[i + 1]->field_84_car_info_idx == car_model_enum::TRAIN)
+                if (field_C_carriages[i + 1]->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
                 {
                     field_C_carriages[i + 1]->sub_43B3D0();
                 }
@@ -326,7 +326,7 @@ void Train_58::sub_578360()
         {
             if (field_C_carriages[i + 1])
             {
-                if (field_C_carriages[i + 1]->field_84_car_info_idx == car_model_enum::TRAIN)
+                if (field_C_carriages[i + 1]->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
                 {
                     field_C_carriages[i + 1]->sub_43B380();
                 }
@@ -350,7 +350,7 @@ void Train_58::UpdatePassengerAI_578390()
                 do
                 {
                     Car_BC** pTrainCar = &this->field_C_carriages[i + 1];
-                    if ((*pTrainCar)->field_84_car_info_idx == car_model_enum::TRAIN)
+                    if ((*pTrainCar)->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
                     {
                         this->field_56_passenger_count = 1;
                         if (gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0((*pTrainCar)->field_50_car_sprite, dword_6FF078))
@@ -373,7 +373,7 @@ void Train_58::UpdatePassengerAI_578390()
                                             Ped_List_4* pLink = &pNewPed->field_16C_car->field_4_passengers_list;
                                             pNewPed->set_field_150_target_objective_car(*pTrainCar);
                                             pLink->AddPed_471140(pNewPed);
-                                            pNewPed->field_24C_target_car_door = gTargetCarDoor_6FF1D8;
+                                            pNewPed->set_target_car_door_403A70(gTargetCarDoor_6FF1D8);
                                             --this->field_56_passenger_count;
                                         }
                                         ++gTargetCarDoor_6FF1D8;
@@ -403,7 +403,7 @@ void Train_58::UpdatePassengerAI_578390()
                         pRemoved->field_16C_car = this->field_C_carriages[0];
                         pRemoved->SetObjective(objectives_enum::leave_train_38, 9999);
                         Car_BC* pTargetCar_ = this->field_C_carriages[0];
-                        pRemoved->field_24C_target_car_door = 2;
+                        pRemoved->set_target_car_door_403A70(2);
                         pRemoved->set_field_150_target_objective_car(pTargetCar_);
                         pRemoved->set_occupation_403970(8);
                         if (this->field_0 == 1)
@@ -428,7 +428,7 @@ void Train_58::UpdatePassengerAI_578390()
                             this->field_C_carriages[0]->field_4_passengers_list.AddPed_471140(pNewPed_1);
                             pNewPed_1->SetObjective(objectives_enum::leave_train_38, 9999);
                             Car_BC* pTargetCar = this->field_C_carriages[0];
-                            pNewPed_1->field_24C_target_car_door = 2;
+                            pNewPed_1->set_target_car_door_403A70(2);
                             pNewPed_1->set_field_150_target_objective_car(pTargetCar);
                             pNewPed_1->set_occupation_403970(8);
                             if (this->field_0 == 1)
