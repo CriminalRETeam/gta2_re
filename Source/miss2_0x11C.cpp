@@ -2831,10 +2831,9 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_CAR_509C10()
     Ped* pPed = pParam1->field_8_char;
 
     Car_BC* pCarTarget;
-    Car_BC* pCarCurrent;
 
-    if (pPed != NULL && (pCarTarget = pParam2->field_8_car) != NULL && (pCarCurrent = pPed->get_car_416B60()) != NULL &&
-        pCarCurrent == pCarTarget)
+    if (pPed != NULL && (pCarTarget = pParam2->field_8_car) != NULL && pPed->has_car_403B80() &&
+        pPed->get_car_416B60() == pCarTarget)
     {
         field_8 = true;
     }
