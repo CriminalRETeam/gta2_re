@@ -684,7 +684,7 @@ char_type Object_2C::sub_5233A0(Fix16 a2)
 
         if (this->field_10_obj_3c->field_34 == 1)
         {
-            this->field_4->set_num_40F7B0(29);
+            sub_482BF0();
         }
         else
         {

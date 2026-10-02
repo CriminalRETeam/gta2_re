@@ -255,6 +255,12 @@ class Object_2C
         field_4->set_num_40F7B0(field_8->field_2C);
     }
 
+    // 9.6f 0x482BF0
+    void sub_482BF0()
+    {
+        field_4->set_num_40F7B0(29);
+    }
+
     Object_2C* mpNext;
     Sprite* field_4;
     Phi_74* field_8;
