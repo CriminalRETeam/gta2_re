@@ -524,7 +524,7 @@ EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, F
 
 // TODO: move
 // https://decomp.me/scratch/kwM8W
-WIP_FUNC(0x4F75D0)
+MATCH_FUNC(0x4F75D0)
 EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
                                                    Fix16* coord_velocity,
                                                    Fix16* curr_coord,
@@ -533,66 +533,53 @@ EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
                                                    Fix16* velocity_3,
                                                    Fix16* maybe_decrement)
 {
-    WIP_IMPLEMENTED;
     Fix16 DeltaCoord = *target_coord - *curr_coord;
     if (DeltaCoord > kZero_6F6C50)
     {
         if (*coord_velocity >= kZero_6F6C50)
         {
-            Fix16 v8 = *velocity_1 + *coord_velocity;
-            if (v8 <= DeltaCoord)
+            if (*coord_velocity + *velocity_1 <= DeltaCoord)
             {
-                *coord_velocity = v8;
-                if (v8 > *velocity_2)
+                *coord_velocity += *velocity_1;
+                if (*coord_velocity > *velocity_2)
                 {
                     *coord_velocity = *velocity_2;
-                    *curr_coord += *velocity_2;
-                }
-                else
-                {
-                    *curr_coord += *coord_velocity;
                 }
             }
             else
             {
                 *coord_velocity = DeltaCoord;
-                *curr_coord += DeltaCoord;
             }
         }
         else
         {
             *coord_velocity = kZero_6F6C50;
-            *curr_coord += *coord_velocity;
         }
-    }
-    else if (DeltaCoord >= kZero_6F6C50 || *coord_velocity > kZero_6F6C50)
-    {
-        *coord_velocity = kZero_6F6C50;
-        *curr_coord += *coord_velocity;
     }
     else
     {
-        Fix16 DeltaVel = *coord_velocity - *velocity_3;
-        if (DeltaVel < DeltaCoord)
+        if (DeltaCoord >= kZero_6F6C50 || *coord_velocity > kZero_6F6C50)
         {
-            *coord_velocity = DeltaCoord;
-            *curr_coord += DeltaCoord;
+            *coord_velocity = kZero_6F6C50;
         }
         else
         {
-            *coord_velocity = DeltaVel;
-            DeltaCoord = -*maybe_decrement;
-            if (DeltaVel < DeltaCoord)
+            if (*coord_velocity - *velocity_3 >= DeltaCoord)
             {
-                *coord_velocity = DeltaCoord;
-                *curr_coord += DeltaCoord;
+                *coord_velocity -= *velocity_3;
+                if (*coord_velocity < -*maybe_decrement)
+                {
+                    *coord_velocity = -*maybe_decrement;
+                }
             }
             else
             {
-                *curr_coord += *coord_velocity;
+                *coord_velocity = DeltaCoord;
             }
         }
     }
+
+    *curr_coord += *coord_velocity;
 }
 
 MATCH_FUNC(0x435FF0)
