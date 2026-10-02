@@ -2485,15 +2485,20 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
     Fix16 height_over_2 = field_4_height / 2;
     Fix16 unk_over_2 = field_8_depth / 2;
 
-    Fix16_Point point = Fix16_Point(xpos, ypos);
+    Fix16_Point point;
+    point.SetXY_432860(xpos, ypos);
 
     if (rotation == gAng16_703804) // = 0
     {
         // okay
-        Fix16_Point northwest = Fix16_Point(-width_over_2, -height_over_2);
-        Fix16_Point northeast = Fix16_Point(width_over_2, -height_over_2);
-        Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
-        Fix16_Point southwest = Fix16_Point(-width_over_2, height_over_2);
+        Fix16_Point northwest;
+        northwest.SetXY_432860(-width_over_2, -height_over_2);
+        Fix16_Point northeast;
+        northeast.SetXY_432860(width_over_2, -height_over_2);
+        Fix16_Point southeast;
+        southeast.SetXY_432860(width_over_2, height_over_2);
+        Fix16_Point southwest;
+        southwest.SetXY_432860(-width_over_2, height_over_2);
 
         field_C_renderingRect[0] = point + northwest;
         field_C_renderingRect[1] = point + northeast;
@@ -2506,10 +2511,14 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
     else if (rotation == kAng90_70344C) // = 360
     {
         // okay
-        Fix16_Point southwest = Fix16_Point(-height_over_2, width_over_2);
-        Fix16_Point northwest = Fix16_Point(-height_over_2, -width_over_2);
-        Fix16_Point northeast = Fix16_Point(height_over_2, -width_over_2);
-        Fix16_Point southeast = Fix16_Point(height_over_2, width_over_2);
+        Fix16_Point southwest;
+        southwest.SetXY_432860(-height_over_2, width_over_2);
+        Fix16_Point northwest;
+        northwest.SetXY_432860(-height_over_2, -width_over_2);
+        Fix16_Point northeast;
+        northeast.SetXY_432860(height_over_2, -width_over_2);
+        Fix16_Point southeast;
+        southeast.SetXY_432860(height_over_2, width_over_2);
 
         field_C_renderingRect[0] = point + southwest;
         field_C_renderingRect[1] = point + northwest;
@@ -2522,10 +2531,14 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
     else if (rotation == kAng180_70351E) // = 720
     {
         // okay
-        Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
-        Fix16_Point southwest = Fix16_Point(-width_over_2, height_over_2);
-        Fix16_Point northwest = Fix16_Point(-width_over_2, -height_over_2);
-        Fix16_Point northeast = Fix16_Point(width_over_2, -height_over_2);
+        Fix16_Point southeast;
+        southeast.SetXY_432860(width_over_2, height_over_2);
+        Fix16_Point southwest;
+        southwest.SetXY_432860(-width_over_2, height_over_2);
+        Fix16_Point northwest;
+        northwest.SetXY_432860(-width_over_2, -height_over_2);
+        Fix16_Point northeast;
+        northeast.SetXY_432860(width_over_2, -height_over_2);
 
         field_C_renderingRect[0] = point + southeast;
         field_C_renderingRect[1] = point + southwest;
@@ -2538,10 +2551,14 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
     else if (rotation == kAng270_703544) // = 1080
     {
         // okay
-        Fix16_Point northeast = Fix16_Point(height_over_2, -width_over_2);
-        Fix16_Point southeast = Fix16_Point(height_over_2, width_over_2);
-        Fix16_Point southwest = Fix16_Point(-height_over_2, width_over_2);
-        Fix16_Point northwest = Fix16_Point(-height_over_2, -width_over_2);
+        Fix16_Point northeast;
+        northeast.SetXY_432860(height_over_2, -width_over_2);
+        Fix16_Point southeast;
+        southeast.SetXY_432860(height_over_2, width_over_2);
+        Fix16_Point southwest;
+        southwest.SetXY_432860(-height_over_2, width_over_2);
+        Fix16_Point northwest;
+        northwest.SetXY_432860(-height_over_2, -width_over_2);
 
         field_C_renderingRect[0] = point + northeast;
         field_C_renderingRect[1] = point + southeast;
@@ -2554,10 +2571,14 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
     else
     {
         //
-        Fix16_Point northwest = Fix16_Point(-width_over_2, -height_over_2);
-        Fix16_Point northeast = Fix16_Point(width_over_2, -height_over_2);
-        Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
-        Fix16_Point southwest = Fix16_Point(-width_over_2, height_over_2);
+        Fix16_Point northwest;
+        northwest.SetXY_432860(-width_over_2, -height_over_2);
+        Fix16_Point northeast;
+        northeast.SetXY_432860(width_over_2, -height_over_2);
+        Fix16_Point southeast;
+        southeast.SetXY_432860(width_over_2, height_over_2);
+        Fix16_Point southwest;
+        southwest.SetXY_432860(-width_over_2, height_over_2);
 
         northwest.RotateByAngle_40F6B0(rotation);
         northeast.RotateByAngle_40F6B0(rotation);
@@ -2569,6 +2590,7 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         field_C_renderingRect[2] = point + southeast;
         field_C_renderingRect[3] = point + southwest;
 
+        // 9.6f: Fix16_Rect::get_left_45ADB0/right/top/bottom here (inlined, using them changes the code: 638 -> 648)
         Fix16 left = field_30_boundingBox.field_0_left;
         Fix16 right = field_30_boundingBox.field_4_right;
         Fix16 top = field_30_boundingBox.field_8_top;
