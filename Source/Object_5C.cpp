@@ -1990,7 +1990,7 @@ void Object_2C::InitializeObject_527630(s32 object_type, Fix16 xpos, Fix16 ypos,
     field_4->set_xyz_lazy_420600(xpos, ypos, zpos);
     field_4->set_ang_lazy_420690(rotation);
 
-    field_4->field_8_object_2C_ptr = this;
+    field_4->SetObj2C_482A30(this);
 }
 
 MATCH_FUNC(0x527990)
