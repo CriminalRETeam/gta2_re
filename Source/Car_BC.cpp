@@ -312,7 +312,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 if (pCmd->field_2_type == 0xD4)
                 {
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_idx);
-                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -320,7 +320,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 else if (pCmd->field_2_type == 0xD6)
                 {
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
-                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -328,7 +328,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 else
                 {
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
-                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -351,7 +351,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                     {
                         pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
                     }
-                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -372,7 +372,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                     {
                         pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
                     }
-                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -389,7 +389,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
-                    if (pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                    if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -406,7 +406,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
                     if (pPed->field_168_game_object->field_38_velocity == kZero_705DD8 &&
-                        pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                        pPed->field_200_id == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -423,7 +423,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
                     if (pPed->field_168_game_object->field_38_velocity == kZero_705DD8 &&
-                        pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                        pPed->field_200_id == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -438,7 +438,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
                     if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
-                        pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                        pPed->field_200_id == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -456,7 +456,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
                     if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
-                        pPed->field_200_id == pPointer->field_8_char->field_200_id)
+                        pPed->field_200_id == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -6405,25 +6405,25 @@ void Car_BC::sub_4435F0()
 {
     if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x10) == 0x10)
     {
-        this->field_50_car_sprite->field_28_num = 16;
+        this->field_50_car_sprite->set_num_40F7B0(16);
     }
     else
     {
         if ((field_78_flags & 0x10) != 0)
         {
-            this->field_50_car_sprite->field_28_num = 13;
+            this->field_50_car_sprite->set_num_40F7B0(13);
         }
         else if ((field_78_flags & 0x40) != 0)
         {
-            this->field_50_car_sprite->field_28_num = 19;
+            this->field_50_car_sprite->set_num_40F7B0(19);
         }
         else if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 1) == 1)
         {
-            this->field_50_car_sprite->field_28_num = 21;
+            this->field_50_car_sprite->set_num_40F7B0(21);
         }
         else
         {
-            this->field_50_car_sprite->field_28_num = 15;
+            this->field_50_car_sprite->set_num_40F7B0(15);
         }
     }
 }
@@ -6586,11 +6586,11 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
         {
             SetCarRemap(remap);
             field_0_qq.ClearGangIconSprite_5A7110();
-            this->field_B4_weapon_kind = 1;
+            this->set_weapon_kind_421950(1);
         }
         else
         {
-            this->field_B4_weapon_kind = 2;
+            this->set_weapon_kind_421950(2);
         }
 
         pPlayer->field_2D4_scores.AddCash_592620(-cost);
@@ -6600,7 +6600,7 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
     else
     {
         sub_443AB0(pPlayer, cost);
-        this->field_B4_weapon_kind = 8;
+        this->set_weapon_kind_421950(8);
     }
 }
 
