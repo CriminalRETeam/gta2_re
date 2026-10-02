@@ -752,11 +752,9 @@ bool Game_0x40::sub_4B98E0(Sprite* a2, u8 playerIdx, s32 a4)
     return false;
 }
 
-WIP_FUNC(0x4B9950)
+MATCH_FUNC(0x4B9950)
 s8 Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 margin)
 {
-    WIP_IMPLEMENTED;
-
     Player*& pPlayer = this->field_4_players[playerIdx]; // a reference: 9.6f keeps the slot address too
     if (!pPlayer->field_8E_bInUse)
     {
