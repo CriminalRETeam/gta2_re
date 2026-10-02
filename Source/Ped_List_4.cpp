@@ -287,7 +287,7 @@ void Ped_List_4::KillAllPedsAndClearCarRef_4715E0()
         pIter->field_0_char_ped->Kill_46F9D0();
         pIter->field_0_char_ped->field_16C_car = 0;
         pIter = pIter->mpNext;
-        gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
+        gChar_8_Pool_678b50->DeAllocate_445F00(pLast);
     }
 
     field_0_pFirstPed = 0;
