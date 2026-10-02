@@ -999,7 +999,7 @@ Ped* PedManager::sub_470F90(Ped* pSrc)
 
     if (pSrc->field_168_game_object)
     {
-        pDst->AllocCharB4_45C830(pSrc->field_1AC_cam.x, pSrc->field_1AC_cam.y, pSrc->field_1AC_cam.z);
+        pDst->AllocCharB4_45C830(pSrc->get_cam_x(), pSrc->get_cam_y(), pSrc->get_cam_z());
         Char_B4* pCharObj = pDst->field_168_game_object;
         u8 remap = pSrc->field_244_remap;
         pCharObj->field_5_remap = remap;
@@ -1007,8 +1007,8 @@ Ped* PedManager::sub_470F90(Ped* pSrc)
         {
             pCharObj->field_80_sprite_ptr->SetRemap(remap);
         }
-        pDst->field_168_game_object->set_rotation_433A30(pSrc->GetRotation());
-        pDst->field_168_game_object->field_16 = 1;
+        pDst->SetRotation_433C00(pSrc->GetRotation());
+        pDst->Set_B4_F16_To_1_433B50();
         pDst->field_168_game_object->field_84 = pSrc->field_168_game_object->field_84;
     }
     return pDst;
