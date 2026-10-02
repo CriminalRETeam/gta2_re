@@ -46,18 +46,25 @@ void Kfc_30::RemovePed_5CBC40(Ped* a2)
 }
 
 // https://decomp.me/scratch/HmQPr
-WIP_FUNC(0x5cbc60)
+MATCH_FUNC(0x5cbc60)
 bool Kfc_30::PedIsValid_5CBC60()
 {
-    WIP_IMPLEMENTED;
     if (field_4_ped && field_4_ped->isDead_403B60())
     {
         return false;
     }
-    // TODO: Something strange going on here:
-    // 10.5: mov 0x28(%ecx),%ecx
-    // 9.6f: mov 0x28(%esi),%esi
-    s32 v4 = field_28_state;
+    // A switch whose cases all return true: VC6 drops the compares but keeps the
+    // load of field_28_state (the stray mov 0x28(%ecx),%ecx). The case values are a guess.
+    switch (field_28_state)
+    {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+            return true;
+    }
     return true;
 }
 
