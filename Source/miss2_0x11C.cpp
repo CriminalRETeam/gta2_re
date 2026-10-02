@@ -2190,9 +2190,7 @@ void miss2_0x11C::SCRCMD_MAKE_CAR_DUMMY_508220()
         }
         pPointer->field_8_car->InitCarAIControl_440590();
 
-        Car_BC* pCar = pPointer->field_8_car;
-        pCar->field_7C_uni_num = 5;
-        pCar->field_76_last_seen_timer = 0;
+        pPointer->field_8_car->sub_421560(5);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
