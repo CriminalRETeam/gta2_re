@@ -744,12 +744,12 @@ void Weapon_30::car_bomb_5E0AB0(char_type instant_bomb)
 
     if (field_14_car->is_trailer_cab_41E460())
     {
-        field_14_car->field_64_pTrailer->field_C_pCarOnTrailer->sub_440F90(instant_bomb);
+        field_14_car->field_64_pTrailer->field_C_pCarOnTrailer->FireCarBomb_440F90(instant_bomb);
         field_14_car->DetachTrailerAndUpdateDamage_4418B0();
     }
     else
     {
-        field_14_car->sub_440F90(instant_bomb);
+        field_14_car->FireCarBomb_440F90(instant_bomb);
     }
 }
 

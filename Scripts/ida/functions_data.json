@@ -185,7 +185,7 @@
         "v105_address": "0x407ce0"
     },
     {
-        "name": "Trailer::sub_408140",
+        "name": "Trailer::ServicePhysics_408140",
         "v96f_address": "0x40FB20",
         "v105_address": "0x408140"
     },
@@ -1580,7 +1580,7 @@
         "v105_address": "0x43afe0"
     },
     {
-        "name": "Car_BC::sub_43B140",
+        "name": "Car_BC::IsStoppedWithPavementAtDoor_43B140",
         "v96f_address": null,
         "v105_address": "0x43b140"
     },
@@ -1635,7 +1635,7 @@
         "v105_address": "0x43b750"
     },
     {
-        "name": "Car_BC::sub_43B770",
+        "name": "Car_BC::AssignKillerToOccupants_43B770",
         "v96f_address": null,
         "v105_address": "0x43b770"
     },
@@ -1770,7 +1770,7 @@
         "v105_address": "0x43cbe0"
     },
     {
-        "name": "Car_BC::sub_43CDF0",
+        "name": "Car_BC::SetCarGraphic_43CDF0",
         "v96f_address": null,
         "v105_address": "0x43cdf0"
     },
@@ -1830,7 +1830,7 @@
         "v105_address": "0x43dbd0"
     },
     {
-        "name": "Car_BC::sub_43DC00",
+        "name": "Car_BC::IsSpriteShrunk_43DC00",
         "v96f_address": null,
         "v105_address": "0x43dc00"
     },
@@ -1965,7 +1965,7 @@
         "v105_address": "0x440d90"
     },
     {
-        "name": "Car_BC::sub_440F90",
+        "name": "Car_BC::FireCarBomb_440F90",
         "v96f_address": null,
         "v105_address": "0x440f90"
     },
@@ -2090,12 +2090,12 @@
         "v105_address": "0x441b50"
     },
     {
-        "name": "Car_BC::sub_441C00",
+        "name": "Car_BC::UpdatePopupHeadlights_441C00",
         "v96f_address": null,
         "v105_address": "0x441c00"
     },
     {
-        "name": "Car_BC::sub_441D40",
+        "name": "Car_BC::UpdateFbiPopupSiren_441D40",
         "v96f_address": null,
         "v105_address": "0x441d40"
     },
@@ -2110,7 +2110,7 @@
         "v105_address": "0x442170"
     },
     {
-        "name": "Car_BC::sub_442190",
+        "name": "Car_BC::ServicePhysics_442190",
         "v96f_address": "0x427b40",
         "v105_address": "0x442190"
     },
@@ -2145,7 +2145,7 @@
         "v105_address": "0x4425d0"
     },
     {
-        "name": "Car_BC::sub_4426D0",
+        "name": "Car_BC::ServiceDoorsLightsAndHorn_4426D0",
         "v96f_address": "0x426220",
         "v105_address": "0x4426d0"
     },
@@ -2205,7 +2205,7 @@
         "v105_address": "0x443330"
     },
     {
-        "name": "Car_BC::sub_443360",
+        "name": "Car_BC::UpdateAttachedToSprite_443360",
         "v96f_address": null,
         "v105_address": "0x443360"
     },
@@ -2215,7 +2215,7 @@
         "v105_address": "0x443580"
     },
     {
-        "name": "Car_BC::sub_4435A0",
+        "name": "Car_BC::InitDoors_4435A0",
         "v96f_address": null,
         "v105_address": "0x4435a0"
     },
@@ -2230,7 +2230,7 @@
         "v105_address": "0x4435f0"
     },
     {
-        "name": "Car_BC::sub_443710",
+        "name": "Car_BC::ApplyExplosionImpulse_443710",
         "v96f_address": null,
         "v105_address": "0x443710"
     },
@@ -2390,7 +2390,7 @@
         "v105_address": "0x444fc0"
     },
     {
-        "name": "sub_4451E0",
+        "name": "CanBeEnteredByPed_4451E0",
         "v96f_address": null,
         "v105_address": "0x4451e0"
     },
@@ -2400,7 +2400,7 @@
         "v105_address": "0x445210"
     },
     {
-        "name": "sub_445360",
+        "name": "IsEnterable_445360",
         "v96f_address": null,
         "v105_address": "0x445360"
     },
@@ -3075,7 +3075,7 @@
         "v105_address": "0x45cf20"
     },
     {
-        "name": "sub_45CF90",
+        "name": "GetDamageMultiplier_45CF90",
         "v96f_address": null,
         "v105_address": "0x45cf90"
     },
@@ -13640,7 +13640,7 @@
         "v105_address": "0x57f120"
     },
     {
-        "name": "Car_14::sub_5822E0",
+        "name": "Car_14::ResetTrafficSpawnGlobals_5822E0",
         "v96f_address": "0x4b2ff0",
         "v105_address": "0x5822e0"
     },
@@ -13680,7 +13680,7 @@
         "v105_address": "0x583670"
     },
     {
-        "name": "Car_14::sub_583750",
+        "name": "Car_14::GetRandomTrafficSpeed_583750",
         "v96f_address": null,
         "v105_address": "0x583750"
     },

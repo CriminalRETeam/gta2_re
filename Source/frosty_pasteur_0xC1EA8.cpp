@@ -495,7 +495,7 @@ void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
         }
         miss2_0x11C_Pool_6F8064->field_0_pool.UpdatePoolNoDeallocate();
     }
-    gCar_6C_677930->field_5C = 0;
+    gCar_6C_677930->field_5C_model_check_destroyed = 0;
 }
 
 MATCH_FUNC(0x5128a0)

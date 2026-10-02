@@ -353,7 +353,7 @@ void Train_58::UpdatePassengerAI_578390()
                                     u8 door_counter;
                                     do
                                     {
-                                        if ((*pTrainCar)->sub_43B140(target_door) && this->field_56_passenger_count > 0)
+                                        if ((*pTrainCar)->IsStoppedWithPavementAtDoor_43B140(target_door) && this->field_56_passenger_count > 0)
                                         {
                                             Ped* pNewPed = gPedManager_6787BC->SpawnTrainLeaver_470E30();
                                             pNewPed->field_16C_car = *pTrainCar;
@@ -382,7 +382,7 @@ void Train_58::UpdatePassengerAI_578390()
             if (gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_C_carriages[0]->field_50_car_sprite, kFpZero_6FF078) &&
                 this->field_54_passenger_timer <= 0 && gPublicTransport_181C_6FF1D4->field_1818_stop_getting_off_bus)
             {
-                if (this->field_C_carriages[0]->sub_43B140(2))
+                if (this->field_C_carriages[0]->IsStoppedWithPavementAtDoor_43B140(2))
                 {
                     Ped_List_4* pPedList = &this->field_C_carriages[0]->field_4_passengers_list;
                     if (pPedList->field_0_pFirstPed)

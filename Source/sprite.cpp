@@ -2710,7 +2710,7 @@ bool Sprite_18::PoolUpdate_5A6910(Sprite* a2)
         Car_BC* cBC = field_0->AsCar_40FEB0();
         if (cBC)
         {
-            bRet = cBC->sub_443360(a2, field_6_x, field_8_y, field_10);
+            bRet = cBC->UpdateAttachedToSprite_443360(a2, field_6_x, field_8_y, field_10);
             if (bRet)
             {
                 gCar_BC_Pool_67792C->Remove(cBC);

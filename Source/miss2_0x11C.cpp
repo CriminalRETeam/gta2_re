@@ -778,7 +778,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pThread, s16* pThrea
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
         gfrosty_pasteur_6F8060->AddCarThread_5128D0(pParam1->field_8_char->field_200_id, pParam2->field_8_car->field_6C_maybe_id, *pThreadIdx);
-        pParam2->field_8_car->field_8D |= 1;
+        pParam2->field_8_car->field_8D_car_thread_flags |= 1;
     }
 }
 
@@ -1402,7 +1402,7 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
                 --gfrosty_pasteur_6F8060->field_0_car_thread_count;
             }
 
-            pParam2->field_8_car->field_8D &= ~1;
+            pParam2->field_8_car->field_8D_car_thread_flags &= ~1;
             break;
         }
     }
@@ -5619,7 +5619,7 @@ void miss2_0x11C::SCRCMD_SETUP_MODEL_CHECK_50E120()
 MATCH_FUNC(0x50e150)
 void miss2_0x11C::SCRCMD_MODEL_CHECK_50E150()
 {
-    if (gCar_6C_677930->field_5C)
+    if (gCar_6C_677930->field_5C_model_check_destroyed)
     {
         field_8_cond_result = true;
     }
@@ -5720,7 +5720,7 @@ void miss2_0x11C::SCRCMD_SET_CAR_GRAPHIC_50E460()
     SCR_SET_CAR_GRAPHIC* pCmd = (SCR_SET_CAR_GRAPHIC*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
-    pPointer->field_8_car->sub_43CDF0(pCmd->field_C_number); // set the number on the top of the car
+    pPointer->field_8_car->SetCarGraphic_43CDF0(pCmd->field_C_number); // set the number on the top of the car
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 

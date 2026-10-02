@@ -7,12 +7,12 @@
 
 DEFINE_GLOBAL(Garage_48*, gGarage_48_6FD26C, 0x6FD26C);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD128, Fix16(0x8000, 0), 0x6FD128);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FCF88, Fix16(0x1000, 0), 0x6FCF88);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD04C, dword_6FCF88, 0x6FD04C);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FCF60, dword_6FD04C / dword_6FD128, 0x6FCF60);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD0D8, Fix16(0x100, 0), 0x6FD0D8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD1D8, dword_6FD0D8, 0x6FD1D8);
+DEFINE_GLOBAL_INIT(Fix16, kFpTwo_6FD128, Fix16(0x8000, 0), 0x6FD128);
+DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FCF88, Fix16(0x1000, 0), 0x6FCF88);
+DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FD04C, kFpQuarter_6FCF88, 0x6FD04C);
+DEFINE_GLOBAL_INIT(Fix16, kFpEighth_6FCF60, kFpQuarter_6FD04C / kFpTwo_6FD128, 0x6FCF60);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD0D8, Fix16(0x100, 0), 0x6FD0D8);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD1D8, kFpOne64th_6FD0D8, 0x6FD1D8);
 
 MATCH_FUNC(0x4bbc60)
 Garage_48::~Garage_48()
@@ -28,12 +28,12 @@ void Garage_48::ValidateParkCommand_534650()
     // TODO: Gets optimized out, also needs to call operator+
     // without that being inlined too, hmm
     Fix16 v4(this->field_10->field_0_primary_door_data->field_6_z);
-    v4 = v4 + dword_6FCF60;
+    v4 = v4 + kFpEighth_6FCF60;
 
-    if (gMap_0x370_6F6268->HasWallInArea_4E18A0(field_18.ToInt(),
-                                      (field_20 - dword_6FD1D8).ToInt(),
-                                      field_1C.ToInt(),
-                                      (field_24 - dword_6FD1D8).ToInt(),
+    if (gMap_0x370_6F6268->HasWallInArea_4E18A0(field_18_park_x_min.ToInt(),
+                                      (field_20_park_x_max - kFpOne64th_6FD1D8).ToInt(),
+                                      field_1C_park_y_min.ToInt(),
+                                      (field_24_park_y_max - kFpOne64th_6FD1D8).ToInt(),
                                       field_10->field_0_primary_door_data->get_z_489640()))
     {
         FatalError_4A38C0(Gta2Error::ErrorInSetupOfParkCommand,
@@ -66,10 +66,10 @@ Garage_48::Garage_48()
     field_C = 0;
     field_28 = 0;
     field_2C = 0;
-    field_18 = 0;
-    field_1C = 0;
-    field_20 = 0;
-    field_24 = 0;
+    field_18_park_x_min = 0;
+    field_1C_park_y_min = 0;
+    field_20_park_x_max = 0;
+    field_24_park_y_max = 0;
     field_38 = 0;
     field_30 = 0;
     field_34 = 0;
