@@ -3211,7 +3211,7 @@ Frontend::Frontend()
     gText_0x14_704DFC->Load_5B5E90();
     gGtx_0x106C_703DD4->LoadSty_5AB750("data\\fstyle.sty");
 
-    gSharp_pare_0x15D8_705064->sub_5B9350();
+    gSharp_pare_0x15D8_705064->LoadStyleTextures_5B9350();
 
     ConvertColourBanks_5D7CB0();
 

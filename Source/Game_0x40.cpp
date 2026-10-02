@@ -143,7 +143,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
 
     gPhi_8CA8_6FCF00->sub_534330();
 
-    gSharp_pare_0x15D8_705064->sub_5B9350();
+    gSharp_pare_0x15D8_705064->LoadStyleTextures_5B9350();
 
     gLucid_hamilton_67E8E0.clear_secret_tokens_collected();
 

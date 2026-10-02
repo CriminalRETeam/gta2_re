@@ -15580,7 +15580,7 @@
         "v105_address": "0x5b8f00"
     },
     {
-        "name": "festive_hopper::sub_5B8F70",
+        "name": "festive_hopper::LoadRemappedTextures_5B8F70",
         "v96f_address": null,
         "v105_address": "0x5b8f70"
     },
@@ -15595,7 +15595,7 @@
         "v105_address": "0x5b90a0"
     },
     {
-        "name": "festive_hopper::sub_5B90D0",
+        "name": "festive_hopper::GetRemappedTexture_5B90D0",
         "v96f_address": null,
         "v105_address": "0x5b90d0"
     },
@@ -15625,7 +15625,7 @@
         "v105_address": "0x5b92e0"
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B9350",
+        "name": "sharp_pare_0x15D8::LoadStyleTextures_5B9350",
         "v96f_address": null,
         "v105_address": "0x5b9350"
     },
@@ -15640,7 +15640,7 @@
         "v105_address": "0x5b95d0"
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B95F0",
+        "name": "sharp_pare_0x15D8::GetDigitTexture_5B95F0",
         "v96f_address": null,
         "v105_address": "0x5b95f0"
     },
@@ -15650,12 +15650,12 @@
         "v105_address": "0x5b9660"
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B96B0",
+        "name": "sharp_pare_0x15D8::SetTexture2SizeAndPalette_5B96B0",
         "v96f_address": null,
         "v105_address": "0x5b96b0"
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B9710",
+        "name": "sharp_pare_0x15D8::SetSharedTextureData_5B9710",
         "v96f_address": null,
         "v105_address": "0x5b9710"
     },
