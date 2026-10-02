@@ -26,15 +26,14 @@ Garage_48::~Garage_48()
 }
 
 // 9.6f 0x489B10
-WIP_FUNC(0x534650)
+MATCH_FUNC(0x534650)
 void Garage_48::ValidateParkCommand_534650()
 {
-    WIP_IMPLEMENTED;
-
-    // TODO: Gets optimized out, also needs to call operator+
-    // without that being inlined too, hmm
-    Fix16 v4(this->field_10->field_0_primary_door_data->field_6_z);
-    v4 = v4 + kFpEighth_6FCF60;
+    // The result is unused; the const operator+ is the out-of-line Add_408660
+    {
+        const Fix16 v4(this->field_10->field_0_primary_door_data->field_6_z);
+        v4 + kFpEighth_6FCF60;
+    }
 
     if (gMap_0x370_6F6268->HasWallInArea_4E18A0(field_18_park_x_min.ToInt(),
                                       (field_20_park_x_max - kFpOne64th_6FD1D8).ToInt(),
