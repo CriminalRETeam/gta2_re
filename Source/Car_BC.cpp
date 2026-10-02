@@ -4224,68 +4224,52 @@ char_type __stdcall sub_48E720(s32 model)
 }
 
 // TODO: move
-WIP_FUNC(0x48E780);
+MATCH_FUNC(0x48E780);
 s32 __stdcall sub_48E780(s32 model)
 {
-    WIP_IMPLEMENTED;
-
-    s32 result;
-    if (model > 192)
+    if (model <= 192)
     {
-        switch (model)
+        if (model != 192)
         {
-            case 194:
-                result = 14;
-                break;
-            case 197:
-                result = 13;
-                break;
-            case 198:
-            case 251:
-                result = 20;
-                break;
-            case 254:
-            case 265:
-                result = 11;
-                break;
-            default:
-            LABEL_16:
-                result = 9;
-                break;
+            switch (model)
+            {
+                case 132:
+                    return 12;
+                case 182:
+                case 183:
+                    return 15;
+                case 138:
+                    return 16;
+                case 128:
+                    return 17;
+                case 160:
+                    return 18;
+                case 10:
+                    return 21;
+            }
         }
-    }
-    else if (model == 192)
-    {
-        return 19;
+        else
+        {
+            return 19;
+        }
     }
     else
     {
         switch (model)
         {
-            case 10:
-                result = 21;
-                break;
-            case 128:
-                result = 17;
-                break;
-            case 132:
-                result = 12;
-                break;
-            case 138:
-                result = 16;
-                break;
-            case 160:
-                result = 18;
-                break;
-            case 182:
-            case 183:
-                result = 15;
-                break;
-            default:
-                goto LABEL_16;
+            case 254:
+            case 265:
+                return 11;
+            case 197:
+                return 13;
+            case 194:
+                return 14;
+            case 198:
+            case 251:
+                return 20;
         }
     }
-    return result;
+    return 9;
 }
 
 // TODO: move
