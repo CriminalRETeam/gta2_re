@@ -111,13 +111,13 @@ void CarAI_78::sub_447710()
     if (field_28_junc_idx >= 0)
     {
         Junction_10* Junction_58A0B0 =
-            gRouteFinder_6FFDC8->GetJunction_58A0B0(gRouteFinder_6FFDC8->field_2218[field_28_junc_idx].field_0[this->field_56]);
-        u16 v4 = gRouteFinder_6FFDC8->field_2218[this->field_28_junc_idx].field_0[this->field_56 + 1];
+            gRouteFinder_6FFDC8->GetJunction_58A0B0(gRouteFinder_6FFDC8->field_2218_routes[field_28_junc_idx].field_0_junctions[this->field_56]);
+        u16 v4 = gRouteFinder_6FFDC8->field_2218_routes[this->field_28_junc_idx].field_0_junctions[this->field_56 + 1];
         if (v4)
         {
             if ((this->field_24_flags & 1) == 0)
             {
-                u16 v5 = Junction_58A0B0->sub_5885C0(v4);
+                u16 v5 = Junction_58A0B0->GetDirectionToJunction_5885C0(v4);
                 switch (Ang16::GetAngleFace_4F78F0(this->field_10_angle))
                 {
                     case 1:
@@ -248,7 +248,7 @@ void CarAI_78::DoShortcutsUsingJunctions_447970()
     s32 v19 = v8;
     if (field_28_junc_idx > 0)
     {
-        u16 v9 = gRouteFinder_6FFDC8->field_2218[field_28_junc_idx].field_0[this->field_56];
+        u16 v9 = gRouteFinder_6FFDC8->field_2218_routes[field_28_junc_idx].field_0_junctions[this->field_56];
         if (!v9 || (u8)v7 == (u16)(gCurrCarAI_xpos_677C38.ToInt()) && (u8)v8 == (u16)(gCurrCarAI_ypos_677C30.ToInt()))
         {
             gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
@@ -267,12 +267,12 @@ void CarAI_78::DoShortcutsUsingJunctions_447970()
                 s32 v13;
                 if (gRouteFinder_6FFDC8->IsPointInJunctionBounds_588AA0(v7,
                                                                         v19,
-                                                                        gRouteFinder_6FFDC8->field_2218[0].field_0[v11],
-                                                                        gRouteFinder_6FFDC8->field_2218[0].field_0[v11 + 1]) &&
+                                                                        gRouteFinder_6FFDC8->field_2218_routes[0].field_0_junctions[v11],
+                                                                        gRouteFinder_6FFDC8->field_2218_routes[0].field_0_junctions[v11 + 1]) &&
                     v18 == (u16)(field_0_car->field_50_car_sprite->field_1C_zpos - gF16fOne_677B94).ToInt())
                 {
                     switch (
-                        Junction_58A0B0->sub_5885C0(gRouteFinder_6FFDC8->field_2218[this->field_28_junc_idx].field_0[this->field_56 + 1]))
+                        Junction_58A0B0->GetDirectionToJunction_5885C0(gRouteFinder_6FFDC8->field_2218_routes[this->field_28_junc_idx].field_0_junctions[this->field_56 + 1]))
                     {
                         case 1:
                             if (v19 >= (u8)(gCurrCarAI_ypos_677C30.ToInt()))

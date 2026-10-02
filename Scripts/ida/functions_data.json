@@ -13865,7 +13865,7 @@
         "v105_address": "0x588580"
     },
     {
-        "name": "Junction_10::sub_5885C0",
+        "name": "Junction_10::GetDirectionToJunction_5885C0",
         "v96f_address": "0x40d0c0",
         "v105_address": "0x5885c0"
     },
@@ -13910,22 +13910,22 @@
         "v105_address": "0x588de0"
     },
     {
-        "name": "RouteFinder::sub_588E60",
+        "name": "RouteFinder::FindHorzSegmentJunction_588E60",
         "v96f_address": "0x40D390",
         "v105_address": "0x588e60"
     },
     {
-        "name": "RouteFinder::sub_588F30",
+        "name": "RouteFinder::FindVertSegmentJunction_588F30",
         "v96f_address": null,
         "v105_address": "0x588f30"
     },
     {
-        "name": "RouteFinder::sub_589000",
+        "name": "RouteFinder::FindSegmentJunction_589000",
         "v96f_address": null,
         "v105_address": "0x589000"
     },
     {
-        "name": "RouteFinder::sub_5890D0",
+        "name": "RouteFinder::FindArrowBlockInJunction_5890D0",
         "v96f_address": "0x40C870",
         "v105_address": "0x5890d0"
     },
@@ -13940,22 +13940,22 @@
         "v105_address": "0x5892d0"
     },
     {
-        "name": "RouteFinder::sub_5892F0",
+        "name": "RouteFinder::NewChildNode_5892F0",
         "v96f_address": null,
         "v105_address": "0x5892f0"
     },
     {
-        "name": "RouteFinder::sub_589390",
+        "name": "RouteFinder::NewStartNode_589390",
         "v96f_address": null,
         "v105_address": "0x589390"
     },
     {
-        "name": "RouteFinder::sub_589420",
+        "name": "RouteFinder::InsertIntoOpenList_589420",
         "v96f_address": "0x40CB00",
         "v105_address": "0x589420"
     },
     {
-        "name": "RouteFinder::sub_589480",
+        "name": "RouteFinder::InitSearch_589480",
         "v96f_address": null,
         "v105_address": "0x589480"
     },
@@ -13975,7 +13975,7 @@
         "v105_address": "0x589960"
     },
     {
-        "name": "RouteFinder::sub_589990",
+        "name": "RouteFinder::AddChildNode_589990",
         "v96f_address": "0x40CBC0",
         "v105_address": "0x589990"
     },
@@ -13990,7 +13990,7 @@
         "v105_address": "0x589bb0"
     },
     {
-        "name": "RouteFinder::sub_589E00",
+        "name": "RouteFinder::GetFirstUnexpandedNode_589E00",
         "v96f_address": "0x40cbf0",
         "v105_address": "0x589e00"
     },
