@@ -3775,11 +3775,9 @@ void Car_BC::TriggerExplosion_43D7B0(s32 k20Or19)
     }
 }
 
-WIP_FUNC(0x43d840)
+MATCH_FUNC(0x43d840)
 void Car_BC::HandleCarExplosion_43D840(s32 a2)
 {
-    WIP_IMPLEMENTED;
-
     char bOcc2; // bl
     s32 g6C_f_58; // eax
     Ped* pExploder; // eax
