@@ -97,14 +97,14 @@ class Ped
     EXPORT void RoadBlockTank_AI_4619F0();
     EXPORT void UpdateFacingAngle_461A60();
     EXPORT void Occupation_AI_461F20();
-    EXPORT void sub_462280();
+    EXPORT void UpdateAI_462280();
     EXPORT void ReleaseGroupSpritesAndWeapons_4624A0();
     EXPORT void RemovePedWeapons_462510();
     EXPORT void RemoveSecondaryWeapon_462550();
     EXPORT void ForceDoNothing_462590();
     EXPORT void sub_462620();
     EXPORT char_type StateMachineTick_4626B0();
-    EXPORT void sub_462B80();
+    EXPORT void UpdateCharB4_462B80();
     EXPORT bool PoolUpdate();
     EXPORT void ProcessObjective_4632E0();
     EXPORT void ChangePedStatesByMode_463300(u8 a1);

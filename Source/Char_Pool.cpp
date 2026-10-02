@@ -49,7 +49,7 @@ EXTERN_GLOBAL(u8, gNumEmergencyPeds_6787E4);
 EXTERN_GLOBAL(u8, gNumScriptCreatedPeds_6787E3);
 EXTERN_GLOBAL(u8, byte_6787D8);
 EXTERN_GLOBAL(u8, byte_6787D9);
-EXTERN_GLOBAL(u8, byte_6787D2);
+EXTERN_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2);
 
 EXTERN_GLOBAL(Fix16, k_dword_678438);
 EXTERN_GLOBAL(Fix16, k_dword_67853C);
@@ -642,7 +642,7 @@ void PedManager::PedsService_4703F0()
     gNumPedsOnScreen_6787EC = 0;
     byte_61A8A1 = 1;
     byte_61A8A2 = 1;
-    byte_6787D2 = 0;
+    gNewTaxiCustomersThisTick_6787D2 = 0;
     gNumPolicePedsInRangeScreen_6787EE = 0;
 
     gPedPool_6787B8->field_0_pool.UpdatePool();
@@ -746,7 +746,7 @@ PedManager::PedManager()
     this->field_5_fbi_army_count = 0;
     HIWORD(dword_678654) = word_61A898;
     gPedsServiceTickCount_6787F0 = 0;
-    byte_6787D2 = 0;
+    gNewTaxiCustomersThisTick_6787D2 = 0;
     gNumberBusCustomers_6787D3 = 0;
     HIWORD(dword_6784EE) = gDummyPedAng_6787A8;
     byte_6787D4 = 0;

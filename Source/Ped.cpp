@@ -49,7 +49,7 @@ DEFINE_GLOBAL_INIT(u8, gNumberMuggersSpawned_6787CA, 0, 0x6787CA);
 DEFINE_GLOBAL_INIT(u8, gNumberCarThiefsSpawned_6787CB, 0, 0x6787CB);
 DEFINE_GLOBAL_INIT(u8, gNumberElvisLeadersSpawned_6787CC, 0, 0x6787CC);
 DEFINE_GLOBAL_INIT(u8, gNumberWalkingCopsSpawned_6787CD, 0, 0x6787CD);
-DEFINE_GLOBAL(u8, byte_6787D2, 0x6787D2);
+DEFINE_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2, 0x6787D2);
 DEFINE_GLOBAL_INIT(u8, byte_61A8A0, 1, 0x61A8A0);
 DEFINE_GLOBAL(u8, gNumDummyChars_6787E2, 0x6787E2);
 DEFINE_GLOBAL(u8, gNumScriptCreatedPeds_6787E3, 0x6787E3);
@@ -3175,7 +3175,7 @@ void Ped::Occupation_AI_461F20()
             {
                 if (field_168_game_object)
                 {
-                    if (field_20e_offscreen_counter || byte_6787D2 || stru_6F6784.get_int_4F7AE0(1000) >= 2)
+                    if (field_20e_offscreen_counter || gNewTaxiCustomersThisTick_6787D2 || stru_6F6784.get_int_4F7AE0(1000) >= 2)
                     {
                         Ped::EnterPublicTransport_45EE70();
                     }
@@ -3187,7 +3187,7 @@ void Ped::Occupation_AI_461F20()
                             field_238_ped_type = ped_type::dummy_with_occupation_6;
                         }
                         Ped::SetObjective(objectives_enum::no_obj_0, 40);
-                        ++byte_6787D2;
+                        ++gNewTaxiCustomersThisTick_6787D2;
                     }
                 }
             }
@@ -3304,7 +3304,7 @@ void Ped::Occupation_AI_461F20()
 }
 
 MATCH_FUNC(0x462280)
-void Ped::sub_462280()
+void Ped::UpdateAI_462280()
 {
     byte_61A8A0 = 1;
     Ped::Occupation_AI_461F20();
@@ -3765,7 +3765,7 @@ char_type Ped::StateMachineTick_4626B0()
 }
 
 MATCH_FUNC(0x462b80)
-void Ped::sub_462B80()
+void Ped::UpdateCharB4_462B80()
 {
     field_168_game_object->field_8_ped_state_1 = field_278_ped_state_1;
     field_168_game_object->field_C_ped_state_2 = field_27C_ped_state_2;
@@ -3935,7 +3935,7 @@ bool Ped::PoolUpdate()
         {
             if (byte_61A8A4)
             {
-                Ped::sub_462280();
+                Ped::UpdateAI_462280();
                 gLastProcessedPed_6787C0 = this;
                 Ped::ManageWeapon_46F390();
                 if (field_20A_wanted_points)
@@ -4005,7 +4005,7 @@ bool Ped::PoolUpdate()
                     zpos -= k_dword_678664;
                 }
                 field_254_block_spec = gMap_0x370_6F6268->GetBlockSpec_4E00A0(get_cam_x(), get_cam_y(), zpos);
-                Ped::sub_462B80();
+                Ped::UpdateCharB4_462B80();
 
                 field_21C_bf.b8 = 0;
                 field_21C_bf.b9 = 0;

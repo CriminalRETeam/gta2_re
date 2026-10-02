@@ -3185,7 +3185,7 @@
         "v105_address": "0x461f20"
     },
     {
-        "name": "Ped::sub_462280",
+        "name": "Ped::UpdateAI_462280",
         "v96f_address": "0x445330",
         "v105_address": "0x462280"
     },
@@ -3220,7 +3220,7 @@
         "v105_address": "0x4626b0"
     },
     {
-        "name": "Ped::sub_462B80",
+        "name": "Ped::UpdateCharB4_462B80",
         "v96f_address": "0x43F180",
         "v105_address": "0x462b80"
     },
