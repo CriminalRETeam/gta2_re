@@ -2016,7 +2016,7 @@ s32 NetPlay::SendToPlayer_521630(Network_8* pSendData, s32 idx, char_type a4)
     pStru.field_D = (s32)pSendData->field_0;
     pStru.field_11_len = pSendData->field_4_len;
     NetPlay::MakeSendData_51F420(&pStru, &pData, &dataLen);
-    ((char_type*)pData)[1] = field_758_n2.field_8[field_5D4_player_idx] - a4;
+    ((char_type*)pData)[1] = field_758_n2.field_8[GetPlayerIdx_409C40()] - a4;
     return field_5E4_pDPlay3->Send(field_5D8_player_id, field_758_n2.field_10_players[idx].field_10_player_id, 0, (void*)pData, dataLen);
 }
 
