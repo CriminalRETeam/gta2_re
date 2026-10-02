@@ -76,6 +76,12 @@ class Door_38
     // 9.6f 0x44C860, defined in Door_4D4.hpp (needs DoorData_10)
     inline bool sub_44C860();
 
+    // 9.6f 0x4895F0
+    inline void ClearF2C_4895F0()
+    {
+        field_2C = 0;
+    }
+
     // 9.6f 0x489600
     inline bool IsDoubleDoor_489600()
     {

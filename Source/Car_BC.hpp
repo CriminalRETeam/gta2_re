@@ -809,6 +809,36 @@ class Car_BC
         Car_BC::add_f78_bits_421890(0x400);
     }
 
+    // 9.6f 0x44A3E0
+    void set_f78_0x2_44A3E0()
+    {
+        Car_BC::add_f78_bits_421890(2);
+    }
+
+    // 9.6f 0x475C10
+    inline void SetF98To1IfNot4_475C10()
+    {
+        if (field_98 != 4)
+        {
+            field_98 = 1;
+        }
+    }
+
+    // 9.6f 0x475C30
+    inline void SetF98To4_475C30()
+    {
+        field_98 = 4;
+    }
+
+    // 9.6f 0x421490
+    inline void SetDespawn3IfNot5_421490()
+    {
+        if (field_88_despawn_status != 5)
+        {
+            field_88_despawn_status = 3;
+        }
+    }
+
     void set_f78_0x8_4218A0()
     {
         Car_BC::add_f78_bits_421890(8);

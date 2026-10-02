@@ -237,21 +237,18 @@ void Garage_48::GaragesService_5349D0()
                 return;
             }
 
-            field_0->field_78_flags |= 2;
-            field_0->field_78_flags |= 8;
-            if (field_0->get_driver_4118B0() && field_0->field_54_driver->field_15C_player)
+            field_0->set_f78_0x2_44A3E0();
+            field_0->set_f78_0x8_4218A0();
+            if (field_0->is_driven_by_player())
             {
                 field_0->get_driver_4118B0()->field_15C_player->DisableAllControls_569FF0();
             }
-            if (field_0->field_98 != 4)
-            {
-                field_0->field_98 = 1;
-            }
+            field_0->SetF98To1IfNot4_475C10();
             field_0->field_58_physics->field_74_ang_vel_rad = dword_6FD120;
             field_0->field_58_physics->field_40_linvel_1.x = 0;
             field_0->field_58_physics->field_40_linvel_1.y = 0;
 
-            Fix16_Point car_pos(field_0->field_50_car_sprite->field_14_xy.x, field_0->field_50_car_sprite->field_14_xy.y);
+            Fix16_Point car_pos(field_0->get_x_41E430(), field_0->get_y_41E440());
             Sprite_4C* pBox = field_0->field_50_car_sprite->field_C_sprite_4c_ptr;
             Fix16_Point dir = (pBox->field_C_renderingRect[idx1] + pBox->field_C_renderingRect[idx2]).Divide_442CB0(dword_6FD128) - car_pos;
             field_28_push_dir.x = dir.x;
@@ -319,6 +316,7 @@ void Garage_48::GaragesService_5349D0()
             Car_BC* pCar = field_0;
             if (pCar->field_50_car_sprite)
             {
+                // 9.6f: Car_BC 0x476230/0x4895E0 (clear f78 bits 2 and 8, inlined) and Door_38 0x476A30 (inlined)
                 pCar->field_78_flags &= ~2;
                 field_0->field_78_flags &= ~8;
                 if (field_10->field_28)
@@ -332,11 +330,11 @@ void Garage_48::GaragesService_5349D0()
                         field_10->field_4_secondary_door_data->sub_49C590(field_10->field_2A_bDoFlip);
                     }
                 }
-                field_10->field_2C = 0;
-                field_0->field_98 = 4;
+                field_10->ClearF2C_4895F0();
+                field_0->SetF98To4_475C30();
                 field_0->PrepareForExplosion_43C1C0();
                 field_0->field_4_passengers_list.KillAllPedsFromList_4715A0();
-                if (field_0->get_driver_4118B0() && field_0->field_54_driver->field_15C_player)
+                if (field_0->is_driven_by_player())
                 {
                     field_0->get_driver_4118B0()->field_15C_player->EnableAllControls_56A000();
                 }
@@ -345,23 +343,20 @@ void Garage_48::GaragesService_5349D0()
                     Ped* pDriver = field_0->get_driver_4118B0();
                     if (pDriver)
                     {
-                        pDriver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0->field_50_car_sprite->field_1C_zpos);
+                        pDriver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0->get_z_41E450());
                         field_0->ClearDriver_4407F0();
-                        pDriver->field_168_game_object->field_40_rotation = sub_5345E0(field_38);
+                        pDriver->SetRotation_433C00(sub_5345E0(field_38));
                         field_0->field_54_driver = NULL;
                         pDriver->field_168_game_object->field_5C = 20;
                     }
-                    else if (field_14 && field_14->field_1AC_cam.x >= field_18 && field_14->field_1AC_cam.x <= field_20 &&
-                             field_14->field_1AC_cam.y >= field_1C && field_14->field_1AC_cam.y <= field_24)
+                    else if (field_14 && field_14->get_cam_x() >= field_18 && field_14->get_cam_x() <= field_20 &&
+                             field_14->get_cam_y() >= field_1C && field_14->get_cam_y() <= field_24)
                     {
-                        field_14->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0->field_50_car_sprite->field_1C_zpos);
-                        field_14->field_168_game_object->field_40_rotation = sub_5345E0(field_38);
+                        field_14->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0->get_z_41E450());
+                        field_14->SetRotation_433C00(sub_5345E0(field_38));
                     }
                 }
-                if (field_0->field_88_despawn_status != 5)
-                {
-                    field_0->field_88_despawn_status = 3;
-                }
+                field_0->SetDespawn3IfNot5_421490();
                 pCar = field_0;
             }
             field_4 = pCar;
