@@ -15,6 +15,7 @@
 #include "file.hpp"
 #include "fix16.hpp"
 #include "gbh_graphics.hpp"
+#include <stdlib.h>
 #include "gtx_0x106C.hpp"
 #include "infallible_turing.hpp"
 #include "input.hpp"
@@ -3060,6 +3061,50 @@ MATCH_FUNC(0x5D7DC0)
 EXPORT void __cdecl FreeSurface_5D7DC0()
 {
     pVid_FreeSurface(gVidSys_7071D0);
+}
+
+// 16.16 step along a line, 0 for a point
+static inline s32 StepFor_5D7DD0(s32 delta, s32 count)
+{
+    if (count == 0)
+    {
+        return count;
+    }
+    return (delta << 16) / count;
+}
+
+// Debug line, one gbh_Plot per pixel along the longer axis. x2 and y2 become the deltas, y2 then the y step
+MATCH_FUNC(0x5D7DD0)
+EXPORT void __stdcall DrawDebugLine_5D7DD0(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour)
+{
+    x2 -= x1;
+    y2 -= y1;
+    s32 step_x;
+    s32 count;
+    s32 abs_dx = abs(x2);
+    s32 abs_dy = abs(y2);
+    if (abs_dx > abs_dy)
+    {
+        step_x = x2 > 0 ? 0x10000 : -0x10000;
+        y2 = StepFor_5D7DD0(y2, abs_dx);
+        count = abs_dx;
+    }
+    else
+    {
+        y2 = y2 > 0 ? 0x10000 : -0x10000;
+        step_x = StepFor_5D7DD0(x2, abs_dy);
+        count = abs_dy;
+    }
+
+    x1 <<= 16;
+    y1 <<= 16;
+    do
+    {
+        pgbh_Plot((f32)(x1 >> 16), (f32)(y1 >> 16), 0, colour);
+        x1 += step_x;
+        y1 += y2;
+        count--;
+    } while (count > 0);
 }
 
 MATCH_FUNC(0x4ADFB0)

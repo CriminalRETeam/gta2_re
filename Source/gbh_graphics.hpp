@@ -43,7 +43,7 @@ typedef u32 (CC* T_gbh_InitDLL)(SVideo* pVideoDriver);
 typedef s32 (CC* T_gbh_InitImageTable)(s32 tableSize);
 typedef s32 (CC* T_gbh_LoadImage)(SImage* pImage);
 typedef STexture* (CC* T_gbh_LockTexture)(STexture* pTexture);
-typedef void (CC* T_gbh_Plot)(s32 a1, s32 a2, s32 a3, s32 a4);
+typedef void (CC* T_gbh_Plot)(f32 x, f32 y, s32 a3, s32 colour);
 typedef s32 (CC* T_gbh_PrintBitmap)(s32 a1, s32 a2);
 typedef u32 (CC* T_gbh_RegisterPalette)(s32 a1, DWORD *a2);
 typedef STexture* (CC* T_gbh_RegisterTexture)(s32 width, s32 height, BYTE* pData, s32 pal_idx, char_type flag);

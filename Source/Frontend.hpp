@@ -506,6 +506,7 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 EXPORT void __stdcall sub_5D7D30();
 EXPORT void __cdecl FreeSurface_5D7DC0();
+EXPORT void __stdcall DrawDebugLine_5D7DD0(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour);
 EXPORT void __stdcall sub_5D7CB0();
 
 EXTERN_GLOBAL(short, font_type_703C14);
