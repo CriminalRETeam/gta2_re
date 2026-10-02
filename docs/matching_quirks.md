@@ -502,6 +502,17 @@ constructor out of line with no EH state around `new`, `T() throw();` removes th
 computing `sine(angle) * radius` (the 9.6f order) instead of `radius * sine(angle)` fixed
 `Car_BC::IsStoppedWithPavementAtDoor_43B140`. The helper has 76 call sites, so run `compare_builds` after such a change.
 
+**A by-value class argument pushed as plain dwords, with an EH frame in the callee.** The caller pushes
+the members directly, but the callee still destroys the parameter. That is a class with a destructor
+and no user-defined copy constructor: `Fix16_Point`'s inline copy constructor builds the copy in place
+instead. `Fix16_Point_ByValue` in `CarPhysics_B0.hpp` is the parameter type of
+`ApplyForceAndIntegrate_55F7A0`, which matched its caller `ApplyForceWithTrailerRedirect_55F740`.
+A POD parameter matched the caller but lost the callee's EH frame.
+
+**A result flag with one return after the loop.** `result = 0` at the top, `result = 1` on the
+found path and one `return result` after the loop fixed every register in
+`NetPlay::MovePlayerToGroup_520040`, where returning from inside the loop didn't.
+
 ## Functions, thunks and calling conventions
 
 **`mov $1,%eax` in the callee but `test %al,%al` in the caller.** That's an `s32` (BOOL-style)
