@@ -21,6 +21,7 @@
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "winmain.hpp"
 
 DEFINE_GLOBAL(Hud_2B00*, gHud_2B00_706620, 0x706620);
 DEFINE_GLOBAL(s16, gDebugFont_706600, 0x706600); //, TODO, 0xUNKNOWN);
@@ -2143,7 +2144,7 @@ bool Hud_Arrow_7C_Array::IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow_7C* pA
 MATCH_FUNC(0x5d0e90)
 void Hud_Arrow_7C_Array::DrawArrows_5D0E90()
 {
-    if ((u8)bStartNetworkGame_7081F0)
+    if (IsNetworkGame_434B10())
     {
         // Limit drawn arrows in multiplayer
         for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
