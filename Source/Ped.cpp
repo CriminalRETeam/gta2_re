@@ -11337,41 +11337,38 @@ void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
 {
     WIP_IMPLEMENTED;
 
-    Weapon_30* pWeapon; // ebx
-    if ((this->field_21C & 0x2000) != 0)
+    Weapon_30* pWeapon;
+    if ((field_21C & 0x2000) != 0)
     {
-        pWeapon = this->field_174_pWeapon;
+        pWeapon = field_174_pWeapon;
     }
     else
     {
-        pWeapon = this->field_170_selected_weapon;
+        pWeapon = field_170_selected_weapon;
     }
 
     if (pWeapon && !Ped::IsField238_45EDE0(2))
     {
-        Fix16 yd = pObj->field_4->field_14_xy.y - this->field_1AC_cam.y;
-        Fix16 xd = pObj->field_4->field_14_xy.x - this->field_1AC_cam.x;
+        // NOTE: the raw y load is needed for OG's y-before-x load order
+        Fix16 yd;
+        s32 raw_y = pObj->field_4->field_14_xy.y.mValue;
+        Fix16 xd = pObj->field_4->field_14_xy.x - field_1AC_cam.x;
+        yd.mValue = raw_y - field_1AC_cam.y.mValue;
+        Fix16 abs_yd = Fix16::Abs_negate_out_of_line(yd);
 
-        Fix16 yd_abs = Fix16::Abs(yd);
-        Fix16 xd_abs = Fix16::Abs(xd);
-        Fix16 xd_yd_abs = Fix16::Max_44E540(xd_abs, yd_abs);
+        s32 xd_yd_abs = Fix16::Max_44E540(Fix16::Abs_436A50(xd), abs_yd).mValue;
 
-        if (pObj == this->field_1A4)
+        if (pObj == field_1A4)
         {
             pWeapon->field_4 = 0;
-            return;
         }
-
-        if (xd_yd_abs < k_dword_678658)
+        else if (xd_yd_abs < k_dword_678658.mValue)
         {
             pWeapon->field_4 = 1;
-            return;
         }
-
-        if (!pWeapon->IsExplosiveWeapon_5E3BD0())
+        else if (!pWeapon->IsExplosiveWeapon_5E3BD0())
         {
             pWeapon->field_4 = 0;
-            return;
         }
     }
 }
