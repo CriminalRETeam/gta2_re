@@ -2051,7 +2051,7 @@ char_type Car_BC::IsDoorAccessible_43AFE0(u8 target_door)
 
 // 9.6f 0x425B60
 WIP_FUNC(0x43b140)
-bool Car_BC::sub_43B140(s32 target_car_door)
+bool Car_BC::sub_43B140(u8 target_car_door)
 {
     WIP_IMPLEMENTED;
 

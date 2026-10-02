@@ -10227,37 +10227,41 @@ void Ped::EnterTrainStateMachine_46D0D0()
     }
 }
 
-WIP_FUNC(0x46d240)
+MATCH_FUNC(0x46d240)
 void Ped::sub_46D240()
 {
-    WIP_IMPLEMENTED;
+    bool door_available;
+    volatile bool found_usable_door; // NOTE: volatile keeps the flag in its stack slot like OG
 
-    bool v2; // al
-    bool v7; // [esp+7h] [ebp-1h]
-
-    v2 = 1;
-    this->field_248_enter_car_as_passenger = 1;
-    this->field_21C |= 0x8000000;
+    door_available = 1;
+    field_248_enter_car_as_passenger = 1;
+    field_21C |= 0x8000000;
     if (field_27C_ped_state_2 == ped_state_2::ped2_driving_10)
     {
-        v7 = 0;
-        for (u8 i = 0; i < 5; i++)
+        found_usable_door = 0;
+        u8 attempt = 0;
+        while (1)
         {
+            attempt++;
             if (field_154_target_to_enter->sub_43B140(field_24C_target_car_door))
             {
-                v7 = 1;
+                found_usable_door = 1;
                 break;
             }
-            this->field_24C_target_car_door++;
+            field_24C_target_car_door++;
             if (field_24C_target_car_door > 3u)
             {
-                this->field_24C_target_car_door = 0;
+                field_24C_target_car_door = 0;
+            }
+            if (attempt >= 5)
+            {
+                break;
             }
         }
-        v2 = v7;
+        door_available = found_usable_door;
     }
 
-    if (this->field_226 == 1 || !v2)
+    if (field_226 == 1 || !door_available)
     {
         if (IsField238_45EDE0(2))
         {
