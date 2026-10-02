@@ -10218,7 +10218,7 @@ void Ped::sub_46D0D0()
                 {
                     pB4 = this->field_168_game_object;
                     this->field_24C_target_car_door = target_door;
-                    pB4->field_38_velocity = pB4->field_3C_run_or_jump_speed;
+                    pB4->UseRunOrJumpSpeed_433930();
                     EnterCarStateMachine_46BDC0();
                     if (this->field_226 == 1)
                     {
