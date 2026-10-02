@@ -61,7 +61,7 @@ class RouteFinder_10
     EXPORT RouteFinder_10();
     u16 field_0_idx;
     s16 field_2_cost;
-    s16 field_4;
+    s16 field_4_expanded;
     s16 field_6;
     RouteFinder_10* field_8_pParent;
     RouteFinder_10* field_C_pNext;

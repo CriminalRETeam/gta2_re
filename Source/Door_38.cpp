@@ -40,7 +40,7 @@ Door_38::Door_38()
     field_2B_bReversed = 0;
     field_30_x = dword_67BBE0;
     field_34_y = dword_67BBE0;
-    field_2D = 0;
+    field_2D_play_open_sound = 0;
 }
 
 MATCH_FUNC(0x49c690)
@@ -166,7 +166,7 @@ void Door_38::Open_49C840()
     {
         if (this_00->field_0_state != 2)
         {
-            this->field_2D = 1;
+            this->field_2D_play_open_sound = 1;
         }
         this_00->Open_49C4E0(0);
     }
@@ -435,10 +435,10 @@ void Door_38::UpdateAutoClose_49CD90()
 MATCH_FUNC(0x49ce90)
 char_type Door_38::Service_49CE90()
 {
-    if (field_2D)
+    if (field_2D_play_open_sound)
     {
         gObject_5C_6F8F84->NewWithVarrokIdx_5299F0(0x117, 0x32, field_30_x, field_34_y, field_0_primary_door_data->field_6_z);
-        field_2D = 0;
+        field_2D_play_open_sound = 0;
     }
 
     if (field_29_bAuto)

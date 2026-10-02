@@ -19,15 +19,15 @@ DEFINE_GLOBAL_INIT(Fix16, kFpHalf_705714, Fix16(0.5), 0x705714);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_705678, Fix16(0x2666, 0), 0x705678);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_7055E4, kFpOne_70580C, 0x7055E4);
-DEFINE_GLOBAL_INIT(Fix16, dword_7055E0, kFpTwo_705810, 0x7055E0);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne_7055E4, kFpOne_70580C, 0x7055E4);
+DEFINE_GLOBAL_INIT(Fix16, kFpTwo_7055E0, kFpTwo_705810, 0x7055E0);
 DEFINE_GLOBAL_INIT(Fix16, dword_705660, dword_705678, 0x705660);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_7057C0, Fix16(256, 0), 0x7057C0);
-DEFINE_GLOBAL_INIT(Fix16, dword_7058C4, dword_7057C0, 0x7058C4);
-DEFINE_GLOBAL_INIT(Fix16, dword_7055FC, dword_7058C4 * 6, 0x7055FC);
+DEFINE_GLOBAL_INIT(Fix16, kFpOneSixtyFourth_7057C0, Fix16(256, 0), 0x7057C0);
+DEFINE_GLOBAL_INIT(Fix16, kFpOneSixtyFourth_7058C4, kFpOneSixtyFourth_7057C0, 0x7058C4);
+DEFINE_GLOBAL_INIT(Fix16, kFpThreeThirtySeconds_7055FC, kFpOneSixtyFourth_7058C4 * 6, 0x7055FC);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_705850, kFpOne_70580C + kFpHalf_705674, 0x705850);
+DEFINE_GLOBAL_INIT(Fix16, kFpOneAndHalf_705850, kFpOne_70580C + kFpHalf_705674, 0x705850);
 
 DEFINE_GLOBAL_INIT(Ang16, kAng270_705788, Ang16(1080), 0x705788);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_705690, Ang16(360), 0x705690);
@@ -50,14 +50,14 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     if (gMap_0x370_6F6268->IsBlockRoadType_42A8C0(x - 1, h + y - 1, zTmp))
     {
         // OK
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x) - dword_7055E4, Fix16(y + (h / 2)), dword_7055E0 + zpos, kAng270_705788);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x) - kFpOne_7055E4, Fix16(y + (h / 2)), kFpTwo_7055E0 + zpos, kAng270_705788);
         field_8_west_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
-                                                          Fix16(x) - dword_7055FC - dword_7055E4,
+                                                          Fix16(x) - kFpThreeThirtySeconds_7055FC - kFpOne_7055E4,
                                                           Fix16(y + (h / 2)),
-                                                          zpos + dword_7055E0,
+                                                          zpos + kFpTwo_7055E0,
                                                           kAng270_705788);
         field_8_west_headlight_obj->SetSpriteIdOffset_5290C0(0);
-        field_18_west_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x) - dword_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, dword_705850, 200);
+        field_18_west_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x) - kFpOne_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, kFpOneAndHalf_705850, 200);
     }
     else
     {
@@ -68,14 +68,14 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     if (gMap_0x370_6F6268->IsBlockRoadType_42A8C0(x + w, y, zTmp))
     {
         // OK
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + w) + dword_7055E4, Fix16(y + (h / 2)), dword_7055E0 + zpos, kAng90_705690);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + w) + kFpOne_7055E4, Fix16(y + (h / 2)), kFpTwo_7055E0 + zpos, kAng90_705690);
         field_C_east_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
-                                                          Fix16(x + w) + dword_7055FC + dword_7055E4,
+                                                          Fix16(x + w) + kFpThreeThirtySeconds_7055FC + kFpOne_7055E4,
                                                           Fix16(y + (h / 2)),
-                                                          zpos + dword_7055E0,
+                                                          zpos + kFpTwo_7055E0,
                                                           kAng90_705690);
         field_C_east_headlight_obj->SetSpriteIdOffset_5290C0(0);
-        field_1C_east_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + w) + dword_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, dword_705850, 200);
+        field_1C_east_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + w) + kFpOne_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, kFpOneAndHalf_705850, 200);
     }
     else
     {
@@ -86,14 +86,14 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     if (gMap_0x370_6F6268->IsBlockRoadType_42A8C0(x, y - 1, zTmp))
     {
         // OK
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + (w / 2)), Fix16(y) - dword_7055E4, dword_7055E0 + zpos, kAng180_705762);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + (w / 2)), Fix16(y) - kFpOne_7055E4, kFpTwo_7055E0 + zpos, kAng180_705762);
         field_0_north_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
-                                                          Fix16(x + (w / 2)) - dword_7055FC - dword_7055E4,
+                                                          Fix16(x + (w / 2)) - kFpThreeThirtySeconds_7055FC - kFpOne_7055E4,
                                                           Fix16(y),
-                                                          zpos + dword_7055E0,
+                                                          zpos + kFpTwo_7055E0,
                                                           kAng180_705762);
         field_0_north_headlight_obj->SetSpriteIdOffset_5290C0(0);
-        field_10_north_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + (w / 2)), Fix16(y) - dword_7055E4, zpos, 0x00FF00, dword_705850, 200);
+        field_10_north_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + (w / 2)), Fix16(y) - kFpOne_7055E4, zpos, 0x00FF00, kFpOneAndHalf_705850, 200);
     }
     else
     {
@@ -103,14 +103,14 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     // South side
     if (gMap_0x370_6F6268->IsBlockRoadType_42A8C0(x + w - 1, y + h, zTmp))
     {
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + (w / 2)), Fix16(y + h) + dword_7055E4, dword_7055E0 + zpos, kAng0_705948);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + (w / 2)), Fix16(y + h) + kFpOne_7055E4, kFpTwo_7055E0 + zpos, kAng0_705948);
         field_4_south_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
                                                           Fix16(x + (w / 2)),
-                                                          Fix16(y + h) + dword_7055E4 + dword_7055FC,
-                                                          zpos + dword_7055E0,
+                                                          Fix16(y + h) + kFpOne_7055E4 + kFpThreeThirtySeconds_7055FC,
+                                                          zpos + kFpTwo_7055E0,
                                                           kAng0_705948);
         field_4_south_headlight_obj->SetSpriteIdOffset_5290C0(0);
-        field_14_south_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + (w / 2)), Fix16(y + h) + dword_7055E4, zpos, 0x00FF00, dword_705850, 200);
+        field_14_south_light = gLight_1D4CC_6F5520->Init_469010(Fix16(x + (w / 2)), Fix16(y + h) + kFpOne_7055E4, zpos, 0x00FF00, kFpOneAndHalf_705850, 200);
     }
     else
     {

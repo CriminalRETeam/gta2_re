@@ -45,7 +45,7 @@ class Light_1D4CC : public LightBase
         nostalgic_ellis_0x28* pFirst = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = field_0_pool.field_0_pStart->mpNext;
         pFirst->mpNext = 0;
-        pFirst->sub_463F50();
+        pFirst->Reset_463F50();
         return pFirst;
     }
 
