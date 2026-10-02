@@ -1934,7 +1934,7 @@ bool NetPlay::WaitForPlayersSync_5213E0()
     u32 waitingForSync = 0;
     for (u32 i = 0; i < 6; i++)
     {
-        if (field_758_n2.field_10_players[i].field_0_in_use && i != field_5D4_player_idx)
+        if (field_758_n2.field_10_players[i].field_0_in_use && i != GetPlayerIdx_409C40())
         {
             waitingForAck |= 1 << i;
             waitingForSync |= 1 << i;
