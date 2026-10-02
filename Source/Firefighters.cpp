@@ -322,7 +322,7 @@ void Firefighter_28::sub_4A81F0()
                     field_8_state = 6;
                     break;
                 }
-                switch (field_20_ped->field_225_objective_status)
+                switch (field_20_ped->sub_450CB0())
                 {
                     case 1:
                         field_8_state = 3;
@@ -346,7 +346,7 @@ void Firefighter_28::sub_4A81F0()
         case 4:
             if (sub_4A7FC0())
             {
-                switch (field_20_ped->field_225_objective_status)
+                switch (field_20_ped->sub_450CB0())
                 {
                     case 1:
                     case 2:
