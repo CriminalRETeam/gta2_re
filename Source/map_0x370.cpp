@@ -783,7 +783,7 @@ MATCH_FUNC(0x4DFE10)
 gmp_block_info* Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord)
 {
     gmp_col_info* pCol =
-        reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y_coord][x_coord]]);
+        reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[*field_0_pDmap->get_base_42A830(y_coord, x_coord)]);
     if (z_coord < pCol->field_0_height)
     {
         s32 offset = pCol->field_1_offset;
