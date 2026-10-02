@@ -4037,7 +4037,7 @@ void gmp_compressed_map_32::ApplyDmapInfos_4E80A0(Map_sub* a2)
     {
         u32 x = a2->field_0_dmap_infos[j].field_4_x;
         u32 y = a2->field_0_dmap_infos[j].field_5_y;
-        field_0_base[y][x] = a2->field_0_dmap_infos[j].field_0_column_idx;
+        *get_base_42A830(y, x) = a2->field_0_dmap_infos[j].field_0_column_idx;
     }
 }
 
