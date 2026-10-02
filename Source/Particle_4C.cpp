@@ -1076,12 +1076,12 @@ char_type Particle_4C::Empty_state_44_53B170()
 }
 
 // https://decomp.me/scratch/fW2BZ
-WIP_FUNC(0x53b1a0)
+MATCH_FUNC(0x53b1a0)
 bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
 {
-    WIP_IMPLEMENTED;
     Fix16 v1 = dword_6FD46C;
-    Fix16_Point point(kFP16Zero_6FD49C, kFP16Zero_6FD49C);
+    Fix16 x = kFP16Zero_6FD49C;
+    Fix16 y = kFP16Zero_6FD49C;
     Fix16_Point point2(Fix16(0), Fix16(0));
 
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
@@ -1103,8 +1103,8 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
         field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
         zpos = field_30_pNext->field_1C_zpos - v1;
     }
-    stru_6FD388 = point.x + field_8_speed_x + field_30_pNext->field_14_xy.x;
-    stru_6FD38C = point.y + field_C_speed_y + field_30_pNext->field_14_xy.y;
+    stru_6FD388 = x + field_8_speed_x + field_30_pNext->field_14_xy.x;
+    stru_6FD38C = y + field_C_speed_y + field_30_pNext->field_14_xy.y;
 
     switch (field_2C_counter)
     {
