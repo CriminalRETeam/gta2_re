@@ -381,7 +381,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
 MATCH_FUNC(0x4c9680)
 void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
 {
-    Ped* pTmp = gPedPool_6787B8->field_0_pool.Allocate();
+    Ped* pTmp = gPedPool_6787B8->Allocate();
 
     Weapon_30* leaderWeapon = field_2C_ped_leader->field_170_selected_weapon;
     Weapon_30* memberWeapon = field_4_ped_list[idx]->field_170_selected_weapon;
@@ -404,7 +404,7 @@ void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
     field_2C_ped_leader->field_1DC_objective_target_x = pTmp->field_1DC_objective_target_x;
     field_2C_ped_leader->field_1E0_objective_target_y = pTmp->field_1E0_objective_target_y;
     field_2C_ped_leader->field_1E4_objective_target_z = pTmp->field_1E4_objective_target_z;
-    field_2C_ped_leader->field_14C = pTmp->field_14C;
+    field_2C_ped_leader->set_field_14C_403AE0(pTmp->Get_F14C_403AF0());
     field_2C_ped_leader->set_target_to_enter_403B00(pTmp->get_target_to_enter_403B10());
     field_2C_ped_leader->field_1D0 = pTmp->field_1D0;
     field_2C_ped_leader->field_1D4 = pTmp->field_1D4;
@@ -443,7 +443,7 @@ void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
 
         if (idx < field_34_count - 1)
         {
-            field_4_ped_list[idx]->reset_ped_group();
+            field_4_ped_list[idx]->ClearGroupAndGroupIdx_403A30();
             field_4_ped_list[idx] = field_4_ped_list[field_34_count - 1];
             field_4_ped_list[idx]->field_23C = idx;
         }
