@@ -11,6 +11,7 @@ DEFINE_GLOBAL(GUID, kGta2_DP_Guid_5FE928, 0x5FE928);
 DEFINE_GLOBAL_ARRAY(s32, dword_6F8A4C, 6, 0x6F8A4C);
 DEFINE_GLOBAL_ARRAY(char_type, byte_6F8A64, 24, 0x6F8A64);
 
+// 9.6f 0x409C50
 // Signed difference between two 8-bit sequence numbers, allowing for wrap around
 static inline s32 SeqDiff(u8 a, u8 b)
 {
