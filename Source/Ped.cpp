@@ -11411,10 +11411,7 @@ void Ped::Kill_46F9D0()
             Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_15);
         }
 
-        if ((field_21C & ped_bit_status_enum::k_ped_in_flames) == 0)
-        {
-            field_250 = 4;
-        }
+        Set_F250_IfBit_433DD0(4);
 
         UpdateStatsForKiller_46F720();
 
@@ -11458,7 +11455,7 @@ void Ped::Kill_46F9D0()
 
         if (field_168_game_object)
         {
-            field_168_game_object->field_16 = 1;
+            Set_B4_F16_To_1_433B50();
             if (field_238_ped_type == ped_type::player_2)
             {
                 if (field_164_ped_group)
@@ -11470,7 +11467,7 @@ void Ped::Kill_46F9D0()
             {
                 SetObjective(objectives_enum::objective_28, 9999);
             }
-            field_168_game_object->field_80_sprite_ptr->field_28_num = 6;
+            field_168_game_object->SetSpriteNum_4338F0(6);
         }
         else if (field_238_ped_type == ped_type::player_2)
         {
