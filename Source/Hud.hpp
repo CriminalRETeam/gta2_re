@@ -281,6 +281,21 @@ class Hud_Pager_C
         return field_4_ptr_counter == NULL;
     }
 
+    // 9.6f 0x4C7170
+    inline bool IsTimerOff_4C7170()
+    {
+        return field_0_timer < 0;
+    }
+
+    // 9.6f 0x4C7120
+    inline void SetTimer_4C7120(s32 timer)
+    {
+        field_0_timer = timer;
+    }
+
+    // 9.6f 0x4C7130, defined in Hud.cpp
+    inline void SetCounter_4C7130(s32* pCounter);
+
     // 9.6f 0x411A40
     inline s32 get_timer_411A40()
     {

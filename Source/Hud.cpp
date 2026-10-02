@@ -1592,11 +1592,11 @@ s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds) // returns the new Pager 
     for (s32 id = 0; id < GTA2_COUNTOF_S(field_0_pagers_array); id++)
     {
         Hud_Pager_C* pPager = &field_0_pagers_array[id];
-        if (pPager->field_0_timer >= 0 || pPager->field_4_ptr_counter)
+        if (!pPager->IsTimerOff_4C7170() || !pPager->no_ptr_counter_4C7160())
         {
             continue;
         }
-        pPager->field_0_timer = 30 * seconds;
+        pPager->SetTimer_4C7120(30 * seconds);
         return id;
     }
     return -1;
