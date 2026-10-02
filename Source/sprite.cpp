@@ -369,11 +369,9 @@ void Sprite::IncreaseZoom_59E320(char_type a2)
 }
 
 // https://decomp.me/scratch/dijmx
-WIP_FUNC(0x59e390)
+MATCH_FUNC(0x59e390)
 bool Sprite::ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bUnknown)
 {
-    WIP_IMPLEMENTED;
-
     Update_4C_59F990();
 
     Fix16 w_val;
@@ -381,7 +379,8 @@ bool Sprite::ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bUnknown)
     Fix16 f8_val;
     field_4_0x4C_len->GetXYZ_4BA0F0(&w_val, &h_val, &f8_val);
 
-    bool bHOrWLimit = field_4_0x4C_len->ReduceHeightBy_4BA160(yoff) || field_4_0x4C_len->ReduceWidthBy_4BA120(xoff);
+    bool bHOrWLimit = field_4_0x4C_len->ReduceWidthBy_4BA120(xoff);
+    bHOrWLimit |= field_4_0x4C_len->ReduceHeightBy_4BA160(yoff);
 
     if (bUnknown == 1)
     {
