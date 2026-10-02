@@ -595,10 +595,7 @@ void Char_B4::DrownPed_5459E0()
                                                field_80_sprite_ptr->field_1C_zpos,
                                                word_6FD936 + field_80_sprite_ptr->field_0,
                                                1);
-    if (!field_7C_pPed->field_21C_bf.b24)
-    {
-        field_7C_pPed->field_250 = 28;
-    }
+    field_7C_pPed->Set_F250_IfBit_433DD0(28);
     s32 ped_killer_id = field_7C_pPed->field_204_killer_id;
     if (ped_killer_id)
     {
