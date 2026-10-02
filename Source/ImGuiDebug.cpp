@@ -663,7 +663,7 @@ static Camera_0xBC* GetPlayerCam()
 
 EXTERN_GLOBAL(Fix16, kFpOne_7064C4);
 EXTERN_GLOBAL(Fix16, kFpEight_7064E8);
-EXTERN_GLOBAL(s16, word_706600);
+EXTERN_GLOBAL(s16, gDebugFont_706600);
 
 static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& screen_x, Fix16& screen_y, Camera_0xBC* pCam)
 {
@@ -699,7 +699,7 @@ static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, 
 
                 if (gHud_2B00_706620->field_650_texts.field_964_pFreeList) // avoid annoying crash when pausing the game
                 {
-                    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+                    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, gDebugFont_706600, 1);
                 }
             }
         }
@@ -717,7 +717,7 @@ static void DisplayWideTextAtScreenCoords(wchar_t* pStr, s16 screen_xpos, s16 sc
 {
     if (gHud_2B00_706620 && gHud_2B00_706620->field_650_texts.field_964_pFreeList) // avoid annoying crash when pausing the game
     {
-        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, gDebugFont_706600, 1);
     }
 }
 
@@ -745,7 +745,7 @@ static void DisplayWideTextAtXYZ(wchar_t* pStr, Fix16 xpos, Fix16 ypos, Fix16 zp
 
                 if (gHud_2B00_706620->field_650_texts.field_964_pFreeList) // avoid annoying crash when pausing the game
                 {
-                    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+                    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, gDebugFont_706600, 1);
                 }
             }
         }

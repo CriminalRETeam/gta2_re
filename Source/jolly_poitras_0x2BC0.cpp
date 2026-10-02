@@ -9,7 +9,7 @@
 #include <io.h>
 
 DEFINE_GLOBAL(jolly_poitras_0x2BC0*, gJolly_poitras_0x2BC0_6FEAC0, 0x6FEAC0);
-EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
+EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32);
 DEFINE_GLOBAL_ARRAY_INIT(score_table_line, gDefaultHiScores_6242B0, 10, 0x6242B0,
     { L"ALISDAIR" COMMA 50000 } COMMA
     { L"BILLY"    COMMA 40000 } COMMA
@@ -521,7 +521,7 @@ void high_score_table_0xF0::Init_56B520()
 {
     for (s32 i = 0; i < 10; i++)
     {
-        wcscpy(field_0_score_table_line[i].field_0_player_name, word_67DC8C);
+        wcscpy(field_0_score_table_line[i].field_0_player_name, gEmptyWStr_67DC8C);
         field_0_score_table_line[i].field_14_score = 0;
     }
 }

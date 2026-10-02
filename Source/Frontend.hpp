@@ -41,9 +41,9 @@ struct svg_stru
     char_type field_48;
     char_type field_49;
     char_type field_4A;
-    char_type field_4B;
-    char_type field_4C;
-    char_type field_4D;
+    char_type field_4B_last_saved_stage;
+    char_type field_4C_last_saved_bonus_stage_code;
+    char_type field_4D_last_saved_is_bonus;
     short field_4E;
     s16 field_50;
 };
@@ -243,9 +243,9 @@ enum MultiplayerGameType
 
 struct MainBlockStrings
 {
-    char field_0[256]; // debugstr
-    char field_100[256]; // map name
-    char field_200[256]; // sty name
+    char field_0_debug_str[256];
+    char field_100_map_name[256];
+    char field_200_sty_name[256];
 };
 
 struct Frontend
@@ -321,8 +321,8 @@ struct Frontend
     s16 field_1EB38_credits_line_idx;
     u8 field_1EB3A_selected_main_stage[8];
     u8 field_1EB42_selected_bonus_stage[8];
-    char_type field_1EB4A;
-    char_type field_1EB4B;
+    char_type field_1EB4A_has_prev_player_slot;
+    char_type field_1EB4B_has_next_player_slot;
     char_type field_1EB4C_has_prev_main_stage;
     char_type field_1EB4D_has_next_main_stage;
     char_type field_1EB4E_has_prev_bonus_stage;
