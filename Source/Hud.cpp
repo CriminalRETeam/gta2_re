@@ -2001,14 +2001,7 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
                 drawKind_ = 7;
             }
             pPlayer = gGame_0x40_67E008->field_38_orf1;
-            if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-            {
-                pCam = &pPlayer->field_208_aux_game_camera;
-            }
-            else
-            {
-                pCam = &pPlayer->field_90_game_camera;
-            }
+            pCam = pPlayer->get_camera_434900();
 
             DrawFigure_5D7EC0(6,
                               field_18.field_2C_arrow_sprt_idx,
@@ -2045,14 +2038,7 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
 
             const s32 drawKind = 2;
             pPlayer = gGame_0x40_67E008->field_38_orf1;
-            if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-            {
-                pCam = &pPlayer->field_208_aux_game_camera;
-            }
-            else
-            {
-                pCam = &pPlayer->field_90_game_camera;
-            }
+            pCam = pPlayer->get_camera_434900();
 
             DrawFigure_5D7EC0(6,
                               colour_related + 8,
