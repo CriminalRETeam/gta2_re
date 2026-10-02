@@ -1390,28 +1390,24 @@ Ang16 Ped::ComputeAimAngle_45C9D0()
 
     if (IsField238_45EDE0(2))
     {
-        Ped* pNearest = gThreateningPedsList_678468.FindClosestPedInViewCone_4713C0(this->field_1AC_cam.x,
-                                                                                    this->field_1AC_cam.y,
-                                                                                    this->field_12C,
-                                                                                    dword_6784E4);
-        Ped* best = pNearest;
+        Ped* pBest = gThreateningPedsList_678468.FindClosestPedInViewCone_4713C0(field_1AC_cam.x, field_1AC_cam.y, field_12C, dword_6784E4);
 
-        if (!best)
+        if (!pBest)
         {
             word_6784F0 = dword_6784E4;
-            best = FindBestTargetPed_Mode4_466BB0(3);
+            pBest = FindBestTargetPed_Mode4_466BB0(3);
         }
 
-        if (!best)
+        if (!pBest)
         {
-            best = sub_466F40(3u);
+            pBest = sub_466F40(3u);
         }
 
-        if (best)
+        if (pBest)
         {
-            Fix16 xd = best->field_1AC_cam.x - field_1AC_cam.x;
-            Fix16 yd = best->field_1AC_cam.y - field_1AC_cam.y;
-            field_130 = Fix16::atan2_fixed_405320(xd, yd);
+            Fix16 xd = pBest->field_1AC_cam.x - field_1AC_cam.x;
+            Fix16 yd = pBest->field_1AC_cam.y - field_1AC_cam.y;
+            field_130 = Fix16::atan2_fixed_405320(yd, xd);
         }
         else
         {
