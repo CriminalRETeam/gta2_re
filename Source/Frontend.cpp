@@ -4381,8 +4381,7 @@ void Frontend::sub_4B5270()
     }
     else
     {
-        main_stage = codified_stages >> 4;
-        bonus_stage = codified_stages & 0xF;
+        gLucid_hamilton_67E8E0.DecodeStage_453A60(codified_stages, &main_stage, &bonus_stage);
     }
     swprintf(tmpBuff_67BD9C, L"%d", main_stage);
     DrawText_4B87A0(tmpBuff_67BD9C, (s16)450, (s16)90, field_11C, 1);
