@@ -2784,7 +2784,7 @@ WIP_FUNC(0x4E5640)
 char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_1, Fix16 y_1, Fix16 z_1, Fix16 x_2, Fix16 y_2, Fix16 z_2)
 {
     WIP_IMPLEMENTED;
-    Sprite* pObjSprt = gObject_5C_6F8F84->field_58;
+    Sprite* pObjSprt = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Fix16 z_diff = z_2 - z_1;
     Ang16 angle;
     Fix16_Point pos_diff(x_2 - x_1, y_2 - y_1);

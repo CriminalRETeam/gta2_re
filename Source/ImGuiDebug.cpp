@@ -1915,13 +1915,13 @@ void CC ImGuiDebugDraw()
                         ImGui::SliderS16("Obj3C angle", &obj_3c->field_4_angle.rValue, 0, 1439);
                         ImGui::InputS16("Obj3C field_6", &obj_3c->field_6, 0, 1439);
                         ImGui::Value("Obj3C field_C", obj_3c->field_C_speed.mValue);
-                        ImGui::Value("Obj3C field_10", obj_3c->field_10.mValue);
+                        ImGui::Value("Obj3C field_10", obj_3c->field_10_z_speed.mValue);
                         ImGui::Value("Obj3C field_14", obj_3c->field_14.mValue);
                         ImGui::Value("Obj3C field_18", obj_3c->field_18_friction.mValue);
-                        ImGui::Value("Obj3C field_1C", obj_3c->field_1C.mValue);
+                        ImGui::Value("Obj3C field_1C", obj_3c->field_1C_z_accel.mValue);
 
                         ImGui::Value("Obj3C field_2E", obj_3c->field_2E);
-                        ImGui::Value("Obj3C field_2F", obj_3c->field_2F);
+                        ImGui::Value("Obj3C field_2F", obj_3c->field_2F_bOnSlope);
 
                         ImGui::Value("Obj3C field_38", obj_3c->field_38_conveyor_speed);
                         ImGui::Value("Obj3C field_39", obj_3c->field_39);

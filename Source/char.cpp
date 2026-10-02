@@ -6608,7 +6608,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
                                                                                          vecLen,
                                                                                          -dword_6FD824,
                                                                                          kFP16Zero_6FD9E4);
-            this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = kFP16Zero_6FD9E4;
+            this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
             this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
             this->field_7C_pPed->ChangeNextPedState1_45C500(8);
             this->field_7C_pPed->ChangeNextPedState2_45C540(24);
@@ -6642,7 +6642,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
                                                                                          (vecLen) / gFix16_Two_6FD9EC,
                                                                                          -dword_6FD824,
                                                                                          kFP16Zero_6FD9E4);
-            this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = kFP16Zero_6FD9E4;
+            this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
             this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
             this->field_7C_pPed->ChangeNextPedState1_45C500(8);
             this->field_7C_pPed->ChangeNextPedState2_45C540(24);
@@ -6672,8 +6672,8 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
                                                                                              (vecLen) / gFix16_Two_6FD9EC,
                                                                                              -dword_6FD824,
                                                                                              kFP16Zero_6FD9E4);
-                this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = dword_6FD9B0;
-                this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A = 1;
+                this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = dword_6FD9B0;
+                this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A_bAirborne = 1;
                 this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
                 this->field_7C_pPed->ChangeNextPedState1_45C500(8);
 
@@ -6728,8 +6728,8 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
                                                                                      (vecLen) / gFix16_Two_6FD9EC,
                                                                                      -dword_6FD824,
                                                                                      kFP16Zero_6FD9E4);
-        this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = dword_6FD824;
-        this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A = 1;
+        this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = dword_6FD824;
+        this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A_bAirborne = 1;
         this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
         if (field_7C_pPed->field_208_invulnerability)
         {
@@ -6786,13 +6786,13 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_typ
         switch (damageToUse)
         {
             case 0:
-                field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = kFP16Zero_6FD9E4;
+                field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
                 field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);
                 field_C_ped_state_2 = ped_state_2::Unknown_24;
                 break;
 
             case 1:
-                field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = a4;
+                field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = a4;
                 if (field_7C_pPed->field_208_invulnerability > 0)
                 {
 
@@ -6818,7 +6818,7 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_typ
                 break;
 
             case 2:
-                field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = a4;
+                field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = a4;
                 if (field_7C_pPed->field_208_invulnerability > 0)
                 {
                     field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);

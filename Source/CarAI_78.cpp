@@ -684,7 +684,7 @@ void CarAI_78::sub_4482C0()
 {
     WIP_IMPLEMENTED;
 
-    Sprite* v1 = gObject_5C_6F8F84->field_58;
+    Sprite* v1 = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     u8 v33 = 0;
     Fix16 v3 = Fix16(dword_677A74.ToInt());
     if (!word_677CFC || (this->field_24_flags & 0x20000) != 0)
@@ -921,7 +921,7 @@ void CarAI_78::sub_448770()
 
     Fix16 toUse = kF16Zero_677B90;
     gmp_block_info* pBlock_ = 0;
-    Sprite* obj_5C_f58 = gObject_5C_6F8F84->field_58;
+    Sprite* obj_5C_f58 = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Sprite* pCarSprite = this->field_0_car->field_50_car_sprite;
     gmp_block_info* pBlock_____ = 0;
     gmp_block_info* pBlock___ = 0;

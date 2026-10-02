@@ -845,7 +845,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0(SCR_THREAD* pThread, s16* pThrea
 
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
-        pParam2->field_8_obj->sub_5291D0();
+        pParam2->field_8_obj->PoolGiveAndMarkDone_5291D0();
         gfrosty_pasteur_6F8060->AddPhoneThread_5129B0(pParam1->field_8_char->field_200_id, pParam2->field_8_obj->field_14_id, *pThreadIdx);
     }
 }
@@ -1372,7 +1372,7 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
 
             if (pParam2->field_8_obj->sub_475A80() && pParam2->field_8_obj->field_24_bDoneThisFrame != 174)
             {
-                pParam2->field_8_obj->sub_5291D0();
+                pParam2->field_8_obj->PoolGiveAndMarkDone_5291D0();
             }
 
             gfrosty_pasteur_6F8060->RemovePhoneThread_512A70(pParam1->field_8_char->field_200_id, pParam2->field_8_obj->field_14_id);
@@ -3751,7 +3751,7 @@ void miss2_0x11C::SCRCMD_ANSWER_PHONE_50B180()
     Object_2C* pPhoneObj = pPtrObj->field_8_obj;
     if (pPhoneObj && pPtrPed->field_8_char)
     {
-        pPhoneObj->sub_5291D0();
+        pPhoneObj->PoolGiveAndMarkDone_5291D0();
         gfrosty_pasteur_6F8060->AddPhoneThread_5129B0(pPtrPed->field_8_char->field_200_id,
                                            pPtrObj->field_8_obj->field_14_id,
                                            gBasePtr_6F8070->field_0_cmd_this);
@@ -3800,7 +3800,7 @@ void miss2_0x11C::SCRCMD_CHECK_PHONETIMER_50B2C0()
             if (field_E_phone_timer == 0 && pAnswer->field_12_answered == 0)
             {
                 field_8_cond_result = true;
-                pPointer->field_8_obj->sub_5291D0();
+                pPointer->field_8_obj->PoolGiveAndMarkDone_5291D0();
             }
             else
             {
@@ -3828,7 +3828,7 @@ void miss2_0x11C::SCRCMD_STOP_PHONE_RING_50B360()
         {
             gfrosty_pasteur_6F8060->RemovePhoneThread_512A70(pHeader->field_0_ped_id, pHeader->field_4_obj_f14);
         }
-        pPointer->field_8_obj->sub_5291E0(163);
+        pPointer->field_8_obj->PoolGiveAndSetDone_5291E0(163);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -4347,7 +4347,7 @@ void miss2_0x11C::SCRCMD_SET_PHONE_DEAD_50C040()
     u16* pIndex = &gBasePtr_6F8070->field_8_index;
     SCR_POINTER* pScrPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(*pIndex);
 
-    pScrPtr->field_8_obj->sub_5291E0(174);
+    pScrPtr->field_8_obj->PoolGiveAndSetDone_5291E0(174);
     gfrosty_pasteur_6F8060->RemovePhoneThreadByObjId_512AA0(pScrPtr->field_8_obj->field_14_id);
     u16* pPhoneIds = &gfrosty_pasteur_6F8060->field_C1E32_phone_ids[0];
 
