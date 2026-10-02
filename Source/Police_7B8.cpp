@@ -362,7 +362,7 @@ void Police_7B8::sub_56FA40()
     if (field_464_services[0].field_0_criminal_ped)
     {
         if ((field_464_services[0].field_0_criminal_ped->field_21C & 1) == 0 
-            || field_464_services[0].field_0_criminal_ped->field_278_ped_state_1 == ped_state_1::dead_9)
+            || field_464_services[0].field_0_criminal_ped->isDead_403B60())
         {
             field_464_services[0].field_8_state = 4;
         }
@@ -529,7 +529,7 @@ void Police_7B8::sub_56FBD0()
         }
 
         pCriminal = pService->field_0_criminal_ped;
-        if (!(pCriminal->field_21C & 1) || pCriminal->field_278_ped_state_1 == 9)
+        if (!(pCriminal->field_21C & 1) || pCriminal->isDead_403B60())
         {
             pService->field_8_state = 4;
         }
