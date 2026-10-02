@@ -2198,7 +2198,7 @@ void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
 }
 
 // matches on decompme: https://decomp.me/scratch/Hyun8
-WIP_FUNC(0x55f020)
+MATCH_FUNC(0x55f020)
 void CarPhysics_B0::ApplyTurningForce_55F020()
 {
     Fix16_Point v6;
@@ -2234,7 +2234,7 @@ void CarPhysics_B0::ApplyTurningForce_55F020()
         v4 = -v4;
     }
     ApplyAngularImpulse_55F970(v4);
-    ApplyForceScaledByMass_55F9A0(stru_6FE1F0.NormalizeSafe_442AD0() * v17);
+    ApplyForceScaledByMass_55F9A0(stru_6FE1F0.NormalizeSafe_442AD0().Multiply_438FE0(v17));
 }
 
 MATCH_FUNC(0x55f240)

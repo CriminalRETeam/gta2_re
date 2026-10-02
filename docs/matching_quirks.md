@@ -543,6 +543,12 @@ which helper was called and in which order things happened:
 the four rect reads in `Map_0x370::sub_4E4820`; by value, read in the original order (left,
 right, top, bottom), it matched. Check the 9.6f getter's `ret $4` and hidden return pointer.
 
+**A missing EH state store can mean the wrong callee.** `ApplyTurningForce_55F020` lacked the
+`movb $1,N(%esp)` before multiplying the `NormalizeSafe_442AD0()` temporary. The source used the
+inline `Fix16_Point::operator*(Fix16&)` (called out of line, but its body is visible, so VC6
+knows it can't throw); the original calls the exported `Multiply_438FE0`. Check the call target
+address against the csv before chasing the state store.
+
 **Two different callees for the same constructor mean two types.** If the original calls one
 `Fix16` constructor twice and you call two, an argument has the wrong type (a `u16` position
 that went through `Fix16(u16)` instead of `Fix16(s32)`, `DrawChatMessages_5D16B0`).
