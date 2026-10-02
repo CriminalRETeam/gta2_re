@@ -993,64 +993,68 @@ bool Police_7B8::AssignCrewToService_570790(PoliceCrew_38* pCrew, Police_7C* pSe
 }
 
 // https://decomp.me/scratch/pfRaI
-WIP_FUNC(0x5707b0)
+// Inlined search helpers: their NULL results are tested by the caller
+static inline Police_7C* FindServiceForCriminal_5707B0(Police_7B8* pThis, Ped* pCriminal)
+{
+    for (u8 i = 0; i < GTA2_COUNTOF(pThis->field_464_services); i++)
+    {
+        if (pThis->field_464_services[i].field_0_criminal_ped == pCriminal)
+        {
+            return &pThis->field_464_services[i];
+        }
+    }
+    return NULL;
+}
+
+static inline PoliceCrew_38* FindCrewInCar_5707B0(Police_7B8* pThis, Car_BC* pCar)
+{
+    for (u8 j = 0; j < GTA2_COUNTOF(pThis->field_4_cop_crew); j++)
+    {
+        PoliceCrew_38* pCrew = &pThis->field_4_cop_crew[j];
+        if (pCrew->field_1C_used && pCrew->field_10_subObj->field_0_car == pCar)
+        {
+            return pCrew;
+        }
+    }
+    return NULL;
+}
+
+MATCH_FUNC(0x5707b0)
 bool Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCriminal)
 {
-    WIP_IMPLEMENTED;
-
     if (!pCriminal->is_player_41B0A0())
     {
         return false;
     }
 
-    for (u8 i = 0; i < GTA2_COUNTOF(field_464_services); i++)
+    Police_7C* p7C = FindServiceForCriminal_5707B0(this, pCriminal);
+    if (p7C == NULL)
     {
-        // finding the instance in which pCriminal is
-        if (field_464_services[i].field_0_criminal_ped != pCriminal)
-        {
-            continue;
-        }
-
-        if (&field_464_services[i] == NULL)
-        {
-            return false;
-        }
-
-        Police_7C* p7C = &field_464_services[i];
-        for (u8 j = 0; j < GTA2_COUNTOF(field_4_cop_crew); j++)
-        {
-            PoliceCrew_38* pCrew = &field_4_cop_crew[j];
-            if (pCrew->field_1C_used && pCrew->field_10_subObj->field_0_car == pCar)
-            {
-                if (pCrew == NULL)
-                {
-                    return false;
-                }
-
-                if (pCrew->field_10_subObj->field_20_crew_type != crew_type::army_6 && p7C->field_4_wanted_level == 6)
-                {
-                    return false;
-                }
-
-                p7C->field_8_state = 3;
-                pCrew->field_14_pService = &field_464_services[i];
-                pCrew->field_24_state = police_crew_state::pursue_or_chase_5;
-                pCrew->AddToService_570A10();
-
-                if (pCrew->field_10_subObj->field_20_crew_type != crew_type::army_6)
-                {
-                    pCrew->field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
-                }
-
-                return true;
-            }
-        }
-
         return false;
+    }
 
-    } // end for
+    PoliceCrew_38* pCrew = FindCrewInCar_5707B0(this, pCar);
+    if (pCrew == NULL)
+    {
+        return false;
+    }
 
-    return false;
+    if (pCrew->field_10_subObj->field_20_crew_type != crew_type::army_6 && p7C->field_4_wanted_level == 6)
+    {
+        return false;
+    }
+
+    p7C->field_8_state = 3;
+    pCrew->field_14_pService = p7C;
+    pCrew->field_24_state = police_crew_state::pursue_or_chase_5;
+    pCrew->AddToService_570A10();
+
+    if (pCrew->field_10_subObj->field_20_crew_type != crew_type::army_6)
+    {
+        pCrew->field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
+    }
+
+    return true;
 }
 
 MATCH_FUNC(0x5708c0)
