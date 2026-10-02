@@ -73,9 +73,10 @@ class DoorData_10_Pool
     {
     }
 
-    // 0x44C7F0
+    // 9.6f 0x44C7F0
     ~DoorData_10_Pool()
     {
+        field_0_pool.field_0_pHead = 0;
     }
 
     PoolBasic<DoorData_10, 44> field_0_pool;
