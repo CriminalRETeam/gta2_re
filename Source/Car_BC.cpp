@@ -898,7 +898,7 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
         do
         {
             if (!pCarIter->IsMaxDamage_40F890() && !pCarIter->inline_check_0x10_info_421640() &&
-                (bIgnorePedRestrictions || !pCarIter->sub_43B2B0(pPed)) && !pCarIter->sub_43A230() && pCarIter->field_88_despawn_status != 7 &&
+                (bIgnorePedRestrictions || !pCarIter->sub_43B2B0(pPed)) && !pCarIter->sub_43A230() && !pCarIter->sub_4214D0() &&
                 !pCarIter->IsCarInAir_43A3C0())
             {
                 if (pCarIter->GetCarInfoIdx_411940() == car_model_enum::TRAINFB && (!bMatchDriverless || !pCarIter->field_54_driver))
@@ -1854,7 +1854,7 @@ bool Car_BC::sub_4451E0(Ped* pPed)
     WIP_IMPLEMENTED;
 
     Ped* pDriver = this->field_54_driver;
-    if (pDriver && this->field_84_car_info_idx != car_model_enum::MEDICAR &&
+    if (pDriver && !this->IsMediCar() &&
         pDriver->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
     {
         return false;
@@ -1867,8 +1867,8 @@ bool Car_BC::sub_445360()
 {
     WIP_IMPLEMENTED;
 
-    if (this->field_74_damage != 32001 && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x10) != 0x10 &&
-        !sub_43B2B0(gPurpleDoom_ped_678F64) && !sub_43A230() && field_88_despawn_status != 7 && !IsCarInAir_43A3C0())
+    if (!this->IsMaxDamage_40F890() && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x10) != 0x10 &&
+        !sub_43B2B0(gPurpleDoom_ped_678F64) && !sub_43A230() && !sub_4214D0() && !IsCarInAir_43A3C0())
     {
         if (!IsTrainModel_403BA0())
         {
@@ -2532,7 +2532,7 @@ void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
             {
                 case 1:
                 {
-                    if (this->field_74_damage != 32001)
+                    if (!this->IsMaxDamage_40F890())
                     {
                         if (!Car_BC::IsAreaDamaged_43D1C0(3))
                         {
@@ -2558,7 +2558,7 @@ void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
 
                     s32 score = 1000 * score_base_multi;
 
-                    if (pCar->field_84_car_info_idx == car_model_enum::TANK)
+                    if (pCar->IsTank_411900())
                     {
                         score += Car_BC::ApplyImpactDamage_43D5D0(k_dword_677918);
                     }
@@ -3406,7 +3406,7 @@ void Car_BC::ResetRoofLights_43C650()
         pObj1->Light_527990();
     }
 
-    if (field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::FIRETRUK)
+    if (IsSwatVan_4217A0() || IsFireTruck_4118F0())
     {
         Object_2C* pObj2 = field_0_qq.FindObject2CByModel_5A6A90(172);
         if (pObj2)
@@ -3494,7 +3494,7 @@ void Car_BC::DeactivateEmergencyLights_43C9D0()
     Car_BC::ResetTopRightRoofLight_43C310();
     Car_BC::ResetTopLeftRoofLight_43C470();
     field_A4 &= ~4u;
-    if (is_FBI_car_411920() && field_74_damage != 32001)
+    if (is_FBI_car_411920() && !IsMaxDamage_40F890())
     {
         field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor4_14);
     }
@@ -3800,7 +3800,7 @@ void Car_BC::TriggerExplosion_43D7B0(s32 k20Or19)
 {
     WIP_IMPLEMENTED;
 
-    if (get_anti_strngth_43A1D0() == gFix16_6777CC || this->field_74_damage == 32001)
+    if (get_anti_strngth_43A1D0() == gFix16_6777CC || this->IsMaxDamage_40F890())
     {
         EmitExplosion_43D690(k20Or19, stru_6778A8.x.mValue, stru_6778A8.y.mValue);
     }
@@ -3828,7 +3828,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
         this->field_60 = 0;
     }
 
-    if (this->field_74_damage != 32001)
+    if (!this->IsMaxDamage_40F890())
     {
         sub_441380();
         EmitExplosion_43D690(a2, stru_6778A8.x, stru_6778A8.y);
@@ -5628,7 +5628,7 @@ void Car_BC::sub_441E70()
     {
         Car_BC::sub_441B20();
     }
-    if (field_84_car_info_idx == car_model_enum::EDSELFBI)
+    if (is_FBI_car_411920())
     {
         Car_BC::sub_441D40();
     }
@@ -5673,7 +5673,7 @@ bool Car_BC::sub_442200()
 {
     if (field_A0_car_kind == car_kind::parked_car_9)
     {
-        return field_74_damage == 32001 ? true : false;
+        return IsMaxDamage_40F890() ? true : false;
     }
 
     if (!IsTrainModel_403BA0() && !gGame_0x40_67E008->IsCarInAnyPlayerHistory_4B9C10(this) && !Car_BC::sub_4421B0())
@@ -5901,7 +5901,7 @@ void Car_BC::sub_4426D0()
     sub_441B00();
     sub_441520();
 
-    if (field_74_damage != 32001)
+    if (!IsMaxDamage_40F890())
     {
         UpdateBrakeLights_4415C0();
         sub_441E70();
@@ -6436,7 +6436,7 @@ void Car_BC::sub_443710(Fix16_Point* xy)
 
     Fix16_Point v16;
 
-    if (field_88_despawn_status != 7)
+    if (!sub_4214D0())
     {
         SetupCarPhysicsAndSpriteBinding_43BCA0();
 
