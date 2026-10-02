@@ -464,7 +464,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
 
         DrawText_5D7720(pWMessage, (640 - max_width) / 2, y_offset, word_7063F8, 2, 0, 0, 0);
 
-        if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+        if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
         {
             s32 value_1;
             Gang_144* pGang;
@@ -1577,7 +1577,7 @@ void Hud_Pager_C_Array::DrawPagers_5D3040()
     s32 totalSpriteHeight = get_sprite_height_4C7250(117) + get_sprite_height_4C7250(118) + get_sprite_height_4C7250(119);
     s32 width = (get_sprite_width_4C7220(117) / 2) + 3;
 
-    s32 v9 = gLucid_hamilton_67E8E0.sub_4C59A0() ? 36 : 104;
+    s32 v9 = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() ? 36 : 104;
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_pagers_array); i++)
     {
         field_0_pagers_array[i].DrawPager_5D2AB0(width, v9);
@@ -3166,7 +3166,7 @@ void Hud_2B00::sub_5D69C0()
     // TODO: This whole thing is another func
 
     Garox_12E4_sub* pSub = &this->field_12E4_sub;
-    if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+    if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
     {
         pSub->field_1_timer--;
         if (pSub->field_1_timer == 0)

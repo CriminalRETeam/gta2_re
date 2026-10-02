@@ -23,7 +23,7 @@ struct lucid_hamilton
     char_type field_300_debug_str[256];
     char_type field_400_main_stage;
     char_type field_401_stage;
-    char_type field_402;
+    char_type field_402_is_bonus_stage;
     u8 field_403_player_slot_idx;
     char_type field_404_level_finish_bonus_type;
     char_type field_405;
@@ -38,8 +38,8 @@ struct lucid_hamilton
     field_408[9] = gang members killed
     */
     s32 field_408_statistics[10];
-    s32 field_430;
-    s32 field_434;
+    s32 field_430_auto_damage_cost;
+    s32 field_434_fugitive_factor;
     s16 field_438_bonus_rating_text_idx;
     char_type field_43A;
     char_type field_43B_game_type;
@@ -49,10 +49,10 @@ struct lucid_hamilton
     char_type field_442;
     char_type field_443;
     s32 field_444_game_time_limit;
-    wonderful_knuth_0xC field_448[6];
+    wonderful_knuth_0xC field_448_kills_matrix[6];
     s16 field_490_frags_list[6];
     s32 field_49C_points_list[6];
-    blissful_ganguly_0x20 field_4B4[6];
+    blissful_ganguly_0x20 field_4B4_player_names[6];
     s32 field_574_secret_tokens_collected;
 
     // inlined at 45b420 in 9.6f
@@ -76,11 +76,11 @@ struct lucid_hamilton
 
     EXPORT char_type* DebugStr_4C58D0(char_type* Source);
 
-    EXPORT void sub_4C58F0(char_type a2);
+    EXPORT void SetMainStageIdx_4C58F0(char_type a2);
 
-    EXPORT void sub_4C5900(char_type a2);
+    EXPORT void SetStage_4C5900(char_type a2);
 
-    EXPORT void sub_4C5910(char_type a2);
+    EXPORT void SetIsBonusStage_4C5910(char_type a2);
 
     EXPORT void SetPlySlotIdx_4C5920(char_type a2);
 
@@ -98,25 +98,25 @@ struct lucid_hamilton
 
     EXPORT char_type GetStage_4C5990();
 
-    EXPORT char_type sub_4C59A0();
+    EXPORT char_type IsBonusStage_4C59A0();
 
     EXPORT u8 GetPlySlotIdx_4C59B0();
 
     EXPORT char_type GetLevelFinishBonusType_4C59C0();
 
-    EXPORT void sub_4C59D0(u8 a2, s32 a3);
+    EXPORT void SetStatistic_4C59D0(u8 idx, s32 value);
 
-    EXPORT s32 sub_4C59F0(u8 idx);
+    EXPORT s32 GetStatistic_4C59F0(u8 idx);
 
-    EXPORT void sub_4C5A10(Player* a1);
+    EXPORT void SetStatisticsFromPlayer_4C5A10(Player* a1);
 
-    EXPORT void sub_4C5A70(s32 a2);
+    EXPORT void SetAutoDamageCost_4C5A70(s32 a2);
 
-    EXPORT s32 sub_4C5A80();
+    EXPORT s32 GetAutoDamageCost_4C5A80();
 
-    EXPORT void sub_4C5A90(s32 a2);
+    EXPORT void SetFugitiveFactor_4C5A90(s32 a2);
 
-    EXPORT s32 sub_4C5AA0();
+    EXPORT s32 GetFugitiveFactor_4C5AA0();
 
     EXPORT void SetBonusRatingTextIdx_4C5AB0(s16 a2);
 
@@ -142,9 +142,9 @@ struct lucid_hamilton
 
     EXPORT char_type sub_4C5C20();
 
-    EXPORT void sub_4C5C30(u16 a2, wchar_t* Source);
+    EXPORT void SetPlayerName_4C5C30(u16 player_idx, wchar_t* pName);
 
-    EXPORT blissful_ganguly_0x20* sub_4C5C60(u16 a2);
+    EXPORT blissful_ganguly_0x20* GetPlayerName_4C5C60(u16 player_idx);
 
     EXPORT void ChangePointsForPlayerIdxByAmount_4C5C80(u8 a2, s32 a3);
 
@@ -154,7 +154,7 @@ struct lucid_hamilton
 
     EXPORT u16 GetFragsForPlayerIdx_4C5D60(u8 a2);
 
-    EXPORT s16 sub_4C5D80(u8 a2, u8 a3);
+    EXPORT s16 GetKillsOfVictimByKiller_4C5D80(u8 killer_idx, u8 victim_idx);
 };
 
 EXTERN_GLOBAL(lucid_hamilton, gLucid_hamilton_67E8E0);

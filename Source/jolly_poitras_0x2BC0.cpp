@@ -201,7 +201,7 @@ void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
     const s32 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
     u8 map_num;
     u8 bonus_num;
-    if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+    if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
     {
         map_num = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
         bonus_num = 0;

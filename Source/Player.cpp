@@ -1902,7 +1902,7 @@ void Player::Busted_5679E0()
 
         if (!field_2C)
         {
-            if (field_684_lives.field_0_value <= 0 || gLucid_hamilton_67E8E0.sub_4C59A0() == 1)
+            if (field_684_lives.field_0_value <= 0 || gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() == 1)
             {
                 gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::GameOverRIP_3);
             }
@@ -1962,7 +1962,7 @@ void Player::Busted_5679E0()
         }
         else
         {
-            if (field_2C == 2 && field_684_lives.field_0_value > 0 && gLucid_hamilton_67E8E0.sub_4C59A0() != 1)
+            if (field_2C == 2 && field_684_lives.field_0_value > 0 && gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 1)
             {
                 field_2C4_player_ped->field_210_shock_counter = 0;
                 field_2C4_player_ped->field_20A_wanted_points = 0;
@@ -2595,7 +2595,7 @@ void Player::InitializePlayerState_569CB0()
     }
     else
     {
-        if (!gLucid_hamilton_67E8E0.sub_4C59A0()) // bonus level?
+        if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0()) // bonus level?
         {
             field_684_lives.ChangeStatByAmount_4921B0(5);
         }
@@ -2632,7 +2632,7 @@ void Player::InitializePlayerState_569CB0()
         Player::ColorScoreFromRemap_569A10();
         gNetPlay_7071E8.GetPlayerName_521100(field_83C_player_name, field_2E_idx);
         gText_0x14_704DFC->sub_5B5910(field_83C_player_name);
-        gLucid_hamilton_67E8E0.sub_4C5C30(field_2E_idx, field_83C_player_name);
+        gLucid_hamilton_67E8E0.SetPlayerName_4C5C30(field_2E_idx, field_83C_player_name);
     }
 }
 
@@ -2825,8 +2825,8 @@ void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
     {
         pSave->field_3C_crime_unk[crime_idx] = field_644_unk.field_0_crime_count_list[crime_idx];
     }
-    pSave->field_84_zealous_f34 = field_644_unk.field_34;
-    pSave->field_88_zealous_f38 = field_644_unk.field_38;
+    pSave->field_84_auto_damage_cost = field_644_unk.field_34_auto_damage_cost;
+    pSave->field_88_fugitive_factor = field_644_unk.field_38_fugitive_factor;
 }
 
 MATCH_FUNC(0x56A310)
@@ -2904,8 +2904,8 @@ void Player::UpdateGameFromSave_56A310(save_stats_0x90* pSave)
     {
         field_644_unk.field_0_crime_count_list[crime_idx] = pSave->field_3C_crime_unk[crime_idx];
     }
-    field_644_unk.field_34 = pSave->field_84_zealous_f34;
-    field_644_unk.field_38 = pSave->field_88_zealous_f38;
+    field_644_unk.field_34_auto_damage_cost = pSave->field_84_auto_damage_cost;
+    field_644_unk.field_38_fugitive_factor = pSave->field_88_fugitive_factor;
 
     Player::RestorePowerUpsFromSave_5651F0(pSave);
     Player::RestoreCarsFromSave_56A0F0();

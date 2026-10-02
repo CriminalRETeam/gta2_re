@@ -28,13 +28,13 @@ class zealous_borg
     EXPORT void sub_484F20();
     EXPORT void sub_484F30();
     EXPORT void IncrementCrimeCount_484F50(int crime_type);
-    EXPORT void sub_484FA0(int a2);
-    EXPORT void sub_484FB0(int amount);
+    EXPORT void AddAutoDamageCost_484FA0(int a2);
+    EXPORT void AddFugitiveFactor_484FB0(int amount);
 
   public:
     u32 field_0_crime_count_list[10];
     u8 field_28[10];
     s16 field_32;
-    s32 field_34;
-    s32 field_38;
+    s32 field_34_auto_damage_cost;
+    s32 field_38_fugitive_factor;
 };

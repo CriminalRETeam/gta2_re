@@ -2117,29 +2117,29 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         break;
 
                                     case GameExitType::PlayerQuit_2:
-                                        gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gLucid_hamilton_67E8E0.SetStatisticsFromPlayer_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
 
-                                        state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 11; // 11? prob 1
+                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
                                     case GameExitType::GameOverRIP_3:
-                                        gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gLucid_hamilton_67E8E0.SetStatisticsFromPlayer_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                                        state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 2;
+                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
                                     case GameExitType::AreaCompleted_4:
-                                        gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gLucid_hamilton_67E8E0.SetStatisticsFromPlayer_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                                        state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 3;
+                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;

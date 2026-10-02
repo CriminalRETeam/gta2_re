@@ -25,8 +25,8 @@ void zealous_borg::sub_484EF0()
         ++pIntIter;
         ++pByteIter;
     }
-    field_34 = 0;
-    field_38 = 0;
+    field_34_auto_damage_cost = 0;
+    field_38_fugitive_factor = 0;
 }
 
 MATCH_FUNC(0x484F20)
@@ -73,13 +73,13 @@ void zealous_borg::IncrementCrimeCount_484F50(int crime_type)
 }
 
 MATCH_FUNC(0x484FA0)
-void zealous_borg::sub_484FA0(int a2)
+void zealous_borg::AddAutoDamageCost_484FA0(int a2)
 {
-    field_34 += a2;
+    field_34_auto_damage_cost += a2;
 }
 
 MATCH_FUNC(0x484FB0)
-void zealous_borg::sub_484FB0(int amount)
+void zealous_borg::AddFugitiveFactor_484FB0(int amount)
 {
-    field_38 += amount;
+    field_38_fugitive_factor += amount;
 }

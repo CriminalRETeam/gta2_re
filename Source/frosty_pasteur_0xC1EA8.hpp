@@ -514,8 +514,8 @@ struct save_stats_0x90
     u8 field_80_lives;
     u8 field_81_pad;
     u16 field_82_curr_weapon_idx;
-    s32 field_84_zealous_f34;
-    s32 field_88_zealous_f38;
+    s32 field_84_auto_damage_cost;
+    s32 field_88_fugitive_factor;
     u16 field_8C_wanted_level;
     u16 field_8E_pad;
 };

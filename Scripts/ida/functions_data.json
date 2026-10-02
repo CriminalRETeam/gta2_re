@@ -4640,12 +4640,12 @@
         "v105_address": "0x484f50"
     },
     {
-        "name": "zealous_borg::sub_484FA0",
+        "name": "zealous_borg::AddAutoDamageCost_484FA0",
         "v96f_address": null,
         "v105_address": "0x484fa0"
     },
     {
-        "name": "zealous_borg::sub_484FB0",
+        "name": "zealous_borg::AddFugitiveFactor_484FB0",
         "v96f_address": null,
         "v105_address": "0x484fb0"
     },
@@ -6355,17 +6355,17 @@
         "v105_address": "0x4c58d0"
     },
     {
-        "name": "lucid_hamilton::sub_4C58F0",
+        "name": "lucid_hamilton::SetMainStageIdx_4C58F0",
         "v96f_address": null,
         "v105_address": "0x4c58f0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5900",
+        "name": "lucid_hamilton::SetStage_4C5900",
         "v96f_address": null,
         "v105_address": "0x4c5900"
     },
     {
-        "name": "lucid_hamilton::sub_4C5910",
+        "name": "lucid_hamilton::SetIsBonusStage_4C5910",
         "v96f_address": null,
         "v105_address": "0x4c5910"
     },
@@ -6410,7 +6410,7 @@
         "v105_address": "0x4c5990"
     },
     {
-        "name": "lucid_hamilton::sub_4C59A0",
+        "name": "lucid_hamilton::IsBonusStage_4C59A0",
         "v96f_address": null,
         "v105_address": "0x4c59a0"
     },
@@ -6425,37 +6425,37 @@
         "v105_address": "0x4c59c0"
     },
     {
-        "name": "lucid_hamilton::sub_4C59D0",
+        "name": "lucid_hamilton::SetStatistic_4C59D0",
         "v96f_address": null,
         "v105_address": "0x4c59d0"
     },
     {
-        "name": "lucid_hamilton::sub_4C59F0",
+        "name": "lucid_hamilton::GetStatistic_4C59F0",
         "v96f_address": null,
         "v105_address": "0x4c59f0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5A10",
+        "name": "lucid_hamilton::SetStatisticsFromPlayer_4C5A10",
         "v96f_address": null,
         "v105_address": "0x4c5a10"
     },
     {
-        "name": "lucid_hamilton::sub_4C5A70",
+        "name": "lucid_hamilton::SetAutoDamageCost_4C5A70",
         "v96f_address": null,
         "v105_address": "0x4c5a70"
     },
     {
-        "name": "lucid_hamilton::sub_4C5A80",
+        "name": "lucid_hamilton::GetAutoDamageCost_4C5A80",
         "v96f_address": null,
         "v105_address": "0x4c5a80"
     },
     {
-        "name": "lucid_hamilton::sub_4C5A90",
+        "name": "lucid_hamilton::SetFugitiveFactor_4C5A90",
         "v96f_address": null,
         "v105_address": "0x4c5a90"
     },
     {
-        "name": "lucid_hamilton::sub_4C5AA0",
+        "name": "lucid_hamilton::GetFugitiveFactor_4C5AA0",
         "v96f_address": null,
         "v105_address": "0x4c5aa0"
     },
@@ -6520,12 +6520,12 @@
         "v105_address": "0x4c5c20"
     },
     {
-        "name": "lucid_hamilton::sub_4C5C30",
+        "name": "lucid_hamilton::SetPlayerName_4C5C30",
         "v96f_address": null,
         "v105_address": "0x4c5c30"
     },
     {
-        "name": "lucid_hamilton::sub_4C5C60",
+        "name": "lucid_hamilton::GetPlayerName_4C5C60",
         "v96f_address": null,
         "v105_address": "0x4c5c60"
     },
@@ -6550,7 +6550,7 @@
         "v105_address": "0x4c5d60"
     },
     {
-        "name": "lucid_hamilton::sub_4C5D80",
+        "name": "lucid_hamilton::GetKillsOfVictimByKiller_4C5D80",
         "v96f_address": null,
         "v105_address": "0x4c5d80"
     },
