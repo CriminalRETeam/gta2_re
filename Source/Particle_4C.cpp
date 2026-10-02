@@ -1305,8 +1305,8 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
 
     field_30_pNext->set_id_4206E0(idx + gPhi_8CA8_6FCF00->field_8CA4 + 37);
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
-    field_30_pNext->field_2C_flags = 0x52;
-    field_30_pNext->field_2C_flags |= 4;
+    field_30_pNext->SetFlags_4337D0(2, 10);
+    field_30_pNext->Set_2C_0x4_Flag_4337F0();
     field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A0 + scale_related * Fix16(field_46_sub_state), 0);
     return false;
 }
