@@ -72,7 +72,7 @@ void sad_mirzakhani::sub_431E10(eager_benz* a2)
 MATCH_FUNC(0x431E30);
 void sad_mirzakhani::sub_431E30()
 {
-    field_1BC = rng_dword_67AB34->field_0_rng;
+    field_1BC = rng_dword_67AB34->get_cur_rng_41CFE0();
 
     silly_saha_0x2C* pIter = &field_0[0];
     for (s32 i = GTA2_COUNTOF(field_0) - 1; i >= 0; i--)
@@ -215,7 +215,7 @@ s16 sad_mirzakhani::alloc_next_431FE0(s16 f_4,
     field_0[idx].field_14 = f_14;
     field_0[idx].field_18 = f_18;
     field_0[idx].field_0_pZone = pZone;
-    field_0[idx].field_20_counterVal = rng_dword_67AB34->field_0_rng;
+    field_0[idx].field_20_counterVal = rng_dword_67AB34->get_cur_rng_41CFE0();
     field_0[idx].field_1C = f_1c;
     field_0[idx].field_24 = f_24;
     field_0[idx].field_25 = f_25;
