@@ -2435,9 +2435,9 @@ char_type Object_2C::HandleObjectHit_528990(Sprite* pSprite)
 
     Object_2C* o2c = pSprite->As2C_40FEC0();
 
-    if (gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id)
+    if (gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()))
     {
-        Ped* pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id);
+        Ped* pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
         if (pPed)
         {
             pPed->ProcessWeaponHitResponse_46FE20(o2c);
