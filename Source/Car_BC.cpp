@@ -5284,7 +5284,7 @@ void Car_BC::HandleUserInput_4418D0(char_type bForwardGasOn,
     if (bNowSpecialPressed && (bLeftOn || bRightOn))
     {
         // NB: If left is off then right is on
-        if (Car_BC::HandleRoofTurretRotation_440D90(bLeftOn) == 1)
+        if (Car_BC::HandleRoofTurretRotation_440D90(bLeftOn))
         {
             bLeftOn = 0;
             bRightOn = 0;
@@ -5302,6 +5302,7 @@ void Car_BC::HandleUserInput_4418D0(char_type bForwardGasOn,
         Car_BC::DoDetachTrailer_4418A0();
     }
 
+    // 9.6f: Car_BC::sub_425780 (field_78_flags & 0x1000 through sub_411930), as a bool helper it changes the code
     if ((this->field_78_flags & 0x1000) != 0)
     {
         bForwardGasOn = 1;
