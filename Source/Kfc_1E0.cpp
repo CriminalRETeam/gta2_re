@@ -123,11 +123,11 @@ void Kfc_30::UpdateStateMachine_5CBD50()
     {
         if (field_0_car)
         {
-            if (field_0_car->field_88_despawn_status == 5)
+            if (field_0_car->IsDespawning_4215B0())
             {
                 v36 = 1;
             }
-            if (field_0_car->field_74_damage == 32001)
+            if (field_0_car->IsMaxDamage_40F890())
             {
                 v36 = 1;
             }
