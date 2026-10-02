@@ -353,8 +353,8 @@ void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* pStart)
     for (Collide_8* pColIter = pStart; pColIter; pColIter = pColIter->mpNext)
     {
         Sprite* pSprt = pColIter->field_0_sprt;
-        if ((pColIter->field_0_sprt->field_30_sprite_type_enum == gPurpleDoom_sprite_type1_678FE8 ||
-             pColIter->field_0_sprt->field_30_sprite_type_enum == gPurpleDoom_sprite_type2_678FEC) &&
+        if ((pColIter->field_0_sprt->get_type_416B40() == gPurpleDoom_sprite_type1_678FE8 ||
+             pColIter->field_0_sprt->get_type_416B40() == gPurpleDoom_sprite_type2_678FEC) &&
             pSprt != gPurpleDoom_exclude_sprite_678F40)
         {
 
@@ -365,7 +365,7 @@ void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* pStart)
                     dist = gPurpleDoom_exclude_sprite_678F40->MinDistanceToAnySpriteBBoxCorner_5A22B0(pSprt);
                     if (dist < gPurpleDoom_smallestDistance_678E5C)
                     {
-                        if (pColIter->field_0_sprt->field_30_sprite_type_enum == sprite_types_enum::car_2)
+                        if (pColIter->field_0_sprt->get_type_416B40() == sprite_types_enum::car_2)
                         {
                             if (pColIter->field_0_sprt->field_8_car_bc_ptr->sub_445360())
                             {
