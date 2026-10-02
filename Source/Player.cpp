@@ -2856,61 +2856,14 @@ void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
 MATCH_FUNC(0x56A310)
 void Player::UpdateGameFromSave_56A310(save_stats_0x90* pSave)
 {
-    s32 lives = pSave->field_80_lives;
-    if (lives < -field_684_lives.field_30_max_value)
-    {
-        this->field_684_lives.field_0_value = -field_684_lives.field_30_max_value;
-    }
-    else
-    {
-        if (lives > field_684_lives.field_30_max_value)
-        {
-            this->field_684_lives.field_0_value = field_684_lives.field_30_max_value;
-        }
-        else
-        {
-            this->field_684_lives.field_0_value = lives;
-        }
-    }
-
-    s32 multipliers = pSave->field_14_multipliers;
-    if (multipliers < -field_6BC_multpliers.field_30_max_value)
-    {
-        this->field_6BC_multpliers.field_0_value = -field_6BC_multpliers.field_30_max_value;
-    }
-    else
-    {
-        if (multipliers > field_6BC_multpliers.field_30_max_value)
-        {
-            this->field_6BC_multpliers.field_0_value = field_6BC_multpliers.field_30_max_value;
-        }
-        else
-        {
-            this->field_6BC_multpliers.field_0_value = multipliers;
-        }
-    }
-
-    s32 money = pSave->field_10_money;
-    if (money < -field_2D4_scores.field_0_money.field_30_max_value)
-    {
-        this->field_2D4_scores.field_0_money.field_0_value = -field_2D4_scores.field_0_money.field_30_max_value;
-    }
-    else
-    {
-        if (money > field_2D4_scores.field_0_money.field_30_max_value)
-        {
-            this->field_2D4_scores.field_0_money.field_0_value = field_2D4_scores.field_0_money.field_30_max_value;
-        }
-        else
-        {
-            this->field_2D4_scores.field_0_money.field_0_value = money;
-        }
-    }
+    field_684_lives.SetValueClamped_4A50B0(pSave->field_80_lives);
+    field_6BC_multpliers.SetValueClamped_4A50B0(pSave->field_14_multipliers);
+    field_2D4_scores.SetMoney_4A50E0(pSave->field_10_money);
 
     field_788_curr_weapon_idx = pSave->field_82_curr_weapon_idx;
     field_2C4_player_ped->set_health_4039A0(pSave->field_18_health);
 
-    field_2C4_player_ped->field_20A_wanted_points = 0;
+    field_2C4_player_ped->ClearWantedPoints_420B80();
     field_2C4_player_ped->add_wanted_points_470160(pSave->field_8C_wanted_level);
 
     for (u8 gang_idx = 0; gang_idx < 10; gang_idx++)
