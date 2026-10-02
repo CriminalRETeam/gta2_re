@@ -7320,6 +7320,7 @@ char_type Car_14::sub_583260(s32 angle_face)
     return 1;
 }
 
+// 9.6f: the y read is Ped::get_cam_y (0x403A10, inlined, using it changes the code)
 MATCH_FUNC(0x583670)
 void Car_14::GenerateTraffic_583670()
 {
