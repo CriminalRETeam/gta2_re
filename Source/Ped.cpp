@@ -10956,7 +10956,7 @@ Weapon_30* Ped::GetWeaponFromPed_46F110()
 
         if (field_16C_car)
         {
-            if (field_170_selected_weapon && field_170_selected_weapon->field_1C_idx >= weapon_type::car_bomb)
+            if (field_170_selected_weapon && gWeapon_8_707018->is_car_weapon_433820(field_170_selected_weapon->field_1C_idx))
             {
                 field_21C |= 0x80;
                 return field_170_selected_weapon;
