@@ -11220,7 +11220,7 @@ void Ped::GiveWeapon_46F650(s32 weapon_kind)
     sub_462550();
     Weapon_30* pWeapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, this, 99u);
     this->field_174_pWeapon = pWeapon;
-    pWeapon->field_4 = 1;
+    pWeapon->Set_F4_433810(1);
 }
 
 MATCH_FUNC(0x46f680)
