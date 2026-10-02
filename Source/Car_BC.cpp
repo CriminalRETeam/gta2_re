@@ -2905,61 +2905,55 @@ void Car_BC::sub_43B770()
     field_4_passengers_list.SyncPassengersWithCarState_4716D0(this);
 }
 
+// 9.6f 0x420C30 (a method of an unknown global object in 9.6f that only looks at its argument)
+static inline bool IsPlayerPedId_420C30(u32 ped_id)
+{
+    return ped_id <= 12;
+}
+
 WIP_FUNC(0x43b7b0)
 void Car_BC::AssignDriverBlameForExplosion_43B7B0(Car_BC* pCar)
 {
     WIP_IMPLEMENTED;
 
-    char_type bIdsAreDiff; // bl
-    u8 our_id; // esi
-    u8 their_id; // eax
-    char_type bDunno; // [esp+13h] [ebp-1h]
+    char_type bBlameUs = 0;
+    char_type bBlameThem = 0;
+    u32 our_id = GetEffectiveDriverPedId_444090();
+    u32 their_id = pCar->GetEffectiveDriverPedId_444090();
+    bool bOurIsPlayer = IsPlayerPedId_420C30(our_id);
+    bool bTheirIsPlayer = IsPlayerPedId_420C30(their_id);
 
-    bIdsAreDiff = 0;
-    bDunno = 0;
-    our_id = GetEffectiveDriverPedId_444090();
-    their_id = pCar->GetEffectiveDriverPedId_444090();
-    if (our_id > 12)
+    if (bOurIsPlayer)
     {
-        if (their_id && our_id != their_id)
+        if (bTheirIsPlayer && our_id != their_id)
         {
-        LABEL_7:
-            bIdsAreDiff = 1;
+            bBlameUs = 1;
         }
     }
-    else
+    else if (their_id > 0 && our_id != their_id)
     {
-        if (their_id > 12)
+        bBlameUs = 1;
+    }
+
+    if (bTheirIsPlayer)
+    {
+        if (bOurIsPlayer && their_id != our_id)
         {
-        LABEL_12:
-            if (our_id && their_id != our_id)
-            {
-                goto LABEL_14;
-            }
-            goto LABEL_15;
-        }
-        if (our_id != their_id)
-        {
-            goto LABEL_7;
+            bBlameThem = 1;
         }
     }
-    if (their_id > 12)
+    else if (our_id > 0 && their_id != our_id)
     {
-        goto LABEL_12;
+        bBlameThem = 1;
     }
-    if (our_id <= 12 && their_id != our_id)
-    {
-    LABEL_14:
-        bDunno = 1;
-    }
-LABEL_15:
-    if (bIdsAreDiff)
+
+    if (bBlameUs)
     {
         this->field_70_exploder_ped_id = their_id;
         this->field_90 = 1;
         this->field_94 = 50;
     }
-    if (bDunno)
+    if (bBlameThem)
     {
         pCar->field_70_exploder_ped_id = our_id;
         pCar->field_90 = 1;
