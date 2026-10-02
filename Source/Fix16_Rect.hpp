@@ -59,6 +59,12 @@ class Fix16_Rect
     EXPORT void SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
     EXPORT void MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h);
 
+    // 9.6f 0x433560
+    inline bool OverlapsZ_433560(Fix16_Rect* pOther)
+    {
+        return IntervalsOverlap_41E160(field_10_low_z, field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z);
+    }
+
     void SetHiLowZ_41E370(Fix16 lowZ, Fix16 highZ)
     {
         this->field_10_low_z = lowZ;

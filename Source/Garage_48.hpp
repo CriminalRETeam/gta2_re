@@ -27,6 +27,12 @@ class Garage_48
         return false;
     }
 
+    // 9.6f 0x434AF0
+    inline bool IsParkingCarAndF3D_434AF0(Car_BC* pCar)
+    {
+        return pCar == field_0 && field_3D;
+    }
+
     bool IsMaybeParkingCar_493540(Car_BC* pCar)
     {
         if (pCar == field_0)

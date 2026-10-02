@@ -33,6 +33,12 @@ class Char_B4
         return field_38_velocity;
     }
 
+    // 9.6f 0x433930
+    inline void UseRunOrJumpSpeed_433930()
+    {
+        field_38_velocity = field_3C_run_or_jump_speed;
+    }
+
     // 9.6f 0x4338F0
     inline void SetSpriteNum_4338F0(s32 num)
     {
