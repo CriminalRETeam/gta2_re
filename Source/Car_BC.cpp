@@ -3794,13 +3794,13 @@ void Car_BC::TriggerExplosion_43D7B0(s32 k20Or19)
 {
     WIP_IMPLEMENTED;
 
-    if (get_anti_strngth_43A1D0() == gFix16_6777CC || this->IsMaxDamage_40F890())
+    if (get_anti_strngth_43A1D0() != gFix16_6777CC && !this->IsMaxDamage_40F890())
     {
-        EmitExplosion_43D690(k20Or19, stru_6778A8.x.mValue, stru_6778A8.y.mValue);
+        HandleCarExplosion_43D840(k20Or19);
     }
     else
     {
-        HandleCarExplosion_43D840(k20Or19);
+        EmitExplosion_43D690(k20Or19, stru_6778A8.x, stru_6778A8.y);
     }
 }
 
