@@ -850,7 +850,7 @@ Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
 MATCH_FUNC(0x470ba0)
 Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 {
-    Ped* pNewPed = gPedPool_6787B8->field_0_pool.Allocate();
+    Ped* pNewPed = gPedPool_6787B8->Allocate();
 
     pNewPed->SetField238_403920(ped_type::dummy_with_occupation_6);
     pNewPed->set_occupation_403970(ped_ocupation_enum::gang_driver_42);
@@ -870,7 +870,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
     pNewPed->field_17C_pGang = pGang;
     pNewPed->set_remap_433B90(pGang->field_101);
 
-    if (pNewPed->field_244_remap == 5)
+    if (pNewPed->get_remap_433BA0() == 5)
     {
         if (!stru_6F6784.get_int_4F7AE0(2))
         {
@@ -878,7 +878,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
         }
     }
     pNewPed->field_26C_graphic_type = 1;
-    pNewPed->field_22C = 1;
+    pNewPed->sub_433BC0(1);
 
     pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
     pNewPed->GiveWeapon_46F650(weapon_type::pistol);
