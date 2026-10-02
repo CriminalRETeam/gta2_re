@@ -11803,6 +11803,7 @@ MATCH_FUNC(0x470200)
 void Ped::StartPedWalking_470200(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     Ped::AllocCharB4_45C830(a2, a3, a4);
+    // 9.6f: SetRemap_433C10 (inlined, using it changes the code)
     Char_B4* pB4 = field_168_game_object;
     u8 remap = field_244_remap;
     pB4->field_5_remap = remap;
@@ -11814,7 +11815,7 @@ void Ped::StartPedWalking_470200(Fix16 a2, Fix16 a3, Fix16 a4)
     {
         Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
         Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
-        field_168_game_object->field_38_velocity = k_dword_678438;
+        field_168_game_object->SetMaxSpeedByRef_433920(k_dword_678438);
     }
     else
     {
