@@ -26,16 +26,16 @@ class Garox_13C0_sub
 class Garox_1_v2
 {
   public:
-    EXPORT void sub_5D56B0();
-    EXPORT void sub_5D56D0();
-    EXPORT void sub_5D5730(const wchar_t* pStr);
-    EXPORT void sub_5D5760();
+    EXPORT void CalcTextWidth_5D56B0();
+    EXPORT void Draw_5D56D0();
+    EXPORT void ShowText_5D5730(const wchar_t* pStr);
+    EXPORT void DecrementTimer_5D5760();
     EXPORT void AnnounceKill_5D5770(Player* killer, Player* victim);
     EXPORT Garox_1_v2();
     char_type field_0_timer;
     char_type field_1;
     wchar_t field_2_str[101];
-    s32 field_CC;
+    s32 field_CC_text_width;
 };
 
 class Garox_2A25_sub
@@ -43,7 +43,7 @@ class Garox_2A25_sub
   public:
     EXPORT char_type IsTypingOnChat_5D15E0(s32 a1, Player* pPlayer);
     EXPORT void DrawChatMessages_5D16B0();
-    EXPORT bool sub_5D17D0(s32 a2);
+    EXPORT bool IsChatInputKey_5D17D0(s32 a2);
     EXPORT void StartChatting_5D1830(Player* a1);
     char_type field_2A25;
 };
@@ -53,8 +53,8 @@ class Garox_12EC_sub
   public:
     EXPORT char_type IsOnQuitMessage_5D13C0(s32 a2, Player* pPlayer);
     EXPORT void DrawQuitMessage_5D1430();
-    EXPORT bool sub_5D15A0(s32 a1);
-    EXPORT void sub_5D15D0(Player* pPlayer);
+    EXPORT bool IsQuitMessageKey_5D15A0(s32 a1);
+    EXPORT void ShowQuitMessage_5D15D0(Player* pPlayer);
     char_type field_12EC_sub;
 };
 
@@ -66,8 +66,8 @@ class Garox_4
     {
         field_0_value = 0; // TODO: byte ?
     }
-    EXPORT void sub_5CF620();
-    EXPORT void sub_5CF6B0();
+    EXPORT void ShowNextNumberedBrief_5CF620();
+    EXPORT void ShowPrevNumberedBrief_5CF6B0();
     s32 field_0_value;
 };
 
@@ -103,10 +103,10 @@ class Hud_Message_1C8
 {
   public:
     EXPORT void ClearTimeToShow_5D1850();
-    EXPORT void sub_5D1860();
+    EXPORT void FormatMessage_5D1860();
     EXPORT void DrawMessage_5D1940();
     EXPORT void ShowMessage_5D1A00(wchar_t* pStr, s32 a3);
-    EXPORT void sub_5D1AB0();
+    EXPORT void DecrementTimeToShow_5D1AB0();
     EXPORT Hud_Message_1C8();
     u8 field_0_time_to_show;
     char_type field_1_unk;
@@ -130,15 +130,15 @@ class Garox_110C_sub
     // inline 0x4C6E50
     Garox_110C_sub()
     {
-        field_1114 = 0;
-        field_284E = 0;
+        field_1114_rotation = 0;
+        field_284E_ped_under_solid = 0;
     }
-    EXPORT void sub_5CF730();
+    EXPORT void Update_5CF730();
     EXPORT void Draw_5CF910();
-    Fix16 field_110C;
-    Fix16 field_1110;
-    Ang16 field_1114;
-    char_type field_284E;
+    Fix16 field_110C_screen_x;
+    Fix16 field_1110_screen_y;
+    Ang16 field_1114_rotation;
+    char_type field_284E_ped_under_solid;
     char_type field_284F;
 };
 
@@ -152,15 +152,15 @@ class Garox_1108_sub
 class Garox_1
 {
   public:
-    EXPORT void sub_5D53E0();
-    EXPORT void sub_5D5420();
-    EXPORT void sub_5D5600(u8 a2);
-    EXPORT void sub_5D5690();
+    EXPORT void CalcTextWidth_5D53E0();
+    EXPORT void Draw_5D5420();
+    EXPORT void ShowPickupText_5D5600(u8 a2);
+    EXPORT void DecrementTimer_5D5690();
     EXPORT Garox_1();
     char_type field_0_timer;
     char_type field_1;
     wchar_t field_2_str[65];
-    s32 field_84;
+    s32 field_84_text_width;
 };
 
 class Garox_27B5_sub
@@ -179,7 +179,7 @@ class Garox_107C_sub
 {
   public:
     EXPORT void DrawGangRespectBars_5CFA70();
-    EXPORT void sub_5CFE20();
+    EXPORT void Empty_5CFE20();
     EXPORT void Empty_5CFE30();
     char_type field_107C_sub;
 };
@@ -189,9 +189,9 @@ class Hud_CopHead_C
   public:
     EXPORT void UpdateHead_5D0050(bool bShakeHead);
     EXPORT Hud_CopHead_C();
-    u8 field_0;
-    char_type field_1;
-    char_type field_2;
+    u8 field_0_frame;
+    char_type field_1_frame_timer;
+    char_type field_2_frame_delay;
     char_type field_3;
     s32 field_4_height;
     s32 field_8_velocity;
@@ -207,8 +207,8 @@ class Hud_CopHead_C_Array
     }
     EXPORT void UpdateWantedLevel_5D00B0();
     EXPORT void DrawWantedLevel_5D0110();
-    EXPORT void sub_5D0210();
-    Hud_CopHead_C field_1028[6];
+    EXPORT void Init_5D0210();
+    Hud_CopHead_C field_1028_cop_heads[6];
     s32 field_48_cop_level;
     Fix16 field_4C_w_fp;
     Fix16 field_50_h_fp;
@@ -218,8 +218,8 @@ class Garox_C4
 {
   public:
     EXPORT void FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime);
-    EXPORT void sub_5D1D00();
-    EXPORT bool sub_5D1DB0();
+    EXPORT void Draw_5D1D00();
+    EXPORT bool DecrementDisplayTime_5D1DB0();
     EXPORT bool operator_equals_5D1E10(Garox_C4* pOther);
     wchar_t field_0_str_buf[82];
     s32 field_A4_display_time;
@@ -228,7 +228,7 @@ class Garox_C4
     s16 field_AC_fontType;
     s16 field_AE; // could be pad
     s32 field_B0_drawKind;
-    s16 field_B4; // ??
+    s16 field_B4_palette;
     s16 field_B6; // could be pad
     s32 field_B8_alpha;
     s32 field_BC_alpha_flag;
@@ -238,16 +238,16 @@ class Garox_C4
 class Garox_1700_L
 {
   public:
-    EXPORT void sub_5D1EB0(Garox_C4* String2);
+    EXPORT void ExpireDuplicates_5D1EB0(Garox_C4* String2);
     EXPORT Garox_C4* DisplayText_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 a6);
     EXPORT void Service_5D2010();
-    EXPORT void sub_5D2050();
+    EXPORT void RemoveExpired_5D2050();
     EXPORT Garox_1700_L();
 
     // TODO: Seems like a pool and the ctor would suggest it is, yet somehow the fields are in the wrong order?
     Garox_C4 field_0_29_ary[30];
     Garox_C4* field_960_pFirst;
-    Garox_C4* field_964;
+    Garox_C4* field_964_pFreeList;
 };
 
 class Hud_Pager_C
@@ -255,7 +255,7 @@ class Hud_Pager_C
   public:
     EXPORT ~Hud_Pager_C();
     EXPORT void Service_5D2320();
-    EXPORT void sub_5D2380(s32 a2, s32 a3);
+    EXPORT void DrawCounterDigits_5D2380(s32 a2, s32 a3);
     EXPORT void DrawDigits_5D2680(s32 a2, s32 a3);
     EXPORT void DrawPager_5D2AB0(s32 xpos, s32 ypos);
 
@@ -309,8 +309,8 @@ class Garox_18
     };
     s32 field_4;
     s32 field_8_brief_priority;
-    Garox_18* field_C; // prob wrong type
-    u8 field_10;
+    Garox_18* field_C_pNext;
+    u8 field_10_was_displayed;
     u8 field_11;
     u8 field_12;
     u8 field_13;
@@ -337,7 +337,7 @@ class Garox_30_Sub
     Gang_144* field_30_gang;
     char_type field_34_min_respect;
     char_type field_5_is_visible; // not sure
-    char_type field_6;
+    char_type field_6_in_use;
     char_type field_7;
 };
 
@@ -366,13 +366,13 @@ class ArrowTrace_24
     }
 
     // 9.6f inline 0x4C6F20
-    inline bool sub_4C6F20()
+    inline bool HasNoTarget_4C6F20()
     {
         return field_10_target_type == ArrowTargetType::Nothing_0;
     }
     
     // 9.6f inline 0x4820A0
-    inline void sub_4820A0(Player* player)
+    inline void SetTargetPlayer_4820A0(Player* player)
     {
         field_10_target_type = ArrowTargetType::Player_6;
         field_C_player = player;
@@ -396,9 +396,9 @@ class Garox_20_Sub
 {
   public:
 
-    inline bool sub_4C6FB0()
+    inline bool HasBothTargets_4C6FB0()
     {
-        return !field_18_primary_target.sub_4C6F20() && !field_3C_secondary_target.sub_4C6F20();
+        return !field_18_primary_target.HasNoTarget_4C6F20() && !field_3C_secondary_target.HasNoTarget_4C6F20();
     }
 
     s32 field_20;
@@ -420,8 +420,8 @@ class Hud_Arrow_7C
   public:
     EXPORT void SetArrowColour_5D0510(s32 a2);
     EXPORT bool CheckVisibility_5D0530();
-    EXPORT bool sub_5D0620();
-    EXPORT void sub_5D0850();
+    EXPORT bool UpdateTargets_5D0620();
+    EXPORT void UpdateScreenPos_5D0850();
     EXPORT void Service_5D0C60();
     EXPORT void DrawArrow_5D0C90();
     EXPORT void SetPlayerArrowColour_5D0DC0(Ped* a2);
@@ -429,7 +429,7 @@ class Hud_Arrow_7C
     // 9.6f inline 0x4C6F80
     inline bool IsType0_4C6F80()
     {
-        if (field_18.field_18_primary_target.sub_4C6F20() && field_18.field_3C_secondary_target.sub_4C6F20())
+        if (field_18.field_18_primary_target.HasNoTarget_4C6F20() && field_18.field_3C_secondary_target.HasNoTarget_4C6F20())
         {
             return true;
         }
@@ -484,31 +484,31 @@ class Hud_Arrow_7C_Array
     // inline 0x4C7080
     Hud_Arrow_7C_Array()
     {
-        field_83C = 1;
-        field_840 = NULL;
-        field_844 = 0;
+        field_83C_show_gang_arrows = 1;
+        field_840_visible_gang_arrow = NULL;
+        field_844_check_info_phones = 0;
     }
 
-    EXPORT void sub_5D1350();
+    EXPORT void CreatePlayerArrows_5D1350();
     EXPORT bool IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow_7C* a2);
     EXPORT void DrawArrows_5D0E90();
-    EXPORT void sub_5D0EF0();
+    EXPORT void FindVisibleGangArrow_5D0EF0();
     EXPORT char_type IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144* a2);
-    EXPORT void sub_5D0F80();
+    EXPORT void ClearOrphanInfoPhoneArrows_5D0F80();
     EXPORT void UpdateArrows_5D0FD0();
-    EXPORT Hud_Arrow_7C* sub_5D1020(s32* a2);
+    EXPORT Hud_Arrow_7C* FindFreeArrow_5D1020(s32* a2);
     EXPORT Hud_Arrow_7C* AllocArrow_5D1050();
-    EXPORT void sub_5D10B0();
-    EXPORT Hud_Arrow_7C* sub_5D10D0(Gang_144* pZone, s32 phone_type);
+    EXPORT void ReleaseAllArrows_5D10B0();
+    EXPORT Hud_Arrow_7C* FindGangPhoneArrow_5D10D0(Gang_144* pZone, s32 phone_type);
     EXPORT void place_gang_phone_5D1110(Object_2C* pPhoneInfo);
     EXPORT void SetNewGangArrow_5D1310(Gang_144* pZone);
     Hud_Arrow_7C field_0_array[17];
-    char_type field_83C;
+    char_type field_83C_show_gang_arrows;
     char_type field_83D;
     char_type field_83E;
     char_type field_83F;
-    Hud_Arrow_7C* field_840;
-    char_type field_844;
+    Hud_Arrow_7C* field_840_visible_gang_arrow;
+    char_type field_844_check_info_phones;
     char_type field_845;
     char_type field_846;
     char_type field_847;
@@ -519,17 +519,17 @@ EXPORT char_type __stdcall GetBriefFaceIdx_5D3680(u16 a1);
 class Hud_Brief_704 // size 0x704
 {
   public:
-    EXPORT void sub_5D3330();
-    EXPORT void sub_5D3350();
-    EXPORT void sub_5D3370();
-    EXPORT void sub_5D33A0();
-    EXPORT Garox_18* sub_5D33F0();
-    EXPORT size_t sub_5D3470();
-    EXPORT void sub_5D39D0();
+    EXPORT void MovePrevBriefToCurrent_5D3330();
+    EXPORT void FreeCurrentBrief_5D3350();
+    EXPORT void MoveCurrentBriefToPrev_5D3370();
+    EXPORT void AppendCurrentBriefToPrev_5D33A0();
+    EXPORT Garox_18* AllocBrief_5D33F0();
+    EXPORT size_t FormatCurrentBrief_5D3470();
+    EXPORT void StartCurrentBrief_5D39D0();
     EXPORT void DrawBrief_5D3B80();
     EXPORT void SetHudBrief_5D3F10(s32 priority, const char_type* str, s32 cost_param);
     EXPORT void SetHudBrief_5D4400(s32 priority, const char_type* str);
-    EXPORT void sub_5D44D0();
+    EXPORT void UpdateBrief_5D44D0();
     EXPORT void ShowBrief_5D4850();
     EXPORT void ClearAllBriefsWithPriority_5D4890(s32 priority);
     EXPORT Hud_Brief_704();
@@ -571,9 +571,9 @@ class Hud_MapZone_98
 
     EXPORT void DrawZoneName_5D5900();
     EXPORT void GetXPosOffset_5D5AD0();
-    EXPORT void sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2);
-    EXPORT void sub_5D5B60();
-    EXPORT void sub_5D5C50();
+    EXPORT void ShowZoneName_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2);
+    EXPORT void UpdateZoneName_5D5B60();
+    EXPORT void ResetTransparency_5D5C50();
     EXPORT Hud_MapZone_98();
     u8 field_0_timer;
     char_type field_1;
@@ -592,7 +592,7 @@ class Hud_CarName_4C
 {
   public:
     EXPORT Hud_CarName_4C();
-    EXPORT void sub_5D4A10();
+    EXPORT void DrawCarName_5D4A10();
     char_type field_0_display_time;
     char_type field_1;
     wchar_t field_2_car_name[33];
@@ -604,38 +604,38 @@ class Hud_2B00
 {
   public:
     EXPORT ~Hud_2B00();
-    EXPORT void sub_5D5190();
-    EXPORT void sub_5D5240(wchar_t* Source);
-    EXPORT void sub_5D5350();
+    EXPORT void CalcCarNameXPosOffset_5D5190();
+    EXPORT void ShowCarName_5D5240(wchar_t* Source);
+    EXPORT void UpdateCarName_5D5350();
     EXPORT void DrawGui_5D6860();
-    EXPORT void sub_5D69C0();
+    EXPORT void UpdatePauseSection_5D69C0();
     EXPORT void UpdateHUD_5D69D0();
-    EXPORT void sub_5D6A70();
+    EXPORT void SetFullAmbient_5D6A70();
     EXPORT void GetTextSpeed_5D6A90();
-    EXPORT void sub_5D6AB0();
-    EXPORT void sub_5D6B00();
-    EXPORT void sub_5D6BE0();
+    EXPORT void RecalcTextLayout_5D6AB0();
+    EXPORT void SetFontTypes_5D6B00();
+    EXPORT void Init_5D6BE0();
     EXPORT bool IsBusy_5D6C20(s32 action, Player* pPlayer);
-    EXPORT s32 sub_5D6C70(s32 a1);
-    EXPORT bool sub_5D6CB0(s32 a1);
+    EXPORT s32 IsInputKeyConsumed_5D6C70(s32 a1);
+    EXPORT bool IsQuitMessageInputKey_5D6CB0(s32 a1);
     EXPORT Hud_2B00();
 
-    Hud_CarName_4C field_0; // ok
-    Hud_MapZone_98 field_4C; // ok
-    Hud_Brief_704 field_DC; // ok    TODO: check if it's Hud_Brief_704
-    Hud_Pager_C_Array field_620; // ok
-    Garox_1700_L field_650; // ok
-    Hud_Arrow_7C_Array field_1F18; // ok
-    Hud_CopHead_C_Array field_1028; // ok
+    Hud_CarName_4C field_0_car_name;
+    Hud_MapZone_98 field_4C_zone_name;
+    Hud_Brief_704 field_DC_brief;
+    Hud_Pager_C_Array field_620_pagers;
+    Garox_1700_L field_650_texts;
+    Hud_Arrow_7C_Array field_1F18_arrows;
+    Hud_CopHead_C_Array field_1028_wanted_level;
     Garox_107C_sub field_107C_sub; // nothing
     Garox_27B5_sub field_27B5_show_coords; // ok
     char_type field_27B6;
     char_type field_27B7;
-    Garox_1 field_1080; // ok
+    Garox_1 field_1080_pickup_text;
     Garox_1108_sub field_1108_sub;
     Garox_110C_sub field_110C_sub; // ok
     Garox_1118_sub field_1118_sub;
-    Hud_Message_1C8 field_111C; // ok
+    Hud_Message_1C8 field_111C_message;
     Garox_12E4_sub field_12E4_sub; // ok
     char_type field_2A1E;
     char_type field_2A1F;
@@ -644,7 +644,7 @@ class Hud_2B00
     Garox_2A25_sub field_2A25_sub;
     char_type field_2A26;
     char_type field_2A27;
-    Garox_1_v2 field_12F0; // ok
+    Garox_1_v2 field_12F0_mp_message;
     Garox_13C0_sub field_13C0_sub;
     u32 field_13C4_text_speed;
 };
@@ -653,11 +653,11 @@ EXTERN_GLOBAL(Hud_2B00*, gHud_2B00_706620);
 
 EXTERN_GLOBAL(s16, word_706600);
 
-EXTERN_GLOBAL_ARRAY(char, byte_67CE50, 264);
+EXTERN_GLOBAL_ARRAY(char, gTmpGxtKey_67CE50, 264);
 
 EXPORT s32 __stdcall GetPhoneTypeFromObjModel_5D1260(s32 a1);
 EXPORT char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type);
-EXPORT u8 __stdcall sub_5D12E0(s32 phone_type);
+EXPORT u8 __stdcall GetMinRespectForPhoneType_5D12E0(s32 phone_type);
 
-EXPORT void __stdcall sub_5D6060(s16 a1, u8 a2);
+EXPORT void __stdcall DrawAmmo_5D6060(s16 a1, u8 a2);
 EXPORT s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 optional_number);

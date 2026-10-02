@@ -812,7 +812,7 @@ void Player::TeleportToDebugCam_565310()
     this->field_6C_bIn_debug_cam_mode = 0;
     this->field_68 = 0;
     this->field_90_game_camera.inline_set_ped_id_to_1_475B60();
-    gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("tport"), 3);
+    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("tport"), 3);
 }
 
 MATCH_FUNC(0x5653E0)
@@ -965,7 +965,7 @@ void Player::Hud_Controls_565890(u16 action)
                 }
                 else
                 {
-                    gHud_2B00_706620->field_12EC_sub.sub_5D15D0(this);
+                    gHud_2B00_706620->field_12EC_sub.ShowQuitMessage_5D15D0(this);
                 }
                 break;
             case DIK_HOME:
@@ -1028,7 +1028,7 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_F7:
                 if (this->field_0_bIsUser)
                 {
-                    gHud_2B00_706620->field_DC.ShowBrief_5D4850();
+                    gHud_2B00_706620->field_DC_brief.ShowBrief_5D4850();
                 }
                 break;
             case DIK_F8:
@@ -1040,9 +1040,9 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_F9:
                 if (this->field_0_bIsUser)
                 {
-                    gHud_2B00_706620->field_4C.clear_zones();
-                    //gHud_2B00_706620->field_4C.field_88_nav_zone = NULL;
-                    //gHud_2B00_706620->field_4C.field_8C_local_nav_zone = NULL;
+                    gHud_2B00_706620->field_4C_zone_name.clear_zones();
+                    //gHud_2B00_706620->field_4C_zone_name.field_88_nav_zone = NULL;
+                    //gHud_2B00_706620->field_4C_zone_name.field_8C_local_nav_zone = NULL;
                 }
                 break;
             case DIK_F10:
@@ -1155,13 +1155,13 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_PERIOD:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    gHud_2B00_706620->field_12E8_sub.sub_5CF620();
+                    gHud_2B00_706620->field_12E8_sub.ShowNextNumberedBrief_5CF620();
                 }
                 break;
             case DIK_COMMA:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    gHud_2B00_706620->field_12E8_sub.sub_5CF6B0();
+                    gHud_2B00_706620->field_12E8_sub.ShowPrevNumberedBrief_5CF6B0();
                 }
                 break;
             case DIK_C:
@@ -1671,21 +1671,21 @@ void Player::sub_566EE0(char_type bDoNothing)
             double y = this->field_90_game_camera.field_98_cam_pos2.field_4_y.AsDouble();
             double z = this->field_90_game_camera.field_98_cam_pos2.field_8_z.AsDouble();
             swprintf(tmpBuff_67BD9C, L"game camera: (%3.3f,%3.3f,%3.3f)", x, y, z);
-            gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"aux game camera: (%3.3f,%3.3f,%3.3f)",
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_0_x.AsDouble(),
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_4_y.AsDouble(),
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_8_z.AsDouble());
-            gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"view camera: (%3.3f,%3.3f,%3.3f)",
                      this->field_14C_view_camera.field_98_cam_pos2.field_0_x.AsDouble(),
                      this->field_14C_view_camera.field_98_cam_pos2.field_4_y.AsDouble(),
                      this->field_14C_view_camera.field_98_cam_pos2.field_8_z.AsDouble());
-            gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
+            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
         }
 
         if (gShow_cycle_67D6BD)
@@ -1766,14 +1766,14 @@ void Player::Wasted_567130()
         {
             if (field_684_lives.field_0_value > 1 || bStartNetworkGame_7081F0)
             {
-                gHud_2B00_706620->field_111C.ShowMessage_5D1A00( //  It's really ugly, it's probably inlined
+                gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00( //  It's really ugly, it's probably inlined
                     gText_0x14_704DFC->Find_5B5F90(GetDeathText_569F00()),
                     1);
                 gRoot_sound_66B038.PlayVoice_40F090(29);
             }
             else
             {
-                gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
                 gRoot_sound_66B038.PlayVoice_40F090(21);
             }
         }
@@ -1868,7 +1868,7 @@ void Player::Busted_5679E0()
         field_44_death_type = 3;
         if (field_0_bIsUser)
         {
-            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(Player::GetDeathText_569F00()), 1);
+            gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(Player::GetDeathText_569F00()), 1);
         }
         field_44_death_type = 0;
         field_28 = 1;
@@ -1908,7 +1908,7 @@ void Player::Busted_5679E0()
             }
             else
             {
-                gHud_2B00_706620->field_111C.ClearTimeToShow_5D1850();
+                gHud_2B00_706620->field_111C_message.ClearTimeToShow_5D1850();
                 Player::ClearKFWeapon_5647D0();
                 u16 power_up_timer = field_6F4_power_up_timers[power_up_indices::JailCard_4];
                 if (power_up_timer != 0)

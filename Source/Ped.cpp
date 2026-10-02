@@ -1854,7 +1854,7 @@ bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
         {
             if (field_15C_player->field_0_bIsUser)
             {
-                gHud_2B00_706620->field_1080.sub_5D5600(model + 56);
+                gHud_2B00_706620->field_1080_pickup_text.ShowPickupText_5D5600(model + 56);
             }
             pPickUp->Dealloc_5291B0();
         }
@@ -10802,7 +10802,7 @@ void Ped::UpdateStatsForKiller_46F720()
                     {
                         gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_1A8_ped_killer->field_15C_player->field_2E_idx,
                                                                   this->field_15C_player->field_2E_idx);
-                        gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(this->field_1A8_ped_killer->field_15C_player,
+                        gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(this->field_1A8_ped_killer->field_15C_player,
                                                                          this->field_15C_player);
                     }
                 }
@@ -10822,7 +10822,7 @@ void Ped::UpdateStatsForKiller_46F720()
                                 {
                                     gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(pPlayerIter->field_2E_idx,
                                                                               this->field_15C_player->field_2E_idx);
-                                    gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(pPlayerIter, this->field_15C_player);
+                                    gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(pPlayerIter, this->field_15C_player);
                                     doIt = false;
                                     break;
                                 }
@@ -10841,7 +10841,7 @@ void Ped::UpdateStatsForKiller_46F720()
                                                                   this->field_15C_player->field_2E_idx);
                         if (!field_1A8_ped_killer->sub_45B4E0())
                         {
-                            gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(this->field_15C_player, this->field_15C_player);
+                            gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(this->field_15C_player, this->field_15C_player);
                         }
                     }
                 }
@@ -10879,7 +10879,7 @@ void Ped::UpdateStatsForKiller_46F720()
         {
             // Argument loading wrong somehow
             gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->field_2E_idx, this->field_15C_player->field_2E_idx);
-            gHud_2B00_706620->field_12F0.AnnounceKill_5D5770(this->field_15C_player, this->field_15C_player);
+            gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(this->field_15C_player, this->field_15C_player);
         }
     }
 }

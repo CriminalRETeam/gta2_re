@@ -1325,8 +1325,8 @@ Fix16 Car_BC::GetMaxSpeed_439F30()
 MATCH_FUNC(0x439f80)
 wchar_t* Car_BC::GetCarStr_439F80()
 {
-    sprintf(byte_67CE50, "car%d%c%c", field_84_car_info_idx, 0, 0);
-    return gText_0x14_704DFC->Find_5B5F90(byte_67CE50);
+    sprintf(gTmpGxtKey_67CE50, "car%d%c%c", field_84_car_info_idx, 0, 0);
+    return gText_0x14_704DFC->Find_5B5F90(gTmpGxtKey_67CE50);
 }
 
 // 9.6f 0x421C40
@@ -4024,7 +4024,7 @@ void Car_BC::ShowCarName_4406B0(Ped* pPed)
     {
         if (pPlayer->field_0_bIsUser)
         {
-            gHud_2B00_706620->sub_5D5240(GetCarStr_439F80());
+            gHud_2B00_706620->ShowCarName_5D5240(GetCarStr_439F80());
         }
     }
 }
@@ -4060,7 +4060,7 @@ void Car_BC::sub_4406E0(Ped* pPed)
         {
             if (field_54_driver->field_240_occupation != ped_ocupation_enum::empty)
             {
-                gHud_2B00_706620->sub_5D5240(GetCarStr_439F80());
+                gHud_2B00_706620->ShowCarName_5D5240(GetCarStr_439F80());
             }
         }
         sub_443E50();
@@ -4092,7 +4092,7 @@ void Car_BC::ClearDriver_4407F0()
         {
             if (pPlayer->field_0_bIsUser)
             {
-                gHud_2B00_706620->field_0.field_0_display_time = 0;
+                gHud_2B00_706620->field_0_car_name.field_0_display_time = 0;
             }
             pPlayer->sub_564C00();
         }
@@ -5883,7 +5883,7 @@ void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
         // Ammo full
         if (pPlayer->field_0_bIsUser)
         {
-            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "arig");
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "arig");
         }
     }
     else
@@ -5899,7 +5899,7 @@ void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
         {
             if (pPlayer->field_0_bIsUser)
             {
-                gHud_2B00_706620->field_DC.SetHudBrief_5D3F10(1, "bdone", car_weapon_cost);
+                gHud_2B00_706620->field_DC_brief.SetHudBrief_5D3F10(1, "bdone", car_weapon_cost);
             }
 
             pPlayer->field_2D4_scores.AddCash_592620(-car_weapon_cost);
@@ -5944,7 +5944,7 @@ void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 {
     if (pPlayer->field_0_bIsUser)
     {
-        gHud_2B00_706620->field_DC.SetHudBrief_5D3F10(1, "nspraya", weapon_cost);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D3F10(1, "nspraya", weapon_cost);
     }
 }
 
@@ -5959,11 +5959,11 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
         {
             if (remap == 0xFD) // clean plates only
             {
-                gHud_2B00_706620->field_DC.SetHudBrief_5D3F10(1, "cdone", cost);
+                gHud_2B00_706620->field_DC_brief.SetHudBrief_5D3F10(1, "cdone", cost);
             }
             else
             {
-                gHud_2B00_706620->field_DC.SetHudBrief_5D3F10(1, "sdone", cost);
+                gHud_2B00_706620->field_DC_brief.SetHudBrief_5D3F10(1, "sdone", cost);
             }
         }
 
@@ -6006,7 +6006,7 @@ void Car_BC::ResprayOrCleanPlates(u8 remap)
     else if (field_54_driver->field_15C_player->field_0_bIsUser)
     {
         // I ain't touching that get outta here!
-        gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "nespray");
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "nespray");
     }
 }
 

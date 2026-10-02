@@ -56,7 +56,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_67DA70, Ang16(0), 0x67DA70);
 DEFINE_GLOBAL_INIT(Fix16, dword_67D934, Fix16(1), 0x67D934);
 DEFINE_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640, 0x67BD9C);
 DEFINE_GLOBAL(BYTE, bIsLeftRightLoopEnabled_67DA80, 0x67DA80);
-DEFINE_GLOBAL_ARRAY(wchar_t, word_67C7D8, 640, 0x67C7D8);
+DEFINE_GLOBAL_ARRAY(wchar_t, gTmpWideStr_67C7D8, 640, 0x67C7D8);
 DEFINE_GLOBAL(bool, gCheatOnlyMuggerPeds_67D5A4, 0x67D5A4);
 DEFINE_GLOBAL(bool, gCheatUnlimitedElectroGun_67D4F7, 0x67D4F7);
 DEFINE_GLOBAL(bool, gCheatAllGangMaxRespect_67D587, 0x67D587);
@@ -839,30 +839,30 @@ void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
         if (field_110_state == FrontendState::User_Typing_New_Player_Name_3)
         {
             // player typing a name
-            wcscpy(word_67C7D8, field_C9A0_curr_plyr_name);
+            wcscpy(gTmpWideStr_67C7D8, field_C9A0_curr_plyr_name);
         }
         else if (!*p_wName)
         {
             // player 1, 2, 3 etc.
             swprintf(tmpBuff_67BD9C, L"%d", plyr_idx);
-            swprintf(word_67C7D8, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C);
+            swprintf(gTmpWideStr_67C7D8, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C);
         }
         else
         {
             // get saved player name
-            swprintf(word_67C7D8, L"%s", gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[plyr_idx].field_90_strPlayerName);
+            swprintf(gTmpWideStr_67C7D8, L"%s", gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[plyr_idx].field_90_strPlayerName);
         }
     }
     else if (menu_page_idx == MENUPAGE_VIEW_HIGH_SCORE && option_idx == 0)
     {
-        swprintf(word_67C7D8, L"%s", gText_0x14_704DFC->Find_5B5F90("hi_for"));
+        swprintf(gTmpWideStr_67C7D8, L"%s", gText_0x14_704DFC->Find_5B5F90("hi_for"));
     }
     else
     {
         swprintf(tmpBuff_67BD9C, L"%d", pOption->field_6E_horizontal_selected_idx);
-        swprintf(word_67C7D8, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C);
+        swprintf(gTmpWideStr_67C7D8, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C);
     }
-    *w_buffer = (wchar_t*)&word_67C7D8;
+    *w_buffer = (wchar_t*)&gTmpWideStr_67C7D8;
 }
 
 MATCH_FUNC(0x4B8680)
@@ -2568,21 +2568,21 @@ void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
 
     if (a2 == 14 && a3 == 4)
     {
-        wcscpy(word_67C7D8, field_C9B8);
+        wcscpy(gTmpWideStr_67C7D8, field_C9B8);
     }
     else if ((a2 == 14 && a3 != 4) || a2 != 5 || a3 != 1)
     {
-        swprintf(word_67C7D8, L"%s", temp->field_6_element_name_str);
+        swprintf(gTmpWideStr_67C7D8, L"%s", temp->field_6_element_name_str);
     }
     else if (field_EE0D < 3)
     {
-        swprintf(word_67C7D8, L"%d", field_EE0D + 1);
+        swprintf(gTmpWideStr_67C7D8, L"%d", field_EE0D + 1);
     }
     else
     {
-        swprintf(word_67C7D8, L"%c", field_EE0D + 62);
+        swprintf(gTmpWideStr_67C7D8, L"%c", field_EE0D + 62);
     }
-    *a4 = (wchar_t*)&word_67C7D8;
+    *a4 = (wchar_t*)&gTmpWideStr_67C7D8;
 }
 
 MATCH_FUNC(0x4B3DD0)
@@ -4863,8 +4863,8 @@ void Frontend::UpdateBonusStageArrows_4B7610()
             field_1EB4F = 0;
         }
 
-        swprintf(word_67C7D8, L"%c", 3 * v4 + v5 + 64);
-        wcsncpy(pPage->field_518_elements_array[3].field_6_element_name_str, word_67C7D8, 0x32u);
+        swprintf(gTmpWideStr_67C7D8, L"%c", 3 * v4 + v5 + 64);
+        wcsncpy(pPage->field_518_elements_array[3].field_6_element_name_str, gTmpWideStr_67C7D8, 0x32u);
     }
 }
 
