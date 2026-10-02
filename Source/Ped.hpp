@@ -221,7 +221,7 @@ class Ped
     EXPORT void UpdateStatsForKiller_46F720();
     EXPORT void Kill_46F9D0();
     EXPORT void AddThreateningPedToList_46FC70();
-    EXPORT void HandleShootingAtCar_46FC90(Car_BC* a2, s32 a3);
+    EXPORT void HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model);
     EXPORT void ProcessWeaponHitResponse_46FE20(Object_2C* a2);
     EXPORT void NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model);
     EXPORT void HandleWeaponFireEnd_46FFF0(s32 a2);

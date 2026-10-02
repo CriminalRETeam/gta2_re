@@ -11257,27 +11257,23 @@ void Ped::AddThreateningPedToList_46FC70()
     gThreateningPedsList_678468.AddPedToFrontIfMissing_4711B0(this);
 }
 
-WIP_FUNC(0x46fc90)
-void Ped::HandleShootingAtCar_46FC90(Car_BC* a2, s32 model)
+// 9.6f 0x441450
+MATCH_FUNC(0x46fc90)
+void Ped::HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model)
 {
-    WIP_IMPLEMENTED;
-
     Weapon_30* pWeapon;
-    if ((this->field_21C & 0x2000) != 0)
+    if ((field_21C & 0x2000) != 0)
     {
-        pWeapon = this->field_174_pWeapon;
+        pWeapon = field_174_pWeapon;
     }
     else
     {
-        pWeapon = this->field_170_selected_weapon;
+        pWeapon = field_170_selected_weapon;
     }
-
-    Car_BC* pCar_1;
 
     if (pWeapon)
     {
-        Car_BC* pCar = a2;
-        if (a2->GetVelocity_43A4C0() == k_dword_678660)
+        if (pCar->GetVelocity_43A4C0() == k_dword_678660)
         {
             Ped* pDriver = pCar->field_54_driver;
             if (pDriver)
@@ -11299,51 +11295,38 @@ void Ped::HandleShootingAtCar_46FC90(Car_BC* a2, s32 model)
             return;
         }
 
-        Sprite* pSprite = pCar->field_50_car_sprite;
-        Fix16 xd = pSprite->field_14_xy.x - field_1AC_cam.x;
-        Fix16 yd = pSprite->field_14_xy.y - field_1AC_cam.y;
-        Fix16 v15 = Fix16::Abs(yd);
-        Fix16 v9 = Fix16::Abs(xd);
-        Fix16 v10 = Fix16::Max_44E540(v9, v15);
+        Fix16 dist_to_cam;
+        dist_to_cam = Fix16::MaxAbsDistanceByRef_42A6B0(field_1AC_cam.x,
+                                                        field_1AC_cam.y,
+                                                        pCar->field_50_car_sprite->field_14_xy.x,
+                                                        pCar->field_50_car_sprite->field_14_xy.y);
 
-        if (pCar == this->field_154_target_to_enter)
-        {
-            goto LABEL_24;
-        }
-
-        if (field_14C)
-        {
-            Car_BC* f16C_car = field_14C->field_16C_car;
-            if (f16C_car)
-            {
-                if (f16C_car == pCar)
-                {
-                    goto LABEL_24;
-                }
-            }
-        }
-
-        if (v10 < k_dword_678798 + dword_678790 && pCar->GetVelocity_43A4C0() < dword_678630)
-        {
-            pWeapon->field_4 = 1;
-            return;
-        }
-
-        if (!pWeapon->IsExplosiveWeapon_5E3BD0())
+        if (pCar == field_154_target_to_enter)
         {
             pWeapon->field_4 = 0;
         }
-
-        if (field_14C)
+        else if (field_14C && field_14C->field_16C_car && field_14C->field_16C_car == pCar)
         {
-            pCar_1 = field_14C->field_16C_car;
-            if (pCar_1)
+            pWeapon->field_4 = 0;
+        }
+        else
+        {
+            Fix16 max_range;
+            max_range = dword_678790 + k_dword_678798;
+            if (dist_to_cam < max_range && pCar->GetVelocity_43A4C0() < dword_678630)
             {
-                if (pCar == pCar_1)
-                {
-                LABEL_24:
-                    pWeapon->field_4 = 0;
-                }
+                pWeapon->field_4 = 1;
+                return;
+            }
+
+            if (!pWeapon->IsExplosiveWeapon_5E3BD0())
+            {
+                pWeapon->field_4 = 0;
+            }
+
+            if (field_14C && field_14C->field_16C_car && pCar == field_14C->field_16C_car)
+            {
+                pWeapon->field_4 = 0;
             }
         }
     }
