@@ -209,20 +209,20 @@ Wolfy_7A8::~Wolfy_7A8()
 MATCH_FUNC(0x5408f0)
 Wolfy_30::Wolfy_30()
 {
-    this->field_C = 0;
+    this->field_C_angle = 0;
     this->field_20 = 0;
     this->field_22 = 0;
     this->field_4_idx = 0;
     this->field_10_type_or_state = 0;
     this->field_14_pObj2C = 0;
-    this->field_18 = 0;
+    this->field_18_particle_cooldown = 0;
     this->field_1A_timer = 0;
-    this->field_8 = kFP16Zero_6FD49C;
+    this->field_8_speed = kFP16Zero_6FD49C;
     this->field_20 = kAngZero_6FD5D4;
     this->field_22 = kAngZero_6FD5D4;
     this->field_24 = kFP16Zero_6FD49C;
     this->field_28 = kFP16Zero_6FD49C;
-    this->field_C = kAngZero_6FD5D4;
+    this->field_C_angle = kAngZero_6FD5D4;
     this->field_1C = 0;
     this->field_6_id = 0;
     this->field_2C_ped_id = 0;
@@ -245,12 +245,12 @@ void Wolfy_30::state_3_12_540D30(Fix16 speed, Ang16 a2)
     Fix16 v32 = ((speed * gCos_table_669260[v6.rValue]) + (speed * gSin_table_667A80[v6.rValue]));
     Fix16 v13 = ((-speed * gSin_table_667A80[v6.rValue]) + (speed * speed));
 
-    this->field_8 = speed;
-    this->field_C = a2;
+    this->field_8_speed = speed;
+    this->field_C_angle = a2;
 
-    if (field_18)
+    if (field_18_particle_cooldown)
     {
-        field_18--;
+        field_18_particle_cooldown--;
     }
     else
     {
@@ -262,7 +262,7 @@ void Wolfy_30::state_3_12_540D30(Fix16 speed, Ang16 a2)
         }
         Sprite* pNext = pParticle->field_30_pNext;
         pParticle->field_40_pUnknown = this;
-        pParticle->field_20 = speed; // F16
+        pParticle->field_20_speed = speed; // F16
         pParticle->field_44 = field_6_id;
         pParticle->field_24_angle = a2;
         pParticle->field_34 = 0;
@@ -284,7 +284,7 @@ void Wolfy_30::state_3_12_540D30(Fix16 speed, Ang16 a2)
         v21->set_xyz_lazy_420600(v22->field_14_xy.x, v22->field_14_xy.y, v22->field_1C_zpos);
 
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-        field_18 = gRng_6F6784.get_int_4F7AE0(2);
+        field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
     }
 }
 
@@ -301,10 +301,10 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
 
     point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
 
-    this->field_8 = pos;
-    this->field_C = ang;
+    this->field_8_speed = pos;
+    this->field_C_angle = ang;
 
-    if (field_18 == 0)
+    if (field_18_particle_cooldown == 0)
     {
         Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
         if (!pNew)
@@ -313,7 +313,7 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
         }
 
         pNew->field_40_pUnknown = this;
-        pNew->field_20 = pos;
+        pNew->field_20_speed = pos;
         pNew->field_24_angle = ang;
         pNew->field_34 = 0;
         pNew->field_46_sub_state = 0;
@@ -328,11 +328,11 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
                                                   field_14_pObj2C->field_4->field_1C_zpos);
 
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
-        field_18 = gRng_6F6784.get_int_4F7AE0(2);
+        field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
     }
     else
     {
-        field_18--;
+        field_18_particle_cooldown--;
     }
 }
 
@@ -351,12 +351,12 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
     xpos = ((xpos * cos_v) + (pos * sin_v));
     ypos = ((-pos * sin_v) + (ypos * cos_v));
 
-    this->field_8 = pos;
-    this->field_C = ang;
+    this->field_8_speed = pos;
+    this->field_C_angle = ang;
 
-    if (this->field_18)
+    if (this->field_18_particle_cooldown)
     {
-        this->field_18--;
+        this->field_18_particle_cooldown--;
     }
     else
     {
@@ -368,7 +368,7 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
         }
 
         pNew->field_40_pUnknown = this;
-        pNew->field_20 = pos;
+        pNew->field_20_speed = pos;
         pNew->field_44 = this->field_6_id;
         pNew->field_24_angle = ang;
         pNew->field_34 = 0;
@@ -381,7 +381,7 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
         pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
         pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
-        this->field_18 = gRng_6F6784.get_int_4F7AE0(2);
+        this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
     }
 }
 
@@ -399,17 +399,17 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
     xpos = ((xpos * cos_v) + (ypos * sin_v));
     ypos = ((-oldx * sin_v) + (ypos * cos_v));
 
-    this->field_8 = pos;
-    this->field_C = ang;
+    this->field_8_speed = pos;
+    this->field_C_angle = ang;
 
     if (field_14_pObj2C->sub_5290F0() == kFP16Zero_6FD49C && this->field_1A_timer == 9999)
     {
         this->field_1A_timer = 20;
     }
 
-    if (this->field_18)
+    if (this->field_18_particle_cooldown)
     {
-        this->field_18--;
+        this->field_18_particle_cooldown--;
     }
     else
     {
@@ -417,7 +417,7 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
         if (pNew)
         {
             pNew->field_40_pUnknown = this;
-            pNew->field_20 = pos;
+            pNew->field_20_speed = pos;
             pNew->field_44 = field_6_id;
             pNew->field_24_angle = ang;
             pNew->field_34 = 0;
@@ -431,7 +431,7 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
                                                       field_14_pObj2C->field_4->field_14_xy.y,
                                                       field_14_pObj2C->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
-            this->field_18 = gRng_6F6784.get_int_4F7AE0(2);
+            this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
             pNew->field_30_pNext->field_2C_flags = 0xA2;
             pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
         }
@@ -1090,7 +1090,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             v42 = 4;
         }
 
-        pNew4C->field_20 = (dword_6FD548 * Fix16(gRng_6F6784.get_int_4F7AE0(field_1A_timer)));
+        pNew4C->field_20_speed = (dword_6FD548 * Fix16(gRng_6F6784.get_int_4F7AE0(field_1A_timer)));
         pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 40);
 
         if (field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0 < kFP16Eight_6FD4C0)
@@ -1223,7 +1223,7 @@ MATCH_FUNC(0x543650)
 void Wolfy_30::Init_543650()
 {
     this->field_10_type_or_state = 0;
-    this->field_18 = 0;
+    this->field_18_particle_cooldown = 0;
     this->field_24 = 0;
     this->field_22 = kAngZero_6FD5D4;
     this->field_1A_timer = 200;

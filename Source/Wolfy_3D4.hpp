@@ -35,12 +35,12 @@ class Wolfy_30
     u8 field_4_idx;
     u8 field_5;
     s16 field_6_id;
-    Fix16 field_8;
-    Ang16 field_C;
+    Fix16 field_8_speed;
+    Ang16 field_C_angle;
     s16 field_E;
     s32 field_10_type_or_state;
     Object_2C* field_14_pObj2C;
-    s16 field_18;
+    s16 field_18_particle_cooldown;
     u16 field_1A_timer;
     Sprite* field_1C;
     Ang16 field_20;

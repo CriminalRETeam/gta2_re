@@ -309,7 +309,7 @@ void struct_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 
     p18->mpNext = field_0_p18;
     p18->field_6_x = x;
     p18->field_8_y = y;
-    p18->field_10 = angle;
+    p18->field_10_rot = angle;
     field_0_p18 = p18;
 }
 

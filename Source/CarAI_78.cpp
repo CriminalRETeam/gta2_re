@@ -5298,7 +5298,7 @@ void CarAI_78::sub_452DF0()
 
     field_4C_curr_direction = Ang16::GetAngleFace_4F78F0(field_10_angle);
     dword_677A8C = field_74_unk_speed;
-    dword_677C9C = dword_6F6850.list[gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_0_car->field_84_car_info_idx)->h];
+    dword_677C9C = gPixelsToFix16_6F6850.list[gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_0_car->field_84_car_info_idx)->h];
 
     field_24_flags = field_24_flags & ~0x200000u | ((field_0_car->field_54_driver->field_21C & 8) << 18);
 

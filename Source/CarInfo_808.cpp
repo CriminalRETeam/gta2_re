@@ -599,27 +599,27 @@ void CarInfo_2C::CalculateCarInfo_4542A0(s32 idx)
     Fix16 new_front_wheel_offset;
     if (front_wheel_offset < 0)
     {
-        new_front_wheel_offset = -dword_6F6850.list[-front_wheel_offset];
+        new_front_wheel_offset = -gPixelsToFix16_6F6850.list[-front_wheel_offset];
     }
     else
     {
-        new_front_wheel_offset = dword_6F6850.list[front_wheel_offset];
+        new_front_wheel_offset = gPixelsToFix16_6F6850.list[front_wheel_offset];
     }
     this->field_4_front_wheel_offset = new_front_wheel_offset;
     s8 rear_wheel_offset = pCarInfo->rear_wheel_offset;
     Fix16 new_rear_wheel_offset;
     if (rear_wheel_offset < 0)
     {
-        new_rear_wheel_offset = -dword_6F6850.list[-rear_wheel_offset];
+        new_rear_wheel_offset = -gPixelsToFix16_6F6850.list[-rear_wheel_offset];
     }
     else
     {
-        new_rear_wheel_offset = dword_6F6850.list[rear_wheel_offset];
+        new_rear_wheel_offset = gPixelsToFix16_6F6850.list[rear_wheel_offset];
     }
     this->field_8_rear_wheel_offset = new_rear_wheel_offset;
     Fix16 outY;
-    this->field_0_moment_of_inertia = ComputeCarMassAndInertia_454410(dword_6F6850.list[pCarInfo->w],
-                                                                      dword_6F6850.list[pCarInfo->h],
+    this->field_0_moment_of_inertia = ComputeCarMassAndInertia_454410(gPixelsToFix16_6F6850.list[pCarInfo->w],
+                                                                      gPixelsToFix16_6F6850.list[pCarInfo->h],
                                                                       pModelPhysics->field_4_mass,
                                                                       pModelPhysics->field_C_front_mass_bias,
                                                                       &outY);

@@ -179,9 +179,9 @@ EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 // crt_init_own_libname_21 or sub_4F7530
 void Init_Unk_Width_Height_F16_array()
 {
-    for (u32 i = 0; i < GTA2_COUNTOF(dword_6F6850.list); i++)
+    for (u32 i = 0; i < GTA2_COUNTOF(gPixelsToFix16_6F6850.list); i++)
     {
-        dword_6F6850.list[i] = Fix16(i) / 64;
+        gPixelsToFix16_6F6850.list[i] = Fix16(i) / 64;
     }
 }
 

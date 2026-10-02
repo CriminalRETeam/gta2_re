@@ -144,7 +144,7 @@ EXTERN_GLOBAL(u8, byte_61A8A1);
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 // TODO: move with CarDoorAlignmentSolver_545AF0
-EXTERN_GLOBAL(UnknownList, dword_6F6850);
+EXTERN_GLOBAL(UnknownList, gPixelsToFix16_6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD824, Fix16(0x666, 0), 0x6FD824);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9C8, Fix16(0x3D7, 0), 0x6FD9C8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9AC, Fix16(0x147, 0), 0x6FD9AC);
@@ -183,10 +183,10 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 animPhase, Car_BC* pCar,
     Fix16 offset = gCharB4_WorldCollisionOffset_6FD8D8;
 
     s8 x_in_scale = car_door_info_array[2 * doorId + 1];
-    Fix16 x_pos = dword_6F6850.SignedPixelsToFix16_41FE70(x_in_scale);
+    Fix16 x_pos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(x_in_scale);
 
     s8 y_in_scale = car_door_info_array[2 * doorId + 2];
-    Fix16 y_pos = dword_6F6850.SignedPixelsToFix16_41FE70(y_in_scale);
+    Fix16 y_pos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(y_in_scale);
 
     bool bUnk = false;
 

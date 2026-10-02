@@ -560,12 +560,12 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
                 {
                     pos_z = gMap_0x370_6F6268->sub_4E4D40(pos_x, pos_y, Fix16(zTmpInt));
                     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
-                    Fix16 w_val = dword_6F6850.list[pInfo->w];
-                    Fix16 h_val = dword_6F6850.list[pInfo->h];
+                    Fix16 w_val = gPixelsToFix16_6F6850.list[pInfo->w];
+                    Fix16 h_val = gPixelsToFix16_6F6850.list[pInfo->h];
                     if (maybe_direction >= 3 && maybe_direction <= 4)
                     {
-                        w_val = dword_6F6850.list[pInfo->h];
-                        h_val = dword_6F6850.list[pInfo->w];
+                        w_val = gPixelsToFix16_6F6850.list[pInfo->h];
+                        h_val = gPixelsToFix16_6F6850.list[pInfo->w];
                     }
                     Fix16_Rect rect;
                     rect.field_8_top = pos_y - h_val;
@@ -808,7 +808,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
     pCar->field_50_car_sprite->SetType_4206F0(sprite_types_enum::car_2);
     pCar->field_50_car_sprite->set_id_lazy_4206C0(pCarInfo->sprite);
     pCar->field_50_car_sprite->Set_Car_420710(pCar);
-    pCar->field_50_car_sprite->AllocInternal_59F950(dword_6F6850.list[pCarInfo->w], dword_6F6850.list[pCarInfo->h], dword_6771FC);
+    pCar->field_50_car_sprite->AllocInternal_59F950(gPixelsToFix16_6F6850.list[pCarInfo->w], gPixelsToFix16_6F6850.list[pCarInfo->h], dword_6771FC);
 
     pCar->field_68_scale = maybe_w_scale; // 19b
 
@@ -1495,12 +1495,12 @@ Fix16 Car_BC::GetMinDimension_43A5B0()
     const car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     if (pInfo->w < pInfo->h)
     {
-        Fix16 t = dword_6F6850.list[pInfo->w];
+        Fix16 t = gPixelsToFix16_6F6850.list[pInfo->w];
         return t;
     }
     else
     {
-        Fix16 tt = dword_6F6850.list[pInfo->h];
+        Fix16 tt = gPixelsToFix16_6F6850.list[pInfo->h];
         return tt;
     }
 }
@@ -2188,7 +2188,7 @@ MATCH_FUNC(0x43B540)
 bool Car_BC::sub_43B540(u8 targetDoor)
 {
     s8* array = (s8*)gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx);
-    if (Fix16::Abs(dword_6F6850.SignedPixelsToFix16_41FE70(array[2 * targetDoor + 1])) >= dword_677908)
+    if (Fix16::Abs(gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(array[2 * targetDoor + 1])) >= dword_677908)
     {
         return true;
     }
@@ -2206,8 +2206,8 @@ void Car_BC::GetDoorWorldPosition_43B5A0(u8 target_door, Fix16* pOutX, Fix16* pO
 
     u8* pRemap_0 = &gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx)[2 * target_door + 1];
 
-    door_relative_xpos = dword_6F6850.SignedPixelsToFix16_41FE70(pRemap_0[0]);
-    door_relative_ypos = dword_6F6850.SignedPixelsToFix16_41FE70(pRemap_0[1]);
+    door_relative_xpos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pRemap_0[0]);
+    door_relative_ypos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pRemap_0[1]);
 
     if (door_relative_xpos >= dword_677908)
     {
@@ -2367,41 +2367,41 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
         switch ((u8)k1Or2)
         {
             case 1u: // small fire
-                y_hit = dword_6F6850.SignedPixelsToFix16_440860(pCarInfo->rear_window_offset);
+                y_hit = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->rear_window_offset);
                 if (gCar_6C_677930->field_1A_fire_effect_cycle && gCar_6C_677930->field_1A_fire_effect_cycle != 2)
                 {
                     x_hit = (gFix16_6777CC * field_68_scale);
                 }
                 else
                 {
-                    x_hit = ((dword_677214 * dword_6F6850.list[pCarInfo->w]) * field_68_scale);
+                    x_hit = ((dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w]) * field_68_scale);
                 }
                 break;
 
             case 2u: // huge fire
             {
-                Fix16 v7 = -(dword_677214 * dword_6F6850.list[pCarInfo->w]);
+                Fix16 v7 = -(dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w]);
                 if (!gCar_6C_677930->field_1A_fire_effect_cycle || gCar_6C_677930->field_1A_fire_effect_cycle == 3)
                 {
-                    y_hit = dword_6F6850.SignedPixelsToFix16_440860(pCarInfo->rear_window_offset);
+                    y_hit = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->rear_window_offset);
                 }
                 else
                 {
-                    y_hit = dword_6F6850.SignedPixelsToFix16_440860(pCarInfo->front_window_offset);
+                    y_hit = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->front_window_offset);
                 }
                 x_hit = (v7 * field_68_scale);
                 break;
             }
 
             case 3u: // also a big fire but never used?
-                y_hit = dword_6F6850.SignedPixelsToFix16_440860(pCarInfo->front_window_offset);
+                y_hit = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->front_window_offset);
                 if (gCar_6C_677930->field_1A_fire_effect_cycle && gCar_6C_677930->field_1A_fire_effect_cycle != 2)
                 {
                     x_hit = (gFix16_6777CC * field_68_scale);
                 }
                 else
                 {
-                    x_hit = ((dword_677214 * dword_6F6850.list[pCarInfo->w]) * field_68_scale);
+                    x_hit = ((dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w]) * field_68_scale);
                 }
                 break;
 
@@ -3396,7 +3396,7 @@ bool Car_BC::sub_43DC00()
 
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, pInfo->sprite);
     if (field_50_car_sprite->field_4_0x4C_len->field_0_width !=
-        dword_6F6850.list[gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width])
+        gPixelsToFix16_6F6850.list[gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width])
     {
         return true;
     }
@@ -3413,8 +3413,8 @@ bool Car_BC::CarShrinkSprite_43DC80(s32 xoff, s32 yoff)
     Fix16 h_fp(pCarInfo->h);
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, pCarInfo->sprite);
     sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-    return field_50_car_sprite->ShrinkSprite_59E390((dword_6F6850.list[pSpriteIndex->field_4_width] * xoff) / w_fp,
-                                                    (dword_6F6850.list[pSpriteIndex->field_5_height] * yoff) / h_fp,
+    return field_50_car_sprite->ShrinkSprite_59E390((gPixelsToFix16_6F6850.list[pSpriteIndex->field_4_width] * xoff) / w_fp,
+                                                    (gPixelsToFix16_6F6850.list[pSpriteIndex->field_5_height] * yoff) / h_fp,
                                                     0);
 }
 
@@ -4187,11 +4187,11 @@ char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
 
     if (!Ang16::IsAngleAhead_405C60(&ang, &targetAngle))
     {
-        pFound->field_10 -= kRoofTurretAutoRotSpeed_677910;
+        pFound->field_10_rot -= kRoofTurretAutoRotSpeed_677910;
         return 0;
     }
 
-    pFound->field_10 += kRoofTurretAutoRotSpeed_677910;
+    pFound->field_10_rot += kRoofTurretAutoRotSpeed_677910;
     return 0;
 }
 
@@ -4205,11 +4205,11 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
         Sprite_18* pFTruckSprite = field_0_qq.GetSpriteForModel_5A6A50(114);
         if (bLeftOn)
         {
-            pFTruckSprite->field_10 += kFireTruckCannonRotSpeed_6771C0;
+            pFTruckSprite->field_10_rot += kFireTruckCannonRotSpeed_6771C0;
         }
         else
         {
-            pFTruckSprite->field_10 -= kFireTruckCannonRotSpeed_6771C0;
+            pFTruckSprite->field_10_rot -= kFireTruckCannonRotSpeed_6771C0;
         }
         this->field_B8_turret_rotated = 1;
         return 1;
@@ -4220,11 +4220,11 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
         Sprite_18* pTankSprite = field_0_qq.GetSpriteForModel_5A6A50(148);
         if (bLeftOn)
         {
-            pTankSprite->field_10 += kTankTurretRotSpeed_677352;
+            pTankSprite->field_10_rot += kTankTurretRotSpeed_677352;
         }
         else
         {
-            pTankSprite->field_10 -= kTankTurretRotSpeed_677352;
+            pTankSprite->field_10_rot -= kTankTurretRotSpeed_677352;
         }
         this->field_B8_turret_rotated = 1;
         return 1;
@@ -4235,11 +4235,11 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
         Sprite_18* pGunJeepSprite = field_0_qq.GetSpriteForModel_5A6A50(248);
         if (!bLeftOn)
         {
-            pGunJeepSprite->field_10 -= kGunJeepTurretRotSpeed_677810;
+            pGunJeepSprite->field_10_rot -= kGunJeepTurretRotSpeed_677810;
         }
         else
         {
-            pGunJeepSprite->field_10 += kGunJeepTurretRotSpeed_677810;
+            pGunJeepSprite->field_10_rot += kGunJeepTurretRotSpeed_677810;
         }
 
         this->field_B8_turret_rotated = 1;
@@ -5267,13 +5267,13 @@ void Car_BC::ManageTVAntenna_4425D0()
     if (pSprite)
     {
         Ang16 towerAng = GetRadioTowerAngle_442520();
-        if (pSprite->field_10 != towerAng)
+        if (pSprite->field_10_rot != towerAng)
         {
             // TODO: The set up or call to the function is wrong, the parts after are OK
-            Fix16 spriteAngFp = Ang16::Ang16_to_Fix16(pSprite->field_10);
+            Fix16 spriteAngFp = Ang16::Ang16_to_Fix16(pSprite->field_10_rot);
             Fix16 towerAngFp = Ang16::Ang16_to_Fix16(towerAng);
             SmoothApproachAngle_405CE0(towerAngFp, gFix16_6777CC, spriteAngFp, kAngFix16OneDegree_677920, kAngFix16OneDegree_677920);
-            pSprite->field_10 = Ang16::Fix16_To_Ang16_40F540(spriteAngFp);
+            pSprite->field_10_rot = Ang16::Fix16_To_Ang16_40F540(spriteAngFp);
         }
     }
 }
@@ -6926,8 +6926,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
     if (recycle_total != 16 && arrow_direction != a4 && gCar_6C_677930->field_54 <= 0)
     {
         pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_9);
-        car_w = dword_6F6850.list[pCarInfo->w];
-        car_h = dword_6F6850.list[pCarInfo->h];
+        car_w = gPixelsToFix16_6F6850.list[pCarInfo->w];
+        car_h = gPixelsToFix16_6F6850.list[pCarInfo->h];
 
         // +sub_41FE40
         car_w_ = car_w;

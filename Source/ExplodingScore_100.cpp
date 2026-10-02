@@ -22,7 +22,7 @@ ExplodingScore_50::ExplodingScore_50()
     field_0_numbers_count = 0;
     for (s32 i = 0; i < 9; i++)
     {
-        field_4[i] = 0;
+        field_4_digits[i] = 0;
     }
     field_36 = 0;
     field_38 = 0;
@@ -55,7 +55,7 @@ void ExplodingScore_50::ClearNumbersArrayFrom_596A70(s32 a2)
 {
     for (u32 i = a2; i > 0; i--)
     {
-        field_4[i] = 0;
+        field_4_digits[i] = 0;
     }
 }
 
@@ -70,7 +70,7 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
     if (score >= 100000000)
     {
         this->field_0_numbers_count = 8;
-        this->field_4[8] = score / 100000000;
+        this->field_4_digits[8] = score / 100000000;
         ClearNumbersArrayFrom_596A70(7);
         tmpScore = score % 100000000;
     }
@@ -81,7 +81,7 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
         {
             this->field_0_numbers_count = 7;
         }
-        this->field_4[7] = tmpScore / 10000000;
+        this->field_4_digits[7] = tmpScore / 10000000;
         ClearNumbersArrayFrom_596A70(6);
         tmpScore %= 10000000u;
     }
@@ -92,7 +92,7 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
         {
             this->field_0_numbers_count = 6;
         }
-        this->field_4[6] = tmpScore / 1000000;
+        this->field_4_digits[6] = tmpScore / 1000000;
         ClearNumbersArrayFrom_596A70(5);
         tmpScore %= 1000000u;
     }
@@ -103,7 +103,7 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
         {
             this->field_0_numbers_count = 5;
         }
-        this->field_4[5] = tmpScore / 100000;
+        this->field_4_digits[5] = tmpScore / 100000;
         ClearNumbersArrayFrom_596A70(4);
         tmpScore %= 100000u;
     }
@@ -114,7 +114,7 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
         {
             this->field_0_numbers_count = 4;
         }
-        this->field_4[4] = tmpScore / 10000;
+        this->field_4_digits[4] = tmpScore / 10000;
         ClearNumbersArrayFrom_596A70(3);
         tmpScore %= 10000u;
     }
@@ -125,7 +125,7 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
         {
             this->field_0_numbers_count = 3;
         }
-        this->field_4[3] = tmpScore / 1000;
+        this->field_4_digits[3] = tmpScore / 1000;
         ClearNumbersArrayFrom_596A70(2);
         tmpScore %= 1000u;
     }
@@ -136,7 +136,7 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
         {
             this->field_0_numbers_count = 2;
         }
-        this->field_4[2] = tmpScore / 100;
+        this->field_4_digits[2] = tmpScore / 100;
         ClearNumbersArrayFrom_596A70(1);
         tmpScore %= 100u;
     }
@@ -147,12 +147,12 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
         {
             this->field_0_numbers_count = 1;
         }
-        this->field_4[1] = tmpScore / 10;
-        this->field_4[0] = tmpScore % 10;
+        this->field_4_digits[1] = tmpScore / 10;
+        this->field_4_digits[0] = tmpScore % 10;
     }
     else
     {
-        this->field_4[0] = tmpScore;
+        this->field_4_digits[0] = tmpScore;
     }
 
     this->field_28_x = xpos;
@@ -220,75 +220,75 @@ LABEL_11:
     switch (this->field_0_numbers_count)
     {
         case 0:
-            DrawSingleNumber_597100(this->field_4[0], 10);
+            DrawSingleNumber_597100(this->field_4_digits[0], 10);
             break;
 
         case 1:
-            DrawSingleNumber_597100(this->field_4[1], 21);
-            DrawSingleNumber_597100(this->field_4[0], 0);
+            DrawSingleNumber_597100(this->field_4_digits[1], 21);
+            DrawSingleNumber_597100(this->field_4_digits[0], 0);
             break;
 
         case 2:
-            DrawSingleNumber_597100(this->field_4[2], 31);
-            DrawSingleNumber_597100(this->field_4[1], 10);
-            DrawSingleNumber_597100(this->field_4[0], -11);
+            DrawSingleNumber_597100(this->field_4_digits[2], 31);
+            DrawSingleNumber_597100(this->field_4_digits[1], 10);
+            DrawSingleNumber_597100(this->field_4_digits[0], -11);
             break;
 
         case 3:
-            DrawSingleNumber_597100(this->field_4[3], 42);
-            DrawSingleNumber_597100(this->field_4[2], 21);
-            DrawSingleNumber_597100(this->field_4[1], 0);
-            DrawSingleNumber_597100(this->field_4[0], -21);
+            DrawSingleNumber_597100(this->field_4_digits[3], 42);
+            DrawSingleNumber_597100(this->field_4_digits[2], 21);
+            DrawSingleNumber_597100(this->field_4_digits[1], 0);
+            DrawSingleNumber_597100(this->field_4_digits[0], -21);
             break;
 
         case 4:
-            DrawSingleNumber_597100(this->field_4[4], 52);
-            DrawSingleNumber_597100(this->field_4[3], 31);
-            DrawSingleNumber_597100(this->field_4[2], 10);
-            DrawSingleNumber_597100(this->field_4[1], -11);
-            DrawSingleNumber_597100(this->field_4[0], -32);
+            DrawSingleNumber_597100(this->field_4_digits[4], 52);
+            DrawSingleNumber_597100(this->field_4_digits[3], 31);
+            DrawSingleNumber_597100(this->field_4_digits[2], 10);
+            DrawSingleNumber_597100(this->field_4_digits[1], -11);
+            DrawSingleNumber_597100(this->field_4_digits[0], -32);
             break;
 
         case 5:
-            DrawSingleNumber_597100(this->field_4[5], 63);
-            DrawSingleNumber_597100(this->field_4[4], 42);
-            DrawSingleNumber_597100(this->field_4[3], 21);
-            DrawSingleNumber_597100(this->field_4[2], 0);
-            DrawSingleNumber_597100(this->field_4[1], -21);
-            DrawSingleNumber_597100(this->field_4[0], -42);
+            DrawSingleNumber_597100(this->field_4_digits[5], 63);
+            DrawSingleNumber_597100(this->field_4_digits[4], 42);
+            DrawSingleNumber_597100(this->field_4_digits[3], 21);
+            DrawSingleNumber_597100(this->field_4_digits[2], 0);
+            DrawSingleNumber_597100(this->field_4_digits[1], -21);
+            DrawSingleNumber_597100(this->field_4_digits[0], -42);
             break;
 
         case 6:
-            DrawSingleNumber_597100(this->field_4[6], 73);
-            DrawSingleNumber_597100(this->field_4[5], 52);
-            DrawSingleNumber_597100(this->field_4[4], 31);
-            DrawSingleNumber_597100(this->field_4[3], 10);
-            DrawSingleNumber_597100(this->field_4[2], -11);
-            DrawSingleNumber_597100(this->field_4[1], -32);
-            DrawSingleNumber_597100(this->field_4[0], -53);
+            DrawSingleNumber_597100(this->field_4_digits[6], 73);
+            DrawSingleNumber_597100(this->field_4_digits[5], 52);
+            DrawSingleNumber_597100(this->field_4_digits[4], 31);
+            DrawSingleNumber_597100(this->field_4_digits[3], 10);
+            DrawSingleNumber_597100(this->field_4_digits[2], -11);
+            DrawSingleNumber_597100(this->field_4_digits[1], -32);
+            DrawSingleNumber_597100(this->field_4_digits[0], -53);
             break;
 
         case 7:
-            DrawSingleNumber_597100(this->field_4[7], 84);
-            DrawSingleNumber_597100(this->field_4[6], 63);
-            DrawSingleNumber_597100(this->field_4[5], 42);
-            DrawSingleNumber_597100(this->field_4[4], 21);
-            DrawSingleNumber_597100(this->field_4[3], 0);
-            DrawSingleNumber_597100(this->field_4[2], -21);
-            DrawSingleNumber_597100(this->field_4[1], -42);
-            DrawSingleNumber_597100(this->field_4[0], -63);
+            DrawSingleNumber_597100(this->field_4_digits[7], 84);
+            DrawSingleNumber_597100(this->field_4_digits[6], 63);
+            DrawSingleNumber_597100(this->field_4_digits[5], 42);
+            DrawSingleNumber_597100(this->field_4_digits[4], 21);
+            DrawSingleNumber_597100(this->field_4_digits[3], 0);
+            DrawSingleNumber_597100(this->field_4_digits[2], -21);
+            DrawSingleNumber_597100(this->field_4_digits[1], -42);
+            DrawSingleNumber_597100(this->field_4_digits[0], -63);
             break;
 
         case 8:
-            DrawSingleNumber_597100(this->field_4[8], 94);
-            DrawSingleNumber_597100(this->field_4[7], 73);
-            DrawSingleNumber_597100(this->field_4[6], 52);
-            DrawSingleNumber_597100(this->field_4[5], 31);
-            DrawSingleNumber_597100(this->field_4[4], 10);
-            DrawSingleNumber_597100(this->field_4[3], -11);
-            DrawSingleNumber_597100(this->field_4[2], -32);
-            DrawSingleNumber_597100(this->field_4[1], -53);
-            DrawSingleNumber_597100(this->field_4[0], -74);
+            DrawSingleNumber_597100(this->field_4_digits[8], 94);
+            DrawSingleNumber_597100(this->field_4_digits[7], 73);
+            DrawSingleNumber_597100(this->field_4_digits[6], 52);
+            DrawSingleNumber_597100(this->field_4_digits[5], 31);
+            DrawSingleNumber_597100(this->field_4_digits[4], 10);
+            DrawSingleNumber_597100(this->field_4_digits[3], -11);
+            DrawSingleNumber_597100(this->field_4_digits[2], -32);
+            DrawSingleNumber_597100(this->field_4_digits[1], -53);
+            DrawSingleNumber_597100(this->field_4_digits[0], -74);
             break;
 
         default:

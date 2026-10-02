@@ -539,7 +539,7 @@ class Sprite_14
     EXPORT Sprite_14()
     {
         field_C_last_used = 0;
-        field_8 = 0;
+        field_8_delta_mask = 0;
         field_4_sprite_idx = -1;
         field_12 = 0;
     }
@@ -553,17 +553,17 @@ class Sprite_14
     void SetF4_F8_F12_44AF50(u16 sprite_idx, u32 a2, u16 a3)
     {
         field_4_sprite_idx = sprite_idx;
-        field_8 = a2;
+        field_8_delta_mask = a2;
         field_12 = a3;
     }
 
-    u8* field_0;
+    u8* field_0_pixels;
     s16 field_4_sprite_idx;
     char_type field_6;
     char_type field_7;
-    s32 field_8;
+    s32 field_8_delta_mask;
     s32 field_C_last_used;
-    u16 field_10;
+    u16 field_10_idx;
     u16 field_12;
 };
 
@@ -579,13 +579,13 @@ class Sprite_3CC
 
     u8* get_s14(u16 idx)
     {
-        return field_0[idx].field_0;
+        return field_0[idx].field_0_pixels;
     }
 
     Sprite_14 field_0[48];
     s32 field_3C0_use_counter;
-    u8* field_3C4;
-    s32* field_3C8;
+    u8* field_3C4_aligned_buffer;
+    s32* field_3C8_unaligned_alloc;
 };
 
 class Sprite_8
@@ -626,7 +626,7 @@ class Sprite_18
     Sprite_18* mpNext;
     Fix16 field_6_x; // NOTE: Fix16_Point here breaks match of PoolUpdate_5A6910
     Fix16 field_8_y;
-    Ang16 field_10;
+    Ang16 field_10_rot;
     s16 field_12;
     s32 field_14_rng;
 };

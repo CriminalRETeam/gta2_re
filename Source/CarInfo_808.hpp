@@ -48,7 +48,7 @@ struct UnknownList
     Fix16 list[256];
 };
 
-EXTERN_GLOBAL(UnknownList, dword_6F6850);
+EXTERN_GLOBAL(UnknownList, gPixelsToFix16_6F6850);
 
 class ModelPhysics_48
 {
