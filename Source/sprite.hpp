@@ -332,6 +332,12 @@ class Sprite
         }
     }
 
+    // 9.6f 0x446960
+    inline Fix16 ManhattanDistance_446960(Sprite* pOther)
+    {
+        return Fix16::Abs(pOther->field_14_xy.x - field_14_xy.x) + Fix16::Abs(pOther->field_14_xy.y - field_14_xy.y);
+    }
+
     // 9.6f 0x446950
     bool IsTypeAbove1_446950()
     {

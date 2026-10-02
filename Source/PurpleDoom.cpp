@@ -383,8 +383,7 @@ void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* pStart)
                 else
                 {
 
-                    dist = Fix16::Abs(pSprt->field_14_xy.x - gPurpleDoom_exclude_sprite_678F40->field_14_xy.x) +
-                        Fix16::Abs(pSprt->field_14_xy.y - gPurpleDoom_exclude_sprite_678F40->field_14_xy.y);
+                    dist = gPurpleDoom_exclude_sprite_678F40->ManhattanDistance_446960(pSprt);
 
                     if (dist < gPurpleDoom_smallestDistance_678E5C)
                     {
