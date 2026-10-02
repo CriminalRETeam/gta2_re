@@ -183,10 +183,10 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 animPhase, Car_BC* pCar,
     Fix16 offset = gCharB4_WorldCollisionOffset_6FD8D8;
 
     s8 x_in_scale = car_door_info_array[2 * doorId + 1];
-    Fix16 x_pos = dword_6F6850.sub_41FE70(x_in_scale);
+    Fix16 x_pos = dword_6F6850.SignedPixelsToFix16_41FE70(x_in_scale);
 
     s8 y_in_scale = car_door_info_array[2 * doorId + 2];
-    Fix16 y_pos = dword_6F6850.sub_41FE70(y_in_scale);
+    Fix16 y_pos = dword_6F6850.SignedPixelsToFix16_41FE70(y_in_scale);
 
     bool bUnk = false;
 

@@ -2188,7 +2188,7 @@ MATCH_FUNC(0x43B540)
 bool Car_BC::sub_43B540(u8 targetDoor)
 {
     s8* array = (s8*)gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx);
-    if (Fix16::Abs(dword_6F6850.sub_41FE70(array[2 * targetDoor + 1])) >= dword_677908)
+    if (Fix16::Abs(dword_6F6850.SignedPixelsToFix16_41FE70(array[2 * targetDoor + 1])) >= dword_677908)
     {
         return true;
     }
@@ -2206,8 +2206,8 @@ void Car_BC::GetDoorWorldPosition_43B5A0(u8 target_door, Fix16* pOutX, Fix16* pO
 
     u8* pRemap_0 = &gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx)[2 * target_door + 1];
 
-    door_relative_xpos = dword_6F6850.sub_41FE70(pRemap_0[0]);
-    door_relative_ypos = dword_6F6850.sub_41FE70(pRemap_0[1]);
+    door_relative_xpos = dword_6F6850.SignedPixelsToFix16_41FE70(pRemap_0[0]);
+    door_relative_ypos = dword_6F6850.SignedPixelsToFix16_41FE70(pRemap_0[1]);
 
     if (door_relative_xpos >= dword_677908)
     {
@@ -2367,7 +2367,7 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
         switch ((u8)k1Or2)
         {
             case 1u: // small fire
-                y_hit = dword_6F6850.sub_440860(pCarInfo->rear_window_offset);
+                y_hit = dword_6F6850.SignedPixelsToFix16_440860(pCarInfo->rear_window_offset);
                 if (gCar_6C_677930->field_1A && gCar_6C_677930->field_1A != 2)
                 {
                     x_hit = (gFix16_6777CC * field_68);
@@ -2383,18 +2383,18 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
                 Fix16 v7 = -(dword_677214 * dword_6F6850.list[pCarInfo->w]);
                 if (!gCar_6C_677930->field_1A || gCar_6C_677930->field_1A == 3)
                 {
-                    y_hit = dword_6F6850.sub_440860(pCarInfo->rear_window_offset);
+                    y_hit = dword_6F6850.SignedPixelsToFix16_440860(pCarInfo->rear_window_offset);
                 }
                 else
                 {
-                    y_hit = dword_6F6850.sub_440860(pCarInfo->front_window_offset);
+                    y_hit = dword_6F6850.SignedPixelsToFix16_440860(pCarInfo->front_window_offset);
                 }
                 x_hit = (v7 * field_68);
                 break;
             }
 
             case 3u: // also a big fire but never used?
-                y_hit = dword_6F6850.sub_440860(pCarInfo->front_window_offset);
+                y_hit = dword_6F6850.SignedPixelsToFix16_440860(pCarInfo->front_window_offset);
                 if (gCar_6C_677930->field_1A && gCar_6C_677930->field_1A != 2)
                 {
                     x_hit = (gFix16_6777CC * field_68);

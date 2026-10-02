@@ -1075,12 +1075,12 @@
         "v105_address": "0x430ac0"
     },
     {
-        "name": "sub_430B10",
+        "name": "ReadToken_430B10",
         "v96f_address": null,
         "v105_address": "0x430b10"
     },
     {
-        "name": "sub_430C70",
+        "name": "ParseTokenAndPush_430C70",
         "v96f_address": "0x41D620",
         "v105_address": "0x430c70"
     },
@@ -1930,7 +1930,7 @@
         "v105_address": "0x440840"
     },
     {
-        "name": "sub_440860",
+        "name": "SignedPixelsToFix16_440860",
         "v96f_address": null,
         "v105_address": "0x440860"
     },
@@ -2785,7 +2785,7 @@
         "v105_address": "0x454a00"
     },
     {
-        "name": "CarInfo_808::sub_454A50",
+        "name": "CarInfo_808::Reload_454A50",
         "v96f_address": null,
         "v105_address": "0x454a50"
     },
