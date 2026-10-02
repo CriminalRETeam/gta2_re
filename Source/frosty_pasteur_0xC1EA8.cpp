@@ -225,7 +225,7 @@ void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
            gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_bUnCollectedTokens,
            sizeof(gObject_5C_6F8F84->field_20_bUnCollectedTokens));
 
-    gLucid_hamilton_67E8E0.field_574_secret_tokens_collected = gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected;
+    gLucid_hamilton_67E8E0.set_secret_tokens_collected_476B10(gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected);
     field_C1E2C = true;
 }
 

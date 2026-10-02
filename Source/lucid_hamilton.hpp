@@ -23,6 +23,12 @@ struct lucid_hamilton
         return field_574_secret_tokens_collected;
     }
 
+    // 9.6f 0x476B10
+    inline void set_secret_tokens_collected_476B10(s32 count)
+    {
+        field_574_secret_tokens_collected = count;
+    }
+
     // 9.6f 0x434A10
     inline void IncSecretTokensCollected_434A10()
     {
