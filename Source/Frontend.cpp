@@ -1909,7 +1909,6 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     char_type main_stage_idx; // al
     u8 v7; // bl
     u8 v8; // di
-    u8 v9; // bl
     u16 field_BC6_nifty_idx; // cx
     menu_option_0x82* v11; // edi
     bool v12; // bl
@@ -1922,6 +1921,8 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     u8 v19; // [esp+14h] [ebp-8h]
     s32 v20; // [esp+18h] [ebp-4h]
     u8 i; // [esp+18h] [ebp-4h]
+    u8 stage_main_idx;
+    u8 stage_bonus_idx;
 
     pBorg = &field_136_menu_pages_array[field_132_f136_idx];
     v18 = pBorg;
@@ -1958,7 +1959,8 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                 case MENUPAGE_PLAY_NEXT_AREA: // 261
                     if (gLucid_hamilton_67E8E0.sub_4C59A0())
                     {
-                        main_stage_idx = (u8)gLucid_hamilton_67E8E0.GetStage_4C5990() >> 4;
+                        gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &stage_main_idx, &stage_bonus_idx);
+                        main_stage_idx = stage_main_idx;
                     }
                     else
                     {
@@ -2005,12 +2007,12 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case MENUPAGE_GET_READY_TO_PLAY_BONUS: // 265
-                    v9 = gLucid_hamilton_67E8E0.GetStage_4C5990();
-                    if (!FreeLoader::sub_4AE1F0(v9 >> 4))
+                    gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &stage_main_idx, &stage_bonus_idx);
+                    if (!FreeLoader::sub_4AE1F0(stage_main_idx))
                     {
                         goto LABEL_10;
                     }
-                    LoadMapFilenames_4B4D00(v9 >> 4, v9 & 0xF);
+                    LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
                     gLucid_hamilton_67E8E0.sub_4C5AD0(1);
                 LABEL_9:
                     field_EE08 = RedBar_16;
