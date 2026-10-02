@@ -3938,12 +3938,12 @@ void Car_BC::KillContainedPeds_43DB80()
     {
         if (pDriver->get_occupation_403980() != 4)
         {
-            if (pDriver->field_15C_player)
+            if (pDriver->is_player_41B0A0())
             {
                 pPhysics = this->field_58_physics;
                 if (pPhysics)
                 {
-                    pPhysics->field_8C_state = 1;
+                    pPhysics->SetField8C_to_1();
                 }
             }
             field_54_driver->Kill_46F9D0();
