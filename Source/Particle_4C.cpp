@@ -725,16 +725,16 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
                 return true;
             }
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 102);
-            field_30_pNext->field_2C_flags = 0xC9;
-            field_30_pNext->field_2C_flags &= ~4u;
+            field_30_pNext->SetFlags_4337D0(1, 25);
+            field_30_pNext->Clear_2C_0x4_Flag_433800();
             dir.x = 0;
             dir.y = dword_6FD300 * field_20;
             bJitter = 0;
             break;
         case 3:
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 101);
-            field_30_pNext->field_2C_flags = 0xC9;
-            field_30_pNext->field_2C_flags &= ~4u;
+            field_30_pNext->SetFlags_4337D0(1, 25);
+            field_30_pNext->Clear_2C_0x4_Flag_433800();
             dir.x = 0;
             dir.y = dword_6FD304 * field_20;
             break;
