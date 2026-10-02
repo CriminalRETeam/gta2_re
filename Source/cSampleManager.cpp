@@ -137,7 +137,7 @@ cSampleManager::cSampleManager()
 
     field_0_hDriver = 0;
     field_1EB0_count_samples = 16;
-    field_1EB1_unknown = 2;
+    field_1EB1_bytes_per_sample = 2;
     field_1EB2_3d_samp_count = 0;
     field_26B4_env_idx = -1;
     field_26B8_bEaxSupported = 0;
@@ -243,21 +243,21 @@ char_type cSampleManager::OpenDigitalDriver_58D720(char_type a2, char_type a3, s
 
     if (a2)
     {
-        field_1EB1_unknown = 2;
+        field_1EB1_bytes_per_sample = 2;
     }
     else
     {
-        field_1EB1_unknown = 1;
+        field_1EB1_bytes_per_sample = 1;
     }
 
     l.waveFormat.nChannels = 2;
     l.waveFormat.nSamplesPerSec = sampleRate;
-    l.waveFormat.nAvgBytesPerSec = 2 * sampleRate * field_1EB1_unknown;
+    l.waveFormat.nAvgBytesPerSec = 2 * sampleRate * field_1EB1_bytes_per_sample;
     l.waveFormat.wFormatTag = 1;
-    l.waveFormat.nBlockAlign = (unsigned __int8)(2 * field_1EB1_unknown);
+    l.waveFormat.nBlockAlign = (unsigned __int8)(2 * field_1EB1_bytes_per_sample);
 
     // todo: not sure how/why this is here ??
-    l.t = (unsigned __int8)(8 * field_1EB1_unknown);
+    l.t = (unsigned __int8)(8 * field_1EB1_bytes_per_sample);
 
     AIL_set_preference(1, 37); // DIG_MIXER_CHANNELS
     AIL_set_preference(15, 0); // DIG_USE_WAVEOUT
@@ -577,7 +577,7 @@ bool cSampleManager::InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate)
         soundInfo.channels = 1;
         soundInfo.data_len = field_A8_sdt_entries[nSfx].field_4_sample_length;
         soundInfo.rate = rate;
-        soundInfo.bits = 8 * field_1EB1_unknown;
+        soundInfo.bits = 8 * field_1EB1_bytes_per_sample;
         u32 tmp = AIL_set_3D_sample_info(field_26C4_3d_sample[channel], &soundInfo);
         return tmp != 0 ? true : false;
     }

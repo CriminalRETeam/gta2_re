@@ -244,7 +244,7 @@ void Game_0x40::BootGame_4B8EB0()
 
     sub_5D8DF0();
     ConvertColourBanks_5D7CB0();
-    sub_5D8E00();
+    UpdateGameScreenSize_5D8E00();
     gSprite_8_703820->sub_5A5870();
     gTileAnim_2_7052C4->Empty_5BC300();
     gPublicTransport_181C_6FF1D4->SetupTrainAndBusStops_5794B0();

@@ -365,7 +365,7 @@ EXPORT void __stdcall ResetFrameTimer_4DA830()
 
 // TODO: move
 MATCH_FUNC(0x5D8E00)
-void sub_5D8E00()
+void UpdateGameScreenSize_5D8E00()
 {
     if (gGame_0x40_67E008)
     {
@@ -984,10 +984,10 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
 // todo: move
 MATCH_FUNC(0x5D9680)
-EXPORT void sub_5D9680()
+EXPORT void OnVideoModeChanged_5D9680()
 {
     ConvertColourBanks_5D7CB0();
-    sub_5D8E00();
+    UpdateGameScreenSize_5D8E00();
 }
 
 // todo move to another file for ordering
@@ -998,7 +998,7 @@ EXPORT void __stdcall ApplyChangedScreenSettings_5D9690()
     if ((u8)ReadScreenSettings_5D8F70() || bVideoModeResetPending_706C5D)
     {
         SetVideoModeFromSettings_5D92D0();
-        sub_5D9680();
+        OnVideoModeChanged_5D9680();
         bVideoModeResetPending_706C5D = 0;
     }
     Input_MouseAcquire_5D7C60();
@@ -1697,7 +1697,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                 if (gVidSys_7071D0 && !Bink::IsUsingDDBuffer_513770())
                 {
                     SetVideoModeFromSettings_5D92D0();
-                    sub_5D9680();
+                    OnVideoModeChanged_5D9680();
                     bVideoModeResetPending_706C5D = 0;
                 }
 
@@ -1823,7 +1823,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                         {
                             ToggleStartMode_5D9250();
                             SetVideoModeFromSettings_5D92D0();
-                            sub_5D9680();
+                            OnVideoModeChanged_5D9680();
                         }
                     }
                     break;
@@ -1851,7 +1851,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                     {
                         SetStartMode_5D9230(1u);
                         SetVideoModeFromSettings_5D92D0();
-                        sub_5D9680();
+                        OnVideoModeChanged_5D9680();
                     }
                     break;
 

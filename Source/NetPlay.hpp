@@ -32,7 +32,7 @@ class Packet_SubType_3
 class Nework_2C
 {
   public:
-    s32 field_0;
+    s32 field_0_in_use;
     s32 field_4;
     s32 field_8;
     s32 field_C;
@@ -52,7 +52,7 @@ class Network_Unknown
     s32 field_4_count;
     char_type field_8[4];
     s32 field_C;
-    Nework_2C field_10[6];
+    Nework_2C field_10_players[6];
     u8* field_118_group_data;
     s32 field_11C_group_data_len;
     DPSESSIONDESC2 field_120_session_desc;
@@ -167,12 +167,12 @@ struct NetPlay
     EXPORT void MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen);
     EXPORT void OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 a5);
     EXPORT s32 sub_520040(s32 toFind, Network_Unknown* pStru, s32 a3, u32* pOutIdx);
-    EXPORT void sub_5201A0(s32 idx, Network_Unknown* pStru);
+    EXPORT void ClearPlayer_5201A0(s32 idx, Network_Unknown* pStru);
     EXPORT void ProcessIncomingPacket_520230(s32 idx, u32 pUnknown);
     EXPORT void Set6_520530(void* pFunc, void* pParam);
     EXPORT s32 sub_520570(int session_idx, wchar_t* a3, s32* a4, s32* a5);
     EXPORT s32 EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay* pContext);
-    EXPORT s32 sub_520CA0(s32 a2, s32 a3);
+    EXPORT s32 OnEnumeratedPlayer_520CA0(s32 a2, s32 a3);
     EXPORT void SetGroupId_520D00(s32 a2);
     EXPORT void Disconnect_520D10();
     EXPORT void ClearPlayersAndSession_520DE0(Network_Unknown* pStru);

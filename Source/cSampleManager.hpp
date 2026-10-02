@@ -162,7 +162,7 @@ class cSampleManager
     void* field_1EA8_pAudioBuffer1;
     void* field_1EAC_pAudioBuffer2;
     u8 field_1EB0_count_samples;
-    u8 field_1EB1_unknown;
+    u8 field_1EB1_bytes_per_sample;
     u8 field_1EB2_3d_samp_count;
     char_type field_1EB3_pad;
     HPROVIDER field_1EB4_h3dProvider[256];
