@@ -322,9 +322,10 @@ class Fix16
     EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
     EXPORT Fix16 operator+(const Fix16& rhs) const;
     EXPORT Fix16 Multiply_408680(const Fix16& in) const;
-    // Out-of-line copy of operator-, which big functions call once they run out of inline
+    // Out-of-line copies of operator- and operator/, which big functions call once they run out of inline
     // expansions (Sprite_4C::DrawCollisionBox_5A4DA0)
     EXPORT Fix16 Subtract_436A00(const Fix16& in) const;
+    EXPORT Fix16 Divide_436A20(const Fix16& in) const;
     EXPORT Fix16 Negate_4086A0() const;
 
     // Needed this for a GetLength variant used by miss2_0x11C::GetSpeed_50E190.
