@@ -2058,7 +2058,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_88_guard_1)
             {
-                if ((field_88_guard_1->field_21C & 1) == 0)
+                if (!field_88_guard_1->CheckBit0_433B40())
                 {
                     field_88_guard_1 = 0;
                 }
@@ -2073,7 +2073,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_8C_guard_2)
             {
-                if ((field_8C_guard_2->field_21C & 1) == 0)
+                if (!field_8C_guard_2->CheckBit0_433B40())
                 {
                     field_8C_guard_2 = 0;
                 }
@@ -2088,7 +2088,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_90_guard_3)
             {
-                if ((field_90_guard_3->field_21C & 1) == 0)
+                if (!field_90_guard_3->CheckBit0_433B40())
                 {
                     field_90_guard_3 = 0;
                 }
@@ -2103,7 +2103,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_94_guard_4)
             {
-                if ((field_94_guard_4->field_21C & 1) == 0)
+                if (!field_94_guard_4->CheckBit0_433B40())
                 {
                     field_94_guard_4 = 0;
                 }
@@ -2118,7 +2118,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_98_guard_5)
             {
-                if ((field_98_guard_5->field_21C & 1) == 0)
+                if (!field_98_guard_5->CheckBit0_433B40())
                 {
                     field_98_guard_5 = 0;
                 }
@@ -2133,7 +2133,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_9C_guard_6)
             {
-                if ((field_9C_guard_6->field_21C & 1) == 0)
+                if (!field_9C_guard_6->CheckBit0_433B40())
                 {
                     field_9C_guard_6 = 0;
                 }
@@ -2154,8 +2154,8 @@ void PoliceRoadblock_A4::sub_5757B0()
                 }
                 Ped* field_2C4_player_ped = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
 
-                Fix16 fix_y = field_2C4_player_ped->field_1AC_cam.y;
-                Fix16 fix_x = field_2C4_player_ped->field_1AC_cam.x;
+                Fix16 fix_y = field_2C4_player_ped->get_cam_y();
+                Fix16 fix_x = field_2C4_player_ped->get_cam_x();
 
                 Fix16 v29 = Fix16(field_8) - fix_x;
                 Fix16 v30 = Fix16(field_9) - fix_y;
