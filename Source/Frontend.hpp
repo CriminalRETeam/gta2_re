@@ -54,8 +54,8 @@ struct admiring_euler_4
 {
     char_type field_0_save_exists;
     char_type field_1_last_saved_stage;
-    char_type field_2;
-    char_type field_3;
+    char_type field_2_last_saved_bonus_stage_code;
+    char_type field_3_last_saved_is_bonus;
 
     EXPORT admiring_euler_4();
 
@@ -97,9 +97,9 @@ struct menu_option_0x82
 
     EXPORT ~menu_option_0x82();
 
-    EXPORT bool sub_4B6330();
+    EXPORT bool SelectNextHorizontalIdx_4B6330();
 
-    EXPORT bool sub_4B6390();
+    EXPORT bool SelectPrevHorizontalIdx_4B6390();
 
     char_type field_0_option_type;
     char_type field_1_is_unlocked;
@@ -110,7 +110,7 @@ struct menu_option_0x82
     u16 field_6C_palette;
     u16 field_6E_horizontal_selected_idx;
     s16 field_70;
-    char_type field_72[12];
+    char_type field_72_horizontal_idx_enabled[12];
     u16 field_7E_horizontal_max_idx;
     s16 field_80_menu_page_target;
 };
@@ -137,9 +137,9 @@ struct MenuPage_0xBCA
 
     EXPORT ~MenuPage_0xBCA();
 
-    EXPORT bool sub_4B61B0();
+    EXPORT bool SelectPrevOption_4B61B0();
 
-    EXPORT bool sub_4B6200();
+    EXPORT bool SelectNextOption_4B6200();
 
     u16 field_0_number_of_options;
     s16 field_2_number_of_elements;
@@ -147,7 +147,7 @@ struct MenuPage_0xBCA
     menu_element_0x6E field_518_elements_array[15];
     kind_beaver_6 field_B8A[10];
     u16 field_BC6_current_option_idx;
-    s16 field_BC8;
+    s16 field_BC8_default_option_idx;
 };
 
 struct player_stats_0xA4;
@@ -255,20 +255,20 @@ struct Frontend
     char_type field_8_keys[256];
     s32 field_108_winmain_next_state;
     char_type field_10C_bKeyboardAcquired;
-    char_type field_10D;
+    char_type field_10D_bInputEnabled;
     char_type field_10E;
     char_type field_10F;
     s32 field_110_state;
-    s32 field_114;
-    s32 field_118;
-    u16 field_11C;
+    s32 field_114_cursor_blink;
+    s32 field_118_cursor_blink_timer;
+    u16 field_11C_normal_font;
     s16 field_11E;
-    s16 field_120;
+    s16 field_120_selected_font;
     s16 field_122;
     u16 field_124_font_type;
     s16 field_126;
     s16 field_128;
-    s16 field_12A;
+    s16 field_12A_score_font;
     s16 field_12C;
     s16 field_12E;
     s16 field_130;
@@ -277,14 +277,14 @@ struct Frontend
     MenuPage_0xBCA field_136_menu_pages_array[17];
     wchar_t field_C9A0_curr_plyr_name[9];
     u8 field_C9B2_curr_plyr_name_length;
-    char_type field_C9B3;
-    s16 field_C9B4;
-    s16 field_C9B6;
-    wchar_t field_C9B8[9];
+    char_type field_C9B3_key_held;
+    s16 field_C9B4_last_key;
+    s16 field_C9B6_key_repeat_timer;
+    wchar_t field_C9B8_password[9];
     //char_type field_C9C8;
     //char_type field_C9C9;
-    u8 field_C9CA;
-    char_type field_C9CB;
+    u8 field_C9CA_password_length;
+    char_type field_C9CB_wrong_password_shown;
     char_type field_C9CC_left_pressed;
     char_type field_C9CD_right_pressed;
     char_type field_C9CE_up_pressed;
@@ -301,60 +301,60 @@ struct Frontend
     char_type field_C9D9_delete_key_down;
     char_type field_C9DA;
     char_type field_C9DB;
-    s32 field_C9DC;
-    char_type field_C9E0;
+    s32 field_C9DC_next_frame_time;
+    char_type field_C9E0_updates_since_render;
     char_type field_C9E1_bCheatsEnabled;
     char_type field_C9E2;
     char_type field_C9E3;
-    s32 field_C9E4;
+    s32 field_C9E4_last_input_time;
     MainBlockStrings field_C9E8_blocks[3][4];
     admiring_euler_4 field_EDE8_plySlots[8];
-    char_type field_EE08;
+    char_type field_EE08_menu_screen;
     char_type field_EE09;
-    u16 field_EE0A;
-    u8 field_EE0C;
-    u8 field_EE0D;
+    u16 field_EE0A_dialog_cursor_ypos;
+    u8 field_EE0C_dialog_type;
+    u8 field_EE0D_hiscore_table_idx;
     xenodochial_morse field_EE0E_unk;
-    s16 field_1EB30;
+    s16 field_1EB30_credits_scroll_timer;
     s16 field_1EB32;
-    Fix16 field_1EB34;
-    s16 field_1EB38; // -11 bytes ?
-    u8 field_1EB3A[8];
-    u8 field_1EB42[8];
+    Fix16 field_1EB34_credits_ypos;
+    s16 field_1EB38_credits_line_idx;
+    u8 field_1EB3A_selected_main_stage[8];
+    u8 field_1EB42_selected_bonus_stage[8];
     char_type field_1EB4A;
     char_type field_1EB4B;
-    char_type field_1EB4C;
-    char_type field_1EB4D;
-    char_type field_1EB4E;
-    char_type field_1EB4F;
+    char_type field_1EB4C_has_prev_main_stage;
+    char_type field_1EB4D_has_next_main_stage;
+    char_type field_1EB4E_has_prev_bonus_stage;
+    char_type field_1EB4F_has_next_bonus_stage;
     u8 field_1EB50_num_main_stages;
     u8 field_1EB51_num_bonus_stages[3];
 
     // todo: ordering
     EXPORT void LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
-    EXPORT void sub_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName);
-    EXPORT void sub_4B5270();
+    EXPORT void StoreStringsForStage_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName);
+    EXPORT void DrawSavedStage_4B5270();
 
     // todo move to another file for ordering
     EXPORT static void __stdcall create_4ACFA0();
 
     EXPORT static void __stdcall destroy_4AD070();
 
-    EXPORT void sub_4B3170(u16 arg0);
+    EXPORT void ChangeMenuPage_4B3170(u16 arg0);
 
-    EXPORT void sub_4B8680();
+    EXPORT void InitSound_4B8680();
 
     EXPORT const char_type* intro_bik_4B5E50();
 
     EXPORT static bool intro_bik_exists_4B5FF0();
 
-    EXPORT void sub_4AEC00();
+    EXPORT void Update_4AEC00();
 
     EXPORT void read_menu_input_4AFEB0();
 
-    EXPORT void sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer);
+    EXPORT void GetOptionText_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer);
 
-    EXPORT void sub_4B6780();
+    EXPORT void UpdateMenuScreen_4B6780();
 
     EXPORT void ManageCredits_4B7A10();
 
@@ -362,13 +362,13 @@ struct Frontend
 
     EXPORT void SetWinMainStateToBootMap_4AE990();
 
-    EXPORT void sub_4B2F60();
+    EXPORT void HandlePlayerNameTyping_4B2F60();
 
-    EXPORT void sub_4AE9A0();
+    EXPORT void HandleDeletePlayerDialog_4AE9A0();
 
-    EXPORT void sub_4B8280();
+    EXPORT void HandlePasswordTyping_4B8280();
 
-    EXPORT void sub_4B4410();
+    EXPORT void DeleteCurrentPlayer_4B4410();
 
     EXPORT player_stats_0xA4* GetCurrPlayerStats_4B43E0();
 
@@ -378,15 +378,15 @@ struct Frontend
 
     EXPORT void HandleCheatCode_4B3DD0(const wchar_t* String);
 
-    EXPORT void sub_4B4280();
+    EXPORT void LoadCurrPlayerName_4B4280();
 
     EXPORT u8 GetPrevUnlockedStageIndex_4B77B0(player_stats_0xA4* a2);
 
     EXPORT u8 GetPrevUnlockedStageBonusCode_4B7800(player_stats_0xA4* a2);
 
-    EXPORT void sub_4B8530();
+    EXPORT void StripPasswordToCurrLength_4B8530();
 
-    EXPORT void sub_4B8560();
+    EXPORT void CheckPassword_4B8560();
 
     EXPORT void ContinueToNextStage_4B8020();
 
@@ -396,17 +396,17 @@ struct Frontend
 
     EXPORT void LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx);
 
-    EXPORT void DrawLoadingText_4AD0D0();
+    EXPORT void DrawLoading_4AD0D0();
 
-    EXPORT void sub_4ADDE0();
+    EXPORT void DrawDeletePlayerDialog_4ADDE0();
 
-    EXPORT void sub_4ADF50();
+    EXPORT void DrawCurrentState_4ADF50();
 
-    EXPORT void sub_4ADFB0();
+    EXPORT void Render_4ADFB0();
 
     EXPORT void DrawBackground_4B6E10();
 
-    EXPORT void sub_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3);
+    EXPORT void GetTgaIdxsForMenuScreen_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3);
 
     EXPORT void Load_tga_4B6520(u16 idx);
 
@@ -424,7 +424,7 @@ struct Frontend
 
     EXPORT void InitKeyBoardDevice_4AFBE0();
 
-    EXPORT void sub_4AF0E0();
+    EXPORT void SetFontTypes_4AF0E0();
 
     EXPORT void SetupMenuStringsOptionsElements_4B0220();
 
@@ -440,11 +440,11 @@ struct Frontend
 
     EXPORT char_type PlySlotSvgExists_4B5370(u8 idx);
 
-    EXPORT static void __stdcall sub_5E53C0(BYTE* a1);
+    EXPORT static void __stdcall SetInputEnabled_5E53C0(BYTE* a1);
 
     EXPORT static s32 __stdcall GetMaxTextWidth_5D8990(wchar_t* pStr, u16 a2);
 
-    EXPORT u16 sub_4B0190(wchar_t* a2, s16 a3, s32 a4);
+    EXPORT u16 GetCenteredXPos_4B0190(wchar_t* a2, s16 a3, s32 a4);
 
     EXPORT u8 GetPreviousUnlockedMainStage_4B7060(u8 a2);
 
@@ -460,45 +460,45 @@ struct Frontend
 
     EXPORT void StripPlayerNameToCurrLength_4B42B0();
 
-    EXPORT char_type sub_4B7120(u8 a2);
+    EXPORT char_type GetPreviousUnlockedBonusStage_4B7120(u8 a2);
 
     EXPORT void UpdateBonusStageArrows_4B7610();
 
-    EXPORT bool sub_4B70B0();
+    EXPORT bool ChangeBonusStageToPrevious_4B70B0();
 
-    EXPORT bool sub_4B74F0();
+    EXPORT bool ExistsPreviousBonusStage_4B74F0();
 
-    EXPORT char_type sub_4B7360(u8 a2);
+    EXPORT char_type GetNextUnlockedBonusStage_4B7360(u8 a2);
 
-    EXPORT bool sub_4B7520();
+    EXPORT bool ExistsNextBonusStage_4B7520();
 
-    EXPORT bool sub_4B72F0();
+    EXPORT bool ChangeBonusStageToNext_4B72F0();
 
     EXPORT bool ChangeMainStageToNext_4B7200();
 
     EXPORT void sub_4B4EC0();
 
-    EXPORT s32 sub_4AEDB0();
+    EXPORT s32 Run_4AEDB0();
 
     EXPORT void DrawMenu_4AD140();
 
     EXPORT void DrawCredits_4B7AE0();
 
-    EXPORT void sub_4B8650();
+    EXPORT void FreeSound_4B8650();
 
     EXPORT bool pre_intro_bik_exists_4B6030();
 
     EXPORT char_type* pre_intro_bik_4B5F20();
 
-    EXPORT void sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4);
+    EXPORT void GetElementText_4B3CC0(u16 a2, u16 a3, wchar_t** a4);
 
-    EXPORT void sub_4B55F0();
+    EXPORT void DrawMultiplayerScores_4B55F0();
 
-    EXPORT void sub_4B57B0(u16 a3, u16 a5);
+    EXPORT void DrawLastAndBestStats_4B57B0(u16 a3, u16 a5);
 
-    EXPORT void sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, s32 palette, u16 scale, u16 a7, u8 pStr);
+    EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, s32 palette, u16 scale, u16 a7, u8 pStr);
 
-    EXPORT void Frontend::sub_4B5430(score_table_line* pStrings,
+    EXPORT void Frontend::DrawScoreTable_4B5430(score_table_line* pStrings,
                            u16 text_xpos,
                            u16 text_ypos,
                            u16 num_entries,
@@ -511,8 +511,8 @@ class FreeLoader
 {
   public:
     EXPORT static s32 __stdcall GetCityInstalled_4AE0F0();
-    EXPORT static char_type __stdcall sub_4AE1F0(u8 a1);
-    EXPORT static LPCSTR __stdcall sub_4AE010(HKEY a1, LPCSTR a2, LPCSTR a3);
+    EXPORT static char_type __stdcall CheckCityInstalled_4AE1F0(u8 a1);
+    EXPORT static LPCSTR __stdcall GetRegDword_4AE010(HKEY a1, LPCSTR a2, LPCSTR a3);
 };
 
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);
@@ -522,9 +522,9 @@ EXTERN_GLOBAL(Frontend*, gFrontend_67DC84);
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 
-EXPORT void __stdcall sub_5D7D30();
+EXPORT void __stdcall MakeScreenTableAndSetWindow_5D7D30();
 EXPORT void __cdecl FreeSurface_5D7DC0();
-EXPORT void __stdcall sub_5D7CB0();
+EXPORT void __stdcall ConvertColourBanks_5D7CB0();
 
 EXTERN_GLOBAL(short, font_type_703C14);
 

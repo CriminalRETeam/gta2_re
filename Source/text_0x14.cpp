@@ -27,7 +27,7 @@ const wchar_t word_626590[256] = {
     220u, 221u, 222u, 223u, 224u, 225u, 226u, 227u, 228u, 229u, 230u, 231u, 232u, 233u, 234u, 235u, 236u, 237u, 238u, 239u, 240u, 241u,
     242u, 243u, 244u, 245u, 246u, 247u, 248u, 249u, 250u, 251u, 252u, 253u, 254u, 255u};
 
-const s16 word_626490[128] = {0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+const s16 kExtendedRussianCharMap_626490[128] = {0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
                         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   177, 0,   0,   0,
                         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   210, 0,   0,   0,   0,   0,   0,   0,   193, 208,
                         192, 184, 198, 182, 199, 187, 205, 178, 181, 197, 204, 183, 196, 194, 195, 203, 206, 180, 190, 188, 179, 202,
@@ -43,7 +43,7 @@ static const u16 kExtendedWesternCharMap[128] = {
     157, 158, 159, 160, 161, 162, 163, 164, 0,   174, 165, 166, 167, 0,   168, 0, 0,   169, 170, 171, 172, 0,   0,   0};
 
 MATCH_FUNC(0x5B58D0)
-u16 text_0x14::sub_5B58D0(u16 a2)
+u16 text_0x14::RemapExtendedChar_5B58D0(u16 a2)
 {
     u16 result = a2;
     if (a2 >= 128u)
@@ -54,7 +54,7 @@ u16 text_0x14::sub_5B58D0(u16 a2)
         }
         else
         {
-            result = field_10_lang_code == 'r' ? word_626490[a2 - 128] : kExtendedWesternCharMap[a2 - 128];
+            result = field_10_lang_code == 'r' ? kExtendedRussianCharMap_626490[a2 - 128] : kExtendedWesternCharMap[a2 - 128];
             if (!result)
             {
                 result = 63;
@@ -65,20 +65,20 @@ u16 text_0x14::sub_5B58D0(u16 a2)
 }
 
 MATCH_FUNC(0x5B5910)
-void text_0x14::sub_5B5910(wchar_t* a2)
+void text_0x14::RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* a2)
 {
     if (field_10_lang_code != 'j')
     {
-        sub_5B5930(a2);
+        RemapExtendedChars_5B5930(a2);
     }
 }
 
 MATCH_FUNC(0x5B5930)
-void text_0x14::sub_5B5930(wchar_t* pStr)
+void text_0x14::RemapExtendedChars_5B5930(wchar_t* pStr)
 {
     for (wchar_t* pStrIter = pStr; *pStrIter; ++pStrIter)
     {
-        *pStrIter = sub_5B58D0(*pStrIter);
+        *pStrIter = RemapExtendedChar_5B58D0(*pStrIter);
     }
 }
 
@@ -163,7 +163,7 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
 }
 
 STUB_FUNC(0x5B5AD0)
-u16 text_0x14::sub_5B5AD0(wchar_t a2)
+u16 text_0x14::ToUpper_5B5AD0(wchar_t a2)
 {
     NOT_IMPLEMENTED;
     u16 result; // ax
@@ -201,7 +201,7 @@ u16 text_0x14::sub_5B5AD0(wchar_t a2)
             {
                 if (a2 >= 0x80u && a2 <= 0xFFu)
                 {
-                    result = word_626490[a2];
+                    result = kExtendedRussianCharMap_626490[a2];
                 }
             }
             else
@@ -218,11 +218,11 @@ u16 text_0x14::sub_5B5AD0(wchar_t a2)
 }
 
 MATCH_FUNC(0x5B5B80)
-wchar_t* text_0x14::sub_5B5B80(wchar_t* pWideStr)
+wchar_t* text_0x14::StrToUpper_5B5B80(wchar_t* pWideStr)
 {
     for (wchar_t* pStrIter = pWideStr; *pStrIter; ++pStrIter)
     {
-        *pStrIter = sub_5B5AD0(*pStrIter);
+        *pStrIter = ToUpper_5B5AD0(*pStrIter);
     }
     return pWideStr;
 }
@@ -400,7 +400,7 @@ wchar_t* text_0x14::Find_5B5F90(const char_type* pIdStr)
 }
 
 MATCH_FUNC(0x5B5FA0)
-bool text_0x14::TKeyExists_5B5FA0(const char_type* pIdStr)
+bool text_0x14::KeyExists_5B5FA0(const char_type* pIdStr)
 {
     return TKeyFind_5B59E0(pIdStr);
 }

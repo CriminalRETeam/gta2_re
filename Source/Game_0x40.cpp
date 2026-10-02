@@ -143,7 +143,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
 
     gPhi_8CA8_6FCF00->sub_534330();
 
-    gSharp_pare_0x15D8_705064->sub_5B9350();
+    gSharp_pare_0x15D8_705064->LoadStyleTextures_5B9350();
 
     gLucid_hamilton_67E8E0.clear_secret_tokens_collected();
 
@@ -185,7 +185,7 @@ void Game_0x40::SetScreenSize_4B8E00(u32 a1, u32 a2)
     field_38_orf1->field_90_game_camera.SetScreenSize_4361B0(a1, a2);
     field_38_orf1->field_208_aux_game_camera.SetScreenSize_4361B0(a1, a2);
     field_38_orf1->field_14C_view_camera.SetScreenSize_4361B0(a1, a2);
-    gHud_2B00_706620->sub_5D6AB0();
+    gHud_2B00_706620->RecalcTextLayout_5D6AB0();
 }
 
 MATCH_FUNC(0x4B8E50)
@@ -243,7 +243,7 @@ void Game_0x40::BootGame_4B8EB0()
     }
 
     sub_5D8DF0();
-    sub_5D7CB0();
+    ConvertColourBanks_5D7CB0();
     sub_5D8E00();
     gSprite_8_703820->sub_5A5870();
     gTileAnim_2_7052C4->Empty_5BC300();
@@ -256,7 +256,7 @@ void Game_0x40::BootGame_4B8EB0()
     }
     gCar_214_705F20->Reset_5C8750();
     gMap_0x370_6F6268->alloc_zones_4DFCA0();
-    gHud_2B00_706620->sub_5D6BE0();
+    gHud_2B00_706620->Init_5D6BE0();
     gfrosty_pasteur_6F8060->Update_512160(); // script
     gGame_0x40_67E008->field_38_orf1->ApplyCheats_56A490();
     if (bDo_iain_test_67D4E9)
@@ -264,7 +264,7 @@ void Game_0x40::BootGame_4B8EB0()
         IanTest_46E370();
     }
     gRouteFinder_6FFDC8->Reset_588C60();
-    gHud_2B00_706620->sub_5D6BE0();
+    gHud_2B00_706620->Init_5D6BE0();
     gMap_0x370_6F6268->SpawnMapObjects_4DFB90(); // map objects
     gMap_0x370_6F6268->update_lights_4DFCD0(); // lights
     if (!bSkip_traffic_lights_67D4EC)
@@ -285,31 +285,31 @@ MATCH_FUNC(0x4B8FF0)
 void Game_0x40::ShowCounters_4B8FF0()
 {
     swprintf(tmpBuff_67BD9C, L"recycled cars : %d", gCar_6C_677930->field_28_recycled_cars);
-    gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 32, word_706600, 1);
+    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 32, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"prot. recycled cars : %d", gCar_6C_677930->field_40_proto_recycled_cars);
-    gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 48, word_706600, 1);
+    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 48, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"mission cars : %d", gCar_6C_677930->field_3C_mission_cars);
-    gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"unit cars : %d", gCar_6C_677930->field_34_unit_cars);
-    gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_BC_Pool_67792C->field_0_pool.field_X_count);
-    gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
+    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gPedManager_6787BC->field_2_num_dummy_chars);
-    gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
+    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
 
     Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
     if (field_38_orf1)
     {
         swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", (unsigned __int8)field_38_orf1->field_2D4_scores.field_198_accuracy_count);
-        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 128, word_706600, 1);
+        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 128, word_706600, 1);
 
         swprintf(tmpBuff_67BD9C, L"reverse_count : %d", field_38_orf1->field_2D4_scores.field_19C_reverse_count);
-        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 144, word_706600, 1);
+        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 144, word_706600, 1);
 
         // TODO: Seems strange, converted to a local integer point or something ??
         const u32 x = field_38_orf1->field_2C4_player_ped->field_1AC_cam.x.ToInt();
@@ -318,7 +318,7 @@ void Game_0x40::ShowCounters_4B8FF0()
         gmp_zone_info* pNavZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x, y);
 
         swprintf(tmpBuff_67BD9C, L"density:%d", pNavZone->field_0_car_density);
-        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 160, word_706600, 1);
+        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 160, word_706600, 1);
     }
 }
 
@@ -332,9 +332,9 @@ void Game_0x40::DebugShowCarStatsAndFrameSkip_4B9270()
 
     if (field_30_bLimitFramerate)
     {
-        Garox_C4* pC4 = gHud_2B00_706620->field_650.DisplayText_5D1F50(L"FF", 0, 440, word_706600, 1);
+        Garox_C4* pC4 = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"FF", 0, 440, word_706600, 1);
         pC4->field_B0_drawKind = 8;
-        pC4->field_B4 = 6;
+        pC4->field_B4_palette = 6;
     }
 }
 
@@ -351,7 +351,7 @@ void Game_0x40::Draw_4B92D0()
     gPurpleDoom_2_67920C->DrawSpritesClipped_477A40();
     gPurpleDoom_1_679208->DrawSpritesClipped_477A40();
 
-    sub_5D7D30();
+    MakeScreenTableAndSetWindow_5D7D30();
 
     pgbh_BeginScene();
 
@@ -421,7 +421,7 @@ void Game_0x40::UpdatePaused_4B93C0()
         ++pIter;
     }
 
-    gHud_2B00_706620->sub_5D69C0();
+    gHud_2B00_706620->UpdatePauseSection_5D69C0();
 
     if (counter_706C4C > 0)
     {

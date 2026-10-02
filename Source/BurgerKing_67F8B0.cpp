@@ -386,7 +386,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
             }
 
             // line 1ef
-            if (!gHud_2B00_706620->sub_5D6C70(gKeyboardDeviceData_67B610.dwOfs)) // OBS: bool return type
+            if (!gHud_2B00_706620->IsInputKeyConsumed_5D6C70(gKeyboardDeviceData_67B610.dwOfs)) // OBS: bool return type
             {
                 v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
                 v6_edx = gGamePadDeviceData_67B5B0.dwData;
@@ -641,7 +641,7 @@ bool BurgerKing_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
     return dinput_key == DIK_NUMPAD1 || dinput_key == DIK_NUMPAD2 || dinput_key == DIK_NUMPAD3 || dinput_key == DIK_NUMPAD4 ||
         dinput_key == DIK_NUMPAD5 || dinput_key == DIK_NUMPAD6 || dinput_key == DIK_NUMPAD7 || dinput_key == DIK_NUMPAD8 ||
         dinput_key == DIK_NUMPAD9 || dinput_key == DIK_MULTIPLY || dinput_key == DIK_SUBTRACT || dinput_key == DIK_ESCAPE ||
-        dinput_key == DIK_F6 || dinput_key == DIK_ADD || gHud_2B00_706620->sub_5D6CB0(dinput_key);
+        dinput_key == DIK_F6 || dinput_key == DIK_ADD || gHud_2B00_706620->IsQuitMessageInputKey_5D6CB0(dinput_key);
 }
 
 MATCH_FUNC(0x4cddf0)
@@ -1116,7 +1116,7 @@ void BurgerKing_67F8B0::DisplayInputBits_4CED90()
         if (((1 << bit_idx) & field_4_input_bits) != 0)
         {
             swprintf(tmpBuff_67BD9C, L"Control %d", bit_idx);
-            gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), word_706600, 1);
+            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), word_706600, 1);
         }
         ++i;
         ++bit_idx;
@@ -1138,11 +1138,11 @@ void BurgerKing_67F8B0::ShowInput_4CEE10()
 {
     if (RecOrPlayBackState_4CEDF0())
     {
-        gHud_2B00_706620->field_650.DisplayText_5D1F50(L"PLAYBACK", -1, 0, word_706600, 1);
+        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"PLAYBACK", -1, 0, word_706600, 1);
     }
     else
     {
-        gHud_2B00_706620->field_650.DisplayText_5D1F50(L"RECORDING", -1, 0, word_706600, 1);
+        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"RECORDING", -1, 0, word_706600, 1);
     }
     DisplayInputBits_4CED90();
 }

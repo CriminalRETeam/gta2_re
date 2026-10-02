@@ -4855,7 +4855,7 @@
         "v105_address": "0x4926f0"
     },
     {
-        "name": "sub_495470",
+        "name": "DrawTextureScaled_495470",
         "v96f_address": "0x495470",
         "v105_address": "0x495470"
     },
@@ -5350,17 +5350,17 @@
         "v105_address": "0x4ad140"
     },
     {
-        "name": "Frontend::sub_4ADF50",
+        "name": "Frontend::DrawCurrentState_4ADF50",
         "v96f_address": "0x458590",
         "v105_address": "0x4adf50"
     },
     {
-        "name": "Frontend::sub_4ADFB0",
+        "name": "Frontend::Render_4ADFB0",
         "v96f_address": "0x4585F0",
         "v105_address": "0x4adfb0"
     },
     {
-        "name": "FreeLoader::sub_4AE010",
+        "name": "FreeLoader::GetRegDword_4AE010",
         "v96f_address": null,
         "v105_address": "0x4ae010"
     },
@@ -5375,7 +5375,7 @@
         "v105_address": "0x4ae170"
     },
     {
-        "name": "sub_4AE1F0",
+        "name": "CheckCityInstalled_4AE1F0",
         "v96f_address": null,
         "v105_address": "0x4ae1f0"
     },
@@ -5395,22 +5395,22 @@
         "v105_address": "0x4ae990"
     },
     {
-        "name": "Frontend::sub_4AE9A0",
+        "name": "Frontend::HandleDeletePlayerDialog_4AE9A0",
         "v96f_address": null,
         "v105_address": "0x4ae9a0"
     },
     {
-        "name": "Frontend::sub_4AEC00",
+        "name": "Frontend::Update_4AEC00",
         "v96f_address": "0x45A250",
         "v105_address": "0x4aec00"
     },
     {
-        "name": "Frontend::sub_4AEDB0",
+        "name": "Frontend::Run_4AEDB0",
         "v96f_address": "0x45A320",
         "v105_address": "0x4aedb0"
     },
     {
-        "name": "Frontend::sub_4AF0E0",
+        "name": "Frontend::SetFontTypes_4AF0E0",
         "v96f_address": null,
         "v105_address": "0x4af0e0"
     },
@@ -5450,7 +5450,7 @@
         "v105_address": "0x4afeb0"
     },
     {
-        "name": "Frontend::sub_4B0190",
+        "name": "Frontend::GetCenteredXPos_4B0190",
         "v96f_address": null,
         "v105_address": "0x4b0190"
     },
@@ -5460,22 +5460,22 @@
         "v105_address": "0x4b0220"
     },
     {
-        "name": "Frontend::sub_4B2F60",
+        "name": "Frontend::HandlePlayerNameTyping_4B2F60",
         "v96f_address": "0x459E30",
         "v105_address": "0x4b2f60"
     },
     {
-        "name": "Frontend::sub_4B3170",
+        "name": "Frontend::ChangeMenuPage_4B3170",
         "v96f_address": null,
         "v105_address": "0x4b3170"
     },
     {
-        "name": "Frontend::sub_4B3AF0",
+        "name": "Frontend::GetOptionText_4B3AF0",
         "v96f_address": null,
         "v105_address": "0x4b3af0"
     },
     {
-        "name": "Frontend::sub_4B3CC0",
+        "name": "Frontend::GetElementText_4B3CC0",
         "v96f_address": null,
         "v105_address": "0x4b3cc0"
     },
@@ -5490,7 +5490,7 @@
         "v105_address": "0x4b4230"
     },
     {
-        "name": "Frontend::sub_4B4280",
+        "name": "Frontend::LoadCurrPlayerName_4B4280",
         "v96f_address": null,
         "v105_address": "0x4b4280"
     },
@@ -5510,7 +5510,7 @@
         "v105_address": "0x4b43e0"
     },
     {
-        "name": "Frontend::sub_4B4410",
+        "name": "Frontend::DeleteCurrentPlayer_4B4410",
         "v96f_address": null,
         "v105_address": "0x4b4410"
     },
@@ -5525,7 +5525,7 @@
         "v105_address": "0x4b48d0"
     },
     {
-        "name": "Frontend::sub_4B4BC0",
+        "name": "Frontend::StoreStringsForStage_4B4BC0",
         "v96f_address": null,
         "v105_address": "0x4b4bc0"
     },
@@ -5550,7 +5550,7 @@
         "v105_address": "0x4b51d0"
     },
     {
-        "name": "Frontend::sub_4B5270",
+        "name": "Frontend::DrawSavedStage_4B5270",
         "v96f_address": null,
         "v105_address": "0x4b5270"
     },
@@ -5565,17 +5565,17 @@
         "v105_address": "0x4b53c0"
     },
     {
-        "name": "Frontend::sub_4B5430",
+        "name": "Frontend::DrawScoreTable_4B5430",
         "v96f_address": null,
         "v105_address": "0x4b5430"
     },
     {
-        "name": "Frontend::sub_4B55F0",
+        "name": "Frontend::DrawMultiplayerScores_4B55F0",
         "v96f_address": "0x455C90",
         "v105_address": "0x4b55f0"
     },
     {
-        "name": "Frontend::sub_4B57B0",
+        "name": "Frontend::DrawLastAndBestStats_4B57B0",
         "v96f_address": "0x457140",
         "v105_address": "0x4b57b0"
     },
@@ -5610,12 +5610,12 @@
         "v105_address": "0x4b6110"
     },
     {
-        "name": "MenuPage_0xBCA::sub_4B61B0",
+        "name": "MenuPage_0xBCA::SelectPrevOption_4B61B0",
         "v96f_address": null,
         "v105_address": "0x4b61b0"
     },
     {
-        "name": "MenuPage_0xBCA::sub_4B6200",
+        "name": "MenuPage_0xBCA::SelectNextOption_4B6200",
         "v96f_address": null,
         "v105_address": "0x4b6200"
     },
@@ -5640,12 +5640,12 @@
         "v105_address": "0x4b62f0"
     },
     {
-        "name": "menu_option_0x82::sub_4B6330",
+        "name": "menu_option_0x82::SelectNextHorizontalIdx_4B6330",
         "v96f_address": null,
         "v105_address": "0x4b6330"
     },
     {
-        "name": "menu_option_0x82::sub_4B6390",
+        "name": "menu_option_0x82::SelectPrevHorizontalIdx_4B6390",
         "v96f_address": null,
         "v105_address": "0x4b6390"
     },
@@ -5690,12 +5690,12 @@
         "v105_address": "0x4b6750"
     },
     {
-        "name": "Frontend::sub_4B6780",
+        "name": "Frontend::UpdateMenuScreen_4B6780",
         "v96f_address": null,
         "v105_address": "0x4b6780"
     },
     {
-        "name": "Frontend::sub_4B6B00",
+        "name": "Frontend::GetTgaIdxsForMenuScreen_4B6B00",
         "v96f_address": null,
         "v105_address": "0x4b6b00"
     },
@@ -5715,12 +5715,12 @@
         "v105_address": "0x4b7060"
     },
     {
-        "name": "Frontend::sub_4B70B0",
+        "name": "Frontend::ChangeBonusStageToPrevious_4B70B0",
         "v96f_address": null,
         "v105_address": "0x4b70b0"
     },
     {
-        "name": "Frontend::sub_4B7120",
+        "name": "Frontend::GetPreviousUnlockedBonusStage_4B7120",
         "v96f_address": null,
         "v105_address": "0x4b7120"
     },
@@ -5735,12 +5735,12 @@
         "v105_address": "0x4b7270"
     },
     {
-        "name": "Frontend::sub_4B72F0",
+        "name": "Frontend::ChangeBonusStageToNext_4B72F0",
         "v96f_address": null,
         "v105_address": "0x4b72f0"
     },
     {
-        "name": "Frontend::sub_4B7360",
+        "name": "Frontend::GetNextUnlockedBonusStage_4B7360",
         "v96f_address": null,
         "v105_address": "0x4b7360"
     },
@@ -5755,12 +5755,12 @@
         "v105_address": "0x4b74c0"
     },
     {
-        "name": "Frontend::sub_4B74F0",
+        "name": "Frontend::ExistsPreviousBonusStage_4B74F0",
         "v96f_address": null,
         "v105_address": "0x4b74f0"
     },
     {
-        "name": "Frontend::sub_4B7520",
+        "name": "Frontend::ExistsNextBonusStage_4B7520",
         "v96f_address": null,
         "v105_address": "0x4b7520"
     },
@@ -5785,7 +5785,7 @@
         "v105_address": "0x4b7800"
     },
     {
-        "name": "Frontend::sub_4B78B0",
+        "name": "Frontend::DrawTextFixedWidth_4B78B0",
         "v96f_address": "0x4566C0",
         "v105_address": "0x4b78b0"
     },
@@ -5825,27 +5825,27 @@
         "v105_address": "0x4b80f0"
     },
     {
-        "name": "Frontend::sub_4B8280",
+        "name": "Frontend::HandlePasswordTyping_4B8280",
         "v96f_address": null,
         "v105_address": "0x4b8280"
     },
     {
-        "name": "Frontend::sub_4B8530",
+        "name": "Frontend::StripPasswordToCurrLength_4B8530",
         "v96f_address": null,
         "v105_address": "0x4b8530"
     },
     {
-        "name": "Frontend::sub_4B8560",
+        "name": "Frontend::CheckPassword_4B8560",
         "v96f_address": null,
         "v105_address": "0x4b8560"
     },
     {
-        "name": "Frontend::sub_4B8650",
+        "name": "Frontend::FreeSound_4B8650",
         "v96f_address": null,
         "v105_address": "0x4b8650"
     },
     {
-        "name": "Frontend::sub_4B8680",
+        "name": "Frontend::InitSound_4B8680",
         "v96f_address": null,
         "v105_address": "0x4b8680"
     },
@@ -7745,7 +7745,7 @@
         "v105_address": "0x4e9770"
     },
     {
-        "name": "MapRenderer::sub_4E9D50",
+        "name": "MapRenderer::SetAmbientLevel_4E9D50",
         "v96f_address": null,
         "v105_address": "0x4e9d50"
     },
@@ -7780,12 +7780,12 @@
         "v105_address": "0x4ead90"
     },
     {
-        "name": "MapRenderer::sub_4EAE00",
+        "name": "MapRenderer::ProjectVertTop_4EAE00",
         "v96f_address": null,
         "v105_address": "0x4eae00"
     },
     {
-        "name": "MapRenderer::sub_4EAEA0",
+        "name": "MapRenderer::ProjectVertBottom_4EAEA0",
         "v96f_address": "0x46BDF0",
         "v105_address": "0x4eaea0"
     },
@@ -7795,7 +7795,7 @@
         "v105_address": "0x4eaf40"
     },
     {
-        "name": "sub_4EB940",
+        "name": "ProjectVert_4EB940",
         "v96f_address": null,
         "v105_address": "0x4eb940"
     },
@@ -7805,22 +7805,22 @@
         "v105_address": "0x4eba60"
     },
     {
-        "name": "MapRenderer::sub_4EC450",
+        "name": "MapRenderer::DrawDiagonalUpLeftFace_4EC450",
         "v96f_address": null,
         "v105_address": "0x4ec450"
     },
     {
-        "name": "MapRenderer::sub_4EC7A0",
+        "name": "MapRenderer::DrawDiagonalUpRightFace_4EC7A0",
         "v96f_address": null,
         "v105_address": "0x4ec7a0"
     },
     {
-        "name": "MapRenderer::sub_4ECAF0",
+        "name": "MapRenderer::DrawDiagonalDownLeftFace_4ECAF0",
         "v96f_address": null,
         "v105_address": "0x4ecaf0"
     },
     {
-        "name": "MapRenderer::sub_4ECE40",
+        "name": "MapRenderer::DrawDiagonalDownRightFace_4ECE40",
         "v96f_address": null,
         "v105_address": "0x4ece40"
     },
@@ -7925,17 +7925,17 @@
         "v105_address": "0x4f4190"
     },
     {
-        "name": "MapRenderer::sub_4F4250",
+        "name": "MapRenderer::draw_right_4F4250",
         "v96f_address": null,
         "v105_address": "0x4f4250"
     },
     {
-        "name": "MapRenderer::sub_4F4600",
+        "name": "MapRenderer::draw_top_4F4600",
         "v96f_address": null,
         "v105_address": "0x4f4600"
     },
     {
-        "name": "MapRenderer::sub_4F49B0",
+        "name": "MapRenderer::draw_bottom_4F49B0",
         "v96f_address": null,
         "v105_address": "0x4f49b0"
     },
@@ -15265,7 +15265,7 @@
         "v105_address": "0x5aa950"
     },
     {
-        "name": "gtx_0x106C::sub_5AA9A0",
+        "name": "gtx_0x106C::BuildCarInfoContainer_5AA9A0",
         "v96f_address": null,
         "v105_address": "0x5aa9a0"
     },
@@ -15275,7 +15275,7 @@
         "v105_address": "0x5aab30"
     },
     {
-        "name": "gtx_0x106C::sub_5AABF0",
+        "name": "gtx_0x106C::SetDeltaDataPtrs_5AABF0",
         "v96f_address": null,
         "v105_address": "0x5aabf0"
     },
@@ -15345,7 +15345,7 @@
         "v105_address": "0x5aaf80"
     },
     {
-        "name": "gtx_0x106C::sub_5AAFE0",
+        "name": "gtx_0x106C::InitFontTypes_5AAFE0",
         "v96f_address": null,
         "v105_address": "0x5aafe0"
     },
@@ -15400,7 +15400,7 @@
         "v105_address": "0x5ab4b0"
     },
     {
-        "name": "gtx_0x106C::sub_5AB720",
+        "name": "gtx_0x106C::SetDataPtrs_5AB720",
         "v96f_address": null,
         "v105_address": "0x5ab720"
     },
@@ -15430,17 +15430,17 @@
         "v105_address": "0x5aba40"
     },
     {
-        "name": "sprite_index::sub_5ABAA0",
+        "name": "sprite_index::ClearPixelsOfColour_5ABAA0",
         "v96f_address": null,
         "v105_address": "0x5abaa0"
     },
     {
-        "name": "sub_5ABAE0",
+        "name": "ClearPixelsOfColourInRow_5ABAE0",
         "v96f_address": null,
         "v105_address": "0x5abae0"
     },
     {
-        "name": "sprite_index::sub_5ABB00",
+        "name": "sprite_index::CopyPixels_5ABB00",
         "v96f_address": null,
         "v105_address": "0x5abb00"
     },
@@ -15470,17 +15470,17 @@
         "v105_address": "0x5b2750"
     },
     {
-        "name": "text_0x14::sub_5B58D0",
+        "name": "text_0x14::RemapExtendedChar_5B58D0",
         "v96f_address": null,
         "v105_address": "0x5b58d0"
     },
     {
-        "name": "text_0x14::sub_5B5910",
+        "name": "text_0x14::RemapExtendedCharsIfNotJapanese_5B5910",
         "v96f_address": null,
         "v105_address": "0x5b5910"
     },
     {
-        "name": "text_0x14::sub_5B5930",
+        "name": "text_0x14::RemapExtendedChars_5B5930",
         "v96f_address": null,
         "v105_address": "0x5b5930"
     },
@@ -15515,12 +15515,12 @@
         "v105_address": "0x5b5a80"
     },
     {
-        "name": "text_0x14::sub_5B5AD0",
+        "name": "text_0x14::ToUpper_5B5AD0",
         "v96f_address": null,
         "v105_address": "0x5b5ad0"
     },
     {
-        "name": "text_0x14::sub_5B5B80",
+        "name": "text_0x14::StrToUpper_5B5B80",
         "v96f_address": null,
         "v105_address": "0x5b5b80"
     },
@@ -15555,7 +15555,7 @@
         "v105_address": "0x5b5f90"
     },
     {
-        "name": "text_0x14::TKeyExists_5B5FA0",
+        "name": "text_0x14::KeyExists_5B5FA0",
         "v96f_address": null,
         "v105_address": "0x5b5fa0"
     },
@@ -15580,7 +15580,7 @@
         "v105_address": "0x5b8f00"
     },
     {
-        "name": "festive_hopper::sub_5B8F70",
+        "name": "festive_hopper::LoadRemappedTextures_5B8F70",
         "v96f_address": null,
         "v105_address": "0x5b8f70"
     },
@@ -15595,7 +15595,7 @@
         "v105_address": "0x5b90a0"
     },
     {
-        "name": "festive_hopper::sub_5B90D0",
+        "name": "festive_hopper::GetRemappedTexture_5B90D0",
         "v96f_address": null,
         "v105_address": "0x5b90d0"
     },
@@ -15625,7 +15625,7 @@
         "v105_address": "0x5b92e0"
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B9350",
+        "name": "sharp_pare_0x15D8::LoadStyleTextures_5B9350",
         "v96f_address": null,
         "v105_address": "0x5b9350"
     },
@@ -15640,7 +15640,7 @@
         "v105_address": "0x5b95d0"
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B95F0",
+        "name": "sharp_pare_0x15D8::GetDigitTexture_5B95F0",
         "v96f_address": null,
         "v105_address": "0x5b95f0"
     },
@@ -15650,12 +15650,12 @@
         "v105_address": "0x5b9660"
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B96B0",
+        "name": "sharp_pare_0x15D8::SetTexture2SizeAndPalette_5B96B0",
         "v96f_address": null,
         "v105_address": "0x5b96b0"
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B9710",
+        "name": "sharp_pare_0x15D8::SetSharedTextureData_5B9710",
         "v96f_address": null,
         "v105_address": "0x5b9710"
     },
@@ -15945,17 +15945,17 @@
         "v105_address": "0x5cc480"
     },
     {
-        "name": "Garox_4::sub_5CF620",
+        "name": "Garox_4::ShowNextNumberedBrief_5CF620",
         "v96f_address": null,
         "v105_address": "0x5cf620"
     },
     {
-        "name": "Garox_4::sub_5CF6B0",
+        "name": "Garox_4::ShowPrevNumberedBrief_5CF6B0",
         "v96f_address": null,
         "v105_address": "0x5cf6b0"
     },
     {
-        "name": "Garox_110C_sub::sub_5CF730",
+        "name": "Garox_110C_sub::Update_5CF730",
         "v96f_address": null,
         "v105_address": "0x5cf730"
     },
@@ -15975,7 +15975,7 @@
         "v105_address": "0x5cfa70"
     },
     {
-        "name": "Garox_107C_sub::sub_5CFE20",
+        "name": "Garox_107C_sub::Empty_5CFE20",
         "v96f_address": null,
         "v105_address": "0x5cfe20"
     },
@@ -16005,7 +16005,7 @@
         "v105_address": "0x5d0110"
     },
     {
-        "name": "Hud_CopHead_C_Array::sub_5D0210",
+        "name": "Hud_CopHead_C_Array::Init_5D0210",
         "v96f_address": null,
         "v105_address": "0x5d0210"
     },
@@ -16035,12 +16035,12 @@
         "v105_address": "0x5d0530"
     },
     {
-        "name": "Hud_Arrow_7C::sub_5D0620",
+        "name": "Hud_Arrow_7C::UpdateTargets_5D0620",
         "v96f_address": "0x4C7E60",
         "v105_address": "0x5d0620"
     },
     {
-        "name": "Hud_Arrow_7C::sub_5D0850",
+        "name": "Hud_Arrow_7C::UpdateScreenPos_5D0850",
         "v96f_address": null,
         "v105_address": "0x5d0850"
     },
@@ -16070,7 +16070,7 @@
         "v105_address": "0x5d0e90"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D0EF0",
+        "name": "Hud_Arrow_7C_Array::FindVisibleGangArrow_5D0EF0",
         "v96f_address": null,
         "v105_address": "0x5d0ef0"
     },
@@ -16080,7 +16080,7 @@
         "v105_address": "0x5d0f40"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D0F80",
+        "name": "Hud_Arrow_7C_Array::ClearOrphanInfoPhoneArrows_5D0F80",
         "v96f_address": null,
         "v105_address": "0x5d0f80"
     },
@@ -16090,7 +16090,7 @@
         "v105_address": "0x5d0fd0"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D1020",
+        "name": "Hud_Arrow_7C_Array::FindFreeArrow_5D1020",
         "v96f_address": null,
         "v105_address": "0x5d1020"
     },
@@ -16100,12 +16100,12 @@
         "v105_address": "0x5d1050"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D10B0",
+        "name": "Hud_Arrow_7C_Array::ReleaseAllArrows_5D10B0",
         "v96f_address": null,
         "v105_address": "0x5d10b0"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D10D0",
+        "name": "Hud_Arrow_7C_Array::FindGangPhoneArrow_5D10D0",
         "v96f_address": null,
         "v105_address": "0x5d10d0"
     },
@@ -16125,7 +16125,7 @@
         "v105_address": "0x5d12b0"
     },
     {
-        "name": "sub_5D12E0",
+        "name": "GetMinRespectForPhoneType_5D12E0",
         "v96f_address": null,
         "v105_address": "0x5d12e0"
     },
@@ -16135,7 +16135,7 @@
         "v105_address": "0x5d1310"
     },
     {
-        "name": "Hud_Arrow_7C::sub_5D1350",
+        "name": "Hud_Arrow_7C::CreatePlayerArrows_5D1350",
         "v96f_address": null,
         "v105_address": "0x5d1350"
     },
@@ -16150,12 +16150,12 @@
         "v105_address": "0x5d1430"
     },
     {
-        "name": "Garox_12EC_sub::sub_5D15A0",
+        "name": "Garox_12EC_sub::IsQuitMessageKey_5D15A0",
         "v96f_address": null,
         "v105_address": "0x5d15a0"
     },
     {
-        "name": "Garox_12EC_sub::sub_5D15D0",
+        "name": "Garox_12EC_sub::ShowQuitMessage_5D15D0",
         "v96f_address": null,
         "v105_address": "0x5d15d0"
     },
@@ -16170,7 +16170,7 @@
         "v105_address": "0x5d16b0"
     },
     {
-        "name": "Garox_2A25_sub::sub_5D17D0",
+        "name": "Garox_2A25_sub::IsChatInputKey_5D17D0",
         "v96f_address": null,
         "v105_address": "0x5d17d0"
     },
@@ -16185,7 +16185,7 @@
         "v105_address": "0x5d1850"
     },
     {
-        "name": "Garox_1C8::sub_5D1860",
+        "name": "Garox_1C8::FormatMessage_5D1860",
         "v96f_address": null,
         "v105_address": "0x5d1860"
     },
@@ -16200,7 +16200,7 @@
         "v105_address": "0x5d1a00"
     },
     {
-        "name": "Garox_1C8::sub_5D1AB0",
+        "name": "Garox_1C8::DecrementTimeToShow_5D1AB0",
         "v96f_address": null,
         "v105_address": "0x5d1ab0"
     },
@@ -16215,12 +16215,12 @@
         "v105_address": "0x5d1b10"
     },
     {
-        "name": "Hud_Pager_C4::sub_5D1D00",
+        "name": "Hud_Pager_C4::Draw_5D1D00",
         "v96f_address": null,
         "v105_address": "0x5d1d00"
     },
     {
-        "name": "Hud_Pager_C4::sub_5D1DB0",
+        "name": "Hud_Pager_C4::DecrementDisplayTime_5D1DB0",
         "v96f_address": null,
         "v105_address": "0x5d1db0"
     },
@@ -16230,7 +16230,7 @@
         "v105_address": "0x5d1e10"
     },
     {
-        "name": "Garox_1700_L::sub_5D1EB0",
+        "name": "Garox_1700_L::ExpireDuplicates_5D1EB0",
         "v96f_address": null,
         "v105_address": "0x5d1eb0"
     },
@@ -16245,7 +16245,7 @@
         "v105_address": "0x5d2010"
     },
     {
-        "name": "Garox_1700_L::sub_5D2050",
+        "name": "Garox_1700_L::RemoveExpired_5D2050",
         "v96f_address": null,
         "v105_address": "0x5d2050"
     },
@@ -16260,7 +16260,7 @@
         "v105_address": "0x5d2320"
     },
     {
-        "name": "Hud_Pager_C::sub_5D2380",
+        "name": "Hud_Pager_C::DrawCounterDigits_5D2380",
         "v96f_address": null,
         "v105_address": "0x5d2380"
     },
@@ -16315,32 +16315,32 @@
         "v105_address": "0x5d3310"
     },
     {
-        "name": "Hud_Brief_704::sub_5D3330",
+        "name": "Hud_Brief_704::MovePrevBriefToCurrent_5D3330",
         "v96f_address": null,
         "v105_address": "0x5d3330"
     },
     {
-        "name": "Hud_Brief_704::sub_5D3350",
+        "name": "Hud_Brief_704::FreeCurrentBrief_5D3350",
         "v96f_address": null,
         "v105_address": "0x5d3350"
     },
     {
-        "name": "Hud_Brief_704::sub_5D3370",
+        "name": "Hud_Brief_704::MoveCurrentBriefToPrev_5D3370",
         "v96f_address": null,
         "v105_address": "0x5d3370"
     },
     {
-        "name": "Hud_Brief_704::sub_5D33A0",
+        "name": "Hud_Brief_704::AppendCurrentBriefToPrev_5D33A0",
         "v96f_address": "0x4C6340",
         "v105_address": "0x5d33a0"
     },
     {
-        "name": "Hud_Brief_704::sub_5D33F0",
+        "name": "Hud_Brief_704::AllocBrief_5D33F0",
         "v96f_address": "0x4C6380",
         "v105_address": "0x5d33f0"
     },
     {
-        "name": "Hud_Brief_704::sub_5D3470",
+        "name": "Hud_Brief_704::FormatCurrentBrief_5D3470",
         "v96f_address": null,
         "v105_address": "0x5d3470"
     },
@@ -16350,7 +16350,7 @@
         "v105_address": "0x5d3680"
     },
     {
-        "name": "Hud_Brief_704::sub_5D39D0",
+        "name": "Hud_Brief_704::StartCurrentBrief_5D39D0",
         "v96f_address": null,
         "v105_address": "0x5d39d0"
     },
@@ -16370,7 +16370,7 @@
         "v105_address": "0x5d4400"
     },
     {
-        "name": "Hud_Brief_704::sub_5D44D0",
+        "name": "Hud_Brief_704::UpdateBrief_5D44D0",
         "v96f_address": null,
         "v105_address": "0x5d44d0"
     },
@@ -16390,22 +16390,22 @@
         "v105_address": "0x5d4930"
     },
     {
-        "name": "Hud_2B00::sub_5D4A10",
+        "name": "Hud_2B00::DrawCarName_5D4A10",
         "v96f_address": null,
         "v105_address": "0x5d4a10"
     },
     {
-        "name": "Hud_2B00::sub_5D5190",
+        "name": "Hud_2B00::CalcCarNameXPosOffset_5D5190",
         "v96f_address": null,
         "v105_address": "0x5d5190"
     },
     {
-        "name": "Hud_2B00::sub_5D5240",
+        "name": "Hud_2B00::ShowCarName_5D5240",
         "v96f_address": null,
         "v105_address": "0x5d5240"
     },
     {
-        "name": "Hud_2B00::sub_5D5350",
+        "name": "Hud_2B00::UpdateCarName_5D5350",
         "v96f_address": null,
         "v105_address": "0x5d5350"
     },
@@ -16415,22 +16415,22 @@
         "v105_address": "0x5d53b0"
     },
     {
-        "name": "Garox_1::sub_5D53E0",
+        "name": "Garox_1::CalcTextWidth_5D53E0",
         "v96f_address": null,
         "v105_address": "0x5d53e0"
     },
     {
-        "name": "Garox_1::sub_5D5420",
+        "name": "Garox_1::Draw_5D5420",
         "v96f_address": null,
         "v105_address": "0x5d5420"
     },
     {
-        "name": "Garox_1::sub_5D5600",
+        "name": "Garox_1::ShowPickupText_5D5600",
         "v96f_address": null,
         "v105_address": "0x5d5600"
     },
     {
-        "name": "Garox_1::sub_5D5690",
+        "name": "Garox_1::DecrementTimer_5D5690",
         "v96f_address": null,
         "v105_address": "0x5d5690"
     },
@@ -16440,22 +16440,22 @@
         "v105_address": "0x5d56a0"
     },
     {
-        "name": "Garox_1_v2::sub_5D56B0",
+        "name": "Garox_1_v2::CalcTextWidth_5D56B0",
         "v96f_address": null,
         "v105_address": "0x5d56b0"
     },
     {
-        "name": "Garox_1_v2::sub_5D56D0",
+        "name": "Garox_1_v2::Draw_5D56D0",
         "v96f_address": null,
         "v105_address": "0x5d56d0"
     },
     {
-        "name": "Garox_1_v2::sub_5D5730",
+        "name": "Garox_1_v2::ShowText_5D5730",
         "v96f_address": null,
         "v105_address": "0x5d5730"
     },
     {
-        "name": "Garox_1_v2::sub_5D5760",
+        "name": "Garox_1_v2::DecrementTimer_5D5760",
         "v96f_address": null,
         "v105_address": "0x5d5760"
     },
@@ -16480,17 +16480,17 @@
         "v105_address": "0x5d5ad0"
     },
     {
-        "name": "Hud_MapZone_98::sub_5D5AF0",
+        "name": "Hud_MapZone_98::ShowZoneName_5D5AF0",
         "v96f_address": null,
         "v105_address": "0x5d5af0"
     },
     {
-        "name": "Hud_MapZone_98::sub_5D5B60",
+        "name": "Hud_MapZone_98::UpdateZoneName_5D5B60",
         "v96f_address": null,
         "v105_address": "0x5d5b60"
     },
     {
-        "name": "Hud_MapZone_98::sub_5D5C50",
+        "name": "Hud_MapZone_98::ResetTransparency_5D5C50",
         "v96f_address": null,
         "v105_address": "0x5d5c50"
     },
@@ -16505,7 +16505,7 @@
         "v105_address": "0x5d5c80"
     },
     {
-        "name": "sub_5D6060",
+        "name": "DrawAmmo_5D6060",
         "v96f_address": null,
         "v105_address": "0x5d6060"
     },
@@ -16530,7 +16530,7 @@
         "v105_address": "0x5d6860"
     },
     {
-        "name": "Hud_2B00::sub_5D69C0",
+        "name": "Hud_2B00::UpdatePauseSection_5D69C0",
         "v96f_address": null,
         "v105_address": "0x5d69c0"
     },
@@ -16540,7 +16540,7 @@
         "v105_address": "0x5d69d0"
     },
     {
-        "name": "Hud_2B00::sub_5D6A70",
+        "name": "Hud_2B00::SetFullAmbient_5D6A70",
         "v96f_address": null,
         "v105_address": "0x5d6a70"
     },
@@ -16550,17 +16550,17 @@
         "v105_address": "0x5d6a90"
     },
     {
-        "name": "Hud_2B00::sub_5D6AB0",
+        "name": "Hud_2B00::RecalcTextLayout_5D6AB0",
         "v96f_address": null,
         "v105_address": "0x5d6ab0"
     },
     {
-        "name": "Hud_2B00::sub_5D6B00",
+        "name": "Hud_2B00::SetFontTypes_5D6B00",
         "v96f_address": null,
         "v105_address": "0x5d6b00"
     },
     {
-        "name": "Hud_2B00::sub_5D6BE0",
+        "name": "Hud_2B00::Init_5D6BE0",
         "v96f_address": null,
         "v105_address": "0x5d6be0"
     },
@@ -16570,12 +16570,12 @@
         "v105_address": "0x5d6c20"
     },
     {
-        "name": "Hud_2B00::sub_5D6C70",
+        "name": "Hud_2B00::IsInputKeyConsumed_5D6C70",
         "v96f_address": null,
         "v105_address": "0x5d6c70"
     },
     {
-        "name": "Hud_2B00::sub_5D6CB0",
+        "name": "Hud_2B00::IsQuitMessageInputKey_5D6CB0",
         "v96f_address": null,
         "v105_address": "0x5d6cb0"
     },
@@ -16615,7 +16615,7 @@
         "v105_address": "0x5d7720"
     },
     {
-        "name": "sub_5D77A0",
+        "name": "DrawTextScaled_5D77A0",
         "v96f_address": null,
         "v105_address": "0x5d77a0"
     },
@@ -16640,12 +16640,12 @@
         "v105_address": "0x5d7ca0"
     },
     {
-        "name": "sub_5D7CB0",
+        "name": "ConvertColourBanks_5D7CB0",
         "v96f_address": "0x4CAEB0",
         "v105_address": "0x5d7cb0"
     },
     {
-        "name": "sub_5D7D30",
+        "name": "MakeScreenTableAndSetWindow_5D7D30",
         "v96f_address": null,
         "v105_address": "0x5d7d30"
     },
@@ -16670,7 +16670,7 @@
         "v105_address": "0x5d83e0"
     },
     {
-        "name": "sub_5D8470",
+        "name": "DrawTexture_5D8470",
         "v96f_address": null,
         "v105_address": "0x5d8470"
     },
@@ -17095,7 +17095,7 @@
         "v105_address": "0x5e4ee0"
     },
     {
-        "name": "Frontend::sub_5E53C0",
+        "name": "Frontend::SetInputEnabled_5E53C0",
         "v96f_address": null,
         "v105_address": "0x5e53c0"
     },

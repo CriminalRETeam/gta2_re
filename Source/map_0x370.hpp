@@ -463,7 +463,7 @@ class Map_0x370
     inline bool sub_4B9F40(s32 x, s32 y, s32 z)
     {
         gmp_block_info* pBlock = get_block_4DFE10(x, y, z);
-        return pBlock && gGtx_0x106C_703DD4->sub_49E540(pBlock->field_8_lid & 0x3FF);
+        return pBlock && gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->field_8_lid & 0x3FF);
     }
 
     // 9.6f inline 0x4634E0

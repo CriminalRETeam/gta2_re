@@ -32,7 +32,7 @@ void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
         pNewFugitive = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     }
     field_0_fugitive = pNewFugitive;
-    gHud_2B00_706620->field_1F18.sub_5D10B0();
+    gHud_2B00_706620->field_1F18_arrows.ReleaseAllArrows_5D10B0();
     field_0_fugitive->UnloadCarWeapons_564C00();
     field_0_fugitive->RemovePlayerWeapons_564C50();
     field_0_fugitive->ClearPowerUps_564CC0();
@@ -46,8 +46,8 @@ void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
 
     if (!field_0_fugitive->IsUser_41DC70())
     {
-        Hud_Arrow_7C* pArrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
-        pArrow->field_18.field_18_primary_target.sub_4820A0(field_0_fugitive);
+        Hud_Arrow_7C* pArrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
+        pArrow->field_18.field_18_primary_target.SetTargetPlayer_4820A0(field_0_fugitive);
 
         //  the problem is here
         Player* pPlayer = field_0_fugitive;
@@ -58,7 +58,7 @@ void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
     }
     else
     {
-        gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("yourit"), 3);
+        gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("yourit"), 3);
     }
 }
 

@@ -941,7 +941,7 @@ class Car_BC
 
     inline bool sub_4216E0()
     {
-        car_info* pCarInfo = gGtx_0x106C_703DD4->sub_4BF1F0(field_84_car_info_idx);
+        car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_4BF1F0(field_84_car_info_idx);
         return pCarInfo->is_0x1_41FF00();
     }
 

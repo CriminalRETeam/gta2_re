@@ -115,7 +115,7 @@ char_type Bink::TickFrame_513240()
     if (gBufferMode_706B34 == 2)
     {
         // Hardware-accelerated path: blit decoded frame into the locked surface directly.
-        sub_5D7D30();
+        MakeScreenTableAndSetWindow_5D7D30();
         BinkCopyToBuffer(hbink,
                          gVidSys_7071D0->field_50_surface_pixels_ptr,
                          gVidSys_7071D0->field_54_surface_pixels_pitch,

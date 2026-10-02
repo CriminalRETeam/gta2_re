@@ -1398,7 +1398,7 @@ void Phi_8CA8::sub_5342F0(s32 idx)
     Phi_74* v2 = GetObjectDefinition_534360(idx);
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(4, v2->field_1E_sprite_palette);
     sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-    psprite_index->sub_5ABAA0(1);
+    psprite_index->ClearPixelsOfColour_5ABAA0(1);
 }
 
 MATCH_FUNC(0x534330)

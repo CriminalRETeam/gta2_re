@@ -590,7 +590,7 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
                         Trailer* pTrailer = pCar->field_64_pTrailer;
                         if (!pTrailer || pTrailer->field_C_pCarOnTrailer == 0 || !pTrailer->field_C_pCarOnTrailer->Is_TRUKTRNS_447EC0())
                         {
-                            gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "nespray");
+                            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "nespray");
                             field_28_strct4.AddSprite_5A6CD0(pCar->field_50_car_sprite);
                             field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite);
                         }

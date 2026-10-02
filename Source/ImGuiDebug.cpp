@@ -58,7 +58,7 @@ EXTERN_GLOBAL(car_rng_list, gBadCarModels_676988);
 EXTERN_GLOBAL(car_rng_list, gGoodCarModels_677384);
 
 EXTERN_GLOBAL(u8, byte_6FEB48);
-EXTERN_GLOBAL(Fix16_Point, stru_6F6484);
+EXTERN_GLOBAL(Fix16_Point, kZeroOnePoint_6F6484);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -661,14 +661,14 @@ static Camera_0xBC* GetPlayerCam()
     return NULL;
 }
 
-EXTERN_GLOBAL(Fix16, dword_7064C4);
-EXTERN_GLOBAL(Fix16, dword_7064E8);
+EXTERN_GLOBAL(Fix16, kFpOne_7064C4);
+EXTERN_GLOBAL(Fix16, kFpEight_7064E8);
 EXTERN_GLOBAL(s16, word_706600);
 
 static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& screen_x, Fix16& screen_y, Camera_0xBC* pCam)
 {
-    Fix16 zCalc = (dword_7064C4) /
-        (dword_7064E8 + (pCam->field_98_cam_pos2.field_8_z - zpos)); // dword_7064C4 ??
+    Fix16 zCalc = (kFpOne_7064C4) /
+        (kFpEight_7064E8 + (pCam->field_98_cam_pos2.field_8_z - zpos)); // kFpOne_7064C4 ??
 
     Fix16 xTmp = pCam->field_60.x * (xpos - pCam->field_98_cam_pos2.field_0_x);
     screen_x = ((zCalc * xTmp)) + Fix16(320);
@@ -697,9 +697,9 @@ static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, 
                 s16 screen_xpos = screen_xpos_f16.ToInt() + x_offset;
                 s16 screen_ypos = screen_ypos_f16.ToInt() + y_offset;
 
-                if (gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
+                if (gHud_2B00_706620->field_650_texts.field_964_pFreeList) // avoid annoying crash when pausing the game
                 {
-                    gHud_2B00_706620->field_650.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+                    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
                 }
             }
         }
@@ -715,9 +715,9 @@ static void DisplayTextAtSprite(char* pStr, Sprite* pSprt, s16 x_offset, s16 y_o
 // Draw Text at fixed position in screen (like OG debug stuff)
 static void DisplayWideTextAtScreenCoords(wchar_t* pStr, s16 screen_xpos, s16 screen_ypos)
 {
-    if (gHud_2B00_706620 && gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
+    if (gHud_2B00_706620 && gHud_2B00_706620->field_650_texts.field_964_pFreeList) // avoid annoying crash when pausing the game
     {
-        gHud_2B00_706620->field_650.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
     }
 }
 
@@ -743,9 +743,9 @@ static void DisplayWideTextAtXYZ(wchar_t* pStr, Fix16 xpos, Fix16 ypos, Fix16 zp
                 s16 screen_xpos = screen_xpos_f16.ToInt();
                 s16 screen_ypos = screen_ypos_f16.ToInt();
 
-                if (gHud_2B00_706620->field_650.field_964) // avoid annoying crash when pausing the game
+                if (gHud_2B00_706620->field_650_texts.field_964_pFreeList) // avoid annoying crash when pausing the game
                 {
-                    gHud_2B00_706620->field_650.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
+                    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, word_706600, 1);
                 }
             }
         }
@@ -885,7 +885,7 @@ bool PointArrowToEntity(Ped* pPed, Car_BC* pCar, Object_2C* pObj)
     {
         if (!gpArrow)
         {
-            gpArrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
+            gpArrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
         }
         if (gpArrow)
         {
@@ -1094,7 +1094,7 @@ void BootMap(char* mapName, char* styName, char* scrName)
             EnableBoot2MapDebugOptions();
         }
 
-        gFrontend_67DC84->field_EE08 = RedBar_16;
+        gFrontend_67DC84->field_EE08_menu_screen = RedBar_16;
         gFrontend_67DC84->field_110_state = FrontendState::Booting_Map_2;
     }
 }
@@ -1437,44 +1437,44 @@ void CC ImGuiDebugDraw()
                 if (ImGui::TreeNode("Colours"))
                 {
                     ImGui::Value("field C", gpMapRenderer_6F66E4->field_C_colour_t1);
-                    ImGui::Value("field D", gpMapRenderer_6F66E4->field_D);
+                    ImGui::Value("field D", gpMapRenderer_6F66E4->field_D_right_colour);
                     ImGui::Value("field E", gpMapRenderer_6F66E4->field_E_colour_t2);
                     ImGui::Value("field F", gpMapRenderer_6F66E4->field_F_colour_t3);
-                    ImGui::Value("field 10", gpMapRenderer_6F66E4->field_10);
-                    ImGui::Value("field 11", gpMapRenderer_6F66E4->field_11);
-                    ImGui::Value("field 12", gpMapRenderer_6F66E4->field_12);
-                    ImGui::Value("field 13", gpMapRenderer_6F66E4->field_13);
+                    ImGui::Value("field 10", gpMapRenderer_6F66E4->field_10_diag_up_left_colour);
+                    ImGui::Value("field 11", gpMapRenderer_6F66E4->field_11_diag_up_right_colour);
+                    ImGui::Value("field 12", gpMapRenderer_6F66E4->field_12_diag_down_left_colour);
+                    ImGui::Value("field 13", gpMapRenderer_6F66E4->field_13_diag_down_right_colour);
                     ImGui::Value("field 14", gpMapRenderer_6F66E4->field_14_dcolour);
-                    ImGui::Value("field 15", gpMapRenderer_6F66E4->field_15);
-                    ImGui::Value("field 16", gpMapRenderer_6F66E4->field_16);
-                    ImGui::Value("field 17", gpMapRenderer_6F66E4->field_17);
+                    ImGui::Value("field 15", gpMapRenderer_6F66E4->field_15_slope_south_colour);
+                    ImGui::Value("field 16", gpMapRenderer_6F66E4->field_16_slope_west_colour);
+                    ImGui::Value("field 17", gpMapRenderer_6F66E4->field_17_slope_east_colour);
                     ImGui::Value("field 18", gpMapRenderer_6F66E4->field_18_color);
-                    ImGui::Value("field 19", gpMapRenderer_6F66E4->field_19);
-                    ImGui::Value("field 1A", gpMapRenderer_6F66E4->field_1A);
-                    ImGui::Value("field 1B", gpMapRenderer_6F66E4->field_1B);
+                    ImGui::Value("field 19", gpMapRenderer_6F66E4->field_19_tri_diag_up_right_colour);
+                    ImGui::Value("field 1A", gpMapRenderer_6F66E4->field_1A_tri_diag_down_left_colour);
+                    ImGui::Value("field 1B", gpMapRenderer_6F66E4->field_1B_tri_diag_down_right_colour);
                     ImGui::TreePop();
                 }
                 if (ImGui::TreeNode("Globals"))
                 {
-                    ImGui::SliderInt("stru_6F6484.x", &stru_6F6484.x.mValue, 0, 32768);
-                    ImGui::SliderInt("stru_6F6484.y", &stru_6F6484.y.mValue, 16, 32768);
+                    ImGui::SliderInt("kZeroOnePoint_6F6484.x", &kZeroOnePoint_6F6484.x.mValue, 0, 32768);
+                    ImGui::SliderInt("kZeroOnePoint_6F6484.y", &kZeroOnePoint_6F6484.y.mValue, 16, 32768);
 
                     if (ImGui::Button("Return to default values"))
                     {
-                        stru_6F6484.x = Fix16(0);
-                        stru_6F6484.y = Fix16(1);
+                        kZeroOnePoint_6F6484.x = Fix16(0);
+                        kZeroOnePoint_6F6484.y = Fix16(1);
                     }
 
                     if (ImGui::Button("Test 1,1"))
                     {
-                        stru_6F6484.x = Fix16(1);
-                        stru_6F6484.y = Fix16(1);
+                        kZeroOnePoint_6F6484.x = Fix16(1);
+                        kZeroOnePoint_6F6484.y = Fix16(1);
                     }
 
                     if (ImGui::Button("Test 0,2"))
                     {
-                        stru_6F6484.x = Fix16(0);
-                        stru_6F6484.y = Fix16(2);
+                        kZeroOnePoint_6F6484.x = Fix16(0);
+                        kZeroOnePoint_6F6484.y = Fix16(2);
                     }
                     ImGui::TreePop();
                 }
@@ -2317,8 +2317,8 @@ void CC ImGuiDebugDraw()
                 if (ImGui::TreeNode("Arrows"))
                 {
                     static s32 arrow_idx = 0;
-                    ImGui::SliderInt("Arrow idx", &arrow_idx, 0, GTA2_COUNTOF(gHud_2B00_706620->field_1F18.field_0_array) - 1);
-                    Hud_Arrow_7C* pArrow = &gHud_2B00_706620->field_1F18.field_0_array[arrow_idx];
+                    ImGui::SliderInt("Arrow idx", &arrow_idx, 0, GTA2_COUNTOF(gHud_2B00_706620->field_1F18_arrows.field_0_array) - 1);
+                    Hud_Arrow_7C* pArrow = &gHud_2B00_706620->field_1F18_arrows.field_0_array[arrow_idx];
 
                     if (pArrow)
                     {
@@ -2327,7 +2327,7 @@ void CC ImGuiDebugDraw()
                         Garox_20_Sub* g20 = &pArrow->field_18;
                         Garox_30_Sub* g30 = &g20->field_10;
                         ImGui::Input_char_type("Garox_30_Sub f5", &g30->field_5_is_visible, 1, 1);
-                        ImGui::Input_char_type("Garox_30_Sub f6", &g30->field_6, 1, 1);
+                        ImGui::Input_char_type("Garox_30_Sub f6", &g30->field_6_in_use, 1, 1);
                         ImGui::Input_char_type("Garox_30_Sub f7", &g30->field_7, 1, 1);
 
                         ArrowTrace_24* pPrimaryTrace = &g20->field_18_primary_target;
@@ -2346,36 +2346,36 @@ void CC ImGuiDebugDraw()
                 {
                     if (ImGui::Button("CreateTimer_5D31F0"))
                     {
-                        gHud_2B00_706620->field_620.CreateTimer_5D31F0(40);
+                        gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(40);
                     }
 
                     static s32 v = 0;
                     ImGui::InputInt("Timer num", (s32*)&v, 1, 1);
                     if (ImGui::Button("Stop timer") && v <= 3)
                     {
-                        gHud_2B00_706620->field_620.ClearClockOnly_5D32D0(v);
+                        gHud_2B00_706620->field_620_pagers.ClearClockOnly_5D32D0(v);
                     }
 
                     if (ImGui::Button("sub_5D3280 (stop sound?)") && v <= 3)
                     {
-                        gHud_2B00_706620->field_620.ClearPager_5D3280(v);
+                        gHud_2B00_706620->field_620_pagers.ClearPager_5D3280(v);
                     }
 
                     if (ImGui::Button("sub_5D3220 (start sound?)") && v <= 3)
                     {
-                        gHud_2B00_706620->field_620.AddOnScreenCounter_5D3220(&v);
+                        gHud_2B00_706620->field_620_pagers.AddOnScreenCounter_5D3220(&v);
                     }
 
-                    if (gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4_ptr_counter)
+                    if (gHud_2B00_706620->field_620_pagers.field_0_pagers_array[1].field_4_ptr_counter)
                     {
-                        ImGui::InputInt("timer f4", gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4_ptr_counter, 1, 100);
+                        ImGui::InputInt("timer f4", gHud_2B00_706620->field_620_pagers.field_0_pagers_array[1].field_4_ptr_counter, 1, 100);
                     }
                     ImGui::TreePop();
                 }
 
                 if (ImGui::TreeNode("Hud_Brief_704"))
                 {
-                    Hud_Brief_704* pHud_Brief_704 = &gHud_2B00_706620->field_DC;
+                    Hud_Brief_704* pHud_Brief_704 = &gHud_2B00_706620->field_DC_brief;
 
                     if (pHud_Brief_704)
                     {
@@ -2419,10 +2419,10 @@ void CC ImGuiDebugDraw()
                         Garox_18* curr_brief = pHud_Brief_704->field_6F8_curr_brief;
                         if (curr_brief)
                         {
-                            ImGui::Value("curr brief f_10", curr_brief->field_10);
+                            ImGui::Value("curr brief f_10", curr_brief->field_10_was_displayed);
                             if (ImGui::TreeNode("Try field_C as text"))
                             {
-                                ImGui::Text("Text: %s", (const char*)curr_brief->field_C);
+                                ImGui::Text("Text: %s", (const char*)curr_brief->field_C_pNext);
                                 ImGui::TreePop();
                             }
                         }
@@ -2435,14 +2435,14 @@ void CC ImGuiDebugDraw()
                             ImGui::Text("Brief f_0: 0x%X", brief->field_0_brief_id_str);
                             ImGui::Value("Brief f_4", brief->field_4);
                             ImGui::Value("Brief f_8", brief->field_8_brief_priority);
-                            //ImGui::Value("Brief f_C", brief->field_C);
-                            ImGui::Value("Brief f_10", brief->field_10);
+                            //ImGui::Value("Brief f_C", brief->field_C_pNext);
+                            ImGui::Value("Brief f_10", brief->field_10_was_displayed);
 
                             if (ImGui::TreeNode("Try field_C as text"))
                             {
-                                if (brief->field_C)
+                                if (brief->field_C_pNext)
                                 {
-                                    ImGui::Text("Text: %s", (const char*)brief->field_C->field_0_brief_id_str);
+                                    ImGui::Text("Text: %s", (const char*)brief->field_C_pNext->field_0_brief_id_str);
                                 }
                                 else
                                 {
@@ -3087,7 +3087,7 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("field_0_number_of_options", loving_borg->field_0_number_of_options);
                 ImGui::Value("field_2", loving_borg->field_2_number_of_elements);
                 ImGui::Value("field_BC6_current_option_idx", loving_borg->field_BC6_current_option_idx);
-                ImGui::Value("field_BC8", loving_borg->field_BC8);
+                ImGui::Value("field_BC8", loving_borg->field_BC8_default_option_idx);
 
                 if (ImGui::TreeNode("menu_option_0x82"))
                 {
@@ -3111,7 +3111,7 @@ void CC ImGuiDebugDraw()
                     ImGui::Value("field_6E_count", nifty_maxwell->field_6E_horizontal_selected_idx);
                     ImGui::Value("field_70", nifty_maxwell->field_70);
 
-                    ImGui::Text(nifty_maxwell->field_72);
+                    ImGui::Text(nifty_maxwell->field_72_horizontal_idx_enabled);
 
                     ImGui::Value("field_7E", nifty_maxwell->field_7E_horizontal_max_idx);
                     ImGui::Value("field_80", nifty_maxwell->field_80_menu_page_target);
@@ -3172,8 +3172,8 @@ void CC ImGuiDebugDraw()
 
                 ImGui::Value("field_0", admiring_euler->field_0_save_exists);
                 ImGui::Value("field_1", admiring_euler->field_1_last_saved_stage);
-                ImGui::Value("field_2", admiring_euler->field_2);
-                ImGui::Value("field_3", admiring_euler->field_3);
+                ImGui::Value("field_2", admiring_euler->field_2_last_saved_bonus_stage_code);
+                ImGui::Value("field_3", admiring_euler->field_3_last_saved_is_bonus);
             }
             ImGui::TreePop();
         }

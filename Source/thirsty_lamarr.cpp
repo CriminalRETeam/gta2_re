@@ -171,7 +171,7 @@ s32 thirsty_lamarr::sub_492260(s32 base_xpos, s32 base_ypos)
 
             u16 unknown = field_28_sprite_h_calc * (58 - curr_char) - v9;
             curr_xpos = base_xpos + (field_27_sprite_w >> 1) - field_27_sprite_w * v8;
-            sub_495470(gSharp_pare_0x15D8_705064->sub_5B95F0(curr_idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
+            DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(curr_idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
                                                              unknown,
                                                              height),
                        curr_xpos,
@@ -186,7 +186,7 @@ s32 thirsty_lamarr::sub_492260(s32 base_xpos, s32 base_ypos)
         else
         {
             u16 v16 = field_28_sprite_h_calc * (58 - field_9_str[curr_idx]) - v9;
-            sub_495470(gSharp_pare_0x15D8_705064->sub_5B95F0(curr_idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
+            DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(curr_idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
                                                              v16,
                                                              field_28_sprite_h_calc),
                        base_xpos + ((field_27_sprite_w >> 1) - (field_27_sprite_w * v8)),

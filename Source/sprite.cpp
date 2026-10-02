@@ -186,7 +186,7 @@ s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, u16& a4, const u32& a5)
         pSprt14 = gSprite_3CC_67AF1C->sub_48F690(&bUnk);
         if (!a5)
         {
-            sprite_index_5AA440->sub_5ABB00(pSprt14->field_0);
+            sprite_index_5AA440->CopyPixels_5ABB00(pSprt14->field_0);
         }
         else
         {
@@ -751,7 +751,7 @@ void Sprite::Draw_59EFF0()
         }
         pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * (u8)field_38_zoom];
         pal = Sprite::sub_59EAA0();
-        pTexture = gSharp_pare_0x15D8_705064->sub_5B9710(pSpriteIndex->field_4_width,
+        pTexture = gSharp_pare_0x15D8_705064->SetSharedTextureData_5B9710(pSpriteIndex->field_4_width,
                                                          pSpriteIndex->field_5_height,
                                                          pSpriteIndex->field_0_pData,
                                                          pal);
@@ -815,7 +815,7 @@ void Sprite::Draw_59EFF0()
         {
             if (bRet)
             {
-                gSharp_pare_0x15D8_705064->sub_5B96B0(unkDeltaRelated,
+                gSharp_pare_0x15D8_705064->SetTexture2SizeAndPalette_5B96B0(unkDeltaRelated,
                                                       pSpriteIndex->field_4_width,
                                                       pSpriteIndex->field_5_height,
                                                       Sprite::sub_59EAA0());
@@ -883,7 +883,7 @@ void Sprite::Draw_59EFF0()
         {
             if (bRet)
             {
-                gSharp_pare_0x15D8_705064->sub_5B96B0(unkDeltaRelated,
+                gSharp_pare_0x15D8_705064->SetTexture2SizeAndPalette_5B96B0(unkDeltaRelated,
                                                       pSpriteIndex->field_4_width,
                                                       pSpriteIndex->field_5_height,
                                                       Sprite::sub_59EAA0());
