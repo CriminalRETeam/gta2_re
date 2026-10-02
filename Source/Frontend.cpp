@@ -2229,8 +2229,6 @@ void Frontend::sub_4B2F60()
     wchar_t Key_4D5F40;
     u16 v7;
     s16 v9;
-    u16 v11;
-    s16 v12;
 
     v1 = 0;
     input = 256;
@@ -2298,9 +2296,7 @@ void Frontend::sub_4B2F60()
         keybrd_0x204::RecreateIfLayoutChanged_4D5FD0();
         Key_4D5F40 = gKeybrd_0x204_6F52F4->GetKey_4D5F40(input);
         v7 = gText_0x14_704DFC->sub_5B58D0(Key_4D5F40);
-        v11 = v7;
-        v12 = field_11C;
-        if ((u16)gGtx_0x106C_703DD4->GetFontWidth_5AA760((u16*)&v12, (wchar_t*)&v11) >= 3u && v7)
+        if ((u16)GetCharWidth_4539D0(field_11C, v7) >= 3u && v7)
         {
             goto LABEL_13;
         }
