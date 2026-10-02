@@ -1458,7 +1458,7 @@ void miss2_0x11C::DeallocOrDeleteItem_505B10(u16 idx)
 
         case 9:
             pSoundCmdPointer = (SCR_DELETE_SOUND*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
-            gRoot_sound_66B038.RemoveSound_40F050(pSoundCmdPointer->field_8_maybe_xpos, pSoundCmdPointer->field_C_maybe_ypos);
+            gRoot_sound_66B038.RemoveSound_40F050(pSoundCmdPointer->field_8_xpos, pSoundCmdPointer->field_C_ypos);
             break;
 
         case 10:

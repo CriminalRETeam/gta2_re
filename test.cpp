@@ -123,13 +123,13 @@ void test_gbh_graphics()
 void test_distracted_einstein_0xC()
 {
     distracted_einstein_0xC t;
-    t.sub_5BEBF0();
+    t.AccumulateElapsed_5BEBF0();
 }
 
 void test_sharp_bose_0x54()
 {
     sharp_bose_0x54 t;
-    t.sub_5BECF0(0, 0);
+    t.UpdateFpsCounters_5BECF0(0, 0);
 }
 
 void test_wizardly_margulis()

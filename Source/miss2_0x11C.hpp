@@ -789,8 +789,8 @@ struct SCR_DO_SAVE_GAME : SCR_CMD_HEADER
 
 struct SCR_DELETE_SOUND : SCR_CMD_HEADER
 {
-    Fix16 field_8_maybe_xpos;
-    Fix16 field_C_maybe_ypos;
+    Fix16 field_8_xpos;
+    Fix16 field_C_ypos;
 };
 
 struct SCR_OPERATE_COUNTER_AND_COUNTER_2 : SCR_CMD_HEADER
