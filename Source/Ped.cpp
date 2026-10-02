@@ -8353,7 +8353,7 @@ void Ped::sub_469E50()
         field_16C_car->field_60->field_8_maybe_path_type = 4;
         field_16C_car->sub_421560(5);
         field_16C_car->field_60->field_30_ped_to_follow = field_148_objective_target_ped;
-        field_16C_car->field_A6 &= ~0x20u;
+        field_16C_car->ClearA6Bit20_421550();
         field_16C_car->field_5C_AI->field_74_unk_speed = dword_67866C;
         field_16C_car->field_60->field_20 = 1;
         if (field_16C_car->field_84_car_info_idx == car_model_enum::JEEP)
