@@ -836,11 +836,9 @@ void Wolfy_30::state_20_542340()
     }
 }
 
-WIP_FUNC(0x542790)
+MATCH_FUNC(0x542790)
 void Wolfy_30::state_18_19_20_32_33_542790()
 {
-    WIP_IMPLEMENTED;
-
     bool isOnScreen = true;
     if (this->field_1A_timer < 90u)
     {
@@ -879,7 +877,7 @@ void Wolfy_30::state_18_19_20_32_33_542790()
             case 79:
             case 89:
             {
-                Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(113, 145, 2, kAngZero_6FD5D4, 5, field_2C_ped_id);
+                Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, 5, field_2C_ped_id);
                 if (pExplosion)
                 {
                     Object_2C* pBlast = gObject_5C_6F8F84->NewUnknown_52A240(127,
