@@ -3933,10 +3933,9 @@ void miss2_0x11C::SCRCMD_GET_SCORE_50B760()
 
     if (pPtrPed->field_8_char)
     {
-        Player* pPlayer = pPtrPed->field_8_char->field_15C_player;
-        if (pPlayer)
+        if (pPtrPed->field_8_char->is_player_41B0A0())
         {
-            pPtrCounter->field_8_counter = (u16)pPlayer->field_2D4_scores.GetScore_592370();
+            pPtrCounter->field_8_counter = (u16)pPtrPed->field_8_char->field_15C_player->GetScore_421980();
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
