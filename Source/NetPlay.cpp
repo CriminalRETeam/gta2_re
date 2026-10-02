@@ -600,19 +600,17 @@ s32 NetPlay::EnumSessions_51E650()
         {
             return 0;
         }
-        if (hr != DP_OK)
+        if (hr == DP_OK)
         {
-            return -1;
-        }
-
-        hr = field_5E4_pDPlay3->EnumSessions(&desc, 0, (LPDPENUMSESSIONSCALLBACK2)NetPlay::EnumSessions_cb_51EAE0, this, DPENUMSESSIONS_STOPASYNC);
-        if (hr == DPERR_USERCANCEL)
-        {
-            return 0;
-        }
-        if (hr != DP_OK)
-        {
-            return -1;
+            hr = field_5E4_pDPlay3->EnumSessions(&desc, 0, (LPDPENUMSESSIONSCALLBACK2)NetPlay::EnumSessions_cb_51EAE0, this, DPENUMSESSIONS_RETURNSTATUS);
+            if (hr == DPERR_USERCANCEL)
+            {
+                return 0;
+            }
+            if (hr == DP_OK)
+            {
+                return field_C4_sessions.field_5C4_session_count;
+            }
         }
     }
     else
@@ -622,16 +620,12 @@ s32 NetPlay::EnumSessions_51E650()
                                              (LPDPENUMSESSIONSCALLBACK2)NetPlay::EnumSessions_cb_51EAE0,
                                              this,
                                              DPENUMSESSIONS_AVAILABLE | DPENUMSESSIONS_ASYNC);
-        if (hr < 0)
+        if (hr >= 0)
         {
-            return -1;
-        }
-        if (hr != DP_OK)
-        {
-            return -1;
+            return field_C4_sessions.field_5C4_session_count;
         }
     }
-    return field_C4_sessions.field_5C4_session_count;
+    return -1;
 }
 
 MATCH_FUNC(0x51e7a0)
