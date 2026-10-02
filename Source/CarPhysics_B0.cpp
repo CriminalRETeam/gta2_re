@@ -2314,13 +2314,15 @@ void CarPhysics_B0::ApplyForceAtPoint_55F800(Fix16_Point* a2, Fix16_Point* a3, s
 
     Fix16_Point_POD point(a2->x, a2->y);
 
-    if (bRotate == 1)
+    switch (bRotate)
     {
-        point.RotateByAngle_40F6B0(field_58_theta);
-        point = point + field_38_cp1;
+        case 1:
+            point.RotateByAngle_40F6B0(field_58_theta);
+            point += field_38_cp1;
+            break;
     }
 
-    field_48 = field_48 + *a3;
+    field_48 += *a3;
 
     Fix16 v11 = (point.y - field_30_cm1.y) * a3->x;
     Fix16 v9 = (point.x - field_30_cm1.x) * a3->y;
