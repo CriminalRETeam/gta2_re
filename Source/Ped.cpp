@@ -11716,10 +11716,9 @@ void Ped::ApplyGangRespectForKill_46F680(Ped* pPed)
     }
 }
 
-WIP_FUNC(0x46f720)
+MATCH_FUNC(0x46f720)
 void Ped::UpdateStatsForKiller_46F720()
 {
-    WIP_IMPLEMENTED;
 
     s32 ped_id; // eax
     Ped* pKillerPed; // eax
@@ -11727,8 +11726,6 @@ void Ped::UpdateStatsForKiller_46F720()
     Ped* pPlayerPed; // eax
     Ped* pPedKiller; // ecx
     PedGroup* pGroup; // ecx
-    Player* pPlayer; // edx
-    Ped* pPlayerPed_; // eax
 
     ped_id = this->field_204_killer_id;
     this->field_1A8_ped_killer = 0;
@@ -11815,13 +11812,12 @@ void Ped::UpdateStatsForKiller_46F720()
                     pGroup = this->field_1A8_ped_killer->field_164_ped_group;
                     if (pGroup)
                     {
-                        pPlayer = gGame_0x40_67E008->field_38_orf1;
-                        pPlayerPed_ = pPlayer->field_2C4_player_ped;
-                        if (pPlayerPed_)
+                        Ped* pLocalPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+                        if (pLocalPed)
                         {
-                            if (pGroup == pPlayerPed_->field_164_ped_group)
+                            if (pGroup == pLocalPed->field_164_ped_group)
                             {
-                                ApplyGangRespectForKill_46F680(pPlayer->field_2C4_player_ped);
+                                ApplyGangRespectForKill_46F680(pLocalPed);
                             }
                         }
                     }
@@ -11833,10 +11829,8 @@ void Ped::UpdateStatsForKiller_46F720()
     {
         if (!this->field_1A8_ped_killer && IsField238_45EDE0(2))
         {
-            Player* pP = this->field_15C_player;
-            gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(pP->get_idx_4219D0(), pP->get_idx_4219D0());
-            pP = this->field_15C_player;
-            gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(pP, pP);
+            gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->get_idx_4219D0(), this->field_15C_player->get_idx_4219D0());
+            gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(this->field_15C_player, this->field_15C_player);
         }
     }
 }
