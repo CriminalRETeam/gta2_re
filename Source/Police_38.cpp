@@ -2757,7 +2757,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     {
                         pCar->sub_421560(4);
                         pCar->IncrementCarStats_443D70(7);
-                        if (pCar->inline_info_flags_bit2() || pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
+                        if (pCar->sub_414F20())
                         {
                             pCar->ActivateEmergencyLights_43C920();
                         }
@@ -2964,7 +2964,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     {
                         pCar->sub_421560(4);
                         pCar->IncrementCarStats_443D70(7);
-                        if (pCar->inline_info_flags_bit2() || pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
+                        if (pCar->sub_414F20())
                         {
                             pCar->ActivateEmergencyLights_43C920();
                         }
