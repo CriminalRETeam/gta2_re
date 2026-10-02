@@ -1285,7 +1285,7 @@ void MapRenderer::draw_lid_4EE130()
     }
 }
 
-//STUB_FUNC(0x4EE7D0)
+MATCH_FUNC(0x4EE7D0)
 void MapRenderer::DrawDiagonalWallUpLeft_4EE7D0()
 {
     if (gBlockRight_6F63C6)
