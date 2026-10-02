@@ -9130,7 +9130,7 @@ LABEL_49:
                             {
                                 // Well now they hate you a bit
                                 Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_car_model);
-                                pGang->sub_4BEF70(this->field_15C_player->field_2E_idx, 1u);
+                                pGang->ApplyKillRespectChange_4BEF70(this->field_15C_player->field_2E_idx, 1u);
                             }
                         }
                     }
@@ -10730,11 +10730,11 @@ void Ped::sub_46F680(Ped* pPed)
         {
             if (field_290 != 3 && field_290 != 1)
             {
-                field_17C_pGang->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
+                field_17C_pGang->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
             }
             else
             {
-                field_17C_pGang->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
+                field_17C_pGang->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
             }
         }
     }
@@ -10744,11 +10744,11 @@ void Ped::sub_46F680(Ped* pPed)
         {
             if (field_290 != 3 && field_290 != 1)
             {
-                field_19C->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
+                field_19C->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->field_2E_idx, 5);
             }
             else
             {
-                field_19C->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
+                field_19C->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->field_2E_idx, 1);
             }
         }
     }

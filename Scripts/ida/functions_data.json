@@ -6170,12 +6170,12 @@
         "v105_address": "0x4bebc0"
     },
     {
-        "name": "GangPool_CA8::sub_4BECA0",
+        "name": "GangPool_CA8::FirstGang_4BECA0",
         "v96f_address": null,
         "v105_address": "0x4beca0"
     },
     {
-        "name": "GangPool_CA8::sub_4BECE0",
+        "name": "GangPool_CA8::NextGang_4BECE0",
         "v96f_address": null,
         "v105_address": "0x4bece0"
     },
@@ -6225,7 +6225,7 @@
         "v105_address": "0x4bef50"
     },
     {
-        "name": "Gang_144::sub_4BEF70",
+        "name": "Gang_144::ApplyKillRespectChange_4BEF70",
         "v96f_address": null,
         "v105_address": "0x4bef70"
     },
@@ -6270,7 +6270,7 @@
         "v105_address": "0x4bf210"
     },
     {
-        "name": "GangPool_CA8::sub_4BF230",
+        "name": "GangPool_CA8::SwapGangSlots_4BF230",
         "v96f_address": null,
         "v105_address": "0x4bf230"
     },
@@ -6280,7 +6280,7 @@
         "v105_address": "0x4bf2f0"
     },
     {
-        "name": "Gang_144::sub_4BF340",
+        "name": "Gang_144::GetArrowColourText_4BF340",
         "v96f_address": null,
         "v105_address": "0x4bf340"
     },

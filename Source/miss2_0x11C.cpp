@@ -858,7 +858,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     string_entry = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_gangname);
 
     Gang_144* pZone = gGangPool_CA8_67E274->gang_by_name_4BF100((char*)&string_entry[1]);
-    pZone->field_101 = pCmd->field_A_remap;
+    pZone->field_101_remap = pCmd->field_A_remap;
 
     pZone->field_104_basic_weapon = pCmd->field_B_weapon1;
     pZone->field_108_angry_weapon = pCmd->field_C_weapon2;
@@ -884,7 +884,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     pZone->field_134_info_phone_z = z;
 
     pZone->field_139_kill_respect_change = pCmd->field_F_kill_respect_change;
-    gGangPool_CA8_67E274->sub_4BF230(pZone, gfrosty_pasteur_6F8060->field_354);
+    gGangPool_CA8_67E274->SwapGangSlots_4BF230(pZone, gfrosty_pasteur_6F8060->field_354);
     ++gfrosty_pasteur_6F8060->field_354;
     Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100((char*)&string_entry[1]);
 
@@ -7046,18 +7046,18 @@ MATCH_FUNC(0x510780)
 void miss2_0x11C::SCRCMD_SAVE_RESTORE_RESPECT_510780()
 {
     u8 idx = 0;
-    Gang_144* pGang = gGangPool_CA8_67E274->sub_4BECA0();
+    Gang_144* pGang = gGangPool_CA8_67E274->FirstGang_4BECA0();
 
     if (gBasePtr_6F8070->field_2_type == SCRCMD_SAVE_RESPECT)
     {
-        for (; pGang != NULL; pGang = gGangPool_CA8_67E274->sub_4BECE0())
+        for (; pGang != NULL; pGang = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
             gfrosty_pasteur_6F8060->field_C1E2F[idx++] = pGang->GetRespectForPlayer_4BEEF0(0);
         }
     }
     else
     {
-        for (; pGang != NULL; pGang = gGangPool_CA8_67E274->sub_4BECE0())
+        for (; pGang != NULL; pGang = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
             pGang->SetRespect_4BEE30(0, gfrosty_pasteur_6F8060->field_C1E2F[idx++]);
         }

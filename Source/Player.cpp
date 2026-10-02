@@ -883,10 +883,10 @@ void Player::SetInputs_565740(u32 input)
 MATCH_FUNC(0x565770)
 void Player::IncrementGangRespectFromDebugKeys_565770(u8 count)
 {
-    Gang_144* pZone = gGangPool_CA8_67E274->sub_4BECA0();
+    Gang_144* pZone = gGangPool_CA8_67E274->FirstGang_4BECA0();
     for (u8 i = count; i > 0; i--)
     {
-        pZone = gGangPool_CA8_67E274->sub_4BECE0();
+        pZone = gGangPool_CA8_67E274->NextGang_4BECE0();
     }
 
     if (pZone)
@@ -2960,7 +2960,7 @@ void Player::ApplyCheats_56A490()
     }
     if (gCheatAllGangMaxRespect_67D587)
     {
-        for (Gang_144* pIter = gGangPool_CA8_67E274->sub_4BECA0(); pIter; pIter = gGangPool_CA8_67E274->sub_4BECE0())
+        for (Gang_144* pIter = gGangPool_CA8_67E274->FirstGang_4BECA0(); pIter; pIter = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
             pIter->SetRespect_4BEE30(field_2E_idx, 100);
         }
@@ -3012,7 +3012,7 @@ void Player::ApplyCheats_56A490()
     {
         Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
         Player::AddWeaponWithAmmo_564960(1, 50u);
-        for (Gang_144* pIter2 = gGangPool_CA8_67E274->sub_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->sub_4BECE0())
+        for (Gang_144* pIter2 = gGangPool_CA8_67E274->FirstGang_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
             pIter2->SetRespect_4BEE30(field_2E_idx, 80);
         }

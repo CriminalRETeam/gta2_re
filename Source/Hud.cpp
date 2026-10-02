@@ -475,7 +475,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                     break;
 
                 case HudPauseSection::gang_1_missions_done_1:
-                    pGang = gGangPool_CA8_67E274->sub_4BECA0();
+                    pGang = gGangPool_CA8_67E274->FirstGang_4BECA0();
                     if (gfrosty_pasteur_6F8060->field_32C_1_passed_flag)
                     {
                         value_1 = *gfrosty_pasteur_6F8060->field_32C_1_passed_flag;
@@ -486,7 +486,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                     }
                     swprintf(tmpBuff_67BD9C,
                              gText_0x14_704DFC->Find_5B5F90("pgmiss"),
-                             pGang->sub_4BF340(),
+                             pGang->GetArrowColourText_4BF340(),
                              value_1,
                              gfrosty_pasteur_6F8060->field_31C_gang_1_missions_total);
                     sprite_type = 6;
@@ -494,8 +494,8 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                     break;
 
                 case HudPauseSection::gang_2_missions_done_2:
-                    gGangPool_CA8_67E274->sub_4BECA0();
-                    pGang = gGangPool_CA8_67E274->sub_4BECE0();
+                    gGangPool_CA8_67E274->FirstGang_4BECA0();
+                    pGang = gGangPool_CA8_67E274->NextGang_4BECE0();
                     if (gfrosty_pasteur_6F8060->field_330_2_passed_flag)
                     {
                         value_1 = *gfrosty_pasteur_6F8060->field_330_2_passed_flag;
@@ -506,7 +506,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                     }
                     swprintf(tmpBuff_67BD9C,
                              gText_0x14_704DFC->Find_5B5F90("pgmiss"),
-                             pGang->sub_4BF340(),
+                             pGang->GetArrowColourText_4BF340(),
                              value_1,
                              gfrosty_pasteur_6F8060->field_320_gang_2_missions_total);
                     sprite_type = 6;
@@ -514,9 +514,9 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                     break;
 
                 case HudPauseSection::gang_3_missions_done_3:
-                    gGangPool_CA8_67E274->sub_4BECA0();
-                    gGangPool_CA8_67E274->sub_4BECE0();
-                    pGang = gGangPool_CA8_67E274->sub_4BECE0();
+                    gGangPool_CA8_67E274->FirstGang_4BECA0();
+                    gGangPool_CA8_67E274->NextGang_4BECE0();
+                    pGang = gGangPool_CA8_67E274->NextGang_4BECE0();
                     if (gfrosty_pasteur_6F8060->field_334_3_passed_flag)
                     {
                         value_1 = *gfrosty_pasteur_6F8060->field_334_3_passed_flag;
@@ -527,7 +527,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                     }
                     swprintf(tmpBuff_67BD9C,
                              gText_0x14_704DFC->Find_5B5F90("pgmiss"),
-                             pGang->sub_4BF340(),
+                             pGang->GetArrowColourText_4BF340(),
                              value_1,
                              gfrosty_pasteur_6F8060->field_324_gang_3_missions_total);
                     sprite_type = 6;
@@ -1048,7 +1048,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 
     s32 ypos = 11;
 
-    for (Gang_144* pGang = gGangPool_CA8_67E274->sub_4BECA0(); pGang; pGang = gGangPool_CA8_67E274->sub_4BECE0(), ypos += 27)
+    for (Gang_144* pGang = gGangPool_CA8_67E274->FirstGang_4BECA0(); pGang; pGang = gGangPool_CA8_67E274->NextGang_4BECE0(), ypos += 27)
     {
         s8 respect = pGang->GetRespectForPlayer_4BEEF0(PlayerIdx);
 
@@ -3181,7 +3181,7 @@ void Hud_2B00::sub_5D69C0()
 
             if (pSub->field_0_current_pause_section == HudPauseSection::gang_1_missions_done_1)
             {
-                if (!gGangPool_CA8_67E274->sub_4BECA0())
+                if (!gGangPool_CA8_67E274->FirstGang_4BECA0())
                 {
                     pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                 }
@@ -3190,9 +3190,9 @@ void Hud_2B00::sub_5D69C0()
 
             if (pSub->field_0_current_pause_section == HudPauseSection::gang_2_missions_done_2)
             {
-                if (gGangPool_CA8_67E274->sub_4BECA0())
+                if (gGangPool_CA8_67E274->FirstGang_4BECA0())
                 {
-                    if (!gGangPool_CA8_67E274->sub_4BECE0())
+                    if (!gGangPool_CA8_67E274->NextGang_4BECE0())
                     {
                         pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                     }
@@ -3203,7 +3203,7 @@ void Hud_2B00::sub_5D69C0()
             }
 
             if (pSub->field_0_current_pause_section == HudPauseSection::gang_3_missions_done_3 &&
-                (!gGangPool_CA8_67E274->sub_4BECA0() || !gGangPool_CA8_67E274->sub_4BECE0() || !gGangPool_CA8_67E274->sub_4BECE0()))
+                (!gGangPool_CA8_67E274->FirstGang_4BECA0() || !gGangPool_CA8_67E274->NextGang_4BECE0() || !gGangPool_CA8_67E274->NextGang_4BECE0()))
             {
                 pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                 return;

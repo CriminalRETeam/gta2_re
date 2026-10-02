@@ -234,7 +234,7 @@ LABEL_12:
                         pPed->field_238_ped_type = ped_type::special_ped_4;
                         pPed->field_240_occupation = ped_ocupation_enum::armed_gang_member_19;
                         pPed->field_17C_pGang = pGang;
-                        v16 = pGang->field_101;
+                        v16 = pGang->field_101_remap;
                         pPed->field_244_remap = v16;
                         if (v16 == 5)
                         {
@@ -270,7 +270,7 @@ LABEL_12:
                         pPed->field_238_ped_type = ped_type::dummy_3;
                         pPed->field_288_threat_search = threat_search_enum::area_2;
                         pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
-                        v21 = pGang->field_101;
+                        v21 = pGang->field_101_remap;
                         pPed->field_26C_graphic_type = 1;
                         pPed->field_244_remap = v21;
                         if (v21 == 5)
@@ -872,7 +872,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
     pCar->SetDriver(pNewPed);
 
     pNewPed->field_17C_pGang = pGang;
-    pNewPed->field_244_remap = pGang->field_101;
+    pNewPed->field_244_remap = pGang->field_101_remap;
 
     if (pNewPed->field_244_remap == 5)
     {

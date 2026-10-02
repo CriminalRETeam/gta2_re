@@ -3260,7 +3260,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
                     if (zone_idx != -1)
                     {
                         pZone = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
-                        pZone->sub_4BEF70(pExploder->field_15C_player->field_2E_idx, 1u);
+                        pZone->ApplyKillRespectChange_4BEF70(pExploder->field_15C_player->field_2E_idx, 1u);
                     }
                     if (pExploder->field_15C_player)
                     {
@@ -3479,7 +3479,7 @@ void Car_BC::sub_43DD60()
                     if (gang_idx != -1)
                     {
                         pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
-                        pGang->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1u);
+                        pGang->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->field_2E_idx, 1u);
                     }
                     if (pPed->field_15C_player)
                     {
