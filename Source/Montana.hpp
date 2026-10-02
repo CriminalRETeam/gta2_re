@@ -83,7 +83,7 @@ class Montana_2EE4
     EXPORT Montana_2EE4();
     EXPORT ~Montana_2EE4();
     Montana_C field_0_entries[1000];
-    s32 field_2EE0_free_indx;
+    u32 field_2EE0_free_indx;
 };
 
 // SpriteLayer ?
