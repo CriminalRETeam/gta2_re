@@ -450,7 +450,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
 
     u32 sprite_type;
     u16 sprite_pal = 0;
-    if (gGame_0x40_67E008->field_0_game_state == 2 && !gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message)
+    if (gGame_0x40_67E008->Is_game_state_Paused_2_416BC0() && !gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message)
     {
         DrawFigureScaled_5D7670(6, 134, 227, 180, word_706610, 2, 0, 0, 0);
         DrawFigureScaled_5D7670(6, 136, 320, 180, word_706610, 2, 0, 0, 0);
@@ -3259,7 +3259,7 @@ void Hud_2B00::sub_5D6AB0()
 MATCH_FUNC(0x5d6b00)
 void Hud_2B00::sub_5D6B00()
 {
-    if (gText_0x14_704DFC->field_10_lang_code == 106)
+    if (gText_0x14_704DFC->LangIsJapanese_452E60())
     {
         word_7064B8 = 103;
         word_706508 = 104;
