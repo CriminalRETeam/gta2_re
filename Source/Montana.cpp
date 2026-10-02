@@ -20,7 +20,7 @@ Montana_2EE4::Montana_2EE4()
     {
         field_0_entries[i].field_0_sprt = 0;
     }
-    field_2EE0_free_indx = 0;
+    Reset_4C4B70();
 }
 
 MATCH_FUNC(0x5c5f90)
