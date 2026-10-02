@@ -7055,18 +7055,16 @@ void sound_obj::TrainCab_414710(Sound_Params_8* a2)
     }
 }
 
-// Match here: https://decomp.me/scratch/9hxz1 , but need to rework field_544C or maybe using unions
-WIP_FUNC(0x57E680)
+MATCH_FUNC(0x57E680)
 void sound_obj::Type3_CopRadioReport_57E680()
 {
-    WIP_IMPLEMENTED;
 
     if (gSoundVocalsInited_6FF538)
     {
+        // Increment some counter on each station, probably wrong offset etc here
+        u32 v2 = 90000 * this->field_8_frames_per_second;
         for (u8 i = 0; i < 5; i++)
         {
-            // Increment some counter on each station, probably wrong offset etc here
-            u32 v2 = 90000 * this->field_8_frames_per_second;
             if (*(u32*)&field_544C[i + 1].field_8.field_C_pAny < v2)
             {
                 ++*(u32*)&field_544C[i + 1].field_8.field_C_pAny;
