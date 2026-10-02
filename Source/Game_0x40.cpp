@@ -221,8 +221,7 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
     Ped* pPlayerPed = gGame_0x40_67E008->field_38_orf1->GetPlayerPed_41D020();
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     pGroup->add_ped_leader_4C9B10(pPlayerPed);
-    pGroup->field_36_count = 0;
-    pGroup->field_34_count = 0;
+    pGroup->SetCounts_433360(0);
     pGroup->field_38_group_type = 2;
 
     gLastTestPed_6787E8 = gPedPool_6787B8->Allocate();
@@ -231,11 +230,12 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
     gLastTestPed_6787E8->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
     gLastTestPed_6787E8->SetField238_403920(5);
     if (!gLastTestPed_6787E8->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z))
+    // 9.6f: Ped::get_cam_x/get_cam_y/sub_416B50 (inlined, using them changes the code)
     {
-        gLastTestPed_6787E8->field_168_game_object->SetRemap_46DD50(gLastTestPed_6787E8->field_244_remap);
+        gLastTestPed_6787E8->field_168_game_object->SetRemap_46DD50(gLastTestPed_6787E8->get_remap_433BA0());
     }
     gLastTestPed_6787E8->set_health_4039A0(100);
-    gLastTestPed_6787E8->field_22C = 1;
+    gLastTestPed_6787E8->sub_433BC0(1);
     pGroup->add_ped_to_end_of_list_4C8F90(gLastTestPed_6787E8);
     gLastTestPed_6787E8->ForceWeapon_46F600(0);
 
@@ -247,10 +247,11 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
         pPed->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
         pPed->SetField238_403920(5);
         pPed->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z);
+        // 9.6f: Ped::SetRemap_433C10 (inlined, using it changes the code)
         Char_B4* pObj = pPed->field_168_game_object;
-        pObj->SetRemap_Inline(pPed->field_244_remap);
+        pObj->SetRemap_Inline(pPed->get_remap_433BA0());
         pPed->set_health_4039A0(100);
-        pPed->field_22C = 1;
+        pPed->sub_433BC0(1);
         pGroup->add_ped_to_end_of_list_4C8F90(pPed);
         pPed->ForceWeapon_46F600(0);
     }
