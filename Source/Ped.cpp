@@ -7273,7 +7273,7 @@ void Ped::sub_468310()
             this->field_16C_car->field_60->field_14_target_x = this->field_1DC_objective_target_x;
             this->field_16C_car->field_60->field_18_target_y = this->field_1E0_objective_target_y;
             this->field_16C_car->field_60->field_1C_target_z = this->field_1E4_objective_target_z;
-            this->field_16C_car->field_A6 &= ~0x20u;
+            this->field_16C_car->ClearA6Bit20_421550();
 
             pDriver = this->field_16C_car->field_54_driver;
             if (pDriver)
@@ -7297,7 +7297,7 @@ void Ped::sub_468310()
                 this->field_225_objective_status = objective_status::passed_1;
                 gHamburger_500_678E30->FreeEntry_474CC0(pCar_->field_60);
                 this->field_16C_car->field_60 = 0;
-                this->field_16C_car->field_A6 |= 0x20u;
+                this->field_16C_car->SetA6Bit20_421540();
                 this->field_1A0_objective_target_object = dword_678558; // TODO: Never written so part of a bigger global obj?
             }
             else
@@ -7308,7 +7308,7 @@ void Ped::sub_468310()
                     this->field_225_objective_status = objective_status::passed_1;
                     gHamburger_500_678E30->FreeEntry_474CC0(pCar__->field_60);
                     this->field_16C_car->field_60 = 0;
-                    this->field_16C_car->field_A6 |= 0x20u;
+                    this->field_16C_car->SetA6Bit20_421540();
                 }
                 else if (pCar__)
                 {
