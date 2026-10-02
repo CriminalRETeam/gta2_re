@@ -2971,7 +2971,7 @@ void Frontend::LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
     }
     else
     {
-        gLucid_hamilton_67E8E0.sub_4C5900(bonusBlockIdx | (0x10 * mainBlockIdx));
+        gLucid_hamilton_67E8E0.sub_4C5900(gLucid_hamilton_67E8E0.EncodeStage_453A40(mainBlockIdx, bonusBlockIdx));
         gLucid_hamilton_67E8E0.sub_4C5910(1);
     }
 }
