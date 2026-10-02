@@ -43,6 +43,12 @@ class Ped_List_4
         field_0_pFirstPed = 0;
     }
 
+    // 9.6f 0x420EA0
+    bool IsEmpty_420EA0()
+    {
+        return field_0_pFirstPed == 0;
+    }
+
     Char_8* field_0_pFirstPed;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped_List_4, 0x4)

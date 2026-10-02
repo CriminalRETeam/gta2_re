@@ -590,7 +590,7 @@ void Ambulance_20::UpdateState_4FB330()
         }
         case 5:
         {
-            while (field_10.field_0_pFirstPed)
+            while (!field_10.IsEmpty_420EA0())
             {
                 Ped* pPed = field_10.RemoveFirstPed_471320();
                 gAmbulance_110_6F70A8->TryAddPatient_4FA470(pPed);
