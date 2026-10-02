@@ -535,7 +535,7 @@ void Weapon_30::smg_5DDD20()
                                            field_24_pPed->get_cam_x(),
                                            field_24_pPed->get_cam_y(),
                                            field_24_pPed->get_cam_z(),
-                                           field_24_pPed->field_12E,
+                                           field_24_pPed->Get_F12E_4CCA90(),
                                            field_24_pPed->sub_45B520());
             field_2_reload_speed = 1;
         }
