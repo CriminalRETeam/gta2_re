@@ -541,6 +541,7 @@ char_type Sprite::ShouldCollideWithSprite_59E850(Sprite* pSprite)
 MATCH_FUNC(0x59E8C0)
 void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
 {
+    // 9.6f: As2C_40FEC0 for both sprites and sub_484DD0 (inlined, using As2C_40FEC0 changes the code)
     s32 sprite_type = this->field_30_sprite_type_enum;
     if (sprite_type == sprite_types_enum::unknown_1 || sprite_type > sprite_types_enum::ped_3 && sprite_type <= sprite_types_enum::map_obj_5)
     {
