@@ -91,7 +91,7 @@ void eager_benz::sub_591C70()
         field_7C_e_execution_count = 0;
         field_368_player->field_2D4_scores.AddCash_592620(100000 * field_368_player->field_6BC_multpliers.field_0_value);
 
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("excutin"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(4);
@@ -102,7 +102,7 @@ void eager_benz::sub_591C70()
     {
         field_84_num_elvis_killed = 0;
         field_368_player->field_2D4_scores.AddCash_592620(30000 * field_368_player->field_6BC_multpliers.field_0_value);
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("elvis_d"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(8);
@@ -113,7 +113,7 @@ void eager_benz::sub_591C70()
     {
         field_1A4_killed_cars_flags = 0;
         field_368_player->field_2D4_scores.AddCash_592620(10000 * field_368_player->field_6BC_multpliers.field_0_value);
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("em_dest"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(11);
@@ -124,7 +124,7 @@ void eager_benz::sub_591C70()
     {
         field_86_total_kills = 0;
         field_368_player->field_2D4_scores.AddCash_592620(30000 * field_368_player->field_6BC_multpliers.field_0_value);
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("gencide"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(5);
@@ -135,7 +135,7 @@ void eager_benz::sub_591C70()
     {
         field_88_killed_cops = 0;
         field_368_player->field_2D4_scores.AddCash_592620(5000 * field_368_player->field_6BC_multpliers.field_0_value);
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("copkill"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(6);
@@ -146,7 +146,7 @@ void eager_benz::sub_591C70()
     {
         field_8A_cars_stolen_count = 0;
         field_368_player->field_2D4_scores.AddCash_592620(10000 * field_368_player->field_6BC_multpliers.field_0_value);
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("carjaka"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(7);
@@ -157,7 +157,7 @@ void eager_benz::sub_591C70()
     {
         field_198_accuracy_count = 0;
         field_368_player->field_2D4_scores.AddCash_592620(5000 * field_368_player->field_6BC_multpliers.field_0_value);
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("accurcy"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(9);
@@ -183,7 +183,7 @@ void eager_benz::sub_591C70()
     {
         field_19C_reverse_count = 0;
         field_368_player->field_2D4_scores.AddCash_592620(1000 * field_368_player->field_6BC_multpliers.field_0_value);
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("wrngway"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(10);
@@ -206,7 +206,7 @@ void eager_benz::sub_591C70()
     {
         field_368_player->field_2D4_scores.AddCash_592620(1000 * field_368_player->field_6BC_multpliers.field_0_value);
         field_190_fly_car_count = 2250;
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("fly_car"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(1);
@@ -216,7 +216,7 @@ void eager_benz::sub_591C70()
     if (bStartNetworkGame_7081F0)
     {
         s32 v30; // edi
-        u8 player_idx = field_368_player->field_2E_idx;
+        u8 player_idx = field_368_player->get_idx_4219D0();
         u8 v29 = gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0();
         s32 v34 = gLucid_hamilton_67E8E0.GetMultiplayerPointsLimit_4C5BD0();
 
@@ -348,7 +348,7 @@ void eager_benz::sub_592430(char_type bits)
         }
 
         field_368_player->field_2D4_scores.AddCash_592620(30000 * field_368_player->field_6BC_multpliers.field_0_value);
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("stl_all"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(2);
@@ -366,7 +366,7 @@ void eager_benz::sub_592430(char_type bits)
         }
 
         field_368_player->field_2D4_scores.AddCash_592620(50000 * field_368_player->field_6BC_multpliers.field_0_value);
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("dst_all"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(3);
@@ -407,7 +407,7 @@ void eager_benz::AddCash_592620(s32 cash)
 
     if (bStartNetworkGame_7081F0)
     {
-        gLucid_hamilton_67E8E0.ChangePointsForPlayerIdxByAmount_4C5C80(field_368_player->field_2E_idx, cash);
+        gLucid_hamilton_67E8E0.ChangePointsForPlayerIdxByAmount_4C5C80(field_368_player->get_idx_4219D0(), cash);
     }
 }
 
@@ -442,7 +442,7 @@ void eager_benz::sub_592660(Ped* pPed1, Ped* pPed2)
                              pPed2->get_car_model(),
                              pZone);
 
-    s32 rng = rng_dword_67AB34->field_0_rng;
+    s32 rng = rng_dword_67AB34->get_cur_rng_41CFE0();
     if ((u32)(rng - field_78) > 15)
     {
         field_7C_e_execution_count = 1;
@@ -796,7 +796,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
     {
         if (bCopSwatOrFbiCar)
         {
-            if (field_368_player->field_0_bIsUser)
+            if (field_368_player->IsUser_41DC70())
             {
                 gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
                                                        pCar->field_50_car_sprite->GetYPos(),
@@ -856,7 +856,7 @@ void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
         {
             if (bAddScore)
             {
-                if (this->field_368_player->field_0_bIsUser)
+                if (this->field_368_player->IsUser_41DC70())
                 {
                     gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
                                                            pCar->field_50_car_sprite->GetYPos(),
@@ -961,7 +961,7 @@ void eager_benz::sub_593410(Car_BC* pCar)
     const s32 multpliers = field_368_player->field_6BC_multpliers.field_0_value;
     if (!bExplodingScoresOff_67D4FB)
     {
-        if (field_368_player->field_0_bIsUser)
+        if (field_368_player->IsUser_41DC70())
         {
             gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
                                                    pCar->field_50_car_sprite->GetYPos(),
@@ -985,7 +985,7 @@ void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
     field_194 = a2;
     if (pPed && bIsFrench_67D53C)
     {
-        switch (pPed->field_240_occupation)
+        switch (pPed->get_occupation_403980())
         {
             case ped_ocupation_enum::police:
             case ped_ocupation_enum::swat:
