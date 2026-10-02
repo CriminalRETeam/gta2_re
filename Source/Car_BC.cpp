@@ -4004,11 +4004,9 @@ bool Car_BC::IsBeingCrushed_43DD50()
     return gCrusherPool_94_67A830->IsCarBeingCrushed_4887A0(this);
 }
 
-WIP_FUNC(0x43dd60)
+MATCH_FUNC(0x43dd60)
 void Car_BC::sub_43DD60()
 {
-    WIP_IMPLEMENTED;
-
     bool bUnknown; // bl
     Ped* field_54_driver; // eax
     s32 exploder_ped_id; // eax
