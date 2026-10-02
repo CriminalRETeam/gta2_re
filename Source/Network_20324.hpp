@@ -4,7 +4,7 @@
 #include <windows.h>
 
 EXPORT char_type* __stdcall GetString_519A00(const char_type* Key);
-EXPORT u16 __stdcall sub_519960(char_type* a1, u16* a2);
+EXPORT u16 __stdcall JapaneseWcsToMbs_519960(char_type* a1, u16* a2);
 
 enum Network_UI_Control_Ids
 {
@@ -34,7 +34,7 @@ struct Network_Enumerated_Map
     u32 field_30C_player_count;
     char field_310_maybe_description[256];
     char field_410_maybe_display_name[260];
-    u32 field_514;
+    u32 field_514_max_players;
 };
 
 struct NetworkGameSettings
@@ -52,8 +52,8 @@ struct NetworkGameSettings
 class Network_20324
 {
   public:
-    //EXPORT u16 sub_519960(u8* a1, u16* a2);
-    EXPORT static char_type sub_5199B0(wchar_t* a1, char_type* a2);
+    //EXPORT u16 JapaneseWcsToMbs_519960(u8* a1, u16* a2);
+    EXPORT static char_type JapaneseMbsToWcs_5199B0(wchar_t* a1, char_type* a2);
     //EXPORT char_type* GetString_519A00(const char_type* Key);
     EXPORT static void GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount);
     EXPORT Network_20324();
@@ -82,27 +82,27 @@ class Network_20324
     EXPORT static void __stdcall cb_sub_51B7E0(Network_20324* a1, const char_type** a2);
     EXPORT void sub_51B810(const char_type* a2);
     EXPORT s32 SetSetting_51B9C0(s32 a2, char_type* Data);
-    EXPORT void sub_51BBC0();
+    EXPORT void IncCount_51BBC0();
     EXPORT u32 GetCount_51BBD0();
     EXPORT void DecCount_51BBE0();
-    EXPORT void sub_51BBF0();
+    EXPORT void ResetCount_51BBF0();
     EXPORT static void __stdcall cb_SavePlayerName_51BC00(Network_20324* pThis);
-    EXPORT void sub_51BC70(s32 a2);
-    EXPORT s32 sub_51BC80();
-    EXPORT void sub_51BC90();
+    EXPORT void SetEndDialog_51BC70(s32 a2);
+    EXPORT s32 GetEndDialog_51BC80();
+    EXPORT void LoadPlayerNameFromRegistry_51BC90();
     EXPORT void SetPlayNameAndSaveToRegistry_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
     EXPORT static LRESULT __stdcall subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
     EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3);
-    EXPORT void sub_51BFA0();
+    EXPORT void EnumerateMaps_51BFA0();
     EXPORT static void __stdcall OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4);
     EXPORT void CopyGameSettings_51C7F0(NetworkGameSettings* pSettings);
-    EXPORT void sub_51C830();
+    EXPORT void LoadGameSettingsFromRegistry_51C830();
     EXPORT char_type* GetMapName_51CA10();
     EXPORT char_type* GetMapStyName_51CA50();
     EXPORT char_type* GetMapScrName_51CA90();
-    EXPORT void sub_51CAD0(const char_type* a1, const char_type* a2);
-    EXPORT void sub_51CB30(s32 a1, HWND hDlg);
-    EXPORT void sub_51CBC0();
+    EXPORT void ShowMissingMapFileError_51CAD0(const char_type* a1, const char_type* a2);
+    EXPORT void SetPlayerCountText_51CB30(s32 a1, HWND hDlg);
+    EXPORT void UpdateButtonsEnabledState_51CBC0();
     EXPORT void SetPoliceEnabledCheckBox_51CCB0(s32 bPoliceOn, HWND hDlg);
     EXPORT void SetJoinedGamePoliceEnabledText_51CD30(s32 bPoliceOn, HWND hDlg);
     EXPORT void SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, HWND hDlg);
@@ -114,7 +114,7 @@ class Network_20324
     //s32 field_0_vTable; // added by the compiler
     Network_Enumerated_Map field_4_maps[100];
     s32 field_1FD64_total_map_count;
-    s32 field_1FD68;
+    s32 field_1FD68_bEndDialog;
     s32 field_1FD6C_count;
     WNDPROC field_1FD70_old_proc;
     WNDPROC field_1FD74_old_proc;

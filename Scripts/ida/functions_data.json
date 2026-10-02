@@ -9810,12 +9810,12 @@
         "v105_address": "0x516740"
     },
     {
-        "name": "Network_20324::sub_519960",
+        "name": "Network_20324::JapaneseWcsToMbs_519960",
         "v96f_address": null,
         "v105_address": "0x519960"
     },
     {
-        "name": "Network_20324::sub_5199B0",
+        "name": "Network_20324::JapaneseMbsToWcs_5199B0",
         "v96f_address": null,
         "v105_address": "0x5199b0"
     },
@@ -9965,7 +9965,7 @@
         "v105_address": "0x51b9c0"
     },
     {
-        "name": "Network_20324::sub_51BBC0",
+        "name": "Network_20324::IncCount_51BBC0",
         "v96f_address": null,
         "v105_address": "0x51bbc0"
     },
@@ -9980,7 +9980,7 @@
         "v105_address": "0x51bbe0"
     },
     {
-        "name": "Network_20324::sub_51BBF0",
+        "name": "Network_20324::ResetCount_51BBF0",
         "v96f_address": null,
         "v105_address": "0x51bbf0"
     },
@@ -9990,17 +9990,17 @@
         "v105_address": "0x51bc00"
     },
     {
-        "name": "Network_20324::sub_51BC70",
+        "name": "Network_20324::SetEndDialog_51BC70",
         "v96f_address": null,
         "v105_address": "0x51bc70"
     },
     {
-        "name": "Network_20324::sub_51BC80",
+        "name": "Network_20324::GetEndDialog_51BC80",
         "v96f_address": null,
         "v105_address": "0x51bc80"
     },
     {
-        "name": "Network_20324::sub_51BC90",
+        "name": "Network_20324::LoadPlayerNameFromRegistry_51BC90",
         "v96f_address": null,
         "v105_address": "0x51bc90"
     },
@@ -10020,7 +10020,7 @@
         "v105_address": "0x51beb0"
     },
     {
-        "name": "Network_20324::sub_51BFA0",
+        "name": "Network_20324::EnumerateMaps_51BFA0",
         "v96f_address": null,
         "v105_address": "0x51bfa0"
     },
@@ -10035,7 +10035,7 @@
         "v105_address": "0x51c7f0"
     },
     {
-        "name": "Network_20324::sub_51C830",
+        "name": "Network_20324::LoadGameSettingsFromRegistry_51C830",
         "v96f_address": null,
         "v105_address": "0x51c830"
     },
@@ -10055,17 +10055,17 @@
         "v105_address": "0x51ca90"
     },
     {
-        "name": "Network_20324::sub_51CAD0",
+        "name": "Network_20324::ShowMissingMapFileError_51CAD0",
         "v96f_address": null,
         "v105_address": "0x51cad0"
     },
     {
-        "name": "Network_20324::sub_51CB30",
+        "name": "Network_20324::SetPlayerCountText_51CB30",
         "v96f_address": null,
         "v105_address": "0x51cb30"
     },
     {
-        "name": "Network_20324::sub_51CBC0",
+        "name": "Network_20324::UpdateButtonsEnabledState_51CBC0",
         "v96f_address": null,
         "v105_address": "0x51cbc0"
     },
@@ -10150,7 +10150,7 @@
         "v105_address": "0x51ded0"
     },
     {
-        "name": "NetPlay::sub_51E030",
+        "name": "NetPlay::EnumAddress_cb_51E030",
         "v96f_address": null,
         "v105_address": "0x51e030"
     },
@@ -10285,7 +10285,7 @@
         "v105_address": "0x520ca0"
     },
     {
-        "name": "NetPlay::sub_520D00",
+        "name": "NetPlay::SetGroupId_520D00",
         "v96f_address": null,
         "v105_address": "0x520d00"
     },
@@ -10295,7 +10295,7 @@
         "v105_address": "0x520d10"
     },
     {
-        "name": "NetPlay::sub_520DE0",
+        "name": "NetPlay::ClearPlayersAndSession_520DE0",
         "v96f_address": null,
         "v105_address": "0x520de0"
     },
@@ -10360,7 +10360,7 @@
         "v105_address": "0x521140"
     },
     {
-        "name": "NetPlay::sub_521170",
+        "name": "NetPlay::SetGroupData_521170",
         "v96f_address": null,
         "v105_address": "0x521170"
     },

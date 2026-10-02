@@ -89,7 +89,7 @@ s32 NetPlay::SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Connection_Unknow
     {
         if (memcmp(pProtocolGuid, &DPSPGUID_MODEM, sizeof(GUID)) == 0)
         {
-            field_4 = 1;
+            field_4_bModem = 1;
         }
         isIpx = 0;
         field_8_ip_or_ipx_guid = *pProtocolGuid;
@@ -231,7 +231,7 @@ s32 NetPlay::DirectPlayCreate_51DED0()
         {
             u8* pPlayerAddressBuf = new u8[playerAddressLen];
             if (pDirectPlay3->GetPlayerAddress(0, pPlayerAddressBuf, &playerAddressLen) >= 0 &&
-                FAILED(field_5E0_pDPlayLobby2->EnumAddress(NetPlay::sub_51E030, pPlayerAddressBuf, playerAddressLen, this)))
+                FAILED(field_5E0_pDPlayLobby2->EnumAddress(NetPlay::EnumAddress_cb_51E030, pPlayerAddressBuf, playerAddressLen, this)))
             {
                 return 0;
             }
@@ -244,7 +244,7 @@ s32 NetPlay::DirectPlayCreate_51DED0()
 }
 
 STUB_FUNC(0x51e030)
-BOOL NetPlay::sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext)
+BOOL NetPlay::EnumAddress_cb_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -555,7 +555,7 @@ s32 NetPlay::EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay*
 
     if (!a2)
     {
-        pContext->sub_520D00(a1);
+        pContext->SetGroupId_520D00(a1);
         return 1;
     }
 
@@ -575,7 +575,7 @@ s32 NetPlay::sub_520CA0(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x520d00)
-void NetPlay::sub_520D00(s32 a2)
+void NetPlay::SetGroupId_520D00(s32 a2)
 {
     field_758_n2.field_0_group_id = a2;
 }
@@ -587,7 +587,7 @@ void NetPlay::Disconnect_520D10()
 }
 
 MATCH_FUNC(0x520de0)
-void NetPlay::sub_520DE0(Network_Unknown* pStru)
+void NetPlay::ClearPlayersAndSession_520DE0(Network_Unknown* pStru)
 {
     u32 count = pStru->field_4_count;
     for (u32 i = 0; i < count; i++)
@@ -613,7 +613,7 @@ u32 NetPlay::IndexOf_520E30(s32 toFind, Network_Unknown* pObj)
         {
             break;
         }
-        if (pObj->field_10[i].field_10 == toFind)
+        if (pObj->field_10[i].field_10_player_id == toFind)
         {
             return i;
         }
@@ -667,9 +667,9 @@ s32 NetPlay::RemovePlayerByName_520F80(wchar_t* pToRemove)
 
     for (u32 i = 0; i < this->field_758_n2.field_4_count; i++)
     {
-        if (wcscmp(field_758_n2.field_10[i].field_1C, pToRemove) == 0)
+        if (wcscmp(field_758_n2.field_10[i].field_1C_player_name, pToRemove) == 0)
         {
-            field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, field_758_n2.field_10[i].field_10);
+            field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, field_758_n2.field_10[i].field_10_player_id);
             return 1;
         }
     }
@@ -713,7 +713,7 @@ s32 NetPlay::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
     }
     else
     {
-        id_to = this->field_758_n2.field_10[idx_always_m1].field_10;
+        id_to = this->field_758_n2.field_10[idx_always_m1].field_10_player_id;
     }
     return field_5E4_pDPlay3->SendChatMessage(field_5D8_player_id, id_to, 0, &chatMsg);
 }
@@ -738,7 +738,7 @@ void NetPlay::GetPlayerName_521100(wchar_t* Destination, u32 idx)
     {
         return;
     }
-    wcscpy(Destination, field_758_n2.field_10[playerIdx].field_1C);
+    wcscpy(Destination, field_758_n2.field_10[playerIdx].field_1C_player_name);
 }
 
 MATCH_FUNC(0x521140)
@@ -750,21 +750,21 @@ void NetPlay::Set24_521140(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x521170)
-s32 NetPlay::sub_521170(Network_8* pObj)
+s32 NetPlay::SetGroupData_521170(Network_8* pObj)
 {
 
-    if (field_758_n2.field_118)
+    if (field_758_n2.field_118_group_data)
     {
-        delete[] field_758_n2.field_118;
-        field_758_n2.field_11C = 0;
+        delete[] field_758_n2.field_118_group_data;
+        field_758_n2.field_11C_group_data_len = 0;
     }
 
-    field_758_n2.field_118 = new u8[pObj->field_4_len];
-    field_758_n2.field_11C = pObj->field_4_len;
+    field_758_n2.field_118_group_data = new u8[pObj->field_4_len];
+    field_758_n2.field_11C_group_data_len = pObj->field_4_len;
 
-    memcpy(field_758_n2.field_118, pObj->field_0, pObj->field_4_len);
+    memcpy(field_758_n2.field_118_group_data, pObj->field_0, pObj->field_4_len);
 
-    return field_5E4_pDPlay3->SetGroupData(field_758_n2.field_0_group_id, field_758_n2.field_118, field_758_n2.field_11C, 2);
+    return field_5E4_pDPlay3->SetGroupData(field_758_n2.field_0_group_id, field_758_n2.field_118_group_data, field_758_n2.field_11C_group_data_len, 2);
 }
 
 MATCH_FUNC(0x5211f0)

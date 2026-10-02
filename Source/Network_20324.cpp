@@ -15,14 +15,14 @@ EXTERN_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256);
 Network_UI_Control_Data gUiControlDefinitions_621430[3][30];
 
 STUB_FUNC(0x519960)
-u16 __stdcall sub_519960(char_type* a1, wchar_t* a2)
+u16 __stdcall JapaneseWcsToMbs_519960(char_type* a1, wchar_t* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5199b0)
-char_type Network_20324::sub_5199B0(wchar_t* a1, char_type* a2)
+char_type Network_20324::JapaneseMbsToWcs_5199B0(wchar_t* a1, char_type* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -35,7 +35,7 @@ char_type* __stdcall GetString_519A00(const char_type* pKey)
 
     if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
     {
-        sub_519960(Dest_6F88A4, pText);
+        JapaneseWcsToMbs_519960(Dest_6F88A4, pText);
     }
     else
     {
@@ -49,7 +49,7 @@ void Network_20324::GetString_519A50(wchar_t* Dest, char_type* Source, size_t Ma
 {
     if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
     {
-        sub_5199B0(Dest, Source);
+        JapaneseMbsToWcs_5199B0(Dest, Source);
     }
     else
     {
@@ -68,7 +68,7 @@ Network_20324::Network_20324()
     this->field_20084 = 0;
     this->field_1FD6C_count = 0;
     this->field_1FD64_total_map_count = 0;
-    this->field_1FD68 = 0;
+    this->field_1FD68_bEndDialog = 0;
     this->field_20088_game_settings.field_2019C_tick_count = GetTickCount();
     this->field_20088_game_settings.field_20198_game_type = 1;
     this->field_20088_game_settings.field_20194_frag_limit = 1;
@@ -78,8 +78,8 @@ Network_20324::Network_20324()
     memset(field_4_maps, 0, sizeof(field_4_maps));
     gtext_0x14_6F87F0 = new text_0x14();
     gtext_0x14_6F87F0->Load_5B5E90();
-    sub_51BC90();
-    sub_51BFA0();
+    LoadPlayerNameFromRegistry_51BC90();
+    EnumerateMaps_51BFA0();
 }
 
 MATCH_FUNC(0x519ba0)
@@ -199,7 +199,7 @@ void __stdcall Network_20324::OnTimer_51A9D0(HWND hWnd, s32 a2)
 {
     Network_20324* pThis = (Network_20324*)GetWindowLongA(hWnd, 8);
     int hadSelection = 0;
-    if (!pThis->sub_51BC80())
+    if (!pThis->GetEndDialog_51BC80())
     {
         char textBuf[260];
 
@@ -273,8 +273,8 @@ void Network_20324::CreateMainUi_51AA90(HWND hWndParent)
 
     SetDlgItemTextA(hWndParent, 1028, GetString_519A00("netui14"));
     SetDlgItemTextA(hWndParent, 1037, GetString_519A00("netui21"));
-    Network_20324::sub_51CB30(0, hWndParent);
-    if (gNetPlay_7071E8.field_4)
+    Network_20324::SetPlayerCountText_51CB30(0, hWndParent);
+    if (gNetPlay_7071E8.field_4_bModem)
     {
         EnableWindow(GetDlgItem(hWndParent, 1001), 1);
     }
@@ -343,7 +343,7 @@ void Network_20324::cb_sub_51ACD0(Network_20324* pNetUi, wchar_t* Source)
             SendMessageA(hItem, LVM_DELETEITEM, sendRet, 0);
 
             pNetUi->DecCount_51BBE0();
-            pNetUi->sub_51CBC0();
+            pNetUi->UpdateButtonsEnabledState_51CBC0();
         }
         break;
 
@@ -436,10 +436,10 @@ void Network_20324::PopulateMainUI_51AFA0()
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, v10, 1);
     LRESULT v12 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, v12, 2);
-    Network_20324::sub_51C830();
+    Network_20324::LoadGameSettingsFromRegistry_51C830();
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
     SendDlgItemMessageA(field_202E0_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
-    Network_20324::sub_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514, field_202E0_dlg_hwnd);
+    Network_20324::SetPlayerCountText_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_max_players, field_202E0_dlg_hwnd);
     Network_20324::SetPoliceEnabledCheckBox_51CCB0(field_20088_game_settings.field_201A0_police_on, field_202E0_dlg_hwnd);
     Network_20324::SetFragsNumberAndLabel_51CDC0(field_20088_game_settings.field_20198_game_type,
                                                  field_20088_game_settings.field_20194_frag_limit,
@@ -494,7 +494,7 @@ s32 Network_20324::SetSetting_51B9C0(s32 a2, char_type* Data)
 }
 
 MATCH_FUNC(0x51bbc0)
-void Network_20324::sub_51BBC0()
+void Network_20324::IncCount_51BBC0()
 {
     field_1FD6C_count++;
 }
@@ -512,7 +512,7 @@ void Network_20324::DecCount_51BBE0()
 }
 
 MATCH_FUNC(0x51bbf0)
-void Network_20324::sub_51BBF0()
+void Network_20324::ResetCount_51BBF0()
 {
     field_1FD6C_count = 0;
 }
@@ -526,25 +526,25 @@ void Network_20324::cb_SavePlayerName_51BC00(Network_20324* pThis)
     GetDlgItemTextA(pThis->Get_202E0_HWND_519E20(), 1004, String, GTA2_COUNTOF(String)); // TODO: control constants
     GetString_519A50(Dest, String, GTA2_COUNTOF(String));
     pThis->SetPlayNameAndSaveToRegistry_51BD40(Dest, String);
-    pThis->sub_51BC70(1);
+    pThis->SetEndDialog_51BC70(1);
 }
 
 MATCH_FUNC(0x51bc70)
-void Network_20324::sub_51BC70(s32 a2)
+void Network_20324::SetEndDialog_51BC70(s32 a2)
 {
-    field_1FD68 = a2;
+    field_1FD68_bEndDialog = a2;
 }
 
 MATCH_FUNC(0x51bc80)
-s32 Network_20324::sub_51BC80()
+s32 Network_20324::GetEndDialog_51BC80()
 {
-    return field_1FD68;
+    return field_1FD68_bEndDialog;
 }
 
 #pragma function(strcpy)
 
 MATCH_FUNC(0x51bc90)
-void Network_20324::sub_51BC90()
+void Network_20324::LoadPlayerNameFromRegistry_51BC90()
 {
     DWORD Type = REG_SZ;
     BYTE Data[260];
@@ -643,7 +643,7 @@ void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3)
 
 // https://decomp.me/scratch/tQkqa
 WIP_FUNC(0x51bfa0)
-void Network_20324::sub_51BFA0()
+void Network_20324::EnumerateMaps_51BFA0()
 {
     WIP_IMPLEMENTED;
     CHAR FileName[260];
@@ -692,17 +692,17 @@ void Network_20324::sub_51BFA0()
                                      0x103u,
                                      FileName);
             GetPrivateProfileStringA("MapFiles", "PlayerCount", "", (LPSTR)(gTmpBuffer_67C598), 0x103u, FileName);
-            enumerated_mmp_name[i].field_514 = atoi(gTmpBuffer_67C598);
+            enumerated_mmp_name[i].field_514_max_players = atoi(gTmpBuffer_67C598);
 
             // Now check if the map exists
             _chdir("data");
             if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_0_map_name) == -1)
             {
-                Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_0_map_name);
+                Network_20324::ShowMissingMapFileError_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_0_map_name);
             }
             else if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_104_style_name) == -1)
             {
-                Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_104_style_name);
+                Network_20324::ShowMissingMapFileError_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name, enumerated_mmp_name[i].field_104_style_name);
             }
             else
             {
@@ -714,7 +714,7 @@ void Network_20324::sub_51BFA0()
                 }
                 else
                 {
-                    Network_20324::sub_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name,
+                    Network_20324::ShowMissingMapFileError_51CAD0(enumerated_mmp_name[i].field_410_maybe_display_name,
                                               enumerated_mmp_name[i].field_208_script_name);
                 }
             }
@@ -783,7 +783,7 @@ void Network_20324::CopyGameSettings_51C7F0(NetworkGameSettings* pSettings)
 }
 
 MATCH_FUNC(0x51c830)
-void Network_20324::sub_51C830()
+void Network_20324::LoadGameSettingsFromRegistry_51C830()
 {
     field_20088_game_settings.field_2018C_map_idx = gRegistry_6FF968.Set_Network_Setting_587690("map_index", 0);
     if (field_20088_game_settings.field_2018C_map_idx >= field_1FD64_total_map_count)
@@ -827,7 +827,7 @@ char_type* Network_20324::GetMapScrName_51CA90()
 }
 
 MATCH_FUNC(0x51cad0)
-void Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
+void Network_20324::ShowMissingMapFileError_51CAD0(const char_type* a1, const char_type* a2)
 {
     char Text[256];
     sprintf(Text, "Unable to open file: %s in mmpfile: %s", a2, a1);
@@ -835,7 +835,7 @@ void Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
 }
 
 MATCH_FUNC(0x51cb30)
-void Network_20324::sub_51CB30(s32 a1, HWND hDlg)
+void Network_20324::SetPlayerCountText_51CB30(s32 a1, HWND hDlg)
 {
     char String[260];
     const char* pStr = GetString_519A00("netui13");
@@ -844,9 +844,9 @@ void Network_20324::sub_51CB30(s32 a1, HWND hDlg)
 }
 
 MATCH_FUNC(0x51cbc0)
-void Network_20324::sub_51CBC0()
+void Network_20324::UpdateButtonsEnabledState_51CBC0()
 {
-    if (Network_20324::GetCount_51BBD0() == field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514)
+    if (Network_20324::GetCount_51BBD0() == field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_max_players)
     {
         EnableWindow(GetDlgItem(Network_20324::Get_202E0_HWND_519E20(), 1021), true);
     }
