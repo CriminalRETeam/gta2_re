@@ -1528,8 +1528,8 @@ void Char_B4::UpdateAnimState_546360()
             if (pDriver->field_240_occupation == ped_ocupation_enum::driver)
             {
                 pDriver->field_240_occupation = ped_ocupation_enum::robbed_driver_10;
-                pDriver->field_140 = field_84_target_car;
-                pDriver->field_180 = field_7C_pPed;
+                pDriver->field_140_stolen_car = field_84_target_car;
+                pDriver->field_180_car_thief = field_7C_pPed;
                 goto LABEL_115;
             }
 
@@ -1541,8 +1541,8 @@ void Char_B4::UpdateAnimState_546360()
                     pDriver->field_14C_internal_target_ped = field_7C_pPed;
                 }
             LABEL_114:
-                pDriver->field_140 = field_84_target_car;
-                pDriver->field_180 = field_7C_pPed;
+                pDriver->field_140_stolen_car = field_84_target_car;
+                pDriver->field_180_car_thief = field_7C_pPed;
                 goto LABEL_115;
             }
 

@@ -77,7 +77,7 @@ void Police_7B8::Init_56F400()
     {
         field_660_wanted_star_count = 6;
     }
-    field_7AC = 100;
+    field_7AC_roadblock_cooldown = 100;
     field_7AD_police_peds_in_range_screen = 0;
     field_7B0 = 0;
     field_7B4 = 0;
@@ -454,9 +454,9 @@ void Police_7B8::Service_570270()
     field_664_roadblock_1.Update_5757B0();
     field_708_roadblock_2.Update_5757B0();
 
-    if (field_7AC > 0)
+    if (field_7AC_roadblock_cooldown > 0)
     {
-        field_7AC--;
+        field_7AC_roadblock_cooldown--;
     }
 
     if (field_7B0 != NULL)
@@ -749,13 +749,13 @@ void Police_7B8::UpdateCriminalLatestPosition_570940(Ped* pPed)
 }
 
 MATCH_FUNC(0x577320)
-char_type Police_7B8::sub_577320()
+char_type Police_7B8::ShouldCreateRoadblock_577320()
 {
-    if (this->field_654_wanted_level < 3 || this->field_664_roadblock_1.field_0_bActive || this->field_7AC)
+    if (this->field_654_wanted_level < 3 || this->field_664_roadblock_1.field_0_bActive || this->field_7AC_roadblock_cooldown)
     {
         return 0;
     }
-    this->field_7AC = 40;
+    this->field_7AC_roadblock_cooldown = 40;
     return 1;
 }
 

@@ -218,7 +218,7 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
 
     if (bullet_type == objects::machine_gun_bullet_254 || bullet_type == objects::pistol_bullet_265)
     {
-        pNewBullet->SetSpriteIdOffset_5290C0(field_24_pPed->sub_45BE30());
+        pNewBullet->SetSpriteIdOffset_5290C0(field_24_pPed->GetBulletSpriteOffset_45BE30());
     }
 
     if (p5CSprite->CheckSpriteMovementRegion_5A2500())

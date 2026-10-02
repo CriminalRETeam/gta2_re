@@ -2041,12 +2041,12 @@ void Player::Disconnect_568730()
     Ped* pPlayerPed = field_2C4_player_ped;
     if (pPlayerPed)
     {
-        pPlayerPed->sub_470300();
+        pPlayerPed->BecomeDummyOnPlayerDisconnect_470300();
     }
     Ped* pPed = field_2C8_aux_ped;
     if (pPed)
     {
-        pPed->sub_470300();
+        pPed->BecomeDummyOnPlayerDisconnect_470300();
     }
     field_8E_bInUse = 0;
 }

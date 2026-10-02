@@ -17,7 +17,7 @@
 
 DEFINE_GLOBAL(Fix16, dword_6FECE8, 0x6FECE8);
 DEFINE_GLOBAL_INIT(Fix16, kFpTen_6FED54, Fix16(0x28000, 0), 0x6FED54);
-DEFINE_GLOBAL(Ped*, pPed_6FEDDC, 0x6FEDDC);
+DEFINE_GLOBAL(Ped*, gCurrentCrewPed_6FEDDC, 0x6FEDDC);
 DEFINE_GLOBAL(u8, byte_6FEB48, 0x6FEB48);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_6FED48, kFpOne64th_6FEB88 * 512, 0x6FED48);
 
@@ -298,7 +298,7 @@ void PoliceCrew_38::SpawnFBI_nonused_571150()
 }
 
 MATCH_FUNC(0x571350)
-void PoliceCrew_38::sub_571350()
+void PoliceCrew_38::TryDespawnOffscreenCrew_571350()
 {
     field_24_state = police_crew_state::unknown_2;
     PedGroup* pGroup = field_10_subObj->field_8_group;
@@ -384,7 +384,7 @@ void PoliceCrew_38::sub_5720C0()
 
     if (field_10_subObj->field_24 == 0)
     {
-        sub_571350();
+        TryDespawnOffscreenCrew_571350();
     }
     else if (field_10_subObj->field_24 == 2)
     {
@@ -405,8 +405,8 @@ bool PoliceCrew_38::sub_572210()
     {
         if (!field_10_subObj->field_24)
         {
-            return Fix16::MaxAbsDistance_42A6B0(pPed_6FEDDC->get_cam_x(),
-                                                pPed_6FEDDC->get_cam_y(),
+            return Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
+                                                gCurrentCrewPed_6FEDDC->get_cam_y(),
                                                 field_14_pService->field_0_criminal_ped->get_cam_x(),
                                                 field_14_pService->field_0_criminal_ped->get_cam_y()) < kFpEight_6FED48;
         }
@@ -449,7 +449,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                 default:
                     break;
             }
-            pPed_6FEDDC = field_10_subObj->field_4_ped;
+            gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
             field_1A = 0;
         }
         else
@@ -483,7 +483,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
         if (bUnk)
         {
             Ped* pPed = field_10_subObj->field_4_ped;
-            pPed_6FEDDC = pPed;
+            gCurrentCrewPed_6FEDDC = pPed;
             if (field_14_pService->field_C_timer == 250)
             {
                 field_24_state = police_crew_state::pursue_or_chase_5;
@@ -500,27 +500,27 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                         {
                             case objectives_enum::objective_52:
                                 pPed->SetObjective(objectives_enum::goto_area_in_car_14, 9999);
-                                pPed_6FEDDC->field_1DC_objective_target_x = Fix16(field_14_pService->field_10_x.ToUInt8());
-                                pPed_6FEDDC->field_1E0_objective_target_y = Fix16(field_14_pService->field_14_y.ToUInt8());
-                                pPed_6FEDDC->field_1E4_objective_target_z = Fix16(field_14_pService->field_18_z.ToUInt8());
+                                gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x = Fix16(field_14_pService->field_10_x.ToUInt8());
+                                gCurrentCrewPed_6FEDDC->field_1E0_objective_target_y = Fix16(field_14_pService->field_14_y.ToUInt8());
+                                gCurrentCrewPed_6FEDDC->field_1E4_objective_target_z = Fix16(field_14_pService->field_18_z.ToUInt8());
                                 break;
                             case objectives_enum::goto_area_in_car_14:
                                 PoliceCrew_38::sub_5752C0();
                                 xpos_f = field_14_pService->field_10_x;
-                                if (pPed_6FEDDC->field_1DC_objective_target_x != field_14_pService->field_10_x ||
-                                    pPed_6FEDDC->field_1E0_objective_target_y != field_14_pService->field_14_y)
+                                if (gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x != field_14_pService->field_10_x ||
+                                    gCurrentCrewPed_6FEDDC->field_1E0_objective_target_y != field_14_pService->field_14_y)
                                 {
                                     u8 xpos = xpos_f.ToInt();
                                     u8 ypos = field_14_pService->field_14_y.ToInt();
                                     u8 zpos = field_14_pService->field_18_z.ToInt();
                                     if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 0))
                                     {
-                                        pPed_6FEDDC->field_1DC_objective_target_x = Fix16(xpos);
-                                        field_14_pService->field_10_x = pPed_6FEDDC->field_1DC_objective_target_x;
-                                        pPed_6FEDDC->field_1E0_objective_target_y = Fix16(ypos);
-                                        field_14_pService->field_14_y = pPed_6FEDDC->field_1E0_objective_target_y;
-                                        pPed_6FEDDC->field_1E4_objective_target_z = Fix16(zpos);
-                                        field_14_pService->field_18_z = pPed_6FEDDC->field_1E4_objective_target_z;
+                                        gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x = Fix16(xpos);
+                                        field_14_pService->field_10_x = gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x;
+                                        gCurrentCrewPed_6FEDDC->field_1E0_objective_target_y = Fix16(ypos);
+                                        field_14_pService->field_14_y = gCurrentCrewPed_6FEDDC->field_1E0_objective_target_y;
+                                        gCurrentCrewPed_6FEDDC->field_1E4_objective_target_z = Fix16(zpos);
+                                        field_14_pService->field_18_z = gCurrentCrewPed_6FEDDC->field_1E4_objective_target_z;
                                     }
                                 }
                                 field_28 = 1;
@@ -531,17 +531,17 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                                     if (pPed->field_16C_car)
                                     {
                                         pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                        pPed_6FEDDC->SetObjective(objectives_enum::leave_car_36, 9999);
-                                        pPed_6FEDDC->field_150_target_objective_car = field_10_subObj->field_0_car;
+                                        gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::leave_car_36, 9999);
+                                        gCurrentCrewPed_6FEDDC->field_150_target_objective_car = field_10_subObj->field_0_car;
                                         break;
                                     }
                                     else
                                     {
                                         pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                        pPed_6FEDDC->SetObjective(objectives_enum::goto_area_on_foot_12, 9999);
-                                        pPed_6FEDDC->field_1DC_objective_target_x = field_14_pService->field_10_x;
-                                        pPed_6FEDDC->field_1E0_objective_target_y = field_14_pService->field_14_y;
-                                        pPed_6FEDDC->field_1E4_objective_target_z = field_14_pService->field_18_z;
+                                        gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::goto_area_on_foot_12, 9999);
+                                        gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x = field_14_pService->field_10_x;
+                                        gCurrentCrewPed_6FEDDC->field_1E0_objective_target_y = field_14_pService->field_14_y;
+                                        gCurrentCrewPed_6FEDDC->field_1E4_objective_target_z = field_14_pService->field_18_z;
                                     }
                                 }
                                 break;
@@ -560,29 +560,29 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                                 break;
                             case objectives_enum::kill_char_on_foot_20:
                                 pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                pPed_6FEDDC->SetObjective(objectives_enum::goto_area_on_foot_12, 9999);
-                                pPed_6FEDDC->field_1DC_objective_target_x = field_14_pService->field_10_x;
-                                pPed_6FEDDC->field_1E0_objective_target_y = field_14_pService->field_14_y;
-                                pPed_6FEDDC->field_1E4_objective_target_z = field_14_pService->field_18_z;
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::goto_area_on_foot_12, 9999);
+                                gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x = field_14_pService->field_10_x;
+                                gCurrentCrewPed_6FEDDC->field_1E0_objective_target_y = field_14_pService->field_14_y;
+                                gCurrentCrewPed_6FEDDC->field_1E4_objective_target_z = field_14_pService->field_18_z;
                                 break;
                             case objectives_enum::goto_area_on_foot_12:
                                 field_28 = 0;
-                                if (pPed_6FEDDC->field_225_objective_status == objective_status::passed_1)
+                                if (gCurrentCrewPed_6FEDDC->field_225_objective_status == objective_status::passed_1)
                                 {
-                                    pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                    pPed_6FEDDC->SetObjective(objectives_enum::objective_51, 200);
+                                    gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_51, 200);
                                 }
                                 break;
                             case objectives_enum::objective_28:
                                 if (pPed->field_225_objective_status != objective_status::not_finished_0)
                                 {
                                     pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                    pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
                                 }
                                 break;
                             case objectives_enum::objective_32:
                                 pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
                                 break;
                             default:
                                 break;
@@ -597,7 +597,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                     {
                         pPed = 0;
                     }
-                    pPed_6FEDDC = pPed;
+                    gCurrentCrewPed_6FEDDC = pPed;
                 }
             }
         }
@@ -616,7 +616,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
 {
     byte_6FEB48 = 1;
     u8 i = 0;
-    pPed_6FEDDC = field_10_subObj->field_4_ped;
+    gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
     if (field_10_subObj->field_0_car)
     {
         if (field_10_subObj->field_0_car->field_60)
@@ -680,11 +680,11 @@ void PoliceCrew_38::State6_ShutDown_574720()
                         if (field_10_subObj->field_20_crew_type == 6 ||
                             (field_14_pService->field_4_wanted_level != 6 && field_14_pService->field_4_wanted_level))
                         {
-                            if (pPed_6FEDDC->field_258_objective == objectives_enum::enter_car_as_driver_35 &&
-                                !pPed_6FEDDC->field_21C_bf.b27)
+                            if (gCurrentCrewPed_6FEDDC->field_258_objective == objectives_enum::enter_car_as_driver_35 &&
+                                !gCurrentCrewPed_6FEDDC->field_21C_bf.b27)
                             {
-                                pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                                gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
                             }
                             field_14_pService->field_10_x = field_14_pService->field_0_criminal_ped->get_cam_x();
                             field_14_pService->field_14_y = field_14_pService->field_0_criminal_ped->get_cam_y();
@@ -699,47 +699,47 @@ void PoliceCrew_38::State6_ShutDown_574720()
         }
         if (field_10_subObj->field_24 != 2)
         {
-            if (pPed_6FEDDC)
+            if (gCurrentCrewPed_6FEDDC)
             {
-                pPed_6FEDDC->ClearBit11_403A40();
+                gCurrentCrewPed_6FEDDC->ClearBit11_403A40();
 
-                for (; pPed_6FEDDC; ++i)
+                for (; gCurrentCrewPed_6FEDDC; ++i)
                 {
-                    if (pPed_6FEDDC->field_278_ped_state_1 != ped_state_1::dead_9 &&
-                        pPed_6FEDDC->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+                    if (gCurrentCrewPed_6FEDDC->field_278_ped_state_1 != ped_state_1::dead_9 &&
+                        gCurrentCrewPed_6FEDDC->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
                     {
-                        switch (pPed_6FEDDC->get_objective_403A80())
+                        switch (gCurrentCrewPed_6FEDDC->get_objective_403A80())
                         {
                             case objectives_enum::goto_area_in_car_14:
                             case objectives_enum::objective_52:
-                                pPed_6FEDDC->SetObjective2_463830(0, 9999);
-                                pPed_6FEDDC->SetObjective(objectives_enum::objective_43, 9999);
+                                gCurrentCrewPed_6FEDDC->SetObjective2_463830(0, 9999);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_43, 9999);
                                 byte_6FEB48 = 0;
                                 break;
                             case objectives_enum::no_obj_0:
-                                if (pPed_6FEDDC != field_10_subObj->field_4_ped)
+                                if (gCurrentCrewPed_6FEDDC != field_10_subObj->field_4_ped)
                                 {
                                     break;
                                 }
-                                if (pPed_6FEDDC->field_16C_car)
+                                if (gCurrentCrewPed_6FEDDC->field_16C_car)
                                 {
                                     if (!field_10_subObj->field_8_group || field_10_subObj->field_8_group->IsAllMembersInSomeCar_4CAA20())
                                     {
-                                        pPed_6FEDDC->SetObjective2_463830(0, 9999);
-                                        pPed_6FEDDC->SetObjective(objectives_enum::objective_43, 9999);
-                                        pPed_6FEDDC->field_16C_car->InitCarAIControl_440590();
-                                        pPed_6FEDDC->field_16C_car->sub_43AF40();
+                                        gCurrentCrewPed_6FEDDC->SetObjective2_463830(0, 9999);
+                                        gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_43, 9999);
+                                        gCurrentCrewPed_6FEDDC->field_16C_car->InitCarAIControl_440590();
+                                        gCurrentCrewPed_6FEDDC->field_16C_car->sub_43AF40();
                                         byte_6FEB48 = 0;
                                     }
                                 }
                                 else
                                 {
-                                    if (field_10_subObj->field_24 == 1 && !pPed_6FEDDC->field_21C_bf.b27)
+                                    if (field_10_subObj->field_24 == 1 && !gCurrentCrewPed_6FEDDC->field_21C_bf.b27)
                                     {
-                                        pPed_6FEDDC->SetObjective2_463830(0, 9999);
-                                        pPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                                        pPed_6FEDDC->field_150_target_objective_car = field_10_subObj->field_0_car;
-                                        pPed_6FEDDC->field_21C_bf.b2 = false;
+                                        gCurrentCrewPed_6FEDDC->SetObjective2_463830(0, 9999);
+                                        gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                                        gCurrentCrewPed_6FEDDC->field_150_target_objective_car = field_10_subObj->field_0_car;
+                                        gCurrentCrewPed_6FEDDC->field_21C_bf.b2 = false;
                                     }
                                 }
                                 break;
@@ -756,26 +756,26 @@ void PoliceCrew_38::State6_ShutDown_574720()
                                 PoliceCrew_38::sub_575270();
                                 break;
                             case objectives_enum::objective_28:
-                                if (pPed_6FEDDC->field_225_objective_status)
+                                if (gCurrentCrewPed_6FEDDC->field_225_objective_status)
                                 {
-                                    pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                    pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                                    gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
                                 }
                                 break;
                             default:
-                                pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                                gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
                                 break;
                         }
                     }
 
                     if (field_10_subObj->field_8_group)
                     {
-                        pPed_6FEDDC = field_10_subObj->field_8_group->field_4_ped_list[i];
+                        gCurrentCrewPed_6FEDDC = field_10_subObj->field_8_group->field_4_ped_list[i];
                     }
                     else
                     {
-                        pPed_6FEDDC = NULL;
+                        gCurrentCrewPed_6FEDDC = NULL;
                     }
                 } // end for loop
             }
@@ -868,10 +868,10 @@ void PoliceCrew_38::State1_Patrol_574F10()
             }
             else
             {
-                pPed_6FEDDC = field_10_subObj->field_4_ped;
-                pPed_6FEDDC->field_21C_bf.b11 = 0;
+                gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
+                gCurrentCrewPed_6FEDDC->field_21C_bf.b11 = 0;
                 Hamburger_40* v13;
-                for (Ped* pPedIter = pPed_6FEDDC; pPedIter; ++idx)
+                for (Ped* pPedIter = gCurrentCrewPed_6FEDDC; pPedIter; ++idx)
                 {
                     switch (pPedIter->field_258_objective)
                     {
@@ -895,9 +895,9 @@ void PoliceCrew_38::State1_Patrol_574F10()
                                 else if ((pPedIter->field_21C & 0x8000000) == 0)
                                 {
                                     pPedIter->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                    pPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                                    pPed_6FEDDC->field_150_target_objective_car = field_10_subObj->field_0_car;
-                                    pPed_6FEDDC->field_21C &= ~4u;
+                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                                    gCurrentCrewPed_6FEDDC->field_150_target_objective_car = field_10_subObj->field_0_car;
+                                    gCurrentCrewPed_6FEDDC->field_21C &= ~4u;
                                 }
                             }
                             break;
@@ -911,13 +911,13 @@ void PoliceCrew_38::State1_Patrol_574F10()
                         case objectives_enum::goto_area_on_foot_12:
                         case objectives_enum::kill_char_on_foot_20:
                             pPedIter->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                            pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                            gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
                             break;
                         case objectives_enum::objective_28:
                             if (pPedIter->field_225_objective_status != objective_status::not_finished_0)
                             {
                                 pPedIter->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
                             }
                             break;
                         default:
@@ -932,7 +932,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
                     {
                         pPedIter = 0;
                     }
-                    pPed_6FEDDC = pPedIter;
+                    gCurrentCrewPed_6FEDDC = pPedIter;
                 }
             }
         }
@@ -951,10 +951,10 @@ void PoliceCrew_38::sub_575210()
 {
     if (field_10_subObj->field_24)
     {
-        if (pPed_6FEDDC->GetObjectiveStatus_450CB0())
+        if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0())
         {
-            pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-            pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+            gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+            gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
         }
         else
         {
@@ -963,8 +963,8 @@ void PoliceCrew_38::sub_575210()
     }
     else
     {
-        pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-        pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+        gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+        gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
     }
 }
 
@@ -973,27 +973,27 @@ void PoliceCrew_38::sub_575270()
 {
     if (field_10_subObj->field_24)
     {
-        if (pPed_6FEDDC->GetObjectiveStatus_450CB0())
+        if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0())
         {
-            pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-            pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+            gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+            gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
         }
     }
     else
     {
-        pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-        pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+        gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+        gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
     }
 }
 
 MATCH_FUNC(0x5752c0)
 void PoliceCrew_38::sub_5752C0()
 {
-    if (pPed_6FEDDC->field_225_objective_status != objective_status::not_finished_0)
+    if (gCurrentCrewPed_6FEDDC->field_225_objective_status != objective_status::not_finished_0)
     {
         field_10_subObj->field_28_state = 6;
-        pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-        pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+        gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+        gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
     }
     byte_6FEB48 = 1;
 }

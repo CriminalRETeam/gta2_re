@@ -25,7 +25,7 @@ void FirefighterPool_54::FireEnginesService_4A85F0()
         {
             if (p->field_4_bActive)
             {
-                p->sub_4A81F0();
+                p->Update_4A81F0();
             }
             p++;
         }
@@ -247,7 +247,7 @@ void Firefighter_28::deinit_4A81A0()
 
 // https://decomp.me/scratch/ZcdAk
 STUB_FUNC(0x4a81f0)
-void Firefighter_28::sub_4A81F0()
+void Firefighter_28::Update_4A81F0()
 {
     NOT_IMPLEMENTED;
 }
