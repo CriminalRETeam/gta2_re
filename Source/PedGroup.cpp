@@ -1193,41 +1193,45 @@ bool PedGroup::IsLeaderCloseToTargetCar_4CAD40()
     return false;
 }
 
-// TODO: close. The original loads pMember's x before pOther's, and an empty group
-// skips the final nearest_distance check.
-WIP_FUNC(0x4cae80)
+// The loop is a do/while under its own entry test: an empty group skips the final
+// nearest_distance check. Reading pOther's x directly (not through get_cam_x) loads
+// pMember's x first, as in the original.
+MATCH_FUNC(0x4cae80)
 Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx)
 {
-    WIP_IMPLEMENTED;
-
     Fix16 x_abs;
     Fix16 y_abs;
     Fix16 nearest_distance = dword_67F60C;
     u8 nearest_idx = 0;
     Ped* pMember = field_4_ped_list[idx];
-    for (u8 i = 0; i < field_34_count; i++)
+    u8 i = 0;
+    if (i < field_34_count)
     {
-        Ped* pOther = field_4_ped_list[i];
-        if (i != idx)
+        do
         {
-            Fix16 x_diff = pMember->get_cam_x() - pOther->get_cam_x();
-            Fix16 y_diff = pMember->get_cam_y() - pOther->get_cam_y();
-
-            x_abs = Fix16::Abs(x_diff);
-            y_abs = Fix16::Abs(y_diff);
-
-            Fix16 distance = (x_abs > y_abs) ? x_abs : y_abs;
-            if (distance < nearest_distance && pOther->sub_465CD0())
+            Ped* pOther = field_4_ped_list[i];
+            if (i != idx)
             {
-                nearest_distance = distance;
-                nearest_idx = i;
-            }
-        }
-    }
+                Fix16 x_diff = pMember->get_cam_x() - pOther->field_1AC_cam.x;
+                Fix16 y_diff = pMember->get_cam_y() - pOther->get_cam_y();
 
-    if (nearest_distance != dword_67F60C)
-    {
-        return field_4_ped_list[nearest_idx];
+                x_abs = Fix16::Abs(x_diff);
+                y_abs = Fix16::Abs(y_diff);
+
+                Fix16 distance = (x_abs > y_abs) ? x_abs : y_abs;
+                if (distance < nearest_distance && pOther->sub_465CD0())
+                {
+                    nearest_distance = distance;
+                    nearest_idx = i;
+                }
+            }
+            i++;
+        } while (i < field_34_count);
+
+        if (nearest_distance != dword_67F60C)
+        {
+            return field_4_ped_list[nearest_idx];
+        }
     }
     return 0;
 }
