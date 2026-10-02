@@ -2798,20 +2798,12 @@ s32 Object_2C::sub_529240()
     {
         case 45u:
         case 47u:
-            result = gGtx_0x106C_703DD4->field_6C_spec[pBlockInfo->field_0_left & 0x3FF];
-            if (result == 3)
-            {
-                return 1;
-            }
+            result = gGtx_0x106C_703DD4->sub_462FD0(pBlockInfo->field_0_left & 0x3FF);
             break;
 
         case 46u:
         case 48u:
-            result = gGtx_0x106C_703DD4->field_6C_spec[pBlockInfo->field_2_right & 0x3FF];
-            if (result == 3)
-            {
-                result = 1;
-            }
+            result = gGtx_0x106C_703DD4->sub_462FD0(pBlockInfo->field_2_right & 0x3FF);
             break;
 
         default:

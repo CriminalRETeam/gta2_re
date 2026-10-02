@@ -186,6 +186,17 @@ class gtx_0x106C
         return false;
     }
 
+    // 9.6f 0x462FD0
+    inline s32 sub_462FD0(u16 spec_idx)
+    {
+        s32 result = field_6C_spec[spec_idx];
+        if (result == 3)
+        {
+            result = 1;
+        }
+        return result;
+    }
+
     // 9.6f 0x49E570
     inline bool sub_49E570(u16 spec_idx)
     {
