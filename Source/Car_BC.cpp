@@ -2038,7 +2038,7 @@ Ang16 Car_BC::GetOrientationAngle_43A3E0()
     }
     else
     {
-        return field_58_physics->field_40_linvel_1.atan2_40F790();
+        return field_58_physics->GetLinvelAngle_4211E0();
     }
 }
 

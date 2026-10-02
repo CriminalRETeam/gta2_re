@@ -82,6 +82,12 @@ class CarPhysics_B0
         field_38_cp1.y = v.y;
     }
 
+    // 9.6f 0x4211E0
+    inline Ang16 GetLinvelAngle_4211E0()
+    {
+        return field_40_linvel_1.atan2_40F790();
+    }
+
     // 9.6f 0x421130
     inline bool IsRngBelowDamage_421130()
     {
