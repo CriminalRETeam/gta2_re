@@ -2729,10 +2729,7 @@ void Ped::TaxiCustomer_AI_460820()
                     Kill_46F9D0();
                     return;
                 }
-                if ((this->field_21C & 0x1000000) == 0)
-                {
-                    this->field_250 = 6;
-                }
+                Set_F250_IfBit_433DD0(6);
                 pTargetObjCar->sub_43AF40();
                 SetObjective(objectives_enum::time_waited_in_car_31, 0);
                 this->field_150_target_objective_car = this->field_16C_car;
@@ -2769,7 +2766,7 @@ void Ped::TaxiCustomer_AI_460820()
                     else
                     {
                         pTargetObjCar__ = this->field_150_target_objective_car;
-                        if (!pTargetObjCar__->field_4_passengers_list.field_0_pFirstPed && !pTargetObjCar__->IsDespawning_4215B0())
+                        if (pTargetObjCar__->field_4_passengers_list.IsEmpty_420EA0() && !pTargetObjCar__->IsDespawning_4215B0())
                         {
                             return;
                         }
@@ -2804,16 +2801,14 @@ void Ped::TaxiCustomer_AI_460820()
         if (pNearestTaxi)
         {
             pSprite = pNearestTaxi->field_50_car_sprite;
+            // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined, using it makes the diff worse)
             Fix16 dx = pSprite->field_14_xy.x - this->field_1AC_cam.x;
             Fix16 dy = pSprite->field_14_xy.y - this->field_1AC_cam.y;
             Fix16 dy_abs = Fix16::Abs(dy);
             Fix16 dx_abs = Fix16::Abs(dx);
             if (Fix16::Max_44E540(dx_abs, dy_abs) < k_dword_678658)
             {
-                if ((this->field_21C & 0x1000000) == 0)
-                {
-                    this->field_250 = 5;
-                }
+                Set_F250_IfBit_433DD0(5);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
                 this->field_150_target_objective_car = pTargetCar;
