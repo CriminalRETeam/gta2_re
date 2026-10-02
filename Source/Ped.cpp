@@ -3572,7 +3572,7 @@ void Ped::RemovePedWeapons_462510()
 {
     if (field_170_selected_weapon)
     {
-        field_21C_bf.b11 = 0;
+        ClearBit11_403A40();
         gWeapon_8_707018->deallocate_5E3CB0(field_170_selected_weapon);
         field_170_selected_weapon = 0;
     }
