@@ -81,17 +81,12 @@ Sprite_18* struct_4::GetSpriteForModel_5A6A50(s32 obj_type)
     Sprite_18* pIter = this->field_0_p18;
     while (pIter)
     {
-        const s32 sprite_type_enum = pIter->field_0->field_30_sprite_type_enum;
-        if (sprite_type_enum == sprite_types_enum::code_obj1_4 || sprite_type_enum == sprite_types_enum::map_obj_5 ||
-            sprite_type_enum == sprite_types_enum::unknown_1)
+        Object_2C* o5c = pIter->field_0->As2C_40FEC0();
+        if (o5c)
         {
-            Object_2C* o5c = pIter->field_0->field_8_object_2C_ptr;
-            if (o5c)
+            if (o5c->field_18_model == obj_type)
             {
-                if (o5c->field_18_model == obj_type)
-                {
-                    return pIter;
-                }
+                return pIter;
             }
         }
         pIter = pIter->mpNext;
