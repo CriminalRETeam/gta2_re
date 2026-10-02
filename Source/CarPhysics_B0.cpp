@@ -2318,10 +2318,9 @@ void CarPhysics_B0::ApplyForceWithTrailerRedirect_55F740(Fix16_Point* a2, Fix16_
 {
     WIP_IMPLEMENTED;
 
-    Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
-    if (pTrailer && pTrailer->field_C_pCarOnTrailer == field_5C_pCar)
+    if (field_5C_pCar->is_on_trailer_421720())
     {
-        CarPhysics_B0* pB0 = pTrailer->field_8_truck_cab->field_58_physics;
+        CarPhysics_B0* pB0 = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics;
         pB0->SetCurrentCarInfoAndModelPhysics_562EF0();
         pB0->ApplyForceAndIntegrate_55F7A0(a2, *a3);
         SetCurrentCarInfoAndModelPhysics_562EF0();
