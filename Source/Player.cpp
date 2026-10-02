@@ -1780,17 +1780,17 @@ void Player::Wasted_567130()
 
         (&gYouthful_einstein_6F8450)
             ->UpdateFugitive_516740( //  tag mode death handler
-                gGame_0x40_67E008->field_4_players[get_idx_4219D0()],
+                gGame_0x40_67E008->get_player_4219E0(get_idx_4219D0()),
                 player_killer); //  if player_killer != NULL then 'player_killer' now is "IT"
     }
 
     field_29 = 0;
-    field_2C4_player_ped->field_21C &= ~0x800u; //  TODO: BitSet32
+    field_2C4_player_ped->ClearBit11_403A40();
     if (field_28 == 0)
     {
         if (IsUser_41DC70())
         {
-            if (field_684_lives.field_0_value > 1 || bStartNetworkGame_7081F0)
+            if (field_684_lives.get_value() > 1 || bStartNetworkGame_7081F0)
             {
                 gHud_2B00_706620->field_111C.ShowMessage_5D1A00( //  It's really ugly, it's probably inlined
                     gText_0x14_704DFC->Find_5B5F90(GetDeathText_569F00()),
@@ -1810,12 +1810,12 @@ void Player::Wasted_567130()
         }
         field_28 = 1;
         field_2C = 70;
-        if (field_684_lives.field_0_value > 1)
+        if (field_684_lives.get_value() > 1)
         {
             field_2C8_unkq = gPedManager_6787BC->sub_470F90(field_2C4_player_ped);
             field_2C8_unkq->field_170_selected_weapon = 0;
             field_2C8_unkq->field_200_id = 0;
-            field_2C8_unkq->field_21C &= ~0x800u; //  TODO: BitSet32
+            field_2C8_unkq->ClearBit11_403A40();
             field_2C8_unkq->field_267_varrok_idx = 0;
             field_68 = 2;
             memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(field_208_aux_game_camera));
@@ -1827,12 +1827,12 @@ void Player::Wasted_567130()
     {
         if (field_2C8_unkq)
         {
-            field_2C8_unkq->field_21C &= ~0x800u; //  TODO: BitSet32
+            field_2C8_unkq->ClearBit11_403A40();
         }
 
         if (field_2C == 0)
         {
-            if (field_684_lives.field_0_value > 0 || bStartNetworkGame_7081F0)
+            if (field_684_lives.get_value() > 0 || bStartNetworkGame_7081F0)
             {
                 Player::ClearKFWeapon_5647D0();
                 if (!bKeep_weapons_after_death_67D54D)
