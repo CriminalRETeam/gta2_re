@@ -246,17 +246,15 @@ WIP_FUNC(0x4320D0);
 void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone)
 {
     WIP_IMPLEMENTED;
-    u16 found_idx = 0;
-    for (s16 i = 0; i < 10u; i = found_idx + 1)
+    for (u16 i = 0; i < 10u; i++)
     {
-        found_idx = find_431EC0(i, f_4, f_8, f_c, f_10, f_12, f_14, f_18, pZone);
-        // _found_idx = found_idx;
-        if (found_idx >= 10u)
+        i = find_431EC0(i, f_4, f_8, f_c, f_10, f_12, f_14, f_18, pZone);
+        if (i >= 10u)
         {
             break;
         }
-        silly_saha_0x2C* pFound = &field_0_bonuses[found_idx];
-        pFound->field_26_count++;
+        silly_saha_0x2C* pFound = &field_0_bonuses[i];
+        field_0_bonuses[i].field_26_count++;
         if (pFound->field_26_count == pFound->field_25_target_count)
         {
             field_1B8_pScores->field_368_player->Add_2D4(pFound->field_28_reward);
