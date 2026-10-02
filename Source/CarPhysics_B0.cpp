@@ -2310,11 +2310,9 @@ void CarPhysics_B0::ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point a
 }
 
 // 9.6f 0x4A0850
-WIP_FUNC(0x55f800)
+MATCH_FUNC(0x55f800)
 void CarPhysics_B0::ApplyForceAtPoint_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 bRotate)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point_POD point(a2->x, a2->y);
 
     switch (bRotate)
