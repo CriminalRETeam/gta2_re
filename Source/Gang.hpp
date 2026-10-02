@@ -14,7 +14,7 @@ class Gang_144
 
     EXPORT wchar_t* get_name_wide_4BED30();
     EXPORT void init_4BED70();
-    EXPORT char_type sub_4BEDF0(u8 gang_idx);
+    EXPORT char_type IsHostileToGang_4BEDF0(u8 gang_idx);
     EXPORT void SetRespect_4BEE30(u8 player_idx, char_type respect);
     EXPORT void IncrementRespect_4BEE50(u8 player_idx, char_type respect);
     EXPORT void DecrementRespect_4BEEA0(u8 player_idx, char_type respect);
@@ -101,9 +101,9 @@ class Gang_144
     u32 field_104_basic_weapon;
     u32 field_108_angry_weapon;
     u32 field_10C_hate_weapon;
-    char field_110;
+    char field_110_high_respect;
     char field_111;
-    char field_112[10];
+    char field_112_hostile_to_gang[10];
     s8 field_11C_respect[6];  // size: max num of players
     char field_122_gang_kill_reaction[10];
     Fix16 field_12C_info_phone_x;

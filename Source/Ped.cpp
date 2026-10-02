@@ -5580,7 +5580,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
         {
             if (pTargetPed->field_17C_pGang != field_17C_pGang)
             {
-                if (field_17C_pGang->sub_4BEDF0(pTargetPed->field_17C_pGang->field_1_gang_idx))
+                if (field_17C_pGang->IsHostileToGang_4BEDF0(pTargetPed->field_17C_pGang->field_1_gang_idx))
                 {
                     if (field_238_ped_type == ped_type::special_ped_4 || field_238_ped_type == ped_type::dummy_with_occupation_6)
                     {
@@ -5614,7 +5614,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
             }
         }
 
-        if (field_17C_pGang->field_110)
+        if (field_17C_pGang->field_110_high_respect)
         {
             switch (pTargetPed->field_240_occupation)
             {

@@ -313,7 +313,7 @@ u8 Sprite::GetWaterCornerMask_59E250()
     for (s32 i = 0; i < 4; i++)
     {
         Fix16_Point_POD* pIter = &pBBox[i];
-        if (gMap_0x370_6F6268->sub_4B9F40(pIter->x.ToInt(), pIter->y.ToInt(), zpos_delta.ToInt()))
+        if (gMap_0x370_6F6268->IsWaterBlockAt_4B9F40(pIter->x.ToInt(), pIter->y.ToInt(), zpos_delta.ToInt()))
         {
             bits |= 1 << i;
         }

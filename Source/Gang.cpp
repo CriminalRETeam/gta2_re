@@ -40,7 +40,7 @@ void Gang_144::init_4BED70()
     field_1_gang_idx = 0;
     field_0_used = 0;
     field_101_remap = 1;
-    field_110 = 0;
+    field_110_high_respect = 0;
     field_111 = 0;
     field_104_basic_weapon = 0;
     field_108_angry_weapon = 0;
@@ -51,7 +51,7 @@ void Gang_144::init_4BED70()
 
     for (u8 i = 0; i < 10; i++)
     {
-        field_112[i] = 1;
+        field_112_hostile_to_gang[i] = 1;
         field_122_gang_kill_reaction[i] = 0;
     }
 
@@ -63,9 +63,9 @@ void Gang_144::init_4BED70()
 }
 
 MATCH_FUNC(0x4BEDF0)
-char_type Gang_144::sub_4BEDF0(u8 gang_idx)
+char_type Gang_144::IsHostileToGang_4BEDF0(u8 gang_idx)
 {
-    return field_112[gang_idx];
+    return field_112_hostile_to_gang[gang_idx];
 }
 
 MATCH_FUNC(0x4BEE30)
@@ -93,11 +93,11 @@ void Gang_144::IncrementRespect_4BEE50(u8 player_idx, char_type respect)
 
     if (field_11C_respect[player_idx] >= 80)
     {
-        field_110 = true;
+        field_110_high_respect = true;
     }
     else
     {
-        field_110 = false;
+        field_110_high_respect = false;
     }
 }
 
@@ -112,11 +112,11 @@ void Gang_144::DecrementRespect_4BEEA0(u8 player_idx, char_type respect)
 
     if (field_11C_respect[player_idx] >= 80)
     {
-        field_110 = true;
+        field_110_high_respect = true;
     }
     else
     {
-        field_110 = false;
+        field_110_high_respect = false;
     }
 }
 

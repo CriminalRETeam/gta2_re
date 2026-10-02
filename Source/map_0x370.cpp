@@ -25,7 +25,7 @@ DEFINE_GLOBAL(gmp_block_info, gBlockInfo1_6F5F40, 0x6F5F40);
 DEFINE_GLOBAL(gmp_block_info, gBlockInfo2_6F6028, 0x6F6028);
 DEFINE_GLOBAL_ARRAY(gmp_map_slope, gGmpSlopes_6F5BA8, 64, 0x6F5BA8);
 DEFINE_GLOBAL(gmp_map_slope*, dword_6F5EC8, 0x6F5EC8);
-DEFINE_GLOBAL(s16, word_6F6002, 0x6F6002);
+DEFINE_GLOBAL(s16, gFaceCollisionMask_6F6002, 0x6F6002);
 DEFINE_GLOBAL(s32, gPurple_right_6F5B80, 0x6F5B80);
 DEFINE_GLOBAL(s32, gPurple_left_6F5FD4, 0x6F5FD4);
 DEFINE_GLOBAL(s32, dword_6F620C, 0x6F620C);
@@ -1374,7 +1374,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                 gmp_block_info* pBlock1 = Map_0x370::GetEffectiveBlock_4DFE60(x, y, zLevel);
                 if (pBlock1)
                 {
-                    if (((u16)word_6F6002 & pBlock1->field_2_right) != 0)
+                    if (((u16)gFaceCollisionMask_6F6002 & pBlock1->field_2_right) != 0)
                     {
                         if (!IsNorthOrSouthGradSlope_4634B0(pBlock1))
                         {
@@ -1388,7 +1388,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                 gmp_block_info* pBlock2 = Map_0x370::GetEffectiveBlock_4DFE60(x + 1, y, zLevel);
                 if (pBlock2)
                 {
-                    if (((u16)word_6F6002 & pBlock2->field_0_left) != 0)
+                    if (((u16)gFaceCollisionMask_6F6002 & pBlock2->field_0_left) != 0)
                     {
                         if (!IsNorthOrSouthGradSlope_4634B0(pBlock2))
                         {
@@ -1406,7 +1406,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                 gmp_block_info* pBlock3 = Map_0x370::GetEffectiveBlock_4DFE60(x, y, zLevel);
                 if (pBlock3)
                 {
-                    if (((u16)word_6F6002 & pBlock3->field_6_bottom) != 0)
+                    if (((u16)gFaceCollisionMask_6F6002 & pBlock3->field_6_bottom) != 0)
                     {
                         if (!IsWestOrEastGradSlope_4634B0(pBlock3))
                         {
@@ -1421,7 +1421,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                 gmp_block_info* pBlock4 = Map_0x370::GetEffectiveBlock_4DFE60(x, y + 1, zLevel);
                 if (pBlock4)
                 {
-                    if (((u16)word_6F6002 & pBlock4->field_4_top) != 0)
+                    if (((u16)gFaceCollisionMask_6F6002 & pBlock4->field_4_top) != 0)
                     {
                         if (!IsWestOrEastGradSlope_4634B0(pBlock4))
                         {
@@ -1538,7 +1538,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
 
     if (gradient_direction_ != 1)
     {
-        if (((u16)word_6F6002 & gBlockInfo0_6F5EB0->field_4_top) == 0)
+        if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_4_top) == 0)
         {
             goto LABEL_32;
         }
@@ -1559,7 +1559,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
         }
         return 1;
     }
-    if (!dword_6F6054 || ((u16)word_6F6002 & dword_6F6054->field_4_top) == 0)
+    if (!dword_6F6054 || ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_4_top) == 0)
     {
         goto LABEL_32;
     }
@@ -1578,7 +1578,7 @@ LABEL_32:
     dword_6F606C = pBlock3;
     if (pBlock3)
     {
-        if (((u16)word_6F6002 & pBlock3->field_6_bottom) != 0)
+        if (((u16)gFaceCollisionMask_6F6002 & pBlock3->field_6_bottom) != 0)
         {
             if (!gSprite_6F61E8)
             {
@@ -1601,7 +1601,7 @@ LABEL_39:
     }
     if (gradient_direction_ != 2)
     {
-        if (((u16)word_6F6002 & gBlockInfo0_6F5EB0->field_6_bottom) == 0)
+        if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_6_bottom) == 0)
         {
             goto LABEL_52;
         }
@@ -1627,7 +1627,7 @@ LABEL_39:
         goto LABEL_52;
     }
 
-    if (((u16)word_6F6002 & dword_6F6054->field_6_bottom) == 0)
+    if (((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_6_bottom) == 0)
     {
         goto LABEL_52;
     }
@@ -1646,7 +1646,7 @@ LABEL_52:
     dword_6F6070 = pBlock4;
     if (pBlock4)
     {
-        if (((u16)word_6F6002 & pBlock4->field_4_top) != 0)
+        if (((u16)gFaceCollisionMask_6F6002 & pBlock4->field_4_top) != 0)
         {
             if (!gSprite_6F61E8)
             {
@@ -1668,7 +1668,7 @@ LABEL_59:
     }
     if (gradient_direction_ != 3)
     {
-        if (((u16)word_6F6002 & gBlockInfo0_6F5EB0->field_0_left) == 0)
+        if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_0_left) == 0)
         {
             goto LABEL_72;
         }
@@ -1694,7 +1694,7 @@ LABEL_59:
         goto LABEL_72;
     }
 
-    if (((u16)word_6F6002 & dword_6F6054->field_0_left) == 0)
+    if (((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_0_left) == 0)
     {
         goto LABEL_72;
     }
@@ -1713,7 +1713,7 @@ LABEL_72:
     dword_6F6078 = pBlock5;
     if (pBlock5)
     {
-        if (((u16)word_6F6002 & pBlock5->field_2_right) != 0)
+        if (((u16)gFaceCollisionMask_6F6002 & pBlock5->field_2_right) != 0)
         {
             if (!gSprite_6F61E8)
             {
@@ -1733,7 +1733,7 @@ LABEL_72:
     }
     if (dword_6F606C)
     {
-        if (dword_6F5BA0 <= dword_6F5FAC && ((u16)word_6F6002 & dword_6F606C->field_0_left) != 0)
+        if (dword_6F5BA0 <= dword_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & dword_6F606C->field_0_left) != 0)
         {
             if (dword_6F6084->field_0_gradient_direction != 1 && (u8)dword_6F6084->field_0_gradient_direction != 2)
             {
@@ -1766,7 +1766,7 @@ LABEL_72:
 
     if (dword_6F5FAC <= dword_6F5BA0)
     {
-        if (((u16)word_6F6002 & pBlock5->field_4_top) != 0 && dword_6F608C->field_0_gradient_direction != 3 &&
+        if (((u16)gFaceCollisionMask_6F6002 & pBlock5->field_4_top) != 0 && dword_6F608C->field_0_gradient_direction != 3 &&
             dword_6F608C->field_0_gradient_direction != 4)
         {
             if (!gSprite_6F61E8)
@@ -1790,7 +1790,7 @@ LABEL_99:
     dword_6F5F90 = pBlock6;
     if (pBlock6)
     {
-        if (((u16)word_6F6002 & pBlock6->field_2_right) != 0)
+        if (((u16)gFaceCollisionMask_6F6002 & pBlock6->field_2_right) != 0)
         {
             if (!gSprite_6F61E8)
             {
@@ -1806,7 +1806,7 @@ LABEL_99:
 
         if (pBlock6)
         {
-            if (((u16)word_6F6002 & pBlock6->field_6_bottom) != 0)
+            if (((u16)gFaceCollisionMask_6F6002 & pBlock6->field_6_bottom) != 0)
             {
                 if (!gSprite_6F61E8)
                 {
@@ -1830,7 +1830,7 @@ LABEL_111:
 
     if (dword_6F6070)
     {
-        if (dword_6F5BA0 <= dword_6F6248 && ((u16)word_6F6002 & dword_6F6070->field_0_left) != 0)
+        if (dword_6F5BA0 <= dword_6F6248 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6070->field_0_left) != 0)
         {
             if (dword_6F6088->field_0_gradient_direction != 1 && (u8)dword_6F6088->field_0_gradient_direction != 2)
             {
@@ -1858,7 +1858,7 @@ LABEL_111:
             goto LABEL_131;
         }
 
-        if (((u16)word_6F6002 & pBlock5->field_6_bottom) != 0 && dword_6F608C->field_0_gradient_direction != 3 &&
+        if (((u16)gFaceCollisionMask_6F6002 & pBlock5->field_6_bottom) != 0 && dword_6F608C->field_0_gradient_direction != 3 &&
             dword_6F608C->field_0_gradient_direction != 4)
         {
             if (!gSprite_6F61E8)
@@ -1885,7 +1885,7 @@ LABEL_131:
     dword_6F5FB0 = pBlock7;
     if (pBlock7)
     {
-        if (((u16)word_6F6002 & pBlock7->field_2_right) != 0)
+        if (((u16)gFaceCollisionMask_6F6002 & pBlock7->field_2_right) != 0)
         {
             if (!gSprite_6F61E8)
             {
@@ -1900,7 +1900,7 @@ LABEL_131:
 
         if (pBlock7)
         {
-            if (((u16)word_6F6002 & pBlock7->field_4_top) != 0)
+            if (((u16)gFaceCollisionMask_6F6002 & pBlock7->field_4_top) != 0)
             {
                 if (!gSprite_6F61E8)
                 {
@@ -1920,7 +1920,7 @@ LABEL_142:
     }
     if (gradient_direction_ != 4)
     {
-        if (((u16)word_6F6002 & gBlockInfo0_6F5EB0->field_2_right) == 0)
+        if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_2_right) == 0)
         {
             goto LABEL_155;
         }
@@ -1943,7 +1943,7 @@ LABEL_142:
         return 1;
     }
 
-    if (!dword_6F6054 || ((u16)word_6F6002 & dword_6F6054->field_2_right) == 0)
+    if (!dword_6F6054 || ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_2_right) == 0)
     {
         goto LABEL_155;
     }
@@ -1964,7 +1964,7 @@ LABEL_155:
     dword_6F6060 = pBlock8;
     if (pBlock8)
     {
-        if (((u16)word_6F6002 & pBlock8->field_0_left) != 0)
+        if (((u16)gFaceCollisionMask_6F6002 & pBlock8->field_0_left) != 0)
         {
             if (!gSprite_6F61E8)
             {
@@ -1987,7 +1987,7 @@ LABEL_155:
     
     if (dword_6F606C)
     {
-        if (dword_6F620C <= dword_6F5FAC && ((u16)word_6F6002 & dword_6F606C->field_2_right) != 0)
+        if (dword_6F620C <= dword_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & dword_6F606C->field_2_right) != 0)
         {
             if (dword_6F6084->field_0_gradient_direction != 1 && (u8)dword_6F6084->field_0_gradient_direction != 2)
             {
@@ -2021,7 +2021,7 @@ LABEL_155:
 
     if (dword_6F5FAC <= dword_6F620C)
     {
-        if (((u16)word_6F6002 & pBlock8->field_4_top) != 0 && dword_6F6080->field_0_gradient_direction != 3 &&
+        if (((u16)gFaceCollisionMask_6F6002 & pBlock8->field_4_top) != 0 && dword_6F6080->field_0_gradient_direction != 3 &&
             dword_6F6080->field_0_gradient_direction != 4)
         {
             if (!gSprite_6F61E8)
@@ -2046,7 +2046,7 @@ LABEL_182:
 
     if (pBlock9)
     {
-        if (((u16)word_6F6002 & pBlock9->field_0_left) != 0)
+        if (((u16)gFaceCollisionMask_6F6002 & pBlock9->field_0_left) != 0)
         {
             if (!gSprite_6F61E8)
             {
@@ -2062,7 +2062,7 @@ LABEL_182:
 
         if (pBlock9)
         {
-            if (((u16)word_6F6002 & pBlock9->field_6_bottom) != 0)
+            if (((u16)gFaceCollisionMask_6F6002 & pBlock9->field_6_bottom) != 0)
             {
                 if (!gSprite_6F61E8)
                 {
@@ -2085,7 +2085,7 @@ LABEL_194:
     }
     if (dword_6F6070)
     {
-        if (dword_6F620C <= dword_6F6248 && ((u16)word_6F6002 & dword_6F6070->field_2_right) != 0)
+        if (dword_6F620C <= dword_6F6248 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6070->field_2_right) != 0)
         {
             if (dword_6F6088->field_0_gradient_direction != 1 && (u8)dword_6F6088->field_0_gradient_direction != 2)
             {
@@ -2113,7 +2113,7 @@ LABEL_194:
             goto LABEL_214;
         }
 
-        if (((u16)word_6F6002 & pBlock8->field_6_bottom) != 0 && dword_6F6080->field_0_gradient_direction != 3 &&
+        if (((u16)gFaceCollisionMask_6F6002 & pBlock8->field_6_bottom) != 0 && dword_6F6080->field_0_gradient_direction != 3 &&
             dword_6F6080->field_0_gradient_direction != 4)
         {
             if (!gSprite_6F61E8)
@@ -2140,7 +2140,7 @@ LABEL_214:
     if (pBlock10)
     {
 
-        if ((((u16)word_6F6002) & pBlock10->field_0_left) != 0)
+        if ((((u16)gFaceCollisionMask_6F6002) & pBlock10->field_0_left) != 0)
         {
             if (!gSprite_6F61E8)
             {
@@ -2156,7 +2156,7 @@ LABEL_214:
 
         if (pBlock10)
         {
-            if (((u16)word_6F6002 & pBlock10->field_4_top) != 0)
+            if (((u16)gFaceCollisionMask_6F6002 & pBlock10->field_4_top) != 0)
             {
                 if (!gSprite_6F61E8)
                 {
@@ -2177,7 +2177,7 @@ MATCH_FUNC(0x4E4460)
 char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6)
 {
     gSprite_6F61E8 = a5;
-    word_6F6002 = a6;
+    gFaceCollisionMask_6F6002 = a6;
     if (gPurple_right_6F5B80 - gPurple_left_6F5FD4 >= 3 || a2 > gPurple_left_6F5FD4 + 1 || a2 < gPurple_right_6F5B80 - 1)
     {
         if (CanSpriteEnterTile_4E1E00(a2 - 1, a2 + 1, gPurple_top_6F6108, gPurple_bottom_6F5F38, a2, a3, a4))
@@ -2440,7 +2440,7 @@ gmp_block_info* Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(s32 x, s32 y, s32& z
 }
 
 MATCH_FUNC(0x4E4D40)
-Fix16 Map_0x370::sub_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
+Fix16 Map_0x370::FindGroundZBelowCoord_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
     gmp_block_info* block_4DFE10;
     u8 slope_byte;
@@ -2519,7 +2519,7 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
 }
 
 MATCH_FUNC(0x4E4F40)
-Fix16* Map_0x370::sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
+Fix16* Map_0x370::GetGroundZBelowCoord_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
 {
     gmp_block_info* block_4DFE10;
     Fix16 new_z;
@@ -2828,7 +2828,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
 
     for (u8 i = 1; i <= value_1.ToInt(); i++)
     {
-        Fix16 unk_f16 = gMap_0x370_6F6268->sub_4E4D40(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, pObjSprt->field_1C_zpos);
+        Fix16 unk_f16 = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, pObjSprt->field_1C_zpos);
         if (value_3 == kFpZero_6F610C)
         {
             pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x + vec_x,
@@ -2889,7 +2889,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
                                                                       pObjSprt->field_1C_zpos.ToInt()) != AIR)
                     {
                         Fix16 unk2_f16 =
-                            gMap_0x370_6F6268->sub_4E4D40(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, pObjSprt->field_1C_zpos);
+                            gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, pObjSprt->field_1C_zpos);
                         if (unk2_f16 > pObjSprt->field_1C_zpos)
                         {
                             return 0;
@@ -3565,7 +3565,7 @@ void Map_0x370::RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type d
 }
 
 STUB_FUNC(0x4E8A10)
-void Map_0x370::sub_4E8A10(s32 a2, s32 a3)
+void Map_0x370::LowerColumn_4E8A10(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
 }
@@ -3577,7 +3577,7 @@ void Map_0x370::LowerLevel_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max)
     {
         for (s32 column_x = x_min; column_x <= x_max; ++column_x)
         {
-            Map_0x370::sub_4E8A10(column_x, column_y);
+            Map_0x370::LowerColumn_4E8A10(column_x, column_y);
         }
     }
 }

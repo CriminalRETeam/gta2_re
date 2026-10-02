@@ -575,7 +575,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
 
         if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(xCoord1, yCoord1, zCoord1))
         {
-            field_10_zStart = gMap_0x370_6F6268->sub_4E4D40(Fix16(xCoord1), Fix16(yCoord1), Fix16(zCoord1)).ToUInt8();
+            field_10_zStart = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(Fix16(xCoord1), Fix16(yCoord1), Fix16(zCoord1)).ToUInt8();
         }
         gOrca_SlopeZDelta_6FDEEC = 0;
         field_20_xpos = xCoord1;
@@ -899,7 +899,7 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
 
     if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_E_xStart, field_F_yStart, field_10_zStart))
     {
-        field_10_zStart = gMap_0x370_6F6268->sub_4E4D40(Fix16(field_E_xStart), Fix16(field_F_yStart), Fix16(field_10_zStart)).ToUInt8();
+        field_10_zStart = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(Fix16(field_E_xStart), Fix16(field_F_yStart), Fix16(field_10_zStart)).ToUInt8();
     }
     field_16 = 0;
     field_11_xEnd = 0;

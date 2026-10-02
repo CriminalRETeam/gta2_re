@@ -15,7 +15,7 @@ DEFINE_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
 DEFINE_GLOBAL(TrainStationList, gTrainStationList_6FEE68, 0x6FEE68);
 DEFINE_GLOBAL(u8, gStationCount_6FF1CC, 0x6FF1CC);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6FF078, 0, 0x6FF078);
-DEFINE_GLOBAL_INIT(Fix16_Point, stru_6FF150, Fix16_Point(Fix16(0), Fix16(0)), 0x6FF150);
+DEFINE_GLOBAL_INIT(Fix16_Point, kZeroPoint_6FF150, Fix16_Point(Fix16(0), Fix16(0)), 0x6FF150);
 DEFINE_GLOBAL(u8, gNameCompareLen_6FF158, 0x6FF158);
 DEFINE_GLOBAL(u8, byte_6FF1CD, 0x6FF1CD);
 DEFINE_GLOBAL(s32, dword_6FF1D0, 0x6FF1D0);
@@ -23,10 +23,10 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FF07C, Fix16(1), 0x6FF07C);
 Fix16 kFpHalf_6FEEE8 = Fix16(0.5); //DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FEEE8, Fix16(0.5), 0x6FEEE8);
 Ang16 kAng0_6FF1BC = Ang16(0); //DEFINE_GLOBAL_INIT(Ang16, kAng0_6FF1BC, Ang16(0), 0x6FF1BC);
 
-Fix16 dword_6FEEE0 = Fix16(0x1333, 0); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
-Fix16 dword_6FEED4 = Fix16(0x666, 0); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEED4, Fix16(0x666, 0), 0x6FEED4);
-Fix16 dword_6FEEDC = Fix16(0xCCC, 0); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
-Fix16 dword_6FEEE4 = Fix16(0x1999, 0); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEEE4, Fix16(0x1999, 0), 0x6FEEE4);
+Fix16 kTrainSpeedState0_6FEEE0 = Fix16(0x1333, 0); //DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState0_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
+Fix16 kTrainSpeedState1And3_6FEED4 = Fix16(0x666, 0); //DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState1And3_6FEED4, Fix16(0x666, 0), 0x6FEED4);
+Fix16 kTrainSpeedState4_6FEEDC = Fix16(0xCCC, 0); //DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState4_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
+Fix16 kTrainSpeedState5_6FEEE4 = Fix16(0x1999, 0); //DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState5_6FEEE4, Fix16(0x1999, 0), 0x6FEEE4);
 
 MATCH_FUNC(0x577E20)
 char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
@@ -288,7 +288,7 @@ void Train_58::Stop_578300()
 }
 
 MATCH_FUNC(0x578330)
-void Train_58::sub_578330()
+void Train_58::CloseCarriageDoors_578330()
 {
     if (!bSkip_trains_67D550)
     {
@@ -306,7 +306,7 @@ void Train_58::sub_578330()
 }
 
 MATCH_FUNC(0x578360)
-void Train_58::sub_578360()
+void Train_58::OpenCarriageDoors_578360()
 {
     if (!bSkip_trains_67D550)
     {
@@ -464,11 +464,11 @@ void Train_58::ProcessTrainExplosionChain_578670()
             {
                 if (pFirst->field_74_damage >= 32000)
                 {
-                    pCars->AccumulateDamage_43DA90(32000, &stru_6FF150);
+                    pCars->AccumulateDamage_43DA90(32000, &kZeroPoint_6FF150);
                 }
                 else
                 {
-                    pFirst->AccumulateDamage_43DA90(32000, &stru_6FF150);
+                    pFirst->AccumulateDamage_43DA90(32000, &kZeroPoint_6FF150);
                 }
             }
         }
@@ -496,7 +496,7 @@ void Train_58::ProcessTrainExplosionChain_578670()
                 --field_38_explosion_timers[car_idx];
                 if (!field_38_explosion_timers[car_idx])
                 {
-                    field_C_carriages[car_idx + 1]->AccumulateDamage_43DA90(32000, &stru_6FF150);
+                    field_C_carriages[car_idx + 1]->AccumulateDamage_43DA90(32000, &kZeroPoint_6FF150);
                     if (car_idx > 0)
                     {
                         *((u8*)&field_C_carriages[10] + car_idx + 3) = 10;
@@ -976,11 +976,11 @@ bool PublicTransport_181C::GetTrainSpeed_579B90(Car_BC* pToFind, Fix16* pF16Unk)
                 switch (pTrain->field_50_state)
                 {
                     case 0:
-                        *pF16Unk = dword_6FEEE0;
+                        *pF16Unk = kTrainSpeedState0_6FEEE0;
                         return false;
                         break;
                     case 1:
-                        *pF16Unk = dword_6FEED4;
+                        *pF16Unk = kTrainSpeedState1And3_6FEED4;
                         return false;
                         break;
                     case 2:
@@ -988,15 +988,15 @@ bool PublicTransport_181C::GetTrainSpeed_579B90(Car_BC* pToFind, Fix16* pF16Unk)
                         return true;
                         break;
                     case 3:
-                        *pF16Unk = dword_6FEED4;
+                        *pF16Unk = kTrainSpeedState1And3_6FEED4;
                         return true;
                         break;
                     case 4:
-                        *pF16Unk = dword_6FEEDC;
+                        *pF16Unk = kTrainSpeedState4_6FEEDC;
                         return true;
                         break;
                     case 5:
-                        *pF16Unk = dword_6FEEE4;
+                        *pF16Unk = kTrainSpeedState5_6FEEE4;
                         return true;
                         break;
                     default:
