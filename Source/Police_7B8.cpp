@@ -151,8 +151,8 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     {
         case 3:
             pCop = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
-            pCop->field_238_ped_type = ped_type::special_ped_4;
-            pCop->field_240_occupation = ped_ocupation_enum::roadblock_cop_37;
+            pCop->SetField238_403920(ped_type::special_ped_4);
+            pCop->set_occupation_403970(ped_ocupation_enum::roadblock_cop_37);
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
             pCop->field_244_remap = 8;
             pCop->field_26C_graphic_type = 1;
@@ -163,8 +163,8 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
             break;
         case 1:
             pCop = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
-            pCop->field_238_ped_type = ped_type::special_ped_4;
-            pCop->field_240_occupation = ped_ocupation_enum::roadblock_cop_37;
+            pCop->SetField238_403920(ped_type::special_ped_4);
+            pCop->set_occupation_403970(ped_ocupation_enum::roadblock_cop_37);
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
             pCop->field_244_remap = 0;
             pCop->field_26C_graphic_type = 2;
