@@ -332,6 +332,9 @@ class Sprite
         }
     }
 
+    // 9.6f 0x4BA230, defined in sprite.cpp
+    inline u16 GetTrueSpriteIdx_4BA230();
+
     // 9.6f 0x446960
     inline Fix16 ManhattanDistance_446960(Sprite* pOther)
     {

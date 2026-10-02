@@ -338,10 +338,16 @@ void Sprite::sub_59E300()
     memcpy(field_C_sprite_4c_ptr, field_4_0x4C_len, sizeof(Sprite_4C));
 }
 
+// 9.6f 0x4BA230
+inline u16 Sprite::GetTrueSpriteIdx_4BA230()
+{
+    return gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+}
+
 MATCH_FUNC(0x59e320)
 void Sprite::IncreaseZoom_59E320(char_type a2)
 {
-    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+    u16 sprite_idx = GetTrueSpriteIdx_4BA230();
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     u32 field_5_height = sprite_index_5AA440->field_5_height;
     u32 field_4_width = sprite_index_5AA440->field_4_width;
