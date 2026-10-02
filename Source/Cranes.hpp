@@ -12,6 +12,12 @@ class Car_BC;
 class Crane_15C
 {
   public:
+    // 9.6f 0x447F60
+    inline void set_field_148_447F60(s32 v)
+    {
+        field_148 = v;
+    }
+
     // 9.6f 0x476900
     inline void set_maybe_homecrane_476900(Crane_15C* v)
     {

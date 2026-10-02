@@ -817,7 +817,7 @@ MATCH_FUNC(0x4803b0)
 void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
 {
     field_144 = 0;
-    field_148 = 0;
+    set_field_148_447F60(0);
 
     field_80 = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x_pos, y_pos);
     field_2C_rotor_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_rotor_135, x_pos, y_pos, field_80, word_679FC4);
@@ -911,7 +911,7 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     {
         field_7C = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Crane_15C_8);
     }
-    field_28_strct4.field_0_p18 = 0;
+    field_28_strct4.sub_4207E0();
 }
 
 MATCH_FUNC(0x480900)
