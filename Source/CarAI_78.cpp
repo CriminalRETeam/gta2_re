@@ -701,10 +701,12 @@ void CarAI_78::sub_4482C0()
 
             field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, v8, v7);
 
-            Fix16 v14 = (gF16fOne_677B94 * Ang16::cosine_40F520(this->field_10_angle)) + field_0_car->field_50_car_sprite->field_14_xy.y;
-            Fix16 v15 = (gF16fOne_677B94 * Ang16::sine_40F500(this->field_10_angle)) + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v15, v14, field_0_car->field_50_car_sprite->field_1C_zpos);
+            Fix16 dx;
+            Fix16 dy;
+            Ang16::PolarToCartesian_41FC20(this->field_10_angle, gF16fOne_677B94, dx, dy);
+            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + dx,
+                                                                  field_0_car->field_50_car_sprite->field_14_xy.y + dy,
+                                                                  field_0_car->field_50_car_sprite->field_1C_zpos);
 
             Sprite* NearestSpriteOfType_477E60 =
                 gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0);
@@ -864,7 +866,7 @@ void CarAI_78::sub_4482C0()
             field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v18, v32, field_0_car->field_50_car_sprite->field_1C_zpos);
 
             Sprite* v26 = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(v1, 0);
-            if (v26 && v26->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            if (v26 && v26->get_type_416B40() == sprite_types_enum::car_2)
             {
                 CarAI_78* pAi = v26->field_8_car_bc_ptr->field_5C_AI;
                 if (pAi)
