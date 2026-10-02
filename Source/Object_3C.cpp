@@ -424,7 +424,17 @@ Sprite* struct_4::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
     return new_ret;
 }
 
-WIP_FUNC(0x5a6ea0)
+// 9.6f: like Fix16::MaxAbsDistance_42A6B0 (0x42A6B0), which takes the four coordinates by reference.
+// Taking them by reference makes VC6 load both sprite coordinates before the subtractions, and
+// writing the result through an out parameter keeps the read of Max_44E540's returned pointer.
+static inline void MaxAbsDistance_5A6EA0(Fix16& out, Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+{
+    Fix16 diff_x = x2 - x1;
+    Fix16 diff_y = y2 - y1;
+    out = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(diff_x), Fix16::Abs(diff_y));
+}
+
+MATCH_FUNC(0x5a6ea0)
 Sprite* struct_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 {
     Sprite_18* pPrev = 0;
@@ -435,10 +445,7 @@ Sprite* struct_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 
     for (Sprite_18* pIter = field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined, using it makes the diff worse)
-        Fix16 xd = pIter->field_0->field_14_xy.x - xpos;
-        Fix16 yd = pIter->field_0->field_14_xy.y - ypos;
-        distance = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(xd), Fix16::Abs(yd));
+        MaxAbsDistance_5A6EA0(distance, xpos, ypos, pIter->field_0->field_14_xy.x, pIter->field_0->field_14_xy.y);
         if (distance < smallest)
         {
             pClosest = pIter;
