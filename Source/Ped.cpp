@@ -996,7 +996,7 @@ void Ped::ManageBurning_45BEC0()
                 }
             }
 
-            if (!field_15C_player) // not player
+            if (!is_player_41B0A0()) // not player
             {
                 if (field_168_game_object)
                 {
