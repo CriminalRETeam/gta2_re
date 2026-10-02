@@ -526,7 +526,7 @@ void Police_7B8::sub_56FBD0()
         }
 
         pCriminal = pService->field_0_criminal_ped;
-        if (!(pCriminal->field_21C & 1) || pCriminal->isDead_403B60())
+        if (!pCriminal->CheckBit0_433B40() || pCriminal->isDead_403B60())
         {
             pService->field_8_state = 4;
         }
@@ -537,7 +537,7 @@ void Police_7B8::sub_56FBD0()
             {
                 if ((u16)pService->field_7A_wanted_timer >= 900)
                 {
-                    pService->field_0_criminal_ped->field_20A_wanted_points = 0;
+                    pService->field_0_criminal_ped->ClearWantedPoints_420B80();
                     pService->field_0_criminal_ped->field_20A_wanted_points = 0;
                     pService->field_7A_wanted_timer = 0;
                     return;

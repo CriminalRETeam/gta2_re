@@ -679,6 +679,12 @@ class Ped
         field_228 = 0;
     }
 
+    // 9.6f 0x420B80
+    inline void ClearWantedPoints_420B80()
+    {
+        field_20A_wanted_points = 0;
+    }
+
     // 9.6f 0x433BE0
     inline void ClearF144_433BE0()
     {
