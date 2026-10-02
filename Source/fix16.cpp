@@ -49,6 +49,12 @@ s32 Fix16::IsLess_451670(const Fix16& other) const
     return mValue < other.mValue;
 }
 
+MATCH_FUNC(0x451690)
+s32 Fix16::IsGreater_451690(const Fix16& other) const
+{
+    return mValue > other.mValue;
+}
+
 MATCH_FUNC(0x4086A0)
 Fix16 Fix16::Negate_4086A0() const
 {
