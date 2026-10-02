@@ -332,6 +332,12 @@ class Phi_8CA8
     EXPORT void ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx);
     EXPORT void InitDefinitions_534330();
     EXPORT Phi_74* GetObjectDefinition_534360(s32 idx);
+
+    // 9.6f 0x4C6E30
+    inline s16 GetObjectPalette_4C6E30(s32 idx)
+    {
+        return GetObjectDefinition_534360(idx)->field_1E_sprite_palette;
+    }
     EXPORT Phi_74* CloneDefinition_534370(s32 dst_idx, s32 src_idx);
     EXPORT Phi_74* AllocDefinition_5343C0(s32 idx);
     EXPORT Phi_8CA8();

@@ -564,7 +564,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                              value_1,
                              gfrosty_pasteur_6F8060->field_318_total_secrets);
                     sprite_type = 4;
-                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(286)->field_1E_sprite_palette;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectPalette_4C6E30(286);
                     break;
 
                 case HudPauseSection::tokens_collected_6:
@@ -573,7 +573,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                              gLucid_hamilton_67E8E0.get_secret_tokens_collected_453A80(),
                              50);
                     sprite_type = 4;
-                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(266)->field_1E_sprite_palette;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectPalette_4C6E30(266);
                     break;
                 default:
                     break;
@@ -585,7 +585,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
             if (sprite_pal != 0)
             {
                 u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_pal);
-                s32 icon_width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width + 10;
+                s32 icon_width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx) + 10;
                 s32 xpos = (640 - icon_width - max_width_2) / 2;
                 DrawFigureScaled_5D7670(sprite_type, sprite_pal, xpos + icon_width / 2, 235, kAngZero_706610, 2, 0, 0, 0);
                 v28 = icon_width + xpos;
