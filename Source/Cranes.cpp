@@ -245,7 +245,7 @@ void Crane_15C::sub_47EF80()
         Ped* pPed = gPedManager_6787BC->PedById(pCar->field_95);
         if (pPed)
         {
-            if (pPed->field_15C_player)
+            if (pPed->is_player_41B0A0())
             {
                 pCar->field_95 = 0;
             }
