@@ -41,6 +41,13 @@ is usually an inline, but can also be a pairing miss, so check the asm. "10.5 co
 still has an out-of-line copy of the inline (often an unmarked COMDAT). Library code (CRT,
 Bink and Miles thunks) is left out.
 
+## Callee check
+
+`Scripts/bin_comp/compare_callees.py` lists, per WIP, where the build's call targets differ
+from the original's (both resolved to names). The verifier doesn't compare call targets, so this
+is not a list of mismatches. It does show out-of-line copies that still lack a marker (it found
+`Fix16_Point::operator-` at 0x40AC80), and calls that 10.5 inlines or doesn't.
+
 ## 9.6f is a reference only
 
 9.6f was built with a different compiler and different settings, so its code never has to match.
