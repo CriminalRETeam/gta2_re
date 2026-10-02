@@ -1469,7 +1469,7 @@ Ang16 Ped::GetRotation()
 {
     if (field_168_game_object != NULL)
     {
-        return field_168_game_object->field_40_rotation;
+        return field_168_game_object->get_rotation_433A40();
     }
 
     if (field_16C_car != NULL)
