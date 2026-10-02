@@ -751,27 +751,26 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
     }
 }
 
-WIP_FUNC(0x4364A0)
+MATCH_FUNC(0x4364A0)
 void Camera_0xBC::UpdateFollowCarCamera_4364A0(Car_BC* pCar)
 {
-    WIP_IMPLEMENTED;
 
     this->field_34_ped = 0;
     this->field_38_car = pCar;
 
     if (pCar)
     {
-        Fix16 new_x = pCar->get_x_41E430();
-        Fix16 new_y = pCar->get_y_41E440();
-        Fix16 new_z = Max_41E130(pCar->get_z_41E450() - kTwo_676820, kOne_67681C);
+        Fix16 new_x;
+        new_x = pCar->get_x_41E430();
+        Fix16 new_y;
+        new_y = pCar->get_y_41E440();
+        Fix16 new_z;
+        new_z = Max_41E130(pCar->get_z_41E450() - kTwo_676820, kOne_67681C);
+        Fix16 zoom = kDefaultZoom_6766D4;
 
         AccumulateSuspicionOnDriver_435F90(pCar);
         ApplyCarVelocityCameraOffset_436200(pCar, &new_x, &new_y, &new_z);
-        // 9.6f: SetCamera_41E3D0 (inlined, using it changes the code)
-        this->field_10_cam_pos_tgt2.field_0_x = new_x;
-        this->field_10_cam_pos_tgt2.field_4_y = new_y;
-        this->field_10_cam_pos_tgt2.field_8_z = new_z + field_40_tgt_elevation;
-        this->field_10_cam_pos_tgt2.field_C_zoom = kDefaultZoom_6766D4;
+        SetCamera_41E3D0(new_x, new_y, new_z, zoom);
     }
 }
 
