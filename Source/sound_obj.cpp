@@ -552,7 +552,7 @@ void sound_obj::InterrogateAudioEntities_41A730()
 
     if (field_1478_type5Idx != 0 && (pTmp = field_147C[field_1478_type5Idx].field_4_pObj->field_C_pAny.pCamera_0xBC) != NULL)
     {
-        Ped* v4 = pTmp->field_34_ped;
+        Ped* v4 = pTmp->get_ped_416B70();
 
         if (v4 != NULL)
         {
@@ -1343,7 +1343,7 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
                     Sprite* v7 = field_147C[idx].field_4_pObj->field_C_pAny.pSprite;
                     if (v7)
                     {
-                        switch (v7->field_30_sprite_type_enum)
+                        switch (v7->get_type_416B40())
                         {
                             case sprite_types_enum::car_2: // note: sub eax, 2 added via switch case instead of if
                                 sound_unknown_0xC* pNewObj = new sound_unknown_0xC();
@@ -1394,7 +1394,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
             if (pTuring->field_C_pAny.pSprite)
             {
                 Sprite* pAny = pTuring->field_C_pAny.pSprite;
-                switch (pAny->field_30_sprite_type_enum)
+                switch (pAny->get_type_416B40())
                 {
                     case sprite_types_enum::car_2:
                         if (field_147C[idx].field_8_pAlloc)
@@ -1700,7 +1700,7 @@ u8 sound_obj::FindEmitterByStatus_57F050(s32 status)
 MATCH_FUNC(0x57F090)
 bool sound_obj::IsPoliceOrServiceVehicle_57F090(Car_BC* pCar)
 {
-    switch (pCar->field_84_car_info_idx)
+    switch (pCar->GetCarInfoIdx_411940())
     {
         case car_model_enum::apc:
         case car_model_enum::COPCAR:
@@ -2386,7 +2386,7 @@ void sound_obj::ProcessType9_Crusher_412A60(s32 idx)
     {
         if (pCrusher->field_2C_state)
         {
-            Fix16 x = pCrusher->field_24_xpos;
+            Fix16 x = pCrusher->get_xpos_411A20();
             this->field_30_sQueueSample.field_8_obj.field_0 = x;
 
             Fix16 y = pCrusher->field_28_ypos;
@@ -3645,7 +3645,7 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
     field_54FC = 1;
 
     u8 emitter;
-    switch (pCar->field_84_car_info_idx)
+    switch (pCar->GetCarInfoIdx_411940())
     {
         case car_model_enum::VTYPE:
             emitter = FindEmitterByStatus_57F050(5);
@@ -3790,7 +3790,7 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* pCar)
     else
     {
         const s32 car_info_idx = pCar->field_84_car_info_idx;
-        if (this->field_5574_car_info_idx != car_info_idx || word_6757FC != (u16)pCar->field_50_car_sprite->field_24_remap)
+        if (this->field_5574_car_info_idx != car_info_idx || word_6757FC != (u16)pCar->field_50_car_sprite->get_remap_41C1F0())
         {
             this->field_5574_car_info_idx = car_info_idx;
             switch (car_info_idx)
@@ -3850,7 +3850,7 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* pCar)
                     return;
             }
 
-            word_6757FC = (u16)pCar->field_50_car_sprite->field_24_remap;
+            word_6757FC = (u16)pCar->field_50_car_sprite->get_remap_41C1F0();
             switch (word_6757FC)
             {
                 case 1:
@@ -4168,7 +4168,7 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
     pCar->field_AC = 0;
     if (!bMaxDmg && pCar->field_54_driver && a2->field_4_bDrivenByPlayer != 1)
     {
-        switch (pCar->field_84_car_info_idx)
+        switch (pCar->GetCarInfoIdx_411940())
         {
             case car_model_enum::apc:
             case car_model_enum::COPCAR:
