@@ -385,7 +385,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                     dword_6F6D60->SetObjective(0, 9999);
                     dword_6F6D60->SetObjective2_463830(0, 9999);
                     Ped* pLeader = field_4_paramedics_crew->field_4_ped;
-                    if (dword_6F6D60 != pLeader && pLeader->field_278_ped_state_1 == 9)
+                    if (dword_6F6D60 != pLeader && pLeader->isDead_403B60())
                     {
                         field_4_paramedics_crew->field_8_group->PromoteMemberToLeader_4C9680(0);
                         field_4_paramedics_crew->field_4_ped = field_4_paramedics_crew->field_8_group->field_2C_ped_leader;
