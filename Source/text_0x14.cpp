@@ -227,7 +227,7 @@ s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
     s32 current_width = 0;
     wchar_t* pPrevDestCheckpoint = NULL;
 
-    s32 space_width = gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
+    s32 space_width = GetSpaceWidth_4C23D0(font_type);
 
     const wchar_t* pPrevSrcCheckpoint = NULL;
 
@@ -251,6 +251,7 @@ s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
             case '#':
                 break;
             default:
+                // 9.6f: GetCharWidth_4539D0 (Draw.hpp) here and below; including Draw.hpp changes this file's static init code
                 current_width += gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, (wchar_t*)pDestStrCopy);
                 break;
         }
