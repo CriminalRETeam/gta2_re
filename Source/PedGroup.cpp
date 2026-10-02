@@ -1255,7 +1255,7 @@ PedGroup* PedGroup::New_4CB0D0()
         if (!pedGroups_67EF20[i].get_in_use_4038F0())
         {
             pedGroups_67EF20[i].Reset_4C8EF0();
-            pedGroups_67EF20[i].field_40_in_use = 1;
+            pedGroups_67EF20[i].set_in_use_4038E0();
             return &pedGroups_67EF20[i];
         }
     }

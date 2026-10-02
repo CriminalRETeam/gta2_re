@@ -8,6 +8,12 @@ class Fix16;
 class PedGroup
 {
   public:
+    // 9.6f 0x4038E0
+    inline void set_in_use_4038E0()
+    {
+        field_40_in_use = 1;
+    }
+
     // 9.6f 0x4038F0
     inline char_type get_in_use_4038F0()
     {
