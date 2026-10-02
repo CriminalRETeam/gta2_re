@@ -2497,6 +2497,7 @@ void MapRenderer::draw_lid_4F4D60(Fix16& unk1, Fix16& unk2, Fix16& unk3, Fix16& 
                 gTileDrawFlags_6F6560 = 16517;
             }
 
+            // 9.6f: GetColour_46B5E0 (inlined, using it changes the code: 43 -> 105)
             u8 diffuse_color;
 
             switch (((u16)gLidType_6F6274 >> 10) & 3)
