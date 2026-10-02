@@ -289,14 +289,19 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
     return 0;
 }
 
-// TODO: A crt init func, needs adding to the CRT init table
-STUB_FUNC(0x4052D0)
+// The original is a CRT init func (called from the CRT init table), here Init_trigonometry_tables
+// calls it. The constants are pi and 1/720: 1440 steps of the full circle.
+MATCH_FUNC(0x4052D0)
 EXPORT void __stdcall arc_tan_table_init_4052D0()
 {
-    for (s32 i = 0; i < 1440; i++)
+    s32 arg = 0;
+    Fix16* pTan = gTanTable_6663C8;
+    for (s32 i = 1440; i != 0; i--)
     {
-        // TODO: Probably construct Ang16(i, 0) and then had ToRadians() or something
-        gTanTable_6663C8[i] = Fix16(tan( ((f64)i / 1440.0) * 2 * 3.141592654));
+        f64 radians = arg * 3.141592654;
+        *pTan = Fix16(tan(radians * 0.001388888888888889));
+        arg++;
+        pTan++;
     }
 }
 
