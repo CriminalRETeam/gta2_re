@@ -2680,7 +2680,7 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damag
     stru_6FE1F0 = CoM - CollisionIntersectionPoint_6FE1A0;
     if (p2C->sub_482C90())
     {
-        Fix16 ObjMass = p2C->field_8->field_18_mass;
+        Fix16 ObjMass = p2C->GetMass_482C80();
         RelativeVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0) - p2C->GetSpeedVector_52AE90();
 
         Impulse = ComputeLineLineIntersection_55F3B0(CarMass,
