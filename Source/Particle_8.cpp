@@ -85,16 +85,16 @@ void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
     if (!bSkip_particles_67D64D)
     {
         vector.x = Fix16(0);
-        vector.y = Fix16(stru_6F6784.get_int_4F7AE0(50)) * dword_6FD548;
+        vector.y = Fix16(gRng_6F6784.get_int_4F7AE0(50)) * dword_6FD548;
         vector.RotateByAngle_40F6B0(ang);
 
         for (u8 i = 0; i < 6; i++)
         {
             vector.x = Fix16(0);
-            vector.y = (Fix16(stru_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
+            vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
 
-            vector.RotateByAngle_40F6B0((word_6FD5CC.sub_401CB0(Fix16(stru_6F6784.get_int_4F7AE0(16))) + ang) -
-                                        word_6FD5CC.sub_401CB0(Fix16(8)));
+            vector.RotateByAngle_40F6B0((word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16))) + ang) -
+                                        word_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
 
             Fix16 x_dir = vector.x / 15;
             Fix16 y_dir = vector.y / 15;
@@ -156,14 +156,14 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
     if (!bSkip_particles_67D64D)
     {
         velocity.x = Fix16(0);
-        velocity.y = Fix16(stru_6F6784.get_int_4F7AE0(50) + 25) * dword_6FD548;
+        velocity.y = Fix16(gRng_6F6784.get_int_4F7AE0(50) + 25) * dword_6FD548;
         velocity.RotateByAngle_40F6B0(rotation);
 
         for (u8 i = 0; i < 6; i++)
         {
             if (bRandomRot)
             {
-                angle_2 = word_6FD5CC.sub_401CB0(Fix16(stru_6F6784.get_int_4F7AE0(360)));
+                angle_2 = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(360)));
             }
             else
             {
@@ -171,10 +171,10 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
             }
 
             velocity.x = Fix16(0);
-            velocity.y = (Fix16(stru_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
+            velocity.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
 
-            velocity.RotateByAngle_40F6B0((word_6FD5CC.sub_401CB0(Fix16(stru_6F6784.get_int_4F7AE0(16))) + rotation) -
-                                          word_6FD5CC.sub_401CB0(Fix16(8)));
+            velocity.RotateByAngle_40F6B0((word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16))) + rotation) -
+                                          word_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
 
             Fix16 x_dir = velocity.x / 15;
             Fix16 y_dir = velocity.y / 15;
@@ -338,16 +338,16 @@ void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sin
     for (u32 i = 0; i < 6; ++i)
     {
         t.x = Fix16(0);
-        t.y = (dword_6FD4EC * (dword_6FD558 + Fix16(stru_6F6784.get_int_4F7AE0(100))));
+        t.y = (dword_6FD4EC * (dword_6FD558 + Fix16(gRng_6F6784.get_int_4F7AE0(100))));
         if (i < 4)
         {
-            ang1 = word_6FD5CC.sub_401CB0(stru_6F6784.get_int_4F7AE0(32));
-            ang2 = word_6FD5CC.sub_401CB0(Fix16(16));
+            ang1 = word_6FD5CC.MultiplyByFix16_401CB0(gRng_6F6784.get_int_4F7AE0(32));
+            ang2 = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(16));
         }
         else
         {
-            ang1 = word_6FD5CC.sub_401CB0(stru_6F6784.get_int_4F7AE0(360));
-            ang2 = word_6FD5CC.sub_401CB0(Fix16(180));
+            ang1 = word_6FD5CC.MultiplyByFix16_401CB0(gRng_6F6784.get_int_4F7AE0(360));
+            ang2 = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(180));
         }
 
         ang1 = ang1 + tanAng - ang2;

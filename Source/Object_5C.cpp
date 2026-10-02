@@ -360,7 +360,7 @@ void Object_2C::SetMovementVectorWithRandomState_522640(Fix16_Point& a2)
 
     if (field_8->field_4C == 3 && field_10_obj_3c->field_34 == 2)
     {
-        const s16 rng = stru_6F6784.get_int_4F7AE0(9);
+        const s16 rng = gRng_6F6784.get_int_4F7AE0(9);
         if (rng < 6)
         {
             if (rng < 3)
@@ -1579,7 +1579,7 @@ void Object_2C::UpdatePhysicsAndMovement_525B80()
     }
     SpawnSpriteParticlesForRocketBullet_525B40();
 
-    field_10_obj_3c->field_C_speed = field_10_obj_3c->field_C_speed.sub_482730();
+    field_10_obj_3c->field_C_speed = field_10_obj_3c->field_C_speed.ZeroIfNegligible_482730();
 
     if (!DispatchFrameAction_525910())
     {
@@ -1652,7 +1652,7 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
         IntegrateMovementAndCollisions_523BF0(mov_speed, ang);
     }
 
-    field_10_obj_3c->field_C_speed = field_10_obj_3c->field_C_speed.sub_482730();
+    field_10_obj_3c->field_C_speed = field_10_obj_3c->field_C_speed.ZeroIfNegligible_482730();
 
     Phi_74* pPhi = this->field_8;
     if (pPhi->field_65 != -1 || pPhi->field_34_behavior_type == 9 || (field_4->field_14_xy.x != x_val) || field_4->field_14_xy.y != y_val ||

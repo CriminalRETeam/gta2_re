@@ -3720,7 +3720,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                 goto LABEL_186;
             }
 
-            if (!stru_6F6784.get_int_4F7AE0(4))
+            if (!gRng_6F6784.get_int_4F7AE0(4))
             {
                 if ((this->field_24_flags & 0x40) == 0)
                 {
@@ -3732,7 +3732,7 @@ void CarAI_78::UpdateStateMachine_44E560()
         }
         else
         {
-            if (!stru_6F6784.get_int_4F7AE0(4))
+            if (!gRng_6F6784.get_int_4F7AE0(4))
             {
                 if ((this->field_24_flags & 0x40) != 0)
                 {
@@ -3808,7 +3808,7 @@ LABEL_190:
 
         Fix16 v247 = (Fix16(word_677A38.rValue) * Fix16(this->field_0_car->field_58_physics->field_AD_turn_direction));
         Ang16 v244;
-        v244.sub_4516B0(&v247, 0); // ctor ?
+        v244.FromFix16_4516B0(&v247, 0); // ctor ?
 
         Ang16 v240 = this->field_10_angle + v244;
 
@@ -4725,7 +4725,7 @@ void CarAI_78::sub_452060()
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
 
         v86 = (Fix16(word_677A38.rValue) * Fix16(this->field_0_car->field_58_physics->field_AD_turn_direction));
-        v83.sub_4516B0(&v86, 0); // ctor ?
+        v83.FromFix16_4516B0(&v86, 0); // ctor ?
 
         v82 = v83 + this->field_10_angle;
 
@@ -5505,7 +5505,7 @@ void CarAI_78::sub_4537D0()
 {
     if ((this->field_0_car->field_A6 & 2) != 2 && (this->field_0_car->field_A6 & 1) != 1)
     {
-        if (stru_6F6784.get_int_4F7AE0(2) > 0)
+        if (gRng_6F6784.get_int_4F7AE0(2) > 0)
         {
             field_0_car->field_A6 |= 2;
         }

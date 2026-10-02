@@ -445,7 +445,7 @@ void Game_0x40::UpdateGame_4B9410()
     }
 
     gRozza_C88_66AFE0->Reset_40BB90();
-    gCollide_C_6791FC->sub_478A20();
+    gCollide_C_6791FC->ResetCount_478A20();
 
     if (gLighting_626A09)
     {
@@ -502,7 +502,7 @@ void Game_0x40::UpdateGame_4B9410()
     }
 
     gHud_2B00_706620->UpdateHUD_5D69D0();
-    rng_dword_67AB34->sub_48B900(); // rng
+    rng_dword_67AB34->AdvanceCycle_48B900(); // rng
     gDoor_4D4_67BD2C->DoorsService_49D460();
     gFirefighterPool_54_67D4C0->sub_4A85F0(); // fire engines
 
@@ -911,7 +911,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_67DCCC, Fix16(0x666, 0), 0x67DCCC);
 MATCH_FUNC(0x4B9DE0)
 Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 {
-    stru_6F6784.srand_4F7A40(); // srand?
+    gRng_6F6784.srand_4F7A40(); // srand?
 
     field_3C_bSkipPolice = bSkip_police_67D4F9;
 

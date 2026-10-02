@@ -109,7 +109,7 @@ void Train_58::ReassignTrainHead_578030()
         //pFirst_->field_4C_next = gCar_BC_Pool_67792C->field_4_firstCar;
         //gCar_BC_Pool_67792C->field_4_firstCar = pFirst_;
 
-        gCar_BC_Pool_67792C->field_0_pool.sub_420F30(this->field_C_carriages[this->field_43_idx]);
+        gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(this->field_C_carriages[this->field_43_idx]);
 
         Car_BC* pTrainCar = this->field_C_carriages[this->field_43_idx];
         if (pTrainCar->field_58_physics) // BUG?
@@ -345,7 +345,7 @@ void Train_58::UpdatePassengerAI_578390()
                         {
                             if (this->field_54 <= 0)
                             {
-                                u8 gTargetCarDoor_6FF1D8 = stru_6F6784.get_int_4F7AE0(4);
+                                u8 gTargetCarDoor_6FF1D8 = gRng_6F6784.get_int_4F7AE0(4);
                                 u8 remap = (*pTrainCar)->GetRemap();
                                 u8 target_door = gTargetCarDoor_6FF1D8;
                                 if ((u8)gTargetCarDoor_6FF1D8 < remap)
@@ -406,7 +406,7 @@ void Train_58::UpdatePassengerAI_578390()
                     {
                         if (this->field_56_passenger_count <= 6 && this->field_0)
                         {
-                            this->field_54 = stru_6F6784.get_int_4F7AE0(20) + 40;
+                            this->field_54 = gRng_6F6784.get_int_4F7AE0(20) + 40;
                             goto LABEL_32;
                         }
                         else
@@ -429,11 +429,11 @@ void Train_58::UpdatePassengerAI_578390()
 
                 if (!this->field_0)
                 {
-                    this->field_54 = stru_6F6784.get_int_4F7AE0(20) + 20;
+                    this->field_54 = gRng_6F6784.get_int_4F7AE0(20) + 20;
                 }
                 else
                 {
-                    this->field_54 = stru_6F6784.get_int_4F7AE0(20) + 40;
+                    this->field_54 = gRng_6F6784.get_int_4F7AE0(20) + 40;
                 }
             }
         }

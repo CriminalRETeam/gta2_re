@@ -56,14 +56,14 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
                                                     field_30_pNext->field_14_xy.y.ToInt(),
                                                     new_z.ToInt()))
     {
-        rng_1 = Fix16(stru_6F6784.get_int_4F7AE0(61) - 30) / 100;
-        rng_2 = Fix16(stru_6F6784.get_int_4F7AE0(10) - 5) / 100;
+        rng_1 = Fix16(gRng_6F6784.get_int_4F7AE0(61) - 30) / 100;
+        rng_2 = Fix16(gRng_6F6784.get_int_4F7AE0(10) - 5) / 100;
         ++field_2C_counter;
     }
     else
     {
-        rng_1 = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 100;
-        rng_2 = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        rng_1 = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        rng_2 = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
     }
 
     if (field_40_pUnknown)

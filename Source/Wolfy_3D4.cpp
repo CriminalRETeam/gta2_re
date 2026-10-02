@@ -284,7 +284,7 @@ void Wolfy_30::state_3_12_540D30(Fix16 speed, Ang16 a2)
         v21->set_xyz_lazy_420600(v22->field_14_xy.x, v22->field_14_xy.y, v22->field_1C_zpos);
 
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-        field_18 = stru_6F6784.get_int_4F7AE0(2);
+        field_18 = gRng_6F6784.get_int_4F7AE0(2);
     }
 }
 
@@ -328,7 +328,7 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
                                                   field_14->field_4->field_1C_zpos);
 
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
-        field_18 = stru_6F6784.get_int_4F7AE0(2);
+        field_18 = gRng_6F6784.get_int_4F7AE0(2);
     }
     else
     {
@@ -381,7 +381,7 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
         pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
         pNew->field_30_pNext->set_xyz_lazy_420600(field_14->field_4->field_14_xy.x, field_14->field_4->field_14_xy.y, field_14->field_4->field_1C_zpos);
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
-        this->field_18 = stru_6F6784.get_int_4F7AE0(2);
+        this->field_18 = gRng_6F6784.get_int_4F7AE0(2);
     }
 }
 
@@ -431,7 +431,7 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
                                                       field_14->field_4->field_14_xy.y,
                                                       field_14->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
-            this->field_18 = stru_6F6784.get_int_4F7AE0(2);
+            this->field_18 = gRng_6F6784.get_int_4F7AE0(2);
             pNew->field_30_pNext->field_2C_flags = 0xA2;
             pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
         }
@@ -733,9 +733,9 @@ void Wolfy_30::state_18_33_541D60()
             }
             else
             {
-                Fix16 radius = (this->field_24 * Fix16(stru_6F6784.get_int_4F7AE0(8)));
+                Fix16 radius = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(8)));
 
-                this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
+                this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
                 Ang16::PolarToCartesian_41FC20(field_22, radius, stru_6FD388, stru_6FD38C);
                 //stru_6FD388 = (radius * gSin_table_667A80[field_22.rValue]);
@@ -785,8 +785,8 @@ void Wolfy_30::state_19_32_542060()
         }
         else
         {
-            Fix16 v24 = (this->field_24 * Fix16(stru_6F6784.get_int_4F7AE0(48)));
-            this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
+            Fix16 v24 = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(48)));
+            this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
             stru_6FD388 = (v24 * gSin_table_667A80[this->field_22.rValue]);
             stru_6FD38C = (v24 * gCos_table_669260[this->field_22.rValue]);
@@ -835,8 +835,8 @@ void Wolfy_30::state_20_542340()
         }
         else
         {
-            Fix16 v24 = (this->field_24 * Fix16(stru_6F6784.get_int_4F7AE0(80)));
-            this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
+            Fix16 v24 = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(80)));
+            this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
             stru_6FD388 = (v24 * gSin_table_667A80[this->field_22.rValue]);
             stru_6FD38C = (v24 * gCos_table_669260[this->field_22.rValue]);
@@ -1016,7 +1016,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             case 0:
             {
                 pNew4C->field_38_state = 24;
-                Ang16 v47 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(45))));
+                Ang16 v47 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
                 Ang16 v48 = dword_6FD40C + dword_6FD350;
                 Ang16 v43 = v48 + v47;
                 this->field_22 = v43;
@@ -1032,7 +1032,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             case 1:
             {
                 pNew4C->field_38_state = 25;
-                Ang16 v49 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(90))));
+                Ang16 v49 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
                 Ang16 v50 = dword_6FD350 + dword_6FD418;
                 Ang16 v44 = v50 + v49;
                 this->field_22 = v44;
@@ -1047,7 +1047,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             case 2:
             {
                 pNew4C->field_38_state = 23;
-                Ang16 v51 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(90))));
+                Ang16 v51 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
                 Ang16 v52 = dword_6FD350 + dword_6FD3E0;
                 Ang16 v54 = v52 + v51;
                 this->field_22 = v54;
@@ -1063,7 +1063,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             case 3:
             {
                 pNew4C->field_38_state = 22;
-                Ang16 v54 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(90))));
+                Ang16 v54 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
                 Ang16 v58 = dword_6FD350 + dword_6FD35C;
                 Ang16 v12 = v58 + v54;
                 this->field_22 = v12;
@@ -1090,7 +1090,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             v42 = 4;
         }
 
-        pNew4C->field_20 = (dword_6FD548 * Fix16(stru_6F6784.get_int_4F7AE0(field_1A)));
+        pNew4C->field_20 = (dword_6FD548 * Fix16(gRng_6F6784.get_int_4F7AE0(field_1A)));
         pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 40);
 
         if (field_14->field_4->field_1C_zpos + dword_6FD4A0 < dword_6FD4C0)

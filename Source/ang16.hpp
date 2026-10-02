@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-EXTERN_GLOBAL(class Ang16, word_669156);
+EXTERN_GLOBAL(class Ang16, kAng180_669156);
 
 class Ang16
 {
@@ -189,15 +189,15 @@ class Ang16
     EXPORT static bool __stdcall IsAngleAhead_405C60(Ang16* a1, Ang16* a2);
 
     EXPORT void SnapToAng4_405640();
-    EXPORT Ang16* sub_409300(Ang16& input, s32 a3);
-    EXPORT Ang16* sub_409340(Ang16* pRet, Ang16* toSub);
+    EXPORT Ang16* AssignNormalized_409300(Ang16& input, s32 a3);
+    EXPORT Ang16* SubtractNormalized_409340(Ang16* pRet, Ang16* toSub);
     EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(Fix16& a2);
-    EXPORT Ang16* sub_4516B0(Fix16* a2, s32 a3);
+    EXPORT Ang16* FromFix16_4516B0(Fix16* a2, s32 a3);
 
     // Needed by miss2_0x11C::SCRCMD_CRANE_5041C0.
     Ang16(Fix16* a2, s32 a3)
     {
-        sub_4516B0(a2, a3);
+        FromFix16_4516B0(a2, a3);
     }
 
     inline static Fix16 __stdcall cosine_40F520(const Ang16& angle)
@@ -287,7 +287,7 @@ class Ang16
         Normalize();
     }
 
-    Ang16 sub_401CB0(const Fix16& a2)
+    Ang16 MultiplyByFix16_401CB0(const Fix16& a2)
     {
         return Ang16(Fix16(rValue) * a2, 0);
     }

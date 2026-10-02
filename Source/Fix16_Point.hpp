@@ -65,10 +65,10 @@ struct Fix16_Point_POD
         }
     }
 
-    inline void sub_41E210(Fix16& unk, Ang16& angle)
+    inline void SetFromPolar_41E210(Fix16& radius, Ang16& angle)
     {
-        x = Ang16::sine_40F500(angle) * unk;
-        y = Ang16::cosine_40F520(angle) * unk;
+        x = Ang16::sine_40F500(angle) * radius;
+        y = Ang16::cosine_40F520(angle) * radius;
     }
 
     // Matching impl at RotateVelocity_562C20

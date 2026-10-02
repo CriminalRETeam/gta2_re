@@ -11,9 +11,9 @@ DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440, 0x669260);
 DEFINE_GLOBAL_ARRAY(Fix16, gTanTable_6663C8, 1440, 0x6663C8);
 DEFINE_GLOBAL_INIT(Fix16, kFPZero_6691B0, Fix16(0), 0x6691B0);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_66A920, Ang16(0), 0x66A920);
-DEFINE_GLOBAL_INIT(Ang16, word_669156, Ang16(720), 0x669156);
-DEFINE_GLOBAL_INIT(Ang16, word_667A7C, Ang16(360), 0x667A7C);
-DEFINE_GLOBAL_INIT(Ang16, word_66916C, Ang16(1080), 0x66916C);
+DEFINE_GLOBAL_INIT(Ang16, kAng180_669156, Ang16(720), 0x669156);
+DEFINE_GLOBAL_INIT(Ang16, kAng90_667A7C, Ang16(360), 0x667A7C);
+DEFINE_GLOBAL_INIT(Ang16, kAng270_66916C, Ang16(1080), 0x66916C);
 
 MATCH_FUNC(0x408660)
 Fix16 Fix16::operator+(const Fix16& rhs) const
@@ -92,18 +92,18 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
         }
         else
         {
-            return word_669156;
+            return kAng180_669156;
         }
     }
     else if (x == kFPZero_6691B0)
     {
         if (y > kFPZero_6691B0)
         {
-            return word_667A7C;
+            return kAng90_667A7C;
         }
         else
         {
-            return word_66916C;
+            return kAng270_66916C;
         }
     }
     else
@@ -114,17 +114,17 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
         {
             if (y > kFPZero_6691B0)
             {
-                return word_667A7C - v9;
+                return kAng90_667A7C - v9;
             }
             else
             {
-                if (v9 == word_667A7C)
+                if (v9 == kAng90_667A7C)
                 {
                     return kAngZero_66A920;
                 }
                 else
                 {
-                    return word_66916C + v9;
+                    return kAng270_66916C + v9;
                 }
             }
         }
@@ -132,11 +132,11 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
         {
             if (y > kFPZero_6691B0)
             {
-                return word_667A7C + v9;
+                return kAng90_667A7C + v9;
             }
             else
             {
-                return word_66916C - v9;
+                return kAng270_66916C - v9;
             }
         }
     }

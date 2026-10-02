@@ -256,7 +256,7 @@ Car_2::Car_2()
 
         for (u16 j = 0; j < 1000; j++)
         {
-            u16 idx = stru_6F6784.get_int_4F7AE0(1000);
+            u16 idx = gRng_6F6784.get_int_4F7AE0(1000);
             s16 next = gRngRemapTable_679320[j];
             gRngRemapTable_679320[j] = gRngRemapTable_679320[idx];
             gRngRemapTable_679320[idx] = next;
@@ -921,7 +921,7 @@ Trailer* Car_6C::SpawnCabAndTrailer_446530(Fix16 xpos, Fix16 ypos, Ang16 rotatio
 
     
     Car_BC* pTrailer = SpawnCarAtCorrectZ_426E40(xpos, ypos, out_rot, trailer_model);
-    gCar_BC_Pool_67792C->field_0_pool.sub_420F30(pTrailer);
+    gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(pTrailer);
 
     Trailer* pNewTrailer = gTrailerPool_66AC80->field_0_pool.Allocate();
     pNewTrailer->SetTruckCabAndTrailerCar_407BB0(pCab, pTrailer);
@@ -1749,7 +1749,7 @@ void Car_BC::Deactivate_43AA60()
 {
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_50_car_sprite);
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_50_car_sprite);
-    gCar_BC_Pool_67792C->field_0_pool.sub_420F30(this);
+    gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(this);
     SetF_88_4214E0();
 }
 
@@ -5463,8 +5463,8 @@ char_type Car_BC::TrainUpdate_442D70()
                     rect.field_0_left = sprite_x - Fix16(0x4000, 0);
                     rect.field_4_right = sprite_x + Fix16(0x4000, 0);
                     rect.field_8_top = sprite_y - Fix16(0x28000, 0);
-                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
-                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
+                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
                     break;
                 case 2:
                     sprite_y = field_50_car_sprite->field_14_xy.y;
@@ -5474,8 +5474,8 @@ char_type Car_BC::TrainUpdate_442D70()
                     rect.field_0_left = sprite_x - Fix16(0x4000, 0);
                     rect.field_4_right = sprite_x + Fix16(0x4000, 0);
                     rect.field_C_bottom = sprite_y + Fix16(0x28000, 0);
-                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
-                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
+                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
                     break;
 
                 case 3:
@@ -5483,11 +5483,11 @@ char_type Car_BC::TrainUpdate_442D70()
                     sprite_z = field_50_car_sprite->field_1C_zpos;
                     sprite_x = field_50_car_sprite->field_14_xy.x.mValue;
                     rect.field_C_bottom = sprite_y + Fix16(0x4000, 0);
-                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
+                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
                     rect.field_0_left = sprite_x;
                     rect.field_4_right = sprite_x + Fix16(0x28000, 0);
                     rect.field_8_top = sprite_y - Fix16(0x4000, 0);
-                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
                     break;
 
                 case 4:
@@ -5497,8 +5497,8 @@ char_type Car_BC::TrainUpdate_442D70()
                     rect.field_8_top = sprite_y - Fix16(0x4000, 0);
                     rect.field_0_left = rect.field_4_right - Fix16(0x28000, 0);
                     rect.field_C_bottom = sprite_y + Fix16(0x4000, 0);
-                    rect.field_10_low_z = sprite_z - k_dword_6771E4;
-                    rect.field_14_high_z = sprite_z + k_dword_6771E4;
+                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
+                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
                     break;
 
                 default:
@@ -6660,7 +6660,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
         this->field_9 = 1;
         this->field_A = 1;
 
-        u8 rng_int = stru_6F6784.get_uint8_4F7B70(5);
+        u8 rng_int = gRng_6F6784.get_uint8_4F7B70(5);
         bool maybe_vel = field_0_cam->ReturnOwnerVelocity_435A20() > dword_6FF580;
 
         switch (rng_int)
@@ -6797,21 +6797,21 @@ Fix16* __stdcall Car_14::sub_583750(Fix16* pRetF16, Fix16 max_speed, u8* pOut)
     if (max_speed >= dword_6FF85C)
     {
         *pOut = 2;
-        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
+        Fix16 v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
         *pRetF16 = dword_6FF85C + ((v7 * (dword_6FF70C - dword_6FF85C)));
         return pRetF16;
     }
     else if (max_speed >= dword_6FF724)
     {
         *pOut = 1;
-        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
+        Fix16 v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
         *pRetF16 = dword_6FF724 + ((v7 * (dword_6FF85C - dword_6FF724)));
         return pRetF16;
     }
     else
     {
         *pOut = 0;
-        Fix16 v7 = Fix16(stru_6F6784.get_uint8_4F7B70(100)) / Fix16(0x190000, 0);
+        Fix16 v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(0x190000, 0);
         *pRetF16 = dword_6FF6A4 + ((v7 * (dword_6FF724 - dword_6FF6A4)));
         return pRetF16;
     }
@@ -6942,7 +6942,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
         }
         // -sub_41FE40
 
-        DAT_006FF8C4 = stru_6F6784.get_uint8_4F7B70(100);
+        DAT_006FF8C4 = gRng_6F6784.get_uint8_4F7B70(100);
         switch (arrow_direction)
         {
             case 1:
@@ -7099,7 +7099,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     return 0;
                 }
 
-                if (gPolice_7B8_6FEE40->field_654_wanted_level < 1 || (rng_val = stru_6F6784.get_int_4F7AE0(40), rng_val <= 20u) ||
+                if (gPolice_7B8_6FEE40->field_654_wanted_level < 1 || (rng_val = gRng_6F6784.get_int_4F7AE0(40), rng_val <= 20u) ||
                     rng_val >= 30u)
                 {
                     car_model_idx =
@@ -7157,7 +7157,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     }
                     else if (gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service == crew_type::army_6)
                     {
-                        switch (stru_6F6784.get_int_4F7AE0(10))
+                        switch (gRng_6F6784.get_int_4F7AE0(10))
                         {
                             case 0:
                             case 1:
@@ -7439,7 +7439,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 }
                 else
                 {
-                    uint8_4F7B70 = stru_6F6784.get_uint8_4F7B70(100);
+                    uint8_4F7B70 = gRng_6F6784.get_uint8_4F7B70(100);
                 }
 
                 /*
