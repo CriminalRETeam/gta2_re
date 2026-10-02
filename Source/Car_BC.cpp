@@ -2125,7 +2125,7 @@ bool Car_BC::AllowResprayOrPlates()
 MATCH_FUNC(0x43a6f0)
 bool Car_BC::IsNotCurrentRemap(u8 remap)
 {
-    return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->has_remaps() && field_50_car_sprite->field_24_remap != remap;
+    return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->has_remaps() && field_50_car_sprite->get_remap_41C1F0() != remap;
 }
 
 MATCH_FUNC(0x43a730)
