@@ -194,7 +194,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x4AE2D0 | `Frontend::UpdatePageFromUserInput_4AE2D0` | 0x4597C0 | `sub_453A60` | todo |  |
 | 0x4AF2A0 | `Frontend::ctor_4AF2A0` | 0x456A60 | `laughing_blackwell_0x1EB54::sub_453A30`, `sub_453D40` | todo |  |
 | 0x4B0220 | `Frontend::SetupMenuStringsOptionsElements_4B0220` | 0x453E20 | `?do_always_noconv@codecvt_base@std@@MBE_NXZ` | todo |  |
-| 0x4B2F60 | `Frontend::sub_4B2F60` | 0x459E30 | `sub_4539D0` | todo |  |
+| 0x4B2F60 | `Frontend::sub_4B2F60` | 0x459E30 | `sub_4539D0` | matched | The key loop read a local that shadowed field_8_keys; 9.6f's GetFontWidth wrapper (0x4539D0) isn't needed |
 | 0x4B3170 | `Frontend::sub_4B3170` | 0x4587B0 | `lucid_hamilton::sub_453A80`, `sub_453A60`, `sub_453AB0`, `sub_434B20`, `sub_453A90`, `sub_453AA0`, `sub_4529C0`, `sub_452990` | todo |  |
 | 0x4B4440 | `Frontend::GetMainAndBonusStagesFromSeqFile_4B4440` | 0x455340 | `sub_4527A0` | todo |  |
 | 0x4B7120 | `Frontend::sub_4B7120` | 0x456180 | `sub_453A60`, `sub_453A40` | todo |  |
