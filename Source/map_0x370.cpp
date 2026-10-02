@@ -3980,7 +3980,7 @@ char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
     gmp_compressed_map_32* pDMap = this->field_0_pDmap;
 
     s32 z_int = z.ToInt();
-    gmp_col_info* pColInfo = (gmp_col_info*)&pDMap->field_40008_pColumn[pDMap->field_0_base[y.ToInt()][x.ToInt()]];
+    gmp_col_info* pColInfo = (gmp_col_info*)&pDMap->field_40008_pColumn[*pDMap->get_base_42A830(y.ToInt(), x.ToInt())];
     if (z_int < pColInfo->field_0_height)
     {
         if (z_int < pColInfo->field_1_offset)
