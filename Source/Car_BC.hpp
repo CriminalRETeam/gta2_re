@@ -332,6 +332,66 @@ static inline bool IsArmyModel(s32 idx1)
 class Car_BC
 {
   public:
+    // 9.6f 0x42AC70
+    inline void SetA6Bit0_42AC70()
+    {
+        field_A6 |= 1u;
+    }
+
+    // 9.6f 0x42AC80
+    inline void SetA6Bit1_42AC80()
+    {
+        field_A6 |= 2u;
+    }
+
+    // 9.6f 0x42AC90
+    inline void SetA6Bit2_42AC90()
+    {
+        field_A6 |= 4u;
+    }
+
+    // 9.6f 0x421530
+    inline void SetA6Bit3_421530()
+    {
+        field_A6 |= 8u;
+    }
+
+    // 9.6f 0x42ACA0
+    inline void ClearA6Bit0_42ACA0()
+    {
+        field_A6 &= ~1u;
+    }
+
+    // 9.6f 0x42ACB0
+    inline void ClearA6Bit1_42ACB0()
+    {
+        field_A6 &= ~2u;
+    }
+
+    // 9.6f 0x42AC20
+    inline bool IsA6Bit0Set_42AC20()
+    {
+        return (field_A6 & 1) == 1;
+    }
+
+    // 9.6f 0x42AC30
+    inline bool IsA6Bit1Set_42AC30()
+    {
+        return (field_A6 & 2) == 2;
+    }
+
+    // 9.6f 0x42AC40
+    inline bool IsA6Bit2Set_42AC40()
+    {
+        return (field_A6 & 4) == 4;
+    }
+
+    // 9.6f 0x42AC50
+    inline bool IsA6Bit3Set_42AC50()
+    {
+        return (field_A6 & 8) == 8;
+    }
+
     // 9.6f 0x4118C0
     inline bool Is_engine_status_on_3_4118C0()
     {

@@ -111,38 +111,38 @@ void CarAI_78::sub_447710()
     if (field_28_junc_idx >= 0)
     {
         Junction_10* Junction_58A0B0 =
-            gRouteFinder_6FFDC8->GetJunction_58A0B0(gRouteFinder_6FFDC8->field_2218[field_28_junc_idx].field_0[this->field_56]);
-        u16 v4 = gRouteFinder_6FFDC8->field_2218[this->field_28_junc_idx].field_0[this->field_56 + 1];
+            gRouteFinder_6FFDC8->GetJunction_58A0B0(gRouteFinder_6FFDC8->field_2218[field_28_junc_idx].field_0[(u16)this->field_56]);
+        u16 v4 = gRouteFinder_6FFDC8->field_2218[this->field_28_junc_idx].field_0[(u16)this->field_56 + 1];
         if (v4)
         {
             if ((this->field_24_flags & 1) == 0)
             {
-                u16 v5 = Junction_58A0B0->sub_5885C0(v4);
+                s16 v5 = Junction_58A0B0->sub_5885C0(v4);
                 switch (Ang16::GetAngleFace_4F78F0(this->field_10_angle))
                 {
                     case 1:
-                        this->field_0_car->field_A6 &= ~1u;
-                        this->field_0_car->field_A6 &= ~2u;
+                        this->field_0_car->ClearA6Bit0_42ACA0();
+                        this->field_0_car->ClearA6Bit1_42ACB0();
                         switch (v5)
                         {
                             case 2:
                                 this->field_38 = 2;
-                                this->field_24_flags = 0x800;
+                                this->field_24_flags |= 0x800u;
                                 break;
                             case 3:
                                 //goto LABEL_14;
-                                this->field_0_car->field_A6 |= 1u;
+                                this->field_0_car->SetA6Bit0_42AC70();
                                 break;
                             case 4:
                                 //goto LABEL_8;
-                                this->field_0_car->field_A6 |= 2u;
+                                this->field_0_car->SetA6Bit1_42AC80();
                                 break;
                         }
                         break;
 
                     case 2:
-                        this->field_0_car->field_A6 &= ~1u;
-                        this->field_0_car->field_A6 &= ~2u;
+                        this->field_0_car->ClearA6Bit0_42ACA0();
+                        this->field_0_car->ClearA6Bit1_42ACB0();
                         switch (v5)
                         {
                             case 1:
@@ -151,27 +151,27 @@ void CarAI_78::sub_447710()
                                 break;
                             case 3:
                                 //goto LABEL_8;
-                                this->field_0_car->field_A6 |= 2u;
+                                this->field_0_car->SetA6Bit1_42AC80();
                                 break;
                             case 4:
                                 //goto LABEL_14;
-                                this->field_0_car->field_A6 |= 1u;
+                                this->field_0_car->SetA6Bit0_42AC70();
                                 break;
                         }
                         break;
 
                     case 3:
-                        this->field_0_car->field_A6 &= ~1u;
-                        this->field_0_car->field_A6 &= ~2u;
+                        this->field_0_car->ClearA6Bit0_42ACA0();
+                        this->field_0_car->ClearA6Bit1_42ACB0();
                         switch (v5)
                         {
                             case 1:
                                 //goto LABEL_14;
-                                this->field_0_car->field_A6 |= 1u;
+                                this->field_0_car->SetA6Bit0_42AC70();
                                 break;
                             case 2:
                                 //goto LABEL_8;
-                                this->field_0_car->field_A6 |= 2u;
+                                this->field_0_car->SetA6Bit1_42AC80();
                                 break;
                             case 3:
                                 this->field_38 = 4;
@@ -181,17 +181,17 @@ void CarAI_78::sub_447710()
                         break;
 
                     case 4:
-                        this->field_0_car->field_A6 &= ~1u;
-                        this->field_0_car->field_A6 &= ~2u;
+                        this->field_0_car->ClearA6Bit0_42ACA0();
+                        this->field_0_car->ClearA6Bit1_42ACB0();
                         switch (v5)
                         {
                             case 1:
                                 //LABEL_8:
-                                this->field_0_car->field_A6 |= 2u;
+                                this->field_0_car->SetA6Bit1_42AC80();
                                 break;
                             case 2:
                                 //LABEL_14:
-                                this->field_0_car->field_A6 |= 1u;
+                                this->field_0_car->SetA6Bit0_42AC70();
                                 break;
                             case 4:
                                 this->field_38 = 3;
@@ -210,22 +210,22 @@ void CarAI_78::sub_447710()
                                                                                  this->field_0_car->field_50_car_sprite->field_14_xy.y);
                 if (v12 > -1)
                 {
-                    char_type v7 = this->field_0_car->field_A6;
-                    if ((v7 & 1) == 1)
+                    Car_BC* pCar = this->field_0_car;
+                    if (pCar->IsA6Bit0Set_42AC20())
                     {
                         if (v6)
                         {
-                            if ((v7 & 4) != 4)
+                            if (!pCar->IsA6Bit2Set_42AC40())
                             {
                                 sub_4539B0();
-                                this->field_0_car->field_A6 |= 4u;
+                                this->field_0_car->SetA6Bit2_42AC90();
                             }
                         }
                     }
-                    else if ((v7 & 2) == 2 && v6 != v12 - 1 && (v7 & 8) != 8)
+                    else if (pCar->IsA6Bit1Set_42AC30() && v6 != v12 - 1 && !pCar->IsA6Bit3Set_42AC50())
                     {
                         sub_4539B0();
-                        this->field_0_car->field_A6 |= 8u;
+                        this->field_0_car->SetA6Bit3_421530();
                     }
                 }
             }
