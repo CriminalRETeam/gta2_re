@@ -1199,6 +1199,15 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
     }
 }
 
+// 9.6f 0x463690: does the segment p1-p2 cross any edge of the rect
+inline bool Fix16_Rect::EdgesCrossSegment_463690(Fix16_Point& p1, Fix16_Point& p2)
+{
+    return ComputeScanlineIntersectionY_4F76A0(field_0_left, field_4_right, field_8_top, p1, p2) ||
+        ComputeScanlineIntersectionY_4F76A0(field_0_left, field_4_right, field_C_bottom, p1, p2) ||
+        ComputeScanlineIntersectionX_4F77D0(field_8_top, field_C_bottom, field_0_left, p1, p2) ||
+        ComputeScanlineIntersectionX_4F77D0(field_8_top, field_C_bottom, field_4_right, p1, p2);
+}
+
 WIP_FUNC(0x4E11E0)
 char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 {
@@ -1210,14 +1219,12 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 
     pRect->DoSetCurrentRect_59DD60();
 
-    Fix16 z_sum = (pRect->field_10_low_z + pRect->field_14_high_z);
-
-    s32 z_calc = z_sum.ToInt();
+    s32 z_calc = pRect->GetMidZ_463760();
 
     s32 y_count = gPurple_top_6F6108;
-    s32 x_count = gPurple_left_6F5FD4;
     while (y_count <= gPurple_bottom_6F5F38)
     {
+        s32 x_count = gPurple_left_6F5FD4;
         Fix16 left = (gPurple_left_6F5FD4 + 1); // Fix16()
         while (x_count <= gPurple_right_6F5B80)
         {
@@ -1228,6 +1235,7 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
                 if (slope_mask >= 0xB4 && slope_mask <= 0xD0)
                 {
 
+                    // 9.6f: Fix16_Point::SetXY_432860 for p1/p2 (inlined, using it changes the code)
                     if (slope_mask == 0xB4 || slope_mask == 0xC0 || slope_mask == 0xC4 || slope_mask == 0xD0)
                     {
                         p1.x = x_count; // Fix16()
@@ -1244,14 +1252,7 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
                     }
                    
 
-                    if (ComputeScanlineIntersectionY_4F76A0(pRect->field_0_left, pRect->field_4_right, pRect->field_8_top, p1, p2)
-                             || ComputeScanlineIntersectionY_4F76A0(pRect->field_0_left,
-                                                            pRect->field_4_right,
-                                                            pRect->field_C_bottom,
-                                                            p1,
-                                                            p2) ||
-                        ComputeScanlineIntersectionX_4F77D0(pRect->field_8_top, pRect->field_C_bottom, pRect->field_0_left, p1, p2) ||
-                        ComputeScanlineIntersectionX_4F77D0(pRect->field_8_top, pRect->field_C_bottom, pRect->field_4_right, p1, p2))
+                    if (pRect->EdgesCrossSegment_463690(p1, p2))
                     {
                         return 1;
                     }

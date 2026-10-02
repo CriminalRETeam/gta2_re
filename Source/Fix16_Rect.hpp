@@ -65,6 +65,15 @@ class Fix16_Rect
         return IntervalsOverlap_41E160(field_10_low_z, field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z);
     }
 
+    // 9.6f 0x463760
+    inline s32 GetMidZ_463760() const
+    {
+        return ((field_10_low_z + field_14_high_z) / 2).ToInt();
+    }
+
+    // 9.6f 0x463690, defined in map_0x370.cpp
+    inline bool EdgesCrossSegment_463690(Fix16_Point& p1, Fix16_Point& p2);
+
     // 9.6f 0x463710
     inline void SetFromPosSize_463710(Fix16 left, Fix16 top, Fix16 width, Fix16 height)
     {
