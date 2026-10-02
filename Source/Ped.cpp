@@ -8665,12 +8665,16 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
         Sprite_18* p18 = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(114);
         field_21C |= 0x80;
 
-        Fix16 dx = field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - p18->field_0->field_14_xy.x;
-        Fix16 dy = field_150_target_objective_car->field_50_car_sprite->field_14_xy.y - p18->field_0->field_14_xy.y;
+        Fix16 x = p18->field_0->field_14_xy.x;
+        Fix16 y = p18->field_0->field_14_xy.y;
+        Fix16 dx = field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - x;
+        Fix16 dy = field_150_target_objective_car->field_50_car_sprite->field_14_xy.y - y;
 
-        if (field_16C_car->RotateRoofObjectTowardTarget_440C10(Fix16::atan2_fixed_405320(dy, dx)))
+        Ang16 angle;
+        angle = Fix16::atan2_fixed_405320(dy, dx);
+        if (field_16C_car->RotateRoofObjectTowardTarget_440C10(angle))
         {
-            field_21C |= 8;
+            field_21C |= 0x800;
 
             if (field_218_objective_timer == 9999)
             {
@@ -8679,7 +8683,7 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
         }
         else
         {
-            field_21C &= ~8u;
+            field_21C &= ~0x800u;
         }
 
         if (field_218_objective_timer == 0)
