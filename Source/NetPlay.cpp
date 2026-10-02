@@ -1135,7 +1135,7 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
 
                     case 3:
                     {
-                        s32 idx = field_5D4_player_idx;
+                        s32 idx = GetPlayerIdx_409C40();
                         if (SeqDiff(pPacket->field_8, byte_6F8A64[idx]) == 1 && dword_6F8A4C[idx] == *(s32*)pPacket->field_D)
                         {
                             byte_6F8A64[idx] = pPacket->field_8;
@@ -1154,11 +1154,11 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
                             pBuffer[1] = pPacket->field_8;
                             memcpy(pBuffer + 2, (u8*)pPacket->field_D, pPacket->field_11_len);
                             *pDataLen = pPacket->field_11_len + 2;
-                            idx = field_5D4_player_idx;
+                            idx = GetPlayerIdx_409C40();
                             if (SeqDiff(pPacket->field_8, byte_6F8A64[idx]) == 1)
                             {
                                 dword_6F8A4C[idx] = *(s32*)pPacket->field_D;
-                                byte_6F8A64[field_5D4_player_idx] = pPacket->field_8;
+                                byte_6F8A64[GetPlayerIdx_409C40()] = pPacket->field_8;
                             }
                         }
                         break;
