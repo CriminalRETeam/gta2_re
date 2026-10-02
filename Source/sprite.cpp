@@ -984,10 +984,7 @@ void Sprite::AllocInternal_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
         field_C_sprite_4c_ptr = gSprite_4C_Pool_70381C->Allocate();
     }
 
-    Sprite_4C* pSprite4C = field_C_sprite_4c_ptr;
-    pSprite4C->field_0_width = a2;
-    pSprite4C->field_4_height = a3;
-    pSprite4C->field_8_depth = a4;
+    field_C_sprite_4c_ptr->SetDimensions_482980(a2, a3, a4);
 }
 
 MATCH_FUNC(0x59f990)
