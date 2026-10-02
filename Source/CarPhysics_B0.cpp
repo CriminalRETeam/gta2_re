@@ -3805,7 +3805,9 @@ void CarPhysics_B0::UpdateCp1FromCm1_563280()
 {
     WIP_IMPLEMENTED;
 
-    Fix16_Point point(-gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset.x, -gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset.y);
+    Fix16_Point point = gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset;
+    point.x = -point.x;
+    point.y = -gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset.y;
     point.RotateByAngle_40F6B0(field_58_theta);
 
     field_38_cp1 = field_30_cm1 + point;
