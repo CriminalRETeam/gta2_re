@@ -756,7 +756,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
     }
 
     s32 cur_rng_2 = rng_dword_67AB34->field_0_rng;
-    if (pCar->field_84_car_info_idx == car_model_enum::FIRETRUK || pCar->field_84_car_info_idx == car_model_enum::COPCAR ||
+    if (pCar->field_84_car_info_idx == car_model_enum::FIRETRUK || pCar->IsCopCar_421790() ||
         pCar->field_84_car_info_idx == car_model_enum::MEDICAR || pCar->field_84_car_info_idx == car_model_enum::SWATVAN ||
         pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
     {
@@ -783,7 +783,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
 
         field_1A0 = cur_rng_2;
     }
-    if (pCar->field_84_car_info_idx == car_model_enum::COPCAR && bCopSwatOrFbiCar)
+    if (pCar->IsCopCar_421790() && bCopSwatOrFbiCar)
     {
         field_88_killed_cops++;
     }
@@ -882,7 +882,7 @@ void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
 MATCH_FUNC(0x593150)
 void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
 {
-    if (pCar->field_74_damage != 32001)
+    if (!pCar->IsMaxDamage_40F890())
     {
         const s32 multipler = field_368_player->field_6BC_multpliers.field_0_value;
         u32 t = a3;
