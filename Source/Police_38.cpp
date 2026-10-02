@@ -308,8 +308,7 @@ void PoliceCrew_38::sub_571350()
             u8 v7 = 0;
             for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[v7++])
             {
-                pPedIter->field_164_ped_group = 0;
-                pPedIter->field_23C = 0;
+                pPedIter->ClearGroupAndGroupIdx_403A30();
                 pPedIter->Deallocate_45EB60();
                 if (!field_10_subObj->field_8_group)
                 {
@@ -326,7 +325,7 @@ void PoliceCrew_38::sub_571350()
         Ped* v6 = field_10_subObj->field_4_ped;
         if (v6)
         {
-            if (v6->field_20e >= 0x1Eu)
+            if (v6->Get_F20E_4039F0() >= 0x1Eu)
             {
                 v6->Deallocate_45EB60();
                 field_10_subObj->field_28 = 5;
