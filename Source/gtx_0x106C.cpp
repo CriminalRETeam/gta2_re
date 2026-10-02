@@ -53,33 +53,47 @@ void sprite_delta::Delta_5ABA00(u8* pArray)
 }
 
 // https://decomp.me/scratch/Cc0Dx Not fully working
-WIP_FUNC(0x5ABA40)
+MATCH_FUNC(0x5ABA40)
 void sprite_delta::Delta_5ABA40(u8* pArray, u32 width)
 {
-    u32 offset = 0;
-    delta_store_entry* pIter = field_0_pData;
-    delta_store_entry* pNext = (delta_store_entry*)((u8*)field_0_pData + field_4_len);
-    u8* v7 = &pArray[width - 1];
-    do
+    // Inline asm in the original (lodsw / loop)
+    // Each entry: u16 offset, u8 len, then len bytes written backwards from the end of the row
+    __asm
     {
-        offset = pIter->field_0_offset;
-        u32 size = pIter->field_2_len;
-        u8* v9 = &v7[offset];
-        offset = offset << 1;
-        v7 = &v9[-offset];
-        if (offset >= 256)
-        {
-            v7 += 512;
-        }
-        pIter = (delta_store_entry*)((u8*)pIter->field_3_data);
-        do
-        {
-            *v7 = pIter->field_0_offset;
-            pIter = (delta_store_entry*)((u8*)pIter + 1);
-            --v7;
-            --size;
-        } while (size > 0);
-    } while (pIter != pNext);
+        push edi
+        push esi
+        mov eax, 0
+        mov ecx, 0
+        mov edi, pArray
+        mov ebx, this
+        mov esi, [ebx]
+        movzx ebx, word ptr [ebx + 4]
+        add ebx, esi
+        dec edi
+        add edi, width
+    next_entry:
+        lodsw
+        mov cl, [esi]
+        add edi, eax
+        and eax, 0xFF
+        shl eax, 1
+        sub edi, eax
+        cmp eax, 0x100
+        jl skip_wrap
+        add edi, 0x200
+    skip_wrap:
+        inc esi
+    copy_bytes:
+        mov al, [esi]
+        mov [edi], al
+        inc esi
+        dec edi
+        loop copy_bytes
+        cmp esi, ebx
+        jne next_entry
+        pop esi
+        pop edi
+    }
 }
 
 MATCH_FUNC(0x5ABAE0)
