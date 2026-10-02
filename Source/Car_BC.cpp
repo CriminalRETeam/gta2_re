@@ -3063,18 +3063,13 @@ s32 Car_BC::sub_43BB90(u8 a1)
     }
 }
 
-WIP_FUNC(0x43bbc0)
+MATCH_FUNC(0x43bbc0)
 void Car_BC::SpawnFire_43BBC0()
 {
-    WIP_IMPLEMENTED;
-
     if (gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(this))
     {
-        Sprite* pCarSprite = this->field_50_car_sprite;
-        s32 pedId = this->field_70_exploder_ped_id;
-
         Object_2C* pExplosion =
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCarSprite->field_14_xy.x, pCarSprite->field_14_xy.y, 4, kAngZero_67791C, 4, pedId);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(field_50_car_sprite->field_14_xy.x, field_50_car_sprite->field_14_xy.y, 4, kAngZero_67791C, 4, field_70_exploder_ped_id);
         if (pExplosion)
         {
             field_50_car_sprite->DispatchCollisionEvent_5A3100(pExplosion->field_4, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
