@@ -543,6 +543,32 @@ puts both in slots it reuses, including the dead `dist` parameter's slot. A temp
 (`GetAngleFace_4F78F0(Ang16(...).Normalized_406C20())`, an inline that returns `*this`) and a
 block-scoped `{ Fix16 found_z; ... }` gave the original's frame (`Map_0x370::sub_4E6660`).
 
+**An implicit conversion into a by-value argument calls the constructor out of line.**
+`Call(98, 179)` to a function taking `Fix16` by value builds each argument in its stack slot
+with `mov %esp,%ecx; push $98; call Fix16::FromInt_4369F0` (the `Fix16(s32)` constructor out of
+line), while `Call(Fix16(98), Fix16(179))` gets the constructor inlined and the constant folded.
+The two spellings gave score 0 against 1123 on the 5 KB `NoRefs_sub_5B1170`. The same goes for
+a `u8` passed to a `Fix16` parameter (`FromInt_45C4E0`, the roadblock barriers' z in
+`PoliceRoadblock_A4::CreateRoadblock_575FF0`). When the original has `FromInt_...` calls right
+before a call, pass the plain value.
+
+**Out-of-line operator copies are functions too.** Functions that run out of inline expansions call
+real copies of the `Fix16` inline operators: `operator-` at 0x436A00, `operator/` at 0x436A20,
+`<`/`>` at 0x451670/0x451690, `/=`, `*=` and `*(const s32&)` at 0x539F90, 0x562430 and 0x561DB0.
+Each is matched as an `EXPORT` member with the operator's body (`Fix16::Subtract_436A00`, ...),
+like `Add_408660` and `Multiply_408680`. The `Fix16(s32)` constructor copies (0x41B480, 0x4369F0,
+0x4926F0) can't be written that way.
+
+**Parameters reused as working variables.** If the original stores a computed value into a
+parameter's stack slot and keeps another parameter in a register for the whole function, the
+source probably reassigned the parameters (`x2 -= x1; y2 -= y1;`, then `y2` becomes the y step).
+Locals for the same values gave a register rotation (`DrawDebugLine_5D7DD0`).
+
+**Keep VC6 from folding a known zero.** `if (n == 0) { step = n; } else { step = d / n; }`
+gets the zero folded, and VC6 then keeps 0 in a register for the other zero tests. The original's
+`test`/`mov %ecx,...` came from a small inline returning `count` for a zero count
+(`StepFor_5D7DD0`).
+
 Not checked yet: `CarAI_78.cpp` has many `sine_40F500(a) * r` / `cosine_40F520(a) * r` pairs
 that may be `FromPolar_41E210` or `Ang16::PolarToCartesian_41FC20`.
 

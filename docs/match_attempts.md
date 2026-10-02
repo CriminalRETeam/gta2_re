@@ -1255,3 +1255,39 @@ Still different:
   and the arrow check and `dist` update are written out. Left: `dist` and `pPrev` swap `%ebx`
   and `%ebp`, the constant cached in `%ebp` before the first switch, and the neighbour arrow
   check's `xor`/`test`, which needs an inline the budget can't afford.
+
+### PublicTransport_181C::SpawnTrainsFromStations_578860 (0x578860): WIP 0.90
+- For each of the first 10 stations with wagons: takes a train, places the wagons and the engine
+  behind the stop zone along its green arrow, takes the wagons off the car pool's active list,
+  and gives the engine AI, a driver and a light. The spawns are `SpawnCarAtCorrectZ_426E40` with
+  the scale passed in (`Car_6C::SpawnCarAtCorrectZ_Scaled`, with `const&` rotation and scale so
+  the globals are read at the push).
+- Left: the original keeps the byte of the axis that only gets the 0.5 offset in a stack temp
+  across `GetWagonType_577f80` and adds it after the call. That's 4 temps, the 16-byte frame
+  difference.
+
+### PoliceRoadblock_A4::CreateRoadblock_575FF0 (0x575FF0): WIP 0.80
+- Scans for the road's edges along y (orientation 2) or x, checks the rect, then fills the lanes:
+  cars on the odd lanes, barrier pairs and guards on the even ones. Three inline "first free slot"
+  helpers.
+- 0.73 -> 0.80: z passed to the barrier and guard spawns as a plain `u8` (see matching_quirks.md).
+  Left: the scan switches' case layout, the register for `dist`-like temps, and parts of the
+  barrier and guard position arithmetic.
+
+### Sprite_4C::DrawCollisionBox_5A4DA0 (0x5A4DA0): WIP 0.97
+- Projects the bounding box corners and the rendering rect points with a static inline copy of
+  the projection and joins them with `DrawDebugLine_5D7DD0`. Like the original, the function runs
+  out of inline expansions: the projection's `Fix16` operators are calls and the eighth projection
+  is the out-of-line `sub_5A5690`, which matches on its own. Left: the stack slots of the inline's
+  argument copies (4 bytes of frame).
+
+### DrawDebugLine_5D7DD0, sub_5A5690: match
+- See matching_quirks.md for the line plotter's parameter reuse and zero step.
+
+### NoRefs_sub_5B1170 (0x5B1170): match
+- A 5 KB unreferenced test-scene builder. Transcribed with a small interpreter over the listing
+  (track pushes and registers, turn each call into a statement), then one fix: the cab position
+  passed as plain ints.
+
+### Fix16 out-of-line operator copies, Fix16_Rect::MakeRect_4E6280: match
+- See matching_quirks.md. `MakeRect_4E6280` stores left, top, right, bottom in that order.
