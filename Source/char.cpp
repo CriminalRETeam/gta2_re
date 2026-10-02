@@ -688,7 +688,7 @@ void Char_B4::UpdateAnimState_546360()
     char_type remap = pPed->field_244_remap;
     if (remap <= -1)
     {
-        field_80_sprite_ptr->field_34_palette_type = palette_types_enum::sprites_2;
+        field_80_sprite_ptr->SetPaletteSprites_420700();
     }
     else
     {
@@ -1190,12 +1190,9 @@ void Char_B4::UpdateAnimState_546360()
                     }
                     else
                     {
-                        gmp_block_info* pBlock =
-                            gMap_0x370_6F6268->get_block_4DFE10(this->field_80_sprite_ptr->field_14_xy.x.ToInt(),
-                                                                this->field_80_sprite_ptr->field_14_xy.y.ToInt(),
-                                                                (this->field_80_sprite_ptr->field_1C_zpos.ToInt()) - 1);
-                        if (pBlock && ((pBlock->field_B_slope_type & 0xFC) != 0) && (pBlock->field_B_slope_type & 0xFCu) < 0xB4 &&
-                            (pBlock->field_B_slope_type & 3) != 0)
+                        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                                        this->field_80_sprite_ptr->field_14_xy.y.ToInt(),
+                                                                        (this->field_80_sprite_ptr->field_1C_zpos.ToInt()) - 1))
                         {
                             byte_6FDB54 = 1;
                             Char_B4::ManageZCoordAndSlopes_548590();
@@ -1234,17 +1231,12 @@ void Char_B4::UpdateAnimState_546360()
 
             this->field_80_sprite_ptr->set_num_40F7B0(6);
 
-            pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(field_80_sprite_ptr->field_14_xy.x.ToInt(),
-                                                          field_80_sprite_ptr->field_14_xy.y.ToInt(),
-                                                          field_80_sprite_ptr->field_1C_zpos.ToInt() - 1);
             bUnknown_1 = 0;
-            if (pBlock_)
+            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                                                            field_80_sprite_ptr->field_14_xy.y.ToInt(),
+                                                            field_80_sprite_ptr->field_1C_zpos.ToInt() - 1))
             {
-                if ((pBlock_->field_B_slope_type & 0xFC) != 0 && (pBlock_->field_B_slope_type & 0xFCu) < 0xB4 &&
-                    (pBlock_->field_B_slope_type & 3) != 0)
-                {
-                    bUnknown_1 = 1;
-                }
+                bUnknown_1 = 1;
             }
             byte_6FDB54 = bUnknown_1;
             Char_B4::ManageZCoordAndSlopes_548590();
@@ -1377,7 +1369,7 @@ void Char_B4::UpdateAnimState_546360()
 
             if (field_68_animation_frame)
             {
-                field_80_sprite_ptr->field_34_palette_type = palette_types_enum::sprites_2;
+                field_80_sprite_ptr->SetPaletteSprites_420700();
             }
             field_80_sprite_ptr->set_num_40F7B0(6);
             newId_ = (u8)field_68_animation_frame + baseId + 151;
@@ -1410,13 +1402,10 @@ void Char_B4::UpdateAnimState_546360()
             {
                 if (field_70_frame_timer == 1)
                 {
-                    if (pDoor__->field_4_state)
+                    if (pDoor__->IsStateActive_421360())
                     {
-                        if (pDoor__->field_4_state != 6)
-                        {
-                            field_68_animation_frame = 4;
-                            field_71 = 0;
-                        }
+                        field_68_animation_frame = 4;
+                        field_71 = 0;
                     }
                 }
                 CarDoorAlignmentSolver_545AF0(field_68_animation_frame,
@@ -1527,7 +1516,7 @@ void Char_B4::UpdateAnimState_546360()
             if (pDriver->get_occupation_403980() == ped_ocupation_enum::driver)
             {
                 pDriver->set_occupation_403970(ped_ocupation_enum::robbed_driver_10);
-                pDriver->field_140 = field_84;
+                pDriver->set_field_140_492CB0(field_84);
                 pDriver->field_180 = field_7C_pPed;
                 goto LABEL_115;
             }
@@ -1537,10 +1526,10 @@ void Char_B4::UpdateAnimState_546360()
                 if (pDriver->field_17C_pGang)
                 {
                     pDriver->SetObjective2_463830(20, 9999);
-                    pDriver->field_14C = field_7C_pPed;
+                    pDriver->set_field_14C_403AE0(field_7C_pPed);
                 }
             LABEL_114:
-                pDriver->field_140 = field_84;
+                pDriver->set_field_140_492CB0(field_84);
                 pDriver->field_180 = field_7C_pPed;
                 goto LABEL_115;
             }
@@ -1560,7 +1549,7 @@ void Char_B4::UpdateAnimState_546360()
             pDriver->SetObjective(objectives_enum::no_obj_0, 9999);
 
         LABEL_115:
-            if (field_7C_pPed->GetInternalObjective_403A90() == 35 && field_7C_pPed->field_226 == 1)
+            if (field_7C_pPed->GetInternalObjective_403A90() == 35 && field_7C_pPed->get_field_226_4039D0() == 1)
             {
                 field_7C_pPed->set_field_226_403B50(0);
             }

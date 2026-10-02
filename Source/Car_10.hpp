@@ -22,6 +22,12 @@ class Car_Door_10
     EXPORT Car_Door_10(); // 447330
     EXPORT ~Car_Door_10(); // 447350
 
+    // 9.6f 0x421360
+    inline bool IsStateActive_421360()
+    {
+        return field_4_state != 0 && field_4_state != 6;
+    }
+
     // 9.6f inline 0x421380
     inline void set_ped_421380(Ped* pPed)
     {

@@ -446,6 +446,12 @@ class Sprite
         this->field_2C_flags |= 4u;
     }
 
+    // 9.6f 0x420700
+    void SetPaletteSprites_420700()
+    {
+        field_34_palette_type = palette_types_enum::sprites_2;
+    }
+
     // 9.6f 0x433800
     void Clear_2C_0x4_Flag_433800()
     {
