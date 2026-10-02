@@ -11629,28 +11629,29 @@ void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
 
     if (pWeapon && !Ped::IsField238_45EDE0(2))
     {
-        Fix16 yd = pObj->field_4->field_14_xy.y - this->field_1AC_cam.y;
-        Fix16 xd = pObj->field_4->field_14_xy.x - this->field_1AC_cam.x;
+        // 9.6f: MaxAbsDistance_42A6B0 (inlined, but 10.5 calls Abs/Negate/Max out of line here)
+        Fix16 yd = pObj->get_y_4340E0() - this->field_1AC_cam.y;
+        Fix16 xd = pObj->get_x_4340D0() - this->field_1AC_cam.x;
 
-        Fix16 yd_abs = Fix16::Abs(yd);
-        Fix16 xd_abs = Fix16::Abs(xd);
+        Fix16 yd_abs = Fix16::Abs_negate_out_of_line(yd);
+        Fix16 xd_abs = Fix16::Abs_436A50(xd);
         Fix16 xd_yd_abs = Fix16::Max_44E540(xd_abs, yd_abs);
 
         if (pObj == this->field_1A4)
         {
-            pWeapon->field_4 = 0;
+            pWeapon->Set_F4_433810(0);
             return;
         }
 
         if (xd_yd_abs < k_dword_678658)
         {
-            pWeapon->field_4 = 1;
+            pWeapon->Set_F4_433810(1);
             return;
         }
 
         if (!pWeapon->IsExplosiveWeapon_5E3BD0())
         {
-            pWeapon->field_4 = 0;
+            pWeapon->Set_F4_433810(0);
             return;
         }
     }
