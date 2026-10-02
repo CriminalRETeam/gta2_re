@@ -1594,12 +1594,11 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 }
 
 WIP_FUNC(0x45de80)
-bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
+char_type Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
 {
     WIP_IMPLEMENTED;
 
-    char_type bCollected;
-    if (this->field_238 != 2) // is player ped type?
+    if (field_238 != 2) // is player ped type?
     {
         return 0;
     }
@@ -1610,14 +1609,15 @@ bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
         return 0; // prevent pick ups if we are "it" in multiplayer?
     }
 
+    char_type bCollected;
     s32 model = pPickUp->field_18_model;
     if (model == objects::secret_token_266)
     {
         // inc counter and remove pick up
         gLucid_hamilton_67E8E0.field_574_secret_tokens_collected++;
+        bCollected = 1;
         gObject_5C_6F8F84->field_20_bUnCollectedTokens[pPickUp->field_26_varrok_idx] = 0;
         pPickUp->Dealloc_5291B0();
-        return 1;
     }
     else
     {
@@ -1628,7 +1628,8 @@ bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
 
         if (model <= 227)
         {
-            bCollected = AddWeaponWithAmmo_45DD30(model - 200, pPickUp->field_26_varrok_idx);
+            char_type ammo = pPickUp->field_26_varrok_idx;
+            bCollected = AddWeaponWithAmmo_45DD30(model - 200, ammo);
         }
         else
         {
@@ -1643,8 +1644,8 @@ bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
             }
             pPickUp->Dealloc_5291B0();
         }
-        return bCollected;
     }
+    return bCollected;
 }
 
 WIP_FUNC(0x45e080)

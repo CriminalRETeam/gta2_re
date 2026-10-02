@@ -3583,7 +3583,7 @@ Ped* Car_BC::GetEffectiveDriver_43E990()
 }
 
 MATCH_FUNC(0x43ea60)
-bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
+char_type Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
 {
     if (pObj->check_is_shop_421060() || pObj->field_18_model == objects::secret_token_266)
     {

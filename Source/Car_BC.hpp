@@ -409,7 +409,7 @@ class Car_BC
     EXPORT char_type ManageDrowning_43E560();
     EXPORT Car_BC* GetCabOrSelf_43E8D0();
     EXPORT Ped* GetEffectiveDriver_43E990();
-    EXPORT bool OnObjectTouched_43EA60(Object_2C* a2);
+    EXPORT char_type OnObjectTouched_43EA60(Object_2C* a2);
     EXPORT char_type HandleCarHitByObject_43F130(Object_2C* a2);
     EXPORT Fix16 sub_440510();
     EXPORT char_type GetPassengersCount_440570();
