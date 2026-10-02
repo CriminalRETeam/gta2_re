@@ -56,6 +56,12 @@ class Crane_15C
         field_A8 = Ang16::Ang16_to_Fix16(rotation);
     }
 
+    // 9.6f 0x411A00
+    inline Sprite* GetRotorSprite_411A00()
+    {
+        return field_2C_rotor_obj->field_4;
+    }
+
     // FUNCTION: 96f 0x447f40
     inline s32 check_8c_a8_447f40()
     {

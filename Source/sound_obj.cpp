@@ -2233,10 +2233,6 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
     s32 idx_; // ecx
     Crane_15C* pCrane; // edi
     Sprite* pSprite; // eax
-    Fix16 ypos; // edx
-    Fix16 f1C_zpos; // eax
-    Fix16 zpos; // ecx
-    Fix16 xpos; // eax
     u8 new_idx; // cl
     s32 new_counter; // eax
     s32 samp_idx; // edi
@@ -2256,25 +2252,18 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
     pCrane_ = pCrane;
     if (pCrane)
     {
-        pSprite = pCrane->field_2C_rotor_obj->field_4;
+        pSprite = pCrane->GetRotorSprite_411A00();
         if (pSprite)
         {
-            this->field_30_sQueueSample.field_8_obj.field_0 = pSprite->field_14_xy.x;
-
-            ypos = pSprite->field_14_xy.y;
-            this->field_30_sQueueSample.field_8_obj.field_4 = ypos;
-
-            f1C_zpos = pSprite->field_1C_zpos;
+            pSprite->GetXYZ_4117B0(&field_30_sQueueSample.field_8_obj.field_0,
+                                   &field_30_sQueueSample.field_8_obj.field_4,
+                                   &field_30_sQueueSample.field_8_obj.field_8);
 
             this->field_30_sQueueSample.field_0_EntityIndex = idx_;
-
-            zpos = f1C_zpos;
-            this->field_30_sQueueSample.field_8_obj.field_8 = f1C_zpos;
-
-            xpos = this->field_30_sQueueSample.field_8_obj.field_0;
-
             this->field_30_sQueueSample.field_5C = 0;
-            bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(xpos, ypos, zpos);
+            bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0,
+                                                                              field_30_sQueueSample.field_8_obj.field_4,
+                                                                              field_30_sQueueSample.field_8_obj.field_8);
             this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
             this->field_2C_distCalculated = 0;
             if (CalculateDistance_419020(Fix16(0x9C4000, 0)))
