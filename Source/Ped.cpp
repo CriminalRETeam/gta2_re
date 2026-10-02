@@ -10580,7 +10580,7 @@ void Ped::ManageWeapon_46F390()
         {
             if (!field_267_varrok_idx)
             {
-                field_267_varrok_idx = gVarrok_7F8_703398->sub_59B060(field_200_id);
+                field_267_varrok_idx = gVarrok_7F8_703398->AllocForPed_59B060(field_200_id);
             }
             if (!field_21C_bf.b7)
             {

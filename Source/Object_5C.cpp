@@ -139,7 +139,7 @@ void Object_2C::PoolDeallocate()
     {
         if (field_26_varrok_idx > 0)
         {
-            gVarrok_7F8_703398->sub_59B0D0(field_26_varrok_idx);
+            gVarrok_7F8_703398->DecrementRefCount_59B0D0(field_26_varrok_idx);
             this->field_26_varrok_idx = 0;
         }
     }
@@ -1289,7 +1289,7 @@ void Object_2C::sub_525190(u8 varrok_idx)
                                                                               this->field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               19,
-                                                                              gVarrok_7F8_703398->field_0[varrok_idx].field_0_ped_id);
+                                                                              gVarrok_7F8_703398->field_0_entries[varrok_idx].field_0_ped_id);
             if (pExplosion)
             {
                 pExplosion->SetDamageOwner_529080(varrok_idx);
@@ -1621,7 +1621,7 @@ void Object_2C::UpdatePhysicsAndMovement_525B80()
             {
                 if (get_field_26_420FF0() > 0)
                 {
-                    gVarrok_7F8_703398->sub_59B0D0(field_26_varrok_idx); // reduce field4 of varrok at idx
+                    gVarrok_7F8_703398->DecrementRefCount_59B0D0(field_26_varrok_idx); // reduce field4 of varrok at idx
                     this->field_26_varrok_idx = 0;
                 }
             }
@@ -1688,7 +1688,7 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
                     {
                         if (field_26_varrok_idx > 0)
                         {
-                            gVarrok_7F8_703398->sub_59B0D0(field_26_varrok_idx);
+                            gVarrok_7F8_703398->DecrementRefCount_59B0D0(field_26_varrok_idx);
                             this->field_26_varrok_idx = 0;
                         }
                     }
@@ -2389,7 +2389,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
         }
         else
         {
-            s32 ped_id = gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id;
+            s32 ped_id = gVarrok_7F8_703398->field_0_entries[field_26_varrok_idx].field_0_ped_id;
             s32 type_or_state = sub_526830(obj_type);
             Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_4->field_14_xy.x,
                                                                               field_4->field_14_xy.y,
@@ -2488,9 +2488,9 @@ char_type Object_2C::HandleObjectHit_528990(Sprite* pSprite)
 
     Object_2C* o2c = pSprite->As2C_40FEC0();
 
-    if (gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id)
+    if (gVarrok_7F8_703398->field_0_entries[field_26_varrok_idx].field_0_ped_id)
     {
-        Ped* pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id);
+        Ped* pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0_entries[field_26_varrok_idx].field_0_ped_id);
         if (pPed)
         {
             pPed->ProcessWeaponHitResponse_46FE20(o2c);
@@ -3058,7 +3058,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
     }
     if (mov_speed_copy != kFpZero_6F8E10 || field_10_obj_3c->field_2A || field_10_obj_3c->field_10 != kFpZero_6F8E10)
     {
-        gRozza_679188.sub_4637B0();
+        gRozza_679188.Reset_4637B0();
         pSprt->set_xyz_lazy_420600(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
         pSprt->set_ang_lazy_420690(field_4->field_0);
         pSprt->AllocInternal_59F950(field_8->field_0_width, field_8->field_4_height, field_8->field_8_depth);
@@ -3262,7 +3262,7 @@ void Object_5C::sub_529300()
                                                   pSprite->field_1C_zpos,
                                                   kZeroAng_6F8F68,
                                                   18,
-                                                  gVarrok_7F8_703398->field_0[o2c->field_26_varrok_idx].field_0_ped_id);
+                                                  gVarrok_7F8_703398->field_0_entries[o2c->field_26_varrok_idx].field_0_ped_id);
             }
         }
         o2c->Dealloc_5291B0();

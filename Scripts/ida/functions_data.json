@@ -270,17 +270,17 @@
         "v105_address": "0x40b870"
     },
     {
-        "name": "sub_40B890",
+        "name": "SetupForCar_40B890",
         "v96f_address": null,
         "v105_address": "0x40b890"
     },
     {
-        "name": "sub_40B980",
+        "name": "SetupForPed_40B980",
         "v96f_address": null,
         "v105_address": "0x40b980"
     },
     {
-        "name": "sub_40BA60",
+        "name": "SetupForObject_40BA60",
         "v96f_address": null,
         "v105_address": "0x40ba60"
     },
@@ -14550,7 +14550,7 @@
         "v105_address": "0x597100"
     },
     {
-        "name": "Varrok_7F8::sub_59B060",
+        "name": "Varrok_7F8::AllocForPed_59B060",
         "v96f_address": null,
         "v105_address": "0x59b060"
     },
@@ -14560,7 +14560,7 @@
         "v105_address": "0x59b0b0"
     },
     {
-        "name": "Varrok_7F8::sub_59B0D0",
+        "name": "Varrok_7F8::DecrementRefCount_59B0D0",
         "v96f_address": null,
         "v105_address": "0x59b0d0"
     },

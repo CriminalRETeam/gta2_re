@@ -574,7 +574,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                 if (timerVal > 50u && pB4->field_8_ped_state_1 != ped_state_1::immobilized_8)
                 {
                     Ped* pPed = pB4->field_7C_pPed;
-                    s32 ped_id = gVarrok_7F8_703398->field_0[this->field_14->field_26_varrok_idx].field_0_ped_id;
+                    s32 ped_id = gVarrok_7F8_703398->field_0_entries[this->field_14->field_26_varrok_idx].field_0_ped_id;
                     if (ped_id)
                     {
                         pPed->field_204_killer_id = ped_id;
@@ -661,7 +661,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                             }
                             else
                             {
-                                s32 ped_id_ = gVarrok_7F8_703398->field_0[this->field_14->field_26_varrok_idx].field_0_ped_id;
+                                s32 ped_id_ = gVarrok_7F8_703398->field_0_entries[this->field_14->field_26_varrok_idx].field_0_ped_id;
                                 if (ped_id_)
                                 {
                                     pCar->field_70_exploder_ped_id = ped_id_;

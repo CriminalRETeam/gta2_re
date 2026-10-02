@@ -7,8 +7,8 @@
 
 DEFINE_GLOBAL(Rozza_C88*, gRozza_C88_66AFE0, 0x66AFE0);
 DEFINE_GLOBAL(Rozza_28, gRozza_679188, 0x679188);
-DEFINE_GLOBAL(Fix16, dword_66AE98, 0x66AE98);
-DEFINE_GLOBAL_INIT(Fix16, dword_66AE9C, Fix16(0x4000, 0), 0x66AE9C);
+DEFINE_GLOBAL(Fix16, kFpZero_66AE98, 0x66AE98);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne_66AE9C, Fix16(0x4000, 0), 0x66AE9C);
 
 MATCH_FUNC(0x477A10)
 bool Rozza_28::IsObj2C_477A10()
@@ -36,20 +36,20 @@ void Rozza_A::set_xyz_40B870(Fix16 x, Fix16 y, Fix16 z)
 }
 
 MATCH_FUNC(0x40B890)
-void Rozza_A::sub_40B890(Car_BC* pCar)
+void Rozza_A::SetupForCar_40B890(Car_BC* pCar)
 {
-    field_10 = pCar;
+    field_10_car = pCar;
 
     switch (gRozza_679188.field_0_type)
     {
         case 1:
-            field_0 = 5;
+            field_0_type = 5;
             field_20_map_block_spec =
                 gMap_0x370_6F6268->sub_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
             break;
 
         case 2:
-            field_0 = 5;
+            field_0_type = 5;
             field_20_map_block_spec =
                 gMap_0x370_6F6268->sub_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
             break;
@@ -59,12 +59,12 @@ void Rozza_A::sub_40B890(Car_BC* pCar)
             Car_BC* cBC = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
             if (cBC)
             {
-                field_14 = cBC;
-                field_0 = 2;
+                field_14_other_car = cBC;
+                field_0_type = 2;
             }
             else if (gRozza_679188.field_20_pSprite->AsCharB4_40FEA0())
             {
-                field_0 = 4;
+                field_0_type = 4;
             }
             else
             {
@@ -73,12 +73,12 @@ void Rozza_A::sub_40B890(Car_BC* pCar)
                 field_18_model_copy = p2C->get_model_40FEF0();
                 if (field_18_model_copy == objects::diagonal_wall_collision_obj_166)
                 {
-                    field_0 = 5;
+                    field_0_type = 5;
                     field_20_map_block_spec = p2C->sub_529240();
                 }
                 else
                 {
-                    field_0 = 3;
+                    field_0_type = 3;
                 }
             }
             break;
@@ -87,18 +87,18 @@ void Rozza_A::sub_40B890(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x40B980)
-void Rozza_A::sub_40B980()
+void Rozza_A::SetupForPed_40B980()
 {
     switch (gRozza_679188.field_0_type)
     {
         case 1:
-            field_0 = 8;
+            field_0_type = 8;
             field_20_map_block_spec =
                 gMap_0x370_6F6268->sub_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
             break;
 
         case 2:
-            field_0 = 8;
+            field_0_type = 8;
             field_20_map_block_spec =
                 gMap_0x370_6F6268->sub_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
             break;
@@ -108,12 +108,12 @@ void Rozza_A::sub_40B980()
             Car_BC* cBC = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
             if (cBC)
             {
-                field_10 = cBC;
-                field_0 = 4;
+                field_10_car = cBC;
+                field_0_type = 4;
             }
             else if (gRozza_679188.field_20_pSprite->AsCharB4_40FEA0())
             {
-                field_0 = 6;
+                field_0_type = 6;
             }
             else
             {
@@ -121,12 +121,12 @@ void Rozza_A::sub_40B980()
                 field_18_model_copy = p2C->get_model_40FEF0();
                 if (field_18_model_copy == objects::diagonal_wall_collision_obj_166)
                 {
-                    field_0 = 8;
+                    field_0_type = 8;
                     field_20_map_block_spec = p2C->sub_529240();
                 }
                 else
                 {
-                    field_0 = 7;
+                    field_0_type = 7;
                 }
             }
             break;
@@ -135,7 +135,7 @@ void Rozza_A::sub_40B980()
 }
 
 MATCH_FUNC(0x40BA60)
-bool Rozza_A::sub_40BA60(Object_2C* pObj)
+bool Rozza_A::SetupForObject_40BA60(Object_2C* pObj)
 {
     if (!pObj->field_8->field_63)
     {
@@ -147,14 +147,14 @@ bool Rozza_A::sub_40BA60(Object_2C* pObj)
     switch (gRozza_679188.field_0_type)
     {
         case 1:
-            field_0 = 10;
+            field_0_type = 10;
             field_20_map_block_spec =
                 gMap_0x370_6F6268->sub_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
 
             break;
 
         case 2:
-            field_0 = 10;
+            field_0_type = 10;
             field_20_map_block_spec =
                 gMap_0x370_6F6268->sub_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
 
@@ -165,13 +165,13 @@ bool Rozza_A::sub_40BA60(Object_2C* pObj)
             Car_BC* cBC = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
             if (cBC)
             {
-                field_10 = cBC;
-                field_0 = 3;
+                field_10_car = cBC;
+                field_0_type = 3;
                 return 1;
             }
             else if (gRozza_679188.field_20_pSprite->AsCharB4_40FEA0())
             {
-                field_0 = 7;
+                field_0_type = 7;
                 return 1;
             }
             else
@@ -185,12 +185,12 @@ bool Rozza_A::sub_40BA60(Object_2C* pObj)
                 field_1C = o2c->get_model_40FEF0();
                 if (field_1C == objects::diagonal_wall_collision_obj_166)
                 {
-                    field_0 = 10;
+                    field_0_type = 10;
                     field_20_map_block_spec = o2c->sub_529240();
                 }
                 else
                 {
-                    field_0 = 9;
+                    field_0_type = 9;
                 }
             }
             break;
@@ -217,23 +217,23 @@ void Rozza_C88::OtherType_40BBA0(Sprite* pSprite, Fix16 physics_value)
         Car_BC* pCar = pSprite->AsCar_40FEB0();
         if (pCar)
         {
-            pRA->sub_40B890(pCar);
+            pRA->SetupForCar_40B890(pCar);
         }
         else if (pSprite->AsCharB4_40FEA0())
         {
-            pRA->sub_40B980();
+            pRA->SetupForPed_40B980();
         }
         else
         {
             Object_2C* p2c = pSprite->As2C_40FEC0();
-            if (!pRA->sub_40BA60(p2c))
+            if (!pRA->SetupForObject_40BA60(p2c))
             {
                 return;
             }
         }
 
         pRA->set_xyz_40B870(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos);
-        pRA->sub_40FF10(physics_value);
+        pRA->SetCarPhysicsValue_40FF10(physics_value);
         field_C84_count++;
     }
 }
@@ -245,27 +245,27 @@ void Rozza_C88::Type4_40BC40(Sprite* pSprite)
     {
         Rozza_A* pRA = &field_4_pool[field_C84_count];
         pRA->set_xyz_40B870(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos);
-        pRA->sub_40FF10(dword_66AE98);
+        pRA->SetCarPhysicsValue_40FF10(kFpZero_66AE98);
 
         Car_BC* pCar = pSprite->AsCar_40FEB0();
         if (pCar)
         {
-            pRA->field_0 = 12;
-            pRA->field_10 = pCar;
+            pRA->field_0_type = 12;
+            pRA->field_10_car = pCar;
         }
         else if (pSprite->AsCharB4_40FEA0())
         {
-            pRA->field_0 = 11;
+            pRA->field_0_type = 11;
         }
         else
         {
             Object_2C* p2c = pSprite->As2C_40FEC0();
-            pRA->field_0 = 1;
+            pRA->field_0_type = 1;
             pRA->field_18_model_copy = p2c->get_model_40FEF0();
         }
         pRA->field_20_map_block_spec = gMap_0x370_6F6268->GetBlockSpec_4E00A0(pSprite->field_14_xy.x,
                                                                               pSprite->field_14_xy.y,
-                                                                              pSprite->field_1C_zpos - dword_66AE9C);
+                                                                              pSprite->field_1C_zpos - kFpOne_66AE9C);
         field_C84_count++;
     }
 }
@@ -277,22 +277,22 @@ void Rozza_C88::Type5_40BD10(Sprite* pSprite)
     {
         Rozza_A* pRA = &this->field_4_pool[this->field_C84_count];
         pRA->set_xyz_40B870(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos);
-        pRA->sub_40FF10(dword_66AE98);
+        pRA->SetCarPhysicsValue_40FF10(kFpZero_66AE98);
 
         Car_BC* pCar = pSprite->AsCar_40FEB0();
         if (pCar)
         {
-            pRA->field_0 = 12;
-            pRA->field_10 = pCar;
+            pRA->field_0_type = 12;
+            pRA->field_10_car = pCar;
         }
         else if (pSprite->AsCharB4_40FEA0())
         {
-            pRA->field_0 = 11;
+            pRA->field_0_type = 11;
         }
         else
         {
             Object_2C* p2c = pSprite->As2C_40FEC0();
-            pRA->field_0 = 1;
+            pRA->field_0_type = 1;
             pRA->field_18_model_copy = p2c->get_model_40FEF0();
         }
         pRA->field_20_map_block_spec =
@@ -306,7 +306,7 @@ void Rozza_C88::Type3_40BDD0(Sprite* pSprite1, Sprite* pSprite2)
 {
     gRozza_679188.field_20_pSprite = pSprite2;
     gRozza_679188.field_0_type = 3;
-    OtherType_40BBA0(pSprite1, dword_66AE98);
+    OtherType_40BBA0(pSprite1, kFpZero_66AE98);
 }
 
 MATCH_FUNC(0x40be00)

@@ -6578,7 +6578,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
 
     if (!this->field_7C_pPed->field_267_varrok_idx)
     {
-        this->field_7C_pPed->field_267_varrok_idx = gVarrok_7F8_703398->sub_59B060(this->field_7C_pPed->field_200_id);
+        this->field_7C_pPed->field_267_varrok_idx = gVarrok_7F8_703398->AllocForPed_59B060(this->field_7C_pPed->field_200_id);
     }
 
     this->field_6C_animation_state = 12;
@@ -6778,7 +6778,7 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_typ
                                                                                      a4);
         if (!field_7C_pPed->field_267_varrok_idx)
         {
-            field_7C_pPed->field_267_varrok_idx = gVarrok_7F8_703398->sub_59B060(field_7C_pPed->field_200_id);
+            field_7C_pPed->field_267_varrok_idx = gVarrok_7F8_703398->AllocForPed_59B060(field_7C_pPed->field_200_id);
         }
         field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(field_7C_pPed->field_267_varrok_idx);
         field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);

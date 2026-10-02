@@ -1824,9 +1824,9 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
             else
             {
                 varrok_idx = o2c->field_26_varrok_idx;
-                if (gVarrok_7F8_703398->field_0[varrok_idx].field_0_ped_id)
+                if (gVarrok_7F8_703398->field_0_entries[varrok_idx].field_0_ped_id)
                 {
-                    pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0[varrok_idx].field_0_ped_id);
+                    pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0_entries[varrok_idx].field_0_ped_id);
                     if (pPed)
                     {
                         if (pPed->field_16C_car == this)
@@ -4254,7 +4254,7 @@ void Car_BC::sub_440F90(char_type instant_bomb)
 {
     if (instant_bomb)
     {
-        s32 ped_id = gVarrok_7F8_703398->field_0[field_54_driver->field_267_varrok_idx].field_0_ped_id;
+        s32 ped_id = gVarrok_7F8_703398->field_0_entries[field_54_driver->field_267_varrok_idx].field_0_ped_id;
         if (ped_id)
         {
             this->field_70_exploder_ped_id = ped_id;
