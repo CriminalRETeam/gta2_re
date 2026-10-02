@@ -97,6 +97,14 @@ class Object_3C
     // ?? not sure if this is O3C either :skull:
     EXPORT Fix16_Point GetSpeedVector_52ADF0();
 
+    // 9.6f 0x482BA0, inline copy of GetSpeedVector_52ADF0
+    inline Fix16_Point GetSpeedVector_482BA0()
+    {
+        Fix16_Point p;
+        p.FromPolar_41E210(field_C_speed, field_4_angle);
+        return p;
+    }
+
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
     struct_4 field_0;

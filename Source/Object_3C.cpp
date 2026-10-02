@@ -62,7 +62,7 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
     {
         sub_529050(field_38, &x_related, &y_related);
         Fix16_Point unk(dword_6F8ECC * x_related, dword_6F8ECC * y_related);
-        Fix16_Point point = unk + GetSpeedVector_52ADF0();
+        Fix16_Point point = unk + GetSpeedVector_482BA0();
 
         Speed = point.GetLength_41E260();
         Angle = point.atan2_40F790();
