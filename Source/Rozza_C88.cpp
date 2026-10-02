@@ -137,7 +137,7 @@ void Rozza_A::SetupForPed_40B980()
 MATCH_FUNC(0x40BA60)
 bool Rozza_A::SetupForObject_40BA60(Object_2C* pObj)
 {
-    if (!pObj->field_8->field_63)
+    if (!pObj->GetDefField63_40FF00())
     {
         return 0;
     }

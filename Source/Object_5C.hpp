@@ -197,9 +197,16 @@ class Object_2C
         field_C_pAny.o8->field_4_timer = timer;
     }
 
+    // 9.6f 0x40FEF0
     s32 get_model_40FEF0()
     {
         return field_18_model;
+    }
+
+    // 9.6f 0x40FF00
+    inline char_type GetDefField63_40FF00()
+    {
+        return field_8->field_63;
     }
 
     // 9.6f 0x475AA0
