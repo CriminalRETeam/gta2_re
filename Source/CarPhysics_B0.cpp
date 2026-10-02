@@ -781,10 +781,7 @@ void CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
 {
     WIP_IMPLEMENTED;
 
-    Ang16 ang; // di
-    Ang16 v8; // [esp+Ah] [ebp-2h] BYREF
-
-    if (this->field_40_linvel_1.x == kFP16Zero_6FE20C && this->field_40_linvel_1.y == kFP16Zero_6FE20C)
+    if (this->field_40_linvel_1.IsNull())
     {
         this->field_93_is_forward_gas_on = bForwardGasOn;
         this->field_94_is_backward_gas_on = bFootBrakeOn;
@@ -792,24 +789,7 @@ void CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
     }
     else
     {
-        Ang16 v8 = Fix16::atan2_fixed_405320(
-            //kFP16Zero_6FE20C,
-            this->field_40_linvel_1.y,
-            this->field_40_linvel_1.x);
-
-        ang = v8 - this->field_58_theta;
-        ang.Normalize();
-        /*
-    if ( ang < 0 )
-    {
-      ang += 1440 * ((1439 - ang) / 0x5A0u);
-    }
-    if ( ang >= 1440 )
-    {
-      ang %= 0x5A0u;
-    }*/
-
-        if (ang > word_6FE00C && ang < word_6FE154)
+        if (!IsVelocityAlignedWithHeading_40F840())
         {
             if (this->field_93_is_forward_gas_on)
             {
