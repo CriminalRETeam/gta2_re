@@ -10,6 +10,12 @@ class Object_2C;
 class Crusher_30
 {
   public:
+    // 9.6f 0x411A20
+    inline Fix16 get_xpos_411A20()
+    {
+        return field_24_xpos;
+    }
+
     enum CrusherStates
     {
         Idle_0 = 0,

@@ -18,6 +18,30 @@ EXPORT void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a
 class Weapon_30
 {
   public:
+    // 9.6f 0x4A4FE0
+    inline u16 get_ammo_4A4FE0()
+    {
+        return field_0_ammo;
+    }
+
+    // 9.6f 0x4CCA00
+    inline void set_idx_4CCA00(s32 v)
+    {
+        field_1C_idx = v;
+    }
+
+    // 9.6f 0x4CCA10
+    inline void set_pPed_4CCA10(Ped* v)
+    {
+        field_24_pPed = v;
+    }
+
+    // 9.6f 0x4CCA20
+    inline void set_car_4CCA20(Car_BC* v)
+    {
+        field_14_car = v;
+    }
+
     EXPORT Weapon_30();
     EXPORT ~Weapon_30();
     EXPORT void init_5DCD90();

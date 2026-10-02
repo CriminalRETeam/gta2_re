@@ -29,6 +29,96 @@ class TrainStation_34;
 class Ped
 {
   public:
+    // 9.6f 0x4039B0
+    inline void set_enter_car_as_passenger_4039B0(s32 v)
+    {
+        field_248_enter_car_as_passenger = v;
+    }
+
+    // 9.6f 0x4039C0
+    inline s32 get_enter_car_as_passenger_4039C0()
+    {
+        return field_248_enter_car_as_passenger;
+    }
+
+    // 9.6f 0x4039D0
+    inline char_type get_field_226_4039D0()
+    {
+        return field_226;
+    }
+
+    // 9.6f 0x403A70
+    inline void set_target_car_door_403A70(u8 v)
+    {
+        field_24C_target_car_door = v;
+    }
+
+    // 9.6f 0x403AC0
+    inline void set_objective_target_ped_403AC0(Ped* v)
+    {
+        field_148_objective_target_ped = v;
+    }
+
+    // 9.6f 0x403AD0
+    inline Ped* get_objective_target_ped_403AD0()
+    {
+        return field_148_objective_target_ped;
+    }
+
+    // 9.6f 0x403B00
+    inline void set_target_to_enter_403B00(Car_BC* v)
+    {
+        field_154_target_to_enter = v;
+    }
+
+    // 9.6f 0x403B20
+    inline u16 get_car_state_timer_403B20()
+    {
+        return field_21A_car_state_timer;
+    }
+
+    // 9.6f 0x403B30
+    inline u16 get_objective_timer_403B30()
+    {
+        return field_218_objective_timer;
+    }
+
+    // 9.6f 0x403B40
+    inline void set_objective_status_403B40(u8 v)
+    {
+        field_225_objective_status = v;
+    }
+
+    // 9.6f 0x403B50
+    inline void set_field_226_403B50(char_type v)
+    {
+        field_226 = v;
+    }
+
+    // 9.6f 0x433B80
+    inline void set_field_20e_433B80(s16 v)
+    {
+        field_20e = v;
+    }
+
+    // 9.6f 0x433C80
+    inline void set_objective_timer_433C80(u16 v)
+    {
+        field_218_objective_timer = v;
+    }
+
+    // 9.6f 0x475B10
+    inline Ped* get_last_char_punched_475B10()
+    {
+        return field_188_last_char_punched;
+    }
+
+    // 9.6f 0x4A5020
+    inline Char_B4* get_game_object_4A5020()
+    {
+        return field_168_game_object;
+    }
+
     EXPORT Ped(); // 45AE70
     EXPORT ~Ped(); // 45AF00
     EXPORT char_type Reset_45AFC0();

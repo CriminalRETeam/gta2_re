@@ -332,6 +332,18 @@ static inline bool IsArmyModel(s32 idx1)
 class Car_BC
 {
   public:
+    // 9.6f 0x421950
+    inline void set_weapon_kind_421950(s32 v)
+    {
+        field_B4_weapon_kind = v;
+    }
+
+    // 9.6f 0x4A51B0
+    inline void set_damage_4A51B0(s16 v)
+    {
+        field_74_damage = v;
+    }
+
     EXPORT bool sub_4451E0(Ped* pPed);
     EXPORT bool sub_445360();
     EXPORT Ang16 sub_4403A0();

@@ -50,6 +50,24 @@ enum
 class CarPhysics_B0
 {
   public:
+    // 9.6f 0x40F800
+    inline Fix16 get_cp3_40F800()
+    {
+        return field_6C_cp3;
+    }
+
+    // 9.6f 0x40F810
+    inline void set_cp3_40F810(Fix16 v)
+    {
+        field_6C_cp3 = v;
+    }
+
+    // 9.6f 0x421270
+    inline char_type get_is_hand_brake_on_421270()
+    {
+        return field_92_is_hand_brake_on;
+    }
+
     // TODO: Ordering
     EXPORT Fix16 ComputeZPosition_559E90();
 

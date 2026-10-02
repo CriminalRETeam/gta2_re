@@ -47,6 +47,24 @@ enum
 class Player
 {
   public:
+    // 9.6f 0x4766D0
+    inline Gang_144* get_gang_curr_location_4766D0()
+    {
+        return field_34_gang_curr_location;
+    }
+
+    // 9.6f 0x4A5170
+    inline void set_bInUse_4A5170(bool v)
+    {
+        field_8E_bInUse = v;
+    }
+
+    // 9.6f 0x4C7340
+    inline gmp_map_zone* get_arrow_blocker_zone_4C7340()
+    {
+        return field_40_arrow_blocker_zone;
+    }
+
     inline void Add_2D4(s32 score)
     {
         field_2D4_scores.AddCash_592620(score * field_6BC_multpliers.field_0_value);

@@ -36,6 +36,18 @@ enum GameExitType
 class Game_0x40
 {
   public:
+    // 9.6f 0x476790
+    inline u8 get_cur_idx_476790()
+    {
+        return field_24_cur_idx;
+    }
+
+    // 9.6f 0x4D09C0
+    inline s32 get_main_state_4D09C0()
+    {
+        return field_2C_game_exit_type;
+    }
+
     EXPORT s32 sub_4B8BB0();
     EXPORT void ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type);
     EXPORT void ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type);

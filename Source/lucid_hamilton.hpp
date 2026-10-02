@@ -17,6 +17,12 @@ class Player;
 
 struct lucid_hamilton
 {
+    // 9.6f 0x453A80
+    inline s32 get_secret_tokens_collected_453A80()
+    {
+        return field_574_secret_tokens_collected;
+    }
+
     char_type field_0_map_name[256];
     char_type field_100_style_name[256];
     char_type field_200_script_name[256];

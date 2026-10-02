@@ -7,6 +7,12 @@ class Ped;
 class Car_Door_10
 {
   public:
+    // 9.6f 0x4341B0
+    inline Ped* get_pObj_4341B0()
+    {
+        return field_8_pObj;
+    }
+
     EXPORT void sub_439CD0(u32* a2);
     EXPORT void sub_439D40(u32* a3);
     EXPORT void sub_439DA0(u32* a3);

@@ -9,6 +9,66 @@ class gmp_map_zone;
 class Gang_144
 {
   public:
+    // 9.6f 0x433B30
+    inline char get_field_111_433B30()
+    {
+        return field_111;
+    }
+
+    // 9.6f 0x4758A0
+    inline void set_field_101_4758A0(char v)
+    {
+        field_101 = v;
+    }
+
+    // 9.6f 0x4758B0
+    inline void set_basic_weapon_4758B0(u32 v)
+    {
+        field_104_basic_weapon = v;
+    }
+
+    // 9.6f 0x4758C0
+    inline void set_angry_weapon_4758C0(u32 v)
+    {
+        field_108_angry_weapon = v;
+    }
+
+    // 9.6f 0x4758D0
+    inline void set_hate_weapon_4758D0(u32 v)
+    {
+        field_10C_hate_weapon = v;
+    }
+
+    // 9.6f 0x4758E0
+    inline void set_gang_car_model_4758E0(u32 v)
+    {
+        field_13C_gang_car_model = v;
+    }
+
+    // 9.6f 0x4758F0
+    inline void set_gang_car_remap_4758F0(char v)
+    {
+        field_140_gang_car_remap = v;
+    }
+
+    // 9.6f 0x475900
+    inline void set_field_111_475900(char v)
+    {
+        field_111 = v;
+    }
+
+    // 9.6f 0x475940
+    inline void set_arrow_colour_475940(u8 v)
+    {
+        field_138_arrow_colour = v;
+    }
+
+    // 9.6f 0x475950
+    inline void set_kill_respect_change_475950(u8 v)
+    {
+        field_139_kill_respect_change = v;
+    }
+
     EXPORT Gang_144(); //  0x4BE4E0
     EXPORT ~Gang_144(); // 0x4BE4F0
 

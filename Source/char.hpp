@@ -27,6 +27,30 @@ EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3);
 class Char_B4
 {
   public:
+    // 9.6f 0x41B080
+    inline Fix16 get_velocity_41B080()
+    {
+        return field_38_velocity;
+    }
+
+    // 9.6f 0x41B090
+    inline s32 get_ped_state_2_41B090()
+    {
+        return field_C_ped_state_2;
+    }
+
+    // 9.6f 0x4338D0
+    inline Sprite* get_sprite_ptr_4338D0()
+    {
+        return field_80_sprite_ptr;
+    }
+
+    // 9.6f 0x4338E0
+    inline void set_pPed_4338E0(Ped* v)
+    {
+        field_7C_pPed = v;
+    }
+
     s32 field_0_id;
     s8 field_4;
     u8 field_5_remap;

@@ -12,6 +12,12 @@ class Car_BC;
 class Crane_15C
 {
   public:
+    // 9.6f 0x476900
+    inline void set_maybe_homecrane_476900(Crane_15C* v)
+    {
+        field_78_maybe_homecrane = v;
+    }
+
     EXPORT ~Crane_15C();
     EXPORT Crane_15C();
     EXPORT void ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint);

@@ -179,6 +179,18 @@ class Sprite_4C
 class Sprite
 {
   public:
+    // 9.6f 0x41C1F0
+    inline s16 get_remap_41C1F0()
+    {
+        return field_24_remap;
+    }
+
+    // 9.6f 0x4BA220
+    inline void set_z_col_4BA220(char_type v)
+    {
+        field_39_z_col = v;
+    }
+
     // TODO: Ordering
     EXPORT Fix16_Point GetBoundingBoxCorner_562450(s32 idx);
 

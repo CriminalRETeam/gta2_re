@@ -11,6 +11,18 @@ class Ped;
 class eager_benz
 {
   public:
+    // 9.6f 0x45B0A0
+    inline u8 get_accuracy_count_45B0A0()
+    {
+        return field_198_accuracy_count;
+    }
+
+    // 9.6f 0x45B0B0
+    inline s32 get_reverse_count_45B0B0()
+    {
+        return field_19C_reverse_count;
+    }
+
     EXPORT eager_benz();
     EXPORT void sub_591C70();
     EXPORT void sub_5922F0(Player* a2, s16 a3, s32 a4, s16 a5, u16 a6);

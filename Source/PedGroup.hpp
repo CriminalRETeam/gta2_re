@@ -8,6 +8,12 @@ class Fix16;
 class PedGroup
 {
   public:
+    // 9.6f 0x4038F0
+    inline char_type get_in_use_4038F0()
+    {
+        return field_40_in_use;
+    }
+
     EXPORT void sub_4C8E60();
     EXPORT static void sub_4C8E80();
     EXPORT void ClearGroupData_4C8E90();

@@ -602,6 +602,24 @@ struct WeaponCheckTable
 class frosty_pasteur_0xC1EA8
 {
   public:
+    // 9.6f 0x475A20
+    inline char_type get_field_C1E2C_475A20()
+    {
+        return field_C1E2C;
+    }
+
+    // 9.6f 0x475A30
+    inline char_type get_field_C1E2D_475A30()
+    {
+        return field_C1E2D;
+    }
+
+    // 9.6f 0x475A40
+    inline void set_field_C1E2D_475A40(char_type v)
+    {
+        field_C1E2D = v;
+    }
+
     EXPORT str_table_entry* FindStringById_503080(s16 stringId);
     EXPORT str_table_entry* StrEntryByString_5030B0(char_type* strToFind);
     EXPORT void sub_511A70(s32 car_model, Generator_2C* pGen);

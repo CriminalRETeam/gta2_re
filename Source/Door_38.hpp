@@ -51,6 +51,12 @@ struct DoorAnimInfo_A
 class Door_38
 {
   public:
+    // 9.6f 0x476A90
+    inline s32 get_state_476A90()
+    {
+        return field_20_state;
+    }
+
     EXPORT Door_38();
     EXPORT ~Door_38();
     EXPORT bool IsSpriteClearOfDoorCollision_49C6A0(Sprite* a1);

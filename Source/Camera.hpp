@@ -36,6 +36,12 @@ struct WorldRect
 class Camera_0xBC
 {
   public:
+    // 9.6f 0x416B70
+    inline Ped* get_ped_416B70()
+    {
+        return field_34_ped;
+    }
+
     EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite);
     EXPORT char_type sub_435630(Sprite* pSprite, s32 bUnknown);
     EXPORT void sub_4357B0();
