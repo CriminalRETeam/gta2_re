@@ -212,7 +212,8 @@ gmp_block_info* Map_0x370::get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord)
 MATCH_FUNC(0x4DEF40)
 s8 gmp_map_zone::IsZoneVisibleToAnyPlayer_4DEF40()
 {
-    Fix16_Rect zoneBounds(field_1_x, field_2_y, field_3_w, field_4_h);
+    Fix16_Rect zoneBounds;
+    zoneBounds.SetFromPosSize_463710(field_1_x, field_2_y, field_3_w, field_4_h);
     return gGame_0x40_67E008->IsRectVisibleToAnyPlayer_4B9B10(&zoneBounds);
 }
 
