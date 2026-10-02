@@ -81,6 +81,7 @@ struct lucid_hamilton
     s32 field_574_secret_tokens_collected;
 
     // inlined at 45b420 in 9.6f
+    // 9.6f 0x45B420
     EXPORT void clear_secret_tokens_collected()
     {
         field_574_secret_tokens_collected = 0;
