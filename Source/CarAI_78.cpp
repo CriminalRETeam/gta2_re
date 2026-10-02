@@ -2973,14 +2973,15 @@ void CarAI_78::Init_AI_Chase_44E0C0()
     else
     {
         dword_6779B0 = p60_->field_30_ped_to_follow->field_16C_car;
-        target_x = this->field_0_car->field_60->field_30_ped_to_follow->field_1AC_cam.x;
+        target_x = this->field_0_car->field_60->field_30_ped_to_follow->get_cam_x();
         dword_6779F0 = target_x;
-        target_y = this->field_0_car->field_60->field_30_ped_to_follow->field_1AC_cam.y;
-        dword_6779F4 = this->field_0_car->field_60->field_30_ped_to_follow->field_1AC_cam.y;
-        target_z = this->field_0_car->field_60->field_30_ped_to_follow->field_1AC_cam.z;
+        target_y = this->field_0_car->field_60->field_30_ped_to_follow->get_cam_y();
+        dword_6779F4 = this->field_0_car->field_60->field_30_ped_to_follow->get_cam_y();
+        target_z = this->field_0_car->field_60->field_30_ped_to_follow->get_cam_z();
     }
 
     dword_6779F8 = target_z;
+    // 9.6f: MaxAbsDistance_42A6B0, but 10.5 calls Abs_436A50/Max_44E540 out of line here
     Fix16 abs_y = Fix16::Abs_436A50(target_y - gCurrCarAI_ypos_677C30);
     Fix16 abs_x = Fix16::Abs_436A50(target_x - gCurrCarAI_xpos_677C38);
     if (Fix16::Max_44E540(abs_x, abs_y) < dword_677BA4 && this->field_0_car->field_60->field_8_maybe_path_type != 1)
