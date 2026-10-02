@@ -3950,10 +3950,9 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
     const char_type* GangName = (char*)&StringById_503080[1];
     Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(GangName);
     Ped* pPed = BasePointer_512770->field_8_char;
-    Player* pPlayer = pPed->field_15C_player;
-    if (pPlayer)
+    if (pPed->is_player_41B0A0())
     {
-        if (pPlayer->get_gang_curr_location_4766D0() == pGang)
+        if (pPed->field_15C_player->get_gang_curr_location_4766D0() == pGang)
         {
             field_8_cond_result = true;
         }
