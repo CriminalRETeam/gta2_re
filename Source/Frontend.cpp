@@ -2412,11 +2412,9 @@ void Frontend::sub_4AE9A0()
 }
 
 // https://decomp.me/scratch/ySQ2h
-WIP_FUNC(0x4B8280)
+MATCH_FUNC(0x4B8280)
 void Frontend::sub_4B8280()
 {
-    WIP_IMPLEMENTED;
-
     wchar_t v6;
     s16 v3 = 256;
     char_type* pKeyIter = &field_8_keys[0];
