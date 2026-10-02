@@ -102,7 +102,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
     rng_kind = 0;
     kind = 0;
-    rng_val = stru_6F6784.get_int_4F7AE0(1000);
+    rng_val = gRng_6F6784.get_int_4F7AE0(1000);
 
     pPed = gPedPool_6787B8->Allocate();
 
@@ -126,7 +126,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio)
     {
         // 1 in 50 chance of elvis
-        if (stru_6F6784.get_int_4F7AE0(50) == 25)
+        if (gRng_6F6784.get_int_4F7AE0(50) == 25)
         {
             kind = 3;
         }
@@ -238,7 +238,7 @@ LABEL_12:
                         pPed->field_244_remap = v16;
                         if (v16 == 5)
                         {
-                            if (!stru_6F6784.get_int_4F7AE0(2))
+                            if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
                                 pPed->field_244_remap = 6;
                             }
@@ -275,7 +275,7 @@ LABEL_12:
                         pPed->field_244_remap = v21;
                         if (v21 == 5)
                         {
-                            if (!stru_6F6784.get_int_4F7AE0(2))
+                            if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
                                 pPed->field_244_remap = 6;
                             }
@@ -290,7 +290,7 @@ LABEL_12:
                     pPed->field_288_threat_search = threat_search_enum::area_2;
                     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                     pPed->field_26C_graphic_type = 0;
-                    switch (stru_6F6784.get_int_4F7AE0(4))
+                    switch (gRng_6F6784.get_int_4F7AE0(4))
                     {
                         case 0:
                             pPed->field_244_remap = 18;
@@ -375,7 +375,7 @@ LABEL_12:
                     }
                     else
                     {
-                        v25 = stru_6F6784.get_int_4F7AE0(25);
+                        v25 = gRng_6F6784.get_int_4F7AE0(25);
                         if (v25 < 4u)
                         {
                             v26 = v25 + 18;
@@ -423,7 +423,7 @@ LABEL_12:
 
         if (gPedManager_6787BC->field_7_make_all_muggers)
         {
-            if (!stru_6F6784.get_int_4F7AE0(2))
+            if (!gRng_6F6784.get_int_4F7AE0(2))
             {
                 if (pPed->field_240_occupation == ped_ocupation_enum::armed_gang_member_19)
                 {
@@ -589,8 +589,8 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
                     break;
             }
 
-            xpos += gSpawnJitterScale_678618 * (stru_6F6784.get_int_4F7AE0(32) + 8);
-            ypos += gSpawnJitterScale_678618 * (stru_6F6784.get_int_4F7AE0(32) + 8);
+            xpos += gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
+            ypos += gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
 
             if (xpos > k_dword_678664 && xpos < dword_678414 - k_dword_678664 && ypos > k_dword_678664 &&
                 ypos < dword_678414 - k_dword_678664)
@@ -876,7 +876,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 
     if (pNewPed->field_244_remap == 5)
     {
-        if (!stru_6F6784.get_int_4F7AE0(2))
+        if (!gRng_6F6784.get_int_4F7AE0(2))
         {
             pNewPed->field_244_remap = 6;
         }
@@ -919,7 +919,7 @@ Ped* PedManager::SpawnRunAwayGuy_470D60()
 {
     Ped* pPed = gPedPool_6787B8->Allocate();
 
-    s32 rng_val = stru_6F6784.get_int_4F7AE0(4);
+    s32 rng_val = gRng_6F6784.get_int_4F7AE0(4);
     switch (rng_val)
     {
         default:
@@ -960,7 +960,7 @@ Ped* PedManager::SpawnTrainLeaver_470E30()
     // TODO: Instruction swap here
     pPed->field_26C_graphic_type = 0;
 
-    switch (stru_6F6784.get_int_4F7AE0(4))
+    switch (gRng_6F6784.get_int_4F7AE0(4))
     {
         case 0:
             pPed->field_244_remap = 18;

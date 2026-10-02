@@ -296,7 +296,7 @@ void CarPhysics_B0::SpinOutOnOil_559BA0()
     {
         if (field_A0 != 1 && field_A0 != 2)
         {
-            if (stru_6F6784.get_int_4F7AE0(2))
+            if (gRng_6F6784.get_int_4F7AE0(2))
             {
                 set_field_A0_559B90(1);
             }

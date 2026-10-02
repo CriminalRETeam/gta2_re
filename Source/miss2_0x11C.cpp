@@ -113,7 +113,7 @@ void miss2_0x11C::MissionFailOnArrest_503200()
             v = 5;
         }
 
-        u16 msg_id = stru_6F6784.get_uint8_4F7B70(5);
+        u16 msg_id = gRng_6F6784.get_uint8_4F7B70(5);
 
         if (gfrosty_pasteur_6F8060->field_348_gang_1_mission_flag && *gfrosty_pasteur_6F8060->field_348_gang_1_mission_flag == 1)
         {

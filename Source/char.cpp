@@ -1319,7 +1319,7 @@ void Char_B4::UpdateAnimState_546360()
                 field_68_animation_frame++;
                 if (field_68_animation_frame > 7u)
                 {
-                    s32 rng_val = stru_6F6784.get_int_4F7AE0(2);
+                    s32 rng_val = gRng_6F6784.get_int_4F7AE0(2);
                     // NOTE: was if else
                     switch (rng_val)
                     {
@@ -1343,7 +1343,7 @@ void Char_B4::UpdateAnimState_546360()
                 field_68_animation_frame++;
                 if (field_68_animation_frame > 7u)
                 {
-                    s32 rng_val_ = stru_6F6784.get_int_4F7AE0(3);
+                    s32 rng_val_ = gRng_6F6784.get_int_4F7AE0(3);
                     // NOTE: Was if else
                     switch (rng_val_)
                     {
@@ -2636,7 +2636,7 @@ void Char_B4::SelectRandomIdleBehavior_54C580()
             {
                 this->field_10_char_state = 1;
                 this->field_6C_animation_state = 0;
-                this->field_46_timer = stru_6F6784.get_int_4F7AE0(400);
+                this->field_46_timer = gRng_6F6784.get_int_4F7AE0(400);
                 break;
             }
             case 9:
@@ -2648,21 +2648,21 @@ void Char_B4::SelectRandomIdleBehavior_54C580()
             {
                 this->field_10_char_state = 3;
                 this->field_6C_animation_state = 0;
-                this->field_46_timer = stru_6F6784.get_int_4F7AE0(200);
+                this->field_46_timer = gRng_6F6784.get_int_4F7AE0(200);
                 break;
             }
             case 15:
             {
                 this->field_10_char_state = 4;
                 this->field_6C_animation_state = 1;
-                this->field_46_timer = stru_6F6784.get_int_4F7AE0(200);
+                this->field_46_timer = gRng_6F6784.get_int_4F7AE0(200);
                 break;
             }
             case 20:
             {
                 this->field_10_char_state = 7;
                 this->field_6C_animation_state = 2;
-                this->field_46_timer = stru_6F6784.get_int_4F7AE0(200);
+                this->field_46_timer = gRng_6F6784.get_int_4F7AE0(200);
                 break;
             }
             default:
@@ -2679,10 +2679,10 @@ void Char_B4::SelectRandomIdleBehavior_54C580()
 MATCH_FUNC(0x54c6c0)
 void Char_B4::ApplyRandomRotationJitter_54C6C0()
 {
-    if (stru_6F6784.get_int_4F7AE0(32) > 22)
+    if (gRng_6F6784.get_int_4F7AE0(32) > 22)
     {
         Ang16 old_angle = field_42;
-        field_42 = Ang16::Fix16_To_Ang16_inlined_40F540(k_dword_6FD868 * (Fix16(stru_6F6784.get_int_4F7AE0(16)) - dword_6FDA08)); // INLINED_MODE required
+        field_42 = Ang16::Fix16_To_Ang16_inlined_40F540(k_dword_6FD868 * (Fix16(gRng_6F6784.get_int_4F7AE0(16)) - dword_6FDA08)); // INLINED_MODE required
         if (old_angle > word_6FD936 && field_42 > word_6FD936)
         {
             field_42 = -field_42;
@@ -4946,7 +4946,7 @@ LABEL_65:
                     if (byte_6FDB58)
                     {
                         unk_ypos = 4;
-                        s16 int_4F7AE0 = stru_6F6784.get_int_4F7AE0(4);
+                        s16 int_4F7AE0 = gRng_6F6784.get_int_4F7AE0(4);
                         switch (int_4F7AE0)
                         {
                             case 0:
@@ -5699,7 +5699,7 @@ void Char_B4::state_7_551CB0()
                 {
                     if ((field_7C_pPed->IsField238_45EDE0(5) || field_7C_pPed->IsField238_45EDE0(2)) && !field_4A)
                     {
-                        if (stru_6F6784.get_int_4F7AE0(600) < 4u && field_10_char_state != Char_B4_state::Smoking_35)
+                        if (gRng_6F6784.get_int_4F7AE0(600) < 4u && field_10_char_state != Char_B4_state::Smoking_35)
                         {
                             field_10_char_state = Char_B4_state::Smoking_35;
                             field_68_animation_frame = 0;
@@ -6238,7 +6238,7 @@ void Char_B4::state_9_552E90()
             default:
                 if (field_6C_animation_state != 21)
                 {
-                    rng = stru_6F6784.get_int_4F7AE0(3);
+                    rng = gRng_6F6784.get_int_4F7AE0(3);
 
                     switch (rng)
                     {
@@ -6323,7 +6323,7 @@ void Char_B4::state_9_552E90()
             default:
                 if (field_6C_animation_state != 21)
                 {
-                    rng = stru_6F6784.get_int_4F7AE0(3);
+                    rng = gRng_6F6784.get_int_4F7AE0(3);
                     switch (rng)
                     {
                         case 0:

@@ -3720,7 +3720,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                 goto LABEL_186;
             }
 
-            if (!stru_6F6784.get_int_4F7AE0(4))
+            if (!gRng_6F6784.get_int_4F7AE0(4))
             {
                 if ((this->field_24_flags & 0x40) == 0)
                 {
@@ -3732,7 +3732,7 @@ void CarAI_78::UpdateStateMachine_44E560()
         }
         else
         {
-            if (!stru_6F6784.get_int_4F7AE0(4))
+            if (!gRng_6F6784.get_int_4F7AE0(4))
             {
                 if ((this->field_24_flags & 0x40) != 0)
                 {
@@ -5505,7 +5505,7 @@ void CarAI_78::sub_4537D0()
 {
     if ((this->field_0_car->field_A6 & 2) != 2 && (this->field_0_car->field_A6 & 1) != 1)
     {
-        if (stru_6F6784.get_int_4F7AE0(2) > 0)
+        if (gRng_6F6784.get_int_4F7AE0(2) > 0)
         {
             field_0_car->field_A6 |= 2;
         }

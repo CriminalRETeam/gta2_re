@@ -8,15 +8,15 @@
 #include <stdlib.h>
 
 DEFINE_GLOBAL(rng*, rng_dword_67AB34, 0x67AB34);
-DEFINE_GLOBAL(rng, stru_6F6784, 0x6F6784);
+DEFINE_GLOBAL(rng, gRng_6F6784, 0x6F6784);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 MATCH_FUNC(0x48B900)
-void rng::sub_48B900()
+void rng::AdvanceCycle_48B900()
 {
     ++field_0_rng;
-    field_4_rnd = stru_6F6784.rand_4F7C00();
+    field_4_rnd = gRng_6F6784.rand_4F7C00();
 }
 
 WIP_FUNC(0x48B920)

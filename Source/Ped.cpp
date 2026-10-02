@@ -1470,7 +1470,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
                 pNearPed_->field_204_killer_id = this->field_200_id;
                 pNearPed_->field_290 = 10;
                 pNearPed_->field_264 = 50;
-                rng = stru_6F6784.get_int_4F7AE0(20);
+                rng = gRng_6F6784.get_int_4F7AE0(20);
                 if (pNearPed_->field_216_health > 30)
                 {
                     if (pNearPed_->IsField238_45EDE0(2))
@@ -1978,13 +1978,13 @@ void Ped::sub_45E4A0()
 
         u8 direction;
 
-        if (!gMap_0x370_6F6268->IsNorthBlockRoadType_433470(xpos, ypos, zpos) || (direction = 0, !stru_6F6784.get_int_4F7AE0(2)))
+        if (!gMap_0x370_6F6268->IsNorthBlockRoadType_433470(xpos, ypos, zpos) || (direction = 0, !gRng_6F6784.get_int_4F7AE0(2)))
         {
-            if (!gMap_0x370_6F6268->IsEastBlockRoadType_4334A0(xpos, ypos, zpos) || (direction = 1, !stru_6F6784.get_int_4F7AE0(2)))
+            if (!gMap_0x370_6F6268->IsEastBlockRoadType_4334A0(xpos, ypos, zpos) || (direction = 1, !gRng_6F6784.get_int_4F7AE0(2)))
             {
-                if (!gMap_0x370_6F6268->IsSouthBlockRoadType_4334D0(xpos, ypos, zpos) || (direction = 2, !stru_6F6784.get_int_4F7AE0(2)))
+                if (!gMap_0x370_6F6268->IsSouthBlockRoadType_4334D0(xpos, ypos, zpos) || (direction = 2, !gRng_6F6784.get_int_4F7AE0(2)))
                 {
-                    if (!gMap_0x370_6F6268->IsWestBlockRoadType_433500(xpos, ypos, zpos) || (direction = 3, !stru_6F6784.get_int_4F7AE0(2)))
+                    if (!gMap_0x370_6F6268->IsWestBlockRoadType_433500(xpos, ypos, zpos) || (direction = 3, !gRng_6F6784.get_int_4F7AE0(2)))
                     {
                         direction = 4;
                     }
@@ -2216,7 +2216,7 @@ void Ped::EnterPublicTransport_45EE70()
         {
             if (!bSkip_buses_67D558)
             {
-                if (stru_6F6784.get_int_4F7AE0(100) > 90 && byte_6787D3 < 5 && pZoneIter->field_0_zone_type == 7 &&
+                if (gRng_6F6784.get_int_4F7AE0(100) > 90 && byte_6787D3 < 5 && pZoneIter->field_0_zone_type == 7 &&
                     !gPublicTransport_181C_6FF1D4->is_bus_full_579AF0())
                 {
                     if (field_25C_internal_objective != 37 && field_25C_internal_objective != 38 && this->field_278_ped_state_1 == ped_state_1::walking_0)
@@ -2231,7 +2231,7 @@ void Ped::EnterPublicTransport_45EE70()
         else
         {
             TrainStation_34* pTrainStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(pZoneIter);
-            if (stru_6F6784.get_int_4F7AE0(100) > 90 && byte_6787D3 < 5)
+            if (gRng_6F6784.get_int_4F7AE0(100) > 90 && byte_6787D3 < 5)
             {
                 if (field_25C_internal_objective != 37 && field_25C_internal_objective != 38 && field_25C_internal_objective != 12)
                 {
@@ -2852,7 +2852,7 @@ void Ped::RobbedDriver_AI_461630()
             {
                 if (field_278_ped_state_1 != ped_state_1::immobilized_8)
                 {
-                    rng_val = stru_6F6784.get_int_4F7AE0(40);
+                    rng_val = gRng_6F6784.get_int_4F7AE0(40);
                     if (bDont_get_car_back_67D4F5)
                     {
                         rng_val = 6;
@@ -3098,14 +3098,14 @@ void Ped::UpdateFacingAngle_461A60()
                     this->field_168_game_object->field_6A = 1;
                     if ((this->field_200_id & 1) != 0)
                     {
-                        Ang16 v17 = Ang16::Fix16_To_Ang16_40F540(dword_6784C4 * Fix16(stru_6F6784.get_int_4F7AE0(45)));
+                        Ang16 v17 = Ang16::Fix16_To_Ang16_40F540(dword_6784C4 * Fix16(gRng_6F6784.get_int_4F7AE0(45)));
                         Ang16 v12 = field_130 + word_6784B0;
                         Ang16 v18 = v17 + v12;
                         this->field_168_game_object->field_74 = v18;
                     }
                     else
                     {
-                        Ang16 v13 = Ang16::Fix16_To_Ang16_40F540(dword_6784C4 * Fix16(stru_6F6784.get_int_4F7AE0(45)));
+                        Ang16 v13 = Ang16::Fix16_To_Ang16_40F540(dword_6784C4 * Fix16(gRng_6F6784.get_int_4F7AE0(45)));
                         Ang16 v14 = field_130 - word_6784B0;
                         Ang16 v19 = v14 - v13;
                         this->field_168_game_object->field_74 = v19;
@@ -3175,7 +3175,7 @@ void Ped::Occupation_AI_461F20()
             {
                 if (field_168_game_object)
                 {
-                    if (field_20e || byte_6787D2 || stru_6F6784.get_int_4F7AE0(1000) >= 2)
+                    if (field_20e || byte_6787D2 || gRng_6F6784.get_int_4F7AE0(1000) >= 2)
                     {
                         Ped::EnterPublicTransport_45EE70();
                     }
@@ -3840,7 +3840,7 @@ bool Ped::PoolUpdate()
             {
                 field_250 = 23;
             }
-            word_6787F2 = stru_6F6784.get_int_4F7AE0(300) + 450;
+            word_6787F2 = gRng_6F6784.get_int_4F7AE0(300) + 450;
         }
     }
 
@@ -10533,14 +10533,14 @@ void Ped::sub_46F1E0(Weapon_30* a2)
         }
         else if (GetPedVelocity_45C920() == k_dword_678660)
         {
-            rng_val = stru_6F6784.get_int_4F7AE0(3);
+            rng_val = gRng_6F6784.get_int_4F7AE0(3);
         }
         else
         {
-            rng_val = stru_6F6784.get_int_4F7AE0(5);
+            rng_val = gRng_6F6784.get_int_4F7AE0(5);
             if (rng_val == 0)
             {
-                rng_val = stru_6F6784.get_int_4F7AE0(5);
+                rng_val = gRng_6F6784.get_int_4F7AE0(5);
             }
         }
 
