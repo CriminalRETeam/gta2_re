@@ -711,7 +711,7 @@ void CarAI_78::sub_4482C0()
 
             if (NearestSpriteOfType_477E60)
             {
-                if (NearestSpriteOfType_477E60->field_30_sprite_type_enum == sprite_types_enum::car_2)
+                if (NearestSpriteOfType_477E60->get_type_416B40() == sprite_types_enum::car_2)
                 {
                     CarAI_78* v17 = NearestSpriteOfType_477E60->field_8_car_bc_ptr->field_5C_AI;
                     if (v17)
