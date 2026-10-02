@@ -19,11 +19,11 @@ EXPORT s32 __stdcall GetLineSpacingFromFontType_5D7700(u16 a1);
 
 EXPORT void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag);
 
-EXPORT void __stdcall sub_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type);
+EXPORT void __stdcall DrawTextScaled_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type);
 
-EXPORT void __stdcall sub_5D7CB0();
+EXPORT void __stdcall ConvertColourBanks_5D7CB0();
 
-EXPORT void __stdcall sub_5D7D30();
+EXPORT void __stdcall MakeScreenTableAndSetWindow_5D7D30();
 
 EXPORT void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
                                  s16 sprite_idx,
@@ -51,7 +51,7 @@ EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
 
 //extern u16 word_703BAA; //EXTERN_GLOBAL(u16, word_703BAA);
 
-EXPORT void __stdcall sub_5D8470(STexture* pTexture,
+EXPORT void __stdcall DrawTexture_5D8470(STexture* pTexture,
                                  Fix16 x_pos,
                                  Fix16 y_pos,
                                  u8 width,
@@ -61,11 +61,18 @@ EXPORT void __stdcall sub_5D8470(STexture* pTexture,
                                  s32 a8,
                                  u8 a9);
 
-EXPORT void __stdcall sub_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 a7, u8 a8);
+EXPORT void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 a7, u8 a8);
 
 // 9.6f 0x4539B0, the inlined copy of GetLineSpacingFromFontType_5D7700
 inline s32 __stdcall GetLineSpacingFromFontType_5D7700_inlined(u16 font_type)
 {
     return (u16)gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
 }
+
+// 9.6f 0x4539D0
+inline s32 __stdcall GetCharWidth_4539D0(u16 font_type, wchar_t chr)
+{
+    return (u16)gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, &chr);
+}
+
 EXPORT s32 __stdcall CountLineSpacing_5D8940(wchar_t* a1, u16 a2);

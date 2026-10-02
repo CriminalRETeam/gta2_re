@@ -167,14 +167,14 @@ struct SCR_LOC_SEC_CHAR : SCR_CMD_HEADER
 struct SCR_THREAD : SCR_CMD_HEADER
 {
     miss2_0x11C* field_8_script_thread;
-    s16 field_C_unknown;
-    u16 field_E;
+    s16 field_C_thread_id;
+    u16 field_E_thread_start_cmd;
     union
     {
         struct
         {
             u16 field_10;
-            u16 field_12;
+            u16 field_12_car_or_phone_idx;
         };
         struct
         {
@@ -182,7 +182,7 @@ struct SCR_THREAD : SCR_CMD_HEADER
             u8 field_12_x;
             u8 field_13_y;
             u8 field_14_z;
-            char_type field_15;
+            char_type field_15_trigger_idx;
             u8 field_16_flag;
         };
     };
@@ -368,13 +368,13 @@ struct SCR_START_BONUS : SCR_CMD_HEADER
 {
     u16 field_8_zone_str_id;
     u8 field_A_subtype;
-    s8 field_B;
-    s8 field_C;
+    s8 field_B_remap;
+    s8 field_C_target_count;
     u8 field_D;
     u16 field_E_id;
-    u16 field_10;
-    s16 field_12;
-    u16 field_14;
+    u16 field_10_time_limit;
+    s16 field_12_alt_car_model;
+    u16 field_14_reward;
     u16 field_16;
     u16 field_18_ptr;
     u8 field_1A;
@@ -449,7 +449,7 @@ struct SCR_IF_JUMP : SCR_CMD_HEADER
 
 struct SCR_DOOR_DATA_DEC : SCR_CMD_HEADER
 {
-    Door_38* field_8;
+    Door_38* field_8_door;
     SCR_XYZ_uc field_C_block;
     u8 field_F_face;
     u8 field_10_gr_id;
@@ -706,8 +706,8 @@ struct SCR_ANSWER_PHONE : SCR_CMD_HEADER
     u16 field_A;
     u16 field_C_ped_idx;
     u16 field_E;
-    s16 field_10;
-    u8 field_12;
+    s16 field_10_timer;
+    u8 field_12_answered;
 };
 
 struct SCR_ADD_PATROL_POINT : SCR_CMD_HEADER
@@ -789,8 +789,8 @@ struct SCR_DO_SAVE_GAME : SCR_CMD_HEADER
 
 struct SCR_DELETE_SOUND : SCR_CMD_HEADER
 {
-    Fix16 field_8_maybe_xpos;
-    Fix16 field_C_maybe_ypos;
+    Fix16 field_8_xpos;
+    Fix16 field_C_ypos;
 };
 
 struct SCR_OPERATE_COUNTER_AND_COUNTER_2 : SCR_CMD_HEADER
@@ -877,19 +877,19 @@ enum
 };
 } // namespace SCR_BONUSES
 
-EXTERN_GLOBAL(Fix16, dword_6F75F0);
-EXTERN_GLOBAL(Fix16, dword_6F77C0);
-EXTERN_GLOBAL(Fix16, dword_6F77C4);
-EXTERN_GLOBAL(Fix16, dword_6F77C8);
+EXTERN_GLOBAL(Fix16, kFpHalf_6F75F0);
+EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
+EXTERN_GLOBAL(Fix16, kFpOne_6F77C4);
+EXTERN_GLOBAL(Fix16, kFpTwo_6F77C8);
 
 class miss2_0x11C
 {
   public:
     EXPORT void MissionFailOnArrest_503200();
     EXPORT u8 GetEntityTypeOfCommand_503410(u32 opcode);
-    EXPORT void sub_5035B0();
+    EXPORT void PoolAllocate_5035B0();
     EXPORT void Log_5035D0();
-    EXPORT void sub_503610();
+    EXPORT void StopThread_503610();
     EXPORT void Next_503620(SCR_CMD_HEADER* pCmd);
     EXPORT void JumpToCmd_503650(u16 cmdIdx);
     EXPORT void EndCmd_503670();
@@ -928,7 +928,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* pCmd);
     EXPORT void DisableThread_505790(u16 idx);
     EXPORT void DeallocOrDeleteItem_505B10(u16 idx);
-    EXPORT s16 sub_505EA0(u16 idx);
+    EXPORT s16 GetBonusResult_505EA0(u16 idx);
     EXPORT void SCRCMD_DISPLAY_MESSAGES_505F50(SCR_TWO_PARAMS* pCmd);
     EXPORT void SCRCMD_DEC_DEATH_BASE_506010(SCR_FOUR_PARAMS* pCmd);
     EXPORT void SCRCMD_DO_CRANE_POWERUP_5060D0(SCR_DECLARE_CRANE_POWERUP* pCmd);
@@ -941,7 +941,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_IF_JUMP_506AF0();
     EXPORT void SCRCMD_GOSUB_506B30();
     EXPORT void SCRCMD_RETURN_506B80();
-    EXPORT u8 sub_506BC0(u32 opcode);
+    EXPORT u8 GetOperationType_506BC0(u32 opcode);
     EXPORT void SCRCMD_S_OP_I_506D60();
     EXPORT void SCRCMD_S_OP_S_506ED0();
     EXPORT void SCRCMD_I_OP_S_507110();
@@ -1145,26 +1145,26 @@ class miss2_0x11C
     EXPORT miss2_0x11C* SpawnThread_511960(u16 levelStart);
     EXPORT void launch_mission_5119A0(SCR_CMD_HEADER* base_pointer, char_type* string);
     EXPORT miss2_0x11C();
-    EXPORT void sub_511CD0();
+    EXPORT void DisableBasicKfsFromSave_511CD0();
     EXPORT ~miss2_0x11C();
 
     miss2_0x11C* mpNext;
     u16 field_4_next_cmd;
     char_type field_6;
     char_type field_7;
-    s32 field_8;
-    char_type field_C;
+    s32 field_8_cond_result;
+    char_type field_C_cmd_initialised;
     char_type field_D;
-    s16 field_E;
-    char_type field_10;
+    s16 field_E_phone_timer;
+    char_type field_10_stopped;
     char_type field_11;
-    s16 field_12;
+    s16 field_12_exec_flag;
     char_type field_14_str[255];
     char_type field_113;
-    miss2_8* field_114;
-    char_type field_118;
+    miss2_8* field_114_gosub_stack;
+    char_type field_118_in_level_start;
     char_type field_119;
-    s16 field_11A;
+    s16 field_11A_thread_id;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(miss2_0x11C, 0x11C)
 
@@ -1173,13 +1173,13 @@ class miss2_0x11C_Pool
   public:
     // TODO: Pools Use pool method
     // inlined
-    miss2_0x11C* sub_4767A0()
+    miss2_0x11C* Allocate_4767A0()
     {
         miss2_0x11C* pf_0 = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = pf_0->mpNext;
         pf_0->mpNext = field_0_pool.field_4_pPrev;
         field_0_pool.field_4_pPrev = pf_0;
-        pf_0->sub_5035B0();
+        pf_0->PoolAllocate_5035B0();
         return pf_0; // ??
     }
 

@@ -13,7 +13,7 @@ class Fix16;
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(Fix16, kFPZero_6691B0);
 EXTERN_GLOBAL(Fix16, kFpZero_6F8E10);
-EXTERN_GLOBAL(Fix16, dword_6FE07C);
+EXTERN_GLOBAL(Fix16, kFP16One256th_6FE07C);
 EXTERN_GLOBAL(Fix16, dword_6F8CF0);
 
 class Fix16
@@ -263,7 +263,7 @@ class Fix16
         }
     }
 
-    inline Fix16 sub_482730()
+    inline Fix16 ZeroIfNegligible_482730()
     {
         if (Fix16::Abs(*this) < dword_6F8CF0)
         {
@@ -353,7 +353,7 @@ class Fix16
 
     // Inlined from 9.6f at 0x401bf0
     // I am not fully sure if this is right, i.e. the s32 parameter, instead of Fix16.
-    // But I couldn't match Phi_74::sub_533090 without this overload.
+    // But I couldn't match Phi_74::SetDimensionsFromSprite_533090 without this overload.
     EXPORT Fix16 operator/(const s32& in)
     {
         s32 value = mValue / in;
@@ -372,7 +372,7 @@ class Fix16
 
     Fix16 ApplyDeadZone_482730(Fix16 to_abs)
     {
-        if (!(Fix16::Abs(to_abs) < dword_6FE07C))
+        if (!(Fix16::Abs(to_abs) < kFP16One256th_6FE07C))
         {
             return to_abs;
         }
@@ -389,6 +389,17 @@ class Fix16
         Fix16 diff_y = y2 - y1;
 
         return Fix16::Max(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
+    }
+
+    // NOTE: 9.6f 0x42A6B0 - inlined in 10.5
+    inline static Fix16 __stdcall MaxAbsDistanceByRef_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+    {
+        Fix16 diff_x;
+        diff_x = x2 - x1;
+        Fix16 diff_y;
+        Fix16 result;
+        result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y = y2.Subtract_436A00(y1)));
+        return result;
     }
 
     // NOTE: 10.5 function - matched but inlined
@@ -428,6 +439,20 @@ class Fix16
     {
         mValue += 0x4000;
         return this;
+    }
+
+    // 9.6f 0x4824E0
+    inline Fix16 operator++(int)
+    {
+        mValue += 0x4000;
+        return Fix16(mValue - 0x4000, 0);
+    }
+
+    // 9.6f 0x482510
+    inline Fix16 operator--(int)
+    {
+        mValue -= 0x4000;
+        return Fix16(mValue + 0x4000, 0);
     }
 
     EXPORT static class Ang16 __stdcall atan2_fixed_405320(Fix16& y, Fix16& x);

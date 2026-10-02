@@ -8,7 +8,7 @@ class Object_2C;
 class TrafficLight_20
 {
   public:
-    EXPORT void sub_5C1D00(u8 x, u8 y, u8 w, u8 h);
+    EXPORT void Init_5C1D00(u8 x, u8 y, u8 w, u8 h);
     EXPORT void UpdateLightsFromPhase_5C27A0(u8 phase);
 
     Object_2C* field_0_north_headlight_obj;
@@ -24,10 +24,10 @@ class TrafficLight_20
 class TrafficLights_194
 {
   public:
-    EXPORT void sub_5C2910(u8 x, u8 y, u8 w, u8 h);
+    EXPORT void AddTrafficLight_5C2910(u8 x, u8 y, u8 w, u8 h);
     EXPORT void TrafficLightsService_5C2950();
     EXPORT void ShowTrafficLightsInfo_5C2A10();
-    EXPORT void sub_5C2AC0();
+    EXPORT void CreateFromMapZones_5C2AC0();
     EXPORT TrafficLights_194();
     EXPORT ~TrafficLights_194();
     bool is_phase_7_434960() const

@@ -15,8 +15,8 @@ class Frismo_C
       
     }
 
-    s32 field_0;
-    s16 field_4;
+    s32 field_0_cond_result;
+    s16 field_4_return_cmd;
     s16 field_6;
     Frismo_C* mpNext;
 };
@@ -31,6 +31,12 @@ class Frismo_C_Pool
     }
 
     EXPORT ~Frismo_C_Pool();
+
+    // 9.6f 0x476780
+    inline void DeAllocate_476780(Frismo_C* pItem)
+    {
+        field_0_pool.DeAllocate(pItem);
+    }
 
     PoolBasic<Frismo_C, 50> field_0_pool;
 };

@@ -9,6 +9,12 @@ DEFINE_GLOBAL(char_type, gBinkActiveSlot_6F83FF, 0x6F83FF);
 DEFINE_GLOBAL(s32, gBinkSummary_6F8250, 0x6F8250);
 DEFINE_GLOBAL(s32, gBinkPixelFormat_6F81B0, 0x6F81B0);
 
+// 9.6f 0x481DF0
+static inline bool IsDirectBufferMode_481DF0()
+{
+    return gBufferMode_706B34 == 2;
+}
+
 MATCH_FUNC(0x513210)
 void __stdcall Bink::Reset_513210()
 {
@@ -97,13 +103,22 @@ void Bink::ResetBufferOffset_513720()
     }
 }
 
-WIP_FUNC(0x513240)
+MATCH_FUNC(0x513240)
 char_type Bink::TickFrame_513240()
 {
-    WIP_IMPLEMENTED;
 
-    BINK* hbink = (gBinkActiveSlot_6F83FF == 1) ? gBinkHandleSlot1_6F8168 : gBinkHandleSlot2_6F83B0;
-    BINKBUFFER* hbinkbuffer = (gBinkActiveSlot_6F83FF == 1) ? gBinkBufferSlot1_6F8170 : gBinkBufferSlot2_6F80C4;
+    BINK* hbink;
+    BINKBUFFER* hbinkbuffer;
+    if (gBinkActiveSlot_6F83FF == 1)
+    {
+        hbink = gBinkHandleSlot1_6F8168;
+        hbinkbuffer = gBinkBufferSlot1_6F8170;
+    }
+    else
+    {
+        hbink = gBinkHandleSlot2_6F83B0;
+        hbinkbuffer = gBinkBufferSlot2_6F80C4;
+    }
 
     if (BinkWait(hbink) != 0)
     {
@@ -112,10 +127,10 @@ char_type Bink::TickFrame_513240()
 
     BinkDoFrame(hbink);
 
-    if (gBufferMode_706B34 == 2)
+    if (IsDirectBufferMode_481DF0())
     {
         // Hardware-accelerated path: blit decoded frame into the locked surface directly.
-        sub_5D7D30();
+        MakeScreenTableAndSetWindow_5D7D30();
         BinkCopyToBuffer(hbink,
                          gVidSys_7071D0->field_50_surface_pixels_ptr,
                          gVidSys_7071D0->field_54_surface_pixels_pitch,
@@ -125,7 +140,7 @@ char_type Bink::TickFrame_513240()
                          gBinkPixelFormat_6F81B0 | 0x4000000);
         FreeSurface_5D7DC0();
         pVid_FlipBuffers(gVidSys_7071D0);
-        pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_74, gVidSys_7071D0->field_4C_rect_bottom);
+        pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
     }
     else
     {
@@ -181,7 +196,7 @@ void __stdcall Bink::OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER a2)
         return;
     }
 
-    if (gBufferMode_706B34 == 2)
+    if (IsDirectBufferMode_481DF0())
     {
         // Hardware-accelerated path: pick Bink colour format based on surface bit depth.
         if (gVidSys_7071D0->field_5C == 5)
@@ -257,7 +272,7 @@ void __stdcall Bink::OpenSlot1_513560(const char_type* pFileName, HDIGDRIVER a2)
         return;
     }
 
-    if (gBufferMode_706B34 == 2)
+    if (IsDirectBufferMode_481DF0())
     {
         if (gVidSys_7071D0->field_5C == 5)
         {

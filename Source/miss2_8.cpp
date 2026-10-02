@@ -15,13 +15,10 @@ miss2_8::miss2_8() throw() // 503120
 MATCH_FUNC(0x503130)
 miss2_8::~miss2_8() // 503130
 {
-    Frismo_C_Pool* pGlobal;
     for (Frismo_C* pOld = field_0_current; field_0_current; pOld = field_0_current)
     {
         field_0_current = pOld->mpNext;
-        pGlobal = gFrismo_C_Pool_6F8068;
-        pOld->mpNext = pGlobal->field_0_pool.field_0_pHead;
-        pGlobal->field_0_pool.field_0_pHead = pOld;
+        gFrismo_C_Pool_6F8068->DeAllocate_476780(pOld);
         field_4_count--;
     }
 }
@@ -49,7 +46,7 @@ Frismo_C* miss2_8::remove_503180()
 }
 
 MATCH_FUNC(0x5031A0)
-Frismo_C* miss2_8::sub_5031A0()
+Frismo_C* miss2_8::AllocFrame_5031A0()
 {
     Frismo_C* v1 = gFrismo_C_Pool_6F8068->field_0_pool.field_0_pHead;
     gFrismo_C_Pool_6F8068->field_0_pool.field_0_pHead = gFrismo_C_Pool_6F8068->field_0_pool.field_0_pHead->mpNext;
@@ -61,7 +58,7 @@ Frismo_C* miss2_8::sub_5031A0()
 }
 
 MATCH_FUNC(0x5031C0)
-void miss2_8::sub_5031C0(Frismo_C* a2)
+void miss2_8::FreeFrame_5031C0(Frismo_C* a2)
 {
     gFrismo_C_Pool_6F8068->field_0_pool.DeAllocate(a2);
 }

@@ -28,11 +28,11 @@ struct PurpleDoom_C
 class PurpleDoom
 {
   public:
-    inline Collide_8* sub_446820(s32 x_find, s32 y_pos)
+    inline Collide_8* GetCollideListAt_446820(s32 x_find, s32 y_pos)
     {
         if (y_pos <= 255 && y_pos >= 0)
         {
-            for (PurpleDoom_C* i = field_0[y_pos]; i; i = i->mpNext)
+            for (PurpleDoom_C* i = field_0_rows[y_pos]; i; i = i->mpNext)
             {
                 s32 x_len = i->field_0_x_len;
 
@@ -100,7 +100,7 @@ class PurpleDoom
     EXPORT void DebugLog_478950(s32 xpos, s32 ypos);
     EXPORT PurpleDoom_C** Clear_4789F0();
 
-    PurpleDoom_C* field_0[256]; // rows of Y; each is a sparse X-linked list of PurpleDoom_C
+    PurpleDoom_C* field_0_rows[256]; // rows of Y; each is a sparse X-linked list of PurpleDoom_C
 };
 
 EXTERN_GLOBAL(PurpleDoom*, gPurpleDoom_1_679208);

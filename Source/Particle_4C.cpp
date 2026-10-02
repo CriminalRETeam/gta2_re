@@ -14,32 +14,32 @@
 #include "Object_3C.hpp"
 #include "CarPhysics_B0.hpp"
 
-EXTERN_GLOBAL(Fix16, dword_6FD49C);
+EXTERN_GLOBAL(Fix16, kFP16Zero_6FD49C);
 EXTERN_GLOBAL(Fix16, dword_6FD2F0);
 EXTERN_GLOBAL(Fix16, dword_6FD448);
-EXTERN_GLOBAL(Fix16, dword_6FD4C0);
+EXTERN_GLOBAL(Fix16, kFP16Eight_6FD4C0);
 EXTERN_GLOBAL(Fix16, dword_6FD540);
 EXTERN_GLOBAL(Fix16, dword_6FD464);
 EXTERN_GLOBAL(Fix16, dword_6FD2F4);
 EXTERN_GLOBAL(Ang16, word_6FD5CC);
-EXTERN_GLOBAL(Ang16, word_6FD3EE);
+EXTERN_GLOBAL(Ang16, kAng180_6FD3EE);
 EXTERN_GLOBAL(Fix16, dword_6FD2D4);
-EXTERN_GLOBAL(Fix16, dword_6FD2D0);
+EXTERN_GLOBAL(Fix16, kFP16Eighth_6FD2D0);
 EXTERN_GLOBAL(Fix16, dword_6FD48C);
 EXTERN_GLOBAL(Fix16, dword_6FD4CC);
 EXTERN_GLOBAL(Fix16, dword_6FD328);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD46C, Fix16(0x333, 0), 0x6FD46C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD554, dword_6FD448, 0x6FD554);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD28C, dword_6FD4C0 - dword_6FD554, 0x6FD28C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD28C, kFP16Eight_6FD4C0 - dword_6FD554, 0x6FD28C);
 //DEFINE_GLOBAL(Fix16_Point, stru_6FD388, 0x6FD388);
 
 DEFINE_GLOBAL(Fix16, stru_6FD388, 0x6FD388);
 DEFINE_GLOBAL(Fix16, stru_6FD38C, 0x6FD38C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD2E8, Fix16(0x666, 0), 0x6FD2E8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD4A0, Fix16(1), 0x6FD4A0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD39C, Fix16(0.5f), 0x6FD39C);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD4A4, Fix16(2), 0x6FD4A4);
+DEFINE_GLOBAL_INIT(Fix16, kFP16One_6FD4A0, Fix16(1), 0x6FD4A0);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6FD39C, Fix16(0.5f), 0x6FD39C);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Two_6FD4A4, Fix16(2), 0x6FD4A4);
 DEFINE_GLOBAL(Fix16, dword_6FD4A8, 0x6FD4A8);
 DEFINE_GLOBAL(Fix16, dword_6FD470, 0x6FD470);
 
@@ -83,27 +83,27 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
                                                     field_30_pNext->field_14_xy.y.ToInt(),
                                                     new_z.ToInt()))
     {
-        rng_1 = Fix16(stru_6F6784.get_int_4F7AE0(61) - 30) / 100;
-        rng_2 = Fix16(stru_6F6784.get_int_4F7AE0(10) - 5) / 100;
+        rng_1 = Fix16(gRng_6F6784.get_int_4F7AE0(61) - 30) / 100;
+        rng_2 = Fix16(gRng_6F6784.get_int_4F7AE0(10) - 5) / 100;
         ++field_2C_counter;
     }
     else
     {
-        rng_1 = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 100;
-        rng_2 = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        rng_1 = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        rng_2 = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
     }
 
     if (field_40_pUnknown)
     {
         if (field_2C_counter > 60)
         {
-            field_40_pUnknown->field_14;
-            if (field_40_pUnknown->field_14->field_4)
+            field_40_pUnknown->field_14_pObj2C;
+            if (field_40_pUnknown->field_14_pObj2C->field_4)
             {
-                field_20 = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->sub_5290F0();
-                field_24_angle = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
+                field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_24_angle = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
-            if (field_40_pUnknown->field_1A == 1)
+            if (field_40_pUnknown->field_1A_timer == 1)
             {
                 field_40_pUnknown = NULL;
             }
@@ -111,15 +111,15 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     }
     else
     {
-        field_20 = dword_6FD49C;
+        field_20_speed = kFP16Zero_6FD49C;
     }
 
-    if (field_20 == dword_6FD49C)
+    if (field_20_speed == kFP16Zero_6FD49C)
     {
         stru_6FD388 = field_30_pNext->field_14_xy.x + rng_1;
         stru_6FD38C = field_30_pNext->field_14_xy.y + rng_2;
-        if (stru_6FD388 > dword_6FD4A0 && stru_6FD388 < dword_6FD280 - dword_6FD4A0 && stru_6FD38C > dword_6FD4A0 &&
-            stru_6FD38C < dword_6FD280 - dword_6FD4A0)
+        if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
+            stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
         {
             field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, new_z);
         }
@@ -130,13 +130,13 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     }
     else
     {
-        field_20 = field_20 * dword_6FD30C;
-        if (field_20 < dword_6FD49C)
+        field_20_speed = field_20_speed * dword_6FD30C;
+        if (field_20_speed < kFP16Zero_6FD49C)
         {
-            field_20 = dword_6FD49C;
+            field_20_speed = kFP16Zero_6FD49C;
         }
-        vector.x = field_20;
-        vector.y = dword_6FD49C;
+        vector.x = field_20_speed;
+        vector.y = kFP16Zero_6FD49C;
         vector.RotateByAngle_40F6B0(field_24_angle);
 
         field_14_additional_speed_x = vector.x;
@@ -147,8 +147,8 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
 
         stru_6FD388 = field_30_pNext->field_14_xy.x + rng_1;
         stru_6FD38C = field_30_pNext->field_14_xy.y + rng_2;
-        if (stru_6FD388 > dword_6FD4A0 && stru_6FD388 < dword_6FD280 - dword_6FD4A0 && stru_6FD38C > dword_6FD4A0 &&
-            stru_6FD38C < dword_6FD280 - dword_6FD4A0)
+        if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
+            stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
         {
             field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, new_z);
         }
@@ -165,8 +165,8 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
 WIP_FUNC(0x5384c0)
 char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 {
-    Fix16 off_x = dword_6FD49C;
-    Fix16 off_y = dword_6FD49C;
+    Fix16 off_x = kFP16Zero_6FD49C;
+    Fix16 off_y = kFP16Zero_6FD49C;
     char_type bJitter = 1;
     Fix16_Point dir(Fix16(0), Fix16(0));
 
@@ -181,16 +181,16 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
         if (field_40_pUnknown->field_6_id != field_44)
         {
             field_40_pUnknown = NULL;
-            field_20 = dword_6FD49C;
+            field_20_speed = kFP16Zero_6FD49C;
         }
-        else if (field_40_pUnknown->field_14)
+        else if (field_40_pUnknown->field_14_pObj2C)
         {
-            if (field_40_pUnknown->field_14->field_4)
+            if (field_40_pUnknown->field_14_pObj2C->field_4)
             {
-                field_20 = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->sub_5290F0();
-                field_24_angle = field_40_pUnknown->field_14->field_10_obj_3c->field_4_angle;
+                field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_24_angle = field_40_pUnknown->field_14_pObj2C->field_10_obj_3c->field_4_angle;
             }
-            if (field_40_pUnknown->field_1A == 1)
+            if (field_40_pUnknown->field_1A_timer == 1)
             {
                 field_40_pUnknown = NULL;
             }
@@ -198,12 +198,12 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
         else
         {
             field_40_pUnknown = NULL;
-            field_20 = dword_6FD49C;
+            field_20_speed = kFP16Zero_6FD49C;
         }
     }
     else
     {
-        field_20 = dword_6FD49C;
+        field_20_speed = kFP16Zero_6FD49C;
     }
 
     Fix16 zpos = field_30_pNext->field_1C_zpos + dword_6FD540;
@@ -215,7 +215,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     Fix16 xpos = field_30_pNext->field_14_xy.x;
     Fix16 ypos = field_30_pNext->field_14_xy.y;
 
-    if (field_20 == dword_6FD49C)
+    if (field_20_speed == kFP16Zero_6FD49C)
     {
         off_x = 0;
         off_y = -dword_6FD45C;
@@ -224,48 +224,49 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     switch ((u8)(field_2C_counter >> 2))
     {
         case 2:
-            if (stru_6F6784.get_int_4F7AE0(2))
+            if (gRng_6F6784.get_int_4F7AE0(2))
             {
                 return true;
             }
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 102);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 102);
             dir.x = 0;
-            dir.y = field_20 * dword_6FD300;
+            dir.y = field_20_speed * dword_6FD300;
             bJitter = 0;
             break;
         case 3:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 101);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 101);
             dir.x = 0;
-            dir.y = field_20 * dword_6FD304;
+            dir.y = field_20_speed * dword_6FD304;
             break;
         case 4:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 100);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 100);
             dir.x = 0;
-            dir.y = field_20 * dword_6FD308;
+            dir.y = field_20_speed * dword_6FD308;
             break;
         case 5:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 99);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 99);
             dir.x = 0;
-            dir.y = field_20 * dword_6FD308;
+            dir.y = field_20_speed * dword_6FD308;
             break;
         case 6:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 98);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 98);
             dir.x = 0;
-            dir.y = field_20 * dword_6FD308;
+            dir.y = field_20_speed * dword_6FD308;
             break;
         case 7:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 97);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 97);
             dir.x = 0;
-            dir.y = field_20 * dword_6FD308;
+            dir.y = field_20_speed * dword_6FD308;
             break;
         default:
-            if (stru_6F6784.get_int_4F7AE0(2))
+            if (gRng_6F6784.get_int_4F7AE0(2))
             {
                 return true;
             }
             break;
     }
 
+    // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined, using it makes the diff worse)
     Fix16 sin = Ang16::sine_40F500(field_24_angle);
     Fix16 cos = Ang16::cosine_40F520(field_24_angle);
     Fix16 old_x = dir.x;
@@ -278,8 +279,8 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     Fix16 jitter_y = 0;
     if (bJitter)
     {
-        jitter_x = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 100;
-        jitter_y = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
     }
 
     field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
@@ -287,8 +288,8 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     stru_6FD388 = xpos + field_8_speed_x;
     stru_6FD38C = ypos + field_C_speed_y;
 
-    if (stru_6FD388 > dword_6FD4A0 && stru_6FD388 < dword_6FD280 - dword_6FD4A0 && stru_6FD38C > dword_6FD4A0 &&
-        stru_6FD38C < dword_6FD280 - dword_6FD4A0)
+    if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
+        stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
     {
         field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
     }
@@ -301,32 +302,32 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     {
         case 0:
         case 1:
-            field_30_pNext->field_2C_flags = 0x51;
+            field_30_pNext->SetFlags_4337D0(1, 10);
             break;
         case 2:
-            field_30_pNext->field_2C_flags = 0x51;
+            field_30_pNext->SetFlags_4337D0(1, 10);
             break;
         case 3:
-            field_30_pNext->field_2C_flags = 0x52;
+            field_30_pNext->SetFlags_4337D0(2, 10);
             break;
         case 4:
-            field_30_pNext->field_2C_flags = 0x7A;
+            field_30_pNext->SetFlags_4337D0(2, 15);
             break;
         case 5:
-            field_30_pNext->field_2C_flags = 0xA2;
+            field_30_pNext->SetFlags_4337D0(2, 20);
             break;
         case 6:
-            field_30_pNext->field_2C_flags = 0xCA;
+            field_30_pNext->SetFlags_4337D0(2, 25);
             break;
         case 7:
-            field_30_pNext->field_2C_flags = 0xF2;
+            field_30_pNext->SetFlags_4337D0(2, 30);
             break;
     }
 
     field_30_pNext->Set_2C_0x4_Flag_4337F0();
     if (field_40_pUnknown)
     {
-        field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14->field_4);
+        field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14_pObj2C->field_4);
     }
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
 
@@ -348,10 +349,10 @@ char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
         return 1;
     }
 
-    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 103);
+    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 103);
 
-    this->field_30_pNext->field_2C_flags = 0xA2;
-    this->field_30_pNext->field_2C_flags |= 4u;
+    this->field_30_pNext->SetFlags_4337D0(2, 20);
+    this->field_30_pNext->Set_2C_0x4_Flag_4337F0();
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
@@ -379,7 +380,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
         Fix16 abs_y = Fix16::Abs_436A50(delta.y);
         Fix16 segments = (abs_x > abs_y ? abs_x : abs_y) / dword_6FD364;
 
-        if (segments != dword_6FD49C)
+        if (segments != kFP16Zero_6FD49C)
         {
             delta.x /= segments;
             delta.y /= segments;
@@ -390,8 +391,8 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
                 cur.x = prev.x + delta.x;
                 cur.y = prev.y + delta.y;
                 Fix16_Point mid = cur - prev;
-                mid.x /= dword_6FD4A4;
-                mid.y /= dword_6FD4A4;
+                mid.x /= kFP16Two_6FD4A4;
+                mid.y /= kFP16Two_6FD4A4;
                 mid.x += prev.x;
                 mid.y += prev.y;
 
@@ -404,7 +405,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
                     pSegment->field_46_sub_state = 0;
                     pSegment->field_2E = 50;
                     pSegment->field_30_pNext->SetType_4206F0(8);
-                    pSegment->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 104);
+                    pSegment->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 104);
                     pSegment->field_30_pNext->set_xyz_lazy_420600(mid.x, mid.y, field_30_pNext->field_1C_zpos);
                     pSegment->field_30_pNext->field_2C_flags = 0xA2;
                     pSegment->field_30_pNext->Set_2C_0x4_Flag_4337F0();
@@ -416,7 +417,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 
         Fix16 target_x = field_28_pSprite->field_14_xy.x;
         Fix16 target_y = field_28_pSprite->field_14_xy.y;
-        Ang16 jitter(&(Fix16(word_6FD5CC.rValue) * Fix16(stru_6F6784.get_int_4F7AE0(16) - 8)), 0);
+        Ang16 jitter(&(Fix16(word_6FD5CC.rValue) * Fix16(gRng_6F6784.get_int_4F7AE0(16) - 8)), 0);
 
         switch (field_46_sub_state)
         {
@@ -424,7 +425,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             case 2:
             case 3:
             {
-                Ang16 ang(field_28_pSprite->field_0 + word_6FD3EE, 0);
+                Ang16 ang(field_28_pSprite->field_0 + kAng180_6FD3EE, 0);
                 Fix16 radius = Fix16(field_46_sub_state) * dword_6FD46C;
                 src.x = radius * Ang16::sine_40F500(ang);
                 src.y = radius * Ang16::cosine_40F520(ang);
@@ -433,7 +434,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             case 4:
             case 5:
             {
-                Ang16 base(field_28_pSprite->field_0 + word_6FD3EE, 0);
+                Ang16 base(field_28_pSprite->field_0 + kAng180_6FD3EE, 0);
                 Ang16 ang(base + jitter, 0);
                 Fix16 radius = Fix16(field_46_sub_state) * dword_6FD46C + dword_6FD45C;
                 src.x = radius * Ang16::sine_40F500(ang);
@@ -447,7 +448,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 
         if (field_28_pSprite->field_30_sprite_type_enum == sprite_types_enum::code_obj1_4)
         {
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 163);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 163);
             field_30_pNext->field_2C_flags = 0xA2;
             field_30_pNext->Set_2C_0x4_Flag_4337F0();
             field_30_pNext->set_xyz_lazy_420600(dst.x, dst.y, field_30_pNext->field_1C_zpos);
@@ -461,8 +462,8 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 WIP_FUNC(0x539040)
 char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
 {
-    Fix16 off_x = dword_6FD49C;
-    Fix16 off_y = dword_6FD49C;
+    Fix16 off_x = kFP16Zero_6FD49C;
+    Fix16 off_y = kFP16Zero_6FD49C;
     Fix16_Point dir(Fix16(0), Fix16(0));
 
     ++field_46_sub_state;
@@ -474,16 +475,16 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             if (field_40_pUnknown->field_6_id != field_44)
             {
                 field_40_pUnknown = NULL;
-                field_20 = dword_6FD49C;
+                field_20_speed = kFP16Zero_6FD49C;
             }
-            else if (field_40_pUnknown->field_14)
+            else if (field_40_pUnknown->field_14_pObj2C)
             {
-                if (field_40_pUnknown->field_14->field_4)
+                if (field_40_pUnknown->field_14_pObj2C->field_4)
                 {
-                    field_20 = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->sub_5290F0();
-                    field_24_angle = field_40_pUnknown->field_14->field_10_obj_3c->field_4_angle;
+                    field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                    field_24_angle = field_40_pUnknown->field_14_pObj2C->field_10_obj_3c->field_4_angle;
                 }
-                if (field_40_pUnknown->field_1A == 1)
+                if (field_40_pUnknown->field_1A_timer == 1)
                 {
                     field_40_pUnknown = NULL;
                 }
@@ -491,12 +492,12 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             else
             {
                 field_40_pUnknown = NULL;
-                field_20 = dword_6FD49C;
+                field_20_speed = kFP16Zero_6FD49C;
             }
         }
         else
         {
-            field_20 = dword_6FD49C;
+            field_20_speed = kFP16Zero_6FD49C;
         }
 
         Fix16 zpos = field_30_pNext->field_1C_zpos + dword_6FD45C;
@@ -506,7 +507,7 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             Fix16 xpos = field_30_pNext->field_14_xy.x;
             Fix16 ypos = field_30_pNext->field_14_xy.y;
 
-            if (field_20 < dword_6FD464)
+            if (field_20_speed < dword_6FD464)
             {
                 off_x = 0;
                 off_y = -dword_6FD46C;
@@ -514,31 +515,31 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
 
             if (field_46_sub_state > 0 && field_46_sub_state <= 4)
             {
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 147);
+                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
                 dir.x = 0;
-                dir.y = (dword_6FD4A0 - Fix16(field_46_sub_state) * dword_6FD2E8) * field_20;
+                dir.y = (kFP16One_6FD4A0 - Fix16(field_46_sub_state) * dword_6FD2E8) * field_20_speed;
             }
             else
             {
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 147);
+                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
                 dir.x = 0;
-                dir.y = (field_20 * dword_6FD2F4) * Fix16(field_46_sub_state / 10);
+                dir.y = (field_20_speed * dword_6FD2F4) * Fix16(field_46_sub_state / 10);
             }
 
             dir.RotateByAngle_40F6B0(field_24_angle);
             field_14_additional_speed_x = dir.x;
             field_18_additional_speed_y = dir.y;
 
-            Fix16 jitter_x = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 30;
-            Fix16 jitter_y = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 30;
+            Fix16 jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 30;
+            Fix16 jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 30;
 
             field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
             field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
             stru_6FD388 = xpos + field_8_speed_x;
             stru_6FD38C = ypos + field_C_speed_y;
 
-            if (stru_6FD388 > dword_6FD4A0 && stru_6FD388 < dword_6FD280 - dword_6FD4A0 && stru_6FD38C > dword_6FD4A0 &&
-                stru_6FD38C < dword_6FD280 - dword_6FD4A0)
+            if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
+                stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
             {
                 field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
             }
@@ -547,12 +548,12 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
                 field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, zpos);
             }
 
-            field_30_pNext->field_2C_flags = 0x7A;
+            field_30_pNext->SetFlags_4337D0(2, 15);
             field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A0 + Fix16(field_46_sub_state) * dword_6FD2E8, 0);
+            field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + Fix16(field_46_sub_state) * dword_6FD2E8, 0);
             if (field_40_pUnknown)
             {
-                field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14->field_4);
+                field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14_pObj2C->field_4);
             }
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
             return 0;
@@ -564,8 +565,8 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
 WIP_FUNC(0x539480)
 char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 {
-    Fix16 off_x = dword_6FD49C;
-    Fix16 off_y = dword_6FD49C;
+    Fix16 off_x = kFP16Zero_6FD49C;
+    Fix16 off_y = kFP16Zero_6FD49C;
     Fix16_Point dir(Fix16(0), Fix16(0));
 
     ++field_46_sub_state;
@@ -577,16 +578,16 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             if (field_40_pUnknown->field_6_id != field_44)
             {
                 field_40_pUnknown = NULL;
-                field_20 = dword_6FD49C;
+                field_20_speed = kFP16Zero_6FD49C;
             }
-            else if (field_40_pUnknown->field_14)
+            else if (field_40_pUnknown->field_14_pObj2C)
             {
-                if (field_40_pUnknown->field_14->field_4)
+                if (field_40_pUnknown->field_14_pObj2C->field_4)
                 {
-                    field_20 = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->sub_5290F0();
-                    field_24_angle = field_40_pUnknown->field_14->field_10_obj_3c->field_4_angle;
+                    field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                    field_24_angle = field_40_pUnknown->field_14_pObj2C->field_10_obj_3c->field_4_angle;
                 }
-                if (field_40_pUnknown->field_1A == 1)
+                if (field_40_pUnknown->field_1A_timer == 1)
                 {
                     field_40_pUnknown = NULL;
                 }
@@ -594,12 +595,12 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             else
             {
                 field_40_pUnknown = NULL;
-                field_20 = dword_6FD49C;
+                field_20_speed = kFP16Zero_6FD49C;
             }
         }
         else
         {
-            field_20 = dword_6FD49C;
+            field_20_speed = kFP16Zero_6FD49C;
         }
 
         Fix16 zpos = field_30_pNext->field_1C_zpos + dword_6FD540;
@@ -609,7 +610,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             Fix16 xpos = field_30_pNext->field_14_xy.x;
             Fix16 ypos = field_30_pNext->field_14_xy.y;
 
-            if (field_20 < dword_6FD464)
+            if (field_20_speed < dword_6FD464)
             {
                 off_x = 0;
                 off_y = -dword_6FD46C;
@@ -617,31 +618,31 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 
             if (field_46_sub_state > 0 && field_46_sub_state <= 4)
             {
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 147);
+                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
                 dir.x = 0;
-                dir.y = (dword_6FD4A0 - Fix16(field_46_sub_state) * dword_6FD2E8) * field_20;
+                dir.y = (kFP16One_6FD4A0 - Fix16(field_46_sub_state) * dword_6FD2E8) * field_20_speed;
             }
             else
             {
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 147);
+                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
                 dir.x = 0;
-                dir.y = (field_20 * dword_6FD300) * Fix16(field_46_sub_state / 10);
+                dir.y = (field_20_speed * dword_6FD300) * Fix16(field_46_sub_state / 10);
             }
 
             dir.RotateByAngle_40F6B0(field_24_angle);
             field_14_additional_speed_x = dir.x;
             field_18_additional_speed_y = dir.y;
 
-            Fix16 jitter_x = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 50;
-            Fix16 jitter_y = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 50;
+            Fix16 jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 50;
+            Fix16 jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 50;
 
             field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
             field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
             stru_6FD388 = xpos + field_8_speed_x;
             stru_6FD38C = ypos + field_C_speed_y;
 
-            if (stru_6FD388 > dword_6FD4A0 && stru_6FD388 < dword_6FD280 - dword_6FD4A0 && stru_6FD38C > dword_6FD4A0 &&
-                stru_6FD38C < dword_6FD280 - dword_6FD4A0)
+            if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
+                stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
             {
                 field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
             }
@@ -650,11 +651,11 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
                 field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, zpos);
             }
 
-            field_30_pNext->field_2C_flags = 0x7A;
+            field_30_pNext->SetFlags_4337D0(2, 15);
             field_30_pNext->Set_2C_0x4_Flag_4337F0();
             if (field_40_pUnknown)
             {
-                field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14->field_4);
+                field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14_pObj2C->field_4);
             }
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
             return 0;
@@ -682,14 +683,14 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
         {
             field_40_pUnknown = NULL;
         }
-        else if (field_40_pUnknown->field_14)
+        else if (field_40_pUnknown->field_14_pObj2C)
         {
-            if (field_40_pUnknown->field_14->field_4)
+            if (field_40_pUnknown->field_14_pObj2C->field_4)
             {
-                field_20 = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->sub_5290F0();
-                field_24_angle = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
+                field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_24_angle = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
-            if (field_40_pUnknown->field_1A == 1)
+            if (field_40_pUnknown->field_1A_timer == 1)
             {
                 field_40_pUnknown = NULL;
             }
@@ -697,14 +698,14 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
         else
         {
             field_40_pUnknown = NULL;
-            field_20 = dword_6FD49C;
+            field_20_speed = kFP16Zero_6FD49C;
         }
     }
     else
     {
-        field_20 = dword_6FD49C;
+        field_20_speed = kFP16Zero_6FD49C;
     }
-    field_20 = dword_6FD49C;
+    field_20_speed = kFP16Zero_6FD49C;
 
     Fix16 zpos = field_30_pNext->field_1C_zpos + dword_6FD540;
     if (zpos >= dword_6FD28C)
@@ -719,41 +720,41 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
     switch ((u8)(field_2C_counter >> 2))
     {
         case 2:
-            if (stru_6F6784.get_int_4F7AE0(2))
+            if (gRng_6F6784.get_int_4F7AE0(2))
             {
                 return true;
             }
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 102);
-            field_30_pNext->field_2C_flags = 0xC9;
-            field_30_pNext->field_2C_flags &= ~4u;
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 102);
+            field_30_pNext->SetFlags_4337D0(1, 25);
+            field_30_pNext->Clear_2C_0x4_Flag_433800();
             dir.x = 0;
-            dir.y = dword_6FD300 * field_20;
+            dir.y = dword_6FD300 * field_20_speed;
             bJitter = 0;
             break;
         case 3:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 101);
-            field_30_pNext->field_2C_flags = 0xC9;
-            field_30_pNext->field_2C_flags &= ~4u;
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 101);
+            field_30_pNext->SetFlags_4337D0(1, 25);
+            field_30_pNext->Clear_2C_0x4_Flag_433800();
             dir.x = 0;
-            dir.y = dword_6FD304 * field_20;
+            dir.y = dword_6FD304 * field_20_speed;
             break;
         case 4:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 100);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 100);
             dir.x = 0;
-            dir.y = dword_6FD308 * field_20;
+            dir.y = dword_6FD308 * field_20_speed;
             break;
         case 5:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 99);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 99);
             dir.x = 0;
-            dir.y = dword_6FD308 * field_20;
+            dir.y = dword_6FD308 * field_20_speed;
             break;
         case 6:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 98);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 98);
             dir.x = 0;
             dir.y = 0;
-            if (field_40_pUnknown && field_40_pUnknown->field_14->field_4)
+            if (field_40_pUnknown && field_40_pUnknown->field_14_pObj2C->field_4)
             {
-                Sprite* pTarget = field_40_pUnknown->field_14->field_4;
+                Sprite* pTarget = field_40_pUnknown->field_14_pObj2C->field_4;
                 xpos = pTarget->field_14_xy.x;
                 ypos = pTarget->field_14_xy.y;
                 zpos = pTarget->field_1C_zpos;
@@ -761,12 +762,12 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             bJitter = 0;
             break;
         case 7:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 97);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 97);
             dir.x = 0;
             dir.y = 0;
-            if (field_40_pUnknown && field_40_pUnknown->field_14->field_4)
+            if (field_40_pUnknown && field_40_pUnknown->field_14_pObj2C->field_4)
             {
-                Sprite* pTarget = field_40_pUnknown->field_14->field_4;
+                Sprite* pTarget = field_40_pUnknown->field_14_pObj2C->field_4;
                 xpos = pTarget->field_14_xy.x;
                 ypos = pTarget->field_14_xy.y;
                 zpos = pTarget->field_1C_zpos;
@@ -774,17 +775,17 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             bJitter = 0;
             break;
         default:
-            if (stru_6F6784.get_int_4F7AE0(2))
+            if (gRng_6F6784.get_int_4F7AE0(2))
             {
                 return true;
             }
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 103);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 103);
             dir.x = 0;
-            dir.y = field_20 / dword_6FD4A4;
+            dir.y = field_20_speed / kFP16Two_6FD4A4;
             bJitter = 0;
-            if (stru_6F6784.get_int_4F7AE0(7) == 4 && field_30_pNext->field_14_xy.x > dword_6FD4A0 &&
-                field_30_pNext->field_14_xy.x < dword_6FD280 - dword_6FD4A0 && field_30_pNext->field_14_xy.y > dword_6FD4A0 &&
-                field_30_pNext->field_14_xy.y < dword_6FD280 - dword_6FD4A0)
+            if (gRng_6F6784.get_int_4F7AE0(7) == 4 && field_30_pNext->field_14_xy.x > kFP16One_6FD4A0 &&
+                field_30_pNext->field_14_xy.x < dword_6FD280 - kFP16One_6FD4A0 && field_30_pNext->field_14_xy.y > kFP16One_6FD4A0 &&
+                field_30_pNext->field_14_xy.y < dword_6FD280 - kFP16One_6FD4A0)
             {
                 Particle_4C* pSmoke = gParticle_8_6FD5E8->New_53E3C0(0, 0, 0, 0, 0, 0);
                 if (pSmoke)
@@ -795,7 +796,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
                     pSmoke->field_2E = 100;
                     pSmoke->field_30_pNext->SetType_4206F0(8);
                     pSmoke->field_38_state = 6;
-                    pSmoke->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4);
+                    pSmoke->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
                     pSmoke->field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x,
                                                                 field_30_pNext->field_14_xy.y,
                                                                 field_30_pNext->field_1C_zpos);
@@ -813,8 +814,8 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
     Fix16 jitter_y = 0;
     if (bJitter)
     {
-        jitter_x = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 100;
-        jitter_y = Fix16(stru_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
     }
 
     field_8_speed_x = field_14_additional_speed_x + jitter_x;
@@ -822,8 +823,8 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
     stru_6FD388 = xpos + field_8_speed_x;
     stru_6FD38C = ypos + field_C_speed_y;
 
-    if (stru_6FD388 > dword_6FD4A0 && stru_6FD388 < dword_6FD280 - dword_6FD4A0 && stru_6FD38C > dword_6FD4A0 &&
-        stru_6FD38C < dword_6FD280 - dword_6FD4A0)
+    if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
+        stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
     {
         field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
     }
@@ -867,7 +868,7 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
         }
     }
 
-    field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + this->field_46_sub_state + 191);
+    field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + this->field_46_sub_state + 191);
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
@@ -927,7 +928,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         offset.x += pos.x;
         offset.y += pos.y;
 
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 200);
+        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 200);
         field_30_pNext->field_2C_flags = 0xA2;
         field_30_pNext->set_ang_lazy_420690(field_28_pSprite->field_0);
         field_30_pNext->set_xyz_lazy_420600(offset.x, offset.y, field_28_pSprite->field_1C_zpos);
@@ -961,9 +962,9 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         }
         offset.y = dist;
         offset.RotateByAngle_40F6B0(pTarget->field_0);
-        offset = offset + Fix16_Point(pB4->field_98.x, pB4->field_98.y);
+        offset = offset + Fix16_Point(pB4->field_98_velocity_vector.x, pB4->field_98_velocity_vector.y);
 
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 197);
+        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 197);
         field_30_pNext->field_2C_flags = 0xA2;
         field_30_pNext->set_xyz_lazy_420600(field_28_pSprite->field_14_xy.x + offset.x,
                                             field_28_pSprite->field_14_xy.y + offset.y,
@@ -981,27 +982,15 @@ char_type Particle_4C::Empty_state_42_53AB70()
     return 0;
 }
 
-struct Fix16_Vec2
-{
-    Fix16 x, y, z;
-
-    Fix16_Vec2(Fix16 x, Fix16 y, Fix16 z) : x(x), y(y), z(z)
-    {
-    }
-
-    ~Fix16_Vec2()
-    {
-    }
-};
-
 // 9.6f 0x48C270
-// 92%
-WIP_FUNC(0x53aba0)
+MATCH_FUNC(0x53aba0)
 char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 {
-    WIP_IMPLEMENTED;
 
-    Fix16_Vec2 v(dword_6FD49C, dword_6FD49C, dword_6FD46C);
+    Fix16 z = dword_6FD46C;
+    Fix16 x = kFP16Zero_6FD49C;
+    Fix16 y = kFP16Zero_6FD49C;
+    Fix16_Point point2(Fix16(0), Fix16(0));
     Fix16 new_z;
 
     gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
@@ -1015,17 +1004,17 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
     {
         this->field_8_speed_x = this->field_14_additional_speed_x + this->field_8_speed_x;
         this->field_C_speed_y = this->field_18_additional_speed_y + field_C_speed_y;
-        new_z = field_30_pNext->field_1C_zpos + v.z;
+        new_z = field_30_pNext->field_1C_zpos + z;
     }
     else
     {
         this->field_8_speed_x = this->field_14_additional_speed_x + this->field_8_speed_x;
         this->field_C_speed_y = this->field_18_additional_speed_y + field_C_speed_y;
-        new_z = field_30_pNext->field_1C_zpos - v.z;
+        new_z = field_30_pNext->field_1C_zpos - z;
     }
 
-    stru_6FD388 = v.x + field_8_speed_x + field_30_pNext->field_14_xy.x;
-    stru_6FD38C = v.y + field_C_speed_y + field_30_pNext->field_14_xy.y;
+    stru_6FD388 = x + field_8_speed_x + field_30_pNext->field_14_xy.x;
+    stru_6FD38C = y + field_C_speed_y + field_30_pNext->field_14_xy.y;
     if (new_z > dword_6FD28C)
     {
         new_z = dword_6FD28C;
@@ -1042,8 +1031,8 @@ MATCH_FUNC(0x53ae60)
 char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
 {
     Fix16 v1 = dword_6FD2E8;
-    Fix16 x = dword_6FD49C;
-    Fix16 y = dword_6FD49C;
+    Fix16 x = kFP16Zero_6FD49C;
+    Fix16 y = kFP16Zero_6FD49C;
     Fix16_Point point2(Fix16(0), Fix16(0));
 
     ++field_46_sub_state;
@@ -1073,7 +1062,7 @@ char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
     {
         zpos = dword_6FD28C;
     }
-    field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 131);
+    field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 131);
     field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     field_30_pNext->field_2C_flags = 0xA2;
@@ -1087,12 +1076,12 @@ char_type Particle_4C::Empty_state_44_53B170()
 }
 
 // https://decomp.me/scratch/fW2BZ
-WIP_FUNC(0x53b1a0)
+MATCH_FUNC(0x53b1a0)
 bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
 {
-    WIP_IMPLEMENTED;
     Fix16 v1 = dword_6FD46C;
-    Fix16_Point point(dword_6FD49C, dword_6FD49C);
+    Fix16 x = kFP16Zero_6FD49C;
+    Fix16 y = kFP16Zero_6FD49C;
     Fix16_Point point2(Fix16(0), Fix16(0));
 
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
@@ -1114,25 +1103,25 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
         field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
         zpos = field_30_pNext->field_1C_zpos - v1;
     }
-    stru_6FD388 = point.x + field_8_speed_x + field_30_pNext->field_14_xy.x;
-    stru_6FD38C = point.y + field_C_speed_y + field_30_pNext->field_14_xy.y;
+    stru_6FD388 = x + field_8_speed_x + field_30_pNext->field_14_xy.x;
+    stru_6FD38C = y + field_C_speed_y + field_30_pNext->field_14_xy.y;
 
     switch (field_2C_counter)
     {
         case 5:
         case 6:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 127);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 127);
             break;
         case 4:
-            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 128);
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 128);
             break;
         case 2:
         case 3:
-            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 129);
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 129);
             break;
         case 0:
         case 1:
-            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4 + 130);
+            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 130);
             break;
         default:
             break;
@@ -1190,7 +1179,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
     Sprite* pSprite = field_28_pSprite;
     Fix16 zpos = field_30_pNext->field_1C_zpos;
     Fix16_Point_POD offset;
-    if (pSprite->field_30_sprite_type_enum != sprite_types_enum::ped_3)
+    if (pSprite->get_type_416B40() != sprite_types_enum::ped_3)
     {
         return true;
     }
@@ -1198,7 +1187,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
     Char_B4* pB4 = pSprite->field_8_char_b4_ptr;
 
     Ped* pPed = pB4->get_ped_433A20();
-    if (!pPed || !pPed->check_bit_0())
+    if (!pPed || !pPed->CheckBit0_433B40())
     {
         return true;
     }
@@ -1209,7 +1198,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         {
             return true;
         }
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 3);
+        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 3);
         if (pB4->field_68_animation_frame != 5)
         {
             gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(field_28_pSprite, 0);
@@ -1221,33 +1210,33 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         {
             if (field_2C_counter > 40)
             {
-                Ang16 angle(Fix16((stru_6F6784.get_int_4F7AE0(8) - 4) / 2).GetRaw_40F4B0() / 71);
-                angle.sub_406C20();
+                Ang16 angle(Fix16((gRng_6F6784.get_int_4F7AE0(8) - 4) / 2).GetRaw_40F4B0() / 71);
+                angle.Normalize_406C20();
                 {
                     Fix16 radius = dword_6FD540 * dword_6FD4A8;
                     angle.rValue = field_28_pSprite->field_0.rValue + angle.rValue;
-                    angle.sub_406C20();
-                    offset.FromPolar_41E210(radius, angle);
+                    angle.Normalize_406C20();
+                    Ang16::PolarToCartesian_41FC20(angle, radius, offset.x, offset.y);
                 }
-                field_30_pNext->field_2C_flags = 0x51;
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 17);
+                field_30_pNext->SetFlags_4337D0(1, 10);
+                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 17);
                 zpos += dword_6FD470;
             }
             else
             {
-                Fix16 radius = dword_6FD4A0 * dword_6FD540;
-                offset.FromPolar_41E210(radius, field_30_pNext->field_0);
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 17);
-                field_30_pNext->field_2C_flags = 0x29;
+                Fix16 radius = kFP16One_6FD4A0 * dword_6FD540;
+                Ang16::PolarToCartesian_41FC20(field_30_pNext->field_0, radius, offset.x, offset.y);
+                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 17);
+                field_30_pNext->SetFlags_4337D0(1, 5);
                 zpos += dword_6FD470;
             }
         }
         else
         {
             Fix16 radius = dword_6FD540 * dword_6FD4A8;
-            offset.FromPolar_41E210(radius, field_28_pSprite->field_0);
-            field_30_pNext->field_2C_flags = 0xA1;
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 17);
+            Ang16::PolarToCartesian_41FC20(field_28_pSprite->field_0, radius, offset.x, offset.y);
+            field_30_pNext->SetFlags_4337D0(1, 20);
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 17);
         }
         stru_6FD388 += offset.x;
         stru_6FD38C += offset.y;
@@ -1302,11 +1291,11 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
         idx = 3;
     }
 
-    field_30_pNext->field_22_sprite_id = idx + gPhi_8CA8_6FCF00->field_8CA4 + 37;
+    field_30_pNext->set_id_4206E0(idx + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 37);
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
-    field_30_pNext->field_2C_flags = 0x52;
-    field_30_pNext->field_2C_flags |= 4;
-    field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A0 + scale_related * Fix16(field_46_sub_state), 0);
+    field_30_pNext->SetFlags_4337D0(2, 10);
+    field_30_pNext->Set_2C_0x4_Flag_4337F0();
+    field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + scale_related * Fix16(field_46_sub_state), 0);
     return false;
 }
 
@@ -1380,13 +1369,13 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         }
     }
 
-    Fix16 spread_val = (Fix16(stru_6F6784.get_int_4F7AE0(field_46_sub_state)) + Fix16(field_46_sub_state) - dword_6FD4AC) * dword_6FD328;
+    Fix16 spread_val = (Fix16(gRng_6F6784.get_int_4F7AE0(field_46_sub_state)) + Fix16(field_46_sub_state) - dword_6FD4AC) * dword_6FD328;
     Ang16 spread(spread_val.GetRaw_40F4B0() / 71);
-    spread.sub_406C20();
+    spread.Normalize_406C20();
 
     if (pB4)
     {
-        vel = pB4->field_7C_pPed->sub_45B520();
+        vel = pB4->field_7C_pPed->GetVelocityVector_45B520();
     }
     else
     {
@@ -1395,14 +1384,14 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         Sprite_18* pGun = pCar->field_0_qq.GetSpriteForModel_5A6A50(114);
         if (pGun)
         {
-            Ang16 gun_angle = pGun->field_0->field_0 + word_6FD3EE;
-            gun_angle.sub_406C20();
+            Ang16 gun_angle = pGun->field_0->field_0 + kAng180_6FD3EE;
+            gun_angle.Normalize_406C20();
             angle = gun_angle;
             attach.x = 0;
             attach.y = dword_6FD2D4;
             attach.RotateByAngle_40F6B0(angle);
             offset.x = 0;
-            offset.y = dword_6FD2D0;
+            offset.y = kFP16Eighth_6FD2D0;
         }
         else
         {
@@ -1421,11 +1410,11 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     }
 
     Fix16 speed;
-    if (vel.x == dword_6FD49C)
+    if (vel.x == kFP16Zero_6FD49C)
     {
         speed = Fix16::Abs(vel.y);
     }
-    else if (vel.y == dword_6FD49C)
+    else if (vel.y == kFP16Zero_6FD49C)
     {
         speed = Fix16::Abs_436A50(vel.x);
     }
@@ -1440,7 +1429,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     if ((field_4_flags & 1) && field_46_sub_state <= max_sub_state)
     {
         Ang16 dir(spread + angle);
-        dir.sub_406C20();
+        dir.Normalize_406C20();
         dx = Ang16::sine_40F500(dir) * dword_6FD2E8;
         dy = Ang16::cosine_40F520(dir) * dword_6FD2E8;
     }
@@ -1454,12 +1443,12 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 
     if (field_38_state == 31)
     {
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 73);
+        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 73);
         max_sub_state = 14;
     }
     else
     {
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + field_46_sub_state + 111);
+        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 111);
     }
     field_30_pNext->field_2C_flags = 0xA2;
     field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
@@ -1476,27 +1465,27 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                 {
                     field_46_sub_state = 10;
                 }
-                gParticle_8_6FD5E8->field_0->field_4->set_xyz_lazy_420600(xpos, ypos, zpos);
+                gParticle_8_6FD5E8->field_0_fire_hit_obj->field_4->set_xyz_lazy_420600(xpos, ypos, zpos);
                 if (pB4)
                 {
-                    gParticle_8_6FD5E8->field_0->SetDamageOwner_529080(pB4->field_7C_pPed->field_267_varrok_idx);
+                    gParticle_8_6FD5E8->field_0_fire_hit_obj->SetDamageOwner_529080(pB4->field_7C_pPed->field_267_varrok_idx);
                 }
                 else if (pCar)
                 {
-                    gParticle_8_6FD5E8->field_0->SetDamageOwner_529080(pCar->field_54_driver->field_267_varrok_idx);
+                    gParticle_8_6FD5E8->field_0_fire_hit_obj->SetDamageOwner_529080(pCar->field_54_driver->field_267_varrok_idx);
                 }
                 if (pHit->field_30_sprite_type_enum != sprite_types_enum::code_obj1_4 &&
                     pHit->field_30_sprite_type_enum != sprite_types_enum::map_obj_5 &&
                     pHit->field_30_sprite_type_enum != sprite_types_enum::unknown_1)
                 {
-                    gParticle_8_6FD5E8->field_0->HandleObjectHit_528990(pHit);
+                    gParticle_8_6FD5E8->field_0_fire_hit_obj->HandleObjectHit_528990(pHit);
                 }
             }
             else
             {
                 field_46_sub_state = max_sub_state;
                 field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos + dword_6FD45C);
-                if (!(rng_dword_67AB34->field_0_rng & 1))
+                if (!(gpRng_67AB34->field_0_rng & 1))
                 {
                     gParticle_8_6FD5E8->EmitWaterSplash_53F060(xpos, ypos, zpos, angle, 0);
                 }
@@ -1517,17 +1506,17 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                 }
                 if (pHit->field_30_sprite_type_enum == sprite_types_enum::ped_3)
                 {
-                    pHit->field_8_char_b4_ptr->HandleGenericImpact_553E00(angle, dword_6FD46C + dword_6FD2E8, dword_6FD49C, 0);
+                    pHit->field_8_char_b4_ptr->HandleGenericImpact_553E00(angle, dword_6FD46C + dword_6FD2E8, kFP16Zero_6FD49C, 0);
                     Ped* pHitPed = pHit->field_8_char_b4_ptr->field_7C_pPed;
                     if (pHitPed)
                     {
                         if (field_38_state == 31)
                         {
-                            gfrosty_pasteur_6F8060->sub_512C00(pHitPed->field_200_id, 194, 1);
+                            gfrosty_pasteur_6F8060->RecordWeaponHit_512C00(pHitPed->field_200_id, 194, 1);
                         }
                         else
                         {
-                            gfrosty_pasteur_6F8060->sub_512C00(pHitPed->field_200_id, 198, 1);
+                            gfrosty_pasteur_6F8060->RecordWeaponHit_512C00(pHitPed->field_200_id, 198, 1);
                         }
                     }
                 }
@@ -1607,7 +1596,7 @@ char_type Particle_4C::PoolUpdate()
                 gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
                 if (field_46_sub_state <= 15u)
                 {
-                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 20);
+                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
                     if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
                     {
                         field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x,
@@ -1648,7 +1637,7 @@ char_type Particle_4C::PoolUpdate()
                 gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
                 if (field_46_sub_state <= 15u)
                 {
-                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 20);
+                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
 
                     if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
                     {
@@ -1661,7 +1650,7 @@ char_type Particle_4C::PoolUpdate()
                         this->field_30_pNext->field_2C_flags = 0xA2;
                     }
                     field_30_pNext->field_2C_flags |= 4u;
-                    field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A0 + dword_6FD39C, 0);
+                    field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + kFP16Half_6FD39C, 0);
                     return false;
                 }
                 else
@@ -1688,7 +1677,7 @@ char_type Particle_4C::PoolUpdate()
                 gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
                 if (field_46_sub_state <= 0xFu)
                 {
-                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 56);
+                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 56);
 
                     if (field_30_pNext->field_1C_zpos + dword_6FD2E8 + dword_6FD2F0 < dword_6FD28C)
                     {
@@ -1704,7 +1693,7 @@ char_type Particle_4C::PoolUpdate()
                     }
 
                     field_30_pNext->field_2C_flags |= 4u;
-                    field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A4, 0);
+                    field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Two_6FD4A4, 0);
                     return false;
                 }
                 else
@@ -1732,10 +1721,10 @@ char_type Particle_4C::PoolUpdate()
                 return true;
             }
 
-            field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4 + 147);
+            field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 147);
 
-            stru_6FD388 = (gSin_table_667A80[this->field_24_angle.rValue] * this->field_20);
-            stru_6FD38C = (gCos_table_669260[this->field_24_angle.rValue] * this->field_20);
+            stru_6FD388 = (gSin_table_667A80[this->field_24_angle.rValue] * this->field_20_speed);
+            stru_6FD38C = (gCos_table_669260[this->field_24_angle.rValue] * this->field_20_speed);
 
             stru_6FD388 = this->field_30_pNext->field_14_xy.x + stru_6FD388;
             stru_6FD38C = this->field_30_pNext->field_14_xy.y + stru_6FD38C;
@@ -1765,7 +1754,7 @@ char_type Particle_4C::PoolUpdate()
             gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
             if (this->field_2C_counter)
             {
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4);
+                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
                 gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
                 return false;
             }
@@ -1828,8 +1817,8 @@ void Particle_4C::PoolDeallocate()
 {
     if (field_30_pNext)
     {
-        field_30_pNext->field_2C_flags &= ~4u;
-        field_30_pNext->field_2C_flags = 0;
+        field_30_pNext->Clear_2C_0x4_Flag_433800();
+        field_30_pNext->SetFlags_4337D0(0, 0);
         gSprite_Pool_703818->remove(field_30_pNext);
         field_30_pNext = 0;
     }

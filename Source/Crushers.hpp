@@ -10,6 +10,24 @@ class Object_2C;
 class Crusher_30
 {
   public:
+    // 9.6f 0x411A20
+    inline Fix16 get_xpos_411A20()
+    {
+        return field_24_xpos;
+    }
+
+    // 9.6f 0x411A30
+    inline Fix16 get_ypos_411A30()
+    {
+        return field_28_ypos;
+    }
+
+    // 9.6f 0x411A10
+    inline s32 get_state_411A10()
+    {
+        return field_2C_state;
+    }
+
     enum CrusherStates
     {
         Idle_0 = 0,
@@ -32,11 +50,11 @@ class Crusher_30
 
   private:
     // Each side of the crusher walls and some unknown object
-    Object_2C* field_0;
-    Object_2C* field_4;
-    Object_2C* field_8;
-    Object_2C* field_C;
-    Object_2C* field_10;
+    Object_2C* field_0_piston_top;
+    Object_2C* field_4_piston_right;
+    Object_2C* field_8_piston_bottom;
+    Object_2C* field_C_piston_left;
+    Object_2C* field_10_central_spot;
 
     Car_BC* field_14_pCarBeingCrushed;
 
@@ -64,7 +82,7 @@ class CrusherPool_94
     EXPORT ~CrusherPool_94();
 
   private:
-    Crusher_30 field_0[3];
+    Crusher_30 field_0_crushers[3];
     s32 field_90_count;
 };
 EXTERN_GLOBAL(CrusherPool_94*, gCrusherPool_94_67A830);

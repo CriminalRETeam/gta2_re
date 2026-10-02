@@ -13,11 +13,31 @@ class Rozza_28
   public:
     EXPORT bool IsObj2C_477A10();
 
-    void sub_4637B0()
+    void Reset_4637B0()
     {
         this->field_0_type = 0;
         this->field_20_pSprite = 0;
         this->field_24 = 0;
+    }
+
+    // 9.6f 0x49EF10
+    void SetField24_49EF10(Sprite* pSprite)
+    {
+        this->field_24 = pSprite;
+    }
+
+    // 9.6f 0x482A70
+    void SetType4_482A70()
+    {
+        this->field_0_type = 4;
+        this->field_20_pSprite = 0;
+    }
+
+    // 9.6f 0x482A80
+    void SetType5_482A80()
+    {
+        this->field_0_type = 5;
+        this->field_20_pSprite = 0;
     }
 
     void SetMapZ_4BA2B0(Fix16 a2)
@@ -25,20 +45,20 @@ class Rozza_28
         this->field_1C_mapz = a2;
     }
 
-    void sub_4BA280(Fix16 a2, Fix16 a3, Fix16 a4)
+    void SetVerticalSegment_4BA280(Fix16 a2, Fix16 a3, Fix16 a4)
     {
         this->field_C_mapy_t2 = a2;
         this->field_0_type = 2;
-        this->field_10 = a3;
+        this->field_10_mapy_max_t2 = a3;
         this->field_14_mapx_t2 = a4;
         this->field_20_pSprite = 0;
     }
 
-    void sub_4BA250(Fix16 a2, Fix16 a3, Fix16 a4)
+    void SetHorizontalSegment_4BA250(Fix16 a2, Fix16 a3, Fix16 a4)
     {
         this->field_4_mapx_t1 = a2;
         this->field_0_type = 1;
-        this->field_8 = a3;
+        this->field_8_mapx_max_t1 = a3;
         this->field_18_mapy_t1 = a4;
         this->field_20_pSprite = 0;
     }
@@ -48,7 +68,7 @@ class Rozza_28
         return this->field_0_type == 3 && field_20_pSprite->AsCharB4_40FEA0();
     }
 
-    void sub_40FEE0(Sprite* pSprt)
+    void SetSprite_40FEE0(Sprite* pSprt)
     {
         field_0_type = 3;
         field_20_pSprite = pSprt;
@@ -56,9 +76,9 @@ class Rozza_28
 
     s32 field_0_type; // sprite enum type ?
     Fix16 field_4_mapx_t1;
-    Fix16 field_8;
+    Fix16 field_8_mapx_max_t1;
     Fix16 field_C_mapy_t2;
-    Fix16 field_10;
+    Fix16 field_10_mapy_max_t2;
     Fix16 field_14_mapx_t2;
     Fix16 field_18_mapy_t1;
     Fix16 field_1C_mapz;
@@ -70,23 +90,23 @@ class Rozza_A
 {
   public:
     EXPORT void set_xyz_40B870(Fix16 x, Fix16 y, Fix16 z);
-    EXPORT void sub_40B890(Car_BC* pCar);
-    EXPORT void sub_40B980();
-    EXPORT bool sub_40BA60(Object_2C* pObj);
+    EXPORT void SetupForCar_40B890(Car_BC* pCar);
+    EXPORT void SetupForPed_40B980();
+    EXPORT bool SetupForObject_40BA60(Object_2C* pObj);
 
-    void sub_40FF10(const Fix16& a2)
+    void SetCarPhysicsValue_40FF10(const Fix16& a2)
     {
         this->field_24_car_physics_value = a2;
     }
 
-    s32 field_0;
+    s32 field_0_type;
     Fix16 field_4_x;
     Fix16 field_8_y;
     Fix16 field_C_z;
-    Car_BC* field_10;
-    Car_BC* field_14;
+    Car_BC* field_10_car;
+    Car_BC* field_14_other_car;
     s32 field_18_model_copy;
-    s32 field_1C; // also model_copy
+    s32 field_1C_other_model_copy; // model of the other object collided with
     s32 field_20_map_block_spec;
     Fix16 field_24_car_physics_value;
 };

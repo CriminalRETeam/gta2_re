@@ -29,8 +29,8 @@ EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
 DEFINE_GLOBAL(s32, dword_6F8F88, 0x6f8f88);
-DEFINE_GLOBAL(s32, dword_6F8F90, 0x6F8F90);
-DEFINE_GLOBAL_INIT(Ang16, word_6F8D62, Ang16(0x2D0), 0x6F8D62);
+DEFINE_GLOBAL(s32, gObject2C_WallHitSide_6F8F90, 0x6F8F90);
+DEFINE_GLOBAL_INIT(Ang16, kAng180_6F8D62, Ang16(0x2D0), 0x6F8D62);
 
 DEFINE_GLOBAL(Fix16_Point, gZeroVector_6F8EF0, 0x6F8EF0);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6F8E10, Fix16(0), 0x6F8E10);
@@ -40,61 +40,67 @@ DEFINE_GLOBAL(u8, byte_6F8C68, 0x6F8C68);
 DEFINE_GLOBAL(u8, byte_6F8C4C, 0x6F8C4C);
 DEFINE_GLOBAL(u8, byte_6F8F40, 0x6F8F40);
 DEFINE_GLOBAL(u32, gObj3C_id_6F8E54, 0x6F8E54);
-DEFINE_GLOBAL(u32, dword_6F8F18, 0x6F8F18);
-DEFINE_GLOBAL(u32, dword_6F8DC0, 0x6F8DC0);
-DEFINE_GLOBAL(u32, dword_6F8F0C, 0x6F8F0C);
+DEFINE_GLOBAL(u32, gObj8_count_6F8F18, 0x6F8F18);
+DEFINE_GLOBAL(u32, gObj8_dealloc_count_6F8DC0, 0x6F8DC0);
+DEFINE_GLOBAL(u32, gObj3C_dealloc_count_6F8F0C, 0x6F8F0C);
 DEFINE_GLOBAL(u8, byte_6F8EDC, 0x6F8EDC);
 
-DEFINE_GLOBAL_INIT(Ang16, word_6F8D8C, Ang16(0x4EC), 0x6F8D8C);
-DEFINE_GLOBAL_INIT(Ang16, dword_6F8D80, Ang16(0x21C), 0x6F8D80);
-DEFINE_GLOBAL_INIT(Ang16, word_6F8D54, Ang16(0x384), 0x6F8D54);
-DEFINE_GLOBAL_INIT(Ang16, dword_6F8CD0, Ang16(0xB4), 0x6F8CD0);
+DEFINE_GLOBAL_INIT(Ang16, kAng315_6F8D8C, Ang16(0x4EC), 0x6F8D8C);
+DEFINE_GLOBAL_INIT(Ang16, kAng135_6F8D80, Ang16(0x21C), 0x6F8D80);
+DEFINE_GLOBAL_INIT(Ang16, kAng225_6F8D54, Ang16(0x384), 0x6F8D54);
+DEFINE_GLOBAL_INIT(Ang16, kAng45_6F8CD0, Ang16(0xB4), 0x6F8CD0);
 
-DEFINE_GLOBAL(Sprite*, dword_6F8F8C, 0x6F8F8C);
-DEFINE_GLOBAL(u8, byte_6F8F94, 0x6F8F94);
+DEFINE_GLOBAL(Sprite*, gObject2C_LastCollisionSprite_6F8F8C, 0x6F8F8C);
+DEFINE_GLOBAL(u8, gObject2C_HitWallOrDoor_6F8F94, 0x6F8F94);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8F5C, Fix16(0x200, 0), 0x6F8F5C);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8DA8, Fix16(0xFFFFFFF8, 0), 0x6F8DA8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8E14, Fix16(0x4000, 0), 0x6F8E14);
+DEFINE_GLOBAL_INIT(Fix16, kObjectGravity_6F8DA8, Fix16(0xFFFFFFF8, 0), 0x6F8DA8);
+DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8E14, Fix16(0x4000, 0), 0x6F8E14);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8C58, Fix16(0x666, 0), 0x6F8C58);
 DEFINE_GLOBAL_INIT(u8, byte_623EC4, 1, 0x623EC4);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CE8, Fix16(0x48000, 0), 0x6F8CE8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8CEC, Fix16(1), 0x6F8CEC);
+DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8CEC, Fix16(1), 0x6F8CEC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8ECC, dword_6F8DC8, 0x6F8ECC);
 
-DEFINE_GLOBAL_INIT(Ang16, word_6F8C88, Ang16(0x168), 0x6F8C88); // TODO: Init via func 0x5269F0
-DEFINE_GLOBAL_INIT(Ang16, word_6F8D88, Ang16(0x438), 0x6F8D88); // TODO: Init via func 0x526E70
+DEFINE_GLOBAL_INIT(Ang16, kAng90_6F8C88, Ang16(0x168), 0x6F8C88); // TODO: Init via func 0x5269F0
+DEFINE_GLOBAL_INIT(Ang16, kAng270_6F8D88, Ang16(0x438), 0x6F8D88); // TODO: Init via func 0x526E70
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CF0, Fix16(0x40, 0), 0x6F8CF0);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8BFC, Fix16(0x1FF00, 0), 0x6F8BFC);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8D10, Fix16(0x2000, 0), 0x6F8D10);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F8D10, Fix16(0x2000, 0), 0x6F8D10);
 
 DEFINE_GLOBAL_INIT(u8, byte_6771DC, 0, 0x6771DC);
 DEFINE_GLOBAL_INIT(s32, gObj2C_id_623EC0, 1, 0x623EC0);
 
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8D38, dword_6F8E14, 0x6F8D38);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8CE0, dword_6F8E14, 0x6F8CE0);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8F74, dword_6F8E14, 0x6F8F74);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8EE4, dword_6F8D10, 0x6F8EE4);
+DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8D38, kFP16One_6F8E14, 0x6F8D38);
+DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8CE0, kFP16One_6F8E14, 0x6F8CE0);
+DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8F74, kFP16One_6F8E14, 0x6F8F74);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F8EE4, kFP16Half_6F8D10, 0x6F8EE4);
 
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8D3C, dword_6F8D10, 0x6F8D3C);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8BE8, Fix16(-1), 0x6F8BE8); // Fix16(0xFFFFC000, 0)
+DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F8D3C, kFP16Half_6F8D10, 0x6F8D3C);
+DEFINE_GLOBAL_INIT(Fix16, kFP16MinusOne_6F8BE8, Fix16(-1), 0x6F8BE8); // Fix16(0xFFFFC000, 0)
 
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8F2C, dword_6F8D10, 0x6F8F2C);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8D24, dword_6F8E14, 0x6F8D24);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F8F2C, kFP16Half_6F8D10, 0x6F8F2C);
+DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8D24, kFP16One_6F8E14, 0x6F8D24);
 
-DEFINE_GLOBAL(Fix16, dword_6F8F00, 0x6F8F00);
-DEFINE_GLOBAL(Fix16, dword_6F8EF8, 0x6F8EF8);
-DEFINE_GLOBAL(Fix16, dword_6F8EFC, 0x6F8EFC);
-DEFINE_GLOBAL_INIT(Ang16, word_6F8D1C, Ang16(0), 0x6F8D1C);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8BF4, Fix16(256), 0x6F8BF4);
+DEFINE_GLOBAL(Fix16, gObj2C_LastValidX_6F8F00, 0x6F8F00);
+DEFINE_GLOBAL(Fix16, gObj2C_LastValidY_6F8EF8, 0x6F8EF8);
+DEFINE_GLOBAL(Fix16, gObj2C_LastValidZ_6F8EFC, 0x6F8EFC);
+DEFINE_GLOBAL_INIT(Ang16, gObj2C_LastValidAng_6F8D1C, Ang16(0), 0x6F8D1C);
+DEFINE_GLOBAL_INIT(Fix16, kMapSize_6F8BF4, Fix16(256), 0x6F8BF4);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8C78, Fix16(0x2CCC, 0), 0x6F8C78);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8DBC, dword_6F8C78, 0x6F8DBC);
+DEFINE_GLOBAL_INIT(Fix16, kObjectBounceRestitution_6F8DBC, dword_6F8C78, 0x6F8DBC);
 
 // TODO: From CarPhysics_B0
 EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
+
+// 9.6f 0x482C10
+inline bool Object_2C::IsAnimFinished_482C10()
+{
+    return !field_C_pAny.o8->field_4_timer && !field_C_pAny.o8->field_7_anim_speed_counter;
+}
 
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
@@ -107,12 +113,12 @@ Object_2C::Object_2C()
     field_10_obj_3c = 0;
     field_14_id = 99;
     field_24_bDoneThisFrame = 0;
-    field_25 = 0;
+    field_25_removal_state = 0;
     field_26_varrok_idx = 99;
-    field_20 = 0;
+    field_20_pool_list_state = 0;
     field_27 = 0;
     field_28 = -51;
-    field_1C = 0;
+    field_1C_bHasExplosion = 0;
 }
 
 MATCH_FUNC(0x522180)
@@ -129,22 +135,21 @@ void Object_2C::PoolDeallocate()
     else if (f5C == 3)
     {
         --gObject_5C_6F8F84->field_14_sprites_in_list;
-        gObject_5C_6F8F84->field_1C.RemoveSpriteSafe_5A6B60(this->field_4);
+        gObject_5C_6F8F84->field_1C_sprite_list.RemoveSpriteSafe_5A6B60(this->field_4);
     }
 
     --dword_6F8F88;
 
-    const s32 phi_type = this->field_8->field_34_behavior_type;
-    if (phi_type != 6 && phi_type != 7 && phi_type != 8 && phi_type != 9 && phi_type != 10 && phi_type != 1 && phi_type != 12)
+    if (is_not_type6_to_12_421080())
     {
         if (field_26_varrok_idx > 0)
         {
-            gVarrok_7F8_703398->sub_59B0D0(field_26_varrok_idx);
+            gVarrok_7F8_703398->DecrementRefCount_59B0D0(field_26_varrok_idx);
             this->field_26_varrok_idx = 0;
         }
     }
 
-    Object_2C::sub_527F10();
+    Object_2C::ReleaseSubObjects_527F10();
     if (field_4)
     {
         gSprite_Pool_703818->remove(field_4);
@@ -156,10 +161,9 @@ void Object_2C::PoolDeallocate()
 MATCH_FUNC(0x522250)
 bool Object_2C::CanCollideWithSpriteByVarrok_522250(Sprite* pSprite)
 {
-    const u32 phi_type = this->field_8->field_34_behavior_type;
-    if (phi_type != 6 && phi_type != 7 && phi_type != 8 && phi_type != 9 && phi_type != 10 && phi_type != 1 && phi_type != 12)
+    if (is_not_type6_to_12_421080())
     {
-        u8 varrok_idx = this->field_26_varrok_idx;
+        u8 varrok_idx = this->get_field_26_420FF0();
         if (varrok_idx > 0)
         {
             if (pSprite)
@@ -167,7 +171,7 @@ bool Object_2C::CanCollideWithSpriteByVarrok_522250(Sprite* pSprite)
                 Char_B4* cB4 = pSprite->AsCharB4_40FEA0();
                 if (cB4)
                 {
-                    if (cB4->field_7C_pPed->field_267_varrok_idx == varrok_idx)
+                    if (cB4->field_7C_pPed->get_varrok_idx_420B50() == varrok_idx)
                     {
                         return true;
                     }
@@ -187,10 +191,10 @@ s32 Object_2C::sub_5222B0()
 MATCH_FUNC(0x5222d0)
 void Object_2C::UpdatePhysics_5222D0()
 {
-    if (field_10_obj_3c->field_2A == 1)
+    if (field_10_obj_3c->field_2A_bAirborne == 1)
     {
-        field_10_obj_3c->field_1C += dword_6F8DA8;
-        field_10_obj_3c->field_10 += field_10_obj_3c->field_1C;
+        field_10_obj_3c->field_1C_z_accel += kObjectGravity_6F8DA8;
+        field_10_obj_3c->field_10_z_speed += field_10_obj_3c->field_1C_z_accel;
     }
     else
     {
@@ -202,9 +206,9 @@ void Object_2C::UpdatePhysics_5222D0()
             field_10_obj_3c->field_18_friction = kFpZero_6F8E10;
         }
 
-        if (field_10_obj_3c->field_10 < kFpZero_6F8E10)
+        if (field_10_obj_3c->field_10_z_speed < kFpZero_6F8E10)
         {
-            field_10_obj_3c->field_10 = kFpZero_6F8E10;
+            field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         }
     }
 }
@@ -212,13 +216,13 @@ void Object_2C::UpdatePhysics_5222D0()
 MATCH_FUNC(0x522340)
 void Object_2C::PoolGive_522340()
 {
-    if (field_20 == 2)
+    if (field_20_pool_list_state == 2)
     {
         // TODO: Missing inline here
         TObject_2C_Pool* pRoot = gObject_2C_Pool_6F8F80;
         mpNext = pRoot->field_4_pPrev;
         pRoot->field_4_pPrev = this;
-        field_20 = 1;
+        field_20_pool_list_state = 1;
     }
 }
 
@@ -228,7 +232,7 @@ void Object_2C::PoolTake_522360()
     Object_2C* pLast;
     Object_2C* pIter;
 
-    if (field_20 == 1)
+    if (field_20_pool_list_state == 1)
     {
         pLast = 0;
         for (pIter = gObject_2C_Pool_6F8F80->field_4_pPrev; pIter; pIter = pIter->mpNext)
@@ -251,7 +255,7 @@ void Object_2C::PoolTake_522360()
                 pLast = pIter;
             }
         }
-        field_20 = 2;
+        field_20_pool_list_state = 2;
     }
 }
 
@@ -271,21 +275,21 @@ char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
             return true;
         case CollisionReaction::OnlyCars_1:
             // Only cars
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
             {
                 return false;
             }
             break;
         case CollisionReaction::OnlyPeds_2:
             // Only peds
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
             {
                 return false;
             }
             break;
         case CollisionReaction::OnlyObjects_3:
             // Only objects?
-            sprite_type = pSprite->field_30_sprite_type_enum;
+            sprite_type = pSprite->get_type_416B40();
             if (sprite_type != sprite_types_enum::code_obj1_4 && sprite_type != sprite_types_enum::map_obj_5 &&
                 sprite_type != sprite_types_enum::unknown_1)
             {
@@ -316,21 +320,20 @@ bool Object_2C::ShouldCollideWithSprite_522430(Sprite* pSprite)
 MATCH_FUNC(0x522460)
 char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
 {
-    byte_6F8F94 = 0;
+    gObject2C_HitWallOrDoor_6F8F94 = 0;
 
     Sprite* pSprite = a2->QuerySpriteCollision_59E7D0(2);
-    if (pSprite && dword_6F8F8C && pSprite->field_30_sprite_type_enum == 2 // IsCar
-        || !ShouldCollideWithSprite_522430(pSprite) || pSprite == dword_6F8F8C)
+    if (pSprite && gObject2C_LastCollisionSprite_6F8F8C && pSprite->get_type_416B40() == 2 // IsCar
+        || !ShouldCollideWithSprite_522430(pSprite) || pSprite == gObject2C_LastCollisionSprite_6F8F8C)
     {
         return 0;
     }
 
     if (pSprite->field_8_object_2C_ptr->field_18_model == objects::diagonal_wall_collision_obj_166 || pSprite->field_8_object_2C_ptr->field_18_model == objects::door_unknown_169)
     {
-        byte_6F8F94 = 1;
+        gObject2C_HitWallOrDoor_6F8F94 = 1;
     }
-    gRozza_679188.field_20_pSprite = pSprite;
-    gRozza_679188.field_0_type = 3;
+    gRozza_679188.SetSprite_40FEE0(pSprite);
     return 1;
 }
 
@@ -360,7 +363,7 @@ void Object_2C::SetMovementVectorWithRandomState_522640(Fix16_Point& a2)
 
     if (field_8->field_4C == 3 && field_10_obj_3c->field_34 == 2)
     {
-        const s16 rng = stru_6F6784.get_int_4F7AE0(9);
+        const s16 rng = gRng_6F6784.get_int_4F7AE0(9);
         if (rng < 6)
         {
             if (rng < 3)
@@ -376,14 +379,14 @@ void Object_2C::SetMovementVectorWithRandomState_522640(Fix16_Point& a2)
 }
 
 MATCH_FUNC(0x5226a0)
-void Object_2C::sub_5226A0(char_type varrok_idx)
+void Object_2C::SetConveyorPush_5226A0(char_type varrok_idx)
 {
     Fix16_Point point;
     if (!field_10_obj_3c)
     {
         NewObj3C_528130(gZeroVector_6F8EF0);
     }
-    field_10_obj_3c->field_38 = varrok_idx;
+    field_10_obj_3c->field_38_conveyor_speed = varrok_idx;
 }
 
 WIP_FUNC(0x522710)
@@ -401,27 +404,26 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
     v26.y = v6.y;
 
     Fix16_Point v28;
-    if (a2->field_8->field_34_behavior_type == 3 || a2->field_8->field_34_behavior_type == 4 ||
-        a2->field_8->field_34_behavior_type <= 2 && a2->field_8->field_44 == 2)
+    if (a2->sub_482C90())
     {
         Fix16_Point v11 = (GetSpeedVector_52AE90() - a2->GetSpeedVector_52AE90());
         Fix16_Point v27;
         v27.x = v11.x;
         v27.y = v11.y;
-        Fix16_Point v13 = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
-                                                             a2->field_8->field_18_mass,
+        Fix16_Point v13 = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
+                                                             a2->GetMass_482C80(),
                                                              v27,
                                                              v26,
                                                              *a3,
                                                              v29,
                                                              v30,
-                                                             k_dword_6F8D38,
-                                                             k_dword_6F8D38,
-                                                             k_dword_6F8D24);
+                                                             kFP16One_6F8D38,
+                                                             kFP16One_6F8D38,
+                                                             kFP16One_6F8D24);
 
         v28.x = v13.x;
         v28.y = v13.y;
-        Fix16_Point v17 = (-v28 / a2->field_8->field_18_mass);
+        Fix16_Point v17 = (-v28 / a2->GetMass_482C80());
         a2->SetMovementVectorWithRandomState_522640(v17);
     }
     else
@@ -436,16 +438,16 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
             v26.y = v18.y;
         }
 
-        v28 = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
-                                                 k_dword_6F8BE8,
+        v28 = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
+                                                 kFP16MinusOne_6F8BE8,
                                                  v27,
                                                  v26,
                                                  *a3,
                                                  v29,
                                                  v30,
-                                                 k_dword_6F8D38,
-                                                 k_dword_6F8D38,
-                                                 k_dword_6F8F2C);
+                                                 kFP16One_6F8D38,
+                                                 kFP16One_6F8D38,
+                                                 kFP16Half_6F8F2C);
     }
 
     if (field_10_obj_3c)
@@ -453,16 +455,16 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
         v25 = field_10_obj_3c->field_4_angle;
     }
 
-    Fix16_Point v22 = (v28 / field_8->field_18_mass);
+    Fix16_Point v22 = (v28 / GetMass_482C80());
     SetMovementVectorWithRandomState_522640(v22);
 
-    if (byte_6F8F94)
+    if (gObject2C_HitWallOrDoor_6F8F94)
     {
         if (field_10_obj_3c)
         {
-            if (ComputeShortestAngleDelta_4056C0(field_10_obj_3c->field_4_angle, v25) < word_6F8C88)
+            if (ComputeShortestAngleDelta_4056C0(field_10_obj_3c->field_4_angle, v25) < kAng90_6F8C88)
             {
-                field_10_obj_3c->field_4_angle += word_6F8D62;
+                field_10_obj_3c->field_4_angle += kAng180_6F8D62;
             }
         }
     }
@@ -489,15 +491,15 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
     //LOBYTE(seh) = 5;
 
     Fix16_Point lineHitPos = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
-                                                                k_dword_6F8EE4,
+                                                                kFP16Half_6F8EE4,
                                                                 tmp,
                                                                 posDelta,
                                                                 *pPoint,
                                                                 spritePos,
                                                                 camPos,
-                                                                k_dword_6F8D38,
-                                                                k_dword_6F8CE0,
-                                                                k_dword_6F8F74);
+                                                                kFP16One_6F8D38,
+                                                                kFP16One_6F8CE0,
+                                                                kFP16One_6F8F74);
     //LOBYTE(seh) = 4;
     Fix16_Point nrmHitPos = (lineHitPos / field_8->field_18_mass); // TODO: sub_482C80
     //LOBYTE(seh) = 6;
@@ -505,7 +507,7 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
     //LOBYTE(seh) = 4;
     Fix16_Point v15 = (-lineHitPos);
     //LOBYTE(seh) = 7;
-    Fix16_Point v16 = (v15 / k_dword_6F8EE4);
+    Fix16_Point v16 = (v15 / kFP16Half_6F8EE4);
     //mValue = v16->x;
     //v18 = v16->y;
     Fix16_Point t;
@@ -528,58 +530,50 @@ void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* 
     WIP_IMPLEMENTED;
 
     Fix16_Point t;
-    Fix16_Point v9;
     Fix16_Point obj_xy = GetXY_52AE70();
-    v9 = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
-                                            k_dword_6F8BE8,
-                                            *speed,
-                                            *a3,
-                                            t,
-                                            obj_xy,
-                                            gZeroVector_6F8EF0,
-                                            k_dword_6F8D38,
-                                            kFpZero_6F8E10,
-                                            k_dword_6F8D3C);
-    Fix16_Point v7 = (v9 / this->field_8->field_18_mass);
-    SetMovementVectorWithRandomState_522640(v7);
+    Fix16_Point v9 = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
+                                                        kFP16MinusOne_6F8BE8,
+                                                        *speed,
+                                                        *a3,
+                                                        t,
+                                                        obj_xy,
+                                                        gZeroVector_6F8EF0,
+                                                        kFP16One_6F8D38,
+                                                        kFpZero_6F8E10,
+                                                        kFP16Half_6F8D3C);
+    SetMovementVectorWithRandomState_522640(v9 / GetMass_482C80());
     HandleImpact_528E50(0);
 }
 
-WIP_FUNC(0x522be0)
+MATCH_FUNC(0x522be0)
 void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
 {
-    WIP_IMPLEMENTED;
-
-    Fix16_Point obj_speed = GetSpeedVector_52AE90();
     Fix16_Point v12;
     Fix16_Point t1;
+    Fix16_Point obj_speed;
+    obj_speed = GetSpeedVector_52AE90();
     u8 v9;
     if (this->field_4->GetNearestHorizontalEdgeToCoordinate_5A0A70(gRozza_679188.field_18_mapy_t1, t1, v9))
     {
-        v12.x = 0;
-        v12.y = this->field_4->field_14_xy.y - gRozza_679188.field_18_mapy_t1;
+        v12.SetXY_432860(Fix16(0), field_4->field_14_xy.y - gRozza_679188.field_18_mapy_t1);
     }
     else
     {
-        Fix16 xt1d = field_4->field_14_xy.x + (gRozza_679188.field_14_mapx_t2 - a2->x);
-        Fix16 ttt = (gRozza_679188.field_18_mapy_t1 - a2->y); // not used, from an inline ??
+        t1.SetXY_432860(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_18_mapy_t1);
+        t1 -= *a2;
+        t1.x += field_4->field_14_xy.x;
+        t1.y = gRozza_679188.field_18_mapy_t1;
 
-        Fix16 v7 = xt1d - gRozza_679188.field_8;
-        if (v7 <= 0)
+        Fix16 abs1 = Fix16::Abs(t1.x - gRozza_679188.field_8_mapx_max_t1);
+        Fix16 abs2 = Fix16::Abs(t1.x - gRozza_679188.field_4_mapx_t1);
+
+        if (abs2 < abs1)
         {
-            v7 = gRozza_679188.field_8 - xt1d;
+            t1.x = gRozza_679188.field_4_mapx_t1;
         }
-
-        Fix16 v8 = xt1d - gRozza_679188.field_4_mapx_t1;
-        if (v8 <= 0)
+        else
         {
-            v8 = -v8;
-        }
-
-        t1.x = gRozza_679188.field_4_mapx_t1;
-        if (v8 >= v7)
-        {
-            t1.x = gRozza_679188.field_8;
+            t1.x = gRozza_679188.field_8_mapx_max_t1;
         }
 
         v12 = -obj_speed;
@@ -589,14 +583,14 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
 }
 
 // https://decomp.me/scratch/PMCb4
-WIP_FUNC(0x522d00)
+MATCH_FUNC(0x522d00)
 void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint)
 {
-    WIP_IMPLEMENTED;
     u8 v9;
-    Fix16_Point t2;
     Fix16_Point v12;
-    Fix16_Point obj_speed = Object_2C::GetSpeedVector_52AE90();
+    Fix16_Point t2;
+    Fix16_Point obj_speed;
+    obj_speed = Object_2C::GetSpeedVector_52AE90();
     if (field_4->GetNearestVerticalEdgeToCoordinate_5A1030(gRozza_679188.field_14_mapx_t2, t2, v9))
     {
         v12.SetXY_432860(field_4->field_14_xy.x - gRozza_679188.field_14_mapx_t2, Fix16(0));
@@ -606,8 +600,9 @@ void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint
         t2.SetXY_432860(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_18_mapy_t1);
         t2 -= *pPoint;
         t2.y += field_4->field_14_xy.y;
+        t2.x = gRozza_679188.field_14_mapx_t2;
 
-        Fix16 abs1 = Fix16::Abs(t2.y - gRozza_679188.field_10);
+        Fix16 abs1 = Fix16::Abs(t2.y - gRozza_679188.field_10_mapy_max_t2);
         Fix16 abs2 = Fix16::Abs(t2.y - gRozza_679188.field_C_mapy_t2);
 
         if (abs2 < abs1)
@@ -616,7 +611,7 @@ void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint
         }
         else
         {
-            t2.y = gRozza_679188.field_10;
+            t2.y = gRozza_679188.field_10_mapy_max_t2;
         }
 
         v12 = -obj_speed;
@@ -629,6 +624,7 @@ void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
 {
     WIP_IMPLEMENTED;
 
+    Fix16_Point v13;
     switch (gRozza_679188.field_0_type)
     {
         case 1:
@@ -643,14 +639,12 @@ void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
             u8 a7;
             u8 a8;
             u8 a9;
-            Fix16_Point v13 = field_4->FindCollisionIntersectionPoint_5A2710(gRozza_679188.field_20_pSprite, *a4, field_4->field_0, a7, a8, a9);
+            v13 = field_4->FindCollisionIntersectionPoint_5A2710(gRozza_679188.field_20_pSprite, *a4, field_4->field_0, a7, a8, a9);
             Car_BC* pCar = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
             if (pCar)
             {
                 pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                pCar->field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
-                CollisionIntersectionPoint_6FE1A0 = v13;
-                pCar->field_58_physics->HandleObjectCollision_5606C0(this, a9); // a4?
+                pCar->field_58_physics->HandleObjectCollisionAt_482CC0(this, v13, a9);
             }
             else
             {
@@ -674,18 +668,18 @@ void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
 MATCH_FUNC(0x5233a0)
 char_type Object_2C::sub_5233A0(Fix16 a2)
 {
-    dword_6F8F8C = 0;
+    gObject2C_LastCollisionSprite_6F8F8C = 0;
 
     if (SelectCollisionSprite_522460(this->field_4))
     {
 
         byte_623EC4 = 0;
-        if (byte_6F8F94)
+        if (gObject2C_HitWallOrDoor_6F8F94)
         {
             return 0;
         }
 
-        dword_6F8F8C = gRozza_679188.field_20_pSprite;
+        gObject2C_LastCollisionSprite_6F8F8C = gRozza_679188.field_20_pSprite;
         if (a2 > k_dword_6F8C58)
         {
             return 0;
@@ -693,11 +687,11 @@ char_type Object_2C::sub_5233A0(Fix16 a2)
 
         if (this->field_10_obj_3c->field_34 == 1)
         {
-            this->field_4->field_28_num = 29;
+            sub_482BF0();
         }
         else
         {
-            this->field_4->field_28_num = 6;
+            this->field_4->set_num_40F7B0(6);
         }
         this->field_10_obj_3c->field_C_speed = k_dword_6F8C58;
         this->field_10_obj_3c->field_18_friction = this->field_8->field_14_friction;
@@ -713,7 +707,7 @@ void Object_2C::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnkn
     if ((u8)field_4->IsOnWater_59E1D0())
     {
         this->field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
-        this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        this->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         return;
     }
 
@@ -729,14 +723,12 @@ void Object_2C::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnkn
             {
                 if (bUnknown2 && gRozza_679188.field_0_type != 3)
                 {
-                    gRozza_679188.field_0_type = 5;
-                    gRozza_679188.field_20_pSprite = 0;
+                    gRozza_679188.SetType5_482A80();
                 }
             }
             else
             {
-                gRozza_679188.field_0_type = 4;
-                gRozza_679188.field_20_pSprite = 0;
+                gRozza_679188.SetType4_482A70();
             }
 
             HandleImpact_528E50(gRozza_679188.field_20_pSprite);
@@ -746,13 +738,11 @@ void Object_2C::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnkn
         case 1:
             if (bUnknown1)
             {
-                gRozza_679188.field_0_type = 4;
-                gRozza_679188.field_20_pSprite = 0;
+                gRozza_679188.SetType4_482A70();
             }
             else if (bUnknown2)
             {
-                gRozza_679188.field_0_type = 5;
-                gRozza_679188.field_20_pSprite = 0;
+                gRozza_679188.SetType5_482A80();
             }
             HandleImpact_528E50(gRozza_679188.field_20_pSprite);
             return;
@@ -771,7 +761,7 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Poi
 {
     Fix16 temp_z;
     bool v15;
-    field_10_obj_3c->field_2A = 0;
+    field_10_obj_3c->field_2A_bAirborne = 0;
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(a2->field_14_xy.x.ToInt(), a2->field_14_xy.y.ToInt(), a2->field_1C_zpos.ToInt()))
     {
         temp_z = gMap_0x370_6F6268->sub_4E5050(a2->field_14_xy.x, a2->field_14_xy.y, a2->field_1C_zpos, v15);
@@ -781,49 +771,49 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Poi
             if (temp_z < a2->field_1C_zpos)
             {
                 Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
-                field_10_obj_3c->field_10 = dword_6F8DA8;
+                field_10_obj_3c->field_10_z_speed = kObjectGravity_6F8DA8;
             }
         }
         else
         {
             Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
         }
-        field_10_obj_3c->field_2F = 1;
+        field_10_obj_3c->field_2F_bOnSlope = 1;
     }
     else
     {
         if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(a2->field_14_xy.x.ToInt(),
                                                           a2->field_14_xy.y.ToInt(),
                                                           a2->field_1C_zpos.ToInt() - 1) ||
-            field_10_obj_3c->field_2F)
+            field_10_obj_3c->field_2F_bOnSlope)
         {
-            if (field_10_obj_3c->field_2F)
+            if (field_10_obj_3c->field_2F_bOnSlope)
             {
                 Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
             }
-            field_10_obj_3c->field_10 = kFpZero_6F8E10;
-            field_10_obj_3c->field_2A = 0;
+            field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
+            field_10_obj_3c->field_2A_bAirborne = 0;
         }
         else
         {
-            field_10_obj_3c->field_10 = dword_6F8DA8;
-            field_10_obj_3c->field_2A = 1;
+            field_10_obj_3c->field_10_z_speed = kObjectGravity_6F8DA8;
+            field_10_obj_3c->field_2A_bAirborne = 1;
         }
-        field_10_obj_3c->field_2F = 0;
+        field_10_obj_3c->field_2F_bOnSlope = 0;
     }
 
     if (a2->CheckSpriteMovementRegion_5A2500())
     {
         *a3 = a2->get_x_y_443580();
         *a4 = 1;
-        sub_524550();
+        ComputeWallHitSide_524550();
         return 1;
     }
     else if (SelectCollisionSprite_522460(a2))
     {
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed.mValue;
-        field_10_obj_3c->field_10 = kFpZero_6F8E10;
-        field_10_obj_3c->field_2A = 0;
+        field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
+        field_10_obj_3c->field_2A_bAirborne = 0;
         *a3 = a2->get_x_y_443580();
         return 1;
     }
@@ -837,21 +827,21 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Poi
 MATCH_FUNC(0x523770)
 char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5)
 {
-    field_10_obj_3c->field_2A = 1;
+    field_10_obj_3c->field_2A_bAirborne = 1;
 
     if (pSprite->field_1C_zpos > k_dword_6F8BFC)
     {
         pSprite->field_1C_zpos = k_dword_6F8BFC;
         pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
-        field_10_obj_3c->field_10 = kFpZero_6F8E10;
-        field_10_obj_3c->field_1C = kFpZero_6F8E10;
+        field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
+        field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
     }
 
-    if (pSprite->sub_5A21F0())
+    if (pSprite->CheckMapZCollision_5A21F0())
     {
         *a5 = 1;
-        field_10_obj_3c->field_10 = kFpZero_6F8E10;
-        field_10_obj_3c->field_1C = kFpZero_6F8E10;
+        field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
+        field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
         if (field_8->field_50 == 4)
         {
             return 1;
@@ -863,12 +853,12 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
         *pPoint = pSprite->get_x_y_443580();
         *a4 = 1;
-        sub_524550();
+        ComputeWallHitSide_524550();
         return 1;
     }
     else if (SelectCollisionSprite_522460(pSprite))
     {
-        if (byte_6F8F94 != 0)
+        if (gObject2C_HitWallOrDoor_6F8F94 != 0)
         {
             field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y_443580();
@@ -908,21 +898,20 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
             {
                 if (a2->field_1C_zpos < v14)
                 {
-                    a2->field_1C_zpos = v14;
-                    a2->ResetZCollisionAndDebugBoxes_59E7B0();
+                    a2->set_xyz_lazy_420600(a2->field_14_xy.x, a2->field_14_xy.y, v14);
                     Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
-                    field_10_obj_3c->field_2A = 0;
+                    field_10_obj_3c->field_2A_bAirborne = 0;
                 }
                 else
                 {
-                    field_10_obj_3c->field_2A = 1;
+                    field_10_obj_3c->field_2A_bAirborne = 1;
                     goto LABEL_29;
                 }
             }
             else
             {
                 Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
-                field_10_obj_3c->field_2A = 0;
+                field_10_obj_3c->field_2A_bAirborne = 0;
             }
 
         LABEL_10:
@@ -930,7 +919,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
             if (field_8->field_50 == 1)
             {
                 *a5 = 1;
-                field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
                 field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
             }
             else
@@ -941,32 +930,31 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
                     return true;
                 }
                 *a5 = true;
-                field_10_obj_3c->field_10 = dword_6F8DBC * (-field_10_obj_3c->field_10);
+                field_10_obj_3c->field_10_z_speed = kObjectBounceRestitution_6F8DBC * (-field_10_obj_3c->field_10_z_speed);
             }
         }
         else
         {
-            field_10_obj_3c->field_2A = 1;
+            field_10_obj_3c->field_2A_bAirborne = 1;
         }
     }
     else
     {
         if (a2->field_1C_zpos < a6)
         {
-            a2->field_1C_zpos = a6;
-            a2->ResetZCollisionAndDebugBoxes_59E7B0();
+            a2->set_xyz_lazy_420600(a2->field_14_xy.x, a2->field_14_xy.y, a6);
             Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
-            field_10_obj_3c->field_2A = 0;
+            field_10_obj_3c->field_2A_bAirborne = 0;
 
-            if (field_10_obj_3c->field_10 < dword_6F8DA8)
+            if (field_10_obj_3c->field_10_z_speed < kObjectGravity_6F8DA8)
             {
 
-                if (!dword_6F8F8C)
+                if (!gObject2C_LastCollisionSprite_6F8F8C)
                 {
-                    if (field_10_obj_3c->field_10 >= -k_dword_6F8C58)
+                    if (field_10_obj_3c->field_10_z_speed >= -k_dword_6F8C58)
                     {
                         *a5 = true;
-                        field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                        field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
                         field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
                     }
                     else
@@ -976,22 +964,22 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
                 }
                 else
                 {
-                    field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                    field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
                     a2->set_xyz_lazy_420600(a2->field_14_xy.x, a2->field_14_xy.y, field_4->field_1C_zpos);
                     *a5 = true;
                 }
             }
             else
             {
-                if (field_10_obj_3c->field_C_speed == kFpZero_6F8E10 && field_10_obj_3c->field_10 == dword_6F8DA8)
+                if (field_10_obj_3c->field_C_speed == kFpZero_6F8E10 && field_10_obj_3c->field_10_z_speed == kObjectGravity_6F8DA8)
                 {
-                    field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                    field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
                 }
             }
         }
         else
         {
-            field_10_obj_3c->field_2A = 1;
+            field_10_obj_3c->field_2A_bAirborne = 1;
         }
     }
 
@@ -999,11 +987,11 @@ LABEL_29:
     if (a2->CheckSpriteMovementRegion_5A2500())
     {
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
-        field_10_obj_3c->field_10 = kFpZero_6F8E10;
-        field_10_obj_3c->field_2A = 0;
+        field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
+        field_10_obj_3c->field_2A_bAirborne = 0;
         *a3 = a2->get_x_y_443580();
         *a4 = true;
-        Object_2C::sub_524550();
+        Object_2C::ComputeWallHitSide_524550();
         return true;
     }
     else if (Object_2C::SelectCollisionSprite_522460(a2))
@@ -1013,7 +1001,7 @@ LABEL_29:
         {
             return true;
         }
-        else if (byte_6F8F94)
+        else if (gObject2C_HitWallOrDoor_6F8F94)
         {
             field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed.mValue;
             *a3 = a2->get_x_y_443580();
@@ -1027,7 +1015,7 @@ LABEL_29:
             {
                 v22->field_34 = 1;
                 sub_482BE0();
-                field_10_obj_3c->field_10 = dword_6F8DBC * (-field_10_obj_3c->field_10);
+                field_10_obj_3c->field_10_z_speed = kObjectBounceRestitution_6F8DBC * (-field_10_obj_3c->field_10_z_speed);
             }
             return true;
         }
@@ -1039,28 +1027,28 @@ LABEL_29:
 }
 
 MATCH_FUNC(0x524550)
-void Object_2C::sub_524550()
+void Object_2C::ComputeWallHitSide_524550()
 {
     if (gRozza_679188.field_0_type == 1)
     {
-        if (field_10_obj_3c->field_4_angle >= word_6F8D88 || field_10_obj_3c->field_4_angle <= word_6F8C88)
+        if (field_10_obj_3c->field_4_angle >= kAng270_6F8D88 || field_10_obj_3c->field_4_angle <= kAng90_6F8C88)
         {
-            dword_6F8F90 = 3;
+            gObject2C_WallHitSide_6F8F90 = 3;
         }
         else
         {
-            dword_6F8F90 = 4;
+            gObject2C_WallHitSide_6F8F90 = 4;
         }
     }
     else if (gRozza_679188.field_0_type == 2)
     {
-        if (field_10_obj_3c->field_4_angle >= word_6F8D62)
+        if (field_10_obj_3c->field_4_angle >= kAng180_6F8D62)
         {
-            dword_6F8F90 = 2;
+            gObject2C_WallHitSide_6F8F90 = 2;
         }
         else
         {
-            dword_6F8F90 = 1;
+            gObject2C_WallHitSide_6F8F90 = 1;
         }
     }
 }
@@ -1072,23 +1060,20 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
 
     bool v50 = 0;
     //v4 = a2;
-    Sprite* v5 = gObject_5C_6F8F84->field_58;
+    Sprite* v5 = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     //v63 = 0;
-    dword_6F8F8C = 0;
-    if (a2 == kFpZero_6F8E10 && !this->field_10_obj_3c->field_2A)
+    gObject2C_LastCollisionSprite_6F8F8C = 0;
+    if (a2 == kFpZero_6F8E10 && !this->field_10_obj_3c->field_2A_bAirborne)
     {
         return;
     }
-    gRozza_679188.field_0_type = 0;
-    gRozza_679188.field_20_pSprite = 0;
-    gRozza_679188.field_24 = 0;
+    gRozza_679188.Reset_4637B0();
 
     v5->set_xyz_lazy_420600(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
     v5->set_ang_lazy_420690(field_4->field_0);
-    v5->AllocInternal_59F950(this->field_8->field_0, this->field_8->field_4, this->field_8->field_8);
-    v5->field_30_sprite_type_enum = this->field_4->field_30_sprite_type_enum;
-    v5->sub_59E960();
-    v5->field_8_pSprite = this->field_4->field_8_pSprite;
+    v5->AllocInternal_59F950(this->field_8->field_0_width, this->field_8->field_4_height, this->field_8->field_8_depth);
+    v5->SetType_4206F0(this->field_4->get_type_416B40());
+    v5->SetObj2C_482A30(this->field_4->field_8_object_2C_ptr);
 
     Fix16 v11;
     Fix16 v52;
@@ -1099,18 +1084,19 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     }
     else
     {
-        v11 = (a2) / this->field_8->field_C;
+        v11 = (a2) / this->field_8->field_C_min_size;
         v52 = (a2) / v11;
     }
 
-    if (v11 < dword_6F8E14)
+    if (v11 < kFP16One_6F8E14)
     {
-        v11 = dword_6F8E14;
+        v11 = kFP16One_6F8E14;
         v52 = a2;
     }
 
-    Fix16 v53 = (v52 * gSin_table_667A80[a3.rValue]);
-    Fix16 v13 = (v52 * gCos_table_669260[a3.rValue]);
+    Fix16 v53;
+    Fix16 v13;
+    Ang16::PolarToCartesian_41FC20(a3, v52, v53, v13);
 
     u8 a2_ = 1;
     //v59.x = v13;
@@ -1130,53 +1116,35 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     Fix16 v57;
     Fix16 v61;
 
-    gmp_block_info* block_4DFE10;
-    gmp_block_info* v23;
-    gmp_block_info* v25;
-
     while (1)
     {
         v61 = v5->field_14_xy.x;
         v55 = v5->field_0;
         v57 = v5->field_14_xy.y;
-        field_10_obj_3c->field_2A = 0;
+        field_10_obj_3c->field_2A_bAirborne = 0;
 
-        block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
-        if (block_4DFE10)
+        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt()))
         {
-            if ((block_4DFE10->field_B_slope_type & 0xFC) != 0 && (block_4DFE10->field_B_slope_type & 0xFCu) < 0xB4 &&
-                (block_4DFE10->field_B_slope_type & 3) != 0)
-            {
-                v50 = 1;
-            }
+            v50 = 1;
         }
 
         v5->set_xy_lazy_447E20(v5->field_14_xy.x + v53, v5->field_14_xy.y + v13);
         v5->set_ang_lazy_420690(a3);
 
-        v23 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt());
-        if (v23)
+        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt()))
         {
-            if ((v23->field_B_slope_type & 0xFC) != 0 && (v23->field_B_slope_type & 0xFCu) < 0xB4 && (v23->field_B_slope_type & 3) != 0)
-            {
-                Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
-            }
+            Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
         }
 
-        v25 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(),
-                                                  v5->field_14_xy.y.ToInt(),
-                                                  (v5->field_1C_zpos - dword_6F8E14).ToInt());
-        if (!v25 || (v25->field_B_slope_type & 3) == 0)
+        if (!gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(v5->field_14_xy.x.ToInt(),
+                                                           v5->field_14_xy.y.ToInt(),
+                                                           (v5->field_1C_zpos - kFP16One_6F8E14).ToInt()))
         {
-            gmp_block_info* v26 = gMap_0x370_6F6268->get_block_4DFE10(v5->field_14_xy.x.ToInt(),
-                                                                      v5->field_14_xy.y.ToInt(),
-                                                                      (v5->field_1C_zpos - dword_6F8E14).ToInt());
-            if (v26)
+            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(),
+                                                            v5->field_14_xy.y.ToInt(),
+                                                            (v5->field_1C_zpos - kFP16One_6F8E14).ToInt()))
             {
-                if ((v26->field_B_slope_type & 0xFC) != 0 && (v26->field_B_slope_type & 0xFCu) < 0xB4 && (v26->field_B_slope_type & 3) != 0)
-                {
-                    Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
-                }
+                Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
             }
         }
 
@@ -1191,16 +1159,16 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         }
 
         v5->field_1C_zpos = v5->field_1C_zpos.GetRoundValue();
-        if (v5->field_1C_zpos > dword_6F8D10)
+        if (v5->field_1C_zpos > kFP16Half_6F8D10)
         {
-            v5->field_1C_zpos = v5->field_1C_zpos + Fix16(0x4000, 0);
+            v5->field_1C_zpos++;
         }
 
         if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
         {
         LABEL_47:
             hitPoint = v5->get_x_y_443580();
-            sub_524550();
+            ComputeWallHitSide_524550();
             goto LABEL_48;
         }
     LABEL_45:
@@ -1272,31 +1240,27 @@ LABEL_48:
 }
 
 // https://decomp.me/scratch/jLuSq
-WIP_FUNC(0x525190)
+MATCH_FUNC(0x525190)
 void Object_2C::sub_525190(u8 varrok_idx)
 {
-    WIP_IMPLEMENTED;
 
-    if (field_8->field_3C_next_definition_idx < 39 || field_8->field_3C_next_definition_idx > 42)
+    if (IsDefinitionIdx39To42_482400(field_8->field_3C_next_definition_idx))
     {
-        if (field_8->field_48 == 13)
-        {
-            sub_5291D0();
-            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xy.x,
-                                                                              this->field_4->field_14_xy.y,
-                                                                              this->field_4->field_1C_zpos,
-                                                                              kZeroAng_6F8F68,
-                                                                              19,
-                                                                              gVarrok_7F8_703398->field_0[varrok_idx].field_0_ped_id);
-            if (pExplosion)
-            {
-                pExplosion->SetDamageOwner_529080(varrok_idx);
-            }
-        }
+        PoolGiveAndSetDone_5291E0(field_8->field_3C_next_definition_idx);
     }
-    else
+    else if (field_8->field_48 == 13)
     {
-        sub_5291E0(field_8->field_3C_next_definition_idx);
+        PoolGiveAndMarkDone_5291D0();
+        Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xy.x,
+                                                                          this->field_4->field_14_xy.y,
+                                                                          this->field_4->field_1C_zpos,
+                                                                          kZeroAng_6F8F68,
+                                                                          19,
+                                                                          gVarrok_7F8_703398->GetPedId_420F10(varrok_idx));
+        if (pExplosion)
+        {
+            pExplosion->SetDamageOwner_529080(varrok_idx);
+        }
     }
 }
 
@@ -1318,15 +1282,9 @@ void Object_2C::UpdateAninmation_5257D0()
         }
         const s16 target_id = this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter;
 
-        // TODO: Inline?
-        Sprite* pSprite = this->field_4;
-        if (pSprite->field_22_sprite_id != target_id)
-        {
-            pSprite->field_22_sprite_id = target_id;
-            pSprite->UpdateDimensionsFromSpriteIndex_59FA40();
-        }
+        field_4->set_id_lazy_4206C0(target_id);
 
-        if (!field_C_pAny.o8->field_4_timer && !field_C_pAny.o8->field_7_anim_speed_counter)
+        if (IsAnimFinished_482C10())
         {
             Object_2C::TickObject_5283C0(this->field_8->field_3C_next_definition_idx);
         }
@@ -1366,7 +1324,7 @@ bool Object_2C::DispatchFrameAction_525910()
             case 7:
             case 10:
                 field_24_bDoneThisFrame = 0;
-                sub_5290A0();
+                RequestRemoval_5290A0();
                 return true;
             default:
                 field_24_bDoneThisFrame = 0;
@@ -1392,7 +1350,7 @@ bool Object_2C::ShouldStopAtTrafficLight_525290(Sprite* pSprite)
         if (byte_6771DC)
         {
             if ((field_4->field_0 != kZeroAng_6F8F68 || gTrafficLights_194_705958->field_192_phase != 1) &&
-                (field_4->field_0 != word_6F8C88 || gTrafficLights_194_705958->field_192_phase != 4))
+                (field_4->field_0 != kAng90_6F8C88 || gTrafficLights_194_705958->field_192_phase != 4))
             {
                 return true;
             }
@@ -1421,7 +1379,7 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
         case objects::door_unknown_169:
             if (pSprite)
             {
-                return gDoor_4D4_67BD2C->CheckDoorAccess_49D3C0(pSprite, this->field_26_varrok_idx);
+                return gDoor_4D4_67BD2C->CheckDoorAccess_49D3C0(pSprite, this->get_field_26_420FF0());
             }
             else
             {
@@ -1434,15 +1392,14 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
                 Car_BC* pCar = pSprite->AsCar_40FEB0();
                 if (pCar)
                 {
-                    return !pSprite->field_8_car_bc_ptr->IsTrainModel_403BA0();
+                    return !pCar->IsTrainModel_403BA0();
                 }
             }
             // Fall through
         default:
             if (gCollide_C_6791FC->field_8_bUnknown == 1)
             {
-                if (field_8->field_34_behavior_type == 3 || field_8->field_34_behavior_type == 4 ||
-                    field_8->field_34_behavior_type <= 2 && field_8->field_44 == 2)
+                if (sub_482C90())
                 {
                     return 0;
                 }
@@ -1460,7 +1417,7 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
 
             if (pSprite)
             {
-                if (pSprite->field_30_sprite_type_enum != sprite_types_enum::ped_3)
+                if (pSprite->get_type_416B40() != sprite_types_enum::ped_3)
                 {
                     if (field_8->field_4C == 3)
                     {
@@ -1577,7 +1534,7 @@ void Object_2C::UpdatePhysicsAndMovement_525B80()
     }
     SpawnSpriteParticlesForRocketBullet_525B40();
 
-    field_10_obj_3c->field_C_speed = field_10_obj_3c->field_C_speed.sub_482730();
+    field_10_obj_3c->field_C_speed = field_10_obj_3c->field_C_speed.ZeroIfNegligible_482730();
 
     if (!DispatchFrameAction_525910())
     {
@@ -1586,12 +1543,12 @@ void Object_2C::UpdatePhysicsAndMovement_525B80()
             field_10_obj_3c->field_0.PoolUpdate_5A6F70(field_4);
         }
 
-        if (mov_speed != kFpZero_6F8E10 || (field_10_obj_3c->field_2A) || field_10_obj_3c->field_34 == 2 || CheckWaterDeath_525B60())
+        if (mov_speed != kFpZero_6F8E10 || (field_10_obj_3c->field_2A_bAirborne) || field_10_obj_3c->field_34 == 2 || CheckWaterDeath_525B60())
         {
-            if (field_10_obj_3c->field_28 > 0)
+            if (field_10_obj_3c->field_28_next_definition_timer > 0)
             {
-                field_10_obj_3c->field_28--;
-                if (field_10_obj_3c->field_28 == 0)
+                field_10_obj_3c->field_28_next_definition_timer--;
+                if (field_10_obj_3c->field_28_next_definition_timer == 0)
                 {
                     if (get_field_26_420FF0() > 0)
                     {
@@ -1611,15 +1568,15 @@ void Object_2C::UpdatePhysicsAndMovement_525B80()
         }
         else
         {
-            this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
-            this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+            this->field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
+            this->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
 
             TickObject_5283C0(field_8->field_38);
             if (is_not_type6_to_12_421080())
             {
                 if (get_field_26_420FF0() > 0)
                 {
-                    gVarrok_7F8_703398->sub_59B0D0(field_26_varrok_idx); // reduce field4 of varrok at idx
+                    gVarrok_7F8_703398->DecrementRefCount_59B0D0(field_26_varrok_idx); // reduce field4 of varrok at idx
                     this->field_26_varrok_idx = 0;
                 }
             }
@@ -1650,7 +1607,7 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
         IntegrateMovementAndCollisions_523BF0(mov_speed, ang);
     }
 
-    field_10_obj_3c->field_C_speed = field_10_obj_3c->field_C_speed.sub_482730();
+    field_10_obj_3c->field_C_speed = field_10_obj_3c->field_C_speed.ZeroIfNegligible_482730();
 
     Phi_74* pPhi = this->field_8;
     if (pPhi->field_65 != -1 || pPhi->field_34_behavior_type == 9 || (field_4->field_14_xy.x != x_val) || field_4->field_14_xy.y != y_val ||
@@ -1669,24 +1626,25 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
             field_10_obj_3c->field_0.PoolUpdate_5A6F70(field_4);
             if (!field_10_obj_3c->field_0.field_0_p18 && field_18_model == objects::explosion_fragments_127)
             {
-                sub_5290A0();
+                RequestRemoval_5290A0();
             }
         }
 
         if (mov_speed == kFpZero_6F8E10)
         {
-            if (!field_10_obj_3c->field_2A && field_10_obj_3c->field_34 == 2 && !CheckWaterDeath_525B60() && !dword_6F8F8C)
+            if (!field_10_obj_3c->field_2A_bAirborne && field_10_obj_3c->field_34 == 2 && !CheckWaterDeath_525B60() && !gObject2C_LastCollisionSprite_6F8F8C)
             {
-                field_10_obj_3c->field_1C = kFpZero_6F8E10;
-                field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
+                field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
 
                 if (field_18_model != 183)
                 {
                     if (is_not_type6_to_12_421080())
                     {
+                        // 9.6f: Object_2C::get_field_26_420FF0 (inlined, using it changes the code)
                         if (field_26_varrok_idx > 0)
                         {
-                            gVarrok_7F8_703398->sub_59B0D0(field_26_varrok_idx);
+                            gVarrok_7F8_703398->DecrementRefCount_59B0D0(field_26_varrok_idx);
                             this->field_26_varrok_idx = 0;
                         }
                     }
@@ -1702,7 +1660,7 @@ void Object_2C::Update_525F30()
 {
     Wolfy_30* pWolfy;
 
-    dword_6F8F8C = 0;
+    gObject2C_LastCollisionSprite_6F8F8C = 0;
     while (2)
     {
         switch (this->field_8->field_34_behavior_type)
@@ -1728,7 +1686,7 @@ void Object_2C::Update_525F30()
                 {
                     if (pWolfy->Update_5434A0(kFpZero_6F8E10, kZeroAng_6F8F68))
                     {
-                        this->field_25 = 1;
+                        this->field_25_removal_state = 1;
                     }
                 }
                 return;
@@ -1786,12 +1744,12 @@ bool Object_2C::PoolUpdate()
 {
     byte_6F8C4C = 0;
     byte_6F8F40 = 0;
-    if (field_25 != 1)
+    if (field_25_removal_state != 1)
     {
         Object_2C::Update_525F30();
     }
 
-    if (field_25 <= 0 || (field_25 == 2 && gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(field_4, kFpZero_6F8E10)))
+    if (field_25_removal_state <= 0 || (field_25_removal_state == 2 && gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(field_4, kFpZero_6F8E10)))
     {
         return false;
     }
@@ -1809,11 +1767,9 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
     Phi_74* pPhi = this->field_8;
     if (sub_475A80())
     {
-        Object_8* o8 = this->field_C_pAny.o8;
-        if (!o8->field_4_timer && !o8->field_7_anim_speed_counter)
+        if (IsAnimFinished_482C10())
         {
-            s32 phi_idx = pPhi->field_3C_next_definition_idx;
-            if (phi_idx >= 39 && phi_idx <= 42) // car
+            if (IsDefinitionIdx39To42_482400(pPhi->field_3C_next_definition_idx)) // car
             {
                 Car_BC* pCar = pSprite->AsCar_40FEB0();
                 if (pCar)
@@ -1826,7 +1782,7 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
                         {
                             pCar->field_70_exploder_ped_id = id;
                             pCar->field_90 = 12;
-                            pCar->field_94 = 50;
+                            pCar->field_94_exploder_timer = 50;
                         }
                     }
                     s32 t = sub_526830(field_8->field_3C_next_definition_idx);
@@ -1864,25 +1820,23 @@ s32 __stdcall Object_2C::sub_526830(s32 a1)
     return result;
 }
 
-WIP_FUNC(0x526b40)
+MATCH_FUNC(0x526b40)
 void Object_2C::sub_526B40(Sprite* pSprite)
 {
-    WIP_IMPLEMENTED;
-
     Object_3C* p3C; // eax
 
-    switch (pSprite->field_30_sprite_type_enum)
+    switch (pSprite->get_type_416B40())
     {
         case 3: //sprite_type_3_Char_B4:
-            this->field_10_obj_3c->field_C_speed = (pSprite->field_8_char_b4_ptr->field_38_velocity * k_dword_6F8C9C);
+            this->field_10_obj_3c->field_C_speed = (pSprite->field_8_char_b4_ptr->get_velocity_41B080() * k_dword_6F8C9C);
             this->field_10_obj_3c->field_4_angle = pSprite->field_0;
-            this->field_4->field_28_num = 27;
+            this->field_4->set_num_40F7B0(27);
             break;
 
         case sprite_types_enum::car_2: // 2
             this->field_10_obj_3c->field_C_speed = pSprite->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
             this->field_10_obj_3c->field_4_angle = pSprite->field_8_car_bc_ptr->GetOrientationAngle_43A3E0();
-            this->field_4->field_28_num = pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0();
+            this->field_4->set_num_40F7B0(pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0());
             break;
 
         case 4: //sprite_type_4_Object_5C:
@@ -1892,9 +1846,9 @@ void Object_2C::sub_526B40(Sprite* pSprite)
             {
                 this->field_10_obj_3c->field_C_speed = p3C->field_C_speed;
                 this->field_10_obj_3c->field_4_angle = pSprite->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
-                this->field_10_obj_3c->field_10 = pSprite->field_8_object_2C_ptr->field_10_obj_3c->field_10;
+                this->field_10_obj_3c->field_10_z_speed = pSprite->field_8_object_2C_ptr->field_10_obj_3c->field_10_z_speed;
             }
-            this->field_4->field_28_num = 12;
+            this->field_4->set_num_40F7B0(12);
             break;
 
         default:
@@ -1922,7 +1876,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
 
     PoolTake_522360();
 
-    if (!field_25)
+    if (!field_25_removal_state)
     {
         if (x == kFpZero_6F8E10 && y == kFpZero_6F8E10)
         {
@@ -1949,7 +1903,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
             {
                 if (field_C_pAny.pExplosion)
                 {
-                    switch (pSprite->field_30_sprite_type_enum)
+                    switch (pSprite->get_type_416B40())
                     {
                         case sprite_types_enum::car_2:
                             if (field_C_pAny.pExplosion->IsState_5435D0())
@@ -1985,7 +1939,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
             }
 
             case object_behavior_type::light_type_11:
-                field_C_pAny.pLight->sub_482D30(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
+                field_C_pAny.pLight->SetPosition_482D30(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
                 break;
 
             default:
@@ -2035,7 +1989,7 @@ void Object_2C::InitializeObject_527630(s32 object_type, Fix16 xpos, Fix16 ypos,
     field_4->set_xyz_lazy_420600(xpos, ypos, zpos);
     field_4->set_ang_lazy_420690(rotation);
 
-    field_4->field_8_object_2C_ptr = this;
+    field_4->SetObj2C_482A30(this);
 }
 
 MATCH_FUNC(0x527990)
@@ -2088,7 +2042,7 @@ void Object_2C::RemoveFromCollisionBuckets_527D00()
 
 // 9.6f 0x484760
 WIP_FUNC(0x527f10)
-void Object_2C::sub_527F10()
+void Object_2C::ReleaseSubObjects_527F10()
 {
     WIP_IMPLEMENTED;
 
@@ -2098,7 +2052,7 @@ void Object_2C::sub_527F10()
         {
             gLight_1D4CC_6F5520->DeallocLight_47F4F0(field_C_pAny.pLight);
         }
-        else if (this->field_1C)
+        else if (this->field_1C_bHasExplosion)
         {
             field_C_pAny.pExplosion->DeInit_543610();
         }
@@ -2129,7 +2083,7 @@ void Object_2C::NewObj3C_528130(Fix16_Point& speed)
 
     Object_3C* pNewObj = gObject_3C_Pool_6F8F7C->Allocate();
 
-    pNewObj->field_20 = field_14_id;
+    pNewObj->field_20_obj2c_id = field_14_id;
 
     this->field_10_obj_3c = pNewObj;
 
@@ -2149,7 +2103,7 @@ char_type Object_2C::HandleRotationStateTransition_528240(s32 current, s32 desir
                 case 2:
                     if (gObject_5C_6F8F84->field_10_rotation_counter == 360)
                     {
-                        sub_5290A0();
+                        RequestRemoval_5290A0();
                         return 1;
                     }
                     gObject_5C_6F8F84->field_10_rotation_counter++;
@@ -2157,7 +2111,7 @@ char_type Object_2C::HandleRotationStateTransition_528240(s32 current, s32 desir
 
                 case 3:
                     gObject_5C_6F8F84->field_14_sprites_in_list++;
-                    gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
+                    gObject_5C_6F8F84->field_1C_sprite_list.AddSprite_5A6CD0(field_4);
                     break;
             }
             break;
@@ -2172,7 +2126,7 @@ char_type Object_2C::HandleRotationStateTransition_528240(s32 current, s32 desir
                 case 3:
                     gObject_5C_6F8F84->field_10_rotation_counter--;
                     gObject_5C_6F8F84->field_14_sprites_in_list++;
-                    gObject_5C_6F8F84->field_1C.AddSprite_5A6CD0(field_4);
+                    gObject_5C_6F8F84->field_1C_sprite_list.AddSprite_5A6CD0(field_4);
                     break;
             }
             break;
@@ -2182,18 +2136,18 @@ char_type Object_2C::HandleRotationStateTransition_528240(s32 current, s32 desir
             {
                 case 1:
                     gObject_5C_6F8F84->field_14_sprites_in_list--;
-                    gObject_5C_6F8F84->field_1C.RemoveSprite_5A6B10(field_4);
+                    gObject_5C_6F8F84->field_1C_sprite_list.RemoveSprite_5A6B10(field_4);
                     break;
 
                 case 2:
                     if (gObject_5C_6F8F84->field_10_rotation_counter == 360)
                     {
-                        sub_5290A0();
+                        RequestRemoval_5290A0();
                         return 1;
                     }
 
                     gObject_5C_6F8F84->field_14_sprites_in_list--;
-                    gObject_5C_6F8F84->field_1C.RemoveSprite_5A6B10(field_4);
+                    gObject_5C_6F8F84->field_1C_sprite_list.RemoveSprite_5A6B10(field_4);
                     gObject_5C_6F8F84->field_10_rotation_counter++;
                     break;
             }
@@ -2209,16 +2163,34 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
 
     if (obj_type)
     {
-        if (obj_type < 39 || obj_type > 42) // sub_482400
+        if (IsDefinitionIdx39To42_482400(obj_type))
+        {
+            s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx);
+            s32 type_or_state = sub_526830(obj_type);
+            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_4->field_14_xy.x,
+                                                                              field_4->field_14_xy.y,
+                                                                              field_4->field_1C_zpos,
+                                                                              kZeroAng_6F8F68,
+                                                                              type_or_state,
+                                                                              ped_id);
+            if (pExplosion)
+            {
+                pExplosion->SetDamageOwner_529080(this->field_26_varrok_idx);
+            }
+            Object_2C::RequestRemoval_5290A0();
+        }
+        else
         {
             if (obj_type == 259)
             {
+                Fix16_Point dir;
+                dir.SetFromPolar_41E210(k_dword_6F8C9C, field_4->field_0);
                 gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
                                                                field_4->field_14_xy.y,
                                                                field_4->field_1C_zpos,
-                                                               (gSin_table_667A80[field_4->field_0.rValue] * k_dword_6F8C9C),
-                                                               (gCos_table_669260[field_4->field_0.rValue] * k_dword_6F8C9C));
-                Object_2C::sub_5290A0();
+                                                               dir.x,
+                                                               dir.y);
+                Object_2C::RequestRemoval_5290A0();
             }
             else
             {
@@ -2239,7 +2211,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                         case object_behavior_type::behavior_6:
                         case object_behavior_type::behavior_10:
                         case object_behavior_type::behavior_12:
-                            Object_2C::sub_527F10();
+                            Object_2C::ReleaseSubObjects_527F10();
                             Object_2C::InitializeObject_527630(obj_type,
                                                                this->field_4->field_14_xy.x,
                                                                this->field_4->field_14_xy.y,
@@ -2299,7 +2271,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             if (!this->field_10_obj_3c)
                             {
                                 Object_3C* pNew3C_ = gObject_3C_Pool_6F8F7C->Allocate();
-                                pNew3C_->field_20 = field_14_id;
+                                pNew3C_->field_20_obj2c_id = field_14_id;
                                 this->field_10_obj_3c = pNew3C_;
                             }
 
@@ -2310,9 +2282,9 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             }
 
                             this->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
-                            this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
-                            this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
-                            this->field_10_obj_3c->field_28 = pPhi->field_65;
+                            this->field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
+                            this->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
+                            this->field_10_obj_3c->field_28_next_definition_timer = pPhi->field_65;
                             Object_2C::InitializeObject_527630(obj_type,
                                                                this->field_4->field_14_xy.x,
                                                                this->field_4->field_14_xy.y,
@@ -2326,7 +2298,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             if (!this->field_10_obj_3c)
                             {
                                 Object_3C* pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
-                                pNew3C->field_20 = field_14_id;
+                                pNew3C->field_20_obj2c_id = field_14_id;
                                 this->field_10_obj_3c = pNew3C;
                             }
 
@@ -2360,8 +2332,8 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                                                this->field_4->field_0);
                             field_4->set_id_lazy_4206C0(this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter);
                             this->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
-                            this->field_10_obj_3c->field_1C = kFpZero_6F8E10;
-                            this->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                            this->field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
+                            this->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
                             break;
                         }
 
@@ -2370,7 +2342,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                     }
 
                     //LABEL_48:
-                    if (!pPhi->field_61 && !this->field_25)
+                    if (!pPhi->field_61 && !this->field_25_removal_state)
                     {
                         Object_2C::PoolTake_522360();
                     }
@@ -2383,31 +2355,15 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                 }
             }
         }
-        else
-        {
-            s32 ped_id = gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id;
-            s32 type_or_state = sub_526830(obj_type);
-            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_4->field_14_xy.x,
-                                                                              field_4->field_14_xy.y,
-                                                                              field_4->field_1C_zpos,
-                                                                              kZeroAng_6F8F68,
-                                                                              type_or_state,
-                                                                              ped_id);
-            if (pExplosion)
-            {
-                pExplosion->SetDamageOwner_529080(this->field_26_varrok_idx);
-            }
-            Object_2C::sub_5290A0();
-        }
     }
     else
     {
-        Object_2C::sub_5290A0();
+        Object_2C::RequestRemoval_5290A0();
     }
 }
 
 MATCH_FUNC(0x5288B0)
-bool Object_2C::OnObjectTouched_5288B0(Sprite* a2)
+char_type Object_2C::OnObjectTouched_5288B0(Sprite* a2)
 {
     if (!a2)
     {
@@ -2437,19 +2393,13 @@ void Object_2C::HandleWaterDeath_528900()
         field_10_obj_3c->field_30_bSkipAnim = 1;
     }
 
-    if ((rng_dword_67AB34->field_0_rng & 3) == 0)
+    if ((gpRng_67AB34->get_cur_rng_41CFE0() & 3) == 0)
     {
-        field_4->sub_59E320(1);
+        field_4->IncreaseZoom_59E320(1);
         if (field_4->ShrinkSprite_59E390(dword_6F8F5C, dword_6F8F5C, 0))
         {
-            // inline - because has to be a local here?
-            Sprite* pSprite = this->field_4;
-            if (pSprite->field_1C_zpos != kFpZero_6F8E10)
-            {
-                pSprite->field_1C_zpos = kFpZero_6F8E10;
-                pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
-            }
-            sub_5290A0();
+            field_4->set_z_lazy_420660(kFpZero_6F8E10);
+            RequestRemoval_5290A0();
         }
     }
 }
@@ -2484,9 +2434,9 @@ char_type Object_2C::HandleObjectHit_528990(Sprite* pSprite)
 
     Object_2C* o2c = pSprite->As2C_40FEC0();
 
-    if (gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id)
+    if (gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()))
     {
-        Ped* pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id);
+        Ped* pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
         if (pPed)
         {
             pPed->ProcessWeaponHitResponse_46FE20(o2c);
@@ -2524,10 +2474,10 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
                                                                               this->field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               remapped,
-                                                                              gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
+                                                                              gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
             if (pExplosion)
             {
-                pExplosion->SetDamageOwner_529080(field_26_varrok_idx);
+                pExplosion->SetDamageOwner_529080(get_field_26_420FF0());
             }
             break;
         }
@@ -2549,7 +2499,7 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
     }
 
     Ped* pPed; // eax
-    s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx);
+    s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
     if (pedId)
     {
         pPed = gPedManager_6787BC->PedById(pedId);
@@ -2569,7 +2519,7 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
 }
 
 MATCH_FUNC(0x528E00)
-s32 __stdcall Object_2C::sub_528E00(s32 a1)
+s32 __stdcall Object_2C::GetExplosionTypeForWallSide_528E00(s32 a1)
 {
     int result; // eax
 
@@ -2608,11 +2558,11 @@ void Object_2C::HandleImpactNoSprite_528BA0()
                                                                               field_4->field_14_xy.y,
                                                                               field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
-                                                                              sub_528E00(dword_6F8F90),
-                                                                              gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
+                                                                              GetExplosionTypeForWallSide_528E00(gObject2C_WallHitSide_6F8F90),
+                                                                              gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
             if (pExplosion)
             {
-                pExplosion->SetDamageOwner_529080(field_26_varrok_idx);
+                pExplosion->SetDamageOwner_529080(get_field_26_420FF0());
             }
             // Fall through
         }
@@ -2620,7 +2570,7 @@ void Object_2C::HandleImpactNoSprite_528BA0()
         case 254:
         case 265:
         {
-            point.FromPolar_41E210(k_dword_6F8C9C, field_4->field_0 + word_6F8D62);
+            point.FromPolar_41E210(k_dword_6F8C9C, field_4->field_0 + kAng180_6F8D62);
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
                                                            field_4->field_14_xy.y,
                                                            field_4->field_1C_zpos,
@@ -2644,7 +2594,7 @@ void Object_2C::HandleImpactNoSprite_528BA0()
             return;
     }
 
-    const s32 id = gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx);
+    const s32 id = gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
     if (id)
     {
         Ped* pPed = gPedManager_6787BC->PedById(id);
@@ -2791,7 +2741,7 @@ void Object_2C::HandleCollisionWithObject_529000(Object_2C* pObj)
     switch (pObj->field_18_model)
     {
         case 139:
-            sub_529070(pObj);
+            ApplyConveyorSpeedFrom_529070(pObj);
             break;
 
         case 141:
@@ -2804,15 +2754,15 @@ void Object_2C::HandleCollisionWithObject_529000(Object_2C* pObj)
 }
 
 MATCH_FUNC(0x529030)
-void Object_2C::sub_529030(s8 speed_x, s8 speed_y)
+void Object_2C::SetConveyorSpeed_529030(s8 speed_x, s8 speed_y)
 {
     field_26_varrok_idx = (speed_y + 7) | (16 * (speed_x + 7)); //  two variables in the same byte?
 }
 
 MATCH_FUNC(0x529070)
-void Object_2C::sub_529070(Object_2C* pObj)
+void Object_2C::ApplyConveyorSpeedFrom_529070(Object_2C* pObj)
 {
-    sub_5226A0(pObj->field_26_varrok_idx);
+    SetConveyorPush_5226A0(pObj->field_26_varrok_idx);
 }
 
 // https://decomp.me/scratch/lXvKN
@@ -2837,24 +2787,16 @@ s32 Object_2C::sub_529240()
     s32 result;
     gmp_block_info* pBlockInfo =
         gMap_0x370_6F6268->get_block_4DFE10(field_4->field_14_xy.x.ToInt(), field_4->field_14_xy.y.ToInt(), field_4->field_1C_zpos.ToInt());
-    switch (field_26_varrok_idx)
+    switch (get_field_26_420FF0())
     {
         case 45u:
         case 47u:
-            result = gGtx_0x106C_703DD4->field_6C_spec[pBlockInfo->field_0_left & 0x3FF];
-            if (result == 3)
-            {
-                return 1;
-            }
+            result = gGtx_0x106C_703DD4->sub_462FD0(pBlockInfo->field_0_left & 0x3FF);
             break;
 
         case 46u:
         case 48u:
-            result = gGtx_0x106C_703DD4->field_6C_spec[pBlockInfo->field_2_right & 0x3FF];
-            if (result == 3)
-            {
-                result = 1;
-            }
+            result = gGtx_0x106C_703DD4->sub_462FD0(pBlockInfo->field_2_right & 0x3FF);
             break;
 
         default:
@@ -2879,7 +2821,7 @@ void Object_2C::get_weapon_default_ammo_5292D0()
 
     if (wepon_kind <= 27)
     {
-        field_26_varrok_idx = gWeapon_8_707018->get_defalt_ammo_5E3E80(wepon_kind);
+        set_field_26(gWeapon_8_707018->get_defalt_ammo_5E3E80(wepon_kind));
     }
 }
 
@@ -2891,33 +2833,33 @@ void Object_2C::SetDamageOwner_529080(u8 idx)
 }
 
 MATCH_FUNC(0x5290a0)
-void Object_2C::sub_5290A0()
+void Object_2C::RequestRemoval_5290A0()
 {
-    field_25 = 1;
+    field_25_removal_state = 1;
 }
 
 MATCH_FUNC(0x5290B0)
-void Object_2C::sub_5290B0()
+void Object_2C::RequestRemovalWhenOffScreen_5290B0()
 {
-    field_25 = 2;
+    field_25_removal_state = 2;
 }
 
 MATCH_FUNC(0x5291b0)
 void Object_2C::Dealloc_5291B0()
 {
     PoolGive_522340();
-    sub_5290A0();
+    RequestRemoval_5290A0();
 }
 
 MATCH_FUNC(0x5291d0)
-void Object_2C::sub_5291D0()
+void Object_2C::PoolGiveAndMarkDone_5291D0()
 {
     PoolGive_522340();
     field_24_bDoneThisFrame = 1;
 }
 
 MATCH_FUNC(0x5291E0)
-void Object_2C::sub_5291E0(u8 a2)
+void Object_2C::PoolGiveAndSetDone_5291E0(s32 a2)
 {
     PoolGive_522340();
     field_24_bDoneThisFrame = a2;
@@ -2955,7 +2897,7 @@ Fix16_Point Object_2C::GetSpeedVector_52AE90()
 }
 
 MATCH_FUNC(0x5290C0)
-void Object_2C::sub_5290C0(u8 id_base)
+void Object_2C::SetSpriteIdOffset_5290C0(u8 id_base)
 {
     s16 new_id = id_base + field_8->field_1E_sprite_palette;
     Sprite* pSprite = field_4;
@@ -2971,11 +2913,11 @@ Fix16 Object_2C::sub_5290F0()
 {
     if (field_10_obj_3c)
     {
-        if (!field_10_obj_3c->field_2A)
+        if (!field_10_obj_3c->field_2A_bAirborne)
         {
             if (field_10_obj_3c->field_C_speed == kFpZero_6F8E10)
             {
-                return field_10_obj_3c->field_10;
+                return field_10_obj_3c->field_10_z_speed;
             }
             return field_10_obj_3c->field_C_speed;
         }
@@ -2983,15 +2925,15 @@ Fix16 Object_2C::sub_5290F0()
         {
             if (field_10_obj_3c->field_C_speed == kFpZero_6F8E10)
             {
-                if (field_10_obj_3c->field_10 == kFpZero_6F8E10)
+                if (field_10_obj_3c->field_10_z_speed == kFpZero_6F8E10)
                 {
                     if (this->field_18_model == objects::explosion_113)
                     {
                         return kFpZero_6F8E10;
                     }
-                    return dword_6F8E14;
+                    return kFP16One_6F8E14;
                 }
-                return field_10_obj_3c->field_10;
+                return field_10_obj_3c->field_10_z_speed;
             }
             return field_10_obj_3c->field_C_speed;
         }
@@ -3027,7 +2969,7 @@ void Object_2C::UpdateEffectPool_525B20()
 MATCH_FUNC(0x527A30)
 void Object_2C::UpdateLight_527A30()
 {
-    field_C_pAny.pLight->sub_45B2D0(field_C_pAny.pLight->field_18_intensity);
+    field_C_pAny.pLight->SetCurrentIntensity_45B2D0(field_C_pAny.pLight->field_18_intensity);
 }
 
 // Not fully working yet https://decomp.me/scratch/2X4Bq
@@ -3042,32 +2984,32 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
     u8 v73 = 0;
     u8 bUnk2 = 0;
     Fix16 v15;
-    Sprite* pSprt = gObject_5C_6F8F84->field_58;
+    Sprite* pSprt = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Fix16 mov_speed_copy = mov_speed;
-    dword_6F8F90 = 0;
+    gObject2C_WallHitSide_6F8F90 = 0;
     sub_482BE0();
     if (Object_2C::sub_5233A0(mov_speed))
     {
         mov_speed_copy = field_10_obj_3c->field_C_speed;
     }
-    if (mov_speed_copy != kFpZero_6F8E10 || field_10_obj_3c->field_2A || field_10_obj_3c->field_10 != kFpZero_6F8E10)
+    if (mov_speed_copy != kFpZero_6F8E10 || field_10_obj_3c->field_2A_bAirborne || field_10_obj_3c->field_10_z_speed != kFpZero_6F8E10)
     {
-        gRozza_679188.sub_4637B0();
+        gRozza_679188.Reset_4637B0();
         pSprt->set_xyz_lazy_420600(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
         pSprt->set_ang_lazy_420690(field_4->field_0);
-        pSprt->AllocInternal_59F950(field_8->field_0, field_8->field_4, field_8->field_8);
+        pSprt->AllocInternal_59F950(field_8->field_0_width, field_8->field_4_height, field_8->field_8_depth);
         pSprt->SetType_4206F0(field_4->get_type_416B40());
         pSprt->SetObj2C_482A30(field_4->field_8_object_2C_ptr);
-        field_10_obj_3c->field_2F = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pSprt->field_14_xy.x.ToInt(),
+        field_10_obj_3c->field_2F_bOnSlope = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pSprt->field_14_xy.x.ToInt(),
                                                                                 pSprt->field_14_xy.y.ToInt(),
                                                                                 pSprt->field_1C_zpos.ToInt());
         Fix16 radius;
         Fix16 unk_z;
         if (mov_speed_copy != kFpZero_6F8E10)
         {
-            v15 = mov_speed_copy / field_8->field_C;
+            v15 = mov_speed_copy / field_8->field_C_min_size;
             radius = mov_speed_copy / v15;
-            unk_z = field_10_obj_3c->field_10 / v15;
+            unk_z = field_10_obj_3c->field_10_z_speed / v15;
         }
         else
         {
@@ -3075,11 +3017,11 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
             radius = kFpZero_6F8E10;
         }
 
-        if (v15 < dword_6F8E14)
+        if (v15 < kFP16One_6F8E14)
         {
-            v15 = dword_6F8E14;
+            v15 = kFP16One_6F8E14;
             radius = mov_speed_copy;
-            unk_z = field_10_obj_3c->field_10;
+            unk_z = field_10_obj_3c->field_10_z_speed;
         }
 
         Fix16 unk_x;
@@ -3090,7 +3032,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
         {
             unk_angle = pSprt->field_0;
             Fix16 found_z;
-            found_z = gMap_0x370_6F6268->sub_4E4D40(pSprt->field_14_xy.x, pSprt->field_14_xy.y, pSprt->field_1C_zpos);
+            found_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pSprt->field_14_xy.x, pSprt->field_14_xy.y, pSprt->field_1C_zpos);
             pSprt->set_xyz_lazy_420600(pSprt->field_14_xy.x + unk_x, pSprt->field_14_xy.y + unk_y, pSprt->field_1C_zpos + unk_z);
             pSprt->set_ang_lazy_420690(angle);
             if (unk_z == kFpZero_6F8E10)
@@ -3121,7 +3063,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
                 if (field_4->IsOnWater_59E1D0())
                 {
                     field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
-                    field_10_obj_3c->field_10 = kFpZero_6F8E10;
+                    field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
                 }
                 gRozza_C88_66AFE0->Type4_40BC40(field_4);
             }
@@ -3132,12 +3074,12 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
         }
         else
         {
-            dword_6F8F00 = pSprt->field_14_xy.x;
-            dword_6F8EF8 = pSprt->field_14_xy.y;
-            dword_6F8EFC = pSprt->field_1C_zpos;
-            word_6F8D1C = unk_angle;
+            gObj2C_LastValidX_6F8F00 = pSprt->field_14_xy.x;
+            gObj2C_LastValidY_6F8EF8 = pSprt->field_14_xy.y;
+            gObj2C_LastValidZ_6F8EFC = pSprt->field_1C_zpos;
+            gObj2C_LastValidAng_6F8D1C = unk_angle;
             Fix16 tmp_radius = radius;
-            pSprt->set_xyz_lazy_420600(dword_6F8F00, dword_6F8EF8, dword_6F8EFC);
+            pSprt->set_xyz_lazy_420600(gObj2C_LastValidX_6F8F00, gObj2C_LastValidY_6F8EF8, gObj2C_LastValidZ_6F8EFC);
             pSprt->set_ang_lazy_420690(unk_angle);
             Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(pSprt);
             bool bUnk7;
@@ -3157,23 +3099,23 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
                 if (pSprt->CheckSpriteMovementRegion_5A2500() || bUnk5)
                 {
                     point = pSprt->get_x_y_443580();
-                    pSprt->set_xyz_lazy_420600(dword_6F8F00, dword_6F8EF8, dword_6F8EFC);
-                    pSprt->set_ang_lazy_420690(word_6F8D1C);
+                    pSprt->set_xyz_lazy_420600(gObj2C_LastValidX_6F8F00, gObj2C_LastValidY_6F8EF8, gObj2C_LastValidZ_6F8EFC);
+                    pSprt->set_ang_lazy_420690(gObj2C_LastValidAng_6F8D1C);
                     bUnk7 = false;
                 }
                 else
                 {
                     bUnk7 = true;
-                    dword_6F8F00 = pSprt->field_14_xy.x;
-                    dword_6F8EF8 = pSprt->field_14_xy.y;
-                    dword_6F8EFC = pSprt->field_1C_zpos;
-                    word_6F8D1C = pSprt->field_0;
+                    gObj2C_LastValidX_6F8F00 = pSprt->field_14_xy.x;
+                    gObj2C_LastValidY_6F8EF8 = pSprt->field_14_xy.y;
+                    gObj2C_LastValidZ_6F8EFC = pSprt->field_1C_zpos;
+                    gObj2C_LastValidAng_6F8D1C = pSprt->field_0;
                 }
             }
             if (!bUnk7)
             {
-                pSprt->set_xyz_lazy_420600(dword_6F8F00, dword_6F8EF8, dword_6F8EFC);
-                pSprt->set_ang_lazy_420690(word_6F8D1C);
+                pSprt->set_xyz_lazy_420600(gObj2C_LastValidX_6F8F00, gObj2C_LastValidY_6F8EF8, gObj2C_LastValidZ_6F8EFC);
+                pSprt->set_ang_lazy_420690(gObj2C_LastValidAng_6F8D1C);
             }
             field_4->set_xyz_lazy_420600(pSprt->field_14_xy.x, pSprt->field_14_xy.y, pSprt->field_1C_zpos);
             field_4->set_ang_lazy_420690(pSprt->field_0);
@@ -3184,10 +3126,10 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
         }
 
         Object_2C::sub_5233A0(mov_speed);
-        if (field_4->field_14_xy.x < kFpZero_6F8E10 || field_4->field_14_xy.x >= dword_6F8BF4 || field_4->field_14_xy.y < kFpZero_6F8E10 ||
-            field_4->field_14_xy.y >= dword_6F8BF4)
+        if (field_4->field_14_xy.x < kFpZero_6F8E10 || field_4->field_14_xy.x >= kMapSize_6F8BF4 || field_4->field_14_xy.y < kFpZero_6F8E10 ||
+            field_4->field_14_xy.y >= kMapSize_6F8BF4)
         {
-            Object_2C::sub_5290A0();
+            Object_2C::RequestRemoval_5290A0();
         }
     }
 }
@@ -3207,7 +3149,7 @@ void Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
         if (z_frac != kFpZero_6F8E10)
         {
             z_val = z_val.GetRoundValue();
-            if (z_frac > dword_6F8D10)
+            if (z_frac > kFP16Half_6F8D10)
             {
                 z_val += Fix16(0x4000, 0);
             }
@@ -3231,21 +3173,21 @@ void Object_2C::sub_525100()
     {
         if (get_model_40FEF0() == 148)
         {
-            sub_5290C0(1u);
+            SetSpriteIdOffset_5290C0(1u);
         }
         else
         {
-            sub_5290A0();
+            RequestRemoval_5290A0();
         }
     }
 }
 
 MATCH_FUNC(0x529300)
-void Object_5C::sub_529300()
+void Object_5C::TrimSpriteList_529300()
 {
     for (s32 i = field_14_sprites_in_list - 88; i >= 0; i--)
     {
-        Sprite* pSprite = field_1C.PopBackSprite_5A6DC0();
+        Sprite* pSprite = field_1C_sprite_list.PopBackSprite_5A6DC0();
         Object_2C* o2c = pSprite->As2C_40FEC0();
         if (o2c->field_18_model == objects::mine_10)
         {
@@ -3256,7 +3198,7 @@ void Object_5C::sub_529300()
                                                   pSprite->field_1C_zpos,
                                                   kZeroAng_6F8F68,
                                                   18,
-                                                  gVarrok_7F8_703398->field_0[o2c->field_26_varrok_idx].field_0_ped_id);
+                                                  gVarrok_7F8_703398->GetPedId_420F10(o2c->get_field_26_420FF0()));
             }
         }
         o2c->Dealloc_5291B0();
@@ -3266,7 +3208,7 @@ void Object_5C::sub_529300()
 MATCH_FUNC(0x5293a0)
 void Object_5C::ObjectsService_5293A0()
 {
-    sub_529300();
+    TrimSpriteList_529300();
 
     gObject_2C_Pool_6F8F80->UpdatePool();
 }
@@ -3286,11 +3228,11 @@ Object_5C::Object_5C()
     field_10_rotation_counter = 0;
     field_14_sprites_in_list = 0;
     gObj3C_id_6F8E54 = 0;
-    dword_6F8F18 = 0;
-    dword_6F8DC0 = 0;
-    dword_6F8F0C = 0;
-    field_58 = 0;
-    field_18 = 0;
+    gObj8_count_6F8F18 = 0;
+    gObj8_dealloc_count_6F8DC0 = 0;
+    gObj3C_dealloc_count_6F8F0C = 0;
+    field_58_collision_probe_sprite = 0;
+    field_18_pending_damage_owner = 0;
     byte_6F8EDC = 0;
 
     if (!gObject_2C_Pool_6F8F80)
@@ -3314,25 +3256,25 @@ Object_5C::Object_5C()
         FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4245);
     }
 
-    field_58 = gSprite_Pool_703818->get_new_sprite();
-    field_58->set_xyz_lazy_451950(0, 0, 0);
+    field_58_collision_probe_sprite = gSprite_Pool_703818->get_new_sprite();
+    field_58_collision_probe_sprite->set_xyz_lazy_451950(0, 0, 0);
 
-    field_58->set_ang_lazy_420690(kZeroAng_6F8F68);
-    field_58->AllocInternal_59F950(0, 0, 0);
+    field_58_collision_probe_sprite->set_ang_lazy_420690(kZeroAng_6F8F68);
+    field_58_collision_probe_sprite->AllocInternal_59F950(0, 0, 0);
 
-    field_0 = 0;
-    field_C = 0;
-    field_8 = 0;
-    field_4 = 0;
+    field_0_diagonal_wall_ang315 = 0;
+    field_C_diagonal_wall_ang45 = 0;
+    field_8_diagonal_wall_ang225 = 0;
+    field_4_diagonal_wall_ang135 = 0;
 }
 
 MATCH_FUNC(0x529750)
 Object_5C::~Object_5C()
 {
-    if (field_58)
+    if (field_58_collision_probe_sprite)
     {
-        gSprite_Pool_703818->remove(field_58);
-        field_58 = 0;
+        gSprite_Pool_703818->remove(field_58_collision_probe_sprite);
+        field_58_collision_probe_sprite = 0;
     }
 
     if (gObject_2C_Pool_6F8F80)
@@ -3350,26 +3292,26 @@ Object_5C::~Object_5C()
         GTA2_DELETE_AND_NULL(gObject_3C_Pool_6F8F7C);
     }
 
-    field_0 = 0;
-    field_C = 0;
-    field_8 = 0;
-    field_4 = 0;
+    field_0_diagonal_wall_ang315 = 0;
+    field_C_diagonal_wall_ang45 = 0;
+    field_8_diagonal_wall_ang225 = 0;
+    field_4_diagonal_wall_ang135 = 0;
 }
 
 MATCH_FUNC(0x5297f0)
-void Object_5C::sub_5297F0()
+void Object_5C::CreateDiagonalWallObjects_5297F0()
 {
-    field_0 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, word_6F8D8C);
-    field_0->field_26_varrok_idx = 45;
+    field_0_diagonal_wall_ang315 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, kAng315_6F8D8C);
+    field_0_diagonal_wall_ang315->set_field_26(45);
 
-    field_4 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, dword_6F8D80);
-    field_4->field_26_varrok_idx = 48;
+    field_4_diagonal_wall_ang135 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, kAng135_6F8D80);
+    field_4_diagonal_wall_ang135->set_field_26(48);
 
-    field_8 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, word_6F8D54);
-    field_8->field_26_varrok_idx = 46;
+    field_8_diagonal_wall_ang225 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, kAng225_6F8D54);
+    field_8_diagonal_wall_ang225->set_field_26(46);
 
-    field_C = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, dword_6F8CD0);
-    field_C->field_26_varrok_idx = 47;
+    field_C_diagonal_wall_ang45 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, kAng45_6F8CD0);
+    field_C_diagonal_wall_ang45->set_field_26(47);
 }
 
 MATCH_FUNC(0x5298e0)
@@ -3380,19 +3322,19 @@ Object_2C* Object_5C::GetDirectionalObject_5298E0(s32 maybe_slope)
     {
         case 180:
         case 196:
-            result = this->field_0;
+            result = this->field_0_diagonal_wall_ang315;
             break;
         case 184:
         case 200:
-            result = this->field_8;
+            result = this->field_8_diagonal_wall_ang225;
             break;
         case 188:
         case 204:
-            result = this->field_C;
+            result = this->field_C_diagonal_wall_ang45;
             break;
         case 192:
         case 208:
-            result = this->field_4;
+            result = this->field_4_diagonal_wall_ang135;
             break;
         default:
             result = 0;
@@ -3407,12 +3349,7 @@ Object_2C* Object_5C::NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fi
     Object_2C* pNewObj = New_529C00(object_type, x, y, z, rot, 0);
     if (pNewObj)
     {
-        Sprite* pSprite = pNewObj->field_4;
-        Sprite_4C* sprite_4c_ptr = pSprite->field_C_sprite_4c_ptr;
-        sprite_4c_ptr->field_0_width = w;
-        sprite_4c_ptr->field_4_height = h;
-        sprite_4c_ptr->field_8_depth = depth;
-        pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
+        pNewObj->field_4->SetDimensions_482A40(w, h, depth);
         pNewObj->AssignToBucket_527AE0();
     }
     return pNewObj;
@@ -3430,15 +3367,15 @@ Object_2C* Object_5C::NewPhysicsObj_5299B0(s32 object_type, Fix16 xpos, Fix16 yp
 }
 
 MATCH_FUNC(0x5299f0)
-Object_2C* Object_5C::sub_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos)
+Object_2C* Object_5C::NewWithVarrokIdx_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     Object_2C* pNewObj = New_529C00(object_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
-        pNewObj->field_26_varrok_idx = varrok_idx;
+        pNewObj->set_field_26(varrok_idx);
         if (object_type == objects::sound_object_type_2_279)
         {
-            pNewObj->sub_5290A0();
+            pNewObj->RequestRemoval_5290A0();
         }
     }
     return pNewObj;
@@ -3450,7 +3387,7 @@ Object_2C* Object_5C::NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 ar
     Object_2C* pNewObj = New_529C00(165, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
-        pNewObj->field_C_pAny.pLight->sub_482D60(argb, radius, intensity);
+        pNewObj->field_C_pAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);
     }
     return pNewObj;
 }
@@ -3461,7 +3398,7 @@ Object_2C* Object_5C::NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fi
     Object_2C* pNewObj = Object_5C::New_529C00(light_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
-        pNewObj->field_C_pAny.pLight->sub_482D60(argb, radius, intensity);
+        pNewObj->field_C_pAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);
     }
     return pNewObj;
 }
@@ -3504,19 +3441,19 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     if (pPhi->field_61) // 6c
     {
         pNew2C = gObject_2C_Pool_6F8F80->Allocate();
-        pNew2C->field_20 = 1;
+        pNew2C->field_20_pool_list_state = 1;
     }
     else
     {
         pNew2C = gObject_2C_Pool_6F8F80->AllocateUntracked();
-        pNew2C->field_20 = 2;
+        pNew2C->field_20_pool_list_state = 2;
     }
 
     pNew2C->InitializeObject_527630(object_type, xpos, ypos, zpos, rotation);
-    if (field_18)
+    if (field_18_pending_damage_owner)
     {
-        pNew2C->SetDamageOwner_529080(field_18);
-        field_18 = 0;
+        pNew2C->SetDamageOwner_529080(field_18_pending_damage_owner);
+        field_18_pending_damage_owner = 0;
     }
 
     if (bUnknown &&
@@ -3524,9 +3461,9 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
          (pPhi->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3 &&
           gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
     {
-        if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
+        if (pNew2C->field_20_pool_list_state == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {
-            gObject_2C_Pool_6F8F80->unknown_func(pNew2C);
+            gObject_2C_Pool_6F8F80->FindAndDeAllocate(pNew2C);
         }
         else
         {
@@ -3538,7 +3475,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     if (pPhi->field_5C == 3) // 1e0
     {
         ++field_14_sprites_in_list;
-        field_1C.AddSprite_5A6CD0(pNew2C->field_4);
+        field_1C_sprite_list.AddSprite_5A6CD0(pNew2C->field_4);
     }
 
     switch (pPhi->field_34_behavior_type)
@@ -3560,7 +3497,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_C_pAny.pExplosion = pNew30;
             if (pNew30) // 225
             {
-                pNew2C->field_1C = 1;
+                pNew2C->field_1C_bHasExplosion = 1;
             }
             else
             {
@@ -3588,13 +3525,13 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             Object_3C* pNew3C; // eax
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
             pNew2C->field_10_obj_3c = pNew3C;
-            pNew3C->field_20 = pNew2C->field_14_id;
-            pNew2C->field_10_obj_3c->field_C_speed = pNew2C->field_8->field_10;
+            pNew3C->field_20_obj2c_id = pNew2C->field_14_id;
+            pNew2C->field_10_obj_3c->field_C_speed = pNew2C->field_8->field_10_speed;
             pNew2C->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
             pNew2C->field_10_obj_3c->field_4_angle = rotation;
-            pNew2C->field_10_obj_3c->field_28 = pNew2C->field_8->field_65;
-            pNew2C->field_10_obj_3c->field_10 = kFpZero_6F8E10;
-            pNew2C->field_10_obj_3c->field_1C = kFpZero_6F8E10;
+            pNew2C->field_10_obj_3c->field_28_next_definition_timer = pNew2C->field_8->field_65;
+            pNew2C->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
+            pNew2C->field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
             break;
         }
 
@@ -3604,13 +3541,13 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             Object_3C* pNew3C; // eax
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
             pNew2C->field_10_obj_3c = pNew3C;
-            pNew3C->field_20 = pNew2C->field_14_id;
-            pNew2C->field_10_obj_3c->field_C_speed = pNew2C->field_8->field_10;
+            pNew3C->field_20_obj2c_id = pNew2C->field_14_id;
+            pNew2C->field_10_obj_3c->field_C_speed = pNew2C->field_8->field_10_speed;
             pNew2C->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
-            pNew2C->field_10_obj_3c->field_10 = kFpZero_6F8E10;
-            pNew2C->field_10_obj_3c->field_1C = kFpZero_6F8E10;
+            pNew2C->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
+            pNew2C->field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
             pNew2C->field_10_obj_3c->field_4_angle = rotation;
-            pNew2C->field_10_obj_3c->field_28 = pNew2C->field_8->field_65;
+            pNew2C->field_10_obj_3c->field_28_next_definition_timer = pNew2C->field_8->field_65;
 
             Object_8* pNew8; // eax
             pNew8 = gObject_8_Pool_6F8F78->Allocate();
@@ -3622,7 +3559,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         }
 
         case object_behavior_type::light_type_11:
-            pNew2C->field_C_pAny.pLight = gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);
+            pNew2C->field_C_pAny.pLight = gLight_1D4CC_6F5520->CreateLight_52B2A0(xpos, ypos, zpos, 0, 0, 0);
             break;
 
         default:
@@ -3641,7 +3578,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         Object_2C* v34 = NewPhysicsObj_5299B0(objects::powergen_light_284, kFpZero_6F8E10, kFpZero_6F8E10, kFpZero_6F8E10, kZeroAng_6F8F68);
         pNew2C->field_4->DispatchCollisionEvent_5A3100(v34->field_4,
                                                        (dword_6F8CE8 * dword_6F8ECC), // x?
-                                                       (dword_6F8CEC * dword_6F8ECC), // y?
+                                                       (kFP16One_6F8CEC * dword_6F8ECC), // y?
                                                        kZeroAng_6F8F68); // ang?
     }
     else
@@ -3656,10 +3593,10 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
 }
 
 MATCH_FUNC(0x52a210)
-char_type Object_5C::sub_52A210(char_type a2)
+char_type Object_5C::SetPendingDamageOwner_52A210(char_type a2)
 {
     // TODO: Why is it a byte here? enum ??
-    *(u8*)&field_18 = a2;
+    *(u8*)&field_18_pending_damage_owner = a2;
     return a2;
 }
 
@@ -3715,21 +3652,21 @@ Object_2C* Object_5C::New_52A2C0(s32 object_type,
             pNewObj->field_10_obj_3c = p3C;
             if (!p3C)
             {
-                pNewObj->sub_5290A0();
+                pNewObj->RequestRemoval_5290A0();
                 return 0;
             }
         }
         pNewObj->field_10_obj_3c->field_C_speed = a8;
-        pNewObj->field_10_obj_3c->field_10 = a10;
+        pNewObj->field_10_obj_3c->field_10_z_speed = a10;
         pNewObj->field_10_obj_3c->field_14 = a8;
-        pNewObj->field_10_obj_3c->field_1C = dword_6F8DA8;
+        pNewObj->field_10_obj_3c->field_1C_z_accel = kObjectGravity_6F8DA8;
         pNewObj->field_10_obj_3c->field_18_friction = a9;
         pNewObj->field_10_obj_3c->field_4_angle = unk_ang;
-        pNewObj->field_10_obj_3c->field_28 = pPhi74->field_65;
+        pNewObj->field_10_obj_3c->field_28_next_definition_timer = pPhi74->field_65;
         Object_3C* field_10_obj_3c = pNewObj->field_10_obj_3c;
-        if (field_10_obj_3c->field_10 != kFpZero_6F8E10)
+        if (field_10_obj_3c->field_10_z_speed != kFpZero_6F8E10)
         {
-            field_10_obj_3c->field_2A = 1;
+            field_10_obj_3c->field_2A_bAirborne = 1;
         }
     }
     return pNewObj;
@@ -3741,7 +3678,7 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
     Object_2C* pNew2C = NewPhysicsObj_5299B0(objects::explosion_113, x, y, z, rot);
     if (pNew2C)
     {
-        pNew2C->field_1C = 1;
+        pNew2C->field_1C_bHasExplosion = 1;
 
         if (!pNew2C->field_C_pAny.pExplosion)
         {
@@ -3753,7 +3690,7 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
             return 0;
         }
 
-        pNew2C->field_C_pAny.pExplosion->field_10_type_or_state = a6;
+        pNew2C->field_C_pAny.pExplosion->SetTypeOrState_482A90(a6);
         pNew2C->field_C_pAny.pExplosion->Set_Obj2C_543680(pNew2C);
         pNew2C->field_C_pAny.pExplosion->field_2C_ped_id = pedId;
 
@@ -3768,11 +3705,11 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
             case 25:
             case 32:
             case 33:
-                pNew2C->field_C_pAny.pExplosion->field_1A = 100;
+                pNew2C->field_C_pAny.pExplosion->field_1A_timer = 100;
                 pNew2C->field_C_pAny.pExplosion->field_24 = 0;
                 break;
             default:
-                pNew2C->field_C_pAny.pExplosion->field_1A = 9999;
+                pNew2C->field_C_pAny.pExplosion->field_1A_timer = 9999;
                 break;
         }
 
@@ -3780,9 +3717,9 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
         {
             Object_3C* pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
             pNew2C->field_10_obj_3c = pNew3C;
-            pNew3C->field_20 = pNew2C->field_14_id;
+            pNew3C->field_20_obj2c_id = pNew2C->field_14_id;
             pNew2C->field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
-            pNew2C->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+            pNew2C->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         }
         return pNew2C;
     }
@@ -3860,9 +3797,9 @@ void Object_2C::EnsureObject3C_52A650()
     {
         Object_3C* p3C = gObject_3C_Pool_6F8F7C->Allocate();
         field_10_obj_3c = p3C;
-        p3C->field_20 = field_14_id;
+        p3C->field_20_obj2c_id = field_14_id;
         field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
-        field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
     }
     Object_2C::PoolGive_522340();
 }
@@ -3882,6 +3819,6 @@ void Object_2C::ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite)
     Car_BC* pObj = pSprite->AsCar_40FEB0();
     if (pObj)
     {
-        field_4->field_28_num = pObj->GetCrashSoundCategory_4435B0();
+        field_4->set_num_40F7B0(pObj->GetCrashSoundCategory_4435B0());
     }
 }

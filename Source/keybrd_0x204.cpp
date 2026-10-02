@@ -8,7 +8,7 @@
 
 DEFINE_GLOBAL(keybrd_0x204*, gKeybrd_0x204_6F52F4, 0x6F52F4);
 
-char dword_620D2C[] = {' ', ' ', 0};
+char kTwoSpacesStr_620D2C[] = {' ', ' ', 0};
 
 MATCH_FUNC(0x4D5D70)
 keybrd_0x204::keybrd_0x204()
@@ -177,7 +177,7 @@ s32 keybrd_0x204::GetLayout_4D6000()
     char_type Buffer[4]; // [esp+0h] [ebp-14h] BYREF
     char_type pwszKLID[KL_NAMELENGTH]; // [esp+8h] [ebp-Ch] BYREF
 
-    memcpy(Buffer, dword_620D2C, sizeof(Buffer));
+    memcpy(Buffer, kTwoSpacesStr_620D2C, sizeof(Buffer));
 
     GetKeyboardLayoutNameA(pwszKLID);
 
