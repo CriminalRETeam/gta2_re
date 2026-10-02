@@ -112,10 +112,10 @@ class Police_7C  // Call For Service
     s32 field_64;
     s32 field_68;
     s32 field_6C;
-    char_type field_70_num_police_crews;
-    char_type field_71_num_unknown;
-    char_type field_72_num_swat_crews;
-    char_type field_73_num_fbi_crews;
+    u8 field_70_num_police_crews;
+    u8 field_71_num_unknown;
+    u8 field_72_num_swat_crews;
+    u8 field_73_num_fbi_crews;
     char_type field_74_num_army_crews;
     u8 field_75_count;
     s16 field_76;
