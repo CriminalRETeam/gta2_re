@@ -4329,7 +4329,7 @@ void sound_obj::HandleCarDamageSound_4177D0(Sound_Params_8* a2)
     WIP_IMPLEMENTED;
 
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->field_9C_engine_status == car_engine_status::on_3 && pCar->field_74_damage > 16000)
+    if (pCar->Is_engine_status_on_3_4118C0() && pCar->field_74_damage > 16000)
     {
         if (CalculateDistance_419020(Fix16(802816, 0)))
         {
