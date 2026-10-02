@@ -6913,9 +6913,9 @@ Sprite* Ped::sub_467280()
 WIP_FUNC(0x4672e0)
 char_type Ped::UpdateMovementTowardsTarget_4672E0(Fix16 a2, s32 a3)
 {
-    char_type notAtTarget = 1;
-    char_type advancedNode = 0;
     Ang16 angle;
+    char_type advancedNode = 0;
+    char_type notAtTarget = 1;
 
     this->field_21C &= ~0x20000;
 
@@ -7029,9 +7029,8 @@ char_type Ped::UpdateMovementTowardsTarget_4672E0(Fix16 a2, s32 a3)
     {
         Char_B4* pB4 = this->field_168_game_object;
         Marz_3* pNode = this->field_18C;
-        if (pB4->field_69_is_colliding_with_sprite != 0 && pNode != 0
-            && this->field_1AC_cam.x.ToUInt8() == pNode->field_0
-            && this->field_1AC_cam.y.ToUInt8() == pNode->field_1)
+        if (pB4->field_69_is_colliding_with_sprite != 0 && pNode != 0 && this->field_1AC_cam.x.ToUInt8() == pNode->field_0 &&
+            this->field_1AC_cam.y.ToUInt8() == pNode->field_1)
         {
             ++pNode;
             this->field_18C = pNode;
