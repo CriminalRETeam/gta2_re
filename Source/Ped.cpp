@@ -3918,7 +3918,7 @@ void Ped::sub_462B80()
 
         if (field_278_ped_state_1 == ped_state_1::in_car_10)
         {
-            field_16C_car = pB4->field_84;
+            field_16C_car = pB4->Get_F84_403900();
             if (pB4->field_88_obj_2c.field_0_p18)
             {
                 pB4->field_88_obj_2c.DestroyAllSprites_5A7010();

@@ -262,6 +262,12 @@ class Char_B4
         field_10_char_state = char_state;
     }
 
+    // 9.6f 0x403900
+    inline Car_BC* Get_F84_403900()
+    {
+        return field_84;
+    }
+
     inline void Set_F84_433900(Car_BC* pCar)
     {
         field_84 = pCar;
