@@ -12,7 +12,7 @@
 
 DEFINE_GLOBAL(youthful_einstein, gYouthful_einstein_6F8450, 0x6F8450);
 DEFINE_GLOBAL(Fix16_Point, stru_6F8720, 0x6F8720);
-DEFINE_GLOBAL(s32, dword_6F58A4, 0x6F58A4);
+DEFINE_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4, 0x6F58A4);
 
 MATCH_FUNC(0x516560)
 void youthful_einstein::ctor_516560() // For some reason, it's a function instead of a proper ctor
@@ -77,7 +77,7 @@ void youthful_einstein::ExecuteGamemodeTick_516660()
             if (field_1C_tick_timer >= 30)
             {
                 field_1C_tick_timer = 0;
-                if (field_0_fugitive && dword_6F58A4 != 0)
+                if (field_0_fugitive && gNetTimeLimitEnabled_6F58A4 != 0)
                 {
                     field_4_time[field_0_fugitive->field_2E_idx]++;
                 }

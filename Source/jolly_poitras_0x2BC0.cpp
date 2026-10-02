@@ -22,7 +22,7 @@ DEFINE_GLOBAL_ARRAY_INIT(score_table_line, gDefaultHiScores_6242B0, 10, 0x6242B0
     { L"STEPHEN"  COMMA  6000 } COMMA
     { L"WILLIAM"  COMMA  5000 } COMMA
 );
-DEFINE_GLOBAL_ARRAY_INIT(score_table_line, structur_6243A0, 120, 0x6243A0,   //, , 3][4][10, 0xUNKNOWN);
+DEFINE_GLOBAL_ARRAY_INIT(score_table_line, gDefaultStageHiScores_6243A0, 120, 0x6243A0,   //, , 3][4][10, 0xUNKNOWN);
     {L"ALISDAIR" COMMA 50000 } COMMA
     {L"BILLY"    COMMA 40000 } COMMA
     {L"BRIAN"    COMMA 30000 } COMMA
@@ -155,8 +155,8 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
     for (s32 i = 0; i < 3; i++)
     {
         memset(&field_1800_best_stats[i], 0, sizeof(struc_221));
-        field_1878[i] = 0;
-        field_1884[i] = 0;
+        field_1878_best_car_damage_cost[i] = 0;
+        field_1884_best_evasion_rating[i] = 0;
     }
 
     for (u32 j = 0; (u16)j < 8; j++)
@@ -343,10 +343,10 @@ s32 len;
         File::Global_Read_4A71C0(&field_1800_best_stats[k3Counter], &len); // 3 40 byte objs
 
         len = 4;
-        File::Global_Read_4A71C0(&field_1878[k3Counter], &len);
+        File::Global_Read_4A71C0(&field_1878_best_car_damage_cost[k3Counter], &len);
 
         len = 4;
-        File::Global_Read_4A71C0(&field_1884[k3Counter], &len);
+        File::Global_Read_4A71C0(&field_1884_best_evasion_rating[k3Counter], &len);
     }
 
     File::Global_Close_4A70C0();
@@ -370,9 +370,9 @@ void jolly_poitras_0x2BC0::LoadHiScores_56BE50()
 
         File::Global_Read_4A71C0(&field_1800_best_stats[k3Counter], 40); // 3 40 byte objs
 
-        File::Global_Read_4A71C0(&field_1878[k3Counter], 4);
+        File::Global_Read_4A71C0(&field_1878_best_car_damage_cost[k3Counter], 4);
 
-        File::Global_Read_4A71C0(&field_1884[k3Counter], 4);
+        File::Global_Read_4A71C0(&field_1884_best_evasion_rating[k3Counter], 4);
     }
 
     File::Global_Close_4A70C0();
@@ -389,7 +389,7 @@ void jolly_poitras_0x2BC0::InitDefaultHiScores_56C1D0()
         ++p10StruIter;
     }
 
-    score_table_line* pSruIter = structur_6243A0;
+    score_table_line* pSruIter = gDefaultStageHiScores_6243A0;
     for (s32 k3 = 0; k3 < 3; k3++)
     {
         for (s32 k4 = 0; k4 < 4; k4++)

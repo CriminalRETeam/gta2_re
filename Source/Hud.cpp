@@ -92,7 +92,7 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
     {
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
         Camera_0xBC* pCam;
-        if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+        if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
         {
             pCam = &pPlayer->field_208_aux_game_camera;
         }
@@ -855,7 +855,7 @@ void Garox_110C_sub::Update_5CF730()
 
             Player* pPlayer_ = gGame_0x40_67E008->field_38_orf1;
             Camera_0xBC* pCam;
-            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
             {
                 pCam = &pPlayer->field_208_aux_game_camera;
             }
@@ -882,7 +882,7 @@ void Garox_110C_sub::Draw_5CF910()
         const s32 drawtype = 2;
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
         Camera_0xBC* pCam;
-        if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+        if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
         {
             pCam = &pPlayer->field_208_aux_game_camera;
         }
@@ -992,7 +992,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
 
         Ped* pPed;
-        if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+        if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
         {
             pPed = pPlayer->field_2C8_aux_ped;
         }
@@ -1757,7 +1757,7 @@ void ArrowTrace_24::UpdateAimCoordinates_5D03F0()
     }
 
     Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
-    s32 v8 = field_38_orf1->field_68;
+    s32 v8 = field_38_orf1->field_68_camera_mode;
 
     if (v8 == 2 || v8 == 3)
     {
@@ -2012,7 +2012,7 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
                 drawKind_ = 7;
             }
             pPlayer = gGame_0x40_67E008->field_38_orf1;
-            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
             {
                 pCam = &pPlayer->field_208_aux_game_camera;
             }
@@ -2056,7 +2056,7 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
 
             const s32 drawKind = 2;
             pPlayer = gGame_0x40_67E008->field_38_orf1;
-            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
             {
                 pCam = &pPlayer->field_208_aux_game_camera;
             }

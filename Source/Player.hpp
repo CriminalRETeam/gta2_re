@@ -54,7 +54,7 @@ class Player
 
     inline Ped* Get_Field_68_Ped()
     {
-        return field_68 == 2 ? field_2C8_aux_ped : field_2C4_player_ped;
+        return field_68_camera_mode == 2 ? field_2C8_aux_ped : field_2C4_player_ped;
     }
 
     // 0x4CCAE0
@@ -217,7 +217,7 @@ class Player
 
     inline Ped* GetPlayerPed_4A5130()
     {
-        if (field_68 == 2)
+        if (field_68_camera_mode == 2)
         {
             return field_2C8_aux_ped;
         }
@@ -234,7 +234,7 @@ class Player
 
     inline Camera_0xBC* get_camera_434900()
     {
-        if (field_68 == 2 || field_68 == 3)
+        if (field_68_camera_mode == 2 || field_68_camera_mode == 3)
         {
             return &field_208_aux_game_camera;
         }
@@ -249,9 +249,9 @@ class Player
     char_type field_2;
     char_type field_3;
     u32 field_4_inputs;
-    Ang16 field_8;
-    Ang16 field_A;
-    Fix16 field_C;
+    Ang16 field_8_turn_speed;
+    Ang16 field_A_turn_accel;
+    Fix16 field_C_move_direction;
     s32 field_10;
     s16 field_14_saved_ped_weapon_idx;
     s16 field_16_saved_car_weapon_idx;
@@ -286,11 +286,11 @@ class Player
     s32 field_50_throw_charge;
     Car_BC* field_54_car_history[3];
     s32 field_60_bFinshScoreReached;
-    char_type field_64;
+    char_type field_64_bJumping;
     char_type field_65;
     char_type field_66;
     char_type field_67;
-    s32 field_68;
+    s32 field_68_camera_mode;
     s32 field_6C_bIn_debug_cam_mode;
     char_type field_70_dbg_cam_north;
     char_type field_71_s;
@@ -345,8 +345,8 @@ class Player
     char_type field_642;
     char_type field_643;
     zealous_borg field_644_crime_stats;
-    u16 field_680;
-    u16 field_682;
+    u16 field_680_traffic_spawn_counter;
+    u16 field_682_traffic_spawn_threshold;
     thirsty_lamarr field_684_lives;
     thirsty_lamarr field_6BC_multpliers;
     u16 field_6F4_power_up_timers[17];

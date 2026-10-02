@@ -1345,7 +1345,7 @@ char_type Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 MATCH_FUNC(0x45c900)
 Ang16 Ped::get_field8_45C900()
 {
-    return field_15C_player->field_8;
+    return field_15C_player->field_8_turn_speed;
 }
 
 MATCH_FUNC(0x45c920)
@@ -1384,7 +1384,7 @@ Ang16 Ped::GetRotation()
 MATCH_FUNC(0x45c9b0)
 Fix16 Ped::get_fieldC_45C9B0()
 {
-    return field_15C_player->field_C;
+    return field_15C_player->field_C_move_direction;
 }
 
 WIP_FUNC(0x45c9d0)
@@ -3552,7 +3552,7 @@ char_type Ped::StateMachineTick_4626B0()
             }
             field_15C_player = this->field_15C_player;
             this->field_230 = 2;
-            field_15C_player->field_64 = 0;
+            field_15C_player->field_64_bJumping = 0;
 
             if (!this->field_168_game_object)
             {
@@ -3618,7 +3618,7 @@ char_type Ped::StateMachineTick_4626B0()
             }
             if (this->field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
             {
-                this->field_15C_player->field_64 = 1;
+                this->field_15C_player->field_64_bJumping = 1;
             }
             return 1;
 

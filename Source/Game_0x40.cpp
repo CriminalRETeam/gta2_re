@@ -68,7 +68,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_67DECC, Fix16(5), 0x67DECC);
 DEFINE_GLOBAL_INIT(Fix16, dword_67DFB4, dword_67DECC, 0x67DFB4);
 DEFINE_GLOBAL(s32, gNetworkGameSpeed_7071A0, 0x7071A0);
 DEFINE_GLOBAL(s32, gNetworkPolice_7071B0, 0x7071B0);
-DEFINE_GLOBAL(s32, dword_706C58, 0x706C58);
+DEFINE_GLOBAL(s32, gCachedScreenDimension_706C58, 0x706C58);
 
 // TODO
 EXTERN_GLOBAL(u32, counter_706C4C);
@@ -227,9 +227,9 @@ EXPORT void IanTest_46E370()
 
 // TODO: move
 MATCH_FUNC(0x5D8DF0)
-EXPORT void sub_5D8DF0()
+EXPORT void InvalidateCachedScreenDimension_5D8DF0()
 {
-    dword_706C58 = 0;
+    gCachedScreenDimension_706C58 = 0;
 }
 
 MATCH_FUNC(0x4B8EB0)
@@ -242,7 +242,7 @@ void Game_0x40::BootGame_4B8EB0()
         ApplyNetworkGameSettings_4B8E50();
     }
 
-    sub_5D8DF0();
+    InvalidateCachedScreenDimension_5D8DF0();
     ConvertColourBanks_5D7CB0();
     UpdateGameScreenSize_5D8E00();
     gSprite_8_703820->sub_5A5870();
@@ -884,7 +884,7 @@ Player* Game_0x40::IterateNextPlayer_4B9D10()
 }
 
 MATCH_FUNC(0x4B9D60)
-void Game_0x40::sub_4B9D60(Sprite* a2, Player* pExclude)
+void Game_0x40::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* a2, Player* pExclude)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_4_players); i++)
     {
@@ -893,20 +893,20 @@ void Game_0x40::sub_4B9D60(Sprite* a2, Player* pExclude)
         {
             if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(a2, i, dword_67DFB4))
             {
-                if (p->field_680 > p->field_682)
+                if (p->field_680_traffic_spawn_counter > p->field_682_traffic_spawn_threshold)
                 {
-                    p->field_680 -= p->field_682;
+                    p->field_680_traffic_spawn_counter -= p->field_682_traffic_spawn_threshold;
                 }
                 else
                 {
-                    p->field_680 = 0;
+                    p->field_680_traffic_spawn_counter = 0;
                 }
             }
         }
     }
 }
 
-DEFINE_GLOBAL_INIT(Fix16, dword_67DCCC, Fix16(0x666, 0), 0x67DCCC);
+DEFINE_GLOBAL_INIT(Fix16, kInitialAmbient_67DCCC, Fix16(0x666, 0), 0x67DCCC);
 
 MATCH_FUNC(0x4B9DE0)
 Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0

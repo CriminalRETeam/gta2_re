@@ -41,7 +41,7 @@ struct lucid_hamilton
     s32 field_430_car_damage_cost;
     s32 field_434_evasion_rating;
     s16 field_438_bonus_rating_text_idx;
-    char_type field_43A;
+    char_type field_43A_bStartedFromPlayBonusMenu;
     char_type field_43B_game_type;
     s32 field_43C_points_limit;
     char_type field_440_user_player_idx;
@@ -122,9 +122,9 @@ struct lucid_hamilton
 
     EXPORT s16 GetBonusRatingTextIdx_4C5AC0();
 
-    EXPORT void sub_4C5AD0(char_type a2);
+    EXPORT void SetStartedFromPlayBonusMenu_4C5AD0(char_type a2);
 
-    EXPORT char_type sub_4C5AE0();
+    EXPORT char_type IsStartedFromPlayBonusMenu_4C5AE0();
 
     EXPORT void init_4C5AF0();
 

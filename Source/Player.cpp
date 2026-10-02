@@ -38,11 +38,11 @@ DEFINE_GLOBAL_INIT(Fix16, kZero_6FE610, Fix16(0), 0x6FE610);
 DEFINE_GLOBAL_INIT(Fix16, kTwo_6FE618, Fix16(2), 0x6FE618);
 DEFINE_GLOBAL_INIT(Fix16, kZero_6FE41C, kZero_6FE610, 0x6FE41C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_6FE754, Ang16(0), 0x6FE754);
-DEFINE_GLOBAL_INIT(Ang16, word_6FE74C, Ang16(4), 0x6FE74C);
+DEFINE_GLOBAL_INIT(Ang16, kJumpTurnAccel_6FE74C, Ang16(4), 0x6FE74C);
 DEFINE_GLOBAL_INIT(Ang16, word_6FE750, Ang16(12), 0x6FE750);
-DEFINE_GLOBAL_INIT(Ang16, word_6FE488, Ang16(12), 0x6FE488);
-DEFINE_GLOBAL_INIT(Ang16, word_6FE450, Ang16(24), 0x6FE450);
-DEFINE_GLOBAL_INIT(Ang16, word_6FE700, Ang16(48), 0x6FE700);
+DEFINE_GLOBAL_INIT(Ang16, kAttackTurnAccel_6FE488, Ang16(12), 0x6FE488);
+DEFINE_GLOBAL_INIT(Ang16, kMaxJumpTurnSpeed_6FE450, Ang16(24), 0x6FE450);
+DEFINE_GLOBAL_INIT(Ang16, kMaxTurnSpeed_6FE700, Ang16(48), 0x6FE700);
 DEFINE_GLOBAL_INIT(Fix16, kOne_6FE614, Fix16(1), 0x6FE614);
 DEFINE_GLOBAL_INIT(Fix16, k_instant_gang_radius_6FE634, Fix16(8), 0x6FE634);
 
@@ -325,7 +325,7 @@ char_type Player::AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo)
     bool bHasAnyAmmo;
     char bAmmoAdded;
 
-    if (this->field_68 == 2)
+    if (this->field_68_camera_mode == 2)
     {
         pPed = this->field_2C8_aux_ped;
     }
@@ -810,7 +810,7 @@ void Player::TeleportToDebugCam_565310()
                                                  this->field_14C_view_camera.field_98_cam_pos2.field_4_y);
     memcpy(&this->field_90_game_camera, &this->field_14C_view_camera, sizeof(this->field_90_game_camera));
     this->field_6C_bIn_debug_cam_mode = 0;
-    this->field_68 = 0;
+    this->field_68_camera_mode = 0;
     this->field_90_game_camera.inline_set_ped_id_to_1_475B60();
     gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("tport"), 3);
 }
@@ -843,14 +843,14 @@ void Player::InitPlayerPed_565490(Ped* pPed)
     field_29_bAuxPedDying = 0;
     field_2C_death_countdown = 0;
     field_2C4_player_ped = pPed;
-    field_8 = kAngZero_6FE754;
-    field_A = word_6FE74C + (word_6FE750 + word_6FE74C);
-    field_C = kZero_6FE610;
+    field_8_turn_speed = kAngZero_6FE754;
+    field_A_turn_accel = kJumpTurnAccel_6FE74C + (word_6FE750 + kJumpTurnAccel_6FE74C);
+    field_C_move_direction = kZero_6FE610;
     field_10 = 0;
-    field_680 = 0;
-    field_682 = 1000;
+    field_680_traffic_spawn_counter = 0;
+    field_682_traffic_spawn_threshold = 1000;
     pPed->SetPlayer_45B560(this, 0);
-    field_68 = 0;
+    field_68_camera_mode = 0;
 
     u8 ammo;
 
@@ -1054,14 +1054,14 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_F11:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    this->field_68 = 0;
+                    this->field_68_camera_mode = 0;
                     this->field_90_game_camera.field_3C_followed_ped_id = 1;
                 }
                 break;
             case DIK_F12:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    this->field_68 = 1;
+                    this->field_68_camera_mode = 1;
                     this->field_90_game_camera.field_3C_followed_ped_id = 2;
                 }
                 break;
@@ -1538,7 +1538,7 @@ WIP_FUNC(0x566C80)
 void Player::DoPedControlInputs_566C80(Ped* pPed)
 {
     Char_B4* pB4 = NULL;
-    Ang16 f_A = field_A;
+    Ang16 f_A = field_A_turn_accel;
 
     // clear flag
     pPed->field_21C_bf.b23 = 0;
@@ -1550,23 +1550,23 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
 
         if (field_7C_bNowAttackPressed && !field_78_bNowForwardPressed)
         {
-            f_A = word_6FE488;
+            f_A = kAttackTurnAccel_6FE488;
         }
 
-        if (field_64)
+        if (field_64_bJumping)
         {
-            field_8 = field_8 - word_6FE74C;
-            if (field_8 < -word_6FE450)
+            field_8_turn_speed = field_8_turn_speed - kJumpTurnAccel_6FE74C;
+            if (field_8_turn_speed < -kMaxJumpTurnSpeed_6FE450)
             {
-                field_8 = -word_6FE450;
+                field_8_turn_speed = -kMaxJumpTurnSpeed_6FE450;
             }
         }
         else
         {
-            field_8 = field_8 - f_A;
-            if (field_8 < -word_6FE700)
+            field_8_turn_speed = field_8_turn_speed - f_A;
+            if (field_8_turn_speed < -kMaxTurnSpeed_6FE700)
             {
-                field_8 = -word_6FE700;
+                field_8_turn_speed = -kMaxTurnSpeed_6FE700;
             }
         }
     }
@@ -1578,25 +1578,25 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
 
         if (field_7C_bNowAttackPressed && !field_78_bNowForwardPressed)
         {
-            f_A = word_6FE488;
+            f_A = kAttackTurnAccel_6FE488;
         }
 
-        if (field_64)
+        if (field_64_bJumping)
         {
-            Ang16 tmp = field_8 + word_6FE74C;
-            field_8 = tmp;
-            if (tmp > word_6FE450)
+            Ang16 tmp = field_8_turn_speed + kJumpTurnAccel_6FE74C;
+            field_8_turn_speed = tmp;
+            if (tmp > kMaxJumpTurnSpeed_6FE450)
             {
-                field_8 = word_6FE450;
+                field_8_turn_speed = kMaxJumpTurnSpeed_6FE450;
             }
         }
         else
         {
-            Ang16 tmp = field_8 + f_A;
-            field_8 = tmp;
-            if (tmp > word_6FE700)
+            Ang16 tmp = field_8_turn_speed + f_A;
+            field_8_turn_speed = tmp;
+            if (tmp > kMaxTurnSpeed_6FE700)
             {
-                field_8 = word_6FE700;
+                field_8_turn_speed = kMaxTurnSpeed_6FE700;
             }
         }
     }
@@ -1604,23 +1604,23 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     // --- Neutralize angle if no left/right ---
     if (!field_7A_bNowLeftPressed && !field_7B_bNowRightPressed)
     {
-        field_8 = kAngZero_6FE754;
+        field_8_turn_speed = kAngZero_6FE754;
     }
 
     // --- Forward/backward movement ---
     if (field_78_bNowForwardPressed == 1)
     {
         pPed->CancelEnterCarObjective_45C5C0();
-        field_C = kOne_6FE614;
+        field_C_move_direction = kOne_6FE614;
     }
     else if (field_79_bNowDownPressed == 1)
     {
         pPed->CancelEnterCarObjective_45C5C0();
-        field_C = -kOne_6FE614;
+        field_C_move_direction = -kOne_6FE614;
     }
     else
     {
-        field_C = kZero_6FE610;
+        field_C_move_direction = kZero_6FE610;
     }
 
     // --- Jump / handbrake ---
@@ -1791,7 +1791,7 @@ void Player::Wasted_567130()
             field_2C8_aux_ped->field_200_id = 0;
             field_2C8_aux_ped->field_21C &= ~0x800u; //  TODO: BitSet32
             field_2C8_aux_ped->field_267_varrok_idx = 0;
-            field_68 = 2;
+            field_68_camera_mode = 2;
             memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(field_208_aux_game_camera));
             field_2D0_bAuxCamActive = 1;
         }
@@ -1815,7 +1815,7 @@ void Player::Wasted_567130()
                     Player::RemovePlayerWeapons_564C50(); //  remove weapons from dead player
                     Player::ClearPowerUpsExceptJailCard_564CF0();
                 }
-                field_68 = 0;
+                field_68_camera_mode = 0;
                 field_90_game_camera.ResetCameraSmoothing_435DD0();
                 field_90_game_camera.inline_set_ped_id_to_1_475B60();
 
@@ -1887,7 +1887,7 @@ void Player::Busted_5679E0()
         field_2C8_aux_ped->field_21C_bf.b11 = 0;
         field_2C8_aux_ped->field_267_varrok_idx = 0;
         gPolice_7B8_6FEE40->SetArrestedPed_56F8E0(field_2C4_player_ped, field_2C8_aux_ped);
-        field_68 = 2;
+        field_68_camera_mode = 2;
         memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(Camera_0xBC));
         field_2D0_bAuxCamActive = 1;
         Player::RespawnPlayer_5670B0();
@@ -1947,7 +1947,7 @@ void Player::Busted_5679E0()
                         }
                     }
                 }
-                field_68 = 0;
+                field_68_camera_mode = 0;
                 field_90_game_camera.ResetCameraSmoothing_435DD0();
                 field_90_game_camera.inline_set_ped_id_to_1_475B60();
                 field_2C8_aux_ped->field_210_shock_counter = 0;
@@ -1976,7 +1976,7 @@ void Player::Busted_5679E0()
 MATCH_FUNC(0x568520)
 void Player::UpdateCurrentZones_568520()
 {
-    const Ped* pPed = field_68 == 2 ? field_2C8_aux_ped : field_2C4_player_ped;
+    const Ped* pPed = field_68_camera_mode == 2 ? field_2C8_aux_ped : field_2C4_player_ped;
     const Fix16 cam_x_fp = pPed->field_1AC_cam.x;
     const Fix16 cam_y_fp = pPed->field_1AC_cam.y;
     field_38_local_navigation_zone =
@@ -2059,9 +2059,9 @@ void Player::Service_5687F0()
     const bool bNowSpecial_1_Pressed = this->field_81_bNowSpecial_1_Pressed;
     const bool bWasSpecial_1_Pressed = this->field_84_bWasSpecial_1_Pressed;
 
-    if (field_680 < 100u)
+    if (field_680_traffic_spawn_counter < 100u)
     {
-        this->field_680++;
+        this->field_680_traffic_spawn_counter++;
     }
 
     Player::tick_down_powerups_565070();
@@ -2096,7 +2096,7 @@ void Player::Service_5687F0()
         Player::HandleDebugZoom_568670();
     }
 
-    switch (this->field_68)
+    switch (this->field_68_camera_mode)
     {
 
         case 1:
@@ -2249,7 +2249,7 @@ void Player::UpdatePaused_569410()
     Camera_0xBC* pCam2;
 
     Player::ShowDebugInfo_566EE0(1);
-    switch (field_68)
+    switch (field_68_camera_mode)
     {
         case 1:
             pCam = &field_90_game_camera;
@@ -2329,7 +2329,7 @@ void Player::ResetAuxCamera_5695A0()
 {
     if (!field_28_bWastedOrBusted)
     {
-        field_68 = 0;
+        field_68_camera_mode = 0;
         if (field_2D0_bAuxCamActive)
         {
             Ped* pPed = field_2C8_aux_ped;
@@ -2361,7 +2361,7 @@ void Player::StartRemoteControl_569600(Car_BC* pCar)
     {
         pCar->field_98_door_lock = 1;
     }
-    field_68 = 2;
+    field_68_camera_mode = 2;
     field_208_aux_game_camera.UpdateFollowPedCamera_436540(field_2C8_aux_ped);
     field_208_aux_game_camera.CommitCameraTarget_41E410();
     field_208_aux_game_camera.ResetCameraSmoothing_435DD0();
@@ -2379,7 +2379,7 @@ void Player::WatchCar_5696D0(Car_BC* pCar)
         field_208_aux_game_camera.UpdateFollowCarCamera_4364A0(pCar);
         field_208_aux_game_camera.CommitCameraTarget_41E410();
         field_208_aux_game_camera.ResetCameraSmoothing_435DD0();
-        field_68 = 3;
+        field_68_camera_mode = 3;
         field_2D0_bAuxCamActive = 1;
     }
 }
@@ -2389,7 +2389,7 @@ void Player::GetPosU8_569840(u8& x, u8& y, u8& z)
 {
     Ped* pPed;
 
-    if (field_68 == 2 || field_68 == 3)
+    if (field_68_camera_mode == 2 || field_68_camera_mode == 3)
     {
         pPed = field_2C8_aux_ped;
     }
@@ -2406,7 +2406,7 @@ void Player::GetPosU8_569840(u8& x, u8& y, u8& z)
     else
     {
         Camera_0xBC* pCam;
-        if (field_68 == 2 || field_68 == 3)
+        if (field_68_camera_mode == 2 || field_68_camera_mode == 3)
         {
             pCam = &field_208_aux_game_camera;
         }
@@ -2424,7 +2424,7 @@ MATCH_FUNC(0x5698E0)
 Car_BC* Player::GetPlayerCar_5698E0()
 {
     Ped* pPed;
-    if (field_68 == 2 || field_68 == 3)
+    if (field_68_camera_mode == 2 || field_68_camera_mode == 3)
     {
         pPed = this->field_2C8_aux_ped;
     }
@@ -2448,7 +2448,7 @@ Car_BC* Player::GetPlayerCar_5698E0()
 MATCH_FUNC(0x569920)
 void Player::get_pos_569920(Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
 {
-    Ped* pPed = (field_68 == 2 || field_68 == 3) ? field_2C8_aux_ped : field_2C4_player_ped;
+    Ped* pPed = (field_68_camera_mode == 2 || field_68_camera_mode == 3) ? field_2C8_aux_ped : field_2C4_player_ped;
     if (pPed)
     {
         Car_BC* pCar = pPed->GetCarBeingEnteredOrExited_45BBF0();
@@ -2467,7 +2467,7 @@ void Player::get_pos_569920(Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
     }
     else
     {
-        Camera_0xBC* pCam = (field_68 == 2 || field_68 == 3) ? &field_208_aux_game_camera : &field_90_game_camera;
+        Camera_0xBC* pCam = (field_68_camera_mode == 2 || field_68_camera_mode == 3) ? &field_208_aux_game_camera : &field_90_game_camera;
         *pXPos = pCam->field_98_cam_pos2.field_0_x;
         *pYPos = pCam->field_98_cam_pos2.field_4_y;
         *pZPos = pCam->field_98_cam_pos2.field_8_z + kTwo_6FE618;
@@ -2582,12 +2582,12 @@ void Player::InitializePlayerState_569CB0()
     field_29_bAuxPedDying = 0;
     field_28_bWastedOrBusted = 0;
     field_640_busted = 0;
-    field_680 = 0;
-    field_682 = 1000;
+    field_680_traffic_spawn_counter = 0;
+    field_682_traffic_spawn_threshold = 1000;
     field_2D4_scores.Reset_592330();
     field_684_lives.InitDigitSprites_492150();
     field_6BC_multpliers.InitDigitSprites_492150();
-    field_64 = 0;
+    field_64_bJumping = 0;
     field_18_pre_kf_weapon_kind = -2;
     if (gfrosty_pasteur_6F8060->field_C1E2C_bLoadedFromSave)
     {
@@ -2641,7 +2641,7 @@ void Player::DebugToggleRemoteControl_569E70()
 {
     if (IsRemoteControlActive_4A5100())
     {
-        if (field_68 == 2)
+        if (field_68_camera_mode == 2)
         {
             Player::DisableInputs_569F40();
         }
@@ -2691,13 +2691,13 @@ void Player::DisableInputs_569F40()
 {
     // TODO: Almost certainly an inline, and perhaps a switch case too
     Ped* pPed;
-    if (!field_68)
+    if (!field_68_camera_mode)
     {
         pPed = this->field_2C4_player_ped;
     }
     else
     {
-        if (field_68 != 2)
+        if (field_68_camera_mode != 2)
         {
             pPed = 0;
         }
@@ -2718,8 +2718,8 @@ void Player::DisableInputs_569F40()
             {
                 if (pCar->IsTrainModel_403BA0())
                 {
-                    this->field_8 = kAngZero_6FE754;
-                    this->field_C = kZero_6FE610;
+                    this->field_8_turn_speed = kAngZero_6FE754;
+                    this->field_C_move_direction = kZero_6FE610;
                 }
                 else if (pCar->field_58_physics)
                 {
@@ -2729,8 +2729,8 @@ void Player::DisableInputs_569F40()
         }
     }
 
-    this->field_8 = kAngZero_6FE754;
-    this->field_C = kZero_6FE610;
+    this->field_8_turn_speed = kAngZero_6FE754;
+    this->field_C_move_direction = kZero_6FE610;
 }
 
 MATCH_FUNC(0x569FF0)
@@ -3055,8 +3055,8 @@ Player::Player(u8 player_idx)
     field_2E_idx = player_idx;
     field_28_bWastedOrBusted = 0;
     field_640_busted = 0;
-    field_680 = 0;
-    field_682 = 1000;
+    field_680_traffic_spawn_counter = 0;
+    field_682_traffic_spawn_threshold = 1000;
     field_29_bAuxPedDying = 0;
     field_4_inputs = 0;
     field_8E_bInUse = 1;
@@ -3071,12 +3071,12 @@ Player::Player(u8 player_idx)
     field_3C_navigation_zone = 0;
 
     Player::ClearInputs_56A6D0();
-    field_8 = kAngZero_6FE754;
-    field_A = kAngZero_6FE754;
-    field_C = kZero_6FE610;
+    field_8_turn_speed = kAngZero_6FE754;
+    field_A_turn_accel = kAngZero_6FE754;
+    field_C_move_direction = kZero_6FE610;
     field_10 = 0;
     field_788_curr_weapon_idx = 0;
-    field_68 = 1;
+    field_68_camera_mode = 1;
     field_6C_bIn_debug_cam_mode = 0;
     field_48_bDbg_cam_follow_player = 0;
     field_8F_bBlockAttack = 0;

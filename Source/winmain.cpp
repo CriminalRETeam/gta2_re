@@ -70,7 +70,7 @@ DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
 DEFINE_GLOBAL(u32, gTotalNetworkTime_6F5980, 0x6F5980); // TODO: move
 DEFINE_GLOBAL(u32, gNetTimeLimit_6F573C, 0x6F573C); // TODO: move
 DEFINE_GLOBAL(s32, gHudTimerIdx_6F5860, 0x6F5860); // TODO: move
-EXTERN_GLOBAL(s32, dword_6F58A4); // TODO: move
+EXTERN_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F58A0, 0x6F58A0); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F5858, 0x6F5858); // TODO: move
 DEFINE_GLOBAL(u8, byte_6F59C0, 0x6F59C0); // TODO: move
@@ -371,19 +371,19 @@ void UpdateGameScreenSize_5D8E00()
     {
         if (gVidSys_7071D0->field_40_full_screen == -2)
         {
-            if (dword_706C58 != window_width_706630)
+            if (gCachedScreenDimension_706C58 != window_width_706630)
             {
                 gGame_0x40_67E008->SetScreenSize_4B8E00(window_width_706630, window_height_706B50);
             }
-            dword_706C58 = window_width_706630;
+            gCachedScreenDimension_706C58 = window_width_706630;
         }
         else
         {
-            if (dword_706C58 != gVidSys_7071D0->field_4C_rect_bottom)
+            if (gCachedScreenDimension_706C58 != gVidSys_7071D0->field_4C_rect_bottom)
             {
                 gGame_0x40_67E008->SetScreenSize_4B8E00(gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
             }
-            dword_706C58 = gVidSys_7071D0->field_4C_rect_bottom;
+            gCachedScreenDimension_706C58 = gVidSys_7071D0->field_4C_rect_bottom;
         }
         ForceGameUpdate_4DA820();
         ResetFrameTimer_4DA830();
@@ -963,7 +963,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
             gNetTimeLimit_6F573C = 60;
         }
         gHudTimerIdx_6F5860 = -1;
-        dword_6F58A4 = (gNetTimeLimit_6F573C != 0);
+        gNetTimeLimitEnabled_6F58A4 = (gNetTimeLimit_6F573C != 0);
         dword_6F58A0 = 0;
         dword_6F5858 = 0;
         byte_6F59C0 = 0;
