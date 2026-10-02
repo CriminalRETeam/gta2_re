@@ -424,9 +424,9 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                             pVictim->field_278_ped_state_1 = 0;
                             pVictim->field_27C_ped_state_2 = 0;
                             pVictim->SetObjective(1, 9999);
-                            pVictim->field_1DC_objective_target_x = pVictim->field_1AC_cam.x;
-                            pVictim->field_1E0_objective_target_y = pVictim->field_1AC_cam.y;
-                            pVictim->field_1E4_objective_target_z = pVictim->field_1AC_cam.z;
+                            pVictim->field_1DC_objective_target_x = pVictim->get_cam_x();
+                            pVictim->field_1E0_objective_target_y = pVictim->get_cam_y();
+                            pVictim->field_1E4_objective_target_z = pVictim->get_cam_z();
                             pVictim->field_238_ped_type = 3;
                             pVictim->field_240_occupation = 3;
                             pVictim->field_28C_threat_reaction = 3;
