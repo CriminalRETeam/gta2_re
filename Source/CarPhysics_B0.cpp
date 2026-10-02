@@ -1130,11 +1130,9 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
     }
 }
 
-WIP_FUNC(0x55b3f0)
+MATCH_FUNC(0x55b3f0)
 void CarPhysics_B0::SyncZWithTrailer_55B3F0(Fix16 a2)
 {
-    WIP_IMPLEMENTED;
-
     UpdateZPhysics_55AD90(a2);
 
     Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
@@ -1146,18 +1144,15 @@ void CarPhysics_B0::SyncZWithTrailer_55B3F0(Fix16 a2)
         SetCurrentCarInfoAndModelPhysics_562EF0();
         Fix16 ourCp3 = this->field_6C_cp3;
         Fix16 carOnTrailer_cp3 = pCarOnTrailerPhysics->field_6C_cp3;
-        if (ourCp3 <= carOnTrailer_cp3)
-        {
-            if (ourCp3 < carOnTrailer_cp3)
-            {
-                this->field_6C_cp3 = carOnTrailer_cp3;
-                this->field_70_z_vel = pCarOnTrailerPhysics->field_70_z_vel;
-            }
-        }
-        else
+        if (ourCp3 > carOnTrailer_cp3)
         {
             pCarOnTrailerPhysics->field_6C_cp3 = ourCp3;
             pCarOnTrailerPhysics->field_70_z_vel = this->field_70_z_vel;
+        }
+        else if (ourCp3 < carOnTrailer_cp3)
+        {
+            this->field_6C_cp3 = carOnTrailer_cp3;
+            this->field_70_z_vel = pCarOnTrailerPhysics->field_70_z_vel;
         }
     }
 }
