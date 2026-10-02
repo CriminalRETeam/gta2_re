@@ -2711,11 +2711,8 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 if (lane > 0 && lane < width - 1)
                 {
                     s16 max = 32;
-                    Ang16 jitter(((Fix16(stru_6F6784.get_int_4F7AE0(max)) - dword_6FED80) * dword_6FEB88).GetRaw_40F4B0() / 71);
-                    jitter.sub_406C20();
-                    Ang16 turned(jitter.rValue + word_6FEE30.rValue);
-                    turned.sub_406C20();
-                    angle = turned;
+                    angle = Ang16::Fix16_To_Ang16_40F540((Fix16(stru_6F6784.get_int_4F7AE0(max)) - dword_6FED80) * dword_6FEB88) +
+                        word_6FEE30;
                 }
                 else
                 {
@@ -2790,12 +2787,12 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     Object_2C* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
                                                                                    Fix16(x) + dword_6FEB50,
                                                                                    Fix16(y_lane) + dword_6FEBF4,
-                                                                                   Fix16(z),
+                                                                                   z,
                                                                                    word_6FEB74);
                     Object_2C* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
                                                                                    Fix16(x) + dword_6FEB68,
                                                                                    Fix16(y_lane) + dword_6FEBF4,
-                                                                                   Fix16(z),
+                                                                                   z,
                                                                                    word_6FEB74);
                     AddBarriers(pBarrier1, pBarrier2);
                 }
@@ -2803,7 +2800,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 {
                     AddGuard(gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x) + dword_6FEB5C,
                                                                             Fix16(y_lane) + dword_6FEBF4,
-                                                                            Fix16(z),
+                                                                            z,
                                                                             word_6FEB74));
                 }
             }
@@ -2997,12 +2994,12 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     Object_2C* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
                                                                                    Fix16(x_lane) + dword_6FEBF4,
                                                                                    Fix16(y) + dword_6FEB50,
-                                                                                   Fix16(z),
+                                                                                   z,
                                                                                    word_6FEE30);
                     Object_2C* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
                                                                                    Fix16(x_lane) + dword_6FEBF4,
                                                                                    Fix16(y) + dword_6FEB68,
-                                                                                   Fix16(z),
+                                                                                   z,
                                                                                    word_6FEE30);
                     AddBarriers(pBarrier1, pBarrier2);
                 }
@@ -3010,7 +3007,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 {
                     AddGuard(gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x_lane) + dword_6FEBF4,
                                                                             Fix16(y) + dword_6FEB5C,
-                                                                            Fix16(z),
+                                                                            z,
                                                                             word_6FEE30));
                 }
             }
