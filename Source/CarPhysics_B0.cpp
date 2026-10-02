@@ -2477,7 +2477,7 @@ void CarPhysics_B0::HandleWorldCollision_55FD00(Fix16_Point& pHitPoint)
     Fix16 damage = ApplyImpactForcesAndDamage_55FA60(CollisionIntersectionPoint_6FE1A0, Impulse, 15);
     dword_6FE33C = damage;
     if (field_98_surface_type == car_surface_type::air_surface_6 && field_70 == kFP16Zero_6FE20C && field_68_z_pos == kFP16Zero_6FE20C &&
-        field_40_linvel_1.x == kFP16Zero_6FE20C && field_40_linvel_1.y == kFP16Zero_6FE20C && damage < dword_6FE098)
+        field_40_linvel_1.IsNull() && damage < dword_6FE098)
     {
         damage = dword_6FE098;
         dword_6FE33C = dword_6FE098;
