@@ -4601,16 +4601,15 @@ void sound_obj::HandleCarWeaponHitSound_415480(Sound_Params_8* a2)
     AddSampleToRequestedQueue_41A850();
 }
 
-WIP_FUNC(0x417E30)
+MATCH_FUNC(0x417E30)
 void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params_8* a2, sound_unknown_0xC* a3)
 {
-    WIP_IMPLEMENTED;
-
     Car_BC* cBC = a2->field_0_pObj->field_8_car_bc_ptr;
-    Fix16 v5 = cBC->GetCarLinearSpeed_43A240();
+    Fix16 v5;
+    v5 = cBC->GetCarLinearSpeed_43A240();
     if (a3->field_0_x > kFpZero_66F3F0 && v5 == kFpZero_66F3F0)
     {
-        if (IsHeavyTruckOrBus_417F40(cBC->field_84_car_info_idx))
+        if (IsHeavyTruckOrBus_417F40(cBC->GetCarInfoIdx_411940()))
         {
             if (CalculateDistance_419020(Fix16(409600, 0)))
             {
