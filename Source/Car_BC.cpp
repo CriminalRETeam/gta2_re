@@ -1843,11 +1843,9 @@ bool Car_BC::sub_4451E0(Ped* pPed)
     return sub_43B2B0(pPed) ? false : true;
 }
 
-WIP_FUNC(0x445360)
+MATCH_FUNC(0x445360)
 bool Car_BC::sub_445360()
 {
-    WIP_IMPLEMENTED;
-
     if (!this->IsMaxDamage_40F890() && !inline_check_0x10_info_421640() &&
         !sub_43B2B0(gPurpleDoom_ped_678F64) && !sub_43A230() && !sub_4214D0() && !IsCarInAir_43A3C0())
     {
