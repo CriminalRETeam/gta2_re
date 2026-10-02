@@ -3074,7 +3074,7 @@ char_type sound_obj::Type_10_HandleCarSkidSound_418940(sound_0x68* a2)
         {
             a2->field_14_samp_idx = 22;
             s32 rate;
-            switch (pPhysics->field_9C)
+            switch (pPhysics->field_9C_block_spec)
             {
                 case 2:
                     rate = 13000;
@@ -4086,7 +4086,7 @@ void sound_obj::HandleCarTireScrubSound_418720(Sound_Params_8* a2)
 
     if (pPhysics)
     {
-        s32 f9C = pPhysics->field_9C;
+        s32 f9C = pPhysics->field_9C_block_spec;
         if (f9C)
         {
             if (f9C != 4)

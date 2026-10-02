@@ -2059,8 +2059,8 @@ void CC ImGuiDebugDraw()
                                     //ImGui::Value("Center of Mass y", pPhysics->field_30_cm1.y.ToFloat(), "%.2f");
                                     //ImGui::Value("Center of ??? x", pPhysics->field_38_cp1.x.ToFloat(), "%.2f");
                                     //ImGui::Value("Center of ??? y", pPhysics->field_38_cp1.y.ToFloat(), "%.2f");
-                                    ImGui::Value("Physics fA0", pPhysics->field_A0);
-                                    ImGui::SliderInt("Physics fA0", &pPhysics->field_A0, 0, 3);
+                                    ImGui::Value("Physics fA0", pPhysics->field_A0_oil_spin_dir);
+                                    ImGui::SliderInt("Physics fA0", &pPhysics->field_A0_oil_spin_dir, 0, 3);
                                     ImGui::Value("Physics fAD", pPhysics->field_AD_turn_direction);
                                     ImGui::Value("Surface type", pPhysics->field_98_surface_type);
                                     //pPhysics->field_95 = 1;

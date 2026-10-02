@@ -151,7 +151,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_677352, Ang16(0x14), 0x677352);
 DEFINE_GLOBAL_INIT(Ang16, word_677810, Ang16(0x14), 0x677810);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_676D98, Fix16(0x3FC000, 0), 0x676D98);
-DEFINE_GLOBAL_INIT(Fix16, dword_677794, dword_6777A0, 0x677794);
+DEFINE_GLOBAL_INIT(Fix16, kDrowningMaxSpeed_677794, dword_6777A0, 0x677794);
 
 DEFINE_GLOBAL(s32, dword_6772DC, 0x6772DC);
 DEFINE_GLOBAL(s32, dword_6772EC, 0x6772EC);
@@ -3537,7 +3537,7 @@ char_type Car_BC::ManageDrowning_43E560()
     WIP_IMPLEMENTED;
 
     // TODO: Fails due to __Forceinline, else matches
-    char_type ret = field_58_physics->sub_421100();
+    char_type ret = field_58_physics->IsDrowning_421100();
     if (ret)
     {
         if (this->field_94 > 0)

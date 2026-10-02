@@ -4455,7 +4455,7 @@ void CarAI_78::ReactToNearbyCar_451980()
                         {
                             if (gCurrCarAI_Velocity_677B00 >= kF16Zero_677B90)
                             {
-                                field_0_car->field_58_physics->sub_42ABC0();
+                                field_0_car->field_58_physics->ForceNeutralInput_42ABC0();
                             }
                             else
                             {
@@ -4465,7 +4465,7 @@ void CarAI_78::ReactToNearbyCar_451980()
                     }
                     else if (gCurrCarAI_Velocity_677B00 >= dword_677A8C)
                     {
-                        field_0_car->field_58_physics->sub_42ABC0();
+                        field_0_car->field_58_physics->ForceNeutralInput_42ABC0();
                     }
                     else
                     {
@@ -5702,7 +5702,7 @@ void CarAI_78::sub_453C00()
     }
     else
     {
-        field_0_car->field_58_physics->sub_42ABC0();
+        field_0_car->field_58_physics->ForceNeutralInput_42ABC0();
     }
 }
 
