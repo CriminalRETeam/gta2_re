@@ -1094,7 +1094,7 @@ void BootMap(char* mapName, char* styName, char* scrName)
             EnableBoot2MapDebugOptions();
         }
 
-        gFrontend_67DC84->field_EE08 = RedBar_16;
+        gFrontend_67DC84->field_EE08_menu_screen = RedBar_16;
         gFrontend_67DC84->field_110_state = FrontendState::Booting_Map_2;
     }
 }
@@ -3087,7 +3087,7 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("field_0_number_of_options", loving_borg->field_0_number_of_options);
                 ImGui::Value("field_2", loving_borg->field_2_number_of_elements);
                 ImGui::Value("field_BC6_current_option_idx", loving_borg->field_BC6_current_option_idx);
-                ImGui::Value("field_BC8", loving_borg->field_BC8);
+                ImGui::Value("field_BC8", loving_borg->field_BC8_default_option_idx);
 
                 if (ImGui::TreeNode("menu_option_0x82"))
                 {
@@ -3111,7 +3111,7 @@ void CC ImGuiDebugDraw()
                     ImGui::Value("field_6E_count", nifty_maxwell->field_6E_horizontal_selected_idx);
                     ImGui::Value("field_70", nifty_maxwell->field_70);
 
-                    ImGui::Text(nifty_maxwell->field_72);
+                    ImGui::Text(nifty_maxwell->field_72_horizontal_idx_enabled);
 
                     ImGui::Value("field_7E", nifty_maxwell->field_7E_horizontal_max_idx);
                     ImGui::Value("field_80", nifty_maxwell->field_80_menu_page_target);
@@ -3172,8 +3172,8 @@ void CC ImGuiDebugDraw()
 
                 ImGui::Value("field_0", admiring_euler->field_0_save_exists);
                 ImGui::Value("field_1", admiring_euler->field_1_last_saved_stage);
-                ImGui::Value("field_2", admiring_euler->field_2);
-                ImGui::Value("field_3", admiring_euler->field_3);
+                ImGui::Value("field_2", admiring_euler->field_2_last_saved_bonus_stage_code);
+                ImGui::Value("field_3", admiring_euler->field_3_last_saved_is_bonus);
             }
             ImGui::TreePop();
         }

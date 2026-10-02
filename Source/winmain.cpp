@@ -1688,7 +1688,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             {
                 //LOBYTE(Msg) = 1;
                 BYTE tmp = 1;
-                Frontend::sub_5E53C0(&tmp);
+                Frontend::SetInputEnabled_5E53C0(&tmp);
                 if (!bDoFrontEnd_626B68)
                 {
                     Input_Read_498D10();
@@ -1714,7 +1714,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             //LOBYTE(hWnd) = 0;
             {
                 BYTE tmp = 0;
-                Frontend::sub_5E53C0(&tmp);
+                Frontend::SetInputEnabled_5E53C0(&tmp);
                 Input_ReleaseMouse_5D7C70();
                 gRoot_sound_66B038.Set3DSound_40F160(0);
                 gRoot_sound_66B038.Release_40F130();
@@ -1723,7 +1723,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                 {
                     Bink::CloseSlot1_513340();
                     Bink::CloseSlot2_513390();
-                    gFrontend_67DC84->sub_4B3170(0);
+                    gFrontend_67DC84->ChangeMenuPage_4B3170(0);
                 }
 
                 if (gVidSys_7071D0)
@@ -1745,7 +1745,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                 case WA_CLICKACTIVE:
                 {
                     BYTE tmp = 1;
-                    Frontend::sub_5E53C0(&tmp);
+                    Frontend::SetInputEnabled_5E53C0(&tmp);
                     Input_MouseAcquire_5D7C60();
                 }
                 break;
@@ -1753,7 +1753,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                 case WA_INACTIVE:
                 {
                     BYTE tmp = 0;
-                    Frontend::sub_5E53C0(&tmp);
+                    Frontend::SetInputEnabled_5E53C0(&tmp);
                     Input_ReleaseMouse_5D7C70();
                 }
                 break;
@@ -2021,7 +2021,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         if (bDoFrontEnd_626B68)
         {
             Frontend::create_4ACFA0();
-            gFrontend_67DC84->sub_4B3170(state);
+            gFrontend_67DC84->ChangeMenuPage_4B3170(state);
         }
         else
         {
@@ -2055,7 +2055,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                 {
                     if (bDoFrontEnd_626B68)
                     {
-                        s32 t = gFrontend_67DC84->sub_4AEDB0();
+                        s32 t = gFrontend_67DC84->Run_4AEDB0();
 
                         if (t == Quit_1)
                         {

@@ -5350,22 +5350,22 @@
         "v105_address": "0x4ad140"
     },
     {
-        "name": "Frontend::sub_4ADF50",
+        "name": "Frontend::DrawCurrentState_4ADF50",
         "v96f_address": "0x458590",
         "v105_address": "0x4adf50"
     },
     {
-        "name": "Frontend::sub_4ADFB0",
+        "name": "Frontend::Render_4ADFB0",
         "v96f_address": "0x4585F0",
         "v105_address": "0x4adfb0"
     },
     {
-        "name": "FreeLoader::sub_4AE010",
+        "name": "FreeLoader::GetRegDword_4AE010",
         "v96f_address": null,
         "v105_address": "0x4ae010"
     },
     {
-        "name": "FreeLoader::sub_4AE0F0",
+        "name": "FreeLoader::GetCityInstalled_4AE0F0",
         "v96f_address": null,
         "v105_address": "0x4ae0f0"
     },
@@ -5375,7 +5375,7 @@
         "v105_address": "0x4ae170"
     },
     {
-        "name": "sub_4AE1F0",
+        "name": "CheckCityInstalled_4AE1F0",
         "v96f_address": null,
         "v105_address": "0x4ae1f0"
     },
@@ -5395,22 +5395,22 @@
         "v105_address": "0x4ae990"
     },
     {
-        "name": "Frontend::sub_4AE9A0",
+        "name": "Frontend::HandleDeletePlayerDialog_4AE9A0",
         "v96f_address": null,
         "v105_address": "0x4ae9a0"
     },
     {
-        "name": "Frontend::sub_4AEC00",
+        "name": "Frontend::Update_4AEC00",
         "v96f_address": "0x45A250",
         "v105_address": "0x4aec00"
     },
     {
-        "name": "Frontend::sub_4AEDB0",
+        "name": "Frontend::Run_4AEDB0",
         "v96f_address": "0x45A320",
         "v105_address": "0x4aedb0"
     },
     {
-        "name": "Frontend::sub_4AF0E0",
+        "name": "Frontend::SetFontTypes_4AF0E0",
         "v96f_address": null,
         "v105_address": "0x4af0e0"
     },
@@ -5450,7 +5450,7 @@
         "v105_address": "0x4afeb0"
     },
     {
-        "name": "Frontend::sub_4B0190",
+        "name": "Frontend::GetCenteredXPos_4B0190",
         "v96f_address": null,
         "v105_address": "0x4b0190"
     },
@@ -5460,22 +5460,22 @@
         "v105_address": "0x4b0220"
     },
     {
-        "name": "Frontend::sub_4B2F60",
+        "name": "Frontend::HandlePlayerNameTyping_4B2F60",
         "v96f_address": "0x459E30",
         "v105_address": "0x4b2f60"
     },
     {
-        "name": "Frontend::sub_4B3170",
+        "name": "Frontend::ChangeMenuPage_4B3170",
         "v96f_address": null,
         "v105_address": "0x4b3170"
     },
     {
-        "name": "Frontend::sub_4B3AF0",
+        "name": "Frontend::GetOptionText_4B3AF0",
         "v96f_address": null,
         "v105_address": "0x4b3af0"
     },
     {
-        "name": "Frontend::sub_4B3CC0",
+        "name": "Frontend::GetElementText_4B3CC0",
         "v96f_address": null,
         "v105_address": "0x4b3cc0"
     },
@@ -5490,7 +5490,7 @@
         "v105_address": "0x4b4230"
     },
     {
-        "name": "Frontend::sub_4B4280",
+        "name": "Frontend::LoadCurrPlayerName_4B4280",
         "v96f_address": null,
         "v105_address": "0x4b4280"
     },
@@ -5510,7 +5510,7 @@
         "v105_address": "0x4b43e0"
     },
     {
-        "name": "Frontend::sub_4B4410",
+        "name": "Frontend::DeleteCurrentPlayer_4B4410",
         "v96f_address": null,
         "v105_address": "0x4b4410"
     },
@@ -5525,7 +5525,7 @@
         "v105_address": "0x4b48d0"
     },
     {
-        "name": "Frontend::sub_4B4BC0",
+        "name": "Frontend::StoreStringsForStage_4B4BC0",
         "v96f_address": null,
         "v105_address": "0x4b4bc0"
     },
@@ -5550,7 +5550,7 @@
         "v105_address": "0x4b51d0"
     },
     {
-        "name": "Frontend::sub_4B5270",
+        "name": "Frontend::DrawSavedStage_4B5270",
         "v96f_address": null,
         "v105_address": "0x4b5270"
     },
@@ -5565,17 +5565,17 @@
         "v105_address": "0x4b53c0"
     },
     {
-        "name": "Frontend::sub_4B5430",
+        "name": "Frontend::DrawScoreTable_4B5430",
         "v96f_address": null,
         "v105_address": "0x4b5430"
     },
     {
-        "name": "Frontend::sub_4B55F0",
+        "name": "Frontend::DrawMultiplayerScores_4B55F0",
         "v96f_address": "0x455C90",
         "v105_address": "0x4b55f0"
     },
     {
-        "name": "Frontend::sub_4B57B0",
+        "name": "Frontend::DrawLastAndBestStats_4B57B0",
         "v96f_address": "0x457140",
         "v105_address": "0x4b57b0"
     },
@@ -5610,12 +5610,12 @@
         "v105_address": "0x4b6110"
     },
     {
-        "name": "MenuPage_0xBCA::sub_4B61B0",
+        "name": "MenuPage_0xBCA::SelectPrevOption_4B61B0",
         "v96f_address": null,
         "v105_address": "0x4b61b0"
     },
     {
-        "name": "MenuPage_0xBCA::sub_4B6200",
+        "name": "MenuPage_0xBCA::SelectNextOption_4B6200",
         "v96f_address": null,
         "v105_address": "0x4b6200"
     },
@@ -5640,12 +5640,12 @@
         "v105_address": "0x4b62f0"
     },
     {
-        "name": "menu_option_0x82::sub_4B6330",
+        "name": "menu_option_0x82::SelectNextHorizontalIdx_4B6330",
         "v96f_address": null,
         "v105_address": "0x4b6330"
     },
     {
-        "name": "menu_option_0x82::sub_4B6390",
+        "name": "menu_option_0x82::SelectPrevHorizontalIdx_4B6390",
         "v96f_address": null,
         "v105_address": "0x4b6390"
     },
@@ -5690,12 +5690,12 @@
         "v105_address": "0x4b6750"
     },
     {
-        "name": "Frontend::sub_4B6780",
+        "name": "Frontend::UpdateMenuScreen_4B6780",
         "v96f_address": null,
         "v105_address": "0x4b6780"
     },
     {
-        "name": "Frontend::sub_4B6B00",
+        "name": "Frontend::GetTgaIdxsForMenuScreen_4B6B00",
         "v96f_address": null,
         "v105_address": "0x4b6b00"
     },
@@ -5715,12 +5715,12 @@
         "v105_address": "0x4b7060"
     },
     {
-        "name": "Frontend::sub_4B70B0",
+        "name": "Frontend::ChangeBonusStageToPrevious_4B70B0",
         "v96f_address": null,
         "v105_address": "0x4b70b0"
     },
     {
-        "name": "Frontend::sub_4B7120",
+        "name": "Frontend::GetPreviousUnlockedBonusStage_4B7120",
         "v96f_address": null,
         "v105_address": "0x4b7120"
     },
@@ -5735,12 +5735,12 @@
         "v105_address": "0x4b7270"
     },
     {
-        "name": "Frontend::sub_4B72F0",
+        "name": "Frontend::ChangeBonusStageToNext_4B72F0",
         "v96f_address": null,
         "v105_address": "0x4b72f0"
     },
     {
-        "name": "Frontend::sub_4B7360",
+        "name": "Frontend::GetNextUnlockedBonusStage_4B7360",
         "v96f_address": null,
         "v105_address": "0x4b7360"
     },
@@ -5755,12 +5755,12 @@
         "v105_address": "0x4b74c0"
     },
     {
-        "name": "Frontend::sub_4B74F0",
+        "name": "Frontend::ExistsPreviousBonusStage_4B74F0",
         "v96f_address": null,
         "v105_address": "0x4b74f0"
     },
     {
-        "name": "Frontend::sub_4B7520",
+        "name": "Frontend::ExistsNextBonusStage_4B7520",
         "v96f_address": null,
         "v105_address": "0x4b7520"
     },
@@ -5785,7 +5785,7 @@
         "v105_address": "0x4b7800"
     },
     {
-        "name": "Frontend::sub_4B78B0",
+        "name": "Frontend::DrawTextFixedWidth_4B78B0",
         "v96f_address": "0x4566C0",
         "v105_address": "0x4b78b0"
     },
@@ -5825,27 +5825,27 @@
         "v105_address": "0x4b80f0"
     },
     {
-        "name": "Frontend::sub_4B8280",
+        "name": "Frontend::HandlePasswordTyping_4B8280",
         "v96f_address": null,
         "v105_address": "0x4b8280"
     },
     {
-        "name": "Frontend::sub_4B8530",
+        "name": "Frontend::StripPasswordToCurrLength_4B8530",
         "v96f_address": null,
         "v105_address": "0x4b8530"
     },
     {
-        "name": "Frontend::sub_4B8560",
+        "name": "Frontend::CheckPassword_4B8560",
         "v96f_address": null,
         "v105_address": "0x4b8560"
     },
     {
-        "name": "Frontend::sub_4B8650",
+        "name": "Frontend::FreeSound_4B8650",
         "v96f_address": null,
         "v105_address": "0x4b8650"
     },
     {
-        "name": "Frontend::sub_4B8680",
+        "name": "Frontend::InitSound_4B8680",
         "v96f_address": null,
         "v105_address": "0x4b8680"
     },
@@ -17095,7 +17095,7 @@
         "v105_address": "0x5e4ee0"
     },
     {
-        "name": "Frontend::sub_5E53C0",
+        "name": "Frontend::SetInputEnabled_5E53C0",
         "v96f_address": null,
         "v105_address": "0x5e53c0"
     },
