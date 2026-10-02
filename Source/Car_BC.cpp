@@ -474,7 +474,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 pCmd->field_8_thread = gfrosty_pasteur_6F8060->sub_5120C0(pCmd->field_E, 0);
                 break;
             case 3:
-                gfrosty_pasteur_6F8060->sub_511A70(pCar->field_84_car_info_idx, (SCR_CMD_HEADER*)pEntry->field_0);
+                gfrosty_pasteur_6F8060->sub_511A70(pCar->field_84_car_info_idx, (Generator_2C*)pEntry->field_0);
                 sub_5C8680(pEntry->field_10_remap_rng);
                 break;
         }
