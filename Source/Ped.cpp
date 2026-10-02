@@ -7162,7 +7162,7 @@ void Ped::ProcessAirborneMovement_468040()
 {
     WIP_IMPLEMENTED;
 
-    s32 bUnknown = 1;
+    u8 bUnknown = 1;
     if (this->field_240_occupation == ped_ocupation_enum::drone)
     {
         gDistanceToTarget_678750 = k_dword_678660;
@@ -7194,18 +7194,7 @@ void Ped::ProcessAirborneMovement_468040()
             {
                 if ((this->field_224 & 0x10) != 0)
                 {
-                    Fix16 vel = field_168_game_object->field_38_velocity;
-                    if (vel >= k_dword_678438)
-                    {
-                        if (vel > k_dword_678438)
-                        {
-                            field_168_game_object->field_38_velocity -= dword_678620;
-                        }
-                    }
-                    else
-                    {
-                        field_168_game_object->field_38_velocity += dword_678620;
-                    }
+                    field_168_game_object->RegulateVelocityByRef_433970(k_dword_678438);
                 }
 
                 ChangeNextPedState1_45C500(7);
