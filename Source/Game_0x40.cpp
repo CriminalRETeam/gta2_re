@@ -810,14 +810,14 @@ bool Game_0x40::is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp)
     return false;
 }
 
-WIP_FUNC(0x4B9B10)
+MATCH_FUNC(0x4B9B10)
 s8 Game_0x40::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
 {
-    WIP_IMPLEMENTED;
-    // wip
-    for (s32 i = 0; i < field_23_num_players; i++)
+    s32 i;
+    Player** ppPlayer = field_4_players;
+    for (i = 0; i < field_23_num_players; i++, ppPlayer++)
     {
-        Player* pCurPlayer = field_4_players[i];
+        Player* pCurPlayer = *ppPlayer;
         if (pCurPlayer->field_8E_bInUse)
         {
             if (pCurPlayer->field_90_game_camera.IsRectInBounds_45AF40(pBounds))
