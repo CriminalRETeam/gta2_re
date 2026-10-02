@@ -2279,22 +2279,17 @@ void miss2_0x11C::SCRCMD_POINT_ARROW_AT_5086F0()
     {
         case 2: // car
         {
-            ArrowTrace_24* pTarget = &pArrowPtr->field_8_arrow->field_18.field_18_primary_target;
-            pTarget->field_4_car = pEntityPtr->field_8_car;
-            pTarget->field_10_target_type = ArrowTargetType::Car_3;
+            pArrowPtr->field_8_arrow->SetArrowTargetCar_476860(pEntityPtr->field_8_car);
             break;
         }
 
         case 1: // ped
         {
             Ped* pChar = pEntityPtr->field_8_char;
-            Player* pPlayer = pChar->field_15C_player;
 
-            if (!pPlayer || pPlayer->get_idx_4219D0() != gGame_0x40_67E008->get_cur_idx_476790())
+            if (!pChar->is_player_41B0A0() || pChar->field_15C_player->get_idx_4219D0() != gGame_0x40_67E008->get_cur_idx_476790())
             {
-                ArrowTrace_24* pTarget = &pArrowPtr->field_8_arrow->field_18.field_18_primary_target;
-                pTarget->field_0_ped = pChar;
-                pTarget->field_10_target_type = ArrowTargetType::Ped_2;
+                pArrowPtr->field_8_arrow->SetArrowTargetPed_476850(pChar);
             }
 
             break;
@@ -2302,9 +2297,7 @@ void miss2_0x11C::SCRCMD_POINT_ARROW_AT_5086F0()
 
         case 3: // object
         {
-            ArrowTrace_24* pTarget = &pArrowPtr->field_8_arrow->field_18.field_18_primary_target;
-            pTarget->field_8_obj = pEntityPtr->field_8_obj;
-            pTarget->field_10_target_type = ArrowTargetType::Object_4;
+            pArrowPtr->field_8_arrow->SetArrowTargetObject_476870(pEntityPtr->field_8_obj);
             break;
         }
 

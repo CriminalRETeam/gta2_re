@@ -379,6 +379,20 @@ class ArrowTrace_24
         field_10_target_type = ArrowTargetType::Car_3;
     }
 
+    // 9.6f 0x4767E0
+    inline void SetTargetPed_4767E0(Ped* pPed)
+    {
+        field_0_ped = pPed;
+        field_10_target_type = ArrowTargetType::Ped_2;
+    }
+
+    // 9.6f 0x476810
+    inline void SetTargetObject_476810(Object_2C* pObj)
+    {
+        field_8_obj = pObj;
+        field_10_target_type = ArrowTargetType::Object_4;
+    }
+
     // inline 0x4C6F00
     void init()
     {
@@ -494,6 +508,24 @@ class Hud_Arrow_7C
         {
             field_18.field_60_curr_target = &field_18.field_18_primary_target;
         }
+    }
+
+    // 9.6f 0x476850
+    inline void SetArrowTargetPed_476850(Ped* pPed)
+    {
+        field_18.field_18_primary_target.SetTargetPed_4767E0(pPed);
+    }
+
+    // 9.6f 0x476860
+    inline void SetArrowTargetCar_476860(Car_BC* pCar)
+    {
+        field_18.field_18_primary_target.SetTargetCar(pCar);
+    }
+
+    // 9.6f 0x476870
+    inline void SetArrowTargetObject_476870(Object_2C* pObj)
+    {
+        field_18.field_18_primary_target.SetTargetObject_476810(pObj);
     }
 
     inline void SetArrowAim_476840(Fix16 xpos, Fix16 ypos, Fix16 zpos)
