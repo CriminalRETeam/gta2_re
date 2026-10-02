@@ -12055,12 +12055,11 @@ void Ped::HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model)
     }
 }
 
-WIP_FUNC(0x46fe20)
+MATCH_FUNC(0x46fe20)
 void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
 {
-    WIP_IMPLEMENTED;
-
     Weapon_30* pWeapon;
+    Fix16 xd;
     if ((field_21C & 0x2000) != 0)
     {
         pWeapon = field_174_pWeapon;
@@ -12075,7 +12074,7 @@ void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
         // NOTE: the raw y load is needed for OG's y-before-x load order
         Fix16 yd;
         s32 raw_y = pObj->field_4->field_14_xy.y.mValue;
-        Fix16 xd = pObj->field_4->field_14_xy.x - field_1AC_cam.x;
+        xd = pObj->get_x_4340D0() - field_1AC_cam.x;
         yd.mValue = raw_y - field_1AC_cam.y.mValue;
         Fix16 abs_yd = Fix16::Abs_negate_out_of_line(yd);
 
