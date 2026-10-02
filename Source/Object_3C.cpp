@@ -663,7 +663,7 @@ void struct_4::sub_5A71F0()
         if (type == 1 || type > 3 && type <= 5)
         {
             Object_2C* o2c = p18Iter->field_0->field_8_object_2C_ptr;
-            if (o2c->field_18_model == objects::fire_197 || o2c->sub_525AC0())
+            if (o2c->sub_4BE830())
             {
                 p18Iter->field_0->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A = 2;
             }
