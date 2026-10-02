@@ -7953,6 +7953,7 @@ void Ped::GotoAreaByAnyMeans_469060()
 
                 case objectives_enum::kill_char_on_foot_20: //0x14:
                     v15 = field_14C;
+                    // 9.6f: get_cam_x/get_cam_y on v15 (inlined, using them makes the diff worse)
 
                     if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, v15->field_1AC_cam.x, v15->field_1AC_cam.y) >
                             k_dword_678658 ||
@@ -7979,7 +7980,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                     return;
 
                 case objectives_enum::objective_9: //9:
-                    if (field_164_ped_group->field_3C != 1)
+                    if (field_164_ped_group->Get_F3C_433370() != 1)
                     {
                         if (field_158_unk_car)
                         {
@@ -8022,6 +8023,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                                     }
                                     field_154_target_to_enter = TaxiNear_457BF0;
                                     field_158_unk_car = TaxiNear_457BF0;
+                                    // 9.6f: Char_B4::Set_F84_433900 (inlined, using it makes the diff worse)
                                     field_168_game_object->field_84 = TaxiNear_457BF0;
                                     return;
                                 }
@@ -8103,12 +8105,14 @@ void Ped::GotoAreaByAnyMeans_469060()
 
                         if (TaxiNear_457BF0)
                         {
+                            // 9.6f: Car_BC::sub_421510 (inlined, allocates field_5C_AI if needed)
                             if (!TaxiNear_457BF0->field_5C_AI)
                             {
                                 TaxiNear_457BF0->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate(); //field_0_pFirst;
                             }
                             TaxiNear_457BF0->field_5C_AI->SetCar_453BF0(TaxiNear_457BF0);
                             TaxiNear_457BF0->SpawnDriverPed();
+                            // 9.6f: Car_BC::sub_421560 and sub_426E00 (inlined, using them makes the diff worse)
                             TaxiNear_457BF0->field_7C_uni_num = 6;
                             TaxiNear_457BF0->field_76_last_seen_timer = 0;
                             TaxiNear_457BF0->InitCarAIControl_440590();
@@ -8179,6 +8183,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                     if (field_258_objective == objectives_enum::kill_char_any_means_19)
                     {
                         Ped::SetObjective2_463830(52, 9999);
+                        // 9.6f: set_field_14C_403AE0 (inlined, using it makes the diff worse)
                         field_14C = field_148_objective_target_ped;
                     }
                     else
