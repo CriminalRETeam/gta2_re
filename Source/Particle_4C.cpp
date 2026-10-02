@@ -982,27 +982,15 @@ char_type Particle_4C::Empty_state_42_53AB70()
     return 0;
 }
 
-struct Fix16_Vec2
-{
-    Fix16 x, y, z;
-
-    Fix16_Vec2(Fix16 x, Fix16 y, Fix16 z) : x(x), y(y), z(z)
-    {
-    }
-
-    ~Fix16_Vec2()
-    {
-    }
-};
-
 // 9.6f 0x48C270
-// 92%
-WIP_FUNC(0x53aba0)
+MATCH_FUNC(0x53aba0)
 char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 {
-    WIP_IMPLEMENTED;
 
-    Fix16_Vec2 v(kFP16Zero_6FD49C, kFP16Zero_6FD49C, dword_6FD46C);
+    Fix16 z = dword_6FD46C;
+    Fix16 x = kFP16Zero_6FD49C;
+    Fix16 y = kFP16Zero_6FD49C;
+    Fix16_Point point2(Fix16(0), Fix16(0));
     Fix16 new_z;
 
     gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
@@ -1016,17 +1004,17 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
     {
         this->field_8_speed_x = this->field_14_additional_speed_x + this->field_8_speed_x;
         this->field_C_speed_y = this->field_18_additional_speed_y + field_C_speed_y;
-        new_z = field_30_pNext->field_1C_zpos + v.z;
+        new_z = field_30_pNext->field_1C_zpos + z;
     }
     else
     {
         this->field_8_speed_x = this->field_14_additional_speed_x + this->field_8_speed_x;
         this->field_C_speed_y = this->field_18_additional_speed_y + field_C_speed_y;
-        new_z = field_30_pNext->field_1C_zpos - v.z;
+        new_z = field_30_pNext->field_1C_zpos - z;
     }
 
-    stru_6FD388 = v.x + field_8_speed_x + field_30_pNext->field_14_xy.x;
-    stru_6FD38C = v.y + field_C_speed_y + field_30_pNext->field_14_xy.y;
+    stru_6FD388 = x + field_8_speed_x + field_30_pNext->field_14_xy.x;
+    stru_6FD38C = y + field_C_speed_y + field_30_pNext->field_14_xy.y;
     if (new_z > dword_6FD28C)
     {
         new_z = dword_6FD28C;
