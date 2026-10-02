@@ -395,24 +395,7 @@ void Train_58::UpdatePassengerAI_578390()
                 if (this->field_C_carriages[0]->sub_43B140(2))
                 {
                     Ped_List_4* pPedList = &this->field_C_carriages[0]->field_4_passengers_list;
-                    if (pPedList->field_0_pFirstPed)
-                    {
-                        Ped* pRemoved = pPedList->RemoveFirstPed_471320();
-                        pRemoved->field_16C_car = this->field_C_carriages[0];
-                        pRemoved->SetObjective(objectives_enum::leave_train_38, 9999);
-                        Car_BC* pTargetCar_ = this->field_C_carriages[0];
-                        pRemoved->set_target_car_door_403A70(2);
-                        pRemoved->set_field_150_target_objective_car(pTargetCar_);
-                        pRemoved->set_occupation_403970(8);
-                        if (this->field_0 == 1)
-                        {
-                            if (this->field_56_passenger_count > 0)
-                            {
-                                this->field_56_passenger_count--;
-                            }
-                        }
-                    }
-                    else
+                    if (pPedList->IsEmpty_420EA0())
                     {
                         if (this->field_56_passenger_count <= 6 && this->field_0)
                         {
@@ -430,6 +413,23 @@ void Train_58::UpdatePassengerAI_578390()
                             pNewPed_1->set_field_150_target_objective_car(pTargetCar);
                             pNewPed_1->set_occupation_403970(8);
                             if (this->field_0 == 1)
+                            {
+                                this->field_56_passenger_count--;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Ped* pRemoved = pPedList->RemoveFirstPed_471320();
+                        pRemoved->field_16C_car = this->field_C_carriages[0];
+                        pRemoved->SetObjective(objectives_enum::leave_train_38, 9999);
+                        Car_BC* pTargetCar_ = this->field_C_carriages[0];
+                        pRemoved->set_target_car_door_403A70(2);
+                        pRemoved->set_field_150_target_objective_car(pTargetCar_);
+                        pRemoved->set_occupation_403970(8);
+                        if (this->field_0 == 1)
+                        {
+                            if (this->field_56_passenger_count > 0)
                             {
                                 this->field_56_passenger_count--;
                             }
