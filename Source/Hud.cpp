@@ -1022,8 +1022,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
                  pZoneName);
 
         Garox_C4* pC4 = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
-        pC4->field_B0_drawKind = 8;
-        pC4->field_B4_palette = 0;
+        pC4->SetDrawKind8_45AFD0(0);
     }
 }
 
