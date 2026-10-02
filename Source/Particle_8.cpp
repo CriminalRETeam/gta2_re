@@ -150,7 +150,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
     }
 
     Particle_4C* pParticle;
-    if (a2->field_30_sprite_type_enum == sprite_types_enum::car_2)
+    if (a2->get_type_416B40() == sprite_types_enum::car_2)
     {
         Car_BC* pCar = a2->field_8_car_bc_ptr;
         pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
