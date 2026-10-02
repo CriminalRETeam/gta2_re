@@ -72,6 +72,18 @@ class Player
         return field_40_arrow_blocker_zone;
     }
 
+    // 9.6f 0x434920
+    inline bool HasPowerUp_434920(s32 idx)
+    {
+        return field_6F4_power_up_timers[idx] != 0;
+    }
+
+    // 9.6f 0x434940
+    inline void DecPowerUp_434940(s32 idx)
+    {
+        field_6F4_power_up_timers[idx]--;
+    }
+
     // 9.6f 0x4766A0
     inline s32 get_multiplier_4766A0()
     {

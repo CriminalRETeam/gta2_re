@@ -1887,7 +1887,7 @@ MATCH_FUNC(0x5679E0)
 void Player::Busted_5679E0()
 {
     field_29 = 0;
-    field_2C4_player_ped->field_21C_bf.b11 = 0;
+    field_2C4_player_ped->ClearBit11_403A40();
     if (!field_28)
     {
         gRoot_sound_66B038.PlayVoice_40F090(17);
@@ -1910,7 +1910,7 @@ void Player::Busted_5679E0()
         field_2C8_unkq = gPedManager_6787BC->sub_470F90(field_2C4_player_ped);
         field_2C8_unkq->field_170_selected_weapon = 0;
         field_2C8_unkq->field_200_id = 0;
-        field_2C8_unkq->field_21C_bf.b11 = 0;
+        field_2C8_unkq->ClearBit11_403A40();
         field_2C8_unkq->field_267_varrok_idx = 0;
         gPolice_7B8_6FEE40->SetArrestedPed_56F8E0(field_2C4_player_ped, field_2C8_unkq);
         field_68 = 2;
@@ -1918,17 +1918,17 @@ void Player::Busted_5679E0()
         field_2D0 = 1;
         Player::RespawnPlayer_5670B0();
         field_2C4_player_ped->field_210_shock_counter = 0;
-        field_2C4_player_ped->field_20A_wanted_points = 0;
+        field_2C4_player_ped->ClearWantedPoints_420B80();
         field_2C4_player_ped->field_21C_bf.b5 = 0;
     }
     else
     {
         --field_2C;
-        field_2C8_unkq->field_21C_bf.b11 = 0;
+        field_2C8_unkq->ClearBit11_403A40();
 
         if (!field_2C)
         {
-            if (field_684_lives.field_0_value <= 0 || gLucid_hamilton_67E8E0.sub_4C59A0() == 1)
+            if (field_684_lives.get_value() <= 0 || gLucid_hamilton_67E8E0.sub_4C59A0() == 1)
             {
                 gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::GameOverRIP_3);
             }
@@ -1936,12 +1936,11 @@ void Player::Busted_5679E0()
             {
                 gHud_2B00_706620->field_111C.ClearTimeToShow_5D1850();
                 Player::ClearKFWeapon_5647D0();
-                u16 power_up_timer = field_6F4_power_up_timers[power_up_indices::JailCard_4];
-                if (power_up_timer != 0)
+                if (HasPowerUp_434920(power_up_indices::JailCard_4))
                 {
                     if (!gCheatUnknown_67D4F6)
                     {
-                        field_6F4_power_up_timers[power_up_indices::JailCard_4] = power_up_timer - 1;
+                        DecPowerUp_434940(power_up_indices::JailCard_4);
                     }
                 }
                 else
@@ -1957,21 +1956,7 @@ void Player::Busted_5679E0()
                     {
                         multiplers = 1;
                     }
-                    if (multiplers < -field_6BC_multpliers.field_30_max_value)
-                    {
-                        field_6BC_multpliers.field_0_value = -field_6BC_multpliers.field_30_max_value;
-                    }
-                    else
-                    {
-                        if (multiplers > field_6BC_multpliers.field_30_max_value)
-                        {
-                            field_6BC_multpliers.field_0_value = field_6BC_multpliers.field_30_max_value;
-                        }
-                        else
-                        {
-                            field_6BC_multpliers.field_0_value = multiplers;
-                        }
-                    }
+                    field_6BC_multpliers.SetValueClamped_4A50B0(multiplers);
                 }
                 field_68 = 0;
                 field_90_game_camera.ResetCameraSmoothing_435DD0();
@@ -1991,7 +1976,7 @@ void Player::Busted_5679E0()
             if (field_2C == 2 && field_684_lives.field_0_value > 0 && gLucid_hamilton_67E8E0.sub_4C59A0() != 1)
             {
                 field_2C4_player_ped->field_210_shock_counter = 0;
-                field_2C4_player_ped->field_20A_wanted_points = 0;
+                field_2C4_player_ped->ClearWantedPoints_420B80();
                 field_2C4_player_ped->SetObjective(objectives_enum::objective_54, 60);
                 field_2C4_player_ped->set_field_150_target_objective_car(0);
             }
