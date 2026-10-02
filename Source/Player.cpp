@@ -2916,21 +2916,7 @@ void Player::ApplyCheats_56A490()
     }
     if (gCheatGet99Lives_67D4F1)
     {
-        if (-field_684_lives.field_30_max_value > 99)
-        {
-            field_684_lives.field_0_value = -field_684_lives.field_30_max_value;
-        }
-        else
-        {
-            if (field_684_lives.field_30_max_value < 99)
-            {
-                field_684_lives.field_0_value = field_684_lives.field_30_max_value;
-            }
-            else
-            {
-                field_684_lives.field_0_value = 99;
-            }
-        }
+        field_684_lives.SetValueClamped_4A50B0(99);
     }
     if (gCheat10xMultiplier_67D589)
     {
