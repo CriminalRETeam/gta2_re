@@ -587,17 +587,13 @@ void struct_4::ClearGangIconSprite_5A7110()
     {
         while (pIter)
         {
-            const s32 type = pIter->field_0->field_30_sprite_type_enum;
-            if (type == 4 || type == 5 || type == 1)
+            p5C = pIter->field_0->As2C_40FEC0();
+            if (p5C)
             {
-                p5C = pIter->field_0->field_8_object_2C_ptr;
-                if (p5C)
+                // If it is car gang icon
+                if (p5C->IsGangIcon_4BE850())
                 {
-                    // If it is car gang icon
-                    if (p5C->field_18_model >= objects::loonies_icon_287 && p5C->field_18_model <= objects::russian_mafia_icon_293)
-                    {
-                        break;
-                    }
+                    break;
                 }
             }
             pLast = pIter;

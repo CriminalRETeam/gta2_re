@@ -223,6 +223,12 @@ class Object_2C
         return field_4->field_1C_zpos;
     }
 
+    // 9.6f 0x4BE850
+    bool IsGangIcon_4BE850()
+    {
+        return field_18_model >= 287 && field_18_model <= 293; // loonies_icon_287 .. russian_mafia_icon_293
+    }
+
     char sub_4BE830()
     {
         if (this->field_18_model == 197)
