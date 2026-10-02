@@ -11373,20 +11373,18 @@ void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
     }
 }
 
-WIP_FUNC(0x46ff00)
+MATCH_FUNC(0x46ff00)
 void Ped::NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model)
 {
-    WIP_IMPLEMENTED;
+    Weapon_30* pWeapon;
 
-    Weapon_30* pWeapon; // edi
-
-    if ((this->field_21C & 0x2000) != 0)
+    if ((field_21C & ped_bit_status_enum::k_ped_0x00002000) != 0)
     {
-        pWeapon = this->field_174_pWeapon;
+        pWeapon = field_174_pWeapon;
     }
     else
     {
-        pWeapon = this->field_170_selected_weapon;
+        pWeapon = field_170_selected_weapon;
     }
 
     if (pWeapon)
@@ -11399,9 +11397,17 @@ void Ped::NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model)
         {
             Fix16 xd = xpos - field_1AC_cam.x;
             Fix16 yd = ypos - field_1AC_cam.y;
-            Fix16 xabs = Fix16::Abs(xd);
-            Fix16 yabs = Fix16::Abs(yd);
-            pWeapon->field_4 = Fix16::Max_44E540(xabs, yabs) < k_dword_678658 ? 1 : 0;
+            Fix16 abs_yd = Fix16::Abs_negate_out_of_line(yd);
+            Fix16 abs_xd = Fix16::Abs_negate_out_of_line(xd);
+
+            if (Fix16::Max_44E540(abs_xd, abs_yd) < k_dword_678658)
+            {
+                pWeapon->field_4 = 1;
+            }
+            else
+            {
+                pWeapon->field_4 = 0;
+            }
         }
     }
 }
