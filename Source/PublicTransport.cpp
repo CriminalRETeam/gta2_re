@@ -1498,9 +1498,9 @@ static inline void SetDriverStation(Train_58* pTrain, TrainStation_34* pStation)
     if (pCar)
     {
         Ped* pDriver = pCar->field_54_driver;
-        if (pDriver && pTrain->field_43_idx > 0 && pDriver->field_13C_pTrainStation != pStation)
+        if (pDriver && pTrain->field_43_idx > 0)
         {
-            pDriver->field_13C_pTrainStation = pStation;
+            pDriver->SetTrainStation_4AF860(pStation);
         }
     }
 }

@@ -53,6 +53,15 @@ class Ped
         return field_226;
     }
 
+    // 9.6f 0x4AF860 (0x4AF880 is an identical copy)
+    inline void SetTrainStation_4AF860(TrainStation_34* pStation)
+    {
+        if (field_13C_pTrainStation != pStation)
+        {
+            field_13C_pTrainStation = pStation;
+        }
+    }
+
     // 9.6f 0x403A70
     inline void set_target_car_door_403A70(u8 v)
     {
