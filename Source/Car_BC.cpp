@@ -1867,10 +1867,12 @@ bool Car_BC::sub_445360()
 {
     WIP_IMPLEMENTED;
 
-    if (!this->IsMaxDamage_40F890() && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x10) != 0x10 &&
+    if (!this->IsMaxDamage_40F890() && !inline_check_0x10_info_421640() &&
         !sub_43B2B0(gPurpleDoom_ped_678F64) && !sub_43A230() && !sub_4214D0() && !IsCarInAir_43A3C0())
     {
-        if (!IsTrainModel_403BA0())
+        // Not TRAIN (0x3B) itself, only the carriages
+        if (field_84_car_info_idx != car_model_enum::boxcar && field_84_car_info_idx != car_model_enum::TRAINFB &&
+            field_84_car_info_idx != car_model_enum::TRAINCAB)
         {
             return 1;
         }
