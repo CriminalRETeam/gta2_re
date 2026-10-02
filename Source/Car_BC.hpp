@@ -618,6 +618,12 @@ class Car_BC
     EXPORT void sub_447360();
     EXPORT bool sub_564300();
 
+    // 9.6f 0x411930
+    inline bool IsFlagSet_411930(u16 flag)
+    {
+        return (field_78_flags & flag) != 0;
+    }
+
     // FUNCTION: 96f 0x4118d0
     s32 is_driven_by_player() const
     {

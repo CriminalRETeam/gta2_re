@@ -176,6 +176,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE098, k_dword_6FE210, 0x6FE098);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0F4, k_dword_6FE210, 0x6FE0F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0D4, k_dword_6FE210, 0x6FE0D4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDFB8, dword_6FDFD4, 0x6FDFB8);
+
 // 9.6f 0x49EF50
 inline void CarPhysics_B0::AddDamage_49EF50(s32 damage)
 {
@@ -2383,9 +2384,9 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
 
         // TODO: many inlines here
 
-        if ((field_5C_pCar->field_78_flags & 0x800) != 0)
+        if (field_5C_pCar->IsFlagSet_411930(0x800))
         {
-            if (!field_5C_pCar->field_54_driver || !field_5C_pCar->field_54_driver->field_15C_player)
+            if (!field_5C_pCar->is_driven_by_player())
             {
                 Fix16 MaybeVelocity = field_0_vel_read_only.GetLength_453590();
                 if (MaybeVelocity <= dword_6FE1D4 || field_92_is_hand_brake_on)
@@ -2397,20 +2398,16 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
 
         field_5C_pCar->ApplyVisualDamage_43A9F0();
 
-        if ((field_5C_pCar->field_78_flags & 2) == 0)
+        if (!field_5C_pCar->IsFlagSet_411930(2))
         {
             ApplyForceWithTrailerRedirect_55F740(&PointOfForce, &NewImpulse);
 
             // TODO: many inlines here
-            s32 v14 = base_dmg + rng_dword_67AB34->field_0_rng;
-            if (v14 > field_8_total_damage_q)
-            {
-                field_8_total_damage_q = v14;
-            }
+            AddDamage_49EF50(base_dmg);
 
-            if (!field_5C_pCar->field_54_driver || !field_5C_pCar->field_54_driver->field_15C_player)
+            if (!field_5C_pCar->is_driven_by_player())
             {
-                field_92_is_hand_brake_on = 0;
+                ClearHandBrake_421260();
             }
         }
     }
