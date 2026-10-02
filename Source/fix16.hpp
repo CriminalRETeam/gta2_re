@@ -329,6 +329,7 @@ class Fix16
     EXPORT s32 IsLess_451670(const Fix16& other) const;
     EXPORT s32 IsGreater_451690(const Fix16& other) const;
     EXPORT Fix16& DivideAssign_539F90(const Fix16& rhs);
+    EXPORT Fix16 MultiplyInt_561DB0(const s32& in) const;
     EXPORT Fix16 Negate_4086A0() const;
 
     // Needed this for a GetLength variant used by miss2_0x11C::GetSpeed_50E190.

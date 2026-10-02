@@ -62,6 +62,13 @@ Fix16& Fix16::DivideAssign_539F90(const Fix16& rhs)
     return *this;
 }
 
+MATCH_FUNC(0x561DB0)
+Fix16 Fix16::MultiplyInt_561DB0(const s32& in) const
+{
+    s32 value = mValue * in;
+    return Fix16(value, 0);
+}
+
 MATCH_FUNC(0x4086A0)
 Fix16 Fix16::Negate_4086A0() const
 {
