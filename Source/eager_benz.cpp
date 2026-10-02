@@ -730,7 +730,7 @@ scored:
 MATCH_FUNC(0x592dd0)
 void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
 {
-    const s32 multipler = field_368_player->field_6BC_multpliers.field_0_value;
+    const s32 multipler = field_368_player->get_multiplier_4766A0();
     gmp_map_zone* pZone = gMap_0x370_6F6268->sub_4DF6A0(pPed->get_cam_x().ToInt(), pPed->get_cam_y().ToInt());
 
     u32 car_info_idx = pPed->get_car_model();
@@ -798,9 +798,9 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
         {
             if (field_368_player->IsUser_41DC70())
             {
-                gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
-                                                       pCar->field_50_car_sprite->GetYPos(),
-                                                       pCar->field_50_car_sprite->GetZPos(),
+                gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
+                                                       pCar->get_y_41E440(),
+                                                       pCar->get_z_41E450(),
                                                        multipler * kill_car_score);
             }
         }
@@ -808,7 +808,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
 
     if (bCopSwatOrFbiCar)
     {
-        field_368_player->field_2D4_scores.AddCash_592620(kill_car_score * this->field_368_player->field_6BC_multpliers.field_0_value);
+        field_368_player->Add_2D4(kill_car_score);
     }
 
     field_70 = cur_rng_2;
@@ -819,7 +819,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
 
     if (gShooey_CC_67A4B8->sub_485090(pCar, this->field_368_player))
     {
-        gShooey_CC_67A4B8->ReportCrimeForPed(3u, field_368_player->Get_Field_68_Ped());
+        gShooey_CC_67A4B8->ReportCrimeForPed(3u, field_368_player->GetPlayerPed_4A5130());
     }
     field_368_player->field_644_unk.sub_484FA0(multipler * kill_car_score);
     sub_592570(2, pCar->field_84_car_info_idx);
