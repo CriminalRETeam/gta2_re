@@ -10619,11 +10619,9 @@ bool Ped::WantedStartCountLessThan_46F100(u8 a2)
     return a2 < get_wanted_star_count_46EF00();
 }
 
-WIP_FUNC(0x46f110)
+MATCH_FUNC(0x46f110)
 Weapon_30* Ped::GetWeaponFromPed_46F110()
 {
-    WIP_IMPLEMENTED;
-
     if (IsField238_45EDE0(2))
     {
         field_170_selected_weapon = field_15C_player->GetCurrPlayerWeapon_5648F0();
@@ -10666,30 +10664,26 @@ Weapon_30* Ped::GetWeaponFromPed_46F110()
         }
         else
         {
-            // TODO: Needs to be one call to find_5E3D20 but compiler always give us 3
-            Car_BC* t = field_16C_car;
-            Weapon_30* r;
-            if (t->IsFireTruck_4118F0())
+            Car_BC* pCar = field_16C_car;
+            Weapon_30* pCarWeapon = 0;
+            if (pCar->IsFireTruck_4118F0())
             {
-                r = gWeapon_8_707018->find_5E3D20(t, 20);
+                pCarWeapon = gWeapon_8_707018->find_5E3D20(pCar, 20);
             }
-            else if (t->IsTank_411900())
+            else if (pCar->IsTank_411900())
             {
-                r = gWeapon_8_707018->find_5E3D20(t, 19);
+                pCarWeapon = gWeapon_8_707018->find_5E3D20(pCar, 19);
             }
-            else if (t->IsGunJeep_411910())
+            else if (pCar->IsGunJeep_411910())
             {
-                r = gWeapon_8_707018->find_5E3D20(t, 22);
+                pCarWeapon = gWeapon_8_707018->find_5E3D20(pCar, 22);
             }
-            else
+
+            if (!pCarWeapon)
             {
                 return 0;
             }
-
-            if (r)
-            {
-                return r;
-            }
+            return pCarWeapon;
         }
     }
 
