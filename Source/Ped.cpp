@@ -11206,7 +11206,7 @@ void Ped::ForceWeapon_46F600(s32 weapon_kind)
     {
         Weapon_30* pWeapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, this, 99u);
         this->field_170_selected_weapon = pWeapon;
-        pWeapon->field_4 = 1;
+        pWeapon->Set_F4_433810(1);
         if (field_170_selected_weapon->IsExplosiveWeapon_5E3BD0())
         {
             GiveWeapon_46F650(weapon_type::pistol);
