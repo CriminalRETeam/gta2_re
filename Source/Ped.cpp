@@ -10286,61 +10286,30 @@ void Ped::sub_46D300()
 
     if (this->field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
-        if (gDistanceToTarget_678750 > dword_678788)
-        {
-            if (gDistanceToTarget_678750 >= dword_678790)
-            {
-                Char_B4* pB4__ = this->field_168_game_object;
-                pB4__->SetMaxSpeed_433920(dword_6784BC + pB4__->field_38_velocity);
-                if (pB4__->field_38_velocity > pB4__->field_3C_run_or_jump_speed)
-                {
-                    pB4__->SetMaxSpeed_433920(pB4__->field_3C_run_or_jump_speed);
-                }
-            }
-            else
-            {
-                Fix16 total_ = k_dword_678430 + field_150_target_objective_car->GetVelocity_43A4C0();
-                Char_B4* pB4_ = this->field_168_game_object;
-                if (pB4_->field_38_velocity >= total_)
-                {
-                    if (pB4_->field_38_velocity > total_)
-                    {
-                        pB4_->field_38_velocity -= dword_678620;
-                    }
-                }
-                else
-                {
-                    pB4_->field_38_velocity += dword_678620;
-                }
-            }
-        }
-        else
+        if (gDistanceToTarget_678750 <= dword_678788)
         {
             if (this->field_168_game_object->GetCharState_433A80() != 15)
             {
-                if (gDistanceToTarget_678750 >= dword_6784E8)
-                {
-                    Fix16 total = k_dword_678430 + field_150_target_objective_car->GetVelocity_43A4C0();
-                    if (field_168_game_object->field_38_velocity >= total)
-                    {
-                        if (field_168_game_object->field_38_velocity > total)
-                        {
-                            field_168_game_object->field_38_velocity -= dword_678620;
-                        }
-                    }
-                    else
-                    {
-                        field_168_game_object->field_38_velocity += dword_678620;
-                    }
-                }
-                else
+                if (gDistanceToTarget_678750 < dword_6784E8)
                 {
                     if (field_150_target_objective_car->GetVelocity_43A4C0() <= GetPedVelocity_45C920())
                     {
                         this->field_168_game_object->SetMaxSpeed_433920(field_150_target_objective_car->GetVelocity_43A4C0());
                     }
                 }
+                else
+                {
+                    this->field_168_game_object->RegulateVelocity_433970(field_150_target_objective_car->GetVelocity_43A4C0() + k_dword_678430);
+                }
             }
+        }
+        else if (gDistanceToTarget_678750 < dword_678790)
+        {
+            this->field_168_game_object->RegulateVelocity_433970(field_150_target_objective_car->GetVelocity_43A4C0() + k_dword_678430);
+        }
+        else
+        {
+            this->field_168_game_object->IncreaseSpeedIfAllowed_433940();
         }
         UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 1);
     }
