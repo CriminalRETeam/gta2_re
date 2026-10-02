@@ -1136,10 +1136,7 @@ void gtx_0x106C::LoadSty_5AB750(const char_type* pStyFileName)
 MATCH_FUNC(0x5AB820)
 gtx_0x106C::gtx_0x106C()
 {
-    for (int i = 0; i < GTA2_COUNTOF(field_6C_spec); i++)
-    {
-        field_6C_spec[i] = 1;
-    }
+    ResetSpecs_4C03D0();
 
     field_64_car_recycling_info = 0;
     field_68_recy_chunk_size = 0;

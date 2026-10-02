@@ -186,6 +186,15 @@ class gtx_0x106C
         return false;
     }
 
+    // 9.6f 0x4C03D0 (a ctor of the spec array there)
+    inline void ResetSpecs_4C03D0()
+    {
+        for (int i = 0; i < GTA2_COUNTOF(field_6C_spec); i++)
+        {
+            field_6C_spec[i] = 1;
+        }
+    }
+
     // 9.6f 0x462FB0
     inline bool IsWaterTile_462FB0(u16 spec_idx)
     {
