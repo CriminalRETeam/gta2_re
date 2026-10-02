@@ -230,6 +230,12 @@ class Garox_C4
     EXPORT bool DecrementDisplayTime_5D1DB0();
     EXPORT bool operator_equals_5D1E10(Garox_C4* pOther);
 
+    // 9.6f 0x4C70F0
+    inline void Expire_4C70F0()
+    {
+        field_A4_display_time = 0;
+    }
+
     // 9.6f 0x4C70E0
     inline void ClearAlpha_4C70E0()
     {

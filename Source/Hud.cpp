@@ -1298,7 +1298,7 @@ void Garox_1700_L::ExpireDuplicates_5D1EB0(Garox_C4* String2)
     {
         if (pIter->operator_equals_5D1E10(String2))
         {
-            pIter->field_A4_display_time = 0;
+            pIter->Expire_4C70F0();
             return;
         }
         pIter = pIter->field_C0_pNext;
