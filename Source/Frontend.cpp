@@ -1162,7 +1162,6 @@ void Frontend::DrawMenu_4AD140()
 
     u8 main_level_idx;
     u8 bonus_stage_idx;
-    u8 codified_stages;
 
     if (field_132_f136_idx == MENUPAGE_DEAD || field_132_f136_idx == MENUPAGE_AREA_COMPLETE || field_132_f136_idx == MENUPAGE_BONUS_AREA ||
         field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
@@ -1174,9 +1173,7 @@ void Frontend::DrawMenu_4AD140()
         }
         else
         {
-            codified_stages = gLucid_hamilton_67E8E0.GetStage_4C5990();
-            main_level_idx = codified_stages >> 4;
-            bonus_stage_idx = codified_stages & 0xF;
+            gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &main_level_idx, &bonus_stage_idx);
         }
         if (field_132_f136_idx == MENUPAGE_BONUS_AREA)
         {
@@ -1378,9 +1375,7 @@ void Frontend::DrawMenu_4AD140()
         }
         else if (chosen_option_idx == 4) // BONUS STAGE
         {
-            u8 codified_stages = gLucid_hamilton_67E8E0.GetStage_4C5990();
-            main_level_idx = codified_stages >> 4;
-            bonus_level_idx = codified_stages & 0xF;
+            gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &main_level_idx, &bonus_level_idx);
         }
         Frontend::sub_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_level_idx]
                                  .field_0_score_table_line,
