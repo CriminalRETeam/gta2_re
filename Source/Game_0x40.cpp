@@ -226,15 +226,15 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
     pGroup->field_38_group_type = 2;
 
     gLastTestPed_6787E8 = gPedPool_6787B8->Allocate();
-    gLastTestPed_6787E8->field_240_occupation = 0x11;
+    gLastTestPed_6787E8->set_occupation_403970(0x11);
     gLastTestPed_6787E8->field_244_remap = remap;
     gLastTestPed_6787E8->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
-    gLastTestPed_6787E8->field_238_ped_type = 5;
+    gLastTestPed_6787E8->SetField238_403920(5);
     if (!gLastTestPed_6787E8->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z))
     {
         gLastTestPed_6787E8->field_168_game_object->SetRemap_46DD50(gLastTestPed_6787E8->field_244_remap);
     }
-    gLastTestPed_6787E8->field_216_health = 100;
+    gLastTestPed_6787E8->set_health_4039A0(100);
     gLastTestPed_6787E8->field_22C = 1;
     pGroup->add_ped_to_end_of_list_4C8F90(gLastTestPed_6787E8);
     gLastTestPed_6787E8->ForceWeapon_46F600(0);
@@ -242,14 +242,14 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
     for (u8 i = 1; i < count; i++)
     {
         Ped* pPed = gPedPool_6787B8->Allocate();
-        pPed->field_240_occupation = 0x11;
+        pPed->set_occupation_403970(0x11);
         pPed->field_244_remap = remap;
         pPed->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
-        pPed->field_238_ped_type = 5;
+        pPed->SetField238_403920(5);
         pPed->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z);
         Char_B4* pObj = pPed->field_168_game_object;
         pObj->SetRemap_Inline(pPed->field_244_remap);
-        pPed->field_216_health = 100;
+        pPed->set_health_4039A0(100);
         pPed->field_22C = 1;
         pGroup->add_ped_to_end_of_list_4C8F90(pPed);
         pPed->ForceWeapon_46F600(0);
