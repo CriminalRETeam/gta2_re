@@ -22,21 +22,34 @@ DEFINE_GLOBAL(s16, word_703D98, 0x703D98);
 DEFINE_GLOBAL(s16, word_703C9C, 0x703C9C);
 
 // https://decomp.me/scratch/CjuP1
-WIP_FUNC(0x5ABA00)
+MATCH_FUNC(0x5ABA00)
 void sprite_delta::Delta_5ABA00(u8* pArray)
 {
-    WIP_IMPLEMENTED;
-    delta_store_entry* pIter = field_0_pData;
-    delta_store_entry* pFinish = (delta_store_entry*)((u8*)field_0_pData + field_4_len);
-    do
+    // Inline asm in the original (lodsw, rep movsb). Each entry is a u16 offset from the end
+    // of the previous run, a u8 length and that many bytes.
+    sprite_delta* pThis = this;
+    __asm
     {
-        u32 size = pIter->field_2_len;
-        u8* ptr = &pArray[pIter->field_0_offset];
-        memcpy(ptr, &pIter->field_3_data, size);
-        
-        pIter = (delta_store_entry *)((u8*)pIter->field_3_data + size);
-        pArray = &ptr[size];
-    } while (pIter != pFinish);
+        push edi
+        push esi
+        mov eax, 0
+        mov ecx, 0
+        mov edi, pArray
+        mov ebx, pThis
+        mov esi, [ebx]
+        movzx ebx, word ptr [ebx+4]
+        add ebx, esi
+    next_entry:
+        lodsw
+        mov cl, [esi]
+        add edi, eax
+        inc esi
+        rep movsb
+        cmp esi, ebx
+        jne next_entry
+        pop esi
+        pop edi
+    }
 }
 
 // https://decomp.me/scratch/Cc0Dx Not fully working
