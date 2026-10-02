@@ -215,11 +215,9 @@ void jolly_poitras_0x2BC0::UpdateStageScore_56BB10(Player* pPlayer)
 }
 
 // TODO: logic matches, only register allocation differs
-WIP_FUNC(0x56C010)
+MATCH_FUNC(0x56C010)
 void jolly_poitras_0x2BC0::sub_56C010()
 {
-    WIP_IMPLEMENTED;
-
     u8 map_num;
     u8 bonus_num;
     char_type bBestStatsChanged = 0;
@@ -237,9 +235,9 @@ void jolly_poitras_0x2BC0::sub_56C010()
     }
 
     player_stats_0xA4* pPlayerStats = &field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
+    s32 latest = pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num].field_8_stage_latest_score;
     const char_type bNewStageScore =
-        field_1890_stage_scores[map_num][bonus_num].InsertScore_56B550(pPlayerStats->field_90_strPlayerName,
-                                                               pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num].field_8_stage_latest_score);
+        field_1890_stage_scores[map_num][bonus_num].InsertScore_56B550(pPlayerStats->field_90_strPlayerName, latest);
     const char_type bNewTotalScore = field_23D0.InsertScore_56B550(pPlayerStats->field_90_strPlayerName, pPlayerStats->GetTotalBestScore_56B6B0());
 
     if (!bonus_num)
