@@ -210,6 +210,13 @@ CarPhysics_B0::~CarPhysics_B0()
 DEFINE_GLOBAL_ARRAY(wchar_t, gThetaText_66A8EC, 32, 0x66A8EC);
 
 // https://decomp.me/scratch/xqLh0
+// 9.6f 0x49E240
+static inline wchar_t* ThetaText_49E240(Ang16& theta)
+{
+    swprintf(gThetaText_66A8EC, L"%3.2f", theta.rValue * 0.25);
+    return gThetaText_66A8EC;
+}
+
 WIP_FUNC(0x559430)
 void CarPhysics_B0::ShowPhysicsDebug_559430()
 {
@@ -234,8 +241,7 @@ void CarPhysics_B0::ShowPhysicsDebug_559430()
                  field_74_ang_vel_rad.AsDouble());
         gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
-        swprintf(gThetaText_66A8EC, L"%3.2f", field_58_theta.rValue * 0.25);
-        swprintf(tmpBuff_67BD9C, L"theta = %s", gThetaText_66A8EC);
+        swprintf(tmpBuff_67BD9C, L"theta = %s", ThetaText_49E240(field_58_theta));
         gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
 
         // TODO: the format string at 0x623FFC is a guess
@@ -250,8 +256,7 @@ void CarPhysics_B0::ShowPhysicsDebug_559430()
         if (field_84_front_skid >= gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1 ||
             (field_AC_drive_wheels_locked_q > 0 && gCarInfo_48_6FE258->field_8_front_drive_bias > kFP16Zero_6FE20C))
         {
-            pText->field_B0_drawKind = 8;
-            pText->field_B4 = 5;
+            pText->SetDrawKind8_45AFD0(5);
         }
 
         swprintf(tmpBuff_67BD9C, L"rear skid = %3.3f", field_88_rear_skid.AsDouble());
@@ -259,8 +264,7 @@ void CarPhysics_B0::ShowPhysicsDebug_559430()
         if (field_88_rear_skid >= gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2 ||
             (field_AC_drive_wheels_locked_q > 0 && gCarInfo_2C_6FE0E4->field_20_front_drive_bias > kFP16Zero_6FE20C))
         {
-            pText->field_B0_drawKind = 8;
-            pText->field_B4 = 5;
+            pText->SetDrawKind8_45AFD0(5);
         }
 
         swprintf(tmpBuff_67BD9C,
