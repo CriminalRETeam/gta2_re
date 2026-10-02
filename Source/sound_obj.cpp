@@ -6733,6 +6733,7 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
                 if (interactionType == 3)
                 {
                     rnd_1 = this->field_1454_anRandomTable[1];
+                    // 9.6f: Car_BC::sub_414F60 (field_78_flags & 0x100 via sub_411930, inlined, a bool helper changes the code)
                     if ((pObj->field_10->field_78_flags & 0x100) != 0)
                     {
                         samp_idx = rnd_1 % 3 + 46;
