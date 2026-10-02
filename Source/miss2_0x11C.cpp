@@ -1343,11 +1343,11 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
             break;
         }
         case SCRCMD_THREAD_DECLARE3:
-            gCar_214_705F20->field_0_triggers[(u8)((SCR_THREAD*)pCmd)->field_15_trigger_idx].field_14_enable_state = 2;
+            gCar_214_705F20->SetTriggerEnableState_4768C0(((SCR_THREAD*)pCmd)->field_15_trigger_idx, 2);
             break;
         case SCRCMD_THREAD_DECLARE5:
         case SCRCMD_CHAR_AREA_ANY_MEANS:
-            gCar_214_705F20->field_0_triggers[(u8)((SCR_CHAR_AREA_ANY*)pCmd)->field_26_result].field_14_enable_state = 2;
+            gCar_214_705F20->SetTriggerEnableState_4768C0(((SCR_CHAR_AREA_ANY*)pCmd)->field_26_result, 2);
             break;
         case SCRCMD_THREAD_DECLARE2:
         {
