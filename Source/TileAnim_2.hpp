@@ -21,6 +21,17 @@ class TileAnim_2
 class TileAnim_18
 {
   public:
+    // 9.6f 0x4C33F0
+    inline void Init_4C33F0(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
+    {
+        field_10_base = base;
+        field_0_start_frame = f0;
+        field_2_anim_length = length;
+        field_4_frame_rate = frame_rate;
+        field_6_repeat = repeat;
+        field_C_ptr = 0;
+    }
+
     EXPORT void PoolAllocate();
     void PoolDeallocate()
     {

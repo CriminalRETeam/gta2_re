@@ -14,12 +14,7 @@ MATCH_FUNC(0x5bc260)
 void TileAnim_2::AddAnim_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
 {
     TileAnim_18* p18 = gTileAnimPool_7052C8->Allocate();
-    p18->field_10_base = base;
-    p18->field_0_start_frame = f0;
-    p18->field_2_anim_length = length;
-    p18->field_4_frame_rate = frame_rate;
-    p18->field_6_repeat = repeat;
-    p18->field_C_ptr = 0;
+    p18->Init_4C33F0(base, f0, length, frame_rate, repeat);
     p18->Start_5BC1D0();
 }
 
