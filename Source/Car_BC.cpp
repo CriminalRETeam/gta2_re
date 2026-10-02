@@ -1744,6 +1744,22 @@ void Car_BC::sub_43CAC0()
     }
 }
 
+// NOTE: function chunk at 0x43AA20, tail called from Ped::sub_470300
+void Car_BC::sub_43AA20()
+{
+    const s32 info_idx = field_84_car_info_idx;
+    if (info_idx != car_model_enum::TRAIN && info_idx != car_model_enum::TRAINCAB && info_idx != car_model_enum::TRAINFB &&
+        info_idx != car_model_enum::boxcar)
+    {
+        sub_421560(3);
+        CarPhysics_B0* pCarPhysics = field_58_physics;
+        if (pCarPhysics)
+        {
+            pCarPhysics->SetField8C_to_1();
+        }
+    }
+}
+
 MATCH_FUNC(0x43aa60)
 void Car_BC::Deactivate_43AA60()
 {

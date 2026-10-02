@@ -11551,29 +11551,17 @@ void Ped::sub_4702D0(Ped* pPed)
     this->field_164_ped_group = pPedGroup;
 }
 
-WIP_FUNC(0x470300)
+MATCH_FUNC(0x470300)
 void Ped::sub_470300()
 {
-    WIP_IMPLEMENTED;
-
-    this->field_15C_player = 0;
-    this->field_240_occupation = 3;
-    this->field_238 = 3;
-    Car_BC* pCar = this->field_16C_car;
+    field_15C_player = 0;
+    field_240_occupation = 3;
+    field_238 = 3;
+    Car_BC* pCar = field_16C_car;
     if (pCar)
     {
-        // NOTE: Split into a function chunk here
-        const s32 info_idx = pCar->field_84_car_info_idx;
-        if (info_idx != 59 && info_idx != 60 && info_idx != 61 && info_idx != 6)
-        {
-            pCar->field_7C_uni_num = 3;
-            pCar->field_76_last_seen_timer = 0;
-            CarPhysics_B0* pCarPhysics = pCar->field_58_physics;
-            if (pCarPhysics)
-            {
-                pCarPhysics->field_8C_state = 1;
-            }
-        }
+        // NOTE: OG tail calls a function chunk here
+        pCar->sub_43AA20();
     }
 }
 
