@@ -41,6 +41,16 @@ is usually an inline, but can also be a pairing miss, so check the asm. "10.5 co
 still has an out-of-line copy of the inline (often an unmarked COMDAT). Library code (CRT,
 Bink and Miles thunks) is left out.
 
+## 9.6f is a reference only
+
+9.6f was built with a different compiler and different settings, so its code never has to match.
+It tells us which helpers exist and roughly what their bodies do, nothing more. Only 10.5
+codegen counts: an inline is right when the 10.5 code that uses it matches.
+
+The function order in 9.6f differs from 10.5 too, and some files aren't contiguous. Pairing
+by neighbours only fires when both neighbours are already paired and their 9.6f partners are
+close together, but a pair from it can still be wrong where the order changed.
+
 ## How to verify an inline
 
 An inline has no body of its own in 10.5, so it can only be checked through code that uses it:
