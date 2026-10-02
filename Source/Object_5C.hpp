@@ -238,6 +238,12 @@ class Object_2C
         return 0;
     }
 
+    // 9.6f 0x482C80
+    inline Fix16 GetMass_482C80()
+    {
+        return field_8->field_18_mass;
+    }
+
     void sub_482BE0()
     {
         field_4->set_num_40F7B0(field_8->field_2C);

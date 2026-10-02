@@ -401,15 +401,14 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
     v26.y = v6.y;
 
     Fix16_Point v28;
-    if (a2->field_8->field_34_behavior_type == 3 || a2->field_8->field_34_behavior_type == 4 ||
-        a2->field_8->field_34_behavior_type <= 2 && a2->field_8->field_44 == 2)
+    if (a2->sub_482C90())
     {
         Fix16_Point v11 = (GetSpeedVector_52AE90() - a2->GetSpeedVector_52AE90());
         Fix16_Point v27;
         v27.x = v11.x;
         v27.y = v11.y;
-        Fix16_Point v13 = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
-                                                             a2->field_8->field_18_mass,
+        Fix16_Point v13 = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
+                                                             a2->GetMass_482C80(),
                                                              v27,
                                                              v26,
                                                              *a3,
@@ -421,7 +420,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
 
         v28.x = v13.x;
         v28.y = v13.y;
-        Fix16_Point v17 = (-v28 / a2->field_8->field_18_mass);
+        Fix16_Point v17 = (-v28 / a2->GetMass_482C80());
         a2->SetMovementVectorWithRandomState_522640(v17);
     }
     else
@@ -436,7 +435,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
             v26.y = v18.y;
         }
 
-        v28 = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
+        v28 = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
                                                  k_dword_6F8BE8,
                                                  v27,
                                                  v26,
@@ -453,7 +452,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
         v25 = field_10_obj_3c->field_4_angle;
     }
 
-    Fix16_Point v22 = (v28 / field_8->field_18_mass);
+    Fix16_Point v22 = (v28 / GetMass_482C80());
     SetMovementVectorWithRandomState_522640(v22);
 
     if (byte_6F8F94)
