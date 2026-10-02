@@ -2432,7 +2432,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                         {
                             if (bStartNetworkGame_7081F0)
                             {
-                                switch (gGame_0x40_67E008->field_2C_game_exit_type)
+                                switch (gGame_0x40_67E008->get_main_state_4D09C0())
                                 {
                                     case 1:
                                         DestroyWindow(gHwnd_707F04);
@@ -2448,7 +2448,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                             }
                             else
                             {
-                                switch (gGame_0x40_67E008->field_2C_game_exit_type)
+                                switch (gGame_0x40_67E008->get_main_state_4D09C0())
                                 {
                                     case GameExitType::CloseGameImmediately_1:
                                         DestroyWindow(gHwnd_707F04);
