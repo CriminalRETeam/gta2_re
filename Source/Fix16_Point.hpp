@@ -32,6 +32,12 @@ struct Fix16_Point_POD
         return x == kFP16Zero_6FE20C && y == kFP16Zero_6FE20C;
     }
 
+    // 9.6f 0x49E450
+    inline bool HasZeroComponent_49E450() const
+    {
+        return x == kFP16Zero_6FE20C || y == kFP16Zero_6FE20C;
+    }
+
     void ApplyDeadZone_49E3C0()
     {
         Fix16 total = (Fix16::Abs(x) + Fix16::Abs(y));

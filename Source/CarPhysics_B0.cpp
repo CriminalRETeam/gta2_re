@@ -2015,7 +2015,7 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
     {
     LABEL_9:
         BinarySearchCollisionTime_55C560(a2, a3);
-        if (field_5C_pCar->IsTrainModel_403BA0() && !field_40_linvel_1.IsNull_420360())
+        if (field_5C_pCar->IsTrainModel_403BA0() && !field_40_linvel_1.HasZeroComponent_49E450())
         {
             a3 = kFP16Zero_6FE20C;
         }
