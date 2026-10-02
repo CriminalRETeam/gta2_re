@@ -53,6 +53,12 @@ class Ped
         return field_226;
     }
 
+    // 9.6f 0x433C20
+    inline Fix16 GetGameObjectVelocity_433C20()
+    {
+        return field_168_game_object->get_velocity_41B080();
+    }
+
     // 9.6f 0x4AF860 (0x4AF880 is an identical copy)
     inline void SetTrainStation_4AF860(TrainStation_34* pStation)
     {

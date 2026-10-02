@@ -307,7 +307,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
         case 4:
             if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
             {
-                pPed = pSprite->field_8_char_b4_ptr->get_ped_433A20();
+                pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 pCmd = (Car_18_Cmd*)pEntry->field_0;
                 if (pCmd->field_2_type == 0xD4)
                 {
@@ -339,7 +339,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
         case 3:
             if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
             {
-                pPed = pSprite->field_8_char_b4_ptr->get_ped_433A20();
+                pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
@@ -400,13 +400,13 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
         case 7:
             if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
             {
-                pPed = pSprite->field_8_char_b4_ptr->get_ped_433A20();
+                pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
-                    if (pPed->field_168_game_object->field_38_velocity == kZero_705DD8 &&
-                        pPed->field_200_id == pPointer->field_8_char->get_id())
+                    if (pPed->GetGameObjectVelocity_433C20() == kZero_705DD8 &&
+                        pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -417,13 +417,13 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
         case 6:
             if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
             {
-                pPed = pSprite->field_8_char_b4_ptr->get_ped_433A20();
+                pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
-                    if (pPed->field_168_game_object->field_38_velocity == kZero_705DD8 &&
-                        pPed->field_200_id == pPointer->field_8_char->get_id())
+                    if (pPed->GetGameObjectVelocity_433C20() == kZero_705DD8 &&
+                        pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -438,7 +438,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
                     if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
-                        pPed->field_200_id == pPointer->field_8_char->get_id())
+                        pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
@@ -456,7 +456,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
                     if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
-                        pPed->field_200_id == pPointer->field_8_char->get_id())
+                        pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14 = 0;
                     }
