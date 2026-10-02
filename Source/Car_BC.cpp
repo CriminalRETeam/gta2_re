@@ -3762,11 +3762,9 @@ void Car_BC::EmitExplosion_43D690(s32 a3, Fix16 x, Fix16 y)
     }
 }
 
-WIP_FUNC(0x43d7b0)
+MATCH_FUNC(0x43d7b0)
 void Car_BC::TriggerExplosion_43D7B0(s32 k20Or19)
 {
-    WIP_IMPLEMENTED;
-
     if (get_anti_strngth_43A1D0() != gFix16_6777CC && !this->IsMaxDamage_40F890())
     {
         HandleCarExplosion_43D840(k20Or19);
