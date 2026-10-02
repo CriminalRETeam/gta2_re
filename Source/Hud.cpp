@@ -2269,19 +2269,31 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::FindFreeArrow_5D1020(s32* a2)
     return 0;
 }
 
+// 9.6f 0x4CA610
+inline void Hud_Arrow_7C::Reset_4CA610()
+{
+    field_10_radius_pos = kFpZero_7064C0;
+    field_14_reposition_speed = kArrowBaseRepositionSpeed_7063B0;
+    SetArrowColour_5D0510(4);
+    field_18.field_10.field_5_is_visible = true;
+    field_18.field_2C_arrow_sprt_idx = 0;
+    field_18.field_10.field_30_gang = 0;
+    field_18.field_10.field_34_min_respect = 0;
+}
+
+// 9.6f 0x4C6FF0
+inline void Hud_Arrow_7C::SetMinRadiusPos_4C6FF0(s32 steps)
+{
+    field_C_min_radius_pos = kArrowRadiusOffset_7065B4 + kArrowMinRadiusStep_706338 * steps;
+}
+
 MATCH_FUNC(0x5d1050)
 Hud_Arrow_7C* Hud_Arrow_7C_Array::AllocArrow_5D1050()
 {
     s32 idx;
     Hud_Arrow_7C* pRet = FindFreeArrow_5D1020(&idx);
-    pRet->field_10_radius_pos = kFpZero_7064C0;
-    pRet->field_14_reposition_speed = kArrowBaseRepositionSpeed_7063B0;
-    pRet->SetArrowColour_5D0510(4);
-    pRet->field_18.field_10.field_5_is_visible = true;
-    pRet->field_18.field_2C_arrow_sprt_idx = 0;
-    pRet->field_18.field_10.field_30_gang = 0;
-    pRet->field_18.field_10.field_34_min_respect = 0;
-    pRet->field_C_min_radius_pos = kArrowRadiusOffset_7065B4 + kArrowMinRadiusStep_706338 * (16 - idx);
+    pRet->Reset_4CA610();
+    pRet->SetMinRadiusPos_4C6FF0(16 - idx);
     return pRet;
 }
 

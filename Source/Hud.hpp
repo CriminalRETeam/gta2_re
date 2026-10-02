@@ -499,6 +499,12 @@ class Garox_20_Sub
 class Hud_Arrow_7C
 {
   public:
+    // 9.6f 0x4CA610, defined in Hud.cpp
+    inline void Reset_4CA610();
+
+    // 9.6f 0x4C6FF0, defined in Hud.cpp
+    inline void SetMinRadiusPos_4C6FF0(s32 steps);
+
     // 9.6f 0x4C6F20
     inline bool Is_radius_pos_0_4C6F20()
     {
