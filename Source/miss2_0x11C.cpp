@@ -4041,7 +4041,7 @@ MATCH_FUNC(0x50ba30)
 void miss2_0x11C::SCRCMD_CLEAR_WANTED_LEVEL_50BA30()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    pPointer->field_8_char->field_20A_wanted_points = 0;
+    pPointer->field_8_char->ClearWantedPoints_420B80();
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
