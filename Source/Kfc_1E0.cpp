@@ -148,7 +148,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                         for (Ped* v28 = field_8_group->field_4_ped_list[0]; field_8_group->field_4_ped_list[v29];
                              v28 = field_8_group->field_4_ped_list[++v29])
                         {
-                            if (v28->field_278_ped_state_1 != ped_state_1::dead_9)
+                            if (!v28->isDead_403B60())
                             {
                                 bFlag1 = 0;
                             }
@@ -158,7 +158,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                     if (bFlag1)
                     {
                         //LABEL_76:
-                        if (!field_4_ped || field_4_ped->field_278_ped_state_1 == ped_state_1::dead_9)
+                        if (!field_4_ped || field_4_ped->isDead_403B60())
                         {
                             field_24 = 2;
                         }
@@ -341,7 +341,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
             u8 v33 = 0;
             for (Ped* v32 = field_8_group->field_4_ped_list[0]; v32; v32 = field_8_group->field_4_ped_list[++v33])
             {
-                if (v32->field_278_ped_state_1 != ped_state_1::dead_9)
+                if (!v32->isDead_403B60())
                 {
                     v38 = 0;
                 }
@@ -350,7 +350,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
 
         if (v38)
         {
-            if (!field_4_ped || field_4_ped->field_278_ped_state_1 == ped_state_1::dead_9)
+            if (!field_4_ped || field_4_ped->isDead_403B60())
             {
                 field_24 = 2;
             }
