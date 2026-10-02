@@ -935,13 +935,14 @@ void CarAI_78::sub_448770()
     Fix16 new_x_ = sprite_x;
     Fix16 new_y_ = sprite_y;
 
-    Fix16 x_off = (Ang16::sine_40F500(this->field_10_angle) * dword_677A84);
-    Fix16 y_off = (Ang16::cosine_40F520(this->field_10_angle) * dword_677A84);
+    Fix16 x_off;
+    Fix16 y_off;
+    Ang16::PolarToCartesian_41FC20(this->field_10_angle, dword_677A84, x_off, y_off);
 
-    Fix16 x_v = x_off + this->field_0_car->field_50_car_sprite->field_14_xy.x;
+    Fix16 x_v = this->field_0_car->field_50_car_sprite->field_14_xy.x + x_off;
     dword_677A74 = x_v;
 
-    Fix16 y_v = y_off + this->field_0_car->field_50_car_sprite->field_14_xy.y;
+    Fix16 y_v = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off;
     dword_677A80 = y_v;
 
     if (x_v > kF16Zero_677B90 && y_v > kF16Zero_677B90 && x_v < dword_677950 && y_v < dword_677950)
@@ -983,7 +984,7 @@ void CarAI_78::sub_448770()
                 sub_4537D0();
             }
 
-            if ((this->field_0_car->field_A6 & 2) == 2)
+            if (this->field_0_car->IsA6Bit1Set_42AC30())
             {
                 Fix16 new_x = dword_677A74.ToInt();
                 Fix16 new_y = dword_677A80.ToInt();
@@ -1025,7 +1026,7 @@ void CarAI_78::sub_448770()
                     }
                 }
             }
-            else if ((this->field_0_car->field_A6 & 1) == 1)
+            else if (this->field_0_car->IsA6Bit0Set_42AC20())
             {
                 sub_4482C0();
             }
@@ -1036,13 +1037,14 @@ void CarAI_78::sub_448770()
 
     field_0_car->field_50_car_sprite->set_ang_lazy_420690(this->field_10_angle);
 
-    Fix16 x_off_ = (Ang16::sine_40F500(this->field_10_angle) * toUse);
-    Fix16 y_off_ = (Ang16::cosine_40F520(this->field_10_angle) * toUse);
+    Fix16 x_off_;
+    Fix16 y_off_;
+    Ang16::PolarToCartesian_41FC20(this->field_10_angle, toUse, x_off_, y_off_);
 
-    Fix16 x_v_ = x_off_ + this->field_0_car->field_50_car_sprite->field_14_xy.x;
+    Fix16 x_v_ = this->field_0_car->field_50_car_sprite->field_14_xy.x + x_off_;
     dword_677A74 = x_v_;
 
-    Fix16 y_v_ = y_off_ + this->field_0_car->field_50_car_sprite->field_14_xy.y;
+    Fix16 y_v_ = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off_;
     dword_677A80 = y_v_;
 
     if (x_v_ > kF16Zero_677B90 && y_v_ > kF16Zero_677B90 && x_v_ < dword_677950 && y_v_ < dword_677950)
@@ -1061,10 +1063,14 @@ void CarAI_78::sub_448770()
         }
     }
 
-    Fix16 x_v__ = (Ang16::sine_40F500(this->field_10_angle) * dword_677B9C) + this->field_0_car->field_50_car_sprite->field_14_xy.x;
+    Fix16 x_off__;
+    Fix16 y_off__;
+    Ang16::PolarToCartesian_41FC20(this->field_10_angle, dword_677B9C, x_off__, y_off__);
+
+    Fix16 x_v__ = this->field_0_car->field_50_car_sprite->field_14_xy.x + x_off__;
     dword_677A74 = x_v__;
 
-    Fix16 y_v__ = (Ang16::cosine_40F520(this->field_10_angle) * dword_677B9C) + this->field_0_car->field_50_car_sprite->field_14_xy.y;
+    Fix16 y_v__ = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off__;
     dword_677A80 = y_v__;
     if (x_v__ <= kF16Zero_677B90 || y_v__ <= kF16Zero_677B90 || x_v__ >= dword_677950 || y_v__ >= dword_677950)
     {
