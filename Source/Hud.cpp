@@ -1748,16 +1748,7 @@ void ArrowTrace_24::UpdateAimCoordinates_5D03F0()
     }
 
     Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
-    s32 v8 = field_38_orf1->field_68_camera_mode;
-
-    if (v8 == 2 || v8 == 3)
-    {
-        pCam = &field_38_orf1->field_208_aux_game_camera;
-    }
-    else
-    {
-        pCam = &field_38_orf1->field_90_game_camera;
-    }
+    pCam = field_38_orf1->get_camera_434900();
 
     field_20_bIsTargetVisible = pCam->IsCoordsPosVisible_435A70(field_14_aim_x, field_18_aim_y, field_1C_aim_z);
 }
