@@ -4646,11 +4646,11 @@ void Car_BC::ClearDriver_4407F0()
 
         if (field_58_physics)
         {
-            field_58_physics->field_8C_state = 1;
+            field_58_physics->SetField8C_to_1();
         }
     }
     SetDriver(NULL);
-    field_A7_horn = 0;
+    ClearHorn_421460();
 }
 
 MATCH_FUNC(0x440840)

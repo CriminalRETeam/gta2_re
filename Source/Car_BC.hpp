@@ -977,6 +977,12 @@ class Car_BC
         return field_88_despawn_status == 2 || field_88_despawn_status == 4 || field_88_despawn_status == 3;
     }
 
+    // 9.6f 0x421460
+    inline void ClearHorn_421460()
+    {
+        field_A7_horn = 0;
+    }
+
     // 9.6f 0x4215F0
     inline void sub_4215F0()
     {
