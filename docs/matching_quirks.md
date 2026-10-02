@@ -239,6 +239,10 @@ and gives every `return false` its own epilogue, write each search as a file-loc
 found item or NULL. Open-coded loops make VC6 send all the returns to one shared block
 (`Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0`).
 
+**`return a < N;` per case vs a bool local.** Returning the comparison in each case gives
+`xor eax; mov field,edx; cmp; setl`; setting a bool local gives `cmpl $N,mem; setl` with no `xor`
+(`Car_6C::CanAllocateOfType_446930`, cases in the original block order).
+
 ## Types and signedness
 
 **`jae`/`jb` vs `jge`/`jl` means unsigned vs signed.** Fix the field or parameter type, not the
@@ -582,6 +586,13 @@ which VC6 never emits from C: they are `__asm` blocks.
 with its `throw()` `operator delete`. That is why `Door_4D4::dtor_49D570` lacks the original's EH frame, and it
 can affect destructors in every TU that includes `sprite.hpp`. `sprite.hpp` only needs `Vert` from it, so
 keeping `DmaVideo.hpp` out is the fix to try (it touches many TUs; check compare_builds).
+
+**Arguments are evaluated right to left, so the first one computed is the last parameter.** The diagonal
+MapRenderer faces call `atan2_fixed_405320(dy, dx)`: `dx` is computed first. Getting the order wrong also
+flips which angle range the face tests (`MapRenderer::sub_4EC450` and siblings).
+
+**`Fix16(f32)` multiplies by `16384.0f`.** The original uses `fmuls` with a float constant; the constructor in
+`fix16.hpp` now does too (no matched function changed).
 
 ## Functions, thunks and calling conventions
 

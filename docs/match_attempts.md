@@ -1406,3 +1406,10 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `sub_575650`: no change. switch value clobber (add $-3) vs our lea
 - `PushCarInfo_564680`: no change. original shifts with rep movsl alone; ours movsl + movsb
 - `EnumerateMaps_51BFA0`: no change. one `if (map_count > 0)` around the rest: 15 -> 51, reverted
+
+### Near-miss pass, batch I (2026-10-02)
+
+- `MapRenderer::sub_4F4250`, `sub_4F49B0`: closer 31->19. `T_gbh_DrawTile` takes the diffuse colour as u8 (pushed without zero extension). Left: x87 scheduling around the ProjectVert inlines
+- `MapRenderer::sub_4EC450`, `sub_4ECAF0`, `sub_4ECE40` (and `sub_4EC7A0`): closer 47->28, 49->30, ->28. atan2(dy, dx) order, angle test `> 45 && < 225`, Fix16(f32) via 16384.0f, 4ECE40 uses GetTexture_46BB50. Left: x87 scheduling
+- `MapRenderer::draw_lid_4EE130`: no change
+- `Weapon_30::oil_stain_5E1DC0` matched once the z bound was `k_dword_706EDC - k_dword_706F70` and the half depth/lower bound got named locals (inline budget)
