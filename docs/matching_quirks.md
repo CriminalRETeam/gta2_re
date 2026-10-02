@@ -558,6 +558,14 @@ them. Adding these helpers made `Object_2C::sub_526B40` match (`Sprite::get_type
 `Ped` functions (`sub_46C770` and others), although 9.6f calls it there. Those keep the plain
 assignment for now.
 
+**Adding unused inline methods to a header can still move code in other TUs.** Ten small
+`field_A6` bit helpers added to `Car_BC.hpp` (for `CarAI_78::sub_447710`) leave every
+`MATCH_FUNC` alone but make five `MapRenderer.cpp` WIPs (`Draw3SidedDiagonal*`,
+`Draw4SidedDiagonal*`) 2 to 4 lines worse, by swapping the operands of one `lea`.
+`MapRenderer.cpp` gets `Car_BC.hpp` through `Camera.hpp` and never calls the helpers. So when a
+WIP's register choice is close, the set of inline functions VC6 has seen in the TU is a
+suspect too, not just the ones it uses.
+
 **Two different callees for the same constructor mean two types.** If the original calls one
 `Fix16` constructor twice and you call two, an argument has the wrong type (a `u16` position
 that went through `Fix16(u16)` instead of `Fix16(s32)`, `DrawChatMessages_5D16B0`).
