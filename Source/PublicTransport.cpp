@@ -371,7 +371,7 @@ void Train_58::UpdatePassengerAI_578390()
                                             pNewPed->field_16C_car = *pTrainCar;
                                             pNewPed->SetObjective(objectives_enum::leave_train_38, 9999);
                                             Ped_List_4* pLink = &pNewPed->field_16C_car->field_4_passengers_list;
-                                            pNewPed->field_150_target_objective_car = *pTrainCar;
+                                            pNewPed->set_field_150_target_objective_car(*pTrainCar);
                                             pLink->AddPed_471140(pNewPed);
                                             pNewPed->field_24C_target_car_door = gTargetCarDoor_6FF1D8;
                                             --this->field_56_passenger_count;
@@ -404,8 +404,8 @@ void Train_58::UpdatePassengerAI_578390()
                         pRemoved->SetObjective(objectives_enum::leave_train_38, 9999);
                         Car_BC* pTargetCar_ = this->field_C_carriages[0];
                         pRemoved->field_24C_target_car_door = 2;
-                        pRemoved->field_150_target_objective_car = pTargetCar_;
-                        pRemoved->field_240_occupation = 8;
+                        pRemoved->set_field_150_target_objective_car(pTargetCar_);
+                        pRemoved->set_occupation_403970(8);
                         if (this->field_0 == 1)
                         {
                             if (this->field_56_passenger_count > 0)
@@ -429,8 +429,8 @@ void Train_58::UpdatePassengerAI_578390()
                             pNewPed_1->SetObjective(objectives_enum::leave_train_38, 9999);
                             Car_BC* pTargetCar = this->field_C_carriages[0];
                             pNewPed_1->field_24C_target_car_door = 2;
-                            pNewPed_1->field_150_target_objective_car = pTargetCar;
-                            pNewPed_1->field_240_occupation = 8;
+                            pNewPed_1->set_field_150_target_objective_car(pTargetCar);
+                            pNewPed_1->set_occupation_403970(8);
                             if (this->field_0 == 1)
                             {
                                 this->field_56_passenger_count--;
