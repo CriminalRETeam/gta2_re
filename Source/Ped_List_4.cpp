@@ -193,7 +193,7 @@ Ped* Ped_List_4::RemoveFirstPed_471320()
 
     Ped* pPed = pIter->field_0_char_ped;
     field_0_pFirstPed = pIter->mpNext;
-    gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+    gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
     return pPed;
 }
 
