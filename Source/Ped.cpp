@@ -8594,67 +8594,56 @@ void Ped::sub_469BD0()
     }
 }
 
-WIP_FUNC(0x469bf0)
+MATCH_FUNC(0x469bf0)
 void Ped::GuardSpot_469BF0()
 {
-    WIP_IMPLEMENTED;
+    u8 bProcessMovement = 1;
 
-    s32 bUnknown = 1;
-
-    this->field_21C |= 0x400000;
+    field_21C |= 0x400000;
 
     if (!byte_61A8A3)
     {
-        bUnknown = this->field_168_game_object->field_10_char_state == 15 && (field_21C & 4) == 0;
+        bProcessMovement = field_168_game_object->field_10_char_state == 15 && (field_21C & 4) == 0;
     }
 
-    if ((field_224 & 0x10) != 0 && ((field_21C & 4) != 0 || this->field_260 > 200u))
+    if ((field_224 & 0x10) != 0 && ((field_21C & 4) != 0 || field_260 > 200u))
     {
-        this->field_260 = 0;
-        this->field_224 &= ~0x10;
+        field_260 = 0;
+        field_224 &= ~0x10;
     }
 
-    if (bUnknown)
+    if (bProcessMovement)
     {
-        if ((this->field_224 & 0x10) != 0 ||
-            gDistanceToTarget_678750 <= dword_678780 &&
-                abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, this->field_1E4_objective_target_z))
+        if ((field_224 & 0x10) != 0 ||
+            gDistanceToTarget_678750 <= dword_678780 && abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, field_1E4_objective_target_z))
         {
-            if (this->field_168_game_object->field_10_char_state == 15)
+            if (field_168_game_object->GetCharState_433A80() != 15)
             {
-                this->field_224 |= 0x10;
-            }
-            else if ((field_224 & 0x10) != 0)
-            {
-                Ped::ChangeNextPedState1_45C500(7);
-                Ped::ChangeNextPedState2_45C540(14);
-                if (field_168_game_object->field_38_velocity >= k_dword_678438)
+                if ((field_224 & 0x10) != 0)
                 {
-                    if (field_168_game_object->field_38_velocity > k_dword_678438)
-                    {
-                        field_168_game_object->field_38_velocity -= dword_678620;
-                    }
+                    Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
+                    field_168_game_object->RegulateVelocityByRef_433970(k_dword_678438);
+                    ++field_260;
+                    field_130 = field_134_rotation;
                 }
                 else
                 {
-                    field_168_game_object->field_38_velocity += dword_678620;
+                    Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
+                    field_130 = field_134_rotation;
                 }
-
-                ++this->field_260;
-                this->field_130 = this->field_134_rotation;
             }
             else
             {
-                Ped::ChangeNextPedState1_45C500(7);
-                Ped::ChangeNextPedState2_45C540(14);
-                this->field_130 = this->field_134_rotation;
+                field_224 |= 0x10;
             }
         }
         else
         {
             if (field_168_game_object->field_10_char_state != 15)
             {
-                field_168_game_object->field_38_velocity = this->field_1F4;
+                field_168_game_object->SetMaxSpeed_433920(field_1F4);
                 UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 4);
             }
         }
