@@ -8,9 +8,9 @@ struct sdt_entry_0x18
     s32 field_0_offset;
     s32 field_4_sample_length;
     s32 field_8_playBackRate;
-    s32 field_C; // enable random displacement ?
-    s32 field_10; // loop start?
-    s32 field_14; // loop end? -1 if no loop?
+    s32 field_C_random_displacement;
+    s32 field_10_loop_start;
+    s32 field_14_loop_end; // -1 = end of sample
 };
 
 class cSampleManager
@@ -18,19 +18,19 @@ class cSampleManager
   public:
     EXPORT cSampleManager();
 
-    EXPORT char_type sub_58D620();
+    EXPORT char_type DisableA3DSplash_58D620();
 
     EXPORT char_type SoundInit_58D6C0(s32* a2);
 
-    EXPORT char_type sub_58D720(char_type a2, char_type a3, s32 sampleRate);
+    EXPORT char_type OpenDigitalDriver_58D720(char_type a2, char_type a3, s32 sampleRate);
 
     // todo: order
 
     EXPORT char_type AllocSamples_58D9F0(s32 a2);
 
-    EXPORT void sub_58E8C0(u32 idx, u32 a3);
+    EXPORT void PlaySampleRange_58E8C0(u32 idx, u32 a3);
 
-    EXPORT char_type sub_58D820(BYTE* pMaxSamples);
+    EXPORT char_type Init3DProvider_58D820(BYTE* pMaxSamples);
 
     EXPORT void Reset3DSamples_58D960();
 
@@ -44,15 +44,15 @@ class cSampleManager
 
     EXPORT s32 GetPlayBackRateIdx_58DBF0(s32 idx);
 
-    EXPORT s32 sub_58DC10(s32 idx);
+    EXPORT s32 GetRandomDisplacement_58DC10(s32 idx);
 
-    EXPORT s32 sub_58DC30(s32 a2);
+    EXPORT s32 GetLoopStart_58DC30(s32 a2);
 
-    EXPORT s32 sub_58DC50(s32 a2);
+    EXPORT s32 GetLoopEnd_58DC50(s32 a2);
 
     EXPORT s32 GetSampleLength_maybe_58DC70(s32 a2);
 
-    EXPORT void sub_58DC90(s32 channel, s32 a3);
+    EXPORT void InitialiseChannel_58DC90(s32 channel, s32 a3);
 
     EXPORT void SetChannelVolume_58DCE0(s32 channel, s32 volume);
 
@@ -90,9 +90,9 @@ class cSampleManager
 
     EXPORT void StopChannel3D_58DFC0(s32 samp_idx);
 
-    EXPORT void sub_58E010(s32 a2);
+    EXPORT void SetEAXEnvironment_58E010(s32 a2);
 
-    EXPORT char_type sub_58E140(s32 a2);
+    EXPORT char_type Open3DProvider_58E140(s32 a2);
 
     // todo order
     EXPORT void Close3DProvider_58E1C0();
@@ -136,13 +136,13 @@ class cSampleManager
 
     EXPORT bool SampleNotDone_58E880();
     
-    EXPORT void sub_58E8A0();
+    EXPORT void EndSample_58E8A0();
 
     EXPORT void EndSample_58E960();
 
     EXPORT char_type LoadWavSdtData_58E980(const char_type* pRawOrSdtName);
 
-    EXPORT BYTE sub_58E2A0();
+    EXPORT BYTE Reacquire_58E2A0();
 
     EXPORT void Release_58E290();
 

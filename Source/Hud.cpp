@@ -1645,8 +1645,8 @@ void Hud_Pager_C_Array::ClearPager_5D3280(s32 idx)
     if (pSound)
     {
         pSound->release_40EF20();
-        pSound->field_C_pAny.pInfallible_turing = gRoot_sound_66B038.field_0;
-        gRoot_sound_66B038.field_0 = pSound;
+        pSound->field_C_pAny.pInfallible_turing = gRoot_sound_66B038.field_0_pFreeList;
+        gRoot_sound_66B038.field_0_pFreeList = pSound;
         pPager->field_8_sound = 0;
     }
 }
@@ -2372,12 +2372,12 @@ void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
         if (v6->field_18.field_3C_secondary_target.field_10_target_type)
         {
             strcpy(gErrStr_67C29C, get_phone_colour_5D12B0(phone_type));
-            strcpy(byte_67C3A8, pZone->field_2_name);
+            strcpy(gErrStr2_67C3A8, pZone->field_2_name);
             FatalError_4A38C0(Gta2Error::TooManyPhonesForGang, // Too many %s phones for %s gang
                               "C:\\Splitting\\Gta2\\Source\\user.cpp",
                               1513,
                               gErrStr_67C29C,
-                              byte_67C3A8);
+                              gErrStr2_67C3A8);
         }
         v6->field_18.field_3C_secondary_target.field_8_obj = pPhoneInfo;
         v6->field_18.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Object_4;

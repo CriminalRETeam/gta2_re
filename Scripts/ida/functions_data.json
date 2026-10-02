@@ -335,7 +335,7 @@
         "v105_address": "0x40ef40"
     },
     {
-        "name": "root_sound::sub_40EF80",
+        "name": "root_sound::Init_40EF80",
         "v96f_address": null,
         "v105_address": "0x40ef80"
     },
@@ -360,12 +360,12 @@
         "v105_address": "0x40eff0"
     },
     {
-        "name": "root_sound::sub_40F010",
+        "name": "root_sound::InitMusicAndCopRadio_40F010",
         "v96f_address": null,
         "v105_address": "0x40f010"
     },
     {
-        "name": "root_sound::sub_40F020",
+        "name": "root_sound::DeInitVocals_40F020",
         "v96f_address": null,
         "v105_address": "0x40f020"
     },
@@ -410,7 +410,7 @@
         "v105_address": "0x40f130"
     },
     {
-        "name": "root_sound::sub_40F140",
+        "name": "root_sound::Reacquire_40F140",
         "v96f_address": null,
         "v105_address": "0x40f140"
     },
@@ -440,7 +440,7 @@
         "v105_address": "0x412240"
     },
     {
-        "name": "sound_obj::sub_412260",
+        "name": "sound_obj::InitSampleForType_412260",
         "v96f_address": null,
         "v105_address": "0x412260"
     },
@@ -695,7 +695,7 @@
         "v105_address": "0x417ac0"
     },
     {
-        "name": "sub_417B80",
+        "name": "GetSirenSampleIdx_417B80",
         "v96f_address": null,
         "v105_address": "0x417b80"
     },
@@ -780,12 +780,12 @@
         "v105_address": "0x418b60"
     },
     {
-        "name": "sound_obj::sub_418C20",
+        "name": "sound_obj::AddVocalsEntity_418C20",
         "v96f_address": null,
         "v105_address": "0x418c20"
     },
     {
-        "name": "sound_obj::sub_418C60",
+        "name": "sound_obj::RemoveVocalsEntity_418C60",
         "v96f_address": null,
         "v105_address": "0x418c60"
     },
@@ -865,7 +865,7 @@
         "v105_address": "0x41a3f0"
     },
     {
-        "name": "sound_obj::sub_41A4A0",
+        "name": "sound_obj::ComputePan_41A4A0",
         "v96f_address": null,
         "v105_address": "0x41a4a0"
     },
@@ -920,7 +920,7 @@
         "v105_address": "0x41b480"
     },
     {
-        "name": "sound_obj::sub_41B490",
+        "name": "sound_obj::UpdateFramesToPlay_41B490",
         "v96f_address": null,
         "v105_address": "0x41b490"
     },
@@ -4935,12 +4935,12 @@
         "v105_address": "0x498c40"
     },
     {
-        "name": "sub_498C80",
+        "name": "AddKeyToInputBits_498C80",
         "v96f_address": null,
         "v105_address": "0x498c80"
     },
     {
-        "name": "sub_498CB0",
+        "name": "SetAltKeyState_498CB0",
         "v96f_address": null,
         "v105_address": "0x498cb0"
     },
@@ -6745,7 +6745,7 @@
         "v105_address": "0x4cb870"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CDCD0",
+        "name": "BurgerKing_67F8B0::StaticShutdown_4CDCD0",
         "v96f_address": null,
         "v105_address": "0x4cdcd0"
     },
@@ -6800,7 +6800,7 @@
         "v105_address": "0x4ce380"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CE650",
+        "name": "BurgerKing_67F8B0::VerifyAttractFilesExist_4CE650",
         "v96f_address": null,
         "v105_address": "0x4ce650"
     },
@@ -6840,7 +6840,7 @@
         "v105_address": "0x4ced00"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CED90",
+        "name": "BurgerKing_67F8B0::ShowActiveControls_4CED90",
         "v96f_address": null,
         "v105_address": "0x4ced90"
     },
@@ -7010,7 +7010,7 @@
         "v105_address": "0x4d6e50"
     },
     {
-        "name": "File::sub_4D9470",
+        "name": "File::Open_4D9470",
         "v96f_address": null,
         "v105_address": "0x4d9470"
     },
@@ -7060,7 +7060,7 @@
         "v105_address": "0x4da390"
     },
     {
-        "name": "sub_4DA3F0",
+        "name": "SkipToNextToken_4DA3F0",
         "v96f_address": null,
         "v105_address": "0x4da3f0"
     },
@@ -7080,7 +7080,7 @@
         "v105_address": "0x4da700"
     },
     {
-        "name": "sub_4DA740",
+        "name": "Shutdown_4DA740",
         "v96f_address": null,
         "v105_address": "0x4da740"
     },
@@ -7095,17 +7095,17 @@
         "v105_address": "0x4da7b0"
     },
     {
-        "name": "sub_4DA820",
+        "name": "ForceGameUpdate_4DA820",
         "v96f_address": null,
         "v105_address": "0x4da820"
     },
     {
-        "name": "sub_4DA830",
+        "name": "ResetFrameTimer_4DA830",
         "v96f_address": null,
         "v105_address": "0x4da830"
     },
     {
-        "name": "sub_4DA850",
+        "name": "RunGameFrame_4DA850",
         "v96f_address": "0x462A30",
         "v105_address": "0x4da850"
     },
@@ -7140,7 +7140,7 @@
         "v105_address": "0x4daf30"
     },
     {
-        "name": "sub_4DB070",
+        "name": "ShowPlayerLeftMessage_4DB070",
         "v96f_address": null,
         "v105_address": "0x4db070"
     },
@@ -7155,7 +7155,7 @@
         "v105_address": "0x4db120"
     },
     {
-        "name": "sub_4DB170",
+        "name": "ClearDebugFlags_4DB170",
         "v96f_address": null,
         "v105_address": "0x4db170"
     },
@@ -13790,17 +13790,17 @@
         "v105_address": "0x5871e0"
     },
     {
-        "name": "sub_587290",
+        "name": "null_587290",
         "v96f_address": null,
         "v105_address": "0x587290"
     },
     {
-        "name": "Registry::sub_5872A0",
+        "name": "Registry::Set_Binary_5872A0",
         "v96f_address": null,
         "v105_address": "0x5872a0"
     },
     {
-        "name": "Registry::sub_587340",
+        "name": "Registry::Get_Binary_587340",
         "v96f_address": null,
         "v105_address": "0x587340"
     },
@@ -14050,7 +14050,7 @@
         "v105_address": "0x58cf10"
     },
     {
-        "name": "cSampleManager::sub_58D620",
+        "name": "cSampleManager::DisableA3DSplash_58D620",
         "v96f_address": null,
         "v105_address": "0x58d620"
     },
@@ -14060,12 +14060,12 @@
         "v105_address": "0x58d6c0"
     },
     {
-        "name": "cSampleManager::sub_58D720",
+        "name": "cSampleManager::OpenDigitalDriver_58D720",
         "v96f_address": null,
         "v105_address": "0x58d720"
     },
     {
-        "name": "cSampleManager::sub_58D820",
+        "name": "cSampleManager::Init3DProvider_58D820",
         "v96f_address": null,
         "v105_address": "0x58d820"
     },
@@ -14105,17 +14105,17 @@
         "v105_address": "0x58dbf0"
     },
     {
-        "name": "cSampleManager::sub_58DC10",
+        "name": "cSampleManager::GetRandomDisplacement_58DC10",
         "v96f_address": null,
         "v105_address": "0x58dc10"
     },
     {
-        "name": "cSampleManager::sub_58DC30",
+        "name": "cSampleManager::GetLoopStart_58DC30",
         "v96f_address": null,
         "v105_address": "0x58dc30"
     },
     {
-        "name": "cSampleManager::sub_58DC50",
+        "name": "cSampleManager::GetLoopEnd_58DC50",
         "v96f_address": null,
         "v105_address": "0x58dc50"
     },
@@ -14125,7 +14125,7 @@
         "v105_address": "0x58dc70"
     },
     {
-        "name": "cSampleManager::sub_58DC90",
+        "name": "cSampleManager::InitialiseChannel_58DC90",
         "v96f_address": null,
         "v105_address": "0x58dc90"
     },
@@ -14225,12 +14225,12 @@
         "v105_address": "0x58e000"
     },
     {
-        "name": "cSampleManager::sub_58E010",
+        "name": "cSampleManager::SetEAXEnvironment_58E010",
         "v96f_address": null,
         "v105_address": "0x58e010"
     },
     {
-        "name": "cSampleManager::sub_58E140",
+        "name": "cSampleManager::Open3DProvider_58E140",
         "v96f_address": null,
         "v105_address": "0x58e140"
     },
@@ -14245,7 +14245,7 @@
         "v105_address": "0x58e1f0"
     },
     {
-        "name": "cSampleManager::sub_58E2A0",
+        "name": "cSampleManager::Reacquire_58E2A0",
         "v96f_address": null,
         "v105_address": "0x58e2a0"
     },
@@ -14335,12 +14335,12 @@
         "v105_address": "0x58e880"
     },
     {
-        "name": "cSampleManager::sub_58E8A0",
+        "name": "cSampleManager::EndSample_58E8A0",
         "v96f_address": null,
         "v105_address": "0x58e8a0"
     },
     {
-        "name": "cSampleManager::sub_58E8C0",
+        "name": "cSampleManager::PlaySampleRange_58E8C0",
         "v96f_address": null,
         "v105_address": "0x58e8c0"
     },
@@ -16725,7 +16725,7 @@
         "v105_address": "0x5d9230"
     },
     {
-        "name": "sub_5D9250",
+        "name": "ToggleStartMode_5D9250",
         "v96f_address": null,
         "v105_address": "0x5d9250"
     },
@@ -16740,17 +16740,17 @@
         "v105_address": "0x5d9290"
     },
     {
-        "name": "sub_5D92C0",
+        "name": "IsWindowedModeAvailable_5D92C0",
         "v96f_address": null,
         "v105_address": "0x5d92c0"
     },
     {
-        "name": "sub_5D92D0",
+        "name": "SetVideoModeFromSettings_5D92D0",
         "v96f_address": null,
         "v105_address": "0x5d92d0"
     },
     {
-        "name": "sub_5D93A0",
+        "name": "SetFullScreenMode_5D93A0",
         "v96f_address": null,
         "v105_address": "0x5d93a0"
     },
@@ -16760,7 +16760,7 @@
         "v105_address": "0x5d94f0"
     },
     {
-        "name": "sub_5D9510",
+        "name": "SetWindowedMode_5D9510",
         "v96f_address": null,
         "v105_address": "0x5d9510"
     },
@@ -16775,12 +16775,12 @@
         "v105_address": "0x5d9680"
     },
     {
-        "name": "sub_5D9690",
+        "name": "ApplyChangedScreenSettings_5D9690",
         "v96f_address": null,
         "v105_address": "0x5d9690"
     },
     {
-        "name": "sub_5D96C0",
+        "name": "InitVideo_5D96C0",
         "v96f_address": null,
         "v105_address": "0x5d96c0"
     },

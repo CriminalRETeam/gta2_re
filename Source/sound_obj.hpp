@@ -16,9 +16,9 @@ class serene_brattain
 {
   public:
     // Compiler-generated constructor at 0x419DF0
-    Fix16 field_0;
-    Fix16 field_4;
-    Fix16 field_8;
+    Fix16 field_0_x;
+    Fix16 field_4_y;
+    Fix16 field_8_z;
 };
 
 struct sound_unknown_0xC
@@ -81,7 +81,7 @@ struct sound_0x68
     char_type field_7;
     serene_brattain field_8_obj;
     s32 field_14_samp_idx;
-    char_type field_18;
+    char_type field_18_bIs2D;
     char_type field_19;
     char_type field_1A;
     char_type field_1B;
@@ -96,22 +96,22 @@ struct sound_0x68
     char_type field_2D_bIsPlayingFinished;
     char_type field_2E;
     char_type field_2F;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
+    s32 field_30_loop_count;
+    s32 field_34_loop_start;
+    s32 field_38_loop_end;
+    s32 field_3C_speed_multiplier;
     char_type field_40_pan;
     char_type field_41;
     char_type field_42;
     char_type field_43;
-    s32 field_44;
+    s32 field_44_frames_to_play;
     u32 field_48_nCalculatedVolume;
-    u32 field_4C;
-    u8 field_50;
+    u32 field_4C_releasing_volume_divider;
+    u8 field_50_volume_change;
     char_type field_51;
     char_type field_52;
     char_type field_53;
-    Fix16 field_54;
+    Fix16 field_54_sound_intensity;
     s32 field_58_type;
     sound_0x68* field_5C;
     u8 field_60_nEmittingVolume;
@@ -138,8 +138,8 @@ class sound_obj
     char_type field_1_isPaused;
     char_type field_2_service_enabled;
     char_type field_3;
-    s32 field_4;
-    u8 field_8;
+    s32 field_4_speed_of_sound;
+    u8 field_8_frames_per_second;
     char_type field_9;
     char_type field_A;
     char_type field_B;
@@ -192,11 +192,11 @@ class sound_obj
     Fix16 field_1468_v1;
     Fix16 field_146C_v2;
     Fix16 field_1470_v3;
-    Ang16 field_1474;
+    Ang16 field_1474_rotation;
     char_type field_1476;
     char_type field_1477;
     s32 field_1478_type5Idx;
-    vigilant_maxwell field_147C[1020];
+    vigilant_maxwell field_147C_audio_entities[1020];
     u32 field_444C_AudioEntityOrderList[1020];
     u32 field_543C_444C_nAudioEntitiesCount;
     s32 field_5440;
@@ -248,20 +248,20 @@ class sound_obj
     EXPORT sound_obj();
 
     // TODO: Ordering
-    EXPORT void sub_41A2A0();
+    EXPORT void Reacquire_41A2A0();
     EXPORT char_type GetAudioDriveLetter_41A2E0();
     EXPORT char_type Get3dSound_41A390();
     EXPORT void Service_419EF0();
     EXPORT void Release_41A290();
     EXPORT u8 GetCDVol_41A280();
-    EXPORT void sub_419E10();
+    EXPORT void Init_419E10();
     EXPORT s32 get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrBus);
     EXPORT s32 samp_idx_for_model_417AC0(s32 car_model);
-    EXPORT s32 sub_417B80(s32 car_model, bool bHornOn);
+    EXPORT s32 GetSirenSampleIdx_417B80(s32 car_model, bool bHornOn);
 
     EXPORT void null_412240();
     EXPORT void null_412250();
-    EXPORT char_type sub_412260(sound_0x68* a1);
+    EXPORT char_type InitSampleForType_412260(sound_0x68* a1);
     EXPORT void ProcessEntity_4123A0(s32 idx);
     EXPORT void ProcessType2_412490(s32 idx);
     EXPORT void ProcessType1_Sprite_412740(s32 idx);
@@ -327,8 +327,8 @@ class sound_obj
     EXPORT void HandleCarTireScrubSound_418720(Sound_Params_8* a2);
     EXPORT char_type Type_10_HandleCarSkidSound_418940(sound_0x68* a2);
     EXPORT void ProcessType11_HudPager_418B60(s32 a2);
-    EXPORT void sub_418C20();
-    EXPORT void sub_418C60();
+    EXPORT void AddVocalsEntity_418C20();
+    EXPORT void RemoveVocalsEntity_418C60();
     EXPORT void PlayVocal_418C80(s32 a2);
     EXPORT void ProcessType10_Vocals_418CA0();
     EXPORT char_type CalculateDistance_419020(Fix16 new_dist);
@@ -344,7 +344,7 @@ class sound_obj
     EXPORT char_type Set3DSound_41A2F0(char_type a2);
     EXPORT void ServiceSoundEffects_41A3A0();
     EXPORT char_type CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3);
-    EXPORT u8 sub_41A4A0(Fix16 a1, Fix16 a2);
+    EXPORT u8 ComputePan_41A4A0(Fix16 a1, Fix16 a2);
     EXPORT s32 AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 RandomDisplacement_41A650(u32 seed);
     EXPORT void ResetEntry_41A6C0(s32 idx);
@@ -355,7 +355,7 @@ class sound_obj
     EXPORT void AddReleasingSounds_41A9D0();
     EXPORT void ProcessActiveQueues_41AB80();
 
-    EXPORT void sub_41B490(sound_0x68* pObj);
+    EXPORT void UpdateFramesToPlay_41B490(sound_0x68* pObj);
     EXPORT void VecDiff_41B4E0(serene_brattain* pVec, serene_brattain* pRet);
     EXPORT void FromFix16_41B520(Fix16 fixVal, f32* s32Val);
     EXPORT void AdjustSamplesVolume_41B540();

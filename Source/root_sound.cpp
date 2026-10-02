@@ -8,9 +8,9 @@
 DEFINE_GLOBAL(root_sound, gRoot_sound_66B038, 0x66B038);
 
 MATCH_FUNC(0x40EF80)
-void root_sound::sub_40EF80()
+void root_sound::Init_40EF80()
 {
-    gSound_obj_66F680.sub_419E10();
+    gSound_obj_66F680.Init_419E10();
 }
 
 MATCH_FUNC(0x40EFA0)
@@ -38,13 +38,13 @@ char_type root_sound::LoadStyle_40EFF0(const char_type* pStyleName)
 }
 
 WIP_FUNC(0x40F010)
-void root_sound::sub_40F010()
+void root_sound::InitMusicAndCopRadio_40F010()
 {
     gSound_obj_66F680.InitMusicAndCopRadio_57E960();
 }
 
 MATCH_FUNC(0x40F020)
-void root_sound::sub_40F020()
+void root_sound::DeInitVocals_40F020()
 {
     gSound_obj_66F680.DeInitVocals_57EA10();
 }
@@ -98,9 +98,9 @@ void root_sound::Release_40F130()
 }
 
 MATCH_FUNC(0x40F140)
-void root_sound::sub_40F140()
+void root_sound::Reacquire_40F140()
 {
-    gSound_obj_66F680.sub_41A2A0();
+    gSound_obj_66F680.Reacquire_41A2A0();
 }
 
 MATCH_FUNC(0x40F150)
@@ -112,8 +112,8 @@ char_type root_sound::GetAudioDriveLetter_40F150()
 MATCH_FUNC(0x40EF40)
 infallible_turing* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objectType)
 {
-    infallible_turing* pCurrent = field_0;
-    field_0 = field_0->field_C_pAny.pInfallible_turing;
+    infallible_turing* pCurrent = field_0_pFreeList;
+    field_0_pFreeList = field_0_pFreeList->field_C_pAny.pInfallible_turing;
     pCurrent->field_C_pAny.pAny = pObject;
     pCurrent->field_8 = 0;
     pCurrent->field_4_bStatus = 0;
@@ -142,30 +142,30 @@ char_type root_sound::Get3DSound_40F180()
 MATCH_FUNC(0x411E30)
 root_sound::root_sound()
 {
-    infallible_turing* pIter = field_4;
+    infallible_turing* pIter = field_4_pool;
     for (s32 i = 0; i < 999; i++)
     {
         pIter->field_C_pAny.pInfallible_turing = pIter + 1;
         pIter++;
     }
 
-    field_0 = field_4;
-    field_4[999].field_C_pAny.pInfallible_turing = 0;
+    field_0_pFreeList = field_4_pool;
+    field_4_pool[999].field_C_pAny.pInfallible_turing = 0;
 }
 
 MATCH_FUNC(0x411E60)
 root_sound::~root_sound()
 {
-    field_0 = 0;
+    field_0_pFreeList = 0;
 }
 
-// Somehow this function is inlined on sub_4DA740, but in assembly it's a standalone function
+// Somehow this function is inlined on Shutdown_4DA740, but in assembly it's a standalone function
 void root_sound::DeinitializeAudio()
 {
     if (gSound_obj_66F680.field_0_bSoundInitialized)
     {
         gSound_obj_66F680.DeInitVocals_57EA10();
-        gSound_obj_66F680.sub_418C60();
+        gSound_obj_66F680.RemoveVocalsEntity_418C60();
         for (s32 i = 0; i < gSound_obj_66F680.field_10_nActiveSamples; ++i)
         {
             if (gSound_obj_66F680.field_1D_b3d_sound)
@@ -180,7 +180,7 @@ void root_sound::DeinitializeAudio()
 
         for (s32 j = 0; j < gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount; j++)
         {
-            gSound_obj_66F680.field_147C[gSound_obj_66F680.field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
+            gSound_obj_66F680.field_147C_audio_entities[gSound_obj_66F680.field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
             gSound_obj_66F680.field_444C_AudioEntityOrderList[j] = 0;
         }
         gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount = 0;
