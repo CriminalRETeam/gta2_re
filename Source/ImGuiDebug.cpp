@@ -197,7 +197,7 @@ void Init_BurgerKing()
     memset(gBurgerKing_67F8B0.field_3C_rec_buff, 0, sizeof(gBurgerKing_67F8B0.field_3C_rec_buff));
     gBurgerKing_67F8B0.field_7533C_used_recs_count = 205;
     gBurgerKing_67F8B0.field_75340_rec_buf_idx = 205;
-    gBurgerKing_67F8B0.sub_4CE650();
+    gBurgerKing_67F8B0.VerifyAttractFilesExist_4CE650();
 }
 
 static void EnableBoot2MapDebugOptions()

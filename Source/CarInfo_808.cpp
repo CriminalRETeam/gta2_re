@@ -661,9 +661,9 @@ void CarInfo_808::LoadModelPhysics_4546D0()
     if (pErrorMsg != NULL)
     {
         strcpy(gErrStr_67C29C, file_name_677EC4);
-        strcpy(byte_67C3A8, pErrorMsg);
+        strcpy(gErrStr2_67C3A8, pErrorMsg);
 
-        FatalError_4A38C0(Gta2Error::BinmakeError, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr_67C29C, byte_67C3A8);
+        FatalError_4A38C0(Gta2Error::BinmakeError, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr_67C29C, gErrStr2_67C3A8);
     }
 
     if (local_1c % sizeof(ModelPhysics_48))

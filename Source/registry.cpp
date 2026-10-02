@@ -7,7 +7,7 @@
 #include <windows.h>
 #include "enums.hpp"
 
-HKEY dword_625018 = HKEY_LOCAL_MACHINE; // Note: should be const, but can't be
+HKEY kRegistryRootKey_625018 = HKEY_LOCAL_MACHINE; // Note: should be const, but can't be
 
 DEFINE_GLOBAL(Registry, gRegistry_6FF968, 0x6FF968);
 
@@ -356,12 +356,12 @@ s32 Registry::Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 a2)
 }
 
 MATCH_FUNC(0x587290)
-void Registry::sub_587290()
+void Registry::null_587290()
 {
 }
 
 MATCH_FUNC(0x5872A0)
-char_type Registry::sub_5872A0(HKEY hKey, const char_type* a2, BYTE* lpData, u32 Data)
+char_type Registry::Set_Binary_5872A0(HKEY hKey, const char_type* a2, BYTE* lpData, u32 Data)
 {
     char_type Buffer[260];
     char_type ret = 0;
@@ -379,7 +379,7 @@ char_type Registry::sub_5872A0(HKEY hKey, const char_type* a2, BYTE* lpData, u32
 }
 
 MATCH_FUNC(0x587340)
-bool Registry::sub_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE lpData)
+bool Registry::Get_Binary_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE lpData)
 {
     char_type ValueName[260]; // [esp+14h] [ebp-104h] BYREF
     bool ret = false;
@@ -411,7 +411,7 @@ char_type Registry::CreateNetworkRoot_587420(PHKEY phkResult)
     strcpy(SubKey, "SOFTWARE\\DMA Design Ltd\\GTA2");
     strcat(SubKey, "\\Network");
 
-    if (RegCreateKeyExA(dword_625018, SubKey, 0, "", 0, KEY_ALL_ACCESS, 0, phkResult, &dwDisposition) != ERROR_SUCCESS)
+    if (RegCreateKeyExA(kRegistryRootKey_625018, SubKey, 0, "", 0, KEY_ALL_ACCESS, 0, phkResult, &dwDisposition) != ERROR_SUCCESS)
     {
         FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 910);
     }

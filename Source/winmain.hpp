@@ -17,7 +17,7 @@ EXPORT char __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance);
 
 EXPORT void __stdcall GetGTA2Version_5E5D60(int* pVerMinor, int* pVerMajor);
 
-EXPORT void __stdcall sub_4DA830();
+EXPORT void __stdcall ResetFrameTimer_4DA830();
 
 EXPORT void sub_5D8E00();
 

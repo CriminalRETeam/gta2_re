@@ -615,7 +615,7 @@ void Game_0x40::sub_4B9720()
         field_38_orf1->sub_565460();
     }
 
-    sub_4DA830();
+    ResetFrameTimer_4DA830();
 
     if (gHud_2B00_706620)
     {
@@ -1240,7 +1240,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     field_34 = 0;
     if (!bSkip_audio_67D6BE)
     {
-        gRoot_sound_66B038.sub_40F010();
+        gRoot_sound_66B038.InitMusicAndCopRadio_40F010();
     }
 }
 
@@ -1251,7 +1251,7 @@ Game_0x40::~Game_0x40()
 
     if (!bSkip_audio_67D6BE)
     {
-        gRoot_sound_66B038.sub_40F020();
+        gRoot_sound_66B038.DeInitVocals_40F020();
     }
 
     for (u32 i = 0; i < field_23_num_players; i++)

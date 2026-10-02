@@ -36,10 +36,10 @@ class Nework_2C
     s32 field_4;
     s32 field_8;
     s32 field_C;
-    s32 field_10;
+    s32 field_10_player_id;
     s32 field_14;
     s32 field_18;
-    wchar_t* field_1C; // player name?
+    wchar_t* field_1C_player_name;
     s32 field_20;
     s32 field_24;
     s32 field_28;
@@ -53,8 +53,8 @@ class Network_Unknown
     char_type field_8[4];
     s32 field_C;
     Nework_2C field_10[6];
-    u8* field_118;
-    s32 field_11C;
+    u8* field_118_group_data;
+    s32 field_11C_group_data_len;
     DPSESSIONDESC2 field_120_session_desc;
 };
 
@@ -146,7 +146,7 @@ struct NetPlay
     EXPORT void DirectPlayDestroy_51DC90();
     EXPORT s32 DirectPlayCreate_51DCD0();
     EXPORT s32 DirectPlayCreate_51DED0();
-    EXPORT static BOOL PASCAL sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext);
+    EXPORT static BOOL PASCAL EnumAddress_cb_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext);
     EXPORT s32 PushConnection_51E0E0(wchar_t* Source);
     EXPORT s32 NoRefs_51E140(wchar_t* String, s32* a3, size_t* a4);
     EXPORT s32 NoRefs_51E2B0(wchar_t* Source, wchar_t* a3, s32* a4, size_t* a5);
@@ -173,9 +173,9 @@ struct NetPlay
     EXPORT s32 sub_520570(int session_idx, wchar_t* a3, s32* a4, s32* a5);
     EXPORT s32 EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay* pContext);
     EXPORT s32 sub_520CA0(s32 a2, s32 a3);
-    EXPORT void sub_520D00(s32 a2);
+    EXPORT void SetGroupId_520D00(s32 a2);
     EXPORT void Disconnect_520D10();
-    EXPORT void sub_520DE0(Network_Unknown* pStru);
+    EXPORT void ClearPlayersAndSession_520DE0(Network_Unknown* pStru);
     EXPORT u32 IndexOf_520E30(s32 toFind, Network_Unknown* pObj);
     EXPORT void Set9_520E60(s32 pFunc, s32 pParam);
     EXPORT void Set3_Disconnect_520E80(s32 a2, s32 a3);
@@ -188,7 +188,7 @@ struct NetPlay
     EXPORT void Set21_5210D0(s32 a2, s32 a3);
     EXPORT void GetPlayerName_521100(wchar_t* Destination, u32 idx);
     EXPORT void Set24_521140(s32 a2, s32 a3);
-    EXPORT s32 sub_521170(Network_8* a2);
+    EXPORT s32 SetGroupData_521170(Network_8* a2);
     EXPORT void Set27SavePlayerName_5211F0(s32 a2, s32 a3);
     EXPORT void sub_521220();
     EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
@@ -211,7 +211,7 @@ struct NetPlay
     EXPORT void static_dtor_5E4DD0();
 
     //s32 field_0_vtbl;
-    char field_4;
+    char field_4_bModem;
     char field_5_modem_num;
     char field_6;
     char field_7;

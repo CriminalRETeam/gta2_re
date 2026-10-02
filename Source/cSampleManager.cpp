@@ -130,9 +130,9 @@ cSampleManager::cSampleManager()
         field_A8_sdt_entries[i].field_0_offset = 0;
         field_A8_sdt_entries[i].field_4_sample_length = 0;
         field_A8_sdt_entries[i].field_8_playBackRate = 11025;
-        field_A8_sdt_entries[i].field_C = 0;
-        field_A8_sdt_entries[i].field_10 = 0;
-        field_A8_sdt_entries[i].field_14 = -1;
+        field_A8_sdt_entries[i].field_C_random_displacement = 0;
+        field_A8_sdt_entries[i].field_10_loop_start = 0;
+        field_A8_sdt_entries[i].field_14_loop_end = -1;
     }
 
     field_0_hDriver = 0;
@@ -149,7 +149,7 @@ cSampleManager::cSampleManager()
     field_2710_3d_provider_count = 0;
     field_2714_bUnknown = 0;
 
-    sub_58D620();
+    DisableA3DSplash_58D620();
 
     field_4_gtaAudioDriveLetter = 0;
 
@@ -181,7 +181,7 @@ cSampleManager::cSampleManager()
 }
 
 STUB_FUNC(0x58D620)
-char_type cSampleManager::sub_58D620()
+char_type cSampleManager::DisableA3DSplash_58D620()
 {
     NOT_IMPLEMENTED;
     // todo
@@ -213,7 +213,7 @@ char_type cSampleManager::SoundInit_58D6C0(s32* a2)
 {
     AIL_startup();
 
-    if (!sub_58D720(1, field_2714_bUnknown, 22050))
+    if (!OpenDigitalDriver_58D720(1, field_2714_bUnknown, 22050))
     {
         AIL_shutdown();
         return 0;
@@ -232,7 +232,7 @@ char_type cSampleManager::SoundInit_58D6C0(s32* a2)
 }
 
 MATCH_FUNC(0x58D720)
-char_type cSampleManager::sub_58D720(char_type a2, char_type a3, s32 sampleRate)
+char_type cSampleManager::OpenDigitalDriver_58D720(char_type a2, char_type a3, s32 sampleRate)
 {
     struct lol
     {
@@ -345,7 +345,7 @@ char_type cSampleManager::AllocSamples_58D9F0(s32 a2)
     {
         AIL_waveOutClose(field_0_hDriver);
 
-        if (sub_58D720(1, 0, 22050) == 0)
+        if (OpenDigitalDriver_58D720(1, 0, 22050) == 0)
         {
             return 0;
         }
@@ -429,9 +429,9 @@ s32 cSampleManager::GetPlayBackRateIdx_58DBF0(s32 idx)
 }
 
 MATCH_FUNC(0x58DC10)
-s32 cSampleManager::sub_58DC10(s32 idx)
+s32 cSampleManager::GetRandomDisplacement_58DC10(s32 idx)
 {
-    return field_A8_sdt_entries[idx].field_C;
+    return field_A8_sdt_entries[idx].field_C_random_displacement;
 }
 
 MATCH_FUNC(0x58D960)
@@ -460,15 +460,15 @@ void cSampleManager::Reset3DSamples_58D960()
 }
 
 MATCH_FUNC(0x58DC30)
-s32 cSampleManager::sub_58DC30(s32 a2)
+s32 cSampleManager::GetLoopStart_58DC30(s32 a2)
 {
-    return field_A8_sdt_entries[a2].field_10;
+    return field_A8_sdt_entries[a2].field_10_loop_start;
 }
 
 MATCH_FUNC(0x58DC50)
-s32 cSampleManager::sub_58DC50(s32 a2)
+s32 cSampleManager::GetLoopEnd_58DC50(s32 a2)
 {
-    return field_A8_sdt_entries[a2].field_14;
+    return field_A8_sdt_entries[a2].field_14_loop_end;
 }
 
 MATCH_FUNC(0x58DC70)
@@ -478,7 +478,7 @@ s32 cSampleManager::GetSampleLength_maybe_58DC70(s32 a2)
 }
 
 MATCH_FUNC(0x58DC90)
-void cSampleManager::sub_58DC90(s32 channel, s32 a3)
+void cSampleManager::InitialiseChannel_58DC90(s32 channel, s32 a3)
 {
     if (field_58_hSamples[channel])
     {
@@ -682,7 +682,7 @@ void cSampleManager::SetEaxEnvironment_58E010(s32 env_idx)
 }
 
 MATCH_FUNC(0x58E140)
-char_type cSampleManager::sub_58E140(s32 envIdx)
+char_type cSampleManager::Open3DProvider_58E140(s32 envIdx)
 {
     field_26B4_env_idx = envIdx;
     if (envIdx != -1)
@@ -740,7 +740,7 @@ void cSampleManager::ReleaseSample_58DAC0()
 }
 
 STUB_FUNC(0x58E8C0)
-void cSampleManager::sub_58E8C0(u32 idx, u32 a3)
+void cSampleManager::PlaySampleRange_58E8C0(u32 idx, u32 a3)
 {
     NOT_IMPLEMENTED;
     if (idx < a3 && field_98_hSample && !SampleNotDone_58E880())
@@ -1004,7 +1004,7 @@ bool cSampleManager::SampleNotDone_58E880()
 }
 
 MATCH_FUNC(0x58E8A0)
-void cSampleManager::sub_58E8A0()
+void cSampleManager::EndSample_58E8A0()
 {
     if (field_98_hSample)
     {
@@ -1069,7 +1069,7 @@ char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
 }
 
 MATCH_FUNC(0x58E2A0)
-BYTE cSampleManager::sub_58E2A0()
+BYTE cSampleManager::Reacquire_58E2A0()
 {
     BYTE ret = field_0_hDriver && AIL_digital_handle_reacquire(field_0_hDriver) ? 1 : 0;
     return ret;
@@ -1085,7 +1085,7 @@ void cSampleManager::Release_58E290()
 }
 
 MATCH_FUNC(0x58D820)
-char_type cSampleManager::sub_58D820(BYTE* pMaxSamples)
+char_type cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
 {
     Terminate_58DAE0();
     Reset3DSamples_58D960();
@@ -1093,9 +1093,9 @@ char_type cSampleManager::sub_58D820(BYTE* pMaxSamples)
     if (field_2714_bUnknown)
     {
         AIL_waveOutClose(field_0_hDriver);
-        if (!sub_58D720(1, 0, 22050))
+        if (!OpenDigitalDriver_58D720(1, 0, 22050))
         {
-            if (sub_58D720(1, 0, 22050))
+            if (OpenDigitalDriver_58D720(1, 0, 22050))
             {
                 AllocSamples_58D9F0(1);
             }
@@ -1108,7 +1108,7 @@ char_type cSampleManager::sub_58D820(BYTE* pMaxSamples)
     {
         if (field_22B4_str[i])
         {
-            if (strncmp(field_22B4_str[i], "Microsoft DirectSound3D hardware support", 0x1Eu) == 0 && sub_58E140(i))
+            if (strncmp(field_22B4_str[i], "Microsoft DirectSound3D hardware support", 0x1Eu) == 0 && Open3DProvider_58E140(i))
             {
                 break;
             }

@@ -804,7 +804,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
 
     if (gDo_miss_logging_67D6BC)
     {
-        gMiss2Log_6F7698.sub_4D9470("test\\MISS_LOG.TXT", 1);
+        gMiss2Log_6F7698.Open_4D9470("test\\MISS_LOG.TXT", 1);
     }
 
     memset(field_45C_scr_file_name, 0, sizeof(field_45C_scr_file_name));
