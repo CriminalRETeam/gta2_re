@@ -5826,7 +5826,7 @@ void Char_B4::state_7_551CB0()
     }
     else
     {
-        field_40_rotation = field_7C_pPed->field_130;
+        field_40_rotation = field_7C_pPed->get_field_130_492CC0();
     }
     if (field_10_char_state == Char_B4_state::Jumping_15)
     {
