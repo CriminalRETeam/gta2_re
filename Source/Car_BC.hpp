@@ -655,6 +655,14 @@ class Car_BC
         return sub_414F20() && (field_A4 & 4) != 0;
     }
 
+    // 9.6f 0x411950
+    inline s32 TakeFieldAC_411950()
+    {
+        s32 ret = field_AC;
+        field_AC = 0;
+        return ret;
+    }
+
     // FUNCTION: 96f 0x411940
     inline s32 GetCarInfoIdx_411940()
     {

@@ -4144,7 +4144,6 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
 
     Car_BC* pCar; // eax
     s32 fAC; // ecx
-    bool bMaxDmg; // zf
     s32 samp_idx; // edx
     u8 emit_vol; // bl
     s32 f14_samp_idx; // ecx
@@ -4152,10 +4151,8 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
     s32 displacement; // eax
 
     pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-    fAC = pCar->field_AC;
-    bMaxDmg = pCar->IsMaxDamage_40F890();
-    pCar->field_AC = 0;
-    if (!bMaxDmg && pCar->field_54_driver && a2->field_4_bDrivenByPlayer != 1)
+    fAC = pCar->TakeFieldAC_411950();
+    if (!pCar->IsMaxDamage_40F890() && pCar->field_54_driver && a2->field_4_bDrivenByPlayer != 1)
     {
         switch (pCar->GetCarInfoIdx_411940())
         {
