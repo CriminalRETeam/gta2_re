@@ -1720,21 +1720,21 @@ void Player::sub_566EE0(char_type bDoNothing)
 MATCH_FUNC(0x5670B0)
 void Player::RespawnPlayer_5670B0()
 {
-    if (!(u8)bStartNetworkGame_7081F0 && !field_640_busted)
+    if (!IsNetworkGame_434B10() && !field_640_busted)
     {
         Player::ChangeLifeCountByAmount_5699F0(-1);
     }
-    if (field_684_lives.field_0_value > 0)
+    if (field_684_lives.get_value() > 0)
     {
         gmp_map_zone* pZone;
-        if ((u8)bStartNetworkGame_7081F0)
+        if (IsNetworkGame_434B10())
         {
             pZone = gMap_0x370_6F6268->zone_by_type_bounded_4DF0F0(0x10u);
         }
         else
         {
-            s32 y_pos = field_2C4_player_ped->field_1AC_cam.y.ToInt();
-            s32 x_pos = field_2C4_player_ped->field_1AC_cam.x.ToInt();
+            s32 y_pos = field_2C4_player_ped->get_cam_y().ToInt();
+            s32 x_pos = field_2C4_player_ped->get_cam_x().ToInt();
             pZone = gMap_0x370_6F6268->GetNearestZoneOfType_4DF240(x_pos, y_pos, Restart_16);
         }
         field_2C4_player_ped->RespawnPed_45C350(pZone);
