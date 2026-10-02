@@ -16,10 +16,10 @@
 #include "CarAI_78.hpp"
 
 DEFINE_GLOBAL(Fix16, dword_6FECE8, 0x6FECE8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FED54, Fix16(0x28000, 0), 0x6FED54);
+DEFINE_GLOBAL_INIT(Fix16, kFpTen_6FED54, Fix16(0x28000, 0), 0x6FED54);
 DEFINE_GLOBAL(Ped*, pPed_6FEDDC, 0x6FEDDC);
 DEFINE_GLOBAL(u8, byte_6FEB48, 0x6FEB48);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FED48, dword_6FEB88 * 512, 0x6FED48);
+DEFINE_GLOBAL_INIT(Fix16, kFpEight_6FED48, kFpOne64th_6FEB88 * 512, 0x6FED48);
 
 MATCH_FUNC(0x4beb30)
 PoliceCrew_38::PoliceCrew_38()
@@ -165,12 +165,12 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
             pCopLeader->field_170_selected_weapon = 0;
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
             pCopLeader->set_health_4039A0(50);
-            pCopLeader->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+            pCopLeader->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         case 2:
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
             pCopLeader->set_health_4039A0(100);
-            pCopLeader->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+            pCopLeader->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         default:
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
@@ -194,12 +194,12 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
             pCopSupporter->field_170_selected_weapon = 0;
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
             pCopSupporter->field_216_health = 50;
-            pCopSupporter->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+            pCopSupporter->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         case 2:
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
             pCopSupporter->field_216_health = 100;
-            pCopSupporter->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+            pCopSupporter->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         default:
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
@@ -408,7 +408,7 @@ bool PoliceCrew_38::sub_572210()
             return Fix16::MaxAbsDistance_42A6B0(pPed_6FEDDC->get_cam_x(),
                                                 pPed_6FEDDC->get_cam_y(),
                                                 field_14_pService->field_0_criminal_ped->get_cam_x(),
-                                                field_14_pService->field_0_criminal_ped->get_cam_y()) < dword_6FED48;
+                                                field_14_pService->field_0_criminal_ped->get_cam_y()) < kFpEight_6FED48;
         }
         else
         {
@@ -1467,7 +1467,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 {
                     v29 = v30;
                 }
-                if (v29 > dword_6FED54)
+                if (v29 > kFpTen_6FED54)
                 {
                     PoliceRoadblock_A4::RemoveRoadblock_575CA0();
                     return;

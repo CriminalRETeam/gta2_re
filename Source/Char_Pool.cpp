@@ -41,7 +41,7 @@ EXTERN_GLOBAL(Fix16, gDummyW_678530);
 EXTERN_GLOBAL(Fix16, gDummyZ_67841C);
 
 DEFINE_GLOBAL_INIT(Fix16, gDummyH_678584, gDummyW_678530, 0x678584);
-DEFINE_GLOBAL_INIT(Fix16, dword_678414, Fix16(255), 0x678414);
+DEFINE_GLOBAL_INIT(Fix16, kFp255_678414, Fix16(255), 0x678414);
 
 EXTERN_GLOBAL(u16, gNumPedsUpdated_6787E0);
 EXTERN_GLOBAL(u8, gNumDummyChars_6787E2);
@@ -51,17 +51,17 @@ EXTERN_GLOBAL(u8, byte_6787D8);
 EXTERN_GLOBAL(u8, byte_6787D9);
 EXTERN_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2);
 
-EXTERN_GLOBAL(Fix16, k_dword_678438);
-EXTERN_GLOBAL(Fix16, k_dword_67853C);
+EXTERN_GLOBAL(Fix16, kFpZero_678438);
+EXTERN_GLOBAL(Fix16, kFpHalf_67853C);
 EXTERN_GLOBAL(Ang16, gDummyPedAng_6787A8);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 EXTERN_GLOBAL(Fix16, gSpawnJitterScale_678618);
-EXTERN_GLOBAL(Fix16, k_dword_678664);
+EXTERN_GLOBAL(Fix16, kFpOne_678664);
 
-EXTERN_GLOBAL(Fix16, dword_6784A0);
-EXTERN_GLOBAL(Fix16, dword_678480);
+EXTERN_GLOBAL(Fix16, kFpPoint8_6784A0);
+EXTERN_GLOBAL(Fix16, kFpPoint1_678480);
 
 DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationLeft_6786E0, Ang16(360), 0x6786E0);
 DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationTop_6787B0, Ang16(0), 0x6787B0);
@@ -210,7 +210,7 @@ LABEL_12:
                 pPed->field_26C_graphic_type = 0;
                 //pPed->field_21C = v13;
                 pPed->field_21C |= 8;
-                pPed->field_1F8_run_speed = dword_678670;
+                pPed->field_1F8_run_speed = kFpFour_678670;
                 break;
 
             case 3:
@@ -328,7 +328,7 @@ LABEL_12:
                     case 2:
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
                         pPed->field_216_health = 100;
-                        pPed->field_1F0_maybe_max_speed = (dword_678448 * dword_6784A0);
+                        pPed->field_1F0_maybe_max_speed = (kFpOneSixteenth_678448 * kFpPoint8_6784A0);
                         pPed->field_26C_graphic_type = 2;
                         break;
                     case 0: // wanted_level_ <= 1 but not negative
@@ -336,7 +336,7 @@ LABEL_12:
                         pPed->field_170_selected_weapon = 0;
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
                         pPed->field_216_health = 50;
-                        pPed->field_1F0_maybe_max_speed = (dword_678448 * dword_6784A0);
+                        pPed->field_1F0_maybe_max_speed = (kFpOneSixteenth_678448 * kFpPoint8_6784A0);
                         pPed->field_26C_graphic_type = 2;
                         break;
 
@@ -470,10 +470,10 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
 
     Sprite* pSprite = this->field_8;
 
-    Fix16 left = pCam->field_78_boundaries_non_neg.field_0_left - k_dword_67853C;
-    Fix16 right = pCam->field_78_boundaries_non_neg.field_4_right + k_dword_67853C;
-    Fix16 top = pCam->field_78_boundaries_non_neg.field_8_top - k_dword_67853C;
-    s32 bottom = (pCam->field_78_boundaries_non_neg.field_C_bottom + k_dword_67853C).ToInt(); // >> 14 to int
+    Fix16 left = pCam->field_78_boundaries_non_neg.field_0_left - kFpHalf_67853C;
+    Fix16 right = pCam->field_78_boundaries_non_neg.field_4_right + kFpHalf_67853C;
+    Fix16 top = pCam->field_78_boundaries_non_neg.field_8_top - kFpHalf_67853C;
+    s32 bottom = (pCam->field_78_boundaries_non_neg.field_C_bottom + kFpHalf_67853C).ToInt(); // >> 14 to int
 
     s32 tileLeft = left.ToInt();
     s32 tileTop = top.ToInt();
@@ -592,8 +592,8 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
             xpos += gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
             ypos += gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
 
-            if (xpos > k_dword_678664 && xpos < dword_678414 - k_dword_678664 && ypos > k_dword_678664 &&
-                ypos < dword_678414 - k_dword_678664)
+            if (xpos > kFpOne_678664 && xpos < kFp255_678414 - kFpOne_678664 && ypos > kFpOne_678664 &&
+                ypos < kFp255_678414 - kFpOne_678664)
             {
                 pZoneInfo = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
                 if ((u8)field_6_num_peds_on_screen < (u16)pZoneInfo->field_A_ped_density / 25)
@@ -759,7 +759,7 @@ PedManager::PedManager()
     byte_61A8A2 = 1;
     byte_6787D9 = 0;
     bHaveThreateningPeds_6787DA = 0;
-    gDistanceToTarget_678750 = k_dword_678660;
+    gDistanceToTarget_678750 = kFpZero_678660;
     gSearchingPed_6787DC = 0;
     cameraFacingAng_678760 = gDummyPedAng_6787A8;
     byte_61A8A3 = 1;
@@ -1070,7 +1070,7 @@ void PedManager::Dummies_470330()
             spawnSideLocked_6787D5 = 0;
             if (pCam->field_34_ped || pCam->field_38_car)
             {
-                if (pCam->ReturnOwnerVelocity_435A20() > k_dword_678438)
+                if (pCam->ReturnOwnerVelocity_435A20() > kFpZero_678438)
                 {
                     // TODO: BL register is reused to set these to 1 instead
                     // of a constant value :)
@@ -1097,8 +1097,8 @@ PedPool::~PedPool()
 MATCH_FUNC(0x46DB90)
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    Fix16 xpos_adjusted = dword_6784A0 + Fix16((u8)(xpos.ToInt()));
-    Fix16 ypos_adjusted = dword_6784A0 + Fix16((u8)(ypos.ToInt()));
+    Fix16 xpos_adjusted = kFpPoint8_6784A0 + Fix16((u8)(xpos.ToInt()));
+    Fix16 ypos_adjusted = kFpPoint8_6784A0 + Fix16((u8)(ypos.ToInt()));
 
     Ped* pLeader = gPedPool_6787B8->Allocate();
     pLeader->field_240_occupation = ped_ocupation_enum::elvis_leader;
@@ -1124,7 +1124,7 @@ EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_fol
         pNewPed->field_240_occupation = ped_ocupation_enum::elvis;
         pNewPed->field_244_remap = remap;
         pNewPed->field_238_ped_type = ped_type::special_ped_4;
-        pNewPed->AllocCharB4_45C830(xpos_adjusted - ((dword_678480 * xy_off)), ypos_adjusted - ((dword_678480 * xy_off)), zpos);
+        pNewPed->AllocCharB4_45C830(xpos_adjusted - ((kFpPoint1_678480 * xy_off)), ypos_adjusted - ((kFpPoint1_678480 * xy_off)), zpos);
 
         Char_B4* pB4 = pNewPed->field_168_game_object;
         const u8 cur_remap = pNewPed->field_244_remap;

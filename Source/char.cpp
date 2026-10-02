@@ -27,8 +27,8 @@
 #include "winmain.hpp"
 
 // Ped.cpp
-EXTERN_GLOBAL(Fix16, dword_6FD9AC);
-EXTERN_GLOBAL(Fix16, dword_6FD830);
+EXTERN_GLOBAL(Fix16, kFpPoint02_6FD9AC);
+EXTERN_GLOBAL(Fix16, kFpPoint3_6FD830);
 
 DEFINE_GLOBAL(s8, gCharB4_UpdateCounter_6FDB48, 0x6FDB48);
 DEFINE_GLOBAL(s8, byte_6FDB49, 0x6FDB49);
@@ -129,7 +129,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng45_6FD89C, Ang16(180), 0x6FD89C);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDAB0, kFP16Half_6FD8E4, 0x6FDAB0);
 
-EXTERN_GLOBAL(Ang16, word_6FDB34);
+EXTERN_GLOBAL(Ang16, kAng0_6FDB34);
 EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F67B0, Fix16(0x2000, 0), 0x6F67B0);
@@ -179,21 +179,21 @@ Char_B4::Char_B4()
     field_8_ped_state_1 = 11;
     field_C_ped_state_2 = 28;
     field_10_char_state = 36;
-    field_14 = word_6FDB34;
+    field_14 = kAng0_6FDB34;
     field_16_state_init_pending = 0;
     field_18_collided_entity = 0;
     field_1C_prev_collided_entity = 0;
     field_20 = 0;
     field_24 = 3;
-    field_28 = word_6FDB34;
-    field_2A = word_6FDB34;
-    field_2C_ang = word_6FDB34;
+    field_28 = kAng0_6FDB34;
+    field_2A = kAng0_6FDB34;
+    field_2C_ang = kAng0_6FDB34;
     field_30 = 4;
     field_34 = 0;
     field_38_velocity = kZeroVelocity_6FD7C0;
     field_3C_run_or_jump_speed = gRunOrJumpSpeed_6FD7D0;
-    field_40_rotation = word_6FDB34;
-    field_42 = word_6FDB34;
+    field_40_rotation = kAng0_6FDB34;
+    field_42 = kAng0_6FDB34;
     field_44 = 0;
     field_45_slope_gradient_direction = 0;
     field_5C = 0;
@@ -205,7 +205,7 @@ Char_B4::Char_B4()
     field_68_animation_frame = 0;
     field_69_is_colliding_with_sprite = 0;
     field_58_flags_bf.b0 = 0;
-    field_74 = word_6FDB34;
+    field_74 = kAng0_6FDB34;
     field_6A = 0;
     field_84_target_car = 0;
     field_88_obj_2c.DestroyAllSprites_5A7010();
@@ -249,21 +249,21 @@ void Char_B4::PoolAllocate()
     field_8_ped_state_1 = 11;
     field_C_ped_state_2 = 28;
     field_10_char_state = 36;
-    field_14 = word_6FDB34;
+    field_14 = kAng0_6FDB34;
     field_16_state_init_pending = 0;
     field_18_collided_entity = 0;
     field_1C_prev_collided_entity = 0;
     field_20 = 0;
     field_24 = 3;
-    field_28 = word_6FDB34;
-    field_2A = word_6FDB34;
-    field_2C_ang = word_6FDB34;
+    field_28 = kAng0_6FDB34;
+    field_2A = kAng0_6FDB34;
+    field_2C_ang = kAng0_6FDB34;
     field_30 = 4;
     field_34 = 0;
     field_38_velocity = kZeroVelocity_6FD7C0;
     field_3C_run_or_jump_speed = gRunOrJumpSpeed_6FD7D0;
-    field_40_rotation = word_6FDB34;
-    field_42 = word_6FDB34;
+    field_40_rotation = kAng0_6FDB34;
+    field_42 = kAng0_6FDB34;
     field_44 = 0;
     field_45_slope_gradient_direction = 0;
     field_5C = 0;
@@ -274,7 +274,7 @@ void Char_B4::PoolAllocate()
     field_7C_pPed = 0;
     field_68_animation_frame = 0;
     field_69_is_colliding_with_sprite = 0;
-    field_74 = word_6FDB34;
+    field_74 = kAng0_6FDB34;
     field_6A = 0;
     field_84_target_car = 0;
     field_58_flags_bf.b0 = 0;
@@ -342,8 +342,8 @@ MATCH_FUNC(0x545430)
 void Char_B4::DrawFlamesAndStartScreamTimer_545430()
 {
     // Spawn fire
-    Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(197, 0, 0, 0, word_6FDB34); // ped_like_fire_197 ?? but its actually fire
-    field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, word_6FDB34);
+    Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(197, 0, 0, 0, kAng0_6FDB34); // ped_like_fire_197 ?? but its actually fire
+    field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, kAng0_6FDB34);
     field_B0_scream_timer = 10; // Start screaming timer
 }
 
@@ -425,12 +425,12 @@ void Char_B4::ClearCollisionState_545600()
     field_18_collided_entity = 0;
     field_1C_prev_collided_entity = 0;
     field_20 = 0;
-    field_2C_ang = word_6FDB34;
+    field_2C_ang = kAng0_6FDB34;
     field_69_is_colliding_with_sprite = 0;
     field_24 = 0;
-    field_28 = word_6FDB34;
-    field_2A = word_6FDB34;
-    field_2C_ang = word_6FDB34;
+    field_28 = kAng0_6FDB34;
+    field_2A = kAng0_6FDB34;
+    field_2C_ang = kAng0_6FDB34;
 }
 
 MATCH_FUNC(0x545640)
@@ -1777,7 +1777,7 @@ void Char_B4::DispatchCollision_548670(char_type a2)
             this->field_1C_prev_collided_entity = 0;
             this->field_20 = 0;
             this->field_69_is_colliding_with_sprite = 0;
-            this->field_2A = word_6FDB34;
+            this->field_2A = kAng0_6FDB34;
         }
     }
 }
@@ -1917,7 +1917,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
             {
                 unk_ang = kAng45_6FD89C;
                 pSprt = pChar->field_80_sprite_ptr;
-                pSprt->field_0 = word_6FDB34;
+                pSprt->field_0 = kAng0_6FDB34;
                 bUnk = false;
             }
         }
@@ -2227,7 +2227,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
             else
             {
                 field_69_is_colliding_with_sprite = false;
-                field_2A = word_6FDB34;
+                field_2A = kAng0_6FDB34;
             }
         }
         else
@@ -4950,7 +4950,7 @@ LABEL_65:
                         switch (int_4F7AE0)
                         {
                             case 0:
-                                field_40_rotation = word_6FDB34;
+                                field_40_rotation = kAng0_6FDB34;
                                 break;
                             case 1:
                                 field_40_rotation = kAng180_6FD936;
@@ -4982,7 +4982,7 @@ LABEL_65:
         else
         {
             field_69_is_colliding_with_sprite = 0;
-            field_2A = word_6FDB34;
+            field_2A = kAng0_6FDB34;
             field_5C = 10;
         }
     }
@@ -5989,7 +5989,7 @@ void Char_B4::state_8_5520A0()
                     {
                         field_80_sprite_ptr->set_xyz_lazy_420600(v44, v45, field_80_sprite_ptr->field_1C_zpos);
                     }
-                    if (field_94 < dword_6FD824)
+                    if (field_94 < kFpPoint1_6FD824)
                     {
                         field_94 = dword_6FD9A0 + field_94;
                     }
@@ -6020,7 +6020,7 @@ void Char_B4::state_8_5520A0()
                                                                                                    field_80_sprite_ptr->field_1C_zpos,
                                                                                                    field_80_sprite_ptr->field_0,
                                                                                                    field_80_sprite_ptr->field_0,
-                                                                                                   dword_6FD824,
+                                                                                                   kFpPoint1_6FD824,
                                                                                                    -dword_6FD9A0,
                                                                                                    kFP16Zero_6FD9E4);
 
@@ -6537,7 +6537,7 @@ char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
         gObject_5C_6F8F84->CreateExplosion_52A3D0(field_80_sprite_ptr->field_14_xy.x,
                                                   field_80_sprite_ptr->field_14_xy.y,
                                                   field_80_sprite_ptr->field_1C_zpos,
-                                                  word_6FDB34,
+                                                  kAng0_6FDB34,
                                                   18,
                                                   pedId);
         if (p2c->field_18_model == objects::mine_10)
@@ -6595,7 +6595,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
         }
     }
 
-    if (vecLen < dword_6FD824)
+    if (vecLen < kFpPoint1_6FD824)
     {
         if (this->field_C_ped_state_2 != ped_state_2::lying_on_floor_22)
         {
@@ -6606,7 +6606,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
                                                                                          tanVec,
                                                                                          this->field_80_sprite_ptr->field_0,
                                                                                          vecLen,
-                                                                                         -dword_6FD824,
+                                                                                         -kFpPoint1_6FD824,
                                                                                          kFP16Zero_6FD9E4);
             this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = kFP16Zero_6FD9E4;
             this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
@@ -6629,7 +6629,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
         return;
     }
 
-    if (vecLen >= dword_6FD830)
+    if (vecLen >= kFpPoint3_6FD830)
     {
         if (this->field_7C_pPed->field_208_invulnerability)
         {
@@ -6640,7 +6640,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
                                                                                          tanVec,
                                                                                          this->field_80_sprite_ptr->field_0,
                                                                                          (vecLen) / gFix16_Two_6FD9EC,
-                                                                                         -dword_6FD824,
+                                                                                         -kFpPoint1_6FD824,
                                                                                          kFP16Zero_6FD9E4);
             this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = kFP16Zero_6FD9E4;
             this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
@@ -6670,7 +6670,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
                                                                                              tanVec,
                                                                                              this->field_80_sprite_ptr->field_0,
                                                                                              (vecLen) / gFix16_Two_6FD9EC,
-                                                                                             -dword_6FD824,
+                                                                                             -kFpPoint1_6FD824,
                                                                                              kFP16Zero_6FD9E4);
                 this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = dword_6FD9B0;
                 this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A = 1;
@@ -6726,9 +6726,9 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 
                                                                                      tanVec,
                                                                                      this->field_80_sprite_ptr->field_0,
                                                                                      (vecLen) / gFix16_Two_6FD9EC,
-                                                                                     -dword_6FD824,
+                                                                                     -kFpPoint1_6FD824,
                                                                                      kFP16Zero_6FD9E4);
-        this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = dword_6FD824;
+        this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10 = kFpPoint1_6FD824;
         this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A = 1;
         this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
         if (field_7C_pPed->field_208_invulnerability)
@@ -6774,7 +6774,7 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_typ
                                                                                      ang,
                                                                                      field_80_sprite_ptr->field_0,
                                                                                      a3,
-                                                                                     -dword_6FD9AC,
+                                                                                     -kFpPoint02_6FD9AC,
                                                                                      a4);
         if (!field_7C_pPed->field_267_varrok_idx)
         {
