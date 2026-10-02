@@ -752,7 +752,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pThread, s16* pThrea
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
         gfrosty_pasteur_6F8060->sub_5128D0(pParam1->field_8_char->get_id(), pParam2->field_8_car->field_6C_maybe_id, *pThreadIdx);
-        pParam2->field_8_car->field_8D |= 1;
+        pParam2->field_8_car->set_f8D_bit1_476360();
     }
 }
 

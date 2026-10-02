@@ -860,6 +860,12 @@ class Car_BC
         }
     }
 
+    // 9.6f 0x476360
+    inline void set_f8D_bit1_476360()
+    {
+        field_8D |= 1;
+    }
+
     // 9.6f 0x475C40
     inline void SetF98To2IfNot4_475C40()
     {
