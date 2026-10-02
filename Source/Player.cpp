@@ -2435,15 +2435,15 @@ Car_BC* Player::GetPlayerCar_5698E0()
 MATCH_FUNC(0x569920)
 void Player::get_pos_569920(Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
 {
-    Ped* pPed = (field_68 == 2 || field_68 == 3) ? field_2C8_unkq : field_2C4_player_ped;
+    Ped* pPed = GetActivePed_4A5150();
     if (pPed)
     {
         Car_BC* pCar = pPed->GetCarBeingEnteredOrExited_45BBF0();
         if (pCar)
         {
-            *pXPos = pCar->field_50_car_sprite->GetXPos();
-            *pYPos = pCar->field_50_car_sprite->GetYPos();
-            *pZPos = pCar->field_50_car_sprite->GetZPos();
+            *pXPos = pCar->get_x_41E430();
+            *pYPos = pCar->get_y_41E440();
+            *pZPos = pCar->get_z_41E450();
         }
         else
         {
@@ -2454,7 +2454,7 @@ void Player::get_pos_569920(Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
     }
     else
     {
-        Camera_0xBC* pCam = (field_68 == 2 || field_68 == 3) ? &field_208_aux_game_camera : &field_90_game_camera;
+        Camera_0xBC* pCam = get_camera_434900();
         *pXPos = pCam->field_98_cam_pos2.field_0_x;
         *pYPos = pCam->field_98_cam_pos2.field_4_y;
         *pZPos = pCam->field_98_cam_pos2.field_8_z + dword_6FE618;

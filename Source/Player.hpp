@@ -283,6 +283,13 @@ class Player
         return field_2E_idx;
     }
 
+    // 9.6f 0x4A5150
+    inline Ped* GetActivePed_4A5150()
+    {
+        return (field_68 == 2 || field_68 == 3) ? field_2C8_unkq : field_2C4_player_ped;
+    }
+
+    // 9.6f 0x434900
     inline Camera_0xBC* get_camera_434900()
     {
         if (field_68 == 2 || field_68 == 3)
