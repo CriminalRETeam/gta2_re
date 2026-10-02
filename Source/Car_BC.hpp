@@ -715,6 +715,14 @@ class Car_BC
         return sub_414F20() && (field_A4 & 4) != 0;
     }
 
+    // 9.6f 0x4119D0
+    inline s32 TakeWeaponKind_4119D0()
+    {
+        s32 ret = field_B4_weapon_kind;
+        field_B4_weapon_kind = 0;
+        return ret;
+    }
+
     // 9.6f 0x411950
     inline s32 TakeFieldAC_411950()
     {

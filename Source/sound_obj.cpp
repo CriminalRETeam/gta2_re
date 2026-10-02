@@ -4558,8 +4558,7 @@ MATCH_FUNC(0x415480)
 void sound_obj::HandleCarWeaponHitSound_415480(Sound_Params_8* a2)
 {
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-    const s32 old_weapon_kind = pCar->field_B4_weapon_kind;
-    pCar->field_B4_weapon_kind = 0;
+    const s32 old_weapon_kind = pCar->TakeWeaponKind_4119D0();
     switch (old_weapon_kind)
     {
         case weapon_type::smg:
