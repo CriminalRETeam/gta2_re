@@ -3813,7 +3813,6 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
     s32 g6C_f_58; // eax
     Ped* pExploder; // eax
     Gang_144* pZone; // eax
-    Fix16_Point v12; // [esp+Ch] [ebp-14h] BYREF
 
     bOcc2 = 0;
     if (field_60)
@@ -3839,9 +3838,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
 
         KillContainedPeds_43DB80();
 
-        // TODO: Something wrong here
-        Fix16_Point sprite_xy = field_50_car_sprite->get_x_y_443580();
-        sub_443710(&sprite_xy);
+        sub_443710(&field_50_car_sprite->get_x_y_443580());
 
         this->field_74_damage = 32001;
 
@@ -3879,7 +3876,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
                         pZone = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
                         pZone->sub_4BEF70(pExploder->field_15C_player->get_idx_4219D0(), 1u);
                     }
-                    if (pExploder->field_15C_player)
+                    if (pExploder->is_player_41B0A0())
                     {
                         if (gShooey_CC_67A4B8->sub_485090(this, pExploder->field_15C_player))
                         {
