@@ -58,6 +58,14 @@ class Sprite_4C
         return (field_0_width == field_4_height && field_0_width <= kSmallWidthEpslion_703450) ? true : false;
     }
 
+    // 9.6f 0x482980
+    void SetDimensions_482980(Fix16 w, Fix16 h, Fix16 depth)
+    {
+        field_0_width = w;
+        field_4_height = h;
+        field_8_depth = depth;
+    }
+
     void SetWidthHeight_4BA070(Fix16 w, Fix16 h)
     {
         field_0_width = w;
@@ -450,6 +458,13 @@ class Sprite
     void SetPaletteSprites_420700()
     {
         field_34_palette_type = palette_types_enum::sprites_2;
+    }
+
+    // 9.6f 0x482A40
+    void SetDimensions_482A40(Fix16 w, Fix16 h, Fix16 depth)
+    {
+        field_C_sprite_4c_ptr->SetDimensions_482980(w, h, depth);
+        ResetZCollisionAndDebugBoxes_59E7B0();
     }
 
     // 9.6f 0x433800

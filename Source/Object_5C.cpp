@@ -3350,12 +3350,7 @@ Object_2C* Object_5C::NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fi
     Object_2C* pNewObj = New_529C00(object_type, x, y, z, rot, 0);
     if (pNewObj)
     {
-        Sprite* pSprite = pNewObj->field_4;
-        Sprite_4C* sprite_4c_ptr = pSprite->field_C_sprite_4c_ptr;
-        sprite_4c_ptr->field_0_width = w;
-        sprite_4c_ptr->field_4_height = h;
-        sprite_4c_ptr->field_8_depth = depth;
-        pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
+        pNewObj->field_4->SetDimensions_482A40(w, h, depth);
         pNewObj->AssignToBucket_527AE0();
     }
     return pNewObj;
