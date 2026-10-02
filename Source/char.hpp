@@ -379,7 +379,7 @@ class Char_B4
     EXPORT char_type IsThreatToSearchingPed_553330();
     EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite);
     EXPORT bool PhoneTouched_5535B0(Object_2C* p2c);
-    EXPORT bool OnObjectTouched_553640(Object_2C* p2c);
+    EXPORT char_type OnObjectTouched_553640(Object_2C* p2c);
     EXPORT char_type HandlePedObjectHit_5537F0(Object_2C* p2c);
     EXPORT void HandleCarImpact_5538A0(Car_BC* pCar, s32 a3, Fix16 a4, Fix16 a5);
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5);

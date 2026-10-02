@@ -199,7 +199,7 @@ class Ped
     EXPORT bool HandlePickupCollision_45DE80(Object_2C* pPickUp);
     EXPORT void SpawnWeaponOnDeath_45E080();
     EXPORT void StartCrossingRoad_45E4A0();
-    EXPORT void sub_45EA00();
+    EXPORT void DeallocateWithGroupCleanup_45EA00();
     EXPORT void Deallocate_45EB60();
     EXPORT char_type sub_45EDC0();
     EXPORT bool IsField238_45EDE0(s32 a2);
@@ -235,6 +235,7 @@ class Ped
     EXPORT void ReactToAttacker_465B20();
     EXPORT bool sub_465CD0();
     EXPORT bool IsPedAThreat_465D00(Ped* pTargetPed);
+    EXPORT char_type sub_466B70();
     EXPORT char_type IsThreatToSearchingPed_4661F0();
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode4_466BB0(s32 max_x_check);
@@ -339,7 +340,7 @@ class Ped
     EXPORT void UpdateStatsForKiller_46F720();
     EXPORT void Kill_46F9D0();
     EXPORT void AddThreateningPedToList_46FC70();
-    EXPORT void HandleShootingAtCar_46FC90(Car_BC* a2, s32 a3);
+    EXPORT void HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model);
     EXPORT void ProcessWeaponHitResponse_46FE20(Object_2C* a2);
     EXPORT void NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model);
     EXPORT void HandleWeaponFireEnd_46FFF0(s32 a2);

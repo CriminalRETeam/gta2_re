@@ -83,7 +83,7 @@ class Object_2C
     EXPORT void NewObj3C_528130(Fix16_Point& speed);
     EXPORT char_type HandleRotationStateTransition_528240(s32 a2, s32 a3);
     EXPORT void TickObject_5283C0(s32 a2);
-    EXPORT bool OnObjectTouched_5288B0(Sprite* a2);
+    EXPORT char_type OnObjectTouched_5288B0(Sprite* a2);
     EXPORT void HandleWaterDeath_528900();
     EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 a1); // TODO: Check if thiscall
     EXPORT char_type HandleObjectHitIfExplosive_528960(Object_2C* pOther);

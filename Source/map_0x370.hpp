@@ -619,6 +619,17 @@ class Map_0x370
         return false;
     }
 
+    // 9.6f out of line 0x433470 (North), 0x4334A0 (East), 0x4334D0 (South), 0x433500 (West).
+    inline bool IsBlockRoadTypeInlined_433470(u8 x, u8 y, u8 z)
+    {
+        gmp_block_info* pBlock = get_block_42A850(x, y, z);
+        if (pBlock)
+        {
+            return (pBlock->field_B_slope_type & 3) == ROAD;
+        }
+        return false;
+    }
+
     // 9.6f inline 0x420420
     inline u8 GetBlockTypeAtCoord_420420(s32 a2, s32 a3, s32 a4)
     {

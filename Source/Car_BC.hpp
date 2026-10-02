@@ -499,6 +499,7 @@ class Car_BC
     EXPORT void DoBrakeAndHandbrake_43A970();
     EXPORT void SetDriver(Ped* a2);
     EXPORT void ApplyVisualDamage_43A9F0();
+    EXPORT void sub_43AA20();
     EXPORT void StartLightFlashing_43CAC0();
     EXPORT void Deactivate_43AA60();
     EXPORT char_type IsThreatToSearchingPed_43AAE0();
@@ -508,7 +509,7 @@ class Car_BC
     EXPORT void sub_43AF40();
     EXPORT void sub_43AF60();
     EXPORT char_type IsDoorAccessible_43AFE0(u8 target_door);
-    EXPORT bool IsStoppedWithPavementAtDoor_43B140(s32 a2);
+    EXPORT bool IsStoppedWithPavementAtDoor_43B140(u8 a2);
     EXPORT bool IsDoorLockedForPed_43B2B0(Ped* a2);
     EXPORT Car_Door_10* GetDoor(u8 door_idx);
     EXPORT char_type GetRemap();
@@ -564,7 +565,7 @@ class Car_BC
     EXPORT char_type ManageDrowning_43E560();
     EXPORT Car_BC* GetCabOrSelf_43E8D0();
     EXPORT Ped* GetEffectiveDriver_43E990();
-    EXPORT bool OnObjectTouched_43EA60(Object_2C* a2);
+    EXPORT char_type OnObjectTouched_43EA60(Object_2C* a2);
     EXPORT char_type HandleCarHitByObject_43F130(Object_2C* a2);
     EXPORT Fix16 sub_440510();
     EXPORT char_type GetPassengersCount_440570();
