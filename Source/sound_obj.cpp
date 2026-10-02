@@ -3466,11 +3466,9 @@ void sound_obj::EnqueueRadioCrimeCallout_427340(s32 a4, u8 a5, u8 a6)
     }
 }
 
-WIP_FUNC(0x426E10)
+MATCH_FUNC(0x426E10)
 void sound_obj::EnqueueRadioLocationPhrase_426E10(u8 xpos, u8 ypos)
 {
-    WIP_IMPLEMENTED;
-
     char_type bUnknown = 0;
     gmp_map_zone* pZone = 0;
     const u32 cop_zone = sound_obj::GetCopRadioZoneIndex_427400(xpos, ypos, &pZone);
@@ -3484,40 +3482,32 @@ void sound_obj::EnqueueRadioLocationPhrase_426E10(u8 xpos, u8 ypos)
     const u32 word_zone_name = cop_zone + 121;
 
     const s16 mid_x = pZone->field_1_x + (pZone->field_3_w >> 1);
-    const s16 w_half = pZone->field_3_w >> 2;
     const s16 mid_y = pZone->field_2_y + (pZone->field_4_h >> 1);
+    const s16 w_half = pZone->field_3_w >> 2;
     const s16 h_half = pZone->field_4_h >> 2;
 
     if (ypos < mid_y - h_half)
     {
         sound_obj::EnqueueRadioWord_4271B0(0x73u);
         bUnknown = 1;
-        goto LABEL_9;
     }
-    if (ypos > h_half + mid_y)
+    else if (ypos > h_half + mid_y)
     {
         sound_obj::EnqueueRadioWord_4271B0(0x75u);
         bUnknown = 1;
-        goto LABEL_9;
     }
-LABEL_9:
-    if (xpos <= mid_x + w_half)
-    {
-        if (xpos >= mid_x - w_half)
-        {
-            if (!bUnknown)
-            {
-                sound_obj::EnqueueRadioWord_4271B0(0x77u);
-            }
-        }
-        else
-        {
-            sound_obj::EnqueueRadioWord_4271B0(0x76u);
-        }
-    }
-    else
+
+    if (xpos > mid_x + w_half)
     {
         sound_obj::EnqueueRadioWord_4271B0(0x74u);
+    }
+    else if (xpos < mid_x - w_half)
+    {
+        sound_obj::EnqueueRadioWord_4271B0(0x76u);
+    }
+    else if (!bUnknown)
+    {
+        sound_obj::EnqueueRadioWord_4271B0(0x77u);
     }
     sound_obj::EnqueueRadioWord_4271B0(word_zone_name);
 }
