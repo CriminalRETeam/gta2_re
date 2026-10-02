@@ -132,7 +132,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x45DE80 | `Ped::HandlePickupCollision_45DE80` | 0x43E550 | `sub_434B10`, `sub_434B20`, `sub_434B60`, `sub_434A10`, `sub_421050`, `sub_4340A0`, `angry_lewin_0x85C::sub_41DC70` | todo |  |
 | 0x45E080 | `Ped::SpawnWeaponOnDeath_45E080` | 0x436250 | `sub_434130` | todo |  |
 | 0x45E4A0 | `Ped::sub_45E4A0` | 0x43B7C0 | ✓ `sub_433470`, ✓ `sub_4334A0`, ✓ `sub_4334D0`, ✓ `sub_433500` | todo |  |
-| 0x45EA00 | `Ped::sub_45EA00` | 0x441F10 | `cool_nash_0x294::sub_403A30` | todo |  |
+| 0x45EA00 | `Ped::sub_45EA00` | 0x441F10 | `cool_nash_0x294::sub_403A30` | checked | Target keeps the 'all gone' loop index in cl and pFirst in edi; ours keeps the index in memory |
 | 0x45EB60 | `Ped::Deallocate_45EB60` | 0x43E650 | ✓ `sub_434070`, ✓ `Car_BC::sub_4343B0` | todo |  |
 | 0x45FF60 | `Ped::CarThief_AI_45FF60` | 0x442050 | `sub_4215B0`, ✓ `Car_BC::sub_403BA0`, `Char_8::sub_420EA0`, `cool_nash_0x294::sub_433DD0` | todo |  |
 | 0x460820 | `Ped::TaxiCustomer_AI_460820` | 0x442420 | `sub_4215B0`, `cool_nash_0x294::sub_433DD0`, `Char_8::sub_420EA0`, `cool_nash_0x294::set_occupation_403970`, `cool_nash_0x294::sub_403920`, `Car_BC::sub_421EC0`, `MaxAbsDistance_42A6B0` | todo |  |
@@ -323,7 +323,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x562D00 | `CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00` | 0x4A1B20 | ✓ `sub_40F840`, ✓ `sub_40F790`, ✓ `sub_41E210`, ✓ `sub_49E480` | todo |  |
 | 0x563350 | `CarPhysics_B0::UpdateCenterOfMassPoint_563350` | 0x49ED60 | ✓ `sub_40F6B0` | todo |  |
 | 0x563460 | `CarPhysics_B0::UpdateReferencePoint_563460` | 0x49EDC0 | ✓ `sub_40F6B0` | todo |  |
-| 0x5651F0 | `Player::RestorePowerUpsFromSave_5651F0` | 0x4A5A50 | `sub_4A5060` | todo |  |
+| 0x5651F0 | `Player::RestorePowerUpsFromSave_5651F0` | 0x4A5A50 | `sub_4A5060` | checked | VC6 turns the two pointers into base+difference addressing; the target keeps both (same in 9.6f). Loop forms tried: while/for/indexed |
 | 0x566C80 | `Player::DoPedControlInputs_566C80` | 0x4A5C50 | `sub_43E1E0`, `Char_B4::sub_433A80`, `sub_433C40`, `cool_nash_0x294::sub_433DD0` | todo |  |
 | 0x56A0F0 | `Player::RestoreCarsFromSave_56A0F0` | 0x4A6A80 | `EnqueueRadioLocationPhrase_426E10`, `GetRaw_4A5190`, `sub_4A51B0` | todo |  |
 | 0x56C010 | `jolly_poitras_0x2BC0::sub_56C010` | 0x4A90A0 | `sub_453A60` | todo |  |
@@ -356,7 +356,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x5A3550 | `Sprite_4C::UpdateRotatedBoundingBox_5A3550` | 0x4BBD40 | `sub_432860`, ✓ `sub_40F6B0`, `sub_45ADB0`, `sub_45ADA0`, `sub_45ADD0`, `sub_45ADC0`, `sub_4B9E60` | todo |  |
 | 0x5A6EA0 | `Object_3C::TakeClosestSprite_5A6EA0` | 0x4BEEB0 | `MaxAbsDistance_42A6B0`, `Sprite_18_Pool::sub_4BEC50` | todo |  |
 | 0x5A7080 | `struct_4::CleanupSpriteList_5A7080` | 0x4BF070 | ✓ `sub_416B40`, ✓ `sub_4BE830`, `sub_485260`, `Sprite_18_Pool::sub_4BEC50` | todo |  |
-| 0x5AA9A0 | `gtx_0x106C::load_car_info_5AA9A0` | 0x4C0410 | `sub_4C03F0` | todo |  |
+| 0x5AA9A0 | `gtx_0x106C::load_car_info_5AA9A0` | 0x4C0410 | `sub_4C03F0` | checked | Door count/offset arithmetic: 10.5 keeps num_remaps in edi then adds 0xE after the first read; not reproduced yet |
 | 0x5B5BC0 | `text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0` | 0x4C2450 | `sub_4C23D0`, `sub_4539D0` | todo |  |
 | 0x5B92E0 | `sharp_pare_0x15D8::ReadTextures_5B92E0` | 0x4C3040 | ✓ `gtx_0x106C::has_tiles_4C2EE0`, ✓ `gtx_0x106C::get_tile_4C2EB0` | todo |  |
 | 0x5C1D00 | `TrafficLight_20::sub_5C1D00` | 0x4C3C70 | ✓ `sub_42A8C0`, `sub_483C20`, ✓ `sub_469010` (10.5 0x52B2A0), `sub_433530` | todo |  |
