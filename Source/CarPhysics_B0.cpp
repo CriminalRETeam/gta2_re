@@ -424,6 +424,7 @@ void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
                 if (!field_5C_pCar->IsTrainModel_403BA0())
                 {
                     //Fix16 linvel_length = get_car_lin_vel_4754D0();
+                    // 9.6f: CarPhysics_B0::GetLinearSpeed_4211A0 (inlined, using it makes the diff worse)
 
                     if (field_40_linvel_1.GetLength_2() > FastCarMinVelocity_6FE1CC || field_5C_pCar->IsEmittingHorn_411970())
                     {
