@@ -29,7 +29,7 @@ EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
 DEFINE_GLOBAL(s32, dword_6F8F88, 0x6f8f88);
-DEFINE_GLOBAL(s32, dword_6F8F90, 0x6F8F90);
+DEFINE_GLOBAL(s32, gObject2C_WallHitSide_6F8F90, 0x6F8F90);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6F8D62, Ang16(0x2D0), 0x6F8D62);
 
 DEFINE_GLOBAL(Fix16_Point, gZeroVector_6F8EF0, 0x6F8EF0);
@@ -817,7 +817,7 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Poi
     {
         *a3 = a2->get_x_y_443580();
         *a4 = 1;
-        sub_524550();
+        ComputeWallHitSide_524550();
         return 1;
     }
     else if (SelectCollisionSprite_522460(a2))
@@ -866,7 +866,7 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
         *pPoint = pSprite->get_x_y_443580();
         *a4 = 1;
-        sub_524550();
+        ComputeWallHitSide_524550();
         return 1;
     }
     else if (SelectCollisionSprite_522460(pSprite))
@@ -1005,7 +1005,7 @@ LABEL_29:
         field_10_obj_3c->field_2A_bAirborne = 0;
         *a3 = a2->get_x_y_443580();
         *a4 = true;
-        Object_2C::sub_524550();
+        Object_2C::ComputeWallHitSide_524550();
         return true;
     }
     else if (Object_2C::SelectCollisionSprite_522460(a2))
@@ -1041,28 +1041,28 @@ LABEL_29:
 }
 
 MATCH_FUNC(0x524550)
-void Object_2C::sub_524550()
+void Object_2C::ComputeWallHitSide_524550()
 {
     if (gRozza_679188.field_0_type == 1)
     {
         if (field_10_obj_3c->field_4_angle >= kAng270_6F8D88 || field_10_obj_3c->field_4_angle <= kAng90_6F8C88)
         {
-            dword_6F8F90 = 3;
+            gObject2C_WallHitSide_6F8F90 = 3;
         }
         else
         {
-            dword_6F8F90 = 4;
+            gObject2C_WallHitSide_6F8F90 = 4;
         }
     }
     else if (gRozza_679188.field_0_type == 2)
     {
         if (field_10_obj_3c->field_4_angle >= kAng180_6F8D62)
         {
-            dword_6F8F90 = 2;
+            gObject2C_WallHitSide_6F8F90 = 2;
         }
         else
         {
-            dword_6F8F90 = 1;
+            gObject2C_WallHitSide_6F8F90 = 1;
         }
     }
 }
@@ -1202,7 +1202,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         {
         LABEL_47:
             hitPoint = v5->get_x_y_443580();
-            sub_524550();
+            ComputeWallHitSide_524550();
             goto LABEL_48;
         }
     LABEL_45:
@@ -2573,7 +2573,7 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
 }
 
 WIP_FUNC(0x528E00)
-s32 __stdcall Object_2C::sub_528E00(s32 a1)
+s32 __stdcall Object_2C::GetExplosionTypeForWallSide_528E00(s32 a1)
 {
     WIP_IMPLEMENTED;
 
@@ -2614,7 +2614,7 @@ void Object_2C::HandleImpactNoSprite_528BA0()
                                                                               field_4->field_14_xy.y,
                                                                               field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
-                                                                              sub_528E00(dword_6F8F90),
+                                                                              GetExplosionTypeForWallSide_528E00(gObject2C_WallHitSide_6F8F90),
                                                                               gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
             if (pExplosion)
             {
@@ -3050,7 +3050,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
     Fix16 v15;
     Sprite* pSprt = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Fix16 mov_speed_copy = mov_speed;
-    dword_6F8F90 = 0;
+    gObject2C_WallHitSide_6F8F90 = 0;
     sub_482BE0();
     if (Object_2C::sub_5233A0(mov_speed))
     {

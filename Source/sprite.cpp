@@ -895,7 +895,7 @@ void Sprite::Draw_59EFF0()
         pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
     }
 
-    ++gSprite_8_703820->field_0;
+    ++gSprite_8_703820->field_0_drawn_sprite_count;
     if (bDo_show_collision_box_67D6E5)
     {
         if (field_C_sprite_4c_ptr)
@@ -2559,9 +2559,9 @@ void Sprite_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
 }
 
 MATCH_FUNC(0x5a5860)
-void Sprite_8::sub_5A5860()
+void Sprite_8::ResetDrawnSpriteCount_5A5860()
 {
-    field_0 = 0;
+    field_0_drawn_sprite_count = 0;
 }
 
 MATCH_FUNC(0x5a5870)
@@ -2598,7 +2598,7 @@ Sprite_8::Sprite_8()
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5046);
     }
 
-    field_0 = 0;
+    field_0_drawn_sprite_count = 0;
     field_4_id_base = 1;
 }
 

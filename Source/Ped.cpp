@@ -9931,7 +9931,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 
         case 2: // target is a object
             zpos = field_1A4_internal_target_object->get_z_4340F0();
-            if (field_1A4_internal_target_object->sub_434140())
+            if (field_1A4_internal_target_object->IsDestroyedPowergen_434140())
             {
                 field_226_internal_objective_status = 1;
             }

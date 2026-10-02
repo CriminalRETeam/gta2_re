@@ -58,7 +58,7 @@ class Char_B4
     s8 field_44_block_type;
     u8 field_45_slope_gradient_direction;
     u16 field_46_timer;
-    s8 field_48;
+    s8 field_48_lying_on_floor_timer;
     s8 field_49;
     u16 field_4A;
     Fix16 field_4C_conveyor_dx;

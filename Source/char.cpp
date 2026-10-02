@@ -198,7 +198,7 @@ Char_B4::Char_B4()
     field_45_slope_gradient_direction = 0;
     field_5C = 0;
     field_46_timer = 0; // maybe field_46_shock_counter
-    field_48 = 0;
+    field_48_lying_on_floor_timer = 0;
     mpNext = 0;
     field_7C_pPed = 0;
     field_80_sprite_ptr = 0;
@@ -268,7 +268,7 @@ void Char_B4::PoolAllocate()
     field_45_slope_gradient_direction = 0;
     field_5C = 0;
     field_46_timer = 0;
-    field_48 = 0;
+    field_48_lying_on_floor_timer = 0;
     field_4A = 500;
     mpNext = 0;
     field_7C_pPed = 0;
@@ -5751,11 +5751,11 @@ void Char_B4::state_8_5520A0()
             case ped_state_2::lying_on_floor_22:
                 if (field_7C_pPed->IsField238_45EDE0(2))
                 {
-                    field_48 = 20;
+                    field_48_lying_on_floor_timer = 20;
                 }
                 else
                 {
-                    field_48 = 60;
+                    field_48_lying_on_floor_timer = 60;
                 }
 
                 switch (field_10_char_state)
@@ -5892,7 +5892,7 @@ void Char_B4::state_8_5520A0()
 
             case ped_state_2::lying_on_floor_22:
 
-                if (field_48 == 0)
+                if (field_48_lying_on_floor_timer == 0)
                 {
                     if ((field_7C_pPed->field_21C & 0x20) == 0)
                     {
@@ -6187,7 +6187,7 @@ void Char_B4::state_8_5520A0()
     }
     if (field_7C_pPed->field_210_shock_counter < (u32)field_7C_pPed->field_212_electrocution_threshold)
     {
-        --field_48;
+        --field_48_lying_on_floor_timer;
     }
 }
 

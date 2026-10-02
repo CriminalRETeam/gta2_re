@@ -49,7 +49,7 @@ class Object_2C
     EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Point* a3, u8* a4, Fix16 a5);
     EXPORT char_type HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5);
     EXPORT char_type HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, u8* a4, u8* a5, Fix16 a6);
-    EXPORT void sub_524550();
+    EXPORT void ComputeWallHitSide_524550();
     EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 a3);
     EXPORT void sub_525190(u8 varrok_idx);
     EXPORT void UpdateAninmation_5257D0();
@@ -76,7 +76,7 @@ class Object_2C
     EXPORT void TickObject_5283C0(s32 a2);
     EXPORT bool OnObjectTouched_5288B0(Sprite* a2);
     EXPORT void HandleWaterDeath_528900();
-    EXPORT static s32 __stdcall sub_528E00(s32 a1); // TODO: Check if thiscall
+    EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 a1); // TODO: Check if thiscall
     EXPORT char_type HandleObjectHitIfExplosive_528960(Object_2C* pOther);
     EXPORT char_type HandleObjectHit_528990(Sprite* a2);
     EXPORT void ProcessObjectExplosionImpact_528A20(Object_2C* pObj);
@@ -124,7 +124,7 @@ class Object_2C
         return t == 2 || t == 4 || t == 8 || t == 9;
     }
 
-    inline bool sub_434140()
+    inline bool IsDestroyedPowergen_434140()
     {
         if (field_18_model == 285 || field_18_model == 282)
         {

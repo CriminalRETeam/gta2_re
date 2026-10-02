@@ -591,11 +591,11 @@ class Sprite_3CC
 class Sprite_8
 {
   public:
-    EXPORT void sub_5A5860();
+    EXPORT void ResetDrawnSpriteCount_5A5860();
     EXPORT void sub_5A5870();
     EXPORT Sprite_8();
     EXPORT ~Sprite_8();
-    s32 field_0;
+    s32 field_0_drawn_sprite_count;
     s16 field_4_id_base;
     s16 field_6;
 };
