@@ -2266,8 +2266,8 @@ void CC ImGuiDebugDraw()
                     if (ImGui::TreeNode("Thirsty_lamarr"))
                     {
                         ImGui::Value("f_0", pPlayer->field_2D4_scores.field_0_money.field_0_value);
-                        ImGui::Value("f_4", pPlayer->field_2D4_scores.field_0_money.field_4);
-                        ImGui::Value("f_8", pPlayer->field_2D4_scores.field_0_money.field_8);
+                        ImGui::Value("f_4", pPlayer->field_2D4_scores.field_0_money.field_4_target_value);
+                        ImGui::Value("f_8", pPlayer->field_2D4_scores.field_0_money.field_8_bRollingUp);
 
                         ImGui::Value("f_2A", pPlayer->field_2D4_scores.field_0_money.field_2A_max_num_of_digits);
                         ImGui::InputS16("f_2C", &pPlayer->field_2D4_scores.field_0_money.field_2C_digit_transition_speed, 1, 1);

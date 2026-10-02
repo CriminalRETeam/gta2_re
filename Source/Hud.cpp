@@ -685,7 +685,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     }
 
     thirsty_lamarr* v5 = pPlayer->field_2D4_scores.GetScoreDigits_592360();
-    s32 dolar_sign_xpos = v5->sub_492260(639, 4);
+    s32 dolar_sign_xpos = v5->DrawDigits_492260(639, 4);
 
     // Now draw $ symbol
 
@@ -722,7 +722,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         else
         {
             thirsty_lamarr* v16 = pPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
-            v16->sub_492260(490, 4);
+            v16->DrawDigits_492260(490, 4);
         }
 
         s32 ypos = 8;
@@ -757,10 +757,10 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     }
     else
     {
-        s32 lives_xpos = pPlayer->field_684_lives.sub_492260(523, 28);
+        s32 lives_xpos = pPlayer->field_684_lives.DrawDigits_492260(523, 28);
         DrawFigureScaled_5D7670(6, 17, lives_xpos - 7, 32, word_706610, 2, 0, 0, 0);
 
-        s32 multiplier_xpos = pPlayer->field_6BC_multpliers.sub_492260(523, 11);
+        s32 multiplier_xpos = pPlayer->field_6BC_multpliers.DrawDigits_492260(523, 11);
         DrawFigureScaled_5D7670(6, 18, multiplier_xpos - 7, 18, word_706610, 2, 0, 0, 0);
     }
 }
@@ -817,14 +817,14 @@ void Garox_1118_sub::sub_5D6290()
     while (pPlayerIter)
     {
         thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_scores.GetScoreDigits_592360();
-        pLamarr1->sub_4925E0();
+        pLamarr1->UpdateRollingDigits_4925E0();
         thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
-        pLamarr2->sub_4925E0();
+        pLamarr2->UpdateRollingDigits_4925E0();
         pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
     }
     Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
-    pPlayer->field_684_lives.sub_4925E0();
-    pPlayer->field_6BC_multpliers.sub_4925E0();
+    pPlayer->field_684_lives.UpdateRollingDigits_4925E0();
+    pPlayer->field_6BC_multpliers.UpdateRollingDigits_4925E0();
 }
 
 // ----------------------------------------------------

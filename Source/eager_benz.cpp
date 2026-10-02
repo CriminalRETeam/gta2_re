@@ -271,8 +271,8 @@ void eager_benz::sub_5922F0(Player* pPlayer, s16 digit_transition_speed, s32 max
 MATCH_FUNC(0x592330)
 void eager_benz::sub_592330()
 {
-    field_0_money.sub_492150();
-    field_38_multiplayer_frags.sub_492150();
+    field_0_money.InitDigitSprites_492150();
+    field_38_multiplayer_frags.InitDigitSprites_492150();
     field_1A8_unk.sub_431E10(this);
     sub_592380(3);
 }

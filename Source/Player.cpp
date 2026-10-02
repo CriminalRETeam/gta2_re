@@ -2585,8 +2585,8 @@ void Player::InitializePlayerState_569CB0()
     field_680 = 0;
     field_682 = 1000;
     field_2D4_scores.sub_592330();
-    field_684_lives.sub_492150();
-    field_6BC_multpliers.sub_492150();
+    field_684_lives.InitDigitSprites_492150();
+    field_6BC_multpliers.InitDigitSprites_492150();
     field_64 = 0;
     field_18_pre_kf_weapon_kind = -2;
     if (gfrosty_pasteur_6F8060->field_C1E2C)
