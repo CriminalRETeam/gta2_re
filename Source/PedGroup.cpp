@@ -37,7 +37,7 @@ void PedGroup::ClearGroupData_4C8E90()
     field_34_count = 0;
     if (field_2C_ped_leader != NULL)
     {
-        field_2C_ped_leader->reset_ped_group();
+        field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
     }
     field_2C_ped_leader = NULL;
     field_0 = 1;
@@ -49,7 +49,7 @@ void PedGroup::ClearGroupData_4C8E90()
     {
         if (field_4_ped_list[i] != NULL)
         {
-            field_4_ped_list[i]->reset_ped_group();
+            field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
         }
         field_4_ped_list[i] = NULL;
     }
