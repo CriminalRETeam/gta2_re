@@ -14,7 +14,9 @@ namespace police_crew_state
 {
 enum
 {
+    none_0 = 0,
     patrol_1 = 1,
+    unknown_2 = 2,
     alerted_search_3 = 3,
     pursue_or_chase_5 = 5,
     shutdown_6 = 6,
@@ -33,13 +35,13 @@ class PoliceCrew_38
     EXPORT void SpawnSWAT_570E30();
     EXPORT void SpawnFBI_nonused_571150();
     EXPORT void sub_571350();
-    EXPORT char_type sub_571540();
-    EXPORT char_type sub_571A30();
+    EXPORT void sub_571540();
+    EXPORT void sub_571A30();
     EXPORT void sub_5720C0();
     EXPORT bool sub_572210();
     EXPORT void sub_572340();
     EXPORT void sub_572920();
-    EXPORT void sub_574720();
+    EXPORT void State6_ShutDown_574720();
     EXPORT void sub_574F10();
     EXPORT void sub_575200();
     EXPORT void sub_575210();
@@ -47,7 +49,7 @@ class PoliceCrew_38
     EXPORT void sub_5752C0();
     EXPORT void sub_575310();
     EXPORT void Service_575590();
-    EXPORT s32 sub_575650();
+    EXPORT void sub_575650();
 
     u16 field_0_id;
     u8 field_2_targ_x;
@@ -59,7 +61,7 @@ class PoliceCrew_38
     Fix16 field_8;
     Fix16 field_C;
     Kfc_30* field_10_subObj;
-    Police_7C* field_14_pObj;
+    Police_7C* field_14_pService; // Call For Service
     s16 field_18;
     char_type field_1A;
     char_type field_1B;
@@ -79,13 +81,13 @@ class PoliceCrew_38
     char_type field_37;
 };
 
-class Police_7C
+class Police_7C  // Call For Service
 {
   public:
     Ped* field_0_criminal_ped;
-    s32 field_4;
-    s32 field_8;
-    u16 field_C;
+    s32 field_4_wanted_level;
+    s32 field_8_state;
+    u16 field_C_timer;
     char_type field_E;
     char_type field_F;
     Fix16 field_10_x;
@@ -95,11 +97,7 @@ class Police_7C
     char_type field_1D;
     char_type field_1E;
     char_type field_1F;
-    PoliceCrew_38* field_20[2];
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
+    PoliceCrew_38* field_20_crews[6];
     s32 field_38;
     s32 field_3C;
     s32 field_40;
@@ -114,11 +112,11 @@ class Police_7C
     s32 field_64;
     s32 field_68;
     s32 field_6C;
-    char_type field_70;
-    char_type field_71;
-    char_type field_72;
-    char_type field_73;
-    char_type field_74;
+    u8 field_70_num_police_crews;
+    u8 field_71_num_unknown;
+    u8 field_72_num_swat_crews;
+    u8 field_73_num_fbi_crews;
+    char_type field_74_num_army_crews;
     u8 field_75_count;
     s16 field_76;
     char_type field_78;
@@ -132,7 +130,11 @@ class PoliceRoadblock_A4
     EXPORT void sub_575710();
     EXPORT void sub_5757B0();
     EXPORT void sub_575CA0();
-    EXPORT char_type CreateRoadblock_575FF0(u8 a2, s32 a3, u8 a4, s32 a5);
+    EXPORT char_type CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation);
+
+    inline void AddCar(Car_BC* pCar);
+    inline void AddBarriers(Object_2C* pBarrier1, Object_2C* pBarrier2);
+    inline void AddGuard(Ped* pGuard);
     EXPORT PoliceRoadblock_A4();
     EXPORT ~PoliceRoadblock_A4();
     char_type field_0;

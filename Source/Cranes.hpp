@@ -80,7 +80,7 @@ class Crane_15C
     Sprite* field_68;
     Sprite* field_6C;
     Sprite* field_70;
-    Sprite* field_74;
+    Sprite* field_74_pSprite_on_hook;
     Crane_15C* field_78_maybe_homecrane;
     infallible_turing* field_7C;
     Fix16 field_80;

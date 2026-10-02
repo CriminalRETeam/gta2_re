@@ -3,6 +3,7 @@
 #include "Function.hpp"
 
 class Ped;
+class Fix16;
 
 class PedGroup
 {
@@ -31,14 +32,14 @@ class PedGroup
     EXPORT Ped* sub_4C9ED0();
     EXPORT void CoordinateGroupCarEntry_4C9F00();
     EXPORT u32 sub_4CA3E0();
-    EXPORT Ped* FindFarthestMember_4CA3F0(u32* a2);
+    EXPORT Ped* FindFarthestMember_4CA3F0(Fix16* pFoundDistance);
     EXPORT void UpdateFormation_4CA4B0();
     EXPORT void UpdateMemberAIState_4CA5E0(u8 idx);
     EXPORT void UpdateMemberTightFollowState_4CA820(u8 a2);
     EXPORT bool IsAllMembersInSomeCar_4CAA20();
     EXPORT char_type HasNoActiveMembers_4CAAE0();
     EXPORT char_type AreAllMembersOnFoot_4CAB80();
-    EXPORT bool IsMemberTooFarFromLeader_4CAC20(s32 idx);
+    EXPORT bool IsMemberTooFarFromLeader_4CAC20(u8 idx);
     EXPORT bool IsLeaderCloseToTargetCar_4CAD40();
     EXPORT Ped* FindNearestOtherMember_4CAE80(u8 idx);
     EXPORT static void ResetAllGroups_4CB080();

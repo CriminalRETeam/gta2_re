@@ -431,7 +431,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
 
         if (pPed != NULL)
         {
-            pPed->field_238 = 2;
+            pPed->field_238_ped_type = ped_type::player_2;
             if (!gfrosty_pasteur_6F8060->field_C1E2C)
             {
                 pPed->field_216_health = 100;
@@ -590,7 +590,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
 
     if (pPed)
     {
-        pPointer->field_8_char->field_238 = 5;
+        pPointer->field_8_char->field_238_ped_type = ped_type::script_created_5;
         pPointer->field_8_char->field_240_occupation = pCmd->field_1C_occupation;
         pPointer->field_8_char->field_26C_graphic_type = 1;
         pPointer->field_8_char->SetObjective(objectives_enum::wait_on_foot_26, 9999);
@@ -1274,7 +1274,7 @@ void miss2_0x11C::SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* pCmd, SCR_POINTER
 {
     if (!pCmd->field_19_play_type)
     {
-        pPointer->field_8_obj = gObject_5C_6F8F84->sub_5299F0(278,
+        pPointer->field_8_obj = gObject_5C_6F8F84->sub_5299F0(objects::sound_object_type_1_278,
                                                               pCmd->field_18_sound_id,
                                                               pCmd->field_C_pos.field_0_x,
                                                               pCmd->field_C_pos.field_4_y,
@@ -1282,7 +1282,7 @@ void miss2_0x11C::SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* pCmd, SCR_POINTER
     }
     else
     {
-        pPointer->field_8_obj = gObject_5C_6F8F84->sub_5299F0(279,
+        pPointer->field_8_obj = gObject_5C_6F8F84->sub_5299F0(objects::sound_object_type_2_279,
                                                               pCmd->field_18_sound_id,
                                                               pCmd->field_C_pos.field_0_x,
                                                               pCmd->field_C_pos.field_4_y,
@@ -3105,6 +3105,9 @@ void miss2_0x11C::Locate_509FD0()
         {
             switch (gBasePtr_6F8070->field_2_type)
             {
+                case SCRCMD_LOCATE_CHAR_ANY:
+                    field_8 = true;
+                    break;
                 case SCRCMD_LOCATE_CHAR_ONFOOT:
                     if ((pObj = pPointer->field_8_char->field_168_game_object) != NULL)
                     {
@@ -3118,9 +3121,6 @@ void miss2_0x11C::Locate_509FD0()
                         field_8 = true;
                     }
 
-                    break;
-                case SCRCMD_LOCATE_CHAR_ANY:
-                    field_8 = true;
                     break;
                 case SCRCMD_STOP_LOCATE_CHAR_ANY:
                     if (pPointer->field_8_char->field_168_game_object &&
@@ -5636,9 +5636,8 @@ void miss2_0x11C::GetSpeed_50E190()
     SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
-    Fix16 charCarSpeed;
-    Fix16 carSpeed;
 
+    Fix16 charCarSpeed;
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_GET_MAX_SPEED:
@@ -5651,13 +5650,12 @@ void miss2_0x11C::GetSpeed_50E190()
         case SCRCMD_GET_CHAR_CAR_SPEED:
         {
             Ped* pChar = pPointer->field_8_char;
-            Car_BC* pCar = pChar->field_16C_car;
 
-            if (pCar)
+            if (pChar->field_16C_car)
             {
-                if (pCar->field_58_physics)
+                if (pChar->field_16C_car->field_58_physics)
                 {
-                    charCarSpeed = pCar->field_58_physics->field_0_vel_read_only.GetLength_all_out_of_line_abs_y_negate();
+                    charCarSpeed = pChar->field_16C_car->field_58_physics->field_0_vel_read_only.GetLength_all_out_of_line_abs_y_negate();
                     pParam2->field_8_counter = charCarSpeed.GetRaw_40F4B0();
                 }
                 else
@@ -5673,11 +5671,11 @@ void miss2_0x11C::GetSpeed_50E190()
         }
         case SCRCMD_GET_CAR_SPEED:
         {
-            CarPhysics_B0* pPhysics = pPointer->field_8_car->field_58_physics;
 
-            if (pPhysics)
+            if (pPointer->field_8_car->field_58_physics)
             {
-                carSpeed = pPhysics->field_0_vel_read_only.GetLength_453590_inline_wrap();
+                Fix16 carSpeed;
+                carSpeed = pPointer->field_8_car->field_58_physics->field_0_vel_read_only.GetLength_453590_inline_wrap();
                 pParam2->field_8_counter = carSpeed.GetRaw_40F4B0();
 
                 miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -6202,7 +6200,7 @@ void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
 
     if (pNewPed)
     {
-        pNewPed->field_238 = 5;
+        pNewPed->field_238_ped_type = ped_type::script_created_5;
         pParam1->field_8_char->SpawnPedInCar_45C730(pParam2->field_8_car);
         pParam1->field_8_char->field_244_remap = pCmd->field_C_remap;
         pParam1->field_8_char->field_240_occupation = pCmd->field_E_occupation;
@@ -6222,12 +6220,12 @@ void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
 
         Car_BC* pCar = pParam2->field_8_car;
 
-        if (!pCar->field_5C)
+        if (!pCar->field_5C_AI)
         {
-            pCar->field_5C = gCarAI_78_Pool_677CF8->Allocate();
+            pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
         }
 
-        pParam2->field_8_car->field_5C->SetCar_453BF0(pParam2->field_8_car);
+        pParam2->field_8_car->field_5C_AI->SetCar_453BF0(pParam2->field_8_car);
         pParam2->field_8_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
     }
 

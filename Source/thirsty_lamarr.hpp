@@ -9,7 +9,7 @@ class thirsty_lamarr
     EXPORT void SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette);
     EXPORT void sub_492150();
     EXPORT void ChangeStatByAmount_4921B0(s32 amount);
-    EXPORT void sub_4921F0(s32 a2, s16 a3);
+    EXPORT void ColorDigits_4921F0(s32 palette_type, s16 palette);
     EXPORT s32 sub_492260(s32 a2, s32 a3);
     EXPORT s32 sub_492430(s32 a3, s32 a4);
     EXPORT char_type sub_4925C0();
@@ -34,5 +34,5 @@ class thirsty_lamarr
     u16 field_2E_non_used_digits;
     s32 field_30_max_value;
     s16 field_34_first_digit_texture_idx;
-    s16 field_36_palette;
+    s16 field_36_sprite_idx;
 };

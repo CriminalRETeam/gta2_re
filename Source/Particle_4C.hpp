@@ -27,20 +27,20 @@ class Particle_4C
     EXPORT char_type UpdateAttachedEmitter_state_9_10_53B670();
     EXPORT char_type UpdateBurstAnimation_state_29_30_53B9F0();
     EXPORT char_type UpdateCollisionBurst_state_31_34_53BAC0();
-    EXPORT bool PoolUpdate();
+    EXPORT char_type PoolUpdate();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
     
     s32 field_0_id;
     s32 field_4_flags;
-    Fix16 field_8_xpos;
-    Fix16 field_C_ypos;
+    Fix16 field_8_speed_x;
+    Fix16 field_C_speed_y;
     Fix16 field_10;
-    Fix16 field_14;
-    Fix16 field_18;
+    Fix16 field_14_additional_speed_x;
+    Fix16 field_18_additional_speed_y;
     Fix16 field_1C;
     Fix16 field_20;
-    Ang16 field_24;
+    Ang16 field_24_angle;
     s16 field_26;
     Sprite* field_28_pSprite;
     u16 field_2C_counter;

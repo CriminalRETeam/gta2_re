@@ -34,31 +34,34 @@ const s16 word_626490[128] = {0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   
                         185, 186, 189, 191, 207, 200, 209, 201, 226, 241, 225, 217, 231, 215, 232, 220, 238, 211, 214, 230, 237, 216,
                         229, 227, 228, 236, 239, 213, 223, 221, 212, 235, 218, 219, 222, 224, 240, 233, 242, 234};
 
-STUB_FUNC(0x5B58D0)
+// Extended characters 128-255, corresponding to original data at 0x626390.
+static const u16 kExtendedWesternCharMap[128] = {
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   176, 0,   0,   0,   0,   0,   0,   0,   0, 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   175, 128, 129, 130, 0, 131, 0,   132, 133, 134, 135, 136, 137, 138, 139,
+    140, 141, 0,   173, 142, 143, 144, 0,   145, 0,   0,   146, 147, 148, 149, 0, 0,   150, 151, 152, 153, 0,   154, 0,   155, 156,
+    157, 158, 159, 160, 161, 162, 163, 164, 0,   174, 165, 166, 167, 0,   168, 0, 0,   169, 170, 171, 172, 0,   0,   0};
+
+MATCH_FUNC(0x5B58D0)
 u16 text_0x14::sub_5B58D0(u16 a2)
 {
-    NOT_IMPLEMENTED;
-    // todo
-    /*
-    u16 result; // ax
-
-    result = a2;
+    u16 result = a2;
     if (a2 >= 128u)
     {
         if (a2 >= 256u)
         {
-            return 63;
+            result = 63;
         }
-
-        result = field_10_lang_code == 'r' ? word_626390[a2] : *(u16 *)&aCSplittingGta2_27[2 * a2 + 24];
-        if (!result)
+        else
         {
-            return 63;
+            result = field_10_lang_code == 'r' ? word_626490[a2 - 128] : kExtendedWesternCharMap[a2 - 128];
+            if (!result)
+            {
+                result = 63;
+            }
         }
     }
     return result;
-    */
-    return 0;
 }
 
 MATCH_FUNC(0x5B5910)
@@ -159,34 +162,29 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
     File::Global_Read_4A71C0(field_0_data, size);
 }
 
-STUB_FUNC(0x5B5AD0)
+MATCH_FUNC(0x5B5AD0)
 u16 text_0x14::sub_5B5AD0(wchar_t a2)
 {
-    NOT_IMPLEMENTED;
-    u16 result; // ax
-
-    result = a2;
+    // Both tables are indexed with the raw char (0x80-0xFF), so the 'g'/'i'/'r'/'s' lookup reads
+    // past word_626490 into word_626590[0..127], and 'f' reads word_626590[128..255].
+    // TODO: the contents of these arrays are very wrong
     switch (field_10_lang_code)
     {
         case 'e':
-            if ((u32)a2 >= 'a' && (u32)a2 <= 'z')
+            if (a2 >= 'a' && a2 <= 'z')
             {
-                result = a2 - ' ';
+                return a2 - ' ';
             }
             break;
 
         case 'f':
-            if (a2 < 0x61u || a2 > 0x7Au)
+            if (a2 >= 'a' && a2 <= 'z')
             {
-                if (a2 >= 0x80u && a2 <= 0xFFu)
-                {
-                    // todo: these arrays are very wrong
-                    result = word_626590[a2];
-                }
+                return a2 - ' ';
             }
-            else
+            if (a2 >= 0x80 && a2 <= 0xFF)
             {
-                result = a2 - 32;
+                return word_626590[a2];
             }
             break;
 
@@ -194,24 +192,17 @@ u16 text_0x14::sub_5B5AD0(wchar_t a2)
         case 'i':
         case 'r':
         case 's':
-            if (a2 < 0x61u || a2 > 0x7Au)
+            if (a2 >= 'a' && a2 <= 'z')
             {
-                if (a2 >= 0x80u && a2 <= 0xFFu)
-                {
-                    result = word_626490[a2];
-                }
+                return a2 - ' ';
             }
-            else
+            if (a2 >= 0x80 && a2 <= 0xFF)
             {
-                result = a2 - 32;
+                return word_626490[a2];
             }
             break;
-
-        default:
-            return result;
     }
-
-    return result;
+    return a2;
 }
 
 MATCH_FUNC(0x5B5B80)
@@ -236,7 +227,7 @@ s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
     s32 current_width = 0;
     wchar_t* pPrevDestCheckpoint = NULL;
 
-    u16 space_width = gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
+    s32 space_width = gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
 
     const wchar_t* pPrevSrcCheckpoint = NULL;
 
@@ -260,7 +251,7 @@ s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
             case '#':
                 break;
             default:
-                current_width += gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, (wchar_t*)pSrcStr);
+                current_width += gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, (wchar_t*)pDestStrCopy);
                 break;
         }
 
@@ -418,12 +409,8 @@ text_0x14::text_0x14()
     }
 }
 
-// https://decomp.me/scratch/ZNzsG
-// TODO: This should match but doesn't, maybe a problem in the comparison scripts ??
-// seems like the new func we dism is the wrong addr or something
-STUB_FUNC(0x5B6050)
+// Only gets its EH frame when <new> isn't included, see Globals.hpp
+MATCH_FUNC(0x5B6050)
 text_0x14::~text_0x14()
 {
-    NOT_IMPLEMENTED;
-
 }

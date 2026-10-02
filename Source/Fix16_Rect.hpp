@@ -57,11 +57,19 @@ class Fix16_Rect
 
     // TODO: None inline version of SetRect_41E350 ??
     EXPORT void SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
+    EXPORT void MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h);
 
     void SetHiLowZ_41E370(Fix16 lowZ, Fix16 highZ)
     {
         this->field_10_low_z = lowZ;
         this->field_14_high_z = highZ;
+    }
+
+    Fix16_Rect(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom, Fix16 z)
+    {
+        SetRect_41E350(left, right, top, bottom);
+        field_10_low_z = z - k_dword_6771E4;
+        field_14_high_z = z + k_dword_6771E4;
     }
 
     // TODO: Get inline addr
@@ -98,24 +106,30 @@ class Fix16_Rect
             false;
     }
 
-    Fix16& get_top_45ADD0()
+    Fix16 get_top_45ADD0()
     {
         return field_8_top;
     }
 
-    Fix16& get_left_45ADB0()
+    Fix16 get_left_45ADB0()
     {
         return field_0_left;
     }
 
-    Fix16& get_right_45ADA0()
+    Fix16 get_right_45ADA0()
     {
         return field_4_right;
     }
 
-    Fix16& get_bottom_45ADC0()
+    Fix16 get_bottom_45ADC0()
     {
         return field_C_bottom;
+    }
+
+    // 9.6f 0x4637A0
+    Fix16 get_low_z_4637A0()
+    {
+        return field_10_low_z;
     }
 
     Fix16 field_0_left;

@@ -1,5 +1,8 @@
 #include "Firefighters.hpp"
 #include "Car_BC.hpp"
+#include "CarAI_78.hpp"
+#include "CarPhysics_B0.hpp"
+#include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
 #include "Hamburger_500.hpp"
 #include "Orca_2FD4.hpp"
@@ -7,6 +10,7 @@
 
 DEFINE_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0, 0x67D4C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_67D1F0, Fix16(0.5f), 0x67D1F0);
+DEFINE_GLOBAL_INIT(Fix16, dword_67D378, Fix16(0), 0x67D378);
 
 DEFINE_GLOBAL_INIT(Ang16, word_67D4B0, Ang16(0), 0x67D4B0);
 DEFINE_GLOBAL_INIT(Ang16, word_67D208, Ang16(360), 0x67D208);
@@ -125,12 +129,95 @@ void FirefighterPool_54::sub_4A88D0()
     field_50_count = 0;
 }
 
-// https://decomp.me/scratch/X8G5z
-STUB_FUNC(0x4a7fc0)
-char_type Firefighter_28::sub_4A7FC0()
+// https://decomp.me/scratch/X8G5z mov 0x4(%esp) vs mov (%eax)
+MATCH_FUNC(0x4a7fc0)
+bool Firefighter_28::sub_4A7FC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_1C_car->field_58_physics)
+    {
+        Firefighter_28::deinit_4A81A0();
+        return 0;
+    }
+
+    if (field_1C_car->field_58_physics->get_car_velocity_4211C0() == dword_67D378)
+    {
+        if (++field_24_next_state_timer >= 1000)
+        {
+            Firefighter_28::deinit_4A81A0();
+            return 0;
+        }
+    }
+    else
+    {
+        field_24_next_state_timer = 0;
+    }
+
+    if (field_1C_car && field_1C_car->field_76_last_seen_timer > 5000)
+    {
+        field_8_state = 6;
+    }
+    if (field_1C_car && field_1C_car->field_74_damage > 32000)
+    {
+        field_8_state = 6;
+    }
+
+    if (field_C_target_car)
+    {
+        if (field_C_target_car->field_88_despawn_status == 6 || field_C_target_car->field_88_despawn_status == 7 ||
+            field_C_target_car->IsDespawning_4215B0() || field_C_target_car->sub_4214B0())
+        {
+            if (field_20_ped)
+            {
+                field_20_ped->SetObjective(objectives_enum::no_obj_0, 9999);
+            }
+            field_8_state = 6;
+        }
+    }
+
+    if (field_20_ped && field_20_ped->bHasGameObject_403B70())
+    {
+        field_8_state = 6;
+    }
+
+    if (field_8_state != 2)
+    {
+        if (field_8_state > 2 && field_8_state <= 4)
+        {
+            if (field_C_target_car)
+            {
+                if (!field_C_target_car->field_0_qq.FindFirstActiveObject_5A6AD0())
+                {
+                    field_8_state = 5;
+                }
+            }
+        }
+    }
+    else
+    {
+        if (field_C_target_car)
+        {
+            if (field_C_target_car->field_88_despawn_status != 6 && !field_C_target_car->IsDespawning_4215B0())
+            {
+                if (field_20_ped)
+                {
+                    if (field_C_target_car->get_x_41E430().ToUInt8() != field_20_ped->field_1DC_objective_target_x.ToUInt8() ||
+                        field_C_target_car->get_y_41E440().ToUInt8() != field_20_ped->field_1E0_objective_target_y.ToUInt8())
+                    {
+                        field_20_ped->SetObjective(objectives_enum::goto_area_in_car_14, 9999);
+                        field_20_ped->field_1DC_objective_target_x = Fix16(field_C_target_car->get_x_41E430().ToUInt8());
+                        field_20_ped->field_1E0_objective_target_y = Fix16(field_C_target_car->get_y_41E440().ToUInt8());
+                        field_20_ped->field_1E4_objective_target_z = Fix16(field_C_target_car->get_z_41E450().ToUInt8());
+                    }
+                }
+            }
+        }
+    }
+
+    if (field_8_state == 6)
+    {
+        Firefighter_28::deinit_4A81A0();
+    }
+    return 1;
 }
 
 MATCH_FUNC(0x4a81a0)
@@ -161,10 +248,142 @@ void Firefighter_28::deinit_4A81A0()
 }
 
 // https://decomp.me/scratch/ZcdAk
-STUB_FUNC(0x4a81f0)
+DEFINE_GLOBAL(Fix16, dword_67D384, 0x67D384);
+
+WIP_FUNC(0x4a81f0)
 void Firefighter_28::sub_4A81F0()
 {
-    NOT_IMPLEMENTED;
+    if (!field_4_bActive)
+    {
+        return;
+    }
+
+    switch (field_8_state)
+    {
+        case 1:
+            if (field_C_target_car && field_C_target_car->field_88_despawn_status != 6 &&
+                !field_C_target_car->IsDespawning_4215B0() && gCar_6C_677930->CanAllocateOfType_446930(5))
+            {
+                field_1C_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::FIRETRUK, field_10_xpos, field_14_ypos, field_18_zpos);
+                if (field_1C_car)
+                {
+                    field_1C_car->IncrementCarStats_443D70(5);
+                    field_1C_car->sub_421560(4);
+                    Car_BC* pCar = field_1C_car;
+                    if (!pCar->field_5C_AI)
+                    {
+                        pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
+                    }
+                    field_1C_car->field_5C_AI->SetCar_453BF0(field_1C_car);
+
+                    field_20_ped = gPedManager_6787BC->sub_470F30();
+                    field_20_ped->field_238_ped_type = ped_type::special_ped_4;
+                    field_20_ped->field_240_occupation = ped_ocupation_enum::fireman;
+                    field_20_ped->SpawnPedInCar_45C730(field_1C_car);
+                    field_20_ped->SetObjective(objectives_enum::goto_area_in_car_14, 9999);
+                    field_20_ped->field_1DC_objective_target_x = Fix16(field_C_target_car->get_x_41E430().ToUInt8());
+                    field_20_ped->field_1E0_objective_target_y = Fix16(field_C_target_car->get_y_41E440().ToUInt8());
+                    field_20_ped->field_1E4_objective_target_z = Fix16(field_C_target_car->get_z_41E450().ToUInt8());
+                    field_20_ped->field_21C_bf.b7 = 1;
+                    field_1C_car->ActivateEmergencyLights_43C920();
+                    field_1C_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                    field_20_ped = field_1C_car->field_54_driver;
+                    field_24_next_state_timer = 0;
+                    field_8_state = 2;
+                    break;
+                }
+
+                if (++field_24_next_state_timer < 50)
+                {
+                    break;
+                }
+            }
+            field_8_state = 6;
+            break;
+
+        case 2:
+            if (!field_1C_car->field_58_physics)
+            {
+                field_8_state = 6;
+                break;
+            }
+            if (sub_4A7FC0())
+            {
+                Fix16 dx = field_C_target_car->field_50_car_sprite->field_14_xy.x - field_1C_car->field_50_car_sprite->field_14_xy.x;
+                Fix16 dy = field_C_target_car->field_50_car_sprite->field_14_xy.y - field_1C_car->field_50_car_sprite->field_14_xy.y;
+                Fix16 abs_dy = Fix16::Abs_negate_out_of_line(dy);
+                if (Fix16::Max_44E540(Fix16::Abs_436A50(dx), abs_dy) < dword_67D384 && field_24_next_state_timer > 100)
+                {
+                    field_8_state = 3;
+                }
+
+                if (!field_20_ped)
+                {
+                    field_8_state = 6;
+                    break;
+                }
+                switch (field_20_ped->field_225_objective_status)
+                {
+                    case 1:
+                        field_8_state = 3;
+                        break;
+                    case 2:
+                        field_8_state = 6;
+                        break;
+                }
+            }
+            break;
+
+        case 3:
+            if (sub_4A7FC0() && field_20_ped && field_8_state == 3)
+            {
+                field_20_ped->SetObjective(objectives_enum::turret_put_out_car_fire_60, 9999);
+                field_20_ped->field_150_target_objective_car = field_C_target_car;
+                field_8_state = 4;
+            }
+            break;
+
+        case 4:
+            if (sub_4A7FC0())
+            {
+                switch (field_20_ped->field_225_objective_status)
+                {
+                    case 1:
+                    case 2:
+                        field_20_ped->SetObjective(objectives_enum::no_obj_0, 9999);
+                        field_8_state = 5;
+                        break;
+                }
+            }
+            break;
+
+        case 5:
+            if (field_1C_car && field_1C_car->field_88_despawn_status != 6 && !field_1C_car->IsDespawning_4215B0() &&
+                !field_1C_car->sub_4214B0())
+            {
+                if (field_1C_car->field_54_driver)
+                {
+                    field_1C_car->field_54_driver->field_21C_bf.b3 = 1;
+                }
+                field_1C_car->sub_421560(3);
+                field_1C_car->InitCarAIControl_440590();
+                field_1C_car->sub_43AF40();
+                field_1C_car->DeactivateEmergencyLights_43C9D0();
+                if (field_1C_car->field_54_driver)
+                {
+                    field_1C_car->field_54_driver->field_150_target_objective_car = 0;
+                    field_1C_car->field_54_driver->SetObjective(objectives_enum::no_obj_0, 9999);
+                    field_1C_car->field_54_driver->field_21C_bf.b11 = 0;
+                }
+            }
+            Reset_4A85E0();
+            break;
+    }
+
+    if (field_8_state == 6)
+    {
+        deinit_4A81A0();
+    }
 }
 
 MATCH_FUNC(0x4a85c0)

@@ -269,9 +269,9 @@ enum
 
 enum gmp_arrow_type
 {
-    GREEN_ONLY_1 = 1,
-    RED_ONLY_2 = 2,
-    GREEN_OR_RED_3 = 3,
+    green_1 = 1,
+    red_2 = 2,
+    green_or_red_3 = 3,
 };
 
 EXTERN_GLOBAL_ARRAY(gmp_map_slope, byte_6F5BA8, 64);
@@ -283,6 +283,9 @@ EXTERN_GLOBAL(Fix16, dword_6F5FA8);
 EXTERN_GLOBAL(Fix16, dword_6F6214);
 
 EXTERN_GLOBAL(Fix16, dword_6F610C);
+extern Fix16 dword_6F6110;
+EXTERN_GLOBAL(Ang16, word_6F603E);
+EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32* road_direction);
 
 struct gmp_zone_list
 {
@@ -305,7 +308,7 @@ class Map_0x370
     EXPORT gmp_map_zone* first_zone_by_type_4DF1D0(u8 zone_type);
 
     EXPORT gmp_map_zone* GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_type);
-    EXPORT u8* sub_4DF3E0(u8 a2, u8 a3, char_type a4);
+    EXPORT gmp_map_zone* sub_4DF3E0(u8 xpos, u8 ypos, u8 zone_type);
 
     EXPORT gmp_map_zone* zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zone_type);
     EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y);
@@ -383,14 +386,14 @@ class Map_0x370
     EXPORT char_type CanSpriteEnterMovementRegion_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6);
     EXPORT char_type sub_4E4630(Fix16 a2);
     EXPORT bool sub_4E4770(Fix16 z_pos);
-    EXPORT char_type sub_4E4820(u32* a2, char_type a3);
-    EXPORT char_type sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4);
-    EXPORT bool sub_4E4AC0(char_type block_type);
+    EXPORT char_type sub_4E4820(Fix16_Rect* pRect, u8 slope_type);
+    EXPORT static void __stdcall FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type block_type);
+    EXPORT static bool __stdcall IsSearchBlockOfType_4E4AC0(char_type block_type);
     EXPORT bool CheckGreenArrowDirection_4E4B40(s32 direction, gmp_block_info* pBlock);
     EXPORT gmp_block_info* FindPavementBlockForCoord_4E4BB0(s32 x, s32 y, s32& z);
     EXPORT gmp_block_info* FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* found_z);
     EXPORT gmp_block_info* sub_4E4CB0(s32 x, s32 y, s32& z);
-    EXPORT Fix16* sub_4E4D40(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
+    EXPORT Fix16 sub_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT Fix16* sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT Fix16* sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z);
     EXPORT Fix16 sub_4E5050(Fix16 x, Fix16 y, Fix16 z, bool& bFound);
@@ -398,7 +401,7 @@ class Map_0x370
     EXPORT char_type sub_4E52A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT bool CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z);
     EXPORT bool CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* found_z);
-    EXPORT char_type sub_4E5640(Fix16 a1, Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
+    EXPORT char_type sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_1, Fix16 y_1, Fix16 z_1, Fix16 x_2, Fix16 y_2, Fix16 z_2);
     EXPORT Fix16 FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos);
     EXPORT char_type sub_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3);
@@ -410,15 +413,77 @@ class Map_0x370
     EXPORT Fix16* sub_4E6400(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT Fix16* GetRailwayZCoordAtXY_4E6510(Fix16* found_z, Fix16 x, Fix16 y);
     EXPORT void sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_type a6);
-    EXPORT s32 sub_4E6660(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5);
-    EXPORT s32 sub_4E7190(Fix16* a2, Fix16* a3, Fix16* a4, Fix16 a5);
+    EXPORT void sub_4E5D10(Fix16* pX, Fix16* pY, Fix16 dist, s32 direction);
+    EXPORT Fix16* sub_4E5D70(Fix16* pOut, Fix16 x, Fix16 y, Ang16 angle);
+    EXPORT Fix16* sub_4E5E00(Fix16* pOut, Fix16 x, Fix16 y, Ang16 angle);
+
+    // The block under (x, y, z), or the one at z when the one under is a lid-less "air" block
+    inline gmp_block_info* GetRoadBlockAt_4E6660(Fix16& x, Fix16& y, Fix16& z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        {
+            pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        }
+        return pBlock;
+    }
+
+    // As GetRoadBlockAt_4E6660, writing straight into pBlock (the original keeps pBlock in a register
+    // through both lookups, which a returned temporary doesn't give)
+    inline void SetRoadBlockAt_4E6660(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
+    {
+        pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        {
+            pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        }
+    }
+
+    // As SetRoadBlockAt_4E6660, but copes with no block under (x, y, z)
+    inline void SetRoadBlockAtOrNull_4E7190(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
+    {
+        pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        if (pBlock && (pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        {
+            pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        }
+    }
+
+    // As GetRoadBlockAt_4E6660, but copes with no block under (x, y, z)
+    inline gmp_block_info* GetRoadBlockAtOrNull_4E7190(Fix16& x, Fix16& y, Fix16& z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        if (pBlock && (pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        {
+            pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        }
+        return pBlock;
+    }
+
+    // Move up to one block along direction, using up dist
+    inline void StepOneBlock_4E6660(Fix16* pX, Fix16* pY, Fix16& dist, s32 direction)
+    {
+        if (dist >= dword_6F6110)
+        {
+            sub_4E5D10(pX, pY, dword_6F6110, direction);
+            dist -= dword_6F6110;
+        }
+        else
+        {
+            sub_4E5D10(pX, pY, dist, direction);
+            dist = dword_6F610C;
+        }
+    }
+
+    EXPORT s32 sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist);
+    EXPORT s32 sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist);
     EXPORT char_type sub_4E7E90(u8* a2, char_type* a3);
     EXPORT char_type CheckColumnHasSolidAbove_4E7FC0(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT s32 sub_4E8140(gmp_block_info* pBlockInfo);
     EXPORT s32 sub_4E8180(u32 read_block_idx);
     EXPORT s32 sub_4E81D0(u32 column_idx);
     EXPORT s32 sub_4E8220(u32 column_idx, s32 z);
-    EXPORT u32 sub_4E8370(u32 a2, s32 a3, char_type a4);
+    EXPORT s32 sub_4E8370(u32 column_idx, s32 z, char_type do_drop);
     EXPORT void ChangeBlock_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, u16 info_value);
     EXPORT void AddNewBlock_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData);
     EXPORT void RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop);
@@ -592,6 +657,56 @@ class Map_0x370
             || gradient_slope->field_0_gradient_direction == EAST_4)
         {
             return true;
+        }
+        return false;
+    }
+
+    bool IsNorthBlockRoadType_433470(s32 x, s32 y, s32 z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x, y - 1, z);
+        if (pBlock && (pBlock->field_B_slope_type & 3) == ROAD)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool IsEastBlockRoadType_4334A0(s32 x, s32 y, s32 z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x + 1, y, z);
+        if (pBlock && (pBlock->field_B_slope_type & 3) == ROAD)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool IsSouthBlockRoadType_4334D0(s32 x, s32 y, s32 z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x, y + 1, z);
+        if (pBlock && (pBlock->field_B_slope_type & 3) == ROAD)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool IsWestBlockRoadType_433500(s32 x, s32 y, s32 z)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(x - 1, y, z);
+        if (pBlock && (pBlock->field_B_slope_type & 3) == ROAD)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    inline bool IsBlockNonAirType_48A350(u8 x, u8 y, u8 z)
+    {
+        gmp_block_info* pBlock = get_block_452980(x, y, z);
+        if (pBlock)
+        {
+            return (pBlock->field_B_slope_type & 3) != AIR;
         }
         return false;
     }

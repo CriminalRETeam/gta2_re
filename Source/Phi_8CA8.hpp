@@ -244,18 +244,18 @@ namespace object_behavior_type
 {
 enum
 {
-    behavior_0 = 0, // basic object: simple update + collision
+    static_object_0 = 0, // basic object: simple update + collision
     behavior_1 = 1, // basic object + extra collision handling
     behavior_2 = 2, // animated object (UpdateAnimation + collision)
-    behavior_3 = 3, // removed from buckets, special update routine
-    behavior_4 = 4, // removed from buckets, different special routine
-    behavior_5 = 5, // Wolfy_30 explosion / timed effect
+    bullet_type_3 = 3, // removed from buckets, special update routine
+    maybe_moving_obj_4 = 4, // removed from buckets, different special routine
+    explosion_5 = 5, // Wolfy_30 explosion / timed effect
     behavior_6 = 6, // simple object, no special animation
     behavior_7 = 7, // removed from buckets, special routine (like 3)
-    behavior_8 = 8, // animated object (like 2)
+    self_animated_8 = 8, // animated object (like 2)
     behavior_9 = 9, // removed from buckets, special routine (like 4)
     behavior_10 = 10, // simple object with special hit logic
-    behavior_11 = 11, // runs DispatchFrameAction_525910 + UpdateEffectPool_525B20 only
+    light_type_11 = 11, // runs DispatchFrameAction_525910 + UpdateEffectPool_525B20 only
     behavior_12 = 12 // runs UpdateEffectPool_525B20 only
 };
 } // namespace object_behavior_type
@@ -279,15 +279,15 @@ class Phi_74
     Fix16 field_C;
     Fix16 field_10;
     Fix16 field_14_friction;
-    Fix16 field_18;
+    Fix16 field_18_mass;
     s16 field_1C_remap;
-    s16 field_1E;
+    s16 field_1E_sprite_palette;
     char_type field_20;
     char_type field_21;
     char_type field_22;
     char_type field_23;
     s32 field_24_idx;
-    s32 field_28;
+    s32 field_28_sprite_type;
     s32 field_2C;
     s32 field_30;
     s32 field_34_behavior_type; // One of object_behavior_type

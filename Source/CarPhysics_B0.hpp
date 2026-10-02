@@ -26,16 +26,16 @@ EXTERN_GLOBAL(Fix16_Point, stru_6FDF50);
 EXTERN_GLOBAL(Fix16, dword_6FE0B0);
 EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
 
-EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 a2,
-                                                                Fix16 a3,
-                                                                Fix16_Point& a4,
-                                                                Fix16_Point& a5,
-                                                                Fix16_Point& a6,
-                                                                Fix16_Point& a7,
+EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
+                                                                Fix16 TargetMass,
+                                                                Fix16_Point& RelativeVelocity,
+                                                                Fix16_Point& DistToCollision_ByRef,
+                                                                Fix16_Point& CollisionIntersectPoint,
+                                                                Fix16_Point& CoM_related,
                                                                 Fix16_Point& a8,
-                                                                Fix16 a9,
-                                                                Fix16 a10,
-                                                                Fix16 a11);
+                                                                Fix16 OwnerMomOfInertia,
+                                                                Fix16 TargetMomOfInertia,
+                                                                Fix16 offset);
 
 namespace car_turn_direction
 {
@@ -220,7 +220,7 @@ class CarPhysics_B0
     EXPORT void SetCar_5638C0(Car_BC* pBC);
     EXPORT CarPhysics_B0();
 
-    inline Fix16 sub_4211A0()
+    inline Fix16 GetLinearSpeed_4211A0()
     {
         return field_40_linvel_1.GetLength_41E260();
     }
@@ -278,7 +278,7 @@ class CarPhysics_B0
     }
 
     // FUNCTION: 96f 0x421210
-    void sub_421210()
+    void Accelerate_421210()
     {
         field_93_is_forward_gas_on = 1;
         field_91_is_foot_brake_on = 0;
@@ -296,7 +296,7 @@ class CarPhysics_B0
     }
 
     // FUNCTION: 96f 0x42AC00
-    void sub_42AC00()
+    void NeutralGear_42AC00()
     {
         field_91_is_foot_brake_on = 0;
         field_93_is_forward_gas_on = 0;
@@ -381,7 +381,7 @@ class CarPhysics_B0
     char_type field_A9_car_model;
     char_type field_AA_sbw;
     char_type field_AB_tpa;
-    char_type field_AC_drive_wheels_locked_q;
+    u8 field_AC_drive_wheels_locked_q;
     char_type field_AD_turn_direction;
     char_type field_AE;
     char_type field_AF;

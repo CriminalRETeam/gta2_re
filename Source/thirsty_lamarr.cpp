@@ -41,13 +41,13 @@ thirsty_lamarr::thirsty_lamarr()
     field_2E_non_used_digits = 0;
     field_30_max_value = 0;
     field_34_first_digit_texture_idx = 0;
-    field_36_palette = 0;
+    field_36_sprite_idx = 0;
 }
 
 MATCH_FUNC(0x492110)
 void thirsty_lamarr::SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette)
 {
-    field_36_palette = palette;
+    field_36_sprite_idx = palette;
     field_2C_digit_transition_speed = digit_transition_speed;
     field_30_max_value = max_value;
     field_2A_max_num_of_digits = GetMaxNumOfDigits_4F7660(field_30_max_value);
@@ -59,11 +59,11 @@ void thirsty_lamarr::SetupDigitsParams_492110(s16 digit_transition_speed, s32 ma
 MATCH_FUNC(0x492150)
 void thirsty_lamarr::sub_492150()
 {
-    u16 sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, field_36_palette);
-    sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_pal);
+    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_sprite_idx);
+    sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     field_27_sprite_w = sprite_index->field_4_width;
     field_28_sprite_h_calc = sprite_index->field_5_height / 11;
-    field_34_first_digit_texture_idx = gSharp_pare_0x15D8_705064->RegisterDigits_5B9220(field_2A_max_num_of_digits, field_36_palette);
+    field_34_first_digit_texture_idx = gSharp_pare_0x15D8_705064->RegisterDigits_5B9220(field_2A_max_num_of_digits, field_36_sprite_idx);
 }
 
 MATCH_FUNC(0x4921b0)
@@ -102,24 +102,24 @@ void thirsty_lamarr::ChangeStatByAmount_4921B0(s32 amount)
 }
 
 MATCH_FUNC(0x4921f0)
-void thirsty_lamarr::sub_4921F0(s32 a2, s16 a3)
+void thirsty_lamarr::ColorDigits_4921F0(s32 palette_type, s16 palette)
 {
-    u16 a;
-    if (a2 == 2)
+    u16 virtual_palette;
+    if (palette_type == palette_types_enum::sprites_2)
     {
-        u16 new_sprite = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, field_36_palette);
-        a = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, new_sprite);
+        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_sprite_idx);
+        virtual_palette = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
     }
     else
     {
-        a = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(a2, a3); // default color ?
+        virtual_palette = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_type, palette); // default color ?
     }
 
     s32 uVar4 = field_2E_non_used_digits;
 
     while (uVar4 < 9)
     {
-        gSharp_pare_0x15D8_705064->SetPal_5B9660(field_34_first_digit_texture_idx - field_2E_non_used_digits + uVar4, a);
+        gSharp_pare_0x15D8_705064->SetPal_5B9660(field_34_first_digit_texture_idx - field_2E_non_used_digits + uVar4, virtual_palette);
         uVar4++;
     }
 }
@@ -201,11 +201,64 @@ s32 thirsty_lamarr::sub_492260(s32 base_xpos, s32 base_ypos)
     return curr_xpos - (field_27_sprite_w >> 1);
 }
 
-STUB_FUNC(0x492430)
-s32 thirsty_lamarr::sub_492430(s32 a3, s32 a4)
+// Draws the digits left to right, skipping leading zeros, and returns the x after the last digit
+WIP_FUNC(0x492430)
+s32 thirsty_lamarr::sub_492430(s32 base_xpos, s32 base_ypos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 curr_xpos = base_xpos + (field_27_sprite_w >> 1);
+    bool bFirst = true;
+    s32 ypos_default = base_ypos + (field_28_sprite_h_calc >> 1);
+
+    for (s32 idx = field_2E_non_used_digits; idx < 9; idx++)
+    {
+        s32 offset = field_13_offset[idx];
+        if (bFirst)
+        {
+            char_type curr_char = field_9_str[idx];
+            if (curr_char == '0' && idx != 8 && !field_13_offset[idx])
+            {
+                continue;
+            }
+
+            u8 height;
+            if (curr_char != '0' || idx == 8)
+            {
+                height = field_28_sprite_h_calc;
+            }
+            else
+            {
+                height = field_13_offset[idx];
+            }
+
+            u16 v = field_28_sprite_h_calc * (58 - curr_char) - offset;
+            sub_495470(gSharp_pare_0x15D8_705064->sub_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
+                       curr_xpos,
+                       base_ypos + (s8)height / 2,
+                       field_27_sprite_w,
+                       height,
+                       word_67B210,
+                       0,
+                       0);
+            bFirst = false;
+            curr_xpos += field_27_sprite_w;
+        }
+        else
+        {
+            u16 v = field_28_sprite_h_calc * (58 - field_9_str[idx]) - offset;
+            sub_495470(gSharp_pare_0x15D8_705064->sub_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
+                                                             v,
+                                                             field_28_sprite_h_calc),
+                       curr_xpos,
+                       ypos_default,
+                       field_27_sprite_w,
+                       field_28_sprite_h_calc,
+                       word_67B210,
+                       0,
+                       0);
+            curr_xpos += field_27_sprite_w;
+        }
+    }
+    return curr_xpos;
 }
 
 MATCH_FUNC(0x4925c0)

@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
+#include "Generators.hpp"
 #include "Globals.hpp"
 #include "Miss2_25C.hpp"
 #include "Object_5C.hpp"
@@ -13,6 +14,7 @@
 #include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
+#include "miss2_0x11C.hpp"
 
 DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
 DEFINE_GLOBAL(SaveData_748, gGameSave_6F78C8, 0x6F78C8);
@@ -57,11 +59,55 @@ str_table_entry* frosty_pasteur_0xC1EA8::StrEntryByString_5030B0(char_type* strT
     return 0;
 }
 
-STUB_FUNC(0x511b10)
+EXTERN_GLOBAL_ARRAY(u8, byte_6212F0, 19);
+
+// Sets the generator type for `car_model` from the script's car list, or type 0x41 when it isn't
+// in the list. Reads the global rather than `this`.
+MATCH_FUNC(0x511A70)
+void frosty_pasteur_0xC1EA8::sub_511A70(s32 car_model, Generator_2C* pGen)
+{
+    u8* pList = (u8*)gfrosty_pasteur_6F8060->field_340_car_list;
+    u8 i;
+    for (i = 0; i < 19; pList++, i++)
+    {
+        if (car_model == *pList)
+        {
+            pGen->field_0_gen_type = byte_6212F0[i];
+            if (byte_6212F0[i] < 0x5B)
+            {
+                pGen->sub_4C1A70();
+                pGen->field_1E_kill_timer = 3;
+            }
+            else
+            {
+                pGen->sub_4C1A70();
+                pGen->field_1E_kill_timer = 1;
+            }
+            break;
+        }
+    }
+
+    if (i == 19)
+    {
+        pGen->sub_4C1A70();
+        pGen->field_1E_kill_timer = 3;
+        pGen->field_0_gen_type = 0x41;
+    }
+}
+
+MATCH_FUNC(0x511b10)
 char_type frosty_pasteur_0xC1EA8::sub_511B10(s16 idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    SCR_DECLARE_CRANE_POWERUP* pCmd = (SCR_DECLARE_CRANE_POWERUP*)GetBasePointer_512770(idx);
+    SCR_POINTER* pGenerator = (SCR_POINTER*)GetBasePointer_512770(pCmd->field_A_generator);
+    return gCar_214_705F20->sub_5C86C0(1,
+                                       3,
+                                       (SCR_THREAD*)pGenerator->field_8_generator,
+                                       Fix16(pCmd->field_C_pos.field_0_x) + dword_6F75F0,
+                                       Fix16(pCmd->field_C_pos.field_1_y) + dword_6F75F0,
+                                       Fix16(pCmd->field_C_pos.field_2_z),
+                                       dword_6F75F0,
+                                       dword_6F75F0);
 }
 
 MATCH_FUNC(0x511b90)
@@ -360,10 +406,12 @@ u16 frosty_pasteur_0xC1EA8::sub_512400(const char_type* String1, u16* a3)
 }
 
 // https://decomp.me/scratch/W4gXh
-STUB_FUNC(0x5121E0)
+// See docs/match_attempts.md
+WIP_FUNC(0x5121E0)
 void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
     u32 total_str_length = 0;
     BYTE* pStringDataIter1 = (BYTE*)field_1334C_strings;
     while (total_str_length < tableSize)
@@ -383,7 +431,7 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
     {
         //offset = 4;
         u32 total_str_length_ = 0;
-        u16 str_count = 0;
+        s32 str_count = 0;
 
         do
         {
@@ -428,10 +476,46 @@ void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
     }
 }
 
-STUB_FUNC(0x5125F0)
+MATCH_FUNC(0x5125F0)
 void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
 {
-    NOT_IMPLEMENTED;
+    u32 Buffer;
+    u16 Buffer_16;
+    u16 j = 0;
+    for (u16 i = 0; i < field_13350_pStringTbl->field_0_string_count; i++)
+    {
+        str_table_entry* pEntry = field_13350_pStringTbl->field_4[i];
+        if ((u8)pEntry->field_4_type == 21)
+        {
+            size_t length = strlen(pEntry->get_name());
+
+            ((char*)&pEntry->field_6)[length] = 'S';
+            ((char*)&pEntry->field_6)[length + 1] = 'C';
+            ((char*)&pEntry->field_6)[length + 2] = 'R';
+
+            if (field_2F4 == 1)
+            {
+                sprintf(gTmpBuffer_67C598, "data\\%s\\", field_45C_scr_file_name);
+                strncat(gTmpBuffer_67C598, pEntry->get_name(), pEntry->field_8_length);
+                File::Global_Open_4A7060(gTmpBuffer_67C598);
+
+                File::Global_Read_4A71C0(&Buffer_16, 2);
+                field_C1D72[j] = Buffer_16;
+                File::Global_Read_4A71C0(&Buffer_16, 2);
+                field_C1D34[j] = Buffer_16;
+                File::Global_Read_4A71C0(&Buffer, 4);
+                field_C1DB0[j] = Buffer;
+
+                File::Global_Read_4A71C0(&field_AA934[3072 * j], 3072);
+                File::GetRemainderSize_4A7250(&field_13354[20000 * j], &field_C1DB0[j]);
+
+                File::Global_Close_4A70C0();
+
+                pEntry->field_2_zone_idx = j;
+                j++;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x512770)
@@ -616,32 +700,157 @@ thread_C* frosty_pasteur_0xC1EA8::sub_512AD0(s32 a2)
     return NULL;
 }
 
-STUB_FUNC(0x512af0)
-char_type frosty_pasteur_0xC1EA8::sub_512AF0(s32 a2, char_type a3, char_type a4)
+MATCH_FUNC(0x512af0)
+char_type frosty_pasteur_0xC1EA8::sub_512AF0(s32 id, char_type weapon_idx, char_type bUnk)
 {
-    NOT_IMPLEMENTED;
+    WeaponCheckTable* pFree = NULL;
+    WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
+
+    for (u8 i = 0; i < 15; pTable++, i++)
+    {
+        if (pTable->field_0_entity_id == 0 && pTable->field_4_weapon_idx == 0 && !pFree)
+        {
+            pFree = pTable;
+        }
+
+        if (pTable->field_0_entity_id == id)
+        {
+            if (pTable->field_4_weapon_idx == weapon_idx || pTable->field_4_weapon_idx == weapon_type::weapon_0x17)
+            {
+                if (bUnk)
+                {
+                    if ((pTable->field_6 & 4) == 4)
+                    {
+                        return 1;
+                    }
+                }
+                else
+                {
+                    if ((pTable->field_6 & 2) == 2)
+                    {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+
+    if (pFree)
+    {
+        pFree->field_0_entity_id = id;
+        pFree->field_4_weapon_idx = weapon_idx;
+        if (bUnk)
+        {
+            pFree->field_6 = 4;
+        }
+        else
+        {
+            pFree->field_6 = 2;
+        }
+        field_278++;
+    }
     return 0;
 }
 
-STUB_FUNC(0x512ba0)
-char_type* frosty_pasteur_0xC1EA8::sub_512BA0(s32 a2, char_type a3)
+MATCH_FUNC(0x512ba0)
+void frosty_pasteur_0xC1EA8::sub_512BA0(s32 id, char_type bUnk)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
+
+    for (u8 i = 0; i < 15; pTable++, i++)
+    {
+        if (pTable->field_0_entity_id == id)
+        {
+            if (bUnk)
+            {
+                if ((pTable->field_6 & 4) == 4)
+                {
+                    // je clear; jmp next in the original: the shared tail needs a goto (duplicated
+                    // bodies, early continue/return and a combined condition all change the code)
+                    goto clear;
+                }
+                continue;
+            }
+            if ((pTable->field_6 & 2) != 2)
+            {
+                continue;
+            }
+        clear:
+            pTable->field_0_entity_id = 0;
+            pTable->field_4_weapon_idx = 0;
+            pTable->field_5 = 0;
+            pTable->field_6 = 0;
+            field_278--;
+        }
+    }
 }
 
-STUB_FUNC(0x512c00)
-s32 frosty_pasteur_0xC1EA8::sub_512C00(s32 a2, s32 a3, char_type a4)
+// https://decomp.me/scratch/r6LhX
+MATCH_FUNC(0x512c00)
+void frosty_pasteur_0xC1EA8::sub_512C00(s32 entity_id, s32 projectile_model, char_type bUnk)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
+
+    s8 projectile_type = sub_48E780(projectile_model);
+
+    for (u8 i = 0; i < 15; pTable++, i++)
+    {
+        if (pTable->field_0_entity_id == entity_id)
+        {
+            if (pTable->field_4_weapon_idx == weapon_type::weapon_0x17 || pTable->field_4_weapon_idx == projectile_type)
+            {
+                if (bUnk)
+                {
+                    if ((pTable->field_6 & 4) == 4)
+                    {
+                        // je set; jmp next in the original: the shared tail needs a goto (duplicated
+                        // bodies, early continue/return and a combined condition all change the code)
+                        goto set;
+                    }
+                    return;
+                }
+                if ((pTable->field_6 & 2) != 2)
+                {
+                    return;
+                }
+            set:
+                pTable->field_6 |= 1;
+                pTable->field_5 = projectile_type;
+                return;
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x512c70)
-bool frosty_pasteur_0xC1EA8::sub_512C70(s32 a2, char_type a3, char_type a4)
+MATCH_FUNC(0x512c70)
+bool frosty_pasteur_0xC1EA8::sub_512C70(s32 id, char_type weapon_idx, char_type bUnk)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
+
+    for (u8 i = 0; i < 15; pTable++, i++)
+    {
+        if (pTable->field_0_entity_id == id)
+        {
+            if (pTable->field_4_weapon_idx == weapon_idx || pTable->field_4_weapon_idx == weapon_type::weapon_0x17)
+            {
+                if (bUnk)
+                {
+                    if ((pTable->field_6 & 4) == 4)
+                    {
+                        return (pTable->field_6 & 1) == 1;
+                    }
+                }
+                else
+                {
+                    if ((pTable->field_6 & 2) == 2)
+                    {
+                        return (pTable->field_6 & 1) == 1;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 // https://decomp.me/scratch/qh4EW
@@ -668,7 +877,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     field_184_count = 0;
     memset(field_188_thrds_4, 0, sizeof(field_188_thrds_4));
     field_278 = 0;
-    memset(field_27C, 0, sizeof(field_27C));
+    memset(field_27C_weapon_check_table, 0, sizeof(field_27C_weapon_check_table));
     memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
 
     gMiss2_25C_6F805C = new Miss2_25C();
@@ -725,8 +934,44 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     gStoredCarId_6F78B4 = 0;
 }
 
-STUB_FUNC(0x5130e0)
+MATCH_FUNC(0x5130e0)
 frosty_pasteur_0xC1EA8::~frosty_pasteur_0xC1EA8()
 {
-    NOT_IMPLEMENTED;
+    if (miss2_0x11C_Pool_6F8064)
+    {
+        GTA2_DELETE_AND_NULL(miss2_0x11C_Pool_6F8064);
+    }
+
+    if (field_13350_pStringTbl)
+    {
+        memset(field_13350_pStringTbl->field_4, 0, sizeof(field_13350_pStringTbl->field_4));
+        free(field_13350_pStringTbl);
+        field_13350_pStringTbl = NULL;
+    }
+
+    if (field_1334C_strings)
+    {
+        free(field_1334C_strings);
+        field_1334C_strings = NULL;
+    }
+
+    memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
+
+    if (gMiss2_25C_6F805C)
+    {
+        GTA2_DELETE_AND_NULL(gMiss2_25C_6F805C);
+    }
+
+    field_328_passed_flag = NULL;
+    field_32C_1_passed_flag = NULL;
+    field_330_2_passed_flag = NULL;
+    field_334_3_passed_flag = NULL;
+    field_340_car_list = NULL;
+    field_338_secrets_passed = NULL;
+    field_33C_secrets_failed = NULL;
+    field_348_gang_1_mission_flag = NULL;
+    field_34C_gang_2_mission_flag = NULL;
+    field_350_gang_3_mission_flag = NULL;
+    gStoredCarId_6F78B4 = 0;
+    gStoredCar_6F7560 = NULL;
 }

@@ -230,19 +230,31 @@ enum
 // static_assert(sizeof(gmp_zone_type_enum) == 4);
 } // namespace gmp_zone_type_enum
 
+namespace crew_type // KFC type
+{
+enum
+{
+    paramedic_1 = 1,
+    police_3 = 3,
+    fbi_4 = 4,
+    swat_5 = 5,
+    army_6 = 6,
+};
+} // namespace crew_type
+
 namespace palette_types_enum
 {
 enum
 {
-    wrong_type = 0,
-    tiles = 1,
-    sprites = 2,
-    car_remaps = 3,
-    ped_remaps = 4,
-    code_obj_remaps = 5,
-    map_obj_remaps = 6,
-    user_remaps = 7,
-    font_remaps = 8,
+    wrong_type_0 = 0,
+    tiles_1 = 1,
+    sprites_2 = 2,
+    car_remaps_3 = 3,
+    ped_remaps_4 = 4,
+    code_obj_remaps_5 = 5,
+    map_obj_remaps_6 = 6,
+    user_remaps_7 = 7,
+    font_remaps_8 = 8,
 };
 // static_assert(sizeof(palette_types_enum) == 4);
 } // namespace palette_types_enum
@@ -372,7 +384,7 @@ enum
     ped_remap_green_police = 1,
     ped_remap_red_police = 2,
     ped_remap_yellow_police = 3,
-    ped_remap_khaki_police = 4,
+    ped_remap_army = 4,
     ped_remap_red_head_redneck = 5,
     ped_remap_blond_head_redneck = 6,
     ped_remap_yellow_scientist = 7,
@@ -534,19 +546,35 @@ enum
 // static_assert(sizeof(spec_surface_type_enum) == 4);
 } // namespace spec_surface_type_enum
 
+namespace car_surface_type
+{
+enum
+{
+    flat_surface_0 = 0,
+    slope_northwards_1 = 1,
+    slope_southwards_2 = 2,
+    slope_westwards_3 = 3,
+    slope_eastwards_4 = 4,
+    air_surface_6 = 6,
+    unknown_surface_7 = 7,
+    water_surface_8 = 8,
+    unknown_surface_9 = 9,
+};
+} // namespace car_surface_type
+
 namespace sprite_types_enum
 {
 enum
 {
     unknown_0 = 0, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
     unknown_1 = 1, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
-    car = 2,
-    ped = 3,
-    code_obj1 = 4,
-    map_obj = 5,
-    user = 6,
-    font = 7,
-    code_obj2 = 8,
+    car_2 = 2,
+    ped_3 = 3,
+    code_obj1_4 = 4,
+    map_obj_5 = 5,
+    user_6 = 6,
+    font_7 = 7,
+    code_obj2_8 = 8,
 };
 // static_assert(sizeof(sprite_types_enum) == 4);
 } // namespace sprite_types_enum
@@ -711,17 +739,18 @@ enum
     red_phone_177 = 177,
     yellow_phone_179 = 179,
     green_phone_181 = 181,
-    granade_obj_183 = 183,
+    grenade_obj_183 = 183,
+    grenade_obj_on_ground_184 = 184,
     huge_red_skid_189 = 189,
     huge_white_skid_190 = 190,
     huge_brown_skid_191 = 191,
     shotgun_bullet_192 = 192,
     tanktop_193 = 193,
-    antenna_194 = 194,
+    fire_hitting_194 = 194,
     object_195 = 195,
     animating_rubbish_196 = 196,
-    dead_rubbish_197 = 197,
-    moving_cone_198 = 198,
+    fire_197 = 197, // like the one in peds
+    maybe_bullet_on_fire_198 = 198,
     object_199 = 199,
     remote_200 = 200,
 
@@ -746,7 +775,14 @@ enum
     pistol_bullet_265 = 265,
     secret_token_266 = 266,
 
-    unknown_maybe_map_slope_278 = 278,
+    electrobaton_bullet_277 = 277,
+    sound_object_type_1_278 = 278,
+    sound_object_type_2_279 = 279,
+    power_generator_281 = 281,
+    destroyed_powergen_282 = 282,
+    invisible_powergen_283 = 283,
+    powergen_light_284 = 284,
+    destroyed_invisible_powergen_285 = 285,
     kill_frenzy_icon_286 = 286,
     loonies_icon_287 = 287,
     yakuza_icon_288 = 288,
@@ -862,6 +898,18 @@ enum
     line_of_sight_player_only_6 = 6,
 };
 } // namespace threat_search_enum
+
+namespace ped_type
+{
+enum
+{
+    player_2 = 2,
+    dummy_3 = 3,
+    special_ped_4 = 4,
+    script_created_5 = 5,
+    dummy_with_occupation_6 = 6,
+};
+} // namespace ped_type
 
 namespace ped_state_1
 {

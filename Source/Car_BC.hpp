@@ -34,7 +34,7 @@ class Player;
 
 EXTERN_GLOBAL(Fix16, dword_6777D0);
 
-EXPORT Ang16 __stdcall sub_4F7940(s32* a2);
+EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32* a2);
 
 namespace car_kind
 {
@@ -85,7 +85,7 @@ class Car_18
     s32 field_0;
     Object_2C* field_4_O2C;
     s32 field_8_type;
-    Fix16 field_C;
+    s32 field_C;
     u8 field_10_remap_rng;
     u8 field_11_pad[3];
     s32 field_14;
@@ -97,7 +97,7 @@ class Car_214
     EXPORT void sub_5C8680(u8 idx);
     EXPORT char_type sub_5C86C0(const s32& pType, const s32& f_C, SCR_THREAD* f_0, Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 a8, Fix16 a9);
     EXPORT void sub_5C8750();
-    EXPORT u16* sub_5C8780(u8 a2, Sprite* pCarSprite);
+    EXPORT void sub_5C8780(u8 idx, Sprite* pSprite);
     Car_18 field_0[22];
     s16 field_210_count;
     s16 field_212;
@@ -170,6 +170,7 @@ class Car_6C
                                                    char_type bIgnorePedRestrictions);
 
     EXPORT Car_BC* GetNearestFrontVehicle_445210(Sprite* a1, u8 a2);
+    EXPORT Car_BC* SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 side, const s32& car_model);
     EXPORT Car_BC* SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 a4, s32 car_model_type);
     EXPORT Car_BC* SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
     EXPORT Trailer* SpawnCabAndTrailer_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
@@ -195,10 +196,30 @@ class Car_6C
         return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6F7690);
     }
 
+    inline Car_BC* SpawnCar_426E10_v2(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
+    {
+        return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6777D0);
+    }
+
     // unknown inlined function
     inline Car_BC* SpawnCar_shortened(s32 car_info_idx)
     {
         return SpawnCarAt_446230(dword_6F77D4, dword_6F77D4, dword_6F77C0, dword_6F804C, car_info_idx, dword_6F77C4);
+    }
+
+    // As SpawnCarAtCorrectZ_426E40 with the scale passed in (PublicTransport_181C::SpawnTrainsFromStations_578860)
+    inline Car_BC* SpawnCarAtCorrectZ_Scaled(Fix16 xpos, Fix16 ypos, const Ang16& rotation, s32 car_model, const Fix16& scale)
+    {
+        Fix16 temp_z;
+        if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
+            car_model == car_model_enum::boxcar)
+        {
+            return SpawnCarAt_446230(xpos, ypos, *gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&temp_z, xpos, ypos), rotation, car_model, scale);
+        }
+        else
+        {
+            return SpawnCarAt_446230(xpos, ypos, gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos), rotation, car_model, scale);
+        }
     }
 
     inline Car_BC* SpawnCarAtCorrectZ_426E40(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model)
@@ -265,10 +286,11 @@ EXTERN_GLOBAL(Car_6C*, gCar_6C_677930);
 class Trailer
 {
   public:
+    EXPORT Ped* GetTruckCabDriver_407B80();
     EXPORT Car_BC* GetCabOrLoadedCar_407B90(Car_BC* a2);
     EXPORT void SetTruckCabAndTrailerCar_407BB0(Car_BC* a2, Car_BC* a3);
-    EXPORT s32* sub_407BD0(s32* a2);
-    EXPORT s32* UpdateTrailerAlignment_407CE0();
+    EXPORT Fix16_Point sub_407BD0();
+    EXPORT void UpdateTrailerAlignment_407CE0();
     EXPORT char_type sub_408140();
     EXPORT void SetupCarPhysicsAndSpriteBinding_408190();
     EXPORT void DeAllocateCarPhysics_4081B0();
@@ -326,7 +348,7 @@ class Car_BC
     EXPORT Fix16 get_anti_strngth_43A1D0();
     EXPORT bool is_bus_43A1F0();
     EXPORT bool sub_43A230();
-    EXPORT Fix16 sub_43A240();
+    EXPORT Fix16 GetCarLinearSpeed_43A240();
     EXPORT bool IsCarInAir_43A3C0();
     EXPORT Ang16 GetOrientationAngle_43A3E0();
     EXPORT Fix16_Point get_linvel_43A450();
@@ -340,8 +362,8 @@ class Car_BC
     EXPORT void SetCarRemap(u8 remap);
     EXPORT void AssignRandomRemap_43A7D0();
     EXPORT char_type GetCarModelForPhysics_43A850();
-    EXPORT void sub_43A950();
-    EXPORT void sub_43A970();
+    EXPORT void DoBreak_43A950();
+    EXPORT void DoBrakeAndHandbrake_43A970();
     EXPORT void SetDriver(Ped* a2);
     EXPORT void ApplyVisualDamage_43A9F0();
     EXPORT void sub_43AA20();
@@ -360,7 +382,7 @@ class Car_BC
     EXPORT char_type GetRemap();
     EXPORT void sub_43B380();
     EXPORT void sub_43B3D0();
-    EXPORT s32 sub_43B420(s32 a2, u32* a3, u32* a4);
+    EXPORT void GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos);
     EXPORT bool sub_43B540(u8 targetDoor);
     EXPORT void GetDoorWorldPosition_43B5A0(u8 targetDoor, Fix16* pOutX, Fix16* pOutY);
     EXPORT char_type IsOnScreenForAnyPlayer_43B730();
@@ -439,7 +461,7 @@ class Car_BC
     EXPORT void UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_441520();
     EXPORT void UpdateBrakeLights_4415C0();
-    EXPORT u32* sub_441600(u32* a2);
+    EXPORT Fix16_Rect NoRefs_441600();
     EXPORT void sub_4416D0(s32 a2);
     EXPORT void sub_4417D0();
     EXPORT void sub_4417F0();
@@ -935,6 +957,12 @@ class Car_BC
         return !sub_421620() && !inline_check_0x10_info_421640() && !IsTrainModel_403BA0() && !sub_447ED0();
     }
 
+    void sub_426E00()
+    {
+        field_9C_engine_status = 3;
+        sub_43BFE0();
+    }
+
     inline Ang16 get_car_rotation_416BB0()
     {
         return field_50_car_sprite->field_0;
@@ -971,13 +999,13 @@ class Car_BC
 
     struct_4 field_0_qq;
     Ped_List_4 field_4_passengers_list;
-    BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
+    CarFlags field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];
     Car_BC* mpNext;
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
     CarPhysics_B0* field_58_physics;
-    CarAI_78* field_5C;
+    CarAI_78* field_5C_AI;
     Hamburger_40* field_60;
     Trailer* field_64_pTrailer;
     Fix16 field_68;
@@ -999,7 +1027,7 @@ class Car_BC
     char_type field_83;
     s32 field_84_car_info_idx;
     s32 field_88_despawn_status;
-    char_type field_8C;
+    u8 field_8C_damage_level;
     char_type field_8D;
     char_type field_8E;
     char_type field_8F;
@@ -1110,3 +1138,8 @@ EXTERN_GLOBAL(TrailerPool*, gTrailerPool_66AC80);
 EXTERN_GLOBAL(Car_14*, gCar_14_677934);
 
 EXTERN_GLOBAL(char_type, gbRngRemapTableDone_679C0A);
+
+// TODO: move
+EXPORT s32 __stdcall sub_45CF90(Ped* pPed);
+EXPORT s32 __stdcall sub_48E780(s32 model);
+EXPORT char_type __stdcall sub_48E720(s32 model);

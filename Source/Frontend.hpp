@@ -20,27 +20,9 @@ struct score_table_line;
 #pragma pack(1)
 struct svg_stru
 {
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    char_type field_48;
-    char_type field_49;
-    char_type field_4A;
+    char_type field_0_map_name[25];
+    char_type field_19_style_name[25];
+    char_type field_32_script_name[25];
     char_type field_4B;
     char_type field_4C;
     char_type field_4D;
@@ -81,7 +63,7 @@ struct menu_element_0x6E
         {
             wchar_t field_6_element_name_str[50];
             u16 field_6A_font_type;
-            u16 field_6C_font_variant;  // actaully it's the font palette
+            u16 field_6C_font_palette;
         };
         u16 field_6_geometric_shape_type; // if field_0_element_type == GEOMETRIC_SHAPE_3
     };
@@ -106,8 +88,8 @@ struct menu_option_0x82
     s16 field_2_x_pos;
     s16 field_4_y_pos;
     wchar_t field_6_option_name_str[50];
-    u16 field_6A;
-    u16 field_6C;
+    u16 field_6A_font_type;
+    u16 field_6C_palette;
     u16 field_6E_horizontal_selected_idx;
     s16 field_70;
     char_type field_72[12];
@@ -142,7 +124,7 @@ struct MenuPage_0xBCA
     EXPORT bool sub_4B6200();
 
     u16 field_0_number_of_options;
-    s16 field_2;
+    s16 field_2_number_of_elements;
     menu_option_0x82 field_4_options_array[10];
     menu_element_0x6E field_518_elements_array[15];
     kind_beaver_6 field_B8A[10];
@@ -390,7 +372,7 @@ struct Frontend
 
     EXPORT void ContinueToNextStage_4B8020();
 
-    EXPORT int __stdcall sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind);
+    EXPORT static int __stdcall sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 palette);
 
     EXPORT char_type AreAllStagesUnlocked_4B7FB0();
 
@@ -496,14 +478,14 @@ struct Frontend
 
     EXPORT void sub_4B57B0(u16 a3, u16 a5);
 
-    EXPORT void sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 arg_C, s32 a2, u16 a6, u16 a7, u8 pStr);
+    EXPORT void sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, s32 palette, u16 scale, u16 a7, u8 pStr);
 
     EXPORT void Frontend::sub_4B5430(score_table_line* pStrings,
                            u16 text_xpos,
                            u16 text_ypos,
                            u16 num_entries,
                            u16 arg_fontType,
-                           u16 draw_kind,
+                           u16 palette,
                            u8 spacing_type);
 };
 
@@ -524,6 +506,7 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 EXPORT void __stdcall sub_5D7D30();
 EXPORT void __cdecl FreeSurface_5D7DC0();
+EXPORT void __stdcall DrawDebugLine_5D7DD0(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour);
 EXPORT void __stdcall sub_5D7CB0();
 
 EXTERN_GLOBAL(short, font_type_703C14);

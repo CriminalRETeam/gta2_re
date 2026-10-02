@@ -55,6 +55,23 @@ struct sound_7
     s32 field_18;
 };
 
+struct sound_f16_pos_0x1C
+{
+    u8 field_0_bUsed;
+    u8 field_1;
+    u8 field_2;
+    u8 field_3;
+    
+    Fix16 field_4_xpos;
+    Fix16 field_8_ypos;
+
+    s32 field_C;
+    s16 field_10;
+    s16 field_12;
+    s32 field_14;
+    s32 field_18;
+};
+
 struct sound_0x68
 {
     s32 field_0_EntityIndex;
@@ -185,7 +202,14 @@ class sound_obj
     s32 field_5440;
     s32 field_5444;
     u32 field_5448_m_FrameCounter;
-    sound_7 field_544C[5];
+    sound_7 field_544C[5]; // sound_f16_pos_0x1C instead of sound_7 ?
+
+    // Radio emitters use indices 1..5
+    inline sound_f16_pos_0x1C& RadioEmitter(s32 idx)
+    {
+        return ((sound_f16_pos_0x1C*)field_544C)[idx];
+    }
+
     char_type field_54D8[5];
     char_type field_54DD;
     char_type field_54DE;
@@ -200,7 +224,7 @@ class sound_obj
     char_type field_54E7;
     s16 field_54E8[5];
     u8 field_54F2[5];
-    char_type field_54F7[5];
+    u8 field_54F7[5];
     s32 field_54FC;
     s32 field_5500;
     char_type field_5504_radio_station_change_mode;
@@ -312,7 +336,7 @@ class sound_obj
     EXPORT void ProcessType11_HudPager_418B60(s32 a2);
     EXPORT void sub_418C20();
     EXPORT void sub_418C60();
-    EXPORT void sub_418C80(s32 a2);
+    EXPORT void PlayVocal_418C80(s32 a2);
     EXPORT void ProcessType10_Vocals_418CA0();
     EXPORT char_type CalculateDistance_419020(Fix16 new_dist);
     EXPORT bool VolCalc_419070(u8 a2, Fix16 a3, char_type a4);
@@ -366,6 +390,7 @@ class sound_obj
     EXPORT u8 GetQueuedRadioWordCount_427310();
     EXPORT void EnqueueRadioCrimeCallout_427340(s32 word_base, u8 xpos, u8 ypos);
     EXPORT void AppendRadioMessageSuffix_4273B0();
+    EXPORT void nullsub_4();
     EXPORT u32 GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone);
 
     EXPORT void ProcessType7_Weapon_42A500(s32 idx);
@@ -373,15 +398,15 @@ class sound_obj
     EXPORT void ProcessType3_CopRadioAndMusic_57DD50();
     EXPORT void HandleVocalStreamSwitching_57DF10(char_type a2);
     EXPORT void UpdateCarEngineAudio_57E220();
-    EXPORT u32 UpdateVocalStream_57E510();
+    EXPORT void UpdateVocalStream_57E510();
     EXPORT void Type3_CopRadioReport_57E680();
-    EXPORT char_type ChooseRadioEmitterForVehicle_57E6C0();
+    EXPORT void ChooseRadioEmitterForVehicle_57E6C0();
     EXPORT void InitMusicAndCopRadio_57E960();
     EXPORT void DeInitVocals_57EA10();
     EXPORT void UpdateActiveRadioEmitterVolume_57EA90();
-    EXPORT char_type ComputeRadioEmitterVolume_57EB90(s32 emitterIndex, s32 bUseFarRadius);
+    EXPORT char_type ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseFarRadius);
     EXPORT void DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 ypos);
-    EXPORT void sub_57EDB0(s32 a1, s32 a2);
+    EXPORT void sub_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type);
     EXPORT void RemoveSound_57EE30(Fix16 a2, Fix16 a3);
     EXPORT void CycleRadioStation_57EEE0(char_type bPrev);
     EXPORT void SelectBestRadioEmitter_57EF60();

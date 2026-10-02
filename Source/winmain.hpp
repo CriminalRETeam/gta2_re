@@ -11,6 +11,8 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
 EXPORT void __stdcall laughing_blackwell_0x1EB54_sub_5E53C0(BYTE* a1);
 
+void LoadBeginSceneCBPtr();
+
 int __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
 
 EXPORT char __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance);
@@ -22,6 +24,9 @@ EXPORT void __stdcall sub_4DA830();
 EXPORT void sub_5D8E00();
 
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
+EXTERN_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20);
+EXPORT void __stdcall sub_4DB2E0(u8* pSyncData);
+EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemoteSyncData);
 
 EXTERN_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 652);
 
@@ -30,3 +35,8 @@ EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 EXTERN_GLOBAL(u32, gBufferMode_706B34);
 
 EXTERN_GLOBAL(char_type, gLighting_626A09);
+
+static inline u8 IsNetworkGame_434B10()
+{
+    return bStartNetworkGame_7081F0;
+}

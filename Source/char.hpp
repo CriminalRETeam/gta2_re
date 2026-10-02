@@ -38,8 +38,8 @@ class Char_B4
     Ang16 field_14;
     s8 field_16;
     s8 field_17;
-    s32 field_18;
-    s32 field_1C;
+    void* field_18;
+    void* field_1C;
     s32 field_20;
     s32 field_24;
     Ang16 field_28;
@@ -236,6 +236,15 @@ class Char_B4
         field_40_rotation += ang;
     }
 
+    inline bool IsCollidingWithASprite_433AA0()
+    {
+        if (field_69_is_colliding_with_sprite)
+        {
+            return true;
+        }
+        return false;
+    }
+
     Char_B4();
     ~Char_B4();
 
@@ -246,8 +255,18 @@ class Char_B4
     EXPORT void sub_545430();
     EXPORT bool sub_5451C0();
 
-    EXPORT Fix16_Point* sub_545580(Fix16_Point* a2);
+    EXPORT Fix16_Point sub_545580();
     EXPORT void SetRemap_46DD50(u8 remap);
+
+    // Inlined copy of SetRemap_46DD50
+    inline void SetRemap_Inline(u8 remap)
+    {
+        this->field_5_remap = remap;
+        if (remap != 0xFF)
+        {
+            field_80_sprite_ptr->SetRemap(remap);
+        }
+    }
 
     EXPORT void RemoveFireSprites_5454B0();
     EXPORT void DoJump_5454D0();
@@ -267,7 +286,7 @@ class Char_B4
     EXPORT void DispatchCollision_548670(char_type a2);
     EXPORT void HandleObjectCollision_548840(Object_2C* a2);
     EXPORT void HandlePedCollision_548BD0(Char_B4* a2);
-    EXPORT void HandleGenericCollision_54A530(Car_BC* a2, Object_2C* a3, Object_2C* a4);
+    EXPORT void HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_B4* pChar);
     EXPORT char_type ContinueMovementAfterCollision_54B8F0();
     EXPORT void sub_54C090();
     EXPORT char_type CanMoveOntoSlope_54C1A0(s32 path_direction);

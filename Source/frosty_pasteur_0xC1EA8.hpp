@@ -5,6 +5,8 @@
 #include "miss2_0x11C.hpp"
 #include <windows.h>
 
+class Generator_2C;
+
 #pragma pack(push)
 #pragma pack(1)
 struct str_table_entry
@@ -24,7 +26,7 @@ struct str_table_entry
 
 struct str_table_normalized
 {
-    s16 field_0_string_count;
+    u16 field_0_string_count;
     s16 field_2; // pad ?
     str_table_entry* field_4[999];
 };
@@ -588,11 +590,21 @@ class SaveData_748
 
 EXTERN_GLOBAL(SaveData_748, gGameSave_6F78C8);
 
+struct WeaponCheckTable
+{
+    s32 field_0_entity_id;
+    s8 field_4_weapon_idx;
+    s8 field_5;
+    s8 field_6;
+    s8 field_7_pad;
+};
+
 class frosty_pasteur_0xC1EA8
 {
   public:
     EXPORT str_table_entry* FindStringById_503080(s16 stringId);
     EXPORT str_table_entry* StrEntryByString_5030B0(char_type* strToFind);
+    EXPORT void sub_511A70(s32 car_model, Generator_2C* pGen);
     EXPORT char_type sub_511B10(s16 idx);
     EXPORT void SaveScriptCounters_511B90();
     EXPORT void LoadScriptCounters_511C30();
@@ -619,10 +631,10 @@ class frosty_pasteur_0xC1EA8
     EXPORT thread_C* sub_512A70(s32 a2, s32 a3);
     EXPORT thread_C* sub_512AA0(s32 a2);
     EXPORT thread_C* sub_512AD0(s32 a2);
-    EXPORT char_type sub_512AF0(s32 a2, char_type a3, char_type a4);
-    EXPORT char_type* sub_512BA0(s32 a2, char_type a3);
-    EXPORT s32 sub_512C00(s32 a2, s32 a3, char_type a4);
-    EXPORT bool sub_512C70(s32 a2, char_type a3, char_type a4);
+    EXPORT char_type sub_512AF0(s32 id, char_type weapon_idx, char_type bUnk);
+    EXPORT void sub_512BA0(s32 id, char_type bUnk);
+    EXPORT void sub_512C00(s32 entity_id, s32 projectile_model, char_type bUnk);
+    EXPORT bool sub_512C70(s32 id, char_type weapon_idx, char_type bUnk);
     EXPORT frosty_pasteur_0xC1EA8();
     EXPORT ~frosty_pasteur_0xC1EA8();
 
@@ -634,7 +646,7 @@ class frosty_pasteur_0xC1EA8
     thread_C field_188_thrds_4[20];
     s16 field_278;
     s16 field_27A;
-    BYTE field_27C[120];
+    WeaponCheckTable field_27C_weapon_check_table[15];
     s32 field_2F4;
     Fix16_Rect field_2F8_area_rect;
     s32 field_310_finish_score;
@@ -673,7 +685,7 @@ class frosty_pasteur_0xC1EA8
     BYTE field_AA934[95232];
     s16 field_C1D34[31];
     s16 field_C1D72[31];
-    s32 field_C1DB0[31];
+    u32 field_C1DB0[31];
     char_type field_C1E2C;
     char_type field_C1E2D;
     char_type field_C1E2E_death_arrest_flag;

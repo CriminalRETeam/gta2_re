@@ -109,19 +109,26 @@ const voc_name gVocNames_5FEA5C[98] = {{"accuracyb.wav"},
                                        {"laughc.wav"},
                                        {"laughd.wav"}};
 
-STUB_FUNC(0x58D400)
+MATCH_FUNC(0x58D430)
 cSampleManager::cSampleManager()
 {
-    NOT_IMPLEMENTED;
     field_1EA8_pAudioBuffer1 = 0;
     field_1EAC_pAudioBuffer2 = 0;
 
-    memset(field_58_hSamples, 0, sizeof(field_58_hSamples));
+    for (s32 k = 0; k < 16; k++)
+    {
+        field_58_hSamples[k] = 0;
+    }
 
-    field_9C_hStreams[0] = 0;
-    field_9C_hStreams[1] = 0;
+    for (s32 j = 0; j < 2; j++)
+    {
+        field_9C_hStreams[j] = 0;
+    }
 
-    memset(field_26C4_3d_sample, 0, sizeof(field_26C4_3d_sample));
+    for (s32 m = 0; m < 16; m++)
+    {
+        field_26C4_3d_sample[m] = 0;
+    }
 
     field_A4_bLoaded = 0;
 
@@ -180,33 +187,38 @@ cSampleManager::cSampleManager()
     }
 }
 
-STUB_FUNC(0x58D620)
+// The original returns an uninitialised bOk when both values are written
+#pragma warning(push)
+#pragma warning(disable : 4700)
+MATCH_FUNC(0x58D620)
 char_type cSampleManager::sub_58D620()
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return 0;
-    /*
-    char_type v1; // bl
-    char_type v2; // [esp+3h] [ebp-Dh]
-    s32 Data; // [esp+4h] [ebp-Ch] BYREF
-    HKEY phkResult; // [esp+8h] [ebp-8h] BYREF
-    u32 dwDisposition; // [esp+Ch] [ebp-4h] BYREF
+    char_type bOk;
+    DWORD data;
+    HKEY hKey;
+    DWORD disposition;
 
-    if (RegCreateKeyExA(HKEY_LOCAL_MACHINE, "Software\\Aureal\\A3D", 0, 0, 0, 0x20006u, 0, &phkResult, &dwDisposition))
+    if (RegCreateKeyExA(HKEY_LOCAL_MACHINE, "Software\\Aureal\\A3D", 0, 0, 0, 0x20006u, 0, &hKey, &disposition))
+    {
         return 0;
-    Data = 0;
-    if (RegSetValueExA(phkResult, "SplashScreen", 0, 4u, (const BYTE *)&Data, 4u))
-        v1 = 0;
-    else
-        v1 = v2;
-    Data = 0;
-    if (RegSetValueExA(phkResult, "SplashAudio", 0, 4u, (const BYTE *)&Data, 4u))
-        v1 = 0;
-    RegCloseKey(phkResult);
-    return v1;
-    */
+    }
+
+    data = 0;
+    if (RegSetValueExA(hKey, "SplashScreen", 0, REG_DWORD, (const BYTE*)&data, 4u))
+    {
+        bOk = 0;
+    }
+
+    data = 0;
+    if (RegSetValueExA(hKey, "SplashAudio", 0, REG_DWORD, (const BYTE*)&data, 4u))
+    {
+        bOk = 0;
+    }
+
+    RegCloseKey(hKey);
+    return bOk;
 }
+#pragma warning(pop)
 
 MATCH_FUNC(0x58D6C0)
 char_type cSampleManager::SoundInit_58D6C0(s32* a2)
@@ -739,20 +751,16 @@ void cSampleManager::ReleaseSample_58DAC0()
     }
 }
 
-STUB_FUNC(0x58E8C0)
+MATCH_FUNC(0x58E8C0)
 void cSampleManager::sub_58E8C0(u32 idx, u32 a3)
 {
-    NOT_IMPLEMENTED;
     if (idx < a3 && field_98_hSample && !SampleNotDone_58E880())
     {
         if (field_A4_bLoaded)
         {
-            BYTE* pBuffer = (BYTE*)field_1EAC_pAudioBuffer2;
-            s32 off = field_A8_sdt_entries[idx].field_0_offset;
-            s32 off2 = field_A8_sdt_entries[a3].field_0_offset;
-            BYTE* start = pBuffer + off;
-            s32 len = off2 - off;
-            AIL_set_sample_address(field_98_hSample, start, len);
+            BYTE* start = (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[idx].field_0_offset;
+            BYTE* end = (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[a3].field_0_offset;
+            AIL_set_sample_address(field_98_hSample, start, end - start);
 
             AIL_set_sample_playback_rate(field_98_hSample, 18050);
             AIL_set_sample_pan(field_98_hSample, 64);

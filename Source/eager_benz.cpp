@@ -278,7 +278,7 @@ void eager_benz::sub_592330()
 }
 
 MATCH_FUNC(0x592360)
-thirsty_lamarr* eager_benz::sub_592360()
+thirsty_lamarr* eager_benz::GetScoreDigits_592360()
 {
     return &field_0_money;
 }
@@ -411,10 +411,320 @@ void eager_benz::AddCash_592620(s32 cash)
     }
 }
 
-STUB_FUNC(0x592660)
+// Scores the player killing pPed1 (pPed2 is the killer's ped): points by occupation and kill
+// type, exploding score, cash, and reports the crime
+WIP_FUNC(0x592660)
 void eager_benz::sub_592660(Ped* pPed1, Ped* pPed2)
 {
-    NOT_IMPLEMENTED;
+    const s32 multipler = field_368_player->field_6BC_multpliers.field_0_value;
+    gmp_map_zone* pZone = gMap_0x370_6F6268->sub_4DF6A0(pPed2->get_cam_x().ToInt(), pPed2->get_cam_y().ToInt());
+
+    s16 gang_idx;
+    if (pPed1->field_17C_pGang)
+    {
+        gang_idx = pPed1->field_17C_pGang->field_1_gang_idx;
+    }
+    else if (pPed1->field_19C)
+    {
+        gang_idx = pPed1->field_19C->field_1_gang_idx;
+    }
+    else
+    {
+        gang_idx = -1;
+    }
+
+    field_1A8_unk.sub_4320D0(0,
+                             87,
+                             pPed1->field_240_occupation,
+                             gang_idx,
+                             pPed1->field_244_remap,
+                             pPed1->field_290,
+                             pPed2->get_car_model(),
+                             pZone);
+
+    s32 rng = rng_dword_67AB34->field_0_rng;
+    if ((u32)(rng - field_78) > 15)
+    {
+        field_7C_e_execution_count = 1;
+    }
+    else
+    {
+        field_7C_e_execution_count++;
+    }
+    field_86_total_kills++;
+    field_78 = rng;
+
+    u32 score = 0;
+    char_type bOtherGang = 0;
+    char_type bHasB4 = pPed1->field_168_game_object != 0;
+    char_type bCop;
+    char_type bArmy;
+    char_type bSwat;
+    char_type bFbi;
+    char_type bGangA;
+    char_type bGangB;
+
+    if (bStartNetworkGame_7081F0 && pPed1->IsField238_45EDE0(2) && pPed1->field_15C_player)
+    {
+        switch (pPed1->field_290)
+        {
+            case 1:
+                score = 1000;
+                break;
+            case 2:
+            case 5:
+                score = 5000;
+                break;
+            case 3:
+                score = 10000;
+                break;
+            case 4:
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+                score = 2000;
+                break;
+        }
+    }
+    else
+    {
+        if (pPed1->field_17C_pGang && (!pPed2->field_17C_pGang || pPed2->field_17C_pGang != pPed1->field_17C_pGang))
+        {
+            bOtherGang = 1;
+        }
+        if (pPed1->field_19C && (!pPed2->field_17C_pGang || pPed2->field_17C_pGang != pPed1->field_19C))
+        {
+            bOtherGang = 1;
+        }
+
+        switch (pPed1->field_240_occupation)
+        {
+            case 23:
+            case 24:
+            case 29:
+            case 37:
+            case 38:
+                bCop = 1;
+                bSwat = 0;
+                bArmy = 0;
+                bFbi = 0;
+                bGangA = 0;
+                bGangB = 0;
+                break;
+            case 25:
+            case 30:
+                bArmy = 1;
+                bSwat = 0;
+                bFbi = 0;
+                bCop = 0;
+                bGangA = 0;
+                bGangB = 0;
+                break;
+            case 26:
+                bSwat = 1;
+                bArmy = 0;
+                bFbi = 0;
+                bCop = 0;
+                bGangA = 0;
+                bGangB = 0;
+                break;
+            case 27:
+            case 31:
+            case 36:
+            case 39:
+                bFbi = 1;
+                bSwat = 0;
+                bArmy = 0;
+                bCop = 0;
+                bGangA = 0;
+                bGangB = 0;
+                break;
+            case 22:
+            case 44:
+                bFbi = 0;
+                bCop = 0;
+                bSwat = 0;
+                bArmy = 0;
+                score = 100;
+                if ((u32)(rng - field_80) > 15)
+                {
+                    field_84_num_elvis_killed = 1;
+                }
+                else
+                {
+                    field_84_num_elvis_killed++;
+                }
+                field_80 = rng;
+                // The original jumps straight to the scoring below, past the kill type switch
+                goto scored;
+            case 15:
+                bGangA = 1;
+                bCop = 0;
+                bSwat = 0;
+                bArmy = 0;
+                bFbi = 0;
+                bGangB = 0;
+                break;
+            case 16:
+                bFbi = 0;
+                bGangB = 1;
+                bCop = 0;
+                bSwat = 0;
+                bArmy = 0;
+                bGangA = 0;
+                break;
+            default:
+                bCop = 0;
+                bSwat = 0;
+                bArmy = 0;
+                bFbi = 0;
+                bGangA = 0;
+                bGangB = 0;
+                break;
+        }
+
+        switch (pPed1->field_290)
+        {
+            case 1:
+                if (bOtherGang)
+                    score = 20;
+                else if (bCop)
+                    score = 100;
+                else if (bFbi)
+                    score = 250;
+                else if (bArmy)
+                    score = 150;
+                else if (bSwat)
+                    score = 200;
+                else if (bGangA)
+                    score = 20;
+                else
+                    score = bGangB ? 20 : 10;
+                break;
+            case 2:
+                if (bOtherGang)
+                    score = 200;
+                else if (bCop)
+                    score = 500;
+                else if (bFbi)
+                    score = 1250;
+                else if (bArmy)
+                    score = 750;
+                else if (bSwat)
+                    score = 1000;
+                else if (bGangA)
+                    score = 100;
+                else
+                    score = bGangB ? 100 : 50;
+                break;
+            case 3:
+                if (bOtherGang)
+                    score = 200;
+                else if (bCop)
+                    score = 1000;
+                else if (bFbi)
+                    score = 2500;
+                else if (bArmy)
+                    score = 1500;
+                else if (bSwat)
+                    score = 2000;
+                else if (bGangA)
+                    score = 200;
+                else
+                    score = bGangB ? 200 : 100;
+                break;
+            case 4:
+                score = 20;
+                break;
+            case 5:
+                score = 50;
+                break;
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+                if (bOtherGang)
+                    score = 50;
+                else if (bCop)
+                    score = 200;
+                else if (bFbi)
+                    score = 500;
+                else if (bArmy)
+                    score = 300;
+                else if (bSwat)
+                    score = 400;
+                else if (bGangA)
+                    score = 40;
+                else
+                    score = bGangB ? 40 : 20;
+                break;
+        }
+    }
+
+scored:
+    char_type bGiveScore = 1;
+    if (bIsFrench_67D53C)
+    {
+        s32 occupation = pPed1->field_240_occupation;
+        if (occupation == 24 || occupation == 29 || occupation == 37 || bSwat || bArmy || bFbi)
+        {
+            bGiveScore = 0;
+        }
+    }
+
+    if (score > 0)
+    {
+        u32 total = (u8)field_75_score_mult * score;
+        if (!bExplodingScoresOff_67D4FB && bHasB4 && bGiveScore && field_368_player->field_0_bIsUser)
+        {
+            gExplodingScorePool->PushScore_596890(pPed1->field_1AC_cam.x, pPed1->field_1AC_cam.y, pPed1->field_1AC_cam.z, total * multipler);
+        }
+        if (bGiveScore)
+        {
+            field_368_player->field_2D4_scores.AddCash_592620(total * field_368_player->field_6BC_multpliers.field_0_value);
+        }
+        if ((u8)field_75_score_mult < 5)
+        {
+            field_75_score_mult++;
+        }
+    }
+
+    if (gShooey_CC_67A4B8->sub_485140(pPed1, field_368_player))
+    {
+        if (bOtherGang)
+        {
+            gShooey_CC_67A4B8->ReportCrimeForPed(9, field_368_player->Get_Field_68_Ped());
+        }
+        else if (bCop || bFbi || bArmy || bSwat)
+        {
+            gShooey_CC_67A4B8->ReportCrimeForPed(8, field_368_player->Get_Field_68_Ped());
+        }
+        else if (pPed1->field_290 == 1 || pPed1->field_290 == 3)
+        {
+            gShooey_CC_67A4B8->ReportCrimeForPed(6, field_368_player->Get_Field_68_Ped());
+        }
+        else
+        {
+            gShooey_CC_67A4B8->ReportCrimeForPed(7, field_368_player->Get_Field_68_Ped());
+        }
+    }
 }
 
 MATCH_FUNC(0x592dd0)
@@ -694,7 +1004,7 @@ void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
         }
     }
 
-    if (model == 194 || model == 198 || model == 154 || model == 193 || model == 195 || model == 159 || model == 199 || a2 == 0 ||
+    if (model == objects::fire_hitting_194 || model == objects::maybe_bullet_on_fire_198 || model == objects::flamethrower_fire_154 || model == objects::tanktop_193 || model == objects::object_195 || model == objects::object_159 || model == objects::object_199 || a2 == 0 ||
         a2 == 1 || a2 == 3)
     {
         field_198_accuracy_count = 0;
@@ -706,7 +1016,7 @@ void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
 }
 
 MATCH_FUNC(0x5935b0)
-thirsty_lamarr* eager_benz::sub_5935B0()
+thirsty_lamarr* eager_benz::GetMultiplayerFragDigits_5935B0()
 {
     return &field_38_multiplayer_frags;
 }

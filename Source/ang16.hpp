@@ -172,6 +172,12 @@ class Ang16
 
     EXPORT void sub_406C20();
 
+    inline Ang16& Normalized_406C20()
+    {
+        sub_406C20();
+        return *this;
+    }
+
     // 9.6f 0x401C10
     // https://decomp.me/scratch/bB2VJ
     void Normalize()
@@ -190,9 +196,15 @@ class Ang16
 
     EXPORT void SnapToAng4_405640();
     EXPORT Ang16* sub_409300(Ang16& input, s32 a3);
-    EXPORT Ang16* sub_409340(Ang16* pRet, Ang16* toSub);
+    EXPORT Ang16 sub_409340(const Ang16& toSub);
     EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(Fix16& a2);
     EXPORT Ang16* sub_4516B0(Fix16* a2, s32 a3);
+
+    // Normalizing copy, needed by Weapon_30::fire_truck_flamethrower_5E0B10
+    Ang16(Ang16& input, s32 a3)
+    {
+        sub_409300(input, a3);
+    }
 
     // Needed by miss2_0x11C::SCRCMD_CRANE_5041C0.
     Ang16(Fix16* a2, s32 a3)
@@ -329,3 +341,15 @@ class Ang8
 
     u8 rValue;
 };
+
+inline void __stdcall RotateAndTranslatePoint_42A720(Fix16& pInX,
+                                                         Fix16& pInY,
+                                                         Ang16& pRotAng,
+                                                         Fix16& pTransX,
+                                                         Fix16& pTransY,
+                                                         Fix16& pRotTransX,
+                                                         Fix16& pRotTransY)
+{
+    pRotTransX = (((pInX - pTransX) * Ang16::cosine_40F520(pRotAng)) + ((pInY - pTransY) * Ang16::sine_40F500(pRotAng)));
+    pRotTransY = ((-(pInX - pTransX) * Ang16::sine_40F500(pRotAng)) + ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng)));
+}

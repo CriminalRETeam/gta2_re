@@ -29,7 +29,7 @@ class festive_hopper
     STexture** field_0_pAlloc;
     u16 field_4_item_alloc_count;
     u16 field_6_count;
-    s32 field_8_pal_type;
+    s32 field_8_sprite_type;
     s32 field_C_pal_type;
     char_type field_10_bDoFree;
     char_type field_11;
@@ -42,7 +42,7 @@ class festive_hopper
         field_0_pAlloc = 0;
         field_4_item_alloc_count = 0;
         field_6_count = 0;
-        field_8_pal_type = 0;
+        field_8_sprite_type = 0;
         field_C_pal_type = 0;
         field_10_bDoFree = 0;
     }
@@ -91,7 +91,7 @@ struct sharp_pare_0x15D8
     EXPORT s16 RegisterDigits_5B9220(u16 a2, u16 a3);
     EXPORT void ReadTextures_5B92E0();
     EXPORT void sub_5B9350();
-    EXPORT STexture* sub_5B94F0(s32 type, u16 pal, s32 kind, s32 a5);
+    EXPORT STexture* GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s32 palette);
     EXPORT STexture* GetTexture2_5B95D0(u16 textureIdx);
     EXPORT STexture* sub_5B95F0(u16 a2, u16 a3, u16 a4);
     EXPORT void SetPal_5B9660(u16 texture_idx, u16 pal_idx);

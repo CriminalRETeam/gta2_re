@@ -9,6 +9,7 @@
 #include "enums.hpp"
 #include "fix16.hpp"
 #include "miss2_xyz.hpp"
+#include "rng.hpp"
 #include "sprite.hpp"
 #include <cstdio>
 
@@ -37,7 +38,7 @@ class Ped
     EXPORT void sub_45B550();
     EXPORT void sub_45B560(Player* a2, char_type a3);
     EXPORT bool sub_45B590();
-    EXPORT s32 CopyStatsFromPed_45B5B0(s32 a2);
+    EXPORT void CopyStatsFromPed_45B5B0(Ped* pSrc);
     EXPORT Car_BC* GetCarBeingEnteredOrExited_45BBF0();
     EXPORT void TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos);
     EXPORT void ManageShocking_45BC70();
@@ -116,7 +117,7 @@ class Ped
     EXPORT void Threat_Reaction_AI_465270();
     EXPORT void sub_465B20();
     EXPORT bool sub_465CD0();
-    EXPORT char_type sub_465D00(Ped* a2);
+    EXPORT char_type IsPedAThreat_465D00(Ped* pTargetPed);
     EXPORT char_type sub_466B70();
     EXPORT char_type IsThreatToSearchingPed_4661F0();
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
@@ -129,7 +130,7 @@ class Ped
     EXPORT Ped* sub_467070();
     EXPORT char_type FindUsableCarDoor_467090();
     EXPORT Sprite* sub_467280();
-    EXPORT char_type UpdateMovementTowardsTarget_4672E0(Fix16 a2, s32 a3);
+    EXPORT void UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type);
     EXPORT void FleeOnFootTillSafe_4678E0();
     EXPORT void sub_467960();
     EXPORT void FleeFromCharOnFootAlways_467A20();
@@ -152,7 +153,7 @@ class Ped
     EXPORT void UpdateFollowPedObjective_468E80();
     EXPORT s32 sub_469010();
     EXPORT void sub_469030();
-    EXPORT void sub_469060();
+    EXPORT void GotoAreaByAnyMeans_469060();
     EXPORT void sub_469BD0();
     EXPORT void GuardSpot_469BF0();
     EXPORT void sub_469D60();
@@ -174,7 +175,7 @@ class Ped
     EXPORT void FleeFromPedTillSafe_46A9C0();
     EXPORT void sub_46AAE0();
     EXPORT void sub_46AB50();
-    EXPORT char_type FollowTargetStateMachine_46AC20();
+    EXPORT void FollowTargetStateMachine_46AC20();
     EXPORT void ChaseTargetStateMachine_46B170();
     EXPORT void PullDriverOutOfCarStateMachine_46B2F0();
     EXPORT void MeleeAttackStateMachine_46B670();
@@ -198,7 +199,7 @@ class Ped
     EXPORT void EnterTrainStateMachine_46D0D0();
     EXPORT void sub_46D240();
     EXPORT void FollowTargetCarOnFoot_46D300();
-    EXPORT void AttackTargetStateMachine_46D460(char_type a2);
+    EXPORT void AttackTargetStateMachine_46D460(u8 targetType);
     EXPORT void AttackPed_46DB60();
     EXPORT void AttackCar_46DB70();
     EXPORT void AttackObject_46DB80();
@@ -209,6 +210,7 @@ class Ped
     EXPORT void SpawnPedGroupFollowers_46E200(u8 total);
     EXPORT u8 get_wanted_star_count_46EF00();
     EXPORT void set_wanted_level_46EF40(u16 wanted);
+    EXPORT void IncreaseWantedLevelFromDebugKeys_46EFD0();
     EXPORT void set_wanted_star_count_46F070(u8 star_count);
     EXPORT bool WantedStartCountLessThan_46F100(u8 a2);
     EXPORT Weapon_30* GetWeaponFromPed_46F110();
@@ -251,9 +253,9 @@ class Ped
         this->field_23C = 0;
     }
 
-    inline s32 sub_420B70()
+    inline s32 GetPedType_420B70()
     {
-        return field_238;
+        return field_238_ped_type;
     }
 
     void inline_clear_bit()
@@ -341,9 +343,14 @@ class Ped
         field_150_target_objective_car = ptr;
     }
 
+    Car_BC* get_target_objective_car_403AB0()
+    {
+        return field_150_target_objective_car;
+    }
+
     void set_ped_type(s32 param_1)
     {
-        field_238 = param_1;
+        field_238_ped_type = param_1;
     }
 
     inline Fix16 get_cam_x()
@@ -409,7 +416,7 @@ class Ped
         field_168_game_object->field_16 = 1;
     }
 
-    inline u8 get_remap_433BA0()
+    inline s8 get_remap_433BA0()
     {
         return field_244_remap;
     }
@@ -464,7 +471,7 @@ class Ped
 
     void SetField238_403920(s32 unk)
     {
-        field_238 = unk;
+        field_238_ped_type = unk;
     }
 
     void Set_F1C4_x_433C50(Fix16 a2)
@@ -505,6 +512,15 @@ class Ped
         }
     }
 
+    inline void sub_433E50()
+    {
+        if (rng_dword_67AB34->get_cur_rng_41CFE0() - field_220 > 5)
+        {
+            Set_F250_IfBit_433DD0(25);
+            field_220 = rng_dword_67AB34->get_cur_rng_41CFE0();
+        }
+    }
+
     inline void sub_433BB0(s32 value)
     {
         field_230 = value;
@@ -533,6 +549,16 @@ class Ped
     inline bool sub_433DA0()
     {
         return field_21C_bf.b25 && field_168_game_object;
+    }
+
+    bool bHasGameObject_403B70()
+    {
+        return field_168_game_object != NULL;
+    }
+
+    inline u8 GetBit2()
+    {
+        return field_21C_bf.b2;
     }
 
     inline u8 GetBit11_433CA0()
@@ -585,6 +611,26 @@ class Ped
         return this->field_164_ped_group;
     }
 
+    inline s32 GetInternalObjective_403A90()
+    {
+        return field_25C_internal_objective;
+    }
+
+    inline Ped* Get_F14C_403AF0()
+    {
+        return field_14C;
+    }
+
+    inline void sub_433BF0(Ped* pPed)
+    {
+        field_144 = pPed;
+    }
+
+    inline void Increment_F262_433BD0()
+    {
+        ++field_262;
+    }
+
     Marz_3 field_0_patrol_points[100];
     Ang16 field_12C;
     Ang16 field_12E;
@@ -616,7 +662,7 @@ class Ped
     Marz_3* field_18C;
     Marz_96* field_190;
     Marz_3* field_194;
-    s32 field_198;
+    Ped* field_198;
     Gang_144* field_19C;
     Object_2C* field_1A0_objective_target_object;
     Object_2C* field_1A4;
@@ -666,7 +712,7 @@ class Ped
     char_type field_226;
     char_type field_227;
     char_type field_228;
-    char_type field_229;
+    u8 field_229;
     char_type field_22A;
     char_type field_22B;
     s32 field_22C;
@@ -675,7 +721,7 @@ class Ped
     char_type field_235;
     char_type field_236;
     char_type field_237;
-    s32 field_238;
+    s32 field_238_ped_type;
     u8 field_23C;
     char_type field_23D;
     char_type field_23E;
@@ -699,11 +745,11 @@ class Ped
     s32 field_25C_internal_objective;
     char_type field_260;
     char_type field_261;
-    char_type field_262;
-    char_type field_263;
+    u8 field_262;
+    u8 field_263;
     u8 field_264;
     u8 field_265;
-    char_type field_266;
+    u8 field_266;
     u8 field_267_varrok_idx;
     char_type field_268;
     char_type field_269;

@@ -609,9 +609,9 @@ void Phi_74::sub_533060(Fix16 a2, Fix16 a3, Fix16 a4)
 MATCH_FUNC(0x533090)
 void Phi_74::sub_533090()
 {
-    if (this->field_28 != sprite_types_enum::unknown_1)
+    if (field_28_sprite_type != sprite_types_enum::unknown_1)
     {
-        u16 sprite_id = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_28, field_1E);
+        u16 sprite_id = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_28_sprite_type, field_1E_sprite_palette);
         sprite_index * sprite = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_id);
         field_0 = Fix16(sprite->field_4_width) / 0x40;
         field_4 = Fix16(sprite->field_5_height) / 0x40;
@@ -637,7 +637,7 @@ void Phi_74::sub_533090()
 MATCH_FUNC(0x533110)
 void Phi_74::sub_533110(s16 remap)
 {
-    switch (field_28)
+    switch (field_28_sprite_type)
     {
         case 4:
             field_30 = 5;
@@ -652,7 +652,7 @@ void Phi_74::sub_533110(s16 remap)
 MATCH_FUNC(0x533150)
 void Phi_74::sub_533150(s16 a2, s16 a3)
 {
-    field_1E += a2;
+    field_1E_sprite_palette += a2;
     field_6C_sprite_anim_speed = a3;
 }
 
@@ -670,9 +670,9 @@ void Phi_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
     s16 f1E; // ax
     s32 f40; // eax
 
-    pSprite->field_30_sprite_type_enum = this->field_28;
+    pSprite->field_30_sprite_type_enum = this->field_28_sprite_type;
     pSprite->sub_59E960();
-    f1E = this->field_1E;
+    f1E = this->field_1E_sprite_palette;
 
     if (pSprite->field_22_sprite_id != f1E)
     {
@@ -710,10 +710,10 @@ Phi_74::Phi_74()
     field_4 = dword_6F8FA4;
     field_8 = dword_6F8FA4;
     field_24_idx = 0;
-    field_28 = 0;
+    field_28_sprite_type = 0;
     field_2C = 0;
     field_30 = 0;
-    field_34_behavior_type = object_behavior_type::behavior_0;
+    field_34_behavior_type = object_behavior_type::static_object_0;
     field_38 = 0;
     field_3C_next_definition_idx = 0;
     field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_0;
@@ -730,11 +730,11 @@ Phi_74::Phi_74()
     field_61 = 0;
     field_64_next_frame_max = 99;
     field_65 = 99;
-    field_1E = 99;
+    field_1E_sprite_palette = 99;
     field_6C_sprite_anim_speed = 99;
     Fix16 v1 = dword_6FCE08;
     field_68 = 0;
-    field_18 = v1;
+    field_18_mass = v1;
     field_20 = 0;
     field_60 = 0;
     field_5C = 1;
@@ -750,8 +750,8 @@ MATCH_FUNC(0x5332d0)
 Phi_74* Phi_8CA8::sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5)
 {
     Phi_74* result = sub_5343C0(idx);
-    result->field_28 = a3;
-    result->field_1E = a4;
+    result->field_28_sprite_type = a3;
+    result->field_1E_sprite_palette = a4;
     result->field_6C_sprite_anim_speed = a5;
     result->field_30 = 2;
     return result;
@@ -796,7 +796,7 @@ void Phi_8CA8::sub_533360()
             pPVar2->field_4C = puVar3->field_28;
             pPVar2->field_64_next_frame_max = puVar3->field_30;
             pPVar2->field_58 = puVar3->field_34;
-            pPVar2->field_18 = puVar3->field_38;
+            pPVar2->field_18_mass = puVar3->field_38;
             pPVar2->field_20 = puVar3->field_40;
             pPVar2->field_2C = puVar3->field_3C;
             pPVar2->field_60 = 1;
@@ -830,7 +830,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x98, 6);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_0;
+    pAVar1->field_34_behavior_type = object_behavior_type::static_object_0;
     pAVar1->field_38 = 0;
     pAVar1->field_3C_next_definition_idx = 0;
     pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_0;
@@ -839,7 +839,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x34, 4);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_0;
+    pAVar1->field_34_behavior_type = object_behavior_type::static_object_0;
     pAVar1->field_38 = 0;
     pAVar1->field_3C_next_definition_idx = 0;
     pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_0;
@@ -860,7 +860,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x33, 0xc);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_0;
+    pAVar1->field_34_behavior_type = object_behavior_type::static_object_0;
     pAVar1->field_38 = 0;
     pAVar1->field_3C_next_definition_idx = 0;
     pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_3_single_bucket_0;
@@ -869,7 +869,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x9b, 3);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = 1;
     pAVar1->field_38 = 0x35;
     pAVar1->field_3C_next_definition_idx = 0x35;
@@ -888,7 +888,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x7b, 0xb);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x37;
     pAVar1->field_3C_next_definition_idx = 0x37;
@@ -907,7 +907,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x9c, 5);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x36;
     pAVar1->field_3C_next_definition_idx = 0x36;
@@ -926,7 +926,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x38, 0xd);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0xd;
     pAVar1->field_3C_next_definition_idx = 0xd;
@@ -942,7 +942,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x39, 0xe);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3a;
     pAVar1->field_3C_next_definition_idx = 0x3a;
@@ -961,7 +961,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x3b, 0xf);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3c;
     pAVar1->field_3C_next_definition_idx = 0x3c;
@@ -980,7 +980,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x3d, 0x10);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3e;
     pAVar1->field_3C_next_definition_idx = 0x3e;
@@ -999,7 +999,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x31, 0x12);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x12;
     pAVar1->field_3C_next_definition_idx = 0x12;
@@ -1015,7 +1015,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x2d, 0x16);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x2e;
     pAVar1->field_3C_next_definition_idx = 0x2e;
@@ -1034,7 +1034,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x2f, 0x15);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x30;
     pAVar1->field_3C_next_definition_idx = 0x30;
@@ -1053,7 +1053,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x3f, 0x11);
     pAVar1->field_38 = 0x11;
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_3;
+    pAVar1->field_34_behavior_type = object_behavior_type::bullet_type_3;
     pAVar1->field_3C_next_definition_idx = 0x11;
     pAVar1->field_40_collision_bucket_category = collision_bucket_category::purple_doom_1_region_bucket_4;
     pAVar1->field_44 = 0;
@@ -1066,7 +1066,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x2b, 0x17);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x2c;
     pAVar1->field_3C_next_definition_idx = 0x2c;
@@ -1085,7 +1085,7 @@ void Phi_8CA8::sub_533420()
 
     pAVar1 = sub_534370(0x9d, 7);
     pAVar1->field_4C = 2;
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_3;
+    pAVar1->field_34_behavior_type = object_behavior_type::bullet_type_3;
     pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_38 = 7;
     pAVar1->field_3C_next_definition_idx = 7;
@@ -1095,7 +1095,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x9e, 1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_3;
+    pAVar1->field_34_behavior_type = object_behavior_type::bullet_type_3;
     pAVar1->field_4C = 2;
     pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_38 = 1;
@@ -1104,7 +1104,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_61 = '\x01';
     pAVar1->field_58 = 1;
     pAVar1 = GetObjectDefinition_534360(0x19);
-    pAVar1->field_28 = 1;
+    pAVar1->field_28_sprite_type = 1;
     pAVar1->field_8 = DAT_006fce10;
     return;
 }
@@ -1120,7 +1120,7 @@ void Phi_8CA8::sub_533B30()
         {
             Phi_74* this_00 = sub_5332D0(puVar2->field_0, 4, sprite_base, puVar2->field_4);
             sprite_base += puVar2->field_4;
-            this_00->field_28 = puVar2->field_38;
+            this_00->field_28_sprite_type = puVar2->field_38;
             if (puVar2->field_48 == DAT_006fce08 && puVar2->field_4C == DAT_006fce08 && puVar2->field_50 == DAT_006fce08)
             {
                 this_00->sub_533090();
@@ -1145,7 +1145,7 @@ void Phi_8CA8::sub_533B30()
             this_00->field_64_next_frame_max = puVar2->field_3C;
             this_00->field_54_react_to_collisions_with = CollisionReaction::Always_0;
             this_00->field_58 = puVar2->field_40;
-            this_00->field_18 = puVar2->field_44;
+            this_00->field_18_mass = puVar2->field_44;
             this_00->field_2C = puVar2->field_54;
             this_00->field_20 = puVar2->field_58;
             this_00->field_60 = puVar2->field_59;
@@ -1211,7 +1211,7 @@ void Phi_8CA8::sub_533C90()
     tmp->field_3C_next_definition_idx = 0x6e;
     tmp->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
     tmp->sub_533060(DAT_006fc578, DAT_006fc578, DAT_006f8fac);
-    tmp->field_18 = DAT_006fc584;
+    tmp->field_18_mass = DAT_006fc584;
     if (bDo_show_imaginary_67D588 == false)
     {
         tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
@@ -1229,7 +1229,7 @@ void Phi_8CA8::sub_533C90()
     tmp->field_3C_next_definition_idx = 0;
     tmp->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
     tmp->sub_533060((DAT_006fceb0 * 8), (DAT_006fceb0 * 8), DAT_006f8fac);
-    tmp->field_18 = DAT_006fc584;
+    tmp->field_18_mass = DAT_006fc584;
     if (bDo_show_imaginary_67D588 == '\0')
     {
         tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
@@ -1367,7 +1367,7 @@ void Phi_8CA8::sub_533C90()
         tmp->field_61 = '\x01';
         tmp->field_58 = 1;
         tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_2_region_bucket_3;
-        tmp->field_18 = DAT_006f8fd8;
+        tmp->field_18_mass = DAT_006f8fd8;
         tmp->field_10 = DAT_006fcde0;
     }
 
@@ -1389,15 +1389,15 @@ void Phi_8CA8::sub_534270()
 MATCH_FUNC(0x5342d0)
 void Phi_8CA8::sub_5342D0()
 {
-    field_8CA4 = GetObjectDefinition_534360(112)->field_1E;
+    field_8CA4 = GetObjectDefinition_534360(112)->field_1E_sprite_palette;
 }
 
 MATCH_FUNC(0x5342f0)
 void Phi_8CA8::sub_5342F0(s32 idx)
 {
     Phi_74* v2 = GetObjectDefinition_534360(idx);
-    u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(4, v2->field_1E);
-    sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
+    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(4, v2->field_1E_sprite_palette);
+    sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     psprite_index->sub_5ABAA0(1);
 }
 

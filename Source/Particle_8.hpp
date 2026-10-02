@@ -9,11 +9,12 @@ class Fix16;
 class Sprite;
 class Sprite;
 class Particle_4C;
+class Object_2C;
 
 class Particle_8
 {
   public:
-    EXPORT Particle_4C* New_53E3C0(Fix16 xpos, Fix16 ypos, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7);
+    EXPORT Particle_4C* New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 a4, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 a7);
 
     EXPORT void ParticlesService_53E320();
     EXPORT void EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
@@ -30,8 +31,8 @@ class Particle_8
     EXPORT void EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv);
     EXPORT void EmitFlameStreamSegment_53F4C0(Sprite* pSprite);
 
-    s32 field_0;
-    s32 field_4;
+    Object_2C* field_0;
+    Object_2C* field_4;
 };
 
 EXTERN_GLOBAL(Particle_8*, gParticle_8_6FD5E8);

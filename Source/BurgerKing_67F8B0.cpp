@@ -10,6 +10,10 @@
 #include "registry.hpp"
 #include "rng.hpp"
 #include <io.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include "lucid_hamilton.hpp"
 
 #define ATTRACT_COUNT 3
 
@@ -42,6 +46,8 @@ DEFINE_GLOBAL_ARRAY(s32, gPlayerControlsBinding_67B6E8, 12, 0x67B6E8);
 
 EXTERN_GLOBAL(DIDATAFORMAT, gKeyboardDataFormat_601A54);
 EXTERN_GLOBAL(HINSTANCE, gHInstance_708220);
+EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
+EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 DEFINE_GUID(GUID_SysKeyboard, 0x6F1D2B61, 0xD5A0, 0x11CF, 0xBF, 0xC7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00);
 
@@ -132,10 +138,80 @@ void BurgerKing_1::get_registry_controls_498C00()
     }
 }
 
-STUB_FUNC(0x4989C0)
+// TODO: the debug strings are guesses, only code is compared
+MATCH_FUNC(0x4989C0)
 void BurgerKing_1::set_game_pad_device_properties_4989C0()
 {
-    NOT_IMPLEMENTED;
+    DIPROPDWORD prop;
+    DIPROPRANGE range;
+    DIDEVICEINSTANCEA instance;
+
+    if (gGamePadDevice_67B6C0)
+    {
+        instance.dwSize = sizeof(DIDEVICEINSTANCEA);
+        gGamePadDevice_67B6C0->GetDeviceInfo(&instance);
+        gGamePadDevice_67B6C0->Unacquire();
+
+        prop.dwData = 10000;
+        prop.diph.dwSize = sizeof(DIPROPDWORD);
+        prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+        prop.diph.dwHow = DIPH_DEVICE;
+        prop.diph.dwObj = 0;
+        gGamePadDevice_67B6C0->SetProperty(DIPROP_SATURATION, &prop.diph);
+
+        prop.dwData = 10000;
+        prop.diph.dwSize = sizeof(DIPROPDWORD);
+        prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+        prop.diph.dwHow = DIPH_DEVICE;
+        prop.diph.dwObj = 0;
+        HRESULT hr = gGamePadDevice_67B6C0->SetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+        if (FAILED(hr))
+        {
+            FatalDXError_4A3CF0(hr, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 434);
+        }
+
+        prop.dwData = 0;
+        gGamePadDevice_67B6C0->GetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+
+        range.diph.dwSize = sizeof(DIPROPRANGE);
+        range.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+        range.diph.dwHow = DIPH_BYOFFSET;
+        range.lMin = -1000;
+        range.lMax = 1000;
+        range.diph.dwObj = DIJOFS_X;
+        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_RANGE, &range.diph)))
+        {
+            OutputDebugStringA("Failed to set the x axis range\n");
+            return;
+        }
+
+        range.diph.dwObj = DIJOFS_Y;
+        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_RANGE, &range.diph)))
+        {
+            OutputDebugStringA("Failed to set the y axis range\n");
+            return;
+        }
+
+        prop.diph.dwSize = sizeof(DIPROPDWORD);
+        prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+        prop.diph.dwHow = DIPH_BYOFFSET;
+        prop.dwData = 2500;
+        prop.diph.dwObj = DIJOFS_X;
+        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_DEADZONE, &prop.diph)))
+        {
+            OutputDebugStringA("Failed to set the x axis dead zone\n");
+            return;
+        }
+
+        prop.diph.dwObj = DIJOFS_Y;
+        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_DEADZONE, &prop.diph)))
+        {
+            OutputDebugStringA("Failed to set the y axis dead zone\n");
+            return;
+        }
+
+        gGamePadDevice_67B6C0->Acquire();
+    }
 }
 
 MATCH_FUNC(0x498BA0)
@@ -556,7 +632,6 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                         }
                                         else
                                         {
-                                        LABEL_51:
                                             bUnk_3 = true;
                                             if (bUnknown)
                                             {
@@ -693,10 +768,11 @@ void BurgerKing_67F8B0::SaveReplay_4CDED0()
 }
 
 // https://decomp.me/scratch/c6Gy5
-STUB_FUNC(0x4cdf30)
+// Register allocation differs, see docs/match_attempts.md
+WIP_FUNC(0x4cdf30)
 void BurgerKing_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     for (s32 i = 0; i < 12; i++)
     {
@@ -713,23 +789,132 @@ void BurgerKing_67F8B0::modify_inputs_4CDF30(s32 match_mask)
         }
     }
 
-    if ((match_mask & 0xFFFFF000) != 0)
+    s32 high_bits = match_mask & 0xFFFFF000;
+    if (high_bits != 0)
     {
-        this->field_4_input_bits |= match_mask & 0xFFFFF000;
+        this->field_4_input_bits |= high_bits;
     }
 }
 
-STUB_FUNC(0x4cdf70)
+MATCH_FUNC(0x4cdf70)
 void BurgerKing_67F8B0::AppendReplayHeader_4CDF70()
 {
-    NOT_IMPLEMENTED;
+    ReplayHeader_10C header;
+    DWORD computer_name_size;
+    size_t header_size;
+
+    memset(&header, 0, sizeof(header));
+    computer_name_size = 29;
+    sprintf(header.field_0_version, "v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
+
+    time_t now = time(NULL);
+    char_type* pDate = ctime(&now);
+    pDate[strlen(pDate) - 1] = 0;
+    sprintf(header.field_8_date, pDate);
+
+    GetComputerNameA(header.field_26_computer_name, &computer_name_size);
+    strcpy(header.field_44_map_name, gLucid_hamilton_67E8E0.GetMapName_4C5940());
+    strcpy(header.field_6C_style_name, gLucid_hamilton_67E8E0.GetStyleName_4C5950());
+    strcpy(header.field_94_script_name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+    strcpy(header.field_BC_debug_str, gLucid_hamilton_67E8E0.GetDebugStr_4C5970());
+
+    header.field_0_version[7] = '\n';
+    header.field_8_date[29] = '\n';
+    header.field_26_computer_name[29] = '\n';
+    header.field_44_map_name[39] = '\n';
+    header.field_6C_style_name[39] = '\n';
+    header.field_94_script_name[39] = '\n';
+    header.field_BC_debug_str[39] = '\n';
+    header.field_E4_flags[39] = '\n';
+
+    header.field_E4_flags[0] = bSkip_dummies_67D4EF ? '1' : '0';
+    header.field_E4_flags[1] = bDo_test_67D4F8 ? '1' : '0';
+    header.field_E4_flags[2] = bSkip_mission_67D4E5 ? '1' : '0';
+    header.field_E4_flags[3] = bDo_brian_test_67D544 ? '1' : '0';
+    header.field_E4_flags[4] = bDo_iain_test_67D4E9 ? '1' : '0';
+    header.field_E4_flags[5] = bSkip_traffic_lights_67D4EC ? '1' : '0';
+    header.field_E4_flags[6] = bSkip_recycling_67D575 ? '1' : '0';
+    header.field_E4_flags[7] = bLimit_recycling_67D4CA ? '1' : '0';
+    header.field_E4_flags[8] = bNo_annoying_chars_67D586 ? '1' : '0';
+    header.field_E4_flags[9] = bDo_mike_67D5CC ? '1' : '0';
+    header.field_E4_flags[10] = bDo_kill_phones_on_answer_67D6E8 ? '1' : '0';
+    header.field_E4_flags[11] = bGet_all_weapons_67D684 ? '1' : '0';
+    header.field_E4_flags[12] = bDont_get_car_back_67D4F5 ? '1' : '0';
+    header.field_E4_flags[13] = bSkip_ambulance_67D6C9 ? '1' : '0';
+    header.field_E4_flags[14] = bSkip_police_67D4F9 ? '1' : '0';
+    header.field_E4_flags[15] = bDo_invulnerable_67D4CB ? '1' : '0';
+    header.field_E4_flags[16] = bDo_free_shopping_67D6CD ? '1' : '0';
+    header.field_E4_flags[17] = bKeep_weapons_after_death_67D54D ? '1' : '0';
+    header.field_E4_flags[18] = bSkip_skidmarks_67D585 ? '1' : '0';
+    header.field_E4_flags[19] = bExplodingScoresOff_67D4FB ? '1' : '0';
+    header.field_E4_flags[20] = gDo_infinite_lives_67D4C9 ? '1' : '0';
+    header.field_E4_flags[21] = bDo_blood_67D5C5 ? '1' : '0';
+    header.field_E4_flags[22] = bDo_load_savegame_67D4F0 ? '1' : '0';
+    header.field_E4_flags[23] = bSkip_audio_67D6BE ? '1' : '0';
+    header.field_E4_flags[24] = bDo_debug_keys_67D6CF ? '1' : '0';
+    header.field_E4_flags[25] = bSkip_trains_67D550 ? '1' : '0';
+    header.field_E4_flags[26] = bSkip_buses_67D558 ? '1' : '0';
+    header.field_E4_flags[27] = bSkip_fire_engines_67D53A ? '1' : '0';
+    header.field_E4_flags[28] = bDo_police_1_67D568 ? '1' : '0';
+    header.field_E4_flags[29] = bDo_police_2_67D569 ? '1' : '0';
+    header.field_E4_flags[30] = bDo_police_3_67D56A ? '1' : '0';
+
+    header_size = sizeof(header);
+    File::AppendBufferToFile_4A6F50("test\\replay.rep", &header, &header_size);
 }
 
-STUB_FUNC(0x4ce380)
-char_type BurgerKing_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
+MATCH_FUNC(0x4ce380)
+void BurgerKing_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u32 header_size = sizeof(ReplayHeader_10C);
+    ReplayHeader_10C header;
+    File::Global_Read_4A71C0(&header, header_size);
+
+    if (!bIgnore_replay_header_67D4F3)
+    {
+        s32 major;
+        s32 minor;
+        sscanf(header.field_0_version, "v%d.%d", &major, &minor);
+        gLucid_hamilton_67E8E0.SetMapName_4C5870(header.field_44_map_name);
+        gLucid_hamilton_67E8E0.SetStyleName_4C5890(header.field_6C_style_name);
+        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(header.field_94_script_name);
+        gLucid_hamilton_67E8E0.DebugStr_4C58D0(header.field_BC_debug_str);
+
+        if (bLoadDebug)
+        {
+        bSkip_dummies_67D4EF = header.field_E4_flags[0] == '1';
+        bDo_test_67D4F8 = header.field_E4_flags[1] == '1';
+        bSkip_mission_67D4E5 = header.field_E4_flags[2] == '1';
+        bDo_brian_test_67D544 = header.field_E4_flags[3] == '1';
+        bDo_iain_test_67D4E9 = header.field_E4_flags[4] == '1';
+        bSkip_traffic_lights_67D4EC = header.field_E4_flags[5] == '1';
+        bSkip_recycling_67D575 = header.field_E4_flags[6] == '1';
+        bLimit_recycling_67D4CA = header.field_E4_flags[7] == '1';
+        bNo_annoying_chars_67D586 = header.field_E4_flags[8] == '1';
+        bDo_mike_67D5CC = header.field_E4_flags[9] == '1';
+        bDo_kill_phones_on_answer_67D6E8 = header.field_E4_flags[10] == '1';
+        bGet_all_weapons_67D684 = header.field_E4_flags[11] == '1';
+        bDont_get_car_back_67D4F5 = header.field_E4_flags[12] == '1';
+        bSkip_ambulance_67D6C9 = header.field_E4_flags[13] == '1';
+        bSkip_police_67D4F9 = header.field_E4_flags[14] == '1';
+        bDo_invulnerable_67D4CB = header.field_E4_flags[15] == '1';
+        bDo_free_shopping_67D6CD = header.field_E4_flags[16] == '1';
+        bKeep_weapons_after_death_67D54D = header.field_E4_flags[17] == '1';
+        bSkip_skidmarks_67D585 = header.field_E4_flags[18] == '1';
+        bExplodingScoresOff_67D4FB = header.field_E4_flags[19] == '1';
+        gDo_infinite_lives_67D4C9 = header.field_E4_flags[20] == '1';
+        bDo_blood_67D5C5 = header.field_E4_flags[21] == '1';
+        bDo_load_savegame_67D4F0 = header.field_E4_flags[22] == '1';
+        bSkip_audio_67D6BE = header.field_E4_flags[23] == '1';
+        bDo_debug_keys_67D6CF = header.field_E4_flags[24] == '1';
+        bSkip_trains_67D550 = header.field_E4_flags[25] == '1';
+        bSkip_buses_67D558 = header.field_E4_flags[26] == '1';
+        bSkip_fire_engines_67D53A = header.field_E4_flags[27] == '1';
+        bDo_police_1_67D568 = header.field_E4_flags[28] == '1';
+        bDo_police_2_67D569 = header.field_E4_flags[29] == '1';
+        bDo_police_3_67D56A = header.field_E4_flags[30] == '1';
+        }
+    }
 }
 
 MATCH_FUNC(0x4ce650)
@@ -924,7 +1109,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
     switch (replay_state)
     {
         case Unkn_1:
-            if (rng_dword_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
+            if (rng_dword_67AB34->get_cur_rng_41CFE0() >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
             {
                 inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
                 field_75340_rec_buf_idx++;
@@ -970,7 +1155,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
             break;
 
         case Replay_3:
-            if (rng_dword_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
+            if (rng_dword_67AB34->get_cur_rng_41CFE0() >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
             {
                 inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
                 field_75340_rec_buf_idx++;

@@ -25,6 +25,8 @@ class Object_2C;
 class infallible_turing;
 class Ped;
 
+EXPORT void __stdcall sub_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
+
 class Sprite_4C
 {
   public:
@@ -61,7 +63,7 @@ class Sprite_4C
         field_0_width = w;
         field_4_height = h;
 
-        field_8 = Fix16(0);
+        field_8_depth = Fix16(0);
     }
 
     void set_wh_4BA030(Fix16 w, Fix16 h)
@@ -79,7 +81,7 @@ class Sprite_4C
     {
         *pOut = this->field_0_width;
         *pOutH = this->field_4_height;
-        *pOutF8 = this->field_8;
+        *pOutF8 = this->field_8_depth;
     }
 
     Fix16 GetW_420590()
@@ -90,6 +92,11 @@ class Sprite_4C
     Fix16 GetH_447E10()
     {
         return field_4_height;
+    }
+
+    Fix16 GetF8_492170()
+    {
+        return field_8_depth;
     }
 
     bool ReduceWidthBy_4BA120(Fix16 a2)
@@ -112,7 +119,7 @@ class Sprite_4C
     {
         this->field_0_width = a2->field_0_width;
         this->field_4_height = a2->field_4_height;
-        this->field_8 = a2->field_8;
+        this->field_8_depth = a2->field_8_depth;
     }
 
     bool ReduceHeightBy_4BA160(Fix16 a2)
@@ -152,13 +159,14 @@ class Sprite_4C
 
     EXPORT void SetCurrentRect_5A4D90();
     EXPORT void UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
+    EXPORT void DrawCollisionBox_5A4DA0(Fix16 zpos);
 
     EXPORT Sprite_4C();
     EXPORT ~Sprite_4C();
 
     Fix16 field_0_width;
     Fix16 field_4_height;
-    Fix16 field_8;
+    Fix16 field_8_depth;
     Fix16_Point field_C_renderingRect[4];
     Sprite_4C* mpNext;
     Fix16_Rect field_30_boundingBox;
@@ -276,7 +284,7 @@ class Sprite
     // FUNCTION: 96f 0x40feb0
     Car_BC* AsCar_40FEB0()
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::car)
+        if (field_30_sprite_type_enum == sprite_types_enum::car_2)
         {
             return field_8_car_bc_ptr;
         }
@@ -288,7 +296,7 @@ class Sprite
 
     Char_B4* AsCharB4_40FEA0()
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::ped)
+        if (field_30_sprite_type_enum == sprite_types_enum::ped_3)
         {
             return field_8_char_b4_ptr;
         }
@@ -362,18 +370,6 @@ class Sprite
             default:
                 return 0;
         }
-    }
-
-    inline void __stdcall RotateAndTranslatePoint_42A720(Fix16& pInX,
-                                                         Fix16& pInY,
-                                                         Ang16& pRotAng,
-                                                         Fix16& pTransX,
-                                                         Fix16& pTransY,
-                                                         Fix16& pRotTransX,
-                                                         Fix16& pRotTransY)
-    {
-        pRotTransX = (((pInX - pTransX) * Ang16::cosine_40F520(pRotAng)) + ((pInY - pTransY) * Ang16::sine_40F500(pRotAng)));
-        pRotTransY = ((-(pInX - pTransX) * Ang16::sine_40F500(pRotAng)) + ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng)));
     }
 
     Ang16 field_0;
@@ -527,7 +523,7 @@ class Sprite
     char_type field_2E_pad;
     char_type field_2F_pad;
     s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
-    s32 field_34; // remap type?
+    s32 field_34_palette_type; // remap type?
     char_type field_38_zoom;
     char_type field_39_z_col;
     char_type field_3A;
@@ -546,18 +542,25 @@ class Sprite_14
     {
         field_C = 0;
         field_8 = 0;
-        field_4 = -1;
+        field_4_sprite_idx = -1;
         field_12 = 0;
     }
 
     // 9.6f 0x44AF70
     void Invalidate_44AF70()
     {
-        field_4 = -1;
+        field_4_sprite_idx = -1;
+    }
+
+    void SetF4_F8_F12_44AF50(u16 sprite_idx, u32 a2, u16 a3)
+    {
+        field_4_sprite_idx = sprite_idx;
+        field_8 = a2;
+        field_12 = a3;
     }
 
     u8* field_0;
-    s16 field_4;
+    s16 field_4_sprite_idx;
     char_type field_6;
     char_type field_7;
     s32 field_8;
@@ -569,9 +572,9 @@ class Sprite_14
 class Sprite_3CC
 {
   public:
-    EXPORT Sprite_14* sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5);
+    EXPORT Sprite_14* sub_48F600(u16& sprite_idx, u32* a3, u32* a4, u16* a5);
     EXPORT Sprite_14* sub_48F690(u32* a2);
-    EXPORT void InvalidateMasksByType_48F6E0(u16* a2);
+    EXPORT void InvalidateMasksByType_48F6E0(u16* sprite_idx);
     EXPORT void InvalidateAllMasks_48F710();
     EXPORT Sprite_3CC();
     EXPORT ~Sprite_3CC();

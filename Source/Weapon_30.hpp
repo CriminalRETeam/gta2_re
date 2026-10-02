@@ -13,6 +13,8 @@ class Fix16_Point;
 
 class infallible_turing;
 
+EXPORT void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, Sprite* a6);
+
 class Weapon_30
 {
   public:
@@ -25,15 +27,15 @@ class Weapon_30
     EXPORT bool is_max_capacity_5DCEA0();
     EXPORT bool sub_5DCEF0();
     EXPORT void TickReloadSpeed_5DCF40();
-    EXPORT Object_2C* spawn_bullet_5DCF60(s32 bullet_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16_Point& pPoint);
+    EXPORT Object_2C* spawn_bullet_5DCF60(s32 bullet_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16_Point& speed);
     EXPORT void flamethrower_5DD0F0();
     EXPORT void shotgun_5DD290();
     EXPORT void pistol_5DD860();
     EXPORT void dual_pistol_5DDA70();
     EXPORT void smg_5DDD20();
     EXPORT void throwable_5DDFC0(s32 a2, s32 a3, s32 a4);
-    EXPORT s32 sub_5DE4F0();
-    EXPORT char_type sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4);
+    EXPORT void sub_5DE4F0();
+    EXPORT void sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4);
     EXPORT void shocker_5E06B0();
     EXPORT void electro_batton_5E0740();
     EXPORT void car_bomb_5E0AB0(char_type a2);
@@ -111,6 +113,16 @@ class Weapon_30
     s32 GetWeaponType_41CC90()
     {
         return field_1C_idx;
+    }
+    
+    void Set_F4_433810(s32 value)
+    {
+        field_4 = value;
+    }
+
+    s32 Get_F4_41CC70()
+    {
+        return field_4;
     }
 
     u16 field_0_ammo;

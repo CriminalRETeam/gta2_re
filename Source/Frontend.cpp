@@ -15,6 +15,7 @@
 #include "file.hpp"
 #include "fix16.hpp"
 #include "gbh_graphics.hpp"
+#include <stdlib.h>
 #include "gtx_0x106C.hpp"
 #include "infallible_turing.hpp"
 #include "input.hpp"
@@ -295,13 +296,20 @@ DEFINE_GLOBAL_ARRAY_INIT(
         "data\\frontend\\Credits.tga" COMMA 614444 COMMA 0} COMMA {"data\\frontend\\Mask3.tga" COMMA 130427 COMMA 0} COMMA {
         "data\\frontend\\DemoInfo.tga" COMMA 614939 COMMA 0});
 
-STUB_FUNC(0x5D9910)
+// This function matches but Write_4D9620 from ErrorLog class is crashing standalone on exe boot
+WIP_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
-    NOT_IMPLEMENTED;
-    // todo
-
-    return 0;
+    f32 gamma_f = gamma * 0.1;
+    if (gVidSys_7071D0)
+    {
+        s32 result = pVid_SetGamma(gVidSys_7071D0, gamma_f, gamma_f, gamma_f);
+        // TODO: format string at 0x626B34 not checked against the original
+        sprintf(gTmpBuffer_67C598, "SetGamma %d = %d", gamma, result);
+        //gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);  // crashing standalone
+        return result;
+    }
+    return gamma;
 }
 
 DEFINE_GLOBAL(infallible_turing, snd1_67D818, 0x67D818);
@@ -382,7 +390,6 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
     s16 playerSlotSetting; // ax
     s32 v15; // edi
     //s32 v16; // edx
-    s32 i; // eax
     wchar_t* v18; // eax
     s16 v19; // ax
     wchar_t* v20; // eax
@@ -397,12 +404,9 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
     blissful_ganguly_0x20* v29; // eax
     s32 v30; // edi
     s32 v31; // ebp
-    bool v32; // cf
     s32 v33; // eax
     s32 v34; // ebp
     s32 v35; // ebx
-    s32* v36; // ebp
-    s32* v37; // edx
     s32 v38; // eax
     s32 v39; // ecx
     s32 v40; // eax
@@ -423,9 +427,6 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
     u8 a2a; // [esp+14h] [ebp-104h]
     u8 a2b; // [esp+14h] [ebp-104h]
     player_stats_0xA4* v57; // [esp+18h] [ebp-100h]
-    s32* v58; // [esp+18h] [ebp-100h]
-    s32* v59; // [esp+18h] [ebp-100h]
-    s32* v60; // [esp+18h] [ebp-100h]
     char_type bonus_level_idx; // [esp+1Fh] [ebp-F9h]
     u8 a3; // [esp+20h] [ebp-F8h]
     u8 a3a; // [esp+20h] [ebp-F8h]
@@ -993,7 +994,7 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
                           u16 text_ypos,
                           u16 num_entries,
                           u16 arg_fontType,
-                          u16 draw_kind,
+                          u16 palette,
                           u8 spacing_type)
 {
     WIP_IMPLEMENTED;
@@ -1019,13 +1020,13 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
             {
                 swprintf(tmpBuff_67BD9C, L"%s", pSmallStringIter->field_0_player_name);
             }
-            if (draw_kind == 0xFFFFu)
+            if (palette == 0xFFFFu)
             {
                 DrawText_4B87A0(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1);
             }
             else
             {
-                DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, 8, draw_kind, false, 0);
+                DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, 8, palette, false, 0);
             }
             if (spacing_type == 0)
             {
@@ -1038,13 +1039,13 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
             }
             swprintf(tmpBuff_67BD9C, L"%d", pSmallStringIter->field_14_score);
 
-            if (gText_0x14_704DFC->field_10_lang_code == 106)
+            if (gText_0x14_704DFC->field_10_lang_code == 'j')
             {
-                Frontend::sub_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, draw_kind, 1, 16, true);
+                Frontend::sub_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 16, true);
             }
             else
             {
-                Frontend::sub_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, draw_kind, 1, 13, true);
+                Frontend::sub_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 13, true);
             }
 
             ++pSmallStringIter;
@@ -1085,7 +1086,7 @@ void Frontend::DrawMenu_4AD140()
             pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
 
             // NOTE: field_124_font_type is u16
-            // NOTE: sub_4B7E10 is not static
+            // NOTE: sub_4B7E10 is a static __stdcall (no this)
 
             last_xpos = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
             last_xpos = sub_4B7E10(11, last_xpos + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
@@ -1305,26 +1306,26 @@ void Frontend::DrawMenu_4AD140()
             }
             else
             {
-                if (pMenuOption->field_6A != 0xFFFF)
+                if (pMenuOption->field_6A_font_type != 0xFFFF)
                 {
-                    if (pMenuOption->field_6C == 0xFFFF)
+                    if (pMenuOption->field_6C_palette == 0xFFFF)
                     {
-                        DrawText_4B87A0(wstr_array, x_pos, y_pos, pMenuOption->field_6A, 1);
+                        DrawText_4B87A0(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, 1);
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, (s32)1, 8, pMenuOption->field_6C, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, (s32)1, 8, pMenuOption->field_6C_palette, false, 0);
                     }
                 }
                 else
                 {
-                    if (pMenuOption->field_6C == 0xFFFF)
+                    if (pMenuOption->field_6C_palette == 0xFFFF)
                     {
                         DrawText_4B87A0(wstr_array, x_pos, y_pos, field_11C, 1);
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, (s32)1, 8, pMenuOption->field_6C, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, (s32)1, 8, pMenuOption->field_6C_palette, false, 0);
                     }
                 }
             }
@@ -1353,9 +1354,9 @@ void Frontend::DrawMenu_4AD140()
                 x_pos = pMenuOption->field_2_x_pos;
                 y_pos = pMenuOption->field_4_y_pos;
 
-                if (pMenuOption->field_6A != 0xFFFF)
+                if (pMenuOption->field_6A_font_type != 0xFFFF)
                 {
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, 1, 8, 8, false, 0);
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, 1, 8, 8, false, 0);
                 }
                 else
                 {
@@ -1391,13 +1392,12 @@ void Frontend::DrawMenu_4AD140()
                              2);
     }
 
-    for (option_idx = 0; option_idx < pMenuPage->field_2; option_idx++)
+    for (option_idx = 0; option_idx < pMenuPage->field_2_number_of_elements; option_idx++)
     {
         menu_element_0x6E* pMenuElement = &pMenuPage->field_518_elements_array[option_idx];
 
         if (pMenuElement->field_1_is_it_displayed)
         {
-            s32 two;
             u16 font_type;
             s32 shape_type;
 
@@ -1445,21 +1445,21 @@ void Frontend::DrawMenu_4AD140()
 
                     if (field_132_f136_idx == MENUPAGE_PLAY && (option_idx == 2 || option_idx == 3))
                     {
-                        Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_variant, 1, 0x15u, 1);
+                        Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_palette, 1, 0x15u, 1);
                     }
                     else if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE && option_idx == 1)
                     {
-                        Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_variant, 1, 0x15u, 1);
+                        Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_palette, 1, 0x15u, 1);
                     }
                     else
                     {
-                        if (pMenuElement->field_6C_font_variant == 0xFFFF)
+                        if (pMenuElement->field_6C_font_palette == 0xFFFF)
                         {
                             DrawText_4B87A0(wstr_array, x_pos, y_pos, font_type, 1);
                         }
                         else
                         {
-                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, 8, pMenuElement->field_6C_font_variant, false, 0);
+                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, 8, pMenuElement->field_6C_font_palette, false, 0);
                         }
                     }
                     break;
@@ -1592,20 +1592,50 @@ bool Frontend::pre_intro_bik_exists_4B6030()
     }
 }
 
-STUB_FUNC(0x4B5F20)
+// TODO: the contents of these strings aren't known, only their addresses
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDataDir_620454, 8, 0x620454, "data\\");
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDriveDataDir_62045C, 8, 0x62045C, ":\\data\\");
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gIntroBikName_5FE76C, 16, 0x5FE76C, "movie\\intro.bik");
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gPreIntroBikName_5FE77C, 20, 0x5FE77C, "movie\\preintro.bik");
+DEFINE_GLOBAL_ARRAY(char_type, gIntroBikPath_67DA84, 256, 0x67DA84);
+DEFINE_GLOBAL_ARRAY(char_type, gPreIntroBikPath_67DB84, 256, 0x67DB84);
+
+MATCH_FUNC(0x4B5F20)
 char_type* Frontend::pre_intro_bik_4B5F20()
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return "";
+    char_type drive[32];
+    drive[0] = gRoot_sound_66B038.GetAudioDriveLetter_40F150();
+    if (drive[0])
+    {
+        drive[1] = 0;
+        strcpy(gPreIntroBikPath_67DB84, drive);
+        strcat(gPreIntroBikPath_67DB84, gBikDriveDataDir_62045C);
+    }
+    else
+    {
+        strcpy(gPreIntroBikPath_67DB84, gBikDataDir_620454);
+    }
+    strcat(gPreIntroBikPath_67DB84, gPreIntroBikName_5FE77C);
+    return gPreIntroBikPath_67DB84;
 }
 
-STUB_FUNC(0x4B5E50)
+MATCH_FUNC(0x4B5E50)
 const char_type* Frontend::intro_bik_4B5E50()
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return "meh.dat";
+    char_type drive[32];
+    drive[0] = gRoot_sound_66B038.GetAudioDriveLetter_40F150();
+    if (drive[0])
+    {
+        drive[1] = 0;
+        strcpy(gIntroBikPath_67DA84, drive);
+        strcat(gIntroBikPath_67DA84, gBikDriveDataDir_62045C);
+    }
+    else
+    {
+        strcpy(gIntroBikPath_67DA84, gBikDataDir_620454);
+    }
+    strcat(gIntroBikPath_67DA84, gIntroBikName_5FE76C);
+    return gIntroBikPath_67DA84;
 }
 
 MATCH_FUNC(0x4B5FF0)
@@ -2185,32 +2215,30 @@ void Frontend::SetWinMainStateToBootMap_4AE990()
 
 // It matches, but we need to get rid of goto's
 // https://decomp.me/scratch/LYZij
-WIP_FUNC(0x4B2F60)
+MATCH_FUNC(0x4B2F60)
 void Frontend::sub_4B2F60()
 {
     //NOT_IMPLEMENTED;
     s16 v1;
     s16 input;
-    u8* field_8_keys;
+    u8* pKeys;
     wchar_t Key_4D5F40;
     u16 v7;
-    u8 v8;
     s16 v9;
-    s32 v10;
     u16 v11;
     s16 v12;
 
     v1 = 0;
     input = 256;
-    field_8_keys = (u8*)&field_8_keys;
+    pKeys = (u8*)field_8_keys;
     do
     {
-        if ((*field_8_keys & 0x80u) != 0 && v1 != 54 && v1 != 42)
+        if ((*pKeys & 0x80u) != 0 && v1 != 54 && v1 != 42)
         {
             input = v1;
         }
         ++v1;
-        ++field_8_keys;
+        ++pKeys;
     } while ((u16)v1 < 0x100u);
 
     if (field_C9B4 != input)
@@ -2837,11 +2865,66 @@ void Frontend::ContinueToNextStage_4B8020()
     }
 }
 
-STUB_FUNC(0x4B7E10)
-EXPORT int __stdcall Frontend::sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind)
+// TODO: the text keys are guesses, only code is compared
+WIP_FUNC(0x4B7E10)
+EXPORT int __stdcall Frontend::sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 palette)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (str_id_idx)
+    {
+        case 0:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey0"));
+            break;
+        case 1:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey1"));
+            break;
+        case 2:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey2"));
+            break;
+        case 3:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey3"));
+            break;
+        case 4:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey4"));
+            break;
+        case 5:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey5"));
+            break;
+        case 6:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey6"));
+            break;
+        case 7:
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey7"));
+            break;
+        case 8:
+            swprintf(word_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey8"));
+            swprintf(tmpBuff_67BD9C, L": %s", word_67C7D8);
+            break;
+        case 9:
+            swprintf(word_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey9"));
+            swprintf(tmpBuff_67BD9C, L": %s", word_67C7D8);
+            break;
+        case 10:
+            swprintf(word_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey10"));
+            swprintf(tmpBuff_67BD9C, L": %s", word_67C7D8);
+            break;
+        case 11:
+            swprintf(word_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey11"));
+            swprintf(tmpBuff_67BD9C, L": %s", word_67C7D8);
+            break;
+        default:
+            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 8148);
+            break;
+    }
+
+    if ((u16)palette == 0xFFFF)
+    {
+        DrawText_4B87A0(tmpBuff_67BD9C, text_xpos, text_ypos, fontType, 1);
+    }
+    else
+    {
+        DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos, fontType, 1, 8, palette, 0, 0);
+    }
+    return GetMaxTextWidth_5D8990(tmpBuff_67BD9C, fontType);
 }
 
 MATCH_FUNC(0x4B7FB0)
@@ -2978,6 +3061,50 @@ MATCH_FUNC(0x5D7DC0)
 EXPORT void __cdecl FreeSurface_5D7DC0()
 {
     pVid_FreeSurface(gVidSys_7071D0);
+}
+
+// 16.16 step along a line, 0 for a point
+static inline s32 StepFor_5D7DD0(s32 delta, s32 count)
+{
+    if (count == 0)
+    {
+        return count;
+    }
+    return (delta << 16) / count;
+}
+
+// Debug line, one gbh_Plot per pixel along the longer axis. x2 and y2 become the deltas, y2 then the y step
+MATCH_FUNC(0x5D7DD0)
+EXPORT void __stdcall DrawDebugLine_5D7DD0(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour)
+{
+    x2 -= x1;
+    y2 -= y1;
+    s32 step_x;
+    s32 count;
+    s32 abs_dx = abs(x2);
+    s32 abs_dy = abs(y2);
+    if (abs_dx > abs_dy)
+    {
+        step_x = x2 > 0 ? 0x10000 : -0x10000;
+        y2 = StepFor_5D7DD0(y2, abs_dx);
+        count = abs_dx;
+    }
+    else
+    {
+        y2 = y2 > 0 ? 0x10000 : -0x10000;
+        step_x = StepFor_5D7DD0(x2, abs_dy);
+        count = abs_dy;
+    }
+
+    x1 <<= 16;
+    y1 <<= 16;
+    do
+    {
+        pgbh_Plot((f32)(x1 >> 16), (f32)(y1 >> 16), 0, colour);
+        x1 += step_x;
+        y1 += y2;
+        count--;
+    } while (count > 0);
 }
 
 MATCH_FUNC(0x4ADFB0)
@@ -3527,7 +3654,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[1].field_B8A[4].field_2 = 358;
     field_136_menu_pages_array[1].field_BC6_current_option_idx = 3;
     field_136_menu_pages_array[1].field_BC8 = 3;
-    field_136_menu_pages_array[1].field_2 = 10;
+    field_136_menu_pages_array[1].field_2_number_of_elements = 10;
     field_136_menu_pages_array[1].field_518_elements_array[0].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[0].field_2_xpos = 420;
     field_136_menu_pages_array[1].field_518_elements_array[0].field_4_ypos = 310;
@@ -3575,13 +3702,13 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[1].field_518_elements_array[9].field_4_ypos = 222;
     field_136_menu_pages_array[1].field_518_elements_array[9].field_6_geometric_shape_type = 4;
     field_136_menu_pages_array[11].field_0_number_of_options = 3;
-    field_136_menu_pages_array[11].field_2 = 1;
+    field_136_menu_pages_array[11].field_2_number_of_elements = 1;
     field_136_menu_pages_array[11].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[11].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[11].field_518_elements_array[0].field_4_ypos = 11;
     wcscpy(field_136_menu_pages_array[11].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
     field_136_menu_pages_array[11].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[11].field_518_elements_array[0].field_6C_font_variant = 5;
+    field_136_menu_pages_array[11].field_518_elements_array[0].field_6C_font_palette = 5;
     field_136_menu_pages_array[11].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[11].field_4_options_array[0].field_4_y_pos = 392;
     wcsncpy(field_136_menu_pages_array[11].field_4_options_array[0].field_6_option_name_str,
@@ -3589,7 +3716,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[11].field_4_options_array[0].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[0].field_6_option_name_str,
-                             field_136_menu_pages_array[11].field_4_options_array[0].field_6A,
+                             field_136_menu_pages_array[11].field_4_options_array[0].field_6A_font_type,
                              320);
     field_136_menu_pages_array[11].field_4_options_array[0].field_80_menu_page_target = 260;
     field_136_menu_pages_array[11].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
@@ -3599,7 +3726,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[11].field_4_options_array[1].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[11].field_4_options_array[1].field_6A,
+                             field_136_menu_pages_array[11].field_4_options_array[1].field_6A_font_type,
                              320);
     field_136_menu_pages_array[11].field_4_options_array[1].field_80_menu_page_target = 259;
     field_136_menu_pages_array[11].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
@@ -3609,7 +3736,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[11].field_4_options_array[2].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[11].field_4_options_array[2].field_6A,
+                             field_136_menu_pages_array[11].field_4_options_array[2].field_6A_font_type,
                              320);
     field_136_menu_pages_array[11].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[11].field_B8A[0].field_0 = 150;
@@ -3621,7 +3748,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[11].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[11].field_BC8 = 0;
     field_136_menu_pages_array[2].field_0_number_of_options = 3;
-    field_136_menu_pages_array[2].field_2 = 1;
+    field_136_menu_pages_array[2].field_2_number_of_elements = 1;
     field_136_menu_pages_array[2].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[2].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[2].field_518_elements_array[0].field_4_ypos = 11;
@@ -3629,7 +3756,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("plr_ded"),
             0x32u);
     field_136_menu_pages_array[2].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[2].field_518_elements_array[0].field_6C_font_variant = 0;
+    field_136_menu_pages_array[2].field_518_elements_array[0].field_6C_font_palette = 0;
     field_136_menu_pages_array[2].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[2].field_4_options_array[0].field_4_y_pos = 392;
     wcsncpy(field_136_menu_pages_array[2].field_4_options_array[0].field_6_option_name_str,
@@ -3637,7 +3764,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[2].field_4_options_array[0].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[0].field_6_option_name_str,
-                             field_136_menu_pages_array[2].field_4_options_array[0].field_6A,
+                             field_136_menu_pages_array[2].field_4_options_array[0].field_6A_font_type,
                              320);
     field_136_menu_pages_array[2].field_4_options_array[0].field_80_menu_page_target = 260;
     field_136_menu_pages_array[2].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
@@ -3647,7 +3774,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[2].field_4_options_array[1].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[2].field_4_options_array[1].field_6A,
+                             field_136_menu_pages_array[2].field_4_options_array[1].field_6A_font_type,
                              320);
     field_136_menu_pages_array[2].field_4_options_array[1].field_80_menu_page_target = 259;
     field_136_menu_pages_array[2].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
@@ -3657,7 +3784,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[2].field_4_options_array[2].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[2].field_4_options_array[2].field_6A,
+                             field_136_menu_pages_array[2].field_4_options_array[2].field_6A_font_type,
                              320);
     field_136_menu_pages_array[2].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[2].field_B8A[0].field_0 = 150;
@@ -3669,7 +3796,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[2].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[2].field_BC8 = 0;
     field_136_menu_pages_array[3].field_0_number_of_options = 5;
-    field_136_menu_pages_array[3].field_2 = 1;
+    field_136_menu_pages_array[3].field_2_number_of_elements = 1;
     field_136_menu_pages_array[3].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[3].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[3].field_518_elements_array[0].field_4_ypos = 11;
@@ -3684,7 +3811,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[3].field_4_options_array[0].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[0].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[0].field_6A,
+                             field_136_menu_pages_array[3].field_4_options_array[0].field_6A_font_type,
                              320);
     field_136_menu_pages_array[3].field_4_options_array[0].field_80_menu_page_target = 261;
     field_136_menu_pages_array[3].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
@@ -3694,7 +3821,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[3].field_4_options_array[1].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[1].field_6A,
+                             field_136_menu_pages_array[3].field_4_options_array[1].field_6A_font_type,
                              320);
     field_136_menu_pages_array[3].field_4_options_array[1].field_80_menu_page_target = 260;
     field_136_menu_pages_array[3].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
@@ -3704,7 +3831,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[3].field_4_options_array[2].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[2].field_6A,
+                             field_136_menu_pages_array[3].field_4_options_array[2].field_6A_font_type,
                              320);
     field_136_menu_pages_array[3].field_4_options_array[2].field_80_menu_page_target = 259;
     field_136_menu_pages_array[3].field_4_options_array[3].field_0_option_type = STRING_TEXT_1;
@@ -3714,7 +3841,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[3].field_4_options_array[3].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[3].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[3].field_6A,
+                             field_136_menu_pages_array[3].field_4_options_array[3].field_6A_font_type,
                              320);
     field_136_menu_pages_array[3].field_4_options_array[3].field_80_menu_page_target = 266;
     field_136_menu_pages_array[3].field_4_options_array[4].field_0_option_type = STRING_TEXT_1;
@@ -3724,7 +3851,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[3].field_4_options_array[4].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[4].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[4].field_6A,
+                             field_136_menu_pages_array[3].field_4_options_array[4].field_6A_font_type,
                              320);
     field_136_menu_pages_array[3].field_4_options_array[4].field_80_menu_page_target = 0;
     field_136_menu_pages_array[3].field_B8A[0].field_0 = 150;
@@ -3740,7 +3867,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[3].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[3].field_BC8 = 0;
     field_136_menu_pages_array[4].field_0_number_of_options = 1;
-    field_136_menu_pages_array[4].field_2 = 1;
+    field_136_menu_pages_array[4].field_2_number_of_elements = 1;
     field_136_menu_pages_array[4].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[4].field_518_elements_array[0].field_4_ypos = 230;
     wcsncpy(field_136_menu_pages_array[4].field_518_elements_array[0].field_6_element_name_str,
@@ -3750,7 +3877,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[4].field_518_elements_array[0].field_6A_font_type = v30;
     field_136_menu_pages_array[4].field_518_elements_array[0].field_2_xpos =
         Frontend::sub_4B0190(field_136_menu_pages_array[4].field_518_elements_array[0].field_6_element_name_str, v30, 320);
-    field_136_menu_pages_array[4].field_518_elements_array[0].field_6C_font_variant = 4;
+    field_136_menu_pages_array[4].field_518_elements_array[0].field_6C_font_palette = 4;
     field_136_menu_pages_array[4].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[4].field_4_options_array[0].field_2_x_pos = 180;
     field_136_menu_pages_array[4].field_4_options_array[0].field_4_y_pos = 410;
@@ -3763,7 +3890,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[4].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[4].field_BC8 = 0;
     field_136_menu_pages_array[5].field_0_number_of_options = 1;
-    field_136_menu_pages_array[5].field_2 = 5;
+    field_136_menu_pages_array[5].field_2_number_of_elements = 5;
     field_136_menu_pages_array[5].field_4_options_array[0].field_0_option_type = STRING_TEXT_2;
     field_136_menu_pages_array[5].field_4_options_array[0].field_2_x_pos = 300;
     field_136_menu_pages_array[5].field_4_options_array[0].field_4_y_pos = 155;
@@ -3806,7 +3933,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[5].field_518_elements_array[4].field_6A_font_type = field_126;
     field_136_menu_pages_array[6].field_0_number_of_options = 3;
-    field_136_menu_pages_array[6].field_2 = 3;
+    field_136_menu_pages_array[6].field_2_number_of_elements = 3;
     field_136_menu_pages_array[6].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[6].field_518_elements_array[0].field_4_ypos = 11;
@@ -3814,7 +3941,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("bonslev"),
             0x32u);
     field_136_menu_pages_array[6].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[6].field_518_elements_array[0].field_6C_font_variant = 5;
+    field_136_menu_pages_array[6].field_518_elements_array[0].field_6C_font_palette = 5;
     field_136_menu_pages_array[6].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_518_elements_array[1].field_2_xpos = 170;
     field_136_menu_pages_array[6].field_518_elements_array[1].field_4_ypos = 250;
@@ -3841,7 +3968,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[6].field_4_options_array[1].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[6].field_4_options_array[1].field_6A,
+                             field_136_menu_pages_array[6].field_4_options_array[1].field_6A_font_type,
                              320);
     field_136_menu_pages_array[6].field_4_options_array[1].field_80_menu_page_target = 261;
     field_136_menu_pages_array[6].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
@@ -3851,7 +3978,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[6].field_4_options_array[2].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[6].field_4_options_array[2].field_6A,
+                             field_136_menu_pages_array[6].field_4_options_array[2].field_6A_font_type,
                              320);
     field_136_menu_pages_array[6].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[6].field_B8A[0].field_0 = 150;
@@ -3863,12 +3990,12 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[6].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[6].field_BC8 = 0;
     field_136_menu_pages_array[7].field_0_number_of_options = 1;
-    field_136_menu_pages_array[7].field_2 = 14;
+    field_136_menu_pages_array[7].field_2_number_of_elements = 14;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_4_ypos = 11;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[7].field_518_elements_array[0].field_6C_font_variant = 5;
+    field_136_menu_pages_array[7].field_518_elements_array[0].field_6C_font_palette = 5;
     field_136_menu_pages_array[7].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[1].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[1].field_4_ypos = 170;
@@ -3925,7 +4052,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     wcsncpy(field_136_menu_pages_array[7].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
     field_136_menu_pages_array[7].field_4_options_array[0].field_2_x_pos =
         sub_4B0190(field_136_menu_pages_array[7].field_4_options_array[0].field_6_option_name_str,
-                   field_136_menu_pages_array[7].field_4_options_array[0].field_6A,
+                   field_136_menu_pages_array[7].field_4_options_array[0].field_6A_font_type,
                    320);
     field_136_menu_pages_array[7].field_4_options_array[0].field_80_menu_page_target = 258;
     field_136_menu_pages_array[7].field_B8A[0].field_0 = 180;
@@ -3933,7 +4060,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[7].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[7].field_BC8 = 0;
     field_136_menu_pages_array[8].field_0_number_of_options = 1;
-    field_136_menu_pages_array[8].field_2 = 0;
+    field_136_menu_pages_array[8].field_2_number_of_elements = 0;
     field_136_menu_pages_array[8].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[8].field_4_options_array[0].field_2_x_pos = 200;
     field_136_menu_pages_array[8].field_4_options_array[0].field_4_y_pos = 280;
@@ -3946,7 +4073,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[8].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[8].field_BC8 = 0;
     field_136_menu_pages_array[10].field_0_number_of_options = 1;
-    field_136_menu_pages_array[10].field_2 = 1;
+    field_136_menu_pages_array[10].field_2_number_of_elements = 1;
     field_136_menu_pages_array[10].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[10].field_518_elements_array[0].field_4_ypos = 230;
     wcsncpy(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str,
@@ -3958,7 +4085,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
         sub_4B0190(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str,
                    field_130, //v46,
                    320);
-    field_136_menu_pages_array[10].field_518_elements_array[0].field_6C_font_variant = 4;
+    field_136_menu_pages_array[10].field_518_elements_array[0].field_6C_font_palette = 4;
     field_136_menu_pages_array[10].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[10].field_4_options_array[0].field_2_x_pos = 180;
     field_136_menu_pages_array[10].field_4_options_array[0].field_4_y_pos = 410;
@@ -3971,7 +4098,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[10].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[10].field_BC8 = 0;
     field_136_menu_pages_array[14].field_0_number_of_options = 1;
-    field_136_menu_pages_array[14].field_2 = 5;
+    field_136_menu_pages_array[14].field_2_number_of_elements = 5;
     field_136_menu_pages_array[14].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[14].field_4_options_array[0].field_2_x_pos = 170;
     field_136_menu_pages_array[14].field_4_options_array[0].field_4_y_pos = 340;
@@ -4406,7 +4533,7 @@ s32 __stdcall Frontend::GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type)
 }
 
 MATCH_FUNC(0x4B78B0)
-void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 arg_C, s32 a2, u16 a6, u16 a7, u8 pStr)
+void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, s32 palette, u16 scale, u16 a7, u8 pStr)
 {
     u16 text_xbase;
 
@@ -4429,15 +4556,15 @@ void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 ar
 
     for (chr[0] = pString[0]; chr[0]; chr[0] = pString[++text_xposa])
     {
-        u16 biggestLine = Frontend::GetMaxTextWidth_5D8990(chr, arg_C);
+        u16 biggestLine = Frontend::GetMaxTextWidth_5D8990(chr, font_type);
         u16 v16 = (a7 - biggestLine) / 2;
-        if ((u16)a2 == 0xFFFF)
+        if ((u16)palette == 0xFFFF)
         {
-            DrawText_4B87A0(chr, text_xbase + v16, text_ypos, arg_C, a6);
+            DrawText_4B87A0(chr, text_xbase + v16, text_ypos, font_type, scale);
         }
         else
         {
-            DrawText_5D8A10(chr, text_xbase + v16, text_ypos, arg_C, a6, 8, a2, false, false);
+            DrawText_5D8A10(chr, text_xbase + v16, text_ypos, font_type, scale, 8, palette, false, false);
         }
         text_xbase += a7;
     }
@@ -4994,18 +5121,75 @@ bool Frontend::ChangeMainStageToNext_4B7200()
     return result;
 }
 
-STUB_FUNC(0x4B4EC0)
+MATCH_FUNC(0x4B4EC0)
 void Frontend::sub_4B4EC0()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    char_type FileName[256];
+    {
+        u8 plySlotIdx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+        GetPlySlotSvgName_4B51D0(plySlotIdx, FileName);
+    }
+    File::Global_Open_4A7060(FileName);
+
+    svg_stru svg;
+    {
+        u32 len = sizeof(svg_stru);
+        File::Global_Read_4A71C0(&svg, len);
+    }
+
+    File::Global_Close_4A70C0();
+
+    u8 main_stage = svg.field_4B;
+    u8 codified_stages = svg.field_4C;
+    u8 bCodified = svg.field_4D;
+    u8 bonus_stage;
+
+    if (!bCodified)
+    {
+        bonus_stage = 0;
+    }
+    else
+    {
+        main_stage = codified_stages >> 4;
+        bonus_stage = codified_stages & 0xF;
+    }
+
+    char_type path[256];
+    strcpy(path, "data\\");
+    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_0);
+    if (strcmp(svg.field_0_map_name, path))
+    {
+        FatalError_4A38C0(Gta2Error::GmpFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5254);
+    }
+
+    strcpy(path, "data\\");
+    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_100);
+    if (strcmp(svg.field_19_style_name, path))
+    {
+        FatalError_4A38C0(Gta2Error::StyFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5262);
+    }
+
+    strcpy(path, "data\\");
+    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_200);
+    if (strcmp(svg.field_32_script_name, path))
+    {
+        FatalError_4A38C0(Gta2Error::ScrFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5270);
+    }
+
+    gLucid_hamilton_67E8E0.DebugStr_4C58D0(FileName);
+    gLucid_hamilton_67E8E0.SetMapName_4C5870(svg.field_0_map_name);
+    gLucid_hamilton_67E8E0.SetStyleName_4C5890(svg.field_19_style_name);
+    gLucid_hamilton_67E8E0.SetScriptName_4C58B0(svg.field_32_script_name);
+    gLucid_hamilton_67E8E0.sub_4C58F0(main_stage);
+    gLucid_hamilton_67E8E0.sub_4C5900(codified_stages);
+    gLucid_hamilton_67E8E0.sub_4C5910(bCodified);
 }
 
 MATCH_FUNC(0x4B6070)
 MenuPage_0xBCA::MenuPage_0xBCA()
 {
     field_0_number_of_options = 0;
-    field_2 = 0;
+    field_2_number_of_elements = 0;
     field_BC6_current_option_idx = 0;
     field_BC8 = 0;
 }
@@ -5014,7 +5198,7 @@ MATCH_FUNC(0x4B6110)
 MenuPage_0xBCA::~MenuPage_0xBCA()
 {
     field_0_number_of_options = 0;
-    field_2 = 0;
+    field_2_number_of_elements = 0;
     field_BC6_current_option_idx = 0;
     field_BC8 = 0;
 }
@@ -5064,7 +5248,7 @@ menu_element_0x6E::menu_element_0x6E()
     field_1_is_it_displayed = 1;
     wcscpy(field_6_element_name_str, word_67DC8C);
     field_6A_font_type = -1;
-    field_6C_font_variant = -1;
+    field_6C_font_palette = -1;
 }
 
 MATCH_FUNC(0x4B6420)
@@ -5075,14 +5259,14 @@ menu_element_0x6E::~menu_element_0x6E()
     field_2_xpos = 0;
     field_4_ypos = 0;
     field_6A_font_type = -1;
-    field_6C_font_variant = -1;
+    field_6C_font_palette = -1;
 }
 
 MATCH_FUNC(0x4B6290)
 menu_option_0x82::menu_option_0x82()
 {
-    field_6A = -1;
-    field_6C = -1;
+    field_6A_font_type = -1;
+    field_6C_palette = -1;
     field_0_option_type = NULL_TYPE_0;
     field_1_is_unlocked = 1;
     field_2_x_pos = 0;
@@ -5107,8 +5291,8 @@ menu_option_0x82::~menu_option_0x82()
     field_1_is_unlocked = 1;
     field_2_x_pos = 0;
     field_4_y_pos = 0;
-    field_6A = -1;
-    field_6C = -1;
+    field_6A_font_type = -1;
+    field_6C_palette = -1;
     field_6E_horizontal_selected_idx = 0;
     field_70 = 0;
     field_7E_horizontal_max_idx = 0;

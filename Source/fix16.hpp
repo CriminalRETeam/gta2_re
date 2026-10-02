@@ -99,6 +99,13 @@ class Fix16
         return Fix16(value, 0);
     }
 
+    // 10.5 non inline addr is 0x539F90
+    Fix16& operator/=(const Fix16& rhs)
+    {
+        mValue = (s32)(((__int64)mValue << 14) / rhs.mValue);
+        return *this;
+    }
+
     // 10.5 non inline addr is 0x562430
     Fix16& operator*=(const Fix16& rhs)
     {
@@ -271,6 +278,7 @@ class Fix16
         return Fix16(mValue & 0xFFFFC000, 0); // 0xFFFFC000 = 0xFFFFFFFF - Fix16(1)
     }
 
+    // 9.6f func: 0x42A630
     inline Fix16 GetFracValue() const
     {
         // get the "fractional part" of Fix16
@@ -313,8 +321,16 @@ class Fix16
     EXPORT static Fix16 __stdcall Abs_436A50(Fix16& a2);
     EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
     EXPORT Fix16 operator+(const Fix16& rhs) const;
-    EXPORT Fix16 Subtract_436A00(const Fix16& in) const;
     EXPORT Fix16 Multiply_408680(const Fix16& in) const;
+    // Out-of-line copies of operators, which big functions call once they run out of inline
+    // expansions (Sprite_4C::DrawCollisionBox_5A4DA0)
+    EXPORT Fix16 Subtract_436A00(const Fix16& in) const;
+    EXPORT Fix16 Divide_436A20(const Fix16& in) const;
+    EXPORT s32 IsLess_451670(const Fix16& other) const;
+    EXPORT s32 IsGreater_451690(const Fix16& other) const;
+    EXPORT Fix16& DivideAssign_539F90(const Fix16& rhs);
+    EXPORT Fix16 MultiplyInt_561DB0(const s32& in) const;
+    EXPORT Fix16& MultiplyAssign_562430(const Fix16& rhs);
     EXPORT Fix16 Negate_4086A0() const;
 
     // Needed this for a GetLength variant used by miss2_0x11C::GetSpeed_50E190.
@@ -425,7 +441,7 @@ class Fix16
         return this;
     }
 
-    EXPORT static class Ang16 __stdcall atan2_fixed_405320(Fix16& pMaybeX_FP16, Fix16& pMaybeY_FP16);
+    EXPORT static class Ang16 __stdcall atan2_fixed_405320(Fix16& y, Fix16& x);
 
   public:
     s32 mValue;
@@ -441,6 +457,8 @@ EXPORT Ang16 __stdcall ArcTanLookup_405500(const Fix16& targetTan);
 
 EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix16& v1, const Fix16& v2, const Fix16& v3, const Fix16& v4);
 
+EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed);
+EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur);
 EXTERN_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440);
 EXTERN_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440);
 

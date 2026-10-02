@@ -50,8 +50,8 @@ class struct_4
     EXPORT void PoolUpdate_5A6F70(Sprite* a2);
     EXPORT void DestroyAllSprites_5A7010();
     EXPORT void CleanupSpriteList_5A7080();
-    EXPORT void sub_5A7110();
-    EXPORT s32 sub_5A71A0();
+    EXPORT void ClearGangIconSprite_5A7110();
+    EXPORT s32 GetGangIdxFromSpriteIfAny_5A71A0();
     EXPORT void sub_5A71F0();
     EXPORT void PruneNonCollidingSprites_5A7240(Sprite* a2);
     EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown);
@@ -71,9 +71,9 @@ class Object_3C
     void PoolAllocate()
     {
         ++gObj3C_id_6F8E54;
-        field_C = 0;
-        field_4 = kZeroAng_6F8F68;
-        field_18 = Fix16(0);
+        field_C_speed = 0;
+        field_4_angle = kZeroAng_6F8F68;
+        field_18_friction = Fix16(0);
         field_28 = 0;
         field_38 = 0;
         field_34 = 2;
@@ -95,18 +95,18 @@ class Object_3C
     }
 
     // ?? not sure if this is O3C either :skull:
-    EXPORT Fix16_Point GetRot_52ADF0();
+    EXPORT Fix16_Point GetSpeedVector_52ADF0();
 
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
     struct_4 field_0;
-    Ang16 field_4;
+    Ang16 field_4_angle;
     s16 field_6;
     Object_3C* mpNext;
-    Fix16 field_C;
+    Fix16 field_C_speed;
     Fix16 field_10;
     Fix16 field_14;
-    Fix16 field_18;
+    Fix16 field_18_friction;
     Fix16 field_1C;
     s32 field_20;
     s32 field_24;

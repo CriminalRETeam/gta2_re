@@ -3,8 +3,12 @@
 #include "Function.hpp"
 #include <windows.h>
 
+struct Network_NameList;
+struct Network_PlayerPing;
+struct Network_ChatMessage;
+
 EXPORT char_type* __stdcall GetString_519A00(const char_type* Key);
-EXPORT u16 __stdcall sub_519960(char_type* a1, u16* a2);
+EXPORT void __stdcall WideToDbcs_519960(char_type* pDst, wchar_t* pSrc);
 
 enum Network_UI_Control_Ids
 {
@@ -31,10 +35,9 @@ struct Network_Enumerated_Map
     char field_0_map_name[260];
     char field_104_style_name[260];
     char field_208_script_name[260];
-    u32 field_30C_player_count;
-    char field_310_maybe_description[256];
-    char field_410_maybe_display_name[260];
-    u32 field_514;
+    char field_30C_description[260];
+    char field_410_mmp_name[260];
+    u32 field_514_player_count;
 };
 
 struct NetworkGameSettings
@@ -52,20 +55,20 @@ struct NetworkGameSettings
 class Network_20324
 {
   public:
-    //EXPORT u16 sub_519960(u8* a1, u16* a2);
-    EXPORT static char_type sub_5199B0(wchar_t* a1, char_type* a2);
+    //EXPORT u16 WideToDbcs_519960(u8* a1, u16* a2);
+    EXPORT static void DbcsToWide_5199B0(wchar_t* pDst, char_type* pSrc);
     //EXPORT char_type* GetString_519A00(const char_type* Key);
     EXPORT static void GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount);
     EXPORT Network_20324();
     EXPORT virtual ~Network_20324();
-    EXPORT s32 ShowNetworkUiBlocking_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance);
+    EXPORT s32 ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance);
     EXPORT static int __stdcall DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-    EXPORT static s32 __stdcall cb_sub_519D30(Network_20324* a1, s32 a2);
+    EXPORT static s32 __stdcall cb_FillSessionList_519D30(Network_20324* pThis, Network_NameList* pSessions);
     EXPORT void SetDlgHwnd_519E10(HWND a2);
     EXPORT HWND Get_202E0_HWND_519E20();
-    EXPORT static LRESULT __stdcall cb_sub_519E30(Network_20324* a1, wchar_t* Source, s32 a3);
+    EXPORT static void __stdcall cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pName, s32 a3);
     EXPORT static void __stdcall OnPaint_519FD0(HWND a1);
-    EXPORT static void __stdcall OnWmCommand_519FE0(HWND hDlg, s32 a2, HWND a3, s32 a4);
+    EXPORT static void __stdcall OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notify);
     EXPORT static void __stdcall OnTimer_51A9D0(HWND hWnd, s32 a2);
     EXPORT void CreateMainUi_51AA90(HWND hWndParent);
     EXPORT void ShowSpecificWindow_51ABF0(s32 a2);
@@ -74,14 +77,14 @@ class Network_20324
     EXPORT static void __stdcall cb_sub_51ACD0(Network_20324* a1, wchar_t* Source);
     EXPORT static void _stdcall cb_Disconnect_51ADE0(Network_20324* a1);
     EXPORT void ClearTreeView_51AE20(s32 nIDDlgItem);
-    EXPORT static s32 __stdcall cb_sub_51AE50(s32 a1, wchar_t* Source);
+    EXPORT static s32 __stdcall cb_SetPlayerPing_51AE50(Network_20324* pNetUi, Network_PlayerPing* pPing);
     EXPORT void PopulateMainUI_51AFA0();
-    EXPORT static LRESULT __stdcall cb_sub_51B2F0(Network_20324* a1, wchar_t* Source);
+    EXPORT static LRESULT __stdcall cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_ChatMessage* pMsg);
     EXPORT s32 AppendChatMessage_51B4F0(s32 a2, const char_type* a3);
     EXPORT void SetPlayerNameText_51B7C0();
     EXPORT static void __stdcall cb_sub_51B7E0(Network_20324* a1, const char_type** a2);
-    EXPORT void sub_51B810(const char_type* a2);
-    EXPORT s32 SetSetting_51B9C0(s32 a2, char_type* Data);
+    EXPORT void ApplyHostGameSettings_51B810(const char_type* a2);
+    EXPORT void SetSetting_51B9C0(s32 setting, s32 value);
     EXPORT void sub_51BBC0();
     EXPORT u32 GetCount_51BBD0();
     EXPORT void DecCount_51BBE0();
@@ -93,7 +96,7 @@ class Network_20324
     EXPORT void SetPlayNameAndSaveToRegistry_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
     EXPORT static LRESULT __stdcall subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
     EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3);
-    EXPORT void sub_51BFA0();
+    EXPORT void EnumerateMaps_51BFA0();
     EXPORT static void __stdcall OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4);
     EXPORT void CopyGameSettings_51C7F0(NetworkGameSettings* pSettings);
     EXPORT void sub_51C830();

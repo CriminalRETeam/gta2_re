@@ -35,10 +35,10 @@ DEFINE_GLOBAL(u16, word_7062DC, 0x7062DC);
 DEFINE_GLOBAL(u16, word_70643E, 0x70643E);
 DEFINE_GLOBAL_ARRAY(char, byte_67CE50, 264, 0x67CE50); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
-DEFINE_GLOBAL_INIT(s32, dword_7064C0, 0, 0x7064C0);
-DEFINE_GLOBAL_INIT(s32, dword_7063B0, 0x400, 0x7063B0);
-DEFINE_GLOBAL_INIT(s32, dword_7065B4, 0x1C00, 0x7065B4);
-DEFINE_GLOBAL_INIT(s32, dword_706338, 0x100, 0x706338);
+DEFINE_GLOBAL_INIT(Fix16, dword_7064C0, 0, 0x7064C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_7063B0, Fix16(0x400, 0), 0x7063B0);
+DEFINE_GLOBAL_INIT(Fix16, dword_7065B4, Fix16(0x1C00, 0), 0x7065B4);
+DEFINE_GLOBAL_INIT(Fix16, dword_706338, Fix16(0x100, 0), 0x706338);
 
 DEFINE_GLOBAL(Fix16, phone_x_67CD14, 0x67CD14);
 DEFINE_GLOBAL(Fix16, phone_y_67CD0C, 0x67CD0C);
@@ -49,6 +49,9 @@ DEFINE_GLOBAL_INIT(Ang16, word_706610, Ang16(0), 0x706610);
 DEFINE_GLOBAL_INIT(Ang16, word_706412, Ang16(720), 0x706412);
 DEFINE_GLOBAL_INIT(Fix16, dword_7064C4, Fix16(1), 0x7064C4);
 DEFINE_GLOBAL_INIT(Fix16, dword_7064E8, Fix16(8), 0x7064E8);
+DEFINE_GLOBAL_INIT(Fix16, dword_706300, Fix16(0x1000, 0), 0x706300);
+DEFINE_GLOBAL_INIT(Fix16, dword_706298, Fix16(0xC00, 0), 0x706298);
+DEFINE_GLOBAL_INIT(Fix16, dword_7065A8, Fix16(0x100, 0), 0x7065A8);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67C7D8, 640);
 DEFINE_GLOBAL_INIT(s32, MaxLineWidth_62689C, 576, 0x62689C);
@@ -124,7 +127,7 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                                         word_7062DC, // font
                                         gViewCamera_676978->field_A8_ui_scale, // scale
                                         pIter->field_78C != 7 ? 2 : 8,
-                                        pIter->field_790 - 1,
+                                        pIter->field_790_hud_palette - 1,
                                         0,
                                         0);
                     }
@@ -266,10 +269,42 @@ char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
     return 0;
 }
 
-STUB_FUNC(0x5d16b0)
-void Garox_2A25_sub::sub_5D16B0()
+// https://decomp.me/scratch/gMsUi
+MATCH_FUNC(0x5d16b0)
+void Garox_2A25_sub::DrawChatMessages_5D16B0()
 {
-    NOT_IMPLEMENTED;
+    s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(word_70643E);
+    s32 text_ypos = 480 - line_spacing;
+    if (bStartNetworkGame_7081F0)
+    {
+        for (Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter != NULL;
+             pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
+        {
+            if (pPlayerIter->field_794_is_chatting)
+            {
+                if ((rng_dword_67AB34->get_cur_rng_41CFE0() & 7u) < 4)
+                {
+                    swprintf(tmpBuff_67BD9C, L"%s:%s_", pPlayerIter->field_83C_player_name, pPlayerIter->field_796_chat_text);
+                }
+                else
+                {
+                    swprintf(tmpBuff_67BD9C, L"%s:%s ", pPlayerIter->field_83C_player_name, pPlayerIter->field_796_chat_text);
+                }
+                s32 max_text_width = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, word_70643E);
+                s32 start_xpos;
+                if (max_text_width > 640)
+                {
+                    start_xpos = 640 - max_text_width;
+                }
+                else
+                {
+                    start_xpos = 0;
+                }
+                DrawText_5D7720(tmpBuff_67BD9C, start_xpos, text_ypos, word_70643E, palette_types_enum::font_remaps_8, 5, 0, 0);
+                text_ypos -= line_spacing;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5d17d0)
@@ -417,9 +452,9 @@ void Garox_12E4_sub::DrawPause_5D63B0()
     u16 sprite_pal = 0;
     if (gGame_0x40_67E008->field_0_game_state == 2 && !gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message)
     {
-        sub_5D7670(6, 134, 227, 180, word_706610, 2, 0, 0, 0);
-        sub_5D7670(6, 136, 320, 180, word_706610, 2, 0, 0, 0);
-        sub_5D7670(6, 135, 413, 180, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 134, 227, 180, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 136, 320, 180, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 135, 413, 180, word_706610, 2, 0, 0, 0);
 
         wchar_t* pWMessage = gText_0x14_704DFC->Find_5B5F90("pause");
         s32 max_width = Frontend::GetMaxTextWidth_5D8990(pWMessage, word_7063F8);
@@ -527,7 +562,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                              value_1,
                              gfrosty_pasteur_6F8060->field_318_total_secrets);
                     sprite_type = 4;
-                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(286)->field_1E;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(286)->field_1E_sprite_palette;
                     break;
 
                 case HudPauseSection::tokens_collected_6:
@@ -536,7 +571,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                              gLucid_hamilton_67E8E0.field_574_secret_tokens_collected,
                              50);
                     sprite_type = 4;
-                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(266)->field_1E;
+                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(266)->field_1E_sprite_palette;
                     break;
                 default:
                     break;
@@ -547,10 +582,10 @@ void Garox_12E4_sub::DrawPause_5D63B0()
             s32 v27;
             if (sprite_pal != 0)
             {
-                u16 pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(sprite_type, sprite_pal);
-                s32 icon_width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(pal)->field_4_width + 10;
+                u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_pal);
+                s32 icon_width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width + 10;
                 s32 xpos = (640 - icon_width - max_width_2) / 2;
-                sub_5D7670(sprite_type, sprite_pal, xpos + icon_width / 2, 235, word_706610, 2, 0, 0, 0);
+                DrawFigureScaled_5D7670(sprite_type, sprite_pal, xpos + icon_width / 2, 235, word_706610, 2, 0, 0, 0);
                 v28 = icon_width + xpos;
             }
             else
@@ -648,24 +683,24 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         }
     }
 
-    thirsty_lamarr* v5 = pPlayer->field_2D4_scores.sub_592360();
+    thirsty_lamarr* v5 = pPlayer->field_2D4_scores.GetScoreDigits_592360();
     s32 dolar_sign_xpos = v5->sub_492260(639, 4);
 
     // Now draw $ symbol
 
     if (bStartNetworkGame_7081F0)
     {
-        sub_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, pPlayer->field_78C, pPlayer->field_790, 0, 0);
+        DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, pPlayer->field_78C, pPlayer->field_790_hud_palette, 0, 0);
     }
     else
     {
         if (pPlayer->field_60_bFinshScoreReached == 0)
         {
-            sub_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, 2, 0, 0, 0); // default color
+            DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, 2, 0, 0, 0); // default color
         }
         else
         {
-            sub_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, 7, 6, 0, 0); // red color
+            DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, word_706610, 7, 6, 0, 0); // red color
         }
     }
 
@@ -681,11 +716,11 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                      gYouthful_einstein_6F8450.field_4_time[pPlayer->field_2E_idx] % 60);
 
             const s32 unknownn = (pPlayer->field_78C != 7) ? 2 : 8;
-            DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790 - 1, 0, 0);
+            DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790_hud_palette - 1, 0, 0);
         }
         else
         {
-            thirsty_lamarr* v16 = pPlayer->field_2D4_scores.sub_5935B0();
+            thirsty_lamarr* v16 = pPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
             v16->sub_492260(490, 4);
         }
 
@@ -695,10 +730,10 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         {
             if (pMultiPlayer->field_0_bIsUser == 0)
             {
-                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_scores.sub_592360();
+                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_scores.GetScoreDigits_592360();
                 s32 v21 = v19->sub_492430(16, ypos);
 
-                sub_5D7670(6, 16, 8, ypos + 10, word_706610, pMultiPlayer->field_78C, pMultiPlayer->field_790, 0, 0);
+                DrawFigureScaled_5D7670(6, 16, 8, ypos + 10, word_706610, pMultiPlayer->field_78C, pMultiPlayer->field_790_hud_palette, 0, 0);
 
                 if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3)
                 {
@@ -708,11 +743,11 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                              gYouthful_einstein_6F8450.field_4_time[pMultiPlayer->field_2E_idx] % 60);
 
                     const s32 very_unknown = (pMultiPlayer->field_78C != 7) ? 2 : 8;
-                    DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790 - 1, 0, 0);
+                    DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
                 }
                 else
                 {
-                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_scores.sub_5935B0();
+                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
                     v29->sub_492430(v21 + 20, ypos);
                 }
                 ypos += 27;
@@ -722,10 +757,10 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     else
     {
         s32 lives_xpos = pPlayer->field_684_lives.sub_492260(523, 28);
-        sub_5D7670(6, 17, lives_xpos - 7, 32, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 17, lives_xpos - 7, 32, word_706610, 2, 0, 0, 0);
 
         s32 multiplier_xpos = pPlayer->field_6BC_multpliers.sub_492260(523, 11);
-        sub_5D7670(6, 18, multiplier_xpos - 7, 18, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 18, multiplier_xpos - 7, 18, word_706610, 2, 0, 0, 0);
     }
 }
 
@@ -734,12 +769,12 @@ void __stdcall sub_5D6060(s16 ammo_idx, u8 ammo_count)
 {
     if (ammo_idx != -1)
     {
-        u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, ammo_idx + 85);
-        s32 width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3)->field_4_width;
-        u16 v5 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, ammo_idx + 85);
-        s32 height = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v5)->field_5_height;
+        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, ammo_idx + 85);
+        s32 width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width;
+        u16 sprite_idx_2 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, ammo_idx + 85);
+        s32 height = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx_2)->field_5_height;
 
-        sub_5D7670(6, ammo_idx + 85, 638 - width / 2, height / 2 + 44, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, ammo_idx + 85, 638 - width / 2, height / 2 + 44, word_706610, 2, 0, 0, 0);
 
         if (ammo_idx != 21 && ammo_idx != 20)
         {
@@ -761,9 +796,9 @@ WIP_FUNC(0x5D61A0)
 s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 optional_number)
 {
     WIP_IMPLEMENTED;
-    u16 v5 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, powerup_idx + 141);
-    s32 width = gGtx_0x106C_703DD4->get_sprite_width_420220(v5);
-    sub_5D7670(6, powerup_idx + 141, base_xpos - (width / 2), 117, word_706610, 2, 0, 0, 0);
+    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, powerup_idx + 141);
+    s32 width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
+    DrawFigureScaled_5D7670(6, powerup_idx + 141, base_xpos - (width / 2), 117, word_706610, 2, 0, 0, 0);
 
     if (powerup_idx == power_up_indices::Armor_3)
     {
@@ -780,9 +815,9 @@ void Garox_1118_sub::sub_5D6290()
     Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     while (pPlayerIter)
     {
-        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_scores.sub_592360();
+        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_scores.GetScoreDigits_592360();
         pLamarr1->sub_4925E0();
-        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_scores.sub_5935B0();
+        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
         pLamarr2->sub_4925E0();
         pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
     }
@@ -880,7 +915,7 @@ void Garox_1108_sub::DrawHealth_5D0260()
     // Draw complete hearts
     for (s32 complete_hearts = half_hearts / 2; complete_hearts > 0; complete_hearts--, xpos += 20)
     {
-        sub_5D7670(6, 113, xpos, (u32)34, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 113, xpos, (u32)34, word_706610, 2, 0, 0, 0);
     }
 
     // Draw half heart
@@ -890,7 +925,7 @@ void Garox_1108_sub::DrawHealth_5D0260()
         {
             xpos -= 2;
         }
-        sub_5D7670(6, 114, xpos, (u32)34, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, 114, xpos, (u32)34, word_706610, 2, 0, 0, 0);
     }
 
     // Draw debug stuff
@@ -1017,17 +1052,17 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         s8 respect = pGang->GetRespectForPlayer_4BEEF0(PlayerIdx);
 
         s32 arrow_colour = pGang->field_138_arrow_colour - 1;
-        sub_5D7670(6, arrow_colour + 64, 16, ypos + 1, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 64, 16, ypos + 1, word_706610, 2, 0, 0, 0);
 
-        sub_5D7670(6, arrow_colour + 78, 64, ypos + 1, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 78, 64, ypos + 1, word_706610, 2, 0, 0, 0);
 
-        sub_5D7670(6, arrow_colour + 71, 64, ypos + 1, word_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 71, 64, ypos + 1, word_706610, 2, 0, 0, 0);
 
         // Draw positive respect
         s32 curr_bar_respect = 20;
         for (s32 i = 69; i <= 84 && respect >= curr_bar_respect; i += 5)
         {
-            sub_5D7670(6, arrow_colour + 71, i, ypos + 1, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, arrow_colour + 71, i, ypos + 1, word_706610, 2, 0, 0, 0);
             curr_bar_respect += 20;
         }
 
@@ -1035,41 +1070,41 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         curr_bar_respect = -20;
         for (s32 j = 59; j >= 44 && respect <= curr_bar_respect; j -= 5)
         {
-            sub_5D7670(6, arrow_colour + 71, j, ypos + 1, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, arrow_colour + 71, j, ypos + 1, word_706610, 2, 0, 0, 0);
             curr_bar_respect -= 20;
         }
 
         if (respect < -19)
         {
-            if (respect <= -100 && !bPlusSignDark)
+            if (respect <= -100 && !bPlusSignDark || respect > -100)
             {
-                sub_5D7670(6, 2 * arrow_colour + 50, 34, ypos + 1, word_706610, 2, 0, 0, 0);
+                DrawFigureScaled_5D7670(6, 2 * arrow_colour + 50, 34, ypos + 1, word_706610, 2, 0, 0, 0);
             }
         }
         else
         {
-            if (respect >= 100 && !bPlusSignDark)
+            if (respect >= 100 && !bPlusSignDark || respect < 100)
             {
-                sub_5D7670(6, 2 * arrow_colour + 51, 93, ypos + 1, word_706610, 2, 0, 0, 0);
+                DrawFigureScaled_5D7670(6, 2 * arrow_colour + 51, 93, ypos + 1, word_706610, 2, 0, 0, 0);
             }
         }
 
         // green mission respect
         if (respect >= -19)
         {
-            sub_5D7670(6, 46, 64, ypos + 8, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 46, 64, ypos + 8, word_706610, 2, 0, 0, 0);
         }
 
         // yellow mission respect
         if (respect >= 40)
         {
-            sub_5D7670(6, 47, 74, ypos + 8, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 47, 74, ypos + 8, word_706610, 2, 0, 0, 0);
         }
 
         // red mission respect
         if (respect >= 80)
         {
-            sub_5D7670(6, 48, 84, ypos + 8, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 48, 84, ypos + 8, word_706610, 2, 0, 0, 0);
         }
 
         // debug stuff
@@ -1169,8 +1204,8 @@ void Hud_CopHead_C_Array::DrawWantedLevel_5D0110()
 MATCH_FUNC(0x5d0210)
 void Hud_CopHead_C_Array::sub_5D0210()
 {
-    u16 converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 14);
-    sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
+    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, 14);
+    sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
 
     field_4C_w_fp.FromU8(sprite_index->field_4_width);
     field_50_h_fp.FromU8(sprite_index->field_5_height);
@@ -1379,24 +1414,160 @@ void Hud_Pager_C::Service_5D2320()
     }
 }
 
-STUB_FUNC(0x5d2380)
-void Hud_Pager_C::sub_5D2380(s32 a2, s32 a3)
+MATCH_FUNC(0x5d2380)
+void Hud_Pager_C::sub_5D2380(s32 xpos, s32 ypos)
 {
-    NOT_IMPLEMENTED;
+    s32 counter = *field_4_ptr_counter;
+    s32 v4 = counter % 10;
+    s32 v5 = (counter % 100 - v4) / 10;
+    s32 v6 = (counter % 1000 - v5 - v4) / 100;
+    s32 v7 = (counter - v6 - v5 - v4) / 1000;
+
+    if (!v7)
+    {
+        v7 = -1;
+        if (!v6)
+        {
+            v6 = -1;
+            if (!v5)
+            {
+                v5 = -1;
+            }
+        }
+    }
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v4, xpos + 11, ypos + 2, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v5, xpos + 4, ypos + 2, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v6, xpos - 3, ypos + 2, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v7, xpos - 10, ypos + 2, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
 }
 
-STUB_FUNC(0x5d2680)
-s32 Hud_Pager_C::sub_5D2680(s32 a2, s32 a3)
+MATCH_FUNC(0x5d2680)
+void Hud_Pager_C::DrawDigits_5D2680(s32 xpos, s32 ypos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // (field_0_timer / 30 fps) = total time in seconds
+    s32 minutes = (field_0_timer / 30) / 60;
+    s32 seconds = (field_0_timer / 30) % 60;
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                            123 + minutes / 10,
+                            xpos - 13,
+                            ypos + 3,
+                            word_706610,
+                            palette_types_enum::sprites_2,
+                            0,
+                            0,
+                            0);
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                            123 + minutes % 10,
+                            xpos - 6,
+                            ypos + 3,
+                            word_706610,
+                            palette_types_enum::sprites_2,
+                            0,
+                            0,
+                            0);
+
+    if (field_0_timer % 15 <= 7)
+    {
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 121, xpos - 1, ypos + 3, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
+
+        if (field_0_timer < 300) // less than 10 seconds: draw flashing light
+        {
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                    133,
+                                    xpos + 20,
+                                    ypos + 14,
+                                    word_706610,
+                                    palette_types_enum::sprites_2,
+                                    0,
+                                    0,
+                                    0);
+        }
+    }
+    else
+    {
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 120, xpos - 1, ypos + 3, word_706610, palette_types_enum::sprites_2, 0, 0, 0);
+    }
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                            123 + seconds / 10,
+                            xpos + 4,
+                            ypos + 3,
+                            word_706610,
+                            palette_types_enum::sprites_2,
+                            0,
+                            0,
+                            0);
+
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                            123 + seconds % 10,
+                            xpos + 11,
+                            ypos + 3,
+                            word_706610,
+                            palette_types_enum::sprites_2,
+                            0,
+                            0,
+                            0);
 }
 
-STUB_FUNC(0x5d2ab0)
-s32 Hud_Pager_C::DrawPager_5D2AB0(s32 a2, s32 a3)
+// https://decomp.me/scratch/3IY3c
+WIP_FUNC(0x5d2ab0)
+void Hud_Pager_C::DrawPager_5D2AB0(s32 xpos, s32 ypos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    const s32 palette_type = palette_types_enum::sprites_2;
+    if (field_0_timer < 0)
+    {
+        if (!field_4_ptr_counter)
+        {
+            return;
+        }
+        if (field_0_timer < 0)
+        {
+            goto LABEL_8;
+        }
+    }
+    if (field_4_ptr_counter)
+    {
+        s32 v9 = get_sprite_height_4C7250(117);
+        s32 v45 = get_sprite_height_4C7250(118);
+        s32 v10 = get_sprite_height_4C7250(119);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v9 / 2 - (v10 >> 1), word_706610, palette_type, 0, 0, 0);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 119, xpos, ypos, word_706610, palette_type, 0, 0, 0);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + (v10 >> 1) + v45 / 2, word_706610, palette_type, 0, 0, 0);
+        Hud_Pager_C::sub_5D2380(xpos, ypos - 6);
+        Hud_Pager_C::DrawDigits_5D2680(xpos, ypos + 6);
+    }
+    else
+    {
+        if (field_0_timer < 0)
+        {
+        LABEL_8:
+            s32 v29 = get_sprite_height_4C7250(117);
+            s32 v31 = get_sprite_height_4C7250(118);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v29 / 2, word_706610, palette_type, 0, 0, 0);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v31 / 2, word_706610, palette_type, 0, 0, 0);
+            Hud_Pager_C::sub_5D2380(xpos, ypos);
+        }
+        else
+        {
+            s32 v20 = get_sprite_height_4C7250(117);
+            s32 v22 = get_sprite_height_4C7250(118);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v20 / 2, word_706610, palette_type, 0, 0, 0);
+
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v22 / 2, word_706610, palette_type, 0, 0, 0);
+            Hud_Pager_C::DrawDigits_5D2680(xpos, ypos);
+        }
+    }
 }
 
 MATCH_FUNC(0x5d3040)
@@ -1714,11 +1885,95 @@ bool Hud_Arrow_7C::sub_5D0620()
     return false;
 }
 
-STUB_FUNC(0x5d0850)
-s32 Hud_Arrow_7C::sub_5D0850()
+// https://decomp.me/scratch/CoKn3
+WIP_FUNC(0x5d0850)
+void Hud_Arrow_7C::sub_5D0850()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+    Fix16_Point displacement;
+    Fix16 player_xpos;
+    Fix16 player_ypos;
+    Fix16 player_zpos;
+
+    gGame_0x40_67E008->field_38_orf1->get_pos_569920(&player_xpos, &player_ypos, &player_zpos);
+    displacement.SetXY_432860(player_xpos - field_18.field_60_curr_target->field_14_aim_x,
+                              player_ypos - field_18.field_60_curr_target->field_18_aim_y);
+
+    field_8_rotation = displacement.atan2_40F790();
+
+    Fix16 distance = displacement.GetLength_41E260();
+    Fix16 intended_radius;
+
+    if (field_18.field_60_curr_target->field_20_bIsTargetVisible)
+    {
+        intended_radius = distance - dword_706300;
+        if (intended_radius < dword_7064C0)
+        {
+            intended_radius = dword_7064C0;
+        }
+    }
+    else
+    {
+        intended_radius = field_C_min_radius_pos;
+        if (gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0())
+        {
+            intended_radius += dword_7065B4; // increment a little when in a car
+        }
+    }
+
+    if (field_10_radius_pos > intended_radius)
+    {
+        field_10_radius_pos -= field_14_reposition_speed;
+        if (field_10_radius_pos <= intended_radius)
+        {
+            field_10_radius_pos = intended_radius;
+        }
+        else if (field_14_reposition_speed < dword_706298) // below the maximum
+        {
+            field_14_reposition_speed += dword_7065A8;
+        }
+    }
+    else
+    {
+        if (field_10_radius_pos < intended_radius)
+        {
+            field_10_radius_pos += field_14_reposition_speed;
+            if (field_10_radius_pos >= intended_radius)
+            {
+                field_10_radius_pos = intended_radius;
+            }
+            else if (field_14_reposition_speed < dword_706298) // below the maximum
+            {
+                field_14_reposition_speed += dword_7065A8;
+            }
+        }
+        else
+        {
+            field_14_reposition_speed = dword_7063B0; // reset speed?
+        }
+    }
+
+    Camera_0xBC* pCamera = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
+
+    Fix16 factor = (dword_7064C4 / (dword_7064E8 + pCamera->field_98_cam_pos2.field_8_z - field_18.field_60_curr_target->field_1C_aim_z));
+    // line 217: multiply by 64
+    Fix16 projected_radius = ((field_10_radius_pos * 64) / (pCamera->field_60.x * factor)) * pCamera->field_A8_ui_scale;
+
+    Fix16 zpos_2;
+    if (distance == dword_7064C0 || field_18.field_60_curr_target->field_20_bIsTargetVisible)
+    {
+        zpos_2 = field_18.field_60_curr_target->field_1C_aim_z;
+    }
+    else
+    {
+        zpos_2 = field_18.field_60_curr_target->field_1C_aim_z +
+            ((field_10_radius_pos / distance) * (field_18.field_60_curr_target->field_1C_aim_z - player_zpos));
+    }
+    pCamera->ProjectWorldToScreen_4B90E0(player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
+                                         player_ypos - (Ang16::cosine_40F520(field_8_rotation) * projected_radius),
+                                         zpos_2,
+                                         &field_0_screen_pos_x,
+                                         &field_4_screen_pos_y);
 }
 
 MATCH_FUNC(0x5d0c60)
@@ -2244,10 +2499,9 @@ void Hud_Brief_704::sub_5D33A0()
 }
 
 // https://decomp.me/scratch/L1e5G reg swap
-WIP_FUNC(0x5d33f0)
+MATCH_FUNC(0x5d33f0)
 Garox_18* Hud_Brief_704::sub_5D33F0()
 {
-    WIP_IMPLEMENTED;
     Garox_18* result = field_6FC_p_start_q;
     if (result)
     {
@@ -2263,11 +2517,11 @@ Garox_18* Hud_Brief_704::sub_5D33F0()
             pIter = field_700_prev_brief->field_C;
             if (pIter) // line 29
             {
-                for (; pIter; pIter = pIter->field_C)
+                do
                 {
                     pPrev = result;
-                    result = pIter;
-                }
+                    result = result->field_C;
+                } while (result->field_C);
                 if (pPrev)
                 {
                     pPrev->field_C = NULL;
@@ -2292,11 +2546,11 @@ Garox_18* Hud_Brief_704::sub_5D33F0()
             }
             else
             {
-                for (; pIter; pIter = pIter->field_C)
+                do
                 {
                     pPrev = result;
-                    result = pIter;
-                }
+                    result = result->field_C;
+                } while (result->field_C);
                 if (pPrev)
                 {
                     pPrev->field_C = NULL;
@@ -2447,12 +2701,12 @@ void Hud_Brief_704::DrawBrief_5D3B80()
 
     if (field_6F8_curr_brief)
     {
-        sub_5D7670(6, // type
+        DrawFigureScaled_5D7670(6, // type
                    field_50C_face_variant + 3 * field_502_face_idx + 16,
                    (32), // x
                    (443), // y
                    word_706610, // rot
-                   2, // drawkind
+                   palette_types_enum::sprites_2,
                    0,
                    0,
                    0);
@@ -2462,7 +2716,7 @@ void Hud_Brief_704::DrawBrief_5D3B80()
                         (64), // x
                         first_line_ypos, // y
                         word_7065C4, // fontType
-                        2,
+                        palette_types_enum::sprites_2,
                         0, // a6
                         0, // alpha
                         0); // alpha_flag
@@ -2588,11 +2842,47 @@ void Hud_Brief_704::ShowBrief_5D4850()
     }
 }
 
-STUB_FUNC(0x5d4890)
-s32 Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 a2)
+// https://decomp.me/scratch/N327U
+WIP_FUNC(0x5d4890)
+void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Garox_18* pLast = NULL;
+    Garox_18* pIter = field_6F8_curr_brief;
+    while (pIter)
+    {
+        if (pIter->field_8_brief_priority == priority)
+        {
+            if (pLast)
+            {
+                pLast->field_C = pIter->field_C;
+                pIter->field_C = field_6FC_p_start_q;
+                field_6FC_p_start_q = pIter;
+                pIter = pLast->field_C;
+            }
+            else
+            {
+                if (field_6F8_curr_brief->field_10)
+                {
+                    Hud_Brief_704::sub_5D3370();
+                }
+                else
+                {
+                    Hud_Brief_704::sub_5D3350();
+                }
+                pIter = field_6F8_curr_brief;
+                if (!pIter)
+                {
+                    return;
+                }
+                Hud_Brief_704::sub_5D39D0();
+            }
+        }
+        else
+        {
+            pLast = pIter;
+            pIter = pIter->field_C;
+        }
+    }
 }
 
 MATCH_FUNC(0x5d4930)
@@ -2624,16 +2914,16 @@ void Hud_MapZone_98::DrawZoneName_5D5900()
     if (field_0_timer)
     {
         sprite_index* sprite_index_5AA440 =
-            gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 159));
+            gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, 159));
         s32 width = sprite_index_5AA440->field_4_width;
 
-        sub_5D7670(6, 159, (u32)(320 - (width / 2) - width), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(6, 159, (u32)(320 - (width / 2) - width), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
 
-        sub_5D7670(6, 160, 320 - (width / 2), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(6, 160, 320 - (width / 2), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
 
-        sub_5D7670(6, 161, (width / 2) + 320, (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(6, 161, (width / 2) + 320, (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
 
-        sub_5D7670(6, 162, (u32)((width / 2) + width + 320), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(6, 162, (u32)((width / 2) + width + 320), (u32)27, word_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
 
         DrawText_5D7720(field_2_wstr,
                         (640 - field_84_xpos_offset) / 2,
@@ -2783,18 +3073,18 @@ void Hud_CarName_4C::sub_5D4A10()
 
     if (field_0_display_time)
     {
-        u16 v2 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 11);
-        s32 sprite_w = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v2)->field_4_width;
+        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, 11);
+        s32 sprite_w = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width;
         if (field_44_xpos_offset > (sprite_w * 2) - 10)
         {
-            sub_5D7670(6, 13, 320 + sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
-            sub_5D7670(6, 12, 320, field_48_ypos, word_706610, 2, 0, 0, 0);
-            sub_5D7670(6, 11, 320 - sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 13, 320 + sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 12, 320, field_48_ypos, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 11, 320 - sprite_w, field_48_ypos, word_706610, 2, 0, 0, 0);
         }
         else
         {
-            sub_5D7670(6, 11, 320 - (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
-            sub_5D7670(6, 13, 320 + (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 11, 320 - (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 13, 320 + (sprite_w / 2), field_48_ypos, word_706610, 2, 0, 0, 0);
         }
 
         sub_5D77A0(field_2_car_name, ((640 - field_44_xpos_offset) / 2), (field_48_ypos - GetLineSpacingFromFontType_5D7700(word_706508) / 2), word_706508);
@@ -2861,7 +3151,7 @@ void Hud_2B00::DrawGui_5D6860()
         field_12F0.sub_5D56D0();
         field_111C.DrawMessage_5D1940();
         field_12E4_sub.DrawPause_5D63B0();
-        field_2A25_sub.sub_5D16B0();
+        field_2A25_sub.DrawChatMessages_5D16B0();
         field_12EC_sub.DrawQuitMessage_5D1430();
     }
 }

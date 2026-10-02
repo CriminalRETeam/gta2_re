@@ -64,7 +64,7 @@ class root_sound
 
     EXPORT ~root_sound();
 
-    void unknown_inlined_function();
+    void DeinitializeAudio();
 };
 
 EXTERN_GLOBAL(root_sound, gRoot_sound_66B038);

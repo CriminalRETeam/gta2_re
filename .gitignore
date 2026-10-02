@@ -16,6 +16,8 @@ vscommondir.reg
 .vs
 __pycache__
 Scripts/bin_comp/new_data.json
+Scripts/bin_comp/target_asm.json
+Scripts/bin_comp/target_data.json
 Scripts/bin_comp/*og_asm.txt
 Scripts/bin_comp/*og_asm_post_processed.txt
 Scripts/bin_comp/*new_asm_post_processed.txt
@@ -34,3 +36,10 @@ Scripts/asm/*.obj
 Scripts/asm/make_objs.sh
 Scripts/output.asm
 Source/*.obj
+Scripts/bin_comp/target_extra.json
+build_permuter
+permuter_out
+Scripts/bin_comp/fingerprints.json
+Scripts/bin_comp/match_96f.json
+Scripts/bin_comp/target_96f.json
+Scripts/bin_comp/dump_96f_addrs.txt

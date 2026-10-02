@@ -18,13 +18,13 @@ EXTERN_GLOBAL(Fix16, dword_6F8ECC);
 MATCH_FUNC(0x52ad80)
 Object_3C::Object_3C()
 {
-    this->field_4 = 0;
+    this->field_4_angle = 0;
     this->mpNext = 0;
     this->field_1C = dword_6F8BF0;
-    this->field_18 = dword_6F8BF0;
+    this->field_18_friction = dword_6F8BF0;
     this->field_10 = dword_6F8BF0;
-    this->field_C = dword_6F8BF0;
-    this->field_4 = kZeroAng_6F8F68;
+    this->field_C_speed = dword_6F8BF0;
+    this->field_4_angle = kZeroAng_6F8F68;
     this->field_28 = 0;
     this->field_20 = 0;
     this->field_2C = 0;
@@ -43,10 +43,10 @@ Object_3C::~Object_3C()
 
 // 9.6f 0x482BA0
 MATCH_FUNC(0x52adf0)
-Fix16_Point Object_3C::GetRot_52ADF0()
+Fix16_Point Object_3C::GetSpeedVector_52ADF0()
 {
     Fix16_Point p;
-    p.FromPolar_41E210(field_C, field_4);
+    p.FromPolar_41E210(field_C_speed, field_4_angle);
     return p;
 }
 
@@ -62,7 +62,7 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
     {
         sub_529050(field_38, &x_related, &y_related);
         Fix16_Point unk(dword_6F8ECC * x_related, dword_6F8ECC * y_related);
-        Fix16_Point point = unk + GetRot_52ADF0();
+        Fix16_Point point = unk + GetSpeedVector_52ADF0();
 
         Speed = point.GetLength_41E260();
         Angle = point.atan2_40F790();
@@ -70,8 +70,8 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
     }
     else
     {
-        Speed = field_C;
-        Angle = field_4;
+        Speed = field_C_speed;
+        Angle = field_4_angle;
     }
 }
 
@@ -82,7 +82,7 @@ Sprite_18* struct_4::GetSpriteForModel_5A6A50(s32 obj_type)
     while (pIter)
     {
         const s32 sprite_type_enum = pIter->field_0->field_30_sprite_type_enum;
-        if (sprite_type_enum == sprite_types_enum::code_obj1 || sprite_type_enum == sprite_types_enum::map_obj ||
+        if (sprite_type_enum == sprite_types_enum::code_obj1_4 || sprite_type_enum == sprite_types_enum::map_obj_5 ||
             sprite_type_enum == sprite_types_enum::unknown_1)
         {
             Object_2C* o5c = pIter->field_0->field_8_object_2C_ptr;
@@ -106,7 +106,7 @@ Object_2C* struct_4::FindObject2CByModel_5A6A90(s32 obj_type)
     while (pIter)
     {
         const s32 sprite_type_enum = pIter->field_0->field_30_sprite_type_enum;
-        if (sprite_type_enum == sprite_types_enum::code_obj1 || sprite_type_enum == sprite_types_enum::map_obj ||
+        if (sprite_type_enum == sprite_types_enum::code_obj1_4 || sprite_type_enum == sprite_types_enum::map_obj_5 ||
             sprite_type_enum == sprite_types_enum::unknown_1)
         {
             Object_2C* p2C = pIter->field_0->field_8_object_2C_ptr;
@@ -428,11 +428,45 @@ Sprite* struct_4::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
     return new_ret;
 }
 
-STUB_FUNC(0x5a6ea0)
+WIP_FUNC(0x5a6ea0)
 Sprite* struct_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_18* pPrev = 0;
+    Sprite_18* pClosest = 0;
+    Sprite_18* pBeforeClosest = 0;
+    Fix16 smallest(99999);
+    Fix16 distance;
+
+    for (Sprite_18* pIter = field_0_p18; pIter; pIter = pIter->mpNext)
+    {
+        Fix16 xd = pIter->field_0->field_14_xy.x - xpos;
+        Fix16 yd = pIter->field_0->field_14_xy.y - ypos;
+        distance = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(xd), Fix16::Abs(yd));
+        if (distance < smallest)
+        {
+            pClosest = pIter;
+            pBeforeClosest = pPrev;
+            smallest = distance;
+        }
+        pPrev = pIter;
+    }
+
+    if (!pClosest)
+    {
+        return 0;
+    }
+
+    Sprite* pSprite = pClosest->field_0;
+    if (pBeforeClosest)
+    {
+        pBeforeClosest->mpNext = pClosest->mpNext;
+    }
+    else
+    {
+        field_0_p18 = pClosest->mpNext;
+    }
+    gSprite_18_Pool_703B80->DeAllocate(pClosest);
+    return pSprite;
 }
 
 MATCH_FUNC(0x5a6f70)
@@ -494,12 +528,12 @@ void struct_4::DestroyAllSprites_5A7010()
         Sprite* pSprite = p18Iter->field_0;
         switch (p18Iter->field_0->field_30_sprite_type_enum)
         {
-            case sprite_types_enum::car:
+            case sprite_types_enum::car_2:
                 gCar_6C_677930->RemoveFromPoolAndCollision_446730(pSprite->field_8_car_bc_ptr);
                 break;
             case sprite_types_enum::unknown_1:
-            case sprite_types_enum::code_obj1:
-            case sprite_types_enum::map_obj:
+            case sprite_types_enum::code_obj1_4:
+            case sprite_types_enum::map_obj_5:
                 gObject_5C_6F8F84->RemoveAndFree_52A610(pSprite->field_8_object_2C_ptr);
                 break;
             default:
@@ -547,7 +581,7 @@ void struct_4::CleanupSpriteList_5A7080()
 }
 
 MATCH_FUNC(0x5a7110)
-void struct_4::sub_5A7110()
+void struct_4::ClearGangIconSprite_5A7110()
 {
     Sprite_18* pIter = this->field_0_p18;
     Sprite_18* pLast = 0;
@@ -562,9 +596,9 @@ void struct_4::sub_5A7110()
                 p5C = pIter->field_0->field_8_object_2C_ptr;
                 if (p5C)
                 {
-                    if (p5C->field_18_model >= 287 && p5C->field_18_model <= 293)
+                    // If it is car gang icon
+                    if (p5C->field_18_model >= objects::loonies_icon_287 && p5C->field_18_model <= objects::russian_mafia_icon_293)
                     {
-
                         break;
                     }
                 }
@@ -592,18 +626,19 @@ void struct_4::sub_5A7110()
 }
 
 MATCH_FUNC(0x5a71a0)
-s32 struct_4::sub_5A71A0()
+s32 struct_4::GetGangIdxFromSpriteIfAny_5A71A0()
 {
     Sprite_18* p18Iter = this->field_0_p18;
     while (p18Iter)
     {
         const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
-        if (type == 4 || type == 5 || type == 1)
+        if (type == sprite_types_enum::code_obj1_4 || type == sprite_types_enum::map_obj_5 || type == sprite_types_enum::unknown_1)
         {
             Object_2C* o5c = p18Iter->field_0->field_8_object_2C_ptr;
             if (o5c)
             {
-                if (o5c->field_18_model >= 287 && o5c->field_18_model <= 293)
+                // If it is car gang icon
+                if (o5c->field_18_model >= objects::loonies_icon_287 && o5c->field_18_model <= objects::russian_mafia_icon_293)
                 {
                     return o5c->field_18_model - 286;
                 }
@@ -627,7 +662,7 @@ void struct_4::sub_5A71F0()
         if (type == 1 || type > 3 && type <= 5)
         {
             Object_2C* o2c = p18Iter->field_0->field_8_object_2C_ptr;
-            if (o2c->field_18_model == 197 || o2c->sub_525AC0())
+            if (o2c->field_18_model == objects::fire_197 || o2c->sub_525AC0())
             {
                 p18Iter->field_0->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A = 2;
             }

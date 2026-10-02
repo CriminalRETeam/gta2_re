@@ -37,9 +37,11 @@
 #include "text_0x14.hpp"
 #include "sound_obj.hpp"
 #include "root_sound.hpp"
+#include "Rozza_C88.hpp"
 #include "ExplodingScore_100.hpp"
 #include "CarAI_78.hpp"
 #include <direct.h>
+#include <vector>
 #include <stdarg.h>
 
 #include "HookLoader.hpp"
@@ -61,9 +63,13 @@ EXTERN_GLOBAL(Fix16_Point, stru_6F6484);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
+EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
+
 Object_2C* spawned_obj = NULL;
 Car_BC* pNewCar = NULL;
 char TmpBitSetChar[50];
+
+Hud_Arrow_7C* gpArrow = NULL;
 
 void wchar_to_char(wchar_t* wchar, char* out, u8 size)
 {
@@ -260,6 +266,25 @@ static Sprite* GetPlayerSprite()
     }
 
     return GetPedSprite(pPed);
+}
+
+static Sprite* GetPlayerAssociatedSprite()
+{
+    Ped* pPed = GetPlayerPed();
+    if (!pPed)
+    {
+        return NULL;
+    }
+
+    if (!pPed->field_168_game_object)
+    {
+        if (pPed->field_16C_car)
+        {
+            return pPed->field_16C_car->GetSprite_440840();
+        }
+        return NULL;
+    }
+    return pPed->field_168_game_object->field_80_sprite_ptr;
 }
 
 static void GetPlayerPos(Fix16& xpos, Fix16& ypos, Fix16& zpos)
@@ -461,10 +486,173 @@ static char_type* GetOccupationStrFromPed(Ped* pPed)
     
 }
 
-STUB_FUNC(0x5B1170)
+// Test scene globals
+DEFINE_GLOBAL(Car_BC*, gTestCar1_704418, 0x704418);
+DEFINE_GLOBAL(Trailer*, gTestTrailer_7041A8, 0x7041A8);
+DEFINE_GLOBAL(Car_BC*, gTestCar2_704410, 0x704410);
+DEFINE_GLOBAL(Car_BC*, gTestCar3_7043D4, 0x7043D4);
+DEFINE_GLOBAL(Object_2C*, gTestObject_704274, 0x704274);
+DEFINE_GLOBAL(Ang16, word_70420C, 0x70420C);
+DEFINE_GLOBAL(Ang16, word_704500, 0x704500);
+DEFINE_GLOBAL(Fix16, dword_7042A4, 0x7042A4);
+DEFINE_GLOBAL(Fix16, dword_7043AC, 0x7043AC);
+DEFINE_GLOBAL(Fix16, dword_704420, 0x704420);
+DEFINE_GLOBAL(Fix16, dword_7041F0, 0x7041F0);
+EXTERN_GLOBAL(Car_BC*, gTestArrowCar_7043F0);
+
+// Builds a test scene: a few blocks, cars with weapons and gang icons, and a row of each object
+MATCH_FUNC(0x5B1170)
 EXPORT void __stdcall NoRefs_sub_5B1170()
 {
-    NOT_IMPLEMENTED;
+    gmp_block_info block;
+    gGtx_0x106C_703DD4->get_sprite_index_5AA440(
+        gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(7, gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(word_703C3E, 0)));
+    block.field_A_arrows = 0;
+    block.field_0_left = 7206;
+    block.field_2_right = 7206;
+    block.field_4_top = 7206;
+    block.field_6_bottom = 7206;
+    block.field_8_lid = 0;
+    block.field_B_slope_type = 215;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 147, 2, &block);
+    block.field_B_slope_type = 219;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(110, 147, 2, &block);
+    block.field_B_slope_type = 223;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 149, 2, &block);
+    block.field_B_slope_type = 227;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(110, 149, 2, &block);
+    block.field_B_slope_type = 231;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 143, 2, &block);
+    block.field_B_slope_type = 235;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(110, 143, 2, &block);
+    block.field_B_slope_type = 239;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 145, 2, &block);
+    block.field_B_slope_type = 243;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(110, 145, 2, &block);
+    block.field_B_slope_type = 247;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(111, 148, 2, &block);
+    block.field_B_slope_type = 171;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(111, 143, 2, &block);
+    block.field_B_slope_type = 3;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(111, 141, 2, &block);
+    block.field_B_slope_type = 199;
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 152, 2, &block);
+    gTestCar1_704418 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98), Fix16(180), word_70420C, 19, dword_7042A4);
+    gTestCar1_704418->field_98 = 4;
+    gTestCar1_704418->IncrementCarStats_443D70(8);
+    gTestCar1_704418->field_78_flags |= 0x10;
+    gTestCar1_704418->sub_4435F0();
+    gWeapon_8_707018->allocate_5E3D50(23, 1, gTestCar1_704418);
+    gTestCar1_704418->IsBeingCrushed_43DD50();
+    gTestTrailer_7041A8 = gCar_6C_677930->SpawnCabAndTrailer_446530(98, 179, word_70420C, 64, 66);
+    gTestTrailer_7041A8->field_8_truck_cab->IncrementCarStats_443D70(8);
+    gWeapon_8_707018->allocate_5E3D50(15, 1, gTestTrailer_7041A8->field_8_truck_cab);
+    gTestCar2_704410 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(92) + dword_704420, Fix16(175), word_70420C, 38, dword_7043AC);
+    gTestCar2_704410->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(97), Fix16(178), word_70420C, 84, dword_7043AC);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gWeapon_8_707018->allocate_5E3D50(18, 99, gTestCar3_7043D4);
+    gWeapon_8_707018->allocate_5E3D50(15, 1, gTestCar3_7043D4);
+    gWeapon_8_707018->allocate_5E3D50(16, 99, gTestCar3_7043D4);
+    gWeapon_8_707018->allocate_5E3D50(17, 99, gTestCar3_7043D4);
+    gTestArrowCar_7043F0 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(178), word_70420C, 54, dword_7043AC);
+    gTestArrowCar_7043F0->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(180), word_70420C, 37, dword_7043AC);
+    gWeapon_8_707018->allocate_5E3D50(17, 99, gTestCar3_7043D4);
+    gTestCar3_7043D4->field_50_car_sprite->SetRemap(14);
+    gTestCar3_7043D4->AttachGangIcon_440660(2);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(179), word_70420C, 46, dword_7043AC);
+    gWeapon_8_707018->allocate_5E3D50(16, 99, gTestCar3_7043D4);
+    gTestCar3_7043D4->field_50_car_sprite->SetRemap(2);
+    gTestCar3_7043D4->AttachGangIcon_440660(3);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(93), Fix16(179), word_70420C, 29, dword_7043AC);
+    gTestCar3_7043D4->field_50_car_sprite->SetRemap(5);
+    gTestCar3_7043D4->AttachGangIcon_440660(1);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(93), Fix16(178), word_70420C, 86, dword_7043AC);
+    gTestCar3_7043D4->AttachGangIcon_440660(6);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98) + dword_704420, Fix16(178), word_70420C, 48, dword_7043AC);
+    gTestCar3_7043D4->field_50_car_sprite->SetRemap(10);
+    gTestCar3_7043D4->AttachGangIcon_440660(5);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(100), Fix16(180), word_70420C, 83, dword_7043AC);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(101), Fix16(178), word_70420C, 10, dword_7043AC);
+    gTestCar3_7043D4->field_50_car_sprite->SetRemap(28);
+    gTestCar3_7043D4->AttachGangIcon_440660(7);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(102) + dword_7041F0, Fix16(178), word_70420C, 7, dword_7043AC);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(104) + dword_7041F0, Fix16(178), word_70420C, 63, dword_7043AC);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(106) + dword_7041F0, Fix16(178), word_70420C, 64, dword_7043AC);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(108) + dword_7041F0, Fix16(178), word_70420C, 4, dword_7043AC);
+    gTestCar3_7043D4->IncrementCarStats_443D70(8);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(2, 97, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(281, 98, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(266, 99, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(266, 100, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(228, 101, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(229, 102, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(230, 103, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(231, 104, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(232, 105, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(233, 106, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(234, 107, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(235, 108, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(236, 109, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(237, 110, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(238, 111, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(239, 112, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(240, 113, 181, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(228, 101, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(229, 102, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(230, 103, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(231, 104, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(232, 105, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(233, 106, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(234, 107, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(235, 108, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(236, 109, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(237, 110, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(238, 111, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(239, 112, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(240, 113, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(247, 107, 180, 2, word_704500);
+    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(130, 107, 180, 2, word_704500);
+    gTestObject_704274->field_26_varrok_idx = 1;
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(247, 105, 180, 2, word_704500);
+    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(130, 105, 180, 2, word_704500);
+    gTestObject_704274->field_26_varrok_idx = 254;
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(247, 103, 180, 2, word_704500);
+    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(130, 103, 180, 2, word_704500);
+    gTestObject_704274->field_26_varrok_idx = 250;
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(175, 101, 180, 2, word_704500);
+    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(130, 101, 180, 2, word_704500);
+    gTestObject_704274->field_26_varrok_idx = 252;
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(3, 106, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(13, 107, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(283, 108, 180, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, 105, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(201, 106, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(202, 107, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(203, 108, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(204, 109, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(205, 110, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(206, 111, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(207, 112, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(208, 121, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(209, 122, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(210, 123, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(215, 124, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(216, 125, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(217, 126, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(231, 127, 179, 2, word_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(218, 128, 179, 2, word_704500);
 }
 
 static const char* ObjectIdToString(s32 id)
@@ -598,11 +786,11 @@ static const char* ObjectIdToString(s32 id)
         case objects::huge_brown_skid_191: return "huge_brown_skid_191";
         case objects::shotgun_bullet_192: return "shotgun_bullet_192";
         case objects::tanktop_193: return "tanktop_193";
-        case objects::antenna_194: return "antenna_194";
+        case objects::fire_hitting_194: return "fire_hitting_194";
         case objects::object_195: return "object_195";
         case objects::animating_rubbish_196: return "animating_rubbish_196";
-        case objects::dead_rubbish_197: return "dead_rubbish_197";
-        case objects::moving_cone_198: return "moving_cone_198";
+        case objects::fire_197: return "ped_like_fire_197";
+        case objects::maybe_bullet_on_fire_198: return "maybe_bullet_on_fire_198";
         case objects::object_199: return "object_199";
         case objects::remote_200: return "remote_200";
 
@@ -811,7 +999,7 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
                 "MapFiles",
                 "Description",
                 "",
-                (LPSTR)(enumerated_mmp_name[i].field_310_maybe_description),
+                (LPSTR)(enumerated_mmp_name[i].field_30C_description),
                 0x103u,
                 FileName
             );
@@ -822,7 +1010,7 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
                 && GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_208_script_name) != -1)
             {
                 memcpy(&pOut[total_map_count], &enumerated_mmp_name[i], sizeof(Network_Enumerated_Map));
-                strcpy(&mmp_maps_description[total_map_count][0], (const char*)&enumerated_mmp_name[i].field_310_maybe_description);
+                strcpy(&mmp_maps_description[total_map_count][0], (const char*)&enumerated_mmp_name[i].field_30C_description);
                 total_map_count++;
             }
             _chdir("..");
@@ -834,7 +1022,7 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
 // Transform char[][] into char* array
 char* flat_char_array(char* pArray, u16 num_itens)
 {
-    char flattened_arr[25600];
+    static char flattened_arr[25600];
     u16 flat_idx = 0;
     for (u16 i = 0; i < num_itens; i++)
     {
@@ -853,6 +1041,51 @@ char* flat_char_array(char* pArray, u16 num_itens)
         }
     }
     return flattened_arr;
+}
+
+bool PointArrowToEntity(Ped* pPed, Car_BC* pCar, Object_2C* pObj)
+{
+    if (gHud_2B00_706620)
+    {
+        if (!gpArrow)
+        {
+            gpArrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
+        }
+        if (gpArrow)
+        {
+            ArrowTrace_24* pTarget = &gpArrow->field_18.field_18_primary_target;
+            if (pPed)
+            {
+                pTarget->field_0_ped = pPed;
+                pTarget->field_10_target_type = ArrowTargetType::Ped_2;
+            }
+            else if (pCar)
+            {
+                pTarget->field_4_car = pCar;
+                pTarget->field_10_target_type = ArrowTargetType::Car_3;
+            }
+            else if (pObj)
+            {
+                pTarget->field_8_obj = pObj;
+                pTarget->field_10_target_type = ArrowTargetType::Object_4;
+            }
+
+            if (pTarget->field_10_target_type != ArrowTargetType::Nothing_0)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void ClearGlobalArrow()
+{
+    if (gpArrow)
+    {
+        gpArrow->field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::Nothing_0;
+        gpArrow->field_18.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Nothing_0;
+    }
 }
 
 namespace HookManagement
@@ -910,13 +1143,17 @@ static void DrawHookList(char* filter, std::vector<FuncData>& funcs, TChangeHook
     u32 i;
 
     ImGui::InputText("Filter", filter, 256);
-    if (ImGui::Button("Toggle all"))
+
+    if (ImGui::Button("Toggle all listed"))
     {
         for (i = 0; i < funcs.size(); i++)
         {
             FuncData& d = funcs[i];
-            d.hooked = !d.hooked;
-            pChangeHookFn(d.funcName, d.ogAddr, d.hooked);
+            if (filter[0] == 0 || StrStrIA(d.funcName, filter))
+            {
+                d.hooked = !d.hooked;
+                pChangeHookFn(d.funcName, d.ogAddr, d.hooked);
+            }
         }
     }
 
@@ -1206,57 +1443,12 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Testing1"))
             {
-                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps, 6);
+                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 6);
             }
 
             if (ImGui::Button("Testing2"))
             {
-                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::sprites, 0);
-            }
-
-            if (ImGui::Button("Particle test"))
-            {
-
-                Fix16 xOff;
-                xOff.FromInt(1);
-
-                // From player when stood idle
-                gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPlayerSprite, 1);
-                gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPlayerSprite, 0);
-
-                // Not sure what this does, no visible effect?
-                //gParticle_8_6FD5E8->SpawnParticleSprite_5405D0(pPlayerSprite);
-
-                // Drowing peds/cars in water etc
-                gParticle_8_6FD5E8->EmitWaterSplash_53F060(pPlayerSprite->field_14_xy.x,
-                                                           pPlayerSprite->field_14_xy.y,
-                                                           pPlayerSprite->field_1C_zpos,
-                                                           0,
-                                                           0);
-
-                gParticle_8_6FD5E8->GunMuzzelFlash_53E970(pPlayerSprite);
-
-                // Not sure where this is used in game ??
-                gParticle_8_6FD5E8->EmitElectricArcParticle(pPlayerSprite->field_14_xy.x,
-                                                            pPlayerSprite->field_14_xy.y,
-                                                            pPlayerSprite->field_1C_zpos,
-                                                            0);
-
-                gParticle_8_6FD5E8->EmitFireTruckSprayParticle_53FAE0(pPlayerSprite);
-                gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(pPlayerSprite);
-
-                // When being shot etc
-                gParticle_8_6FD5E8->EmitBloodBurst_53E450(pPlayerSprite->field_14_xy.x,
-                                                          pPlayerSprite->field_14_xy.y,
-                                                          pPlayerSprite->field_1C_zpos,
-                                                          0);
-
-                // Like when a car crashes
-                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pPlayerSprite->field_14_xy.x,
-                                                               pPlayerSprite->field_14_xy.y,
-                                                               pPlayerSprite->field_1C_zpos,
-                                                               0,
-                                                               0);
+                gGame_0x40_67E008->field_4_players[0]->field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::sprites_2, 0);
             }
         }
         else
@@ -1454,47 +1646,6 @@ void CC ImGuiDebugDraw()
             }
         }
 
-        if (ImGui::TreeNode("Player position"))
-        {
-            Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-            if (pPlayer)
-            {
-                Ped* pPed = pPlayer->field_2C4_player_ped;
-                if (pPed)
-                {
-                    static s32 xpos = pPed->field_1AC_cam.x.mValue;
-                    static s32 ypos = pPed->field_1AC_cam.y.mValue;
-                    static s32 zpos = pPed->field_1AC_cam.z.mValue;
-                    ImGui::SliderInt("X pos", &xpos, 0, 4177920);
-                    ImGui::SliderInt("Y pos", &ypos, 0, 4177920);
-                    ImGui::SliderInt("Z pos", &zpos, 0, 229376);
-
-                    pPed->field_1AC_cam.x = xpos;
-                    pPed->field_1AC_cam.y = ypos;
-                    pPed->field_1AC_cam.z = zpos;
-
-                    Camera_0xBC* game_camera = &pPlayer->field_90_game_camera;
-
-                    if (game_camera)
-                    {
-                        game_camera->field_98_cam_pos2.field_0_x = xpos;
-                        game_camera->field_98_cam_pos2.field_4_y = ypos;
-                        game_camera->field_98_cam_pos2.field_8_z = zpos;
-                    }
-
-                    if (pPlayerSprite)
-                    {
-                        pPlayerSprite->field_14_xy.x = xpos;
-                        pPlayerSprite->field_14_xy.y = ypos;
-                        pPlayerSprite->field_1C_zpos = zpos;
-                        pPlayerSprite->field_8_char_b4_ptr->field_A4_xpos = xpos;
-                        pPlayerSprite->field_8_char_b4_ptr->field_A8_ypos = ypos;
-                        pPlayerSprite->field_8_char_b4_ptr->field_AC_zpos = zpos;
-                    }
-                }
-            }
-        }
-
         if (ImGui::TreeNode("Camera"))
         {
             if (ImGui::TreeNode("gViewCamera_676978"))
@@ -1619,6 +1770,14 @@ void CC ImGuiDebugDraw()
                     pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
                     pNewCar->IncrementCarStats_443D70(car_kind::recycled_1); // avoid crashes when entering the car
+
+                    s8 zone_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pNewCar->field_84_car_info_idx);
+                    if (zone_idx > -1)
+                    {
+                        Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
+                        pNewCar->AttachGangIcon_440660(pGang->field_138_arrow_colour);
+                        pNewCar->SetCarRemap(pGang->field_140_gang_car_remap);
+                    }
                 }
                 if (ImGui::Button("Spawn car with trailer"))
                 {
@@ -1630,12 +1789,12 @@ void CC ImGuiDebugDraw()
                     gCar_6C_677930->SpawnCabAndTrailer_446530(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
 
                     pNewCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                    if (!pNewCar->field_5C)
+                    if (!pNewCar->field_5C_AI)
                     {
                         printf("Alloc AI (?)\n");
-                        pNewCar->field_5C = gCarAI_78_Pool_677CF8->Allocate();
+                        pNewCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
                     }
-                    pNewCar->field_5C->SetCar_453BF0(pNewCar);
+                    pNewCar->field_5C_AI->SetCar_453BF0(pNewCar);
                     pNewCar->SpawnDriverPed();
 
                     pNewCar->field_7C_uni_num = 5;
@@ -1736,57 +1895,105 @@ void CC ImGuiDebugDraw()
 
         if (ImGui::TreeNode("Car AI"))
         {
-            s32 num_AI_count = 0;
-            Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
-            while (pCarIter)
+            if (ImGui::TreeNode("Show Car AI info"))
             {
-                CarAI_78* pAI_Iter = pCarIter->field_5C;
-                if (pAI_Iter && pCarIter->field_50_car_sprite)
+                s32 num_AI_count = 0;
+                Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+                while (pCarIter)
                 {
-                    /*
-                    swprintf(tmpBuff_67BD9C, L"44: %d\n4C: %d\n50: %d", 
-                            pAI_Iter->field_44_target_direction,
-                            pAI_Iter->field_4C_curr_direction,
-                            pAI_Iter->field_50);
-                    */
-                    /*
-                    swprintf(tmpBuff_67BD9C, L"48: %d\n54: %d", 
-                            pAI_Iter->field_48,
-                            pAI_Iter->field_54);
-                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
-                    */
-                    /*
-                    if (pCarIter->field_58_physics)
+                    CarAI_78* pAI_Iter = pCarIter->field_5C_AI;
+                    if (pAI_Iter && pCarIter->field_50_car_sprite)
                     {
-                        swprintf(tmpBuff_67BD9C, L"%d", 
-                            pCarIter->field_58_physics->field_95);
+                        /*
+                        swprintf(tmpBuff_67BD9C, L"44: %d\n4C: %d\n50: %d", 
+                                pAI_Iter->field_44_target_direction,
+                                pAI_Iter->field_4C_curr_direction,
+                                pAI_Iter->field_50);
+                        */
+                        /*
+                        swprintf(tmpBuff_67BD9C, L"48: %d\n54: %d", 
+                                pAI_Iter->field_48,
+                                pAI_Iter->field_54);
                         DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
-                        //pCarIter->field_58_physics->field_95 = 1;
-                    }
+                        */
+                        /*
+                        if (pCarIter->field_58_physics)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"%d", 
+                                pCarIter->field_58_physics->field_95);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
+                            //pCarIter->field_58_physics->field_95 = 1;
+                        }
 
-                    if (pCarIter->field_60)
-                    {
-                        swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C);
-                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -15);
+                        if (pCarIter->field_60)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -15);
+                        }
+                        */
+                        /*
+                        if (pCarIter)
+                        {
+                            ConvertBitSetIntoString(TmpBitSetChar, 8, pAI_Iter->field_24_flags, 8 * sizeof(pAI_Iter->field_24_flags)); // TODO: u8 bitset
+                            DisplayTextAtSprite(TmpBitSetChar, pCarIter->field_50_car_sprite, 0, 0);
+                        }
+                        */
+                        if (pAI_Iter)
+                        {
+                            swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_48);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
+                        }
+                        num_AI_count++;
                     }
-                    */
-                    /*
-                    if (pCarIter)
-                    {
-                        ConvertBitSetIntoString(TmpBitSetChar, 8, pAI_Iter->field_24_flags, 8 * sizeof(pAI_Iter->field_24_flags)); // TODO: u8 bitset
-                        DisplayTextAtSprite(TmpBitSetChar, pCarIter->field_50_car_sprite, 0, 0);
-                    }
-                    */
-                    if (pAI_Iter)
-                    {
-                        swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_54);
-                        DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
-                    }
-                    num_AI_count++;
+                    pCarIter = pCarIter->mpNext;
                 }
-                pCarIter = pCarIter->mpNext;
+                ImGui::Value("Count", num_AI_count);
+                ImGui::TreePop();
             }
-            ImGui::Value("Count", num_AI_count);
+
+            if (ImGui::TreeNode("Show Nearest AI info"))
+            {
+                Sprite* pPlayerSprt = GetPlayerAssociatedSprite();
+                if (pPlayerSprt)
+                {
+                    Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+                    CarAI_78* pNearestAI = NULL;
+                    Fix16 smallest = Fix16(99999);
+                    while (pCarIter)
+                    {
+                        CarAI_78* pAI_Iter = pCarIter->field_5C_AI;
+                        if (pAI_Iter && pCarIter->field_50_car_sprite)
+                        {
+                            Fix16 curr_dist = Fix16::MaxAbsDistance_42A6B0(pPlayerSprt->field_14_xy.x, pPlayerSprt->field_14_xy.y,
+                                                        pCarIter->field_50_car_sprite->field_14_xy.x, pCarIter->field_50_car_sprite->field_14_xy.y);
+                            if (curr_dist < smallest)
+                            {
+                                smallest = curr_dist;
+                                pNearestAI = pAI_Iter;
+                            }
+                        }
+                        pCarIter = pCarIter->mpNext;
+                    }
+                    
+                    if (pNearestAI)
+                    {
+                        char buffer[50];
+                        get_car_name(pNearestAI->field_0_car, buffer);
+                        ImGui::Text("AI Found! Car: %s", buffer);
+                        ImGui::Text("6C: %d", pNearestAI->field_6C != NULL);
+                        if (!PointArrowToEntity(0, pNearestAI->field_6C, 0))
+                        {
+                            //ClearGlobalArrow();
+                        }
+                    }
+                    else
+                    {
+                        //ClearGlobalArrow();
+                    }
+                }
+                
+                ImGui::TreePop();
+            }
             ImGui::TreePop();
         }
 
@@ -1811,6 +2018,11 @@ void CC ImGuiDebugDraw()
                 static s32 spawnObjectType = 0;
                 ImGui::InputInt("Object type", &spawnObjectType, 1, 1);
                 ImGui::Text("Object name %s", ObjectIdToString(spawnObjectType));
+                Phi_74* pPhi_74 = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(spawnObjectType);
+                if (pPhi_74)
+                {
+                    ImGui::Value("Behaviour", pPhi_74->field_34_behavior_type);
+                }
 
                 if (ImGui::Button("Obj spawn"))
                 {
@@ -1846,21 +2058,30 @@ void CC ImGuiDebugDraw()
                 }
                 */
             }
-            if (spawned_obj != NULL)
+            if (spawned_obj != NULL && spawned_obj->field_4)
             {
                 ImGui::Text("Object spawned attributes:");
-                ImGui::SliderU8("field_26_varrok_idx", &spawned_obj->field_26_varrok_idx, 0, 25);
+                //ImGui::SliderU8("field_26_varrok_idx", &spawned_obj->field_26_varrok_idx, 0, 25);
+                static s32 sprt_lazy_idx = spawned_obj->field_4->field_22_sprite_id;
+                
+                if (ImGui::InputInt("Sprite Lazy Idx", &sprt_lazy_idx, 1, 1))
+                {
+                    if (spawned_obj->field_4)
+                    {
+                        spawned_obj->field_4->set_id_lazy_4206C0(sprt_lazy_idx);
+                    }
+                }
                 Object_3C* obj_3c = spawned_obj->field_10_obj_3c;
                 if (ImGui::TreeNode("Object_3C"))
                 {
                     if (obj_3c)
                     {
-                        ImGui::SliderS16("Obj3C angle", &obj_3c->field_4.rValue, 0, 1439);
+                        ImGui::SliderS16("Obj3C angle", &obj_3c->field_4_angle.rValue, 0, 1439);
                         ImGui::InputS16("Obj3C field_6", &obj_3c->field_6, 0, 1439);
-                        ImGui::Value("Obj3C field_C", obj_3c->field_C.mValue);
+                        ImGui::Value("Obj3C field_C", obj_3c->field_C_speed.mValue);
                         ImGui::Value("Obj3C field_10", obj_3c->field_10.mValue);
                         ImGui::Value("Obj3C field_14", obj_3c->field_14.mValue);
-                        ImGui::Value("Obj3C field_18", obj_3c->field_18.mValue);
+                        ImGui::Value("Obj3C field_18", obj_3c->field_18_friction.mValue);
                         ImGui::Value("Obj3C field_1C", obj_3c->field_1C.mValue);
 
                         ImGui::Value("Obj3C field_2E", obj_3c->field_2E);
@@ -1873,6 +2094,39 @@ void CC ImGuiDebugDraw()
                     }
                     ImGui::TreePop();
                 }
+            }
+            static bool bFound = false;
+            static s32 id = -1;
+            if (ImGui::Button("Search for Gore sprite"))
+            {
+                id++;
+                bFound = false;
+                //ClearGlobalArrow();
+                for (; id < 8000; id++)
+                {
+                    u16 true_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::code_obj1_4, id);
+                    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_idx);
+                    if (sprite_index_5AA440)
+                    {
+                        if (sprite_index_5AA440->field_4_width == 20
+                            && sprite_index_5AA440->field_5_height == 16)
+                        {
+                            bFound = true;
+                            if (spawned_obj != NULL && spawned_obj->field_4)
+                            {
+                                spawned_obj->field_4->field_30_sprite_type_enum = sprite_types_enum::code_obj1_4;
+                                spawned_obj->field_4->set_id_lazy_4206C0(id);
+                                //PointArrowToEntity(0, 0, spawned_obj);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (bFound)
+            {
+                ImGui::Value("ID found", id);
             }
 
             if (gObject_2C_Pool_6F8F80 && ImGui::TreeNode("Show Object_2C model IDs"))
@@ -1965,13 +2219,14 @@ void CC ImGuiDebugDraw()
                                 ImGui::SliderInt("Car Angle Velocity", &pPhysics->field_74_ang_vel_rad.mValue, -10 * 16384, 10 * 16384);
                                 if (ImGui::TreeNode("Car Physics"))
                                 {
-                                    ImGui::Value("Center of Mass x", pPhysics->field_30_cm1.x.ToFloat(), "%.2f");
-                                    ImGui::Value("Center of Mass y", pPhysics->field_30_cm1.y.ToFloat(), "%.2f");
-                                    ImGui::Value("Center of ??? x", pPhysics->field_38_cp1.x.ToFloat(), "%.2f");
-                                    ImGui::Value("Center of ??? y", pPhysics->field_38_cp1.y.ToFloat(), "%.2f");
+                                    //ImGui::Value("Center of Mass x", pPhysics->field_30_cm1.x.ToFloat(), "%.2f");
+                                    //ImGui::Value("Center of Mass y", pPhysics->field_30_cm1.y.ToFloat(), "%.2f");
+                                    //ImGui::Value("Center of ??? x", pPhysics->field_38_cp1.x.ToFloat(), "%.2f");
+                                    //ImGui::Value("Center of ??? y", pPhysics->field_38_cp1.y.ToFloat(), "%.2f");
                                     ImGui::Value("Physics fA0", pPhysics->field_A0);
                                     ImGui::SliderInt("Physics fA0", &pPhysics->field_A0, 0, 3);
                                     ImGui::Value("Physics fAD", pPhysics->field_AD_turn_direction);
+                                    ImGui::Value("Surface type", pPhysics->field_98_surface_type);
                                     //pPhysics->field_95 = 1;
                                     //ImGui::SliderInt("Physics front skid", &pPhysics->field_84_front_skid.mValue, -3*16384, 3*16384);
                                     ImGui::TreePop();
@@ -2056,7 +2311,7 @@ void CC ImGuiDebugDraw()
 
                         ImGui::InputInt("258_objective", &pPlayerPed->field_258_objective, 1, 1);
 
-                        ImGui::InputInt("F 238", &pPlayerPed->field_238, 1, 1);
+                        ImGui::InputInt("F 238", &pPlayerPed->field_238_ped_type, 1, 1);
                         ImGui::InputInt("Ped State 1", &pPlayerPed->field_278_ped_state_1, 1, 1);
                         ImGui::InputInt("Ped State 2", &pPlayerPed->field_27C_ped_state_2, 1, 1);
                         ImGui::InputInt("Car State", &pPlayerPed->field_25C_internal_objective, 1, 1);
@@ -2099,9 +2354,9 @@ void CC ImGuiDebugDraw()
                     }
                     if (ImGui::Button("Add car weapon"))
                     {
-                        if (pPlayerCar)
+                        if (pPlayerPed->field_16C_car)
                         {
-                            gWeapon_8_707018->allocate_5E3D50(currentWeaponIndex, 20, pPlayerCar);
+                            gWeapon_8_707018->allocate_5E3D50(currentWeaponIndex, 20, pPlayerPed->field_16C_car);
                         }
                     }
                     if (ImGui::Button("Add player weapon"))
@@ -2109,17 +2364,31 @@ void CC ImGuiDebugDraw()
                         //gWeapon_8_707018->allocate_5E3C10(currentWeaponIndex, pPlayerPed, 20);
                         // pPlayerPed->AddWeaponWithAmmo_45DD30(currentWeaponIndex, 20);
 
-                        pPlayerPed->ForceWeapon_46F600(currentWeaponIndex);
+                        //pPlayerPed->ForceWeapon_46F600(currentWeaponIndex);
+                        pPlayerPed->AddWeaponWithAmmo_45DD30(currentWeaponIndex, 99);
 
                         /*
                         Char_B4* pB4 = pPlayerPed->field_168_game_object;
                         if ( pB4 )
                         {
                         //pB4->field_80_sprite_ptr->field_2C |= 4u;
-                        // Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(198, 0, 0, 0, 0); // dead_rubbish_197 ?? but its actually fire
+                        // Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(198, 0, 0, 0, 0); // ped_like_fire_197 ?? but its actually fire
                         // pB4->field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, 0);
                         pB4->field_b0 = 100;
                         }*/
+                    }
+
+                    if (ImGui::Button("Shoot bullet 198"))
+                    {
+                        if (pPlayerPed->field_170_selected_weapon)
+                        {
+                            pPlayerPed->field_170_selected_weapon->spawn_bullet_5DCF60(198,
+                                pPlayerPed->get_cam_x(),
+                                pPlayerPed->get_cam_y(),
+                                pPlayerPed->get_cam_z(),
+                                pPlayerPed->Get_F12E_4CCA90(),
+                                pPlayerPed->sub_45B520());
+                        }
                     }
 
                     //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);
@@ -2169,7 +2438,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("f_2E", pPlayer->field_2D4_scores.field_0_money.field_2E_non_used_digits);
                         ImGui::Value("f_30", pPlayer->field_2D4_scores.field_0_money.field_30_max_value);
                         ImGui::Value("f_34", pPlayer->field_2D4_scores.field_0_money.field_34_first_digit_texture_idx);
-                        ImGui::Value("f_36", pPlayer->field_2D4_scores.field_0_money.field_36_palette);
+                        ImGui::Value("f_36", pPlayer->field_2D4_scores.field_0_money.field_36_sprite_idx);
 
                         static char_type num_idx = 0;
                         ImGui::SliderS8("Array Idx", &num_idx, 0, 9);
@@ -2405,14 +2674,14 @@ void CC ImGuiDebugDraw()
                     }
                 }
                 
-                if (ImGui::TreeNode("Show F69"))
+                if (ImGui::TreeNode("Show ped type"))
                 {
                     Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
                     while (pPedIter)
                     {
-                        if (pPedIter->field_168_game_object)
+                        if (1) // pPedIter->field_168_game_object
                         {
-                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_168_game_object->field_69_is_colliding_with_sprite);
+                            swprintf(tmpBuff_67BD9C, L"%d", pPedIter->field_238_ped_type);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
                         }
                         pPedIter = pPedIter->mpNext;
@@ -2603,14 +2872,14 @@ void CC ImGuiDebugDraw()
                         ImGui::InputInt("field_C", &phi->field_C.mValue, 1, 1);
                         ImGui::InputInt("field_10", &phi->field_10.mValue, 1, 1);
                         ImGui::InputInt("field_14_friction", &phi->field_14_friction.mValue, 1, 1);
-                        ImGui::InputInt("field_18", &phi->field_18.mValue, 1, 1);
+                        ImGui::InputInt("field_18", &phi->field_18_mass.mValue, 1, 1);
                         ImGui::SliderS16("field_1C_remap", &phi->field_1C_remap, 0, 50);
                         ImGui::Input_char_type("field_20", &phi->field_20, 1, 1);
                         ImGui::Input_char_type("field_21", &phi->field_21, 1, 1);
                         ImGui::Input_char_type("field_22", &phi->field_22, 1, 1);
                         ImGui::Input_char_type("field_23", &phi->field_23, 1, 1);
                         ImGui::InputInt("field_24_idx", &phi->field_24_idx, 1, 1);
-                        ImGui::InputInt("field_28", &phi->field_28, 1, 1);
+                        ImGui::InputInt("field_28", &phi->field_28_sprite_type, 1, 1);
 
                         if (ImGui::TreeNode("another vars"))
                         {
@@ -2670,16 +2939,6 @@ void CC ImGuiDebugDraw()
         {
             if (ImGui::TreeNode("gPolice_7B8_6FEE40"))
             {
-                if (ImGui::Button("Spawn Guard"))
-                {
-                    Fix16 xpos, ypos, zpos;
-                    GetPlayerPos(xpos, ypos, zpos);
-
-                    Ped* pGuard = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, ped_remap_enum::ped_remap_blue_police, Ang16(0));
-
-                    gPolice_7B8_6FEE40->SpawnWalkingGuard_570320(pGuard, xpos, ypos, zpos, Ang16(0));
-                }
-
                 if (ImGui::TreeNode("Show debug stuff"))
                 {
                     s16 ypos = 64;
@@ -2703,9 +2962,9 @@ void CC ImGuiDebugDraw()
 
                     ypos += 16;
                     
-                    for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464); idx2++)
+                    for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464_services); idx2++)
                     {
-                        Police_7C* p7C = &gPolice_7B8_6FEE40->field_464[idx2];
+                        Police_7C* p7C = &gPolice_7B8_6FEE40->field_464_services[idx2];
                         if (p7C && p7C->field_18_z != kFP16Zero_6FE20C)
                         {
                             swprintf(tmpBuff_67BD9C, L"P7C target coords (%.1f, %.1f, %.1f)", p7C->field_10_x.ToFloat(), p7C->field_14_y.ToFloat(), p7C->field_18_z.ToFloat());
@@ -2784,6 +3043,145 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
+        if (ImGui::TreeNode("Car Physics Debug"))
+        {
+            if (ImGui::TreeNode("Show collision point"))
+            {
+                if (CollisionIntersectionPoint_6FE1A0.x > Fix16(0)
+                    && CollisionIntersectionPoint_6FE1A0.y > Fix16(0))
+                {
+                    DisplayWideTextAtXYZ(L"E", 
+                        CollisionIntersectionPoint_6FE1A0.x,
+                        CollisionIntersectionPoint_6FE1A0.y,
+                        Fix16(3));
+                }
+                ImGui::TreePop();
+            }
+            
+            if (&gRozza_679188 && ImGui::TreeNode("Show rozza sprite"))
+            {
+                ImGui::Value("Type", gRozza_679188.field_0_type);
+                if (gRozza_679188.field_20_pSprite)
+                {
+                    if (gRozza_679188.field_20_pSprite->AsCharB4_40FEA0())
+                    {
+                        PointArrowToEntity(gRozza_679188.field_20_pSprite->field_8_char_b4_ptr->field_7C_pPed, 0, 0);
+                    }
+                    else if (gRozza_679188.field_20_pSprite->AsCar_40FEB0())
+                    {
+                        PointArrowToEntity(0, gRozza_679188.field_20_pSprite->field_8_car_bc_ptr, 0);
+                    }
+                    else if (gRozza_679188.field_20_pSprite->As2C_40FEC0())
+                    {
+                        PointArrowToEntity(0, 0, gRozza_679188.field_20_pSprite->field_8_object_2C_ptr);
+                    }
+                }
+            }
+            else
+            {
+                ClearGlobalArrow();
+            }
+            ImGui::TreePop();
+        }
+        
+        if (gParticle_8_6FD5E8 && ImGui::TreeNode("Particle_8"))
+        {
+            pPlayerSprite = GetPlayerSprite();
+
+            static Fix16_Point particle_velocity = Fix16_Point(Fix16(0), Fix16(0));
+            static Fix16 speed = Fix16(0);
+            static Fix16 unknown = Fix16(0);
+            static s32 mVar_speed = 0;
+            static s32 mVar_unknown = 0;
+            static s32 particle_type = 1;
+
+            static s32 counter = 100;
+            static s32 timer = 0;
+            static s32 f_34 = 0;
+            static s32 f_2E = 0;
+            
+            ImGui::InputInt("Type (1 - 44)", &particle_type, 1, 1);
+
+            ImGui::SliderInt("Speed", &mVar_speed, 0, 0x4000 * 5);
+            speed = Fix16(mVar_speed, 0);
+
+            ImGui::SliderInt("Unknown", &mVar_unknown, 0, 0x4000 * 5);
+            unknown = Fix16(mVar_unknown, 0);
+
+            ImGui::SliderInt("Counter", &counter, 0, 600);
+            ImGui::SliderInt("Timer", &timer, 0, 10);
+            ImGui::SliderInt("F_34", &f_34, 0, 1);
+            ImGui::SliderInt("F_2E", &f_2E, 0, 1000);
+
+            if (ImGui::Button("Create Particle"))
+            {
+                particle_velocity.FromPolar_41E210(speed, pPlayerSprite->field_0);
+                Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(particle_velocity.x, particle_velocity.y, unknown, 0, 0, 0);
+
+                if (pParticle)
+                {
+                    pParticle->field_34 = f_34;
+                    pParticle->field_38_state = particle_type;
+                    pParticle->field_2C_counter = counter;
+                    pParticle->field_2E = f_2E;
+
+                    pParticle->field_30_pNext->SetType_4206F0(8);
+                    pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 132);
+                    pParticle->field_46_sub_state = 0; // TODO
+                    pParticle->field_48_timer = timer;
+                    pParticle->field_30_pNext->set_xyz_lazy_420600(pPlayerSprite->field_14_xy.x, pPlayerSprite->field_14_xy.y, pPlayerSprite->field_1C_zpos);
+                    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                }
+            }
+            
+
+            if (ImGui::Button("Many Particles test"))
+            {
+                Fix16 xOff;
+                xOff.FromInt(1);
+
+                // From player when stood idle
+                gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPlayerSprite, 1);
+                gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPlayerSprite, 0);
+
+                // Not sure what this does, no visible effect?
+                //gParticle_8_6FD5E8->SpawnParticleSprite_5405D0(pPlayerSprite);
+
+                // Drowing peds/cars in water etc
+                gParticle_8_6FD5E8->EmitWaterSplash_53F060(pPlayerSprite->field_14_xy.x,
+                                                           pPlayerSprite->field_14_xy.y,
+                                                           pPlayerSprite->field_1C_zpos,
+                                                           0,
+                                                           0);
+
+                gParticle_8_6FD5E8->GunMuzzelFlash_53E970(pPlayerSprite);
+
+                // Not sure where this is used in game ??
+                gParticle_8_6FD5E8->EmitElectricArcParticle(pPlayerSprite->field_14_xy.x,
+                                                            pPlayerSprite->field_14_xy.y,
+                                                            pPlayerSprite->field_1C_zpos,
+                                                            0);
+
+                gParticle_8_6FD5E8->EmitFireTruckSprayParticle_53FAE0(pPlayerSprite);
+                gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(pPlayerSprite);
+
+                // When being shot etc
+                gParticle_8_6FD5E8->EmitBloodBurst_53E450(pPlayerSprite->field_14_xy.x,
+                                                          pPlayerSprite->field_14_xy.y,
+                                                          pPlayerSprite->field_1C_zpos,
+                                                          0);
+
+                // Like when a car crashes
+                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pPlayerSprite->field_14_xy.x,
+                                                               pPlayerSprite->field_14_xy.y,
+                                                               pPlayerSprite->field_1C_zpos,
+                                                               0,
+                                                               0);
+            }
+            ImGui::TreePop();
+        }
+            
+
         // Put in-game debug stuff here
 
     } // end gGame_0x40_67E008 != NULL
@@ -2832,6 +3230,7 @@ void CC ImGuiDebugDraw()
             ImGui::Checkbox("Invulnerable", &bDo_invulnerable_67D4CB);
             ImGui::Checkbox("Get all weapons", &bGet_all_weapons_67D684);
             ImGui::Checkbox("Keep weapons after death", &bKeep_weapons_after_death_67D54D);
+            ImGui::Checkbox("Free Shopping", &bDo_free_shopping_67D6CD);
             ImGui::Checkbox("Do Blood", &bDo_blood_67D5C5);
             ImGui::TreePop();
         }
@@ -2850,7 +3249,7 @@ void CC ImGuiDebugDraw()
 
                 MenuPage_0xBCA* loving_borg = &gFrontend_67DC84->field_136_menu_pages_array[loving_id];
                 ImGui::Value("field_0_number_of_options", loving_borg->field_0_number_of_options);
-                ImGui::Value("field_2", loving_borg->field_2);
+                ImGui::Value("field_2", loving_borg->field_2_number_of_elements);
                 ImGui::Value("field_BC6_current_option_idx", loving_borg->field_BC6_current_option_idx);
                 ImGui::Value("field_BC8", loving_borg->field_BC8);
 
@@ -2871,8 +3270,8 @@ void CC ImGuiDebugDraw()
                     wchar_to_char(nifty_maxwell->field_6_option_name_str, str_buf, 50);
                     ImGui::Text(str_buf);
 
-                    ImGui::Value("field_6A", nifty_maxwell->field_6A);
-                    ImGui::Value("field_6C", nifty_maxwell->field_6C);
+                    ImGui::Value("field_6A", nifty_maxwell->field_6A_font_type);
+                    ImGui::Value("field_6C", nifty_maxwell->field_6C_palette);
                     ImGui::Value("field_6E_count", nifty_maxwell->field_6E_horizontal_selected_idx);
                     ImGui::Value("field_70", nifty_maxwell->field_70);
 
@@ -2902,7 +3301,7 @@ void CC ImGuiDebugDraw()
                     ImGui::Text(str_buf_2);
 
                     ImGui::InputU16("field_6A", &competent_noyce->field_6A_font_type, 1, 1);
-                    ImGui::InputU16("field_6C", &competent_noyce->field_6C_font_variant, 1, 1);
+                    ImGui::InputU16("field_6C", &competent_noyce->field_6C_font_palette, 1, 1);
 
                     ImGui::TreePop();
                 }

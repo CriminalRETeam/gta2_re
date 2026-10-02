@@ -110,7 +110,7 @@ void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
         {
             if (z_pos == a2_1)
             {
-                if (pSprite->field_28_num >= pLastNonNull->field_0_sprt->field_28_num)
+                if ((s16)pSprite->field_28_num >= pLastNonNull->field_0_sprt->field_28_num)
                 {
                     pLastNonNull->field_8 = pAllocated;
                 }
@@ -177,12 +177,21 @@ Montana_4::Montana_4()
     Reset_5C5E50();
 }
 
-STUB_FUNC(0x5c5f10)
+// TODO: target loads gMontana_2EE4_705BBC into ecx and pushes esi inside the if
+WIP_FUNC(0x5c5f10)
 Montana_4::~Montana_4()
 {
-    NOT_IMPLEMENTED;
-    GTA2_DELETE_AND_NULL(gMontana_2EE4_705BBC);
-    GTA2_DELETE_AND_NULL(gMontana_FA4_705BC0);
+    WIP_IMPLEMENTED;
+
+    if (gMontana_2EE4_705BBC)
+    {
+        GTA2_DELETE_AND_NULL(gMontana_2EE4_705BBC);
+    }
+
+    if (gMontana_FA4_705BC0)
+    {
+        GTA2_DELETE_AND_NULL(gMontana_FA4_705BC0);
+    }
 }
 
 MATCH_FUNC(0x4954f0)
@@ -196,20 +205,34 @@ void Montana::ResetAll_4954F0()
 
 // TODO: move
 // https://decomp.me/scratch/qe97a
-STUB_FUNC(0x5BEE90)
-EXPORT unsigned __int64 get_rdtsc_5BEE90()
+MATCH_FUNC(0x5BEE90)
+EXPORT s32 get_rdtsc_5BEE90()
 {
     // NOTE: Actually is inline assembly, surprisingly
     unsigned __int64 t;
-    __asm 
-    { 
-        pushad 
-        rdtsc 
-        mov DWORD PTR t, eax 
-        mov DWORD PTR t+4, edx 
+    __asm
+    {
+        // The original has the 16-bit pushaw/popaw. Prefix pushad/popad with an operand-size
+        // override so the compiler still sees them and saves ebx/esi/edi.
+        _emit 0x66
+        pushad
+        rdtsc
+        mov DWORD PTR t, eax
+        mov DWORD PTR t+4, edx
+        _emit 0x66
         popad
     }
-    return static_cast<int>(t);
+    return static_cast<s32>(t);
+}
+
+DEFINE_GLOBAL(u32, dword_705334, 0x705334);
+
+// Converts a cycle count from get_rdtsc_5BEE90 for the profiler display (dword_705334 is the
+// number of cycles per unit)
+MATCH_FUNC(0x5BEED0)
+EXPORT s32 __stdcall sub_5BEED0(s32 cycles)
+{
+    return (u32)cycles / dword_705334;
 }
 
 MATCH_FUNC(0x495510)

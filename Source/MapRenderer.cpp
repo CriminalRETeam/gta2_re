@@ -52,8 +52,8 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F63EC, Ang16(900), 0x6F63EC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6548, Fix16(0x100000, 0), 0x6F6548);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F64B4, Fix16(1, 0), 0x6F64B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6578, dword_6F6548 - dword_6F64B4, 0x6F6578);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F6428, Fix16(0x1800, 0), 0x6F6428);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F6430, Fix16(0x2800, 0), 0x6F6430);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6428, Fix16(0x1800, 0), 0x6F6428); // gPartialBlockWidth_6F6428
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6430, Fix16(0x2800, 0), 0x6F6430); // gCornerAndCenterBlockWidth1_6F6430
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6434, Fix16(0x100, 0), 0x6F6434);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6588, 0x6F6588);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6598, 0x6F6598);
@@ -264,8 +264,8 @@ void MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
 }
 
 // this function matches, but some "fcomps" offsets are wrong
-WIP_FUNC(0x4E9EE0)
-void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8& colour)
+MATCH_FUNC(0x4E9EE0)
+void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8 colour)
 {
     u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(word_side & 0x3FF);
     if (texture_idx)
@@ -313,7 +313,7 @@ void MapRenderer::ambient_light_tick_4E9EA0()
 }
 
 // this function matches, but some "fcomps" offsets are wrong
-WIP_FUNC(0x4EA190)
+MATCH_FUNC(0x4EA190)
 void MapRenderer::draw_4EA190(u16& rotation_and_flip) 
 {
     s32 vert_idx;
@@ -597,7 +597,7 @@ void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, F
 }
 
 // This function matches, but the offsets of dword_6F628C and dword_6F656C are wrong
-WIP_FUNC(0x4eae00)
+MATCH_FUNC(0x4eae00)
 void MapRenderer::sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, dword_6F62B0, pVert);
@@ -607,8 +607,7 @@ void MapRenderer::sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
     pVert->z = dword_6F656C.ToFloat();
 }
 
-// This function matches, but the offsets of dword_6F633C and dword_6F6318 are wrong
-WIP_FUNC(0x4eaea0)
+MATCH_FUNC(0x4eaea0)
 void MapRenderer::sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xCoord, yCoord, gZCoord_6F63E0, pVert);
@@ -778,8 +777,11 @@ void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     set_vert_xyz_relative_to_cam_inlined(xpos, ypos, zpos, pVert);
 
     pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-    pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-    pVert->y = ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+    {
+        u32 tmp = (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + tmp;
+    }
+    pVert->y = ((ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat()) * pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
 
 // https://decomp.me/scratch/a6z18
@@ -1035,8 +1037,9 @@ void MapRenderer::sub_4ECE40(u16& right_word)
         sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
         sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
         dword_6F6560 = dword_621004[right_word >> 13];
-        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & 1023);
-        if (texture_idx)
+        u32 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & 1023);
+        u16 tmp = texture_idx;
+        if (tmp)
         {
             pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
                           gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
@@ -1282,7 +1285,7 @@ void MapRenderer::draw_lid_4EE130()
     }
 }
 
-//STUB_FUNC(0x4EE7D0)
+MATCH_FUNC(0x4EE7D0)
 void MapRenderer::DrawDiagonalWallUpLeft_4EE7D0()
 {
     if (gBlockRight_6F63C6)
@@ -1305,7 +1308,7 @@ void MapRenderer::DrawDiagonalWallUpLeft_4EE7D0()
     }
 }
 
-//STUB_FUNC(0x4EE8A0)
+MATCH_FUNC(0x4EE8A0)
 void MapRenderer::DrawDiagonalWallUpRight_4EE8A0()
 {
     if (gBlockLeft_6F62F6)
@@ -1328,7 +1331,7 @@ void MapRenderer::DrawDiagonalWallUpRight_4EE8A0()
     }
 }
 
-//STUB_FUNC(0x4EE970)
+MATCH_FUNC(0x4EE970)
 void MapRenderer::DrawDiagonalWallDownLeft_4EE970()
 {
     if (gBlockLeft_6F62F6)
@@ -1351,7 +1354,7 @@ void MapRenderer::DrawDiagonalWallDownLeft_4EE970()
     }
 }
 
-//STUB_FUNC(0x4EEA40)
+MATCH_FUNC(0x4EEA40)
 void MapRenderer::DrawDiagonalWallDownRight_4EEA40()
 {
     if (gBlockLeft_6F62F6)
@@ -2523,7 +2526,7 @@ void MapRenderer::draw_lid_4F4D60(Fix16& unk1, Fix16& unk2, Fix16& unk3, Fix16& 
     }
 }
 
-WIP_FUNC(0x4f6580)
+MATCH_FUNC(0x4f6580)
 void MapRenderer::DrawPartialBlocks_4F6580()
 {
     u8 slope_byte = gpBlock_6F6478->field_B_slope_type;
@@ -2992,7 +2995,7 @@ void MapRenderer::Draw_4F6A20()
             s32 x_semi_distance = (max_x - min_x + 1) / 2;
             if (x_semi_distance % 2 != 1)
             {
-                x_semi_distance += 1;
+                //x_semi_distance += 1; // in the current state, removing this line reduces map render glitches
             }
             
             // compute y boundary
@@ -3002,7 +3005,7 @@ void MapRenderer::Draw_4F6A20()
             s32 y_semi_distance = (max_y - min_y + 1) / 2;
             if (y_semi_distance % 2 != 1)
             {
-                y_semi_distance += 1;
+                //y_semi_distance += 1; // in the current state, removing this line reduces map render glitches
             }
             
             // update global Z coordinate
