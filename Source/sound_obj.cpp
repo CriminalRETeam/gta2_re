@@ -2611,15 +2611,15 @@ void sound_obj::ProcessType11_HudPager_418B60(s32 a2)
     Hud_Pager_C* pPager = field_147C[a2].field_4_pObj->field_C_pAny.pHud_Pager_C;
     if (pPager)
     {
-        if (pPager->field_0_timer > 0)
+        if (pPager->get_timer_411A40() > 0)
         {
             u8 vol;
-            if (pPager->field_0_timer > 300)
+            if (pPager->get_timer_411A40() > 300)
             {
                 field_30_sQueueSample.field_20_rate = 22050;
                 vol = 40;
             }
-            else if (pPager->field_0_timer > 150)
+            else if (pPager->get_timer_411A40() > 150)
             {
                 field_30_sQueueSample.field_20_rate = 26221;
                 vol = 55;

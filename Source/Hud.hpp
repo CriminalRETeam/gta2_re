@@ -266,6 +266,12 @@ class Hud_Pager_C
         return field_4_ptr_counter == NULL;
     }
 
+    // 9.6f 0x411A40
+    inline s32 get_timer_411A40()
+    {
+        return field_0_timer;
+    }
+
     EXPORT ~Hud_Pager_C();
     EXPORT void Service_5D2320();
     EXPORT void sub_5D2380(s32 a2, s32 a3);
