@@ -7015,6 +7015,8 @@ void sound_obj::TrainCab_414710(Sound_Params_8* a2)
 {
     WIP_IMPLEMENTED;
 
+    // Remaining diff: the failure paths jump to the success path's epilogue in the original, ours to the else's
+
     Ped* pDriver = a2->field_0_pObj->field_8_car_bc_ptr->field_54_driver;
     if (pDriver)
     {
@@ -7023,12 +7025,12 @@ void sound_obj::TrainCab_414710(Sound_Params_8* a2)
         if (pTrainStation)
         {
             this->field_30_sQueueSample.field_14_samp_idx = 139;
-            gmp_map_zone* pStationZone = pTrainStation->field_10_pZone;
-            if (pStationZone)
+            if (pTrainStation->field_10_pZone)
             {
-                // TODO: This part doesn't match
-                this->field_30_sQueueSample.field_8_obj.field_0_x = Fix16(pStationZone->field_1_x + (pStationZone->field_3_w >> 1));
-                this->field_30_sQueueSample.field_8_obj.field_4_y = Fix16(pStationZone->field_2_y + (pStationZone->field_4_h >> 1));
+                this->field_30_sQueueSample.field_8_obj.field_0_x =
+                    Fix16(pTrainStation->field_10_pZone->field_1_x + (pTrainStation->field_10_pZone->field_3_w >> 1));
+                this->field_30_sQueueSample.field_8_obj.field_4_y =
+                    Fix16(pTrainStation->field_10_pZone->field_2_y + (pTrainStation->field_10_pZone->field_4_h >> 1));
             }
             this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
             this->field_2C_distCalculated = 0;
