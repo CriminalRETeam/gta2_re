@@ -229,9 +229,7 @@ void jolly_poitras_0x2BC0::sub_56C010()
     }
     else
     {
-        const u8 map_and_bonus_nibbles = gLucid_hamilton_67E8E0.GetStage_4C5990();
-        map_num = map_and_bonus_nibbles >> 4;
-        bonus_num = map_and_bonus_nibbles & 0xF;
+        gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &map_num, &bonus_num);
     }
 
     player_stats_0xA4* pPlayerStats = &field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
