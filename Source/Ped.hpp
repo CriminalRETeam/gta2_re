@@ -527,6 +527,14 @@ class Ped
         return field_15C_player != 0;
     }
 
+    // 9.6f 0x41B0B0
+    inline s32 TakeF250_41B0B0()
+    {
+        s32 ret = field_250;
+        field_250 = 0;
+        return ret;
+    }
+
     inline void Set_F250_IfBit_433DD0(s32 a2)
     {
         // TODO: Check if (HIBYTE(this->field_21C) & 1)
