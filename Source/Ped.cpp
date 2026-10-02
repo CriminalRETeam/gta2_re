@@ -8975,42 +8975,42 @@ void Ped::FireAtObject_46A530()
     }
 }
 
-WIP_FUNC(0x46a5e0)
+MATCH_FUNC(0x46a5e0)
 void Ped::FireAtPlayer_46A5E0()
 {
-    WIP_IMPLEMENTED;
-
-    if (field_16C_car)
+    if (!field_16C_car)
     {
-        Ped* pPlayerPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
-        if ((pPlayerPed->field_21C & 0x2000000) != 0 && pPlayerPed->field_168_game_object)
+        field_225_objective_status = 0;
+        return;
+    }
+
+    Ped* pPlayerPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+    if ((pPlayerPed->field_21C & 0x2000000) == 0 || !pPlayerPed->field_168_game_object)
+    {
+        Sprite* pGunSprite = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(148)->field_0;
+
+        Ang16 aim_angle;
         {
-            //goto LABEL_8;
-            this->field_21C &= ~8u;
+            Fix16 gun_x = pGunSprite->field_14_xy.x;
+            Fix16 gun_y = pGunSprite->field_14_xy.y;
+            Fix16 xd = pPlayerPed->get_cam_x() - gun_x;
+            Fix16 yd = pPlayerPed->get_cam_y() - gun_y;
+            aim_angle = Fix16::atan2_fixed_405320(yd, xd);
+        }
+
+        field_21C |= 0x80;
+
+        if (field_16C_car->RotateRoofObjectTowardTarget_440C10(aim_angle))
+        {
+            if (field_16C_car->field_76_last_seen_timer == 0)
+            {
+                field_21C |= 0x800;
+            }
             return;
         }
-
-        Sprite* pSprite_148 = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(148)->field_0;
-        Fix16 xd = pPlayerPed->field_1AC_cam.x - pSprite_148->field_14_xy.x;
-        Fix16 yd = pPlayerPed->field_1AC_cam.y - pSprite_148->field_14_xy.y;
-        Ang16 v6 = Fix16::atan2_fixed_405320(yd, xd);
-
-        this->field_21C |= 0x80;
-
-        if (!field_16C_car->RotateRoofObjectTowardTarget_440C10(v6))
-        {
-            // LABEL_8:
-            this->field_21C &= ~8u;
-        }
-        else if (!this->field_16C_car->field_76_last_seen_timer)
-        {
-            this->field_21C |= 8;
-        }
     }
-    else
-    {
-        this->field_225_objective_status = 0;
-    }
+
+    field_21C &= ~0x800;
 }
 
 WIP_FUNC(0x46a6d0)
