@@ -11735,11 +11735,13 @@ void Ped::AimRoofGun_470050()
         pHit = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(248);
     }
 
-    Sprite* pHitSprite = pHit->field_0;
-
+    Fix16 x = pHit->field_0->field_14_xy.x;
+    Fix16 y = pHit->field_0->field_14_xy.y;
     Ped* objective_target_ped = this->field_148_objective_target_ped;
-    Ang16 tan_v = Fix16::atan2_fixed_405320(objective_target_ped->field_1AC_cam.x - pHitSprite->field_14_xy.x,
-                                            objective_target_ped->field_1AC_cam.y - pHitSprite->field_14_xy.y);
+    Fix16 dx = objective_target_ped->get_cam_x() - x;
+    Fix16 dy = objective_target_ped->get_cam_y() - y;
+    Ang16 tan_v;
+    tan_v = Fix16::atan2_fixed_405320(dy, dx);
 
     this->field_21C &= ~0x800;
     this->field_21C |= 0x80;
