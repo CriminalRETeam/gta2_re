@@ -11683,9 +11683,9 @@ void Ped::NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model)
         {
             Fix16 xd = xpos - field_1AC_cam.x;
             Fix16 yd = ypos - field_1AC_cam.y;
-            Fix16 xabs = Fix16::Abs(xd);
-            Fix16 yabs = Fix16::Abs(yd);
-            pWeapon->field_4 = Fix16::Max_44E540(xabs, yabs) < k_dword_678658 ? 1 : 0;
+            Fix16 xabs = Fix16::Abs_negate_out_of_line(xd);
+            Fix16 yabs = Fix16::Abs_negate_out_of_line(yd);
+            pWeapon->Set_F4_433810(Fix16::Max_44E540(xabs, yabs) < k_dword_678658 ? 1 : 0);
         }
     }
 }
