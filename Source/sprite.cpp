@@ -1427,6 +1427,7 @@ char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 sca
         ComputeScanlineIntersectionY_4F76A0(scanXMin, scanXMax, scanY, pBBox[2], pBBox[3]) ||
         ComputeScanlineIntersectionY_4F76A0(scanXMin, scanXMax, scanY, pBBox[3], pBBox[0]))
     {
+        // 9.6f: Rozza_C88::SetHorizontalSegment_4BA250 (inlined, using it changes the store order)
         gRozza_679188.field_0_type = 1;
         gRozza_679188.field_4_mapx_t1 = scanXMin;
         gRozza_679188.field_8_mapx_max_t1 = scanXMax;
@@ -1782,6 +1783,7 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
     Sprite_4C* p4C = field_C_sprite_4c_ptr;
+    // 9.6f: Sprite_4C::GetF8_492170 for the depth (inlined, using it changes the code)
     Fix16 v6 = field_1C_zpos - (p4C->field_8_depth / 2);
     Fix16 v7 = field_1C_zpos + (p4C->field_8_depth / 2);
 
