@@ -90,6 +90,18 @@ class Player
         field_6BC_multpliers.ChangeStatByAmount_4921B0(amount);
     }
 
+    // 9.6f 0x4766C0
+    inline s32 get_lives_4766C0()
+    {
+        return field_684_lives.get_value();
+    }
+
+    // 9.6f 0x421980
+    inline s32 GetScore_421980()
+    {
+        return field_2D4_scores.GetScore_592370();
+    }
+
     // 9.6f 0x4766A0
     inline s32 get_multiplier_4766A0()
     {

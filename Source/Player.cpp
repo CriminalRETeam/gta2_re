@@ -2787,11 +2787,11 @@ void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
     pSave->field_4_y = field_2C4_player_ped->get_cam_y();
     pSave->field_8_z = field_2C4_player_ped->get_cam_z();
     pSave->field_C_rotation = field_2C4_player_ped->GetRotation();
-    pSave->field_10_money = field_2D4_scores.GetScore_592370();
-    pSave->field_14_multipliers = field_6BC_multpliers.field_0_value;
-    pSave->field_18_health = field_2C4_player_ped->field_216_health;
-    pSave->field_7F_player_ped_remap = field_2C4_player_ped->field_244_remap;
-    pSave->field_80_lives = field_684_lives.get_value();
+    pSave->field_10_money = GetScore_421980();
+    pSave->field_14_multipliers = get_multiplier_4766A0();
+    pSave->field_18_health = field_2C4_player_ped->get_health_433B70();
+    pSave->field_7F_player_ped_remap = field_2C4_player_ped->get_remap_433BA0();
+    pSave->field_80_lives = get_lives_4766C0();
     pSave->field_82_curr_weapon_idx = field_788_curr_weapon_idx;
     pSave->field_8C_wanted_level = field_2C4_player_ped->field_20A_wanted_points;
 
