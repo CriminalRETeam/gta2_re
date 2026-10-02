@@ -4945,8 +4945,9 @@ void Frontend::UpdateBonusStageArrows_4B7610()
 {
     MenuPage_0xBCA* pPage = &field_136_menu_pages_array[field_132_f136_idx];
     u8 v3 = gLucid_hamilton_67E8E0.GetStage_4C5990();
-    u8 v4 = v3 >> 4;
-    u8 v5 = v3 & 0xF;
+    u8 v4;
+    u8 v5;
+    gLucid_hamilton_67E8E0.DecodeStage_453A60(v3, &v4, &v5);
     if (v3 == 0xFF)
     {
         pPage->field_4_options_array[4].field_1_is_unlocked = 0;
