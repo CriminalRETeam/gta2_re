@@ -3317,7 +3317,7 @@ void Ped::Occupation_AI_461F20()
                     {
                         Ped::EnterPublicTransport_45EE70();
                     }
-                    else if (gTaxi_4_704130->field_0)
+                    else if (!gTaxi_4_704130->IsEmpty_434970())
                     {
                         set_occupation_403970(ped_ocupation_enum::taxi_customer_7);
                         if (field_238_ped_type == ped_type::dummy_3)
@@ -3373,7 +3373,7 @@ void Ped::Occupation_AI_461F20()
             {
                 Ped::SetObjective(objectives_enum::no_obj_0, 9999);
                 Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                field_21C_bf.b2 = 0;
+                unset_bitset_0x04();
             }
             break;
         case ped_ocupation_enum::road_block_tank_man:

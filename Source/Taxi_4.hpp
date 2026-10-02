@@ -52,6 +52,12 @@ class Taxi_4
         field_0 = 0;
     }
 
+    // 9.6f 0x434970
+    inline bool IsEmpty_434970()
+    {
+        return field_0 == 0;
+    }
+
     EXPORT void PushTaxi_457BA0(Car_BC* pCar);
     EXPORT void PopAll_457BC0();
     EXPORT Car_BC* GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos);
