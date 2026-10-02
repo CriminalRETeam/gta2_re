@@ -1561,8 +1561,8 @@ void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang1
     }
     else
     {
-        CollisionIntersectionPoint_6FE1A0.SetXY_432860(gRozza_679188.field_14_mapx_t2 - pPoint.x, 
-                                                       gRozza_679188.field_18_mapy_t1 - pPoint.y);
+        CollisionIntersectionPoint_6FE1A0.SetXY_432860(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_18_mapy_t1);
+        CollisionIntersectionPoint_6FE1A0 -= pPoint;
         CollisionIntersectionPoint_6FE1A0.RotateByAngle_40F6B0(field_58_theta - angle);
         CollisionIntersectionPoint_6FE1A0.x += field_38_cp1.x;
         CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_18_mapy_t1;
