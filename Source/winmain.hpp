@@ -19,9 +19,9 @@ EXPORT char __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance);
 
 EXPORT void __stdcall GetGTA2Version_5E5D60(int* pVerMinor, int* pVerMajor);
 
-EXPORT void __stdcall sub_4DA830();
+EXPORT void __stdcall ResetFrameTimer_4DA830();
 
-EXPORT void sub_5D8E00();
+EXPORT void UpdateGameScreenSize_5D8E00();
 
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 EXTERN_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20);

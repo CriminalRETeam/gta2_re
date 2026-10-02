@@ -10,22 +10,22 @@ MATCH_FUNC(0x457ba0)
 void Taxi_4::PushTaxi_457BA0(Car_BC* pCar)
 {
     Taxi_8* pFirst = gTaxi_4_Pool_6783F8->Allocate();
-    pFirst->field_0 = pCar;
-    pFirst->mpNext = this->field_0;
-    this->field_0 = pFirst;
+    pFirst->field_0_pCar = pCar;
+    pFirst->mpNext = this->field_0_pFirst;
+    this->field_0_pFirst = pFirst;
 }
 
 MATCH_FUNC(0x457bc0)
 void Taxi_4::PopAll_457BC0()
 {
-    Taxi_8* pIter = this->field_0;
+    Taxi_8* pIter = this->field_0_pFirst;
     while (pIter)
     {
         Taxi_8* pOldIter = pIter;
         pIter = pIter->mpNext;
         gTaxi_4_Pool_6783F8->DeAllocate(pOldIter);
     }
-    this->field_0 = 0;
+    this->field_0_pFirst = 0;
 }
 
 // https://decomp.me/scratch/tPr1q
@@ -33,17 +33,17 @@ WIP_FUNC(0x457bf0)
 Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
 {
     WIP_IMPLEMENTED;
-    Taxi_8* pIter = field_0;
+    Taxi_8* pIter = field_0_pFirst;
     Fix16 smallest(99999);
     Car_BC* pCarRet;
 
     for (pCarRet = NULL; pIter; pIter = pIter->mpNext)
     {
-        Car_BC* pCurrCar = pIter->field_0;
+        Car_BC* pCurrCar = pIter->field_0_pCar;
         Fix16 distance = Fix16::MaxAbsDistance_42A6B0(xpos,
                                                       ypos,
-                                                      pIter->field_0->field_50_car_sprite->field_14_xy.x,
-                                                      pIter->field_0->field_50_car_sprite->field_14_xy.y);
+                                                      pIter->field_0_pCar->field_50_car_sprite->field_14_xy.x,
+                                                      pIter->field_0_pCar->field_50_car_sprite->field_14_xy.y);
         if (distance < smallest)
         {
             pCarRet = pCurrCar;
@@ -59,7 +59,7 @@ Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
 MATCH_FUNC(0x5ae060)
 Taxi_4::Taxi_4()
 {
-    sub_4C09B0();
+    Init_4C09B0();
 
     if (!gTaxi_4_Pool_6783F8)
     {

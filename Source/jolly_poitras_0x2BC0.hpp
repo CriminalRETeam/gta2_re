@@ -27,8 +27,8 @@ struct player_stats_0xA4
     EXPORT ~player_stats_0xA4();
 
     EXPORT void ResetPlayerSlot_56B630();
-    EXPORT s32 sub_56B680();
-    EXPORT s32 sub_56B6B0();
+    EXPORT s32 GetTotalLatestScore_56B680();
+    EXPORT s32 GetTotalBestScore_56B6B0();
 };
 
 // todo: move
@@ -46,7 +46,7 @@ struct high_score_table_0xF0
 
     EXPORT void Init_56B520();
 
-    EXPORT char_type sub_56B550(const wchar_t* Source, s32 a3);
+    EXPORT char_type InsertScore_56B550(const wchar_t* Source, s32 a3);
 
     score_table_line field_0_score_table_line[10];
 };
@@ -1597,8 +1597,8 @@ struct jolly_poitras_0x2BC0
     s32 field_17F8;
     s32 field_17FC;
     struc_221 field_1800_best_stats[3];
-    s32 field_1878[3];
-    s32 field_1884[3];
+    s32 field_1878_best_car_damage_cost[3];
+    s32 field_1884_best_evasion_rating[3];
     high_score_table_0xF0 field_1890_stage_scores[3][4];
     high_score_table_0xF0 field_23D0;
     high_score_table_0xF0 field_24C0;
@@ -1609,7 +1609,7 @@ struct jolly_poitras_0x2BC0
     EXPORT ~jolly_poitras_0x2BC0();
 
     // todo: ordering
-    EXPORT void sub_56BB10(Player* pPlayer);
+    EXPORT void UpdateStageScore_56BB10(Player* pPlayer);
 
     EXPORT void sub_56C010();
 
@@ -1621,21 +1621,21 @@ struct jolly_poitras_0x2BC0
 
     EXPORT char_type HiScoreHscExists_56BCA0();
 
-    EXPORT void sub_56B990(u16 a2);
+    EXPORT void LoadPlySlotDat_56B990(u16 a2);
 
-    EXPORT void sub_56BA60(s16 a2);
+    EXPORT void SavePlySlotDat_56BA60(s16 a2);
 
-    EXPORT void sub_56BE50();
+    EXPORT void LoadHiScores_56BE50();
 
-    EXPORT void sub_56C1D0();
+    EXPORT void InitDefaultHiScores_56C1D0();
 
-    EXPORT void sub_56BF20();
+    EXPORT void SaveHiScores_56BF20();
 
     EXPORT void sub_56BD20();
 
-    EXPORT void sub_56BBD0(u8 a2, u8 a3);
+    EXPORT void UnlockStage_56BBD0(u8 a2, u8 a3);
 
-    EXPORT void sub_56BC40();
+    EXPORT void UnlockAllStages_56BC40();
 
     EXPORT void DoMuchCashCheat_56C250();
     EXPORT static void create_56C2C0();

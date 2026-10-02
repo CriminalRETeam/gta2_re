@@ -33,9 +33,9 @@ class Shooey_CC
     EXPORT Shooey_CC* ctor_484FC0();
     EXPORT void dtor_484FD0();
     EXPORT void ReportCrimeForPed(u32 crime_type, Ped* pPed);
-    EXPORT bool sub_485090(Car_BC* a2, Player* a3);
-    EXPORT char_type sub_4850F0(Char_B4* a2, Player* a3);
-    EXPORT char_type sub_485140(Ped* a2, Player* a3);
+    EXPORT bool ShouldReportCarCrime_485090(Car_BC* a2, Player* a3);
+    EXPORT char_type ShouldReportCharCrime_4850F0(Char_B4* a2, Player* a3);
+    EXPORT char_type ShouldReportPedCrime_485140(Ped* a2, Player* a3);
 
     u16 field_0_idx;
     u16 field_2_report_count;

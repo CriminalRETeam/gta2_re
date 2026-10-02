@@ -24,11 +24,11 @@ DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
 DEFINE_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
 DEFINE_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50, 0x678b50);
 
-DEFINE_GLOBAL(u16, word_6787F0, 0x6787F0);
+DEFINE_GLOBAL(u16, gPedsServiceTickCount_6787F0, 0x6787F0);
 DEFINE_GLOBAL_INIT(u8, byte_61A8A1, 1, 0x61A8A1);
 DEFINE_GLOBAL_INIT(u8, byte_61A8A2, 1, 0x61A8A2);
-DEFINE_GLOBAL(u8, unk_6787EE, 0x6787EE);
-DEFINE_GLOBAL(u8, unk_6787EF, 0x6787EF);
+DEFINE_GLOBAL(u8, gNumPolicePedsInRangeScreen_6787EE, 0x6787EE);
+DEFINE_GLOBAL(u8, bThreateningPedAdded_6787EF, 0x6787EF);
 DEFINE_GLOBAL(u8, bHaveThreateningPeds_6787DA, 0x6787DA);
 
 DEFINE_GLOBAL(u8, spawnSideLocked_6787D5, 0x6787D5);
@@ -41,34 +41,34 @@ EXTERN_GLOBAL(Fix16, gDummyW_678530);
 EXTERN_GLOBAL(Fix16, gDummyZ_67841C);
 
 DEFINE_GLOBAL_INIT(Fix16, gDummyH_678584, gDummyW_678530, 0x678584);
-DEFINE_GLOBAL_INIT(Fix16, dword_678414, Fix16(255), 0x678414);
+DEFINE_GLOBAL_INIT(Fix16, kFp255_678414, Fix16(255), 0x678414);
 
-EXTERN_GLOBAL(u16, word_6787E0);
-EXTERN_GLOBAL(u8, byte_6787E2);
-EXTERN_GLOBAL(u8, byte_6787E4);
-EXTERN_GLOBAL(u8, byte_6787E3);
+EXTERN_GLOBAL(u16, gNumPedsUpdated_6787E0);
+EXTERN_GLOBAL(u8, gNumDummyChars_6787E2);
+EXTERN_GLOBAL(u8, gNumEmergencyPeds_6787E4);
+EXTERN_GLOBAL(u8, gNumScriptCreatedPeds_6787E3);
 EXTERN_GLOBAL(u8, byte_6787D8);
 EXTERN_GLOBAL(u8, byte_6787D9);
-EXTERN_GLOBAL(u8, byte_6787D2);
+EXTERN_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2);
 
-EXTERN_GLOBAL(Fix16, k_dword_678438);
-EXTERN_GLOBAL(Fix16, k_dword_67853C);
+EXTERN_GLOBAL(Fix16, kFpZero_678438);
+EXTERN_GLOBAL(Fix16, kFpHalf_67853C);
 EXTERN_GLOBAL(Ang16, gDummyPedAng_6787A8);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 EXTERN_GLOBAL(Fix16, gSpawnJitterScale_678618);
-EXTERN_GLOBAL(Fix16, k_dword_678664);
+EXTERN_GLOBAL(Fix16, kFpOne_678664);
 
-EXTERN_GLOBAL(Fix16, dword_6784A0);
-EXTERN_GLOBAL(Fix16, dword_678480);
+EXTERN_GLOBAL(Fix16, kFpPoint8_6784A0);
+EXTERN_GLOBAL(Fix16, kFpPoint1_678480);
 
 DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationLeft_6786E0, Ang16(360), 0x6786E0);
 DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationTop_6787B0, Ang16(0), 0x6787B0);
 DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationRight_678578, Ang16(1080), 0x678578);
 DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationBottom_678540, Ang16(720), 0x678540);
 DEFINE_GLOBAL_INIT(s16, gSpawnCounter_6787C6, 0, 0x6787C6);
-EXTERN_GLOBAL(u8, byte_6787CE);
+EXTERN_GLOBAL(u8, gNumberArmedGangMembers_6787CE);
 
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
@@ -94,15 +94,13 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     s32 wanted_level_; // eax
     u8 v25; // al
     char_type v26; // al
-    Char_B4* game_object; // ecx
-    u8 remap; // al
     u8 kind; // [esp+10h] [ebp-18h]
     s32 y_int; // [esp+20h] [ebp-8h] BYREF
     s32 x_int; // [esp+24h] [ebp-4h] BYREF
 
     rng_kind = 0;
     kind = 0;
-    rng_val = stru_6F6784.get_int_4F7AE0(1000);
+    rng_val = gRng_6F6784.get_int_4F7AE0(1000);
 
     pPed = gPedPool_6787B8->Allocate();
 
@@ -126,7 +124,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio)
     {
         // 1 in 50 chance of elvis
-        if (stru_6F6784.get_int_4F7AE0(50) == 25)
+        if (gRng_6F6784.get_int_4F7AE0(50) == 25)
         {
             kind = 3;
         }
@@ -140,7 +138,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                  (u16)pZone->field_10_elvis_ratio)
     {
         // Gang member, limited to 8
-        kind = (u8)byte_6787CE < 8u ? 4 : 0;
+        kind = (u8)gNumberArmedGangMembers_6787CE < 8u ? 4 : 0;
     }
     else if (rng_val >= (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio +
                  (u16)pZone->field_12_gangchar_ratio + (u16)pZone->field_14_policeped_ratio)
@@ -170,9 +168,9 @@ LABEL_12:
     {
         pPed->ChangeNextPedState1_45C500(0);
         pPed->ChangeNextPedState2_45C540(0);
-        pPed->field_238_ped_type = ped_type::dummy_3;
-        pPed->field_20e = 1;
-        pPed->field_244_remap = 3;
+        pPed->SetField238_403920(ped_type::dummy_3);
+        pPed->set_field_20e_433B80(1);
+        pPed->set_remap_433B90(3);
 
         switch (kind)
         {
@@ -182,11 +180,11 @@ LABEL_12:
                     goto delloc_ret_2;
                 }
                 gNumberMuggersSpawned_6787CA = 1;
-                pPed->field_240_occupation = ped_ocupation_enum::mugger;
-                pPed->field_22C = 2;
-                pPed->field_218_objective_timer = 40;
-                pPed->field_238_ped_type = ped_type::special_ped_4;
-                pPed->field_244_remap = 17;
+                pPed->set_occupation_403970(ped_ocupation_enum::mugger);
+                pPed->sub_433BC0(2);
+                pPed->set_objective_timer_433C80(40);
+                pPed->SetField238_403920(ped_type::special_ped_4);
+                pPed->set_remap_433B90(17);
                 pPed->field_288_threat_search = threat_search_enum::area_2;
                 pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                 pPed->field_26C_graphic_type = 0;
@@ -198,19 +196,19 @@ LABEL_12:
                     goto delloc_ret_2;
                 }
                 gNumberCarThiefsSpawned_6787CB = 1;
-                pPed->field_22C = 2;
+                pPed->sub_433BC0(2);
                 pPed->field_288_threat_search = threat_search_enum::area_2;
                 //v13 = pPed->field_21C;
-                pPed->field_218_objective_timer = 40;
+                pPed->set_objective_timer_433C80(40);
                 //LOBYTE(v13) = v13 | 8;
-                pPed->field_240_occupation = ped_ocupation_enum::car_thief;
-                pPed->field_238_ped_type = ped_type::dummy_with_occupation_6;
-                pPed->field_244_remap = 15;
+                pPed->set_occupation_403970(ped_ocupation_enum::car_thief);
+                pPed->SetField238_403920(ped_type::dummy_with_occupation_6);
+                pPed->set_remap_433B90(15);
                 pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                 pPed->field_26C_graphic_type = 0;
                 //pPed->field_21C = v13;
                 pPed->field_21C |= 8;
-                pPed->field_1F8_run_speed = dword_678670;
+                pPed->field_1F8_run_speed = kFpFour_678670;
                 break;
 
             case 3:
@@ -228,24 +226,24 @@ LABEL_12:
                 if (v14)
                 {
                     pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(v14->field_6_name);
-                    if ((u8)byte_6787CE < 4u)
+                    if ((u8)gNumberArmedGangMembers_6787CE < 4u)
                     {
-                        ++byte_6787CE;
-                        pPed->field_238_ped_type = ped_type::special_ped_4;
-                        pPed->field_240_occupation = ped_ocupation_enum::armed_gang_member_19;
+                        ++gNumberArmedGangMembers_6787CE;
+                        pPed->SetField238_403920(ped_type::special_ped_4);
+                        pPed->set_occupation_403970(ped_ocupation_enum::armed_gang_member_19);
                         pPed->field_17C_pGang = pGang;
-                        v16 = pGang->field_101;
-                        pPed->field_244_remap = v16;
+                        v16 = pGang->field_101_remap;
+                        pPed->set_remap_433B90(v16);
                         if (v16 == 5)
                         {
-                            if (!stru_6F6784.get_int_4F7AE0(2))
+                            if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
-                                pPed->field_244_remap = 6;
+                                pPed->set_remap_433B90(6);
                             }
                         }
                         field_17C_pZone = pPed->field_17C_pGang;
                         pPed->field_26C_graphic_type = 1;
-                        pPed->field_22C = 1;
+                        pPed->sub_433BC0(1);
                         GangCurrWeapon_4BF0C0 = field_17C_pZone->GetGangCurrWeapon_4BF0C0();
                         pPed->ForceWeapon_46F600(GangCurrWeapon_4BF0C0);
                         field_170_selected_weapon = pPed->field_170_selected_weapon;
@@ -265,47 +263,47 @@ LABEL_12:
                     else
                     {
                         pPed->field_19C = pGang;
-                        pPed->field_240_occupation = ped_ocupation_enum::dummy;
-                        pPed->field_22C = 0;
-                        pPed->field_238_ped_type = ped_type::dummy_3;
+                        pPed->set_occupation_403970(ped_ocupation_enum::dummy);
+                        pPed->sub_433BC0(0);
+                        pPed->SetField238_403920(ped_type::dummy_3);
                         pPed->field_288_threat_search = threat_search_enum::area_2;
                         pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
-                        v21 = pGang->field_101;
+                        v21 = pGang->field_101_remap;
                         pPed->field_26C_graphic_type = 1;
-                        pPed->field_244_remap = v21;
+                        pPed->set_remap_433B90(v21);
                         if (v21 == 5)
                         {
-                            if (!stru_6F6784.get_int_4F7AE0(2))
+                            if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
-                                pPed->field_244_remap = 6;
+                                pPed->set_remap_433B90(6);
                             }
                         }
                     }
                 }
                 else
                 {
-                    pPed->field_240_occupation = ped_ocupation_enum::dummy;
-                    pPed->field_22C = 0;
-                    pPed->field_238_ped_type = ped_type::dummy_3;
+                    pPed->set_occupation_403970(ped_ocupation_enum::dummy);
+                    pPed->sub_433BC0(0);
+                    pPed->SetField238_403920(ped_type::dummy_3);
                     pPed->field_288_threat_search = threat_search_enum::area_2;
                     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                     pPed->field_26C_graphic_type = 0;
-                    switch (stru_6F6784.get_int_4F7AE0(4))
+                    switch (gRng_6F6784.get_int_4F7AE0(4))
                     {
                         case 0:
-                            pPed->field_244_remap = 18;
+                            pPed->set_remap_433B90(18);
                             break;
 
                         case 1:
-                            pPed->field_244_remap = 19;
+                            pPed->set_remap_433B90(19);
                             break;
 
                         case 2:
-                            pPed->field_244_remap = 20;
+                            pPed->set_remap_433B90(20);
                             break;
 
                         default:
-                            pPed->field_244_remap = 21;
+                            pPed->set_remap_433B90(21);
                             break;
                     }
                 }
@@ -327,16 +325,16 @@ LABEL_12:
                 {
                     case 2:
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
-                        pPed->field_216_health = 100;
-                        pPed->field_1F0_maybe_max_speed = (dword_678448 * dword_6784A0);
+                        pPed->set_health_4039A0(100);
+                        pPed->field_1F0_maybe_max_speed = (kFpOneSixteenth_678448 * kFpPoint8_6784A0);
                         pPed->field_26C_graphic_type = 2;
                         break;
                     case 0: // wanted_level_ <= 1 but not negative
                     case 1:
                         pPed->field_170_selected_weapon = 0;
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
-                        pPed->field_216_health = 50;
-                        pPed->field_1F0_maybe_max_speed = (dword_678448 * dword_6784A0);
+                        pPed->set_health_4039A0(50);
+                        pPed->field_1F0_maybe_max_speed = (kFpOneSixteenth_678448 * kFpPoint8_6784A0);
                         pPed->field_26C_graphic_type = 2;
                         break;
 
@@ -344,7 +342,7 @@ LABEL_12:
                         if (wanted_level_ < 0)
                         {
                             pPed->GiveWeapon_46F650(weapon_type::pistol);
-                            pPed->field_216_health = 100;
+                            pPed->set_health_4039A0(100);
                             pPed->field_26C_graphic_type = 2;
                         }
                         break;
@@ -362,20 +360,20 @@ LABEL_12:
                 }
                 else
                 {
-                    pPed->field_240_occupation = ped_ocupation_enum::dummy;
-                    pPed->field_22C = 0;
-                    pPed->field_238_ped_type = ped_type::dummy_3;
+                    pPed->set_occupation_403970(ped_ocupation_enum::dummy);
+                    pPed->sub_433BC0(0);
+                    pPed->SetField238_403920(ped_type::dummy_3);
                     pPed->field_288_threat_search = threat_search_enum::area_2;
                     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                     pPed->field_26C_graphic_type = 0;
 
                     if (gCheatNakedPeds_67D5E8)
                     {
-                        pPed->field_244_remap = 26;
+                        pPed->set_remap_433B90(26);
                     }
                     else
                     {
-                        v25 = stru_6F6784.get_int_4F7AE0(25);
+                        v25 = gRng_6F6784.get_int_4F7AE0(25);
                         if (v25 < 4u)
                         {
                             v26 = v25 + 18;
@@ -384,13 +382,13 @@ LABEL_12:
                         {
                             v26 = v25 + 27;
                         }
-                        pPed->field_244_remap = v26;
+                        pPed->set_remap_433B90(v26);
                     }
                 }
                 break;
         } // End switch
 
-        occupation_ = pPed->field_240_occupation;
+        occupation_ = pPed->get_occupation_403980();
         if (occupation_ != ped_ocupation_enum::walking_guard_29 && occupation_ != ped_ocupation_enum::unknown_cop_occu_31)
         {
             pPed->AllocCharB4_45C830(xpos, ypos, zpos);
@@ -408,31 +406,32 @@ LABEL_12:
         }
 
         gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
-        if (pPed->field_240_occupation != ped_ocupation_enum::walking_guard_29)
+        if (pPed->get_occupation_403980() != ped_ocupation_enum::walking_guard_29)
         {
-            game_object = pPed->field_168_game_object;
-            remap = pPed->field_244_remap;
+            // 9.6f: Ped::SetRemap_433C10(get_remap_433BA0()) (inlined, using it makes the diff worse)
+            Char_B4* game_object = pPed->field_168_game_object;
+            u8 remap = pPed->field_244_remap;
             game_object->field_5_remap = remap;
             if (remap != 0xFF)
             {
                 game_object->field_80_sprite_ptr->SetRemap(remap);
             }
-            pPed->field_168_game_object->field_40_rotation = rotation;
+            pPed->SetRotation_433C00(rotation);
             pPed->sub_467280();
         }
 
         if (gPedManager_6787BC->field_7_make_all_muggers)
         {
-            if (!stru_6F6784.get_int_4F7AE0(2))
+            if (!gRng_6F6784.get_int_4F7AE0(2))
             {
-                if (pPed->field_240_occupation == ped_ocupation_enum::armed_gang_member_19)
+                if (pPed->get_occupation_403980() == ped_ocupation_enum::armed_gang_member_19)
                 {
-                    --byte_6787CE;
+                    --gNumberArmedGangMembers_6787CE;
                 }
-                pPed->field_22C = 2;
-                pPed->field_218_objective_timer = 40;
-                pPed->field_240_occupation = ped_ocupation_enum::mad_mugger_40;
-                pPed->field_238_ped_type = ped_type::special_ped_4;
+                pPed->sub_433BC0(2);
+                pPed->set_objective_timer_433C80(40);
+                pPed->set_occupation_403970(ped_ocupation_enum::mad_mugger_40);
+                pPed->SetField238_403920(ped_type::special_ped_4);
                 pPed->field_288_threat_search = threat_search_enum::area_2;
                 pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
             }
@@ -461,7 +460,6 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
     Ang16 rot; // ax
     s32 last_count__; // esi
     gmp_zone_info* pZoneInfo; // eax
-    u32 slope_type; // eax
 
     // stack
     s32 zpos;
@@ -470,10 +468,10 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
 
     Sprite* pSprite = this->field_8;
 
-    Fix16 left = pCam->field_78_boundaries_non_neg.field_0_left - k_dword_67853C;
-    Fix16 right = pCam->field_78_boundaries_non_neg.field_4_right + k_dword_67853C;
-    Fix16 top = pCam->field_78_boundaries_non_neg.field_8_top - k_dword_67853C;
-    s32 bottom = (pCam->field_78_boundaries_non_neg.field_C_bottom + k_dword_67853C).ToInt(); // >> 14 to int
+    Fix16 left = pCam->field_78_boundaries_non_neg.field_0_left - kFpHalf_67853C;
+    Fix16 right = pCam->field_78_boundaries_non_neg.field_4_right + kFpHalf_67853C;
+    Fix16 top = pCam->field_78_boundaries_non_neg.field_8_top - kFpHalf_67853C;
+    s32 bottom = (pCam->field_78_boundaries_non_neg.field_C_bottom + kFpHalf_67853C).ToInt(); // >> 14 to int
 
     s32 tileLeft = left.ToInt();
     s32 tileTop = top.ToInt();
@@ -589,11 +587,11 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
                     break;
             }
 
-            xpos += gSpawnJitterScale_678618 * (stru_6F6784.get_int_4F7AE0(32) + 8);
-            ypos += gSpawnJitterScale_678618 * (stru_6F6784.get_int_4F7AE0(32) + 8);
+            xpos += gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
+            ypos += gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
 
-            if (xpos > k_dword_678664 && xpos < dword_678414 - k_dword_678664 && ypos > k_dword_678664 &&
-                ypos < dword_678414 - k_dword_678664)
+            if (xpos > kFpOne_678664 && xpos < kFp255_678414 - kFpOne_678664 && ypos > kFpOne_678664 &&
+                ypos < kFp255_678414 - kFpOne_678664)
             {
                 pZoneInfo = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
                 if ((u8)field_6_num_peds_on_screen < (u16)pZoneInfo->field_A_ped_density / 25)
@@ -605,9 +603,7 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
                         pSprite->AllocInternal_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
                         if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
                         {
-                            gmp_block_info* pBlock =
-                                gMap_0x370_6F6268->get_block_4DFE10((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1);
-                            if (!pBlock || (slope_type = pBlock->field_B_slope_type & 0xFC, slope_type < 0xB4) || slope_type > 0xD0)
+                            if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1))
                             {
                                 SpawnPedestrianAt_46E380(xpos, ypos, zpos + 1, rotation);
                             }
@@ -634,20 +630,20 @@ void PedManager::PedsService_4703F0()
 {
     WIP_IMPLEMENTED;
 
-    ++word_6787F0;
-    word_6787E0 = 0;
-    byte_6787E2 = 0;
-    byte_6787E4 = 0;
-    byte_6787E3 = 0;
+    ++gPedsServiceTickCount_6787F0;
+    gNumPedsUpdated_6787E0 = 0;
+    gNumDummyChars_6787E2 = 0;
+    gNumEmergencyPeds_6787E4 = 0;
+    gNumScriptCreatedPeds_6787E3 = 0;
     gNumPedsOnScreen_6787EC = 0;
     byte_61A8A1 = 1;
     byte_61A8A2 = 1;
-    byte_6787D2 = 0;
-    unk_6787EE = 0;
+    gNewTaxiCustomersThisTick_6787D2 = 0;
+    gNumPolicePedsInRangeScreen_6787EE = 0;
 
     gPedPool_6787B8->field_0_pool.UpdatePool();
 
-    if (unk_6787EF) // 11d: je 128
+    if (bThreateningPedAdded_6787EF) // 11d: je 128
     {
         bHaveThreateningPeds_6787DA = 1;
     }
@@ -664,29 +660,29 @@ void PedManager::PedsService_4703F0()
     {
         Dummies_470330();
     }
-    field_3 = word_6787E0;
-    field_2 = byte_6787E2;
-    field_4 = byte_6787E3;
-    field_5_fbi_army_count = byte_6787E4;
+    field_3_num_peds_updated = gNumPedsUpdated_6787E0;
+    field_2_num_dummy_chars = gNumDummyChars_6787E2;
+    field_4_num_script_created_peds = gNumScriptCreatedPeds_6787E3;
+    field_5_fbi_army_count = gNumEmergencyPeds_6787E4;
     field_6_num_peds_on_screen = gNumPedsOnScreen_6787EC;
     if (gPolice_7B8_6FEE40)
     {
-        gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen = unk_6787EE;
+        gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen = gNumPolicePedsInRangeScreen_6787EE;
     }
-    unk_6787EF = 0;
+    bThreateningPedAdded_6787EF = 0;
     if (bDo_iain_test_67D4E9)
     {
         u16 num_peds = *(u32*)&gNumPedsOnScreen_6787EC; //  TODO: fix me
         swprintf(tmpBuff_67BD9C, L"num peds on screen : %d",
                  num_peds); // num peds on screen : %d
-        gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, gDebugFont_706600, 1);
 
         if (gPolice_7B8_6FEE40)
         {
             swprintf(tmpBuff_67BD9C,
                      L"num police peds in range screen : %d", // num police peds in range screen : %d
                      (u8)gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen);
-            gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, gDebugFont_706600, 1);
         }
     }
 }
@@ -725,15 +721,15 @@ PedManager::PedManager()
 
     field_8 = gSprite_Pool_703818->get_new_sprite();
 
-    field_2 = 0;
-    field_3 = 0;
-    field_4 = 0;
+    field_2_num_dummy_chars = 0;
+    field_3_num_peds_updated = 0;
+    field_4_num_script_created_peds = 0;
     field_6_num_peds_on_screen = 0;
-    field_0 = 50;
+    field_0_max_dummy_chars = 50;
     field_7_make_all_muggers = false;
     /*
     gPedId_61A89C = 7;
-    dword_6787C0 = 0;
+    gLastProcessedPed_6787C0 = 0;
     word_6787C6 = 0;
     byte_6787C8 = 0;
     byte_6787C9 = 0;
@@ -741,36 +737,36 @@ PedManager::PedManager()
     gNumberCarThiefsSpawned_6787CB = 0;
     gNumberElvisLeadersSpawned_6787CC = 0;
     gNumberWalkingCopsSpawned_6787CD = 0;
-    byte_6787CE = 0;
-    word_6787D0 = 0;
+    gNumberArmedGangMembers_6787CE = 0;
+    gNumPedsCrossingRoad_6787D0 = 0;
     this->field_5_fbi_army_count = 0;
     HIWORD(dword_678654) = word_61A898;
-    word_6787F0 = 0;
-    byte_6787D2 = 0;
-    byte_6787D3 = 0;
+    gPedsServiceTickCount_6787F0 = 0;
+    gNewTaxiCustomersThisTick_6787D2 = 0;
+    gNumberBusCustomers_6787D3 = 0;
     HIWORD(dword_6784EE) = gDummyPedAng_6787A8;
     byte_6787D4 = 0;
     spawnSideLocked_6787D5 = 0;
     spawnCountLimit_6787D6 = 0;
-    byte_6787D7 = 0;
+    gTargetSearchMode_6787D7 = 0;
     byte_61A8A0 = 1;
     byte_61A8A1 = 1;
     byte_6787D8 = 0;
     byte_61A8A2 = 1;
     byte_6787D9 = 0;
     bHaveThreateningPeds_6787DA = 0;
-    gDistanceToTarget_678750 = k_dword_678660;
-    dword_6787DC = 0;
+    gDistanceToTarget_678750 = kFpZero_678660;
+    gSearchingPed_6787DC = 0;
     cameraFacingAng_678760 = gDummyPedAng_6787A8;
     byte_61A8A3 = 1;
     byte_61A8A4 = 1;
-    word_6787E0 = 0;
-    byte_6787E2 = 0;
-    byte_6787E3 = 0;
+    gNumPedsUpdated_6787E0 = 0;
+    gNumDummyChars_6787E2 = 0;
+    gNumScriptCreatedPeds_6787E3 = 0;
     gNumPedsOnScreen_6787EC = 0;
-    unk_6787EF = 0;
+    bThreateningPedAdded_6787EF = 0;
     */
-    sub_553F90();
+    ResetCharStatics_553F90();
     gThreateningPedsList_678468.ClearList_420E90();
 }
 
@@ -813,19 +809,14 @@ Ped* PedManager::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 
     {
         return 0;
     }
-    pPed->field_168_game_object->field_40_rotation.rValue = rotation.rValue;
-    pPed->field_244_remap = remap;
+    pPed->SetRotation_433C00(rotation);
+    pPed->set_remap_433B90(remap);
 
-    Char_B4* pB4 = pPed->field_168_game_object;
-    pB4->field_5_remap = remap;
-    if (remap != 0xFF)
-    {
-        pB4->field_80_sprite_ptr->SetRemap(remap);
-    }
+    pPed->SetRemap_433C10(remap);
     pPed->field_134_rotation = rotation;
     pPed->field_288_threat_search = 2;
     pPed->field_28C_threat_reaction = 3;
-    pPed->field_216_health = 100;
+    pPed->set_health_4039A0(100);
     pPed->field_26C_graphic_type = 0;
     return pPed;
 }
@@ -834,17 +825,17 @@ MATCH_FUNC(0x470b00)
 Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
-    pNewPed->field_238_ped_type = ped_type::dummy_3;
-    pNewPed->field_240_occupation = 4; //unknown_2;
+    pNewPed->SetField238_403920(ped_type::dummy_3);
+    pNewPed->set_occupation_403970(4); //unknown_2;
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
     pNewPed->ChangeNextPedState2_45C540(10);
-    pNewPed->field_248_enter_car_as_passenger = 0;
-    pNewPed->field_24C_target_car_door = 0;
+    pNewPed->set_enter_car_as_passenger_4039B0(0);
+    pNewPed->set_target_car_door_403A70(0);
     pNewPed->field_288_threat_search = 2; //area_2;
     pNewPed->field_28C_threat_reaction = 3; //run_away_3;
-    pNewPed->field_216_health = 100;
+    pNewPed->set_health_4039A0(100);
     pNewPed->field_26C_graphic_type = 0;
     pCar->SetDriver(pNewPed);
     return pNewPed;
@@ -854,35 +845,35 @@ Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
 MATCH_FUNC(0x470ba0)
 Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 {
-    Ped* pNewPed = gPedPool_6787B8->field_0_pool.Allocate();
+    Ped* pNewPed = gPedPool_6787B8->Allocate();
 
-    pNewPed->field_238_ped_type = ped_type::dummy_with_occupation_6;
-    pNewPed->field_240_occupation = ped_ocupation_enum::gang_driver_42;
+    pNewPed->SetField238_403920(ped_type::dummy_with_occupation_6);
+    pNewPed->set_occupation_403970(ped_ocupation_enum::gang_driver_42);
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
     pNewPed->ChangeNextPedState2_45C540(10);
-    pNewPed->field_248_enter_car_as_passenger = 0;
-    pNewPed->field_24C_target_car_door = 0;
+    pNewPed->set_enter_car_as_passenger_4039B0(0);
+    pNewPed->set_target_car_door_403A70(0);
     pNewPed->field_288_threat_search = threat_search_enum::area_2;
     pNewPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
-    pNewPed->field_216_health = 100;
+    pNewPed->set_health_4039A0(100);
     pNewPed->field_26C_graphic_type = 1;
 
     pCar->SetDriver(pNewPed);
 
     pNewPed->field_17C_pGang = pGang;
-    pNewPed->field_244_remap = pGang->field_101;
+    pNewPed->set_remap_433B90(pGang->field_101_remap);
 
-    if (pNewPed->field_244_remap == 5)
+    if (pNewPed->get_remap_433BA0() == 5)
     {
-        if (!stru_6F6784.get_int_4F7AE0(2))
+        if (!gRng_6F6784.get_int_4F7AE0(2))
         {
-            pNewPed->field_244_remap = 6;
+            pNewPed->set_remap_433B90(6);
         }
     }
     pNewPed->field_26C_graphic_type = 1;
-    pNewPed->field_22C = 1;
+    pNewPed->sub_433BC0(1);
 
     pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
     pNewPed->GiveWeapon_46F650(weapon_type::pistol);
@@ -895,21 +886,21 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 }
 
 MATCH_FUNC(0x470cc0)
-Ped* PedManager::sub_470CC0(Car_BC* pCar)
+Ped* PedManager::CreateDummyDriver_470CC0(Car_BC* pCar)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
-    pNewPed->field_244_remap = -1;
+    pNewPed->set_remap_433B90(-1);
     pNewPed->field_26C_graphic_type = 0;
-    pNewPed->field_238_ped_type = ped_type::dummy_3;
-    pNewPed->field_240_occupation = 4; //unknown_2;
+    pNewPed->SetField238_403920(ped_type::dummy_3);
+    pNewPed->set_occupation_403970(4); //unknown_2;
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
     pNewPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
-    pNewPed->field_24C_target_car_door = 0;
+    pNewPed->set_target_car_door_403A70(0);
     pNewPed->field_288_threat_search = 2; //area_2;
     pNewPed->field_28C_threat_reaction = 3; //run_away_3;
-    pNewPed->field_216_health = 100;
+    pNewPed->set_health_4039A0(100);
     pNewPed->field_26C_graphic_type = 0;
     return pNewPed;
 }
@@ -919,30 +910,30 @@ Ped* PedManager::SpawnRunAwayGuy_470D60()
 {
     Ped* pPed = gPedPool_6787B8->Allocate();
 
-    s32 rng_val = stru_6F6784.get_int_4F7AE0(4);
+    s32 rng_val = gRng_6F6784.get_int_4F7AE0(4);
     switch (rng_val)
     {
         default:
-            pPed->field_244_remap = 21;
+            pPed->set_remap_433B90(21);
             break;
         case 1:
-            pPed->field_244_remap = 19;
+            pPed->set_remap_433B90(19);
             break;
         case 0:
-            pPed->field_244_remap = 18;
+            pPed->set_remap_433B90(18);
             break;
 
         case 2:
-            pPed->field_244_remap = 20;
+            pPed->set_remap_433B90(20);
             break;
     }
 
-    pPed->field_238_ped_type = ped_type::dummy_with_occupation_6;
-    pPed->field_240_occupation = ped_ocupation_enum::robbed_driver_10;
+    pPed->SetField238_403920(ped_type::dummy_with_occupation_6);
+    pPed->set_occupation_403970(ped_ocupation_enum::robbed_driver_10);
     pPed->field_168_game_object = 0;
     pPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
     pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
-    pPed->field_216_health = 100;
+    pPed->set_health_4039A0(100);
     pPed->field_288_threat_search = threat_search_enum::area_2;
     pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
     pPed->field_26C_graphic_type = 0;
@@ -958,35 +949,35 @@ Ped* PedManager::SpawnTrainLeaver_470E30()
     // TODO: Instruction swap here
     pPed->field_26C_graphic_type = 0;
 
-    switch (stru_6F6784.get_int_4F7AE0(4))
+    switch (gRng_6F6784.get_int_4F7AE0(4))
     {
         case 0:
-            pPed->field_244_remap = 18;
+            pPed->set_remap_433B90(18);
             break;
         case 1:
-            pPed->field_244_remap = 19;
+            pPed->set_remap_433B90(19);
             break;
         case 2:
-            pPed->field_244_remap = 20;
+            pPed->set_remap_433B90(20);
             break;
         default:
-            pPed->field_244_remap = 21;
+            pPed->set_remap_433B90(21);
             break;
     }
 
-    pPed->field_238_ped_type = ped_type::special_ped_4;
-    pPed->field_240_occupation = ped_ocupation_enum::train_customer_9;
+    pPed->SetField238_403920(ped_type::special_ped_4);
+    pPed->set_occupation_403970(ped_ocupation_enum::train_customer_9);
     pPed->field_168_game_object = 0;
     pPed->ChangeNextPedState1_45C500(10);
     pPed->ChangeNextPedState2_45C540(10);
-    pPed->field_216_health = 50;
+    pPed->set_health_4039A0(50);
     pPed->field_288_threat_search = threat_search_enum::area_2;
     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
     return pPed;
 }
 
 MATCH_FUNC(0x470f30)
-Ped* PedManager::sub_470F30()
+Ped* PedManager::AllocatePed_470F30()
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->field_216_health = 100;
@@ -994,7 +985,7 @@ Ped* PedManager::sub_470F30()
 }
 
 MATCH_FUNC(0x470f90)
-Ped* PedManager::sub_470F90(Ped* pSrc)
+Ped* PedManager::ClonePed_470F90(Ped* pSrc)
 {
     Ped* pDst = gPedPool_6787B8->Allocate();
     Ped* pNext = pDst->mpNext;
@@ -1003,7 +994,8 @@ Ped* PedManager::sub_470F90(Ped* pSrc)
 
     if (pSrc->field_168_game_object)
     {
-        pDst->AllocCharB4_45C830(pSrc->field_1AC_cam.x, pSrc->field_1AC_cam.y, pSrc->field_1AC_cam.z);
+        pDst->AllocCharB4_45C830(pSrc->get_cam_x(), pSrc->get_cam_y(), pSrc->get_cam_z());
+        // 9.6f: SetRemap_433C10(get_remap_433BA0()) (inlined, using it changes the code)
         Char_B4* pCharObj = pDst->field_168_game_object;
         u8 remap = pSrc->field_244_remap;
         pCharObj->field_5_remap = remap;
@@ -1011,9 +1003,9 @@ Ped* PedManager::sub_470F90(Ped* pSrc)
         {
             pCharObj->field_80_sprite_ptr->SetRemap(remap);
         }
-        pDst->field_168_game_object->set_rotation_433A30(pSrc->GetRotation());
-        pDst->field_168_game_object->field_16 = 1;
-        pDst->field_168_game_object->field_84 = pSrc->field_168_game_object->field_84;
+        pDst->SetRotation_433C00(pSrc->GetRotation());
+        pDst->Set_B4_F16_To_1_433B50();
+        pDst->field_168_game_object->field_84_target_car = pSrc->field_168_game_object->field_84_target_car;
     }
     return pDst;
 }
@@ -1039,7 +1031,7 @@ void PedManager::DoIanTest_471060(u16 key)
 MATCH_FUNC(0x4710c0)
 Ped* PedManager::PedById(s32 pedId)
 {
-    for (Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev; pPedIter; pPedIter = pPedIter->mpNext)
+    for (Ped* pPedIter = gPedPool_6787B8->GetFirstPed_435530(); pPedIter; pPedIter = pPedIter->mpNext)
     {
         if (pPedIter->field_200_id == pedId)
         {
@@ -1052,19 +1044,19 @@ Ped* PedManager::PedById(s32 pedId)
 MATCH_FUNC(0x470330)
 void PedManager::Dummies_470330()
 {
-    s16 v1 = gPedManager_6787BC->field_0;
+    s16 v1 = gPedManager_6787BC->field_0_max_dummy_chars;
     if (gPolice_7B8_6FEE40->field_654_wanted_level > 3)
     {
         v1 = (u16)v1 >> 1;
     }
-    if (byte_6787E2 < v1)
+    if (gNumDummyChars_6787E2 < v1)
     {
-        for (Camera_0xBC* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->sub_4B9C50())
+        for (Camera_0xBC* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->IterateNextPlayerCamera_4B9C50())
         {
             spawnSideLocked_6787D5 = 0;
-            if (pCam->field_34_ped || pCam->field_38_car)
+            if (pCam->has_camera_car_or_ped_433E90())
             {
-                if (pCam->ReturnOwnerVelocity_435A20() > k_dword_678438)
+                if (pCam->ReturnOwnerVelocity_435A20() > kFpZero_678438)
                 {
                     // TODO: BL register is reused to set these to 1 instead
                     // of a constant value :)
@@ -1091,8 +1083,8 @@ PedPool::~PedPool()
 MATCH_FUNC(0x46DB90)
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    Fix16 xpos_adjusted = dword_6784A0 + Fix16((u8)(xpos.ToInt()));
-    Fix16 ypos_adjusted = dword_6784A0 + Fix16((u8)(ypos.ToInt()));
+    Fix16 xpos_adjusted = kFpPoint8_6784A0 + Fix16((u8)(xpos.ToInt()));
+    Fix16 ypos_adjusted = kFpPoint8_6784A0 + Fix16((u8)(ypos.ToInt()));
 
     Ped* pLeader = gPedPool_6787B8->Allocate();
     pLeader->field_240_occupation = ped_ocupation_enum::elvis_leader;
@@ -1118,7 +1110,7 @@ EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_fol
         pNewPed->field_240_occupation = ped_ocupation_enum::elvis;
         pNewPed->field_244_remap = remap;
         pNewPed->field_238_ped_type = ped_type::special_ped_4;
-        pNewPed->AllocCharB4_45C830(xpos_adjusted - ((dword_678480 * xy_off)), ypos_adjusted - ((dword_678480 * xy_off)), zpos);
+        pNewPed->AllocCharB4_45C830(xpos_adjusted - ((kFpPoint1_678480 * xy_off)), ypos_adjusted - ((kFpPoint1_678480 * xy_off)), zpos);
 
         Char_B4* pB4 = pNewPed->field_168_game_object;
         const u8 cur_remap = pNewPed->field_244_remap;

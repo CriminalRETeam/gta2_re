@@ -59,12 +59,12 @@ class CarAI_78
     EXPORT void ManageCollisions_452A20();
     EXPORT void sub_452DF0();
     EXPORT void sub_453470();
-    EXPORT void sub_4537D0();
+    EXPORT void ChooseRandomTurn_4537D0();
     EXPORT void sub_4538B0();
-    EXPORT void sub_453990(Fix16 a2);
+    EXPORT void RaiseSpeedTo_453990(Fix16 a2);
     EXPORT void sub_4539B0();
-    EXPORT void sub_4539D0();
-    EXPORT void sub_453A40();
+    EXPORT void UpdateSpeedTowardTarget_4539D0();
+    EXPORT void UpdateTrainMovement_453A40();
     EXPORT void AI_Service_453BB0();
     EXPORT void SetCar_453BF0(Car_BC* a2);
     EXPORT void sub_453C00();
@@ -85,9 +85,9 @@ class CarAI_78
     CarAI_78* mpNext;
     Ang16 field_10_angle;
     s16 field_12;
-    Fix16 field_14;
-    Fix16 field_18;
-    Fix16 field_1C;
+    Fix16 field_14_speed;
+    Fix16 field_18_target_speed;
+    Fix16 field_1C_acceleration;
     s32 field_20;
 
     union
@@ -99,12 +99,12 @@ class CarAI_78
     char_type field_28_junc_idx;
     char_type field_29;
     char_type field_2A_stopped_timer;
-    u8 field_2B;
+    u8 field_2B_ticks_since_alloc;
     char_type field_2C;
     char_type field_2D;
     char_type field_2E;
     char_type field_2F;
-    u8 field_30;
+    u8 field_30_forced_stop_timer;
     char_type field_31;
     char_type field_32;
     char_type field_33;
@@ -117,7 +117,7 @@ class CarAI_78
     s32 field_4C_curr_direction;
     s32 field_50;
     u16 field_54;
-    s16 field_56;
+    s16 field_56_route_pos;
     u16 field_58;
     s16 field_5A;
     Fix16 field_5C;

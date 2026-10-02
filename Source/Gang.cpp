@@ -39,8 +39,8 @@ void Gang_144::init_4BED70()
 {
     field_1_gang_idx = 0;
     field_0_used = 0;
-    field_101 = 1;
-    field_110 = 0;
+    field_101_remap = 1;
+    field_110_high_respect = 0;
     field_111 = 0;
     field_104_basic_weapon = 0;
     field_108_angry_weapon = 0;
@@ -51,7 +51,7 @@ void Gang_144::init_4BED70()
 
     for (u8 i = 0; i < 10; i++)
     {
-        field_112[i] = 1;
+        field_112_hostile_to_gang[i] = 1;
         field_122_gang_kill_reaction[i] = 0;
     }
 
@@ -63,9 +63,9 @@ void Gang_144::init_4BED70()
 }
 
 MATCH_FUNC(0x4BEDF0)
-char_type Gang_144::sub_4BEDF0(u8 gang_idx)
+char_type Gang_144::IsHostileToGang_4BEDF0(u8 gang_idx)
 {
-    return field_112[gang_idx];
+    return field_112_hostile_to_gang[gang_idx];
 }
 
 MATCH_FUNC(0x4BEE30)
@@ -93,11 +93,11 @@ void Gang_144::IncrementRespect_4BEE50(u8 player_idx, char_type respect)
 
     if (field_11C_respect[player_idx] >= 80)
     {
-        field_110 = true;
+        field_110_high_respect = true;
     }
     else
     {
-        field_110 = false;
+        field_110_high_respect = false;
     }
 }
 
@@ -112,11 +112,11 @@ void Gang_144::DecrementRespect_4BEEA0(u8 player_idx, char_type respect)
 
     if (field_11C_respect[player_idx] >= 80)
     {
-        field_110 = true;
+        field_110_high_respect = true;
     }
     else
     {
-        field_110 = false;
+        field_110_high_respect = false;
     }
 }
 
@@ -144,7 +144,7 @@ void Gang_144::SetGangKillReaction_4BEF50(u8 gang_idx, char_type kill_reaction_v
 
 // https://decomp.me/scratch/lPPny
 WIP_FUNC(0x4BEF70)
-void Gang_144::sub_4BEF70(u8 player_idx, u8 respect)
+void Gang_144::ApplyKillRespectChange_4BEF70(u8 player_idx, u8 respect)
 {
     WIP_IMPLEMENTED;
     Gang_144::DecrementRespect_4BEEA0(player_idx, respect * field_139_kill_respect_change);
@@ -152,7 +152,7 @@ void Gang_144::sub_4BEF70(u8 player_idx, u8 respect)
     for (u8 i = 0; i < 10; ++i)
     {
         Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(i);
-        if (field_1_gang_idx != pGang->field_1_gang_idx)
+        if (pGang->field_1_gang_idx != field_1_gang_idx)
         {
             s8 diff = (respect * field_122_gang_kill_reaction[i]) + pGang->field_11C_respect[player_idx];
             if (diff < pGang->field_11C_respect[player_idx] || diff > 100)
@@ -230,7 +230,7 @@ void Gang_144::set_name_4BF090(const char_type* pName, u8 nameLen)
 }
 
 MATCH_FUNC(0x4BF340)
-wchar_t* Gang_144::sub_4BF340()
+wchar_t* Gang_144::GetArrowColourText_4BF340()
 {
     sprintf(gTmpBuffer_67C598, "ganga%d", field_138_arrow_colour);
     return gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598);
@@ -244,11 +244,11 @@ GangPool_CA8::~GangPool_CA8()
 }
 
 MATCH_FUNC(0x4beca0)
-Gang_144* GangPool_CA8::sub_4BECA0()
+Gang_144* GangPool_CA8::FirstGang_4BECA0()
 {
     for (gGangIdx_6206B8 = 0; gGangIdx_6206B8 < GTA2_COUNTOF_S(field_0_gang_list); gGangIdx_6206B8++)
     {
-        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].field_139_kill_respect_change > 0)
+        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].HasKillRespectChange_45DD50())
         {
             return &field_0_gang_list[gGangIdx_6206B8];
         }
@@ -257,11 +257,11 @@ Gang_144* GangPool_CA8::sub_4BECA0()
 }
 
 MATCH_FUNC(0x4bece0)
-Gang_144* GangPool_CA8::sub_4BECE0()
+Gang_144* GangPool_CA8::NextGang_4BECE0()
 {
     while (++gGangIdx_6206B8 < GTA2_COUNTOF_S(field_0_gang_list))
     {
-        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].field_139_kill_respect_change > 0)
+        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].HasKillRespectChange_45DD50())
         {
             return &field_0_gang_list[gGangIdx_6206B8];
         }
@@ -329,7 +329,7 @@ s8 GangPool_CA8::get_gang_idx_by_name_4BF210(const char* gangName)
 }
 
 WIP_FUNC(0x4BF230);
-void GangPool_CA8::sub_4BF230(Gang_144* pGang, u8 gang_idx)
+void GangPool_CA8::SwapGangSlots_4BF230(Gang_144* pGang, u8 gang_idx)
 {
     WIP_IMPLEMENTED;
     Gang_144 zone;

@@ -13,7 +13,7 @@
 DEFINE_GLOBAL(Mike_A80*, gMike_A80_6F7328, 0x6F7328);
 
 MATCH_FUNC(0x4ff1b0)
-void Mike_A80::sub_4FF1B0()
+void Mike_A80::Init_4FF1B0()
 {
     field_A78_ary_idx = 0;
     field_A7C_count = 0;

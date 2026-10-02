@@ -9,7 +9,7 @@ DEFINE_GLOBAL(Collide_8_Pool*, gCollide_8_Pool_679200, 0x679200);
 DEFINE_GLOBAL(PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204, 0x679204);
 
 MATCH_FUNC(0x478a20)
-void Collide_C::sub_478A20()
+void Collide_C::ResetCount_478A20()
 {
     field_0_count = 0;
 }

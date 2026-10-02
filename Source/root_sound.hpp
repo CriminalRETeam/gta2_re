@@ -8,21 +8,30 @@
 class root_sound
 {
   public:
-    infallible_turing* field_0;
-    infallible_turing field_4[999 + 1];
+    infallible_turing* field_0_pFreeList;
+    infallible_turing field_4_pool[999 + 1];
 
     infallible_turing* DestroySoundObj_40FE60(infallible_turing* a2) // inline
     {
         a2->release_40EF20();
-        infallible_turing* result = field_0;
-        a2->field_C_pAny.pInfallible_turing = field_0;
-        field_0 = a2;
+        infallible_turing* result = field_0_pFreeList;
+        a2->field_C_pAny.pInfallible_turing = field_0_pFreeList;
+        field_0_pFreeList = a2;
         return result;
+    }
+
+    // 9.6f 0x410730
+    inline infallible_turing* PopFree_410730()
+    {
+        infallible_turing* pCurrent = field_0_pFreeList;
+        field_0_pFreeList = pCurrent->field_C_pAny.pInfallible_turing;
+        pCurrent->field_8_sound_entry = 0; // TODO: 9.6f calls infallible_turing::sub_4106D0 (not dumped)
+        return pCurrent;
     }
 
     EXPORT infallible_turing* CreateSoundObject_40EF40(void* pObject, s32 objectType);
 
-    EXPORT void sub_40EF80();
+    EXPORT void Init_40EF80();
 
     EXPORT void Service_40EFA0();
 
@@ -32,9 +41,9 @@ class root_sound
 
     EXPORT char_type LoadStyle_40EFF0(const char_type* pStyleName);
 
-    EXPORT void sub_40F010();
+    EXPORT void InitMusicAndCopRadio_40F010();
 
-    EXPORT void sub_40F020();
+    EXPORT void DeInitVocals_40F020();
 
     EXPORT void DeclareRadioStation_40F030(s32 station_idx, Fix16 xpos, Fix16 ypos);
 
@@ -52,7 +61,7 @@ class root_sound
 
     EXPORT void Release_40F130();
 
-    EXPORT void sub_40F140();
+    EXPORT void Reacquire_40F140();
 
     EXPORT char_type GetAudioDriveLetter_40F150();
 

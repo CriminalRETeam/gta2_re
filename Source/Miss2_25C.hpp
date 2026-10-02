@@ -19,13 +19,14 @@ class Miss2_C
     s8 field_5;
     s8 field_6;
     s8 field_7;
-    s32 field_8_uni2;
+    s32 field_8_entity_id;
 };
 
 class Miss2_25C
 {
   public:
-    Miss2_25C();
+    // throw(): frosty_pasteur_0xC1EA8's ctor has no EH state around new Miss2_25C()
+    Miss2_25C() throw();
     EXPORT void MissionCleanUp_502DC0();
     EXPORT Miss2_C* allocate_next_502F60();
     EXPORT void push_type_1_car_502F80(Car_BC* pCar);
@@ -33,7 +34,7 @@ class Miss2_25C
     EXPORT void push_type_2_502FF0(Object_2C *pObj, char_type a3);
     EXPORT void push_type_2_503050(Object_2C *pObj);
 
-    Miss2_C field_0[50];
+    Miss2_C field_0_entries[50];
 
     char_type field_258_count;
     char_type field_259;

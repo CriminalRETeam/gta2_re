@@ -6,7 +6,7 @@
 #include "fix16.hpp"
 
 EXTERN_GLOBAL(u32, gObj3C_id_6F8E54);
-EXTERN_GLOBAL(u32, dword_6F8F0C);
+EXTERN_GLOBAL(u32, gObj3C_dealloc_count_6F8F0C);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 class Sprite;
@@ -18,10 +18,10 @@ class struct_4
   public:
     struct_4() // 424620 inline
     {
-        sub_4207E0();
+        ResetHead_4207E0();
     }
 
-    void sub_4207E0() // inline
+    void ResetHead_4207E0() // inline
     {
         field_0_p18 = 0;
     }
@@ -74,11 +74,11 @@ class Object_3C
         field_C_speed = 0;
         field_4_angle = kZeroAng_6F8F68;
         field_18_friction = Fix16(0);
-        field_28 = 0;
-        field_38 = 0;
+        field_28_next_definition_timer = 0;
+        field_38_conveyor_speed = 0;
         field_34 = 2;
         field_24 = 0;
-        field_2F = 0;
+        field_2F_bOnSlope = 0;
         field_30_bSkipAnim = 0;
     }
 
@@ -86,16 +86,24 @@ class Object_3C
     void PoolDeallocate()
     {
         --gObj3C_id_6F8E54;
-        ++dword_6F8F0C;
+        ++gObj3C_dealloc_count_6F8F0C;
     }
 
     void ClearF38_482BD0()
     {
-        field_38 = 0;
+        field_38_conveyor_speed = 0;
     }
 
     // ?? not sure if this is O3C either :skull:
     EXPORT Fix16_Point GetSpeedVector_52ADF0();
+
+    // 9.6f 0x482BA0, inline copy of GetSpeedVector_52ADF0
+    inline Fix16_Point GetSpeedVector_482BA0()
+    {
+        Fix16_Point p;
+        p.FromPolar_41E210(field_C_speed, field_4_angle);
+        return p;
+    }
 
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
@@ -104,22 +112,22 @@ class Object_3C
     s16 field_6;
     Object_3C* mpNext;
     Fix16 field_C_speed;
-    Fix16 field_10;
+    Fix16 field_10_z_speed;
     Fix16 field_14;
     Fix16 field_18_friction;
-    Fix16 field_1C;
-    s32 field_20;
+    Fix16 field_1C_z_accel;
+    s32 field_20_obj2c_id;
     s32 field_24;
-    s16 field_28;
-    s16 field_2A;
+    s16 field_28_next_definition_timer;
+    s16 field_2A_bAirborne;
     s16 field_2C;
     char_type field_2E;
-    char_type field_2F;
+    char_type field_2F_bOnSlope;
     u8 field_30_bSkipAnim;
     u8 field_31;
     u16 field_32;
     s32 field_34;
-    char_type field_38;
+    char_type field_38_conveyor_speed;
     char_type field_39;
     char_type field_3A;
     char_type field_3B;

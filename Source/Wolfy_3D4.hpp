@@ -16,7 +16,7 @@ class Wolfy_30
     EXPORT void state_4_540F90(Ang16 a3, Fix16 a2);
     EXPORT void state_13_14_5411E0(Ang16 a3, Fix16 a2);
     EXPORT void state_5_541430(Ang16 ang, Fix16 pos);
-    EXPORT Fix16* sub_541680(Fix16* a2);
+    EXPORT Fix16 sub_541680();
     EXPORT Fix16 sub_541710();
     EXPORT void sub_541760();
     EXPORT void TimerAfter50Handler_541850(u16 a2);
@@ -31,17 +31,23 @@ class Wolfy_30
     EXPORT void Init_543650();
     EXPORT void Set_Obj2C_543680(Object_2C* a2);
 
+    // 9.6f 0x482A90
+    inline void SetTypeOrState_482A90(s32 type_or_state)
+    {
+        field_10_type_or_state = type_or_state;
+    }
+
     s32 field_0_bIn20Pool;
     u8 field_4_idx;
     u8 field_5;
     s16 field_6_id;
-    Fix16 field_8;
-    Ang16 field_C;
+    Fix16 field_8_speed;
+    Ang16 field_C_angle;
     s16 field_E;
     s32 field_10_type_or_state;
-    Object_2C* field_14;
-    s16 field_18;
-    u16 field_1A;
+    Object_2C* field_14_pObj2C;
+    s16 field_18_particle_cooldown;
+    u16 field_1A_timer;
     Sprite* field_1C;
     Ang16 field_20;
     Ang16 field_22;

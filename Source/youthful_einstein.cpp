@@ -12,7 +12,7 @@
 
 DEFINE_GLOBAL(youthful_einstein, gYouthful_einstein_6F8450, 0x6F8450);
 DEFINE_GLOBAL(Fix16_Point, stru_6F8720, 0x6F8720);
-DEFINE_GLOBAL(s32, dword_6F58A4, 0x6F58A4);
+DEFINE_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4, 0x6F58A4);
 
 MATCH_FUNC(0x516560)
 void youthful_einstein::ctor_516560() // For some reason, it's a function instead of a proper ctor
@@ -32,22 +32,22 @@ void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
         pNewFugitive = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     }
     field_0_fugitive = pNewFugitive;
-    gHud_2B00_706620->field_1F18.sub_5D10B0();
-    field_0_fugitive->sub_564C00();
+    gHud_2B00_706620->field_1F18_arrows.ReleaseAllArrows_5D10B0();
+    field_0_fugitive->UnloadCarWeapons_564C00();
     field_0_fugitive->RemovePlayerWeapons_564C50();
-    field_0_fugitive->sub_564CC0();
+    field_0_fugitive->ClearPowerUps_564CC0();
 
     if (field_0_fugitive->GetPlayerPed_41D020() != NULL)
     {
         field_0_fugitive->GetPlayerPed_41D020()->SetVisible();
-        field_0_fugitive->GetPlayerPed_41D020()->sub_45C050();
+        field_0_fugitive->GetPlayerPed_41D020()->ClearInvulnerable_45C050();
         field_0_fugitive->GetPlayerPed_41D020()->clear_bit_26_482080();
     }
 
     if (!field_0_fugitive->IsUser_41DC70())
     {
-        Hud_Arrow_7C* pArrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
-        pArrow->field_18.field_18_primary_target.sub_4820A0(field_0_fugitive);
+        Hud_Arrow_7C* pArrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
+        pArrow->field_18.field_18_primary_target.SetTargetPlayer_4820A0(field_0_fugitive);
 
         //  the problem is here
         Player* pPlayer = field_0_fugitive;
@@ -58,7 +58,7 @@ void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
     }
     else
     {
-        gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("yourit"), 3);
+        gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("yourit"), 3);
     }
 }
 
@@ -77,9 +77,9 @@ void youthful_einstein::ExecuteGamemodeTick_516660()
             if (field_1C_tick_timer >= 30)
             {
                 field_1C_tick_timer = 0;
-                if (field_0_fugitive && dword_6F58A4 != 0)
+                if (field_0_fugitive && gNetTimeLimitEnabled_6F58A4 != 0)
                 {
-                    field_4_time[field_0_fugitive->field_2E_idx]++;
+                    field_4_time[field_0_fugitive->get_idx_4219D0()]++;
                 }
             }
             if (!field_0_fugitive)
@@ -90,7 +90,7 @@ void youthful_einstein::ExecuteGamemodeTick_516660()
             if (field_0_fugitive && field_0_fugitive->field_2C4_player_ped &&
                 field_0_fugitive->field_2C4_player_ped->field_16C_car)
             {
-                field_0_fugitive->field_2C4_player_ped->field_16C_car->AccumulateDamage_43DA90(17, &stru_6F8720);
+                field_0_fugitive->GetPlayerPed_41D020()->get_car_416B60()->AccumulateDamage_43DA90(17, &stru_6F8720);
             }
 
             break;

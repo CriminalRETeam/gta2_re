@@ -58,37 +58,37 @@ class Phi_54
                   s32 param_20,
                   s8 param_21);
 
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
+    s32 field_0_definition_idx;
+    s32 field_4_behavior_type;
+    s32 field_8_next_definition_idx;
     s8 field_C;
     s8 field_D;
     s8 field_E;
     s8 field_F;
     s32 field_10;
     s32 field_14;
-    s32 field_18;
-    Fix16 field_1C;
-    Fix16 field_20;
+    s32 field_18_collision_bucket_category;
+    Fix16 field_1C_speed;
+    Fix16 field_20_friction;
     s8 field_24;
     s8 field_25;
     s8 field_26;
     s8 field_27;
     s32 field_28;
     s32 field_2C;
-    s8 field_30;
+    s8 field_30_next_frame_max;
     s8 field_31;
     s8 field_32;
     s8 field_33;
     s32 field_34;
-    Fix16 field_38;
+    Fix16 field_38_mass;
     s32 field_3C;
-    s8 field_40;
+    s8 field_40_sprite_flags;
     s8 field_41;
     s8 field_42;
     s8 field_43;
-    s32 field_44;
-    s8 field_48;
+    s32 field_44_has_sound;
+    s8 field_48_has_shadows;
     s8 field_49;
     s8 field_4A;
     s8 field_4B;
@@ -167,48 +167,48 @@ class Phi_6C
                   u8 param_28,
                   u8 param_29);
 
-    s32 field_0;
-    u8 field_4;
+    s32 field_0_definition_idx;
+    u8 field_4_num_sprites;
     s8 field_5;
     s8 field_6;
     s8 field_7;
-    s32 field_8;
+    s32 field_8_behavior_type;
     s32 field_C;
-    s32 field_10;
+    s32 field_10_next_definition_idx;
     s8 field_14;
     s8 field_15;
     s8 field_16;
     s8 field_17;
     s32 field_18;
     s32 field_1C;
-    s32 field_20;
-    Fix16 field_24;
-    Fix16 field_28;
+    s32 field_20_collision_bucket_category;
+    Fix16 field_24_speed;
+    Fix16 field_28_friction;
     s8 field_2C;
     s8 field_2D;
     s8 field_2E;
     s8 field_2F;
     s32 field_30;
     s32 field_34;
-    s32 field_38;
-    s8 field_3C;
+    s32 field_38_sprite_type;
+    s8 field_3C_next_frame_max;
     s8 field_3D;
     s8 field_3E;
     s8 field_3F;
     s32 field_40;
-    Fix16 field_44;
-    Fix16 field_48;
-    Fix16 field_4C;
-    Fix16 field_50;
+    Fix16 field_44_mass;
+    Fix16 field_48_width;
+    Fix16 field_4C_height;
+    Fix16 field_50_depth;
     s32 field_54;
-    s8 field_58;
+    s8 field_58_sprite_flags;
     s8 field_59;
     s8 field_5A;
     s8 field_5B;
     s32 field_5C;
     s32 field_60;
-    s32 field_64;
-    s8 field_68;
+    s32 field_64_has_sound;
+    s8 field_68_has_shadows;
     s8 field_69;
     s8 field_6A;
     s8 field_6B;
@@ -264,25 +264,25 @@ class Phi_74
 {
   public:
     EXPORT ~Phi_74();
-    EXPORT void sub_533060(Fix16 a2, Fix16 a3, Fix16 a4);
-    EXPORT void sub_533090();
-    EXPORT void sub_533110(s16 remap);
-    EXPORT void sub_533150(s16 a2, s16 a3);
+    EXPORT void SetDimensions_533060(Fix16 a2, Fix16 a3, Fix16 a4);
+    EXPORT void SetDimensionsFromSprite_533090();
+    EXPORT void SetRemap_533110(s16 remap);
+    EXPORT void AddSpritePaletteAndSetAnimSpeed_533150(s16 a2, s16 a3);
     EXPORT Sprite* CreateSpriteFromDefinition_533170();
     EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* a2);
     EXPORT Phi_74();
 
 
-    Fix16 field_0; // w ?
-    Fix16 field_4; // h ?
-    Fix16 field_8; // d ?
-    Fix16 field_C;
-    Fix16 field_10;
+    Fix16 field_0_width;
+    Fix16 field_4_height;
+    Fix16 field_8_depth;
+    Fix16 field_C_min_size;
+    Fix16 field_10_speed;
     Fix16 field_14_friction;
     Fix16 field_18_mass;
     s16 field_1C_remap;
     s16 field_1E_sprite_palette;
-    char_type field_20;
+    char_type field_20_sprite_flags;
     char_type field_21;
     char_type field_22;
     char_type field_23;
@@ -314,42 +314,48 @@ class Phi_74
     char_type field_6D;
     char_type field_6E;
     char_type field_6F;
-    s32 field_70;
+    s32 field_70_has_sound;
 };
 
 class Phi_8CA8
 {
   public:
     EXPORT ~Phi_8CA8();
-    EXPORT Phi_74* sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5);
-    EXPORT void sub_533300();
-    EXPORT void sub_533360();
+    EXPORT Phi_74* AllocDefinitionWithSprite_5332D0(s32 idx, s32 a3, s16 a4, u8 a5);
+    EXPORT void CreateMapObjectDefinitions_533300();
+    EXPORT void ApplyPhi54Definitions_533360();
     EXPORT void sub_533420();
-    EXPORT void sub_533B30();
+    EXPORT void CreateCodeObjectDefinitions_533B30();
     EXPORT void sub_533C90();
-    EXPORT void sub_534270();
-    EXPORT void sub_5342D0();
-    EXPORT void sub_5342F0(s32 idx);
-    EXPORT void sub_534330();
+    EXPORT void ClearColour1PixelsOfDefinitions287To293_534270();
+    EXPORT void CacheDef112SpritePalette_5342D0();
+    EXPORT void ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx);
+    EXPORT void InitDefinitions_534330();
     EXPORT Phi_74* GetObjectDefinition_534360(s32 idx);
-    EXPORT Phi_74* sub_534370(s32 idx1, s32 idx2);
-    EXPORT Phi_74* sub_5343C0(s32 idx);
+
+    // 9.6f 0x4C6E30
+    inline s16 GetObjectPalette_4C6E30(s32 idx)
+    {
+        return GetObjectDefinition_534360(idx)->field_1E_sprite_palette;
+    }
+    EXPORT Phi_74* CloneDefinition_534370(s32 dst_idx, s32 src_idx);
+    EXPORT Phi_74* AllocDefinition_5343C0(s32 idx);
     EXPORT Phi_8CA8();
 
     u16 field_0_next_idx;
     s16 field_2;
-    Phi_74 field_4[300];
-    Phi_74* field_87F4[300];
-    s16 field_8CA4;
+    Phi_74 field_4_definitions[300];
+    Phi_74* field_87F4_definition_by_idx[300];
+    s16 field_8CA4_def112_sprite_palette;
     s16 field_8CA6;
 };
 
 EXTERN_GLOBAL(Phi_8CA8*, gPhi_8CA8_6FCF00);
 
-EXTERN_GLOBAL(Fix16, DAT_006f8fac);
-EXTERN_GLOBAL(Fix16, DAT_006f8fd8);
-EXTERN_GLOBAL(Fix16, DAT_006fc578);
-EXTERN_GLOBAL(Fix16, DAT_006fc584);
+EXTERN_GLOBAL(Fix16, kFpQuarter_6F8FAC);
+EXTERN_GLOBAL(Fix16, kFpPoint1_6F8FD8);
+EXTERN_GLOBAL(Fix16, kFpPoint2_6FC578);
+EXTERN_GLOBAL(Fix16, kFpHalf_6FC584);
 
 EXTERN_GLOBAL(s32, Phi_54_array_lenght_00623EEC);
 EXTERN_GLOBAL(s32, Phi_6C_array_lenght_623EF0);

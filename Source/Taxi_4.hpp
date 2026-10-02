@@ -17,7 +17,7 @@ struct Taxi_8
     {
     }
 
-    Car_BC* field_0;
+    Car_BC* field_0_pCar;
     Taxi_8* mpNext;
 };
 
@@ -41,15 +41,21 @@ class Taxi_4
 {
   public:
     // inlined
-    void sub_4C09B0()
+    void Init_4C09B0()
     {
-        sub_4C0980();
+        ClearList_4C0980();
     }
 
     // inlined
-    void sub_4C0980()
+    void ClearList_4C0980()
     {
-        field_0 = 0;
+        field_0_pFirst = 0;
+    }
+
+    // 9.6f 0x434970
+    inline bool IsEmpty_434970()
+    {
+        return field_0_pFirst == 0;
     }
 
     EXPORT void PushTaxi_457BA0(Car_BC* pCar);
@@ -57,7 +63,7 @@ class Taxi_4
     EXPORT Car_BC* GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos);
     EXPORT Taxi_4();
     EXPORT ~Taxi_4();
-    Taxi_8* field_0;
+    Taxi_8* field_0_pFirst;
 };
 
 EXTERN_GLOBAL(Taxi_4*, gTaxi_4_704130);

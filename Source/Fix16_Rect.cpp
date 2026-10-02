@@ -4,7 +4,7 @@
 #include "sprite.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, kSmallWidthEpslion_703450, Fix16(0xCCC, 0), 0x703450);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6771E4, Fix16(0x800, 0), 0x6771E4);
+DEFINE_GLOBAL_INIT(Fix16, kCollisionPrismHalfHeight_6771E4, Fix16(0x800, 0), 0x6771E4);
 
 MATCH_FUNC(0x4E6280)
 void Fix16_Rect::MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
@@ -34,17 +34,14 @@ bool Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* a2)
         || IsPointInRect_4B9FD0(&v3[2]) || IsPointInRect_4B9FD0(&v3[3]));
 }
 
-WIP_FUNC(0x59de80)
+MATCH_FUNC(0x59de80)
 char_type Fix16_Rect::CanRectEnterMovementRegion_59DE80()
 {
-    WIP_IMPLEMENTED;
     DoSetCurrentRect_59DD60();
-    return gMap_0x370_6F6268->CanSpriteEnterMovementRegion_4E4460(
-             ((this->field_0_left + this->field_4_right) / 2).ToInt(),
-             ((this->field_8_top + this->field_C_bottom) / 2).ToInt(),
-             ((this->field_10_low_z + this->field_14_high_z) / 2).ToInt(),
-             0,
-             1024);
+    s32 x = ((this->field_0_left + this->field_4_right) / 2).ToInt();
+    s32 y = ((this->field_8_top + this->field_C_bottom) / 2).ToInt();
+    s32 z = ((this->field_10_low_z + this->field_14_high_z) / 2).ToInt();
+    return gMap_0x370_6F6268->CanSpriteEnterMovementRegion_4E4460(x, y, z, 0, 1024);
 }
 
 MATCH_FUNC(0x59dee0)

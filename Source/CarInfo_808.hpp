@@ -32,7 +32,7 @@ struct UnknownList
         }
     }
 
-    Fix16 sub_41FE70(const s8& var)
+    Fix16 SignedPixelsToFix16_41FE70(const s8& var)
     {
         if (var < 0)
         {
@@ -43,12 +43,12 @@ struct UnknownList
 
     // This one won't match with a ref argument even though its the
     // same as the above function :')
-    EXPORT Fix16 sub_440860(s8 var);
+    EXPORT Fix16 SignedPixelsToFix16_440860(s8 var);
 
     Fix16 list[256];
 };
 
-EXTERN_GLOBAL(UnknownList, dword_6F6850);
+EXTERN_GLOBAL(UnknownList, gPixelsToFix16_6F6850);
 
 class ModelPhysics_48
 {
@@ -113,7 +113,7 @@ class CarInfo_808
     EXPORT void CalculateAllCarInfo_454850();
     EXPORT void ConvertAllMass_4549C0();
     EXPORT void LoadFromGciFile_454A00(const char_type* pGciFilePath);
-    EXPORT void sub_454A50();
+    EXPORT void Reload_454A50();
     EXPORT void Clear_454A80();
     EXPORT void Free_454AA0();
     EXPORT CarInfo_808();
@@ -125,7 +125,7 @@ class CarInfo_808
                                                         size_t output_size,
                                                         u32* next_position);
     EXPORT static char* __stdcall SetErr_430AC0(s32 a1);
-    EXPORT static s32 __stdcall sub_430b10(char* param_1);
+    EXPORT static s32 __stdcall ReadToken_430B10(char* param_1);
     EXPORT static s32 __stdcall PushData_430E60(void* param_1, u32 param_2);
     EXPORT static s32 __stdcall HexStr2Int_430EC0(const char* param_1, s32* param_2);
     EXPORT static s32 __stdcall HexStr2Int_430F30(const char* param_1, s16* param_2);
@@ -142,4 +142,4 @@ GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_808, 0x808);
 
 EXTERN_GLOBAL(CarInfo_808*, gCarInfo_808_678098);
 
-EXPORT s32 __stdcall sub_430C70(char_type* a1);
+EXPORT s32 __stdcall ParseTokenAndPush_430C70(char_type* a1);

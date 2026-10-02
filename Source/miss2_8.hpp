@@ -14,9 +14,9 @@ class miss2_8
     EXPORT void add_503160(Frismo_C* a2);
     EXPORT Frismo_C* remove_503180();
 
-    EXPORT Frismo_C* sub_5031A0();
+    EXPORT Frismo_C* AllocFrame_5031A0();
 
-    EXPORT void sub_5031C0(Frismo_C* a2);
+    EXPORT void FreeFrame_5031C0(Frismo_C* a2);
 
     EXPORT void remove_5031E0(u8 count);
 

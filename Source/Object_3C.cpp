@@ -20,19 +20,19 @@ Object_3C::Object_3C()
 {
     this->field_4_angle = 0;
     this->mpNext = 0;
-    this->field_1C = dword_6F8BF0;
+    this->field_1C_z_accel = dword_6F8BF0;
     this->field_18_friction = dword_6F8BF0;
-    this->field_10 = dword_6F8BF0;
+    this->field_10_z_speed = dword_6F8BF0;
     this->field_C_speed = dword_6F8BF0;
     this->field_4_angle = kZeroAng_6F8F68;
-    this->field_28 = 0;
-    this->field_20 = 0;
+    this->field_28_next_definition_timer = 0;
+    this->field_20_obj2c_id = 0;
     this->field_2C = 0;
-    this->field_2A = 0;
-    this->field_38 = 0;
+    this->field_2A_bAirborne = 0;
+    this->field_38_conveyor_speed = 0;
     this->field_34 = 2;
     this->field_2E = 0;
-    this->field_2F = 0;
+    this->field_2F_bOnSlope = 0;
 }
 
 MATCH_FUNC(0x52ade0)
@@ -58,11 +58,11 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
     WIP_IMPLEMENTED;
     s8 x_related;
     s8 y_related;
-    if (field_38)
+    if (field_38_conveyor_speed)
     {
-        sub_529050(field_38, &x_related, &y_related);
+        UnpackSignedNibbles_529050(field_38_conveyor_speed, &x_related, &y_related);
         Fix16_Point unk(dword_6F8ECC * x_related, dword_6F8ECC * y_related);
-        Fix16_Point point = unk + GetSpeedVector_52ADF0();
+        Fix16_Point point = unk + GetSpeedVector_482BA0();
 
         Speed = point.GetLength_41E260();
         Angle = point.atan2_40F790();
@@ -81,17 +81,12 @@ Sprite_18* struct_4::GetSpriteForModel_5A6A50(s32 obj_type)
     Sprite_18* pIter = this->field_0_p18;
     while (pIter)
     {
-        const s32 sprite_type_enum = pIter->field_0->field_30_sprite_type_enum;
-        if (sprite_type_enum == sprite_types_enum::code_obj1_4 || sprite_type_enum == sprite_types_enum::map_obj_5 ||
-            sprite_type_enum == sprite_types_enum::unknown_1)
+        Object_2C* o5c = pIter->field_0->As2C_40FEC0();
+        if (o5c)
         {
-            Object_2C* o5c = pIter->field_0->field_8_object_2C_ptr;
-            if (o5c)
+            if (o5c->field_18_model == obj_type)
             {
-                if (o5c->field_18_model == obj_type)
-                {
-                    return pIter;
-                }
+                return pIter;
             }
         }
         pIter = pIter->mpNext;
@@ -234,7 +229,7 @@ char_type struct_4::TagSpriteWithRng_5A6C10(Sprite* toFind)
         {
             if (pNext->field_0 == toFind)
             {
-                pNext->field_14_rng = rng_dword_67AB34->field_0_rng;
+                pNext->field_14_rng = gpRng_67AB34->field_0_rng;
                 return 1;
             }
         }
@@ -309,7 +304,7 @@ void struct_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 
     p18->mpNext = field_0_p18;
     p18->field_6_x = x;
     p18->field_8_y = y;
-    p18->field_10 = angle;
+    p18->field_10_rot = angle;
     field_0_p18 = p18;
 }
 
@@ -409,6 +404,7 @@ Sprite* struct_4::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
     Sprite* new_ret = 0;
     for (Sprite_18* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
+        // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined, using it changes the code)
         Fix16 xd = pIter->field_0->field_14_xy.x - xOff;
         Fix16 yd = pIter->field_0->field_14_xy.y - yOff;
         Fix16 yDelta = Fix16::Abs(yd);
@@ -428,7 +424,17 @@ Sprite* struct_4::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
     return new_ret;
 }
 
-WIP_FUNC(0x5a6ea0)
+// 9.6f: like Fix16::MaxAbsDistance_42A6B0 (0x42A6B0), which takes the four coordinates by reference.
+// Taking them by reference makes VC6 load both sprite coordinates before the subtractions, and
+// writing the result through an out parameter keeps the read of Max_44E540's returned pointer.
+static inline void MaxAbsDistance_5A6EA0(Fix16& out, Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+{
+    Fix16 diff_x = x2 - x1;
+    Fix16 diff_y = y2 - y1;
+    out = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(diff_x), Fix16::Abs(diff_y));
+}
+
+MATCH_FUNC(0x5a6ea0)
 Sprite* struct_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 {
     Sprite_18* pPrev = 0;
@@ -439,9 +445,7 @@ Sprite* struct_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 
     for (Sprite_18* pIter = field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        Fix16 xd = pIter->field_0->field_14_xy.x - xpos;
-        Fix16 yd = pIter->field_0->field_14_xy.y - ypos;
-        distance = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(xd), Fix16::Abs(yd));
+        MaxAbsDistance_5A6EA0(distance, xpos, ypos, pIter->field_0->field_14_xy.x, pIter->field_0->field_14_xy.y);
         if (distance < smallest)
         {
             pClosest = pIter;
@@ -526,7 +530,7 @@ void struct_4::DestroyAllSprites_5A7010()
     while (p18Iter)
     {
         Sprite* pSprite = p18Iter->field_0;
-        switch (p18Iter->field_0->field_30_sprite_type_enum)
+        switch (p18Iter->field_0->get_type_416B40())
         {
             case sprite_types_enum::car_2:
                 gCar_6C_677930->RemoveFromPoolAndCollision_446730(pSprite->field_8_car_bc_ptr);
@@ -590,17 +594,13 @@ void struct_4::ClearGangIconSprite_5A7110()
     {
         while (pIter)
         {
-            const s32 type = pIter->field_0->field_30_sprite_type_enum;
-            if (type == 4 || type == 5 || type == 1)
+            p5C = pIter->field_0->As2C_40FEC0();
+            if (p5C)
             {
-                p5C = pIter->field_0->field_8_object_2C_ptr;
-                if (p5C)
+                // If it is car gang icon
+                if (p5C->IsGangIcon_4BE850())
                 {
-                    // If it is car gang icon
-                    if (p5C->field_18_model >= objects::loonies_icon_287 && p5C->field_18_model <= objects::russian_mafia_icon_293)
-                    {
-                        break;
-                    }
+                    break;
                 }
             }
             pLast = pIter;
@@ -658,13 +658,13 @@ void struct_4::sub_5A71F0()
 {
     for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
+        const s32 type = p18Iter->field_0->get_type_416B40();
         if (type == 1 || type > 3 && type <= 5)
         {
             Object_2C* o2c = p18Iter->field_0->field_8_object_2C_ptr;
-            if (o2c->field_18_model == objects::fire_197 || o2c->sub_525AC0())
+            if (o2c->sub_4BE830())
             {
-                p18Iter->field_0->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A = 2;
+                p18Iter->field_0->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A_timer = 2;
             }
         }
     }
@@ -710,7 +710,7 @@ void struct_4::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
     Sprite_18* p18Iter;
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        if (p18Iter->field_0->field_30_sprite_type_enum > 1) // object_5c type
+        if (p18Iter->field_0->IsTypeAbove1_446950()) // object_5c type
         {
             const char_type cur_val = p18Iter->field_0->ComputeZLayer_5A1BD0();
             if (cur_val > max_val)
@@ -722,12 +722,12 @@ void struct_4::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
 
     if (bUnknown)
     {
-        pSprite->field_39_z_col = max_val;
+        pSprite->set_z_col_4BA220(max_val);
     }
 
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        p18Iter->field_0->field_39_z_col = max_val;
+        p18Iter->field_0->set_z_col_4BA220(max_val);
     }
 }
 

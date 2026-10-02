@@ -5,12 +5,12 @@
 
 DEFINE_GLOBAL(Ped_List_4, gThreateningPedsList_678468, 0x678468);
 
-DEFINE_GLOBAL_INIT(Ang16, word_678B40, Ang16(0), 0x678B40);
+DEFINE_GLOBAL_INIT(Ang16, kAng0_678B40, Ang16(0), 0x678B40);
 
 MATCH_FUNC(0x471140)
 Char_8* Ped_List_4::AddPed_471140(Ped* pPed)
 {
-    Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
+    Char_8* pNew = gChar_8_Pool_678b50->Allocate_445EF0();
 
     pNew->field_0_char_ped = pPed;
 
@@ -40,7 +40,7 @@ void Ped_List_4::AddPedToBackIfMissing_471160(Ped* pPed)
         }
     }
 
-    Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
+    Char_8* pNew = gChar_8_Pool_678b50->Allocate_445EF0();
     pNew->field_0_char_ped = pPed;
 
     if (pLast)
@@ -76,7 +76,7 @@ void Ped_List_4::AddPedToFrontIfMissing_4711B0(Ped* pPed)
         }
     }
 
-    Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
+    Char_8* pNew = gChar_8_Pool_678b50->Allocate_445EF0();
     pNew->field_0_char_ped = pPed;
 
     pNew->mpNext = field_0_pFirstPed;
@@ -100,7 +100,7 @@ void Ped_List_4::RemovePed_4711F0(Ped* pPed)
             {
                 field_0_pFirstPed = pIter->mpNext;
             }
-            gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+            gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
             break;
         }
         pLast = pIter;
@@ -125,7 +125,7 @@ void Ped_List_4::RemovePed_471240(Ped* pPed)
             {
                 field_0_pFirstPed = pIter->mpNext;
             }
-            gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+            gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
             break;
         }
         pLast = pIter;
@@ -141,7 +141,7 @@ char_type Ped_List_4::RemovePedsInSpecificState_471290()
     char_type removedCount = 0;
     while (pIter)
     {
-        if ((pIter->field_0_char_ped->field_21C & 1) != 0 && pIter->field_0_char_ped->field_278_ped_state_1 == ped_state_1::dead_9)
+        if (pIter->field_0_char_ped->CheckBit0_433B40() && pIter->field_0_char_ped->field_278_ped_state_1 == ped_state_1::dead_9)
         {
             pLast = pIter;
             pIter = pIter->mpNext;
@@ -159,7 +159,7 @@ char_type Ped_List_4::RemovePedsInSpecificState_471290()
 
             Char_8* pIterOldNext = pIter->mpNext;
 
-            gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+            gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
             pIter = pIterOldNext;
 
             ++removedCount;
@@ -193,7 +193,7 @@ Ped* Ped_List_4::RemoveFirstPed_471320()
 
     Ped* pPed = pIter->field_0_char_ped;
     field_0_pFirstPed = pIter->mpNext;
-    gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+    gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
     return pPed;
 }
 
@@ -246,7 +246,7 @@ Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, A
 
             ang_delta = Fix16::atan2_fixed_405320(pCurPed->get_cam_y() - y, pCurPed->get_cam_x() - x) - ang1;
 
-            v13 = word_678B40 - ang2;
+            v13 = kAng0_678B40 - ang2;
 
             if (ang_delta < ang2 || ang_delta > v13)
             {
@@ -271,7 +271,7 @@ void Ped_List_4::KillAllPedsFromList_4715A0()
         Char_8* pLast = pIter;
         pIter->field_0_char_ped->Kill_46F9D0();
         pIter = pIter->mpNext;
-        gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
+        gChar_8_Pool_678b50->DeAllocate_445F00(pLast);
     }
 
     field_0_pFirstPed = 0;
@@ -287,7 +287,7 @@ void Ped_List_4::KillAllPedsAndClearCarRef_4715E0()
         pIter->field_0_char_ped->Kill_46F9D0();
         pIter->field_0_char_ped->field_16C_car = 0;
         pIter = pIter->mpNext;
-        gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
+        gChar_8_Pool_678b50->DeAllocate_445F00(pLast);
     }
 
     field_0_pFirstPed = 0;
@@ -298,11 +298,11 @@ void Ped_List_4::ApplyPassengerBusStopBehavior_471630()
 {
     for (Char_8* pIter = field_0_pFirstPed; pIter; pIter = pIter->mpNext)
     {
-        if (pIter->field_0_char_ped->field_240_occupation == 8)
+        if (pIter->field_0_char_ped->get_occupation_403980() == 8)
         {
             pIter->field_0_char_ped->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
             pIter->field_0_char_ped->SetObjective(objectives_enum::objective_34, 9999);
-            pIter->field_0_char_ped->field_150_target_objective_car = pIter->field_0_char_ped->field_16C_car;
+            pIter->field_0_char_ped->set_field_150_target_objective_car(pIter->field_0_char_ped->field_16C_car);
         }
     }
 }
@@ -338,7 +338,7 @@ void Ped_List_4::SyncPassengersWithCarState_4716D0(Car_BC* pCar)
     {
         pIter->field_0_char_ped->field_204_killer_id = pCar->field_70_exploder_ped_id;
         pIter->field_0_char_ped->field_290 = pCar->field_90;
-        pIter->field_0_char_ped->field_264 = 50;
+        pIter->field_0_char_ped->field_264_killer_id_timer = 50;
     }
 }
 

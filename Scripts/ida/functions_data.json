@@ -151,7 +151,7 @@
         "v105_address": "0x405c60"
     },
     {
-        "name": "sub_405CE0",
+        "name": "SmoothApproachAngle_405CE0",
         "v96f_address": "0x40ECB0",
         "v105_address": "0x405ce0"
     },
@@ -171,7 +171,7 @@
         "v105_address": "0x405e80"
     },
     {
-        "name": "Ang16::sub_406C20",
+        "name": "Ang16::Normalize_406C20",
         "v96f_address": "0x401cb0",
         "v105_address": "0x406c20",
         "v96f_auto": true
@@ -204,7 +204,7 @@
         "v105_address": "0x407ce0"
     },
     {
-        "name": "Trailer::sub_408140",
+        "name": "Trailer::ServicePhysics_408140",
         "v96f_address": "0x40FB20",
         "v105_address": "0x408140"
     },
@@ -221,12 +221,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Trailer::sub_4081D0",
+        "name": "Trailer::ExplodeBothIfOneDestroyed_4081D0",
         "v96f_address": null,
         "v105_address": "0x4081d0"
     },
     {
-        "name": "Trailer::sub_408220",
+        "name": "Trailer::Update_408220",
         "v96f_address": "0x40FBE0",
         "v105_address": "0x408220"
     },
@@ -261,12 +261,12 @@
         "v105_address": "0x40acb0"
     },
     {
-        "name": "Ang16::sub_409300",
+        "name": "Ang16::AssignNormalized_409300",
         "v96f_address": null,
         "v105_address": "0x409300"
     },
     {
-        "name": "Ang16::sub_409340",
+        "name": "Ang16::SubtractNormalized_409340",
         "v96f_address": null,
         "v105_address": "0x409340"
     },
@@ -308,19 +308,19 @@
         "v96f_auto": true
     },
     {
-        "name": "Rozza_A::sub_40B890",
+        "name": "Rozza_A::SetupForCar_40B890",
         "v96f_address": "0x40ff20",
         "v105_address": "0x40b890",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_A::sub_40B980",
+        "name": "Rozza_A::SetupForPed_40B980",
         "v96f_address": "0x410010",
         "v105_address": "0x40b980",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_A::sub_40BA60",
+        "name": "Rozza_A::SetupForObject_40BA60",
         "v96f_address": "0x4100f0",
         "v105_address": "0x40ba60",
         "v96f_auto": true
@@ -385,7 +385,7 @@
         "v96f_auto": true
     },
     {
-        "name": "root_sound::sub_40EF80",
+        "name": "root_sound::Init_40EF80",
         "v96f_address": "0x410500",
         "v105_address": "0x40ef80",
         "v96f_auto": true
@@ -414,13 +414,13 @@
         "v105_address": "0x40eff0"
     },
     {
-        "name": "root_sound::sub_40F010",
+        "name": "root_sound::InitMusicAndCopRadio_40F010",
         "v96f_address": "0x410560",
         "v105_address": "0x40f010",
         "v96f_auto": true
     },
     {
-        "name": "root_sound::sub_40F020",
+        "name": "root_sound::DeInitVocals_40F020",
         "v96f_address": "0x410570",
         "v105_address": "0x40f020",
         "v96f_auto": true
@@ -470,7 +470,7 @@
         "v96f_auto": true
     },
     {
-        "name": "root_sound::sub_40F140",
+        "name": "root_sound::Reacquire_40F140",
         "v96f_address": "0x410650",
         "v105_address": "0x40f140",
         "v96f_auto": true
@@ -508,12 +508,7 @@
         "v105_address": "0x412240"
     },
     {
-        "name": "sound_obj::null_412250",
-        "v96f_address": null,
-        "v105_address": "0x412250"
-    },
-    {
-        "name": "sound_obj::sub_412260",
+        "name": "sound_obj::InitSampleForType_412260",
         "v96f_address": null,
         "v105_address": "0x412260"
     },
@@ -791,7 +786,7 @@
         "v105_address": "0x417ac0"
     },
     {
-        "name": "sound_obj::sub_417B80",
+        "name": "sound_obj::GetSirenSampleIdx_417B80",
         "v96f_address": "0x410ee0",
         "v105_address": "0x417b80",
         "v96f_auto": true
@@ -879,12 +874,12 @@
         "v96f_auto": true
     },
     {
-        "name": "sound_obj::sub_418C20",
+        "name": "sound_obj::AddVocalsEntity_418C20",
         "v96f_address": null,
         "v105_address": "0x418c20"
     },
     {
-        "name": "sound_obj::sub_418C60",
+        "name": "sound_obj::RemoveVocalsEntity_418C60",
         "v96f_address": null,
         "v105_address": "0x418c60"
     },
@@ -927,7 +922,7 @@
         "v105_address": "0x419df0"
     },
     {
-        "name": "sound_obj::sub_419E10",
+        "name": "sound_obj::Init_419E10",
         "v96f_address": null,
         "v105_address": "0x419e10"
     },
@@ -979,7 +974,7 @@
         "v105_address": "0x41a290"
     },
     {
-        "name": "sound_obj::sub_41A2A0",
+        "name": "sound_obj::Reacquire_41A2A0",
         "v96f_address": null,
         "v105_address": "0x41a2a0"
     },
@@ -1010,7 +1005,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sound_obj::sub_41A4A0",
+        "name": "sound_obj::ComputePan_41A4A0",
         "v96f_address": null,
         "v105_address": "0x41a4a0"
     },
@@ -1032,7 +1027,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sound_obj::sub_41A6F0",
+        "name": "sound_obj::IncrementAudioEntitiesAge_41A6F0",
         "v96f_address": null,
         "v105_address": "0x41a6f0"
     },
@@ -1070,7 +1065,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sound_obj::sub_41B490",
+        "name": "sound_obj::UpdateFramesToPlay_41B490",
         "v96f_address": "0x416890",
         "v105_address": "0x41b490",
         "v96f_auto": true
@@ -1247,13 +1242,13 @@
         "v96f_auto": true
     },
     {
-        "name": "CarInfo_808::sub_430b10",
+        "name": "CarInfo_808::ReadToken_430B10",
         "v96f_address": "0x41d3f0",
         "v105_address": "0x430b10",
         "v96f_auto": true
     },
     {
-        "name": "sub_430C70",
+        "name": "ParseTokenAndPush_430C70",
         "v96f_address": "0x41D620",
         "v105_address": "0x430c70"
     },
@@ -1313,19 +1308,19 @@
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::sub_431D50",
+        "name": "silly_saha_0x2C::Init_431D50",
         "v96f_address": "0x41d8a0",
         "v105_address": "0x431d50",
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::sub_431DA0",
+        "name": "silly_saha_0x2C::Reset_431DA0",
         "v96f_address": "0x41d8f0",
         "v105_address": "0x431da0",
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::sub_431DB0",
+        "name": "silly_saha_0x2C::Deactivate_431DB0",
         "v96f_address": "0x41d900",
         "v105_address": "0x431db0",
         "v96f_auto": true
@@ -1342,13 +1337,13 @@
         "v105_address": "0x431df0"
     },
     {
-        "name": "sad_mirzakhani::sub_431E10",
+        "name": "sad_mirzakhani::Init_431E10",
         "v96f_address": "0x41d930",
         "v105_address": "0x431e10",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::sub_431E30",
+        "name": "sad_mirzakhani::Service_431E30",
         "v96f_address": "0x41dcc0",
         "v105_address": "0x431e30",
         "v96f_auto": true
@@ -1372,13 +1367,13 @@
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::sub_432080",
+        "name": "sad_mirzakhani::GetBonusResult_432080",
         "v96f_address": "0x41d980",
         "v105_address": "0x432080",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::sub_4320D0",
+        "name": "sad_mirzakhani::ProcessBonusEvent_4320D0",
         "v96f_address": "0x41dee0",
         "v105_address": "0x4320d0",
         "v96f_auto": true
@@ -1390,13 +1385,13 @@
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::sub_432240",
+        "name": "sad_mirzakhani::IsOccupationInGroup_432240",
         "v96f_address": "0x41da60",
         "v105_address": "0x432240",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::sub_432300",
+        "name": "sad_mirzakhani::AreCarModelsEquivalent_432300",
         "v96f_address": "0x41db10",
         "v105_address": "0x432300",
         "v96f_auto": true
@@ -1408,23 +1403,23 @@
         "v96f_auto": true
     },
     {
-        "name": "Camera_0xBC::sub_435630",
+        "name": "Camera_0xBC::IsSpriteInView_435630",
         "v96f_address": null,
         "v105_address": "0x435630"
     },
     {
-        "name": "Camera_0xBC::sub_4357B0",
+        "name": "Camera_0xBC::SavePrevCamPos_4357B0",
         "v96f_address": "0x41df70",
         "v105_address": "0x4357b0",
         "v96f_auto": true
     },
     {
-        "name": "Camera_0xBC::sub_4357F0",
+        "name": "Camera_0xBC::IncreaseElevation_4357F0",
         "v96f_address": null,
         "v105_address": "0x4357f0"
     },
     {
-        "name": "Camera_0xBC::sub_435810",
+        "name": "Camera_0xBC::DecreaseElevation_435810",
         "v96f_address": null,
         "v105_address": "0x435810"
     },
@@ -1434,12 +1429,12 @@
         "v105_address": "0x435830"
     },
     {
-        "name": "Camera_0xBC::sub_435840",
+        "name": "Camera_0xBC::ClampTargetZ_435840",
         "v96f_address": null,
         "v105_address": "0x435840"
     },
     {
-        "name": "Camera_0xBC::sub_435860",
+        "name": "Camera_0xBC::ApplyMovementDeltaFrom_435860",
         "v96f_address": null,
         "v105_address": "0x435860"
     },
@@ -1460,12 +1455,12 @@
         "v105_address": "0x435a70"
     },
     {
-        "name": "Camera_0xBC::sub_435B90",
+        "name": "Camera_0xBC::UpdateBoundaries_435B90",
         "v96f_address": "0x41e7a0",
         "v105_address": "0x435b90"
     },
     {
-        "name": "Camera_0xBC::sub_435D20",
+        "name": "Camera_0xBC::MoveTarget_435D20",
         "v96f_address": "0x41EA10",
         "v105_address": "0x435d20"
     },
@@ -1482,29 +1477,29 @@
         "v96f_auto": true
     },
     {
-        "name": "Camera_0xBC::sub_435FF0",
+        "name": "Camera_0xBC::Update_435FF0",
         "v96f_address": "0x41f2f0",
         "v105_address": "0x435ff0",
         "v96f_auto": true
     },
     {
-        "name": "Camera_0xBC::sub_436110",
+        "name": "Camera_0xBC::RefreshBoundaries_436110",
         "v96f_address": "0x41eac0",
         "v105_address": "0x436110",
         "v96f_auto": true
     },
     {
-        "name": "Camera_0xBC::sub_436120",
+        "name": "Camera_0xBC::SetShake_436120",
         "v96f_address": null,
         "v105_address": "0x436120"
     },
     {
-        "name": "Camera_0xBC::sub_436140",
+        "name": "Camera_0xBC::ApplyShake_436140",
         "v96f_address": null,
         "v105_address": "0x436140"
     },
     {
-        "name": "Camera_0xBC::sub_4361B0",
+        "name": "Camera_0xBC::SetScreenSize_4361B0",
         "v96f_address": "0x41eb70",
         "v105_address": "0x4361b0"
     },
@@ -1515,7 +1510,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Camera_0xBC::sub_4364A0",
+        "name": "Camera_0xBC::UpdateFollowCarCamera_4364A0",
         "v96f_address": "0x41ee30",
         "v105_address": "0x4364a0",
         "v96f_auto": true
@@ -1531,7 +1526,7 @@
         "v105_address": "0x436710"
     },
     {
-        "name": "Camera_0xBC::sub_436830",
+        "name": "Camera_0xBC::ResetPanning_436830",
         "v96f_address": "0x41f0a0",
         "v105_address": "0x436830",
         "v96f_auto": true
@@ -1588,43 +1583,43 @@
         "v105_address": "0x438fe0"
     },
     {
-        "name": "Camera_0xBC::sub_4397D0",
+        "name": "Camera_0xBC::SetTarget_4397D0",
         "v96f_address": "0x41e350",
         "v105_address": "0x4397d0",
         "v96f_auto": true
     },
     {
-        "name": "Car_Door_10::sub_439CD0",
+        "name": "Car_Door_10::AnimateOpening_439CD0",
         "v96f_address": "0x421a00",
         "v105_address": "0x439cd0",
         "v96f_auto": true
     },
     {
-        "name": "Car_Door_10::sub_439D40",
+        "name": "Car_Door_10::AnimateClosing_439D40",
         "v96f_address": "0x421a80",
         "v105_address": "0x439d40",
         "v96f_auto": true
     },
     {
-        "name": "Car_Door_10::sub_439DA0",
+        "name": "Car_Door_10::Service_439DA0",
         "v96f_address": "0x421af0",
         "v105_address": "0x439da0",
         "v96f_auto": true
     },
     {
-        "name": "Car_Door_10::sub_439E40",
+        "name": "Car_Door_10::Init_439E40",
         "v96f_address": "0x41f660",
         "v105_address": "0x439e40",
         "v96f_auto": true
     },
     {
-        "name": "Car_Door_10::sub_439E60",
+        "name": "Car_Door_10::Open_439E60",
         "v96f_address": "0x41f680",
         "v105_address": "0x439e60",
         "v96f_auto": true
     },
     {
-        "name": "Car_Door_10::sub_439EA0",
+        "name": "Car_Door_10::Close_439EA0",
         "v96f_address": "0x41f6c0",
         "v105_address": "0x439ea0",
         "v96f_auto": true
@@ -1652,7 +1647,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_439FB0",
+        "name": "Car_BC::GetHitchPoint_439FB0",
         "v96f_address": null,
         "v105_address": "0x439fb0"
     },
@@ -1678,7 +1673,7 @@
         "v105_address": "0x43a1f0"
     },
     {
-        "name": "Car_BC::sub_43A230",
+        "name": "Car_BC::HasSpriteZoom_43A230",
         "v96f_address": null,
         "v105_address": "0x43a230"
     },
@@ -1715,7 +1710,7 @@
         "v105_address": "0x43a590"
     },
     {
-        "name": "Car_BC::sub_43A5B0",
+        "name": "Car_BC::GetMinDimension_43A5B0",
         "v96f_address": null,
         "v105_address": "0x43a5b0"
     },
@@ -1825,13 +1820,13 @@
         "v105_address": "0x43afe0"
     },
     {
-        "name": "Car_BC::sub_43B140",
+        "name": "Car_BC::IsStoppedWithPavementAtDoor_43B140",
         "v96f_address": "0x425b60",
         "v105_address": "0x43b140",
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43B2B0",
+        "name": "Car_BC::IsDoorLockedForPed_43B2B0",
         "v96f_address": "0x422360",
         "v105_address": "0x43b2b0",
         "v96f_auto": true
@@ -1849,13 +1844,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43B380",
+        "name": "Car_BC::OpenAllDoors_43B380",
         "v96f_address": "0x41f8a0",
         "v105_address": "0x43b380",
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43B3D0",
+        "name": "Car_BC::CloseAllDoors_43B3D0",
         "v96f_address": "0x41f8f0",
         "v105_address": "0x43b3d0",
         "v96f_auto": true
@@ -1890,7 +1885,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43B770",
+        "name": "Car_BC::AssignKillerToOccupants_43B770",
         "v96f_address": "0x422670",
         "v105_address": "0x43b770",
         "v96f_auto": true
@@ -1940,7 +1935,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43BD40",
+        "name": "Car_BC::FlashHeadlights_43BD40",
         "v96f_address": null,
         "v105_address": "0x43bd40"
     },
@@ -1955,12 +1950,12 @@
         "v105_address": "0x43bf70"
     },
     {
-        "name": "Car_BC::sub_43BFE0",
+        "name": "Car_BC::HeadlightsOn_43BFE0",
         "v96f_address": null,
         "v105_address": "0x43bfe0"
     },
     {
-        "name": "Car_BC::sub_43C0C0",
+        "name": "Car_BC::HeadlightsOff_43C0C0",
         "v96f_address": null,
         "v105_address": "0x43c0c0"
     },
@@ -2030,17 +2025,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43CAC0",
-        "v96f_address": null,
-        "v105_address": "0x43cac0"
-    },
-    {
-        "name": "Car_BC::sub_43CBE0",
+        "name": "Car_BC::StopLightFlashing_43CBE0",
         "v96f_address": null,
         "v105_address": "0x43cbe0"
     },
     {
-        "name": "Car_BC::sub_43CDF0",
+        "name": "Car_BC::SetCarGraphic_43CDF0",
         "v96f_address": null,
         "v105_address": "0x43cdf0"
     },
@@ -2061,7 +2051,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43D400",
+        "name": "Car_BC::RepairDamage_43D400",
         "v96f_address": "0x425F20",
         "v105_address": "0x43d400"
     },
@@ -2102,12 +2092,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43DBD0",
+        "name": "Car_BC::StopMovement_43DBD0",
         "v96f_address": null,
         "v105_address": "0x43dbd0"
     },
     {
-        "name": "Car_BC::sub_43DC00",
+        "name": "Car_BC::IsSpriteShrunk_43DC00",
         "v96f_address": null,
         "v105_address": "0x43dc00"
     },
@@ -2156,7 +2146,7 @@
         "v105_address": "0x43f130"
     },
     {
-        "name": "Car_BC::sub_4403A0",
+        "name": "Car_BC::GetCornerAngle_4403A0",
         "v96f_address": null,
         "v105_address": "0x4403a0"
     },
@@ -2201,7 +2191,7 @@
         "v105_address": "0x4406b0"
     },
     {
-        "name": "Car_BC::sub_4406E0",
+        "name": "Car_BC::AssignDriver_4406E0",
         "v96f_address": "0x427a20",
         "v105_address": "0x4406e0",
         "v96f_auto": true
@@ -2218,7 +2208,7 @@
         "v105_address": "0x440840"
     },
     {
-        "name": "UnknownList::sub_440860",
+        "name": "UnknownList::SignedPixelsToFix16_440860",
         "v96f_address": null,
         "v105_address": "0x440860"
     },
@@ -2257,7 +2247,7 @@
         "v105_address": "0x440d90"
     },
     {
-        "name": "Car_BC::sub_440F90",
+        "name": "Car_BC::FireCarBomb_440F90",
         "v96f_address": "0x4295c0",
         "v105_address": "0x440f90",
         "v96f_auto": true
@@ -2292,7 +2282,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_441380",
+        "name": "Car_BC::StartWreckCountdown_441380",
         "v96f_address": null,
         "v105_address": "0x441380"
     },
@@ -2303,7 +2293,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_441520",
+        "name": "Car_BC::UpdateEngineStatus_441520",
         "v96f_address": "0x426030",
         "v105_address": "0x441520",
         "v96f_auto": true
@@ -2319,18 +2309,18 @@
         "v105_address": "0x441600"
     },
     {
-        "name": "Car_BC::sub_4416D0",
+        "name": "Car_BC::TryHonkHorn_4416D0",
         "v96f_address": null,
         "v105_address": "0x4416d0"
     },
     {
-        "name": "Car_BC::sub_4417D0",
+        "name": "Car_BC::UpdateHorn_4417D0",
         "v96f_address": "0x420330",
         "v105_address": "0x4417d0",
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_4417F0",
+        "name": "Car_BC::HonkHorn_4417F0",
         "v96f_address": null,
         "v105_address": "0x4417f0"
     },
@@ -2368,24 +2358,24 @@
         "v105_address": "0x441a10"
     },
     {
-        "name": "Car_BC::sub_441A40",
+        "name": "Car_BC::AreAllDoorsClosed_441A40",
         "v96f_address": null,
         "v105_address": "0x441a40"
     },
     {
-        "name": "Car_BC::sub_441A70",
+        "name": "Car_BC::InitDoors_441A70",
         "v96f_address": "0x423aa0",
         "v105_address": "0x441a70",
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_441B00",
+        "name": "Car_BC::ServiceDoors_441B00",
         "v96f_address": "0x423b30",
         "v105_address": "0x441b00",
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_441B20",
+        "name": "Car_BC::UpdateTaxiLight_441B20",
         "v96f_address": null,
         "v105_address": "0x441b20"
     },
@@ -2395,17 +2385,17 @@
         "v105_address": "0x441b50"
     },
     {
-        "name": "Car_BC::sub_441C00",
+        "name": "Car_BC::UpdatePopupHeadlights_441C00",
         "v96f_address": null,
         "v105_address": "0x441c00"
     },
     {
-        "name": "Car_BC::sub_441D40",
+        "name": "Car_BC::UpdateFbiPopupSiren_441D40",
         "v96f_address": null,
         "v105_address": "0x441d40"
     },
     {
-        "name": "Car_BC::sub_441E70",
+        "name": "Car_BC::UpdateLights_441E70",
         "v96f_address": "0x426140",
         "v105_address": "0x441e70"
     },
@@ -2415,18 +2405,18 @@
         "v105_address": "0x442170"
     },
     {
-        "name": "Car_BC::sub_442190",
+        "name": "Car_BC::ServicePhysics_442190",
         "v96f_address": "0x427b40",
         "v105_address": "0x442190"
     },
     {
-        "name": "Car_BC::sub_4421B0",
+        "name": "Car_BC::IsMissionRelated_4421B0",
         "v96f_address": "0x420450",
         "v105_address": "0x4421b0",
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_442200",
+        "name": "Car_BC::CanDespawn_442200",
         "v96f_address": "0x424030",
         "v105_address": "0x442200",
         "v96f_auto": true
@@ -2454,7 +2444,7 @@
         "v105_address": "0x4425d0"
     },
     {
-        "name": "Car_BC::sub_4426D0",
+        "name": "Car_BC::ServiceDoorsLightsAndHorn_4426D0",
         "v96f_address": "0x426220",
         "v105_address": "0x4426d0"
     },
@@ -2470,7 +2460,7 @@
         "v105_address": "0x4427a0"
     },
     {
-        "name": "Car_BC::sub_442810",
+        "name": "Car_BC::TryHitchTrailer_442810",
         "v96f_address": "0x4262e0",
         "v105_address": "0x442810",
         "v96f_auto": true
@@ -2516,7 +2506,7 @@
         "v105_address": "0x443330"
     },
     {
-        "name": "Car_BC::sub_443360",
+        "name": "Car_BC::UpdateAttachedToSprite_443360",
         "v96f_address": null,
         "v105_address": "0x443360"
     },
@@ -2526,7 +2516,7 @@
         "v105_address": "0x443580"
     },
     {
-        "name": "Car_BC::sub_4435A0",
+        "name": "Car_BC::InitDoors_4435A0",
         "v96f_address": "0x4243b0",
         "v105_address": "0x4435a0",
         "v96f_auto": true
@@ -2544,12 +2534,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::TurnToWreck_4436A0",
-        "v96f_address": null,
-        "v105_address": "0x4436a0"
-    },
-    {
-        "name": "Car_BC::sub_443710",
+        "name": "Car_BC::ApplyExplosionImpulse_443710",
         "v96f_address": "0x426580",
         "v105_address": "0x443710",
         "v96f_auto": true
@@ -2567,7 +2552,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_443AB0",
+        "name": "Car_BC::ShowCantAffordMessage_443AB0",
         "v96f_address": "0x424470",
         "v105_address": "0x443ab0",
         "v96f_auto": true
@@ -2596,7 +2581,7 @@
         "v105_address": "0x443cb0"
     },
     {
-        "name": "Car_BC::sub_443D00",
+        "name": "Car_BC::SetPosition_443D00",
         "v96f_address": "0x4207f0",
         "v105_address": "0x443d00",
         "v96f_auto": true
@@ -2614,34 +2599,34 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_443E50",
+        "name": "Car_BC::MarkProtoRecycled_443E50",
         "v96f_address": "0x4208f0",
         "v105_address": "0x443e50",
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_443E80",
+        "name": "Car_BC::MarkRecycled_443E80",
         "v96f_address": "0x420920",
         "v105_address": "0x443e80",
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_443EB0",
+        "name": "Car_BC::ReassignCarStats_443EB0",
         "v96f_address": null,
         "v105_address": "0x443eb0"
     },
     {
-        "name": "Car_BC::sub_443EE0",
+        "name": "Car_BC::ReassignAllocatedCarType_443EE0",
         "v96f_address": null,
         "v105_address": "0x443ee0"
     },
     {
-        "name": "Car_BC::sub_443F30",
+        "name": "Car_BC::AttachLight_443F30",
         "v96f_address": "0x420950",
         "v105_address": "0x443f30"
     },
     {
-        "name": "Car_BC::sub_444020",
+        "name": "Car_BC::UpdateExploderTimer_444020",
         "v96f_address": "0x4209f0",
         "v105_address": "0x444020",
         "v96f_auto": true
@@ -2733,7 +2718,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_4451E0",
+        "name": "Car_BC::CanBeEnteredByPed_4451E0",
         "v96f_address": "0x424e30",
         "v105_address": "0x4451e0",
         "v96f_auto": true
@@ -2745,7 +2730,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_445360",
+        "name": "Car_BC::IsEnterable_445360",
         "v96f_address": "0x424f80",
         "v105_address": "0x445360",
         "v96f_auto": true
@@ -2842,7 +2827,7 @@
         "v105_address": "0x447350"
     },
     {
-        "name": "Car_BC::sub_447360",
+        "name": "Car_BC::ClearHeadlightDeltas_447360",
         "v96f_address": null,
         "v105_address": "0x447360"
     },
@@ -2950,7 +2935,7 @@
         "v105_address": "0x451690"
     },
     {
-        "name": "Ang16::sub_4516B0",
+        "name": "Ang16::FromFix16_4516B0",
         "v96f_address": null,
         "v105_address": "0x4516b0"
     },
@@ -3026,12 +3011,12 @@
         "v105_address": "0x4a71c0"
     },
     {
-        "name": "Frontend::sub_4AD0D0",
+        "name": "Frontend::DrawLoading_4AD0D0",
         "v96f_address": null,
         "v105_address": "0x4ad0d0"
     },
     {
-        "name": "Frontend::sub_4ADDE0",
+        "name": "Frontend::DrawDeletePlayerDialog_4ADDE0",
         "v96f_address": null,
         "v105_address": "0x4adde0"
     },
@@ -3051,7 +3036,7 @@
         "v105_address": "0x4b96c0"
     },
     {
-        "name": "Generator_2C::sub_4C1B10",
+        "name": "Generator_2C::SpawnObject_4C1B10",
         "v96f_address": null,
         "v105_address": "0x4c1b10"
     },
@@ -3082,7 +3067,7 @@
         "v105_address": "0x453590"
     },
     {
-        "name": "CarAI_78::sub_4537D0",
+        "name": "CarAI_78::ChooseRandomTurn_4537D0",
         "v96f_address": null,
         "v105_address": "0x4537d0"
     },
@@ -3092,7 +3077,7 @@
         "v105_address": "0x4538b0"
     },
     {
-        "name": "CarAI_78::sub_453990",
+        "name": "CarAI_78::RaiseSpeedTo_453990",
         "v96f_address": null,
         "v105_address": "0x453990"
     },
@@ -3102,12 +3087,12 @@
         "v105_address": "0x4539b0"
     },
     {
-        "name": "CarAI_78::sub_4539D0",
+        "name": "CarAI_78::UpdateSpeedTowardTarget_4539D0",
         "v96f_address": null,
         "v105_address": "0x4539d0"
     },
     {
-        "name": "CarAI_78::sub_453A40",
+        "name": "CarAI_78::UpdateTrainMovement_453A40",
         "v96f_address": "0x42ff20",
         "v105_address": "0x453a40",
         "v96f_auto": true
@@ -3221,7 +3206,7 @@
         "v105_address": "0x454a00"
     },
     {
-        "name": "CarInfo_808::sub_454A50",
+        "name": "CarInfo_808::Reload_454A50",
         "v96f_address": null,
         "v105_address": "0x454a50"
     },
@@ -3291,24 +3276,24 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_45B4E0",
+        "name": "Ped::IsLawEnforcement_45B4E0",
         "v96f_address": "0x433190",
         "v105_address": "0x45b4e0",
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_45B520",
+        "name": "Ped::GetVelocityVector_45B520",
         "v96f_address": null,
         "v105_address": "0x45b520"
     },
     {
-        "name": "Ped::sub_45B550",
+        "name": "Ped::SetRecentCrimeTimer_45B550",
         "v96f_address": "0x4331d0",
         "v105_address": "0x45b550",
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_45B560",
+        "name": "Ped::SetPlayer_45B560",
         "v96f_address": null,
         "v105_address": "0x45b560"
     },
@@ -3349,7 +3334,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_45BE30",
+        "name": "Ped::GetBulletSpriteOffset_45BE30",
         "v96f_address": "0x435e40",
         "v105_address": "0x45be30",
         "v96f_auto": true
@@ -3398,12 +3383,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_45C050",
+        "name": "Ped::ClearInvulnerable_45C050",
         "v96f_address": null,
         "v105_address": "0x45c050"
     },
     {
-        "name": "Ped::sub_45C070",
+        "name": "Ped::SetSpriteFlagIfInvulnerable_45C070",
         "v96f_address": "0x435f20",
         "v105_address": "0x45c070",
         "v96f_auto": true
@@ -3414,7 +3399,7 @@
         "v105_address": "0x45c090"
     },
     {
-        "name": "Ped::sub_45C0C0",
+        "name": "Ped::SpawnCharInZone_45C0C0",
         "v96f_address": "0x43b570",
         "v105_address": "0x45c0c0",
         "v96f_auto": true
@@ -3431,12 +3416,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_45C410",
+        "name": "Ped::ResetForPlayerRespawn_45C410",
         "v96f_address": "0x435FA0",
         "v105_address": "0x45c410"
     },
     {
-        "name": "Ped::sub_45C4B0",
+        "name": "Ped::UpdatePositionFromCar_45C4B0",
         "v96f_address": null,
         "v105_address": "0x45c4b0"
     },
@@ -3464,7 +3449,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_45C5C0",
+        "name": "Ped::CancelEnterCarObjective_45C5C0",
         "v96f_address": null,
         "v105_address": "0x45c5c0"
     },
@@ -3537,13 +3522,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_45CF20",
+        "name": "Ped::HandlePedCrossingTrigger_45CF20",
         "v96f_address": "0x43e480",
         "v105_address": "0x45cf20",
         "v96f_auto": true
     },
     {
-        "name": "sub_45CF90",
+        "name": "GetDamageMultiplier_45CF90",
         "v96f_address": null,
         "v105_address": "0x45cf90"
     },
@@ -3571,7 +3556,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_45E4A0",
+        "name": "Ped::StartCrossingRoad_45E4A0",
         "v96f_address": "0x43b7c0",
         "v105_address": "0x45e4a0",
         "v96f_auto": true
@@ -3599,7 +3584,7 @@
         "v105_address": "0x45ede0"
     },
     {
-        "name": "Ped::sub_45EE00",
+        "name": "Ped::SetOccupation_45EE00",
         "v96f_address": "0x4333c0",
         "v105_address": "0x45ee00",
         "v96f_auto": true
@@ -3669,12 +3654,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_462280",
+        "name": "Ped::UpdateAI_462280",
         "v96f_address": "0x445330",
         "v105_address": "0x462280"
     },
     {
-        "name": "Ped::sub_4624A0",
+        "name": "Ped::ReleaseGroupSpritesAndWeapons_4624A0",
         "v96f_address": "0x43bb50",
         "v105_address": "0x4624a0",
         "v96f_auto": true
@@ -3686,7 +3671,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_462550",
+        "name": "Ped::RemoveSecondaryWeapon_462550",
         "v96f_address": "0x436860",
         "v105_address": "0x462550",
         "v96f_auto": true
@@ -3710,7 +3695,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_462B80",
+        "name": "Ped::UpdateCharB4_462B80",
         "v96f_address": "0x43F180",
         "v105_address": "0x462b80"
     },
@@ -3725,12 +3710,12 @@
         "v105_address": "0x4632e0"
     },
     {
-        "name": "Ped::sub_463300",
+        "name": "Ped::ChangePedStatesByMode_463300",
         "v96f_address": null,
         "v105_address": "0x463300"
     },
     {
-        "name": "Ped::SetStateForObjective_4633E0",
+        "name": "Ped::SetStatesForObjective_4633E0",
         "v96f_address": "0x433650",
         "v105_address": "0x4633e0",
         "v96f_auto": true
@@ -3780,7 +3765,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_465B20",
+        "name": "Ped::ReactToAttacker_465B20",
         "v96f_address": "0x437010",
         "v105_address": "0x465b20",
         "v96f_auto": true
@@ -3826,7 +3811,7 @@
         "v105_address": "0x466bf0"
     },
     {
-        "name": "Ped::sub_466F40",
+        "name": "Ped::FindNearestPed_Mode4_466F40",
         "v96f_address": null,
         "v105_address": "0x466f40"
     },
@@ -3842,7 +3827,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_467070",
+        "name": "Ped::GetLastProcessedPedOnFoot_467070",
         "v96f_address": "0x433d80",
         "v105_address": "0x467070",
         "v96f_auto": true
@@ -3870,7 +3855,7 @@
         "v105_address": "0x4678e0"
     },
     {
-        "name": "Ped::sub_467960",
+        "name": "Ped::FleeCharOnFootTillSafe_467960",
         "v96f_address": null,
         "v105_address": "0x467960"
     },
@@ -3880,7 +3865,7 @@
         "v105_address": "0x467a20"
     },
     {
-        "name": "Ped::sub_467AD0",
+        "name": "Ped::FleeCharAlwaysOnceCarStopped_467AD0",
         "v96f_address": null,
         "v105_address": "0x467ad0"
     },
@@ -3901,13 +3886,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_467FB0",
+        "name": "Ped::KillFrenzy_467FB0",
         "v96f_address": "0x4340b0",
         "v105_address": "0x467fb0",
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_467FD0",
+        "name": "Ped::PunchChar_467FD0",
         "v96f_address": "0x438a30",
         "v105_address": "0x467fd0",
         "v96f_auto": true
@@ -3919,13 +3904,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_4682A0",
+        "name": "Ped::TimeWaitedInCar_4682A0",
         "v96f_address": "0x434100",
         "v105_address": "0x4682a0",
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_468310",
+        "name": "Ped::GotoAreaInCar_468310",
         "v96f_address": "0x438c40",
         "v105_address": "0x468310",
         "v96f_auto": true
@@ -3985,7 +3970,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_469030",
+        "name": "Ped::UpdateKillerIdTimer_469030",
         "v96f_address": "0x434180",
         "v105_address": "0x469030",
         "v96f_auto": true
@@ -4009,7 +3994,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_469D60",
+        "name": "Ped::GuardArea_469D60",
         "v96f_address": "0x4394c0",
         "v105_address": "0x469d60",
         "v96f_auto": true
@@ -4033,7 +4018,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_469F30",
+        "name": "Ped::FollowPedInCar_469F30",
         "v96f_address": "0x434300",
         "v105_address": "0x469f30",
         "v96f_auto": true
@@ -4050,7 +4035,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_46A1F0",
+        "name": "Ped::PullDriverOutOfCar_46A1F0",
         "v96f_address": "0x439590",
         "v105_address": "0x46a1f0",
         "v96f_auto": true
@@ -4108,7 +4093,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_46AAE0",
+        "name": "Ped::FleeFromPedAlways_46AAE0",
         "v96f_address": "0x434870",
         "v105_address": "0x46aae0",
         "v96f_auto": true
@@ -4143,13 +4128,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_46BD30",
+        "name": "Ped::WaitOnFoot_46BD30",
         "v96f_address": "0x434980",
         "v105_address": "0x46bd30",
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_46BD50",
+        "name": "Ped::IsOtherPedEnteringAsDriver_46BD50",
         "v96f_address": "0x4349a0",
         "v105_address": "0x46bd50",
         "v96f_auto": true
@@ -4172,7 +4157,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_46C7E0",
+        "name": "Ped::GotoAreaOnFoot_46C7E0",
         "v96f_address": "0x43a290",
         "v105_address": "0x46c7e0",
         "v96f_auto": true
@@ -4184,13 +4169,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_46C910",
+        "name": "Ped::FollowPathPoints_46C910",
         "v96f_address": "0x43a3c0",
         "v105_address": "0x46c910",
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_46C9B0",
+        "name": "Ped::CrossRoad_46C9B0",
         "v96f_address": "0x43a490",
         "v105_address": "0x46c9b0",
         "v96f_auto": true
@@ -4201,7 +4186,7 @@
         "v105_address": "0x46ca60"
     },
     {
-        "name": "Ped::sub_46CA70",
+        "name": "Ped::FollowPedInCar_46CA70",
         "v96f_address": "0x434a30",
         "v105_address": "0x46ca70",
         "v96f_auto": true
@@ -4231,7 +4216,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_46D030",
+        "name": "Ped::WaitForTrain_46D030",
         "v96f_address": "0x43a990",
         "v105_address": "0x46d030",
         "v96f_auto": true
@@ -4248,13 +4233,13 @@
         "v105_address": "0x46d0d0"
     },
     {
-        "name": "Ped::sub_46D240",
+        "name": "Ped::ExitTrainStateMachine_46D240",
         "v96f_address": "0x4440f0",
         "v105_address": "0x46d240",
         "v96f_auto": true
     },
     {
-        "name": "Ped::FollowTargetCarOnFoot_46D300",
+        "name": "Ped::FollowCarOnFoot_46D300",
         "v96f_address": "0x43aa10",
         "v105_address": "0x46d300",
         "v96f_auto": true
@@ -4311,7 +4296,7 @@
         "v105_address": "0x46df70"
     },
     {
-        "name": "Ped::sub_46E020",
+        "name": "Ped::CanBeRecruitedToGroup_46E020",
         "v96f_address": "0x434ba0",
         "v105_address": "0x46e020",
         "v96f_auto": true
@@ -4373,7 +4358,7 @@
         "v105_address": "0x46f110"
     },
     {
-        "name": "Ped::sub_46F1E0",
+        "name": "Ped::ApplyAimJitter_46F1E0",
         "v96f_address": "0x43aba0",
         "v105_address": "0x46f1e0",
         "v96f_auto": true
@@ -4384,7 +4369,7 @@
         "v105_address": "0x46f390"
     },
     {
-        "name": "Ped::SelectAttackWeapon_46F490",
+        "name": "Ped::ChooseAttackWeapon_46F490",
         "v96f_address": "0x434e60",
         "v105_address": "0x46f490",
         "v96f_auto": true
@@ -4402,7 +4387,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_46F680",
+        "name": "Ped::ApplyGangRespectForKill_46F680",
         "v96f_address": "0x434ff0",
         "v105_address": "0x46f680",
         "v96f_auto": true
@@ -4459,7 +4444,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_4701D0",
+        "name": "Ped::IsNearestSpriteACar_4701D0",
         "v96f_address": "0x435430",
         "v105_address": "0x4701d0",
         "v96f_auto": true
@@ -4477,13 +4462,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_4702D0",
+        "name": "Ped::BecomeLeaderOfGroup_4702D0",
         "v96f_address": "0x435490",
         "v105_address": "0x4702d0",
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_470300",
+        "name": "Ped::BecomeDummyOnPlayerDisconnect_470300",
         "v96f_address": null,
         "v105_address": "0x470300"
     },
@@ -4526,7 +4511,7 @@
         "v96f_auto": true
     },
     {
-        "name": "PedManager::sub_470CC0",
+        "name": "PedManager::CreateDummyDriver_470CC0",
         "v96f_address": "0x43dd80",
         "v105_address": "0x470cc0",
         "v96f_auto": true
@@ -4544,18 +4529,18 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped::sub_470F00",
+        "name": "Ped::IsInTrain_470F00",
         "v96f_address": null,
         "v105_address": "0x470f00"
     },
     {
-        "name": "PedManager::sub_470F30",
+        "name": "PedManager::AllocatePed_470F30",
         "v96f_address": "0x436070",
         "v105_address": "0x470f30",
         "v96f_auto": true
     },
     {
-        "name": "PedManager::sub_470F90",
+        "name": "PedManager::ClonePed_470F90",
         "v96f_address": "0x43DFB0",
         "v105_address": "0x470f90"
     },
@@ -4953,7 +4938,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Collide_C::sub_478A20",
+        "name": "Collide_C::ResetCount_478A20",
         "v96f_address": "0x446890",
         "v105_address": "0x478a20",
         "v96f_auto": true
@@ -5008,32 +4993,32 @@
         "v105_address": "0x47e840"
     },
     {
-        "name": "Crane_15C::sub_47E920",
+        "name": "Crane_15C::IsDropPositionClear_47E920",
         "v96f_address": "0x448090",
         "v105_address": "0x47e920"
     },
     {
-        "name": "Crane_15C::sub_47EB00",
+        "name": "Crane_15C::IsTarget1PositionClear_47EB00",
         "v96f_address": null,
         "v105_address": "0x47eb00"
     },
     {
-        "name": "Crane_15C::sub_47ECC0",
+        "name": "Crane_15C::DropHookedCar_47ECC0",
         "v96f_address": "0x4481f0",
         "v105_address": "0x47ecc0"
     },
     {
-        "name": "Crane_15C::sub_47ED60",
+        "name": "Crane_15C::DropHookedCarOnTransporter_47ED60",
         "v96f_address": "0x448290",
         "v105_address": "0x47ed60"
     },
     {
-        "name": "Crane_15C::sub_47EDF0",
+        "name": "Crane_15C::HookTransporterCargo_47EDF0",
         "v96f_address": "0x448300",
         "v105_address": "0x47edf0"
     },
     {
-        "name": "Crane_15C::sub_47EF80",
+        "name": "Crane_15C::HookPickupCar_47EF80",
         "v96f_address": "0x448450",
         "v105_address": "0x47ef80"
     },
@@ -5043,32 +5028,32 @@
         "v105_address": "0x47f170"
     },
     {
-        "name": "Crane_15C::sub_47F220",
+        "name": "Crane_15C::SetTransporterCargoTarget_47F220",
         "v96f_address": "0x4485d0",
         "v105_address": "0x47f220"
     },
     {
-        "name": "Crane_15C::sub_47F290",
+        "name": "Crane_15C::SetDropTransporterTarget_47F290",
         "v96f_address": "0x448650",
         "v105_address": "0x47f290"
     },
     {
-        "name": "Crane_15C::sub_47F2F0",
+        "name": "Crane_15C::SetPickupCarTarget_47F2F0",
         "v96f_address": "0x4486c0",
         "v105_address": "0x47f2f0"
     },
     {
-        "name": "Crane_15C::sub_47F350",
+        "name": "Crane_15C::IsTransporterCargoTargetValid_47F350",
         "v96f_address": "0x448730",
         "v105_address": "0x47f350"
     },
     {
-        "name": "Crane_15C::sub_47F3D0",
+        "name": "Crane_15C::IsPickupCarTargetValid_47F3D0",
         "v96f_address": "0x4487d0",
         "v105_address": "0x47f3d0"
     },
     {
-        "name": "Crane_15C::sub_47F450",
+        "name": "Crane_15C::IsDropTransporterTargetValid_47F450",
         "v96f_address": "0x448870",
         "v105_address": "0x47f450"
     },
@@ -5083,7 +5068,7 @@
         "v105_address": "0x47f6c0"
     },
     {
-        "name": "Crane_15C::sub_47F7F0",
+        "name": "Crane_15C::TargetTransporter_47F7F0",
         "v96f_address": "0x448980",
         "v105_address": "0x47f7f0",
         "v96f_auto": true
@@ -5095,17 +5080,17 @@
         "v96f_auto": true
     },
     {
-        "name": "Crane_15C::sub_47FB40",
+        "name": "Crane_15C::TryNextDropPosition_47FB40",
         "v96f_address": "0x448c00",
         "v105_address": "0x47fb40"
     },
     {
-        "name": "Crane_15C::sub_47FBA0",
+        "name": "Crane_15C::MoveTowardsTargets_47FBA0",
         "v96f_address": "0x448C60",
         "v105_address": "0x47fba0"
     },
     {
-        "name": "Crane_15C::sub_47FD10",
+        "name": "Crane_15C::ReleaseHookedCar_47FD10",
         "v96f_address": "0x448df0",
         "v105_address": "0x47fd10"
     },
@@ -5202,13 +5187,13 @@
         "v96f_auto": true
     },
     {
-        "name": "xenodochial_morse::sub_483EC0",
+        "name": "xenodochial_morse::ReadNextNonBlankChar_483EC0",
         "v96f_address": "0x449d30",
         "v105_address": "0x483ec0",
         "v96f_auto": true
     },
     {
-        "name": "xenodochial_morse::sub_483F20",
+        "name": "xenodochial_morse::LoadCredits_483F20",
         "v96f_address": "0x449d70",
         "v105_address": "0x483f20",
         "v96f_auto": true
@@ -5278,19 +5263,19 @@
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::sub_484EF0",
+        "name": "zealous_borg::Reset_484EF0",
         "v96f_address": "0x449f60",
         "v105_address": "0x484ef0",
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::sub_484F20",
+        "name": "zealous_borg::Service_484F20",
         "v96f_address": "0x44a1e0",
         "v105_address": "0x484f20",
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::sub_484F30",
+        "name": "zealous_borg::ResetCrimeCountFlags_484F30",
         "v96f_address": "0x449f90",
         "v105_address": "0x484f30",
         "v96f_auto": true
@@ -5302,13 +5287,13 @@
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::sub_484FA0",
+        "name": "zealous_borg::AddCarDamageCost_484FA0",
         "v96f_address": "0x44a000",
         "v105_address": "0x484fa0",
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::sub_484FB0",
+        "name": "zealous_borg::AddEvasionRating_484FB0",
         "v96f_address": "0x44a010",
         "v105_address": "0x484fb0",
         "v96f_auto": true
@@ -5330,18 +5315,18 @@
         "v96f_auto": true
     },
     {
-        "name": "Shooey_CC::sub_485090",
+        "name": "Shooey_CC::ShouldReportCarCrime_485090",
         "v96f_address": "0x44a2c0",
         "v105_address": "0x485090",
         "v96f_auto": true
     },
     {
-        "name": "Shooey_CC::sub_4850F0",
+        "name": "Shooey_CC::ShouldReportCharCrime_4850F0",
         "v96f_address": null,
         "v105_address": "0x4850f0"
     },
     {
-        "name": "Shooey_CC::sub_485140",
+        "name": "Shooey_CC::ShouldReportPedCrime_485140",
         "v96f_address": null,
         "v105_address": "0x485140"
     },
@@ -5407,7 +5392,7 @@
         "v105_address": "0x488860"
     },
     {
-        "name": "rng::sub_48B900",
+        "name": "rng::AdvanceCycle_48B900",
         "v96f_address": "0x44aa30",
         "v105_address": "0x48b900",
         "v96f_auto": true
@@ -5431,25 +5416,25 @@
         "v96f_auto": true
     },
     {
-        "name": "Sprite_14::sub_48F5A0",
+        "name": "Sprite_14::MarkUsed_48F5A0",
         "v96f_address": "0x44af50",
         "v105_address": "0x48f5a0",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_14::sub_48F5C0",
+        "name": "Sprite_14::ClearMask_48F5C0",
         "v96f_address": "0x44ad50",
         "v105_address": "0x48f5c0",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_3CC::sub_48F600",
+        "name": "Sprite_3CC::FindCachedMask_48F600",
         "v96f_address": "0x44ad90",
         "v105_address": "0x48f600",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_3CC::sub_48F690",
+        "name": "Sprite_3CC::FindLeastRecentlyUsed_48F690",
         "v96f_address": "0x44ae20",
         "v105_address": "0x48f690",
         "v96f_auto": true
@@ -5498,7 +5483,7 @@
         "v105_address": "0x492110"
     },
     {
-        "name": "thirsty_lamarr::sub_492150",
+        "name": "thirsty_lamarr::InitDigitSprites_492150",
         "v96f_address": "0x44b260",
         "v105_address": "0x492150",
         "v96f_auto": true
@@ -5514,7 +5499,7 @@
         "v105_address": "0x4921f0"
     },
     {
-        "name": "thirsty_lamarr::sub_492260",
+        "name": "thirsty_lamarr::DrawDigits_492260",
         "v96f_address": "0x44b500",
         "v105_address": "0x492260",
         "v96f_auto": true
@@ -5526,12 +5511,12 @@
         "v96f_auto": true
     },
     {
-        "name": "thirsty_lamarr::sub_4925C0",
+        "name": "thirsty_lamarr::IsAnyDigitRolling_4925C0",
         "v96f_address": "0x44b370",
         "v105_address": "0x4925c0"
     },
     {
-        "name": "thirsty_lamarr::sub_4925E0",
+        "name": "thirsty_lamarr::UpdateRollingDigits_4925E0",
         "v96f_address": "0x44b390",
         "v105_address": "0x4925e0",
         "v96f_auto": true
@@ -5542,7 +5527,7 @@
         "v105_address": "0x4926f0"
     },
     {
-        "name": "sub_495470",
+        "name": "DrawTextureScaled_495470",
         "v96f_address": "0x495470",
         "v105_address": "0x495470"
     },
@@ -5634,13 +5619,13 @@
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::sub_498C80",
+        "name": "BurgerKing_1::AddKeyToInputBits_498C80",
         "v96f_address": "0x44bfb0",
         "v105_address": "0x498c80",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::sub_498CB0",
+        "name": "BurgerKing_1::SetAltKeyState_498CB0",
         "v96f_address": "0x44bfe0",
         "v105_address": "0x498cb0",
         "v96f_auto": true
@@ -5675,18 +5660,18 @@
         "v105_address": "0x49c320"
     },
     {
-        "name": "DoorData_10::sub_49c340",
+        "name": "DoorData_10::Init_49C340",
         "v96f_address": "0x44c8a0",
         "v105_address": "0x49c340",
         "v96f_auto": true
     },
     {
-        "name": "DoorData_10::sub_49C4E0",
+        "name": "DoorData_10::Open_49C4E0",
         "v96f_address": "0x44c560",
         "v105_address": "0x49c4e0"
     },
     {
-        "name": "DoorData_10::sub_49C590",
+        "name": "DoorData_10::Close_49C590",
         "v96f_address": "0x44c610",
         "v105_address": "0x49c590",
         "v96f_auto": true
@@ -5714,52 +5699,52 @@
         "v105_address": "0x49c6d0"
     },
     {
-        "name": "Door_38::sub_49C7F0",
+        "name": "Door_38::CanOpenForPed_49C7F0",
         "v96f_address": "0x44cb80",
         "v105_address": "0x49c7f0",
         "v96f_auto": true
     },
     {
-        "name": "Door_38::sub_49C840",
+        "name": "Door_38::Open_49C840",
         "v96f_address": "0x44c700",
         "v105_address": "0x49c840",
         "v96f_auto": true
     },
     {
-        "name": "Door_38::sub_49C870",
+        "name": "Door_38::TryOpenForCar_49C870",
         "v96f_address": "0x44cbd0",
         "v105_address": "0x49c870"
     },
     {
-        "name": "Door_38::sub_49C8A0",
+        "name": "Door_38::TryOpenForPed_49C8A0",
         "v96f_address": "0x44cc00",
         "v105_address": "0x49c8a0",
         "v96f_auto": true
     },
     {
-        "name": "Door_38::sub_49C8D0",
+        "name": "Door_38::InitSingleNoCheck_49C8D0",
         "v96f_address": null,
         "v105_address": "0x49c8d0"
     },
     {
-        "name": "Door_38::sub_49CA50",
+        "name": "Door_38::AddDoorData_49CA50",
         "v96f_address": "0x44d3c0",
         "v105_address": "0x49ca50",
         "v96f_auto": true
     },
     {
-        "name": "Door_38::sub_49CAC0",
+        "name": "Door_38::InitSingle_49CAC0",
         "v96f_address": null,
         "v105_address": "0x49cac0"
     },
     {
-        "name": "Door_38::sub_49CC00",
+        "name": "Door_38::InitDouble_49CC00",
         "v96f_address": "0x44cc30",
         "v105_address": "0x49cc00",
         "v96f_auto": true
     },
     {
-        "name": "Door_38::sub_49CD90",
+        "name": "Door_38::UpdateAutoClose_49CD90",
         "v96f_address": "0x44cff0",
         "v105_address": "0x49cd90"
     },
@@ -5776,7 +5761,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Door_4D4::sub_49CF10",
+        "name": "Door_4D4::AllocDoorData_49CF10",
         "v96f_address": "0x44d140",
         "v105_address": "0x49cf10"
     },
@@ -5811,18 +5796,18 @@
         "v96f_auto": true
     },
     {
-        "name": "Door_4D4::sub_49D340",
+        "name": "Door_4D4::TryOpenDoorForCar_49D340",
         "v96f_address": "0x44d180",
         "v105_address": "0x49d340"
     },
     {
-        "name": "Door_4D4::sub_49D370",
+        "name": "Door_4D4::TryOpenDoorForPed_49D370",
         "v96f_address": "0x44d1b0",
         "v105_address": "0x49d370",
         "v96f_auto": true
     },
     {
-        "name": "Door_4D4::sub_49D3A0",
+        "name": "Door_4D4::GetNextFreeDoor_49D3A0",
         "v96f_address": "0x44c7d0",
         "v105_address": "0x49d3a0",
         "v96f_auto": true
@@ -6016,7 +6001,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Firefighter_28::sub_4A81F0",
+        "name": "Firefighter_28::Update_4A81F0",
         "v96f_address": "0x450F10",
         "v105_address": "0x4a81f0"
     },
@@ -6032,12 +6017,12 @@
         "v96f_auto": true
     },
     {
-        "name": "FirefighterPool_54::sub_4A85F0",
+        "name": "FirefighterPool_54::FireEnginesService_4A85F0",
         "v96f_address": "0x4512D0",
         "v105_address": "0x4a85f0"
     },
     {
-        "name": "FirefighterPool_54::sub_4A8620",
+        "name": "FirefighterPool_54::DispatchFirefighters_4A8620",
         "v96f_address": "0x451300",
         "v105_address": "0x4a8620",
         "v96f_auto": true
@@ -6049,7 +6034,7 @@
         "v96f_auto": true
     },
     {
-        "name": "FirefighterPool_54::sub_4A8820",
+        "name": "FirefighterPool_54::TryDispatchFirefightersToCar_4A8820",
         "v96f_address": null,
         "v105_address": "0x4a8820"
     },
@@ -6060,7 +6045,7 @@
         "v96f_auto": true
     },
     {
-        "name": "FirefighterPool_54::ctor",
+        "name": "FirefighterPool_54::ResetCount_4A88D0",
         "v96f_address": "0x450ca0",
         "v105_address": "0x4a88d0",
         "v96f_auto": true
@@ -6094,22 +6079,22 @@
         "v105_address": "0x4ad140"
     },
     {
-        "name": "Frontend::sub_4ADF50",
+        "name": "Frontend::DrawCurrentState_4ADF50",
         "v96f_address": "0x458590",
         "v105_address": "0x4adf50"
     },
     {
-        "name": "Frontend::sub_4ADFB0",
+        "name": "Frontend::Render_4ADFB0",
         "v96f_address": "0x4585F0",
         "v105_address": "0x4adfb0"
     },
     {
-        "name": "FreeLoader::sub_4AE010",
+        "name": "FreeLoader::GetRegDword_4AE010",
         "v96f_address": null,
         "v105_address": "0x4ae010"
     },
     {
-        "name": "FreeLoader::sub_4AE0F0",
+        "name": "FreeLoader::GetCityInstalled_4AE0F0",
         "v96f_address": null,
         "v105_address": "0x4ae0f0"
     },
@@ -6119,7 +6104,7 @@
         "v105_address": "0x4ae170"
     },
     {
-        "name": "FreeLoader::sub_4AE1F0",
+        "name": "FreeLoader::CheckCityInstalled_4AE1F0",
         "v96f_address": null,
         "v105_address": "0x4ae1f0"
     },
@@ -6140,23 +6125,23 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4AE9A0",
+        "name": "Frontend::HandleDeletePlayerDialog_4AE9A0",
         "v96f_address": "0x458650",
         "v105_address": "0x4ae9a0",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4AEC00",
+        "name": "Frontend::Update_4AEC00",
         "v96f_address": "0x45A250",
         "v105_address": "0x4aec00"
     },
     {
-        "name": "Frontend::sub_4AEDB0",
+        "name": "Frontend::Run_4AEDB0",
         "v96f_address": "0x45A320",
         "v105_address": "0x4aedb0"
     },
     {
-        "name": "Frontend::sub_4AF0E0",
+        "name": "Frontend::SetFontTypes_4AF0E0",
         "v96f_address": null,
         "v105_address": "0x4af0e0"
     },
@@ -6201,7 +6186,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B0190",
+        "name": "Frontend::GetCenteredXPos_4B0190",
         "v96f_address": "0x4521b0",
         "v105_address": "0x4b0190",
         "v96f_auto": true
@@ -6213,24 +6198,24 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B2F60",
+        "name": "Frontend::HandlePlayerNameTyping_4B2F60",
         "v96f_address": "0x459E30",
         "v105_address": "0x4b2f60"
     },
     {
-        "name": "Frontend::sub_4B3170",
+        "name": "Frontend::ChangeMenuPage_4B3170",
         "v96f_address": "0x4587b0",
         "v105_address": "0x4b3170",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B3AF0",
+        "name": "Frontend::GetOptionText_4B3AF0",
         "v96f_address": "0x452200",
         "v105_address": "0x4b3af0",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B3CC0",
+        "name": "Frontend::GetElementText_4B3CC0",
         "v96f_address": "0x452380",
         "v105_address": "0x4b3cc0",
         "v96f_auto": true
@@ -6247,7 +6232,7 @@
         "v105_address": "0x4b4230"
     },
     {
-        "name": "Frontend::sub_4B4280",
+        "name": "Frontend::LoadCurrPlayerName_4B4280",
         "v96f_address": "0x452490",
         "v105_address": "0x4b4280",
         "v96f_auto": true
@@ -6271,7 +6256,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B4410",
+        "name": "Frontend::DeleteCurrentPlayer_4B4410",
         "v96f_address": "0x456f80",
         "v105_address": "0x4b4410",
         "v96f_auto": true
@@ -6289,7 +6274,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B4BC0",
+        "name": "Frontend::StoreStringsForStage_4B4BC0",
         "v96f_address": null,
         "v105_address": "0x4b4bc0"
     },
@@ -6318,7 +6303,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B5270",
+        "name": "Frontend::DrawSavedStage_4B5270",
         "v96f_address": "0x455b20",
         "v105_address": "0x4b5270",
         "v96f_auto": true
@@ -6336,18 +6321,18 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B5430",
+        "name": "Frontend::DrawScoreTable_4B5430",
         "v96f_address": "0x456fb0",
         "v105_address": "0x4b5430",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B55F0",
+        "name": "Frontend::DrawMultiplayerScores_4B55F0",
         "v96f_address": "0x455C90",
         "v105_address": "0x4b55f0"
     },
     {
-        "name": "Frontend::sub_4B57B0",
+        "name": "Frontend::DrawLastAndBestStats_4B57B0",
         "v96f_address": "0x457140",
         "v105_address": "0x4b57b0"
     },
@@ -6383,13 +6368,13 @@
         "v105_address": "0x4b6110"
     },
     {
-        "name": "MenuPage_0xBCA::sub_4B61B0",
+        "name": "MenuPage_0xBCA::SelectPrevOption_4B61B0",
         "v96f_address": "0x452a50",
         "v105_address": "0x4b61b0",
         "v96f_auto": true
     },
     {
-        "name": "MenuPage_0xBCA::sub_4B6200",
+        "name": "MenuPage_0xBCA::SelectNextOption_4B6200",
         "v96f_address": "0x452aa0",
         "v105_address": "0x4b6200",
         "v96f_auto": true
@@ -6419,13 +6404,13 @@
         "v96f_auto": true
     },
     {
-        "name": "menu_option_0x82::sub_4B6330",
+        "name": "menu_option_0x82::SelectNextHorizontalIdx_4B6330",
         "v96f_address": "0x452bd0",
         "v105_address": "0x4b6330",
         "v96f_auto": true
     },
     {
-        "name": "menu_option_0x82::sub_4B6390",
+        "name": "menu_option_0x82::SelectPrevHorizontalIdx_4B6390",
         "v96f_address": "0x452c30",
         "v105_address": "0x4b6390",
         "v96f_auto": true
@@ -6479,13 +6464,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B6780",
+        "name": "Frontend::UpdateMenuScreen_4B6780",
         "v96f_address": "0x455f90",
         "v105_address": "0x4b6780",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B6B00",
+        "name": "Frontend::GetTgaIdxsForMenuScreen_4B6B00",
         "v96f_address": "0x452e80",
         "v105_address": "0x4b6b00",
         "v96f_auto": true
@@ -6509,13 +6494,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B70B0",
+        "name": "Frontend::ChangeBonusStageToPrevious_4B70B0",
         "v96f_address": "0x457750",
         "v105_address": "0x4b70b0",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B7120",
+        "name": "Frontend::GetPreviousUnlockedBonusStage_4B7120",
         "v96f_address": "0x456180",
         "v105_address": "0x4b7120",
         "v96f_auto": true
@@ -6531,13 +6516,13 @@
         "v105_address": "0x4b7270"
     },
     {
-        "name": "Frontend::sub_4B72F0",
+        "name": "Frontend::ChangeBonusStageToNext_4B72F0",
         "v96f_address": "0x4577c0",
         "v105_address": "0x4b72f0",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B7360",
+        "name": "Frontend::GetNextUnlockedBonusStage_4B7360",
         "v96f_address": "0x4562f0",
         "v105_address": "0x4b7360",
         "v96f_auto": true
@@ -6555,13 +6540,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B74F0",
+        "name": "Frontend::ExistsPreviousBonusStage_4B74F0",
         "v96f_address": "0x456430",
         "v105_address": "0x4b74f0",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B7520",
+        "name": "Frontend::ExistsNextBonusStage_4B7520",
         "v96f_address": "0x456460",
         "v105_address": "0x4b7520",
         "v96f_auto": true
@@ -6591,7 +6576,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B78B0",
+        "name": "Frontend::DrawTextFixedWidth_4B78B0",
         "v96f_address": "0x4566C0",
         "v105_address": "0x4b78b0"
     },
@@ -6635,31 +6620,31 @@
         "v105_address": "0x4b80f0"
     },
     {
-        "name": "Frontend::sub_4B8280",
+        "name": "Frontend::HandlePasswordTyping_4B8280",
         "v96f_address": "0x45a010",
         "v105_address": "0x4b8280",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B8530",
+        "name": "Frontend::StripPasswordToCurrLength_4B8530",
         "v96f_address": "0x4538f0",
         "v105_address": "0x4b8530",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B8560",
+        "name": "Frontend::CheckPassword_4B8560",
         "v96f_address": "0x459660",
         "v105_address": "0x4b8560",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B8650",
+        "name": "Frontend::FreeSound_4B8650",
         "v96f_address": "0x453930",
         "v105_address": "0x4b8650",
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_4B8680",
+        "name": "Frontend::InitSound_4B8680",
         "v96f_address": "0x453960",
         "v105_address": "0x4b8680",
         "v96f_auto": true
@@ -6770,12 +6755,12 @@
         "v105_address": "0x525100"
     },
     {
-        "name": "Char_B4::sub_5451C0",
+        "name": "Char_B4::HasShadows_5451C0",
         "v96f_address": null,
         "v105_address": "0x5451c0"
     },
     {
-        "name": "Char_B4::sub_545430",
+        "name": "Char_B4::DrawFlamesAndStartScreamTimer_545430",
         "v96f_address": null,
         "v105_address": "0x545430"
     },
@@ -6841,7 +6826,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Game_0x40::sub_4B8BB0",
+        "name": "Game_0x40::GetFrameDurationMs_4B8BB0",
         "v96f_address": "0x45a460",
         "v105_address": "0x4b8bb0"
     },
@@ -6858,7 +6843,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Game_0x40::sub_4B8C20",
+        "name": "Game_0x40::UpdateExitTimer_4B8C20",
         "v96f_address": "0x45a4d0",
         "v105_address": "0x4b8c20",
         "v96f_auto": true
@@ -6869,13 +6854,13 @@
         "v105_address": "0x4b8c40"
     },
     {
-        "name": "Game_0x40::sub_4B8E00",
+        "name": "Game_0x40::SetScreenSize_4B8E00",
         "v96f_address": "0x45a4f0",
         "v105_address": "0x4b8e00",
         "v96f_auto": true
     },
     {
-        "name": "Game_0x40::sub_4B8E50",
+        "name": "Game_0x40::ApplyNetworkGameSettings_4B8E50",
         "v96f_address": "0x45a540",
         "v105_address": "0x4b8e50",
         "v96f_auto": true
@@ -6908,7 +6893,7 @@
         "v105_address": "0x4b9380"
     },
     {
-        "name": "Game_0x40::sub_4B93C0",
+        "name": "Game_0x40::UpdatePaused_4B93C0",
         "v96f_address": "0x45a690",
         "v105_address": "0x4b93c0",
         "v96f_auto": true
@@ -6948,7 +6933,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Game_0x40::sub_4B9790",
+        "name": "Game_0x40::ShakeCamerasAtPos_4B9790",
         "v96f_address": "0x45bb00",
         "v105_address": "0x4b9790",
         "v96f_auto": true
@@ -6966,13 +6951,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Game_0x40::sub_4B9890",
+        "name": "Game_0x40::IsSpriteInAnyPlayerView_4B9890",
         "v96f_address": "0x45bb50",
         "v105_address": "0x4b9890",
         "v96f_auto": true
     },
     {
-        "name": "Game_0x40::sub_4B98E0",
+        "name": "Game_0x40::IsSpriteInPlayerView_4B98E0",
         "v96f_address": "0x45a730",
         "v105_address": "0x4b98e0",
         "v96f_auto": true
@@ -7013,7 +6998,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Game_0x40::sub_4B9C50",
+        "name": "Game_0x40::IterateNextPlayerCamera_4B9C50",
         "v96f_address": "0x45a850",
         "v105_address": "0x4b9c50",
         "v96f_auto": true
@@ -7031,7 +7016,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Game_0x40::sub_4B9D60",
+        "name": "Game_0x40::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60",
         "v96f_address": "0x45bd40",
         "v105_address": "0x4b9d60",
         "v96f_auto": true
@@ -7199,13 +7184,13 @@
         "v96f_auto": true
     },
     {
-        "name": "GangPool_CA8::sub_4BECA0",
+        "name": "GangPool_CA8::FirstGang_4BECA0",
         "v96f_address": "0x45dd60",
         "v105_address": "0x4beca0",
         "v96f_auto": true
     },
     {
-        "name": "GangPool_CA8::sub_4BECE0",
+        "name": "GangPool_CA8::NextGang_4BECE0",
         "v96f_address": "0x45ddb0",
         "v105_address": "0x4bece0",
         "v96f_auto": true
@@ -7223,7 +7208,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Gang_144::sub_4BEDF0",
+        "name": "Gang_144::IsHostileToGang_4BEDF0",
         "v96f_address": "0x45d9e0",
         "v105_address": "0x4bedf0",
         "v96f_auto": true
@@ -7264,7 +7249,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Gang_144::sub_4BEF70",
+        "name": "Gang_144::ApplyKillRespectChange_4BEF70",
         "v96f_address": "0x45de10",
         "v105_address": "0x4bef70",
         "v96f_auto": true
@@ -7318,7 +7303,7 @@
         "v96f_auto": true
     },
     {
-        "name": "GangPool_CA8::sub_4BF230",
+        "name": "GangPool_CA8::SwapGangSlots_4BF230",
         "v96f_address": "0x45df30",
         "v105_address": "0x4bf230",
         "v96f_auto": true
@@ -7330,13 +7315,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Gang_144::sub_4BF340",
+        "name": "Gang_144::GetArrowColourText_4BF340",
         "v96f_address": "0x45dd20",
         "v105_address": "0x4bf340",
         "v96f_auto": true
     },
     {
-        "name": "Generator_2C::sub_4C1A70",
+        "name": "Generator_2C::Activate_4C1A70",
         "v96f_address": "0x45e3a0",
         "v105_address": "0x4c1a70",
         "v96f_auto": true
@@ -7353,7 +7338,7 @@
         "v105_address": "0x4c1c50"
     },
     {
-        "name": "Generator_2C::sub_4C1C70",
+        "name": "Generator_2C::Init_4C1C70",
         "v96f_address": "0x45e270",
         "v105_address": "0x4c1c70",
         "v96f_auto": true
@@ -7388,7 +7373,7 @@
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C53D0",
+        "name": "lucid_hamilton::LoadDebugSettings_4C53D0",
         "v96f_address": null,
         "v105_address": "0x4c53d0"
     },
@@ -7417,19 +7402,19 @@
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C58F0",
+        "name": "lucid_hamilton::SetMainStageIdx_4C58F0",
         "v96f_address": "0x45e490",
         "v105_address": "0x4c58f0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5900",
+        "name": "lucid_hamilton::SetStage_4C5900",
         "v96f_address": "0x45e4a0",
         "v105_address": "0x4c5900",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5910",
+        "name": "lucid_hamilton::SetBonusStage_4C5910",
         "v96f_address": "0x45e4b0",
         "v105_address": "0x4c5910",
         "v96f_auto": true
@@ -7483,7 +7468,7 @@
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C59A0",
+        "name": "lucid_hamilton::IsBonusStage_4C59A0",
         "v96f_address": "0x45e540",
         "v105_address": "0x4c59a0",
         "v96f_auto": true
@@ -7501,42 +7486,42 @@
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C59D0",
+        "name": "lucid_hamilton::SetStatistic_4C59D0",
         "v96f_address": "0x45e570",
         "v105_address": "0x4c59d0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C59F0",
+        "name": "lucid_hamilton::GetStatistic_4C59F0",
         "v96f_address": "0x45e590",
         "v105_address": "0x4c59f0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5A10",
+        "name": "lucid_hamilton::StoreCrimeStats_4C5A10",
         "v96f_address": "0x45ec20",
         "v105_address": "0x4c5a10",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5A70",
+        "name": "lucid_hamilton::SetCarDamageCost_4C5A70",
         "v96f_address": null,
         "v105_address": "0x4c5a70"
     },
     {
-        "name": "lucid_hamilton::sub_4C5A80",
+        "name": "lucid_hamilton::GetCarDamageCost_4C5A80",
         "v96f_address": "0x45e5c0",
         "v105_address": "0x4c5a80",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5A90",
+        "name": "lucid_hamilton::SetEvasionRating_4C5A90",
         "v96f_address": "0x45e5b0",
         "v105_address": "0x4c5a90",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5AA0",
+        "name": "lucid_hamilton::GetEvasionRating_4C5AA0",
         "v96f_address": "0x45e5e0",
         "v105_address": "0x4c5aa0",
         "v96f_auto": true
@@ -7554,13 +7539,13 @@
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5AD0",
+        "name": "lucid_hamilton::SetStartedFromPlayBonusMenu_4C5AD0",
         "v96f_address": "0x45e610",
         "v105_address": "0x4c5ad0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5AE0",
+        "name": "lucid_hamilton::IsStartedFromPlayBonusMenu_4C5AE0",
         "v96f_address": "0x45e620",
         "v105_address": "0x4c5ae0",
         "v96f_auto": true
@@ -7602,25 +7587,25 @@
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5C00",
+        "name": "lucid_hamilton::SetWinnerIdx_4C5C00",
         "v96f_address": "0x45e740",
         "v105_address": "0x4c5c00",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5C20",
+        "name": "lucid_hamilton::GetWinnerIdx_4C5C20",
         "v96f_address": "0x45e760",
         "v105_address": "0x4c5c20",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5C30",
+        "name": "lucid_hamilton::SetPlayerName_4C5C30",
         "v96f_address": "0x45e770",
         "v105_address": "0x4c5c30",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5C60",
+        "name": "lucid_hamilton::GetPlayerName_4C5C60",
         "v96f_address": "0x45e7a0",
         "v105_address": "0x4c5c60",
         "v96f_auto": true
@@ -7650,7 +7635,7 @@
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::sub_4C5D80",
+        "name": "lucid_hamilton::GetFragsOnPlayer_4C5D80",
         "v96f_address": "0x45e830",
         "v105_address": "0x4c5d80",
         "v96f_auto": true
@@ -7703,7 +7688,7 @@
         "v96f_auto": true
     },
     {
-        "name": "PedGroup::sub_4C9150",
+        "name": "PedGroup::AreAllMembersOffScreen_4C9150",
         "v96f_address": "0x403c40",
         "v105_address": "0x4c9150",
         "v96f_auto": true
@@ -7871,7 +7856,7 @@
         "v105_address": "0x4cb870"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CDCD0",
+        "name": "BurgerKing_67F8B0::StaticShutdown_4CDCD0",
         "v96f_address": null,
         "v105_address": "0x4cdcd0"
     },
@@ -7935,7 +7920,7 @@
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CE650",
+        "name": "BurgerKing_67F8B0::VerifyAttractFilesExist_4CE650",
         "v96f_address": "0x45f580",
         "v105_address": "0x4ce650",
         "v96f_auto": true
@@ -7983,7 +7968,7 @@
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CED90",
+        "name": "BurgerKing_67F8B0::DisplayInputBits_4CED90",
         "v96f_address": "0x45f900",
         "v105_address": "0x4ced90",
         "v96f_auto": true
@@ -8031,37 +8016,37 @@
         "v105_address": "0x4d23b0"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2610",
+        "name": "magical_germain_0x8EC::RenderSmallGlyph_4D2610",
         "v96f_address": null,
         "v105_address": "0x4d2610"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2690",
+        "name": "magical_germain_0x8EC::RenderLargeGlyph_4D2690",
         "v96f_address": null,
         "v105_address": "0x4d2690"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2710",
+        "name": "magical_germain_0x8EC::GetSmallGlyphTexture_4D2710",
         "v96f_address": null,
         "v105_address": "0x4d2710"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D27D0",
+        "name": "magical_germain_0x8EC::GetLargeGlyphTexture_4D27D0",
         "v96f_address": null,
         "v105_address": "0x4d27d0"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D28A0",
+        "name": "magical_germain_0x8EC::SetGlyphParamsFromFont_4D28A0",
         "v96f_address": null,
         "v105_address": "0x4d28a0"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D29D0",
+        "name": "magical_germain_0x8EC::SetGlyphParamsFromRemap_4D29D0",
         "v96f_address": null,
         "v105_address": "0x4d29d0"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2B40",
+        "name": "magical_germain_0x8EC::InitGlyphCaches_4D2B40",
         "v96f_address": "0x460de0",
         "v105_address": "0x4d2b40",
         "v96f_auto": true
@@ -8138,34 +8123,34 @@
         "v105_address": "0x4d6d60"
     },
     {
-        "name": "nostalgic_ellis_0x28::sub_4D6D70",
+        "name": "nostalgic_ellis_0x28::AddToGrid_4D6D70",
         "v96f_address": "0x461360",
         "v105_address": "0x4d6d70"
     },
     {
-        "name": "nostalgic_ellis_0x28::sub_4D6DC0",
+        "name": "nostalgic_ellis_0x28::RemoveFromGrid_4D6DC0",
         "v96f_address": null,
         "v105_address": "0x4d6dc0"
     },
     {
-        "name": "Light::sub_4D6E00",
+        "name": "Light::AllocGrid_4D6E00",
         "v96f_address": null,
         "v105_address": "0x4d6e00"
     },
     {
-        "name": "Light::sub_4D6E30",
+        "name": "Light::FreeGrid_4D6E30",
         "v96f_address": "0x4612d0",
         "v105_address": "0x4d6e30",
         "v96f_auto": true
     },
     {
-        "name": "Light::sub_4D6E50",
+        "name": "Light::SubmitLightsInArea_4D6E50",
         "v96f_address": "0x461400",
         "v105_address": "0x4d6e50",
         "v96f_auto": true
     },
     {
-        "name": "ErrorLog::sub_4D9470",
+        "name": "ErrorLog::Open_4D9470",
         "v96f_address": "0x461690",
         "v105_address": "0x4d9470",
         "v96f_auto": true
@@ -8224,7 +8209,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_4DA3F0",
+        "name": "SkipToNextToken_4DA3F0",
         "v96f_address": "0x4617c0",
         "v105_address": "0x4da3f0",
         "v96f_auto": true
@@ -8246,7 +8231,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_4DA740",
+        "name": "Shutdown_4DA740",
         "v96f_address": "0x4620a0",
         "v105_address": "0x4da740",
         "v96f_auto": true
@@ -8262,19 +8247,19 @@
         "v105_address": "0x4da7b0"
     },
     {
-        "name": "sub_4DA820",
+        "name": "ForceGameUpdate_4DA820",
         "v96f_address": "0x4619d0",
         "v105_address": "0x4da820",
         "v96f_auto": true
     },
     {
-        "name": "sub_4DA830",
+        "name": "ResetFrameTimer_4DA830",
         "v96f_address": "0x4619e0",
         "v105_address": "0x4da830",
         "v96f_auto": true
     },
     {
-        "name": "sub_4DA850",
+        "name": "RunGameFrame_4DA850",
         "v96f_address": "0x462A30",
         "v105_address": "0x4da850"
     },
@@ -8315,7 +8300,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_4DB070",
+        "name": "ShowPlayerLeftMessage_4DB070",
         "v96f_address": "0x4620e0",
         "v105_address": "0x4db070",
         "v96f_auto": true
@@ -8333,7 +8318,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_4DB170",
+        "name": "ClearDebugFlags_4DB170",
         "v96f_address": "0x461af0",
         "v105_address": "0x4db170",
         "v96f_auto": true
@@ -8357,7 +8342,7 @@
         "v96f_auto": true
     },
     {
-        "name": "DoorData_10::sub_4DEEB0",
+        "name": "DoorData_10::GetOppositeFace_4DEEB0",
         "v96f_address": "0x462b90",
         "v105_address": "0x4deeb0"
     },
@@ -8418,7 +8403,7 @@
         "v105_address": "0x4df5c0"
     },
     {
-        "name": "Map_0x370::sub_4DF6A0",
+        "name": "Map_0x370::first_zone_by_pos_4DF6A0",
         "v96f_address": "0x465130",
         "v105_address": "0x4df6a0",
         "v96f_auto": true
@@ -8546,19 +8531,19 @@
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4DFEE0",
+        "name": "Map_0x370::GetBlockClamped_4DFEE0",
         "v96f_address": "0x465490",
         "v105_address": "0x4dfee0",
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4DFF60",
+        "name": "Map_0x370::GetLeftEdgeSpec_4DFF60",
         "v96f_address": "0x465510",
         "v105_address": "0x4dff60",
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E0000",
+        "name": "Map_0x370::GetTopEdgeSpec_4E0000",
         "v96f_address": "0x4655b0",
         "v105_address": "0x4e0000",
         "v96f_auto": true
@@ -8586,19 +8571,19 @@
         "v105_address": "0x4e0130"
     },
     {
-        "name": "Map_0x370::sub_4E11E0",
+        "name": "Map_0x370::RectHitsDiagonalWall_4E11E0",
         "v96f_address": "0x465fe0",
         "v105_address": "0x4e11e0",
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E1520",
+        "name": "Map_0x370::SpriteHitsDiagonalWall_4E1520",
         "v96f_address": "0x466170",
         "v105_address": "0x4e1520",
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E18A0",
+        "name": "Map_0x370::HasWallInArea_4E18A0",
         "v96f_address": "0x466380",
         "v105_address": "0x4e18a0"
     },
@@ -8665,13 +8650,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E4CB0",
+        "name": "Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0",
         "v96f_address": "0x466a00",
         "v105_address": "0x4e4cb0",
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E4D40",
+        "name": "Map_0x370::FindGroundZBelowCoord_4E4D40",
         "v96f_address": "0x469570",
         "v105_address": "0x4e4d40"
     },
@@ -8681,7 +8666,7 @@
         "v105_address": "0x4e4e50"
     },
     {
-        "name": "Map_0x370::sub_4E4F40",
+        "name": "Map_0x370::GetGroundZBelowCoord_4E4F40",
         "v96f_address": "0x4699a0",
         "v105_address": "0x4e4f40",
         "v96f_auto": true
@@ -8692,7 +8677,7 @@
         "v105_address": "0x4e5050"
     },
     {
-        "name": "Map_0x370::sub_4E5170",
+        "name": "Map_0x370::IsZOnGround_4E5170",
         "v96f_address": "0x469b00",
         "v105_address": "0x4e5170",
         "v96f_auto": true
@@ -8752,7 +8737,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E5E90",
+        "name": "Map_0x370::HasGreenArrowForPathDirection_4E5E90",
         "v96f_address": null,
         "v105_address": "0x4e5e90"
     },
@@ -8774,7 +8759,7 @@
         "v105_address": "0x4e6280"
     },
     {
-        "name": "Map_0x370::sub_4E62B0",
+        "name": "Map_0x370::FloorPlusOne_4E62B0",
         "v96f_address": null,
         "v105_address": "0x4e62b0"
     },
@@ -8791,7 +8776,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E6400",
+        "name": "Map_0x370::GetRailwayZBelowCoord_4E6400",
         "v96f_address": "0x466e20",
         "v105_address": "0x4e6400",
         "v96f_auto": true
@@ -8820,7 +8805,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E7E90",
+        "name": "Map_0x370::FindFirstPavementCoord_4E7E90",
         "v96f_address": null,
         "v105_address": "0x4e7e90"
     },
@@ -8831,34 +8816,34 @@
         "v96f_auto": true
     },
     {
-        "name": "gmp_compressed_map_32::sub_4E80A0",
+        "name": "gmp_compressed_map_32::ApplyDmapInfos_4E80A0",
         "v96f_address": "0x463940",
         "v105_address": "0x4e80a0"
     },
     {
-        "name": "Map_sub::sub_4E80E0",
+        "name": "Map_sub::AddOrUpdateDmapInfo_4E80E0",
         "v96f_address": "0x463990",
         "v105_address": "0x4e80e0"
     },
     {
-        "name": "Map_0x370::sub_4E8140",
+        "name": "Map_0x370::AddBlock_4E8140",
         "v96f_address": "0x463a00",
         "v105_address": "0x4e8140",
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E8180",
+        "name": "Map_0x370::CloneOriginalBlock_4E8180",
         "v96f_address": "0x463a40",
         "v105_address": "0x4e8180",
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E81D0",
+        "name": "Map_0x370::CloneOriginalColumn_4E81D0",
         "v96f_address": "0x463A90",
         "v105_address": "0x4e81d0"
     },
     {
-        "name": "Map_0x370::sub_4E8220",
+        "name": "Map_0x370::CloneColumnExtendedToZ_4E8220",
         "v96f_address": "0x463AE0",
         "v105_address": "0x4e8220"
     },
@@ -8884,7 +8869,7 @@
         "v105_address": "0x4e8940"
     },
     {
-        "name": "Map_0x370::sub_4E8A10",
+        "name": "Map_0x370::LowerColumn_4E8A10",
         "v96f_address": "0x464160",
         "v105_address": "0x4e8a10",
         "v96f_auto": true
@@ -8896,12 +8881,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E8C00",
+        "name": "Map_0x370::OnModifiedMapDataLoaded_4E8C00",
         "v96f_address": "0x464250",
         "v105_address": "0x4e8c00"
     },
     {
-        "name": "Map_0x370::sub_4E8CF0",
+        "name": "Map_0x370::GetModifiedMapData_4E8CF0",
         "v96f_address": "0x4642a0",
         "v105_address": "0x4e8cf0",
         "v96f_auto": true
@@ -8913,12 +8898,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Map_0x370::sub_4E90E0",
+        "name": "Map_0x370::build_zone_list_4E90E0",
         "v96f_address": "0x4644e0",
         "v105_address": "0x4e90e0"
     },
     {
-        "name": "Map_0x370::sub_4E9160",
+        "name": "Map_0x370::AddTileAnimations_4E9160",
         "v96f_address": "0x464550",
         "v105_address": "0x4e9160",
         "v96f_auto": true
@@ -8981,7 +8966,7 @@
         "v96f_auto": true
     },
     {
-        "name": "MapRenderer::sub_4E9D50",
+        "name": "MapRenderer::SetAmbientLevel_4E9D50",
         "v96f_address": null,
         "v105_address": "0x4e9d50"
     },
@@ -9018,13 +9003,13 @@
         "v105_address": "0x4ead90"
     },
     {
-        "name": "MapRenderer::sub_4EAE00",
+        "name": "MapRenderer::ProjectVertTop_4EAE00",
         "v96f_address": "0x46bd40",
         "v105_address": "0x4eae00",
         "v96f_auto": true
     },
     {
-        "name": "MapRenderer::sub_4EAEA0",
+        "name": "MapRenderer::ProjectVertBottom_4EAEA0",
         "v96f_address": "0x46BDF0",
         "v105_address": "0x4eaea0"
     },
@@ -9034,7 +9019,7 @@
         "v105_address": "0x4eaf40"
     },
     {
-        "name": "sub_4EB940",
+        "name": "ProjectVert_4EB940",
         "v96f_address": null,
         "v105_address": "0x4eb940"
     },
@@ -9044,22 +9029,22 @@
         "v105_address": "0x4eba60"
     },
     {
-        "name": "MapRenderer::sub_4EC450",
+        "name": "MapRenderer::DrawDiagonalUpLeftFace_4EC450",
         "v96f_address": null,
         "v105_address": "0x4ec450"
     },
     {
-        "name": "MapRenderer::sub_4EC7A0",
+        "name": "MapRenderer::DrawDiagonalUpRightFace_4EC7A0",
         "v96f_address": null,
         "v105_address": "0x4ec7a0"
     },
     {
-        "name": "MapRenderer::sub_4ECAF0",
+        "name": "MapRenderer::DrawDiagonalDownLeftFace_4ECAF0",
         "v96f_address": null,
         "v105_address": "0x4ecaf0"
     },
     {
-        "name": "MapRenderer::sub_4ECE40",
+        "name": "MapRenderer::DrawDiagonalDownRightFace_4ECE40",
         "v96f_address": null,
         "v105_address": "0x4ece40"
     },
@@ -9166,17 +9151,17 @@
         "v105_address": "0x4f4190"
     },
     {
-        "name": "MapRenderer::sub_4F4250",
+        "name": "MapRenderer::draw_right_4F4250",
         "v96f_address": null,
         "v105_address": "0x4f4250"
     },
     {
-        "name": "MapRenderer::sub_4F4600",
+        "name": "MapRenderer::draw_top_4F4600",
         "v96f_address": null,
         "v105_address": "0x4f4600"
     },
     {
-        "name": "MapRenderer::sub_4F49B0",
+        "name": "MapRenderer::draw_bottom_4F49B0",
         "v96f_address": null,
         "v105_address": "0x4f49b0"
     },
@@ -9355,7 +9340,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Mike_A80::sub_4FF1B0",
+        "name": "Mike_A80::Init_4FF1B0",
         "v96f_address": "0x474100",
         "v105_address": "0x4ff1b0",
         "v96f_auto": true
@@ -9504,12 +9489,12 @@
         "v96f_auto": true
     },
     {
-        "name": "miss2_8::sub_5031A0",
+        "name": "miss2_8::AllocFrame_5031A0",
         "v96f_address": null,
         "v105_address": "0x5031a0"
     },
     {
-        "name": "miss2_8::sub_5031C0",
+        "name": "miss2_8::FreeFrame_5031C0",
         "v96f_address": null,
         "v105_address": "0x5031c0"
     },
@@ -9531,7 +9516,7 @@
         "v96f_auto": true
     },
     {
-        "name": "miss2_0x11C::sub_5035B0",
+        "name": "miss2_0x11C::PoolAllocate_5035B0",
         "v96f_address": null,
         "v105_address": "0x5035b0"
     },
@@ -9542,7 +9527,7 @@
         "v96f_auto": true
     },
     {
-        "name": "miss2_0x11C::sub_503610",
+        "name": "miss2_0x11C::StopThread_503610",
         "v96f_address": "0x4751d0",
         "v105_address": "0x503610",
         "v96f_auto": true
@@ -9764,7 +9749,7 @@
         "v105_address": "0x505b10"
     },
     {
-        "name": "miss2_0x11C::sub_505EA0",
+        "name": "miss2_0x11C::GetBonusResult_505EA0",
         "v96f_address": "0x478450",
         "v105_address": "0x505ea0",
         "v96f_auto": true
@@ -9835,7 +9820,7 @@
         "v96f_auto": true
     },
     {
-        "name": "miss2_0x11C::sub_506BC0",
+        "name": "miss2_0x11C::GetOperationType_506BC0",
         "v96f_address": "0x475700",
         "v105_address": "0x506bc0",
         "v96f_auto": true
@@ -10952,7 +10937,7 @@
         "v96f_auto": true
     },
     {
-        "name": "miss2_0x11C::sub_511CD0",
+        "name": "miss2_0x11C::DisableBasicKfsFromSave_511CD0",
         "v96f_address": "0x481270",
         "v105_address": "0x511cd0",
         "v96f_auto": true
@@ -10974,13 +10959,13 @@
         "v105_address": "0x511f80"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_5120C0",
+        "name": "frosty_pasteur_0xC1EA8::SpawnThread_5120C0",
         "v96f_address": "0x47f200",
         "v105_address": "0x5120c0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512100",
+        "name": "frosty_pasteur_0xC1EA8::FindCommandByType_512100",
         "v96f_address": "0x47f230",
         "v105_address": "0x512100",
         "v96f_auto": true
@@ -11009,7 +10994,7 @@
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512400",
+        "name": "frosty_pasteur_0xC1EA8::LoadMissionScript_512400",
         "v96f_address": "0x475e90",
         "v105_address": "0x512400",
         "v96f_auto": true
@@ -11032,31 +11017,31 @@
         "v105_address": "0x5127a0"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_5128A0",
+        "name": "frosty_pasteur_0xC1EA8::FindCarThread_5128A0",
         "v96f_address": "0x476240",
         "v105_address": "0x5128a0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_5128D0",
+        "name": "frosty_pasteur_0xC1EA8::AddCarThread_5128D0",
         "v96f_address": "0x476280",
         "v105_address": "0x5128d0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512910",
+        "name": "frosty_pasteur_0xC1EA8::TriggerCarThread_512910",
         "v96f_address": "0x47f340",
         "v105_address": "0x512910",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512980",
+        "name": "frosty_pasteur_0xC1EA8::FindPhoneThread_512980",
         "v96f_address": "0x476320",
         "v105_address": "0x512980",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_5129B0",
+        "name": "frosty_pasteur_0xC1EA8::AddPhoneThread_5129B0",
         "v96f_address": "0x476370",
         "v105_address": "0x5129b0",
         "v96f_auto": true
@@ -11068,19 +11053,19 @@
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512A70",
+        "name": "frosty_pasteur_0xC1EA8::RemovePhoneThread_512A70",
         "v96f_address": "0x4763b0",
         "v105_address": "0x512a70",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512AA0",
+        "name": "frosty_pasteur_0xC1EA8::RemovePhoneThreadByObjId_512AA0",
         "v96f_address": "0x47f420",
         "v105_address": "0x512aa0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512AD0",
+        "name": "frosty_pasteur_0xC1EA8::FindPhoneThreadByObjId_512AD0",
         "v96f_address": "0x4763e0",
         "v105_address": "0x512ad0",
         "v96f_auto": true
@@ -11098,13 +11083,13 @@
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512C00",
+        "name": "frosty_pasteur_0xC1EA8::RecordWeaponHit_512C00",
         "v96f_address": "0x476530",
         "v105_address": "0x512c00",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512C70",
+        "name": "frosty_pasteur_0xC1EA8::IsWeaponHitRecorded_512C70",
         "v96f_address": "0x4765a0",
         "v105_address": "0x512c70",
         "v96f_auto": true
@@ -11396,7 +11381,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Network_20324::sub_51BBC0",
+        "name": "Network_20324::IncCount_51BBC0",
         "v96f_address": null,
         "v105_address": "0x51bbc0"
     },
@@ -11413,7 +11398,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Network_20324::sub_51BBF0",
+        "name": "Network_20324::ResetCount_51BBF0",
         "v96f_address": "0x406240",
         "v105_address": "0x51bbf0",
         "v96f_auto": true
@@ -11424,19 +11409,19 @@
         "v105_address": "0x51bc00"
     },
     {
-        "name": "Network_20324::sub_51BC70",
+        "name": "Network_20324::SetEndDialog_51BC70",
         "v96f_address": "0x406250",
         "v105_address": "0x51bc70",
         "v96f_auto": true
     },
     {
-        "name": "Network_20324::sub_51BC80",
+        "name": "Network_20324::GetEndDialog_51BC80",
         "v96f_address": "0x406260",
         "v105_address": "0x51bc80",
         "v96f_auto": true
     },
     {
-        "name": "Network_20324::sub_51BC90",
+        "name": "Network_20324::LoadPlayerNameFromRegistry_51BC90",
         "v96f_address": "0x406270",
         "v105_address": "0x51bc90",
         "v96f_auto": true
@@ -11478,7 +11463,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Network_20324::sub_51C830",
+        "name": "Network_20324::LoadGameSettingsFromRegistry_51C830",
         "v96f_address": "0x406470",
         "v105_address": "0x51c830",
         "v96f_auto": true
@@ -11502,19 +11487,19 @@
         "v96f_auto": true
     },
     {
-        "name": "Network_20324::sub_51CAD0",
+        "name": "Network_20324::ShowUnableToOpenFileError_51CAD0",
         "v96f_address": "0x4065b0",
         "v105_address": "0x51cad0",
         "v96f_auto": true
     },
     {
-        "name": "Network_20324::sub_51CB30",
+        "name": "Network_20324::SetPlayerCountText_51CB30",
         "v96f_address": "0x4065f0",
         "v105_address": "0x51cb30",
         "v96f_auto": true
     },
     {
-        "name": "Network_20324::sub_51CBC0",
+        "name": "Network_20324::UpdateButtonsEnabledState_51CBC0",
         "v96f_address": "0x406660",
         "v105_address": "0x51cbc0",
         "v96f_auto": true
@@ -11766,7 +11751,7 @@
         "v105_address": "0x520ca0"
     },
     {
-        "name": "NetPlay::sub_520D00",
+        "name": "NetPlay::SetGroupId_520D00",
         "v96f_address": null,
         "v105_address": "0x520d00"
     },
@@ -11777,7 +11762,7 @@
         "v96f_auto": true
     },
     {
-        "name": "NetPlay::sub_520DE0",
+        "name": "NetPlay::ClearPlayersAndSession_520DE0",
         "v96f_address": "0x409a40",
         "v105_address": "0x520de0",
         "v96f_auto": true
@@ -11855,7 +11840,7 @@
         "v96f_auto": true
     },
     {
-        "name": "NetPlay::sub_521170",
+        "name": "NetPlay::SetGroupData_521170",
         "v96f_address": "0x409e10",
         "v105_address": "0x521170",
         "v96f_auto": true
@@ -12047,7 +12032,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_5226A0",
+        "name": "Object_2C::SetConveyorPush_5226A0",
         "v96f_address": "0x484aa0",
         "v105_address": "0x5226a0",
         "v96f_auto": true
@@ -12133,7 +12118,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_524550",
+        "name": "Object_2C::ComputeWallHitSide_524550",
         "v96f_address": null,
         "v105_address": "0x524550"
     },
@@ -12281,7 +12266,7 @@
         "v105_address": "0x527d00"
     },
     {
-        "name": "Object_2C::sub_527F10",
+        "name": "Object_2C::ReleaseSubObjects_527F10",
         "v96f_address": "0x484760",
         "v105_address": "0x527f10",
         "v96f_auto": true
@@ -12340,7 +12325,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_528E00",
+        "name": "Object_2C::GetExplosionTypeForWallSide_528E00",
         "v96f_address": null,
         "v105_address": "0x528e00"
     },
@@ -12356,18 +12341,18 @@
         "v105_address": "0x529000"
     },
     {
-        "name": "Object_2C::sub_529030",
+        "name": "Object_2C::SetConveyorSpeed_529030",
         "v96f_address": null,
         "v105_address": "0x529030"
     },
     {
-        "name": "sub_529050",
+        "name": "UnpackSignedNibbles_529050",
         "v96f_address": "0x482770",
         "v105_address": "0x529050",
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_529070",
+        "name": "Object_2C::ApplyConveyorSpeedFrom_529070",
         "v96f_address": null,
         "v105_address": "0x529070"
     },
@@ -12377,19 +12362,19 @@
         "v105_address": "0x529080"
     },
     {
-        "name": "Object_2C::sub_5290A0",
+        "name": "Object_2C::RequestRemoval_5290A0",
         "v96f_address": "0x4827b0",
         "v105_address": "0x5290a0",
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_5290B0",
+        "name": "Object_2C::RequestRemovalWhenOffScreen_5290B0",
         "v96f_address": "0x4827c0",
         "v105_address": "0x5290b0",
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_5290C0",
+        "name": "Object_2C::SetSpriteIdOffset_5290C0",
         "v96f_address": null,
         "v105_address": "0x5290c0"
     },
@@ -12406,13 +12391,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_5291D0",
+        "name": "Object_2C::PoolGiveAndMarkDone_5291D0",
         "v96f_address": "0x483c50",
         "v105_address": "0x5291d0",
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_5291E0",
+        "name": "Object_2C::PoolGiveAndSetDone_5291E0",
         "v96f_address": "0x483c60",
         "v105_address": "0x5291e0",
         "v96f_auto": true
@@ -12441,7 +12426,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_5C::sub_529300",
+        "name": "Object_5C::TrimSpriteList_529300",
         "v96f_address": "0x485e40",
         "v105_address": "0x529300",
         "v96f_auto": true
@@ -12463,7 +12448,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_5C::sub_5297F0",
+        "name": "Object_5C::CreateDiagonalWallObjects_5297F0",
         "v96f_address": "0x485ed0",
         "v105_address": "0x5297f0",
         "v96f_auto": true
@@ -12486,7 +12471,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_5C::sub_5299F0",
+        "name": "Object_5C::NewWithVarrokIdx_5299F0",
         "v96f_address": "0x485320",
         "v105_address": "0x5299f0",
         "v96f_auto": true
@@ -12520,7 +12505,7 @@
         "v105_address": "0x529c00"
     },
     {
-        "name": "Object_5C::sub_52A210",
+        "name": "Object_5C::SetPendingDamageOwner_52A210",
         "v96f_address": null,
         "v105_address": "0x52a210"
     },
@@ -12634,7 +12619,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Light_1D4CC::sub_52B2A0",
+        "name": "Light_1D4CC::CreateLight_52B2A0",
         "v96f_address": "0x469010",
         "v105_address": "0x52b2a0",
         "v96f_auto": true
@@ -12655,23 +12640,23 @@
         "v105_address": "0x532fb0"
     },
     {
-        "name": "Phi_74::sub_533060",
+        "name": "Phi_74::SetDimensions_533060",
         "v96f_address": "0x487f60",
         "v105_address": "0x533060"
     },
     {
-        "name": "Phi_74::sub_533090",
+        "name": "Phi_74::SetDimensionsFromSprite_533090",
         "v96f_address": "0x487fa0",
         "v105_address": "0x533090"
     },
     {
-        "name": "Phi_74::sub_533110",
+        "name": "Phi_74::SetRemap_533110",
         "v96f_address": "0x488060",
         "v105_address": "0x533110",
         "v96f_auto": true
     },
     {
-        "name": "Phi_74::sub_533150",
+        "name": "Phi_74::AddSpritePaletteAndSetAnimSpeed_533150",
         "v96f_address": "0x4880a0",
         "v105_address": "0x533150",
         "v96f_auto": true
@@ -12693,19 +12678,19 @@
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::sub_5332D0",
+        "name": "Phi_8CA8::AllocDefinitionWithSprite_5332D0",
         "v96f_address": "0x488420",
         "v105_address": "0x5332d0",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::sub_533300",
+        "name": "Phi_8CA8::CreateMapObjectDefinitions_533300",
         "v96f_address": "0x488450",
         "v105_address": "0x533300",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::sub_533360",
+        "name": "Phi_8CA8::ApplyPhi54Definitions_533360",
         "v96f_address": "0x4884b0",
         "v105_address": "0x533360"
     },
@@ -12715,7 +12700,7 @@
         "v105_address": "0x533420"
     },
     {
-        "name": "Phi_8CA8::sub_533B30",
+        "name": "Phi_8CA8::CreateCodeObjectDefinitions_533B30",
         "v96f_address": "0x488d10",
         "v105_address": "0x533b30"
     },
@@ -12725,24 +12710,24 @@
         "v105_address": "0x533c90"
     },
     {
-        "name": "Phi_8CA8::sub_534270",
+        "name": "Phi_8CA8::ClearColour1PixelsOfDefinitions287To293_534270",
         "v96f_address": "0x488f10",
         "v105_address": "0x534270",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::sub_5342D0",
+        "name": "Phi_8CA8::CacheDef112SpritePalette_5342D0",
         "v96f_address": null,
         "v105_address": "0x5342d0"
     },
     {
-        "name": "Phi_8CA8::sub_5342F0",
+        "name": "Phi_8CA8::ClearColour1PixelsOfDefinitionSprite_5342F0",
         "v96f_address": "0x488e70",
         "v105_address": "0x5342f0",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::sub_534330",
+        "name": "Phi_8CA8::InitDefinitions_534330",
         "v96f_address": "0x489530",
         "v105_address": "0x534330",
         "v96f_auto": true
@@ -12754,13 +12739,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::sub_534370",
+        "name": "Phi_8CA8::CloneDefinition_534370",
         "v96f_address": "0x488180",
         "v105_address": "0x534370",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::sub_5343C0",
+        "name": "Phi_8CA8::AllocDefinition_5343C0",
         "v96f_address": "0x4881d0",
         "v105_address": "0x5343c0",
         "v96f_auto": true
@@ -13174,7 +13159,7 @@
         "v105_address": "0x543ed0"
     },
     {
-        "name": "Marz_1D7E::sub_543F10",
+        "name": "Marz_1D7E::AllocPatrolList_543F10",
         "v96f_address": "0x491d00",
         "v105_address": "0x543f10",
         "v96f_auto": true
@@ -13185,7 +13170,7 @@
         "v105_address": "0x544bf0"
     },
     {
-        "name": "sub_544F70",
+        "name": "ResetCharUpdateGlobals_544F70",
         "v96f_address": "0x493550",
         "v105_address": "0x544f70",
         "v96f_auto": true
@@ -13244,24 +13229,24 @@
         "v105_address": "0x545580"
     },
     {
-        "name": "Char_B4::sub_5455F0",
+        "name": "Char_B4::KillPed_5455F0",
         "v96f_address": "0x491e50",
         "v105_address": "0x5455f0",
         "v96f_auto": true
     },
     {
-        "name": "Char_B4::sub_545600",
+        "name": "Char_B4::ClearCollisionState_545600",
         "v96f_address": "0x491e60",
         "v105_address": "0x545600",
         "v96f_auto": true
     },
     {
-        "name": "Char_B4::sub_545640",
+        "name": "Char_B4::GetTileFracX64_545640",
         "v96f_address": null,
         "v105_address": "0x545640"
     },
     {
-        "name": "Char_B4::sub_545670",
+        "name": "Char_B4::GetTileFracY64_545670",
         "v96f_address": null,
         "v105_address": "0x545670"
     },
@@ -13282,7 +13267,7 @@
         "v105_address": "0x545720"
     },
     {
-        "name": "Char_B4::sub_5459C0",
+        "name": "Char_B4::CheckAndHandleCollisions_5459C0",
         "v96f_address": "0x491ec0",
         "v105_address": "0x5459c0",
         "v96f_auto": true
@@ -13491,7 +13476,7 @@
         "v105_address": "0x552e90"
     },
     {
-        "name": "Char_B4::sub_5532C0",
+        "name": "Char_B4::IsNearTileCentre_5532C0",
         "v96f_address": "0x497410",
         "v105_address": "0x5532c0",
         "v96f_auto": true
@@ -13531,7 +13516,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_553F90",
+        "name": "ResetCharStatics_553F90",
         "v96f_address": "0x493520",
         "v105_address": "0x553f90",
         "v96f_auto": true
@@ -14287,18 +14272,18 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_5639C0",
+        "name": "ClearCarInfoGlobals_5639C0",
         "v96f_address": "0x49ef00",
         "v105_address": "0x5639c0",
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_564300",
+        "name": "Car_BC::IsDrivenByNonPlayer_564300",
         "v96f_address": null,
         "v105_address": "0x564300"
     },
     {
-        "name": "Player::sub_5645B0",
+        "name": "Player::AddCarToHistory_5645B0",
         "v96f_address": "0x4A51C0",
         "v105_address": "0x5645b0"
     },
@@ -14339,7 +14324,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_564910",
+        "name": "Player::SetWeapon_564910",
         "v96f_address": "0x4a4890",
         "v105_address": "0x564910",
         "v96f_auto": true
@@ -14362,13 +14347,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_564AD0",
+        "name": "Player::LoadCarWeapons_564AD0",
         "v96f_address": "0x4a5570",
         "v105_address": "0x564ad0",
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_564B60",
+        "name": "Player::ClearCarWeapons_564B60",
         "v96f_address": "0x4a48c0",
         "v105_address": "0x564b60",
         "v96f_auto": true
@@ -14379,7 +14364,7 @@
         "v105_address": "0x564b80"
     },
     {
-        "name": "Player::sub_564C00",
+        "name": "Player::UnloadCarWeapons_564C00",
         "v96f_address": "0x4a5640",
         "v105_address": "0x564c00",
         "v96f_auto": true
@@ -14391,13 +14376,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_564CC0",
+        "name": "Player::ClearPowerUps_564CC0",
         "v96f_address": "0x4a48e0",
         "v105_address": "0x564cc0",
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_564CF0",
+        "name": "Player::ClearPowerUpsExceptJailCard_564CF0",
         "v96f_address": "0x4a5710",
         "v105_address": "0x564cf0",
         "v96f_auto": true
@@ -14426,7 +14411,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_5653E0",
+        "name": "Player::DebugWatchNearestCar_5653E0",
         "v96f_address": null,
         "v105_address": "0x5653e0"
     },
@@ -14463,7 +14448,7 @@
         "v105_address": "0x565890"
     },
     {
-        "name": "Player::sub_566380",
+        "name": "Player::HandleKeyRelease_566380",
         "v96f_address": "0x4A49C0",
         "v105_address": "0x566380"
     },
@@ -14496,7 +14481,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_566EE0",
+        "name": "Player::ShowDebugInfo_566EE0",
         "v96f_address": "0x4a5e90",
         "v105_address": "0x566ee0",
         "v96f_auto": true
@@ -14512,7 +14497,7 @@
         "v105_address": "0x567130"
     },
     {
-        "name": "Player::sub_567850",
+        "name": "Player::UpdateAuxPedDeath_567850",
         "v96f_address": "0x4a7b70",
         "v105_address": "0x567850",
         "v96f_auto": true
@@ -14529,13 +14514,13 @@
         "v105_address": "0x568520"
     },
     {
-        "name": "Player::sub_568630",
+        "name": "Player::UpdateSoundListener_568630",
         "v96f_address": "0x4a4c90",
         "v105_address": "0x568630",
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_568670",
+        "name": "Player::HandleDebugZoom_568670",
         "v96f_address": "0x4a4cb0",
         "v105_address": "0x568670",
         "v96f_auto": true
@@ -14546,7 +14531,7 @@
         "v105_address": "0x5686d0"
     },
     {
-        "name": "Player::sub_568730",
+        "name": "Player::Disconnect_568730",
         "v96f_address": "0x4a61c0",
         "v105_address": "0x568730",
         "v96f_auto": true
@@ -14557,37 +14542,37 @@
         "v105_address": "0x5687f0"
     },
     {
-        "name": "Player::sub_569410",
+        "name": "Player::UpdatePaused_569410",
         "v96f_address": "0x4a61f0",
         "v105_address": "0x569410",
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_569530",
+        "name": "Player::EndRemoteControl_569530",
         "v96f_address": "0x4a62b0",
         "v105_address": "0x569530",
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_5695A0",
+        "name": "Player::ResetAuxCamera_5695A0",
         "v96f_address": "0x4a6310",
         "v105_address": "0x5695a0",
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_569600",
+        "name": "Player::StartRemoteControl_569600",
         "v96f_address": "0x4a6350",
         "v105_address": "0x569600",
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_5696D0",
+        "name": "Player::WatchCar_5696D0",
         "v96f_address": "0x4a6400",
         "v105_address": "0x5696d0",
         "v96f_auto": true
     },
     {
-        "name": "Player::sub_569840",
+        "name": "Player::GetPosU8_569840",
         "v96f_address": null,
         "v105_address": "0x569840"
     },
@@ -14623,7 +14608,7 @@
         "v105_address": "0x569cb0"
     },
     {
-        "name": "Player::sub_569E70",
+        "name": "Player::DebugToggleRemoteControl_569E70",
         "v96f_address": "0x4a8340",
         "v105_address": "0x569e70",
         "v96f_auto": true
@@ -14730,7 +14715,7 @@
         "v96f_auto": true
     },
     {
-        "name": "high_score_table_0xF0::sub_56B550",
+        "name": "high_score_table_0xF0::InsertScore_56B550",
         "v96f_address": "0x4a8630",
         "v105_address": "0x56b550",
         "v96f_auto": true
@@ -14752,13 +14737,13 @@
         "v96f_auto": true
     },
     {
-        "name": "player_stats_0xA4::sub_56B680",
+        "name": "player_stats_0xA4::GetTotalLatestScore_56B680",
         "v96f_address": "0x4a8750",
         "v105_address": "0x56b680",
         "v96f_auto": true
     },
     {
-        "name": "player_stats_0xA4::sub_56B6B0",
+        "name": "player_stats_0xA4::GetTotalBestScore_56B6B0",
         "v96f_address": "0x4a8780",
         "v105_address": "0x56b6b0",
         "v96f_auto": true
@@ -14787,29 +14772,29 @@
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56B990",
+        "name": "jolly_poitras_0x2BC0::LoadPlySlotDat_56B990",
         "v96f_address": "0x4A8CB0",
         "v105_address": "0x56b990"
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56BA60",
+        "name": "jolly_poitras_0x2BC0::SavePlySlotDat_56BA60",
         "v96f_address": "0x4A89E0",
         "v105_address": "0x56ba60"
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56BB10",
+        "name": "jolly_poitras_0x2BC0::UpdateStageScore_56BB10",
         "v96f_address": "0x4a8f90",
         "v105_address": "0x56bb10",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56BBD0",
+        "name": "jolly_poitras_0x2BC0::UnlockStage_56BBD0",
         "v96f_address": "0x4a8a90",
         "v105_address": "0x56bbd0",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56BC40",
+        "name": "jolly_poitras_0x2BC0::UnlockAllStages_56BC40",
         "v96f_address": "0x4a8b00",
         "v105_address": "0x56bc40",
         "v96f_auto": true
@@ -14832,12 +14817,12 @@
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56BE50",
+        "name": "jolly_poitras_0x2BC0::LoadHiScores_56BE50",
         "v96f_address": null,
         "v105_address": "0x56be50"
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56BF20",
+        "name": "jolly_poitras_0x2BC0::SaveHiScores_56BF20",
         "v96f_address": "0x4a8d80",
         "v105_address": "0x56bf20",
         "v96f_auto": true
@@ -14854,7 +14839,7 @@
         "v105_address": "0x56c170"
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56C1D0",
+        "name": "jolly_poitras_0x2BC0::InitDefaultHiScores_56C1D0",
         "v96f_address": "0x4a8ed0",
         "v105_address": "0x56c1d0",
         "v96f_auto": true
@@ -14875,13 +14860,13 @@
         "v105_address": "0x56c340"
     },
     {
-        "name": "Police_7B8::sub_56F400",
+        "name": "Police_7B8::Init_56F400",
         "v96f_address": "0x4a9430",
         "v105_address": "0x56f400",
         "v96f_auto": true
     },
     {
-        "name": "Police_7B8::sub_56F4D0",
+        "name": "Police_7B8::HandlePedDeath_56F4D0",
         "v96f_address": "0x4A9500",
         "v105_address": "0x56f4d0"
     },
@@ -14921,7 +14906,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Police_7B8::sub_56F940",
+        "name": "Police_7B8::RegisterCriminal_56F940",
         "v96f_address": "0x4a9d60",
         "v105_address": "0x56f940",
         "v96f_auto": true
@@ -14933,7 +14918,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Police_7B8::sub_56FAA0",
+        "name": "Police_7B8::DispatchNewCrewToService_56FAA0",
         "v96f_address": "0x4a9ef0",
         "v105_address": "0x56faa0",
         "v96f_auto": true
@@ -14990,13 +14975,13 @@
         "v96f_auto": true
     },
     {
-        "name": "PoliceCrew_38::sub_570A10",
+        "name": "PoliceCrew_38::AddToService_570A10",
         "v96f_address": "0x4a9720",
         "v105_address": "0x570a10",
         "v96f_auto": true
     },
     {
-        "name": "PoliceCrew_38::sub_570AB0",
+        "name": "PoliceCrew_38::RemoveFromService_570AB0",
         "v96f_address": "0x4A97C0",
         "v105_address": "0x570ab0"
     },
@@ -15018,7 +15003,7 @@
         "v96f_auto": true
     },
     {
-        "name": "PoliceCrew_38::sub_571350",
+        "name": "PoliceCrew_38::TryDespawnOffscreenCrew_571350",
         "v96f_address": "0x4ab330",
         "v105_address": "0x571350",
         "v96f_auto": true
@@ -15048,12 +15033,12 @@
         "v96f_auto": true
     },
     {
-        "name": "PoliceCrew_38::sub_572340",
+        "name": "PoliceCrew_38::State3_AlertedSearch_572340",
         "v96f_address": "0x4AC080",
         "v105_address": "0x572340"
     },
     {
-        "name": "PoliceCrew_38::sub_572920",
+        "name": "PoliceCrew_38::State5_PursueOrChase_572920",
         "v96f_address": "0x4ac580",
         "v105_address": "0x572920",
         "v96f_auto": true
@@ -15065,7 +15050,7 @@
         "v96f_auto": true
     },
     {
-        "name": "PoliceCrew_38::sub_574F10",
+        "name": "PoliceCrew_38::State1_Patrol_574F10",
         "v96f_address": "0x4ad310",
         "v105_address": "0x574f10",
         "v96f_auto": true
@@ -15110,19 +15095,19 @@
         "v96f_auto": true
     },
     {
-        "name": "PoliceRoadblock_A4::sub_575710",
+        "name": "PoliceRoadblock_A4::Reset_575710",
         "v96f_address": "0x4a99f0",
         "v105_address": "0x575710",
         "v96f_auto": true
     },
     {
-        "name": "PoliceRoadblock_A4::sub_5757B0",
+        "name": "PoliceRoadblock_A4::Update_5757B0",
         "v96f_address": "0x4ad6c0",
         "v105_address": "0x5757b0",
         "v96f_auto": true
     },
     {
-        "name": "PoliceRoadblock_A4::sub_575CA0",
+        "name": "PoliceRoadblock_A4::RemoveRoadblock_575CA0",
         "v96f_address": "0x4abd70",
         "v105_address": "0x575ca0",
         "v96f_auto": true
@@ -15133,7 +15118,7 @@
         "v105_address": "0x575ff0"
     },
     {
-        "name": "Police_7B8::sub_577320",
+        "name": "Police_7B8::ShouldCreateRoadblock_577320",
         "v96f_address": "0x4a9a90",
         "v105_address": "0x577320",
         "v96f_auto": true
@@ -15160,13 +15145,13 @@
         "v105_address": "0x577e20"
     },
     {
-        "name": "sub_577E90",
+        "name": "CompareNameChars_577E90",
         "v96f_address": "0x4af090",
         "v105_address": "0x577e90",
         "v96f_auto": true
     },
     {
-        "name": "sub_577EE0",
+        "name": "FindStationZoneByName_577EE0",
         "v96f_address": "0x4af0e0",
         "v105_address": "0x577ee0",
         "v96f_auto": true
@@ -15195,13 +15180,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Train_58::sub_578180",
+        "name": "Train_58::IncrementState_578180",
         "v96f_address": "0x4af9a0",
         "v105_address": "0x578180",
         "v96f_auto": true
     },
     {
-        "name": "Train_58::sub_5781F0",
+        "name": "Train_58::DecrementState_5781F0",
         "v96f_address": "0x4afa10",
         "v105_address": "0x5781f0",
         "v96f_auto": true
@@ -15222,19 +15207,19 @@
         "v105_address": "0x5782d0"
     },
     {
-        "name": "Train_58::sub_578300",
+        "name": "Train_58::Stop_578300",
         "v96f_address": "0x4afa80",
         "v105_address": "0x578300",
         "v96f_auto": true
     },
     {
-        "name": "Train_58::sub_578330",
+        "name": "Train_58::CloseCarriageDoors_578330",
         "v96f_address": "0x4afab0",
         "v105_address": "0x578330",
         "v96f_auto": true
     },
     {
-        "name": "Train_58::sub_578360",
+        "name": "Train_58::OpenCarriageDoors_578360",
         "v96f_address": "0x4afaf0",
         "v105_address": "0x578360",
         "v96f_auto": true
@@ -15300,7 +15285,7 @@
         "v96f_auto": true
     },
     {
-        "name": "PublicTransport_181C::sub_579A30",
+        "name": "PublicTransport_181C::OnBusStopMarkerHit_579A30",
         "v96f_address": "0x4b0d70",
         "v105_address": "0x579a30",
         "v96f_auto": true
@@ -15342,7 +15327,7 @@
         "v96f_auto": true
     },
     {
-        "name": "PublicTransport_181C::sub_579B90",
+        "name": "PublicTransport_181C::GetTrainSpeed_579B90",
         "v96f_address": "0x4b0df0",
         "v105_address": "0x579b90",
         "v96f_auto": true
@@ -15497,7 +15482,7 @@
         "v105_address": "0x57f120"
     },
     {
-        "name": "sub_5822E0",
+        "name": "ResetTrafficSpawnGlobals_5822E0",
         "v96f_address": "0x4b2ff0",
         "v105_address": "0x5822e0"
     },
@@ -15523,7 +15508,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_14::sub_583260",
+        "name": "Car_14::SpawnTrafficCarFacing_583260",
         "v96f_address": "0x4B4A00",
         "v105_address": "0x583260"
     },
@@ -15538,12 +15523,12 @@
         "v105_address": "0x583670"
     },
     {
-        "name": "Car_14::sub_583750",
+        "name": "Car_14::GetRandomTrafficSpeed_583750",
         "v96f_address": null,
         "v105_address": "0x583750"
     },
     {
-        "name": "Car_14::sub_583870",
+        "name": "Car_14::IsFlatRoadAt_583870",
         "v96f_address": null,
         "v105_address": "0x583870"
     },
@@ -15661,19 +15646,19 @@
         "v105_address": "0x5871e0"
     },
     {
-        "name": "Registry::sub_587290",
+        "name": "Registry::null_587290",
         "v96f_address": "0x4b5830",
         "v105_address": "0x587290",
         "v96f_auto": true
     },
     {
-        "name": "Registry::sub_5872A0",
+        "name": "Registry::Set_Binary_5872A0",
         "v96f_address": "0x4b5840",
         "v105_address": "0x5872a0",
         "v96f_auto": true
     },
     {
-        "name": "Registry::sub_587340",
+        "name": "Registry::Get_Binary_587340",
         "v96f_address": "0x4b5d80",
         "v105_address": "0x587340",
         "v96f_auto": true
@@ -15748,7 +15733,7 @@
         "v105_address": "0x588580"
     },
     {
-        "name": "Junction_10::sub_5885C0",
+        "name": "Junction_10::GetDirectionToJunction_5885C0",
         "v96f_address": "0x40d0c0",
         "v105_address": "0x5885c0"
     },
@@ -15798,24 +15783,24 @@
         "v105_address": "0x588de0"
     },
     {
-        "name": "RouteFinder::sub_588E60",
+        "name": "RouteFinder::FindHorzSegmentJunction_588E60",
         "v96f_address": "0x40D390",
         "v105_address": "0x588e60"
     },
     {
-        "name": "RouteFinder::sub_588F30",
+        "name": "RouteFinder::FindVertSegmentJunction_588F30",
         "v96f_address": "0x40d450",
         "v105_address": "0x588f30",
         "v96f_auto": true
     },
     {
-        "name": "RouteFinder::sub_589000",
+        "name": "RouteFinder::FindSegmentJunction_589000",
         "v96f_address": "0x40d510",
         "v105_address": "0x589000",
         "v96f_auto": true
     },
     {
-        "name": "RouteFinder::sub_5890D0",
+        "name": "RouteFinder::FindArrowBlockInJunction_5890D0",
         "v96f_address": "0x40C870",
         "v105_address": "0x5890d0"
     },
@@ -15830,24 +15815,24 @@
         "v105_address": "0x5892d0"
     },
     {
-        "name": "RouteFinder::sub_5892F0",
+        "name": "RouteFinder::NewChildNode_5892F0",
         "v96f_address": "0x40c9d0",
         "v105_address": "0x5892f0",
         "v96f_auto": true
     },
     {
-        "name": "RouteFinder::sub_589390",
+        "name": "RouteFinder::NewStartNode_589390",
         "v96f_address": "0x40ca70",
         "v105_address": "0x589390",
         "v96f_auto": true
     },
     {
-        "name": "RouteFinder::sub_589420",
+        "name": "RouteFinder::InsertIntoOpenList_589420",
         "v96f_address": "0x40CB00",
         "v105_address": "0x589420"
     },
     {
-        "name": "RouteFinder::sub_589480",
+        "name": "RouteFinder::InitSearch_589480",
         "v96f_address": "0x40d690",
         "v105_address": "0x589480",
         "v96f_auto": true
@@ -15869,7 +15854,7 @@
         "v105_address": "0x589960"
     },
     {
-        "name": "RouteFinder::sub_589990",
+        "name": "RouteFinder::AddChildNode_589990",
         "v96f_address": "0x40CBC0",
         "v105_address": "0x589990"
     },
@@ -15886,7 +15871,7 @@
         "v96f_auto": true
     },
     {
-        "name": "RouteFinder::sub_589E00",
+        "name": "RouteFinder::GetFirstUnexpandedNode_589E00",
         "v96f_address": "0x40cbf0",
         "v105_address": "0x589e00"
     },
@@ -15944,12 +15929,12 @@
         "v105_address": "0x58a1c0"
     },
     {
-        "name": "Camera_0xBC::sub_58CF10",
+        "name": "Camera_0xBC::IsPointInBoundaries_58CF10",
         "v96f_address": null,
         "v105_address": "0x58cf10"
     },
     {
-        "name": "cSampleManager::sub_58D620",
+        "name": "cSampleManager::DisableA3DSplash_58D620",
         "v96f_address": "0x4b5ed0",
         "v105_address": "0x58d620",
         "v96f_auto": true
@@ -15961,13 +15946,13 @@
         "v96f_auto": true
     },
     {
-        "name": "cSampleManager::sub_58D720",
+        "name": "cSampleManager::OpenDigitalDriver_58D720",
         "v96f_address": "0x4b6de0",
         "v105_address": "0x58d720",
         "v96f_auto": true
     },
     {
-        "name": "cSampleManager::sub_58D820",
+        "name": "cSampleManager::Init3DProvider_58D820",
         "v96f_address": "0x4b72b0",
         "v105_address": "0x58d820",
         "v96f_auto": true
@@ -16015,19 +16000,19 @@
         "v96f_auto": true
     },
     {
-        "name": "cSampleManager::sub_58DC10",
+        "name": "cSampleManager::GetRandomDisplacement_58DC10",
         "v96f_address": "0x4b6040",
         "v105_address": "0x58dc10",
         "v96f_auto": true
     },
     {
-        "name": "cSampleManager::sub_58DC30",
+        "name": "cSampleManager::GetLoopStart_58DC30",
         "v96f_address": "0x4b6060",
         "v105_address": "0x58dc30",
         "v96f_auto": true
     },
     {
-        "name": "cSampleManager::sub_58DC50",
+        "name": "cSampleManager::GetLoopEnd_58DC50",
         "v96f_address": "0x4b6080",
         "v105_address": "0x58dc50",
         "v96f_auto": true
@@ -16039,7 +16024,7 @@
         "v96f_auto": true
     },
     {
-        "name": "cSampleManager::sub_58DC90",
+        "name": "cSampleManager::InitialiseChannel_58DC90",
         "v96f_address": "0x4b60c0",
         "v105_address": "0x58dc90",
         "v96f_auto": true
@@ -16146,13 +16131,13 @@
         "v96f_auto": true
     },
     {
-        "name": "cSampleManager::sub_58E010",
+        "name": "cSampleManager::SetEaxEnvironment_58E010",
         "v96f_address": "0x4b6420",
         "v105_address": "0x58e010",
         "v96f_auto": true
     },
     {
-        "name": "cSampleManager::sub_58E140",
+        "name": "cSampleManager::Open3DProvider_58E140",
         "v96f_address": "0x4b6550",
         "v105_address": "0x58e140",
         "v96f_auto": true
@@ -16170,7 +16155,7 @@
         "v96f_auto": true
     },
     {
-        "name": "cSampleManager::sub_58E2A0",
+        "name": "cSampleManager::Reacquire_58E2A0",
         "v96f_address": null,
         "v105_address": "0x58e2a0"
     },
@@ -16273,13 +16258,13 @@
         "v96f_auto": true
     },
     {
-        "name": "cSampleManager::sub_58E8A0",
+        "name": "cSampleManager::EndSample_58E8A0",
         "v96f_address": "0x4b6a60",
         "v105_address": "0x58e8a0",
         "v96f_auto": true
     },
     {
-        "name": "cSampleManager::sub_58E8C0",
+        "name": "cSampleManager::PlaySampleRange_58E8C0",
         "v96f_address": "0x4b6a80",
         "v105_address": "0x58e8c0",
         "v96f_auto": true
@@ -16302,19 +16287,19 @@
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_591C70",
+        "name": "eager_benz::Service_591C70",
         "v96f_address": "0x4b7770",
         "v105_address": "0x591c70",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_5922F0",
+        "name": "eager_benz::Init_5922F0",
         "v96f_address": "0x4b7490",
         "v105_address": "0x5922f0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_592330",
+        "name": "eager_benz::Reset_592330",
         "v96f_address": "0x4b7d50",
         "v105_address": "0x592330",
         "v96f_auto": true
@@ -16332,25 +16317,25 @@
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_592380",
+        "name": "eager_benz::ResetCarModelFlags_592380",
         "v96f_address": "0x4b75b0",
         "v105_address": "0x592380",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_592430",
+        "name": "eager_benz::CheckAllCarModelsFlagged_592430",
         "v96f_address": "0x4b7d80",
         "v105_address": "0x592430",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_592570",
+        "name": "eager_benz::SetCarModelFlag_592570",
         "v96f_address": "0x4b7e90",
         "v105_address": "0x592570",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_5925B0",
+        "name": "eager_benz::GetCarScoreValue_5925B0",
         "v96f_address": "0x4b7500",
         "v105_address": "0x5925b0",
         "v96f_auto": true
@@ -16362,19 +16347,19 @@
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_592660",
+        "name": "eager_benz::OnPedKilled_592660",
         "v96f_address": "0x4b7eb0",
         "v105_address": "0x592660",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_592DD0",
+        "name": "eager_benz::OnCarDestroyed_592DD0",
         "v96f_address": "0x4b85b0",
         "v105_address": "0x592dd0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_593030",
+        "name": "eager_benz::AwardCarDamageScore_593030",
         "v96f_address": "0x4b8870",
         "v105_address": "0x593030",
         "v96f_auto": true
@@ -16391,7 +16376,7 @@
         "v105_address": "0x593220"
     },
     {
-        "name": "eager_benz::sub_593240",
+        "name": "eager_benz::OnCarHijacked_593240",
         "v96f_address": "0x4b8a70",
         "v105_address": "0x593240",
         "v96f_auto": true
@@ -16403,7 +16388,7 @@
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_593410",
+        "name": "eager_benz::OnFullBusDestroyed_593410",
         "v96f_address": "0x4b8c80",
         "v105_address": "0x593410",
         "v96f_auto": true
@@ -16421,7 +16406,7 @@
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_5935C0",
+        "name": "eager_benz::GetFrags_5935C0",
         "v96f_address": "0x4b8fd0",
         "v105_address": "0x5935c0",
         "v96f_auto": true
@@ -16444,13 +16429,13 @@
         "v105_address": "0x596840"
     },
     {
-        "name": "ExplodingScorePool::sub_596860",
+        "name": "ExplodingScorePool::NextPalette_596860",
         "v96f_address": "0x4b8d60",
         "v105_address": "0x596860",
         "v96f_auto": true
     },
     {
-        "name": "ExplodingScorePool::sub_596880",
+        "name": "ExplodingScorePool::IncrementFreeScores_596880",
         "v96f_address": "0x4b8d80",
         "v105_address": "0x596880",
         "v96f_auto": true
@@ -16462,7 +16447,7 @@
         "v96f_auto": true
     },
     {
-        "name": "ExplodingScorePool::sub_596940",
+        "name": "ExplodingScorePool::Update_596940",
         "v96f_address": "0x4b9050",
         "v105_address": "0x596940",
         "v96f_auto": true
@@ -16521,7 +16506,7 @@
         "v105_address": "0x597100"
     },
     {
-        "name": "Varrok_7F8::sub_59B060",
+        "name": "Varrok_7F8::AllocForPed_59B060",
         "v96f_address": "0x4b98d0",
         "v105_address": "0x59b060",
         "v96f_auto": true
@@ -16532,7 +16517,7 @@
         "v105_address": "0x59b0b0"
     },
     {
-        "name": "Varrok_7F8::sub_59B0D0",
+        "name": "Varrok_7F8::DecrementRefCount_59B0D0",
         "v96f_address": "0x4b9940",
         "v105_address": "0x59b0d0",
         "v96f_auto": true
@@ -16615,7 +16600,7 @@
         "v105_address": "0x59e300"
     },
     {
-        "name": "Sprite::sub_59E320",
+        "name": "Sprite::IncreaseZoom_59E320",
         "v96f_address": "0x4bab10",
         "v105_address": "0x59e320",
         "v96f_auto": true
@@ -16680,7 +16665,7 @@
         "v105_address": "0x59e930"
     },
     {
-        "name": "Sprite::sub_59E960",
+        "name": "Sprite::SetDefaultNumBySpriteType_59E960",
         "v96f_address": null,
         "v105_address": "0x59e960"
     },
@@ -16697,7 +16682,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Sprite::sub_59EAA0",
+        "name": "Sprite::GetTruePalette_59EAA0",
         "v96f_address": null,
         "v105_address": "0x59eaa0"
     },
@@ -16828,7 +16813,7 @@
         "v105_address": "0x5a1eb0"
     },
     {
-        "name": "Sprite::sub_5A21F0",
+        "name": "Sprite::CheckMapZCollision_5A21F0",
         "v96f_address": null,
         "v105_address": "0x5a21f0"
     },
@@ -16848,7 +16833,7 @@
         "v105_address": "0x5a2500"
     },
     {
-        "name": "Sprite::sub_5A26E0",
+        "name": "Sprite::GetNegatedAngle_5A26E0",
         "v96f_address": null,
         "v105_address": "0x5a26e0"
     },
@@ -16942,7 +16927,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Sprite_8::sub_5A5860",
+        "name": "Sprite_8::ResetDrawnSpriteCount_5A5860",
         "v96f_address": "0x4b9e50",
         "v105_address": "0x5a5860",
         "v96f_auto": true
@@ -17315,7 +17300,7 @@
         "v96f_auto": true
     },
     {
-        "name": "gtx_0x106C::sub_5AA9A0",
+        "name": "gtx_0x106C::BuildCarInfoContainer_5AA9A0",
         "v96f_address": "0x4c0410",
         "v105_address": "0x5aa9a0",
         "v96f_auto": true
@@ -17326,7 +17311,7 @@
         "v105_address": "0x5aab30"
     },
     {
-        "name": "gtx_0x106C::sub_5AABF0",
+        "name": "gtx_0x106C::SetDeltaDataPtrs_5AABF0",
         "v96f_address": "0x4bf900",
         "v105_address": "0x5aabf0",
         "v96f_auto": true
@@ -17407,7 +17392,7 @@
         "v96f_auto": true
     },
     {
-        "name": "gtx_0x106C::sub_5AAFE0",
+        "name": "gtx_0x106C::InitFontTypes_5AAFE0",
         "v96f_address": "0x4bfcc0",
         "v105_address": "0x5aafe0",
         "v96f_auto": true
@@ -17470,7 +17455,7 @@
         "v105_address": "0x5ab4b0"
     },
     {
-        "name": "gtx_0x106C::sub_5AB720",
+        "name": "gtx_0x106C::SetDataPtrs_5AB720",
         "v96f_address": "0x4c0100",
         "v105_address": "0x5ab720",
         "v96f_auto": true
@@ -17504,17 +17489,17 @@
         "v96f_auto": true
     },
     {
-        "name": "sprite_index::sub_5ABAA0",
+        "name": "sprite_index::ClearPixelsOfColour_5ABAA0",
         "v96f_address": null,
         "v105_address": "0x5abaa0"
     },
     {
-        "name": "sub_5ABAE0",
+        "name": "ClearPixelsOfColourInRow_5ABAE0",
         "v96f_address": null,
         "v105_address": "0x5abae0"
     },
     {
-        "name": "sprite_index::sub_5ABB00",
+        "name": "sprite_index::CopyPixels_5ABB00",
         "v96f_address": "0x4c0380",
         "v105_address": "0x5abb00",
         "v96f_auto": true
@@ -17549,17 +17534,17 @@
         "v105_address": "0x5b2750"
     },
     {
-        "name": "text_0x14::sub_5B58D0",
+        "name": "text_0x14::RemapExtendedChar_5B58D0",
         "v96f_address": null,
         "v105_address": "0x5b58d0"
     },
     {
-        "name": "text_0x14::sub_5B5910",
+        "name": "text_0x14::RemapExtendedCharsIfNotJapanese_5B5910",
         "v96f_address": null,
         "v105_address": "0x5b5910"
     },
     {
-        "name": "text_0x14::sub_5B5930",
+        "name": "text_0x14::RemapExtendedChars_5B5930",
         "v96f_address": null,
         "v105_address": "0x5b5930"
     },
@@ -17599,13 +17584,13 @@
         "v96f_auto": true
     },
     {
-        "name": "text_0x14::sub_5B5AD0",
+        "name": "text_0x14::ToUpper_5B5AD0",
         "v96f_address": "0x4c21a0",
         "v105_address": "0x5b5ad0",
         "v96f_auto": true
     },
     {
-        "name": "text_0x14::sub_5B5B80",
+        "name": "text_0x14::StrToUpper_5B5B80",
         "v96f_address": "0x4c2250",
         "v105_address": "0x5b5b80",
         "v96f_auto": true
@@ -17647,7 +17632,7 @@
         "v96f_auto": true
     },
     {
-        "name": "text_0x14::sub_5B5FA0",
+        "name": "text_0x14::KeyExists_5B5FA0",
         "v96f_address": null,
         "v105_address": "0x5b5fa0"
     },
@@ -17674,7 +17659,7 @@
         "v96f_auto": true
     },
     {
-        "name": "festive_hopper::sub_5B8F70",
+        "name": "festive_hopper::LoadRemappedTextures_5B8F70",
         "v96f_address": "0x4c27f0",
         "v105_address": "0x5b8f70",
         "v96f_auto": true
@@ -17692,7 +17677,7 @@
         "v96f_auto": true
     },
     {
-        "name": "festive_hopper::sub_5B90D0",
+        "name": "festive_hopper::GetRemappedTexture_5B90D0",
         "v96f_address": "0x4c2950",
         "v105_address": "0x5b90d0",
         "v96f_auto": true
@@ -17728,7 +17713,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B9350",
+        "name": "sharp_pare_0x15D8::LoadStyleTextures_5B9350",
         "v96f_address": "0x4c30a0",
         "v105_address": "0x5b9350",
         "v96f_auto": true
@@ -17746,7 +17731,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B95F0",
+        "name": "sharp_pare_0x15D8::GetDigitTexture_5B95F0",
         "v96f_address": "0x4c2bc0",
         "v105_address": "0x5b95f0",
         "v96f_auto": true
@@ -17758,13 +17743,13 @@
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B96B0",
+        "name": "sharp_pare_0x15D8::SetTexture2SizeAndPalette_5B96B0",
         "v96f_address": "0x4c2c80",
         "v105_address": "0x5b96b0",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::sub_5B9710",
+        "name": "sharp_pare_0x15D8::SetSharedTextureData_5B9710",
         "v96f_address": "0x4c2ce0",
         "v105_address": "0x5b9710",
         "v96f_auto": true
@@ -17787,17 +17772,17 @@
         "v96f_auto": true
     },
     {
-        "name": "TileAnim_18::sub_5BC150",
+        "name": "TileAnim_18::ApplyCurrentFrame_5BC150",
         "v96f_address": "0x4c3260",
         "v105_address": "0x5bc150"
     },
     {
-        "name": "TileAnim_18::sub_5BC190",
+        "name": "TileAnim_18::InitFromGmpAnim_5BC190",
         "v96f_address": "0x4c32a0",
         "v105_address": "0x5bc190"
     },
     {
-        "name": "TileAnim_18::sub_5BC1D0",
+        "name": "TileAnim_18::Start_5BC1D0",
         "v96f_address": "0x4c32e0",
         "v105_address": "0x5bc1d0"
     },
@@ -17807,13 +17792,13 @@
         "v105_address": "0x5bc1f0"
     },
     {
-        "name": "TileAnim_2::sub_5BC260",
+        "name": "TileAnim_2::AddAnim_5BC260",
         "v96f_address": "0x4c3430",
         "v105_address": "0x5bc260",
         "v96f_auto": true
     },
     {
-        "name": "TileAnim_2::sub_5BC2C0",
+        "name": "TileAnim_2::AddGmpAnim_5BC2C0",
         "v96f_address": "0x4c3470",
         "v105_address": "0x5bc2c0"
     },
@@ -17857,7 +17842,7 @@
         "v96f_auto": true
     },
     {
-        "name": "distracted_einstein_0xC::sub_5BEBF0",
+        "name": "distracted_einstein_0xC::AccumulateElapsed_5BEBF0",
         "v96f_address": "0x4c3680",
         "v105_address": "0x5bebf0",
         "v96f_auto": true
@@ -17892,7 +17877,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sharp_bose_0x54::sub_5BECF0",
+        "name": "sharp_bose_0x54::UpdateFpsCounters_5BECF0",
         "v96f_address": "0x4c3760",
         "v105_address": "0x5becf0",
         "v96f_auto": true
@@ -17909,7 +17894,7 @@
         "v105_address": "0x5beed0"
     },
     {
-        "name": "TrafficLight_20::sub_5C1D00",
+        "name": "TrafficLight_20::Init_5C1D00",
         "v96f_address": "0x4c3c70",
         "v105_address": "0x5c1d00",
         "v96f_auto": true
@@ -17920,7 +17905,7 @@
         "v105_address": "0x5c27a0"
     },
     {
-        "name": "TrafficLights_194::sub_5C2910",
+        "name": "TrafficLights_194::AddTrafficLight_5C2910",
         "v96f_address": null,
         "v105_address": "0x5c2910"
     },
@@ -17936,7 +17921,7 @@
         "v105_address": "0x5c2a10"
     },
     {
-        "name": "TrafficLights_194::sub_5C2AC0",
+        "name": "TrafficLights_194::CreateFromMapZones_5C2AC0",
         "v96f_address": "0x4c4b00",
         "v105_address": "0x5c2ac0",
         "v96f_auto": true
@@ -17953,7 +17938,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Light_1D4CC::sub_5C2B70",
+        "name": "Light_1D4CC::Alloc_5C2B70",
         "v96f_address": null,
         "v105_address": "0x5c2b70"
     },
@@ -18001,19 +17986,19 @@
         "v105_address": "0x5c5f90"
     },
     {
-        "name": "Car_214::sub_5C8680",
+        "name": "Car_214::FreeTrigger_5C8680",
         "v96f_address": "0x4c4ea0",
         "v105_address": "0x5c8680",
         "v96f_auto": true
     },
     {
-        "name": "Car_214::sub_5C86C0",
+        "name": "Car_214::AddThreadTrigger_5C86C0",
         "v96f_address": "0x4c4f30",
         "v105_address": "0x5c86c0",
         "v96f_auto": true
     },
     {
-        "name": "Car_214::sub_5C8750",
+        "name": "Car_214::Reset_5C8750",
         "v96f_address": "0x4c4ee0",
         "v105_address": "0x5c8750",
         "v96f_auto": true
@@ -18090,17 +18075,17 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_4::sub_5CF620",
+        "name": "Garox_4::ShowNextNumberedBrief_5CF620",
         "v96f_address": null,
         "v105_address": "0x5cf620"
     },
     {
-        "name": "Garox_4::sub_5CF6B0",
+        "name": "Garox_4::ShowPrevNumberedBrief_5CF6B0",
         "v96f_address": null,
         "v105_address": "0x5cf6b0"
     },
     {
-        "name": "Garox_110C_sub::sub_5CF730",
+        "name": "Garox_110C_sub::Update_5CF730",
         "v96f_address": null,
         "v105_address": "0x5cf730"
     },
@@ -18123,7 +18108,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_107C_sub::sub_5CFE20",
+        "name": "Garox_107C_sub::Empty_5CFE20",
         "v96f_address": null,
         "v105_address": "0x5cfe20"
     },
@@ -18155,7 +18140,7 @@
         "v105_address": "0x5d0110"
     },
     {
-        "name": "Hud_CopHead_C_Array::sub_5D0210",
+        "name": "Hud_CopHead_C_Array::Init_5D0210",
         "v96f_address": null,
         "v105_address": "0x5d0210"
     },
@@ -18187,12 +18172,12 @@
         "v105_address": "0x5d0530"
     },
     {
-        "name": "Hud_Arrow_7C::sub_5D0620",
+        "name": "Hud_Arrow_7C::UpdateTargets_5D0620",
         "v96f_address": "0x4C7E60",
         "v105_address": "0x5d0620"
     },
     {
-        "name": "Hud_Arrow_7C::sub_5D0850",
+        "name": "Hud_Arrow_7C::UpdateScreenPos_5D0850",
         "v96f_address": null,
         "v105_address": "0x5d0850"
     },
@@ -18224,7 +18209,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D0EF0",
+        "name": "Hud_Arrow_7C_Array::FindVisibleGangArrow_5D0EF0",
         "v96f_address": "0x4c8540",
         "v105_address": "0x5d0ef0",
         "v96f_auto": true
@@ -18236,7 +18221,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D0F80",
+        "name": "Hud_Arrow_7C_Array::ClearOrphanInfoPhoneArrows_5D0F80",
         "v96f_address": "0x4c85d0",
         "v105_address": "0x5d0f80",
         "v96f_auto": true
@@ -18247,7 +18232,7 @@
         "v105_address": "0x5d0fd0"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D1020",
+        "name": "Hud_Arrow_7C_Array::FindFreeArrow_5D1020",
         "v96f_address": "0x4c5e70",
         "v105_address": "0x5d1020",
         "v96f_auto": true
@@ -18259,12 +18244,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D10B0",
+        "name": "Hud_Arrow_7C_Array::ReleaseAllArrows_5D10B0",
         "v96f_address": null,
         "v105_address": "0x5d10b0"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D10D0",
+        "name": "Hud_Arrow_7C_Array::FindGangPhoneArrow_5D10D0",
         "v96f_address": null,
         "v105_address": "0x5d10d0"
     },
@@ -18285,7 +18270,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_5D12E0",
+        "name": "GetMinRespectForPhoneType_5D12E0",
         "v96f_address": null,
         "v105_address": "0x5d12e0"
     },
@@ -18295,7 +18280,7 @@
         "v105_address": "0x5d1310"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D1350",
+        "name": "Hud_Arrow_7C_Array::CreatePlayerArrows_5D1350",
         "v96f_address": null,
         "v105_address": "0x5d1350"
     },
@@ -18312,13 +18297,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_12EC_sub::sub_5D15A0",
+        "name": "Garox_12EC_sub::IsQuitMessageKey_5D15A0",
         "v96f_address": "0x4c5f30",
         "v105_address": "0x5d15a0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_12EC_sub::sub_5D15D0",
+        "name": "Garox_12EC_sub::ShowQuitMessage_5D15D0",
         "v96f_address": "0x4c5f60",
         "v105_address": "0x5d15d0",
         "v96f_auto": true
@@ -18335,7 +18320,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_2A25_sub::sub_5D17D0",
+        "name": "Garox_2A25_sub::IsChatInputKey_5D17D0",
         "v96f_address": "0x4c5f70",
         "v105_address": "0x5d17d0",
         "v96f_auto": true
@@ -18352,7 +18337,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Hud_Message_1C8::sub_5D1860",
+        "name": "Hud_Message_1C8::FormatMessage_5D1860",
         "v96f_address": "0x4c5fe0",
         "v105_address": "0x5d1860",
         "v96f_auto": true
@@ -18370,7 +18355,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Hud_Message_1C8::sub_5D1AB0",
+        "name": "Hud_Message_1C8::DecrementTimeToShow_5D1AB0",
         "v96f_address": null,
         "v105_address": "0x5d1ab0"
     },
@@ -18387,13 +18372,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_C4::sub_5D1D00",
+        "name": "Garox_C4::Draw_5D1D00",
         "v96f_address": "0x4c8b90",
         "v105_address": "0x5d1d00",
         "v96f_auto": true
     },
     {
-        "name": "Garox_C4::sub_5D1DB0",
+        "name": "Garox_C4::DecrementDisplayTime_5D1DB0",
         "v96f_address": "0x4c60f0",
         "v105_address": "0x5d1db0",
         "v96f_auto": true
@@ -18405,7 +18390,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::sub_5D1EB0",
+        "name": "Garox_1700_L::ExpireDuplicates_5D1EB0",
         "v96f_address": "0x4c8be0",
         "v105_address": "0x5d1eb0",
         "v96f_auto": true
@@ -18423,7 +18408,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::sub_5D2050",
+        "name": "Garox_1700_L::RemoveExpired_5D2050",
         "v96f_address": "0x4c6170",
         "v105_address": "0x5d2050",
         "v96f_auto": true
@@ -18440,7 +18425,7 @@
         "v105_address": "0x5d2320"
     },
     {
-        "name": "Hud_Pager_C::sub_5D2380",
+        "name": "Hud_Pager_C::DrawCounterDigits_5D2380",
         "v96f_address": null,
         "v105_address": "0x5d2380"
     },
@@ -18500,35 +18485,35 @@
         "v105_address": "0x5d3310"
     },
     {
-        "name": "Hud_Brief_704::sub_5D3330",
+        "name": "Hud_Brief_704::MovePrevBriefToCurrent_5D3330",
         "v96f_address": "0x4c62d0",
         "v105_address": "0x5d3330",
         "v96f_auto": true
     },
     {
-        "name": "Hud_Brief_704::sub_5D3350",
+        "name": "Hud_Brief_704::FreeCurrentBrief_5D3350",
         "v96f_address": "0x4c62f0",
         "v105_address": "0x5d3350",
         "v96f_auto": true
     },
     {
-        "name": "Hud_Brief_704::sub_5D3370",
+        "name": "Hud_Brief_704::MoveCurrentBriefToPrev_5D3370",
         "v96f_address": "0x4c6310",
         "v105_address": "0x5d3370",
         "v96f_auto": true
     },
     {
-        "name": "Hud_Brief_704::sub_5D33A0",
+        "name": "Hud_Brief_704::AppendCurrentBriefToPrev_5D33A0",
         "v96f_address": "0x4C6340",
         "v105_address": "0x5d33a0"
     },
     {
-        "name": "Hud_Brief_704::sub_5D33F0",
+        "name": "Hud_Brief_704::AllocBrief_5D33F0",
         "v96f_address": "0x4C6380",
         "v105_address": "0x5d33f0"
     },
     {
-        "name": "Hud_Brief_704::sub_5D3470",
+        "name": "Hud_Brief_704::FormatCurrentBrief_5D3470",
         "v96f_address": "0x4c6470",
         "v105_address": "0x5d3470",
         "v96f_auto": true
@@ -18540,7 +18525,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Hud_Brief_704::sub_5D39D0",
+        "name": "Hud_Brief_704::StartCurrentBrief_5D39D0",
         "v96f_address": "0x4c6640",
         "v105_address": "0x5d39d0",
         "v96f_auto": true
@@ -18562,7 +18547,7 @@
         "v105_address": "0x5d4400"
     },
     {
-        "name": "Hud_Brief_704::sub_5D44D0",
+        "name": "Hud_Brief_704::UpdateBrief_5D44D0",
         "v96f_address": "0x4c6770",
         "v105_address": "0x5d44d0",
         "v96f_auto": true
@@ -18584,25 +18569,25 @@
         "v105_address": "0x5d4930"
     },
     {
-        "name": "Hud_CarName_4C::sub_5D4A10",
+        "name": "Hud_CarName_4C::DrawCarName_5D4A10",
         "v96f_address": "0x4c94f0",
         "v105_address": "0x5d4a10",
         "v96f_auto": true
     },
     {
-        "name": "Hud_2B00::sub_5D5190",
+        "name": "Hud_2B00::CalcCarNameXPosOffset_5D5190",
         "v96f_address": "0x4c6940",
         "v105_address": "0x5d5190",
         "v96f_auto": true
     },
     {
-        "name": "Hud_2B00::sub_5D5240",
+        "name": "Hud_2B00::ShowCarName_5D5240",
         "v96f_address": "0x4c6960",
         "v105_address": "0x5d5240",
         "v96f_auto": true
     },
     {
-        "name": "Hud_2B00::sub_5D5350",
+        "name": "Hud_2B00::UpdateCarName_5D5350",
         "v96f_address": "0x4c69a0",
         "v105_address": "0x5d5350",
         "v96f_auto": true
@@ -18614,25 +18599,25 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::sub_5D53E0",
+        "name": "Garox_1::CalcTextWidth_5D53E0",
         "v96f_address": "0x4c69d0",
         "v105_address": "0x5d53e0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::sub_5D5420",
+        "name": "Garox_1::Draw_5D5420",
         "v96f_address": "0x4c9690",
         "v105_address": "0x5d5420",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::sub_5D5600",
+        "name": "Garox_1::ShowPickupText_5D5600",
         "v96f_address": "0x4c69f0",
         "v105_address": "0x5d5600",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::sub_5D5690",
+        "name": "Garox_1::DecrementTimer_5D5690",
         "v96f_address": "0x4c6a40",
         "v105_address": "0x5d5690",
         "v96f_auto": true
@@ -18644,25 +18629,25 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::sub_5D56B0",
+        "name": "Garox_1_v2::CalcTextWidth_5D56B0",
         "v96f_address": "0x4c6a60",
         "v105_address": "0x5d56b0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::sub_5D56D0",
+        "name": "Garox_1_v2::Draw_5D56D0",
         "v96f_address": "0x4c96f0",
         "v105_address": "0x5d56d0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::sub_5D5730",
+        "name": "Garox_1_v2::ShowText_5D5730",
         "v96f_address": "0x4c6a80",
         "v105_address": "0x5d5730",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::sub_5D5760",
+        "name": "Garox_1_v2::DecrementTimer_5D5760",
         "v96f_address": "0x4c60b0",
         "v105_address": "0x5d5760",
         "v96f_auto": true
@@ -18692,19 +18677,19 @@
         "v96f_auto": true
     },
     {
-        "name": "Hud_MapZone_98::sub_5D5AF0",
+        "name": "Hud_MapZone_98::ShowZoneName_5D5AF0",
         "v96f_address": "0x4c6af0",
         "v105_address": "0x5d5af0",
         "v96f_auto": true
     },
     {
-        "name": "Hud_MapZone_98::sub_5D5B60",
+        "name": "Hud_MapZone_98::UpdateZoneName_5D5B60",
         "v96f_address": "0x4c6b70",
         "v105_address": "0x5d5b60",
         "v96f_auto": true
     },
     {
-        "name": "Hud_MapZone_98::sub_5D5C50",
+        "name": "Hud_MapZone_98::ResetTransparency_5D5C50",
         "v96f_address": "0x4c6c60",
         "v105_address": "0x5d5c50",
         "v96f_auto": true
@@ -18721,7 +18706,7 @@
         "v105_address": "0x5d5c80"
     },
     {
-        "name": "sub_5D6060",
+        "name": "DrawAmmo_5D6060",
         "v96f_address": "0x4c9a40",
         "v105_address": "0x5d6060",
         "v96f_auto": true
@@ -18733,7 +18718,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_1118_sub::sub_5D6290",
+        "name": "Garox_1118_sub::UpdateRollingDigits_5D6290",
         "v96f_address": "0x4c6ca0",
         "v105_address": "0x5d6290",
         "v96f_auto": true
@@ -18750,7 +18735,7 @@
         "v105_address": "0x5d6860"
     },
     {
-        "name": "Hud_2B00::sub_5D69C0",
+        "name": "Hud_2B00::UpdatePauseSection_5D69C0",
         "v96f_address": "0x4c6d90",
         "v105_address": "0x5d69c0",
         "v96f_auto": true
@@ -18761,7 +18746,7 @@
         "v105_address": "0x5d69d0"
     },
     {
-        "name": "Hud_2B00::sub_5D6A70",
+        "name": "Hud_2B00::SetFullAmbient_5D6A70",
         "v96f_address": "0x4c6da0",
         "v105_address": "0x5d6a70",
         "v96f_auto": true
@@ -18773,19 +18758,19 @@
         "v96f_auto": true
     },
     {
-        "name": "Hud_2B00::sub_5D6AB0",
+        "name": "Hud_2B00::RecalcTextLayout_5D6AB0",
         "v96f_address": "0x4cabe0",
         "v105_address": "0x5d6ab0",
         "v96f_auto": true
     },
     {
-        "name": "Hud_2B00::sub_5D6B00",
+        "name": "Hud_2B00::SetFontTypes_5D6B00",
         "v96f_address": "0x4ca520",
         "v105_address": "0x5d6b00",
         "v96f_auto": true
     },
     {
-        "name": "Hud_2B00::sub_5D6BE0",
+        "name": "Hud_2B00::Init_5D6BE0",
         "v96f_address": null,
         "v105_address": "0x5d6be0"
     },
@@ -18796,13 +18781,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Hud_2B00::sub_5D6C70",
+        "name": "Hud_2B00::IsInputKeyConsumed_5D6C70",
         "v96f_address": "0x4c6de0",
         "v105_address": "0x5d6c70",
         "v96f_auto": true
     },
     {
-        "name": "Hud_2B00::sub_5D6CB0",
+        "name": "Hud_2B00::IsQuitMessageInputKey_5D6CB0",
         "v96f_address": "0x4ca650",
         "v105_address": "0x5d6cb0",
         "v96f_auto": true
@@ -18846,7 +18831,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_5D77A0",
+        "name": "DrawTextScaled_5D77A0",
         "v96f_address": "0x4ba2c0",
         "v105_address": "0x5d77a0",
         "v96f_auto": true
@@ -18876,12 +18861,12 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_5D7CB0",
+        "name": "ConvertColourBanks_5D7CB0",
         "v96f_address": "0x4CAEB0",
         "v105_address": "0x5d7cb0"
     },
     {
-        "name": "sub_5D7D30",
+        "name": "MakeScreenTableAndSetWindow_5D7D30",
         "v96f_address": "0x4caec0",
         "v105_address": "0x5d7d30",
         "v96f_auto": true
@@ -18910,7 +18895,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_5D8470",
+        "name": "DrawTexture_5D8470",
         "v96f_address": null,
         "v105_address": "0x5d8470"
     },
@@ -18932,13 +18917,13 @@
         "v105_address": "0x5d8a10"
     },
     {
-        "name": "sub_5D8DF0",
+        "name": "InvalidateCachedScreenDimension_5D8DF0",
         "v96f_address": "0x4cb140",
         "v105_address": "0x5d8df0",
         "v96f_auto": true
     },
     {
-        "name": "sub_5D8E00",
+        "name": "UpdateGameScreenSize_5D8E00",
         "v96f_address": "0x4cb150",
         "v105_address": "0x5d8e00",
         "v96f_auto": true
@@ -18968,13 +18953,13 @@
         "v96f_auto": true
     },
     {
-        "name": "SetStartMode",
+        "name": "SetStartMode_5D9230",
         "v96f_address": "0x4cb4d0",
         "v105_address": "0x5d9230",
         "v96f_auto": true
     },
     {
-        "name": "sub_5D9250",
+        "name": "ToggleStartMode_5D9250",
         "v96f_address": "0x4cb4f0",
         "v105_address": "0x5d9250",
         "v96f_auto": true
@@ -19002,19 +18987,19 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_5D92C0",
+        "name": "IsWindowedModeAvailable_5D92C0",
         "v96f_address": "0x4cb720",
         "v105_address": "0x5d92c0",
         "v96f_auto": true
     },
     {
-        "name": "sub_5D92D0",
+        "name": "SetVideoModeFromSettings_5D92D0",
         "v96f_address": "0x4cc5c0",
         "v105_address": "0x5d92d0",
         "v96f_auto": true
     },
     {
-        "name": "sub_5D93A0",
+        "name": "SetFullScreenMode_5D93A0",
         "v96f_address": "0x4cb570",
         "v105_address": "0x5d93a0",
         "v96f_auto": true
@@ -19026,7 +19011,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_5D9510",
+        "name": "SetWindowedMode_5D9510",
         "v96f_address": "0x4cb730",
         "v105_address": "0x5d9510",
         "v96f_auto": true
@@ -19037,19 +19022,19 @@
         "v105_address": "0x5e9070"
     },
     {
-        "name": "sub_5D9680",
+        "name": "OnVideoModeChanged_5D9680",
         "v96f_address": "0x4cb880",
         "v105_address": "0x5d9680",
         "v96f_auto": true
     },
     {
-        "name": "sub_5D9690",
+        "name": "ApplyChangedScreenSettings_5D9690",
         "v96f_address": "0x4cc6a0",
         "v105_address": "0x5d9690",
         "v96f_auto": true
     },
     {
-        "name": "sub_5D96C0",
+        "name": "InitVideo_5D96C0",
         "v96f_address": "0x4cc6d0",
         "v105_address": "0x5d96c0",
         "v96f_auto": true
@@ -19395,7 +19380,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Frontend::sub_5E53C0",
+        "name": "Frontend::SetInputEnabled_5E53C0",
         "v96f_address": null,
         "v105_address": "0x5e53c0"
     },
@@ -20589,7 +20574,7 @@
         "v105_address": "0x5ed396"
     },
     {
-        "name": "malloc",
+        "name": "crt::malloc",
         "v96f_address": "0x4d5d53",
         "v105_address": "0x5ed3bb"
     },
@@ -20609,7 +20594,7 @@
         "v105_address": "0x5ed46d"
     },
     {
-        "name": "free",
+        "name": "crt::free",
         "v96f_address": "0x4d630a",
         "v105_address": "0x5ed478"
     },
@@ -20849,17 +20834,17 @@
         "v105_address": "0x5ee270"
     },
     {
-        "name": "fseek",
+        "name": "crt::fseek",
         "v96f_address": "0x4d65ee",
         "v105_address": "0x5ee28a"
     },
     {
-        "name": "ftell",
+        "name": "crt::ftell",
         "v96f_address": "0x4d667c",
         "v105_address": "0x5ee316"
     },
     {
-        "name": "fclose",
+        "name": "crt::fclose",
         "v96f_address": "0x4d685e",
         "v105_address": "0x5ee46e"
     },
@@ -20869,22 +20854,22 @@
         "v105_address": "0x5ee4c4"
     },
     {
-        "name": "fopen",
+        "name": "crt::fopen",
         "v96f_address": "0x4d68de",
         "v105_address": "0x5ee4e4"
     },
     {
-        "name": "fread",
+        "name": "crt::fread",
         "v96f_address": "0x4d63fe",
         "v105_address": "0x5ee4f7"
     },
     {
-        "name": "fwrite",
+        "name": "crt::fwrite",
         "v96f_address": "0x4d64e7",
         "v105_address": "0x5ee5df"
     },
     {
-        "name": "fgetc",
+        "name": "crt::fgetc",
         "v96f_address": "0x4d68f1",
         "v105_address": "0x5ee6e9"
     },

@@ -18,6 +18,36 @@ EXPORT void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a
 class Weapon_30
 {
   public:
+    // 9.6f 0x4A4FE0
+    inline u16 get_ammo_4A4FE0()
+    {
+        return field_0_ammo;
+    }
+
+    // 9.6f 0x4A4F90
+    inline void set_infinite_ammo_4A4F90()
+    {
+        field_0_ammo = 0xFFFF;
+    }
+
+    // 9.6f 0x4CCA00
+    inline void set_idx_4CCA00(s32 v)
+    {
+        field_1C_idx = v;
+    }
+
+    // 9.6f 0x4CCA10
+    inline void set_pPed_4CCA10(Ped* v)
+    {
+        field_24_pPed = v;
+    }
+
+    // 9.6f 0x4CCA20
+    inline void set_car_4CCA20(Car_BC* v)
+    {
+        field_14_car = v;
+    }
+
     EXPORT Weapon_30();
     EXPORT ~Weapon_30();
     EXPORT void init_5DCD90();
@@ -97,7 +127,15 @@ class Weapon_30
 
     void set_field_2C_4CCA80(char_type new_value)
     {
-        field_2C = new_value;
+        field_2C_shot_fired = new_value;
+    }
+
+    // 9.6f 0x41CC80
+    inline s8 TakeF2C_41CC80()
+    {
+        s8 ret = field_2C_shot_fired;
+        field_2C_shot_fired = 0;
+        return ret;
     }
 
     inline bool HasAmmo_4A4F80()
@@ -142,7 +180,7 @@ class Weapon_30
     s8 field_23;
     Ped* field_24_pPed;
     infallible_turing* field_28_pSound;
-    s8 field_2C;
+    s8 field_2C_shot_fired;
     s8 field_2D;
     s8 field_2E;
     s8 field_2F;

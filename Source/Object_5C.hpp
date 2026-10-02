@@ -3,12 +3,15 @@
 #include "Fix16_Point.hpp"
 #include "Function.hpp"
 #include "Object_3C.hpp"
+#include "Object_8.hpp"
 #include "Phi_8CA8.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
 #include "sprite.hpp"
 
 EXTERN_GLOBAL(s32, gObj2C_id_623EC0);
+
+EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3);
 
 class Object_2C;
 class Sprite;
@@ -24,6 +27,12 @@ class nostalgic_ellis_0x28;
 class Object_2C
 {
   public:
+    // 9.6f 0x4C4F10
+    inline void set_field_27_4C4F10(char_type v)
+    {
+        field_27 = v;
+    }
+
     EXPORT Object_2C();
     EXPORT void PoolDeallocate();
     EXPORT bool CanCollideWithSpriteByVarrok_522250(Sprite* a2);
@@ -37,7 +46,7 @@ class Object_2C
     EXPORT char_type SelectCollisionSprite_522460(Sprite* a2);
     EXPORT void SetMovementVector_5224E0(Fix16_Point& speed);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& a2);
-    EXPORT void sub_5226A0(char_type a2);
+    EXPORT void SetConveyorPush_5226A0(char_type a2);
     EXPORT void ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3);
     EXPORT void ResolveCollisionWithPed_5229B0(Char_B4* a2, Fix16_Point* a3, s32 a4);
     EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* a2, Fix16_Point* a3, Fix16_Point* speed);
@@ -49,7 +58,7 @@ class Object_2C
     EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Point* a3, u8* a4, Fix16 a5);
     EXPORT char_type HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5);
     EXPORT char_type HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, u8* a4, u8* a5, Fix16 a6);
-    EXPORT void sub_524550();
+    EXPORT void ComputeWallHitSide_524550();
     EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 a3);
     EXPORT void sub_525190(u8 varrok_idx);
     EXPORT void UpdateAninmation_5257D0();
@@ -70,30 +79,30 @@ class Object_2C
     EXPORT void Light_527990();
     EXPORT void AssignToBucket_527AE0();
     EXPORT void RemoveFromCollisionBuckets_527D00();
-    EXPORT void sub_527F10();
+    EXPORT void ReleaseSubObjects_527F10();
     EXPORT void NewObj3C_528130(Fix16_Point& speed);
     EXPORT char_type HandleRotationStateTransition_528240(s32 a2, s32 a3);
     EXPORT void TickObject_5283C0(s32 a2);
     EXPORT char_type OnObjectTouched_5288B0(Sprite* a2);
     EXPORT void HandleWaterDeath_528900();
-    EXPORT static s32 __stdcall sub_528E00(s32 a1); // TODO: Check if thiscall
+    EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 a1); // TODO: Check if thiscall
     EXPORT char_type HandleObjectHitIfExplosive_528960(Object_2C* pOther);
     EXPORT char_type HandleObjectHit_528990(Sprite* a2);
     EXPORT void ProcessObjectExplosionImpact_528A20(Object_2C* pObj);
     EXPORT void HandleImpactNoSprite_528BA0();
     EXPORT void HandleImpact_528E50(Sprite* a3);
     EXPORT void HandleCollisionWithObject_529000(Object_2C* pObj);
-    EXPORT void sub_529030(s8 speed_x, s8 speed_y);
-    EXPORT void sub_529070(Object_2C* pObj);
+    EXPORT void SetConveyorSpeed_529030(s8 speed_x, s8 speed_y);
+    EXPORT void ApplyConveyorSpeedFrom_529070(Object_2C* pObj);
     EXPORT s32 GetExplosionSideFromDiagonalWall_529210();
     EXPORT s32 sub_529240();
     EXPORT void get_weapon_default_ammo_5292D0();
     EXPORT void SetDamageOwner_529080(u8 a2);
-    EXPORT void sub_5290A0();
-    EXPORT void sub_5290B0();
+    EXPORT void RequestRemoval_5290A0();
+    EXPORT void RequestRemovalWhenOffScreen_5290B0();
     EXPORT void Dealloc_5291B0();
-    EXPORT void sub_5291D0();
-    EXPORT void sub_5291E0(u8 a2);
+    EXPORT void PoolGiveAndMarkDone_5291D0();
+    EXPORT void PoolGiveAndSetDone_5291E0(s32 a2);
     EXPORT bool IsNotModel_174_529200();
     EXPORT ~Object_2C();
     EXPORT void EnsureObject3C_52A650();
@@ -102,7 +111,7 @@ class Object_2C
     EXPORT Fix16_Point GetSpeedVector_52AE90();
 
     // TODO: ordering
-    EXPORT void sub_5290C0(u8 id_base);
+    EXPORT void SetSpriteIdOffset_5290C0(u8 id_base);
     EXPORT Fix16 sub_5290F0();
     EXPORT char sub_525AC0();
     EXPORT void UpdateEffectPool_525B20();
@@ -112,6 +121,13 @@ class Object_2C
     EXPORT void IntegrateMovementAndCollisions_523BF0(Fix16 a2, Ang16 a);
     EXPORT void Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite);
 
+    // 9.6f 0x475A70
+    inline bool IsBehavior1_475A70()
+    {
+        return field_8->field_34_behavior_type == object_behavior_type::behavior_1;
+    }
+
+    // 9.6f 0x475A60
     inline bool check_is_busy_shop()
     {
         s32 v1 = field_8->field_34_behavior_type;
@@ -124,7 +140,7 @@ class Object_2C
         return t == 2 || t == 4 || t == 8 || t == 9;
     }
 
-    inline bool sub_434140()
+    inline bool IsDestroyedPowergen_434140()
     {
         if (field_18_model == 285 || field_18_model == 282)
         {
@@ -163,7 +179,7 @@ class Object_2C
         return field_8->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3;
     }
 
-    // Inlined on version 9.6f 0x447e90
+    // Inlined on version 9.6f 0x447e90 (also 9.6f copies 0x45E0A0 and 0x482C00)
     inline void set_field_26(u8 v)
     {
         field_26_varrok_idx = v;
@@ -175,9 +191,29 @@ class Object_2C
         return field_26_varrok_idx;
     }
 
+    // 9.6f 0x434130
+    inline void SetO8Timer_434130(s16 timer)
+    {
+        field_C_pAny.o8->field_4_timer = timer;
+    }
+
+    // 9.6f 0x40FEF0
     s32 get_model_40FEF0()
     {
         return field_18_model;
+    }
+
+    // 9.6f 0x40FF00
+    inline char_type GetDefField63_40FF00()
+    {
+        return field_8->field_63;
+    }
+
+    // 9.6f 0x475AA0
+    inline bool IsModel176To181_475AA0()
+    {
+        s32 model = field_18_model;
+        return model == 176 || model == 177 || model == 178 || model == 179 || model == 180 || model == 181;
     }
 
     bool check_is_shop_421060()
@@ -192,11 +228,11 @@ class Object_2C
     inline void PoolAllocate()
     {
         field_14_id = gObj2C_id_623EC0++;
-        field_25 = 0;
+        field_25_removal_state = 0;
         field_26_varrok_idx = 99;
         field_10_obj_3c = 0;
         field_C_pAny.o8 = 0;
-        field_1C = 0;
+        field_1C_bHasExplosion = 0;
         field_4 = 0;
         field_18_model = 0;
     }
@@ -216,6 +252,12 @@ class Object_2C
         return field_4->field_1C_zpos;
     }
 
+    // 9.6f 0x4BE850
+    bool IsGangIcon_4BE850()
+    {
+        return field_18_model >= 287 && field_18_model <= 293; // loonies_icon_287 .. russian_mafia_icon_293
+    }
+
     char sub_4BE830()
     {
         if (this->field_18_model == 197)
@@ -231,9 +273,36 @@ class Object_2C
         return 0;
     }
 
+    // 9.6f 0x482400
+    static inline bool IsDefinitionIdx39To42_482400(s32 idx)
+    {
+        return idx >= 39 && idx <= 42;
+    }
+
+    // 9.6f 0x482C80
+    inline Fix16 GetMass_482C80()
+    {
+        return field_8->field_18_mass;
+    }
+
     void sub_482BE0()
     {
         field_4->set_num_40F7B0(field_8->field_2C);
+    }
+
+    // 9.6f 0x482C10, defined in Object_5C.cpp (needs Object_8)
+    inline bool IsAnimFinished_482C10();
+
+    // 9.6f 0x493090
+    inline void GetConveyorDirection_493090(s8* pX, s8* pY)
+    {
+        UnpackSignedNibbles_529050(get_field_26_420FF0(), pX, pY);
+    }
+
+    // 9.6f 0x482BF0
+    void sub_482BF0()
+    {
+        field_4->set_num_40F7B0(29);
     }
 
     Object_2C* mpNext;
@@ -249,13 +318,13 @@ class Object_2C
     Object_3C* field_10_obj_3c;
     s32 field_14_id;
     s32 field_18_model;
-    char_type field_1C;
+    char_type field_1C_bHasExplosion;
     char_type field_1D;
     char_type field_1E;
     char_type field_1F;
-    s32 field_20;
+    s32 field_20_pool_list_state;
     u8 field_24_bDoneThisFrame;
-    u8 field_25;
+    u8 field_25_removal_state;
     u8 field_26_varrok_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
     char_type field_27;
     char_type field_28;
@@ -269,20 +338,20 @@ struct TurkishDelight_164;
 class Object_5C
 {
   public:
-    EXPORT void sub_529300();
+    EXPORT void TrimSpriteList_529300();
     EXPORT void ObjectsService_5293A0();
     EXPORT Object_5C();
     EXPORT ~Object_5C();
-    EXPORT void sub_5297F0();
+    EXPORT void CreateDiagonalWallObjects_5297F0();
     EXPORT Object_2C* GetDirectionalObject_5298E0(s32 a2);
     EXPORT Object_2C* NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth);
     EXPORT Object_2C* NewPhysicsObj_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
-    EXPORT Object_2C* sub_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6);
+    EXPORT Object_2C* NewWithVarrokIdx_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6);
     EXPORT Object_2C* NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
     EXPORT Object_2C* NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
     EXPORT Object_2C* sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
     EXPORT Object_2C* New_529C00(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6, char_type a7);
-    EXPORT char_type sub_52A210(char_type a2);
+    EXPORT char_type SetPendingDamageOwner_52A210(char_type a2);
     EXPORT Object_2C* NewUnknown_52A240(s32 object_type,
                                         Fix16 maybe_x,
                                         Fix16 maybe_y,
@@ -317,20 +386,20 @@ class Object_5C
     EXPORT void RestoreObjects_52A590(TurkishDelight_164* pUnknownObj);
     EXPORT void RemoveAndFree_52A610(Object_2C* p2C);
 
-    Object_2C* field_0; // Object_2C* ?
-    Object_2C* field_4;
-    Object_2C* field_8;
-    Object_2C* field_C;
+    Object_2C* field_0_diagonal_wall_ang315; // Object_2C* ?
+    Object_2C* field_4_diagonal_wall_ang135;
+    Object_2C* field_8_diagonal_wall_ang225;
+    Object_2C* field_C_diagonal_wall_ang45;
     s32 field_10_rotation_counter;
     s32 field_14_sprites_in_list;
-    u8 field_18;
+    u8 field_18_pending_damage_owner;
     u8 field_19;
     u16 field_1A;
-    struct_4 field_1C;
+    struct_4 field_1C_sprite_list;
     u8 field_20_bUnCollectedTokens[50];
     u16 field_52; // pad?
     s32 field_54_uncollected_token_index;
-    Sprite* field_58;
+    Sprite* field_58_collision_probe_sprite;
 };
 
 EXTERN_GLOBAL(Object_5C*, gObject_5C_6F8F84);

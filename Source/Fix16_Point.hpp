@@ -6,8 +6,8 @@
 
 EXTERN_GLOBAL(Fix16, gFix16_6777CC);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
-EXTERN_GLOBAL(Fix16, dword_6FE07C);
-EXTERN_GLOBAL(Fix16, dword_6F77C0);
+EXTERN_GLOBAL(Fix16, kFP16One256th_6FE07C);
+EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
 
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
 // but 9.6f leads me to believe both the POD and non-POD type are the same
@@ -32,10 +32,16 @@ struct Fix16_Point_POD
         return x == kFP16Zero_6FE20C && y == kFP16Zero_6FE20C;
     }
 
+    // 9.6f 0x49E450
+    inline bool HasZeroComponent_49E450() const
+    {
+        return x == kFP16Zero_6FE20C || y == kFP16Zero_6FE20C;
+    }
+
     void ApplyDeadZone_49E3C0()
     {
         Fix16 total = (Fix16::Abs(x) + Fix16::Abs(y));
-        if (total < dword_6FE07C)
+        if (total < kFP16One256th_6FE07C)
         {
             x = kFP16Zero_6FE20C;
             y = kFP16Zero_6FE20C;
@@ -67,10 +73,10 @@ struct Fix16_Point_POD
         }
     }
 
-    inline void sub_41E210(Fix16& unk, Ang16& angle)
+    inline void SetFromPolar_41E210(Fix16& radius, Ang16& angle)
     {
-        x = Ang16::sine_40F500(angle) * unk;
-        y = Ang16::cosine_40F520(angle) * unk;
+        x = Ang16::sine_40F500(angle) * radius;
+        y = Ang16::cosine_40F520(angle) * radius;
     }
 
     // Matching impl at RotateVelocity_562C20
@@ -250,11 +256,11 @@ class Fix16_Point : public Fix16_Point_POD
     // Needed for miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360.
     inline Fix16 GetLength_no_sqrt_inline_abs_y_negate()
     {
-        if (x == dword_6F77C0)
+        if (x == kFpZero_6F77C0)
         {
             return Fix16::Abs_negate_out_of_line(y);
         }
-        else if (y == dword_6F77C0)
+        else if (y == kFpZero_6F77C0)
         {
             return Fix16::Abs(x);
         }
@@ -273,11 +279,11 @@ class Fix16_Point : public Fix16_Point_POD
     // Needed for miss2_0x11C::GetSpeed_50E190.
     inline Fix16 GetLength_all_out_of_line_abs_y_negate()
     {
-        if (x == dword_6F77C0)
+        if (x == kFpZero_6F77C0)
         {
             return Fix16::Abs_negate_out_of_line(y);
         }
-        else if (y == dword_6F77C0)
+        else if (y == kFpZero_6F77C0)
         {
             return Fix16::Abs_436A50(x);
         }

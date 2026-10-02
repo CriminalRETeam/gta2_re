@@ -7,7 +7,7 @@
 class Sprite;
 
 EXTERN_GLOBAL(Fix16, kSmallWidthEpslion_703450);
-EXTERN_GLOBAL(Fix16, k_dword_6771E4);
+EXTERN_GLOBAL(Fix16, kCollisionPrismHalfHeight_6771E4);
 
 // 9.6f 0x41E160
 // https://decomp.me/scratch/A4s7c
@@ -41,8 +41,8 @@ class Fix16_Rect
         field_8_top = y - tmp;
         field_C_bottom = y + tmp;
 
-        this->field_10_low_z = z - k_dword_6771E4;
-        this->field_14_high_z = z + k_dword_6771E4;
+        this->field_10_low_z = z - kCollisionPrismHalfHeight_6771E4;
+        this->field_14_high_z = z + kCollisionPrismHalfHeight_6771E4;
     }
 
     // 9.6f 0x41E350
@@ -59,6 +59,30 @@ class Fix16_Rect
     EXPORT void SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
     EXPORT void MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h);
 
+    // 9.6f 0x433560
+    inline bool OverlapsZ_433560(Fix16_Rect* pOther)
+    {
+        return IntervalsOverlap_41E160(field_10_low_z, field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z);
+    }
+
+    // 9.6f 0x463760
+    inline s32 GetMidZ_463760() const
+    {
+        return ((field_10_low_z + field_14_high_z) / 2).ToInt();
+    }
+
+    // 9.6f 0x463690, defined in map_0x370.cpp
+    inline bool EdgesCrossSegment_463690(Fix16_Point& p1, Fix16_Point& p2);
+
+    // 9.6f 0x463710
+    inline void SetFromPosSize_463710(Fix16 left, Fix16 top, Fix16 width, Fix16 height)
+    {
+        field_0_left = left;
+        field_8_top = top;
+        field_4_right = left + width;
+        field_C_bottom = top + height;
+    }
+
     void SetHiLowZ_41E370(Fix16 lowZ, Fix16 highZ)
     {
         this->field_10_low_z = lowZ;
@@ -68,8 +92,8 @@ class Fix16_Rect
     Fix16_Rect(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom, Fix16 z)
     {
         SetRect_41E350(left, right, top, bottom);
-        field_10_low_z = z - k_dword_6771E4;
-        field_14_high_z = z + k_dword_6771E4;
+        field_10_low_z = z - kCollisionPrismHalfHeight_6771E4;
+        field_14_high_z = z + kCollisionPrismHalfHeight_6771E4;
     }
 
     // TODO: Get inline addr

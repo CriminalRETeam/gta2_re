@@ -56,6 +56,18 @@ template<typename PoolType, s32 PoolSize>
 class Pool
 {
   public:
+    // 9.6f 0x48A8F0
+    inline bool has_pStart_48A8F0()
+    {
+        return field_0_pStart != NULL;
+    }
+
+    // 9.6f 0x4B8FD0 (CokeZero_FC, 10.5 copy 0x5935C0): first used item
+    inline PoolType* GetFirstUsed_4B8FD0()
+    {
+        return field_4_pPrev;
+    }
+
     Pool()
     {
         PoolType* pIter = field_8_pool;
@@ -251,7 +263,7 @@ class Pool
         }
     }
 
-    PoolType* unknown_func(PoolType* pToFind)
+    PoolType* FindAndDeAllocate(PoolType* pToFind)
     {
         PoolType* pLast = 0;
 
@@ -278,7 +290,7 @@ class Pool
         return pToFind;
     }
 
-    void sub_420F30(PoolType* toFind)
+    void UnlinkFromActiveList_420F30(PoolType* toFind)
     {
         PoolType* pIter = this->field_4_pPrev;
         PoolType* pLast = 0;

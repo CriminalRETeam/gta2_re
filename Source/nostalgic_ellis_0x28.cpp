@@ -15,8 +15,8 @@ nostalgic_ellis_0x28::nostalgic_ellis_0x28()
     field_C_light_z = 0;
     field_10_argb = 0xFFFFFF;
     mpNext = 0;
-    field_24 = 0;
-    field_20 = 0;
+    field_24_pGridPrev = 0;
+    field_20_pGridNext = 0;
     field_14_on_time = 0;
     field_15_off_time = 0;
     field_16_shape = 0;
@@ -28,12 +28,12 @@ MATCH_FUNC(0x4D6D60)
 nostalgic_ellis_0x28::~nostalgic_ellis_0x28()
 {
     mpNext = 0;
-    field_24 = 0;
-    field_20 = 0;
+    field_24_pGridPrev = 0;
+    field_20_pGridNext = 0;
 }
 
 MATCH_FUNC(0x4D6D70)
-void nostalgic_ellis_0x28::sub_4D6D70()
+void nostalgic_ellis_0x28::AddToGrid_4D6D70()
 {
     u32 v1 = (field_4_light_x.ToInt() >> 2) + ((field_8_light_y.ToInt() >> 2) * 64);
     nostalgic_ellis_0x28* v2 = g4096_alloc_6F5400[v1];
@@ -41,44 +41,44 @@ void nostalgic_ellis_0x28::sub_4D6D70()
     if (!v2)
     {
         g4096_alloc_6F5400[v1] = this;
-        field_20 = 0;
-        field_24 = 0;
+        field_20_pGridNext = 0;
+        field_24_pGridPrev = 0;
     }
     else
     {
         g4096_alloc_6F5400[v1] = this;
-        field_24 = 0;
-        field_20 = v2;
-        v2->field_24 = this;
+        field_24_pGridPrev = 0;
+        field_20_pGridNext = v2;
+        v2->field_24_pGridPrev = this;
     }
 }
 
 MATCH_FUNC(0x4D6DC0)
-nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
+nostalgic_ellis_0x28* nostalgic_ellis_0x28::RemoveFromGrid_4D6DC0()
 {
     nostalgic_ellis_0x28* v1;
     nostalgic_ellis_0x28* result;
 
-    v1 = field_24;
+    v1 = field_24_pGridPrev;
     if (v1)
     {
-        v1->field_20 = field_20;
+        v1->field_20_pGridNext = field_20_pGridNext;
     }
     else
     {
-        *(&g4096_alloc_6F5400[64 * (field_8_light_y.ToInt() >> 2)] + (field_4_light_x.ToInt() >> 2)) = field_20;
+        *(&g4096_alloc_6F5400[64 * (field_8_light_y.ToInt() >> 2)] + (field_4_light_x.ToInt() >> 2)) = field_20_pGridNext;
     }
 
-    result = field_20;
+    result = field_20_pGridNext;
     if (result)
     {
-        result->field_24 = field_24;
+        result->field_24_pGridPrev = field_24_pGridPrev;
     }
     return result;
 }
 
 MATCH_FUNC(0x4D6E00)
-void __stdcall Light::sub_4D6E00()
+void __stdcall Light::AllocGrid_4D6E00()
 {
     g4096_alloc_6F5400 = (nostalgic_ellis_0x28**)crt::malloc(0x4000u);
     for (s32 i = 0; i < 4096; i++)
@@ -88,7 +88,7 @@ void __stdcall Light::sub_4D6E00()
 }
 
 MATCH_FUNC(0x4D6E30)
-void Light::sub_4D6E30()
+void Light::FreeGrid_4D6E30()
 {
     if (g4096_alloc_6F5400)
     {
@@ -98,7 +98,7 @@ void Light::sub_4D6E30()
 }
 
 MATCH_FUNC(0x4D6E50)
-void __stdcall Light::sub_4D6E50(s32 min_x, s32 min_y, s32 max_x, s32 max_y)
+void __stdcall Light::SubmitLightsInArea_4D6E50(s32 min_x, s32 min_y, s32 max_x, s32 max_y)
 {
     min_x = (min_x >> 2) - 2;
     if (min_x < 0)
@@ -138,7 +138,7 @@ void __stdcall Light::sub_4D6E50(s32 min_x, s32 min_y, s32 max_x, s32 max_y)
                 pSLight.field_C_z = pLight->field_C_light_z.ToFloat();
                 pSLight.field_10_colour = pLight->field_10_argb;
                 pgbh_AddLight(&pSLight);
-                pLight = pLight->field_20;
+                pLight = pLight->field_20_pGridNext;
             }
         }
     }

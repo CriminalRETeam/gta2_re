@@ -39,6 +39,7 @@ class Weapon_30_Pool
     {
     }
 
+    // 9.6f 0x4CC9C0 (which also calls 0x4CC810, init_5DCD90 in 10.5)
     Weapon_30* Allocate()
     {
         Weapon_30* pWeapon = field_0_pool.field_0_pStart;
@@ -48,9 +49,18 @@ class Weapon_30_Pool
         return pWeapon;
     }
 
+    // 9.6f 0x4CC9E0 (which also calls 0x4CC810, init_5DCD90 in 10.5)
+    inline Weapon_30* AllocateUnlinked_4CC9E0()
+    {
+        Weapon_30* pWeapon = field_0_pool.field_0_pStart;
+        field_0_pool.field_0_pStart = pWeapon->mpNext;
+        pWeapon->mpNext = 0;
+        return pWeapon;
+    }
+
     // TODO: This is probably a heavily inlined common iteration func
     // Remove/dealloc?
-    void sub_4A4F20(Weapon_30* pW30)
+    void DeAllocate_4A4F20(Weapon_30* pW30)
     {
         Weapon_30* pIter = this->field_0_pool.field_4_pPrev;
         Weapon_30* pLastIter = 0;

@@ -12,7 +12,7 @@ class sleepy_stonebraker_0x6C
     char_type field_0;
     char_type field_1;
     s16 field_2;
-    u16 field_4;
+    u16 field_4_y_gap;
     u16 field_6_string_category;
     wchar_t field_8_strBuf[50];
 };

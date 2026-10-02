@@ -35,8 +35,8 @@ struct font_base
 
 struct sprite_index
 {
-    EXPORT void sub_5ABAA0(u8 a2);
-    EXPORT void sub_5ABB00(u8* dst_x);
+    EXPORT void ClearPixelsOfColour_5ABAA0(u8 a2);
+    EXPORT void CopyPixels_5ABB00(u8* dst_x);
 
     BYTE* field_0_pData;
     u8 field_4_width;
@@ -57,7 +57,7 @@ struct palette_index
 
 struct tile_array
 {
-    u16 field_0[1024];
+    u16 field_0_tile_mapping[1024];
 };
 
 struct delta_entry
@@ -115,9 +115,9 @@ struct car_info_container
     car_info_container()
     {
         field_400_count = 0;
-        memset(field_0, 0, sizeof(field_0));
+        memset(field_0_car_info, 0, sizeof(field_0_car_info));
     }
-    car_info* field_0[256];
+    car_info* field_0_car_info[256];
     u8 field_400_count;
     //char_type field_401;// pad
     //char_type field_402;// pad
@@ -143,7 +143,7 @@ struct sprite_delta
 
 struct sprite_deltas
 {
-    u16 field_0;
+    u16 field_0_which_sprite;
     u8 field_2_count;
     u8 field_3_pad;
     sprite_delta field_4_deltas[1];
@@ -177,9 +177,45 @@ enum
 class gtx_0x106C
 {
   public:
-    inline bool sub_49E540(u16 spec_idx)
+    inline bool IsRemappedWaterTile_49E540(u16 spec_idx)
     {
         if (field_6C_spec[spec_idx] == 4 && IsTileRemapped_5AA850(spec_idx))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    // 9.6f 0x4C03D0 (a ctor of the spec array there)
+    inline void ResetSpecs_4C03D0()
+    {
+        for (int i = 0; i < GTA2_COUNTOF(field_6C_spec); i++)
+        {
+            field_6C_spec[i] = 1;
+        }
+    }
+
+    // 9.6f 0x462FB0
+    inline bool IsWaterTile_462FB0(u16 spec_idx)
+    {
+        return field_6C_spec[spec_idx] == 4;
+    }
+
+    // 9.6f 0x462FD0
+    inline s32 sub_462FD0(u16 spec_idx)
+    {
+        s32 result = field_6C_spec[spec_idx];
+        if (result == 3)
+        {
+            result = 1;
+        }
+        return result;
+    }
+
+    // 9.6f 0x49E570
+    inline bool sub_49E570(u16 spec_idx)
+    {
+        if (field_6C_spec[spec_idx] == 4 && !IsTileRemapped_5AA850(spec_idx))
         {
             return true;
         }
@@ -252,11 +288,11 @@ class gtx_0x106C
 
     EXPORT void InitTileMapping_5AA950();
 
-    EXPORT void sub_5AA9A0(s32 chunk_size);
+    EXPORT void BuildCarInfoContainer_5AA9A0(s32 chunk_size);
 
     EXPORT void load_delx_5AAB30(u32 delx_chunk_size);
 
-    EXPORT void sub_5AABF0();
+    EXPORT void SetDeltaDataPtrs_5AABF0();
 
     EXPORT void SetSpriteIndexDataPtrs_5AAC40();
 
@@ -284,7 +320,7 @@ class gtx_0x106C
 
     EXPORT void load_sprite_index_5AAF80(u32 sprx_chunk_size);
 
-    EXPORT void sub_5AAFE0(u16 a1);
+    EXPORT void InitFontTypes_5AAFE0(u16 a1);
 
     EXPORT void load_font_base_5AB0F0(u32 fonb_chunk_size);
 
@@ -306,7 +342,7 @@ class gtx_0x106C
 
     EXPORT void LoadChunk_5AB4B0(const char_type* Str1, u32 chunk_len);
 
-    EXPORT void sub_5AB720();
+    EXPORT void SetDataPtrs_5AB720();
 
     EXPORT void LoadSty_5AB750(const char_type* pStyFileName);
 
@@ -325,7 +361,7 @@ class gtx_0x106C
     // inlined v9.6f, 0x420200
     bool does_car_exist(u8 iParm1) const
     {
-        return field_5C_cari->field_0[iParm1] != NULL;
+        return field_5C_cari->field_0_car_info[iParm1] != NULL;
     }
 
     inline bool IsElectrifiedFloorType_491F80(u16 tile_idx)
@@ -333,9 +369,9 @@ class gtx_0x106C
         return field_6C_spec[tile_idx] == spec_surface_type_enum::spec_electrified;
     }
 
-    inline car_info* sub_4BF1F0(u8 model_idx)
+    inline car_info* get_car_info_4BF1F0(u8 model_idx)
     {
-        return field_5C_cari->field_0[model_idx];
+        return field_5C_cari->field_0_car_info[model_idx];
     }
 
     s16 field_0_totalPalBase;
@@ -355,7 +391,7 @@ class gtx_0x106C
     void* field_2C_physical_palettes;
     void* field_30_physical_palettes_size;
     BYTE* field_34_sprite_graphics;
-    void* field_38;
+    void* field_38_sprite_graphics_unaligned;
     u8* field_3C_tiles;
     tile_array* field_40_tile;
     void* field_44_aligned_tiles_size;
@@ -368,12 +404,18 @@ class gtx_0x106C
     s32 field_60_delta_len;
     u8* field_64_car_recycling_info;
     s16 field_68_recy_chunk_size;
-    char_type field_6A;
+    char_type field_6A_palettes_converted;
     char_type field_6B;
     s32 field_6C_spec[1024];
 };
 
 EXTERN_GLOBAL(gtx_0x106C*, gGtx_0x106C_703DD4);
+
+// 9.6f 0x4C23D0
+inline s32 __stdcall GetSpaceWidth_4C23D0(u16 font_type)
+{
+    return (u16)gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
+}
 
 EXTERN_GLOBAL(s16, word_703D98);
 EXTERN_GLOBAL(s16, word_703BAA);

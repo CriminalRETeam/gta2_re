@@ -15,10 +15,10 @@ class DoorData_10 // Contains only position, face and DoorInfo id
 {
   public:
     EXPORT void PoolAllocate();
-    EXPORT void sub_49c340(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 a6);
-    EXPORT void sub_49C4E0(u8 a1);
-    EXPORT void sub_49C590(u8 a1);
-    EXPORT static s32 __stdcall sub_4DEEB0(s32 v);
+    EXPORT void Init_49C340(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 a6);
+    EXPORT void Open_49C4E0(u8 a1);
+    EXPORT void Close_49C590(u8 a1);
+    EXPORT static s32 __stdcall GetOppositeFace_4DEEB0(s32 v);
 
     u8 get_z_489640() const
     {
@@ -35,7 +35,7 @@ class DoorData_10 // Contains only position, face and DoorInfo id
         return field_4_x;
     }
 
-    s32 field_0;
+    s32 field_0_state;
     u8 field_4_x;
     u8 field_5_y;
     u8 field_6_z;
@@ -43,6 +43,11 @@ class DoorData_10 // Contains only position, face and DoorInfo id
     s32 field_8_face;
     DoorData_10* mpNext;
 };
+
+inline bool Door_38::IsOpen_44C860()
+{
+    return field_0_primary_door_data->field_0_state == 2;
+}
 
 class DoorData_10_Pool
 {
@@ -79,7 +84,7 @@ class DoorData_10_Pool
 class Door_4D4
 {
   public:
-    EXPORT DoorData_10* sub_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type a6);
+    EXPORT DoorData_10* AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type a6);
     EXPORT Door_38* RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed);
     EXPORT Door_38* RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed);
     EXPORT Door_38* RegisterSingleDoor_49D170(u8 gr_id,
@@ -107,15 +112,15 @@ class Door_4D4
                                               u8 flip,
                                               u8 reversed);
     EXPORT void RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed);
-    EXPORT void sub_49D340(Car_BC* a2, u8 a3);
-    EXPORT void sub_49D370(Ped* a2, u8 idx);
-    EXPORT Door_38* sub_49D3A0();
+    EXPORT void TryOpenDoorForCar_49D340(Car_BC* a2, u8 a3);
+    EXPORT void TryOpenDoorForPed_49D370(Ped* a2, u8 idx);
+    EXPORT Door_38* GetNextFreeDoor_49D3A0();
     EXPORT char_type CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx);
     EXPORT void DoorsService_49D460();
     EXPORT Door_4D4();
     EXPORT ~Door_4D4();
 
-    Door_38 field_0[22];
+    Door_38 field_0_doors[22];
     u16 field_4D0_count;
     s16 field_4D2;
 };

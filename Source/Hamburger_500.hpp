@@ -39,13 +39,13 @@ class Hamburger_40
     EXPORT Hamburger_40();
     EXPORT ~Hamburger_40();
 
-    char_type field_0; // bInUse ?
+    char_type field_0_bInUse;
     char_type field_1;
     char_type field_2;
     char_type field_3;
     Ped* field_4_ped_owner; // owner/thing going to the target
     s32 field_8_maybe_path_type;
-    s32 field_C;
+    s32 field_C_relationship_code; // One of PedRelationship
     char_type field_10;
     char_type field_11;
     char_type field_12;
@@ -97,7 +97,7 @@ class Hamburger_500
     EXPORT Hamburger_500();
     EXPORT ~Hamburger_500();
 
-    Hamburger_40 field_0[20];
+    Hamburger_40 field_0_entries[20];
 };
 
 EXTERN_GLOBAL(Hamburger_500*, gHamburger_500_678E30);

@@ -17,13 +17,44 @@ class Player;
 
 struct lucid_hamilton
 {
+    // 9.6f 0x453A80
+    inline s32 get_secret_tokens_collected_453A80()
+    {
+        return field_574_secret_tokens_collected;
+    }
+
+    // 9.6f 0x476B10
+    inline void set_secret_tokens_collected_476B10(s32 count)
+    {
+        field_574_secret_tokens_collected = count;
+    }
+
+    // 9.6f 0x434A10
+    inline void IncSecretTokensCollected_434A10()
+    {
+        field_574_secret_tokens_collected++;
+    }
+
+    // 9.6f 0x453A40
+    inline u8 EncodeStage_453A40(u8 main_stage_idx, u8 bonus_stage_idx)
+    {
+        return (main_stage_idx << 4) | bonus_stage_idx;
+    }
+
+    // 9.6f 0x453A60
+    inline void DecodeStage_453A60(u8 stage, u8* pMainStageIdx, u8* pBonusStageIdx)
+    {
+        *pMainStageIdx = stage >> 4;
+        *pBonusStageIdx = stage & 0xF;
+    }
+
     char_type field_0_map_name[256];
     char_type field_100_style_name[256];
     char_type field_200_script_name[256];
     char_type field_300_debug_str[256];
     char_type field_400_main_stage;
     char_type field_401_stage;
-    char_type field_402;
+    char_type field_402_bonus_stage;
     u8 field_403_player_slot_idx;
     char_type field_404_level_finish_bonus_type;
     char_type field_405;
@@ -38,24 +69,25 @@ struct lucid_hamilton
     field_408[9] = gang members killed
     */
     s32 field_408_statistics[10];
-    s32 field_430;
-    s32 field_434;
+    s32 field_430_car_damage_cost;
+    s32 field_434_evasion_rating;
     s16 field_438_bonus_rating_text_idx;
-    char_type field_43A;
+    char_type field_43A_bStartedFromPlayBonusMenu;
     char_type field_43B_game_type;
     s32 field_43C_points_limit;
     char_type field_440_user_player_idx;
     char_type field_441_max_players;
-    char_type field_442;
+    char_type field_442_winner_player_idx;
     char_type field_443;
     s32 field_444_game_time_limit;
-    wonderful_knuth_0xC field_448[6];
+    wonderful_knuth_0xC field_448_frags_by_victim[6];
     s16 field_490_frags_list[6];
     s32 field_49C_points_list[6];
-    blissful_ganguly_0x20 field_4B4[6];
+    blissful_ganguly_0x20 field_4B4_player_names[6];
     s32 field_574_secret_tokens_collected;
 
     // inlined at 45b420 in 9.6f
+    // 9.6f 0x45B420
     EXPORT void clear_secret_tokens_collected()
     {
         field_574_secret_tokens_collected = 0;
@@ -66,7 +98,7 @@ struct lucid_hamilton
         return field_444_game_time_limit;
     }
 
-    EXPORT void sub_4C53D0();
+    EXPORT void LoadDebugSettings_4C53D0();
 
     EXPORT char* SetMapName_4C5870(char_type* Source);
 
@@ -76,11 +108,11 @@ struct lucid_hamilton
 
     EXPORT char_type* DebugStr_4C58D0(char_type* Source);
 
-    EXPORT void sub_4C58F0(char_type a2);
+    EXPORT void SetMainStageIdx_4C58F0(char_type a2);
 
-    EXPORT void sub_4C5900(char_type a2);
+    EXPORT void SetStage_4C5900(char_type a2);
 
-    EXPORT void sub_4C5910(char_type a2);
+    EXPORT void SetBonusStage_4C5910(char_type a2);
 
     EXPORT void SetPlySlotIdx_4C5920(char_type a2);
 
@@ -98,33 +130,33 @@ struct lucid_hamilton
 
     EXPORT char_type GetStage_4C5990();
 
-    EXPORT char_type sub_4C59A0();
+    EXPORT char_type IsBonusStage_4C59A0();
 
     EXPORT u8 GetPlySlotIdx_4C59B0();
 
     EXPORT char_type GetLevelFinishBonusType_4C59C0();
 
-    EXPORT void sub_4C59D0(u8 a2, s32 a3);
+    EXPORT void SetStatistic_4C59D0(u8 a2, s32 a3);
 
-    EXPORT s32 sub_4C59F0(u8 idx);
+    EXPORT s32 GetStatistic_4C59F0(u8 idx);
 
-    EXPORT void sub_4C5A10(Player* a1);
+    EXPORT void StoreCrimeStats_4C5A10(Player* a1);
 
-    EXPORT void sub_4C5A70(s32 a2);
+    EXPORT void SetCarDamageCost_4C5A70(s32 a2);
 
-    EXPORT s32 sub_4C5A80();
+    EXPORT s32 GetCarDamageCost_4C5A80();
 
-    EXPORT void sub_4C5A90(s32 a2);
+    EXPORT void SetEvasionRating_4C5A90(s32 a2);
 
-    EXPORT s32 sub_4C5AA0();
+    EXPORT s32 GetEvasionRating_4C5AA0();
 
     EXPORT void SetBonusRatingTextIdx_4C5AB0(s16 a2);
 
     EXPORT s16 GetBonusRatingTextIdx_4C5AC0();
 
-    EXPORT void sub_4C5AD0(char_type a2);
+    EXPORT void SetStartedFromPlayBonusMenu_4C5AD0(char_type a2);
 
-    EXPORT char_type sub_4C5AE0();
+    EXPORT char_type IsStartedFromPlayBonusMenu_4C5AE0();
 
     EXPORT void init_4C5AF0();
 
@@ -138,13 +170,13 @@ struct lucid_hamilton
 
     EXPORT char_type GetMaxPlayers_4C5BF0();
 
-    EXPORT void sub_4C5C00(char_type a2);
+    EXPORT void SetWinnerIdx_4C5C00(char_type a2);
 
-    EXPORT char_type sub_4C5C20();
+    EXPORT char_type GetWinnerIdx_4C5C20();
 
-    EXPORT void sub_4C5C30(u16 a2, wchar_t* Source);
+    EXPORT void SetPlayerName_4C5C30(u16 a2, wchar_t* Source);
 
-    EXPORT blissful_ganguly_0x20* sub_4C5C60(u16 a2);
+    EXPORT blissful_ganguly_0x20* GetPlayerName_4C5C60(u16 a2);
 
     EXPORT void ChangePointsForPlayerIdxByAmount_4C5C80(u8 a2, s32 a3);
 
@@ -154,7 +186,13 @@ struct lucid_hamilton
 
     EXPORT u16 GetFragsForPlayerIdx_4C5D60(u8 a2);
 
-    EXPORT s16 sub_4C5D80(u8 a2, u8 a3);
+    EXPORT s16 GetFragsOnPlayer_4C5D80(u8 a2, u8 a3);
 };
 
 EXTERN_GLOBAL(lucid_hamilton, gLucid_hamilton_67E8E0);
+
+// 9.6f 0x434B20
+inline bool IsTagGame_434B20()
+{
+    return gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3; // TAG_GAME_3
+}
