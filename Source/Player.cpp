@@ -2631,7 +2631,7 @@ void Player::InitializePlayerState_569CB0()
     {
         Player::ColorScoreFromRemap_569A10();
         gNetPlay_7071E8.GetPlayerName_521100(field_83C_player_name, field_2E_idx);
-        gText_0x14_704DFC->sub_5B5910(field_83C_player_name);
+        gText_0x14_704DFC->RemapExtendedCharsIfNotJapanese_5B5910(field_83C_player_name);
         gLucid_hamilton_67E8E0.sub_4C5C30(field_2E_idx, field_83C_player_name);
     }
 }

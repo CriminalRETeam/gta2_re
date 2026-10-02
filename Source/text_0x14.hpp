@@ -62,11 +62,11 @@ class text_0x14
     char_type field_10_lang_code;
     char_type field_11_pad[3];
 
-    EXPORT u16 sub_5B58D0(u16 a2);
+    EXPORT u16 RemapExtendedChar_5B58D0(u16 a2);
 
-    EXPORT void sub_5B5910(wchar_t* a2);
+    EXPORT void RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* a2);
 
-    EXPORT void sub_5B5930(wchar_t* a1);
+    EXPORT void RemapExtendedChars_5B5930(wchar_t* a1);
 
     EXPORT void TKEY_Load_5B5960(u32 size);
 
@@ -78,9 +78,9 @@ class text_0x14
 
     EXPORT wchar_t* TKeyFind_5B5A50(const char_type* pIdStr);
 
-    EXPORT u16 sub_5B5AD0(wchar_t a2);
+    EXPORT u16 ToUpper_5B5AD0(wchar_t a2);
 
-    EXPORT wchar_t* sub_5B5B80(wchar_t* pWideStr);
+    EXPORT wchar_t* StrToUpper_5B5B80(wchar_t* pWideStr);
 
     EXPORT static s32 __stdcall InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type);
 
@@ -94,7 +94,7 @@ class text_0x14
 
     EXPORT wchar_t* Find_5B5F90(const char_type* pIdStr);
 
-    EXPORT bool sub_5B5FA0(const char_type* pIdStr);
+    EXPORT bool KeyExists_5B5FA0(const char_type* pIdStr);
 
     // 0x5B5FB0
     EXPORT text_0x14();

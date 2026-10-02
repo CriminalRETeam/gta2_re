@@ -253,7 +253,7 @@ char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
         }
         else
         {
-            const u16 char_value = gText_0x14_704DFC->sub_5B58D0(gKeybrd_0x204_6F52F4->GetKey_4D5F40(action));
+            const u16 char_value = gText_0x14_704DFC->RemapExtendedChar_5B58D0(gKeybrd_0x204_6F52F4->GetKey_4D5F40(action));
             if (char_value)
             {
                 if (pPlayer->field_838_f796_idx < 79)
@@ -320,7 +320,7 @@ bool Garox_2A25_sub::sub_5D17D0(s32 key_idx)
                 return true;
             }
 
-            if (gText_0x14_704DFC->sub_5B58D0(gKeybrd_0x204_6F52F4->GetKey_4D5F40(key_idx)))
+            if (gText_0x14_704DFC->RemapExtendedChar_5B58D0(gKeybrd_0x204_6F52F4->GetKey_4D5F40(key_idx)))
             {
                 return true;
             }
@@ -418,7 +418,7 @@ void Garox_4::sub_5CF620()
             field_0_value = 0;
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
-    } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
+    } while (!gText_0x14_704DFC->KeyExists_5B5FA0(gTmpBuffer_67C598));
     gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gHud_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
@@ -435,7 +435,7 @@ void Garox_4::sub_5CF6B0()
             field_0_value = 9999;
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
-    } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
+    } while (!gText_0x14_704DFC->KeyExists_5B5FA0(gTmpBuffer_67C598));
     gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gHud_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
@@ -634,7 +634,7 @@ void Hud_Message_1C8::ShowMessage_5D1A00(wchar_t* pStr, s32 type)
     {
         field_1C4_type = type;
         wcscpy(field_2_str, pStr);
-        gText_0x14_704DFC->sub_5B5B80(field_2_str);
+        gText_0x14_704DFC->StrToUpper_5B5B80(field_2_str);
         field_0_time_to_show = 90;
         sub_5D1860();
     }
@@ -1231,7 +1231,7 @@ void Garox_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos
 
     if (field_AC_fontType == word_703C9C || field_AC_fontType == word_703D9C)
     {
-        /*v7 =*/gText_0x14_704DFC->sub_5B5B80(field_0_str_buf);
+        /*v7 =*/gText_0x14_704DFC->StrToUpper_5B5B80(field_0_str_buf);
     }
 
     s16 xTmp = xpos;
@@ -2974,7 +2974,7 @@ void Hud_MapZone_98::sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2)
     wchar_t* pStr = pArg2Or3->get_zone_str_4DEF00();
     if (pStr)
     {
-        const wchar_t* pName = gText_0x14_704DFC->sub_5B5B80(pStr);
+        const wchar_t* pName = gText_0x14_704DFC->StrToUpper_5B5B80(pStr);
         wcscpy(this->field_2_wstr, pName);
         this->field_88_nav_zone = pZone1;
         this->field_8C_local_nav_zone = pZone2;
@@ -3108,7 +3108,7 @@ void Hud_2B00::sub_5D5240(wchar_t* Source)
 {
     field_0.field_0_display_time = 120;
     wcscpy(field_0.field_2_car_name, Source);
-    gText_0x14_704DFC->sub_5B5B80(field_0.field_2_car_name);
+    gText_0x14_704DFC->StrToUpper_5B5B80(field_0.field_2_car_name);
     Hud_2B00::sub_5D5190();
     field_0.field_48_ypos = -17;
 }

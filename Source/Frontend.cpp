@@ -667,7 +667,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                         v29 = gLucid_hamilton_67E8E0.sub_4C5C60(v25);
                         wcsncpy(Destination, v29->field_0_str, 0x32u);
                     }
-                    gText_0x14_704DFC->sub_5B5B80(Destination);
+                    gText_0x14_704DFC->StrToUpper_5B5B80(Destination);
                     wcsncpy(field_6_wstr_buf, Destination, 0x32u);
                     if (v26 != v65)
                     {
@@ -2265,7 +2265,7 @@ void Frontend::sub_4B2F60()
         }
         keybrd_0x204::RecreateIfLayoutChanged_4D5FD0();
         Key_4D5F40 = gKeybrd_0x204_6F52F4->GetKey_4D5F40(input);
-        v7 = gText_0x14_704DFC->sub_5B58D0(Key_4D5F40);
+        v7 = gText_0x14_704DFC->RemapExtendedChar_5B58D0(Key_4D5F40);
         v11 = v7;
         v12 = field_11C;
         if ((u16)gGtx_0x106C_703DD4->GetFontWidth_5AA760((u16*)&v12, (wchar_t*)&v11) >= 3u && v7)
