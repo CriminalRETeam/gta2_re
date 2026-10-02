@@ -8638,11 +8638,9 @@ void Ped::FireAtPlayer_46A5E0()
 }
 
 
-WIP_FUNC(0x46a6d0)
+MATCH_FUNC(0x46a6d0)
 void Ped::AimVehicleTurretStateMachine_46A6D0()
 {
-    WIP_IMPLEMENTED;
-
     if (field_150_target_objective_car->IsDespawning_4215B0() || field_16C_car == 0)
     {
         field_225_objective_status = objective_status::failed_2;
