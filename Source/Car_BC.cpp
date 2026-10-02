@@ -6340,7 +6340,7 @@ s32 Car_BC::GetCrashSoundCategory_4435B0()
 MATCH_FUNC(0x4435f0)
 void Car_BC::sub_4435F0()
 {
-    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x10) == 0x10)
+    if (inline_check_0x10_info_421640())
     {
         this->field_50_car_sprite->set_num_40F7B0(16);
     }
