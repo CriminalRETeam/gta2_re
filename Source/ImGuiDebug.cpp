@@ -2671,8 +2671,8 @@ void CC ImGuiDebugDraw()
             {
                 for (s32 i = 0; i < 20; i++)
                 {
-                    Hamburger_40& hb = gHamburger_500_678E30->field_0[i];
-                    ImGui::Value("field_0", hb.field_0);
+                    Hamburger_40& hb = gHamburger_500_678E30->field_0_entries[i];
+                    ImGui::Value("field_0", hb.field_0_bInUse);
                 }
             }
             ImGui::TreePop();

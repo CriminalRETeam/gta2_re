@@ -16,7 +16,7 @@ class Orca_8
     u8 field_3_ypos;
     u8 field_4_zpos;
     char_type field_5;
-    s16 field_6;
+    s16 field_6_cost;
 };
 #pragma pack(pop)
 
@@ -51,8 +51,8 @@ class Orca_2FD4
     char_type field_5;
     char_type field_6;
     char_type field_7;
-    Orca_8 * field_8;
-    u16 field_C;
+    Orca_8 * field_8_pNode;
+    u16 field_C_node_count;
     u8 field_E_xStart;
     u8 field_F_yStart;
     u8 field_10_zStart;
@@ -65,9 +65,9 @@ class Orca_2FD4
     char_type field_18;
     char_type field_19;
     char_type field_1A;
-    u8 field_1B;
+    u8 field_1B_direction;
     u16 field_1C_f40_idx;
-    s16 field_1E;
+    s16 field_1E_current_cost;
     u8 field_20_xpos;
     u8 field_21_ypos;
     u8 field_22_zpos;
@@ -81,7 +81,7 @@ class Orca_2FD4
     char_type field_2A;
     char_type field_2B;
     s16 field_2C;
-    u16 field_2E;
+    u16 field_2E_iteration_budget;
     s32 field_30;
     s16 field_34;
     s16 field_36;
@@ -89,8 +89,8 @@ class Orca_2FD4
     char_type field_39;
     s16 field_3A;
     Ped_List_4 field_3C_ped_list;
-    Orca_8 field_40[1122];
-    Orca_8 field_2350[398];
+    Orca_8 field_40_grid[1122];
+    Orca_8 field_2350_nodes[398];
     s32 field_2FC0;
     s32 field_2FC4;
     s32 field_2FC8;
