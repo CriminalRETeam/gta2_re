@@ -9452,39 +9452,28 @@ void Ped::sub_46BD30()
     }
 }
 
-WIP_FUNC(0x46bd50)
+MATCH_FUNC(0x46bd50)
 char_type Ped::sub_46BD50(Car_BC* pCar)
 {
-    WIP_IMPLEMENTED;
-
     u8 new_door_idx = 0;
     u8 door_idx = 0;
-    if (!pCar->GetRemap())
-    {
-        return 0;
-    }
-
-    while (1)
+    while (new_door_idx < (u8)pCar->GetRemap())
     {
         Car_Door_10* pDoor = pCar->GetDoor(door_idx);
         if (pDoor)
         {
-            Ped* f_8 = pDoor->field_8_pObj;
-            if (f_8)
+            Ped* pDoorPed = pDoor->field_8_pObj;
+            if (pDoorPed)
             {
-                if (!f_8->field_248_enter_car_as_passenger && f_8 != this)
+                if (!pDoorPed->field_248_enter_car_as_passenger && pDoorPed != this)
                 {
-                    break;
+                    return 1;
                 }
             }
         }
         door_idx = ++new_door_idx;
-        if (new_door_idx >= pCar->GetRemap())
-        {
-            return 0;
-        }
     }
-    return 1;
+    return 0;
 }
 
 WIP_FUNC(0x46bdc0)
