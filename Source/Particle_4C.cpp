@@ -651,7 +651,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
                 field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, zpos);
             }
 
-            field_30_pNext->field_2C_flags = 0x7A;
+            field_30_pNext->SetFlags_4337D0(2, 15);
             field_30_pNext->Set_2C_0x4_Flag_4337F0();
             if (field_40_pUnknown)
             {
