@@ -4934,7 +4934,7 @@ void Char_B4::state_1_5504F0()
     }
     else
     {
-        v20 = field_7C_pPed->field_130;
+        v20 = field_7C_pPed->get_field_130_492CC0();
     }
     v73 = v20;
     if (field_10_char_state != 10)
@@ -4955,7 +4955,7 @@ void Char_B4::state_1_5504F0()
                 }
                 if ((field_7C_pPed->field_224 & 0x10) == 0)
                 {
-                    v20 = field_7C_pPed->field_130;
+                    v20 = field_7C_pPed->get_field_130_492CC0();
                 }
                 else
                 {
