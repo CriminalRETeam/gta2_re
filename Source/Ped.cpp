@@ -8582,11 +8582,9 @@ void Ped::FollowCarOnFootWithOffset_46A350()
     }
 }
 
-WIP_FUNC(0x46a530)
+MATCH_FUNC(0x46a530)
 void Ped::FireAtObject_46A530()
 {
-    WIP_IMPLEMENTED;
-
     Sprite_18* pSprite_148 = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(148);
     Sprite* pSprite_18 = pSprite_148->field_0;
     Fix16 x_v = pSprite_18->field_14_xy.x;
