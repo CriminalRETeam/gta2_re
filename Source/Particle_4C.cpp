@@ -1190,7 +1190,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
     Sprite* pSprite = field_28_pSprite;
     Fix16 zpos = field_30_pNext->field_1C_zpos;
     Fix16_Point_POD offset;
-    if (pSprite->field_30_sprite_type_enum != sprite_types_enum::ped_3)
+    if (pSprite->get_type_416B40() != sprite_types_enum::ped_3)
     {
         return true;
     }
@@ -1302,7 +1302,7 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
         idx = 3;
     }
 
-    field_30_pNext->field_22_sprite_id = idx + gPhi_8CA8_6FCF00->field_8CA4 + 37;
+    field_30_pNext->set_id_4206E0(idx + gPhi_8CA8_6FCF00->field_8CA4 + 37);
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     field_30_pNext->field_2C_flags = 0x52;
     field_30_pNext->field_2C_flags |= 4;
