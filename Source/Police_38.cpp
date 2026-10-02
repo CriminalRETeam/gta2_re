@@ -1402,7 +1402,7 @@ void PoliceCrew_38::sub_574F10()
     }
     else
     {
-        pCarUnk->field_A6 &= ~0x20u;
+        pCarUnk->ClearA6Bit20_421550();
         if (field_10_subObj->field_28 == 6)
         {
             PoliceCrew_38::sub_5720C0();
@@ -1449,7 +1449,7 @@ void PoliceCrew_38::sub_574F10()
             else
             {
                 pPed_6FEDDC = field_10_subObj->field_4_ped;
-                pPed_6FEDDC->field_21C_bf.b11 = 0;
+                pPed_6FEDDC->ClearBit11_403A40();
                 Hamburger_40* v13;
                 for (Ped* pPedIter = pPed_6FEDDC; pPedIter; ++idx)
                 {
@@ -1477,7 +1477,7 @@ void PoliceCrew_38::sub_574F10()
                                     pPedIter->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                                     pPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
                                     pPed_6FEDDC->set_field_150_target_objective_car(field_10_subObj->field_0_car);
-                                    pPed_6FEDDC->field_21C &= ~4u;
+                                    pPed_6FEDDC->unset_bitset_0x04();
                                 }
                             }
                             break;
