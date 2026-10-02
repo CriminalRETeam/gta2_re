@@ -1890,7 +1890,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
     {
         if (pCar)
         {
-            unk_ang = pCar->sub_4403A0();
+            unk_ang = pCar->GetCornerAngle_4403A0();
             pSprt = pCar->field_50_car_sprite;
             bUnk = gGarage_48_6FD26C->IsMaybeParkingCar_493540(pCar);
             if (bUnk)
@@ -2400,7 +2400,7 @@ void Char_B4::sub_54C090()
         }
     }
 
-    field_40_rotation = sub_4F7940(&AngleFace_4F78F0);
+    field_40_rotation = DirectionToAng16_4F7940(&AngleFace_4F78F0);
 
     if (field_10_char_state != 15)
     {
@@ -2556,7 +2556,7 @@ void Char_B4::sub_54C3E0()
         {
             if (unknown != 1)
             {
-                this->field_14 = sub_4F7940(&face_mapped);
+                this->field_14 = DirectionToAng16_4F7940(&face_mapped);
                 this->field_10_char_state = 25;
                 this->field_46_timer = 255;
                 return;
@@ -2565,7 +2565,7 @@ void Char_B4::sub_54C3E0()
             {
                 if (!(byte_6FDB48 % 2))
                 {
-                    this->field_14 = sub_4F7940(&face_mapped);
+                    this->field_14 = DirectionToAng16_4F7940(&face_mapped);
                     this->field_10_char_state = 25;
                     this->field_46_timer = 255;
                     return;
@@ -2576,7 +2576,7 @@ void Char_B4::sub_54C3E0()
         {
             if (unknown == 1)
             {
-                this->field_14 = sub_4F7940(&face_mapped);
+                this->field_14 = DirectionToAng16_4F7940(&face_mapped);
                 this->field_10_char_state = 25;
                 this->field_46_timer = 255;
                 return;

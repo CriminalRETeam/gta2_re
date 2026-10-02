@@ -58,7 +58,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F75F0, Fix16(0x2000, 0), 0x6F75F0);
 DEFINE_GLOBAL(Fix16, dword_6F77C0, 0x6F77C0);
 DEFINE_GLOBAL_INIT(Ang16, word_6F8044, Ang16(0x4), 0x6F8044);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F7570, Fix16(0x3FC000, 0), 0x6F7570);
-EXTERN_GLOBAL(Ang16, dword_6F804C);
+EXTERN_GLOBAL(Ang16, kAngZero_6F804C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F77C4, Fix16(0x4000, 0), 0x6F77C4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F77C8, Fix16(2), 0x6F77C8);
 
@@ -407,7 +407,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
                                                   weird_y,
                                                   gGameSave_6F78C8.field_54_player_and_world_stats.field_8_z,
                                                   gGameSave_6F78C8.field_54_player_and_world_stats.field_7F_player_ped_remap,
-                                                  dword_6F804C);
+                                                  kAngZero_6F804C);
         }
         else
         {
@@ -479,7 +479,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
                                                                 pCmd->field_1C_car_id);
         if (pPointer->field_8_car != NULL)
         {
-            pPointer->field_8_car->field_98 = 4;
+            pPointer->field_8_car->field_98_door_lock = 4;
             pPointer->field_8_car->field_78_flags |= 0x10u;
             pPointer->field_8_car->sub_4435F0();
         }
@@ -501,7 +501,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             pPointer->field_8_car->field_50_car_sprite->DispatchCollisionEvent_5A3100(pTrailerCar->field_50_car_sprite,
                                                                                       dword_6F77C0,
                                                                                       dword_6F77C0,
-                                                                                      word_6F771E);
+                                                                                      kAng180_6F771E);
             pTrailerCar->IncrementCarStats_443D70(car_kind::mission_car_8);
         }
         else
@@ -536,9 +536,9 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         pCar->field_7C_uni_num = 5;
         pCar->field_76_last_seen_timer = 0;
 
-        if (pPointer->field_8_car->field_98 != 4)
+        if (pPointer->field_8_car->field_98_door_lock != 4)
         {
-            pPointer->field_8_car->field_98 = 2;
+            pPointer->field_8_car->field_98_door_lock = 2;
         }
         pPointer->field_8_car->IncrementCarStats_443D70(car_kind::mission_car_8);
         pPointer->field_8_car->field_50_car_sprite->ResolveCollisionWithCarPedOrObject_5A2A30();
@@ -559,7 +559,7 @@ MATCH_FUNC(0x503f80)
 void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* pCmd)
 {
     miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((SCR_CAR_DATA_DEC*)pCmd, pCmd);
-    (pCmd->field_8_car)->sub_443EB0(9);
+    (pCmd->field_8_car)->ReassignCarStats_443EB0(9);
     Car_BC* pCar = pCmd->field_8_car;
     pCar->field_7C_uni_num = 4;
     pCar->field_76_last_seen_timer = 0;
@@ -707,7 +707,7 @@ void miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* pCmd, SCR_POINT
                                                                     pCmd->field_C_rect.field_0_pos.field_0_x,
                                                                     pCmd->field_C_rect.field_0_pos.field_4_y,
                                                                     pCmd->field_C_rect.field_0_pos.field_8_z,
-                                                                    dword_6F804C,
+                                                                    kAngZero_6F804C,
                                                                     pCmd->field_C_rect.field_C_size.field_0_x,
                                                                     pCmd->field_C_rect.field_C_size.field_4_y,
                                                                     dword_6F77C4);
@@ -756,7 +756,7 @@ void miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* pCmd, SCR_POIN
                                                                     pCmd->field_C_rect.field_0_pos.field_0_x,
                                                                     pCmd->field_C_rect.field_0_pos.field_4_y,
                                                                     pCmd->field_C_rect.field_0_pos.field_8_z,
-                                                                    dword_6F804C,
+                                                                    kAngZero_6F804C,
                                                                     pCmd->field_C_rect.field_C_size.field_0_x,
                                                                     pCmd->field_C_rect.field_C_size.field_4_y,
                                                                     dword_6F77C4);
@@ -789,7 +789,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pThread)
 
     if (((SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx))->field_8_char)
     {
-        pCmd->field_15 = gCar_214_705F20->sub_5C86C0(4,
+        pCmd->field_15 = gCar_214_705F20->AddThreadTrigger_5C86C0(4,
                                                      2,
                                                      pCmd,
                                                      Fix16(pCmd->field_12_x) + dword_6F75F0,
@@ -811,7 +811,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
         switch (pCmd->field_2_type)
         {
             case SCRCMD_THREAD_DECLARE5:
-                pCmd->field_26_result = gCar_214_705F20->sub_5C86C0(4,
+                pCmd->field_26_result = gCar_214_705F20->AddThreadTrigger_5C86C0(4,
                                                                     2,
                                                                     (SCR_THREAD*)pCmd,
                                                                     pCmd->field_10_x,
@@ -822,7 +822,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 
                 break;
             case SCRCMD_CHAR_AREA_ANY_MEANS:
-                pCmd->field_26_result = gCar_214_705F20->sub_5C86C0(3,
+                pCmd->field_26_result = gCar_214_705F20->AddThreadTrigger_5C86C0(3,
                                                                     2,
                                                                     (SCR_THREAD*)pCmd,
                                                                     pCmd->field_10_x,
@@ -1379,11 +1379,11 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
             break;
         }
         case SCRCMD_THREAD_DECLARE3:
-            gCar_214_705F20->field_0[(u8)((SCR_THREAD*)pCmd)->field_15].field_14 = 2;
+            gCar_214_705F20->field_0_triggers[(u8)((SCR_THREAD*)pCmd)->field_15].field_14_enable_state = 2;
             break;
         case SCRCMD_THREAD_DECLARE5:
         case SCRCMD_CHAR_AREA_ANY_MEANS:
-            gCar_214_705F20->field_0[(u8)((SCR_CHAR_AREA_ANY*)pCmd)->field_26_result].field_14 = 2;
+            gCar_214_705F20->field_0_triggers[(u8)((SCR_CHAR_AREA_ANY*)pCmd)->field_26_result].field_14_enable_state = 2;
             break;
         case SCRCMD_THREAD_DECLARE2:
         {
@@ -1425,7 +1425,7 @@ void miss2_0x11C::DeallocOrDeleteItem_505B10(u16 idx)
             if (pCarCmdPointer->field_8_car)
             {
                 gfrosty_pasteur_6F8060->sub_512BA0(pCarCmdPointer->field_8_car->field_6C_maybe_id, 0);
-                pCarCmdPointer->field_8_car->sub_421470();
+                pCarCmdPointer->field_8_car->MarkForDespawn_421470();
                 pCarCmdPointer->field_8_car = NULL;
             }
             break;
@@ -2464,9 +2464,9 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                     {
                         if (gCar_6C_677930->CanAllocateOfType_446930(1))
                         {
-                            gStoredCar_6F7560->sub_443EE0(1);
+                            gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(1);
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
-                            gStoredCar_6F7560->sub_421560(3);
+                            gStoredCar_6F7560->SetUniNum_421560(3);
 
                             if (gStoredCar_6F7560->field_88_despawn_status != 7 && gStoredCar_6F7560->field_88_despawn_status != 5 && gStoredCar_6F7560->field_88_despawn_status != 2 &&
                                 gStoredCar_6F7560->field_88_despawn_status != 3)
@@ -2477,7 +2477,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                         else if (gCar_6C_677930->CanAlloc_446870(8))
                         {
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
-                            gStoredCar_6F7560->sub_421560(3);
+                            gStoredCar_6F7560->SetUniNum_421560(3);
 
                             if (gStoredCar_6F7560->field_88_despawn_status != 7 && gStoredCar_6F7560->field_88_despawn_status != 5 && gStoredCar_6F7560->field_88_despawn_status != 2 &&
                                 gStoredCar_6F7560->field_88_despawn_status != 3)
@@ -2488,7 +2488,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                         else
                         {
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
-                            gStoredCar_6F7560->sub_421560(3);
+                            gStoredCar_6F7560->SetUniNum_421560(3);
 
                             if (gStoredCar_6F7560->field_88_despawn_status != 5)
                             {
@@ -2500,11 +2500,11 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                     gStoredCar_6F7560 = pParam2->field_8_car;
                     gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_maybe_id;
 
-                    pParam2->field_8_car->sub_443EE0(8);
+                    pParam2->field_8_car->ReassignAllocatedCarType_443EE0(8);
 
-                    if (!gPublicTransport_181C_6FF1D4->is_bus_579AA0(pParam2->field_8_car) && pParam2->field_8_car->field_98 != four)
+                    if (!gPublicTransport_181C_6FF1D4->is_bus_579AA0(pParam2->field_8_car) && pParam2->field_8_car->field_98_door_lock != four)
                     {
-                        pParam2->field_8_car->field_98 = 2;
+                        pParam2->field_8_car->field_98_door_lock = 2;
                         miss2_0x11C::Next_503620(gBasePtr_6F8070);
                         return;
                     }
@@ -2514,7 +2514,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
             {
                 gStoredCar_6F7560 = pCar;
                 gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_maybe_id;
-                pCar->sub_443EE0(8);
+                pCar->ReassignAllocatedCarType_443EE0(8);
             }
         }
     }
@@ -3006,7 +3006,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_509ED0()
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
-                                                      dword_6F804C,
+                                                      kAngZero_6F804C,
                                                       32,
                                                       0);
             break;
@@ -3014,7 +3014,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_509ED0()
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
-                                                      dword_6F804C,
+                                                      kAngZero_6F804C,
                                                       18,
                                                       0);
             break;
@@ -3022,7 +3022,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_509ED0()
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
-                                                      dword_6F804C,
+                                                      kAngZero_6F804C,
                                                       19,
                                                       0);
             break;
@@ -3030,7 +3030,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_509ED0()
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
-                                                      dword_6F804C,
+                                                      kAngZero_6F804C,
                                                       20,
                                                       0);
             break;
@@ -3048,7 +3048,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
-                                                      dword_6F804C,
+                                                      kAngZero_6F804C,
                                                       23,
                                                       0);
             break;
@@ -3056,7 +3056,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
-                                                      dword_6F804C,
+                                                      kAngZero_6F804C,
                                                       22,
                                                       0);
             break;
@@ -3064,7 +3064,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
-                                                      dword_6F804C,
+                                                      kAngZero_6F804C,
                                                       24,
                                                       0);
             break;
@@ -3072,7 +3072,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
-                                                      dword_6F804C,
+                                                      kAngZero_6F804C,
                                                       25,
                                                       0);
             break;
@@ -3541,7 +3541,7 @@ void miss2_0x11C::EnableThread_50A9E0(u16 idx)
 
             if (pThread->field_16_flag)
             {
-                gCar_214_705F20->field_0[(u8)pThread->field_15].field_14 = 1;
+                gCar_214_705F20->field_0_triggers[(u8)pThread->field_15].field_14_enable_state = 1;
             }
             else
             {
@@ -3560,7 +3560,7 @@ void miss2_0x11C::EnableThread_50A9E0(u16 idx)
 
             if (pAny->field_27_flag)
             {
-                gCar_214_705F20->field_0[(u8)pAny->field_26_result].field_14 = 1;
+                gCar_214_705F20->field_0_triggers[(u8)pAny->field_26_result].field_14_enable_state = 1;
             }
             else
             {
@@ -3934,7 +3934,7 @@ void miss2_0x11C::SCRCMD_GIVE_DRIVER_BRAKE_50B600()
         }
         pPointer->field_8_car->InitCarAIControl_440590();
         pPointer->field_8_car->field_A6 |= 0x20;
-        pPointer->field_8_car->sub_421560(5);
+        pPointer->field_8_car->SetUniNum_421560(5);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -4608,7 +4608,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
             Ped* pChar = pPointer->field_8_char;
 
             gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pChar->get_cam_x(), pChar->get_cam_y(), pChar->get_cam_z(), dword_6F804C, explosion_type, 0);
+                ->CreateExplosion_52A3D0(pChar->get_cam_x(), pChar->get_cam_y(), pChar->get_cam_z(), kAngZero_6F804C, explosion_type, 0);
 
             break;
         }
@@ -4617,7 +4617,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
             Sprite* pSprite = pPointer->field_8_obj->field_4;
 
             gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pSprite->GetXPos(), pSprite->GetYPos(), pSprite->GetZPos(), dword_6F804C, explosion_type, 0);
+                ->CreateExplosion_52A3D0(pSprite->GetXPos(), pSprite->GetYPos(), pSprite->GetZPos(), kAngZero_6F804C, explosion_type, 0);
 
             break;
         }
@@ -4629,7 +4629,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
                 pCrane->field_10_pos.field_0_x,
                 pCrane->field_10_pos.field_4_y,
                 gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCrane->field_10_pos.field_0_x, pCrane->field_10_pos.field_4_y),
-                dword_6F804C,
+                kAngZero_6F804C,
                 explosion_type,
                 0);
 
@@ -4870,7 +4870,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_DRIVER_50CB70()
         {
             Car_BC* pCar = pPointer->field_8_car;
 
-            if (pCar->field_88_despawn_status == 6 || pCar->field_88_despawn_status == 5 || pCar->field_74_damage >= 32000 || pCar->sub_43A230())
+            if (pCar->field_88_despawn_status == 6 || pCar->field_88_despawn_status == 5 || pCar->field_74_damage >= 32000 || pCar->HasSpriteZoom_43A230())
             {
                 field_8 = true;
             }
@@ -4878,7 +4878,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_DRIVER_50CB70()
             break;
         }
         case SCRCMD_CAR_SUNK:
-            if (pPointer->field_8_car->sub_43A230())
+            if (pPointer->field_8_car->HasSpriteZoom_43A230())
             {
                 field_8 = true;
             }
@@ -4915,7 +4915,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_DRIVER_50CB70()
 
             if ((pInfo->info_flags & 2) == 2 || pCar->field_84_car_info_idx == 84)
             {
-                if ((pCar->field_A4 & 4) != 0)
+                if ((pCar->field_A4_light_flags & 4) != 0)
                 {
                     field_8 = true;
                 }
@@ -5280,35 +5280,35 @@ void miss2_0x11C::SCRCMD_CHANGE_CAR_LOCK_50D680()
     {
         case Car_Door_Lock::locked_1:
             pCar = pPointer->field_8_car;
-            if (pCar->field_98 != Car_Door_Lock::locked_permanently_4)
+            if (pCar->field_98_door_lock != Car_Door_Lock::locked_permanently_4)
             {
-                pCar->field_98 = Car_Door_Lock::locked_1;
+                pCar->field_98_door_lock = Car_Door_Lock::locked_1;
             }
 
             break;
         case Car_Door_Lock::lockout_thief_2:
             pCar = pPointer->field_8_car;
-            if (pCar->field_98 != Car_Door_Lock::locked_permanently_4)
+            if (pCar->field_98_door_lock != Car_Door_Lock::locked_permanently_4)
             {
-                pCar->field_98 = Car_Door_Lock::lockout_thief_2;
+                pCar->field_98_door_lock = Car_Door_Lock::lockout_thief_2;
             }
 
             break;
         case Car_Door_Lock::unlocked_3:
             pCar = pPointer->field_8_car;
-            if (pCar->field_98 != Car_Door_Lock::locked_permanently_4)
+            if (pCar->field_98_door_lock != Car_Door_Lock::locked_permanently_4)
             {
-                pCar->field_98 = Car_Door_Lock::unlocked_3;
+                pCar->field_98_door_lock = Car_Door_Lock::unlocked_3;
             }
             break;
         case Car_Door_Lock::locked_permanently_4:
-            pPointer->field_8_car->field_98 = Car_Door_Lock::locked_permanently_4;
+            pPointer->field_8_car->field_98_door_lock = Car_Door_Lock::locked_permanently_4;
             break;
         case Car_Door_Lock::lockout_player_5:
             pCar = pPointer->field_8_car;
-            if (pCar->field_98 != Car_Door_Lock::locked_permanently_4)
+            if (pCar->field_98_door_lock != Car_Door_Lock::locked_permanently_4)
             {
-                pCar->field_98 = Car_Door_Lock::lockout_player_5;
+                pCar->field_98_door_lock = Car_Door_Lock::lockout_player_5;
             }
             break;
         default:
@@ -5899,7 +5899,7 @@ void miss2_0x11C::SCRCMD_PUT_CAR_ON_TRAILER_50E900()
             pDstCar->GetSprite_440840()->DispatchCollisionEvent_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
                                                                        dword_6F77C0,
                                                                        dword_6F77C0,
-                                                                       word_6F771E);
+                                                                       kAng180_6F771E);
         }
         else
         {
@@ -5907,7 +5907,7 @@ void miss2_0x11C::SCRCMD_PUT_CAR_ON_TRAILER_50E900()
             pDstCar->field_50_car_sprite->DispatchCollisionEvent_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
                                                                         dword_6F77C0,
                                                                         dword_6F77C0,
-                                                                        word_6F771E);
+                                                                        kAng180_6F771E);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);

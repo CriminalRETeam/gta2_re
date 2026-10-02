@@ -2712,7 +2712,7 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
             if (a2->field_58_type == 1)
             {
                 gas_pedal = pCar->field_58_physics->field_60_gas_pedal; // TODO: inline ?
-                if (pCar->field_68 == k_dword_66F3F4)
+                if (pCar->field_68_scale == k_dword_66F3F4)
                 {
                     a2->field_20_rate = Fix16::Round_To_Int_410BF0(Fix16(360448000, 0) * (gas_pedal / max_speed)) + 8000;
                     goto LABEL_32;
@@ -2740,7 +2740,7 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
         }
         else
         {
-            if (pCar->field_68 != k_dword_66F3F4)
+            if (pCar->field_68_scale != k_dword_66F3F4)
             {
                 goto LABEL_20;
             }
@@ -2789,7 +2789,7 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
 LABEL_35:
     if (a2->field_58_type == 1)
     {
-        if (pCar->field_68 == k_dword_66F3F4)
+        if (pCar->field_68_scale == k_dword_66F3F4)
         {
             a2->field_14_samp_idx = samp_idx_for_model_417AC0(pCar->field_84_car_info_idx);
         }
@@ -3657,7 +3657,7 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
         {
             if (gas_pedal == k_dword_66F3F0)
             {
-                if (pCar->field_68 != k_dword_66F3F4)
+                if (pCar->field_68_scale != k_dword_66F3F4)
                 {
                     return;
                 }
@@ -3684,7 +3684,7 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
                 goto LABEL_10;
             }
 
-            if (pCar->field_68 == k_dword_66F3F4)
+            if (pCar->field_68_scale == k_dword_66F3F4)
             {
                 gear2_speed = gCarInfo_48_6FE258->field_40_gear2_speed;
                 gear3_speed = gCarInfo_48_6FE258->field_44_gear3_speed;
@@ -3841,9 +3841,9 @@ MATCH_FUNC(0x415570)
 void sound_obj::HandleCarAlarmSound_415570(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
 {
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->IsFireTruck_4118F0() || !pCar->sub_414F20() || !pCar->sub_414F80())
+    if (pCar->IsFireTruck_4118F0() || !pCar->HasEmergencyLights_414F20() || !pCar->AreEmergencyLightsOn_414F80())
     {
-        if (!pCar->IsFireTruck_4118F0() && !pCar->IsTank_411900() && !pCar->IsGunJeep_411910() || !pCar->field_B8)
+        if (!pCar->IsFireTruck_4118F0() && !pCar->IsTank_411900() && !pCar->IsGunJeep_411910() || !pCar->field_B8_turret_rotated)
         {
             if (a2->field_0_pObj->field_8_car_bc_ptr->IsEmittingHorn_411970())
             {
@@ -4046,7 +4046,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
 MATCH_FUNC(0x417060)
 void sound_obj::HandleCarHornSound_417060(Sound_Params_8* a2)
 {
-    if (a2->field_0_pObj->field_8_car_bc_ptr->field_8E)
+    if (a2->field_0_pObj->field_8_car_bc_ptr->field_8E_flash_count)
     {
         if (CalculateDistance_419020(Fix16(2560000, 0)))
         {
@@ -4268,7 +4268,7 @@ MATCH_FUNC(0x4178C0)
 void sound_obj::HandleSirenActivationSound_4178C0(Sound_Params_8* a2)
 {
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-    if ((pCar->inline_info_flags_bit2() || pCar->is_FBI_car_411920()) && (pCar->field_A4 & 4))
+    if ((pCar->inline_info_flags_bit2() || pCar->is_FBI_car_411920()) && (pCar->field_A4_light_flags & 4))
     {
         Car_BC* pCar_ = a2->field_0_pObj->field_8_car_bc_ptr;
         if (pCar_->field_9C_engine_status == car_engine_status::on_3)
@@ -4450,7 +4450,7 @@ void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params_8* a2, sound_unknown_0x
 {
     Car_BC* cBC = a2->field_0_pObj->field_8_car_bc_ptr;
     pAlloc->field_4 = (u32)cBC; // TODO: Likely another union??
-    if (cBC->field_68 != k_dword_66F3F4)
+    if (cBC->field_68_scale != k_dword_66F3F4)
     {
         if (cBC->field_58_physics)
         {
@@ -5073,7 +5073,7 @@ void sound_obj::Tank_414A50(Sound_Params_8* a2)
 MATCH_FUNC(0x414D30)
 void sound_obj::Tank_414D30(Sound_Params_8* a2)
 {
-    if (a2->field_0_pObj->field_8_car_bc_ptr->field_B8)
+    if (a2->field_0_pObj->field_8_car_bc_ptr->field_B8_turret_rotated)
     {
         if (CalculateDistance_419020(Fix16(409600, 0)))
         {

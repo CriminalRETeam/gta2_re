@@ -751,7 +751,7 @@ void Ped::TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos)
     Car_BC* pCar = field_16C_car;
     if (pCar)
     {
-        pCar->sub_443D00(xpos, ypos, zpos);
+        pCar->SetPosition_443D00(xpos, ypos, zpos);
     }
     else
     {
@@ -2540,7 +2540,7 @@ void Ped::TaxiCustomer_AI_460820()
             }
             else
             {
-                if (target_objective_car->field_8C >= 3u)
+                if (target_objective_car->field_8C_fire_level >= 3u)
                 {
                     this->field_21C |= 0x20000000u;
                 }
@@ -3790,7 +3790,7 @@ void Ped::sub_462B80()
             field_168_game_object = NULL;
             if (!field_248_enter_car_as_passenger)
             {
-                field_16C_car->sub_4406E0(this);
+                field_16C_car->AssignDriver_4406E0(this);
             }
             else
             {
@@ -6339,7 +6339,7 @@ char_type Ped::FindUsableCarDoor_467090()
         if ((pTargetToEnter->GetVelocity_43A4C0() <= vel_to_check // car going slow enough?
              || this->field_25C_internal_objective == 36 || this->field_27C_ped_state_2 == ped_state_2::Unknown_17) &&
             pTargetToEnter->field_88_despawn_status != 5 && pTargetToEnter->field_74_damage != 32001 &&
-            (this->field_278_ped_state_1 == ped_state_1::exiting_car_4 || !pTargetToEnter->sub_43B2B0(this)) // can enter this car?
+            (this->field_278_ped_state_1 == ped_state_1::exiting_car_4 || !pTargetToEnter->IsDoorLockedForPed_43B2B0(this)) // can enter this car?
             && pTargetToEnter->field_88_despawn_status != 7)
         {
             enter_car_as_passenger = this->field_248_enter_car_as_passenger;
@@ -7807,7 +7807,7 @@ void Ped::sub_469E50()
             field_16C_car->field_60->field_4_ped_owner = this;
         }
         field_16C_car->field_60->field_8_maybe_path_type = 4;
-        field_16C_car->sub_421560(5);
+        field_16C_car->SetUniNum_421560(5);
         field_16C_car->field_60->field_30_ped_to_follow = field_148_objective_target_ped;
         field_16C_car->field_A6 &= ~0x20u;
         field_16C_car->field_5C_AI->field_74_unk_speed = dword_67866C;
@@ -7835,7 +7835,7 @@ void Ped::sub_469F30()
         field_16C_car->field_60->field_4_ped_owner = this;
     }
     field_16C_car->field_60->field_8_maybe_path_type = 2;
-    field_16C_car->sub_421560(5);
+    field_16C_car->SetUniNum_421560(5);
     field_16C_car->field_60->field_30_ped_to_follow = field_148_objective_target_ped;
     field_16C_car->field_A6 &= ~0x20u;
     field_16C_car->field_5C_AI->field_74_unk_speed = dword_67866C;
@@ -7986,7 +7986,7 @@ void Ped::FollowCarInCurrCar_46A290()
             field_16C_car->field_60->field_4_ped_owner = this;
         }
         field_16C_car->field_60->field_8_maybe_path_type = 2;
-        field_16C_car->sub_421560(5);
+        field_16C_car->SetUniNum_421560(5);
         field_16C_car->field_60->field_30_ped_to_follow = field_150_target_objective_car->field_54_driver;
         field_16C_car->field_A6 &= ~0x20u;
         field_16C_car->field_5C_AI->field_74_unk_speed = dword_67866C;

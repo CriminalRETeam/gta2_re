@@ -671,7 +671,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                                     pCar->field_70_exploder_ped_id = this->field_2C_ped_id;
                                 }
                                 pCar->field_90 = 4;
-                                pCar->field_94 = 50;
+                                pCar->field_94_exploder_timer = 50;
                                 s16 damage = pCar->AccumulateDamage_43DA90(32000, &stru_6FD570);
                                 if (pCar->field_70_exploder_ped_id)
                                 {

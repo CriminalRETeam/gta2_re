@@ -217,7 +217,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
     pGroup->field_0 = 0;
     field_10_subObj->field_4_ped = pCopLeader;
     field_10_subObj->field_28 = 6;
-    field_10_subObj->field_0_car->sub_421560(5);
+    field_10_subObj->field_0_car->SetUniNum_421560(5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->sub_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
@@ -264,7 +264,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
     pSwatGroup->field_0 = 0;
     field_10_subObj->field_4_ped = pSwatLeader;
     field_10_subObj->field_28 = 6;
-    field_10_subObj->field_0_car->sub_421560(5);
+    field_10_subObj->field_0_car->SetUniNum_421560(5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->sub_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
@@ -290,7 +290,7 @@ void PoliceCrew_38::SpawnFBI_nonused_571150()
     pFBI->field_26C_graphic_type = 1;
     field_10_subObj->field_4_ped = pFBI;
     field_10_subObj->field_28 = 6;
-    field_10_subObj->field_0_car->sub_421560(5);
+    field_10_subObj->field_0_car->SetUniNum_421560(5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->sub_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
@@ -624,7 +624,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
             gHamburger_500_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
             field_10_subObj->field_0_car->field_60 = 0;
         }
-        if (field_10_subObj->field_0_car->sub_414F20())
+        if (field_10_subObj->field_0_car->HasEmergencyLights_414F20())
         {
             field_10_subObj->field_0_car->DeactivateEmergencyLights_43C9D0();
         }

@@ -254,7 +254,7 @@ void Game_0x40::BootGame_4B8EB0()
     {
         gMike_A80_6F7328->sub_4FF1B0();
     }
-    gCar_214_705F20->sub_5C8750();
+    gCar_214_705F20->Reset_5C8750();
     gMap_0x370_6F6268->alloc_zones_4DFCA0();
     gHud_2B00_706620->sub_5D6BE0();
     gfrosty_pasteur_6F8060->Update_512160(); // script

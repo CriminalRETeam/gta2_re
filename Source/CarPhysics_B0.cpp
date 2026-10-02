@@ -655,7 +655,7 @@ Fix16 CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0()
     Fix16 v9 = Fix16::Max((Fix16::ClampToRangeFlexible_55EEE0(Fix16::Abs(gSaved_cm1_6FE3C8.x - g_cm1_6FDF10.x),
                                                               Fix16::Abs(gSaved_cm1_6FE3C8.y - g_cm1_6FDF10.y),
                                                               Fix16::Abs(gSaved_cp3_6FDF84 - g_cp3_6FDF08))) /
-                              field_5C_pCar->sub_43A5B0(),
+                              field_5C_pCar->GetMinDimension_43A5B0(),
                           Ang16::NormalizeAngleDeltaScaled_405B60(g_theta_6FE344, gSaved_theta_6FE158, word_6FE058));
 
     if (field_5C_pCar->field_64_pTrailer)
@@ -666,7 +666,7 @@ Fix16 CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0()
             (Fix16::ClampToRangeFlexible_55EEE0(Fix16::Abs(gSaved_trailer_cm1_6FE160.x - g_trailer_cm1_6FE068.x),
                                                 Fix16::Abs(gSaved_trailer_cm1_6FE160.y - g_trailer_cm1_6FE068.y),
                                                 Fix16::Abs(gSaved_trailed_cp3_6FDF8C - gTrailer_cp3_6FE1B4)) /
-             field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->sub_43A5B0()),
+             field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->GetMinDimension_43A5B0()),
             Ang16::NormalizeAngleDeltaScaled_405B60(gTrailer_theta_6FE018, gSaved_trailer_theta_6FE310, word_6FE058));
     }
 
@@ -1842,8 +1842,8 @@ void CarPhysics_B0::UpdateWheelSkidEffects_55DC00()
         }
         
         Fix16 half_width = field_5C_pCar->get_car_width() * dword_6FE004;
-        Fix16 rear_wheel_offset_ = field_5C_pCar->sub_421910(gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset);
-        Fix16 front_wheel_offset_ = field_5C_pCar->sub_421910(gCarInfo_2C_6FE0E4->field_4_front_wheel_offset);
+        Fix16 rear_wheel_offset_ = field_5C_pCar->ApplyScale_421910(gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset);
+        Fix16 front_wheel_offset_ = field_5C_pCar->ApplyScale_421910(gCarInfo_2C_6FE0E4->field_4_front_wheel_offset);
 
         if (field_98_surface_type == car_surface_type::unknown_surface_7 || field_98_surface_type == car_surface_type::water_surface_8 || field_98_surface_type == car_surface_type::unknown_surface_9)
         {

@@ -113,7 +113,7 @@ void Player::sub_5645B0(Car_BC* pNewCar)
                 ++pIter;
                 if ((u8)++i >= 3u)
                 {
-                    (*ppIter)->sub_443E80();
+                    (*ppIter)->MarkRecycled_443E80();
                     Car_BC* pCar_2 = ppIter[2];
                     *ppIter = ppIter[1];
                     ppIter[1] = pCar_2;
@@ -2308,9 +2308,9 @@ void Player::sub_569530()
         pCar->ClearDriver_4407F0();
     }
 
-    if (pCar->field_98 != 4)
+    if (pCar->field_98_door_lock != 4)
     {
-        pCar->field_98 = 3;
+        pCar->field_98_door_lock = 3;
     }
 
     field_2C8_unkq->Kill_46F9D0();
@@ -2356,10 +2356,10 @@ void Player::sub_569600(Car_BC* pCar)
     field_2C8_unkq->field_240_occupation = ped_ocupation_enum::empty;
     field_2C8_unkq->sub_45B560(this, 1);
     field_2C8_unkq->sub_45C4B0();
-    pCar->sub_4406E0(field_2C8_unkq);
-    if (pCar->field_98 != 4)
+    pCar->AssignDriver_4406E0(field_2C8_unkq);
+    if (pCar->field_98_door_lock != 4)
     {
-        pCar->field_98 = 1;
+        pCar->field_98_door_lock = 1;
     }
     field_68 = 2;
     field_208_aux_game_camera.UpdateFollowPedCamera_436540(field_2C8_unkq);

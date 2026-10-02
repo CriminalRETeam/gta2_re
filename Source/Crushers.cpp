@@ -74,7 +74,7 @@ void Crusher_30::Service_488350()
                     {
                         field_14_pCarBeingCrushed->field_70_exploder_ped_id = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_200_id;
                         field_14_pCarBeingCrushed->field_90 = 4;
-                        field_14_pCarBeingCrushed->field_94 = 50;
+                        field_14_pCarBeingCrushed->field_94_exploder_timer = 50;
                     }
                     field_14_pCarBeingCrushed->HandleCarExplosion_43D840(19);
                     field_14_pCarBeingCrushed->field_0_qq.CleanupSpriteList_5A7080();

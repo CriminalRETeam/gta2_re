@@ -98,7 +98,7 @@ void CarAI_78::MakeAgressiveSirensAndLights_4476F0()
 {
     if (field_0_car->IsPoliceCar_439EC0())
     {
-        field_0_car->sub_4417F0();
+        field_0_car->HonkHorn_4417F0();
     }
 }
 
@@ -3029,7 +3029,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
                         this->field_0_car->field_60->field_C = 0;
                         this->field_0_car->field_60->field_2A = 0;
                         this->field_0_car->field_80 = 0;
-                        field_0_car->sub_43D400();
+                        field_0_car->RepairDamage_43D400();
                         gPolice_7B8_6FEE40->sub_56F6D0(this->field_0_car);
                     }
                 }
@@ -4431,7 +4431,7 @@ void CarAI_78::ReactToNearbyCar_451980()
                     byte_677B3C = 0;
                     field_0_car->field_58_physics->NeutralGear_42AC00();
                 }
-                field_0_car->sub_4416D0(2);
+                field_0_car->TryHonkHorn_4416D0(2);
             }
             else if ((field_24_flags & 0x20000) != 0)
             {
@@ -4493,13 +4493,13 @@ void CarAI_78::ReactToNearbyCar_451980()
             if ((field_24_flags & 0x200000) != 0)
             {
                 flag1 = 1;
-                field_0_car->sub_4416D0(2);
+                field_0_car->TryHonkHorn_4416D0(2);
             }
             else
             {
                 byte_677B3C = 0;
                 field_0_car->field_58_physics->NeutralGear_42AC00();
-                field_0_car->sub_4416D0(2);
+                field_0_car->TryHonkHorn_4416D0(2);
             }
         }
         else
@@ -4537,7 +4537,7 @@ void CarAI_78::ReactToNearbyCar_451980()
                             {
                                 if (cBC->field_7C_uni_num == 3)
                                 {
-                                    cBC->sub_421470();
+                                    cBC->MarkForDespawn_421470();
                                 }
                             }
                             else
@@ -4657,14 +4657,14 @@ void CarAI_78::ReactToNearbyPed_451FF0()
             {
                 field_0_car->DoBrakeAndHandbrake_43A970();
                 byte_677B3C = 0;
-                field_0_car->sub_4416D0(2);
+                field_0_car->TryHonkHorn_4416D0(2);
                 return;
             }
             field_0_car->DoBreak_43A950();
             byte_677B3C = 0;
         }
     }
-    field_0_car->sub_4416D0(2);
+    field_0_car->TryHonkHorn_4416D0(2);
 }
 
 WIP_FUNC(0x452060)
@@ -5618,7 +5618,7 @@ void CarAI_78::sub_453A40()
     }
 
     Fix16 i;
-    for (i = Ang16::Ang16_to_Fix16(sub_4F7940(&v4)); i < kF16Zero_677B90; i += dword_677C84)
+    for (i = Ang16::Ang16_to_Fix16(DirectionToAng16_4F7940(&v4)); i < kF16Zero_677B90; i += dword_677C84)
     {
         ;
     }

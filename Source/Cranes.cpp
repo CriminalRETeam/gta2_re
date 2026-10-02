@@ -238,14 +238,14 @@ void Crane_15C::HookPickupCar_47EF80()
     this->field_159_hooked_car_this_frame = 1;
 
     Car_BC* pCar = field_68_pickup_car->AsCar_40FEB0();
-    if (pCar->field_95)
+    if (pCar->field_95_player_ped_id)
     {
-        Ped* pPed = gPedManager_6787BC->PedById(pCar->field_95);
+        Ped* pPed = gPedManager_6787BC->PedById(pCar->field_95_player_ped_id);
         if (pPed)
         {
             if (pPed->field_15C_player)
             {
-                pCar->field_95 = 0;
+                pCar->field_95_player_ped_id = 0;
             }
         }
     }
@@ -379,7 +379,7 @@ bool Crane_15C::IsPickupCarTargetValid_47F3D0()
     Car_BC* v2 = field_68_pickup_car->AsCar_40FEB0();
     if (!v2->IsDespawning_4215B0() && this->field_E0_pickup_car_x == field_68_pickup_car->field_14_xy.x && this->field_E4_pickup_car_y == field_68_pickup_car->field_14_xy.y &&
         this->field_E8_pickup_car_z == field_68_pickup_car->field_1C_zpos && this->field_EC_pickup_car_rot == Ang16::Ang16_to_Fix16(field_68_pickup_car->field_0) && !v2->field_54_driver &&
-        v2->sub_441A40())
+        v2->AreAllDoorsClosed_441A40())
     {
         return true;
     }
@@ -567,7 +567,7 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
         {
             if (!field_150 && !pCar->field_54_driver)
             {
-                if (pCar->sub_441A40())
+                if (pCar->AreAllDoorsClosed_441A40())
                 {
                     if (pCar->sub_447F00())
                     {
