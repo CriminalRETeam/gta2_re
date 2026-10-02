@@ -27,8 +27,8 @@ Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
     pNewWeap->mpNext = 0;
     pNewWeap->init_5DCD90();
     field_4_ref_count++;
-    pNewWeap->field_1C_idx = weapon_kind;
-    pNewWeap->field_24_pPed = pPed;
+    pNewWeap->set_idx_4CCA00(weapon_kind);
+    pNewWeap->set_pPed_4CCA10(pPed);
     pNewWeap->add_ammo_5DCE20(ammo);
     return pNewWeap;
 }
@@ -48,8 +48,8 @@ Weapon_30* Weapon_8::allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo)
 {
     Weapon_30* pWeapon = gWeapon_30_Pool_707014->Allocate();
     pWeapon->init_5DCD90();
-    pWeapon->field_1C_idx = weapon_kind;
-    pWeapon->field_14_car = pCar;
+    pWeapon->set_idx_4CCA00(weapon_kind);
+    pWeapon->set_car_4CCA20(pCar);
     pWeapon->add_ammo_5DCE20(ammo);
     return pWeapon;
 }
