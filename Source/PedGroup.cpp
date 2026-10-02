@@ -491,7 +491,7 @@ void PedGroup::RemovePed_4C9970(Ped* pPed)
             }
 
             Ped* pNewLeader = field_4_ped_list[0];
-            if (pNewLeader && pNewLeader->field_278_ped_state_1 != ped_state_1::dead_9)
+            if (pNewLeader && !pNewLeader->isDead_403B60())
             {
                 PromoteMemberToLeader_4C9680(0);
                 if (field_2C_ped_leader->GetInternalObjective_403A90() == 0)
@@ -716,7 +716,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
             for (i = 0; i < passengers && i < field_34_count; i++)
             {
                 Ped* pMember = field_4_ped_list[i];
-                if (pMember->field_16C_car || pMember->field_278_ped_state_1 == ped_state_1::dead_9 ||
+                if (pMember->field_16C_car || pMember->isDead_403B60() ||
                     (pMember->get_occupation_403980() == 0x17 && pMember->field_258_objective != 0) || pMember->field_258_objective == 8)
                 {
                     continue;
