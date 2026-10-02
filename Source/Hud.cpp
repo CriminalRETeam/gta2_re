@@ -2172,8 +2172,7 @@ void Hud_Arrow_7C_Array::FindVisibleGangArrow_5D0EF0()
     Hud_Arrow_7C* pIter = &field_0_array[0];
     while (idx < GTA2_COUNTOF_S(field_0_array))
     {
-        if (!pIter->field_18.field_18_primary_target.field_10_target_type &&
-                !pIter->field_18.field_3C_secondary_target.field_10_target_type ||
+        if (pIter->IsType0_4C6F80() ||
             !pIter->field_18.field_10.field_30_gang || !pIter->field_18.field_60_curr_target->field_20_bIsTargetVisible)
         {
             idx++;
