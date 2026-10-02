@@ -28,6 +28,12 @@ class Car_Door_10
         return field_4_state != 0 && field_4_state != 6;
     }
 
+    // 9.6f 0x421340
+    inline void ResetState_421340()
+    {
+        field_4_state = 0;
+    }
+
     // 9.6f inline 0x421380
     inline void set_ped_421380(Ped* pPed)
     {

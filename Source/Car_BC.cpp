@@ -5327,7 +5327,7 @@ void Car_BC::sub_441A70()
 
     for (i = *pRemapCount; i < 4; i++)
     {
-        field_C_doors[i].field_4_state = 0;
+        field_C_doors[i].ResetState_421340();
     }
 }
 
