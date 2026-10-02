@@ -362,6 +362,12 @@ class Car_BC
         field_A6 |= 8u;
     }
 
+    // 9.6f 0x421540
+    inline void SetA6Bit5_421540()
+    {
+        field_A6 |= 0x20u;
+    }
+
     // 9.6f 0x42ACA0
     inline void ClearA6Bit0_42ACA0()
     {

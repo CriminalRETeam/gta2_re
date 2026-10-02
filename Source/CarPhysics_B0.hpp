@@ -82,6 +82,12 @@ class CarPhysics_B0
         field_38_cp1.y = v.y;
     }
 
+    // 9.6f 0x421250
+    inline void SetHandBrakeOn_421250()
+    {
+        field_92_is_hand_brake_on = 1;
+    }
+
     // 9.6f 0x421270
     inline char_type get_is_hand_brake_on_421270()
     {

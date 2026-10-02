@@ -3649,16 +3649,16 @@ void CarAI_78::UpdateStateMachine_44E560()
                 {
                     if (Ang16::IsAngleAhead_405C60(&this->field_10_angle, &v256))
                     {
-                        this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
+                        this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                     }
                     else
                     {
-                        this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
+                        this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
                     }
 
                     if (ComputeShortestAngleDelta_4056C0(this->field_10_angle, dword_6779B0->field_50_car_sprite->field_0) <= dword_677A2E)
                     {
-                        this->field_0_car->field_58_physics->field_92_is_hand_brake_on = 1;
+                        this->field_0_car->field_58_physics->SetHandBrakeOn_421250();
                     }
                     else
                     {
@@ -3677,7 +3677,7 @@ void CarAI_78::UpdateStateMachine_44E560()
             case 15:
             {
                 this->field_24_flags |= 0x100000u;
-                field_0_car->field_A6 |= 0x20u;
+                field_0_car->SetA6Bit5_421540();
                 break;
             }
 
@@ -3719,9 +3719,7 @@ void CarAI_78::UpdateStateMachine_44E560()
             //Ang16::Normalize_406C20(&v244);
             if (v263 <= v244)
             {
-                CarPhysics_B0* t = this->field_0_car->field_58_physics;
-                t->field_AD_turn_direction = car_turn_direction::none_0;
-                t->field_78_pointing_ang_rad = kF16Zero_677B90;
+                this->field_0_car->field_58_physics->SetGoStraight_42ABB0();
                 byte_677A5C = 1;
                 goto LABEL_186;
             }
@@ -3730,7 +3728,7 @@ void CarAI_78::UpdateStateMachine_44E560()
             {
                 if ((this->field_24_flags & 0x40) == 0)
                 {
-                    this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
+                    this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
                     goto LABEL_186;
                 }
                 goto LABEL_183;
@@ -3742,11 +3740,11 @@ void CarAI_78::UpdateStateMachine_44E560()
             {
                 if ((this->field_24_flags & 0x40) != 0)
                 {
-                    this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
+                    this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
                     goto LABEL_186;
                 }
             LABEL_183:
-                this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
+                this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
             }
         }
     LABEL_186:
@@ -3792,17 +3790,17 @@ void CarAI_78::UpdateStateMachine_44E560()
         {
             goto LABEL_169;
         }
-        this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
+        this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
     }
     else
     {
         if ((this->field_24_flags & 0x40) != 0)
         {
         LABEL_169:
-            this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
+            this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
             goto LABEL_190;
         }
-        this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
+        this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
     }
 
 LABEL_190:
@@ -3825,9 +3823,7 @@ LABEL_190:
 
         if (field_0_car->field_50_car_sprite->CheckSpriteMovementRegion_5A2500())
         {
-            CarPhysics_B0* v126 = this->field_0_car->field_58_physics;
-            v126->field_AD_turn_direction = car_turn_direction::none_0;
-            v126->field_78_pointing_ang_rad = kF16Zero_677B90;
+            this->field_0_car->field_58_physics->SetGoStraight_42ABB0();
         }
     }
 
