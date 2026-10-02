@@ -10,7 +10,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_678B40, Ang16(0), 0x678B40);
 MATCH_FUNC(0x471140)
 Char_8* Ped_List_4::AddPed_471140(Ped* pPed)
 {
-    Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
+    Char_8* pNew = gChar_8_Pool_678b50->Allocate_445EF0();
 
     pNew->field_0_char_ped = pPed;
 

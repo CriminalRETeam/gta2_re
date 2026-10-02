@@ -64,6 +64,18 @@ class Char_8_Pool
         field_0_pool.field_0_pHead = 0;
     }
 
+    // 9.6f 0x445EF0
+    inline Char_8* Allocate_445EF0()
+    {
+        return field_0_pool.Allocate();
+    }
+
+    // 9.6f 0x445F00
+    inline void DeAllocate_445F00(Char_8* pItem)
+    {
+        field_0_pool.DeAllocate(pItem);
+    }
+
     Char_8_Pool()
     {
         field_320_in_use = 0;
