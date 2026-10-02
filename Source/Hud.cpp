@@ -86,6 +86,14 @@ static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16
                       0);
 }
 
+// Defined before the member ctors it calls: when VC6 has already compiled them in this TU (and seen
+// that they can't throw) it drops the EH frame and the state for the pager array that the original has.
+MATCH_FUNC(0x5d6cd0)
+Hud_2B00::Hud_2B00()
+{
+    field_13C4_text_speed = 0;
+}
+
 WIP_FUNC(0x5cfe40)
 void Garox_13C0_sub::DrawPlayerNames_5CFE40()
 {
@@ -3284,10 +3292,3 @@ bool Hud_2B00::IsQuitMessageInputKey_5D6CB0(s32 action)
     return field_12EC_sub.IsQuitMessageKey_5D15A0(action);
 }
 
-// https://decomp.me/scratch/Y4V1E it matches on decompme
-WIP_FUNC(0x5d6cd0)
-Hud_2B00::Hud_2B00()
-{
-    WIP_IMPLEMENTED;
-    field_13C4_text_speed = 0;
-}
