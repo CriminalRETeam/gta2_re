@@ -498,8 +498,7 @@ Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 a2)
     result = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this, a2);
     if (result)
     {
-        gRozza_679188.field_0_type = 3;
-        gRozza_679188.field_20_pSprite = result;
+        gRozza_679188.SetSprite_40FEE0(result);
     }
     return result;
 }
