@@ -896,10 +896,10 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
             pNewPed1->ForceWeapon_46F600(weapon_type::shotgun);
             pNewPed1->GiveWeapon_46F650(weapon_type::silence_smg);
             pNewPed1->set_occupation_403970(ped_ocupation_enum::fbi);
-            pNewPed1->field_244_remap = 8;
+            pNewPed1->set_remap_433B90(8);
             pNewPed1->field_26C_graphic_type = 1;
             pNewPed2->set_health_4039A0(250);
-            pNewPed2->field_244_remap = 8;
+            pNewPed2->set_remap_433B90(8);
             pNewPed2->ForceWeapon_46F600(weapon_type::silence_smg);
             pNewPed2->field_26C_graphic_type = 1;
             pNewPed2->set_occupation_403970(ped_ocupation_enum::fbi);
@@ -957,12 +957,12 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
         default:
             pNewPed1->set_health_4039A0(250);
             pNewPed1->ForceWeapon_46F600(weapon_type::smg);
-            pNewPed1->field_244_remap = 4;
+            pNewPed1->set_remap_433B90(4);
             pNewPed1->set_occupation_403970(ped_ocupation_enum::army_army);
             pNewPed1->field_26C_graphic_type = 2;
             pNewPed2->set_health_4039A0(250);
             pNewPed2->ForceWeapon_46F600(weapon_type::smg);
-            pNewPed2->field_244_remap = 4;
+            pNewPed2->set_remap_433B90(4);
             pNewPed2->set_occupation_403970(ped_ocupation_enum::army_army);
             pNewPed2->field_26C_graphic_type = 2;
             pNewCrew->field_20 = 4;
@@ -970,8 +970,7 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
     }
 
     pNewPedGroup->add_ped_leader_4C9B10(pNewPed1);
-    pNewPedGroup->field_36_count = 1;
-    pNewPedGroup->field_34_count = 1;
+    pNewPedGroup->SetCounts_433360(1);
     pNewPedGroup->add_ped_to_list_4C9B30(pNewPed2, 0);
     pNewPedGroup->field_0 = 0;
     pKfc->field_4_ped = pNewPed1;
