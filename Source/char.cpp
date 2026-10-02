@@ -1548,7 +1548,7 @@ void Char_B4::UpdateAnimState_546360()
 
             if (field_7C_pPed->field_20A_wanted_points < 600)
             {
-                gPolice_7B8_6FEE40->sub_56F940(field_7C_pPed);
+                gPolice_7B8_6FEE40->RegisterCriminal_56F940(field_7C_pPed);
                 field_7C_pPed->field_20A_wanted_points = 600;
             }
 

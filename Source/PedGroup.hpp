@@ -15,7 +15,7 @@ class PedGroup
     EXPORT void add_ped_to_end_of_list_4C8F90(Ped* pPed);
     EXPORT void replace_leader_4C8FE0(Ped* pPed);
     EXPORT bool PurgeMembersInCars_4C9040();
-    EXPORT char_type sub_4C9150();
+    EXPORT char_type AreAllMembersOffScreen_4C9150();
     EXPORT void ResetMembersToFollowLeader_4C91B0();
     EXPORT bool IsLeaderInCar_4C9210();
     EXPORT bool IsLeaderEnteringCarOrUnknown5_4C9220();

@@ -2105,7 +2105,7 @@ void Ped::Deallocate_45EB60()
                 {
                     field_164_ped_group->DestroyGroup_4C93A0();
                 }
-                else if (field_164_ped_group->sub_4C9150())
+                else if (field_164_ped_group->AreAllMembersOffScreen_4C9150())
                 {
                     field_164_ped_group->DestroyGroup_4C93A0();
                 }
@@ -3696,7 +3696,7 @@ char_type Ped::StateMachineTick_4626B0()
                 pGroup = this->field_164_ped_group;
                 if (pGroup)
                 {
-                    if (f20E > 500u && pGroup->sub_4C9150())
+                    if (f20E > 500u && pGroup->AreAllMembersOffScreen_4C9150())
                     {
                     LABEL_77:
                         Ped::Deallocate_45EB60();
@@ -3952,7 +3952,7 @@ bool Ped::PoolUpdate()
                         }
                         else
                         {
-                            gPolice_7B8_6FEE40->sub_56F940(this);
+                            gPolice_7B8_6FEE40->RegisterCriminal_56F940(this);
                         }
                     }
                 }
@@ -10929,7 +10929,7 @@ void Ped::Kill_46F9D0()
             case ped_ocupation_enum::police:
             case ped_ocupation_enum::swat:
             case ped_ocupation_enum::fbi:
-                if (!IsField238_45EDE0(4) || !gPolice_7B8_6FEE40->sub_56F4D0(this))
+                if (!IsField238_45EDE0(4) || !gPolice_7B8_6FEE40->HandlePedDeath_56F4D0(this))
                 {
                     break;
                 }

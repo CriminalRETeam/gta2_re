@@ -48,7 +48,7 @@ void PoliceCrew_38::Init_5709C0()
     field_C = dword_6FECE8;
     field_14_pService = 0;
     field_1A = 0;
-    field_29 = 0;
+    field_29_bCountedInPoliceCount = 0;
     field_2A = 0;
     field_2C = 0;
     field_30 = 0;
@@ -56,7 +56,7 @@ void PoliceCrew_38::Init_5709C0()
 }
 
 MATCH_FUNC(0x570a10)
-void PoliceCrew_38::sub_570A10()
+void PoliceCrew_38::AddToService_570A10()
 {
     if (field_14_pService->field_75_count < 6)
     {
@@ -92,7 +92,7 @@ void PoliceCrew_38::sub_570A10()
 }
 
 MATCH_FUNC(0x570ab0)
-void PoliceCrew_38::sub_570AB0()
+void PoliceCrew_38::RemoveFromService_570AB0()
 {
     if (!field_1C_used || (field_24_state != police_crew_state::none_0 
         && field_24_state != police_crew_state::patrol_1 
@@ -118,7 +118,7 @@ void PoliceCrew_38::sub_570AB0()
         }
         if (field_1C_used)
         {
-            switch (field_20)
+            switch (field_20_crew_kind)
             {
                 case 1:
                     --field_14_pService->field_70_num_police_crews;
@@ -304,7 +304,7 @@ void PoliceCrew_38::sub_571350()
     PedGroup* pGroup = field_10_subObj->field_8_group;
     if (pGroup)
     {
-        if (pGroup->sub_4C9150())
+        if (pGroup->AreAllMembersOffScreen_4C9150())
         {
             u8 v7 = 0;
             for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[v7++])
@@ -361,13 +361,13 @@ void PoliceCrew_38::sub_5720C0()
 {
     if (field_10_subObj->field_24 == 2)
     {
-        if (field_29)
+        if (field_29_bCountedInPoliceCount)
         {
             if (gPolice_7B8_6FEE40->field_658_count > 0)
             {
                 gPolice_7B8_6FEE40->field_658_count--;
             }
-            field_29 = 0;
+            field_29_bCountedInPoliceCount = 0;
         }
 
         if (field_24_state != police_crew_state::shutdown_6)
@@ -422,7 +422,7 @@ bool PoliceCrew_38::sub_572210()
 }
 
 MATCH_FUNC(0x572340)
-void PoliceCrew_38::sub_572340()
+void PoliceCrew_38::State3_AlertedSearch_572340()
 {
     u8 bUnk = true;
     u8 idx = 0;
@@ -605,7 +605,7 @@ void PoliceCrew_38::sub_572340()
 }
 
 STUB_FUNC(0x572920)
-void PoliceCrew_38::sub_572920()
+void PoliceCrew_38::State5_PursueOrChase_572920()
 {
     NOT_IMPLEMENTED;
 }
@@ -650,13 +650,13 @@ void PoliceCrew_38::State6_ShutDown_574720()
                 }
             }
             PoliceCrew_38::sub_575650();
-            if (field_29)
+            if (field_29_bCountedInPoliceCount)
             {
                 if (gPolice_7B8_6FEE40->field_658_count > 0)
                 {
                     --gPolice_7B8_6FEE40->field_658_count;
                 }
-                field_29 = 0;
+                field_29_bCountedInPoliceCount = 0;
             }
 
             if (field_10_subObj->field_4_ped)
@@ -796,7 +796,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
         }
         field_10_subObj->field_28 = 0;
         field_10_subObj->ReInit_5CBC30();
-        if (field_29)
+        if (field_29_bCountedInPoliceCount)
         {
             if (gPolice_7B8_6FEE40->field_658_count > 0)
             {
@@ -809,7 +809,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
 }
 
 MATCH_FUNC(0x574f10)
-void PoliceCrew_38::sub_574F10()
+void PoliceCrew_38::State1_Patrol_574F10()
 {
     Car_BC* pCarUnk;
 
@@ -845,7 +845,7 @@ void PoliceCrew_38::sub_574F10()
                 }
             }
             PoliceCrew_38::sub_575650();
-            if (field_29)
+            if (field_29_bCountedInPoliceCount)
             {
                 if (gPolice_7B8_6FEE40->field_658_count > 0)
                 {
@@ -1036,16 +1036,16 @@ void PoliceCrew_38::Service_575590()
     switch (field_24_state)
     {
         case police_crew_state::alerted_search_3:
-            PoliceCrew_38::sub_572340();
+            PoliceCrew_38::State3_AlertedSearch_572340();
             break;
         case police_crew_state::pursue_or_chase_5:
-            PoliceCrew_38::sub_572920();
+            PoliceCrew_38::State5_PursueOrChase_572920();
             break;
         case police_crew_state::shutdown_6:
             PoliceCrew_38::State6_ShutDown_574720();
             break;
         case police_crew_state::patrol_1:
-            PoliceCrew_38::sub_574F10();
+            PoliceCrew_38::State1_Patrol_574F10();
             break;
         case 2:
             PoliceCrew_38::sub_575200();
@@ -1063,12 +1063,12 @@ s32 PoliceCrew_38::sub_575650()
 }
 
 MATCH_FUNC(0x575710)
-void PoliceRoadblock_A4::sub_575710()
+void PoliceRoadblock_A4::Reset_575710()
 {
-    field_0 = 0;
+    field_0_bActive = 0;
     field_4 = 0;
-    field_8 = 0;
-    field_9 = 0;
+    field_8_x = 0;
+    field_9_y = 0;
     field_A = 0;
     field_C = 0;
     field_10_car_1 = 0;
@@ -1089,18 +1089,18 @@ void PoliceRoadblock_A4::sub_575710()
     field_4C_barrier_10 = 0;
     field_50_barrier_11 = 0;
     field_54_barrier_12 = 0;
-    field_58 = 0;
-    field_5C = 0;
-    field_60 = 0;
-    field_64 = 0;
-    field_68 = 0;
-    field_6C = 0;
-    field_70 = 0;
-    field_74 = 0;
-    field_78 = 0;
-    field_7C = 0;
-    field_80 = 0;
-    field_84 = 0;
+    field_58_barrier_1_id = 0;
+    field_5C_barrier_2_id = 0;
+    field_60_barrier_3_id = 0;
+    field_64_barrier_4_id = 0;
+    field_68_barrier_5_id = 0;
+    field_6C_barrier_6_id = 0;
+    field_70_barrier_7_id = 0;
+    field_74_barrier_8_id = 0;
+    field_78_barrier_9_id = 0;
+    field_7C_barrier_10_id = 0;
+    field_80_barrier_11_id = 0;
+    field_84_barrier_12_id = 0;
     field_88_guard_1 = 0;
     field_8C_guard_2 = 0;
     field_90_guard_3 = 0;
@@ -1110,11 +1110,11 @@ void PoliceRoadblock_A4::sub_575710()
 }
 
 MATCH_FUNC(0x5757b0)
-void PoliceRoadblock_A4::sub_5757B0()
+void PoliceRoadblock_A4::Update_5757B0()
 {
     u8 v31 = 1;
 
-    if (field_0)
+    if (field_0_bActive)
     {
         if (field_C > 0)
         {
@@ -1214,7 +1214,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_28_barrier_1)
             {
-                if (field_28_barrier_1->field_14_id == field_58)
+                if (field_28_barrier_1->field_14_id == field_58_barrier_1_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_28_barrier_1->field_4->field_14_xy.x,
                                                                      field_28_barrier_1->field_4->field_14_xy.y))
@@ -1226,7 +1226,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_2C_barrier_2)
             {
-                if (field_2C_barrier_2->field_14_id == field_5C)
+                if (field_2C_barrier_2->field_14_id == field_5C_barrier_2_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_2C_barrier_2->field_4->field_14_xy.x,
                                                                      field_2C_barrier_2->field_4->field_14_xy.y))
@@ -1238,7 +1238,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_30_barrier_3)
             {
-                if (field_30_barrier_3->field_14_id == field_60)
+                if (field_30_barrier_3->field_14_id == field_60_barrier_3_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_30_barrier_3->field_4->field_14_xy.x,
                                                                      field_30_barrier_3->field_4->field_14_xy.y))
@@ -1250,7 +1250,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_34_barrier_4)
             {
-                if (field_34_barrier_4->field_14_id == field_64)
+                if (field_34_barrier_4->field_14_id == field_64_barrier_4_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_34_barrier_4->field_4->field_14_xy.x,
                                                                      field_34_barrier_4->field_4->field_14_xy.y))
@@ -1262,7 +1262,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_38_barrier_5)
             {
-                if (field_38_barrier_5->field_14_id == field_68)
+                if (field_38_barrier_5->field_14_id == field_68_barrier_5_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_38_barrier_5->field_4->field_14_xy.x,
                                                                      field_38_barrier_5->field_4->field_14_xy.y))
@@ -1274,7 +1274,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_3C_barrier_6)
             {
-                if (field_3C_barrier_6->field_14_id == field_6C)
+                if (field_3C_barrier_6->field_14_id == field_6C_barrier_6_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_3C_barrier_6->field_4->field_14_xy.x,
                                                                      field_3C_barrier_6->field_4->field_14_xy.y))
@@ -1286,7 +1286,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_40_barrier_7)
             {
-                if (field_40_barrier_7->field_14_id == field_70)
+                if (field_40_barrier_7->field_14_id == field_70_barrier_7_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_40_barrier_7->field_4->field_14_xy.x,
                                                                      field_40_barrier_7->field_4->field_14_xy.y))
@@ -1298,7 +1298,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_44_barrier_8)
             {
-                if (field_44_barrier_8->field_14_id == field_74)
+                if (field_44_barrier_8->field_14_id == field_74_barrier_8_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_44_barrier_8->field_4->field_14_xy.x,
                                                                      field_44_barrier_8->field_4->field_14_xy.y))
@@ -1310,7 +1310,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_48_barrier_9)
             {
-                if (field_48_barrier_9->field_14_id == field_78)
+                if (field_48_barrier_9->field_14_id == field_78_barrier_9_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_48_barrier_9->field_4->field_14_xy.x,
                                                                      field_48_barrier_9->field_4->field_14_xy.y))
@@ -1322,7 +1322,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_4C_barrier_10)
             {
-                if (field_4C_barrier_10->field_14_id == field_7C)
+                if (field_4C_barrier_10->field_14_id == field_7C_barrier_10_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_4C_barrier_10->field_4->field_14_xy.x,
                                                                      field_4C_barrier_10->field_4->field_14_xy.y))
@@ -1334,7 +1334,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_50_barrier_11)
             {
-                if (field_50_barrier_11->field_14_id == field_80)
+                if (field_50_barrier_11->field_14_id == field_80_barrier_11_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_50_barrier_11->field_4->field_14_xy.x,
                                                                      field_50_barrier_11->field_4->field_14_xy.y))
@@ -1346,7 +1346,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 
             if (field_54_barrier_12)
             {
-                if (field_54_barrier_12->field_14_id == field_84)
+                if (field_54_barrier_12->field_14_id == field_84_barrier_12_id)
                 {
                     if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_54_barrier_12->field_4->field_14_xy.x,
                                                                      field_54_barrier_12->field_4->field_14_xy.y))
@@ -1457,8 +1457,8 @@ void PoliceRoadblock_A4::sub_5757B0()
                 Fix16 fix_y = field_2C4_player_ped->field_1AC_cam.y;
                 Fix16 fix_x = field_2C4_player_ped->field_1AC_cam.x;
 
-                Fix16 v29 = Fix16(field_8) - fix_x;
-                Fix16 v30 = Fix16(field_9) - fix_y;
+                Fix16 v29 = Fix16(field_8_x) - fix_x;
+                Fix16 v30 = Fix16(field_9_y) - fix_y;
 
                 v30 = Fix16::Abs(v30);
                 v29 = Fix16::Abs(v29);
@@ -1469,7 +1469,7 @@ void PoliceRoadblock_A4::sub_5757B0()
                 }
                 if (v29 > dword_6FED54)
                 {
-                    PoliceRoadblock_A4::sub_575CA0();
+                    PoliceRoadblock_A4::RemoveRoadblock_575CA0();
                     return;
                 }
             }
@@ -1479,7 +1479,7 @@ void PoliceRoadblock_A4::sub_5757B0()
 }
 
 MATCH_FUNC(0x575ca0)
-void PoliceRoadblock_A4::sub_575CA0()
+void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 {
     if (field_10_car_1)
     {
@@ -1560,7 +1560,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_28_barrier_1)
     {
-        if (field_28_barrier_1->field_14_id == field_58)
+        if (field_28_barrier_1->field_14_id == field_58_barrier_1_id)
         {
             field_28_barrier_1->Dealloc_5291B0();
         }
@@ -1569,7 +1569,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_2C_barrier_2)
     {
-        if (field_2C_barrier_2->field_14_id == field_5C)
+        if (field_2C_barrier_2->field_14_id == field_5C_barrier_2_id)
         {
             field_2C_barrier_2->Dealloc_5291B0();
         }
@@ -1578,7 +1578,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_30_barrier_3)
     {
-        if (field_30_barrier_3->field_14_id == field_60)
+        if (field_30_barrier_3->field_14_id == field_60_barrier_3_id)
         {
             field_30_barrier_3->Dealloc_5291B0();
         }
@@ -1587,7 +1587,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_34_barrier_4)
     {
-        if (field_34_barrier_4->field_14_id == field_64)
+        if (field_34_barrier_4->field_14_id == field_64_barrier_4_id)
         {
             field_34_barrier_4->Dealloc_5291B0();
         }
@@ -1596,7 +1596,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_38_barrier_5)
     {
-        if (field_38_barrier_5->field_14_id == field_68)
+        if (field_38_barrier_5->field_14_id == field_68_barrier_5_id)
         {
             field_38_barrier_5->Dealloc_5291B0();
         }
@@ -1605,7 +1605,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_3C_barrier_6)
     {
-        if (field_3C_barrier_6->field_14_id == field_6C)
+        if (field_3C_barrier_6->field_14_id == field_6C_barrier_6_id)
         {
             field_3C_barrier_6->Dealloc_5291B0();
         }
@@ -1614,7 +1614,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_40_barrier_7)
     {
-        if (field_40_barrier_7->field_14_id == field_70)
+        if (field_40_barrier_7->field_14_id == field_70_barrier_7_id)
         {
             field_40_barrier_7->Dealloc_5291B0();
         }
@@ -1623,7 +1623,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_44_barrier_8)
     {
-        if (field_44_barrier_8->field_14_id == field_74)
+        if (field_44_barrier_8->field_14_id == field_74_barrier_8_id)
         {
             field_44_barrier_8->Dealloc_5291B0();
         }
@@ -1632,7 +1632,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_48_barrier_9)
     {
-        if (field_48_barrier_9->field_14_id == field_78)
+        if (field_48_barrier_9->field_14_id == field_78_barrier_9_id)
         {
             field_48_barrier_9->Dealloc_5291B0();
         }
@@ -1641,7 +1641,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_4C_barrier_10)
     {
-        if (field_4C_barrier_10->field_14_id == field_7C)
+        if (field_4C_barrier_10->field_14_id == field_7C_barrier_10_id)
         {
             field_4C_barrier_10->Dealloc_5291B0();
         }
@@ -1650,7 +1650,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_50_barrier_11)
     {
-        if (field_50_barrier_11->field_14_id == field_80)
+        if (field_50_barrier_11->field_14_id == field_80_barrier_11_id)
         {
             field_50_barrier_11->Dealloc_5291B0();
         }
@@ -1659,7 +1659,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 
     if (field_54_barrier_12)
     {
-        if (field_54_barrier_12->field_14_id == field_84)
+        if (field_54_barrier_12->field_14_id == field_84_barrier_12_id)
         {
             field_54_barrier_12->Dealloc_5291B0();
         }
@@ -1737,13 +1737,13 @@ void PoliceRoadblock_A4::sub_575CA0()
         {
             field_9C_guard_6->Deallocate_45EB60();
             field_9C_guard_6 = 0;
-            field_0 = 0;
+            field_0_bActive = 0;
             return;
         }
         field_9C_guard_6->field_238_ped_type = ped_type::dummy_3;
         field_9C_guard_6 = 0;
     }
-    field_0 = 0;
+    field_0_bActive = 0;
 }
 
 STUB_FUNC(0x575ff0)
@@ -1756,7 +1756,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 a2, s32 a3, u8 a4, s32 a
 MATCH_FUNC(0x577480)
 PoliceRoadblock_A4::PoliceRoadblock_A4()
 {
-    sub_575710();
+    Reset_575710();
     field_A0_rect = new Fix16_Rect();
 }
 

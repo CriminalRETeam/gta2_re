@@ -13,7 +13,7 @@
 
 DEFINE_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40, 0x6FEE40);
 DEFINE_GLOBAL(s32, gRoadblockGuardType_6FEDB8, 0x6FEDB8);
-DEFINE_GLOBAL(u8, byte_6FEE44, 0x6FEE44);
+DEFINE_GLOBAL(u8, bHaveCriminals_6FEE44, 0x6FEE44);
 DEFINE_GLOBAL(u16, id_counter_6FEE46, 0x6FEE46);
 DEFINE_GLOBAL(s32, dword_6FEDCC, 0x6FEDCC);
 DEFINE_GLOBAL(u32, dword_6FEE18, 0x6FEE18);
@@ -32,7 +32,7 @@ Police_7B8::~Police_7B8()
 }
 
 MATCH_FUNC(0x56f400)
-void Police_7B8::sub_56F400()
+void Police_7B8::Init_56F400()
 {
     field_0 = 1;
     for (s32 i = 0; i < 4; i++)
@@ -66,9 +66,9 @@ void Police_7B8::sub_56F400()
     }
     field_654_wanted_level = 0;
     field_658_count = 0;
-    field_659 = 1;
+    field_659_max_count = 1;
     field_65C_highest_crew_type_on_service = crew_type::police_3;
-    byte_6FEE44 = 0;
+    bHaveCriminals_6FEE44 = 0;
     if (bStartNetworkGame_7081F0)
     {
         field_660_wanted_star_count = 1;
@@ -84,7 +84,7 @@ void Police_7B8::sub_56F400()
 }
 
 MATCH_FUNC(0x56f4d0)
-bool Police_7B8::sub_56F4D0(Ped* a2)
+bool Police_7B8::HandlePedDeath_56F4D0(Ped* a2)
 {
     for (u8 v10 = 0; v10 < 20; v10++)
     {
@@ -198,15 +198,15 @@ void Police_7B8::sub_56F6D0(Car_BC* pCar)
                     {
                         case 6:
 
-                            if (pCrew->field_20 == 1)
+                            if (pCrew->field_20_crew_kind == 1)
                             {
                                 bUnknown = 1;
                             }
-                            if (pCrew->field_20 == 2)
+                            if (pCrew->field_20_crew_kind == 2)
                             {
                                 bUnknown = 1;
                             }
-                            if (pCrew->field_20 == 3)
+                            if (pCrew->field_20_crew_kind == 3)
                             {
                                 bUnknown = 1;
                             }
@@ -215,11 +215,11 @@ void Police_7B8::sub_56F6D0(Car_BC* pCar)
 
                         case 5:
 
-                            if (pCrew->field_20 == 1)
+                            if (pCrew->field_20_crew_kind == 1)
                             {
                                 bUnknown = 1;
                             }
-                            if (pCrew->field_20 == 2)
+                            if (pCrew->field_20_crew_kind == 2)
                             {
                                 bUnknown = 1;
                             }
@@ -247,7 +247,7 @@ void Police_7B8::sub_56F6D0(Car_BC* pCar)
                     }
                 }
 
-                pCrew->sub_570AB0();
+                pCrew->RemoveFromService_570AB0();
                 Car_BC* pCrewCar = pCrew->field_10_subObj->field_0_car;
 
                 if (pCrewCar->field_88_despawn_status != 5 && pCrewCar->field_88_despawn_status != 2 && pCrewCar->field_88_despawn_status != 3)
@@ -314,9 +314,9 @@ void Police_7B8::SetArrestedPed_56F8E0(Ped* a2, Ped* a3)
 }
 
 MATCH_FUNC(0x56f940)
-void Police_7B8::sub_56F940(Ped* pPed)
+void Police_7B8::RegisterCriminal_56F940(Ped* pPed)
 {
-    byte_6FEE44 = 0;
+    bHaveCriminals_6FEE44 = 0;
     if (pPed->field_15C_player)
     {
         bool bFound = false;
@@ -349,7 +349,7 @@ void Police_7B8::sub_56F940(Ped* pPed)
         {
             if (field_464_services[j].field_0_criminal_ped != NULL)
             {
-                byte_6FEE44 = 1;
+                bHaveCriminals_6FEE44 = 1;
                 return;
             }
         }
@@ -382,7 +382,7 @@ void Police_7B8::sub_56FA40()
 }
 
 MATCH_FUNC(0x56faa0)
-char_type Police_7B8::sub_56FAA0(Police_7C* p7C)
+char_type Police_7B8::DispatchNewCrewToService_56FAA0(Police_7C* p7C)
 {
     u8 xval = p7C->field_10_x.ToInt();
     u8 yval = p7C->field_14_y.ToInt();
@@ -406,7 +406,7 @@ char_type Police_7B8::sub_56FAA0(Police_7C* p7C)
         Kfc_30* pKfc = pNewPoliceCrew->field_10_subObj;
         pNewPoliceCrew->field_14_pService = p7C;
         pNewPoliceCrew->field_24_state = dword_6FEDCC;
-        pNewPoliceCrew->field_20 = gRoadblockGuardType_6FEDB8;
+        pNewPoliceCrew->field_20_crew_kind = gRoadblockGuardType_6FEDB8;
         pKfc->field_1E_is_used = 1;
         pKfc->field_20_maybe_type = dword_6FEE18; // field_20_maybe_type
         pKfc->field_24 = 1;
@@ -415,7 +415,7 @@ char_type Police_7B8::sub_56FAA0(Police_7C* p7C)
         pKfc->field_C_x = Fix16(xval);
         pKfc->field_10_y = Fix16(yval);
         pKfc->field_14_z = Fix16(zval);
-        pNewPoliceCrew->sub_570A10();
+        pNewPoliceCrew->AddToService_570A10();
         return 1;
     }
     return 0;
@@ -433,7 +433,7 @@ void Police_7B8::Service_570270()
     field_7B4 = 0;
     field_654_wanted_level = 0;
 
-    if (byte_6FEE44 == 1)
+    if (bHaveCriminals_6FEE44 == 1)
     {
         Police_7B8::sub_56FBD0();
     }
@@ -446,13 +446,13 @@ void Police_7B8::Service_570270()
         }
     }
 
-    if (byte_6FEE44 == 1)
+    if (bHaveCriminals_6FEE44 == 1)
     {
         Police_7B8::sub_56FA40();
     }
 
-    field_664_roadblock_1.sub_5757B0();
-    field_708_roadblock_2.sub_5757B0();
+    field_664_roadblock_1.Update_5757B0();
+    field_708_roadblock_2.Update_5757B0();
 
     if (field_7AC > 0)
     {
@@ -530,7 +530,7 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
     pNewCrew->field_0_id = id_counter_6FEE46++; // u16 type
     Kfc_30* pKfc = pNewCrew->field_10_subObj;
     pNewCrew->field_24_state = police_crew_state::patrol_1;
-    pNewCrew->field_29 = 1;
+    pNewCrew->field_29_bCountedInPoliceCount = 1;
     pKfc->field_1E_is_used = 1;
     pKfc->field_20_maybe_type = gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service;
     pKfc->field_24 = 1;
@@ -566,7 +566,7 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
             pNewPed2->ForceWeapon_46F600(weapon_type::silence_smg);
             pNewPed2->field_26C_graphic_type = 1;
             pNewPed2->set_occupation_403970(ped_ocupation_enum::fbi);
-            pNewCrew->field_20 = 3;
+            pNewCrew->field_20_crew_kind = 3;
             break;
 
         case crew_type::police_3:
@@ -613,7 +613,7 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
             pNewPed1->field_26C_graphic_type = 2;
             pNewPed2->set_remap_433B90(ped_remap_enum::ped_remap_blue_police);
             pNewPed2->field_26C_graphic_type = 2;
-            pNewCrew->field_20 = 1;
+            pNewCrew->field_20_crew_kind = 1;
 
             break;
 
@@ -628,7 +628,7 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
             pNewPed2->field_244_remap = 4;
             pNewPed2->set_occupation_403970(ped_ocupation_enum::army_army);
             pNewPed2->field_26C_graphic_type = 2;
-            pNewCrew->field_20 = 4;
+            pNewCrew->field_20_crew_kind = 4;
             break;
     }
 
@@ -652,7 +652,7 @@ bool Police_7B8::AssignCrewToService_570790(PoliceCrew_38* pCrew, Police_7C* pSe
 {
     pCrew->field_14_pService = pService;
     pCrew->field_24_state = police_crew_state::pursue_or_chase_5;
-    pCrew->sub_570A10();
+    pCrew->AddToService_570A10();
     return true;
 }
 
@@ -699,7 +699,7 @@ bool Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCrimi
                 p7C->field_8_state = 3;
                 pCrew->field_14_pService = &field_464_services[i];
                 pCrew->field_24_state = police_crew_state::pursue_or_chase_5;
-                pCrew->sub_570A10();
+                pCrew->AddToService_570A10();
 
                 if (pCrew->field_10_subObj->field_20_maybe_type != crew_type::army_6)
                 {
@@ -751,7 +751,7 @@ void Police_7B8::UpdateCriminalLatestPosition_570940(Ped* pPed)
 MATCH_FUNC(0x577320)
 char_type Police_7B8::sub_577320()
 {
-    if (this->field_654_wanted_level < 3 || this->field_664_roadblock_1.field_0 || this->field_7AC)
+    if (this->field_654_wanted_level < 3 || this->field_664_roadblock_1.field_0_bActive || this->field_7AC)
     {
         return 0;
     }

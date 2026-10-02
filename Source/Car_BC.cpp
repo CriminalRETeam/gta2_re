@@ -7126,8 +7126,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 {
                     if (car_model_idx == car_model_enum::COPCAR) // 12
                     {
-                        // OBS: field_659 of Police_7B8 is u8 type
-                        if (gPolice_7B8_6FEE40->field_658_count >= (u32)gPolice_7B8_6FEE40->field_659 || bSkip_police_67D4F9)
+                        // OBS: field_659_max_count of Police_7B8 is u8 type
+                        if (gPolice_7B8_6FEE40->field_658_count >= (u32)gPolice_7B8_6FEE40->field_659_max_count || bSkip_police_67D4F9)
                         {
                             car_model_idx = gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player,
                                                                                          this->field_10_zone,

@@ -6595,7 +6595,7 @@
         "v105_address": "0x4c9040"
     },
     {
-        "name": "PedGroup::sub_4C9150",
+        "name": "PedGroup::AreAllMembersOffScreen_4C9150",
         "v96f_address": null,
         "v105_address": "0x4c9150"
     },
@@ -13100,12 +13100,12 @@
         "v105_address": "0x56c340"
     },
     {
-        "name": "Police_7B8::sub_56F400",
+        "name": "Police_7B8::Init_56F400",
         "v96f_address": null,
         "v105_address": "0x56f400"
     },
     {
-        "name": "Police_7B8::sub_56F4D0",
+        "name": "Police_7B8::HandlePedDeath_56F4D0",
         "v96f_address": "0x4A9500",
         "v105_address": "0x56f4d0"
     },
@@ -13140,7 +13140,7 @@
         "v105_address": "0x56f8e0"
     },
     {
-        "name": "Police_7B8::sub_56F940",
+        "name": "Police_7B8::RegisterCriminal_56F940",
         "v96f_address": null,
         "v105_address": "0x56f940"
     },
@@ -13150,7 +13150,7 @@
         "v105_address": "0x56fa40"
     },
     {
-        "name": "Police_7B8::sub_56FAA0",
+        "name": "Police_7B8::DispatchNewCrewToService_56FAA0",
         "v96f_address": null,
         "v105_address": "0x56faa0"
     },
@@ -13200,12 +13200,12 @@
         "v105_address": "0x5709c0"
     },
     {
-        "name": "PoliceCrew_38::sub_570A10",
+        "name": "PoliceCrew_38::AddToService_570A10",
         "v96f_address": null,
         "v105_address": "0x570a10"
     },
     {
-        "name": "PoliceCrew_38::sub_570AB0",
+        "name": "PoliceCrew_38::RemoveFromService_570AB0",
         "v96f_address": "0x4A97C0",
         "v105_address": "0x570ab0"
     },
@@ -13250,12 +13250,12 @@
         "v105_address": "0x572210"
     },
     {
-        "name": "PoliceCrew_38::sub_572340",
+        "name": "PoliceCrew_38::State3_AlertedSearch_572340",
         "v96f_address": "0x4AC080",
         "v105_address": "0x572340"
     },
     {
-        "name": "PoliceCrew_38::sub_572920",
+        "name": "PoliceCrew_38::State5_PursueOrChase_572920",
         "v96f_address": null,
         "v105_address": "0x572920"
     },
@@ -13265,7 +13265,7 @@
         "v105_address": "0x574720"
     },
     {
-        "name": "PoliceCrew_38::sub_574F10",
+        "name": "PoliceCrew_38::State1_Patrol_574F10",
         "v96f_address": null,
         "v105_address": "0x574f10"
     },
@@ -13305,17 +13305,17 @@
         "v105_address": "0x575650"
     },
     {
-        "name": "PoliceRoadblock_A4::sub_575710",
+        "name": "PoliceRoadblock_A4::Reset_575710",
         "v96f_address": null,
         "v105_address": "0x575710"
     },
     {
-        "name": "PoliceRoadblock_A4::sub_5757B0",
+        "name": "PoliceRoadblock_A4::Update_5757B0",
         "v96f_address": null,
         "v105_address": "0x5757b0"
     },
     {
-        "name": "PoliceRoadblock_A4::sub_575CA0",
+        "name": "PoliceRoadblock_A4::RemoveRoadblock_575CA0",
         "v96f_address": null,
         "v105_address": "0x575ca0"
     },

@@ -156,7 +156,7 @@ bool PedGroup::PurgeMembersInCars_4C9040()
 }
 
 MATCH_FUNC(0x4c9150)
-char_type PedGroup::sub_4C9150()
+char_type PedGroup::AreAllMembersOffScreen_4C9150()
 {
     if (field_2C_ped_leader->field_168_game_object == NULL || field_2C_ped_leader->get_field_20e() < 0x28)
     {
