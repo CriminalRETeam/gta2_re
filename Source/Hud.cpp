@@ -2699,58 +2699,49 @@ void Hud_Brief_704::DrawBrief_5D3B80()
     }
 }
 
-WIP_FUNC(0x5d3f10)
+MATCH_FUNC(0x5d3f10)
 void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32 cost_param)
 {
-    WIP_IMPLEMENTED;
-
     Garox_18* v5 = AllocBrief_5D33F0();
     strcpy(v5->field_0_brief_id_str, pText);
     v5->field_8_brief_priority = priority;
     v5->field_10_was_displayed = 0;
     v5->field_14_cost_param = cost_param;
 
-    Garox_18* pIter = this->field_6F8_curr_brief;
-    if (pIter)
+    if (!this->field_6F8_curr_brief)
     {
-        if (pIter->field_8_brief_priority < priority || priority == 3)
+        this->field_6F8_curr_brief = v5;
+        v5->field_C_pNext = 0;
+        StartCurrentBrief_5D39D0();
+    }
+    else if (this->field_6F8_curr_brief->field_8_brief_priority >= priority && priority != 3)
+    {
+        Garox_18* pIter = this->field_6F8_curr_brief;
+        while (pIter->field_C_pNext && pIter->field_C_pNext->field_8_brief_priority >= priority)
         {
-            if (pIter->field_10_was_displayed)
-            {
-                MoveCurrentBriefToPrev_5D3370();
-            }
-            v5->field_C_pNext = this->field_6F8_curr_brief;
-            this->field_6F8_curr_brief = v5;
-            StartCurrentBrief_5D39D0();
+            pIter = pIter->field_C_pNext;
+        }
+
+        Garox_18* v8 = pIter->field_C_pNext;
+        if (v8)
+        {
+            v5->field_C_pNext = v8;
+            pIter->field_C_pNext = v5;
         }
         else
         {
-            for (Garox_18* i = pIter->field_C_pNext; i; i = i->field_C_pNext)
-            {
-                if (i->field_8_brief_priority < priority)
-                {
-                    break;
-                }
-                pIter = i;
-            }
-
-            Garox_18* v8 = pIter->field_C_pNext;
-            if (v8)
-            {
-                v5->field_C_pNext = v8;
-                pIter->field_C_pNext = v5;
-            }
-            else
-            {
-                pIter->field_C_pNext = v5;
-                v5->field_C_pNext = 0;
-            }
+            pIter->field_C_pNext = v5;
+            v5->field_C_pNext = 0;
         }
     }
     else
     {
+        if (this->field_6F8_curr_brief->field_10_was_displayed)
+        {
+            MoveCurrentBriefToPrev_5D3370();
+        }
+        v5->field_C_pNext = this->field_6F8_curr_brief;
         this->field_6F8_curr_brief = v5;
-        v5->field_C_pNext = 0;
         StartCurrentBrief_5D39D0();
     }
 }
