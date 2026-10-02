@@ -5970,7 +5970,7 @@ void Car_BC::sub_442810()
                     else
                     {
                         pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                        if (rng_dword_67AB34->field_0_rng >= (u32)pCar->field_58_physics->field_8_total_damage_q)
+                        if (!pCar->field_58_physics->IsRngBelowDamage_421130())
                         {
                             Fix16_Point v16 = (pCar->field_50_car_sprite->get_x_y_443580() + (v6.NormalizeSafe_442AD0() * dword_677888));
                             s32 a5 = 1;

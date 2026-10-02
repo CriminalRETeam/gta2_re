@@ -82,6 +82,12 @@ class CarPhysics_B0
         field_38_cp1.y = v.y;
     }
 
+    // 9.6f 0x421130
+    inline bool IsRngBelowDamage_421130()
+    {
+        return (u32)rng_dword_67AB34->get_cur_rng_41CFE0() < field_8_total_damage_q;
+    }
+
     // 9.6f 0x421250
     inline void SetHandBrakeOn_421250()
     {
