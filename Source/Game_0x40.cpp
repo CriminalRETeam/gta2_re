@@ -243,7 +243,7 @@ void Game_0x40::BootGame_4B8EB0()
     }
 
     sub_5D8DF0();
-    sub_5D7CB0();
+    ConvertColourBanks_5D7CB0();
     sub_5D8E00();
     gSprite_8_703820->sub_5A5870();
     gTileAnim_2_7052C4->Empty_5BC300();
@@ -351,7 +351,7 @@ void Game_0x40::Draw_4B92D0()
     gPurpleDoom_2_67920C->DrawSpritesClipped_477A40();
     gPurpleDoom_1_679208->DrawSpritesClipped_477A40();
 
-    sub_5D7D30();
+    MakeScreenTableAndSetWindow_5D7D30();
 
     pgbh_BeginScene();
 

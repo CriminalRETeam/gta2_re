@@ -522,9 +522,9 @@ EXTERN_GLOBAL(Frontend*, gFrontend_67DC84);
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 
-EXPORT void __stdcall sub_5D7D30();
+EXPORT void __stdcall MakeScreenTableAndSetWindow_5D7D30();
 EXPORT void __cdecl FreeSurface_5D7DC0();
-EXPORT void __stdcall sub_5D7CB0();
+EXPORT void __stdcall ConvertColourBanks_5D7CB0();
 
 EXTERN_GLOBAL(short, font_type_703C14);
 

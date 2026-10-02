@@ -2983,7 +2983,7 @@ EXPORT void __cdecl FreeSurface_5D7DC0()
 MATCH_FUNC(0x4ADFB0)
 void Frontend::sub_4ADFB0()
 {
-    sub_5D7D30();
+    MakeScreenTableAndSetWindow_5D7D30();
 
     pgbh_BeginScene();
     DrawBackground_4B6E10();
@@ -3213,7 +3213,7 @@ Frontend::Frontend()
 
     gSharp_pare_0x15D8_705064->sub_5B9350();
 
-    sub_5D7CB0();
+    ConvertColourBanks_5D7CB0();
 
     pgbh_SetAmbient(1.0);
 

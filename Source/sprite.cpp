@@ -186,7 +186,7 @@ s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, u16& a4, const u32& a5)
         pSprt14 = gSprite_3CC_67AF1C->sub_48F690(&bUnk);
         if (!a5)
         {
-            sprite_index_5AA440->sub_5ABB00(pSprt14->field_0);
+            sprite_index_5AA440->CopyPixels_5ABB00(pSprt14->field_0);
         }
         else
         {

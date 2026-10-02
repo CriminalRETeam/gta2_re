@@ -4855,7 +4855,7 @@
         "v105_address": "0x4926f0"
     },
     {
-        "name": "sub_495470",
+        "name": "DrawTextureScaled_495470",
         "v96f_address": "0x495470",
         "v105_address": "0x495470"
     },
@@ -15265,7 +15265,7 @@
         "v105_address": "0x5aa950"
     },
     {
-        "name": "gtx_0x106C::sub_5AA9A0",
+        "name": "gtx_0x106C::BuildCarInfoContainer_5AA9A0",
         "v96f_address": null,
         "v105_address": "0x5aa9a0"
     },
@@ -15275,7 +15275,7 @@
         "v105_address": "0x5aab30"
     },
     {
-        "name": "gtx_0x106C::sub_5AABF0",
+        "name": "gtx_0x106C::SetDeltaDataPtrs_5AABF0",
         "v96f_address": null,
         "v105_address": "0x5aabf0"
     },
@@ -15345,7 +15345,7 @@
         "v105_address": "0x5aaf80"
     },
     {
-        "name": "gtx_0x106C::sub_5AAFE0",
+        "name": "gtx_0x106C::InitFontTypes_5AAFE0",
         "v96f_address": null,
         "v105_address": "0x5aafe0"
     },
@@ -15400,7 +15400,7 @@
         "v105_address": "0x5ab4b0"
     },
     {
-        "name": "gtx_0x106C::sub_5AB720",
+        "name": "gtx_0x106C::SetDataPtrs_5AB720",
         "v96f_address": null,
         "v105_address": "0x5ab720"
     },
@@ -15430,17 +15430,17 @@
         "v105_address": "0x5aba40"
     },
     {
-        "name": "sprite_index::sub_5ABAA0",
+        "name": "sprite_index::ClearPixelsOfColour_5ABAA0",
         "v96f_address": null,
         "v105_address": "0x5abaa0"
     },
     {
-        "name": "sub_5ABAE0",
+        "name": "ClearPixelsOfColourInRow_5ABAE0",
         "v96f_address": null,
         "v105_address": "0x5abae0"
     },
     {
-        "name": "sprite_index::sub_5ABB00",
+        "name": "sprite_index::CopyPixels_5ABB00",
         "v96f_address": null,
         "v105_address": "0x5abb00"
     },
@@ -16615,7 +16615,7 @@
         "v105_address": "0x5d7720"
     },
     {
-        "name": "sub_5D77A0",
+        "name": "DrawTextScaled_5D77A0",
         "v96f_address": null,
         "v105_address": "0x5d77a0"
     },
@@ -16640,12 +16640,12 @@
         "v105_address": "0x5d7ca0"
     },
     {
-        "name": "sub_5D7CB0",
+        "name": "ConvertColourBanks_5D7CB0",
         "v96f_address": "0x4CAEB0",
         "v105_address": "0x5d7cb0"
     },
     {
-        "name": "sub_5D7D30",
+        "name": "MakeScreenTableAndSetWindow_5D7D30",
         "v96f_address": null,
         "v105_address": "0x5d7d30"
     },
@@ -16670,7 +16670,7 @@
         "v105_address": "0x5d83e0"
     },
     {
-        "name": "sub_5D8470",
+        "name": "DrawTexture_5D8470",
         "v96f_address": null,
         "v105_address": "0x5d8470"
     },

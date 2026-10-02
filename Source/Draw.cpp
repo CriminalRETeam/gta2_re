@@ -8,23 +8,23 @@
 #include "magical_germain_0x8EC.hpp"
 #include "sharp_pare_0x15D8.hpp"
 
-DEFINE_GLOBAL_INIT(Fix16, dword_706A6C, Fix16(1), 0x706A6C);
-DEFINE_GLOBAL_INIT(Ang16, word_706C3C, Ang16(0), 0x706C3C);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne_706A6C, Fix16(1), 0x706A6C);
+DEFINE_GLOBAL_INIT(Ang16, kAngZero_706C3C, Ang16(0), 0x706C3C);
 DEFINE_GLOBAL(QuadVerts, gQuadVerts_706B88, 0x706B88);
 EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 
 EXTERN_GLOBAL(s32, window_width_706630);
 EXTERN_GLOBAL(s32, window_height_706B50);
 
-DEFINE_GLOBAL(DWORD, dword_70675C, 0x70675C);
-DEFINE_GLOBAL(DWORD, dword_70679C, 0x70679C);
+DEFINE_GLOBAL(DWORD, gWindowRight_70675C, 0x70675C);
+DEFINE_GLOBAL(DWORD, gWindowBottom_70679C, 0x70679C);
 
 //u16 word_703BAA; //DEFINE_GLOBAL(u16, word_703BAA, 0x703BAA);
 
 MATCH_FUNC(0x495470)
-void __stdcall sub_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 a7, u8 a8)
+void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 a7, u8 a8)
 {
-    sub_5D8470(pTexture,
+    DrawTexture_5D8470(pTexture,
                x_pos * gViewCamera_676978->field_A8_ui_scale,
                y_pos * gViewCamera_676978->field_A8_ui_scale,
                width,
@@ -99,7 +99,7 @@ void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 
 }
 
 MATCH_FUNC(0x5D77A0)
-void __stdcall sub_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
+void __stdcall DrawTextScaled_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
 {
     DrawText_5D8A10(pText,
                     xpos * gViewCamera_676978->field_A8_ui_scale,
@@ -114,11 +114,11 @@ void __stdcall sub_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
 
 // https://decomp.me/scratch/zpWhI
 WIP_FUNC(0x5D7CB0)
-void __stdcall sub_5D7CB0()
+void __stdcall ConvertColourBanks_5D7CB0()
 {
     WIP_IMPLEMENTED;
     s32 colour = pgbh_SetColourDepth();
-    if (gGtx_0x106C_703DD4 && gGtx_0x106C_703DD4->field_6A == 0)
+    if (gGtx_0x106C_703DD4 && gGtx_0x106C_703DD4->field_6A_palettes_converted == 0)
     {
         u32 phys_pal_len = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
         u32 max_idx = phys_pal_len / 64;
@@ -133,12 +133,12 @@ void __stdcall sub_5D7CB0()
             pConvertColourBank(gGtx_0x106C_703DD4->GetPalData_5AA6A0(unk));
             unk += 64;
         }
-        gGtx_0x106C_703DD4->field_6A = 1;
+        gGtx_0x106C_703DD4->field_6A_palettes_converted = 1;
     }
 }
 
 MATCH_FUNC(0x5D7D30)
-void __stdcall sub_5D7D30()
+void __stdcall MakeScreenTableAndSetWindow_5D7D30()
 {
     pVid_GetSurface(gVidSys_7071D0);
     pMakeScreenTable((int)gVidSys_7071D0->field_50_surface_pixels_ptr,
@@ -147,16 +147,16 @@ void __stdcall sub_5D7D30()
 
     if (gVidSys_7071D0->field_40_full_screen == -2)
     {
-        dword_70675C = window_width_706630 - 1;
-        dword_70679C = window_height_706B50 - 1;
+        gWindowRight_70675C = window_width_706630 - 1;
+        gWindowBottom_70679C = window_height_706B50 - 1;
     }
     else
     {
-        dword_70675C = gVidSys_7071D0->field_48_rect_right - 1;
-        dword_70679C = gVidSys_7071D0->field_4C_rect_bottom - 1;
+        gWindowRight_70675C = gVidSys_7071D0->field_48_rect_right - 1;
+        gWindowBottom_70679C = gVidSys_7071D0->field_4C_rect_bottom - 1;
     }
 
-    pgbh_SetWindow(0, 0, (f32)dword_70675C, (f32)dword_70679C);
+    pgbh_SetWindow(0, 0, (f32)gWindowRight_70675C, (f32)gWindowBottom_70679C);
 }
 
 // https://decomp.me/scratch/Zmms7
@@ -183,7 +183,7 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
 
     s32 flags;
 
-    if (scale != dword_706A6C || (flags = 0x10000, rotation != word_706C3C))
+    if (scale != kFpOne_706A6C || (flags = 0x10000, rotation != kAngZero_706C3C))
     {
         flags = 0;
     }
@@ -274,7 +274,7 @@ s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 
 // https://decomp.me/scratch/SCz1D
 WIP_FUNC(0x5D8470);
-void __stdcall sub_5D8470(STexture* pTexture,
+void __stdcall DrawTexture_5D8470(STexture* pTexture,
                                  Fix16 x_pos,
                                  Fix16 y_pos,
                                  u8 width,
@@ -286,7 +286,7 @@ void __stdcall sub_5D8470(STexture* pTexture,
 {
 
     u32 flags;
-    if (scale != dword_706A6C || (flags = 0x10000, rotation != word_706C3C))
+    if (scale != kFpOne_706A6C || (flags = 0x10000, rotation != kAngZero_706C3C))
     {
         flags = 0;
     }
@@ -378,7 +378,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
     u16 curr_palette = og_palette;
     u32 curr_palette_type = og_palette_type;
 
-    if (scale_fp == dword_706A6C)
+    if (scale_fp == kFpOne_706A6C)
     {
         new_Flags = new_Flags | 0x10000;
     }
