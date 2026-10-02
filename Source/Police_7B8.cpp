@@ -314,7 +314,7 @@ MATCH_FUNC(0x56f940)
 void Police_7B8::sub_56F940(Ped* pPed)
 {
     byte_6FEE44 = 0;
-    if (pPed->field_15C_player)
+    if (pPed->is_player_41B0A0())
     {
         bool bFound = false;
         for (u8 idx = 0; idx < GTA2_COUNTOF(field_464_services); idx++)
