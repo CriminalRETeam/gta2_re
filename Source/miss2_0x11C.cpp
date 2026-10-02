@@ -3782,8 +3782,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_FIRE_ONSCREEN_50B3D0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     Ped* pPed = pPointer->field_8_char;
-    BitSet32 flag = pPed->field_21C;
-    if (flag.check_bit(11) && pPed->field_20e_offscreen_counter == 0 && pPed->field_170_selected_weapon)
+    if (pPed->GetBit11_433CA0() && pPed->Get_F20E_4039F0() == 0 && pPed->field_170_selected_weapon)
     {
         field_8_cond_result = true;
     }
