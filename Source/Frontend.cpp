@@ -464,7 +464,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
         case MENUPAGE_AREA_COMPLETE:
             a2 = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
             v51 = gLucid_hamilton_67E8E0.GetLevelFinishBonusType_4C59C0();
-            if (gLucid_hamilton_67E8E0.field_574_secret_tokens_collected == 50)
+            if (gLucid_hamilton_67E8E0.get_secret_tokens_collected_453A80() == 50)
             {
                 v51 = 3;
             }
