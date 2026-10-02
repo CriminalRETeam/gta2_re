@@ -301,7 +301,7 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
 MATCH_FUNC(0x5405D0)
 void Particle_8::SpawnParticleSprite_5405D0(Sprite* pSprite)
 {
-    if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
+    if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
         Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
         if (pNew4C)
