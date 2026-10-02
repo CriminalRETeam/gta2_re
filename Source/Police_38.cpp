@@ -1538,7 +1538,7 @@ void PoliceCrew_38::sub_575210()
         }
         else
         {
-            field_10_subObj->field_0_car->field_A6 |= 0x20u;
+            field_10_subObj->field_0_car->SetA6Bit20_421540();
         }
     }
     else
