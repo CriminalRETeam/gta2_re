@@ -888,33 +888,23 @@ DWORD Map_0x370::GetLeftEdgeSpec_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_co
 MATCH_FUNC(0x4E0000)
 s32 Map_0x370::GetTopEdgeSpec_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    s32 spec;
     gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), (y_pos - kFpOne_6F6110).ToInt(), z_pos.ToInt());
     if (block_4DFE10 && has_bottom(block_4DFE10))
     {
-        spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(block_4DFE10->field_6_bottom)];
-        if (spec == tile_spec::road_junction_special)
-        {
-            return 1;
-        }
+        return gGtx_0x106C_703DD4->sub_462FD0(get_tile_idx(block_4DFE10->field_6_bottom));
     }
     else
     {
         gmp_block_info* pBlock = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
         if (pBlock && has_top(pBlock))
         {
-            spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock->field_4_top)];
-            if (spec == tile_spec::road_junction_special)
-            {
-                return 1;
-            }
+            return gGtx_0x106C_703DD4->sub_462FD0(get_tile_idx(pBlock->field_4_top));
         }
         else
         {
             return 0;
         }
     }
-    return spec;
 }
 
 MATCH_FUNC(0x4E00A0)
