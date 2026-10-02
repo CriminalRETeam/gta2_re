@@ -154,7 +154,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
             pCop->SetField238_403920(ped_type::special_ped_4);
             pCop->set_occupation_403970(ped_ocupation_enum::roadblock_cop_37);
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
-            pCop->field_244_remap = 8;
+            pCop->set_remap_433B90(8);
             pCop->field_26C_graphic_type = 1;
             pCop->ForceWeapon_46F600(weapon_type::silence_smg);
             pCop->field_216_health = 200;
@@ -166,7 +166,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
             pCop->SetField238_403920(ped_type::special_ped_4);
             pCop->set_occupation_403970(ped_ocupation_enum::roadblock_cop_37);
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
-            pCop->field_244_remap = 0;
+            pCop->set_remap_433B90(0);
             pCop->field_26C_graphic_type = 2;
             pCop->field_170_selected_weapon = 0;
             pCop->GiveWeapon_46F650(weapon_type::pistol);
@@ -436,7 +436,7 @@ void Police_7B8::sub_56FBD0()
     {
         pService->field_78 = 0;
         Ped* pCriminal = pService->field_0_criminal_ped;
-        if (pCriminal->field_238_ped_type == 2 && (pCriminal->field_21C & 0x20) == 0x20)
+        if (pCriminal->GetPedType_420B70() == 2 && (pCriminal->field_21C & 0x20) == 0x20)
         {
             pCriminal->field_15C_player->field_640_busted = 1;
         }
