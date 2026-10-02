@@ -990,15 +990,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
     {
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
 
-        Ped* pPed;
-        if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-        {
-            pPed = pPlayer->field_2C8_aux_ped;
-        }
-        else
-        {
-            pPed = pPlayer->field_2C4_player_ped;
-        }
+        Ped* pPed = pPlayer->GetActivePed_4A5150();
 
         Gang_144* pZone = pPlayer->get_gang_curr_location_4766D0();
         wchar_t* pZoneName;
