@@ -1999,23 +1999,21 @@ char_type Sprite::sub_5A2440()
     return result;
 }
 
-WIP_FUNC(0x5a2500)
+MATCH_FUNC(0x5a2500)
 char_type Sprite::CheckSpriteMovementRegion_5A2500()
 {
-    WIP_IMPLEMENTED;
-
     if (field_1C_zpos >= dword_7035DC)
     {
         if (field_14_xy.x < kFP16One_7035C4)
         {
-            gRozza_679188.SetVerticalSegment_4BA280(kFP16One_7035C4, (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, field_14_xy.y.GetRoundValue());
+            gRozza_679188.SetVerticalSegment_4BA280(field_14_xy.y.GetRoundValue(), (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, kFP16One_7035C4);
             gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.x > k_dword_7033B4)
         {
-            gRozza_679188.SetVerticalSegment_4BA280(k_dword_7033B4, (field_14_xy.y.GetRoundValue()) + k_dword_7033B4, field_14_xy.y.GetRoundValue());
+            gRozza_679188.SetVerticalSegment_4BA280(field_14_xy.y.GetRoundValue(), (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, k_dword_7033B4);
             gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
