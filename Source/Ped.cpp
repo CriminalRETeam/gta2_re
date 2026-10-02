@@ -11770,7 +11770,7 @@ void Ped::UpdateStatsForKiller_46F720()
                 }
                 else if (IsField238_45EDE0(2))
                 {
-                    bool doIt = true;
+                    pPlayerIter = NULL;
                     if (this->field_1A8_ped_killer->field_164_ped_group)
                     {
                         for (pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter != NULL;
@@ -11785,20 +11785,14 @@ void Ped::UpdateStatsForKiller_46F720()
                                     gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(pPlayerIter->get_idx_4219D0(),
                                                                               this->field_15C_player->get_idx_4219D0());
                                     gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(pPlayerIter, this->field_15C_player);
-                                    doIt = false;
                                     break;
                                 }
                             }
                         }
-                        //goto LABEL_25;
                     }
 
-                    // TODO: Missing test edi, edi & jmp
-
-                    //else
-                    if (!doIt)
+                    if (!pPlayerIter)
                     {
-                        //LABEL_25:
                         gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->get_idx_4219D0(),
                                                                   this->field_15C_player->get_idx_4219D0());
                         if (!field_1A8_ped_killer->IsLawEnforcement_45B4E0())
@@ -11839,9 +11833,10 @@ void Ped::UpdateStatsForKiller_46F720()
     {
         if (!this->field_1A8_ped_killer && IsField238_45EDE0(2))
         {
-            // Argument loading wrong somehow
-            gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->get_idx_4219D0(), this->field_15C_player->get_idx_4219D0());
-            gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(this->field_15C_player, this->field_15C_player);
+            Player* pP = this->field_15C_player;
+            gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(pP->get_idx_4219D0(), pP->get_idx_4219D0());
+            pP = this->field_15C_player;
+            gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(pP, pP);
         }
     }
 }
