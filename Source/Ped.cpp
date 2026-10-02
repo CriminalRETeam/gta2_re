@@ -11486,28 +11486,24 @@ void Ped::AimRoofGun_470050()
     }
 }
 
-WIP_FUNC(0x470160)
+MATCH_FUNC(0x470160)
 void Ped::add_wanted_points_470160(s16 wanted_amount)
 {
-    WIP_IMPLEMENTED;
-
     field_20A_wanted_points += wanted_amount;
 
-    if (field_20A_wanted_points <= 12000)
-    {
-        if (field_20A_wanted_points < 0)
-        {
-            field_20A_wanted_points = 0;
-        }
-    }
-    else
+    if (field_20A_wanted_points > 12000)
     {
         field_20A_wanted_points = 12000;
     }
-
-    if (get_wanted_star_count_46EF00() >= gPolice_7B8_6FEE40->field_660_wanted_star_count)
+    else if (field_20A_wanted_points < 0)
     {
-        set_wanted_star_count_46F070(gPolice_7B8_6FEE40->field_660_wanted_star_count);
+        field_20A_wanted_points = 0;
+    }
+
+    s16 star_count = gPolice_7B8_6FEE40->field_660_wanted_star_count;
+    if (get_wanted_star_count_46EF00() >= star_count)
+    {
+        set_wanted_star_count_46F070(static_cast<u8>(star_count));
     }
 }
 
