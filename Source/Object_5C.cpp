@@ -2437,7 +2437,7 @@ void Object_2C::HandleWaterDeath_528900()
         field_10_obj_3c->field_30_bSkipAnim = 1;
     }
 
-    if ((rng_dword_67AB34->field_0_rng & 3) == 0)
+    if ((rng_dword_67AB34->get_cur_rng_41CFE0() & 3) == 0)
     {
         field_4->sub_59E320(1);
         if (field_4->ShrinkSprite_59E390(dword_6F8F5C, dword_6F8F5C, 0))
