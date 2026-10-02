@@ -1535,11 +1535,7 @@ char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
         ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[2], pBBox[3]) ||
         ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[3], pBBox[0]))
     {
-        gRozza_679188.field_C_mapy_t2 = a2;
-        gRozza_679188.field_0_type = 2;
-        gRozza_679188.field_10_mapy_max_t2 = a3;
-        gRozza_679188.field_14_mapx_t2 = a4;
-        gRozza_679188.field_20_pSprite = 0;
+        gRozza_679188.SetVerticalSegment_4BA280(a2, a3, a4);
         return 1;
     }
     return 0;
