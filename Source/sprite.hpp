@@ -446,6 +446,12 @@ class Sprite
         this->field_2C_flags |= 4u;
     }
 
+    // 9.6f 0x433800
+    void Clear_2C_0x4_Flag_433800()
+    {
+        this->field_2C_flags &= ~4u;
+    }
+
     // 9.6f 0x4337D0
     void SetFlags_4337D0(u8 low_bits, u8 high_bits)
     {

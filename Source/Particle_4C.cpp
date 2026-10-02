@@ -548,7 +548,7 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
                 field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, zpos);
             }
 
-            field_30_pNext->field_2C_flags = 0x7A;
+            field_30_pNext->SetFlags_4337D0(2, 15);
             field_30_pNext->Set_2C_0x4_Flag_4337F0();
             field_30_pNext->ApplyScaleToDimensions_59E4C0(dword_6FD4A0 + Fix16(field_46_sub_state) * dword_6FD2E8, 0);
             if (field_40_pUnknown)
