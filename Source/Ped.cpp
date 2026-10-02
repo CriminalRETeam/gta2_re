@@ -8052,88 +8052,77 @@ void Ped::UpdateFollowPedObjective_468E80()
 {
     WIP_IMPLEMENTED;
 
-    s32 bUnknown1 = 0;
-    s32 bUnknown2 = 1;
+    u8 bTargetLost = 0;
+    u8 bProcessMovement = 1;
 
-    Ped* objective_target_ped = this->field_148_objective_target_ped;
-    if (objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9)
+    if (field_148_objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9 &&
+        field_148_objective_target_ped->field_258_objective != objectives_enum::objective_28)
     {
-        bUnknown1 = objective_target_ped->field_258_objective != objectives_enum::objective_28;
+        bTargetLost = 1;
     }
 
-    if ((objective_target_ped->field_21C & 1) == 0 || bUnknown1)
-    {
-        this->field_225_objective_status = 2;
-    }
-    else
+    if ((field_148_objective_target_ped->field_21C & 1) && !bTargetLost)
     {
         if (!byte_61A8A3)
         {
-            bUnknown2 = this->field_168_game_object->field_10_char_state == 15 && (this->field_21C & 4) == 0;
+            bProcessMovement = field_168_game_object->field_10_char_state == 15 && (field_21C & 4) == 0;
         }
 
-        if ((field_224 & 0x10) != 0 && ((this->field_21C & 4) != 0 || this->field_260 > 0xC8u))
+        if ((field_224 & 0x10) != 0 && ((field_21C & 4) != 0 || field_260 > 200u))
         {
-            this->field_260 = 0;
-            this->field_224 &= ~0x10;
+            field_260 = 0;
+            field_224 &= ~0x10;
         }
 
-        if (bUnknown2)
+        if (bProcessMovement)
         {
-            if ((this->field_224 & 0x10) != 0 ||
+            if ((field_224 & 0x10) != 0 ||
                 gDistanceToTarget_678750 <= dword_678780 &&
-                    abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, objective_target_ped->field_1AC_cam.z))
+                    abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, field_148_objective_target_ped->field_1AC_cam.z))
             {
-                if (field_168_game_object->field_10_char_state == 15)
+                if (field_168_game_object->field_10_char_state != 15)
                 {
-                    this->field_224 |= 0x10u;
+                    if ((field_224 & 0x10) != 0)
+                    {
+                        field_168_game_object->RegulateVelocityByRef_433970(k_dword_678438);
+                        ++field_260;
+                    }
+                    Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
+                    field_225_objective_status = objective_status::passed_1;
                 }
                 else
                 {
-                    if ((this->field_224 & 0x10) != 0)
-                    {
-                        Fix16 vel = field_168_game_object->field_38_velocity;
-                        if (vel >= k_dword_678438)
-                        {
-                            if (vel > k_dword_678438)
-                            {
-                                field_168_game_object->field_38_velocity -= dword_678620;
-                            }
-                        }
-                        else
-                        {
-                            field_168_game_object->field_38_velocity += dword_678620;
-                        }
-                        ++this->field_260;
-                    }
-                    Ped::ChangeNextPedState1_45C500(7);
-                    Ped::ChangeNextPedState2_45C540(14);
-                    this->field_225_objective_status = 1;
+                    field_224 |= 0x10;
                 }
             }
             else
             {
                 if (field_168_game_object->field_10_char_state != 15)
                 {
-                    if (!this->field_218_objective_timer)
+                    if (!field_218_objective_timer)
                     {
-                        this->field_225_objective_status = 1;
+                        field_225_objective_status = objective_status::passed_1;
                     }
 
                     Fix16 new_vel;
-                    if (gDistanceToTarget_678750 >= dword_678790)
+                    if (gDistanceToTarget_678750 < dword_678790)
                     {
-                        new_vel = this->field_1F0_maybe_max_speed;
+                        new_vel = field_1F4;
                     }
                     else
                     {
-                        new_vel = this->field_1F4;
+                        new_vel = field_1F0_maybe_max_speed;
                     }
                     field_168_game_object->field_38_velocity = new_vel;
                     Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 3);
                 }
             }
         }
+    }
+    else
+    {
+        field_225_objective_status = objective_status::failed_2;
     }
 }
 
