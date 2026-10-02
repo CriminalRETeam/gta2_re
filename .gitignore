@@ -39,3 +39,7 @@ Source/*.obj
 Scripts/bin_comp/target_extra.json
 build_permuter
 permuter_out
+Scripts/bin_comp/fingerprints.json
+Scripts/bin_comp/match_96f.json
+Scripts/bin_comp/target_96f.json
+Scripts/bin_comp/dump_96f_addrs.txt
