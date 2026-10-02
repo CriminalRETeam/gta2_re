@@ -3343,8 +3343,8 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
     }
 
     Fix16_Point v25;
-    v25.x = new_x;
-    v25.y = brake_force1 + brake_force2 + brake_force3;
+    v25.SetXY_432860(new_x, brake_force1 + brake_force2 + brake_force3);
+    // 9.6f: Fix16_Point_POD::MultiplyByFix16_49E3A0 (inlined, using it makes the diff worse)
     v25.x *= gCarInfo_48_6FE258->field_1C_rear_end_stability;
     v25.y *= gCarInfo_48_6FE258->field_1C_rear_end_stability;
 
