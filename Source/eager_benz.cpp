@@ -948,10 +948,10 @@ void eager_benz::sub_593370(Car_BC* pCar)
         gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
                                                pCar->get_y_41E440(),
                                                pCar->get_z_41E450(),
-                                               field_368_player->field_6BC_multpliers.field_0_value * 10);
+                                               field_368_player->get_multiplier_4766A0() * 10);
     }
 
-    field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multpliers.field_0_value * 10);
+    field_368_player->Add_2D4(10);
     gShooey_CC_67A4B8->ReportCrimeForPed(4u, field_368_player->GetPlayerPed_4A5130());
 }
 
